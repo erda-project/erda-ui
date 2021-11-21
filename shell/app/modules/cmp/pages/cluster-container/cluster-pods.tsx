@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage from 'app/config-page';
+import DiceConfigPage, { useMock } from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import { getUrlQuery } from 'config-page/utils';
 import { K8sClusterTerminalButton } from './cluster-terminal';
@@ -72,9 +72,31 @@ const ClusterPods = () => {
     }
   };
 
+  const customProps = {
+    chartContainer: {
+      props: {
+        span: [4, 20],
+      },
+    },
+    podsTotal: {
+      props: {
+        grayBg: true,
+        fullHeight: true,
+        flexCenter: true,
+      },
+    },
+    podsCharts: {
+      props: {
+        grayBg: true,
+        chartStyle: { width: 32, height: 32, chartSetting: 'start' },
+        style: { height: 156 },
+      },
+    },
+  };
+
   return (
     <ClusterContainer>
-      <div className="top-button-group">
+      <div className="top-button-group" style={{ right: 135 }}>
         <K8sClusterTerminalButton clusterName={clusterName} />
       </div>
       <DiceConfigPage
@@ -82,7 +104,10 @@ const ClusterPods = () => {
         scenarioKey={'cmp-dashboard-pods'}
         inParams={inParams}
         ref={reloadRef}
+        useMock={useMock('crud')}
+        forceMock
         customProps={{
+          ...customProps,
           filter: {
             op: {
               onFilterChange: urlQueryChange,
@@ -94,7 +119,7 @@ const ClusterPods = () => {
               clickTableItem: openDetail,
             },
           },
-          tableTabs: {
+          tabs: {
             op: {
               onStateChange: urlQueryChange,
             },

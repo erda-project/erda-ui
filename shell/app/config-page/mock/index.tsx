@@ -20,17 +20,20 @@
  * @param key string [the file name]
  * * */
 
+import { mockData } from './crud.mock';
+
 export const useMock = (key: string) => (payload: Obj) => {
   if (process.env.NODE_ENV === 'production') {
     return Promise.resolve();
   } else {
     return new Promise((resolve) => {
       setTimeout(() => {
-        /* @vite-ignore */
-        import(`./${key}.mock`).then((file) => {
-          const { mockData, enhanceMock } = file;
-          resolve(typeof enhanceMock === 'function' ? enhanceMock(mockData, payload) : mockData);
-        });
+        resolve(mockData);
+        // /* @vite-ignore */
+        // import(`./${key}.mock`).then((file) => {
+        //   const { mockData, enhanceMock } = file;
+        //   resolve(typeof enhanceMock === 'function' ? enhanceMock(mockData, payload) : mockData);
+        // });
       }, 500);
     });
   }

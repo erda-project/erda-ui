@@ -128,7 +128,7 @@ function getCmpRouter(): RouteConfigItem[] {
             {
               path: 'nodes',
               pageNameInfo: ClusterSelector,
-              breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+              breadcrumbName: `${i18n.t('node')}({params.clusterName})`,
               routes: [
                 {
                   layout: { noWrapper: true },
@@ -144,7 +144,7 @@ function getCmpRouter(): RouteConfigItem[] {
             {
               path: 'pods',
               pageNameInfo: ClusterSelector,
-              breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+              breadcrumbName: `${i18n.t('Pods')}({params.clusterName})`,
               routes: [
                 {
                   layout: { noWrapper: true },
@@ -160,7 +160,7 @@ function getCmpRouter(): RouteConfigItem[] {
             {
               path: 'workload',
               pageNameInfo: ClusterSelector,
-              breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+              breadcrumbName: `${i18n.t('cmp:Workload')}({params.clusterName})`,
               routes: [
                 {
                   layout: { noWrapper: true },
@@ -176,7 +176,7 @@ function getCmpRouter(): RouteConfigItem[] {
             {
               path: 'event-log',
               pageNameInfo: ClusterSelector,
-              breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+              breadcrumbName: `${i18n.t('cmp:Event Log')}({params.clusterName})`,
               routes: [
                 {
                   getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-container/cluster-event-log')),

@@ -85,6 +85,9 @@ export const iconMap = {
   help: 'help',
   plus: 'tj1',
   moreOne: 'more-one',
+  CPU: 'CPU',
+  GPU: 'GPU',
+  cipan: 'cipan',
 };
 interface IErdaIcon {
   className?: string;

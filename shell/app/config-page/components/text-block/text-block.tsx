@@ -11,30 +11,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_BADGE {
-  interface Spec {
-    type: 'Badge';
-    props: IProps;
-    data?: {
-      list: IProps[];
-    };
-  }
+import React from 'react';
+import { getClass } from 'config-page/utils';
+import { TextBlockInfo } from 'common';
 
-  enum Status {
-    success = 'success',
-    processing = 'processing',
-    default = 'default',
-    error = 'error',
-    warning = 'warning',
-  }
+const TextBlock = (props: CP_TEXT_BLOCK.Props) => {
+  const { cId, props: configProps, extra, operations, execOperation, data } = props;
+  const { size = 'normal', visible = true, ...rest } = configProps || {};
 
-  interface IProps {
-    status: Status;
-    text: string;
-    color: string;
-    tip?: string;
-    size?: 'default' | 'small';
-    breathing?: boolean;
-  }
-  type Props = MakeProps<Spec>;
-}
+  if (!visible) return null;
+
+  return (
+    <div className={`cp-text-block p-3 ${getClass(configProps)}`}>
+      <TextBlockInfo {...rest} {...data?.data} size={size} extra={extra} />
+    </div>
+  );
+};
+
+export default TextBlock;

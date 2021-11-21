@@ -16,22 +16,29 @@ import EChart from 'charts/components/echarts';
 import { colorMap, getClass, getFormatterString } from 'config-page/utils';
 import { EmptyHolder, TextBlockInfo } from 'common';
 import { map, uniq, merge, get, sumBy } from 'lodash';
+import { bgColor } from 'app/charts/theme';
+import classnames from 'classnames';
 
 import './pie-chart.scss';
 
-const getOption = (_data: CP_PIE_CHART.IData, _option: Obj, configProps: Obj) => {
-  const { data, label } = _data;
-  const color = map(data || [], 'color');
+const getOption = (data: CP_PIE_CHART.IList[], _option: Obj, configProps: Obj, label?: string) => {
+  const { total, centerLabel, value } = data?.[0] || {};
+  let reData = data;
+  if (data?.length === 1 && total !== undefined && total >= value) {
+    reData = [...data, { name: '', value: total - value, color: bgColor }];
+  }
+  const color = map(reData || [], 'color');
+  const reLabel = label || centerLabel;
   const option = {
     ...(configProps.grayBg ? { backgroundColor: '' } : {}),
-    ...(label
+    ...(reLabel
       ? {
           graphic: {
             left: 'center',
             type: 'text',
             top: '40%',
             style: {
-              text: label,
+              text: reLabel,
               fill: 'rgba(0,0,0,0.6)',
             },
           },
@@ -45,8 +52,8 @@ const getOption = (_data: CP_PIE_CHART.IData, _option: Obj, configProps: Obj) =>
         label: { show: false },
         emphasis: { scale: false },
         hoverAnimation: false,
-        data: data?.map(({ name, value }) => {
-          return { name, value };
+        data: reData?.map(({ name, value: v }) => {
+          return { name, value: v };
         }),
       },
     ],
@@ -59,22 +66,20 @@ const getOption = (_data: CP_PIE_CHART.IData, _option: Obj, configProps: Obj) =>
   };
 };
 
-const Chart = (props: CP_PIE_CHART.Props) => {
-  const { cId, props: configProps, extraContent, operations, execOperation, data } = props;
+const ChartItem = (props: CP_PIE_CHART.Props) => {
+  const { data: pData, props: configProps, operations, execOperation } = props;
   const {
+    visible,
     style = {},
+    chartStyle,
     size = 'normal',
     direction = 'row',
     title,
     tip,
     option,
-    visible = true,
     ...rest
-  } = configProps || {};
-  const presetColor = map(colorMap);
-
-  if (!visible) return null;
-
+  } = configProps;
+  const { data } = pData;
   const styleMap = {
     small: {
       chartStyle: { width: 56, height: 56 },
@@ -89,7 +94,6 @@ const Chart = (props: CP_PIE_CHART.Props) => {
       infoCls: { col: 'mt-3', row: 'ml-3' },
     },
   };
-
   const styleObj = styleMap[size];
   const onEvents = {
     click: (params: any) => {
@@ -103,29 +107,40 @@ const Chart = (props: CP_PIE_CHART.Props) => {
       }
     },
   };
-  const color = map(data?.data, 'color');
+
+  const reChartStyle = chartStyle || styleObj?.chartStyle;
+  const chartSetting = reChartStyle?.chartSetting || 'center';
+  const cls = classnames({
+    'items-center': chartSetting === 'center',
+    'items-start': chartSetting === 'start',
+  });
+
+  const color = map(data, 'color');
+  const presetColor = map(colorMap);
   const reColor = color ? uniq(map(color, (cItem) => colorMap[cItem] || cItem).concat(presetColor)) : presetColor;
 
   const { option: reOption, isEmpty } = getOption(data, option, configProps);
   const finalColor = reOption.color || reColor;
   const ChartComp = (
-    <EChart
-      key={cId}
-      onEvents={onEvents}
-      option={{ color: reColor, ...reOption }}
-      notMerge
-      style={styleObj?.chartStyle}
-      {...rest}
-    />
+    <EChart onEvents={onEvents} option={{ color: reColor, ...reOption }} notMerge style={reChartStyle} {...rest} />
   );
 
-  const total = sumBy(data?.data, 'value');
+  const total = data?.[0].total || sumBy(data, 'value');
 
   const Comp = (
-    <div className="flex items-center">
+    <div className={`flex ${cls}`}>
       {ChartComp}
       <div className={`flex-1 flex justify-between ${styleObj?.infoCls?.[direction]}`} style={{ minWidth: 100 }}>
-        {data?.data?.map((item: CP_PIE_CHART.IList, idx: number) => {
+        {data?.map((item: CP_PIE_CHART.IList, idx: number) => {
+          if (item.info?.length) {
+            return (
+              <div className="flex items-center">
+                {item.info.map((infoItem) => (
+                  <TextBlockInfo {...infoItem} size="small" />
+                ))}
+              </div>
+            );
+          }
           return (
             <TextBlockInfo
               size="small"
@@ -145,8 +160,35 @@ const Chart = (props: CP_PIE_CHART.Props) => {
       </div>
     </div>
   );
-
-  return <div className={`cp-pie-chart p-3 ${getClass(configProps)}`}>{isEmpty ? <EmptyHolder relative /> : Comp}</div>;
+  return isEmpty ? <EmptyHolder relative /> : Comp;
 };
 
-export default Chart;
+const PieChart = (props: CP_PIE_CHART.Props) => {
+  const { cId, props: configProps, extraContent, operations, execOperation, data: pData } = props;
+  const { visible = true, style, ...rest } = configProps || {};
+
+  const { data, group } = pData || {};
+
+  if (!visible) return null;
+
+  let Comp = null;
+  if (data) {
+    Comp = <ChartItem {...props} />;
+  } else if (group) {
+    Comp = (
+      <div className="cp-pie-chart-box flex items-center justify-between flex-wrap h-full content-between">
+        {group.map((g, idx) => (
+          <ChartItem key={`${idx}`} {...props} data={{ data: g }} />
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className={`cp-pie-chart p-3 ${getClass(configProps)}`} style={style}>
+      {Comp}
+    </div>
+  );
+};
+
+export default PieChart;

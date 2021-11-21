@@ -1,607 +1,626 @@
-// Copyright (c) 2021 Terminus, Inc.
-//
-// This program is free software: you can use, redistribute, and/or modify
-// it under the terms of the GNU Affero General Public License, version 3
-// or later ("AGPL"), as published by the Free Software Foundation.
-//
-// This program is distributed in the hope that it will be useful, but WITHOUT
-// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-// FITNESS FOR A PARTICULAR PURPOSE.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-// crud场景mock
-export const enhanceMock = (payload: any, partial?: boolean) => {
-  if (partial) {
-    return partialMock;
-  }
-  const data = mock;
-  if (payload.event?.operation === 'delete') {
-    const curData = data.protocol.components.table1.props.data;
-    data.protocol.components.table1.props.data = curData?.filter(
-      (item: any) => item.id !== payload.event.operationData.meta.id,
-    );
-  }
-
-  return data;
-};
-
-const getTableOp = (keys: any, data: any) => {
-  const op = {
-    edit: { text: '编辑', reload: false },
-    delete: { text: '删除', confirm: '是否确认删除用户?', reload: true, meta: { id: data.id } },
-    exit: { text: '退出', confirm: '是否确认退出?' },
-    sq: { text: '授权', hasAuth: false, authTip: '您没权限操作' },
-  };
-
-  const opObj = {};
-  keys.forEach((k: any) => {
-    opObj[k] = op[k];
-    if (k === 'edit') {
-      opObj[k].command = { key: 'set', state: { visible: true, formData: data }, target: 'formModal1' };
-    }
-  });
-  return {
-    renderType: 'tableOperation',
-    value: '',
-    operations: opObj,
-  };
-};
-
 export const mockData = {
   scenario: {
-    scenarioKey: 'mock',
-    scenarioType: 'mock',
+    scenarioKey: 'cmp-dashboard-pods',
+    scenarioType: 'cmp-dashboard-pods',
   },
   protocol: {
     hierarchy: {
-      root: 'page1',
+      root: 'page',
       structure: {
-        page1: ['head1', 'content1', 'formModal1'],
-        head1: { left: 'filter1', right: 'operation1' },
-        content1: ['table1'],
-        operation1: ['addButton1', 'exportButton1'],
+        addPodContainer: ['addPodFilter', 'addPodFileEditor'],
+        addPodDrawer: {
+          content: 'addPodContainer',
+        },
+        filterContainer: ['filter'],
+        page: ['topHead', 'filterContainer', 'charts', 'tabsTable', 'addPodDrawer'],
+        charts: ['chartContainer'],
+        chartContainer: ['podsTotal', 'podsCharts'],
+        topHead: ['addPodButton'],
+        tableContainer: ['tabsTable'],
+        tabsTable: {
+          slot: 'tabs',
+          table: 'table',
+        },
       },
     },
     components: {
-      page1: { type: 'Container' },
-      footer1: { type: 'xxxx' },
-      head1: { type: 'LRContainer' },
-      operation1: { type: 'RowContainer' },
-      content1: { type: 'Container' },
-      formModal1: {
-        type: 'FormModal',
-        props: {
-          name: '用户',
-          fields: [
-            {
-              key: 'name',
-              label: '名称',
-              component: 'input',
-              required: true,
-              componentProps: { placeholder: '请输入名称' },
-            },
-            {
-              key: 'role',
-              label: '角色',
-              component: 'select',
-              required: true,
-              dataSource: {
-                type: 'static',
-                static: [
-                  { label: '开发', value: 'DEV' },
-                  { label: '测试', value: 'TEST' },
-                  { label: '管理员', value: 'Owner' },
-                ],
-              },
-              componentProps: {
-                placeholder: '请选择角色',
-                options: [
-                  { label: '开发', value: 'DEV' },
-                  { label: '测试', value: 'TEST' },
-                  { label: '管理员', value: 'Owner' },
-                ],
-              },
-            },
-          ],
-        },
-        operations: {
-          submit: { key: 'submit' },
-        },
-        state: {
-          visible: false,
-          formData: undefined,
-        },
-      },
-      filter1: {
-        type: 'ContractiveFilter',
-        props: {
-          delay: 1000,
-          conditions: [
-            {
-              key: 'iterationIDs',
-              label: '迭代',
-              emptyText: '全部',
-              fixed: true,
-              selected: true,
-              haveFilter: true,
-              type: 'select' as const,
-              placeholder: '选择迭代',
-              options: [
-                {
-                  label: '迭代 1',
-                  value: 1,
-                  icon: '',
-                },
-                {
-                  label: '迭代 2',
-                  value: 2,
-                  icon: '',
-                },
-                {
-                  label: '迭代 3',
-                  value: 3,
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'title',
-              label: '标题',
-              emptyText: '全部',
-              fixed: true,
-              selected: true,
-              placeholder: '请输入标题',
-              type: 'input' as const,
-            },
-            {
-              key: 'state',
-              label: '状态',
-              emptyText: '全部',
-              fixed: true,
-              selected: true,
-              type: 'select' as const,
-              options: [
-                {
-                  label: '待处理',
-                  value: 'OPEN',
-                  icon: '',
-                },
-                {
-                  label: '重新打开',
-                  value: 'REOPEN',
-                  icon: '',
-                },
-                {
-                  label: '已解决',
-                  value: 'RESOLVED',
-                  icon: '',
-                },
-                {
-                  label: '不修复',
-                  value: 'WONTFIX',
-                  icon: '',
-                },
-                {
-                  label: '不修复，重复提交',
-                  value: 'DUP',
-                  icon: '',
-                },
-                {
-                  label: '已关闭',
-                  value: 'CLOSED',
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'label',
-              label: '标签',
-              emptyText: '全部',
-              fixed: false,
-              selected: false,
-              haveFilter: true,
-              type: 'select' as const,
-              placeholder: '选择标签',
-              options: [
-                {
-                  label: '客户需求',
-                  value: 22,
-                  icon: '',
-                },
-                {
-                  label: '内部需求',
-                  value: 33,
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'priority',
-              label: '优先级',
-              emptyText: '全部',
-              fixed: false,
-              selected: false,
-              type: 'select' as const,
-              placeholder: '选择优先级',
-              options: [
-                {
-                  label: '紧急',
-                  value: 'URGENT',
-                  icon: '',
-                },
-                {
-                  label: '高',
-                  value: 'HIGH',
-                  icon: '',
-                },
-                {
-                  label: '中',
-                  value: 'NORMAL',
-                  icon: '',
-                },
-                {
-                  label: '低',
-                  value: 'LOW',
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'severity',
-              label: '严重程度',
-              emptyText: '全部',
-              fixed: false,
-              selected: false,
-              type: 'select' as const,
-              placeholder: '选择优先级',
-              options: [
-                {
-                  label: '致命',
-                  value: 'FATAL',
-                  icon: '',
-                },
-                {
-                  label: '严重',
-                  value: 'SERIOUS',
-                  icon: '',
-                },
-                {
-                  label: '一般',
-                  value: 'NORMAL',
-                  icon: '',
-                },
-                {
-                  label: '轻微',
-                  value: 'SLIGHT',
-                  icon: '',
-                },
-                {
-                  label: '建议',
-                  value: 'SUGGEST',
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'creator',
-              label: '创建人',
-              emptyText: '全部',
-              fixed: false,
-              selected: false,
-              haveFilter: true,
-              type: 'select' as const,
-              options: [
-                {
-                  label: '张三',
-                  value: 1,
-                  icon: '',
-                },
-                {
-                  label: '李四',
-                  value: 2,
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'assignee',
-              label: '处理人',
-              emptyText: '全部',
-              fixed: false,
-              selected: false,
-              haveFilter: true,
-              type: 'select' as const,
-              options: [
-                {
-                  label: '张三',
-                  value: 1,
-                  icon: '',
-                },
-                {
-                  label: '李四',
-                  value: 2,
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'owner',
-              label: '责任人',
-              emptyText: '全部',
-              fixed: false,
-              selected: false,
-              haveFilter: true,
-              type: 'select' as const,
-              options: [
-                {
-                  label: '张三',
-                  value: 1,
-                  icon: '',
-                },
-                {
-                  label: '李四',
-                  value: 2,
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'bugStage',
-              label: '引入源',
-              emptyText: '全部',
-              fixed: false,
-              selected: false,
-              type: 'select' as const,
-              options: [
-                {
-                  label: '需求设计',
-                  value: 'demandDesign',
-                  icon: '',
-                },
-                {
-                  label: '架构设计',
-                  value: 'architectureDesign',
-                  icon: '',
-                },
-                {
-                  label: '代码研发',
-                  value: 'codeDevelopment',
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'startCreatedAt,endCreatedAt',
-              label: '创建日期',
-              fixed: false,
-              emptyText: '全部',
-              selected: true,
-              haveFilter: false,
-              type: 'dateRange' as const,
-            },
-            {
-              key: 'startFinishedAt,endFinishedAt',
-              label: '截止日期',
-              fixed: false,
-              selected: false,
-              haveFilter: false,
-              type: 'dateRange' as const,
-            },
-          ],
-        },
-        state: {
-          iterationIDs: [1, 2],
-          title: 'test',
-          assignee: [1],
-          'startCreatedAt,endCreatedAt': [1609430400000, 1609862400000],
-        },
-        operations: {
-          filter: {
-            key: 'filter',
-            reload: true,
-            partial: true,
-          },
-        },
-      },
-      addButton1: {
-        type: 'Button',
-        props: {
-          text: '添加用户',
-          type: 'primary',
-        },
-        operations: {
-          click: {
-            key: 'click-add',
-            reload: false,
-            command: { key: 'set', state: { visible: true }, target: 'formModal1' },
-          },
-        },
-      },
-      exportButton1: {
-        type: 'Button',
-        props: {
-          text: '导出用户',
-          ghost: true,
-          type: 'primary',
-        },
-      },
-      table1: {
+      table: {
         type: 'Table',
+        name: 'podsTable',
         props: {
+          columns: [
+            {
+              dataIndex: 'name',
+              sorter: true,
+              title: '名称',
+            },
+            {
+              dataIndex: 'status',
+              sorter: true,
+              title: '状态',
+            },
+            {
+              dataIndex: 'ip',
+              sorter: true,
+              title: 'IP 地址',
+            },
+            {
+              dataIndex: 'cpuLimits',
+              sorter: true,
+              title: 'CPU 限制值',
+            },
+            {
+              dataIndex: 'cpuRequests',
+              sorter: true,
+              title: 'CPU 请求值',
+            },
+            {
+              dataIndex: 'cpuPercent',
+              sorter: true,
+              title: 'CPU 水位',
+            },
+            {
+              dataIndex: 'age',
+              sorter: true,
+              title: '存活',
+            },
+            {
+              dataIndex: 'gotoWorkload',
+              fixed: 'right',
+              sorter: false,
+              title: '操作',
+            },
+          ],
+          pageSizeOptions: ['10', '20', '50', '100'],
+          requestIgnore: ['data'],
+          rowKey: 'id',
+          sortDirections: ['descend', 'ascend'],
+        },
+        state: {
+          activeKey: 'cpu',
+          clusterName: 'erda-hongkong',
+          countValues: {
+            Running: 1,
+          },
+          pageNo: 1,
+          pageSize: 20,
+          podsTable__urlQuery: 'eyJwYWdlTm8iOjEsInBhZ2VTaXplIjoyMCwic29ydGVyRGF0YSI6e319',
+          sorterData: {},
+          total: 1,
+          values: {
+            namespace: ['default'],
+            search: 'addon-elasticsearch-0',
+          },
+        },
+        data: {
+          list: [
+            {
+              CPULimitsNum: 2000,
+              CPURequestsNum: 200,
+              MemoryLimitsNum: 8589934592,
+              MemoryRequestsNum: 858783744,
+              age: '21d',
+              cpuLimits: {
+                renderType: 'multiple',
+                direction: 'row',
+                renders: [[{ icon: 'CPU', renderType: 'icon', size: 'small' }], [{ renderType: 'text', value: '2核' }]],
+              },
+              cpuPercent: {
+                renderType: 'progress',
+                status: 'success',
+                tip: '0.405核/2核',
+                value: '20.29',
+              },
+              cpuRequests: {
+                renderType: 'multiple',
+                direction: 'row',
+                renders: [[{ icon: 'GPU', renderType: 'icon', size: 'small' }], [{ renderType: 'text', value: '2核' }]],
+              },
+              gotoWorkload: {
+                operations: {
+                  gotoPod: {
+                    command: {
+                      jumpOut: true,
+                      key: 'goto',
+                      state: {
+                        params: {
+                          workloadId: '-',
+                        },
+                        query: {
+                          podId: 'default_addon-elasticsearch-0',
+                        },
+                      },
+                      target: 'cmpClustersWorkloadDetail',
+                    },
+                    confirm: '',
+                    key: 'gotoPod',
+                    reload: false,
+                    text: '查看工作负载',
+                  },
+                },
+                renderType: 'tableOperation',
+              },
+              id: 'default_addon-elasticsearch-0',
+              ip: '10.108.0.171',
+              memoryLimits: '8G',
+              memoryPercent: {
+                renderType: 'progress',
+                status: 'success',
+                tip: '4.628G/8G',
+                value: '57.85',
+              },
+              memoryRequests: '819M',
+              name: {
+                renderType: 'multiple',
+                direction: 'row',
+                renders: [
+                  [{ icon: 'default_k8s_pod', renderType: 'icon' }],
+                  [
+                    {
+                      operations: {
+                        click: {
+                          key: 'openPodDetail',
+                          reload: false,
+                        },
+                      },
+                      renderType: 'linkText',
+                      value: 'addon-elasticsearch-0',
+                    },
+                    { renderType: 'subText', value: '命名空间：222222' },
+                  ],
+                ],
+              },
+              namespace: 'default',
+              node: 'cn-hongkong.172.16.0.133',
+              podName: 'addon-elasticsearch-0',
+              ready: '1/1',
+              status: {
+                renderType: 'textWithBadge',
+                // status: 'success',
+                color: 'darkslateblue',
+                value: '就绪',
+              },
+            },
+          ],
+        },
+        operations: {
+          changeSort: {
+            key: 'changeSort',
+            reload: true,
+          },
+        },
+      },
+      tabsTable: { type: 'ComposeTable' },
+      tabs: {
+        operations: {
+          onChange: {
+            key: 'changeTabs',
+            reload: true,
+          },
+        },
+        props: {
+          buttonStyle: 'solid',
+          options: [
+            {
+              key: 'cpu-analysis',
+              text: 'CPU 分析',
+            },
+            {
+              key: 'mem-analysis',
+              text: '内存分析',
+            },
+          ],
+          radioType: 'button',
+          size: 'small',
+        },
+        state: {
+          value: 'cpu-analysis',
+        },
+        type: 'Radio',
+      },
+      podsTotal: {
+        type: 'TextBlock',
+        data: {
           data: {
-            list: [
+            main: '2342',
+            desc: 'Pod 总数',
+          },
+        },
+        props: {
+          grayBg: true,
+          fullHeight: true,
+          align: 'center',
+        },
+      },
+      podsCharts: {
+        type: 'PieChart',
+        props: {
+          grayBg: true,
+          chartStyle: { width: 32, height: 32, chartSetting: 'start' },
+        },
+        data: {
+          group: [
+            [
               {
-                id: 1,
-                name: '张1',
-                role: '开发',
-                operations: getTableOp(['edit', 'delete', 'sq'], { id: 1, name: '张1', role: '开发' }),
-              },
-              {
-                id: 2,
-                name: '张2',
-                role: '测试',
-                operations: getTableOp(['edit', 'delete', 'sq'], { id: 2, name: '张2', role: '测试' }),
-              },
-              {
-                id: 3,
-                name: '张3(当前用户)',
-                role: '开发',
-                operations: getTableOp(['edit', 'exit', 'sq'], { id: 3, name: '张3', role: '开发' }),
-              },
-              {
-                id: 4,
-                name: '张4',
-                role: '测试',
-                operations: getTableOp(['edit', 'delete', 'sq'], { id: 4, name: '张4', role: '测试' }),
-              },
-              {
-                id: 5,
-                name: '张5',
-                role: '测试',
-                operations: getTableOp(['edit', 'delete', 'sq'], { id: 5, name: '张5', role: '测试' }),
+                name: '运行中',
+                value: 33.3,
+                total: 100,
+                color: 'red',
+                info: [{ main: '987', sub: '23.1%', desc: '运行中' }],
               },
             ],
-          },
-          columns: [
-            { title: '名称', dataIndex: 'name' },
-            { title: '角色', dataIndex: 'role' },
-            { title: '操作', dataIndex: 'operations' },
+            [
+              {
+                name: '完成',
+                value: 33.3,
+                total: 100,
+                color: 'orange',
+                info: [{ main: '987', sub: '23.1%', desc: '完成' }],
+              },
+            ],
+            [
+              {
+                name: '驱逐',
+                value: 33.3,
+                total: 100,
+                color: 'green',
+                info: [{ main: '987', sub: '23.1%', desc: '驱逐' }],
+              },
+            ],
+            [
+              {
+                name: '崩溃重启中',
+                value: 33.3,
+                total: 100,
+                color: 'green',
+                info: [{ main: '987', sub: '23.1%', desc: '崩溃重启中' }],
+              },
+            ],
+            [
+              {
+                name: '错误',
+                value: 33.3,
+                total: 100,
+                color: 'green',
+                info: [{ main: '987', sub: '23.1%', desc: '错误' }],
+              },
+            ],
+            [
+              {
+                name: '错误2',
+                value: 0,
+                total: 100,
+                color: 'green',
+                info: [{ main: '0', sub: '0%', desc: '错误2' }],
+              },
+            ],
+            [
+              {
+                name: '错误',
+                value: 33.3,
+                total: 100,
+                color: 'green',
+                info: [{ main: '987', sub: '23.1%', desc: '错误' }],
+              },
+            ],
+            [
+              {
+                name: '错误',
+                value: 33.3,
+                total: 100,
+                color: 'green',
+                info: [{ main: '987', sub: '23.1%', desc: '错误' }],
+              },
+            ],
+            [
+              {
+                name: '错误',
+                value: 33.3,
+                total: 100,
+                color: 'green',
+                info: [{ main: '987', sub: '23.1%', desc: '错误' }],
+              },
+            ],
+            [
+              {
+                name: '错误',
+                value: 33.3,
+                total: 100,
+                color: 'green',
+                info: [{ main: '987', sub: '23.1%', desc: '错误' }],
+              },
+            ],
+            [
+              {
+                name: '错误',
+                value: 33.3,
+                total: 100,
+                color: 'green',
+                info: [{ main: '987', sub: '23.1%', desc: '错误' }],
+              },
+            ],
+            [
+              {
+                name: '错误',
+                value: 33.3,
+                total: 100,
+                color: 'green',
+                info: [{ main: '987', sub: '23.1%', desc: '错误' }],
+              },
+            ],
           ],
-          total: 3,
-          rowKey: 'id',
         },
       },
-    },
-  },
-};
-
-let partialMock = {
-  scenario: {},
-  protocol: {
-    components: {
-      filter1: {
-        type: 'ContractiveFilter',
+      chartContainer: {
+        type: 'Grid',
         props: {
-          delay: 3000,
+          span: [4, 20],
+        },
+      },
+      charts: {
+        type: 'Container',
+        props: {
+          whiteBg: true,
+        },
+      },
+      topHead: {
+        type: 'Container',
+        props: {
+          isTopHead: true,
+        },
+      },
+      addPodButton: {
+        type: 'Button',
+        name: 'addPodButton',
+        props: {
+          text: '创建 Pod',
+          type: 'primary',
+          prefixIcon: 'add',
+        },
+        state: {},
+        data: {},
+        operations: {
+          click: {
+            key: 'addPod',
+            reload: true,
+          },
+        },
+      },
+      addPodContainer: {
+        type: 'Container',
+        name: 'addPodContainer',
+        props: {
+          fullHeight: true,
+        },
+        state: {},
+        data: {},
+        operations: {},
+      },
+      addPodDrawer: {
+        type: 'Drawer',
+        name: 'addPodDrawer',
+        props: null,
+        state: {},
+        data: {},
+        operations: {},
+      },
+      addPodFileEditor: {
+        type: 'FileEditor',
+        name: 'addPodFileEditor',
+        props: null,
+        state: {},
+        data: {},
+        operations: {},
+      },
+      addPodFilter: {
+        type: 'ContractiveFilter',
+        name: 'addPodFilter',
+        props: null,
+        state: {},
+        data: {},
+        operations: {},
+      },
+
+      filter: {
+        type: 'ContractiveFilter',
+        name: 'filter',
+        props: null,
+        state: {
+          clusterName: 'erda-hongkong',
           conditions: [
             {
-              key: 'issueType',
-              label: '事项类型2',
-              value: ['bug'], // 组件内决定是否总是使用后端的值覆盖
-              emptyText: '全部',
               fixed: true,
-              selected: true,
-              haveFilter: false,
-              type: 'select' as const,
-              placeholder: '标题或描述',
+              haveFilter: true,
+              key: 'namespace',
+              label: '命名空间',
               options: [
                 {
-                  label: '需求',
-                  value: 'requirement',
-                  icon: '',
-                },
-                {
-                  label: '任务',
-                  value: 'task',
-                  icon: '',
-                },
-                {
-                  label: '缺陷',
-                  value: 'bug',
-                  icon: '',
+                  children: [
+                    {
+                      label: 'default',
+                      value: 'default',
+                    },
+                  ],
+                  label: '默认',
+                  value: 'default',
                 },
               ],
+              type: 'select',
             },
             {
-              key: 'assignee',
-              label: '处理人',
-              value: [1],
-              emptyText: '全部',
-              fixed: false,
-              selected: false,
-              haveFilter: true,
-              type: 'select' as const,
-              // placeholder: "标题或描述",
+              fixed: true,
+              key: 'status',
+              label: '状态',
               options: [
                 {
-                  label: '张三',
-                  value: 1,
-                  icon: '',
+                  label: '完成',
+                  value: 'Completed',
                 },
                 {
-                  label: '李四',
-                  value: 2,
-                  icon: '',
+                  label: '容器创建中',
+                  value: 'ContainerCreating',
+                },
+                {
+                  label: '崩溃重启中',
+                  value: 'CrashLoopBackOff',
+                },
+                {
+                  label: '错误',
+                  value: 'Error',
+                },
+                {
+                  label: '驱逐',
+                  value: 'Evicted',
+                },
+                {
+                  label: '镜像拉取失败重试中',
+                  value: 'ImagePullBackOff',
+                },
+                {
+                  label: '镜像拉取失败',
+                  value: 'ErrImagePull',
+                },
+                {
+                  label: '挂起',
+                  value: 'Pending',
+                },
+                {
+                  label: '运行中',
+                  value: 'Running',
+                },
+                {
+                  label: '终止',
+                  value: 'Terminating',
+                },
+                {
+                  label: '内存溢出被杀',
+                  value: 'OOMKilled',
+                },
+                {
+                  label: '其他',
+                  value: 'others',
                 },
               ],
+              type: 'select',
             },
             {
-              key: 'title',
-              label: '标题',
-              emptyText: '全部',
-              fixed: false,
-              placeholder: '请输入标题',
-              selected: false,
-              type: 'input' as const,
+              fixed: true,
+              key: 'node',
+              label: '节点',
+              options: [
+                {
+                  label: 'cn-hongkong.172.16.0.126',
+                  value: 'cn-hongkong.172.16.0.126',
+                },
+              ],
+              type: 'select',
             },
             {
-              key: 'endAt',
-              label: '截止日期',
-              emptyText: '全部',
-              fixed: false,
-              value: {
-                startDate: '2021-01-01',
-                endDate: '2021-01-03',
-              },
-              selected: true,
-              haveFilter: true,
-              type: 'dateRange' as const,
-            },
-            {
-              key: 'updateAt',
-              label: '更新日期',
-              fixed: false,
-              value: {},
-              emptyText: '全部',
-              selected: false,
-              haveFilter: true,
-              type: 'dateRange' as const,
+              fixed: true,
+              key: 'search',
+              label: 'search',
+              placeholder: '搜索 Pod 名称或 IP',
+              type: 'input',
             },
           ],
+          filter__urlQuery: 'eyJuYW1lc3BhY2UiOlsiZGVmYXVsdCJdLCJzZWFyY2giOiJhZGRvbi1lbGFzdGljc2VhcmNoLTAifQ==',
+          values: {
+            namespace: ['default'],
+            search: 'addon-elasticsearch-0',
+          },
         },
+        data: {},
         operations: {
           filter: {
             key: 'filter',
             reload: true,
-            partial: true,
           },
         },
       },
-      table1: {
-        type: 'Table',
+      filterContainer: {
+        type: 'Container',
+        name: 'filterContainer',
         props: {
-          data: [
+          whiteBg: true,
+        },
+        state: {},
+        data: {},
+        operations: {},
+      },
+      page: {
+        type: 'Container',
+        name: 'page',
+        props: {
+          spaceSize: 'middle',
+        },
+        state: {},
+        data: {},
+        operations: {},
+      },
+      podDistribution: {
+        type: 'LinearDistribution',
+        name: 'podDistribution',
+        props: {},
+        state: {},
+        data: {
+          list: [
             {
-              id: 1,
-              name: '张1',
-              role: '开发',
-              operations: getTableOp(['edit', 'delete', 'sq'], { id: 1, name: '张1', role: '开发' }),
-            },
-            {
-              id: 3,
-              name: '张3(当前用户)',
-              role: '开发',
-              operations: getTableOp(['edit', 'exit', 'sq'], { id: 3, name: '张3', role: '开发' }),
+              color: 'green',
+              label: '运行中 1',
+              tip: '运行中 1/1',
+              value: 1,
             },
           ],
-          columns: [
-            { title: '名称', dataIndex: 'name' },
-            { title: '角色', dataIndex: 'role' },
+          total: 1,
+        },
+        operations: {},
+      },
+      podTitle: {
+        type: 'Title',
+        name: 'podTitle',
+        props: {
+          size: 'small',
+          title: 'Pod 数量: 1',
+        },
+        state: {},
+        data: {},
+        operations: {},
+      },
+
+      tableContainer: {
+        type: 'Container',
+        name: 'tableContainer',
+        props: {
+          whiteBg: true,
+        },
+        state: {},
+        data: {},
+        operations: {},
+      },
+      tableTabs: {
+        type: 'Tabs',
+        name: 'tableTabs',
+        props: {
+          tabMenu: [
+            {
+              key: 'cpu',
+              name: 'CPU 分析',
+            },
+            {
+              key: 'mem',
+              name: '内存分析',
+            },
           ],
-          total: 3,
-          rowKey: 'id',
+        },
+        state: {
+          activeKey: 'cpu',
+        },
+        data: {},
+        operations: {
+          onChange: {
+            key: 'changeTab',
+            reload: true,
+          },
         },
       },
     },

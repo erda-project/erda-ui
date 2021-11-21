@@ -16,7 +16,7 @@ import { map } from 'lodash';
 import { Popconfirm } from 'antd';
 import classnames from 'classnames';
 import { WithAuth } from 'user/common';
-import { colorMap } from 'app/charts/theme';
+import { colorMap, newColorMap } from 'app/charts/theme';
 
 interface IOperationAction {
   operation?: CP_COMMON.Operation;
@@ -77,7 +77,7 @@ export const getUrlQuery = (val: Obj) => {
   return _urlQuery;
 };
 
-export { colorMap };
+export { colorMap, newColorMap };
 
 export const statusColorMap = {
   success: colorMap.green,
@@ -100,6 +100,9 @@ export const getClass = (props: Obj) => {
   return classnames({
     'bg-white': props?.whiteBg,
     'bg-gray-block-bg': props?.grayBg,
+    'h-full': props?.fullHeight,
+    'w-full': props?.fullWidth,
+    'flex items-center justify-center': props?.flexCenter,
   });
 };
 

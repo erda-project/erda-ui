@@ -114,7 +114,9 @@ const ClusterManage = () => {
       // urls 中仍有其他配置，后面可能会加入
       updateCluster({ ...values, credential });
     } else {
-      addCluster({ ...restData, credential });
+      addCluster({ ...restData, credential }).then(() => {
+        ref.reload();
+      });
       if (restData.credentialType === 'proxy') {
         setSearch({ autoOpenCmd: true, clusterName: restData.name }, [], true);
       }

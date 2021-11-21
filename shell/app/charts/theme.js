@@ -45,6 +45,27 @@ export const colorMap = {
   darkseagreen: '#8FBC8F',
   darkslateblue: '#483D8B',
   gray: '#666666',
+  lightgray: '#00000099',
+};
+
+export const bgColor = 'rgba(0,0,0,0.1)';
+export const newColorMap = {
+  primary1: '#F0F4FF',
+  primary2: '#D1DCFF',
+  primary3: '#A8BAFF',
+  primary4: '#798CF1',
+  primary5: '#5C6BCC',
+  primary6: '#424CA6',
+  primary7: '#2D3280',
+  primary8: '#1E2059',
+  waring1: '#FFF0F0',
+  waring2: '#FFD4D7',
+  waring3: '#F2A2AC',
+  waring4: '#D84B65',
+  waring5: '#B33651',
+  waring6: '#8C233D',
+  waring7: '#66142C',
+  waring8: '#400C1C',
 };
 
 export const theme = {

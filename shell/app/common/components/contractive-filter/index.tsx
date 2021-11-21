@@ -187,8 +187,10 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         size="small"
         style={{ width: 180 }}
         allowClear
+        className="bg-hover-gray-bg"
+        bordered={false}
         // ref={inputRef}
-        prefix={<IconSearch size="16" />}
+        prefix={<IconSearch size="16" className="text-black-300" />}
         placeholder={placeholder || i18n.t('press enter to search')}
         // onPressEnter={() => inputRef.current?.blur()}
         onChange={(e) => setInputVal(e.target.value)}
