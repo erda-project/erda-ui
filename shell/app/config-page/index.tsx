@@ -163,7 +163,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   ) => {
     if (fetchingRef.current || forbiddenRequest) return; // forbidden request when fetching
     // 此处用state，为了兼容useMock的情况
-    if (!op?.async) {
+    if (!op?.async || !pageConfigRef.current.syncInterval) {
       updater.fetching(true);
       fetchingRef.current = true;
     }

@@ -209,11 +209,13 @@ const Kanban = (props: IKanbanProps) => {
             return {
               ...col,
               list: col.list ? [newItem.data, ...col.list] : [newItem.data],
+              total: col.total + 1,
             };
           } else if (col.labelKey === dragColKey) {
             return {
               ...col,
               list: col.list?.filter((a) => a.id !== item.data.id),
+              total: Math.max(col.total - 1, 0),
             };
           }
           return col;
