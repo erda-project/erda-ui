@@ -80,6 +80,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       } as CONFIG_PAGE.RenderConfig),
     fetching: false,
   });
+  const timerRef = React.useRef<any>();
   // 在非生产环境里，url中带useMock
   const useMockMark = forceMock || (unProduct && location.search.includes('useMock'));
   const changeScenario = (s: { scenarioKey: string; scenarioType: string; inParams?: Obj }) => {
@@ -115,6 +116,13 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
 
   React.useEffect(() => {
     pageConfigRef.current = pageConfig;
+    if (pageConfigRef.current.syncInterval) {
+      clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => {
+        queryPageConfig();
+      }, pageConfigRef.current.syncInterval);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageConfig]);
 
   React.useEffect(() => {
@@ -155,8 +163,10 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   ) => {
     if (fetchingRef.current || forbiddenRequest) return; // forbidden request when fetching
     // 此处用state，为了兼容useMock的情况
-    if (op?.showLoading !== false) updater.fetching(true);
-    fetchingRef.current = true;
+    if (!op?.async) {
+      updater.fetching(true);
+      fetchingRef.current = true;
+    }
     const reqConfig = { ...(p || pageConfig), inParams: inParamsRef.current };
     ((useMockMark && _useMock) || getRenderPageLayout)(reqConfig, partial)
       .then((res: any) => {
@@ -201,7 +211,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
 
   const execOperation = (
     cId: string,
-    op: { key: string; reload?: boolean; partial?: boolean; callBack?: Function },
+    op: CP_COMMON.Operation,
     updateInfo?: { dataKey: string; dataVal: Obj },
     extraUpdateInfo?: Obj,
   ) => {
