@@ -67,10 +67,4 @@ export interface ITableConfigProps<T> {
   sortColumn: SorterResult<T>;
 }
 
-export interface IPaginationProps {
-  pagination: TablePaginationConfig;
-  onTableChange: ([key]: any) => void;
-  hiddenPopover: () => void;
-}
-
 export declare type TableAction = 'paginate' | 'sort' | 'filter';
