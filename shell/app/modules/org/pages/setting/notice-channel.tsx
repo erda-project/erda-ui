@@ -291,12 +291,12 @@ const NotifyChannel = () => {
       },
     },
     {
-      name: 'config.agentId',
-      label: 'AgentId',
+      name: 'config.appKey',
+      label: 'AppKey',
       required: true,
       itemProps: {
         maxLength: 50,
-        placeholder: `${i18n.t('please input')} AgentId`,
+        placeholder: `${i18n.t('please input')} AppKey`,
         autoComplete: 'off',
       },
     },
