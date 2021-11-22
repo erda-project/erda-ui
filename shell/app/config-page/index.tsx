@@ -80,6 +80,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       } as CONFIG_PAGE.RenderConfig),
     fetching: false,
   });
+  const opIndexRef = React.useRef(0);
   const timerRef = React.useRef<any>();
   // 在非生产环境里，url中带useMock
   const useMockMark = forceMock || (unProduct && location.search.includes('useMock'));
@@ -163,7 +164,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   ) => {
     if (fetchingRef.current || forbiddenRequest) return; // forbidden request when fetching
     // 此处用state，为了兼容useMock的情况
-    if (!op?.async || !pageConfigRef.current.syncInterval) {
+    if (!op?.async && !pageConfigRef.current?.syncInterval) {
       updater.fetching(true);
       fetchingRef.current = true;
     }
@@ -181,7 +182,8 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
           callBack?.(newConfig);
           operationCallBack?.(reqConfig, newConfig, op);
           updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
-        } else {
+        } else if ((op.index && opIndexRef.current === op.index) || op?.index === undefined) {
+          // Retain the response data that matches the latest operation
           callBack?.(res);
           operationCallBack?.(reqConfig, res, op);
           updateConfig ? updateConfig(res) : updater.pageConfig(res);
@@ -248,7 +250,8 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       });
 
       const formatConfig = clearLoadMoreData(newConfig);
-      queryPageConfig(formatConfig, partial, op, loadCallBack);
+      opIndexRef.current += 1;
+      queryPageConfig(formatConfig, partial, { ...op, index: opIndexRef.current }, loadCallBack);
     } else if (updateInfo) {
       updateState(updateInfo.dataKey, updateInfo.dataVal, loadCallBack);
     }
