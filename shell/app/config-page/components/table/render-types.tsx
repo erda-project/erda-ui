@@ -409,8 +409,6 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         }
       }
       break;
-    case '':
-      break;
     case 'multiple':
       {
         const { renders, operations, direction = 'col' } = val || {};

@@ -31,7 +31,7 @@ const Badge = (_props: CP_BADGE.Props) => {
 };
 
 const Item = (props: Merge<CP_BADGE.IProps, { className?: string }>) => {
-  const { color, tip, ...rest } = props;
+  const { color, ...rest } = props;
   const pColor = color && (colorMap[color] ?? color);
   return <PureBadge color={pColor} {...rest} />;
 };

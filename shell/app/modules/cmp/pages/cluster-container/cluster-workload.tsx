@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage, { useMock } from 'app/config-page';
+import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import { getUrlQuery } from 'config-page/utils';
 import { K8sClusterTerminalButton } from './cluster-terminal';
@@ -78,7 +78,6 @@ const ClusterWorkload = () => {
     },
     workloadTotal: {
       props: {
-        // 可去
         grayBg: true,
         fullHeight: true,
         flexCenter: true,
@@ -102,8 +101,6 @@ const ClusterWorkload = () => {
         scenarioKey={'cmp-dashboard-workloads-list'}
         inParams={inParams}
         ref={reloadRef}
-        useMock={useMock('crud')}
-        forceMock
         customProps={{
           ...customProps,
           filter: {
