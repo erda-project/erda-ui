@@ -13,6 +13,7 @@
 
 import React from 'react';
 import { Tooltip } from 'antd';
+import { shuffle } from 'lodash';
 import { colorToRgb } from 'common/utils';
 import './index.scss';
 
@@ -33,13 +34,13 @@ const Badge = (props: IBadgeProps) => {
 
   const colorStyle = color ? { color, backgroundColor: colorToRgb(color, 0.1) } : undefined;
 
+  const breathCls = breathing ? `badge-breathing badge-breathing-${shuffle([1, 2, 3])[0]}` : '';
+
   return (
     <Tooltip title={tip}>
       <span
         style={colorStyle}
-        className={`erda-badge erda-badge-status-${status} ${
-          breathing ? 'badge-breathing' : ''
-        } badge-${size} inline-flex items-center rounded-sm ${className}`}
+        className={`erda-badge erda-badge-status-${status} ${breathCls} badge-${size} inline-flex items-center rounded-sm ${className}`}
       >
         <span className="erda-badge-status-dot" style={color ? { backgroundColor: color } : {}}>
           <span className="erda-badge-status-breath" />
