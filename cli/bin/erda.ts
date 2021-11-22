@@ -22,6 +22,7 @@ import checkLicense from '../lib/check-license';
 import init from '../lib/init';
 import initOnline from '../lib/init-online';
 import i18n from '../lib/i18n';
+import iconLocalize from '../lib/local-icon';
 import generateService from '../lib/service-generator';
 import checkBuildStatus from '../lib/check-build-status';
 import fetchImageContent from '../lib/fetch-image-content';
@@ -122,6 +123,13 @@ program
   )
   .action(async () => {
     checkBuildStatus();
+  });
+
+program
+  .command('icon-localize')
+  .description('download icon resource and store at local image')
+  .action(async () => {
+    iconLocalize();
   });
 
 program.parse(process.argv);
