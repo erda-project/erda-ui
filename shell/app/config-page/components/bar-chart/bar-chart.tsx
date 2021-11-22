@@ -16,44 +16,38 @@ import EChart from 'charts/components/echarts';
 import { newColorMap, getClass } from 'config-page/utils';
 import { EmptyHolder } from 'common';
 import { map, uniq, merge, get } from 'lodash';
+import theme from 'app/themes/theme';
 import './bar-chart.scss';
 
 const handleAxis = (opt: Obj, yAxisLabelLen = 10) => {
   const reOpt = { ...opt };
   if (opt.yAxis) {
-    if (Array.isArray(reOpt.yAxis)) {
-      reOpt.yAxis = reOpt.yAxis.map((item) => ({
-        ...item,
+    const adjustYAxis = (_axis: Obj) => {
+      return {
+        ..._axis,
         axisLabel: {
           formatter: (v: string) => (v.length > yAxisLabelLen ? `${v.substr(0, yAxisLabelLen)}...` : v),
-          color: 'rgba(0,0,0,0.3)',
-          ...(item.axisLabel || {}),
+          color: theme.chart.yAxisColor,
+          ...(_axis.axisLabel || {}),
         },
-      }));
-    } else {
-      reOpt.yAxis.axisLabel = {
-        formatter: (v: string) => (v.length > yAxisLabelLen ? `${v.substr(0, yAxisLabelLen)}...` : v),
-        color: 'rgba(0,0,0,0.3)',
-        ...(reOpt.yAxis.axisLabel || {}),
       };
-    }
+    };
+
+    reOpt.yAxis = Array.isArray(reOpt.yAxis) ? reOpt.yAxis.map(adjustYAxis) : adjustYAxis(reOpt.yAxis);
   }
 
   if (opt.xAxis) {
-    if (Array.isArray(reOpt.xAxis)) {
-      reOpt.xAxis = reOpt.xAxis.map((item) => ({
-        ...item,
+    const adjustXAxis = (_axis: Obj) => {
+      return {
+        ..._axis,
         axisLabel: {
-          color: 'rgba(0,0,0,0.6)',
-          ...(item.axisLabel || {}),
+          color: theme.chart.xAxisColor,
+          ...(_axis.axisLabel || {}),
         },
-      }));
-    } else {
-      reOpt.xAxis.axisLabel = {
-        color: 'rgba(0,0,0,0.6)',
-        ...(reOpt.xAxis.axisLabel || {}),
       };
-    }
+    };
+
+    reOpt.xAxis = Array.isArray(reOpt.xAxis) ? reOpt.xAxis.map(adjustXAxis) : adjustXAxis(reOpt.xAxis);
   }
 
   return reOpt;
