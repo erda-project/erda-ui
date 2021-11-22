@@ -54,7 +54,17 @@ const NotifyChannel = () => {
   const channelTypeOptions = getNotifyChannelTypes.useData();
   const [channelDatasource, loading] = getNotifyChannels.useState();
   const [
-    { activeData, channelType, channelProvider, visible, paging, templateCode, passwordVisible, activeTab },
+    {
+      activeData,
+      channelType,
+      channelProvider,
+      visible,
+      paging,
+      templateCode,
+      passwordVisible,
+      activeTab,
+      channelProviderOptions,
+    },
     updater,
     update,
   ] = useUpdate({
@@ -66,8 +76,8 @@ const NotifyChannel = () => {
     passwordVisible: false,
     activeTab: 'dingtalk_work_notice',
     paging: { pageSize: 15, current: 1 },
+    channelProviderOptions: null,
   });
-  const channelProviderOptions = channelTypeOptions?.find((item) => item.name === channelType)?.providers;
 
   const isEditing = !isEmpty(activeData);
   useMount(() => {
@@ -90,14 +100,18 @@ const NotifyChannel = () => {
           name,
         },
         visible: true,
+        channelType: type?.name,
         templateCode: config?.templateCode,
+        channelProviderOptions: channelTypeOptions?.find((item) => item.name === type?.name)?.providers,
+        channelProvider: channelProviderType?.name,
       });
     });
   };
 
   const handleAdd = () => {
-    updater.channelType(channelTypeOptions?.[0]?.name || '');
-    updater.channelProvider(channelTypeOptions?.[0]?.providers?.[0]?.name || '');
+    updater.channelType(channelTypeOptions?.find((item) => item.name === activeTab)?.name || '');
+    updater.channelProviderOptions(channelTypeOptions?.find((item) => item.name === activeTab)?.providers);
+    updater.channelProvider(channelTypeOptions?.find((item) => item.name === activeTab)?.providers?.[0]?.name || '');
     updater.visible(true);
   };
 
@@ -159,12 +173,20 @@ const NotifyChannel = () => {
           paging: { ...paging, current: 1 },
           visible: false,
           activeData: {},
+          activeTab: type,
         });
         getNotifyChannelEnableStatus.fetch({ id: channel?.id, type }).then((res) => {
           const { data: status } = res || {};
           confirmEnableChannel({ status, channel });
         });
       });
+
+    // 接口出错后自动重置channelProvider和channelType的值:
+    if (!isEditing) {
+      updater.channelProviderOptions(channelTypeOptions?.find((item) => item.name === activeTab)?.providers);
+      updater.channelProvider(channelTypeOptions?.find((item) => item.name === activeTab)?.providers?.[0]?.name || '');
+      updater.channelType(channelTypeOptions?.find((item) => item.name === activeTab)?.name || '');
+    }
   };
 
   const confirmEnableChannel = ({
@@ -237,12 +259,20 @@ const NotifyChannel = () => {
       label: i18n.t('channel type'),
       initialValue: channelType,
       required: true,
+      itemProps: {
+        disabled: isEditing,
+      },
       getComp: ({ form }: { form: FormInstance }) => {
         return (
           <Select
             onSelect={(value: string) => {
+              const providers = channelTypeOptions?.find((item) => item.name === value)?.providers;
               updater.channelType(value);
+              updater.channelProviderOptions(providers);
               form.setFieldsValue({ type: value });
+              form.setFieldsValue({
+                channelProviderType: providers?.[0]?.name,
+              });
             }}
           >
             {map(channelTypeOptions, ({ displayName, name }) => (
@@ -283,6 +313,7 @@ const NotifyChannel = () => {
     {
       name: 'config.agentId',
       label: 'AgentId',
+      type: 'inputNumber',
       required: true,
       itemProps: {
         maxLength: 50,
@@ -509,7 +540,7 @@ const NotifyChannel = () => {
         width={800}
         title={`${isEditing ? i18n.t('edit notification channel') : i18n.t('new notification channel')}`}
         visible={visible}
-        fieldsList={activeTab === 'short_message' ? SMSFieldsList : dingdingFieldsList}
+        fieldsList={channelType === 'short_message' ? SMSFieldsList : dingdingFieldsList}
         formData={activeData}
         onOk={(values: any) => {
           handleSubmit(values, isEditing && activeData.id);
@@ -519,7 +550,7 @@ const NotifyChannel = () => {
       />
       <Spin spinning={loading}>
         <Tabs
-          defaultValue="short_message"
+          activeKey={activeTab}
           onChange={(key) => {
             updater.activeTab(key);
             updater.paging({ pageSize: 15, current: 1 });

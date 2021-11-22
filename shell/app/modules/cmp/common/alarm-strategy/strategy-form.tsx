@@ -217,7 +217,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     getNotifyGroups(payload);
     getRoleMap({ scopeType, scopeId: scopeType === ScopeType.MSP ? commonPayload?.scopeId : scopeId });
     getAlertTriggerConditions(scopeType);
-    getNotifyChannelMethods(payload);
+    getNotifyChannelMethods.fetch(payload);
   });
 
   React.useEffect(() => {

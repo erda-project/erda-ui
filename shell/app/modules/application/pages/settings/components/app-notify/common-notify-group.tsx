@@ -55,16 +55,22 @@ export const notifyChannelOptionsMap = {
 export const getFinalNotifyChannelOptions = (channels) => {
   const SMSChannel = { name: i18n.t('SMS'), value: 'SMS' };
   const dingdingWorkChannel = { name: i18n.t('dingding work notice'), value: 'dingtalk_work_notice' };
-  forEach(channels, (val, key) => {
-    if (key === 'short_message' && val) {
-      notifyChannelOptionsMap[TargetType.USER].push(SMSChannel);
-      notifyChannelOptionsMap[TargetType.EXTERNAL_USER].push(SMSChannel);
+  const channelMethods = notifyChannelOptionsMap;
+  forEach(channels, (_, key) => {
+    if (key === 'short_message' && !channelMethods[TargetType.USER].find((x) => x.value === 'SMS')) {
+      channelMethods[TargetType.USER].push(SMSChannel);
+      channelMethods[TargetType.EXTERNAL_USER].push(SMSChannel);
     }
-    if (key === 'dingtalk_work_notice' && val) {
-      notifyChannelOptionsMap[TargetType.USER].push(dingdingWorkChannel);
-      notifyChannelOptionsMap[TargetType.EXTERNAL_USER].push(dingdingWorkChannel);
+    if (
+      key === 'dingtalk_work_notice' &&
+      !channelMethods[TargetType.USER].find((x) => x.value === 'dingtalk_work_notice')
+    ) {
+      channelMethods[TargetType.USER].push(dingdingWorkChannel);
+      channelMethods[TargetType.EXTERNAL_USER].push(dingdingWorkChannel);
     }
   });
+
+  return channelMethods;
 };
 const groupTargetMap = {
   user: i18n.t('member'),
