@@ -14,7 +14,7 @@
 import React from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
-import { head, isEmpty, map, take } from 'lodash';
+import { head, isEmpty, map, take, forEach } from 'lodash';
 import { Button, message, Modal, Select, Spin, Table, Tooltip } from 'antd';
 import { Avatar, ErdaIcon, FormModal, MemberSelector } from 'common';
 import { useSwitch, useUpdate } from 'common/use-hooks';
@@ -43,12 +43,8 @@ export const notifyChannelOptionsMap = {
   [TargetType.USER]: [
     { name: i18n.t('dop:email'), value: 'email' },
     { name: i18n.t('site message'), value: 'mbox' },
-    { name: i18n.t('SMS'), value: 'sms' },
   ],
-  [TargetType.EXTERNAL_USER]: [
-    { name: i18n.t('dop:email'), value: 'email' },
-    { name: i18n.t('SMS'), value: 'sms' },
-  ],
+  [TargetType.EXTERNAL_USER]: [{ name: i18n.t('dop:email'), value: 'email' }],
   [TargetType.WEBHOOK]: [{ name: i18n.t('dop:webhook'), value: 'webhook' }],
   [TargetType.ROLE]: [
     { name: i18n.t('dop:email'), value: 'email' },
@@ -56,6 +52,20 @@ export const notifyChannelOptionsMap = {
   ],
 };
 
+export const getFinalNotifyChannelOptions = (channels) => {
+  const SMSChannel = { name: i18n.t('SMS'), value: 'SMS' };
+  const dingdingWorkChannel = { name: i18n.d('钉钉工作通知'), value: 'dingtalk_work_notice' };
+  forEach(channels, (val, key) => {
+    if (key === 'short_message' && val) {
+      notifyChannelOptionsMap[TargetType.USER].push(SMSChannel);
+      notifyChannelOptionsMap[TargetType.EXTERNAL_USER].push(SMSChannel);
+    }
+    if (key === 'dingtalk_work_notice' && val) {
+      notifyChannelOptionsMap[TargetType.USER].push(dingdingWorkChannel);
+      notifyChannelOptionsMap[TargetType.EXTERNAL_USER].push(dingdingWorkChannel);
+    }
+  });
+};
 const groupTargetMap = {
   user: i18n.t('member'),
   dingding: i18n.t('DingTalk address'),

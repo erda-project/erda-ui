@@ -26,7 +26,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import { isEmpty, map } from 'lodash';
-import { Button, Modal, Select, Spin, Tooltip, Input, message, Badge } from 'antd';
+import { Button, Modal, Select, Spin, Tooltip, Input, message, Badge, Tabs } from 'antd';
 import Table from 'common/components/table';
 import { ColumnProps, IActions } from 'common/components/table/interface';
 import { FormModal, Copy } from 'common';
@@ -48,12 +48,13 @@ import { ALIYUN_APPLICATION } from 'common/constants';
 import './org-setting.scss';
 
 const { confirm } = Modal;
+const { TabPane } = Tabs;
 
 const NotifyChannel = () => {
   const channelTypeOptions = getNotifyChannelTypes.useData();
   const [channelDatasource, loading] = getNotifyChannels.useState();
   const [
-    { activeData, channelType, channelProvider, visible, paging, templateCode, passwordVisible },
+    { activeData, channelType, channelProvider, visible, paging, templateCode, passwordVisible, activeTab },
     updater,
     update,
   ] = useUpdate({
@@ -63,6 +64,7 @@ const NotifyChannel = () => {
     visible: false,
     templateCode: '',
     passwordVisible: false,
+    activeTab: 'short_message',
     paging: { pageSize: 15, current: 1 },
   });
   const channelProviderOptions = channelTypeOptions?.find((item) => item.name === channelType)?.providers;
@@ -73,8 +75,8 @@ const NotifyChannel = () => {
   });
 
   React.useEffect(() => {
-    getNotifyChannels.fetch({ pageNo: paging.current, pageSize: paging.pageSize });
-  }, [paging]);
+    getNotifyChannels.fetch({ pageNo: paging.current, pageSize: paging.pageSize, type: activeTab });
+  }, [paging, activeTab]);
 
   const handleEdit = (id: string) => {
     getNotifyChannel.fetch({ id }).then((res) => {
@@ -274,6 +276,49 @@ const NotifyChannel = () => {
         );
       },
     },
+  ];
+
+  const dingdingFieldsList = [
+    ...fieldsList,
+    {
+      name: 'config.agentId',
+      label: 'AgentId',
+      required: true,
+      itemProps: {
+        maxLength: 50,
+        placeholder: `${i18n.t('please input')} AgentId`,
+        autoComplete: 'off',
+      },
+    },
+    {
+      name: 'config.agentId',
+      label: 'AgentId',
+      required: true,
+      itemProps: {
+        maxLength: 50,
+        placeholder: `${i18n.t('please input')} AgentId`,
+        autoComplete: 'off',
+      },
+    },
+    {
+      name: 'config.appSecret',
+      label: 'AppSecret',
+      required: true,
+      itemProps: {
+        placeholder: `${i18n.t('please input')} AppSecret`,
+        type: passwordVisible ? 'text' : 'password',
+        autoComplete: 'off',
+        addonAfter: passwordVisible ? (
+          <IconPreviewOpen onClick={() => updater.passwordVisible(false)} />
+        ) : (
+          <IconPreviewCloseOne onClick={() => updater.passwordVisible(true)} />
+        ),
+      },
+    },
+  ];
+
+  const SMSFieldsList = [
+    ...fieldsList,
     {
       name: 'config.accessKeyId',
       label: 'AccessKeyId',
@@ -464,7 +509,7 @@ const NotifyChannel = () => {
         width={800}
         title={`${isEditing ? i18n.t('edit notification channel') : i18n.t('new notification channel')}`}
         visible={visible}
-        fieldsList={fieldsList}
+        fieldsList={activeTab === 'short_message' ? SMSFieldsList : dingdingFieldsList}
         formData={activeData}
         onOk={(values: any) => {
           handleSubmit(values, isEditing && activeData.id);
@@ -473,15 +518,36 @@ const NotifyChannel = () => {
         modalProps={{ destroyOnClose: true }}
       />
       <Spin spinning={loading}>
-        <Table
-          rowKey="id"
-          dataSource={channelDatasource?.data || []}
-          columns={columns}
-          actions={actions}
-          pagination={{ ...paging, total: channelDatasource?.total ?? 0, showSizeChanger: true }}
-          scroll={{ x: 800 }}
-          onChange={handleTableChange}
-        />
+        <Tabs
+          defaultValue="short_message"
+          onChange={(key) => {
+            updater.activeTab(key);
+            updater.paging({ pageSize: 15, current: 1 });
+          }}
+        >
+          <TabPane key="dingtalk_work_notice" tab={i18n.d('钉钉工作通知')}>
+            <Table
+              rowKey="id"
+              dataSource={channelDatasource?.data || []}
+              columns={columns}
+              actions={actions}
+              pagination={{ ...paging, total: channelDatasource?.total ?? 0, showSizeChanger: true }}
+              scroll={{ x: 800 }}
+              onChange={handleTableChange}
+            />
+          </TabPane>
+          <TabPane key="short_message" tab={i18n.t('SMS')}>
+            <Table
+              rowKey="id"
+              dataSource={channelDatasource?.data || []}
+              columns={columns}
+              actions={actions}
+              pagination={{ ...paging, total: channelDatasource?.total ?? 0, showSizeChanger: true }}
+              scroll={{ x: 800 }}
+              onChange={handleTableChange}
+            />
+          </TabPane>
+        </Tabs>
       </Spin>
     </div>
   );

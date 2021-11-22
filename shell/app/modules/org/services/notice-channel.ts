@@ -26,6 +26,9 @@ const apis = {
   setNotifyChannelEnable: {
     api: 'put@/api/notify-channel/enabled',
   },
+  getNotifyChannelMethods: {
+    api: 'get@/api/notify-channel/channels/enabled',
+  },
   getNotifyChannel: {
     api: '/api/notify-channel',
   },
@@ -43,7 +46,7 @@ const apis = {
 export const getNotifyChannelTypes = apiCreator<() => NOTIFY_CHANNEL.ChannelTypeOption[]>(apis.getNotifyChannelTypes);
 
 export const getNotifyChannels = apiCreator<
-  (payload: { pageNo: number; pageSize: number }) => NOTIFY_CHANNEL.NotifyChannelData
+  (payload: { pageNo: number; pageSize: number; type: string }) => NOTIFY_CHANNEL.NotifyChannelData
 >(apis.getNotifyChannels);
 
 export const getNotifyChannelEnableStatus = apiCreator<(payload: { id: string; type: string }) => string>(
@@ -51,6 +54,10 @@ export const getNotifyChannelEnableStatus = apiCreator<(payload: { id: string; t
 );
 export const setNotifyChannelEnable = apiCreator<(payload: { id: string; enable: boolean }) => void>(
   apis.setNotifyChannelEnable,
+);
+
+export const getNotifyChannelMethods = apiCreator<(payload: { scopeId: string; scopeType: string }) => string>(
+  apis.getNotifyChannelMethods,
 );
 
 export const getNotifyChannel = apiCreator<(payload: { id: string }) => NOTIFY_CHANNEL.NotifyChannel>(
