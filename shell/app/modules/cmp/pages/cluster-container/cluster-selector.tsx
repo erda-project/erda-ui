@@ -26,9 +26,18 @@ const ClusterSelector = () => {
   ready?.forEach((item: string) => list.push({ cluster: item, status: 'ready' }));
   unReady?.forEach((item: string) => list.push({ cluster: item, status: 'unReady' }));
 
+  const pageNameMap = {
+    nodes: i18n.t('node'),
+    pods: 'Pods',
+    workload: i18n.t('cmp:Workload'),
+    'event-log': i18n.t('cmp:Event Log'),
+  };
+
+  const curPage = location.pathname.split('/').pop();
+  const pageName = pageNameMap[curPage as string] || i18n.t('container resource');
   return (
     <div className="flex items-center">
-      <span className="flex items-center font-bold text-lg">{i18n.t('container resource')}</span>
+      <span className="flex items-center font-bold text-lg">{pageName}</span>
       <span className="bg-dark-2 mx-5" style={{ width: 1, height: 12 }} />
       <Select
         bordered={false}

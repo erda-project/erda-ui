@@ -26,7 +26,7 @@ export const useMock = (key: string) => (payload: Obj) => {
   } else {
     return new Promise((resolve) => {
       setTimeout(() => {
-        /* @vite-ignore */
+        // /* @vite-ignore */
         import(`./${key}.mock`).then((file) => {
           const { mockData, enhanceMock } = file;
           resolve(typeof enhanceMock === 'function' ? enhanceMock(mockData, payload) : mockData);

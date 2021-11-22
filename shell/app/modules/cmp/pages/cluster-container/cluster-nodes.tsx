@@ -97,7 +97,7 @@ const ClusterNodes = () => {
               clickTableItem: openDetail,
             },
           },
-          tabsTable: {
+          tabs: {
             op: {
               onStateChange: urlQueryChange,
             },

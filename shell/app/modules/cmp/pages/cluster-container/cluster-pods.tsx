@@ -72,9 +72,31 @@ const ClusterPods = () => {
     }
   };
 
+  const customProps = {
+    chartContainer: {
+      props: {
+        span: [4, 20],
+      },
+    },
+    podsTotal: {
+      props: {
+        grayBg: true,
+        fullHeight: true,
+        flexCenter: true,
+      },
+    },
+    podsCharts: {
+      props: {
+        grayBg: true,
+        chartStyle: { width: 32, height: 32, chartSetting: 'start' },
+        style: { height: 156 },
+      },
+    },
+  };
+
   return (
     <ClusterContainer>
-      <div className="top-button-group">
+      <div className="top-button-group" style={{ right: 135 }}>
         <K8sClusterTerminalButton clusterName={clusterName} />
       </div>
       <DiceConfigPage
@@ -83,6 +105,7 @@ const ClusterPods = () => {
         inParams={inParams}
         ref={reloadRef}
         customProps={{
+          ...customProps,
           filter: {
             op: {
               onFilterChange: urlQueryChange,
@@ -94,7 +117,7 @@ const ClusterPods = () => {
               clickTableItem: openDetail,
             },
           },
-          tableTabs: {
+          tabs: {
             op: {
               onStateChange: urlQueryChange,
             },

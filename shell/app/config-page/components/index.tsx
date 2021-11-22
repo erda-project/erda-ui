@@ -64,6 +64,8 @@ import MarkdownEditor from './markdown-editor/markdown-editor';
 import { CardContainer, ChartContainer } from './card-container/card-container';
 import CopyButton from './copy-button/copy-button';
 import ComposeTable from './compose-table/compose-table';
+import TextBlock from './text-block/text-block';
+import BarChart from './bar-chart/bar-chart';
 
 export const containerMap = {
   Alert,
@@ -121,4 +123,6 @@ export const containerMap = {
   ChartContainer,
   CopyButton,
   ComposeTable,
+  TextBlock,
+  BarChart,
 };

@@ -70,9 +70,30 @@ const ClusterWorkload = () => {
     }
   };
 
+  const customProps = {
+    chartContainer: {
+      props: {
+        span: [4, 20],
+      },
+    },
+    workloadTotal: {
+      props: {
+        grayBg: true,
+        fullHeight: true,
+        flexCenter: true,
+      },
+    },
+    workloadChart: {
+      props: {
+        grayBg: true,
+        chartStyle: { height: 136 },
+      },
+    },
+  };
+
   return (
     <ClusterContainer>
-      <div className="top-button-group">
+      <div className="top-button-group" style={{ right: 162 }}>
         <K8sClusterTerminalButton clusterName={clusterName} />
       </div>
       <DiceConfigPage
@@ -81,6 +102,7 @@ const ClusterWorkload = () => {
         inParams={inParams}
         ref={reloadRef}
         customProps={{
+          ...customProps,
           filter: {
             op: {
               onFilterChange: urlQueryChange,

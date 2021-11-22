@@ -14,6 +14,7 @@
 import React from 'react';
 import { ErdaIcon } from 'common';
 import { Tooltip } from 'antd';
+import classnames from 'classnames';
 import './index.scss';
 
 export interface TextBlockInfoProps {
@@ -22,19 +23,33 @@ export interface TextBlockInfoProps {
   sub?: string;
   desc?: string;
   tip?: string;
-  className: string;
+  className?: string;
   extra?: string | React.ElementType | JSX.Element;
+  align?: 'center' | 'left' | 'right';
 }
 
 const TextBlockInfo = (props: TextBlockInfoProps) => {
-  const { className = '', main, size = 'normal', sub, desc, tip, extra } = props;
+  const { align = 'left', className = '', main, size = 'normal', sub, desc, tip, extra } = props;
+
+  const alignClsMap = {
+    container: {
+      left: 'text-left',
+      right: 'text-right',
+      center: 'text-center',
+    },
+    desc: {
+      left: 'justify-start',
+      right: 'justify-end',
+      center: 'justify-center',
+    },
+  };
 
   return (
-    <div className={`erda-text-block-info ${size} flex flex-col ${className}`}>
+    <div className={`erda-text-block-info ${size} flex flex-col ${className} ${alignClsMap.container[align]}`}>
       <div className={'main-text'}>{main}</div>
       {sub ? <div className={'sub-text'}>{sub}</div> : null}
       {desc ? (
-        <div className={'desc-text flex items-center'}>
+        <div className={`desc-text flex items-center w-full ${alignClsMap.desc[align]}`}>
           {desc}
           {tip ? (
             <Tooltip title={tip}>

@@ -12,12 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Popconfirm, Tooltip, Dropdown, Menu, Progress, Badge, Avatar } from 'antd';
+import { Popconfirm, Tooltip, Dropdown, Menu, Progress, Avatar } from 'antd';
 import { map, isEmpty, get, isArray, sortBy, filter, isNumber } from 'lodash';
-import { Icon as CustomIcon, MemberSelector, TagsRow, Copy, Ellipsis, ErdaIcon } from 'common';
+import { Icon as CustomIcon, MemberSelector, TagsRow, Badge, Ellipsis, ErdaIcon } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
 import ImgMap from 'app/config-page/img-map';
+import { iconMap } from 'common/components/erda-icon';
 import { RowContainer, Container } from '../container/container';
 import { statusColorMap, colorMap } from 'app/config-page/utils';
 import { Download as IconDownLoad, Info as IconInfo, DownOne as IconDownOne } from '@icon-park/react';
@@ -313,14 +314,19 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       }
       break;
     case 'textWithBadge':
-      Comp = val.status ? (
-        <div className="flex">
-          <Badge status={val.status || 'default'} />
-          <Ellipsis title={val.value} />
-        </div>
-      ) : (
-        val.value
-      );
+      Comp =
+        val.status || val.color ? (
+          <div className="flex">
+            <Badge
+              {...val}
+              text={val.value}
+              status={val.status || 'default'}
+              color={val.color && (colorMap[val.color] || val.color)}
+            />
+          </div>
+        ) : (
+          val.value
+        );
       break;
     case 'textWithLevel':
       {
@@ -369,17 +375,37 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         Comp = <Text props={_rest} />;
       }
       break;
+    case 'subText':
+      {
+        const { renderType, ..._rest } = val || {};
+        Comp = (
+          <Text
+            props={{
+              ..._rest,
+              textStyleName: { ..._rest?.textStyleName, 'text-desc': true },
+              styleConfig: { ..._rest.styleConfig, fontSize: 12, lineHeight: 20 },
+            }}
+          />
+        );
+      }
+      break;
     case 'icon':
       {
-        const { icon } = val || {};
+        const { icon, size = 'normal' } = val || {};
         if (ImgMap[icon]) {
           Comp = (
-            <div className="dice-cp-table-head-icon mr-1">
+            <div className={`dice-cp-table-head-icon mr-1 ${size}`}>
               <img src={ImgMap[icon]} className="w-full h-full" />{' '}
             </div>
           );
+        } else if (iconMap[icon]) {
+          const sizeMap = {
+            normal: 28,
+            small: 16,
+          };
+          Comp = <ErdaIcon size={sizeMap[size]} className="dice-cp-table-head-icon mr-1" type={icon} />;
         } else {
-          Comp = <ErdaIcon size={28} className="dice-cp-table-head-icon" type={icon} />;
+          Comp = null;
         }
       }
       break;

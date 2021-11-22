@@ -302,8 +302,14 @@
 }
 
 .dice-cp-table-head-icon {
-  width: 28px;
-  height: 28px;
+  &.normal {
+    width: 28px;
+    height: 28px;
+  }
+  &.small {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .dice-cp-table-bg-progress {

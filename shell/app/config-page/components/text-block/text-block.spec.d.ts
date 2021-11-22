@@ -11,30 +11,31 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_BADGE {
+declare namespace CP_TEXT_BLOCK {
   interface Spec {
-    type: 'Badge';
+    type: 'TextBlock';
     props: IProps;
-    data?: {
-      list: IProps[];
+    data: {
+      data: IData;
     };
+    cId: string;
   }
 
-  enum Status {
-    success = 'success',
-    processing = 'processing',
-    default = 'default',
-    error = 'error',
-    warning = 'warning',
+  interface IData {
+    main: string;
+    sub?: string;
+    desc?: string;
+    tip?: string;
   }
 
   interface IProps {
-    status: Status;
-    text: string;
-    color: string;
-    tip?: string;
-    size?: 'default' | 'small';
-    breathing?: boolean;
+    size?: 'small' | 'normal';
+    align: 'left' | 'right' | 'center';
+    visible?: boolean;
+    grayBg?: boolean;
   }
-  type Props = MakeProps<Spec>;
+
+  type Props = MakeProps<Spec> & {
+    extra?: React.ReactElement;
+  };
 }

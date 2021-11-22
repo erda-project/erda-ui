@@ -107,16 +107,16 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
             href: goTo.resolve.cmpServices(), // '/cmp/services',
             text: i18n.t('Service'),
           },
+          {
+            href: goTo.resolve.cmpJobs(), // '/cmp/jobs',
+            text: i18n.t('task'),
+          },
           ...insertWhen(!process.env.FOR_COMMUNITY, [
             {
               href: goTo.resolve.cmpAddon(), // '/cmp/addon',
               text: i18n.t('addon service'),
             },
           ]),
-          {
-            href: goTo.resolve.cmpJobs(), // '/cmp/jobs',
-            text: i18n.t('task'),
-          },
         ],
       },
       {

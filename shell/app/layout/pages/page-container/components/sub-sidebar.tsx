@@ -165,7 +165,7 @@ const SubSideBar = () => {
   const { menu = [] } = siderInfo || {};
   React.useEffect(() => {
     const { activeKeyList, fullMenu, selectedKey } = organizeInfo(menu);
-    if (!isEqual(fullMenu, state.menus) || selectedKey !== state.selectedKey) {
+    if (JSON.stringify(fullMenu) !== JSON.stringify(state.menus) || selectedKey !== state.selectedKey) {
       update({
         menus: fullMenu,
         openKeys: (localStorage.getItem('isSubSidebarFold') !== 'true' && activeKeyList) || [],
