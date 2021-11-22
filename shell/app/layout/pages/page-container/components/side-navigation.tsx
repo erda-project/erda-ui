@@ -98,20 +98,18 @@ const SideNavigation = ({
     <div className="h-full side-nav-menu overflow-hidden" style={{ width: isFold ? 50 : 200 }}>
       <div style={{ height: 'calc(100% - 48px)' }} className="pt-2 border-right flex flex-col">
         {!isFold ? extraNode : null}
-        <div className="flex-1 h-full overflow-y-auto overflow-x-hidden">
-          <div className="menu-container">
-            <Menu
-              inlineCollapsed={isFold}
-              theme="light"
-              openKeys={openKeys}
-              selectedKeys={[selectedKey]}
-              mode="inline"
-              onOpenChange={onOpenChange}
-              {...restProps}
-            >
-              {renderChildrenMenu(dataSource)}
-            </Menu>
-          </div>
+        <div className="flex-1 overflow-y-auto overflow-x-hidden h-full menu-container">
+          <Menu
+            inlineCollapsed={isFold}
+            theme="light"
+            openKeys={openKeys}
+            selectedKeys={[selectedKey]}
+            mode="inline"
+            onOpenChange={onOpenChange}
+            {...restProps}
+          >
+            {renderChildrenMenu(dataSource)}
+          </Menu>
         </div>
       </div>
       <div className="h-12 relative">
