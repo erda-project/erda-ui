@@ -233,7 +233,7 @@ export function TraceGraph(props: IProps) {
   // TODO:
   const calculate = () => {
     const { spans } = dataSource;
-    const root = new Object();
+    const root = {};
     const duration = dataSource.duration / 1000000;
     root.name = `trace duration ${duration}ms`;
     root.value = duration;
@@ -241,21 +241,21 @@ export function TraceGraph(props: IProps) {
     if (spans) {
       const parentSpans = new Map();
       const rootSpans = [];
-      for (var span of spans) {
+      for (const span of spans) {
         if (!span.parentSpanId) {
           rootSpans.push(span);
         }
         if (span.parentSpanId) {
           let spanNode = parentSpans.get(span.parentSpanId);
           if (!spanNode) {
-            spanNode = new Object();
+            spanNode = {};
             spanNode.children = [];
             parentSpans.set(span.parentSpanId, spanNode);
           }
           spanNode.children.push(span);
         }
       }
-      for (var span of rootSpans) {
+      for (const span of rootSpans) {
         const child = calculateChildren(parentSpans, span);
         root.children.push(child);
       }
@@ -264,7 +264,7 @@ export function TraceGraph(props: IProps) {
   };
 
   const calculateChildren = (parentSpans, span) => {
-    const node = new Object();
+    const node = {};
     node.name = span.operationName;
     node.value = span.duration / 1000000;
     node.children = [];
@@ -281,7 +281,7 @@ export function TraceGraph(props: IProps) {
   const onExpand = (keys: string[]) => {
     setExpandedKeys(keys);
   };
-  console.log(foo);
+
   return (
     <>
       <TraceDetailInfo dataSource={dataSource} />
@@ -299,7 +299,7 @@ export function TraceGraph(props: IProps) {
           </span>
         </RadioButton>
       </RadioGroup>
-      <div className="mt-4" ref={flameRef} style={{ background: 'red' }}>
+      <div className="mt-4" ref={flameRef}>
         {view === 'waterfall' && (
           <Row gutter={20}>
             <Col span={proportion[0]} className={`${proportion[0] !== 24 ? 'pr-0' : ''}`}>
