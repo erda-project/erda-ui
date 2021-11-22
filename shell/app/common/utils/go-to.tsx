@@ -312,9 +312,9 @@ export enum pages {
   cmpClustersNodes = '/{orgName}/cmp/container/{clusterName}/nodes',
   cmpClustersNodeDetail = '/{orgName}/cmp/container/{clusterName}/nodes/{nodeId}/detail',
   cmpClustersPods = '/{orgName}/cmp/container/{clusterName}/pods',
-  cmpClustersPodDetail = '/{orgName}/cmp/container/{clusterName}/pods/{clusterName}/{podId}/detail',
+  cmpClustersPodDetail = '/{orgName}/cmp/container/{clusterName}/pods/{podId}/detail',
   cmpClustersWorkload = '/{orgName}/cmp/container/{clusterName}/workload',
-  cmpClustersWorkloadDetail = '/{orgName}/cmp/container/{clusterName}/workload/{clusterName}/{workloadId}/detail',
+  cmpClustersWorkloadDetail = '/{orgName}/cmp/container/{clusterName}/workload/{workloadId}/detail',
   cmpClustersEventLog = '/{orgName}/cmp/container/{clusterName}/event-log',
 
   // orgCenter
