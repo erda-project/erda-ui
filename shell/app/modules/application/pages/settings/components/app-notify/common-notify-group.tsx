@@ -54,7 +54,7 @@ export const notifyChannelOptionsMap = {
 
 export const getFinalNotifyChannelOptions = (channels) => {
   const SMSChannel = { name: i18n.t('SMS'), value: 'SMS' };
-  const dingdingWorkChannel = { name: i18n.d('钉钉工作通知'), value: 'dingtalk_work_notice' };
+  const dingdingWorkChannel = { name: i18n.t('dingding work notice'), value: 'dingtalk_work_notice' };
   forEach(channels, (val, key) => {
     if (key === 'short_message' && val) {
       notifyChannelOptionsMap[TargetType.USER].push(SMSChannel);

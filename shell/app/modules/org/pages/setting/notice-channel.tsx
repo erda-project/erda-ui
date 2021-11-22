@@ -64,7 +64,7 @@ const NotifyChannel = () => {
     visible: false,
     templateCode: '',
     passwordVisible: false,
-    activeTab: 'short_message',
+    activeTab: 'dingtalk_work_notice',
     paging: { pageSize: 15, current: 1 },
   });
   const channelProviderOptions = channelTypeOptions?.find((item) => item.name === channelType)?.providers;
@@ -524,8 +524,9 @@ const NotifyChannel = () => {
             updater.activeTab(key);
             updater.paging({ pageSize: 15, current: 1 });
           }}
+          type="card"
         >
-          <TabPane key="dingtalk_work_notice" tab={i18n.d('钉钉工作通知')}>
+          <TabPane key="dingtalk_work_notice" tab={i18n.t('dingding work notice')}>
             <Table
               rowKey="id"
               dataSource={channelDatasource?.data || []}
