@@ -42,6 +42,7 @@ const ListItem = (props: ERDA_LIST.IListItemProps) => {
     titleSuffixIconTip,
     description = '',
     extraInfos,
+    extraContent,
     backgroundImg,
   } = data || {};
 
@@ -51,6 +52,7 @@ const ListItem = (props: ERDA_LIST.IListItemProps) => {
     [size]: size,
     'erda-list-item': true,
     'cursor-pointer': true,
+    'rounded-sm': true,
   });
 
   const operationList = typeof operations === 'function' ? operations(data) : operations;
@@ -89,49 +91,54 @@ const ListItem = (props: ERDA_LIST.IListItemProps) => {
       {...onRowFn}
       style={backgroundImg ? { backgroundImage: `url(${getImg(backgroundImg)})` } : {}}
     >
-      {isString(prefixImg) ? (
-        <div className="erda-list-item-prefix-img">{getPrefixImg(prefixImg, prefixImgCircle)}</div>
-      ) : prefixImg ? (
-        <div className="erda-list-item-prefix-img">{prefixImg}</div>
-      ) : null}
-      <div className="erda-list-item-body">
-        <div className={'body-title'}>
-          {titlePrifxIcon ? (
-            <Tooltip title={titlePrifxIconTip}>
-              <CustomIcon type={titlePrifxIcon} className="title-icon mr-2" />
-            </Tooltip>
+      <div className="erda-list-item-container hover:bg-gray-block-bg relative">
+        <div className="flex">
+          {isString(prefixImg) ? (
+            <div className="erda-list-item-prefix-img">{getPrefixImg(prefixImg, prefixImgCircle)}</div>
+          ) : prefixImg ? (
+            <div className="erda-list-item-prefix-img">{prefixImg}</div>
           ) : null}
-          <Ellipsis className="font-bold title-text" title={title} />
-          {titleSuffixIcon ? (
-            <Tooltip title={titleSuffixIconTip}>
-              <CustomIcon type={titleSuffixIcon} className="title-icon ml-2" />
-            </Tooltip>
-          ) : null}
-          {status ? <Badge className="ml-2" {...status} /> : null}
-        </div>
-        {description ? <Ellipsis className="body-description" title={description} /> : null}
-        {extraInfos ? (
-          <div className="body-extra-info">
-            {extraInfos.map((info) => {
-              return (
-                <Tooltip key={info.text} title={info.tooltip}>
-                  <span className={`info-item type-${info.type || 'normal'}`} {...info.extraProps}>
-                    {info.icon ? <ErdaIcon type={info.icon} isConfigPageIcon size="16" className="mr-1" /> : null}
-                    <span className="info-text nowrap">{info.text}</span>
-                  </span>
+          <div className="erda-list-item-body">
+            <div className={'body-title'}>
+              {titlePrifxIcon ? (
+                <Tooltip title={titlePrifxIconTip}>
+                  <CustomIcon type={titlePrifxIcon} className="title-icon mr-2" />
                 </Tooltip>
-              );
-            })}
+              ) : null}
+              <Ellipsis className="font-bold title-text" title={title} />
+              {titleSuffixIcon ? (
+                <Tooltip title={titleSuffixIconTip}>
+                  <CustomIcon type={titleSuffixIcon} className="title-icon ml-2" />
+                </Tooltip>
+              ) : null}
+              {status ? <Badge className="ml-2" {...status} /> : null}
+            </div>
+            {description ? <Ellipsis className="body-description" title={description} /> : null}
+            {extraInfos ? (
+              <div className="body-extra-info">
+                {extraInfos.map((info) => {
+                  return (
+                    <Tooltip key={info.text} title={info.tooltip}>
+                      <span className={`info-item type-${info.type || 'normal'}`} {...info.extraProps}>
+                        {info.icon ? <ErdaIcon type={info.icon} isConfigPageIcon size="16" className="mr-1" /> : null}
+                        <span className="info-text nowrap">{info.text}</span>
+                      </span>
+                    </Tooltip>
+                  );
+                })}
+              </div>
+            ) : null}
+          </div>
+        </div>
+        <div className="py-1">{extraContent}</div>
+        {menuOverlay ? (
+          <div className="erda-list-item-operations absolute top-2 right-2" onClick={(e) => e?.stopPropagation()}>
+            <Dropdown overlay={menuOverlay} overlayStyle={{ zIndex: 1000 }}>
+              <ErdaIcon type="more" size={20} className="hover-active pr-4 pt-2" />
+            </Dropdown>
           </div>
         ) : null}
       </div>
-      {menuOverlay ? (
-        <div className="erda-list-item-operations" onClick={(e) => e?.stopPropagation()}>
-          <Dropdown overlay={menuOverlay} overlayStyle={{ zIndex: 1000 }}>
-            <ErdaIcon type="more" size={20} className="hover-active pr-3 pt-2" />
-          </Dropdown>
-        </div>
-      ) : null}
     </div>
   );
 };

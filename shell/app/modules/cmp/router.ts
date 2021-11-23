@@ -71,6 +71,7 @@ function getCmpRouter(): RouteConfigItem[] {
           breadcrumbName: i18n.t('clusters'),
           routes: [
             {
+              layout: { noWrapper: true },
               getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage')),
             },
             {

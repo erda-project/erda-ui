@@ -29,8 +29,8 @@ import { ColumnProps, IActions } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
 import { bgColorClsMap } from 'common/utils/style-constants';
 import { useLoading } from 'core/stores/loading';
+import DiceConfigPage from 'config-page/index';
 
-import { useInstanceOperation } from 'cmp/common/components/instance-operation';
 import routeStore from 'core/stores/route';
 import { getToken } from 'cmp/services/token-manage';
 import './cluster-list.scss';
@@ -38,6 +38,10 @@ import './cluster-list.scss';
 interface IProps {
   dataSource: any[];
   onEdit: (record: any) => void;
+}
+
+interface ICluster {
+  title: string;
 }
 
 export const statusMap = {
@@ -58,6 +62,210 @@ export const manageTypeMap = {
 const clusterTypeMap = {
   kubernetes: 'Kubernetes',
   edas: 'EDAS',
+};
+
+const mockData = {
+  scenario: {
+    scenarioType: 'cmp-cluster-list',
+    scenarioKey: 'cmp-cluster-list',
+  },
+  protocol: {
+    version: '',
+    scenario: 'cmp-cluster-list',
+    state: {
+      _error_: '',
+    },
+    hierarchy: {
+      version: '',
+      root: 'myPage',
+      structure: {
+        myPage: ['list'],
+      },
+    },
+    components: {
+      list: {
+        type: 'List',
+        name: 'list',
+        state: {
+          pageNo: false,
+        },
+        data: {
+          list: [
+            {
+              id: 772,
+              title: 'terminus-dev',
+              description: '这里是terminus-dev集群的具体描述',
+              prefixImg: 'cluster', // 代表集群的icon，固定值
+              backgroundImg: 'k8s_cluster_bg', // 组件右上角的背景图，只有k8s的集群会有
+              status: {
+                text: '在线',
+                status: 'success', //"success","error","default" ,"processing","warning"
+              },
+              config: {
+                //之前的列表数据
+              },
+              extraInfos: [
+                {
+                  icon: 'version',
+                  text: 'v2.0.2',
+                  tooltip: '版本',
+                },
+                {
+                  icon: 'machine',
+                  text: '3个',
+                  tooltip: '机器数',
+                },
+                {
+                  icon: 'type',
+                  text: 'Kubernetes',
+                  tooltip: '类型',
+                },
+                {
+                  icon: 'management',
+                  text: 'Agent注册',
+                  tooltip: '管理方式',
+                },
+                {
+                  icon: 'create-time',
+                  text: '2021-09-09',
+                  tooltip: '创建时间',
+                },
+              ],
+              extraContent: {
+                type: 'PieChart',
+                rowNum: 3,
+                data: [
+                  {
+                    name: 'cpu使用率',
+                    value: 40,
+                    total: 100,
+                    color: 'green', // 饼图颜色，如green / red / orange
+                    info: [
+                      { main: '63%', sub: '分配率' },
+                      { main: '0.7Core', sub: '已分配' },
+                      { main: '1.33Core', sub: 'CPU配额' },
+                    ],
+                  },
+                  {
+                    name: '内存使用率',
+                    value: 94,
+                    total: 100,
+                    color: 'green', // 饼图颜色，如green / red / orange
+                    info: [
+                      { main: '94%', sub: '分配率' },
+                      { main: '0.5G', sub: '已分配' },
+                      { main: '1.33G', sub: '内存配额' },
+                    ],
+                  },
+                  {
+                    name: '磁盘使用率',
+                    value: 100,
+                    total: 100,
+                    color: 'green', // 饼图颜色，如green / red / orange
+                    info: [
+                      { main: '100%', sub: '分配率' },
+                      { main: '0.5G', sub: '已分配' },
+                      { main: '1.33G', sub: '磁盘配额' },
+                    ],
+                  },
+                ],
+              },
+              operations: {
+                edit: {
+                  key: 'edit',
+                  reload: false,
+                  text: '修改配置',
+                  meta: {
+                    id: 772,
+                    name: 'erda-hongkong', // 集群名称
+                    type: 'k8s', //集群类型
+                    displayName: 'new-erda-hongkong',
+                    wildcardDomain: 'erda.hkci.terminus.io',
+                    description: '',
+                    manageConfig: {
+                      credentialSource: 'kubeConfig',
+                      address: 'https://172.16.0.123:6443',
+                    },
+                    isEdgeCluster: true, // 是否是边缘集群
+                    scheduler: {
+                      edasConsoleAddr: '',
+                      accessKey: '',
+                      accessSecret: '',
+                      clusterID: '',
+                      regionID: '',
+                      logicalRegionID: '',
+                      cpuSubscribeRatio: '',
+                    },
+                  },
+                },
+                addMachine: {
+                  key: 'addMachine',
+                  reload: false,
+                  text: '添加机器',
+                  meta: {
+                    name: 'erda-hongkong',
+                  },
+                },
+                addCloudMachines: {
+                  key: 'addCloudMachines',
+                  reload: false,
+                  text: '添加阿里云主机',
+                  meta: {
+                    name: 'erda-hongkong',
+                    cloudVendor: '',
+                  },
+                },
+                upgrade: {
+                  key: 'upgrade',
+                  reload: false,
+                  text: '集群升级',
+                  meta: {
+                    name: 'erda-hongkong',
+                  },
+                },
+                deleteCluster: {
+                  key: 'deleteCluster',
+                  reload: false,
+                  text: '集群下线',
+                  meta: {
+                    name: 'erda-hongkong',
+                  },
+                },
+                tokenManagement: {
+                  key: 'tokenManagement',
+                  reload: false,
+                  text: 'token管理',
+                  meta: {
+                    name: 'erda-hongkong',
+                  },
+                },
+                retryInit: {
+                  key: 'retryInit',
+                  reload: false,
+                  text: '初始化重试',
+                  meta: {
+                    name: 'erda-hongkong',
+                  },
+                },
+                showRegisterCommand: {
+                  key: 'showRegisterCommand',
+                  reload: false,
+                  text: '注册命令',
+                  meta: {
+                    name: 'erda-hongkong',
+                  },
+                },
+              },
+            },
+          ],
+        },
+      },
+      myPage: {
+        type: 'Container',
+        name: 'myPage',
+      },
+    },
+  },
 };
 
 const ClusterList = ({ dataSource, onEdit }: IProps) => {
@@ -296,12 +504,11 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
         const status = get(clusterDetail, 'basic.clusterStatus.value') as keyof typeof statusMap;
-        const hasLog = !!get(clusterDetail, 'basic.clusterInitContainerID.value') && status !== 'online';
+        const hasLog = true || (!!get(clusterDetail, 'basic.clusterInitContainerID.value') && status !== 'online');
         return (
           <div className="flex items-center">
             <div className={`${bgColorClsMap[statusMap[status]?.[0]]} w-2 h-2 rounded-full`} />
             <div className="mx-2">{`${statusMap[status]?.[1] ?? '-'}`}</div>
-            <If condition={hasLog}>{renderOp(record)}</If>
           </div>
         );
       },
@@ -366,21 +573,6 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     limitNum: 1,
   };
 
-  const [renderOp, drawer] = useInstanceOperation<ORG_CLUSTER.ICluster>({
-    log: true,
-    getProps(_, record) {
-      const clusterDetail = getClusterDetail(record.name);
-      return {
-        fetchApi: '/api/orgCenter/logs',
-        extraQuery: {
-          clusterName: get(clusterDetail, 'basic.initJobClusterName.value'),
-          id: get(clusterDetail, 'basic.clusterInitContainerID.value'),
-        },
-        sourceType: 'container',
-      };
-    },
-  });
-
   const query = routeStore.useStore((s) => s.query);
   React.useEffect(() => {
     if (query.autoOpenCmd) {
@@ -388,6 +580,12 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       setSearch({}, [], true);
     }
   }, [query, showCommand]);
+
+  const handleOperation = () => {
+    return new Promise((resolve) => {
+      resolve(mockData);
+    });
+  };
 
   return (
     <>
@@ -452,16 +650,50 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
           </div>
         </Spin>
       </Drawer>
-      {drawer}
       <div>
-        <Table
-          columns={columns}
-          actions={actions}
-          dataSource={dataSource}
-          pagination={false}
-          rowKey="id"
-          loading={loadingList || loadingDetail}
-          scroll={{ x: 1500 }}
+        <DiceConfigPage
+          showLoading={false}
+          scenarioKey="cmp-cluster-list"
+          scenarioType="cmp-cluster-list"
+          useMock={handleOperation}
+          forceMock
+          customProps={{
+            list: {
+              op: {
+                clickItem: (_: unknown, record: ICluster) => {
+                  goTo(goTo.pages.cmpClustersDetail, { clusterName: record.title });
+                },
+                edit: (record: { meta: object }) => {
+                  const { meta } = record;
+                  onEdit(meta);
+                },
+                addMachine: (record: { meta: object }) => {
+                  const { meta } = record;
+                  updater.modalVisibleRow(meta);
+                },
+                addCloudMachines: (record: { meta: ORG_CLUSTER.ICluster }) => {
+                  const { meta } = record;
+                  toggleAddCloudMachine(meta);
+                },
+                upgrade: (record: { meta: ORG_CLUSTER.ICluster }) => {
+                  const { meta } = record;
+                  checkClusterUpdate(meta);
+                },
+                deleteCluster: (record: { meta: ORG_CLUSTER.ICluster }) => {
+                  const { meta } = record;
+                  toggleDeleteModal(meta);
+                },
+                showRegisterCommand: (record: { meta: ORG_CLUSTER.ICluster }) => {
+                  const { meta } = record;
+                  showCommand(meta.name);
+                },
+                retryInit: (record: { meta: ORG_CLUSTER.ICluster }) => {
+                  const { meta } = record;
+                  clusterInitRetry({ clusterName: meta.name });
+                },
+              },
+            },
+          }}
         />
       </div>
     </>

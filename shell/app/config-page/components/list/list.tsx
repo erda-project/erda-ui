@@ -15,7 +15,10 @@ import React from 'react';
 import { isNumber, filter, map, sortBy } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import { OperationAction } from 'config-page/utils';
+import { containerMap } from '../../components';
 import ErdaList from 'common/components/list';
+
+import './list.scss';
 
 const emptyArr = [] as ERDA_LIST.IListData[];
 const List = (props: CP_LIST.Props) => {
@@ -57,9 +60,26 @@ const List = (props: CP_LIST.Props) => {
         });
       }
 
+      let extraContent = null;
+      if (item.extraContent) {
+        const { type, rowNum, data = [] } = item.extraContent;
+        const Comp = containerMap[type];
+
+        extraContent = (
+          <div className="flex h-16 justify-between">
+            {data.map((item) => (
+              <div className="flex-grow mx-2">
+                <Comp data={{ data: [item] }} props={{ grayBg: true }} />
+              </div>
+            ))}
+          </div>
+        );
+      }
+
       return {
         ...item,
         extraInfos,
+        extraContent,
       };
     }) || [];
 
