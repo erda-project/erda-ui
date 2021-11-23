@@ -30,6 +30,7 @@ import { SpanTimeInfo } from './span-time-info';
 import { TraceHeader } from './trace-header';
 import { FlameGraph } from 'react-flame-graph';
 import { useMeasure } from 'react-use';
+import { forEach } from 'lodash';
 
 interface IProps {
   dataSource: MONITOR_TRACE.ITrace;
@@ -228,14 +229,47 @@ export function TraceGraph(props: IProps) {
     }
     return item;
   }
-  console.log({ dataSource }, 1212);
+
+  const foo = () => {
+    const flameData = {};
+    if (roots?.length === 1) {
+      flameData.name = roots[0].operationName;
+      flameData.value = roots[0].duration / 1000000;
+      flameData.chidren = [];
+      forEach(roots.chidren, (span) => flameData.children.push(bar(span)));
+    } else {
+      flameData.name = '';
+      let time = 0;
+      forEach(roots, (item) => {
+        time += item.duration;
+      });
+      flameData.value = time / 1000000;
+      flameData.children = [];
+      forEach(roots, (span) => flameData.children.push(bar(span)));
+    }
+    return flameData;
+  };
+
+  const bar = (span) => {
+    const node = {};
+    node.name = span.operationName;
+    node.value = span.duration / 1000000;
+    node.children = [];
+    if (span && span.children) {
+      for (const s of span.children) {
+        const child = bar(s);
+        node.children.push(child);
+      }
+    }
+    return node;
+  };
 
   // TODO:
   const calculate = () => {
     const { spans } = dataSource;
     const root = {};
     const duration = dataSource.duration / 1000000;
-    root.name = `trace duration ${duration}ms`;
+    root.name = '';
     root.value = duration;
     root.children = [];
     if (spans) {
@@ -260,6 +294,7 @@ export function TraceGraph(props: IProps) {
         root.children.push(child);
       }
     }
+
     return root;
   };
 
@@ -289,13 +324,13 @@ export function TraceGraph(props: IProps) {
         <RadioButton value="waterfall">
           <span className="flex items-center">
             <IconAlignLeftTwo className="mr-1" />
-            瀑布图
+            {i18n.t('msp:Waterfall Plot')}
           </span>
         </RadioButton>
         <RadioButton value="flame">
           <span className="flex items-center">
             <IconTorch />
-            火焰图
+            {i18n.t('msp:Flame Graph')}
           </span>
         </RadioButton>
       </RadioGroup>
@@ -385,7 +420,7 @@ export function TraceGraph(props: IProps) {
             </Col>
           </Row>
         )}
-        {view === 'flame' && <FlameGraph data={calculate()} height={200} width={flameWidth} />}
+        {view === 'flame' && <FlameGraph data={foo()} height={200} width={flameWidth} />}
       </div>
     </>
   );
