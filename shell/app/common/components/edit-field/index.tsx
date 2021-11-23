@@ -105,7 +105,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
             </div>
           </div>
           <div
-            className={`absolute -bottom-6 left-1/2 rounded-full w-28 px-3 py-1 border text-primary shadow cursor-pointer flex items-center bg-white ${
+            className={`absolute -bottom-6 left-0 right-0 mx-auto rounded-full w-28 px-3 py-1 border text-primary shadow cursor-pointer flex items-center bg-white ${
               expendBtnVisible ? '' : 'hidden'
             }`}
             onClick={() => updater.expanded(!expanded)}
@@ -244,7 +244,6 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
       Comp = !itemProps.isEditMode ? (
         <MarkdownEditor
           {...itemProps}
-          maxHeight={maxMarkdownHeight}
           defaultHeight={400}
           value={editValue}
           onChange={(v) => onChangeCb?.({ [name]: v })}

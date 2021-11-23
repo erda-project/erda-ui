@@ -37,7 +37,6 @@ interface IProps {
   operationBtns?: BtnProps[];
   showMenu?: boolean;
   defaultHeight?: number;
-  maxHeight?: number;
   onChange?: (value: string) => void;
   onFocus?: (e: any) => void;
   onBlur?: (value: any) => void;
@@ -70,7 +69,6 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
     operationBtns,
     showMenu = true,
     defaultHeight,
-    maxHeight,
     onChange,
     onFocus,
     onBlur,
@@ -157,7 +155,6 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
             view,
           }}
           defaultHeight={defaultHeight || 400}
-          maxHeight={maxHeight || 600}
           value={content}
           onChange={onChangeContent}
           onBlur={() => onBlur?.(content)}

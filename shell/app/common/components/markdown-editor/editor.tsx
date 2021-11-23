@@ -27,7 +27,6 @@ MdEditor.use(UploadPlugin);
 
 interface IProps extends Omit<EditorProps, 'renderHTML'> {
   defaultHeight: number;
-  maxHeight: number;
 }
 
 const Editor = React.forwardRef((props: IProps, ref) => {
