@@ -50,6 +50,24 @@ import './org-setting.scss';
 const { confirm } = Modal;
 const { TabPane } = Tabs;
 
+interface IState {
+  activeData: {
+    id?: string;
+    channelProviderType?: string;
+    config?: object;
+    type?: string;
+    name?: string;
+  };
+  channelType: string;
+  channelProvider: string;
+  visible: boolean;
+  paging: { current: number; pageSize: number };
+  templateCode: string;
+  passwordVisible: boolean;
+  activeTab: string;
+  channelProviderOptions: NOTIFY_CHANNEL.ChannelProvider[];
+}
+
 const NotifyChannel = () => {
   const channelTypeOptions = getNotifyChannelTypes.useData();
   const [channelDatasource, loading] = getNotifyChannels.useState();
@@ -67,7 +85,7 @@ const NotifyChannel = () => {
     },
     updater,
     update,
-  ] = useUpdate({
+  ] = useUpdate<IState>({
     activeData: {},
     channelType: '',
     channelProvider: '',
@@ -76,7 +94,7 @@ const NotifyChannel = () => {
     passwordVisible: false,
     activeTab: 'dingtalk_work_notice',
     paging: { pageSize: 15, current: 1 },
-    channelProviderOptions: null,
+    channelProviderOptions: [],
   });
 
   const isEditing = !isEmpty(activeData);
@@ -110,7 +128,9 @@ const NotifyChannel = () => {
 
   const handleAdd = () => {
     updater.channelType(channelTypeOptions?.find((item) => item.name === activeTab)?.name || '');
-    updater.channelProviderOptions(channelTypeOptions?.find((item) => item.name === activeTab)?.providers);
+    updater.channelProviderOptions(
+      channelTypeOptions?.find((item) => item.name === activeTab)?.providers as NOTIFY_CHANNEL.ChannelProvider[],
+    );
     updater.channelProvider(channelTypeOptions?.find((item) => item.name === activeTab)?.providers?.[0]?.name || '');
     updater.visible(true);
   };
@@ -134,7 +154,7 @@ const NotifyChannel = () => {
     }
   };
 
-  const handleSubmit = (values: NOTIFY_CHANNEL.IChannelBody, id?: number) => {
+  const handleSubmit = (values: NOTIFY_CHANNEL.IChannelBody, id?: string) => {
     const { name, channelProviderType, type, config, enable } = values;
     if (isEditing && id) {
       editNotifyChannel
@@ -181,9 +201,11 @@ const NotifyChannel = () => {
         });
       });
 
-    // 接口出错后自动重置channelProvider和channelType的值:
+    // Automatically reset the channelProvider and channelType values ​​after an interface error
     if (!isEditing) {
-      updater.channelProviderOptions(channelTypeOptions?.find((item) => item.name === activeTab)?.providers);
+      updater.channelProviderOptions(
+        channelTypeOptions?.find((item) => item.name === activeTab)?.providers as NOTIFY_CHANNEL.ChannelProvider[],
+      );
       updater.channelProvider(channelTypeOptions?.find((item) => item.name === activeTab)?.providers?.[0]?.name || '');
       updater.channelType(channelTypeOptions?.find((item) => item.name === activeTab)?.name || '');
     }
@@ -268,7 +290,7 @@ const NotifyChannel = () => {
             onSelect={(value: string) => {
               const providers = channelTypeOptions?.find((item) => item.name === value)?.providers;
               updater.channelType(value);
-              updater.channelProviderOptions(providers);
+              updater.channelProviderOptions(providers as NOTIFY_CHANNEL.ChannelProvider[]);
               form.setFieldsValue({ type: value });
               form.setFieldsValue({
                 channelProviderType: providers?.[0]?.name,
@@ -543,7 +565,7 @@ const NotifyChannel = () => {
         fieldsList={channelType === 'short_message' ? SMSFieldsList : dingdingFieldsList}
         formData={activeData}
         onOk={(values: any) => {
-          handleSubmit(values, isEditing && activeData.id);
+          handleSubmit(values, isEditing ? activeData.id : undefined);
         }}
         onCancel={handleCancel}
         modalProps={{ destroyOnClose: true }}
