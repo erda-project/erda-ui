@@ -22,8 +22,9 @@ import { useSwitch, useUpdate } from 'common/use-hooks';
 import { FormInstance, ColumnProps } from 'core/common/interface';
 import { goTo } from 'common/utils';
 import {
-  notifyChannelOptionsMap,
+  monitorNotifyChannelOptionsMap,
   ListTargets,
+  getFinalNotifyChannelOptions,
 } from 'application/pages/settings/components/app-notify/common-notify-group';
 import { useLoading } from 'core/stores/loading';
 import memberStore from 'common/stores/org-member';
@@ -31,6 +32,7 @@ import notifyGroupStore from 'application/stores/notify-group';
 import alarmReportStore from '../../stores/alarm-report';
 import { usePerm, WithAuth } from 'user/common';
 import orgStore from 'app/org-home/stores/org';
+import { getNotifyChannelMethods } from 'org/services/notice-channel';
 
 const { confirm } = Modal;
 
@@ -64,10 +66,11 @@ const AlarmReport = () => {
   const [activeGroupId, setActiveGroupId] = React.useState(0);
 
   const [modalVisible, openModal, closeModal] = useSwitch(false);
-  const [{ editingTask }, updater] = useUpdate({
+  const [{ editingTask, allChannelMethods }, updater] = useUpdate({
     editingTask: {},
+    allChannelMethods: monitorNotifyChannelOptionsMap,
   });
-
+  const channelMethods = getNotifyChannelMethods.useData();
   const addNotificationGroupAuth = usePerm((s) => s.org.cmp.alarms.addNotificationGroup.pass); // 企业中心的添加通知组，需要验证权限，项目的暂无埋点
 
   const { pageNo, pageSize, total } = reportTaskPaging;
@@ -77,7 +80,12 @@ const AlarmReport = () => {
     getReportTypes();
     getSystemDashboards();
     getNotifyGroups({ scopeType: 'org', scopeId: String(orgId) });
+    getNotifyChannelMethods.fetch();
   });
+
+  React.useEffect(() => {
+    updater.allChannelMethods(getFinalNotifyChannelOptions(channelMethods));
+  }, [channelMethods, updater]);
 
   const handleCloseModal = () => {
     closeModal();
@@ -155,7 +163,7 @@ const AlarmReport = () => {
         name: ['notifyTarget', 'groupType'],
         type: 'select',
         initialValue: get(editingTask, 'notifyTarget.groupType'),
-        options: (activeGroup && notifyChannelOptionsMap[activeGroup.targets[0].type]) || [],
+        options: (activeGroup && allChannelMethods[activeGroup.targets[0].type]) || [],
         itemProps: { mode: 'multiple' },
       },
     ];

@@ -14,7 +14,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
-import { isEmpty, map, find, pick, forEach } from 'lodash';
+import { isEmpty, map, find, pick } from 'lodash';
 import { Spin, Modal, Tooltip, Switch, Select, Table, Button } from 'antd';
 import { FormModal } from 'common';
 import { useSwitch } from 'common/use-hooks';
@@ -27,9 +27,7 @@ import appNotifyStore from '../../../../stores/notify';
 import {
   notifyChannelOptionsMap,
   ListTargets,
-  getFinalNotifyChannelOptions,
 } from 'application/pages/settings/components/app-notify/common-notify-group';
-
 import './index.scss';
 
 const { confirm } = Modal;
@@ -79,15 +77,6 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
   useUnmount(() => {
     clearNotifyGroups();
   });
-
-  const foo = {
-    short_message: true,
-    app: false,
-  };
-
-  React.useEffect(() => {
-    getFinalNotifyChannelOptions(foo);
-  }, []);
 
   const handleGetNotifyConfigs = () => {
     getNotifyConfigs(pick(commonPayload, ['scopeType', 'scopeId']));

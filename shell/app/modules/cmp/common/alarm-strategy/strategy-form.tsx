@@ -40,7 +40,7 @@ import projectMemberStore from 'common/stores/project-member';
 import cmpAlarmStrategyStore from 'app/modules/cmp/stores/alarm-strategy';
 import mspAlarmStrategyStore from 'app/modules/msp/alarm-manage/alarm-strategy/stores/alarm-strategy';
 import {
-  notifyChannelOptionsMap,
+  monitorNotifyChannelOptionsMap,
   getFinalNotifyChannelOptions,
 } from 'application/pages/settings/components/app-notify/common-notify-group';
 import { usePerm } from 'user/common';
@@ -180,7 +180,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
   const { clearAlerts } = alarmStrategyStore.reducers;
   const { getNotifyGroups } = notifyGroupStore.effects;
   const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
-  let allChannelMethods = notifyChannelOptionsMap;
   const orgAddNotificationGroupAuth = usePerm((s) => s.org.cmp.alarms.addNotificationGroup.pass);
 
   // backend support the filterMap to match data
@@ -200,7 +199,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     triggerCondition: [],
     notifies: [],
     notifyLevel: null,
-    notifyMethod: null,
+    allChannelMethods: monitorNotifyChannelOptionsMap,
   });
 
   useMount(() => {
@@ -217,7 +216,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     getNotifyGroups(payload);
     getRoleMap({ scopeType, scopeId: scopeType === ScopeType.MSP ? commonPayload?.scopeId : scopeId });
     getAlertTriggerConditions(scopeType);
-    getNotifyChannelMethods.fetch(payload);
+    getNotifyChannelMethods.fetch();
   });
 
   React.useEffect(() => {
@@ -270,7 +269,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
               level: x.level ? x.level?.split(',') : undefined,
               groupType: x.groupType?.split(','),
               groupTypeOptions:
-                (notifyChannelOptionsMap[x.notifyGroup.targets?.[0].type] || []).map((y) => ({
+                (monitorNotifyChannelOptionsMap[x.notifyGroup.targets?.[0].type] || []).map((y) => ({
                   key: y.value,
                   display: y.name,
                 })) || [],
@@ -319,8 +318,9 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
   }, [alertTriggerConditions]);
 
   React.useEffect(() => {
-    allChannelMethods = getFinalNotifyChannelOptions(channelMethods);
-  }, [channelMethods]);
+    updater.allChannelMethods(getFinalNotifyChannelOptions(channelMethods));
+  }, [channelMethods, updater]);
+
   useUnmount(() => {
     clearAlerts();
   });
@@ -682,7 +682,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
                     goTo(notifyGroupPage[scopeType], { projectId: scopeId, ...params });
                   }}
                   notifyGroups={notifyGroups}
-                  notifyChannelMap={allChannelMethods}
+                  notifyChannelMap={state.allChannelMethods}
                   addNotificationGroupAuth={addNotificationGroupAuth}
                   key={item.id}
                   id={item.id}
@@ -837,7 +837,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
   const handleAddNotifyStrategy = () => {
     // const activeGroup = notifyGroups[0];
     // const groupTypeOptions =
-    //   ((activeGroup && notifyChannelOptionsMap[activeGroup.targets[0].type]) || []).map((x) => ({
+    //   ((activeGroup && monitorNotifyChannelOptionsMap[activeGroup.targets[0].type]) || []).map((x) => ({
     //     key: x.value,
     //     display: x.name,
     //   })) || [];

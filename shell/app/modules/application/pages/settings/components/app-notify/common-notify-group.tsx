@@ -14,7 +14,7 @@
 import React from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
-import { head, isEmpty, map, take, forEach } from 'lodash';
+import { head, isEmpty, map, take, forEach, cloneDeep } from 'lodash';
 import { Button, message, Modal, Select, Spin, Table, Tooltip } from 'antd';
 import { Avatar, ErdaIcon, FormModal, MemberSelector } from 'common';
 import { useSwitch, useUpdate } from 'common/use-hooks';
@@ -43,6 +43,24 @@ export const notifyChannelOptionsMap = {
   [TargetType.USER]: [
     { name: i18n.t('dop:email'), value: 'email' },
     { name: i18n.t('site message'), value: 'mbox' },
+    { name: i18n.t('SMS'), value: 'sms' },
+  ],
+  [TargetType.EXTERNAL_USER]: [
+    { name: i18n.t('dop:email'), value: 'email' },
+    { name: i18n.t('SMS'), value: 'sms' },
+  ],
+  [TargetType.WEBHOOK]: [{ name: i18n.t('dop:webhook'), value: 'webhook' }],
+  [TargetType.ROLE]: [
+    { name: i18n.t('dop:email'), value: 'email' },
+    { name: i18n.t('site message'), value: 'mbox' },
+  ],
+};
+
+export const monitorNotifyChannelOptionsMap = {
+  [TargetType.DINGDING]: [{ name: i18n.t('DingTalk'), value: 'dingding' }],
+  [TargetType.USER]: [
+    { name: i18n.t('dop:email'), value: 'email' },
+    { name: i18n.t('site message'), value: 'mbox' },
   ],
   [TargetType.EXTERNAL_USER]: [{ name: i18n.t('dop:email'), value: 'email' }],
   [TargetType.WEBHOOK]: [{ name: i18n.t('dop:webhook'), value: 'webhook' }],
@@ -53,11 +71,11 @@ export const notifyChannelOptionsMap = {
 };
 
 export const getFinalNotifyChannelOptions = (channels) => {
-  const SMSChannel = { name: i18n.t('SMS'), value: 'SMS' };
+  const SMSChannel = { name: i18n.t('SMS'), value: 'sms' };
   const dingdingWorkChannel = { name: i18n.t('dingding work notice'), value: 'dingtalk_work_notice' };
-  const channelMethods = notifyChannelOptionsMap;
+  const channelMethods = cloneDeep(monitorNotifyChannelOptionsMap);
   forEach(channels, (_, key) => {
-    if (key === 'short_message' && !channelMethods[TargetType.USER].find((x) => x.value === 'SMS')) {
+    if (key === 'short_message' && !channelMethods[TargetType.USER].find((x) => x.value === 'sms')) {
       channelMethods[TargetType.USER].push(SMSChannel);
       channelMethods[TargetType.EXTERNAL_USER].push(SMSChannel);
     }
@@ -72,6 +90,7 @@ export const getFinalNotifyChannelOptions = (channels) => {
 
   return channelMethods;
 };
+
 const groupTargetMap = {
   user: i18n.t('member'),
   dingding: i18n.t('DingTalk address'),

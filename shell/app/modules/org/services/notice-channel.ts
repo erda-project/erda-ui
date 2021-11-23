@@ -56,9 +56,7 @@ export const setNotifyChannelEnable = apiCreator<(payload: { id: string; enable:
   apis.setNotifyChannelEnable,
 );
 
-export const getNotifyChannelMethods = apiCreator<(payload: { scopeId: string; scopeType: string }) => object>(
-  apis.getNotifyChannelMethods,
-);
+export const getNotifyChannelMethods = apiCreator<() => object>(apis.getNotifyChannelMethods);
 
 export const getNotifyChannel = apiCreator<(payload: { id: string }) => NOTIFY_CHANNEL.NotifyChannel>(
   apis.getNotifyChannel,

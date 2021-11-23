@@ -557,29 +557,18 @@ const NotifyChannel = () => {
           }}
           type="card"
         >
-          <TabPane key="dingtalk_work_notice" tab={i18n.t('dingding work notice')}>
-            <Table
-              rowKey="id"
-              dataSource={channelDatasource?.data || []}
-              columns={columns}
-              actions={actions}
-              pagination={{ ...paging, total: channelDatasource?.total ?? 0, showSizeChanger: true }}
-              scroll={{ x: 800 }}
-              onChange={handleTableChange}
-            />
-          </TabPane>
-          <TabPane key="short_message" tab={i18n.t('SMS')}>
-            <Table
-              rowKey="id"
-              dataSource={channelDatasource?.data || []}
-              columns={columns}
-              actions={actions}
-              pagination={{ ...paging, total: channelDatasource?.total ?? 0, showSizeChanger: true }}
-              scroll={{ x: 800 }}
-              onChange={handleTableChange}
-            />
-          </TabPane>
+          <TabPane key="dingtalk_work_notice" tab={i18n.t('dingding work notice')} />
+          <TabPane key="short_message" tab={i18n.t('SMS')} />
         </Tabs>
+        <Table
+          rowKey="id"
+          dataSource={channelDatasource?.data || []}
+          columns={columns}
+          actions={actions}
+          pagination={{ ...paging, total: channelDatasource?.total ?? 0, showSizeChanger: true }}
+          scroll={{ x: 800 }}
+          onChange={handleTableChange}
+        />
       </Spin>
     </div>
   );
