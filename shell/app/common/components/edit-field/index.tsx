@@ -35,11 +35,11 @@ interface IMdProps {
   onSave: (v?: string, fieldType?: string) => void;
 }
 export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHeight, ...rest }: IMdProps) => {
-  const [{ v, expanded, expendBtnVisible, isEditing }, updater, update] = useUpdate({
+  const [{ v, expanded, expandBtnVisible, isEditing }, updater, update] = useUpdate({
     v: value,
     isEditing: false,
     expanded: false,
-    expendBtnVisible: false,
+    expandBtnVisible: false,
   });
 
   const mdContentRef = React.useRef<HTMLDivElement>(null);
@@ -48,9 +48,9 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
     setTimeout(() => {
       // macro task to wait for the DOM to be rendered
       if (value?.length && !isEditing && mdContentRef.current) {
-        updater.expendBtnVisible(mdContentRef.current?.getBoundingClientRect().height > maxHeight);
+        updater.expandBtnVisible(mdContentRef.current?.getBoundingClientRect().height > maxHeight);
       } else {
-        updater.expendBtnVisible(false);
+        updater.expandBtnVisible(false);
       }
     });
   }, [isEditing, maxHeight, updater, value]);
@@ -99,14 +99,14 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
               <ReactMarkdown>{v || ''}</ReactMarkdown>
               <div
                 className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex justify-center items-center ${
-                  !expendBtnVisible || expanded ? 'hidden' : ''
+                  !expandBtnVisible || expanded ? 'hidden' : ''
                 }`}
               />
             </div>
           </div>
           <div
             className={`absolute -bottom-6 left-0 right-0 mx-auto rounded-full w-28 px-3 py-1 border text-primary shadow cursor-pointer flex items-center bg-white ${
-              expendBtnVisible ? '' : 'hidden'
+              expandBtnVisible ? '' : 'hidden'
             }`}
             onClick={() => updater.expanded(!expanded)}
           >
