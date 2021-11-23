@@ -16,6 +16,7 @@ import { map, find, isEmpty, without, get } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import { Card } from './card/card';
 import { Input, Button, Popconfirm, Tooltip } from 'antd';
+import { EmptyHolder } from 'common';
 import { notify } from 'common/utils';
 import { WithAuth } from 'user/common';
 import { Delete as IconDelete, Plus as IconPlus } from '@icon-park/react';
@@ -221,7 +222,7 @@ const Kanban = (props: IKanbanProps) => {
           return col;
         });
       });
-      execOperation(drag, { dropTarget: labelKey });
+      execOperation({ ...drag, key: 'drag' }, { dropTarget: labelKey });
     },
     collect: (monitor) => {
       const item = monitor?.getItem && monitor?.getItem();
