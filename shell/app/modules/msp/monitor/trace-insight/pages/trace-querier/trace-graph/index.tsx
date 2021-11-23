@@ -23,7 +23,8 @@ import i18n from 'i18n';
 import moment from 'moment';
 import ServiceListDashboard from 'msp/env-overview/service-list/pages/service-list-dashboard';
 import { ITimeRange, translateRelativeTime } from 'common/components/time-select/common';
-import { listToTree } from './utils';
+import { listToTree, useSmartTooltip } from './utils';
+import ErdaIcon from 'common/components/erda-icon';
 import { SpanTitleInfo } from './span-title-info';
 import { TraceDetailInfo } from './trace-detail-info';
 import { SpanTimeInfo } from './span-time-info';
@@ -62,6 +63,36 @@ export function TraceGraph(props: IProps) {
   const allKeys: string[] = [];
   const { serviceAnalysis } = (spanDetailData as MONITOR_TRACE.ISpanRelationChart) || {};
   const [flameRef, { width: flameWidth }] = useMeasure();
+
+  const containerRef = React.useRef(null);
+  const [tooltipState, setTooltipState] = React.useState(null);
+
+  function getMousePos(relativeContainer, mouseEvent) {
+    if (relativeContainer !== null) {
+      const rect = relativeContainer.getBoundingClientRect();
+      const mouseX = mouseEvent.clientX - rect.left;
+      const mouseY = mouseEvent.clientY - rect.top;
+      return { mouseX, mouseY };
+    } else {
+      return { mouseX: 0, mouseY: 0 };
+    }
+  }
+
+  const onMouseOver = (event, data) => {
+    setTooltipState({
+      text: data.name,
+      ...getMousePos(containerRef.current, event),
+    });
+  };
+
+  const onMouseOut = (event, data) => {
+    setTooltipState(null);
+  };
+
+  const tooltipRef = useSmartTooltip({
+    mouseX: tooltipState === null ? 0 : tooltipState.mouseX,
+    mouseY: tooltipState === null ? 0 : tooltipState.mouseY,
+  });
 
   const columns = [
     {
@@ -230,83 +261,34 @@ export function TraceGraph(props: IProps) {
     return item;
   }
 
-  const foo = () => {
-    const flameData = {};
+  const formatFlameData = () => {
+    const flameData = { name: '', value: 0, children: [] };
     if (roots?.length === 1) {
       flameData.name = roots[0].operationName;
       flameData.value = roots[0].duration / 1000000;
-      flameData.chidren = [];
-      forEach(roots.chidren, (span) => flameData.children.push(bar(span)));
+      flameData.children = [];
+      forEach(roots.children, (span) => flameData.children.push(formatFlameDataChild(span)));
     } else {
-      flameData.name = '';
+      flameData.name = 'root';
       let time = 0;
       forEach(roots, (item) => {
         time += item.duration;
       });
       flameData.value = time / 1000000;
       flameData.children = [];
-      forEach(roots, (span) => flameData.children.push(bar(span)));
+      forEach(roots, (span) => flameData.children.push(formatFlameDataChild(span)));
     }
     return flameData;
   };
 
-  const bar = (span) => {
-    const node = {};
+  const formatFlameDataChild = (span: MONITOR_TRACE.ISpanItem) => {
+    const node = { name: '', value: 0, children: [] };
     node.name = span.operationName;
     node.value = span.duration / 1000000;
     node.children = [];
     if (span && span.children) {
-      for (const s of span.children) {
-        const child = bar(s);
-        node.children.push(child);
-      }
-    }
-    return node;
-  };
-
-  // TODO:
-  const calculate = () => {
-    const { spans } = dataSource;
-    const root = {};
-    const duration = dataSource.duration / 1000000;
-    root.name = '';
-    root.value = duration;
-    root.children = [];
-    if (spans) {
-      const parentSpans = new Map();
-      const rootSpans = [];
-      for (const span of spans) {
-        if (!span.parentSpanId) {
-          rootSpans.push(span);
-        }
-        if (span.parentSpanId) {
-          let spanNode = parentSpans.get(span.parentSpanId);
-          if (!spanNode) {
-            spanNode = {};
-            spanNode.children = [];
-            parentSpans.set(span.parentSpanId, spanNode);
-          }
-          spanNode.children.push(span);
-        }
-      }
-      for (const span of rootSpans) {
-        const child = calculateChildren(parentSpans, span);
-        root.children.push(child);
-      }
-    }
-
-    return root;
-  };
-
-  const calculateChildren = (parentSpans, span) => {
-    const node = {};
-    node.name = span.operationName;
-    node.value = span.duration / 1000000;
-    node.children = [];
-    const spanNode = parentSpans.get(span.id);
-    if (spanNode && spanNode.children) {
-      for (const s of spanNode.children) {
-        const child = calculateChildren(parentSpans, s);
+      for (const item of span.children) {
+        const child = formatFlameDataChild(item);
         node.children.push(child);
       }
     }
@@ -323,13 +305,13 @@ export function TraceGraph(props: IProps) {
       <RadioGroup defaultValue="waterfall" value={view} onChange={handleChangeView} className="flex justify-end">
         <RadioButton value="waterfall">
           <span className="flex items-center">
-            <IconAlignLeftTwo className="mr-1" />
+            <ErdaIcon className="mr-1" type="pubutu" color="currentColor" />
             {i18n.t('msp:Waterfall Plot')}
           </span>
         </RadioButton>
         <RadioButton value="flame">
           <span className="flex items-center">
-            <IconTorch />
+            <ErdaIcon className="mr-1" type="huoyantu" color="currentColor" />
             {i18n.t('msp:Flame Graph')}
           </span>
         </RadioButton>
@@ -420,7 +402,23 @@ export function TraceGraph(props: IProps) {
             </Col>
           </Row>
         )}
-        {view === 'flame' && <FlameGraph data={foo()} height={200} width={flameWidth} />}
+        {view === 'flame' && (
+          <div ref={containerRef} className="relative">
+            <FlameGraph
+              data={formatFlameData()}
+              height={200}
+              width={flameWidth}
+              onMouseOver={onMouseOver}
+              onMouseOut={onMouseOut}
+              disableDefaultTooltips
+            />
+            {tooltipState !== null && (
+              <div ref={tooltipRef} className="Tooltip absolute bg-white px-2 py-1 shadow-lg">
+                {tooltipState?.text}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </>
   );
