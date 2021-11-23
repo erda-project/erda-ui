@@ -12,53 +12,181 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin } from 'antd';
-import { Holder, BoardGrid } from 'common';
+import { Col, Input, Row, Spin, Tag } from 'antd';
 import { useUpdate } from 'common/use-hooks';
-import { TimeSelectWithStore } from 'msp/components/time-select';
-import { getDashboard } from 'msp/services';
-import { isEmpty } from 'lodash';
-import DC from '@erda-ui/dashboard-configurator/dist';
-import monitorCommonStore from 'common/stores/monitorCommon';
-
-const DashBoard = React.memo(BoardGrid.Pure);
+import { getMspProjectList } from 'msp/services';
+import EmptyHolder from 'common/components/empty-holder';
+import ErdaIcon from 'common/components/erda-icon';
+import { fromNow, goTo } from 'common/utils';
+import { debounce, last } from 'lodash';
+import { DOC_MSP_HOME_PAGE } from 'common/constants';
+import bgImg from 'app/images/msp/microservice-governance-bg.svg';
+import headerImg from 'app/images/msp/microservice-governance.svg';
+import i18n from 'i18n';
+import './overview.scss';
 
 interface IState {
-  layout: DC.Layout;
+  data: MS_INDEX.IMspProject[];
   loading: boolean;
+  filterKey: string;
 }
 
-const Overview = () => {
-  const [{ layout, loading }, updater] = useUpdate<IState>({ layout: [], loading: false });
-  const timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
-  const globalVariable = {
-    startTime: timeSpan.startTimeMs,
-    endTime: timeSpan.endTimeMs,
+const iconMap: {
+  [key in MS_INDEX.IMspProject['type']]: {
+    icon: string;
+    tag: string;
+    color: string;
   };
+} = {
+  DOP: {
+    icon: 'DevOps',
+    tag: i18n.t('msp:DevOps Project'),
+    color: '#1890FF',
+  },
+  MSP: {
+    icon: 'MSP',
+    tag: i18n.t('cmp:microservice Observation Project'),
+    color: '#27C99A',
+  },
+};
 
-  const gerMetaData = async () => {
+const Overview = () => {
+  const [{ data, loading, filterKey }, updater] = useUpdate<IState>({
+    data: [],
+    loading: false,
+    filterKey: '',
+  });
+  const getList = async () => {
     updater.loading(true);
     try {
-      const { success, data } = await getDashboard({ type: 'msp_overview' });
-      if (success) {
-        updater.layout(data?.viewConfig);
-      }
+      const res = await getMspProjectList();
+      updater.data(res.data || []);
     } finally {
       updater.loading(false);
     }
   };
+
   React.useEffect(() => {
-    gerMetaData();
+    getList();
   }, []);
+
+  const handleClick = (relationship: MS_INDEX.IMspRelationship[], projectId: number) => {
+    const item = last(relationship);
+    if (item) {
+      goTo(goTo.pages.mspOverview, { tenantGroup: item.tenantId, projectId, env: item.workspace });
+    }
+  };
+
+  const handleSearch = React.useCallback(
+    debounce((keyword?: string) => {
+      updater.filterKey(keyword?.toLowerCase() || '');
+    }, 500),
+    [],
+  );
+
+  const list = React.useMemo(() => {
+    return data.filter((item) => item.displayName.toLowerCase().includes(filterKey));
+  }, [data, filterKey]);
+
   return (
-    <Spin spinning={loading}>
-      <div className="flex justify-end mb-3">
-        <TimeSelectWithStore />
+    <div className="msp-overview p-6 h-full flex flex-col">
+      <div
+        className="msp-overview-header relative mb-2 flex content-center justify-center pl-4 flex-col"
+        style={{ backgroundImage: `url(${bgImg})` }}
+      >
+        <p className="mb-0 text-xl leading-8 font-medium">{i18n.t('msp')}</p>
+        <p className="mb-0 text-xs leading-5 flex">
+          {i18n.t(
+            'msp:Provides one-stop service system observation, including service monitoring, tracing, dashboard, and alarm.',
+          )}
+          <a className="flex" href={DOC_MSP_HOME_PAGE} target="_blank">
+            {i18n.t('msp:view guide')} <ErdaIcon type="jinru" className="mb-0" />
+          </a>
+        </p>
+        <img src={headerImg} className="absolute right-4 -top-4" />
       </div>
-      <Holder when={isEmpty(layout)}>
-        <DashBoard layout={layout} globalVariable={globalVariable} />
-      </Holder>
-    </Spin>
+      <div className="flex flex-1 flex-col min-h-0 bg-white shadow px-2 py-2">
+        <div className="mx-2">
+          <Input
+            prefix={<ErdaIcon type="search1" />}
+            bordered={false}
+            allowClear
+            placeholder={i18n.t('msp:search by project name')}
+            className="bg-hover-gray-bg mb-3 w-72"
+            onChange={(e) => {
+              handleSearch(e.target.value);
+            }}
+          />
+        </div>
+        <div className="flex-1 overflow-y-auto">
+          <Spin spinning={loading}>
+            {list.length ? (
+              list.map(
+                ({
+                  type,
+                  desc,
+                  displayName,
+                  id,
+                  relationship,
+                  serviceCount,
+                  last24hAlertCount,
+                  lastActiveTime,
+                  logo,
+                }) => {
+                  const { icon, color, tag } = iconMap[type];
+                  return (
+                    <Row
+                      key={id}
+                      className="mb-2 mx-2 px-4 flex py-8 rounded-sm cursor-pointer shadow hover:shadow-md hover:bg-grey"
+                      onClick={() => {
+                        handleClick(relationship, id);
+                      }}
+                    >
+                      <Col span={12} className="flex">
+                        <div className="w-14 h-14 mr-2">
+                          {logo ? <img src={logo} width={56} height={56} /> : <ErdaIcon type={icon} size={56} />}
+                        </div>
+                        <div>
+                          <div className="flex items-center">
+                            <p className="mb-0 font-medium text-xl leading-8">{displayName}</p>
+                            <Tag className="ml-1 text-xs leading-5" color={color}>
+                              {tag}
+                            </Tag>
+                          </div>
+                          <div className="text-xs	leading-5 text-darkgray">{desc ?? '-'}</div>
+                        </div>
+                      </Col>
+                      <Col span={12}>
+                        <Row gutter={8}>
+                          <Col span={6}>
+                            <p className="mb-0 text-xl leading-8">{relationship.length}</p>
+                            <p className="text-xs leading-5 text-darkgray">{i18n.t('env')}</p>
+                          </Col>
+                          <Col span={6}>
+                            <p className="mb-0 text-xl leading-8">{serviceCount ?? 0}</p>
+                            <p className="text-xs leading-5 text-darkgray">{i18n.t('service')}</p>
+                          </Col>
+                          <Col span={6}>
+                            <p className="mb-0 text-xl leading-8">{last24hAlertCount ?? 0}</p>
+                            <p className="text-xs leading-5 text-darkgray">{i18n.t('msp:last 1 day alarm')}</p>
+                          </Col>
+                          <Col span={6}>
+                            <p className="mb-0 text-xl leading-8">{lastActiveTime ? fromNow(lastActiveTime) : '-'}</p>
+                            <p className="text-xs leading-5 text-darkgray">{i18n.t('msp:last active time')}</p>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  );
+                },
+              )
+            ) : (
+              <EmptyHolder relative />
+            )}
+          </Spin>
+        </div>
+      </div>
+    </div>
   );
 };
 

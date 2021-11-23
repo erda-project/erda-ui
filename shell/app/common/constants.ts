@@ -33,6 +33,7 @@ export const DOC_ORG_INTRO = `${DOC_PREFIX}/manual/platform-design.html#租户-�
 export const DOC_PROJECT_INTRO = `${DOC_PREFIX}/manual/platform-design.html#项目和应用`;
 
 // msp guide doc
+export const DOC_MSP_HOME_PAGE = `${DOC_PREFIX}/manual/msp/guides/platform/msp-project.html`;
 export const DOC_MSP_API_GATEWAY = `${DOC_PREFIX}/manual/microservice/api-gateway.html`;
 export const DOC_MSP_REGISTER = `${DOC_PREFIX}/manual/microservice/dubbo.html`;
 export const DOC_MSP_CONFIG_CENTER = `${DOC_PREFIX}/manual/deploy/config-center.html`;
