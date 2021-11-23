@@ -89,7 +89,8 @@ const ClusterPods = () => {
       props: {
         grayBg: true,
         chartStyle: { width: 32, height: 32, chartSetting: 'start' },
-        style: { height: 156 },
+        style: { height: 156, minWidth: 950 },
+        textInfoStyle: { width: 110 },
       },
     },
   };
