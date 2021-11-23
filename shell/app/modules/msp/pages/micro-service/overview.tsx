@@ -89,7 +89,7 @@ const Overview = () => {
   }, [data, filterKey]);
 
   return (
-    <div className="msp-overview p-6 h-full flex flex-col">
+    <div className="msp-overview p-6 h-full flex flex-col pt-0">
       <div
         className="msp-overview-header relative mb-2 flex content-center justify-center pl-4 flex-col"
         style={{ backgroundImage: `url(${bgImg})` }}
@@ -103,7 +103,7 @@ const Overview = () => {
             {i18n.t('msp:view guide')} <ErdaIcon type="jinru" className="mb-0" />
           </a>
         </p>
-        <img src={headerImg} className="absolute right-4 -top-4" />
+        <img src={headerImg} className="absolute right-0 top-4" />
       </div>
       <div className="flex flex-1 flex-col min-h-0 bg-white shadow px-2 py-2">
         <div className="mx-2">
