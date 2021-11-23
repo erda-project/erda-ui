@@ -14,7 +14,6 @@
 declare namespace CONFIG_PAGE {
   // 后端给的完整结构
   interface RenderConfig {
-    syncInterval?: number; // 同步轮询间隔
     scenario: {
       // 场景
       scenarioKey: string; // 场景唯一id
@@ -32,6 +31,7 @@ declare namespace CONFIG_PAGE {
 
   // 前端关心的结构
   interface PageConfig {
+    syncInterval?: number; // 同步轮询间隔
     hierarchy: {
       root: string;
       structure: {

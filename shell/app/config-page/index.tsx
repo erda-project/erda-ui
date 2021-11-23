@@ -117,11 +117,12 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
 
   React.useEffect(() => {
     pageConfigRef.current = pageConfig;
-    if (pageConfigRef.current.syncInterval) {
+    clearTimeout(timerRef.current);
+    if (pageConfigRef.current.protocol.syncInterval) {
       clearTimeout(timerRef.current);
       timerRef.current = setTimeout(() => {
         queryPageConfig();
-      }, pageConfigRef.current.syncInterval);
+      }, pageConfigRef.current.protocol.syncInterval);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageConfig]);
@@ -164,7 +165,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   ) => {
     if (fetchingRef.current || forbiddenRequest) return; // forbidden request when fetching
     // 此处用state，为了兼容useMock的情况
-    if (!op?.async && !pageConfigRef.current?.syncInterval) {
+    if (!op?.async && !pageConfigRef.current?.protocol.syncInterval) {
       updater.fetching(true);
       fetchingRef.current = true;
     }
