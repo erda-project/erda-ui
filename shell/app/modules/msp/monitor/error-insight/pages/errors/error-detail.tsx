@@ -13,16 +13,16 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { Button, Row, Col, Tooltip, Drawer, Spin } from 'antd';
+import { Button, Col, Drawer, Row, Spin, Tooltip } from 'antd';
 import TraceDetail from 'trace-insight/pages/trace-detail';
-import { Icon as CustomIcon, Copy, IF, EmptyHolder, SimpleLog } from 'common';
+import { Copy, EmptyHolder, Icon as CustomIcon, IF, SimpleLog } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { get, map, isEmpty } from 'lodash';
+import { get, isEmpty, map } from 'lodash';
 import moment from 'moment';
 import monitorErrorStore from 'error-insight/stores/error';
 import { useLoading } from 'core/stores/loading';
 import { useEffectOnce } from 'react-use';
-import { ToRight as IconToRight, ToLeft as IconToLeft, Down as IconDown, Up as IconUp } from '@icon-park/react';
+import { Down as IconDown, ToLeft as IconToLeft, ToRight as IconToRight, Up as IconUp } from '@icon-park/react';
 import i18n from 'i18n';
 
 import './error-detail.scss';
@@ -81,8 +81,10 @@ const ErrorDetail = () => {
     updater.showAllStacks(!showAllStacks);
   };
 
-  const getStackItem = (info: { stack: MONITOR_ERROR.IStacks }) => {
-    if (isEmpty(info.stack)) return null;
+  const getStackItem = (info?: { stack: MONITOR_ERROR.IStacks }) => {
+    if (!info || isEmpty(info?.stack)) {
+      return <EmptyHolder relative tip={i18n.t('msp:no stack')} />;
+    }
     const { className, methodName, line, index } = info.stack;
     return (
       <div key={index} className="stack-item">
@@ -290,13 +292,23 @@ const ErrorDetail = () => {
             <div className="content-block stacklist-container">
               <div className="content-title stacks-title">
                 {`${i18n.t('msp:error stack')}:   ${type}`}
-                <Button className="toggle-stacks" onClick={toggleShowAllStacks}>
-                  {showAllStacks ? <IconDown size="20px" className="mr-0" /> : <IconUp size="20px" className="mr-0" />}
-                </Button>
+                <IF check={stacks && stacks.length > 1}>
+                  <Button className="toggle-stacks" onClick={toggleShowAllStacks}>
+                    {showAllStacks ? (
+                      <IconDown size="20px" className="mr-0" />
+                    ) : (
+                      <IconUp size="20px" className="mr-0" />
+                    )}
+                  </Button>
+                </IF>
               </div>
               <div className="error-msg">{exceptionMsg}</div>
               <div className="stack-list">
-                {showAllStacks ? map(stacks || [], (item) => getStackItem(item)) : getStackItem((stacks || [])[0])}
+                {stacks?.length
+                  ? showAllStacks
+                    ? map(stacks || [], (item) => getStackItem(item))
+                    : getStackItem((stacks || [])[0])
+                  : getStackItem()}
                 <IF check={stacks && stacks.length > 1}>
                   <div className="stack-item omit-item" onClick={toggleShowAllStacks}>
                     {showAllStacks ? (
