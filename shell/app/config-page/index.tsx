@@ -118,11 +118,11 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   React.useEffect(() => {
     pageConfigRef.current = pageConfig;
     clearTimeout(timerRef.current);
-    if (pageConfigRef.current.protocol.syncInterval) {
+    if (pageConfigRef.current.protocol?.syncInterval) {
       clearTimeout(timerRef.current);
       timerRef.current = setTimeout(() => {
         queryPageConfig();
-      }, pageConfigRef.current.protocol.syncInterval);
+      }, pageConfigRef.current.protocol?.syncInterval);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageConfig]);
@@ -183,7 +183,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
           callBack?.(newConfig);
           operationCallBack?.(reqConfig, newConfig, op);
           updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
-        } else if ((op.index && opIndexRef.current === op.index) || op?.index === undefined) {
+        } else if ((op?.index && opIndexRef.current === op?.index) || op?.index === undefined) {
           // Retain the response data that matches the latest operation
           callBack?.(res);
           operationCallBack?.(reqConfig, res, op);

@@ -25,7 +25,7 @@ const CP_GRID = (props: CP_GRID.Props) => {
     <div className="overflow-hidden">
       <Row gutter={gutter}>
         {children.map((child, i) => (
-          <Col span={itemSpan[i]} key={i}>
+          <Col span={itemSpan[i]} key={i} className='overflow-auto'>
             {child}
           </Col>
         ))}
