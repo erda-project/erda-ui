@@ -864,7 +864,7 @@ const ContractiveFilter = ({
                   if (
                     fixed ||
                     (type === 'input' && fixed !== false) ||
-                    !item.label.toLowerCase().includes(hideFilterKey)
+                    (item.label && !item.label.toLowerCase().includes(hideFilterKey))
                   ) {
                     return null;
                   }
