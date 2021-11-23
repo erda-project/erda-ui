@@ -22,6 +22,7 @@ import { isFunction, get, set } from 'lodash';
 import i18n from 'i18n';
 import classnames from 'classnames';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 import './index.scss';
 
@@ -96,7 +97,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
         <div className="relative" style={{ maxHeight: expanded ? '' : maxHeight }}>
           <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
             <div ref={mdContentRef} className="md-content">
-              <ReactMarkdown>{v || ''}</ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{v || ''}</ReactMarkdown>
               <div
                 className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex justify-center items-center ${
                   !expandBtnVisible || expanded ? 'hidden' : ''
