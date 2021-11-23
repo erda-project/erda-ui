@@ -80,6 +80,8 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       } as CONFIG_PAGE.RenderConfig),
     fetching: false,
   });
+  const opIndexRef = React.useRef(0);
+  const timerRef = React.useRef<any>();
   // 在非生产环境里，url中带useMock
   const useMockMark = forceMock || (unProduct && location.search.includes('useMock'));
   const changeScenario = (s: { scenarioKey: string; scenarioType: string; inParams?: Obj }) => {
@@ -115,6 +117,14 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
 
   React.useEffect(() => {
     pageConfigRef.current = pageConfig;
+    clearTimeout(timerRef.current);
+    if (pageConfigRef.current.protocol.syncInterval) {
+      clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => {
+        queryPageConfig();
+      }, pageConfigRef.current.protocol.syncInterval);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageConfig]);
 
   React.useEffect(() => {
@@ -155,8 +165,10 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   ) => {
     if (fetchingRef.current || forbiddenRequest) return; // forbidden request when fetching
     // 此处用state，为了兼容useMock的情况
-    if (op?.showLoading !== false) updater.fetching(true);
-    fetchingRef.current = true;
+    if (!op?.async && !pageConfigRef.current?.protocol.syncInterval) {
+      updater.fetching(true);
+      fetchingRef.current = true;
+    }
     const reqConfig = { ...(p || pageConfig), inParams: inParamsRef.current };
     ((useMockMark && _useMock) || getRenderPageLayout)(reqConfig, partial)
       .then((res: any) => {
@@ -171,7 +183,8 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
           callBack?.(newConfig);
           operationCallBack?.(reqConfig, newConfig, op);
           updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
-        } else {
+        } else if ((op.index && opIndexRef.current === op.index) || op?.index === undefined) {
+          // Retain the response data that matches the latest operation
           callBack?.(res);
           operationCallBack?.(reqConfig, res, op);
           updateConfig ? updateConfig(res) : updater.pageConfig(res);
@@ -201,7 +214,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
 
   const execOperation = (
     cId: string,
-    op: { key: string; reload?: boolean; partial?: boolean; callBack?: Function },
+    op: CP_COMMON.Operation,
     updateInfo?: { dataKey: string; dataVal: Obj },
     extraUpdateInfo?: Obj,
   ) => {
@@ -238,7 +251,8 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       });
 
       const formatConfig = clearLoadMoreData(newConfig);
-      queryPageConfig(formatConfig, partial, op, loadCallBack);
+      opIndexRef.current += 1;
+      queryPageConfig(formatConfig, partial, { ...op, index: opIndexRef.current }, loadCallBack);
     } else if (updateInfo) {
       updateState(updateInfo.dataKey, updateInfo.dataVal, loadCallBack);
     }
