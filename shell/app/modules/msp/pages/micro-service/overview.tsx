@@ -156,23 +156,25 @@ const Overview = () => {
                           <div className="text-xs	leading-5 text-darkgray">{desc ?? '-'}</div>
                         </div>
                       </Col>
-                      <Col span={12} className="flex">
-                        <div className="w-1/4 px-1">
-                          <p className="mb-0 text-xl leading-8">{relationship.length}</p>
-                          <p className="text-xs leading-5 text-darkgray">{i18n.t('env')}</p>
-                        </div>
-                        <div className="w-1/4 px-1">
-                          <p className="mb-0 text-xl leading-8">{serviceCount ?? 0}</p>
-                          <p className="text-xs leading-5 text-darkgray">{i18n.t('service')}</p>
-                        </div>
-                        <div className="w-1/4 px-1">
-                          <p className="mb-0 text-xl leading-8">{last24hAlertCount ?? 0}</p>
-                          <p className="text-xs leading-5 text-darkgray">{i18n.t('msp:last 1 day alarm')}</p>
-                        </div>
-                        <div className="w-1/4 px-1">
-                          <p className="mb-0 text-xl leading-8">{lastActiveTime ? fromNow(lastActiveTime) : '-'}</p>
-                          <p className="text-xs leading-5 text-darkgray">{i18n.t('msp:last active time')}</p>
-                        </div>
+                      <Col span={12}>
+                        <Row gutter={8}>
+                          <Col span={6}>
+                            <p className="mb-0 text-xl leading-8">{relationship.length}</p>
+                            <p className="text-xs leading-5 text-darkgray">{i18n.t('env')}</p>
+                          </Col>
+                          <Col span={6}>
+                            <p className="mb-0 text-xl leading-8">{serviceCount ?? 0}</p>
+                            <p className="text-xs leading-5 text-darkgray">{i18n.t('service')}</p>
+                          </Col>
+                          <Col span={6}>
+                            <p className="mb-0 text-xl leading-8">{last24hAlertCount ?? 0}</p>
+                            <p className="text-xs leading-5 text-darkgray">{i18n.t('msp:last 1 day alarm')}</p>
+                          </Col>
+                          <Col span={6}>
+                            <p className="mb-0 text-xl leading-8">{lastActiveTime ? fromNow(lastActiveTime) : '-'}</p>
+                            <p className="text-xs leading-5 text-darkgray">{i18n.t('msp:last active time')}</p>
+                          </Col>
+                        </Row>
                       </Col>
                     </Row>
                   );
