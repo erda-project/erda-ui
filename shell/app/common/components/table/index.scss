@@ -31,23 +31,12 @@
     color: $color-dark-4;
   }
 
-  .ant-pagination-item {
-    min-width: 0 !important;
-    border: none;
-  }
-
-  .ant-pagination-jump-next,
-  .ant-pagination-jump-prev {
-    display: none;
-  }
-
-  .pagination-center {
-    line-height: 24px;
-  }
-
   .bg-hover:hover {
     background-color: $color-bg-gray;
-    cursor: pointer;
+
+    &:not(.disabled) {
+      cursor: pointer;
+    }
   }
 
   .icon-hover {
@@ -86,21 +75,6 @@
   .erda-table-footer {
     padding: 0 1rem;
     background-color: $color-table-head-bg;
-  }
-
-  .erda-pagination {
-    line-height: 24px;
-    color: $color-table-color;
-  }
-
-  .ant-pagination {
-    margin: 0;
-    padding: 10px 0.5rem;
-    color: $color-table-color;
-
-    .ant-pagination-item-active {
-      background-color: $color-table-head-bg;
-    }
   }
 
   .ant-table {
@@ -180,16 +154,6 @@
     }
   }
 
-  .pagination-jump {
-    .ant-popover-content {
-      position: relative;
-      top: 10px;
-    }
-
-    .ant-popover-arrow {
-      display: none;
-    }
-  }
   .ant-table-expanded-row-fixed {
     width: auto !important;
   }

@@ -63,6 +63,6 @@ module.exports = {
   'light-active': '#6a549e0f', // rgba($primary, .06)
 
   // 标准化后的颜色
-  'gray-block-bg': 'rgba(0, 0, 0, 0.04)',
+  'gray-block-bg': 'rgba(0, 0, 0, 0.02)',
   'hover-gray-bg': 'rgba(0,0,0,0.06)',
 };

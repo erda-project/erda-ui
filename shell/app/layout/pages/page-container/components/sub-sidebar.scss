@@ -40,30 +40,6 @@
   transition: width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
   scrollbar-width: 0;
   .menu-container {
-    &::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-      display: none;
-    }
-    &::-webkit-scrollbar-track-piece {
-      display: none;
-    }
-    &:hover {
-      &::-webkit-scrollbar {
-        display: block;
-      }
-    }
-    &::-webkit-scrollbar-thumb {
-      border-radius: 8px;
-      opacity: 0.6;
-      background: $color-dark-4;
-    }
-
-    &::-webkit-scrollbar-track {
-      border-radius: 8px;
-      background: transparent;
-    }
-
     .fold {
       height: auto;
       line-height: 1;

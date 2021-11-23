@@ -14,15 +14,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
-import {
-  Api as IconApi,
-  Components as IconComponents,
-  Config as IconConfig,
-  Log as IconLog,
-  MonitorCamera as IconMonitorCamera,
-  NotebookAndPen as IconNotebookAndPen,
-  Server as IconServer,
-} from '@icon-park/react';
+import { Components as IconComponents, Log as IconLog, MonitorCamera as IconMonitorCamera } from '@icon-park/react';
 import { ErdaIcon } from 'common';
 
 export const envMap = {
@@ -42,7 +34,7 @@ interface IMSPathParams {
   logKey: string;
 }
 
-export const getMSFrontPathByKey = (key: string, params: IMSPathParams) => {
+export const getMSFrontPathByKey = (key: MS_INDEX.IMenuKey, params: IMSPathParams) => {
   const { projectId, env, tenantGroup, tenantId, terminusKey, logKey } = params;
 
   const rootPath = `${goTo.resolve.mspOverviewRoot({ projectId, env, tenantGroup })}/`;
@@ -57,7 +49,7 @@ export const getMSFrontPathByKey = (key: string, params: IMSPathParams) => {
 
   const serviceManagePrefix = 'service-manage';
 
-  const targetPath = {
+  const targetPath: { [key in MS_INDEX.IMenuKey]: string } = {
     Overview: envOverViewPrefix,
     MonitorCenter: monitorPrefix,
     ServiceMonitor: `${monitorPrefix}/service-analysis`,
@@ -71,8 +63,6 @@ export const getMSFrontPathByKey = (key: string, params: IMSPathParams) => {
     DiagnoseAnalyzer: diagnoseAnalyzerPrefix,
     Tracing: `${monitorPrefix}/trace`,
     LogAnalyze: `log/${logKey}`,
-    LogQuery: `log/${logKey}/query`,
-    AnalyzeRule: `log/${logKey}/rule`,
     ErrorInsight: `${monitorPrefix}/error`,
     Dashboard: `analysis/${terminusKey}/custom-dashboard`,
     ServiceManage: serviceManagePrefix,
@@ -83,53 +73,46 @@ export const getMSFrontPathByKey = (key: string, params: IMSPathParams) => {
     AccessConfig: `environment/${terminusKey}/configuration`,
     MemberManagement: `environment/${terminusKey}/member`,
     ComponentInfo: `environment/info${tenantId ? `/${tenantId}` : ''}`,
-
-    AppMonitor: `topology/${terminusKey}`,
-    EnvironmentalOverview: envOverViewPrefix,
-    AppInsight: `${monitorPrefix}/mi`,
-    Reports: `${monitorPrefix}/reports`,
-    RegisterIntro: 'registerIntro',
-    Nodes: 'nodes',
-    CanaryRelease: 'release',
-    ApiGateway: 'gateway/gatewayIntro',
-    GatewayIntro: 'gateway/gatewayIntro',
-    APIs: 'gateway/apis',
-    Endpoints: 'gateway/api-package',
-    ConsumerACL: 'gateway/consumer',
-    Policies: 'gateway/api-policies/safety-policy',
-    OldPolicies: 'gateway/old-policies/traffic-policy',
-    OldConsumerACL: 'gateway/old-consumer',
-
-    ConfigIntro: 'configIntro',
-    Configs: `config/${tenantId}`,
-  }[key];
-
-  return rootPath + targetPath;
-};
-
-export const getMSPSubtitleByName = (name: string) => {
-  const MSPSubtitleMap = {
-    环境总览: '总览',
-    MicroService: 'MS',
-    应用监控: '监控',
-    AppMonitor: 'Monitor',
-    查询分析: '查询',
-    QueryAnalysis: 'Query',
-    日志分析: '日志',
-    LogAnalyze: 'Log',
-    API网关: '网关',
-    APIGateway: 'Gateway',
-    注册中心: '注册',
-    RegisterCenter: 'Register',
-    配置中心: '配置',
-    ConfigCenter: 'Config',
-    告警管理: '告警',
-    AlarmManagement: 'Alarm',
-    环境设置: '设置',
-    EnvironmentSet: 'Set',
+  };
+  // FIXME some old addon's key is not in the MSP menu, compatible with MSP history addon jump logic
+  const backupPath = {
+    Configs: targetPath.ConfigCenter,
+    Services: targetPath.RegisterCenter,
+    APIs: targetPath.APIGateway,
   };
 
-  return MSPSubtitleMap[name];
+  return `${rootPath}${targetPath[key] ?? backupPath[key] ?? ''}`.replace(/\/$/, '');
+};
+
+export const getMSPSubtitleByName = (key: MS_INDEX.IRootMenu) => {
+  const MSPSubtitleMap: { [key in MS_INDEX.IRootMenu]: { zh: string; en: string } } = {
+    Overview: {
+      zh: '拓扑',
+      en: 'Topology',
+    },
+    MonitorCenter: {
+      zh: '监控',
+      en: 'Monitor',
+    },
+    AlertCenter: {
+      zh: '告警',
+      en: 'Alarm',
+    },
+    DiagnoseAnalyzer: {
+      zh: '诊断',
+      en: 'Diagnose',
+    },
+    ServiceManage: {
+      zh: '治理',
+      en: 'Manage',
+    },
+    EnvironmentSet: {
+      zh: '设置',
+      en: 'Set',
+    },
+  };
+
+  return MSPSubtitleMap[key];
 };
 
 const renderIcon = (type: string) => () => {
@@ -139,16 +122,8 @@ const renderIcon = (type: string) => () => {
 export const MSIconMap = {
   Overview: renderIcon('huanjinggailan'),
   ServiceManage: renderIcon('zhili'),
-  EnvironmentalOverview: renderIcon('huanjinggailan'),
-  QueryAnalysis: renderIcon('chaxunfenxi'),
-  ServiceObservation: renderIcon('fuwuguancesvg'),
   AlertCenter: renderIcon('gaojingguanli'),
   EnvironmentSet: IconComponents,
-  ServiceGovernance: IconServer,
   MonitorCenter: IconMonitorCamera,
-  RegisterCenter: IconNotebookAndPen,
-  APIGateway: IconApi,
-  ConfigCenter: IconConfig,
-  ComponentInfo: IconComponents,
   DiagnoseAnalyzer: IconLog,
 };

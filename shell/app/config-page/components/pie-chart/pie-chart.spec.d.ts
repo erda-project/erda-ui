@@ -20,27 +20,36 @@ declare namespace CP_PIE_CHART {
   }
 
   interface IData {
-    label: string;
-    data: IList[];
+    label?: string;
+    data?: IList[];
+    group?: IList[][];
   }
 
   interface IList {
     name: string;
     value: number;
     color: string;
+    centerLabel?: string;
+    total?: number;
     formatter?: string;
+    info?: IInfo[];
+  }
+  interface IInfo {
+    main: string;
+    sub?: string;
+    desc?: string;
   }
 
   interface IProps {
     option: Obj;
     style: Obj;
+    chartStyle?: Obj;
     direction?: 'col' | 'row';
     size?: 'small' | 'normal' | 'big';
     pureChart?: boolean;
     visible?: boolean;
     title: string;
     tip?: string | string[];
-    isLoadMore?: boolean;
   }
 
   type Props = MakeProps<Spec> & {

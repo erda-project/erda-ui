@@ -60,7 +60,7 @@ export const Button = (props: CP_BUTTON.Props) => {
   };
 
   const content = (
-    <>
+    <div className="flex items-center">
       {prefixIcon ? <IconComp type={prefixIcon} className="mr-1" /> : null}
       {text}
       {suffixIcon ? (
@@ -68,7 +68,7 @@ export const Button = (props: CP_BUTTON.Props) => {
       ) : isEmpty(menu) ? null : (
         <IconDownOne theme="filled" className="ml-1" />
       )}
-    </>
+    </div>
   );
 
   React.useEffect(() => {

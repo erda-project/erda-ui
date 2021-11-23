@@ -11,30 +11,29 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_BADGE {
+declare namespace CP_BAR_CHART {
   interface Spec {
-    type: 'Badge';
+    type: 'BarChart';
     props: IProps;
-    data?: {
-      list: IProps[];
-    };
+    data: IData;
+    cId: string;
   }
 
-  enum Status {
-    success = 'success',
-    processing = 'processing',
-    default = 'default',
-    error = 'error',
-    warning = 'warning',
+  interface IData {
+    option: Obj;
   }
 
   interface IProps {
-    status: Status;
-    text: string;
-    color: string;
-    tip?: string;
-    size?: 'default' | 'small';
-    breathing?: boolean;
+    style: Obj;
+    chartStyle?: Obj;
+    visible?: boolean;
+    title: string;
+    tip?: string | string[];
+    yAxisLabelLen?: number;
+    grayBg?: boolean;
   }
-  type Props = MakeProps<Spec>;
+
+  type Props = MakeProps<Spec> & {
+    extraContent?: React.ReactElement;
+  };
 }

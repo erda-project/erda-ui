@@ -162,6 +162,7 @@ const Header = () => {
     });
     if (!isEmpty(currentApp)) {
       const eternalApp = {
+        key: currentApp.key,
         eternal: currentApp.href,
         breadcrumbName: currentApp.breadcrumbName,
         path: typeof currentApp.path === 'function' ? currentApp.path(_params || {}, routes) : currentApp.href,
@@ -201,7 +202,7 @@ const Header = () => {
         <Breadcrumb separator={<IconRight size="14px" />}>
           {allRoutes.map((item) => {
             paths.push(getPath(item.path, params));
-            return <Breadcrumb.Item>{itemRender(item, params, allRoutes, paths)}</Breadcrumb.Item>;
+            return <Breadcrumb.Item key={item.key}>{itemRender(item, params, allRoutes, paths)}</Breadcrumb.Item>;
           })}
         </Breadcrumb>
       </div>

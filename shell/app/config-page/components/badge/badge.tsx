@@ -12,18 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Badge as PureBadge, Tooltip } from 'antd';
 import { colorMap } from 'config-page/utils';
-
+import { Badge as PureBadge } from 'common';
 import './badge.scss';
 
 const Badge = (_props: CP_BADGE.Props) => {
   const { props, data } = _props;
   const list = data?.list;
   return list?.length ? (
-    <div>
+    <div className="cp-badge-list">
       {list.map((item) => (
-        <Item key={item.text} {...item} />
+        <Item className="cp-badge-list-item" key={item.text} {...item} />
       ))}
     </div>
   ) : (
@@ -32,14 +31,9 @@ const Badge = (_props: CP_BADGE.Props) => {
 };
 
 const Item = (props: Merge<CP_BADGE.IProps, { className?: string }>) => {
-  const { color, withBg, tip, ...rest } = props;
+  const { color, ...rest } = props;
   const pColor = color && (colorMap[color] ?? color);
-  const cls = `cp-badge rounded-sm ${withBg ? 'with-bg' : ''}`;
-  return (
-    <Tooltip title={tip}>
-      <PureBadge color={pColor} className={cls} {...rest} />
-    </Tooltip>
-  );
+  return <PureBadge color={pColor} {...rest} />;
 };
 
 export default Badge;

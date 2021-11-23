@@ -477,6 +477,9 @@ body {
     .ant-tooltip-inner {
       background-color: #fff;
       color: rgba(0, 0, 0, 0.6);
+      max-height: 90vh;
+      min-width: 300px;
+      overflow: auto;
     }
 
     .ant-tooltip-arrow {
@@ -513,17 +516,5 @@ body {
 
   .ant-avatar {
     background: $color-primary;
-  }
-
-  .ant-radio-group {
-    .ant-radio-button-wrapper {
-      &:not(:last-child) {
-        border-right-width: 0;
-      }
-      &:not(:first-child)::before {
-        height: 50%;
-        top: 20%;
-      }
-    }
   }
 }

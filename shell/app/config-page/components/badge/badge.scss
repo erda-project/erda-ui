@@ -1,7 +1,8 @@
-.cp-badge {
-  padding: 0 8px;
-  margin: 4px 0;
-  &.with-bg {
-    background-color: $color-dark-04;
+.cp-badge-list {
+  &-item {
+    margin-right: 4px;
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }

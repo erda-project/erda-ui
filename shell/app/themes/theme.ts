@@ -11,30 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_BADGE {
-  interface Spec {
-    type: 'Badge';
-    props: IProps;
-    data?: {
-      list: IProps[];
-    };
-  }
+// chart
+const chart = {
+  yAxisColor: 'rgba(0,0,0,0.3)',
+  xAxisColor: 'rgba(0,0,0,0.6)',
+};
 
-  enum Status {
-    success = 'success',
-    processing = 'processing',
-    default = 'default',
-    error = 'error',
-    warning = 'warning',
-  }
+const theme = {
+  chart,
+};
 
-  interface IProps {
-    status: Status;
-    text: string;
-    color: string;
-    tip?: string;
-    size?: 'default' | 'small';
-    breathing?: boolean;
-  }
-  type Props = MakeProps<Spec>;
-}
+export default theme;

@@ -87,6 +87,8 @@ declare namespace CONFIG_PAGE {
     | CP_CARD_CONTAINER.Spec
     | CP_PIE_CHART.Spec
     | CP_COMPOSE_TABLE.Spec
+    | CP_TEXT_BLOCK.Spec
+    | CP_BAR_CHART.Spec
     | CP_TABLE_GROUP.Spec;
 
   // 单个组件基础定义
