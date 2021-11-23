@@ -19,6 +19,8 @@ import routeInfoStore from 'core/stores/route';
 import testPlanStore from 'project/stores/test-plan';
 import iterationStore from 'project/stores/iteration';
 import { FormModalList } from 'app/interface/common';
+import { useLoading } from 'core/stores/loading';
+import { useMount } from 'react-use';
 
 interface IProps {
   visible: boolean;
@@ -37,6 +39,7 @@ const TestPlanModal = (props: IProps) => {
   const iterationList = iterationStore.useStore((s) => s.iterationList);
   const { getTestPlanItem, addTestPlan, updateTestPlan } = testPlanStore.effects;
   const { cleanTestPlan } = testPlanStore.reducers;
+  const [loadingIterationList] = useLoading(iterationStore, ['getIterations']);
 
   const handleOk = (values: any) => {
     const copy = { ...values };
@@ -56,8 +59,8 @@ const TestPlanModal = (props: IProps) => {
     }
   };
 
-  React.useEffect(() => {
-    if (!iterationList.length) {
+  useMount(() => {
+    if (!iterationList.length && !loadingIterationList) {
       iterationStore.effects.getIterations({
         pageNo: 1,
         pageSize: 100,
@@ -65,7 +68,7 @@ const TestPlanModal = (props: IProps) => {
         withoutIssueSummary: true,
       });
     }
-  }, [iterationList.length, params.projectId]);
+  });
 
   React.useEffect(() => {
     visible && testPlanId && getTestPlanItem(testPlanId);

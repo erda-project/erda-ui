@@ -118,11 +118,11 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   React.useEffect(() => {
     pageConfigRef.current = pageConfig;
     clearTimeout(timerRef.current);
-    if (pageConfigRef.current.protocol?.syncInterval) {
+    if (pageConfig?.options?.syncIntervalSecond) {
       clearTimeout(timerRef.current);
       timerRef.current = setTimeout(() => {
         queryPageConfig();
-      }, pageConfigRef.current.protocol?.syncInterval);
+      }, pageConfig?.options?.syncIntervalSecond * 1000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageConfig]);
@@ -165,7 +165,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   ) => {
     if (fetchingRef.current || forbiddenRequest) return; // forbidden request when fetching
     // 此处用state，为了兼容useMock的情况
-    if (!op?.async && !pageConfigRef.current?.protocol.syncInterval) {
+    if (!op?.async && !pageConfigRef.current?.options?.syncIntervalSecond) {
       updater.fetching(true);
       fetchingRef.current = true;
     }
@@ -183,7 +183,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
           callBack?.(newConfig);
           operationCallBack?.(reqConfig, newConfig, op);
           updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
-        } else if ((op?.index && opIndexRef.current === op?.index) || op?.index === undefined) {
+        } else if (op?.index === undefined || (op.index && opIndexRef.current === op.index)) {
           // Retain the response data that matches the latest operation
           callBack?.(res);
           operationCallBack?.(reqConfig, res, op);

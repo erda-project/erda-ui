@@ -20,6 +20,7 @@ import { isEmpty } from 'lodash';
 import { useEffectOnce } from 'react-use';
 import { useLoading } from 'core/stores/loading';
 import testPlanStore from 'project/stores/test-plan';
+import iterationStore from 'project/stores/iteration';
 import i18n from 'i18n';
 import { ColumnProps } from 'core/common/interface';
 import './test-plan.scss';
@@ -48,6 +49,7 @@ const TestPlan = () => {
   const [filterObj, setFilterObj] = React.useState<Obj>({ isArchived: 'false' });
   const [page, planList] = testPlanStore.useStore((s) => [s.planPaging, s.planList]);
   const [isFetching] = useLoading(testPlanStore, ['getPlanList']);
+  const iterationList = iterationStore.useStore((s) => s.iterationList);
 
   const updateModalProp = (a: object) => {
     setModalProp({
@@ -246,6 +248,20 @@ const TestPlan = () => {
         },
       },
       {
+        type: Select,
+        name: 'iterationID',
+        customProps: {
+          options: iterationList.map(({ id, title }) => (
+            <Option key={id} value={id}>
+              {title}
+            </Option>
+          )),
+          allowClear: true,
+          placeholder: i18n.t('dop:owned iteration'),
+          mode: 'multiple',
+        },
+      },
+      {
         type: Input,
         name: 'name',
         customProps: {
@@ -273,7 +289,7 @@ const TestPlan = () => {
         },
       },
     ],
-    [],
+    [iterationList],
   );
 
   return (
