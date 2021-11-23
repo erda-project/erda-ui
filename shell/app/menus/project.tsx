@@ -88,7 +88,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       href: goTo.resolve.project(), // `/dop/projects/${projectId}/apps`,
       icon: <IconDashboardCar />,
       text: i18n.t('dop:O & M'),
-      subtitle: i18n.t('dop:O & M'),
+      subtitle: i18n.t('dop:operator'),
       show: projectPerm.service.viewService.pass || projectPerm.resource.viewResource.pass,
       subMenu: [
         {

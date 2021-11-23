@@ -21,6 +21,9 @@ declare namespace CONFIG_PAGE {
     };
     inParams?: Obj;
     protocol?: PageConfig;
+    options?: {
+      syncIntervalSecond: number; // 同步轮询间隔
+    };
     event?: {
       // 用户触发的事件
       component: string; // 用户触发事件的组件ID

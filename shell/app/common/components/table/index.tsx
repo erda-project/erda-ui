@@ -47,6 +47,12 @@ const sortIcon = {
   descend: <ErdaIcon type="descend" size={16} />,
 };
 
+const alignMap = {
+  center: 'justify-center',
+  left: 'justify-start',
+  right: 'justify-end',
+};
+
 function WrappedTable<T extends object = any>({
   columns: allColumns,
   rowClassName,
@@ -181,7 +187,9 @@ function WrappedTable<T extends object = any>({
               overlayClassName="erda-table-sorter-overlay"
               getPopupContainer={(triggerNode) => triggerNode.parentElement?.parentElement as HTMLElement}
             >
-              <span className="cursor-pointer erda-table-sorter flex items-center">
+              <span
+                className={`cursor-pointer erda-table-sorter flex items-center ${(align && alignMap[align]) || ''}`}
+              >
                 {typeof title === 'function' ? title({ sortColumn: sort?.column, sortOrder: sort?.order }) : title}
                 <span className={`sorter-icon pl-1 ${(sort.columnKey === args.dataIndex && sort.order) || ''}`}>
                   {sort.order && sort.columnKey === args.dataIndex ? (
@@ -242,7 +250,7 @@ function WrappedTable<T extends object = any>({
     );
   }, [allColumns, sorterMenu, sort, onRow]);
 
-  let data = dataSource as T[];
+  let data = [...dataSource] as T[];
 
   if (sortCompareRef.current) {
     data = data.sort(sortCompareRef.current);
@@ -282,10 +290,10 @@ function WrappedTable<T extends object = any>({
         tableLayout="auto"
         locale={{
           emptyText:
-            pagination?.current === 1 ? null : (
+            !pagination?.current || pagination?.current === 1 ? null : (
               <span>
-                {i18n.t('This page has no data, whether to go ')}
-                <span className="fake-link " onClick={() => onTableChange({ pageNo: 1 })}>
+                {i18n.t('This page has no data, whether to go')}
+                <span className="fake-link ml-1" onClick={() => onTableChange({ pageNo: 1 })}>
                   {i18n.t('page 1')}
                 </span>
               </span>

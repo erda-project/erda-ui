@@ -13,7 +13,7 @@
 
 import React from 'react';
 import EChart from 'charts/components/echarts';
-import { colorMap, getClass, getFormatterString } from 'config-page/utils';
+import { newColorMap, colorMap as pColorMap, getClass, getFormatterString } from 'config-page/utils';
 import { EmptyHolder, TextBlockInfo } from 'common';
 import { map, uniq, merge, get, sumBy } from 'lodash';
 import { bgColor } from 'app/charts/theme';
@@ -21,13 +21,15 @@ import classnames from 'classnames';
 
 import './pie-chart.scss';
 
+const colorMap = { ...pColorMap, ...newColorMap };
+
 const getOption = (data: CP_PIE_CHART.IList[], _option: Obj, configProps: Obj, label?: string) => {
   const { total, centerLabel, value } = data?.[0] || {};
   let reData = data;
   if (data?.length === 1 && total !== undefined && total >= value) {
     reData = [...data, { name: '', value: total - value, color: bgColor }];
   }
-  const color = map(reData || [], 'color');
+  const color = map(reData || [], (item) => item.color && (colorMap[item.color] || item.color));
   const reLabel = label || centerLabel;
   const option = {
     ...(configProps.grayBg ? { backgroundColor: '' } : {}),
@@ -72,6 +74,7 @@ const ChartItem = (props: CP_PIE_CHART.Props) => {
     visible,
     style = {},
     chartStyle,
+    textInfoStyle = {},
     size = 'normal',
     direction = 'row',
     title,
@@ -136,7 +139,7 @@ const ChartItem = (props: CP_PIE_CHART.Props) => {
             return (
               <div className="flex items-center">
                 {item.info.map((infoItem) => (
-                  <TextBlockInfo {...infoItem} size="small" />
+                  <TextBlockInfo {...infoItem} size="small" style={textInfoStyle} />
                 ))}
               </div>
             );
@@ -146,6 +149,7 @@ const ChartItem = (props: CP_PIE_CHART.Props) => {
               size="small"
               key={item.name}
               className="flex-1"
+              style={textInfoStyle}
               main={`${item.formatter ? getFormatterString(item.formatter, { v: item.value }) : item.value}`}
               sub={total ? `${((item.value * 100) / total).toFixed(1)}%` : '-'}
               extra={

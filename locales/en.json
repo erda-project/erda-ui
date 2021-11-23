@@ -145,7 +145,7 @@
     "The name is reserved internally. Please change the name.": "The name is reserved internally. Please change the name.",
     "The {index} item quantity and unit cannot be empty.": "The {index} item quantity and unit cannot be empty.",
     "There is no enabled channel in {type} type. Do you want to enable the {name} channel? Click the ok button to enable": "There is no enabled channel in {type} type. Do you want to enable the {name} channel? Click the ok button to enable",
-    "This page has no data, whether to go ": "This page has no data, whether to go ",
+    "This page has no data, whether to go": "This page has no data, whether to go",
     "Tickets": "Tickets",
     "Tokyo": "Tokyo",
     "URL parameters": "URL parameters",
