@@ -269,7 +269,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
               level: x.level ? x.level?.split(',') : undefined,
               groupType: x.groupType?.split(','),
               groupTypeOptions:
-                (monitorNotifyChannelOptionsMap[x.notifyGroup.targets?.[0].type] || []).map((y) => ({
+                (state.allChannelMethods[x.notifyGroup.targets?.[0].type] || []).map((y) => ({
                   key: y.value,
                   display: y.name,
                 })) || [],
@@ -294,7 +294,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
           window: undefined,
           functions: [],
           isRecover: true,
-          level: 'Breakdown',
+          level: 'Fatal',
         },
       ]);
     }
@@ -743,7 +743,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
         window: undefined,
         functions: [],
         isRecover: true,
-        level: 'Breakdown',
+        level: 'Fatal',
       },
       ...state.editingRules,
     ]);
