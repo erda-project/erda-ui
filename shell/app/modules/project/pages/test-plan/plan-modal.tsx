@@ -20,6 +20,7 @@ import testPlanStore from 'project/stores/test-plan';
 import iterationStore from 'project/stores/iteration';
 import { FormModalList } from 'app/interface/common';
 import { useLoading } from 'core/stores/loading';
+import { useMount } from 'react-use';
 
 interface IProps {
   visible: boolean;
@@ -58,7 +59,7 @@ const TestPlanModal = (props: IProps) => {
     }
   };
 
-  React.useEffect(() => {
+  useMount(() => {
     if (!iterationList.length && !loadingIterationList) {
       iterationStore.effects.getIterations({
         pageNo: 1,
@@ -67,7 +68,7 @@ const TestPlanModal = (props: IProps) => {
         withoutIssueSummary: true,
       });
     }
-  }, [iterationList.length, params.projectId, loadingIterationList]);
+  });
 
   React.useEffect(() => {
     visible && testPlanId && getTestPlanItem(testPlanId);

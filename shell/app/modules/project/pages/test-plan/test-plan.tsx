@@ -249,7 +249,7 @@ const TestPlan = () => {
       },
       {
         type: Select,
-        name: 'iterationName',
+        name: 'iterationID',
         customProps: {
           options: iterationList.map(({ id, title }) => (
             <Option key={id} value={id}>
@@ -289,7 +289,7 @@ const TestPlan = () => {
         },
       },
     ],
-    [],
+    [iterationList],
   );
 
   return (
