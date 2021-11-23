@@ -39,6 +39,8 @@ export interface IParameters {
     format?: string;
     example?: string;
     enum?: any[];
+    default: string;
+    description: string;
   };
 }
 
@@ -248,13 +250,20 @@ export const parseOpenApi3 = (dataSource: IDataSource): IParseOas3 => {
       info[paramsName] = info[paramsName] ? info[paramsName] : [];
       forEach(items, (item) => {
         const { name, required, schema, description: paramsDesc } = item;
-        const { type, example, enum: paramsEnum } = schema || { type: 'string' };
+        const {
+          type,
+          example,
+          enum: paramsEnum,
+          default: defaultValue,
+          description: desc,
+        } = schema || { type: 'string' };
         info[paramsName].push({
           name,
           required: required ? i18n.t('common:yes') : i18n.t('common:no'),
           type: { value: type, enum: paramsEnum },
-          description: paramsDesc,
+          description: desc || paramsDesc,
           defaultValue: example,
+          default: defaultValue,
         });
       });
     });
