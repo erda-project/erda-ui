@@ -122,7 +122,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       clearTimeout(timerRef.current);
       timerRef.current = setTimeout(() => {
         queryPageConfig();
-      }, pageConfig?.options?.syncIntervalSecond);
+      }, pageConfig?.options?.syncIntervalSecond * 1000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageConfig]);
