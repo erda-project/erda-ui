@@ -13,19 +13,19 @@
 
 declare namespace ERDA_LIST {
   interface IListItemProps {
-    size?: 'small' | 'middle' | 'large';
+    size?: ISize;
     data: IListData;
     alignCenter?: boolean;
     noBorder?: boolean;
     operations: IOperation[] | ((data: IListData) => IOperation[]);
-    onRow?: Object;
+    onRow?: { onClick: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void };
     key: string | number;
   }
 
   interface IOperation {
     title: React.ReactNode;
     key?: string | number;
-    onClick?: ([key]: any) => void;
+    onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
   }
 
   interface IProps {
@@ -42,10 +42,11 @@ declare namespace ERDA_LIST {
   }
 
   interface IPagination {
-    pageNo?: number;
+    pageNo: number;
     pageSize?: number;
-    total?: number;
+    total: number;
     pageSizeOptions?: string[];
+    onChange: (current: number, pageSize?: number) => void;
   }
 
   type ISize = 'middle' | 'large' | 'small';
@@ -57,7 +58,8 @@ declare namespace ERDA_LIST {
     description?: string;
     prefixImg?: string | React.ReactNode;
     extraInfos?: IIconInfo[];
-    operations?: Obj<CP_COMMON.Operation>;
+    extraContent?: React.ReactNode;
+    operations?: IOperation[] | ((record: IListData) => IOperation[]);
     prefixImgCircle?: boolean;
   }
 
@@ -66,7 +68,6 @@ declare namespace ERDA_LIST {
     text: string;
     type?: 'success' | 'normal' | 'warning' | 'error';
     tooltip?: string;
-    operations?: Obj<CP_COMMON.Operation>;
     extraProps: IExtraProps;
   }
 

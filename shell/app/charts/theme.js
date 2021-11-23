@@ -58,14 +58,14 @@ export const newColorMap = {
   primary6: '#424CA6',
   primary7: '#2D3280',
   primary8: '#1E2059',
-  waring1: '#FFF0F0',
-  waring2: '#FFD4D7',
-  waring3: '#F2A2AC',
-  waring4: '#D84B65',
-  waring5: '#B33651',
-  waring6: '#8C233D',
-  waring7: '#66142C',
-  waring8: '#400C1C',
+  warning1: '#FFF0F0',
+  warning2: '#FFD4D7',
+  warning3: '#F2A2AC',
+  warning4: '#D84B65',
+  warning5: '#B33651',
+  warning6: '#8C233D',
+  warning7: '#66142C',
+  warning8: '#400C1C',
 };
 
 export const theme = {

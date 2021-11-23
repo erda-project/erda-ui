@@ -55,7 +55,7 @@ declare namespace CP_LIST {
 
   interface IExtraContent {
     type: 'pieChart';
-    data: IPieChart;
+    data: IPieChart[];
     rowNum: number;
   }
 

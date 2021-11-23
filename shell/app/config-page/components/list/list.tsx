@@ -39,49 +39,55 @@ const List = (props: CP_LIST.Props) => {
     noBorder = false,
     pageSizeOptions,
   } = configProps || {};
-  const currentList =
-    (isLoadMore ? state.combineList : list).map((item: CP_LIST.IListData) => {
-      let extraInfos = [] as ERDA_LIST.IIconInfo[];
-      if (item.extraInfos) {
-        extraInfos = item.extraInfos.map((info: CP_LIST.IIconInfo) => {
-          const extraProps = {} as ERDA_LIST.IExtraProps;
-          if (info.operations?.click) {
-            extraProps.onClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-              e && e.stopPropagation();
-              const curOp = (info.operations as Obj<CP_COMMON.Operation>).click;
-              execOperation(curOp, data);
-              if (customOp && customOp[curOp.key]) {
-                customOp[curOp.key](curOp, data);
-              }
-            };
-          }
+  const currentList = React.useMemo(
+    () =>
+      (isLoadMore ? state.combineList : list).map((item: CP_LIST.IListData) => {
+        let extraInfos = [] as ERDA_LIST.IIconInfo[];
+        if (item.extraInfos) {
+          extraInfos = item.extraInfos.map((info: CP_LIST.IIconInfo) => {
+            const extraProps = {} as ERDA_LIST.IExtraProps;
+            if (info.operations?.click) {
+              extraProps.onClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+                e && e.stopPropagation();
+                const curOp = (info.operations as Obj<CP_COMMON.Operation>).click;
+                execOperation(curOp, data);
+                if (customOp && customOp[curOp.key]) {
+                  customOp[curOp.key](curOp, data);
+                }
+              };
+            }
 
-          return { ...info, extraProps };
-        });
-      }
+            return { ...info, extraProps };
+          });
+        }
 
-      let extraContent = null;
-      if (item.extraContent) {
-        const { type, rowNum, data = [] } = item.extraContent;
-        const Comp = containerMap[type];
+        let extraContent = null;
+        if (item.extraContent) {
+          const { type } = item.extraContent;
+          const Comp = containerMap[type];
 
-        extraContent = (
-          <div className="flex h-16 justify-between">
-            {data.map((item) => (
-              <div className="flex-grow mx-2">
-                <Comp data={{ data: [item] }} props={{ grayBg: true }} />
-              </div>
-            ))}
-          </div>
-        );
-      }
+          extraContent = (
+            <div className="flex h-16 justify-between">
+              {item.extraContent.data?.map((dataItem: CP_LIST.IPieChart) => {
+                const infoItem = dataItem.info.map((info: CP_LIST.IChartInfo) => ({ ...info, className: 'flex-1' }));
+                return (
+                  <div className="flex-grow mx-2">
+                    <Comp data={{ data: [{ ...dataItem, info: infoItem }] }} props={{ grayBg: true }} />
+                  </div>
+                );
+              })}
+            </div>
+          );
+        }
 
-      return {
-        ...item,
-        extraInfos,
-        extraContent,
-      };
-    }) || [];
+        return {
+          ...item,
+          extraInfos,
+          extraContent,
+        };
+      }) || [],
+    [customOp, data, execOperation, isLoadMore, list, state.combineList],
+  );
 
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {

@@ -24,7 +24,7 @@ const List = (props: ERDA_LIST.IProps) => {
 
   return (
     <div className="erda-list">
-      {dataSource.length > 0 ? (
+      {dataSource.length ? (
         <>
           {dataSource.map((item: ERDA_LIST.IListData, idx: number) => {
             return (
@@ -39,9 +39,7 @@ const List = (props: ERDA_LIST.IProps) => {
               />
             );
           })}
-          {!isLoadMore && pagination ? (
-            <Pagination className="flex items-center flex-wrap justify-end mt-3" {...pagination} />
-          ) : null}
+          {!isLoadMore && pagination ? <Pagination {...pagination} current={pagination.pageNo} /> : null}
           {isLoadMore && (pagination?.total || 0) > dataSource.length && (
             <div className="hover-active load-more" onClick={onLoadMore}>
               {i18n.t('more')}

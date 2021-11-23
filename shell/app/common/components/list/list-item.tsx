@@ -12,14 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Menu, Tooltip, Badge, Dropdown } from 'antd';
+import { Menu, Tooltip, Dropdown } from 'antd';
 import { isString } from 'lodash';
 import classnames from 'classnames';
-import { Ellipsis, ErdaIcon, Icon as CustomIcon } from 'common';
+import { Ellipsis, ErdaIcon, Icon as CustomIcon, Badge } from 'common';
 import ImgMap, { getImg } from 'app/config-page/img-map';
 import { iconMap } from 'common/components/erda-icon';
 
-const getPrefixImg = (prefixImg: string, prefixImgCircle: boolean) => {
+const getPrefixImg = (prefixImg: string, prefixImgCircle?: boolean) => {
   if (Object.keys(ImgMap).includes(prefixImg)) {
     return <img src={getImg(prefixImg)} className={`item-prefix-img ${prefixImgCircle ? 'prefix-img-circle' : ''}`} />;
   } else if (Object.keys(iconMap).includes(prefixImg)) {
