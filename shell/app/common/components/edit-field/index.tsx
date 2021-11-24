@@ -46,14 +46,11 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
   const mdContentRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    setTimeout(() => {
-      // macro task to wait for the DOM to be rendered
-      if (value?.length && !isEditing && mdContentRef.current) {
-        updater.expandBtnVisible(mdContentRef.current.getBoundingClientRect().height > maxHeight);
-      } else {
-        updater.expandBtnVisible(false);
-      }
-    });
+    if (value?.length && !isEditing && mdContentRef.current) {
+      updater.expandBtnVisible(mdContentRef.current.getBoundingClientRect().height > maxHeight);
+    } else {
+      updater.expandBtnVisible(false);
+    }
   }, [isEditing, maxHeight, updater, value]);
 
   React.useEffect(() => {
@@ -93,7 +90,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       <div className="relative hover:bg-hover-gray-bg cursor-pointer rounded" onClick={() => updater.isEditing(true)} style={{ maxHeight: expanded ? '' : maxHeight }}>
         <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
           <div ref={mdContentRef} className="md-content">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{v || ''}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{value || ''}</ReactMarkdown>
             <div
               className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex justify-center items-center ${
                 !expandBtnVisible || expanded ? 'hidden' : ''
@@ -102,10 +99,10 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
           </div>
         </div>
         <div
-          className={`absolute -bottom-6 left-0 right-0 mx-auto rounded-full w-24 px-2 py-1 border text-primary shadow cursor-pointer flex items-center bg-white ${
+          className={`absolute -bottom-10 z-10 left-0 right-0 mx-auto rounded-full w-24 px-2 py-1 border text-primary shadow cursor-pointer flex items-center bg-white ${
             expandBtnVisible ? '' : 'hidden'
           }`}
-          onClick={() => updater.expanded(!expanded)}
+          onClick={(e) => { e.stopPropagation(); updater.expanded(!expanded)}}
         >
           <ErdaIcon type={`${expanded ? 'double-up' : 'double-down'}`} color="currentColor" />
           <div className="ml-1">{expanded ? i18n.t('collapse description') : i18n.t('expand description')}</div>
