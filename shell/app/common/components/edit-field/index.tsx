@@ -60,7 +60,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
   const operationBtns = !disabled
     ? [
         {
-          text: i18n.t('dop:post comment'),
+          text: i18n.t('save'),
           type: 'primary' as const,
           onClick: (_v: string) => {
             onSave(_v);
@@ -68,7 +68,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
           },
         },
         {
-          text: i18n.t('common:discard'),
+          text: i18n.t('cancel'),
           onClick: () => {
             update({ v: originalValue, isEditing: false });
           },
@@ -83,11 +83,16 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       onChange={onChange}
       onBlur={(_v: string) => onSave(_v, 'markdown')}
       defaultMode="md"
+      defaultHeight={maxHeight}
       operationBtns={operationBtns}
     />
   ) : (
     <Tooltip placement="left" title={i18n.t('dop:click to edit')} arrowPointAtCenter>
-      <div className="relative hover:bg-hover-gray-bg cursor-pointer rounded" onClick={() => updater.isEditing(true)} style={{ maxHeight: expanded ? '' : maxHeight }}>
+      <div
+        className="relative hover:bg-hover-gray-bg cursor-pointer rounded"
+        onClick={() => updater.isEditing(true)}
+        style={{ maxHeight: expanded ? '' : maxHeight }}
+      >
         <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
           <div ref={mdContentRef} className="md-content">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{value || ''}</ReactMarkdown>
@@ -102,7 +107,10 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
           className={`absolute -bottom-10 z-10 left-0 right-0 mx-auto rounded-full w-24 px-2 py-1 border text-primary shadow cursor-pointer flex items-center bg-white ${
             expandBtnVisible ? '' : 'hidden'
           }`}
-          onClick={(e) => { e.stopPropagation(); updater.expanded(!expanded)}}
+          onClick={(e) => {
+            e.stopPropagation();
+            updater.expanded(!expanded);
+          }}
         >
           <ErdaIcon type={`${expanded ? 'double-up' : 'double-down'}`} color="currentColor" />
           <div className="ml-1">{expanded ? i18n.t('collapse description') : i18n.t('expand description')}</div>
