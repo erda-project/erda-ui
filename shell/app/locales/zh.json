@@ -81,7 +81,7 @@
     "GroupID-cannot-modified": "GroupID 一旦创建则无法修改。",
     "IP input error, please check": "ip输入错误，请校对",
     "Instance is not ready": "实例尚未准备就绪",
-    "Kubectl command": "Kubectl 命令行",
+    "Kubectl console": "Kubectl 命令行",
     "Memory": "内存",
     "Memory allocation": "内存分配",
     "Memory quota": "内存配额",

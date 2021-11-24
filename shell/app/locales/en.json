@@ -81,7 +81,7 @@
     "GroupID-cannot-modified": "once the GroupID is created, it cannot be modified.",
     "IP input error, please check": "IP input error, please check",
     "Instance is not ready": "Instance is not ready",
-    "Kubectl command": "Kubectl command",
+    "Kubectl console": "Kubectl console",
     "Memory": "Memory",
     "Memory allocation": "Memory allocation",
     "Memory quota": "Memory quota",

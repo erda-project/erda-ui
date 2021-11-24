@@ -179,6 +179,7 @@ function getCmpRouter(): RouteConfigItem[] {
               breadcrumbName: `${i18n.t('cmp:Event Log')}({params.clusterName})`,
               routes: [
                 {
+                  layout: { noWrapper: true },
                   getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-container/cluster-event-log')),
                 },
               ],
