@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Input, Checkbox, Badge } from 'antd';
+import { Badge, Button, Checkbox, Input } from 'antd';
 import i18n from 'i18n';
 import React from 'react';
-import { ImageUpload, RenderForm, ErdaIcon } from 'common';
+import { ErdaIcon, ImageUpload, RenderForm } from 'common';
 import { FormInstance } from 'core/common/interface';
 import projectStore from 'app/modules/project/stores/project';
 import clusterStore from 'cmp/stores/cluster';
@@ -24,7 +24,6 @@ import orgStore from 'app/org-home/stores/org';
 import classnames from 'classnames';
 import pinyin from 'tiny-pinyin';
 import ClusterQuota, { IData } from 'org/common/cluster-quota';
-import { DOC_PROJECT_RESOURCE_MANAGE } from 'common/constants';
 
 import './create-project.scss';
 
@@ -190,7 +189,7 @@ const templateArr: ICardProps[] = [
     disabled: false,
   },
   {
-    name: i18n.t('cmp:microservice Observation Project'),
+    name: i18n.t('cmp:Microservice Observation Project'),
     val: 'MSP',
     icon: 'zhili',
     description: i18n.t('cmp:microservice governance desc'),
