@@ -26,7 +26,7 @@ import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import { useLoading } from 'core/stores/loading';
-import { useMount, useUnmount } from 'react-use';
+import { useMount, useUnmount, useUpdateEffect } from 'react-use';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import './topology.scss';
 import { goTo } from 'common/utils';
@@ -152,7 +152,7 @@ const Topology = () => {
     }
   }, [params.terminusKey]);
 
-  React.useEffect(() => {
+  useUpdateEffect(() => {
     setActivedNode(undefined);
     if (params.terminusKey) {
       getData();
