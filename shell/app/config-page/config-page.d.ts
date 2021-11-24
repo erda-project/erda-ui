@@ -69,6 +69,7 @@ declare namespace CONFIG_PAGE {
     | CP_TEXT.Spec
     | CP_ALERT.Spec
     | CP_LIST.Spec
+    | CP_LIST_NEW.Spec
     | CP_TABLE.Spec
     | CP_TEXT.Spec
     | CP_EMPTY_HOLDER.Spec
