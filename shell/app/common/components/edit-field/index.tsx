@@ -54,6 +54,7 @@ const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement
         src={src}
         onClick={enlargeImage}
         alt={alt || 'preview-image'}
+        {...rest}
       />
       <span
         className={`${
@@ -93,7 +94,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
     } else {
       updater.expandBtnVisible(false);
     }
-  }, [isEditing, maxHeight, updater, value?.length]);
+  }, [isEditing, maxHeight, updater, value]);
 
   React.useEffect(() => {
     eventHub.on('md-img-loaded', checkContentHeight);
