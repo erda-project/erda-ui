@@ -333,7 +333,7 @@ const NotifyChannel = () => {
   const dingdingFieldsList = [
     ...fieldsList,
     {
-      name: 'config.agentId',
+      name: ['config', 'agentId'],
       label: 'AgentId',
       type: 'inputNumber',
       required: true,
@@ -344,7 +344,7 @@ const NotifyChannel = () => {
       },
     },
     {
-      name: 'config.appKey',
+      name: ['config', 'appKey'],
       label: 'AppKey',
       required: true,
       itemProps: {
@@ -354,7 +354,7 @@ const NotifyChannel = () => {
       },
     },
     {
-      name: 'config.appSecret',
+      name: ['config', 'appSecret'],
       label: 'AppSecret',
       required: true,
       itemProps: {
@@ -373,7 +373,7 @@ const NotifyChannel = () => {
   const SMSFieldsList = [
     ...fieldsList,
     {
-      name: 'config.accessKeyId',
+      name: ['config', 'accessKeyId'],
       label: 'AccessKeyId',
       required: true,
       itemProps: {
@@ -383,7 +383,7 @@ const NotifyChannel = () => {
       },
     },
     {
-      name: 'config.accessKeySecret',
+      name: ['config', 'accessKeySecret'],
       label: 'AccessKeySecret',
       required: true,
       itemProps: {
@@ -398,7 +398,7 @@ const NotifyChannel = () => {
       },
     },
     {
-      name: 'config.signName',
+      name: ['config', 'signName'],
       label: i18n.t('SMS signature'),
       required: true,
       itemProps: {
@@ -409,7 +409,7 @@ const NotifyChannel = () => {
       },
     },
     {
-      name: 'config.templateCode',
+      name: ['config', 'templateCode'],
       label: i18n.t('SMS Template Code'),
       required: true,
       getComp: ({ form }: { form: FormInstance }) => {
