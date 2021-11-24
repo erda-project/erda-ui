@@ -200,7 +200,8 @@ module.exports = () => {
     },
     plugins: [
       new webpack.ProvidePlugin({
-        process: 'process/browser',
+        // @see https://github.com/remarkjs/remark/discussions/903
+        process: 'process/browser.js',
         Buffer: ['buffer', 'Buffer'],
       }),
       new CopyWebpackPlugin({
