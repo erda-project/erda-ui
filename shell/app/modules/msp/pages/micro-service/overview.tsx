@@ -45,7 +45,7 @@ const iconMap: {
   },
   MSP: {
     icon: 'MSP',
-    tag: i18n.t('cmp:microservice Observation Project'),
+    tag: i18n.t('cmp:Microservice Observation Project'),
     color: '#27C99A',
   },
 };
