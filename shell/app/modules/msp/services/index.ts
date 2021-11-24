@@ -24,8 +24,13 @@ export const getSpanEvents = apiCreator<(p: { spanId: string; startTime: number 
   apis.getSpanEvents,
 );
 
-export const getMspProjectList = (): Promise<{ success: boolean; data: MS_INDEX.IMspProject[] }> => {
-  return agent.get('/api/msp/tenant/projects').then((response: any) => response.body);
+export const getMspProjectList = (payload: {
+  withStats: boolean;
+}): Promise<{ success: boolean; data: MS_INDEX.IMspProject[] }> => {
+  return agent
+    .get('/api/msp/tenant/projects')
+    .query(payload)
+    .then((response: any) => response.body);
 };
 
 export const getMspProjectDetail = (payload: { projectId: string }): MS_INDEX.IMspProject => {
