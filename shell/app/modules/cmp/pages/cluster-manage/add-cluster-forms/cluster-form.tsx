@@ -14,14 +14,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import i18n from 'i18n';
-import { RenderPureForm, FormModal, Copy } from 'common';
+import { RenderPureForm, FormModal, Copy, ErdaIcon } from 'common';
 import { Alert, Popover, Button } from 'antd';
 import { find, get, debounce, flatten, isEmpty, every, set } from 'lodash';
 import { FormInstance, RadioChangeEvent } from 'core/common/interface';
 import { clusterTypeMap } from './cluster-type-modal';
 import clusterStore from '../../../stores/cluster';
 import { insertWhen, regRules } from 'common/utils';
-import { Down as IconDown, Up as IconUp, Help as IconHelp } from '@icon-park/react';
 import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 import { DOC_CMP_CLUSTER_MANAGE } from 'common/constants';
 
@@ -198,7 +197,7 @@ const ClusterBasicForm = ({
                   </div>
                 }
               >
-                <IconHelp className="text-icon cursor-pointer" />
+                <ErdaIcon size="14" type="help" color="currentColor" className="text-icon cursor-pointer" />
               </Popover>
             </div>
           ),
@@ -276,9 +275,13 @@ const ClusterAddForm = (props: any) => {
       />
       {clusterType === 'edas' ? null : (
         <div className="more">
-          <a className="more-btn" onClick={() => setShowMore(!showMore)}>
+          <a className="more-btn w-20 flex" onClick={() => setShowMore(!showMore)}>
             {i18n.t('advanced settings')}
-            {showMore ? <IconUp size="16px" /> : <IconDown size="16px" />}
+            {showMore ? (
+              <ErdaIcon type="up" color="currentColor" size="16" />
+            ) : (
+              <ErdaIcon type="down" color="currentColor" size="16" />
+            )}
           </a>
           <div className={`more-form ${showMore ? '' : 'hidden'}`}>
             <ClusterSchedulerForm

@@ -16,14 +16,7 @@ import { filterMenu, MENU_SCOPE } from './util';
 import { goTo, insertWhen } from 'common/utils';
 import { filter } from 'lodash';
 import permStore from 'user/stores/permission';
-import {
-  ApiApp as IconApiApp,
-  ApplicationOne as IconApplicationOne,
-  Seal as IconSeal,
-  Send as IconSend,
-  BookOne as IconBookOne,
-} from '@icon-park/react';
-import { Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon, ErdaIcon } from 'common';
 import React from 'react';
 
 export const getDopMenu = () => {
@@ -33,13 +26,13 @@ export const getDopMenu = () => {
       [
         {
           href: goTo.resolve.dopRoot(), // '/dop/projects',
-          icon: <IconApiApp />,
+          icon: <ErdaIcon className="mt-3.5 mr-1" type="api-app" color="currentColor" />,
           text: i18n.t('joined projects'),
           subtitle: i18n.t('Project'),
         },
         {
           href: goTo.resolve.dopApps(), // '/dop/apps',
-          icon: <IconApplicationOne />,
+          icon: <ErdaIcon className="mt-3.5 mr-1" type="application-one" color="currentColor" />,
           text: i18n.t('joined apps'),
           subtitle: i18n.t('App'),
         },
@@ -81,7 +74,7 @@ export const getDopMenu = () => {
         {
           key: 'approval',
           href: goTo.resolve.dopApprove(), // '/dop/approval/my-approve',
-          icon: <IconSeal />,
+          icon: <ErdaIcon className="mt-3.5 mr-1" type="seal" color="currentColor" />,
           text: i18n.t('dop:approval request'),
           subtitle: i18n.t('Approve'),
           subMenu: [
@@ -100,14 +93,14 @@ export const getDopMenu = () => {
         {
           key: 'dopPublisher',
           href: goTo.resolve.dopPublisher(), // '/dop/publisher',
-          icon: <IconSend />,
+          icon: <ErdaIcon className="mt-3.5 mr-1" type="send" color="currentColor" />,
           text: i18n.t('publisher:my release'),
           subtitle: i18n.t('Release'),
           show: orgPerm.dop.publisher.read.pass,
         },
         {
           href: goTo.resolve.dopPublicProjects(),
-          icon: <IconBookOne />,
+          icon: <ErdaIcon className="mt-3.5 mr-1" type="book-one" color="currentColor" />,
           text: i18n.t('public project'),
           subtitle: i18n.t('Public'),
         },

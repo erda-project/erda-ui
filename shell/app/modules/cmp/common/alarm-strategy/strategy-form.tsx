@@ -29,7 +29,7 @@ import {
 import { useMount, useUnmount } from 'react-use';
 import { FormInstance } from 'core/common/interface';
 import { Modal, Button, Switch, Select, Table, Input, InputNumber, Popover, Tooltip, Form } from 'antd';
-import { RenderForm } from 'common';
+import { RenderForm, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
 import { ColumnProps } from 'app/interface/common';
@@ -46,12 +46,6 @@ import {
 import { usePerm } from 'user/common';
 import { getNotifyChannelMethods } from 'org/services/notice-channel';
 import routeInfoStore from 'core/stores/route';
-import {
-  Plus as IconPlus,
-  PageTemplate as IconPageTemplate,
-  ArrowLeft as IconArrowLeft,
-  Remind as IconRemind,
-} from '@icon-park/react';
 import { TriggerConditionSelect } from './trigger-condition-select';
 import { NotifyStrategySelect } from './notify-strategy-select';
 import './index.scss';
@@ -576,7 +570,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       getComp: () => (
         <>
           <Button className="flex items-center mb-2" type="primary" ghost onClick={handleAddTriggerConditions}>
-            <IconPlus theme="filled" size="16" />
+            <ErdaIcon type="plus" color="currentColor" size="16" />
             <span>{i18n.t('cmp:add rule')}</span>
           </Button>
           {state.triggerCondition?.length > 0 && (
@@ -625,12 +619,12 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
               }
             >
               <Button className="mr-2 flex items-center" ghost type="primary">
-                <IconPageTemplate size="14" />
+                <ErdaIcon type="page-template" color="currentColor" className="mr-1" size="14" />
                 <span>{i18n.t('cmp:type template')}</span>
               </Button>
             </Popover>
             <Button type="primary" className="flex items-center" ghost onClick={handleAddEditingRule}>
-              <IconPlus theme="filled" size="16" />
+              <ErdaIcon type="plus" color="currentColor" size="16" />
               <span>{i18n.t('cmp:add rule')}</span>
             </Button>
           </div>
@@ -670,7 +664,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       getComp: () => (
         <>
           <Button type="primary" ghost className="flex items-center mb-2" onClick={handleAddNotifyStrategy}>
-            <IconPlus theme="filled" size="16" />
+            <ErdaIcon type="plus" color="currentColor" size="16" />
             <span>{i18n.t('cmp:add notification object')}</span>
           </Button>
           {state.notifies?.length > 0 && (
@@ -980,8 +974,19 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
 export function AddStrategyPageName() {
   return (
     <div>
-      <IconArrowLeft className="cursor-pointer text-gray mr-3" onClick={() => window.history.back()} size="18" />
-      <IconRemind size="18" theme="outline" className="text-white bg-primary p-2 text-bold rounded-sm mr-2" />
+      <ErdaIcon
+        type="arrow-left"
+        size="18"
+        color="currentColor"
+        className="cursor-pointer text-gray mr-3"
+        onClick={() => window.history.back()}
+      />
+      <ErdaIcon
+        type="remind"
+        color="currentColor"
+        size="18"
+        className="text-white bg-primary p-2 text-bold rounded-sm mr-2"
+      />
       <span className="font-bold text-lg">{i18n.t('cmp:new alarm strategy')}</span>
     </div>
   );
@@ -990,8 +995,19 @@ export function AddStrategyPageName() {
 export function EditStrategyPageName() {
   return (
     <div>
-      <IconArrowLeft className="cursor-pointer text-light-gray mr-3" onClick={() => window.history.back()} size="18" />
-      <IconRemind size="18" theme="outline" className="text-white bg-primary p-2 text-bold rounded-sm mr-2" />
+      <ErdaIcon
+        type="arrow-left"
+        size="18"
+        color="currentColor"
+        className="cursor-pointer text-gray mr-3"
+        onClick={() => window.history.back()}
+      />
+      <ErdaIcon
+        type="remind"
+        color="currentColor"
+        size="18"
+        className="text-white bg-primary p-2 text-bold rounded-sm mr-2"
+      />
       <span className="font-bold text-lg">{i18n.t('cmp:edit alarm strategy')}</span>
     </div>
   );

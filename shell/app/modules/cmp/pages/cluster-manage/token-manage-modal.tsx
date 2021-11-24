@@ -14,8 +14,7 @@
 import React from 'react';
 import { Modal, Popconfirm, Button } from 'antd';
 import i18n from 'i18n';
-import { Copy as IconCopy } from '@icon-park/react';
-import { Copy } from 'common';
+import { Copy, ErdaIcon } from 'common';
 import { getToken, createToken, resetToken } from 'cmp/services/token-manage';
 
 interface IProps {
@@ -80,7 +79,7 @@ const TokenManageModal = (props: IProps) => {
 
       {token ? (
         <div className="flex items-center text-primary">
-          <IconCopy size="14" />
+          <ErdaIcon size="14" type="fz1" className="mr-1" color="currentColor" />
           <Copy selector=".container-key" copyText={token}>
             {i18n.t('copy')}
           </Copy>

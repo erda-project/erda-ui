@@ -14,7 +14,7 @@
 import React from 'react';
 import { Select } from 'antd';
 import { map } from 'lodash';
-import { Minus as IconMinus, Plus as IconPlus } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 import './scaleSelector.scss';
 
 const { Option } = Select;
@@ -48,9 +48,11 @@ export const ScaleSelector = ({ scale, onChange }: IProps) => {
 
   return (
     <div className="scale-selector">
-      <IconMinus
-        size="16px"
-        className="scale-minus scale-op"
+      <ErdaIcon
+        type="minus"
+        color="currentColor"
+        size="16"
+        className="mr-1 scale-minus scale-op"
         onClick={() => changeScale(Number((curScale - 0.2).toFixed(1)))}
       />
       <Select
@@ -65,8 +67,10 @@ export const ScaleSelector = ({ scale, onChange }: IProps) => {
           </Option>
         ))}
       </Select>
-      <IconPlus
-        size="16px"
+      <ErdaIcon
+        type="plus"
+        color="currentColor"
+        size="16"
         className="scale-plus scale-op"
         onClick={() => changeScale(Number((curScale + 0.2).toFixed(1)))}
       />

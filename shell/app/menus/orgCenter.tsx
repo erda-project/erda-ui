@@ -15,9 +15,8 @@ import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
 import { goTo } from 'common/utils';
 import permStore from 'user/stores/permission';
-import { ApiApp as IconApiApp, CeMarking as IconCeMarking, Log as IconLog, City as IconCity } from '@icon-park/react';
 import React from 'react';
-import { Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon, ErdaIcon } from 'common';
 import { filter } from 'lodash';
 
 // 应用中心菜单
@@ -29,7 +28,7 @@ export const getOrgCenterMenu = () => {
         {
           key: 'orgProjects',
           href: goTo.resolve.orgCenterRoot(), // '/orgCenter/projects',
-          icon: <IconApiApp />,
+          icon: <ErdaIcon type="api-app" className="mt-3.5 mr-1" color="currentColor" />,
           text: i18n.t('projects'),
           subtitle: i18n.t('Project'),
           show: orgPerm.orgCenter.viewProjects.pass,
@@ -37,7 +36,7 @@ export const getOrgCenterMenu = () => {
         {
           key: 'orgMarket',
           href: goTo.resolve.orgCenterPublisherSetting(),
-          icon: <IconCeMarking />,
+          icon: <ErdaIcon type="ce-marking" className="mt-3.5 mr-1" color="currentColor" />,
           text: i18n.t('layout:mobile development management'),
           subtitle: i18n.t('Mobile'),
           prefix: goTo.resolve.orgCenterMarket(),
@@ -55,7 +54,7 @@ export const getOrgCenterMenu = () => {
         {
           key: 'orgSafety',
           href: goTo.resolve.orgCenterSafety(), // '/orgCenter/safety',
-          icon: <IconLog />,
+          icon: <ErdaIcon type="log" className="mt-3.5 mr-1" color="currentColor" />,
           text: i18n.t('cmp:audit log'),
           subtitle: i18n.t('Audit'),
           show: orgPerm.orgCenter.viewAuditLog.pass,
@@ -63,7 +62,7 @@ export const getOrgCenterMenu = () => {
         {
           key: 'orgSetting',
           href: goTo.resolve.cmpSetting(), // '/orgCenter/setting/detail',
-          icon: <IconCity />,
+          icon: <ErdaIcon type="city" className="mt-3.5 mr-1" color="currentColor" />,
           text: i18n.t('org setting'),
           subtitle: i18n.t('Org'),
           show: orgPerm.orgCenter.viewSetting.pass,

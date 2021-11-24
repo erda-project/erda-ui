@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { ColumnProps } from 'core/common/interface';
-import { Copy, EmptyHolder } from 'common';
+import { Copy, EmptyHolder, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { Button, Table, Modal, Popconfirm, message, Spin } from 'antd';
@@ -22,7 +22,6 @@ import { PAGINATION } from 'app/constants';
 import { usePerm, WithAuth } from 'user/common';
 import moment from 'moment';
 import Markdown from 'common/utils/marked';
-import { Copy as IconCopy } from '@icon-park/react';
 import {
   getAcquisitionAndLang,
   getDetailToken,
@@ -263,7 +262,7 @@ const Configuration = () => {
           </div>
 
           <div className="flex items-center text-primary">
-            <IconCopy size="14" />
+            <ErdaIcon size="14" type="fz1" className="mr-1" color="currentColor" />
             <Copy selector=".container-key" copyText={`${detail}`}>
               {i18n.t('copy')}
             </Copy>

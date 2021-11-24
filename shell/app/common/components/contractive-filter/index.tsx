@@ -18,14 +18,7 @@ import moment, { Moment } from 'moment';
 import { useUpdateEffect } from 'react-use';
 import { debounce, isEmpty, isArray, map, max, sortBy, isString, has, isNumber } from 'lodash';
 import i18n from 'i18n';
-import {
-  DownOne as IconDownOne,
-  Down as IconDown,
-  Search as IconSearch,
-  Check as IconCheck,
-  Plus as IconPlus,
-  Delete as IconDelete,
-} from '@icon-park/react';
+import { DownOne as IconDownOne, Down as IconDown } from '@icon-park/react';
 import './index.scss';
 
 interface Option {
@@ -120,7 +113,7 @@ const OptionItem = (props: IOptionItemProps) => {
           {option.icon && <CustomIcon type={option.icon} />}
           {option.label}
         </span>
-        <span>{value.includes(option.value) ? <IconCheck className="text-success ml-2" /> : null}</span>
+        <span>{value.includes(option.value) ? <ErdaIcon type="check" size="14" color="green" className="ml-2" /> : null}</span>
       </div>
       {onDelete ? (
         <div
@@ -131,7 +124,7 @@ const OptionItem = (props: IOptionItemProps) => {
           }}
         >
           <div className="option-item-delete-box pl-2">
-            <IconDelete theme="outline" />
+            <ErdaIcon type="shanchu" color="currentColor" className="mr-1" size="14" />
           </div>
         </div>
       ) : null}
@@ -190,7 +183,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         className="bg-hover-gray-bg"
         bordered={false}
         // ref={inputRef}
-        prefix={<IconSearch size="16" className="text-black-300" />}
+        prefix={<ErdaIcon size="16" type="search1" color="currentColor" />}
         placeholder={placeholder || i18n.t('press enter to search')}
         // onPressEnter={() => inputRef.current?.blur()}
         onChange={(e) => setInputVal(e.target.value)}
@@ -220,7 +213,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               autoFocus
               size="small"
               placeholder={i18n.t('search')}
-              prefix={<IconSearch size="16" />}
+              prefix={<ErdaIcon size="16" type="search1" color="currentColor" />}
               value={filterMap[key]}
               onChange={(e) => {
                 const v = e.target.value;
@@ -841,7 +834,7 @@ const ContractiveFilter = ({
                   <Input
                     autoFocus
                     size="small"
-                    prefix={<IconSearch size="16" />}
+                    prefix={<ErdaIcon size="16" type="search1" color="currentColor" />}
                     onClick={(e) => e.stopPropagation()}
                     value={hideFilterKey}
                     onChange={(e) => setHideFilterKey(e.target.value.toLowerCase())}
@@ -889,7 +882,7 @@ const ContractiveFilter = ({
             placement="bottomLeft"
           >
             <span className="contractive-filter-item more-conditions">
-              <IconPlus fill="rgba(0, 0, 0, 0.8)" className="mr-0.5 mb-1 color-text" />
+              <ErdaIcon color="black-800" type="plus" className="mr-0.5 color-text" />
               <span>{i18n.t('filter')}</span>
               <IconDownOne className="hover ml-1 mb-0.5" size="12" theme="filled" fill="#bbb" />
             </span>

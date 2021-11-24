@@ -14,16 +14,10 @@
 import React from 'react';
 import i18n from 'i18n';
 import { Menu, Dropdown, Avatar } from 'antd';
-import { Icon as CustomIcon, MemberSelector } from 'common';
+import { Icon as CustomIcon, MemberSelector, ErdaIcon } from 'common';
 import userStore from 'app/user/stores';
 import { useUserMap } from 'core/stores/userMap';
 import issueStore from 'project/stores/issues';
-import {
-  PreviewOpen as IconPreviewOpen,
-  PreviewCloseOne as IconPreviewCloseOne,
-  Plus as IconPlus,
-  Right as IconRight,
-} from '@icon-park/react';
 
 interface IProps {
   subscribers: string[];
@@ -71,7 +65,7 @@ export const SubscribersSelector = (props: IProps) => {
       <Menu.Item>
         {isFollowed ? (
           <div
-            className="px-3 py-1"
+            className="px-3 py-1 flex items-center"
             onClick={async () => {
               if (issueID) {
                 await unsubscribe({ id: issueID });
@@ -83,11 +77,12 @@ export const SubscribersSelector = (props: IProps) => {
               }
             }}
           >
-            <IconPreviewCloseOne />
+            <ErdaIcon className="mr-1" type="preview-close-one" color="currentColor" size="14" />
             {i18n.t('dop:unfollow')}
           </div>
         ) : (
           <div
+            className="flex items-center"
             onClick={async () => {
               if (issueID) {
                 await subscribe({ id: issueID });
@@ -97,7 +92,7 @@ export const SubscribersSelector = (props: IProps) => {
               }
             }}
           >
-            <IconPreviewOpen />
+            <ErdaIcon type="preview-open" className="mr-1" size="14" color="currentColor" />
             {i18n.t('dop:follow')}
           </div>
         )}
@@ -132,14 +127,15 @@ export const SubscribersSelector = (props: IProps) => {
           }}
           resultsRender={() => (
             <span
+              className="flex items-center"
               onClick={(e) => {
                 e.stopPropagation();
                 memberRef.current?.show(true);
               }}
             >
-              <IconPlus />
+              <ErdaIcon type="plus" size="14" color="currentColor" className="mr-1" />
               {i18n.t('dop:Add Followers')}
-              <IconRight className="add-follower-btn" />
+              <ErdaIcon type="right" size="14" color="currentColor" className="add-follower-btn" />
             </span>
           )}
         />

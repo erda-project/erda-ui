@@ -19,7 +19,6 @@ import { ColumnProps } from 'common/components/table/interface';
 import { goTo, fromNow } from 'common/utils';
 import { Filter, ErdaIcon, BootPrompt } from 'common';
 import { useUnmount } from 'react-use';
-import { Attention as IconAttention } from '@icon-park/react';
 import { PAGINATION } from 'app/constants';
 import projectStore from 'project/stores/project';
 import { useLoading } from 'core/stores/loading';
@@ -77,10 +76,10 @@ export const ProjectList = () => {
       },
       {
         title: () => (
-          <span>
+          <span className="flex items-center">
             <span className="mr-1">{i18n.t('cmp:application/Member Statistics')}</span>
             <Tooltip title={i18n.t('update data every day at 0')}>
-              <IconAttention fill="#837d90" className="font-bold" />
+              <ErdaIcon className="font-bold" type="attention" color="currentColor" size="14" />
             </Tooltip>
           </span>
         ),

@@ -15,15 +15,8 @@ import i18n from 'i18n';
 import { filter } from 'lodash';
 import permStore from 'user/stores/permission';
 import { goTo } from 'common/utils';
-import {
-  ApplicationOne as IconApplicationOne,
-  DashboardCar as IconDashboardCar,
-  List as IconList,
-  Config as IconConfig,
-  DataAll as IconDataAll,
-} from '@icon-park/react';
 import React from 'react';
-import { Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon, ErdaIcon } from 'common';
 
 export const getProjectMenu = (projectId: string, pathname: string) => {
   const projectPerm = permStore.getState((s) => s.project);
@@ -79,14 +72,14 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     },
     {
       href: goTo.resolve.projectApps(), // `/dop/projects/${projectId}/apps`,
-      icon: <IconApplicationOne />,
+      icon: <ErdaIcon type="application-one" className="mt-3.5 mr-1" color="currentColor" />,
       text: i18n.t('dop:Applications'),
       subtitle: i18n.t('App'),
       show: projectPerm.appList.viewAppList.pass,
     },
     {
       href: goTo.resolve.project(), // `/dop/projects/${projectId}/apps`,
-      icon: <IconDashboardCar />,
+      icon: <ErdaIcon type="dashboard-car" className="mt-3.5 mr-1" color="currentColor" />,
       text: i18n.t('dop:O & M'),
       subtitle: i18n.t('dop:operator'),
       show: projectPerm.service.viewService.pass || projectPerm.resource.viewResource.pass,
@@ -101,7 +94,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
         {
           href: goTo.resolve.projectResource(),
           text: i18n.t('Resource summary'),
-          icon: <IconDataAll />,
+          icon: <ErdaIcon type="data-all" color="currentColor" />,
           subtitle: i18n.t('Resource'),
           show: projectPerm.resource.viewResource.pass,
         },
@@ -110,13 +103,13 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       text: i18n.t('dop:tickets'),
       subtitle: i18n.t('Tickets'),
-      icon: <IconList />,
+      icon: <ErdaIcon type="list1" className="mt-3.5 mr-1" color="currentColor" />,
       href: goTo.resolve.projectTicket(),
       show: projectPerm.ticket.read.pass,
     },
     {
       href: goTo.resolve.projectSetting(), // `/dop/projects/${projectId}/setting`,
-      icon: <IconConfig />,
+      icon: <ErdaIcon type="config" className="mt-3.5 mr-1" color="currentColor" />,
       text: `${i18n.t('{key} Settings', { key: i18n.t('project') })}`,
       subtitle: i18n.t('Setting'),
       show: projectPerm.setting.viewSetting.pass,

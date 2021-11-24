@@ -17,7 +17,6 @@ import React from 'react';
 import { map, get } from 'lodash';
 import i18n from 'i18n';
 import './dropdown-select.scss';
-import { DownOne as IconDownOne, Search as IconSearch, Check as IconCheck } from '@icon-park/react';
 
 const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
   const { execOperation, props: configProps, state: propsState, customProps = {} } = props;
@@ -68,7 +67,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
             autoFocus
             size="small"
             placeholder={i18n.t('search')}
-            prefix={<IconSearch size="16" />}
+            prefix={<ErdaIcon type="search1" color="currentColor" size="16" />}
             value={filterValue}
             onChange={(e) => setFilterValue(e.target.value)}
           />
@@ -102,7 +101,9 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
                   ) : null}
                   {item.label}
                 </span>
-                <span>{value === item.value ? <IconCheck className="ml-2" /> : null}</span>
+                <span className="flex">
+                  {value === item.value ? <ErdaIcon type="check" color="currentColor" className="ml-2" /> : null}
+                </span>
               </div>
             </Menu.Item>
           );
@@ -131,9 +132,9 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
       trigger={trigger || ['click']}
       {...restProps}
     >
-      <span className="dropdown-select-button hover-active" onClick={() => setActive(!active)}>
+      <span className="flex items-center justify-center dropdown-select-button hover-active" onClick={() => setActive(!active)}>
         {propsState?.label || label}
-        <IconDownOne className="caret ml-0.5" size="14" theme="filled" />
+        <ErdaIcon type="caret-down" className="ml-0.5" size="18" color="currentColor"/>
       </span>
     </Dropdown>
   );

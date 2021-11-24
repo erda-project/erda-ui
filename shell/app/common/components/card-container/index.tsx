@@ -13,8 +13,8 @@
 
 import React from 'react';
 import { Tooltip } from 'antd';
-import { Help as IconHelp } from '@icon-park/react';
 import { EmptyHolder } from '../empty-holder';
+import { ErdaIcon } from 'common';
 import './index.scss';
 
 export interface CardContainerProps {
@@ -57,7 +57,7 @@ const CardContainer = ({ title, tip, className, operation, holderWhen, style, ch
               {title}
               {tip ? (
                 <Tooltip title={TipComp} overlayStyle={{ maxWidth: 600 }}>
-                  <IconHelp className="text-base ml-1" />
+                  <ErdaIcon type="help" size="16" color="currentColor" className="ml-1" />
                 </Tooltip>
               ) : null}
             </div>

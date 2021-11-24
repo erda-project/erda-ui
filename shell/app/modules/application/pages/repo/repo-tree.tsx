@@ -16,7 +16,7 @@ import { goTo, cutStr, fromNow, replaceEmoji, setApiWithOrg } from 'common/utils
 import { groupBy, sortBy, get } from 'lodash';
 import React from 'react';
 import { useUnmount, useUpdateEffect } from 'react-use';
-import { Icon as CustomIcon, Copy, EmptyHolder, IF, FormModal } from 'common';
+import { Icon as CustomIcon, Copy, EmptyHolder, IF, FormModal, ErdaIcon } from 'common';
 import RepoFileContainer from './components/repo-file-container';
 import RepoEditor from './components/repo-editor';
 import StartTip from './components/start-tip';
@@ -30,7 +30,6 @@ import { useLoading } from 'core/stores/loading';
 import { WithAuth, usePerm } from 'user/common';
 import appStore from 'application/stores/application';
 import i18n from 'i18n';
-import { Copy as IconCopy } from '@icon-park/react';
 import { FormInstance } from 'core/common/interface';
 
 import './repo-tree.scss';
@@ -59,7 +58,7 @@ const RepoDownload = (props: IDownProp) => {
   const renderAddonAfter = (text: string, tip: string) => {
     return (
       <span className="copy-btn cursor-copy" data-clipboard-text={text} data-clipboard-tip={tip}>
-        <IconCopy />
+        <ErdaIcon size="14" className="mt-2" type="fz1" color="currentColor" />
       </span>
     );
   };

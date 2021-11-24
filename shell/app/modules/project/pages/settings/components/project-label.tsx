@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormModal, Icon as CustomIcon } from 'common';
+import { FormModal, Icon as CustomIcon, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'app/i18n';
 import { FormInstance } from 'core/common/interface';
@@ -20,7 +20,6 @@ import projectLabel from 'project/stores/label';
 import React from 'react';
 import { useEffectOnce } from 'react-use';
 import './project-label.scss';
-import { Close as IconClose, Plus as IconPlus } from '@icon-park/react';
 
 const colors = ['red', 'orange', 'blue', 'green', 'purple', 'gray'];
 
@@ -131,19 +130,22 @@ const ProjectLabel = () => {
 
   return (
     <div className="project-label-list">
-      <div>
-        <span className="label-item create" onClick={() => updater.modalVisible(true)}>
-          <IconPlus size="14px" />
+      <div className="flex items-center flex-wrap">
+        <span className="flex items-center label-item create" onClick={() => updater.modalVisible(true)}>
+          <ErdaIcon type="plus" className="mr-1" color="currentColor" size="14px" />
           {i18n.t('dop:add label')}
         </span>
         {list.map((label) => (
           <span
-            className={`label-item text-${label.color} bg-${label.color} bg-opacity-10`}
+            className={`flex items-center label-item text-${label.color} bg-${label.color} bg-opacity-10`}
             key={label.id}
             onClick={() => onClickLabel(label)}
           >
             {label.name}
-            <IconClose
+            <ErdaIcon
+              type="close"
+              size="12"
+              color="currentColor"
               className="ml-1"
               onClick={(e) => {
                 e.stopPropagation();

@@ -15,8 +15,7 @@ import React from 'react';
 import { Input, Popover, message, Button } from 'antd';
 import i18n from 'i18n';
 import testSetStore from 'project/stores/test-set';
-import { Close as IconClose, Check as IconCheck } from '@icon-park/react';
-
+import { ErdaIcon } from 'common';
 interface IProps {
   afterCreate: (data: TEST_SET.TestSet) => void;
 }
@@ -59,8 +58,8 @@ const NewSet = ({ afterCreate }: IProps) => {
         onChange={(e) => setValue(e.target.value)}
         onKeyUp={handlePressEntry}
       />
-      <IconCheck className="ml-3 text-lg text-primary cursor-pointer" onClick={handleSave} />
-      <IconClose className="ml-3 text-lg cursor-pointer" onClick={handleHide} />
+      <ErdaIcon type="check" color="currentColor" className="ml-3 text-lg text-primary cursor-pointer" onClick={handleSave} />
+      <ErdaIcon type="close" color="currentColor" className="ml-3 text-lg cursor-pointer" onClick={handleHide} />
     </div>
   );
 

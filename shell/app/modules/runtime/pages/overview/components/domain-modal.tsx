@@ -15,14 +15,13 @@ import { map, findLast, isEqual, cloneDeep, filter } from 'lodash';
 import React from 'react';
 import { FormInstance } from 'core/common/interface';
 import { useUpdate } from 'common/use-hooks';
-
+import { ErdaIcon } from 'common';
 import { setLS, goTo } from 'common/utils';
 import { Row, Col, Form, Input, Popconfirm, Modal, message } from 'antd';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import runtimeStore from 'runtime/stores/runtime';
 import runtimeDomainStore from 'runtime/stores/domain';
-import { ReduceOne as IconReduceOne, AddOne as IconAddOne } from '@icon-park/react';
 
 import './domain-modal.scss';
 
@@ -202,7 +201,13 @@ const DomainModal = (props: IProps) => {
                 <div className="custom-domain" key="custom">
                   <span>{i18n.t('runtime:custom domain name')}:</span>
                   <span className="add-domain-icon">
-                    <IconAddOne className="hover-active text-lg ml-3 cursor-pointer" onClick={() => addCustom()} />
+                    <ErdaIcon
+                      type="add-one"
+                      color="currentColor"
+                      className="ml-3 hover-active cursor-pointer mt-1"
+                      onClick={() => addCustom()}
+                      size="18"
+                    />
                   </span>
                 </div>
               </div>
@@ -256,7 +261,12 @@ const InputItem = (props: IInputItemProps) => {
       <Popconfirm title={i18n.t('runtime:confirm deletion')} onConfirm={onDelete}>
         <span className="delete-domain-icon">
           {' '}
-          <IconReduceOne className="hover-active text-lg cursor-pointer" />{' '}
+          <ErdaIcon
+            type="reduce-one"
+            size="18"
+            color="currentColor"
+            className="hover-active cursor-pointer mt-1.5"
+          />{' '}
         </span>
       </Popconfirm>
     </>

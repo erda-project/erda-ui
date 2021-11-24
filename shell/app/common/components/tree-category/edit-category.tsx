@@ -16,7 +16,6 @@ import { message, Input, Popover, Button } from 'antd';
 import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
-import { Check as IconCheck } from '@icon-park/react';
 
 interface IProps {
   contentOnly?: boolean;
@@ -87,7 +86,7 @@ export const EditCategory = (props: IProps) => {
         onPressEnter={() => handleSave()}
         onChange={(e) => setValue(e.target.value)}
       />
-      <IconCheck className="ml-3 cursor-pointer" onClick={handleSave} size="16" />
+      <ErdaIcon type="check" color="currentColor" className="ml-3 cursor-pointer" onClick={handleSave} size="16" />
       <ErdaIcon
         fill="black-800"
         type="close"

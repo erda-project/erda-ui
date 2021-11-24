@@ -14,11 +14,10 @@
 import React from 'react';
 import { Tooltip } from 'antd';
 import { isEmpty } from 'lodash';
-import { Icon as CustomIcon, EmptyHolder } from 'common';
+import { Icon as CustomIcon, EmptyHolder, ErdaIcon } from 'common';
 import { notify } from 'common/utils';
 import PureTraceDetail from './trace-detail-new';
 import i18n from 'i18n';
-import { Loading as IconLoading, PauseOne as IconPauseOne, ReduceOne as IconReduceOne } from '@icon-park/react';
 import './trace-status-viewer.scss';
 
 const TraceStatusViewer = ({
@@ -46,8 +45,8 @@ const TraceStatusViewer = ({
   // 状态，0：初始化、1：成功、2：失败、3：主动取消 对应 statusNodeList 数组下标
   const statusNodeList = [
     <div className="request-status-wp pending">
-      <span className="request-status-text">
-        <IconLoading /> {statusName}
+      <span className="request-status-text flex">
+        <ErdaIcon className="mr-2" type="loading" size="16" color="currentColor" /> {statusName}
       </span>
       <Tooltip title={i18n.t('cancel')}>
         <span
@@ -57,7 +56,7 @@ const TraceStatusViewer = ({
             handleCancelRequestPending(requestId);
           }}
         >
-          <IconPauseOne size="20px" />
+          <ErdaIcon className="mt-1" type="pause-one" color="currentColor" size="20px" />
         </span>
       </Tooltip>
     </div>,
@@ -73,8 +72,8 @@ const TraceStatusViewer = ({
       </span>
     </div>,
     <div className="request-status-wp cancel">
-      <span className="request-status-text">
-        <IconReduceOne theme="filled" /> {statusName}
+      <span className="flex items-center request-status-text">
+        <ErdaIcon size="16" className="mr-1" type="reduce-one" color="currentColor" /> {statusName}
       </span>
     </div>,
   ];

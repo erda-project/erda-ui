@@ -14,15 +14,6 @@
 import i18n from 'i18n';
 import { goTo, insertWhen } from 'common/utils';
 import { filterMenu, MENU_SCOPE } from './util';
-import {
-  Log as IconLog,
-  ListTwo as IconListTwo,
-  DataDisplay as IconDataDisplay,
-  DataAll as IconDataAll,
-  DashboardCar as IconDashboardCar,
-  DataFile as IconDataFile,
-  DatabaseAlert as IconDatabaseAlert,
-} from '@icon-park/react';
 import React from 'react';
 import { ErdaIcon } from 'common';
 import { EMPTY_CLUSTER } from 'cmp/pages/cluster-manage/config';
@@ -33,13 +24,13 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
       {
         key: 'cmpOverview',
         href: goTo.resolve.cmpRoot(),
-        icon: <IconDataDisplay />,
+        icon: <ErdaIcon className="mt-3.5 mr-1" type="data-display" color="currentColor" />,
         text: i18n.t('cluster overview'),
         subtitle: i18n.t('Overview'),
       },
       {
         key: 'cmpResources',
-        icon: <IconDataAll />,
+        icon: <ErdaIcon className="mt-3.5 mr-1" type="data-all" color="currentColor" />,
         href: goTo.resolve.cmpClusters(),
         text: i18n.t('cluster resource'),
         subtitle: i18n.t('Resource'),
@@ -93,7 +84,7 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
       },
       {
         key: 'cmpServices',
-        icon: <IconListTwo />,
+        icon: <ErdaIcon className="mt-3.5 mr-1" type="list-two" color="currentColor" />,
         href: goTo.resolve.cmpDomain(),
         text: i18n.t('application resource'),
         subtitle: i18n.t('App'),
@@ -122,14 +113,14 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
       {
         key: 'cmpReport',
         href: goTo.resolve.cmpReport(), // '/cmp/report',
-        icon: <IconDataFile />,
+        icon: <ErdaIcon className="mt-3.5 mr-1" type="data-file" color="currentColor" />,
         text: i18n.t('O & M report'),
         subtitle: i18n.t('Report'),
       },
       {
         key: 'cmpAlarm',
         href: goTo.resolve.cmpAlarm(), // '/cmp/alarm',
-        icon: <IconDatabaseAlert />,
+        icon: <ErdaIcon className="mt-3.5 mr-1" type="database-alert" color="currentColor" />,
         text: i18n.t('O & M alarm'),
         subtitle: i18n.t('Alarm'),
         subMenu: [
@@ -154,7 +145,7 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
       {
         key: 'cmpDashboard',
         href: goTo.resolve.orgCustomDashboard(), // '/cmp/customDashboard',
-        icon: <IconDashboardCar />,
+        icon: <ErdaIcon className="mt-3.5 mr-1" type="dashboard-car" color="currentColor" />,
         text: i18n.t('custom dashboard'),
         subtitle: i18n.t('Dashboard'),
       },

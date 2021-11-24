@@ -12,9 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon as CustomIcon, Copy } from 'common';
+import { Icon as CustomIcon, Copy, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { ShareOne as IconShareOne } from '@icon-park/react';
 import PureTraceDetail from './trace-detail-new';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useUnmount } from 'react-use';
@@ -77,7 +76,7 @@ export default ({ traceId }: { traceId?: string }) => {
         {i18n.t('msp:trace id')}: {id}
         <Copy selector=".cursor-copy">
           <span className="cursor-copy hover-text" data-clipboard-text={copyPath} data-clipboard-tip={i18n.t('link')}>
-            <IconShareOne className="hover-active ml-5" size="16px" />
+            <ErdaIcon type="share-one" className="hover-active ml-5" size="16px" color="currentColor" />
           </span>
         </Copy>
       </div>
