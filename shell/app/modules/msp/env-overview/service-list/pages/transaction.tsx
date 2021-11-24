@@ -299,7 +299,7 @@ const Transaction = () => {
   }
 
   const traceSlowSlot = (
-    <div className="flex items-center flex-wrap justify-end">
+    <div className="flex items-center flex-wrap justify-start">
       <span>{i18n.t('msp:maximum number of queries')}：</span>
       <Select className="mr-3" value={limit} onChange={handleChangeLimit}>
         {limits.map((item) => (
