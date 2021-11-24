@@ -26,6 +26,37 @@ import remarkGfm from 'remark-gfm';
 
 import './index.scss';
 
+const ScalableImage = ({ src, alt }: { src: string; alt: string }) => {
+  const [enlarged, setEnlarged] = React.useState(false);
+
+  const removeMask = React.useCallback((e) => {
+    e.stopPropagation();
+    setEnlarged(false);
+    document.body.removeEventListener('click', removeMask);
+  }, []);
+
+  const enlargeImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setEnlarged(true);
+    document.body.addEventListener('click', removeMask);
+  };
+
+  return (
+    <div>
+      <img style={{ cursor: 'zoom-in' }} src={src} onClick={enlargeImage} alt={alt || 'preview-image'} />
+      <div
+        className={`${
+          enlarged
+            ? 'fixed top-0 right-0 left-0 bottom-0 z-50 flex items-center justify-center overflow-auto bg-desc'
+            : 'hidden'
+        }`}
+      >
+        <img style={{ cursor: 'zoom-out' }} src={src} alt={alt || 'preview-image'} />
+      </div>
+    </div>
+  );
+};
+
 interface IMdProps {
   value?: string;
   originalValue?: string;
@@ -95,7 +126,9 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       >
         <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
           <div ref={mdContentRef} className="md-content">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{value || ''}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ img: ScalableImage }}>
+              {value || ''}
+            </ReactMarkdown>
             <div
               className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex justify-center items-center ${
                 !expandBtnVisible || expanded ? 'hidden' : ''
