@@ -145,7 +145,7 @@ function getCmpRouter(): RouteConfigItem[] {
             {
               path: 'pods',
               pageNameInfo: ClusterSelector,
-              breadcrumbName: `${i18n.t('Pods')}({params.clusterName})`,
+              breadcrumbName: 'Pods({params.clusterName})',
               routes: [
                 {
                   layout: { noWrapper: true },

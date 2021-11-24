@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Select, DatePicker, Button } from 'antd';
+import { Input, Select, DatePicker, Tooltip } from 'antd';
 import moment from 'moment';
 import { useMount } from 'react-use';
 import { ErdaIcon, MarkdownEditor } from 'common';
@@ -49,7 +49,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
     setTimeout(() => {
       // macro task to wait for the DOM to be rendered
       if (value?.length && !isEditing && mdContentRef.current) {
-        updater.expandBtnVisible(mdContentRef.current?.getBoundingClientRect().height > maxHeight);
+        updater.expandBtnVisible(mdContentRef.current.getBoundingClientRect().height > maxHeight);
       } else {
         updater.expandBtnVisible(false);
       }
@@ -79,44 +79,39 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       ]
     : [];
 
-  return (
-    <div>
-      <Button className="mb-4" disabled={isEditing} onClick={() => updater.isEditing(true)}>
-        {isEditing ? `${i18n.t('editing')}...` : i18n.t('edit description')}
-      </Button>
-      {isEditing ? (
-        <MarkdownEditor
-          {...rest}
-          value={v}
-          onChange={onChange}
-          onBlur={(_v: string) => onSave(_v, 'markdown')}
-          defaultMode="md"
-          operationBtns={operationBtns}
-        />
-      ) : (
-        <div className="relative" style={{ maxHeight: expanded ? '' : maxHeight }}>
-          <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
-            <div ref={mdContentRef} className="md-content">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{v || ''}</ReactMarkdown>
-              <div
-                className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex justify-center items-center ${
-                  !expandBtnVisible || expanded ? 'hidden' : ''
-                }`}
-              />
-            </div>
-          </div>
-          <div
-            className={`absolute -bottom-6 left-0 right-0 mx-auto rounded-full w-28 px-3 py-1 border text-primary shadow cursor-pointer flex items-center bg-white ${
-              expandBtnVisible ? '' : 'hidden'
-            }`}
-            onClick={() => updater.expanded(!expanded)}
-          >
-            <ErdaIcon type={`${expanded ? 'double-up' : 'double-down'}`} color="currentColor" />
-            <div className="ml-1">{expanded ? i18n.t('collapse description') : i18n.t('expand description')}</div>
+  return isEditing ? (
+    <MarkdownEditor
+      {...rest}
+      value={v}
+      onChange={onChange}
+      onBlur={(_v: string) => onSave(_v, 'markdown')}
+      defaultMode="md"
+      operationBtns={operationBtns}
+    />
+  ) : (
+    <Tooltip placement="left" title={"点击即可编辑"} arrowPointAtCenter>
+      <div className="relative hover:bg-hover-gray-bg cursor-pointer rounded" onClick={() => updater.isEditing(true)} style={{ maxHeight: expanded ? '' : maxHeight }}>
+        <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
+          <div ref={mdContentRef} className="md-content">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{v || ''}</ReactMarkdown>
+            <div
+              className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex justify-center items-center ${
+                !expandBtnVisible || expanded ? 'hidden' : ''
+              }`}
+            />
           </div>
         </div>
-      )}
-    </div>
+        <div
+          className={`absolute -bottom-6 left-0 right-0 mx-auto rounded-full w-28 px-3 py-1 border text-primary shadow cursor-pointer flex items-center bg-white ${
+            expandBtnVisible ? '' : 'hidden'
+          }`}
+          onClick={() => updater.expanded(!expanded)}
+        >
+          <ErdaIcon type={`${expanded ? 'double-up' : 'double-down'}`} color="currentColor" />
+          <div className="ml-1">{expanded ? i18n.t('collapse description') : i18n.t('expand description')}</div>
+        </div>
+      </div>
+    </Tooltip>
   );
 };
 
