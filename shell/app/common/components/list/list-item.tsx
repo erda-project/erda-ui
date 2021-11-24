@@ -21,11 +21,19 @@ import { iconMap } from 'common/components/erda-icon';
 
 const getPrefixImg = (prefixImg: string, prefixImgCircle?: boolean) => {
   if (Object.keys(ImgMap).includes(prefixImg)) {
-    return <img src={getImg(prefixImg)} className={`item-prefix-img ${prefixImgCircle ? 'prefix-img-circle' : ''}`} />;
+    return (
+      <div>
+        <img src={getImg(prefixImg)} className={`item-prefix-img ${prefixImgCircle ? 'prefix-img-circle' : ''}`} />
+      </div>
+    );
   } else if (Object.keys(iconMap).includes(prefixImg)) {
     return <ErdaIcon type={prefixImg} size="76" className={`${prefixImgCircle ? 'prefix-img-circle' : ''}`} />;
   } else {
-    return '';
+    return (
+      <div>
+        <img src={prefixImg} className={`item-prefix-img rounded-sm ${prefixImgCircle ? 'prefix-img-circle' : ''}`} />
+      </div>
+    );
   }
 };
 
@@ -113,7 +121,11 @@ const ListItem = (props: ERDA_LIST.IListItemProps) => {
               ) : null}
               {status ? <Badge className="ml-2" {...status} /> : null}
             </div>
-            {description ? <Ellipsis className="body-description" title={description} /> : null}
+            {description ? (
+              <Ellipsis className="body-description" title={description} />
+            ) : (
+              <div className="body-description" />
+            )}
             {extraInfos ? (
               <div className="body-extra-info">
                 {extraInfos.map((info) => {
