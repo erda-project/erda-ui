@@ -374,6 +374,7 @@
     "creator": "creator",
     "cron has started, waiting for execution": "cron has started, waiting for execution",
     "cron has stopped": "cron has stopped",
+    "current": "current",
     "current SLA": "current SLA",
     "current month": "current month",
     "current user": "current user",

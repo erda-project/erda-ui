@@ -374,6 +374,7 @@
     "creator": "创建人",
     "cron has started, waiting for execution": "定时已开始，等待定时执行",
     "cron has stopped": "定时已停止",
+    "current": "当前",
     "current SLA": "当前SLA",
     "current month": "这个月",
     "current user": "当前用户",
