@@ -102,7 +102,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
           </div>
         </div>
         <div
-          className={`absolute -bottom-6 left-0 right-0 mx-auto rounded-full w-28 px-3 py-1 border text-primary shadow cursor-pointer flex items-center bg-white ${
+          className={`absolute -bottom-6 left-0 right-0 mx-auto rounded-full w-24 px-2 py-1 border text-primary shadow cursor-pointer flex items-center bg-white ${
             expandBtnVisible ? '' : 'hidden'
           }`}
           onClick={() => updater.expanded(!expanded)}
