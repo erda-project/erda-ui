@@ -16,7 +16,6 @@ import { Button, Input } from 'antd';
 import { BoardGrid } from 'common';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
-import DC from '@erda-ui/dashboard-configurator/dist';
 import topologyStore from 'msp/env-overview/topology/stores/topology';
 import routeInfoStore from 'core/stores/route';
 import { TimeSelectWithStore } from 'msp/components/time-select';
