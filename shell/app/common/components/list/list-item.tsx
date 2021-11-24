@@ -119,7 +119,7 @@ const ListItem = (props: ERDA_LIST.IListItemProps) => {
                   <CustomIcon type={titleSuffixIcon} className="title-icon ml-2" />
                 </Tooltip>
               ) : null}
-              {status ? <Badge className="ml-2" {...status} /> : null}
+              {status?.status && status?.text ? <Badge className="ml-2" {...status} /> : null}
             </div>
             {description ? (
               <Ellipsis className="body-description" title={description} />
