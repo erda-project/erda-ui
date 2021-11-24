@@ -105,7 +105,7 @@ const List = (props: CP_LIST.Props) => {
         combineList: newState.pageNo === 1 ? list : (newState.combineList || []).concat(list),
       };
     });
-  }, [propsState, list, update, data]);
+  }, [list, update, data]);
 
   const pagination = React.useMemo(() => {
     return isNumber(pageNo)
