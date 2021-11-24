@@ -40,7 +40,7 @@ declare namespace CONFIG_PAGE {
         [pro: string]: string[] | { [pro: string]: string | string[] };
       };
     };
-    components: Obj<Comps>;
+    components: Obj<Merge<Comps, { asyncAtInit: boolean }>>;
   }
 
   type Comps =

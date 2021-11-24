@@ -41,7 +41,7 @@ interface IProps {
   fullHeight?: boolean;
   forceMock?: boolean; // 使用mock
   useMock?: (params: Obj) => Promise<any>;
-  updateConfig?: (params: Obj) => any;
+  updateConfig?: (params: CONFIG_PAGE.RenderConfig) => void;
   operationCallBack?: (
     reqConfig: CONFIG_PAGE.RenderConfig,
     resConfig?: CONFIG_PAGE.RenderConfig,
@@ -99,8 +99,8 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       });
   };
 
-  const pageConfigRef = React.useRef(null as any);
-  const inParamsRef = React.useRef(inParams as any);
+  const pageConfigRef = React.useRef<CONFIG_PAGE.RenderConfig>(null as any);
+  const inParamsRef = React.useRef<Obj>(inParams);
   const fetchingRef = React.useRef(false);
   // 此处需要使用store，因为接口中有userInfo需要被解析
   const { getRenderPageLayout } = commonStore.effects;
@@ -120,8 +120,10 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     clearTimeout(timerRef.current);
     if (pageConfig?.options?.syncIntervalSecond) {
       clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => {
-        queryPageConfig();
+      timerRef.current = setInterval(() => {
+        queryPageConfig(undefined, false, {
+          key: 'sync',
+        });
       }, pageConfig?.options?.syncIntervalSecond * 1000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -170,11 +172,24 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       fetchingRef.current = true;
     }
     const reqConfig = { ...(p || pageConfig), inParams: inParamsRef.current };
-    ((useMockMark && _useMock) || getRenderPageLayout)(reqConfig, partial)
-      .then((res: any) => {
+    ((useMockMark && _useMock) || getRenderPageLayout)(reqConfig)
+      .then((res: CONFIG_PAGE.RenderConfig) => {
+        // if there is any component marked as asyncAtInit, fetch again to load async component
+        const comps = res?.protocol?.components || {};
+        const asyncComponents: string[] = [];
+        Object.keys(comps).forEach((k) => {
+          if (comps[k].asyncAtInit) {
+            asyncComponents.push(k);
+          }
+        });
+        if (asyncComponents.length) {
+          queryPageConfig(undefined, false, {
+            key: 'async',
+            components: asyncComponents,
+          });
+        }
         if (partial) {
-          const comps = get(res, 'protocol.components');
-          const _curConfig = pageConfigRef.current as CONFIG_PAGE.RenderConfig;
+          const _curConfig = pageConfigRef.current;
           const newConfig = produce(_curConfig, (draft) => {
             if (draft.protocol?.components) {
               draft.protocol.components = { ...draft.protocol.components, ...comps };
@@ -201,7 +216,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   };
 
   const updateState = (dataKey: string, dataVal: Obj, callBack?: Function) => {
-    const _curConfig = pageConfigRef.current as CONFIG_PAGE.RenderConfig;
+    const _curConfig = pageConfigRef.current;
     const newConfig = produce(_curConfig, (draft) => {
       if (dataKey) {
         const curData = get(draft, dataKey) || {};
@@ -225,7 +240,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     };
     if (reload) {
       // 需要请求后端接口
-      const _curConfig = pageConfigRef.current as CONFIG_PAGE.RenderConfig;
+      const _curConfig = pageConfigRef.current;
       const newConfig = produce(_curConfig, (draft) => {
         if (extraUpdateInfo && !isEmpty(extraUpdateInfo)) {
           // 数据不为空,先更新后请求
@@ -280,7 +295,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     () => {
       return (
         <ConfigPageRender
-          pageConfig={pageProtocol as CONFIG_PAGE.PageConfig}
+          pageConfig={pageProtocol}
           updateState={updateState}
           changeScenario={changeScenario}
           execOperation={execOperation}
