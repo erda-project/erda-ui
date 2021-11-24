@@ -200,7 +200,6 @@ module.exports = () => {
     },
     plugins: [
       new webpack.ProvidePlugin({
-        // @see https://github.com/remarkjs/remark/discussions/903
         process: 'process/browser.js',
         Buffer: ['buffer', 'Buffer'],
       }),
