@@ -136,7 +136,11 @@ const PaginationJump = ({ pagination, hidePopover }: IPaginationJumpProps) => {
   const jump = () => {
     const maxCurrent = Math.ceil(total / pageSize);
     if (value) {
-      (+value <= maxCurrent && onChange?.(+value)) || onChange?.(maxCurrent);
+      if (+value <= maxCurrent) {
+        onChange?.(+value);
+      } else {
+        onChange?.(maxCurrent);
+      }
       setValue('');
       hidePopover();
     }
