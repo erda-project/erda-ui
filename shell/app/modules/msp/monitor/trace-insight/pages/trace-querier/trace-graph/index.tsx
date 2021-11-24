@@ -448,10 +448,10 @@ export function TraceGraph(props: IProps) {
                   component={tooltipState?.content.component}
                   serviceName={tooltipState?.content.serviceName}
                 />
-                <SpanTimeInfo
-                  totalSpanTime={tooltipState?.content.value}
-                  selfSpanTime={tooltipState?.content.selfDuration}
-                />
+                <div className="text-sub">
+                  {i18n.t('current')} span {mkDurationStr(tooltipState?.content.selfDuration / 1000)} -{' '}
+                  {i18n.t('total')} span {mkDurationStr(tooltipState?.content.selfDuration / 1000)}
+                </div>
               </div>
             )}
           </div>
