@@ -115,15 +115,15 @@ export const getMSPSubtitleByName = (key: MS_INDEX.IRootMenu) => {
   return MSPSubtitleMap[key];
 };
 
-const renderIcon = (type: string, color?: string) => () => {
-  return <ErdaIcon color={color} className="erda-icon" type={type} fill="primary" />;
+const renderIcon = (type: string) => () => {
+  return <ErdaIcon color="currentColor" className="erda-icon" type={type} fill="primary" />;
 };
 
 export const MSIconMap = {
   Overview: renderIcon('huanjinggailan'),
   ServiceManage: renderIcon('zhili'),
   AlertCenter: renderIcon('gaojingguanli'),
-  EnvironmentSet: IconComponents,
-  MonitorCenter: IconMonitorCamera,
-  DiagnoseAnalyzer: IconLog,
+  EnvironmentSet: renderIcon('components'),
+  MonitorCenter: renderIcon('monitor-camera'),
+  DiagnoseAnalyzer: renderIcon('log'),
 };
