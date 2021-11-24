@@ -280,7 +280,7 @@ export function TraceGraph(props: IProps) {
         spanKind: span_kind,
         component,
       };
-      forEach(roots.children, (span) => flameData.children.push(formatFlameDataChild(span)));
+      forEach(roots[0].children, (span) => flameData.children.push(formatFlameDataChild(span)));
     } else {
       let time = 0;
       forEach(roots, (item) => {
