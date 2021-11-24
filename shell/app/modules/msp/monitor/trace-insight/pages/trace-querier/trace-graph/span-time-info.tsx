@@ -21,7 +21,7 @@ interface IProps {
 }
 
 export const SpanTimeInfo = ({ totalSpanTime, selfSpanTime }: IProps) => (
-  <div className="flex justify-center">
+  <div className="flex justify-center overflow-hidden">
     <div className="border-0 border-r border-solid border-grey flex flex-col items-center px-6 py-1">
       <div className="flex justify-center font-semibold ">
         <span className="text-navy text-base whitespace-nowrap">{mkDurationStr(selfSpanTime / 1000)}</span>

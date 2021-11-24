@@ -12,11 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
+import { useLayoutEffect, useRef } from 'react';
+
+const TOOLTIP_OFFSET = 4;
 
 export function listToTree(arr: MONITOR_TRACE.ISpanItem[] = []) {
   const list = arr.map((x) => ({ ...x, children: [] })).sort((a, b) => a.startTime - b.startTime);
   const treeMap = {};
-  const roots = [];
+  const roots = [] as MONITOR_TRACE.ISpanItem[];
   const existIds = [];
   let min = Infinity;
   let max = -Infinity;
@@ -45,3 +48,33 @@ export function listToTree(arr: MONITOR_TRACE.ISpanItem[] = []) {
 export const displayTimeString = (time: number) => {
   return time && time !== -Infinity ? mkDurationStr(time / 1000) : 0;
 };
+
+export function useSmartTooltip({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const element = ref.current;
+    if (element != null) {
+      if (mouseY + TOOLTIP_OFFSET + element?.offsetHeight >= window.innerHeight) {
+        if (mouseY - TOOLTIP_OFFSET - element.offsetHeight > 0) {
+          element.style.top = `${mouseY - element.offsetHeight - TOOLTIP_OFFSET}px`;
+        } else {
+          element.style.top = '0px';
+        }
+      } else {
+        element.style.top = `${mouseY + TOOLTIP_OFFSET}px`;
+      }
+
+      if (mouseX + TOOLTIP_OFFSET + element.offsetWidth >= window.innerWidth) {
+        if (mouseX - TOOLTIP_OFFSET - element.offsetWidth > 0) {
+          element.style.left = `${mouseX - element.offsetWidth - TOOLTIP_OFFSET}px`;
+        } else {
+          element.style.left = '0px';
+        }
+      } else {
+        element.style.left = `${mouseX + TOOLTIP_OFFSET}px`;
+      }
+    }
+  });
+
+  return ref;
+}

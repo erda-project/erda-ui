@@ -59,7 +59,7 @@ const Overview = () => {
   const getList = async () => {
     updater.loading(true);
     try {
-      const res = await getMspProjectList();
+      const res = await getMspProjectList({ withStats: true });
       updater.data(res.data || []);
     } finally {
       updater.loading(false);
@@ -153,7 +153,7 @@ const Overview = () => {
                               {tag}
                             </Tag>
                           </div>
-                          <div className="text-xs	leading-5 text-darkgray">{desc ?? '-'}</div>
+                          <div className="text-xs	leading-5 text-darkgray">{desc || '-'}</div>
                         </div>
                       </Col>
                       <Col span={12}>

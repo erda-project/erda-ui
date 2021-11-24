@@ -88,6 +88,12 @@ export const iconMap = {
   CPU: 'CPU',
   GPU: 'GPU',
   cipan: 'cipan',
+  cluster: 'cluster',
+  version: 'version',
+  machine: 'machine',
+  type: 'type',
+  management: 'management',
+  'create-time': 'create-time',
 };
 interface IErdaIcon {
   className?: string;

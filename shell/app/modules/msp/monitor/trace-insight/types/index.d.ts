@@ -177,6 +177,16 @@ declare namespace MONITOR_TRACE {
     spanEvents: Array<{ timestamp: number; events: object }>;
   }
 
+  interface FlameChartData {
+    name: string;
+    value: number;
+    children: FlameChartData[];
+    serviceName: string;
+    selfDuration: number;
+    spanKind: string;
+    component: string;
+  }
+
   type IFixedConditionType = 'sort' | 'limit' | 'traceStatus';
 
   type IFixedCondition = {
