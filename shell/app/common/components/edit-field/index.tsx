@@ -89,7 +89,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       operationBtns={operationBtns}
     />
   ) : (
-    <Tooltip placement="left" title={"点击即可编辑"} arrowPointAtCenter>
+    <Tooltip placement="left" title={i18n.t('dop:click to edit')} arrowPointAtCenter>
       <div className="relative hover:bg-hover-gray-bg cursor-pointer rounded" onClick={() => updater.isEditing(true)} style={{ maxHeight: expanded ? '' : maxHeight }}>
         <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
           <div ref={mdContentRef} className="md-content">
