@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_LIST {
+declare namespace CP_LIST_NEW {
   interface Spec {
-    type: 'List';
+    type: 'ListNew';
     operations?: Obj<CP_COMMON.Operation>;
     props?: IProps;
     data: IData;
@@ -49,7 +49,27 @@ declare namespace CP_LIST {
     description?: string;
     prefixImg?: string | React.ReactNode;
     extraInfos?: IIconInfo[];
+    extraContent: IExtraContent;
     operations?: Obj<CP_COMMON.Operation>;
+  }
+
+  interface IExtraContent {
+    type: 'pieChart';
+    data: IPieChart[];
+    rowNum: number;
+  }
+
+  interface IPieChart {
+    name: string;
+    value: number;
+    total: number;
+    color: string;
+    info: IChartInfo[];
+  }
+
+  interface IChartInfo {
+    main: string;
+    sub: string;
   }
 
   interface IIconInfo {

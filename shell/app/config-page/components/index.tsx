@@ -42,6 +42,7 @@ import InfoPreview from './info-preview/info-preview';
 import InputSelect from './input-select/input-select';
 import Alert from './alert/alert';
 import List from './list/list';
+import ListNew from './list-new/list-new';
 import LinearDistribution from './linear-distribution/linear-distribution';
 import Text from './text/text';
 import Icon from './icon/icon';
@@ -101,6 +102,7 @@ export const containerMap = {
   InfoPreview,
   InputSelect,
   List,
+  ListNew,
   Text,
   Tags,
   Icon,
