@@ -12,15 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Select, DatePicker } from 'antd';
+import { Input, Select, DatePicker, Tooltip } from 'antd';
 import moment from 'moment';
 import { useMount } from 'react-use';
-import { MarkdownEditor } from 'common';
+import { ErdaIcon, MarkdownEditor } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { getTimeRanges } from 'common/utils';
 import { isFunction, get, set } from 'lodash';
 import i18n from 'i18n';
 import classnames from 'classnames';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 import './index.scss';
 
@@ -29,51 +31,87 @@ interface IMdProps {
   originalValue?: string;
   disabled?: boolean;
   hasEdited?: boolean;
+  maxHeight: number;
   onChange: (v: string) => void;
   onSave: (v?: string, fieldType?: string) => void;
 }
-export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEdited, ...rest }: IMdProps) => {
-  const [v, setV] = React.useState(value);
-  const [showBtn, setShowBtn] = React.useState(false);
-  React.useEffect(() => {
-    setV(value);
-  }, [value]);
-  React.useEffect(() => {
-    if (hasEdited) {
-      setShowBtn(false);
-    }
-  }, [hasEdited]);
-  const operationBtns =
-    showBtn && !disabled
-      ? [
-          {
-            text: i18n.t('dop:post comment'),
-            type: 'primary' as const,
-            onClick: (_v: string) => {
-              onSave(_v);
-              setShowBtn(false);
-            },
-          },
-          {
-            text: i18n.t('common:discard'),
-            onClick: () => {
-              setV(originalValue); // 取消时不应调用保存，加个内部状态来还原数据
-              setShowBtn(false);
-            },
-          },
-        ]
-      : [];
+export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHeight, ...rest }: IMdProps) => {
+  const [{ v, expanded, expandBtnVisible, isEditing }, updater, update] = useUpdate({
+    v: value,
+    isEditing: false,
+    expanded: false,
+    expandBtnVisible: false,
+  });
 
-  return (
+  const mdContentRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      // macro task to wait for the DOM to be rendered
+      if (value?.length && !isEditing && mdContentRef.current) {
+        updater.expandBtnVisible(mdContentRef.current.getBoundingClientRect().height > maxHeight);
+      } else {
+        updater.expandBtnVisible(false);
+      }
+    });
+  }, [isEditing, maxHeight, updater, value]);
+
+  React.useEffect(() => {
+    updater.v(value);
+  }, [updater, value]);
+
+  const operationBtns = !disabled
+    ? [
+        {
+          text: i18n.t('dop:post comment'),
+          type: 'primary' as const,
+          onClick: (_v: string) => {
+            onSave(_v);
+            updater.isEditing(false);
+          },
+        },
+        {
+          text: i18n.t('common:discard'),
+          onClick: () => {
+            update({ v: originalValue, isEditing: false });
+          },
+        },
+      ]
+    : [];
+
+  return isEditing ? (
     <MarkdownEditor
       {...rest}
       value={v}
       onChange={onChange}
       onBlur={(_v: string) => onSave(_v, 'markdown')}
-      onFocus={() => setShowBtn(true)}
-      readOnly={disabled}
+      defaultMode="md"
       operationBtns={operationBtns}
     />
+  ) : (
+    <Tooltip placement="left" title={i18n.t('dop:click to edit')} arrowPointAtCenter>
+      <div className="relative hover:bg-hover-gray-bg cursor-pointer rounded" onClick={() => updater.isEditing(true)} style={{ maxHeight: expanded ? '' : maxHeight }}>
+        <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
+          <div ref={mdContentRef} className="md-content">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{v || ''}</ReactMarkdown>
+            <div
+              className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex justify-center items-center ${
+                !expandBtnVisible || expanded ? 'hidden' : ''
+              }`}
+            />
+          </div>
+        </div>
+        <div
+          className={`absolute -bottom-6 left-0 right-0 mx-auto rounded-full w-24 px-2 py-1 border text-primary shadow cursor-pointer flex items-center bg-white ${
+            expandBtnVisible ? '' : 'hidden'
+          }`}
+          onClick={() => updater.expanded(!expanded)}
+        >
+          <ErdaIcon type={`${expanded ? 'double-up' : 'double-down'}`} color="currentColor" />
+          <div className="ml-1">{expanded ? i18n.t('collapse description') : i18n.t('expand description')}</div>
+        </div>
+      </div>
+    </Tooltip>
   );
 };
 
@@ -202,9 +240,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
       Comp = !itemProps.isEditMode ? (
         <MarkdownEditor
           {...itemProps}
-          maxHeight={maxMarkdownHeight}
-          autoSize
-          defaultHeight={100}
+          defaultHeight={400}
           value={editValue}
           onChange={(v) => onChangeCb?.({ [name]: v })}
         />
@@ -212,8 +248,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
         <EditMd
           {...itemProps}
           maxHeight={maxMarkdownHeight}
-          autoSize
-          defaultHeight={100}
+          defaultHeight={400}
           value={editValue}
           onChange={updater.editValue}
           onSave={(v, fieldType) => onChangeCb?.({ [name]: v }, fieldType)}

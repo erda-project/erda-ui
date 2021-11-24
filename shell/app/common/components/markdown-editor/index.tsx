@@ -37,8 +37,6 @@ interface IProps {
   operationBtns?: BtnProps[];
   showMenu?: boolean;
   defaultHeight?: number;
-  maxHeight?: number;
-  autoSize?: boolean;
   onChange?: (value: string) => void;
   onFocus?: (e: any) => void;
   onBlur?: (value: any) => void;
@@ -70,9 +68,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
     maxLength,
     operationBtns,
     showMenu = true,
-    autoSize = false,
     defaultHeight,
-    maxHeight,
     onChange,
     onFocus,
     onBlur,
@@ -144,7 +140,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
       <div
         className={`markdown-editor-content flex flex-col ${disableEdit ? 'disable-edit' : ''} ${
           readOnly ? 'read-only' : ''
-        } ${curShowButton && !disableEdit ? 'show-btn' : ''}`}
+        } ${curShowButton ? 'show-btn' : ''}`}
       >
         <Editor
           ref={mdEditorRef}
@@ -158,14 +154,12 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
           config={{
             view,
           }}
-          autoSize={autoSize}
           defaultHeight={defaultHeight || 400}
-          maxHeight={maxHeight || 600}
           value={content}
           onChange={onChangeContent}
           onBlur={() => onBlur?.(content)}
         />
-        <div className={`absolute left-2 flex bottom-2 space-x-2 ${disableEdit ? 'hidden' : ''}`}>
+        <div className="absolute left-2 flex bottom-2 space-x-2">
           {map(operationBtns, (operationBtn, i) => {
             const { text, type, onClick } = operationBtn;
             return (
@@ -181,4 +175,3 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
 };
 
 export default React.forwardRef<EC_MarkdownEditor, IProps>(MarkdownEditor);
-
