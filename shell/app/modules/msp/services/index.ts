@@ -24,9 +24,7 @@ export const getSpanEvents = apiCreator<(p: { spanId: string; startTime: number 
   apis.getSpanEvents,
 );
 
-export const getMspProjectList = (payload: {
-  withStats: boolean;
-}): Promise<{ success: boolean; data: MS_INDEX.IMspProject[] }> => {
+export const getMspProjectList = (payload: { withStats: boolean }): Promise<RAW_RESPONSE<MS_INDEX.IMspProject[]>> => {
   return agent
     .get('/api/msp/tenant/projects')
     .query(payload)
@@ -40,27 +38,21 @@ export const getMspProjectDetail = (payload: { projectId: string }): MS_INDEX.IM
     .then((response: any) => response.body);
 };
 
-export const createTenantProject = (
-  payload: MS_INDEX.ICreateProject,
-): Promise<{ success: boolean; data: MS_INDEX.IMspProject }> => {
+export const createTenantProject = (payload: MS_INDEX.ICreateProject): Promise<RAW_RESPONSE<MS_INDEX.IMspProject>> => {
   return agent
     .post('/api/msp/tenant/project')
     .send(payload)
     .then((response: any) => response.body);
 };
 
-export const updateTenantProject = (
-  payload: MS_INDEX.ICreateProject,
-): Promise<{ success: boolean; data: MS_INDEX.IMspProject }> => {
+export const updateTenantProject = (payload: MS_INDEX.ICreateProject): Promise<RAW_RESPONSE<MS_INDEX.IMspProject>> => {
   return agent
     .put('/api/msp/tenant/project')
     .send(payload)
     .then((response: any) => response.body);
 };
 
-export const deleteTenantProject = (payload: {
-  projectId: number;
-}): Promise<{ success: boolean; data: MS_INDEX.IMspProject }> => {
+export const deleteTenantProject = (payload: { projectId: number }): Promise<RAW_RESPONSE<MS_INDEX.IMspProject>> => {
   return agent
     .delete('/api/msp/tenant/project')
     .query(payload)
@@ -74,11 +66,7 @@ export const getMspMenuList = (payload: { type: string; tenantId?: string }): MS
     .then((response: any) => response.body);
 };
 
-export const getDashboard = ({
-  type,
-}: {
-  type: string;
-}): Promise<{ success: boolean; data: MS_INDEX.IChartMetaData }> => {
+export const getDashboard = ({ type }: { type: string }): Promise<RAW_RESPONSE<MS_INDEX.IChartMetaData>> => {
   return agent.get(`/api/dashboard/system/blocks/${type}`).then((response: any) => response.body);
 };
 
