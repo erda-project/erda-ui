@@ -60,17 +60,17 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
   const operationBtns = !disabled
     ? [
         {
-          text: i18n.t('cancel'),
-          onClick: () => {
-            update({ v: originalValue, isEditing: false });
-          },
-        },
-        {
           text: i18n.t('save'),
           type: 'primary' as const,
           onClick: (_v: string) => {
             onSave(_v);
             updater.isEditing(false);
+          },
+        },
+        {
+          text: i18n.t('cancel'),
+          onClick: () => {
+            update({ v: originalValue, isEditing: false });
           },
         },
       ]
