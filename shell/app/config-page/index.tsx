@@ -198,7 +198,9 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
           callBack?.(newConfig);
           operationCallBack?.(reqConfig, newConfig, op);
           updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
-        } else if (op?.index === undefined || (op.index && opIndexRef.current === op.index)) {
+        } else {
+          // if (op?.index === undefined || (op.index && opIndexRef.current === op.index))  {
+          // }
           // Retain the response data that matches the latest operation
           callBack?.(res);
           operationCallBack?.(reqConfig, res, op);
