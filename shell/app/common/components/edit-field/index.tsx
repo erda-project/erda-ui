@@ -42,9 +42,9 @@ const ScalableImage = ({ src, alt }: { src: string; alt: string }) => {
   };
 
   return (
-    <div>
+    <span>
       <img style={{ cursor: 'zoom-in' }} src={src} onClick={enlargeImage} alt={alt || 'preview-image'} />
-      <div
+      <span
         className={`${
           enlarged
             ? 'fixed top-0 right-0 left-0 bottom-0 z-50 flex items-center justify-center overflow-auto bg-desc'
@@ -52,8 +52,8 @@ const ScalableImage = ({ src, alt }: { src: string; alt: string }) => {
         }`}
       >
         <img style={{ cursor: 'zoom-out' }} src={src} alt={alt || 'preview-image'} />
-      </div>
-    </div>
+      </span>
+    </span>
   );
 };
 
