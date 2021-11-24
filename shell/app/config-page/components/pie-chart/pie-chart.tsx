@@ -82,7 +82,7 @@ const ChartItem = (props: CP_PIE_CHART.Props) => {
     option,
     ...rest
   } = configProps;
-  const { data } = pData;
+  const { data, label } = pData;
   const styleMap = {
     small: {
       chartStyle: { width: 56, height: 56 },
@@ -122,7 +122,7 @@ const ChartItem = (props: CP_PIE_CHART.Props) => {
   const presetColor = map(colorMap);
   const reColor = color ? uniq(map(color, (cItem) => colorMap[cItem] || cItem).concat(presetColor)) : presetColor;
 
-  const { option: reOption, isEmpty } = getOption(data, option, configProps);
+  const { option: reOption, isEmpty } = getOption(data, option, configProps, label);
   const finalColor = reOption.color || reColor;
   const ChartComp = (
     <EChart onEvents={onEvents} option={{ color: reColor, ...reOption }} notMerge style={reChartStyle} {...rest} />
@@ -171,7 +171,7 @@ const PieChart = (props: CP_PIE_CHART.Props) => {
   const { cId, props: configProps, extraContent, operations, execOperation, data: pData } = props;
   const { visible = true, style, ...rest } = configProps || {};
 
-  const { data, group } = pData || {};
+  const { data, group, label } = pData || {};
 
   if (!visible) return null;
 
