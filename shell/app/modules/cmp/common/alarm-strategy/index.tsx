@@ -15,7 +15,8 @@ import React from 'react';
 import { map } from 'lodash';
 import moment from 'moment';
 import { useMount, useUnmount } from 'react-use';
-import { Modal, Button, Spin, Badge, Tooltip } from 'antd';
+import { Modal, Button, Spin, Tooltip } from 'antd';
+import { Badge } from 'common';
 import { goTo } from 'common/utils';
 import { ColumnProps } from 'app/interface/common';
 import i18n from 'i18n';
@@ -114,10 +115,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
       dataIndex: 'enable',
       width: 120,
       render: (enable) => (
-        <span>
-          <Badge status={enable ? 'success' : 'default'} />
-          <span>{enable ? i18n.t('enable') : i18n.t('unable')}</span>
-        </span>
+        <Badge text={enable ? i18n.t('enable') : i18n.t('unable')} status={enable ? 'success' : 'default'} />
       ),
     },
     // ...insertWhen(scopeType === ScopeType.ORG, [
