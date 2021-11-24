@@ -14,7 +14,7 @@
 import React from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
-import { head, isEmpty, map, take } from 'lodash';
+import { head, isEmpty, map, take, forEach, cloneDeep } from 'lodash';
 import { Button, message, Modal, Select, Spin, Table, Tooltip } from 'antd';
 import { Avatar, ErdaIcon, FormModal, MemberSelector } from 'common';
 import { useSwitch, useUpdate } from 'common/use-hooks';
@@ -54,6 +54,41 @@ export const notifyChannelOptionsMap = {
     { name: i18n.t('dop:email'), value: 'email' },
     { name: i18n.t('site message'), value: 'mbox' },
   ],
+};
+
+export const monitorNotifyChannelOptionsMap = {
+  [TargetType.DINGDING]: [{ name: i18n.t('DingTalk'), value: 'dingding' }],
+  [TargetType.USER]: [
+    { name: i18n.t('dop:email'), value: 'email' },
+    { name: i18n.t('site message'), value: 'mbox' },
+  ],
+  [TargetType.EXTERNAL_USER]: [{ name: i18n.t('dop:email'), value: 'email' }],
+  [TargetType.WEBHOOK]: [{ name: i18n.t('dop:webhook'), value: 'webhook' }],
+  [TargetType.ROLE]: [
+    { name: i18n.t('dop:email'), value: 'email' },
+    { name: i18n.t('site message'), value: 'mbox' },
+  ],
+};
+
+export const getFinalNotifyChannelOptions = (channels) => {
+  const SMSChannel = { name: i18n.t('SMS'), value: 'sms' };
+  const dingdingWorkChannel = { name: i18n.t('dingding work notice'), value: 'dingtalk_work_notice' };
+  const channelMethods = cloneDeep(monitorNotifyChannelOptionsMap);
+  forEach(channels, (_, key) => {
+    if (key === 'short_message' && !channelMethods[TargetType.USER].find((x) => x.value === 'sms')) {
+      channelMethods[TargetType.USER].push(SMSChannel);
+      channelMethods[TargetType.EXTERNAL_USER].push(SMSChannel);
+    }
+    if (
+      key === 'dingtalk_work_notice' &&
+      !channelMethods[TargetType.USER].find((x) => x.value === 'dingtalk_work_notice')
+    ) {
+      channelMethods[TargetType.USER].push(dingdingWorkChannel);
+      channelMethods[TargetType.EXTERNAL_USER].push(dingdingWorkChannel);
+    }
+  });
+
+  return channelMethods;
 };
 
 const groupTargetMap = {

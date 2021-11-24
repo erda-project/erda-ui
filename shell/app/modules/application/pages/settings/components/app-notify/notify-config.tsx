@@ -28,7 +28,6 @@ import {
   notifyChannelOptionsMap,
   ListTargets,
 } from 'application/pages/settings/components/app-notify/common-notify-group';
-
 import './index.scss';
 
 const { confirm } = Modal;

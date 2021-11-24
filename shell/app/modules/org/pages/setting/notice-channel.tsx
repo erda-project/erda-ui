@@ -26,7 +26,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import { isEmpty, map } from 'lodash';
-import { Button, Modal, Select, Spin, Tooltip, Input, message, Badge } from 'antd';
+import { Button, Modal, Select, Spin, Tooltip, Input, message, Badge, Tabs } from 'antd';
 import Table from 'common/components/table';
 import { ColumnProps, IActions } from 'common/components/table/interface';
 import { FormModal, Copy } from 'common';
@@ -48,24 +48,54 @@ import { ALIYUN_APPLICATION } from 'common/constants';
 import './org-setting.scss';
 
 const { confirm } = Modal;
+const { TabPane } = Tabs;
+
+interface IState {
+  activeData: {
+    id?: string;
+    channelProviderType?: string;
+    config?: object;
+    type?: string;
+    name?: string;
+  };
+  channelType: string;
+  channelProvider: string;
+  visible: boolean;
+  paging: { current: number; pageSize: number };
+  templateCode: string;
+  passwordVisible: boolean;
+  activeTab: string;
+  channelProviderOptions: NOTIFY_CHANNEL.ChannelProvider[];
+}
 
 const NotifyChannel = () => {
   const channelTypeOptions = getNotifyChannelTypes.useData();
   const [channelDatasource, loading] = getNotifyChannels.useState();
   const [
-    { activeData, channelType, channelProvider, visible, paging, templateCode, passwordVisible },
+    {
+      activeData,
+      channelType,
+      channelProvider,
+      visible,
+      paging,
+      templateCode,
+      passwordVisible,
+      activeTab,
+      channelProviderOptions,
+    },
     updater,
     update,
-  ] = useUpdate({
+  ] = useUpdate<IState>({
     activeData: {},
     channelType: '',
     channelProvider: '',
     visible: false,
     templateCode: '',
     passwordVisible: false,
+    activeTab: 'dingtalk_work_notice',
     paging: { pageSize: 15, current: 1 },
+    channelProviderOptions: [],
   });
-  const channelProviderOptions = channelTypeOptions?.find((item) => item.name === channelType)?.providers;
 
   const isEditing = !isEmpty(activeData);
   useMount(() => {
@@ -73,8 +103,8 @@ const NotifyChannel = () => {
   });
 
   React.useEffect(() => {
-    getNotifyChannels.fetch({ pageNo: paging.current, pageSize: paging.pageSize });
-  }, [paging]);
+    getNotifyChannels.fetch({ pageNo: paging.current, pageSize: paging.pageSize, type: activeTab });
+  }, [paging, activeTab]);
 
   const handleEdit = (id: string) => {
     getNotifyChannel.fetch({ id }).then((res) => {
@@ -88,14 +118,20 @@ const NotifyChannel = () => {
           name,
         },
         visible: true,
+        channelType: type?.name,
         templateCode: config?.templateCode,
+        channelProviderOptions: channelTypeOptions?.find((item) => item.name === type?.name)?.providers,
+        channelProvider: channelProviderType?.name,
       });
     });
   };
 
   const handleAdd = () => {
-    updater.channelType(channelTypeOptions?.[0]?.name || '');
-    updater.channelProvider(channelTypeOptions?.[0]?.providers?.[0]?.name || '');
+    updater.channelType(channelTypeOptions?.find((item) => item.name === activeTab)?.name || '');
+    updater.channelProviderOptions(
+      channelTypeOptions?.find((item) => item.name === activeTab)?.providers as NOTIFY_CHANNEL.ChannelProvider[],
+    );
+    updater.channelProvider(channelTypeOptions?.find((item) => item.name === activeTab)?.providers?.[0]?.name || '');
     updater.visible(true);
   };
 
@@ -118,7 +154,7 @@ const NotifyChannel = () => {
     }
   };
 
-  const handleSubmit = (values: NOTIFY_CHANNEL.IChannelBody, id?: number) => {
+  const handleSubmit = (values: NOTIFY_CHANNEL.IChannelBody, id?: string) => {
     const { name, channelProviderType, type, config, enable } = values;
     if (isEditing && id) {
       editNotifyChannel
@@ -157,12 +193,22 @@ const NotifyChannel = () => {
           paging: { ...paging, current: 1 },
           visible: false,
           activeData: {},
+          activeTab: type,
         });
         getNotifyChannelEnableStatus.fetch({ id: channel?.id, type }).then((res) => {
           const { data: status } = res || {};
           confirmEnableChannel({ status, channel });
         });
       });
+
+    // Automatically reset the channelProvider and channelType values ​​after an interface error
+    if (!isEditing) {
+      updater.channelProviderOptions(
+        channelTypeOptions?.find((item) => item.name === activeTab)?.providers as NOTIFY_CHANNEL.ChannelProvider[],
+      );
+      updater.channelProvider(channelTypeOptions?.find((item) => item.name === activeTab)?.providers?.[0]?.name || '');
+      updater.channelType(channelTypeOptions?.find((item) => item.name === activeTab)?.name || '');
+    }
   };
 
   const confirmEnableChannel = ({
@@ -235,12 +281,20 @@ const NotifyChannel = () => {
       label: i18n.t('channel type'),
       initialValue: channelType,
       required: true,
+      itemProps: {
+        disabled: isEditing,
+      },
       getComp: ({ form }: { form: FormInstance }) => {
         return (
           <Select
             onSelect={(value: string) => {
+              const providers = channelTypeOptions?.find((item) => item.name === value)?.providers;
               updater.channelType(value);
+              updater.channelProviderOptions(providers as NOTIFY_CHANNEL.ChannelProvider[]);
               form.setFieldsValue({ type: value });
+              form.setFieldsValue({
+                channelProviderType: providers?.[0]?.name,
+              });
             }}
           >
             {map(channelTypeOptions, ({ displayName, name }) => (
@@ -274,8 +328,52 @@ const NotifyChannel = () => {
         );
       },
     },
+  ];
+
+  const dingdingFieldsList = [
+    ...fieldsList,
     {
-      name: 'config.accessKeyId',
+      name: ['config', 'agentId'],
+      label: 'AgentId',
+      type: 'inputNumber',
+      required: true,
+      itemProps: {
+        maxLength: 50,
+        placeholder: `${i18n.t('please input')} AgentId`,
+        autoComplete: 'off',
+      },
+    },
+    {
+      name: ['config', 'appKey'],
+      label: 'AppKey',
+      required: true,
+      itemProps: {
+        maxLength: 50,
+        placeholder: `${i18n.t('please input')} AppKey`,
+        autoComplete: 'off',
+      },
+    },
+    {
+      name: ['config', 'appSecret'],
+      label: 'AppSecret',
+      required: true,
+      itemProps: {
+        placeholder: `${i18n.t('please input')} AppSecret`,
+        type: passwordVisible ? 'text' : 'password',
+        autoComplete: 'off',
+        addonAfter: passwordVisible ? (
+          <IconPreviewOpen onClick={() => updater.passwordVisible(false)} />
+        ) : (
+          <IconPreviewCloseOne onClick={() => updater.passwordVisible(true)} />
+        ),
+      },
+    },
+  ];
+
+  const SMSFieldsList = [
+    ...fieldsList,
+    {
+      name: ['config', 'accessKeyId'],
       label: 'AccessKeyId',
       required: true,
       itemProps: {
@@ -285,7 +383,7 @@ const NotifyChannel = () => {
       },
     },
     {
-      name: 'config.accessKeySecret',
+      name: ['config', 'accessKeySecret'],
       label: 'AccessKeySecret',
       required: true,
       itemProps: {
@@ -300,7 +398,7 @@ const NotifyChannel = () => {
       },
     },
     {
-      name: 'config.signName',
+      name: ['config', 'signName'],
       label: i18n.t('SMS signature'),
       required: true,
       itemProps: {
@@ -311,7 +409,7 @@ const NotifyChannel = () => {
       },
     },
     {
-      name: 'config.templateCode',
+      name: ['config', 'templateCode'],
       label: i18n.t('SMS Template Code'),
       required: true,
       getComp: ({ form }: { form: FormInstance }) => {
@@ -464,15 +562,26 @@ const NotifyChannel = () => {
         width={800}
         title={`${isEditing ? i18n.t('edit notification channel') : i18n.t('new notification channel')}`}
         visible={visible}
-        fieldsList={fieldsList}
+        fieldsList={channelType === 'short_message' ? SMSFieldsList : dingdingFieldsList}
         formData={activeData}
         onOk={(values: any) => {
-          handleSubmit(values, isEditing && activeData.id);
+          handleSubmit(values, isEditing ? activeData.id : undefined);
         }}
         onCancel={handleCancel}
         modalProps={{ destroyOnClose: true }}
       />
       <Spin spinning={loading}>
+        <Tabs
+          activeKey={activeTab}
+          onChange={(key) => {
+            updater.activeTab(key);
+            updater.paging({ pageSize: 15, current: 1 });
+          }}
+          type="card"
+        >
+          <TabPane key="dingtalk_work_notice" tab={i18n.t('dingding work notice')} />
+          <TabPane key="short_message" tab={i18n.t('SMS')} />
+        </Tabs>
         <Table
           rowKey="id"
           dataSource={channelDatasource?.data || []}

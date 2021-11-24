@@ -35,13 +35,14 @@ function getMspRouter(): RouteConfigItem[] {
       routes: [
         {
           path: 'overview',
+          layout: {
+            hideHeader: true,
+            noWrapper: true,
+            showSubSidebar: false,
+            fullHeight: true,
+          },
           breadcrumbName: i18n.t('overview'),
           getComp: (cb) => cb(import('msp/pages/micro-service/overview')),
-        },
-        {
-          path: 'projects',
-          breadcrumbName: i18n.t('project list'),
-          getComp: (cb) => cb(import('msp/pages/micro-service/project-list')),
         },
         injectWrapper({
           path: ':projectId/:env/:tenantGroup',

@@ -28,7 +28,7 @@ declare namespace MS_INDEX {
   }
 
   interface IMspProject {
-    id: string;
+    id: number;
     name: string;
     displayName: string;
     isDelete: boolean;
@@ -37,6 +37,11 @@ declare namespace MS_INDEX {
     relationship: IMspRelationship[];
     createTime: number;
     updateTime: number;
+    last24hAlertCount: number;
+    desc: string;
+    lastActiveTime: number;
+    serviceCount: number;
+    logo?: string;
   }
 
   type ISubMenuKey =
