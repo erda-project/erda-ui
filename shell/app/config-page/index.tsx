@@ -98,7 +98,6 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
         },
       });
   };
-
   const pageConfigRef = React.useRef<CONFIG_PAGE.RenderConfig>(null as any);
   const inParamsRef = React.useRef<Obj>(inParams);
   const fetchingRef = React.useRef(false);
@@ -117,12 +116,12 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
 
   React.useEffect(() => {
     pageConfigRef.current = pageConfig;
-    clearTimeout(timerRef.current);
+    clearInterval(timerRef.current);
     if (pageConfig?.options?.syncIntervalSecond) {
-      clearTimeout(timerRef.current);
       timerRef.current = setInterval(() => {
-        queryPageConfig(undefined, false, {
+        execOperation('', {
           key: 'sync',
+          reload: true,
         });
       }, pageConfig?.options?.syncIntervalSecond * 1000);
     }
@@ -183,8 +182,9 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
           }
         });
         if (asyncComponents.length) {
-          queryPageConfig(undefined, false, {
+          execOperation('', {
             key: 'async',
+            reload: true,
             components: asyncComponents,
           });
         }
