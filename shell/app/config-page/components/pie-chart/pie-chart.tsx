@@ -169,9 +169,9 @@ const ChartItem = (props: CP_PIE_CHART.Props) => {
 
 const PieChart = (props: CP_PIE_CHART.Props) => {
   const { cId, props: configProps, extraContent, operations, execOperation, data: pData } = props;
-  const { visible = true, style, ...rest } = configProps || {};
+  const { visible = true, style } = configProps || {};
 
-  const { data, group, label } = pData || {};
+  const { data, group } = pData || {};
 
   if (!visible) return null;
 
