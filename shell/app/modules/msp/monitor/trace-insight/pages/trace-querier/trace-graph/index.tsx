@@ -450,8 +450,7 @@ export function TraceGraph(props: IProps) {
                 />
                 <div className="text-sub">
                   {i18n.t('current')} span {mkDurationStr(tooltipState?.content.selfDuration / 1000)} -{' '}
-                  {i18n.t('total')} span
-                  {mkDurationStr(tooltipState?.content.selfDuration / 1000)}
+                  {i18n.t('total')} span {mkDurationStr(tooltipState?.content.selfDuration / 1000)}
                 </div>
               </div>
             )}
