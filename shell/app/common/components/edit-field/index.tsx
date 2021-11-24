@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
+import React, { ImgHTMLAttributes } from 'react';
 import { Input, Select, DatePicker, Tooltip } from 'antd';
 import moment from 'moment';
 import { useMount } from 'react-use';
@@ -23,10 +23,11 @@ import i18n from 'i18n';
 import classnames from 'classnames';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { eventHub } from 'common/utils/event-hub';
 
 import './index.scss';
 
-const ScalableImage = ({ src, alt }: { src: string; alt: string }) => {
+const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) => {
   const [enlarged, setEnlarged] = React.useState(false);
 
   const removeMask = React.useCallback((e) => {
@@ -41,9 +42,19 @@ const ScalableImage = ({ src, alt }: { src: string; alt: string }) => {
     document.body.addEventListener('click', removeMask);
   };
 
+  const onLoad = () => {
+    eventHub.emit('md-img-loaded');
+  };
+
   return (
     <span>
-      <img style={{ cursor: 'zoom-in' }} src={src} onClick={enlargeImage} alt={alt || 'preview-image'} />
+      <img
+        style={{ cursor: 'zoom-in' }}
+        onLoad={onLoad}
+        src={src}
+        onClick={enlargeImage}
+        alt={alt || 'preview-image'}
+      />
       <span
         className={`${
           enlarged
@@ -51,7 +62,7 @@ const ScalableImage = ({ src, alt }: { src: string; alt: string }) => {
             : 'hidden'
         }`}
       >
-        <img style={{ cursor: 'zoom-out' }} src={src} alt={alt || 'preview-image'} />
+        <img style={{ cursor: 'zoom-out' }} src={src} alt={alt || 'preview-image'} {...rest} />
       </span>
     </span>
   );
@@ -76,13 +87,21 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
 
   const mdContentRef = React.useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
+  const checkContentHeight = React.useCallback(() => {
     if (value?.length && !isEditing && mdContentRef.current) {
       updater.expandBtnVisible(mdContentRef.current.getBoundingClientRect().height > maxHeight);
     } else {
       updater.expandBtnVisible(false);
     }
-  }, [isEditing, maxHeight, updater, value]);
+  }, [isEditing, maxHeight, updater, value?.length]);
+
+  React.useEffect(() => {
+    eventHub.on('md-img-loaded', checkContentHeight);
+    checkContentHeight();
+    return () => {
+      eventHub.off('md-img-loaded', checkContentHeight);
+    }
+  }, [checkContentHeight]);
 
   React.useEffect(() => {
     updater.v(value);
