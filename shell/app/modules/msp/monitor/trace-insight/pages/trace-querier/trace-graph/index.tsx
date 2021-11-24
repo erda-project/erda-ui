@@ -441,7 +441,7 @@ export function TraceGraph(props: IProps) {
               disableDefaultTooltips
             />
             {tooltipState !== null && (
-              <div ref={tooltipRef} className="Tooltip absolute bg-white px-2 py-1 shadow-lg">
+              <div ref={tooltipRef} className="absolute bg-white px-2 py-1 shadow-lg break-words">
                 <SpanTitleInfo
                   operationName={tooltipState?.content.name}
                   spanKind={tooltipState?.content.spanKind}
