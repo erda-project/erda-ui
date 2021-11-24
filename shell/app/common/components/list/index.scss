@@ -78,6 +78,13 @@
 
     .erda-list-item-prefix-img {
       margin-right: 12px;
+      line-height: 1;
+
+      img {
+        margin: 10px;
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
+      }
 
       > * {
         width: 76px;
@@ -101,6 +108,7 @@
 
     .body-description {
       font-size: 12px;
+      height: 20px;
       line-height: 20px;
       color: $color-text-desc;
     }
