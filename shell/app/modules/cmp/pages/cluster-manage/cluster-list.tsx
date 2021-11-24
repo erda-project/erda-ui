@@ -248,8 +248,8 @@ const ClusterList = ({ onEdit }: IProps) => {
           customProps={{
             list: {
               op: {
-                click: (record: { meta: { name: string } }) => {
-                  const { meta } = record;
+                clickItem: (click: { meta: { name: string } }) => {
+                  const { meta } = click;
                   goTo(goTo.pages.cmpClustersDetail, { clusterName: meta.name });
                 },
                 edit: (record: { meta: object }) => {
