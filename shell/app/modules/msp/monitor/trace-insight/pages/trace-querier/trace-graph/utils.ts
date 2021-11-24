@@ -19,7 +19,7 @@ const TOOLTIP_OFFSET = 4;
 export function listToTree(arr: MONITOR_TRACE.ISpanItem[] = []) {
   const list = arr.map((x) => ({ ...x, children: [] })).sort((a, b) => a.startTime - b.startTime);
   const treeMap = {};
-  const roots = [];
+  const roots = [] as MONITOR_TRACE.ISpanItem[];
   const existIds = [];
   let min = Infinity;
   let max = -Infinity;

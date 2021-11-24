@@ -15,7 +15,6 @@
 import React from 'react';
 import { Tree, Tooltip, Row, Col, Tabs, Table, Radio, RadioChangeEvent } from 'antd';
 import { TimeSelect, KeyValueList, Icon as CustomIcon, EmptyHolder, Ellipsis } from 'common';
-import { AlignLeftTwo as IconAlignLeftTwo, Torch as IconTorch } from '@icon-park/react';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
 import { getSpanAnalysis, getSpanEvents } from 'msp/services';
 import './index.scss';
@@ -65,9 +64,14 @@ export function TraceGraph(props: IProps) {
   const [flameRef, { width: flameWidth }] = useMeasure();
 
   const containerRef = React.useRef(null);
-  const [tooltipState, setTooltipState] = React.useState(null);
+  const [tooltipState, setTooltipState] = React.useState(
+    null as { content: MONITOR_TRACE.FlameChartData; mouseX: number; mouseY: number } | null,
+  );
 
-  function getMousePos(relativeContainer, mouseEvent) {
+  function getMousePos(
+    relativeContainer: { getBoundingClientRect: () => DOMRect } | null,
+    mouseEvent: { clientX: number; clientY: number },
+  ) {
     if (relativeContainer !== null) {
       const rect = relativeContainer.getBoundingClientRect();
       const mouseX = mouseEvent.clientX - rect.left;
@@ -78,14 +82,15 @@ export function TraceGraph(props: IProps) {
     }
   }
 
-  const onMouseOver = (event, data) => {
+  const onMouseOver = (event: { clientX: number; clientY: number }, data: MONITOR_TRACE.FlameChartData) => {
+    const { name, value, children, serviceName, selfDuration, spanKind, component } = data;
     setTooltipState({
-      text: data.name,
+      content: { name, value, children, serviceName, selfDuration, spanKind, component },
       ...getMousePos(containerRef.current, event),
     });
   };
 
-  const onMouseOut = (event, data) => {
+  const onMouseOut = () => {
     setTooltipState(null);
   };
 
@@ -262,30 +267,52 @@ export function TraceGraph(props: IProps) {
   }
 
   const formatFlameData = () => {
-    const flameData = { name: '', value: 0, children: [] };
+    let flameData = {} as MONITOR_TRACE.FlameChartData;
     if (roots?.length === 1) {
-      flameData.name = roots[0].operationName;
-      flameData.value = roots[0].duration / 1000000;
-      flameData.children = [];
+      const { operationName, duration: totalDuration, tags: _tags, selfDuration } = roots[0];
+      const { service_name, span_kind, component } = _tags;
+      flameData = {
+        name: operationName,
+        value: totalDuration,
+        children: [],
+        serviceName: service_name,
+        selfDuration,
+        spanKind: span_kind,
+        component,
+      };
       forEach(roots.children, (span) => flameData.children.push(formatFlameDataChild(span)));
     } else {
-      flameData.name = 'root';
       let time = 0;
       forEach(roots, (item) => {
         time += item.duration;
       });
-      flameData.value = time / 1000000;
-      flameData.children = [];
+      flameData = {
+        name: 'root',
+        value: time,
+        children: [],
+        serviceName: '',
+        selfDuration: time,
+        spanKind: '',
+        component: '',
+      };
       forEach(roots, (span) => flameData.children.push(formatFlameDataChild(span)));
     }
     return flameData;
   };
 
   const formatFlameDataChild = (span: MONITOR_TRACE.ISpanItem) => {
-    const node = { name: '', value: 0, children: [] };
-    node.name = span.operationName;
-    node.value = span.duration / 1000000;
-    node.children = [];
+    let node = {} as MONITOR_TRACE.FlameChartData;
+    const { operationName, duration: totalDuration, tags: _tags, selfDuration } = span;
+    const { service_name, span_kind, component } = _tags;
+    node = {
+      name: operationName,
+      value: totalDuration,
+      children: [],
+      serviceName: service_name,
+      selfDuration,
+      spanKind: span_kind,
+      component,
+    };
     if (span && span.children) {
       for (const item of span.children) {
         const child = formatFlameDataChild(item);
@@ -402,6 +429,7 @@ export function TraceGraph(props: IProps) {
             </Col>
           </Row>
         )}
+
         {view === 'flame' && (
           <div ref={containerRef} className="relative">
             <FlameGraph
@@ -414,7 +442,16 @@ export function TraceGraph(props: IProps) {
             />
             {tooltipState !== null && (
               <div ref={tooltipRef} className="Tooltip absolute bg-white px-2 py-1 shadow-lg">
-                {tooltipState?.text}
+                <SpanTitleInfo
+                  operationName={tooltipState?.content.name}
+                  spanKind={tooltipState?.content.spanKind}
+                  component={tooltipState?.content.component}
+                  serviceName={tooltipState?.content.serviceName}
+                />
+                <SpanTimeInfo
+                  totalSpanTime={tooltipState?.content.value}
+                  selfSpanTime={tooltipState?.content.selfDuration}
+                />
               </div>
             )}
           </div>
