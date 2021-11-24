@@ -137,7 +137,7 @@ const ChartItem = (props: CP_PIE_CHART.Props) => {
         {data?.map((item: CP_PIE_CHART.IList, idx: number) => {
           if (item.info?.length) {
             return (
-              <div className="flex items-center">
+              <div className="flex items-center w-full justify-around">
                 {item.info.map((infoItem) => (
                   <TextBlockInfo {...infoItem} size="small" style={textInfoStyle} />
                 ))}
