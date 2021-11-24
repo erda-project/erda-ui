@@ -24,7 +24,7 @@ export function SpanTitleInfo(props: IProps) {
   const { operationName, spanKind, component, serviceName } = props;
 
   return (
-    <div>
+    <div className="w-60 p-1">
       <div>{serviceName}</div>
       <div>{operationName}</div>
       <div>{`${spanKind} - ${component}`}</div>

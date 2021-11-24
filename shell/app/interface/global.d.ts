@@ -17,6 +17,7 @@ declare module 'path';
 declare module 'lodash/_stringToPath';
 declare module '@erda-ui/dashboard-configurator';
 declare module 'js-yaml';
+declare module 'react-flame-graph';
 
 declare let If: React.FunctionComponent<{ condition: boolean }>;
 declare let For: React.FunctionComponent<{ each: string; index: string; of: any[] }>;
