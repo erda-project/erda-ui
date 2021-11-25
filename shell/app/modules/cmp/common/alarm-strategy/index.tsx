@@ -100,8 +100,8 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
     });
   };
 
-  const handlePageChange = (no: number) => {
-    getAlerts({ pageNo: no });
+  const handlePageChange = (no: number, size?: number) => {
+    getAlerts({ pageNo: no, pageSize: size });
   };
 
   const alertListColumns: Array<ColumnProps<COMMON_STRATEGY_NOTIFY.IAlert>> = [
