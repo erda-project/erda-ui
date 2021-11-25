@@ -42,6 +42,14 @@
   }
 }
 
+%card-shadow {
+  box-shadow: 0 2px 4px 0 $color-card-shadow;
+
+  &:hover {
+    box-shadow: 0 2px 4px 0 $color-card-hover-shadow;
+  }
+}
+
 @function break-width($num, $base-width, $gutter-width) {
   @return ($num + 1) * $base-width + $num * $gutter-width;
 }

@@ -6,14 +6,14 @@
   }
 
   .project-item {
+    @extend %card-shadow;
+
     .desc {
       color: rgba($color-default, 0.6);
     }
 
-    box-shadow: 0 2px 4px 0 $color-card-shadow;
-
-    &:hover {
-      box-shadow: 0 2px 4px 0 $color-card-hover-shadow;
+    .count {
+      font-family: DINAlternate-Bold, serif;
     }
   }
 }
