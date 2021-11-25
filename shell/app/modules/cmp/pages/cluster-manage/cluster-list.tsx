@@ -248,8 +248,8 @@ const ClusterList = ({ onEdit }: IProps) => {
           customProps={{
             list: {
               op: {
-                click: (record: { meta: { name: string } }) => {
-                  const { meta } = record;
+                clickItem: (click: { meta: { name: string } }) => {
+                  const { meta } = click;
                   goTo(goTo.pages.cmpClustersDetail, { clusterName: meta.name });
                 },
                 edit: (record: { meta: object }) => {
@@ -271,6 +271,14 @@ const ClusterList = ({ onEdit }: IProps) => {
                 deleteCluster: (record: { meta: ORG_CLUSTER.ICluster }) => {
                   const { meta } = record;
                   toggleDeleteModal(meta);
+                },
+                tokenManagement: async (record: { meta: ORG_CLUSTER.ICluster }) => {
+                  const { meta } = record;
+                  await getToken.fetch({
+                    clusterName: meta.name,
+                  });
+                  updater.tokenManageVisible(true);
+                  updater.clusterName(meta.name);
                 },
                 showRegisterCommand: (record: { meta: ORG_CLUSTER.ICluster }) => {
                   const { meta } = record;

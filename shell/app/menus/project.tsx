@@ -26,13 +26,24 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       href: goTo.resolve.projectAllIssue(), // `/dop/projects/${projectId}/issues/all`,
       icon: <CustomIcon type="xiangmuxietong" />,
       text: i18n.t('dop:Projects'),
-      subtitle: i18n.t('Issues'),
+      subtitle: i18n.t('dop:Management'),
       show:
         projectPerm.backLog.viewBackLog.pass ||
         projectPerm.iteration.read.pass ||
         projectPerm.issue.viewIssue.pass ||
         projectPerm.epic.read.pass,
-      prefix: `${goTo.resolve.projectIssueRoot()}/`,
+      subMenu: [
+        {
+          href: goTo.resolve.projectAllIssue(),
+          text: i18n.t('dop:project collaboration'),
+          prefix: `${goTo.resolve.projectIssueRoot()}/`,
+        },
+        {
+          href: goTo.resolve.projectTestDashboard(),
+          text: i18n.t('dop:efficiency measure'),
+          prefix: goTo.resolve.projectTestStatisticsRoot(),
+        },
+      ],
     },
     // { // TODO： 3.21临时去除
 
@@ -48,11 +59,6 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       subtitle: i18n.t('Test'),
       show: projectPerm.testManage.viewTest.pass,
       subMenu: [
-        {
-          href: goTo.resolve.projectTestDashboard(),
-          text: i18n.t('dop:statistics'),
-          prefix: goTo.resolve.projectTestStatisticsRoot(),
-        },
         {
           href: goTo.resolve.projectManualTestCase(),
           text: i18n.t('dop:manual test'),
@@ -81,12 +87,11 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       href: goTo.resolve.project(), // `/dop/projects/${projectId}/apps`,
       icon: <ErdaIcon type="dashboard-car" className="mt-3.5 mr-1" color="currentColor" />,
       text: i18n.t('dop:O & M'),
-      subtitle: i18n.t('dop:operator'),
+      subtitle: i18n.t('dop:Operator'),
       show: projectPerm.service.viewService.pass || projectPerm.resource.viewResource.pass,
       subMenu: [
         {
           href: goTo.resolve.projectService(),
-          icon: <CustomIcon type="kuozhanfuwu" />,
           text: i18n.t('dop:Addon'),
           subtitle: 'Addon',
           show: projectPerm.service.viewService.pass,

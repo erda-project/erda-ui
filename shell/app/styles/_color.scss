@@ -118,10 +118,6 @@ $color-bg-gray: #efeef0;
 // Color Filter
 $color-input-bg: #efeef0;
 
-// Color Boot prompt
-$color-prompt-bg: #dcdbde;
-$color-prompt-text: #302647;
-
 // function color
 $color-action: #1890ff;
 $color-action-bg: rgba($color-action, 0.1);
@@ -134,5 +130,10 @@ $color-success-bg: rgba($color-success, 0.1);
 $color-default: #302647;
 $color-default-bg: rgba($color-default, 0.1);
 
+// Color Boot prompt
+$color-prompt-bg: rgba($color-default, 0.04);
+
 // color new list
 $color-box-shadow: rgba($color-text-sub, 0.1);
+$color-card-shadow: rgba(85, 77, 104, 0.08);
+$color-card-hover-shadow: rgba(85, 77, 104, 0.16);

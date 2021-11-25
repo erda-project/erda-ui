@@ -21,11 +21,19 @@ import { iconMap } from 'common/components/erda-icon';
 
 const getPrefixImg = (prefixImg: string, prefixImgCircle?: boolean) => {
   if (Object.keys(ImgMap).includes(prefixImg)) {
-    return <img src={getImg(prefixImg)} className={`item-prefix-img ${prefixImgCircle ? 'prefix-img-circle' : ''}`} />;
+    return (
+      <div>
+        <img src={getImg(prefixImg)} className={`item-prefix-img ${prefixImgCircle ? 'prefix-img-circle' : ''}`} />
+      </div>
+    );
   } else if (Object.keys(iconMap).includes(prefixImg)) {
     return <ErdaIcon type={prefixImg} size="76" className={`${prefixImgCircle ? 'prefix-img-circle' : ''}`} />;
   } else {
-    return '';
+    return (
+      <div>
+        <img src={prefixImg} className={`item-prefix-img rounded-sm ${prefixImgCircle ? 'prefix-img-circle' : ''}`} />
+      </div>
+    );
   }
 };
 
@@ -111,9 +119,13 @@ const ListItem = (props: ERDA_LIST.IListItemProps) => {
                   <CustomIcon type={titleSuffixIcon} className="title-icon ml-2" />
                 </Tooltip>
               ) : null}
-              {status ? <Badge className="ml-2" {...status} /> : null}
+              {status?.status && status?.text ? <Badge className="ml-2" {...status} /> : null}
             </div>
-            {description ? <Ellipsis className="body-description" title={description} /> : null}
+            {description ? (
+              <Ellipsis className="body-description" title={description} />
+            ) : (
+              <div className="body-description" />
+            )}
             {extraInfos ? (
               <div className="body-extra-info">
                 {extraInfos.map((info) => {
@@ -133,8 +145,18 @@ const ListItem = (props: ERDA_LIST.IListItemProps) => {
         <div className="py-1">{extraContent}</div>
         {menuOverlay ? (
           <div className="erda-list-item-operations absolute top-2 right-2" onClick={(e) => e?.stopPropagation()}>
-            <Dropdown overlay={menuOverlay} overlayStyle={{ zIndex: 1000 }}>
-              <ErdaIcon type="more" size={20} className="hover-active pr-4 pt-2" />
+            <Dropdown
+              overlay={menuOverlay}
+              overlayClassName={'erda-list-operations'}
+              overlayStyle={{ zIndex: 1000 }}
+              trigger={['click']}
+            >
+              <ErdaIcon
+                type="more"
+                size={20}
+                className="hover-active px-2 py-1 rounded hover:bg-hover-gray-bg"
+                onClick={(e) => e.stopPropagation()}
+              />
             </Dropdown>
           </div>
         ) : null}

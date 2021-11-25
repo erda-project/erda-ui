@@ -25,10 +25,7 @@ function getProjectRouter(): RouteConfigItem[] {
         {
           path: 'apps',
           breadcrumbName: i18n.t('dop:Applications'),
-          layout: {
-            noWrapper: true,
-            fullHeight: true,
-          },
+          layout: { fullHeight: true },
           getComp: (cb) => cb(import('project/pages/apps/app-list'), 'ProjectAppList'),
         },
         {
@@ -39,7 +36,7 @@ function getProjectRouter(): RouteConfigItem[] {
         {
           path: 'issues',
           mark: 'issues',
-          breadcrumbName: i18n.t('dop:Projects'),
+          breadcrumbName: i18n.t('dop:project collaboration'),
           routes: [
             {
               path: 'all',
@@ -249,13 +246,13 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'statistics',
-          pageName: i18n.t('dop:statistics'),
+          pageName: i18n.t('dop:efficiency measure'),
           routes: [
             {
               path: 'code-coverage',
               tabs: TEST_STATISTICS_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('dop:statistics'),
+              breadcrumbName: i18n.t('dop:efficiency measure'),
               getComp: (cb) => cb(import('project/pages/statistics/code-coverage')),
             },
             {
@@ -265,7 +262,7 @@ function getProjectRouter(): RouteConfigItem[] {
               },
               tabs: TEST_STATISTICS_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('dop:statistics'),
+              breadcrumbName: i18n.t('dop:efficiency measure'),
               getComp: (cb) => cb(import('project/pages/statistics/test-dashboard')),
             },
           ],

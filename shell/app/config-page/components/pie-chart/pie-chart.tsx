@@ -179,17 +179,20 @@ const PieChart = (props: CP_PIE_CHART.Props) => {
   if (data) {
     Comp = <ChartItem {...props} />;
   } else if (group) {
-    Comp = (
-      <div className="cp-pie-chart-box flex items-center justify-between flex-wrap h-full content-between">
-        {group.map((g, idx) => (
+    Comp = group.map((item) => (
+      <div className="cp-pie-chart-box flex items-center justify-between">
+        {item.map((g, idx) => (
           <ChartItem key={`${idx}`} {...props} data={{ data: g }} />
         ))}
       </div>
-    );
+    ));
   }
 
   return (
-    <div className={`cp-pie-chart p-3 ${getClass(configProps)}`} style={style}>
+    <div
+      className={`cp-pie-chart p-3 flex flex-col overflow-y-auto justify-between ${getClass(configProps)}`}
+      style={style}
+    >
       {Comp}
     </div>
   );

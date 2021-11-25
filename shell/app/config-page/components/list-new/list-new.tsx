@@ -62,7 +62,7 @@ const List = (props: CP_LIST_NEW.Props) => {
         }
 
         let extraContent = null;
-        if (item.extraContent) {
+        if (item.extraContent && item.extraContent.type) {
           const { type } = item.extraContent;
           const Comp = containerMap[type];
 

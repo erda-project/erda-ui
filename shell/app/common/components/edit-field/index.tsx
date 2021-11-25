@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
+import React, { ImgHTMLAttributes } from 'react';
 import { Input, Select, DatePicker, Tooltip } from 'antd';
 import moment from 'moment';
 import { useMount } from 'react-use';
@@ -23,8 +23,51 @@ import i18n from 'i18n';
 import classnames from 'classnames';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { eventHub } from 'common/utils/event-hub';
 
 import './index.scss';
+
+const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) => {
+  const [enlarged, setEnlarged] = React.useState(false);
+
+  const removeMask = React.useCallback((e) => {
+    e.stopPropagation();
+    setEnlarged(false);
+    document.body.removeEventListener('click', removeMask);
+  }, []);
+
+  const enlargeImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setEnlarged(true);
+    document.body.addEventListener('click', removeMask);
+  };
+
+  const onLoad = () => {
+    eventHub.emit('md-img-loaded');
+  };
+
+  return (
+    <span>
+      <img
+        style={{ cursor: 'zoom-in' }}
+        onLoad={onLoad}
+        src={src}
+        onClick={enlargeImage}
+        alt={alt || 'preview-image'}
+        {...rest}
+      />
+      <span
+        className={`${
+          enlarged
+            ? 'fixed top-0 right-0 left-0 bottom-0 z-50 flex items-center justify-center overflow-auto bg-desc'
+            : 'hidden'
+        }`}
+      >
+        <img style={{ cursor: 'zoom-out' }} src={src} alt={alt || 'preview-image'} {...rest} />
+      </span>
+    </span>
+  );
+};
 
 interface IMdProps {
   value?: string;
@@ -45,7 +88,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
 
   const mdContentRef = React.useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
+  const checkContentHeight = React.useCallback(() => {
     if (value?.length && !isEditing && mdContentRef.current) {
       updater.expandBtnVisible(mdContentRef.current.getBoundingClientRect().height > maxHeight);
     } else {
@@ -54,13 +97,21 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
   }, [isEditing, maxHeight, updater, value]);
 
   React.useEffect(() => {
+    eventHub.on('md-img-loaded', checkContentHeight);
+    checkContentHeight();
+    return () => {
+      eventHub.off('md-img-loaded', checkContentHeight);
+    }
+  }, [checkContentHeight]);
+
+  React.useEffect(() => {
     updater.v(value);
   }, [updater, value]);
 
   const operationBtns = !disabled
     ? [
         {
-          text: i18n.t('dop:post comment'),
+          text: i18n.t('save'),
           type: 'primary' as const,
           onClick: (_v: string) => {
             onSave(_v);
@@ -68,7 +119,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
           },
         },
         {
-          text: i18n.t('common:discard'),
+          text: i18n.t('cancel'),
           onClick: () => {
             update({ v: originalValue, isEditing: false });
           },
@@ -83,14 +134,21 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       onChange={onChange}
       onBlur={(_v: string) => onSave(_v, 'markdown')}
       defaultMode="md"
+      defaultHeight={maxHeight}
       operationBtns={operationBtns}
     />
   ) : (
     <Tooltip placement="left" title={i18n.t('dop:click to edit')} arrowPointAtCenter>
-      <div className="relative hover:bg-hover-gray-bg cursor-pointer rounded" onClick={() => updater.isEditing(true)} style={{ maxHeight: expanded ? '' : maxHeight }}>
+      <div
+        className="relative hover:bg-hover-gray-bg cursor-pointer rounded"
+        onClick={() => updater.isEditing(true)}
+        style={{ maxHeight: expanded ? '' : maxHeight }}
+      >
         <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
           <div ref={mdContentRef} className="md-content">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{value || ''}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ img: ScalableImage }}>
+              {value || i18n.t('no description yet')}
+            </ReactMarkdown>
             <div
               className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex justify-center items-center ${
                 !expandBtnVisible || expanded ? 'hidden' : ''
@@ -102,7 +160,10 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
           className={`absolute -bottom-10 z-10 left-0 right-0 mx-auto rounded-full w-24 px-2 py-1 border text-primary shadow cursor-pointer flex items-center bg-white ${
             expandBtnVisible ? '' : 'hidden'
           }`}
-          onClick={(e) => { e.stopPropagation(); updater.expanded(!expanded)}}
+          onClick={(e) => {
+            e.stopPropagation();
+            updater.expanded(!expanded);
+          }}
         >
           <ErdaIcon type={`${expanded ? 'double-up' : 'double-down'}`} color="currentColor" />
           <div className="ml-1">{expanded ? i18n.t('collapse description') : i18n.t('expand description')}</div>
