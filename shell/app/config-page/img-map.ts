@@ -22,6 +22,9 @@ import defaultK8sNodeIcon from 'app/images/default-k8s-node.svg';
 import defaultK8sPodIcon from 'app/images/default-k8s-pod.svg';
 import defaultK8sWorkload from 'app/images/default-k8s-workload.svg';
 import K8sClusterBg from 'app/images/k8s-cluster-bg.svg';
+import edasClusterBg from 'app/images/edas-cluster-bg.svg';
+import dcosClusterBg from 'app/images/dcos-cluster-bg.svg';
+import aliCloudClusterBg from 'app/images/ali-cloud-cluster-bg.svg';
 
 const ImgMap = {
   frontImg_default_project_icon: defaultProjectIcon,
@@ -35,6 +38,9 @@ const ImgMap = {
   default_k8s_pod: defaultK8sPodIcon,
   default_k8s_workload: defaultK8sWorkload,
   k8s_cluster_bg: K8sClusterBg,
+  edas_cluster_bg: edasClusterBg,
+  dcos_cluster_bg: dcosClusterBg,
+  ali_cloud_cluster_bg: aliCloudClusterBg,
 };
 
 export default ImgMap;
