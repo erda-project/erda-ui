@@ -272,6 +272,14 @@ const ClusterList = ({ onEdit }: IProps) => {
                   const { meta } = record;
                   toggleDeleteModal(meta);
                 },
+                tokenManagement: async (record: { meta: ORG_CLUSTER.ICluster }) => {
+                  const { meta } = record;
+                  await getToken.fetch({
+                    clusterName: meta.name,
+                  });
+                  updater.tokenManageVisible(true);
+                  updater.clusterName(meta.name);
+                },
                 showRegisterCommand: (record: { meta: ORG_CLUSTER.ICluster }) => {
                   const { meta } = record;
                   showCommand(meta.name);
