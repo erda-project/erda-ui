@@ -269,13 +269,7 @@ function WrappedTable<T extends object = any>({
           sortColumn={sort}
           setColumns={(val) => setColumns(val)}
           onTableChange={onTableChange}
-          showReset={
-            !!(
-              paginationProps &&
-              paginationProps.current &&
-              (onChange || (paginationProps && paginationProps.onChange))
-            )
-          }
+          showReset={!!(paginationProps && paginationProps.current && (onChange || paginationProps?.onChange))}
         />
       )}
 
@@ -341,13 +335,12 @@ function renderActions<T extends object = any>(actions?: IActions<T> | null): Ar
 
           return (
             <span className="operate-list" onClick={(e) => e.stopPropagation()}>
-              {list.length ? (
+              {(list.length && (
                 <Dropdown overlay={menu} align={{ offset: [0, 5] }} trigger={['click']}>
                   <ErdaIcon type="more" className="cursor-pointer p-1 bg-hover rounded-sm" />
                 </Dropdown>
-              ) : (
-                ''
-              )}
+              )) ||
+                ''}
             </span>
           );
         },

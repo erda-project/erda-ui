@@ -45,6 +45,7 @@ export interface ICondition {
   disabled?: boolean;
   emptyText?: string;
   required?: boolean;
+  firstShowLength?: number;
   split?: boolean;
   value?: string | number | string[] | number[] | Obj;
   fixed?: boolean;
@@ -72,6 +73,7 @@ interface IFilterItemProps {
   itemData: ICondition;
   value: any;
   active: boolean;
+
   onVisibleChange: (visible: boolean) => void;
   onChange: (data: { key: string; value: any }, extra?: { forceChange?: boolean }) => void;
   onQuickOperation: (data: { key: string; value: any }) => void;
@@ -138,13 +140,14 @@ const OptionItem = (props: IOptionItemProps) => {
     </div>
   );
 };
-const firstShowLength = 200;
+
 const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuickOperation }: IFilterItemProps) => {
   const {
     key,
     label,
     haveFilter,
     type,
+    firstShowLength = 200,
     placeholder,
     quickSelect,
     disabled,
@@ -159,7 +162,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   const [filterMap, setFilterMap] = React.useState({});
   const memberSelectorRef = React.useRef(null as any);
   const [inputVal, setInputVal] = React.useState(value);
-  const [hasMore, setHasMore] = React.useState((options?.length || 0) > firstShowLength);
+  const [hasMore, setHasMore] = React.useState(firstShowLength ? (options?.length || 0) > firstShowLength : false);
   // const inputRef = React.useRef(null);
 
   const debouncedChange = React.useRef(debounce(onChange, 500));
@@ -212,8 +215,8 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         .map((a) => a.label)
         .join(',') || emptyText;
 
-    const useableOptions = getSelectOptions(_options, filterMap[key]);
-    const useOption = hasMore ? useableOptions?.slice(0, firstShowLength) : useableOptions;
+    const filterOptions = getSelectOptions(_options, filterMap[key]);
+    const useOptions = hasMore ? filterOptions?.slice(0, firstShowLength) : filterOptions;
     const ops = (
       <Menu>
         {haveFilter && [
@@ -277,7 +280,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
             ]
           : null}
         <Menu.Item key="options" className="p-0 options-container options-item block">
-          {useOption.map((op) => {
+          {useOptions.map((op) => {
             if (has(op, 'children') && !op.children?.length) {
               return null;
             }
@@ -312,6 +315,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
                 <GroupOpt
                   key={op.value || op.label}
                   value={_value}
+                  firstShowLength={firstShowLength}
                   onDelete={onDelete}
                   onClickOptItem={onClickOptItem}
                   option={op}
@@ -585,14 +589,17 @@ const QuickSave = (props: IQuickSaveProps) => {
 interface IGroupOptProps {
   value: Array<string | number>;
   option: Option;
+  firstShowLength?: number;
   onClickOptItem: (option: Option) => void;
   onDelete?: (option: Option) => void;
 }
 
 const GroupOpt = (props: IGroupOptProps) => {
-  const { option, onClickOptItem, value, onDelete } = props;
+  const { option, onClickOptItem, value, onDelete, firstShowLength } = props;
   const [expand, setExpand] = React.useState(true);
-  const [hasMore, setHasMore] = React.useState((option.children?.length || 0) > firstShowLength);
+  const [hasMore, setHasMore] = React.useState(
+    firstShowLength ? (option.children?.length || 0) > firstShowLength : false,
+  );
 
   const useOption = hasMore ? option.children?.slice(0, firstShowLength) : option.children;
 
