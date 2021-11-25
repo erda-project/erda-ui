@@ -12,19 +12,18 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Col, Input, Row, Spin, Tag, Tooltip } from 'antd';
+import { Col, Input, Row, Spin, Tag } from 'antd';
 import { useUpdate } from 'common/use-hooks';
 import { getMspProjectList } from 'msp/services';
 import EmptyHolder from 'common/components/empty-holder';
 import ErdaIcon from 'common/components/erda-icon';
-import { goTo } from 'common/utils';
+import { fromNow, goTo } from 'common/utils';
 import { debounce, last } from 'lodash';
 import { DOC_MSP_HOME_PAGE } from 'common/constants';
 import bgImg from 'app/images/msp/microservice-governance-bg.svg';
 import headerImg from 'app/images/msp/microservice-governance.svg';
 import i18n from 'i18n';
 import './overview.scss';
-import moment from 'moment';
 
 interface IState {
   data: MS_INDEX.IMspProject[];
@@ -49,26 +48,6 @@ const iconMap: {
     tag: i18n.t('cmp:Microservice Observation Project'),
     color: '#27C99A',
   },
-};
-
-const convertLastActiveTime = (time: number) => {
-  if (!time) {
-    return '-';
-  }
-  const fromNowStr = moment(time).fromNow();
-  const reg = /(?<count>\d*)(?<unit>[\s\S]+)/;
-  const groups = fromNowStr.match(reg)?.groups;
-  if (groups) {
-    const { count, unit } = groups;
-    return (
-      <Tooltip title={moment(time).format('YYYY-MM-DD HH:mm:ss')}>
-        <span className="count">{count}</span>
-        <span>{unit}</span>
-      </Tooltip>
-    );
-  } else {
-    return fromNowStr;
-  }
 };
 
 const Overview = () => {
@@ -181,19 +160,19 @@ const Overview = () => {
                       <Col span={12}>
                         <Row gutter={8}>
                           <Col span={6}>
-                            <p className="mb-0 text-xl leading-8 count">{relationship.length}</p>
+                            <p className="mb-0 text-xl leading-8">{relationship.length}</p>
                             <p className="text-xs leading-5 desc">{i18n.t('env')}</p>
                           </Col>
                           <Col span={6}>
-                            <p className="mb-0 text-xl leading-8 count">{serviceCount ?? 0}</p>
+                            <p className="mb-0 text-xl leading-8">{serviceCount ?? 0}</p>
                             <p className="text-xs leading-5 desc">{i18n.t('service')}</p>
                           </Col>
                           <Col span={6}>
-                            <p className="mb-0 text-xl leading-8 count">{last24hAlertCount ?? 0}</p>
+                            <p className="mb-0 text-xl leading-8">{last24hAlertCount ?? 0}</p>
                             <p className="text-xs leading-5 desc">{i18n.t('msp:last 1 day alarm')}</p>
                           </Col>
                           <Col span={6}>
-                            <p className="mb-0 text-xl leading-8">{convertLastActiveTime(lastActiveTime)}</p>
+                            <p className="mb-0 text-xl leading-8">{lastActiveTime ? fromNow(lastActiveTime) : '-'}</p>
                             <p className="text-xs leading-5 desc">{i18n.t('msp:last active time')}</p>
                           </Col>
                         </Row>
