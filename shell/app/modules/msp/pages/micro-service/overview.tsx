@@ -150,7 +150,7 @@ const Overview = () => {
                         <div>
                           <div className="flex items-center">
                             <p className="mb-0 font-medium text-xl leading-8">{displayName}</p>
-                            <Tag className="ml-1 text-xs leading-5" color={color}>
+                            <Tag className="ml-1 text-xs leading-5 border-0" color={color}>
                               {tag}
                             </Tag>
                           </div>
