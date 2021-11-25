@@ -577,7 +577,6 @@ const NotifyChannel = () => {
             updater.activeTab(key);
             updater.paging({ pageSize: 15, current: 1 });
           }}
-          type="card"
         >
           <TabPane key="dingtalk_work_notice" tab={i18n.t('dingding work notice')} />
           <TabPane key="short_message" tab={i18n.t('SMS')} />
