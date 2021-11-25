@@ -16,8 +16,7 @@ import { ClusterTerminal } from 'cmp/common/cluster-terminal';
 import { Button, Drawer, DatePicker, InputNumber } from 'antd';
 import { getOrgFromPath, setApiWithOrg } from 'common/utils';
 import moment, { Moment } from 'moment';
-import { Terminal as IconTerminal } from '@icon-park/react';
-import { FormModal } from 'common';
+import { FormModal, ErdaIcon } from 'common';
 import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 import './cluster-terminal.scss';
@@ -51,8 +50,8 @@ export const K8sClusterTerminalButton = ({ clusterName }: IClusterTerminalProps)
           <ClusterTerminal params={params} />
         </div>
       </Drawer>
-      <Button type="primary" onClick={() => setVisible(true)}>
-        <IconTerminal theme="outline" strokeLinejoin="miter" strokeLinecap="butt" />
+      <Button className="flex items-center" type="primary" onClick={() => setVisible(true)}>
+        <ErdaIcon className="mr-1" type="terminal" color="currentColor" size="14" />
         {i18n.t('cmp:Kubectl console')}
       </Button>
     </>

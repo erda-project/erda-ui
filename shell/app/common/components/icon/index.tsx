@@ -14,7 +14,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { get } from 'lodash';
-import { List as IconTask, Bug as IconBug } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 import './index.scss';
 
 interface IProps {
@@ -57,8 +57,8 @@ const ISSUE_ICON = {
   issue: {
     // 事件类型icon
     REQUIREMENT: <Icon type="xiangfatianjia" className="issue-icon issue-type requirement" />,
-    TASK: <IconTask className="issue-icon issue-type task" size="14px" fill="#498e9e" />,
-    BUG: <IconBug className="issue-icon issue-type bug" size="14px" fill="#f47201" />,
+    TASK: <ErdaIcon type="list-green" className="issue-icon issue-type task mr-1" size="14px" />,
+    BUG: <ErdaIcon type="bug" className="issue-icon issue-type bug mr-1" size="14px" color="orange" />,
     EPIC: <Icon type="lichengbei" className="issue-icon issue-type epic" />,
   },
   severity: {

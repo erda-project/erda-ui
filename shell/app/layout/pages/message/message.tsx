@@ -13,8 +13,7 @@
 
 import React from 'react';
 import messageStore, { MSG_STATUS } from 'app/layout/stores/message';
-import { Holder, Icon as CustomIcon, LoadMore } from 'common';
-import { Remind as IconRemind } from '@icon-park/react';
+import { Holder, Icon as CustomIcon, LoadMore, ErdaIcon } from 'common';
 import { Badge, Timeline, Drawer, notification, Button, Modal, message } from 'antd';
 import Markdown from 'common/utils/marked';
 import { map } from 'lodash';
@@ -214,9 +213,9 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
                       const isUnRead = item.status === MSG_STATUS.UNREAD;
                       return (
                         <div key={item.id} className="message-item" onClick={() => handleClick(item)}>
-                          <div className="message-item-content" title={item.title}>
+                          <div className="message-item-content flex items-center" title={item.title}>
                             <span className="status">{isUnRead ? <Badge color="red" /> : null}</span>
-                            <IconRemind size="16px" />
+                            <ErdaIcon className="mr-1" type="remind" color="currentColor" size="16px" />
                             <span>{item.title}</span>
                           </div>
                           <div>
