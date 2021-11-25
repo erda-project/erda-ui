@@ -99,7 +99,7 @@ function WrappedTable<T extends object = any>({
           if (isFrontendPaging) {
             setDefaultPagination({ ...pagination, current: pageNo || current, pageSize: size || pageSize });
           } else {
-            onPageChange?.(pageNo, size);
+            onPageChange?.(pageNo || current, size || pageSize);
             onChange?.(
               { ...pagination, current: pageNo || current, pageSize: size || pageSize },
               {},
@@ -269,7 +269,7 @@ function WrappedTable<T extends object = any>({
           sortColumn={sort}
           setColumns={(val) => setColumns(val)}
           onTableChange={onTableChange}
-          showReset={!!(onChange || (paginationProps && paginationProps.onChange))}
+          showReset={!!(paginationProps && paginationProps.current && (onChange || paginationProps?.onChange))}
         />
       )}
 
@@ -321,25 +321,26 @@ function renderActions<T extends object = any>(actions?: IActions<T> | null): Ar
         ellipsis: true,
         fixed: 'right',
         render: (_: any, record: T) => {
-          const list = render(record);
+          const list = render(record).filter((item) => item.show !== false);
 
           const menu = (
             <Menu>
-              {list
-                .filter((item) => item.show !== false)
-                .map((item) => (
-                  <Menu.Item key={item.title} onClick={item.onClick}>
-                    <span className="fake-link mr-1">{item.title}</span>
-                  </Menu.Item>
-                ))}
+              {list.map((item) => (
+                <Menu.Item key={item.title} onClick={item.onClick}>
+                  <span className="fake-link mr-1">{item.title}</span>
+                </Menu.Item>
+              ))}
             </Menu>
           );
 
           return (
             <span className="operate-list" onClick={(e) => e.stopPropagation()}>
-              <Dropdown overlay={menu} align={{ offset: [0, 5] }} trigger={['click']}>
-                <ErdaIcon type="more" className="cursor-pointer p-1 bg-hover rounded-sm" />
-              </Dropdown>
+              {(list.length && (
+                <Dropdown overlay={menu} align={{ offset: [0, 5] }} trigger={['click']}>
+                  <ErdaIcon type="more" className="cursor-pointer p-1 bg-hover rounded-sm" />
+                </Dropdown>
+              )) ||
+                ''}
             </span>
           );
         },
