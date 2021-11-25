@@ -612,6 +612,10 @@ const getTableOperation = (val: any, record: any, extra: any) => {
   //   });
   // }
 
+  if (!operationList.length) {
+    return null;
+  }
+
   return (
     <div className="table-operations">
       <Dropdown overlay={<Menu>{operationList}</Menu>} align={{ offset: [0, 5] }} trigger={['click']}>
