@@ -32,7 +32,7 @@ const BootPrompt = ({ children, name, className }: IProps) => {
   };
 
   return !isHidden ? (
-    <div className={`erda-boot-prompt flex justify-between py-2 px-6 ${className || ''}`}>
+    <div className={`erda-boot-prompt flex justify-between py-2 px-4 ${className || ''}`}>
       <div className="flex">
         <ErdaIcon type="message" className="mr-2" />
         {children}

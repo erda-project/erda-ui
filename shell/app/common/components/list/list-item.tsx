@@ -145,7 +145,12 @@ const ListItem = (props: ERDA_LIST.IListItemProps) => {
         <div className="py-1">{extraContent}</div>
         {menuOverlay ? (
           <div className="erda-list-item-operations absolute top-2 right-2" onClick={(e) => e?.stopPropagation()}>
-            <Dropdown overlay={menuOverlay} overlayStyle={{ zIndex: 1000 }} trigger={['click']}>
+            <Dropdown
+              overlay={menuOverlay}
+              overlayClassName={'erda-list-operations'}
+              overlayStyle={{ zIndex: 1000 }}
+              trigger={['click']}
+            >
               <ErdaIcon
                 type="more"
                 size={20}
