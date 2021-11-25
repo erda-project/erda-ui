@@ -19,6 +19,7 @@
  *
  * @param key string [the file name]
  * * */
+import { mockData, enhanceMock } from './crud.mock';
 
 export const useMock = (key: string) => (payload: Obj) => {
   if (process.env.NODE_ENV === 'production') {
@@ -27,10 +28,7 @@ export const useMock = (key: string) => (payload: Obj) => {
     return new Promise((resolve) => {
       setTimeout(() => {
         // /* @vite-ignore */
-        import(`./${key}.mock`).then((file) => {
-          const { mockData, enhanceMock } = file;
-          resolve(typeof enhanceMock === 'function' ? enhanceMock(mockData, payload) : mockData);
-        });
+        resolve(enhanceMock && typeof enhanceMock === 'function' ? enhanceMock(mockData, payload) : mockData);
       }, 500);
     });
   }

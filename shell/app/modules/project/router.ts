@@ -44,7 +44,6 @@ function getProjectRouter(): RouteConfigItem[] {
               ignoreTabQuery: true,
               getComp: (cb) => cb(import('project/pages/issue/plan')),
               layout: {
-                noWrapper: true,
                 fullHeight: true,
               },
             },
