@@ -6,8 +6,6 @@
   }
 
   .project-item {
-    @extend %card-shadow;
-
     .desc {
       color: rgba($color-default, 0.6);
     }

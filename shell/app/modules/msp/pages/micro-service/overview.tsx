@@ -159,7 +159,7 @@ const Overview = () => {
                   return (
                     <Row
                       key={id}
-                      className="project-item mb-2 mx-2 px-4 flex py-8 rounded-sm cursor-pointer transition-all duration-300 hover:bg-grey"
+                      className="project-item card-shadow mb-2 mx-2 px-4 flex py-8 rounded-sm cursor-pointer transition-all duration-300 hover:bg-grey"
                       onClick={() => {
                         handleClick(relationship, id);
                       }}
