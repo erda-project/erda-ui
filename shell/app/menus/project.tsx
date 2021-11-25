@@ -38,7 +38,8 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
         projectPerm.backLog.viewBackLog.pass ||
         projectPerm.iteration.read.pass ||
         projectPerm.issue.viewIssue.pass ||
-        projectPerm.epic.read.pass,
+        projectPerm.epic.read.pass ||
+        projectPerm.dashboard.viewDashboard.pass,
       subMenu: [
         {
           href: goTo.resolve.projectAllIssue(),
@@ -46,9 +47,10 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
           prefix: `${goTo.resolve.projectIssueRoot()}/`,
         },
         {
-          href: goTo.resolve.projectTestDashboard(),
+          href: goTo.resolve.projectMeasureDashboard(),
           text: i18n.t('dop:efficiency measure'),
-          prefix: goTo.resolve.projectTestStatisticsRoot(),
+          show: projectPerm.dashboard.viewDashboard.pass,
+          prefix: goTo.resolve.projectMeasure(),
         },
       ],
     },
@@ -66,6 +68,11 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       subtitle: i18n.t('Test'),
       show: projectPerm.testManage.viewTest.pass,
       subMenu: [
+        {
+          href: goTo.resolve.projectTestDashboard(),
+          text: i18n.t('dop:statistics'),
+          prefix: goTo.resolve.projectTestStatisticsRoot(),
+        },
         {
           href: goTo.resolve.projectManualTestCase(),
           text: i18n.t('dop:manual test'),
