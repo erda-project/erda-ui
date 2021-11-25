@@ -2,5 +2,18 @@
   &-header {
     height: 200px;
     background-size: 100% auto;
+    background-repeat: no-repeat;
+  }
+
+  .project-item {
+    .desc {
+      color: rgba($color-default, 0.6);
+    }
+
+    box-shadow: 0 2px 4px 0 $color-card-shadow;
+
+    &:hover {
+      box-shadow: 0 2px 4px 0 $color-card-hover-shadow;
+    }
   }
 }

@@ -100,7 +100,7 @@ const Overview = () => {
             'msp:Provides one-stop service system observation, including service monitoring, tracing, dashboard, and alarm.',
           )}
           <a className="flex" href={DOC_MSP_HOME_PAGE} target="_blank">
-            {i18n.t('msp:view guide')} <ErdaIcon type="jinru" className="mb-0" />
+            {i18n.t('msp:view guide')} <ErdaIcon size={14} type="jinru" className="mb-0" />
           </a>
         </p>
         <img src={headerImg} className="absolute right-0 top-4" />
@@ -137,7 +137,7 @@ const Overview = () => {
                   return (
                     <Row
                       key={id}
-                      className="mb-2 mx-2 px-4 flex py-8 rounded-sm cursor-pointer shadow hover:shadow-md hover:bg-grey"
+                      className="project-item mb-2 mx-2 px-4 flex py-8 rounded-sm cursor-pointer transition-all duration-300 hover:bg-grey"
                       onClick={() => {
                         handleClick(relationship, id);
                       }}
@@ -153,26 +153,26 @@ const Overview = () => {
                               {tag}
                             </Tag>
                           </div>
-                          <div className="text-xs	leading-5 text-darkgray">{desc || '-'}</div>
+                          <div className="text-xs	leading-5 desc">{desc || '-'}</div>
                         </div>
                       </Col>
                       <Col span={12}>
                         <Row gutter={8}>
                           <Col span={6}>
                             <p className="mb-0 text-xl leading-8">{relationship.length}</p>
-                            <p className="text-xs leading-5 text-darkgray">{i18n.t('env')}</p>
+                            <p className="text-xs leading-5 desc">{i18n.t('env')}</p>
                           </Col>
                           <Col span={6}>
                             <p className="mb-0 text-xl leading-8">{serviceCount ?? 0}</p>
-                            <p className="text-xs leading-5 text-darkgray">{i18n.t('service')}</p>
+                            <p className="text-xs leading-5 desc">{i18n.t('service')}</p>
                           </Col>
                           <Col span={6}>
                             <p className="mb-0 text-xl leading-8">{last24hAlertCount ?? 0}</p>
-                            <p className="text-xs leading-5 text-darkgray">{i18n.t('msp:last 1 day alarm')}</p>
+                            <p className="text-xs leading-5 desc">{i18n.t('msp:last 1 day alarm')}</p>
                           </Col>
                           <Col span={6}>
                             <p className="mb-0 text-xl leading-8">{lastActiveTime ? fromNow(lastActiveTime) : '-'}</p>
-                            <p className="text-xs leading-5 text-darkgray">{i18n.t('msp:last active time')}</p>
+                            <p className="text-xs leading-5 desc">{i18n.t('msp:last active time')}</p>
                           </Col>
                         </Row>
                       </Col>
