@@ -166,3 +166,20 @@
     font-size: 14px;
   }
 }
+
+.erda-list-operations {
+  .ant-dropdown-menu {
+    background-color: rgba($color-default, 0.96);
+  }
+
+  .ant-dropdown-menu-item,
+  .ant-dropdown-menu-submenu-title {
+    color: rgba($white, 0.9);
+  }
+
+  .ant-dropdown-menu-item:hover,
+  .ant-dropdown-menu-submenu-title:hover {
+    background-color: rgba($white, 0.08);
+    color: $white;
+  }
+}
