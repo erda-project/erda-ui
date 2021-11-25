@@ -12,8 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Button, Modal, Tooltip, Select } from 'antd';
+import { Button, Modal, Tooltip, Select } from 'antd';
 import { goTo, cutStr, resolvePath } from 'common/utils';
+import Table from 'common/components/table';
+import { Badge } from 'common';
+import { IActions } from 'common/components/table/interface';
 import { reverse, map, filter, floor } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import StatusChart from './status-chart';
@@ -57,13 +60,11 @@ const Status = () => {
     });
   };
 
-  const handleEdit = (e: any, _data: MONITOR_STATUS.IMetricsBody) => {
-    e.stopPropagation();
+  const handleEdit = (_data: MONITOR_STATUS.IMetricsBody) => {
     toggleModal(_data);
   };
 
-  const handleDelete = (e: any, id: string) => {
-    e.stopPropagation();
+  const handleDelete = (id: string) => {
     Modal.confirm({
       title: i18n.t('msp:are you sure to delete this monitor?'),
       onOk: () => {
@@ -101,18 +102,22 @@ const Status = () => {
   const typeMap = {
     All: {
       text: i18n.t('msp:all'),
+      status: 'success',
       color: 'green',
     },
     Operational: {
       text: i18n.t('msp:normal'),
+      status: 'success',
       color: 'green',
     },
     'Major Outage': {
       text: i18n.t('msp:downtime'),
+      status: 'error',
       color: 'red',
     },
     Miss: {
       text: i18n.t('msp:no data'),
+      status: 'default',
       color: 'grey',
     },
   };
@@ -136,10 +141,9 @@ const Status = () => {
       title: i18n.t('status'),
       dataIndex: 'status',
       render: (status: string) => (
-        <span>
-          <span className={`status-point ${(typeMap[status] || defaultMap).color}`} />
-          {(typeMap[status] || defaultMap).text}
-        </span>
+        <>
+          <Badge status={(typeMap[status] || defaultMap).status} text={(typeMap[status] || defaultMap).text} />
+        </>
       ),
     },
     {
@@ -164,7 +168,7 @@ const Status = () => {
       title: `${i18n.t('msp:response map')}(${i18n.t('msp:nearly 1 hour')})`,
       dataIndex: 'chart',
       width: 160,
-      render: (_text: string, record: any) => {
+      render: (_text: string, record: MONITOR_STATUS.IMetricsBody) => {
         const { chart } = record;
         if (!chart) {
           return <div style={{ height: '58px' }} />;
@@ -189,6 +193,7 @@ const Status = () => {
       title: i18n.t('msp:root cause analysis'),
       dataIndex: 'requestId',
       width: 90,
+      show: false,
       render: (requestId: string) =>
         !!requestId && (
           <span
@@ -201,24 +206,41 @@ const Status = () => {
           </span>
         ),
     },
-    {
-      title: i18n.t('operations'),
-      dataIndex: 'id',
-      width: 100,
-      render: (id: string, record: any) => {
-        return (
-          <div className="table-operations">
-            <a className="table-operations-btn" key="edit" onClick={(e) => handleEdit(e, record)}>
-              {i18n.t('edit')}
-            </a>
-            <a className="table-operations-btn" key="del" onClick={(e) => handleDelete(e, id)}>
-              {i18n.t('delete')}
-            </a>
-          </div>
-        );
-      },
-    },
   ];
+
+  const actions: IActions<MONITOR_STATUS.IMetricsBody> = {
+    width: 120,
+    render: (record: MONITOR_STATUS.IMetricsBody) => renderMenu(record),
+  };
+
+  const renderMenu = (record: MONITOR_STATUS.IMetricsBody) => {
+    const { editMonitor, deleteMonitor } = {
+      editMonitor: {
+        title: i18n.t('edit'),
+        onClick: () => handleEdit(record),
+      },
+      deleteMonitor: {
+        title: i18n.t('delete'),
+        onClick: () => handleDelete(record.id),
+      },
+    };
+
+    return [editMonitor, deleteMonitor];
+  };
+
+  const filterSlot = (
+    <div className="status-button-group-left">
+      <Select onChange={changeType} value={filterType} className="type-filter">
+        {map(typeMap, (item, key) => {
+          return (
+            <Option key={key} value={key}>
+              {item.text}
+            </Option>
+          );
+        })}
+      </Select>
+    </div>
+  );
 
   let hasDown = {
     text: 'no Data',
@@ -233,17 +255,6 @@ const Status = () => {
 
   return (
     <div className="project-status-page">
-      <div className="status-button-group-left">
-        <Select onChange={changeType} value={filterType} className="type-filter">
-          {map(typeMap, (item, key) => {
-            return (
-              <Option key={key} value={key}>
-                {item.text}
-              </Option>
-            );
-          })}
-        </Select>
-      </div>
       <div className="status-button-group">
         {/* <Button className="account-button" type="primary" ghost onClick={() => goTo('./account')}>{i18n.t('msp:authentication management')}</Button> */}
         <Button className="add-button" type="primary" onClick={() => toggleModal()}>
@@ -271,10 +282,12 @@ const Status = () => {
             onClick: () => goTo(`./${record.id}`),
           };
         }}
+        actions={actions}
         loading={isFetchingList}
         columns={columns}
         dataSource={filterData}
         pagination={false}
+        slot={filterSlot}
         scroll={{ x: '100%', y: 550 }}
       />
     </div>
