@@ -138,7 +138,7 @@ const OptionItem = (props: IOptionItemProps) => {
     </div>
   );
 };
-
+const firstShowLength = 200;
 const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuickOperation }: IFilterItemProps) => {
   const {
     key,
@@ -159,6 +159,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   const [filterMap, setFilterMap] = React.useState({});
   const memberSelectorRef = React.useRef(null as any);
   const [inputVal, setInputVal] = React.useState(value);
+  const [hasMore, setHasMore] = React.useState((options?.length || 0) > firstShowLength);
   // const inputRef = React.useRef(null);
 
   const debouncedChange = React.useRef(debounce(onChange, 500));
@@ -212,6 +213,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         .join(',') || emptyText;
 
     const useableOptions = getSelectOptions(_options, filterMap[key]);
+    const useOption = hasMore ? useableOptions?.slice(0, firstShowLength) : useableOptions;
     const ops = (
       <Menu>
         {haveFilter && [
@@ -275,7 +277,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
             ]
           : null}
         <Menu.Item key="options" className="p-0 options-container options-item block">
-          {useableOptions.map((op) => {
+          {useOption.map((op) => {
             if (has(op, 'children') && !op.children?.length) {
               return null;
             }
@@ -327,6 +329,11 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               );
             }
           })}
+          {hasMore ? (
+            <div className="fake-link hover-active py-1 pl-3  load-more" onClick={() => setHasMore(false)}>
+              {`${i18n.t('load more')}...`}
+            </div>
+          ) : null}
         </Menu.Item>
       </Menu>
     );
@@ -585,6 +592,9 @@ interface IGroupOptProps {
 const GroupOpt = (props: IGroupOptProps) => {
   const { option, onClickOptItem, value, onDelete } = props;
   const [expand, setExpand] = React.useState(true);
+  const [hasMore, setHasMore] = React.useState((option.children?.length || 0) > firstShowLength);
+
+  const useOption = hasMore ? option.children?.slice(0, firstShowLength) : option.children;
 
   return (
     <div className={'option-group'}>
@@ -596,7 +606,7 @@ const GroupOpt = (props: IGroupOptProps) => {
         <IconDown className={`expand-icon flex items-center ${expand ? 'expand' : ''}`} theme="outline" size="16" />
       </div>
       <div className={`option-group-content ${expand ? '' : 'no-expand'}`}>
-        {option.children?.map((cItem) => {
+        {useOption?.map((cItem) => {
           return (
             <OptionItem
               onDelete={onDelete}
@@ -607,6 +617,11 @@ const GroupOpt = (props: IGroupOptProps) => {
             />
           );
         })}
+        {hasMore ? (
+          <div className="fake-link hover-active py-1 pl-8  load-more" onClick={() => setHasMore(false)}>
+            {`${i18n.t('load more')}...`}
+          </div>
+        ) : null}
       </div>
     </div>
   );
