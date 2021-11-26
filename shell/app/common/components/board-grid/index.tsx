@@ -25,7 +25,7 @@ import Table from 'common/components/table';
 import { theme } from 'app/charts/theme';
 
 registTheme('erda', theme);
-dcRegisterComp.use('table', Table);
+// dcRegisterComp.use('table', Table);
 
 export const BoardGrid = ({ ...restProps }: DC.BoardGridProps) => {
   const locale = window.localStorage.getItem('locale') || 'zh';
