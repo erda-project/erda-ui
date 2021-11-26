@@ -41,6 +41,7 @@ declare namespace MONITOR_TRACE {
     status: number;
     statusName: string;
     updateTime: string;
+    startTime: number;
   }
 
   interface IStatus {
@@ -154,6 +155,7 @@ declare namespace MONITOR_TRACE {
     traceId: string;
     scopeId: string;
     limit?: number;
+    startTime?: number;
   }
 
   interface ISpan extends ITraceSpan {
