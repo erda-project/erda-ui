@@ -31,7 +31,6 @@ import Duration, { transformDuration } from 'trace-insight/components/duration';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'core/stores/route';
-import DC from '@erda-ui/dashboard-configurator/dist';
 
 const DashBoard = React.memo(BoardGrid.Pure);
 

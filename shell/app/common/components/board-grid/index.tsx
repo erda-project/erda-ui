@@ -18,11 +18,14 @@ import {
   setLocale,
   registTheme,
   setTheme,
+  dcRegisterComp,
 } from '@erda-ui/dashboard-configurator';
-import DC from '@erda-ui/dashboard-configurator/dist';
+import Table from 'common/components/table';
+
 import { theme } from 'app/charts/theme';
 
 registTheme('erda', theme);
+dcRegisterComp.use('table', Table);
 
 export const BoardGrid = ({ ...restProps }: DC.BoardGridProps) => {
   const locale = window.localStorage.getItem('locale') || 'zh';

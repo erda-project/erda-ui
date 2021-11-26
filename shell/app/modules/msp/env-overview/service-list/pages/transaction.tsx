@@ -14,7 +14,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { map, differenceBy } from 'lodash';
 import i18n from 'i18n';
-import DC from '@erda-ui/dashboard-configurator/dist';
 import { Drawer, Radio, Select, Table, Tag, Tooltip } from 'antd';
 import { SimpleLog, DebounceSearch, Ellipsis } from 'common';
 import { useUpdate } from 'common/use-hooks';
