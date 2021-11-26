@@ -15,7 +15,7 @@ import React from 'react';
 import { Spin } from 'antd';
 import i18n from 'i18n';
 import './content-panel.scss';
-import { Edit as IconEdit, Plus as IconPlus, Upload as IconUpload } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 
 interface IProps {
   title: React.ReactNode;
@@ -42,20 +42,20 @@ const ContentPanel = ({
   const delimiter = <span className="text-holder mx-2">|</span>;
   const typeIcon = {
     edit: (
-      <span onClick={onClick} onMouseDown={(e) => e.preventDefault()} className="text-desc hover-active">
-        <IconEdit className="mr-1" />
+      <span onClick={onClick} onMouseDown={(e) => e.preventDefault()} className="flex text-desc hover-active">
+        <ErdaIcon type="edit1" color="currentColor" className="mr-1" />
         {i18n.t('edit')}
       </span>
     ),
     add: (
-      <span onClick={onClick} onMouseDown={(e) => e.preventDefault()} className="text-desc hover-active">
-        <IconPlus className="mr-1" />
+      <span onClick={onClick} onMouseDown={(e) => e.preventDefault()} className="flex text-desc hover-active">
+        <ErdaIcon type="plus" color="currentColor" className="mr-1" />
         {i18n.t('common:add')}
       </span>
     ),
     upload: (
-      <span onClick={onClick} onMouseDown={(e) => e.preventDefault()} className="text-desc hover-active">
-        <IconUpload className="mr-1" />
+      <span onClick={onClick} onMouseDown={(e) => e.preventDefault()} className="flex text-desc hover-active">
+        <ErdaIcon type="upload" color="currentColor" className="mr-1" />
         {i18n.t('upload')}
       </span>
     ),
