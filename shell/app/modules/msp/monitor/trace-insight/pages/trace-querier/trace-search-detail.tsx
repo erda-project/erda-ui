@@ -25,7 +25,7 @@ import i18n from 'i18n';
 import './trace-search-detail.scss';
 import { goTo } from 'common/utils';
 
-export default ({ traceId }: { traceId?: string }) => {
+export default ({ traceId, startTime }: { traceId?: string; startTime?: number }) => {
   const { getTraceDetailContent } = traceStore;
   const [loading] = useLoading(traceStore, ['getTraceDetailContent']);
   const [{ traceRecords }, updater] = useUpdate({ traceRecords: {} });
@@ -41,7 +41,7 @@ export default ({ traceId }: { traceId?: string }) => {
       setIsShowTraceDetail(true);
     }
     if (id) {
-      getTraceDetailContent({ traceId: id }).then((content) => {
+      getTraceDetailContent({ traceId: id, startTime }).then((content) => {
         updater.traceRecords(content);
       });
     }

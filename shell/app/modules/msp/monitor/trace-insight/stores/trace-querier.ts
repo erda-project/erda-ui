@@ -44,6 +44,7 @@ interface IParams {
   header: Obj<string>;
   responseCode?: number;
   createTime?: string;
+  updateTime?: string;
 }
 
 interface IState {
@@ -99,7 +100,7 @@ const traceQuerier = createStore({
       const { history: traceHistoryList } = await call(getTraceHistoryList, { terminusKey });
       update({ traceHistoryList });
     },
-    async requestTrace({ select, call, getParams }, payload?: MONITOR_TRACE.ITraceRequestBody) {
+    async requestTrace({ select, call, getParams }, payload?: { startTime: number }) {
       const { terminusKey, projectId } = getParams();
       const requestTraceParams = select((s) => s.requestTraceParams);
       const { createTime = '', ...restTraceParams } = requestTraceParams;
@@ -112,7 +113,10 @@ const traceQuerier = createStore({
       traceQuerier.reducers.setCurrentTraceRequestId(currentTraceRequestId);
       await traceQuerier.effects.getTraceHistoryList();
       await traceQuerier.effects.getTraceDetail({ requestId: currentTraceRequestId });
-      await traceQuerier.effects.getTraceStatusDetail({ requestId: currentTraceRequestId });
+      await traceQuerier.effects.getTraceStatusDetail({
+        requestId: currentTraceRequestId,
+        startTime: payload?.startTime,
+      });
     },
     async getTraceDetail({ call, getParams }, payload: { requestId: string }) {
       const { terminusKey } = getParams();
@@ -126,11 +130,13 @@ const traceQuerier = createStore({
         ...rest,
       });
     },
-    async getTraceStatusDetail({ select, call, update, getParams }, payload: { requestId: string }) {
+    async getTraceStatusDetail(
+      { select, call, update, getParams },
+      payload: { requestId: string; startTime?: number },
+    ) {
       const { terminusKey } = getParams();
       const currentTraceRequestId = select((s) => s.currentTraceRequestId);
       if (currentTraceRequestId !== payload.requestId) return;
-
       const traceStatusDetail = await call(getTraceStatus, { terminusKey, ...payload });
       update({ traceStatusDetail });
       if (traceStatusDetail.status === 0) {
@@ -142,7 +148,7 @@ const traceQuerier = createStore({
         await traceQuerier.effects.getTraceStatusDetail({ requestId: payload.requestId });
       }
       if (traceStatusDetail.status === 1) {
-        await traceQuerier.effects.getTraceDetailContent({ traceId: payload.requestId });
+        await traceQuerier.effects.getTraceDetailContent({ traceId: payload.requestId, startTime: payload?.startTime });
       }
     },
     async cancelTraceStatus({ select, call, getParams }, payload: { requestId: string }) {
@@ -161,7 +167,7 @@ const traceQuerier = createStore({
     },
     async getTraceDetailContent(
       { call, update, getParams },
-      payload: Merge<Omit<MONITOR_TRACE.IQuerySpan, 'scopeId'>, { needReturn?: boolean }>,
+      payload: Merge<Omit<MONITOR_TRACE.IQuerySpan, 'scopeId'>, { needReturn?: boolean; startTime?: number }>,
     ) {
       const { terminusKey } = getParams();
       const response = await call(getTraceDetailContent, { ...payload, scopeId: terminusKey });

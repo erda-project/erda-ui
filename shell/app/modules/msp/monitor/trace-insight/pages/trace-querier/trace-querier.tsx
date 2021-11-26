@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { map as _map, pickBy } from 'lodash';
+import { map as _map, now, pickBy } from 'lodash';
 import { Row, Col, Input, Select, Button, Tabs, Form, Popconfirm, Tooltip } from 'antd';
 import { Copy, KeyValueEditor, IF } from 'common';
 import { regRules, notify, qs } from 'common/utils';
@@ -90,11 +90,12 @@ const TraceInsightQuerier = () => {
     };
   });
 
-  const { method, url, body, query, header } = requestTraceParams;
+  const { method, url, body, query, header, updateTime } = requestTraceParams;
   const queryStr = qs.stringify(query);
   const { validateFields } = form;
   const { requestId } = urlQuery;
 
+  const [startTime, setStartTime] = React.useState(0);
   const [activeTab, setActiveTab] = React.useState('1');
   const [traceRecords, setTraceRecords] = React.useState({});
   const [inputUrl, setInputUrl] = React.useState('');
@@ -119,6 +120,12 @@ const TraceInsightQuerier = () => {
   React.useEffect(() => {
     form.setFieldsValue({ method });
   }, [method, form]);
+
+  React.useEffect(() => {
+    if (updateTime) {
+      setStartTime(new Date(updateTime).getTime());
+    }
+  }, [updateTime]);
 
   const resetRequestTrace = () => {
     form.resetFields();
@@ -152,7 +159,7 @@ const TraceInsightQuerier = () => {
           payload.header = headersEditor.getEditData();
         }
         await handleSetRequestTraceParams(payload);
-        requestTrace();
+        requestTrace({ startTime });
       })
       .catch(() => {
         notify('warning', i18n.t('msp:param-error-check'));
@@ -376,7 +383,7 @@ const TraceInsightQuerier = () => {
           {renderStatusList()}
         </Col>
       </Row>
-      {isShowTraceDetail && <TraceSearchDetail traceId={traceStatusDetail?.requestId} />}
+      {isShowTraceDetail && <TraceSearchDetail traceId={traceStatusDetail?.requestId} startTime={startTime} />}
     </div>
   );
 };
