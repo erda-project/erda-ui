@@ -282,16 +282,12 @@ export function TraceGraph(props: IProps) {
       };
       forEach(roots[0].children, (span) => flameData.children.push(formatFlameDataChild(span)));
     } else {
-      let time = 0;
-      forEach(roots, (item) => {
-        time += item.duration;
-      });
       flameData = {
         name: 'root',
-        value: time,
+        value: dataSource?.duration,
         children: [],
         serviceName: '',
-        selfDuration: time,
+        selfDuration: dataSource?.duration,
         spanKind: '',
         component: '',
       };
