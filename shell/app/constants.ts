@@ -17,6 +17,6 @@ interface IPagination {
 }
 
 export const PAGINATION: IPagination = {
-  pageSize: 15,
-  pageSizeOptions: ['15', '30', '45', '60'],
+  pageSize: 10,
+  pageSizeOptions: ['10', '20', '50', '100'],
 };
