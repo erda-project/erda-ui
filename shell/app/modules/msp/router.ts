@@ -39,7 +39,6 @@ function getMspRouter(): RouteConfigItem[] {
             hideHeader: true,
             noWrapper: true,
             showSubSidebar: false,
-            fullHeight: true,
           },
           breadcrumbName: i18n.t('overview'),
           getComp: (cb) => cb(import('msp/pages/micro-service/overview')),
