@@ -171,7 +171,7 @@ const TagsRow = ({
 
   return (
     <div
-      className={`tags-container flex items-center flex-wrap justify-start ${containerClassName}`}
+      className={`tags-container flex items-center justify-start ${containerClassName}`}
       onClick={(e) => e.stopPropagation()}
     >
       <span className="tags-box flex items-center">{oneAndMoreTag}</span>
