@@ -1,6 +1,6 @@
 {
   "name": "@erda-ui/shell",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Frontend ui for Erda",
   "directories": {
     "test": "test"
