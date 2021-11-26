@@ -282,16 +282,12 @@ export function TraceGraph(props: IProps) {
       };
       forEach(roots[0].children, (span) => flameData.children.push(formatFlameDataChild(span)));
     } else {
-      let time = 0;
-      forEach(roots, (item) => {
-        time += item.duration;
-      });
       flameData = {
         name: 'root',
-        value: time,
+        value: dataSource?.duration,
         children: [],
         serviceName: '',
-        selfDuration: time,
+        selfDuration: dataSource?.duration,
         spanKind: '',
         component: '',
       };
@@ -450,7 +446,7 @@ export function TraceGraph(props: IProps) {
                 />
                 <div className="text-sub">
                   {i18n.t('current')} span {mkDurationStr(tooltipState?.content.selfDuration / 1000)} -{' '}
-                  {i18n.t('total')} span {mkDurationStr(tooltipState?.content.selfDuration / 1000)}
+                  {i18n.t('total')} span {mkDurationStr(tooltipState?.content.value / 1000)}
                 </div>
               </div>
             )}
