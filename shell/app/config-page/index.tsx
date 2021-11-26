@@ -120,11 +120,14 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
         }
       });
       if (asyncComponents.length) {
-        execOperation('', {
-          key: globalOperation.__AsyncAtInit__,
-          reload: true,
-          components: asyncComponents,
-        });
+        // wait for first fetch promise finally finished, which set fetching to false
+        setTimeout(() => {
+          execOperation('', {
+            key: globalOperation.__AsyncAtInit__,
+            reload: true,
+            components: asyncComponents,
+          });
+        }, 0);
       }
     });
   });
@@ -201,16 +204,18 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
               draft.protocol.components = { ...draft.protocol.components, ...comps };
             }
           });
-          callBack?.(newConfig);
-          operationCallBack?.(reqConfig, newConfig, op);
           updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
+          pageConfigRef.current = newConfig;
+          operationCallBack?.(reqConfig, newConfig, op);
+          callBack?.(newConfig);
         } else {
           // if (op?.index === undefined || (op.index && opIndexRef.current === op.index))  {
           // }
           // Retain the response data that matches the latest operation
-          callBack?.(res);
-          operationCallBack?.(reqConfig, res, op);
           updateConfig ? updateConfig(res) : updater.pageConfig(res);
+          pageConfigRef.current = res;
+          operationCallBack?.(reqConfig, res, op);
+          callBack?.(res);
         }
         if (op?.successMsg) notify('success', op.successMsg);
       })
