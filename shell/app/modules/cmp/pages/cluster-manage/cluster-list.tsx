@@ -247,6 +247,12 @@ const ClusterList = ({ onEdit }: IProps) => {
           scenarioType="cmp-cluster-list"
           customProps={{
             list: {
+              props: {
+                extraContent: {
+                  grayBg: true,
+                  option: { graphic: { style: { fontSize: 10 } } },
+                },
+              },
               op: {
                 clickItem: (click: { meta: { name: string } }) => {
                   const { meta } = click;

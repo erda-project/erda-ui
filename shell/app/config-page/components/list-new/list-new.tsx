@@ -64,6 +64,7 @@ const List = (props: CP_LIST_NEW.Props) => {
         let extraContent = null;
         if (item.extraContent && item.extraContent.type) {
           const { type } = item.extraContent;
+          const { extraContent: extraContentProps = {} } = configProps;
           const Comp = containerMap[type];
 
           extraContent = (
@@ -75,7 +76,7 @@ const List = (props: CP_LIST_NEW.Props) => {
                 }));
                 return (
                   <div className="flex-grow mx-2">
-                    <Comp data={{ data: [{ ...dataItem, info: infoItem }] }} props={{ grayBg: true }} />
+                    <Comp data={{ data: [{ ...dataItem, info: infoItem }] }} props={extraContentProps} />
                   </div>
                 );
               })}
@@ -89,7 +90,7 @@ const List = (props: CP_LIST_NEW.Props) => {
           extraContent,
         };
       }) || [],
-    [customOp, data, execOperation, isLoadMore, list, state.combineList],
+    [customOp, data, execOperation, isLoadMore, list, state.combineList, configProps],
   );
 
   // 将接口返回的list和之前的list进行拼接
