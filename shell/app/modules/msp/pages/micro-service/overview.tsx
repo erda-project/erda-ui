@@ -90,7 +90,7 @@ const Overview = () => {
   }, [data, filterKey]);
 
   return (
-    <div className="msp-overview p-6 h-full flex flex-col pt-0">
+    <div className="msp-overview p-6 flex flex-col pt-0">
       <div
         className="msp-overview-header relative mb-2 flex content-center justify-center pl-4 flex-col"
         style={{ backgroundImage: `url(${bgImg})` }}
