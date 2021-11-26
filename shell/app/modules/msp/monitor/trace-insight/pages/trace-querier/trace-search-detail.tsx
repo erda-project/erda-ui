@@ -29,19 +29,25 @@ export default ({ traceId, startTime }: { traceId?: string; startTime?: number }
   const { getTraceDetailContent } = traceStore;
   const [loading] = useLoading(traceStore, ['getTraceDetailContent']);
   const [{ traceRecords }, updater] = useUpdate({ traceRecords: {} });
-  const [{ traceId: _traceId }, currentRoute] = routeInfoStore.useStore((s) => [s.params, s.currentRoute]);
+  const [{ traceId: _traceId }, currentRoute, { startTime: _startTime }] = routeInfoStore.useStore((s) => [
+    s.params,
+    s.currentRoute,
+    s.query,
+  ]);
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
   const isShowTraceDetail = monitorCommonStore.useStore((s) => s.isShowTraceDetail);
   const id = traceId || _traceId;
   const [pathname, query] = window.location.href.split('?');
-  const copyPath = _traceId ? pathname : `${pathname}/trace-detail/${traceId}${query ? `?${query}` : ''}`;
+  const copyPath = _traceId
+    ? pathname
+    : `${pathname}/trace-detail/${traceId}${query ? `?${query}&startTime=${startTime}` : `?startTime=${startTime}`}`;
 
   React.useEffect(() => {
     if (_traceId) {
       setIsShowTraceDetail(true);
     }
     if (id) {
-      getTraceDetailContent({ traceId: id, startTime }).then((content) => {
+      getTraceDetailContent({ traceId: id, startTime: startTime || _startTime }).then((content) => {
         updater.traceRecords(content);
       });
     }

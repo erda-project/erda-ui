@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { map as _map, now, pickBy } from 'lodash';
+import { map as _map, pickBy } from 'lodash';
 import { Row, Col, Input, Select, Button, Tabs, Form, Popconfirm, Tooltip } from 'antd';
 import { Copy, KeyValueEditor, IF } from 'common';
 import { regRules, notify, qs } from 'common/utils';
@@ -159,7 +159,7 @@ const TraceInsightQuerier = () => {
           payload.header = headersEditor.getEditData();
         }
         await handleSetRequestTraceParams(payload);
-        requestTrace({ startTime });
+        requestTrace({ startTime: new Date().getTime() });
       })
       .catch(() => {
         notify('warning', i18n.t('msp:param-error-check'));
