@@ -24,7 +24,6 @@ import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
-import { DownOne as IconDownOne } from '@icon-park/react';
 
 import './repo-commit.scss';
 
@@ -140,7 +139,7 @@ const RepoCommit = () => {
                 <span className="branch-name font-bold nowrap">{commitId}</span>
               </>
             )}
-            <IconDownOne theme="filled" size="16px" />
+            <ErdaIcon type="caret-down" color="currentColor" size="18px" className="mt-0.5" />
           </BranchSelect>
           <IF check={path && branch}>
             <RepoBreadcrumb splitKey="commits" path={path} />

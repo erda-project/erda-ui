@@ -13,18 +13,17 @@
 
 import React from 'react';
 import { Tooltip } from 'antd';
-import { Help as IconHelp } from '@icon-park/react';
-
+import { ErdaIcon } from 'common';
 export { createCombiner } from './combiner';
 
 export const getLabel = (label: string, labelTip: string) => {
   let _label: any = label;
   if (labelTip) {
     _label = (
-      <span>
+      <span className="flex">
         {label}&nbsp;
         <Tooltip title={labelTip}>
-          <IconHelp className="text-icon" />
+          <ErdaIcon type="help" size="14" color="currentColor" className="text-icon" />
         </Tooltip>
       </span>
     );

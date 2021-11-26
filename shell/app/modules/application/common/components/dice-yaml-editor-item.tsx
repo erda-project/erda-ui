@@ -14,10 +14,9 @@
 import React from 'react';
 import { Dropdown, Menu } from 'antd';
 import classnames from 'classnames';
-import { Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon, ErdaIcon } from 'common';
 import PointComponentAbstract from './point-component-abstract';
 import i18n from 'i18n';
-import { More as IconMore } from '@icon-park/react';
 
 export interface IDiceYamlEditorItem {
   id: number;
@@ -111,7 +110,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
           </span>
           {editing ? (
             <Dropdown trigger={['click']} overlay={menu}>
-              <IconMore className="icon-ellipsis mr-0" />
+              <ErdaIcon type="more1" color="currentColor" className="icon-ellipsis mr-0" />
             </Dropdown>
           ) : null}
         </div>

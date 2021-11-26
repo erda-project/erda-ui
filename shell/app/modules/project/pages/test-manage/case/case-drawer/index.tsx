@@ -32,7 +32,6 @@ import { cloneDeep, isUndefined, omitBy, pick } from 'lodash';
 import { useLoading } from 'core/stores/loading';
 import './index.scss';
 import RelatedBugs from 'project/pages/test-manage/case/case-drawer/related-bugs';
-import { ShareOne as IconShareOne, Close as IconClose } from '@icon-park/react';
 
 interface IProps {
   caseList?: TEST_CASE.TestCaseItem[];
@@ -368,7 +367,13 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                   />
                 </>
               ) : null}
-              <ErdaIcon type="close" color="currentColor" onClick={handleClose} className="ml-3 mt-1 cursor-pointer" size="16" />
+              <ErdaIcon
+                type="close"
+                color="currentColor"
+                onClick={handleClose}
+                className="ml-3 mt-1 cursor-pointer"
+                size="16"
+              />
             </div>
           </div>
           <div className="flex justify-between items-center mt-4">

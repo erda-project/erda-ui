@@ -16,7 +16,7 @@ import { map, filter, cloneDeep, isPlainObject, set } from 'lodash';
 import { Tooltip } from 'antd';
 import { produce } from 'immer';
 import i18n from 'i18n';
-import { AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 import './combiner.scss';
 
 interface IProps<P, O> {
@@ -84,18 +84,23 @@ export function createCombiner<P, O>({
             }}
             operation={
               disabled ? (
-                <IconReduceOne className="combiner-operation not-allowed" />
+                <ErdaIcon type="reduce-one" color="currentColor" className="combiner-operation not-allowed" />
               ) : (
-                <IconReduceOne className="combiner-operation" onClick={() => deleteItem(index)} />
+                <ErdaIcon
+                  type="reduce-one"
+                  color="currentColor"
+                  className="combiner-operation"
+                  onClick={() => deleteItem(index)}
+                />
               )
             }
           />
         ))}
         {disabled ? (
-          <IconAddOne className="combiner-operation not-allowed" />
+          <ErdaIcon type="add-one" color="currentColor" className="combiner-operation not-allowed" />
         ) : (
           <Tooltip title={i18n.t('common:click to add item')}>
-            <IconAddOne className="combiner-operation" onClick={addItem} />
+            <ErdaIcon type="add-one" color="currentColor" className="combiner-operation" onClick={addItem} />
           </Tooltip>
         )}
       </div>

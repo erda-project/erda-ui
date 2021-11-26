@@ -21,7 +21,7 @@ import ImgMap from 'app/config-page/img-map';
 import { iconMap } from 'common/components/erda-icon';
 import { RowContainer, Container } from '../container/container';
 import { statusColorMap, colorMap } from 'app/config-page/utils';
-import { Download as IconDownLoad, Info as IconInfo, DownOne as IconDownOne } from '@icon-park/react';
+import { Download as IconDownLoad, DownOne as IconDownOne } from '@icon-park/react';
 
 import { WithAuth } from 'user/common';
 import Text from '../text/text';
@@ -37,10 +37,10 @@ export const getTitleRender = (cItem: CP_TABLE.Column) => {
   const res = { title } as any;
   if (titleTip) {
     res.title = (
-      <div>
+      <div className="flex items-center">
         {title}
         <Tooltip title={getTitleTip(titleTip)}>
-          <IconInfo className="text-sm text-sub ml-2" />
+          <ErdaIcon color="currentColor" type="info" size="14" className="text-sm text-sub ml-2" />
         </Tooltip>
       </div>
     );
