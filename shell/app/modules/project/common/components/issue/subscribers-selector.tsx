@@ -71,6 +71,7 @@ export const SubscribersSelector = (props: IProps) => {
       <Menu.Item>
         {isFollowed ? (
           <div
+            className="px-3 py-1"
             onClick={async () => {
               if (issueID) {
                 await unsubscribe({ id: issueID });
@@ -146,12 +147,12 @@ export const SubscribersSelector = (props: IProps) => {
       <Menu.Divider />
       <Menu.Item>
         <div onClick={(e) => e.stopPropagation()}>
-          <div className="followers-num">
+          <div className="followers-num px-3">
             {subscribers.length !== 0
               ? i18n.t('dop:{num} members are following', { num: subscribers.length })
               : i18n.t('dop:no member is concerned about it')}
           </div>
-          <div className="followers">
+          <div className="followers px-3">
             {subscribers.map((item) => {
               const user = usersMap[item] || {};
               return (

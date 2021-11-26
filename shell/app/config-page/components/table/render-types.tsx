@@ -26,6 +26,12 @@ import { Download as IconDownLoad, Info as IconInfo, DownOne as IconDownOne } fr
 import { WithAuth } from 'user/common';
 import Text from '../text/text';
 
+const alignMap = {
+  center: 'justify-center',
+  left: 'justify-start',
+  right: 'justify-end',
+};
+
 export const getTitleRender = (cItem: CP_TABLE.Column) => {
   const { title, titleTip } = cItem;
   const res = { title } as any;
@@ -414,6 +420,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         const { renders, operations, direction = 'col' } = val || {};
         const extraProps = getItemClickProps({ ...extra, operations, record });
         const hasPointer = !isEmpty(extraProps);
+        const align = alignMap[extra.align];
         if (direction === 'col') {
           Comp = (
             <Container
@@ -422,7 +429,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
               {map(renders, (rds, idx) => (
                 <RowContainer key={`${idx}`}>
                   {map(rds, (rd, rdIdx) => (
-                    <div key={`${rdIdx}`} className="w-full flex">
+                    <div key={`${rdIdx}`} className={`w-full flex ${align || ''}`}>
                       {getRender(rd, record, extra)}
                     </div>
                   ))}
@@ -435,7 +442,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
             <RowContainer
               props={{
                 spaceSize: 'none',
-                className: `leading-6 ${hasPointer ? 'cursor-pointer' : ''}`,
+                className: `leading-6 ${hasPointer ? 'cursor-pointer' : ''} ${align || ''}`,
                 ...extraProps,
               }}
             >
@@ -604,6 +611,10 @@ const getTableOperation = (val: any, record: any, extra: any) => {
   //     operationList.push(getTableOperationItem(op, key, record));
   //   });
   // }
+
+  if (!operationList.length) {
+    return null;
+  }
 
   return (
     <div className="table-operations">

@@ -176,7 +176,12 @@ const TagsRow = ({
     >
       <span className="tags-box flex items-center">{oneAndMoreTag}</span>
       {onAdd ? (
-        <ErdaIcon className={`tags-add ${size} ml-2 text-xs leading-6`} type="tj1" color="currentColor" />
+        <ErdaIcon
+          className={`tags-add ${size} ml-2 text-xs leading-6 cursor-pointer`}
+          type="tj1"
+          color="currentColor"
+          onClick={onAdd}
+        />
       ) : null}
     </div>
   );

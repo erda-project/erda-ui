@@ -198,6 +198,9 @@ export function enhanceAPI<T extends FN>(_apiFn: T, config?: APIConfig<T>) {
 
       if (isObject(data) && Object.keys(params ?? {}).includes('pageNo')) {
         if ('list' in data && 'total' in data) {
+          if (data.list === null) {
+            data.list = [];
+          }
           const { total } = data;
           const { pageNo, pageSize } = params ?? ({} as Parameters<T>[0]);
           const hasMore = Math.ceil(total / +pageSize) > +pageNo;

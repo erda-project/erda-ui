@@ -12,18 +12,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Col, Input, Row, Spin, Tag } from 'antd';
+import { Col, Input, Row, Spin, Tag, Tooltip } from 'antd';
 import { useUpdate } from 'common/use-hooks';
 import { getMspProjectList } from 'msp/services';
 import EmptyHolder from 'common/components/empty-holder';
 import ErdaIcon from 'common/components/erda-icon';
-import { fromNow, goTo } from 'common/utils';
+import { goTo } from 'common/utils';
 import { debounce, last } from 'lodash';
 import { DOC_MSP_HOME_PAGE } from 'common/constants';
 import bgImg from 'app/images/msp/microservice-governance-bg.svg';
 import headerImg from 'app/images/msp/microservice-governance.svg';
 import i18n from 'i18n';
 import './overview.scss';
+import moment from 'moment';
 
 interface IState {
   data: MS_INDEX.IMspProject[];
@@ -45,9 +46,29 @@ const iconMap: {
   },
   MSP: {
     icon: 'MSP',
-    tag: i18n.t('cmp:microservice Observation Project'),
+    tag: i18n.t('cmp:Microservice Observation Project'),
     color: '#27C99A',
   },
+};
+
+const convertLastActiveTime = (time: number) => {
+  if (!time) {
+    return '-';
+  }
+  const fromNowStr = moment(time).fromNow();
+  const reg = /(?<count>\d*)(?<unit>[\s\S]+)/;
+  const groups = fromNowStr.match(reg)?.groups;
+  if (groups) {
+    const { count, unit } = groups;
+    return (
+      <Tooltip title={moment(time).format('YYYY-MM-DD HH:mm:ss')}>
+        <span className="count">{count}</span>
+        <span>{unit}</span>
+      </Tooltip>
+    );
+  } else {
+    return fromNowStr;
+  }
 };
 
 const Overview = () => {
@@ -59,7 +80,7 @@ const Overview = () => {
   const getList = async () => {
     updater.loading(true);
     try {
-      const res = await getMspProjectList();
+      const res = await getMspProjectList({ withStats: true });
       updater.data(res.data || []);
     } finally {
       updater.loading(false);
@@ -67,6 +88,7 @@ const Overview = () => {
   };
 
   React.useEffect(() => {
+    document.title = `${i18n.t('msp')} · Erda`;
     getList();
   }, []);
 
@@ -100,13 +122,13 @@ const Overview = () => {
             'msp:Provides one-stop service system observation, including service monitoring, tracing, dashboard, and alarm.',
           )}
           <a className="flex" href={DOC_MSP_HOME_PAGE} target="_blank">
-            {i18n.t('msp:view guide')} <ErdaIcon type="jinru" className="mb-0" />
+            {i18n.t('msp:view guide')} <ErdaIcon size={14} type="jinru" className="mb-0" />
           </a>
         </p>
         <img src={headerImg} className="absolute right-0 top-4" />
       </div>
-      <div className="flex flex-1 flex-col min-h-0 bg-white shadow px-2 py-2">
-        <div className="mx-2">
+      <div className="flex flex-1 flex-col min-h-0 bg-white shadow pb-2">
+        <div className="px-4 pt-2 bg-lotion">
           <Input
             prefix={<ErdaIcon type="search1" />}
             bordered={false}
@@ -118,7 +140,7 @@ const Overview = () => {
             }}
           />
         </div>
-        <div className="flex-1 overflow-y-auto">
+        <div className="px-2 flex-1 overflow-y-auto">
           <Spin spinning={loading}>
             {list.length ? (
               list.map(
@@ -137,7 +159,7 @@ const Overview = () => {
                   return (
                     <Row
                       key={id}
-                      className="mb-2 mx-2 px-4 flex py-8 rounded-sm cursor-pointer shadow hover:shadow-md hover:bg-grey"
+                      className="project-item card-shadow mb-2 mx-2 px-4 flex py-8 rounded-sm cursor-pointer transition-all duration-300 hover:bg-grey"
                       onClick={() => {
                         handleClick(relationship, id);
                       }}
@@ -153,26 +175,26 @@ const Overview = () => {
                               {tag}
                             </Tag>
                           </div>
-                          <div className="text-xs	leading-5 text-darkgray">{desc ?? '-'}</div>
+                          <div className="text-xs	leading-5 desc">{desc || '-'}</div>
                         </div>
                       </Col>
                       <Col span={12}>
                         <Row gutter={8}>
                           <Col span={6}>
-                            <p className="mb-0 text-xl leading-8">{relationship.length}</p>
-                            <p className="text-xs leading-5 text-darkgray">{i18n.t('env')}</p>
+                            <p className="mb-0 text-xl leading-8 count">{relationship.length}</p>
+                            <p className="text-xs leading-5 desc">{i18n.t('env')}</p>
                           </Col>
                           <Col span={6}>
-                            <p className="mb-0 text-xl leading-8">{serviceCount ?? 0}</p>
-                            <p className="text-xs leading-5 text-darkgray">{i18n.t('service')}</p>
+                            <p className="mb-0 text-xl leading-8 count">{serviceCount ?? 0}</p>
+                            <p className="text-xs leading-5 desc">{i18n.t('service')}</p>
                           </Col>
                           <Col span={6}>
-                            <p className="mb-0 text-xl leading-8">{last24hAlertCount ?? 0}</p>
-                            <p className="text-xs leading-5 text-darkgray">{i18n.t('msp:last 1 day alarm')}</p>
+                            <p className="mb-0 text-xl leading-8 count">{last24hAlertCount ?? 0}</p>
+                            <p className="text-xs leading-5 desc">{i18n.t('msp:last 1 day alarm')}</p>
                           </Col>
                           <Col span={6}>
-                            <p className="mb-0 text-xl leading-8">{lastActiveTime ? fromNow(lastActiveTime) : '-'}</p>
-                            <p className="text-xs leading-5 text-darkgray">{i18n.t('msp:last active time')}</p>
+                            <p className="mb-0 text-xl leading-8">{convertLastActiveTime(lastActiveTime)}</p>
+                            <p className="text-xs leading-5 desc">{i18n.t('msp:last active time')}</p>
                           </Col>
                         </Row>
                       </Col>

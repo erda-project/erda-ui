@@ -53,6 +53,20 @@ hljs.registerLanguage('bash', bash);
 let inited = false;
 const renderer = new Markdown.Renderer();
 
+const escapeHtml = (unsafe: string) => {
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+};
+
+// add escapeHtml so that html tag will not be rendered in MD, if not under code block
+renderer.html = function (html: string) {
+  return escapeHtml(html);
+};
+
 const removePreview = (el: HTMLElement | Element) => {
   el.remove();
   const originEle = document.getElementsByClassName('md-img-preview')[0];

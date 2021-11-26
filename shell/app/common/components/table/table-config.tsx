@@ -63,7 +63,7 @@ function TableConfig<T extends object = any>({
         <Popover
           content={columnsFilter}
           trigger="click"
-          placement="bottom"
+          placement="bottomRight"
           overlayClassName="erda-table-columns-filter"
           getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
         >

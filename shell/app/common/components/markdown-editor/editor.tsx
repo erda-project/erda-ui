@@ -13,39 +13,24 @@
 
 import React from 'react';
 import Markdown from 'common/utils/marked';
-import MdEditor, { Plugins } from '@erda-ui/react-markdown-editor-lite';
+import MdEditor from '@erda-ui/react-markdown-editor-lite';
 import { itemInfo } from '@erda-ui/react-markdown-editor-lite/share/var';
 import { EditorProps } from '@erda-ui/react-markdown-editor-lite/editor';
 import UploadPlugin from './upload-plugin';
 import { uploadFile } from '../../services';
 import { convertToFormData } from 'common/utils';
 import { getFormatter } from 'charts/utils';
-import { useUnmount } from 'react-use';
 import '@erda-ui/react-markdown-editor-lite/lib/index.css';
 import './editor.scss';
 
 MdEditor.use(UploadPlugin);
 
 interface IProps extends Omit<EditorProps, 'renderHTML'> {
-  autoSize: boolean;
   defaultHeight: number;
-  maxHeight: number;
 }
 
 const Editor = React.forwardRef((props: IProps, ref) => {
-  const { autoSize, defaultHeight, maxHeight, style, config, ...restEditorProps } = props;
-
-  if (autoSize && !!defaultHeight && !!maxHeight) {
-    // can't place in useEffect it should init before mount
-    MdEditor.use(Plugins.AutoResize, {
-      min: defaultHeight, // min height
-      max: maxHeight, // max height
-    });
-  }
-
-  useUnmount(() => {
-    MdEditor.unuse(Plugins.AutoResize);
-  });
+  const { defaultHeight, style, config, ...restEditorProps } = props;
 
   function onImageUpload(file: File, imageText: string, itemsInfo: itemInfo[]) {
     // Chrome会把文件名作为第一个复制内容，而把第二个复制的文件的名称统一改为image.png
@@ -71,7 +56,7 @@ const Editor = React.forwardRef((props: IProps, ref) => {
   return (
     <MdEditor
       ref={ref}
-      style={autoSize ? { ...style } : { height: `${defaultHeight}px`, ...style }}
+      style={{ height: `${defaultHeight}px`, ...style }}
       {...restEditorProps}
       config={config}
       htmlClass="md-content"

@@ -134,9 +134,7 @@ const ClusterManage = () => {
   return (
     <div className="cluster-manage-ct">
       <Spin spinning={loading}>
-        <Holder when={isEmpty(list)}>
-          <ClusterList dataSource={list} onEdit={handleShowAddClusterModal} />
-        </Holder>
+        <ClusterList onEdit={handleShowAddClusterModal} />
       </Spin>
       <div className="top-button-group">
         <Button onClick={() => goTo('./history')}>{i18n.t('cmp:operation history')}</Button>

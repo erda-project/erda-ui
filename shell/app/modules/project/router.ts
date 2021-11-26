@@ -36,7 +36,7 @@ function getProjectRouter(): RouteConfigItem[] {
         {
           path: 'issues',
           mark: 'issues',
-          breadcrumbName: i18n.t('dop:Projects'),
+          breadcrumbName: i18n.t('dop:project collaboration'),
           routes: [
             {
               path: 'plan',
@@ -119,16 +119,15 @@ function getProjectRouter(): RouteConfigItem[] {
               getComp: (cb) => cb(import('project/pages/milestone'), 'Milestone'),
               layout: { noWrapper: true, fullHeight: true },
             },
-            {
-              path: 'dashboard',
-              tabs: PROJECT_TABS,
-              ignoreTabQuery: true,
-              getComp: (cb) => cb(import('project/pages/issue/issue-dashboard')),
-              layout: {
-                noWrapper: true,
-              },
-            },
           ],
+        },
+        {
+          path: 'measure/dashboard',
+          breadcrumbName: i18n.t('dop:efficiency measure'),
+          getComp: (cb) => cb(import('project/pages/issue/issue-dashboard')),
+          layout: {
+            noWrapper: true,
+          },
         },
         {
           path: 'ticket',

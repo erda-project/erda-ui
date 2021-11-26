@@ -118,18 +118,22 @@ $color-bg-gray: #efeef0;
 // Color Filter
 $color-input-bg: #efeef0;
 
-// Color Boot prompt
-$color-prompt-bg: #dcdbde;
-$color-prompt-text: #302647;
-
 // function color
 $color-action: #1890ff;
 $color-action-bg: rgba($color-action, 0.1);
 $color-error: #d84b65;
 $color-error-bg: rgba($color-error, 0.1);
-$color-waring: #e0a716;
+$color-waring: #f4b518;
 $color-waring-bg: rgba($color-waring, 0.1);
 $color-success: #27c99a;
 $color-success-bg: rgba($color-success, 0.1);
 $color-default: #302647;
 $color-default-bg: rgba($color-default, 0.1);
+
+// Color Boot prompt
+$color-prompt-bg: rgba($color-default, 0.04);
+
+// color new list
+$color-box-shadow: rgba($color-text-sub, 0.1);
+$color-card-shadow: rgba(85, 77, 104, 0.08);
+$color-card-hover-shadow: rgba(85, 77, 104, 0.16);

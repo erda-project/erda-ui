@@ -2,5 +2,16 @@
   &-header {
     height: 200px;
     background-size: 100% auto;
+    background-repeat: no-repeat;
+  }
+
+  .project-item {
+    .desc {
+      color: rgba($color-default, 0.6);
+    }
+
+    .count {
+      font-family: DINAlternate-Bold, serif;
+    }
   }
 }

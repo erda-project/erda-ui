@@ -33,13 +33,26 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       href: goTo.resolve.projectAllIssue(), // `/dop/projects/${projectId}/issues/all`,
       icon: <CustomIcon type="xiangmuxietong" />,
       text: i18n.t('dop:Projects'),
-      subtitle: i18n.t('Issues'),
+      subtitle: i18n.t('dop:Management'),
       show:
         projectPerm.backLog.viewBackLog.pass ||
         projectPerm.iteration.read.pass ||
         projectPerm.issue.viewIssue.pass ||
-        projectPerm.epic.read.pass,
-      prefix: `${goTo.resolve.projectIssueRoot()}/`,
+        projectPerm.epic.read.pass ||
+        projectPerm.dashboard.viewDashboard.pass,
+      subMenu: [
+        {
+          href: goTo.resolve.projectAllIssue(),
+          text: i18n.t('dop:project collaboration'),
+          prefix: `${goTo.resolve.projectIssueRoot()}/`,
+        },
+        {
+          href: goTo.resolve.projectMeasureDashboard(),
+          text: i18n.t('dop:efficiency measure'),
+          show: projectPerm.dashboard.viewDashboard.pass,
+          prefix: goTo.resolve.projectMeasure(),
+        },
+      ],
     },
     // { // TODO： 3.21临时去除
 
@@ -88,12 +101,11 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       href: goTo.resolve.project(), // `/dop/projects/${projectId}/apps`,
       icon: <IconDashboardCar />,
       text: i18n.t('dop:O & M'),
-      subtitle: i18n.t('dop:operator'),
+      subtitle: i18n.t('dop:Operator'),
       show: projectPerm.service.viewService.pass || projectPerm.resource.viewResource.pass,
       subMenu: [
         {
           href: goTo.resolve.projectService(),
-          icon: <CustomIcon type="kuozhanfuwu" />,
           text: i18n.t('dop:Addon'),
           subtitle: 'Addon',
           show: projectPerm.service.viewService.pass,
@@ -101,7 +113,6 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
         {
           href: goTo.resolve.projectResource(),
           text: i18n.t('Resource summary'),
-          icon: <IconDataAll />,
           subtitle: i18n.t('Resource'),
           show: projectPerm.resource.viewResource.pass,
         },

@@ -45,6 +45,7 @@ export interface ICondition {
   disabled?: boolean;
   emptyText?: string;
   required?: boolean;
+  firstShowLength?: number;
   split?: boolean;
   value?: string | number | string[] | number[] | Obj;
   fixed?: boolean;
@@ -72,6 +73,7 @@ interface IFilterItemProps {
   itemData: ICondition;
   value: any;
   active: boolean;
+
   onVisibleChange: (visible: boolean) => void;
   onChange: (data: { key: string; value: any }, extra?: { forceChange?: boolean }) => void;
   onQuickOperation: (data: { key: string; value: any }) => void;
@@ -145,6 +147,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     label,
     haveFilter,
     type,
+    firstShowLength = 200,
     placeholder,
     quickSelect,
     disabled,
@@ -159,6 +162,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   const [filterMap, setFilterMap] = React.useState({});
   const memberSelectorRef = React.useRef(null as any);
   const [inputVal, setInputVal] = React.useState(value);
+  const [hasMore, setHasMore] = React.useState(firstShowLength ? (options?.length || 0) > firstShowLength : false);
   // const inputRef = React.useRef(null);
 
   const debouncedChange = React.useRef(debounce(onChange, 500));
@@ -211,7 +215,8 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         .map((a) => a.label)
         .join(',') || emptyText;
 
-    const useableOptions = getSelectOptions(_options, filterMap[key]);
+    const filterOptions = getSelectOptions(_options, filterMap[key]);
+    const useOptions = hasMore ? filterOptions?.slice(0, firstShowLength) : filterOptions;
     const ops = (
       <Menu>
         {haveFilter && [
@@ -275,7 +280,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
             ]
           : null}
         <Menu.Item key="options" className="p-0 options-container options-item block">
-          {useableOptions.map((op) => {
+          {useOptions.map((op) => {
             if (has(op, 'children') && !op.children?.length) {
               return null;
             }
@@ -310,6 +315,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
                 <GroupOpt
                   key={op.value || op.label}
                   value={_value}
+                  firstShowLength={firstShowLength}
                   onDelete={onDelete}
                   onClickOptItem={onClickOptItem}
                   option={op}
@@ -327,6 +333,11 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               );
             }
           })}
+          {hasMore ? (
+            <div className="fake-link hover-active py-1 pl-3  load-more" onClick={() => setHasMore(false)}>
+              {`${i18n.t('load more')}...`}
+            </div>
+          ) : null}
         </Menu.Item>
       </Menu>
     );
@@ -578,13 +589,19 @@ const QuickSave = (props: IQuickSaveProps) => {
 interface IGroupOptProps {
   value: Array<string | number>;
   option: Option;
+  firstShowLength?: number;
   onClickOptItem: (option: Option) => void;
   onDelete?: (option: Option) => void;
 }
 
 const GroupOpt = (props: IGroupOptProps) => {
-  const { option, onClickOptItem, value, onDelete } = props;
+  const { option, onClickOptItem, value, onDelete, firstShowLength } = props;
   const [expand, setExpand] = React.useState(true);
+  const [hasMore, setHasMore] = React.useState(
+    firstShowLength ? (option.children?.length || 0) > firstShowLength : false,
+  );
+
+  const useOption = hasMore ? option.children?.slice(0, firstShowLength) : option.children;
 
   return (
     <div className={'option-group'}>
@@ -596,7 +613,7 @@ const GroupOpt = (props: IGroupOptProps) => {
         <IconDown className={`expand-icon flex items-center ${expand ? 'expand' : ''}`} theme="outline" size="16" />
       </div>
       <div className={`option-group-content ${expand ? '' : 'no-expand'}`}>
-        {option.children?.map((cItem) => {
+        {useOption?.map((cItem) => {
           return (
             <OptionItem
               onDelete={onDelete}
@@ -607,6 +624,11 @@ const GroupOpt = (props: IGroupOptProps) => {
             />
           );
         })}
+        {hasMore ? (
+          <div className="fake-link hover-active py-1 pl-8  load-more" onClick={() => setHasMore(false)}>
+            {`${i18n.t('load more')}...`}
+          </div>
+        ) : null}
       </div>
     </div>
   );

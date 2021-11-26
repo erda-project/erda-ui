@@ -93,13 +93,17 @@ const Filter = React.forwardRef(
     );
 
     const itemFromConfig = (itemConfig: IFieldType) => {
-      const { required = false, type } = itemConfig;
+      const { required = false, type, customProps = {} } = itemConfig;
+      if (type === Input) {
+        customProps.allowClear = true;
+      }
       return {
         ...itemConfig,
         type: type === Input ? searchInput : type,
         required,
         onFieldChange,
         onFieldEnter: search,
+        customProps,
       };
     };
 

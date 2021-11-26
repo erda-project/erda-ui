@@ -82,7 +82,7 @@ const ChartItem = (props: CP_PIE_CHART.Props) => {
     option,
     ...rest
   } = configProps;
-  const { data } = pData;
+  const { data, label } = pData;
   const styleMap = {
     small: {
       chartStyle: { width: 56, height: 56 },
@@ -122,7 +122,7 @@ const ChartItem = (props: CP_PIE_CHART.Props) => {
   const presetColor = map(colorMap);
   const reColor = color ? uniq(map(color, (cItem) => colorMap[cItem] || cItem).concat(presetColor)) : presetColor;
 
-  const { option: reOption, isEmpty } = getOption(data, option, configProps);
+  const { option: reOption, isEmpty } = getOption(data, option, configProps, label);
   const finalColor = reOption.color || reColor;
   const ChartComp = (
     <EChart onEvents={onEvents} option={{ color: reColor, ...reOption }} notMerge style={reChartStyle} {...rest} />
@@ -137,7 +137,7 @@ const ChartItem = (props: CP_PIE_CHART.Props) => {
         {data?.map((item: CP_PIE_CHART.IList, idx: number) => {
           if (item.info?.length) {
             return (
-              <div className="flex items-center">
+              <div className="flex items-center w-full justify-around">
                 {item.info.map((infoItem) => (
                   <TextBlockInfo {...infoItem} size="small" style={textInfoStyle} />
                 ))}
@@ -169,7 +169,7 @@ const ChartItem = (props: CP_PIE_CHART.Props) => {
 
 const PieChart = (props: CP_PIE_CHART.Props) => {
   const { cId, props: configProps, extraContent, operations, execOperation, data: pData } = props;
-  const { visible = true, style, ...rest } = configProps || {};
+  const { visible = true, style } = configProps || {};
 
   const { data, group } = pData || {};
 
@@ -179,17 +179,20 @@ const PieChart = (props: CP_PIE_CHART.Props) => {
   if (data) {
     Comp = <ChartItem {...props} />;
   } else if (group) {
-    Comp = (
-      <div className="cp-pie-chart-box flex items-center justify-between flex-wrap h-full content-between">
-        {group.map((g, idx) => (
+    Comp = group.map((item) => (
+      <div className="cp-pie-chart-box flex items-center justify-between">
+        {item.map((g, idx) => (
           <ChartItem key={`${idx}`} {...props} data={{ data: g }} />
         ))}
       </div>
-    );
+    ));
   }
 
   return (
-    <div className={`cp-pie-chart p-3 ${getClass(configProps)}`} style={style}>
+    <div
+      className={`cp-pie-chart p-3 flex flex-col overflow-y-auto justify-between ${getClass(configProps)}`}
+      style={style}
+    >
       {Comp}
     </div>
   );

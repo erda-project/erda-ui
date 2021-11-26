@@ -1,6 +1,14 @@
 ## What this PR does / why we need it:
 
 
+## I have checked the following points:
+- [ ] I18n is finished and updated by cli
+- [ ] Form fields validation is added and length is limited
+- [ ] Display normally on small screen
+- [ ] Display normally when some data is empty or null
+- [ ] Display normally in english mode
+
+
 ## Does this PR introduce a user interface change?
 <!--
 Delete the unchosen one

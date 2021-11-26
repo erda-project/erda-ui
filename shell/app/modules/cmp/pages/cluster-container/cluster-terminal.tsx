@@ -53,7 +53,7 @@ export const K8sClusterTerminalButton = ({ clusterName }: IClusterTerminalProps)
       </Drawer>
       <Button type="primary" onClick={() => setVisible(true)}>
         <IconTerminal theme="outline" strokeLinejoin="miter" strokeLinecap="butt" />
-        {i18n.t('cmp:Kubectl command')}
+        {i18n.t('cmp:Kubectl console')}
       </Button>
     </>
   );
