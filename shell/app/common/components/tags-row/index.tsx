@@ -140,7 +140,7 @@ const TagsRow = ({
   const oneAndMoreTag = (
     <React.Fragment>
       {labels.slice(0, showCount).map((l) => (
-        <TagItem colorMap={colorMap} key={l.label} label={l} maxWidth={120} onDelete={onDelete} size={size} />
+        <TagItem colorMap={colorMap} key={l.label} label={l} maxWidth={100} onDelete={onDelete} size={size} />
       ))}
       {showMore ? (
         <Tooltip
