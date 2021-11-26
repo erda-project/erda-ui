@@ -250,7 +250,7 @@ const ClusterList = ({ onEdit }: IProps) => {
               props: {
                 extraContent: {
                   grayBg: true,
-                  option: { graphic: { style: { fontSize: 10 } } },
+                  option: { graphic: { type: 'text', style: { fontSize: 10 } } },
                 },
               },
               op: {
