@@ -148,7 +148,7 @@ const traceQuerier = createStore({
         await traceQuerier.effects.getTraceStatusDetail({ requestId: payload.requestId });
       }
       if (traceStatusDetail.status === 1) {
-        await traceQuerier.effects.getTraceDetailContent({ traceId: payload.requestId, startTime: payload?.startTime });
+        await traceQuerier.effects.getTraceDetailContent({ traceId: payload.requestId, startTime: payload.startTime });
       }
     },
     async cancelTraceStatus({ select, call, getParams }, payload: { requestId: string }) {
