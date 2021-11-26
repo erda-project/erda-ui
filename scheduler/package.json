@@ -1,6 +1,6 @@
 {
   "name": "@erda-ui/scheduler",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Node server for UI, take effect both development & production mode",
   "main": "src/index.js",
   "private": true,
