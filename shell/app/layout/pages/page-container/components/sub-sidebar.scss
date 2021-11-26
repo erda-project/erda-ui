@@ -97,11 +97,16 @@
       font-size: 16px;
     }
 
+    .ant-menu-item-icon + .ant-menu-title-content {
+      margin-left: 4px;
+    }
+
     .ant-menu-item {
       margin: 0;
       &.ant-menu-item-selected {
         background-color: $color-tree-bg-active;
         font-weight: 500;
+        border-right: 4px solid $primary;
         &::after {
           opacity: 0;
         }
