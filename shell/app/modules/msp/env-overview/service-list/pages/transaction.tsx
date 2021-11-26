@@ -125,6 +125,7 @@ interface IState {
   url?: string;
   traceSlowTranslation?: TOPOLOGY_SERVICE_ANALYZE.TranslationSlowResp;
   traceId?: string;
+  startTime: number;
   visible: boolean;
   detailVisible: boolean;
   logVisible: boolean;
@@ -157,6 +158,7 @@ const Transaction = () => {
       traceSlowTranslation,
       detailVisible,
       traceId,
+      startTime,
       logVisible,
       sortType,
       callType,
@@ -172,6 +174,7 @@ const Transaction = () => {
     url: undefined,
     traceSlowTranslation: undefined,
     traceId: undefined,
+    startTime: 0,
     visible: false,
     detailVisible: false,
     logVisible: false,
@@ -269,6 +272,7 @@ const Transaction = () => {
               className="table-operations-btn"
               onClick={() => {
                 updater.traceId(record.requestId);
+                updater.startTime(new Date(record.time).getTime());
                 setIsShowTraceDetail(true);
               }}
             >
@@ -439,7 +443,7 @@ const Transaction = () => {
           <SimpleLog requestId={traceId} applicationId={params?.applicationId || _applicationId} />
         </Drawer>
       </Drawer>
-      <TraceSearchDetail traceId={traceId} />
+      <TraceSearchDetail traceId={traceId} startTime={startTime} />
     </div>
   );
 };
