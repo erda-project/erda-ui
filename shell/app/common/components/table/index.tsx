@@ -53,6 +53,8 @@ const alignMap = {
   right: 'justify-end',
 };
 
+const defaultData: [] = [];
+
 function WrappedTable<T extends object = any>({
   columns: allColumns,
   rowClassName,
@@ -60,7 +62,7 @@ function WrappedTable<T extends object = any>({
   pagination: paginationProps,
   onChange,
   slot,
-  dataSource = [],
+  dataSource = defaultData,
   onRow,
   rowSelection,
   hideHeader,
