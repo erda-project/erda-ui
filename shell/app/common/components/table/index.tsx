@@ -83,7 +83,7 @@ function WrappedTable<T extends object = any>({
   const { current = 1, pageSize = PAGINATION.pageSize } = pagination;
 
   React.useEffect(() => {
-    setDefaultPagination((before) => ({ ...before, current: 1, total: dataSource.length || 0 }));
+    setDefaultPagination((before) => ({ ...before, total: dataSource.length || 0 }));
   }, [dataSource]);
 
   const onTableChange = React.useCallback(
@@ -91,7 +91,7 @@ function WrappedTable<T extends object = any>({
       const { onChange: onPageChange } = pagination as TablePaginationConfig;
       const action: TableAction = currentSorter ? 'sort' : 'paginate';
       const extra = {
-        currentDataSource: (action === 'sort' && dataSource) as T[],
+        currentDataSource: (action === 'sort' && dataSource) || [],
         action,
       };
 
@@ -251,6 +251,10 @@ function WrappedTable<T extends object = any>({
     );
   }, [allColumns, sorterMenu, sort, onRow]);
 
+  const onReload = () => {
+    onChange?.({ current, pageSize }, {}, sort, { action: 'paginate', currentDataSource: [] });
+  };
+
   let data = [...dataSource];
 
   if (sortCompareRef.current) {
@@ -269,8 +273,7 @@ function WrappedTable<T extends object = any>({
           columns={columns}
           sortColumn={sort}
           setColumns={(val) => setColumns(val)}
-          onTableChange={onTableChange}
-          showReset={!!(paginationProps && paginationProps.current && (onChange || paginationProps?.onChange))}
+          onReload={onReload}
         />
       )}
 
