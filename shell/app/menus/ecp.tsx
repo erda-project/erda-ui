@@ -13,30 +13,27 @@
 
 import { goTo } from 'common/utils';
 import i18n from 'i18n';
-import {
-  ApplicationOne as IconApplicationOne,
-  DataAll as IconDataAll,
-  SettingConfig as IconSettingConfig,
-} from '@icon-park/react';
+import { ErdaIcon } from 'common';
+
 import React from 'react';
 
 export const getEcpMenu = () => {
   return [
     {
       href: goTo.resolve.ecpApp(),
-      icon: <IconApplicationOne />,
+      icon: <ErdaIcon className="mt-3.5 mr-1" type="application-one" color="currentColor" />,
       text: i18n.t('ecp:application'),
       subtitle: i18n.t('App'),
     },
     {
       href: goTo.resolve.ecpResource(),
-      icon: <IconDataAll />,
+      icon: <ErdaIcon className="mt-3.5 mr-1" type="data-all" color="currentColor" />,
       text: i18n.t('resource management'),
       subtitle: i18n.t('Resource'),
     },
     {
       href: goTo.resolve.ecpSetting(),
-      icon: <IconSettingConfig />,
+      icon: <ErdaIcon className="mt-3.5 mr-1" type="setting-config" color="currentColor" />,
       text: i18n.t('ecp:configuration'),
       subtitle: i18n.t('Config'),
     },

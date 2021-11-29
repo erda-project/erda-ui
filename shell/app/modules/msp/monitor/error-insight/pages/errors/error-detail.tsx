@@ -15,14 +15,13 @@
 import React from 'react';
 import { Button, Col, Drawer, Row, Spin, Tooltip } from 'antd';
 import TraceDetail from 'trace-insight/pages/trace-detail';
-import { Copy, EmptyHolder, Icon as CustomIcon, IF, SimpleLog } from 'common';
+import { Copy, EmptyHolder, Icon as CustomIcon, IF, SimpleLog, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { get, isEmpty, map } from 'lodash';
 import moment from 'moment';
 import monitorErrorStore from 'error-insight/stores/error';
 import { useLoading } from 'core/stores/loading';
 import { useEffectOnce } from 'react-use';
-import { Down as IconDown, ToLeft as IconToLeft, ToRight as IconToRight, Up as IconUp } from '@icon-park/react';
 import i18n from 'i18n';
 
 import './error-detail.scss';
@@ -225,13 +224,13 @@ const ErrorDetail = () => {
                 <span className="event-id">{eventId}</span>
                 <div className="info">{moment(timestamp).format('YYYY-MM-DD HH:mm:ss')}</div>
               </div>
-              <div className="arrow">
+              <div className="arrow flex">
                 <Button
                   disabled={eventIndex === 0}
                   className={`first-page ${eventIndex === 0 ? 'edge' : ''}`}
                   onClick={() => changeEvent('first')}
                 >
-                  <IconToLeft size="14px" />
+                  <ErdaIcon className="mt-1" type="to-left" color="currentColor" size="14px" />
                 </Button>
                 <Button
                   disabled={eventIndex === 0}
@@ -252,7 +251,7 @@ const ErrorDetail = () => {
                   className={`last-page ${eventIndex === eventIds.length - 1 ? 'edge' : ''}`}
                   onClick={() => changeEvent('last')}
                 >
-                  <IconToRight size="14px" />
+                  <ErdaIcon className="mt-1" type="to-right" color="currentColor" size="14px" />
                 </Button>
               </div>
             </div>
@@ -295,9 +294,9 @@ const ErrorDetail = () => {
                 <IF check={stacks && stacks.length > 1}>
                   <Button className="toggle-stacks" onClick={toggleShowAllStacks}>
                     {showAllStacks ? (
-                      <IconDown size="20px" className="mr-0" />
+                      <ErdaIcon type="down" color="currentColor" size="20px" className="mr-0 mt-0.5" />
                     ) : (
-                      <IconUp size="20px" className="mr-0" />
+                      <ErdaIcon type="up" color="currentColor" size="20px" className="mr-0 mt-0.5" />
                     )}
                   </Button>
                 </IF>
@@ -312,9 +311,9 @@ const ErrorDetail = () => {
                 <IF check={stacks && stacks.length > 1}>
                   <div className="stack-item omit-item" onClick={toggleShowAllStacks}>
                     {showAllStacks ? (
-                      <IconUp size="20px" className="mr-0" />
+                      <ErdaIcon type="up" color="currentColor" size="20px" className="mr-0 mt-0.5" />
                     ) : (
-                      <IconDown size="20px" className="mr-0" />
+                      <ErdaIcon type="down" color="currentColor" size="20px" className="mr-0 mt-0.5" />
                     )}
                   </div>
                 </IF>

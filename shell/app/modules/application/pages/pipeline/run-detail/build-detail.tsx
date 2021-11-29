@@ -33,7 +33,6 @@ import { useLoading } from 'core/stores/loading';
 import PipelineLog from './pipeline-log';
 import './build-detail.scss';
 import deployStore from 'application/stores/deploy';
-import { Loading as IconLoading, Up as IconUp, Down as IconDown, Attention as IconAttention } from '@icon-park/react';
 
 const { TextArea } = Input;
 const { ELSE } = IF;
@@ -490,7 +489,7 @@ const BuildDetail = (props: IProps) => {
     const paddingEle = (
       <div className="build-operator mx-0">
         <Tooltip title={i18n.t('preparing')}>
-          <IconLoading size="20px" strokeWidth={2} style={{ transform: 'translateY(0)' }} spin />
+          <ErdaIcon type="loading" className="mx-0.5" color="black-400" size="20px" style={{ transform: 'translateY(0)' }} spin />
         </Tooltip>
       </div>
     );
@@ -505,6 +504,7 @@ const BuildDetail = (props: IProps) => {
               <Tooltip title={execTitle}>
                 <ErdaIcon
                   size="20"
+                  className="mr-2"
                   fill="black-400"
                   onClick={() => {
                     runBuild();
@@ -769,7 +769,11 @@ const BuildDetail = (props: IProps) => {
                 )}
               </Row>
               <div className="trigger-btn" onClick={toggleExpandInfo}>
-                {!isExpand ? <IconDown size="18px" className="mr-0" /> : <IconUp size="18px" className="mr-0" />}
+                {!isExpand ? (
+                  <ErdaIcon type="down" color="currentColor" size="18px" className="mr-0" />
+                ) : (
+                  <ErdaIcon type="up" color="currentColor" size="18px" className="mr-0" />
+                )}
               </div>
             </div>
           </div>
@@ -777,7 +781,7 @@ const BuildDetail = (props: IProps) => {
             {showMessage && showMessage.msg ? (
               <div className="build-detail-err-msg mb-2">
                 <div className="build-err-header">
-                  <IconAttention size="18px" className="build-err-icon" />
+                  <ErdaIcon type="tishi" color="currentColor" size="18px" className="build-err-icon" />
                   <pre>{showMessage.msg}</pre>
                 </div>
                 <div className="build-err-stack">

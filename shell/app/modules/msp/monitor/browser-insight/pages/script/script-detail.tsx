@@ -16,8 +16,7 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import moment from 'moment';
 import i18n from 'i18n';
-import { Attention as IconAttention } from '@icon-park/react';
-import { CardContainer } from 'common';
+import { CardContainer, ErdaIcon } from 'common';
 
 const scriptDetail = ({ data }: { data: object }) => {
   const errorDetail = get(data, 'list') || [];
@@ -25,7 +24,7 @@ const scriptDetail = ({ data }: { data: object }) => {
     return (
       <div className="no-data-list">
         <div className="no-data-content">
-          <IconAttention size="16px" />
+          <ErdaIcon type="attention" color="currentColor" size="16px" />
           {i18n.t('msp:no data')}
         </div>
       </div>

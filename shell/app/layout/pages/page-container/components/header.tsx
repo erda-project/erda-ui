@@ -19,7 +19,7 @@ import routeInfoStore from 'core/stores/route';
 import breadcrumbStore from 'layout/stores/breadcrumb';
 import { isEmpty, isFunction } from 'lodash';
 import { matchPath } from 'react-router-dom';
-import { Right as IconRight } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 import { Route } from 'core/common/interface';
 import { Breadcrumb, Tooltip } from 'antd';
 import './header.scss';
@@ -199,7 +199,7 @@ const Header = () => {
   return (
     <div className="erda-header">
       <div className="erda-header-breadcrumb">
-        <Breadcrumb separator={<IconRight size="14px" />}>
+        <Breadcrumb separator={<ErdaIcon className="align-middle mr-1 mb-0.5" color="currentColor" type="right" size="14px" />}>
           {allRoutes.map((item) => {
             paths.push(getPath(item.path, params));
             return <Breadcrumb.Item key={item.key}>{itemRender(item, params, allRoutes, paths)}</Breadcrumb.Item>;

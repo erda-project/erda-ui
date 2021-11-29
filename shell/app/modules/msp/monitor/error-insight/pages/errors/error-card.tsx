@@ -16,7 +16,7 @@ import { Tooltip, Row, Col } from 'antd';
 import { resolvePath, fromNow } from 'common/utils';
 import { Link } from 'react-router-dom';
 import './error-card.scss';
-import { Time as IconTime } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 
 interface IProps {
@@ -49,8 +49,8 @@ const ErrorCard = ({ data }: IProps) => {
               {data.exceptionMessage}
             </Tooltip>
           </div>
-          <div className="error-time">
-            <IconTime />
+          <div className="error-time flex">
+            <ErdaIcon type="time" color="currentColor" />
             &nbsp;&nbsp;
             {fromNow(data.updateTime, { prefix: `${i18n.t('msp:last trigger')}:` })}
             &nbsp;&nbsp;-&nbsp;&nbsp;

@@ -36,7 +36,7 @@ import {
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import VariableInput from 'application/common/components/object-input-group';
 import ListInput from 'application/common/components/list-input-group';
-import { Icon as CustomIcon, IF } from 'common';
+import { Icon as CustomIcon, IF, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import appDeployStore from 'application/stores/deploy';
 import { useLoading } from 'core/stores/loading';
@@ -45,7 +45,6 @@ import { getResource, getDefaultVersionConfig, mergeActionAndResource } from '..
 import './pipeline-node-drawer.scss';
 import { protocolActionForms } from 'app/config-page/components/action-form';
 import ActionConfigForm from './action-config-form';
-import { Plus as IconPlus, Help as IconHelp } from '@icon-park/react';
 
 const { Item } = Form;
 const { Panel } = Collapse;
@@ -454,7 +453,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         <span>
           {_label}&nbsp;
           <Tooltip title={labelTip}>
-            <IconHelp className="text-icon" />
+            <ErdaIcon type="help" size="14" color="currentColor" className="mr-1 align-middle text-icon" />
           </Tooltip>
         </span>
       );
@@ -468,7 +467,12 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     }
 
     const addBtn = editing ? (
-      <IconPlus className="cursor-pointer" onClick={() => addNewItemToStructArray(property, property.struct[0])} />
+      <ErdaIcon
+        type="plus"
+        color="currentColor"
+        className="cursor-pointer align-middle"
+        onClick={() => addNewItemToStructArray(property, property.struct[0])}
+      />
     ) : null;
     // getFieldDecorator(`${parentKey}-data`, { initialValue: property.value || [] });
     const data = property.value || []; // getFieldValue(`${parentKey}-data`);

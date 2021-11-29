@@ -15,11 +15,9 @@ import React from 'react';
 import { Tree, Popover, Popconfirm, Input, Tooltip } from 'antd';
 import { map, noop, isEmpty, get, filter, isArray, uniq, compact, find, isEqual } from 'lodash';
 import { useUpdateEffect } from 'react-use';
-import { Icon as CustomIcon, EmptyHolder, Ellipsis } from 'common';
+import { Icon as CustomIcon, EmptyHolder, Ellipsis, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { WithAuth } from 'user/common';
-import { AddOne as IconAddOne, More as IconMore } from '@icon-park/react';
-
 import { TreeNodeNormal, AntTreeNodeProps } from 'core/common/interface';
 import i18n from 'i18n';
 import './file-tree.scss';
@@ -105,7 +103,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
           ...d,
           className: 'insert-node',
           title: <div className="cursor-pointer insert-node-title" onClick={clickInsert} />,
-          icon: <IconAddOne className="insert-node-icon cursor-pointer" onClick={clickInsert} />,
+          icon: <ErdaIcon type="add-one" color="currentColor" className="insert-node-icon cursor-pointer" onClick={clickInsert} />,
         };
       }
       if (staticSearch && !(matchKeys || []).includes(d.key)) {
@@ -391,7 +389,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
                   ))}
                   footer={false}
                 >
-                  <IconMore className="tree-node-action" />
+                  <ErdaIcon type="more1" className="tree-node-action" color="currentColor" />
                 </Popover>
               ) : null}
             </span>
