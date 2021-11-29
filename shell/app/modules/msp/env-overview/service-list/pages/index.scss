@@ -19,11 +19,4 @@
       background-color: $red;
     }
   }
-
-  // dashboardList in service-overview no need scroll in y
-  .service-overview {
-    .dc-dashboard-content {
-      overflow: visible !important;
-    }
-  }
 }
