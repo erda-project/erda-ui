@@ -34,6 +34,12 @@ declare namespace TOPOLOGY_SERVICE_ANALYZE {
     data: Array<Record<string, any>>;
   }
 
+  interface TranslationSlowRecord {
+    avgElapsed: string;
+    requestId: string;
+    time: string;
+  }
+
   interface InstanceId {
     instanceId: string;
     status: boolean;
