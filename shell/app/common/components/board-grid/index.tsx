@@ -14,18 +14,19 @@
 import React from 'react';
 import {
   BoardGrid as DCBoardGrid,
-  PureBoardGrid as DCPureBoardGrid,
-  setLocale,
-  registTheme,
-  setTheme,
   dcRegisterComp,
+  PureBoardGrid as DCPureBoardGrid,
+  registTheme,
+  setLocale,
+  setTheme,
 } from '@erda-ui/dashboard-configurator';
 import Table from 'common/components/table';
-
 import { theme } from 'app/charts/theme';
 
 registTheme('erda', theme);
-dcRegisterComp.use('table', Table);
+dcRegisterComp.use('table', (props: Parameters<typeof Table>['0']) => {
+  return <Table hideHeader {...props} />;
+});
 
 export const BoardGrid = ({ ...restProps }: DC.BoardGridProps) => {
   const locale = window.localStorage.getItem('locale') || 'zh';
