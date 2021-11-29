@@ -339,7 +339,7 @@ export function TraceGraph(props: IProps) {
           </span>
         </RadioButton>
       </RadioGroup>
-      <div className="mt-4" ref={flameRef}>
+      <div className="mt-4 trace-span-detail" ref={flameRef}>
         {view === 'waterfall' && (
           <Row gutter={20}>
             <Col span={proportion[0]} className={`${proportion[0] !== 24 ? 'pr-0' : ''}`}>
@@ -427,10 +427,14 @@ export function TraceGraph(props: IProps) {
         )}
 
         {view === 'flame' && (
-          <div ref={containerRef} className="relative">
+          <div
+            ref={containerRef}
+            className="relative graph-flame overflow-y-auto overflow-x-hidden"
+            style={{ height: window.innerHeight - 200 }}
+          >
             <FlameGraph
               data={formatFlameData()}
-              height={200}
+              height={20 * dataSource?.depth + 1}
               width={flameWidth}
               onMouseOver={onMouseOver}
               onMouseOut={onMouseOut}
