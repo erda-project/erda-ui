@@ -60,6 +60,8 @@
   }
 
   .graph-flame {
+    height: calc(100vh - 216px);
+
     div {
       overflow: hidden !important;
     }

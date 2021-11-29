@@ -427,11 +427,7 @@ export function TraceGraph(props: IProps) {
         )}
 
         {view === 'flame' && (
-          <div
-            ref={containerRef}
-            className="relative graph-flame overflow-y-auto overflow-x-hidden"
-            style={{ height: window.innerHeight - 200 }}
-          >
+          <div ref={containerRef} className="relative graph-flame overflow-y-auto overflow-x-hidden">
             <FlameGraph
               data={formatFlameData()}
               height={20 * dataSource?.depth + 1}
