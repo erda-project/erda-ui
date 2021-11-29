@@ -24,6 +24,7 @@ import classnames from 'classnames';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { eventHub } from 'common/utils/event-hub';
+import { isZh } from 'core/i18n';
 
 import './index.scss';
 
@@ -101,7 +102,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
     checkContentHeight();
     return () => {
       eventHub.off('md-img-loaded', checkContentHeight);
-    }
+    };
   }, [checkContentHeight]);
 
   React.useEffect(() => {
@@ -157,7 +158,9 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
           </div>
         </div>
         <div
-          className={`absolute -bottom-10 z-10 left-0 right-0 mx-auto rounded-full w-24 px-2 py-1 border text-primary shadow cursor-pointer flex items-center bg-white ${
+          className={`absolute -bottom-10 z-10 left-0 right-0 mx-auto rounded-full ${
+            isZh() ? 'w-28' : 'w-44'
+          } px-2 py-1 border text-primary shadow cursor-pointer flex items-center justify-center truncate bg-white ${
             expandBtnVisible ? '' : 'hidden'
           }`}
           onClick={(e) => {
