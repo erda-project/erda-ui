@@ -225,7 +225,7 @@ function WrappedTable<T extends object = any>({
                 <div className="flex flex-col">
                   <Ellipsis
                     title={<span className={onRow && subTitle ? 'erda-table-td-title' : ''}>{displayedText}</span>}
-                    className="leading-none"
+                    className="leading-4"
                   />
                   {Object.keys(args).includes('subTitle') && (
                     <span className="erda-table-td-subTitle truncate">{subTitleText || '-'}</span>
