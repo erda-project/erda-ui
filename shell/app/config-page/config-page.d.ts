@@ -31,6 +31,7 @@ declare namespace CONFIG_PAGE {
 
   interface CompOptions {
     asyncAtInit: boolean;
+    visible?: boolean;
   }
 
   // 前端关心的结构

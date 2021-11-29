@@ -185,8 +185,10 @@ const getContainerMap = (container: Obj<CONFIG_PAGE.BaseSpec>) => {
   return conMap;
 };
 
-const EnhanceCompProps = (props: Merge<CONFIG_PAGE.BaseSpec, { children: React.ReactElement }>) => {
-  const { children, props: configProps, data: pData, ...rest } = props;
+const EnhanceCompProps = (
+  props: Merge<CONFIG_PAGE.BaseSpec, { children: React.ReactElement; options: CONFIG_PAGE.CompOptions }>,
+) => {
+  const { children, props: configProps, data: pData, options, ...rest } = props;
   const [comProps, setCompProps] = React.useState(configProps);
   const [data, setData] = React.useState(pData);
 
@@ -207,5 +209,6 @@ const EnhanceCompProps = (props: Merge<CONFIG_PAGE.BaseSpec, { children: React.R
     }
   }, [pData, ignoreData]);
 
+  if (options?.visible === false) return null;
   return React.cloneElement(children, { props: comProps, data, ...rest });
 };
