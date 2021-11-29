@@ -341,9 +341,9 @@ export const TestEnvDetail = (props: IProps) => {
               }}
             >
               <Radio.Button disabled={!headerJsonValid} value="form">
-                {i18n.t('common:form edit')}
+                {disabled ? i18n.t('common:form') : i18n.t('common:form edit')}
               </Radio.Button>
-              <Radio.Button value="code">{i18n.t('common:text edit')}</Radio.Button>
+              <Radio.Button value="code">{disabled ? i18n.t('common:text') : i18n.t('common:text edit')}</Radio.Button>
             </Radio.Group>
           </div>
         ),
@@ -403,9 +403,9 @@ export const TestEnvDetail = (props: IProps) => {
               }}
             >
               <Radio.Button disabled={!globalJsonValid} value="form">
-                {i18n.t('common:form edit')}
+                {disabled ? i18n.t('common:form') : i18n.t('common:form edit')}
               </Radio.Button>
-              <Radio.Button value="code">{i18n.t('common:text edit')}</Radio.Button>
+              <Radio.Button value="code">{disabled ? i18n.t('common:text') : i18n.t('common:text edit')}</Radio.Button>
             </Radio.Group>
           </div>
         ),
