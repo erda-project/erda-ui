@@ -53,8 +53,6 @@ const alignMap = {
   right: 'justify-end',
 };
 
-const defaultData: [] = [];
-
 function WrappedTable<T extends object = any>({
   columns: allColumns,
   rowClassName,
@@ -62,18 +60,19 @@ function WrappedTable<T extends object = any>({
   pagination: paginationProps,
   onChange,
   slot,
-  dataSource = defaultData,
+  dataSource: ds,
   onRow,
   rowSelection,
   hideHeader,
   ...props
 }: IProps<T>) {
+  const dataSource = React.useMemo(() => ds || [], [ds]);
   const [columns, setColumns] = React.useState<Array<ColumnProps<T>>>(allColumns);
   const [sort, setSort] = React.useState<SorterResult<T>>({});
   const sortCompareRef = React.useRef<((a: T, b: T) => number) | null>(null);
   const [defaultPagination, setDefaultPagination] = React.useState<TablePaginationConfig>({
     current: 1,
-    total: dataSource?.length || 0,
+    total: dataSource.length || 0,
     ...PAGINATION,
   });
   const isFrontendPaging = !(paginationProps && paginationProps.current) && paginationProps !== false; // Determine whether front-end paging
@@ -84,7 +83,7 @@ function WrappedTable<T extends object = any>({
   const { current = 1, pageSize = PAGINATION.pageSize } = pagination;
 
   React.useEffect(() => {
-    setDefaultPagination((before) => ({ ...before, current: 1, total: dataSource?.length || 0 }));
+    setDefaultPagination((before) => ({ ...before, current: 1, total: dataSource.length || 0 }));
   }, [dataSource]);
 
   const onTableChange = React.useCallback(
@@ -252,7 +251,7 @@ function WrappedTable<T extends object = any>({
     );
   }, [allColumns, sorterMenu, sort, onRow]);
 
-  let data: T[] = dataSource ? [...dataSource] : [];
+  let data = [...dataSource];
 
   if (sortCompareRef.current) {
     data = data.sort(sortCompareRef.current);
