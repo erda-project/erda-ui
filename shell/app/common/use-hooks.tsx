@@ -583,7 +583,7 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps<T> {
       current: paging.pageNo,
       pageSize: paging.pageSize,
       // hideOnSinglePage: true,
-      onChange: (n: number) => onPageChange(n),
+      onChange: (currentPageNo: number, currentPageSize: number) => onPageChange(currentPageNo, currentPageSize),
     }),
     onTableChange, // Filter/Sort/Paging变化
     sizeChangePagination,
