@@ -160,19 +160,21 @@ const Overview = () => {
                       <Col span={12}>
                         <Row gutter={8}>
                           <Col span={6}>
-                            <p className="mb-0 text-xl leading-8">{relationship.length}</p>
+                            <p className="mb-0 text-xl leading-8 font-number">{relationship.length}</p>
                             <p className="text-xs leading-5 desc">{i18n.t('env')}</p>
                           </Col>
                           <Col span={6}>
-                            <p className="mb-0 text-xl leading-8">{serviceCount ?? 0}</p>
+                            <p className="mb-0 text-xl leading-8 font-number">{serviceCount ?? 0}</p>
                             <p className="text-xs leading-5 desc">{i18n.t('service')}</p>
                           </Col>
                           <Col span={6}>
-                            <p className="mb-0 text-xl leading-8">{last24hAlertCount ?? 0}</p>
+                            <p className="mb-0 text-xl leading-8 font-number">{last24hAlertCount ?? 0}</p>
                             <p className="text-xs leading-5 desc">{i18n.t('msp:last 1 day alarm')}</p>
                           </Col>
                           <Col span={6}>
-                            <p className="mb-0 text-xl leading-8">{lastActiveTime ? fromNow(lastActiveTime) : '-'}</p>
+                            <p className="mb-0 text-xl leading-8 font-number">
+                              {lastActiveTime ? fromNow(lastActiveTime) : '-'}
+                            </p>
                             <p className="text-xs leading-5 desc">{i18n.t('msp:last active time')}</p>
                           </Col>
                         </Row>
