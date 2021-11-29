@@ -58,12 +58,11 @@ interface IAction {
   show?: boolean;
 }
 
-export interface ITableConfigProps<T> {
+export interface TableConfigProps<T> {
   slot?: React.ReactNode;
   columns: Array<ColumnProps<T>>;
   setColumns: (val: Array<ColumnProps<T>>) => void;
-  onTableChange: ([key]: any) => void;
-  showReset: boolean;
+  onReload: ([key]: any) => void;
   sortColumn: SorterResult<T>;
 }
 

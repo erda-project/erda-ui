@@ -196,12 +196,17 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
   const { cpuPerNode, memPerNode } = cpuAndMem.current;
 
   const [data, loading] = getResourceTable.useState();
-  React.useEffect(() => {
+
+  const getResourceList = React.useCallback(() => {
     if (clusters.length) {
       const curCluster = clusterName?.length ? clusterName : clusters.map((item) => item.name);
       getResourceTable.fetch({ clusterName: curCluster, cpuPerNode, memPerNode, groupBy: rankType });
     }
   }, [clusters, clusterName, rankType, cpuPerNode, memPerNode]);
+
+  React.useEffect(() => {
+    getResourceList();
+  }, [getResourceList]);
 
   const mergedList = (data?.list || []).map((item) => ({
     ...item,
@@ -467,6 +472,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
         loading={loading}
         columns={columns}
         dataSource={filterData}
+        onChange={() => getResourceList()}
       />
 
       <Modal
