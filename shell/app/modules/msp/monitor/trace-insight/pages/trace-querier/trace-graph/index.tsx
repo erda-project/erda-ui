@@ -430,7 +430,7 @@ export function TraceGraph(props: IProps) {
           <div ref={containerRef} className="relative graph-flame overflow-y-auto overflow-x-hidden">
             <FlameGraph
               data={formatFlameData()}
-              height={20 * dataSource?.depth + 1}
+              height={dataSource ? 20 * dataSource.depth + 1 : 200}
               width={flameWidth}
               onMouseOver={onMouseOver}
               onMouseOut={onMouseOut}
