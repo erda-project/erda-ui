@@ -192,7 +192,6 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
         },
       ]}
       pagination={false}
-      scroll={{ x: 900 }}
     />
   );
   return (
