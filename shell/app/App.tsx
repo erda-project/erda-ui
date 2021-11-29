@@ -37,6 +37,7 @@ import '@icon-park/react/styles/index.css';
 import '@erda-ui/dashboard-configurator/dist/index.css';
 import { IconProvider, DEFAULT_ICON_CONFIGS } from '@icon-park/react/es/runtime';
 import { initAxios } from 'common/utils/axios-config';
+import { PAGINATION } from 'app/constants';
 import 'tailwindcss/tailwind.css';
 
 import antd_zhCN from 'antd/es/locale-provider/zh_CN';
@@ -55,8 +56,8 @@ const momentLangMap = {
 Pagination.defaultProps = {
   showSizeChanger: false,
   ...Pagination.defaultProps,
-  pageSize: 15,
-  pageSizeOptions: ['15', '30', '45', '60'],
+  pageSize: PAGINATION.pageSize,
+  pageSizeOptions: PAGINATION.pageSizeOptions,
   showTotal: (total) => (isZh() ? `共计 ${total} 条` : `total ${total} items`),
 };
 
