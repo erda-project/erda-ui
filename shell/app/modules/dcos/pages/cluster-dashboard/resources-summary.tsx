@@ -282,7 +282,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
       sorter: {
         compare: (a, b) => a.cpuQuota - b.cpuQuota,
       },
-      render: (text: string) => `${text} Core`,
+      render: (text: string) => `${(+text || 0).toFixed(1)} Core`,
     },
     {
       title: i18n.t('cmp:CPU quota usage'),
@@ -320,7 +320,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
       sorter: {
         compare: (a, b) => a.memQuota - b.memQuota,
       },
-      render: (text: string) => `${text} GiB`,
+      render: (text: string) => `${(+text || 0).toFixed(1)} GiB`,
     },
     {
       title: i18n.t('cmp:Memory quota usage'),
