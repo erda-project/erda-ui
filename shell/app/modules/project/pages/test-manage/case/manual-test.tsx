@@ -81,7 +81,7 @@ const ManualTest = () => {
   const debouncedSearch = React.useCallback(
     debounce((val: string | undefined) => {
       onSearch({ pageNo: 1, query: val });
-    }, 500),
+    }, 1000),
     [onSearch],
   );
 
