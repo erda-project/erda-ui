@@ -341,7 +341,7 @@ const AddIssueRelation = ({
 
   const debounceSearch = debounce((val: string) => {
     getIssueList({ title: val });
-  }, 500);
+  }, 1000);
 
   return (
     <div className="issue-relation-box mt-3">

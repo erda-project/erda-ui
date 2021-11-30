@@ -132,7 +132,7 @@ const EditList = (props: IELProps) => {
   });
 
   const valueRef = React.useRef(value as any);
-  const debounceChange = React.useRef(debounce(onChange, 300));
+  const debounceChange = React.useRef(debounce(onChange, 1000));
 
   useUpdateEffect(() => {
     if (!isEqual(value, propsVal)) {

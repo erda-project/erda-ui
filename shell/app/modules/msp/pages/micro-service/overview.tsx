@@ -81,7 +81,7 @@ const Overview = () => {
   const handleSearch = React.useCallback(
     debounce((keyword?: string) => {
       updater.filterKey(keyword?.toLowerCase() || '');
-    }, 500),
+    }, 1000),
     [],
   );
 
