@@ -14,7 +14,7 @@
 import React, { ImgHTMLAttributes } from 'react';
 import { Input, Select, DatePicker, Tooltip } from 'antd';
 import moment from 'moment';
-import { useMount } from 'react-use';
+import { useEvent, useMount, useUnmount } from 'react-use';
 import { ErdaIcon, MarkdownEditor } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { getTimeRanges } from 'common/utils';
@@ -25,41 +25,56 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { eventHub } from 'common/utils/event-hub';
 import { isZh } from 'core/i18n';
+import layoutStore from 'layout/stores/layout';
 
 import './index.scss';
 
 const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) => {
-  const [enlarged, setEnlarged] = React.useState(false);
+  const isImagePreviewOpen = layoutStore.useStore((s) => s.isImagePreviewOpen);
 
-  const removeMask = React.useCallback((e) => {
-    e.stopPropagation();
-    setEnlarged(false);
-    document.body.removeEventListener('click', removeMask);
+  const closePreview = React.useCallback((e?: MouseEvent) => {
+    e?.stopPropagation();
+    layoutStore.reducers.setImagePreviewOpen(false);
+    document.body.removeEventListener('click', closePreview);
   }, []);
 
-  const enlargeImage = (e: React.MouseEvent) => {
+  const openPreview = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setEnlarged(true);
-    document.body.addEventListener('click', removeMask);
+    layoutStore.reducers.setImagePreviewOpen(true);
+    document.body.addEventListener('click', closePreview);
   };
 
   const onLoad = () => {
     eventHub.emit('md-img-loaded');
   };
 
+  useUnmount(() => {
+    closePreview();
+  });
+
+  const escClose = React.useCallback(
+    (e) => {
+      if (e.keyCode === 27 && isImagePreviewOpen) {
+        closePreview(e);
+      }
+    },
+    [isImagePreviewOpen, closePreview],
+  );
+
+  useEvent('keydown', escClose);
   return (
     <span>
       <img
         style={{ cursor: 'zoom-in' }}
         onLoad={onLoad}
         src={src}
-        onClick={enlargeImage}
+        onClick={openPreview}
         alt={alt || 'preview-image'}
         {...rest}
       />
       <span
         className={`${
-          enlarged
+          isImagePreviewOpen
             ? 'fixed top-0 right-0 left-0 bottom-0 z-50 flex items-center justify-center overflow-auto bg-desc'
             : 'hidden'
         }`}
