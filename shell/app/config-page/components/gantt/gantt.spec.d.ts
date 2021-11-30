@@ -16,16 +16,18 @@ declare namespace CP_GANTT {
     type: 'Gantt';
     props: IProps;
     data: {
-      list: IData[];
+      expandList: Obj<IData[]>;
+      updateList: IData[];
     };
   }
 
   interface IData {
-    id: string;
-    name: string;
+    key: string;
+    title: string;
     start: number;
     end: number;
-    children: IData[];
+    isLeaf?: boolean;
+    extra?: Obj;
   }
 
   type TaskType = 'task' | 'milestone' | 'project';
@@ -36,9 +38,9 @@ declare namespace CP_GANTT {
     start: Date;
     end: Date;
     progress: number;
-    dataTemp: Obj;
+    extra?: Obj;
     level: number;
-    isParent: boolean;
+    isLeaf?: boolean;
     styles?: {
       backgroundColor?: string;
       backgroundSelectedColor?: string;

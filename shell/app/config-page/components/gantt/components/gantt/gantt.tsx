@@ -6,7 +6,7 @@ import { CalendarProps } from '../calendar/calendar';
 import { TaskGanttContentProps } from './task-gantt-content';
 import { TaskListHeaderDefault } from '../task-list/task-list-header';
 import { TaskListTableDefault } from '../task-list/task-list-table';
-import { StandardTooltipContent, Tooltip } from '../other/tooltip';
+// import { StandardTooltipContent, Tooltip } from '../other/tooltip';
 import { VerticalScroll } from '../other/vertical-scroll';
 import { TaskListProps, TaskList } from '../task-list/task-list';
 import { TaskGantt } from './task-gantt';
@@ -20,7 +20,7 @@ import './gantt.scss';
 
 export const Gantt: React.FunctionComponent<GanttProps> = ({
   tasks,
-  headerHeight = 50,
+  headerHeight = 70,
   columnWidth = 60,
   listCellWidth = '100px',
   rowHeight = 50,
@@ -47,7 +47,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   fontSize = '14px',
   arrowIndent = 20,
   todayColor = 'rgba(252, 248, 227, 0.5)',
-  TooltipContent = StandardTooltipContent,
+  // TooltipContent = StandardTooltipContent,
   TaskListHeader = TaskListHeaderDefault,
   TaskListTable = TaskListTableDefault,
   BarContentRender = null,
@@ -409,7 +409,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
           scrollY={scrollY}
           scrollX={scrollX}
         />
-        {ganttEvent.changedTask && (
+        {/* {ganttEvent.changedTask && (
           <Tooltip
             arrowIndent={arrowIndent}
             rowHeight={rowHeight}
@@ -426,7 +426,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
             rtl={rtl}
             svgWidth={svgWidth}
           />
-        )}
+        )} */}
         <VerticalScroll
           ganttFullHeight={ganttFullHeight}
           ganttHeight={ganttHeight}

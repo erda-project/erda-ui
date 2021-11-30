@@ -14,7 +14,7 @@
 import React from 'react';
 import { Gantt } from './components/gantt/gantt';
 import { convertDataForGantt } from './utils';
-import { ErdaIcon } from 'common';
+import { ErdaIcon, EmptyHolder } from 'common';
 import { groupBy, findIndex } from 'lodash';
 import moment from 'moment';
 import './gantt.scss';
@@ -90,17 +90,18 @@ const TaskTree = (props: ITaskTreeProps) => {
   return (
     <div style={{ width: rowWidth }} className="erda-tree">
       {tasks.map((item) => {
-        const { dataTemp, isParent, level, name } = item;
+        const { extra, isLeaf, level, name } = item;
+        console.log('------', item);
         const LineComp = getTreeLine(item, tasksGroup);
         return (
           <div
             style={{ height: rowHeight }}
             key={item.id}
             className={`relative flex items-center justify-center cursor-pointer hover:bg-hover-gray-bg pr-2 hover-active erda-tree-level${level}`}
-            onClick={() => isParent && onExpanderClick(item)}
+            onClick={() => !isLeaf && onExpanderClick(item)}
           >
             {LineComp}
-            {isParent ? <ErdaIcon type="caret-down" size={'16px'} /> : null}
+            {!isLeaf ? <ErdaIcon type="caret-down" size={'16px'} /> : null}
             {TreeNodeRender ? (
               <div className="flex-1 w-0">
                 <TreeNodeRender node={item} nodeList={tasks} />
@@ -120,7 +121,12 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
   const { data, operations, execOperation, props: pProps } = props;
   const { BarContentRender, TreeNodeRender, TaskListHeader, listCellWidth = '320px' } = pProps;
 
-  const [list, setList] = React.useState<CP_GANTT.IGanttData[]>(convertDataForGantt(data?.list || []));
+  const [list, setList] = React.useState<CP_GANTT.IGanttData[]>([]);
+  const [expandKeys, setExpandKeys] = React.useState<string[]>([]);
+
+  React.useEffect(() => {
+    setList((prevList) => convertDataForGantt(data, prevList, expandKeys));
+  }, [data, expandKeys]);
 
   const handleTaskChange = (t: any) => {
     setList((prevList) => {
@@ -151,7 +157,7 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
     setList((prev) => prev.map((item) => (item.id === _task.id ? _task : item)));
   };
 
-  return (
+  return list.length ? (
     <Gantt
       tasks={list}
       rowHeight={40}
@@ -164,6 +170,8 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
       listCellWidth={listCellWidth}
       TaskListTable={(p) => <TaskTree {...p} TreeNodeRender={TreeNodeRender} />}
     />
+  ) : (
+    <EmptyHolder relative />
   );
 };
 

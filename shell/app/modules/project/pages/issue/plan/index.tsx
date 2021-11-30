@@ -13,7 +13,7 @@
 
 import React from 'react';
 import DiceConfigPage, { useMock } from 'app/config-page';
-import { getUrlQuery } from 'config-page/utils';
+import { getUrlQuery, statusColorMap } from 'config-page/utils';
 import { updateSearch } from 'common/utils';
 import { Badge } from 'common';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
@@ -29,15 +29,17 @@ interface IBarProps {
 }
 const BarContentRender = (props: IBarProps) => {
   const { task, isHover } = props;
-  const { type, dataTemp } = task;
-
-  const isParent = type === 'project';
+  const { extra, isLeaf } = task;
 
   return (
-    <div className={`relative h-full ${isParent ? 'top-1' : ''}`}>
-      <div className="flex items-center justify-center h-full">
-        {<IssueIcon type={dataTemp?.type} size={'16px'} />}
-        <span className={`text-white text-xs truncate ${isParent ? 'text-normal' : 'text-white'}`}>{task.name}</span>
+    <div className={`relative h-full ${!isLeaf ? 'top-1' : ''}`}>
+      <div className={`flex items-center h-full ${!isLeaf ? 'justify-center' : ''}`}>
+        {!isLeaf ? null : <IssueIcon type={extra?.type} size={'16px'} />}
+        <span
+          className={`text-white text-xs overflow-hidden whitespace-nowrap ${!isLeaf ? 'text-normal' : 'text-white'}`}
+        >
+          {task.name}
+        </span>
       </div>
       <div className={`absolute text-sub text-xs ${isHover ? 'visible' : 'invisible'}`} style={{ right: -150, top: 1 }}>
         {moment(task.start).format('YYYY-MM-DD')} ~ {moment(task.end).format('YYYY-MM-DD')}
@@ -48,7 +50,6 @@ const BarContentRender = (props: IBarProps) => {
 
 const TaskListHeader = (props: { headerHeight: number; rowWidth: number }) => {
   const { headerHeight, rowWidth } = props;
-  console.log('------', props);
   const [value, setValue] = React.useState('issue');
   return (
     <div style={{ height: headerHeight, width: rowWidth }}>
@@ -65,31 +66,16 @@ interface ITreeNodeProps {
   nodeList: CP_GANTT.IGanttData[];
 }
 
-const issueStatusMap = {
-  进行中: 'processing',
-  无需修复: 'default',
-  已完成: 'success',
-  待处理: 'warning',
-  重新打开: 'error',
-};
-
-const issueStatusColor = {
-  进行中: '#1890ff',
-  无需修复: '#302647',
-  已完成: '#27c99a',
-  待处理: '#f4b518',
-  重新打开: '#d84b65',
-};
-
 const TreeNodeRender = (props: ITreeNodeProps) => {
   const { node, nodeList } = props;
-  const { type, dataTemp, level, name, id } = node;
+  const { extra, level, name, id } = node;
   const tasksGroup = groupBy(nodeList || [], 'project');
   const subNodeStatus = tasksGroup[id] || [];
-  const { status, type: dataType, user } = dataTemp || {};
+  const { status, type, user } = extra || {};
+  console.log('------', status.status);
   return (
     <div className="flex items-center">
-      {<IssueIcon type={dataType} size={'16px'} />}
+      {<IssueIcon type={type} size={'16px'} />}
       {level === 0 ? (
         <div className="flex-1 ml-1 w-0">
           <div className="truncate">{name}</div>
@@ -98,7 +84,7 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
               <div
                 key={`${idx}`}
                 className="flex-1 h-1 issue-plan-status-total-item"
-                style={{ backgroundColor: issueStatusColor[subItem.dataTemp.status] }}
+                style={{ backgroundColor: statusColorMap[status?.status] }}
               />
             ))}
           </div>
@@ -110,7 +96,7 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
             <Avatar size={16}>{user.slice(0, 1)}</Avatar>
             {status ? (
               <div className="ml-1">
-                <Badge showDot={false} text={status} status={issueStatusMap[status] || 'default'} />{' '}
+                <Badge showDot={false} text={status.text} status={status?.status || 'default'} />
               </div>
             ) : null}
           </div>

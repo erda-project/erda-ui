@@ -2,189 +2,7 @@ export const enhanceMock = (data: any, payload: any) => {
   return data;
 };
 const currentDate = new Date();
-
-const task = [
-  {
-    start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
-    end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 15),
-    name: 'R1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
-    id: '1',
-    type: 'requirement',
-    user: '张三',
-    status: '进行中', // id? text?
-    children: [
-      {
-        id: '1-1',
-        name: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
-        start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
-        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 5),
-        type: 'task',
-        user: '张三',
-        status: '已完成',
-        children: [
-          {
-            id: '1-1-1',
-            name: 'T1-1-1测试测试测试测试测试测试测试测试测试测试测试',
-            start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
-            end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 5),
-            type: 'task',
-            user: '张三',
-            status: '已完成',
-          },
-        ],
-      },
-      {
-        id: '1-2',
-        name: 'T1-2测试测试测试测试测试测试测试测试测试测试测试',
-        start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 4),
-        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 8),
-        type: 'task',
-        user: '张三',
-        status: '待处理',
-      },
-      {
-        id: '1-3',
-        name: 'T1-3测试测试测试测试测试测试测试测试测试测试测试',
-        start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 4),
-        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 10),
-        type: 'task',
-        user: '张三',
-        status: '待处理',
-      },
-      {
-        id: '1-4',
-        name: 'T1-4测试测试测试测试测试测试测试测试测试测试测试',
-        start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 6),
-        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 8),
-        type: 'task',
-        user: '张三',
-        status: '待处理',
-      },
-      {
-        id: '1-5',
-        name: 'T1-5测试测试测试测试测试测试测试测试测试测试测试',
-        start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 10),
-        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 11),
-        type: 'task',
-        user: '张三',
-        status: '待处理',
-      },
-    ],
-  },
-  {
-    start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 10),
-    end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 20),
-    name: 'R2-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
-    id: '2',
-    type: 'requirement',
-    user: '张三',
-    status: '进行中', // id? text?
-    children: [
-      {
-        id: '2-1',
-        name: 'T2-1测试测试测试测试测试测试测试测试测试测试测试',
-        start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 10),
-        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 15),
-        type: 'task',
-        user: '张三',
-        status: '已完成',
-      },
-      {
-        id: '2-2',
-        name: 'T2-2测试测试测试测试测试测试测试测试测试测试测试',
-        start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 10),
-        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 11),
-        type: 'task',
-        user: '张三',
-        status: '待处理',
-      },
-      {
-        id: '2-3',
-        name: 'T2-3测试测试测试测试测试测试测试测试测试测试测试',
-        start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 12),
-        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 13),
-        type: 'task',
-        user: '张三',
-        status: '待处理',
-      },
-      {
-        id: '2-4',
-        name: 'T2-4测试测试测试测试测试测试测试测试测试测试测试',
-        start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 14),
-        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 20),
-        type: 'task',
-        user: '张三',
-        status: '待处理',
-      },
-      {
-        id: '2-5',
-        name: 'T2-5测试测试测试测试测试测试测试测试测试测试测试',
-        start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 13),
-        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 15),
-        type: 'task',
-        user: '张三',
-        status: '待处理',
-      },
-    ],
-  },
-  {
-    start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
-    end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 15),
-    name: 'R3-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
-    id: '3',
-    type: 'requirement',
-    user: '张三',
-    status: '进行中', // id? text?
-    children: [
-      {
-        id: '3-1',
-        name: 'T3-1测试测试测试测试测试测试测试测试测试测试测试',
-        start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
-        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 5),
-        type: 'task',
-        user: '张三',
-        status: '已完成',
-      },
-      {
-        id: '3-2',
-        name: 'T3-2测试测试测试测试测试测试测试测试测试测试测试',
-        start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 4),
-        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 8),
-        type: 'task',
-        user: '张三',
-        status: '待处理',
-      },
-      {
-        id: '3-3',
-        name: 'T3-3测试测试测试测试测试测试测试测试测试测试测试',
-        start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 4),
-        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 10),
-        type: 'task',
-        user: '张三',
-        status: '待处理',
-      },
-      {
-        id: '3-4',
-        name: 'T3-4测试测试测试测试测试测试测试测试测试测试测试',
-        start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 6),
-        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 8),
-        type: 'task',
-        user: '张三',
-        status: '待处理',
-      },
-      {
-        id: '3-5',
-        name: 'T3-5测试测试测试测试测试测试测试测试测试测试测试',
-        start: new Date(currentDate.getFullYear(), currentDate.getMonth(), 10),
-        end: new Date(currentDate.getFullYear(), currentDate.getMonth(), 11),
-        type: 'task',
-        user: '张三',
-        status: '待处理',
-      },
-    ],
-    isLeaf: true,
-  },
-];
+const getDate = (day: number) => new Date(currentDate.getFullYear(), currentDate.getMonth(), day).getTime();
 
 export const mockData = {
   scenario: {
@@ -203,18 +21,76 @@ export const mockData = {
       gantt: {
         type: 'Gantt',
         data: {
-          list: task,
+          expandList: {
+            0: [
+              {
+                start: getDate(1),
+                end: getDate(15),
+                title: 'R1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
+                key: 'R1',
+                isLeaf: false,
+                extra: {
+                  type: 'requirement',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
+              },
+              {
+                start: getDate(10),
+                end: getDate(10),
+                title: 'R2-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
+                key: 'R2',
+                isLeaf: false,
+                extra: {
+                  type: 'requirement',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
+              },
+              {
+                start: getDate(10),
+                end: getDate(10),
+                title: 'R3-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
+                key: 'R3',
+                isLeaf: false,
+                extra: {
+                  type: 'requirement',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
+              },
+            ],
+            R1: [
+              {
+                id: '1-1',
+                name: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
+                start: getDate(1),
+                end: getDate(5),
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
+              },
+            ],
+          },
         },
         operations: {
           update: {
-            key: 'xx',
+            key: 'update',
             reload: true,
+            fillMeta: 'nodes',
+            meta: {
+              // 前端修改的数据放在meta.nodes里，update后，后端data.updateList返回相关修改
+              nodes: [{ key: 'R1-1', start: 100, end: 1000 }],
+            },
           },
           expandNode: {
             key: 'expandNode',
             reload: true,
-            fillMate: 'nodeId',
-            meta: { nodeId: 'xxx' },
+            fillMate: 'keys',
+            meta: { keys: ['xxx'] },
           },
         },
       },

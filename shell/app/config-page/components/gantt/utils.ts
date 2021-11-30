@@ -1,29 +1,60 @@
-export const convertDataForGantt = (data: CP_GANTT.IData[]) => {
-  const ganttData: CP_GANTT.IGanttData[] = [];
+import { groupBy } from 'lodash';
+
+export const convertDataForGantt = (
+  data: { expandList: CP_GANTT.IData[]; updateList: CP_GANTT.IData[] },
+  prevList: CP_GANTT.IGanttData[],
+  expandKeys: string[] = [],
+) => {
+  let ganttData: CP_GANTT.IGanttData[] = [...prevList];
+
+  const { expandList, updateList } = data;
+
+  const prevDataGroup = { ...groupBy(prevList, 'project'), ...expandList };
 
   const convert = (dataTemp: CP_GANTT.IData[], level = 0, pId?: string) => {
     dataTemp.forEach((item) => {
-      const { id, name, start, end, children, hideChildren, ...rest } = item;
-      ganttData.push({
-        type: children?.length ? 'project' : 'task',
-        id,
-        name,
+      const { key, title, start, end, isLeaf = true, ...rest } = item;
+      const curData = {
+        type: !isLeaf ? 'project' : 'task',
+        id: key,
+        name: title,
         start: new Date(start),
         end: new Date(end),
         progress: 0,
-        isParent: !!children?.length,
-        hideChildren: hideChildren === undefined ? false : hideChildren,
-        ...(pId ? { project: pId } : {}),
-        dataTemp: rest,
+        isLeaf,
         level,
-      });
-      if (children?.length) {
-        convert(children, level + 1, id);
+        ...(pId ? { project: pId } : {}),
+        ...rest,
+      };
+      ganttData.push(curData);
+      if (prevDataGroup[curData.id]) {
+        convert(prevDataGroup[curData.id], level + 1, curData.id);
       }
     });
   };
 
-  convert(data);
+  if (expandList) {
+    ganttData = [];
+    convert(prevDataGroup['0']); // root: 0
+  }
+  if (updateList?.length) {
+    updateList.forEach((item) => {
+      let curData = ganttData.find((gItem) => gItem.id === item.key);
+      if (curData) {
+        const { key, title, start, end, isLeaf = true, ...rest } = item;
+        curData = {
+          ...curData,
+          ...rest,
+          isLeaf,
+          id: key,
+          name: title,
+          start: new Date(start),
+          end: new Date(end),
+          type: !isLeaf ? 'project' : 'task',
+        };
+      }
+    });
+  }
 
-  return ganttData;
+  return ganttData.map((item) => ({ ...item, hideChildren: expandKeys.includes(item.id) }));
 };
