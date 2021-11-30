@@ -16,8 +16,7 @@ import { InputNumber, Select } from 'antd';
 import i18n from 'i18n';
 import './variable-input-group.scss';
 import { map, cloneDeep } from 'lodash';
-import { Plus as IconPlus, Delete as IconDelete } from '@icon-park/react';
-
+import { ErdaIcon } from 'common';
 const { Option } = Select;
 
 interface IVariableInputGroupProps {
@@ -76,7 +75,12 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
             onChange={(v: any) => this.changeValue(index, 'port', v)}
           />
           {disabled ? null : (
-            <IconDelete className="variable-icon ml-3 cursor-pointer" onClick={() => this.deleteVariable(index)} />
+            <ErdaIcon
+              type="delete1"
+              color="currentColor"
+              className="align-middle variable-icon ml-3 cursor-pointer"
+              onClick={() => this.deleteVariable(index)}
+            />
           )}
         </div>
       );
@@ -86,7 +90,9 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
       <div>
         <div className="edit-service-label">
           {i18n.t('dop:ports')}
-          {disabled ? null : <IconPlus className="variable-icon cursor-pointer" onClick={this.addNew} />}
+          {disabled ? null : (
+            <ErdaIcon type="plus" color="currentColor" className="variable-icon cursor-pointer" onClick={this.addNew} />
+          )}
         </div>
         {content}
       </div>

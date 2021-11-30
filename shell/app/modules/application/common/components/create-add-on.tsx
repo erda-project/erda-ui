@@ -13,6 +13,7 @@
 
 import { FormComponentProps, FormInstance } from 'core/common/interface';
 import { isEqual, map, cloneDeep, keyBy, isEmpty } from 'lodash';
+import { ErdaIcon } from 'common';
 import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 import { PLAN_NAME } from 'app/modules/addonPlatform/pages/common/configs';
@@ -20,7 +21,6 @@ import { convertAddonPlan } from '../yml-flow-util';
 import { Input, Form, Select, Radio, Button, Alert } from 'antd';
 import addon_png from 'app/images/resources/addon.png';
 import i18n from 'i18n';
-import { Down as IconDown, Up as IconUp } from '@icon-park/react';
 import './create-add-on.scss';
 
 const { Item } = Form;
@@ -495,9 +495,9 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
       }
 
       const icon = packUpTabs.has(group.groupName) ? (
-        <IconDown className="head-icon" size="18px" />
+        <ErdaIcon type="down" color="currentColor" className="head-icon" size="18px" />
       ) : (
-        <IconUp className="head-icon" size="18px" />
+        <ErdaIcon type="up" color="currentColor" className="head-icon" size="18px" />
       );
 
       const content = packUpTabs.has(group.groupName) ? <div className="addon-group-body">{addonsContent}</div> : null;

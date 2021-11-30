@@ -15,7 +15,7 @@ import React, { PureComponent } from 'react';
 import { Input, message } from 'antd';
 import { cloneDeep, forEach, isEqual } from 'lodash';
 import i18n from 'i18n';
-import { Plus as IconPlus, Delete as IconDelete } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 
 interface IEditGlobalVariableProps {
   value: any;
@@ -97,7 +97,12 @@ class ObjectInputGroup extends PureComponent<IEditGlobalVariableProps, any> {
             placeholder={`${i18n.t('please enter')}Value`}
           />
           {disabled ? null : (
-            <IconDelete className="variable-icon ml-3 cursor-pointer" onClick={() => this.deleteVariable(index)} />
+            <ErdaIcon
+              type="delete1"
+              color="currentColor"
+              className="variable-icon ml-3 cursor-pointer"
+              onClick={() => this.deleteVariable(index)}
+            />
           )}
         </div>
       );
@@ -108,7 +113,14 @@ class ObjectInputGroup extends PureComponent<IEditGlobalVariableProps, any> {
         <div className={isProperty === true ? 'edit-service-label' : 'global-input-form-title'}>
           {required ? <span className="ant-form-item-required" /> : null}
           {label}：
-          {disabled ? null : <IconPlus className="variable-icon cursor-pointer" onClick={this.addNewVariable} />}
+          {disabled ? null : (
+            <ErdaIcon
+              type="plus"
+              color="currentColor"
+              className="variable-icon cursor-pointer"
+              onClick={this.addNewVariable}
+            />
+          )}
         </div>
         {content}
       </div>
