@@ -91,7 +91,6 @@ const TaskTree = (props: ITaskTreeProps) => {
     <div style={{ width: rowWidth }} className="erda-tree">
       {tasks.map((item) => {
         const { extra, isLeaf, level, name } = item;
-        console.log('------', item);
         const LineComp = getTreeLine(item, tasksGroup);
         return (
           <div
@@ -122,11 +121,10 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
   const { BarContentRender, TreeNodeRender, TaskListHeader, listCellWidth = '320px' } = pProps;
 
   const [list, setList] = React.useState<CP_GANTT.IGanttData[]>([]);
-  const [expandKeys, setExpandKeys] = React.useState<string[]>([]);
 
   React.useEffect(() => {
-    setList((prevList) => convertDataForGantt(data, prevList, expandKeys));
-  }, [data, expandKeys]);
+    setList((prevList) => convertDataForGantt(data, prevList));
+  }, [data]);
 
   const handleTaskChange = (t: any) => {
     setList((prevList) => {

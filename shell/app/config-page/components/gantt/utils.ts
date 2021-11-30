@@ -56,5 +56,5 @@ export const convertDataForGantt = (
     });
   }
 
-  return ganttData.map((item) => ({ ...item, hideChildren: expandKeys.includes(item.id) }));
+  return ganttData;
 };
