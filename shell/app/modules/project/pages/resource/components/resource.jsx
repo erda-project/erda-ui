@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Breadcrumb } from 'antd';
-import { IF, TimeSelector } from 'common';
+import { IF, TimeSelector, ErdaIcon } from 'common';
 import { isEmpty } from 'lodash';
 import ChartList from '../containers/chart';
 import ServiceList from '../containers/service-list';
@@ -22,7 +22,6 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import './resource.scss';
 import appStore from 'application/stores/application';
 import routeInfoStore from 'core/stores/route';
-import { Right as IconRight } from '@icon-park/react';
 
 class ProjectResource extends React.PureComponent {
   constructor(props) {
@@ -83,7 +82,10 @@ class ProjectResource extends React.PureComponent {
     const { timeSpan } = this.props;
     return (
       <div className="project-resource">
-        <Breadcrumb separator={<IconRight size="14px" className="text-xs" />} className="path-breadcrumb">
+        <Breadcrumb
+          separator={<ErdaIcon className="text-xs align-middle" type="right" color="currentColor" size="14px" />}
+          className="path-breadcrumb"
+        >
           {paths.map((p, i) => {
             const isLast = i === paths.length - 1;
             return (

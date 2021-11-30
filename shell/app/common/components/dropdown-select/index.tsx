@@ -13,7 +13,7 @@
 
 import { Button, Dropdown, Menu } from 'antd';
 import { ClickParam } from 'core/common/interface';
-import { DownOne as IconDownOne } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 import React from 'react';
 import { map } from 'lodash';
 
@@ -80,7 +80,7 @@ const DropdownSelect = (props: IProps) => {
       {children || (
         <Button type="default" loading={loading} {...btnProps}>
           {buttonText}
-          <IconDownOne className="ml-0.5" theme="filled" size="12" />
+          <ErdaIcon type="caret-down" className="align-middle ml-0.5" size="16" />
         </Button>
       )}
     </Dropdown>

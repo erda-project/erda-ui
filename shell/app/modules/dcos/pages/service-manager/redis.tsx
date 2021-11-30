@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDTable, Copy } from 'common';
+import { CRUDTable, Copy, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import networksStore from 'cmp/stores/networks';
@@ -36,7 +36,6 @@ import {
 import { ClusterLog } from 'cmp/pages/cluster-manage/cluster-log';
 import { SetTagForm } from 'cmp/common/components/set-tag-form';
 import { skipInfoStatusMap } from 'cmp/pages/cloud-source/config';
-import { DownOne as IconDownOne } from '@icon-park/react';
 
 const specList = [...RedisFieldConfig.spec.standard, ...RedisFieldConfig.spec.cluster];
 const Redis = () => {
@@ -197,8 +196,10 @@ const Redis = () => {
   const extraOperation = () => (
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
-        {i18n.t('batch setting')}
-        <IconDownOne className="ml-1" theme="filled" size="16px" />
+        <div className="flex">
+          {i18n.t('batch setting')}
+          <ErdaIcon type="caret-down" color="currentColor" className="ml-1" size="20" />
+        </div>
       </Button>
     </Dropdown>
   );

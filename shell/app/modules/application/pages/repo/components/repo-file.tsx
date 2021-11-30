@@ -15,7 +15,7 @@
 import React from 'react';
 import pathLib from 'path';
 import FileContainer from 'application/common/components/file-container';
-import { FileEditor } from 'common';
+import { FileEditor, ErdaIcon } from 'common';
 import { goTo, qs, getOrgFromPath, connectCube } from 'common/utils';
 import { getSplitPathBy, getInfoFromRefName } from '../util';
 import Markdown from 'common/utils/marked';
@@ -24,7 +24,6 @@ import './repo-file.scss';
 import appStore from 'application/stores/application';
 import repoStore from 'application/stores/repo';
 import routeInfoStore from 'core/stores/route';
-import { Download as IconDownload } from '@icon-park/react';
 
 const { parse, extract } = qs;
 
@@ -277,8 +276,8 @@ class RepoFile extends React.PureComponent<IProps, IState> {
     return (
       <FileContainer name={name} ops={ops} className={`repo-file ${className}`}>
         <div className="flex flex-wrap justify-center items-center raw-file-container">
-          <a href={fileSrc} target="_blank" rel="noopener noreferrer">
-            <IconDownload />
+          <a className="flex" href={fileSrc} target="_blank" rel="noopener noreferrer">
+            <ErdaIcon className="mr-1" type="download" color="currentColor" />
             <div className="mt-1"> {i18n.t('download')} </div>
           </a>
         </div>

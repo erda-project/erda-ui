@@ -17,7 +17,6 @@ import { Copy, ErdaIcon, EmptyListHolder, FileEditor } from 'common';
 import { useListDnD } from 'common/use-hooks';
 import { isArray, isEmpty, isString, map, reduce, set, cloneDeep, find, reject, get } from 'lodash';
 import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin, message } from 'antd';
-import { Copy as IconCopy } from '@icon-park/react';
 import testEnvStore from 'project/stores/test-env';
 import React from 'react';
 import { produce } from 'immer';
@@ -428,7 +427,7 @@ const ApiItem = ({
                           className="copy-btn cursor-copy copy-request"
                           data-clipboard-text={get(request, 'body.content', '')}
                           shape="circle"
-                          icon={<IconCopy />}
+                          icon={<ErdaIcon type="copy" color="currentColor" />}
                         />
                         <Copy selector=".copy-request" />
                         <pre className="response-body">
@@ -473,7 +472,7 @@ const ApiItem = ({
                   className="copy-btn cursor-copy copy-response"
                   data-clipboard-text={body}
                   shape="circle"
-                  icon={<IconCopy />}
+                  icon={<ErdaIcon type="copy" color="currentColor" />}
                 />
                 <Copy selector=".copy-response" />
                 {responseBody}

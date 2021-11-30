@@ -14,7 +14,7 @@
 import React from 'react';
 import { Alert, Tooltip, Button, Table } from 'antd';
 import i18n from 'i18n';
-import { FormModal } from 'common';
+import { FormModal, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';
@@ -23,7 +23,6 @@ import { SetTagForm } from 'cmp/common/components/set-tag-form';
 import routeInfoStore from 'core/stores/route';
 import cloudServiceStore from 'dcos/stores/cloud-service';
 import { useLoading } from 'core/stores/loading';
-import { Help as IconHelp } from '@icon-park/react';
 
 const Topic = () => {
   const MQTopicList = cloudServiceStore.useStore((s) => s.MQTopicList);
@@ -143,10 +142,10 @@ const Topic = () => {
     },
     {
       label: (
-        <span>
+        <span className="flex">
           {i18n.t('resource:message type')}&nbsp;
           <Tooltip title={i18n.t('cmp:common-messages-suitable-for')}>
-            <IconHelp />
+            <ErdaIcon type="help" color="currentColor" />
           </Tooltip>
         </span>
       ),

@@ -14,10 +14,10 @@
 import React from 'react';
 import { throttle } from 'lodash';
 import { connectCube } from 'common/utils';
+import { ErdaIcon } from 'common';
 import './deploy-cluster-log.scss';
 import clusterStore from 'cmp/stores/cluster';
 import { useLoading } from 'core/stores/loading';
-import { Loading as IconLoading } from '@icon-park/react';
 
 interface IProps {
   deployClusterLog: string;
@@ -103,7 +103,7 @@ class DeployClusterLog extends React.Component<IProps, IState> {
         onScroll={this.throttleScroll}
       >
         <pre>{this.props.deployClusterLog}</pre>
-        {fetching && <IconLoading className="log-state bottom" spin strokeWidth={2} />}
+        {fetching && <ErdaIcon type="loading" color="currentColor" className="log-state bottom" spin />}
       </div>
     );
   }

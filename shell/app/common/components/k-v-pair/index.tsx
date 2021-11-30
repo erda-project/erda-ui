@@ -14,7 +14,7 @@
 import { map, last, cloneDeep } from 'lodash';
 import { Input } from 'antd';
 import React from 'react';
-import { Delete as IconDelete } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 
 export interface IKVRecord {
   Key: JSX.Element;
@@ -53,9 +53,15 @@ const DefaultValue = ({ record, valueName, update, ...rest }: any) => (
 );
 const DefaultOp = ({ index, className = '', deleteIndex, ...rest }: any) => {
   return rest.disabled ? (
-    <IconDelete className={`not-allowed ${className}`} {...rest} />
+    <ErdaIcon type="delete1" color="currentColor" className={`not-allowed ${className} mt-2.5`} {...rest} />
   ) : (
-    <IconDelete className={className} onClick={() => deleteIndex(index)} {...rest} />
+    <ErdaIcon
+      type="delete1"
+      color="currentColor"
+      className={`${className} mt-2.5`}
+      onClick={() => deleteIndex(index)}
+      {...rest}
+    />
   );
 };
 const getEmpty = (keyName: string, valueName: string, descName: string, keyDesc: string) => ({

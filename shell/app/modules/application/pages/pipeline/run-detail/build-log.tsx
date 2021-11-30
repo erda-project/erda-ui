@@ -12,13 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { LogRoller, CompSwitcher } from 'common';
+import { LogRoller, CompSwitcher, ErdaIcon } from 'common';
 import { Switch, Drawer, Tabs } from 'antd';
 import { map } from 'lodash';
 import DeployLog from 'runtime/common/logs/components/deploy-log';
 import i18n from 'i18n';
 import commonStore from 'common/stores/common';
-import { LeftOne as IconLeftOne } from '@icon-park/react';
 
 const linkMark = '##to_link:';
 
@@ -65,7 +64,13 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
       getComp: () => <DeployLog detailLogId={deploymentId} applicationId={applicationId} />,
       getTitle: () => (
         <span>
-          <IconLeftOne className="hover-active" theme="filled" size="16px" onClick={() => this.props.popSlideComp()} />
+          <ErdaIcon
+            type="left-one"
+            color="currentColor"
+            className="hover-active align-middle"
+            size="16"
+            onClick={() => this.props.popSlideComp()}
+          />
           &nbsp;
           {i18n.t('deployment log')}
         </span>

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Popover } from 'antd';
-import { LogRoller, Icon as CustomIcon } from 'common';
+import { LogRoller, Icon as CustomIcon, ErdaIcon } from 'common';
 import classnames from 'classnames';
 import { map } from 'lodash';
 import { stepList } from 'project/common/config';
@@ -24,7 +24,6 @@ import runtimeLogStore from 'runtime/stores/log';
 import runtimeServiceStore from 'runtime/stores/service';
 import commonStore from 'common/stores/common';
 import { useMount } from 'react-use';
-import { Attention as IconAttention, LeftOne as IconLeftOne } from '@icon-park/react';
 
 import './deploy-log.scss';
 
@@ -66,7 +65,7 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
                 <Popover title={i18n.t('runtime:error details')} content={content} defaultVisible placement="bottom">
                   <span className="step-title">
                     {name}
-                    <IconAttention className="fail-info" />
+                    <ErdaIcon type="tishi" color="currentColor" className="align-middle fail-info" />
                   </span>
                 </Popover>
               ) : (
@@ -95,7 +94,13 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
           getComp: () => <MigrationLog migrationId={migrationId} />,
           getTitle: () => (
             <span>
-              <IconLeftOne theme="filled" size="16px" className="hover-active" onClick={() => popSlideComp()} />
+              <ErdaIcon
+                type="left-one"
+                color="currentColor"
+                size="16"
+                className="hover-active align-middle"
+                onClick={() => popSlideComp()}
+              />
               &nbsp;
               {i18n.t('dop:upgrade log')}
             </span>
@@ -112,7 +117,13 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
               getComp: () => <ContainerLog instance={target} />,
               getTitle: () => (
                 <span>
-                  <IconLeftOne theme="filled" size="16px" className="hover-active" onClick={() => popSlideComp()} />
+                  <ErdaIcon
+                    type="left-one"
+                    color="currentColor"
+                    size="16"
+                    className="hover-active align-middle"
+                    onClick={() => popSlideComp()}
+                  />
                   &nbsp;
                   {i18n.t('runtime:container log')}
                 </span>

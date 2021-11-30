@@ -16,9 +16,17 @@
     background-color: $color-dark-2;
   }
 
+  .hover {
+    color: $lightgray;
+  }
+
   &:hover {
     .contractive-filter-item-close {
       display: initial;
+    }
+
+    .hover {
+      color: gray;
     }
   }
 
@@ -101,6 +109,10 @@
       background-color: unset;
       cursor: unset;
     }
+  }
+
+  .hover {
+    color: $lightgray;
   }
 
   .ant-input-affix-wrapper .ant-input-prefix {

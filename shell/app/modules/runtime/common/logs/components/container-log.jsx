@@ -14,11 +14,10 @@
 import { get } from 'lodash';
 import React from 'react';
 import { Switch, Tooltip, Drawer } from 'antd';
-import { LogRoller, SimpleLog } from 'common';
+import { LogRoller, SimpleLog, ErdaIcon } from 'common';
 import { regLog } from 'common/components/pure-log-roller/log-util';
 import { transformLog } from 'common/utils';
 import i18n from 'i18n';
-import { LeftOne as IconLeftOne } from '@icon-park/react';
 import LogFilter from 'runtime/common/logs/components/log-filter';
 
 import './container-log.scss';
@@ -141,7 +140,13 @@ class RuntimeContainerLog extends React.Component {
       getComp: () => <SimpleLog {...p} />,
       getTitle: () => (
         <span>
-          <IconLeftOne className="hover-active" theme="filled" size="16px" onClick={() => this.props.popSlideComp()} />
+          <ErdaIcon
+            type="left-one"
+            color="currentColor"
+            className="hover-active align-middle"
+            size="16"
+            onClick={() => this.props.popSlideComp()}
+          />
           &nbsp;
           {i18n.t('runtime:monitor log')}
         </span>

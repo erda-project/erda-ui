@@ -14,7 +14,7 @@
 import { useLoading } from 'core/stores/loading';
 import configStore from 'app/modules/application/stores/pipeline-config';
 import appStore from 'application/stores/application';
-import { Copy, IF, CustomFilter, FileEditor } from 'common';
+import { Copy, IF, CustomFilter, FileEditor, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { ColumnProps } from 'core/common/interface';
 import { WORKSPACE_LIST } from 'common/constants';
@@ -25,7 +25,6 @@ import { Button, Collapse, Popconfirm, Spin, Table, Tooltip, Input, Modal } from
 import React from 'react';
 import { useEffectOnce, useUnmount } from 'react-use';
 import { VariableConfigForm } from './variable-config-form';
-import { Info as IconInfo } from '@icon-park/react';
 
 const { Panel } = Collapse;
 
@@ -219,7 +218,7 @@ const VariableConfig = ({
           <span>
             {source === 'certificate' && (
               <Tooltip title={i18n.t('common:from certificate push')}>
-                <IconInfo className="ml-1 text-sub" />
+                <ErdaIcon type="info" color="currentColor" className="ml-1 text-sub" />
               </Tooltip>
             )}
             {isFromDefault && <span className="tag tag-warning ml-1">{i18n.t('default')}</span>}

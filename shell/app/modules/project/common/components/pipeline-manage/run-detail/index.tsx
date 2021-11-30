@@ -16,7 +16,7 @@ import { Spin, Button, Menu, Modal } from 'antd';
 import BaseInfo from './base-info';
 import RecordList from './record-list';
 import { BuildLog } from 'application/pages/build-detail/build-log';
-import { IF, DeleteConfirm } from 'common';
+import { IF, DeleteConfirm, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { isEmpty, get, map, isNumber, flatten } from 'lodash';
 import { useUnmount } from 'react-use';
@@ -28,7 +28,6 @@ import { ymlDataToFormData } from 'app/yml-chart/common/in-params-drawer';
 import SnippetDetail from './snippet-detail';
 import { ResultViewDrawer } from './result-view';
 import i18n from 'i18n';
-import { Attention as IconAttention } from '@icon-park/react';
 import './index.scss';
 
 const { confirm } = Modal;
@@ -352,7 +351,7 @@ const RunDetail = (props: IProps) => {
         {showMessage && showMessage.msg ? (
           <div className="auto-test-detail-err-msg mb-2">
             <div className="auto-test-err-header">
-              <IconAttention className="auto-test-err-icon" />
+              <ErdaIcon type="tishi" color="currentColor" size="18px" className="auto-test-err-icon" />
               <pre>{showMessage.msg}</pre>
             </div>
             <div className="auto-test-err-stack">

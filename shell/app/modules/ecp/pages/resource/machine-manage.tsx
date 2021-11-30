@@ -15,7 +15,7 @@ import React from 'react';
 import i18n from 'i18n';
 import { Drawer, Table, Breadcrumb, Popconfirm as PopConfirm } from 'antd';
 import { map } from 'lodash';
-import { TagsRow, TableActions } from 'common';
+import { TagsRow, TableActions, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { ColumnProps } from 'core/common/interface';
 import { useLoading } from 'core/stores/loading';
@@ -26,7 +26,6 @@ import { DoubleProgressItem } from 'dcos/pages/machine-manager/machine-table';
 import { useUnmount } from 'react-use';
 import { goTo } from 'common/utils';
 import 'dcos/pages/machine-manager/machine-table.scss';
-import { Right as IconRight } from '@icon-park/react';
 
 const MachineManage = () => {
   const [{ drawerVisible, activeMachine }, updater, update] = useUpdate({
@@ -177,10 +176,12 @@ const MachineManage = () => {
   const onCloseDrawer = React.useCallback(() => {
     updater.drawerVisible(false);
   }, [updater]);
-
   return (
     <div className="machine-table">
-      <Breadcrumb separator={<IconRight size="14px" />} className="path-breadcrumb mb-2">
+      <Breadcrumb
+        separator={<ErdaIcon className="align-middle" type="right" color="currentColor" size="14px" />}
+        className="path-breadcrumb mb-2"
+      >
         <Breadcrumb.Item className="hover-active" onClick={() => goTo(goTo.pages.ecpResource)}>
           {siteName}
         </Breadcrumb.Item>

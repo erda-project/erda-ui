@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Tabs, Button, Table, Alert, Tooltip } from 'antd';
-import { FormModal } from 'common';
+import { FormModal, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';
@@ -23,7 +23,6 @@ import { SetTagForm } from 'cmp/common/components/set-tag-form';
 import cloudServiceStore from 'dcos/stores/cloud-service';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
-import { Help as IconHelp } from '@icon-park/react';
 
 const { TabPane } = Tabs;
 
@@ -128,10 +127,10 @@ const Group = () => {
     },
     {
       label: (
-        <span>
+        <span className="flex">
           Group ID&nbsp;
           <Tooltip title={i18n.t('cmp:GroupID-cannot-modified')}>
-            <IconHelp />
+            <ErdaIcon type="help" color="currentColor" />
           </Tooltip>
         </span>
       ),

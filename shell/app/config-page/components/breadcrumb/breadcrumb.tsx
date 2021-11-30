@@ -13,9 +13,8 @@
 
 import React from 'react';
 import { Breadcrumb, Menu } from 'antd';
-import { Ellipsis } from 'common';
+import { Ellipsis, ErdaIcon } from 'common';
 import { map } from 'lodash';
-import { Right as IconRight } from '@icon-park/react';
 
 const noop = () => {};
 const CP_BREADCRUMB = (props: CP_BREADCRUMB.Props) => {
@@ -29,7 +28,7 @@ const CP_BREADCRUMB = (props: CP_BREADCRUMB.Props) => {
 
   if (!visible) return null;
   return (
-    <Breadcrumb separator={<IconRight size="14px" className="text-xs" />}>
+    <Breadcrumb separator={<ErdaIcon className="align-middle text-xs" type="right" color="currentColor" size="14px" />}>
       {map(list, (item, idx) => {
         if (item.menus) {
           const menu = (

@@ -13,14 +13,13 @@
 
 import { isEmpty } from 'lodash';
 import React, { useState } from 'react';
-import { Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon, ErdaIcon } from 'common';
 import i18n from 'i18n';
 import { Badge, Button, Drawer, message, Spin, Table } from 'antd';
 import { useInterval, useMount } from 'react-use';
 import moment from 'moment';
 import { useLoading } from 'core/stores/loading';
 import testCaseStore from 'project/stores/test-case';
-import { Download as IconDownLoad } from '@icon-park/react';
 import userStore from 'app/user/stores';
 import { useUserMap } from 'core/stores/userMap';
 import './import-file.scss';
@@ -178,8 +177,8 @@ const ImportExportRecord = ({
       render: (state: TEST_CASE.ImportOrExportState, record: TEST_CASE.ImportExportRecordItem) => {
         if (['success', 'fail'].includes(state)) {
           return (
-            <a className="table-operations-btn" download={record.name} href={`/api/files/${record.apiFileUUID}`}>
-              <IconDownLoad /> {record.name}
+            <a className="table-operations-btn flex" download={record.name} href={`/api/files/${record.apiFileUUID}`}>
+              <ErdaIcon type="download" className="mr-2" color="currentColor" /> {record.name}
             </a>
           );
         }

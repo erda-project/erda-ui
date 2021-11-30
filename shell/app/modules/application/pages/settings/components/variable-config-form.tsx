@@ -11,14 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormModal } from 'common';
+import { FormModal, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { getUploadProps } from 'common/utils/upload-props';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
 import { Button, message, Spin, Upload } from 'antd';
 import React from 'react';
-import { Upload as IconUpload } from '@icon-park/react';
 
 export const ENV_I18N = {
   default: i18n.t('common:default config'),
@@ -133,8 +132,8 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
               <div className="upload-container">
                 <Spin spinning={uploading} tip={i18n.t('uploading, please wait a moment')}>
                   <Upload {...uploadProps}>
-                    <Button>
-                      <IconUpload /> {i18n.t('upload')}
+                    <Button className="flex items-center">
+                      <ErdaIcon className="mr-1 align-center" type="upload" color="currentColor" /> {i18n.t('upload')}
                     </Button>
                   </Upload>
                   <span className="text-desc ml-2">

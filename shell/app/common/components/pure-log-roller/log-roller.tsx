@@ -16,8 +16,7 @@ import { Button, Tooltip } from 'antd';
 import React from 'react';
 import LogContent from './log-content';
 import i18n from 'i18n';
-import { Loading as IconLoading } from '@icon-park/react';
-
+import { ErdaIcon } from 'common';
 import './log-roller.scss';
 
 interface IProps {
@@ -103,8 +102,8 @@ export class LogRoller extends React.Component<IProps, IState> {
     } = this.props;
     const { fullScreen } = this.state;
     let logContent = rolling ? (
-      <div>
-        Loading... <IconLoading spin />
+      <div className="flex">
+        Loading... <ErdaIcon className="ml-1" type="loading" color="currentColor" spin />
       </div>
     ) : (
       <span>No Log Currently</span>
@@ -113,7 +112,7 @@ export class LogRoller extends React.Component<IProps, IState> {
     if (content && content.length) {
       logContent = (
         <div className="log-content-wrap" onScroll={this.throttleScroll}>
-          {backwardLoading ? <IconLoading spin className="log-state top" /> : null}
+          {backwardLoading ? <ErdaIcon type="loading" color="currentColor" spin className="log-state top" /> : null}
           <div
             ref={(ref) => {
               this.preElm = ref;
@@ -122,7 +121,7 @@ export class LogRoller extends React.Component<IProps, IState> {
           >
             <ContentComp {...this.props} logs={content} transformContent={transformContent} />
           </div>
-          {rolling ? <IconLoading spin className="log-state bottom" /> : null}
+          {rolling ? <ErdaIcon type="loading" color="currentColor" spin className="log-state bottom" /> : null}
         </div>
       );
     }

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Copy, CRUDTable, LoadMoreSelector, Icon as CustomIcon } from 'common';
+import { Copy, CRUDTable, LoadMoreSelector, Icon as CustomIcon, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import libraryRefStore from 'application/stores/library-reference';
@@ -26,7 +26,6 @@ import { useUnmount } from 'react-use';
 import { Popconfirm, Modal, Button, Alert, Input, message } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import { getArtifactsList } from 'publisher/services/publisher';
-import { Copy as IconCopy } from '@icon-park/react';
 
 const AppLibraryReference = () => {
   const appID = +routeInfoStore.useStore((s) => s.params.appId);
@@ -173,7 +172,7 @@ const AppLibraryReference = () => {
 
   const addonAfter = (
     <span className="copy-btn cursor-copy" data-clipboard-text={state.dependence} data-clipboard-tip="dependence">
-      <IconCopy />
+      <ErdaIcon type="copy" color="currentColor" />
     </span>
   );
 

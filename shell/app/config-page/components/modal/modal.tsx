@@ -13,6 +13,7 @@
 
 import React from 'react';
 import { Modal } from 'antd';
+import { ErdaIcon } from 'common';
 import {
   Info as IconInfo,
   Attention as IconAttention,
@@ -31,7 +32,7 @@ const widthMap = {
 };
 
 const stateIconMap = {
-  info: <IconInfo size="24" fill={statusColorMap.info} />,
+  info: <ErdaIcon type="info" size="24" fill={statusColorMap.info} />,
   success: <IconCheckOne size="24" fill={statusColorMap.success} />,
   warning: <IconAttention size="24" fill={statusColorMap.warning} />,
   danger: <IconCloseOne size="24" fill={statusColorMap.danger} />,
