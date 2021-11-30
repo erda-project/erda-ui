@@ -78,7 +78,7 @@ const PureFilter = (props: IPureFilterProps) => {
       updateSearch(filterData);
     }
     onFilter(filterData);
-  }, 500);
+  }, 1000);
 
   // filter变化的时候调用
   const changeFilterData = (filterData: Obj) => {
