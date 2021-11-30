@@ -3,7 +3,9 @@ import { BarTask } from '../../types/bar-task';
 import { GanttContentMoveAction } from '../../types/gantt-task-actions';
 import { Bar } from './bar/bar';
 import { BarSmall } from './bar/bar-small';
+import { useUpdateEffect } from 'react-use';
 import { Milestone } from './milestone/milestone';
+import moment from 'moment';
 import { Project } from './project/project';
 import './task-list.scss';
 
@@ -24,12 +26,34 @@ export type TaskItemProps = {
 };
 
 export const TaskItem: React.FC<TaskItemProps> = (props) => {
-  const { task, arrowIndent, isDelete, taskHeight, isSelected, rtl, onEventStart, TaskGanttContentRender } = {
+  const { task, arrowIndent, isDelete, taskHeight, isSelected, rtl, onEventStart, BarContentRender, isMoving } = {
     ...props,
   };
   const textRef = useRef<SVGTextElement>(null);
   const [taskItem, setTaskItem] = useState<JSX.Element>(<div />);
   const [isTextInside, setIsTextInside] = useState(true);
+  const [isHover, setIsHover] = useState(false);
+  const [curPos, setCurPos] = useState({
+    x2: task.x2,
+    x1: task.x1,
+    height: task.height,
+    y: task.y,
+    start: task.start,
+    end: task.end,
+  });
+
+  useUpdateEffect(() => {
+    if (!isMoving) {
+      setCurPos({
+        x2: task.x2,
+        x1: task.x1,
+        height: task.height,
+        y: task.y,
+        start: task.start,
+        end: task.end,
+      });
+    }
+  }, [isMoving, task]);
 
   useEffect(() => {
     switch (task.typeInternal) {
@@ -68,53 +92,78 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
   };
 
   return (
-    <g
-      onKeyDown={(e) => {
-        switch (e.key) {
-          case 'Delete': {
-            if (isDelete) onEventStart('delete', task, e);
-            break;
+    <>
+      {task.type !== 'project' ? (
+        <g>
+          <foreignObject
+            x={curPos.x1 + 4}
+            y={curPos.y - 2}
+            width={curPos.x2 - curPos.x1 - 8}
+            height={curPos.height + 4}
+          >
+            <div
+              className={`text-sm text-desc erda-gantt-task-preview-box bg-white bg-opacity-100 w-full h-full ${
+                isHover ? 'visible' : 'invisible'
+              }`}
+            >
+              {moment(curPos.start).format('YYYY-MM-DD')}~{moment(curPos.end).format('YYYY-MM-DD')}
+            </div>
+          </foreignObject>
+        </g>
+      ) : null}
+      <g
+        onKeyDown={(e) => {
+          switch (e.key) {
+            case 'Delete': {
+              if (isDelete) onEventStart('delete', task, e);
+              break;
+            }
           }
-        }
-        e.stopPropagation();
-      }}
-      onMouseEnter={(e) => {
-        onEventStart('mouseenter', task, e);
-      }}
-      onMouseLeave={(e) => {
-        onEventStart('mouseleave', task, e);
-      }}
-      onDoubleClick={(e) => {
-        onEventStart('dblclick', task, e);
-      }}
-      onFocus={() => {
-        onEventStart('select', task);
-      }}
-    >
-      {taskItem}
-      {TaskGanttContentRender ? (
-        <foreignObject
-          id={`task-render-${task.id}`}
-          className="abc"
-          x={task.x1 + 20}
-          y={task.y}
-          width={task.x2 - task.x1 - 40}
-          height={task.height}
-        >
-          <TaskGanttContentRender task={task} />
-        </foreignObject>
-      ) : (
-        <text
-          x={getX()}
-          y={task.y + taskHeight * 0.5}
-          className={
-            isTextInside ? 'erda-gantt-task-bar-label' : 'erda-gantt-task-bar-label erda-gantt-task-bar-label-outside'
-          }
-          ref={textRef}
-        >
-          {task.name}
-        </text>
-      )}
-    </g>
+          e.stopPropagation();
+        }}
+        onMouseEnter={(e) => {
+          onEventStart('mouseenter', task, e);
+          setIsHover(true);
+        }}
+        onMouseLeave={(e) => {
+          onEventStart('mouseleave', task, e);
+          setIsHover(false);
+        }}
+        onDoubleClick={(e) => {
+          onEventStart('dblclick', task, e);
+        }}
+        onFocus={() => {
+          onEventStart('select', task);
+        }}
+      >
+        {taskItem}
+        {BarContentRender ? (
+          <foreignObject
+            id={`task-render-${task.id}`}
+            className="erda-gantt-task-foreign-render"
+            onFocus={() => {
+              onEventStart('select', task);
+            }}
+            x={task.x1 + 4}
+            y={task.y}
+            width={task.x2 - task.x1 - 8}
+            height={task.height}
+          >
+            <BarContentRender task={task} isHover={isHover} />
+          </foreignObject>
+        ) : (
+          <text
+            x={getX()}
+            y={task.y + taskHeight * 0.5}
+            className={
+              isTextInside ? 'erda-gantt-task-bar-label' : 'erda-gantt-task-bar-label erda-gantt-task-bar-label-outside'
+            }
+            ref={textRef}
+          >
+            {task.name}
+          </text>
+        )}
+      </g>
+    </>
   );
 };

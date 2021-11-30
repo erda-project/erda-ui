@@ -20,14 +20,25 @@ declare namespace CP_GANTT {
     };
   }
 
-  type TaskType = 'task' | 'milestone' | 'project';
   interface IData {
+    id: string;
+    name: string;
+    start: number;
+    end: number;
+    children: IData[];
+  }
+
+  type TaskType = 'task' | 'milestone' | 'project';
+  interface IGanttData {
     id: string;
     type: TaskType;
     name: string;
     start: Date;
     end: Date;
     progress: number;
+    dataTemp: Obj;
+    level: number;
+    isParent: boolean;
     styles?: {
       backgroundColor?: string;
       backgroundSelectedColor?: string;
@@ -40,8 +51,20 @@ declare namespace CP_GANTT {
     hideChildren?: boolean;
   }
 
-  interface IProps {
+  interface IProps extends CustomProps {
     rowHeight?: number;
+    listCellWidth?: string;
+  }
+
+  interface CustomProps {
+    BarContentRender: React.FC<{ tasks: IGanttData[]; rowHeight: number; onExpanderClick: (task: IGanttData) => void }>;
+    TreeNodeRender: React.FC<{ node: IGanttData; nodeList: IGanttData[] }>;
+    TaskListHeader?: React.FC<{
+      headerHeight: number;
+      rowWidth: string;
+      fontFamily: string;
+      fontSize: string;
+    }>;
   }
 
   type Props = MakeProps<Spec> & {};

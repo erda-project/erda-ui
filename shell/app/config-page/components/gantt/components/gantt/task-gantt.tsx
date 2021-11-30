@@ -19,7 +19,7 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
   ganttHeight,
   scrollY,
   scrollX,
-  TaskGanttContentRender,
+  BarContentRender,
 }) => {
   const ganttSVGRef = useRef<SVGSVGElement>(null);
   const horizontalContainerRef = useRef<HTMLDivElement>(null);
@@ -61,7 +61,7 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
           ref={ganttSVGRef}
         >
           <Grid {...gridProps} />
-          <TaskGanttContent {...newBarProps} TaskGanttContentRender={TaskGanttContentRender} />
+          <TaskGanttContent {...newBarProps} BarContentRender={BarContentRender} />
         </svg>
       </div>
     </div>

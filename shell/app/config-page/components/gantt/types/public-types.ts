@@ -108,6 +108,11 @@ export interface StylingOption {
     fontFamily: string;
     fontSize: string;
   }>;
+  BarContentRender?: React.FC<{
+    tasks: Task[];
+    rowHeight: number;
+    onExpanderClick: (task: Task) => void;
+  }>;
   TaskListTable?: React.FC<{
     rowHeight: number;
     rowWidth: string;

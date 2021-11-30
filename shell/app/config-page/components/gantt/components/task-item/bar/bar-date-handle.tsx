@@ -14,7 +14,7 @@ export const BarDateHandle: React.FC<BarDateHandleProps> = ({ x, y, width, heigh
     <rect
       x={x}
       y={y}
-      width={width}
+      width={width * 2}
       height={height}
       className={'erda-gantt-bar-handle'}
       ry={barCornerRadius}

@@ -22,7 +22,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   tasks,
   headerHeight = 50,
   columnWidth = 60,
-  listCellWidth = '155px',
+  listCellWidth = '100px',
   rowHeight = 50,
   ganttHeight = 0,
   viewMode = ViewMode.Day,
@@ -31,16 +31,16 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   barCornerRadius = 3,
   barProgressColor = '#a3a3ff',
   barProgressSelectedColor = '#8282f5',
-  barBackgroundColor = '#b8c2cc',
-  barBackgroundSelectedColor = '#aeb8c2',
+  barBackgroundColor = '#424CA6',
+  barBackgroundSelectedColor = '#1E2059',
   projectProgressColor = '#7db59a',
   projectProgressSelectedColor = '#59a985',
-  projectBackgroundColor = '#fac465',
-  projectBackgroundSelectedColor = '#f7bb53',
+  projectBackgroundColor = '#798CF1',
+  projectBackgroundSelectedColor = '#798CF1',
   milestoneBackgroundColor = '#f1c453',
   milestoneBackgroundSelectedColor = '#f29e4c',
   rtl = false,
-  handleWidth = 8,
+  handleWidth = 10,
   timeStep = 300000,
   arrowColor = 'grey',
   fontFamily = 'Arial, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue',
@@ -50,7 +50,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   TooltipContent = StandardTooltipContent,
   TaskListHeader = TaskListHeaderDefault,
   TaskListTable = TaskListTableDefault,
-  TaskGanttContentRender = null,
+  BarContentRender = null,
   onDateChange,
   onProgressChange,
   onDoubleClick,
@@ -393,7 +393,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   };
 
   const ganttProps = {
-    TaskGanttContentRender,
+    BarContentRender,
   };
 
   return (

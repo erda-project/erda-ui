@@ -12,32 +12,102 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select } from 'antd';
-import { ErdaIcon } from 'common';
 import { Gantt } from './components/gantt/gantt';
+import { convertDataForGantt } from './utils';
+import { ErdaIcon } from 'common';
+import { groupBy, findIndex } from 'lodash';
+import moment from 'moment';
+import './gantt.scss';
 
-const TaskListHeader = (props: any) => {
-  const { headerHeight } = props;
-  const [value, setValue] = React.useState('issue');
-  return (
-    <div style={{ height: headerHeight }}>
-      <Select value={value} onChange={(v) => setValue(v)}>
-        <Select.Option value="issue">按需求显示</Select.Option>
-        <Select.Option value="user">按人员显示</Select.Option>
-      </Select>
-    </div>
-  );
+const getTreeLine = (task: CP_GANTT.IGanttData, tasksGroup: Obj<CP_GANTT.IGanttData[]>, rowHeight = 38) => {
+  const { level, id, project } = task;
+  const indentWidth = 16;
+  const indentHeight = rowHeight;
+
+  const curGroup = project && tasksGroup[project] ? tasksGroup[project] : [];
+  let isLast = false;
+  if (curGroup?.length && findIndex(curGroup, (item) => item.id === id) === curGroup.length - 1) {
+    isLast = true;
+  }
+
+  const LineComp: React.ReactNode[] = new Array(level > 1 ? level - 1 : 0)
+    .fill('')
+    .map((_, idx) => (
+      <div key={`${idx}`} className="erda-tree-indent-full" style={{ width: indentWidth, height: indentHeight }} />
+    ));
+  if (LineComp.length)
+    LineComp.unshift(<div key={`${id}-holder`} style={{ width: indentWidth / 2 }} className="h-full" />);
+  if (level !== 0) {
+    const indentMargin = LineComp.length ? 0 : indentWidth / 2;
+    LineComp.push(
+      <div key={`${id}-left`} className="h-full" style={{ width: indentWidth }}>
+        <div
+          className={`erda-tree-indent-left ${isLast ? 'last-item' : ''}`}
+          style={{
+            width: indentWidth / 2,
+            height: indentHeight / 2,
+            marginLeft: indentMargin,
+          }}
+        />
+        {!isLast ? (
+          <div
+            className="erda-tree-indent-left-bottom"
+            style={{ width: 1, height: indentHeight / 2, marginLeft: indentMargin }}
+          />
+        ) : null}
+      </div>,
+    );
+  }
+
+  if (tasksGroup[id]) {
+    // has children
+    LineComp.push(
+      <div
+        key={`${id}-right`}
+        style={{ height: indentHeight / 4, width: 1, right: -9, bottom: 0 }}
+        className="absolute erda-tree-indent-right"
+      />,
+    );
+  }
+
+  if (LineComp.length) {
+    return <div className="flex erda-tree-indent relative h-full">{LineComp}</div>;
+  }
+  return null;
 };
 
-const TaskListTable = (props: any) => {
-  const { tasks, rowHeight, setTask } = props;
+interface ITaskTreeProps {
+  tasks: CP_GANTT.IGanttData[];
+  rowHeight: number;
+  rowWidth: number;
+  onExpanderClick: (task: CP_GANTT.IGanttData) => void;
+  TreeNodeRender?: React.FC<{ node: CP_GANTT.IGanttData; nodeList: CP_GANTT.IGanttData[] }>;
+}
+
+const TaskTree = (props: ITaskTreeProps) => {
+  const { tasks, rowHeight, rowWidth, onExpanderClick, TreeNodeRender } = props;
+  const tasksGroup = groupBy(tasks || [], 'project');
   return (
-    <div>
-      {tasks.map((item, idx) => {
+    <div style={{ width: rowWidth }} className="erda-tree">
+      {tasks.map((item) => {
+        const { dataTemp, isParent, level, name } = item;
+        const LineComp = getTreeLine(item, tasksGroup);
         return (
-          <div style={{ height: rowHeight }} key={item.id} className="flex items-center justify-center">
-            {idx === 0 ? <ErdaIcon type="chevron-down" onClick={setTask} /> : null}
-            {item.name}
+          <div
+            style={{ height: rowHeight }}
+            key={item.id}
+            className={`relative flex items-center justify-center cursor-pointer hover:bg-hover-gray-bg pr-2 hover-active erda-tree-level${level}`}
+            onClick={() => isParent && onExpanderClick(item)}
+          >
+            {LineComp}
+            {isParent ? <ErdaIcon type="caret-down" size={'16px'} /> : null}
+            {TreeNodeRender ? (
+              <div className="flex-1 w-0">
+                <TreeNodeRender node={item} nodeList={tasks} />
+              </div>
+            ) : (
+              <div>{name}</div>
+            )}
           </div>
         );
       })}
@@ -48,55 +118,52 @@ const TaskListTable = (props: any) => {
 const oneDaySec = 1000 * 60 * 60 * 24;
 const CP_Gantt = (props: CP_GANTT.Props) => {
   const { data, operations, execOperation, props: pProps } = props;
+  const { BarContentRender, TreeNodeRender, TaskListHeader, listCellWidth = '320px' } = pProps;
 
-  const [list, setList] = React.useState<CP_GANTT.IData[]>(data?.list || []);
+  const [list, setList] = React.useState<CP_GANTT.IGanttData[]>(convertDataForGantt(data?.list || []));
 
   const handleTaskChange = (t: any) => {
     setList((prevList) => {
       return prevList.map((item) => {
         if (item.id === t.id) {
           const { start, end } = t;
-          const timeDistance = Math.abs(end - start);
+          const reStart =
+            moment(start).startOf('dates').valueOf() + oneDaySec / 2 > moment(start).valueOf()
+              ? moment(start).startOf('dates')
+              : moment(start).endOf('dates').valueOf() + 1;
 
-          const reEnd =
-            timeDistance < oneDaySec ? new Date(start.getTime() + oneDaySec - 1) : new Date(end.getTime() - 1);
-          console.log('------', start, reEnd);
+          let reEnd =
+            moment(end).startOf('dates').valueOf() + oneDaySec / 2 > moment(end).valueOf()
+              ? moment(end).startOf('dates').valueOf() - 1
+              : moment(end).endOf('dates');
+          moment(reStart).valueOf() >= moment(reEnd).valueOf() && (reEnd = moment(reEnd).valueOf() + oneDaySec);
           return {
             ...t,
-            start,
-            end: reEnd,
+            start: new Date(reStart),
+            end: new Date(reEnd),
           };
         }
         return item;
       });
     });
   };
+  const handleExpanderClick = (_task: CP_GANTT.IGanttData) => {
+    setList((prev) => prev.map((item) => (item.id === _task.id ? _task : item)));
+  };
 
   return (
     <Gantt
       tasks={list}
-      rowHeight={38}
+      rowHeight={40}
       barFill={50}
-      timeStep={oneDaySec}
-      ganttHeight={300}
-      barBackgroundColor={'#424CA6'}
-      // arrowIndent={10}
+      ganttHeight={500}
       onDateChange={handleTaskChange}
-      todayColor={'red'}
+      BarContentRender={BarContentRender}
+      onExpanderClick={handleExpanderClick}
       TaskListHeader={TaskListHeader}
-      TaskGanttContentRender={TaskGanttContent}
-      TaskListTable={(p) => <TaskListTable {...p} setList={setList} />}
+      listCellWidth={listCellWidth}
+      TaskListTable={(p) => <TaskTree {...p} TreeNodeRender={TreeNodeRender} />}
     />
-  );
-};
-
-const TaskGanttContent = (props: any) => {
-  const { task } = props;
-  console.log('------', task);
-  return (
-    <div className="flex justify-center items-center" style={{ lineHeight: '20px', fontSize: 12, color: '#fff' }}>
-      {task.name}
-    </div>
   );
 };
 

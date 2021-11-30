@@ -4,7 +4,7 @@ import './project.scss';
 
 const barHeight = 4;
 export const Project: React.FC<TaskItemProps> = ({ task, isSelected }) => {
-  const barColor = '#798CF1'; // isSelected ? task.styles.backgroundSelectedColor : task.styles.backgroundColor;
+  const barColor = isSelected ? task.styles.backgroundSelectedColor : task.styles.backgroundColor;
   const processColor = isSelected ? task.styles.progressSelectedColor : task.styles.progressColor;
   const projectWith = task.x2 - task.x1;
 
@@ -26,8 +26,8 @@ export const Project: React.FC<TaskItemProps> = ({ task, isSelected }) => {
   ].join(',');
   return (
     <g tabIndex={0} className={'erda-gantt-project-wrapper'}>
-      {/* <rect
-        fill={barColor}
+      <rect
+        fill={'transparent'}
         x={task.x1}
         width={projectWith}
         y={task.y}
@@ -35,7 +35,7 @@ export const Project: React.FC<TaskItemProps> = ({ task, isSelected }) => {
         rx={task.barCornerRadius}
         ry={task.barCornerRadius}
         className={'erda-gantt-project-background'}
-      /> */}
+      />
       <rect
         x={task.progressX}
         width={task.progressWidth}

@@ -1196,7 +1196,7 @@ export const EditIssueDrawer = (props: IProps) => {
               />
             </WithAuth>
           ) : (
-            <span className="mr-2">{ISSUE_TYPE_MAP[issueType]?.icon}</span>
+            <span className="mr-2 flex items-center h-full">{ISSUE_TYPE_MAP[issueType]?.icon}</span>
           )}
         </IF>
 

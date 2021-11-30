@@ -21,6 +21,7 @@ import './issue-icon.scss';
 interface IProps {
   type: 'ITERATION' | 'REQUIREMENT' | 'TASK' | 'BUG' | 'EPIC';
   withName?: boolean;
+  size?: string;
 }
 
 const { Option } = Select;
@@ -58,11 +59,11 @@ export const ISSUE_ICON_MAP = {
   },
 };
 
-export const IssueIcon = ({ type, withName = false }: IProps) => {
-  const iconObj = ISSUE_TYPE_MAP[type];
+export const IssueIcon = ({ type, withName = false, ...rest }: IProps) => {
+  const iconObj = type && ISSUE_TYPE_MAP[type.toLocaleUpperCase()];
   if (!iconObj) return null;
   const { iconLabel, icon } = iconObj || {};
-  return withName ? iconLabel : icon;
+  return withName ? iconLabel : React.cloneElement(icon, rest);
 };
 
 export const getIssueTypeOption = (currentIssueType?: string) =>
@@ -70,7 +71,12 @@ export const getIssueTypeOption = (currentIssueType?: string) =>
     const iconObj = ISSUE_TYPE_MAP[item];
     const { value, icon } = iconObj;
     return (
-      <Option key={value} value={value} data-icon={icon} disabled={value === currentIssueType}>
+      <Option
+        key={value}
+        value={value}
+        data-icon={<div className="flex items-center h-full">{icon}</div>}
+        disabled={value === currentIssueType}
+      >
         <IssueIcon type={item} withName />
       </Option>
     );

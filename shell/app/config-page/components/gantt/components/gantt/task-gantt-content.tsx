@@ -43,7 +43,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
   fontFamily,
   fontSize,
   rtl,
-  TaskGanttContentRender,
+  BarContentRender,
   setGanttEvent,
   setFailedTask,
   setSelectedTask,
@@ -248,8 +248,9 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
           return (
             <TaskItem
               task={task}
-              TaskGanttContentRender={TaskGanttContentRender}
+              BarContentRender={BarContentRender}
               arrowIndent={arrowIndent}
+              isMoving={isMoving}
               taskHeight={taskHeight}
               isProgressChangeable={!!onProgressChange && !task.isDisabled}
               isDateChangeable={!!onDateChange && !task.isDisabled}

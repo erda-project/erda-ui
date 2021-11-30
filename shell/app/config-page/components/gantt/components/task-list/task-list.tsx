@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { BarTask } from '../../types/bar-task';
 import { Task } from '../../types/public-types';
+import './task-list.scss';
 
 export type TaskListProps = {
   headerHeight: number;
@@ -81,7 +82,7 @@ export const TaskList: React.FC<TaskListProps> = ({
   };
 
   return (
-    <div ref={taskListRef}>
+    <div ref={taskListRef} className="erda-gantt-task-list-box">
       <TaskListHeader {...headerProps} />
       <div
         ref={horizontalContainerRef}
