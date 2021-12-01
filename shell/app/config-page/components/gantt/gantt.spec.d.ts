@@ -27,6 +27,7 @@ declare namespace CP_GANTT {
     start: number;
     end: number;
     isLeaf?: boolean;
+    hideChildren?: boolean;
     extra?: Obj;
   }
 

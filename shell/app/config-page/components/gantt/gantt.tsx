@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import { Empty } from 'antd';
 import { Gantt } from './components/gantt/gantt';
 import { convertDataForGantt } from './utils';
 import { ErdaIcon, EmptyHolder } from 'common';
@@ -90,7 +91,7 @@ const TaskTree = (props: ITaskTreeProps) => {
   return (
     <div style={{ width: rowWidth }} className="erda-tree">
       {tasks.map((item) => {
-        const { extra, isLeaf, level, name } = item;
+        const { extra, isLeaf, level, name, hideChildren } = item;
         const LineComp = getTreeLine(item, tasksGroup);
         return (
           <div
@@ -100,7 +101,13 @@ const TaskTree = (props: ITaskTreeProps) => {
             onClick={() => !isLeaf && onExpanderClick(item)}
           >
             {LineComp}
-            {!isLeaf ? <ErdaIcon type="caret-down" size={'16px'} /> : null}
+            {!isLeaf ? (
+              <ErdaIcon
+                type="caret-down"
+                size={'16px'}
+                className={`cp-gantt-task-item-icon ${hideChildren ? '' : 'cp-gantt-task-item-expanded'}`}
+              />
+            ) : null}
             {TreeNodeRender ? (
               <div className="flex-1 w-0">
                 <TreeNodeRender node={item} nodeList={tasks} />
@@ -151,8 +158,14 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
       });
     });
   };
+
   const handleExpanderClick = (_task: CP_GANTT.IGanttData) => {
+    const { isLeaf } = _task;
     setList((prev) => prev.map((item) => (item.id === _task.id ? _task : item)));
+
+    if (!isLeaf && !list.find((item) => item.project === _task.id)) {
+      execOperation({ key: 'expandNode', reload: true }, { keys: [_task.id] });
+    }
   };
 
   return list.length ? (
