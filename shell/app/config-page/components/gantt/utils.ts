@@ -23,7 +23,7 @@ export const convertDataForGantt = (
         isLeaf,
         hideChildren: hideChildren === undefined ? (!isLeaf ? !prevDataGroup[key]?.length : undefined) : hideChildren,
         level,
-        pId: pId ?? 0,
+        pId: pId || 0,
         ...(pId ? { project: pId } : {}),
         ...rest,
       };
@@ -42,11 +42,12 @@ export const convertDataForGantt = (
     updateList.forEach((item) => {
       let curData = ganttData.find((gItem) => gItem.id === item.key);
       if (curData) {
-        const { key, title, start, end, isLeaf = true, ...rest } = item;
+        const { key, title, start, end, isLeaf = true, hideChildren, ...rest } = item;
         curData = {
           ...curData,
           ...rest,
           isLeaf,
+          hideChildren: hideChildren === undefined ? (!isLeaf ? !prevDataGroup[key]?.length : undefined) : hideChildren,
           id: key,
           name: title,
           start: new Date(start),

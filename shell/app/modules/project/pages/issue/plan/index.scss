@@ -49,3 +49,23 @@
     border-right: 1px solid $white;
   }
 }
+.erda-task-list-header-selector {
+  .ant-select-selector {
+    border: none !important;
+    box-shadow: none !important;
+
+    &:hover {
+      background-color: rgba($color-default, 0.06);
+    }
+
+    .ant-select-selection-item {
+      color: $color-default !important;
+      padding-right: 14px !important;
+    }
+  }
+
+  .ant-select-arrow {
+    top: 13px;
+    color: rgba($color-default, 0.6);
+  }
+}

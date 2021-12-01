@@ -13,14 +13,18 @@
 
 import React from 'react';
 import DiceConfigPage, { useMock } from 'app/config-page';
+import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import { getUrlQuery, statusColorMap } from 'config-page/utils';
 import { updateSearch } from 'common/utils';
-import { Badge } from 'common';
+import { Badge, ErdaIcon } from 'common';
+import { useUpdate, useSwitch } from 'common/use-hooks';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import routeInfoStore from 'core/stores/route';
 import { Avatar, Select } from 'antd';
 import { groupBy } from 'lodash';
 import moment from 'moment';
+import i18n from 'i18n';
+import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
 import './index.scss';
 
 interface IBarProps {
@@ -52,10 +56,15 @@ const TaskListHeader = (props: { headerHeight: number; rowWidth: number }) => {
   const { headerHeight, rowWidth } = props;
   const [value, setValue] = React.useState('issue');
   return (
-    <div style={{ height: headerHeight, width: rowWidth }}>
-      <Select value={value} onChange={(v) => setValue(v)}>
-        <Select.Option value="issue">按需求显示</Select.Option>
-        <Select.Option value="user">按人员显示</Select.Option>
+    <div style={{ height: headerHeight, width: rowWidth, lineHeight: `${headerHeight}px` }}>
+      <Select
+        className="erda-task-list-header-selector"
+        dropdownClassName="py-0"
+        suffixIcon={<ErdaIcon size={16} color="currentColor" type="caret-down" />}
+        value={value}
+        onChange={(v) => setValue(v)}
+      >
+        <Select.Option value="issue">{i18n.t('dop:display on demand')}</Select.Option>
       </Select>
     </div>
   );
@@ -106,8 +115,18 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
 };
 
 const IssuePlan = () => {
-  const [{ projectId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [{ projectId, iterationId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const { iterationID: queryItertationID, type: _queryType } = query;
+  const queryType = _queryType && _queryType.toUpperCase();
   const [urlQuery, setUrlQuery] = React.useState(query);
+  const [drawerVisible, openDrawer, closeDrawer] = useSwitch(false);
+  const [{ filterObj, chosenIssueType, chosenIteration }, updater, update] = useUpdate({
+    filterObj: {},
+    chosenIteration: queryItertationID || 0,
+    chosenIssueType: queryType as undefined | ISSUE_TYPE,
+  });
+
+  const reloadRef = React.useRef(null as any);
 
   React.useEffect(() => {
     updateSearch({ ...urlQuery });
@@ -117,28 +136,85 @@ const IssuePlan = () => {
 
   const urlQueryChange = (val: Obj) => setUrlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 
+  const onCreate = (val: any) => {
+    const filterIterationIDs = filterObj?.iterationIDs || [];
+    const createTypeMap = {
+      createRequirement: ISSUE_TYPE.REQUIREMENT,
+      createTask: ISSUE_TYPE.TASK,
+      createBug: ISSUE_TYPE.BUG,
+    };
+    const curType = createTypeMap[val?.key];
+    if (curType) {
+      // 当前选中唯一迭代，创建的时候默认为这个迭代，否则，迭代为0
+      update({
+        chosenIteration: iterationId || (filterIterationIDs.length === 1 ? filterIterationIDs[0] : 0),
+        chosenIssueType: curType,
+      });
+      openDrawer();
+    }
+  };
+
+  const reloadData = () => {
+    if (reloadRef.current && reloadRef.current.reload) {
+      reloadRef.current.reload();
+    }
+  };
+
+  const onCloseDrawer = ({ hasEdited, isCreate, isDelete }: CloseDrawerParam) => {
+    closeDrawer();
+    update({
+      chosenIteration: 0,
+      chosenIssueType: undefined,
+    });
+    if (hasEdited || isCreate || isDelete) {
+      // 有变更再刷新列表
+      reloadData();
+    }
+  };
+
   return (
-    <DiceConfigPage
-      scenarioType={'issue-gantt'}
-      scenarioKey={'issue-gantt'}
-      useMock={useMock('crud')}
-      forceMock
-      inParams={inParams}
-      customProps={{
-        gantt: {
-          props: {
-            BarContentRender,
-            TaskListHeader,
-            TreeNodeRender,
+    <>
+      <DiceConfigPage
+        ref={reloadRef}
+        scenarioType={'issue-gantt'}
+        scenarioKey={'issue-gantt'}
+        useMock={useMock('crud')}
+        forceMock
+        inParams={inParams}
+        customProps={{
+          gantt: {
+            props: {
+              BarContentRender,
+              TaskListHeader,
+              TreeNodeRender,
+            },
           },
-        },
-        filter: {
-          op: {
-            onFilterChange: urlQueryChange,
+          issueAddButton: {
+            op: {
+              // 添加：打开滑窗
+              click: onCreate,
+            },
           },
-        },
-      }}
-    />
+          filter: {
+            op: {
+              onFilterChange: (val: Obj) => {
+                updater.filterObj(val);
+                urlQueryChange(val);
+              },
+            },
+          },
+        }}
+      />
+
+      {chosenIssueType ? (
+        <EditIssueDrawer
+          iterationID={chosenIteration}
+          issueType={chosenIssueType as ISSUE_TYPE}
+          visible={drawerVisible}
+          closeDrawer={onCloseDrawer}
+        />
+      ) : null}
+    </>
   );
 };
 

@@ -5,4 +5,13 @@
   &:hover {
     visibility: visible;
   }
+
+  &-icon {
+    transition: all 0.2s;
+    transform: rotate(-90deg);
+  }
+
+  &-expanded {
+    transform: rotate(0);
+  }
 }
