@@ -80,13 +80,15 @@ interface ITaskTreeProps {
   tasks: CP_GANTT.IGanttData[];
   rowHeight: number;
   rowWidth: number;
+  selectedTaskId?: string;
   onExpanderClick: (task: CP_GANTT.IGanttData) => void;
   TreeNodeRender?: React.FC<{ node: CP_GANTT.IGanttData; nodeList: CP_GANTT.IGanttData[] }>;
 }
 
 const TaskTree = (props: ITaskTreeProps) => {
-  const { tasks, rowHeight, rowWidth, onExpanderClick, TreeNodeRender } = props;
+  const { tasks, rowHeight, rowWidth, onExpanderClick, TreeNodeRender, selectedTaskId, setSelectedTask } = props;
   const tasksGroup = groupBy(tasks || [], 'project');
+
   return (
     <div style={{ width: rowWidth }} className="erda-tree">
       {tasks.map((item) => {
@@ -96,8 +98,16 @@ const TaskTree = (props: ITaskTreeProps) => {
           <div
             style={{ height: rowHeight }}
             key={item.id}
-            className={`relative flex items-center justify-center cursor-pointer hover:bg-hover-gray-bg pr-2 hover-active erda-tree-level${level}`}
-            onClick={() => !isLeaf && onExpanderClick(item)}
+            className={`relative flex items-center justify-center cursor-pointer hover:bg-hover-gray-bg pr-2 hover-active erda-tree-level${level} ${
+              selectedTaskId === item.id ? 'bg-black-100' : ''
+            } `}
+            onClick={() => {
+              if (!isLeaf) {
+                onExpanderClick(item);
+              } else {
+                setSelectedTask(item.id);
+              }
+            }}
           >
             {LineComp}
             {!isLeaf ? <ErdaIcon type="caret-down" size={'16px'} /> : null}
@@ -152,7 +162,11 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
     });
   };
   const handleExpanderClick = (_task: CP_GANTT.IGanttData) => {
+    const { isLeaf } = _task;
     setList((prev) => prev.map((item) => (item.id === _task.id ? _task : item)));
+    if (!isLeaf && !list.find((item) => item.project === _task.id)) {
+      execOperation({ key: 'expandNode', reload: true }, { keys: [_task.id] });
+    }
   };
 
   return list.length ? (

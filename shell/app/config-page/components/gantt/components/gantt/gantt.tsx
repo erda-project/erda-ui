@@ -20,8 +20,8 @@ import './gantt.scss';
 
 export const Gantt: React.FunctionComponent<GanttProps> = ({
   tasks,
-  headerHeight = 70,
-  columnWidth = 60,
+  headerHeight = 76,
+  columnWidth = 40,
   listCellWidth = '100px',
   rowHeight = 50,
   ganttHeight = 0,
@@ -323,6 +323,11 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         onSelect(newSelectedTask, true);
       }
     }
+    if (newSelectedTask) {
+      if (scrollX > newSelectedTask?.x1) {
+        setScrollX(newSelectedTask?.x1 - 40);
+      }
+    }
     setSelectedTask(newSelectedTask);
   };
   const handleExpanderClick = (task: Task) => {
@@ -330,6 +335,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       onExpanderClick({ ...task, hideChildren: !task.hideChildren });
     }
   };
+
   const gridProps: GridProps = {
     columnWidth,
     svgWidth,
@@ -338,6 +344,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     dates: dateSetup.dates,
     todayColor,
     rtl,
+    selectedTask,
+    ganttEvent,
   };
   const calendarProps: CalendarProps = {
     dateSetup,
@@ -348,6 +356,9 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     fontFamily,
     fontSize,
     rtl,
+    ganttEvent,
+    tasks: barTasks,
+    selectedTask,
   };
   const barProps: TaskGanttContentProps = {
     tasks: barTasks,
@@ -395,7 +406,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const ganttProps = {
     BarContentRender,
   };
-
   return (
     <div>
       <div className={'erda-gantt-wrapper'} onKeyDown={handleKeyDown} tabIndex={0} ref={wrapperRef}>

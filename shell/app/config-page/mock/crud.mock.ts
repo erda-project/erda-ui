@@ -1,4 +1,27 @@
+import { cloneDeep } from 'lodash';
 export const enhanceMock = (data: any, payload: any) => {
+  if (payload.event?.operation === 'expandNode') {
+    const _data = cloneDeep({ ...data });
+    _data.protocol.components.gantt.data = {
+      expandList: {
+        R2: [
+          {
+            id: '2-1',
+            name: 'T2-1测试测试测试测试测试测试测试测试测试测试测试',
+            start: getDate(1),
+            end: getDate(5),
+            isLeaf: true,
+            extra: {
+              type: 'task',
+              user: '张三',
+              status: { text: '进行中', status: 'processing' },
+            },
+          },
+        ],
+      },
+    };
+    return _data;
+  }
   return data;
 };
 const currentDate = new Date();
@@ -37,7 +60,7 @@ export const mockData = {
               },
               {
                 start: getDate(10),
-                end: getDate(10),
+                end: getDate(20),
                 title: 'R2-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
                 key: 'R2',
                 isLeaf: false,
@@ -49,7 +72,7 @@ export const mockData = {
               },
               {
                 start: getDate(10),
-                end: getDate(10),
+                end: getDate(20),
                 title: 'R3-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
                 key: 'R3',
                 isLeaf: false,
@@ -66,6 +89,18 @@ export const mockData = {
                 name: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
                 start: getDate(1),
                 end: getDate(5),
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
+              },
+              {
+                id: '1-2',
+                name: 'T1-2测试测试测试测试测试测试测试测试测试测试测试',
+                start: getDate(2),
+                end: getDate(10),
                 isLeaf: true,
                 extra: {
                   type: 'task',

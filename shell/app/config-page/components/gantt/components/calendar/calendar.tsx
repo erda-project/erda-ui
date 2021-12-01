@@ -19,7 +19,11 @@ export interface CalendarProps {
   columnWidth: number;
   fontFamily: string;
   fontSize: string;
+  ganttEvent: Obj;
 }
+
+const Days = ['日', '一', '二', '三', '四', '五', '六'];
+const Months = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
 
 export const Calendar: React.FC<CalendarProps> = ({
   dateSetup,
@@ -28,8 +32,11 @@ export const Calendar: React.FC<CalendarProps> = ({
   rtl,
   headerHeight,
   columnWidth,
+  tasks,
   fontFamily,
   fontSize,
+  ganttEvent,
+  selectedTask,
 }) => {
   const getCalendarValuesForMonth = () => {
     const topValues: ReactChild[] = [];
@@ -121,42 +128,69 @@ export const Calendar: React.FC<CalendarProps> = ({
     return [topValues, bottomValues];
   };
 
-  const getCalendarValuesForDay = () => {
-    const topValues: ReactChild[] = [];
-    const bottomValues: ReactChild[] = [];
-    const topDefaultHeight = headerHeight * 0.5;
-    const dates = dateSetup.dates;
-    for (let i = 0; i < dates.length; i++) {
-      const date = dates[i];
-      const bottomValue = date.getDate().toString();
-
-      bottomValues.push(
-        <text
-          key={date.getTime()}
-          y={headerHeight * 0.8}
-          x={columnWidth * i + columnWidth * 0.5}
-          className={'erda-gantt-calendar-bottom-text'}
-        >
-          {bottomValue}
-        </text>,
+  const getHoverDate = () => {
+    const curSelected = selectedTask && tasks?.find((item) => item.id === selectedTask.id);
+    const curTask = ganttEvent?.changedTask || curSelected;
+    if (curTask) {
+      return (
+        <div
+          className="absolute rounded bg-hover-gray-bg"
+          style={{ width: curTask.x2 - curTask.x1, height: 40, left: curTask.x1, top: 24 }}
+        />
       );
-      if (i + 1 !== dates.length && date.getMonth() !== dates[i + 1].getMonth()) {
-        const topValue = getLocaleMonth(date, locale);
+    }
+    return null;
+  };
 
-        topValues.push(
-          <TopPartOfCalendar
-            key={topValue + date.getFullYear()}
-            value={topValue}
-            x1Line={columnWidth * (i + 1)}
-            y1Line={0}
-            y2Line={topDefaultHeight}
-            xText={columnWidth * (i + 1) - getDaysInMonth(date.getMonth(), date.getFullYear()) * columnWidth * 0.5}
-            yText={topDefaultHeight * 0.9}
-          />,
-        );
+  const getCalendarValuesForDay = () => {
+    let bottomValues: React.ReactNode = null;
+    const { dates } = dateSetup;
+    const dateInWeeks = [];
+
+    for (let i = 0; i < dates.length; i++) {
+      const day = dates[i].getDay();
+      if (i === 0) {
+        dateInWeeks.push(dates.slice(0, 7 - day + 1));
+      } else if (day === 1) {
+        dateInWeeks.push(dates.slice(i, i + 7));
       }
     }
-    return [topValues, bottomValues];
+    let leftDis = 0;
+    bottomValues = (
+      <div className="relative h-full w-full erda-gantt-calendar-header-container">
+        {getHoverDate()}
+        {dateInWeeks.map((week, idx) => {
+          const weekWidth = columnWidth * week.length;
+          leftDis += weekWidth;
+          return (
+            <div
+              key={`${idx}`}
+              style={{ width: weekWidth, height: 60, top: 0, left: leftDis - weekWidth }}
+              className="text-center absolute text-xs"
+            >
+              <div className="text-black-300" style={{ width: weekWidth, height: 20 }}>
+                {Months[week[0].getMonth()]}
+              </div>
+              {week.map((day, dIdx) => {
+                return (
+                  <div
+                    key={day.getTime()}
+                    style={{ width: columnWidth, height: 40, left: columnWidth * dIdx, top: 24 }}
+                    className={`absolute flex flex-col items-center justify-center text-sub ${
+                      [0, 6].includes(day.getDay()) ? 'text-black-300' : ''
+                    }`}
+                  >
+                    <span>{Days[day.getDay()]}</span>
+                    <span>{day.getDate()}</span>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
+    );
+    return bottomValues;
   };
 
   const getCalendarValuesForOther = () => {
@@ -201,22 +235,22 @@ export const Calendar: React.FC<CalendarProps> = ({
     return [topValues, bottomValues];
   };
 
-  let topValues: ReactChild[] = [];
-  let bottomValues: ReactChild[] = [];
-  switch (dateSetup.viewMode) {
-    case ViewMode.Month:
-      [topValues, bottomValues] = getCalendarValuesForMonth();
-      break;
-    case ViewMode.Week:
-      [topValues, bottomValues] = getCalendarValuesForWeek();
-      break;
-    case ViewMode.Day:
-      [topValues, bottomValues] = getCalendarValuesForDay();
-      break;
-    default:
-      [topValues, bottomValues] = getCalendarValuesForOther();
-      break;
-  }
+  // let topValues: ReactChild[] = [];
+  // let bottomValues: ReactChild[] = [];
+  // switch (dateSetup.viewMode) {
+  //   // case ViewMode.Month:
+  //   //   [topValues, bottomValues] = getCalendarValuesForMonth();
+  //   //   break;
+  //   // case ViewMode.Week:
+  //   //   [topValues, bottomValues] = getCalendarValuesForWeek();
+  //   //   break;
+  //   case ViewMode.Day:
+  //     [topValues, bottomValues] = getCalendarValuesForDay();
+  //     break;
+  //   default:
+  //     [topValues, bottomValues] = getCalendarValuesForOther();
+  //     break;
+  // }
   return (
     <g className="erda-gantt-calendar" fontSize={fontSize} fontFamily={fontFamily}>
       <rect
@@ -226,7 +260,16 @@ export const Calendar: React.FC<CalendarProps> = ({
         height={headerHeight}
         className={'erda-gantt-calendar-header'}
       />
-      {bottomValues} {topValues}
+      <foreignObject
+        x={0}
+        y={0}
+        width={columnWidth * dateSetup.dates.length}
+        height={headerHeight}
+        className={'erda-gantt-calendar-header'}
+      >
+        {getCalendarValuesForDay()}
+      </foreignObject>
+      {/* {topValues} */}
     </g>
   );
 };

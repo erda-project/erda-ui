@@ -56,7 +56,6 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
   const [xStep, setXStep] = useState(0);
   const [initEventX1Delta, setInitEventX1Delta] = useState(0);
   const [isMoving, setIsMoving] = useState(false);
-
   // create xStep
   useEffect(() => {
     const dateDelta =
@@ -252,6 +251,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
               arrowIndent={arrowIndent}
               isMoving={isMoving}
               taskHeight={taskHeight}
+              ganttEvent={ganttEvent}
               isProgressChangeable={!!onProgressChange && !task.isDisabled}
               isDateChangeable={!!onDateChange && !task.isDisabled}
               isDelete={!task.isDisabled}

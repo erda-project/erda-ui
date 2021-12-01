@@ -72,7 +72,6 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
   const tasksGroup = groupBy(nodeList || [], 'project');
   const subNodeStatus = tasksGroup[id] || [];
   const { status, type, user } = extra || {};
-  console.log('------', status.status);
   return (
     <div className="flex items-center">
       {<IssueIcon type={type} size={'16px'} />}
