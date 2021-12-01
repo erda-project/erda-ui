@@ -14,10 +14,10 @@
 import React from 'react';
 import { Tooltip, Popconfirm } from 'antd';
 import { Ellipsis, ErdaIcon } from 'common';
-import { some, has, groupBy, map, max } from 'lodash';
-import { colorToRgb } from 'common/utils';
 import i18n from 'i18n';
+import { map, max } from 'lodash';
 import { CloseOne as IconCloseOne } from '@icon-park/react';
+import { auxiliaryColorMap as TagColorsMap } from 'common/constants';
 import './index.scss';
 
 interface ILabel {
@@ -37,32 +37,24 @@ interface IItemProps {
   label: ILabel;
   maxWidth?: number;
   size?: 'small' | 'default';
+  checked?: boolean;
   deleteConfirm?: boolean;
   onDelete?: (p: ILabel) => void;
 }
 
-export const TagColorMap = {
-  green: '#34b37e',
-  red: '#df3409',
-  orange: '#f47201',
-  purple: '#6a549e',
-  blue: '#0567ff',
-  cyan: '#5bd6d0',
-  gray: '#666666',
-};
-
 export const TagItem = (props: IItemProps) => {
-  const { label: _label, size, maxWidth, onDelete, deleteConfirm = true, colorMap } = props;
-  const { label, color } = _label;
-
-  const curColor = (colorMap || TagColorMap)[color || 'gray'] || color || TagColorMap.gray;
+  const { label: _label, size = 'default', maxWidth, onDelete, deleteConfirm = true, colorMap, checked } = props;
+  const { label, color = 'blue' } = _label;
+  const curColor = (colorMap || TagColorsMap)[color || 'blue'] || color || TagColorsMap.blue;
   const style = {
     maxWidth,
-    color: curColor,
-    backgroundColor: colorToRgb(curColor, 0.1),
   };
+  const cls = checked
+    ? `text-${color}-deep bg-${color}-light border-0 border-solid border-l-2 border-l-${color}-mid`
+    : `text-${color}-deep bg-${color}-light border-0 border-solid border-l-2 border-l-${color}-mid`;
+
   return (
-    <span style={style} className={`tag-default twt-tag-item ${size}`}>
+    <span style={style} className={`tag-default twt-tag-item ${size} ${cls}`}>
       {onDelete ? (
         deleteConfirm ? (
           <Popconfirm
@@ -94,7 +86,6 @@ export const TagItem = (props: IItemProps) => {
     </span>
   );
 };
-
 const MAX_LABEL_WIDTH = 180;
 
 const TagsRow = ({
@@ -104,36 +95,11 @@ const TagsRow = ({
   size = 'small',
   colorMap,
   onDelete,
-  onAdd,
 }: IProps) => {
   const labels = propsLabels ? (Array.isArray(propsLabels) ? propsLabels : [propsLabels]) : [];
   const showMore = labels.length > showCount;
-  const showGroup = some(labels, (l) => has(l, 'group'));
-  const [labelWidth, setLabelWidth] = React.useState<string | number>('auto');
-
-  const countLabelWidth = () => {
-    const labelEles = document.querySelectorAll('.tag-group-name');
-    const maxWidth: number = max(map(labelEles, (ele: HTMLSpanElement) => ele.offsetWidth));
-    setLabelWidth(Math.min(maxWidth, MAX_LABEL_WIDTH) + 8);
-  };
 
   const fullTags = () => {
-    if (showGroup) {
-      return (
-        <div>
-          {map(groupBy(labels, 'group'), (groupItem, gKey) => (
-            <div key={gKey} className="tag-group-container mb-2">
-              <span className="tag-group-name" style={{ width: labelWidth }}>{`${gKey} : `}</span>
-              <span className="flex-1 overflow-auto">
-                {groupItem.map((item) => (
-                  <TagItem colorMap={colorMap} key={item.label} label={item} onDelete={onDelete} size={size} />
-                ))}
-              </span>
-            </div>
-          ))}
-        </div>
-      );
-    }
     return labels.map((l) => <TagItem colorMap={colorMap} key={l.label} label={l} onDelete={onDelete} size={size} />);
   };
 
@@ -144,11 +110,6 @@ const TagsRow = ({
       ))}
       {showMore ? (
         <Tooltip
-          onVisibleChange={(vis) => {
-            if (vis && labelWidth === 'auto') {
-              countLabelWidth();
-            }
-          }}
           title={
             <div onClick={(e) => e.stopPropagation()} className="tags-container ">
               {fullTags()}
@@ -163,7 +124,7 @@ const TagsRow = ({
         labels
           .slice(showCount)
           .map((l) => (
-            <TagItem colorMap={colorMap} key={l.label} label={l} maxWidth={120} onDelete={onDelete} size={size} />
+            <TagItem colorMap={colorMap} key={l.label} label={l} maxWidth={160} onDelete={onDelete} size={size} />
           ))
       )}
     </React.Fragment>
@@ -175,14 +136,6 @@ const TagsRow = ({
       onClick={(e) => e.stopPropagation()}
     >
       <span className="tags-box flex items-center">{oneAndMoreTag}</span>
-      {onAdd ? (
-        <ErdaIcon
-          className={`tags-add ${size} ml-2 text-xs leading-6 cursor-pointer`}
-          type="tj1"
-          color="currentColor"
-          onClick={onAdd}
-        />
-      ) : null}
     </div>
   );
 };

@@ -23,6 +23,7 @@ import routeInfoStore from 'core/stores/route';
 import ImportFile from 'project/pages/issue/component/import-file';
 import issueFieldStore from 'org/stores/issue-field';
 import { useMount, useUpdateEffect } from 'react-use';
+import { Mock } from './mock';
 
 interface IProps {
   issueType: ISSUE_TYPE;
@@ -170,6 +171,14 @@ const IssueProtocol = ({ issueType }: IProps) => {
     }
   };
 
+
+const useMockLeft = (payload: any) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(Mock);
+    }, 500);
+  });
+};
   return (
     <>
       <DiceConfigPage
@@ -178,6 +187,7 @@ const IssueProtocol = ({ issueType }: IProps) => {
         showLoading
         inParams={inParams}
         ref={reloadRef}
+        useMock={location.search.includes('useMock') ? useMockLeft : undefined}
         customProps={{
           // 后端未对接，由前端接管的事件
           issueAddButton: {

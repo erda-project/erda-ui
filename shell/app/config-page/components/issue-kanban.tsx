@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { map, find, isEmpty, without, get } from 'lodash';
+import { map, find, isEmpty, without, get, isString } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
-import { Card } from './card/card';
-import { Input, Button, Popconfirm, Tooltip } from 'antd';
-import { EmptyHolder } from 'common';
+import { Card } from './kanban-card/card';
+import { Input, Button, Popconfirm, Tooltip, Avatar } from 'antd';
+import { EmptyHolder, Icon as CustomIcon, Badge } from 'common';
 import { notify } from 'common/utils';
 import { WithAuth } from 'user/common';
 import { Delete as IconDelete, Plus as IconPlus } from '@icon-park/react';
@@ -28,6 +28,7 @@ import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import classnames from 'classnames';
 import createScrollingComponent from 'common/utils/create-scroll-component';
+import Tags from 'common/components/tags';
 import produce from 'immer';
 import './issue-kanban.scss';
 
@@ -72,7 +73,7 @@ const noop = () => {};
 const ScrollingComponent = createScrollingComponent('div');
 const IssueKanban = (props: IProps) => {
   const { state, data, props: configProps, operations, execOperation = noop, updateState = noop } = props || {};
-
+  const [isDrag, setIsDrag] = React.useState(false);
   const { visible = true, isLoadMore = false } = configProps || {};
   const [board, setBoard] = React.useState(data?.board || []);
   const [{ showAdd, addValue }, updater, update] = useUpdate({
@@ -120,6 +121,8 @@ const IssueKanban = (props: IProps) => {
             data={item}
             key={item.key || item.label}
             isLoadMore={isLoadMore}
+            setIsDrag={setIsDrag}
+            isDrag={isDrag}
           />
         ) : null;
       })}
@@ -165,13 +168,14 @@ interface IKanbanProps extends CONFIG_PAGE.ICommonProps {
 }
 
 const Kanban = (props: IKanbanProps) => {
-  const { data, exitLabel, execOperation, isLoadMore, refreshBoard, setBoard, ...rest } = props;
+  const { data, exitLabel, execOperation, isLoadMore, refreshBoard, setBoard, setIsDrag, isDrag, ...rest } = props;
   const { label, labelKey, list: propsList, total, pageSize, pageNo, operations: boardOp } = data;
   const otherLabel = without(exitLabel, label);
   const userMap = useUserMap();
   const labelList = projectLabelStore.useStore((s) => s.list);
   const [list, setList] = React.useState(propsList || []);
   const [labelVal, setLabelVal] = React.useState(label);
+
   const [showShadow, setShowShadow] = React.useState(false);
   const cardType = 'kanban-info-card';
 
@@ -245,39 +249,53 @@ const Kanban = (props: IKanbanProps) => {
   });
 
   const changeData = (item: any) => {
-    const { id, title, operations, issueButton, assignee, labels, type, priority, state } = item;
+    const { id, title, operations, issueButton, assignee, labels, type, priority, state, status } = item;
     const assigneeObj = userMap[assignee] || {};
     const { titleIcon } = issueScopeMap[type] || {};
     const curStateObj = find(issueButton, { stateID: state }) as any;
+
     return {
       ...item,
       _infoData: {
         id,
         title: `${title}`,
         labelKey,
-        titleIcon,
         // description: content,
         operations,
         extraInfo: (
-          <div className="issue-kanban-info mt-2 flex justify-between items-center text-desc">
-            <div className="flex justify-between items-center">
-              {curStateObj ? (
-                <div className="flex items-center mr-2">
-                  {ISSUE_ICON.state[curStateObj.stateBelong]}
-                  {curStateObj.stateName}
-                </div>
+          <div className="issue-kanban-info mt-1 flex flex-col  text-desc">
+            {labels?.value?.length > 0 && <Tags labels={labels.value} size="small" />}
+            <div className="flex justify-between items-center mt-1">
+              <div className="flex justify-between items-center">
+                <span className="flex items-center mr-2">
+                  {isString(titleIcon) ? (
+                    <CustomIcon type={titleIcon} color className="head-icon mr-2" />
+                  ) : (
+                    titleIcon || null
+                  )}
+                  <span className="ml-1">#{id}</span>
+                </span>
+                {status && Object.keys(status).length > 0 && <Badge status={status.status} text={status.text} showDot={false} className='mr-2'/>}
+                <span className="w-20 mr-1">
+                  {priority && ISSUE_PRIORITY_MAP[priority] ? ISSUE_PRIORITY_MAP[priority].iconLabel : null}
+                </span>
+              </div>
+              {assigneeObj ? (
+                <span>
+                  <Avatar size={20}>{(assigneeObj.nick || assigneeObj.name).slice(0, 1)}</Avatar>
+                </span>
               ) : null}
-              {priority && ISSUE_PRIORITY_MAP[priority] ? ISSUE_PRIORITY_MAP[priority].iconLabel : null}
             </div>
-            {assigneeObj ? <span>{assigneeObj.nick || assigneeObj.name}</span> : null}
           </div>
         ),
         type: label,
       },
     };
   };
+  // console.log({ isAllowDrop, isOver, isDrag });
   let cls = isOver ? 'drag-over' : '';
   cls = isAllowDrop ? cls : `drop-disable ${cls}`;
+  cls = isDrag && !isOver ? `not-drag ${cls}` : cls;
   const deleteBoardOp = boardOp?.DeleteCustom;
   const deleteAuth = deleteBoardOp?.disabled !== true;
   const updateBoardOp = boardOp?.UpdateCustom;
@@ -317,7 +335,7 @@ const Kanban = (props: IKanbanProps) => {
           updateBoardOp ? 'inp' : ''
         }`}
       >
-        <div className="text-base font-medium flex-1 flex justify-between items-center">
+        <div className="text-base font-medium text-default-8 flex-1 flex items-center ">
           {updateBoardOp ? (
             updateAuth ? (
               <Input
@@ -339,7 +357,7 @@ const Kanban = (props: IKanbanProps) => {
           ) : (
             label
           )}
-          <span className="text-desc ml-3 text-sm">{total}</span>
+          <div className="text-default-8 ml-1 text-sm px-2.5 rounded-lg bg-default-06">{total}</div>
         </div>
         {deleteBoardOp ? (
           deleteBoardOp?.confirm ? (
@@ -369,7 +387,7 @@ const Kanban = (props: IKanbanProps) => {
             <Card
               key={item.id}
               execOperation={execOperation}
-              props={{ cardType, className: 'list-item', data: changeData(item) }}
+              props={{ cardType, className: `${isDrag ? 'hidden' : ''} list-item`, data: changeData(item), setIsDrag }}
               customOp={rest.customOp}
             />
           );
