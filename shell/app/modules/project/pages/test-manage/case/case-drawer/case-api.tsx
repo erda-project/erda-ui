@@ -492,7 +492,7 @@ const ApiItem = ({
             <ErdaIcon size="16" className="drag-icon" type="px" />
           </span>
           <span>
-            <ErdaIcon size="16" className="copy-icon" type="fz1" onClick={() => onCopyApi(api, index)} />
+            <ErdaIcon size="16" className="copy-icon" type="copy" onClick={() => onCopyApi(api, index)} />
           </span>
           <Input
             className="flex-1"

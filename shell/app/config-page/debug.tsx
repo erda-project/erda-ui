@@ -13,10 +13,9 @@
 
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
-import { ErrorBoundary, FileEditor } from 'common';
+import { ErrorBoundary, FileEditor, ErdaIcon } from 'common';
 import { Button, message, Input, Checkbox, Tooltip } from 'antd';
 import routeInfoStore from 'core/stores/route';
-import { CheckOne as IconCheckOne, CloseOne as IconCloseOne, Refresh as IconRefresh } from '@icon-park/react';
 import { statusColorMap } from 'app/config-page/utils';
 import { useUpdateEffect, useThrottleFn, useMount } from 'react-use';
 import { get } from 'lodash';
@@ -31,8 +30,8 @@ const PureConfigPage = ({ scenario, ...rest }: { scenario: string }) => {
 };
 
 const stateIconMap = {
-  success: <IconCheckOne theme="filled" fill={statusColorMap.success} />,
-  error: <IconCloseOne theme="filled" fill={statusColorMap.error} />,
+  success: <ErdaIcon type="check-one" fill={statusColorMap.success} />,
+  error: <ErdaIcon type="close-one" fill={statusColorMap.error} />,
 };
 
 const DebugConfigPage = () => {
@@ -355,7 +354,7 @@ const LogItem = (props: ILogItemProps) => {
   return (
     <div className={`log-item py-2 cursor-pointer ${activeLog === index ? 'active-item' : ''}`} onClick={setActive}>
       <span>
-        {index}: {log.reload && <IconRefresh />} {log.type} {log.cId}.{log.opKey}
+        {index}: {log.reload && <ErdaIcon type="refresh1" color="currentColor" />} {log.type} {log.cId}.{log.opKey}
       </span>
       {(log.data || log.command) && (
         <Tooltip

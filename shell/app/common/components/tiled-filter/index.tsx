@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Input, Select } from 'antd';
-import { Search as IconSearch, Down as IconDown } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 import { debounce, map, max } from 'lodash';
 import { useMount, useUpdateEffect } from 'react-use';
@@ -174,7 +174,7 @@ const TiledFilter = (props: IProps) => {
                   value={value[inputItem.key]}
                   size="small"
                   allowClear
-                  prefix={<IconSearch size="16" />}
+                  prefix={<ErdaIcon type="search1" color="currentColor" size="16" />}
                   placeholder={inputItem.placeholder || i18n.t('press enter to search')}
                   onChange={(e) => onChangeInputItem(e.target.value, inputItem)}
                 />
@@ -184,7 +184,12 @@ const TiledFilter = (props: IProps) => {
         </div>
         <div className={`flex items-center expand-area`} onClick={() => setExpand(!expand)}>
           <span className="mr-2">{expand ? i18n.t('fold') : i18n.t('expand')}</span>
-          <IconDown className={`expand-icon flex items-center ${expand ? 'expand' : ''}`} theme="outline" size="16" />
+          <ErdaIcon
+            type="down"
+            color="currentColor"
+            className={`expand-icon flex items-center ${expand ? 'expand' : ''}`}
+            size="16"
+          />
         </div>
       </div>
     </div>

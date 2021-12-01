@@ -58,7 +58,7 @@ const RepoDownload = (props: IDownProp) => {
   const renderAddonAfter = (text: string, tip: string) => {
     return (
       <span className="copy-btn cursor-copy" data-clipboard-text={text} data-clipboard-tip={tip}>
-        <ErdaIcon size="14" className="mt-2" type="fz1" color="currentColor" />
+        <ErdaIcon size="14" className="mt-2" type="copy" color="currentColor" />
       </span>
     );
   };

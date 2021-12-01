@@ -79,7 +79,7 @@ const TokenManageModal = (props: IProps) => {
 
       {token ? (
         <div className="flex items-center text-primary">
-          <ErdaIcon size="14" type="fz1" className="mr-1" color="currentColor" />
+          <ErdaIcon size="14" type="copy" className="mr-1" color="currentColor" />
           <Copy selector=".container-key" copyText={token}>
             {i18n.t('copy')}
           </Copy>

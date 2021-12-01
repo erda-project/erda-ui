@@ -219,7 +219,7 @@ export const IssueDrawer = (props: IProps) => {
                       placement="leftTop"
                       trigger="click"
                     >
-                      <ErdaIcon type="fz1" color="currentColor" className="hover-active ml-3" size="16px" />
+                      <ErdaIcon type="copy" color="currentColor" className="hover-active ml-3" size="16px" />
                     </Popover>
                   </WithAuth>
                 </IF>

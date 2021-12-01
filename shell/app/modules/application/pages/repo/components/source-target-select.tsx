@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Button, Checkbox, Alert } from 'antd';
-import { IF, Icon as CustomIcon } from 'common';
+import { IF, Icon as CustomIcon, ErdaIcon } from 'common';
 import { goTo } from 'common/utils';
 import React from 'react';
 import BranchSelect from './branch-select';
@@ -20,7 +20,6 @@ import './source-target-select.scss';
 import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
 import routeInfoStore from 'core/stores/route';
-import { DownOne as IconDownOne } from '@icon-park/react';
 
 const noop = () => {};
 
@@ -198,7 +197,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
               <span>{i18n.t('compare')}:</span>
               <span className="branch-name font-bold nowrap">{sourceBranch || null}</span>
               <IF check={sourceBranch}>
-                <IconDownOne theme="filled" size="16px" />
+                <ErdaIcon type="caret-down" color="currentColor" size="20" />
               </IF>
             </BranchSelect>
             <div className="branch-merge-arrow">
@@ -208,7 +207,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
               <span>{i18n.t('based on')}:</span>
               <span className="branch-name font-bold nowrap">{targetBranch || null}</span>
               <IF check={targetBranch}>
-                <IconDownOne theme="filled" size="16px" />
+                <ErdaIcon type="caret-down" color="currentColor" size="20" />
               </IF>
             </BranchSelect>
           </div>
@@ -233,7 +232,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
             <span>{i18n.t('based on')}:</span>
             <span className="branch-name font-bold nowrap">{targetBranch || null}</span>
             <IF check={targetBranch}>
-              <IconDownOne theme="filled" size="16px" />
+              <ErdaIcon type="caret-down" color="currentColor" size="20" />
             </IF>
           </BranchSelect>
 
@@ -248,7 +247,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
             <span>{i18n.t('compare')}:</span>
             <span className="branch-name font-bold nowrap">{sourceBranch || null}</span>
             <IF check={sourceBranch}>
-              <IconDownOne theme="filled" size="16px" />
+              <ErdaIcon type="caret-down" color="currentColor" size="20" />
             </IF>
           </BranchSelect>
           {/* <IF check={!hideCompareBtn}>

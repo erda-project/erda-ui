@@ -359,8 +359,8 @@ const TimeSelect = (props: IProps) => {
       />
       <div className="manual-refresh flex justify-center items-center w-8 relative border-all rounded-r hover:border-primary bg-white">
         <ErdaIcon
-          size="16"
-          type="refresh"
+          size="14"
+          type="refresh1"
           className="m-0 cursor-pointer"
           fill="#070A1A"
           onClick={handleManualRefresh}

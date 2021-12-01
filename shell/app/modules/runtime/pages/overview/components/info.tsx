@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Popconfirm, Button, Dropdown, Menu } from 'antd';
-import { IF, NoAuthTip } from 'common';
+import { IF, NoAuthTip, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
 import RollbackList from './rollback-list';
@@ -26,7 +26,6 @@ import { get } from 'lodash';
 import i18n from 'i18n';
 import { confirmRedeploy } from '../containers';
 import appStore from 'application/stores/application';
-import { Loading as IconLoading, Down as IconDown } from '@icon-park/react';
 
 import './info.scss';
 
@@ -108,14 +107,14 @@ const DeployInfo = () => {
                       placement="bottomRight"
                     >
                       <Button className="runtime-operate cancel">
-                        <IconLoading />
+                        <ErdaIcon color="currentColor" type="loading" />
                         <span>{i18n.t('runtime:force cancel')}</span>
                       </Button>
                     </Popconfirm>
                     <ELSE />
                     <NoAuthTip>
                       <Button className="runtime-operate cancel">
-                        <IconLoading />
+                        <ErdaIcon color="currentColor" type="loading" />
                         <span>{i18n.t('runtime:force cancel')}</span>
                       </Button>
                     </NoAuthTip>
@@ -147,14 +146,14 @@ const DeployInfo = () => {
             <Dropdown overlay={menu} trigger={['click']} disabled={showCancelBtn || isBlocked}>
               <Button type="primary" disabled={showCancelBtn || isBlocked}>
                 {i18n.t('runtime:deployment operation')}
-                <IconDown />
+                <ErdaIcon type="down" color="currentColor" />
               </Button>
             </Dropdown>
             <ELSE />
             <NoAuthTip>
               <Button type="primary">
                 {i18n.t('runtime:deployment operation')}
-                <IconDown />
+                <ErdaIcon type="down" color="currentColor" />
               </Button>
             </NoAuthTip>
           </IF>

@@ -27,7 +27,7 @@ const CopyButton = (props: CP_COPY_BUTTON.Props) => {
     renderType === 'button' ? (
       <Button type="primary">{buttonText || i18n.t('copy')}</Button>
     ) : (
-      <ErdaIcon type="fz1" className="hover:text-primary" size={16} />
+      <ErdaIcon type="copy" className="hover:text-primary" size={16} />
     );
 
   return (
