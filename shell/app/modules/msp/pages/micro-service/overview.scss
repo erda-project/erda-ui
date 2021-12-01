@@ -4,7 +4,17 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(5px);
+    transform: translateY(8px);
+  }
+}
+
+@keyframes group-atmosphere {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
   }
 }
 
@@ -34,12 +44,15 @@
   }
 
   img {
-    animation: atmosphere 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: atmosphere 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
   .header-img-wrapper {
     height: 180px;
     width: 215px;
+    img {
+      animation-name: group-atmosphere;
+    }
 
     .background-img {
       animation: unset;
