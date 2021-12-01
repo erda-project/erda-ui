@@ -12,8 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { LoadMoreSelector } from 'common';
-import { DownOne as IconDownOne } from '@icon-park/react';
+import { LoadMoreSelector, ErdaIcon } from 'common';
 import { goTo } from 'common/utils';
 import { map, isArray, filter, isEmpty, find, get } from 'lodash';
 import { Tooltip } from 'antd';
@@ -101,7 +100,7 @@ const headAppRender = (val: any = {}) => {
       <span className="nowrap text-base font-bold" title={name}>
         {name}
       </span>
-      <IconDownOne size="12" className="caret ml-1 mb-1" theme="filled" />
+      <ErdaIcon type="caret-down" size="16" color="currentColor" className="align-middle caret ml-1" />
     </div>
   );
 };

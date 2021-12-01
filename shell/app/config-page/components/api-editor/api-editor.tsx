@@ -35,12 +35,6 @@ import {
 } from 'antd';
 import { Form as ConfigForm } from 'dop/pages/form-editor/index';
 import React from 'react';
-import {
-  Copy as IconCopy,
-  CheckOne as IconCheckOne,
-  CloseOne as IconCloseOne,
-  DownOne as IconDownOne,
-} from '@icon-park/react';
 import { produce } from 'immer';
 import i18n from 'i18n';
 import './api-editor.scss';
@@ -351,9 +345,9 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
     );
     apiExecuteButton = (
       <Dropdown overlay={dropdownMenu}>
-        <Button {...rest} className="ml-3">
+        <Button {...rest} className="flex ml-3">
           {text}
-          <IconDownOne theme="filled" className="ml-1" />
+          <ErdaIcon type="caret-down" color="currentColor" className="ml-1" />
         </Button>
       </Dropdown>
     );
@@ -478,7 +472,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                               className="copy-btn cursor-copy copy-request"
                               data-clipboard-text={get(request, 'body.content', '')}
                               shape="circle"
-                              icon={<IconCopy />}
+                              icon={<ErdaIcon type="copy" color="currentColor" />}
                             />
                             <Copy selector=".copy-request" />
                           </>
@@ -527,7 +521,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                       className="copy-btn cursor-copy copy-response"
                       data-clipboard-text={body}
                       shape="circle"
-                      icon={<IconCopy />}
+                      icon={<ErdaIcon type="copy" color="currentColor" />}
                     />
                     <Copy selector=".copy-response" />
                   </>
@@ -755,9 +749,9 @@ const ApiTabComps = {
               trigger="hover"
             >
               {res.success === true ? (
-                <IconCheckOne theme="filled" className="assert-status success" />
+                <ErdaIcon size="16" className="assert-status success" type="tg" />
               ) : res.success === false ? (
-                <IconCloseOne theme="filled" className="assert-status error" />
+                <ErdaIcon size="16" className="assert-status error" type="wtg" />
               ) : null}
             </Popover>
           );

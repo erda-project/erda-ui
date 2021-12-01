@@ -14,12 +14,12 @@
 import { includes, isEmpty } from 'lodash';
 import React, { useState, useRef } from 'react';
 import i18n from 'i18n';
+import { ErdaIcon } from 'common';
 import { Dropdown, Menu, Modal, message, Input } from 'antd';
 import testSetStore from 'project/stores/test-set';
 import testPlanStore from 'project/stores/test-plan';
 import { recycledKey } from '../utils';
 import { TEMP_MARK, TestOperation, editModeEnum, TestSetMenuType } from 'project/pages/test-manage/constants';
-import { Check as IconCheck, Close as IconClose, More as IconMore } from '@icon-park/react';
 
 interface IMenuMeta {
   key: string;
@@ -280,8 +280,8 @@ const Title = ({
           ref={inputRef}
           onKeyUp={handlePressEntry}
         />
-        <IconCheck className="ml-2 text-primary cursor-pointer" onClick={handleSave} />
-        <IconClose className="mx-2 text-primary cursor-pointer" onClick={() => toggleEdit(false, isTemp)} />
+        <ErdaIcon type="check" color="currentColor" className="ml-2 text-primary cursor-pointer" onClick={handleSave} />
+        <ErdaIcon type="close" color="currentColor" className="mx-2 text-primary cursor-pointer" onClick={() => toggleEdit(false, isTemp)} />
       </div>
     );
   }
@@ -299,7 +299,7 @@ const Title = ({
               align={{ offset: [32, -32] }}
             >
               <div className="case-tree-op" onClick={(e: any) => e.stopPropagation()}>
-                <IconMore />
+                <ErdaIcon className="mr-4 align-middle" type="more1" color="white" />
               </div>
             </Dropdown>
           ) : undefined}
