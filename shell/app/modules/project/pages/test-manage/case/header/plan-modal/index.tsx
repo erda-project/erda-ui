@@ -60,7 +60,7 @@ const PlanModal = () => {
   const handleSearch = debounce((value: string) => {
     setName(value);
     getPlanRelateMe({ ...commonQuery, pageNo: 1, name: value });
-  }, 200);
+  }, 1000);
 
   const fieldsList = [
     {

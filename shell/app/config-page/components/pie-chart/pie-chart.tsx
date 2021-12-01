@@ -38,7 +38,7 @@ const getOption = (data: CP_PIE_CHART.IList[], _option: Obj, configProps: Obj, l
           graphic: {
             left: 'center',
             type: 'text',
-            top: '40%',
+            top: 'center',
             style: {
               text: reLabel,
               fill: 'rgba(0,0,0,0.6)',
@@ -63,7 +63,7 @@ const getOption = (data: CP_PIE_CHART.IList[], _option: Obj, configProps: Obj, l
   const isEmpty = !data?.length;
 
   return {
-    option: merge({ ..._option }, option),
+    option: merge({}, _option, option),
     isEmpty,
   };
 };

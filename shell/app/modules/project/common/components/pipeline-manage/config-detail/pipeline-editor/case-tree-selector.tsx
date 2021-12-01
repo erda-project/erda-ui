@@ -308,7 +308,7 @@ export const CaseTreeSelector = (props: IProps) => {
         updater.dataList([]);
         onLoadData();
       }
-    }, 400),
+    }, 1000),
     [chosenType],
   );
 

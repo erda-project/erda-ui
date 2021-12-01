@@ -31,7 +31,6 @@ import Duration, { transformDuration } from 'trace-insight/components/duration';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'core/stores/route';
-import DC from '@erda-ui/dashboard-configurator/dist';
 
 const DashBoard = React.memo(BoardGrid.Pure);
 
@@ -101,6 +100,7 @@ interface IState {
   defaultQuery: Obj;
   query: Obj;
   layout: DC.Layout;
+  startTime: number;
 }
 
 type IQuery = {
@@ -118,12 +118,13 @@ const TraceSearch = () => {
   const { getTraceSummary } = traceStore;
   const [loading] = useLoading(traceStore, ['getTraceSummary']);
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
-  const [{ traceId, filter, defaultQuery, query, layout }, updater, update] = useUpdate<IState>({
+  const [{ traceId, filter, defaultQuery, query, layout, startTime }, updater, update] = useUpdate<IState>({
     filter: [],
     traceId: undefined,
     defaultQuery: {},
     query: {},
     layout: [],
+    startTime: 0,
   });
   const [routeQuery, params] = routeInfoStore.useStore((s) => [s.query, s.params]);
   const globalVariable = React.useMemo(() => {
@@ -221,9 +222,10 @@ const TraceSearch = () => {
     });
   };
 
-  const handleCheckTraceDetail = (e: any, id: string) => {
+  const handleCheckTraceDetail = (e: any, id: string, time: number) => {
     e.stopPropagation();
     updater.traceId(id as string);
+    updater.startTime(time);
     setIsShowTraceDetail(true);
   };
 
@@ -259,7 +261,10 @@ const TraceSearch = () => {
       fixed: 'right',
       render: (_: any, record: RecordType) => (
         <div className="table-operations">
-          <span onClick={(e) => handleCheckTraceDetail(e, record.id)} className="table-operations-btn">
+          <span
+            onClick={(e) => handleCheckTraceDetail(e, record.id, record.startTime)}
+            className="table-operations-btn"
+          >
             {i18n.t('check detail')}
           </span>
         </div>
@@ -281,7 +286,7 @@ const TraceSearch = () => {
         <DashBoard layout={layout} globalVariable={globalVariable} />
       </div>
       <Table loading={loading} rowKey="id" columns={columns} dataSource={traceSummary} scroll={{ x: 1100 }} />
-      <TraceSearchDetail traceId={traceId} />
+      <TraceSearchDetail traceId={traceId} startTime={startTime} />
     </>
   );
 };

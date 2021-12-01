@@ -6,7 +6,6 @@
     background-color: $white;
     box-shadow: 0 2px 4px 0 $color-box-shadow;
     background-position: 100% 0;
-    background-size: auto 70%;
     background-repeat: no-repeat;
 
     &.no-border {
@@ -15,7 +14,7 @@
 
     &-operations {
       display: flex;
-      align-items: start;
+      align-items: flex-start;
       cursor: default;
     }
 
@@ -169,6 +168,7 @@
 
 .erda-list-operations {
   .ant-dropdown-menu {
+    width: 200px;
     background-color: rgba($color-default, 0.96);
   }
 

@@ -145,7 +145,7 @@ const TagsRow = ({
   const oneAndMoreTag = (
     <React.Fragment>
       {labels.slice(0, showCount).map((l) => (
-        <TagItem colorMap={colorMap} key={l.label} label={l} maxWidth={120} onDelete={onDelete} size={size} />
+        <TagItem colorMap={colorMap} key={l.label} label={l} maxWidth={100} onDelete={onDelete} size={size} />
       ))}
       {showMore ? (
         <Tooltip
@@ -176,12 +176,17 @@ const TagsRow = ({
 
   return (
     <div
-      className={`tags-container flex items-center flex-wrap justify-start ${containerClassName}`}
+      className={`tags-container flex items-center justify-start ${containerClassName}`}
       onClick={(e) => e.stopPropagation()}
     >
       <span className="tags-box flex items-center">{oneAndMoreTag}</span>
       {onAdd ? (
-        <ErdaIcon className={`tags-add ${size} ml-2 text-xs leading-6`} type="tj1" color="currentColor" />
+        <ErdaIcon
+          className={`tags-add ${size} ml-2 text-xs leading-6 cursor-pointer`}
+          type="tj1"
+          color="currentColor"
+          onClick={onAdd}
+        />
       ) : null}
     </div>
   );

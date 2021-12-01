@@ -110,16 +110,15 @@ function getProjectRouter(): RouteConfigItem[] {
               getComp: (cb) => cb(import('project/pages/milestone'), 'Milestone'),
               layout: { noWrapper: true, fullHeight: true },
             },
-            {
-              path: 'dashboard',
-              tabs: PROJECT_TABS,
-              ignoreTabQuery: true,
-              getComp: (cb) => cb(import('project/pages/issue/issue-dashboard')),
-              layout: {
-                noWrapper: true,
-              },
-            },
           ],
+        },
+        {
+          path: 'measure/dashboard',
+          breadcrumbName: i18n.t('dop:efficiency measure'),
+          getComp: (cb) => cb(import('project/pages/issue/issue-dashboard')),
+          layout: {
+            noWrapper: true,
+          },
         },
         {
           path: 'ticket',
@@ -246,13 +245,13 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'statistics',
-          pageName: i18n.t('dop:efficiency measure'),
+          pageName: i18n.t('dop:statistics'),
           routes: [
             {
               path: 'code-coverage',
               tabs: TEST_STATISTICS_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('dop:efficiency measure'),
+              breadcrumbName: i18n.t('dop:statistics'),
               getComp: (cb) => cb(import('project/pages/statistics/code-coverage')),
             },
             {
@@ -262,7 +261,7 @@ function getProjectRouter(): RouteConfigItem[] {
               },
               tabs: TEST_STATISTICS_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('dop:efficiency measure'),
+              breadcrumbName: i18n.t('dop:statistics'),
               getComp: (cb) => cb(import('project/pages/statistics/test-dashboard')),
             },
           ],

@@ -58,7 +58,7 @@ const alarmStrategy = createStore({
   state: initOrgState,
   effects: {
     async getAlerts({ call, update }, payload?: COMMON_STRATEGY_NOTIFY.IPageParam) {
-      const { list } = (await call(getAlerts, payload, { paging: { key: 'alarmPaging' } })) ?? {};
+      const { list = [] } = (await call(getAlerts, payload, { paging: { key: 'alarmPaging' } })) ?? {};
       update({ alertList: list });
     },
     async getAlertDetail({ call }, id: number) {

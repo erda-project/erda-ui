@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
-import DC from '@erda-ui/dashboard-configurator/dist';
 
 type CustomDashBoard = Merge<Custom_Dashboard.DashboardItem, { viewConfig: DC.Layout }>;
 

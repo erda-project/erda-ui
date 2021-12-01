@@ -72,7 +72,7 @@ const AppsSelector = () => {
       q: _searchKey || undefined,
       pageNo: 1,
     });
-  }, 300);
+  }, 1000);
 
   const filterList = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;

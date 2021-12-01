@@ -102,6 +102,7 @@ export default ({ command, mode }) => {
     resolve: {
       alias,
     },
+    publicDir: 'app/static',
     define: {
       'process.env.VITE': '"true"',
       'process.env.UI_ENV': JSON.stringify(process.env.ERDA_UI_ENV),

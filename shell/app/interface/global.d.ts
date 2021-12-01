@@ -15,7 +15,6 @@
 
 declare module 'path';
 declare module 'lodash/_stringToPath';
-declare module '@erda-ui/dashboard-configurator';
 declare module 'js-yaml';
 declare module 'react-flame-graph';
 

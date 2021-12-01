@@ -110,7 +110,7 @@ const List = (props: CP_LIST.Props) => {
             );
           })}
           {!isLoadMore && pagination ? (
-            <Pagination className="flex items-center flex-wrap justify-end mt-3" {...pagination} />
+            <Pagination className="flex items-center flex-wrap justify-end mt-3 mb-1" {...pagination} />
           ) : null}
           {isLoadMore && total > Math.max(state.combineList?.length, 0) && (
             <div className="hover-active load-more" onClick={loadMore}>

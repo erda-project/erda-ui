@@ -21,7 +21,6 @@ import { useUpdate } from 'common/use-hooks';
 import { Spin } from 'antd';
 import CommonDashboardStore from 'common/stores/dashboard';
 import { useLoading } from 'core/stores/loading';
-import DC from '@erda-ui/dashboard-configurator/dist';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useMount } from 'react-use';
 import i18n from 'i18n';

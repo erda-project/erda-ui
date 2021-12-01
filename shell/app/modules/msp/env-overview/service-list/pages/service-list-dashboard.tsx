@@ -13,7 +13,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { BoardGrid } from 'common';
-import DC from '@erda-ui/dashboard-configurator/dist';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import dashboardStore from 'common/stores/dashboard';
 import routeInfoStore from 'core/stores/route';

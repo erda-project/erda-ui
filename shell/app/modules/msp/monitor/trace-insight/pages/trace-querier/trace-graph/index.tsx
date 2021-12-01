@@ -13,8 +13,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tree, Tooltip, Row, Col, Tabs, Table, Radio, RadioChangeEvent } from 'antd';
+import { Tree, Tooltip, Row, Col, Tabs, Radio, RadioChangeEvent } from 'antd';
 import { TimeSelect, KeyValueList, Icon as CustomIcon, EmptyHolder, Ellipsis } from 'common';
+import Table from 'common/components/table';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
 import { getSpanAnalysis, getSpanEvents } from 'msp/services';
 import './index.scss';
@@ -282,16 +283,12 @@ export function TraceGraph(props: IProps) {
       };
       forEach(roots[0].children, (span) => flameData.children.push(formatFlameDataChild(span)));
     } else {
-      let time = 0;
-      forEach(roots, (item) => {
-        time += item.duration;
-      });
       flameData = {
         name: 'root',
-        value: time,
+        value: dataSource?.duration,
         children: [],
         serviceName: '',
-        selfDuration: time,
+        selfDuration: dataSource?.duration,
         spanKind: '',
         component: '',
       };
@@ -343,7 +340,7 @@ export function TraceGraph(props: IProps) {
           </span>
         </RadioButton>
       </RadioGroup>
-      <div className="mt-4" ref={flameRef}>
+      <div className="mt-4 trace-span-detail" ref={flameRef}>
         {view === 'waterfall' && (
           <Row gutter={20}>
             <Col span={proportion[0]} className={`${proportion[0] !== 24 ? 'pr-0' : ''}`}>
@@ -431,10 +428,10 @@ export function TraceGraph(props: IProps) {
         )}
 
         {view === 'flame' && (
-          <div ref={containerRef} className="relative">
+          <div ref={containerRef} className="relative graph-flame overflow-y-auto overflow-x-hidden">
             <FlameGraph
               data={formatFlameData()}
-              height={200}
+              height={dataSource ? 20 * dataSource.depth + 1 : 200}
               width={flameWidth}
               onMouseOver={onMouseOver}
               onMouseOut={onMouseOut}
@@ -450,7 +447,7 @@ export function TraceGraph(props: IProps) {
                 />
                 <div className="text-sub">
                   {i18n.t('current')} span {mkDurationStr(tooltipState?.content.selfDuration / 1000)} -{' '}
-                  {i18n.t('total')} span {mkDurationStr(tooltipState?.content.selfDuration / 1000)}
+                  {i18n.t('total')} span {mkDurationStr(tooltipState?.content.value / 1000)}
                 </div>
               </div>
             )}

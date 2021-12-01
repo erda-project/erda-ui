@@ -159,7 +159,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   const [hasMore, setHasMore] = React.useState(firstShowLength ? (options?.length || 0) > firstShowLength : false);
   // const inputRef = React.useRef(null);
 
-  const debouncedChange = React.useRef(debounce(onChange, 500));
+  const debouncedChange = React.useRef(debounce(onChange, 1000));
 
   useUpdateEffect(() => {
     setInputVal(value);
