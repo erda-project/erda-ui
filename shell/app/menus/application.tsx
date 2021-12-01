@@ -34,7 +34,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.repo.read.pass,
     key: 'repo',
     href: goTo.resolve.repo(), // `/dop/projects/${projectId}/apps/${appId}/repo`,
-    icon: <ErdaIcon type="code" color="currentColor" className="mt-3.5" />,
+    icon: <ErdaIcon type="code" color="currentColor" className="mt-3.5 mr-1" />,
     text: i18n.t('dop:files'),
     subtitle: i18n.t('Code'),
   };
@@ -42,7 +42,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.pipeline.read.pass,
     key: 'pipeline',
     href: goTo.resolve.pipelineRoot(), // `/dop/projects/${projectId}/apps/${appId}/pipeline`,
-    icon: <ErdaIcon type="assembly-line" color="currentColor" className="mt-3.5" />,
+    icon: <ErdaIcon type="assembly-line" color="currentColor" className="mt-3.5 mr-1" />,
     text: i18n.t('pipeline'),
     subtitle: i18n.t('Pipeline'),
   };
@@ -50,7 +50,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.apiDesign.read.pass,
     key: 'apiDesign',
     href: goTo.resolve.appApiDesign(), // `/dop/projects/${projectId}/apps/${appId}/apiDesign`,
-    icon: <ErdaIcon type="api" color="currentColor" className="mt-3.5" />,
+    icon: <ErdaIcon type="api" color="currentColor" className="mt-3.5 mr-1" />,
     text: i18n.t('dop:API design'),
     subtitle: 'API',
   };
@@ -67,7 +67,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.dataTask.read.pass,
     key: 'dataTask',
     href: goTo.resolve.dataTaskRoot(), // `/dop/projects/${projectId}/apps/${appId}/dataTask`,
-    icon: <ErdaIcon type="activity-source" color="currentColor" className="mt-3.5" />,
+    icon: <ErdaIcon type="activity-source" color="currentColor" className="mt-3.5 mr-1" />,
     text: `${i18n.t('dop:data task')}`,
     subtitle: `${i18n.t('Task')}`,
   };
@@ -75,7 +75,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.dataModel.read.pass,
     key: 'dataModel',
     href: goTo.resolve.appDataModel(), // `/dop/projects/${projectId}/apps/${appId}/dataModel`,
-    icon: <ErdaIcon type="children-pyramid" color="currentColor" className="mt-3.5" />,
+    icon: <ErdaIcon type="children-pyramid" color="currentColor" className="mt-3.5 mr-1" />,
     text: `${i18n.t('dop:data model')}`,
     subtitle: `${i18n.t('Model')}`,
   };
@@ -83,7 +83,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.dataMarket.read.pass,
     key: 'dataMarket',
     href: goTo.resolve.appDataMarket(), // `/dop/projects/${projectId}/apps/${appId}/dataMarket`,
-    icon: <ErdaIcon type="market-analysis" color="currentColor" className="mt-3.5" />,
+    icon: <ErdaIcon type="market-analysis" color="currentColor" className="mt-3.5 mr-1" />,
     text: `${i18n.t('dop:data market')}`,
     subtitle: `${i18n.t('Market')}`,
   };
@@ -107,7 +107,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.setting.read.pass,
     key: 'setting',
     href: goTo.resolve.appSetting(), // `/dop/projects/${projectId}/apps/${appId}/setting`,
-    icon: <ErdaIcon type="config1" color="currentColor" className="mt-3.5" />,
+    icon: <ErdaIcon type="config1" color="currentColor" className="mt-3.5 mr-1" />,
     text: i18n.t('dop:application setting'),
     subtitle: i18n.t('Setting'),
   };
