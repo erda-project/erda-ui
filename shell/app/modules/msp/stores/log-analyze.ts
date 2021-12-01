@@ -17,20 +17,20 @@ import { createFlatStore } from 'core/cube';
 import { map, uniqueId } from 'lodash';
 import i18n from 'i18n';
 import {
-  getTagsTree,
-  getLogs,
-  getLogStatistics,
-  getRules,
-  getRule,
-  getRuleTemplates,
-  getRuleTemplate,
   createRule,
-  editRule,
-  toggleRule,
   deleteRule,
-  testRule,
+  editRule,
   getAddonLogs,
   getAddonLogStatistics,
+  getLogs,
+  getLogStatistics,
+  getRule,
+  getRules,
+  getRuleTemplate,
+  getRuleTemplates,
+  getTagsTree,
+  testRule,
+  toggleRule,
 } from 'msp/services/log-analyze';
 import mspStore from 'msp/stores/micro-service';
 
@@ -110,8 +110,15 @@ const LogAnalyze = createFlatStore({
     async editRule({ call }, payload: LOG_ANALYZE.Rule) {
       await call(editRule(getScope(true)), payload, { successMsg: i18n.t('edited successfully') });
     },
-    async toggleRule({ call }, payload: { id: number; enable: boolean }) {
+    async toggleRule({ call, select, update }, payload: { id: number; enable: boolean }) {
       await call(toggleRule(getScope(true)), payload, { successMsg: i18n.t('operated successfully') });
+      const newRule = select((s) => s.rules).map((rule) => {
+        return {
+          ...rule,
+          enable: rule.id === payload.id ? payload.enable : rule.enable,
+        };
+      });
+      update({ rules: newRule });
     },
     async deleteRule({ call }, id: number) {
       await call(deleteRule(getScope(true)), id, { successMsg: i18n.t('deleted successfully') });
