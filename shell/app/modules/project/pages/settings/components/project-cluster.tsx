@@ -148,6 +148,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
     <Table
       rowKey="workspace"
       dataSource={tableData}
+      tableLayout="auto"
       columns={[
         {
           key: 'workspace',
