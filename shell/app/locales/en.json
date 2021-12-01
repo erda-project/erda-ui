@@ -1771,6 +1771,7 @@
     "the parameter names cannot be the same": "the parameter names cannot be the same",
     "the project name displayed on the Erda platform, supports Chinese characters": "The name displayed on the Erda platform, supports Chinese naming",
     "the start date cannot be later than the end date": "the start date cannot be later than the end date",
+    "the alarm strategy will be permanently deleted": "the alarm strategy will be permanently deleted",
     "the use case will not be recovered after it is completely deleted, ": "the use case will not be recovered after it is completely deleted, ",
     "the {index} step in the steps and results is not completed": "the {index} step in the steps and results is not completed",
     "there are duplicates in the {index} interface": "there are duplicates in the {index} interface",

@@ -93,7 +93,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
   const handleDeleteAlarm = (id: number) => {
     confirm({
       title: i18n.t('dop:are you sure you want to delete this item?'),
-      content: i18n.t('dop:the notification will be permanently deleted'),
+      content: i18n.t('dop:the alarm strategy will be permanently deleted'),
       onOk() {
         deleteAlert(id);
       },
