@@ -1,4 +1,28 @@
+import { cloneDeep } from 'lodash';
+
 export const enhanceMock = (data: any, payload: any) => {
+  if (payload.event?.operation === 'expandNode') {
+    const _data = cloneDeep(data);
+    _data.protocol.components.gantt.data = {
+      expandList: {
+        R2: [
+          {
+            id: '2-1',
+            name: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
+            start: getDate(1),
+            end: getDate(5),
+            isLeaf: true,
+            extra: {
+              type: 'task',
+              user: '张三',
+              status: { text: '进行中', status: 'processing' },
+            },
+          },
+        ],
+      },
+    };
+    return _data;
+  }
   return data;
 };
 const currentDate = new Date();
@@ -13,11 +37,82 @@ export const mockData = {
     hierarchy: {
       root: 'page',
       structure: {
-        page: ['filter', 'gantt'],
+        page: ['topHead', 'filter', 'gantt'],
+        topHead: ['issueAddButton'],
       },
     },
     components: {
       page: { type: 'Container' },
+      topHead: {
+        data: {},
+        name: 'topHead',
+        operations: {},
+        props: {
+          isTopHead: true,
+        },
+        state: {},
+        type: 'RowContainer',
+      },
+      issueAddButton: {
+        data: {},
+        name: 'issueAddButton',
+        operations: {},
+        props: {
+          disabled: false,
+          menu: [
+            {
+              disabled: false,
+              disabledTip: '',
+              key: 'requirement',
+              operations: {
+                click: {
+                  key: 'createRequirement',
+                  reload: false,
+                },
+              },
+              prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+              text: '需求',
+            },
+            {
+              disabled: false,
+              disabledTip: '',
+              key: 'task',
+              operations: {
+                click: {
+                  key: 'createTask',
+                  reload: false,
+                },
+              },
+              prefixIcon: 'ISSUE_ICON.issue.TASK',
+              text: '任务',
+            },
+            {
+              disabled: false,
+              disabledTip: '',
+              key: 'bug',
+              operations: {
+                click: {
+                  key: 'createBug',
+                  reload: false,
+                },
+              },
+              prefixIcon: 'ISSUE_ICON.issue.BUG',
+              text: '缺陷',
+            },
+          ],
+          operations: {
+            click: {
+              key: '',
+              reload: false,
+            },
+          },
+          suffixIcon: 'di',
+          text: '新建事项',
+          type: 'primary',
+        },
+        state: {},
+        type: 'Button',
+      },
       gantt: {
         type: 'Gantt',
         data: {
