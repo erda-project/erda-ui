@@ -115,6 +115,7 @@ const TaskTree = (props: ITaskTreeProps) => {
               <ErdaIcon
                 type="caret-down"
                 size={'16px'}
+                color="currentColor"
                 className={`cp-gantt-task-item-icon ${hideChildren ? '' : 'cp-gantt-task-item-expanded'}`}
               />
             ) : null}
@@ -173,7 +174,7 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
     const { isLeaf } = _task;
     setList((prev) => prev.map((item) => (item.id === _task.id ? _task : item)));
     if (!isLeaf && !list.find((item) => item.project === _task.id)) {
-      execOperation({ key: 'expandNode', reload: true }, { keys: [_task.id] });
+      operations?.expandNode && execOperation(operations.expandNode, [_task.id]);
     }
   };
 
