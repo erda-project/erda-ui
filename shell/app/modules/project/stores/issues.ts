@@ -260,7 +260,7 @@ const issueStore = createStore({
     async batchUpdateIssue({ call }, payload: ISSUE.BatchUpdateBody) {
       await call(batchUpdateIssue, payload);
     },
-    async getIssueRelation({ call }, payload: { id: number }) {
+    async getIssueRelation({ call }, payload: { id: number; type: string }) {
       const { RelatingIssues, RelatedIssues } = await call(getIssueRelation, payload);
       return [RelatingIssues, RelatedIssues];
     },
@@ -268,7 +268,7 @@ const issueStore = createStore({
       const res = await call(addIssueRelation, payload, { successMsg: i18n.t('dop:relation added successfully') });
       return res;
     },
-    async deleteIssueRelation({ call }, payload: { id: number; relatedIssueID: number }) {
+    async deleteIssueRelation({ call }, payload: { id: number; relatedIssueID: number; type: string }) {
       const res = await call(deleteIssueRelation, payload, { successMsg: i18n.t('deleted successfully') });
       return res;
     },

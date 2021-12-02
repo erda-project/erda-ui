@@ -367,6 +367,16 @@ const IssueMetaFields = React.forwardRef(
       ]),
       {
         className: 'mb-5 w-full',
+        name: 'planStartedAt',
+        label: i18n.t('common:start at'),
+        type: 'datePicker',
+        showRequiredMark: ISSUE_TYPE.EPIC === issueType,
+        itemProps: {
+          allowClear: true,
+        },
+      },
+      {
+        className: 'mb-5 w-full',
         name: 'planFinishedAt',
         label: i18n.t('deadline'),
         type: 'datePicker',
@@ -1231,6 +1241,23 @@ export const EditIssueDrawer = (props: IProps) => {
         />
       </div>
       <IF check={isEditMode}>
+        <>
+          {issueType === ISSUE_TYPE.REQUIREMENT ? (
+            <div className="p-6">
+              <div className="text-base font-medium mb-2">{i18n.t('dop:included tasks')}</div>
+              <IssueRelation
+                ref={ref}
+                type="inclusion"
+                issueDetail={issueDetail}
+                iterationID={iterationID}
+                onRelationChange={() => {
+                  setHasEdited(true);
+                }}
+              />
+            </div>
+          ) : null}
+        </>
+
         <Tabs className="issue-drawer-tabs" defaultActiveKey="streams">
           <TabPane tab={i18n.t('dop:activity log')} key="streams">
             <IssueCommentBox onSave={(content) => addIssueStream(issueDetail, { content })} editAuth={editAuth} />
@@ -1242,6 +1269,7 @@ export const EditIssueDrawer = (props: IProps) => {
           <TabPane tab={i18n.t('relate to issue')} key="issue">
             <IssueRelation
               ref={ref}
+              type="connection"
               issueDetail={issueDetail}
               iterationID={iterationID}
               onRelationChange={() => {
