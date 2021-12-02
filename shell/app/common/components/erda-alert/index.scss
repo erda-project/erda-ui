@@ -1,0 +1,24 @@
+.erda-alert {
+  &.ant-alert {
+    border: none;
+    padding: 6px 16px;
+    color: $color-default;
+    border-radius: 2px;
+  }
+  &.ant-alert-info {
+    background-color: $color-default-bg;
+  }
+  &.ant-alert-success {
+    background-color: $color-success-bg;
+  }
+  &.ant-alert-warning {
+    background-color: $color-warning-bg;
+  }
+  &.ant-alert-error {
+    background-color: $color-error-bg;
+  }
+
+  .ant-alert-message {
+    display: flex;
+  }
+}

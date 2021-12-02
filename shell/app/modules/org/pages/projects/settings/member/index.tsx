@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { ConfigLayout, MembersTable, BootPrompt } from 'common';
+import { ConfigLayout, MembersTable, ErdaAlert } from 'common';
 import i18n from 'i18n';
 import { pick } from 'lodash';
 import { goTo } from 'common/utils';
@@ -37,14 +37,17 @@ const SettingsMember = () => {
 
   return (
     <div>
-      <BootPrompt name="project-member" className="mb-4">
-        <div>
-          {i18n.t('For editing members, setting member roles and role permissions, please refer to')}
-          <Link to={goTo.resolve.perm({ scope: 'project' })} target="_blank">
-            {i18n.t('role permissions description')}
-          </Link>
-        </div>
-      </BootPrompt>
+      <ErdaAlert
+        showOnceKey="project-member"
+        message={
+          <>
+            {i18n.t('For editing members, setting member roles and role permissions, please refer to')}
+            <Link to={goTo.resolve.perm({ scope: 'project' })} target="_blank">
+              {i18n.t('role permissions description')}
+            </Link>
+          </>
+        }
+      />
 
       <MembersTable
         scopeKey={MemberScope.PROJECT}
