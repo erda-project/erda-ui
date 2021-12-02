@@ -3,7 +3,6 @@ import { groupBy } from 'lodash';
 export const convertDataForGantt = (
   data: { expandList: CP_GANTT.IData[]; updateList: CP_GANTT.IData[] },
   prevList: CP_GANTT.IGanttData[],
-  expandKeys: string[] = [],
 ) => {
   let ganttData: CP_GANTT.IGanttData[] = [...prevList];
 
@@ -58,6 +57,5 @@ export const convertDataForGantt = (
       }
     });
   }
-
   return ganttData;
 };

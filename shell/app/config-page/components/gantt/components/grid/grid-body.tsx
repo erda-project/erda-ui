@@ -11,6 +11,7 @@ export interface GridBodyProps {
   columnWidth: number;
   todayColor: string;
   rtl: boolean;
+  ganttEvent: Obj;
 }
 export const GridBody: React.FC<GridBodyProps> = ({
   tasks,
@@ -19,7 +20,9 @@ export const GridBody: React.FC<GridBodyProps> = ({
   svgWidth,
   columnWidth,
   todayColor,
+  selectedTask,
   rtl,
+  ganttEvent,
 }) => {
   let y = 0;
   const gridRows: ReactChild[] = [];
@@ -28,7 +31,14 @@ export const GridBody: React.FC<GridBodyProps> = ({
   ];
   for (const task of tasks) {
     gridRows.push(
-      <rect key={'Row' + task.id} x="0" y={y} width={svgWidth} height={rowHeight} className={'erda-gantt-grid-row'} />,
+      <rect
+        key={'Row' + task.id}
+        x="0"
+        y={y}
+        width={svgWidth}
+        height={rowHeight}
+        className={`erda-gantt-grid-row ${selectedTask?.id === task.id ? 'erda-gantt-grid-row-selected' : ''}`}
+      />,
     );
     rowLines.push(
       <line
@@ -66,12 +76,27 @@ export const GridBody: React.FC<GridBodyProps> = ({
     }
     tickX += columnWidth;
   }
+
+  const { changedTask } = ganttEvent || {};
+
   return (
     <g className="gridBody">
+      {changedTask ? (
+        <g>
+          <rect
+            x={changedTask.x1}
+            y={0}
+            width={changedTask.x2 - changedTask.x1}
+            height={rowHeight * tasks.length}
+            className="erda-gantt-grid-changed-range"
+          />
+        </g>
+      ) : null}
       <g className="rows">{gridRows}</g>
       {/* <g className="rowLines">{rowLines}</g>
       <g className="ticks">{ticks}</g> */}
-      <g className="today">{today}</g>
+      <g className="ticks">{ticks}</g>
+      {/* <g className="today">{today}</g> */}
     </g>
   );
 };

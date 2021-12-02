@@ -11,6 +11,7 @@ export interface TaskGanttProps {
   ganttHeight: number;
   scrollY: number;
   scrollX: number;
+  BarContentRender: React.ReactNode;
 }
 export const TaskGantt: React.FC<TaskGanttProps> = ({
   gridProps,

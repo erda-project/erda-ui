@@ -44,6 +44,7 @@ module.exports = {
   mask: 'rgba(0,0,0,0.45)',
   black: 'rgba(0,0,0,1)',
   'black-200': 'rgba(0,0,0,0.2)',
+  'black-100': 'rgba(0,0,0,0.1)',
   'black-300': 'rgba(0,0,0,0.3)',
   'black-400': 'rgba(0,0,0,0.4)',
   'black-800': 'rgba(0,0,0,0.8)',

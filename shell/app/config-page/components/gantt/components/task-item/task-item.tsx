@@ -18,6 +18,8 @@ export type TaskItemProps = {
   isDelete: boolean;
   isSelected: boolean;
   rtl: boolean;
+  ganttEvent: Obj;
+  BarContentRender?: React.ReactNode;
   onEventStart: (
     action: GanttContentMoveAction,
     selectedTask: BarTask,
@@ -26,7 +28,7 @@ export type TaskItemProps = {
 };
 
 export const TaskItem: React.FC<TaskItemProps> = (props) => {
-  const { task, arrowIndent, isDelete, taskHeight, isSelected, rtl, onEventStart, BarContentRender, isMoving } = {
+  const { task, arrowIndent, isDelete, taskHeight, isSelected, rtl, onEventStart, BarContentRender, ganttEvent } = {
     ...props,
   };
   const textRef = useRef<SVGTextElement>(null);
@@ -42,8 +44,9 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
     end: task.end,
   });
 
+  const { changedTask } = ganttEvent || {};
   useUpdateEffect(() => {
-    if (!isMoving) {
+    if (!changedTask) {
       setCurPos({
         x2: task.x2,
         x1: task.x1,
@@ -53,7 +56,7 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
         end: task.end,
       });
     }
-  }, [isMoving, task]);
+  }, [changedTask, task]);
 
   useEffect(() => {
     switch (task.typeInternal) {
@@ -103,7 +106,7 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
           >
             <div
               className={`text-sm text-desc erda-gantt-task-preview-box bg-white bg-opacity-100 w-full h-full ${
-                isHover ? 'visible' : 'invisible'
+                changedTask ? 'visible' : 'invisible'
               }`}
             >
               {moment(curPos.start).format('YYYY-MM-DD')}~{moment(curPos.end).format('YYYY-MM-DD')}

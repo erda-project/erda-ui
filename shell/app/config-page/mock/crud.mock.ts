@@ -132,7 +132,7 @@ export const mockData = {
               },
               {
                 start: getDate(10),
-                end: getDate(10),
+                end: getDate(20),
                 title: 'R2-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
                 key: 'R2',
                 isLeaf: false,
@@ -144,7 +144,7 @@ export const mockData = {
               },
               {
                 start: getDate(10),
-                end: getDate(10),
+                end: getDate(20),
                 title: 'R3-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
                 key: 'R3',
                 isLeaf: false,
@@ -161,6 +161,18 @@ export const mockData = {
                 name: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
                 start: getDate(1),
                 end: getDate(5),
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
+              },
+              {
+                id: '1-2',
+                name: 'T1-2测试测试测试测试测试测试测试测试测试测试测试',
+                start: getDate(2),
+                end: getDate(10),
                 isLeaf: true,
                 extra: {
                   type: 'task',

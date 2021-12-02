@@ -18,7 +18,6 @@ export const Bar: React.FC<TaskItemProps> = ({
   const progressPoint = getProgressPoint(+!rtl * task.progressWidth + task.progressX, task.y, task.height);
   const handleHeight = task.height - 2;
   const taskWidth = task.x2 - task.x1;
-
   return (
     <g className={'erda-gantt-bar-wrapper'} tabIndex={0}>
       <BarDisplay

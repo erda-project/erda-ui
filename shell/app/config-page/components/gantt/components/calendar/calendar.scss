@@ -28,5 +28,7 @@
 .erda-gantt-calendar-header {
   fill: #ffffff;
   stroke: #e0e0e0;
-  stroke-width: 1.4;
+  &-container {
+    top: 8px;
+  }
 }
