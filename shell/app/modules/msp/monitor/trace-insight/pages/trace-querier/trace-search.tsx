@@ -14,10 +14,11 @@
 import React from 'react';
 import { debounce, isNumber } from 'lodash';
 import moment, { Moment } from 'moment';
-import { ContractiveFilter, Copy, BoardGrid, TagsRow } from 'common';
+import { BoardGrid, ContractiveFilter, Copy, TagsRow } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { ColumnProps } from 'core/common/interface';
-import { Table, message } from 'antd';
+import { ColumnProps, IActions } from 'common/components/table/interface';
+import Table from 'common/components/table';
+import { message } from 'antd';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import { getDashboard } from 'msp/services';
@@ -31,7 +32,6 @@ import Duration, { transformDuration } from 'trace-insight/components/duration';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'core/stores/route';
-import DC from '@erda-ui/dashboard-configurator/dist';
 
 const DashBoard = React.memo(BoardGrid.Pure);
 
@@ -101,6 +101,7 @@ interface IState {
   defaultQuery: Obj;
   query: Obj;
   layout: DC.Layout;
+  startTime: number;
 }
 
 type IQuery = {
@@ -118,12 +119,13 @@ const TraceSearch = () => {
   const { getTraceSummary } = traceStore;
   const [loading] = useLoading(traceStore, ['getTraceSummary']);
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
-  const [{ traceId, filter, defaultQuery, query, layout }, updater, update] = useUpdate<IState>({
+  const [{ traceId, filter, defaultQuery, query, layout, startTime }, updater, update] = useUpdate<IState>({
     filter: [],
     traceId: undefined,
     defaultQuery: {},
     query: {},
     layout: [],
+    startTime: 0,
   });
   const [routeQuery, params] = routeInfoStore.useStore((s) => [s.query, s.params]);
   const globalVariable = React.useMemo(() => {
@@ -221,13 +223,13 @@ const TraceSearch = () => {
     });
   };
 
-  const handleCheckTraceDetail = (e: any, id: string) => {
-    e.stopPropagation();
-    updater.traceId(id as string);
+  const handleCheckTraceDetail = (id: string, time: number) => {
+    updater.traceId(id);
+    updater.startTime(time);
     setIsShowTraceDetail(true);
   };
 
-  const columns: Array<ColumnProps<RecordType>> = [
+  const columns: Array<ColumnProps<MS_MONITOR.ITraceSummary>> = [
     {
       title: i18n.t('msp:trace id'),
       dataIndex: 'id',
@@ -237,7 +239,9 @@ const TraceSearch = () => {
       title: i18n.t('msp:duration'),
       dataIndex: 'duration',
       width: 240,
-      sorter: (a: RecordType, b: RecordType) => a.duration - b.duration,
+      sorter: {
+        compare: (a: MS_MONITOR.ITraceSummary, b: MS_MONITOR.ITraceSummary) => a.duration - b.duration,
+      },
       render: (duration: number) => getFormatter('TIME', 'ns').format(duration),
     },
     {
@@ -252,20 +256,18 @@ const TraceSearch = () => {
       width: 240,
       render: (services: string[]) => <TagsRow labels={services.map((service) => ({ label: service }))} />,
     },
-    {
-      title: i18n.t('operation'),
-      dataIndex: 'operation',
-      width: 200,
-      fixed: 'right',
-      render: (_: any, record: RecordType) => (
-        <div className="table-operations">
-          <span onClick={(e) => handleCheckTraceDetail(e, record.id)} className="table-operations-btn">
-            {i18n.t('check detail')}
-          </span>
-        </div>
-      ),
-    },
   ];
+
+  const tableActions: IActions<MS_MONITOR.ITraceSummary> = {
+    render: (record) => [
+      {
+        title: i18n.t('check detail'),
+        onClick: () => {
+          handleCheckTraceDetail(record.id, record.startTime);
+        },
+      },
+    ],
+  };
 
   return (
     <>
@@ -280,8 +282,18 @@ const TraceSearch = () => {
       <div className="mb-6">
         <DashBoard layout={layout} globalVariable={globalVariable} />
       </div>
-      <Table loading={loading} rowKey="id" columns={columns} dataSource={traceSummary} scroll={{ x: 1100 }} />
-      <TraceSearchDetail traceId={traceId} />
+      <Table
+        loading={loading}
+        rowKey="id"
+        columns={columns}
+        actions={tableActions}
+        dataSource={traceSummary}
+        scroll={{ x: 1100 }}
+        onChange={() => {
+          getData({ ...query, startTime: range.startTimeMs, endTime: range.endTimeMs });
+        }}
+      />
+      <TraceSearchDetail traceId={traceId} startTime={startTime} />
     </>
   );
 };

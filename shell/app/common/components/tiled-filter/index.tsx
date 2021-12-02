@@ -66,7 +66,7 @@ const TiledFilter = (props: IProps) => {
   }, [propsExpand]);
 
   const debouncedChange = React.useRef(debounce(onChange, delay));
-  const debouncedInputChange = React.useRef(debounce(onChange, 500));
+  const debouncedInputChange = React.useRef(debounce(onChange, 1000));
 
   const inputFields: IField[] = [];
   const selectFields: IField[] = [];

@@ -49,7 +49,7 @@ class SearchTable extends React.PureComponent<IProps, IState> {
   debounceSearch = debounce((key: string) => {
     const { onSearch } = this.props;
     onSearch && onSearch(key);
-  }, 300);
+  }, 1000);
 
   constructor(props: IProps) {
     super(props);

@@ -14,16 +14,15 @@
 import React from 'react';
 import { Checkbox, Popover } from 'antd';
 import { ErdaIcon } from 'common';
-import { ITableConfigProps, ColumnProps } from './interface';
+import { TableConfigProps, ColumnProps } from './interface';
 
 function TableConfig<T extends object = any>({
   slot,
   columns,
   setColumns,
-  onTableChange,
-  showReset,
+  onReload,
   sortColumn = {},
-}: ITableConfigProps<T>) {
+}: TableConfigProps<T>) {
   const { column, order } = sortColumn;
   const onCheck = (checked: boolean, title: string) => {
     const newColumns = columns.map((item) => (item.title === title ? { ...item, show: checked } : item));
@@ -51,15 +50,13 @@ function TableConfig<T extends object = any>({
         <div className="flex-1">{slot}</div>
       </div>
       <div className="erda-table-filter-ops flex items-center">
-        {showReset && (
-          <ErdaIcon
-            size="20"
-            className={`icon-hover ml-3 bg-hover p-1`}
-            type="refresh"
-            color="currentColor"
-            onClick={() => onTableChange({})}
-          />
-        )}
+        <ErdaIcon
+          size="20"
+          className={`icon-hover ml-3 bg-hover p-1`}
+          type="refresh"
+          color="currentColor"
+          onClick={onReload}
+        />
         <Popover
           content={columnsFilter}
           trigger="click"

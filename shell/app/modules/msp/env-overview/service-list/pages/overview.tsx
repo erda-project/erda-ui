@@ -30,7 +30,7 @@ const OverView = () => {
       <div className="flex justify-end items-center mb-3">
         <TimeSelectWithStore className="m-0" />
       </div>
-      <div className="overflow-auto flex-1 service-overview">
+      <div className="overflow-auto flex-1">
         <ServiceListDashboard dashboardId="service_analysis-translation" serviceId={serviceId} />
       </div>
     </div>

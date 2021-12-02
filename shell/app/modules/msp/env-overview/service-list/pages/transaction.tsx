@@ -15,7 +15,9 @@ import React, { useCallback, useMemo } from 'react';
 import { map, differenceBy } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
-import { Drawer, Radio, Select, Table, Tag, Tooltip } from 'antd';
+import { Drawer, Radio, Select, Tag, Tooltip } from 'antd';
+import Table from 'common/components/table';
+import { IActions } from 'common/components/table/interface';
 import { SimpleLog, DebounceSearch, Ellipsis } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import monitorCommonStore from 'common/stores/monitorCommon';
@@ -126,6 +128,7 @@ interface IState {
   url?: string;
   traceSlowTranslation?: TOPOLOGY_SERVICE_ANALYZE.TranslationSlowResp;
   traceId?: string;
+  startTime: number;
   visible: boolean;
   detailVisible: boolean;
   logVisible: boolean;
@@ -158,6 +161,7 @@ const Transaction = () => {
       traceSlowTranslation,
       detailVisible,
       traceId,
+      startTime,
       logVisible,
       sortType,
       callType,
@@ -173,6 +177,7 @@ const Transaction = () => {
     url: undefined,
     traceSlowTranslation: undefined,
     traceId: undefined,
+    startTime: 0,
     visible: false,
     detailVisible: false,
     logVisible: false,
@@ -249,35 +254,6 @@ const Transaction = () => {
         title: col.title,
         dataIndex: col.index,
       })),
-      {
-        title: i18n.t('operation'),
-        dataIndex: 'operation',
-        width: 180,
-        render: (_: any, record: any) => (
-          <div className="table-operations">
-            {currentProject?.type !== 'MSP' && (
-              <span
-                className="table-operations-btn"
-                onClick={() => {
-                  updater.traceId(record.requestId);
-                  updater.logVisible(true);
-                }}
-              >
-                {i18n.t('check log')}
-              </span>
-            )}
-            <span
-              className="table-operations-btn"
-              onClick={() => {
-                updater.traceId(record.requestId);
-                setIsShowTraceDetail(true);
-              }}
-            >
-              {i18n.t('check detail')}
-            </span>
-          </div>
-        ),
-      },
     ];
 
     return [c, traceSlowTranslation?.data];
@@ -321,6 +297,52 @@ const Transaction = () => {
   if (!serviceId) {
     return <NoServicesHolder />;
   }
+
+  const traceSlowSlot = (
+    <div className="flex items-center flex-wrap justify-start">
+      <span>{i18n.t('msp:maximum number of queries')}：</span>
+      <Select className="mr-3" value={limit} onChange={handleChangeLimit}>
+        {limits.map((item) => (
+          <Select.Option key={item} value={item}>
+            {item}
+          </Select.Option>
+        ))}
+      </Select>
+      <span>{i18n.t('msp:sort method')}：</span>
+      <Select value={sortType} onChange={handleChangeSortType}>
+        {map(sortButtonMap, (v, k) => (
+          <Select.Option key={k} value={k}>
+            {v}
+          </Select.Option>
+        ))}
+      </Select>
+    </div>
+  );
+
+  const renderMenu = (record: TOPOLOGY_SERVICE_ANALYZE.TranslationSlowRecord) => {
+    const { viewLog, viewDetail } = {
+      viewLog: {
+        title: i18n.t('check log'),
+        onClick: () => {
+          updater.traceId(record.requestId);
+          updater.logVisible(true);
+        },
+      },
+      viewDetail: {
+        title: i18n.t('check detail'),
+        onClick: () => {
+          updater.traceId(record.requestId);
+          setIsShowTraceDetail(true);
+        },
+      },
+    };
+
+    return currentProject?.type !== 'MSP' ? [viewLog, viewDetail] : [viewDetail];
+  };
+
+  const actions: IActions<TOPOLOGY_SERVICE_ANALYZE.TranslationSlowRecord> = {
+    render: (record: TOPOLOGY_SERVICE_ANALYZE.TranslationSlowRecord) => renderMenu(record),
+  };
 
   return (
     <div className="service-analyze flex flex-col h-full">
@@ -405,26 +427,10 @@ const Transaction = () => {
         visible={visible}
         onClose={() => updater.visible(false)}
       >
-        <div className="flex items-center flex-wrap justify-end mb-3">
-          <span>{i18n.t('msp:maximum number of queries')}：</span>
-          <Select className="mr-3" value={limit} onChange={handleChangeLimit}>
-            {limits.map((item) => (
-              <Select.Option key={item} value={item}>
-                {item}
-              </Select.Option>
-            ))}
-          </Select>
-          <span>{i18n.t('msp:sort method')}：</span>
-          <Select value={sortType} onChange={handleChangeSortType}>
-            {map(sortButtonMap, (v, k) => (
-              <Select.Option key={k} value={k}>
-                {v}
-              </Select.Option>
-            ))}
-          </Select>
-        </div>
         <Table
+          slot={traceSlowSlot}
           loading={isFetching}
+          actions={actions}
           rowKey="requestId"
           columns={columns}
           dataSource={dataSource}
@@ -433,14 +439,14 @@ const Transaction = () => {
         <Drawer
           destroyOnClose
           title={i18n.t('runtime:monitor log')}
-          width="50%"
+          width="80%"
           visible={logVisible}
           onClose={() => updater.logVisible(false)}
         >
           <SimpleLog requestId={traceId} applicationId={params?.applicationId || _applicationId} />
         </Drawer>
       </Drawer>
-      <TraceSearchDetail traceId={traceId} />
+      <TraceSearchDetail traceId={traceId} startTime={startTime} />
     </div>
   );
 };

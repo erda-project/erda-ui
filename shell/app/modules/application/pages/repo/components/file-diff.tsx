@@ -437,7 +437,7 @@ export const FileDiff = ({
                     'issue-line': lineIssue,
                   });
                   if (showStyle === 'inline') {
-                    const showCommentEdit = showLeftCommentEdit || showRightCommentEdit;
+                    const showCommentEdit = showLeftCommentEdit;
                     const showCommentLine = comments || showCommentEdit;
                     let toggleEditFn = toggleLeftCommentEdit;
                     if (oldLineNo < 0) {
@@ -456,18 +456,10 @@ export const FileDiff = ({
                             data-prefix={oldPrefix}
                           >
                             {showTsCommentIcon && (
-                              <TemporaryStorageIcon
-                                onClick={() =>
-                                  oldLineNo < 0 ? handleRightGetLS(lineKey, true) : handleLeftGetLS(lineKey, true)
-                                }
-                              />
+                              <TemporaryStorageIcon onClick={() => handleLeftGetLS(lineKey, true)} />
                             )}
                             <IF check={showLeftCommentIcon}>
                               <CommentIcon onClick={() => toggleLeftCommentEdit(lineKey, true)} />
-                              <ELSE />
-                              <IF check={showRightCommentIcon}>
-                                <CommentIcon onClick={() => toggleRightCommentEdit(lineKey, true)} />
-                              </IF>
                             </IF>
                           </td>
                           <td

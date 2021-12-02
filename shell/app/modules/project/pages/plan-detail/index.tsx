@@ -145,7 +145,7 @@ const TestPlanDetail = () => {
     getCases(currentQ);
     closeEnhanceFilter();
   };
-  const debouncedSearch = debounce(onSearch, 500);
+  const debouncedSearch = debounce(onSearch, 1000);
 
   const updateModalProp = (a: object) => {
     setModalProp({

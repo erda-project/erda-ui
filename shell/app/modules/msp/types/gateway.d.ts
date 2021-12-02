@@ -30,7 +30,7 @@ declare namespace GATEWAY {
   }
 
   interface Query {
-    pageSize: string;
+    pageSize: number;
     pageNo: number;
     domain?: string;
   }

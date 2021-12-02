@@ -148,6 +148,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
     <Table
       rowKey="workspace"
       dataSource={tableData}
+      tableLayout="auto"
       columns={[
         {
           key: 'workspace',
@@ -192,7 +193,6 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
         },
       ]}
       pagination={false}
-      scroll={{ x: 900 }}
     />
   );
   return (

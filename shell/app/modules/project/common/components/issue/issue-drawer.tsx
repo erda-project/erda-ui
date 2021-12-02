@@ -21,6 +21,7 @@ import { isEqual, find } from 'lodash';
 import { Drawer, Spin, Popconfirm, Input, message, Popover, Button, Modal } from 'antd';
 import { Close as IconCheck, ShareOne as IconShareOne, Copy as IconCopy, Delete as IconDelete } from '@icon-park/react';
 import { SubscribersSelector } from './subscribers-selector';
+import layoutStore from 'layout/stores/layout';
 import './issue-drawer.scss';
 
 type ElementChild = React.ElementType | JSX.Element | string;
@@ -85,6 +86,7 @@ export const IssueDrawer = (props: IProps) => {
   const [title = IssueDrawer.Empty, main = IssueDrawer.Empty, tabs = IssueDrawer.Empty, meta = IssueDrawer.Empty] =
     React.Children.toArray(children);
   const customFieldDetail = issueStore.useStore((s) => s.customFieldDetail);
+  const isImagePreviewOpen = layoutStore.useStore((s) => s.isImagePreviewOpen);
   const [copyTitle, setCopyTitle] = React.useState('');
   const [isChanged, setIsChanged] = React.useState(false);
   const [showCopy, setShowCopy] = React.useState(false);
@@ -94,6 +96,9 @@ export const IssueDrawer = (props: IProps) => {
   const escClose = React.useCallback(
     (e) => {
       if (e.keyCode === 27) {
+        if (isImagePreviewOpen) {
+          return;
+        }
         if (isChanged && confirmCloseTip) {
           Modal.confirm({
             title: confirmCloseTip,
@@ -106,7 +111,7 @@ export const IssueDrawer = (props: IProps) => {
         }
       }
     },
-    [isChanged, confirmCloseTip, onClose],
+    [isChanged, confirmCloseTip, isImagePreviewOpen, onClose],
   );
 
   useEvent('keydown', escClose);

@@ -40,6 +40,7 @@ module.exports = {
       },
       fontFamily: {
         log: ['Menlo', 'PingFangSC-Regular', 'Consolas', 'Courier', 'monospace'],
+        number: ['DINAlternate-Bold'],
       },
       cursor: {
         copy: 'copy',

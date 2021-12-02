@@ -63,6 +63,7 @@ const ThirdAddonForm = (props: IProps) => {
       itemProps: {
         onChange(v: string) {
           onFieldChange('addonName', v);
+          form.setFieldsValue({ plan: undefined });
         },
         disabled: editData !== null || query.addon === AddonType.APIGateway,
       },

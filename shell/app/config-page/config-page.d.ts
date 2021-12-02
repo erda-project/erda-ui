@@ -21,15 +21,17 @@ declare namespace CONFIG_PAGE {
     };
     inParams?: Obj;
     protocol?: PageConfig;
-    options?: {
-      syncIntervalSecond: number; // 同步轮询间隔
-    };
     event?: {
       // 用户触发的事件
       component: string; // 用户触发事件的组件ID
       operation: string; // 用户触发事件的操作名
       operationData: Obj; // 请求的数据
     };
+  }
+
+  interface CompOptions {
+    asyncAtInit: boolean;
+    visible?: boolean;
   }
 
   // 前端关心的结构
@@ -40,7 +42,10 @@ declare namespace CONFIG_PAGE {
         [pro: string]: string[] | { [pro: string]: string | string[] };
       };
     };
-    components: Obj<Merge<Comps, { asyncAtInit: boolean }>>;
+    components: Obj<Merge<Comps, { options: CompOptions }>>;
+    options?: {
+      syncIntervalSecond: number; // 同步轮询间隔
+    };
   }
 
   type Comps =
