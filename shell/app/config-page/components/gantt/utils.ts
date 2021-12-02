@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { groupBy } from 'lodash';
+import { groupBy, set, findIndex } from 'lodash';
 
 export const convertDataForGantt = (
   data: { expandList: CP_GANTT.IData[]; updateList: CP_GANTT.IData[] },
@@ -53,11 +53,12 @@ export const convertDataForGantt = (
   }
   if (updateList?.length) {
     updateList.forEach((item) => {
-      let curData = ganttData.find((gItem) => gItem.id === item.key);
-      if (curData) {
+      const curDataIndex = findIndex(ganttData, (gItem) => gItem.id === item.key);
+      if (curDataIndex !== -1) {
         const { key, title, start, end, isLeaf = true, hideChildren, ...rest } = item;
-        curData = {
-          ...curData,
+
+        set(ganttData, `[${curDataIndex}]`, {
+          ...ganttData[curDataIndex],
           ...rest,
           isLeaf,
           hideChildren: hideChildren === undefined ? (!isLeaf ? !prevDataGroup[key]?.length : undefined) : hideChildren,
@@ -66,7 +67,7 @@ export const convertDataForGantt = (
           start: new Date(start),
           end: new Date(end),
           type: !isLeaf ? 'project' : 'task',
-        };
+        });
       }
     });
   }

@@ -14,6 +14,40 @@
 import { cloneDeep } from 'lodash';
 
 export const enhanceMock = (data: any, payload: any) => {
+  console.log('------', payload);
+  if (payload?.event?.operation === 'update') {
+    const _data = cloneDeep(data);
+    _data.protocol.components.gantt.data = {
+      updateList: [
+        {
+          start: getDate(1),
+          end: getDate(10),
+          title: 'R1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
+          key: 'R1',
+          isLeaf: false,
+          extra: {
+            type: 'requirement',
+            user: '张三',
+            status: { text: '进行中', status: 'processing' },
+          },
+        },
+        {
+          key: '1-1',
+          title: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
+          start: payload.event.operationData.meta.nodes.start,
+          end: payload.event.operationData.meta.nodes.end,
+          isLeaf: true,
+          extra: {
+            type: 'task',
+            user: '张三',
+            status: { text: '进行中', status: 'processing' },
+          },
+        },
+      ],
+      expandList: null,
+    };
+    return _data;
+  }
   if (payload.event?.operation === 'expandNode') {
     const _data = cloneDeep(data);
     _data.protocol.components.gantt.data = {
@@ -56,15 +90,13 @@ export const mockData = {
       },
     },
     components: {
-      ganttContainer: { type: 'Container', props: { flexHeight: true } },
-      page: { type: 'Container', props: { fullHeight: true } },
+      ganttContainer: { type: 'Container' },
+      page: { type: 'Container' },
       topHead: {
         data: {},
         name: 'topHead',
         operations: {},
-        props: {
-          isTopHead: true,
-        },
+
         state: {},
         type: 'RowContainer',
       },
@@ -72,59 +104,6 @@ export const mockData = {
         data: {},
         name: 'issueAddButton',
         operations: {},
-        props: {
-          disabled: false,
-          menu: [
-            {
-              disabled: false,
-              disabledTip: '',
-              key: 'requirement',
-              operations: {
-                click: {
-                  key: 'createRequirement',
-                  reload: false,
-                },
-              },
-              prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
-              text: '需求',
-            },
-            {
-              disabled: false,
-              disabledTip: '',
-              key: 'task',
-              operations: {
-                click: {
-                  key: 'createTask',
-                  reload: false,
-                },
-              },
-              prefixIcon: 'ISSUE_ICON.issue.TASK',
-              text: '任务',
-            },
-            {
-              disabled: false,
-              disabledTip: '',
-              key: 'bug',
-              operations: {
-                click: {
-                  key: 'createBug',
-                  reload: false,
-                },
-              },
-              prefixIcon: 'ISSUE_ICON.issue.BUG',
-              text: '缺陷',
-            },
-          ],
-          operations: {
-            click: {
-              key: '',
-              reload: false,
-            },
-          },
-          suffixIcon: 'di',
-          text: '新建事项',
-          type: 'primary',
-        },
         state: {},
         type: 'Button',
       },
@@ -170,10 +149,10 @@ export const mockData = {
                 },
               },
             ],
-            R1: [
+            R122: [
               {
-                id: '1-1',
-                name: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
+                key: '1-1',
+                title: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
                 start: getDate(1),
                 end: getDate(5),
                 isLeaf: true,
@@ -184,7 +163,7 @@ export const mockData = {
                 },
               },
             ],
-            R111: [
+            R1: [
               {
                 id: '1-1',
                 name: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
@@ -224,8 +203,8 @@ export const mockData = {
               {
                 id: '1-4',
                 name: 'T1-4测试测试测试测试测试测试测试测试测试测试测试',
-                start: getDate(2),
-                end: getDate(10),
+                start: getDate(10),
+                end: getDate(12),
                 isLeaf: true,
                 extra: {
                   type: 'task',
@@ -337,6 +316,7 @@ export const mockData = {
             key: 'update',
             reload: true,
             fillMeta: 'nodes',
+            async: true,
             meta: {
               // 前端修改的数据放在meta.nodes里，update后，后端data.updateList返回相关修改
               nodes: [{ key: 'R1-1', start: 100, end: 1000 }],
@@ -353,9 +333,6 @@ export const mockData = {
       filter: {
         type: 'ContractiveFilter',
         name: 'filter',
-        props: {
-          delay: 1000,
-        },
         state: {
           conditions: [
             {
