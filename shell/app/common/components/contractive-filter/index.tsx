@@ -711,10 +711,11 @@ const ContractiveFilter = ({
   React.useEffect(() => {
     const preShowIndexMap = conditions.reduce((acc, x) => ({ ...acc, [x.key]: x.showIndex }), {});
     // 记录已选中的标签项，保留已选中标签项的showIndex
-    const keepShowIndexConditions = propsConditions.map((item) => ({
-      ...item,
-      showIndex: preShowIndexMap[item.key] || item.showIndex,
-    }));
+    const keepShowIndexConditions =
+      propsConditions?.map((item) => ({
+        ...item,
+        showIndex: preShowIndexMap[item.key] || item.showIndex,
+      })) || [];
 
     setConditions(keepShowIndexConditions);
     // eslint-disable-next-line react-hooks/exhaustive-deps

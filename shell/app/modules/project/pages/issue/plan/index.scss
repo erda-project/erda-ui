@@ -49,23 +49,29 @@
     border-right: 1px solid $white;
   }
 }
-.erda-task-list-header-selector {
-  .ant-select-selector {
-    border: none !important;
-    box-shadow: none !important;
 
-    &:hover {
-      background-color: rgba($color-default, 0.06);
+.erda-task-list-header {
+  border-top: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+
+  &-selector {
+    .ant-select-selector {
+      border: none !important;
+      box-shadow: none !important;
+
+      &:hover {
+        background-color: rgba($color-default, 0.06);
+      }
+
+      .ant-select-selection-item {
+        color: $color-default !important;
+        padding-right: 14px !important;
+      }
     }
 
-    .ant-select-selection-item {
-      color: $color-default !important;
-      padding-right: 14px !important;
+    .ant-select-arrow {
+      top: 13px;
+      color: rgba($color-default, 0.6);
     }
-  }
-
-  .ant-select-arrow {
-    top: 13px;
-    color: rgba($color-default, 0.6);
   }
 }
