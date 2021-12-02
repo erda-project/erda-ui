@@ -107,79 +107,85 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
     }
   };
 
-  return (
-    <>
-      {task.type !== 'project' ? (
-        <g>
-          <foreignObject
-            x={curPos.x1 + 4}
-            y={curPos.y - 2}
-            width={curPos.x2 - curPos.x1 - 8}
-            height={curPos.height + 4}
-          >
-            <div
-              className={`text-sm text-desc erda-gantt-task-preview-box bg-white bg-opacity-100 w-full h-full ${
-                changedTask ? 'visible' : 'invisible'
-              }`}
+  if (task.start && task.end) {
+    return (
+      <>
+        {task.type !== 'project' ? (
+          <g>
+            <foreignObject
+              x={curPos.x1 + 4}
+              y={curPos.y - 2}
+              width={curPos.x2 - curPos.x1 - 8}
+              height={curPos.height + 4}
             >
-              {moment(curPos.start).format('YYYY-MM-DD')}~{moment(curPos.end).format('YYYY-MM-DD')}
-            </div>
-          </foreignObject>
+              <div
+                className={`text-sm text-desc erda-gantt-task-preview-box bg-white bg-opacity-100 w-full h-full ${
+                  changedTask ? 'visible' : 'invisible'
+                }`}
+              >
+                {moment(curPos.start).format('YYYY-MM-DD')}~{moment(curPos.end).format('YYYY-MM-DD')}
+              </div>
+            </foreignObject>
+          </g>
+        ) : null}
+        <g
+          onKeyDown={(e) => {
+            switch (e.key) {
+              case 'Delete': {
+                if (isDelete) onEventStart('delete', task, e);
+                break;
+              }
+            }
+            e.stopPropagation();
+          }}
+          onMouseEnter={(e) => {
+            onEventStart('mouseenter', task, e);
+            setIsHover(true);
+          }}
+          onMouseLeave={(e) => {
+            onEventStart('mouseleave', task, e);
+            setIsHover(false);
+          }}
+          onDoubleClick={(e) => {
+            onEventStart('dblclick', task, e);
+          }}
+          onFocus={() => {
+            onEventStart('select', task);
+          }}
+        >
+          {taskItem}
+          {BarContentRender ? (
+            <foreignObject
+              id={`task-render-${task.id}`}
+              className="erda-gantt-task-foreign-render"
+              onFocus={() => {
+                onEventStart('select', task);
+              }}
+              x={task.x1 + 4}
+              y={task.y}
+              width={task.x2 - task.x1 - 8}
+              height={task.height}
+            >
+              <BarContentRender task={task} isHover={isHover} />
+            </foreignObject>
+          ) : (
+            <text
+              x={getX()}
+              y={task.y + taskHeight * 0.5}
+              className={
+                isTextInside
+                  ? 'erda-gantt-task-bar-label'
+                  : 'erda-gantt-task-bar-label erda-gantt-task-bar-label-outside'
+              }
+              ref={textRef}
+            >
+              {task.name}
+            </text>
+          )}
         </g>
-      ) : null}
-      <g
-        onKeyDown={(e) => {
-          switch (e.key) {
-            case 'Delete': {
-              if (isDelete) onEventStart('delete', task, e);
-              break;
-            }
-          }
-          e.stopPropagation();
-        }}
-        onMouseEnter={(e) => {
-          onEventStart('mouseenter', task, e);
-          setIsHover(true);
-        }}
-        onMouseLeave={(e) => {
-          onEventStart('mouseleave', task, e);
-          setIsHover(false);
-        }}
-        onDoubleClick={(e) => {
-          onEventStart('dblclick', task, e);
-        }}
-        onFocus={() => {
-          onEventStart('select', task);
-        }}
-      >
-        {taskItem}
-        {BarContentRender ? (
-          <foreignObject
-            id={`task-render-${task.id}`}
-            className="erda-gantt-task-foreign-render"
-            onFocus={() => {
-              onEventStart('select', task);
-            }}
-            x={task.x1 + 4}
-            y={task.y}
-            width={task.x2 - task.x1 - 8}
-            height={task.height}
-          >
-            <BarContentRender task={task} isHover={isHover} />
-          </foreignObject>
-        ) : (
-          <text
-            x={getX()}
-            y={task.y + taskHeight * 0.5}
-            className={
-              isTextInside ? 'erda-gantt-task-bar-label' : 'erda-gantt-task-bar-label erda-gantt-task-bar-label-outside'
-            }
-            ref={textRef}
-          >
-            {task.name}
-          </text>
-        )}
-      </g>
-    </>
-  );
+      </>
+    );
+  } else {
+    return null;
+  }
 };

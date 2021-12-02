@@ -32,8 +32,8 @@ export const enhanceMock = (data: any, payload: any) => {
           },
         },
         {
-          key: '1-1',
-          title: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
+          key: payload.event.operationData.meta.nodes.key,
+          title: `T${payload.event.operationData.meta.nodes.key}测试测试测试测试测试测试测试测试测试测试测试`,
           start: payload.event.operationData.meta.nodes.start,
           end: payload.event.operationData.meta.nodes.end,
           isLeaf: true,
@@ -75,6 +75,21 @@ export const enhanceMock = (data: any, payload: any) => {
 const currentDate = new Date();
 const getDate = (day: number) => new Date(currentDate.getFullYear(), currentDate.getMonth(), day).getTime();
 
+const makeData = (num: number) => {
+  return new Array(num).fill('').map((_, idx) => ({
+    key: `1-${idx + 1}`,
+    title: `T1-${idx + 1}测试测试测试测试测试测试测试测试测试测试测试`,
+    start: getDate(1),
+    end: getDate(5),
+    isLeaf: true,
+    extra: {
+      type: 'task',
+      user: '张三',
+      status: { text: '进行中', status: 'processing' },
+    },
+  }));
+};
+
 export const mockData = {
   scenario: {
     scenarioType: 'issue-gantt',
@@ -113,7 +128,7 @@ export const mockData = {
           expandList: {
             0: [
               {
-                start: getDate(1),
+                start: getDate(1), //new Date('2019-1-1').getTime(),
                 end: getDate(15),
                 title: 'R1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
                 key: 'R1',
@@ -149,7 +164,8 @@ export const mockData = {
                 },
               },
             ],
-            R122: [
+            // R1: makeData(1000),
+            R11: [
               {
                 key: '1-1',
                 title: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
@@ -168,7 +184,7 @@ export const mockData = {
                 id: '1-1',
                 name: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
                 start: getDate(1),
-                end: getDate(5),
+                // end: getDate(5),
                 isLeaf: true,
                 extra: {
                   type: 'task',
@@ -179,7 +195,7 @@ export const mockData = {
               {
                 id: '1-2',
                 name: 'T1-2测试测试测试测试测试测试测试测试测试测试测试',
-                start: getDate(2),
+                // start: getDate(2),
                 end: getDate(10),
                 isLeaf: true,
                 extra: {
@@ -191,8 +207,8 @@ export const mockData = {
               {
                 id: '1-3',
                 name: 'T1-3测试测试测试测试测试测试测试测试测试测试测试',
-                start: getDate(2),
-                end: getDate(10),
+                // start: getDate(2),
+                // end: getDate(10),
                 isLeaf: true,
                 extra: {
                   type: 'task',
@@ -203,8 +219,8 @@ export const mockData = {
               {
                 id: '1-4',
                 name: 'T1-4测试测试测试测试测试测试测试测试测试测试测试',
-                start: getDate(10),
-                end: getDate(12),
+                start: getDate(28),
+                end: getDate(29),
                 isLeaf: true,
                 extra: {
                   type: 'task',
@@ -215,7 +231,7 @@ export const mockData = {
               {
                 id: '1-5',
                 name: 'T1-5测试测试测试测试测试测试测试测试测试测试测试',
-                start: getDate(2),
+                start: new Date('2019-1-1').getTime(),
                 end: getDate(10),
                 isLeaf: true,
                 extra: {

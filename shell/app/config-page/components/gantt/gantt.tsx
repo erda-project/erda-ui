@@ -174,7 +174,12 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
               : moment(end).endOf('dates');
           moment(reStart).valueOf() >= moment(reEnd).valueOf() && (reEnd = moment(reEnd).valueOf() + oneDaySec);
           const newItem = { ...t, start: new Date(reStart), end: new Date(reEnd) };
-          operations?.update && execOperation(operations?.update, { ...newItem, start: reStart, end: reEnd });
+          operations?.update &&
+            execOperation(operations?.update, {
+              key: newItem.id,
+              start: newItem.start.getTime(),
+              end: newItem.end.getTime(),
+            });
           return newItem;
         }
         return item;

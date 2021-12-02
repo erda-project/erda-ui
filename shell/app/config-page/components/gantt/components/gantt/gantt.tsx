@@ -78,6 +78,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     return { viewMode, dates: seedDates(startDate, endDate, viewMode) };
   });
 
+  const horizontalRef = React.useRef<HTMLDivElement>(null);
+
   const [taskHeight, setTaskHeight] = useState((rowHeight * barFill) / 100);
   const [taskListWidth, setTaskListWidth] = useState(0);
   const [svgContainerWidth, setSvgContainerWidth] = useState(0);
@@ -221,16 +223,16 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   // scroll events
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
-      console.log('------', event);
       if (event.shiftKey || event.deltaX) {
         const scrollMove = event.deltaX ? event.deltaX : event.deltaY;
         let newScrollX = scrollX + scrollMove;
+        const boxWidth = horizontalRef.current.offsetWidth;
+        const scrollDis = svgWidth > boxWidth ? svgWidth - boxWidth : svgWidth;
         if (newScrollX < 0) {
           newScrollX = 0;
-        } else if (newScrollX > svgWidth) {
-          newScrollX = svgWidth;
+        } else if (newScrollX > scrollDis) {
+          newScrollX = scrollDis;
         }
-        console.log('------newScrollX', newScrollX);
         setScrollX(newScrollX);
         event.preventDefault();
       } else if (ganttHeight) {
@@ -338,9 +340,11 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         onSelect(newSelectedTask, true);
       }
     }
-    if (newSelectedTask) {
-      if (scrollX > newSelectedTask?.x1) {
-        setScrollX(newSelectedTask?.x1 - 40);
+    if (newSelectedTask?.x1) {
+      if (scrollX > newSelectedTask.x1) {
+        setScrollX(newSelectedTask.x1 - 40);
+      } else if (scrollX + horizontalRef.current.offsetWidth < newSelectedTask.x2) {
+        setScrollX(newSelectedTask.x2 + 40 - horizontalRef.current.offsetWidth);
       }
     }
     setSelectedTask(newSelectedTask);
@@ -361,6 +365,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     ganttHeight,
     rtl,
     selectedTask,
+    setSelectedTask: handleSelectedTask,
+    onDateChange,
     ganttEvent,
   };
   const calendarProps: CalendarProps = {
@@ -467,6 +473,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         taskListWidth={taskListWidth}
         scroll={scrollX}
         rtl={rtl}
+        ref={horizontalRef}
         onScroll={handleScrollX}
       />
     </div>

@@ -265,6 +265,7 @@ const convertToMilestone = (
 };
 
 const taskXCoordinate = (xDate: Date, dates: Date[], dateDelta: number, columnWidth: number) => {
+  if (!xDate) return 0;
   const index = ~~(
     (xDate.getTime() - dates[0].getTime() + xDate.getTimezoneOffset() - dates[0].getTimezoneOffset()) /
     dateDelta
@@ -281,6 +282,7 @@ const taskXCoordinate = (xDate: Date, dates: Date[], dateDelta: number, columnWi
   return x;
 };
 const taskXCoordinateRTL = (xDate: Date, dates: Date[], dateDelta: number, columnWidth: number) => {
+  if (!xDate) return 0;
   let x = taskXCoordinate(xDate, dates, dateDelta, columnWidth);
   x += columnWidth;
   return x;
@@ -489,6 +491,8 @@ const handleTaskBySVGMouseEventForBar = (
       }
       break;
     }
+    default:
+      break;
   }
   return { isChanged, changedTask };
 };

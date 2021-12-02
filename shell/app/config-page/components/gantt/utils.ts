@@ -20,18 +20,20 @@ export const convertDataForGantt = (
   let ganttData: CP_GANTT.IGanttData[] = [...prevList];
 
   const { expandList, updateList } = data;
+  const timeLimit = (t) => (t && new Date(t).getTime() > new Date('2020-1-1').getTime() ? t : 0);
 
   const prevDataGroup = { ...groupBy(prevList, 'pId'), ...expandList };
 
   const convert = (dataTemp: CP_GANTT.IData[], level = 0, pId?: string) => {
     dataTemp.forEach((item) => {
       const { key, title, start, end, isLeaf = true, hideChildren, ...rest } = item;
+      const validTime = timeLimit(start) && timeLimit(end);
       const curData = {
         type: !isLeaf ? 'project' : 'task',
         id: key,
         name: title,
-        start: new Date(start),
-        end: new Date(end),
+        start: validTime ? new Date(start) : undefined,
+        end: validTime ? new Date(end) : undefined,
         progress: 0,
         isLeaf,
         hideChildren: hideChildren === undefined ? (!isLeaf ? !prevDataGroup[key]?.length : undefined) : hideChildren,
@@ -64,8 +66,8 @@ export const convertDataForGantt = (
           hideChildren: hideChildren === undefined ? (!isLeaf ? !prevDataGroup[key]?.length : undefined) : hideChildren,
           id: key,
           name: title,
-          start: new Date(start),
-          end: new Date(end),
+          start: start && new Date(start),
+          end: end && new Date(end),
           type: !isLeaf ? 'project' : 'task',
         });
       }
