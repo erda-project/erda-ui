@@ -384,7 +384,6 @@ importers:
       fast-glob: ^3.2.7
       file-loader: ^6.0.0
       filemanager-webpack-plugin: ^3.1.0
-      gantt-task-react: ^0.3.7
       git-revision-webpack-plugin: ^3.0.6
       highlight.js: ^10.5.0
       html-webpack-plugin: ^5.2.0
@@ -489,7 +488,6 @@ importers:
       element-resize-event: 2.0.9
       events: 3.3.0
       file-loader: 6.2.0_webpack@5.63.0
-      gantt-task-react: 0.3.7_react@16.14.0
       highlight.js: 10.7.2
       https-browserify: 1.0.0
       i18next-scanner: 3.1.0
@@ -15003,15 +15001,6 @@ packages:
     resolution: {integrity: sha512-bLgc3asbWdwPbx2mNk2S49kmJCuQeu0nfmaOgbs8WIyzzkw3r4htszdIi9Q9EMezDPTYuJx2wvjZ/EwgAthpnA==}
     dev: false
     optional: true
-
-  /gantt-task-react/0.3.7_react@16.14.0:
-    resolution: {integrity: sha512-u4doKox68fmGYzEbg+QifdKlTC+KSbXmB7fU3cMsjAeJ8csC0jG6sgpHf9hcRj6cNWBIj1didmqfcncK1YMzBA==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      react: ^16.0.0
-    dependencies:
-      react: 16.14.0
-    dev: false
 
   /gauge/2.7.4:
     resolution: {integrity: sha1-LANAXHU4w51+s3sxcCLjJfsBi/c=}
