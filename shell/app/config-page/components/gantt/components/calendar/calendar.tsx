@@ -8,6 +8,7 @@ import {
   getWeekNumberISO8601,
 } from '../../helpers/date-helper';
 import { DateSetup } from '../../types/date-setup';
+import i18n from 'i18n';
 import './calendar.scss';
 
 export interface CalendarProps {
@@ -22,9 +23,21 @@ export interface CalendarProps {
   ganttEvent: Obj;
 }
 
-const Days = ['日', '一', '二', '三', '四', '五', '六'];
-const Months = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
-
+const Days = [i18n.t('Sun'), i18n.t('Mon'), i18n.t('Tue'), i18n.t('Wed'), i18n.t('Thu'), i18n.t('Fri'), i18n.t('Sat')];
+const Months = [
+  i18n.t('January'),
+  i18n.t('February'),
+  i18n.t('March'),
+  i18n.t('April'),
+  i18n.t('May'),
+  i18n.t('June'),
+  i18n.t('July'),
+  i18n.t('August'),
+  i18n.t('September'),
+  i18n.t('October'),
+  i18n.t('November'),
+  i18n.t('December'),
+];
 export const Calendar: React.FC<CalendarProps> = ({
   dateSetup,
   locale,
@@ -128,20 +141,14 @@ export const Calendar: React.FC<CalendarProps> = ({
     return [topValues, bottomValues];
   };
 
-  const getHoverDate = () => {
-    const curSelected = selectedTask && tasks?.find((item) => item.id === selectedTask.id);
-    const curTask = ganttEvent?.changedTask || curSelected;
-    if (curTask) {
-      return (
-        <div
-          className="absolute rounded bg-hover-gray-bg"
-          style={{ width: curTask.x2 - curTask.x1, height: 40, left: curTask.x1, top: 24 }}
-        />
-      );
-    }
-    return null;
-  };
-
+  const curSelected = selectedTask && tasks?.find((item) => item.id === selectedTask.id);
+  const curTask = ganttEvent?.changedTask || curSelected;
+  const HoverBar = curTask ? (
+    <div
+      className="absolute rounded bg-hover-gray-bg"
+      style={{ width: curTask.x2 - curTask.x1, height: 40, left: curTask.x1, top: 24 }}
+    />
+  ) : null;
   const getCalendarValuesForDay = () => {
     let bottomValues: React.ReactNode = null;
     const { dates } = dateSetup;
@@ -158,7 +165,7 @@ export const Calendar: React.FC<CalendarProps> = ({
     let leftDis = 0;
     bottomValues = (
       <div className="relative h-full w-full erda-gantt-calendar-header-container">
-        {getHoverDate()}
+        {HoverBar}
         {dateInWeeks.map((week, idx) => {
           const weekWidth = columnWidth * week.length;
           leftDis += weekWidth;
@@ -172,13 +179,20 @@ export const Calendar: React.FC<CalendarProps> = ({
                 {Months[week[0].getMonth()]}
               </div>
               {week.map((day, dIdx) => {
+                const mark =
+                  curSelected?.x1 === columnWidth * dIdx + leftDis - weekWidth ||
+                  curSelected?.x2 === columnWidth * (dIdx + 1) + leftDis - weekWidth;
+                const cls = `${
+                  mark
+                    ? 'calendar-mark-text'
+                    : `${[0, 6].includes(day.getDay()) ? 'calendar-disabled-text' : 'calendar-normal-text'}`
+                }`;
+
                 return (
                   <div
                     key={day.getTime()}
                     style={{ width: columnWidth, height: 40, left: columnWidth * dIdx, top: 24 }}
-                    className={`absolute flex flex-col items-center justify-center text-sub ${
-                      [0, 6].includes(day.getDay()) ? 'text-black-300' : ''
-                    }`}
+                    className={`absolute flex flex-col items-center justify-center  ${cls}`}
                   >
                     <span>{Days[day.getDay()]}</span>
                     <span>{day.getDate()}</span>

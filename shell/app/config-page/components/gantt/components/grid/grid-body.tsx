@@ -21,6 +21,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
   columnWidth,
   todayColor,
   selectedTask,
+  ganttHeight,
   rtl,
   ganttEvent,
 }) => {
@@ -87,7 +88,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
             x={changedTask.x1}
             y={0}
             width={changedTask.x2 - changedTask.x1}
-            height={rowHeight * tasks.length}
+            height={ganttHeight}
             className="erda-gantt-grid-changed-range"
           />
         </g>

@@ -1,12 +1,12 @@
 .erda-gantt-grid-row {
-  fill: rgba(0, 0, 0, 0.02);
+  fill: transparent;
   &-selected {
     fill: rgba(0, 0, 0, 0.1) !important;
   }
 }
 
 .erda-gantt-grid-row:nth-child(even) {
-  fill: rgba(0, 0, 0, 0.02);
+  fill: transparent;
 }
 
 .erda-gantt-grid-row-line {
@@ -14,7 +14,7 @@
 }
 
 .erda-gantt-grid-tick {
-  stroke: rgba(0, 0, 0, 0.02);
+  fill: transparent;
 }
 
 .erda-gantt-grid-changed-range {
