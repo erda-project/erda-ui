@@ -166,7 +166,7 @@ const Overview = () => {
                           <Tag className="mb-0.5 text-xs leading-5 border-0" color={color}>
                             {tag}
                           </Tag>
-                          <div className="text-xs	leading-5 desc">{desc || '-'}</div>
+                          <div className="text-xs	leading-5 desc">{desc || i18n.t('no description yet')}</div>
                         </div>
                       </Col>
                       <Col span={12} className="flex items-center">
