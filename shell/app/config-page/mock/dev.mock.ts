@@ -10,6 +10,12 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+export const enhanceMock = (mockData: any, payload: any) => {
+  if (!payload.hierarchy) {
+    return mockData;
+  }
+  return payload;
+};
 
 export const mockData = {
   scenario: {
@@ -28,9 +34,9 @@ export const mockData = {
       alert: {
         type: 'Alert',
         props: {
-          visible: true,
-          message: '企业处于封网期间，生产环境禁止部署！',
-          type: 'error',
+          type: 'warning',
+          message: 'ss',
+          showIcon: true,
         },
       },
       page: {

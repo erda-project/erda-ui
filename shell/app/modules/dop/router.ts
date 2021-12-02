@@ -198,6 +198,12 @@ export default function getDopRouter(): RouteConfigItem[] {
           getComp: (cb) => cb(import('app/config-page/mock/mock')),
         },
         {
+          path: 'gallery',
+          pageName: '组件库',
+          layout: { noWrapper: true },
+          getComp: (cb) => cb(import('app/config-page/mock/gallery')),
+        },
+        {
           path: 'debug',
           pageName: '组件化协议调试',
           layout: { noWrapper: true, showSubSidebar: false },

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import routeInfoStore from 'core/stores/route';
-import DiceConfigPage, { useMock } from 'app/config-page';
+import DiceConfigPage from 'app/config-page';
 import { getUrlQuery } from 'config-page/utils';
 import { updateSearch } from 'common/utils';
 import { Spin } from 'antd';

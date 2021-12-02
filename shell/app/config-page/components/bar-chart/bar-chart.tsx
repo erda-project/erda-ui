@@ -104,7 +104,7 @@ const getOption = (option: Obj, configProps: CP_BAR_CHART.IProps) => {
   };
 };
 
-const BarChart = (props: CP_BAR_CHART.Props) => {
+const CP_BarChart = (props: CP_BAR_CHART.Props) => {
   const { cId, data, props: configProps, extraContent, operations, execOperation } = props;
   const { yAxisLabelLen, title, tip, visible = true, chartStyle, ...rest } = configProps || {};
   const { option } = data || {};
@@ -135,4 +135,4 @@ const BarChart = (props: CP_BAR_CHART.Props) => {
   );
 };
 
-export default BarChart;
+export default CP_BarChart;

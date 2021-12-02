@@ -11,28 +11,41 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const mockData: Array<MockSpec<CP_ALERT.Spec>> = [
+const mockData: Array<MockSpec<CP_BADGE.Spec>> = [
   {
     _meta: {
-      title: '成功',
-      desc: 'type 类型有 success | info | warning | error',
+      title: '标准标签',
+      desc: '',
     },
-    type: 'Alert',
+    type: 'Badge',
     props: {
-      message: 'There is success message without icon',
-      type: 'success',
+      status: 'success' as CP_BADGE.Status,
+      text: 'doing',
+      color: 'green',
+      tip: 'tip message',
+      size: 'default',
+      breathing: true,
+    },
+    data: {
+      list: [],
     },
   },
   {
     _meta: {
-      title: '失败',
+      title: '小号标签',
+      desc: '一般用在 table 标题列的第二行',
     },
-    type: 'Alert',
+    type: 'Badge',
     props: {
-      visible: true,
-      showIcon: true,
-      message: 'There is alert message',
-      type: 'error',
+      status: 'warning' as CP_BADGE.Status,
+      text: 'doing',
+      color: 'yellow',
+      tip: 'tip message',
+      size: 'small',
+      breathing: true,
+    },
+    data: {
+      list: [],
     },
   },
 ];

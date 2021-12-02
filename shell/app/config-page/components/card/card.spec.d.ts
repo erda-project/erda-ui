@@ -20,6 +20,7 @@ declare namespace CP_CARD {
   interface IProps {
     data: Obj<InfoData>;
     cardType: string;
+    className?: string;
   }
 
   interface InfoData {
@@ -33,7 +34,5 @@ declare namespace CP_CARD {
     type: string;
   }
 
-  type Props = MakeProps<Spec> & {
-    className: string;
-  };
+  type Props = MakeProps<Spec>;
 }
