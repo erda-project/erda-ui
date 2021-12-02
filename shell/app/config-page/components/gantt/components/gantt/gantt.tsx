@@ -221,6 +221,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   // scroll events
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
+      console.log('------', event);
       if (event.shiftKey || event.deltaX) {
         const scrollMove = event.deltaX ? event.deltaX : event.deltaY;
         let newScrollX = scrollX + scrollMove;
@@ -229,6 +230,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         } else if (newScrollX > svgWidth) {
           newScrollX = svgWidth;
         }
+        console.log('------newScrollX', newScrollX);
         setScrollX(newScrollX);
         event.preventDefault();
       } else if (ganttHeight) {

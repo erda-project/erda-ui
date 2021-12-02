@@ -33,14 +33,15 @@ interface IBarProps {
 }
 const BarContentRender = (props: IBarProps) => {
   const { task, isHover } = props;
-  const { extra, isLeaf } = task;
-
+  const { extra, isLeaf, styles } = task;
+  const color = !isLeaf && styles?.backgroundColor;
   return (
     <div className={`relative h-full ${!isLeaf ? 'top-1' : ''}`}>
       <div className={`flex items-center h-full ${!isLeaf ? 'justify-center' : ''}`}>
         {!isLeaf ? null : <IssueIcon type={extra?.type} size={'16px'} />}
         <span
-          className={`text-white text-xs overflow-hidden whitespace-nowrap ${!isLeaf ? 'text-normal' : 'text-white'}`}
+          style={color ? { color } : {}}
+          className={`text-xs overflow-hidden whitespace-nowrap ${!isLeaf ? '' : 'text-white'}`}
         >
           {task.name}
         </span>
@@ -182,7 +183,20 @@ const IssuePlan = () => {
         scenarioType={'issue-gantt'}
         scenarioKey={'issue-gantt'}
         inParams={inParams}
+        useMock={useMock('crud')}
+        forceMock
         customProps={{
+          topHead: {
+            props: {
+              isTopHead: true,
+            },
+          },
+          ganttContainer: {
+            props: { flexHeight: true },
+          },
+          page: {
+            props: { fullHeight: true },
+          },
           gantt: {
             props: {
               BarContentRender,
@@ -191,6 +205,59 @@ const IssuePlan = () => {
             },
           },
           issueAddButton: {
+            props: {
+              disabled: false,
+              menu: [
+                {
+                  disabled: false,
+                  disabledTip: '',
+                  key: 'requirement',
+                  operations: {
+                    click: {
+                      key: 'createRequirement',
+                      reload: false,
+                    },
+                  },
+                  prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+                  text: i18n.t('requirement'),
+                },
+                {
+                  disabled: false,
+                  disabledTip: '',
+                  key: 'task',
+                  operations: {
+                    click: {
+                      key: 'createTask',
+                      reload: false,
+                    },
+                  },
+                  prefixIcon: 'ISSUE_ICON.issue.TASK',
+                  text: i18n.t('task'),
+                },
+                {
+                  disabled: false,
+                  disabledTip: '',
+                  key: 'bug',
+                  operations: {
+                    click: {
+                      key: 'createBug',
+                      reload: false,
+                    },
+                  },
+                  prefixIcon: 'ISSUE_ICON.issue.BUG',
+                  text: i18n.t('bug'),
+                },
+              ],
+              operations: {
+                click: {
+                  key: '',
+                  reload: false,
+                },
+              },
+              suffixIcon: 'di',
+              text: i18n.t('dop:create issue'),
+              type: 'primary',
+            },
             op: {
               // 添加：打开滑窗
               click: onCreate,
