@@ -28,10 +28,6 @@ components
     - table.mock.ts
 ```
 
-- 所有 ts、tsx 文件应当只有一个默认导出
-- 组件文件名为小写中横线连接，组件目录和文件名保持一致
-- mock 数据应尽量提供不同配置下的多种数据
-
 #### docs 目录
 
 使用 `npm run gen-cp-md` 命令，通过 components 目录下所有的 d.ts 文件，生成的对应 markdown 文档，用于持续更新维护。
@@ -39,7 +35,10 @@ components
 
 ### 注意事项
 
+- 所有 ts、tsx 文件应当只有一个默认导出
+- 组件文件名为小写中横线连接，组件目录和文件名保持一致
+- 组件文件内的名称，使用 `CP_` 作为前缀，例如 `const CP_Table = ...`，
 - 类型定义文件使用 `spec.d.ts` 后缀，如果和组件名同名，会导致 d.ts 文件内无法正确 resolve 全局的 type 定义
-- spce 中的 `Props` 类型使用 MekeProps 方法生成，会添加框架附带的一些 props 给组件。 `type Props = MakeProps<Spec>;`
-- mock 数据使用 `CP_COMP.Spec` 类型，组件中使用 `CP_COMP.Props` 类型
+- spec 中的 `Props` 类型使用 MakeProps 方法生成，会添加框架附带的一些 props 给组件。 `type Props = MakeProps<Spec>;`
+- mock 数据使用 `MockSpec<T>` 包装一下，例如 `MockSpec<CP_COMP.Spec>` 类型，应尽量提供不同配置下的多种数据
 - 组件定义更新后，及时生成最新文档
