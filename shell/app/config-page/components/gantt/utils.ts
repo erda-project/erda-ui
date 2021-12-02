@@ -20,7 +20,7 @@ export const convertDataForGantt = (
   let ganttData: CP_GANTT.IGanttData[] = [...prevList];
 
   const { expandList, updateList } = data;
-  const timeLimit = (t) => (t && new Date(t).getTime() > new Date('2020-1-1').getTime() ? t : 0);
+  const timeLimit = (t) => (t && new Date(t).getTime() > new Date('2019-1-1').getTime() ? t : 0);
 
   const prevDataGroup = { ...groupBy(prevList, 'pId'), ...expandList };
 

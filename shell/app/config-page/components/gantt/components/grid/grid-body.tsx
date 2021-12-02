@@ -37,8 +37,9 @@ const getDateFormX = (x1 = -1, x2 = -1, dateDelta: number, columnWidth: number, 
 };
 
 export const GridBody: React.FC<GridBodyProps> = ({
-  tasks,
+  tasks: originTasks,
   dates,
+  barTasks: tasks,
   rowHeight,
   svgWidth,
   columnWidth,
@@ -52,7 +53,6 @@ export const GridBody: React.FC<GridBodyProps> = ({
 }) => {
   let y = 0;
   const gridRows: ReactChild[] = [];
-
   const dateDelta =
     dates[1].getTime() -
     dates[0].getTime() -

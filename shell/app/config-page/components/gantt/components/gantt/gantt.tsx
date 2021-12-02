@@ -359,6 +359,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     columnWidth,
     svgWidth,
     tasks,
+    barTasks,
     rowHeight,
     dates: dateSetup.dates,
     todayColor,
