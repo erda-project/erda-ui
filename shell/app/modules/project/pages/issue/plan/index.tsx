@@ -90,7 +90,7 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
       {<IssueIcon type={type} size={'16px'} />}
       {level === 0 ? (
         <>
-          <div className="flex-1 ml-1 w-0">
+          <div className="flex-1 ml-1 w-0" style={{ marginRight: 86 }}>
             <div className="truncate">{name}</div>
             <div className="flex issue-plan-status-total">
               {subNodeStatus.map((subItem, idx) => (
@@ -102,7 +102,6 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
               ))}
             </div>
           </div>
-          <div style={{ width: 86 }} />
         </>
       ) : (
         <>
