@@ -30,7 +30,7 @@ localStorage.removeItem('erda-bp-list');
 const ErdaAlert = ({ type = 'info', message, showOnceKey, className }: IProps) => {
   const alertList = JSON.parse(localStorage.getItem('erda-alert-list') || '{}');
   const [isHidden, setIsHidden] = React.useState(showOnceKey ? alertList[showOnceKey] : false);
-  const close = () => {
+  const afterClose = () => {
     setIsHidden('true');
     if (showOnceKey) {
       alertList[showOnceKey] = 'true';
@@ -48,7 +48,8 @@ const ErdaAlert = ({ type = 'info', message, showOnceKey, className }: IProps) =
           {message}
         </>
       }
-      closeText={<ErdaIcon type="close" onClick={close} className="hover-active" />}
+      closeText={<ErdaIcon type="close" className="hover-active" />}
+      afterClose={afterClose}
     />
   ) : null;
 };
