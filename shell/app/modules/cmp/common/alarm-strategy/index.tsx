@@ -15,7 +15,8 @@ import React from 'react';
 import { map } from 'lodash';
 import moment from 'moment';
 import { useMount, useUnmount } from 'react-use';
-import { Modal, Button, Spin, Switch, Table, Tooltip } from 'antd';
+import { Modal, Button, Spin, Tooltip } from 'antd';
+import { Badge } from 'common';
 import { goTo } from 'common/utils';
 import { ColumnProps } from 'app/interface/common';
 import i18n from 'i18n';
@@ -25,8 +26,8 @@ import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import cmpAlarmStrategyStore from 'app/modules/cmp/stores/alarm-strategy';
 import mspAlarmStrategyStore from 'app/modules/msp/alarm-manage/alarm-strategy/stores/alarm-strategy';
-import orgStore from 'app/org-home/stores/org';
-import routeInfoStore from 'core/stores/route';
+import Table from 'common/components/table';
+import { IActions } from 'common/components/table/interface';
 import './index.scss';
 
 const { confirm } = Modal;
@@ -52,13 +53,13 @@ interface IProps {
   scopeId: string;
   commonPayload?: Obj;
 }
-export default ({ scopeType, scopeId, commonPayload }: IProps) => {
+
+const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
   const memberStore = memberStoreMap[scopeType];
   const { getRoleMap } = memberStore.effects;
   const alarmStrategyStore = alarmStrategyStoreMap[scopeType];
   const [alertList, alarmPaging] = alarmStrategyStore.useStore((s) => [s.alertList, s.alarmPaging]);
   const { total, pageNo, pageSize } = alarmPaging;
-  const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [getAlertDetailLoading, getAlertsLoading, toggleAlertLoading] = useLoading(alarmStrategyStore, [
     'getAlertDetail',
     'getAlerts',
@@ -92,15 +93,15 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
   const handleDeleteAlarm = (id: number) => {
     confirm({
       title: i18n.t('dop:are you sure you want to delete this item?'),
-      content: i18n.t('dop:the notification will be permanently deleted'),
+      content: i18n.t('dop:the alarm strategy will be permanently deleted'),
       onOk() {
         deleteAlert(id);
       },
     });
   };
 
-  const handlePageChange = (no: number) => {
-    getAlerts({ pageNo: no });
+  const handlePageChange = (no: number, size?: number) => {
+    getAlerts({ pageNo: no, pageSize: size });
   };
 
   const alertListColumns: Array<ColumnProps<COMMON_STRATEGY_NOTIFY.IAlert>> = [
@@ -108,6 +109,14 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       title: i18n.t('cmp:alarm name'),
       dataIndex: 'name',
       width: 150,
+    },
+    {
+      title: i18n.t('status'),
+      dataIndex: 'enable',
+      width: 120,
+      render: (enable) => (
+        <Badge text={enable ? i18n.t('enable') : i18n.t('unable')} status={enable ? 'success' : 'default'} />
+      ),
     },
     // ...insertWhen(scopeType === ScopeType.ORG, [
     //   {
@@ -153,42 +162,42 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       width: 180,
       render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
-    {
-      title: i18n.t('default:operation'),
-      dataIndex: 'id',
-      width: 150,
-      render: (_text, record) => {
-        return (
-          <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => goTo(`./edit-strategy/${record.id}`)}>
-              {i18n.t('edit')}
-            </span>
-            <span
-              className="table-operations-btn"
-              onClick={() => {
-                handleDeleteAlarm(record.id);
-              }}
-            >
-              {i18n.t('delete')}
-            </span>
-            <Switch
-              size="small"
-              defaultChecked={record.enable}
-              onChange={() => {
-                toggleAlert({
-                  id: record.id,
-                  enable: !record.enable,
-                }).then(() => {
-                  getAlerts({ pageNo });
-                });
-              }}
-            />
-          </div>
-        );
-      },
-    },
   ];
 
+  const actions: IActions<COMMON_STRATEGY_NOTIFY.IAlert> = {
+    width: 120,
+    render: (record: COMMON_STRATEGY_NOTIFY.IAlert) => renderMenu(record),
+  };
+
+  const renderMenu = (record: COMMON_STRATEGY_NOTIFY.IAlert) => {
+    const { editStrategy, deleteStrategy, enableStrategy } = {
+      editStrategy: {
+        title: i18n.t('edit'),
+        onClick: () => {
+          goTo(`./edit-strategy/${record.id}`);
+        },
+      },
+      deleteStrategy: {
+        title: i18n.t('delete'),
+        onClick: () => {
+          handleDeleteAlarm(record.id);
+        },
+      },
+      enableStrategy: {
+        title: record?.enable ? i18n.t('unable') : i18n.t('enable'),
+        onClick: () => {
+          toggleAlert({
+            id: record.id,
+            enable: !record.enable,
+          }).then(() => {
+            getAlerts({ pageNo });
+          });
+        },
+      },
+    };
+
+    return [editStrategy, deleteStrategy, enableStrategy];
+  };
   return (
     <div className="alarm-strategy">
       <div className="top-button-group">
@@ -206,6 +215,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
           rowKey="id"
           columns={alertListColumns}
           dataSource={alertList}
+          actions={actions}
           pagination={{
             current: pageNo,
             pageSize,
@@ -218,3 +228,5 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     </div>
   );
 };
+
+export default AlarmStrategyList;

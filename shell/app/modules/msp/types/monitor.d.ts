@@ -47,15 +47,9 @@ declare namespace MS_MONITOR {
 
   interface ITraceSummary {
     id: string;
+    duration: number;
     elapsed: number;
     services: string[];
     startTime: number;
-    // start_time: number;
-    // labels: Array<{
-    //   key: string;
-    //   count: string;
-    // }>;
-    // operation_name: string;
-    // trace_id: string;
   }
 }

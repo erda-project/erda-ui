@@ -58,7 +58,7 @@ const CustomFilter = (props: IFilterProps) => {
   const search = React.useCallback(
     debounce(() => {
       filterRef && filterRef.current && filterRef.current.search();
-    }, 400),
+    }, 1000),
     [],
   );
 

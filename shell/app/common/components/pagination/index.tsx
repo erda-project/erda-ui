@@ -24,7 +24,6 @@ import './index.scss';
     total // 总数，默认为0
     current // 当前页码，默认为1
     pageSize // 每页行数默认为PAGINATION.pageSize
-    pageSizeOptions // pageSize的下拉选择项，默认为PAGINATION.pageSizeOptions，当为空数组时不显示下拉选择
     showSizeChanger // 是否选择pageSize的下拉选择框，默认为true
     onChange // 翻页或者pageSize选择时触发，第一个参数为current，第二个参数为pageSize
  */
@@ -32,8 +31,6 @@ interface IPaginationProps {
   total: number;
   current: number;
   pageSize?: number;
-  pageSizeOptions?: string[];
-  showSizeChanger?: boolean;
   onChange: (page: number, pageSize?: number) => void;
 }
 
@@ -43,14 +40,7 @@ export interface IPaginationJumpProps {
 }
 
 const Pagination = (pagination: IPaginationProps) => {
-  const {
-    total = 0,
-    current = 1,
-    pageSize = PAGINATION.pageSize,
-    pageSizeOptions = PAGINATION.pageSizeOptions,
-    showSizeChanger = true,
-    onChange,
-  } = pagination;
+  const { total = 0, current = 1, pageSize = PAGINATION.pageSize, onChange } = pagination;
 
   const [goToVisible, setGoToVisible] = React.useState(false);
 
@@ -72,15 +62,13 @@ const Pagination = (pagination: IPaginationProps) => {
 
   const pageSizeMenu = (
     <Menu>
-      {(pageSizeOptions || [])
-        .filter((item) => item)
-        .map((item: string | number) => {
-          return (
-            <Menu.Item key={item} onClick={() => onChange?.(1, +item)}>
-              <span className="fake-link mr-1">{i18n.t('{size} items / page', { size: item })}</span>
-            </Menu.Item>
-          );
-        })}
+      {PAGINATION.pageSizeOptions.map((item: string | number) => {
+        return (
+          <Menu.Item key={item} onClick={() => onChange?.(1, +item)}>
+            <span className="fake-link mr-1">{i18n.t('{size} items / page', { size: item })}</span>
+          </Menu.Item>
+        );
+      })}
     </Menu>
   );
 
@@ -102,17 +90,15 @@ const Pagination = (pagination: IPaginationProps) => {
           <ErdaIcon type="right" size={18} color="currentColor" />
         </div>
       </div>
-      {showSizeChanger && pageSizeOptions?.length && (
-        <Dropdown
-          trigger={['click']}
-          overlay={pageSizeMenu}
-          align={{ offset: [0, 5] }}
-          overlayStyle={{ minWidth: 120 }}
-          getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-        >
-          <span className="bg-hover px-3 py-1 cursor-pointer">{i18n.t('{size} items / page', { size: pageSize })}</span>
-        </Dropdown>
-      )}
+      <Dropdown
+        trigger={['click']}
+        overlay={pageSizeMenu}
+        align={{ offset: [0, 5] }}
+        overlayStyle={{ minWidth: 120 }}
+        getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+      >
+        <span className="bg-hover px-3 py-1 cursor-pointer">{i18n.t('{size} items / page', { size: pageSize })}</span>
+      </Dropdown>
     </div>
   );
 };

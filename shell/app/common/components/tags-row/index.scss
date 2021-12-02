@@ -33,7 +33,8 @@
     position: relative;
     display: inline-block;
     height: 28px;
-    margin-right: 12px;
+    margin-left: 0;
+    margin-right: 8px;
     margin-top: 4px;
     margin-bottom: 4px;
     padding-right: 6px;
@@ -49,7 +50,7 @@
     &.small {
       height: 20px;
       margin-top: 2px;
-      margin-right: 8px;
+      margin-right: 4px;
       font-size: 12px;
       margin-bottom: 2px;
       line-height: 20px;

@@ -51,6 +51,11 @@ interface IProps {
 
 const unProduct = process.env.NODE_ENV !== 'production';
 
+const globalOperation = {
+  __AsyncAtInit__: '__AsyncAtInit__',
+  __Sync__: '__Sync__',
+};
+
 const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   const {
     fullHeight = true,
@@ -105,7 +110,26 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   const { getRenderPageLayout } = commonStore.effects;
 
   useMount(() => {
-    queryPageConfig(); // 第一次请求界面
+    queryPageConfig(undefined, false, undefined, (config: CONFIG_PAGE.RenderConfig) => {
+      // if there is any component marked as asyncAtInit, fetch again to load async component
+      const comps = config?.protocol?.components || {};
+      const asyncComponents: string[] = [];
+      Object.keys(comps).forEach((k) => {
+        if (comps[k].options?.asyncAtInit) {
+          asyncComponents.push(k);
+        }
+      });
+      if (asyncComponents.length) {
+        // wait for first fetch promise finally finished, which set fetching to false
+        setTimeout(() => {
+          execOperation('', {
+            key: globalOperation.__AsyncAtInit__,
+            reload: true,
+            components: asyncComponents,
+          });
+        }, 0);
+      }
+    });
   });
 
   React.useEffect(() => {
@@ -117,13 +141,13 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   React.useEffect(() => {
     pageConfigRef.current = pageConfig;
     clearInterval(timerRef.current);
-    if (pageConfig?.options?.syncIntervalSecond) {
+    if (pageConfig?.protocol?.options?.syncIntervalSecond) {
       timerRef.current = setInterval(() => {
         execOperation('', {
-          key: 'sync',
+          key: globalOperation.__Sync__,
           reload: true,
         });
-      }, pageConfig?.options?.syncIntervalSecond * 1000);
+      }, pageConfig?.protocol?.options?.syncIntervalSecond * 1000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageConfig]);
@@ -166,28 +190,13 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   ) => {
     if (fetchingRef.current || forbiddenRequest) return; // forbidden request when fetching
     // 此处用state，为了兼容useMock的情况
-    if (!op?.async && !pageConfigRef.current?.options?.syncIntervalSecond) {
+    if (!op?.async && !pageConfigRef.current?.protocol?.options?.syncIntervalSecond) {
       updater.fetching(true);
       fetchingRef.current = true;
     }
     const reqConfig = { ...(p || pageConfig), inParams: inParamsRef.current };
     ((useMockMark && _useMock) || getRenderPageLayout)(reqConfig)
       .then((res: CONFIG_PAGE.RenderConfig) => {
-        // if there is any component marked as asyncAtInit, fetch again to load async component
-        const comps = res?.protocol?.components || {};
-        const asyncComponents: string[] = [];
-        Object.keys(comps).forEach((k) => {
-          if (comps[k].asyncAtInit) {
-            asyncComponents.push(k);
-          }
-        });
-        if (asyncComponents.length) {
-          execOperation('', {
-            key: 'async',
-            reload: true,
-            components: asyncComponents,
-          });
-        }
         if (partial) {
           const _curConfig = pageConfigRef.current;
           const newConfig = produce(_curConfig, (draft) => {
@@ -195,16 +204,18 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
               draft.protocol.components = { ...draft.protocol.components, ...comps };
             }
           });
-          callBack?.(newConfig);
-          operationCallBack?.(reqConfig, newConfig, op);
           updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
+          pageConfigRef.current = newConfig;
+          operationCallBack?.(reqConfig, newConfig, op);
+          callBack?.(newConfig);
         } else {
           // if (op?.index === undefined || (op.index && opIndexRef.current === op.index))  {
           // }
           // Retain the response data that matches the latest operation
-          callBack?.(res);
-          operationCallBack?.(reqConfig, res, op);
           updateConfig ? updateConfig(res) : updater.pageConfig(res);
+          pageConfigRef.current = res;
+          operationCallBack?.(reqConfig, res, op);
+          callBack?.(res);
         }
         if (op?.successMsg) notify('success', op.successMsg);
       })
@@ -240,6 +251,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       op?.callBack?.();
       onExecOp && onExecOp({ cId, op, reload, updateInfo, pageData: _pageData });
     };
+    opIndexRef.current += 1;
     if (reload) {
       // 需要请求后端接口
       const _curConfig = pageConfigRef.current;
@@ -268,7 +280,6 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       });
 
       const formatConfig = clearLoadMoreData(newConfig);
-      opIndexRef.current += 1;
       queryPageConfig(formatConfig, partial, { ...op, index: opIndexRef.current }, loadCallBack);
     } else if (updateInfo) {
       updateState(updateInfo.dataKey, updateInfo.dataVal, loadCallBack);
@@ -311,7 +322,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
 
   return showLoading ? (
     <Spin spinning={showLoading && fetching} wrapperClassName={`${fullHeight ? 'full-spin-height' : ''}`}>
-      <div className="h-full">{Content}</div>
+      <div className="h-full overflow-auto">{Content}</div>
     </Spin>
   ) : (
     Content

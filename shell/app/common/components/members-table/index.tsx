@@ -557,7 +557,7 @@ const MembersTable = ({
     };
     return (
       <Table
-        slot={<FilterGroup list={filterList} onChange={debounce(onSearchMembers, 400)} />}
+        slot={<FilterGroup list={filterList} onChange={debounce(onSearchMembers, 1000)} />}
         rowKey={'userId'}
         rowSelection={
           hideRowSelect

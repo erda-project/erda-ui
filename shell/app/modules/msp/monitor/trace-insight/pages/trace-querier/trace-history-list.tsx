@@ -39,11 +39,13 @@ const TraceHistoryList = ({
     const isNewId = currentTraceRequestId !== requestId;
     // 点击已选中的 item 取消选中，currentTraceRequestId 置空
     setCurrentTraceRequestId(isNewId ? requestId : '');
+    const requestItem = dataSource.find((item) => item.requestId === requestId);
+    const startTime = new Date(requestItem.updateTime).getTime();
     if (isNewId) {
       form.setFieldsValue({ url });
       setInputUrl(url);
       getTraceDetail({ requestId });
-      getTraceStatusDetail({ requestId });
+      getTraceStatusDetail({ requestId, startTime });
     } else {
       form.setFieldsValue({ url: '' });
       setInputUrl('');

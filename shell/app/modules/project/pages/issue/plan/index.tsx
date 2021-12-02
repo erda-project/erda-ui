@@ -181,8 +181,6 @@ const IssuePlan = () => {
         ref={reloadRef}
         scenarioType={'issue-gantt'}
         scenarioKey={'issue-gantt'}
-        useMock={useMock('crud')}
-        forceMock
         inParams={inParams}
         customProps={{
           gantt: {

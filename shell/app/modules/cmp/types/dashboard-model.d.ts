@@ -26,7 +26,7 @@ declare namespace Custom_Dashboard {
   }
 
   interface DashboardItem {
-    id?: string;
+    id: string;
     desc?: string;
     name: string;
     scope: string;

@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Empty } from 'antd';
 import { Gantt } from './components/gantt/gantt';
 import { convertDataForGantt } from './utils';
 import { ErdaIcon, EmptyHolder } from 'common';
-import { groupBy, findIndex } from 'lodash';
+import { groupBy, findIndex, debounce } from 'lodash';
+import { useEffectOnce } from 'react-use';
 import moment from 'moment';
 import './gantt.scss';
 
@@ -137,8 +137,22 @@ const oneDaySec = 1000 * 60 * 60 * 24;
 const CP_Gantt = (props: CP_GANTT.Props) => {
   const { data, operations, execOperation, props: pProps } = props;
   const { BarContentRender, TreeNodeRender, TaskListHeader, listCellWidth = '320px' } = pProps;
+  const boxRef = React.useRef<HTMLDivElement>();
+  const [ganttHeight, setGanttHeight] = React.useState(0);
 
   const [list, setList] = React.useState<CP_GANTT.IGanttData[]>([]);
+
+  useEffectOnce(() => {
+    const setHeight = debounce(() => {
+      const curHeight: number = boxRef?.current?.offsetHeight - 80;
+      setGanttHeight(curHeight);
+    }, 300);
+    setHeight();
+    window.addEventListener('resize', setHeight);
+    return () => {
+      window.removeEventListener('resize', setHeight);
+    };
+  });
 
   React.useEffect(() => {
     setList((prevList) => convertDataForGantt(data, prevList));
@@ -159,11 +173,9 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
               ? moment(end).startOf('dates').valueOf() - 1
               : moment(end).endOf('dates');
           moment(reStart).valueOf() >= moment(reEnd).valueOf() && (reEnd = moment(reEnd).valueOf() + oneDaySec);
-          return {
-            ...t,
-            start: new Date(reStart),
-            end: new Date(reEnd),
-          };
+          const newItem = { ...t, start: new Date(reStart), end: new Date(reEnd) };
+          operations?.update && execOperation(operations?.update, newItem);
+          return newItem;
         }
         return item;
       });
@@ -178,21 +190,25 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
     }
   };
 
-  return list.length ? (
-    <Gantt
-      tasks={list}
-      rowHeight={40}
-      barFill={50}
-      ganttHeight={500}
-      onDateChange={handleTaskChange}
-      BarContentRender={BarContentRender}
-      onExpanderClick={handleExpanderClick}
-      TaskListHeader={TaskListHeader}
-      listCellWidth={listCellWidth}
-      TaskListTable={(p) => <TaskTree {...p} TreeNodeRender={TreeNodeRender} />}
-    />
-  ) : (
-    <EmptyHolder relative />
+  return (
+    <div className="h-full w-full" ref={boxRef}>
+      {list.length ? (
+        <Gantt
+          tasks={list}
+          rowHeight={40}
+          barFill={50}
+          ganttHeight={ganttHeight}
+          onDateChange={handleTaskChange}
+          BarContentRender={BarContentRender}
+          onExpanderClick={handleExpanderClick}
+          TaskListHeader={TaskListHeader}
+          listCellWidth={listCellWidth}
+          TaskListTable={(p) => <TaskTree {...p} TreeNodeRender={TreeNodeRender} />}
+        />
+      ) : (
+        <EmptyHolder relative />
+      )}
+    </div>
   );
 };
 

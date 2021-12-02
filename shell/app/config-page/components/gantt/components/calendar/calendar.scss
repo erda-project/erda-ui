@@ -32,3 +32,14 @@
     top: 8px;
   }
 }
+.erda-gantt-calendar {
+  .calendar-disabled-text {
+    color: rgba(48, 38, 71, 0.3);
+  }
+  .calendar-normal-text {
+    color: rgba(48, 38, 71, 0.6);
+  }
+  .calendar-mark-text {
+    color: #302647;
+  }
+}
