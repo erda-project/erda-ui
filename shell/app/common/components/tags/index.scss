@@ -6,8 +6,7 @@
     white-space: nowrap;
   }
 
-  .twt-tag-ellipsis,
-  .tags-add {
+  .twt-tag-ellipsis {
     display: block;
     background-color: $color-dark-1;
     border-radius: $radius;
@@ -56,20 +55,11 @@
       border: none;
     }
 
-    &:hover {
-      .tag-close {
-        visibility: visible;
-      }
-    }
-
     .tag-close {
       position: absolute;
-      top: -4px;
-      left: -4px;
-      visibility: hidden;
-      &:hover {
-        visibility: visible;
-      }
+      top: 4px;
+      left: 4px;
+      color: black;
     }
   }
 

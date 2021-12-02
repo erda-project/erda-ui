@@ -16,7 +16,7 @@ import { map, find, isEmpty, without, get, isString } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import { Card } from './kanban-card/card';
 import { Input, Button, Popconfirm, Tooltip, Avatar } from 'antd';
-import { EmptyHolder, Icon as CustomIcon, Badge } from 'common';
+import { EmptyHolder, Icon as CustomIcon, Badge, ErdaIcon } from 'common';
 import { notify } from 'common/utils';
 import { WithAuth } from 'user/common';
 import { Delete as IconDelete, Plus as IconPlus } from '@icon-park/react';
@@ -249,11 +249,9 @@ const Kanban = (props: IKanbanProps) => {
   });
 
   const changeData = (item: any) => {
-    const { id, title, operations, issueButton, assignee, labels, type, priority, state, status } = item;
+    const { id, title, operations, assignee, labels, type, priority, status } = item;
     const assigneeObj = userMap[assignee] || {};
     const { titleIcon } = issueScopeMap[type] || {};
-    const curStateObj = find(issueButton, { stateID: state }) as any;
-
     return {
       ...item,
       _infoData: {
@@ -264,7 +262,7 @@ const Kanban = (props: IKanbanProps) => {
         operations,
         extraInfo: (
           <div className="issue-kanban-info mt-1 flex flex-col  text-desc">
-            {labels?.value?.length > 0 && <Tags labels={labels.value} size="small" />}
+            {labels?.value?.length > 0 && <Tags labels={labels.value} size="small" showCount={labels?.showCount} />}
             <div className="flex justify-between items-center mt-1">
               <div className="flex justify-between items-center">
                 <span className="flex items-center mr-2">
@@ -275,16 +273,20 @@ const Kanban = (props: IKanbanProps) => {
                   )}
                   <span className="ml-1">#{id}</span>
                 </span>
-                {status && Object.keys(status).length > 0 && <Badge status={status.status} text={status.text} showDot={false} className='mr-2'/>}
+                {status && Object.keys(status).length > 0 && (
+                  <Badge status={status.status} text={status.text} showDot={false} className="mr-2" />
+                )}
                 <span className="w-20 mr-1">
                   {priority && ISSUE_PRIORITY_MAP[priority] ? ISSUE_PRIORITY_MAP[priority].iconLabel : null}
                 </span>
               </div>
-              {assigneeObj ? (
+              {Object.keys(assigneeObj).length > 0 ? (
                 <span>
                   <Avatar size={20}>{(assigneeObj.nick || assigneeObj.name).slice(0, 1)}</Avatar>
                 </span>
-              ) : null}
+              ) : (
+                <ErdaIcon size={20} type="morentouxiang" />
+              )}
             </div>
           </div>
         ),
@@ -292,7 +294,7 @@ const Kanban = (props: IKanbanProps) => {
       },
     };
   };
-  // console.log({ isAllowDrop, isOver, isDrag });
+
   let cls = isOver ? 'drag-over' : '';
   cls = isAllowDrop ? cls : `drop-disable ${cls}`;
   cls = isDrag && !isOver ? `not-drag ${cls}` : cls;
@@ -387,7 +389,7 @@ const Kanban = (props: IKanbanProps) => {
             <Card
               key={item.id}
               execOperation={execOperation}
-              props={{ cardType, className: `${isDrag ? 'hidden' : ''} list-item`, data: changeData(item), setIsDrag }}
+              props={{ cardType, className: `${isDrag ? 'hidden' : ''} list-item`, data: changeData(item), setIsDrag, isDrag }}
               customOp={rest.customOp}
             />
           );

@@ -15,8 +15,6 @@ import React from 'react';
 import { Tooltip, Popconfirm } from 'antd';
 import { Ellipsis, ErdaIcon } from 'common';
 import i18n from 'i18n';
-import { map, max } from 'lodash';
-import { CloseOne as IconCloseOne } from '@icon-park/react';
 import { auxiliaryColorMap as TagColorsMap } from 'common/constants';
 import './index.scss';
 
@@ -29,7 +27,6 @@ export interface IProps extends Omit<IItemProps, 'label'> {
   labels: ILabel[] | ILabel;
   showCount?: number;
   containerClassName?: string;
-  onAdd?: () => void;
 }
 
 interface IItemProps {
@@ -45,50 +42,64 @@ interface IItemProps {
 export const TagItem = (props: IItemProps) => {
   const { label: _label, size = 'default', maxWidth, onDelete, deleteConfirm = true, colorMap, checked } = props;
   const { label, color = 'blue' } = _label;
-  const curColor = (colorMap || TagColorsMap)[color || 'blue'] || color || TagColorsMap.blue;
+  const [isChecked, setIsChecked] = React.useState(checked);
+  // compatible with gray which color is removed now
+  const curColor = color === 'gray' ? 'blue' : color;
   const style = {
     maxWidth,
   };
-  const cls = checked
-    ? `text-${color}-deep bg-${color}-light border-0 border-solid border-l-2 border-l-${color}-mid`
-    : `text-${color}-deep bg-${color}-light border-0 border-solid border-l-2 border-l-${color}-mid`;
+
+  const cls = isChecked
+    ? `text-${curColor}-light bg-${curColor}-deep border-0 border-solid border-l-2 border-${curColor}-mid`
+    : `text-${curColor}-deep bg-${curColor}-light border-0 border-solid border-l-2 border-${curColor}-mid`;
 
   return (
     <span style={style} className={`tag-default twt-tag-item ${size} ${cls}`}>
-      {onDelete ? (
-        deleteConfirm ? (
-          <Popconfirm
-            title={`${i18n.t('common:confirm deletion')}?`}
-            arrowPointAtCenter
-            zIndex={2000} //  popconfirm default zIndex=1030, is smaller than tooltip zIndex=1070
-            onConfirm={(e) => {
-              e && e.stopPropagation();
-              onDelete(_label);
-            }}
-            onCancel={(e) => e && e.stopPropagation()}
-          >
-            <IconCloseOne theme="filled" size="12" className="tag-close cursor-pointer text-holder" />
-          </Popconfirm>
-        ) : (
-          <IconCloseOne
-            theme="filled"
-            size="12"
-            className="tag-close cursor-pointer text-holder"
-            onClick={() => onDelete(_label)}
+      <div className="flex items-center">
+        <Ellipsis
+          title={label}
+          zIndex={2010} // popconfirm zIndex is bigger than tooltip
+        />
+        {onDelete ? (
+          deleteConfirm ? (
+            <Popconfirm
+              title={`${i18n.t('common:confirm deletion')}?`}
+              arrowPointAtCenter
+              zIndex={2000} //  popconfirm default zIndex=1030, is smaller than tooltip zIndex=1070
+              onConfirm={(e) => {
+                e && e.stopPropagation();
+                onDelete(_label);
+              }}
+              onCancel={(e) => e && e.stopPropagation()}
+            >
+              <ErdaIcon size="16" className="cursor-pointer text-default-2 ml-0.5" type="close" color="currentColor" />
+            </Popconfirm>
+          ) : (
+            <ErdaIcon
+              size="16"
+              className="cursor-pointer text-default-2 ml-0.5"
+              type="close"
+              color="currentColor"
+              onClick={() => onDelete(_label)}
+            />
+          )
+        ) : null}
+        {checked && (
+          <ErdaIcon
+            size="16"
+            className={`cursor-pointer text-default-2 ml-0.5 text-${color}-light`}
+            type="check"
+            color="currentColor"
+            onClick={() => setIsChecked(!isChecked)}
           />
-        )
-      ) : null}
-
-      <Ellipsis
-        title={label}
-        zIndex={2010} // popconfirm zIndex is bigger than tooltip
-      />
+        )}
+      </div>
     </span>
   );
 };
 const MAX_LABEL_WIDTH = 180;
 
-const TagsRow = ({
+const Tags = ({
   labels: propsLabels,
   showCount = 2,
   containerClassName = '',
@@ -99,20 +110,30 @@ const TagsRow = ({
   const labels = propsLabels ? (Array.isArray(propsLabels) ? propsLabels : [propsLabels]) : [];
   const showMore = labels.length > showCount;
 
-  const fullTags = () => {
-    return labels.map((l) => <TagItem colorMap={colorMap} key={l.label} label={l} onDelete={onDelete} size={size} />);
+  const restTags = () => {
+    return labels
+      .slice(showCount)
+      .map((l) => <TagItem colorMap={colorMap} key={l.label} label={l} onDelete={onDelete} size={size} />);
   };
 
   const oneAndMoreTag = (
     <React.Fragment>
       {labels.slice(0, showCount).map((l) => (
-        <TagItem colorMap={colorMap} key={l.label} label={l} maxWidth={100} onDelete={onDelete} size={size} />
+        <TagItem
+          colorMap={colorMap}
+          key={l.label}
+          label={l}
+          maxWidth={100}
+          onDelete={onDelete}
+          size={size}
+          checked={l.checked}
+        />
       ))}
       {showMore ? (
         <Tooltip
           title={
             <div onClick={(e) => e.stopPropagation()} className="tags-container ">
-              {fullTags()}
+              {restTags()}
             </div>
           }
           placement="right"
@@ -140,4 +161,4 @@ const TagsRow = ({
   );
 };
 
-export default TagsRow;
+export default Tags;

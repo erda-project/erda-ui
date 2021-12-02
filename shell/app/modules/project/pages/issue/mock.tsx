@@ -726,8 +726,14 @@ export const Mock: CONFIG_PAGE.RenderConfig = {
                   title:
                     '√ç√√列表每个分组展开时，发起请求到后端，返回分组下的聚合列表列表每个分组展开时，发起请求到后端，返回分组下的聚合列表列表每个分组展开时，发起请求到后端，返回分组下的聚合列表',
                   type: 'REQUIREMENT',
-                  labels: { value: [{ label: 'msp', color: 'red' }, { label: 'dop', color: 'blue' }] },
-                  status: {text: '待处理', status: 'warning'},
+                  labels: {
+                    showCount: 1,
+                    value: [
+                      { label: 'msp', color: 'red' },
+                      { label: 'dop', color: 'blue' },
+                    ],
+                  },
+                  status: { text: '待处理', status: 'warning' },
                 },
                 {
                   assignee: '1000175',
@@ -758,7 +764,13 @@ export const Mock: CONFIG_PAGE.RenderConfig = {
                       stateName: '已完成',
                     },
                   ],
-                  labels:{value:[{label: 'msp无敌多个字，看看是什么样的效果，哈哈哈哈哈哈', color: 'red'}, {label:'dop', color: 'blue'},{label: 'ehzldk无敌多个字', color: 'yellow'},]},
+                  labels: {
+                    value: [
+                      { label: 'msp无敌多个字，看看是什么样的效果，哈哈哈哈哈哈', color: 'red' },
+                      { label: 'dop', color: 'blue', checked: true },
+                      { label: 'ehzldk无敌多个字', color: 'yellow' },
+                    ],
+                  },
                   iterationID: -1,
                   operations: {
                     MoveToPriorityHIGH: {
@@ -840,12 +852,17 @@ export const Mock: CONFIG_PAGE.RenderConfig = {
                   state: 10547,
                   title: '112',
                   type: 'REQUIREMENT',
-                  status: {text: '已完成', status: 'success'},
+                  status: { text: '已完成', status: 'success' },
                 },
                 {
                   assignee: '1000175',
                   id: 2833,
-                  labels:{value:[{label: 'msp', color: 'red'}, {label:'dop', color: 'blue'}]},
+                  labels: {
+                    value: [
+                      { label: 'msp', color: 'red' },
+                      { label: 'dop', color: 'blue' },
+                    ],
+                  },
                   issueButton: [
                     {
                       permission: false,
@@ -953,12 +970,17 @@ export const Mock: CONFIG_PAGE.RenderConfig = {
                   state: 10547,
                   title: '33',
                   type: 'REQUIREMENT',
-                  status: {text: '进行中', status: 'processing'},
+                  status: { text: '进行中', status: 'processing' },
                 },
                 {
                   assignee: '1000175',
                   id: 2834,
-                  labels:{value:[{label: 'msp', color: 'red'}, {label:'dop', color: 'blue'}]},
+                  labels: {
+                    value: [
+                      { label: 'msp', color: 'red' },
+                      { label: 'dop', color: 'blue' },
+                    ],
+                  },
                   issueButton: [
                     {
                       permission: false,
@@ -1066,7 +1088,7 @@ export const Mock: CONFIG_PAGE.RenderConfig = {
                   state: 10547,
                   title: '33',
                   type: 'REQUIREMENT',
-                  status: {text: '进行中', status: 'processing'},
+                  status: { text: '进行中', status: 'processing' },
                 },
               ],
               operations: {

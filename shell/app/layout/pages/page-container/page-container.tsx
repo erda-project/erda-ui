@@ -22,6 +22,7 @@ import Header from 'layout/pages/page-container/components/header';
 import { NoAuth, NotFound } from 'app/layout/common/error-page';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { TouchBackend } from 'react-dnd-touch-backend';
 import { useEffectOnce } from 'react-use';
 import userStore from 'app/user/stores';
 import agent from 'agent';

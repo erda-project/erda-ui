@@ -12,16 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon as CustomIcon, Ellipsis, Badge } from 'common';
-import { Dropdown, Menu, Popconfirm, Tooltip } from 'antd';
+import { Icon as CustomIcon } from 'common';
+import { Tooltip } from 'antd';
 import { isString, isEmpty, map } from 'lodash';
-import { WithAuth } from 'user/common';
 import { useDrag } from 'react-dnd';
-import { More as IconMore } from '@icon-park/react';
 import classnames from 'classnames';
 import './card.scss';
 
-const fakeClick = 'fake-click';
 const noop = () => {};
 
 export const Card = (props: CP_CARD.Props) => {
@@ -50,46 +47,8 @@ export const Card = (props: CP_CARD.Props) => {
     }
   }, [dragObj.isDragging]);
 
-  const opRef = React.useRef(null);
 
-  const onClick = (k: string) => {
-    if (!k.startsWith(fakeClick)) {
-      execOperation({ ...((operations && operations[k]) || {}), key: k, reload: true });
-    }
-  };
 
-  const getMenu = () => {
-    return (
-      <Menu
-        onClick={(e: any) => {
-          e.domEvent.stopPropagation();
-          onClick(e.key);
-        }}
-      >
-        {map(menuOperations, (item, key) => {
-          if (item.disabled) {
-            return (
-              <Menu.Item key={key}>
-                <WithAuth pass={false} key={key} noAuthTip={item.disabledTip}>
-                  <span>{item.text}</span>
-                </WithAuth>
-              </Menu.Item>
-            );
-          }
-          if (item.confirm) {
-            return (
-              <Menu.Item key={`${fakeClick}-${key}`}>
-                <Popconfirm title={item.confirm} onConfirm={() => onClick(key)}>
-                  <span>{item.text}</span>
-                </Popconfirm>
-              </Menu.Item>
-            );
-          }
-          return <Menu.Item key={key}>{item.text}</Menu.Item>;
-        })}
-      </Menu>
-    );
-  };
   const cls = classnames({
     'drag-wrap': true,
     dragging: dragObj && dragObj.isDragging,
@@ -100,13 +59,18 @@ export const Card = (props: CP_CARD.Props) => {
     'border-all': true,
   });
 
+
   return (
     <div className={`${className} ${cls} boxShadow-card`} onClick={() => clickNode(data)}>
-      <div className="info-card-content p-2" key={id} ref={drag}>
+      <div className='info-card-content p-2' key={id} ref={drag} >
         <div className={'flex justify-between items-start mb-1'}>
           {isString(titleIcon) ? <CustomIcon type={titleIcon} color className="head-icon mr-1" /> : titleIcon || null}
-          {/* <div className="flex-1 text-sm text-default break-word w-64">{title}</div> */}
-          <Tooltip destroyTooltipOnHide title={isTitleExceeds ? title : ''} className="flex-1 text-sm text-default break-word w-64">
+
+          <Tooltip
+            destroyTooltipOnHide
+            title={isTitleExceeds ? title : ''}
+            className="flex-1 text-sm text-default break-word w-64"
+          >
             {isTitleExceeds ? `${title.slice(0, stringMaxLength)}...` : title}
           </Tooltip>
         </div>
