@@ -56,7 +56,10 @@ const TaskListHeader = (props: { headerHeight: number; rowWidth: number }) => {
   const { headerHeight, rowWidth } = props;
   const [value, setValue] = React.useState('issue');
   return (
-    <div style={{ height: headerHeight, width: rowWidth, lineHeight: `${headerHeight}px` }}>
+    <div
+      className="erda-task-list-header"
+      style={{ height: headerHeight, width: rowWidth, lineHeight: `${headerHeight}px` }}
+    >
       <Select
         className="erda-task-list-header-selector"
         dropdownClassName="py-0"
