@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Alert } from 'antd';
+import { ErdaAlert } from 'common';
 import { isArray, map } from 'lodash';
 import './alert.scss';
 
@@ -32,7 +32,7 @@ const CP_Alert = (props: CP_ALERT.Props) => {
   ) : (
     message
   );
-  return <Alert className="config-page-alert" message={msgComp} showIcon {...rest} />;
+  return <ErdaAlert className="config-page-alert" message={msgComp} showIcon {...rest} />;
 };
 
 export default CP_Alert;

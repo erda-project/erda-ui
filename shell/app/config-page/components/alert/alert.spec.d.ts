@@ -14,7 +14,7 @@
 declare namespace CP_ALERT {
   interface Spec {
     type: 'Alert';
-    props?: IProps;
+    props: IProps;
   }
 
   interface IProps {
