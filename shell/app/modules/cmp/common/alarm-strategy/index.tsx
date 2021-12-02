@@ -100,8 +100,9 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
     });
   };
 
-  const handlePageChange = (no: number, size?: number) => {
-    getAlerts({ pageNo: no, pageSize: size });
+  const handlePageChange = (paging: { current: number; pageSize?: number }) => {
+    const { current, pageSize: size } = paging;
+    getAlerts({ pageNo: current, pageSize: size });
   };
 
   const alertListColumns: Array<ColumnProps<COMMON_STRATEGY_NOTIFY.IAlert>> = [
@@ -220,8 +221,8 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
             current: pageNo,
             pageSize,
             total,
-            onChange: handlePageChange,
           }}
+          onChange={handlePageChange}
           scroll={{ x: '100%' }}
         />
       </Spin>
