@@ -31,6 +31,7 @@ export const Container = (props: CP_CONTAINER.Props) => {
     border = false,
     startAlign = false,
     scrollAuto = false,
+    overflowHidden = false,
     onClick,
   } = configProps || {};
 
@@ -48,6 +49,7 @@ export const Container = (props: CP_CONTAINER.Props) => {
     'with-border': border,
     'flex-height': flexHeight,
     'scroll-auto': scrollAuto,
+    'overflow-hidden': overflowHidden,
     [`space-${spaceSize}`]: true,
   };
 
