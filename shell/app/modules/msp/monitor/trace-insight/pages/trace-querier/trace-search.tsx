@@ -258,17 +258,6 @@ const TraceSearch = () => {
     },
   ];
 
-  const tableActions: IActions<MS_MONITOR.ITraceSummary> = {
-    render: (record) => [
-      {
-        title: i18n.t('check detail'),
-        onClick: () => {
-          handleCheckTraceDetail(record.id, record.startTime);
-        },
-      },
-    ],
-  };
-
   return (
     <>
       <div className="flex justify-between items-start bg-white px-2 py-2 mb-3">
@@ -286,8 +275,12 @@ const TraceSearch = () => {
         loading={loading}
         rowKey="id"
         columns={columns}
-        actions={tableActions}
         dataSource={traceSummary}
+        onRow={(record) => {
+          return {
+            onClick: () => handleCheckTraceDetail(record.id, record.startTime),
+          };
+        }}
         scroll={{ x: 1100 }}
         onChange={() => {
           getData({ ...query, startTime: range.startTimeMs, endTime: range.endTimeMs });

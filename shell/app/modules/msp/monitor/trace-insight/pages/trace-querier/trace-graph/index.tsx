@@ -13,7 +13,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tree, Tooltip, Row, Col, Tabs, Radio, RadioChangeEvent } from 'antd';
+import { Tree, Tooltip, Row, Col, Tabs, Radio, RadioChangeEvent, Spin } from 'antd';
 import { TimeSelect, KeyValueList, Icon as CustomIcon, EmptyHolder, Ellipsis } from 'common';
 import Table from 'common/components/table';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
@@ -57,7 +57,7 @@ export function TraceGraph(props: IProps) {
   const [timeRange, setTimeRange] = React.useState([null!, null!] as number[]);
   const [selectedSpanId, setSelectedSpanId] = React.useState(null! as string);
   const [view, setView] = React.useState('waterfall');
-  const spanData = getSpanEvents.useData();
+  const [spanData, spanDataLoading] = getSpanEvents.useState();
   const spanDataSource = spanData?.spanEvents || [];
   const duration = max - min;
   const allKeys: string[] = [];
@@ -152,13 +152,17 @@ export function TraceGraph(props: IProps) {
   }, [getMetaData, tags]);
 
   React.useEffect(() => {
+    handleTableChange();
+  }, [selectedSpanId, spanStartTime]);
+
+  const handleTableChange = () => {
     if (selectedSpanId && spanStartTime) {
       getSpanEvents.fetch({
         startTime: Math.floor(spanStartTime),
         spanId: selectedSpanId,
       });
     }
-  }, [selectedSpanId, spanStartTime]);
+  };
 
   const traverseData = (data: MONITOR_TRACE.ITraceSpan[]) => {
     for (let i = 0; i < data.length; i++) {
@@ -408,7 +412,9 @@ export function TraceGraph(props: IProps) {
                       <KeyValueList data={tags} />
                     </TabPane>
                     <TabPane tab={i18n.t('msp:events')} key={2}>
-                      <Table columns={columns} dataSource={spanDataSource} />
+                      <Spin spinning={spanDataLoading}>
+                        <Table columns={columns} dataSource={spanDataSource} onChange={handleTableChange} />
+                      </Spin>
                     </TabPane>
                     <TabPane tab={i18n.t('msp:associated services')} key={3}>
                       {!serviceAnalysis?.dashboardId && <EmptyHolder relative />}
