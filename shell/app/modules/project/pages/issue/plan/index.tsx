@@ -89,18 +89,20 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
     <div className="flex items-center">
       {<IssueIcon type={type} size={'16px'} />}
       {level === 0 ? (
-        <div className="flex-1 ml-1 w-0">
-          <div className="truncate">{name}</div>
-          <div className="flex issue-plan-status-total">
-            {subNodeStatus.map((subItem, idx) => (
-              <div
-                key={`${idx}`}
-                className="flex-1 h-1 issue-plan-status-total-item"
-                style={{ backgroundColor: statusColorMap[status?.status] }}
-              />
-            ))}
+        <>
+          <div className="flex-1 ml-1 w-0" style={{ marginRight: 86 }}>
+            <div className="truncate">{name}</div>
+            <div className="flex issue-plan-status-total">
+              {subNodeStatus.map((subItem, idx) => (
+                <div
+                  key={`${idx}`}
+                  className="flex-1 h-1 issue-plan-status-total-item"
+                  style={{ backgroundColor: statusColorMap[status?.status] }}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        </>
       ) : (
         <>
           <div className="truncate flex-1 ml-1">{name}</div>
@@ -195,7 +197,7 @@ const IssuePlan = () => {
             props: { flexHeight: true },
           },
           page: {
-            props: { fullHeight: true },
+            props: { fullHeight: true, overflowHidden: true },
           },
           gantt: {
             props: {
