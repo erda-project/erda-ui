@@ -14,7 +14,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { get } from 'lodash';
-import { List as IconTask, Bug as IconBug } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 import './index.scss';
 
 interface IProps {
@@ -31,7 +31,8 @@ const Icon = ({ type, className, style, onClick, color, ...rest }: IProps) => {
   }
   if (type && type.startsWith('ISSUE_ICON')) {
     // 直接返回issue相关icon
-    return get(ISSUE_ICON, type.replace('ISSUE_ICON.', '')) || null;
+    const Comp = get(ISSUE_ICON, type.replace('ISSUE_ICON.', ''));
+    return Comp ? React.cloneElement(Comp, {...rest}) : null;
   }
   const classes = classNames(!color && 'iconfont', !color && `icon-${type}`, color && 'icon', className);
   if (color) {
@@ -56,10 +57,10 @@ const ISSUE_ICON = {
   },
   issue: {
     // 事件类型icon
-    REQUIREMENT: <Icon type="xiangfatianjia" className="issue-icon issue-type requirement" />,
-    TASK: <IconTask className="issue-icon issue-type task" size="14px" fill="#498e9e" />,
-    BUG: <IconBug className="issue-icon issue-type bug" size="14px" fill="#f47201" />,
-    EPIC: <Icon type="lichengbei" className="issue-icon issue-type epic" />,
+    REQUIREMENT: <ErdaIcon type="xuqiu" size="20px" />,
+    TASK: <ErdaIcon type="renwu" size="20px" />,
+    BUG: <ErdaIcon type="quexian" size="20px" />,
+    EPIC: <ErdaIcon type="lichengbei" size="20px" />,
   },
   severity: {
     // 严重程度icon（bug）

@@ -67,6 +67,7 @@ import CopyButton from './copy-button/copy-button';
 import ComposeTable from './compose-table/compose-table';
 import TextBlock from './text-block/text-block';
 import BarChart from './bar-chart/bar-chart';
+import Gantt from './gantt/gantt';
 
 export const containerMap = {
   Alert,
@@ -127,4 +128,5 @@ export const containerMap = {
   ComposeTable,
   TextBlock,
   BarChart,
+  Gantt,
 };

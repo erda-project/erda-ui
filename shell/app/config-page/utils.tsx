@@ -85,6 +85,7 @@ export const statusColorMap = {
   error: colorMap.red,
   danger: colorMap.maroon,
   info: colorMap.blue,
+  processing: colorMap.blue,
   normal: colorMap.purple,
   defaut: colorMap.gray,
 };

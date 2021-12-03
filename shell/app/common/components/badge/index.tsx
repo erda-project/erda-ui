@@ -25,10 +25,20 @@ export interface IBadgeProps {
   size?: 'small' | 'default';
   breathing?: boolean;
   className?: string;
+  showDot?: boolean;
 }
 
 const Badge = (props: IBadgeProps) => {
-  const { color, tip, status = 'default', text, size = 'default', breathing: pBreathing, className = '' } = props;
+  const {
+    color,
+    tip,
+    status = 'default',
+    text,
+    size = 'default',
+    breathing: pBreathing,
+    className = '',
+    showDot = true,
+  } = props;
   const defaultBreath = { processing: true };
   const breathing = pBreathing === undefined && status ? defaultBreath[status] : pBreathing || false;
 
@@ -42,9 +52,11 @@ const Badge = (props: IBadgeProps) => {
         style={colorStyle}
         className={`erda-badge erda-badge-status-${status} ${breathCls} badge-${size} inline-flex items-center rounded-sm ${className}`}
       >
-        <span className="erda-badge-status-dot" style={color ? { backgroundColor: color } : {}}>
-          <span className="erda-badge-status-breath" />
-        </span>
+        {showDot ? (
+          <span className="erda-badge-status-dot" style={color ? { backgroundColor: color } : {}}>
+            <span className="erda-badge-status-breath" />
+          </span>
+        ) : null}
         <span className="erda-badge-status-text">{text}</span>
       </span>
     </Tooltip>

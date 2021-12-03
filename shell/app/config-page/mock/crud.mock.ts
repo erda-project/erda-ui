@@ -11,597 +11,397 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-// crud场景mock
-export const enhanceMock = (payload: any, partial?: boolean) => {
-  if (partial) {
-    return partialMock;
-  }
-  const data = mock;
-  if (payload.event?.operation === 'delete') {
-    const curData = data.protocol.components.table1.props.data;
-    data.protocol.components.table1.props.data = curData?.filter(
-      (item: any) => item.id !== payload.event.operationData.meta.id,
-    );
-  }
+import { cloneDeep } from 'lodash';
 
+export const enhanceMock = (data: any, payload: any) => {
+  console.log('------', payload);
+  if (payload?.event?.operation === 'update') {
+    const _data = cloneDeep(data);
+    _data.protocol.components.gantt.data = {
+      updateList: [
+        {
+          start: getDate(1),
+          end: getDate(10),
+          title: 'R1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
+          key: 'R1',
+          isLeaf: false,
+          extra: {
+            type: 'requirement',
+            user: '张三',
+            status: { text: '进行中', status: 'processing' },
+          },
+        },
+        {
+          key: payload.event.operationData.meta.nodes.key,
+          title: `T${payload.event.operationData.meta.nodes.key}测试测试测试测试测试测试测试测试测试测试测试`,
+          start: payload.event.operationData.meta.nodes.start,
+          end: payload.event.operationData.meta.nodes.end,
+          isLeaf: true,
+          extra: {
+            type: 'task',
+            user: '张三',
+            status: { text: '进行中', status: 'processing' },
+          },
+        },
+      ],
+      expandList: null,
+    };
+    return _data;
+  }
+  if (payload.event?.operation === 'expandNode') {
+    const _data = cloneDeep(data);
+    _data.protocol.components.gantt.data = {
+      expandList: {
+        R2: [
+          {
+            id: '2-1',
+            name: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
+            start: getDate(1),
+            end: getDate(5),
+            isLeaf: true,
+            extra: {
+              type: 'task',
+              user: '张三',
+              status: { text: '进行中', status: 'processing' },
+            },
+          },
+        ],
+      },
+    };
+    return _data;
+  }
   return data;
 };
+const currentDate = new Date();
+const getDate = (day: number) => new Date(currentDate.getFullYear(), currentDate.getMonth(), day).getTime();
 
-const getTableOp = (keys: any, data: any) => {
-  const op = {
-    edit: { text: '编辑', reload: false },
-    delete: { text: '删除', confirm: '是否确认删除用户?', reload: true, meta: { id: data.id } },
-    exit: { text: '退出', confirm: '是否确认退出?' },
-    sq: { text: '授权', hasAuth: false, authTip: '您没权限操作' },
-  };
-
-  const opObj = {};
-  keys.forEach((k: any) => {
-    opObj[k] = op[k];
-    if (k === 'edit') {
-      opObj[k].command = { key: 'set', state: { visible: true, formData: data }, target: 'formModal1' };
-    }
-  });
-  return {
-    renderType: 'tableOperation',
-    value: '',
-    operations: opObj,
-  };
+const makeData = (num: number) => {
+  return new Array(num).fill('').map((_, idx) => ({
+    key: `1-${idx + 1}`,
+    title: `T1-${idx + 1}测试测试测试测试测试测试测试测试测试测试测试`,
+    start: getDate(1),
+    end: getDate(5),
+    isLeaf: true,
+    extra: {
+      type: 'task',
+      user: '张三',
+      status: { text: '进行中', status: 'processing' },
+    },
+  }));
 };
 
 export const mockData = {
   scenario: {
-    scenarioKey: 'mock',
-    scenarioType: 'mock',
+    scenarioType: 'issue-gantt',
+    scenarioKey: 'issue-gantt',
   },
   protocol: {
     hierarchy: {
-      root: 'page1',
+      root: 'page',
       structure: {
-        page1: ['head1', 'content1', 'formModal1'],
-        head1: { left: 'filter1', right: 'operation1' },
-        content1: ['table1'],
-        operation1: ['addButton1', 'exportButton1'],
+        page: ['topHead', 'filter', 'ganttContainer'],
+        topHead: ['issueAddButton'],
+        ganttContainer: ['gantt'],
       },
     },
     components: {
-      page1: { type: 'Container' },
-      footer1: { type: 'xxxx' },
-      head1: { type: 'LRContainer' },
-      operation1: { type: 'RowContainer' },
-      content1: { type: 'Container' },
-      formModal1: {
-        type: 'FormModal',
-        props: {
-          name: '用户',
-          fields: [
-            {
-              key: 'name',
-              label: '名称',
-              component: 'input',
-              required: true,
-              componentProps: { placeholder: '请输入名称' },
-            },
-            {
-              key: 'role',
-              label: '角色',
-              component: 'select',
-              required: true,
-              dataSource: {
-                type: 'static',
-                static: [
-                  { label: '开发', value: 'DEV' },
-                  { label: '测试', value: 'TEST' },
-                  { label: '管理员', value: 'Owner' },
-                ],
-              },
-              componentProps: {
-                placeholder: '请选择角色',
-                options: [
-                  { label: '开发', value: 'DEV' },
-                  { label: '测试', value: 'TEST' },
-                  { label: '管理员', value: 'Owner' },
-                ],
-              },
-            },
-          ],
-        },
-        operations: {
-          submit: { key: 'submit' },
-        },
-        state: {
-          visible: false,
-          formData: undefined,
-        },
+      ganttContainer: { type: 'Container' },
+      page: { type: 'Container' },
+      topHead: {
+        data: {},
+        name: 'topHead',
+        operations: {},
+
+        state: {},
+        type: 'RowContainer',
       },
-      filter1: {
-        type: 'ContractiveFilter',
-        props: {
-          delay: 1000,
-          conditions: [
-            {
-              key: 'iterationIDs',
-              label: '迭代',
-              emptyText: '全部',
-              fixed: true,
-              selected: true,
-              haveFilter: true,
-              type: 'select' as const,
-              placeholder: '选择迭代',
-              options: [
-                {
-                  label: '迭代 1',
-                  value: 1,
-                  icon: '',
-                },
-                {
-                  label: '迭代 2',
-                  value: 2,
-                  icon: '',
-                },
-                {
-                  label: '迭代 3',
-                  value: 3,
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'title',
-              label: '标题',
-              emptyText: '全部',
-              fixed: true,
-              selected: true,
-              placeholder: '请输入标题',
-              type: 'input' as const,
-            },
-            {
-              key: 'state',
-              label: '状态',
-              emptyText: '全部',
-              fixed: true,
-              selected: true,
-              type: 'select' as const,
-              options: [
-                {
-                  label: '待处理',
-                  value: 'OPEN',
-                  icon: '',
-                },
-                {
-                  label: '重新打开',
-                  value: 'REOPEN',
-                  icon: '',
-                },
-                {
-                  label: '已解决',
-                  value: 'RESOLVED',
-                  icon: '',
-                },
-                {
-                  label: '不修复',
-                  value: 'WONTFIX',
-                  icon: '',
-                },
-                {
-                  label: '不修复，重复提交',
-                  value: 'DUP',
-                  icon: '',
-                },
-                {
-                  label: '已关闭',
-                  value: 'CLOSED',
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'label',
-              label: '标签',
-              emptyText: '全部',
-              fixed: false,
-              selected: false,
-              haveFilter: true,
-              type: 'select' as const,
-              placeholder: '选择标签',
-              options: [
-                {
-                  label: '客户需求',
-                  value: 22,
-                  icon: '',
-                },
-                {
-                  label: '内部需求',
-                  value: 33,
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'priority',
-              label: '优先级',
-              emptyText: '全部',
-              fixed: false,
-              selected: false,
-              type: 'select' as const,
-              placeholder: '选择优先级',
-              options: [
-                {
-                  label: '紧急',
-                  value: 'URGENT',
-                  icon: '',
-                },
-                {
-                  label: '高',
-                  value: 'HIGH',
-                  icon: '',
-                },
-                {
-                  label: '中',
-                  value: 'NORMAL',
-                  icon: '',
-                },
-                {
-                  label: '低',
-                  value: 'LOW',
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'severity',
-              label: '严重程度',
-              emptyText: '全部',
-              fixed: false,
-              selected: false,
-              type: 'select' as const,
-              placeholder: '选择优先级',
-              options: [
-                {
-                  label: '致命',
-                  value: 'FATAL',
-                  icon: '',
-                },
-                {
-                  label: '严重',
-                  value: 'SERIOUS',
-                  icon: '',
-                },
-                {
-                  label: '一般',
-                  value: 'NORMAL',
-                  icon: '',
-                },
-                {
-                  label: '轻微',
-                  value: 'SLIGHT',
-                  icon: '',
-                },
-                {
-                  label: '建议',
-                  value: 'SUGGEST',
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'creator',
-              label: '创建人',
-              emptyText: '全部',
-              fixed: false,
-              selected: false,
-              haveFilter: true,
-              type: 'select' as const,
-              options: [
-                {
-                  label: '张三',
-                  value: 1,
-                  icon: '',
-                },
-                {
-                  label: '李四',
-                  value: 2,
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'assignee',
-              label: '处理人',
-              emptyText: '全部',
-              fixed: false,
-              selected: false,
-              haveFilter: true,
-              type: 'select' as const,
-              options: [
-                {
-                  label: '张三',
-                  value: 1,
-                  icon: '',
-                },
-                {
-                  label: '李四',
-                  value: 2,
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'owner',
-              label: '责任人',
-              emptyText: '全部',
-              fixed: false,
-              selected: false,
-              haveFilter: true,
-              type: 'select' as const,
-              options: [
-                {
-                  label: '张三',
-                  value: 1,
-                  icon: '',
-                },
-                {
-                  label: '李四',
-                  value: 2,
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'bugStage',
-              label: '引入源',
-              emptyText: '全部',
-              fixed: false,
-              selected: false,
-              type: 'select' as const,
-              options: [
-                {
-                  label: '需求设计',
-                  value: 'demandDesign',
-                  icon: '',
-                },
-                {
-                  label: '架构设计',
-                  value: 'architectureDesign',
-                  icon: '',
-                },
-                {
-                  label: '代码研发',
-                  value: 'codeDevelopment',
-                  icon: '',
-                },
-              ],
-            },
-            {
-              key: 'startCreatedAt,endCreatedAt',
-              label: '创建日期',
-              fixed: false,
-              emptyText: '全部',
-              selected: true,
-              haveFilter: false,
-              type: 'dateRange' as const,
-            },
-            {
-              key: 'startFinishedAt,endFinishedAt',
-              label: '截止日期',
-              fixed: false,
-              selected: false,
-              haveFilter: false,
-              type: 'dateRange' as const,
-            },
-          ],
-        },
-        state: {
-          iterationIDs: [1, 2],
-          title: 'test',
-          assignee: [1],
-          'startCreatedAt,endCreatedAt': [1609430400000, 1609862400000],
-        },
-        operations: {
-          filter: {
-            key: 'filter',
-            reload: true,
-            partial: true,
-          },
-        },
-      },
-      addButton1: {
+      issueAddButton: {
+        data: {},
+        name: 'issueAddButton',
+        operations: {},
+        state: {},
         type: 'Button',
-        props: {
-          text: '添加用户',
-          type: 'primary',
-        },
-        operations: {
-          click: {
-            key: 'click-add',
-            reload: false,
-            command: { key: 'set', state: { visible: true }, target: 'formModal1' },
-          },
-        },
       },
-      exportButton1: {
-        type: 'Button',
-        props: {
-          text: '导出用户',
-          ghost: true,
-          type: 'primary',
-        },
-      },
-      table1: {
-        type: 'Table',
-        props: {
-          data: {
-            list: [
+      gantt: {
+        type: 'Gantt',
+        data: {
+          expandList: {
+            0: [
               {
-                id: 1,
-                name: '张1',
-                role: '开发',
-                operations: getTableOp(['edit', 'delete', 'sq'], { id: 1, name: '张1', role: '开发' }),
+                start: getDate(1), //new Date('2019-1-1').getTime(),
+                end: getDate(15),
+                title: 'Rss1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
+                key: 'R1ss',
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
               },
               {
-                id: 2,
-                name: '张2',
-                role: '测试',
-                operations: getTableOp(['edit', 'delete', 'sq'], { id: 2, name: '张2', role: '测试' }),
+                start: getDate(1), //new Date('2019-1-1').getTime(),
+                end: getDate(15),
+                title: 'R1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
+                key: 'R1',
+                isLeaf: false,
+                extra: {
+                  type: 'requirement',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
               },
               {
-                id: 3,
-                name: '张3(当前用户)',
-                role: '开发',
-                operations: getTableOp(['edit', 'exit', 'sq'], { id: 3, name: '张3', role: '开发' }),
+                start: getDate(10),
+                end: getDate(20),
+                title: 'R2-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
+                key: 'R2',
+                isLeaf: false,
+                extra: {
+                  type: 'requirement',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
               },
               {
-                id: 4,
-                name: '张4',
-                role: '测试',
-                operations: getTableOp(['edit', 'delete', 'sq'], { id: 4, name: '张4', role: '测试' }),
+                start: getDate(10),
+                end: getDate(20),
+                title: 'R3-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
+                key: 'R3',
+                isLeaf: false,
+                extra: {
+                  type: 'requirement',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
+              },
+            ],
+            // R1: makeData(1000),
+            R11: [
+              {
+                key: '1-1',
+                title: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
+                start: getDate(1),
+                end: getDate(5),
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
+              },
+            ],
+            R1: [
+              {
+                id: '1-1',
+                name: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
+                start: getDate(1),
+                // end: getDate(5),
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
               },
               {
-                id: 5,
-                name: '张5',
-                role: '测试',
-                operations: getTableOp(['edit', 'delete', 'sq'], { id: 5, name: '张5', role: '测试' }),
+                id: '1-2',
+                name: 'T1-2测试测试测试测试测试测试测试测试测试测试测试',
+                // start: getDate(2),
+                end: getDate(10),
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'error' },
+                },
+              },
+              {
+                id: '1-3',
+                name: 'T1-3测试测试测试测试测试测试测试测试测试测试测试',
+                // start: getDate(2),
+                // end: getDate(10),
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
+              },
+              {
+                id: '1-4',
+                name: 'T1-4测试测试测试测试测试测试测试测试测试测试测试',
+                start: getDate(28),
+                end: getDate(29),
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'error' },
+                },
+              },
+              {
+                id: '1-5',
+                name: 'T1-5测试测试测试测试测试测试测试测试测试测试测试',
+                start: new Date('2019-1-1').getTime(),
+                end: getDate(10),
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'success' },
+                },
+              },
+              {
+                id: '1-6',
+                name: 'T1-6测试测试测试测试测试测试测试测试测试测试测试',
+                start: getDate(2),
+                end: getDate(10),
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
+              },
+              {
+                id: '1-7',
+                name: 'T1-7测试测试测试测试测试测试测试测试测试测试测试',
+                start: getDate(2),
+                end: getDate(10),
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
+              },
+              {
+                id: '1-8',
+                name: 'T1-8测试测试测试测试测试测试测试测试测试测试测试',
+                start: getDate(2),
+                end: getDate(10),
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
+              },
+              {
+                id: '1-9',
+                name: 'T1-9测试测试测试测试测试测试测试测试测试测试测试',
+                start: getDate(2),
+                end: getDate(10),
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
+              },
+              {
+                id: '1-10',
+                name: 'T1-10测试测试测试测试测试测试测试测试测试测试测试',
+                start: getDate(2),
+                end: getDate(10),
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
+              },
+              {
+                id: '1-11',
+                name: 'T1-11测试测试测试测试测试测试测试测试测试测试测试',
+                start: getDate(2),
+                end: getDate(10),
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
+              },
+              {
+                id: '1-12',
+                name: 'T1-12测试测试测试测试测试测试测试测试测试测试测试',
+                start: getDate(2),
+                end: getDate(10),
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
               },
             ],
           },
-          columns: [
-            { title: '名称', dataIndex: 'name' },
-            { title: '角色', dataIndex: 'role' },
-            { title: '操作', dataIndex: 'operations' },
-          ],
-          total: 3,
-          rowKey: 'id',
+        },
+        operations: {
+          update: {
+            key: 'update',
+            reload: true,
+            fillMeta: 'nodes',
+            async: true,
+            meta: {
+              // 前端修改的数据放在meta.nodes里，update后，后端data.updateList返回相关修改
+              nodes: [{ key: 'R1-1', start: 100, end: 1000 }],
+            },
+          },
+          expandNode: {
+            key: 'expandNode',
+            reload: true,
+            fillMate: 'keys',
+            meta: { keys: ['xxx'] },
+          },
         },
       },
-    },
-  },
-};
-
-let partialMock = {
-  scenario: {},
-  protocol: {
-    components: {
-      filter1: {
+      filter: {
         type: 'ContractiveFilter',
-        props: {
-          delay: 3000,
+        name: 'filter',
+        state: {
           conditions: [
             {
-              key: 'issueType',
-              label: '事项类型2',
-              value: ['bug'], // 组件内决定是否总是使用后端的值覆盖
               emptyText: '全部',
               fixed: true,
-              selected: true,
-              haveFilter: false,
-              type: 'select' as const,
-              placeholder: '标题或描述',
+              key: 'iteration',
+              label: '迭代',
               options: [
-                {
-                  label: '需求',
-                  value: 'requirement',
-                  icon: '',
-                },
-                {
-                  label: '任务',
-                  value: 'task',
-                  icon: '',
-                },
-                {
-                  label: '缺陷',
-                  value: 'bug',
-                  icon: '',
-                },
+                { label: '1.1', value: '1.1' },
+                { label: '1.2', value: '1.2' },
               ],
+              type: 'select',
             },
             {
-              key: 'assignee',
-              label: '处理人',
-              value: [1],
               emptyText: '全部',
-              fixed: false,
-              selected: false,
+              fixed: true,
               haveFilter: true,
-              type: 'select' as const,
-              // placeholder: "标题或描述",
+              key: 'user',
+              label: '成员',
               options: [
-                {
-                  label: '张三',
-                  value: 1,
-                  icon: '',
-                },
-                {
-                  label: '李四',
-                  value: 2,
-                  icon: '',
-                },
+                { label: '张三', value: '1' },
+                { label: '李四', value: '1' },
               ],
+              type: 'select',
             },
             {
-              key: 'title',
-              label: '标题',
-              emptyText: '全部',
-              fixed: false,
-              placeholder: '请输入标题',
-              selected: false,
-              type: 'input' as const,
-            },
-            {
-              key: 'endAt',
-              label: '截止日期',
-              emptyText: '全部',
-              fixed: false,
-              value: {
-                startDate: '2021-01-01',
-                endDate: '2021-01-03',
-              },
-              selected: true,
-              haveFilter: true,
-              type: 'dateRange' as const,
-            },
-            {
-              key: 'updateAt',
-              label: '更新日期',
-              fixed: false,
-              value: {},
-              emptyText: '全部',
-              selected: false,
-              haveFilter: true,
-              type: 'dateRange' as const,
+              fixed: true,
+              key: 'q',
+              placeholder: '根据名称过滤',
+              type: 'input',
             },
           ],
+          values: {
+            spaceName: '4',
+          },
         },
         operations: {
           filter: {
             key: 'filter',
             reload: true,
-            partial: true,
           },
-        },
-      },
-      table1: {
-        type: 'Table',
-        props: {
-          data: [
-            {
-              id: 1,
-              name: '张1',
-              role: '开发',
-              operations: getTableOp(['edit', 'delete', 'sq'], { id: 1, name: '张1', role: '开发' }),
-            },
-            {
-              id: 3,
-              name: '张3(当前用户)',
-              role: '开发',
-              operations: getTableOp(['edit', 'exit', 'sq'], { id: 3, name: '张3', role: '开发' }),
-            },
-          ],
-          columns: [
-            { title: '名称', dataIndex: 'name' },
-            { title: '角色', dataIndex: 'role' },
-          ],
-          total: 3,
-          rowKey: 'id',
         },
       },
     },

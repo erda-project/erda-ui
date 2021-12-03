@@ -1,0 +1,31 @@
+.erda-gantt-grid-row {
+  fill: transparent;
+  cursor: pointer;
+  &:hover {
+    fill: $color-dark-06;
+  }
+  &-selected {
+    fill: $color-dark-1 !important;
+  }
+
+  &.on-add {
+    cursor: crosshair;
+  }
+}
+
+.erda-gantt-grid-row-line {
+  stroke: $color-dark-02;
+}
+
+.erda-gantt-grid-tick {
+  fill: transparent;
+}
+
+.erda-gantt-grid-changed-range {
+  fill: rgba($yellow, 0.1);
+}
+
+.erda-gantt-grid-add-rect {
+  border: 2px dashed $color-dark-2;
+  cursor: crosshair;
+}

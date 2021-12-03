@@ -113,6 +113,11 @@ export const PROJECT_TABS = () => {
       show: projectPerm.iteration.read.pass,
     },
     {
+      key: 'plan',
+      name: i18n.t('plan'),
+      show: projectPerm.requirement.read.pass,
+    },
+    {
       key: 'all',
       name: i18n.t('dop:all issues'),
       show: [projectPerm.requirement.read.pass, projectPerm.task.read.pass, projectPerm.bug.read.pass].some((k) => k),

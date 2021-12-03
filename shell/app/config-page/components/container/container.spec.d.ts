@@ -32,6 +32,7 @@ declare namespace CP_CONTAINER {
     flexHeight?: boolean;
     startAlign?: boolean;
     scrollAuto?: boolean;
+    overflowHidden?: boolean;
     className?: string;
   }
 
