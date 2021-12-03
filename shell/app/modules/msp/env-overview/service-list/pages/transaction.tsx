@@ -330,7 +330,7 @@ const Transaction = () => {
       },
     };
 
-    return currentProject?.type !== 'MSP' ? [viewLog] : [];
+    return [viewLog];
   };
 
   const actions: IActions<TOPOLOGY_SERVICE_ANALYZE.TranslationSlowRecord> = {
@@ -423,7 +423,7 @@ const Transaction = () => {
         <Table
           slot={traceSlowSlot}
           loading={isFetching}
-          actions={actions}
+          actions={currentProject?.type !== 'MSP' ? actions : null}
           rowKey="requestId"
           onRow={(record) => {
             return {
