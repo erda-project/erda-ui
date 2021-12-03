@@ -105,6 +105,6 @@ export { default as LogRoller } from './components/log-roller';
 export { default as MetricsMonitor } from './components/metrics-monitor';
 export { default as MonitorChart } from './components/monitor-chart';
 export { default as Intro } from './components/intro';
-export { default as BootPrompt } from './components/boot-prompt';
+export { default as ErdaAlert } from './components/erda-alert';
 export { default as Badge } from './components/badge';
 export type { IBadgeProps } from './components/badge';
