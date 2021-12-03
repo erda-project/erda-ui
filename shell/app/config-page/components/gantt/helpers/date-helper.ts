@@ -13,6 +13,7 @@
 
 import { Task, ViewMode } from '../types/public-types';
 import moment from 'moment';
+import { min, max, maxBy, minBy } from 'lodash';
 import DateTimeFormatOptions = Intl.DateTimeFormatOptions;
 import DateTimeFormat = Intl.DateTimeFormat;
 
@@ -67,14 +68,20 @@ export const startOfDate = (date: Date, scale: DateHelperScales) => {
 export const ganttDateRange = (tasks: Task[], viewMode: ViewMode) => {
   let newStartDate: Date = tasks[0].start || 0;
   let newEndDate: Date = tasks[0].start || 0;
-  for (const task of tasks) {
-    if ((!newStartDate && task.start) || (task.start && task.start < newStartDate)) {
-      newStartDate = task.start;
-    }
-    if ((!newEndDate && task.end) || (task.end && task.end > newEndDate)) {
-      newEndDate = task.end;
-    }
-  }
+
+  const startTasks = tasks.filter((item) => item.start);
+  const endTasks = tasks.filter((item) => item.end);
+
+  const maxStart = maxBy(startTasks, (item) => item.start.getTime());
+  const minStart = minBy(startTasks, (item) => item.start.getTime());
+  const maxEnd = maxBy(endTasks, (item) => item.end.getTime());
+  const minEnd = minBy(endTasks, (item) => item.end.getTime());
+
+  const minTime = min([minStart.start.getTime(), minEnd.end.getTime()]);
+  const maxTime = max([maxStart.start.getTime(), maxEnd.end.getTime()]);
+  newStartDate = minTime && new Date(minTime);
+  newEndDate = maxTime && new Date(maxTime);
+
   if (!newStartDate) {
     newStartDate = new Date(moment().subtract(15, 'days'));
   }
