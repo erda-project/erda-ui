@@ -84,6 +84,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const [taskListWidth, setTaskListWidth] = useState(0);
   const [svgContainerWidth, setSvgContainerWidth] = useState(0);
   const [svgContainerHeight, setSvgContainerHeight] = useState(ganttHeight);
+  const [rangeAddTime, setRangeAddTime] = useState<null | { x1: number; x2: number }>(null);
   const [barTasks, setBarTasks] = useState<BarTask[]>([]);
   const [ganttEvent, setGanttEvent] = useState<GanttEvent>({
     action: '',
@@ -366,6 +367,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     ganttHeight,
     rtl,
     selectedTask,
+    setRangeAddTime,
     setSelectedTask: handleSelectedTask,
     onDateChange,
     ganttEvent,
@@ -377,6 +379,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     headerHeight,
     columnWidth,
     fontFamily,
+    rangeAddTime,
     fontSize,
     rtl,
     ganttEvent,

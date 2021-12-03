@@ -50,6 +50,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
   rtl,
   onDateChange,
   ganttEvent,
+  setRangeAddTime,
 }) => {
   let y = 0;
   const gridRows: ReactChild[] = [];
@@ -63,6 +64,13 @@ export const GridBody: React.FC<GridBodyProps> = ({
   const [endPos, setEndPos] = React.useState<null | number[]>(null);
   const [chosenTask, setChosenTask] = React.useState<Obj | null>(null);
 
+  React.useEffect(() => {
+    if (startPos && endPos) {
+      setRangeAddTime({ x1: startPos[0], x2: endPos[0] });
+    } else {
+      setRangeAddTime(null);
+    }
+  }, [startPos, endPos]);
   const onMouseDown = (e: React.MouseEvent) => {
     const gridPos = e.currentTarget.getBoundingClientRect();
     const clickY = e.clientY - gridPos.y;
