@@ -110,7 +110,9 @@ export const IssueItem = (props: IIssueProps) => {
 
   return (
     <div
-      className={`backlog-issue-item hover-active-bg ${!undraggable && editAuth ? 'draggable' : 'cursor-default'}`}
+      className={`backlog-issue-item hover-active-bg cursor-pointer ${
+        !undraggable && editAuth ? 'draggable' : 'cursor-default'
+      }`}
       ref={drag}
       onClick={() => onClickIssue(data)}
     >
