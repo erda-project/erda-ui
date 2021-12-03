@@ -123,11 +123,14 @@ const TaskTree = (props: ITaskTreeProps) => {
                 type="caret-down"
                 size={'16px'}
                 color="currentColor"
+                onClick={() => {
+                  onExpanderClick(item);
+                }}
                 className={`cp-gantt-task-item-icon ${hideChildren ? '' : 'cp-gantt-task-item-expanded'}`}
               />
             ) : null}
             {TreeNodeRender ? (
-              <div className="flex-1 w-0">
+              <div className="flex-1 w-0 h-full">
                 <TreeNodeRender node={item} originList={originList} nodeList={tasks} />
               </div>
             ) : (
@@ -197,7 +200,7 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
   const handleExpanderClick = (_task: CP_GANTT.IGanttData) => {
     const { isLeaf } = _task;
     setList((prev) => prev.map((item) => (item.id === _task.id ? _task : item)));
-    if (!isLeaf && !list.find((item) => item.project === _task.id)) {
+    if (!isLeaf && _task.hideChildren === false && !list.find((item) => item.project === _task.id)) {
       operations?.expandNode && execOperation(operations.expandNode, [_task.id]);
     }
   };

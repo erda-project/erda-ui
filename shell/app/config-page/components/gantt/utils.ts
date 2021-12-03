@@ -74,6 +74,5 @@ export const convertDataForGantt = (
       }
     });
   }
-  console.log('------', ganttData);
   return ganttData;
 };

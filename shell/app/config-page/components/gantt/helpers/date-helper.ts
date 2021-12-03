@@ -65,13 +65,13 @@ export const startOfDate = (date: Date, scale: DateHelperScales) => {
 };
 
 export const ganttDateRange = (tasks: Task[], viewMode: ViewMode) => {
-  let newStartDate: Date = tasks[0].start;
-  let newEndDate: Date = tasks[0].start;
+  let newStartDate: Date = tasks[0].start || 0;
+  let newEndDate: Date = tasks[0].start || 0;
   for (const task of tasks) {
-    if (task.start < newStartDate) {
+    if (task.start && task.start < newStartDate) {
       newStartDate = task.start;
     }
-    if (task.end > newEndDate) {
+    if (task.end && task.end > newEndDate) {
       newEndDate = task.end;
     }
   }
@@ -82,7 +82,11 @@ export const ganttDateRange = (tasks: Task[], viewMode: ViewMode) => {
     newEndDate = new Date(moment(newStartDate).subtract(-30, 'days'));
   }
 
-  console.log('------', newStartDate);
+  // start time is bigger then end time
+  if (newStartDate.getTime() > newEndDate.getTime()) {
+    [newStartDate, newEndDate] = [newEndDate, newStartDate];
+  }
+
   switch (viewMode) {
     case ViewMode.Month:
       newStartDate = addToDate(newStartDate, -1, 'month');
@@ -114,6 +118,8 @@ export const ganttDateRange = (tasks: Task[], viewMode: ViewMode) => {
       newStartDate = addToDate(newStartDate, -1, 'day');
       newEndDate = addToDate(newEndDate, 108, 'hour'); // 24(1 day)*5 - 12
       break;
+    default:
+      break;
   }
   return [newStartDate, newEndDate];
 };
@@ -137,6 +143,8 @@ export const seedDates = (startDate: Date, endDate: Date, viewMode: ViewMode) =>
         break;
       case ViewMode.QuarterDay:
         currentDate = addToDate(currentDate, 6, 'hour');
+        break;
+      default:
         break;
     }
     dates.push(currentDate);
