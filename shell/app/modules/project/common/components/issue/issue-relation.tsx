@@ -278,6 +278,15 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
             <IssueItem
               data={item}
               key={item.id}
+              onClickIssue={(record) => {
+                goTo(goTo.pages.issueDetail, {
+                  projectId,
+                  issueType: record.type.toLowerCase(),
+                  issueId: record.id,
+                  iterationId: record.iterationID,
+                  jumpOut: true,
+                });
+              }}
               onDelete={(val) => onDelete(val)}
               deleteConfirmText={(name: string) => i18n.t('dop:Are you sure to disinclude {name}', { name })}
               deleteText={i18n.t('dop:release relationship')}
