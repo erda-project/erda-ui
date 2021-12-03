@@ -25,6 +25,7 @@ import { Download as IconDownLoad, Info as IconInfo, DownOne as IconDownOne } fr
 
 import { WithAuth } from 'user/common';
 import Text from '../text/text';
+import { getAvatarChars } from 'app/common/utils';
 
 const alignMap = {
   center: 'justify-center',
@@ -217,7 +218,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
                   <span key={idx}>
                     {val.showIcon === false ? null : (
                       <Avatar src={cU.avatar} size="small">
-                        {cU.nick ? cU.nick.slice(0, 2) : i18n.t('none')}
+                        {cU.nick ? getAvatarChars(cU.nick) : i18n.t('none')}
                       </Avatar>
                     )}
                     <span className="ml-0.5 mr-1" title={cU.name}>
@@ -473,7 +474,7 @@ const memberSelectorValueItem = (user: any) => {
   return (
     <div className="flex items-center dice-config-table-member-field-selector">
       <Avatar src={avatar || undefined} size="small" className="flex-shrink-0">
-        {nick ? nick.slice(0, 2) : i18n.t('none')}
+        {nick ? getAvatarChars(nick) : i18n.t('none')}
       </Avatar>
       <span className={'ml-1 text-sm nowrap'} title={name}>
         {displayName}
