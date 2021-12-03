@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export const listMock: CP_LIST.Spec = {
+const mockData: CP_LIST.Spec = {
   type: 'List',
   props: {
     pageNo: 1,
@@ -78,3 +78,5 @@ export const listMock: CP_LIST.Spec = {
     ],
   },
 };
+
+export default mockData;

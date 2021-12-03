@@ -16,7 +16,7 @@ import { colorMap } from 'config-page/utils';
 import { Badge as PureBadge } from 'common';
 import './badge.scss';
 
-const Badge = (_props: CP_BADGE.Props) => {
+const CP_Badge = (_props: CP_BADGE.Props) => {
   const { props, data } = _props;
   const list = data?.list;
   return list?.length ? (
@@ -36,4 +36,4 @@ const Item = (props: Merge<CP_BADGE.IProps, { className?: string }>) => {
   return <PureBadge color={pColor} {...rest} />;
 };
 
-export default Badge;
+export default CP_Badge;

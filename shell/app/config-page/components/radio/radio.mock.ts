@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export const mockData: CP_RADIO.Spec = {
+const mockData: CP_RADIO.Spec = {
   type: 'Radio',
   props: {
     options: [
@@ -51,3 +51,5 @@ export const mockData: CP_RADIO.Spec = {
     value: 'my',
   },
 };
+
+export default mockData;

@@ -185,7 +185,7 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
   });
 };
 
-interface IApplictionRes {
+interface IApplicationRes {
   list: IApplication[] | CP_LIST.IListData[];
   total: number;
 }
@@ -297,10 +297,10 @@ export const PureAppList = ({ getList: _getList, isFetching, clearList, isInProj
     const publicFilter = ['public', 'private'].includes(fPublic) ? { public: fPublic } : {};
     const filterValues = { ...filterRest, ...publicFilter };
     const requestFun = (_query: Obj) =>
-      getList(_query).then((res: IApplictionRes) => {
-        const reData = produce(merge(getPageConfig(isInProject), payload), (draf) => {
-          set(draf, 'protocol.components.list.data.list', res.list);
-          set(draf, 'protocol.components.list.state', {
+      getList(_query).then((res: IApplicationRes) => {
+        const reData = produce(merge(getPageConfig(isInProject), payload), (draft) => {
+          set(draft, 'protocol.components.list.data.list', res.list);
+          set(draft, 'protocol.components.list.state', {
             total: res.total,
             pageNo: query.pageNo,
             pageSize: query.pageSize,
@@ -350,7 +350,7 @@ export const PureAppList = ({ getList: _getList, isFetching, clearList, isInProj
   };
 
   const getList = (q: Obj) => {
-    return _getList(q).then((res: IApplictionRes) => {
+    return _getList(q).then((res: IApplicationRes) => {
       const { list: _list, total } = res;
       return { list: convertListData(_list as IApplication[], isInProject), total };
     });

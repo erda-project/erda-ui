@@ -17,7 +17,7 @@ import { Form } from './form/form';
 import { FormModal } from './form-modal/form-modal';
 import { Container, RowContainer, LRContainer } from './container/container';
 import { Card } from './card/card';
-import { Button } from './button/button';
+import Button from './button/button';
 import { Drawer } from './drawer/drawer';
 import { ActionForm } from './action-form';
 import NotFound from './not-found';
