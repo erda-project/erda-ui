@@ -20,7 +20,7 @@ declare namespace CP_ALERT {
   interface IProps {
     visible?: boolean;
     showIcon?: boolean;
-    type: 'success' | 'info' | 'warning' | 'error';
+    type?: 'success' | 'info' | 'warning' | 'error';
     message: string[] | string;
   }
 

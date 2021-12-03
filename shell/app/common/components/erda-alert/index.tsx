@@ -44,7 +44,7 @@ const ErdaAlert = ({ type = 'info', message, showOnceKey, className }: IProps) =
       className={`erda-alert py-2 px-4 mb-4 ${className || ''}`}
       message={
         <>
-          <ErdaIcon type="message" className="mr-2" />
+          <ErdaIcon type="message" className="erda-alert-icon mr-2" />
           {message}
         </>
       }
