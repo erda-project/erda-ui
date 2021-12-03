@@ -82,7 +82,6 @@ export const ganttDateRange = (tasks: Task[], viewMode: ViewMode) => {
     newEndDate = new Date(moment(newStartDate).subtract(-30, 'days'));
   }
 
-  console.log('------', newStartDate);
   switch (viewMode) {
     case ViewMode.Month:
       newStartDate = addToDate(newStartDate, -1, 'month');
