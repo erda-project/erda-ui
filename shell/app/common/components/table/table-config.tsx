@@ -30,6 +30,8 @@ function TableConfig<T extends object = any>({
     setColumns(newColumns);
   };
 
+  const showLength = columns.filter((item) => item.show).length;
+
   const columnsFilter = columns
     .filter((item) => item.title)
     .map((item: ColumnProps<T>) => (
@@ -38,6 +40,7 @@ function TableConfig<T extends object = any>({
           className="whitespace-nowrap"
           checked={item.show}
           onChange={(e) => onCheck(e.target.checked, item.title as string)}
+          disabled={showLength === 1 && item.show}
         >
           {typeof item.title === 'function' ? item.title({ sortColumn: column, sortOrder: order }) : item.title}
         </Checkbox>
