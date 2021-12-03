@@ -25,7 +25,7 @@ interface Label {
 }
 export interface IProps extends Omit<IItemProps, 'label'> {
   labels: Label[] | Label;
-  showCount?: number;
+  maxShowCount?: number;
   containerClassName?: string;
 }
 
@@ -72,7 +72,7 @@ export const TagItem = (props: IItemProps) => {
               }}
               onCancel={(e) => e && e.stopPropagation()}
             >
-              <ErdaIcon size="16" className="cursor-pointer text-default-2 ml-0.5" type="close" color="currentColor" />
+              <ErdaIcon size="16" className="cursor-pointer text-default-2 ml-0.5" type="close" />
             </Popconfirm>
           ) : (
             <ErdaIcon
@@ -88,7 +88,6 @@ export const TagItem = (props: IItemProps) => {
             size="16"
             className={`cursor-pointer text-default-2 ml-0.5 text-${color}-light`}
             type="check"
-            color="currentColor"
             onClick={() => setIsChecked(!isChecked)}
           />
         )}
@@ -99,24 +98,24 @@ export const TagItem = (props: IItemProps) => {
 
 const Tags = ({
   labels: propsLabels,
-  showCount = 2,
+  maxShowCount = 2,
   containerClassName = '',
   size = 'small',
   colorMap,
   onDelete,
 }: IProps) => {
   const labels = propsLabels ? (Array.isArray(propsLabels) ? propsLabels : [propsLabels]) : [];
-  const showMore = labels.length > showCount;
+  const showMore = labels.length > maxShowCount;
 
   const restTags = () => {
     return labels
-      .slice(showCount)
+      .slice(maxShowCount)
       .map((l) => <TagItem colorMap={colorMap} key={l.label} label={l} onDelete={onDelete} size={size} />);
   };
 
   const oneAndMoreTag = (
     <React.Fragment>
-      {labels.slice(0, showCount).map((l) => (
+      {labels.slice(0, maxShowCount).map((l) => (
         <TagItem
           colorMap={colorMap}
           key={l.label}
@@ -137,11 +136,11 @@ const Tags = ({
           placement="right"
           overlayClassName="tags-row-tooltip"
         >
-          <ErdaIcon className={`twt-tag-ellipsis ${size}`} type="more" color="currentColor" />
+          <ErdaIcon className={`twt-tag-ellipsis ${size}`} type="more" />
         </Tooltip>
       ) : (
         labels
-          .slice(showCount)
+          .slice(maxShowCount)
           .map((l) => (
             <TagItem colorMap={colorMap} key={l.label} label={l} maxWidth={160} onDelete={onDelete} size={size} />
           ))
