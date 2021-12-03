@@ -1,45 +1,37 @@
 .erda-gantt-calendar-bottom-text {
   text-anchor: middle;
   font-size: 12px;
-  fill: rgba(0, 0, 0, 0.6);
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+  fill: $color-dark-6;
   user-select: none;
   pointer-events: none;
 }
 
 .erda-gantt-calendar-top-tick {
-  stroke: #e6e4e4;
+  stroke: $white;
 }
 
 .erda-gantt-calendar-top-text {
   text-anchor: middle;
-  fill: #555;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+  fill: $lightgray;
   user-select: none;
   pointer-events: none;
 }
 
 .erda-gantt-calendar-header {
-  fill: #ffffff;
-  stroke: #e0e0e0;
+  fill: $white;
+  stroke: $color-dark-2;
   &-container {
     top: 8px;
   }
 }
 .erda-gantt-calendar {
   .calendar-disabled-text {
-    color: rgba(48, 38, 71, 0.3);
+    color: $color-dark-3;
   }
   .calendar-normal-text {
-    color: rgba(48, 38, 71, 0.6);
+    color: $color-dark-6;
   }
   .calendar-mark-text {
-    color: #302647;
+    color: $black;
   }
 }

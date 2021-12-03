@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Task, ViewMode } from '../types/public-types';
+import moment from 'moment';
 import DateTimeFormatOptions = Intl.DateTimeFormatOptions;
 import DateTimeFormat = Intl.DateTimeFormat;
 
@@ -74,6 +75,14 @@ export const ganttDateRange = (tasks: Task[], viewMode: ViewMode) => {
       newEndDate = task.end;
     }
   }
+  if (!newStartDate) {
+    newStartDate = new Date(moment().subtract(15, 'days'));
+  }
+  if (!newEndDate) {
+    newEndDate = new Date(moment(newStartDate).subtract(-30, 'days'));
+  }
+
+  console.log('------', newStartDate);
   switch (viewMode) {
     case ViewMode.Month:
       newStartDate = addToDate(newStartDate, -1, 'month');

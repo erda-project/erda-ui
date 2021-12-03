@@ -1,13 +1,13 @@
 .erda-gantt-tooltip-default-container {
-  background: #fff;
+  background: $white;
   padding: 12px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 3px 6px $color-dark-1, 0 3px 6px $color-dark-2;
 }
 
 .erda-gantt-tooltip-default-container-paragraph {
   font-size: 12px;
   margin-bottom: 6px;
-  color: #666;
+  color: $gray;
 }
 
 .erda-gantt-tooltip-details-container {
@@ -15,10 +15,6 @@
   display: flex;
   flex-shrink: 0;
   pointer-events: none;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 

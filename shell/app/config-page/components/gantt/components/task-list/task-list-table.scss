@@ -1,7 +1,7 @@
 .erda-gantt-task-list-wrapper {
   display: table;
-  border-bottom: #e6e4e4 1px solid;
-  border-left: #e6e4e4 1px solid;
+  border-bottom: $border-color 1px solid;
+  border-left: $border-color 1px solid;
 }
 
 .erda-gantt-task-list-table-row {
@@ -10,7 +10,7 @@
 }
 
 .erda-gantt-task-list-table-row:nth-of-type(even) {
-  background-color: #f5f5f5;
+  background-color: $whitesmoke;
 }
 
 .erda-gantt-task-list-cell {

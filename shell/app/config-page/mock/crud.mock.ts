@@ -130,6 +130,18 @@ export const mockData = {
               {
                 start: getDate(1), //new Date('2019-1-1').getTime(),
                 end: getDate(15),
+                title: 'Rss1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
+                key: 'R1ss',
+                isLeaf: true,
+                extra: {
+                  type: 'task',
+                  user: '张三',
+                  status: { text: '进行中', status: 'processing' },
+                },
+              },
+              {
+                start: getDate(1), //new Date('2019-1-1').getTime(),
+                end: getDate(15),
                 title: 'R1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
                 key: 'R1',
                 isLeaf: false,
@@ -201,7 +213,7 @@ export const mockData = {
                 extra: {
                   type: 'task',
                   user: '张三',
-                  status: { text: '进行中', status: 'processing' },
+                  status: { text: '进行中', status: 'error' },
                 },
               },
               {
@@ -225,7 +237,7 @@ export const mockData = {
                 extra: {
                   type: 'task',
                   user: '张三',
-                  status: { text: '进行中', status: 'processing' },
+                  status: { text: '进行中', status: 'error' },
                 },
               },
               {
@@ -237,7 +249,7 @@ export const mockData = {
                 extra: {
                   type: 'task',
                   user: '张三',
-                  status: { text: '进行中', status: 'processing' },
+                  status: { text: '进行中', status: 'success' },
                 },
               },
               {

@@ -21,7 +21,7 @@ import { useUpdate, useSwitch } from 'common/use-hooks';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import routeInfoStore from 'core/stores/route';
 import { Avatar, Select } from 'antd';
-import { groupBy } from 'lodash';
+import { groupBy, map } from 'lodash';
 import moment from 'moment';
 import i18n from 'i18n';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
@@ -77,27 +77,32 @@ const TaskListHeader = (props: { headerHeight: number; rowWidth: number }) => {
 interface ITreeNodeProps {
   node: CP_GANTT.IGanttData;
   nodeList: CP_GANTT.IGanttData[];
+  originList: CP_GANTT.IGanttData[];
 }
 
 const TreeNodeRender = (props: ITreeNodeProps) => {
-  const { node, nodeList } = props;
-  const { extra, level, name, id } = node;
-  const tasksGroup = groupBy(nodeList || [], 'project');
+  const { node, originList } = props;
+  const { extra, name, id, isLeaf } = node;
+  const tasksGroup = groupBy(originList || [], 'project');
   const subNodeStatus = tasksGroup[id] || [];
+  const statusGroup = groupBy(subNodeStatus, 'extra.status.status');
   const { status, type, user } = extra || {};
   return (
     <div className="flex items-center">
       {<IssueIcon type={type} size={'16px'} />}
-      {level === 0 ? (
+      {!isLeaf ? (
         <>
           <div className="flex-1 ml-1 w-0" style={{ marginRight: 86 }}>
             <div className="truncate">{name}</div>
-            <div className="flex issue-plan-status-total">
-              {subNodeStatus.map((subItem, idx) => (
+            <div className="flex relative issue-plan-status-total">
+              {map(statusGroup, (subItem, idx) => (
                 <div
                   key={`${idx}`}
-                  className="flex-1 h-1 issue-plan-status-total-item"
-                  style={{ backgroundColor: statusColorMap[status?.status] }}
+                  className="h-1 issue-plan-status-total-item"
+                  style={{
+                    width: `${(subItem.length / subNodeStatus.length) * 100}%`,
+                    backgroundColor: statusColorMap[subItem?.[0]?.extra?.status?.status],
+                  }}
                 />
               ))}
             </div>
@@ -185,8 +190,6 @@ const IssuePlan = () => {
         scenarioType={'issue-gantt'}
         scenarioKey={'issue-gantt'}
         inParams={inParams}
-        // useMock={useMock('crud')}
-        // forceMock
         customProps={{
           topHead: {
             props: {

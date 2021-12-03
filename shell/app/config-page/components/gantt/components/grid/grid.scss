@@ -2,10 +2,10 @@
   fill: transparent;
   cursor: pointer;
   &:hover {
-    fill: rgba(0, 0, 0, 0.06);
+    fill: $color-dark-06;
   }
   &-selected {
-    fill: rgba(0, 0, 0, 0.1) !important;
+    fill: $color-dark-1 !important;
   }
 
   &.on-add {
@@ -14,7 +14,7 @@
 }
 
 .erda-gantt-grid-row-line {
-  stroke: rgba(0, 0, 0, 0.02);
+  stroke: $color-dark-02;
 }
 
 .erda-gantt-grid-tick {
@@ -22,7 +22,7 @@
 }
 
 .erda-gantt-grid-changed-range {
-  fill: rgba(244, 181, 24, 0.1);
+  fill: rgba($yellow, 0.1);
 }
 
 .erda-gantt-grid-add-rect {

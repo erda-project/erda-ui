@@ -83,11 +83,18 @@ interface ITaskTreeProps {
   rowWidth: number;
   selectedTaskId?: string;
   onExpanderClick: (task: CP_GANTT.IGanttData) => void;
-  TreeNodeRender?: React.FC<{ node: CP_GANTT.IGanttData; nodeList: CP_GANTT.IGanttData[] }>;
+  setSelectedTask: (id: string) => void;
+  originList?: CP_GANTT.IGanttData[];
+  TreeNodeRender?: React.FC<{
+    node: CP_GANTT.IGanttData;
+    nodeList: CP_GANTT.IGanttData[];
+    originList: CP_GANTT.IGanttData[];
+  }>;
 }
 
 const TaskTree = (props: ITaskTreeProps) => {
-  const { tasks, rowHeight, rowWidth, onExpanderClick, TreeNodeRender, selectedTaskId, setSelectedTask } = props;
+  const { tasks, rowHeight, rowWidth, onExpanderClick, TreeNodeRender, selectedTaskId, setSelectedTask, originList } =
+    props;
   const tasksGroup = groupBy(tasks || [], 'project');
 
   return (
@@ -121,7 +128,7 @@ const TaskTree = (props: ITaskTreeProps) => {
             ) : null}
             {TreeNodeRender ? (
               <div className="flex-1 w-0">
-                <TreeNodeRender node={item} nodeList={tasks} />
+                <TreeNodeRender node={item} originList={originList} nodeList={tasks} />
               </div>
             ) : (
               <div>{name}</div>
@@ -208,7 +215,7 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
           onExpanderClick={handleExpanderClick}
           TaskListHeader={TaskListHeader}
           listCellWidth={listCellWidth}
-          TaskListTable={(p) => <TaskTree {...p} TreeNodeRender={TreeNodeRender} />}
+          TaskListTable={(p) => <TaskTree {...p} TreeNodeRender={TreeNodeRender} originList={list} />}
         />
       ) : (
         <EmptyHolder relative />

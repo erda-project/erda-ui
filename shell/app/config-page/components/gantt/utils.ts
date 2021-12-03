@@ -28,6 +28,7 @@ export const convertDataForGantt = (
     dataTemp.forEach((item) => {
       const { key, title, start, end, isLeaf = true, hideChildren, ...rest } = item;
       const validTime = timeLimit(start) && timeLimit(end);
+
       const curData = {
         type: !isLeaf ? 'project' : 'task',
         id: key,
@@ -73,5 +74,6 @@ export const convertDataForGantt = (
       }
     });
   }
+  console.log('------', ganttData);
   return ganttData;
 };
