@@ -20,6 +20,7 @@ import {
   getLocaleMonth,
   getWeekNumberISO8601,
 } from '../../helpers/date-helper';
+import { min } from 'lodash';
 import { DateSetup } from '../../types/date-setup';
 import i18n from 'i18n';
 import './calendar.scss';
@@ -162,7 +163,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   const HoverBar = hoverPos ? (
     <div
       className="absolute rounded bg-hover-gray-bg"
-      style={{ width: hoverPos.x2 - hoverPos.x1, height: 40, left: hoverPos.x1, top: 24 }}
+      style={{ width: Math.abs(hoverPos.x2 - hoverPos.x1), height: 40, left: min([hoverPos.x1, hoverPos.x2]), top: 24 }}
     />
   ) : null;
   const getCalendarValuesForDay = () => {

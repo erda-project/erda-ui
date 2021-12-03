@@ -139,9 +139,9 @@ export const GridBody: React.FC<GridBodyProps> = ({
       };
     } else if (startPos && endPos) {
       return {
-        x: startPos[0],
+        x: min([startPos[0], endPos[0]]),
         y: 0,
-        width: endPos[0] - startPos[0],
+        width: Math.abs(endPos[0] - startPos[0]),
         height: max([ganttHeight, realHeight]),
       };
     }
