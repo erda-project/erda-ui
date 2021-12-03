@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export const mockData: CP_DROPDOWN_SELECT.Spec = {
+const mockData: CP_DROPDOWN_SELECT.Spec = {
   type: 'DropdownSelect',
   props: {
     visible: true,
@@ -86,3 +86,5 @@ export const mockData: CP_DROPDOWN_SELECT.Spec = {
     value: 'organizeA',
   },
 };
+
+export default mockData;

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export const mockData: CP_INFO_PREVIEW.Spec = {
+const mockData: CP_INFO_PREVIEW.Spec = {
   type: 'InfoPreview',
   data: {
     info: {
@@ -111,3 +111,5 @@ export const mockData: CP_INFO_PREVIEW.Spec = {
     ],
   },
 };
+
+export default mockData;
