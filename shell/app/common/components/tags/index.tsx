@@ -17,33 +17,33 @@ import { Ellipsis, ErdaIcon } from 'common';
 import i18n from 'i18n';
 import './index.scss';
 
-interface ILabel {
+interface Label {
   label: string;
   group?: string;
   color?: string;
   checked?: boolean;
 }
 export interface IProps extends Omit<IItemProps, 'label'> {
-  labels: ILabel[] | ILabel;
+  labels: Label[] | Label;
   showCount?: number;
   containerClassName?: string;
 }
 
 interface IItemProps {
-  label: ILabel;
+  label: Label;
   maxWidth?: number;
-  colorMap?: Obj;
+  colorMap?: Obj<string>;
   size?: 'small' | 'default';
   checked?: boolean;
   deleteConfirm?: boolean;
-  onDelete?: (p: ILabel) => void;
+  onDelete?: (p: Label) => void;
 }
 
 export const TagItem = (props: IItemProps) => {
   const { label: _label, size = 'default', maxWidth, onDelete, deleteConfirm = true, colorMap, checked } = props;
   const { label, color = 'blue' } = _label;
   const [isChecked, setIsChecked] = React.useState(checked);
-  // compatible with gray which color is removed now
+  // TODO: compatible with gray which color is removed now
   const curColor = color === 'gray' ? 'blue' : color;
   const style = {
     maxWidth,
@@ -67,7 +67,7 @@ export const TagItem = (props: IItemProps) => {
               arrowPointAtCenter
               zIndex={2000} //  popconfirm default zIndex=1030, is smaller than tooltip zIndex=1070
               onConfirm={(e) => {
-                e && e.stopPropagation();
+                e?.stopPropagation();
                 onDelete(_label);
               }}
               onCancel={(e) => e && e.stopPropagation()}
@@ -79,7 +79,6 @@ export const TagItem = (props: IItemProps) => {
               size="16"
               className="cursor-pointer text-default-2 ml-0.5"
               type="close"
-              color="currentColor"
               onClick={() => onDelete(_label)}
             />
           )
