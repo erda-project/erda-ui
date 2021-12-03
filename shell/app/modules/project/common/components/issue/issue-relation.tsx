@@ -279,7 +279,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
               data={item}
               key={item.id}
               onDelete={(val) => onDelete(val)}
-              deleteConFirmText={(name: string) => i18n.t('dop:Are you sure to disinclude {name}', { name })}
+              deleteConfirmText={(name: string) => i18n.t('dop:Are you sure to disinclude {name}', { name })}
               deleteText={i18n.t('dop:release relationship')}
               issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
             />

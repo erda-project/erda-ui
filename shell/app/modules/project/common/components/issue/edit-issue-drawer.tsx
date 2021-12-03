@@ -653,6 +653,7 @@ export const EditIssueDrawer = (props: IProps) => {
       bugStage: bugStageList?.length ? bugStageList[0].value : '',
       assignee: userStore.getState((s) => s.loginUser.id),
       planFinishedAt: issueType === ISSUE_TYPE.EPIC ? new Date() : undefined,
+      planStartedAt: issueType === ISSUE_TYPE.EPIC ? new Date() : undefined,
       iterationID,
       content: isEditMode ? '' : templateMap[issueType] || '',
       ...defaultCustomFormData,
@@ -804,6 +805,12 @@ export const EditIssueDrawer = (props: IProps) => {
       message.warn(i18n.t('dop:missing deadline'));
       return false;
     }
+
+    if (!_data.planStartedAt && ISSUE_TYPE.EPIC === issueType) {
+      message.warn(i18n.t('dop:missing startTime'));
+      return false;
+    }
+
     return true;
   };
 

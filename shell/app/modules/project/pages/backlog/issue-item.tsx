@@ -45,13 +45,13 @@ interface IIssueProps {
   onClickIssue?: (data: ISSUE.Issue) => void;
   onDragDelete?: () => void;
   onDelete?: (data: ISSUE.Issue) => void;
-  deleteConFirmText?: string | React.ReactNode | ((name: string) => string | React.ReactNode);
+  deleteConfirmText?: string | React.ReactNode | ((name: string) => string | React.ReactNode);
   deleteText: string | React.ReactNode;
 }
 
 const noop = () => Promise.resolve();
 export const IssueItem = (props: IIssueProps) => {
-  const { data, onDelete, onDragDelete, issueType, onClickIssue = noop, deleteText, deleteConFirmText } = props;
+  const { data, onDelete, onDragDelete, issueType, onClickIssue = noop, deleteText, deleteConfirmText } = props;
   const { title, type, priority, creator, assignee, id } = data;
   const curPriority = ISSUE_PRIORITY_MAP[priority] || {};
   const userMap = useUserMap();
@@ -87,10 +87,10 @@ export const IssueItem = (props: IIssueProps) => {
 
   const confirmDelete = (currentData: any) => {
     Modal.confirm({
-      title: deleteConFirmText
-        ? typeof deleteConFirmText === 'function'
-          ? deleteConFirmText(name)
-          : deleteConFirmText
+      title: deleteConfirmText
+        ? typeof deleteConfirmText === 'function'
+          ? deleteConfirmText(name)
+          : deleteConfirmText
         : `${i18n.t('common:confirm deletion')}(${name})`,
       onOk() {
         onDelete && onDelete(currentData);
