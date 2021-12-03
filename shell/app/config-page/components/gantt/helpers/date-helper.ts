@@ -13,7 +13,7 @@
 
 import { Task, ViewMode } from '../types/public-types';
 import moment from 'moment';
-import { min, max, maxBy, minBy } from 'lodash';
+import { min, max, flatten, compact } from 'lodash';
 import DateTimeFormatOptions = Intl.DateTimeFormatOptions;
 import DateTimeFormat = Intl.DateTimeFormat;
 
@@ -69,16 +69,10 @@ export const ganttDateRange = (tasks: Task[], viewMode: ViewMode) => {
   let newStartDate: Date = tasks[0].start || 0;
   let newEndDate: Date = tasks[0].start || 0;
 
-  const startTasks = tasks.filter((item) => item.start);
-  const endTasks = tasks.filter((item) => item.end);
+  const timeArr = compact(flatten(tasks.map((item) => [item.start, item.end])));
 
-  const maxStart = maxBy(startTasks, (item) => item.start.getTime());
-  const minStart = minBy(startTasks, (item) => item.start.getTime());
-  const maxEnd = maxBy(endTasks, (item) => item.end.getTime());
-  const minEnd = minBy(endTasks, (item) => item.end.getTime());
-
-  const minTime = min([minStart.start.getTime(), minEnd.end.getTime()]);
-  const maxTime = max([maxStart.start.getTime(), maxEnd.end.getTime()]);
+  const minTime = min(timeArr);
+  const maxTime = max(timeArr);
   newStartDate = minTime && new Date(minTime);
   newEndDate = maxTime && new Date(maxTime);
 
