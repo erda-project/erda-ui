@@ -23,7 +23,9 @@ const mockData: CP_BAR_CHART.Spec = {
     grayBg: true,
   },
   data: {
-    option: {},
+    option: {
+      series: [],
+    },
   },
   cId: 'string',
 };

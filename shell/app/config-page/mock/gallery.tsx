@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Col, Row } from 'antd';
+import { camel2DashName } from 'app/common/utils';
 import { ErrorBoundary, FileEditor } from 'common';
 import React from 'react';
 import { containerMap as componentsMap } from '../components';
@@ -21,7 +22,7 @@ const Mock = () => {
   const [Comps, setComps] = React.useState({});
   React.useEffect(() => {
     Object.keys(componentsMap).map((key) => {
-      const filename = key.toLowerCase().replace('-', '');
+      const filename = camel2DashName(key);
       // /* @vite-ignore */
       import(`../components/${filename}/${filename}.mock`)
         .then((module) => {
@@ -38,7 +39,7 @@ const Mock = () => {
           }));
         })
         .catch(() => {
-          console.log(`component missing mock data: `, key);
+          console.log(`component missing mock data: `, filename);
         });
     });
   }, []);
