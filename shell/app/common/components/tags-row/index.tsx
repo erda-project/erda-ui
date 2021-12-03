@@ -54,7 +54,6 @@ export const TagColorMap = {
 export const TagItem = (props: IItemProps) => {
   const { label: _label, size, maxWidth, onDelete, deleteConfirm = true, colorMap } = props;
   const { label, color } = _label;
-
   const curColor = (colorMap || TagColorMap)[color || 'gray'] || color || TagColorMap.gray;
   const style = {
     maxWidth,
@@ -109,6 +108,7 @@ const TagsRow = ({
   const labels = propsLabels ? (Array.isArray(propsLabels) ? propsLabels : [propsLabels]) : [];
   const showMore = labels.length > showCount;
   const showGroup = some(labels, (l) => has(l, 'group'));
+  
   const [labelWidth, setLabelWidth] = React.useState<string | number>('auto');
 
   const countLabelWidth = () => {

@@ -27,6 +27,7 @@ export interface IBadgeProps {
   className?: string;
   showDot?: boolean;
 }
+
 const Badge = (props: IBadgeProps) => {
   const {
     color,

@@ -23,9 +23,7 @@ import './project-label.scss';
 import { Close as IconClose, Plus as IconPlus } from '@icon-park/react';
 import { auxiliaryColorMap } from 'common/constants';
 
-const colors = ['red', 'orange', 'blue', 'green', 'purple', 'gray'];
-const colors1 = Object.keys(auxiliaryColorMap);
-// const colors2 = map(colors1, (item) => auxiliaryColorMap[item].deep);
+const colors = Object.keys(auxiliaryColorMap);
 const ProjectLabel = () => {
   const list = projectLabel.useStore((s) => s.list);
   const { getLabels, createLabel, updateLabel, deleteLabel } = projectLabel.effects;
@@ -34,7 +32,7 @@ const ProjectLabel = () => {
   const [state, updater] = useUpdate({
     activeLabel: null,
     modalVisible: false,
-    activeColor: colors1[0],
+    activeColor: colors[0],
   });
 
   useEffectOnce(() => {
@@ -51,7 +49,7 @@ const ProjectLabel = () => {
   const onCancel = () => {
     updater.modalVisible(false);
     updater.activeLabel(null);
-    updater.activeColor(colors1[0]);
+    updater.activeColor(colors[0]);
   };
 
   const onOk = (data: any) => {
@@ -75,7 +73,6 @@ const ProjectLabel = () => {
     });
   };
 
-  // console.log({colors})
   const fieldsList = [
     {
       name: 'id',
@@ -109,11 +106,11 @@ const ProjectLabel = () => {
       label: i18n.t('dop:label color'),
       name: 'color',
       type: 'custom',
-      initialValue: colors1[0],
+      initialValue: colors[0],
       getComp: ({ form }: { form: FormInstance }) => {
         return (
           <div className="color-list">
-            {colors1.map((c) => (
+            {colors.map((c) => (
               <span
                 key={c}
                 className={`color-option bg-${c}-deep ${state.activeColor === c ? 'active' : ''}`}

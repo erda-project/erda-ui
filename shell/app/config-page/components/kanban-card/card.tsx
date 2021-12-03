@@ -14,27 +14,27 @@
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { Tooltip } from 'antd';
-import { isString, isEmpty, map } from 'lodash';
+import { isString } from 'lodash';
 import { useDrag } from 'react-dnd';
 import classnames from 'classnames';
 import './card.scss';
 
 const noop = () => {};
+const DEFAULT_TITLE_MAX_LENGTH = 36;
 
 export const Card = (props: CP_CARD.Props) => {
   const { props: configProps, execOperation = noop, customOp = {} } = props;
 
-  const { cardType, data, className = '', setIsDrag, stringMaxLength = 36 } = configProps;
+  const { cardType, data, className = '', setIsDrag, titleMaxLength = DEFAULT_TITLE_MAX_LENGTH } = configProps;
 
   const { clickNode = noop } = customOp;
-  const [isHover, setIsHover] = React.useState(false);
   const { id, titleIcon, title, operations, subContent, description, extraInfo } = data?._infoData || {};
-  const isTitleExceeds = isString(title) && title.length > stringMaxLength;
-  const { drag: dragOperation, ...menuOperations } = operations || {};
+  const isTitleExceeds = isString(title) && title.length > titleMaxLength;
+  const { drag: dragOperation } = operations || {};
   const [dragObj, drag] = useDrag({
     item: { type: cardType, data },
     canDrag: () => {
-      return dragOperation && !dragOperation.disabled && !isHover;
+      return dragOperation && !dragOperation.disabled;
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
@@ -68,7 +68,7 @@ export const Card = (props: CP_CARD.Props) => {
             title={isTitleExceeds ? title : ''}
             className="flex-1 text-sm text-default break-word w-64"
           >
-            {isTitleExceeds ? `${title.slice(0, stringMaxLength)}...` : title}
+            {isTitleExceeds ? `${title.slice(0, titleMaxLength)}...` : title}
           </Tooltip>
         </div>
         {isString(subContent) ? <div className="text-xs text-sub mb-3">{subContent}</div> : subContent || null}

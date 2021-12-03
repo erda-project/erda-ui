@@ -376,13 +376,6 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         Comp = <TagsRow colorMap={colorMap} {..._rest} labels={value} onAdd={onAdd} onDelete={onDelete} />;
       }
       break;
-    case 'tagsRow1':
-      {
-        const { value, operations, ..._rest } = val;
-        const onDelete = operations?.delete && ((record) => extra.execOperation(operations?.delete, record));
-        Comp = <TagsRow colorMap={colorMap} {..._rest} labels={value} onAdd={onAdd} onDelete={onDelete} />;
-      }
-      break;
     case 'text':
       {
         const { renderType, ..._rest } = val || {};

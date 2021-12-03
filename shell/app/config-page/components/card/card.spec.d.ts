@@ -21,8 +21,6 @@ declare namespace CP_CARD {
     data: Obj<InfoData>;
     cardType: string;
     className?: string;
-    isDrag?: string;
-    setIsDrag?: (isDrag: boolean) => void;
   }
 
   interface InfoData {

@@ -15,13 +15,13 @@ import React from 'react';
 import { Tooltip, Popconfirm } from 'antd';
 import { Ellipsis, ErdaIcon } from 'common';
 import i18n from 'i18n';
-import { auxiliaryColorMap as TagColorsMap } from 'common/constants';
 import './index.scss';
 
 interface ILabel {
   label: string;
   group?: string;
   color?: string;
+  checked?: boolean;
 }
 export interface IProps extends Omit<IItemProps, 'label'> {
   labels: ILabel[] | ILabel;
@@ -30,9 +30,9 @@ export interface IProps extends Omit<IItemProps, 'label'> {
 }
 
 interface IItemProps {
-  colorMap?: Obj;
   label: ILabel;
   maxWidth?: number;
+  colorMap?: Obj;
   size?: 'small' | 'default';
   checked?: boolean;
   deleteConfirm?: boolean;
@@ -97,7 +97,6 @@ export const TagItem = (props: IItemProps) => {
     </span>
   );
 };
-const MAX_LABEL_WIDTH = 180;
 
 const Tags = ({
   labels: propsLabels,
