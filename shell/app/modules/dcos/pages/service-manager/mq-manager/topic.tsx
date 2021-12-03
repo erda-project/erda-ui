@@ -145,7 +145,7 @@ const Topic = () => {
         <span className="flex">
           {i18n.t('resource:message type')}&nbsp;
           <Tooltip title={i18n.t('cmp:common-messages-suitable-for')}>
-            <ErdaIcon type="help" color="currentColor" />
+            <ErdaIcon type="help" />
           </Tooltip>
         </span>
       ),

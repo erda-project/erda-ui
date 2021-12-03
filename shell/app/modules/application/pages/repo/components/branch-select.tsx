@@ -15,7 +15,7 @@ import { Popover, Input } from 'antd';
 import { isEmpty } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
-import { ErdaIcon } from 'common'
+import { ErdaIcon } from 'common';
 import './branch-select.scss';
 
 const { Search } = Input;
@@ -109,7 +109,7 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
         <ul>
           <li className="branch-item flex items-center justify-between" onClick={() => onChange(commitId)}>
             <span>{commitId}</span>
-            {commitId === current ? <ErdaIcon type="check" size="16" color="currentColor" className="ml-2" /> : null}
+            {commitId === current ? <ErdaIcon type="check" size="16" className="ml-2" /> : null}
           </li>
         </ul>
       </React.Fragment>
@@ -139,7 +139,7 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
                 key={branch}
               >
                 <span>{branch}</span>
-                {branch === current ? <ErdaIcon type="check" size="16" color="currentColor" className="ml-2" /> : null}
+                {branch === current ? <ErdaIcon type="check" size="16" className="ml-2" /> : null}
               </li>
             ))}
           </ul>
@@ -152,7 +152,7 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
                 {tagList.map((tag) => (
                   <li className="branch-item flex items-center justify-between" onClick={() => onChange(tag)} key={tag}>
                     <span>{tag}</span>
-                    {tag === current ? <ErdaIcon type="check" size="16" color="currentColor" className="ml-2" /> : null}
+                    {tag === current ? <ErdaIcon type="check" size="16" className="ml-2" /> : null}
                   </li>
                 ))}
               </ul>

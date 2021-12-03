@@ -79,7 +79,7 @@ export const ProjectList = () => {
           <span className="flex items-center">
             <span className="mr-1">{i18n.t('cmp:application/Member Statistics')}</span>
             <Tooltip title={i18n.t('update data every day at 0')}>
-              <ErdaIcon className="font-bold" type="attention" color="currentColor" size="14" />
+              <ErdaIcon className="font-bold" type="attention" size="14" />
             </Tooltip>
           </span>
         ),

@@ -45,7 +45,7 @@ export default ({ downloadId, projectId, onFinish }: { downloadId: string; proje
             <ExportPdf onFinish={onFinish} domId="test-report-page" tip={data?.name}>
               {({ exportPdf }) => (
                 <span className="text-sm cursor-pointer text-primary" ref={exportRef} onClick={() => exportPdf()}>
-                  <ErdaIcon type="upload" className="align-middle mr-1" color="currentColor" />
+                  <ErdaIcon type="upload" className="align-middle mr-1" />
                   {i18n.t('dop:export report')}
                 </span>
               )}

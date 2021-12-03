@@ -398,7 +398,6 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
     const addBtn = editing ? (
       <ErdaIcon
         type="plus"
-        color="currentColor"
         className="cursor-pointer"
         onClick={() => addNewItemToStructArray(property.value, property.struct[0])}
       />

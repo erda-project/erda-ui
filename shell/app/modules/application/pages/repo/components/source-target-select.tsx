@@ -197,7 +197,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
               <span>{i18n.t('compare')}:</span>
               <span className="branch-name font-bold nowrap">{sourceBranch || null}</span>
               <IF check={sourceBranch}>
-                <ErdaIcon type="caret-down" color="currentColor" size="20" />
+                <ErdaIcon type="caret-down" size="20" />
               </IF>
             </BranchSelect>
             <div className="branch-merge-arrow">
@@ -207,7 +207,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
               <span>{i18n.t('based on')}:</span>
               <span className="branch-name font-bold nowrap">{targetBranch || null}</span>
               <IF check={targetBranch}>
-                <ErdaIcon type="caret-down" color="currentColor" size="20" />
+                <ErdaIcon type="caret-down" size="20" />
               </IF>
             </BranchSelect>
           </div>
@@ -232,7 +232,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
             <span>{i18n.t('based on')}:</span>
             <span className="branch-name font-bold nowrap">{targetBranch || null}</span>
             <IF check={targetBranch}>
-              <ErdaIcon type="caret-down" color="currentColor" size="20" />
+              <ErdaIcon type="caret-down" size="20" />
             </IF>
           </BranchSelect>
 
@@ -247,7 +247,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
             <span>{i18n.t('compare')}:</span>
             <span className="branch-name font-bold nowrap">{sourceBranch || null}</span>
             <IF check={sourceBranch}>
-              <ErdaIcon type="caret-down" color="currentColor" size="20" />
+              <ErdaIcon type="caret-down" size="20" />
             </IF>
           </BranchSelect>
           {/* <IF check={!hideCompareBtn}>

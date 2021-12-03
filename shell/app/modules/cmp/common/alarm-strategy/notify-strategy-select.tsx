@@ -125,7 +125,6 @@ export const NotifyStrategySelect = ({
       </Select>
       <ErdaIcon
         type="reduce"
-        color="currentColor"
         className="cursor-pointer ml-2 text-darkgray hover:text-primary"
         size="20"
         onClick={() => handleRemoveNotifyStrategy(id)}

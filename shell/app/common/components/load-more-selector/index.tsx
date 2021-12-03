@@ -412,7 +412,6 @@ const PureLoadMoreSelector = (props: IProps) => {
             <ErdaIcon
               type="close-one"
               className="close"
-              color="currentColor"
               size="14px"
               onClick={(e: any) => {
                 e.stopPropagation();
@@ -537,7 +536,7 @@ const DefaultLoadMoreRender = ({ onLoadMore, loading }: { onLoadMore: () => void
         onLoadMore();
       }}
     >
-      <ErdaIcon type="loading" className="align-middle" color="currentColor" spin={loading} />
+      <ErdaIcon type="loading" className="align-middle" spin={loading} />
       {i18n.t('load more')}
     </div>
   );

@@ -266,7 +266,7 @@ const RenderFormItem = ({
     <span>
       {label}&nbsp;
       <Tooltip title={labelTip}>
-        <ErdaIcon type="help" color="currentColor" className="align-middle text-icon" />
+        <ErdaIcon type="help" className="align-middle text-icon" />
       </Tooltip>
     </span>
   ) : (
@@ -290,10 +290,10 @@ const RenderFormItem = ({
       </FormItem>
       {suffix}
       {addOne ? (
-        <ErdaIcon type="add-one" color="currentColor" className="render-form-op" onClick={() => addOne(name)} />
+        <ErdaIcon type="add-one" className="render-form-op" onClick={() => addOne(name)} />
       ) : null}
       {dropOne ? (
-        <ErdaIcon type="reduce-one" color="currentColor" className="render-form-op" onClick={() => dropOne(name)} />
+        <ErdaIcon type="reduce-one" className="render-form-op" onClick={() => dropOne(name)} />
       ) : null}
     </FormItem>
   );

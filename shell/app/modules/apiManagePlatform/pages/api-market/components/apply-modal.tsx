@@ -51,7 +51,7 @@ const createNewApp = {
   value: 'create App',
   name: (
     <div className="hover-active text-link">
-      <ErdaIcon type="add-one" color="currentColor" className="mr-2" />
+      <ErdaIcon type="add-one" className="mr-2" />
       {i18n.t('create a new client')}
     </div>
   ),

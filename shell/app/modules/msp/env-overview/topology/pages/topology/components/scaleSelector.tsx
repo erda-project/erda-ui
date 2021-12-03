@@ -50,7 +50,6 @@ export const ScaleSelector = ({ scale, onChange }: IProps) => {
     <div className="scale-selector">
       <ErdaIcon
         type="minus"
-        color="currentColor"
         size="16"
         className="mr-1 scale-minus scale-op"
         onClick={() => changeScale(Number((curScale - 0.2).toFixed(1)))}
@@ -69,7 +68,6 @@ export const ScaleSelector = ({ scale, onChange }: IProps) => {
       </Select>
       <ErdaIcon
         type="plus"
-        color="currentColor"
         size="16"
         className="scale-plus scale-op"
         onClick={() => changeScale(Number((curScale + 0.2).toFixed(1)))}

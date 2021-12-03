@@ -65,7 +65,7 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
                 <Popover title={i18n.t('runtime:error details')} content={content} defaultVisible placement="bottom">
                   <span className="step-title">
                     {name}
-                    <ErdaIcon type="tishi" color="currentColor" className="align-middle fail-info" />
+                    <ErdaIcon type="tishi" className="align-middle fail-info" />
                   </span>
                 </Popover>
               ) : (
@@ -96,7 +96,6 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
             <span>
               <ErdaIcon
                 type="left-one"
-                color="currentColor"
                 size="16"
                 className="hover-active align-middle"
                 onClick={() => popSlideComp()}
@@ -119,7 +118,6 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
                 <span>
                   <ErdaIcon
                     type="left-one"
-                    color="currentColor"
                     size="16"
                     className="hover-active align-middle"
                     onClick={() => popSlideComp()}

@@ -78,7 +78,7 @@ class JsonChecker extends React.PureComponent<IProps, IState> {
                 <Button
                   className="json-detail-btn cursor-copy json-checker-copy"
                   shape="circle"
-                  icon={<ErdaIcon className="mt-1" type="copy" size="16" color="currentColor" />}
+                  icon={<ErdaIcon className="mt-1" type="copy" size="16" />}
                 />
                 <Copy selector=".json-checker-copy" opts={{ text: () => jsonString }} />
               </>

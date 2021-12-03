@@ -489,7 +489,14 @@ const BuildDetail = (props: IProps) => {
     const paddingEle = (
       <div className="build-operator mx-0">
         <Tooltip title={i18n.t('preparing')}>
-          <ErdaIcon type="loading" className="mx-0.5" color="black-400" size="20px" style={{ transform: 'translateY(0)' }} spin />
+          <ErdaIcon
+            type="loading"
+            className="mx-0.5"
+            color="black-400"
+            size="20px"
+            style={{ transform: 'translateY(0)' }}
+            spin
+          />
         </Tooltip>
       </div>
     );
@@ -770,9 +777,9 @@ const BuildDetail = (props: IProps) => {
               </Row>
               <div className="trigger-btn" onClick={toggleExpandInfo}>
                 {!isExpand ? (
-                  <ErdaIcon type="down" color="currentColor" size="18px" className="mr-0" />
+                  <ErdaIcon type="down" size="18px" className="mr-0" />
                 ) : (
-                  <ErdaIcon type="up" color="currentColor" size="18px" className="mr-0" />
+                  <ErdaIcon type="up" size="18px" className="mr-0" />
                 )}
               </div>
             </div>
@@ -781,7 +788,7 @@ const BuildDetail = (props: IProps) => {
             {showMessage && showMessage.msg ? (
               <div className="build-detail-err-msg mb-2">
                 <div className="build-err-header">
-                  <ErdaIcon type="tishi" color="currentColor" size="18px" className="build-err-icon" />
+                  <ErdaIcon type="tishi" size="18px" className="build-err-icon" />
                   <pre>{showMessage.msg}</pre>
                 </div>
                 <div className="build-err-stack">

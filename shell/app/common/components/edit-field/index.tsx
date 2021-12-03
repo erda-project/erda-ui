@@ -183,7 +183,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
             updater.expanded(!expanded);
           }}
         >
-          <ErdaIcon type={`${expanded ? 'double-up' : 'double-down'}`} color="currentColor" />
+          <ErdaIcon type={`${expanded ? 'double-up' : 'double-down'}`} />
           <div className="ml-1">{expanded ? i18n.t('collapse description') : i18n.t('expand description')}</div>
         </div>
       </div>

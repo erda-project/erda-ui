@@ -49,7 +49,7 @@ const DetailIntro = () => {
         <ExportPdf domId="report-page" tip={i18n.t('dop:test report')}>
           {({ exportPdf }) => (
             <span className="text-sm cursor-pointer text-primary flex" onClick={() => exportPdf()}>
-              <ErdaIcon className="mr-1" type="upload" size="14" color="currentColor" />
+              <ErdaIcon className="mr-1" type="upload" size="14" />
               {i18n.t('dop:export report')}
             </span>
           )}

@@ -39,7 +39,7 @@ export const getTitleRender = (cItem: CP_TABLE.Column) => {
       <div className="flex items-center">
         {title}
         <Tooltip title={getTitleTip(titleTip)}>
-          <ErdaIcon color="currentColor" type="info" size="14" className="text-sm text-sub ml-2" />
+          <ErdaIcon type="info" size="14" className="text-sm text-sub ml-2" />
         </Tooltip>
       </div>
     );
@@ -102,7 +102,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         const { url, value } = val || {};
         Comp = (
           <a className="fake-link nowrap flex flex-wrap justify-start items-center w-full" download={value} href={url}>
-            <ErdaIcon type="download" color="currentColor" className="align-middle mr-1" /> {value}
+            <ErdaIcon type="download" className="align-middle mr-1" /> {value}
           </a>
         );
       }
@@ -477,7 +477,7 @@ const memberSelectorValueItem = (user: any) => {
       <span className={'ml-1 text-sm nowrap'} title={name}>
         {displayName}
       </span>
-      <ErdaIcon type="caret-down" color="currentColor" size="18" className="arrow-icon align-middle" />
+      <ErdaIcon type="caret-down" size="18" className="arrow-icon align-middle" />
     </div>
   );
 };
@@ -500,7 +500,7 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
         {value || <span className="text-desc">{i18n.t('unspecified')}</span>}
       </div>
-      <ErdaIcon type="caret-down" color="currentColor" size="18" className="arrow-icon" />
+      <ErdaIcon type="caret-down" size="18" className="arrow-icon" />
     </div>
   );
 

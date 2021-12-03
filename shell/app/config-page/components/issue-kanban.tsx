@@ -144,12 +144,11 @@ const IssueKanban = (props: IProps) => {
             </div>
           ) : operations?.CreateCustom?.disabled ? (
             <Tooltip title={operations?.CreateCustom?.disabledTip}>
-              <ErdaIcon type="plus" color="currentColor" className="cursor-pointer add-icon not-allowed" />
+              <ErdaIcon type="plus" className="cursor-pointer add-icon not-allowed" />
             </Tooltip>
           ) : (
             <ErdaIcon
               type="plus"
-              color="currentColor"
               className="cursor-pointer add-icon"
               onClick={() => updater.showAdd(true)}
             />
@@ -354,14 +353,13 @@ const Kanban = (props: IKanbanProps) => {
                   execOperation({ key: 'DeleteCustom', ...boardOp?.DeleteCustom }, { panelID: labelKey })
                 }
               >
-                <ErdaIcon type="delete1" color="currentColor" className="ml-3 cursor-pointer" />
+                <ErdaIcon type="delete1" className="ml-3 cursor-pointer" />
               </Popconfirm>
             </WithAuth>
           ) : (
             <WithAuth pass={deleteAuth} noAuthTip={deleteBoardOp?.disabledTip}>
               <ErdaIcon
                 type="delete1"
-                color="currentColor"
                 className="ml-3 cursor-pointer"
                 onClick={() => execOperation({ key: 'DeleteCustom', ...boardOp?.DeleteCustom }, { panelID: labelKey })}
               />

@@ -99,7 +99,6 @@ class ObjectInputGroup extends PureComponent<IEditGlobalVariableProps, any> {
           {disabled ? null : (
             <ErdaIcon
               type="delete1"
-              color="currentColor"
               className="variable-icon ml-3 cursor-pointer"
               onClick={() => this.deleteVariable(index)}
             />
@@ -116,7 +115,6 @@ class ObjectInputGroup extends PureComponent<IEditGlobalVariableProps, any> {
           {disabled ? null : (
             <ErdaIcon
               type="plus"
-              color="currentColor"
               className="variable-icon cursor-pointer"
               onClick={this.addNewVariable}
             />

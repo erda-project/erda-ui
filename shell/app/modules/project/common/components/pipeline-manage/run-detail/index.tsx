@@ -351,7 +351,7 @@ const RunDetail = (props: IProps) => {
         {showMessage && showMessage.msg ? (
           <div className="auto-test-detail-err-msg mb-2">
             <div className="auto-test-err-header">
-              <ErdaIcon type="tishi" color="currentColor" size="18px" className="auto-test-err-icon" />
+              <ErdaIcon type="tishi" size="18px" className="auto-test-err-icon" />
               <pre>{showMessage.msg}</pre>
             </div>
             <div className="auto-test-err-stack">

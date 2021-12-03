@@ -61,7 +61,7 @@ const Title = ({
         <div className={sizeList[level]}>{title}</div>
         {tip ? (
           <Tooltip title={tip} overlayInnerStyle={tipStyle}>
-            <ErdaIcon type="help" color="currentColor" className="text-base ml-1" />
+            <ErdaIcon type="help" className="text-base ml-1" />
           </Tooltip>
         ) : null}
       </div>

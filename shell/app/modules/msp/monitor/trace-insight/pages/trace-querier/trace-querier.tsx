@@ -320,7 +320,6 @@ const TraceInsightQuerier = () => {
                   <ErdaIcon
                     type="full-screen-one"
                     size="14"
-                    color="currentColor"
                     className="cursor-pointer hover:text-primary mb-2"
                     onClick={() => setIsShowTraceDetail(true)}
                   />

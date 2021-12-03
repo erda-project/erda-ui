@@ -253,7 +253,7 @@ const Status = () => {
       <div className="top-bar">
         <span className={`summary-down-count ${hasDown.color}`}>
           <span className="flex items-center justify-center">
-            <ErdaIcon color="currentColor" type="info" className="mr-2.5" size="16" /> {hasDown.text}{' '}
+            <ErdaIcon type="info" className="mr-2.5" size="16" /> {hasDown.text}{' '}
           </span>
         </span>
       </div>

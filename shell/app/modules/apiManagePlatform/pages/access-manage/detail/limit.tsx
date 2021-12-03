@@ -97,13 +97,12 @@ const Limit = (props: IProps) => {
               <div className="sla-limit-operation">
                 <div className="flex justify-between items-center pl-3">
                   <Tooltip title={i18n.t('add {name}', { name: i18n.t('request limit') })}>
-                    <ErdaIcon type="add-one" color="currentColor" onClick={handleAddOne} size="20" />
+                    <ErdaIcon type="add-one" onClick={handleAddOne} size="20" />
                   </Tooltip>
                   {index !== 0 ? (
                     <Tooltip title={i18n.t('delete')}>
                       <ErdaIcon
                         type="reduce-one"
-                        color="currentColor"
                         onClick={() => {
                           handleDropOne(index);
                         }}

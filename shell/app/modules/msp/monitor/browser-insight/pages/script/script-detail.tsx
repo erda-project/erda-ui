@@ -24,7 +24,7 @@ const scriptDetail = ({ data }: { data: object }) => {
     return (
       <div className="no-data-list">
         <div className="no-data-content">
-          <ErdaIcon type="attention" color="currentColor" size="16px" />
+          <ErdaIcon type="attention" size="16px" />
           {i18n.t('msp:no data')}
         </div>
       </div>

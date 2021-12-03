@@ -67,7 +67,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
             autoFocus
             size="small"
             placeholder={i18n.t('search')}
-            prefix={<ErdaIcon type="search1" color="currentColor" size="16" />}
+            prefix={<ErdaIcon type="search1" size="16" />}
             value={filterValue}
             onChange={(e) => setFilterValue(e.target.value)}
           />
@@ -101,9 +101,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
                   ) : null}
                   {item.label}
                 </span>
-                <span className="flex">
-                  {value === item.value ? <ErdaIcon type="check" color="currentColor" className="ml-2" /> : null}
-                </span>
+                <span className="flex">{value === item.value ? <ErdaIcon type="check" className="ml-2" /> : null}</span>
               </div>
             </Menu.Item>
           );
@@ -132,9 +130,12 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
       trigger={trigger || ['click']}
       {...restProps}
     >
-      <span className="flex items-center justify-center dropdown-select-button hover-active" onClick={() => setActive(!active)}>
+      <span
+        className="flex items-center justify-center dropdown-select-button hover-active"
+        onClick={() => setActive(!active)}
+      >
         {propsState?.label || label}
-        <ErdaIcon type="caret-down" className="ml-0.5" size="18" color="currentColor"/>
+        <ErdaIcon type="caret-down" className="ml-0.5" size="18" />
       </span>
     </Dropdown>
   );

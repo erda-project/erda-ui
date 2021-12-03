@@ -262,7 +262,7 @@ const Configuration = () => {
           </div>
 
           <div className="flex items-center text-primary">
-            <ErdaIcon size="14" type="copy" className="mr-1" color="currentColor" />
+            <ErdaIcon size="14" type="copy" className="mr-1" />
             <Copy selector=".container-key" copyText={`${detail}`}>
               {i18n.t('copy')}
             </Copy>

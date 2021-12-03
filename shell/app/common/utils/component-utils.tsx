@@ -23,7 +23,7 @@ export const getLabel = (label: string, labelTip: string, required = true) => {
         {required ? <span style={{ color: 'red', marginRight: 4 }}>*</span> : null}
         {_label}&nbsp;
         <Tooltip title={labelTip}>
-          <ErdaIcon type="help" color="currentColor" className="text-icon" />
+          <ErdaIcon type="help" className="text-icon" />
         </Tooltip>
       </span>
     );

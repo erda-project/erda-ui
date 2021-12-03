@@ -273,7 +273,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
       <Dropdown overlay={menu}>
         <span className="inline-flex items-center text-xs mr-2 cursor-pointer">
           {tplName ? `${i18n.t('selected template')}:${tplName.replace('.md', '')}` : i18n.t('select template')}{' '}
-          <ErdaIcon type="down" color="currentColor" size="16" />
+          <ErdaIcon type="down" size="16" />
         </span>
       </Dropdown>
     );

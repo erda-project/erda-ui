@@ -186,8 +186,8 @@ export const FileDiff = ({
 
       const text =
         {
-          [ACTION.ADD]: <ErdaIcon type="file-addition" color="currentColor" className="text-base text-green" />,
-          [ACTION.DELETE]: <ErdaIcon type="delete1" color="currentColor" className="text-base text-red" />,
+          [ACTION.ADD]: <ErdaIcon type="file-addition" className="text-base text-green" />,
+          [ACTION.DELETE]: <ErdaIcon type="delete1" className="text-base text-red" />,
           [ACTION.RENAME]: i18n.t('dop:file moved'),
         }[type] || '';
 
@@ -196,17 +196,17 @@ export const FileDiff = ({
           <IF check={type === 'rename'}>
             <div className="file-title-move">
               <div className="font-bold nowrap">
-                <ErdaIcon type="file-code-one" size="14" color="currentColor" className="mr-2" />
+                <ErdaIcon type="file-code-one" size="14" className="mr-2" />
                 {old}
               </div>
-              <ErdaIcon type="arrow-right" color="currentColor" className="file-move-arrow" />
+              <ErdaIcon type="arrow-right" className="file-move-arrow" />
               <div className="font-bold nowrap">{now}</div>
             </div>
             <div className="file-static-info">{text}</div>
             <IF.ELSE />
             <div className="file-title inline-flex justify-between items-center">
               <div className="font-bold nowrap">
-                <ErdaIcon type="file-code-one" size="14" color="currentColor" className="mr-2" />
+                <ErdaIcon type="file-code-one" size="14" className="mr-2" />
                 {name} {text || null}
               </div>
             </div>
@@ -289,11 +289,11 @@ export const FileDiff = ({
         {title || (
           <div className="font-bold flex items-center">
             <IF check={!isExpanding}>
-              <ErdaIcon type="right-one" color="currentColor" size="18px" className="mr-2" />
+              <ErdaIcon type="right-one" size="18px" className="mr-2" />
               <ELSE />
-              <ErdaIcon type="caret-down" color="currentColor" size="18px" className="mr-2" />
+              <ErdaIcon type="caret-down" size="18px" className="mr-2" />
             </IF>
-            <ErdaIcon type="file-code-one" size="14" color="currentColor" className="mr-2" />
+            <ErdaIcon type="file-code-one" size="14" className="mr-2" />
             {name}
           </div>
         )}

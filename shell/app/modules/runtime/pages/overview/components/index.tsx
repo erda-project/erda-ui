@@ -245,7 +245,7 @@ const RuntimeOverView = () => {
                 size="small"
                 className="ml-1"
                 shape="circle"
-                icon={<ErdaIcon type="menu-unfold" size="14" color="currentColor" />}
+                icon={<ErdaIcon type="menu-unfold" size="14" />}
                 onClick={() => toggleFold(true)}
               />
             </Tooltip>
@@ -258,7 +258,12 @@ const RuntimeOverView = () => {
       <IF check={proportion[1] === 0}>
         <span className="open-activity" onClick={() => setProportion([16, 8])}>
           <Tooltip title={i18n.t('runtime:expanding activities')}>
-            <Button size="small" shape="circle" icon={<ErdaIcon type="menu-unfold" size="14" color="currentColor" />} onClick={() => toggleFold(false)} />
+            <Button
+              size="small"
+              shape="circle"
+              icon={<ErdaIcon type="menu-unfold" size="14" />}
+              onClick={() => toggleFold(false)}
+            />
           </Tooltip>
         </span>
       </IF>

@@ -87,7 +87,7 @@ const CP_RADIO = (props: CP_RADIO.Props) => {
                     <span className="nowrap" style={{ ...(width ? { width } : {}) }}>
                       {childName}
                     </span>
-                    <ErdaIcon size="18" type="caret-down" color="currentColor" className="ml-1" />
+                    <ErdaIcon size="18" type="caret-down" className="ml-1" />
                   </div>
                 </RadioItem>
               </Dropdown>

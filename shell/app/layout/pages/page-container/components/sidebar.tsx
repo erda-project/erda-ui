@@ -139,7 +139,7 @@ const SideBar = () => {
       show: true,
       icon: (
         <Tooltip title={i18n.t('layout:view doc')} placement="right">
-          <ErdaIcon type="help" color="currentColor" className="mr-0 mt-1" size="20" />
+          <ErdaIcon type="help" className="mr-0 mt-1" size="20" />
         </Tooltip>
       ),
       onClick: () => {
@@ -169,7 +169,7 @@ const SideBar = () => {
           className="message-icon select-none"
           style={{ boxShadow: 'none' }}
         >
-          <ErdaIcon type="remind" className="mr-0 mt-0.5" size="20px" color="currentColor" style={customIconStyle} />
+          <ErdaIcon type="remind" className="mr-0 mt-0.5" size="20px" style={customIconStyle} />
         </Badge>
       ),
       onClick: () => switchMessageCenter(null),
@@ -197,7 +197,7 @@ const SideBar = () => {
       },
     ]),
     {
-      icon: <ErdaIcon className="mr-1" type="logout" size="14" color="currentColor" />,
+      icon: <ErdaIcon className="mr-1" type="logout" size="14" />,
       title: i18n.t('layout:logout'),
       onClick: userStore.effects.logout,
     },

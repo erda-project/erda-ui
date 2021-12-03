@@ -242,7 +242,6 @@ const VersionList = (props: IProps) => {
                   H5{curPackageName ? `(${curPackageName})` : null}{' '}
                   <ErdaIcon
                     type="caret-down"
-                    color="currentColor"
                     className="align-middle"
                     style={{ lineHeight: 1 }}
                     size="18"
@@ -335,7 +334,7 @@ const VersionList = (props: IProps) => {
                                 }
                               >
                                 <span className="text">
-                                  <ErdaIcon type="apple" color="currentColor" className="align-middle mr-0.5" size="16" /> {_targetMobiles.ios?.length || 0}个版本
+                                  <ErdaIcon type="apple" className="align-middle mr-0.5" size="16" /> {_targetMobiles.ios?.length || 0}个版本
                                 </span>
                               </Popover>
                               <Popover
@@ -352,7 +351,7 @@ const VersionList = (props: IProps) => {
                                 }
                               >
                                 <span className="text">
-                                  <ErdaIcon className="align-middle mr-0.5" type="android" size="16" color="currentColor" /> {_targetMobiles.android?.length || 0}个版本
+                                  <ErdaIcon className="align-middle mr-0.5" type="android" size="16" /> {_targetMobiles.android?.length || 0}个版本
                                 </span>
                               </Popover>
                             </>

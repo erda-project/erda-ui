@@ -178,7 +178,7 @@ const ImportExportRecord = ({
         if (['success', 'fail'].includes(state)) {
           return (
             <a className="table-operations-btn flex" download={record.name} href={`/api/files/${record.apiFileUUID}`}>
-              <ErdaIcon type="download" className="mr-2" color="currentColor" /> {record.name}
+              <ErdaIcon type="download" className="mr-2" /> {record.name}
             </a>
           );
         }

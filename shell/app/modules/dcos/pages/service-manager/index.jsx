@@ -298,7 +298,10 @@ class ServiceManager extends React.Component {
     return (
       <Spin spinning={isFetchingClusters}>
         <Holder when={isEmpty(list)}>
-          <Breadcrumb separator={<ErdaIcon className="text-xs align-middle" type="right" color="currentColor" size="14px" />} className="path-breadcrumb">
+          <Breadcrumb
+            separator={<ErdaIcon className="text-xs align-middle" type="right" size="14px" />}
+            className="path-breadcrumb"
+          >
             {path.map((p, i) => {
               const isLast = i === path.length - 1;
               return (

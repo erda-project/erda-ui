@@ -50,7 +50,7 @@ const ErrorCard = ({ data }: IProps) => {
             </Tooltip>
           </div>
           <div className="error-time flex">
-            <ErdaIcon type="time" color="currentColor" />
+            <ErdaIcon type="time" />
             &nbsp;&nbsp;
             {fromNow(data.updateTime, { prefix: `${i18n.t('msp:last trigger')}:` })}
             &nbsp;&nbsp;-&nbsp;&nbsp;

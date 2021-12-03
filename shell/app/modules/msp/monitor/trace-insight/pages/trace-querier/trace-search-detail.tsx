@@ -82,7 +82,7 @@ export default ({ traceId, startTime }: { traceId?: string; startTime?: number }
         {i18n.t('msp:trace id')}: {id}
         <Copy selector=".cursor-copy">
           <span className="cursor-copy hover-text" data-clipboard-text={copyPath} data-clipboard-tip={i18n.t('link')}>
-            <ErdaIcon type="share-one" className="hover-active ml-5" size="16px" color="currentColor" />
+            <ErdaIcon type="share-one" className="hover-active ml-5" size="16px" />
           </span>
         </Copy>
       </div>

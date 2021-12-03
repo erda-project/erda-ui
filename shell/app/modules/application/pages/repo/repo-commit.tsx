@@ -139,7 +139,7 @@ const RepoCommit = () => {
                 <span className="branch-name font-bold nowrap">{commitId}</span>
               </>
             )}
-            <ErdaIcon type="caret-down" color="currentColor" size="18px" className="mt-0.5" />
+            <ErdaIcon type="caret-down" size="18px" className="mt-0.5" />
           </BranchSelect>
           <IF check={path && branch}>
             <RepoBreadcrumb splitKey="commits" path={path} />

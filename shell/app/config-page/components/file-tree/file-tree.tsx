@@ -103,7 +103,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
           ...d,
           className: 'insert-node',
           title: <div className="cursor-pointer insert-node-title" onClick={clickInsert} />,
-          icon: <ErdaIcon type="add-one" color="currentColor" className="insert-node-icon cursor-pointer" onClick={clickInsert} />,
+          icon: <ErdaIcon type="add-one" className="insert-node-icon cursor-pointer" onClick={clickInsert} />,
         };
       }
       if (staticSearch && !(matchKeys || []).includes(d.key)) {
@@ -389,7 +389,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
                   ))}
                   footer={false}
                 >
-                  <ErdaIcon type="more1" className="tree-node-action" color="currentColor" />
+                  <ErdaIcon type="more1" className="tree-node-action" />
                 </Popover>
               ) : null}
             </span>

@@ -118,7 +118,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
   return (
     <Dropdown overlay={menu} placement="bottomRight">
       <span className="flex">
-        {(stateMap[curState] || {}).child} <ErdaIcon type="down" color="currentColor" size="16" />
+        {(stateMap[curState] || {}).child} <ErdaIcon type="down" size="16" />
       </span>
     </Dropdown>
   );

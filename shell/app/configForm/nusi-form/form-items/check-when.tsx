@@ -119,7 +119,6 @@ const Item = (props: IItemProps) => {
               <ErdaIcon
                 type="reduce-one"
                 size="20"
-                color="currentColor"
                 className="combiner-operation sub"
                 onClick={() => deleteSubItem(idx)}
               />
@@ -128,13 +127,7 @@ const Item = (props: IItemProps) => {
         />
       ))}
       <Tooltip title="添加条件项（统一条件组内的项之间为逻辑与关系）">
-        <ErdaIcon
-          type="add-one"
-          size="20"
-          color="currentColor"
-          className="combiner-operation sub"
-          onClick={() => addSubItem()}
-        />
+        <ErdaIcon type="add-one" size="20" className="combiner-operation sub" onClick={() => addSubItem()} />
       </Tooltip>
     </div>
   );
@@ -297,7 +290,6 @@ export const CheckWhenCombiner = (props: IProps) => {
                 <ErdaIcon
                   type="reduce-one"
                   size="20"
-                  color="currentColor"
                   className="combiner-operation"
                   onClick={() => deleteItem(rowIdx)}
                 />
@@ -308,7 +300,7 @@ export const CheckWhenCombiner = (props: IProps) => {
         );
       })}
       <Tooltip title="添加条件组（不同条件组之间为逻辑或关系）">
-        <ErdaIcon type="add-one" size="20" color="currentColor" className="combiner-operation" onClick={addItem} />
+        <ErdaIcon type="add-one" size="20" className="combiner-operation" onClick={addItem} />
       </Tooltip>
     </div>
   );

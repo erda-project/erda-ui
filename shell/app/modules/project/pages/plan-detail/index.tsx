@@ -15,7 +15,7 @@ import { debounce, get } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
 import { Button, Tabs, Input, Spin } from 'antd';
-import { DropdownSelect, Icon as CustomIcon,ErdaIcon } from 'common';
+import { DropdownSelect, Icon as CustomIcon, ErdaIcon } from 'common';
 import { SplitPage } from 'app/layout/common';
 import TestEnvDrawer from 'project/pages/test-manage/case/test-env-drawer';
 import { useLoading } from 'core/stores/loading';
@@ -195,7 +195,7 @@ const TestPlanDetail = () => {
         ) : (
           <EnvSelect execute={handleExecute}>
             <Button loading={loadingRecords} className="items-center flex">
-              {i18n.t('dop:start interface test')} <ErdaIcon type="down" size="16" color="currentColor" />
+              {i18n.t('dop:start interface test')} <ErdaIcon type="down" size="16" />
             </Button>
           </EnvSelect>
         )}
@@ -266,7 +266,7 @@ const TestPlanDetail = () => {
                     style={{ width: '160px' }}
                     placeholder={i18n.t('dop:search for')}
                     onChange={(e) => debouncedSearch({ query: e.target.value })}
-                    prefix={<ErdaIcon type="search1" className="mr-1 mt-0.5" color="currentColor" size="14" />}
+                    prefix={<ErdaIcon type="search1" className="mr-1 mt-0.5" size="14" />}
                   />
                   <Button onClick={() => setEnhanceFilterVisible(true)}>
                     <CustomIcon type="filter" />

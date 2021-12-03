@@ -197,7 +197,7 @@ const ClusterBasicForm = ({
                   </div>
                 }
               >
-                <ErdaIcon size="14" type="help" color="currentColor" className="text-icon cursor-pointer" />
+                <ErdaIcon size="14" type="help" className="text-icon cursor-pointer" />
               </Popover>
             </div>
           ),
@@ -278,9 +278,9 @@ const ClusterAddForm = (props: any) => {
           <a className="more-btn w-20 flex" onClick={() => setShowMore(!showMore)}>
             {i18n.t('advanced settings')}
             {showMore ? (
-              <ErdaIcon type="up" color="currentColor" size="16" />
+              <ErdaIcon type="up" size="16" />
             ) : (
-              <ErdaIcon type="down" color="currentColor" size="16" />
+              <ErdaIcon type="down" size="16" />
             )}
           </a>
           <div className={`more-form ${showMore ? '' : 'hidden'}`}>

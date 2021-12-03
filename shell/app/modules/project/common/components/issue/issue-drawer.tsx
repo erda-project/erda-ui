@@ -176,7 +176,6 @@ export const IssueDrawer = (props: IProps) => {
                     type="share-one"
                     className="cursor-copy copy-share-link mr-1 ml-3"
                     size="16"
-                    color="currentColor"
                     data-clipboard-text={shareLink}
                   />
                 </IF>
@@ -224,7 +223,7 @@ export const IssueDrawer = (props: IProps) => {
                       placement="leftTop"
                       trigger="click"
                     >
-                      <ErdaIcon type="copy" color="currentColor" className="hover-active ml-3" size="16px" />
+                      <ErdaIcon type="copy" className="hover-active ml-3" size="16px" />
                     </Popover>
                   </WithAuth>
                 </IF>
@@ -235,16 +234,16 @@ export const IssueDrawer = (props: IProps) => {
                       placement="bottomRight"
                       onConfirm={onDelete}
                     >
-                      <ErdaIcon color="currentColor" type="delete1" className="hover-active ml-3" size="16" />
+                      <ErdaIcon type="delete1" className="hover-active ml-3" size="16" />
                     </Popconfirm>
                   </WithAuth>
                 ) : null}
                 {isChanged && confirmCloseTip ? (
                   <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
-                    <ErdaIcon type="close" color="currentColor" className="ml-3 cursor-pointer" size="16" />
+                    <ErdaIcon type="close" className="ml-3 cursor-pointer" size="16" />
                   </Popconfirm>
                 ) : (
-                  <ErdaIcon type="close" color="currentColor" className="ml-3 cursor-pointer" size="16" onClick={onClose} />
+                  <ErdaIcon type="close" className="ml-3 cursor-pointer" size="16" onClick={onClose} />
                 )}
               </div>
             </div>

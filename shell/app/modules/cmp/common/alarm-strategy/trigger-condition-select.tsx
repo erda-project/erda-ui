@@ -133,7 +133,6 @@ export const TriggerConditionSelect = ({
       )}
       <ErdaIcon
         type="reduce"
-        color="currentColor"
         className="cursor-pointer ml-2 text-darkgray hover:text-primary"
         size="20"
         onClick={() => handleRemoveTriggerConditions(id)}

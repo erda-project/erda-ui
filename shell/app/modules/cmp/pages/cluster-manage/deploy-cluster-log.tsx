@@ -103,7 +103,7 @@ class DeployClusterLog extends React.Component<IProps, IState> {
         onScroll={this.throttleScroll}
       >
         <pre>{this.props.deployClusterLog}</pre>
-        {fetching && <ErdaIcon type="loading" color="currentColor" className="log-state bottom" spin />}
+        {fetching && <ErdaIcon type="loading" className="log-state bottom" spin />}
       </div>
     );
   }

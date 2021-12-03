@@ -230,7 +230,7 @@ const ErrorDetail = () => {
                   className={`first-page ${eventIndex === 0 ? 'edge' : ''}`}
                   onClick={() => changeEvent('first')}
                 >
-                  <ErdaIcon className="mt-1" type="to-left" color="currentColor" size="14px" />
+                  <ErdaIcon className="mt-1" type="to-left" size="14px" />
                 </Button>
                 <Button
                   disabled={eventIndex === 0}
@@ -251,7 +251,7 @@ const ErrorDetail = () => {
                   className={`last-page ${eventIndex === eventIds.length - 1 ? 'edge' : ''}`}
                   onClick={() => changeEvent('last')}
                 >
-                  <ErdaIcon className="mt-1" type="to-right" color="currentColor" size="14px" />
+                  <ErdaIcon className="mt-1" type="to-right" size="14px" />
                 </Button>
               </div>
             </div>
@@ -294,9 +294,9 @@ const ErrorDetail = () => {
                 <IF check={stacks && stacks.length > 1}>
                   <Button className="toggle-stacks" onClick={toggleShowAllStacks}>
                     {showAllStacks ? (
-                      <ErdaIcon type="down" color="currentColor" size="20px" className="mr-0 mt-0.5" />
+                      <ErdaIcon type="down" size="20px" className="mr-0 mt-0.5" />
                     ) : (
-                      <ErdaIcon type="up" color="currentColor" size="20px" className="mr-0 mt-0.5" />
+                      <ErdaIcon type="up" size="20px" className="mr-0 mt-0.5" />
                     )}
                   </Button>
                 </IF>
@@ -311,9 +311,9 @@ const ErrorDetail = () => {
                 <IF check={stacks && stacks.length > 1}>
                   <div className="stack-item omit-item" onClick={toggleShowAllStacks}>
                     {showAllStacks ? (
-                      <ErdaIcon type="up" color="currentColor" size="20px" className="mr-0 mt-0.5" />
+                      <ErdaIcon type="up" size="20px" className="mr-0 mt-0.5" />
                     ) : (
-                      <ErdaIcon type="down" color="currentColor" size="20px" className="mr-0 mt-0.5" />
+                      <ErdaIcon type="down" size="20px" className="mr-0 mt-0.5" />
                     )}
                   </div>
                 </IF>

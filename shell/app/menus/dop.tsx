@@ -26,13 +26,13 @@ export const getDopMenu = () => {
       [
         {
           href: goTo.resolve.dopRoot(), // '/dop/projects',
-          icon: <ErdaIcon className="mt-3.5 mr-1" type="api-app" color="currentColor" />,
+          icon: <ErdaIcon className="mt-3.5 mr-1" type="api-app" />,
           text: i18n.t('joined projects'),
           subtitle: i18n.t('Project'),
         },
         {
           href: goTo.resolve.dopApps(), // '/dop/apps',
-          icon: <ErdaIcon className="mt-3.5 mr-1" type="application-one" color="currentColor" />,
+          icon: <ErdaIcon className="mt-3.5 mr-1" type="application-one" />,
           text: i18n.t('joined apps'),
           subtitle: i18n.t('App'),
         },
@@ -74,7 +74,7 @@ export const getDopMenu = () => {
         {
           key: 'approval',
           href: goTo.resolve.dopApprove(), // '/dop/approval/my-approve',
-          icon: <ErdaIcon className="mt-3.5 mr-1" type="seal" color="currentColor" />,
+          icon: <ErdaIcon className="mt-3.5 mr-1" type="seal" />,
           text: i18n.t('dop:approval request'),
           subtitle: i18n.t('Approve'),
           subMenu: [
@@ -93,14 +93,14 @@ export const getDopMenu = () => {
         {
           key: 'dopPublisher',
           href: goTo.resolve.dopPublisher(), // '/dop/publisher',
-          icon: <ErdaIcon className="mt-3.5 mr-1" type="send" color="currentColor" />,
+          icon: <ErdaIcon className="mt-3.5 mr-1" type="send" />,
           text: i18n.t('publisher:my release'),
           subtitle: i18n.t('Release'),
           show: orgPerm.dop.publisher.read.pass,
         },
         {
           href: goTo.resolve.dopPublicProjects(),
-          icon: <ErdaIcon className="mt-3.5 mr-1" type="book-one" color="currentColor" />,
+          icon: <ErdaIcon className="mt-3.5 mr-1" type="book-one" />,
           text: i18n.t('public project'),
           subtitle: i18n.t('Public'),
         },

@@ -172,7 +172,7 @@ const AppLibraryReference = () => {
 
   const addonAfter = (
     <span className="copy-btn cursor-copy" data-clipboard-text={state.dependence} data-clipboard-tip="dependence">
-      <ErdaIcon type="copy" color="currentColor" />
+      <ErdaIcon type="copy" />
     </span>
   );
 

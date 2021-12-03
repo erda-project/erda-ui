@@ -354,7 +354,7 @@ const LogItem = (props: ILogItemProps) => {
   return (
     <div className={`log-item py-2 cursor-pointer ${activeLog === index ? 'active-item' : ''}`} onClick={setActive}>
       <span>
-        {index}: {log.reload && <ErdaIcon type="refresh1" color="currentColor" />} {log.type} {log.cId}.{log.opKey}
+        {index}: {log.reload && <ErdaIcon type="refresh1" />} {log.type} {log.cId}.{log.opKey}
       </span>
       {(log.data || log.command) && (
         <Tooltip

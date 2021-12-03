@@ -222,7 +222,6 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
                     type="upload"
                     className="mr-1"
                     size="14"
-                    color="currentColor"
                   />{' '}
                   {i18n.t('upload')}
                 </Button>

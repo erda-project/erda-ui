@@ -77,7 +77,7 @@ export const SubscribersSelector = (props: IProps) => {
               }
             }}
           >
-            <ErdaIcon className="mr-1" type="preview-close-one" color="currentColor" size="14" />
+            <ErdaIcon className="mr-1" type="preview-close-one" size="14" />
             {i18n.t('dop:unfollow')}
           </div>
         ) : (
@@ -92,7 +92,7 @@ export const SubscribersSelector = (props: IProps) => {
               }
             }}
           >
-            <ErdaIcon type="preview-open" className="mr-1" size="14" color="currentColor" />
+            <ErdaIcon type="preview-open" className="mr-1" size="14" />
             {i18n.t('dop:follow')}
           </div>
         )}
@@ -133,9 +133,9 @@ export const SubscribersSelector = (props: IProps) => {
                 memberRef.current?.show(true);
               }}
             >
-              <ErdaIcon type="plus" size="14" color="currentColor" className="mr-1" />
+              <ErdaIcon type="plus" size="14" className="mr-1" />
               {i18n.t('dop:Add Followers')}
-              <ErdaIcon type="right" size="14" color="currentColor" className="add-follower-btn" />
+              <ErdaIcon type="right" size="14" className="add-follower-btn" />
             </span>
           )}
         />

@@ -347,7 +347,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
       <Dropdown overlay={dropdownMenu}>
         <Button {...rest} className="flex ml-3">
           {text}
-          <ErdaIcon type="caret-down" color="currentColor" className="ml-1" />
+          <ErdaIcon type="caret-down" className="ml-1" />
         </Button>
       </Dropdown>
     );
@@ -472,7 +472,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                               className="copy-btn cursor-copy copy-request"
                               data-clipboard-text={get(request, 'body.content', '')}
                               shape="circle"
-                              icon={<ErdaIcon type="copy" color="currentColor" />}
+                              icon={<ErdaIcon type="copy" />}
                             />
                             <Copy selector=".copy-request" />
                           </>
@@ -521,7 +521,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                       className="copy-btn cursor-copy copy-response"
                       data-clipboard-text={body}
                       shape="circle"
-                      icon={<ErdaIcon type="copy" color="currentColor" />}
+                      icon={<ErdaIcon type="copy" />}
                     />
                     <Copy selector=".copy-response" />
                   </>
@@ -685,7 +685,7 @@ const AssertTips = () => {
 
   return (
     <Tooltip placement="topLeft" title={tips} overlayClassName="api-editor-asserts-tips">
-      <ErdaIcon color="currentColor" className="ml-1" type="help" />
+      <ErdaIcon className="ml-1" type="help" />
     </Tooltip>
   );
 };
@@ -1057,7 +1057,7 @@ const APIBody = (props: any) => {
               ))}
             </Select>
             <Tooltip title={tip} overlayStyle={{ maxWidth: 500 }}>
-              <ErdaIcon className="ml-2 mt-1" color="currentColor" type="help" />
+              <ErdaIcon className="ml-2 mt-1" type="help" />
             </Tooltip>
           </span>
         ) : null}
@@ -1217,7 +1217,6 @@ const KeyValEdit = (props: IKeyValProps) => {
                   onConfirm={() => handleDelete(i)}
                 >
                   <ErdaIcon
-                    color="currentColor"
                     type="delete1"
                     size="14"
                     className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'}
@@ -1226,7 +1225,6 @@ const KeyValEdit = (props: IKeyValProps) => {
               ) : (
                 <ErdaIcon
                   type="delete1"
-                  color="currentColor"
                   size="14"
                   onClick={() => {
                     handleDelete(i);

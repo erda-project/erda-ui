@@ -174,7 +174,7 @@ const TiledFilter = (props: IProps) => {
                   value={value[inputItem.key]}
                   size="small"
                   allowClear
-                  prefix={<ErdaIcon type="search1" color="currentColor" size="16" />}
+                  prefix={<ErdaIcon type="search1" size="16" />}
                   placeholder={inputItem.placeholder || i18n.t('press enter to search')}
                   onChange={(e) => onChangeInputItem(e.target.value, inputItem)}
                 />
@@ -186,7 +186,6 @@ const TiledFilter = (props: IProps) => {
           <span className="mr-2">{expand ? i18n.t('fold') : i18n.t('expand')}</span>
           <ErdaIcon
             type="down"
-            color="currentColor"
             className={`expand-icon flex items-center ${expand ? 'expand' : ''}`}
             size="16"
           />

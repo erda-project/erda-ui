@@ -218,7 +218,7 @@ const VariableConfig = ({
           <span>
             {source === 'certificate' && (
               <Tooltip title={i18n.t('common:from certificate push')}>
-                <ErdaIcon type="info" color="currentColor" className="ml-1 text-sub" />
+                <ErdaIcon type="info" className="ml-1 text-sub" />
               </Tooltip>
             )}
             {isFromDefault && <span className="tag tag-warning ml-1">{i18n.t('default')}</span>}

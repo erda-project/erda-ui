@@ -69,7 +69,7 @@ const UploadComp = ({ form, onChangeFile, fileNameKey, fileAccept }: IUploadProp
     <div className="upload-container">
       <Upload {...uploadProps}>
         <Button className="flex items-center">
-          <ErdaIcon type="upload" size="16" className="mr-1" color="currentColor" /> {i18n.t('upload')}
+          <ErdaIcon type="upload" size="16" className="mr-1" /> {i18n.t('upload')}
         </Button>
       </Upload>
       {fileName && (

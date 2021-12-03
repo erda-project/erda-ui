@@ -110,7 +110,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
           </span>
           {editing ? (
             <Dropdown trigger={['click']} overlay={menu}>
-              <ErdaIcon type="more1" color="currentColor" className="icon-ellipsis mr-0" />
+              <ErdaIcon type="more1" className="icon-ellipsis mr-0" />
             </Dropdown>
           ) : null}
         </div>

@@ -90,7 +90,7 @@ const ServiceDropdown = (props: IProps) => {
               </span>
               <Copy selector=".cursor-copy">
                 <span className="cursor-copy copy-icon" data-clipboard-text={addr}>
-                  <ErdaIcon type="copy" color="currentColor" />
+                  <ErdaIcon type="copy" />
                 </span>
               </Copy>
             </div>

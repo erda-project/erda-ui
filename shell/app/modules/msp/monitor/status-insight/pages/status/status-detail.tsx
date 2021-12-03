@@ -149,7 +149,7 @@ const StatusDetail = () => {
               <span className="name">{i18n.t('msp:downtime')}</span>
               <span className="value">
                 <Tooltip title={emptyText(data.downtime)}>{data.downDuration}</Tooltip>
-                <ErdaIcon type="tishi" color="currentColor" size="16" className="info-icon" />
+                <ErdaIcon type="tishi" size="16" className="info-icon" />
               </span>
             </div>
           </Col>

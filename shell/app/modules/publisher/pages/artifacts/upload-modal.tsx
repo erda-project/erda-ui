@@ -82,7 +82,7 @@ const UploadModal = (props: IProps) => {
           <div className="upload-container">
             <Upload accept=".apk, .ipa" {...uploadProps}>
               <Button className="flex items-center">
-                <ErdaIcon className="mr-1" type="upload" color="currentColor" size="14" /> {i18n.t('upload')}
+                <ErdaIcon className="mr-1" type="upload" size="14" /> {i18n.t('upload')}
               </Button>
             </Upload>
             <span className="text-desc ml-2">{uploadFile ? i18n.t('selected {xx}', { xx: uploadFile }) : null}</span>

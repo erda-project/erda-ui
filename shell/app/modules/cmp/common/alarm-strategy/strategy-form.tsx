@@ -570,7 +570,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       getComp: () => (
         <>
           <Button className="flex items-center mb-2" type="primary" ghost onClick={handleAddTriggerConditions}>
-            <ErdaIcon type="plus" color="currentColor" size="16" />
+            <ErdaIcon type="plus" size="16" />
             <span>{i18n.t('cmp:add rule')}</span>
           </Button>
           {state.triggerCondition?.length > 0 && (
@@ -619,12 +619,12 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
               }
             >
               <Button className="mr-2 flex items-center" ghost type="primary">
-                <ErdaIcon type="page-template" color="currentColor" className="mr-1" size="14" />
+                <ErdaIcon type="page-template" className="mr-1" size="14" />
                 <span>{i18n.t('cmp:type template')}</span>
               </Button>
             </Popover>
             <Button type="primary" className="flex items-center" ghost onClick={handleAddEditingRule}>
-              <ErdaIcon type="plus" color="currentColor" size="16" />
+              <ErdaIcon type="plus" size="16" />
               <span>{i18n.t('cmp:add rule')}</span>
             </Button>
           </div>
@@ -664,7 +664,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       getComp: () => (
         <>
           <Button type="primary" ghost className="flex items-center mb-2" onClick={handleAddNotifyStrategy}>
-            <ErdaIcon type="plus" color="currentColor" size="16" />
+            <ErdaIcon type="plus" size="16" />
             <span>{i18n.t('cmp:add notification object')}</span>
           </Button>
           {state.notifies?.length > 0 && (
@@ -977,16 +977,10 @@ export function AddStrategyPageName() {
       <ErdaIcon
         type="arrow-left"
         size="18"
-        color="currentColor"
         className="cursor-pointer text-gray mr-3"
         onClick={() => window.history.back()}
       />
-      <ErdaIcon
-        type="remind"
-        color="currentColor"
-        size="18"
-        className="text-white bg-primary p-2 text-bold rounded-sm mr-2"
-      />
+      <ErdaIcon type="remind" size="18" className="text-white bg-primary p-2 text-bold rounded-sm mr-2" />
       <span className="font-bold text-lg">{i18n.t('cmp:new alarm strategy')}</span>
     </div>
   );
@@ -998,16 +992,10 @@ export function EditStrategyPageName() {
       <ErdaIcon
         type="arrow-left"
         size="18"
-        color="currentColor"
         className="cursor-pointer text-gray mr-3"
         onClick={() => window.history.back()}
       />
-      <ErdaIcon
-        type="remind"
-        color="currentColor"
-        size="18"
-        className="text-white bg-primary p-2 text-bold rounded-sm mr-2"
-      />
+      <ErdaIcon type="remind" size="18" className="text-white bg-primary p-2 text-bold rounded-sm mr-2" />
       <span className="font-bold text-lg">{i18n.t('cmp:edit alarm strategy')}</span>
     </div>
   );

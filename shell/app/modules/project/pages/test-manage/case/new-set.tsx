@@ -58,8 +58,8 @@ const NewSet = ({ afterCreate }: IProps) => {
         onChange={(e) => setValue(e.target.value)}
         onKeyUp={handlePressEntry}
       />
-      <ErdaIcon type="check" color="currentColor" className="ml-3 text-lg text-primary cursor-pointer" onClick={handleSave} />
-      <ErdaIcon type="close" color="currentColor" className="ml-3 text-lg cursor-pointer" onClick={handleHide} />
+      <ErdaIcon type="check" className="ml-3 text-lg text-primary cursor-pointer" onClick={handleSave} />
+      <ErdaIcon type="close" className="ml-3 text-lg cursor-pointer" onClick={handleHide} />
     </div>
   );
 

@@ -203,7 +203,6 @@ const DomainModal = (props: IProps) => {
                   <span className="add-domain-icon">
                     <ErdaIcon
                       type="add-one"
-                      color="currentColor"
                       className="ml-3 hover-active cursor-pointer mt-1"
                       onClick={() => addCustom()}
                       size="18"
@@ -261,12 +260,7 @@ const InputItem = (props: IInputItemProps) => {
       <Popconfirm title={i18n.t('runtime:confirm deletion')} onConfirm={onDelete}>
         <span className="delete-domain-icon">
           {' '}
-          <ErdaIcon
-            type="reduce-one"
-            size="18"
-            color="currentColor"
-            className="hover-active cursor-pointer mt-1.5"
-          />{' '}
+          <ErdaIcon type="reduce-one" size="18" className="hover-active cursor-pointer mt-1.5" />{' '}
         </span>
       </Popconfirm>
     </>

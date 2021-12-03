@@ -74,13 +74,10 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
           onChange={this.changeValue}
           placeholder={i18n.t('dop:please input the value')}
         />
-        {lock !== false ? (
-          <ErdaIcon type="lock" color="currentColor" className="variable-icon variable-input-lock" />
-        ) : null}
+        {lock !== false ? <ErdaIcon type="lock" className="variable-icon variable-input-lock" /> : null}
         {disabled ? null : (
           <ErdaIcon
             type="delete1"
-            color="currentColor"
             className={`align-middle variable-icon cursor-pointer ${lock === false && 'ml-3'}`}
             onClick={() => onDelete(key)}
           />

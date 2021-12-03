@@ -65,7 +65,7 @@ export const Button = (props: CP_BUTTON.Props) => {
       {suffixIcon ? (
         <IconComp type={suffixIcon} className="ml-1" />
       ) : isEmpty(menu) ? null : (
-        <ErdaIcon type="caret-down" size="18" color="currentColor" className="ml-1" />
+        <ErdaIcon type="caret-down" size="18" className="ml-1" />
       )}
     </div>
   );

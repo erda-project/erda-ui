@@ -77,7 +77,6 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
           {disabled ? null : (
             <ErdaIcon
               type="delete1"
-              color="currentColor"
               className="align-middle variable-icon ml-3 cursor-pointer"
               onClick={() => this.deleteVariable(index)}
             />
@@ -91,7 +90,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
         <div className="edit-service-label">
           {i18n.t('dop:ports')}
           {disabled ? null : (
-            <ErdaIcon type="plus" color="currentColor" className="variable-icon cursor-pointer" onClick={this.addNew} />
+            <ErdaIcon type="plus" className="variable-icon cursor-pointer" onClick={this.addNew} />
           )}
         </div>
         {content}

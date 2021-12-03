@@ -100,7 +100,7 @@ const headAppRender = (val: any = {}) => {
       <span className="nowrap text-base font-bold" title={name}>
         {name}
       </span>
-      <ErdaIcon type="caret-down" size="16" color="currentColor" className="align-middle caret ml-1" />
+      <ErdaIcon type="caret-down" size="16" className="align-middle caret ml-1" />
     </div>
   );
 };

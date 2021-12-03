@@ -57,7 +57,7 @@ const CardContainer = ({ title, tip, className, operation, holderWhen, style, ch
               {title}
               {tip ? (
                 <Tooltip title={TipComp} overlayStyle={{ maxWidth: 600 }}>
-                  <ErdaIcon type="help" size="16" color="currentColor" className="ml-1" />
+                  <ErdaIcon type="help" size="16" className="ml-1" />
                 </Tooltip>
               ) : null}
             </div>

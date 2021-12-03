@@ -127,7 +127,7 @@ const OptionItem = (props: IOptionItemProps) => {
           }}
         >
           <div className="option-item-delete-box pl-2">
-            <ErdaIcon type="shanchu" color="currentColor" className="mr-1" size="14" />
+            <ErdaIcon type="shanchu" className="mr-1" size="14" />
           </div>
         </div>
       ) : null}
@@ -188,7 +188,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         className="bg-hover-gray-bg"
         bordered={false}
         // ref={inputRef}
-        prefix={<ErdaIcon size="16" type="search1" color="currentColor" />}
+        prefix={<ErdaIcon size="16" type="search1" />}
         placeholder={placeholder || i18n.t('press enter to search')}
         // onPressEnter={() => inputRef.current?.blur()}
         onChange={(e) => setInputVal(e.target.value)}
@@ -219,7 +219,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               autoFocus
               size="small"
               placeholder={i18n.t('search')}
-              prefix={<ErdaIcon size="16" type="search1" color="currentColor" />}
+              prefix={<ErdaIcon size="16" type="search1" />}
               value={filterMap[key]}
               onChange={(e) => {
                 const v = e.target.value;
@@ -348,7 +348,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         <span className="contractive-filter-item">
           <span className="text-desc mr-0.5">{label}</span>
           <span className="contractive-filter-item-value nowrap">{valueText}</span>
-          <ErdaIcon type="caret-down" color="currentColor" className="hover" size="16" />
+          <ErdaIcon type="caret-down" className="hover" size="16" />
         </span>
       </Dropdown>
     );
@@ -518,7 +518,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           showSearch={haveFilter}
         />
         {value?.length ? null : <span>{emptyText}</span>}
-        <ErdaIcon type="caret-down" color="currentColor" className="hover" size="16" />
+        <ErdaIcon type="caret-down" className="hover" size="16" />
       </span>
     );
   }
@@ -857,7 +857,7 @@ const ContractiveFilter = ({
                   <Input
                     autoFocus
                     size="small"
-                    prefix={<ErdaIcon size="16" type="search1" color="currentColor" />}
+                    prefix={<ErdaIcon size="16" type="search1" />}
                     onClick={(e) => e.stopPropagation()}
                     value={hideFilterKey}
                     onChange={(e) => setHideFilterKey(e.target.value.toLowerCase())}
@@ -907,7 +907,7 @@ const ContractiveFilter = ({
             <span className="contractive-filter-item more-conditions">
               <ErdaIcon color="black-800" type="plus" className="mr-0.5 color-text" />
               <span>{i18n.t('filter')}</span>
-              <ErdaIcon type="caret-down" color="currentColor" className="hover" size="16" />
+              <ErdaIcon type="caret-down" className="hover" size="16" />
             </span>
           </Dropdown>
         </span>

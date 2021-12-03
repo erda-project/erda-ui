@@ -87,7 +87,6 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
           {editing ? (
             <ErdaIcon
               type="plus"
-              color="currentColor"
               className="variable-icon cursor-pointer"
               onClick={this.addNewVariable}
             />

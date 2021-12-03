@@ -83,7 +83,7 @@ class ProjectResource extends React.PureComponent {
     return (
       <div className="project-resource">
         <Breadcrumb
-          separator={<ErdaIcon className="text-xs align-middle" type="right" color="currentColor" size="14px" />}
+          separator={<ErdaIcon className="text-xs align-middle" type="right" size="14px" />}
           className="path-breadcrumb"
         >
           {paths.map((p, i) => {

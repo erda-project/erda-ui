@@ -280,8 +280,8 @@ const Title = ({
           ref={inputRef}
           onKeyUp={handlePressEntry}
         />
-        <ErdaIcon type="check" color="currentColor" className="ml-2 text-primary cursor-pointer" onClick={handleSave} />
-        <ErdaIcon type="close" color="currentColor" className="mx-2 text-primary cursor-pointer" onClick={() => toggleEdit(false, isTemp)} />
+        <ErdaIcon type="check" className="ml-2 text-primary cursor-pointer" onClick={handleSave} />
+        <ErdaIcon type="close" className="mx-2 text-primary cursor-pointer" onClick={() => toggleEdit(false, isTemp)} />
       </div>
     );
   }

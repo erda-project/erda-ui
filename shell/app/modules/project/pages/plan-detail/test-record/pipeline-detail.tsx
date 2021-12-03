@@ -140,7 +140,7 @@ export class PipelineDetail extends React.Component<IProps, IState> {
           {showMessage && showMessage.msg ? (
             <div className="build-detail-err-msg">
               <div className="build-err-header">
-              <ErdaIcon type="tishi" color="currentColor" size="18px" className="build-err-icon" />
+                <ErdaIcon type="tishi" size="18px" className="build-err-icon" />
                 <pre>{showMessage.msg}</pre>
               </div>
               <div className="build-err-stack">

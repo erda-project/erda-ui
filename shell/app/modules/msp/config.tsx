@@ -115,7 +115,7 @@ export const getMSPSubtitleByName = (key: MS_INDEX.IRootMenu) => {
 };
 
 const renderIcon = (type: string) => () => {
-  return <ErdaIcon color="currentColor" className="erda-icon" type={type} fill="primary" />;
+  return <ErdaIcon className="erda-icon" type={type} fill="primary" />;
 };
 
 export const MSIconMap = {

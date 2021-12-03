@@ -142,7 +142,6 @@ class RuntimeContainerLog extends React.Component {
         <span>
           <ErdaIcon
             type="left-one"
-            color="currentColor"
             className="hover-active align-middle"
             size="16"
             onClick={() => this.props.popSlideComp()}

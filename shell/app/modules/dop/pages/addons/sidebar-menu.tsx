@@ -19,12 +19,12 @@ export const getSideMenu = ({ rootPath }: { rootPath: string }) => {
   const sideMenu = [
     {
       href: `${rootPath}/overview`,
-      icon: <ErdaIcon type="list-view" color="currentColor" className="mt-3.5 mr-1" />,
+      icon: <ErdaIcon type="list-view" className="mt-3.5 mr-1" />,
       text: i18n.t('dop:addon info'),
     },
     {
       href: `${rootPath}/settings`,
-      icon: <ErdaIcon type="config1" color="currentColor" className="mt-3.5 mr-1" />,
+      icon: <ErdaIcon type="config1" className="mt-3.5 mr-1" />,
       text: i18n.t('dop:addon setting'),
     },
   ];

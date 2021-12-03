@@ -75,7 +75,6 @@ export const TagItem = (props: IItemProps) => {
           >
             <ErdaIcon
               type="close-one"
-              color="currentColor"
               size="12"
               className="tag-close cursor-pointer text-holder"
             />
@@ -83,7 +82,6 @@ export const TagItem = (props: IItemProps) => {
         ) : (
           <ErdaIcon
             type="close-one"
-            color="currentColor"
             size="12"
             className="tag-close cursor-pointer text-holder"
             onClick={() => onDelete(_label)}

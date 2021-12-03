@@ -79,7 +79,6 @@ function SelectPro<T, S>({
       </Select>
       <ErdaIcon
         type="intersection"
-        color="currentColor"
         className="hover-active mr-1 -mt-3 text-base select-pro-icon"
         onClick={handleModal}
       />

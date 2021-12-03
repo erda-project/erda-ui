@@ -130,7 +130,7 @@ const Group = () => {
         <span className="flex">
           Group ID&nbsp;
           <Tooltip title={i18n.t('cmp:GroupID-cannot-modified')}>
-            <ErdaIcon type="help" color="currentColor" />
+            <ErdaIcon type="help" />
           </Tooltip>
         </span>
       ),

@@ -104,7 +104,6 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
           {disabled ? null : (
             <ErdaIcon
               type="plus"
-              color="currentColor"
               className="align-middle edit-service-label-icon cursor-pointer"
               onClick={this.addPort}
             />

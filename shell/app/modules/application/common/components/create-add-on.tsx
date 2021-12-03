@@ -495,9 +495,9 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
       }
 
       const icon = packUpTabs.has(group.groupName) ? (
-        <ErdaIcon type="down" color="currentColor" className="head-icon" size="18px" />
+        <ErdaIcon type="down" className="head-icon" size="18px" />
       ) : (
-        <ErdaIcon type="up" color="currentColor" className="head-icon" size="18px" />
+        <ErdaIcon type="up" className="head-icon" size="18px" />
       );
 
       const content = packUpTabs.has(group.groupName) ? <div className="addon-group-body">{addonsContent}</div> : null;

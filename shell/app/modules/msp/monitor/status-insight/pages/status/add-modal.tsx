@@ -534,22 +534,13 @@ const AddModal = (props: IProps) => {
               }}
             >
               {i18n.t('advanced settings')}
-              {showMore ? (
-                <ErdaIcon type="up" color="currentColor" size="16" />
-              ) : (
-                <ErdaIcon type="down" color="currentColor" size="16" />
-              )}
+              {showMore ? <ErdaIcon type="up" size="16" /> : <ErdaIcon type="down" size="16" />}
             </span>
             <div className={`p-2.5 mt-2 h-full ${showMore ? '' : 'hidden'}`}>
               <div className="flex">
                 <h4 className="mb-2">{i18n.t('msp:anomaly check')}</h4>
                 <Tooltip title={i18n.t('msp:exception check prompt')}>
-                  <ErdaIcon
-                    type="help"
-                    size="14"
-                    color="currentColor"
-                    className="ml-1 mb-2"
-                  />
+                  <ErdaIcon type="help" size="14" className="ml-1 mb-2" />
                 </Tooltip>
               </div>
               <div>

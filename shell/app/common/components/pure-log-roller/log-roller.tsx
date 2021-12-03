@@ -103,7 +103,7 @@ export class LogRoller extends React.Component<IProps, IState> {
     const { fullScreen } = this.state;
     let logContent = rolling ? (
       <div className="flex">
-        Loading... <ErdaIcon className="ml-1" type="loading" color="currentColor" spin />
+        Loading... <ErdaIcon className="ml-1" type="loading" spin />
       </div>
     ) : (
       <span>No Log Currently</span>
@@ -112,7 +112,7 @@ export class LogRoller extends React.Component<IProps, IState> {
     if (content && content.length) {
       logContent = (
         <div className="log-content-wrap" onScroll={this.throttleScroll}>
-          {backwardLoading ? <ErdaIcon type="loading" color="currentColor" spin className="log-state top" /> : null}
+          {backwardLoading ? <ErdaIcon type="loading" spin className="log-state top" /> : null}
           <div
             ref={(ref) => {
               this.preElm = ref;
@@ -121,7 +121,7 @@ export class LogRoller extends React.Component<IProps, IState> {
           >
             <ContentComp {...this.props} logs={content} transformContent={transformContent} />
           </div>
-          {rolling ? <ErdaIcon type="loading" color="currentColor" spin className="log-state bottom" /> : null}
+          {rolling ? <ErdaIcon type="loading" spin className="log-state bottom" /> : null}
         </div>
       );
     }

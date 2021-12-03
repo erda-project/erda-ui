@@ -96,12 +96,7 @@ export const Card = (props: CP_CARD.Props) => {
           {isString(titleIcon) ? <CustomIcon type={titleIcon} color className="head-icon mr-1" /> : titleIcon || null}
           <div className="flex-1 text-sm text-normal break-word">{title}</div>
           {isEmpty(menuOperations) ? (
-            <ErdaIcon
-              type="more1"
-              color="currentColor"
-              className="op-icon hide-icon"
-              onClick={(e) => e.stopPropagation()}
-            />
+            <ErdaIcon type="more1" className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} />
           ) : (
             <span
               ref={opRef}
@@ -110,7 +105,7 @@ export const Card = (props: CP_CARD.Props) => {
               onMouseLeave={() => setIsHover(false)}
             >
               <Dropdown overlay={getMenu()} getPopupContainer={() => opRef.current as any}>
-                <ErdaIcon type="more1" color="currentColor" className="op-icon" onClick={(e) => e.stopPropagation()} />
+                <ErdaIcon type="more1" className="op-icon" onClick={(e) => e.stopPropagation()} />
               </Dropdown>
             </span>
           )}

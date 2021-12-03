@@ -214,7 +214,7 @@ const EditList = (props: IELProps) => {
             dataTemp={dataTemp}
             isTitle
             operation={
-              <ErdaIcon type="reduce-one" color="currentColor" className="edit-list-item-operation not-allowed" />
+              <ErdaIcon type="reduce-one" className="edit-list-item-operation not-allowed" />
             }
           />
         ) : null}

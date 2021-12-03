@@ -347,12 +347,12 @@ const TimeSelect = (props: IProps) => {
             updater.visible(true);
           }}
         >
-          <ErdaIcon className="mr-1" size="16" color="currentColor" type="time" />
+          <ErdaIcon className="mr-1" size="16" type="time" />
           {text}
         </div>
       </Dropdown>
       <AutoRefreshStrategy
-        suffixIcon={<ErdaIcon type="caret-down" className="ml-1 -mt-0.5" size="16" color="currentColor" />}
+        suffixIcon={<ErdaIcon type="caret-down" className="ml-1 -mt-0.5" size="16" />}
         style={{ width: 70 }}
         defaultValue={refreshStrategy}
         onChange={handleChangeRefreshStrategy}

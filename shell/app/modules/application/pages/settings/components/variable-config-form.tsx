@@ -133,7 +133,7 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
                 <Spin spinning={uploading} tip={i18n.t('uploading, please wait a moment')}>
                   <Upload {...uploadProps}>
                     <Button className="flex items-center">
-                      <ErdaIcon className="mr-1 align-center" type="upload" color="currentColor" /> {i18n.t('upload')}
+                      <ErdaIcon className="mr-1 align-center" type="upload" /> {i18n.t('upload')}
                     </Button>
                   </Upload>
                   <span className="text-desc ml-2">

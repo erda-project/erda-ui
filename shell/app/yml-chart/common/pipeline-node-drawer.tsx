@@ -453,7 +453,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         <span>
           {_label}&nbsp;
           <Tooltip title={labelTip}>
-            <ErdaIcon type="help" size="14" color="currentColor" className="mr-1 align-middle text-icon" />
+            <ErdaIcon type="help" size="14" className="mr-1 align-middle text-icon" />
           </Tooltip>
         </span>
       );
@@ -469,7 +469,6 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     const addBtn = editing ? (
       <ErdaIcon
         type="plus"
-        color="currentColor"
         className="cursor-pointer align-middle"
         onClick={() => addNewItemToStructArray(property, property.struct[0])}
       />

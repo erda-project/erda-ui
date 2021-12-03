@@ -132,7 +132,7 @@ const ProjectLabel = () => {
     <div className="project-label-list">
       <div className="flex items-center flex-wrap">
         <span className="flex items-center label-item create" onClick={() => updater.modalVisible(true)}>
-          <ErdaIcon type="plus" className="mr-1" color="currentColor" size="14px" />
+          <ErdaIcon type="plus" className="mr-1" size="14px" />
           {i18n.t('dop:add label')}
         </span>
         {list.map((label) => (
@@ -145,7 +145,6 @@ const ProjectLabel = () => {
             <ErdaIcon
               type="close"
               size="12"
-              color="currentColor"
               className="ml-1"
               onClick={(e) => {
                 e.stopPropagation();

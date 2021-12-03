@@ -158,7 +158,7 @@ const ManualTest = () => {
                   type="primary"
                   icon={
                     <div>
-                      <ErdaIcon type="plus" className="mr-1 mt-1" size="14" color="currentColor" />
+                      <ErdaIcon type="plus" className="mr-1 mt-1" size="14" />
                     </div>
                   }
                   onClick={showCaseDrawer}
@@ -194,7 +194,7 @@ const ManualTest = () => {
               placeholder={i18n.t('dop:search for')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              prefix={<ErdaIcon type="search1" size="14" className="mr-1" color="currentColor" />}
+              prefix={<ErdaIcon type="search1" size="14" className="mr-1" />}
             />
             <Button onClick={() => setEnhanceFilterVisible(true)}>
               <ErdaIcon stroke="black-800" className="mt-0.5" width="16" height="18" type="filter" />

@@ -23,7 +23,7 @@ export const getLabel = (label: string, labelTip: string) => {
       <span className="flex">
         {label}&nbsp;
         <Tooltip title={labelTip}>
-          <ErdaIcon type="help" size="14" color="currentColor" className="text-icon" />
+          <ErdaIcon type="help" size="14" className="text-icon" />
         </Tooltip>
       </span>
     );

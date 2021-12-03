@@ -358,7 +358,6 @@ const ApiDesign = () => {
       {!apiLockState && (
         <ErdaIcon
           type="plus"
-          color="currentColor"
           className="mr-0 cursor-pointer"
           size="16px"
           onClick={(e) => {
@@ -668,7 +667,7 @@ const ApiDesign = () => {
                 <Input
                   placeholder={i18n.t('search by keyword')}
                   className="mx-2 my-3 api-filter-input"
-                  prefix={<ErdaIcon type="search1" size="14" className="mr-0.5 mt-0.5" color="currentColor" />}
+                  prefix={<ErdaIcon type="search1" size="14" className="mr-0.5 mt-0.5" />}
                   onInput={(e: React.ChangeEvent<HTMLInputElement>) => updater.filterKey(e.target.value)}
                 />
 

@@ -108,7 +108,7 @@ const DiceYamlEditorDrawer = (props: IDiceYamlEditorDrawerProps) => {
     <div style={style} className="yaml-editor-drawer">
       <div className="yaml-editor-drawer-title">
         {title}
-        <ErdaIcon type="close" color="currentColor" onClick={onClose} className="yaml-editor-drawer-close" />
+        <ErdaIcon type="close" onClick={onClose} className="yaml-editor-drawer-close" />
       </div>
       <div
         ref={(e: any) => {

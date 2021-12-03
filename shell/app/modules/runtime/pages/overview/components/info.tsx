@@ -107,14 +107,14 @@ const DeployInfo = () => {
                       placement="bottomRight"
                     >
                       <Button className="runtime-operate cancel">
-                        <ErdaIcon color="currentColor" type="loading" />
+                        <ErdaIcon type="loading" />
                         <span>{i18n.t('runtime:force cancel')}</span>
                       </Button>
                     </Popconfirm>
                     <ELSE />
                     <NoAuthTip>
                       <Button className="runtime-operate cancel">
-                        <ErdaIcon color="currentColor" type="loading" />
+                        <ErdaIcon type="loading" />
                         <span>{i18n.t('runtime:force cancel')}</span>
                       </Button>
                     </NoAuthTip>
@@ -146,14 +146,14 @@ const DeployInfo = () => {
             <Dropdown overlay={menu} trigger={['click']} disabled={showCancelBtn || isBlocked}>
               <Button type="primary" disabled={showCancelBtn || isBlocked}>
                 {i18n.t('runtime:deployment operation')}
-                <ErdaIcon type="down" color="currentColor" />
+                <ErdaIcon type="down" />
               </Button>
             </Dropdown>
             <ELSE />
             <NoAuthTip>
               <Button type="primary">
                 {i18n.t('runtime:deployment operation')}
-                <ErdaIcon type="down" color="currentColor" />
+                <ErdaIcon type="down" />
               </Button>
             </NoAuthTip>
           </IF>

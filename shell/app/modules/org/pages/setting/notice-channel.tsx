@@ -361,17 +361,10 @@ const NotifyChannel = () => {
         type: passwordVisible ? 'text' : 'password',
         autoComplete: 'off',
         addonAfter: passwordVisible ? (
-          <ErdaIcon
-            className="mt-1.5"
-            type="preview-open"
-            size="14"
-            color="currentColor"
-            onClick={() => updater.passwordVisible(false)}
-          />
+          <ErdaIcon className="mt-1.5" type="preview-open" size="14" onClick={() => updater.passwordVisible(false)} />
         ) : (
           <ErdaIcon
             type="preview-close-one"
-            color="currentColor"
             size="14"
             className="mt-1.5"
             onClick={() => updater.passwordVisible(true)}

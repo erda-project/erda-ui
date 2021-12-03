@@ -28,7 +28,7 @@ const CP_BREADCRUMB = (props: CP_BREADCRUMB.Props) => {
 
   if (!visible) return null;
   return (
-    <Breadcrumb separator={<ErdaIcon className="align-middle text-xs" type="right" color="currentColor" size="14px" />}>
+    <Breadcrumb separator={<ErdaIcon className="align-middle text-xs" type="right" size="14px" />}>
       {map(list, (item, idx) => {
         if (item.menus) {
           const menu = (

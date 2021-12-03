@@ -45,12 +45,12 @@ const opHint = (operation: string, selectedList: CLOUD.TagItem[]) => {
   );
   return (
     <div>
-      <ErdaIcon color="currentColor" type="help" className="mr-1 align-middle rounded-full bg-yellow text-white" />
+      <ErdaIcon type="help" className="mr-1 align-middle rounded-full bg-yellow text-white" />
       <span>{i18n.t('cmp:your chosen')}</span>
       <Dropdown overlay={menu}>
         <a onClick={(e) => e.preventDefault()}>
           {i18n.t('{num} {type}', { num: selectedList.length, type: i18n.t('instance') })}
-          <ErdaIcon className="align-middle" type="caret-down" color="currentColor" size="20" />
+          <ErdaIcon className="align-middle" type="caret-down" size="20" />
         </a>
       </Dropdown>
       <span>
@@ -448,7 +448,7 @@ const ComputingEcs = () => {
           <Button type="primary">
             <div className="flex">
               {i18n.t('batch setting')}
-              <ErdaIcon type="caret-down" color="currentColor" className="ml-1" size="20" />
+              <ErdaIcon type="caret-down" className="ml-1" size="20" />
             </div>
           </Button>
         </Dropdown>

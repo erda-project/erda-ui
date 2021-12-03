@@ -46,7 +46,7 @@ const TraceStatusViewer = ({
   const statusNodeList = [
     <div className="request-status-wp pending">
       <span className="request-status-text flex">
-        <ErdaIcon className="mr-2" type="loading" size="16" color="currentColor" /> {statusName}
+        <ErdaIcon className="mr-2" type="loading" size="16" /> {statusName}
       </span>
       <Tooltip title={i18n.t('cancel')}>
         <span
@@ -56,7 +56,7 @@ const TraceStatusViewer = ({
             handleCancelRequestPending(requestId);
           }}
         >
-          <ErdaIcon className="mt-1" type="pause-one" color="currentColor" size="20px" />
+          <ErdaIcon className="mt-1" type="pause-one" size="20px" />
         </span>
       </Tooltip>
     </div>,
@@ -73,7 +73,7 @@ const TraceStatusViewer = ({
     </div>,
     <div className="request-status-wp cancel">
       <span className="flex items-center request-status-text">
-        <ErdaIcon size="16" className="mr-1" type="reduce-one" color="currentColor" /> {statusName}
+        <ErdaIcon size="16" className="mr-1" type="reduce-one" /> {statusName}
       </span>
     </div>,
   ];

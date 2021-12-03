@@ -360,7 +360,6 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                   <Copy selector=".copy-share-link" tipName={i18n.t('dop:share link')} />
                   <ErdaIcon
                     type="share-one"
-                    color="currentColor"
                     className="cursor-copy copy-share-link ml-3 mt-1"
                     size="16"
                     data-clipboard-text={shareLink}
@@ -369,7 +368,6 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
               ) : null}
               <ErdaIcon
                 type="close"
-                color="currentColor"
                 onClick={handleClose}
                 className="ml-3 mt-1 cursor-pointer"
                 size="16"

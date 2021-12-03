@@ -84,23 +84,18 @@ export function createCombiner<P, O>({
             }}
             operation={
               disabled ? (
-                <ErdaIcon type="reduce-one" color="currentColor" className="combiner-operation not-allowed" />
+                <ErdaIcon type="reduce-one" className="combiner-operation not-allowed" />
               ) : (
-                <ErdaIcon
-                  type="reduce-one"
-                  color="currentColor"
-                  className="combiner-operation"
-                  onClick={() => deleteItem(index)}
-                />
+                <ErdaIcon type="reduce-one" className="combiner-operation" onClick={() => deleteItem(index)} />
               )
             }
           />
         ))}
         {disabled ? (
-          <ErdaIcon type="add-one" color="currentColor" className="combiner-operation not-allowed" />
+          <ErdaIcon type="add-one" className="combiner-operation not-allowed" />
         ) : (
           <Tooltip title={i18n.t('common:click to add item')}>
-            <ErdaIcon type="add-one" color="currentColor" className="combiner-operation" onClick={addItem} />
+            <ErdaIcon type="add-one" className="combiner-operation" onClick={addItem} />
           </Tooltip>
         )}
       </div>

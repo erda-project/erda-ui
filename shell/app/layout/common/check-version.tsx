@@ -32,7 +32,7 @@ const openNotification = () => {
     duration: 0,
     message: i18n.t('New version available'),
     description: i18n.t('Version has been updated, it is recommended to refresh the page'),
-    icon: <ErdaIcon type="smiling-face-with-squinting-eyes" color="currentColor" className="text-primary" />,
+    icon: <ErdaIcon type="smiling-face-with-squinting-eyes" className="text-primary" />,
     btn: (
       <Button type="primary" size="small" onClick={() => location.reload()}>
         {i18n.t('refresh')}

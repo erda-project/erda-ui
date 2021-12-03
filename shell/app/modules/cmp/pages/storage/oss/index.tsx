@@ -186,7 +186,7 @@ const StorageOss = () => {
       <Button type="primary">
         <div className="flex">
           {i18n.t('batch setting')}
-          <ErdaIcon type="caret-down" color="currentColor" className="ml-1" size="20" />
+          <ErdaIcon type="caret-down" className="ml-1" size="20" />
         </div>
       </Button>
     </Dropdown>

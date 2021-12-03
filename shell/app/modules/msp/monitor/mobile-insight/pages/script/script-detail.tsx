@@ -13,7 +13,7 @@
 
 import { map } from 'lodash';
 import React from 'react';
-import { CardContainer,ErdaIcon } from 'common';
+import { CardContainer, ErdaIcon } from 'common';
 import { Row, Col } from 'antd';
 import moment from 'moment';
 import i18n from 'i18n';
@@ -24,7 +24,7 @@ const scriptDetail = ({ data }) => {
     return (
       <div className="no-data-list">
         <div className="no-data-content">
-          <ErdaIcon type="attention" color="currentColor" size="16px" />
+          <ErdaIcon type="attention" size="16px" />
           {i18n.t('msp:no data')}
         </div>
       </div>

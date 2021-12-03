@@ -179,7 +179,7 @@ const MachineManage = () => {
   return (
     <div className="machine-table">
       <Breadcrumb
-        separator={<ErdaIcon className="align-middle" type="right" color="currentColor" size="14px" />}
+        separator={<ErdaIcon className="align-middle" type="right" size="14px" />}
         className="path-breadcrumb mb-2"
       >
         <Breadcrumb.Item className="hover-active" onClick={() => goTo(goTo.pages.ecpResource)}>

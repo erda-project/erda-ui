@@ -86,7 +86,7 @@ export const EditCategory = (props: IProps) => {
         onPressEnter={() => handleSave()}
         onChange={(e) => setValue(e.target.value)}
       />
-      <ErdaIcon type="check" color="currentColor" className="ml-3 cursor-pointer" onClick={handleSave} size="16" />
+      <ErdaIcon type="check" className="ml-3 cursor-pointer" onClick={handleSave} size="16" />
       <ErdaIcon
         fill="black-800"
         type="close"

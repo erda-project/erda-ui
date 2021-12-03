@@ -427,7 +427,7 @@ const ApiItem = ({
                           className="copy-btn cursor-copy copy-request"
                           data-clipboard-text={get(request, 'body.content', '')}
                           shape="circle"
-                          icon={<ErdaIcon type="copy" color="currentColor" />}
+                          icon={<ErdaIcon type="copy" />}
                         />
                         <Copy selector=".copy-request" />
                         <pre className="response-body">
@@ -472,7 +472,7 @@ const ApiItem = ({
                   className="copy-btn cursor-copy copy-response"
                   data-clipboard-text={body}
                   shape="circle"
-                  icon={<ErdaIcon type="copy" color="currentColor" />}
+                  icon={<ErdaIcon type="copy" />}
                 />
                 <Copy selector=".copy-response" />
                 {responseBody}
