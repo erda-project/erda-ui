@@ -14,8 +14,10 @@
 import React from 'react';
 import { Popover, Menu, Avatar } from 'antd';
 import { UserMenuProps } from './interface';
+import { getAvatarChars } from 'app/common/utils';
 
 const UserMenu = ({ avatar, name, operations }: UserMenuProps) => {
+  const nick = getAvatarChars(avatar?.chars || '');
   return (
     <Popover
       placement={'rightBottom'}
@@ -25,7 +27,7 @@ const UserMenu = ({ avatar, name, operations }: UserMenuProps) => {
           <div className="user-info flex">
             <div className="avatar">
               <Avatar src={avatar?.src} size={48}>
-                {avatar?.chars || ''}
+                {nick}
               </Avatar>
             </div>
             <div className="desc-container flex items-baseline justify-center flex-col truncate">
@@ -47,7 +49,7 @@ const UserMenu = ({ avatar, name, operations }: UserMenuProps) => {
         </div>
       }
     >
-      <Avatar src={avatar?.src}>{avatar?.chars || ''}</Avatar>
+      <Avatar src={avatar?.src}>{nick}</Avatar>
     </Popover>
   );
 };

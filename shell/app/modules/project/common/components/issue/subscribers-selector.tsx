@@ -24,6 +24,7 @@ import {
   Plus as IconPlus,
   Right as IconRight,
 } from '@icon-park/react';
+import { getAvatarChars } from 'app/common/utils';
 
 interface IProps {
   subscribers: string[];
@@ -158,7 +159,7 @@ export const SubscribersSelector = (props: IProps) => {
               return (
                 <div key={user.id}>
                   <Avatar src={user.avatar} size="small">
-                    {user.nick ? user.nick.slice(0, 2) : i18n.t('none')}
+                    {user.nick ? getAvatarChars(user.nick) : i18n.t('none')}
                   </Avatar>
                   <span className="ml-1">{user.nick ?? ''}</span>
                 </div>

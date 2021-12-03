@@ -20,7 +20,7 @@ import issueWorkflowStore from 'project/stores/issue-workflow';
 import { MemberSelector, Icon as CustomIcon, FilterGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { ColumnProps } from 'core/common/interface';
-import { updateSearch, insertWhen } from 'common/utils';
+import { updateSearch, insertWhen, getAvatarChars } from 'common/utils';
 import IssueTitleLabel from './title-label';
 import {
   ISSUE_ICON,
@@ -74,7 +74,7 @@ export const memberSelectorValueItem = (user: any) => {
   return (
     <div className="flex items-center hover-active issue-field-selector">
       <Avatar src={avatar} size="small">
-        {nick ? nick.slice(0, 2) : i18n.t('none')}
+        {nick ? getAvatarChars(nick) : i18n.t('none')}
       </Avatar>
       <span className={'ml-2 text-sm'} title={name}>
         {displayName}

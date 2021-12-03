@@ -15,7 +15,7 @@ import React from 'react';
 import DiceConfigPage, { useMock } from 'app/config-page';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import { getUrlQuery, statusColorMap } from 'config-page/utils';
-import { updateSearch } from 'common/utils';
+import { getAvatarChars, updateSearch } from 'common/utils';
 import { Badge, ErdaIcon } from 'common';
 import { useUpdate, useSwitch } from 'common/use-hooks';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
@@ -112,7 +112,7 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
         <>
           <div className="truncate flex-1 ml-1">{name}</div>
           <div className="flex items-center ml-2">
-            <Avatar size={16}>{user.slice(0, 1)}</Avatar>
+            <Avatar size={16}>{getAvatarChars(user || '')}</Avatar>
             {status ? (
               <div className="ml-1">
                 <Badge showDot={false} text={status.text} status={status?.status || 'default'} />
