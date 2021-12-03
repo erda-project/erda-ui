@@ -47,11 +47,21 @@ interface IIssueProps {
   onDelete?: (data: ISSUE.Issue) => void;
   deleteConfirmText?: string | React.ReactNode | ((name: string) => string | React.ReactNode);
   deleteText: string | React.ReactNode;
+  undraggable?: boolean;
 }
 
 const noop = () => Promise.resolve();
 export const IssueItem = (props: IIssueProps) => {
-  const { data, onDelete, onDragDelete, issueType, onClickIssue = noop, deleteText, deleteConfirmText } = props;
+  const {
+    data,
+    onDelete,
+    onDragDelete,
+    issueType,
+    onClickIssue = noop,
+    deleteText,
+    deleteConfirmText,
+    undraggable = false,
+  } = props;
   const { title, type, priority, creator, assignee, id } = data;
   const curPriority = ISSUE_PRIORITY_MAP[priority] || {};
   const userMap = useUserMap();
@@ -69,7 +79,7 @@ export const IssueItem = (props: IIssueProps) => {
   const [_, drag] = useDrag({
     item: { type: issueType, data },
     canDrag: () => {
-      return editAuth; // 拖拽权限等同修改权限
+      return editAuth && !undraggable; // 拖拽权限等同修改权限
     },
     end: (__, monitor) => {
       const dropRes = monitor.getDropResult();
@@ -100,7 +110,7 @@ export const IssueItem = (props: IIssueProps) => {
 
   return (
     <div
-      className={`backlog-issue-item hover-active-bg ${editAuth ? 'draggable' : ''}`}
+      className={`backlog-issue-item hover-active-bg ${!undraggable && editAuth ? 'draggable' : 'cursor-default'}`}
       ref={drag}
       onClick={() => onClickIssue(data)}
     >
