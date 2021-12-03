@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export const mockData: CP_BUTTON.Spec = {
+const mockData: CP_BUTTON.Spec = {
   type: 'Button',
   props: {
     text: '添加用户',
@@ -21,3 +21,5 @@ export const mockData: CP_BUTTON.Spec = {
     click: { key: 'click-add', reload: false, command: { key: 'set', state: { visible: true }, target: 'formModal1' } },
   },
 };
+
+export default mockData;

@@ -41,15 +41,16 @@
       left: 47%;
       animation-delay: 600ms;
     }
-  }
 
-  img {
-    animation: atmosphere 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    img {
+      animation: atmosphere 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
   }
 
   .header-img-wrapper {
     height: 180px;
     width: 215px;
+
     img {
       animation-name: group-atmosphere;
     }

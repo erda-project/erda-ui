@@ -157,39 +157,37 @@ const Overview = () => {
                         handleClick(relationship, id);
                       }}
                     >
-                      <Col span={12} className="flex">
+                      <Col span={12} className="flex items-center">
                         <div className="w-14 h-14 mr-2">
                           {logo ? <img src={logo} width={56} height={56} /> : <ErdaIcon type={icon} size={56} />}
                         </div>
                         <div>
-                          <div className="flex items-center">
-                            <p className="mb-0 font-medium text-xl leading-8">{displayName}</p>
-                            <Tag className="ml-1 text-xs leading-5 border-0" color={color}>
-                              {tag}
-                            </Tag>
-                          </div>
-                          <div className="text-xs	leading-5 desc">{desc || '-'}</div>
+                          <p className="mb-0 font-medium text-xl leading-8">{displayName}</p>
+                          <Tag className="mb-0.5 text-xs leading-5 border-0" color={color}>
+                            {tag}
+                          </Tag>
+                          <div className="text-xs	leading-5 desc">{desc || i18n.t('no description yet')}</div>
                         </div>
                       </Col>
-                      <Col span={12}>
-                        <Row gutter={8}>
+                      <Col span={12} className="flex items-center">
+                        <Row gutter={8} className="flex-1">
                           <Col span={6}>
                             <p className="mb-0 text-xl leading-8 font-number">{relationship.length}</p>
-                            <p className="text-xs leading-5 desc">{i18n.t('env')}</p>
+                            <p className="mb-0 text-xs leading-5 desc">{i18n.t('env')}</p>
                           </Col>
                           <Col span={6}>
                             <p className="mb-0 text-xl leading-8 font-number">{serviceCount ?? 0}</p>
-                            <p className="text-xs leading-5 desc">{i18n.t('service')}</p>
+                            <p className="mb-0 text-xs leading-5 desc">{i18n.t('service')}</p>
                           </Col>
                           <Col span={6}>
                             <p className="mb-0 text-xl leading-8 font-number">{last24hAlertCount ?? 0}</p>
-                            <p className="text-xs leading-5 desc">{i18n.t('msp:last 1 day alarm')}</p>
+                            <p className="mb-0 text-xs leading-5 desc">{i18n.t('msp:last 1 day alarm')}</p>
                           </Col>
                           <Col span={6}>
                             <p className="mb-0 text-xl leading-8 font-number">
                               {lastActiveTime ? fromNow(lastActiveTime) : '-'}
                             </p>
-                            <p className="text-xs leading-5 desc">{i18n.t('msp:last active time')}</p>
+                            <p className="mb-0 text-xs leading-5 desc">{i18n.t('msp:last active time')}</p>
                           </Col>
                         </Row>
                       </Col>

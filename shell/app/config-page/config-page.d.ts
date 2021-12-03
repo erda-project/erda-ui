@@ -130,3 +130,12 @@ declare namespace CONFIG_PAGE {
 }
 
 type MakeProps<Spec> = Merge<Omit<CONFIG_PAGE.ICommonProps, 'props'>, Spec>;
+type MockSpec<Spec> = Merge<
+  Spec,
+  {
+    _meta: {
+      title: string;
+      desc?: string;
+    };
+  }
+>;

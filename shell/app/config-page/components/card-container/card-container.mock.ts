@@ -11,10 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export const textMock = {
-  type: 'Text',
+const mockData: CP_CARD_CONTAINER.Spec = {
+  type: 'CardContainer',
   props: {
-    renderType: 'statusText',
-    value: { text: '成功', status: 'success' },
+    visible: true,
+    title: 'title',
+    tip: 'tip text',
+    style: {},
   },
 };
+
+export default mockData;
