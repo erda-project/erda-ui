@@ -24,7 +24,7 @@ const noop = () => {};
 export const Card = (props: CP_CARD.Props) => {
   const { props: configProps, execOperation = noop, customOp = {} } = props;
 
-  const { cardType, data, className = '', setIsDrag, isDrag, stringMaxLength = 36 } = configProps;
+  const { cardType, data, className = '', setIsDrag, stringMaxLength = 36 } = configProps;
 
   const { clickNode = noop } = customOp;
   const [isHover, setIsHover] = React.useState(false);
@@ -47,8 +47,6 @@ export const Card = (props: CP_CARD.Props) => {
     }
   }, [dragObj.isDragging]);
 
-
-
   const cls = classnames({
     'drag-wrap': true,
     dragging: dragObj && dragObj.isDragging,
@@ -59,10 +57,9 @@ export const Card = (props: CP_CARD.Props) => {
     'border-all': true,
   });
 
-
   return (
     <div className={`${className} ${cls} boxShadow-card`} onClick={() => clickNode(data)}>
-      <div className='info-card-content p-2' key={id} ref={drag} >
+      <div className="info-card-content p-2" key={id} ref={drag}>
         <div className={'flex justify-between items-start mb-1'}>
           {isString(titleIcon) ? <CustomIcon type={titleIcon} color className="head-icon mr-1" /> : titleIcon || null}
 

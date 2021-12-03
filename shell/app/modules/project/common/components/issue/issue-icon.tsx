@@ -14,19 +14,35 @@
 import React from 'react';
 import { Select } from 'antd';
 import { map } from 'lodash';
-import { ISSUE_OPTION, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
+import { ISSUE_OPTION, ISSUE_TYPE_MAP, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
 import i18n from 'i18n';
 import './issue-icon.scss';
 
+export enum ISSUE_TYPE {
+  ALL = 'ALL',
+  EPIC = 'EPIC',
+  REQUIREMENT = 'REQUIREMENT',
+  TASK = 'TASK',
+  BUG = 'BUG',
+  TICKET = 'TICKET',
+}
+
+export enum ISSUE_PRIORITY {
+  URGENT = 'URGENT',
+  HIGH = 'HIGH',
+  NORMAL = 'NORMAL',
+  LOW = 'LOW',
+}
 interface IProps {
-  type: 'ITERATION' | 'REQUIREMENT' | 'TASK' | 'BUG' | 'EPIC';
+  type: ISSUE_TYPE | ISSUE_PRIORITY;
+  iconMap?: 'TYPE' | 'PRIORITY';
   withName?: boolean;
   size?: string;
 }
 
 const { Option } = Select;
 
-export const ISSUE_ICON_MAP = {
+export const ISSUE_TYPE_ICON_MAP = {
   EPIC: {
     icon: 'bb1',
     color: 'primary',
@@ -59,8 +75,40 @@ export const ISSUE_ICON_MAP = {
   },
 };
 
-export const IssueIcon = ({ type, withName = false, ...rest }: IProps) => {
-  const iconObj = type && ISSUE_TYPE_MAP[type.toLocaleUpperCase()];
+export const ISSUE_PRIORITY_ICON_MAP = {
+  URGENT: {
+    icon: ISSUE_PRIORITY_MAP.URGENT.icon,
+    color: 'red',
+    value: 'URGENT',
+    name: i18n.t('dop:urgent'),
+  },
+  HIGH: {
+    icon: ISSUE_PRIORITY_MAP.HIGH.icon,
+    color: 'yellow',
+    value: 'HIGH',
+    name: i18n.t('dop:high'),
+  },
+  NORMAL: {
+    icon: ISSUE_PRIORITY_MAP.NORMAL.icon,
+    color: 'blue',
+    name: i18n.t('medium'),
+    value: 'NORMAL',
+  },
+  LOW: {
+    icon: ISSUE_PRIORITY_MAP.LOW.icon,
+    color: 'palegreen',
+    name: i18n.t('low'),
+    value: 'LOW',
+  },
+};
+
+const ICON_MAP = {
+  TYPE: ISSUE_TYPE_MAP,
+  PRIORITY: ISSUE_PRIORITY_MAP,
+};
+
+export const IssueIcon = ({ type, iconMap = 'TYPE', withName = false, ...rest }: IProps) => {
+  const iconObj = type && ICON_MAP[iconMap][type.toLocaleUpperCase()];
   if (!iconObj) return null;
   const { iconLabel, icon } = iconObj || {};
   return withName ? iconLabel : React.cloneElement(icon, rest);

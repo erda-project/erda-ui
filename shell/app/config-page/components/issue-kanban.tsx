@@ -12,11 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { map, find, isEmpty, without, get, isString } from 'lodash';
+import { map, find, isEmpty, without, get } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import { Card } from './kanban-card/card';
 import { Input, Button, Popconfirm, Tooltip, Avatar } from 'antd';
-import { EmptyHolder, Icon as CustomIcon, Badge, ErdaIcon } from 'common';
+import { EmptyHolder, Badge, ErdaIcon } from 'common';
+import { getAvatarChars } from 'app/common/utils';
 import { notify } from 'common/utils';
 import { WithAuth } from 'user/common';
 import { Delete as IconDelete, Plus as IconPlus } from '@icon-park/react';
@@ -29,6 +30,7 @@ import i18n from 'i18n';
 import classnames from 'classnames';
 import createScrollingComponent from 'common/utils/create-scroll-component';
 import Tags from 'common/components/tags';
+import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import produce from 'immer';
 import './issue-kanban.scss';
 
@@ -42,25 +44,6 @@ interface IData {
   list: any[];
   operations: Obj;
 }
-
-const issueScopeMap = {
-  [ISSUE_TYPE.REQUIREMENT]: {
-    titleIcon: ISSUE_ICON.issue.REQUIREMENT,
-    titleIconMap: ISSUE_PRIORITY_MAP,
-  },
-  [ISSUE_TYPE.TASK]: {
-    titleIcon: ISSUE_ICON.issue.TASK,
-    titleIconMap: ISSUE_PRIORITY_MAP,
-  },
-  [ISSUE_TYPE.BUG]: {
-    titleIcon: ISSUE_ICON.issue.BUG,
-    titleIconMap: ISSUE_PRIORITY_MAP,
-  },
-  [ISSUE_TYPE.EPIC]: {
-    titleIcon: ISSUE_ICON.issue.EPIC,
-    titleIconMap: ISSUE_PRIORITY_MAP,
-  },
-};
 
 export interface IProps extends CONFIG_PAGE.ICommonProps {
   data: { board: IData[]; refreshBoard?: boolean };
@@ -163,6 +146,9 @@ const IssueKanban = (props: IProps) => {
 interface IKanbanProps extends CONFIG_PAGE.ICommonProps {
   data: IData;
   isLoadMore: boolean;
+  setBoard: Function;
+  isDrag: boolean;
+  setIsDrag: (isDrag: boolean) => void;
   exitLabel: string[];
   refreshBoard?: boolean;
 }
@@ -251,7 +237,6 @@ const Kanban = (props: IKanbanProps) => {
   const changeData = (item: any) => {
     const { id, title, operations, assignee, labels, type, priority, status } = item;
     const assigneeObj = userMap[assignee] || {};
-    const { titleIcon } = issueScopeMap[type] || {};
     return {
       ...item,
       _infoData: {
@@ -261,31 +246,32 @@ const Kanban = (props: IKanbanProps) => {
         // description: content,
         operations,
         extraInfo: (
-          <div className="issue-kanban-info mt-1 flex flex-col  text-desc">
+          <div className="issue-kanban-info mt-1 flex flex-col text-desc">
             {labels?.value?.length > 0 && <Tags labels={labels.value} size="small" showCount={labels?.showCount} />}
             <div className="flex justify-between items-center mt-1">
               <div className="flex justify-between items-center">
                 <span className="flex items-center mr-2">
-                  {isString(titleIcon) ? (
-                    <CustomIcon type={titleIcon} color className="head-icon mr-2" />
-                  ) : (
-                    titleIcon || null
-                  )}
+                  <IssueIcon type={type} size="16px" />
                   <span className="ml-1">#{id}</span>
                 </span>
                 {status && Object.keys(status).length > 0 && (
                   <Badge status={status.status} text={status.text} showDot={false} className="mr-2" />
                 )}
                 <span className="w-20 mr-1">
-                  {priority && ISSUE_PRIORITY_MAP[priority] ? ISSUE_PRIORITY_MAP[priority].iconLabel : null}
+                  {priority && (
+                    <span className="flex items-center">
+                      <IssueIcon type={priority} iconMap="PRIORITY" size="16px" />
+                      <span className="ml-1">{ISSUE_PRIORITY_MAP[priority].label}</span>
+                    </span>
+                  )}
                 </span>
               </div>
               {Object.keys(assigneeObj).length > 0 ? (
                 <span>
-                  <Avatar size={20}>{(assigneeObj.nick || assigneeObj.name).slice(0, 1)}</Avatar>
+                  <Avatar size={24}>{getAvatarChars(assigneeObj.nick || assigneeObj.name)}</Avatar>
                 </span>
               ) : (
-                <ErdaIcon size={20} type="morentouxiang" />
+                <ErdaIcon size={24} type="morentouxiang" />
               )}
             </div>
           </div>
@@ -389,7 +375,7 @@ const Kanban = (props: IKanbanProps) => {
             <Card
               key={item.id}
               execOperation={execOperation}
-              props={{ cardType, className: `${isDrag ? 'hidden' : ''} list-item`, data: changeData(item), setIsDrag, isDrag }}
+              props={{ cardType, className: `${isDrag ? 'hidden' : ''} list-item`, data: changeData(item), setIsDrag }}
               customOp={rest.customOp}
             />
           );

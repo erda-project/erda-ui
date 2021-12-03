@@ -33,7 +33,7 @@ declare namespace CP_CARD {
     type: string;
   }
 
-  type Props = MakeProps<Spec> & {
-    className: string;
-  };
+  // type Props = MakeProps<Spec> & {
+  //   className: string;
+  // };
 }
