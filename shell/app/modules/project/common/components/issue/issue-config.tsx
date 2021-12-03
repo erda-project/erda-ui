@@ -31,10 +31,10 @@ export const ISSUE_ICON = {
   iteration: <CustomIcon type="bb1" className="issue-icon iteration" />,
   priority: {
     // 优先级icon
-    URGENT: <CustomIcon type="jinji" className="issue-icon priority urgent" />,
-    HIGH: <CustomIcon type="gao" className="issue-icon priority high" />,
-    NORMAL: <CustomIcon type="zhong" className="issue-icon priority normal" />,
-    LOW: <CustomIcon type="di" className="issue-icon priority low" />,
+    URGENT: <ErdaIcon type="jinji" size="20px"/>,
+    HIGH: <ErdaIcon type="gao" size="20px"/>,
+    NORMAL: <ErdaIcon type="zhong" size="20px" />,
+    LOW: <ErdaIcon type="di" size="20px"/>,
   },
   issue: {
     // 时间类型icon

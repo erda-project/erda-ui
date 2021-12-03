@@ -108,7 +108,7 @@ const TagsRow = ({
   const labels = propsLabels ? (Array.isArray(propsLabels) ? propsLabels : [propsLabels]) : [];
   const showMore = labels.length > showCount;
   const showGroup = some(labels, (l) => has(l, 'group'));
-
+  
   const [labelWidth, setLabelWidth] = React.useState<string | number>('auto');
 
   const countLabelWidth = () => {

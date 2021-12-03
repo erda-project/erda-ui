@@ -14,9 +14,10 @@
 import React from 'react';
 import { map, find, isEmpty, without, get } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
-import { Card } from './card/card';
-import { Input, Button, Popconfirm, Tooltip } from 'antd';
-import { EmptyHolder } from 'common';
+import { Card } from './kanban-card/card';
+import { Input, Button, Popconfirm, Tooltip, Avatar } from 'antd';
+import { EmptyHolder, Badge, ErdaIcon } from 'common';
+import { getAvatarChars } from 'app/common/utils';
 import { notify } from 'common/utils';
 import { WithAuth } from 'user/common';
 import { Delete as IconDelete, Plus as IconPlus } from '@icon-park/react';
@@ -28,6 +29,8 @@ import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import classnames from 'classnames';
 import createScrollingComponent from 'common/utils/create-scroll-component';
+import Tags from 'common/components/tags';
+import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import produce from 'immer';
 import './issue-kanban.scss';
 
@@ -42,25 +45,6 @@ interface IData {
   operations: Obj;
 }
 
-const issueScopeMap = {
-  [ISSUE_TYPE.REQUIREMENT]: {
-    titleIcon: ISSUE_ICON.issue.REQUIREMENT,
-    titleIconMap: ISSUE_PRIORITY_MAP,
-  },
-  [ISSUE_TYPE.TASK]: {
-    titleIcon: ISSUE_ICON.issue.TASK,
-    titleIconMap: ISSUE_PRIORITY_MAP,
-  },
-  [ISSUE_TYPE.BUG]: {
-    titleIcon: ISSUE_ICON.issue.BUG,
-    titleIconMap: ISSUE_PRIORITY_MAP,
-  },
-  [ISSUE_TYPE.EPIC]: {
-    titleIcon: ISSUE_ICON.issue.EPIC,
-    titleIconMap: ISSUE_PRIORITY_MAP,
-  },
-};
-
 export interface IProps extends CONFIG_PAGE.ICommonProps {
   data: { board: IData[]; refreshBoard?: boolean };
   props: {
@@ -72,7 +56,7 @@ const noop = () => {};
 const ScrollingComponent = createScrollingComponent('div');
 const IssueKanban = (props: IProps) => {
   const { state, data, props: configProps, operations, execOperation = noop, updateState = noop } = props || {};
-
+  const [isDrag, setIsDrag] = React.useState(false);
   const { visible = true, isLoadMore = false } = configProps || {};
   const [board, setBoard] = React.useState(data?.board || []);
   const [{ showAdd, addValue }, updater, update] = useUpdate({
@@ -120,6 +104,8 @@ const IssueKanban = (props: IProps) => {
             data={item}
             key={item.key || item.label}
             isLoadMore={isLoadMore}
+            setIsDrag={setIsDrag}
+            isDrag={isDrag}
           />
         ) : null;
       })}
@@ -160,18 +146,22 @@ const IssueKanban = (props: IProps) => {
 interface IKanbanProps extends CONFIG_PAGE.ICommonProps {
   data: IData;
   isLoadMore: boolean;
+  setBoard: Function;
+  isDrag: boolean;
+  setIsDrag: (isDrag: boolean) => void;
   exitLabel: string[];
   refreshBoard?: boolean;
 }
 
 const Kanban = (props: IKanbanProps) => {
-  const { data, exitLabel, execOperation, isLoadMore, refreshBoard, setBoard, ...rest } = props;
+  const { data, exitLabel, execOperation, isLoadMore, refreshBoard, setBoard, setIsDrag, isDrag, ...rest } = props;
   const { label, labelKey, list: propsList, total, pageSize, pageNo, operations: boardOp } = data;
   const otherLabel = without(exitLabel, label);
   const userMap = useUserMap();
   const labelList = projectLabelStore.useStore((s) => s.list);
   const [list, setList] = React.useState(propsList || []);
   const [labelVal, setLabelVal] = React.useState(label);
+
   const [showShadow, setShowShadow] = React.useState(false);
   const cardType = 'kanban-info-card';
 
@@ -245,39 +235,55 @@ const Kanban = (props: IKanbanProps) => {
   });
 
   const changeData = (item: any) => {
-    const { id, title, operations, issueButton, assignee, labels, type, priority, state } = item;
+    const { id, title, operations, assignee, labels, type, priority, status } = item;
     const assigneeObj = userMap[assignee] || {};
-    const { titleIcon } = issueScopeMap[type] || {};
-    const curStateObj = find(issueButton, { stateID: state }) as any;
     return {
       ...item,
       _infoData: {
         id,
         title: `${title}`,
         labelKey,
-        titleIcon,
         // description: content,
         operations,
         extraInfo: (
-          <div className="issue-kanban-info mt-2 flex justify-between items-center text-desc">
-            <div className="flex justify-between items-center">
-              {curStateObj ? (
-                <div className="flex items-center mr-2">
-                  {ISSUE_ICON.state[curStateObj.stateBelong]}
-                  {curStateObj.stateName}
-                </div>
-              ) : null}
-              {priority && ISSUE_PRIORITY_MAP[priority] ? ISSUE_PRIORITY_MAP[priority].iconLabel : null}
+          <div className="issue-kanban-info mt-1 flex flex-col text-desc">
+            {labels?.value?.length > 0 && <Tags labels={labels.value} size="small" showCount={labels?.showCount} />}
+            <div className="flex justify-between items-center mt-1">
+              <div className="flex justify-between items-center">
+                <span className="flex items-center mr-2">
+                  <IssueIcon type={type} size="16px" />
+                  <span className="ml-1">#{id}</span>
+                </span>
+                {status && Object.keys(status).length > 0 && (
+                  <Badge status={status.status} text={status.text} showDot={false} className="mr-2" />
+                )}
+                <span className="w-20 mr-1">
+                  {priority && (
+                    <span className="flex items-center">
+                      <IssueIcon type={priority} iconMap="PRIORITY" size="16px" />
+                      <span className="ml-1">{ISSUE_PRIORITY_MAP[priority].label}</span>
+                    </span>
+                  )}
+                </span>
+              </div>
+              {Object.keys(assigneeObj).length > 0 ? (
+                <span>
+                  <Avatar size={24}>{getAvatarChars(assigneeObj.nick || assigneeObj.name)}</Avatar>
+                </span>
+              ) : (
+                <ErdaIcon size={24} type="morentouxiang" />
+              )}
             </div>
-            {assigneeObj ? <span>{assigneeObj.nick || assigneeObj.name}</span> : null}
           </div>
         ),
         type: label,
       },
     };
   };
+
   let cls = isOver ? 'drag-over' : '';
   cls = isAllowDrop ? cls : `drop-disable ${cls}`;
+  cls = isDrag && !isOver ? `not-drag ${cls}` : cls;
   const deleteBoardOp = boardOp?.DeleteCustom;
   const deleteAuth = deleteBoardOp?.disabled !== true;
   const updateBoardOp = boardOp?.UpdateCustom;
@@ -317,7 +323,7 @@ const Kanban = (props: IKanbanProps) => {
           updateBoardOp ? 'inp' : ''
         }`}
       >
-        <div className="text-base font-medium flex-1 flex justify-between items-center">
+        <div className="text-base font-medium text-default-8 flex-1 flex items-center ">
           {updateBoardOp ? (
             updateAuth ? (
               <Input
@@ -339,7 +345,7 @@ const Kanban = (props: IKanbanProps) => {
           ) : (
             label
           )}
-          <span className="text-desc ml-3 text-sm">{total}</span>
+          <div className="text-default-8 ml-1 text-sm px-2.5 rounded-lg bg-default-06">{total}</div>
         </div>
         {deleteBoardOp ? (
           deleteBoardOp?.confirm ? (
@@ -369,7 +375,7 @@ const Kanban = (props: IKanbanProps) => {
             <Card
               key={item.id}
               execOperation={execOperation}
-              props={{ cardType, className: 'list-item', data: changeData(item) }}
+              props={{ cardType, className: `${isDrag ? 'hidden' : ''} list-item`, data: changeData(item), setIsDrag }}
               customOp={rest.customOp}
             />
           );

@@ -129,8 +129,19 @@ $color-success: #27c99a;
 $color-success-bg: rgba($color-success, 0.1);
 $color-default: #302647;
 $color-default-bg: rgba($color-default, 0.1);
+$color-default-8: rgba($color-default, 0.8);
+$color-default-02: rgba($color-default, 0.02);
+$color-default-04: rgba($color-default, 0.04);
+$color-default-06: rgba($color-default, 0.06);
+// Color Boot prompt
+$color-prompt-bg: rgba($color-default, 0.04);
+
 
 // color new list
 $color-box-shadow: rgba($color-text-sub, 0.1);
 $color-card-shadow: rgba(85, 77, 104, 0.08);
 $color-card-hover-shadow: rgba(85, 77, 104, 0.16);
+
+// new assistant color
+$color-purple-deep: #7C53DB;
+$color-purple-light: #F9F0FF;

@@ -26,7 +26,6 @@
     min-height: 400px;
     margin-right: 16px;
     overflow: hidden;
-    background-color: $white;
     border: 1px solid transparent;
     border-radius: $radius;
 
@@ -83,11 +82,16 @@
     }
 
     &.drag-over {
-      border: 1px solid $color-active;
+      border: 4px solid $color-purple-deep;
+    }
+
+    &.not-drag {
+      border: 2px dashed $color-dark-2;
+      background: $color-disabled-bg;
     }
 
     &.drop-disable {
-      border: 1px solid $color-disabled;
+      border: 1px dashed $color-disabled;
       opacity: 0.5;
     }
 
@@ -112,7 +116,8 @@
     }
 
     &.drag-over {
-      border: 1px solid $color-active;
+      border: 2px dashed $color-purple-deep;
+      background: $color-purple-light;
     }
 
     .list {
