@@ -13,7 +13,7 @@
 
 import { MemberSelector, Title, IF } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Button, Select, Table, Popconfirm, Tooltip } from 'antd';
+import { Button, Select, Table, Popconfirm, Tooltip, Empty } from 'antd';
 import React, { useImperativeHandle } from 'react';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
@@ -28,7 +28,7 @@ import { getIssueTypeOption, IssueIcon } from 'project/common/components/issue/i
 import { ISSUE_OPTION, ISSUE_TYPE, ISSUE_ICON, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
 import { WithAuth, usePerm, getAuth, isAssignee, isCreator } from 'user/common';
 import moment from 'moment';
-import { IssueForm } from 'project/pages/backlog/issue-item';
+import { IssueItem, IssueForm, BACKLOG_ISSUE_TYPE } from 'project/pages/backlog/issue-item';
 import './issue-relation.scss';
 import IterationSelect from './iteration-select';
 import { ColumnProps } from 'core/common/interface';
@@ -37,20 +37,39 @@ interface IProps {
   issueDetail: ISSUE.IssueType;
   iterationID: number | undefined;
   onRelationChange?: () => void;
+  type: 'inclusion' | 'connection';
 }
 type IDefaultIssueType = 'BUG' | 'TASK' | 'REQUIREMENT';
 
 const { Option } = Select;
 
 // 打开任务详情时，关联事项默认选中bug，打开缺陷详情或者需求详情时，关联事项默认选中task
+// 如果是包含关系时，需求默认选中任务，任务默认选中需求
 const initTypeMap = {
-  TASK: 'BUG',
-  REQUIREMENT: 'TASK',
-  BUG: 'TASK',
+  connection: {
+    TASK: 'BUG',
+    REQUIREMENT: 'TASK',
+    BUG: 'TASK',
+  },
+  inclusion: {
+    TASK: 'REQUIREMENT',
+    REQUIREMENT: 'TASK',
+  },
+};
+
+const getAddTextMap = (relationType: string, issueType: string) => {
+  if (relationType === 'connection') {
+    return [i18n.t('dop:create and relate to the issue'), i18n.t('dop:related to existing issues')];
+  } else if (relationType === 'inclusion') {
+    if (issueType === ISSUE_TYPE.REQUIREMENT) {
+      return [i18n.t('dop:create and include the task'), i18n.t('dop:include existing tasks')];
+    }
+  }
+  return [];
 };
 
 export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
-  const { issueDetail, iterationID, onRelationChange } = props;
+  const { issueDetail, iterationID, onRelationChange, type: relationType } = props;
 
   const [relatingList, setRelatingList] = React.useState([] as ISSUE.IssueType[]);
   const [relatedList, setRelatedList] = React.useState([] as ISSUE.IssueType[]);
@@ -58,16 +77,16 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
 
   const [{ projectId }, { type: routeIssueType }] = routeInfoStore.getState((s) => [s.params, s.query]);
   const issueType = issueDetail?.type || routeIssueType;
-  const defaultIssueType = initTypeMap[issueType];
+  const defaultIssueType = initTypeMap[relationType][issueType];
   const { getIssueRelation, addIssueRelation, deleteIssueRelation } = issueStore.effects;
 
   const getList = React.useCallback(() => {
     issueDetail?.id &&
-      getIssueRelation({ id: issueDetail.id }).then((res) => {
-        setRelatingList(res[0]);
-        setRelatedList(res[1]);
+      getIssueRelation({ id: issueDetail.id, type: relationType }).then((res) => {
+        setRelatingList(res[0] || []);
+        setRelatedList(res[1] || []);
       });
-  }, [getIssueRelation, issueDetail]);
+  }, [getIssueRelation, issueDetail, relationType]);
 
   useImperativeHandle(ref, () => ({ getList }), [getList]);
 
@@ -75,14 +94,15 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
     return issueDetail?.iterationID || iterationID;
   }, [issueDetail?.iterationID, iterationID]);
 
-  useMount(() => {
+  React.useEffect(() => {
     getList();
-  });
+  }, [getList]);
+
   const authObj = usePerm((s) => s.project.task);
 
   const updateRecord = (record: ISSUE.Task, key: string, val: any) => {
     issueStore.effects.updateIssue({ ...record, [key]: val }).finally(() => {
-      getIssueRelation({ id: issueDetail.id });
+      getIssueRelation({ id: issueDetail.id, type: relationType });
     });
   };
   const getColumns = (beRelated = false): Array<ColumnProps<ISSUE.IssueType>> => [
@@ -183,7 +203,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
   ];
 
   const addRelation = (val: number) => {
-    addIssueRelation({ relatedIssues: val, id: issueDetail.id, projectId: +projectId }).then(() => {
+    addIssueRelation({ relatedIssues: val, id: issueDetail.id, projectId: +projectId, type: relationType }).then(() => {
       onRelationChange && onRelationChange();
       getList();
     });
@@ -191,8 +211,8 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
 
   const onDelete = (val: ISSUE.IssueType, beRelated = false) => {
     const payload = beRelated
-      ? { id: val.id, relatedIssueID: issueDetail.id }
-      : { id: issueDetail.id, relatedIssueID: val.id };
+      ? { id: val.id, relatedIssueID: issueDetail.id, type: relationType }
+      : { id: issueDetail.id, relatedIssueID: val.id, type: relationType };
     deleteIssueRelation(payload).then(() => {
       onRelationChange && onRelationChange();
       getList();
@@ -215,7 +235,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
                   type={activeButtonType === 'create' ? 'primary' : 'default'}
                   onClick={() => setActiveButtonType('create')}
                 >
-                  {i18n.t('dop:create and relate to the issue')}
+                  {getAddTextMap(relationType, issueType)[0]}
                 </Button>
               </WithAuth>
               <WithAuth pass={authObj.edit.pass}>
@@ -224,7 +244,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
                   onClick={() => setActiveButtonType('exist')}
                   className="ml-3"
                 >
-                  {i18n.t('dop:related to existing issues')}
+                  {getAddTextMap(relationType, issueType)[1]}
                 </Button>
               </WithAuth>
             </div>
@@ -234,6 +254,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
                 onCancel={() => setActiveButtonType('')}
                 iterationID={curIterationID}
                 defaultIssueType={defaultIssueType}
+                typeDisabled={relationType === 'inclusion'}
               />
             </IF>
             <IF check={activeButtonType === 'exist'}>
@@ -245,27 +266,52 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
                 iterationID={curIterationID}
                 currentIssue={issueDetail}
                 defaultIssueType={defaultIssueType}
+                typeDisabled={relationType === 'inclusion'}
               />
             </IF>
           </>
         )}
       </div>
-      <Title level={2} mt={8} title={i18n.t('dop:related to these issues')} />
-      <Table
-        columns={getColumns()}
-        dataSource={relatingList}
-        pagination={false}
-        rowKey={(rec: ISSUE.IssueType, i: number | undefined) => `${i}${rec.id}`}
-        scroll={{ x: 900 }}
-      />
-      <Title level={2} mt={16} title={i18n.t('dop:related by these issues')} />
-      <Table
-        columns={getColumns(true)}
-        dataSource={relatedList}
-        pagination={false}
-        rowKey={(rec: ISSUE.IssueType, i: number | undefined) => `${i}${rec.id}`}
-        scroll={{ x: 900 }}
-      />
+      {relationType === 'inclusion' ? (
+        <div className="mt-2">
+          {relatingList?.map((item) => (
+            <IssueItem
+              data={item}
+              key={item.id}
+              onDelete={(val) => onDelete(val)}
+              deleteConfirmText={(name: string) => i18n.t('dop:Are you sure to disinclude {name}', { name })}
+              deleteText={i18n.t('dop:release relationship')}
+              issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
+            />
+          )) || <Empty />}
+        </div>
+      ) : null}
+
+      {relationType === 'connection' ? (
+        <>
+          <Title level={2} mt={8} title={i18n.t('dop:related to these issues')} />
+          <Table
+            columns={getColumns()}
+            dataSource={relatingList}
+            pagination={false}
+            rowKey={(rec: ISSUE.IssueType, i: number | undefined) => `${i}${rec.id}`}
+            scroll={{ x: 900 }}
+          />
+        </>
+      ) : null}
+
+      {relationType === 'connection' ? (
+        <>
+          <Title level={2} mt={16} title={i18n.t('dop:related by these issues')} />
+          <Table
+            columns={getColumns(true)}
+            dataSource={relatedList}
+            pagination={false}
+            rowKey={(rec: ISSUE.IssueType, i: number | undefined) => `${i}${rec.id}`}
+            scroll={{ x: 900 }}
+          />
+        </>
+      ) : null}
     </div>
   );
 });
@@ -278,6 +324,7 @@ interface IAddProps {
   defaultIssueType: IDefaultIssueType;
   onSave: (v: number) => void;
   onCancel: () => void;
+  typeDisabled?: boolean;
 }
 
 const initState = {
@@ -295,6 +342,7 @@ const AddIssueRelation = ({
   currentIssue,
   onCancel,
   defaultIssueType,
+  typeDisabled,
 }: IAddProps) => {
   const [{ chosenIssueType, chosenIterationID, issueList, chosenIssue }, updater, update] = useUpdate({
     ...initState,
@@ -363,6 +411,7 @@ const AddIssueRelation = ({
           onChange={(v: any) => update({ chosenIssueType: v, chosenIssue: undefined })}
           value={chosenIssueType}
           allowClear
+          disabled={typeDisabled}
           placeholder={i18n.t('dop:issue type')}
         >
           {getIssueTypeOption()}
@@ -421,9 +470,10 @@ interface IAddNewIssueProps {
   defaultIssueType: IDefaultIssueType;
   onSaveRelation: (v: number) => void;
   onCancel: () => void;
+  typeDisabled?: boolean;
 }
 
-const AddNewIssue = ({ onSaveRelation, iterationID, onCancel, defaultIssueType }: IAddNewIssueProps) => {
+const AddNewIssue = ({ onSaveRelation, iterationID, onCancel, defaultIssueType, typeDisabled }: IAddNewIssueProps) => {
   const { createIssue } = iterationStore.effects;
   const { projectId } = routeInfoStore.getState((s) => s.params);
 
@@ -445,6 +495,7 @@ const AddNewIssue = ({ onSaveRelation, iterationID, onCancel, defaultIssueType }
           return res;
         });
       }}
+      typeDisabled={typeDisabled}
     />
   );
 };

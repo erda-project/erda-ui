@@ -199,11 +199,12 @@ declare namespace ISSUE {
     relatedIssues: number;
     projectId: number;
     comment?: string;
+    type: string;
   }
 
   interface RelationIssue {
-    RelatingIssues: ISSUE.IssueType[];
-    RelatedIssues: ISSUE.IssueType[];
+    RelatingIssues?: ISSUE.IssueType[];
+    RelatedIssues?: ISSUE.IssueType[];
   }
 
   interface IssueMilestoneEpic {
