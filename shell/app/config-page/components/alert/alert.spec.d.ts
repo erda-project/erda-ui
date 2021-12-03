@@ -14,13 +14,13 @@
 declare namespace CP_ALERT {
   interface Spec {
     type: 'Alert';
-    props?: IProps;
+    props: IProps;
   }
 
   interface IProps {
     visible?: boolean;
     showIcon?: boolean;
-    type: 'success' | 'info' | 'warning' | 'error';
+    type?: 'success' | 'info' | 'warning' | 'error';
     message: string[] | string;
   }
 

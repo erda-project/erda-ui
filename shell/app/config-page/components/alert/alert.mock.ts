@@ -14,13 +14,33 @@
 const mockData: Array<MockSpec<CP_ALERT.Spec>> = [
   {
     _meta: {
-      title: '成功',
+      title: '提示',
       desc: 'type 类型有 success | info | warning | error',
     },
     type: 'Alert',
     props: {
       message: 'There is success message without icon',
+      type: 'info',
+    },
+  },
+  {
+    _meta: {
+      title: '成功',
+    },
+    type: 'Alert',
+    props: {
+      message: 'There is success message',
       type: 'success',
+    },
+  },
+  {
+    _meta: {
+      title: '警告',
+    },
+    type: 'Alert',
+    props: {
+      message: 'There is warning message',
+      type: 'warning',
     },
   },
   {

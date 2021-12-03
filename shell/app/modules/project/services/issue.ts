@@ -85,8 +85,8 @@ export const batchUpdateIssue = (body: ISSUE.BatchUpdateBody) => {
     .then((response: any) => response.body);
 };
 
-export const getIssueRelation = ({ id }: { id: number }): ISSUE.RelationIssue => {
-  return agent.get(`/api/issues/${id}/relations`).then((response: any) => response.body);
+export const getIssueRelation = ({ id, type }: { id: number; type: string }): ISSUE.RelationIssue => {
+  return agent.get(`/api/issues/${id}/relations${type ? `?type=${type}` : ''}`).then((response: any) => response.body);
 };
 
 export const addIssueRelation = (payload: ISSUE.ICreateRelationBody) => {
@@ -97,8 +97,18 @@ export const addIssueRelation = (payload: ISSUE.ICreateRelationBody) => {
     .then((response: any) => response.body);
 };
 
-export const deleteIssueRelation = ({ id, relatedIssueID }: { id: number; relatedIssueID: number }) => {
-  return agent.delete(`/api/issues/${id}/relations/${relatedIssueID}`).then((response: any) => response.body);
+export const deleteIssueRelation = ({
+  id,
+  relatedIssueID,
+  type,
+}: {
+  id: number;
+  relatedIssueID: number;
+  type: string;
+}) => {
+  return agent
+    .delete(`/api/issues/${id}/relations/${relatedIssueID}${type ? `?type=${type}` : ''}`)
+    .then((response: any) => response.body);
 };
 
 export const getMilestone = (): Promise<IPagingResp<ISSUE.IssueType>> => {

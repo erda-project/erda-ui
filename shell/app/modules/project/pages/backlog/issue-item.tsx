@@ -42,14 +42,26 @@ export enum BACKLOG_ISSUE_TYPE {
 interface IIssueProps {
   data: ISSUE.Issue;
   issueType: BACKLOG_ISSUE_TYPE;
-  onClickIssue: (data: ISSUE.Issue) => void;
-  onDragDelete: () => void;
+  onClickIssue?: (data: ISSUE.Issue) => void;
+  onDragDelete?: () => void;
   onDelete?: (data: ISSUE.Issue) => void;
+  deleteConfirmText?: string | React.ReactNode | ((name: string) => string | React.ReactNode);
+  deleteText: string | React.ReactNode;
+  undraggable?: boolean;
 }
 
 const noop = () => Promise.resolve();
 export const IssueItem = (props: IIssueProps) => {
-  const { data, onDelete, onDragDelete, issueType, onClickIssue = noop } = props;
+  const {
+    data,
+    onDelete,
+    onDragDelete,
+    issueType,
+    onClickIssue = noop,
+    deleteText,
+    deleteConfirmText,
+    undraggable = false,
+  } = props;
   const { title, type, priority, creator, assignee, id } = data;
   const curPriority = ISSUE_PRIORITY_MAP[priority] || {};
   const userMap = useUserMap();
@@ -67,14 +79,14 @@ export const IssueItem = (props: IIssueProps) => {
   const [_, drag] = useDrag({
     item: { type: issueType, data },
     canDrag: () => {
-      return editAuth; // 拖拽权限等同修改权限
+      return editAuth && !undraggable; // 拖拽权限等同修改权限
     },
     end: (__, monitor) => {
       const dropRes = monitor.getDropResult();
       // 获取drop中返回的promsie，确保修改事项结束后在拉取新的列表
       if (dropRes && dropRes.res && isPromise(dropRes.res)) {
         dropRes.res.then(() => {
-          onDragDelete();
+          onDragDelete?.();
         });
       }
     },
@@ -85,7 +97,11 @@ export const IssueItem = (props: IIssueProps) => {
 
   const confirmDelete = (currentData: any) => {
     Modal.confirm({
-      title: `${i18n.t('common:confirm deletion')}(${name})`,
+      title: deleteConfirmText
+        ? typeof deleteConfirmText === 'function'
+          ? deleteConfirmText(name)
+          : deleteConfirmText
+        : `${i18n.t('common:confirm deletion')}(${name})`,
       onOk() {
         onDelete && onDelete(currentData);
       },
@@ -94,7 +110,7 @@ export const IssueItem = (props: IIssueProps) => {
 
   return (
     <div
-      className={`backlog-issue-item hover-active-bg ${editAuth ? 'draggable' : ''}`}
+      className={`backlog-issue-item hover-active-bg ${!undraggable && editAuth ? 'draggable' : 'cursor-default'}`}
       ref={drag}
       onClick={() => onClickIssue(data)}
     >
@@ -124,7 +140,7 @@ export const IssueItem = (props: IIssueProps) => {
                           confirmDelete(data);
                         }}
                       >
-                        {i18n.t('delete')}
+                        {deleteText || i18n.t('delete')}
                       </Menu.Item>
                     </WithAuth>
                   </Menu>
@@ -148,6 +164,7 @@ interface IIssueFormProps {
   defaultIssueType?: 'TASK' | 'REQUIREMENT' | 'BUG';
   onCancel: () => void;
   onOk: (data: ISSUE.BacklogIssueCreateBody) => Promise<any>;
+  typeDisabled?: boolean;
 }
 
 const placeholderMap = {
@@ -157,7 +174,7 @@ const placeholderMap = {
 };
 
 export const IssueForm = (props: IIssueFormProps) => {
-  const { onCancel = noop, onOk = noop, className = '', defaultIssueType } = props;
+  const { onCancel = noop, onOk = noop, className = '', defaultIssueType, typeDisabled } = props;
   const [chosenType, setChosenType] = React.useState(defaultIssueType || ISSUE_OPTION.REQUIREMENT);
   const formRef = React.useRef(null as any);
   const { projectId } = routeInfoStore.getState((s) => s.params);
@@ -220,10 +237,11 @@ export const IssueForm = (props: IIssueFormProps) => {
       component: 'select',
       key: 'type',
       required: true,
+      disabled: typeDisabled,
       initialValue: chosenType,
       componentProps: {
         size: 'small',
-        className: 'backlog-issue-add-type',
+        className: 'backlog-issue-add-type align-bottom',
         optionLabelProp: 'data-icon',
         dropdownMatchSelectWidth: false,
         style: { width: 50 },
@@ -289,7 +307,11 @@ export const IssueForm = (props: IIssueFormProps) => {
   return (
     <div className={`${className} backlog-issue-form flex justify-between items-center`}>
       <div className={'backlog-issue-form-box h-full'}>
-        <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-issue-add' }} />
+        <Form
+          fields={fields}
+          formRef={formRef}
+          formProps={{ layout: 'inline', className: 'backlog-issue-add items-center' }}
+        />
       </div>
       <div className="table-operations ml-2">
         <span className="table-operations-btn" onClick={onAdd}>

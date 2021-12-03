@@ -14,7 +14,7 @@
 import i18n from 'i18n';
 import React from 'react';
 import { Icon as CustomIcon, ErdaIcon } from 'common';
-
+import { List as IconTask, Bug as IconBug } from '@icon-park/react';
 import './issue-config.scss';
 
 export enum ISSUE_TYPE {
@@ -37,10 +37,10 @@ export const ISSUE_ICON = {
   },
   issue: {
     // 时间类型icon
-    REQUIREMENT: <CustomIcon type="xiangfatianjia" className="issue-icon issue-type requirement" />,
-    TASK: <ErdaIcon type="list-green" className="issue-icon issue-type task mr-1" size="14px" />,
-    BUG: <ErdaIcon type="bug" className="issue-icon issue-type bug mr-1" size="14px" color="orange" />,
-    EPIC: <CustomIcon type="lichengbei" className="issue-icon issue-type epic" />,
+    REQUIREMENT: <ErdaIcon type="xuqiu" size="20px" />,
+    TASK: <ErdaIcon type="renwu" size="20px" />,
+    BUG: <ErdaIcon type="quexian" size="20px" />,
+    EPIC: <ErdaIcon type="lichengbei" size="20px" />,
   },
   severity: {
     // 严重程度icon（bug）

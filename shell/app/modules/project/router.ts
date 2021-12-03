@@ -39,6 +39,15 @@ function getProjectRouter(): RouteConfigItem[] {
           breadcrumbName: i18n.t('dop:project collaboration'),
           routes: [
             {
+              path: 'plan',
+              tabs: PROJECT_TABS,
+              ignoreTabQuery: true,
+              getComp: (cb) => cb(import('project/pages/issue/plan')),
+              layout: {
+                fullHeight: true,
+              },
+            },
+            {
               path: 'all',
               tabs: PROJECT_TABS,
               ignoreTabQuery: true,

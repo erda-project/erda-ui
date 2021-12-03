@@ -17,7 +17,7 @@ import { Spin, Button, Input, Tooltip } from 'antd';
 import Table from 'common/components/table';
 import { ColumnProps } from 'common/components/table/interface';
 import { goTo, fromNow } from 'common/utils';
-import { Filter, ErdaIcon, BootPrompt } from 'common';
+import { Filter, ErdaIcon, ErdaAlert } from 'common';
 import { useUnmount } from 'react-use';
 import { PAGINATION } from 'app/constants';
 import projectStore from 'project/stores/project';
@@ -174,11 +174,12 @@ export const ProjectList = () => {
             {i18n.t('add project')}
           </Button>
         </div>
-        <BootPrompt name="project-list" className="mb-4">
-          {i18n.t(
+        <ErdaAlert
+          showOnceKey="project-list"
+          message={i18n.t(
             'support the creation and deletion of all projects in the organization, as well as the operation and management of project members and quotas.',
           )}
-        </BootPrompt>
+        />
         <Table
           rowKey="id"
           dataSource={list}

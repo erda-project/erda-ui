@@ -118,9 +118,9 @@ const ErdaIcon = ({ type, fill, color, stroke, className, isConfigPageIcon, ...r
     // @ts-ignore iconpark component
     <iconpark-icon
       name={!isConfigPageIcon ? type : iconMap[type]}
-      fill={themeColor[fill || '']}
+      fill={themeColor[fill || 'currentColor']}
       color={themeColor[color || 'currentColor']}
-      stroke={themeColor[stroke || '']}
+      stroke={themeColor[stroke || 'currentColor']}
       class={className}
       {...rest}
     />

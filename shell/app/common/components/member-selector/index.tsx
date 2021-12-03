@@ -30,6 +30,7 @@ import userStore from 'app/user/stores';
 import sysMemberStore from 'common/stores/sys-member';
 import { useUserMap } from 'core/stores/userMap';
 import mspProjectMember from 'common/stores/msp-project-member';
+import { getAvatarChars } from 'app/common/utils';
 
 const storeMap = {
   [MemberScope.PROJECT]: projectMemberStore,
@@ -65,7 +66,7 @@ const optionRender = (user: IMember, roleMap?: object, _type?: string, showRole?
   return (
     <>
       <Avatar src={avatar || undefined} size="small">
-        {nick ? nick.slice(0, 2) : i18n.t('none')}
+        {nick ? getAvatarChars(nick) : i18n.t('none')}
       </Avatar>
       {
         <span className="ml-2" title={name}>
@@ -100,7 +101,7 @@ const valueItemRender =
     const item = (
       <>
         <Avatar size={curCls.size} src={avatar || undefined}>
-          {nick ? nick.slice(0, 2) : i18n.t('none')}
+          {nick ? getAvatarChars(nick) : i18n.t('none')}
         </Avatar>
         <span className={curCls.name} title={name}>
           {displayName}
@@ -357,7 +358,7 @@ export const UserSelector = (props: any) => {
     return (
       <Option key={id} value={id}>
         <Avatar src={avatar} size="small">
-          {nick ? nick.slice(0, 2) : i18n.t('none')}
+          {nick ? getAvatarChars(nick) : i18n.t('none')}
         </Avatar>
         <span className="ml-2" title={name}>
           {nick || i18n.t('common:none')}
