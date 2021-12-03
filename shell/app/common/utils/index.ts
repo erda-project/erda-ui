@@ -18,6 +18,7 @@ import { PAGINATION } from 'app/constants';
 import moment from 'moment';
 import { Key, pathToRegexp, compile } from 'path-to-regexp';
 import { AxiosResponse } from 'axios';
+import AnsiUp from 'ansi_up';
 
 export { createCRUDStore, createCRUDService } from '../stores/_crud_module';
 
@@ -28,7 +29,7 @@ export { goTo, pages, resolvePath } from './go-to';
 export { qs, mergeSearch, updateSearch, setSearch } from './query-string';
 // 字符串、数字、时间工具
 export {
-  camel2Underscore,
+  camel2DashName,
   cutStr,
   secondsToTime,
   fromNow,
@@ -39,7 +40,6 @@ export {
   daysRange,
   formatTime,
 } from './str-num-date';
-import AnsiUp from 'ansi_up';
 
 export { getLabel } from './component-utils';
 
