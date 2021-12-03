@@ -112,7 +112,7 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
         <>
           <div className="truncate flex-1 ml-1">{name}</div>
           <div className="flex items-center ml-2">
-            <Avatar size={16}>{user.slice(0, 1)}</Avatar>
+            <Avatar size={16}>{getAvatarChars(user || '')}</Avatar>
             {status ? (
               <div className="ml-1">
                 <Badge showDot={false} text={status.text} status={status?.status || 'default'} />
