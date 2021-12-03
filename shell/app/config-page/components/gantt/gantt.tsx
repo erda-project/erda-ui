@@ -94,7 +94,7 @@ const TaskTree = (props: ITaskTreeProps) => {
     <div style={{ width: rowWidth }} className="erda-tree">
       {tasks.map((item) => {
         const { extra, isLeaf, level, name, hideChildren } = item;
-        const LineComp = getTreeLine(item, tasksGroup);
+        const LineComp = getTreeLine(item, tasksGroup, rowHeight);
         return (
           <div
             style={{ height: rowHeight }}
