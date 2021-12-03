@@ -15,7 +15,7 @@ import React from 'react';
 import DiceConfigPage, { useMock } from 'app/config-page';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import { getUrlQuery, statusColorMap } from 'config-page/utils';
-import { updateSearch } from 'common/utils';
+import { getAvatarChars, updateSearch } from 'common/utils';
 import { Badge, ErdaIcon } from 'common';
 import { useUpdate, useSwitch } from 'common/use-hooks';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
