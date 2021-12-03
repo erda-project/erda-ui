@@ -15,7 +15,7 @@ import React from 'react';
 import DiceConfigPage, { useMock } from 'app/config-page';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import { getUrlQuery, statusColorMap } from 'config-page/utils';
-import { getAvatarChars, updateSearch } from 'common/utils';
+import { getAvatarChars, updateSearch, mergeSearch } from 'common/utils';
 import { Badge, ErdaIcon } from 'common';
 import { useUserMap } from 'core/stores/userMap';
 import { useUpdate, useSwitch } from 'common/use-hooks';
@@ -77,12 +77,12 @@ const TaskListHeader = (props: { headerHeight: number; rowWidth: number }) => {
 
 interface ITreeNodeProps {
   node: CP_GANTT.IGanttData;
-  nodeList: CP_GANTT.IGanttData[];
   originList: CP_GANTT.IGanttData[];
+  clickNode?: (params: Obj) => void;
 }
 
 const TreeNodeRender = (props: ITreeNodeProps) => {
-  const { node, originList } = props;
+  const { node, originList, clickNode } = props;
   const { extra, name, id, isLeaf } = node;
   const tasksGroup = groupBy(originList || [], 'project');
   const subNodeStatus = tasksGroup[id] || [];
@@ -91,8 +91,15 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
   const userMap = useUserMap();
   const curUser = userMap[user];
   const curUserName = curUser ? curUser.nick || curUser.name : user;
+
   return (
-    <div className="flex items-center">
+    <div
+      className="flex items-center h-full"
+      onClick={(e) => {
+        e.stopPropagation();
+        clickNode?.(node);
+      }}
+    >
       {<IssueIcon type={type} size={'16px'} />}
       {!isLeaf ? (
         <>
@@ -131,15 +138,28 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
 
 const IssuePlan = () => {
   const [{ projectId, iterationId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const { iterationID: queryItertationID, type: _queryType } = query;
+  const { id: queryId, iterationID: queryItertationID, type: _queryType, ...restQeury } = query;
   const queryType = _queryType && _queryType.toUpperCase();
-  const [urlQuery, setUrlQuery] = React.useState(query);
   const [drawerVisible, openDrawer, closeDrawer] = useSwitch(false);
-  const [{ filterObj, chosenIssueType, chosenIteration }, updater, update] = useUpdate({
+  const [{ urlQuery, filterObj, chosenIssueType, chosenIteration, chosenIssueId }, updater, update] = useUpdate({
     filterObj: {},
+    urlQuery: restQeury,
+    chosenIssueId: queryId,
     chosenIteration: queryItertationID || 0,
     chosenIssueType: queryType as undefined | ISSUE_TYPE,
   });
+
+  const onChosenIssue = (val: Obj) => {
+    const { id, extra } = val || {};
+    if (id && extra?.iterationID && extra?.type) {
+      update({
+        chosenIssueId: val.id,
+        chosenIteration: extra.iterationID,
+        chosenIssueType: extra.type.toUpperCase() as ISSUE_TYPE,
+      });
+      openDrawer();
+    }
+  };
 
   const reloadRef = React.useRef(null as any);
 
@@ -149,7 +169,7 @@ const IssuePlan = () => {
 
   const inParams = { projectId, ...urlQuery };
 
-  const urlQueryChange = (val: Obj) => setUrlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+  const urlQueryChange = (val: Obj) => updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 
   const onCreate = (val: any) => {
     const filterIterationIDs = filterObj?.iterationIDs || [];
@@ -178,6 +198,7 @@ const IssuePlan = () => {
   const onCloseDrawer = ({ hasEdited, isCreate, isDelete }: CloseDrawerParam) => {
     closeDrawer();
     update({
+      chosenIssueId: 0,
       chosenIteration: 0,
       chosenIssueType: undefined,
     });
@@ -186,7 +207,6 @@ const IssuePlan = () => {
       reloadData();
     }
   };
-
   return (
     <>
       <DiceConfigPage
@@ -210,7 +230,7 @@ const IssuePlan = () => {
             props: {
               BarContentRender,
               TaskListHeader,
-              TreeNodeRender,
+              TreeNodeRender: (p) => <TreeNodeRender {...p} clickNode={onChosenIssue} />,
             },
           },
           issueAddButton: {
@@ -289,6 +309,11 @@ const IssuePlan = () => {
           issueType={chosenIssueType as ISSUE_TYPE}
           visible={drawerVisible}
           closeDrawer={onCloseDrawer}
+          id={chosenIssueId}
+          shareLink={`${location.href.split('?')[0]}?${mergeSearch(
+            { id: chosenIssueId, iterationID: chosenIteration, type: chosenIssueType },
+            true,
+          )}`}
         />
       ) : null}
     </>

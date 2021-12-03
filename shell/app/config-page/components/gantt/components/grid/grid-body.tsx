@@ -121,6 +121,27 @@ export const GridBody: React.FC<GridBodyProps> = ({
   const { changedTask } = ganttEvent || {};
   const realHeight = tasks.length * rowHeight;
 
+  const getRangePos = () => {
+    if (changedTask) {
+      return {
+        x: changedTask.x1,
+        y: 0,
+        width: changedTask.x2 - changedTask.x1,
+        height: max([ganttHeight, realHeight]),
+      };
+    } else if (startPos && endPos) {
+      return {
+        x: startPos[0],
+        y: 0,
+        width: endPos[0] - startPos[0],
+        height: max([ganttHeight, realHeight]),
+      };
+    }
+    return null;
+  };
+
+  const rangePos = getRangePos();
+
   return (
     <g
       className="gridBody"
@@ -131,15 +152,9 @@ export const GridBody: React.FC<GridBodyProps> = ({
       onMouseMove={onMouseMove}
       onMouseLeave={mouseUnFocus}
     >
-      {changedTask ? (
+      {rangePos ? (
         <g>
-          <rect
-            x={changedTask.x1}
-            y={0}
-            width={changedTask.x2 - changedTask.x1}
-            height={max([ganttHeight, realHeight])}
-            className="erda-gantt-grid-changed-range"
-          />
+          <rect {...rangePos} className="erda-gantt-grid-changed-range" />
         </g>
       ) : null}
       <g className="rows">{gridRows}</g>

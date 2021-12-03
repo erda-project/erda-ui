@@ -72,6 +72,7 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
           width={gridProps.svgWidth}
           height={barProps.rowHeight * barProps.tasks.length}
           fontFamily={barProps.fontFamily}
+          style={{ overflow: 'visible' }}
           ref={ganttSVGRef}
         >
           <Grid {...gridProps} />
