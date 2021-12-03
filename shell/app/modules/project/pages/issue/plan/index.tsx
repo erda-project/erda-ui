@@ -17,6 +17,7 @@ import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import { getUrlQuery, statusColorMap } from 'config-page/utils';
 import { getAvatarChars, updateSearch } from 'common/utils';
 import { Badge, ErdaIcon } from 'common';
+import { useUserMap } from 'core/stores/userMap';
 import { useUpdate, useSwitch } from 'common/use-hooks';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import routeInfoStore from 'core/stores/route';
@@ -87,6 +88,9 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
   const subNodeStatus = tasksGroup[id] || [];
   const statusGroup = groupBy(subNodeStatus, 'extra.status.status');
   const { status, type, user } = extra || {};
+  const userMap = useUserMap();
+  const curUser = userMap[user];
+  const curUserName = curUser ? curUser.nick || curUser.name : user;
   return (
     <div className="flex items-center">
       {<IssueIcon type={type} size={'16px'} />}
@@ -112,7 +116,7 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
         <>
           <div className="truncate flex-1 ml-1">{name}</div>
           <div className="flex items-center ml-2">
-            <Avatar size={16}>{getAvatarChars(user || '')}</Avatar>
+            <Avatar size={16}>{getAvatarChars(curUserName || '')}</Avatar>
             {status ? (
               <div className="ml-1">
                 <Badge showDot={false} text={status.text} status={status?.status || 'default'} />
