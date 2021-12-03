@@ -119,7 +119,7 @@ const ErdaIcon = ({ type, fill, color, stroke, className, isConfigPageIcon, ...r
     <iconpark-icon
       name={!isConfigPageIcon ? type : iconMap[type]}
       fill={themeColor[fill || '']}
-      color={themeColor[color || '']}
+      color={themeColor[color || 'currentColor']}
       stroke={themeColor[stroke || '']}
       class={className}
       {...rest}

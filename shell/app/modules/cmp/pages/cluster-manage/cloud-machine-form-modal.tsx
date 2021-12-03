@@ -126,9 +126,13 @@ const CloudMachineAddForm = (props: any) => {
       <BasicForm form={form} />
       {['alicloud-cs', 'alicloud-cs-managed'].includes(cloudVendor) ? null : (
         <div className="more">
-          <a className="more-btn w-20 flex" onClick={() => setShowMore(!showMore)}>
+          <a className="more-btn" onClick={() => setShowMore(!showMore)}>
             {i18n.t('advanced settings')}
-            {showMore ? <ErdaIcon type="up" size="16" /> : <ErdaIcon type="down" size="16" />}
+            {showMore ? (
+              <ErdaIcon className="align-middle" type="up" size="16" />
+            ) : (
+              <ErdaIcon className="align-middle" type="down" size="16" />
+            )}
           </a>
           <div className={`more-form ${showMore ? '' : 'hidden'}`}>
             <MoreForm form={form} />

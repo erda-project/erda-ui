@@ -528,13 +528,16 @@ const AddModal = (props: IProps) => {
         return (
           <div>
             <span
-              className="flex w-20"
               onClick={() => {
                 updater.showMore(!showMore);
               }}
             >
               {i18n.t('advanced settings')}
-              {showMore ? <ErdaIcon type="up" size="16" /> : <ErdaIcon type="down" size="16" />}
+              {showMore ? (
+                <ErdaIcon className="align-middle" type="up" size="16" />
+              ) : (
+                <ErdaIcon className="align-middle" type="down" size="16" />
+              )}
             </span>
             <div className={`p-2.5 mt-2 h-full ${showMore ? '' : 'hidden'}`}>
               <div className="flex">

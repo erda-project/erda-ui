@@ -16,7 +16,7 @@ import { filterMenu, MENU_SCOPE } from './util';
 import { goTo } from 'common/utils';
 import permStore from 'user/stores/permission';
 import React from 'react';
-import { Icon as CustomIcon, ErdaIcon } from 'common';
+import { ErdaIcon } from 'common';
 import { filter } from 'lodash';
 
 // 应用中心菜单
@@ -28,7 +28,7 @@ export const getOrgCenterMenu = () => {
         {
           key: 'orgProjects',
           href: goTo.resolve.orgCenterRoot(), // '/orgCenter/projects',
-          icon: <ErdaIcon type="api-app" className="mt-3.5 mr-1" />,
+          icon: <ErdaIcon type="api-app" />,
           text: i18n.t('projects'),
           subtitle: i18n.t('Project'),
           show: orgPerm.orgCenter.viewProjects.pass,
@@ -36,7 +36,7 @@ export const getOrgCenterMenu = () => {
         {
           key: 'orgMarket',
           href: goTo.resolve.orgCenterPublisherSetting(),
-          icon: <ErdaIcon type="ce-marking" className="mt-3.5 mr-1" />,
+          icon: <ErdaIcon type="ce-marking" />,
           text: i18n.t('layout:mobile development management'),
           subtitle: i18n.t('Mobile'),
           prefix: goTo.resolve.orgCenterMarket(),
@@ -45,7 +45,7 @@ export const getOrgCenterMenu = () => {
         {
           key: 'orgApproval',
           href: goTo.resolve.orgCenterApprovalUndone(), // '/orgCenter/approval/undone',
-          icon: <CustomIcon type="shenpiguanli" />,
+          icon: <ErdaIcon type="seal" />,
           text: i18n.t('layout:approval'),
           subtitle: i18n.t('Approve'),
           prefix: `${goTo.resolve.orgCenterApproval()}/`,
@@ -54,7 +54,7 @@ export const getOrgCenterMenu = () => {
         {
           key: 'orgSafety',
           href: goTo.resolve.orgCenterSafety(), // '/orgCenter/safety',
-          icon: <ErdaIcon type="log" className="mt-3.5 mr-1" />,
+          icon: <ErdaIcon type="log" />,
           text: i18n.t('cmp:audit log'),
           subtitle: i18n.t('Audit'),
           show: orgPerm.orgCenter.viewAuditLog.pass,
@@ -62,7 +62,7 @@ export const getOrgCenterMenu = () => {
         {
           key: 'orgSetting',
           href: goTo.resolve.cmpSetting(), // '/orgCenter/setting/detail',
-          icon: <ErdaIcon type="city" className="mt-3.5 mr-1" />,
+          icon: <ErdaIcon type="city" />,
           text: i18n.t('org setting'),
           subtitle: i18n.t('Org'),
           show: orgPerm.orgCenter.viewSetting.pass,

@@ -74,7 +74,7 @@ const dopStore = createFlatStore({
           } else if (addonName === 'mysql') {
             menu.splice(1, 0, {
               href: `${rootPath}/mysql-settings`,
-              icon: <ErdaIcon type="permissions" className="mt-3.5 mr-1" />,
+              icon: <ErdaIcon type="permissions" />,
               text: i18n.t('account management'),
               subMenu: [
                 {

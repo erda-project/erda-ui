@@ -146,7 +146,7 @@ const SubSideBar = () => {
         ...item,
         title: firstLetterUpper(item.text),
         icon: item.icon ? (
-          <i>
+          <i className="flex items-center mr-1">
             <IconComp />
           </i>
         ) : item.customIcon ? (

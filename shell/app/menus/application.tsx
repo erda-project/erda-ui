@@ -15,7 +15,7 @@ import i18n from 'i18n';
 import { filter } from 'lodash';
 import { goTo } from 'common/utils';
 import permStore from 'user/stores/permission';
-import { Icon as CustomIcon, ErdaIcon } from 'common';
+import { ErdaIcon } from 'common';
 import { appMode } from 'application/common/config';
 
 import React from 'react';
@@ -34,7 +34,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.repo.read.pass,
     key: 'repo',
     href: goTo.resolve.repo(), // `/dop/projects/${projectId}/apps/${appId}/repo`,
-    icon: <ErdaIcon type="code" className="mt-3.5 mr-1" />,
+    icon: <ErdaIcon type="code" />,
     text: i18n.t('dop:files'),
     subtitle: i18n.t('Code'),
   };
@@ -42,7 +42,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.pipeline.read.pass,
     key: 'pipeline',
     href: goTo.resolve.pipelineRoot(), // `/dop/projects/${projectId}/apps/${appId}/pipeline`,
-    icon: <ErdaIcon type="assembly-line" className="mt-3.5 mr-1" />,
+    icon: <ErdaIcon type="assembly-line" />,
     text: i18n.t('pipeline'),
     subtitle: i18n.t('Pipeline'),
   };
@@ -50,7 +50,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.apiDesign.read.pass,
     key: 'apiDesign',
     href: goTo.resolve.appApiDesign(), // `/dop/projects/${projectId}/apps/${appId}/apiDesign`,
-    icon: <ErdaIcon type="api" className="mt-3.5 mr-1" />,
+    icon: <ErdaIcon type="api" />,
     text: i18n.t('dop:API design'),
     subtitle: 'API',
   };
@@ -59,7 +59,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.runtime.read.pass,
     key: 'deploy',
     href: goTo.resolve.deploy(), // `/dop/projects/${projectId}/apps/${appId}/deploy`,
-    icon: <CustomIcon type="bushuzhongxin" />,
+    icon: <ErdaIcon type="bushuzhongxin" />,
     text: i18n.t('dop:deployment center'),
     subtitle: i18n.t('Deploy'),
   };
@@ -67,7 +67,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.dataTask.read.pass,
     key: 'dataTask',
     href: goTo.resolve.dataTaskRoot(), // `/dop/projects/${projectId}/apps/${appId}/dataTask`,
-    icon: <ErdaIcon type="activity-source" className="mt-3.5 mr-1" />,
+    icon: <ErdaIcon type="activity-source" />,
     text: `${i18n.t('dop:data task')}`,
     subtitle: `${i18n.t('Task')}`,
   };
@@ -75,7 +75,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.dataModel.read.pass,
     key: 'dataModel',
     href: goTo.resolve.appDataModel(), // `/dop/projects/${projectId}/apps/${appId}/dataModel`,
-    icon: <ErdaIcon type="children-pyramid" className="mt-3.5 mr-1" />,
+    icon: <ErdaIcon type="children-pyramid" />,
     text: `${i18n.t('dop:data model')}`,
     subtitle: `${i18n.t('Model')}`,
   };
@@ -83,7 +83,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.dataMarket.read.pass,
     key: 'dataMarket',
     href: goTo.resolve.appDataMarket(), // `/dop/projects/${projectId}/apps/${appId}/dataMarket`,
-    icon: <ErdaIcon type="market-analysis" className="mt-3.5 mr-1" />,
+    icon: <ErdaIcon type="market-analysis" />,
     text: `${i18n.t('dop:data market')}`,
     subtitle: `${i18n.t('Market')}`,
   };
@@ -91,7 +91,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.codeQuality.read.pass,
     key: 'test',
     href: goTo.resolve.appCodeQuality(), // `/dop/projects/${projectId}/apps/${appId}/test`,
-    icon: <CustomIcon type="daimazhiliang" />,
+    icon: <ErdaIcon type="daimazhiliang" />,
     text: i18n.t('dop:code quality'),
     subtitle: i18n.t('Quality'),
   };
@@ -99,7 +99,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.release.read.pass,
     key: 'release',
     href: goTo.resolve.release(), // `/dop/projects/${projectId}/apps/${appId}/repo/release`,
-    icon: <CustomIcon type="zhipinguanli" />,
+    icon: <ErdaIcon type="zhipinguanli" />,
     text: i18n.t('artifact management'),
     subtitle: i18n.t('Artifact'),
   };
@@ -107,7 +107,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.setting.read.pass,
     key: 'setting',
     href: goTo.resolve.appSetting(), // `/dop/projects/${projectId}/apps/${appId}/setting`,
-    icon: <ErdaIcon type="config1" className="mt-3.5 mr-1" />,
+    icon: <ErdaIcon type="config1" />,
     text: i18n.t('dop:application setting'),
     subtitle: i18n.t('Setting'),
   };
