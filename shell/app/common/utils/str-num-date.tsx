@@ -29,7 +29,7 @@ moment.locale(momentLangMap[locale]);
  * transform camel case dash string: `CamelComponent -> camel-component / camel_component`
  */
 export const camel2DashName = (_str: string, symbol = '-') => {
-  const str = _str[0].toLowerCase() + _str.substr(1);
+  const str = `${_str[0].toLowerCase()}${_str.substr(1)}`;
   return str.replace(/([A-Z])/g, ($1) => `${symbol}${$1.toLowerCase()}`);
 };
 
