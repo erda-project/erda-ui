@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export const mockData: CP_SORT_GROUP.Spec = {
+const mockData: CP_SORT_GROUP.Spec = {
   type: 'SortGroup',
   state: {
     dragParams: {
@@ -130,3 +130,5 @@ export const mockData: CP_SORT_GROUP.Spec = {
     ],
   },
 };
+
+export default mockData;

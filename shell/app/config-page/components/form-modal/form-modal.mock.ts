@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export const mockData: CP_FORM_MODAL.Spec = {
+const mockData: CP_FORM_MODAL.Spec = {
   type: 'FormModal',
   operations: {
     submit: {
@@ -54,3 +54,5 @@ export const mockData: CP_FORM_MODAL.Spec = {
     formData: undefined,
   },
 };
+
+export default mockData;

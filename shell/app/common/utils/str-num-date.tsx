@@ -25,9 +25,12 @@ const momentLangMap = {
 };
 moment.locale(momentLangMap[locale]);
 
-export const camel2Underscore = (str: string, options = { upperCase: false }) => {
-  const underscoreStr = str.replace(/[A-Z]+/g, '_$&');
-  return options.upperCase ? underscoreStr.toUpperCase() : underscoreStr.toLowerCase();
+/**
+ * transform camel case dash string: `CamelComponent -> camel-component / camel_component`
+ */
+export const camel2DashName = (_str: string, symbol = '-') => {
+  const str = `${_str[0].toLowerCase()}${_str.substr(1)}`;
+  return str.replace(/([A-Z])/g, ($1) => `${symbol}${$1.toLowerCase()}`);
 };
 
 export function getStrRealLen(strr: string, isByte: boolean, byteLen: number) {

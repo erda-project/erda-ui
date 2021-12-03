@@ -11,9 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export const mockData: CP_FILTER.Spec = {
+const mockData: CP_FILTER.Spec = {
   type: 'ContractiveFilter',
-  name: 'issueFilter',
   props: {
     delay: 300,
   },
@@ -96,3 +95,5 @@ export const mockData: CP_FILTER.Spec = {
     },
   },
 };
+
+export default mockData;

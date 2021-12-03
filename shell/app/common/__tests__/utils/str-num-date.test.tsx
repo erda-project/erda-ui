@@ -14,7 +14,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import {
-  camel2Underscore,
+  camel2DashName,
   getStrRealLen,
   px2Int,
   getDateDuration,
@@ -30,8 +30,8 @@ import moment from 'moment';
 const title = 'erda cloud';
 
 describe('str-num-date', () => {
-  it('camel2Underscore', () => {
-    expect(camel2Underscore('ErdaCloud')).toBe('_erda_cloud');
+  it('camel2DashName', () => {
+    expect(camel2DashName('ErdaCloud')).toBe('erda-cloud');
   });
   it('getStrRealLen', () => {
     expect(getStrRealLen(title, true, 5)).toBe(4);
