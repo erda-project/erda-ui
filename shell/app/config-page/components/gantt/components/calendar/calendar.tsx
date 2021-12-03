@@ -63,6 +63,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   fontSize,
   ganttEvent,
   selectedTask,
+  rangeAddTime,
 }) => {
   const getCalendarValuesForMonth = () => {
     const topValues: ReactChild[] = [];
@@ -156,10 +157,12 @@ export const Calendar: React.FC<CalendarProps> = ({
 
   const curSelected = selectedTask && tasks?.find((item) => item.id === selectedTask.id);
   const curTask = ganttEvent?.changedTask || curSelected;
-  const HoverBar = curTask ? (
+  const hoverPos = rangeAddTime || curTask;
+
+  const HoverBar = hoverPos ? (
     <div
       className="absolute rounded bg-hover-gray-bg"
-      style={{ width: curTask.x2 - curTask.x1, height: 40, left: curTask.x1, top: 24 }}
+      style={{ width: hoverPos.x2 - hoverPos.x1, height: 40, left: hoverPos.x1, top: 24 }}
     />
   ) : null;
   const getCalendarValuesForDay = () => {
