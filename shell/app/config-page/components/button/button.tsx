@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button as NusiButton, Tooltip, Dropdown, Menu, Popconfirm } from 'antd';
+import { Button, Tooltip, Dropdown, Menu, Popconfirm } from 'antd';
 import { isEmpty, map, find } from 'lodash';
 import { useUnmount } from 'react-use';
 import { Icon as CustomIcon, ErdaIcon } from 'common';
@@ -29,7 +29,7 @@ const IconComp = (props: { type: string; [pro: string]: any }) => {
   return <CustomIcon type={type} {...rest} />;
 };
 
-export const Button = (props: CP_BUTTON.Props) => {
+const CP_Button = (props: CP_BUTTON.Props) => {
   const { updateState, customOp, execOperation, operations, props: configProps } = props;
   const {
     text,
@@ -86,9 +86,9 @@ export const Button = (props: CP_BUTTON.Props) => {
   if (disabled || pDisabled) {
     return (
       <Tooltip title={disabledTip || pDisabledTip} {...tipProps}>
-        <NusiButton {...rest} disabled>
+        <Button {...rest} disabled>
           {content}
-        </NusiButton>
+        </Button>
       </Tooltip>
     );
   }
@@ -138,19 +138,19 @@ export const Button = (props: CP_BUTTON.Props) => {
     );
     return (
       <Dropdown overlay={dropdownMenu}>
-        <NusiButton {...rest}>{content}</NusiButton>
+        <Button {...rest}>{content}</Button>
       </Dropdown>
     );
   }
 
   const buttonComp = confirm ? (
     <Popconfirm {...tipProps} title={confirm} onConfirm={onClick}>
-      <NusiButton {...rest}>{content}</NusiButton>
+      <Button {...rest}>{content}</Button>
     </Popconfirm>
   ) : (
-    <NusiButton {...rest} onClick={onClick}>
+    <Button {...rest} onClick={onClick}>
       {content}
-    </NusiButton>
+    </Button>
   );
 
   return tooltip ? (
@@ -161,3 +161,5 @@ export const Button = (props: CP_BUTTON.Props) => {
     buttonComp
   );
 };
+
+export default CP_Button;

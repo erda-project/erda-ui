@@ -12,23 +12,24 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { ColumnProps } from 'core/common/interface';
+import { ColumnProps, IActions } from 'common/components/table/interface';
 import { Copy, EmptyHolder, ErdaIcon } from 'common';
+import Table from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
-import { Button, Table, Modal, Popconfirm, message, Spin } from 'antd';
+import { Button, message, Modal, Spin } from 'antd';
 import TypeSelect, { Item } from 'msp/env-setting/configuration/type-select';
 import { PAGINATION } from 'app/constants';
 import { usePerm, WithAuth } from 'user/common';
 import moment from 'moment';
 import Markdown from 'common/utils/marked';
 import {
-  getAcquisitionAndLang,
-  getDetailToken,
-  deleteDetailToken,
-  getInfo,
-  getAllToken,
   createToken,
+  deleteDetailToken,
+  getAcquisitionAndLang,
+  getAllToken,
+  getDetailToken,
+  getInfo,
 } from 'msp/services/configuration';
 import routeInfoStore from 'core/stores/route';
 
@@ -53,7 +54,6 @@ interface IState {
   lang: string;
   strategy: string;
   languages: LangItem[];
-  currentPage: number;
   mode: string;
   visible: boolean;
 }
@@ -70,12 +70,11 @@ const ItemRender = ({ title, children }: IProps) => {
 const Configuration = () => {
   const { tenantGroup } = routeInfoStore.useStore((s) => s.params);
   const accessPerm = usePerm((s) => s.project.microService.accessConfiguration);
-  const [{ lang, currentPage, strategy, languages, mode, visible }, updater, update] = useUpdate<IState>({
+  const [{ lang, strategy, languages, mode, visible }, updater, update] = useUpdate<IState>({
     lang: '',
     strategy: '',
     languages: [],
     visible: false,
-    currentPage: 1,
     mode: 'create',
   });
 
@@ -149,20 +148,19 @@ const Configuration = () => {
       key: 'createdAt',
       render: (createdAt: string) => moment(createdAt).format('YYYY-MM-DD HH:mm:ss'),
     },
-    {
-      title: i18n.t('operation'),
-      width: 96,
-      dataIndex: 'id',
-      key: 'id',
-      className: 'table-operations',
-      render: (id: string) =>
-        accessPerm.createAccessKey.pass ? (
-          <Popconfirm onConfirm={() => deleteKey(id)} title={`${i18n.t('common:confirm to delete')}?`}>
-            <a className="table-operations-btn">{i18n.t('delete')}</a>
-          </Popconfirm>
-        ) : null,
-    },
   ];
+
+  const tableActions: IActions<CONFIGURATION.IAllTokenData> = {
+    render: (record) => [
+      {
+        title: i18n.t('delete'),
+        onClick: () => {
+          deleteKey(record.id);
+        },
+        show: accessPerm.createAccessKey.pass,
+      },
+    ],
+  };
 
   const createKey = async () => {
     await createToken.fetch({
@@ -173,31 +171,32 @@ const Configuration = () => {
     await getAllToken.fetch({
       subjectType: 3,
       pageNo: 1,
-      pageSize: PAGINATION.pageSize,
+      pageSize: allToken?.paging.pageSize ?? PAGINATION.pageSize,
       scopeId: tenantGroup,
     });
 
     update({
       mode: 'create',
       visible: true,
-      currentPage: 1,
     });
   };
 
   const deleteKey = async (id: string) => {
-    await deleteDetailToken.fetch({
-      id,
+    Modal.confirm({
+      title: `${i18n.t('common:confirm to delete')}?`,
+      onOk: async () => {
+        await deleteDetailToken.fetch({
+          id,
+        });
+        await getAllToken.fetch({
+          subjectType: 3,
+          pageNo: 1,
+          pageSize: allToken?.paging.pageSize ?? PAGINATION.pageSize,
+          scopeId: tenantGroup,
+        });
+        message.success(i18n.t('deleted successfully'));
+      },
     });
-    await getAllToken.fetch({
-      subjectType: 3,
-      pageNo: 1,
-      pageSize: PAGINATION.pageSize,
-      scopeId: tenantGroup,
-    });
-    update({
-      currentPage: 1,
-    });
-    message.success(i18n.t('deleted successfully'));
   };
 
   React.useEffect(() => {
@@ -210,14 +209,11 @@ const Configuration = () => {
     }
   }, [strategy, lang]);
 
-  const pageChange = (page: number) => {
-    update({
-      currentPage: page,
-    });
+  const pageChange = (page: number, pageSize?: number) => {
     getAllToken.fetch({
       subjectType: 3,
       pageNo: page,
-      pageSize: PAGINATION.pageSize,
+      pageSize: pageSize ?? PAGINATION.pageSize,
       scopeId: tenantGroup,
     });
   };
@@ -277,14 +273,17 @@ const Configuration = () => {
         <Table
           className="mt-2 mb-4"
           columns={columns}
+          actions={tableActions}
           dataSource={allToken?.list || []}
           scroll={{ x: '100%' }}
           rowKey={(record) => `${record?.token}`}
           pagination={{
-            current: currentPage,
-            pageSize: PAGINATION.pageSize,
-            total: allToken?.total,
-            onChange: pageChange,
+            current: allToken?.paging.pageNo,
+            pageSize: allToken?.paging.pageSize,
+            total: allToken?.paging.total,
+          }}
+          onChange={({ current, pageSize }) => {
+            pageChange(current, pageSize);
           }}
         />
 

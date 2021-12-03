@@ -20,8 +20,14 @@ import ErdaIcon from 'common/components/erda-icon';
 import { fromNow, goTo } from 'common/utils';
 import { debounce, last } from 'lodash';
 import { DOC_MSP_HOME_PAGE } from 'common/constants';
-import bgImg from 'app/images/msp/microservice-governance-bg.svg';
-import headerImg from 'app/images/msp/microservice-governance.svg';
+import bgLarge from 'app/images/msp/header-bg-large.svg';
+import bgMiddle from 'app/images/msp/header-bg-middle.svg';
+import bgSmall from 'app/images/msp/header-bg-small.svg';
+import topImg from 'app/images/msp/microservice-governance-top.svg';
+import middleImg from 'app/images/msp/microservice-governance-middle.svg';
+import bottomImg from 'app/images/msp/microservice-governance-bottom.svg';
+import backgroundImg from 'app/images/msp/microservice-governance-background.svg';
+import decorationImg from 'app/images/msp/microservice-governance-decoration.svg';
 import i18n from 'i18n';
 import './overview.scss';
 
@@ -91,10 +97,10 @@ const Overview = () => {
 
   return (
     <div className="msp-overview p-6 flex flex-col pt-0">
-      <div
-        className="msp-overview-header relative mb-2 flex content-center justify-center pl-4 flex-col"
-        style={{ backgroundImage: `url(${bgImg})` }}
-      >
+      <div className="msp-overview-header relative overflow-hidden flex content-center justify-center pl-4 flex-col">
+        <img src={bgLarge} className="absolute bg-large" />
+        <img src={bgMiddle} className="absolute bg-middle" />
+        <img src={bgSmall} className="absolute bg-small" />
         <p className="mb-0 text-xl leading-8 font-medium">{i18n.t('msp')}</p>
         <p className="mb-0 text-xs leading-5 flex">
           {i18n.t(
@@ -104,7 +110,15 @@ const Overview = () => {
             {i18n.t('msp:view guide')} <ErdaIcon size={14} type="jinru" className="mb-0" />
           </a>
         </p>
-        <img src={headerImg} className="absolute right-0 top-4" />
+        <div className="header-img-wrapper absolute right-0 top-4">
+          <img src={backgroundImg} className="absolute bottom-0 background-img" />
+          <img src={bottomImg} className="absolute bottom-img" />
+          <img src={middleImg} className="absolute middle-img" />
+          <img src={topImg} className="absolute top-img" />
+          <img src={decorationImg} className="absolute decoration-img left" />
+          <img src={decorationImg} className="absolute decoration-img right" />
+          <img src={decorationImg} className="absolute decoration-img top" />
+        </div>
       </div>
       <div className="flex flex-1 flex-col min-h-0 bg-white shadow pb-2">
         <div className="px-4 pt-2 bg-lotion">
@@ -143,39 +157,37 @@ const Overview = () => {
                         handleClick(relationship, id);
                       }}
                     >
-                      <Col span={12} className="flex">
+                      <Col span={12} className="flex items-center">
                         <div className="w-14 h-14 mr-2">
                           {logo ? <img src={logo} width={56} height={56} /> : <ErdaIcon type={icon} size={56} />}
                         </div>
                         <div>
-                          <div className="flex items-center">
-                            <p className="mb-0 font-medium text-xl leading-8">{displayName}</p>
-                            <Tag className="ml-1 text-xs leading-5 border-0" color={color}>
-                              {tag}
-                            </Tag>
-                          </div>
-                          <div className="text-xs	leading-5 desc">{desc || '-'}</div>
+                          <p className="mb-0 font-medium text-xl leading-8">{displayName}</p>
+                          <Tag className="mb-0.5 text-xs leading-5 border-0" color={color}>
+                            {tag}
+                          </Tag>
+                          <div className="text-xs	leading-5 desc">{desc || i18n.t('no description yet')}</div>
                         </div>
                       </Col>
-                      <Col span={12}>
-                        <Row gutter={8}>
+                      <Col span={12} className="flex items-center">
+                        <Row gutter={8} className="flex-1">
                           <Col span={6}>
                             <p className="mb-0 text-xl leading-8 font-number">{relationship.length}</p>
-                            <p className="text-xs leading-5 desc">{i18n.t('env')}</p>
+                            <p className="mb-0 text-xs leading-5 desc">{i18n.t('env')}</p>
                           </Col>
                           <Col span={6}>
                             <p className="mb-0 text-xl leading-8 font-number">{serviceCount ?? 0}</p>
-                            <p className="text-xs leading-5 desc">{i18n.t('service')}</p>
+                            <p className="mb-0 text-xs leading-5 desc">{i18n.t('service')}</p>
                           </Col>
                           <Col span={6}>
                             <p className="mb-0 text-xl leading-8 font-number">{last24hAlertCount ?? 0}</p>
-                            <p className="text-xs leading-5 desc">{i18n.t('msp:last 1 day alarm')}</p>
+                            <p className="mb-0 text-xs leading-5 desc">{i18n.t('msp:last 1 day alarm')}</p>
                           </Col>
                           <Col span={6}>
                             <p className="mb-0 text-xl leading-8 font-number">
                               {lastActiveTime ? fromNow(lastActiveTime) : '-'}
                             </p>
-                            <p className="text-xs leading-5 desc">{i18n.t('msp:last active time')}</p>
+                            <p className="mb-0 text-xs leading-5 desc">{i18n.t('msp:last active time')}</p>
                           </Col>
                         </Row>
                       </Col>

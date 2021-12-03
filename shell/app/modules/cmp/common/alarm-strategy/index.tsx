@@ -93,15 +93,16 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
   const handleDeleteAlarm = (id: number) => {
     confirm({
       title: i18n.t('dop:are you sure you want to delete this item?'),
-      content: i18n.t('dop:the notification will be permanently deleted'),
+      content: i18n.t('dop:the alarm strategy will be permanently deleted'),
       onOk() {
         deleteAlert(id);
       },
     });
   };
 
-  const handlePageChange = (no: number, size?: number) => {
-    getAlerts({ pageNo: no, pageSize: size });
+  const handlePageChange = (paging: { current: number; pageSize?: number }) => {
+    const { current, pageSize: size } = paging;
+    getAlerts({ pageNo: current, pageSize: size });
   };
 
   const alertListColumns: Array<ColumnProps<COMMON_STRATEGY_NOTIFY.IAlert>> = [
@@ -220,8 +221,8 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
             current: pageNo,
             pageSize,
             total,
-            onChange: handlePageChange,
           }}
+          onChange={handlePageChange}
           scroll={{ x: '100%' }}
         />
       </Spin>

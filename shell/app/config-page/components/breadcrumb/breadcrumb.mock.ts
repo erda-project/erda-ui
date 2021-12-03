@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export const mockData: CP_BREADCRUMB.Spec = {
+const mockData: CP_BREADCRUMB.Spec = {
   type: 'Breadcrumb',
   data: {
     list: [
@@ -29,3 +29,5 @@ export const mockData: CP_BREADCRUMB.Spec = {
     },
   },
 };
+
+export default mockData;

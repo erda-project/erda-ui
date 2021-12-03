@@ -11,9 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export const mockData: CP_TITLE.Spec = {
+const mockData: CP_TITLE.Spec = {
   type: 'Title',
   props: {
     title: '标题',
   },
 };
+
+export default mockData;

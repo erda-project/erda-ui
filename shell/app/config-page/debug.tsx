@@ -17,17 +17,13 @@ import { ErrorBoundary, FileEditor, ErdaIcon } from 'common';
 import { Button, message, Input, Checkbox, Tooltip } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import { statusColorMap } from 'app/config-page/utils';
-import { useUpdateEffect, useThrottleFn, useMount } from 'react-use';
+import { useUpdateEffect, useThrottleFn } from 'react-use';
 import { get } from 'lodash';
 import { Form as PureForm } from 'dop/pages/form-editor/index';
 import agent from 'agent';
-
-import './debug.scss';
 import moment from 'moment';
 
-const PureConfigPage = ({ scenario, ...rest }: { scenario: string }) => {
-  return <DiceConfigPage scenarioType={scenario} scenarioKey={scenario} inParams={rest} />;
-};
+import './debug.scss';
 
 const stateIconMap = {
   success: <ErdaIcon type="check-one" fill={statusColorMap.success} />,
@@ -84,7 +80,7 @@ const DebugConfigPage = () => {
   );
 
   if (!debug) {
-    return <PureConfigPage scenario={scenario} {...restQuery} />;
+    return <DiceConfigPage scenarioType={scenario} scenarioKey={scenario} inParams={restQuery} />;
   }
 
   const updateMock = (_text?: string) => {
@@ -444,11 +440,9 @@ const getAssertState = (assert: IAssert, pageData: Obj) => {
 
 const defaultData = {
   scenario: {
-    scenarioType: 'cmp-dashboard-nodes',
-    scenarioKey: 'cmp-dashboard-nodes',
+    scenarioType: 'project-list-my',
+    scenarioKey: 'project-list-my',
   },
-  inParams: {
-    clusterName: 'erda-hongkong',
-  },
+  inParams: {},
 };
 const defaultJson = JSON.stringify(defaultData, null, 2);

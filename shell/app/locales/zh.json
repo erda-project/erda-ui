@@ -1771,6 +1771,7 @@
     "the parameter names cannot be the same": "参数名称不能相同",
     "the project name displayed on the Erda platform, supports Chinese characters": "项目在 Erda 平台中显示的名称，支持中文命名",
     "the start date cannot be later than the end date": "开始日期不能晚于结束日期",
+    "the alarm strategy will be permanently deleted": "该告警策略将被永久删除",
     "the use case will not be recovered after it is completely deleted, ": "彻底删除后用例将无法恢复",
     "the {index} step in the steps and results is not completed": "步骤及结果中第 {index} 步未填写完整",
     "there are duplicates in the {index} interface": "第 {index} 个接口中有出参名重复",

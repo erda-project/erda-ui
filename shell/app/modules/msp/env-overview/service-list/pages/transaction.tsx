@@ -320,7 +320,7 @@ const Transaction = () => {
   );
 
   const renderMenu = (record: TOPOLOGY_SERVICE_ANALYZE.TranslationSlowRecord) => {
-    const { viewLog, viewDetail } = {
+    const { viewLog } = {
       viewLog: {
         title: i18n.t('check log'),
         onClick: () => {
@@ -328,16 +328,9 @@ const Transaction = () => {
           updater.logVisible(true);
         },
       },
-      viewDetail: {
-        title: i18n.t('check detail'),
-        onClick: () => {
-          updater.traceId(record.requestId);
-          setIsShowTraceDetail(true);
-        },
-      },
     };
 
-    return currentProject?.type !== 'MSP' ? [viewLog, viewDetail] : [viewDetail];
+    return currentProject?.type !== 'MSP' ? [viewLog] : [];
   };
 
   const actions: IActions<TOPOLOGY_SERVICE_ANALYZE.TranslationSlowRecord> = {
@@ -432,8 +425,17 @@ const Transaction = () => {
           loading={isFetching}
           actions={actions}
           rowKey="requestId"
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                updater.traceId(record.requestId);
+                setIsShowTraceDetail(true);
+              },
+            };
+          }}
           columns={columns}
           dataSource={dataSource}
+          onChange={() => queryTraceSlowTranslation(sortType, limit, url)}
           scroll={{ x: '100%' }}
         />
         <Drawer
