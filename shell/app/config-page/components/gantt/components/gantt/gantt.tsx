@@ -105,7 +105,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   // console.log('横', horizontalRef.current?.clientWidth, scrollX, horizontalRange, h_number)
 
   const v_start = Math.abs(Math.ceil(scrollY / rowHeight));
-  const v_number = Math.floor((ganttHeight || 0) / rowHeight);
+  const v_number = Math.floor((ganttHeight || 0) / rowHeight) + 1;
   const verticalRange = [v_start, v_start + v_number];
   // console.log('纵', ganttHeight, scrollY, verticalRange, v_number)
   const ignoreScrollEventRef = useRef(false);
