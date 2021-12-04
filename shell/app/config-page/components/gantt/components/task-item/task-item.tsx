@@ -113,8 +113,9 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
         {task.type !== 'project' ? (
           <g>
             <foreignObject
-              x={curPos.x1 + 4}
-              y={curPos.y - 2}
+              // x={curPos.x1 + 4}
+              // y={curPos.y - 2}
+              transform={`translate(${curPos.x1 + 4},${curPos.y - 2})`}
               width={curPos.x2 - curPos.x1 - 8}
               height={curPos.height + 4}
             >
@@ -161,8 +162,11 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
               onFocus={() => {
                 onEventStart('select', task);
               }}
-              x={task.x1 + 4}
-              y={task.y}
+              // style={{ transform: `translate(${task.x1 + 4},${task.y})` }}
+              transform={`translate(${task.x1 + 4},${task.y})`}
+              // style={{ willChange: 'transform' }}
+              // x={task.x1 + 4}
+              // y={task.y}
               width={task.x2 - task.x1 - 8}
               height={task.height}
             >
@@ -170,8 +174,10 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
             </foreignObject>
           ) : (
             <text
-              x={getX()}
-              y={task.y + taskHeight * 0.5}
+              // x={getX()}
+              // y={task.y + taskHeight * 0.5}
+              transform={`translate(${getX()},${task.y + taskHeight * 0.5})`}
+              // style={{ willChange: 'transform' }}
               className={
                 isTextInside
                   ? 'erda-gantt-task-bar-label'

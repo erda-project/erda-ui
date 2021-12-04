@@ -23,7 +23,6 @@ export type TaskListProps = {
   fontSize: string;
   rowHeight: number;
   ganttHeight: number;
-  scrollY: number;
   locale: string;
   tasks: Task[];
   taskListRef: React.RefObject<HTMLDivElement>;
@@ -52,11 +51,11 @@ export type TaskListProps = {
 
 export const TaskList: React.FC<TaskListProps> = ({
   headerHeight,
+  verticalRange,
   fontFamily,
   fontSize,
   rowWidth,
   rowHeight,
-  scrollY,
   tasks,
   selectedTask,
   setSelectedTask,
@@ -68,13 +67,6 @@ export const TaskList: React.FC<TaskListProps> = ({
   TaskListHeader,
   TaskListTable,
 }) => {
-  const horizontalContainerRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (horizontalContainerRef.current) {
-      horizontalContainerRef.current.scrollTop = scrollY;
-    }
-  }, [scrollY]);
-
   const headerProps = {
     headerHeight,
     fontFamily,
@@ -92,16 +84,13 @@ export const TaskList: React.FC<TaskListProps> = ({
     selectedTaskId,
     setSelectedTask,
     onExpanderClick,
+    verticalRange,
   };
 
   return (
     <div ref={taskListRef} className="erda-gantt-task-list-box">
       <TaskListHeader {...headerProps} />
-      <div
-        ref={horizontalContainerRef}
-        className={horizontalContainerClass}
-        style={ganttHeight ? { height: ganttHeight } : {}}
-      >
+      <div className={horizontalContainerClass} style={ganttHeight ? { height: ganttHeight } : {}}>
         <TaskListTable {...tableProps} />
       </div>
     </div>

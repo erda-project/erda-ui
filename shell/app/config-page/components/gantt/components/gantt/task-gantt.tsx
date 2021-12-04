@@ -22,8 +22,6 @@ export interface TaskGanttProps {
   calendarProps: CalendarProps;
   barProps: TaskGanttContentProps;
   ganttHeight: number;
-  scrollY: number;
-  scrollX: number;
   BarContentRender: React.ReactNode;
 }
 export const TaskGantt: React.FC<TaskGanttProps> = ({
@@ -31,29 +29,13 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
   calendarProps,
   barProps,
   ganttHeight,
-  scrollY,
-  scrollX,
   BarContentRender,
 }) => {
   const ganttSVGRef = useRef<SVGSVGElement>(null);
-  const horizontalContainerRef = useRef<HTMLDivElement>(null);
-  const verticalGanttContainerRef = useRef<HTMLDivElement>(null);
   const newBarProps = { ...barProps, svg: ganttSVGRef };
 
-  useEffect(() => {
-    if (horizontalContainerRef.current) {
-      horizontalContainerRef.current.scrollTop = scrollY;
-    }
-  }, [scrollY]);
-
-  useEffect(() => {
-    if (verticalGanttContainerRef.current) {
-      verticalGanttContainerRef.current.scrollLeft = scrollX;
-    }
-  }, [scrollX]);
-
   return (
-    <div className={'erda-gantt-vertical-container'} ref={verticalGanttContainerRef} dir="ltr">
+    <div className={'erda-gantt-vertical-container'} dir="ltr">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={gridProps.svgWidth}
@@ -63,7 +45,6 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
         <Calendar {...calendarProps} />
       </svg>
       <div
-        ref={horizontalContainerRef}
         className={'erda-gantt-horizontal-container'}
         style={ganttHeight ? { height: ganttHeight, width: gridProps.svgWidth } : { width: gridProps.svgWidth }}
       >

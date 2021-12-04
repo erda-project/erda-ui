@@ -33,7 +33,7 @@ export const Bar: React.FC<TaskItemProps> = ({
   const taskWidth = task.x2 - task.x1;
   return (
     <g className={'erda-gantt-bar-wrapper'} tabIndex={0}>
-      <BarDisplay
+      {/* <BarDisplay
         x={task.x1}
         y={task.y}
         width={taskWidth}
@@ -46,67 +46,52 @@ export const Bar: React.FC<TaskItemProps> = ({
         onMouseDown={(e) => {
           isDateChangeable && onEventStart('move', task, e);
         }}
-      />
-      <g className="handleGroup">
-        {isDateChangeable && (
-          <g>
-            {/* left */}
-            <foreignObject
-              className="erda-gantt-bar-icon-wrapper"
-              x={task.x1 - 14}
-              onMouseDown={(e) => {
-                isDateChangeable && onEventStart('move', task, e);
-              }}
-              y={task.y}
-              width={taskWidth / 2 + 14}
-              height={handleHeight}
-            >
-              <ErdaIcon className="erda-gantt-bar-handle-icon" type={'left'} />
-            </foreignObject>
-            <foreignObject
-              className="erda-gantt-bar-icon-wrapper right"
-              x={task.x2 - taskWidth / 2}
-              y={task.y}
-              width={taskWidth / 2 + 14}
-              onMouseDown={(e) => {
-                isDateChangeable && onEventStart('move', task, e);
-              }}
-              height={handleHeight}
-            >
-              <ErdaIcon className="erda-gantt-bar-handle-icon" type={'right'} />
-            </foreignObject>
-            <BarDateHandle
-              x={task.x1 - task.handleWidth}
-              y={task.y + 1}
-              width={task.handleWidth}
-              height={handleHeight}
-              barCornerRadius={task.barCornerRadius}
+      /> */}
+      {isDateChangeable && (
+        <foreignObject
+          transform={`translate(${task.x1 - 14},${task.y})`}
+          style={{ willChange: 'transform' }}
+          // x={task.x1 - 14}
+          onMouseDown={(e) => {
+            isDateChangeable && onEventStart('move', task, e);
+          }}
+          // y={task.y}
+          width={taskWidth / 2 + 14}
+          height={handleHeight}
+        >
+          <div
+            className="erda-gantt-bar-background"
+            onMouseDown={(e) => {
+              isDateChangeable && onEventStart('move', task, e);
+            }}
+          >
+            <span
+              className="erda-gantt-bar-handle left-handle"
               onMouseDown={(e) => {
                 onEventStart('start', task, e);
               }}
-            />
-            {/* right */}
-            <BarDateHandle
-              x={task.x2 - task.handleWidth}
-              y={task.y + 1}
-              width={task.handleWidth}
-              height={handleHeight}
-              barCornerRadius={task.barCornerRadius}
+            >
+              <ErdaIcon className="erda-gantt-bar-handle-icon" type={'left'} />
+            </span>
+            <span
+              className="erda-gantt-bar-handle right-handle"
               onMouseDown={(e) => {
                 onEventStart('end', task, e);
               }}
-            />
-          </g>
-        )}
-        {isProgressChangeable && (
-          <BarProgressHandle
-            progressPoint={progressPoint}
-            onMouseDown={(e) => {
-              onEventStart('progress', task, e);
-            }}
-          />
-        )}
-      </g>
+            >
+              <ErdaIcon className="erda-gantt-bar-handle-icon" type={'right'} />
+            </span>
+          </div>
+        </foreignObject>
+      )}
+      {isProgressChangeable && (
+        <BarProgressHandle
+          progressPoint={progressPoint}
+          onMouseDown={(e) => {
+            onEventStart('progress', task, e);
+          }}
+        />
+      )}
     </g>
   );
 };
