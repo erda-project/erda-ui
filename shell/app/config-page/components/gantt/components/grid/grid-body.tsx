@@ -134,7 +134,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
       return {
         // x: changedTask.x1,
         // y: 0,
-        transform: `translateX(${changedTask.x1})`,
+        transform: `translate(${changedTask.x1},0)`,
         width: changedTask.x2 - changedTask.x1,
         height: max([ganttHeight, realHeight]),
       };
@@ -142,7 +142,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
       return {
         // x: min([startPos[0], endPos[0]]),
         // y: 0,
-        transform: `translateX(${min([startPos[0], endPos[0]])})`,
+        transform: `translate(${min([startPos[0], endPos[0]])},0)`,
         width: Math.abs(endPos[0] - startPos[0]),
         height: max([ganttHeight, realHeight]),
       };
