@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { SyntheticEvent, useRef, useEffect } from 'react';
+import React, { SyntheticEvent, useEffect } from 'react';
 import './horizontal-scroll.scss';
 
 interface IProps {
@@ -22,26 +22,27 @@ interface IProps {
   onScroll: (event: SyntheticEvent<HTMLDivElement>) => void;
 }
 export const HorizontalScroll = React.forwardRef(
-  ({ scroll, svgWidth, taskListWidth, rtl, onScroll }: IProps, scrollRef) => {
-    // const scrollRef = useRef<HTMLDivElement>(null);
-
+  ({ scroll, svgWidth, taskListWidth, rtl, onScroll }: IProps, scrollRef: any) => {
     useEffect(() => {
       if (scrollRef.current) {
+        // set scrollLeft to show the scroll bar
+        // eslint-disable-next-line no-param-reassign
         scrollRef.current.scrollLeft = scroll;
       }
-    }, [scroll]);
+    }, [scroll, scrollRef]);
 
     return (
       <div
         dir="ltr"
         style={{
+          width: `calc(100% - ${taskListWidth}px)`,
           margin: rtl ? `0px ${taskListWidth}px 0px 0px` : `0px 0px 0px ${taskListWidth}px`,
         }}
         className={'erda-gantt-horizontal-scroll'}
         onScroll={onScroll}
         ref={scrollRef}
       >
-        <div style={{ width: svgWidth, height: 1 }} />
+        <div style={{ width: svgWidth, height: 17 }} />
       </div>
     );
   },

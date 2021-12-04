@@ -82,8 +82,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
 
   const [taskHeight, setTaskHeight] = useState((rowHeight * barFill) / 100);
   const [taskListWidth, setTaskListWidth] = useState(0);
-  const [svgContainerWidth, setSvgContainerWidth] = useState(0);
-  const [svgContainerHeight, setSvgContainerHeight] = useState(ganttHeight);
+  // const [svgContainerWidth, setSvgContainerWidth] = useState(0);
+  // const [svgContainerHeight, setSvgContainerHeight] = useState(ganttHeight);
   const [rangeAddTime, setRangeAddTime] = useState<null | { x1: number; x2: number }>(null);
   const [barTasks, setBarTasks] = useState<BarTask[]>([]);
   const [ganttEvent, setGanttEvent] = useState<GanttEvent>({
@@ -95,6 +95,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
 
   const svgWidth = dateSetup.dates.length * columnWidth;
   const ganttFullHeight = barTasks.length * rowHeight;
+  // console.log('svgWidth:', svgWidth, ganttFullHeight);
 
   const [scrollY, setScrollY] = useState(0);
   const [scrollX, setScrollX] = useState(-1);
@@ -217,19 +218,19 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     }
   }, [taskListRef, listCellWidth]);
 
-  useEffect(() => {
-    if (wrapperRef.current) {
-      setSvgContainerWidth(wrapperRef.current.offsetWidth - taskListWidth);
-    }
-  }, [wrapperRef, taskListWidth]);
+  // useEffect(() => {
+  //   if (wrapperRef.current) {
+  //     setSvgContainerWidth(wrapperRef.current.offsetWidth - taskListWidth);
+  //   }
+  // }, [wrapperRef, taskListWidth]);
 
-  useEffect(() => {
-    if (ganttHeight) {
-      setSvgContainerHeight(ganttHeight + headerHeight);
-    } else {
-      setSvgContainerHeight(tasks.length * rowHeight + headerHeight);
-    }
-  }, [ganttHeight, headerHeight, rowHeight, tasks]);
+  // useEffect(() => {
+  //   if (ganttHeight) {
+  //     setSvgContainerHeight(ganttHeight + headerHeight);
+  //   } else {
+  //     setSvgContainerHeight(tasks.length * rowHeight + headerHeight);
+  //   }
+  // }, [ganttHeight, headerHeight, rowHeight, tasks]);
 
   const wheelValueRef = useRef<number[]>();
   // scroll events
@@ -479,7 +480,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   };
 
   return (
-    <div>
+    <>
       <div className={'erda-gantt-wrapper'} onKeyDown={handleKeyDown} tabIndex={0} ref={wrapperRef}>
         {listCellWidth && <TaskList {...tableProps} />}
         <TaskGantt
@@ -526,6 +527,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         ref={horizontalRef}
         onScroll={handleScrollX}
       />
-    </div>
+    </>
   );
 };
