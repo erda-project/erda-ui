@@ -50,7 +50,7 @@ const TextBlockInfo = (props: TextBlockInfoProps) => {
       className={`erda-text-block-info ${size} flex flex-col ${className} ${alignClsMap.container[align]}`}
       style={style}
     >
-      <div className={'main-text  truncate'}>{main}</div>
+      <div className={'main-text truncate'}>{main}</div>
       {sub ? <div className={'sub-text'}>{sub}</div> : null}
       {desc ? (
         <div className={`desc-text flex items-center w-full ${alignClsMap.desc[align]}`}>

@@ -45,7 +45,7 @@ export const Project: React.FC<TaskItemProps> = ({ task, isSelected }) => {
       <rect
         // x={task.progressX}
         width={task.progressWidth}
-        transform={`translateX(${task.progressX})`}
+        transform={`translate(${task.progressX},${task.y})`}
         // y={task.y}
         height={task.height}
         ry={task.barCornerRadius}
