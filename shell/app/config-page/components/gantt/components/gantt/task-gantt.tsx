@@ -24,42 +24,24 @@ export interface TaskGanttProps {
   ganttHeight: number;
   BarContentRender: React.ReactNode;
 }
-export const TaskGantt: React.FC<TaskGanttProps> = ({
-  gridProps,
-  calendarProps,
-  barProps,
-  ganttHeight,
-  BarContentRender,
-}) => {
+export const TaskGantt: React.FC<TaskGanttProps> = ({ gridProps, calendarProps, barProps, BarContentRender }) => {
   const ganttSVGRef = useRef<SVGSVGElement>(null);
   const newBarProps = { ...barProps, svg: ganttSVGRef };
 
   return (
     <div className={'erda-gantt-vertical-container'} dir="ltr">
+      <Calendar {...calendarProps} />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={gridProps.svgWidth}
-        height={calendarProps.headerHeight}
+        height={barProps.rowHeight * barProps.tasks.length}
         fontFamily={barProps.fontFamily}
+        style={{ overflow: 'visible' }}
+        ref={ganttSVGRef}
       >
-        <Calendar {...calendarProps} />
+        <Grid {...gridProps} />
+        <TaskGanttContent {...newBarProps} BarContentRender={BarContentRender} />
       </svg>
-      <div
-        className={'erda-gantt-horizontal-container'}
-        style={ganttHeight ? { height: ganttHeight, width: gridProps.svgWidth } : { width: gridProps.svgWidth }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width={gridProps.svgWidth}
-          height={barProps.rowHeight * barProps.tasks.length}
-          fontFamily={barProps.fontFamily}
-          style={{ overflow: 'visible' }}
-          ref={ganttSVGRef}
-        >
-          <Grid {...gridProps} />
-          <TaskGanttContent {...newBarProps} BarContentRender={BarContentRender} />
-        </svg>
-      </div>
     </div>
   );
 };

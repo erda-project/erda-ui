@@ -26,7 +26,6 @@ export type TaskListProps = {
   locale: string;
   tasks: Task[];
   taskListRef: React.RefObject<HTMLDivElement>;
-  horizontalContainerClass?: string;
   selectedTask: BarTask | undefined;
   setSelectedTask: (task: string) => void;
   onExpanderClick: (task: Task) => void;
@@ -63,7 +62,6 @@ export const TaskList: React.FC<TaskListProps> = ({
   locale,
   ganttHeight,
   taskListRef,
-  horizontalContainerClass,
   TaskListHeader,
   TaskListTable,
 }) => {
@@ -90,9 +88,7 @@ export const TaskList: React.FC<TaskListProps> = ({
   return (
     <div ref={taskListRef} className="erda-gantt-task-list-box">
       <TaskListHeader {...headerProps} />
-      <div className={horizontalContainerClass} style={ganttHeight ? { height: ganttHeight } : {}}>
-        <TaskListTable {...tableProps} />
-      </div>
+      <TaskListTable {...tableProps} />
     </div>
   );
 };
