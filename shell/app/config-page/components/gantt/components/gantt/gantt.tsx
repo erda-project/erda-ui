@@ -237,6 +237,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     const handleWheel = (event: WheelEvent) => {
       event.preventDefault();
       ignoreScrollEventRef.current = true;
+      // do not use async event data, so use ref to get the last data
       wheelValueRef.current = [event.deltaX, event.deltaY];
       window.requestAnimationFrame(() => {
         // console.log('wheel', wheelValueRef.current)
