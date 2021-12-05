@@ -12,16 +12,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { SyntheticEvent, useRef, useEffect } from 'react';
-import './vertical-scroll.scss';
+import './scroll.scss';
 
 export const VerticalScroll: React.FC<{
   scroll: number;
-  ganttHeight: number;
-  ganttFullHeight: number;
-  headerHeight: number;
+  height: number;
+  scrollHeight: number;
+  topOffset: number;
   rtl: boolean;
   onScroll: (event: SyntheticEvent<HTMLDivElement>) => void;
-}> = ({ scroll, ganttHeight, ganttFullHeight, headerHeight, rtl, onScroll }) => {
+}> = ({ scroll, height, scrollHeight, topOffset, rtl, onScroll }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,15 +33,47 @@ export const VerticalScroll: React.FC<{
   return (
     <div
       style={{
-        height: ganttHeight,
-        marginTop: headerHeight,
+        height,
+        marginTop: topOffset,
         marginLeft: rtl ? '' : '-17px',
       }}
       className={'erda-gantt-vertical-scroll'}
       onScroll={onScroll}
       ref={scrollRef}
     >
-      <div style={{ height: ganttFullHeight, width: 1 }} />
+      <div style={{ height: scrollHeight, width: 1 }} />
     </div>
   );
 };
+
+interface IProps {
+  scroll: number;
+  width: number;
+  offset: number;
+  rtl: boolean;
+  onScroll: (event: SyntheticEvent<HTMLDivElement>) => void;
+}
+export const HorizontalScroll = React.forwardRef(({ scroll, width, offset, rtl, onScroll }: IProps, scrollRef: any) => {
+  useEffect(() => {
+    if (scrollRef.current) {
+      // set scrollLeft to show the scroll bar
+      // eslint-disable-next-line no-param-reassign
+      scrollRef.current.scrollLeft = scroll;
+    }
+  }, [scroll, scrollRef]);
+
+  return (
+    <div
+      dir="ltr"
+      style={{
+        width: `calc(100% - ${offset}px)`,
+        margin: rtl ? `0px ${offset}px 0px 0px` : `0px 0px 0px ${offset}px`,
+      }}
+      className={'erda-gantt-horizontal-scroll'}
+      onScroll={onScroll}
+      ref={scrollRef}
+    >
+      <div style={{ width, height: 17 }} />
+    </div>
+  );
+});

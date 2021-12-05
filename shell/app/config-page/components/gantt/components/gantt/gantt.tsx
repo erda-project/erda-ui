@@ -20,14 +20,13 @@ import { TaskGanttContentProps } from './task-gantt-content';
 import { TaskListHeaderDefault } from '../task-list/task-list-header';
 import { TaskListTableDefault } from '../task-list/task-list-table';
 // import { StandardTooltipContent, Tooltip } from '../other/tooltip';
-import { VerticalScroll } from '../other/vertical-scroll';
+import { VerticalScroll, HorizontalScroll } from '../other/scroll';
 import { TaskListProps, TaskList } from '../task-list/task-list';
 import { TaskGantt } from './task-gantt';
 import { BarTask } from '../../types/bar-task';
 import { convertToBarTasks } from '../../helpers/bar-helper';
 import { GanttEvent } from '../../types/gantt-task-actions';
 import { DateSetup } from '../../types/date-setup';
-import { HorizontalScroll } from '../other/horizontal-scroll';
 import { removeHiddenTasks } from '../../helpers/other-helper';
 import './gantt.scss';
 
@@ -253,7 +252,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
           }
           if (newScrollX !== scrollX) {
             setScrollX(newScrollX);
-            console.log('newScrollX', newScrollX);
+            // console.log('newScrollX', newScrollX);
           }
         }
         if (Math.abs(wheelValueRef.current[1]) > 2) {
@@ -510,17 +509,17 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
           />
         )} */}
         <VerticalScroll
-          ganttFullHeight={ganttFullHeight}
-          ganttHeight={ganttHeight}
-          headerHeight={headerHeight}
+          scrollHeight={ganttFullHeight}
+          height={ganttHeight}
+          topOffset={headerHeight}
           scroll={scrollY}
           onScroll={handleScrollY}
           rtl={rtl}
         />
       </div>
       <HorizontalScroll
-        svgWidth={svgWidth}
-        taskListWidth={taskListWidth}
+        width={svgWidth}
+        offset={taskListWidth}
         scroll={scrollX}
         rtl={rtl}
         ref={horizontalRef}
