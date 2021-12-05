@@ -94,7 +94,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
 
   const svgWidth = dateSetup.dates.length * columnWidth;
   const ganttFullHeight = barTasks.length * rowHeight;
-  // console.log('svgWidth:', svgWidth, ganttFullHeight);
 
   const [scrollY, setScrollY] = useState(0);
   const [scrollX, setScrollX] = useState(-1);
