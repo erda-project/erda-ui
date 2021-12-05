@@ -374,11 +374,11 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     }
   };
 
-  const newTaskList = tasks.slice(...verticalRange);
-  // const [startDate, endDate] = ganttDateRange(newTaskList, viewMode);
+  const visibleTaskList = tasks.slice(...verticalRange);
+  // const [startDate, endDate] = ganttDateRange(visibleTaskList, viewMode);
   // const newDates = seedDates(startDate, endDate, viewMode)
   const newTasks = convertToBarTasks(
-    newTaskList,
+    visibleTaskList,
     dateSetup.dates,
     columnWidth,
     rowHeight,
@@ -398,6 +398,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     milestoneBackgroundSelectedColor,
     -h_start,
   );
+  // position data will update after convert
+  const newSelectedTask = newTasks.find((item) => item.id === selectedTask?.id);
 
   const gridProps: GridProps = {
     columnWidth,
@@ -409,7 +411,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     todayColor,
     ganttHeight,
     rtl,
-    selectedTask,
+    selectedTask: newSelectedTask,
     setRangeAddTime,
     setSelectedTask: handleSelectedTask,
     onDateChange,
@@ -425,19 +427,16 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     headerHeight,
     columnWidth,
     fontFamily,
-    rangeAddTime,
     fontSize,
     rtl,
-    ganttEvent,
-    tasks: newTasks,
-    selectedTask,
     horizontalRange,
+    highlightRange: rangeAddTime || ganttEvent.changedTask || newSelectedTask,
   };
   const barProps: TaskGanttContentProps = {
     tasks: newTasks,
     dates: dateSetup.dates,
     ganttEvent,
-    selectedTask,
+    selectedTask: newSelectedTask,
     rowHeight,
     taskHeight,
     columnWidth,
@@ -467,7 +466,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     headerHeight,
     ganttHeight,
     horizontalContainerClass: 'erda-gantt-horizontal-container',
-    selectedTask,
+    selectedTask: newSelectedTask,
     taskListRef,
     setSelectedTask: handleSelectedTask,
     onExpanderClick: handleExpanderClick,

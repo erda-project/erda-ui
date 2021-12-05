@@ -34,7 +34,12 @@ export interface CalendarProps {
   columnWidth: number;
   fontFamily: string;
   fontSize: string;
-  ganttEvent: Obj;
+  horizontalRange: number[];
+  highlightRange?: {
+    x1: number;
+    x2: number;
+    [x: string]: any;
+  };
 }
 
 const Days = [i18n.t('Sun'), i18n.t('Mon'), i18n.t('Tue'), i18n.t('Wed'), i18n.t('Thu'), i18n.t('Fri'), i18n.t('Sat')];
@@ -61,12 +66,9 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
     headerHeight,
     columnWidth,
     horizontalRange,
-    tasks,
     fontFamily,
     fontSize,
-    ganttEvent,
-    selectedTask,
-    rangeAddTime,
+    highlightRange,
   }) => {
     const getCalendarValuesForMonth = () => {
       const topValues: ReactChild[] = [];
@@ -158,17 +160,13 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
       return [topValues, bottomValues];
     };
 
-    const curSelected = selectedTask && tasks?.find((item) => item.id === selectedTask.id);
-    const curTask = ganttEvent?.changedTask || curSelected;
-    const hoverPos = rangeAddTime || curTask;
-
-    const HoverBar = hoverPos ? (
+    const HoverBar = highlightRange ? (
       <div
         className="absolute rounded bg-hover-gray-bg"
         style={{
-          width: Math.abs(hoverPos.x2 - hoverPos.x1),
+          width: Math.abs(highlightRange.x2 - highlightRange.x1),
           height: 40,
-          left: min([hoverPos.x1, hoverPos.x2]),
+          left: min([highlightRange.x1, highlightRange.x2]),
           top: 24,
         }}
       />
@@ -204,11 +202,11 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
                 </div>
                 {week.map((day, dIdx) => {
                   const mark =
-                    curSelected?.x1 === columnWidth * dIdx + leftDis - weekWidth ||
-                    curSelected?.x2 === columnWidth * (dIdx + 1) + leftDis - weekWidth;
+                    highlightRange?.x1 === columnWidth * dIdx + leftDis - weekWidth ||
+                    highlightRange?.x2 === columnWidth * (dIdx + 1) + leftDis - weekWidth;
                   const cls = `${
                     mark
-                      ? 'calendar-mark-text'
+                      ? 'calendar-highlight-text'
                       : `${[0, 6].includes(day.getDay()) ? 'calendar-disabled-text' : 'calendar-normal-text'}`
                   }`;
 
