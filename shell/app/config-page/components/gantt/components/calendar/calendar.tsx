@@ -199,7 +199,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
                 style={{ width: weekWidth, height: 60, top: 0, transform: `translateX(${leftDis - weekWidth}px)` }}
                 className="text-center absolute text-xs"
               >
-                <div className="text-black-300" style={{ width: weekWidth, height: 20 }}>
+                <div className="text-black-300" style={{ height: 20 }}>
                   {Months[week[0].getMonth()]}
                 </div>
                 {week.map((day, dIdx) => {
