@@ -12,23 +12,23 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { isEmpty, map, unset, sortBy, indexOf } from 'lodash';
+import { indexOf, isEmpty, map, sortBy, unset } from 'lodash';
 import { useDrop } from 'react-dnd';
-import { Button, Spin, Popconfirm, Pagination, Tooltip } from 'antd';
-import { Icon as CustomIcon, ContractiveFilter, ErdaIcon } from 'common';
+import { Button, Pagination, Popconfirm, Spin, Tooltip } from 'antd';
+import { ContractiveFilter, ErdaIcon, Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
-import { WithAuth, usePerm } from 'user/common';
+import { usePerm, WithAuth } from 'user/common';
 import iterationStore from 'project/stores/iteration';
 import labelStore from 'project/stores/label';
 import { useEffectOnce } from 'react-use';
 import issueStore from 'project/stores/issues';
-import { IssueItem, IssueForm, BACKLOG_ISSUE_TYPE } from './issue-item';
+import { BACKLOG_ISSUE_TYPE, IssueForm, IssueItem } from './issue-item';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
-import { mergeSearch, qs, updateSearch, setApiWithOrg } from 'common/utils';
+import { mergeSearch, qs, setApiWithOrg, updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
-import { ISSUE_PRIORITY_MAP, ISSUE_OPTION, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
-import { ISSUE_ICON_MAP } from 'project/common/components/issue/issue-icon';
+import { ISSUE_OPTION, ISSUE_PRIORITY_MAP, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
+import { ISSUE_TYPE_ICON_MAP } from 'project/common/components/issue/issue-icon';
 import backlog_db_svg from 'app/images/backlog-db.svg';
 import i18n from 'i18n';
 import issueWorkflowStore from 'project/stores/issue-workflow';
@@ -89,7 +89,7 @@ const Backlog = () => {
       updater.filterState((prev: Obj) => ({ state: initState, ...prev }));
       const options = sortBy(
         map(collection, (stateArray, issueType) => {
-          const label = ISSUE_ICON_MAP[issueType];
+          const label = ISSUE_TYPE_ICON_MAP[issueType];
           return {
             label: (
               <span>
