@@ -374,15 +374,15 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
 
   const showLength = verticalRange[1] - verticalRange[0];
   let showRange = verticalRange;
-  if (showLength > tasks.length) {
+  if (showLength > barTasks.length) {
     // show all tasks
-    showRange = [0, tasks.length];
-  } else if (verticalRange[1] > tasks.length) {
+    showRange = [0, barTasks.length];
+  } else if (verticalRange[1] > barTasks.length) {
     // there is also space left, move forward
-    const offset = verticalRange[1] - tasks.length;
+    const offset = verticalRange[1] - barTasks.length;
     showRange = [Math.max(0, verticalRange[0] - offset), verticalRange[1] - offset];
   }
-  const visibleTaskList = tasks.slice(...showRange);
+  const visibleTaskList = barTasks.slice(...showRange);
   const newTasks = convertToBarTasks(
     visibleTaskList,
     dateSetup.dates,

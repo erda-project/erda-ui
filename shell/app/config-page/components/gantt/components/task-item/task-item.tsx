@@ -121,7 +121,7 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
             >
               <div
                 className={`text-sm text-desc erda-gantt-task-preview-box bg-white bg-opacity-100 w-full h-full ${
-                  changedTask ? 'visible' : 'invisible'
+                  changedTask && task.id === changedTask.id ? 'visible' : 'invisible'
                 }`}
               >
                 {moment(curPos.start).format('YYYY-MM-DD')}~{moment(curPos.end).format('YYYY-MM-DD')}
