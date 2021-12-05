@@ -15,6 +15,7 @@ import React, { ReactChild } from 'react';
 import { ViewMode } from '../../types/public-types';
 import { TopPartOfCalendar } from './top-part-of-calendar';
 import {
+  addToDate,
   getCachedDateTimeFormat,
   getDaysInMonth,
   getLocaleMonth,
@@ -178,56 +179,65 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
       const dates = dateSetup.dates.slice(...horizontalRange);
       const dateInWeeks = [];
 
-      for (let i = 0; i < dates.length; i++) {
-        const day = dates[i].getDay();
-        if (i === 0) {
-          dateInWeeks.push(dates.slice(0, 7 - day + 1));
-        } else if (day === 1) {
-          dateInWeeks.push(dates.slice(i, i + 7));
-        }
+      const firstDay = dates[0];
+      const firstDayInWeek = firstDay.getDay();
+      // use Monday as first day of week
+      const firstWeek = dates.splice(0, firstDayInWeek === 0 ? 7 : 7 - firstDayInWeek + 1);
+      while (firstWeek.length < 7) {
+        const firstDayInFirstWeek = firstWeek[0];
+        firstWeek.unshift(addToDate(firstDayInFirstWeek, -1, 'day'));
+      }
+      dateInWeeks.push(firstWeek);
+      while (dates.length) {
+        dateInWeeks.push(dates.splice(0, 7));
+      }
+      const lastWeek = dateInWeeks[dateInWeeks.length - 1];
+      while (lastWeek.length < 7) {
+        const lastDayInLastWeek = lastWeek[lastWeek.length - 1];
+        lastWeek.push(addToDate(lastDayInLastWeek, 1, 'day'));
       }
       let leftDis = 0;
       bottomValues = (
-        <div className="relative h-full w-full erda-gantt-calendar-header-container">
+        <div
+          className="flex h-full w-full erda-gantt-calendar-header-container"
+          style={{ transform: `translateX(${-(firstDayInWeek + 1) * columnWidth}px)` }}
+        >
           {HoverBar}
           {dateInWeeks.map((week, idx) => {
             const weekWidth = columnWidth * week.length;
             leftDis += weekWidth;
             return (
-              <div
-                key={`${idx}`}
-                style={{ width: weekWidth, height: 60, top: 0, transform: `translateX(${leftDis - weekWidth}px)` }}
-                className="text-center absolute text-xs"
-              >
-                <div className="text-black-300" style={{ height: 20 }}>
+              <div key={`${idx}`} style={{ width: 280, height: 60, top: 0 }} className="text-center text-xs">
+                <div className="text-black-300" style={{ height: 20, lineHeight: '20px' }}>
                   {Months[week[0].getMonth()]}
                 </div>
-                {week.map((day, dIdx) => {
-                  const mark =
-                    highlightRange?.x1 === columnWidth * dIdx + leftDis - weekWidth ||
-                    highlightRange?.x2 === columnWidth * (dIdx + 1) + leftDis - weekWidth;
-                  const cls = `${
-                    mark
-                      ? 'calendar-highlight-text'
-                      : `${[0, 6].includes(day.getDay()) ? 'calendar-disabled-text' : 'calendar-normal-text'}`
-                  }`;
+                <div className="flex">
+                  {week.map((day, dIdx) => {
+                    const mark =
+                      highlightRange?.x1 === columnWidth * dIdx + leftDis - weekWidth ||
+                      highlightRange?.x2 === columnWidth * (dIdx + 1) + leftDis - weekWidth;
+                    const cls = `${
+                      mark
+                        ? 'calendar-highlight-text'
+                        : `${[0, 6].includes(day.getDay()) ? 'calendar-disabled-text' : 'calendar-normal-text'}`
+                    }`;
 
-                  return (
-                    <div
-                      key={day.getTime()}
-                      style={{
-                        width: columnWidth,
-                        height: 40,
-                        top: 24,
-                        transform: `translateX(${columnWidth * dIdx}px)`,
-                      }}
-                      className={`absolute flex flex-col items-center justify-center  ${cls}`}
-                    >
-                      <span>{Days[day.getDay()]}</span>
-                      <span>{day.getDate()}</span>
-                    </div>
-                  );
-                })}
+                    return (
+                      <div
+                        key={day.getTime()}
+                        style={{
+                          width: columnWidth,
+                          height: 40,
+                          top: 24,
+                        }}
+                        className={`flex flex-col items-center justify-center ${cls}`}
+                      >
+                        <span>{Days[day.getDay()]}</span>
+                        <span>{day.getDate()}</span>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             );
           })}

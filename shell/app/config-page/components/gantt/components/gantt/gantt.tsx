@@ -99,7 +99,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const [scrollX, setScrollX] = useState(-1);
 
   const h_start = Math.abs(Math.ceil(scrollX / columnWidth));
-  const h_number = Math.floor((horizontalRef.current?.clientWidth || 0) / columnWidth) + 7;
+  const h_number = Math.floor((horizontalRef.current?.clientWidth || 0) / columnWidth) + 2;
   const horizontalRange = [h_start, h_start + h_number];
   // console.log('横', horizontalRef.current?.clientWidth, scrollX, horizontalRange, h_number)
 
