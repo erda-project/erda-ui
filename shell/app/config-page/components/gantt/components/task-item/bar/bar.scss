@@ -8,6 +8,13 @@
     visibility: hidden;
   }
 
+  .left-handle {
+    cursor: w-resize;
+  }
+  .right-handle {
+    cursor: e-resize;
+  }
+
   &:hover {
     .erda-gantt-bar-handle {
       visibility: visible;

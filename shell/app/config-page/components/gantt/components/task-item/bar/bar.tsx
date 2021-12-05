@@ -79,8 +79,9 @@ export const Bar: React.FC<TaskItemProps> = ({
               }}
             >
               <span
-                className="erda-gantt-bar-handle"
+                className="erda-gantt-bar-handle left-handle"
                 onMouseDown={(e) => {
+                  e.stopPropagation();
                   onEventStart('start', task, e);
                 }}
               >
@@ -97,8 +98,9 @@ export const Bar: React.FC<TaskItemProps> = ({
               }}
             >
               <span
-                className="erda-gantt-bar-handle"
+                className="erda-gantt-bar-handle right-handle"
                 onMouseDown={(e) => {
+                  e.stopPropagation();
                   onEventStart('end', task, e);
                 }}
               >
