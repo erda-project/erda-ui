@@ -466,7 +466,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     locale,
     headerHeight,
     ganttHeight,
-    horizontalContainerClass: 'erda-gantt-horizontal-container',
     selectedTask: newSelectedTask,
     taskListRef,
     setSelectedTask: handleSelectedTask,
