@@ -36,14 +36,7 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
 
   return (
     <div className={'erda-gantt-vertical-container'} dir="ltr">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={gridProps.svgWidth}
-        height={calendarProps.headerHeight}
-        fontFamily={barProps.fontFamily}
-      >
-        <Calendar {...calendarProps} />
-      </svg>
+      <Calendar {...calendarProps} />
       <div
         className={'erda-gantt-horizontal-container'}
         style={ganttHeight ? { height: ganttHeight, width: gridProps.svgWidth } : { width: gridProps.svgWidth }}

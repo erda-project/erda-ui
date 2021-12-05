@@ -30,7 +30,8 @@ export interface CalendarProps {
   locale: string;
   viewMode: ViewMode;
   rtl: boolean;
-  headerHeight: number;
+  width: number;
+  height: number;
   columnWidth: number;
   fontFamily: string;
   fontSize: string;
@@ -63,7 +64,8 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
     locale,
     viewMode,
     rtl,
-    headerHeight,
+    width,
+    height,
     columnWidth,
     horizontalRange,
     fontFamily,
@@ -73,14 +75,14 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
     const getCalendarValuesForMonth = () => {
       const topValues: ReactChild[] = [];
       const bottomValues: ReactChild[] = [];
-      const topDefaultHeight = headerHeight * 0.5;
+      const topDefaultHeight = height * 0.5;
       for (let i = 0; i < dateSetup.dates.length; i++) {
         const date = dateSetup.dates[i];
         const bottomValue = getLocaleMonth(date, locale);
         bottomValues.push(
           <text
             key={bottomValue + date.getFullYear()}
-            y={headerHeight * 0.8}
+            y={height * 0.8}
             x={columnWidth * i + columnWidth * 0.5}
             className={'erda-gantt-calendar-bottom-text'}
           >
@@ -115,7 +117,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
       const topValues: ReactChild[] = [];
       const bottomValues: ReactChild[] = [];
       let weeksCount: number = 1;
-      const topDefaultHeight = headerHeight * 0.5;
+      const topDefaultHeight = height * 0.5;
       const dates = dateSetup.dates;
       for (let i = dates.length - 1; i >= 0; i--) {
         const date = dates[i];
@@ -130,7 +132,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
         bottomValues.push(
           <text
             key={date.getTime()}
-            y={headerHeight * 0.8}
+            y={height * 0.8}
             x={columnWidth * (i + +rtl)}
             className={'erda-gantt-calendar-bottom-text'}
           >
@@ -238,7 +240,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
       const topValues: ReactChild[] = [];
       const bottomValues: ReactChild[] = [];
       const ticks = viewMode === ViewMode.HalfDay ? 2 : 4;
-      const topDefaultHeight = headerHeight * 0.5;
+      const topDefaultHeight = height * 0.5;
       const dates = dateSetup.dates;
       for (let i = 0; i < dates.length; i++) {
         const date = dates[i];
@@ -249,7 +251,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
         bottomValues.push(
           <text
             key={date.getTime()}
-            y={headerHeight * 0.8}
+            y={height * 0.8}
             x={columnWidth * (i + +rtl)}
             className={'erda-gantt-calendar-bottom-text'}
             fontFamily={fontFamily}
@@ -293,25 +295,27 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
     //     break;
     // }
     return (
-      <g className="erda-gantt-calendar" fontSize={fontSize} fontFamily={fontFamily}>
-        <rect
-          x={0}
-          y={0}
-          width={columnWidth * dateSetup.dates.length}
-          height={headerHeight}
-          className={'erda-gantt-calendar-header'}
-        />
-        <foreignObject
-          x={0}
-          y={0}
-          width={columnWidth * dateSetup.dates.length}
-          height={headerHeight}
-          className={'erda-gantt-calendar-header'}
-        >
-          {getCalendarValuesForDay()}
-        </foreignObject>
-        {/* {topValues} */}
-      </g>
+      <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} fontFamily={fontFamily}>
+        <g className="erda-gantt-calendar" fontSize={fontSize}>
+          <rect
+            x={0}
+            y={0}
+            width={columnWidth * dateSetup.dates.length}
+            height={height}
+            className={'erda-gantt-calendar-header'}
+          />
+          <foreignObject
+            x={0}
+            y={0}
+            width={columnWidth * dateSetup.dates.length}
+            height={height}
+            className={'erda-gantt-calendar-header'}
+          >
+            {getCalendarValuesForDay()}
+          </foreignObject>
+          {/* {topValues} */}
+        </g>
+      </svg>
     );
   },
 );
