@@ -243,8 +243,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         if (Math.abs(wheelValueRef.current[0]) > 2) {
           // const scrollMove = wheelValueRef.current[0] ? wheelValueRef.current[0] : event.deltaY;
           let newScrollX = scrollX + wheelValueRef.current[0];
-          const boxWidth = 320;
-          const scrollDis = svgWidth > boxWidth ? svgWidth - boxWidth : svgWidth;
+          const scrollDis = svgWidth - horizontalRef.current.clientWidth;
           if (newScrollX < 0) {
             newScrollX = 0;
           } else if (newScrollX > scrollDis) {
