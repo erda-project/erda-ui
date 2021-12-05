@@ -102,6 +102,7 @@
     "filetree",
     "fuwuguancesvg",
     "fwsl",
+    "gantt",
     "gaojingguanli",
     "getrule",
     "gittar",
@@ -298,10 +299,6 @@
     "zkproxy",
     "zujian"
   ],
-  "flagWords": [
-    "hte"
-  ],
-  "ignorePaths": [
-    "node_modules"
-  ]
+  "flagWords": ["hte"],
+  "ignorePaths": ["node_modules"]
 }
