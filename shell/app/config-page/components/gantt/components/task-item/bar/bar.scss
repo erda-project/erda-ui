@@ -1,37 +1,16 @@
 .erda-gantt-bar-wrapper {
   cursor: pointer;
   outline: none;
+}
+
+.erda-gantt-bar-handle-box {
+  .erda-gantt-bar-handle {
+    visibility: hidden;
+  }
+
   &:hover {
     .erda-gantt-bar-handle {
       visibility: visible;
-      opacity: 1;
     }
   }
-}
-
-.erda-gantt-bar-icon-wrapper {
-  &.right {
-    text-align: right;
-  }
-
-  &:hover {
-    .erda-gantt-bar-handle-icon {
-      visibility: visible;
-    }
-  }
-}
-.erda-gantt-bar-handle-icon {
-  visibility: hidden;
-}
-
-.erda-gantt-bar-handle {
-  fill: transparent;
-  cursor: ew-resize;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.erda-gantt-bar-background {
-  user-select: none;
-  stroke-width: 0;
 }

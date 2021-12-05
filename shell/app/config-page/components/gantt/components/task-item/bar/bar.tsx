@@ -31,6 +31,10 @@ export const Bar: React.FC<TaskItemProps> = ({
   const progressPoint = getProgressPoint(+!rtl * task.progressWidth + task.progressX, task.y, task.height);
   const handleHeight = task.height - 2;
   const taskWidth = task.x2 - task.x1;
+
+  const getBarColor = () => {
+    return isSelected ? task.styles.backgroundSelectedColor : task.styles.backgroundColor;
+  };
   return (
     <g className={'erda-gantt-bar-wrapper'} tabIndex={0}>
       {/* <BarDisplay
@@ -51,36 +55,56 @@ export const Bar: React.FC<TaskItemProps> = ({
         <foreignObject
           transform={`translate(${task.x1 - 14},${task.y})`}
           style={{ willChange: 'transform' }}
-          // x={task.x1 - 14}
           onMouseDown={(e) => {
             isDateChangeable && onEventStart('move', task, e);
           }}
-          // y={task.y}
-          width={taskWidth / 2 + 14}
+          width={taskWidth + 28}
           height={handleHeight}
         >
           <div
-            className="erda-gantt-bar-background"
+            className="erda-gantt-bar-container relative"
             onMouseDown={(e) => {
               isDateChangeable && onEventStart('move', task, e);
             }}
           >
-            <span
-              className="erda-gantt-bar-handle left-handle"
-              onMouseDown={(e) => {
-                onEventStart('start', task, e);
+            <div
+              className="erda-gantt-bar-background absolute rounded"
+              style={{ backgroundColor: getBarColor(), width: taskWidth, height: handleHeight, left: 14, top: 0 }}
+            />
+            <div
+              className="erda-gantt-bar-handle-box absolute"
+              style={{
+                width: taskWidth / 2 + 14,
+                height: handleHeight,
               }}
             >
-              <ErdaIcon className="erda-gantt-bar-handle-icon" type={'left'} />
-            </span>
-            <span
-              className="erda-gantt-bar-handle right-handle"
-              onMouseDown={(e) => {
-                onEventStart('end', task, e);
+              <span
+                className="erda-gantt-bar-handle"
+                onMouseDown={(e) => {
+                  onEventStart('start', task, e);
+                }}
+              >
+                <ErdaIcon className="erda-gantt-bar-handle-icon" type={'left'} />
+              </span>
+            </div>
+            <div
+              className="erda-gantt-bar-handle-box absolute text-right"
+              style={{
+                width: taskWidth / 2 + 14,
+                height: handleHeight,
+                left: 14 + taskWidth / 2,
+                top: 0,
               }}
             >
-              <ErdaIcon className="erda-gantt-bar-handle-icon" type={'right'} />
-            </span>
+              <span
+                className="erda-gantt-bar-handle"
+                onMouseDown={(e) => {
+                  onEventStart('end', task, e);
+                }}
+              >
+                <ErdaIcon className="erda-gantt-bar-handle-icon" type={'right'} />
+              </span>
+            </div>
           </div>
         </foreignObject>
       )}
