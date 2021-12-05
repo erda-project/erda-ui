@@ -373,9 +373,17 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     }
   };
 
-  const visibleTaskList = tasks.slice(...verticalRange);
-  // const [startDate, endDate] = ganttDateRange(visibleTaskList, viewMode);
-  // const newDates = seedDates(startDate, endDate, viewMode)
+  const showLength = verticalRange[1] - verticalRange[0];
+  let showRange = verticalRange;
+  if (showLength > tasks.length) {
+    // show all tasks
+    showRange = [0, tasks.length];
+  } else if (verticalRange[1] > tasks.length) {
+    // there is also space left, move forward
+    const offset = verticalRange[1] - tasks.length;
+    showRange = [Math.max(0, verticalRange[0] - offset), verticalRange[1] - offset];
+  }
+  const visibleTaskList = tasks.slice(...showRange);
   const newTasks = convertToBarTasks(
     visibleTaskList,
     dateSetup.dates,
