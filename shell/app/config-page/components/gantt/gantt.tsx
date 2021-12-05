@@ -96,7 +96,6 @@ const TaskTree = (props: ITaskTreeProps) => {
   const { tasks, rowHeight, rowWidth, onExpanderClick, TreeNodeRender, selectedTaskId, setSelectedTask, originList } =
     props;
   const tasksGroup = groupBy(tasks || [], 'project');
-
   return (
     <div style={{ width: rowWidth }} className="erda-tree">
       {tasks.map((item) => {

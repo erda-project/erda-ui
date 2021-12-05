@@ -55,24 +55,26 @@ export const BarDisplay: React.FC<BarDisplayProps> = ({
   return (
     <g onMouseDown={onMouseDown}>
       <rect
-        x={x}
+        // x={x}
+        // y={y}
+        transform={`translate(${x},${y})`}
         width={width}
-        y={y}
         height={height}
         ry={barCornerRadius}
         rx={barCornerRadius}
         fill={getBarColor()}
         className={'erda-gantt-bar-background'}
       />
-      <rect
-        x={progressX}
+      {/* <rect
+        // x={progressX}
+        // y={y}
+        transform={`translate(${progressX},${y})`}
         width={progressWidth}
-        y={y}
         height={height}
         ry={barCornerRadius}
         rx={barCornerRadius}
         fill={getProcessColor()}
-      />
+      /> */}
     </g>
   );
 };

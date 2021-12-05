@@ -23,8 +23,8 @@ export type GanttContentMoveAction =
   | ''
   | BarMoveAction;
 
-export type GanttEvent = {
+export interface GanttEvent {
   changedTask?: BarTask;
   originalSelectedTask?: BarTask;
   action: GanttContentMoveAction;
-};
+}

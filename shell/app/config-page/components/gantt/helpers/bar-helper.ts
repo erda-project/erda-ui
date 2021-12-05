@@ -34,6 +34,7 @@ export const convertToBarTasks = (
   projectBackgroundSelectedColor: string,
   milestoneBackgroundColor: string,
   milestoneBackgroundSelectedColor: string,
+  offset: number,
 ) => {
   const dateDelta =
     dates[1].getTime() -
@@ -62,6 +63,7 @@ export const convertToBarTasks = (
       projectBackgroundSelectedColor,
       milestoneBackgroundColor,
       milestoneBackgroundSelectedColor,
+      offset,
     );
   });
 
@@ -99,6 +101,7 @@ const convertToBarTask = (
   projectBackgroundSelectedColor: string,
   milestoneBackgroundColor: string,
   milestoneBackgroundSelectedColor: string,
+  offset: number,
 ): BarTask => {
   let barTask: BarTask;
   switch (task.type) {
@@ -115,6 +118,7 @@ const convertToBarTask = (
         handleWidth,
         milestoneBackgroundColor,
         milestoneBackgroundSelectedColor,
+        offset,
       );
       break;
     case 'project':
@@ -133,6 +137,7 @@ const convertToBarTask = (
         projectProgressSelectedColor,
         projectBackgroundColor,
         projectBackgroundSelectedColor,
+        offset,
       );
       break;
     default:
@@ -151,6 +156,7 @@ const convertToBarTask = (
         barProgressSelectedColor,
         barBackgroundColor,
         barBackgroundSelectedColor,
+        offset,
       );
       break;
   }
@@ -172,15 +178,16 @@ const convertToBar = (
   barProgressSelectedColor: string,
   barBackgroundColor: string,
   barBackgroundSelectedColor: string,
+  offset: number,
 ): BarTask => {
   let x1: number;
   let x2: number;
   if (rtl) {
-    x2 = taskXCoordinateRTL(task.start, dates, dateDelta, columnWidth);
-    x1 = taskXCoordinateRTL(task.end, dates, dateDelta, columnWidth);
+    x2 = taskXCoordinateRTL(task.start, dates, dateDelta, columnWidth, offset);
+    x1 = taskXCoordinateRTL(task.end, dates, dateDelta, columnWidth, offset);
   } else {
-    x1 = taskXCoordinate(task.start, dates, dateDelta, columnWidth);
-    x2 = taskXCoordinate(task.end, dates, dateDelta, columnWidth);
+    x1 = taskXCoordinate(task.start, dates, dateDelta, columnWidth, offset);
+    x2 = taskXCoordinate(task.end, dates, dateDelta, columnWidth, offset);
   }
   let typeInternal: TaskTypeInternal = task.type;
   if (typeInternal === 'task' && x2 - x1 < handleWidth * 2) {
@@ -229,8 +236,9 @@ const convertToMilestone = (
   handleWidth: number,
   milestoneBackgroundColor: string,
   milestoneBackgroundSelectedColor: string,
+  offset: number,
 ): BarTask => {
-  const x = taskXCoordinate(task.start, dates, dateDelta, columnWidth);
+  const x = taskXCoordinate(task.start, dates, dateDelta, columnWidth, offset);
   const y = taskYCoordinate(index, rowHeight, taskHeight);
 
   const x1 = x - taskHeight * 0.5;
@@ -264,14 +272,15 @@ const convertToMilestone = (
   };
 };
 
-const taskXCoordinate = (xDate: Date, dates: Date[], dateDelta: number, columnWidth: number) => {
+const taskXCoordinate = (xDate: Date, dates: Date[], dateDelta: number, columnWidth: number, offset: number) => {
   if (!xDate) return 0;
-  const index = ~~(
-    (xDate.getTime() - dates[0].getTime() + xDate.getTimezoneOffset() - dates[0].getTimezoneOffset()) /
-    dateDelta
+  const index = Math.max(
+    0,
+    ~~((xDate.getTime() - dates[0].getTime() + xDate.getTimezoneOffset() - dates[0].getTimezoneOffset()) / dateDelta),
   );
   const x = Math.round(
     (index +
+      offset +
       (xDate.getTime() -
         dates[index].getTime() -
         xDate.getTimezoneOffset() * 60 * 1000 +
@@ -281,9 +290,9 @@ const taskXCoordinate = (xDate: Date, dates: Date[], dateDelta: number, columnWi
   );
   return x;
 };
-const taskXCoordinateRTL = (xDate: Date, dates: Date[], dateDelta: number, columnWidth: number) => {
+const taskXCoordinateRTL = (xDate: Date, dates: Date[], dateDelta: number, columnWidth: number, offset: number) => {
   if (!xDate) return 0;
-  let x = taskXCoordinate(xDate, dates, dateDelta, columnWidth);
+  let x = taskXCoordinate(xDate, dates, dateDelta, columnWidth, offset);
   x += columnWidth;
   return x;
 };

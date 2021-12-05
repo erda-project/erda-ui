@@ -132,15 +132,17 @@ export const GridBody: React.FC<GridBodyProps> = ({
   const getRangePos = () => {
     if (changedTask) {
       return {
-        x: changedTask.x1,
-        y: 0,
+        // x: changedTask.x1,
+        // y: 0,
+        transform: `translate(${changedTask.x1},0)`,
         width: changedTask.x2 - changedTask.x1,
         height: max([ganttHeight, realHeight]),
       };
     } else if (startPos && endPos) {
       return {
-        x: min([startPos[0], endPos[0]]),
-        y: 0,
+        // x: min([startPos[0], endPos[0]]),
+        // y: 0,
+        transform: `translate(${min([startPos[0], endPos[0]])},0)`,
         width: Math.abs(endPos[0] - startPos[0]),
         height: max([ganttHeight, realHeight]),
       };
@@ -169,8 +171,9 @@ export const GridBody: React.FC<GridBodyProps> = ({
       {startPos && endPos ? (
         <g>
           <foreignObject
-            x={min([startPos[0], endPos[0]])}
-            y={min([startPos[1], endPos[1]])}
+            // x={min([startPos[0], endPos[0]])}
+            // y={min([startPos[1], endPos[1]])}
+            transform={`translate(${min([startPos[0], endPos[0]])},${min([startPos[1], endPos[1]])})`}
             width={Math.abs(startPos[0] - endPos[0])}
             height={Math.abs(startPos[1] - endPos[1])}
           >
