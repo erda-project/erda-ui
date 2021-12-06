@@ -94,7 +94,14 @@ export const iconMap = {
   type: 'type',
   management: 'management',
   'create-time': 'create-time',
+  renwu: 'renwu',
+  xuqiu: 'xuqiu',
+  quexian: 'quexian',
+  zhongdengnandu: 'zhongdengnandu',
+  nan: 'nan',
+  rongyi: 'rongyi',
 };
+
 interface IErdaIcon {
   className?: string;
   type: string; // unique identification of icon
