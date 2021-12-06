@@ -11,21 +11,44 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import getTopologyRouter from 'msp/env-overview/topology/router';
 import serviceListRouter from 'msp/env-overview/service-list/router';
 import i18n from 'i18n';
+import getGatewayIngressMonitorRouter from 'gateway-ingress/router';
+import getEIRouter from 'external-insight/router';
 
+const tabs = [
+  {
+    key: 'topology',
+    name: i18n.t('msp:topology'),
+  },
+  {
+    key: 'service-list',
+    name: i18n.t('msp:service list'),
+  },
+];
 const getEnvOverViewRouter = (): RouteConfigItem => {
   return {
     path: ':terminusKey',
+    tabs,
+    pageName: i18n.t('msp:global topology'),
+    breadcrumbName: i18n.t('msp:global topology'),
+    alwaysShowTabKey: 'topology',
     routes: [
       {
-        breadcrumbName: i18n.t('msp:global topology'),
-        layout: { fullHeight: true },
-        getComp: (cb) => cb(import('msp/pages/micro-service-overview')),
+        tabs,
+        alwaysShowTabKey: 'topology',
+        layout: { fullHeight: true, noWrapper: true },
+        getComp: (cb) => cb(import('msp/env-overview/topology/pages/topology')),
       },
-      getTopologyRouter(),
-      serviceListRouter(),
+      {
+        path: 'topology',
+        tabs,
+        alwaysShowTabKey: 'topology',
+        layout: { fullHeight: true, noWrapper: true },
+        getComp: (cb) => cb(import('msp/env-overview/topology/pages/topology')),
+        routes: [getGatewayIngressMonitorRouter(), getEIRouter()],
+      },
+      serviceListRouter(tabs),
     ],
   };
 };

@@ -1,0 +1,10 @@
+.hexagon-progress,
+.circular-progress {
+  .path {
+    transition: all 0.3s ease 0s;
+  }
+
+  .fill-path {
+    transform: translate(3px, 4px) scale(0.95);
+  }
+}
