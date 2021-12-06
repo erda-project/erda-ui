@@ -114,9 +114,9 @@ const SideNavigation = ({
       <div className="h-12 relative">
         <Button type="primary" onClick={handleOnFold} className="absolute right-0 p-1">
           {isFold ? (
-            <ErdaIcon type="menu-unfold" size="18" />
+            <ErdaIcon className="mt-0.5 mr-1" type="menu-unfold" size="18" />
           ) : (
-            <ErdaIcon type="menu-fold" size="18" />
+            <ErdaIcon className="mt-0.5 mr-1" type="menu-fold" size="18" />
           )}
         </Button>
       </div>

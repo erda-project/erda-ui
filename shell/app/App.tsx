@@ -93,9 +93,7 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
     const Wrap = () => {
       return (
         <ConfigProvider renderEmpty={EmptyListHolder} locale={isZh() ? antd_zhCN : antd_enUS}>
-          {/* <IconProvider value={IconConfig}> */}
           <App />
-          {/* </IconProvider> */}
         </ConfigProvider>
       );
     };
