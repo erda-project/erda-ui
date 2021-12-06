@@ -14,7 +14,6 @@
 import i18n from 'i18n';
 import React from 'react';
 import { Icon as CustomIcon, ErdaIcon } from 'common';
-import { List as IconTask, Bug as IconBug } from '@icon-park/react';
 import './issue-config.scss';
 
 export enum ISSUE_TYPE {
@@ -30,10 +29,10 @@ export const ISSUE_ICON = {
   iteration: <CustomIcon type="bb1" className="issue-icon iteration" />,
   priority: {
     // 优先级icon
-    URGENT: <ErdaIcon type="jinji" size="20px"/>,
-    HIGH: <ErdaIcon type="gao" size="20px"/>,
+    URGENT: <ErdaIcon type="jinji" size="20px" />,
+    HIGH: <ErdaIcon type="gao" size="20px" />,
     NORMAL: <ErdaIcon type="zhong" size="20px" />,
-    LOW: <ErdaIcon type="di" size="20px"/>,
+    LOW: <ErdaIcon type="di" size="20px" />,
   },
   issue: {
     // 时间类型icon
