@@ -103,7 +103,9 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
       {<IssueIcon type={type} size={'16px'} />}
       <div className="truncate flex-1 ml-1">{name}</div>
       <div className="flex items-center ml-2">
-        <Avatar size={16}>{getAvatarChars(curUserName || '')}</Avatar>
+        <Avatar src={curUser.avatar || undefined} size={16}>
+          {getAvatarChars(curUserName || '')}
+        </Avatar>
         {status ? (
           <div className="ml-1">
             <Badge showDot={false} text={status.text} status={status?.status || 'default'} />
