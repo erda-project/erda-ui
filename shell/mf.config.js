@@ -87,9 +87,6 @@ module.exports = [
         singleton: true,
         requiredVersion: packageJson.dependencies['react-dom'],
       },
-      '@icon-park/react': {
-        requiredVersion: packageJson.dependencies['@icon-park/react'],
-      },
     },
   },
 ];

@@ -33,9 +33,7 @@ import { EmptyListHolder } from 'common';
 import orgStore, { isAdminRoute } from 'app/org-home/stores/org';
 import './styles/antd-extension.scss';
 import './styles/app.scss';
-import '@icon-park/react/styles/index.css';
 import '@erda-ui/dashboard-configurator/dist/index.css';
-import { IconProvider, DEFAULT_ICON_CONFIGS } from '@icon-park/react/es/runtime';
 import { initAxios } from 'common/utils/axios-config';
 import { PAGINATION } from 'app/constants';
 import 'tailwindcss/tailwind.css';
@@ -63,11 +61,6 @@ Pagination.defaultProps = {
 
 const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
   setLS('diceLoginState', true);
-
-  const IconConfig = {
-    ...DEFAULT_ICON_CONFIGS,
-    prefix: 'erda',
-  };
 
   const locale = window.localStorage.getItem('locale') || 'zh';
   moment.locale(momentLangMap[locale]);
@@ -100,9 +93,9 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
     const Wrap = () => {
       return (
         <ConfigProvider renderEmpty={EmptyListHolder} locale={isZh() ? antd_zhCN : antd_enUS}>
-          <IconProvider value={IconConfig}>
-            <App />
-          </IconProvider>
+          {/* <IconProvider value={IconConfig}> */}
+          <App />
+          {/* </IconProvider> */}
         </ConfigProvider>
       );
     };
