@@ -101,7 +101,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const h_start = Math.abs(Math.ceil(scrollX / columnWidth));
   const h_number = Math.floor((horizontalRef.current?.clientWidth || 0) / columnWidth) + 2;
   const horizontalRange = [h_start, h_start + h_number];
-  // console.log('横', horizontalRef.current?.clientWidth, scrollX, horizontalRange, h_number)
+  // console.log('横', horizontalRef.current?.clientWidth, scrollX, horizontalRange, h_number);
 
   const v_start = Math.abs(Math.ceil(scrollY / rowHeight));
   const v_number = Math.floor((ganttHeight || 0) / rowHeight) + 1;
@@ -407,6 +407,10 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   // position data will update after convert
   const newSelectedTask = newTasks.find((item) => item.id === selectedTask?.id);
 
+  const reGanttEvent = {
+    ...ganttEvent,
+    changedTask: ganttEvent?.changedTask ? newTasks.find((item) => item.id === ganttEvent.changedTask.id) : undefined,
+  };
   const gridProps: GridProps = {
     columnWidth,
     svgWidth,
@@ -421,7 +425,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     setRangeAddTime,
     setSelectedTask: handleSelectedTask,
     onDateChange,
-    ganttEvent,
+    ganttEvent: reGanttEvent,
     verticalRange,
     horizontalRange,
   };
@@ -437,12 +441,12 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     fontSize,
     rtl,
     horizontalRange,
-    highlightRange: rangeAddTime || ganttEvent.changedTask || newSelectedTask,
+    highlightRange: rangeAddTime || reGanttEvent.changedTask || newSelectedTask,
   };
   const barProps: TaskGanttContentProps = {
     tasks: newTasks,
     dates: dateSetup.dates,
-    ganttEvent,
+    ganttEvent: reGanttEvent,
     selectedTask: newSelectedTask,
     rowHeight,
     taskHeight,

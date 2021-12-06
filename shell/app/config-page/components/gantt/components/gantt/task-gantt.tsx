@@ -14,6 +14,7 @@
 import React, { useRef, useEffect } from 'react';
 import { GridProps, Grid } from '../grid/grid';
 import { CalendarProps, Calendar } from '../calendar/calendar';
+import { max } from 'lodash';
 import { TaskGanttContentProps, TaskGanttContent } from './task-gantt-content';
 import './gantt.scss';
 
@@ -27,19 +28,20 @@ export interface TaskGanttProps {
 export const TaskGantt: React.FC<TaskGanttProps> = ({ gridProps, calendarProps, barProps, BarContentRender }) => {
   const ganttSVGRef = useRef<SVGSVGElement>(null);
   const newBarProps = { ...barProps, svg: ganttSVGRef };
-
+  const verticalGanttContainerRef = useRef<HTMLDivElement>(null);
+  const offsetWidth = verticalGanttContainerRef?.current?.offsetWidth;
   return (
-    <div className={'erda-gantt-vertical-container'} dir="ltr">
-      <Calendar {...calendarProps} />
+    <div className={'erda-gantt-vertical-container'} dir="ltr" ref={verticalGanttContainerRef}>
+      <Calendar {...calendarProps} width={max([calendarProps.width, offsetWidth])} />
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={gridProps.svgWidth}
+        width={max([gridProps.svgWidth, offsetWidth])}
         height={barProps.rowHeight * barProps.tasks.length}
         fontFamily={barProps.fontFamily}
         style={{ overflow: 'visible' }}
         ref={ganttSVGRef}
       >
-        <Grid {...gridProps} />
+        <Grid {...gridProps} svgWidth={max([gridProps.svgWidth, offsetWidth])} />
         <TaskGanttContent {...newBarProps} BarContentRender={BarContentRender} />
       </svg>
     </div>

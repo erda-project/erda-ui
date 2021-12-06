@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { groupBy, set, findIndex } from 'lodash';
+import moment from 'moment';
 
 export const convertDataForGantt = (
   data: { expandList: CP_GANTT.IData[]; updateList: CP_GANTT.IData[] },
@@ -20,6 +21,21 @@ export const convertDataForGantt = (
   let ganttData: CP_GANTT.IGanttData[] = [...prevList];
 
   const { expandList, updateList } = data;
+  const timeConvert = (start: number, end: number) => {
+    let _start = start && moment(start).startOf('day');
+    let _end = end && moment(end).endOf('day');
+    if (!start && end) {
+      // no start time
+      _start = moment(_end).startOf('day');
+    } else if (!end && start) {
+      _end = moment(_start).endOf('day');
+    }
+    return {
+      start: _start && new Date(_start.valueOf()),
+      end: _end && new Date(_end.valueOf()),
+    };
+  };
+
   const timeLimit = (t) => (t && new Date(t).getTime() > new Date('2019-1-1').getTime() ? t : 0);
 
   const prevDataGroup = { ...groupBy(prevList, 'pId'), ...expandList };
@@ -27,14 +43,14 @@ export const convertDataForGantt = (
   const convert = (dataTemp: CP_GANTT.IData[], level = 0, pId?: string) => {
     dataTemp.forEach((item) => {
       const { key, title, start, end, isLeaf = true, hideChildren, ...rest } = item;
-      const validTime = timeLimit(start) && timeLimit(end);
+      const validTime = timeConvert(start, end);
 
       const curData = {
-        type: !isLeaf ? 'project' : 'task',
+        type: !isLeaf ? 'project' : ('task' as CP_GANTT.TaskType),
         id: key,
         name: title,
-        start: validTime ? new Date(start) : undefined,
-        end: validTime ? new Date(end) : undefined,
+        start: validTime.start,
+        end: validTime.end,
         progress: 0,
         isLeaf,
         hideChildren: hideChildren === undefined ? (!isLeaf ? !prevDataGroup[key]?.length : undefined) : hideChildren,
