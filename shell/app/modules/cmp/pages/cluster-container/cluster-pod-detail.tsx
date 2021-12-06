@@ -27,6 +27,7 @@ import i18n from 'i18n';
 
 const DashBoard = React.memo(BoardGrid.Pure);
 interface IPodMeta {
+  key: string;
   meta: IMetaData;
 }
 interface IMetaData {
@@ -118,13 +119,15 @@ export const PureClusterPodDetail = (props: IProps) => {
           customProps={{
             containerTable: {
               op: {
-                operations: {
-                  checkPrevLog: (op: IPodMeta) => {
+                clickTableItem: (_: Obj, op: IPodMeta) => {
+                  if (op.key === 'checkPrevLog') {
                     update({
                       logVisible: true,
                       logData: op?.meta,
                     });
-                  },
+                  }
+                },
+                operations: {
                   checkConsole: (op: IPodMeta) => {
                     update({
                       consoleVisible: true,
