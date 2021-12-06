@@ -101,37 +101,17 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
       }}
     >
       {<IssueIcon type={type} size={'16px'} />}
-      {!isLeaf ? (
-        <>
-          <div className="flex-1 ml-1 w-0" style={{ marginRight: 86 }}>
-            <div className="truncate">{name}</div>
-            <div className="flex relative issue-plan-status-total">
-              {map(statusGroup, (subItem, idx) => (
-                <div
-                  key={`${idx}`}
-                  className="h-1 issue-plan-status-total-item"
-                  style={{
-                    width: `${(subItem.length / subNodeStatus.length) * 100}%`,
-                    backgroundColor: statusColorMap[subItem?.[0]?.extra?.status?.status],
-                  }}
-                />
-              ))}
-            </div>
+      <div className="truncate flex-1 ml-1">{name}</div>
+      <div className="flex items-center ml-2">
+        <Avatar src={curUser.avatar || undefined} size={16}>
+          {getAvatarChars(curUserName || '')}
+        </Avatar>
+        {status ? (
+          <div className="ml-1">
+            <Badge showDot={false} text={status.text} status={status?.status || 'default'} />
           </div>
-        </>
-      ) : (
-        <>
-          <div className="truncate flex-1 ml-1">{name}</div>
-          <div className="flex items-center ml-2">
-            <Avatar size={16}>{getAvatarChars(curUserName || '')}</Avatar>
-            {status ? (
-              <div className="ml-1">
-                <Badge showDot={false} text={status.text} status={status?.status || 'default'} />
-              </div>
-            ) : null}
-          </div>
-        </>
-      )}
+        ) : null}
+      </div>
     </div>
   );
 };

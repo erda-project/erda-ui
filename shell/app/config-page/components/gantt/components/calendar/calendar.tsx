@@ -21,7 +21,7 @@ import {
   getLocaleMonth,
   getWeekNumberISO8601,
 } from '../../helpers/date-helper';
-import { min } from 'lodash';
+import { min, max } from 'lodash';
 import { DateSetup } from '../../types/date-setup';
 import i18n from 'i18n';
 import './calendar.scss';
@@ -162,27 +162,35 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
       }
       return [topValues, bottomValues];
     };
-
-    const HoverBar = highlightRange ? (
-      <div
-        className="absolute rounded bg-hover-gray-bg"
-        style={{
-          width: Math.abs(highlightRange.x2 - highlightRange.x1),
-          height: 40,
-          left: min([highlightRange.x1, highlightRange.x2]),
-          top: 24,
-        }}
-      />
-    ) : null;
+    const HoverBar = ({ style }: { style: Obj }) =>
+      highlightRange ? (
+        <div
+          className="absolute rounded bg-hover-gray-bg"
+          style={{
+            width: Math.abs(highlightRange.x2 - highlightRange.x1),
+            height: 40,
+            left: min([highlightRange.x1, highlightRange.x2]),
+            top: 24,
+            ...style,
+          }}
+        />
+      ) : null;
     const getCalendarValuesForDay = () => {
       let bottomValues: React.ReactNode = null;
       const dates = dateSetup.dates.slice(...horizontalRange);
       const dateInWeeks = [];
-
+      // append date when screen have more space
+      let appendDateLength = Math.max(0, horizontalRange[1] - horizontalRange[0] - dates.length);
+      while (appendDateLength-- > 0) {
+        const lastDayInLastWeek = dates[dates.length - 1];
+        dates.push(addToDate(lastDayInLastWeek, 1, 'day'));
+      }
       const firstDay = dates[0];
+
       const firstDayInWeek = firstDay.getDay();
       // use Monday as first day of week
-      const firstWeek = dates.splice(0, firstDayInWeek === 0 ? 7 : 7 - firstDayInWeek + 1);
+
+      const firstWeek = dates.splice(0, firstDayInWeek === 0 ? 1 : 7 - firstDayInWeek + 1);
       while (firstWeek.length < 7) {
         const firstDayInFirstWeek = firstWeek[0];
         firstWeek.unshift(addToDate(firstDayInFirstWeek, -1, 'day'));
@@ -197,12 +205,17 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
         lastWeek.push(addToDate(lastDayInLastWeek, 1, 'day'));
       }
       let leftDis = 0;
+
       bottomValues = (
         <div
           className="flex h-full w-full erda-gantt-calendar-header-container"
-          style={{ transform: `translateX(${-(firstDayInWeek + 1) * columnWidth}px)` }}
+          style={{ transform: `translateX(${-(firstDayInWeek ? firstDayInWeek - 1 : 6) * columnWidth}px)` }}
         >
-          {HoverBar}
+          {
+            <HoverBar
+              style={{ transform: `translateX(${(firstDayInWeek ? firstDayInWeek - 1 : 6) * columnWidth}px)` }}
+            />
+          }
           {dateInWeeks.map((week, idx) => {
             const weekWidth = columnWidth * week.length;
             leftDis += weekWidth;
@@ -304,23 +317,12 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
     //     [topValues, bottomValues] = getCalendarValuesForOther();
     //     break;
     // }
+    const finalWidth = max([columnWidth * dateSetup.dates.length, width]);
     return (
       <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} fontFamily={fontFamily}>
         <g className="erda-gantt-calendar" fontSize={fontSize}>
-          <rect
-            x={0}
-            y={0}
-            width={columnWidth * dateSetup.dates.length}
-            height={height}
-            className={'erda-gantt-calendar-header'}
-          />
-          <foreignObject
-            x={0}
-            y={0}
-            width={columnWidth * dateSetup.dates.length}
-            height={height}
-            className={'erda-gantt-calendar-header'}
-          >
+          <rect x={0} y={0} width={finalWidth} height={height} className={'erda-gantt-calendar-header'} />
+          <foreignObject x={0} y={0} width={finalWidth} height={height} className={'erda-gantt-calendar-header'}>
             {getCalendarValuesForDay()}
           </foreignObject>
           {/* {topValues} */}
