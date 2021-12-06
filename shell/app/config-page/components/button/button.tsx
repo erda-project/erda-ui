@@ -15,9 +15,8 @@ import React from 'react';
 import { Button, Tooltip, Dropdown, Menu, Popconfirm } from 'antd';
 import { isEmpty, map, find } from 'lodash';
 import { useUnmount } from 'react-use';
-import { Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon, ErdaIcon } from 'common';
 import { iconMap } from 'common/components/erda-icon';
-import { DownOne as IconDownOne } from '@icon-park/react';
 
 const fakeClick = 'fake-click';
 
@@ -66,7 +65,7 @@ const CP_Button = (props: CP_BUTTON.Props) => {
       {suffixIcon ? (
         <IconComp type={suffixIcon} className="ml-1" />
       ) : isEmpty(menu) ? null : (
-        <IconDownOne theme="filled" className="ml-1" />
+        <ErdaIcon type="caret-down" size="18" className="ml-1" />
       )}
     </div>
   );

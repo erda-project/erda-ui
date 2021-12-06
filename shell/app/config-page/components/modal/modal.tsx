@@ -13,12 +13,7 @@
 
 import React from 'react';
 import { Modal } from 'antd';
-import {
-  Info as IconInfo,
-  Attention as IconAttention,
-  CheckOne as IconCheckOne,
-  CloseOne as IconCloseOne,
-} from '@icon-park/react';
+import { ErdaIcon } from 'common';
 import { map } from 'lodash';
 import { statusColorMap } from 'app/config-page/utils';
 import i18n from 'i18n';
@@ -31,10 +26,10 @@ const widthMap = {
 };
 
 const stateIconMap = {
-  info: <IconInfo size="24" fill={statusColorMap.info} />,
-  success: <IconCheckOne size="24" fill={statusColorMap.success} />,
-  warning: <IconAttention size="24" fill={statusColorMap.warning} />,
-  danger: <IconCloseOne size="24" fill={statusColorMap.danger} />,
+  info: <ErdaIcon type="info" size="24" fill={statusColorMap.info} />,
+  success: <ErdaIcon type="check-one" size="24" fill={statusColorMap.success} />,
+  warning: <ErdaIcon type="attention" size="24" fill={statusColorMap.warning} />,
+  danger: <ErdaIcon type="close-one" size="24" fill={statusColorMap.danger} />,
 };
 
 const CP_MODAL = (props: CP_MODAL.Props) => {

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Tooltip } from 'antd';
-import { Help as IconHelp } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 
 export const getLabel = (label: string, labelTip: string, required = true) => {
   let _label: any = label;
@@ -23,7 +23,7 @@ export const getLabel = (label: string, labelTip: string, required = true) => {
         {required ? <span style={{ color: 'red', marginRight: 4 }}>*</span> : null}
         {_label}&nbsp;
         <Tooltip title={labelTip}>
-          <IconHelp className="text-icon" />
+          <ErdaIcon type="help" className="text-icon" />
         </Tooltip>
       </span>
     );

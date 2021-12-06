@@ -14,13 +14,12 @@
 import React from 'react';
 import { Button, Input, Select, Tooltip } from 'antd';
 import { useUpdate } from 'common/use-hooks';
-import { InputSelect, Icon as CustomIcon } from 'common';
+import { InputSelect, Icon as CustomIcon, ErdaIcon } from 'common';
 import { produce } from 'immer';
 import i18n from 'i18n';
 import { useUpdateEffect } from 'react-use';
 import { getCheckListFromRule } from 'configForm/form/form';
 import { get, isEmpty, map, isEqual, isArray, isPlainObject, set, compact, includes, filter, debounce } from 'lodash';
-import { ReduceOne as IconReduceOne } from '@icon-park/react';
 import './index.scss';
 
 interface IData {
@@ -214,7 +213,9 @@ const EditList = (props: IELProps) => {
           <ListItem
             dataTemp={dataTemp}
             isTitle
-            operation={<IconReduceOne className="edit-list-item-operation not-allowed" />}
+            operation={
+              <ErdaIcon type="reduce-one" className="edit-list-item-operation not-allowed" />
+            }
           />
         ) : null}
         {map(value, (item, idx) => (

@@ -14,12 +14,11 @@
 import { BuildLog } from 'app/modules/application/pages/build-detail/build-log';
 import PipelineChart from 'app/modules/application/pages/build-detail/pipeline-chart';
 import { ciBuildStatusSet } from 'application/pages/build-detail/config';
-import { EmptyHolder } from 'common';
+import { EmptyHolder, ErdaIcon } from 'common';
 import { isEmpty } from 'lodash';
 import { Spin } from 'antd';
 import React from 'react';
 import i18n from 'i18n';
-import { Attention as IconAttention } from '@icon-park/react';
 
 interface IProps {
   pipelineDetail: IPipelineDetail;
@@ -141,7 +140,7 @@ export class PipelineDetail extends React.Component<IProps, IState> {
           {showMessage && showMessage.msg ? (
             <div className="build-detail-err-msg">
               <div className="build-err-header">
-                <IconAttention className="build-err-icon" />
+                <ErdaIcon type="tishi" size="18px" className="build-err-icon" />
                 <pre>{showMessage.msg}</pre>
               </div>
               <div className="build-err-stack">

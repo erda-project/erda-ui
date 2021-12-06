@@ -14,7 +14,7 @@
 import React from 'react';
 import { Modal, Select } from 'antd';
 import { SelectProps, ModalProps } from 'core/common/interface';
-import { Intersection as IconIntersection } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 
 import './select-pro.scss';
 
@@ -77,7 +77,11 @@ function SelectPro<T, S>({
       <Select value={v} style={{ width: '100%' }} onChange={handleChange} {...prop}>
         {children}
       </Select>
-      <IconIntersection className="hover-active mr-1 -mt-3 text-base select-pro-icon" onClick={handleModal} />
+      <ErdaIcon
+        type="intersection"
+        className="hover-active mr-1 -mt-3 text-base select-pro-icon"
+        onClick={handleModal}
+      />
       <Modal {...modalRest} visible={showModal} onCancel={handleCancel} onOk={handleOk} destroyOnClose>
         {modalChildren(dataSource, tempV, setTempV)}
       </Modal>

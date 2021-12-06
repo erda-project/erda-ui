@@ -13,7 +13,7 @@
 
 import { Button, Menu, Dropdown, message, Tooltip } from 'antd';
 import React from 'react';
-import { RenderForm, FormModal, MemberSelector } from 'common';
+import { RenderForm, FormModal, MemberSelector, ErdaIcon } from 'common';
 import { connectCube } from 'common/utils';
 import Markdown from 'common/utils/marked';
 import MarkdownEditor from 'common/components/markdown-editor';
@@ -26,7 +26,6 @@ import { FormInstance } from 'core/common/interface';
 import './repo-mr-form.scss';
 import routeInfoStore from 'core/stores/route';
 import layoutStore from 'layout/stores/layout';
-import { Down as IconDown } from '@icon-park/react';
 
 interface IModel {
   visible: boolean;
@@ -274,7 +273,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
       <Dropdown overlay={menu}>
         <span className="inline-flex items-center text-xs mr-2 cursor-pointer">
           {tplName ? `${i18n.t('selected template')}:${tplName.replace('.md', '')}` : i18n.t('select template')}{' '}
-          <IconDown size="16px" />
+          <ErdaIcon type="down" size="16" />
         </span>
       </Dropdown>
     );

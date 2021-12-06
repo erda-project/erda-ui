@@ -15,7 +15,7 @@ import React from 'react';
 import { Input, InputNumber, Select, Tooltip } from 'antd';
 import { isEmpty, map, remove, set, cloneDeep } from 'lodash';
 import { slaUnitMap } from 'apiManagePlatform/pages/access-manage/components/config';
-import { AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 import './sla.scss';
 
@@ -97,15 +97,16 @@ const Limit = (props: IProps) => {
               <div className="sla-limit-operation">
                 <div className="flex justify-between items-center pl-3">
                   <Tooltip title={i18n.t('add {name}', { name: i18n.t('request limit') })}>
-                    <IconAddOne onClick={handleAddOne} size="20px" />
+                    <ErdaIcon type="add-one" onClick={handleAddOne} size="20" />
                   </Tooltip>
                   {index !== 0 ? (
                     <Tooltip title={i18n.t('delete')}>
-                      <IconReduceOne
+                      <ErdaIcon
+                        type="reduce-one"
                         onClick={() => {
                           handleDropOne(index);
                         }}
-                        size="20px"
+                        size="20"
                       />
                     </Tooltip>
                   ) : null}

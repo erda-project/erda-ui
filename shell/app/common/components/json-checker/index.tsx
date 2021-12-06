@@ -20,8 +20,7 @@
  */
 import React from 'react';
 import { Button, Modal } from 'antd';
-import { Copy } from 'common';
-import { Copy as IconCopy } from '@icon-park/react';
+import { Copy, ErdaIcon } from 'common';
 import i18n from 'i18n';
 
 import './index.scss';
@@ -76,7 +75,11 @@ class JsonChecker extends React.PureComponent<IProps, IState> {
           <div className="json-detail-wrap">
             {jsonString ? (
               <>
-                <Button className="json-detail-btn cursor-copy json-checker-copy" shape="circle" icon={<IconCopy />} />
+                <Button
+                  className="json-detail-btn cursor-copy json-checker-copy"
+                  shape="circle"
+                  icon={<ErdaIcon className="mt-1" type="copy" size="16" />}
+                />
                 <Copy selector=".json-checker-copy" opts={{ text: () => jsonString }} />
               </>
             ) : null}

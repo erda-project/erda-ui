@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import React from 'react';
 import { map } from 'lodash';
-import { Reduce as IconReduce } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 import { Select, Input, message } from 'antd';
 import i18n from 'i18n';
 
@@ -131,7 +131,8 @@ export const TriggerConditionSelect = ({
           })}
         </Select>
       )}
-      <IconReduce
+      <ErdaIcon
+        type="reduce"
         className="cursor-pointer ml-2 text-darkgray hover:text-primary"
         size="20"
         onClick={() => handleRemoveTriggerConditions(id)}

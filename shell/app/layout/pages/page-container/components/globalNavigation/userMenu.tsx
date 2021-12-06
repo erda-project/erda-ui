@@ -39,8 +39,10 @@ const UserMenu = ({ avatar, name, operations }: UserMenuProps) => {
               {operations?.map(({ onClick, icon, title }) => {
                 return (
                   <Menu.Item key={title} onClick={onClick}>
-                    {icon}
-                    {title}
+                    <div className="flex items-center">
+                      {icon}
+                      {title}
+                    </div>
                   </Menu.Item>
                 );
               })}

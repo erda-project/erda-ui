@@ -12,12 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon, ErdaIcon } from 'common';
 import { Dropdown, Menu, Popconfirm, Tooltip } from 'antd';
 import { isString, isEmpty, map } from 'lodash';
 import { WithAuth } from 'user/common';
 import { useDrag } from 'react-dnd';
-import { More as IconMore } from '@icon-park/react';
 import classnames from 'classnames';
 import './card.scss';
 
@@ -97,7 +96,7 @@ export const Card = (props: CP_CARD.Props) => {
           {isString(titleIcon) ? <CustomIcon type={titleIcon} color className="head-icon mr-1" /> : titleIcon || null}
           <div className="flex-1 text-sm text-normal break-word">{title}</div>
           {isEmpty(menuOperations) ? (
-            <IconMore className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} />
+            <ErdaIcon type="more1" className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} />
           ) : (
             <span
               ref={opRef}
@@ -106,7 +105,7 @@ export const Card = (props: CP_CARD.Props) => {
               onMouseLeave={() => setIsHover(false)}
             >
               <Dropdown overlay={getMenu()} getPopupContainer={() => opRef.current as any}>
-                <IconMore className="op-icon" onClick={(e) => e.stopPropagation()} />
+                <ErdaIcon type="more1" className="op-icon" onClick={(e) => e.stopPropagation()} />
               </Dropdown>
             </span>
           )}

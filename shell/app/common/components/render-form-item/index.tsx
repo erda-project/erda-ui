@@ -15,7 +15,7 @@ import React from 'react';
 import { Form, Input, Select, InputNumber, Switch, Radio, Checkbox, Cascader, DatePicker, Tooltip } from 'antd';
 import { FormInstance } from 'core/common/interface';
 import classnames from 'classnames';
-import { Help as IconHelp, AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 
 interface IProps {
@@ -266,7 +266,7 @@ const RenderFormItem = ({
     <span>
       {label}&nbsp;
       <Tooltip title={labelTip}>
-        <IconHelp className="text-icon" />
+        <ErdaIcon type="help" className="align-middle text-icon" />
       </Tooltip>
     </span>
   ) : (
@@ -289,8 +289,12 @@ const RenderFormItem = ({
         {ItemComp}
       </FormItem>
       {suffix}
-      {addOne ? <IconAddOne className="render-form-op" onClick={() => addOne(name)} /> : null}
-      {dropOne ? <IconReduceOne className="render-form-op" onClick={() => dropOne(name)} /> : null}
+      {addOne ? (
+        <ErdaIcon type="add-one" className="render-form-op" onClick={() => addOne(name)} />
+      ) : null}
+      {dropOne ? (
+        <ErdaIcon type="reduce-one" className="render-form-op" onClick={() => dropOne(name)} />
+      ) : null}
     </FormItem>
   );
 };

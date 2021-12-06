@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Copy, IF } from 'common';
+import { Copy, IF, ErdaIcon } from 'common';
 import i18n from 'i18n';
 import React from 'react';
 import useEvent from 'react-use/lib/useEvent';
@@ -19,7 +19,6 @@ import { WithAuth } from 'user/common';
 import issueStore from 'project/stores/issues';
 import { isEqual, find } from 'lodash';
 import { Drawer, Spin, Popconfirm, Input, message, Popover, Button, Modal } from 'antd';
-import { Close as IconCheck, ShareOne as IconShareOne, Copy as IconCopy, Delete as IconDelete } from '@icon-park/react';
 import { SubscribersSelector } from './subscribers-selector';
 import layoutStore from 'layout/stores/layout';
 import './issue-drawer.scss';
@@ -162,7 +161,7 @@ export const IssueDrawer = (props: IProps) => {
           <div className="task-drawer-header">
             <div className="flex justify-between items-center">
               <div className="flex-1 nowrap">{title}</div>
-              <div className="task-drawer-op">
+              <div className="task-drawer-op flex items-center">
                 <SubscribersSelector
                   subscribers={data.subscribers}
                   issueID={customFieldDetail?.issueID}
@@ -173,9 +172,10 @@ export const IssueDrawer = (props: IProps) => {
                 />
                 <IF check={editMode && shareLink}>
                   <Copy selector=".copy-share-link" tipName={i18n.t('dop:share link')} />
-                  <IconShareOne
+                  <ErdaIcon
+                    type="share-one"
                     className="cursor-copy copy-share-link mr-1 ml-3"
-                    size="16px"
+                    size="16"
                     data-clipboard-text={shareLink}
                   />
                 </IF>
@@ -223,7 +223,7 @@ export const IssueDrawer = (props: IProps) => {
                       placement="leftTop"
                       trigger="click"
                     >
-                      <IconCopy className="hover-active ml-3" size="16px" />
+                      <ErdaIcon type="copy" className="hover-active ml-3" size="16px" />
                     </Popover>
                   </WithAuth>
                 </IF>
@@ -234,16 +234,16 @@ export const IssueDrawer = (props: IProps) => {
                       placement="bottomRight"
                       onConfirm={onDelete}
                     >
-                      <IconDelete className="hover-active ml-3" size="16px" />
+                      <ErdaIcon type="delete1" className="hover-active ml-3" size="16" />
                     </Popconfirm>
                   </WithAuth>
                 ) : null}
                 {isChanged && confirmCloseTip ? (
                   <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
-                    <IconCheck className="ml-3 cursor-pointer" size="16px" />
+                    <ErdaIcon type="close" className="ml-3 cursor-pointer" size="16" />
                   </Popconfirm>
                 ) : (
-                  <IconCheck className="ml-3 cursor-pointer" size="16px" onClick={onClose} />
+                  <ErdaIcon type="close" className="ml-3 cursor-pointer" size="16" onClick={onClose} />
                 )}
               </div>
             </div>

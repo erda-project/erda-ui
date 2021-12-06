@@ -22,8 +22,7 @@ import { getTranslateAddonList } from 'app/locales/utils';
 import { reduce } from 'lodash';
 import { CATEGORY_NAME } from 'addonPlatform/pages/common/configs';
 import { getSideMenu } from '../pages/addons/sidebar-menu';
-
-import { Permissions as IconPermissions } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 
 interface IState {
   addonCategory: {
@@ -75,7 +74,7 @@ const dopStore = createFlatStore({
           } else if (addonName === 'mysql') {
             menu.splice(1, 0, {
               href: `${rootPath}/mysql-settings`,
-              icon: <IconPermissions />,
+              icon: <ErdaIcon type="permissions" />,
               text: i18n.t('account management'),
               subMenu: [
                 {

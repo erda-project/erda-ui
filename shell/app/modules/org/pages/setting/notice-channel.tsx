@@ -29,8 +29,7 @@ import { isEmpty, map } from 'lodash';
 import { Button, Modal, Select, Spin, Tooltip, Input, message, Badge, Tabs } from 'antd';
 import Table from 'common/components/table';
 import { ColumnProps, IActions } from 'common/components/table/interface';
-import { FormModal, Copy } from 'common';
-import { PreviewOpen as IconPreviewOpen, PreviewCloseOne as IconPreviewCloseOne } from '@icon-park/react';
+import { FormModal, Copy, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { FormInstance } from 'app/interface/common';
 import { useMount } from 'react-use';
@@ -362,9 +361,14 @@ const NotifyChannel = () => {
         type: passwordVisible ? 'text' : 'password',
         autoComplete: 'off',
         addonAfter: passwordVisible ? (
-          <IconPreviewOpen onClick={() => updater.passwordVisible(false)} />
+          <ErdaIcon className="mt-1.5" type="preview-open" size="14" onClick={() => updater.passwordVisible(false)} />
         ) : (
-          <IconPreviewCloseOne onClick={() => updater.passwordVisible(true)} />
+          <ErdaIcon
+            type="preview-close-one"
+            size="14"
+            className="mt-1.5"
+            onClick={() => updater.passwordVisible(true)}
+          />
         ),
       },
     },
@@ -391,9 +395,14 @@ const NotifyChannel = () => {
         type: passwordVisible ? 'text' : 'password',
         autoComplete: 'off',
         addonAfter: passwordVisible ? (
-          <IconPreviewOpen onClick={() => updater.passwordVisible(false)} />
+          <ErdaIcon className="mt-1.5" type="preview-open" size="14" onClick={() => updater.passwordVisible(false)} />
         ) : (
-          <IconPreviewCloseOne onClick={() => updater.passwordVisible(true)} />
+          <ErdaIcon
+            className="mt-1.5"
+            type="preview-close-one"
+            size="14"
+            onClick={() => updater.passwordVisible(true)}
+          />
         ),
       },
     },

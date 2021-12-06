@@ -21,7 +21,6 @@ import { useEffectOnce, useUpdateEffect } from 'react-use';
 import { EmptyHolder, Title, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import './pipeline-log.scss';
-import { Loading as IconLoading } from '@icon-park/react';
 
 let timer: any;
 const DURATION = 10000; // 10秒刷新一次
@@ -85,7 +84,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
   const logOperation = [
     {
       title: isFetching ? (
-        <IconLoading spin strokeWidth={2} />
+        <ErdaIcon type="loading" color="black-400" spin className="mr-1.5" />
       ) : (
         <Tooltip
           title={

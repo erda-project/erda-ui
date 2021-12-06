@@ -21,7 +21,6 @@ import ImgMap from 'app/config-page/img-map';
 import { iconMap } from 'common/components/erda-icon';
 import { RowContainer, Container } from '../container/container';
 import { statusColorMap, colorMap } from 'app/config-page/utils';
-import { Download as IconDownLoad, Info as IconInfo, DownOne as IconDownOne } from '@icon-park/react';
 
 import { WithAuth } from 'user/common';
 import Text from '../text/text';
@@ -38,10 +37,10 @@ export const getTitleRender = (cItem: CP_TABLE.Column) => {
   const res = { title } as any;
   if (titleTip) {
     res.title = (
-      <div>
+      <div className="flex items-center">
         {title}
         <Tooltip title={getTitleTip(titleTip)}>
-          <IconInfo className="text-sm text-sub ml-2" />
+          <ErdaIcon type="info" size="14" className="text-sm text-sub ml-2" />
         </Tooltip>
       </div>
     );
@@ -104,7 +103,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         const { url, value } = val || {};
         Comp = (
           <a className="fake-link nowrap flex flex-wrap justify-start items-center w-full" download={value} href={url}>
-            <IconDownLoad /> {value}
+            <ErdaIcon type="download" className="align-middle mr-1" /> {value}
           </a>
         );
       }
@@ -479,7 +478,7 @@ const memberSelectorValueItem = (user: any) => {
       <span className={'ml-1 text-sm nowrap'} title={name}>
         {displayName}
       </span>
-      <IconDownOne theme="filled" className="arrow-icon" />
+      <ErdaIcon type="caret-down" size="18" className="arrow-icon align-middle" />
     </div>
   );
 };
@@ -502,7 +501,7 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
         {value || <span className="text-desc">{i18n.t('unspecified')}</span>}
       </div>
-      <IconDownOne theme="filled" className="arrow-icon" />
+      <ErdaIcon type="caret-down" size="18" className="arrow-icon" />
     </div>
   );
 

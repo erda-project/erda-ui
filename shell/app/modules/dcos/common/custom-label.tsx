@@ -17,7 +17,7 @@ import { isString, isEmpty, remove, find, some } from 'lodash';
 import { useUnmount } from 'react-use';
 import i18n from 'i18n';
 import './custom-label.scss';
-import { Close as IconClose } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 
 interface IProps {
   value?: string[] | string;
@@ -74,13 +74,18 @@ export const CustomLabel = React.forwardRef(
         {labels.map((item, i) => {
           return (
             <span key={`${item}_${String(i)}`} className={'tag-default'}>
-              {item}
-              <IconClose
-                className="cursor-pointer"
-                onClick={() => {
-                  deleteLabel(item);
-                }}
-              />
+              <div className="flex items-center">
+                {item}
+                <ErdaIcon
+                  className="cursor-pointer"
+                  onClick={() => {
+                    deleteLabel(item);
+                  }}
+                  size="14"
+                  color="black-600"
+                  type="close"
+                />
+              </div>
             </span>
           );
         })}

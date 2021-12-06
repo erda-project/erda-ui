@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Dropdown, Menu, Modal, List } from 'antd';
-import { Icon as CustomIcon, Copy, Ellipsis } from 'common';
+import { Icon as CustomIcon, Copy, Ellipsis, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { map, isEmpty } from 'lodash';
 import { notify, insertWhen } from 'common/utils';
@@ -22,7 +22,6 @@ import i18n from 'i18n';
 import runtimeStore from 'runtime/stores/runtime';
 import { usePerm } from 'user/common';
 import runtimeDomainStore from 'runtime/stores/domain';
-import { Copy as IconCopy } from '@icon-park/react';
 import './service-dropdown.scss';
 
 const MenuItem = Menu.Item;
@@ -91,7 +90,7 @@ const ServiceDropdown = (props: IProps) => {
               </span>
               <Copy selector=".cursor-copy">
                 <span className="cursor-copy copy-icon" data-clipboard-text={addr}>
-                  <IconCopy />
+                  <ErdaIcon type="copy" />
                 </span>
               </Copy>
             </div>

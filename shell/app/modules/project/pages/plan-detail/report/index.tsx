@@ -14,7 +14,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import { message } from 'antd';
-import { MarkdownEditor } from 'common';
+import { MarkdownEditor, ErdaIcon } from 'common';
 import routeInfoStore from 'core/stores/route';
 import testPlanStore from 'project/stores/test-plan';
 import BasicInfo from './basic-info';
@@ -23,7 +23,6 @@ import ExportPdf from './export-pdf';
 import NumberInfo from './number-info';
 import PersonalUseCase from './personal-usecase';
 import { get } from 'lodash';
-import { Upload as IconUpload } from '@icon-park/react';
 import './index.scss';
 
 const DetailIntro = () => {
@@ -49,8 +48,8 @@ const DetailIntro = () => {
         <span>{i18n.t('dop:test report details')}</span>
         <ExportPdf domId="report-page" tip={i18n.t('dop:test report')}>
           {({ exportPdf }) => (
-            <span className="text-sm cursor-pointer text-primary" onClick={() => exportPdf()}>
-              <IconUpload />
+            <span className="text-sm cursor-pointer text-primary flex" onClick={() => exportPdf()}>
+              <ErdaIcon className="mr-1" type="upload" size="14" />
               {i18n.t('dop:export report')}
             </span>
           )}

@@ -18,7 +18,6 @@ import { useUpdate } from 'common/use-hooks';
 import { isNumber, filter, map, sortBy, isString } from 'lodash';
 import { OperationAction } from 'config-page/utils';
 import classnames from 'classnames';
-import { More as IconMore } from '@icon-park/react';
 import i18n from 'i18n';
 import { getImg } from 'app/config-page/img-map';
 import './list.scss';
@@ -248,7 +247,7 @@ const Item = (props: ItemProps) => {
       {menuOverlay ? (
         <div className="cp-list-item-operations" onClick={(e) => e?.stopPropagation()}>
           <Dropdown overlay={menuOverlay} zIndex={1000}>
-            <IconMore size={20} className="hover-active" />
+            <ErdaIcon type="more1" size="20" color="black-800" className="hover-active" />
           </Dropdown>
         </div>
       ) : null}

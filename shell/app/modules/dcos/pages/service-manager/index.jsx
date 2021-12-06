@@ -15,11 +15,10 @@ import React from 'react';
 import i18n from 'i18n';
 import { Breadcrumb, Spin, Select, Input } from 'antd';
 import { cloneDeep, map, isEmpty, debounce } from 'lodash';
-import { JsonChecker, IF, Holder } from 'common';
+import { JsonChecker, IF, Holder, ErdaIcon } from 'common';
 import { connectCube } from 'common/utils';
 import PureServiceList from './service-list';
 import AssociatedAddons from '../associated-addon';
-import { Right as IconRight } from '@icon-park/react';
 import './index.scss';
 import dcosServiceStore from 'dcos/stores/services';
 import clusterStore from 'cmp/stores/cluster';
@@ -299,7 +298,10 @@ class ServiceManager extends React.Component {
     return (
       <Spin spinning={isFetchingClusters}>
         <Holder when={isEmpty(list)}>
-          <Breadcrumb separator={<IconRight size="14px" className="text-xs" />} className="path-breadcrumb">
+          <Breadcrumb
+            separator={<ErdaIcon className="text-xs align-middle" type="right" size="14px" />}
+            className="path-breadcrumb"
+          >
             {path.map((p, i) => {
               const isLast = i === path.length - 1;
               return (

@@ -23,7 +23,7 @@ import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
-import { Info as IconInfo } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 import './status.scss';
 
 const { Option } = Select;
@@ -252,8 +252,8 @@ const Status = () => {
       </div>
       <div className="top-bar">
         <span className={`summary-down-count ${hasDown.color}`}>
-          <span>
-            <IconInfo size="16px" /> {hasDown.text}{' '}
+          <span className="flex items-center justify-center">
+            <ErdaIcon type="info" className="mr-2.5" size="16" /> {hasDown.text}{' '}
           </span>
         </span>
       </div>

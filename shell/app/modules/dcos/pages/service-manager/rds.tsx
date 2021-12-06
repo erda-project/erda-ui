@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDTable, Copy, TagsRow } from 'common';
+import { CRUDTable, Copy, TagsRow, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
@@ -36,7 +36,6 @@ import {
 } from 'cmp/common/components/table-col';
 import { skipInfoStatusMap } from 'cmp/pages/cloud-source/config';
 import { customTagColor } from 'dcos/common/config';
-import { DownOne as IconDownOne } from '@icon-park/react';
 
 const specList = [...MysqlFieldsConfig.basicTypes, ...MysqlFieldsConfig.highTypes];
 // rds = mysql
@@ -217,8 +216,10 @@ const RDS = () => {
   const extraOperation = () => (
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
-        {i18n.t('batch setting')}
-        <IconDownOne className="ml-1" theme="filled" size="16px" />
+        <div className="flex">
+          {i18n.t('batch setting')}
+          <ErdaIcon type="caret-down" className="ml-1" size="20" />
+        </div>
       </Button>
     </Dropdown>
   );

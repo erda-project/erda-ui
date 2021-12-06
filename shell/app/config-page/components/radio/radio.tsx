@@ -14,9 +14,8 @@
 import React from 'react';
 import { Tooltip, Dropdown, Menu, Radio, Badge } from 'antd';
 import { map, isArray, find, get } from 'lodash';
-import { Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { DownOne as IconDownOne } from '@icon-park/react';
 
 const handleState = (_stateObj?: Obj) => {
   return {
@@ -88,7 +87,7 @@ const CP_RADIO = (props: CP_RADIO.Props) => {
                     <span className="nowrap" style={{ ...(width ? { width } : {}) }}>
                       {childName}
                     </span>
-                    <IconDownOne theme="filled" className="ml-1" />
+                    <ErdaIcon size="18" type="caret-down" className="ml-1" />
                   </div>
                 </RadioItem>
               </Dropdown>

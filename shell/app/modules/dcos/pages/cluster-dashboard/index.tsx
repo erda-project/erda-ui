@@ -24,7 +24,6 @@ import MachineTabs from './machineTabs';
 import { COLOUR_MAP } from '../../common/config';
 import clusterDashboardStore from '../../stores/dashboard';
 import { useLoading } from 'core/stores/loading';
-import { ViewGridDetail } from '@icon-park/react';
 import { useMount, useUnmount } from 'react-use';
 import noClusterPng from 'app/images/no-cluster.png';
 import { Link } from 'react-router-dom';

@@ -14,7 +14,7 @@
 import React from 'react';
 import { map as _map, pickBy } from 'lodash';
 import { Row, Col, Input, Select, Button, Tabs, Form, Popconfirm, Tooltip } from 'antd';
-import { Copy, KeyValueEditor, IF } from 'common';
+import { Copy, KeyValueEditor, IF, ErdaIcon } from 'common';
 import { regRules, notify, qs } from 'common/utils';
 import CommonPanel from './trace-common-panel';
 import TraceHistoryList from './trace-history-list';
@@ -27,7 +27,6 @@ import traceQuerierStore from 'trace-insight/stores/trace-querier';
 import { useEffectOnce } from 'react-use';
 import TraceSearchDetail from './trace-search-detail';
 import i18n from 'i18n';
-import { FullScreenOne as IconFullScreenOne } from '@icon-park/react';
 import './trace-querier.scss';
 
 const { HTTP_METHOD_LIST, MAX_BODY_LENGTH, MAX_URL_LENGTH } = constants;
@@ -318,10 +317,10 @@ const TraceInsightQuerier = () => {
               <h3 className="trace-common-panel-title font-medium mr-2">{i18n.t('msp:tracing information')}</h3>
               {traceStatusDetail?.status === 1 && (
                 <Tooltip title={i18n.t('full screen')}>
-                  <IconFullScreenOne
+                  <ErdaIcon
+                    type="full-screen-one"
                     size="14"
-                    theme="filled"
-                    className="cursor-pointer hover:text-primary"
+                    className="cursor-pointer hover:text-primary mb-2"
                     onClick={() => setIsShowTraceDetail(true)}
                   />
                 </Tooltip>

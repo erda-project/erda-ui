@@ -20,7 +20,6 @@ import { EmptyHolder, Badge, ErdaIcon } from 'common';
 import { getAvatarChars } from 'app/common/utils';
 import { notify } from 'common/utils';
 import { WithAuth } from 'user/common';
-import { Delete as IconDelete, Plus as IconPlus } from '@icon-park/react';
 import { useUserMap } from 'core/stores/userMap';
 import projectLabelStore from 'project/stores/label';
 import { ISSUE_TYPE, ISSUE_PRIORITY_MAP, ISSUE_ICON } from 'project/common/components/issue/issue-config';
@@ -131,10 +130,14 @@ const IssueKanban = (props: IProps) => {
             </div>
           ) : operations?.CreateCustom?.disabled ? (
             <Tooltip title={operations?.CreateCustom?.disabledTip}>
-              <IconPlus className="cursor-pointer add-icon not-allowed" />
+              <ErdaIcon type="plus" className="cursor-pointer add-icon not-allowed" />
             </Tooltip>
           ) : (
-            <IconPlus className="cursor-pointer add-icon" onClick={() => updater.showAdd(true)} />
+            <ErdaIcon
+              type="plus"
+              className="cursor-pointer add-icon"
+              onClick={() => updater.showAdd(true)}
+            />
           )}
         </div>
       ) : null}
@@ -356,12 +359,13 @@ const Kanban = (props: IKanbanProps) => {
                   execOperation({ key: 'DeleteCustom', ...boardOp?.DeleteCustom }, { panelID: labelKey })
                 }
               >
-                <IconDelete className="ml-3 cursor-pointer" />
+                <ErdaIcon type="delete1" className="ml-3 cursor-pointer" />
               </Popconfirm>
             </WithAuth>
           ) : (
             <WithAuth pass={deleteAuth} noAuthTip={deleteBoardOp?.disabledTip}>
-              <IconDelete
+              <ErdaIcon
+                type="delete1"
                 className="ml-3 cursor-pointer"
                 onClick={() => execOperation({ key: 'DeleteCustom', ...boardOp?.DeleteCustom }, { panelID: labelKey })}
               />

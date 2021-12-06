@@ -17,7 +17,7 @@ import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 import { ossImg, goTo } from 'common/utils';
-import { UserInfo, Icon as CustomIcon, DetailsPanel, Ellipsis } from 'common';
+import { UserInfo, Icon as CustomIcon, DetailsPanel, Ellipsis, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { UnityAuthWrap } from 'apiManagePlatform/components/auth-wrap';
 import AssetModal, { IScope, IMode } from 'apiManagePlatform/pages/api-market/components/asset-modal';
@@ -27,7 +27,6 @@ import { ClickParam } from 'core/common/interface';
 import { get, pick } from 'lodash';
 import moment from 'moment';
 import i18n from 'i18n';
-import { DownOne as IconDownOne } from '@icon-park/react';
 import './index.scss';
 
 type KeyAuth = 'public' | 'private';
@@ -206,8 +205,10 @@ const ApiVersions = () => {
           <UnityAuthWrap path={['apiMarket', 'publicAsset']} userID={creatorID}>
             <Dropdown overlay={menu}>
               <Button>
-                {asset.public ? i18n.t('public') : i18n.t('private')}
-                <IconDownOne theme="filled" size="16px" />
+                <div className="flex items-center">
+                  {asset.public ? i18n.t('public') : i18n.t('private')}
+                  <ErdaIcon type="caret-down" size="18px" />
+                </div>
               </Button>
             </Dropdown>
           </UnityAuthWrap>

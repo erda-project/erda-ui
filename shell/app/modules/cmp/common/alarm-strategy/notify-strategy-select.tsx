@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import React from 'react';
 import { map, find } from 'lodash';
-import { Reduce as IconReduce } from '@icon-park/react';
 import i18n from 'i18n';
+import { ErdaIcon } from 'common';
 import { Select, Divider } from 'antd';
 import { WithAuth } from 'user/common';
 import { notifyChannelOptionsMap } from 'application/pages/settings/components/app-notify/common-notify-group';
@@ -123,7 +123,8 @@ export const NotifyStrategySelect = ({
           );
         })}
       </Select>
-      <IconReduce
+      <ErdaIcon
+        type="reduce"
         className="cursor-pointer ml-2 text-darkgray hover:text-primary"
         size="20"
         onClick={() => handleRemoveNotifyStrategy(id)}

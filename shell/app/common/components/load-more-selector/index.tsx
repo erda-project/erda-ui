@@ -17,10 +17,9 @@ import ReactDOM from 'react-dom';
 import { Dropdown, Input, Menu, Checkbox, Tag, Empty, Spin } from 'antd';
 import { map, isEmpty, isNumber, filter, find, isArray, get, isEqual } from 'lodash';
 import { useEffectOnce, useDebounce, useDeepCompareEffect } from 'react-use';
-import { Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { isPromise } from 'common/utils';
-import { CloseOne as IconCloseOne, Loading as IconLoading } from '@icon-park/react';
 import i18n from 'i18n';
 
 import './index.scss';
@@ -410,9 +409,9 @@ const PureLoadMoreSelector = (props: IProps) => {
             </div>
           )}
           {allowClear && !isEmpty(chosenItem) ? (
-            <IconCloseOne
+            <ErdaIcon
+              type="close-one"
               className="close"
-              theme="filled"
               size="14px"
               onClick={(e: any) => {
                 e.stopPropagation();
@@ -537,7 +536,7 @@ const DefaultLoadMoreRender = ({ onLoadMore, loading }: { onLoadMore: () => void
         onLoadMore();
       }}
     >
-      <IconLoading spin={loading} />
+      <ErdaIcon type="loading" className="align-middle" spin={loading} />
       {i18n.t('load more')}
     </div>
   );

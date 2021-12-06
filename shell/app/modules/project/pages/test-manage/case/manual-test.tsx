@@ -33,7 +33,6 @@ import CaseDrawer from 'project/pages/test-manage/case/case-drawer';
 import testEnvStore from 'project/stores/test-env';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import moment from 'moment';
-import { Search as IconSearch, Plus as IconPlus } from '@icon-park/react';
 import './manual-test.scss';
 
 const ManualTest = () => {
@@ -152,11 +151,20 @@ const ManualTest = () => {
           </span>
         </div>
         <div className="flex justify-between items-center mb-3">
-          <div className="ml-3-group">
+          <div className="ml-3-group flex flex-wrap">
             {query.recycled !== 'true' && (
               <>
-                <Button type="primary" icon={<IconPlus />} onClick={showCaseDrawer} className="mb-2">
-                  {i18n.t('dop:add use case')}
+                <Button
+                  type="primary"
+                  icon={
+                    <div>
+                      <ErdaIcon type="plus" className="mr-1 mt-1" size="14" />
+                    </div>
+                  }
+                  onClick={showCaseDrawer}
+                  className="mb-2 flex"
+                >
+                  <span>{i18n.t('dop:add use case')}</span>
                 </Button>
                 <ImportFile afterImport={afterImport} />
                 <ExportFile afterExport={afterExport} />
@@ -186,7 +194,7 @@ const ManualTest = () => {
               placeholder={i18n.t('dop:search for')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              prefix={<IconSearch />}
+              prefix={<ErdaIcon type="search1" size="14" className="mr-1" />}
             />
             <Button onClick={() => setEnhanceFilterVisible(true)}>
               <ErdaIcon stroke="black-800" className="mt-0.5" width="16" height="18" type="filter" />

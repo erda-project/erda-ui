@@ -22,9 +22,9 @@ import monitorStatusStore from 'status-insight/stores/status';
 import { useLoading } from 'core/stores/loading';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
+import { ErdaIcon } from 'common';
 import './status-detail.scss';
 import routeInfoStore from 'core/stores/route';
-import { Info as IconInfo } from '@icon-park/react';
 
 const StatusDetail = () => {
   const params = routeInfoStore.useStore((s) => s.params);
@@ -149,7 +149,7 @@ const StatusDetail = () => {
               <span className="name">{i18n.t('msp:downtime')}</span>
               <span className="value">
                 <Tooltip title={emptyText(data.downtime)}>{data.downDuration}</Tooltip>
-                <IconInfo size="16px" theme="filled" className="info-icon" />
+                <ErdaIcon type="tishi" size="16" className="info-icon" />
               </span>
             </div>
           </Col>

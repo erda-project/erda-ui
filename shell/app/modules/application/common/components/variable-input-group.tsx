@@ -15,7 +15,7 @@ import React, { PureComponent } from 'react';
 import { Input } from 'antd';
 import i18n from 'i18n';
 import './variable-input-group.scss';
-import { Lock as IconLock, Delete as IconDelete } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 
 interface IVariableInputGroupProps {
   value: any;
@@ -74,10 +74,11 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
           onChange={this.changeValue}
           placeholder={i18n.t('dop:please input the value')}
         />
-        {lock !== false ? <IconLock className="variable-icon variable-input-lock" /> : null}
+        {lock !== false ? <ErdaIcon type="lock" className="variable-icon variable-input-lock" /> : null}
         {disabled ? null : (
-          <IconDelete
-            className={`variable-icon cursor-pointer ${lock === false && 'ml-3'}`}
+          <ErdaIcon
+            type="delete1"
+            className={`align-middle variable-icon cursor-pointer ${lock === false && 'ml-3'}`}
             onClick={() => onDelete(key)}
           />
         )}

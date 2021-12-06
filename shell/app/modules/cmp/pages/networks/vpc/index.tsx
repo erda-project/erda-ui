@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDTable, Copy } from 'common';
+import { CRUDTable, Copy, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Link } from 'react-router-dom';
 import networksStore from 'cmp/stores/networks';
@@ -31,7 +31,6 @@ import {
   getCloudResourceRegionCol,
 } from 'cmp/common/components/table-col';
 import { SetTagForm } from 'cmp/common/components/set-tag-form';
-import { DownOne as IconDownOne } from '@icon-park/react';
 import './index.scss';
 
 const { Option } = Select;
@@ -202,8 +201,10 @@ const VPS = () => {
         )}
         <Dropdown disabled={!ifSelected} overlay={menu}>
           <Button type="primary">
-            {i18n.t('batch setting')}
-            <IconDownOne className="ml-1" theme="filled" size="16px" />
+            <div className="flex">
+              {i18n.t('batch setting')}
+              <ErdaIcon type="caret-down" className="ml-1" size="20" />
+            </div>
           </Button>
         </Dropdown>
       </div>
