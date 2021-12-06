@@ -50,10 +50,10 @@ const ISSUE_ICON = {
   iteration: <Icon type="bb1" className="issue-icon iteration" />,
   priority: {
     // 优先级icon
-    URGENT: <Icon type="jinji" className="issue-icon priority urgent" />, // 紧急
-    HIGH: <Icon type="gao" className="issue-icon priority high" />, // 高
-    NORMAL: <Icon type="zhong" className="issue-icon priority normal" />, // 中
-    LOW: <Icon type="di" className="issue-icon priority low" />, // 低
+    URGENT: <ErdaIcon type="jinji" size="20px" />, // 紧急
+    HIGH: <ErdaIcon type="gao" size="20px" />, // 高
+    NORMAL: <ErdaIcon type="zhong" size="20px" />, // 中
+    LOW: <ErdaIcon type="di" size="20px" />, // 低
   },
   issue: {
     // 事件类型icon

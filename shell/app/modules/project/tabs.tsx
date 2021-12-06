@@ -108,14 +108,14 @@ export const PROJECT_TABS = () => {
       show: projectPerm.backLog.viewBackLog.pass,
     },
     {
-      key: 'iteration',
-      name: i18n.t('dop:sprint'),
-      show: projectPerm.iteration.read.pass,
-    },
-    {
       key: 'plan',
       name: i18n.t('plan'),
       show: projectPerm.requirement.read.pass,
+    },
+    {
+      key: 'iteration',
+      name: i18n.t('dop:sprint'),
+      show: projectPerm.iteration.read.pass,
     },
     {
       key: 'all',

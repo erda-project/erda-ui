@@ -51,3 +51,66 @@ export const DOC_CMP_CLUSTER_MANAGE = `${DOC_PREFIX}/manual/cmp/guide/cluster/ma
 // aliyun
 export const ALIYUN_APPLICATION =
   'https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fdysms.console.aliyun.com%2Fdysms.htm%23%2Fdomestic%2Ftext%2Ftemplate%2Fadd';
+
+export const auxiliaryColorMap = {
+  purple: {
+    dark: '#302647',
+    deep: '#A051FF',
+    mid: '#D3ADF7',
+    light: '#F9F0FF',
+  },
+  blue: {
+    dark: '#003A8C',
+    deep: '#1890FF',
+    mid: '#81D5FF',
+    light: '#E6F7FF',
+  },
+  orange: {
+    dark: '#871400',
+    deep: '#FA541C',
+    mid: '#FFBB96',
+    light: '#FFF2E8',
+  },
+  cyan: {
+    dark: '#00474F',
+    deep: '#13C2C2',
+    mid: '#87E8DE',
+    light: '#E6FFFB',
+  },
+  green: {
+    dark: '#135200',
+    deep: '#52C41A',
+    mid: '#B7EB8F',
+    light: '#F6FFED',
+  },
+  magenta: {
+    dark: '#780C52',
+    deep: '#D33E90',
+    mid: '#FFADD2',
+    light: '#FFF0F6',
+  },
+  yellow: {
+    dark: '#613400',
+    deep: '#FAAD14',
+    mid: '#FFE58F',
+    light: '#FFFBE6',
+  },
+  red: {
+    dark: '#7A2F2F',
+    deep: '#E75959',
+    mid: '#FFBABA',
+    light: '#FFF0F0',
+  },
+  'water-blue': {
+    dark: '#364285',
+    deep: '#687FFF',
+    mid: '#BDCFFF',
+    light: '#F0F2FF',
+  },
+  'yellow-green': {
+    dark: '#666300',
+    deep: '#C9C400',
+    mid: '#ECE97D',
+    light: '#FAF9DC',
+  },
+};

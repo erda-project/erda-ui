@@ -383,6 +383,7 @@ const IssueMetaFields = React.forwardRef(
         showRequiredMark: ISSUE_TYPE.EPIC === issueType,
         itemProps: {
           allowClear: true,
+          endDay: true,
         },
       },
       ...insertWhen(![ISSUE_TYPE.TICKET, ISSUE_TYPE.EPIC].includes(issueType), [

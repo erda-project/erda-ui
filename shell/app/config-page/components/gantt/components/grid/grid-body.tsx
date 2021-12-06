@@ -50,6 +50,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
   rtl,
   onDateChange,
   ganttEvent,
+  setRangeAddTime,
 }) => {
   let y = 0;
   const gridRows: ReactChild[] = [];
@@ -63,6 +64,13 @@ export const GridBody: React.FC<GridBodyProps> = ({
   const [endPos, setEndPos] = React.useState<null | number[]>(null);
   const [chosenTask, setChosenTask] = React.useState<Obj | null>(null);
 
+  React.useEffect(() => {
+    if (startPos && endPos) {
+      setRangeAddTime({ x1: startPos[0], x2: endPos[0] });
+    } else {
+      setRangeAddTime(null);
+    }
+  }, [startPos, endPos]);
   const onMouseDown = (e: React.MouseEvent) => {
     const gridPos = e.currentTarget.getBoundingClientRect();
     const clickY = e.clientY - gridPos.y;
@@ -121,6 +129,29 @@ export const GridBody: React.FC<GridBodyProps> = ({
   const { changedTask } = ganttEvent || {};
   const realHeight = tasks.length * rowHeight;
 
+  const getRangePos = () => {
+    if (changedTask) {
+      return {
+        // x: changedTask.x1,
+        // y: 0,
+        transform: `translate(${changedTask.x1},0)`,
+        width: changedTask.x2 - changedTask.x1,
+        height: max([ganttHeight, realHeight]),
+      };
+    } else if (startPos && endPos) {
+      return {
+        // x: min([startPos[0], endPos[0]]),
+        // y: 0,
+        transform: `translate(${min([startPos[0], endPos[0]])},0)`,
+        width: Math.abs(endPos[0] - startPos[0]),
+        height: max([ganttHeight, realHeight]),
+      };
+    }
+    return null;
+  };
+
+  const rangePos = getRangePos();
+
   return (
     <g
       className="gridBody"
@@ -131,23 +162,18 @@ export const GridBody: React.FC<GridBodyProps> = ({
       onMouseMove={onMouseMove}
       onMouseLeave={mouseUnFocus}
     >
-      {changedTask ? (
+      {rangePos ? (
         <g>
-          <rect
-            x={changedTask.x1}
-            y={0}
-            width={changedTask.x2 - changedTask.x1}
-            height={max([ganttHeight, realHeight])}
-            className="erda-gantt-grid-changed-range"
-          />
+          <rect {...rangePos} className="erda-gantt-grid-changed-range" />
         </g>
       ) : null}
       <g className="rows">{gridRows}</g>
       {startPos && endPos ? (
         <g>
           <foreignObject
-            x={min([startPos[0], endPos[0]])}
-            y={min([startPos[1], endPos[1]])}
+            // x={min([startPos[0], endPos[0]])}
+            // y={min([startPos[1], endPos[1]])}
+            transform={`translate(${min([startPos[0], endPos[0]])},${min([startPos[1], endPos[1]])})`}
             width={Math.abs(startPos[0] - endPos[0])}
             height={Math.abs(startPos[1] - endPos[1])}
           >

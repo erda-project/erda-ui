@@ -6,17 +6,13 @@
   background-color: $color-dark-02;
 }
 
-.erda-gantt-horizontal-container {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
 .erda-gantt-wrapper {
   display: flex;
   padding: 0;
   margin: 0;
+  height: 100%;
   list-style: none;
+  overflow: hidden;
   outline: none;
   position: relative;
 }

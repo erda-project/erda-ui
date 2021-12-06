@@ -25,8 +25,7 @@ type BarDateHandleProps = {
 export const BarDateHandle: React.FC<BarDateHandleProps> = ({ x, y, width, height, barCornerRadius, onMouseDown }) => {
   return (
     <rect
-      x={x}
-      y={y}
+      transform={`translate(${x},${y})`}
       width={width * 2}
       height={height}
       className={'erda-gantt-bar-handle'}

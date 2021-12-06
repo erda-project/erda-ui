@@ -11,16 +11,31 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { mockData, enhanceMock } from './crud.mock';
-
-export const useMock = (payload: Obj) => {
-  if (process.env.NODE_ENV === 'production') {
-    return Promise.resolve();
-  } else {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(enhanceMock(mockData, payload));
-      }, 200);
-    });
+declare namespace CP_CARD {
+  interface Spec {
+    type: 'Card';
+    props: IProps;
   }
-};
+
+  interface IProps {
+    data: Obj<InfoData>;
+    cardType: string;
+    className?: string;
+    titleMaxLength?: number;
+    isDrag?: string;
+    setIsDrag?: (isDrag: boolean) => void;
+  }
+
+  interface InfoData {
+    id: string;
+    titleIcon?: string | React.ReactNode;
+    title?: string | React.ReactNode;
+    operations?: Obj<CP_COMMON.Operation>;
+    subContent?: string | React.ReactNode;
+    description?: string | React.ReactNode;
+    extraInfo?: Obj;
+    type: string;
+  }
+
+  type Props = MakeProps<Spec>;
+}

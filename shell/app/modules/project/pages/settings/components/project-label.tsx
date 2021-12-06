@@ -20,9 +20,10 @@ import projectLabel from 'project/stores/label';
 import React from 'react';
 import { useEffectOnce } from 'react-use';
 import './project-label.scss';
+import { Close as IconClose, Plus as IconPlus } from '@icon-park/react';
+import { auxiliaryColorMap } from 'common/constants';
 
-const colors = ['red', 'orange', 'blue', 'green', 'purple', 'gray'];
-
+const colors = Object.keys(auxiliaryColorMap);
 const ProjectLabel = () => {
   const list = projectLabel.useStore((s) => s.list);
   const { getLabels, createLabel, updateLabel, deleteLabel } = projectLabel.effects;
@@ -112,7 +113,7 @@ const ProjectLabel = () => {
             {colors.map((c) => (
               <span
                 key={c}
-                className={`color-option bg-${c} ${state.activeColor === c ? 'active' : ''}`}
+                className={`color-option bg-${c}-deep ${state.activeColor === c ? 'active' : ''}`}
                 onClick={() => {
                   updater.activeColor(c);
                   form.setFieldsValue({ color: c });
@@ -135,24 +136,25 @@ const ProjectLabel = () => {
           <ErdaIcon type="plus" className="mr-1" size="14px" />
           {i18n.t('dop:add label')}
         </span>
-        {list.map((label) => (
-          <span
-            className={`flex items-center label-item text-${label.color} bg-${label.color} bg-opacity-10`}
-            key={label.id}
-            onClick={() => onClickLabel(label)}
-          >
-            {label.name}
-            <ErdaIcon
-              type="close"
-              size="12"
-              className="ml-1"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDelete(label);
-              }}
-            />
-          </span>
-        ))}
+        {list.map((label) => {
+          const color = label.color === 'gray' ? 'water-blue' : label.color;
+          return (
+            <span
+              className={`label-item text-${color}-deep bg-${color}-light border-0 border-solid border-l-2 border-l-${color}-mid `}
+              key={label.id}
+              onClick={() => onClickLabel(label)}
+            >
+              {label.name}
+              <IconClose
+                className="ml-1"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDelete(label);
+                }}
+              />
+            </span>
+          );
+        })}
       </div>
       <FormModal
         name={i18n.t('label')}

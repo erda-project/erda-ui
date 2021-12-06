@@ -22,62 +22,26 @@ export interface TaskGanttProps {
   calendarProps: CalendarProps;
   barProps: TaskGanttContentProps;
   ganttHeight: number;
-  scrollY: number;
-  scrollX: number;
   BarContentRender: React.ReactNode;
 }
-export const TaskGantt: React.FC<TaskGanttProps> = ({
-  gridProps,
-  calendarProps,
-  barProps,
-  ganttHeight,
-  scrollY,
-  scrollX,
-  BarContentRender,
-}) => {
+export const TaskGantt: React.FC<TaskGanttProps> = ({ gridProps, calendarProps, barProps, BarContentRender }) => {
   const ganttSVGRef = useRef<SVGSVGElement>(null);
-  const horizontalContainerRef = useRef<HTMLDivElement>(null);
-  const verticalGanttContainerRef = useRef<HTMLDivElement>(null);
   const newBarProps = { ...barProps, svg: ganttSVGRef };
 
-  useEffect(() => {
-    if (horizontalContainerRef.current) {
-      horizontalContainerRef.current.scrollTop = scrollY;
-    }
-  }, [scrollY]);
-
-  useEffect(() => {
-    if (verticalGanttContainerRef.current) {
-      verticalGanttContainerRef.current.scrollLeft = scrollX;
-    }
-  }, [scrollX]);
-
   return (
-    <div className={'erda-gantt-vertical-container'} ref={verticalGanttContainerRef} dir="ltr">
+    <div className={'erda-gantt-vertical-container'} dir="ltr">
+      <Calendar {...calendarProps} />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={gridProps.svgWidth}
-        height={calendarProps.headerHeight}
+        height={barProps.rowHeight * barProps.tasks.length}
         fontFamily={barProps.fontFamily}
+        style={{ overflow: 'visible' }}
+        ref={ganttSVGRef}
       >
-        <Calendar {...calendarProps} />
+        <Grid {...gridProps} />
+        <TaskGanttContent {...newBarProps} BarContentRender={BarContentRender} />
       </svg>
-      <div
-        ref={horizontalContainerRef}
-        className={'erda-gantt-horizontal-container'}
-        style={ganttHeight ? { height: ganttHeight, width: gridProps.svgWidth } : { width: gridProps.svgWidth }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width={gridProps.svgWidth}
-          height={barProps.rowHeight * barProps.tasks.length}
-          fontFamily={barProps.fontFamily}
-          ref={ganttSVGRef}
-        >
-          <Grid {...gridProps} />
-          <TaskGanttContent {...newBarProps} BarContentRender={BarContentRender} />
-        </svg>
-      </div>
     </div>
   );
 };

@@ -21,38 +21,31 @@ export const Project: React.FC<TaskItemProps> = ({ task, isSelected }) => {
   const processColor = isSelected ? task.styles.progressSelectedColor : task.styles.progressColor;
   const projectWith = task.x2 - task.x1;
 
-  const projectLeftTriangle = [
-    task.x1,
-    task.y + barHeight - 1,
-    task.x1,
-    task.y + barHeight * 2,
-    task.x1 + 8,
-    task.y + barHeight - 1,
-  ].join(',');
+  const projectLeftTriangle = [0, barHeight - 1, 0, barHeight * 2, 0 + 8, barHeight - 1].join(',');
   const projectRightTriangle = [
-    task.x2,
-    task.y + barHeight - 1,
-    task.x2,
-    task.y + barHeight * 2,
-    task.x2 - 8,
-    task.y + barHeight - 1,
+    projectWith,
+    barHeight - 1,
+    projectWith,
+    barHeight * 2,
+    projectWith - 8,
+    barHeight - 1,
   ].join(',');
   return (
-    <g tabIndex={0} className={'erda-gantt-project-wrapper'}>
+    <g tabIndex={0} className={'erda-gantt-project-wrapper'} transform={`translate(${task.x1}, ${task.y})`}>
       <rect
         fill={'transparent'}
-        x={task.x1}
+        // x={task.x1}
         width={projectWith}
-        y={task.y}
+        // y={task.y}
         height={task.height}
         rx={task.barCornerRadius}
         ry={task.barCornerRadius}
         className={'erda-gantt-project-background'}
       />
       <rect
-        x={task.progressX}
+        // x={task.progressX}
         width={task.progressWidth}
-        y={task.y}
+        // y={task.y}
         height={task.height}
         ry={task.barCornerRadius}
         rx={task.barCornerRadius}
@@ -60,9 +53,9 @@ export const Project: React.FC<TaskItemProps> = ({ task, isSelected }) => {
       />
       <rect
         fill={barColor}
-        x={task.x1}
+        // x={task.x1}
         width={projectWith}
-        y={task.y}
+        // y={task.y}
         height={barHeight}
         rx={task.barCornerRadius}
         ry={task.barCornerRadius}

@@ -340,7 +340,9 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
           className="w-full"
           allowClear={false}
           value={editValue ? moment(editValue) : undefined}
-          onChange={(m: moment.Moment) => onSelectChange(m ? m.startOf('day') : undefined)}
+          onChange={(m: moment.Moment) =>
+            onSelectChange(m ? (itemProps?.endDay ? m.endOf('day') : m.startOf('day')) : undefined)
+          }
           format="YYYY-MM-DD"
           onBlur={() => onBlur()}
           showTime={false}

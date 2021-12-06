@@ -13,6 +13,7 @@
 
 import { Task, ViewMode } from '../types/public-types';
 import moment from 'moment';
+import { min, max, flatten, compact } from 'lodash';
 import DateTimeFormatOptions = Intl.DateTimeFormatOptions;
 import DateTimeFormat = Intl.DateTimeFormat;
 
@@ -65,24 +66,28 @@ export const startOfDate = (date: Date, scale: DateHelperScales) => {
 };
 
 export const ganttDateRange = (tasks: Task[], viewMode: ViewMode) => {
-  let newStartDate: Date = tasks[0].start;
-  let newEndDate: Date = tasks[0].start;
-  for (const task of tasks) {
-    if (task.start < newStartDate) {
-      newStartDate = task.start;
-    }
-    if (task.end > newEndDate) {
-      newEndDate = task.end;
-    }
-  }
+  let newStartDate: Date = tasks[0].start || 0;
+  let newEndDate: Date = tasks[0].start || 0;
+
+  const timeArr = compact(flatten(tasks.map((item) => [item.start, item.end])));
+
+  const minTime = min(timeArr);
+  const maxTime = max(timeArr);
+  newStartDate = minTime && new Date(minTime);
+  newEndDate = maxTime && new Date(maxTime);
+
   if (!newStartDate) {
     newStartDate = new Date(moment().subtract(15, 'days'));
   }
-  if (!newEndDate) {
+  if (!newEndDate || newEndDate.getTime() === newStartDate.getTime()) {
     newEndDate = new Date(moment(newStartDate).subtract(-30, 'days'));
   }
 
-  console.log('------', newStartDate);
+  // start time is bigger then end time
+  if (newStartDate.getTime() > newEndDate.getTime()) {
+    [newStartDate, newEndDate] = [newEndDate, newStartDate];
+  }
+
   switch (viewMode) {
     case ViewMode.Month:
       newStartDate = addToDate(newStartDate, -1, 'month');
@@ -114,6 +119,8 @@ export const ganttDateRange = (tasks: Task[], viewMode: ViewMode) => {
       newStartDate = addToDate(newStartDate, -1, 'day');
       newEndDate = addToDate(newEndDate, 108, 'hour'); // 24(1 day)*5 - 12
       break;
+    default:
+      break;
   }
   return [newStartDate, newEndDate];
 };
@@ -137,6 +144,8 @@ export const seedDates = (startDate: Date, endDate: Date, viewMode: ViewMode) =>
         break;
       case ViewMode.QuarterDay:
         currentDate = addToDate(currentDate, 6, 'hour');
+        break;
+      default:
         break;
     }
     dates.push(currentDate);

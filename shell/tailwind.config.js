@@ -70,6 +70,9 @@ module.exports = {
         height: 'height',
         width: 'width',
       },
+      boxShadow: {
+        card: '0 2px 4px 0 rgba(85,77,104,0.08)',
+      },
     },
   },
   variants: {
