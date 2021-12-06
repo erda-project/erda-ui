@@ -207,7 +207,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
             const weekWidth = columnWidth * week.length;
             leftDis += weekWidth;
             return (
-              <div key={`${idx}`} style={{ width: 280, height: 60, top: 0 }} className="text-center text-xs">
+              <div key={`${idx}`} style={{ width: weekWidth, height: 60, top: 0 }} className="text-center text-xs">
                 <div className="text-black-300" style={{ height: 20, lineHeight: '20px' }}>
                   {Months[week[0].getMonth()]}
                 </div>
