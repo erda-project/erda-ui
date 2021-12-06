@@ -449,7 +449,7 @@ export const FileDiff = ({
                             {showTsCommentIcon && (
                               <TemporaryStorageIcon onClick={() => handleLeftGetLS(lineKey, true)} />
                             )}
-                            <IF check={showLeftCommentIcon}>
+                            <IF check={showLeftCommentIcon || showRightCommentIcon}>
                               <CommentIcon onClick={() => toggleLeftCommentEdit(lineKey, true)} />
                             </IF>
                           </td>
