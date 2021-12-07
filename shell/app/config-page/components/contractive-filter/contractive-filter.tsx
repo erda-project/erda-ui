@@ -15,7 +15,7 @@ import React from 'react';
 import { ContractiveFilter } from 'common';
 import { useMount } from 'react-use';
 
-export const Filter = (props: CP_FILTER.Props) => {
+const CP_Filter = (props: CP_FILTER.Props) => {
   const { state, execOperation, operations, props: configProps, customOp } = props;
   const { delay, visible = true, fullWidth = false } = configProps || {};
 
@@ -71,3 +71,5 @@ export const Filter = (props: CP_FILTER.Props) => {
     />
   );
 };
+
+export default CP_Filter;
