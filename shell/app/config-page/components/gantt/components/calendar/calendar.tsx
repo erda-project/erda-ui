@@ -162,14 +162,18 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
       }
       return [topValues, bottomValues];
     };
+    const reHighlightRange = {
+      ...highlightRange,
+      ...(highlightRange?.id && !highlightRange.start && !highlightRange.end ? { x1: -1, x2: -1 } : {}),
+    };
     const HoverBar = ({ style }: { style: Obj }) =>
       highlightRange ? (
         <div
           className="absolute rounded bg-hover-gray-bg"
           style={{
-            width: Math.abs(highlightRange.x2 - highlightRange.x1),
+            width: Math.abs(reHighlightRange.x2 - reHighlightRange.x1),
             height: 40,
-            left: min([highlightRange.x1, highlightRange.x2]),
+            left: min([reHighlightRange.x1, reHighlightRange.x2]),
             top: 24,
             ...style,
           }}
@@ -180,6 +184,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
       const dates = dateSetup.dates.slice(...horizontalRange);
       const dateInWeeks = [];
       // append date when screen have more space
+      if (!dates.length) return null;
       let appendDateLength = Math.max(0, horizontalRange[1] - horizontalRange[0] - dates.length);
       while (appendDateLength-- > 0) {
         const lastDayInLastWeek = dates[dates.length - 1];
@@ -205,17 +210,13 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
         lastWeek.push(addToDate(lastDayInLastWeek, 1, 'day'));
       }
       let leftDis = 0;
-
+      const offsetX = (firstDayInWeek ? firstDayInWeek - 1 : 6) * columnWidth;
       bottomValues = (
         <div
           className="flex h-full w-full erda-gantt-calendar-header-container"
-          style={{ transform: `translateX(${-(firstDayInWeek ? firstDayInWeek - 1 : 6) * columnWidth}px)` }}
+          style={{ transform: `translateX(${-offsetX}px)` }}
         >
-          {
-            <HoverBar
-              style={{ transform: `translateX(${(firstDayInWeek ? firstDayInWeek - 1 : 6) * columnWidth}px)` }}
-            />
-          }
+          {<HoverBar style={{ transform: `translateX(${offsetX}px)` }} />}
           {dateInWeeks.map((week, idx) => {
             const weekWidth = columnWidth * week.length;
             leftDis += weekWidth;
@@ -227,8 +228,8 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
                 <div className="flex">
                   {week.map((day, dIdx) => {
                     const mark =
-                      highlightRange?.x1 === columnWidth * dIdx + leftDis - weekWidth ||
-                      highlightRange?.x2 === columnWidth * (dIdx + 1) + leftDis - weekWidth;
+                      reHighlightRange?.x1 === columnWidth * dIdx + leftDis - weekWidth - offsetX ||
+                      reHighlightRange?.x2 === columnWidth * (dIdx + 1) + leftDis - weekWidth - offsetX;
                     const cls = `${
                       mark
                         ? 'calendar-highlight-text'

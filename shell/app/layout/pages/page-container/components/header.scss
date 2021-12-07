@@ -59,6 +59,15 @@
     .tab-menu .tab-menu-item {
       height: 32px;
       line-height: 32px;
+      &.tab-split-line-before {
+        &::before {
+          position: absolute;
+          content: '';
+          width: 1px;
+          height: 20px;
+          background-color: $border-color;
+        }
+      }
     }
   }
 

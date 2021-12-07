@@ -47,7 +47,7 @@ const BarContentRender = (props: IBarProps) => {
           {task.name}
         </span>
       </div>
-      <div className={`absolute text-sub text-xs ${isHover ? 'visible' : 'invisible'}`} style={{ right: -150, top: 1 }}>
+      <div className={`absolute text-sub text-xs ${isHover ? 'visible' : 'invisible'}`} style={{ right: -150, top: 2 }}>
         {moment(task.start).format('YYYY-MM-DD')} ~ {moment(task.end).format('YYYY-MM-DD')}
       </div>
     </div>
