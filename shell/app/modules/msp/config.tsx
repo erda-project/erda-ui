@@ -14,7 +14,6 @@
 import React from 'react';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
-import { Components as IconComponents, Log as IconLog, MonitorCamera as IconMonitorCamera } from '@icon-park/react';
 import { ErdaIcon } from 'common';
 
 export const envMap = {
@@ -123,7 +122,7 @@ export const MSIconMap = {
   Overview: renderIcon('huanjinggailan'),
   ServiceManage: renderIcon('zhili'),
   AlertCenter: renderIcon('gaojingguanli'),
-  EnvironmentSet: IconComponents,
-  MonitorCenter: IconMonitorCamera,
-  DiagnoseAnalyzer: IconLog,
+  EnvironmentSet: renderIcon('components'),
+  MonitorCenter: renderIcon('monitor-camera'),
+  DiagnoseAnalyzer: renderIcon('log'),
 };

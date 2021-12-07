@@ -20,7 +20,7 @@
 import agent from 'agent';
 import { message, notification, Button } from 'antd';
 import React from 'react';
-import { SmilingFaceWithSquintingEyes as IconSmilingFaceWithSquintingEyes } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 
 function getCurrentVersion() {
@@ -32,7 +32,7 @@ const openNotification = () => {
     duration: 0,
     message: i18n.t('New version available'),
     description: i18n.t('Version has been updated, it is recommended to refresh the page'),
-    icon: <IconSmilingFaceWithSquintingEyes className="text-primary" />,
+    icon: <ErdaIcon type="smiling-face-with-squinting-eyes" className="text-primary" />,
     btn: (
       <Button type="primary" size="small" onClick={() => location.reload()}>
         {i18n.t('refresh')}

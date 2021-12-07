@@ -13,9 +13,8 @@
 
 import React from 'react';
 import { Modal, Button } from 'antd';
-import { Attention as IconAttention } from '@icon-park/react';
 import i18n from 'i18n';
-
+import { ErdaIcon } from 'common';
 interface IProps {
   [proName: string]: any;
   title?: string;
@@ -77,7 +76,7 @@ const ConfirmDelete = (props: IProps) => {
       <Modal
         title={
           <div className="flex flex-wrap items-center">
-            <IconAttention className="mr-1 color-warning text-xl font-bold" />
+            <ErdaIcon type="tishi" size="20" className="mr-1" color="warning" />
             {_title}
           </div>
         }

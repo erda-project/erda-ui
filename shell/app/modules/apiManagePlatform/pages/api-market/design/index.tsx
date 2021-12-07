@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon as CustomIcon, EmptyHolder, LazyRender, Ellipsis } from 'common';
+import { Icon as CustomIcon, EmptyHolder, LazyRender, Ellipsis, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Input, Button, Collapse, Tooltip, Popconfirm, message, Spin, Modal, Popover } from 'antd';
 import i18n from 'i18n';
@@ -42,7 +42,6 @@ import ApiDocTree from './api-doc-tree';
 import { useLoading } from 'core/stores/loading';
 import { goTo } from 'common/utils';
 import appStore from 'application/stores/application';
-import { Plus as IconPlus, Search as IconSearch } from '@icon-park/react';
 import './index.scss';
 import invalidImg from 'app/images/invalid-doc.svg';
 
@@ -357,7 +356,8 @@ const ApiDesign = () => {
     <div className="list-panel-head inline-flex justify-between items-center">
       <span className="font-bold">{LIST_TITLE_MAP[titleKey]}</span>
       {!apiLockState && (
-        <IconPlus
+        <ErdaIcon
+          type="plus"
           className="mr-0 cursor-pointer"
           size="16px"
           onClick={(e) => {
@@ -667,7 +667,7 @@ const ApiDesign = () => {
                 <Input
                   placeholder={i18n.t('search by keyword')}
                   className="mx-2 my-3 api-filter-input"
-                  prefix={<IconSearch />}
+                  prefix={<ErdaIcon type="search1" size="14" className="mr-0.5 mt-0.5" />}
                   onInput={(e: React.ChangeEvent<HTMLInputElement>) => updater.filterKey(e.target.value)}
                 />
 

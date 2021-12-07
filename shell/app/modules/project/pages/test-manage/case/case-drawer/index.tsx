@@ -32,7 +32,6 @@ import { cloneDeep, isUndefined, omitBy, pick } from 'lodash';
 import { useLoading } from 'core/stores/loading';
 import './index.scss';
 import RelatedBugs from 'project/pages/test-manage/case/case-drawer/related-bugs';
-import { ShareOne as IconShareOne, Close as IconClose } from '@icon-park/react';
 
 interface IProps {
   caseList?: TEST_CASE.TestCaseItem[];
@@ -359,15 +358,20 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
               {editMode ? (
                 <>
                   <Copy selector=".copy-share-link" tipName={i18n.t('dop:share link')} />
-                  <IconShareOne
-                    className="cursor-copy copy-share-link ml-3"
-                    size="16px"
+                  <ErdaIcon
+                    type="share-one"
+                    className="cursor-copy copy-share-link ml-3 mt-1"
+                    size="16"
                     data-clipboard-text={shareLink}
-                    type="share-alt"
                   />
                 </>
               ) : null}
-              <IconClose onClick={handleClose} className="ml-3 cursor-pointer" size="16px" />
+              <ErdaIcon
+                type="close"
+                onClick={handleClose}
+                className="ml-3 mt-1 cursor-pointer"
+                size="16"
+              />
             </div>
           </div>
           <div className="flex justify-between items-center mt-4">

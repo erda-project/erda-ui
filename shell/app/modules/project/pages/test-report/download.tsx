@@ -15,9 +15,8 @@ import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import { Input, Form } from 'antd';
 import ExportPdf from 'project/pages/plan-detail/report/export-pdf';
-import { Upload as IconUpload } from '@icon-park/react';
 import Markdown from 'common/utils/marked';
-import { Title } from 'common';
+import { Title, ErdaIcon } from 'common';
 import IterationSelect from 'project/common/components/issue/iteration-select';
 import { useMount } from 'react-use';
 import { getTestReportDetail } from 'project/services/project';
@@ -46,7 +45,7 @@ export default ({ downloadId, projectId, onFinish }: { downloadId: string; proje
             <ExportPdf onFinish={onFinish} domId="test-report-page" tip={data?.name}>
               {({ exportPdf }) => (
                 <span className="text-sm cursor-pointer text-primary" ref={exportRef} onClick={() => exportPdf()}>
-                  <IconUpload />
+                  <ErdaIcon type="upload" className="align-middle mr-1" />
                   {i18n.t('dop:export report')}
                 </span>
               )}

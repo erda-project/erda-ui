@@ -13,7 +13,7 @@
 
 import React, { MutableRefObject } from 'react';
 import { Modal, Button } from 'antd';
-import { Copy, FormModal, IFormItem } from 'common';
+import { Copy, FormModal, IFormItem, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
@@ -25,7 +25,6 @@ import { goTo } from 'common/utils';
 import { isObject } from 'lodash';
 import SelectPro from 'apiManagePlatform/components/select-pro';
 import SLASelect from 'apiManagePlatform/components/sla-select';
-import { AddOne as IconAddOne } from '@icon-park/react';
 
 interface IState {
   selectVersion: string | undefined;
@@ -52,7 +51,7 @@ const createNewApp = {
   value: 'create App',
   name: (
     <div className="hover-active text-link">
-      <IconAddOne className="mr-2" />
+      <ErdaIcon type="add-one" className="mr-2" />
       {i18n.t('create a new client')}
     </div>
   ),

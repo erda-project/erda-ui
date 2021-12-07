@@ -17,7 +17,6 @@ import { Ellipsis, ErdaIcon } from 'common';
 import { some, has, groupBy, map, max } from 'lodash';
 import { colorToRgb } from 'common/utils';
 import i18n from 'i18n';
-import { CloseOne as IconCloseOne } from '@icon-park/react';
 import './index.scss';
 
 interface ILabel {
@@ -74,11 +73,15 @@ export const TagItem = (props: IItemProps) => {
             }}
             onCancel={(e) => e && e.stopPropagation()}
           >
-            <IconCloseOne theme="filled" size="12" className="tag-close cursor-pointer text-holder" />
+            <ErdaIcon
+              type="close-one"
+              size="12"
+              className="tag-close cursor-pointer text-holder"
+            />
           </Popconfirm>
         ) : (
-          <IconCloseOne
-            theme="filled"
+          <ErdaIcon
+            type="close-one"
             size="12"
             className="tag-close cursor-pointer text-holder"
             onClick={() => onDelete(_label)}

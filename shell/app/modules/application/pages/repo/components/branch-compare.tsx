@@ -18,8 +18,7 @@ import React from 'react';
 import { getSplitPathBy } from '../util';
 import BranchSelect from './branch-select';
 import i18n from 'i18n';
-import { DownOne as IconDownOne, Switch as IconSwitch } from '@icon-park/react';
-
+import { ErdaIcon } from 'common';
 import './branch-compare.scss';
 import routeInfoStore from 'core/stores/route';
 import repoStore from 'application/stores/repo';
@@ -57,15 +56,15 @@ const RepoBranchCompare = () => {
       <BranchSelect {...{ branches, tags, current: encodeURIComponent(state.from) }} onChange={onChange('from')}>
         <span>{i18n.t('dop:based on source')}:</span>
         <span className="branch-name font-bold nowrap">{state.from || null}</span>
-        {state.from ? <IconDownOne theme="filled" size="16px" /> : null}
+        {state.from ? <ErdaIcon type="caret-down" size="20" /> : null}
       </BranchSelect>
       <span className="switch-branch" onClick={switchBranch}>
-        <IconSwitch />
+        <ErdaIcon type="switch" />
       </span>
       <BranchSelect {...{ branches, tags, current: state.to }} onChange={onChange('to')}>
         <span>{i18n.t('compare')}:</span>
         <span className="branch-name font-bold nowrap">{state.to || null}</span>
-        {state.to ? <IconDownOne theme="filled" size="16px" /> : null}
+        {state.to ? <ErdaIcon type="caret-down" size="20" /> : null}
       </BranchSelect>
       <Button className="compare-button" type="primary" onClick={goToCompare} disabled={!state.from || !state.to}>
         {i18n.t('compare')}

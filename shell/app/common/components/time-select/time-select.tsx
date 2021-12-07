@@ -18,7 +18,6 @@ import { useMount } from 'react-use';
 import { Moment } from 'moment';
 import { SelectProps } from 'core/common/interface';
 import i18n from 'i18n';
-import { DownOne as IconDownOne, Refresh as IconRefresh, Time as IconTime } from '@icon-park/react';
 import './time-select.scss';
 import { useUpdate } from 'common/use-hooks';
 import { cloneDeep, map } from 'lodash';
@@ -32,6 +31,7 @@ import {
   transformRange,
   translateAutoRefreshDuration,
 } from './common';
+import { ErdaIcon } from 'common';;
 
 type IRefreshStrategy = 'off' | IRefreshDuration;
 
@@ -347,18 +347,24 @@ const TimeSelect = (props: IProps) => {
             updater.visible(true);
           }}
         >
-          <IconTime className="-mt-0.5" theme="outline" size="16" fill="#070A1A" />
+          <ErdaIcon className="mr-1" size="16" type="time" />
           {text}
         </div>
       </Dropdown>
       <AutoRefreshStrategy
-        suffixIcon={<IconDownOne className="ml-1.5 -mt-0.5" theme="filled" size="12" fill="#bbb" />}
+        suffixIcon={<ErdaIcon type="caret-down" className="ml-1 -mt-0.5" size="16" />}
         style={{ width: 70 }}
         defaultValue={refreshStrategy}
         onChange={handleChangeRefreshStrategy}
       />
       <div className="manual-refresh flex justify-center items-center w-8 relative border-all rounded-r hover:border-primary bg-white">
-        <IconRefresh className="m-0 cursor-pointer" fill="#070A1A" onClick={handleManualRefresh} />
+        <ErdaIcon
+          size="14"
+          type="refresh1"
+          className="m-0 cursor-pointer"
+          fill="#070A1A"
+          onClick={handleManualRefresh}
+        />
       </div>
     </div>
   );

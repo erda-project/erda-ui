@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDTable, DeleteConfirm, Icon as CustomIcon } from 'common';
+import { CRUDTable, DeleteConfirm, Icon as CustomIcon, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import certificateStore from '../../stores/certificate';
@@ -24,7 +24,6 @@ import './index.scss';
 import { getUploadProps } from 'common/utils/upload-props';
 import DetailModal from './detail-modal';
 import orgStore from 'app/org-home/stores/org';
-import { Upload as IconUpload } from '@icon-park/react';
 
 const { Option } = Select;
 export const typeMap = {
@@ -69,8 +68,8 @@ const UploadComp = ({ form, onChangeFile, fileNameKey, fileAccept }: IUploadProp
   return (
     <div className="upload-container">
       <Upload {...uploadProps}>
-        <Button>
-          <IconUpload /> {i18n.t('upload')}
+        <Button className="flex items-center">
+          <ErdaIcon type="upload" size="16" className="mr-1" /> {i18n.t('upload')}
         </Button>
       </Upload>
       {fileName && (

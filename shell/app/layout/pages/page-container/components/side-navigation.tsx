@@ -16,8 +16,7 @@ import { Menu, Button } from 'antd';
 import { map } from 'lodash';
 import { MenuProps } from 'core/common/interface';
 import { useUpdate } from 'common/use-hooks';
-import { MenuFold as IconMenuFold, MenuUnfold as IconMenuUnfold } from '@icon-park/react';
-
+import { ErdaIcon } from 'common';
 export interface IMenu {
   key?: string;
   href: string;
@@ -114,7 +113,11 @@ const SideNavigation = ({
       </div>
       <div className="h-12 relative">
         <Button type="primary" onClick={handleOnFold} className="absolute right-0 p-1">
-          {isFold ? <IconMenuUnfold size="18" /> : <IconMenuFold size="18" />}
+          {isFold ? (
+            <ErdaIcon type="menu-unfold" size="18" />
+          ) : (
+            <ErdaIcon type="menu-fold" size="18" />
+          )}
         </Button>
       </div>
     </div>

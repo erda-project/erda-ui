@@ -15,7 +15,7 @@ import { debounce, get } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
 import { Button, Tabs, Input, Spin } from 'antd';
-import { DropdownSelect, Icon as CustomIcon } from 'common';
+import { DropdownSelect, Icon as CustomIcon, ErdaIcon } from 'common';
 import { SplitPage } from 'app/layout/common';
 import TestEnvDrawer from 'project/pages/test-manage/case/test-env-drawer';
 import { useLoading } from 'core/stores/loading';
@@ -38,7 +38,6 @@ import { EnvSelect, BaseInfo } from 'project/pages/plan-detail/common-comp';
 import CaseDrawer from 'project/pages/test-manage/case/case-drawer';
 import './index.scss';
 import moment from 'moment';
-import { Search as IconSearch, Down as IconDown } from '@icon-park/react';
 
 const { TabPane } = Tabs;
 
@@ -183,7 +182,7 @@ const TestPlanDetail = () => {
 
   return (
     <div className="test-plan-detail">
-      <div className="top-button-group">
+      <div className="top-button-group flex items-center">
         <StatusToggle
           isPlan
           state={planItemDetail.status}
@@ -195,8 +194,8 @@ const TestPlanDetail = () => {
           </Button>
         ) : (
           <EnvSelect execute={handleExecute}>
-            <Button loading={loadingRecords}>
-              {i18n.t('dop:start interface test')} <IconDown size="16px" />
+            <Button loading={loadingRecords} className="items-center flex">
+              {i18n.t('dop:start interface test')} <ErdaIcon type="down" size="16" />
             </Button>
           </EnvSelect>
         )}
@@ -267,7 +266,7 @@ const TestPlanDetail = () => {
                     style={{ width: '160px' }}
                     placeholder={i18n.t('dop:search for')}
                     onChange={(e) => debouncedSearch({ query: e.target.value })}
-                    prefix={<IconSearch />}
+                    prefix={<ErdaIcon type="search1" className="mr-1 mt-0.5" size="14" />}
                   />
                   <Button onClick={() => setEnhanceFilterVisible(true)}>
                     <CustomIcon type="filter" />

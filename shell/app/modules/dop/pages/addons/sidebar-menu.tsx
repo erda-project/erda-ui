@@ -11,20 +11,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Config as IconConfig, Permissions as IconPermissions, ListView as IconListView } from '@icon-park/react';
 import i18n from 'i18n';
 import React from 'react';
+import { ErdaIcon } from 'common';
 
 export const getSideMenu = ({ rootPath }: { rootPath: string }) => {
   const sideMenu = [
     {
       href: `${rootPath}/overview`,
-      icon: <IconListView />,
+      icon: <ErdaIcon type="list-view" />,
       text: i18n.t('dop:addon info'),
     },
     {
       href: `${rootPath}/settings`,
-      icon: <IconConfig />,
+      icon: <ErdaIcon type="config1" />,
       text: i18n.t('dop:addon setting'),
     },
   ];

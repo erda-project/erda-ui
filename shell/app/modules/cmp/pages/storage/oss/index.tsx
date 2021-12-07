@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDTable } from 'common';
+import { CRUDTable, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Input, Select, Menu, Dropdown, Button } from 'antd';
 import { map } from 'lodash';
@@ -27,7 +27,6 @@ import {
   getCloudResourceTimeCol,
   getCloudResourceRegionCol,
 } from 'cmp/common/components/table-col';
-import { DownOne as IconDownOne } from '@icon-park/react';
 
 const { Option } = Select;
 
@@ -185,8 +184,10 @@ const StorageOss = () => {
   const extraOperation = () => (
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
-        {i18n.t('batch setting')}
-        <IconDownOne className="ml-1" theme="filled" size="16px" />
+        <div className="flex">
+          {i18n.t('batch setting')}
+          <ErdaIcon type="caret-down" className="ml-1" size="20" />
+        </div>
       </Button>
     </Dropdown>
   );

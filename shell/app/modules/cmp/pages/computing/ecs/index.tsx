@@ -19,7 +19,7 @@ import { insertWhen } from 'common/utils';
 import cloudECSStore from 'app/modules/cmp/stores/computing';
 import clusterStore from 'cmp/stores/cluster';
 import { SetTagForm } from 'cmp/common/components/set-tag-form';
-import { CRUDTable, TagsRow } from 'common';
+import { CRUDTable, TagsRow, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { EcsCloudOperationForm } from './ecsCloud-operation-form';
 import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
@@ -27,7 +27,6 @@ import i18n from 'i18n';
 import { RUNNING_STATUS_LIST, STOP_STATUS_LIST } from '../../cloud-source/config';
 import { chargeTypeMap } from 'cmp/pages/cluster-manage/config';
 import { customTagColor } from 'dcos/common/config';
-import { Help as IconHelp, DownOne as IconDownOne } from '@icon-park/react';
 import {
   getCloudResourceStatusCol,
   getCloudResourceChargeTypeCol,
@@ -46,12 +45,12 @@ const opHint = (operation: string, selectedList: CLOUD.TagItem[]) => {
   );
   return (
     <div>
-      <IconHelp className="mr-1 rounded-full bg-yellow text-white" />
+      <ErdaIcon type="help" className="mr-1 align-middle rounded-full bg-yellow text-white" />
       <span>{i18n.t('cmp:your chosen')}</span>
       <Dropdown overlay={menu}>
         <a onClick={(e) => e.preventDefault()}>
           {i18n.t('{num} {type}', { num: selectedList.length, type: i18n.t('instance') })}
-          <IconDownOne className="ml-1" theme="filled" size="16px" />
+          <ErdaIcon className="align-middle" type="caret-down" size="20" />
         </a>
       </Dropdown>
       <span>
@@ -447,8 +446,10 @@ const ComputingEcs = () => {
       <div className="top-button-group">
         <Dropdown disabled={!ifSelected} overlay={menu}>
           <Button type="primary">
-            {i18n.t('batch setting')}
-            <IconDownOne className="ml-1" theme="filled" size="16px" />
+            <div className="flex">
+              {i18n.t('batch setting')}
+              <ErdaIcon type="caret-down" className="ml-1" size="20" />
+            </div>
           </Button>
         </Dropdown>
       </div>

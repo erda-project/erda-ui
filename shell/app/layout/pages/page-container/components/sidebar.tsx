@@ -27,7 +27,6 @@ import { DOC_HELP_HOME, UC_USER_SETTINGS, erdaEnv } from 'common/constants';
 import Logo from 'app/images/Erda.svg';
 import orgStore from 'app/org-home/stores/org';
 import routeStore from 'core/stores/route';
-import { Help as IconHelp, Remind as IconRemind, Logout as IconLogout } from '@icon-park/react';
 import './sidebar.scss';
 
 const AppCenterEl = () => {
@@ -140,7 +139,7 @@ const SideBar = () => {
       show: true,
       icon: (
         <Tooltip title={i18n.t('layout:view doc')} placement="right">
-          <IconHelp className="mr-0" size="20px" />
+          <ErdaIcon type="help" className="mr-0 mt-1" size="20" />
         </Tooltip>
       ),
       onClick: () => {
@@ -170,7 +169,7 @@ const SideBar = () => {
           className="message-icon select-none"
           style={{ boxShadow: 'none' }}
         >
-          <IconRemind className="mr-0" size="20px" style={customIconStyle} />
+          <ErdaIcon type="remind" className="mr-0 mt-0.5" size="20px" style={customIconStyle} />
         </Badge>
       ),
       onClick: () => switchMessageCenter(null),
@@ -198,7 +197,7 @@ const SideBar = () => {
       },
     ]),
     {
-      icon: <IconLogout />,
+      icon: <ErdaIcon className="mr-1" type="logout" size="14" />,
       title: i18n.t('layout:logout'),
       onClick: userStore.effects.logout,
     },

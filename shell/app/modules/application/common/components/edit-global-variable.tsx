@@ -17,7 +17,7 @@ import { Form, Button } from 'antd';
 import { cloneDeep, forEach, findIndex, uniqueId } from 'lodash';
 import VariableInputGroup from './variable-input-group';
 import i18n from 'i18n';
-import { Plus as IconPlus } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 
 const { Item } = Form;
 
@@ -84,7 +84,13 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
       <Form ref={this.formRef} className="global-input-form">
         <div className="global-input-form-title">
           {i18n.t('dop:global environment variable')}
-          {editing ? <IconPlus className="variable-icon cursor-pointer" onClick={this.addNewVariable} /> : null}
+          {editing ? (
+            <ErdaIcon
+              type="plus"
+              className="variable-icon cursor-pointer"
+              onClick={this.addNewVariable}
+            />
+          ) : null}
         </div>
         {content}
         <div className="mt-3">

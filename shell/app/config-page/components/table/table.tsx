@@ -15,12 +15,11 @@ import React from 'react';
 import { Menu, Button, Dropdown, Checkbox } from 'antd';
 import PureTable from 'common/components/table';
 import { map, get, find, intersection, has, difference, compact } from 'lodash';
-import { Icon as CustomIcon, Title } from 'common';
+import { Icon as CustomIcon, Title, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useUserMap } from 'core/stores/userMap';
 import { OperationAction } from 'app/config-page/utils';
 import { getRender, getTitleRender } from './render-types';
-import { DownOne as IconDownOne } from '@icon-park/react';
 import i18n from 'i18n';
 import classnames from 'classnames';
 import './table.scss';
@@ -311,9 +310,9 @@ const BatchOperation = (props: IBatchProps) => {
         xx: `${selectedRowKeys?.length || 0} ${i18n.t('common:items')}`,
       })}`}</span>
       <Dropdown overlay={dropdownMenu} zIndex={1000}>
-        <Button>
+        <Button className="flex items-center">
           {i18n.t('batch operate')}
-          <IconDownOne theme="filled" className="ml-1 text-black-200" color="currentColor" />
+          <ErdaIcon size="18" type="caret-down" className="ml-1 text-black-200" />
         </Button>
       </Dropdown>
     </div>

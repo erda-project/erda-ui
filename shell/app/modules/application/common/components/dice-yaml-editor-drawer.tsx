@@ -14,7 +14,7 @@
 import React from 'react';
 import { useEffectOnce } from 'react-use';
 import classnames from 'classnames';
-import { Close as IconClose } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 
 interface IDiceYamlEditorDrawerProps {
   title: string | null;
@@ -108,7 +108,7 @@ const DiceYamlEditorDrawer = (props: IDiceYamlEditorDrawerProps) => {
     <div style={style} className="yaml-editor-drawer">
       <div className="yaml-editor-drawer-title">
         {title}
-        <IconClose onClick={onClose} className="yaml-editor-drawer-close" />
+        <ErdaIcon type="close" onClick={onClose} className="yaml-editor-drawer-close" />
       </div>
       <div
         ref={(e: any) => {

@@ -16,7 +16,7 @@ import ListInput from 'application/common/components/list-input-group';
 import VariableInput from 'application/common/components/object-input-group';
 import React from 'react';
 import { cloneDeep, map, isEmpty, omit, pick, get, filter, head, transform, isEqual, forEach } from 'lodash';
-import { Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Form, Button, Input, Popover, InputNumber, Collapse, Alert, Spin, Select } from 'antd';
 import './edit-service.scss';
@@ -27,7 +27,6 @@ import deployStore from 'application/stores/deploy';
 import i18n from 'i18n';
 import { useLoading } from 'core/stores/loading';
 import './edit-stage.scss';
-import { Plus as IconPlus } from '@icon-park/react';
 
 const { Item } = Form;
 const { Panel } = Collapse;
@@ -397,7 +396,8 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
       return null;
     }
     const addBtn = editing ? (
-      <IconPlus
+      <ErdaIcon
+        type="plus"
         className="cursor-pointer"
         onClick={() => addNewItemToStructArray(property.value, property.struct[0])}
       />

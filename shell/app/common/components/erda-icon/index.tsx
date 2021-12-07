@@ -49,6 +49,7 @@ const themeColor = {
   'black-200': 'rgba(0,0,0,0.2)',
   'black-300': 'rgba(0,0,0,0.3)',
   'black-400': 'rgba(0,0,0,0.4)',
+  'black-600': 'rgba(0,0,0,0.6)',
   'black-800': 'rgba(0,0,0,0.8)',
   'light-primary': '#6a549e19', // rgba($primary, .1)
   'shallow-primary': '#6a549e99', // rgba($primary, .6)

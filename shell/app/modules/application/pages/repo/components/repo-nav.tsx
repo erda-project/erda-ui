@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { message, Tooltip, Spin, Dropdown, Menu, Button } from 'antd';
-import { FormModal, IF } from 'common';
+import { FormModal, IF, ErdaIcon } from 'common';
 import { goTo, setLS, removeLS } from 'common/utils';
 import BranchSelect from './branch-select';
 import { getInfoFromRefName, getSplitPathBy } from '../util';
@@ -24,7 +24,6 @@ import { find, get } from 'lodash';
 import appStore from 'application/stores/application';
 import { isInDiceDirectory } from 'application/common/yml-flow-util';
 import { usePerm } from 'user/common';
-import { DownOne as IconDownOne } from '@icon-park/react';
 
 const PureRepoNavOperation = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -137,7 +136,7 @@ const PureRepoNavOperation = () => {
   );
 
   return (
-    <div className="repo-operation">
+    <div className="repo-operation flex">
       <IF check={isBranchTree && branchAuth}>
         <IF check={isInDiceDirectory(tree.path)}>
           <Button onClick={() => changeMode({ addFile: true, addFileName: 'pipelineYml' })}>
@@ -165,9 +164,9 @@ const PureRepoNavOperation = () => {
           )}
         </IF>
         <Dropdown overlay={addMenu}>
-          <Button className="ml-2">
+          <Button className="ml-2 flex items-center">
             {i18n.t('add')}
-            <IconDownOne size="14" className="ml-2 hover" theme="filled" fill="rgba(0,0,0,.4)" />
+            <ErdaIcon type="caret-down" size="18" className="ml-1 hover" color="black-400" />
           </Button>
         </Dropdown>
         <IF.ELSE />
@@ -177,9 +176,9 @@ const PureRepoNavOperation = () => {
           </Tooltip>
         </IF>
         <Tooltip title={disabledTips[0]}>
-          <Button className="ml-2" disabled>
+          <Button className="ml-2 flex items-center" disabled>
             {i18n.t('add')}
-            <IconDownOne size="14" className="ml-2 hover" theme="filled" fill="rgba(0,0,0,.4)" />
+            <ErdaIcon type="caret-down" size="18" className="ml-1 hover" color="black-400" />
           </Button>
         </Tooltip>
       </IF>
@@ -252,7 +251,7 @@ export const RepoNav = React.forwardRef(({ info, tree, isFetchingInfo, appId }: 
         <BranchSelect {...{ branches, commitId: treeCommitId, tags, current: curBranch }} onChange={changeBranch}>
           <span>{isTag ? i18n.t('tag') : treeCommitId ? i18n.t('commit') : i18n.t('dop:branch')}:</span>
           <span className="branch-name font-bold nowrap">{curBranch}</span>
-          <IconDownOne theme="filled" size="16px" />
+          <ErdaIcon type="caret-down" className="mt-0.5" size="22" />
         </BranchSelect>
         <RepoBreadcrumb path={tree.path}>
           <RepoNavOperation />

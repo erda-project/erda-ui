@@ -14,9 +14,9 @@
 import React, { PureComponent } from 'react';
 import { Input, InputNumber } from 'antd';
 import { cloneDeep, map } from 'lodash';
+import { ErdaIcon } from 'common';
 import './variable-input-group.scss';
 import { uuid } from 'common/utils';
-import { Delete as IconDelete, Plus as IconPlus } from '@icon-park/react';
 
 interface IVariableInputGroupProps {
   value: any;
@@ -91,7 +91,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
         <div key={id} className="list-full-input-group">
           {inputField}
           {disabled ? null : (
-            <IconDelete className="variable-icon ml-3 cursor-pointer" onClick={() => this.onDelete(index)} />
+            <ErdaIcon type="delete1" className="align-middle variable-icon ml-3 cursor-pointer" onClick={() => this.onDelete(index)} />
           )}
         </div>
       );
@@ -101,7 +101,13 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
         <span className={isProperty === true ? 'edit-service-label' : 'global-input-form-title'}>
           {required ? <span className="ant-form-item-required" /> : null}
           {label ? <span>{label}:</span> : null}
-          {disabled ? null : <IconPlus className="edit-service-label-icon cursor-pointer" onClick={this.addPort} />}
+          {disabled ? null : (
+            <ErdaIcon
+              type="plus"
+              className="align-middle edit-service-label-icon cursor-pointer"
+              onClick={this.addPort}
+            />
+          )}
         </span>
         {inputs}
       </div>

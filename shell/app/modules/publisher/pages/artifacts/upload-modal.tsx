@@ -18,12 +18,11 @@ import React from 'react';
 import { Button, message, Upload } from 'antd';
 import { getUploadProps } from 'common/utils/upload-props';
 import { FormInstance } from 'core/common/interface';
-import { FormModal, IFormItem } from 'common';
+import { FormModal, IFormItem, ErdaIcon } from 'common';
 import publisherStore from 'publisher/stores/publisher';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
-import { Upload as IconUpload } from '@icon-park/react';
 
 export interface IProps {
   visible: boolean;
@@ -82,8 +81,8 @@ const UploadModal = (props: IProps) => {
         return (
           <div className="upload-container">
             <Upload accept=".apk, .ipa" {...uploadProps}>
-              <Button>
-                <IconUpload /> {i18n.t('upload')}
+              <Button className="flex items-center">
+                <ErdaIcon className="mr-1" type="upload" size="14" /> {i18n.t('upload')}
               </Button>
             </Upload>
             <span className="text-desc ml-2">{uploadFile ? i18n.t('selected {xx}', { xx: uploadFile }) : null}</span>

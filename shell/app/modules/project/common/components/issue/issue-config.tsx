@@ -15,7 +15,6 @@ import i18n from 'i18n';
 import React from 'react';
 import { Icon as CustomIcon, ErdaIcon } from 'common';
 import { List as IconTask, Bug as IconBug } from '@icon-park/react';
-
 import './issue-config.scss';
 
 export enum ISSUE_TYPE {

@@ -15,11 +15,10 @@
  * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/1/22 14:35.
  */
 import React from 'react';
-import { Icon as CustomIcon, Title as CommonTitle } from 'common';
+import { Icon as CustomIcon, Title as CommonTitle, ErdaIcon } from 'common';
 import { Tooltip, Button } from 'antd';
 import { OperationAction } from 'config-page/utils';
 import { getImg } from 'app/config-page/img-map';
-import { Help as IconHelp } from '@icon-park/react';
 import './title.scss';
 
 const Title = (props: CP_TITLE.Props) => {
@@ -45,7 +44,7 @@ const Title = (props: CP_TITLE.Props) => {
       {prefixImg ? <img src={getImg(prefixImg)} className={`${isCircle ? 'circle' : ''} pre-image`} /> : null}
       {title}
       <Tooltip title={tips}>
-        <IconHelp className="ml-1 text-sm pre-icon" />
+        <ErdaIcon type="help" className="ml-1 text-sm pre-icon" />
       </Tooltip>
       {subtitle ? <span className="subtitle">{subtitle}</span> : null}
     </div>

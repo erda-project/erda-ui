@@ -13,7 +13,7 @@
 
 /* eslint-disable no-param-reassign */
 import React from 'react';
-import { EmptyHolder } from 'common';
+import { EmptyHolder, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Popover, Tree, Modal } from 'antd';
 import i18n from 'i18n';
@@ -28,7 +28,6 @@ import { updateSearch } from 'common/utils';
 import { useMount, useUpdateEffect } from 'react-use';
 import './index.scss';
 import ReactDOM from 'react-dom';
-import { DownOne as IconDownOne } from '@icon-park/react';
 
 const { TreeNode } = Tree;
 
@@ -377,7 +376,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
             ? `${treeNodeData?.branchName}/${treeNodeData?.apiDocName}`
             : i18n.t('common:expand branch directory selection document')}
         </span>
-        <IconDownOne size="16px" theme="filled" />
+        <ErdaIcon type="caret-down" size="20" color="black-400" />
       </button>
     </Popover>
   );

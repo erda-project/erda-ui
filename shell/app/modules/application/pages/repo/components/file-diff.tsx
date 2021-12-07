@@ -15,7 +15,7 @@ import { Tooltip, Radio, Button } from 'antd';
 import React, { useState } from 'react';
 import i18n from 'i18n';
 import { diff_match_patch as Diff } from 'diff-match-patch';
-import { EmptyListHolder, Icon as CustomIcon, IF, BackToTop } from 'common';
+import { EmptyListHolder, Icon as CustomIcon, IF, BackToTop, ErdaIcon } from 'common';
 import { last, map, isEmpty } from 'lodash';
 import classnames from 'classnames';
 import { getFileCommentMap } from './mr-comments';
@@ -24,15 +24,6 @@ import { isImage, setApiWithOrg, getOrgFromPath } from 'common/utils';
 import { CommentBox } from 'application/common/components/comment-box';
 import Markdown from 'common/utils/marked';
 import 'requestidlecallback-polyfill';
-import {
-  FileAddition as IconFileAddition,
-  Delete as IconDelete,
-  ArrowRight as IconArrowRight,
-  FileCodeOne as IconFileCodeOne,
-  RightOne as IconRightOne,
-  DownOne as IconDownOne,
-} from '@icon-park/react';
-
 import './file-diff.scss';
 import repoStore from 'application/stores/repo';
 import appStore from 'application/stores/application';
@@ -195,8 +186,8 @@ export const FileDiff = ({
 
       const text =
         {
-          [ACTION.ADD]: <IconFileAddition className="text-base text-green" />,
-          [ACTION.DELETE]: <IconDelete className="text-base text-red" />,
+          [ACTION.ADD]: <ErdaIcon type="file-addition" className="text-base text-green" />,
+          [ACTION.DELETE]: <ErdaIcon type="delete1" className="text-base text-red" />,
           [ACTION.RENAME]: i18n.t('dop:file moved'),
         }[type] || '';
 
@@ -205,17 +196,17 @@ export const FileDiff = ({
           <IF check={type === 'rename'}>
             <div className="file-title-move">
               <div className="font-bold nowrap">
-                <IconFileCodeOne className="mr-2" />
+                <ErdaIcon type="file-code-one" size="14" className="mr-2" />
                 {old}
               </div>
-              <IconArrowRight className="file-move-arrow" />
+              <ErdaIcon type="arrow-right" className="file-move-arrow" />
               <div className="font-bold nowrap">{now}</div>
             </div>
             <div className="file-static-info">{text}</div>
             <IF.ELSE />
             <div className="file-title inline-flex justify-between items-center">
               <div className="font-bold nowrap">
-                <IconFileCodeOne className="mr-2" />
+                <ErdaIcon type="file-code-one" size="14" className="mr-2" />
                 {name} {text || null}
               </div>
             </div>
@@ -296,13 +287,13 @@ export const FileDiff = ({
         }}
       >
         {title || (
-          <div className="font-bold">
+          <div className="font-bold flex items-center">
             <IF check={!isExpanding}>
-              <IconRightOne theme="filled" size="16px" className="mr-2" />
+              <ErdaIcon type="right-one" size="18px" className="mr-2" />
               <ELSE />
-              <IconDownOne theme="filled" size="16px" className="mr-2" />
+              <ErdaIcon type="caret-down" size="18px" className="mr-2" />
             </IF>
-            <IconFileCodeOne className="mr-2" />
+            <ErdaIcon type="file-code-one" size="14" className="mr-2" />
             {name}
           </div>
         )}
@@ -458,7 +449,7 @@ export const FileDiff = ({
                             {showTsCommentIcon && (
                               <TemporaryStorageIcon onClick={() => handleLeftGetLS(lineKey, true)} />
                             )}
-                            <IF check={showLeftCommentIcon}>
+                            <IF check={showLeftCommentIcon || showRightCommentIcon}>
                               <CommentIcon onClick={() => toggleLeftCommentEdit(lineKey, true)} />
                             </IF>
                           </td>

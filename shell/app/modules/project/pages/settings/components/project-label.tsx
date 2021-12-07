@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormModal, Icon as CustomIcon } from 'common';
+import { FormModal, Icon as CustomIcon, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'app/i18n';
 import { FormInstance } from 'core/common/interface';
@@ -131,9 +131,9 @@ const ProjectLabel = () => {
 
   return (
     <div className="project-label-list">
-      <div>
-        <span className="label-item create" onClick={() => updater.modalVisible(true)}>
-          <IconPlus size="14px" />
+      <div className="flex items-center flex-wrap">
+        <span className="flex items-center label-item create" onClick={() => updater.modalVisible(true)}>
+          <ErdaIcon type="plus" className="mr-1" size="14px" />
           {i18n.t('dop:add label')}
         </span>
         {list.map((label) => {

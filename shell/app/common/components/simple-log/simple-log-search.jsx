@@ -14,7 +14,7 @@
 import React from 'react';
 import { isEmpty } from 'lodash';
 import { Form, Input, Button } from 'antd';
-import { Search as IconSearch } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 import './simple-log.scss';
 import i18n from 'i18n';
 
@@ -56,7 +56,12 @@ class LogSearchForm extends React.Component {
           >
             <Input placeholder={`${i18n.t('please enter')}request id${i18n.t('search')}`} />
           </FormItem>
-          <Button className="log-search-btn" type="primary" htmlType="submit" icon={<IconSearch />}>
+          <Button
+            className="log-search-btn"
+            type="primary"
+            htmlType="submit"
+            icon={<ErdaIcon type="search1" />}
+          >
             {i18n.t('common:search for')}
           </Button>
         </Form>

@@ -29,7 +29,6 @@ import GrayFormModal from './gray-form-modal';
 import { ArtifactsTypeMap } from './config';
 import { useUnmount, useMount } from 'react-use';
 import UploadModal from './upload-modal';
-import { Android as IconAndroid, Apple as IconApple, DownOne as IconDownOne } from '@icon-park/react';
 
 const { Item: TimelineItem } = Timeline;
 
@@ -241,7 +240,12 @@ const VersionList = (props: IProps) => {
               >
                 <Radio.Button value="h5">
                   H5{curPackageName ? `(${curPackageName})` : null}{' '}
-                  <IconDownOne theme="filled" style={{ lineHeight: 1 }} size="14" />
+                  <ErdaIcon
+                    type="caret-down"
+                    className="align-middle"
+                    style={{ lineHeight: 1 }}
+                    size="18"
+                  />
                 </Radio.Button>
               </Dropdown>
             ) : (
@@ -330,7 +334,7 @@ const VersionList = (props: IProps) => {
                                 }
                               >
                                 <span className="text">
-                                  <IconApple size="16px" /> {_targetMobiles.ios?.length || 0}个版本
+                                  <ErdaIcon type="apple" className="align-middle mr-0.5" size="16" /> {_targetMobiles.ios?.length || 0}个版本
                                 </span>
                               </Popover>
                               <Popover
@@ -347,7 +351,7 @@ const VersionList = (props: IProps) => {
                                 }
                               >
                                 <span className="text">
-                                  <IconAndroid size="16px" /> {_targetMobiles.android?.length || 0}个版本
+                                  <ErdaIcon className="align-middle mr-0.5" type="android" size="16" /> {_targetMobiles.android?.length || 0}个版本
                                 </span>
                               </Popover>
                             </>

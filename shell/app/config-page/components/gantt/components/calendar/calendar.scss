@@ -21,7 +21,8 @@
   fill: $white;
   stroke: $color-dark-2;
   &-container {
-    top: 8px;
+    position: absolute;
+    padding: 8px 0;
   }
 }
 .erda-gantt-calendar {

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormModal, RenderPureForm } from 'common';
+import { FormModal, RenderPureForm, ErdaIcon } from 'common';
 import { uniq, get } from 'lodash';
 import i18n from 'i18n';
 import { diskTypeMap, getOptions } from './config';
@@ -20,7 +20,6 @@ import { CustomLabel, checkCustomLabels } from 'dcos/common/custom-label';
 import { FormInstance } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
 import React from 'react';
-import { Down as IconDown, Up as IconUp } from '@icon-park/react';
 
 interface IProps {
   visible: boolean;
@@ -129,7 +128,11 @@ const CloudMachineAddForm = (props: any) => {
         <div className="more">
           <a className="more-btn" onClick={() => setShowMore(!showMore)}>
             {i18n.t('advanced settings')}
-            {showMore ? <IconUp size="16px" /> : <IconDown size="16px" />}
+            {showMore ? (
+              <ErdaIcon className="align-middle" type="up" size="16" />
+            ) : (
+              <ErdaIcon className="align-middle" type="down" size="16" />
+            )}
           </a>
           <div className={`more-form ${showMore ? '' : 'hidden'}`}>
             <MoreForm form={form} />

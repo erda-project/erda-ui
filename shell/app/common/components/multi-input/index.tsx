@@ -15,8 +15,8 @@ import React from 'react';
 import { isEmpty, map, remove, set } from 'lodash';
 import { Input } from 'antd';
 import i18n from 'i18n';
-import { AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';
 import './index.scss';
+import { ErdaIcon } from 'common';
 
 const MultiInput = (props: any) => {
   const { value, placeholder } = props;
@@ -61,9 +61,11 @@ const MultiInput = (props: any) => {
               placeholder={placeholder || i18n.t('please enter')}
             />
             <div className="multi-input-icons">
-              <IconAddOne className="input-with-icon plus-circle" onClick={() => addOne()} />
+              <ErdaIcon size="20" type="add-one" className="input-with-icon plus-circle" onClick={() => addOne()} />
               {index !== 0 ? (
-                <IconReduceOne
+                <ErdaIcon
+                  type="reduce-one"
+                  size="20"
                   className="input-with-icon minus-circle"
                   onClick={() => {
                     dropOne(index);

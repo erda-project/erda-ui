@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Tooltip } from 'antd';
-import { Help as IconHelp } from '@icon-park/react';
+import { ErdaIcon } from 'common';
 
 export interface TitleProps {
   title: string | React.ElementType | JSX.Element;
@@ -61,7 +61,7 @@ const Title = ({
         <div className={sizeList[level]}>{title}</div>
         {tip ? (
           <Tooltip title={tip} overlayInnerStyle={tipStyle}>
-            <IconHelp className="text-base ml-1" />
+            <ErdaIcon type="help" className="text-base ml-1" />
           </Tooltip>
         ) : null}
       </div>

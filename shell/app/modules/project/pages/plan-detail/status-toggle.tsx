@@ -13,9 +13,8 @@
 
 import React from 'react';
 import { Menu, Dropdown } from 'antd';
-import { Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon, ErdaIcon } from 'common';
 import { map } from 'lodash';
-import { Down as IconDown } from '@icon-park/react';
 import i18n from 'i18n';
 
 export enum CaseStatus {
@@ -118,8 +117,8 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
 
   return (
     <Dropdown overlay={menu} placement="bottomRight">
-      <span>
-        {(stateMap[curState] || {}).child} <IconDown size="16px" />
+      <span className="flex">
+        {(stateMap[curState] || {}).child} <ErdaIcon type="down" size="16" />
       </span>
     </Dropdown>
   );

@@ -15,9 +15,9 @@ import React from 'react';
 import { map, isEmpty, filter } from 'lodash';
 import { Select, Input, Tooltip, Form } from 'antd';
 import { getLabel, noop } from './common';
+import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 import './check-when.scss';
-import { AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';
 
 const { Option } = Select;
 
@@ -116,13 +116,18 @@ const Item = (props: IItemProps) => {
           updateItem={(v) => updateItem(v, idx)}
           operation={
             <Tooltip title="删除条件项">
-              <IconReduceOne className="combiner-operation sub" onClick={() => deleteSubItem(idx)} />
+              <ErdaIcon
+                type="reduce-one"
+                size="20"
+                className="combiner-operation sub"
+                onClick={() => deleteSubItem(idx)}
+              />
             </Tooltip>
           }
         />
       ))}
       <Tooltip title="添加条件项（统一条件组内的项之间为逻辑与关系）">
-        <IconAddOne className="combiner-operation sub" onClick={() => addSubItem()} />
+        <ErdaIcon type="add-one" size="20" className="combiner-operation sub" onClick={() => addSubItem()} />
       </Tooltip>
     </div>
   );
@@ -282,7 +287,12 @@ export const CheckWhenCombiner = (props: IProps) => {
                 fieldOption={fieldOption}
               />
               <Tooltip title="删除条件组">
-                <IconReduceOne className="combiner-operation" onClick={() => deleteItem(rowIdx)} />
+                <ErdaIcon
+                  type="reduce-one"
+                  size="20"
+                  className="combiner-operation"
+                  onClick={() => deleteItem(rowIdx)}
+                />
               </Tooltip>
             </div>
             {rowIdx === data.length - 1 ? null : <div className="split">或</div>}
@@ -290,7 +300,7 @@ export const CheckWhenCombiner = (props: IProps) => {
         );
       })}
       <Tooltip title="添加条件组（不同条件组之间为逻辑或关系）">
-        <IconAddOne className="combiner-operation" onClick={addItem} />
+        <ErdaIcon type="add-one" size="20" className="combiner-operation" onClick={addItem} />
       </Tooltip>
     </div>
   );
