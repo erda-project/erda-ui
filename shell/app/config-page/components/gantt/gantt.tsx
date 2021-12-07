@@ -210,7 +210,7 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
         <Gantt
           tasks={list}
           rowHeight={40}
-          barFill={50}
+          barFill={60}
           ganttHeight={ganttHeight}
           onDateChange={handleTaskChange}
           BarContentRender={BarContentRender}
