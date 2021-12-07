@@ -130,7 +130,7 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
               // y={curPos.y - 2}
               transform={`translate(${curPos.x1 - 4},${curPos.y - 2})`}
               width={curPos.x2 - curPos.x1 + 8}
-              height={curPos.height + 2}
+              height={curPos.height + 4}
             >
               <div
                 className={`text-sm text-desc erda-gantt-task-preview-box bg-white bg-opacity-100 w-full h-full ${
