@@ -11,14 +11,33 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const mockData: CP_CARD_CONTAINER.Spec = {
-  type: 'CardContainer',
-  props: {
-    visible: true,
-    title: 'title',
-    tip: 'tip text',
-    style: {},
+const mockData: Array<MockSpec<CP_CARD_CONTAINER.Spec>> = [
+  {
+    _meta: {
+      title: 'CardContainer',
+      desc: '卡片容器',
+    },
+    type: 'CardContainer',
+    props: {
+      visible: true,
+      title: 'title',
+      tip: 'tip text',
+      style: {},
+    },
   },
-};
+  {
+    _meta: {
+      title: 'ChartContainer',
+      desc: '图表容器',
+    },
+    type: 'ChartContainer',
+    props: {
+      visible: true,
+      title: 'title',
+      tip: 'tip text',
+      style: {},
+    },
+  },
+];
 
 export default mockData;
