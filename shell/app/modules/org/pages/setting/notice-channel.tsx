@@ -63,55 +63,57 @@ interface IState {
   visible: boolean;
   paging: { current: number; pageSize: number };
   templateCode: string;
+  VMSTtsCode: string;
   passwordVisible: boolean;
   activeTab: string;
+  smtpIsSSL: boolean;
   channelProviderOptions: NOTIFY_CHANNEL.ChannelProvider[];
 }
 
 const NotifyChannel = () => {
-  // const channelTypeOptions = getNotifyChannelTypes.useData();
-  const channelTypeOptions = [
-    {
-      name: 'short_message',
-      displayName: '短信',
-      providers: [
-        {
-          name: 'aliyun_sms',
-          displayName: '阿里云短信服务',
-        },
-      ],
-    },
-    {
-      name: 'dingtalk_work_notice',
-      displayName: '钉钉工作通知',
-      providers: [
-        {
-          name: 'dingtalk',
-          displayName: '钉钉',
-        },
-      ],
-    },
-    {
-      name: 'vms',
-      displayName: '电话',
-      providers: [
-        {
-          name: 'vms',
-          displayName: '阿里语音通知',
-        },
-      ],
-    },
-    {
-      name: 'email',
-      displayName: '邮箱',
-      providers: [
-        {
-          name: 'email',
-          displayName: 'SMTP 服务器',
-        },
-      ],
-    },
-  ];
+  const channelTypeOptions = getNotifyChannelTypes.useData();
+  // const channelTypeOptions = [
+  //   {
+  //     name: 'short_message',
+  //     displayName: '短信',
+  //     providers: [
+  //       {
+  //         name: 'aliyun_sms',
+  //         displayName: '阿里云短信服务',
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     name: 'dingtalk_work_notice',
+  //     displayName: '钉钉工作通知',
+  //     providers: [
+  //       {
+  //         name: 'dingtalk',
+  //         displayName: '钉钉',
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     name: 'vms',
+  //     displayName: '电话',
+  //     providers: [
+  //       {
+  //         name: 'aliyun_vms',
+  //         displayName: '阿里语音通知',
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     name: 'email',
+  //     displayName: '邮箱',
+  //     providers: [
+  //       {
+  //         name: 'smtp',
+  //         displayName: 'SMTP 服务器',
+  //       },
+  //     ],
+  //   },
+  // ];
   const [channelDatasource, loading] = getNotifyChannels.useState();
   const [
     {
@@ -121,8 +123,10 @@ const NotifyChannel = () => {
       visible,
       paging,
       templateCode,
+      VMSTtsCode,
       passwordVisible,
       activeTab,
+      smtpIsSSL,
       channelProviderOptions,
     },
     updater,
@@ -133,6 +137,8 @@ const NotifyChannel = () => {
     channelProvider: '',
     visible: false,
     templateCode: '',
+    VMSTtsCode: '',
+    smtpIsSSL: false,
     passwordVisible: false,
     activeTab: 'dingtalk_work_notice',
     paging: { pageSize: 15, current: 1 },
@@ -162,6 +168,8 @@ const NotifyChannel = () => {
         visible: true,
         channelType: type?.name,
         templateCode: config?.templateCode,
+        VMSTtsCode: config?.VMSTtsCode,
+        smtpIsSSL: config?.smtpIsSSL,
         channelProviderOptions: channelTypeOptions?.find((item) => item.name === type?.name)?.providers,
         channelProvider: channelProviderType?.name,
       });
@@ -549,9 +557,9 @@ const NotifyChannel = () => {
         return (
           <>
             <Input
-              defaultValue={isEditing ? templateCode : ''}
+              defaultValue={isEditing ? VMSTtsCode : ''}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                form.setFieldsValue({ config: { ...form.getFieldValue('config'), templateCode: e.target.value } });
+                form.setFieldsValue({ config: { ...form.getFieldValue('config'), VMSTtsCode: e.target.value } });
               }}
               placeholder={`${i18n.t(
                 'please input the Voice Template ID you have applied for on the service provider platform',
@@ -610,8 +618,19 @@ const NotifyChannel = () => {
       ],
     },
     {
-      name: ['config', 'smtpIsSsl'],
-      getComp: () => <Checkbox className="text-desc">{i18n.t('use SSL')}</Checkbox>,
+      name: ['config', 'smtpIsSSL'],
+      getComp: ({ form }: { form: FormInstance }) => (
+        <Checkbox
+          className="text-desc"
+          defaultChecked={isEditing ? smtpIsSSL : false}
+          onChange={(e) => {
+            updater.smtpIsSSL(!smtpIsSSL);
+            form.setFieldsValue({ config: { ...form.getFieldValue('config'), smtpIsSSL: e.target.checked } });
+          }}
+        >
+          {i18n.t('use SSL')}
+        </Checkbox>
+      ),
     },
     {
       name: ['config', 'smtpUser'],
