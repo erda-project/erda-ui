@@ -106,7 +106,7 @@ class Echarts extends React.Component {
           ref={(ref) => {
             this.echartsDom = ref;
           }}
-          className="chart-dom"
+          className={`chart-dom ${this.props.className || ''}`}
           style={this.props.style}
         />
       </ResizeObserver>
