@@ -64,8 +64,10 @@
           position: absolute;
           content: '';
           width: 1px;
-          height: 20px;
-          background-color: $border-color;
+          height: 12px;
+          left: -20px;
+          top: 10px;
+          background-color: $color-text-desc;
         }
       }
     }
