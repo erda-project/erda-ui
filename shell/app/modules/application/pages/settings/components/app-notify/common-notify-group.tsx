@@ -66,7 +66,7 @@ export const getFinalNotifyChannelOptions = (channels: Obj<string>, isMonitor: b
       channelMethods[TargetType.USER].push(VMSChannel);
       channelMethods[TargetType.EXTERNAL_USER].push(VMSChannel);
     }
-    if (key === 'short_message' && !hasChannelMethod(channelMethods, 'short_message')) {
+    if (key === 'sms' && !hasChannelMethod(channelMethods, 'sms')) {
       channelMethods[TargetType.USER].push(SMSChannel);
       channelMethods[TargetType.EXTERNAL_USER].push(SMSChannel);
     }
