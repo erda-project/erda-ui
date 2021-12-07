@@ -38,6 +38,7 @@ export interface ColumnProps<T> extends AntdColumnProps<T> {
   subTitle?: ((text: string, record: T, index: number) => React.ReactNode) | React.ReactNode;
   icon?: ((text: string, record: T, index: number) => React.ReactNode) | React.ReactNode;
   show?: boolean;
+  hidden?: boolean;
   sortTitle?: React.ReactNode;
 }
 

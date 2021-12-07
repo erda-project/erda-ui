@@ -176,7 +176,7 @@ function WrappedTable<T extends object = any>({
 
   React.useEffect(() => {
     setColumns(
-      allColumns.map(({ width = 300, sorter, title, render, icon, align, ...args }: ColumnProps<T>) => {
+      allColumns.map(({ width = 300, sorter, title, render, icon, align, show, ...args }: ColumnProps<T>) => {
         const { subTitle } = args;
         let sortTitle;
         if (sorter) {
@@ -244,7 +244,7 @@ function WrappedTable<T extends object = any>({
           ellipsis: true,
           onCell: () => ({ style: { maxWidth: width }, className: align === 'right' && sorter ? 'pr-8' : '' }),
           render: columnRender,
-          show: true,
+          hidden: show === false,
           ...args,
         };
       }),
@@ -280,7 +280,7 @@ function WrappedTable<T extends object = any>({
       <Table
         scroll={{ x: '100%' }}
         columns={[
-          ...columns.filter((item) => item.show).map((item) => ({ ...item, title: item.sortTitle || item.title })),
+          ...columns.filter((item) => !item.hidden).map((item) => ({ ...item, title: item.sortTitle || item.title })),
           ...renderActions(actions),
         ]}
         rowClassName={onRow ? `cursor-pointer ${rowClassName || ''}` : rowClassName}
