@@ -38,38 +38,30 @@ enum TargetType {
   ROLE = 'role',
 }
 
-interface Channel {
-  name: string;
-  value: string;
-}
-
 export const notifyChannelOptionsMap = {
   [TargetType.DINGDING]: [{ name: i18n.t('DingTalk'), value: 'dingding' }],
-  [TargetType.USER]: [{ name: i18n.t('site message'), value: 'mbox' }],
-  [TargetType.EXTERNAL_USER]: [] as Channel[],
+  [TargetType.USER]: [
+    { name: i18n.t('site message'), value: 'mbox' },
+    { name: i18n.t('dop:email'), value: 'email' },
+  ],
+  [TargetType.EXTERNAL_USER]: [{ name: i18n.t('dop:email'), value: 'email' }],
   [TargetType.WEBHOOK]: [{ name: i18n.t('dop:webhook'), value: 'webhook' }],
-  [TargetType.ROLE]: [{ name: i18n.t('site message'), value: 'mbox' }],
+  [TargetType.ROLE]: [
+    { name: i18n.t('site message'), value: 'mbox' },
+    { name: i18n.t('dop:email'), value: 'email' },
+  ],
 };
 
 const hasChannelMethod = (channelMethods: typeof notifyChannelOptionsMap, method: string) => {
-  if (method === 'email') {
-    return channelMethods[TargetType.ROLE].find((x) => x.value === method);
-  }
   return channelMethods[TargetType.USER].find((x) => x.value === method);
 };
 
 export const getFinalNotifyChannelOptions = (channels: Obj<string>, isMonitor: boolean) => {
   const VMSChannel = { name: i18n.t('phone'), value: 'vms' };
-  const emailChannel = { name: i18n.t('dop:email'), value: 'email' };
   const SMSChannel = { name: i18n.t('SMS'), value: 'sms' };
   const dingdingWorkChannel = { name: i18n.t('dingding work notice'), value: 'dingtalk_work_notice' };
   const channelMethods = cloneDeep(notifyChannelOptionsMap);
   forEach(channels, (_, key) => {
-    if (key === 'email' && !hasChannelMethod(channelMethods, 'email')) {
-      channelMethods[TargetType.USER].push(emailChannel);
-      channelMethods[TargetType.EXTERNAL_USER].push(emailChannel);
-      channelMethods[TargetType.ROLE].push(emailChannel);
-    }
     if (key === 'vms' && !hasChannelMethod(channelMethods, 'vms')) {
       channelMethods[TargetType.USER].push(VMSChannel);
       channelMethods[TargetType.EXTERNAL_USER].push(VMSChannel);

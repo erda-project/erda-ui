@@ -84,7 +84,7 @@ const AlarmReport = () => {
   });
 
   React.useEffect(() => {
-    updater.allChannelMethods(getFinalNotifyChannelOptions(channelMethods, false));
+    updater.allChannelMethods(getFinalNotifyChannelOptions(channelMethods, true));
   }, [channelMethods, updater]);
 
   const handleCloseModal = () => {

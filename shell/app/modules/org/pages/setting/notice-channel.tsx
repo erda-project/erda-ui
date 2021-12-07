@@ -72,48 +72,6 @@ interface IState {
 
 const NotifyChannel = () => {
   const channelTypeOptions = getNotifyChannelTypes.useData();
-  // const channelTypeOptions = [
-  //   {
-  //     name: 'short_message',
-  //     displayName: '短信',
-  //     providers: [
-  //       {
-  //         name: 'aliyun_sms',
-  //         displayName: '阿里云短信服务',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     name: 'dingtalk_work_notice',
-  //     displayName: '钉钉工作通知',
-  //     providers: [
-  //       {
-  //         name: 'dingtalk',
-  //         displayName: '钉钉',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     name: 'vms',
-  //     displayName: '电话',
-  //     providers: [
-  //       {
-  //         name: 'aliyun_vms',
-  //         displayName: '阿里语音通知',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     name: 'email',
-  //     displayName: '邮箱',
-  //     providers: [
-  //       {
-  //         name: 'smtp',
-  //         displayName: 'SMTP 服务器',
-  //       },
-  //     ],
-  //   },
-  // ];
   const [channelDatasource, loading] = getNotifyChannels.useState();
   const [
     {
@@ -141,7 +99,7 @@ const NotifyChannel = () => {
     smtpIsSSL: false,
     passwordVisible: false,
     activeTab: 'dingtalk_work_notice',
-    paging: { pageSize: 15, current: 1 },
+    paging: { pageSize: 10, current: 1 },
     channelProviderOptions: [],
   });
 
@@ -810,7 +768,7 @@ const NotifyChannel = () => {
           activeKey={activeTab}
           onChange={(key) => {
             updater.activeTab(key);
-            updater.paging({ pageSize: 15, current: 1 });
+            updater.paging({ pageSize: 10, current: 1 });
           }}
         >
           <TabPane key="dingtalk_work_notice" tab={i18n.t('dingding work notice')} />
