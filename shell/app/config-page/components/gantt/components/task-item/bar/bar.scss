@@ -7,8 +7,8 @@
   .erda-gantt-bar-handle {
     visibility: hidden;
     height: 100%;
-    display: inline-block;
-    vertical-align: middle;
+    display: inline-flex;
+    align-items: center;
   }
 
   .left-handle {

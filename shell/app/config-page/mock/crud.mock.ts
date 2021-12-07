@@ -243,8 +243,8 @@ export const mockData = {
               {
                 id: '1-5',
                 name: 'T1-5测试测试测试测试测试测试测试测试测试测试测试',
-                start: new Date('2019-1-1').getTime(),
-                end: getDate(10),
+                start: getDate(1),
+                end: getDate(30),
                 isLeaf: true,
                 extra: {
                   type: 'task',
