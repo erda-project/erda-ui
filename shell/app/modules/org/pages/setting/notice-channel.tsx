@@ -217,6 +217,7 @@ const NotifyChannel = () => {
       updater.channelProvider(channelTypeOptions?.find((item) => item.name === activeTab)?.providers?.[0]?.name || '');
       updater.channelType(channelTypeOptions?.find((item) => item.name === activeTab)?.name || '');
     }
+    updater.passwordVisible(true);
   };
 
   const confirmEnableChannel = ({
