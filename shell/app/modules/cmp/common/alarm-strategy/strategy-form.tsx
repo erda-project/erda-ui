@@ -40,7 +40,7 @@ import projectMemberStore from 'common/stores/project-member';
 import cmpAlarmStrategyStore from 'app/modules/cmp/stores/alarm-strategy';
 import mspAlarmStrategyStore from 'app/modules/msp/alarm-manage/alarm-strategy/stores/alarm-strategy';
 import {
-  monitorNotifyChannelOptionsMap,
+  notifyChannelOptionsMap,
   getFinalNotifyChannelOptions,
 } from 'application/pages/settings/components/app-notify/common-notify-group';
 import { usePerm } from 'user/common';
@@ -160,7 +160,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     s.alertTriggerConditionsContent,
   ]);
   const tableRef = React.useRef<HTMLDivElement>(null);
-  const channelMethods = getNotifyChannelMethods.useData();
+  const channelMethods = getNotifyChannelMethods.useData() as Obj<string>;
   const {
     getAlerts,
     createAlert,
@@ -193,7 +193,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     triggerCondition: [],
     notifies: [],
     notifyLevel: null,
-    allChannelMethods: monitorNotifyChannelOptionsMap,
+    allChannelMethods: notifyChannelOptionsMap,
   });
 
   useMount(() => {
@@ -312,7 +312,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
   }, [alertTriggerConditions]);
 
   React.useEffect(() => {
-    updater.allChannelMethods(getFinalNotifyChannelOptions(channelMethods));
+    updater.allChannelMethods(getFinalNotifyChannelOptions(channelMethods, true));
   }, [channelMethods, updater]);
 
   useUnmount(() => {
@@ -831,7 +831,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
   const handleAddNotifyStrategy = () => {
     // const activeGroup = notifyGroups[0];
     // const groupTypeOptions =
-    //   ((activeGroup && monitorNotifyChannelOptionsMap[activeGroup.targets[0].type]) || []).map((x) => ({
+    //   ((activeGroup && notifyChannelOptionsMap[activeGroup.targets[0].type]) || []).map((x) => ({
     //     key: x.value,
     //     display: x.name,
     //   })) || [];

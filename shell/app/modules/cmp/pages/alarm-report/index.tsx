@@ -22,7 +22,7 @@ import { useSwitch, useUpdate } from 'common/use-hooks';
 import { FormInstance, ColumnProps } from 'core/common/interface';
 import { goTo } from 'common/utils';
 import {
-  monitorNotifyChannelOptionsMap,
+  notifyChannelOptionsMap,
   ListTargets,
   getFinalNotifyChannelOptions,
 } from 'application/pages/settings/components/app-notify/common-notify-group';
@@ -68,9 +68,9 @@ const AlarmReport = () => {
   const [modalVisible, openModal, closeModal] = useSwitch(false);
   const [{ editingTask, allChannelMethods }, updater] = useUpdate({
     editingTask: {},
-    allChannelMethods: monitorNotifyChannelOptionsMap,
+    allChannelMethods: notifyChannelOptionsMap,
   });
-  const channelMethods = getNotifyChannelMethods.useData();
+  const channelMethods = getNotifyChannelMethods.useData() as Obj<string>;
   const addNotificationGroupAuth = usePerm((s) => s.org.cmp.alarms.addNotificationGroup.pass); // 企业中心的添加通知组，需要验证权限，项目的暂无埋点
 
   const { pageNo, pageSize, total } = reportTaskPaging;
@@ -84,7 +84,7 @@ const AlarmReport = () => {
   });
 
   React.useEffect(() => {
-    updater.allChannelMethods(getFinalNotifyChannelOptions(channelMethods));
+    updater.allChannelMethods(getFinalNotifyChannelOptions(channelMethods, true));
   }, [channelMethods, updater]);
 
   const handleCloseModal = () => {
