@@ -75,7 +75,7 @@ const List = (props: CP_LIST_NEW.Props) => {
                   className: 'flex-1',
                 }));
                 return (
-                  <div className="flex-grow mx-2">
+                  <div className="mx-2 flex-1">
                     <Comp data={{ data: [{ ...dataItem, info: infoItem }] }} props={extraContentProps} />
                   </div>
                 );
