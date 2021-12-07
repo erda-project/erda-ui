@@ -244,7 +244,7 @@ function WrappedTable<T extends object = any>({
           ellipsis: true,
           onCell: () => ({ style: { maxWidth: width }, className: align === 'right' && sorter ? 'pr-8' : '' }),
           render: columnRender,
-          hidden: show === false,
+          hidden: show === false, // TODO: change to false after all show has been replaced
           ...args,
         };
       }),
