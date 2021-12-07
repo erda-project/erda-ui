@@ -29,7 +29,7 @@ export const Bar: React.FC<TaskItemProps> = ({
   isSelected,
 }) => {
   const progressPoint = getProgressPoint(+!rtl * task.progressWidth + task.progressX, task.y, task.height);
-  const handleHeight = task.height - 2;
+  const handleHeight = task.height;
   const taskWidth = task.x2 - task.x1;
 
   const getBarColor = () => {

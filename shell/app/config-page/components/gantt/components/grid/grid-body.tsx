@@ -51,6 +51,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
   onDateChange,
   ganttEvent,
   setRangeAddTime,
+  horizontalRange,
 }) => {
   let y = 0;
   const gridRows: ReactChild[] = [];
@@ -88,8 +89,8 @@ export const GridBody: React.FC<GridBodyProps> = ({
     setEndPos(null);
     setChosenTask(null);
   };
-
-  const addTime = getDateFormX(startPos?.[0], endPos?.[0], dateDelta, columnWidth, dates[0].getTime());
+  const curDates = dates.slice(...horizontalRange);
+  const addTime = getDateFormX(startPos?.[0], endPos?.[0], dateDelta, columnWidth, curDates[0]?.getTime());
 
   const onMouseUp = () => {
     if (addTime.length && addTime[1] - addTime[0] >= dateDelta * 0.6 && chosenTask) {
