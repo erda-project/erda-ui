@@ -165,7 +165,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
               format={(v) => null}
               strokeColor={statusColorMap[status]}
             />
-            <span className="text-dark-8  ml-2">{`${_val}%`}</span>
+            <span className="text-dark-8  ml-2">{`${value.toFixed(1)}%`}</span>
           </Tooltip>
         ) : (
           _val
