@@ -1,6 +1,11 @@
 .topology {
   background: rgba($color-default, 0.96);
 
+  .ant-spin-nested-loading,
+  .ant-spin-container {
+    height: 100%;
+  }
+
   .topology-filter {
     .contractive-filter-item {
       background: rgba($white, 0.06) !important;

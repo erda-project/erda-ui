@@ -20,6 +20,8 @@ import topologyStore from 'msp/env-overview/topology/stores/topology';
 import { useMount, useUnmount, useUpdateEffect } from 'react-use';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'core/stores/route';
+import { Spin } from 'antd';
+import { useLoading } from 'core/stores/loading';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import './index.scss';
 
@@ -30,6 +32,7 @@ const Topology = () => {
   const { getProjectApps } = monitorCommonStore.effects;
   const { getMonitorTopology, getTopologyTags, getTagsOptions } = topologyStore.effects;
   const { clearMonitorTopology } = topologyStore.reducers;
+  const [isLoading] = useLoading(topologyStore, ['getMonitorTopology']);
   const [topologyData, topologyTags, tagOptionsCollection] = topologyStore.useStore((s) => [
     s.topologyData,
     s.topologyTags,
@@ -107,19 +110,23 @@ const Topology = () => {
     [tagOptionsCollection, topologyTags],
   );
   return (
-    <div className="topology h-full flex flex-col">
-      <div className="topology-filter flex justify-between items-center h-12 bg-white-2 px-4">
-        <ContractiveFilter
-          delay={1000}
-          values={filterTags}
-          conditions={conditionsFilter}
-          onChange={(e) => {
-            setFilterTags(e);
-          }}
-        />
-        <TimeSelectWithStore className="ml-3" />
-      </div>
-      <div className="flex-1">{topologyData.nodes?.length ? <TopologyComp data={topologyData} /> : null}</div>
+    <div className="topology h-full">
+      <Spin className="spin" spinning={isLoading}>
+        <div className="h-full flex flex-col">
+          <div className="topology-filter flex justify-between items-center h-12 bg-white-2 px-4">
+            <ContractiveFilter
+              delay={1000}
+              values={filterTags}
+              conditions={conditionsFilter}
+              onChange={(e) => {
+                setFilterTags(e);
+              }}
+            />
+            <TimeSelectWithStore className="ml-3" />
+          </div>
+          <div className="flex-1">{topologyData.nodes?.length ? <TopologyComp data={topologyData} /> : null}</div>
+        </div>
+      </Spin>
     </div>
   );
 };

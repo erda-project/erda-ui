@@ -29,19 +29,11 @@ interface IProps extends NodeProps<TOPOLOGY.TopoNode> {
 
 const metric = [
   {
-    name: i18n.t('msp:stopped instance'),
-    key: 'stopped',
-  },
-  {
-    name: i18n.t('msp:running instance'),
-    key: 'running',
-  },
-  {
     name: i18n.t('call times'),
     key: 'count',
   },
   {
-    name: `${i18n.t('response time')}(ms)`,
+    name: `${i18n.t('msp:average response time')}(ms)`,
     key: 'rt',
   },
 ];

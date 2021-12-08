@@ -27,7 +27,7 @@ const Circular: React.FC<IProps> = ({ width = 100, stroke, percent = 0, strokeWi
   const [bgColor, frontColor] = stroke;
   const wrapperWidth = width + strokeWidth;
   return (
-    <div className="relative">
+    <div className="relative" style={{ width: wrapperWidth, height: wrapperWidth }}>
       <Progress
         width={width + strokeWidth}
         strokeWidth={strokeWidth}
