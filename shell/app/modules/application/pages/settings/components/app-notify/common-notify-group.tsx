@@ -42,13 +42,13 @@ export const notifyChannelOptionsMap = {
   [TargetType.DINGDING]: [{ name: i18n.t('DingTalk'), value: 'dingding' }],
   [TargetType.USER]: [
     { name: i18n.t('site message'), value: 'mbox' },
-    { name: i18n.t('dop:email'), value: 'email' },
+    { name: i18n.t('common:email'), value: 'email' },
   ],
-  [TargetType.EXTERNAL_USER]: [{ name: i18n.t('dop:email'), value: 'email' }],
+  [TargetType.EXTERNAL_USER]: [{ name: i18n.t('common:email'), value: 'email' }],
   [TargetType.WEBHOOK]: [{ name: i18n.t('dop:webhook'), value: 'webhook' }],
   [TargetType.ROLE]: [
     { name: i18n.t('site message'), value: 'mbox' },
-    { name: i18n.t('dop:email'), value: 'email' },
+    { name: i18n.t('common:email'), value: 'email' },
   ],
 };
 
