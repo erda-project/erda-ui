@@ -27,7 +27,7 @@ interface IData {
   lastUpdate?: string;
 }
 
-const PastIncidents = ({ pastIncidents }: { pastIncidents: any[] }) => {
+const PastIncidents = ({ pastIncidents, fetchData }: { pastIncidents: any[]; fetchData: () => void }) => {
   const dataSource = pastIncidents.map((item, k) => {
     return { ...item, key: k, createAt: moment(item.createAt / 1000000).format('YYYY-MM-DD HH:mm:ss') };
   });
@@ -65,8 +65,8 @@ const PastIncidents = ({ pastIncidents }: { pastIncidents: any[] }) => {
       <Table
         rowKey="key"
         dataSource={dataSource}
+        onChange={() => fetchData()}
         columns={pastIncidentsCols}
-        pagination={false}
         scroll={{ x: '100%' }}
       />
     </div>

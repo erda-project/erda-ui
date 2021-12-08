@@ -15,7 +15,9 @@ import React from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
 import { head, isEmpty, map, take, forEach, cloneDeep } from 'lodash';
-import { Button, message, Modal, Select, Spin, Table, Tooltip } from 'antd';
+import { Button, message, Modal, Select, Spin, Tooltip } from 'antd';
+import Table from 'common/components/table';
+import { IActions } from 'common/components/table/interface';
 import { Avatar, ErdaIcon, FormModal, MemberSelector } from 'common';
 import { useSwitch, useUpdate } from 'common/use-hooks';
 import { ColumnProps, FormInstance } from 'core/common/interface';
@@ -462,7 +464,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       dataIndex: 'targets',
       className: 'notify-info',
       ellipsis: true,
-      render: (targets) => (
+      render: (targets: COMMON_STRATEGY_NOTIFY.INotifyTarget[]) => (
         <div className="flex-div flex truncate">
           <ListTargets targets={targets} roleMap={roleMap} />
         </div>
@@ -472,38 +474,35 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       title: i18n.t('default:creator'),
       dataIndex: 'creator',
       width: 160,
-      render: (text) => userMap[text]?.nick,
+      render: (text: string) => userMap[text]?.nick,
     },
     {
       title: i18n.t('default:create time'),
       dataIndex: 'createdAt',
       width: 176,
-      render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
-    },
-    {
-      title: i18n.t('default:operation'),
-      dataIndex: 'id',
-      width: 160,
-      fixed: 'right',
-      render: (id: number, record) => {
-        return (
-          <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => handleEdit(record)}>
-              {i18n.t('edit')}
-            </span>
-            <span
-              className="table-operations-btn"
-              onClick={() => {
-                handleDele(id);
-              }}
-            >
-              {i18n.t('delete')}
-            </span>
-          </div>
-        );
-      },
+      render: (text: string) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
   ];
+
+  const actions: IActions<COMMON_NOTIFY.INotifyGroup> = {
+    width: 120,
+    render: (record: COMMON_NOTIFY.INotifyGroup) => renderMenu(record),
+  };
+
+  const renderMenu = (record: COMMON_NOTIFY.INotifyGroup) => {
+    const { editNotifyGroup, deleteNotifyGroup } = {
+      editNotifyGroup: {
+        title: i18n.t('edit'),
+        onClick: () => handleEdit(record),
+      },
+      deleteNotifyGroup: {
+        title: i18n.t('delete'),
+        onClick: () => handleDele(record.id),
+      },
+    };
+
+    return [editNotifyGroup, deleteNotifyGroup];
+  };
 
   return (
     <div className="notify-group-manage">
@@ -531,7 +530,13 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
         modalProps={{ destroyOnClose: true }}
       />
       <Spin spinning={loading}>
-        <Table rowKey="id" dataSource={notifyGroups} columns={columns} pagination={false} scroll={{ x: 800 }} />
+        <Table
+          rowKey="id"
+          dataSource={notifyGroups}
+          columns={columns}
+          actions={actions}
+          onChange={() => handleGetNotifyGroups()}
+          scroll={{ x: 800 }} />
       </Spin>
     </div>
   );

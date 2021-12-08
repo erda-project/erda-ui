@@ -33,8 +33,10 @@ import {
   get,
   merge,
 } from 'lodash';
-import { Spin, Button, Switch, Popconfirm, Table, Select, Input, InputNumber, message, Modal, Tooltip } from 'antd';
-import { PagingTable, FormModal, MarkdownEditor, RenderPureForm, IF, BoardGrid } from 'common';
+import { Spin, Button, Switch, Select, Input, InputNumber, message, Modal, Tooltip } from 'antd';
+import Table from 'common/components/table';
+import { IActions } from 'common/components/table/interface';
+import { Badge, FormModal, MarkdownEditor, RenderPureForm, IF, BoardGrid } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useMount } from 'react-use';
 import { FormInstance } from 'core/common/interface';
@@ -78,6 +80,8 @@ const formItemLayout = {
     lg: { span: 18 },
   },
 };
+
+const { confirm } = Modal;
 
 const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
   const customAlarmStore = customAlarmStoreMap[scopeType];
@@ -125,7 +129,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
     editCustomAlarm,
   } = customAlarmStore.effects;
   const { clearCustomAlarmDetail } = customAlarmStore.reducers;
-  const { total } = customAlarmPaging;
+  const { total, pageSize, pageNo } = customAlarmPaging;
 
   useMount(() => {
     getMetaGroups();
@@ -203,11 +207,36 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
     });
   }, [customAlarmDetail, update]);
 
+  React.useEffect(() => {
+    getCustomAlarms();
+  }, []);
+
+  const handlePageChange = (paging: { current: number; pageSize?: number }) => {
+    const { current, pageSize: size } = paging;
+    getCustomAlarms({ pageNo: current, pageSize: size });
+  };
+  const handleDeleteAlarm = (id: number) => {
+    confirm({
+      title: i18n.t('are you sure you want to delete this item?'),
+      content: i18n.t('the item will be permanently deleted!'),
+      onOk() {
+        deleteCustomAlarm(id);
+      },
+    });
+  };
+
   const columns = [
     {
       title: i18n.t('name'),
       dataIndex: 'name',
       key: 'name',
+    },
+    {
+      title: i18n.t('status'),
+      dataIndex: 'enable',
+      render: (enable: boolean) => (
+        <Badge text={enable ? i18n.t('enable') : i18n.t('unable')} status={enable ? 'success' : 'default'} />
+      ),
     },
     {
       title: i18n.t('indicator'),
@@ -225,33 +254,6 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
       dataIndex: 'notifyTargets',
       key: 'notifyTargets',
       render: (value: string[]) => `${value.join('、')}`,
-    },
-    {
-      title: i18n.t('operate'),
-      width: 230,
-      render: (record: COMMON_CUSTOM_ALARM.CustomAlarms) => {
-        return (
-          <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => openModal(record.id)}>
-              {i18n.t('edit')}
-            </span>
-            {/* <IF check={record.dashboardId}>
-              <span className="table-operations-btn" onClick={() => goTo(`./${record.dashboardId}`)}>
-                {i18n.t('cmp:view dashboard')}
-              </span>
-            </IF> */}
-            <Popconfirm title={`${i18n.t('common:confirm deletion')}?`} onConfirm={() => deleteCustomAlarm(record.id)}>
-              <span className="table-operations-btn">{i18n.t('delete')}</span>
-            </Popconfirm>
-            <Switch
-              size="small"
-              defaultChecked={record.enable}
-              loading={switchCustomAlarmLoading}
-              onChange={(checked) => switchCustomAlarm({ id: record.id, enable: checked })}
-            />
-          </div>
-        );
-      },
     },
   ];
 
@@ -333,25 +335,18 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
         return expectedValEle;
       },
     },
-    {
-      title: i18n.t('operate'),
-      width: 65,
-      render: ({ uniKey }: any) => {
-        return (
-          <div className="table-operations">
-            <span
-              className="table-operations-btn"
-              onClick={() => {
-                handleRemoveEditingFilter(uniKey);
-              }}
-            >
-              {i18n.t('delete')}
-            </span>
-          </div>
-        );
-      },
-    },
   ];
+
+  const filteredTableActions: IActions<COMMON_CUSTOM_ALARM.Filter> = {
+    render: (record) => [
+      {
+        title: i18n.t('delete'),
+        onClick: () => {
+          handleRemoveEditingFilter(record.uniKey);
+        },
+      },
+    ],
+  };
 
   const getFieldColumns = (form: FormInstance) => [
     {
@@ -478,52 +473,63 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
         return valueEle;
       },
     },
-    {
-      title: i18n.t('operate'),
-      fixed: 'right',
-      width: 150,
-      render: ({ uniKey }: any) => {
-        const isPreviewing = uniKey === previewerKey;
-        return (
-          <div className="table-operations">
-            <span
-              className="table-operations-btn"
-              onClick={() => {
-                handleRemoveEditingField(uniKey);
-                isPreviewing && updater.previewerKey(undefined);
-              }}
-            >
-              {i18n.t('delete')}
-            </span>
+    // {
+    //   title: i18n.t('operate'),
+    //   fixed: 'right',
+    //   width: 150,
+    //   render: ({ uniKey }: any) => {
+    //     const isPreviewing = uniKey === previewerKey;
+    //     return (
+    //       <div className="table-operations">
+    //         <span
+    //           className="table-operations-btn"
+    //           onClick={() => {
+    //             handleRemoveEditingField(uniKey);
+    //             isPreviewing && updater.previewerKey(undefined);
+    //           }}
+    //         >
+    //           {i18n.t('delete')}
+    //         </span>
 
-            {/* The interface data is returned incorrectly. The back-end suggests to hide the preview button temporarily */}
-            {/* <IF check={isPreviewing}>
-              <span
-                className="table-operations-btn"
-                onClick={() => {
-                  handlePreview(form, uniKey);
-                }}
-              >
-                {i18n.t('refresh')}
-              </span>
-            </IF>
-            <span
-              className="table-operations-btn"
-              onClick={() => {
-                if (isPreviewing) {
-                  updater.previewerKey(undefined);
-                } else {
-                  handlePreview(form, uniKey);
-                }
-              }}
-            >
-              {isPreviewing ? i18n.t('cancel') : i18n.t('preview')}
-            </span> */}
-          </div>
-        );
-      },
-    },
+    //         The interface data is returned incorrectly. The back-end suggests to hide the preview button temporarily
+    //         <IF check={isPreviewing}>
+    //           <span
+    //             className="table-operations-btn"
+    //             onClick={() => {
+    //               handlePreview(form, uniKey);
+    //             }}
+    //           >
+    //             {i18n.t('refresh')}
+    //           </span>
+    //         </IF>
+    //         <span
+    //           className="table-operations-btn"
+    //           onClick={() => {
+    //             if (isPreviewing) {
+    //               updater.previewerKey(undefined);
+    //             } else {
+    //               handlePreview(form, uniKey);
+    //             }
+    //           }}
+    //         >
+    //           {isPreviewing ? i18n.t('cancel') : i18n.t('preview')}
+    //         </span>
+    //       </div>
+    //     );
+    //   },
+    // },
   ];
+
+  const fieldsTableActions: IActions<COMMON_CUSTOM_ALARM.Field> = {
+    render: (record) => [
+      {
+        title: i18n.t('delete'),
+        onClick: () => {
+          handleRemoveEditingField(record.uniKey);
+        },
+      },
+    ],
+  };
 
   const handleAddEditingFilters = () => {
     updater.editingFilters([
@@ -590,11 +596,11 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
 
   const debounceEditEditingFields = debounce(handleEditEditingFields, 500);
 
-  const handleRemoveEditingFilter = (uniKey: string) => {
+  const handleRemoveEditingFilter = (uniKey: string | undefined) => {
     updater.editingFilters(filter(editingFilters, (item) => item.uniKey !== uniKey));
   };
 
-  const handleRemoveEditingField = (uniKey: string) => {
+  const handleRemoveEditingField = (uniKey: string | undefined) => {
     updater.editingFields(filter(editingFields, (item) => item.uniKey !== uniKey));
   };
 
@@ -774,11 +780,12 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
                 {i18n.t('cmp:add filter rules')}
               </Button>
               <Table
+                hideHeader
                 className="filter-rule-table"
-                bordered
                 rowKey="uniKey"
                 dataSource={editingFilters}
                 columns={filterColumns}
+                actions={filteredTableActions}
                 scroll={undefined}
               />
             </>
@@ -812,10 +819,11 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
                 {i18n.t('cmp:add field rules')}
               </Button>
               <Table
+                hideHeader
                 className="field-rule-table"
-                bordered
                 rowKey="uniKey"
                 dataSource={editingFields}
+                actions={fieldsTableActions}
                 columns={getFieldColumns(form)}
                 scroll={undefined}
               />
@@ -914,6 +922,26 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
     </div>
   );
 
+  const actions: IActions<COMMON_CUSTOM_ALARM.CustomAlarms> = {
+    width: 120,
+    render: (record: COMMON_CUSTOM_ALARM.CustomAlarms) => renderMenu(record),
+  };
+
+  const renderMenu = (record: COMMON_CUSTOM_ALARM.CustomAlarms) => {
+    const { editAlarmRule, deleteAlarmRule } = {
+      editAlarmRule: {
+        title: i18n.t('edit'),
+        onClick: () => openModal(record.id),
+      },
+      deleteAlarmRule: {
+        title: i18n.t('delete'),
+        onClick: () => handleDeleteAlarm(record.id),
+      },
+    };
+
+    return [editAlarmRule, deleteAlarmRule];
+  };
+
   return (
     <div className="custom-alarm">
       <div className="top-button-group">
@@ -922,13 +950,13 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
         </Button>
       </div>
       <Spin spinning={getCustomAlarmsLoading}>
-        <PagingTable
-          bordered
+        <Table
           dataSource={customAlarms}
-          total={total}
           columns={columns}
           rowKey="id"
-          getList={getCustomAlarms}
+          onChange={handlePageChange}
+          pagination={{ current: pageNo, pageSize, total }}
+          actions={actions}
         />
       </Spin>
       <FormModal

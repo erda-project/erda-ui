@@ -15,7 +15,7 @@ import React from 'react';
 import { Button, Modal, Tooltip, Select } from 'antd';
 import { goTo, cutStr, resolvePath } from 'common/utils';
 import Table from 'common/components/table';
-import { Badge } from 'common';
+import { Badge, ErdaIcon } from 'common';
 import { IActions } from 'common/components/table/interface';
 import { reverse, map, filter, floor } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
@@ -26,7 +26,7 @@ import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
-import { ErdaIcon } from 'common';
+
 import './status.scss';
 
 const { Option } = Select;
@@ -193,7 +193,7 @@ const Status = () => {
       title: i18n.t('msp:root cause analysis'),
       dataIndex: 'requestId',
       width: 90,
-      show: false,
+      hidden: true,
       render: (requestId: string) =>
         !!requestId && (
           <span
@@ -286,8 +286,8 @@ const Status = () => {
         loading={isFetchingList}
         columns={columns}
         dataSource={filterData}
-        pagination={false}
         slot={filterSlot}
+        onChange={() => getProjectDashboard()}
         scroll={{ x: '100%', y: 550 }}
       />
     </div>

@@ -28,7 +28,9 @@ import {
 } from 'lodash';
 import { useMount, useUnmount } from 'react-use';
 import { FormInstance } from 'core/common/interface';
-import { Modal, Button, Switch, Select, Table, Input, InputNumber, Popover, Tooltip, Form } from 'antd';
+import { Modal, Button, Switch, Select, Input, InputNumber, Popover, Tooltip, Form } from 'antd';
+import Table from 'common/components/table';
+import { IActions } from 'common/components/table/interface';
 import { RenderForm, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
@@ -532,25 +534,18 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
         </>
       ),
     },
-    {
-      title: i18n.t('operate'),
-      width: 65,
-      render: (record: COMMON_STRATEGY_NOTIFY.IFormRule) => {
-        return (
-          <div className="table-operations">
-            <span
-              className="table-operations-btn"
-              onClick={() => {
-                handleRemoveEditingRule(record.key);
-              }}
-            >
-              {i18n.t('delete')}
-            </span>
-          </div>
-        );
-      },
-    },
   ];
+
+  const actions: IActions<COMMON_STRATEGY_NOTIFY.IFormRule> = {
+    render: (record) => [
+      {
+        title: i18n.t('delete'),
+        onClick: () => {
+          handleRemoveEditingRule(record.key);
+        },
+      },
+    ],
+  };
 
   const fieldsList = [
     {
@@ -629,8 +624,9 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
             </Button>
           </div>
           <Table
-            bordered
+            hideHeader
             rowKey="key"
+            actions={actions}
             className="opportunity-table"
             dataSource={state.editingRules}
             columns={columns}
