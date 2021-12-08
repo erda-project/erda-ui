@@ -16,7 +16,7 @@ import DiceConfigPage, { useMock } from 'app/config-page';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import { getUrlQuery } from 'config-page/utils';
 import { getAvatarChars, updateSearch, mergeSearch } from 'common/utils';
-import { Badge, ErdaIcon } from 'common';
+import { Badge, ErdaIcon, Ellipsis } from 'common';
 import { useUserMap } from 'core/stores/userMap';
 import { useUpdate, useSwitch } from 'common/use-hooks';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
@@ -96,7 +96,9 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
       }}
     >
       {<IssueIcon type={type} size={'16px'} />}
-      <div className="truncate flex-1 ml-1">{name}</div>
+      <div className="truncate flex-1 ml-1">
+        <Ellipsis title={name} />
+      </div>
       <div className="flex items-center ml-2">
         <Avatar src={curUser?.avatar || undefined} size={16}>
           {getAvatarChars(curUserName || '')}

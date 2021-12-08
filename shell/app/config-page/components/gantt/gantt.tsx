@@ -20,9 +20,9 @@ import { useEffectOnce } from 'react-use';
 import moment from 'moment';
 import './gantt.scss';
 
+const indentWidth = 16;
 const getTreeLine = (task: CP_GANTT.IGanttData, tasksGroup: Obj<CP_GANTT.IGanttData[]>, rowHeight = 38) => {
   const { level, id, project } = task;
-  const indentWidth = 16;
   const indentHeight = rowHeight;
 
   const curGroup = project && tasksGroup[project] ? tasksGroup[project] : [];
@@ -84,17 +84,14 @@ interface ITaskTreeProps {
   selectedTaskId?: string;
   onExpanderClick: (task: CP_GANTT.IGanttData) => void;
   setSelectedTask: (id: string) => void;
-  originList?: CP_GANTT.IGanttData[];
   TreeNodeRender?: React.FC<{
     node: CP_GANTT.IGanttData;
     nodeList: CP_GANTT.IGanttData[];
-    originList: CP_GANTT.IGanttData[];
   }>;
 }
 
 const TaskTree = (props: ITaskTreeProps) => {
-  const { tasks, rowHeight, rowWidth, onExpanderClick, TreeNodeRender, selectedTaskId, setSelectedTask, originList } =
-    props;
+  const { tasks, rowHeight, rowWidth, onExpanderClick, TreeNodeRender, selectedTaskId, setSelectedTask } = props;
   const tasksGroup = groupBy(tasks || [], 'project');
   return (
     <div style={{ width: rowWidth }} className="erda-tree">
@@ -127,10 +124,12 @@ const TaskTree = (props: ITaskTreeProps) => {
                 }}
                 className={`cp-gantt-task-item-icon ${hideChildren ? '' : 'cp-gantt-task-item-expanded'}`}
               />
+            ) : level === 0 ? (
+              <div style={{ width: indentWidth }} className="h-full" />
             ) : null}
             {TreeNodeRender ? (
               <div className="flex-1 w-0 h-full">
-                <TreeNodeRender node={item} originList={originList} nodeList={tasks} />
+                <TreeNodeRender node={item} nodeList={tasks} />
               </div>
             ) : (
               <div>{name}</div>
@@ -217,7 +216,7 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
           onExpanderClick={handleExpanderClick}
           TaskListHeader={TaskListHeader}
           listCellWidth={listCellWidth}
-          TaskListTable={(p) => <TaskTree {...p} TreeNodeRender={TreeNodeRender} originList={list} />}
+          TaskListTable={(p) => <TaskTree {...p} TreeNodeRender={TreeNodeRender} />}
         />
       ) : (
         <EmptyHolder relative />
