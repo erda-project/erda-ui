@@ -685,7 +685,7 @@
     "please enter a number between {min} ~ {max}": "please enter a number between {min} ~ {max}",
     "please enter a valid email address": "please enter a valid email address",
     "please enter a valid ip, separated by a semicolon or a space": "please enter a valid ip, separated by a semicolon or a space",
-    "please enter an integer between 0 - 65535!": "please enter an integer between 0 - 65535!",
+    "please enter an integer between 1 ~ 65535!": "please enter an integer between 1 ~ 65535!",
     "please enter the correct format": "please enter the correct format",
     "please enter verification code": "please enter verification code",
     "please enter {name}": "please enter {name}",

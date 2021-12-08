@@ -26,10 +26,10 @@
 import React from 'react';
 import i18n from 'i18n';
 import { isEmpty, isNumber, map } from 'lodash';
-import { Button, Modal, Select, Spin, Tooltip, Input, message, Badge, Tabs, Checkbox } from 'antd';
+import { Button, Modal, Select, Spin, Tooltip, Input, message, Tabs, Checkbox } from 'antd';
 import Table from 'common/components/table';
 import { ColumnProps, IActions } from 'common/components/table/interface';
-import { FormModal, Copy, ErdaIcon } from 'common';
+import { FormModal, Copy, ErdaIcon, Badge } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { FormInstance } from 'app/interface/common';
 import { useMount } from 'react-use';
@@ -569,9 +569,9 @@ const NotifyChannel = () => {
       rules: [
         {
           validator: (_, value: string, callback: Function) => {
-            return value && isNumber(value) && value >= 0 && value <= 65535
+            return value && isNumber(value) && value >= 1 && value <= 65535
               ? callback()
-              : callback(i18n.t('please enter an integer between 0 - 65535!'));
+              : callback(i18n.t('please enter an integer between 1 ~ 65535!'));
           },
         },
       ],
@@ -658,10 +658,7 @@ const NotifyChannel = () => {
       dataIndex: 'enable',
       width: 80,
       render: (enable) => (
-        <span>
-          <Badge status={enable ? 'success' : 'default'} />
-          <span>{enable ? i18n.t('enable') : i18n.t('unable')}</span>
-        </span>
+        <Badge status={enable ? 'success' : 'default'} text={enable ? i18n.t('enable') : i18n.t('unable')} />
       ),
     },
     {
@@ -670,6 +667,7 @@ const NotifyChannel = () => {
       dataIndex: 'type',
       className: 'notify-info',
       ellipsis: true,
+      hidden: true,
       render: (type) => type.displayName,
     },
     {
@@ -687,7 +685,7 @@ const NotifyChannel = () => {
       title: i18n.t('default:create time'),
       dataIndex: 'createAt',
       width: 200,
-      show: false,
+      hidden: true,
     },
   ];
 
