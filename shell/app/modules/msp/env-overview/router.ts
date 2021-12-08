@@ -21,7 +21,10 @@ const getEnvOverViewRouter = (): RouteConfigItem => {
     routes: [
       {
         breadcrumbName: i18n.t('msp:global topology'),
-        layout: { fullHeight: true },
+        layout: {
+          fullHeight: true,
+          noWrapper: true,
+        },
         getComp: (cb) => cb(import('msp/pages/micro-service-overview')),
       },
       getTopologyRouter(),
