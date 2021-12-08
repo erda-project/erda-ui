@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import EChart from 'charts/components/echarts';
+import { newColorMap } from 'charts/theme';
 import { TextBlockInfo } from 'common';
 import echarts from 'echarts/lib/echarts';
 import React from 'react';
@@ -32,12 +33,25 @@ const getOption = (chart: CP_SIMPLE_CHART.IData['chart']) => {
     },
     tooltip: {
       trigger: 'axis',
-      backgroundColor: '#fff',
-      formatter: '{b}<br />{a}&nbsp;&nbsp;&nbsp;{c}',
+      backgroundColor: 'rgba(48,38,71,0.96)',
+      borderWidth: 0,
+      padding: [8, 16],
+      formatter: (params: Obj[]) => {
+        const serie = params[0];
+        return `<div style="color:rgba(255,255,255,0.60);margin-bottom:8px;">${serie.name}</div>
+        <div>
+        <span>${serie.seriesName}</span>
+        <span style='margin-left:10px;'>${serie.data}</span>
+        </div>`;
+      },
+      textStyle: {
+        fontSize: 12,
+        color: '#fff',
+      },
       axisPointer: {
         type: 'line',
         label: {
-          show: true,
+          show: false,
           color: '#fff',
         },
       },
@@ -47,8 +61,9 @@ const getOption = (chart: CP_SIMPLE_CHART.IData['chart']) => {
         name: serie.name,
         data: serie.data,
         type: 'line',
+        smooth: false,
         lineStyle: {
-          color: 'rgba(179,54,81,1)',
+          color: newColorMap.warning4,
           width: 3,
         },
         showSymbol: false,
@@ -57,11 +72,11 @@ const getOption = (chart: CP_SIMPLE_CHART.IData['chart']) => {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
               offset: 0,
-              color: 'rgba(179,54,81,1)',
+              color: newColorMap.warning4,
             },
             {
-              offset: 0.9,
-              color: 'rgba(255,255,255,0.1)',
+              offset: 1,
+              color: 'rgba(255,255,255,0.9)',
             },
           ]),
         },
@@ -77,7 +92,17 @@ const SimpleChart = (props: CP_SIMPLE_CHART.Props) => {
 
   return (
     <div className="cp-simple-chart flex items-center p-4" style={style}>
-      <TextBlockInfo className="flex justify-center" main={main} sub={sub} desc={compareText + compareValue} />
+      <TextBlockInfo
+        className="flex justify-center"
+        main={main}
+        sub={sub}
+        desc={
+          <div>
+            <span>{compareText}</span>
+            <span className="color-sub">{compareValue}</span>
+          </div>
+        }
+      />
       <EChart option={getOption(chart)} notMerge style={{ height: 64 }} className="flex-1" />
     </div>
   );
