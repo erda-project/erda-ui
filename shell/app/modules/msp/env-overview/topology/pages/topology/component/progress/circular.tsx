@@ -25,7 +25,7 @@ interface IProps {
 
 const Circular: React.FC<IProps> = ({ width = 100, stroke, percent = 0, strokeWidth = 5, className, children }) => {
   const [bgColor, frontColor] = stroke;
-  const wrapperWidth = width;
+  const wrapperWidth = width + strokeWidth;
   return (
     <div className="relative">
       <Progress

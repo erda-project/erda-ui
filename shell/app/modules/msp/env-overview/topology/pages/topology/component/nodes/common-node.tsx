@@ -135,15 +135,7 @@ const CommonNode = ({ isConnectable, data, children, className }: IProps) => {
   return (
     <>
       {isRoot ? null : (
-        <Handle
-          onDragEnd={() => {
-            console.log(1);
-          }}
-          className="node-handle-start"
-          type="target"
-          position={Position.Left}
-          isConnectable={isConnectable}
-        />
+        <Handle className="node-handle-start" type="target" position={Position.Left} isConnectable={isConnectable} />
       )}
       <div
         className={className ?? ''}
@@ -154,7 +146,11 @@ const CommonNode = ({ isConnectable, data, children, className }: IProps) => {
       >
         <Popover
           overlayClassName="topology-node-popover"
-          title={<div className="h-12 py-0 px-4 flex items-center text-white">{metaData.name}</div>}
+          title={
+            <div className="h-12 py-0 px-4 flex items-center text-white">
+              <div className="overflow-hidden overflow-ellipsis whitespace-nowrap">{metaData.name.repeat(22)}</div>
+            </div>
+          }
           content={popoverContent}
         >
           {children(metaData)}
