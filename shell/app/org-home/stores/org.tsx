@@ -21,6 +21,7 @@ import { getResourcePermissions } from 'user/services/user';
 import permStore from 'user/stores/permission';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { get, intersection, map } from 'lodash';
+import announcementStore from 'org/stores/announcement';
 
 interface IState {
   currentOrg: ORG.IOrg;
@@ -45,13 +46,20 @@ const org = createStore({
   name: 'org',
   state: initState,
   subscriptions: async ({ listenRoute }: IStoreSubs) => {
-    listenRoute(({ params, isIn, isMatch, isLeaving }) => {
+    listenRoute(async ({ params, isIn, isMatch, isLeaving }) => {
       if (isIn('orgIndex')) {
         const { orgName } = params;
         const [curPathOrg, initFinish] = org.getState((s) => [s.curPathOrg, s.initFinish]);
         if (!isAdminRoute() && initFinish && (curPathOrg !== orgName || orgName === '-') && !isMatch(/\w\/notFound/)) {
           layoutStore.reducers.clearLayout();
           org.effects.getOrgByDomain({ orgName });
+        }
+
+        if (orgName === '-') {
+          layoutStore.reducers.setAnnouncementList([]);
+        } else if (curPathOrg !== orgName) {
+          const list = await announcementStore.effects.getAllNoticeListByStatus('published');
+          layoutStore.reducers.setAnnouncementList(list);
         }
       }
 
