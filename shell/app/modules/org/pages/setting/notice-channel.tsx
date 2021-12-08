@@ -98,7 +98,7 @@ const NotifyChannel = () => {
     VMSTtsCode: '',
     smtpIsSSL: false,
     passwordVisible: false,
-    activeTab: 'dingtalk_work_notice',
+    activeTab: 'email',
     paging: { pageSize: 10, current: 1 },
     channelProviderOptions: [],
   });
@@ -770,10 +770,10 @@ const NotifyChannel = () => {
             updater.paging({ pageSize: 10, current: 1 });
           }}
         >
+          <TabPane key="email" tab={i18n.t('common:email')} />
           <TabPane key="dingtalk_work_notice" tab={i18n.t('dingding work notice')} />
           <TabPane key="sms" tab={i18n.t('SMS')} />
           <TabPane key="vms" tab={i18n.t('phone')} />
-          <TabPane key="email" tab={i18n.t('email')} />
         </Tabs>
         <Table
           rowKey="id"
