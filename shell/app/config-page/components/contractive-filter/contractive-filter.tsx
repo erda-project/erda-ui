@@ -17,7 +17,7 @@ import { useMount } from 'react-use';
 
 const CP_Filter = (props: CP_FILTER.Props) => {
   const { state, execOperation, operations, props: configProps, customOp } = props;
-  const { delay, visible = true, fullWidth = false } = configProps || {};
+  const { delay, visible = true, fullWidth = false, className } = configProps || {};
 
   const [conditions, setConditions] = React.useState([] as CP_FILTER.Condition[]);
   const conditionsRef = React.useRef(null as any);
@@ -68,6 +68,7 @@ const CP_Filter = (props: CP_FILTER.Props) => {
       onQuickOperation={onQuickOperation}
       onConditionsChange={onConditionsChange}
       fullWidth={fullWidth}
+      className={className}
     />
   );
 };
