@@ -16,7 +16,6 @@ import DiceConfigPage, { useMock } from 'app/config-page';
 import { getUrlQuery } from 'config-page/utils';
 import { updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
-import './task-summary.scss';
 
 const TaskSummary = () => {
   const [{ projectId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
@@ -39,44 +38,22 @@ const TaskSummary = () => {
         forceMock
         inParams={inParams}
         customProps={{
-          // summaryPage: {
-          //   props: {
-          //     className: 'p-0 bg-white',
-          //   }
-          // },
           topFilter: {
             op: {
               onFilterChange: urlQueryChange,
             },
             props: {
-              test: '123',
+              className: 'py-2 px-4 bg-color-02',
             },
-            Wrapper: (props) => {
-              // console.log('props:', props);
-              return <div className="top-filter py-2">{props.children}</div>;
+          },
+          pageContent: {
+            props: {
+              className: 'only-bg-white',
             },
           },
           container: {
             props: {
               className: 'm-4',
-            },
-            // Wrapper: (props) => {
-            //   // console.log('props:', props);
-            //   return (
-            //     <div className="top-filter py-2">
-            //       {props.children}
-            //     </div>
-            //   );
-            // }
-          },
-          chartBlock: {
-            props: {
-              // className: '-mx-4'
-            },
-          },
-          summaryPageContent: {
-            props: {
-              className: 'summary-page-content',
             },
           },
           simpleChart: {
