@@ -113,21 +113,24 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
 
 const IssuePlan = () => {
   const [{ projectId, iterationId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const { id: queryId, iterationID: queryItertationID, type: _queryType, ...restQeury } = query;
+  const { id: queryId, pId: queryParentId, iterationID: queryItertationID, type: _queryType, ...restQeury } = query;
   const queryType = _queryType && _queryType.toUpperCase();
   const [drawerVisible, openDrawer, closeDrawer] = useSwitch(false);
-  const [{ urlQuery, filterObj, chosenIssueType, chosenIteration, chosenIssueId }, updater, update] = useUpdate({
-    filterObj: {},
-    urlQuery: restQeury,
-    chosenIssueId: queryId,
-    chosenIteration: queryItertationID || 0,
-    chosenIssueType: queryType as undefined | ISSUE_TYPE,
-  });
+  const [{ urlQuery, filterObj, chosenIssueType, chosenIteration, chosenIssueId, chosenParentId }, updater, update] =
+    useUpdate({
+      filterObj: {},
+      urlQuery: restQeury,
+      chosenParentId: queryParentId || 0,
+      chosenIssueId: queryId,
+      chosenIteration: queryItertationID || 0,
+      chosenIssueType: queryType as undefined | ISSUE_TYPE,
+    });
 
   const onChosenIssue = (val: Obj) => {
-    const { id, extra } = val || {};
+    const { id, extra, pId } = val || {};
     if (id && extra?.iterationID && extra?.type) {
       update({
+        chosenParentId: pId,
         chosenIssueId: val.id,
         chosenIteration: extra.iterationID,
         chosenIssueType: extra.type.toUpperCase() as ISSUE_TYPE,
@@ -164,23 +167,31 @@ const IssuePlan = () => {
     }
   };
 
-  const reloadData = () => {
+  const reloadData = (_inParams: Obj = {}) => {
     if (reloadRef.current && reloadRef.current.reload) {
-      reloadRef.current.reload();
+      reloadRef.current.reload({ inParams: _inParams });
     }
   };
 
   const onCloseDrawer = ({ hasEdited, isCreate, isDelete }: CloseDrawerParam) => {
     closeDrawer();
+    if (hasEdited || isCreate || isDelete) {
+      // 有变更再刷新列表
+      let reInParams: number[] = [];
+      // if create or delete or update task, reload root
+      if ((chosenParentId === 0 && (isDelete || isCreate)) || chosenParentId !== 0) {
+        reInParams = [chosenParentId];
+      } else {
+        reInParams = [chosenParentId, chosenIssueId];
+      }
+      reloadData({ parentId: reInParams });
+    }
     update({
+      chosenParentId: 0,
       chosenIssueId: 0,
       chosenIteration: 0,
       chosenIssueType: undefined,
     });
-    if (hasEdited || isCreate || isDelete) {
-      // 有变更再刷新列表
-      reloadData();
-    }
   };
   return (
     <>
@@ -286,7 +297,7 @@ const IssuePlan = () => {
           closeDrawer={onCloseDrawer}
           id={chosenIssueId}
           shareLink={`${location.href.split('?')[0]}?${mergeSearch(
-            { id: chosenIssueId, iterationID: chosenIteration, type: chosenIssueType },
+            { id: chosenIssueId, pId: chosenParentId, iterationID: chosenIteration, type: chosenIssueType },
             true,
           )}`}
         />
