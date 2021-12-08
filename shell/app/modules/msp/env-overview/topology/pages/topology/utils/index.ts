@@ -31,7 +31,6 @@ export const genNodes = (list: TOPOLOGY.INode[], edges: Edge[]): Node<TOPOLOGY.T
     const isLeaf = !childrenCount;
     nodes.push({
       id: rest.id,
-      dragHandle: '.text-white',
       type: getNodeType(rest.type),
       data: {
         isRoot: !parentCount,
