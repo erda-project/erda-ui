@@ -44,9 +44,14 @@ const getEnvOverViewRouter = (): RouteConfigItem => {
         path: 'topology',
         tabs,
         alwaysShowTabKey: 'topology',
-        layout: { fullHeight: true, noWrapper: true },
-        getComp: (cb) => cb(import('msp/env-overview/topology/pages/topology')),
-        routes: [getGatewayIngressMonitorRouter(), getEIRouter()],
+        routes: [
+          {
+            layout: { fullHeight: true, noWrapper: true },
+            getComp: (cb) => cb(import('msp/env-overview/topology/pages/topology')),
+          },
+          getGatewayIngressMonitorRouter(),
+          getEIRouter(),
+        ],
       },
       serviceListRouter(tabs),
     ],

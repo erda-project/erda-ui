@@ -114,10 +114,17 @@ const CommonNode = ({ isConnectable, data, children, className, showRuntime }: I
         });
         break;
       case 'apigateway':
-        goTo('./gateway-ingress', goToParams);
+        goTo(goTo.pages.mspGatewayIngress, {
+          ...params,
+          ...goToParams,
+        });
         break;
       case 'externalservice':
-        goTo(`./ei/${encodeURIComponent(name)}/affairs`, goToParams);
+        goTo(goTo.pages.mspExternalInsight, {
+          hostName: encodeURIComponent(name),
+          ...params,
+          ...goToParams,
+        });
         break;
       case 'registercenter':
       case 'configcenter':

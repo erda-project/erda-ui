@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import path from 'path-browserify';
-import { filter, isFunction, mapValues, throttle, pickBy, isEmpty, get } from 'lodash';
+import { filter, get, isEmpty, isFunction, mapValues, pickBy, throttle } from 'lodash';
 import { qs } from './query-string';
 import { DOC_ORG_INTRO, DOC_PROJECT_INTRO } from 'common/constants';
 import routeInfoStore from 'core/stores/route';
@@ -266,6 +266,10 @@ export enum pages {
 
   // 微服务-事务分析页
   mspServiceTransaction = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}/transaction',
+
+  mspGatewayIngress = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/topology/gateway-ingress',
+
+  mspExternalInsight = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/topology/ei/{hostName}/affairs',
 
   mspServiceProcess = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}/process',
 
