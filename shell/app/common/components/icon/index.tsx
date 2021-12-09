@@ -86,7 +86,7 @@ const ISSUE_ICON = {
     // 复杂度
     EASY: <ErdaIcon type="rongyi" size="20px" />,
     NORMAL: <ErdaIcon type="zhongdengnandu" size="20px" />,
-    COMPLEX: <ErdaIcon type="nan" size="20px" />,
+    HARD: <ErdaIcon type="nan" size="20px" />,
   },
 };
 
