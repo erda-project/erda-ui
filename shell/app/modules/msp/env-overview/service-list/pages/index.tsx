@@ -184,7 +184,11 @@ const MicroServiceOverview = () => {
 
   return (
     <div>
-      <ErdaAlert message={i18n.t('msp:service indicators for the current environment')} />
+      <ErdaAlert
+        message={i18n.t(
+          'msp:show all connected services in the current environment, as well as the key request indicators of the service in the last hour',
+        )}
+      />
       <div className="flex flex-1 flex-col bg-white shadow pb-2">
         <div className="px-4 py-2 bg-header flex justify-between">
           <Input
@@ -261,7 +265,7 @@ const MicroServiceOverview = () => {
                             <Col span={8} className="flex">
                               <div className="py-2">
                                 <p className="mb-0 text-xl leading-8 font-number">
-                                  {type === 'RPS' ? (data === null ? '-' : data) : null}
+                                  {type === 'RPS' ? (data === null ? '-' : `${data} reqs/s`) : null}
                                   {type === 'AvgDuration'
                                     ? data === null
                                       ? '-'
@@ -288,7 +292,7 @@ const MicroServiceOverview = () => {
                                   ) : null}
                                   {type === 'RPS' ? (
                                     <>
-                                      {i18n.t('msp:average')}RPS
+                                      {i18n.t('msp:average throughput')}
                                       <Tooltip title={i18n.t('msp:definition of rps')}>
                                         <ErdaIcon fill="gray" className="ml-1" type="help" />
                                       </Tooltip>
