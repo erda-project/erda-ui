@@ -74,6 +74,7 @@ declare namespace TOPOLOGY {
     id: string;
     dashboardId: string;
     metric: {
+      rps: number;
       rt: number;
       count: number;
       http_error: number;
@@ -88,6 +89,7 @@ declare namespace TOPOLOGY {
     serviceMesh: string;
     serviceName: string;
     serviceId: string;
+    typeDisplay: string;
     type: INodeType;
   }
 

@@ -23,19 +23,12 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import mspStore from 'msp/stores/micro-service';
 
 interface IProps extends NodeProps<TOPOLOGY.TopoNode> {
+  showRuntime?: boolean;
   className?: string;
   children: (data: IProps['data']['metaData']) => JSX.Element;
 }
 
 const metric = [
-  {
-    name: i18n.t('msp:error rate'),
-    key: 'error_rate',
-  },
-  {
-    name: i18n.t('msp:error request count'),
-    key: 'http_error',
-  },
   {
     name: i18n.t('call times'),
     key: 'count',
@@ -44,9 +37,17 @@ const metric = [
     name: `${i18n.t('msp:average response time')}(ms)`,
     key: 'rt',
   },
+  {
+    name: i18n.t('msp:error call times'),
+    key: 'http_error',
+  },
+  {
+    name: i18n.t('msp:error rate'),
+    key: 'error_rate',
+  },
 ];
 
-const CommonNode = ({ isConnectable, data, children, className }: IProps) => {
+const CommonNode = ({ isConnectable, data, children, className, showRuntime }: IProps) => {
   const params = routeInfoStore.useStore((s) => s.params);
   const [range, rangeData] = monitorCommonStore.useStore((s) => [
     s.globalTimeSelectSpan.range,
@@ -57,14 +58,18 @@ const CommonNode = ({ isConnectable, data, children, className }: IProps) => {
   const { isRoot, isLeaf, metaData } = data;
   const popoverContent = (
     <div>
-      <p className="mb-2">
-        <span className="text-white-6 mr-2">Runtime:</span>
-        <span className="text-white-9 overflow-ellipsis overflow-hidden whitespace-nowrap">{metaData.runtimeName}</span>
-      </p>
+      {showRuntime ? (
+        <p className="mb-2">
+          <span className="text-white-6 mr-2">Runtime:</span>
+          <span className="text-white-9 overflow-ellipsis overflow-hidden whitespace-nowrap">
+            {metaData.runtimeName}
+          </span>
+        </p>
+      ) : null}
       <p className="mb-2">
         <span className="text-white-6 mr-2">{i18n.t('type')}:</span>
         <Tag color="#27C99A" className="border-0 bg-green bg-opacity-10">
-          {metaData.type}
+          {metaData.typeDisplay}
         </Tag>
       </p>
       <div className="metric-detail flex flex-wrap justify-between">

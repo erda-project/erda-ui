@@ -16,19 +16,22 @@ import CommonNode from 'msp/env-overview/topology/pages/topology/component/nodes
 import { NodeProps } from 'react-flow-renderer';
 import ErdaIcon from 'common/components/erda-icon';
 import './index.scss';
-import { getFormatter } from 'charts/utils';
+import { formatNumber } from '../../utils';
 
 const ExternalServiceNode: React.FC<NodeProps<TOPOLOGY.TopoNode>> = (props) => {
   return (
     <CommonNode {...props}>
       {(data: TOPOLOGY.TopoNode['metaData']) => {
-        const { count } = data.metric;
+        const { rps } = data.metric;
         return (
           <div className="external-service-node">
             <div className="h-full">
               <div className="h-full count relative flex justify-center items-center">
                 <ErdaIcon type="qita" className="absolute z-0" size={60} />
-                <div className="text-white">{getFormatter('NUMBER').format(count, 1)}</div>
+                <div className="text-white">
+                  <div>{formatNumber(rps)}</div>
+                  <div className="text-xs text-white font-light">RPS</div>
+                </div>
               </div>
             </div>
           </div>
