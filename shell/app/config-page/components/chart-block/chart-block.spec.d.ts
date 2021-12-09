@@ -29,6 +29,6 @@ declare namespace CP_CHART_BLOCK {
 
   type Props = MakeProps<Spec> & {
     filter: React.ElementType;
-    chart: React.ElementType;
+    children: React.ElementType[];
   };
 }

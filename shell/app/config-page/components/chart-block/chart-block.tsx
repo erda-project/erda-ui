@@ -14,7 +14,7 @@
 import React from 'react';
 
 const ChartBlock = (props: CP_CHART_BLOCK.Props) => {
-  const { filter, chart, data: configData, props: configProps } = props;
+  const { filter, children, data: configData, props: configProps } = props;
   const { title } = configData || {};
   const { className = '' } = configProps || {};
 
@@ -25,7 +25,7 @@ const ChartBlock = (props: CP_CHART_BLOCK.Props) => {
         {filter || null}
       </div>
       <div className="p-4">
-        <div className="bg-color-01">{chart}</div>
+        <div className="bg-color-01">{children}</div>
       </div>
     </div>
   );
