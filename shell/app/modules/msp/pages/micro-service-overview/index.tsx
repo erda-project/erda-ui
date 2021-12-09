@@ -76,28 +76,6 @@ const option = {
     top: '10%',
     bottom: '10%',
   },
-  series: [
-    {
-      type: 'line',
-      showSymbol: false,
-      itemStyle: {
-        normal: {
-          lineStyle: {
-            color: 'red',
-          },
-        },
-      },
-      areaStyle: {
-        normal: {
-          color: new LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: 'red' },
-            { offset: 0.5, color: 'white' },
-            { offset: 1, color: 'white' },
-          ]),
-        },
-      },
-    },
-  ],
 };
 
 enum ERDA_ICON {
