@@ -1,0 +1,92 @@
+version: "1.1"
+
+on:
+  push:
+    branches:
+      - release/*
+    tags:
+      - v*
+
+envs:
+  FOR_COMMUNITY: "true"
+
+stages:
+  - stage:
+      - git-checkout:
+          alias: erda-ui
+          params:
+            depth: 1
+  - stage:
+      - extract-repo-version:
+          alias: ui-version
+          params:
+            git_dir: ${{ dirs.erda-ui }}
+  - stage:
+      - js-build:
+          alias: build-erda-ui
+          params:
+            build_cmd:
+              - npm i -g @erda-ui/cli@1.0.23
+              - npm i -g pnpm
+              - erda-ui init -s --online
+              - erda-ui build -s -o
+            node_version: 12
+            workdir: ${{ dirs.erda-ui }}
+          resources:
+            cpu: 2
+            mem: 6144
+  - stage:
+      - dockerfile:
+          alias: build-erda-ui-image
+          version: "1.0"
+          params:
+            path: Dockerfile
+            workdir: ${{ dirs.build-erda-ui }}
+          loop:
+            break: task_status == 'Success'
+            strategy:
+              max_times: 5
+              decline_ratio: 2
+              decline_limit_sec: 60
+              interval_sec: 5
+          resources:
+            cpu: 2
+            mem: 6144
+  - stage:
+      - custom-script:
+          alias: push-erda-ui-image
+          image: docker
+          commands:
+            - cd ${{ dirs.erda-ui }}
+            - registry='${{ configs.docker_registry }}'
+            - repo="$registry"/ui-ce:${{ outputs.ui-version.image_tag }}
+            - docker pull ${{ outputs.build-erda-ui-image.image }}
+            - docker tag ${{ outputs.build-erda-ui-image.image }} $repo
+            - docker login -u "${DOCKER_REGISTRY_USERNAME}" -p "${DOCKER_REGISTRY_PASSWORD}" ${DOCKER_REGISTRY}
+            - docker push $repo
+            - echo "image="$repo"" >> $METAFILE
+          loop:
+            break: task_status == 'Success'
+            strategy:
+              max_times: 5
+              decline_ratio: 2
+              decline_limit_sec: 60
+              interval_sec: 5
+          resources:
+            cpu: 2
+            mem: 2048
+  - stage:
+      - release:
+          alias: release-ui-community
+          params:
+            tag_version: ${{ outputs.ui-version.version }}
+            dice_yml: ${erda-ui}/erda.yml
+            image:
+              ui: ${{ outputs.push-erda-ui-image.image }}
+          loop:
+            break: task_status == 'Success'
+            strategy:
+              max_times: 5
+              decline_ratio: 2
+              decline_limit_sec: 60
+              interval_sec: 5
