@@ -21,6 +21,7 @@ import { getResourcePermissions } from 'user/services/user';
 import permStore from 'user/stores/permission';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { get, intersection, map } from 'lodash';
+import { eventHub } from 'common/utils/event-hub';
 import announcementStore from 'org/stores/announcement';
 
 interface IState {
@@ -66,6 +67,17 @@ const org = createStore({
       if (isLeaving('orgIndex')) {
         org.reducers.clearOrg();
       }
+
+      eventHub.once('layout/mount', () => {
+        const loginUser = userStore.getState((s) => s.loginUser);
+        const orgId = org.getState((s) => s.currentOrg.id);
+        // 非系统管理员
+        if (!loginUser.isSysAdmin && orgId) {
+          announcementStore.effects.getAllNoticeListByStatus('published').then((list) => {
+            layoutStore.reducers.setAnnouncementList(list);
+          });
+        }
+      });
     });
   },
   effects: {
