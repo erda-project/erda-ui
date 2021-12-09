@@ -20,13 +20,13 @@ import { debounce, map } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import EChart from 'charts/components/echarts';
 import EmptyHolder from 'common/components/empty-holder';
-import { ErdaIcon, ErdaAlert } from 'common';
+import { ErdaAlert, ErdaIcon } from 'common';
 import { goTo } from 'common/utils';
 import { LinearGradient } from 'echarts/lib/util/graphic';
 import './service-list.scss';
 import routeInfoStore from 'core/stores/route';
 import mspStore from 'msp/stores/micro-service';
-import { getServices, getAnalyzerOverview } from 'msp/services/service-list';
+import { getAnalyzerOverview, getServices } from 'msp/services/service-list';
 import i18n from 'i18n';
 
 interface Views {
@@ -141,7 +141,7 @@ const MicroServiceOverview = () => {
 
   const getOverview = () => {
     const serviceIdList = data?.list.map((item) => item?.id);
-    if (serviceIdList) {
+    if (serviceIdList?.length) {
       getAnalyzerOverview.fetch({
         tenantId,
         serviceIds: serviceIdList,
