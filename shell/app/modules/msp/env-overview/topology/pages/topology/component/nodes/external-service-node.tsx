@@ -30,7 +30,7 @@ const ExternalServiceNode: React.FC<NodeProps<TOPOLOGY.TopoNode>> = (props) => {
                 <ErdaIcon type="qita" className="absolute z-0" size={60} />
                 <div className="text-white">
                   <div className="text-center">{formatNumber(rps)}</div>
-                  <div className="text-center text-xs text-white font-light">RPS</div>
+                  <div className="text-center text-xs text-white-6 font-light unit">reqs/s</div>
                 </div>
               </div>
             </div>

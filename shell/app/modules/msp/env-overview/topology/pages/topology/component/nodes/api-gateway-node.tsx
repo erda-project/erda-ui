@@ -28,7 +28,7 @@ const ApiGatewayNode: React.FC<NodeProps<TOPOLOGY.TopoNode>> = (props) => {
               <div className="h-full flex justify-center items-center">
                 <div className="count flex justify-center items-center flex-col">
                   <div>{formatNumber(rps)}</div>
-                  <div className="text-xs font-light">RPS</div>
+                  <div className="text-xs font-light text-sub unit">reqs/s</div>
                 </div>
               </div>
             </Circular>
