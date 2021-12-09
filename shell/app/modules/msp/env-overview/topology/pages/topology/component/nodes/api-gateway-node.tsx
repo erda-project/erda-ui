@@ -15,19 +15,20 @@ import React from 'react';
 import CommonNode from 'msp/env-overview/topology/pages/topology/component/nodes/common-node';
 import { NodeProps } from 'react-flow-renderer';
 import Circular from 'msp/env-overview/topology/pages/topology/component/progress/circular';
-import { getFormatter } from 'charts/utils';
+import { formatNumber } from '../../utils';
 
 const ApiGatewayNode: React.FC<NodeProps<TOPOLOGY.TopoNode>> = (props) => {
   return (
     <CommonNode {...props}>
       {(data: TOPOLOGY.TopoNode['metaData']) => {
-        const { error_rate, count } = data.metric;
+        const { error_rate, rps } = data.metric;
         return (
           <div className="api-gateway-node service-node">
             <Circular stroke={['#798CF1', '#D84B65']} width={60} strokeWidth={4} percent={error_rate}>
               <div className="h-full flex justify-center items-center">
-                <div className="count flex justify-center items-center">
-                  <div>{getFormatter('NUMBER').format(count, 1)}</div>
+                <div className="count flex justify-center items-center flex-col">
+                  <div>{formatNumber(rps)}</div>
+                  <div className="text-xs font-light">RPS</div>
                 </div>
               </div>
             </Circular>

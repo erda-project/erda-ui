@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import { ArrowHeadType, Edge, Node } from 'react-flow-renderer';
 import { cloneDeep, omit, uniqBy } from 'lodash';
+import { getFormatter } from 'charts/utils';
 
 const getNodeType = (type: string) => {
   const nodeType = type.toLocaleLowerCase();
@@ -73,4 +74,12 @@ export const genEdges = (data: TOPOLOGY.INode[]): Edge<TOPOLOGY.TopoEdge>[] => {
     return edges;
   };
   return convert(data, []);
+};
+
+export const formatNumber = (num: number) => {
+  if (num >= 1000) {
+    return getFormatter('NUMBER').format(num, 1);
+  } else {
+    return num || 0;
+  }
 };
