@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage, { useMock } from 'app/config-page';
+import DiceConfigPage from 'app/config-page';
 import { getUrlQuery } from 'config-page/utils';
 import { updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
@@ -34,8 +34,6 @@ const TaskSummary = () => {
       <DiceConfigPage
         scenarioType={'task-summary'}
         scenarioKey={'task-summary'}
-        useMock={useMock}
-        forceMock
         inParams={inParams}
         customProps={{
           topFilter: {
