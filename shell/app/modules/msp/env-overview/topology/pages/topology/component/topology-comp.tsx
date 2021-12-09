@@ -29,6 +29,7 @@ import AddonNode from './nodes/addon-node';
 import FloatingEdge from 'msp/env-overview/topology/pages/topology/component/floating-edge';
 import FloatingConnectionLine from 'msp/env-overview/topology/pages/topology/component/floating-edge/connection-line';
 import ErdaIcon from 'common/components/erda-icon';
+import { useUpdateEffect } from 'react-use';
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -42,35 +43,52 @@ interface IProps {
   data: { nodes: TOPOLOGY.INode[] };
 }
 
+const genEle = (nodes: TOPOLOGY.INode[]): Elements => {
+  const edge = genEdges(nodes);
+  const node = genNodes(nodes, edge);
+  return [...node, ...edge];
+};
+
+/**
+ * @description calculate node position
+ * @see https://github.com/dagrejs/dagre/wiki
+ */
+const calculateLayout = (list: Elements) => {
+  dagreGraph.setGraph({ rankdir: 'LR' });
+  list.forEach((el) => {
+    if (isNode(el)) {
+      dagreGraph.setNode(el.id, { width: 150, height: 80 });
+    } else {
+      dagreGraph.setEdge(el.source, el.target);
+    }
+  });
+  dagre.layout(dagreGraph, { weight: 2 });
+  const layoutedElements = list.map((el) => {
+    const temp: Partial<Node> = {};
+    if (isNode(el)) {
+      // get node coordinates
+      const nodeWithPosition = dagreGraph.node(el.id);
+      temp.targetPosition = Position.Left;
+      temp.sourcePosition = Position.Right;
+      temp.position = { x: (nodeWithPosition.x + Math.random() / 1000) * 0.75, y: nodeWithPosition.y };
+    }
+    return { ...el, ...temp };
+  });
+  return layoutedElements;
+};
+
 const TopologyComp = ({ data }: IProps) => {
-  const edge = genEdges(data.nodes);
-  const node = genNodes(data.nodes, edge);
-  const initElement: Elements = [...node, ...edge];
+  const initElement: Elements = genEle(data.nodes);
   const [elements, setElements] = React.useState<Elements>(initElement);
   const { zoomIn, zoomOut } = useZoomPanHelper();
   const onElementsRemove = (elementsToRemove: Elements) => setElements((els) => removeElements(elementsToRemove, els));
 
+  useUpdateEffect(() => {
+    setElements(calculateLayout(genEle(data.nodes)));
+  }, [data.nodes]);
+
   const layout = () => {
-    dagreGraph.setGraph({ rankdir: 'LR' });
-    elements.forEach((el) => {
-      if (isNode(el)) {
-        dagreGraph.setNode(el.id, { width: 150, height: 80 });
-      } else {
-        dagreGraph.setEdge(el.source, el.target);
-      }
-    });
-    dagre.layout(dagreGraph, { weight: 2 });
-    const layoutedElements = elements.map((el) => {
-      const temp: Partial<Node> = {};
-      if (isNode(el)) {
-        const nodeWithPosition = dagreGraph.node(el.id);
-        temp.targetPosition = Position.Left;
-        temp.sourcePosition = Position.Right;
-        temp.position = { x: (nodeWithPosition.x + Math.random() / 1000) * 0.75, y: nodeWithPosition.y };
-      }
-      return { ...el, ...temp };
-    });
-    setElements(layoutedElements);
+    setElements(calculateLayout(elements));
   };
 
   return (

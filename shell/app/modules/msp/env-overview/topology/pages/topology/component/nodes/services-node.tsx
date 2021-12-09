@@ -14,6 +14,7 @@
 import React from 'react';
 import CommonNode from './common-node';
 import Circular from '../progress/circular';
+import { getFormatter } from 'charts/utils';
 import { NodeProps } from 'react-flow-renderer';
 import './index.scss';
 
@@ -26,7 +27,7 @@ const ServicesNode: React.FC<NodeProps<TOPOLOGY.TopoNode>> = (props) => {
           <div className={`service-node ${error_rate > 50 ? 'error' : ''}`}>
             <Circular stroke={['#798CF1', '#D84B65']} width={60} strokeWidth={4} percent={error_rate}>
               <div className="h-full flex justify-center items-center">
-                <div className="text-white">{count}</div>
+                <div className="text-white">{getFormatter('NUMBER').format(count, 1)}</div>
               </div>
             </Circular>
             <div className="service-name p-1 text-white absolute overflow-ellipsis overflow-hidden whitespace-nowrap w-28 text-center rounded-sm">

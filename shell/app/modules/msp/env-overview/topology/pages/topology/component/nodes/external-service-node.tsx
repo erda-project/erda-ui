@@ -16,6 +16,7 @@ import CommonNode from 'msp/env-overview/topology/pages/topology/component/nodes
 import { NodeProps } from 'react-flow-renderer';
 import ErdaIcon from 'common/components/erda-icon';
 import './index.scss';
+import { getFormatter } from 'charts/utils';
 
 const ExternalServiceNode: React.FC<NodeProps<TOPOLOGY.TopoNode>> = (props) => {
   return (
@@ -27,7 +28,7 @@ const ExternalServiceNode: React.FC<NodeProps<TOPOLOGY.TopoNode>> = (props) => {
             <div className="h-full">
               <div className="h-full count relative flex justify-center items-center">
                 <ErdaIcon type="qita" className="absolute z-0" size={60} />
-                <div className="text-white">{count}</div>
+                <div className="text-white">{getFormatter('NUMBER').format(count, 1)}</div>
               </div>
             </div>
           </div>
