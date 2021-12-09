@@ -34,7 +34,7 @@ $color-white-8: rgba(255, 255, 255, 0.8) !default;
 $color-white-6: rgba(255, 255, 255, 0.6) !default;
 $color-white-4: rgba(255, 255, 255, 0.4) !default;
 $color-white-3: rgba(255, 255, 255, 0.3) !default;
-$color-white-2: rgba(255, 255, 255, 0.2) !default;
+$color-white-6: rgba(255, 255, 255, 0.2) !default;
 $color-white-1: rgba(255, 255, 255, 0.1) !default;
 
 $color-dark-blue-6: rgba(7, 10, 26, 0.6) !default;
@@ -136,12 +136,11 @@ $color-default-06: rgba($color-default, 0.06);
 // Color Boot prompt
 $color-prompt-bg: rgba($color-default, 0.04);
 
-
 // color new list
 $color-box-shadow: rgba($color-text-sub, 0.1);
 $color-card-shadow: rgba(85, 77, 104, 0.08);
 $color-card-hover-shadow: rgba(85, 77, 104, 0.16);
 
 // new assistant color
-$color-purple-deep: #7C53DB;
-$color-purple-light: #F9F0FF;
+$color-purple-deep: #7c53db;
+$color-purple-light: #f9f0ff;

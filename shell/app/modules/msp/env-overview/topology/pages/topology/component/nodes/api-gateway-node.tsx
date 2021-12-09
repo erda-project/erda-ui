@@ -23,7 +23,7 @@ const ApiGatewayNode: React.FC<NodeProps<TOPOLOGY.TopoNode>> = (props) => {
         const { error_rate, count } = data.metric;
         return (
           <div className="api-gateway-node service-node">
-            <Circular stroke={['#798CF1', '#D84B65']} width={60} strokeWidth={2} percent={error_rate}>
+            <Circular stroke={['#798CF1', '#D84B65']} width={60} strokeWidth={4} percent={error_rate}>
               <div className="h-full flex justify-center items-center">
                 <div className="count flex justify-center items-center">
                   <div>{count}</div>

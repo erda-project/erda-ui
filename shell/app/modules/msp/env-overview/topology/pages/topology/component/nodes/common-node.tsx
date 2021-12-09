@@ -29,6 +29,14 @@ interface IProps extends NodeProps<TOPOLOGY.TopoNode> {
 
 const metric = [
   {
+    name: i18n.t('msp:error rate'),
+    key: 'error_rate',
+  },
+  {
+    name: i18n.t('msp:error request count'),
+    key: 'count',
+  },
+  {
     name: i18n.t('call times'),
     key: 'count',
   },
@@ -50,13 +58,11 @@ const CommonNode = ({ isConnectable, data, children, className }: IProps) => {
   const popoverContent = (
     <div>
       <p className="mb-2">
-        <span className="text-white-60 mr-2">Runtime:</span>
-        <span className="text-white-90 overflow-ellipsis overflow-hidden whitespace-nowrap">
-          {metaData.runtimeName}
-        </span>
+        <span className="text-white-6 mr-2">Runtime:</span>
+        <span className="text-white-9 overflow-ellipsis overflow-hidden whitespace-nowrap">{metaData.runtimeName}</span>
       </p>
       <p className="mb-2">
-        <span className="text-white-60 mr-2">{i18n.t('type')}:</span>
+        <span className="text-white-6 mr-2">{i18n.t('type')}:</span>
         <Tag color="#27C99A" className="border-0 bg-green bg-opacity-10">
           {metaData.type}
         </Tag>
@@ -66,7 +72,7 @@ const CommonNode = ({ isConnectable, data, children, className }: IProps) => {
           return (
             <div key={item.key} style={{ width: 140 }} className="mt-2 py-3">
               <p className="text-white text-center leading-8 m-0">{metaData.metric[item.key]}</p>
-              <p className="text-white-60 text-center text-xs m-0">{item.name}</p>
+              <p className="text-white-6 text-center text-xs m-0">{item.name}</p>
             </div>
           );
         })}

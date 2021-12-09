@@ -42,7 +42,6 @@ const FloatingConnectionLine: React.FC<ConnectionLineComponentProps> = ({
     targetX,
     targetY,
   });
-  console.log(d);
 
   return (
     <g>

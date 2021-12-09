@@ -113,7 +113,7 @@ const Topology = () => {
     <div className="topology h-full">
       <Spin className="spin" spinning={isLoading}>
         <div className="h-full flex flex-col">
-          <div className="topology-filter flex justify-between items-center h-12 bg-white-2 px-4">
+          <div className="topology-filter flex justify-between items-center h-12 bg-white-02 px-4">
             <ContractiveFilter
               delay={1000}
               values={filterTags}
