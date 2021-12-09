@@ -16,6 +16,7 @@ import CommonNode from './common-node';
 import Hexagon from '../progress/hexagon';
 import ErdaIcon from 'common/components/erda-icon';
 import { NodeProps } from 'react-flow-renderer';
+import { transformCount } from 'msp/env-overview/topology/pages/topology/utils';
 import './index.scss';
 
 const iconMap = {
@@ -34,7 +35,7 @@ const AddonNode: React.FC<NodeProps<TOPOLOGY.TopoNode>> = (props) => {
           <div className="addon-node">
             <Hexagon stroke={['#798CF1', '#D84B65']} width={60} strokeWidth={2} percent={error_rate}>
               <div className="h-full">
-                <div className="text-white mt-4 text-center">{count}</div>
+                <div className="text-white mt-4 text-center">{transformCount(count)}</div>
                 <div className="mt-1.5 text-center text-darkgray">
                   <ErdaIcon type={iconType} color="currentColor" size={22} />
                 </div>

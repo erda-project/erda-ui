@@ -74,3 +74,11 @@ export const genEdges = (data: TOPOLOGY.INode[]): Edge<TOPOLOGY.TopoEdge>[] => {
   };
   return convert(data, []);
 };
+
+export const transformCount = (num: number) => {
+  if (num > 1000) {
+    const count = (num / 1000).toFixed(1);
+    return `${count} K`;
+  }
+  return num;
+};

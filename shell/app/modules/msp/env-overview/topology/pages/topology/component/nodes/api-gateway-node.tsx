@@ -15,6 +15,7 @@ import React from 'react';
 import CommonNode from 'msp/env-overview/topology/pages/topology/component/nodes/common-node';
 import { NodeProps } from 'react-flow-renderer';
 import Circular from 'msp/env-overview/topology/pages/topology/component/progress/circular';
+import { transformCount } from 'msp/env-overview/topology/pages/topology/utils';
 
 const ApiGatewayNode: React.FC<NodeProps<TOPOLOGY.TopoNode>> = (props) => {
   return (
@@ -26,7 +27,7 @@ const ApiGatewayNode: React.FC<NodeProps<TOPOLOGY.TopoNode>> = (props) => {
             <Circular stroke={['#798CF1', '#D84B65']} width={60} strokeWidth={4} percent={error_rate}>
               <div className="h-full flex justify-center items-center">
                 <div className="count flex justify-center items-center">
-                  <div>{count}</div>
+                  <div>{transformCount(count)}</div>
                 </div>
               </div>
             </Circular>
