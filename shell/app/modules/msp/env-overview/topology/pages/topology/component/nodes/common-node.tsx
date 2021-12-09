@@ -34,7 +34,7 @@ const metric = [
   },
   {
     name: i18n.t('msp:error request count'),
-    key: 'count',
+    key: 'http_error',
   },
   {
     name: i18n.t('call times'),
