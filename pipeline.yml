@@ -32,6 +32,8 @@ stages:
               - erda-ui build -s -o
             node_version: 12
             workdir: ${{ dirs.erda-ui }}
+          caches:
+            - path: ${{ dirs.erda-ui }}/node_modules
           resources:
             cpu: 2
             mem: 6144
@@ -40,41 +42,18 @@ stages:
           alias: build-erda-ui-image
           version: "1.0"
           params:
-            path: Dockerfile
             workdir: ${{ dirs.build-erda-ui }}
-          loop:
-            break: task_status == 'Success'
-            strategy:
-              max_times: 5
-              decline_ratio: 2
-              decline_limit_sec: 60
-              interval_sec: 5
+            path: Dockerfile
+            image:
+              name: ui-ce
+              tag: ${{ outputs.ui-version.image_tag }}
+            registry:
+              url: ${{ configs.docker_registry }}
+              username: ${{ configs.docker_registry_username }}
+              password: ${{ configs.docker_registry_password }}
           resources:
             cpu: 2
             mem: 6144
-  - stage:
-      - custom-script:
-          alias: push-erda-ui-image
-          image: docker
-          commands:
-            - cd ${{ dirs.erda-ui }}
-            - registry='${{ configs.docker_registry }}'
-            - repo="$registry"/ui-ce:${{ outputs.ui-version.image_tag }}
-            - docker pull ${{ outputs.build-erda-ui-image.image }}
-            - docker tag ${{ outputs.build-erda-ui-image.image }} $repo
-            - docker login -u "${DOCKER_REGISTRY_USERNAME}" -p "${DOCKER_REGISTRY_PASSWORD}" ${DOCKER_REGISTRY}
-            - docker push $repo
-            - echo "image="$repo"" >> $METAFILE
-          loop:
-            break: task_status == 'Success'
-            strategy:
-              max_times: 5
-              decline_ratio: 2
-              decline_limit_sec: 60
-              interval_sec: 5
-          resources:
-            cpu: 2
-            mem: 2048
   - stage:
       - release:
           alias: release-ui-community
@@ -82,11 +61,4 @@ stages:
             tag_version: ${{ outputs.ui-version.version }}
             dice_yml: ${erda-ui}/erda.yml
             image:
-              ui: ${{ outputs.push-erda-ui-image.image }}
-          loop:
-            break: task_status == 'Success'
-            strategy:
-              max_times: 5
-              decline_ratio: 2
-              decline_limit_sec: 60
-              interval_sec: 5
+              ui: ${{ outputs.build-erda-ui-image.image }}
