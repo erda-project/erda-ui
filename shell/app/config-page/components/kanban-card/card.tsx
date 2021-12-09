@@ -59,7 +59,7 @@ export const Card = (props: CP_CARD.Props) => {
 
   return (
     <div className={`${className} ${cls} boxShadow-card`} onClick={() => clickNode(data)}>
-      <div className="info-card-content p-2" key={id} ref={drag}>
+      <div className="info-card-content px-4 py-3" key={id} ref={drag}>
         <div className={'flex justify-between items-start mb-1'}>
           {isString(titleIcon) ? <CustomIcon type={titleIcon} color className="head-icon mr-1" /> : titleIcon || null}
 
