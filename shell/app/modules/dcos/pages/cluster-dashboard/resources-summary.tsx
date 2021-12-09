@@ -288,7 +288,6 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
       title: i18n.t('cmp:CPU quota usage'),
       dataIndex: 'cpuWaterLevel',
       key: 'cpuWaterLevel',
-      align: 'right',
       sorter: {
         compare: (a, b) => a.cpuWaterLevel - b.cpuWaterLevel,
       },
@@ -305,7 +304,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
               format={(v) => null}
               strokeColor={getStrokeColor(value)}
             />
-            <span className="text-dark-8  ml-2">{`${value}%`}</span>
+            <span className="text-dark-8  ml-2">{`${value.toFixed(1)}%`}</span>
           </Tooltip>
         ) : (
           _val
@@ -326,7 +325,6 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
       title: i18n.t('cmp:Memory quota usage'),
       dataIndex: 'memWaterLevel',
       key: 'memWaterLevel',
-      align: 'right',
       sorter: {
         compare: (a, b) => a.memWaterLevel - b.memWaterLevel,
       },
@@ -343,7 +341,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
               format={(v) => null}
               strokeColor={getStrokeColor(value)}
             />
-            <span className="text-dark-8 ml-2">{`${value}%`}</span>
+            <span className="text-dark-8 ml-2">{`${value.toFixed(1)}%`}</span>
           </Tooltip>
         ) : (
           _val

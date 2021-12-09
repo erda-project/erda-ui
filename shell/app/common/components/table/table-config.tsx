@@ -25,12 +25,12 @@ function TableConfig<T extends object = any>({
 }: TableConfigProps<T>) {
   const { column, order } = sortColumn;
   const onCheck = (checked: boolean, title: string) => {
-    const newColumns = columns.map((item) => (item.title === title ? { ...item, show: checked } : item));
+    const newColumns = columns.map((item) => (item.title === title ? { ...item, hidden: !checked } : item));
 
     setColumns(newColumns);
   };
 
-  const showLength = columns.filter((item) => item.show).length;
+  const showLength = columns.filter((item) => !item.hidden).length;
 
   const columnsFilter = columns
     .filter((item) => item.title)
@@ -38,9 +38,9 @@ function TableConfig<T extends object = any>({
       <div>
         <Checkbox
           className="whitespace-nowrap"
-          checked={item.show}
+          checked={!item.hidden}
           onChange={(e) => onCheck(e.target.checked, item.title as string)}
-          disabled={showLength === 1 && item.show}
+          disabled={showLength === 1 && !item.hidden}
         >
           {typeof item.title === 'function' ? item.title({ sortColumn: column, sortOrder: order }) : item.title}
         </Checkbox>

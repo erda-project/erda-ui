@@ -19,6 +19,7 @@ import { useSwitch, useUpdate } from 'common/use-hooks';
 import { qs, mergeSearch, updateSearch, setApiWithOrg } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
+import { Badge } from 'common';
 import routeInfoStore from 'core/stores/route';
 import ImportFile from 'project/pages/issue/component/import-file';
 import issueFieldStore from 'org/stores/issue-field';
@@ -206,6 +207,11 @@ const IssueProtocol = ({ issueType }: IProps) => {
             },
           },
           issueTable: {
+            props: {
+              menuItemRender: (item: { text: string; status: string }) => (
+                <Badge text={item.text} status={item.status} showDot={false} />
+              ),
+            },
             op: {
               // 表格视图： pageNo改变url，点击item打开滑窗详情
               onStateChange: (val: Obj) => {

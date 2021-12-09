@@ -13,13 +13,15 @@
 
 import React from 'react';
 import { Radio, RadioChangeEvent } from 'antd';
-import Topology from 'msp/env-overview/topology/pages/topology/topology';
+import Topology from 'msp/env-overview/topology/pages/topology';
 import ServiceList from 'msp/env-overview/service-list/pages';
 import ErdaIcon from 'common/components/erda-icon';
 import i18n from 'i18n';
 const { Button: RadioButton, Group: RadioGroup } = Radio;
 
-const viewMap = [
+type ITab = 'topology' | 'serviceList';
+
+const viewMap: { name: string; key: ITab; icon: string }[] = [
   {
     name: i18n.t('msp:topology'),
     key: 'topology',
@@ -32,7 +34,7 @@ const viewMap = [
   },
 ];
 
-const Comp = {
+const Comp: { [key in ITab]: () => JSX.Element } = {
   topology: Topology,
   serviceList: ServiceList,
 };

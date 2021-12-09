@@ -106,7 +106,6 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
         {
           href: goTo.resolve.projectResource(),
           text: i18n.t('Resource summary'),
-          icon: <ErdaIcon type="data-all" />,
           subtitle: i18n.t('Resource'),
           show: projectPerm.resource.viewResource.pass,
         },

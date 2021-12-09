@@ -25,6 +25,7 @@ import './repo-branch.scss';
 import repoStore from 'application/stores/repo';
 import { useLoading } from 'core/stores/loading';
 import appStore from 'application/stores/application';
+import DOMPurify from 'dompurify';
 
 const { Search } = Input;
 
@@ -120,7 +121,10 @@ const RepoBranch = () => {
                     {i18n.t('compare')}
                   </Button>
                   <DeleteConfirm
-                    title={i18n.t('common:confirm to delete {name} ?', { name: `${name} ${i18n.t('dop:branch')}` })}
+                    title={i18n.t('common:confirm to delete {name} ?', {
+                      name: `${name} ${i18n.t('dop:branch')}`,
+                      interpolation: { escape: (str) => DOMPurify.sanitize(str) },
+                    })}
                     onConfirm={() => {
                       deleteBranch({ branch: name });
                     }}

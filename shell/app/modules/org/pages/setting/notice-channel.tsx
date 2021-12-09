@@ -25,14 +25,15 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { isEmpty, map } from 'lodash';
-import { Button, Modal, Select, Spin, Tooltip, Input, message, Badge, Tabs } from 'antd';
+import { isEmpty, isNumber, map } from 'lodash';
+import { Button, Modal, Select, Spin, Tooltip, Input, message, Tabs, Checkbox } from 'antd';
 import Table from 'common/components/table';
 import { ColumnProps, IActions } from 'common/components/table/interface';
-import { FormModal, Copy, ErdaIcon } from 'common';
+import { FormModal, Copy, ErdaIcon, Badge } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { FormInstance } from 'app/interface/common';
 import { useMount } from 'react-use';
+import { regRules } from 'common/utils';
 import {
   getNotifyChannelTypes,
   getNotifyChannels,
@@ -43,7 +44,7 @@ import {
   editNotifyChannel,
   deleteNotifyChannel,
 } from 'org/services/notice-channel';
-import { ALIYUN_APPLICATION } from 'common/constants';
+import { ALIYUN_APPLICATION_SMS, ALIYUN_APPLICATION_VMS } from 'common/constants';
 import './org-setting.scss';
 
 const { confirm } = Modal;
@@ -62,8 +63,10 @@ interface IState {
   visible: boolean;
   paging: { current: number; pageSize: number };
   templateCode: string;
+  VMSTtsCode: string;
   passwordVisible: boolean;
   activeTab: string;
+  smtpIsSSL: boolean;
   channelProviderOptions: NOTIFY_CHANNEL.ChannelProvider[];
 }
 
@@ -78,8 +81,10 @@ const NotifyChannel = () => {
       visible,
       paging,
       templateCode,
+      VMSTtsCode,
       passwordVisible,
       activeTab,
+      smtpIsSSL,
       channelProviderOptions,
     },
     updater,
@@ -90,9 +95,11 @@ const NotifyChannel = () => {
     channelProvider: '',
     visible: false,
     templateCode: '',
+    VMSTtsCode: '',
+    smtpIsSSL: false,
     passwordVisible: false,
-    activeTab: 'dingtalk_work_notice',
-    paging: { pageSize: 15, current: 1 },
+    activeTab: 'email',
+    paging: { pageSize: 10, current: 1 },
     channelProviderOptions: [],
   });
 
@@ -119,6 +126,8 @@ const NotifyChannel = () => {
         visible: true,
         channelType: type?.name,
         templateCode: config?.templateCode,
+        VMSTtsCode: config?.VMSTtsCode,
+        smtpIsSSL: config?.smtpIsSSL,
         channelProviderOptions: channelTypeOptions?.find((item) => item.name === type?.name)?.providers,
         channelProvider: channelProviderType?.name,
       });
@@ -208,6 +217,7 @@ const NotifyChannel = () => {
       updater.channelProvider(channelTypeOptions?.find((item) => item.name === activeTab)?.providers?.[0]?.name || '');
       updater.channelType(channelTypeOptions?.find((item) => item.name === activeTab)?.name || '');
     }
+    updater.passwordVisible(true);
   };
 
   const confirmEnableChannel = ({
@@ -257,6 +267,29 @@ const NotifyChannel = () => {
   const handleTableChange = (pagination: { current: number; pageSize: number }) => {
     updater.paging(pagination);
   };
+
+  const ApplicationTemplate = (url: string) => (
+    <div className="bg-grey px-2 py-3 rounded-sm mt-2">
+      <div className="text-sub">
+        {i18n.t('Submit the following information to the service provider to apply for an SMS template')}:
+      </div>
+      <div className="mt-2 flex items-center">
+        <span className="bg-brightgray text-normal p-1 pr-4 font-semibold rounded-sm">{`${i18n.t(
+          'You have a notification message from the Erda platform',
+        )}: $\{content}, ${i18n.t('please deal with it promptly')}`}</span>
+        <span
+          className="text-primary cursor-pointer underline ml-2 jump-to-aliyun"
+          data-clipboard-text={`${i18n.t(
+            'You have a notification message from the Erda platform',
+          )}:  $\{content},  ${i18n.t('please deal with it promptly')}`}
+          onClick={() => window.open(url)}
+        >
+          {i18n.t('copy and jump to the application page')}
+        </span>
+        <Copy selector=".jump-to-aliyun" />
+      </div>
+    </div>
+  );
 
   const fieldsList = [
     {
@@ -433,26 +466,7 @@ const NotifyChannel = () => {
                 'please input the SMS Template Code you have applied for on the service provider platform',
               )}`}
             />
-            <div className="bg-grey px-2 py-3 rounded-sm mt-2">
-              <div className="text-sub">
-                {i18n.t('Submit the following information to the service provider to apply for an SMS template')}:
-              </div>
-              <div className="mt-2 flex items-center">
-                <span className="bg-brightgray text-normal p-1 pr-4 font-semibold rounded-sm">{`${i18n.t(
-                  'You have a notification message from the Erda platform',
-                )}: $\{content}, ${i18n.t('please deal with it promptly')}`}</span>
-                <span
-                  className="text-primary cursor-pointer underline ml-2 jump-to-aliyun"
-                  data-clipboard-text={`${i18n.t(
-                    'You have a notification message from the Erda platform',
-                  )}:  $\{content},  ${i18n.t('please deal with it promptly')}`}
-                  onClick={() => window.open(ALIYUN_APPLICATION)}
-                >
-                  {i18n.t('copy and jump to the application page')}
-                </span>
-                <Copy selector=".jump-to-aliyun" />
-              </div>
-            </div>
+            {ApplicationTemplate(ALIYUN_APPLICATION_SMS)}
           </>
         );
       },
@@ -462,6 +476,177 @@ const NotifyChannel = () => {
     },
   ];
 
+  const VMSFieldsList = [
+    ...fieldsList,
+    {
+      name: ['config', 'accessKeyId'],
+      label: 'AccessKeyId',
+      required: true,
+      itemProps: {
+        maxLength: 50,
+        placeholder: `${i18n.t('please input')} AccessKeyId`,
+        autoComplete: 'off',
+      },
+    },
+    {
+      name: ['config', 'accessKeySecret'],
+      label: 'AccessKeySecret',
+      required: true,
+      itemProps: {
+        placeholder: `${i18n.t('please input')} AccessKeySecret`,
+        type: passwordVisible ? 'text' : 'password',
+        autoComplete: 'off',
+        addonAfter: passwordVisible ? (
+          <ErdaIcon className="mt-1.5" type="preview-open" size="14" onClick={() => updater.passwordVisible(false)} />
+        ) : (
+          <ErdaIcon
+            className="mt-1.5"
+            type="preview-close-one"
+            size="14"
+            onClick={() => updater.passwordVisible(true)}
+          />
+        ),
+      },
+    },
+    {
+      name: ['config', 'VMSTtsCode'],
+      label: i18n.t('Voice Template ID'),
+      required: true,
+      getComp: ({ form }: { form: FormInstance }) => {
+        return (
+          <>
+            <Input
+              defaultValue={isEditing ? VMSTtsCode : ''}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                form.setFieldsValue({ config: { ...form.getFieldValue('config'), VMSTtsCode: e.target.value } });
+              }}
+              placeholder={`${i18n.t(
+                'please input the Voice Template ID you have applied for on the service provider platform',
+              )}`}
+            />
+            {ApplicationTemplate(ALIYUN_APPLICATION_VMS)}
+          </>
+        );
+      },
+      itemProps: {
+        maxLength: 500,
+      },
+    },
+  ];
+
+  const EmailFieldsList = [
+    ...fieldsList,
+    {
+      name: ['config', 'smtpHost'],
+      label: i18n.t('Server address'),
+      required: true,
+      itemProps: {
+        maxLength: 50,
+        placeholder: `${i18n.t('please input')} ${i18n.t('Server address')}`,
+        autoComplete: 'off',
+      },
+      rules: [
+        {
+          validator: (_, value: string, callback: Function) => {
+            return value && !regRules.ip.pattern.test(value) && !regRules.url.pattern.test(value)
+              ? callback(i18n.t('please fill in the correct IP address or domain name!'))
+              : callback();
+          },
+        },
+      ],
+    },
+    {
+      name: ['config', 'smtpPort'],
+      label: i18n.t('Server port'),
+      type: 'inputNumber',
+      required: true,
+      itemProps: {
+        maxLength: 50,
+        max: 65535,
+        placeholder: `${i18n.t('please input')} ${i18n.t('Server port')}`,
+        autoComplete: 'off',
+      },
+      rules: [
+        {
+          validator: (_, value: string, callback: Function) => {
+            return value && isNumber(value) && value >= 1 && value <= 65535
+              ? callback()
+              : callback(i18n.t('please enter an integer between 1 ~ 65535!'));
+          },
+        },
+      ],
+    },
+    {
+      name: ['config', 'smtpIsSSL'],
+      getComp: ({ form }: { form: FormInstance }) => (
+        <Checkbox
+          className="text-desc"
+          defaultChecked={isEditing ? smtpIsSSL : false}
+          onChange={(e) => {
+            updater.smtpIsSSL(!smtpIsSSL);
+            form.setFieldsValue({ config: { ...form.getFieldValue('config'), smtpIsSSL: e.target.checked } });
+          }}
+        >
+          {i18n.t('use SSL')}
+        </Checkbox>
+      ),
+    },
+    {
+      name: ['config', 'smtpUser'],
+      label: i18n.t('Outbox username'),
+      required: true,
+      itemProps: {
+        maxLength: 50,
+        placeholder: `${i18n.t('please input')} ${i18n.t('Outbox username')}`,
+        autoComplete: 'off',
+      },
+      rules: [
+        {
+          validator: (_, value: string, callback: Function) => {
+            return value && !regRules.email.pattern.test(value)
+              ? callback(i18n.t('please fill in the correct outbox username!'))
+              : callback();
+          },
+        },
+      ],
+    },
+    {
+      name: ['config', 'smtpPassword'],
+      label: i18n.t('Outbox password'),
+      required: true,
+      itemProps: {
+        maxLength: 50,
+        placeholder: `${i18n.t('please input')} ${i18n.t('Outbox password')}`,
+        autoComplete: 'off',
+        type: passwordVisible ? 'text' : 'password',
+        addonAfter: passwordVisible ? (
+          <ErdaIcon className="mt-1.5" type="preview-open" size="14" onClick={() => updater.passwordVisible(false)} />
+        ) : (
+          <ErdaIcon
+            className="mt-1.5"
+            type="preview-close-one"
+            size="14"
+            onClick={() => updater.passwordVisible(true)}
+          />
+        ),
+      },
+    },
+  ];
+
+  const resultFieldsList = () => {
+    switch (channelType) {
+      case 'sms':
+        return SMSFieldsList;
+      case 'dingtalk_work_notice':
+        return dingdingFieldsList;
+      case 'vms':
+        return VMSFieldsList;
+      case 'email':
+        return EmailFieldsList;
+      default:
+        return [];
+    }
+  };
   const columns: Array<ColumnProps<NOTIFY_CHANNEL.NotifyChannel>> = [
     {
       title: i18n.t('channel name'),
@@ -473,10 +658,7 @@ const NotifyChannel = () => {
       dataIndex: 'enable',
       width: 80,
       render: (enable) => (
-        <span>
-          <Badge status={enable ? 'success' : 'default'} />
-          <span>{enable ? i18n.t('enable') : i18n.t('unable')}</span>
-        </span>
+        <Badge status={enable ? 'success' : 'default'} text={enable ? i18n.t('enable') : i18n.t('unable')} />
       ),
     },
     {
@@ -485,6 +667,7 @@ const NotifyChannel = () => {
       dataIndex: 'type',
       className: 'notify-info',
       ellipsis: true,
+      hidden: true,
       render: (type) => type.displayName,
     },
     {
@@ -502,7 +685,7 @@ const NotifyChannel = () => {
       title: i18n.t('default:create time'),
       dataIndex: 'createAt',
       width: 200,
-      show: false,
+      hidden: true,
     },
   ];
 
@@ -571,7 +754,7 @@ const NotifyChannel = () => {
         width={800}
         title={`${isEditing ? i18n.t('edit notification channel') : i18n.t('new notification channel')}`}
         visible={visible}
-        fieldsList={channelType === 'short_message' ? SMSFieldsList : dingdingFieldsList}
+        fieldsList={resultFieldsList()}
         formData={activeData}
         onOk={(values: any) => {
           handleSubmit(values, isEditing ? activeData.id : undefined);
@@ -584,11 +767,13 @@ const NotifyChannel = () => {
           activeKey={activeTab}
           onChange={(key) => {
             updater.activeTab(key);
-            updater.paging({ pageSize: 15, current: 1 });
+            updater.paging({ pageSize: 10, current: 1 });
           }}
         >
+          <TabPane key="email" tab={i18n.t('common:email')} />
           <TabPane key="dingtalk_work_notice" tab={i18n.t('dingding work notice')} />
-          <TabPane key="short_message" tab={i18n.t('SMS')} />
+          <TabPane key="sms" tab={i18n.t('SMS')} />
+          <TabPane key="vms" tab={i18n.t('phone')} />
         </Tabs>
         <Table
           rowKey="id"

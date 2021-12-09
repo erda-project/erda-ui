@@ -14,15 +14,14 @@
 import React from 'react';
 import DiceConfigPage, { useMock } from 'app/config-page';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
-import { getUrlQuery, statusColorMap } from 'config-page/utils';
+import { getUrlQuery } from 'config-page/utils';
 import { getAvatarChars, updateSearch, mergeSearch } from 'common/utils';
-import { Badge, ErdaIcon } from 'common';
+import { Badge, ErdaIcon, Ellipsis } from 'common';
 import { useUserMap } from 'core/stores/userMap';
 import { useUpdate, useSwitch } from 'common/use-hooks';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import routeInfoStore from 'core/stores/route';
 import { Avatar, Select } from 'antd';
-import { groupBy, map } from 'lodash';
 import moment from 'moment';
 import i18n from 'i18n';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
@@ -47,7 +46,7 @@ const BarContentRender = (props: IBarProps) => {
           {task.name}
         </span>
       </div>
-      <div className={`absolute text-sub text-xs ${isHover ? 'visible' : 'invisible'}`} style={{ right: -150, top: 1 }}>
+      <div className={`absolute text-sub text-xs ${isHover ? 'visible' : 'invisible'}`} style={{ right: -150, top: 4 }}>
         {moment(task.start).format('YYYY-MM-DD')} ~ {moment(task.end).format('YYYY-MM-DD')}
       </div>
     </div>
@@ -77,16 +76,12 @@ const TaskListHeader = (props: { headerHeight: number; rowWidth: number }) => {
 
 interface ITreeNodeProps {
   node: CP_GANTT.IGanttData;
-  originList: CP_GANTT.IGanttData[];
   clickNode?: (params: Obj) => void;
 }
 
 const TreeNodeRender = (props: ITreeNodeProps) => {
-  const { node, originList, clickNode } = props;
-  const { extra, name, id, isLeaf } = node;
-  const tasksGroup = groupBy(originList || [], 'project');
-  const subNodeStatus = tasksGroup[id] || [];
-  const statusGroup = groupBy(subNodeStatus, 'extra.status.status');
+  const { node, clickNode } = props;
+  const { extra, name } = node;
   const { status, type, user } = extra || {};
   const userMap = useUserMap();
   const curUser = userMap[user];
@@ -101,37 +96,19 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
       }}
     >
       {<IssueIcon type={type} size={'16px'} />}
-      {!isLeaf ? (
-        <>
-          <div className="flex-1 ml-1 w-0" style={{ marginRight: 86 }}>
-            <div className="truncate">{name}</div>
-            <div className="flex relative issue-plan-status-total">
-              {map(statusGroup, (subItem, idx) => (
-                <div
-                  key={`${idx}`}
-                  className="h-1 issue-plan-status-total-item"
-                  style={{
-                    width: `${(subItem.length / subNodeStatus.length) * 100}%`,
-                    backgroundColor: statusColorMap[subItem?.[0]?.extra?.status?.status],
-                  }}
-                />
-              ))}
-            </div>
+      <div className="truncate flex-1 ml-1">
+        <Ellipsis title={name} />
+      </div>
+      <div className="flex items-center ml-2">
+        <Avatar src={curUser?.avatar || undefined} size={16}>
+          {getAvatarChars(curUserName || '')}
+        </Avatar>
+        {status ? (
+          <div className="ml-1">
+            <Badge showDot={false} text={status.text} status={status?.status || 'default'} />
           </div>
-        </>
-      ) : (
-        <>
-          <div className="truncate flex-1 ml-1">{name}</div>
-          <div className="flex items-center ml-2">
-            <Avatar size={16}>{getAvatarChars(curUserName || '')}</Avatar>
-            {status ? (
-              <div className="ml-1">
-                <Badge showDot={false} text={status.text} status={status?.status || 'default'} />
-              </div>
-            ) : null}
-          </div>
-        </>
-      )}
+        ) : null}
+      </div>
     </div>
   );
 };

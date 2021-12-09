@@ -1,0 +1,68 @@
+.topology {
+  background: rgba($color-default, 0.96);
+
+  .ant-spin-nested-loading,
+  .ant-spin-container {
+    height: 100%;
+  }
+
+  .topology-filter {
+    .contractive-filter-item {
+      background: rgba($white, 0.06) !important;
+
+      > span {
+        color: rgba($white, 0.6) !important;
+      }
+
+      .hover {
+        color: rgba($white, 0.6) !important;
+      }
+
+      &:hover {
+        .hover {
+          color: rgba($white, 0.9) !important;
+        }
+      }
+
+      .contractive-filter-item-value {
+        color: rgba($white, 0.9) !important;
+      }
+    }
+
+    .time-select {
+      .time-range,
+      .auto-refresh,
+      .manual-refresh {
+        background: rgba($white, 0.06) !important;
+        color: rgba($white, 0.9) !important;
+
+        .ant-select {
+          color: rgba($white, 0.9) !important;
+
+          .ant-select-arrow {
+            color: rgba($white, 0.6) !important;
+          }
+
+          &:hover {
+            .ant-select-arrow {
+              color: rgba($white, 0.9) !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .zoom-buttons {
+    div {
+      background: rgba($white, 0.06);
+      box-shadow: 0 4px 8px 0 $color-card-hover-shadow;
+      color: rgba($white, 0.6);
+
+      &:hover {
+        background: rgba($white, 0.2);
+        color: rgba($white, 0.9);
+      }
+    }
+  }
+}
