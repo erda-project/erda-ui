@@ -26,15 +26,12 @@ stages:
           alias: build-erda-ui
           params:
             build_cmd:
-              - env
-              - cd ${erda-ui}
               - npm i -g @erda-ui/cli@1.0.23
               - npm i -g pnpm
-              - cd ${erda-ui}
               - erda-ui init -s --online
               - erda-ui build -s -o
             node_version: 12
-            workdir: ${erda-ui}
+            workdir: ${{ dirs.erda-ui }}
           resources:
             cpu: 2
             mem: 6144
