@@ -152,7 +152,7 @@ const CommonNode = ({ isConnectable, data, children, className, showRuntime }: I
           overlayClassName="topology-node-popover"
           title={
             <div className="h-12 py-0 px-4 flex items-center text-white">
-              <div className="overflow-hidden overflow-ellipsis whitespace-nowrap">{metaData.name.repeat(22)}</div>
+              <div className="overflow-hidden overflow-ellipsis whitespace-nowrap">{metaData.name}</div>
             </div>
           }
           content={popoverContent}
