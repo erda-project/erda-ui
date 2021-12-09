@@ -30,7 +30,7 @@ const TaskSummary = () => {
   const urlQueryChange = (val: Obj) => setUrlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 
   return (
-    <div className="task-summary-page">
+    <div>
       <DiceConfigPage
         scenarioType={'requirement-task-overview'}
         scenarioKey={'requirement-task-overview'}
