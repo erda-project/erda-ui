@@ -33,10 +33,11 @@
   .contractive-filter-item {
     display: flex;
     align-items: center;
-    padding: 4px 0 4px 8px;
+    padding: 4px 2px 4px 8px;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.1s ease-out;
+    background-color: $color-default-06;
 
     &-value {
       max-width: 180px;
@@ -54,17 +55,17 @@
     }
 
     &:hover {
-      background-color: $whitesmoke;
+      background-color: $color-default-1;
 
       i {
-        color: $gray;
+        color: $black;
       }
 
       .hover {
         svg {
           path {
-            stroke: $gray;
-            fill: $gray;
+            stroke: $black;
+            fill: $black;
           }
         }
       }
@@ -125,7 +126,7 @@
   }
 
   .options-item {
-    color: $color-dark-65;
+    color: $color-dark-6;
   }
 
   .options-container {

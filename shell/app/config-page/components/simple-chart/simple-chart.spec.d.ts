@@ -11,47 +11,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_PIE_CHART {
+declare namespace CP_SIMPLE_CHART {
   interface Spec {
-    type: 'PieChart';
-    props: IProps;
+    type: 'SimpleChart';
     data: IData;
   }
 
-  interface IData {
-    label?: string;
-    data?: IList[];
-    group?: IList[][];
+  interface serie {
+    name: string;
+    data: Array<number | string>;
   }
 
-  interface IList {
-    name: string;
-    value: number;
-    color: string;
-    centerLabel?: string;
-    total?: number;
-    formatter?: string;
-    info?: IInfo[];
-  }
-  interface IInfo {
+  interface IData {
     main: string;
     sub?: string;
-    desc?: string;
+    compareText?: string;
+    compareValue?: string;
+    chart: {
+      xAxis: Array<number | string>;
+      series: serie[];
+    };
   }
 
-  interface IProps {
-    option: Obj;
-    style?: Obj;
-    chartStyle?: Obj;
-    direction?: 'col' | 'row';
-    size?: 'small' | 'normal' | 'big';
-    pureChart?: boolean;
-    visible?: boolean;
-    title: string;
-    tip?: string | string[];
-  }
-
-  type Props = MakeProps<Spec> & {
-    extraContent?: React.ReactElement;
-  };
+  type Props = MakeProps<Spec>;
 }

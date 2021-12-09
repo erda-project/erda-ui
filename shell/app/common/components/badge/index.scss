@@ -53,10 +53,10 @@
   }
 
   &.erda-badge-status-processing {
-    color: $color-action;
-    background-color: $color-action-bg;
+    color: $color-info;
+    background-color: $color-info-bg;
     .erda-badge-status-dot {
-      background-color: $color-action;
+      background-color: $color-info;
     }
   }
 
