@@ -151,6 +151,7 @@ export enum pages {
   projectIssueDetail = '/{orgName}/dop/projects/{projectId}/issues/{type}?id={id}&type={type}',
   projectIssueRoot = '/{orgName}/dop/projects/{projectId}/issues',
   projectMeasureDashboard = '/{orgName}/dop/projects/{projectId}/measure/bug',
+  projectMeasureTask = '/{orgName}/dop/projects/{projectId}/measure/task',
   projectMeasure = '/{orgName}/dop/projects/{projectId}/measure',
   projectManualTestRoot = '/{orgName}/dop/projects/{projectId}/manual',
   projectAutoTestRoot = '/{orgName}/dop/projects/{projectId}/auto',
