@@ -145,7 +145,7 @@ export const COLLABORATE_TABS = () => {
 export const MEASURE_TABS = [
   {
     key: 'task',
-    name: i18n.t('task'),
+    name: i18n.t('requirement & task'),
   },
   {
     key: 'bug',
