@@ -137,6 +137,7 @@ const CommonNode = ({ isConnectable, data, children, className }: IProps) => {
         onMouseUp={handleClick}
       >
         <Popover
+          placement="right"
           overlayClassName="topology-node-popover"
           title={
             <div className="h-12 py-0 px-4 flex items-center text-white">
