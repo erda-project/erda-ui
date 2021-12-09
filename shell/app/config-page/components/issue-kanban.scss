@@ -95,6 +95,16 @@
       opacity: 0.5;
     }
 
+    .dragged-card {
+      animation: changeCardBg 0.5s linear 0.3s;
+    }
+
+    @keyframes changeCardBg {
+      50% {
+        background-color: rgba($color-purple-deep, 0.1);
+      }
+    }
+
     .list-item {
       margin-bottom: 12px;
       background-color: $white;
