@@ -180,7 +180,7 @@ const ProjectType = (props: IProjectType) => {
 
 const templateArr: ICardProps[] = [
   {
-    name: 'DevOps',
+    name: i18n.t('msp:DevOps Project'),
     val: 'DevOps',
     icon: 'CombinedShape',
     description: i18n.t(
@@ -189,7 +189,7 @@ const templateArr: ICardProps[] = [
     disabled: false,
   },
   {
-    name: i18n.t('cmp:Microservice Observation Project'),
+    name: i18n.t('cmp:Monitor Project'),
     val: 'MSP',
     icon: 'zhili',
     description: i18n.t('cmp:microservice governance desc'),

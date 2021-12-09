@@ -32,8 +32,8 @@ const TaskSummary = () => {
   return (
     <div className="task-summary-page">
       <DiceConfigPage
-        scenarioType={'task-summary'}
-        scenarioKey={'task-summary'}
+        scenarioType={'requirement-task-overview'}
+        scenarioKey={'requirement-task-overview'}
         inParams={inParams}
         customProps={{
           topFilter: {
