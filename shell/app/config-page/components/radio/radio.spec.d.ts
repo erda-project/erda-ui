@@ -31,6 +31,7 @@ declare namespace CP_RADIO {
     options?: Option[];
     radioType?: string;
     size?: 'small' | 'middle' | 'large';
+    visible: boolean; // TODO: remove after support options: { visible }
   }
 
   interface Option {
