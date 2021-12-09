@@ -15,15 +15,27 @@ import getEIRouter from 'msp/monitor/external-insight/router';
 import getGatewayIngressMonitorRouter from 'msp/monitor/gateway-ingress/router';
 import i18n from 'i18n';
 
+const tabs = [
+  {
+    key: 'topology',
+    name: i18n.t('msp:topology'),
+  },
+  {
+    key: 'service-list',
+    name: i18n.t('msp:service list'),
+  },
+];
+
 function monitorTopologyRouter(): RouteConfigItem {
   return {
     path: 'topology',
+    tabs,
     pageName: i18n.t('msp:global topology'),
     breadcrumbName: i18n.t('msp:global topology'),
     routes: [
       {
         layout: { fullHeight: true },
-        getComp: (cb) => cb(import('msp/env-overview/topology/pages/topology/topology')),
+        getComp: (cb) => cb(import('msp/env-overview/topology/pages/topology-old/topology')),
       },
       getGatewayIngressMonitorRouter(),
       getEIRouter(),

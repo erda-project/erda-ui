@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Table } from './table/table';
-import { Filter as ContractiveFilter } from './contractive-filter/contractive-filter';
+import ContractiveFilter from './contractive-filter/contractive-filter';
 import { Form } from './form/form';
 import { FormModal } from './form-modal/form-modal';
 import { Container, RowContainer, LRContainer } from './container/container';
@@ -66,8 +66,11 @@ import { CardContainer, ChartContainer } from './card-container/card-container';
 import CopyButton from './copy-button/copy-button';
 import ComposeTable from './compose-table/compose-table';
 import TextBlock from './text-block/text-block';
+import TextBlockGroup from './text-block-group/text-block-group';
 import BarChart from './bar-chart/bar-chart';
 import Gantt from './gantt/gantt';
+import SimpleChart from './simple-chart/simple-chart';
+import ChartBlock from './chart-block/chart-block';
 
 export const containerMap = {
   Alert,
@@ -127,6 +130,9 @@ export const containerMap = {
   CopyButton,
   ComposeTable,
   TextBlock,
+  TextBlockGroup,
   BarChart,
   Gantt,
+  SimpleChart,
+  ChartBlock,
 };

@@ -140,10 +140,15 @@
       justify-content: end;
     }
 
+    // TODO: split this class
     &.bg-white {
       padding: 12px;
       background-color: $white;
       border-radius: $radius;
+    }
+
+    &.only-bg-white {
+      background-color: $white;
     }
 
     &.flex-height {

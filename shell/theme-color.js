@@ -21,14 +21,15 @@ module.exports = {
   icon: '#00000066', // color-dark-3: rgba(0, 0, 0, .3)
   disabled: '#00000066', // color-dark-3: rgba(0, 0, 0, .3)
   holder: '#00000033', // color-dark-3: rgba(0, 0, 0, .2)
-  red: '#df3409',
-  danger: '#df3409',
-  blue: '#0567ff',
-  info: '#0567ff',
-  yellow: '#feab00',
-  warning: '#feab00',
-  green: '#34b37e',
-  success: '#34b37e',
+  red: '#d84b65',
+  danger: '#d84b65',
+  error: '#d84b65',
+  blue: '#1890ff',
+  info: '#1890ff',
+  yellow: '#f4b518',
+  warning: '#f4b518',
+  green: '#27c99a',
+  success: '#27c99a',
   orange: '#f47201',
   purple: '#6a549e',
   cyan: '#5bd6d0ff',
@@ -62,6 +63,9 @@ module.exports = {
   'log-bg': '#3c444f',
   'light-border': 'rgba(222,222,222,0.5)',
   'light-active': '#6a549e0f', // rgba($primary, .06)
+  'white-9': 'rgba(255,255,255, 0.9)',
+  'white-6': 'rgba(255,255,255, 0.6)',
+  'white-02': 'rgba(255,255,255, 0.02)',
 
   // 标准化后的颜色
   'gray-block-bg': 'rgba(0, 0, 0, 0.02)',
@@ -72,7 +76,7 @@ module.exports = {
   'default-2': 'rgba(48, 38, 71, 0.8)',
   'default-8': 'rgba(48, 38, 71, 0.8)',
   'default-02': 'rgba(48, 38, 71, 0.02)',
-  'default-04':' rgba(48, 38, 71, 0.04)',
+  'default-04': ' rgba(48, 38, 71, 0.04)',
   'default-06': 'rgba(48, 38, 71, 0.06)',
 
   // auxiliary color

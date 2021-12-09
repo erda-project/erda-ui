@@ -13,7 +13,14 @@
 
 import getAppRouter from 'application/router';
 import i18n from 'i18n';
-import { PROJECT_TABS, AUTO_TEST_TABS, MANUAL_TEST_TABS, ITERATION_DETAIL_TABS, TEST_STATISTICS_TABS } from './tabs';
+import {
+  COLLABORATE_TABS,
+  AUTO_TEST_TABS,
+  MANUAL_TEST_TABS,
+  ITERATION_DETAIL_TABS,
+  TEST_STATISTICS_TABS,
+  MEASURE_TABS,
+} from './tabs';
 
 function getProjectRouter(): RouteConfigItem[] {
   return [
@@ -40,7 +47,7 @@ function getProjectRouter(): RouteConfigItem[] {
           routes: [
             {
               path: 'plan',
-              tabs: PROJECT_TABS,
+              tabs: COLLABORATE_TABS,
               ignoreTabQuery: true,
               getComp: (cb) => cb(import('project/pages/issue/plan')),
               layout: {
@@ -49,7 +56,7 @@ function getProjectRouter(): RouteConfigItem[] {
             },
             {
               path: 'all',
-              tabs: PROJECT_TABS,
+              tabs: COLLABORATE_TABS,
               ignoreTabQuery: true,
               getComp: (cb) => cb(import('project/pages/issue/all')),
               layout: {
@@ -59,7 +66,7 @@ function getProjectRouter(): RouteConfigItem[] {
             },
             {
               path: 'requirement',
-              tabs: PROJECT_TABS,
+              tabs: COLLABORATE_TABS,
               ignoreTabQuery: true,
               getComp: (cb) => cb(import('project/pages/issue/requirement')),
               layout: {
@@ -68,7 +75,7 @@ function getProjectRouter(): RouteConfigItem[] {
             },
             {
               path: 'task',
-              tabs: PROJECT_TABS,
+              tabs: COLLABORATE_TABS,
               ignoreTabQuery: true,
               getComp: (cb) => cb(import('project/pages/issue/task')),
               layout: {
@@ -77,7 +84,7 @@ function getProjectRouter(): RouteConfigItem[] {
             },
             {
               path: 'bug',
-              tabs: PROJECT_TABS,
+              tabs: COLLABORATE_TABS,
               ignoreTabQuery: true,
               getComp: (cb) => cb(import('project/pages/issue/bug')),
               layout: {
@@ -86,18 +93,18 @@ function getProjectRouter(): RouteConfigItem[] {
             },
             {
               path: 'backlog',
-              tabs: PROJECT_TABS,
+              tabs: COLLABORATE_TABS,
               ignoreTabQuery: true,
               layout: { noWrapper: true, fullHeight: true },
               getComp: (cb) => cb(import('project/pages/backlog')),
             },
             {
               path: 'iteration',
-              tabs: PROJECT_TABS,
+              tabs: COLLABORATE_TABS,
               ignoreTabQuery: true,
               routes: [
                 {
-                  tabs: PROJECT_TABS,
+                  tabs: COLLABORATE_TABS,
                   getComp: (cb) => cb(import('project/pages/iteration/table'), 'Iteration'),
                 },
                 {
@@ -114,7 +121,7 @@ function getProjectRouter(): RouteConfigItem[] {
             },
             {
               path: 'milestone',
-              tabs: PROJECT_TABS,
+              tabs: COLLABORATE_TABS,
               ignoreTabQuery: true,
               getComp: (cb) => cb(import('project/pages/milestone'), 'Milestone'),
               layout: { noWrapper: true, fullHeight: true },
@@ -122,12 +129,26 @@ function getProjectRouter(): RouteConfigItem[] {
           ],
         },
         {
-          path: 'measure/dashboard',
+          path: 'measure',
           breadcrumbName: i18n.t('dop:efficiency measure'),
-          getComp: (cb) => cb(import('project/pages/issue/issue-dashboard')),
-          layout: {
-            noWrapper: true,
-          },
+          routes: [
+            {
+              path: 'bug',
+              tabs: MEASURE_TABS,
+              ignoreTabQuery: true,
+              getComp: (cb) => cb(import('project/pages/issue/issue-dashboard')),
+              layout: {
+                noWrapper: true,
+              },
+            },
+            {
+              path: 'task',
+              tabs: MEASURE_TABS,
+              ignoreTabQuery: true,
+              layout: { noWrapper: true, fullHeight: true },
+              getComp: (cb) => cb(import('project/pages/issue/task-summary')),
+            },
+          ],
         },
         {
           path: 'ticket',

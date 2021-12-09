@@ -15,9 +15,9 @@ import React from 'react';
 import { ContractiveFilter } from 'common';
 import { useMount } from 'react-use';
 
-export const Filter = (props: CP_FILTER.Props) => {
+const CP_Filter = (props: CP_FILTER.Props) => {
   const { state, execOperation, operations, props: configProps, customOp } = props;
-  const { delay, visible = true, fullWidth = false } = configProps || {};
+  const { delay, visible = true, fullWidth = false, className } = configProps || {};
 
   const [conditions, setConditions] = React.useState([] as CP_FILTER.Condition[]);
   const conditionsRef = React.useRef(null as any);
@@ -68,6 +68,9 @@ export const Filter = (props: CP_FILTER.Props) => {
       onQuickOperation={onQuickOperation}
       onConditionsChange={onConditionsChange}
       fullWidth={fullWidth}
+      className={className}
     />
   );
 };
+
+export default CP_Filter;

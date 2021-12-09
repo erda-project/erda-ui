@@ -145,9 +145,36 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         const extraProps = getItemClickProps({ ...extra, operations, record });
         const hasPointer = !isEmpty(extraProps);
         Comp = (
-          <div className={`${hoverActive} flex items-center ${hasPointer ? 'cursor-pointer' : ''}`} {...extraProps}>
+          <div
+            className={`${hoverActive} flex items-center w-full ${hasPointer ? 'cursor-pointer' : ''}`}
+            {...extraProps}
+          >
             {prefixIcon ? <CustomIcon type={prefixIcon} className={`mr-1 ${colorClassName}`} /> : null}
             <Ellipsis title={value}>{value}</Ellipsis>
+          </div>
+        );
+      }
+      break;
+    case 'doubleRowWithIcon':
+      {
+        const { value, prefixIcon, extraContent, colorClassName, hoverActive = '', operations = {} } = val;
+
+        const extraProps = getItemClickProps({ ...extra, operations, record });
+        const hasPointer = !isEmpty(extraProps);
+        Comp = (
+          <div
+            className={`${hoverActive} flex items-center w-full ${hasPointer ? 'cursor-pointer' : ''}`}
+            {...extraProps}
+          >
+            {prefixIcon ? (
+              <div className="mr-2 flex">
+                <CustomIcon type={prefixIcon} size={28} className={colorClassName} />
+              </div>
+            ) : null}
+            <div className="leading-tight py-1 flex-1 overflow-hidden">
+              <Ellipsis title={value} className="hover:text-purple-deep" />
+              {extraContent ? <div>{getRender(extraContent, record, {})}</div> : null}
+            </div>
           </div>
         );
       }

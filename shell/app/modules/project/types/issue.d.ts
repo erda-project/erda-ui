@@ -45,6 +45,7 @@ declare namespace ISSUE {
     issueManHour: issueManHour;
     customUrl?: string;
     taskType: string;
+    state: number;
   }
 
   interface IIssueButton {

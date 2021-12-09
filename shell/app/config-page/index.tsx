@@ -26,6 +26,7 @@ interface ICustomProps {
   [p: string]: {
     op?: Obj;
     props?: Obj;
+    Wrapper?: React.ElementType;
   };
 }
 interface IProps {

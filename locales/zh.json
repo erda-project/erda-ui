@@ -685,7 +685,7 @@
     "please enter a number between {min} ~ {max}": "请输入{min}~{max}之间的数字",
     "please enter a valid email address": "请输入正确邮箱地址",
     "please enter a valid ip, separated by a semicolon or a space": "请输入有效的ip，以分号、或空格分隔",
-    "please enter an integer between 0 - 65535!": "请输入 0 - 65535 之间的整数!",
+    "please enter an integer between 1 ~ 65535!": "请输入 1 ~ 65535 之间的整数!",
     "please enter the correct format": "请输入正确格式",
     "please enter verification code": "请输入验证码",
     "please enter {name}": "请输入{name}",

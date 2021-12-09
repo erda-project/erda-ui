@@ -93,7 +93,7 @@ export const AUTO_TEST_SPACE_TABS = (params: Obj) => {
   ];
 };
 
-export const PROJECT_TABS = () => {
+export const COLLABORATE_TABS = () => {
   const projectPerm = permStore.useStore((s) => s.project);
 
   return [
@@ -141,6 +141,17 @@ export const PROJECT_TABS = () => {
     },
   ];
 };
+
+export const MEASURE_TABS = [
+  {
+    key: 'task',
+    name: i18n.t('task'),
+  },
+  {
+    key: 'bug',
+    name: i18n.t('bug'),
+  },
+];
 
 export const MANUAL_TEST_TABS = [
   {
