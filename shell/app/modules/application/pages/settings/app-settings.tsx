@@ -300,7 +300,7 @@ export const PureAppSettings = () => {
   let dataSource = settingSource;
   if (!isEmpty(appDetail)) {
     const { mode } = appDetail;
-    dataSource = settingSource.filter((item) => showMap[mode].includes(item.groupKey));
+    dataSource = settingSource.filter((item) => showMap[mode]?.includes(item.groupKey));
   }
 
   return <SettingTabs className="app-settings-main" dataSource={dataSource} />;

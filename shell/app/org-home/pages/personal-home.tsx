@@ -39,14 +39,6 @@ const PersonalHome = () => {
           scenarioKey="home-page-sidebar"
           key={curOrgName}
           inParams={inParams}
-          customProps={{
-            orgSwitch: {
-              onChange: async () => {
-                const list = await announcementStore.effects.getAllNoticeListByStatus('published');
-                layoutStore.reducers.setAnnouncementList(list);
-              },
-            },
-          }}
         />
       </div>
       <div className="home-page-content w-full">

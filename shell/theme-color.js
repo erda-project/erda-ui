@@ -63,6 +63,9 @@ module.exports = {
   'log-bg': '#3c444f',
   'light-border': 'rgba(222,222,222,0.5)',
   'light-active': '#6a549e0f', // rgba($primary, .06)
+  'white-9': 'rgba(255,255,255, 0.9)',
+  'white-6': 'rgba(255,255,255, 0.6)',
+  'white-02': 'rgba(255,255,255, 0.02)',
 
   // 标准化后的颜色
   'gray-block-bg': 'rgba(0, 0, 0, 0.02)',

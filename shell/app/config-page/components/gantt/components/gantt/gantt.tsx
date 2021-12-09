@@ -72,6 +72,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const taskListRef = useRef<HTMLDivElement>(null);
+
   const [dateSetup, setDateSetup] = useState<DateSetup>(() => {
     const [startDate, endDate] = ganttDateRange(tasks, viewMode);
     return { viewMode, dates: seedDates(startDate, endDate, viewMode) };
@@ -118,6 +119,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       filteredTasks = tasks;
     }
     const [startDate, endDate] = ganttDateRange(filteredTasks, viewMode);
+
     const newDates = seedDates(startDate, endDate, viewMode);
     // if (rtl) {
     //   newDates = newDates.reverse();
@@ -126,6 +128,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     //   }
     // }
     setDateSetup({ dates: newDates, viewMode });
+
     setBarTasks(
       convertToBarTasks(
         filteredTasks,
@@ -358,9 +361,9 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       }
     }
     if (newSelectedTask?.x1) {
-      if (scrollX > newSelectedTask.x1) {
+      if (scrollX > newSelectedTask.x2) {
         setScrollX(newSelectedTask.x1 - 40);
-      } else if (scrollX + horizontalRef.current?.offsetWidth < newSelectedTask.x2) {
+      } else if (scrollX + horizontalRef.current?.offsetWidth < newSelectedTask.x1) {
         setScrollX(newSelectedTask.x2 + 40 - horizontalRef.current.offsetWidth);
       }
     }

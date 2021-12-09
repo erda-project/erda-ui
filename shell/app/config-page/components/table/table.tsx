@@ -90,7 +90,8 @@ export function Table(props: CP_TABLE.Props) {
   const tableColumns = map([...(columns || [])], (cItem) => ({
     ...cItem,
     ...getTitleRender(cItem),
-    render: (val: any, record: Obj) => getRender(val, record, { execOperation, customOp, userMap, align: cItem.align }),
+    render: (val: any, record: Obj) =>
+      getRender(val, record, { execOperation, customOp, userMap, align: cItem.align, ...rest }),
   })) as any[];
 
   const isGanttTable = columns.find((item) => item.titleRenderType === 'gantt');

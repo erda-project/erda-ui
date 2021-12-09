@@ -33,6 +33,7 @@ import issueFieldStore from 'org/stores/issue-field';
 import orgStore from 'app/org-home/stores/org';
 import { getFieldsByIssue } from 'project/services/issue';
 import { templateMap } from 'project/common/issue-config';
+import issueWorkflowStore from 'project/stores/issue-workflow';
 
 export enum BACKLOG_ISSUE_TYPE {
   iterationIssue = 'iterationIssue',
@@ -48,6 +49,7 @@ interface IIssueProps {
   deleteConfirmText?: string | React.ReactNode | ((name: string) => string | React.ReactNode);
   deleteText: string | React.ReactNode;
   undraggable?: boolean;
+  showStatus?: boolean;
 }
 
 const noop = () => Promise.resolve();
@@ -61,7 +63,9 @@ export const IssueItem = (props: IIssueProps) => {
     deleteText,
     deleteConfirmText,
     undraggable = false,
+    showStatus = false,
   } = props;
+  const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
   const { title, type, priority, creator, assignee, id } = data;
   const curPriority = ISSUE_PRIORITY_MAP[priority] || {};
   const userMap = useUserMap();
@@ -108,6 +112,7 @@ export const IssueItem = (props: IIssueProps) => {
     });
   };
 
+  const state = showStatus ? workflowStateList.find((item) => item.stateID === data.state) : null;
   return (
     <div
       className={`backlog-issue-item hover-active-bg cursor-pointer ${
@@ -124,7 +129,13 @@ export const IssueItem = (props: IIssueProps) => {
         </div>
         <div className="backlog-item-info text-sub flex items-center flex-wrap justify-end">
           <div className="backlog-item-priority mw-60">{curPriority.iconLabel}</div>
-          <div className="w80">
+          {state ? (
+            <div className="mr-4">
+              <CustomIcon type={`ISSUE_ICON.state.${state.stateBelong}`} />
+              {state.stateName}
+            </div>
+          ) : null}
+          <div className="w80 mr-2">
             <Avatar showName name={username} size={20} wrapClassName="w-full" />
           </div>
           {onDelete ? (

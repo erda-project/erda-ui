@@ -32,7 +32,7 @@ const Icon = ({ type, className, style, onClick, color, ...rest }: IProps) => {
   if (type && type.startsWith('ISSUE_ICON')) {
     // 直接返回issue相关icon
     const Comp = get(ISSUE_ICON, type.replace('ISSUE_ICON.', ''));
-    return Comp ? React.cloneElement(Comp, {...rest}) : null;
+    return Comp ? React.cloneElement(Comp, { ...rest }) : null;
   }
   const classes = classNames(!color && 'iconfont', !color && `icon-${type}`, color && 'icon', className);
   if (color) {
@@ -81,6 +81,12 @@ const ISSUE_ICON = {
     WONTFIX: <Icon type="zs" className="issue-icon state zs" />,
     DUP: <Icon type="zs" className="issue-icon state zs" />,
     CLOSED: <Icon type="tg" className="issue-icon state tg" />,
+  },
+  complexity: {
+    // 复杂度
+    EASY: <ErdaIcon type="rongyi" size="20px" />,
+    NORMAL: <ErdaIcon type="zhongdengnandu" size="20px" />,
+    COMPLEX: <ErdaIcon type="nan" size="20px" />,
   },
 };
 

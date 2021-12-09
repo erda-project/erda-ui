@@ -107,11 +107,7 @@ export const COLLABORATE_TABS = () => {
       name: i18n.t('dop:backlog'),
       show: projectPerm.backLog.viewBackLog.pass,
     },
-    {
-      key: 'plan',
-      name: i18n.t('plan'),
-      show: projectPerm.requirement.read.pass,
-    },
+
     {
       key: 'iteration',
       name: i18n.t('dop:sprint'),
@@ -136,6 +132,12 @@ export const COLLABORATE_TABS = () => {
       key: 'bug',
       name: i18n.t('bug'),
       show: projectPerm.bug.read.pass,
+    },
+    {
+      key: 'plan',
+      name: i18n.t('plan'),
+      show: projectPerm.requirement.read.pass,
+      split: true,
     },
   ];
 };
