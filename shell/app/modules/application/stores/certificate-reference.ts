@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { createCRUDStore } from 'common/utils';
+import { createCRUDStore } from 'common/stores/_crud_module';
 import { getCertRefList, addCertRef, deleteCertRef, pushToConfig } from 'application/services/app-setting';
 import i18n from 'i18n';
 
