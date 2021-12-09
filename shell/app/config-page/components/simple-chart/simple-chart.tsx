@@ -98,8 +98,10 @@ const SimpleChart = (props: CP_SIMPLE_CHART.Props) => {
         sub={sub}
         desc={
           <div>
-            <span>{compareText}</span>
-            <span className="color-sub">{compareValue}</span>
+            <span className="color-primary font-bold mr-1">{compareText}</span>
+            <span className={`color-sub ${+(compareValue || 0) >= 0 ? 'text-success' : 'text-error'}`}>
+              {compareValue}
+            </span>
           </div>
         }
       />
