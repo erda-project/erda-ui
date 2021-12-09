@@ -1,4 +1,3 @@
-/* eslint-disable array-callback-return */
 // Copyright (c) 2021 Terminus, Inc.
 //
 // This program is free software: you can use, redistribute, and/or modify
@@ -26,7 +25,11 @@ const viewMap = [
     key: 'topology',
     icon: 'topology',
   },
-  { name: i18n.t('msp:service list'), key: 'serviceList', icon: 'list' },
+  {
+    name: i18n.t('msp:service list'),
+    key: 'serviceList',
+    icon: 'list',
+  },
 ];
 
 const Comp = {
@@ -41,7 +44,6 @@ const MicroServiceOverview = () => {
   };
 
   const Comps = Comp[view];
-
   return (
     <div className="h-full relative">
       <div className="flex justify-end absolute right-0">
@@ -57,8 +59,10 @@ const MicroServiceOverview = () => {
             );
           })}
         </RadioGroup>
-        <Comps />
       </div>
+      <Comps />
     </div>
   );
 };
+
+export default MicroServiceOverview;
