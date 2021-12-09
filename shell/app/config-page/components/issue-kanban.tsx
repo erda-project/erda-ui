@@ -165,8 +165,8 @@ interface IKanbanProps extends CONFIG_PAGE.ICommonProps {
   setBoard: Function;
   isDrag: boolean;
   setIsDrag: (isDrag: boolean) => void;
-  currentCard: CardData;
-  setCurrentCard: (item: CardData) => void;
+  currentCard: CardData | null;
+  setCurrentCard: (value: CardData | null) => void;
   exitLabel: string[];
   refreshBoard?: boolean;
 }
@@ -211,6 +211,7 @@ const Kanban = (props: IKanbanProps) => {
       // same state, do nothing
       const { drag } = item.data.operations;
       if (!drag.targetKeys[labelKey]) {
+        setCurrentCard(null);
         return;
       }
       setCurrentCard(item.data);
