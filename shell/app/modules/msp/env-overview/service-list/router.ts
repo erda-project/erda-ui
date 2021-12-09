@@ -62,12 +62,14 @@ const serviceAnalysisRoutes = [
   },
 ];
 
-export default () => ({
+export default (pageTabs) => ({
   path: 'service-list',
-  breadcrumbName: i18n.t('msp:service list'),
+  tabs: pageTabs,
+  alwaysShowTabKey: 'service-list',
   routes: [
     {
       path: ':applicationId',
+      breadcrumbName: i18n.t('msp:service list'),
       routes: [
         {
           path: ':serviceId',
