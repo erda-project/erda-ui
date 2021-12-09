@@ -564,7 +564,6 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
         {value || <span className="text-desc">{i18n.t('unspecified')}</span>}
       </div>
-      <ErdaIcon type="caret-down" size="18" className="arrow-icon" />
     </div>
   );
 
@@ -702,12 +701,21 @@ interface DropDownMenuItem {
 }
 
 const DropdownMenu = (props: DropDownMenuProps) => {
-  const { value, menus, menuItemRender } = props;
+  const { value, menus, menuItemRender, execOperation } = props;
 
   const menu = (
     <Menu>
       {menus.map((item) => {
-        return <Menu.Item key={item.id}>{menuItemRender(item) || ''}</Menu.Item>;
+        return (
+          <Menu.Item
+            key={item.id}
+            onClick={(e: any) => {
+              execOperation({ ...item });
+            }}
+          >
+            {menuItemRender(item) || ''}
+          </Menu.Item>
+        );
       })}
     </Menu>
   );
