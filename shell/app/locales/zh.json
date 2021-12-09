@@ -2101,6 +2101,7 @@
     "determine": "确定",
     "device": "设备",
     "device type": "设备类型",
+    "definition of qps": "全名 Queries Per Second，即 每秒查询率，是一台服务器每秒能够响应的查询次数",
     "display fields": "显示字段",
     "display name": "展示名称",
     "display setting": "显示设置",

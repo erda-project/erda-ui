@@ -14,7 +14,7 @@
 
 import React from 'react';
 import { PAGINATION } from 'app/constants';
-import { Col, Input, Row, Spin, Tag, Pagination } from 'antd';
+import { Col, Input, Row, Spin, Tag, Pagination, Tooltip } from 'antd';
 import { debounce, map } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import EChart from 'charts/components/echarts';
@@ -187,7 +187,7 @@ const MicroServiceOverview = () => {
             handleSearch(e.target.value);
           }}
         />
-        <ErdaIcon size="20" type="refresh" onClick={onReload} />
+        <ErdaIcon className="cursor-pointer" size="20" type="refresh" onClick={onReload} />
       </div>
       <div className="px-2 mt-2 flex-1 overflow-y-auto">
         <Spin spinning={dataLoading}>
@@ -245,7 +245,11 @@ const MicroServiceOverview = () => {
                                 {type === 'AvgDuration' ? i18n.t('msp:average delay') : null}
                                 {type === 'ErrorRate' ? i18n.t('msp:error rate') : null}
                                 {type === 'QPS' ? 'QPS' : null}
-                                {type === 'QPS' ? <ErdaIcon fill="gray" className="ml-1" type="help" /> : null}
+                                {type === 'QPS' ? (
+                                  <Tooltip title={i18n.t('msp:definition of qps')}>
+                                    <ErdaIcon fill="gray" className="ml-1" type="help" />
+                                  </Tooltip>
+                                ) : null}
                               </p>
                             </div>
                             <div className="ml-4 mr-4 flex-1 overflow-hidden">
