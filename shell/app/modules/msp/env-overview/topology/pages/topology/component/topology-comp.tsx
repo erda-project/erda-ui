@@ -49,6 +49,10 @@ const genEle = (nodes: TOPOLOGY.INode[]): Elements => {
   return [...node, ...edge];
 };
 
+/**
+ * @description calculate node position
+ * @see https://github.com/dagrejs/dagre/wiki
+ */
 const calculateLayout = (list: Elements) => {
   dagreGraph.setGraph({ rankdir: 'LR' });
   list.forEach((el) => {
@@ -62,6 +66,7 @@ const calculateLayout = (list: Elements) => {
   const layoutedElements = list.map((el) => {
     const temp: Partial<Node> = {};
     if (isNode(el)) {
+      // get node coordinates
       const nodeWithPosition = dagreGraph.node(el.id);
       temp.targetPosition = Position.Left;
       temp.sourcePosition = Position.Right;
