@@ -89,6 +89,10 @@ export default (pageTabs) => ({
     },
     {
       getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages')),
+      layout: {
+        fullHeight: true,
+        noWrapper: true,
+      },
     },
   ],
 });

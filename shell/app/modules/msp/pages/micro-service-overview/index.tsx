@@ -17,7 +17,6 @@ import Topology from 'msp/env-overview/topology/pages/topology';
 import ServiceList from 'msp/env-overview/service-list/pages';
 import ErdaIcon from 'common/components/erda-icon';
 import i18n from 'i18n';
-
 const { Button: RadioButton, Group: RadioGroup } = Radio;
 
 type ITab = 'topology' | 'serviceList';
