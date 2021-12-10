@@ -141,7 +141,6 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
 
   React.useEffect(() => {
     pageConfigRef.current = pageConfig;
-    clearInterval(timerRef.current);
     if (pageConfig?.protocol?.options?.syncIntervalSecond) {
       timerRef.current = setInterval(() => {
         execOperation('', {
@@ -150,6 +149,9 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
         });
       }, pageConfig?.protocol?.options?.syncIntervalSecond * 1000);
     }
+    return () => {
+      clearInterval(timerRef.current);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageConfig]);
 
