@@ -37,13 +37,14 @@ const BarContentRender = (props: IBarProps) => {
   const { task, isHover } = props;
   const barRef = React.useRef<HTMLDivElement>(null);
   const nameRef = React.useRef<HTMLDivElement>(null);
-  const [key, setKey] = React.useState(1);
-  useMount(() => {
-    setKey(key + 1);
-  });
+  const [linearPercent, setLinearPercent] = React.useState(100);
+
   const barWidth = barRef.current?.offsetWidth || 40;
   const nameWidth = nameRef.current?.offsetWidth || 40;
-  const linearPercent = ((barWidth - 8) / nameWidth) * 100;
+  React.useLayoutEffect(() => {
+    setLinearPercent(((barWidth - 8) / nameWidth) * 100);
+  }, [barWidth, nameWidth]);
+
   return (
     <div className={'relative h-full'} ref={barRef}>
       <div className={`flex items-center h-full w-full`}>
