@@ -14,7 +14,7 @@
 import React from 'react';
 import { Popconfirm, Tooltip, Dropdown, Menu, Progress, Avatar } from 'antd';
 import { map, isEmpty, get, isArray, sortBy, filter, isNumber } from 'lodash';
-import { Icon as CustomIcon, MemberSelector, TagsRow, Badge, Ellipsis, ErdaIcon } from 'common';
+import { Icon as CustomIcon, MemberSelector, TagsRow, Badge, Ellipsis, ErdaIcon, Tags } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
 import ImgMap from 'app/config-page/img-map';
@@ -61,6 +61,12 @@ export const getTitleRender = (cItem: CP_TABLE.Column) => {
   }
   return res;
 };
+
+const dropDownHoverBgAndArrow = (
+  <div className="cursor-pointer absolute top-0 left-0 bottom-0 right-0 hover:bg-default-04 opacity-0 hover:opacity-100">
+    <ErdaIcon type="caret-down" size={20} fill="black-300" className="arrow-icon absolute right-2 top-1/3" />
+  </div>
+);
 
 interface IParams {
   record: Obj;
@@ -139,15 +145,45 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         const extraProps = getItemClickProps({ ...extra, operations, record });
         const hasPointer = !isEmpty(extraProps);
         Comp = (
-          <div className={`${hoverActive} flex items-center ${hasPointer ? 'cursor-pointer' : ''}`} {...extraProps}>
+          <div
+            className={`${hoverActive} flex items-center w-full ${hasPointer ? 'cursor-pointer' : ''}`}
+            {...extraProps}
+          >
             {prefixIcon ? <CustomIcon type={prefixIcon} className={`mr-1 ${colorClassName}`} /> : null}
             <Ellipsis title={value}>{value}</Ellipsis>
           </div>
         );
       }
       break;
+    case 'doubleRowWithIcon':
+      {
+        const { value, prefixIcon, extraContent, colorClassName, hoverActive = '', operations = {} } = val;
+
+        const extraProps = getItemClickProps({ ...extra, operations, record });
+        const hasPointer = !isEmpty(extraProps);
+        Comp = (
+          <div
+            className={`${hoverActive} flex items-center w-full ${hasPointer ? 'cursor-pointer' : ''}`}
+            {...extraProps}
+          >
+            {prefixIcon ? (
+              <div className="mr-2 flex">
+                <CustomIcon type={prefixIcon} size={28} className={colorClassName} />
+              </div>
+            ) : null}
+            <div className="leading-tight py-1 flex-1 overflow-hidden">
+              <Ellipsis title={value} className="hover:text-purple-deep" />
+              {extraContent ? <div>{getRender(extraContent, record, {})}</div> : null}
+            </div>
+          </div>
+        );
+      }
+      break;
     case 'operationsDropdownMenu': // 下拉菜单的操作：可编辑列
       Comp = <DropdownSelector {...val} {...extra} />;
+      break;
+    case 'dropdownMenu': // 下拉菜单：可编辑列
+      Comp = <DropdownMenu {...val} {...extra} />;
       break;
     case 'progress':
       {
@@ -165,7 +201,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
               format={(v) => null}
               strokeColor={statusColorMap[status]}
             />
-            <span className="text-dark-8  ml-2">{`${_val}%`}</span>
+            <span className="text-dark-8  ml-2">{`${value.toFixed(1)}%`}</span>
           </Tooltip>
         ) : (
           _val
@@ -242,6 +278,26 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
             className="dice-config-table-member-selector"
             disabled={val?.disabled}
             value={val?.value}
+            resultsRender={(displayValue: Array<{ avatar: string; nick: string; name: string }>) => {
+              return (
+                <div>
+                  {displayValue.map((item) => {
+                    const { avatar, nick, name } = item;
+                    return (
+                      <div>
+                        <Avatar src={avatar} size="small">
+                          {nick ? getAvatarChars(nick) : i18n.t('none')}
+                        </Avatar>
+                        <span className="ml-2" title={name}>
+                          {nick || i18n.t('common:none')}
+                        </span>
+                      </div>
+                    );
+                  })}
+                  {dropDownHoverBgAndArrow}
+                </div>
+              );
+            }}
             onChange={(v) => {
               extra.execOperation(val?.operations?.onChange, v);
             }}
@@ -375,6 +431,12 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         Comp = <TagsRow colorMap={colorMap} {..._rest} labels={value} onAdd={onAdd} onDelete={onDelete} />;
       }
       break;
+    case 'tags':
+      {
+        const { value, showCount } = val;
+        Comp = <Tags labels={value} maxShowCount={showCount} />;
+      }
+      break;
     case 'text':
       {
         const { renderType, ..._rest } = val || {};
@@ -487,21 +549,21 @@ interface IDropdownSelectorProps {
   disabled: boolean;
   disabledTip?: string;
   value: string;
-  prefixIcon: string;
+  prefixIcon?: string;
+  status?: string;
   operations: Obj;
   execOperation: any;
   onChange: () => void;
 }
 
 const DropdownSelector = (props: IDropdownSelectorProps) => {
-  const { disabled, disabledTip, operations, prefixIcon, value, execOperation } = props;
+  const { disabled, disabledTip, operations, prefixIcon, value, status, execOperation } = props;
   const ValueRender = (
     <div className="flex items-center hover-active dropdown-field-selector" onClick={(e: any) => e.stopPropagation()}>
       <div className="flex items-center">
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
         {value || <span className="text-desc">{i18n.t('unspecified')}</span>}
       </div>
-      <ErdaIcon type="caret-down" size="18" className="arrow-icon" />
     </div>
   );
 
@@ -532,7 +594,10 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
   );
   return (
     <Dropdown overlay={menu} trigger={['click']}>
-      {ValueRender}
+      <div>
+        {ValueRender}
+        {dropDownHoverBgAndArrow}
+      </div>
     </Dropdown>
   );
 };
@@ -622,6 +687,48 @@ const getTableOperation = (val: any, record: any, extra: any) => {
         <ErdaIcon type="more" className="cursor-pointer p-1 bg-hover rounded-sm" onClick={(e) => e.stopPropagation()} />
       </Dropdown>
     </div>
+  );
+};
+
+interface DropDownMenuProps {
+  value: string;
+  menus: DropDownMenuItem[];
+  menuItemRender: (item: DropDownMenuItem) => React.ReactNode;
+}
+
+interface DropDownMenuItem {
+  id: string;
+}
+
+const DropdownMenu = (props: DropDownMenuProps) => {
+  const { value, menus, menuItemRender, execOperation } = props;
+
+  const menu = (
+    <Menu>
+      {menus.map((item) => {
+        return (
+          <Menu.Item
+            key={item.id}
+            onClick={(e: any) => {
+              execOperation({ ...item });
+            }}
+          >
+            {menuItemRender(item) || ''}
+          </Menu.Item>
+        );
+      })}
+    </Menu>
+  );
+
+  const current = menus.find((item) => item.id === value);
+  const ValueRender = current ? menuItemRender(current) : value;
+  return (
+    <Dropdown overlay={menu} trigger={['click']}>
+      <div>
+        {ValueRender}
+        {dropDownHoverBgAndArrow}
+      </div>
+    </Dropdown>
   );
 };
 

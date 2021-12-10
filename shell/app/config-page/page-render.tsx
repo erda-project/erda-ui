@@ -118,14 +118,15 @@ const ConfigPageRender = (props: IProps) => {
       const structureItem = (structure || {})[cId];
       const Comp = containerMap[cId] as any;
       if (!Comp) return null;
-      const _cmpProps = get(pageConfig, `components.${cId}`) || {};
-      const p = { ...customProps?.[cId]?.props, ..._cmpProps.props };
-      const propsObj = {
-        ..._cmpProps,
-        props: p,
+      const configComponent = get(pageConfig, `components.${cId}`) || {};
+      const { op, props: customComponentProps, ...restCustomConfig } = customProps?.[cId] || {};
+      const enhanceProps = {
+        ...restCustomConfig,
+        ...configComponent,
+        props: { ...customComponentProps, ...configComponent.props },
         key: cId,
         cId,
-        customOp: customProps?.[cId]?.op || emptyObj,
+        customOp: op || emptyObj,
         updateState: reUpdateState(cId),
         execOperation: reExecOperation(cId),
       };
@@ -133,14 +134,14 @@ const ConfigPageRender = (props: IProps) => {
       if (isArray(structureItem)) {
         // 数组: 包含以children方式嵌入组件
         return (
-          <EnhanceCompProps {...propsObj}>
+          <EnhanceCompProps {...enhanceProps}>
             <Comp>{map(structureItem, (item) => renderComp(item))}</Comp>
           </EnhanceCompProps>
         );
       } else if (!structureItem) {
         // 叶子节点，直接渲染
         return (
-          <EnhanceCompProps {...propsObj}>
+          <EnhanceCompProps {...enhanceProps}>
             <Comp />
           </EnhanceCompProps>
         );
@@ -158,7 +159,7 @@ const ConfigPageRender = (props: IProps) => {
           }
         });
         return (
-          <EnhanceCompProps {...propsObj}>
+          <EnhanceCompProps {...enhanceProps}>
             <Comp {...p} />
           </EnhanceCompProps>
         );
@@ -188,7 +189,7 @@ const getContainerMap = (container: Obj<CONFIG_PAGE.BaseSpec>) => {
 const EnhanceCompProps = (
   props: Merge<CONFIG_PAGE.BaseSpec, { children: React.ReactElement; options: CONFIG_PAGE.CompOptions }>,
 ) => {
-  const { children, props: configProps, data: pData, options, ...rest } = props;
+  const { children, props: configProps, data: pData, Wrapper, options, ...rest } = props;
   const [comProps, setCompProps] = React.useState(configProps);
   const [data, setData] = React.useState(pData);
 
@@ -210,5 +211,8 @@ const EnhanceCompProps = (
   }, [pData, ignoreData]);
 
   if (options?.visible === false) return null;
+  if (Wrapper) {
+    return <Wrapper>{React.cloneElement(children, { props: comProps, data, ...rest })}</Wrapper>;
+  }
   return React.cloneElement(children, { props: comProps, data, ...rest });
 };

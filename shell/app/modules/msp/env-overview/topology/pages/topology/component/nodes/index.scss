@@ -1,0 +1,60 @@
+.service-node {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: 6px solid rgba(121, 140, 241, 0.2);
+  position: relative;
+
+  .unit {
+    transform: scale(0.9);
+    transform-origin: center;
+  }
+
+  .service-name {
+    left: -27px;
+    bottom: -40px;
+  }
+
+  &:hover {
+    .service-name {
+      background-color: #5c6bcc;
+    }
+  }
+
+  &.error {
+    border-color: rgba(216, 75, 101, 0.2);
+
+    &:hover {
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: -9px;
+        left: -9px;
+        width: 82px;
+        height: 82px;
+        border-radius: 50%;
+        border: 1px dotted #d84b65;
+      }
+    }
+  }
+}
+
+.api-gateway-node {
+  .count {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-image: linear-gradient(180deg, rgba($white, 0.8) 0%, rgba($white, 0.6) 100%);
+  }
+}
+
+.external-service-node {
+  width: 69px;
+  height: 60px;
+
+  .unit {
+    transform: scale(0.9);
+    transform-origin: center;
+  }
+}

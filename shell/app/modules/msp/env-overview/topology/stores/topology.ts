@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'core/cube';
-import { getMonitorTopology, getTopologyTags, getTagsOptions } from '../services/topology';
+import { getMonitorTopology, getTagsOptions, getTopologyTags } from '../services/topology';
 import { getCustomDashboardDetail } from 'cmp/services/custom-dashboard';
 
 interface IState {

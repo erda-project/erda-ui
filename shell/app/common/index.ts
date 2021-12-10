@@ -89,6 +89,7 @@ export { default as ContractiveFilter } from './components/contractive-filter';
 export { default as TiledFilter } from './components/tiled-filter';
 export { default as CustomFilter } from './components/custom-filter';
 export { default as TagsRow } from './components/tags-row';
+export { default as Tags } from './components/tags';
 export { default as BoardGrid } from './components/board-grid';
 export { default as LoadingSkeleton } from './components/loading-skeleton';
 export { default as BackToTop } from './components/back-to-top';

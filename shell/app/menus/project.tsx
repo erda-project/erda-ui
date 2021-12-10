@@ -40,7 +40,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
           prefix: `${goTo.resolve.projectIssueRoot()}/`,
         },
         {
-          href: goTo.resolve.projectMeasureDashboard(),
+          href: goTo.resolve.projectMeasureTask(),
           text: i18n.t('dop:efficiency measure'),
           show: projectPerm.dashboard.viewDashboard.pass,
           prefix: goTo.resolve.projectMeasure(),
@@ -106,7 +106,6 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
         {
           href: goTo.resolve.projectResource(),
           text: i18n.t('Resource summary'),
-          icon: <ErdaIcon type="data-all" />,
           subtitle: i18n.t('Resource'),
           show: projectPerm.resource.viewResource.pass,
         },

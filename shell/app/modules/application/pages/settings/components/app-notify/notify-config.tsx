@@ -26,8 +26,10 @@ import notifyGroupStore from '../../../../stores/notify-group';
 import appNotifyStore from '../../../../stores/notify';
 import {
   notifyChannelOptionsMap,
+  getFinalNotifyChannelOptions,
   ListTargets,
 } from 'application/pages/settings/components/app-notify/common-notify-group';
+import { getNotifyChannelMethods } from 'application/services/notify';
 import './index.scss';
 
 const { confirm } = Modal;
@@ -61,18 +63,24 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
   const userMap = useUserMap();
   const { getNotifyGroups } = notifyGroupStore.effects;
   const { clearNotifyGroups } = notifyGroupStore.reducers;
-
+  const channelMethods = getNotifyChannelMethods.useData() as Obj<string>;
   const [modalVisible, openModal, closeModal] = useSwitch(false);
   const [activedData, setActivedData] = useState({});
   const [activedGroupId, setActivedGroupId] = useState('');
   const isEditing = !isEmpty(activedData);
+  const [allChannelMethods, setAllChannelMethods] = useState(notifyChannelOptionsMap);
 
   useMount(() => {
     getRoleMap({ scopeType: commonPayload.scopeType, scopeId: commonPayload.scopeId });
     handleGetNotifyConfigs();
     getNotifyItems(pick(commonPayload, ['scopeType', 'module']));
     getNotifyGroups(pick(commonPayload, ['scopeType', 'scopeId']));
+    getNotifyChannelMethods.fetch();
   });
+
+  React.useEffect(() => {
+    setAllChannelMethods(getFinalNotifyChannelOptions(channelMethods, false));
+  }, [channelMethods]);
 
   useUnmount(() => {
     clearNotifyGroups();
@@ -192,7 +200,6 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
 
   if (activedGroupId) {
     const activedGroup = find(notifyGroups, ({ id }) => id === +activedGroupId);
-
     fieldsList = [
       ...fieldsList,
       {
@@ -200,7 +207,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
         label: i18n.t('notification method'),
         required: true,
         type: 'select',
-        options: (activedGroup && notifyChannelOptionsMap[activedGroup.targets[0].type]) || [],
+        options: (activedGroup && allChannelMethods[activedGroup.targets[0].type]) || [],
         itemProps: {
           mode: 'multiple',
         },

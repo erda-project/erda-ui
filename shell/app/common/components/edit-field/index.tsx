@@ -79,7 +79,7 @@ const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement
             : 'hidden'
         }`}
       >
-        <img style={{ cursor: 'zoom-out' }} src={src} alt={alt || 'preview-image'} {...rest} />
+        <img style={{ cursor: 'zoom-out', margin: 'auto' }} src={src} alt={alt || 'preview-image'} {...rest} />
       </span>
     </span>
   );

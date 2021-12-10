@@ -18,7 +18,7 @@ import { Card } from './kanban-card/card';
 import { Input, Button, Popconfirm, Tooltip, Avatar } from 'antd';
 import { EmptyHolder, Badge, ErdaIcon } from 'common';
 import { getAvatarChars } from 'app/common/utils';
-import { notify } from 'common/utils';
+import { notify, ossImg } from 'common/utils';
 import { WithAuth } from 'user/common';
 import { useUserMap } from 'core/stores/userMap';
 import projectLabelStore from 'project/stores/label';
@@ -44,6 +44,20 @@ interface IData {
   operations: Obj;
 }
 
+interface CardData {
+  assignee: string;
+  id: number;
+  planFinishedAt: string;
+  iterationID: number;
+  priority: string;
+  status: {
+    status: string;
+    value: string;
+  };
+  title: string;
+  type: string;
+}
+
 export interface IProps extends CONFIG_PAGE.ICommonProps {
   data: { board: IData[]; refreshBoard?: boolean };
   props: {
@@ -56,6 +70,7 @@ const ScrollingComponent = createScrollingComponent('div');
 const IssueKanban = (props: IProps) => {
   const { state, data, props: configProps, operations, execOperation = noop, updateState = noop } = props || {};
   const [isDrag, setIsDrag] = React.useState(false);
+  const [currentCard, setCurrentCard] = React.useState(null);
   const { visible = true, isLoadMore = false } = configProps || {};
   const [board, setBoard] = React.useState(data?.board || []);
   const [{ showAdd, addValue }, updater, update] = useUpdate({
@@ -105,6 +120,8 @@ const IssueKanban = (props: IProps) => {
             isLoadMore={isLoadMore}
             setIsDrag={setIsDrag}
             isDrag={isDrag}
+            setCurrentCard={setCurrentCard}
+            currentCard={currentCard}
           />
         ) : null;
       })}
@@ -133,11 +150,7 @@ const IssueKanban = (props: IProps) => {
               <ErdaIcon type="plus" className="cursor-pointer add-icon not-allowed" />
             </Tooltip>
           ) : (
-            <ErdaIcon
-              type="plus"
-              className="cursor-pointer add-icon"
-              onClick={() => updater.showAdd(true)}
-            />
+            <ErdaIcon type="plus" className="cursor-pointer add-icon" onClick={() => updater.showAdd(true)} />
           )}
         </div>
       ) : null}
@@ -152,19 +165,32 @@ interface IKanbanProps extends CONFIG_PAGE.ICommonProps {
   setBoard: Function;
   isDrag: boolean;
   setIsDrag: (isDrag: boolean) => void;
+  currentCard: CardData | null;
+  setCurrentCard: (value: CardData | null) => void;
   exitLabel: string[];
   refreshBoard?: boolean;
 }
 
 const Kanban = (props: IKanbanProps) => {
-  const { data, exitLabel, execOperation, isLoadMore, refreshBoard, setBoard, setIsDrag, isDrag, ...rest } = props;
+  const {
+    data,
+    exitLabel,
+    execOperation,
+    isLoadMore,
+    refreshBoard,
+    setBoard,
+    setIsDrag,
+    isDrag,
+    setCurrentCard,
+    currentCard,
+    ...rest
+  } = props;
   const { label, labelKey, list: propsList, total, pageSize, pageNo, operations: boardOp } = data;
   const otherLabel = without(exitLabel, label);
   const userMap = useUserMap();
   const labelList = projectLabelStore.useStore((s) => s.list);
   const [list, setList] = React.useState(propsList || []);
   const [labelVal, setLabelVal] = React.useState(label);
-
   const [showShadow, setShowShadow] = React.useState(false);
   const cardType = 'kanban-info-card';
 
@@ -185,8 +211,10 @@ const Kanban = (props: IKanbanProps) => {
       // same state, do nothing
       const { drag } = item.data.operations;
       if (!drag.targetKeys[labelKey]) {
+        setCurrentCard(null);
         return;
       }
+      setCurrentCard(item.data);
       const dragColKey = item.data._infoData.labelKey;
       const dropColKey = labelKey;
       const newTargetKeys = { ...drag.targetKeys };
@@ -250,12 +278,13 @@ const Kanban = (props: IKanbanProps) => {
         operations,
         extraInfo: (
           <div className="issue-kanban-info mt-1 flex flex-col text-desc">
-            {labels?.value?.length > 0 && <Tags labels={labels.value} size="small" showCount={labels?.showCount} />}
+            {labels?.value?.length > 0 && (
+              <Tags labels={labels.value} size="small" maxShowCount={labels?.maxShowCount} />
+            )}
             <div className="flex justify-between items-center mt-1">
               <div className="flex justify-between items-center">
                 <span className="flex items-center mr-2">
                   <IssueIcon type={type} size="16px" />
-                  <span className="ml-1">#{id}</span>
                 </span>
                 {status && Object.keys(status).length > 0 && (
                   <Badge status={status.status} text={status.text} showDot={false} className="mr-2" />
@@ -271,7 +300,9 @@ const Kanban = (props: IKanbanProps) => {
               </div>
               {Object.keys(assigneeObj).length > 0 ? (
                 <span>
-                  <Avatar size={24}>{getAvatarChars(assigneeObj.nick || assigneeObj.name)}</Avatar>
+                  <Avatar src={assigneeObj.avatar ? ossImg(assigneeObj.avatar, { w: 24 }) : undefined} size={24}>
+                    {getAvatarChars(assigneeObj.nick || assigneeObj.name)}
+                  </Avatar>
                 </span>
               ) : (
                 <ErdaIcon size={24} type="morentouxiang" />
@@ -379,12 +410,17 @@ const Kanban = (props: IKanbanProps) => {
             <Card
               key={item.id}
               execOperation={execOperation}
-              props={{ cardType, className: `${isDrag ? 'hidden' : ''} list-item`, data: changeData(item), setIsDrag }}
+              props={{
+                cardType,
+                className: `${isDrag ? 'hidden' : ''} list-item ${currentCard?.id === item.id ? 'dragged-card' : ''}`,
+                data: changeData(item),
+                setIsDrag,
+              }}
               customOp={rest.customOp}
             />
           );
         })}
-        {hasMore ? (
+        {hasMore && !isDrag ? (
           <div className="hover-active py-1 text-center load-more" onClick={() => loadMore()}>
             {i18n.t('load more')}
           </div>

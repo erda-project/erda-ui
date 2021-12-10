@@ -12,6 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace TOPOLOGY {
+  type INodeType =
+    | 'Service'
+    | 'Mysql'
+    | 'Redis'
+    | 'RocketMQ'
+    | 'ExternalService'
+    | 'InternalService'
+    | 'Dubbo'
+    | 'SideCar'
+    | 'ApiGateway'
+    | 'RegisterCenter'
+    | 'ConfigCenter'
+    | 'NoticeCenter'
+    | 'Elasticsearch';
+
   interface ITopologyQuery {
     startTime: number;
     endTime: number;
@@ -37,6 +52,21 @@ declare namespace TOPOLOGY {
     parents: IParent[];
   }
 
+  interface TopoNode {
+    label: string;
+    isRoot: boolean;
+    isParent: boolean;
+    isLeaf: boolean;
+    childrenCount: number;
+    parentCount: number;
+    metaData: Omit<INode, 'parents'>;
+  }
+
+  interface TopoEdge {
+    source: Omit<INode, 'parents'>;
+    target: Omit<INode, 'parents'>;
+  }
+
   interface INode {
     applicationId: string;
     applicationName: string;
@@ -44,6 +74,7 @@ declare namespace TOPOLOGY {
     id: string;
     dashboardId: string;
     metric: {
+      rps: number;
       rt: number;
       count: number;
       http_error: number;
@@ -52,13 +83,14 @@ declare namespace TOPOLOGY {
       stopped: number;
     };
     name: string;
-    parents: IParent[];
+    parents: INode[];
     runtimeId: string;
     runtimeName: string;
     serviceMesh: string;
     serviceName: string;
     serviceId: string;
-    type: string;
+    typeDisplay: string;
+    type: INodeType;
   }
 
   interface ITopologyResp {
@@ -150,6 +182,7 @@ declare namespace TOPOLOGY {
     maxEjectionPercent: string; // 最大隔离比例
     enable: boolean; // 是否停用
   }
+
   interface ICircuitBreakerHttp extends ICircuitBreakerBase {
     maxPendingRequests: string; // 最大等待请求数
   }
@@ -193,6 +226,7 @@ declare namespace TOPOLOGY {
     env: string; // 环境
     tenantGroup: string; // 租户组
   }
+
   interface IServiceMeshQuery extends IQuery {
     runtimeId: string;
     runtimeName: string;

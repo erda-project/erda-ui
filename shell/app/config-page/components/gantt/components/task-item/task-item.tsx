@@ -32,6 +32,7 @@ export type TaskItemProps = {
   isSelected: boolean;
   rtl: boolean;
   ganttEvent: Obj;
+  isMoving: boolean;
   BarContentRender?: React.ReactNode;
   onEventStart: (
     action: GanttContentMoveAction,
@@ -41,7 +42,18 @@ export type TaskItemProps = {
 };
 
 export const TaskItem: React.FC<TaskItemProps> = (props) => {
-  const { task, arrowIndent, isDelete, taskHeight, isSelected, rtl, onEventStart, BarContentRender, ganttEvent } = {
+  const {
+    task,
+    arrowIndent,
+    isDelete,
+    taskHeight,
+    isSelected,
+    rtl,
+    onEventStart,
+    BarContentRender,
+    ganttEvent,
+    isMoving,
+  } = {
     ...props,
   };
   const textRef = useRef<SVGTextElement>(null);
@@ -58,8 +70,9 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
   });
 
   const { changedTask } = ganttEvent || {};
+
   useUpdateEffect(() => {
-    if (!changedTask) {
+    if (!(isSelected && isMoving)) {
       setCurPos({
         x2: task.x2,
         x1: task.x1,
@@ -69,7 +82,7 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
         end: task.end,
       });
     }
-  }, [changedTask, task]);
+  }, [isSelected, task, isSelected, isMoving]);
 
   useEffect(() => {
     switch (task.typeInternal) {
@@ -117,7 +130,7 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
               // y={curPos.y - 2}
               transform={`translate(${curPos.x1 - 4},${curPos.y - 2})`}
               width={curPos.x2 - curPos.x1 + 8}
-              height={curPos.height + 2}
+              height={curPos.height + 4}
             >
               <div
                 className={`text-sm text-desc erda-gantt-task-preview-box bg-white bg-opacity-100 w-full h-full ${
@@ -131,12 +144,6 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
         ) : null}
         <g
           onKeyDown={(e) => {
-            switch (e.key) {
-              case 'Delete': {
-                if (isDelete) onEventStart('delete', task, e);
-                break;
-              }
-            }
             e.stopPropagation();
           }}
           onMouseEnter={(e) => {
@@ -163,10 +170,10 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
                 onEventStart('select', task);
               }}
               // style={{ transform: `translate(${task.x1 + 4},${task.y})` }}
-              transform={`translate(${task.x1 + 4},${task.y})`}
+              // transform={`translate(${task.x1 + 4},${task.y})`}
               // style={{ willChange: 'transform' }}
-              // x={task.x1 + 4}
-              // y={task.y}
+              x={task.x1 + 4}
+              y={task.y}
               width={task.x2 - task.x1 - 8}
               height={task.height}
             >

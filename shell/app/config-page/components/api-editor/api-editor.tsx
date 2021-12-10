@@ -345,7 +345,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
     );
     apiExecuteButton = (
       <Dropdown overlay={dropdownMenu}>
-        <Button {...rest} className="flex ml-3">
+        <Button {...rest} className="inline-flex items-center ml-3">
           {text}
           <ErdaIcon type="caret-down" className="ml-1" />
         </Button>

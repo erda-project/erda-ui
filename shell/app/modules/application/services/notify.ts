@@ -12,6 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { apiCreator } from 'core/service';
+
+const apis = {
+  getNotifyChannelMethods: {
+    api: 'get@/api/notify-channel/channels/enabled',
+  },
+};
 
 export const getNotifyConfigs = (query: COMMON_NOTIFY.IGetNotifyGroupQuery): IPagingResp<APP_NOTIFY.INotify> => {
   return agent
@@ -48,3 +55,5 @@ export const getNotifyItems = (query?: { scopeType: string; module: string }): I
     .query(query)
     .then((response: any) => response.body);
 };
+
+export const getNotifyChannelMethods = apiCreator<() => Obj<string>>(apis.getNotifyChannelMethods);

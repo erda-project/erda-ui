@@ -675,6 +675,7 @@ const ContractiveFilter = ({
   onQuickOperation = noop,
   onConditionsChange = noop,
   fullWidth = false,
+  className,
 }: ContractiveFilterProps) => {
   const [conditions, setConditions] = React.useState(
     getInitConditions(propsConditions || [], values || initValue || {}),
@@ -813,7 +814,7 @@ const ContractiveFilter = ({
   );
 
   return (
-    <div className="contractive-filter-bar">
+    <div className={`contractive-filter-bar ${className || ''}`}>
       {[...mainList, ...inputList, ...showList].map((item) => (
         <span
           className={`contractive-filter-item-wrap ${fullWidth ? 'w-full' : ''}`}

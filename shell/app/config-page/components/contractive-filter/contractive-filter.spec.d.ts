@@ -28,6 +28,7 @@ declare namespace CP_FILTER {
     delay?: number;
     visible?: boolean;
     fullWidth?: boolean;
+    className?: string;
   }
 
   interface Condition {

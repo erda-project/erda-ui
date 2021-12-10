@@ -16,7 +16,6 @@ declare namespace CP_PIE_CHART {
     type: 'PieChart';
     props: IProps;
     data: IData;
-    cId: string;
   }
 
   interface IData {
@@ -42,7 +41,7 @@ declare namespace CP_PIE_CHART {
 
   interface IProps {
     option: Obj;
-    style: Obj;
+    style?: Obj;
     chartStyle?: Obj;
     direction?: 'col' | 'row';
     size?: 'small' | 'normal' | 'big';
