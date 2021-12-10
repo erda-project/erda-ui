@@ -83,24 +83,30 @@ const calculateLayout = (list: Elements): [Elements, { width: number; height: nu
 const TopologyComp = ({ data }: IProps) => {
   const topologyData = React.useRef(genEle(data.nodes));
   const layoutData = React.useRef<Elements>([]);
+  const wrapperRaf = React.useRef<HTMLDivElement>();
   const { node, edge } = topologyData.current;
   const initElement: Elements = [...node, ...edge];
   const [elements, setElements] = React.useState<Elements>(initElement);
   const { zoomIn, zoomOut } = useZoomPanHelper();
   const onElementsRemove = (elementsToRemove: Elements) => setElements((els) => removeElements(elementsToRemove, els));
 
+  const setFlowConfig = (list: Elements) => {
+    const [ele, wrapperSize] = calculateLayout(list);
+    if (wrapperRaf.current) {
+      wrapperRaf.current.style.height = `${wrapperSize.height + 200}px`;
+    }
+    layoutData.current = ele;
+    setElements(layoutData.current);
+  };
+
   useUpdateEffect(() => {
     const temp = genEle(data.nodes);
     topologyData.current = temp;
-    const [ele] = calculateLayout([...temp.node, ...temp.edge]);
-    layoutData.current = ele;
-    setElements(layoutData.current);
+    setFlowConfig([...temp.node, ...temp.edge]);
   }, [data.nodes]);
 
   const layout = () => {
-    const [ele] = calculateLayout(elements);
-    layoutData.current = ele;
-    setElements(layoutData.current);
+    setFlowConfig(elements);
   };
 
   const nodeTypes = customerNode((currentNode, flag) => {
@@ -134,39 +140,42 @@ const TopologyComp = ({ data }: IProps) => {
   });
 
   return (
-    <ReactFlow
-      className="relative"
-      elements={elements}
-      nodeTypes={nodeTypes}
-      onElementsRemove={onElementsRemove}
-      edgeTypes={{
-        float: FloatingEdge,
-      }}
-      connectionLineComponent={FloatingConnectionLine}
-      nodeExtent={nodeExtent}
-      minZoom={0.2}
-      maxZoom={2}
-      onLoad={layout}
-    >
-      <div className="zoom-buttons absolute bottom-4 right-4 h-8 w-20 flex z-10">
-        <div
-          className="cursor-pointer w-9 flex justify-center items-center mr-0.5"
-          onClick={() => {
-            zoomOut();
-          }}
-        >
-          <ErdaIcon type="minus" size={12} />
+    <div className="min-h-full" ref={wrapperRaf}>
+      <ReactFlow
+        elements={elements}
+        nodeTypes={nodeTypes}
+        onElementsRemove={onElementsRemove}
+        edgeTypes={{
+          float: FloatingEdge,
+        }}
+        preventScrolling={false}
+        zoomOnScroll={false}
+        connectionLineComponent={FloatingConnectionLine}
+        nodeExtent={nodeExtent}
+        minZoom={0.2}
+        maxZoom={2}
+        onLoad={layout}
+      >
+        <div className="zoom-buttons fixed bottom-6 right-4 h-8 w-20 flex z-10">
+          <div
+            className="cursor-pointer w-9 flex justify-center items-center mr-0.5"
+            onClick={() => {
+              zoomOut();
+            }}
+          >
+            <ErdaIcon type="minus" size={12} />
+          </div>
+          <div
+            className="cursor-pointer w-9 flex justify-center items-center"
+            onClick={() => {
+              zoomIn();
+            }}
+          >
+            <ErdaIcon type="plus" size={12} />
+          </div>
         </div>
-        <div
-          className="cursor-pointer w-9 flex justify-center items-center"
-          onClick={() => {
-            zoomIn();
-          }}
-        >
-          <ErdaIcon type="plus" size={12} />
-        </div>
-      </div>
-    </ReactFlow>
+      </ReactFlow>
+    </div>
   );
 };
 export default (props: IProps) => {

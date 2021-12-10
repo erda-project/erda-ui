@@ -124,7 +124,9 @@ const Topology = () => {
             />
             <TimeSelectWithStore className="ml-3" />
           </div>
-          <div className="flex-1">{topologyData.nodes?.length ? <TopologyComp data={topologyData} /> : null}</div>
+          <div className="flex-1 topology-container overflow-auto relative">
+            {topologyData.nodes?.length ? <TopologyComp data={topologyData} /> : null}
+          </div>
         </div>
       </Spin>
     </div>
