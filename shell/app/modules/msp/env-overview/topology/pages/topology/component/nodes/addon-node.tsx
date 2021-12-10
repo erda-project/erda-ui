@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import CommonNode from './common-node';
+import CommonNode, { IProps } from './common-node';
 import Hexagon from '../progress/hexagon';
 import ErdaIcon from 'common/components/erda-icon';
 import { NodeProps } from 'react-flow-renderer';
@@ -25,7 +25,7 @@ const iconMap = {
   redis: 'redis',
   default: 'morenzhongjianjian',
 };
-const AddonNode: React.FC<NodeProps<TOPOLOGY.TopoNode>> = (props) => {
+const AddonNode: React.FC<NodeProps<TOPOLOGY.TopoNode> & { onMouseMoving: IProps['onMouseMoving'] }> = (props) => {
   return (
     <CommonNode {...props}>
       {(data: TOPOLOGY.TopoNode['metaData']) => {
