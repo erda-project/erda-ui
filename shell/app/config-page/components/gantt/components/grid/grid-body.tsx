@@ -13,7 +13,7 @@
 
 import React, { ReactChild } from 'react';
 import { Task } from '../../types/public-types';
-import { max, min, findIndex } from 'lodash';
+import { max, min, findIndex, debounce } from 'lodash';
 import moment from 'moment';
 import './grid.scss';
 import { ErdaIcon } from 'common';
@@ -65,6 +65,13 @@ export const GridBody: React.FC<GridBodyProps> = ({
     dates[1].getTimezoneOffset() * 60 * 1000 +
     dates[0].getTimezoneOffset() * 60 * 1000;
 
+  const debounceSetHoverTime = React.useCallback(
+    debounce((_mousePos) => {
+      setHoverTime(_mousePos);
+    }, 400),
+    [],
+  );
+
   const [startPos, setStartPos] = React.useState<null | number[]>(null);
   const [endPos, setEndPos] = React.useState<null | number[]>(null);
   const [chosenTask, setChosenTask] = React.useState<Obj | null>(null);
@@ -79,11 +86,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
   }, [startPos, endPos]);
 
   React.useEffect(() => {
-    if (mousePos) {
-      setHoverTime(mousePos);
-    } else {
-      setHoverTime(null);
-    }
+    debounceSetHoverTime(mousePos);
   }, [mousePos]);
 
   const onMouseDown = (e: React.MouseEvent) => {
@@ -251,6 +254,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
           </div>
         </foreignObject>
       ) : null}
+
       <g className="rows">{gridRows}</g>
       {addRangePos ? (
         <g>

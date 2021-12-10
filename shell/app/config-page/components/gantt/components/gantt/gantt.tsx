@@ -86,6 +86,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   // const [svgContainerHeight, setSvgContainerHeight] = useState(ganttHeight);
   const [rangeAddTime, setRangeAddTime] = useState<null | { x1: number; x2: number }>(null);
   const [hoverTime, setHoverTime] = useState<null | Date>(null);
+
   const [barTasks, setBarTasks] = useState<BarTask[]>([]);
   const [ganttEvent, setGanttEvent] = useState<GanttEvent>({
     action: '',
