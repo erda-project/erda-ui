@@ -204,7 +204,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
       ) : null;
 
     const onChangeScrollX = (direction: number) => {
-      const moveLen = Math.floor(displayWidth / columnWidth) - 5; // less then display count;
+      const moveLen = Math.floor(displayWidth / columnWidth) - 4; // less then display count;
       const moveX = moveLen > 0 ? moveLen * columnWidth : columnWidth;
       if (direction === -1) {
         setScrollX((prevX) => (moveX >= prevX ? -1 : prevX - moveX));
@@ -224,7 +224,6 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
         dates.push(addToDate(lastDayInLastWeek, 1, 'day'));
       }
       const firstDay = dates[0];
-      console.log('------', dates);
 
       const firstDayInWeek = firstDay.getDay();
       // use Monday as first day of week
@@ -245,11 +244,10 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
       }
 
       const offsetX = (firstDayInWeek ? firstDayInWeek - 1 : 6) * columnWidth;
-      console.log('------', offsetX, firstDayInWeek);
       bottomValues = (
         <div
           className="flex h-full w-full erda-gantt-calendar-header-container"
-          style={{ transform: `translate(${-offsetX}px)` }}
+          style={{ transform: `translateX(${-offsetX}px)` }}
         >
           {<HoverBar style={{ transform: `translateX(${offsetX}px)` }} />}
           {<HoverTime style={{ transform: `translateX(${offsetX}px)` }} />}

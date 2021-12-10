@@ -27,6 +27,7 @@ import { max } from 'lodash';
 import i18n from 'i18n';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
 import './index.scss';
+import { useMount } from 'configForm/form/utils';
 
 interface IBarProps {
   task: CP_GANTT.IGanttData;
@@ -36,8 +37,12 @@ const BarContentRender = (props: IBarProps) => {
   const { task, isHover } = props;
   const barRef = React.useRef<HTMLDivElement>(null);
   const nameRef = React.useRef<HTMLDivElement>(null);
-  const barWidth = barRef.current?.offsetWidth || 1;
-  const nameWidth = nameRef.current?.offsetWidth || 1;
+  const [key, setKey] = React.useState(1);
+  useMount(() => {
+    setKey(key + 1);
+  });
+  const barWidth = barRef.current?.offsetWidth || 40;
+  const nameWidth = nameRef.current?.offsetWidth || 40;
   const linearPercent = ((barWidth - 8) / nameWidth) * 100;
   return (
     <div className={'relative h-full'} ref={barRef}>

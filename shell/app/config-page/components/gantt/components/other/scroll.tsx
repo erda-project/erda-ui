@@ -73,7 +73,7 @@ export const HorizontalScroll = React.forwardRef(({ scroll, width, offset, rtl, 
       onScroll={onScroll}
       ref={scrollRef}
     >
-      <div style={{ width, height: 17 }} />
+      <div style={{ width, height: 8 }} />
     </div>
   );
 });

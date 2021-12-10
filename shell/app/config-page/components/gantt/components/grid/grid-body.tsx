@@ -147,7 +147,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
         PointIcon = (
           <div
             className="text-default-2 hover:text-default-4 erda-gantt-grid-arrow-box flex items-center"
-            style={{ marginLeft: displayWidth - 20 - 100 }}
+            style={{ marginLeft: displayWidth - 20 - 80 }}
           >
             <div className="erda-gantt-grid-arrow text-default-6">
               {moment(task.start).format('MM-DD')} ~ {moment(task.end).format('MM-DD')}
