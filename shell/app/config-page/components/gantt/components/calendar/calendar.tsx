@@ -271,7 +271,9 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
                   top: 28,
                   left: columnWidth * idx,
                 }}
-                className={`absolute flex flex-col items-center text-xs justify-center ${cls}`}
+                className={`absolute flex flex-col items-center text-xs justify-center ${cls} ${
+                  isToday ? 'text-red' : ''
+                }`}
               >
                 <span>{Days[day.getDay()]}</span>
                 <span>{day.getDate()}</span>
@@ -285,7 +287,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
                     style={{ left: (columnWidth - 14) / 2, bottom: -12 }}
                     className="absolute erda-gantt-calendar-today flex justify-center"
                   >
-                    <div>今</div>
+                    <div>{i18n.t('dop:Today')}</div>
                   </div>
                 ) : null}
               </div>
