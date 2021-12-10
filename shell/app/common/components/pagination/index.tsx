@@ -77,14 +77,14 @@ const Pagination = (pagination: IPaginationProps) => {
       <div className="erda-pagination-total mr-2">{i18n.t('total {total} items', { total })}</div>
       <div className="erda-pagination-content inline-flex">
         <div
-          className={`bg-hover p-2 leading-none ${current === 1 ? 'disabled' : ''}`}
+          className={`bg-hover p-2 leading-none ${current === 1 ? 'disabled' : 'cursor-pointer'}`}
           onClick={() => current > 1 && onChange?.(current - 1)}
         >
           <ErdaIcon type="left" size={18} color="currentColor" />
         </div>
         {paginationCenterRender}
         <div
-          className={`bg-hover p-2 leading-none ${current === Math.ceil(total / pageSize) ? 'disabled' : ''}`}
+          className={`bg-hover p-2 leading-none ${current === Math.ceil(total / pageSize) ? 'disabled' : 'cursor-pointer'}`}
           onClick={() => total && current < Math.ceil(total / pageSize) && onChange?.(current + 1)}
         >
           <ErdaIcon type="right" size={18} color="currentColor" />

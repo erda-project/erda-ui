@@ -26,6 +26,7 @@ import { LinearGradient } from 'echarts/lib/util/graphic';
 import './service-list.scss';
 import routeInfoStore from 'core/stores/route';
 import mspStore from 'msp/stores/micro-service';
+import unknownIcon from 'app/images/default-project-icon.png';
 import { getAnalyzerOverview, getServices } from 'msp/services/service-list';
 import i18n from 'i18n';
 
@@ -82,7 +83,6 @@ const option = {
 };
 
 enum ERDA_ICON {
-  unknown = 'weizhi',
   java = 'java',
   golang = 'go',
   python = 'python',
@@ -218,7 +218,11 @@ const MicroServiceOverview = () => {
                   >
                     <Col span={10} className="flex items-center">
                       <div className="rounded-sm w-14 h-14 mr-2 language-wrapper">
-                        <ErdaIcon type={ERDA_ICON[language]} size="56" />
+                        {language === 'unknown' ? (
+                          <img src={unknownIcon} width={56} height={56} />
+                        ) : (
+                          <ErdaIcon type={ERDA_ICON[language]} size="56" />
+                        )}
                       </div>
                       <div>
                         <p className="mb-0.5 font-medium text-xl leading-8">{name}</p>
@@ -300,7 +304,7 @@ const MicroServiceOverview = () => {
                                   ) : null}
                                 </p>
                               </div>
-                              <div className="ml-1 mr-4 px-2 py-2 flex-1 chart-wrapper ">
+                              <div className="ml-1 px-2 py-2 flex-1 chart-wrapper ">
                                 <EChart
                                   style={{ width: '100%', height: '56px', minHeight: 0 }}
                                   option={currentOption}
