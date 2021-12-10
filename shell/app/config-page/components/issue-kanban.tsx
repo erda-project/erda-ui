@@ -293,7 +293,7 @@ const Kanban = (props: IKanbanProps) => {
                   {priority && (
                     <span className="flex items-center">
                       <IssueIcon type={priority} iconMap="PRIORITY" size="16px" />
-                      <span className="ml-1">{ISSUE_PRIORITY_MAP[priority].label}</span>
+                      <span className="ml-1 text-default">{ISSUE_PRIORITY_MAP[priority].label}</span>
                     </span>
                   )}
                 </span>

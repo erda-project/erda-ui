@@ -17,7 +17,7 @@
     text-align: center;
 
     &:hover {
-      background-color: $color-active;
+      background-color: $color-purple-deep;
       color: $white;
     }
 
@@ -25,6 +25,11 @@
       width: 20px;
       height: 20px;
       line-height: 24px;
+
+      &:hover {
+        background-color: $color-purple-deep;
+        color: $white;
+      }
     }
   }
 
