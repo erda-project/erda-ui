@@ -216,7 +216,7 @@ const MicroServiceOverview = () => {
                       listDetail(id, name);
                     }}
                   >
-                    <Col span={10} className="flex items-center">
+                    <Col span={8} className="flex items-center">
                       <div className="rounded-sm w-14 h-14 mr-2 language-wrapper">
                         {language === 'unknown' ? (
                           <img src={unknownIcon} width={56} height={56} />
@@ -231,7 +231,7 @@ const MicroServiceOverview = () => {
                         </Tag>
                       </div>
                     </Col>
-                    <Col span={14} className="flex items-center">
+                    <Col span={16} className="flex items-center">
                       <Row gutter={8} className="flex-1">
                         {map(views, ({ data, type, view }) => {
                           const timeStamp: number[] = [];
@@ -268,7 +268,7 @@ const MicroServiceOverview = () => {
                           return (
                             <Col span={8} className="flex">
                               <div className="py-2">
-                                <p className="mb-0 text-xl leading-8 font-number">
+                                <p className="mb-0 text-xl whitespace-nowrap leading-8 font-number">
                                   {type === 'RPS' ? (data === null ? '-' : `${data} reqs/s`) : null}
                                   {type === 'AvgDuration'
                                     ? data === null
