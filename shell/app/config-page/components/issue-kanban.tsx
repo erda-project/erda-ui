@@ -266,7 +266,7 @@ const Kanban = (props: IKanbanProps) => {
   });
 
   const changeData = (item: any) => {
-    const { id, title, operations, assignee, labels, type, priority, status } = item;
+    const { id, title, operations, assignee, type, priority } = item;
     const assigneeObj = userMap[assignee] || {};
     return {
       ...item,
@@ -278,17 +278,11 @@ const Kanban = (props: IKanbanProps) => {
         operations,
         extraInfo: (
           <div className="issue-kanban-info mt-1 flex flex-col text-desc">
-            {labels?.value?.length > 0 && (
-              <Tags labels={labels.value} size="small" maxShowCount={labels?.maxShowCount} />
-            )}
             <div className="flex justify-between items-center mt-1">
               <div className="flex justify-between items-center">
                 <span className="flex items-center mr-2">
                   <IssueIcon type={type} size="16px" />
                 </span>
-                {status && Object.keys(status).length > 0 && (
-                  <Badge status={status.status} text={status.text} showDot={false} className="mr-2" />
-                )}
                 <span className="w-20 mr-1">
                   {priority && (
                     <span className="flex items-center">
