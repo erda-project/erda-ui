@@ -22,7 +22,8 @@
 
     .dice-config-table-member-selector {
       .results {
-        padding: 4px 0;
+        padding: 0;
+        min-height: 30px;
         border: 0;
 
         &:hover {
