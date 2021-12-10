@@ -79,6 +79,13 @@ const org = createStore({
         }
       });
     });
+
+    const orgId = org.getState((s) => s.currentOrg.id);
+    if (orgId) {
+      announcementStore.effects.getAllNoticeListByStatus('published').then((list) => {
+        layoutStore.reducers.setAnnouncementList(list);
+      });
+    }
   },
   effects: {
     async updateOrg({ call, update }, payload: Merge<Partial<ORG.IOrg>, { id: number }>) {
