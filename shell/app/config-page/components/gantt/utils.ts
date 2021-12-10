@@ -36,7 +36,7 @@ export const convertDataForGantt = (
     };
   };
 
-  const prevDataGroup = { ...groupBy(prevList, 'pId'), ...expandList };
+  const prevDataGroup = { ...groupBy(ganttData, 'pId'), ...expandList };
 
   const convert = (dataTemp: CP_GANTT.IData[], level = 0, pId?: string) => {
     dataTemp.forEach((item) => {
