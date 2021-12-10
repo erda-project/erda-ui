@@ -24,9 +24,6 @@ interface IProps {
   type?: AlertProps['type'];
 }
 
-// TODO: clear old storage data, remove this after 21-12-10
-localStorage.removeItem('erda-bp-list');
-
 const ErdaAlert = ({ type = 'info', message, showOnceKey, className }: IProps) => {
   const alertList = JSON.parse(localStorage.getItem('erda-alert-list') || '{}');
   const [isHidden, setIsHidden] = React.useState(showOnceKey ? alertList[showOnceKey] : false);
