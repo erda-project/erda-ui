@@ -12,13 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { CSSProperties, FC, useMemo } from 'react';
-import { EdgeProps, getBezierPath, getMarkerEnd, useStoreState } from 'react-flow-renderer';
+import { EdgeProps, getBezierPath, useStoreState } from 'react-flow-renderer';
+import { edgeColor } from 'msp/env-overview/topology/pages/topology/utils';
 
 import { getEdgeParams } from './utils';
 
-const FloatingEdge: FC<EdgeProps> = ({ id, source, target, arrowHeadType, markerEndId, style }) => {
+const FloatingEdge: FC<EdgeProps<TOPOLOGY.TopoEdge>> = ({ id, source, target, style, data }) => {
   const nodes = useStoreState((state) => state.nodes);
-  const markerEnd = getMarkerEnd(arrowHeadType, markerEndId);
 
   const sourceNode = useMemo(() => nodes.find((n) => n.id === source), [source, nodes]);
   const targetNode = useMemo(() => nodes.find((n) => n.id === target), [target, nodes]);
@@ -38,9 +38,32 @@ const FloatingEdge: FC<EdgeProps> = ({ id, source, target, arrowHeadType, marker
     targetY: ty,
   });
 
+  const color =
+    data?.hoverStatus === 1 ? edgeColor.heightLight : data?.hoverStatus === -1 ? edgeColor.blurColor : edgeColor.common;
+
+  const mId = `topology-edge-end-marked-${id}`;
+
   return (
     <g className="react-flow__connection">
-      <path id={id} className="react-flow__edge-path" d={d} markerEnd={markerEnd} style={style as CSSProperties} />
+      <defs>
+        <marker id={mId} markerWidth="12.5" markerHeight="12.5" viewBox="-10 -10 20 20" orient="auto" refX="0" refY="0">
+          <polyline
+            stroke={color}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
+            fill={color}
+            points="-5,-4 0,0 -5,4 -5,-4"
+          />
+        </marker>
+      </defs>
+      <path
+        id={id}
+        className="react-flow__edge-path"
+        d={d}
+        markerEnd={`url(#${mId})`}
+        style={{ ...style, stroke: color } as CSSProperties}
+      />
     </g>
   );
 };

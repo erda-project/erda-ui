@@ -34,6 +34,7 @@ export const genNodes = (list: TOPOLOGY.INode[], edges: Edge[]): Node<TOPOLOGY.T
       id: rest.id,
       type: getNodeType(rest.type),
       data: {
+        hoverStatus: 0,
         isRoot: !parentCount,
         isParent: !isLeaf,
         isLeaf,
@@ -51,6 +52,12 @@ export const genNodes = (list: TOPOLOGY.INode[], edges: Edge[]): Node<TOPOLOGY.T
   return uniqBy(nodes, 'id');
 };
 
+export const edgeColor = {
+  common: '#FFFFFF52',
+  blurColor: '#FFFFFF1A',
+  heightLight: '#FFFFFFCC',
+};
+
 export const genEdges = (data: TOPOLOGY.INode[]): Edge<TOPOLOGY.TopoEdge>[] => {
   const convert = (list: TOPOLOGY.INode[], edges: Edge<TOPOLOGY.TopoEdge>[]) => {
     cloneDeep(list).forEach((item) => {
@@ -62,8 +69,10 @@ export const genEdges = (data: TOPOLOGY.INode[]): Edge<TOPOLOGY.TopoEdge>[] => {
             source: parent.id,
             target: rest.id,
             type: 'float',
+            style: { stroke: edgeColor.common },
             arrowHeadType: ArrowHeadType.ArrowClosed,
             data: {
+              hoverStatus: 0,
               source: omit(parent, 'parents'),
               target: rest,
             },

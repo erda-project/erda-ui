@@ -30,8 +30,8 @@ const getEnvOverViewRouter = (): RouteConfigItem => {
   return {
     path: ':terminusKey',
     tabs,
-    pageName: i18n.t('msp:global topology'),
-    breadcrumbName: i18n.t('msp:global topology'),
+    pageName: i18n.t('msp:service overview'),
+    breadcrumbName: i18n.t('msp:service overview'),
     alwaysShowTabKey: 'topology',
     routes: [
       {

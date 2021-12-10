@@ -16,16 +16,12 @@ import { Handle, NodeProps, Position } from 'react-flow-renderer';
 import { Popover, Tag } from 'antd';
 import i18n from 'i18n';
 import './common-node.scss';
-import { goTo } from 'common/utils';
-import { find, get, map } from 'lodash';
-import routeInfoStore from 'core/stores/route';
-import monitorCommonStore from 'common/stores/monitorCommon';
-import mspStore from 'msp/stores/micro-service';
 
-interface IProps extends NodeProps<TOPOLOGY.TopoNode> {
+export interface IProps extends NodeProps<TOPOLOGY.TopoNode> {
   showRuntime?: boolean;
   className?: string;
   children: (data: IProps['data']['metaData']) => JSX.Element;
+  onMouseMoving?: (data: TOPOLOGY.TopoNode, flag: 'in' | 'out') => void;
 }
 
 const metric = [
@@ -47,15 +43,8 @@ const metric = [
   },
 ];
 
-const CommonNode = ({ isConnectable, data, children, className, showRuntime }: IProps) => {
-  const params = routeInfoStore.useStore((s) => s.params);
-  const [range, rangeData] = monitorCommonStore.useStore((s) => [
-    s.globalTimeSelectSpan.range,
-    s.globalTimeSelectSpan.data,
-  ]);
-  const timer = React.useRef(Date.now());
-  const [currentProject, mspMenu] = mspStore.useStore((s) => [s.currentProject, s.mspMenu]);
-  const { isRoot, isLeaf, metaData } = data;
+const CommonNode = ({ isConnectable, data, children, className, showRuntime, onMouseMoving }: IProps) => {
+  const { isRoot, isLeaf, metaData, hoverStatus } = data;
   const popoverContent = (
     <div>
       {showRuntime ? (
@@ -84,63 +73,13 @@ const CommonNode = ({ isConnectable, data, children, className, showRuntime }: I
       </div>
     </div>
   );
-  const handleClick = () => {
-    if (Date.now() - timer.current > 300) {
-      return;
-    }
 
-    const { type, serviceId, applicationId, serviceName, name } = data.metaData;
-    const childrenKeyMap = {
-      registercenter: ['Services'],
-      configcenter: ['Configs'],
-    };
-    const goToParams = {
-      query: {
-        mode: rangeData.mode,
-        quick: rangeData.mode === 'quick' ? rangeData.quick : undefined,
-        start: range.startTimeMs,
-        end: range.endTimeMs,
-      },
-      jumpOut: true,
-    };
-    switch (type?.toLowerCase()) {
-      case 'service':
-        goTo(goTo.pages.mspServiceAnalyze, {
-          ...params,
-          serviceName,
-          serviceId: window.encodeURIComponent(serviceId || ''),
-          applicationId: currentProject?.type === 'MSP' ? '-' : applicationId,
-          ...goToParams,
-        });
-        break;
-      case 'apigateway':
-        goTo(goTo.pages.mspGatewayIngress, {
-          ...params,
-          ...goToParams,
-        });
-        break;
-      case 'externalservice':
-        goTo(goTo.pages.mspExternalInsight, {
-          hostName: encodeURIComponent(name),
-          ...params,
-          ...goToParams,
-        });
-        break;
-      case 'registercenter':
-      case 'configcenter':
-        const subMenuList = get(
-          find(mspMenu, ({ key }) => key.toLowerCase() === type),
-          'subMenu',
-          [],
-        );
-        let targetPath = '';
-        map(childrenKeyMap[type], (item) => {
-          if (!targetPath) {
-            targetPath = get(find(subMenuList, { key: item }), 'href', '');
-          }
-        });
-        targetPath && goTo(targetPath, goToParams);
-    }
+  const handleMouseEnter = () => {
+    onMouseMoving?.(data, 'in');
+  };
+
+  const handleMouseLeave = () => {
+    onMouseMoving?.(data, 'out');
   };
   return (
     <>
@@ -148,13 +87,12 @@ const CommonNode = ({ isConnectable, data, children, className, showRuntime }: I
         <Handle className="node-handle-start" type="target" position={Position.Left} isConnectable={isConnectable} />
       )}
       <div
-        className={className ?? ''}
-        onMouseDown={() => {
-          timer.current = Date.now();
-        }}
-        onMouseUp={handleClick}
+        className={`${hoverStatus === -1 ? 'opacity-30' : ''} ${className ?? ''}`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         <Popover
+          visible={false}
           placement="right"
           overlayClassName="topology-node-popover"
           title={
