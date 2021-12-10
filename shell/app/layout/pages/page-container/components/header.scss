@@ -1,25 +1,17 @@
 .erda-header {
-  padding: 11px 24px 0 24px;
-  background-color: #fff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0 16px 0 16px;
+  background-color: $white;
 
   &-breadcrumb {
     padding: 6px 0;
   }
 
   &-top {
-    height: 50px;
+    height: 34px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 12px 0;
-
-    &-left {
-      display: flex;
-      align-items: center;
-      max-width: calc(100% - 100px);
-      min-width: 200px;
-    }
+    max-width: calc(100% - 130px);
+    min-width: 200px;
 
     .erda-header-title-con {
       font-family: PingFangSC-Medium;
@@ -35,40 +27,30 @@
         align-items: center;
         width: 100%;
         font-size: 20px;
-
-        &-text {
-          color: rgba(9, 24, 33, 0.84);
-          font-size: 18px;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
+        color: rgba(9, 24, 33, 0.84);
       }
     }
   }
 
-  &-content {
-    margin: 0;
-
-    .tab-item-wraps {
-      .active {
-        background: transparent;
-      }
+  .tab-split-line-before {
+    &::before {
+      position: relative;
+      content: '';
+      display: inline-block;
+      width: 15px;
+      height: 12px;
+      border-left: 1px solid rgba($color-default, 0.16);
+      top: -1px;
     }
+  }
 
-    .tab-menu .tab-menu-item {
-      height: 32px;
-      line-height: 32px;
-      &.tab-split-line-before {
-        &::before {
-          position: absolute;
-          content: '';
-          width: 1px;
-          height: 12px;
-          left: -20px;
-          top: 10px;
-          background-color: $color-text-desc;
-        }
+  .tab-menu-item {
+    height: 32px;
+    line-height: 32px;
+    margin-right: 24px;
+    &.tab-split-line-before {
+      &::before {
+        top: 1px;
       }
     }
   }

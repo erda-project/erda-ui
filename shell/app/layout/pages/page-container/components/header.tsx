@@ -75,7 +75,7 @@ const BreadcrumbItem = ({
 };
 
 const Header = () => {
-  const [headerInfo, currentApp] = layoutStore.useStore((s) => [s.headerInfo, s.currentApp]);
+  const [currentApp] = layoutStore.useStore((s) => [s.currentApp]);
   const routes: IRoute[] = routeInfoStore.useStore((s) => s.routes);
   const [pageName, setPageName] = React.useState<string>();
   const infoMap = breadcrumbStore.useStore((s) => s.infoMap);
@@ -186,10 +186,8 @@ const Header = () => {
       return <Comp />;
     }
     return (
-      <div className="erda-header-title">
-        <div className="erda-header-title-text">
-          <Tooltip title={pageName}>{pageName}</Tooltip>
-        </div>
+      <div className="erda-header-title truncate">
+        <Tooltip title={pageName}>{pageName}</Tooltip>
       </div>
     );
   };
@@ -208,12 +206,7 @@ const Header = () => {
       </div>
 
       <div className={'erda-header-top'}>
-        <div className={'erda-header-top-left'}>
-          <div className="erda-header-title-con">{pageName && displayPageName()}</div>
-        </div>
-      </div>
-      <div className={'erda-header-content'}>
-        {headerInfo && <div className="header-info">{React.cloneElement(headerInfo)}</div>}
+        <div className="erda-header-title-con">{pageName && displayPageName()}</div>
         <Tab />
       </div>
     </div>
