@@ -273,7 +273,7 @@ const MicroServiceOverview = () => {
                                   {type === 'AvgDuration'
                                     ? data === null
                                       ? '-'
-                                      : `${Math.ceil(data / 1000000).toFixed(2)}ms`
+                                      : `${(data / 1000000).toFixed(2)}ms`
                                     : null}
                                   {type === 'ErrorRate' ? (data === null ? '-' : `${data}%`) : null}
                                 </p>
