@@ -149,23 +149,21 @@ const TopologyComp = ({ data }: IProps) => {
       onLoad={layout}
     >
       <div className="zoom-buttons absolute bottom-4 right-4 h-8 w-20 flex z-10">
-        <div className="cursor-pointer w-9 flex justify-center items-center mr-0.5">
-          <ErdaIcon
-            type="minus"
-            size={12}
-            onClick={() => {
-              zoomOut();
-            }}
-          />
+        <div
+          className="cursor-pointer w-9 flex justify-center items-center mr-0.5"
+          onClick={() => {
+            zoomOut();
+          }}
+        >
+          <ErdaIcon type="minus" size={12} />
         </div>
-        <div className="cursor-pointer w-9 flex justify-center items-center">
-          <ErdaIcon
-            type="plus"
-            size={12}
-            onClick={() => {
-              zoomIn();
-            }}
-          />
+        <div
+          className="cursor-pointer w-9 flex justify-center items-center"
+          onClick={() => {
+            zoomIn();
+          }}
+        >
+          <ErdaIcon type="plus" size={12} />
         </div>
       </div>
     </ReactFlow>
