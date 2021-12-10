@@ -15,54 +15,23 @@ import React from 'react';
 import { TaskItemProps } from '../task-item';
 import './project.scss';
 
-const barHeight = 4;
-export const Project: React.FC<TaskItemProps> = ({ task, isSelected }) => {
-  const barColor = isSelected ? task.styles.backgroundSelectedColor : task.styles.backgroundColor;
-  const processColor = isSelected ? task.styles.progressSelectedColor : task.styles.progressColor;
-  const projectWith = task.x2 - task.x1;
-
-  const projectLeftTriangle = [0, barHeight - 1, 0, barHeight * 2, 0 + 8, barHeight - 1].join(',');
-  const projectRightTriangle = [
-    projectWith,
-    barHeight - 1,
-    projectWith,
-    barHeight * 2,
-    projectWith - 8,
-    barHeight - 1,
-  ].join(',');
+export const Project: React.FC<TaskItemProps> = ({ task, BarContentRender }) => {
   return (
     <g tabIndex={0} className={'erda-gantt-project-wrapper'} transform={`translate(${task.x1}, ${task.y})`}>
-      <rect
-        fill={'transparent'}
-        // x={task.x1}
-        width={projectWith}
-        // y={task.y}
-        height={task.height}
-        rx={task.barCornerRadius}
-        ry={task.barCornerRadius}
-        className={'erda-gantt-project-background'}
-      />
-      <rect
-        // x={task.progressX}
-        width={task.progressWidth}
-        // y={task.y}
-        height={task.height}
-        ry={task.barCornerRadius}
-        rx={task.barCornerRadius}
-        fill={processColor}
-      />
-      <rect
-        fill={barColor}
-        // x={task.x1}
-        width={projectWith}
-        // y={task.y}
-        height={barHeight}
-        rx={task.barCornerRadius}
-        ry={task.barCornerRadius}
-        className={'erda-gantt-project-top'}
-      />
-      <polygon className={'erda-gantt-project-top'} points={projectLeftTriangle} fill={barColor} />
-      <polygon className={'erda-gantt-project-top'} points={projectRightTriangle} fill={barColor} />
+      <foreignObject className="overflow-visible" width={task.x2 - task.x1} height={task.height}>
+        <div
+          className="relative erda-gantt-project-background text-default-8"
+          style={{
+            left: 0,
+            top: 0,
+            width: task.x2 - task.x1,
+            height: task.height,
+            backgroundColor: task.styles.backgroundColor,
+          }}
+        >
+          {BarContentRender}
+        </div>
+      </foreignObject>
     </g>
   );
 };

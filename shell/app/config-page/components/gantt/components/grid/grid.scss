@@ -1,11 +1,12 @@
 .erda-gantt-grid-row {
-  fill: transparent;
-  cursor: pointer;
-  &:hover {
-    fill: $color-dark-06;
+  background-color: transparent;
+
+  &.on-hover {
+    background-color: $color-default-04;
   }
+
   &-selected {
-    fill: $color-dark-1 !important;
+    background-color: $color-default-06 !important;
   }
 
   &.on-add {
@@ -25,7 +26,39 @@
   fill: rgba($yellow, 0.1);
 }
 
+.erda-gantt-grid-hover-box {
+  .erda-gantt-grid-hover-range {
+    margin-left: 3px;
+    border-left: 2px dashed $color-default-2;
+  }
+  .erda-gantt-grid-hover-arrow {
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid $color-default-2;
+  }
+}
+
 .erda-gantt-grid-add-rect {
-  border: 2px dashed $color-dark-2;
   cursor: crosshair;
+  box-shadow: 0 2px 8px 0 $color-dark-1;
+  border-radius: $border-radius;
+  user-select: none;
+}
+
+.erda-gantt-grid-today {
+  fill: $red;
+}
+
+.erda-gantt-grid-arrow-box {
+  font-size: 12px;
+  .erda-gantt-grid-arrow {
+    visibility: hidden;
+  }
+  &:hover {
+    .erda-gantt-grid-arrow {
+      visibility: visible;
+    }
+  }
 }

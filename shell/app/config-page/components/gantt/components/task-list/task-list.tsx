@@ -61,6 +61,7 @@ export const TaskList: React.FC<TaskListProps> = ({
   onExpanderClick,
   locale,
   ganttHeight,
+  scrollX,
   taskListRef,
   TaskListHeader,
   TaskListTable,
@@ -86,7 +87,7 @@ export const TaskList: React.FC<TaskListProps> = ({
   };
 
   return (
-    <div ref={taskListRef} className="erda-gantt-task-list-box">
+    <div ref={taskListRef} className={`erda-gantt-task-list-box ${scrollX > 1 ? 'on-scroll' : ''}`}>
       <TaskListHeader {...headerProps} />
       <TaskListTable {...tableProps} />
     </div>

@@ -32,7 +32,7 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({ gridProps, calendarProps, 
   const offsetWidth = verticalGanttContainerRef?.current?.offsetWidth;
   return (
     <div className={'erda-gantt-vertical-container'} dir="ltr" ref={verticalGanttContainerRef}>
-      <Calendar {...calendarProps} width={max([calendarProps.width, offsetWidth])} />
+      <Calendar {...calendarProps} width={max([calendarProps.width, offsetWidth])} displayWidth={offsetWidth} />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={max([gridProps.svgWidth, offsetWidth])}
@@ -41,7 +41,7 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({ gridProps, calendarProps, 
         style={{ overflow: 'visible' }}
         ref={ganttSVGRef}
       >
-        <Grid {...gridProps} svgWidth={max([gridProps.svgWidth, offsetWidth])} />
+        <Grid {...gridProps} svgWidth={max([gridProps.svgWidth, offsetWidth])} displayWidth={offsetWidth} />
         <TaskGanttContent {...newBarProps} BarContentRender={BarContentRender} />
       </svg>
     </div>

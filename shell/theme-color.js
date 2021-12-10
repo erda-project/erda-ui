@@ -73,7 +73,9 @@ module.exports = {
 
   default: '#302647',
   'default-1': 'rgba(48, 38, 71, 0.1)',
-  'default-2': 'rgba(48, 38, 71, 0.8)',
+  'default-2': 'rgba(48, 38, 71, 0.2)',
+  'default-4': 'rgba(48, 38, 71, 0.4)',
+  'default-6': 'rgba(48, 38, 71, 0.6)',
   'default-8': 'rgba(48, 38, 71, 0.8)',
   'default-02': 'rgba(48, 38, 71, 0.02)',
   'default-04': ' rgba(48, 38, 71, 0.04)',

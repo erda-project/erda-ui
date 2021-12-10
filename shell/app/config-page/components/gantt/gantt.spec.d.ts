@@ -18,6 +18,7 @@ declare namespace CP_GANTT {
     data: {
       expandList: Obj<IData[]>;
       updateList: IData[];
+      refresh?: boolean;
     };
   }
 

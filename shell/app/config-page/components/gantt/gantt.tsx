@@ -102,8 +102,8 @@ const TaskTree = (props: ITaskTreeProps) => {
           <div
             style={{ height: rowHeight }}
             key={item.id}
-            className={`relative flex items-center justify-center cursor-pointer hover:bg-hover-gray-bg pr-2 hover-active erda-tree-level${level} ${
-              selectedTaskId === item.id ? 'bg-black-100' : ''
+            className={`relative flex items-center justify-center cursor-pointer hover:bg-default-04 pr-2 hover-active erda-tree-level${level} ${
+              selectedTaskId === item.id ? 'bg-default-06' : ''
             } `}
             onClick={() => {
               if (!isLeaf) {

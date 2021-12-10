@@ -163,15 +163,17 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   React.useEffect(() => {
     if (ref) {
       ref.current = {
-        reload: (extra: any) =>
+        reload: (extra: Obj) => {
+          const { inParams: reInParams, ...extraRest } = extra || {};
           queryPageConfig({
             scenario: {
               scenarioType,
               scenarioKey,
             },
-            inParams: inParamsRef.current,
-            ...extra,
-          }),
+            inParams: { ...inParamsRef.current, ...reInParams },
+            ...extraRest,
+          });
+        },
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -197,7 +199,8 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       updater.fetching(true);
       fetchingRef.current = true;
     }
-    const reqConfig = { ...(p || pageConfig), inParams: inParamsRef.current };
+    const curConfig = p || pageConfig;
+    const reqConfig = { ...curConfig, inParams: { ...inParamsRef.current, ...curConfig?.inParams } };
     ((useMockMark && _useMock) || getRenderPageLayout)(reqConfig)
       .then((res: CONFIG_PAGE.RenderConfig) => {
         if (partial) {

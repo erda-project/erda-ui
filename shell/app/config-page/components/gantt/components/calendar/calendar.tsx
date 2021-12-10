@@ -21,7 +21,10 @@ import {
   getLocaleMonth,
   getWeekNumberISO8601,
 } from '../../helpers/date-helper';
-import { min, max } from 'lodash';
+
+import { ErdaIcon } from 'common';
+import moment from 'moment';
+import { min, max, flatten } from 'lodash';
 import { DateSetup } from '../../types/date-setup';
 import i18n from 'i18n';
 import './calendar.scss';
@@ -72,7 +75,13 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
     fontFamily,
     fontSize,
     highlightRange,
+    displayWidth,
+    scrollX,
+    setScrollX,
+    svgWidth,
+    hoverTime,
   }) => {
+    const today = new Date();
     const getCalendarValuesForMonth = () => {
       const topValues: ReactChild[] = [];
       const bottomValues: ReactChild[] = [];
@@ -174,11 +183,35 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
             width: Math.abs(reHighlightRange.x2 - reHighlightRange.x1),
             height: 40,
             left: min([reHighlightRange.x1, reHighlightRange.x2]),
-            top: 24,
+            top: 26,
             ...style,
           }}
         />
       ) : null;
+
+    const HoverTime = ({ style }: { style: Obj }) =>
+      hoverTime ? (
+        <div
+          className="absolute rounded bg-hover-gray-bg"
+          style={{
+            width: columnWidth,
+            height: 40,
+            left: hoverTime[0] * columnWidth,
+            top: 26,
+            ...style,
+          }}
+        />
+      ) : null;
+
+    const onChangeScrollX = (direction: number) => {
+      const moveLen = Math.floor(displayWidth / columnWidth) - 4; // less then display count;
+      const moveX = moveLen > 0 ? moveLen * columnWidth : columnWidth;
+      if (direction === -1) {
+        setScrollX((prevX) => (moveX >= prevX ? -1 : prevX - moveX));
+      } else if (direction === 1) {
+        setScrollX((prevX) => (moveX + prevX + displayWidth >= svgWidth ? svgWidth - displayWidth : prevX + moveX));
+      }
+    };
     const getCalendarValuesForDay = () => {
       let bottomValues: React.ReactNode = null;
       const dates = dateSetup.dates.slice(...horizontalRange);
@@ -209,7 +242,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
         const lastDayInLastWeek = lastWeek[lastWeek.length - 1];
         lastWeek.push(addToDate(lastDayInLastWeek, 1, 'day'));
       }
-      let leftDis = 0;
+
       const offsetX = (firstDayInWeek ? firstDayInWeek - 1 : 6) * columnWidth;
       bottomValues = (
         <div
@@ -217,44 +250,67 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
           style={{ transform: `translateX(${-offsetX}px)` }}
         >
           {<HoverBar style={{ transform: `translateX(${offsetX}px)` }} />}
-          {dateInWeeks.map((week, idx) => {
-            const weekWidth = columnWidth * week.length;
-            leftDis += weekWidth;
+          {<HoverTime style={{ transform: `translateX(${offsetX}px)` }} />}
+          {flatten(dateInWeeks).map((day, idx) => {
+            const mark =
+              reHighlightRange?.x1 === columnWidth * idx - offsetX ||
+              reHighlightRange?.x2 === columnWidth * (idx + 1) - offsetX;
+            const cls = `${
+              mark
+                ? 'calendar-highlight-text'
+                : `${[0, 6].includes(day.getDay()) ? 'calendar-disabled-text' : 'calendar-normal-text'}`
+            }`;
+            const isStartPos = columnWidth * idx - offsetX === 0;
+            const isToday = moment(day).isSame(today, 'day');
             return (
-              <div key={`${idx}`} style={{ width: weekWidth, height: 60, top: 0 }} className="text-center text-xs">
-                <div className="text-black-300" style={{ height: 20, lineHeight: '20px' }}>
-                  {Months[week[0].getMonth()]}
-                </div>
-                <div className="flex">
-                  {week.map((day, dIdx) => {
-                    const mark =
-                      reHighlightRange?.x1 === columnWidth * dIdx + leftDis - weekWidth - offsetX ||
-                      reHighlightRange?.x2 === columnWidth * (dIdx + 1) + leftDis - weekWidth - offsetX;
-                    const cls = `${
-                      mark
-                        ? 'calendar-highlight-text'
-                        : `${[0, 6].includes(day.getDay()) ? 'calendar-disabled-text' : 'calendar-normal-text'}`
-                    }`;
-
-                    return (
-                      <div
-                        key={day.getTime()}
-                        style={{
-                          width: columnWidth,
-                          height: 40,
-                          top: 24,
-                        }}
-                        className={`flex flex-col items-center justify-center ${cls}`}
-                      >
-                        <span>{Days[day.getDay()]}</span>
-                        <span>{day.getDate()}</span>
-                      </div>
-                    );
-                  })}
-                </div>
+              <div
+                key={day.getTime()}
+                style={{
+                  width: columnWidth,
+                  height: 40,
+                  top: 28,
+                  left: columnWidth * idx,
+                }}
+                className={`absolute flex flex-col items-center text-xs justify-center ${cls} ${
+                  isToday ? 'text-red' : ''
+                }`}
+              >
+                <span>{Days[day.getDay()]}</span>
+                <span>{day.getDate()}</span>
+                {isStartPos || day.getDate() === 1 ? (
+                  <div className="absolute text-default-8 font-medium " style={{ top: -16 }}>
+                    {Months[day.getMonth()]}
+                  </div>
+                ) : null}
+                {isToday ? (
+                  <div
+                    style={{ left: (columnWidth - 14) / 2, bottom: -12 }}
+                    className="absolute erda-gantt-calendar-today flex justify-center"
+                  >
+                    <div>{i18n.t('dop:Today')}</div>
+                  </div>
+                ) : null}
               </div>
             );
           })}
+          {scrollX > 0 ? (
+            <div
+              className="flex items-center erda-gantt-calendar-arrow-left"
+              onClick={() => onChangeScrollX(-1)}
+              style={{ left: offsetX }}
+            >
+              <ErdaIcon type="zuofan" className="ml-1" size={10} />
+            </div>
+          ) : null}
+          {displayWidth + scrollX < svgWidth ? (
+            <div
+              className="flex items-center erda-gantt-calendar-arrow-right"
+              onClick={() => onChangeScrollX(1)}
+              style={{ left: offsetX + displayWidth - 16 }}
+            >
+              <ErdaIcon type="youfan" className="ml-1" size={10} />
+            </div>
+          ) : null}
         </div>
       );
       return bottomValues;
@@ -320,10 +376,22 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
     // }
     const finalWidth = max([columnWidth * dateSetup.dates.length, width]);
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} fontFamily={fontFamily}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="overflow-visible"
+        width={width}
+        height={height}
+        fontFamily={fontFamily}
+      >
         <g className="erda-gantt-calendar" fontSize={fontSize}>
           <rect x={0} y={0} width={finalWidth} height={height} className={'erda-gantt-calendar-header'} />
-          <foreignObject x={0} y={0} width={finalWidth} height={height} className={'erda-gantt-calendar-header'}>
+          <foreignObject
+            x={0}
+            y={0}
+            width={finalWidth}
+            height={height}
+            className={'erda-gantt-calendar-header overflow-visible'}
+          >
             {getCalendarValuesForDay()}
           </foreignObject>
           {/* {topValues} */}
