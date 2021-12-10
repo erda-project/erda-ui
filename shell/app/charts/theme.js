@@ -474,22 +474,24 @@ export const theme = {
     },
   },
   tooltip: {
-    backgroundColor: '#ffffff',
-    borderColor: 'rgba(0, 0, 0, .1)',
-    borderWidth: 1,
+    trigger: 'axis',
+    backgroundColor: 'rgba(48,38,71,0.96)',
+    borderWidth: 0,
+    padding: [8, 16],
     textStyle: {
-      color: 'rgba(0, 0, 0, .6)',
+      color: '#fff',
     },
     axisPointer: {
-      lineStyle: {
-        color: '#cccccc',
-        width: 1,
+      type: 'line',
+      label: {
+        show: false,
       },
-      crossStyle: {
-        color: '#cccccc',
-        width: 1,
+      lineStyle: {
+        type: 'dashed',
+        color: 'rgba(48,38,71,0.40)',
       },
     },
+    borderColor: 'rgba(0, 0, 0, .1)',
   },
   timeline: {
     lineStyle: {

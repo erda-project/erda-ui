@@ -69,16 +69,16 @@ export const RowContainer = (props: CP_CONTAINER.Props) => {
 
 export const LRContainer = (props: CP_CONTAINER.Props) => {
   const { left, right, props: configProps, ...rest } = props;
-  const { contentSetting = '' } = configProps || {};
+  const { contentSetting = '', leftProportion = 1, rightProportion } = configProps || {};
   const leftCls = classnames({
     left: true,
-    'flex-1': contentSetting !== 'start',
+    [`flex-${leftProportion}`]: contentSetting !== 'start',
   });
 
   return (
     <Container {...rest} props={{ ...(props.props || {}), direction: 'row' }}>
       <div className={leftCls}>{left}</div>
-      <div className="right">{right}</div>
+      <div className={`right ${rightProportion ? `flex-${rightProportion}` : ''}`}>{right}</div>
     </Container>
   );
 };
