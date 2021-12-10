@@ -705,18 +705,20 @@ const DropdownMenu = (props: DropDownMenuProps) => {
 
   const menu = (
     <Menu>
-      {menus.map((item) => {
-        return (
-          <Menu.Item
-            key={item.id}
-            onClick={(e: any) => {
-              execOperation({ ...item });
-            }}
-          >
-            {menuItemRender(item) || ''}
-          </Menu.Item>
-        );
-      })}
+      {menus
+        .filter((item) => !item.hidden)
+        .map((item) => {
+          return (
+            <Menu.Item
+              key={item.id}
+              onClick={(e: any) => {
+                execOperation({ ...item });
+              }}
+            >
+              {menuItemRender(item) || ''}
+            </Menu.Item>
+          );
+        })}
     </Menu>
   );
 
