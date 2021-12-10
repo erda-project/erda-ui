@@ -92,7 +92,6 @@ const CommonNode = ({ isConnectable, data, children, className, showRuntime, onM
         onMouseLeave={handleMouseLeave}
       >
         <Popover
-          visible={false}
           placement="right"
           overlayClassName="topology-node-popover"
           title={
