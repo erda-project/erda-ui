@@ -12,22 +12,23 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import CommonNode from './common-node';
+import CommonNode, { IProps } from './common-node';
 import Circular from '../progress/circular';
-import { getFormatter } from 'charts/utils';
+import { formatNumber } from '../../utils';
 import { NodeProps } from 'react-flow-renderer';
 import './index.scss';
 
-const ServicesNode: React.FC<NodeProps<TOPOLOGY.TopoNode>> = (props) => {
+const ServicesNode: React.FC<NodeProps<TOPOLOGY.TopoNode> & { onMouseMoving: IProps['onMouseMoving'] }> = (props) => {
   return (
     <CommonNode {...props}>
       {(data: TOPOLOGY.TopoNode['metaData']) => {
-        const { error_rate, count } = data.metric;
+        const { error_rate, rps } = data.metric;
         return (
           <div className={`service-node ${error_rate > 50 ? 'error' : ''}`}>
             <Circular stroke={['#798CF1', '#D84B65']} width={60} strokeWidth={4} percent={error_rate}>
-              <div className="h-full flex justify-center items-center">
-                <div className="text-white">{getFormatter('NUMBER').format(count, 1)}</div>
+              <div className="h-full flex justify-center items-center flex-col">
+                <div className="text-white">{formatNumber(rps)}</div>
+                <div className="text-xs text-white-6 font-light unit">reqs/s</div>
               </div>
             </Circular>
             <div className="service-name p-1 text-white absolute overflow-ellipsis overflow-hidden whitespace-nowrap w-28 text-center rounded-sm">

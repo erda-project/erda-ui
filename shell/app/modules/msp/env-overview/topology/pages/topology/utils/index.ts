@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import { ArrowHeadType, Edge, Node } from 'react-flow-renderer';
 import { cloneDeep, omit, uniqBy } from 'lodash';
+import { getFormatter } from 'charts/utils';
 
 const getNodeType = (type: string) => {
   const nodeType = type.toLocaleLowerCase();
@@ -33,6 +34,7 @@ export const genNodes = (list: TOPOLOGY.INode[], edges: Edge[]): Node<TOPOLOGY.T
       id: rest.id,
       type: getNodeType(rest.type),
       data: {
+        hoverStatus: 0,
         isRoot: !parentCount,
         isParent: !isLeaf,
         isLeaf,
@@ -50,6 +52,12 @@ export const genNodes = (list: TOPOLOGY.INode[], edges: Edge[]): Node<TOPOLOGY.T
   return uniqBy(nodes, 'id');
 };
 
+export const edgeColor = {
+  common: '#FFFFFF52',
+  blurColor: '#FFFFFF1A',
+  heightLight: '#FFFFFFCC',
+};
+
 export const genEdges = (data: TOPOLOGY.INode[]): Edge<TOPOLOGY.TopoEdge>[] => {
   const convert = (list: TOPOLOGY.INode[], edges: Edge<TOPOLOGY.TopoEdge>[]) => {
     cloneDeep(list).forEach((item) => {
@@ -61,8 +69,10 @@ export const genEdges = (data: TOPOLOGY.INode[]): Edge<TOPOLOGY.TopoEdge>[] => {
             source: parent.id,
             target: rest.id,
             type: 'float',
+            style: { stroke: edgeColor.common },
             arrowHeadType: ArrowHeadType.ArrowClosed,
             data: {
+              hoverStatus: 0,
               source: omit(parent, 'parents'),
               target: rest,
             },
@@ -73,4 +83,12 @@ export const genEdges = (data: TOPOLOGY.INode[]): Edge<TOPOLOGY.TopoEdge>[] => {
     return edges;
   };
   return convert(data, []);
+};
+
+export const formatNumber = (num: number) => {
+  if (num >= 1000) {
+    return getFormatter('NUMBER').format(num, 1);
+  } else {
+    return num || 0;
+  }
 };

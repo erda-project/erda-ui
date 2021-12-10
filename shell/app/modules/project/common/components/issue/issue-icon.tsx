@@ -111,7 +111,7 @@ export const IssueIcon = ({ type, iconMap = 'TYPE', withName = false, ...rest }:
   const iconObj = type && ICON_MAP[iconMap][type.toLocaleUpperCase()];
   if (!iconObj) return null;
   const { iconLabel, icon } = iconObj || {};
-  return withName ? iconLabel : React.cloneElement(icon, rest);
+  return withName ? iconLabel : React.cloneElement(icon || <></>, rest);
 };
 
 export const getIssueTypeOption = (currentIssueType?: string) =>

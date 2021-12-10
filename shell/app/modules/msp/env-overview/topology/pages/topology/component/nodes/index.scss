@@ -5,6 +5,11 @@
   border: 6px solid rgba(121, 140, 241, 0.2);
   position: relative;
 
+  .unit {
+    transform: scale(0.9);
+    transform-origin: center;
+  }
+
   .service-name {
     left: -27px;
     bottom: -40px;
@@ -47,4 +52,9 @@
 .external-service-node {
   width: 69px;
   height: 60px;
+
+  .unit {
+    transform: scale(0.9);
+    transform-origin: center;
+  }
 }

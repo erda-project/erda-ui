@@ -14,18 +14,20 @@
 
 import React from 'react';
 import { PAGINATION } from 'app/constants';
-import { Col, Input, Row, Spin, Tag, Pagination, Tooltip } from 'antd';
+import { Col, Input, Row, Spin, Tag, Tooltip } from 'antd';
+import Pagination from 'common/components/pagination';
 import { debounce, map } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import EChart from 'charts/components/echarts';
 import EmptyHolder from 'common/components/empty-holder';
-import { ErdaIcon } from 'common';
+import { ErdaAlert, ErdaIcon } from 'common';
 import { goTo } from 'common/utils';
 import { LinearGradient } from 'echarts/lib/util/graphic';
 import './service-list.scss';
 import routeInfoStore from 'core/stores/route';
 import mspStore from 'msp/stores/micro-service';
-import { getServices, getAnalyzerOverview } from 'msp/services/service-list';
+import unknownIcon from 'app/images/default-project-icon.png';
+import { getAnalyzerOverview, getServices } from 'msp/services/service-list';
 import i18n from 'i18n';
 
 interface Views {
@@ -59,14 +61,15 @@ const defaultSeriesConfig = (color?: string) => ({
     normal: {
       color: new LinearGradient(0, 0, 0, 1, [
         { offset: 0, color },
-        { offset: 0.5, color: 'white' },
-        { offset: 1, color: 'white' },
+        { offset: 0.3, color: 'rgba(48, 38, 71, 0.01)' },
+        { offset: 1, color: 'rgba(48, 38, 71, 0.01)' },
       ]),
     },
   },
 });
 
 const option = {
+  backgroundColor: 'rgba(48, 38, 71, 0.01)',
   xAxis: {
     show: false,
   },
@@ -80,7 +83,6 @@ const option = {
 };
 
 enum ERDA_ICON {
-  unknown = 'weizhi',
   java = 'java',
   golang = 'go',
   python = 'python',
@@ -98,8 +100,9 @@ const MicroServiceOverview = () => {
   const [data, dataLoading] = getServices.useState();
   const tenantId = routeInfoStore.useStore((s) => s.params.terminusKey);
   const overviewList = getAnalyzerOverview.useData();
-  const [{ serviceList }, updater] = useUpdate<{ serviceList: IList[] }>({
+  const [{ serviceList, searchValue }, updater] = useUpdate<{ serviceList: IList[]; searchValue: string }>({
     serviceList: [] as IList[],
+    searchValue: '',
   });
 
   const listDetail = (serviceId: string, serviceName: string) => {
@@ -138,7 +141,7 @@ const MicroServiceOverview = () => {
 
   const getOverview = () => {
     const serviceIdList = data?.list.map((item) => item?.id);
-    if (serviceIdList) {
+    if (serviceIdList?.length) {
       getAnalyzerOverview.fetch({
         tenantId,
         serviceIds: serviceIdList,
@@ -162,119 +165,172 @@ const MicroServiceOverview = () => {
     [],
   );
 
-  const onReload = () => {
-    getServicesList();
-  };
-
-  const onPageChange = (page: number) => {
+  const onReload = (searchVal: string) => {
     getServices.fetch({
       tenantId,
-      pageNo: page,
+      pageNo: 1,
+      serviceName: searchVal || '',
       pageSize: PAGINATION.pageSize,
     });
   };
 
-  return (
-    <div className="flex flex-1 flex-col min-h-0 bg-white shadow pb-2">
-      <div className="px-4 py-2 bg-header flex justify-between">
-        <Input
-          prefix={<ErdaIcon type="search1" />}
-          bordered={false}
-          allowClear
-          placeholder={i18n.t('msp:search by service name')}
-          className="bg-hover-gray-bg w-72"
-          onChange={(e) => {
-            handleSearch(e.target.value);
-          }}
-        />
-        <ErdaIcon className="cursor-pointer" size="20" type="refresh" onClick={onReload} />
-      </div>
-      <div className="px-2 mt-2 flex-1 overflow-y-auto">
-        <Spin spinning={dataLoading}>
-          {serviceList?.length ? (
-            serviceList.map(({ id, language, views, lastHeartbeat, name }) => {
-              return (
-                <Row
-                  key={id}
-                  className="project-item card-shadow mb-2 mx-2 px-4 flex py-6 rounded-sm"
-                  onClick={() => {
-                    listDetail(id, name);
-                  }}
-                >
-                  <Col span={10} className="flex items-center">
-                    <div className="w-14 h-14 mr-2">
-                      <ErdaIcon type={ERDA_ICON[language]} size="56" />
-                    </div>
-                    <div>
-                      <p className="mb-0.5 font-medium text-xl leading-8">{name}</p>
-                      <Tag color="#59516C" className="mb-0.5 text-xs leading-5 border-0">
-                        {i18n.t('msp:last active time')}: {lastHeartbeat}
-                      </Tag>
-                    </div>
-                  </Col>
-                  <Col span={14} className="flex items-center">
-                    <Row gutter={8} className="flex-1">
-                      {map(views, ({ data, type, view }) => {
-                        const timeStamp: number[] = [];
-                        const value: number[] = [];
-                        view.map((item) => {
-                          timeStamp.push(item.timestamp);
-                          value.push(item.value);
-                        });
-                        const currentOption = {
-                          ...option,
-                          xAxis: { data: timeStamp, show: false },
-                          series: [
-                            {
-                              ...defaultSeriesConfig(
-                                value.find((val) => val !== 0) && type === 'ErrorRate' ? '#d84b65' : '#798CF1',
-                              ),
-                              data: value,
-                              type: 'line',
-                            },
-                          ],
-                        };
+  const onPageChange = (page: number, pageSize: number) => {
+    getServices.fetch({
+      tenantId,
+      pageNo: page,
+      pageSize,
+    });
+  };
 
-                        return (
-                          <Col span={8} className="flex">
-                            <div>
-                              <p className="mb-0 text-xl leading-8 font-number">
-                                {data === 0 ? '-' : type === 'AvgDuration' ? `${Math.ceil(data / 1000000)}ms` : data}
-                              </p>
-                              <p className="mb-0 flex text-xs leading-5 text-desc">
-                                {type === 'AvgDuration' ? i18n.t('msp:average delay') : null}
-                                {type === 'ErrorRate' ? i18n.t('msp:error rate') : null}
-                                {type === 'QPS' ? 'QPS' : null}
-                                {type === 'QPS' ? (
-                                  <Tooltip title={i18n.t('msp:definition of qps')}>
-                                    <ErdaIcon fill="gray" className="ml-1" type="help" />
-                                  </Tooltip>
-                                ) : null}
-                              </p>
-                            </div>
-                            <div className="ml-4 mr-4 flex-1 overflow-hidden">
-                              <EChart style={{ width: '100%', height: '56px', minHeight: 0 }} option={currentOption} />
-                            </div>
-                          </Col>
-                        );
-                      })}
-                    </Row>
-                  </Col>
-                </Row>
-              );
-            })
-          ) : (
-            <EmptyHolder relative />
-          )}
-        </Spin>
-      </div>
-      <Pagination
-        current={data?.pageNo}
-        pageSize={PAGINATION.pageSize}
-        onChange={onPageChange}
-        className="flex justify-end mr-4 mb-5"
-        total={data?.total}
+  return (
+    <div>
+      <ErdaAlert
+        message={i18n.t(
+          'msp:show all connected services in the current environment, as well as the key request indicators of the service in the last hour',
+        )}
       />
+      <div className="flex flex-1 flex-col bg-white shadow pb-2">
+        <div className="px-4 py-2 bg-header flex justify-between">
+          <Input
+            prefix={<ErdaIcon type="search1" />}
+            bordered={false}
+            allowClear
+            placeholder={i18n.t('msp:search by service name')}
+            className="bg-hover-gray-bg w-72"
+            onChange={(e) => {
+              handleSearch(e.target.value);
+              updater.searchValue(e.target.value);
+            }}
+          />
+          <ErdaIcon className="cursor-pointer" size="20" type="refresh" onClick={() => onReload(searchValue)} />
+        </div>
+        <div className="px-2 mt-2 flex-1 overflow-y-auto pt-2">
+          <Spin spinning={dataLoading}>
+            {serviceList?.length ? (
+              serviceList.map(({ id, language, views, lastHeartbeat, name }) => {
+                return (
+                  <Row
+                    key={id}
+                    className="cursor-pointer hover:bg-grey project-item card-shadow mb-2 mx-2 px-4 flex py-6 rounded-sm"
+                    onClick={() => {
+                      listDetail(id, name);
+                    }}
+                  >
+                    <Col span={10} className="flex items-center">
+                      <div className="rounded-sm w-14 h-14 mr-2 language-wrapper">
+                        {language === 'unknown' ? (
+                          <img src={unknownIcon} width={56} height={56} />
+                        ) : (
+                          <ErdaIcon type={ERDA_ICON[language]} size="56" />
+                        )}
+                      </div>
+                      <div>
+                        <p className="mb-0.5 font-medium text-xl leading-8">{name}</p>
+                        <Tag color="#59516C" className="mb-0.5 text-xs leading-5 border-0">
+                          {i18n.t('msp:last active time')}: {lastHeartbeat}
+                        </Tag>
+                      </div>
+                    </Col>
+                    <Col span={14} className="flex items-center">
+                      <Row gutter={8} className="flex-1">
+                        {map(views, ({ data, type, view }) => {
+                          const timeStamp: number[] = [];
+                          const value: number[] = [];
+                          view.map((item) => {
+                            timeStamp.push(item.timestamp);
+                            value.push(item.value);
+                          });
+                          const currentOption = {
+                            ...option,
+                            xAxis: { data: timeStamp, show: false },
+                            tooltip: {
+                              trigger: 'axis',
+                              formatter: '{c0}',
+                            },
+                            series: [
+                              {
+                                ...defaultSeriesConfig(
+                                  value.find((val) => val !== 0) && type === 'ErrorRate' ? '#d84b65' : '#798CF1',
+                                ),
+                                data: value.map((item) => {
+                                  if (type === 'RPS' || type === 'ErrorRate') {
+                                    return item.toFixed(2);
+                                  } else {
+                                    return (item / 1000000).toFixed(2);
+                                  }
+                                }),
+                                type: 'line',
+                                smooth: false,
+                              },
+                            ],
+                          };
+
+                          return (
+                            <Col span={8} className="flex">
+                              <div className="py-2">
+                                <p className="mb-0 text-xl leading-8 font-number">
+                                  {type === 'RPS' ? (data === null ? '-' : `${data} reqs/s`) : null}
+                                  {type === 'AvgDuration'
+                                    ? data === null
+                                      ? '-'
+                                      : `${(data / 1000000).toFixed(2)}ms`
+                                    : null}
+                                  {type === 'ErrorRate' ? (data === null ? '-' : `${data}%`) : null}
+                                </p>
+                                <p className="mb-0 flex text-xs leading-5 text-desc">
+                                  {type === 'AvgDuration' ? (
+                                    <>
+                                      {i18n.t('msp:average delay')}
+                                      <Tooltip title={i18n.t('msp:definition of average delay')}>
+                                        <ErdaIcon fill="gray" className="ml-1" type="help" />
+                                      </Tooltip>
+                                    </>
+                                  ) : null}
+                                  {type === 'ErrorRate' ? (
+                                    <>
+                                      {i18n.t('msp:error rate')}
+                                      <Tooltip title={i18n.t('msp:definition of error rate')}>
+                                        <ErdaIcon fill="gray" className="ml-1" type="help" />
+                                      </Tooltip>
+                                    </>
+                                  ) : null}
+                                  {type === 'RPS' ? (
+                                    <>
+                                      {i18n.t('msp:average throughput')}
+                                      <Tooltip title={i18n.t('msp:definition of rps')}>
+                                        <ErdaIcon fill="gray" className="ml-1" type="help" />
+                                      </Tooltip>
+                                    </>
+                                  ) : null}
+                                </p>
+                              </div>
+                              <div className="ml-1 px-2 py-2 flex-1 chart-wrapper ">
+                                <EChart
+                                  style={{ width: '100%', height: '56px', minHeight: 0 }}
+                                  option={currentOption}
+                                />
+                              </div>
+                            </Col>
+                          );
+                        })}
+                      </Row>
+                    </Col>
+                  </Row>
+                );
+              })
+            ) : (
+              <EmptyHolder relative />
+            )}
+          </Spin>
+        </div>
+        <Pagination
+          current={data?.pageNo}
+          pageSize={data?.pageSize}
+          onChange={onPageChange}
+          className="flex justify-end mr-4 mb-2"
+          total={data?.total}
+        />
+      </div>
     </div>
   );
 };

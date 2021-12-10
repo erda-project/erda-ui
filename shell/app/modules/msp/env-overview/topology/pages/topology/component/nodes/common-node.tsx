@@ -16,26 +16,15 @@ import { Handle, NodeProps, Position } from 'react-flow-renderer';
 import { Popover, Tag } from 'antd';
 import i18n from 'i18n';
 import './common-node.scss';
-import { goTo } from 'common/utils';
-import { find, get, map } from 'lodash';
-import routeInfoStore from 'core/stores/route';
-import monitorCommonStore from 'common/stores/monitorCommon';
-import mspStore from 'msp/stores/micro-service';
 
-interface IProps extends NodeProps<TOPOLOGY.TopoNode> {
+export interface IProps extends NodeProps<TOPOLOGY.TopoNode> {
+  showRuntime?: boolean;
   className?: string;
   children: (data: IProps['data']['metaData']) => JSX.Element;
+  onMouseMoving?: (data: TOPOLOGY.TopoNode, flag: 'in' | 'out') => void;
 }
 
 const metric = [
-  {
-    name: i18n.t('msp:error rate'),
-    key: 'error_rate',
-  },
-  {
-    name: i18n.t('msp:error request count'),
-    key: 'http_error',
-  },
   {
     name: i18n.t('call times'),
     key: 'count',
@@ -44,27 +33,32 @@ const metric = [
     name: `${i18n.t('msp:average response time')}(ms)`,
     key: 'rt',
   },
+  {
+    name: i18n.t('msp:error call times'),
+    key: 'http_error',
+  },
+  {
+    name: i18n.t('msp:error rate'),
+    key: 'error_rate',
+  },
 ];
 
-const CommonNode = ({ isConnectable, data, children, className }: IProps) => {
-  const params = routeInfoStore.useStore((s) => s.params);
-  const [range, rangeData] = monitorCommonStore.useStore((s) => [
-    s.globalTimeSelectSpan.range,
-    s.globalTimeSelectSpan.data,
-  ]);
-  const timer = React.useRef(Date.now());
-  const [currentProject, mspMenu] = mspStore.useStore((s) => [s.currentProject, s.mspMenu]);
-  const { isRoot, isLeaf, metaData } = data;
+const CommonNode = ({ isConnectable, data, children, className, showRuntime, onMouseMoving }: IProps) => {
+  const { isRoot, isLeaf, metaData, hoverStatus } = data;
   const popoverContent = (
     <div>
-      <p className="mb-2">
-        <span className="text-white-6 mr-2">Runtime:</span>
-        <span className="text-white-9 overflow-ellipsis overflow-hidden whitespace-nowrap">{metaData.runtimeName}</span>
-      </p>
+      {showRuntime ? (
+        <p className="mb-2">
+          <span className="text-white-6 mr-2">Runtime:</span>
+          <span className="text-white-9 overflow-ellipsis overflow-hidden whitespace-nowrap">
+            {metaData.runtimeName}
+          </span>
+        </p>
+      ) : null}
       <p className="mb-2">
         <span className="text-white-6 mr-2">{i18n.t('type')}:</span>
         <Tag color="#27C99A" className="border-0 bg-green bg-opacity-10">
-          {metaData.type}
+          {metaData.typeDisplay}
         </Tag>
       </p>
       <div className="metric-detail flex flex-wrap justify-between">
@@ -79,56 +73,13 @@ const CommonNode = ({ isConnectable, data, children, className }: IProps) => {
       </div>
     </div>
   );
-  const handleClick = () => {
-    if (Date.now() - timer.current > 300) {
-      return;
-    }
 
-    const { type, serviceId, applicationId, serviceName, name } = data.metaData;
-    const childrenKeyMap = {
-      registercenter: ['Services'],
-      configcenter: ['Configs'],
-    };
-    const goToParams = {
-      query: {
-        mode: rangeData.mode,
-        quick: rangeData.mode === 'quick' ? rangeData.quick : undefined,
-        start: range.startTimeMs,
-        end: range.endTimeMs,
-      },
-      jumpOut: true,
-    };
-    switch (type?.toLowerCase()) {
-      case 'service':
-        goTo(goTo.pages.mspServiceAnalyze, {
-          ...params,
-          serviceName,
-          serviceId: window.encodeURIComponent(serviceId || ''),
-          applicationId: currentProject?.type === 'MSP' ? '-' : applicationId,
-          ...goToParams,
-        });
-        break;
-      case 'apigateway':
-        goTo('./gateway-ingress', goToParams);
-        break;
-      case 'externalservice':
-        goTo(`./ei/${encodeURIComponent(name)}/affairs`, goToParams);
-        break;
-      case 'registercenter':
-      case 'configcenter':
-        const subMenuList = get(
-          find(mspMenu, ({ key }) => key.toLowerCase() === type),
-          'subMenu',
-          [],
-        );
-        let targetPath = '';
-        map(childrenKeyMap[type], (item) => {
-          if (!targetPath) {
-            targetPath = get(find(subMenuList, { key: item }), 'href', '');
-          }
-        });
-        targetPath && goTo(targetPath, goToParams);
-    }
+  const handleMouseEnter = () => {
+    onMouseMoving?.(data, 'in');
+  };
+
+  const handleMouseLeave = () => {
+    onMouseMoving?.(data, 'out');
   };
   return (
     <>
@@ -136,18 +87,17 @@ const CommonNode = ({ isConnectable, data, children, className }: IProps) => {
         <Handle className="node-handle-start" type="target" position={Position.Left} isConnectable={isConnectable} />
       )}
       <div
-        className={className ?? ''}
-        onMouseDown={() => {
-          timer.current = Date.now();
-        }}
-        onMouseUp={handleClick}
+        className={`${hoverStatus === -1 ? 'opacity-30' : ''} ${className ?? ''}`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         <Popover
+          visible={false}
           placement="right"
           overlayClassName="topology-node-popover"
           title={
             <div className="h-12 py-0 px-4 flex items-center text-white">
-              <div className="overflow-hidden overflow-ellipsis whitespace-nowrap">{metaData.name.repeat(22)}</div>
+              <div className="overflow-hidden overflow-ellipsis whitespace-nowrap">{metaData.name}</div>
             </div>
           }
           content={popoverContent}

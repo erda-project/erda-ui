@@ -1100,7 +1100,12 @@ export const EditIssueDrawer = (props: IProps) => {
   };
 
   const addRelation = (val: number) => {
-    addIssueRelation({ relatedIssues: val, id: issueDetail.id, projectId: +addRelatedMattersProjectId }).then(() => {
+    addIssueRelation({
+      relatedIssues: val,
+      id: issueDetail.id,
+      projectId: +addRelatedMattersProjectId,
+      type: 'connection',
+    }).then(() => {
       setHasEdited(true);
       const refObj = ref.current as any;
       if (ref && refObj) {

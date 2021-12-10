@@ -18,6 +18,7 @@ import dashboardStore from 'common/stores/dashboard';
 import routeInfoStore from 'core/stores/route';
 import { isEqual } from 'lodash';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
+import mspStore from 'msp/stores/micro-service';
 
 type IProps = Merge<
   Partial<DC.PureBoardGridProps>,
@@ -36,6 +37,7 @@ const ServiceListDashboard: React.FC<IProps> = ({ timeSpan: times, dashboardId, 
   const { getCustomDashboard } = dashboardStore;
   const [layout, setLayout] = useState<DC.Layout>([]);
   const [serviceId, serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
+  const type = mspStore.useStore((s) => s.currentProject.type);
 
   const globalVariable = useMemo(() => {
     const { terminusKey, applicationId } = params;
@@ -46,7 +48,7 @@ const ServiceListDashboard: React.FC<IProps> = ({ timeSpan: times, dashboardId, 
       serviceId: window.decodeURIComponent(serviceId),
       startTime: startTimeMs,
       endTime: endTimeMs,
-      applicationId,
+      applicationId: type === 'MSP' ? undefined : applicationId,
       ...extraGlobalVariable,
     };
   }, [params, timeSpan, serviceName, serviceId, extraGlobalVariable]);

@@ -22,7 +22,6 @@ interface IMenuItem {
   key: string;
   name: string;
   disabled?: boolean;
-  split?: boolean;
 }
 
 interface IMenu {
@@ -70,6 +69,7 @@ const PureMenu = (props: IMenu) => {
   }
   const tabClass = classnames({
     'tab-menu': true,
+    'tab-split-line-before': true,
     [className]: !!className,
   });
 
@@ -113,11 +113,10 @@ const PureMenu = (props: IMenu) => {
     <div className={tabClass}>
       <ul className="tab-item-wraps">
         {finalMenus.map((menu: Merge<IMenuItem, { hrefType: 'back' }>) => {
-          const { disabled, key, name, hrefType, split } = menu;
+          const { disabled, key, name, hrefType } = menu;
           const menuItemClass = classnames({
             'tab-menu-item': true,
             'tab-menu-disabled': disabled,
-            'tab-split-line-before': split,
             active: activeKey === key,
           });
           return (

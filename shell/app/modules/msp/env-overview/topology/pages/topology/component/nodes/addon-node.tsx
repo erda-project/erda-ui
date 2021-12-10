@@ -12,30 +12,30 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import CommonNode from './common-node';
+import CommonNode, { IProps } from './common-node';
 import Hexagon from '../progress/hexagon';
 import ErdaIcon from 'common/components/erda-icon';
 import { NodeProps } from 'react-flow-renderer';
 import './index.scss';
-import { getFormatter } from 'charts/utils';
+import { formatNumber } from '../../utils';
 
 const iconMap = {
-  Mysql: 'mysql',
-  RocketMQ: 'RocketMQ',
-  Redis: 'redis',
+  mysql: 'mysql',
+  rocketmq: 'RocketMQ',
+  redis: 'redis',
   default: 'morenzhongjianjian',
 };
-const AddonNode: React.FC<NodeProps<TOPOLOGY.TopoNode>> = (props) => {
+const AddonNode: React.FC<NodeProps<TOPOLOGY.TopoNode> & { onMouseMoving: IProps['onMouseMoving'] }> = (props) => {
   return (
     <CommonNode {...props}>
       {(data: TOPOLOGY.TopoNode['metaData']) => {
-        const { error_rate, count } = data.metric;
-        const iconType = iconMap[data.type] ?? iconMap.default;
+        const { error_rate, rps } = data.metric;
+        const iconType = iconMap[data.type.toLocaleLowerCase()] ?? iconMap.default;
         return (
           <div className="addon-node">
             <Hexagon stroke={['#798CF1', '#D84B65']} width={60} strokeWidth={2} percent={error_rate}>
               <div className="h-full">
-                <div className="text-white mt-4 text-center">{getFormatter('NUMBER').format(count, 1)}</div>
+                <div className="text-white mt-4 text-center">{formatNumber(rps)}</div>
                 <div className="mt-1.5 text-center text-darkgray">
                   <ErdaIcon type={iconType} color="currentColor" size={22} />
                 </div>

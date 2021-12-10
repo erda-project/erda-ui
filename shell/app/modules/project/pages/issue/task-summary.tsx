@@ -30,10 +30,10 @@ const TaskSummary = () => {
   const urlQueryChange = (val: Obj) => setUrlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 
   return (
-    <div className="task-summary-page">
+    <div>
       <DiceConfigPage
-        scenarioType={'task-summary'}
-        scenarioKey={'task-summary'}
+        scenarioType={'requirement-task-overview'}
+        scenarioKey={'requirement-task-overview'}
         inParams={inParams}
         customProps={{
           topFilter: {
@@ -52,6 +52,8 @@ const TaskSummary = () => {
           container: {
             props: {
               className: 'm-4',
+              leftProportion: 3,
+              rightProportion: 7,
             },
           },
           simpleChart: {

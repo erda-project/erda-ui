@@ -22,6 +22,10 @@ interface IProps {
   strokeWidth?: number;
 }
 
+/**
+ * @description convert the angle to radians
+ * @param angle
+ */
 const angleToRadian = (angle: number) => angle * (Math.PI / 180);
 
 const getSideLengthByWidth = (width: number) => width / Math.sin(angleToRadian(60));
@@ -37,10 +41,14 @@ interface IPathStyleReturn {
   }[];
 }
 
+/**
+ * @description background path
+ */
 const getPathStyles = (width: number, strokeWidth: number): IPathStyleReturn => {
   const sin60 = Math.sin(angleToRadian(60));
   const sl = width / 2 / sin60;
   const unitValue = 100 / 6;
+  // the coordinates of points in a hexagon
   const centerTopPoint = { x: numberFixed((width + strokeWidth) / 2), y: strokeWidth };
   const rightTopPoint = { x: numberFixed(width + strokeWidth), y: numberFixed(sl / 2 + strokeWidth) };
   const rightBottomPoint = { x: numberFixed(width + strokeWidth), y: numberFixed(sl * 1.5 + strokeWidth) };
@@ -116,6 +124,9 @@ const getPathStyles = (width: number, strokeWidth: number): IPathStyleReturn => 
   };
 };
 
+/**
+ * @description front path
+ */
 const getPercentPathStyle = (percent: number, side: IPathStyleReturn['side'], pathStyle: string) => {
   let path = `M${side[0].start.point.x} ${side[0].start.point.y}`;
   if (percent >= 100) {

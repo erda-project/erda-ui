@@ -78,12 +78,8 @@
     left: -6px;
     z-index: 2;
     display: none;
-    color: $lightgray;
+    color: rgba($color-default, 0.4);
     cursor: pointer;
-
-    &:hover {
-      color: $gray;
-    }
   }
 
   .ant-input {

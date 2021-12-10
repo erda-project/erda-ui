@@ -41,6 +41,8 @@ declare namespace CP_CONTAINER {
     props: {
       className: string;
       onClick?: () => void;
+      leftProportion?: number;
+      rightProportion?: number;
     };
   };
 }
