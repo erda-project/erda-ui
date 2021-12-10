@@ -44,13 +44,15 @@
     }
   }
 
-  .tab-menu-item {
-    height: 32px;
-    line-height: 32px;
-    margin-right: 24px;
-    &.tab-split-line-before {
-      &::before {
-        top: 1px;
+  .erda-header-top {
+    .tab-menu-item {
+      height: 32px;
+      line-height: 32px;
+      margin-right: 24px;
+      &.tab-split-line-before {
+        &::before {
+          top: 1px;
+        }
       }
     }
   }
