@@ -35,7 +35,7 @@ export const VerticalScroll: React.FC<{
       style={{
         height,
         marginTop: topOffset,
-        marginLeft: rtl ? '' : '-17px',
+        marginLeft: rtl ? '' : '-8px',
       }}
       className={'erda-gantt-vertical-scroll'}
       onScroll={onScroll}

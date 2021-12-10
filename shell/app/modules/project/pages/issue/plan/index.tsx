@@ -23,6 +23,7 @@ import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import routeInfoStore from 'core/stores/route';
 import { Avatar, Select } from 'antd';
 import moment from 'moment';
+import { max } from 'lodash';
 import i18n from 'i18n';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
 import './index.scss';
@@ -33,21 +34,28 @@ interface IBarProps {
 }
 const BarContentRender = (props: IBarProps) => {
   const { task, isHover } = props;
-  const { extra, isLeaf, styles } = task;
-  const color = !isLeaf && styles?.backgroundColor;
+  const barRef = React.useRef<HTMLDivElement>(null);
+  const nameRef = React.useRef<HTMLDivElement>(null);
+  const barWidth = barRef.current?.offsetWidth || 1;
+  const nameWidth = nameRef.current?.offsetWidth || 1;
+  const linearPercent = ((barWidth - 8) / nameWidth) * 100;
   return (
-    <div className={`relative h-full ${!isLeaf ? 'top-1' : ''}`}>
-      <div className={`flex items-center h-full ${!isLeaf ? 'justify-center' : ''}`}>
-        {!isLeaf ? null : <IssueIcon type={extra?.type} size={'16px'} />}
-        <span
-          style={color ? { color } : {}}
-          className={`text-xs overflow-hidden whitespace-nowrap ${!isLeaf ? '' : 'text-white'}`}
-        >
-          {task.name}
-        </span>
-      </div>
-      <div className={`absolute text-sub text-xs ${isHover ? 'visible' : 'invisible'}`} style={{ right: -150, top: 4 }}>
-        {moment(task.start).format('YYYY-MM-DD')} ~ {moment(task.end).format('YYYY-MM-DD')}
+    <div className={'relative h-full'} ref={barRef}>
+      <div className={`flex items-center h-full w-full`}>
+        <div style={{ flex: `0 0 ${max([barWidth, nameWidth])}px` }} className={` ml-2 `}>
+          <span
+            ref={nameRef}
+            className="text-xs whitespace-nowrap"
+            style={{
+              WebkitMaskImage: `linear-gradient(90deg, rgba(48,38,71,0.80) ${linearPercent}%, rgba(48,38,71,0.16) ${linearPercent}%)`,
+            }}
+          >
+            {task.name}
+          </span>
+        </div>
+        <div className={` ml-1 whitespace-nowrap text-sub text-xs ${isHover ? 'visible' : 'invisible'}`}>
+          {moment(task.start).format('MM-DD')} ~ {moment(task.end).format('MM-DD')}
+        </div>
       </div>
     </div>
   );
@@ -100,7 +108,7 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
         <Ellipsis title={name} />
       </div>
       <div className="flex items-center ml-2">
-        <Avatar src={curUser?.avatar || undefined} size={16}>
+        <Avatar src={curUser?.avatar || undefined} size={20}>
           {getAvatarChars(curUserName || '')}
         </Avatar>
         {status ? (

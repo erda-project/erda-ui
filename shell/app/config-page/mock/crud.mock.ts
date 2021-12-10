@@ -19,18 +19,18 @@ export const enhanceMock = (data: any, payload: any) => {
     const _data = cloneDeep(data);
     _data.protocol.components.gantt.data = {
       updateList: [
-        {
-          start: getDate(1),
-          end: getDate(10),
-          title: 'R1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
-          key: 'R1',
-          isLeaf: false,
-          extra: {
-            type: 'requirement',
-            user: '张三',
-            status: { text: '进行中', status: 'processing' },
-          },
-        },
+        // {
+        //   start: getDate(1),
+        //   end: getDate(10),
+        //   title: 'R1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
+        //   key: 'R1',
+        //   isLeaf: false,
+        //   extra: {
+        //     type: 'requirement',
+        //     user: '张三',
+        //     status: { text: '进行中', status: 'processing' },
+        //   },
+        // },
         {
           key: payload.event.operationData.meta.nodes.key,
           title: `T${payload.event.operationData.meta.nodes.key}测试测试测试测试测试测试测试测试测试测试测试`,
@@ -128,8 +128,8 @@ export const mockData = {
           expandList: {
             0: [
               {
-                start: getDate(1), //new Date('2019-1-1').getTime(),
-                end: getDate(15),
+                start: null, //new Date('2019-1-1').getTime(),
+                end: null,
                 title: 'Rss1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
                 key: 'R1ss',
                 isLeaf: true,
@@ -142,7 +142,8 @@ export const mockData = {
               {
                 start: getDate(1), //new Date('2019-1-1').getTime(),
                 end: getDate(15),
-                title: 'R1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
+                title:
+                  'R1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
                 key: 'R1',
                 isLeaf: false,
                 extra: {
@@ -181,8 +182,8 @@ export const mockData = {
               {
                 key: '1-1',
                 title: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
-                start: getDate(1),
-                end: getDate(5),
+                // start: getDate(1),
+                // end: getDate(5),
                 isLeaf: true,
                 extra: {
                   type: 'task',
@@ -195,7 +196,7 @@ export const mockData = {
               {
                 id: '1-1',
                 name: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
-                start: getDate(1),
+                // start: getDate(1),
                 // end: getDate(5),
                 isLeaf: true,
                 extra: {
@@ -208,7 +209,7 @@ export const mockData = {
                 id: '1-2',
                 name: 'T1-2测试测试测试测试测试测试测试测试测试测试测试',
                 // start: getDate(2),
-                end: getDate(10),
+                // end: getDate(10),
                 isLeaf: true,
                 extra: {
                   type: 'task',

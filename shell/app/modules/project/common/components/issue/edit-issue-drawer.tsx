@@ -97,6 +97,7 @@ const IssueMetaFields = React.forwardRef(
     const userMap = getUserMap();
     const projectMembers = projectMemberStore.useStore((s) => s.list);
     const urlParams = routeInfoStore.useStore((s) => s.params);
+    urlParams.projectId = '45';
     // const isRequirement = issueType === ISSUE_TYPE.REQUIREMENT;
     const isEpic = issueType === ISSUE_TYPE.EPIC;
     const iterationList = iterationStore.useStore((s) => s.iterationList);
@@ -699,7 +700,7 @@ export const EditIssueDrawer = (props: IProps) => {
   const editAuth = isMonitorTicket ? true : !isEditMode || getAuth(permObj.edit, checkRole);
   const switchTypeAuth = getAuth(permObj.switchType, checkRole);
 
-  const addRelatedMattersProjectId = routeInfoStore.getState((s) => s.params).projectId;
+  const addRelatedMattersProjectId = '45'; //routeInfoStore.getState((s) => s.params).projectId;
   const { addIssueRelation } = issueStore.effects;
   const { updateCustomFieldDetail } = issueStore.reducers;
   const { id: orgID } = orgStore.useStore((s) => s.currentOrg);

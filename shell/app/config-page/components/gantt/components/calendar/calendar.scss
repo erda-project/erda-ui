@@ -35,4 +35,38 @@
   .calendar-highlight-text {
     color: $black;
   }
+
+  .erda-gantt-calendar-today {
+    width: 14px;
+    height: 14px;
+    border-radius: 100px;
+    background-color: $red;
+    color: $white;
+    font-size: 10px;
+    > div {
+      transform: scale(0.8);
+    }
+  }
+
+  .erda-gantt-calendar-arrow-left,
+  .erda-gantt-calendar-arrow-right {
+    position: absolute;
+    width: 16px;
+    height: 20px;
+    top: 30px;
+    background-color: $color-default-06;
+    color: $color-default-4;
+    cursor: pointer;
+    &:hover {
+      background-color: $color-default;
+      color: $white;
+    }
+  }
+
+  .erda-gantt-calendar-arrow-left {
+    border-radius: 0 2px 2px 0;
+  }
+  .erda-gantt-calendar-arrow-right {
+    border-radius: 2px 0 0 2px;
+  }
 }

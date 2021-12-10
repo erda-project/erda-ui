@@ -3,6 +3,19 @@
   outline: none;
 }
 
+.erda-gantt-bar-preview-box {
+  border: 2px dashed $color-default-2;
+}
+
+.erda-gantt-bar-box {
+  background-color: $white;
+  box-shadow: 0 1px 4px 0 $color-default-1;
+  &.on-hover {
+    color: $color-default !important;
+    box-shadow: 0 2px 8px 0 $color-default-1;
+  }
+}
+
 .erda-gantt-bar-handle-box {
   .erda-gantt-bar-handle {
     visibility: hidden;

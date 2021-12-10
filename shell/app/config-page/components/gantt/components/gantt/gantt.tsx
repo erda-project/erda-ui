@@ -47,13 +47,13 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   barBackgroundSelectedColor = '#1E2059',
   projectProgressColor = '#7db59a',
   projectProgressSelectedColor = '#59a985',
-  projectBackgroundColor = '#798CF1',
-  projectBackgroundSelectedColor = '#798CF1',
+  projectBackgroundColor = '#d1dcff',
+  projectBackgroundSelectedColor = '#d1dcff',
   milestoneBackgroundColor = '#f1c453',
   milestoneBackgroundSelectedColor = '#f29e4c',
   rtl = false,
   handleWidth = 10,
-  timeStep = 300000,
+  timeStep = 1000 * 60 * 60 * 24,
   arrowColor = 'grey',
   fontFamily = 'Roboto, Arial, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue',
   fontSize = '14px',
@@ -85,6 +85,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   // const [svgContainerWidth, setSvgContainerWidth] = useState(0);
   // const [svgContainerHeight, setSvgContainerHeight] = useState(ganttHeight);
   const [rangeAddTime, setRangeAddTime] = useState<null | { x1: number; x2: number }>(null);
+  const [hoverTime, setHoverTime] = useState<null | Date>(null);
   const [barTasks, setBarTasks] = useState<BarTask[]>([]);
   const [ganttEvent, setGanttEvent] = useState<GanttEvent>({
     action: '',
@@ -426,6 +427,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     rtl,
     selectedTask: newSelectedTask,
     setRangeAddTime,
+    setHoverTime,
     setSelectedTask: handleSelectedTask,
     onDateChange,
     ganttEvent: reGanttEvent,
@@ -438,13 +440,17 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     locale,
     viewMode,
     width: svgWidth,
+    svgWidth,
     height: headerHeight,
     columnWidth,
     fontFamily,
     fontSize,
     rtl,
     horizontalRange,
+    hoverTime,
     highlightRange: rangeAddTime || reGanttEvent.changedTask || newSelectedTask,
+    scrollX,
+    setScrollX,
   };
   const barProps: TaskGanttContentProps = {
     tasks: newTasks,
@@ -477,6 +483,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     fontSize,
     tasks: newTasks,
     locale,
+    scrollX,
     headerHeight,
     ganttHeight,
     selectedTask: newSelectedTask,
