@@ -45,7 +45,6 @@ interface IState {
   announcementList: AnnouncementItem[];
   customMain: Function | JSX.Element | null;
   showMessage: boolean;
-  headerInfo: React.ReactElement | null;
   client: {
     height: number;
     width: number;
@@ -61,7 +60,6 @@ const initState: IState = {
   announcementList: [],
   customMain: null,
   showMessage: false,
-  headerInfo: null,
   sideFold: false,
   client: {
     height: 0,
@@ -207,12 +205,6 @@ const layout = createStore({
     },
     switchMessageCenter(state, payload) {
       state.showMessage = typeof payload === 'boolean' ? payload : !state.showMessage;
-    },
-    setHeaderInfo(state, payload) {
-      state.headerInfo = payload;
-    },
-    clearHeaderInfo(state) {
-      state.headerInfo = null;
     },
     setImagePreviewOpen(state, status: boolean) {
       state.isImagePreviewOpen = status;

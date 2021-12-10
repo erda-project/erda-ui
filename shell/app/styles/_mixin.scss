@@ -172,15 +172,8 @@ $lg-break-width: $sider-width + $subsider-width + $lg-content-break-width;
 
 %top-button-group {
   position: fixed;
-
-  top: 45px;
-  right: 16px;
-
-  @include md-width() {
-    & {
-      right: 12px;
-    }
-  }
+  top: 32px;
+  right: 12px;
 
   button {
     margin-left: $p8;

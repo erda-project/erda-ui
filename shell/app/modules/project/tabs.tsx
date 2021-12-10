@@ -137,7 +137,6 @@ export const COLLABORATE_TABS = () => {
       key: 'plan',
       name: i18n.t('plan'),
       show: projectPerm.requirement.read.pass,
-      split: true,
     },
   ];
 };

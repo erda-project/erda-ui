@@ -96,7 +96,6 @@ const CodeQuality = () => {
       }
     });
     return () => {
-      layoutStore.reducers.clearHeaderInfo();
       clearSonarResults();
     };
   });
