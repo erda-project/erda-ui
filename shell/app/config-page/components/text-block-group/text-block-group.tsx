@@ -34,7 +34,7 @@ const TextBlockGroup = (props: CP_TEXT_BLOCK_GROUP.Props) => {
               return <TextBlockInfo key={`${rowKey}-${idx}`} className={isFirstItem ? '' : 'ml-2'} {...item} />;
             })}
             {new Array(firstRowNum - rows.length).fill(1).map((idx: number) => (
-              <div className="erda-text-block-info" key={idx} />
+              <div className="erda-text-block-info ml-2" key={idx} />
             ))}
           </div>
         );
