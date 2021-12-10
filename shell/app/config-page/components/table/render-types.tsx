@@ -163,7 +163,10 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         const hasPointer = !isEmpty(extraProps);
         Comp = (
           <div
-            className={`${hoverActive} flex items-center w-full ${hasPointer ? 'cursor-pointer' : ''}`}
+            className={`${hoverActive} double-row-with-icon flex items-center w-full ${
+              hasPointer ? 'cursor-pointer' : ''
+            }`}
+            style={extraContent?.value ? { height: 50 } : { height: 30 }}
             {...extraProps}
           >
             {prefixIcon ? (
