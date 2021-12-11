@@ -43,6 +43,7 @@ export const Container = (props: CP_CONTAINER.Props) => {
 
     ...(contentSetting ? { [contentSetting]: true } : {}),
     'top-button-group': isTopHead,
+    'mt-0': isTopHead,
     'bg-white': whiteBg,
     'start-align': startAlign,
     'h-full': fullHeight,
