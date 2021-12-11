@@ -825,8 +825,8 @@ const ContractiveFilter = ({
         >
           {!item.fixed && (
             <ErdaIcon
-              fill="brightgray"
-              color="brightgray"
+              fill="gray"
+              color="gray"
               className="contractive-filter-item-close"
               type="guanbi-fill"
               size="16"
