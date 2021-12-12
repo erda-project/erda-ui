@@ -30,9 +30,27 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({ gridProps, calendarProps, 
   const newBarProps = { ...barProps, svg: ganttSVGRef };
   const verticalGanttContainerRef = useRef<HTMLDivElement>(null);
   const offsetWidth = verticalGanttContainerRef?.current?.offsetWidth;
+  const [mousePos, setMousePos] = React.useState<null | number[]>(null);
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    const gridPos = e.currentTarget.getBoundingClientRect();
+    const mouseY = max([e.clientY - gridPos.y, 0]);
+    const mouseX = max([e.clientX - gridPos.x]);
+    setMousePos([Math.floor(mouseX / gridProps.columnWidth), Math.floor(mouseY / gridProps.rowHeight)]);
+  };
+
+  const mouseUnFocus = () => {
+    setMousePos(null);
+  };
+
   return (
     <div className={'erda-gantt-vertical-container'} dir="ltr" ref={verticalGanttContainerRef}>
-      <Calendar {...calendarProps} width={max([calendarProps.width, offsetWidth])} displayWidth={offsetWidth} />
+      <Calendar
+        {...calendarProps}
+        width={max([calendarProps.width, offsetWidth])}
+        displayWidth={offsetWidth}
+        mousePos={mousePos}
+      />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={max([gridProps.svgWidth, offsetWidth])}
@@ -41,7 +59,16 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({ gridProps, calendarProps, 
         style={{ overflow: 'visible' }}
         ref={ganttSVGRef}
       >
-        <Grid {...gridProps} svgWidth={max([gridProps.svgWidth, offsetWidth])} displayWidth={offsetWidth} />
+        <g onMouseMove={onMouseMove} onMouseLeave={mouseUnFocus}>
+          <Grid
+            {...gridProps}
+            svgWidth={max([gridProps.svgWidth, offsetWidth])}
+            displayWidth={offsetWidth}
+            onMouseMove={onMouseMove}
+            mouseUnFocus={mouseUnFocus}
+            mousePos={mousePos}
+          />
+        </g>
         <TaskGanttContent {...newBarProps} BarContentRender={BarContentRender} />
       </svg>
     </div>

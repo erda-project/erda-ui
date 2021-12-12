@@ -79,7 +79,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
     scrollX,
     setScrollX,
     svgWidth,
-    hoverTime,
+    mousePos,
   }) => {
     const today = new Date();
     const getCalendarValuesForMonth = () => {
@@ -190,13 +190,13 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
       ) : null;
 
     const HoverTime = ({ style }: { style: Obj }) =>
-      hoverTime ? (
+      mousePos ? (
         <div
           className="absolute rounded bg-hover-gray-bg"
           style={{
             width: columnWidth,
             height: 40,
-            left: hoverTime[0] * columnWidth,
+            left: mousePos[0] * columnWidth,
             top: 26,
             ...style,
           }}
