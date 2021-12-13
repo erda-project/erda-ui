@@ -47,7 +47,7 @@ $color-primary: #6a549e !default;
 $color-primary-light: #0c0b14 !default;
 $color-primary-dark: #5340c8 !default;
 
-$color-default: #302647;
+$color-default: #302647; // rgba(48,38,71,1);
 $color-default-8: rgba($color-default, 0.8);
 $color-default-6: rgba($color-default, 0.6);
 $color-default-4: rgba($color-default, 0.4);

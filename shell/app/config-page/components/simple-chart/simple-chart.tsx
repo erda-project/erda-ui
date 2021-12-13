@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import EChart from 'charts/components/echarts';
-import { newColorMap } from 'charts/theme';
+import { newColorMap } from 'config-page/utils';
 import { TextBlockInfo } from 'common';
 import echarts from 'echarts/lib/echarts';
 import React from 'react';
