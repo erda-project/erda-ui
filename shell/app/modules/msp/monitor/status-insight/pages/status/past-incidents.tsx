@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-// import { Table } from 'antd';
 import Table from 'common/components/table';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
