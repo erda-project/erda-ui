@@ -284,7 +284,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
                 ) : null}
                 {isToday ? (
                   <div
-                    style={{ left: (columnWidth - 14) / 2, bottom: -12 }}
+                    style={{ left: (columnWidth + 22) / 2, bottom: -14 }}
                     className="absolute erda-gantt-calendar-today flex justify-center"
                   >
                     <div>{i18n.t('dop:Today')}</div>

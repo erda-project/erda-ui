@@ -164,9 +164,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
           className={`flex erda-gantt-grid-row h-full ${
             selectedTask?.id === task.id ? 'erda-gantt-grid-row-selected' : ''
           } ${!validTask ? 'on-add' : ''} ${mousePos?.[1] === idx ? 'on-hover' : ''}`}
-        >
-          {PointIcon}
-        </div>
+        />
       </foreignObject>,
     );
     y += rowHeight;
@@ -272,7 +270,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
       ) : null}
       {todayIndex > -1 ? (
         <polyline
-          points={`${todayStartPos},0 ${todayStartPos + columnWidth / 2},0 ${todayStartPos + columnWidth / 2},${max([
+          points={`${todayStartPos + columnWidth / 2},4 ${todayStartPos + columnWidth / 2},${max([
             ganttHeight,
             realHeight,
           ])}`}

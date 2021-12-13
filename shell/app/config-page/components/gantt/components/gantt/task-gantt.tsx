@@ -69,7 +69,7 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({ gridProps, calendarProps, 
             mousePos={mousePos}
           />
         </g>
-        <TaskGanttContent {...newBarProps} BarContentRender={BarContentRender} />
+        <TaskGanttContent {...newBarProps} displayWidth={offsetWidth} BarContentRender={BarContentRender} />
       </svg>
     </div>
   );

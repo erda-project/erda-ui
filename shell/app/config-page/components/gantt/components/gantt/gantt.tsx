@@ -362,7 +362,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       }
     }
     if (newSelectedTask?.x1) {
-      if (scrollX > newSelectedTask.x2) {
+      if (scrollX + 40 > newSelectedTask.x2) {
         setScrollX(newSelectedTask.x1 - 40);
       } else if (scrollX + horizontalRef.current?.offsetWidth < newSelectedTask.x1) {
         setScrollX(newSelectedTask.x2 + 40 - horizontalRef.current.offsetWidth);
@@ -464,6 +464,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     fontSize,
     arrowIndent,
     svgWidth,
+    horizontalRange,
     rtl,
     setGanttEvent,
     setFailedTask,
