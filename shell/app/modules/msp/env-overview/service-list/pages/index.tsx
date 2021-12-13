@@ -106,7 +106,7 @@ const MicroServiceOverview = () => {
   const listDetail = (serviceId: string, serviceName: string) => {
     goTo(goTo.pages.mspServiceAnalyze, {
       ...params,
-      applicationId: currentProject?.type === 'MSP' ? undefined : serviceId.split('_')[0],
+      applicationId: currentProject?.type === 'MSP' ? '-' : serviceId.split('_')[0],
       serviceName,
       serviceId: window.encodeURIComponent(serviceId || ''),
     });
