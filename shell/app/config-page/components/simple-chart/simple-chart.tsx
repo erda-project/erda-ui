@@ -45,14 +45,16 @@ const getOption = (chart: CP_SIMPLE_CHART.IData['chart']) => {
         </div>`;
       },
       textStyle: {
-        fontSize: 12,
         color: '#fff',
       },
       axisPointer: {
         type: 'line',
         label: {
           show: false,
-          color: '#fff',
+        },
+        lineStyle: {
+          type: 'dashed',
+          color: 'rgba(48,38,71,0.40)',
         },
       },
     },
@@ -63,8 +65,10 @@ const getOption = (chart: CP_SIMPLE_CHART.IData['chart']) => {
         type: 'line',
         smooth: false,
         lineStyle: {
-          color: newColorMap.warning4,
           width: 3,
+        },
+        itemStyle: {
+          color: newColorMap.warning4,
         },
         showSymbol: false,
         areaStyle: {

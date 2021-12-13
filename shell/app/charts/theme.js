@@ -10,6 +10,8 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+import { LinearGradient } from 'echarts/lib/util/graphic';
+import { colorToRgb } from 'common/utils';
 
 export const areaColors = [
   'rgba(3, 91, 227, 0.2)',
@@ -66,6 +68,13 @@ export const newColorMap = {
   warning6: '#8C233D',
   warning7: '#66142C',
   warning8: '#400C1C',
+};
+
+export const genLinearGradient = (color) => {
+  return new LinearGradient(0, 0, 0, 1, [
+    { offset: 0, color: colorToRgb(color, 0.2) },
+    { offset: 1, color: colorToRgb(color, 0.01) },
+  ]);
 };
 
 export const theme = {
@@ -474,22 +483,24 @@ export const theme = {
     },
   },
   tooltip: {
-    backgroundColor: '#ffffff',
-    borderColor: 'rgba(0, 0, 0, .1)',
-    borderWidth: 1,
+    trigger: 'axis',
+    backgroundColor: 'rgba(48,38,71,0.96)',
+    borderWidth: 0,
+    padding: [8, 16],
     textStyle: {
-      color: 'rgba(0, 0, 0, .6)',
+      color: '#fff',
     },
     axisPointer: {
-      lineStyle: {
-        color: '#cccccc',
-        width: 1,
+      type: 'line',
+      label: {
+        show: false,
       },
-      crossStyle: {
-        color: '#cccccc',
-        width: 1,
+      lineStyle: {
+        type: 'dashed',
+        color: 'rgba(48,38,71,0.40)',
       },
     },
+    borderColor: 'rgba(0, 0, 0, .1)',
   },
   timeline: {
     lineStyle: {

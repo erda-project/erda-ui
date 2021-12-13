@@ -22,10 +22,7 @@ import ReactFlow, {
 } from 'react-flow-renderer';
 import dagre from 'dagrejs';
 import { genEdges, genNodes } from 'msp/env-overview/topology/pages/topology/utils';
-import ApiGatewayNode from './nodes/api-gateway-node';
-import ServicesNode from './nodes/services-node';
-import ExternalServiceNode from './nodes/external-service-node';
-import AddonNode from './nodes/addon-node';
+import customerNode from './nodes';
 import FloatingEdge from 'msp/env-overview/topology/pages/topology/component/floating-edge';
 import FloatingConnectionLine from 'msp/env-overview/topology/pages/topology/component/floating-edge/connection-line';
 import ErdaIcon from 'common/components/erda-icon';
@@ -43,17 +40,19 @@ interface IProps {
   data: { nodes: TOPOLOGY.INode[] };
 }
 
-const genEle = (nodes: TOPOLOGY.INode[]): Elements => {
+const genEle = (nodes: TOPOLOGY.INode[]) => {
   const edge = genEdges(nodes);
   const node = genNodes(nodes, edge);
-  return [...node, ...edge];
+  return { node, edge };
 };
 
 /**
  * @description calculate node position
  * @see https://github.com/dagrejs/dagre/wiki
  */
-const calculateLayout = (list: Elements) => {
+const calculateLayout = (list: Elements): [Elements, { width: number; height: number }] => {
+  let width = 0;
+  let height = 0;
   dagreGraph.setGraph({ rankdir: 'LR' });
   list.forEach((el) => {
     if (isNode(el)) {
@@ -70,68 +69,113 @@ const calculateLayout = (list: Elements) => {
       const nodeWithPosition = dagreGraph.node(el.id);
       temp.targetPosition = Position.Left;
       temp.sourcePosition = Position.Right;
-      temp.position = { x: (nodeWithPosition.x + Math.random() / 1000) * 0.75, y: nodeWithPosition.y };
+      const x = (nodeWithPosition.x + Math.random() / 1000) * 0.75;
+      const y = nodeWithPosition.y;
+      width = width < x ? x : width;
+      height = height < y ? y : height;
+      temp.position = { x, y };
     }
     return { ...el, ...temp };
   });
-  return layoutedElements;
+  return [layoutedElements, { width, height }];
 };
 
 const TopologyComp = ({ data }: IProps) => {
-  const initElement: Elements = genEle(data.nodes);
+  const topologyData = React.useRef(genEle(data.nodes));
+  const layoutData = React.useRef<Elements>([]);
+  const wrapperRaf = React.useRef<HTMLDivElement>();
+  const { node, edge } = topologyData.current;
+  const initElement: Elements = [...node, ...edge];
   const [elements, setElements] = React.useState<Elements>(initElement);
   const { zoomIn, zoomOut } = useZoomPanHelper();
   const onElementsRemove = (elementsToRemove: Elements) => setElements((els) => removeElements(elementsToRemove, els));
 
+  const setFlowConfig = (list: Elements) => {
+    const [ele, wrapperSize] = calculateLayout(list);
+    if (wrapperRaf.current) {
+      wrapperRaf.current.style.height = `${wrapperSize.height + 200}px`;
+    }
+    layoutData.current = ele;
+    setElements(layoutData.current);
+  };
+
   useUpdateEffect(() => {
-    setElements(calculateLayout(genEle(data.nodes)));
+    const temp = genEle(data.nodes);
+    topologyData.current = temp;
+    setFlowConfig([...temp.node, ...temp.edge]);
   }, [data.nodes]);
 
   const layout = () => {
-    setElements(calculateLayout(elements));
+    setFlowConfig(elements);
   };
 
+  const nodeTypes = customerNode((currentNode, flag) => {
+    const { id } = currentNode.metaData;
+    const originData = topologyData.current;
+    const prevNodeIds = originData.edge.filter((t) => t.target === id).map((t) => t.source);
+    const nextNodeIds = originData.edge.filter((t) => t.source === id).map((t) => t.target);
+    let newLayoutData = layoutData.current;
+    if (flag === 'in') {
+      newLayoutData = layoutData.current.map((item) => {
+        if (isNode(item)) {
+          return {
+            ...item,
+            data: {
+              ...item.data,
+              hoverStatus: [...prevNodeIds, ...nextNodeIds, id].includes(item.id) ? 1 : -1,
+            },
+          };
+        } else {
+          return {
+            ...item,
+            data: {
+              ...item.data,
+              hoverStatus: item.id.includes(id) ? 1 : -1,
+            },
+          };
+        }
+      });
+    }
+    setElements(newLayoutData);
+  });
+
   return (
-    <ReactFlow
-      className="relative"
-      elements={elements}
-      nodeTypes={{
-        apigateway: ApiGatewayNode,
-        service: ServicesNode,
-        externalservice: ExternalServiceNode,
-        addon: AddonNode,
-      }}
-      onElementsRemove={onElementsRemove}
-      edgeTypes={{
-        float: FloatingEdge,
-      }}
-      connectionLineComponent={FloatingConnectionLine}
-      nodeExtent={nodeExtent}
-      minZoom={0.2}
-      maxZoom={2}
-      onLoad={layout}
-    >
-      <div className="zoom-buttons absolute bottom-4 right-4 h-8 w-20 flex z-10">
-        <div className="cursor-pointer w-9 flex justify-center items-center mr-0.5">
-          <ErdaIcon
-            type="minus"
-            size={12}
+    <div className="min-h-full" ref={wrapperRaf}>
+      <ReactFlow
+        elements={elements}
+        nodeTypes={nodeTypes}
+        onElementsRemove={onElementsRemove}
+        edgeTypes={{
+          float: FloatingEdge,
+        }}
+        preventScrolling={false}
+        zoomOnScroll={false}
+        connectionLineComponent={FloatingConnectionLine}
+        nodeExtent={nodeExtent}
+        minZoom={0.2}
+        maxZoom={2}
+        onLoad={layout}
+      >
+        <div className="zoom-buttons fixed bottom-6 right-4 h-8 w-20 flex z-10">
+          <div
+            className="cursor-pointer w-9 flex justify-center items-center mr-0.5"
             onClick={() => {
               zoomOut();
             }}
-          />
-        </div>
-        <div className="cursor-pointer w-9 flex justify-center items-center">
-          <ErdaIcon
-            type="plus"
-            size={12}
+          >
+            <ErdaIcon type="minus" size={12} />
+          </div>
+          <div
+            className="cursor-pointer w-9 flex justify-center items-center"
             onClick={() => {
               zoomIn();
             }}
-          />
+          >
+            <ErdaIcon type="plus" size={12} />
+          </div>
         </div>
-      </div>
-    </ReactFlow>
+      </ReactFlow>
+    </div>
   );
 };
 export default (props: IProps) => {

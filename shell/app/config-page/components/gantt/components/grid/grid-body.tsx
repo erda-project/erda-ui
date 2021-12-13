@@ -13,9 +13,10 @@
 
 import React, { ReactChild } from 'react';
 import { Task } from '../../types/public-types';
-import { max, min } from 'lodash';
+import { max, min, findIndex, debounce } from 'lodash';
 import moment from 'moment';
 import './grid.scss';
+import { ErdaIcon } from 'common';
 
 export interface GridBodyProps {
   tasks: Task[];
@@ -32,7 +33,7 @@ const getDateFormX = (x1 = -1, x2 = -1, dateDelta: number, columnWidth: number, 
   if (x1 === -1 || x2 === -1) return [];
   const unit = dateDelta / columnWidth;
   const start = x1 * unit + firstDate;
-  const end = x2 * unit + firstDate;
+  const end = x2 * unit + firstDate - 1;
   return [start, end].sort();
 };
 
@@ -52,9 +53,14 @@ export const GridBody: React.FC<GridBodyProps> = ({
   ganttEvent,
   setRangeAddTime,
   horizontalRange,
+  displayWidth,
+  onMouseMove: propsOnMouseMove,
+  mouseUnFocus: propsMouseUnFocus,
+  mousePos,
 }) => {
   let y = 0;
   const gridRows: ReactChild[] = [];
+  const today = new Date();
   const dateDelta =
     dates[1].getTime() -
     dates[0].getTime() -
@@ -72,6 +78,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
       setRangeAddTime(null);
     }
   }, [startPos, endPos]);
+
   const onMouseDown = (e: React.MouseEvent) => {
     const gridPos = e.currentTarget.getBoundingClientRect();
     const clickY = e.clientY - gridPos.y;
@@ -81,15 +88,22 @@ export const GridBody: React.FC<GridBodyProps> = ({
     if (!curTask.start || !curTask.end) {
       setSelectedTask(curTask.id);
       setChosenTask(curTask);
-      setStartPos([e.clientX - gridPos.x, clickPos * rowHeight + 8]);
+
+      setStartPos([
+        Math.floor((e.clientX - gridPos.x) / columnWidth) * columnWidth,
+        clickPos * rowHeight + 8,
+        e.clientX - gridPos.x,
+      ]);
     }
   };
   const mouseUnFocus = () => {
+    propsMouseUnFocus();
     setStartPos(null);
     setEndPos(null);
     setChosenTask(null);
   };
   const curDates = dates.slice(...horizontalRange);
+  const todayIndex = findIndex(curDates, (item) => moment(item).isSame(today, 'day'));
   const addTime = getDateFormX(startPos?.[0], endPos?.[0], dateDelta, columnWidth, curDates[0]?.getTime());
 
   const onMouseUp = () => {
@@ -100,49 +114,85 @@ export const GridBody: React.FC<GridBodyProps> = ({
   };
   const onMouseMove = (e: React.MouseEvent) => {
     const gridPos = e.currentTarget.getBoundingClientRect();
+    propsOnMouseMove(e);
+    const curEndPod = e.clientX - gridPos.x;
+
     if (startPos) {
-      setEndPos([e.clientX - gridPos.x, startPos[1] + rowHeight - 16]);
+      setEndPos(
+        curEndPod - startPos[2] > 10
+          ? [
+              (Math.floor((e.clientX - gridPos.x + 1) / columnWidth) + 1) * columnWidth,
+              startPos[1] + rowHeight - 16,
+              curEndPod,
+            ]
+          : null,
+      );
     }
   };
 
-  for (const task of tasks) {
+  tasks?.forEach((task: Task, idx: number) => {
     const validTask = task.start && task.end;
+    let PointIcon = null;
+    if (validTask) {
+      const displayPos = Math.floor(displayWidth / columnWidth);
+      if (curDates?.[0] && task.end < curDates[0]) {
+        PointIcon = (
+          <div className="text-default-2 hover:text-default-4 erda-gantt-grid-arrow-box flex items-center">
+            <ErdaIcon className="cursor-pointer " type="zuo" size={20} onClick={() => setSelectedTask(task.id)} />
+            <div className="erda-gantt-grid-arrow text-default-6">
+              {moment(task.start).format('MM-DD')} ~ {moment(task.end).format('MM-DD')}
+            </div>
+          </div>
+        );
+      } else if (curDates?.[displayPos] && task.start > curDates[displayPos]) {
+        PointIcon = (
+          <div
+            className="text-default-2 hover:text-default-4 erda-gantt-grid-arrow-box flex items-center"
+            style={{ marginLeft: displayWidth - 20 - 80 }}
+          >
+            <div className="erda-gantt-grid-arrow text-default-6">
+              {moment(task.start).format('MM-DD')} ~ {moment(task.end).format('MM-DD')}
+            </div>
+            <ErdaIcon className="cursor-pointer" onClick={() => setSelectedTask(task.id)} type="you" size={20} />
+          </div>
+        );
+      }
+    }
     gridRows.push(
-      <rect
-        key={'Row' + task.id}
-        x="0"
-        y={y}
-        onClick={() => {
-          if (validTask) {
-            setSelectedTask(task.id);
-          }
-        }}
-        width={svgWidth}
-        height={rowHeight}
-        className={`erda-gantt-grid-row ${selectedTask?.id === task.id ? 'erda-gantt-grid-row-selected' : ''} ${
-          !validTask ? 'on-add' : ''
-        }`}
-      />,
+      <foreignObject key={`Row${task.id}`} x="0" y={y} width={svgWidth} height={rowHeight}>
+        <div
+          className={`flex erda-gantt-grid-row h-full ${
+            selectedTask?.id === task.id ? 'erda-gantt-grid-row-selected' : ''
+          } ${!validTask ? 'on-add' : ''} ${mousePos?.[1] === idx ? 'on-hover' : ''}`}
+        />
+      </foreignObject>,
     );
     y += rowHeight;
-  }
+  });
 
   const { changedTask } = ganttEvent || {};
   const realHeight = tasks.length * rowHeight;
 
+  const getAddRangePos = () => {
+    if (startPos && endPos) {
+      return {
+        transform: `translate(${min([startPos[0], endPos[0]])},${min([startPos[1], endPos[1]])})`,
+        width: Math.abs(startPos[0] - endPos[0]),
+        height: Math.abs(startPos[1] - endPos[1]),
+      };
+    }
+    return null;
+  };
+
   const getRangePos = () => {
     if (changedTask) {
       return {
-        // x: changedTask.x1,
-        // y: 0,
         transform: `translate(${changedTask.x1},0)`,
         width: changedTask.x2 - changedTask.x1,
         height: max([ganttHeight, realHeight]),
       };
     } else if (startPos && endPos) {
       return {
-        // x: min([startPos[0], endPos[0]]),
-        // y: 0,
         transform: `translate(${min([startPos[0], endPos[0]])},0)`,
         width: Math.abs(endPos[0] - startPos[0]),
         height: max([ganttHeight, realHeight]),
@@ -151,8 +201,36 @@ export const GridBody: React.FC<GridBodyProps> = ({
     return null;
   };
 
-  const rangePos = getRangePos();
+  const getMouseBlockPos = () => {
+    if (mousePos) {
+      const curTask = tasks[mousePos[1]];
+      if (curTask && !curTask.start && !curTask.end) {
+        return {
+          width: columnWidth,
+          height: rowHeight - 16,
+          transform: `translate(${mousePos[0] * columnWidth},${mousePos[1] * rowHeight + 8})`,
+        };
+      }
+    }
+    return null;
+  };
 
+  const getMouseHoverPos = () => {
+    if (mousePos) {
+      return {
+        width: 8,
+        height: max([ganttHeight, realHeight]),
+        transform: `translate(${mousePos[0] * columnWidth + columnWidth / 2 - 4},0)`,
+      };
+    }
+    return null;
+  };
+
+  const rangePos = getRangePos();
+  const mouseBlockPos = getMouseBlockPos();
+  const addRangePos = getAddRangePos();
+  const mouseHoverPos = getMouseHoverPos();
+  const todayStartPos = todayIndex * columnWidth + columnWidth / 2 - 1;
   return (
     <g
       className="gridBody"
@@ -164,25 +242,40 @@ export const GridBody: React.FC<GridBodyProps> = ({
       onMouseLeave={mouseUnFocus}
     >
       {rangePos ? (
-        <g>
-          <rect {...rangePos} className="erda-gantt-grid-changed-range" />
-        </g>
+        <rect {...rangePos} className="erda-gantt-grid-changed-range" />
+      ) : mouseHoverPos ? (
+        <foreignObject {...mouseHoverPos}>
+          <div className="h-full w-full erda-gantt-grid-hover-box">
+            <div className="erda-gantt-grid-hover-arrow" />
+            <div className="erda-gantt-grid-hover-range h-full w-full" />
+          </div>
+        </foreignObject>
       ) : null}
+
       <g className="rows">{gridRows}</g>
-      {startPos && endPos ? (
+      {addRangePos ? (
         <g>
-          <foreignObject
-            // x={min([startPos[0], endPos[0]])}
-            // y={min([startPos[1], endPos[1]])}
-            transform={`translate(${min([startPos[0], endPos[0]])},${min([startPos[1], endPos[1]])})`}
-            width={Math.abs(startPos[0] - endPos[0])}
-            height={Math.abs(startPos[1] - endPos[1])}
-          >
+          <foreignObject {...addRangePos}>
             <div className="erda-gantt-grid-add-rect text-sm text-desc  bg-white bg-opacity-100 w-full h-full">{`${moment(
               addTime[0],
-            ).format('YYYY-MM-DD')}~${moment(addTime[1]).format('YYYY-MM-DD')}`}</div>
+            ).format('MM-DD')}~${moment(addTime[1]).format('MM-DD')}`}</div>
           </foreignObject>
         </g>
+      ) : mouseBlockPos ? (
+        <g>
+          <foreignObject {...mouseBlockPos}>
+            <div className="erda-gantt-grid-add-rect bg-white bg-opacity-100 w-full h-full" />
+          </foreignObject>
+        </g>
+      ) : null}
+      {todayIndex > -1 ? (
+        <polyline
+          points={`${todayStartPos + columnWidth / 2},4 ${todayStartPos + columnWidth / 2},${max([
+            ganttHeight,
+            realHeight,
+          ])}`}
+          className="erda-gantt-grid-today"
+        />
       ) : null}
     </g>
   );

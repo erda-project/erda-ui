@@ -52,6 +52,8 @@ const TaskSummary = () => {
           container: {
             props: {
               className: 'm-4',
+              leftProportion: 3,
+              rightProportion: 7,
             },
           },
           simpleChart: {

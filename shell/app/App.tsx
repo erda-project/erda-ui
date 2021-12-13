@@ -11,35 +11,38 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+// external modules
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { getResourcePermissions } from 'user/services/user';
-import { getJoinedOrgs } from 'app/org-home/services/org';
-import { setLS, notify, insertWhen } from 'common/utils';
-import { erdaEnv } from 'common/constants';
-import { registChartControl } from 'charts/utils/regist';
-import userStore from './user/stores';
+import { get } from 'lodash';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import { startApp, registerModule } from 'core/index';
-import modules from './mf-modules'; // ambiguous modules may conflict with modules folder, then rename to mf-modules
-import { setConfig, getConfig } from 'core/config';
-import permStore from 'user/stores/permission';
-import { setGlobal } from 'app/global-space';
-import { get } from 'lodash';
 import { Pagination, message, ConfigProvider } from 'antd';
+import antd_zhCN from 'antd/es/locale-provider/zh_CN';
+import antd_enUS from 'antd/es/locale-provider/en_US';
+import { IconProvider, DEFAULT_ICON_CONFIGS } from '@icon-park/react/es/runtime';
+// core modules
 import { isZh } from 'core/i18n';
+import { startApp, registerModule } from 'core/index';
+import { setConfig, getConfig } from 'core/config';
+// common modules
+import { registChartControl } from 'charts/utils/regist';
+import { setGlobal } from 'app/global-space';
+import { PAGINATION } from 'app/constants';
+import { erdaEnv } from 'common/constants';
 import { EmptyListHolder } from 'common';
+import { setLS, notify, insertWhen } from 'common/utils';
+import { initAxios } from 'common/utils/axios-config';
+import { getResourcePermissions } from 'user/services/user';
+import userStore from './user/stores';
+import permStore from 'user/stores/permission';
+import { getJoinedOrgs } from 'app/org-home/services/org';
 import orgStore, { isAdminRoute } from 'app/org-home/stores/org';
+import modules from './mf-modules'; // ambiguous modules may conflict with modules folder, then rename to mf-modules
 import './styles/antd-extension.scss';
 import './styles/app.scss';
 import '@erda-ui/dashboard-configurator/dist/index.css';
-import { initAxios } from 'common/utils/axios-config';
-import { PAGINATION } from 'app/constants';
 import 'tailwindcss/tailwind.css';
-
-import antd_zhCN from 'antd/es/locale-provider/zh_CN';
-import antd_enUS from 'antd/es/locale-provider/en_US';
 
 setConfig('onAPISuccess', message.success);
 setConfig('onAPIFail', notify);

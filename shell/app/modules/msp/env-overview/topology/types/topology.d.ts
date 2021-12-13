@@ -57,12 +57,14 @@ declare namespace TOPOLOGY {
     isRoot: boolean;
     isParent: boolean;
     isLeaf: boolean;
+    hoverStatus: number;
     childrenCount: number;
     parentCount: number;
     metaData: Omit<INode, 'parents'>;
   }
 
   interface TopoEdge {
+    hoverStatus: number;
     source: Omit<INode, 'parents'>;
     target: Omit<INode, 'parents'>;
   }

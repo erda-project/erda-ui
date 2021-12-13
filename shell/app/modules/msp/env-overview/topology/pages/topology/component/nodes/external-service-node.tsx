@@ -12,13 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import CommonNode from 'msp/env-overview/topology/pages/topology/component/nodes/common-node';
+import CommonNode, { IProps } from 'msp/env-overview/topology/pages/topology/component/nodes/common-node';
 import { NodeProps } from 'react-flow-renderer';
 import ErdaIcon from 'common/components/erda-icon';
 import './index.scss';
 import { formatNumber } from '../../utils';
 
-const ExternalServiceNode: React.FC<NodeProps<TOPOLOGY.TopoNode>> = (props) => {
+const ExternalServiceNode: React.FC<NodeProps<TOPOLOGY.TopoNode> & { onMouseMoving: IProps['onMouseMoving'] }> = (
+  props,
+) => {
   return (
     <CommonNode {...props}>
       {(data: TOPOLOGY.TopoNode['metaData']) => {

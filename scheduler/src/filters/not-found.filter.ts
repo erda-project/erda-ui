@@ -25,12 +25,30 @@ if (!fs.existsSync(indexHtmlPath)) {
 const indexHtmlContent = fs.readFileSync(indexHtmlPath, { encoding: 'utf8' });
 const newIndexHtmlPath = path.join(staticDir, 'shell', 'index-new.html');
 
-const { UC_PUBLIC_URL = '', ENABLE_BIGDATA = '', ENABLE_EDGE = '' } = process.env;
+const {
+  UC_PUBLIC_URL = '',
+  ENABLE_BIGDATA = '',
+  ENABLE_EDGE = '',
+  TERMINUS_KEY = '',
+  TERMINUS_TA_ENABLE = false,
+  TERMINUS_TA_URL = '',
+  TERMINUS_TA_COLLECTOR_URL = '',
+} = process.env;
 
-const newContent = indexHtmlContent.replace(
+let newContent = indexHtmlContent.replace(
   '<!-- $ -->',
   `<script>window.erdaEnv={UC_PUBLIC_URL:"${UC_PUBLIC_URL}",ENABLE_BIGDATA:"${ENABLE_BIGDATA}",ENABLE_EDGE:"${ENABLE_EDGE}"}</script>`,
 );
+if (TERMINUS_TA_ENABLE) {
+  const taContent = `
+<script>
+var _taConfig = window._taConfig;
+!function(e,n,r,t,a,o,c){e[a]=e[a]||function(){(e[a].q=e[a].q||[]).push(arguments)},e.onerror=function(n,r,t,o,c){e[a]("sendExecError",n,r,t,o,c)},n.addEventListener("error",function(n){e[a]("sendError",n)},!0),o=n.createElement(r),c=n.getElementsByTagName(r)[0],o.async=1,o.src=t,c.parentNode.insertBefore(o,c)}(window,document,"script",${TERMINUS_TA_URL},"$ta");
+$ta('start', { udata: { uid: 0 }, ak: ${TERMINUS_KEY}, url: ${TERMINUS_TA_COLLECTOR_URL}, ck: true });
+</script>
+`;
+  newContent = indexHtmlContent.replace('<!-- $ta -->', taContent);
+}
 fs.writeFileSync(newIndexHtmlPath, newContent, { encoding: 'utf8' });
 
 @Catch(NotFoundException)

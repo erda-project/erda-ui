@@ -12,13 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useCallback, useMemo } from 'react';
-import { map, differenceBy } from 'lodash';
+import { differenceBy, map } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
 import { Drawer, Radio, Select, Tag, Tooltip } from 'antd';
 import Table from 'common/components/table';
 import { IActions } from 'common/components/table/interface';
-import { SimpleLog, DebounceSearch, Ellipsis } from 'common';
+import { DebounceSearch, Ellipsis, SimpleLog } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
@@ -407,7 +407,7 @@ const Transaction = () => {
       </div>
       <div className="overflow-auto flex-1">
         <ServiceListDashboard
-          key={`${startTimeMs}-${endTimeMs}`}
+          key={dashboardIdMap[type].id}
           dashboardId={dashboardIdMap[type].id}
           extraGlobalVariable={extraGlobalVariable}
           onBoardEvent={handleBoardEvent}

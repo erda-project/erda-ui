@@ -15,12 +15,12 @@ import { groupBy, set, findIndex } from 'lodash';
 import moment from 'moment';
 
 export const convertDataForGantt = (
-  data: { expandList: CP_GANTT.IData[]; updateList: CP_GANTT.IData[] },
+  data: { expandList: CP_GANTT.IData[]; updateList: CP_GANTT.IData[]; refresh?: boolean },
   prevList: CP_GANTT.IGanttData[],
 ) => {
-  let ganttData: CP_GANTT.IGanttData[] = [...prevList];
+  const { expandList, updateList, refresh } = data;
+  let ganttData: CP_GANTT.IGanttData[] = refresh ? [] : [...prevList];
 
-  const { expandList, updateList } = data;
   const timeConvert = (start: number, end: number) => {
     let _start = start && moment(start).startOf('day');
     let _end = end && moment(end).endOf('day');
@@ -36,9 +36,7 @@ export const convertDataForGantt = (
     };
   };
 
-  const timeLimit = (t) => (t && new Date(t).getTime() > new Date('2019-1-1').getTime() ? t : 0);
-
-  const prevDataGroup = { ...groupBy(prevList, 'pId'), ...expandList };
+  const prevDataGroup = { ...groupBy(ganttData, 'pId'), ...expandList };
 
   const convert = (dataTemp: CP_GANTT.IData[], level = 0, pId?: string) => {
     dataTemp.forEach((item) => {

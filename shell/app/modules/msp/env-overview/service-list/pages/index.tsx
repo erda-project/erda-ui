@@ -22,10 +22,11 @@ import EChart from 'charts/components/echarts';
 import EmptyHolder from 'common/components/empty-holder';
 import { ErdaAlert, ErdaIcon } from 'common';
 import { goTo } from 'common/utils';
-import { LinearGradient } from 'echarts/lib/util/graphic';
+import { genLinearGradient, newColorMap } from 'app/charts/theme';
 import './service-list.scss';
 import routeInfoStore from 'core/stores/route';
 import mspStore from 'msp/stores/micro-service';
+import unknownIcon from 'app/images/default-project-icon.png';
 import { getAnalyzerOverview, getServices } from 'msp/services/service-list';
 import i18n from 'i18n';
 
@@ -34,10 +35,12 @@ interface Views {
   data: number;
   view: View[];
 }
+
 interface View {
   timestamp: number;
   value: number;
 }
+
 interface IList {
   id: string;
   language: string;
@@ -58,11 +61,7 @@ const defaultSeriesConfig = (color?: string) => ({
   },
   areaStyle: {
     normal: {
-      color: new LinearGradient(0, 0, 0, 1, [
-        { offset: 0, color },
-        { offset: 0.3, color: 'rgba(48, 38, 71, 0.01)' },
-        { offset: 1, color: 'rgba(48, 38, 71, 0.01)' },
-      ]),
+      color: genLinearGradient(color),
     },
   },
 });
@@ -82,7 +81,6 @@ const option = {
 };
 
 enum ERDA_ICON {
-  unknown = 'weizhi',
   java = 'java',
   golang = 'go',
   python = 'python',
@@ -216,9 +214,13 @@ const MicroServiceOverview = () => {
                       listDetail(id, name);
                     }}
                   >
-                    <Col span={10} className="flex items-center">
+                    <Col span={8} className="flex items-center">
                       <div className="rounded-sm w-14 h-14 mr-2 language-wrapper">
-                        <ErdaIcon type={ERDA_ICON[language]} size="56" />
+                        {language === 'unknown' ? (
+                          <img src={unknownIcon} width={56} height={56} />
+                        ) : (
+                          <ErdaIcon type={ERDA_ICON[language]} size="56" />
+                        )}
                       </div>
                       <div>
                         <p className="mb-0.5 font-medium text-xl leading-8">{name}</p>
@@ -227,7 +229,7 @@ const MicroServiceOverview = () => {
                         </Tag>
                       </div>
                     </Col>
-                    <Col span={14} className="flex items-center">
+                    <Col span={16} className="flex items-center">
                       <Row gutter={8} className="flex-1">
                         {map(views, ({ data, type, view }) => {
                           const timeStamp: number[] = [];
@@ -246,7 +248,9 @@ const MicroServiceOverview = () => {
                             series: [
                               {
                                 ...defaultSeriesConfig(
-                                  value.find((val) => val !== 0) && type === 'ErrorRate' ? '#d84b65' : '#798CF1',
+                                  value.find((val) => val !== 0) && type === 'ErrorRate'
+                                    ? newColorMap.warning4
+                                    : newColorMap.primary4,
                                 ),
                                 data: value.map((item) => {
                                   if (type === 'RPS' || type === 'ErrorRate') {
@@ -264,12 +268,12 @@ const MicroServiceOverview = () => {
                           return (
                             <Col span={8} className="flex">
                               <div className="py-2">
-                                <p className="mb-0 text-xl leading-8 font-number">
+                                <p className="mb-0 text-xl whitespace-nowrap leading-8 font-number">
                                   {type === 'RPS' ? (data === null ? '-' : `${data} reqs/s`) : null}
                                   {type === 'AvgDuration'
                                     ? data === null
                                       ? '-'
-                                      : `${Math.ceil(data / 1000000).toFixed(2)}ms`
+                                      : `${(data / 1000000).toFixed(2)}ms`
                                     : null}
                                   {type === 'ErrorRate' ? (data === null ? '-' : `${data}%`) : null}
                                 </p>
@@ -300,7 +304,7 @@ const MicroServiceOverview = () => {
                                   ) : null}
                                 </p>
                               </div>
-                              <div className="ml-1 mr-4 px-2 py-2 flex-1 chart-wrapper ">
+                              <div className="ml-1 px-2 py-2 flex-1 chart-wrapper ">
                                 <EChart
                                   style={{ width: '100%', height: '56px', minHeight: 0 }}
                                   option={currentOption}

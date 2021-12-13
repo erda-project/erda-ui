@@ -55,6 +55,9 @@
           &:first-child {
             margin-top: 0;
           }
+          &.top-button-group + div {
+            margin-top: 0;
+          }
         }
       }
     }

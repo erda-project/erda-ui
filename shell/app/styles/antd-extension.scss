@@ -523,10 +523,17 @@ body {
       &:not(:last-child) {
         border-right-width: 0;
       }
+
       &:not(:first-child)::before {
         height: 12px;
         top: calc(50% - 6px);
         padding: 0;
+      }
+
+      &.ant-radio-button-wrapper-checked {
+        &:before {
+          display: none;
+        }
       }
     }
   }

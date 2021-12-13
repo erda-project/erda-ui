@@ -12,13 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import CommonNode from './common-node';
+import CommonNode, { IProps } from './common-node';
 import Circular from '../progress/circular';
 import { formatNumber } from '../../utils';
 import { NodeProps } from 'react-flow-renderer';
 import './index.scss';
 
-const ServicesNode: React.FC<NodeProps<TOPOLOGY.TopoNode>> = (props) => {
+const ServicesNode: React.FC<NodeProps<TOPOLOGY.TopoNode> & { onMouseMoving: IProps['onMouseMoving'] }> = (props) => {
   return (
     <CommonNode {...props}>
       {(data: TOPOLOGY.TopoNode['metaData']) => {

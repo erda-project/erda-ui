@@ -35,7 +35,7 @@ export const VerticalScroll: React.FC<{
       style={{
         height,
         marginTop: topOffset,
-        marginLeft: rtl ? '' : '-17px',
+        marginLeft: rtl ? '' : '-8px',
       }}
       className={'erda-gantt-vertical-scroll'}
       onScroll={onScroll}
@@ -73,7 +73,7 @@ export const HorizontalScroll = React.forwardRef(({ scroll, width, offset, rtl, 
       onScroll={onScroll}
       ref={scrollRef}
     >
-      <div style={{ width, height: 17 }} />
+      <div style={{ width, height: 8 }} />
     </div>
   );
 });
