@@ -61,12 +61,45 @@ export const ISSUE_ICON = {
     DUP: <CustomIcon type="zs" className="issue-icon state zs" />,
     CLOSED: <CustomIcon type="tg" className="issue-icon state tg" />,
   },
+  complexity: {
+    // 复杂度
+    EASY: <ErdaIcon type="rongyi" size="20px" className="mr-1" />,
+    NORMAL: <ErdaIcon type="zhongdengnandu" size="20px" className="mr-1" />,
+    HARD: <ErdaIcon type="nan" size="20px" className="mr-1" />,
+  },
 };
 
 export const ISSUE_COMPLEXITY_MAP = {
-  HARD: { value: 'HARD', label: i18n.t('dop:complex') },
-  NORMAL: { value: 'NORMAL', label: i18n.t('medium') },
-  EASY: { value: 'EASY', label: i18n.t('dop:easy') },
+  HARD: {
+    value: 'HARD',
+    label: i18n.t('dop:complex'),
+    iconLabel: (
+      <div className="flex items-center">
+        {ISSUE_ICON.complexity.HARD}
+        {i18n.t('dop:complex')}
+      </div>
+    ),
+  },
+  NORMAL: {
+    value: 'NORMAL',
+    label: i18n.t('medium'),
+    iconLabel: (
+      <div className="flex items-center">
+        {ISSUE_ICON.complexity.NORMAL}
+        {i18n.t('medium')}
+      </div>
+    ),
+  },
+  EASY: {
+    value: 'EASY',
+    label: i18n.t('dop:easy'),
+    iconLabel: (
+      <div className="flex items-center">
+        {ISSUE_ICON.complexity.EASY}
+        {i18n.t('dop:easy')}
+      </div>
+    ),
+  },
 };
 
 export const BUG_SEVERITY_MAP = {
