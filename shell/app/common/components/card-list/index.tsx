@@ -16,6 +16,7 @@ import { Col, Row, Spin } from 'antd';
 import { RowProps } from 'antd/es/row';
 import { ColProps } from 'antd/es/col';
 import classnames from 'classnames';
+import EmptyHolder from 'common/components/empty-holder';
 
 interface CardColumnsProps<T> {
   dataIndex: keyof T;
@@ -28,7 +29,7 @@ interface CardColumnsProps<T> {
 }
 
 interface IProps<T = Record<string, any>> {
-  size?: 'default' | 'small';
+  size?: 'default' | 'small' | 'large';
   loading?: boolean;
   rowKey?: string | ((record: T) => string);
   rowClick?: (record: T) => void;
@@ -36,6 +37,7 @@ interface IProps<T = Record<string, any>> {
   slot?: React.ReactNode;
   rowClassName?: string;
   columns: CardColumnsProps<T>[];
+  emptyHolder?: React.ReactNode;
 }
 
 const renderChild = <T,>(record: T, columns: CardColumnsProps<T>[], index: number) => {
@@ -68,6 +70,7 @@ const CardList = <T,>({
   rowClick,
   slot,
   size = 'default',
+  emptyHolder,
 }: IProps<T>) => {
   return (
     <div className="card-list flex flex-1 flex-col bg-white shadow pb-2">
@@ -76,34 +79,37 @@ const CardList = <T,>({
       </div>
       <div className="card-list-body px-2 mt-2">
         <Spin spinning={!!loading}>
-          {dataSource.map((record, index) => {
-            let rowId;
-            if (typeof rowKey === 'function') {
-              rowId = rowKey(record);
-            } else {
-              rowId = record[rowKey];
-            }
-            const rowClass = classnames(
-              'card-shadow mb-2 mx-2 px-4 rounded-sm transition-all duration-300 hover:bg-grey',
-              {
-                'py-8': size === 'default',
-                'py-6': size === 'small',
-                [rowClassName as string]: !!rowClassName,
-                'cursor-pointer': rowClick,
-              },
-            );
-            return (
-              <Row
-                onClick={() => {
-                  rowClick?.(record);
-                }}
-                key={rowId}
-                className={rowClass}
-              >
-                {renderChild<T>(record, columns, index)}
-              </Row>
-            );
-          })}
+          {dataSource.length
+            ? dataSource.map((record, index) => {
+                let rowId;
+                if (typeof rowKey === 'function') {
+                  rowId = rowKey(record);
+                } else {
+                  rowId = record[rowKey];
+                }
+                const rowClass = classnames(
+                  'card-shadow mb-4 mx-2 px-4 rounded-sm transition-all duration-300 hover:bg-grey',
+                  {
+                    'py-8': size === 'large',
+                    'py-6': size === 'default',
+                    'py-4': size === 'small',
+                    [rowClassName as string]: !!rowClassName,
+                    'cursor-pointer': rowClick,
+                  },
+                );
+                return (
+                  <Row
+                    onClick={() => {
+                      rowClick?.(record);
+                    }}
+                    key={rowId}
+                    className={rowClass}
+                  >
+                    {renderChild<T>(record, columns, index)}
+                  </Row>
+                );
+              })
+            : emptyHolder || <EmptyHolder relative />}
         </Spin>
       </div>
     </div>

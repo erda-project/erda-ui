@@ -121,7 +121,7 @@ const Overview = () => {
   const columns: CardColumnsProps<MS_INDEX.IMspProject>[] = [
     {
       dataIndex: 'displayName',
-      colProps:{
+      colProps: {
         className: 'flex items-center',
       },
       render: (displayName: string, { logo, desc, type }) => {
@@ -144,14 +144,14 @@ const Overview = () => {
     },
     {
       dataIndex: 'id',
-      colProps:{
+      colProps: {
         className: 'flex items-center',
       },
       children: {
         columns: metric.map((item) => ({
           dataIndex: item.dataIndex,
-          colProps:{
-            span: 6
+          colProps: {
+            span: 6,
           },
           render: (text) => (
             <>
@@ -191,6 +191,7 @@ const Overview = () => {
       </div>
       <CardList<MS_INDEX.IMspProject>
         rowKey="id"
+        size="large"
         loading={loading}
         columns={columns}
         dataSource={list}
