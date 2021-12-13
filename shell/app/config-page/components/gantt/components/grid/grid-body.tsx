@@ -33,7 +33,7 @@ const getDateFormX = (x1 = -1, x2 = -1, dateDelta: number, columnWidth: number, 
   if (x1 === -1 || x2 === -1) return [];
   const unit = dateDelta / columnWidth;
   const start = x1 * unit + firstDate;
-  const end = x2 * unit + firstDate;
+  const end = x2 * unit + firstDate - 1;
   return [start, end].sort();
 };
 
@@ -52,9 +52,11 @@ export const GridBody: React.FC<GridBodyProps> = ({
   onDateChange,
   ganttEvent,
   setRangeAddTime,
-  setHoverTime,
   horizontalRange,
   displayWidth,
+  onMouseMove: propsOnMouseMove,
+  mouseUnFocus: propsMouseUnFocus,
+  mousePos,
 }) => {
   let y = 0;
   const gridRows: ReactChild[] = [];
@@ -65,17 +67,9 @@ export const GridBody: React.FC<GridBodyProps> = ({
     dates[1].getTimezoneOffset() * 60 * 1000 +
     dates[0].getTimezoneOffset() * 60 * 1000;
 
-  const debounceSetHoverTime = React.useCallback(
-    debounce((_mousePos) => {
-      setHoverTime(_mousePos);
-    }, 400),
-    [],
-  );
-
   const [startPos, setStartPos] = React.useState<null | number[]>(null);
   const [endPos, setEndPos] = React.useState<null | number[]>(null);
   const [chosenTask, setChosenTask] = React.useState<Obj | null>(null);
-  const [mousePos, setMousePos] = React.useState<null | number[]>(null);
 
   React.useEffect(() => {
     if (startPos && endPos) {
@@ -84,10 +78,6 @@ export const GridBody: React.FC<GridBodyProps> = ({
       setRangeAddTime(null);
     }
   }, [startPos, endPos]);
-
-  React.useEffect(() => {
-    debounceSetHoverTime(mousePos);
-  }, [mousePos]);
 
   const onMouseDown = (e: React.MouseEvent) => {
     const gridPos = e.currentTarget.getBoundingClientRect();
@@ -99,11 +89,15 @@ export const GridBody: React.FC<GridBodyProps> = ({
       setSelectedTask(curTask.id);
       setChosenTask(curTask);
 
-      setStartPos([Math.floor((e.clientX - gridPos.x) / columnWidth) * columnWidth, clickPos * rowHeight + 8]);
+      setStartPos([
+        Math.floor((e.clientX - gridPos.x) / columnWidth) * columnWidth,
+        clickPos * rowHeight + 8,
+        e.clientX - gridPos.x,
+      ]);
     }
   };
   const mouseUnFocus = () => {
-    setMousePos(null);
+    propsMouseUnFocus();
     setStartPos(null);
     setEndPos(null);
     setChosenTask(null);
@@ -120,15 +114,19 @@ export const GridBody: React.FC<GridBodyProps> = ({
   };
   const onMouseMove = (e: React.MouseEvent) => {
     const gridPos = e.currentTarget.getBoundingClientRect();
-    const mouseY = max([e.clientY - gridPos.y, 0]);
-    const mouseX = max([e.clientX - gridPos.x]);
-    setMousePos([Math.floor(mouseX / columnWidth), Math.floor(mouseY / rowHeight)]);
+    propsOnMouseMove(e);
+    const curEndPod = e.clientX - gridPos.x;
 
     if (startPos) {
-      setEndPos([
-        (Math.floor((e.clientX - gridPos.x + 1) / columnWidth) + 1) * columnWidth,
-        startPos[1] + rowHeight - 16,
-      ]);
+      setEndPos(
+        curEndPod - startPos[2] > 10
+          ? [
+              (Math.floor((e.clientX - gridPos.x + 1) / columnWidth) + 1) * columnWidth,
+              startPos[1] + rowHeight - 16,
+              curEndPod,
+            ]
+          : null,
+      );
     }
   };
 
@@ -166,9 +164,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
           className={`flex erda-gantt-grid-row h-full ${
             selectedTask?.id === task.id ? 'erda-gantt-grid-row-selected' : ''
           } ${!validTask ? 'on-add' : ''} ${mousePos?.[1] === idx ? 'on-hover' : ''}`}
-        >
-          {PointIcon}
-        </div>
+        />
       </foreignObject>,
     );
     y += rowHeight;
@@ -234,6 +230,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
   const mouseBlockPos = getMouseBlockPos();
   const addRangePos = getAddRangePos();
   const mouseHoverPos = getMouseHoverPos();
+  const todayStartPos = todayIndex * columnWidth + columnWidth / 2 - 1;
   return (
     <g
       className="gridBody"
@@ -271,13 +268,13 @@ export const GridBody: React.FC<GridBodyProps> = ({
           </foreignObject>
         </g>
       ) : null}
-      {todayIndex ? (
-        <rect
-          width={2}
-          height={max([ganttHeight, realHeight])}
+      {todayIndex > -1 ? (
+        <polyline
+          points={`${todayStartPos + columnWidth / 2},4 ${todayStartPos + columnWidth / 2},${max([
+            ganttHeight,
+            realHeight,
+          ])}`}
           className="erda-gantt-grid-today"
-          y={4}
-          x={todayIndex * columnWidth + columnWidth / 2 - 1}
         />
       ) : null}
     </g>

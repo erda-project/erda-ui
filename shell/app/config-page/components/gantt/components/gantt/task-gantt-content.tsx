@@ -57,12 +57,15 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
   fontSize,
   rtl,
   BarContentRender,
+  horizontalRange,
+  svgWidth,
   setGanttEvent,
   setFailedTask,
   setSelectedTask,
   onDateChange,
   onProgressChange,
   onDoubleClick,
+  displayWidth,
   onDelete,
 }) => {
   const point = svg?.current?.createSVGPoint();
@@ -263,12 +266,19 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
               BarContentRender={BarContentRender}
               arrowIndent={arrowIndent}
               isMoving={isMoving}
+              columnWidth={columnWidth}
               taskHeight={taskHeight}
               ganttEvent={ganttEvent}
+              horizontalRange={horizontalRange}
+              svgWidth={svgWidth}
+              rowHeight={rowHeight}
+              dates={dates}
               isProgressChangeable={!!onProgressChange && !task.isDisabled}
               isDateChangeable={!!onDateChange && !task.isDisabled}
               isDelete={!task.isDisabled}
               onEventStart={handleBarEventStart}
+              setSelectedTask={setSelectedTask}
+              displayWidth={displayWidth}
               key={task.id}
               isSelected={!!selectedTask && task.id === selectedTask.id}
               rtl={rtl}

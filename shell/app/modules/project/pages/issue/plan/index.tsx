@@ -53,6 +53,7 @@ const BarContentRender = (props: IBarProps) => {
             ref={nameRef}
             className="text-xs whitespace-nowrap"
             style={{
+              padding: '14px 0',
               WebkitMaskImage: `linear-gradient(90deg, rgba(48,38,71,0.80) ${linearPercent}%, rgba(48,38,71,0.16) ${linearPercent}%)`,
             }}
           >

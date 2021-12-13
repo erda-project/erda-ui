@@ -85,7 +85,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   // const [svgContainerWidth, setSvgContainerWidth] = useState(0);
   // const [svgContainerHeight, setSvgContainerHeight] = useState(ganttHeight);
   const [rangeAddTime, setRangeAddTime] = useState<null | { x1: number; x2: number }>(null);
-  const [hoverTime, setHoverTime] = useState<null | Date>(null);
 
   const [barTasks, setBarTasks] = useState<BarTask[]>([]);
   const [ganttEvent, setGanttEvent] = useState<GanttEvent>({
@@ -363,7 +362,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       }
     }
     if (newSelectedTask?.x1) {
-      if (scrollX > newSelectedTask.x2) {
+      if (scrollX + 40 > newSelectedTask.x2) {
         setScrollX(newSelectedTask.x1 - 40);
       } else if (scrollX + horizontalRef.current?.offsetWidth < newSelectedTask.x1) {
         setScrollX(newSelectedTask.x2 + 40 - horizontalRef.current.offsetWidth);
@@ -428,7 +427,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     rtl,
     selectedTask: newSelectedTask,
     setRangeAddTime,
-    setHoverTime,
     setSelectedTask: handleSelectedTask,
     onDateChange,
     ganttEvent: reGanttEvent,
@@ -448,7 +446,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     fontSize,
     rtl,
     horizontalRange,
-    hoverTime,
     highlightRange: rangeAddTime || reGanttEvent.changedTask || newSelectedTask,
     scrollX,
     setScrollX,
@@ -467,6 +464,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     fontSize,
     arrowIndent,
     svgWidth,
+    horizontalRange,
     rtl,
     setGanttEvent,
     setFailedTask,
