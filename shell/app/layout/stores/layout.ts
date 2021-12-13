@@ -50,6 +50,7 @@ interface IState {
     width: number;
   };
   isImagePreviewOpen: boolean;
+  scalableImgSrc: string;
 }
 
 const initState: IState = {
@@ -66,6 +67,7 @@ const initState: IState = {
     width: 0,
   },
   isImagePreviewOpen: false,
+  scalableImgSrc: '',
 };
 
 const layout = createStore({
@@ -208,6 +210,9 @@ const layout = createStore({
     },
     setImagePreviewOpen(state, status: boolean) {
       state.isImagePreviewOpen = status;
+    },
+    setScalableImgSrc(state, src: string) {
+      state.scalableImgSrc = src;
     },
     // 动态更改appList中具体某个app的属性值，e.g. { cmp: { href: 'xxxx' } } 来运行时改变href
     updateAppListProperty(state, payload: Obj<Obj>) {
