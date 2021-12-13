@@ -174,8 +174,8 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     getAlertTriggerConditionsContent,
   } = alarmStrategyStore.effects;
   const { clearAlerts } = alarmStrategyStore.reducers;
-  const { getNotifyGroups } = notifyGroupStore.effects;
-  const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
+  const { getAllNotifyGroups } = notifyGroupStore.effects;
+  const allNotifyGroups = notifyGroupStore.useStore((s) => s.allNotifyGroups);
   const orgAddNotificationGroupAuth = usePerm((s) => s.org.cmp.alarms.addNotificationGroup.pass);
 
   // backend support the filterMap to match data
@@ -209,7 +209,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     getAlerts();
     getAlarmScopes();
     getAlertTypes();
-    getNotifyGroups(payload);
+    getAllNotifyGroups(payload);
     getRoleMap({ scopeType, scopeId: scopeType === ScopeType.MSP ? commonPayload?.scopeId : scopeId });
     getAlertTriggerConditions(scopeType);
     getNotifyChannelMethods.fetch();
@@ -671,7 +671,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
                   goToNotifyGroup={() => {
                     goTo(notifyGroupPage[scopeType], { projectId: scopeId, ...params });
                   }}
-                  notifyGroups={notifyGroups}
+                  allNotifyGroups={allNotifyGroups}
                   notifyChannelMap={state.allChannelMethods}
                   addNotificationGroupAuth={addNotificationGroupAuth}
                   key={item.id}
@@ -825,7 +825,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
 
   // 添加单条通知策略
   const handleAddNotifyStrategy = () => {
-    // const activeGroup = notifyGroups[0];
+    // const activeGroup = allNotifyGroups[0];
     // const groupTypeOptions =
     //   ((activeGroup && notifyChannelOptionsMap[activeGroup.targets[0].type]) || []).map((x) => ({
     //     key: x.value,

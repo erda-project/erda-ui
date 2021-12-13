@@ -178,7 +178,8 @@ export const ListTargets = ({
 };
 
 const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
-  const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
+  const [notifyGroups, notifyGroupsPaging] = notifyGroupStore.useStore((s) => [s.notifyGroups, s.notifyGroupsPaging]);
+  const { pageNo, pageSize, total } = notifyGroupsPaging;
   const userMap = useUserMap();
   const formRef = React.useRef<FormInstance>(null);
 
@@ -220,6 +221,11 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
 
   const handleGetNotifyGroups = (payload?: COMMON_NOTIFY.IGetNotifyGroupQuery) => {
     getNotifyGroups({ ...commonPayload, ...payload });
+  };
+
+  const handlePageChange = (paging: { pageSize: number; current?: number }) => {
+    const { pageSize: size, current } = paging;
+    getNotifyGroups({ ...commonPayload, pageSize: size, pageNo: current });
   };
 
   const handleEdit = ({ name, targets, id }: COMMON_NOTIFY.INotifyGroup) => {
@@ -532,11 +538,13 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       <Spin spinning={loading}>
         <Table
           rowKey="id"
+          pagination={{ pageSize, current: pageNo, total }}
           dataSource={notifyGroups}
           columns={columns}
           actions={actions}
-          onChange={() => handleGetNotifyGroups()}
-          scroll={{ x: 800 }} />
+          onChange={handlePageChange}
+          scroll={{ x: 800 }}
+        />
       </Spin>
     </div>
   );

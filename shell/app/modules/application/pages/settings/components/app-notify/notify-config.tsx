@@ -55,13 +55,13 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     toggleNotifyConfigs,
     getNotifyItems,
   } = appNotifyStore.effects;
-  const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
+  const allNotifyGroups = notifyGroupStore.useStore((s) => s.allNotifyGroups);
   const [toggleNotifyConfigsLoading, getNotifyConfigsLoading] = useLoading(appNotifyStore, [
     'toggleNotifyConfigs',
     'getNotifyConfigs',
   ]);
   const userMap = useUserMap();
-  const { getNotifyGroups } = notifyGroupStore.effects;
+  const { getAllNotifyGroups } = notifyGroupStore.effects;
   const { clearNotifyGroups } = notifyGroupStore.reducers;
   const channelMethods = getNotifyChannelMethods.useData() as Obj<string>;
   const [modalVisible, openModal, closeModal] = useSwitch(false);
@@ -74,7 +74,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     getRoleMap({ scopeType: commonPayload.scopeType, scopeId: commonPayload.scopeId });
     handleGetNotifyConfigs();
     getNotifyItems(pick(commonPayload, ['scopeType', 'module']));
-    getNotifyGroups(pick(commonPayload, ['scopeType', 'scopeId']));
+    getAllNotifyGroups(pick(commonPayload, ['scopeType', 'scopeId']));
     getNotifyChannelMethods.fetch();
   });
 
@@ -187,7 +187,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
               setActivedGroupId(id);
             }}
           >
-            {map(notifyGroups, ({ id, name }) => (
+            {map(allNotifyGroups, ({ id, name }) => (
               <Select.Option key={id} value={id}>
                 {name}
               </Select.Option>
@@ -199,7 +199,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
   ] as any[];
 
   if (activedGroupId) {
-    const activedGroup = find(notifyGroups, ({ id }) => id === +activedGroupId);
+    const activedGroup = find(allNotifyGroups, ({ id }) => id === +activedGroupId);
     fieldsList = [
       ...fieldsList,
       {
