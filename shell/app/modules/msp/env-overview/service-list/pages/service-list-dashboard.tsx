@@ -40,7 +40,7 @@ const ServiceListDashboard: React.FC<IProps> = ({ timeSpan: times, dashboardId, 
   const type = mspStore.useStore((s) => s.currentProject.type);
 
   const globalVariable = useMemo(() => {
-    const { terminusKey, applicationId } = params;
+    const { terminusKey } = params;
     const { startTimeMs, endTimeMs } = timeSpan;
     return {
       terminusKey,
@@ -48,7 +48,6 @@ const ServiceListDashboard: React.FC<IProps> = ({ timeSpan: times, dashboardId, 
       serviceId: window.decodeURIComponent(serviceId),
       startTime: startTimeMs,
       endTime: endTimeMs,
-      applicationId: type === 'MSP' ? undefined : applicationId,
       ...extraGlobalVariable,
     };
   }, [params, timeSpan, serviceName, serviceId, extraGlobalVariable]);
