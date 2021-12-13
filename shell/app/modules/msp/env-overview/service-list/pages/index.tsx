@@ -22,7 +22,7 @@ import EChart from 'charts/components/echarts';
 import EmptyHolder from 'common/components/empty-holder';
 import { ErdaAlert, ErdaIcon } from 'common';
 import { goTo } from 'common/utils';
-import { LinearGradient } from 'echarts/lib/util/graphic';
+import { genLinearGradient, newColorMap } from 'app/charts/theme';
 import './service-list.scss';
 import routeInfoStore from 'core/stores/route';
 import mspStore from 'msp/stores/micro-service';
@@ -35,10 +35,12 @@ interface Views {
   data: number;
   view: View[];
 }
+
 interface View {
   timestamp: number;
   value: number;
 }
+
 interface IList {
   id: string;
   language: string;
@@ -59,11 +61,7 @@ const defaultSeriesConfig = (color?: string) => ({
   },
   areaStyle: {
     normal: {
-      color: new LinearGradient(0, 0, 0, 1, [
-        { offset: 0, color },
-        { offset: 0.3, color: 'rgba(48, 38, 71, 0.01)' },
-        { offset: 1, color: 'rgba(48, 38, 71, 0.01)' },
-      ]),
+      color: genLinearGradient(color),
     },
   },
 });
@@ -108,7 +106,7 @@ const MicroServiceOverview = () => {
   const listDetail = (serviceId: string, serviceName: string) => {
     goTo(goTo.pages.mspServiceAnalyze, {
       ...params,
-      applicationId: currentProject?.type === 'MSP' ? '-' : serviceId.split('_')[0],
+      applicationId: currentProject?.type === 'MSP' ? undefined : serviceId.split('_')[0],
       serviceName,
       serviceId: window.encodeURIComponent(serviceId || ''),
     });
@@ -250,7 +248,9 @@ const MicroServiceOverview = () => {
                             series: [
                               {
                                 ...defaultSeriesConfig(
-                                  value.find((val) => val !== 0) && type === 'ErrorRate' ? '#d84b65' : '#798CF1',
+                                  value.find((val) => val !== 0) && type === 'ErrorRate'
+                                    ? newColorMap.warning4
+                                    : newColorMap.primary4,
                                 ),
                                 data: value.map((item) => {
                                   if (type === 'RPS' || type === 'ErrorRate') {
