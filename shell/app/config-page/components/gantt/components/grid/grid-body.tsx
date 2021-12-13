@@ -274,11 +274,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
             ganttHeight,
             realHeight,
           ])}`}
-          // width={2}
-          // height={max([ganttHeight, realHeight])}
           className="erda-gantt-grid-today"
-          // y={4}
-          // x={todayIndex * columnWidth + columnWidth / 2 - 1}
         />
       ) : null}
     </g>
