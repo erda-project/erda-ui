@@ -109,3 +109,5 @@ export { default as Intro } from './components/intro';
 export { default as ErdaAlert } from './components/erda-alert';
 export { default as Badge } from './components/badge';
 export type { IBadgeProps } from './components/badge';
+export { default as CardList } from './components/card-list';
+export type { CardColumnsProps } from './components/card-list';
