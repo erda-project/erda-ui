@@ -145,6 +145,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       timerRef.current = setInterval(() => {
         execOperation('', {
           key: globalOperation.__Sync__,
+          async: true,
           reload: true,
         });
       }, pageConfig?.protocol?.options?.syncIntervalSecond * 1000);
@@ -195,7 +196,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   ) => {
     if (fetchingRef.current || forbiddenRequest) return; // forbidden request when fetching
     // 此处用state，为了兼容useMock的情况
-    if (!op?.async && !pageConfigRef.current?.protocol?.options?.syncIntervalSecond) {
+    if (!op?.async) {
       updater.fetching(true);
       fetchingRef.current = true;
     }
