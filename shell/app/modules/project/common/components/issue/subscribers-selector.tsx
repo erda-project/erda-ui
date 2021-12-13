@@ -18,12 +18,6 @@ import { Icon as CustomIcon, MemberSelector, ErdaIcon } from 'common';
 import userStore from 'app/user/stores';
 import { useUserMap } from 'core/stores/userMap';
 import issueStore from 'project/stores/issues';
-import {
-  PreviewOpen as IconPreviewOpen,
-  PreviewCloseOne as IconPreviewCloseOne,
-  Plus as IconPlus,
-  Right as IconRight,
-} from '@icon-park/react';
 import { getAvatarChars } from 'app/common/utils';
 
 interface IProps {

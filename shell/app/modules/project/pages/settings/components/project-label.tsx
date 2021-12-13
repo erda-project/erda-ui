@@ -20,7 +20,6 @@ import projectLabel from 'project/stores/label';
 import React from 'react';
 import { useEffectOnce } from 'react-use';
 import './project-label.scss';
-import { Close as IconClose, Plus as IconPlus } from '@icon-park/react';
 import { auxiliaryColorMap } from 'common/constants';
 
 const colors = Object.keys(auxiliaryColorMap);
@@ -145,8 +144,9 @@ const ProjectLabel = () => {
               onClick={() => onClickLabel(label)}
             >
               {label.name}
-              <IconClose
-                className="ml-1"
+              <ErdaIcon
+                type="close"
+                className="ml-1 align-middle"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleDelete(label);
