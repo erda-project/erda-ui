@@ -14,8 +14,9 @@
 import { Task, ViewMode } from '../types/public-types';
 import moment from 'moment';
 import { min, max, flatten, compact } from 'lodash';
-import DateTimeFormatOptions = Intl.DateTimeFormatOptions;
-import DateTimeFormat = Intl.DateTimeFormat;
+
+type DateTimeFormatOptions = Intl.DateTimeFormatOptions;
+type DateTimeFormat = Intl.DateTimeFormat;
 
 type DateHelperScales = 'year' | 'month' | 'day' | 'hour' | 'minute' | 'second' | 'millisecond';
 
