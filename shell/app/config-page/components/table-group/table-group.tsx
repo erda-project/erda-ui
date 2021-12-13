@@ -84,7 +84,7 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
           (newState || {}).pageNo === 1 ? data?.list || [] : (newState?.combineList || []).concat(data?.list || []),
       };
     });
-  }, [propsState, data?.list]);
+  }, [data?.list]);
 
   // 加载更多
   const loadMore = () => {
