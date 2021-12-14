@@ -42,9 +42,8 @@ let newContent = indexHtmlContent.replace(
 if (TERMINUS_TA_ENABLE) {
   const taContent = `
 <script>
-var _taConfig = window._taConfig;
-!function(e,n,r,t,a,o,c){e[a]=e[a]||function(){(e[a].q=e[a].q||[]).push(arguments)},e.onerror=function(n,r,t,o,c){e[a]("sendExecError",n,r,t,o,c)},n.addEventListener("error",function(n){e[a]("sendError",n)},!0),o=n.createElement(r),c=n.getElementsByTagName(r)[0],o.async=1,o.src=t,c.parentNode.insertBefore(o,c)}(window,document,"script",${TERMINUS_TA_URL},"$ta");
-$ta('start', { udata: { uid: 0 }, ak: ${TERMINUS_KEY}, url: ${TERMINUS_TA_COLLECTOR_URL}, ck: true });
+!function(e,n,r,t,a,o,c){e[a]=e[a]||function(){(e[a].q=e[a].q||[]).push(arguments)},e.onerror=function(n,r,t,o,c){e[a]("sendExecError",n,r,t,o,c)},n.addEventListener("error",function(n){e[a]("sendError",n)},!0),o=n.createElement(r),c=n.getElementsByTagName(r)[0],o.async=1,o.src=t,c.parentNode.insertBefore(o,c)}(window,document,"script","${TERMINUS_TA_URL}","$ta");
+$ta('start', { udata: { uid: 0 }, ak: "${TERMINUS_KEY}", url: "${TERMINUS_TA_COLLECTOR_URL}", ck: true });
 </script>
 `;
   newContent = indexHtmlContent.replace('<!-- $ta -->', taContent);
