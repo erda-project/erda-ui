@@ -13,7 +13,7 @@
 
 import React from 'react';
 import EChart from 'charts/components/echarts';
-import { newColorMap } from 'config-page/utils';
+import { colorMap, newColorMap } from 'config-page/utils';
 import { CardContainer } from 'common';
 import { map, uniq, merge, get } from 'lodash';
 
@@ -172,6 +172,7 @@ const getOption = (chartType: string, option: Obj, yAxisLabelLen?: number) => {
   };
 };
 
+const fullColorMap = { ...colorMap, ...newColorMap };
 const Chart = (props: CP_CHART.Props) => {
   const { cId, props: configProps, extraContent, operations, execOperation } = props;
   const {
@@ -186,8 +187,8 @@ const Chart = (props: CP_CHART.Props) => {
     ...rest
   } = configProps || {};
   const { color, ...optionRest } = option || {};
-  const presetColor = map(newColorMap);
-  const reColor = color ? uniq(map(color, (cItem) => newColorMap[cItem] || cItem).concat(presetColor)) : presetColor;
+  const presetColor = map(fullColorMap);
+  const reColor = color ? uniq(map(color, (cItem) => fullColorMap[cItem] || cItem).concat(presetColor)) : presetColor;
 
   if (!visible) return null;
 
