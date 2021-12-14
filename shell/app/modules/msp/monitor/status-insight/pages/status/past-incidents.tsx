@@ -61,13 +61,7 @@ const PastIncidents = ({ pastIncidents, fetchData }: { pastIncidents: any[]; fet
   ];
   return (
     <div className="past-incidents">
-      <Table
-        rowKey="key"
-        dataSource={dataSource}
-        onChange={() => fetchData()}
-        columns={pastIncidentsCols}
-        scroll={{ x: '100%' }}
-      />
+      <Table rowKey="key" dataSource={dataSource} onChange={() => fetchData()} columns={pastIncidentsCols} />
     </div>
   );
 };

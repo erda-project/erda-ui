@@ -209,7 +209,6 @@ const Status = () => {
   ];
 
   const actions: IActions<MONITOR_STATUS.IMetricsBody> = {
-    width: 120,
     render: (record: MONITOR_STATUS.IMetricsBody) => renderMenu(record),
   };
 
@@ -288,7 +287,6 @@ const Status = () => {
         dataSource={filterData}
         slot={filterSlot}
         onChange={() => getProjectDashboard()}
-        scroll={{ x: '100%', y: 550 }}
       />
     </div>
   );

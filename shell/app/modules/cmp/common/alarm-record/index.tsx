@@ -133,7 +133,7 @@ const AlarmRecord = ({ scope }: { scope: string }) => {
         dataSource={recordList}
         loading={loading}
         columns={columns}
-        onChange={onReset}
+        onChange={() => getAlarmRecordList(...paging, ...alarmAttrs)}
         pagination={autoPagination(paging)}
         onRow={(record: ALARM_REPORT.RecordListItem) => {
           return {
@@ -143,7 +143,6 @@ const AlarmRecord = ({ scope }: { scope: string }) => {
           };
         }}
         slot={<CustomFilter onReset={onReset} onSubmit={onSubmit} config={filterConfig} isConnectQuery />}
-        scroll={{ x: '100%' }}
       />
     </>
   );

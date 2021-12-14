@@ -923,7 +923,6 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
   );
 
   const actions: IActions<COMMON_CUSTOM_ALARM.CustomAlarms> = {
-    width: 120,
     render: (record: COMMON_CUSTOM_ALARM.CustomAlarms) => renderMenu(record),
   };
 
