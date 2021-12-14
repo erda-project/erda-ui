@@ -56,6 +56,7 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
     execOperation = noop,
     updateState = noop,
   } = props;
+  const stateRef = React.useRef(propsState);
   const [{ pageNo, combineList = [], total, pageSize }, updater, update] = useUpdate(
     {
       pageNo: propsState?.pageNo || 1,
@@ -67,6 +68,10 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
   const { visible } = configProps;
   const showLoadMore = total > Math.max(combineList?.length, 0);
 
+  React.useEffect(() => {
+    stateRef.current = propsState;
+  }, [propsState]);
+
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
     // if isLoadMore is true, the data will be set undefined, combineList don't need to do anything
@@ -76,7 +81,7 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
     update((pre) => {
       const newState = {
         ...pre,
-        ...propsState,
+        ...stateRef.current,
       };
       return {
         ...newState,
@@ -84,7 +89,7 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
           (newState || {}).pageNo === 1 ? data?.list || [] : (newState?.combineList || []).concat(data?.list || []),
       };
     });
-  }, [propsState, data?.list]);
+  }, [data, data?.list, update, stateRef]);
 
   // 加载更多
   const loadMore = () => {
