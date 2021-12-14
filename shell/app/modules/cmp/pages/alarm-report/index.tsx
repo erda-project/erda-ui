@@ -59,8 +59,8 @@ const AlarmReport = () => {
     getSystemDashboards,
     getReportTypes,
   } = alarmReportStore.effects;
-  const { getAllNotifyGroups } = notifyGroupStore.effects;
-  const allNotifyGroups = notifyGroupStore.useStore((s) => s.allNotifyGroups);
+  const { getNotifyGroups } = notifyGroupStore.effects;
+  const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
   const [loading] = useLoading(alarmReportStore, ['getReportTasks']);
   const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [activeGroupId, setActiveGroupId] = React.useState(0);
@@ -79,7 +79,7 @@ const AlarmReport = () => {
     getReportTasks({ pageNo, pageSize });
     getReportTypes();
     getSystemDashboards();
-    getAllNotifyGroups({ scopeType: 'org', scopeId: String(orgId) });
+    getNotifyGroups({ scopeType: 'org', scopeId: String(orgId), pageSize: 100 });
     getNotifyChannelMethods.fetch();
   });
 
@@ -93,7 +93,7 @@ const AlarmReport = () => {
   };
 
   const getFieldsList = (form: FormInstance) => {
-    const activeGroup = find(allNotifyGroups, { id: activeGroupId });
+    const activeGroup = find(notifyGroups, { id: activeGroupId });
     const fieldsList = [
       {
         label: i18n.t('cmp:report name'),
@@ -150,7 +150,7 @@ const AlarmReport = () => {
               </div>
             )}
           >
-            {map(allNotifyGroups, ({ id, name }) => (
+            {map(notifyGroups, ({ id, name }) => (
               <Select.Option key={id} value={id}>
                 {name}
               </Select.Option>

@@ -13,25 +13,17 @@
 
 import { createStore } from 'core/cube';
 import i18n from 'i18n';
-import {
-  getAllNotifyGroups,
-  getNotifyGroups,
-  deleteNotifyGroups,
-  createNotifyGroups,
-  updateNotifyGroups,
-} from '../services/notify-group';
+import { getNotifyGroups, deleteNotifyGroups, createNotifyGroups, updateNotifyGroups } from '../services/notify-group';
 import { PAGINATION } from 'app/constants';
 
 interface IState {
   notifyGroups: COMMON_NOTIFY.INotifyGroup[];
-  allNotifyGroups: COMMON_NOTIFY.INotifyGroup[];
   notifyGroupsPaging: IPaging;
   notifyChannelsPaging: IPaging;
 }
 
 const initState: IState = {
   notifyGroups: [],
-  allNotifyGroups: [],
   notifyGroupsPaging: {
     pageNo: 1,
     pageSize: PAGINATION.pageSize,
@@ -56,13 +48,6 @@ const notifyGroup = createStore({
   name: 'common-notify-group',
   state: initState,
   effects: {
-    async getAllNotifyGroups({ call, update }, payload?: COMMON_NOTIFY.IGetNotifyGroupQuery) {
-      const { list } = await call(
-        getAllNotifyGroups,
-        payload ? convertScope<COMMON_NOTIFY.IGetNotifyGroupQuery>(payload) : payload,
-      );
-      update({ allNotifyGroups: list });
-    },
     async getNotifyGroups({ call, update }, payload?: COMMON_NOTIFY.IGetNotifyGroupQuery) {
       const { list } = await call(
         getNotifyGroups,

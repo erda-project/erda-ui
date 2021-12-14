@@ -16,18 +16,6 @@ import agent from 'agent';
 const getUrl = (scopeType?: COMMON_NOTIFY.ScopeType) =>
   scopeType === 'msp_env' ? '/api/msp/notify-groups' : '/api/notify-groups';
 
-const getAllNotifyGroupsUrl = (scopeType?: COMMON_NOTIFY.ScopeType) =>
-  scopeType === 'msp_env' ? '/api/msp/notify-groups/actions/list' : '/api/notify-groups/actions/list';
-
-export const getAllNotifyGroups = (
-  query?: COMMON_NOTIFY.IGetNotifyGroupQuery,
-): IPagingResp<COMMON_NOTIFY.INotifyGroup> => {
-  return agent
-    .get(getAllNotifyGroupsUrl(query?.scopeType))
-    .query(query)
-    .then((response: any) => response.body);
-};
-
 export const getNotifyGroups = (
   query?: COMMON_NOTIFY.IGetNotifyGroupQuery,
 ): IPagingResp<COMMON_NOTIFY.INotifyGroup> => {

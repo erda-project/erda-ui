@@ -55,13 +55,13 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     toggleNotifyConfigs,
     getNotifyItems,
   } = appNotifyStore.effects;
-  const allNotifyGroups = notifyGroupStore.useStore((s) => s.allNotifyGroups);
+  const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
   const [toggleNotifyConfigsLoading, getNotifyConfigsLoading] = useLoading(appNotifyStore, [
     'toggleNotifyConfigs',
     'getNotifyConfigs',
   ]);
   const userMap = useUserMap();
-  const { getAllNotifyGroups } = notifyGroupStore.effects;
+  const { getNotifyGroups } = notifyGroupStore.effects;
   const { clearNotifyGroups } = notifyGroupStore.reducers;
   const channelMethods = getNotifyChannelMethods.useData() as Obj<string>;
   const [modalVisible, openModal, closeModal] = useSwitch(false);
@@ -74,7 +74,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     getRoleMap({ scopeType: commonPayload.scopeType, scopeId: commonPayload.scopeId });
     handleGetNotifyConfigs();
     getNotifyItems(pick(commonPayload, ['scopeType', 'module']));
-    getAllNotifyGroups(pick(commonPayload, ['scopeType', 'scopeId']));
+    getNotifyGroups({ ...pick(commonPayload, ['scopeType', 'scopeId']), pageSize: 100 });
     getNotifyChannelMethods.fetch();
   });
 
@@ -187,7 +187,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
               setActivedGroupId(id);
             }}
           >
-            {map(allNotifyGroups, ({ id, name }) => (
+            {map(notifyGroups, ({ id, name }) => (
               <Select.Option key={id} value={id}>
                 {name}
               </Select.Option>
@@ -199,7 +199,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
   ] as any[];
 
   if (activedGroupId) {
-    const activedGroup = find(allNotifyGroups, ({ id }) => id === +activedGroupId);
+    const activedGroup = find(notifyGroups, ({ id }) => id === +activedGroupId);
     fieldsList = [
       ...fieldsList,
       {

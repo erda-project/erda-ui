@@ -26,7 +26,7 @@ interface IProps {
   valueOptions: Array<{ key: string; display: string }>;
   addNotificationGroupAuth: boolean;
   goToNotifyGroup: () => void;
-  allNotifyGroups: COMMON_NOTIFY.INotifyGroup[];
+  notifyGroups: COMMON_NOTIFY.INotifyGroup[];
   alertLevelOptions: Array<{ key: string; display: string }>;
   notifyChannelMap: typeof notifyChannelOptionsMap;
   updater: (groupId: number) => void;
@@ -41,7 +41,7 @@ export const NotifyStrategySelect = ({
   updater,
   addNotificationGroupAuth,
   goToNotifyGroup,
-  allNotifyGroups,
+  notifyGroups,
   alertLevelOptions,
   notifyChannelMap,
   handleRemoveNotifyStrategy,
@@ -56,7 +56,7 @@ export const NotifyStrategySelect = ({
         onSelect={(groupId: number) => {
           updater(groupId);
           handleEditNotifyStrategy(id, { key: 'groupId', value: groupId });
-          const activeGroup = find(allNotifyGroups, (item) => item.id === groupId);
+          const activeGroup = find(notifyGroups, (item) => item.id === groupId);
           const groupTypeOptions =
             (activeGroup && notifyChannelMap[activeGroup.targets[0].type]).map((x) => ({
               key: x.value,
@@ -84,7 +84,7 @@ export const NotifyStrategySelect = ({
           </div>
         )}
       >
-        {map(allNotifyGroups, (item) => (
+        {map(notifyGroups, (item) => (
           <Option key={item.id} value={item.id}>
             {item.name}
           </Option>
