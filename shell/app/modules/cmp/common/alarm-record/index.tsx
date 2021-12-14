@@ -78,18 +78,15 @@ const AlarmRecord = ({ scope }: { scope: string }) => {
     {
       title: i18n.t('cmp:alarm status'),
       dataIndex: 'alertState',
-      width: 150,
       render: (alertState: string) => <AlarmState state={alertState} />,
     },
     {
       title: i18n.t('alarm type'),
       dataIndex: 'alertType',
-      width: 150,
     },
     {
       title: i18n.t('cmp:alarm time'),
       dataIndex: 'alertTime',
-      width: 200,
       render: (alertTime: number) => moment(alertTime).format('YYYY-MM-DD HH:mm:ss'),
     },
   ];

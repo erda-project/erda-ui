@@ -109,12 +109,10 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('cmp:alarm name'),
       dataIndex: 'name',
-      width: 150,
     },
     {
       title: i18n.t('status'),
       dataIndex: 'enable',
-      width: 120,
       render: (enable) => (
         <Badge text={enable ? i18n.t('enable') : i18n.t('unable')} status={enable ? 'success' : 'default'} />
       ),
@@ -138,7 +136,6 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('default:notification target'),
       dataIndex: 'notifies',
-      width: 400,
       className: 'notify-info',
       ellipsis: true,
       render: (notifies: COMMON_STRATEGY_NOTIFY.INotifyGroupNotify[]) => {
@@ -160,13 +157,11 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('default:create time'),
       dataIndex: 'createTime',
-      width: 180,
       render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
   ];
 
   const actions: IActions<COMMON_STRATEGY_NOTIFY.IAlert> = {
-    width: 120,
     render: (record: COMMON_STRATEGY_NOTIFY.IAlert) => renderMenu(record),
   };
 
@@ -223,7 +218,6 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
             total,
           }}
           onChange={handlePageChange}
-          scroll={{ x: '100%' }}
         />
       </Spin>
     </div>

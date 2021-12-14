@@ -35,13 +35,11 @@ const PastIncidents = ({ pastIncidents, fetchData }: { pastIncidents: any[]; fet
       key: 'createAt',
       dataIndex: 'createAt',
       title: i18n.t('msp:downtime'),
-      width: 220,
     },
     {
       dataIndex: 'durationFormat',
       align: 'left',
       title: i18n.t('msp:duration'),
-      width: 150,
     },
     {
       dataIndex: 'requestId',

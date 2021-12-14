@@ -463,7 +463,6 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
     {
       title: i18n.t('dop:notification name'),
       dataIndex: 'name',
-      width: 200,
     },
     {
       title: i18n.t('default:notification target'),
@@ -479,13 +478,11 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
     {
       title: i18n.t('default:creator'),
       dataIndex: 'creator',
-      width: 160,
       render: (text: string) => userMap[text]?.nick,
     },
     {
       title: i18n.t('default:create time'),
       dataIndex: 'createdAt',
-      width: 176,
       render: (text: string) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
   ];

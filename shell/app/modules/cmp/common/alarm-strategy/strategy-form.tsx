@@ -417,7 +417,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('cmp:rule name'),
       dataIndex: 'alertIndex',
-      width: 300,
       render: (value: string, { key }) => (
         <Select
           value={value}
@@ -444,7 +443,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: `${i18n.t('cmp:duration')}(min)`,
       dataIndex: 'window',
-      width: 130,
       render: (value: number, { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <Select
           value={value}
@@ -463,7 +461,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('cmp:aggregation rules'),
       dataIndex: 'functions',
-      width: 410,
       render: (functions: any[], { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <div className="function-list">
           {functions?.length === 0 && <Input placeholder={i18n.t('cmp:please enter here')} />}
@@ -503,7 +500,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('cmp:alarm level'),
       dataIndex: 'level',
-      width: 120,
       render: (value: string, { key }) => (
         <Select
           className="operator mr-2"
@@ -524,7 +520,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('cmp:trigger recover'),
       dataIndex: 'isRecover',
-      width: 96,
       render: (isRecover: boolean, { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <>
           <Switch
@@ -630,7 +625,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
             className="opportunity-table"
             dataSource={state.editingRules}
             columns={columns}
-            scroll={{ x: '100%' }}
           />
         </div>
       ),

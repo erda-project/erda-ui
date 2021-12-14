@@ -165,7 +165,6 @@ const AlarmRecordDetail = ({ scope, tenantGroup }: { scope: string; tenantGroup?
     {
       title: i18n.t('cmp:alarm status'),
       dataIndex: 'alertState',
-      width: 280,
       render: (alertState: string) => <AlarmState state={alertState} />,
     },
   ];

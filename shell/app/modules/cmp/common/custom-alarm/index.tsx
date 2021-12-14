@@ -427,7 +427,6 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
       title: i18n.t('cmp:default threshold'),
       dataIndex: 'value',
       fixed: 'right',
-      width: 120,
       render: (value: any, { uniKey, aggregatorType }: COMMON_CUSTOM_ALARM.Field) => {
         let valueEle = null;
         switch (aggregatorType) {
