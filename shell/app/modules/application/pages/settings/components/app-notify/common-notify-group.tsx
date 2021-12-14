@@ -491,7 +491,6 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
   ];
 
   const actions: IActions<COMMON_NOTIFY.INotifyGroup> = {
-    width: 120,
     render: (record: COMMON_NOTIFY.INotifyGroup) => renderMenu(record),
   };
 
@@ -543,7 +542,6 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
           columns={columns}
           actions={actions}
           onChange={handlePageChange}
-          scroll={{ x: 800 }}
         />
       </Spin>
     </div>
