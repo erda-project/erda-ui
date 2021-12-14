@@ -52,22 +52,22 @@ export const colorMap = {
 
 export const bgColor = 'rgba(0,0,0,0.1)';
 export const newColorMap = {
-  primary1: '#F0F4FF',
-  primary2: '#D1DCFF',
-  primary3: '#A8BAFF',
-  primary4: '#798CF1',
-  primary5: '#5C6BCC',
-  primary6: '#424CA6',
+  primary8: '#1E2059', // darkest blue
   primary7: '#2D3280',
-  primary8: '#1E2059',
-  warning1: '#FFF0F0',
-  warning2: '#FFD4D7',
-  warning3: '#F2A2AC',
-  warning4: '#D84B65',
-  warning5: '#B33651',
-  warning6: '#8C233D',
+  primary6: '#424CA6',
+  primary5: '#5C6BCC',
+  primary4: '#798CF1',
+  primary3: '#A8BAFF',
+  primary2: '#D1DCFF',
+  primary1: '#F0F4FF',
+  warning8: '#400C1C', // darkest red
   warning7: '#66142C',
-  warning8: '#400C1C',
+  warning6: '#8C233D',
+  warning5: '#B33651',
+  warning4: '#D84B65',
+  warning3: '#F2A2AC',
+  warning2: '#FFD4D7',
+  warning1: '#FFF0F0',
 };
 
 export const genLinearGradient = (color) => {
@@ -549,11 +549,19 @@ export const theme = {
     color: ['#893448', '#d95850', '#eb8146', '#ffb248', '#f2d643', 'rgb(247,238,173)'],
   },
   dataZoom: {
-    backgroundColor: 'rgba(255,255,255,0)',
-    dataBackgroundColor: 'rgba(255,178,72,0.5)',
-    fillerColor: 'rgba(255,178,72,0.15)',
-    handleColor: '#ffb248',
-    handleSize: '100%',
+    height: 24,
+    // dataBackgroundColor: 'rgba(255,178,72,0.5)',
+    backgroundColor: 'rgba(45,50,128,0.06)', // primary7
+    fillerColor: 'rgba(45,50,128,0.3)',
+    borderColor: 'transparent',
+    handleColor: 'white',
+    handleIcon:
+      'image://data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjAgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+5ruR5Yqo5p2hPC90aXRsZT4KICAgIDxkZWZzPgogICAgICAgIDxyZWN0IGlkPSJwYXRoLTEiIHg9IjAiIHk9IjAiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxNiIgcng9IjEiPjwvcmVjdD4KICAgICAgICA8ZmlsdGVyIHg9Ii01NC4yJSIgeT0iLTM0LjQlIiB3aWR0aD0iMjA4LjMlIiBoZWlnaHQ9IjE4MS4yJSIgZmlsdGVyVW5pdHM9Im9iamVjdEJvdW5kaW5nQm94IiBpZD0iZmlsdGVyLTIiPgogICAgICAgICAgICA8ZmVPZmZzZXQgZHg9IjAiIGR5PSIxIiBpbj0iU291cmNlQWxwaGEiIHJlc3VsdD0ic2hhZG93T2Zmc2V0T3V0ZXIxIj48L2ZlT2Zmc2V0PgogICAgICAgICAgICA8ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSIyIiBpbj0ic2hhZG93T2Zmc2V0T3V0ZXIxIiByZXN1bHQ9InNoYWRvd0JsdXJPdXRlcjEiPjwvZmVHYXVzc2lhbkJsdXI+CiAgICAgICAgICAgIDxmZUNvbG9yTWF0cml4IHZhbHVlcz0iMCAwIDAgMCAwLjE4ODIzNTI5NCAgIDAgMCAwIDAgMC4xNDkwMTk2MDggICAwIDAgMCAwIDAuMjc4NDMxMzczICAwIDAgMCAwLjE2IDAiIHR5cGU9Im1hdHJpeCIgaW49InNoYWRvd0JsdXJPdXRlcjEiPjwvZmVDb2xvck1hdHJpeD4KICAgICAgICA8L2ZpbHRlcj4KICAgIDwvZGVmcz4KICAgIDxnIGlkPSLmu5HliqjmnaEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxwb2x5Z29uIGlkPSLnn6nlvaIiIGZpbGwtb3BhY2l0eT0iMC40IiBmaWxsPSIjMzAyNjQ3IiBwb2ludHM9IjkuNSAwIDEwIDAgMTAuNSAwIDEwLjUgMjQgOS41IDI0Ij48L3BvbHlnb24+CiAgICAgICAgPGcgaWQ9Iue8lue7hC0zMCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNC4wMDAwMDAsIDQuMDAwMDAwKSI+CiAgICAgICAgICAgIDxnIGlkPSLnn6nlvaIiPgogICAgICAgICAgICAgICAgPHVzZSBmaWxsPSJibGFjayIgZmlsbC1vcGFjaXR5PSIxIiBmaWx0ZXI9InVybCgjZmlsdGVyLTIpIiB4bGluazpocmVmPSIjcGF0aC0xIj48L3VzZT4KICAgICAgICAgICAgICAgIDx1c2UgZmlsbD0iI0ZGRkZGRiIgZmlsbC1ydWxlPSJldmVub2RkIiB4bGluazpocmVmPSIjcGF0aC0xIj48L3VzZT4KICAgICAgICAgICAgPC9nPgogICAgICAgICAgICA8cmVjdCBpZD0i55+p5b2iIiBmaWxsLW9wYWNpdHk9IjAuNCIgZmlsbD0iIzMwMjY0NyIgeD0iMyIgeT0iNCIgd2lkdGg9IjIiIGhlaWdodD0iOCIgcng9IjEiPjwvcmVjdD4KICAgICAgICAgICAgPHJlY3QgaWQ9IuefqeW9ouWkh+S7vSIgZmlsbC1vcGFjaXR5PSIwLjQiIGZpbGw9IiMzMDI2NDciIHg9IjciIHk9IjQiIHdpZHRoPSIyIiBoZWlnaHQ9IjgiIHJ4PSIxIj48L3JlY3Q+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=',
+    handleStyle: {
+      shadowColor: 'rgba(23,24,26,0.20)',
+      shadowBlur: '3',
+      shadowOffsetY: '2',
+    },
     textStyle: {
       color: '#333333',
     },
