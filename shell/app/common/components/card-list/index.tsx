@@ -17,6 +17,7 @@ import { RowProps } from 'antd/es/row';
 import { ColProps } from 'antd/es/col';
 import classnames from 'classnames';
 import EmptyHolder from 'common/components/empty-holder';
+import ErdaIcon from 'common/components/erda-icon';
 
 interface CardColumnsProps<T> {
   dataIndex: keyof T;
@@ -31,8 +32,9 @@ interface CardColumnsProps<T> {
 interface IProps<T = Record<string, any>> {
   size?: 'default' | 'small' | 'large';
   loading?: boolean;
-  rowKey?: string | ((record: T) => string);
+  rowKey?: keyof T | ((record: T) => string);
   rowClick?: (record: T) => void;
+  onRefresh?: () => void;
   dataSource: T[];
   slot?: React.ReactNode;
   rowClassName?: string;
@@ -71,11 +73,24 @@ const CardList = <T,>({
   slot,
   size = 'default',
   emptyHolder,
+  onRefresh,
 }: IProps<T>) => {
   return (
     <div className="card-list flex flex-1 flex-col bg-white shadow pb-2">
       <div className="card-list-header px-4 py-2 h-12 bg-lotion flex justify-between items-center">
         <div>{slot}</div>
+        <div>
+          {onRefresh ? (
+            <ErdaIcon
+              className="cursor-pointer"
+              size="20"
+              type="refresh"
+              onClick={() => {
+                onRefresh();
+              }}
+            />
+          ) : null}
+        </div>
       </div>
       <div className="card-list-body px-2 mt-2">
         <Spin spinning={!!loading}>

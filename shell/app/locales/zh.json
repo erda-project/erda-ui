@@ -2094,7 +2094,7 @@
     "data distribution": "数据分布",
     "day": "天",
     "definition of average delay": "单位时间内服务处理请求或者任务的平均耗时",
-    "definition of error rate": "单位时间内所有请求中结果出错的请求所占比",
+    "definition of error rate": "单位时间内所有请求中结果出错的请求所占比例",
     "definition of rps": "即吞吐率，每秒钟服务可以处理的请求数",
     "delay analysis": "延时分析",
     "delay ratio": "延时比例",
