@@ -77,8 +77,9 @@ export const genEdges = (data: TOPOLOGY.INode[]): Edge<TOPOLOGY.TopoEdge>[] => {
       if (parents.length) {
         parents.forEach((parent: TOPOLOGY.INode) => {
           const isCircular = !!list.find((t) => t.id === parent.id)?.parents.find((t) => t.id === rest.id);
+          const parentInRoot = list.find((t) => t.id === parent.id) ?? ({} as TOPOLOGY.INode);
           // If neither node is healthy, it is unhealthy edge
-          const isUnhealthy = rest.metric.error_rate > 0 && parent.metric.error_rate > 0;
+          const isUnhealthy = rest.metric.error_rate > 0 && parentInRoot.metric?.error_rate > 0;
           edges.push({
             id: `${parent.id}-${rest.id}`,
             source: parent.id,

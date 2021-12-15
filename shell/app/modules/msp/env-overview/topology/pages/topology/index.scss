@@ -1,5 +1,5 @@
 .topology {
-  background: rgba($color-default, 0.96);
+  background: $color-default;
 
   .ant-spin-nested-loading,
   .ant-spin-container {
@@ -75,13 +75,13 @@
     transition: all 0.3s ease-in-out;
 
     .card-item {
-      width: 76px;
+      width: 120px;
       height: 76px;
       background-color: rgba($white, 0.04);
     }
 
     &.collapse {
-      width: 0;
+      width: 8px;
 
       .content {
         opacity: 0;
@@ -104,7 +104,7 @@
     }
 
     .content {
-      background-color: rgba($white, 0.17);
+      background-color: rgba($white, 0.04);
       .metric-detail {
         > div {
           background: rgba($white, 0.04);

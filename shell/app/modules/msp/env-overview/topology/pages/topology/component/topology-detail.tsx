@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Spin, Tag } from 'antd';
+import { Tag } from 'antd';
 import { groupBy, isEmpty } from 'lodash';
 import ErdaIcon from 'common/components/erda-icon';
 import { getAnalyzerOverview } from 'msp/services/service-list';
@@ -58,7 +58,7 @@ const chartConfig = [
     key: 'RPS',
   },
   {
-    title: i18n.t('msp:request delay'),
+    title: `${i18n.t('msp:average response time')}(ms)`,
     key: 'AvgDuration',
     formatter: (param: Obj[]) => {
       const { data: count, marker, axisValue } = param[0] ?? [];
@@ -66,12 +66,12 @@ const chartConfig = [
     },
   },
   {
-    title: i18n.t('msp:HTTP status'),
-    key: 'HttpCode',
-  },
-  {
     title: i18n.t('msp:error rate'),
     key: 'ErrorRate',
+  },
+  {
+    title: i18n.t('msp:HTTP status'),
+    key: 'HttpCode',
   },
 ];
 
@@ -89,7 +89,7 @@ const axis = {
 const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRuntime }) => {
   const [range] = monitorCommonStore.useStore((s) => [s.globalTimeSelectSpan.range]);
   const [visible, setVisible] = React.useState(false);
-  const [charts, loading] = getAnalyzerOverview.useState();
+  const [charts] = getAnalyzerOverview.useState();
   React.useEffect(() => {
     setVisible(!isEmpty(data));
     if (data.serviceId) {
@@ -171,7 +171,7 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
   return (
     <div className={`topology-detail ${visible ? 'expand' : 'collapse'} ${className}`}>
       <div className="content h-full flex flex-col">
-        <div className="flex px-4 justify-between h-16 items-center">
+        <div className="flex px-4 justify-between h-12 items-center">
           <div className="flex-1 overflow-ellipsis overflow-hidden whitespace-nowrap text-white">{data.name}</div>
           <div onClick={handleCancel} className="text-white-4 cursor-pointer hover:text-white">
             <ErdaIcon type="close" />
@@ -206,56 +206,58 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
           </div>
           {data.serviceId ? (
             <div className="px-4">
-              <Spin spinning={loading}>
-                {chartConfig.map((item) => {
-                  const currentOption = {
-                    backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                    yAxis: {
-                      ...axis,
-                      type: 'value',
-                      splitLine: {
-                        show: true,
-                        lineStyle: {
-                          color: ['rgba(255, 255, 255, 0.1)'],
-                        },
+              {chartConfig.map((item) => {
+                const currentOption = {
+                  backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                  yAxis: {
+                    ...axis,
+                    type: 'value',
+                    splitLine: {
+                      show: true,
+                      lineStyle: {
+                        color: ['rgba(255, 255, 255, 0.1)'],
                       },
                     },
-                    grid: {
-                      top: '10%',
-                      left: '15%',
-                      bottom: '30%',
-                    },
-                    xAxis: {
-                      ...axis,
-                      data: chartsData.xAxisData[item.key] ?? [],
-                    },
-                    legend: {
-                      data: (chartsData.legendData[item.key] ?? []).map((t) => ({
-                        name: t,
-                        ...axis.axisLabel,
-                      })),
-                      bottom: '1%',
-                    },
-                    tooltip: {
-                      trigger: 'axis',
-                      formatter: item.formatter,
-                    },
-                    series: (chartsData.seriesData[item.key] ?? []).map((t) => ({
-                      ...t,
-                      type: 'line',
-                      smooth: false,
+                  },
+                  grid: {
+                    top: '10%',
+                    left: '15%',
+                    bottom: '30%',
+                  },
+                  xAxis: {
+                    ...axis,
+                    data: chartsData.xAxisData[item.key] ?? [],
+                  },
+                  legend: {
+                    data: (chartsData.legendData[item.key] ?? []).map((t) => ({
+                      ...axis.axisLabel,
+                      name: t,
+                      itemStyle: {
+                        opacity: 0,
+                      },
                     })),
-                  };
-                  return (
-                    <div>
-                      <div className="text-white mt-4 mb-2">{item.title}</div>
-                      <div style={{ height: '170px' }}>
-                        <EChart style={{ width: '100%', height: '160px', minHeight: 0 }} option={currentOption} />
-                      </div>
+                    bottom: '1%',
+                  },
+                  tooltip: {
+                    trigger: 'axis',
+                    formatter: item.formatter,
+                  },
+                  series: (chartsData.seriesData[item.key] ?? []).map((t) => ({
+                    ...t,
+                    type: 'line',
+                    smooth: false,
+                  })),
+                };
+                console.log(JSON.stringify(currentOption));
+                return (
+                  <div>
+                    <div className="text-white mt-4 mb-2">{item.title}</div>
+                    <div style={{ height: '170px' }}>
+                      <EChart style={{ width: '100%', height: '160px', minHeight: 0 }} option={currentOption} />
                     </div>
-                  );
-                })}
-              </Spin>
+                  </div>
+                );
+              })}
             </div>
           ) : null}
         </div>

@@ -122,7 +122,7 @@ const TopologyOverview: React.FC<IProps> = ({ data, onClick }) => {
               <div className="leading-8 text-white px-4 py-2 w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
                 {item.title}
               </div>
-              <div className="flex justify-center items-center rounded-sm">
+              <div className="flex justify-start flex-wrap items-center rounded-sm pl-3">
                 {item.content.map((v) => {
                   return (
                     <div

@@ -108,7 +108,6 @@ const calculateLayout = (
     }
     return { ...el, ...temp };
   });
-  console.log({ width, height, maxY: height, maxX: width, minX, minY });
   return [layoutedElements, { width, height, maxY: height, maxX: width, minX, minY }];
 };
 
