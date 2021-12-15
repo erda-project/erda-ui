@@ -100,6 +100,7 @@ declare namespace CONFIG_PAGE {
     | CP_BAR_CHART.Spec
     | CP_GANTT.Spec
     | CP_KANBAN.Spec
+    | CP_RADIO_TABS.Spec
     | CP_TABLE_GROUP.Spec;
 
   // 单个组件基础定义

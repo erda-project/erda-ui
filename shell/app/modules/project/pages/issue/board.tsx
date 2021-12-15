@@ -247,8 +247,11 @@ const IssueProtocol = () => {
         inParams={inParams}
         ref={reloadRef}
         customProps={{
+          issueManage: {
+            props: { fullHeight: true },
+          },
           content: {
-            props: { whiteBg: true, className: 'rounded-none p-0' },
+            props: { whiteBg: true, className: 'rounded-none p-0 flex-1 h-0' },
           },
           issueTypeSelect: {
             props: {
