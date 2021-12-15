@@ -96,7 +96,7 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
       const tenantId = routeInfoStore.getState((s) => s.params.terminusKey);
       getAnalyzerOverview.fetch({
         serviceIds: [data.serviceId],
-        position: 'TopologyChart',
+        view: 'topology_service_node',
         tenantId,
         startTime: range.startTimeMs,
         endTime: range.endTimeMs,

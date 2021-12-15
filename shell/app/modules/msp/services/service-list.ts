@@ -23,7 +23,7 @@ interface ServicesParams {
 interface AnalyzerOverviewParams {
   tenantId: string;
   serviceIds: string[];
-  position?: string;
+  view?: string;
   startTime?: number;
   endTime?: number;
 }
