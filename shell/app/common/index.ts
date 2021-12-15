@@ -114,3 +114,5 @@ export { default as Badge } from './components/badge';
 export type { IBadgeProps } from './components/badge';
 export { default as CardList } from './components/card-list';
 export type { CardColumnsProps } from './components/card-list';
+export { default as UserProfile } from './components/user-profile';
+export type { UserProfileProps } from './components/user-profile';
