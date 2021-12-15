@@ -34,26 +34,30 @@
 
   .tab-split-line-before {
     &::before {
-      position: relative;
+      position: absolute;
       content: '';
       display: inline-block;
-      width: 15px;
+      width: 1px;
       height: 12px;
-      border-left: 1px solid rgba($color-default, 0.16);
-      top: -1px;
+      background-color: rgba($color-default, 0.16);
+      top: 10px;
+      left: -12px;
     }
   }
 
   .erda-header-top {
+    .tab-menu {
+      &.tab-split-line-before {
+        margin-left: 16px;
+        &::before {
+          left: -16px;
+        }
+      }
+    }
     .tab-menu-item {
       height: 32px;
       line-height: 32px;
       margin-right: 24px;
-      &.tab-split-line-before {
-        &::before {
-          top: 1px;
-        }
-      }
     }
   }
 
