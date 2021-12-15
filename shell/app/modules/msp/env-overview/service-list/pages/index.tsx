@@ -138,6 +138,7 @@ const MicroServiceOverview = () => {
     const serviceIdList = data?.list.map((item) => item?.id);
     if (serviceIdList?.length) {
       getAnalyzerOverview.fetch({
+        view: 'service_overview',
         tenantId,
         serviceIds: serviceIdList,
       });
