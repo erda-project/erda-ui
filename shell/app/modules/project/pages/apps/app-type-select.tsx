@@ -32,31 +32,10 @@ interface IProps {
   onChangeType: (value: string) => void;
 }
 
-interface IAppCardOptionProps {
-  img: Img;
-  disabled?: boolean;
-}
 export class AppTypeSelect extends React.PureComponent<IProps> {
   render() {
     const { imgOptions, value, onChangeType, canCreateMobileApp = true } = this.props;
     const optionGroup = groupBy(imgOptions, 'groupIndex');
-    const AppCardOption = ({ img, disabled = false }: IAppCardOptionProps) => (
-      <div
-        key={img.name}
-        className={classnames('img-wrapper', { active: value === img.value && !disabled, 'disabled-card': disabled })}
-        onClick={() => {
-          if (!disabled) {
-            onChangeType(img.value);
-          }
-        }}
-      >
-        <img src={img.src} alt={img.name || 'image-option'} />
-        <CustomIcon type="yuanxingxuanzhongfill" />
-        <Tooltip title={img.name}>
-          <div className="desc truncate">{img.name}</div>
-        </Tooltip>
-      </div>
-    );
 
     return (
       <div className="app-type-select">
@@ -64,12 +43,29 @@ export class AppTypeSelect extends React.PureComponent<IProps> {
           return (
             <div key={key} className="app-type-group">
               {options.map((img) => {
-                return img.value === 'MOBILE' && !canCreateMobileApp ? (
-                  <Tooltip key={img.value} title={i18n.t('dop:can-not-create-mobile-app-tip')}>
-                    {AppCardOption({ img, disabled: true })}
+                const disabled = img.value === 'MOBILE' && !canCreateMobileApp;
+                const cls = classnames('img-wrapper', {
+                  active: value === img.value && !disabled,
+                  'disabled-card': disabled,
+                });
+
+                return (
+                  <Tooltip key={img.value} title={disabled ? i18n.t('dop:can-not-create-mobile-app-tip') : null}>
+                    <div
+                      className={cls}
+                      onClick={() => {
+                        if (!disabled) {
+                          onChangeType(img.value);
+                        }
+                      }}
+                    >
+                      <img src={img.src} alt={img.name || 'image-option'} />
+                      <CustomIcon type="yuanxingxuanzhongfill" />
+                      <Tooltip title={img.name}>
+                        <div className="desc truncate">{img.name}</div>
+                      </Tooltip>
+                    </div>
                   </Tooltip>
-                ) : (
-                  <React.Fragment key={img.value}>{AppCardOption({ img })}</React.Fragment>
                 );
               })}
             </div>
