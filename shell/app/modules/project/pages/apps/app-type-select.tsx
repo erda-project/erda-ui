@@ -17,6 +17,7 @@ import './app-type-select.scss';
 import { Tooltip } from 'antd';
 import { Icon as CustomIcon } from 'common';
 import { groupBy, map } from 'lodash';
+import i18n from 'i18n';
 
 interface Img {
   src: string;
@@ -26,31 +27,50 @@ interface Img {
 }
 interface IProps {
   imgOptions: Img[];
+  canCreateMobileApp?: boolean;
   value?: string;
   onChangeType: (value: string) => void;
 }
+
+interface IAppCardOptionProps {
+  img: Img;
+  disabled: boolean;
+}
 export class AppTypeSelect extends React.PureComponent<IProps> {
   render() {
-    const { imgOptions, value, onChangeType } = this.props;
+    const { imgOptions, value, onChangeType, canCreateMobileApp = true } = this.props;
     const optionGroup = groupBy(imgOptions, 'groupIndex');
+    const AppCardOption = ({ img, disabled }: IAppCardOptionProps) => (
+      <div
+        key={img.name}
+        className={classnames('img-wrapper', value === img.value && !disabled && 'active', disabled && 'disabled-card')}
+        onClick={() => {
+          if (!disabled) {
+            onChangeType(img.value);
+          }
+        }}
+      >
+        <img src={img.src} alt={img.name || 'image-option'} />
+        <CustomIcon type="yuanxingxuanzhongfill" />
+        <Tooltip title={img.name}>
+          <div className="desc truncate">{img.name}</div>
+        </Tooltip>
+      </div>
+    );
     return (
       <div className="app-type-select">
         {map(optionGroup, (options, key) => {
           return (
             <div key={key} className="app-type-group">
-              {options.map((img) => (
-                <div
-                  key={img.name}
-                  className={classnames('img-wrapper', value === img.value && 'active')}
-                  onClick={() => onChangeType(img.value)}
-                >
-                  <img src={img.src} alt={img.name || 'image-option'} />
-                  <CustomIcon type="yuanxingxuanzhongfill" />
-                  <Tooltip title={img.name}>
-                    <div className="desc truncate">{img.name}</div>
+              {options.map((img) => {
+                return img.value === 'MOBILE' && !canCreateMobileApp ? (
+                  <Tooltip title={i18n.t('dop:can-not-create-mobile-app-tip')}>
+                    {AppCardOption({ img, disabled: true })}
                   </Tooltip>
-                </div>
-              ))}
+                ) : (
+                  AppCardOption({ img, disabled: false })
+                );
+              })}
             </div>
           );
         })}

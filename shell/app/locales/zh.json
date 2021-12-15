@@ -1020,6 +1020,7 @@
     "can only delete files under the branch": "只能在分支下删除文件",
     "can only edit files under the branch": "只能在分支下编辑文件",
     "can't exceed 60 people": "不能超过60个人",
+    "can-not-create-mobile-app-tip": "移动应用需要使用集群资源，请先在【多云管理平台/集群资源/集群】中创建或导入集群",
     "cancel build": "取消构建",
     "cancel cron build": "取消定时",
     "cancel interface test": "取消接口测试",

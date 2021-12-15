@@ -25,6 +25,7 @@ import appStore from 'application/stores/application';
 import { useLoading } from 'core/stores/loading';
 import orgStore from 'app/org-home/stores/org';
 import { erdaEnv } from 'common/constants';
+import projectStore from 'project/stores/project';
 import './app-form.scss';
 
 interface IMobile extends Omit<APPLICATION.initApp, 'applicationID'> {
@@ -46,7 +47,9 @@ const CreationForm = () => {
   const [repoType, setRepoType] = React.useState(RepositoryMode.Internal);
   const { ENABLE_BIGDATA } = erdaEnv;
   const publisherId = orgStore.getState((s) => s.currentOrg.publisherId);
-
+  const info = projectStore.useStore((s) => s.info);
+  const { clusterConfig } = info;
+  const currentProjectClusters = Object.values(clusterConfig || {});
   const [isCreateApp, isInitApp] = useLoading(appStore, ['createApp', 'initApp']);
   const formRef = React.useRef(null as any);
   const repoConfigTemp = React.useRef({});
@@ -133,6 +136,7 @@ const CreationForm = () => {
       getComp: ({ form }: { form: FormInstance }) => (
         <AppTypeSelect
           imgOptions={useOption}
+          canCreateMobileApp={currentProjectClusters?.length > 0}
           onChangeType={(value: string) => {
             const obj = { mode: value };
             form.setFieldsValue(obj);

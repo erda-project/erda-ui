@@ -33,6 +33,12 @@
       background-color: $white;
     }
 
+    &.disabled-card {
+      &:hover {
+        background-color: rgba($black, 0.04);
+      }
+    }
+
     &.active {
       background-color: $white;
 
