@@ -57,6 +57,7 @@ export class AppTypeSelect extends React.PureComponent<IProps> {
         </Tooltip>
       </div>
     );
+
     return (
       <div className="app-type-select">
         {map(optionGroup, (options, key) => {
@@ -64,11 +65,11 @@ export class AppTypeSelect extends React.PureComponent<IProps> {
             <div key={key} className="app-type-group">
               {options.map((img) => {
                 return img.value === 'MOBILE' && !canCreateMobileApp ? (
-                  <Tooltip title={i18n.t('dop:can-not-create-mobile-app-tip')}>
-                    <AppCardOption key={img.value} img={img} />
+                  <Tooltip key={img.value} title={i18n.t('dop:can-not-create-mobile-app-tip')}>
+                    {AppCardOption({ img, disabled: true })}
                   </Tooltip>
                 ) : (
-                  <AppCardOption key={img.value} img={img} disabled={false} />
+                  <React.Fragment key={img.value}>{AppCardOption({ img })}</React.Fragment>
                 );
               })}
             </div>
