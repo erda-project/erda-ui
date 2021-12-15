@@ -34,16 +34,16 @@ interface IProps {
 
 interface IAppCardOptionProps {
   img: Img;
-  disabled: boolean;
+  disabled?: boolean;
 }
 export class AppTypeSelect extends React.PureComponent<IProps> {
   render() {
     const { imgOptions, value, onChangeType, canCreateMobileApp = true } = this.props;
     const optionGroup = groupBy(imgOptions, 'groupIndex');
-    const AppCardOption = ({ img, disabled }: IAppCardOptionProps) => (
+    const AppCardOption = ({ img, disabled = false }: IAppCardOptionProps) => (
       <div
         key={img.name}
-        className={classnames('img-wrapper', value === img.value && !disabled && 'active', disabled && 'disabled-card')}
+        className={classnames('img-wrapper', { active: value === img.value && !disabled, 'disabled-card': disabled })}
         onClick={() => {
           if (!disabled) {
             onChangeType(img.value);
@@ -65,10 +65,10 @@ export class AppTypeSelect extends React.PureComponent<IProps> {
               {options.map((img) => {
                 return img.value === 'MOBILE' && !canCreateMobileApp ? (
                   <Tooltip title={i18n.t('dop:can-not-create-mobile-app-tip')}>
-                    {AppCardOption({ img, disabled: true })}
+                    <AppCardOption key={img.value} img={img} />
                   </Tooltip>
                 ) : (
-                  AppCardOption({ img, disabled: false })
+                  <AppCardOption key={img.value} img={img} disabled={false} />
                 );
               })}
             </div>
