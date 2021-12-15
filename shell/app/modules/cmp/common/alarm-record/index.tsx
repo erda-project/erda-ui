@@ -12,17 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Select } from 'antd';
+import { Select } from 'antd';
 import { goTo } from 'common/utils';
+import Table from 'common/components/table';
 import { map } from 'lodash';
-import { Avatar, CustomFilter, MemberSelector } from 'common';
+import { CustomFilter } from 'common';
 import { useFilter } from 'common/use-hooks';
 import { useMount } from 'react-use';
 import moment from 'moment';
 import { useLoading } from 'core/stores/loading';
 import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
-import { IssueState } from 'project/common/components/issue/issue-state';
 import { AlarmState } from 'cmp/common/alarm-state';
 import { useUserMap } from 'core/stores/userMap';
 import routeInfoStore from 'core/stores/route';
@@ -49,7 +49,7 @@ const urlMap = {
   [AlarmRecordScope.MICRO_SERVICE]: goTo.pages.microServiceAlarmRecordDetail,
 };
 
-export default ({ scope }: { scope: string }) => {
+const AlarmRecord = ({ scope }: { scope: string }) => {
   const alarmRecordStore = storeMap[scope];
   const [recordList, paging, alarmAttrs] = alarmRecordStore.useStore((s) => [
     s.recordList,
@@ -78,19 +78,16 @@ export default ({ scope }: { scope: string }) => {
     {
       title: i18n.t('cmp:alarm status'),
       dataIndex: 'alertState',
-      width: 150,
-      render: (alertState) => <AlarmState state={alertState} />,
+      render: (alertState: string) => <AlarmState state={alertState} />,
     },
     {
       title: i18n.t('alarm type'),
       dataIndex: 'alertType',
-      width: 150,
     },
     {
       title: i18n.t('cmp:alarm time'),
       dataIndex: 'alertTime',
-      width: 200,
-      render: (alertTime) => moment(alertTime).format('YYYY-MM-DD HH:mm:ss'),
+      render: (alertTime: number) => moment(alertTime).format('YYYY-MM-DD HH:mm:ss'),
     },
   ];
 
@@ -128,12 +125,12 @@ export default ({ scope }: { scope: string }) => {
 
   return (
     <>
-      <CustomFilter onReset={onReset} onSubmit={onSubmit} config={filterConfig} isConnectQuery />
       <Table
         rowKey={(r) => r.groupId}
         dataSource={recordList}
         loading={loading}
         columns={columns}
+        onChange={() => getAlarmRecordList(...paging, ...alarmAttrs)}
         pagination={autoPagination(paging)}
         onRow={(record: ALARM_REPORT.RecordListItem) => {
           return {
@@ -142,8 +139,10 @@ export default ({ scope }: { scope: string }) => {
             },
           };
         }}
-        scroll={{ x: '100%' }}
+        slot={<CustomFilter onReset={onReset} onSubmit={onSubmit} config={filterConfig} isConnectQuery />}
       />
     </>
   );
 };
+
+export default AlarmRecord;

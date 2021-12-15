@@ -70,6 +70,7 @@ declare namespace MONITOR_STATUS {
 
   interface IMetricsBody {
     env: string;
+    chart: IChart;
     mode: string;
     name: string;
     projectId: string;

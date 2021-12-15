@@ -74,7 +74,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     getRoleMap({ scopeType: commonPayload.scopeType, scopeId: commonPayload.scopeId });
     handleGetNotifyConfigs();
     getNotifyItems(pick(commonPayload, ['scopeType', 'module']));
-    getNotifyGroups(pick(commonPayload, ['scopeType', 'scopeId']));
+    getNotifyGroups({ ...pick(commonPayload, ['scopeType', 'scopeId']), pageSize: 100 });
     getNotifyChannelMethods.fetch();
   });
 

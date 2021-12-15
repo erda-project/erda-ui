@@ -31,11 +31,10 @@ function TableConfig<T extends object = any>({
   };
 
   const showLength = columns.filter((item) => !item.hidden).length;
-
   const columnsFilter = columns
     .filter((item) => item.title)
     .map((item: ColumnProps<T>) => (
-      <div>
+      <div key={`${item.dataIndex}`}>
         <Checkbox
           className="whitespace-nowrap"
           checked={!item.hidden}

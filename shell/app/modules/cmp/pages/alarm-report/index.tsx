@@ -79,7 +79,7 @@ const AlarmReport = () => {
     getReportTasks({ pageNo, pageSize });
     getReportTypes();
     getSystemDashboards();
-    getNotifyGroups({ scopeType: 'org', scopeId: String(orgId) });
+    getNotifyGroups({ scopeType: 'org', scopeId: String(orgId), pageSize: 100 });
     getNotifyChannelMethods.fetch();
   });
 

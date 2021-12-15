@@ -28,7 +28,9 @@ import {
 } from 'lodash';
 import { useMount, useUnmount } from 'react-use';
 import { FormInstance } from 'core/common/interface';
-import { Modal, Button, Switch, Select, Table, Input, InputNumber, Popover, Tooltip, Form } from 'antd';
+import { Modal, Button, Switch, Select, Input, InputNumber, Popover, Tooltip, Form } from 'antd';
+import Table from 'common/components/table';
+import { IActions } from 'common/components/table/interface';
 import { RenderForm, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
@@ -207,7 +209,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     getAlerts();
     getAlarmScopes();
     getAlertTypes();
-    getNotifyGroups(payload);
+    getNotifyGroups({ ...payload, pageSize: 100 });
     getRoleMap({ scopeType, scopeId: scopeType === ScopeType.MSP ? commonPayload?.scopeId : scopeId });
     getAlertTriggerConditions(scopeType);
     getNotifyChannelMethods.fetch();
@@ -415,7 +417,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('cmp:rule name'),
       dataIndex: 'alertIndex',
-      width: 300,
       render: (value: string, { key }) => (
         <Select
           value={value}
@@ -442,7 +443,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: `${i18n.t('cmp:duration')}(min)`,
       dataIndex: 'window',
-      width: 130,
       render: (value: number, { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <Select
           value={value}
@@ -461,7 +461,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('cmp:aggregation rules'),
       dataIndex: 'functions',
-      width: 410,
       render: (functions: any[], { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <div className="function-list">
           {functions?.length === 0 && <Input placeholder={i18n.t('cmp:please enter here')} />}
@@ -501,7 +500,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('cmp:alarm level'),
       dataIndex: 'level',
-      width: 120,
       render: (value: string, { key }) => (
         <Select
           className="operator mr-2"
@@ -522,7 +520,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('cmp:trigger recover'),
       dataIndex: 'isRecover',
-      width: 96,
       render: (isRecover: boolean, { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <>
           <Switch
@@ -532,25 +529,18 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
         </>
       ),
     },
-    {
-      title: i18n.t('operate'),
-      width: 65,
-      render: (record: COMMON_STRATEGY_NOTIFY.IFormRule) => {
-        return (
-          <div className="table-operations">
-            <span
-              className="table-operations-btn"
-              onClick={() => {
-                handleRemoveEditingRule(record.key);
-              }}
-            >
-              {i18n.t('delete')}
-            </span>
-          </div>
-        );
-      },
-    },
   ];
+
+  const actions: IActions<COMMON_STRATEGY_NOTIFY.IFormRule> = {
+    render: (record) => [
+      {
+        title: i18n.t('delete'),
+        onClick: () => {
+          handleRemoveEditingRule(record.key);
+        },
+      },
+    ],
+  };
 
   const fieldsList = [
     {
@@ -629,12 +619,12 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
             </Button>
           </div>
           <Table
-            bordered
+            hideHeader
             rowKey="key"
+            actions={actions}
             className="opportunity-table"
             dataSource={state.editingRules}
             columns={columns}
-            scroll={{ x: '100%' }}
           />
         </div>
       ),
