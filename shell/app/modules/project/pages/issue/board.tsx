@@ -31,10 +31,6 @@ import i18n from 'i18n';
 
 import './board.scss';
 
-interface IProps {
-  issueType: ISSUE_TYPE;
-}
-
 const CardRender = (props: { data: Obj }) => {
   // TODO: multiple text overflow
   // const titleMaxLength = 36;
@@ -145,7 +141,6 @@ const IssueProtocol = () => {
 
   const inParams = {
     fixedIteration: iterationId,
-    fixedIssueType: issueType,
     projectId,
     ...(urlQuery || {}),
   };

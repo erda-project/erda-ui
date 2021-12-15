@@ -76,30 +76,6 @@ export const createProxyService = (app: INestApplication) => {
   app.use(
     createProxyMiddleware(
       (pathname: string) => {
-        return !!pathname.endsWith('/component-protocol/actions/render');
-      },
-      {
-        target: 'http://dop.debug.cp.dev.terminus.io',
-        changeOrigin: true,
-        xfwd: true,
-        secure: false,
-        pathRewrite: replaceApiOrgPath,
-        // onProxyReq: (proxyReq, req: Request) => {
-        //   if (!isProd) {
-        //     proxyReq.setHeader('referer', API_URL);
-        //   } else {
-        //     const org = extractOrg(req.originalUrl); // api/files not append org to path,org not exist in this condition
-        //     if (org) {
-        //       proxyReq.setHeader('org', org);
-        //     }
-        //   }
-        // },
-      },
-    ),
-  );
-  app.use(
-    createProxyMiddleware(
-      (pathname: string) => {
         return !!pathname.match('^/api');
       },
       {
@@ -167,7 +143,7 @@ export const createProxyService = (app: INestApplication) => {
 };
 
 const replaceApiOrgPath = (p: string) => {
-  if (true || isProd) {
+  if (isProd) {
     const match = /\/api\/([^/]*)\/(.*)/.exec(p); // /api/orgName/path => /api/path
     if (match && !p.startsWith('/api/files')) {
       if (wsPathRegex.some((regex) => regex.test(p))) {

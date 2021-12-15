@@ -127,9 +127,6 @@ const ConfigPageRender = (props: IProps) => {
       if (!Comp) return null;
       const configComponent = get(pageConfig, `components.${cId}`) || {};
       const { op, props: customComponentProps, ...restCustomConfig } = customProps?.[cId] || {};
-      if (cId === 'toolbar') {
-        console.log('------', customProps);
-      }
       const enhanceProps = {
         ...restCustomConfig,
         ...configComponent,

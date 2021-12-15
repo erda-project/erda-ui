@@ -61,7 +61,10 @@ const Kanban = (props: CP_KANBAN.Props) => {
       notify('error', i18n.t('{name} already exists', { name: addValue }));
       return;
     }
-    execOperation({ key: 'boardCreate', ...operations?.boardCreate }, { clientData: { title: addValue } });
+    execOperation(
+      { key: 'boardCreate', reload: true, ...operations?.boardCreate },
+      { clientData: { title: addValue } },
+    );
     hideAdd();
   };
 
@@ -218,7 +221,10 @@ const PureKanban = (props: IKanbanProps) => {
           return col;
         });
       });
-      execOperation({ ...cardMoveTo }, { clientData: { targetBoardID: boardId, dataRef: item.data.dataRef } });
+      execOperation(
+        { reload: true, ...cardMoveTo },
+        { clientData: { targetBoardID: boardId, dataRef: item.data.dataRef } },
+      );
     },
     collect: (monitor) => {
       const item = monitor?.getItem && monitor?.getItem();
@@ -265,7 +271,10 @@ const PureKanban = (props: IKanbanProps) => {
       setTitle(boardTitle);
       return notify('error', i18n.t('{name} already exists', { name: boardTitle }));
     }
-    execOperation({ key: 'boardUpdate', ...operations?.boardUpdate }, { clientData: { dataRef: data, title } });
+    execOperation(
+      { key: 'boardUpdate', reload: true, ...operations?.boardUpdate },
+      { clientData: { dataRef: data, title } },
+    );
   };
 
   const handleScroll = (e: any) => {
@@ -273,7 +282,7 @@ const PureKanban = (props: IKanbanProps) => {
   };
 
   const loadMore = () => {
-    execOperation({ key: 'boardLoadMore', ...boardLoadMoreOp } as CP_COMMON.Operation, {
+    execOperation({ key: 'boardLoadMore', reload: true, ...boardLoadMoreOp } as CP_COMMON.Operation, {
       clientData: {
         pageNo: pageNo + 1,
         pageSize,
@@ -315,7 +324,10 @@ const PureKanban = (props: IKanbanProps) => {
               <Popconfirm
                 title={deleteBoardOp.confirm}
                 onConfirm={() =>
-                  execOperation({ key: 'boardDelete', ...deleteBoardOp }, { clientData: { dataRef: boardDataRef } })
+                  execOperation(
+                    { key: 'boardDelete', reload: true, ...deleteBoardOp },
+                    { clientData: { dataRef: boardDataRef } },
+                  )
                 }
               >
                 <ErdaIcon type="delete1" className="ml-3 cursor-pointer" />
@@ -327,7 +339,10 @@ const PureKanban = (props: IKanbanProps) => {
                 type="delete1"
                 className="ml-3 cursor-pointer"
                 onClick={() =>
-                  execOperation({ key: 'boardDelete', ...deleteBoardOp }, { clientData: { dataRef: boardDataRef } })
+                  execOperation(
+                    { key: 'boardDelete', reload: true, ...deleteBoardOp },
+                    { clientData: { dataRef: boardDataRef } },
+                  )
                 }
               />
             </WithAuth>

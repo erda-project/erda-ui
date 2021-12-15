@@ -82,15 +82,7 @@ function getProjectRouter(): RouteConfigItem[] {
                 noWrapper: true,
               },
             },
-            // {
-            //   path: 'bug',
-            //   tabs: COLLABORATE_TABS,
-            //   ignoreTabQuery: true,
-            //   getComp: (cb) => cb(import('project/pages/issue/bug')),
-            //   layout: {
-            //     noWrapper: true,
-            //   },
-            // },
+
             {
               path: 'backlog',
               tabs: COLLABORATE_TABS,

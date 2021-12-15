@@ -21,13 +21,11 @@ import Button from './button/button';
 import { Drawer } from './drawer/drawer';
 import { ActionForm } from './action-form';
 import NotFound from './not-found';
-// import IssueKanban from './issue-kanban1';
 import { FileTree } from './file-tree/file-tree';
 import { APIEditor } from './api-editor/api-editor';
 import Radio from './radio/radio';
 import SplitPage from './split-page/split-page';
 import Tabs from './tabs/tabs';
-
 import Title from './title/title';
 import { SortDragGroupList } from './sort-drag-group/sort-drag-group';
 import Panel from './panel/panel';
@@ -71,7 +69,7 @@ import BarChart from './bar-chart/bar-chart';
 import Gantt from './gantt/gantt';
 import SimpleChart from './simple-chart/simple-chart';
 import ChartBlock from './chart-block/chart-block';
-import IssueKanban from './kanban/kanban';
+import Kanban from './kanban/kanban';
 
 export const containerMap = {
   Alert,
@@ -88,7 +86,6 @@ export const containerMap = {
   Form,
   SplitPage,
   ActionForm,
-  IssueKanban,
   ContractiveFilter,
   FileTree,
   Radio,
@@ -136,5 +133,5 @@ export const containerMap = {
   Gantt,
   SimpleChart,
   ChartBlock,
-  // Kanban,
+  Kanban,
 };

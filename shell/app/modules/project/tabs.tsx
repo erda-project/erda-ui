@@ -53,16 +53,6 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
       key: 'board',
       name: i18n.t('dop:board'),
     },
-    // {
-    //   key: 'task',
-    //   name: i18n.t('task'),
-    //   show: projectPerm.task.read.pass,
-    // },
-    // {
-    //   key: 'bug',
-    //   name: i18n.t('bug'),
-    //   show: projectPerm.bug.read.pass,
-    // },
   ];
 };
 
