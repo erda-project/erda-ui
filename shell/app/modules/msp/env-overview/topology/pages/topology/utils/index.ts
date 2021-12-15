@@ -14,10 +14,15 @@ import { ArrowHeadType, Edge, Node } from 'react-flow-renderer';
 import { cloneDeep, omit, uniqBy } from 'lodash';
 import { getFormatter } from 'charts/utils';
 
+export const servicesTypes = ['service', 'externalservice', 'internalservice'];
+export const notAddonTypes = [...servicesTypes, 'registercenter', 'configcenter', 'noticecenter', 'apigateway'];
+
+export const isService = (type: string) => servicesTypes.includes(type.toLocaleLowerCase());
+export const isAddon = (type: string) => !notAddonTypes.includes(type.toLocaleLowerCase());
+
 const getNodeType = (type: string) => {
   const nodeType = type.toLocaleLowerCase();
-
-  if (!['service', 'apigateway', 'externalservice'].includes(nodeType)) {
+  if (isAddon(nodeType)) {
     return 'addon';
   }
   return nodeType;
@@ -27,13 +32,20 @@ export const genNodes = (list: TOPOLOGY.INode[], edges: Edge[]): Node<TOPOLOGY.T
   const nodes: Node<TOPOLOGY.TopoNode>[] = [];
   cloneDeep(list).forEach((item) => {
     const { parents = [], ...rest } = item;
-    const childrenCount = edges.filter((t) => t.source === rest.id).length;
-    const parentCount = edges.filter((t) => t.target === rest.id).length;
+    const children = edges.filter((t) => t.source === rest.id).map((t) => t.target);
+    const childrenCount = children.length;
+    const parent = edges.filter((t) => t.target === rest.id).map((t) => t.source);
+    const parentCount = parent.length;
+    const isCircular = parent.some((t) => children.includes(t));
     const isLeaf = !childrenCount;
     nodes.push({
       id: rest.id,
       type: getNodeType(rest.type),
       data: {
+        isAddon: isAddon(rest.type),
+        isService: isService(rest.type),
+        isCircular,
+        isUnhealthy: rest.metric.error_rate > 0,
         hoverStatus: 0,
         isRoot: !parentCount,
         isParent: !isLeaf,
@@ -64,6 +76,9 @@ export const genEdges = (data: TOPOLOGY.INode[]): Edge<TOPOLOGY.TopoEdge>[] => {
       const { parents = [], ...rest } = item;
       if (parents.length) {
         parents.forEach((parent: TOPOLOGY.INode) => {
+          const isCircular = !!list.find((t) => t.id === parent.id)?.parents.find((t) => t.id === rest.id);
+          // If neither node is healthy, it is unhealthy edge
+          const isUnhealthy = rest.metric.error_rate > 0 && parent.metric.error_rate > 0;
           edges.push({
             id: `${parent.id}-${rest.id}`,
             source: parent.id,
@@ -72,6 +87,10 @@ export const genEdges = (data: TOPOLOGY.INode[]): Edge<TOPOLOGY.TopoEdge>[] => {
             style: { stroke: edgeColor.common },
             arrowHeadType: ArrowHeadType.ArrowClosed,
             data: {
+              isCircular,
+              isUnhealthy,
+              isAddon: isAddon(rest.type) && isAddon(parent.type),
+              isService: isService(rest.type) && isService(parent.type),
               hoverStatus: 0,
               source: omit(parent, 'parents'),
               target: rest,

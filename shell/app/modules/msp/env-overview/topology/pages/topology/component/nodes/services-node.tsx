@@ -18,7 +18,9 @@ import { formatNumber } from '../../utils';
 import { NodeProps } from 'react-flow-renderer';
 import './index.scss';
 
-const ServicesNode: React.FC<NodeProps<TOPOLOGY.TopoNode> & { onMouseMoving: IProps['onMouseMoving'] }> = (props) => {
+const ServicesNode: React.FC<
+  NodeProps<TOPOLOGY.TopoNode> & { onMouseMoving: IProps['onMouseMoving']; onClick: IProps['onClick'] }
+> = (props) => {
   return (
     <CommonNode {...props}>
       {(data: TOPOLOGY.TopoNode['metaData']) => {

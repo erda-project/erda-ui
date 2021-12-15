@@ -23,6 +23,9 @@ interface ServicesParams {
 interface AnalyzerOverviewParams {
   tenantId: string;
   serviceIds: string[];
+  position?: string;
+  startTime?: number;
+  endTime?: number;
 }
 
 const apis = {

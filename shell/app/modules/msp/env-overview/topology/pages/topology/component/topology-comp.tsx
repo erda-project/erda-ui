@@ -27,6 +27,7 @@ import FloatingEdge from 'msp/env-overview/topology/pages/topology/component/flo
 import FloatingConnectionLine from 'msp/env-overview/topology/pages/topology/component/floating-edge/connection-line';
 import ErdaIcon from 'common/components/erda-icon';
 import { useUpdateEffect } from 'react-use';
+import { INodeKey } from './topology-overview';
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -37,12 +38,36 @@ const nodeExtent = [
 ];
 
 interface IProps {
+  filterKey: INodeKey;
   data: { nodes: TOPOLOGY.INode[] };
+  clockNode: (data: TOPOLOGY.TopoNode['metaData']) => void;
 }
 
-const genEle = (nodes: TOPOLOGY.INode[]) => {
-  const edge = genEdges(nodes);
-  const node = genNodes(nodes, edge);
+const genEle = (nodes: TOPOLOGY.INode[], filterKey: INodeKey) => {
+  let edge = genEdges(nodes);
+  let node = genNodes(nodes, edge);
+  switch (filterKey) {
+    case 'unhealthyService':
+      edge = edge.filter((t) => t.data?.isUnhealthy);
+      node = node.filter((t) => t.data?.isUnhealthy);
+      break;
+    case 'addon':
+      edge = edge.filter((t) => t.data?.isAddon);
+      node = node.filter((t) => t.data?.isAddon);
+      break;
+    case 'service':
+      edge = edge.filter((t) => t.data?.isService);
+      node = node.filter((t) => t.data?.isService);
+      break;
+    case 'circularDependencies':
+      edge = edge.filter((t) => t.data?.isCircular);
+      node = node.filter((t) => t.data?.isCircular);
+      break;
+    case 'freeService':
+      edge = [];
+      node = node.filter((t) => t.data?.parentCount === 0 && t.data?.childrenCount === 0);
+      break;
+  }
   return { node, edge };
 };
 
@@ -50,9 +75,13 @@ const genEle = (nodes: TOPOLOGY.INode[]) => {
  * @description calculate node position
  * @see https://github.com/dagrejs/dagre/wiki
  */
-const calculateLayout = (list: Elements): [Elements, { width: number; height: number }] => {
+const calculateLayout = (
+  list: Elements,
+): [Elements, { width: number; height: number; maxY: number; maxX: number; minX: number; minY: number }] => {
   let width = 0;
   let height = 0;
+  let minX = Number.MAX_SAFE_INTEGER;
+  let minY = Number.MAX_SAFE_INTEGER;
   dagreGraph.setGraph({ rankdir: 'LR' });
   list.forEach((el) => {
     if (isNode(el)) {
@@ -73,15 +102,18 @@ const calculateLayout = (list: Elements): [Elements, { width: number; height: nu
       const y = nodeWithPosition.y;
       width = width < x ? x : width;
       height = height < y ? y : height;
+      minX = minX < x ? minX : x;
+      minY = minY < y ? minY : y;
       temp.position = { x, y };
     }
     return { ...el, ...temp };
   });
-  return [layoutedElements, { width, height }];
+  console.log({ width, height, maxY: height, maxX: width, minX, minY });
+  return [layoutedElements, { width, height, maxY: height, maxX: width, minX, minY }];
 };
 
-const TopologyComp = ({ data }: IProps) => {
-  const topologyData = React.useRef(genEle(data.nodes));
+const TopologyComp = ({ data, filterKey = 'node', clockNode }: IProps) => {
+  const topologyData = React.useRef(genEle(data.nodes, filterKey));
   const layoutData = React.useRef<Elements>([]);
   const wrapperRaf = React.useRef<HTMLDivElement>();
   const { node, edge } = topologyData.current;
@@ -93,17 +125,26 @@ const TopologyComp = ({ data }: IProps) => {
   const setFlowConfig = (list: Elements) => {
     const [ele, wrapperSize] = calculateLayout(list);
     if (wrapperRaf.current) {
+      // 200: prevents nodes from being covered by borders
       wrapperRaf.current.style.height = `${wrapperSize.height + 200}px`;
+      wrapperRaf.current.style.width = `${wrapperSize.width + 200}px`;
+      // the node positions calculated by the current layout algorithm may be out of view and adjusted manually
+      // 50 : prevents nodes from hugging the border
+      wrapperRaf.current.parentElement?.scrollTo({
+        top: wrapperSize.minY - 50,
+        left: wrapperSize.minX - 50,
+        behavior: 'smooth',
+      });
     }
     layoutData.current = ele;
     setElements(layoutData.current);
   };
 
   useUpdateEffect(() => {
-    const temp = genEle(data.nodes);
+    const temp = genEle(data.nodes, filterKey);
     topologyData.current = temp;
     setFlowConfig([...temp.node, ...temp.edge]);
-  }, [data.nodes]);
+  }, [data.nodes, filterKey]);
 
   const layout = () => {
     setFlowConfig(elements);
@@ -137,10 +178,10 @@ const TopologyComp = ({ data }: IProps) => {
       });
     }
     setElements(newLayoutData);
-  });
+  }, clockNode);
 
   return (
-    <div className="min-h-full" ref={wrapperRaf}>
+    <div className="min-h-full min-w-full" ref={wrapperRaf}>
       <ReactFlow
         elements={elements}
         nodeTypes={nodeTypes}
@@ -152,6 +193,7 @@ const TopologyComp = ({ data }: IProps) => {
         zoomOnScroll={false}
         connectionLineComponent={FloatingConnectionLine}
         nodeExtent={nodeExtent}
+        defaultZoom={0.8}
         minZoom={0.2}
         maxZoom={2}
         onLoad={layout}
