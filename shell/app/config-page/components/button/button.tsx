@@ -52,8 +52,8 @@ const CP_Button = (props: CP_BUTTON.Props) => {
 
   const { disabledTip, disabled, confirm } = operations?.click || {};
   const onClick = () => {
+    customOp?.click && customOp.click(operations?.click);
     if (operations?.click && !disabled) {
-      customOp?.click && customOp.click(operations.click);
       execOperation(operations.click);
     }
   };
@@ -99,9 +99,9 @@ const CP_Button = (props: CP_BUTTON.Props) => {
         onClick={(e: any) => {
           e.domEvent.stopPropagation();
           const curOp = find(menu, { key: e.key });
+          customOp?.click && customOp.click(curOp?.operations.click);
           if (curOp?.operations?.click) {
             execOperation(curOp.operations.click);
-            customOp?.click && customOp.click(curOp.operations.click);
           }
         }}
       >

@@ -17,6 +17,7 @@ import Requirement from './requirement';
 import Task from './task';
 import Bug from './bug';
 import AllIssue from './all';
+import Board from './board';
 
 const issueTypeMap = {
   all: {
@@ -30,6 +31,9 @@ const issueTypeMap = {
   },
   bug: {
     Comp: Bug,
+  },
+  board: {
+    Comp: Board,
   },
 };
 

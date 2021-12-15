@@ -17,13 +17,16 @@ import { useMount } from 'react-use';
 
 const CP_Filter = (props: CP_FILTER.Props) => {
   const { state, execOperation, operations, props: configProps, customOp } = props;
-  const { delay, visible = true, fullWidth = false, className } = configProps || {};
+  const { delay, visible = true, fullWidth = false, className, conditions: propsConditions } = configProps || {};
 
   const [conditions, setConditions] = React.useState([] as CP_FILTER.Condition[]);
+  const [conditionsShowIndex, setConditionsShowIndex] = React.useState<Obj<number>>({});
   const conditionsRef = React.useRef(null as any);
 
   const onConditionsChange = React.useCallback((c: CP_FILTER.Condition[]) => {
     setConditions(c);
+
+    // setConditionsShowIndex()
   }, []);
 
   React.useEffect(() => {
@@ -61,7 +64,7 @@ const CP_Filter = (props: CP_FILTER.Props) => {
 
   return (
     <ContractiveFilter
-      conditions={stateConditions as any}
+      conditions={propsConditions || stateConditions}
       values={values}
       delay={delay || 1000}
       onChange={onChange}

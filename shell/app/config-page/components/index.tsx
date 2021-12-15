@@ -21,7 +21,7 @@ import Button from './button/button';
 import { Drawer } from './drawer/drawer';
 import { ActionForm } from './action-form';
 import NotFound from './not-found';
-import IssueKanban from './issue-kanban';
+// import IssueKanban from './issue-kanban1';
 import { FileTree } from './file-tree/file-tree';
 import { APIEditor } from './api-editor/api-editor';
 import Radio from './radio/radio';
@@ -71,6 +71,7 @@ import BarChart from './bar-chart/bar-chart';
 import Gantt from './gantt/gantt';
 import SimpleChart from './simple-chart/simple-chart';
 import ChartBlock from './chart-block/chart-block';
+import IssueKanban from './kanban/kanban';
 
 export const containerMap = {
   Alert,
@@ -135,4 +136,5 @@ export const containerMap = {
   Gantt,
   SimpleChart,
   ChartBlock,
+  // Kanban,
 };

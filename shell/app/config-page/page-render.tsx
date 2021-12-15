@@ -106,6 +106,13 @@ const ConfigPageRender = (props: IProps) => {
     if (op.command?.key) {
       op.callBack = () => execCommand(op.command, updateVal);
     }
+
+    if (has(val, 'clientData')) {
+      // new protocol: event: {clientData, serverData}
+      updateVal = undefined;
+      op.clientData = val.clientData;
+    }
+
     return execOperation(
       _cId,
       op,
@@ -120,6 +127,9 @@ const ConfigPageRender = (props: IProps) => {
       if (!Comp) return null;
       const configComponent = get(pageConfig, `components.${cId}`) || {};
       const { op, props: customComponentProps, ...restCustomConfig } = customProps?.[cId] || {};
+      if (cId === 'toolbar') {
+        console.log('------', customProps);
+      }
       const enhanceProps = {
         ...restCustomConfig,
         ...configComponent,

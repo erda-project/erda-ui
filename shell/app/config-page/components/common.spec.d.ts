@@ -14,7 +14,7 @@
 declare namespace CP_COMMON {
   interface Operation {
     [pro: string]: any;
-    key: string;
+    key?: string;
     reload?: boolean;
     async?: boolean;
     text?: string;
@@ -29,6 +29,8 @@ declare namespace CP_COMMON {
     prefixIcon?: string;
     fillMeta?: string;
     showIndex?: number;
+    serverData?: Obj;
+    clientData?: Obj;
   }
 
   interface IConfirm {

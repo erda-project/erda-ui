@@ -22,6 +22,7 @@ declare namespace CP_FILTER {
   interface IState {
     values: Obj;
     conditions: Condition[];
+    showIndexArr: Obj<number>;
   }
 
   interface IProps {
@@ -29,6 +30,7 @@ declare namespace CP_FILTER {
     visible?: boolean;
     fullWidth?: boolean;
     className?: string;
+    conditions: Condition[];
   }
 
   interface Condition {

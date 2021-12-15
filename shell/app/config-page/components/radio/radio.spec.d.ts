@@ -16,12 +16,17 @@ declare namespace CP_RADIO {
     type: 'Radio';
     props: IProps;
     state: IState;
+    data: IData;
     operations?: Obj<CP_COMMON.Operation>;
   }
 
   interface IState {
     childrenValue?: Obj;
     value: string;
+  }
+
+  interface IData {
+    options?: Option[];
   }
 
   interface IProps {

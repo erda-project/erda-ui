@@ -46,24 +46,23 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
     },
     {
       key: 'all',
-      name: i18n.t('dop:all issues'),
+      name: i18n.t('dop:issue list'),
       show: [projectPerm.requirement.read.pass, projectPerm.task.read.pass, projectPerm.bug.read.pass].some((k) => k),
     },
     {
-      key: 'requirement',
-      name: i18n.t('requirement'),
-      show: projectPerm.requirement.read.pass,
+      key: 'board',
+      name: i18n.t('dop:board'),
     },
-    {
-      key: 'task',
-      name: i18n.t('task'),
-      show: projectPerm.task.read.pass,
-    },
-    {
-      key: 'bug',
-      name: i18n.t('bug'),
-      show: projectPerm.bug.read.pass,
-    },
+    // {
+    //   key: 'task',
+    //   name: i18n.t('task'),
+    //   show: projectPerm.task.read.pass,
+    // },
+    // {
+    //   key: 'bug',
+    //   name: i18n.t('bug'),
+    //   show: projectPerm.bug.read.pass,
+    // },
   ];
 };
 
@@ -115,28 +114,29 @@ export const COLLABORATE_TABS = () => {
     },
     {
       key: 'all',
-      name: i18n.t('dop:all issues'),
+      name: i18n.t('dop:issue list'),
       show: [projectPerm.requirement.read.pass, projectPerm.task.read.pass, projectPerm.bug.read.pass].some((k) => k),
     },
-    {
-      key: 'requirement',
-      name: i18n.t('requirement'),
-      show: projectPerm.requirement.read.pass,
-    },
-    {
-      key: 'task',
-      name: i18n.t('task'),
-      show: projectPerm.task.read.pass,
-    },
-    {
-      key: 'bug',
-      name: i18n.t('bug'),
-      show: projectPerm.bug.read.pass,
-    },
+
+    // {
+    //   key: 'task',
+    //   name: i18n.t('task'),
+    //   show: projectPerm.task.read.pass,
+    // },
+    // {
+    //   key: 'bug',
+    //   name: i18n.t('bug'),
+    //   show: projectPerm.bug.read.pass,
+    // },
     {
       key: 'plan',
       name: i18n.t('plan'),
       show: projectPerm.requirement.read.pass,
+      split: true,
+    },
+    {
+      key: 'board',
+      name: i18n.t('dop:board'),
     },
   ];
 };
