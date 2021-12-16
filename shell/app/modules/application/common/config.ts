@@ -37,6 +37,7 @@ export const modeOptions = [
     src: ywyy_svg,
     desc: i18n.t('dop:Business-app-intro', { keySeparator: '>' }),
     groupIndex: 1,
+    disabled: false,
   },
   {
     name: i18n.t('dop:mobile app'),
@@ -47,6 +48,7 @@ export const modeOptions = [
       { keySeparator: '>' },
     ),
     groupIndex: 1,
+    disabled: false,
   },
   {
     name: i18n.t('dop:library/module'),
@@ -54,6 +56,7 @@ export const modeOptions = [
     src: kyy_svg,
     desc: i18n.t('dop:Library-app-intro', { keySeparator: '>' }),
     groupIndex: 1,
+    disabled: false,
   },
   {
     name: i18n.t('dop:bigData app'),
@@ -61,6 +64,7 @@ export const modeOptions = [
     src: dsjyy_svg,
     desc: 'big data app',
     groupIndex: 1,
+    disabled: false,
   },
   {
     name: i18n.t('dop:ability app'),
@@ -68,6 +72,7 @@ export const modeOptions = [
     src: dsjyy_svg,
     desc: 'ability app',
     groupIndex: 1,
+    disabled: false,
   },
   {
     name: i18n.t('dop:project level app'),
@@ -75,6 +80,7 @@ export const modeOptions = [
     src: xmjyy_svg,
     desc: i18n.t('dop:project-level-app-form-tip'),
     groupIndex: 1,
+    disabled: false,
   },
 ];
 

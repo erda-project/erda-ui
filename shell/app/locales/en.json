@@ -1019,6 +1019,7 @@
     "can only delete files under the branch": "can only delete files under the branch",
     "can only edit files under the branch": "can only edit files under the branch",
     "can't exceed 60 people": "can't exceed 60 people",
+    "can-not-create-mobile-app-tip": "mobile application needs to use cluster resources, please create or import a cluster in [CMP/cluster resources/cluster]",
     "cancel build": "cancel build",
     "cancel cron build": "cancel cron build",
     "cancel interface test": "cancel interface test",

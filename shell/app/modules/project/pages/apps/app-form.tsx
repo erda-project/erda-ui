@@ -25,6 +25,7 @@ import appStore from 'application/stores/application';
 import { useLoading } from 'core/stores/loading';
 import orgStore from 'app/org-home/stores/org';
 import { erdaEnv } from 'common/constants';
+import projectStore from 'project/stores/project';
 import './app-form.scss';
 
 interface IMobile extends Omit<APPLICATION.initApp, 'applicationID'> {
@@ -46,7 +47,9 @@ const CreationForm = () => {
   const [repoType, setRepoType] = React.useState(RepositoryMode.Internal);
   const { ENABLE_BIGDATA } = erdaEnv;
   const publisherId = orgStore.getState((s) => s.currentOrg.publisherId);
-
+  const info = projectStore.useStore((s) => s.info);
+  const { clusterConfig } = info;
+  const currentProjectClusters = Object.values(clusterConfig || {});
   const [isCreateApp, isInitApp] = useLoading(appStore, ['createApp', 'initApp']);
   const formRef = React.useRef(null as any);
   const repoConfigTemp = React.useRef({});
@@ -118,6 +121,13 @@ const CreationForm = () => {
     return !excludeOptions.includes(item.value);
   });
 
+  const appOption = map(useOption, (item) => {
+    if (currentProjectClusters?.length === 0 && item.value === appMode.MOBILE) {
+      return { ...item, disabled: true, disabledTip: i18n.t('dop:can-not-create-mobile-app-tip') };
+    }
+    return item;
+  });
+
   const fieldsList = [
     {
       label: '',
@@ -132,7 +142,7 @@ const CreationForm = () => {
       initialValue: 'SERVICE',
       getComp: ({ form }: { form: FormInstance }) => (
         <AppTypeSelect
-          imgOptions={useOption}
+          imgOptions={appOption}
           onChangeType={(value: string) => {
             const obj = { mode: value };
             form.setFieldsValue(obj);
