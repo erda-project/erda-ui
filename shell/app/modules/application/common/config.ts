@@ -49,7 +49,6 @@ export const modeOptions = [
     ),
     groupIndex: 1,
     disabled: false,
-    disabledTip: i18n.t('dop:can-not-create-mobile-app-tip'),
   },
   {
     name: i18n.t('dop:library/module'),

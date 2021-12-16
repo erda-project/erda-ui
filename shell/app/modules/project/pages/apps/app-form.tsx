@@ -123,7 +123,7 @@ const CreationForm = () => {
 
   const appOption = map(useOption, (item) => {
     if (currentProjectClusters?.length === 0 && item.value === appMode.MOBILE) {
-      return { ...item, disabled: true };
+      return { ...item, disabled: true, disabledTip: i18n.t('dop:can-not-create-mobile-app-tip') };
     }
     return item;
   });
