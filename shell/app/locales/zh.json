@@ -1326,6 +1326,7 @@
     "issue custom fields": "事项自定义字段",
     "issue detail": "问题详情",
     "issue field": "事项字段",
+    "issue list": "事项列表",
     "issue type": "事项类型",
     "issue workflow": "事项工作流",
     "issue-workflow-config-tip": "事项类型覆盖里程碑、需求、缺陷和任务，可以对每个事项类型进行不同配置。如需改变工作流类型，您可以选择具体的事项类型进行修改。",
