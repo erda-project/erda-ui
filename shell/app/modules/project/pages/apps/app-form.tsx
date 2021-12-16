@@ -121,6 +121,13 @@ const CreationForm = () => {
     return !excludeOptions.includes(item.value);
   });
 
+  const appOption = map(useOption, (item) => {
+    if (currentProjectClusters?.length === 0 && item.value === appMode.MOBILE) {
+      return { ...item, disabled: true };
+    }
+    return item;
+  });
+
   const fieldsList = [
     {
       label: '',
@@ -135,8 +142,7 @@ const CreationForm = () => {
       initialValue: 'SERVICE',
       getComp: ({ form }: { form: FormInstance }) => (
         <AppTypeSelect
-          imgOptions={useOption}
-          canCreateMobileApp={currentProjectClusters?.length > 0}
+          imgOptions={appOption}
           onChangeType={(value: string) => {
             const obj = { mode: value };
             form.setFieldsValue(obj);

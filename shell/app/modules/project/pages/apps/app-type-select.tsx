@@ -24,17 +24,17 @@ interface Img {
   name: string;
   value: string;
   groupIndex: number;
+  disabled: boolean;
 }
 interface IProps {
   imgOptions: Img[];
-  canCreateMobileApp?: boolean;
   value?: string;
   onChangeType: (value: string) => void;
 }
 
 export class AppTypeSelect extends React.PureComponent<IProps> {
   render() {
-    const { imgOptions, value, onChangeType, canCreateMobileApp = true } = this.props;
+    const { imgOptions, value, onChangeType } = this.props;
     const optionGroup = groupBy(imgOptions, 'groupIndex');
 
     return (
@@ -43,7 +43,7 @@ export class AppTypeSelect extends React.PureComponent<IProps> {
           return (
             <div key={key} className="app-type-group">
               {options.map((img) => {
-                const disabled = img.value === 'MOBILE' && !canCreateMobileApp;
+                const { disabled } = img;
                 const cls = classnames('img-wrapper', {
                   active: value === img.value && !disabled,
                   'disabled-card': disabled,
