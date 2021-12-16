@@ -17,7 +17,6 @@ import './app-type-select.scss';
 import { Tooltip } from 'antd';
 import { Icon as CustomIcon } from 'common';
 import { groupBy, map } from 'lodash';
-import i18n from 'i18n';
 
 interface Img {
   src: string;
@@ -25,6 +24,7 @@ interface Img {
   value: string;
   groupIndex: number;
   disabled: boolean;
+  disabledTip?: string;
 }
 interface IProps {
   imgOptions: Img[];
@@ -43,14 +43,14 @@ export class AppTypeSelect extends React.PureComponent<IProps> {
           return (
             <div key={key} className="app-type-group">
               {options.map((img) => {
-                const { disabled } = img;
+                const { disabled, disabledTip } = img;
                 const cls = classnames('img-wrapper', {
                   active: value === img.value && !disabled,
                   'disabled-card': disabled,
                 });
 
                 return (
-                  <Tooltip key={img.value} title={disabled ? i18n.t('dop:can-not-create-mobile-app-tip') : null}>
+                  <Tooltip key={img.value} title={disabled ? disabledTip : null}>
                     <div
                       className={cls}
                       onClick={() => {
