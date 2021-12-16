@@ -35,7 +35,7 @@ interface IProps {
 
 const metric = [
   {
-    name: i18n.t('msp:throughput'),
+    name: `${i18n.t('msp:throughput')}(req/s)`,
     key: 'rps',
   },
   {
