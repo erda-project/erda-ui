@@ -696,7 +696,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
 interface DropDownMenuProps {
   value: string;
   menus: DropDownMenuItem[];
-  menuItemRender: (item: DropDownMenuItem) => React.ReactNode;
+  menuItemRender?: (item: DropDownMenuItem) => React.ReactNode;
 }
 
 interface DropDownMenuItem {
@@ -718,7 +718,7 @@ const DropdownMenu = (props: DropDownMenuProps) => {
                 execOperation({ ...item });
               }}
             >
-              {menuItemRender(item) || ''}
+              {(menuItemRender ? menuItemRender(item) : item.text) || ''}
             </Menu.Item>
           );
         })}
@@ -726,7 +726,7 @@ const DropdownMenu = (props: DropDownMenuProps) => {
   );
 
   const current = menus.find((item) => item.id === value);
-  const ValueRender = current ? menuItemRender(current) : value;
+  const ValueRender = current ? (menuItemRender ? menuItemRender(current) : current.text) : value;
   return (
     <Dropdown overlay={menu} trigger={['click']}>
       <div>
