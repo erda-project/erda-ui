@@ -86,6 +86,12 @@ const defaultProcessField = (item: IFormItem) => {
       clearIcon: <span className="p-1">{i18n.t('common:clear')}</span>,
       getPopupContainer: (triggerNode: HTMLElement) => triggerNode.parentElement as HTMLElement,
     };
+  } else if (type === 'dateRange') {
+    field.itemProps = {
+      customProps: {
+        showClear: true,
+      },
+    };
   }
 
   return field;
@@ -96,7 +102,7 @@ const ConfigurableFilter = ({
   configList,
   defaultConfig,
   value,
-  onFilter,
+  onFilter: onFilterProps,
   onDeleteFilter,
   onSaveFilter,
   processField,
@@ -115,10 +121,10 @@ const ConfigurableFilter = ({
       const configData: ConfigData = configList?.find((item) => item.id === defaultConfig) || ({} as ConfigData);
       if (configData.data) {
         configData.data && form.setFieldsValue(configData.data);
-        onFilter?.(configData.data);
+        onFilterProps?.(configData.data);
       }
     }
-  }, [configList, defaultConfig, form, value, onFilter]);
+  }, [configList, defaultConfig, form, value, onFilterProps]);
 
   const onConfigChange = (config: ConfigData) => {
     setCurrentConfig(config.id);
@@ -146,6 +152,12 @@ const ConfigurableFilter = ({
     const config = getItemByValues({}, configList);
     setCurrentConfig(config?.id);
     setIsNew(false);
+  };
+
+  const onFilter = () => {
+    form.validateFields().then((values) => {
+      onFilterProps(values);
+    });
   };
 
   const content = (
@@ -194,7 +206,7 @@ const ConfigurableFilter = ({
         <Button className="mx-1" onClick={setAllOpen}>
           {i18n.t('dop:set it to open all')}
         </Button>
-        <Button type="primary" className="mx-1" onClick={() => onFilter(form.getFieldsValue())}>
+        <Button type="primary" className="mx-1" onClick={onFilter}>
           {i18n.t('common:filter')}
         </Button>
       </div>
@@ -211,10 +223,10 @@ const ConfigurableFilter = ({
       onVisibleChange={setVisible}
     >
       <div
-        className="erda-configurable-filter-btn inline-block p-1 rounded-sm leading-none cursor-pointer hover:bg-default hover:text-white"
+        className="erda-configurable-filter-btn align-middle inline-block p-1 rounded-sm leading-none cursor-pointer hover:bg-default hover:text-white"
         onClick={() => setVisible(true)}
       >
-        <ErdaIcon type="shaixuan" size={16} />
+        <ErdaIcon type="shaixuan" color="currentColor" size={20} />
       </div>
     </Popover>
   );

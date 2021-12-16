@@ -429,10 +429,12 @@ const DateRange = ({
   onChange: (values: Obj) => void;
   customProps: Obj;
 }) => {
+  const [startOpen, setStartOpen] = React.useState(false);
+  const [endOpen, setEndOpen] = React.useState(false);
   const [_startDate, _endDate] = value || [];
   const startDate = typeof _startDate === 'string' ? +_startDate : _startDate;
   const endDate = typeof _endDate === 'string' ? +_endDate : _endDate;
-  const { borderTime, disabled, required } = customProps || {};
+  const { borderTime, disabled, required, showClear } = customProps || {};
 
   const disabledDate = (isStart: boolean) => (current: Moment | undefined) => {
     return (
@@ -465,7 +467,7 @@ const DateRange = ({
   };
 
   return (
-    <div className="erda-form-date-range">
+    <div className={`erda-form-date-range relative ${startOpen || endOpen ? 'erda-form-date-range-open' : ''}`}>
       <DatePicker
         size="small"
         bordered={false}
@@ -476,6 +478,8 @@ const DateRange = ({
         allowClear={!required}
         onChange={(v) => onChange(getTimeValue([v?.valueOf(), endDate]))}
         placeholder={i18n.t('common:startDate')}
+        open={startOpen}
+        onOpenChange={setStartOpen}
       />
       <span className="divider mx-1">—</span>
       <DatePicker
@@ -488,7 +492,19 @@ const DateRange = ({
         format={'YYYY/MM/DD'}
         placeholder={i18n.t('common:endDate')}
         onChange={(v) => onChange(getTimeValue([startDate, v?.valueOf()]))}
+        open={endOpen}
+        onOpenChange={setEndOpen}
       />
+      {showClear && (_startDate || _endDate) ? (
+        <div
+          className={`erda-form-date-range-clear absolute -top-3/4 pb-1 right-0 text-xs cursor-pointer opacity-0 ${
+            startOpen || endOpen ? 'opacity-100' : ''
+          }`}
+          onClick={() => onChange([])}
+        >
+          清除
+        </div>
+      ) : null}
     </div>
   );
 };

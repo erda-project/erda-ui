@@ -34,6 +34,7 @@ const ConfigSelector = ({ list, defaultValue, value, onChange, onDeleteFilter, o
   const [defaultData, setDefaultData] = React.useState<ConfigData[]>([]);
   const [customData, setCustomData] = React.useState<ConfigData[]>([]);
   const [addVisible, setAddVisible] = React.useState(false);
+  const [configListVisible, setConfigListVisible] = React.useState(false);
 
   React.useEffect(() => {
     setDefaultData(list.filter((item: ConfigData) => item.isPreset));
@@ -42,6 +43,7 @@ const ConfigSelector = ({ list, defaultValue, value, onChange, onDeleteFilter, o
 
   const onConfigChange = (config: ConfigData) => {
     onChange(config);
+    setConfigListVisible(false);
   };
 
   const deleteFilter = (item: ConfigData) => {
@@ -157,12 +159,14 @@ const ConfigSelector = ({ list, defaultValue, value, onChange, onDeleteFilter, o
         overlayClassName="erda-configurable-filter-config"
         placement="bottomLeft"
         getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+        visible={configListVisible}
+        onVisibleChange={setConfigListVisible}
       >
         <div
           className="erda-configurable-filter-config-select flex items-center cursor-pointer"
           ref={configSelectorRef}
         >
-          <ErdaIcon type="shaixuan" fill="white" className="mr-2" />
+          <ErdaIcon type="shaixuan" fill="white" className="mr-1" size={16} />
           {currentConfig?.label || i18n.t('dop:filter criteria are not saved')}
           {value && isNew ? (
             <Badge text={i18n.t('dop:changed')} status="processing" showDot={false} className="ml-2" />

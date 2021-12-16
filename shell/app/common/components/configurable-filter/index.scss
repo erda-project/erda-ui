@@ -1,6 +1,10 @@
-.erda-configurable-filter-btn.ant-popover-open {
-  color: $white;
-  background-color: $color-default;
+.erda-configurable-filter-btn {
+  height: 28px;
+
+  &.ant-popover-open {
+    color: $white;
+    background-color: $color-default;
+  }
 }
 
 .erda-configurable-filter {
@@ -116,6 +120,7 @@
     background-color: $color-dropdown-bg-dark;
 
     .ant-select-item {
+      padding: 5px 8px;
       color: $white;
     }
 
@@ -194,6 +199,7 @@
 
     .ant-select {
       .ant-select-clear {
+        right: 0;
         top: -50%;
         width: auto;
         color: $color-purple-highlight;
@@ -238,8 +244,23 @@
     .erda-form-date-range {
       display: flex;
       align-items: center;
-      padding: 2px;
+      border: 1px solid transparent;
+      border-radius: 3px;
       background-color: rgba($white, 0.08) !important;
+
+      &.erda-form-date-range-open {
+        border: 1px solid $color-purple-highlight !important;
+      }
+
+      .erda-form-date-range-clear {
+        color: $color-purple-highlight;
+      }
+
+      &:hover {
+        .erda-form-date-range-clear {
+          opacity: 1 !important;
+        }
+      }
 
       .ant-picker {
         flex: 1;
