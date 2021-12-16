@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { genEdges, genNodes, notAddonTypes, servicesTypes } from 'msp/env-overview/topology/pages/topology/utils';
+import { genEdges, genNodes } from 'msp/env-overview/topology/pages/topology/utils';
 import ErdaIcon from 'common/components/erda-icon';
 
 export type INodeKey = 'node' | 'service' | 'addon' | 'unhealthyService' | 'freeService' | 'circularDependencies';
@@ -82,18 +82,17 @@ const TopologyOverview: React.FC<IProps> = ({ data, onClick }) => {
       temp.node = node.length;
       node.forEach((item) => {
         if (item.data?.metaData) {
-          const { parentCount, childrenCount, metaData, isCircular } = item.data;
-          const { metric, type } = metaData;
-          if (metric.error_rate > 0) {
+          const { parentCount, childrenCount, isCircular, isService, isUnhealthy, isAddon } = item.data;
+          if (isUnhealthy && isService) {
             temp.unhealthyService = temp.unhealthyService + 1;
           }
-          if (servicesTypes.includes(type.toLocaleLowerCase())) {
+          if (isService) {
             temp.service = temp.service + 1;
           }
-          if (!notAddonTypes.includes(type.toLocaleLowerCase())) {
+          if (isAddon) {
             temp.addon = temp.addon + 1;
           }
-          if (parentCount === 0 && childrenCount === 0) {
+          if (parentCount === 0 && childrenCount === 0 && isService) {
             temp.freeService = temp.freeService + 1;
           }
           if (isCircular) {

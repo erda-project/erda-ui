@@ -48,8 +48,8 @@ const genEle = (nodes: TOPOLOGY.INode[], filterKey: INodeKey) => {
   let node = genNodes(nodes, edge);
   switch (filterKey) {
     case 'unhealthyService':
-      edge = edge.filter((t) => t.data?.isUnhealthy);
-      node = node.filter((t) => t.data?.isUnhealthy);
+      edge = edge.filter((t) => t.data?.isUnhealthy && t.data.isService);
+      node = node.filter((t) => t.data?.isUnhealthy && t.data.isService);
       break;
     case 'addon':
       edge = edge.filter((t) => t.data?.isAddon);
@@ -65,7 +65,7 @@ const genEle = (nodes: TOPOLOGY.INode[], filterKey: INodeKey) => {
       break;
     case 'freeService':
       edge = [];
-      node = node.filter((t) => t.data?.parentCount === 0 && t.data?.childrenCount === 0);
+      node = node.filter((t) => t.data?.parentCount === 0 && t.data.childrenCount === 0 && t.data.isService);
       break;
   }
   return { node, edge };
