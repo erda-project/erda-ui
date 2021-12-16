@@ -35,7 +35,7 @@ interface IProps {
 
 const metric = [
   {
-    name: i18n.t('msp:throughput'),
+    name: `${i18n.t('msp:throughput')}(reqs/s)`,
     key: 'rps',
   },
   {
@@ -232,9 +232,6 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
                     data: (chartsData.legendData[item.key] ?? []).map((t) => ({
                       ...axis.axisLabel,
                       name: t,
-                      itemStyle: {
-                        opacity: 0,
-                      },
                     })),
                     bottom: '1%',
                   },
@@ -248,7 +245,6 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
                     smooth: false,
                   })),
                 };
-                console.log(JSON.stringify(currentOption));
                 return (
                   <div>
                     <div className="text-white mt-4 mb-2">{item.title}</div>

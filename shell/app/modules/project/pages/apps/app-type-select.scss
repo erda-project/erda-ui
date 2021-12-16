@@ -20,7 +20,7 @@
     height: 140px;
     margin: $p8 $p20 $p8 0;
     text-align: center;
-    background-color: rgba($black, 0.04);
+    background-color: $color-dark-04;
     border: 1px solid $color-border;
     border-radius: $radius;
     cursor: pointer;
@@ -31,6 +31,13 @@
 
     &:hover {
       background-color: $white;
+    }
+
+    &.disabled-card {
+      &:hover {
+        background-color: $color-dark-04;
+        cursor: not-allowed;
+      }
     }
 
     &.active {

@@ -178,9 +178,10 @@ class MonitorChartNew extends React.PureComponent {
 
     const genTTArray = (param) =>
       param.map((unit, i) => {
-        return `<span style='color: ${unit.color}'>${cutStr(unit.seriesName, 20)} : ${getFormatter(
-          ...getTTUnitType(i),
-        ).format(unit.value, 2)}</span><br/>`;
+        return `<span'>${unit.marker} ${cutStr(unit.seriesName, 20)} : ${getFormatter(...getTTUnitType(i)).format(
+          unit.value,
+          2,
+        )}</span><br/>`;
       });
 
     let defaultTTFormatter = (param) => `${param[0].name}<br/>${genTTArray(param).join('')}`;
