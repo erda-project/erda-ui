@@ -232,10 +232,10 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
                     data: (chartsData.legendData[item.key] ?? []).map((t) => ({
                       ...axis.axisLabel,
                       name: t,
-                      itemStyle: {
-                        opacity: 0,
-                      },
                     })),
+                    icon: 'reat',
+                    itemWidth: 12,
+                    itemHeight: 3,
                     bottom: '1%',
                   },
                   tooltip: {
@@ -248,7 +248,6 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
                     smooth: false,
                   })),
                 };
-                console.log(JSON.stringify(currentOption));
                 return (
                   <div>
                     <div className="text-white mt-4 mb-2">{item.title}</div>
