@@ -1326,6 +1326,7 @@
     "issue custom fields": "issue custom fields",
     "issue detail": "issue detail",
     "issue field": "issue field",
+    "issue list": "issue list",
     "issue type": "issue type",
     "issue workflow": "issue workflow",
     "issue-workflow-config-tip": "Project issues include milestone, requirement, bug and task. And you can set up workflow state for each issue if you want",

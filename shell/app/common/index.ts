@@ -70,6 +70,8 @@ export { default as CardContainer } from './components/card-container';
 export { default as ConfigLayout } from './components/config-layout';
 export { default as MenuPopover } from './components/menu-popover';
 export { default as FileEditor } from './components/file-editor';
+export { default as RadioTabs } from './components/radio-tabs';
+export type { RadioTabsProps } from './components/radio-tabs';
 export { default as CardsLayout } from './components/cards-layout';
 export { default as SwitchAutoScroll } from './components/switch-auto-scroll';
 export { default as FileSelect } from './components/file-select';
