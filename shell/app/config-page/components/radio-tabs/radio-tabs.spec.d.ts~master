@@ -11,8 +11,38 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const entry = (registerModule) => {
-  // register some modules here
-};
+declare namespace CP_RADIO_TABS {
+  interface Spec {
+    type: 'RadioTabs';
+    props?: IProps;
+    state?: IState;
+    data?: IData;
+    operations?: Obj<CP_COMMON.Operation>;
+  }
 
-export default entry;
+  interface IState {
+    value: string;
+  }
+
+  interface IData {
+    options?: IOption[];
+  }
+
+  interface IProps {
+    disabled?: boolean;
+    options?: IOption[];
+  }
+
+  interface IOption {
+    label: string;
+    value: string | number;
+    key?: string;
+    disabled?: boolean;
+    icon?: string;
+    tip?: string;
+    width?: number;
+    children?: IOption[];
+  }
+
+  type Props = MakeProps<Spec>;
+}

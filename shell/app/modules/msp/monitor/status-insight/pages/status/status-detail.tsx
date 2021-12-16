@@ -220,7 +220,7 @@ const StatusDetail = () => {
       <div className="title-bar past-incident">
         <span className="title">{i18n.t('msp:the past 3 months')}</span>
       </div>
-      <PastIncidents pastIncidents={pastIncidents} />
+      <PastIncidents pastIncidents={pastIncidents} fetchData={getPastIncidents}/>
     </div>
   );
 };

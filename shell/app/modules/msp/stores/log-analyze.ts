@@ -59,7 +59,7 @@ const getScope = (useTk?: boolean) => {
   const inMsp = routeMarks.includes('msp');
   const msMenuMap = mspStore.getState((s) => s.msMenuMap);
   const scope = inCmp ? 'org' : inMsp ? 'micro-service' : '';
-  const scopeID = inCmp ? orgName : inMsp ? (useTk ? msMenuMap.AnalyzeRule?.params.terminusKey : params.addonId) : '';
+  const scopeID = inCmp ? orgName : inMsp ? (useTk ? msMenuMap.LogAnalyze?.params.terminusKey : params.addonId) : '';
   return { scope, scopeID };
 };
 

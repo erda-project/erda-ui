@@ -18,9 +18,9 @@ import ErdaIcon from 'common/components/erda-icon';
 import './index.scss';
 import { formatNumber } from '../../utils';
 
-const ExternalServiceNode: React.FC<NodeProps<TOPOLOGY.TopoNode> & { onMouseMoving: IProps['onMouseMoving'] }> = (
-  props,
-) => {
+const ExternalServiceNode: React.FC<
+  NodeProps<TOPOLOGY.TopoNode> & { onMouseMoving: IProps['onMouseMoving']; onClick: IProps['onClick'] }
+> = (props) => {
   return (
     <CommonNode {...props}>
       {(data: TOPOLOGY.TopoNode['metaData']) => {

@@ -23,41 +23,9 @@ interface ServicesParams {
 interface AnalyzerOverviewParams {
   tenantId: string;
   serviceIds: string[];
-}
-
-interface View {
-  timestamp: number;
-  value: number;
-}
-
-interface Views {
-  type: string;
-  data: number;
-  view: View[];
-}
-
-interface List {
-  id: string;
-  language: string;
-  lastHeartbeat: string;
-  name: string;
-  views?: Views[];
-}
-
-interface ServicesData {
-  list: List[];
-  total: number;
-  pageNo: number;
-  pageSize: number;
-}
-
-interface AnalyzerData {
-  views: Views[];
-  serviceId: string;
-}
-
-interface AnalyzerOverviewData {
-  list: AnalyzerData[];
+  view?: string;
+  startTime?: number;
+  endTime?: number;
 }
 
 const apis = {
@@ -69,7 +37,7 @@ const apis = {
   },
 };
 
-export const getServices = apiCreator<(payload: ServicesParams) => ServicesData>(apis.getServices);
-export const getAnalyzerOverview = apiCreator<(payload: AnalyzerOverviewParams) => AnalyzerOverviewData>(
-  apis.getAnalyzerOverview,
-);
+export const getServices = apiCreator<(payload: ServicesParams) => MSP_SERVICES.SERVICE_LIST>(apis.getServices);
+export const getAnalyzerOverview = apiCreator<
+  (payload: AnalyzerOverviewParams) => { list: MSP_SERVICES.SERVICE_LIST_CHART[] }
+>(apis.getAnalyzerOverview);

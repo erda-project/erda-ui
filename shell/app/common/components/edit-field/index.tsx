@@ -30,7 +30,7 @@ import layoutStore from 'layout/stores/layout';
 import './index.scss';
 
 const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) => {
-  const isImagePreviewOpen = layoutStore.useStore((s) => s.isImagePreviewOpen);
+  const [isImagePreviewOpen, scalableImgSrc] = layoutStore.useStore((s) => [s.isImagePreviewOpen, s.scalableImgSrc]);
 
   const closePreview = React.useCallback((e?: MouseEvent) => {
     e?.stopPropagation();
@@ -41,6 +41,7 @@ const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement
   const openPreview = (e: React.MouseEvent) => {
     e.stopPropagation();
     layoutStore.reducers.setImagePreviewOpen(true);
+    layoutStore.reducers.setScalableImgSrc(src || '');
     document.body.addEventListener('click', closePreview);
   };
 
@@ -74,7 +75,7 @@ const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement
       />
       <span
         className={`${
-          isImagePreviewOpen
+          isImagePreviewOpen && src === scalableImgSrc
             ? 'fixed top-0 right-0 left-0 bottom-0 z-50 flex items-center justify-center overflow-auto bg-desc'
             : 'hidden'
         }`}

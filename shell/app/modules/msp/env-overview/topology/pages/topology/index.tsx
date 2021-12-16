@@ -13,6 +13,8 @@
 
 import React from 'react';
 import TopologyComp from 'msp/env-overview/topology/pages/topology/component/topology-comp';
+import TopologyOverview, { INodeKey } from 'msp/env-overview/topology/pages/topology/component/topology-overview';
+import TopologyDetail from 'msp/env-overview/topology/pages/topology/component/topology-detail';
 import { ContractiveFilter } from 'common';
 import i18n from 'i18n';
 import { get } from 'lodash';
@@ -27,6 +29,10 @@ import './index.scss';
 
 const Topology = () => {
   const [filterTags, setFilterTags] = React.useState({});
+  const [nodeType, setNodeType] = React.useState<INodeKey>('node');
+  const [currentNode, setCurrentNode] = React.useState<TOPOLOGY.TopoNode['metaData']>(
+    {} as TOPOLOGY.TopoNode['metaData'],
+  );
   const params = routeInfoStore.useStore((s) => s.params);
   const [range] = monitorCommonStore.useStore((s) => [s.globalTimeSelectSpan.range, s.globalTimeSelectSpan.data]);
   const { getProjectApps } = monitorCommonStore.effects;
@@ -109,6 +115,15 @@ const Topology = () => {
       })),
     [tagOptionsCollection, topologyTags],
   );
+
+  const handleSelectNodeType = (key: INodeKey) => {
+    setNodeType(key);
+  };
+
+  const handleClickNode = (data: TOPOLOGY.TopoNode['metaData']) => {
+    setCurrentNode(data);
+  };
+
   return (
     <div className="topology h-full">
       <Spin className="spin" spinning={isLoading}>
@@ -124,10 +139,22 @@ const Topology = () => {
             />
             <TimeSelectWithStore className="ml-3" />
           </div>
-          <div className="flex-1 topology-container overflow-auto relative">
-            {topologyData.nodes?.length ? <TopologyComp data={topologyData} /> : null}
+          <div className="flex-1 flex min-h-0">
+            <TopologyOverview data={topologyData} onClick={handleSelectNodeType} />
+            <div className="flex-1 topology-container overflow-auto relative">
+              {topologyData.nodes?.length ? (
+                <TopologyComp key={nodeType} data={topologyData} filterKey={nodeType} clockNode={handleClickNode} />
+              ) : null}
+            </div>
           </div>
         </div>
+        <TopologyDetail
+          className="absolute h-full top-0"
+          data={currentNode}
+          onCancel={() => {
+            setCurrentNode({});
+          }}
+        />
       </Spin>
     </div>
   );

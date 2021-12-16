@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { useMount } from 'react-use';
-import { Table, Radio } from 'antd';
+import { Radio } from 'antd';
+import Table from 'common/components/table';
 import { isEmpty, get, forEach, mapKeys } from 'lodash';
 import i18n from 'i18n';
 import moment from 'moment';
@@ -24,7 +25,7 @@ import { ColumnProps } from 'core/common/interface';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
 import EditIssueDrawer from 'project/common/components/issue/edit-issue-drawer';
-import { AlarmState } from 'cmp/common/alarm-state.tsx';
+import { AlarmState } from 'cmp/common/alarm-state';
 import SelectProjectModal from '../select-project-modal';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 
@@ -66,7 +67,7 @@ const convertChartData = (data: any) => {
   return { time, metricData, yAxisLength, xAxisIsTime: true, title };
 };
 
-export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string }) => {
+const AlarmRecordDetail = ({ scope, tenantGroup }: { scope: string; tenantGroup?: string }) => {
   const alarmRecordStore = storeMap[scope];
   const { recordId } = routeInfoStore.useStore((s) => s.params);
   const [recordDetail, alarmTimesChart, recordHistories] = alarmRecordStore.useStore((s) => [
@@ -159,13 +160,12 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
     {
       title: i18n.t('create time'),
       dataIndex: 'timestamp',
-      render: (timestamp) => moment(timestamp).format('YYYY-MM-DD HH:mm:ss'),
+      render: (timestamp: number) => moment(timestamp).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('cmp:alarm status'),
       dataIndex: 'alertState',
-      width: 280,
-      render: (alertState) => <AlarmState state={alertState} />,
+      render: (alertState: string) => <AlarmState state={alertState} />,
     },
   ];
 
@@ -188,7 +188,6 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
         </Button>
       </div> */}
       <div className="flex items-start justify-between mb-4">
-        <CommonRangePicker defaultTime={defaultTime} onOk={(v) => updater.timeSpan(v)} />
         {/* <Radio.Group value={view} onChange={(e: any) => updater.view(e.target.value)}> */}
         {/*  <Radio.Button value="table"><CustomIcon type="unorderedlist" /></Radio.Button> */}
         {/*  <Radio.Button value="chart"><CustomIcon type="bar-chart" /></Radio.Button> */}
@@ -200,6 +199,14 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
           dataSource={recordHistories}
           loading={loading}
           columns={columns}
+          onChange={() =>
+            getAlarmRecordHistories({
+              start: timeSpan.startTimeMs,
+              end: timeSpan.endTimeMs,
+              groupId: recordId,
+            })
+          }
+          slot={<CommonRangePicker defaultTime={defaultTime} onOk={(v) => updater.timeSpan(v)} />}
           expandedRowRender={(record: ALARM_REPORT.AlarmHistory) => (
             <div className="pr-8">
               <div className="code-block overflow-auto content-block">
@@ -232,3 +239,5 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
     </div>
   );
 };
+
+export default AlarmRecordDetail;

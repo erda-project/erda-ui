@@ -47,7 +47,7 @@ $color-primary: #6a549e !default;
 $color-primary-light: #0c0b14 !default;
 $color-primary-dark: #5340c8 !default;
 
-$color-default: #302647;
+$color-default: #302647; // rgba(48,38,71,1);
 $color-default-8: rgba($color-default, 0.8);
 $color-default-6: rgba($color-default, 0.6);
 $color-default-4: rgba($color-default, 0.4);
@@ -136,7 +136,7 @@ $color-input-bg: #efeef0;
 
 // color new list
 $color-box-shadow: rgba($color-text-sub, 0.1);
-$color-card-shadow: rgba(85, 77, 104, 0.08);
+$color-card-shadow: rgba(48, 38, 71, 0.16);
 $color-card-hover-shadow: rgba(85, 77, 104, 0.16);
 
 // new assistant color

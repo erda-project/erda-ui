@@ -1,9 +1,11 @@
 .topology {
-  background: rgba($color-default, 0.96);
+  background: $color-default;
 
   .ant-spin-nested-loading,
   .ant-spin-container {
     height: 100%;
+    position: relative;
+    overflow: hidden;
   }
 
   .topology-filter {
@@ -66,7 +68,48 @@
     }
   }
 
-  .topology-container {
-    height: calc(100% - 48px);
+  .topology-overview {
+    width: 280px;
+    height: 100%;
+    border-right: 1px solid rgba($white, 0.1);
+    transition: all 0.3s ease-in-out;
+
+    .card-item {
+      width: 120px;
+      height: 76px;
+      background-color: rgba($white, 0.04);
+    }
+
+    &.collapse {
+      width: 8px;
+
+      .content {
+        opacity: 0;
+      }
+    }
+  }
+
+  .topology-detail {
+    background-color: $color-default;
+    width: 325px;
+    z-index: 20;
+    transition: all 0.3s ease-in-out;
+
+    &.expand {
+      right: 0;
+    }
+
+    &.collapse {
+      right: -325px;
+    }
+
+    .content {
+      background-color: rgba($white, 0.04);
+      .metric-detail {
+        > div {
+          background: rgba($white, 0.04);
+        }
+      }
+    }
   }
 }

@@ -25,7 +25,9 @@ const iconMap = {
   redis: 'redis',
   default: 'morenzhongjianjian',
 };
-const AddonNode: React.FC<NodeProps<TOPOLOGY.TopoNode> & { onMouseMoving: IProps['onMouseMoving'] }> = (props) => {
+const AddonNode: React.FC<
+  NodeProps<TOPOLOGY.TopoNode> & { onMouseMoving: IProps['onMouseMoving']; onClick: IProps['onClick'] }
+> = (props) => {
   return (
     <CommonNode {...props}>
       {(data: TOPOLOGY.TopoNode['metaData']) => {

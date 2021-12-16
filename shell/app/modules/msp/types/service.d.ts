@@ -11,23 +11,29 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const mockData: CP_RADIO_TABS.Spec = {
-  type: 'RadioTabs',
-  props: {
-    options: [
-      {
-        value: 'my',
-        label: '我的组织',
-      },
-      {
-        value: 'all',
-        label: '公开组织',
-      },
-    ],
-  },
-  state: {
-    value: 'my',
-  },
-};
+declare namespace MSP_SERVICES {
+  type SERVICE_LIST_CHART_TYPE = 'RPS' | 'AvgDuration' | 'ErrorRate';
 
-export default mockData;
+  interface SERVICE_LIST_CHART {
+    serviceId: string;
+    views: {
+      type: SERVICE_LIST_CHART_TYPE;
+      view: {
+        timestamp: number;
+        value: number;
+      }[];
+    }[];
+  }
+
+  interface SERVICE_LIST_ITEM {
+    id: string;
+    language: string;
+    lastHeartbeat: string;
+    name: string;
+    rps: number;
+    avgDuration: number;
+    errorRate: number;
+  }
+
+  type SERVICE_LIST = IPagingResp<SERVICE_LIST_ITEM> & IPaging;
+}

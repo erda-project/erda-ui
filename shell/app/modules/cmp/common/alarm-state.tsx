@@ -11,33 +11,25 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Icon as CustomIcon } from 'common';
+import { Badge } from 'common';
 import React from 'react';
 import i18n from 'i18n';
 
 const ALARM_STATE_MAP = {
-  alert: { icon: 'wh', label: i18n.t('cmp:alarm') },
-  recover: { icon: 'tg', label: i18n.t('cmp:recover') },
+  alert: { status: 'warning', label: i18n.t('cmp:alarm') },
+  recover: { status: 'success', label: i18n.t('cmp:recover') },
 };
 
 interface IProps {
   state: string;
 }
 
-export const STATE_ICON_COLOR = {
-  wh: 'yellow',
-  tg: 'green',
-};
-
 export const AlarmState = (props: IProps) => {
   const { state } = props;
-  const { icon, label } = ALARM_STATE_MAP[state] || {};
-  const color = STATE_ICON_COLOR[icon];
+  const { status, label } = ALARM_STATE_MAP[state] || {};
 
   return (
-    <span className={'inline-flex justify-between items-center'} style={{ minWidth: '50px' }}>
-      <CustomIcon type={icon} className={`rounded-full mr-1 text-white bg-${color}`} />
-      <span className={`text-${color}`}>{label}</span>
-    </span>
+    <Badge status={status} text={label}/>
   );
 };
+

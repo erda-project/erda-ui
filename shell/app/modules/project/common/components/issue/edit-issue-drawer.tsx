@@ -72,9 +72,9 @@ const priorityOptions = map(ISSUE_PRIORITY_LIST, ({ iconLabel, value }) => (
     {iconLabel}
   </Option>
 ));
-const complexityOptions = map(ISSUE_COMPLEXITY_MAP, ({ label, value }) => (
+const complexityOptions = map(ISSUE_COMPLEXITY_MAP, ({ iconLabel, value }) => (
   <Option key={value} value={value}>
-    {label}
+    {iconLabel}
   </Option>
 ));
 const severityOptions = map(BUG_SEVERITY_MAP, ({ iconLabel, value }) => (

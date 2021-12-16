@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table } from 'antd';
+import Table from 'common/components/table';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { resolvePath } from 'common/utils';
@@ -26,7 +26,7 @@ interface IData {
   lastUpdate?: string;
 }
 
-const PastIncidents = ({ pastIncidents }: { pastIncidents: any[] }) => {
+const PastIncidents = ({ pastIncidents, fetchData }: { pastIncidents: any[]; fetchData: () => void }) => {
   const dataSource = pastIncidents.map((item, k) => {
     return { ...item, key: k, createAt: moment(item.createAt / 1000000).format('YYYY-MM-DD HH:mm:ss') };
   });
@@ -35,13 +35,11 @@ const PastIncidents = ({ pastIncidents }: { pastIncidents: any[] }) => {
       key: 'createAt',
       dataIndex: 'createAt',
       title: i18n.t('msp:downtime'),
-      width: 220,
     },
     {
       dataIndex: 'durationFormat',
       align: 'left',
       title: i18n.t('msp:duration'),
-      width: 150,
     },
     {
       dataIndex: 'requestId',
@@ -61,13 +59,7 @@ const PastIncidents = ({ pastIncidents }: { pastIncidents: any[] }) => {
   ];
   return (
     <div className="past-incidents">
-      <Table
-        rowKey="key"
-        dataSource={dataSource}
-        columns={pastIncidentsCols}
-        pagination={false}
-        scroll={{ x: '100%' }}
-      />
+      <Table rowKey="key" dataSource={dataSource} onChange={() => fetchData()} columns={pastIncidentsCols} />
     </div>
   );
 };

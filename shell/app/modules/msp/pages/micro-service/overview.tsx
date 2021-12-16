@@ -12,10 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Col, Input, Row, Spin, Tag } from 'antd';
+import { Input, Tag } from 'antd';
 import { useUpdate } from 'common/use-hooks';
 import { getMspProjectList } from 'msp/services';
-import EmptyHolder from 'common/components/empty-holder';
 import ErdaIcon from 'common/components/erda-icon';
 import { fromNow, goTo } from 'common/utils';
 import { debounce, last } from 'lodash';
@@ -28,6 +27,7 @@ import middleImg from 'app/images/msp/microservice-governance-middle.svg';
 import bottomImg from 'app/images/msp/microservice-governance-bottom.svg';
 import backgroundImg from 'app/images/msp/microservice-governance-background.svg';
 import decorationImg from 'app/images/msp/microservice-governance-decoration.svg';
+import CardList, { CardColumnsProps } from 'common/components/card-list';
 import i18n from 'i18n';
 import './overview.scss';
 
@@ -55,6 +55,29 @@ const iconMap: {
     color: '#27C99A',
   },
 };
+
+const metric: { dataIndex: keyof MS_INDEX.IMspProject; name: string; renderData: (data: any) => React.ReactNode }[] = [
+  {
+    dataIndex: 'relationship',
+    name: i18n.t('env'),
+    renderData: (data: MS_INDEX.IMspRelationship[]) => data.length,
+  },
+  {
+    dataIndex: 'serviceCount',
+    name: i18n.t('service'),
+    renderData: (data: number) => data ?? 0,
+  },
+  {
+    dataIndex: 'last24hAlertCount',
+    name: i18n.t('msp:last 1 day alarm'),
+    renderData: (data: number) => data ?? 0,
+  },
+  {
+    dataIndex: 'lastActiveTime',
+    name: i18n.t('msp:last active time'),
+    renderData: (data: number) => (data ? fromNow(data) : '-'),
+  },
+];
 
 const Overview = () => {
   const [{ data, loading, filterKey }, updater] = useUpdate<IState>({
@@ -95,6 +118,52 @@ const Overview = () => {
     return data.filter((item) => item.displayName.toLowerCase().includes(filterKey));
   }, [data, filterKey]);
 
+  const columns: CardColumnsProps<MS_INDEX.IMspProject>[] = [
+    {
+      dataIndex: 'displayName',
+      colProps: {
+        className: 'flex items-center',
+      },
+      render: (displayName: string, { logo, desc, type }) => {
+        const { icon, color, tag } = iconMap[type];
+        return (
+          <>
+            <div className="w-14 h-14 mr-2">
+              {logo ? <img src={logo} width={56} height={56} /> : <ErdaIcon type={icon} size={56} />}
+            </div>
+            <div>
+              <p className="mb-0 font-medium text-xl leading-8">{displayName}</p>
+              <Tag className="mb-0.5 text-xs leading-5 border-0" color={color}>
+                {tag}
+              </Tag>
+              <div className="text-xs	leading-5 desc">{desc || i18n.t('no description yet')}</div>
+            </div>
+          </>
+        );
+      },
+    },
+    {
+      dataIndex: 'id',
+      colProps: {
+        className: 'flex items-center',
+      },
+      children: {
+        columns: metric.map((item) => ({
+          dataIndex: item.dataIndex,
+          colProps: {
+            span: 6,
+          },
+          render: (text) => (
+            <>
+              <p className="mb-0 text-xl leading-8 font-number">{item.renderData(text)}</p>
+              <p className="mb-0 text-xs leading-5 desc">{item.name}</p>
+            </>
+          ),
+        })),
+      },
+    },
+  ];
+
   return (
     <div className="msp-overview p-6 flex flex-col pt-0">
       <div className="msp-overview-header relative overflow-hidden flex content-center justify-center pl-4 flex-col">
@@ -120,87 +189,28 @@ const Overview = () => {
           <img src={decorationImg} className="absolute decoration-img top" />
         </div>
       </div>
-      <div className="flex flex-1 flex-col min-h-0 bg-white shadow pb-2">
-        <div className="px-4 pt-2 bg-lotion">
+      <CardList<MS_INDEX.IMspProject>
+        rowKey="id"
+        size="large"
+        loading={loading}
+        columns={columns}
+        dataSource={list}
+        rowClick={({ relationship, id }) => {
+          handleClick(relationship, id);
+        }}
+        slot={
           <Input
             prefix={<ErdaIcon type="search1" />}
             bordered={false}
             allowClear
             placeholder={i18n.t('msp:search by project name')}
-            className="bg-hover-gray-bg mb-3 w-72"
+            className="bg-hover-gray-bg w-72"
             onChange={(e) => {
               handleSearch(e.target.value);
             }}
           />
-        </div>
-        <div className="px-2 flex-1 overflow-y-auto">
-          <Spin spinning={loading}>
-            {list.length ? (
-              list.map(
-                ({
-                  type,
-                  desc,
-                  displayName,
-                  id,
-                  relationship,
-                  serviceCount,
-                  last24hAlertCount,
-                  lastActiveTime,
-                  logo,
-                }) => {
-                  const { icon, color, tag } = iconMap[type];
-                  return (
-                    <Row
-                      key={id}
-                      className="project-item card-shadow mb-2 mx-2 px-4 flex py-8 rounded-sm cursor-pointer transition-all duration-300 hover:bg-grey"
-                      onClick={() => {
-                        handleClick(relationship, id);
-                      }}
-                    >
-                      <Col span={12} className="flex items-center">
-                        <div className="w-14 h-14 mr-2">
-                          {logo ? <img src={logo} width={56} height={56} /> : <ErdaIcon type={icon} size={56} />}
-                        </div>
-                        <div>
-                          <p className="mb-0 font-medium text-xl leading-8">{displayName}</p>
-                          <Tag className="mb-0.5 text-xs leading-5 border-0" color={color}>
-                            {tag}
-                          </Tag>
-                          <div className="text-xs	leading-5 desc">{desc || i18n.t('no description yet')}</div>
-                        </div>
-                      </Col>
-                      <Col span={12} className="flex items-center">
-                        <Row gutter={8} className="flex-1">
-                          <Col span={6}>
-                            <p className="mb-0 text-xl leading-8 font-number">{relationship.length}</p>
-                            <p className="mb-0 text-xs leading-5 desc">{i18n.t('env')}</p>
-                          </Col>
-                          <Col span={6}>
-                            <p className="mb-0 text-xl leading-8 font-number">{serviceCount ?? 0}</p>
-                            <p className="mb-0 text-xs leading-5 desc">{i18n.t('service')}</p>
-                          </Col>
-                          <Col span={6}>
-                            <p className="mb-0 text-xl leading-8 font-number">{last24hAlertCount ?? 0}</p>
-                            <p className="mb-0 text-xs leading-5 desc">{i18n.t('msp:last 1 day alarm')}</p>
-                          </Col>
-                          <Col span={6}>
-                            <p className="mb-0 text-xl leading-8 font-number">
-                              {lastActiveTime ? fromNow(lastActiveTime) : '-'}
-                            </p>
-                            <p className="mb-0 text-xs leading-5 desc">{i18n.t('msp:last active time')}</p>
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                  );
-                },
-              )
-            ) : (
-              <EmptyHolder relative />
-            )}
-          </Spin>
-        </div>
-      </div>
+        }
+      />
     </div>
   );
 };

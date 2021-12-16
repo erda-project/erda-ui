@@ -45,6 +45,8 @@ declare namespace COMMON_NOTIFY {
     scopeType: ScopeType;
     scopeId: string;
     label?: string;
+    pageNo?: number;
+    pageSize?: number;
   }
 
   interface ExternalUserInfo {

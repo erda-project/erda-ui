@@ -60,10 +60,18 @@ declare namespace TOPOLOGY {
     hoverStatus: number;
     childrenCount: number;
     parentCount: number;
+    isUnhealthy: boolean;
+    isCircular: boolean;
+    isAddon: boolean;
+    isService: boolean;
     metaData: Omit<INode, 'parents'>;
   }
 
   interface TopoEdge {
+    isCircular: boolean;
+    isUnhealthy: boolean;
+    isAddon: boolean;
+    isService: boolean;
     hoverStatus: number;
     source: Omit<INode, 'parents'>;
     target: Omit<INode, 'parents'>;

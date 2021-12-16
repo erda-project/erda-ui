@@ -17,7 +17,9 @@ import { NodeProps } from 'react-flow-renderer';
 import Circular from 'msp/env-overview/topology/pages/topology/component/progress/circular';
 import { formatNumber } from '../../utils';
 
-const ApiGatewayNode: React.FC<NodeProps<TOPOLOGY.TopoNode> & { onMouseMoving: IProps['onMouseMoving'] }> = (props) => {
+const ApiGatewayNode: React.FC<
+  NodeProps<TOPOLOGY.TopoNode> & { onMouseMoving: IProps['onMouseMoving']; onClick: IProps['onClick'] }
+> = (props) => {
   return (
     <CommonNode {...props}>
       {(data: TOPOLOGY.TopoNode['metaData']) => {

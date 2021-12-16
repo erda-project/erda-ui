@@ -67,7 +67,7 @@ export const qs = {
  * @param ignoreOrigin 是否忽略原始的query参数
  */
 export function mergeSearch(obj?: { [prop: string]: any }, toString?: boolean, ignoreOrigin?: boolean, opt?: Obj) {
-  const res = { ...(ignoreOrigin ? {} : parse(location.search)), ...obj };
+  const res = { ...(opt?.ignoreOrigin || ignoreOrigin ? {} : parse(location.search)), ...obj };
   return toString ? stringify(res, opt) : res;
 }
 

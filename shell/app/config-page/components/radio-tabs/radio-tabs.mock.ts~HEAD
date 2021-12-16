@@ -16,14 +16,36 @@ const mockData: CP_RADIO_TABS.Spec = {
   props: {
     options: [
       {
-        value: 'my',
-        label: '我的组织',
+        key: 'my',
+        text: '我的组织',
+        operations: {
+          click: {
+            reload: false,
+            key: 'myOrg',
+            command: {
+              key: 'goto',
+              target: 'orgList',
+            },
+          },
+        },
       },
       {
-        value: 'all',
-        label: '公开组织',
+        key: 'all',
+        text: '公开组织',
+        operations: {
+          click: {
+            reload: false,
+            key: 'allOrg',
+            command: {
+              key: 'goto',
+              target: 'orgList',
+            },
+          },
+        },
       },
     ],
+    radioType: 'button',
+    size: 'small',
   },
   state: {
     value: 'my',
