@@ -12,11 +12,26 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Form, Input, Select, InputNumber, Switch, Radio, Checkbox, Cascader, DatePicker, Tooltip } from 'antd';
-import { FormInstance } from 'core/common/interface';
+import {
+  Form,
+  Input,
+  Select,
+  InputNumber,
+  Switch,
+  Radio,
+  Checkbox,
+  Cascader,
+  DatePicker,
+  Tooltip,
+  Divider,
+} from 'antd';
+import { FormInstance } from 'app/interface/common';
 import classnames from 'classnames';
-import { ErdaIcon } from 'common';
+import { ErdaIcon, Icon as CustomIcon, Badge } from 'common';
+import { TagItem } from 'common/components/tags';
 import i18n from 'i18n';
+import { isString } from 'lodash';
+import moment, { Moment } from 'moment';
 
 interface IProps {
   onChange?: (...args: unknown[]) => void;
@@ -47,7 +62,7 @@ class ClassWrapper extends React.PureComponent<IProps> {
 }
 
 const FormItem = Form.Item;
-const { Option } = Select;
+const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 
 const defalutFormItemLayout = {
@@ -84,6 +99,7 @@ export interface IFormItem {
   label?: string;
   labelTip?: string;
   name?: string | string[];
+  key?: string;
   type?: string;
   initialValue?: any;
   size?: 'default' | 'small' | 'large';
@@ -107,6 +123,55 @@ export interface IFormItem {
   dropOne?: (name: string | undefined) => void;
   getComp?: ({ form }: { form: FormInstance }) => React.ReactElement<any> | string;
 }
+
+interface IOption {
+  name?: string;
+  label?: string;
+  icon?: string;
+  status?: 'success' | 'error' | 'warning' | 'default' | 'processing';
+  value: string | number;
+  disabled?: boolean;
+  children?: IOption[];
+  fix?: boolean;
+}
+
+const renderSelectOption = (single: IOption) => {
+  if (single.children) {
+    return (
+      <OptGroup
+        key={single.value}
+        label={
+          <div className="flex items-center">
+            {single.icon ? <CustomIcon type={single.icon} /> : null}
+            <div className="ml-1 flex-1">{single.name || single.label}</div>
+          </div>
+        }
+      >
+        {single.children.map((item: IOption) => renderSelectOption(item))}
+      </OptGroup>
+    );
+  }
+
+  return (
+    <Option
+      className={single.fix ? 'select-fix-option' : ''}
+      key={single.value}
+      label={single.name || single.label}
+      value={`${single.value}`}
+      disabled={!!single.disabled}
+    >
+      {single.status ? (
+        <Badge status={single.status} text={single.name || single.label || '-'} showDot={false} />
+      ) : (
+        <div className="flex items-center">
+          {single.icon ? <CustomIcon type={single.icon} /> : null}
+          <div className="ml-1 flex-1">{single.name || single.label}</div>
+        </div>
+      )}
+    </Option>
+  );
+};
+
 const RenderFormItem = ({
   form,
   label,
@@ -146,16 +211,23 @@ const RenderFormItem = ({
       if (itemProps.mode === 'multiple') {
         specialConfig.valuePropType = 'array';
       }
+
       ItemComp = (
-        <Select {...itemProps} size={size}>
-          {typeof options === 'function'
-            ? options()
-            : options.map((single) => (
-                <Option key={single.value} value={`${single.value}`} disabled={!!single.disabled}>
-                  {single.name}
-                </Option>
-              ))}
-        </Select>
+        <ClassWrapper>
+          <SelectComp options={options} size={size} itemProps={itemProps} />
+        </ClassWrapper>
+      );
+      action = i18n.t('common:select');
+      break;
+    case 'tagsSelect':
+      if (itemProps.mode === 'multiple') {
+        specialConfig.valuePropType = 'array';
+      }
+
+      ItemComp = (
+        <ClassWrapper>
+          <TagsSelect options={options} size={size} itemProps={itemProps} />
+        </ClassWrapper>
       );
       action = i18n.t('common:select');
       break;
@@ -201,6 +273,13 @@ const RenderFormItem = ({
     case 'datePicker':
       ItemComp = (
         <DatePicker className="w-full" allowClear={false} format="YYYY-MM-DD" showTime={false} {...itemProps} />
+      );
+      break;
+    case 'dateRange':
+      ItemComp = (
+        <ClassWrapper {...itemProps}>
+          <DateRange />
+        </ClassWrapper>
       );
       break;
     case 'custom':
@@ -289,13 +368,168 @@ const RenderFormItem = ({
         {ItemComp}
       </FormItem>
       {suffix}
-      {addOne ? (
-        <ErdaIcon type="add-one" className="render-form-op" onClick={() => addOne(name)} />
-      ) : null}
-      {dropOne ? (
-        <ErdaIcon type="reduce-one" className="render-form-op" onClick={() => dropOne(name)} />
-      ) : null}
+      {addOne ? <ErdaIcon type="add-one" className="render-form-op" onClick={() => addOne(name)} /> : null}
+      {dropOne ? <ErdaIcon type="reduce-one" className="render-form-op" onClick={() => dropOne(name)} /> : null}
     </FormItem>
+  );
+};
+
+interface SelectCompProps {
+  size?: 'small' | 'large';
+  options: IOption[] | Function;
+  value: Array<number | string>;
+  onChange: (value: Array<number | string>) => void;
+  itemProps: Obj;
+}
+
+const SelectComp = ({ value, onChange, options: _options, size, itemProps }: SelectCompProps) => {
+  const options = typeof _options === 'function' ? _options() : _options;
+
+  const fixOptions = options.filter((item: IOption) => item.fix);
+
+  return (
+    <Select
+      optionLabelProp="label"
+      {...itemProps}
+      value={value}
+      onChange={onChange}
+      size={size}
+      filterOption={(input, option) =>
+        typeof option?.label === 'string' && option?.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      }
+      dropdownRender={(menu) => (
+        <div>
+          {fixOptions?.length !== 0 ? (
+            <>
+              <div className="p-2 text-white-400">
+                {fixOptions.map((item: IOption) => (
+                  <div className="px-1 text-purple-deep" onClick={() => onChange([item.value])}>
+                    {item.label}
+                  </div>
+                ))}
+              </div>
+              <Divider className="border-white-06" style={{ margin: '4px 0' }} />
+            </>
+          ) : null}
+          {menu}
+        </div>
+      )}
+    >
+      {options.filter((item: IOption) => !item.fix).map((item: IOption) => renderSelectOption(item))}
+    </Select>
+  );
+};
+
+const DateRange = ({
+  value,
+  onChange,
+  customProps,
+}: {
+  value: number[];
+  onChange: (values: Obj) => void;
+  customProps: Obj;
+}) => {
+  const [_startDate, _endDate] = value || [];
+  const startDate = typeof _startDate === 'string' ? +_startDate : _startDate;
+  const endDate = typeof _endDate === 'string' ? +_endDate : _endDate;
+  const { borderTime, disabled, required } = customProps || {};
+
+  const disabledDate = (isStart: boolean) => (current: Moment | undefined) => {
+    return (
+      !!current &&
+      (isStart
+        ? endDate
+          ? (borderTime ? current.startOf('dates') : current) > moment(endDate)
+          : false
+        : startDate
+        ? (borderTime ? current.endOf('dates') : current) < moment(startDate)
+        : false)
+    );
+  };
+
+  const getTimeValue = (v: any[]) => {
+    if (borderTime) {
+      const startVal = v[0]
+        ? moment(isString(v[0]) ? +v[0] : v[0])
+            .startOf('dates')
+            .valueOf()
+        : v[0];
+      const endVal = v[1]
+        ? moment(isString(v[1]) ? +v[1] : v[1])
+            .endOf('dates')
+            .valueOf()
+        : v[1];
+      return [startVal, endVal];
+    }
+    return v;
+  };
+
+  return (
+    <div className="erda-form-date-range">
+      <DatePicker
+        size="small"
+        bordered={false}
+        disabled={disabled}
+        value={startDate ? moment(startDate) : undefined}
+        disabledDate={disabledDate(true)}
+        format={'YYYY/MM/DD'}
+        allowClear={!required}
+        onChange={(v) => onChange(getTimeValue([v?.valueOf(), endDate]))}
+        placeholder={i18n.t('common:startDate')}
+      />
+      <span className="divider mx-1">—</span>
+      <DatePicker
+        size="small"
+        bordered={false}
+        disabled={disabled}
+        allowClear={!required}
+        value={endDate ? moment(endDate) : undefined}
+        disabledDate={disabledDate(false)}
+        format={'YYYY/MM/DD'}
+        placeholder={i18n.t('common:endDate')}
+        onChange={(v) => onChange(getTimeValue([startDate, v?.valueOf()]))}
+      />
+    </div>
+  );
+};
+
+const renderTagsSelectOption = (single: Obj) => {
+  return (
+    <Option key={single.value} label={single.name || single.label} value={single.value} disabled={!!single.disabled}>
+      <TagItem label={{ label: single.name || single.label, color: single.color }} checked={single.checked} readOnly />
+    </Option>
+  );
+};
+
+interface TagsSelectProps {
+  size?: 'small' | 'large';
+  options: IOption[] | Function;
+  value: Array<number | string>;
+  onChange: (value: Array<number | string>) => void;
+  itemProps: Obj;
+}
+
+const TagsSelect = ({ size, options, value = [], onChange, itemProps }: TagsSelectProps) => {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <Select
+      {...itemProps}
+      value={value}
+      onChange={onChange}
+      className="erda-tags-select"
+      size={size}
+      open={open}
+      onDropdownVisibleChange={setOpen}
+      onFocus={() => setOpen(true)}
+      filterOption={(input, option) =>
+        typeof option?.label === 'string' && option?.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      }
+    >
+      {typeof options === 'function'
+        ? options()
+        : options.map((item) => renderTagsSelectOption({ ...item, checked: value.includes(item.value) }))}
+    </Select>
   );
 };
 

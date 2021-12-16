@@ -86,6 +86,7 @@ export { default as KVPair } from './components/k-v-pair';
 export { default as CompactSelect } from './components/compact-select';
 export { default as Filter } from './components/filter';
 export { default as ContractiveFilter } from './components/contractive-filter';
+export { default as ConfigurableFilter } from './components/configurable-filter';
 export { default as TiledFilter } from './components/tiled-filter';
 export { default as CustomFilter } from './components/custom-filter';
 export { default as TagsRow } from './components/tags-row';

@@ -13,6 +13,7 @@
 
 import { Table } from './table/table';
 import ContractiveFilter from './contractive-filter/contractive-filter';
+import ConfigurableFilter from './configurable-filter/configurable-filter';
 import { Form } from './form/form';
 import { FormModal } from './form-modal/form-modal';
 import { Container, RowContainer, LRContainer } from './container/container';
@@ -89,6 +90,7 @@ export const containerMap = {
   ActionForm,
   IssueKanban,
   ContractiveFilter,
+  ConfigurableFilter,
   FileTree,
   Radio,
   Tabs,
