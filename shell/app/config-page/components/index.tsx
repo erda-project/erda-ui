@@ -16,7 +16,7 @@ import ContractiveFilter from './contractive-filter/contractive-filter';
 import ConfigurableFilter from './configurable-filter/configurable-filter';
 import { Form } from './form/form';
 import { FormModal } from './form-modal/form-modal';
-import { Container, RowContainer, LRContainer } from './container/container';
+import { Container, LRContainer, RowContainer } from './container/container';
 import { Card } from './card/card';
 import Button from './button/button';
 import { Drawer } from './drawer/drawer';
@@ -72,6 +72,7 @@ import SimpleChart from './simple-chart/simple-chart';
 import ChartBlock from './chart-block/chart-block';
 import Kanban from './kanban/kanban';
 import RadioTabs from './radio-tabs/radio-tabs';
+import TopN from './top-n';
 
 export const containerMap = {
   Alert,
@@ -138,4 +139,5 @@ export const containerMap = {
   ChartBlock,
   Kanban,
   RadioTabs,
+  TopN,
 };

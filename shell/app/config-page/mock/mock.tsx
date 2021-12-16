@@ -13,8 +13,50 @@
 
 import React from 'react';
 import DiceConfigPage, { useMock } from 'app/config-page';
+import { functionalColor } from 'common/constants';
 
 const Mock = () => {
-  return <DiceConfigPage showLoading scenarioType="mock" scenarioKey={'mock'} useMock={useMock} forceMock />;
+  return (
+    <DiceConfigPage
+      showLoading
+      scenarioType="mock"
+      scenarioKey={'mock'}
+      useMock={useMock}
+      forceMock
+      customProps={{
+        dataRank: {
+          op: {
+            clickRow: (a: CP_DATA_RANK.IItem) => {
+              console.log(a);
+            },
+          },
+          props: {
+            theme: [
+              {
+                color: functionalColor.actions,
+                titleIcon: 'mail',
+                backgroundIcon: 'baocun',
+              },
+              {
+                color: functionalColor.success,
+                titleIcon: 'mysql',
+                backgroundIcon: 'shezhi',
+              },
+              {
+                color: functionalColor.warning,
+                titleIcon: 'RocketMQ',
+                backgroundIcon: 'map-draw',
+              },
+              {
+                color: functionalColor.error,
+                titleIcon: 'morenzhongjianjian',
+                backgroundIcon: 'data-server',
+              },
+            ],
+          },
+        },
+      }}
+    />
+  );
 };
 export default Mock;

@@ -14,11 +14,11 @@
 
 import React from 'react';
 import { PAGINATION } from 'app/constants';
-import { Input, Tag, Tooltip } from 'antd';
+import { Button, Input, Tag, Tooltip } from 'antd';
 import Pagination from 'common/components/pagination';
 import { debounce, isNil } from 'lodash';
 import EChart from 'charts/components/echarts';
-import { CardColumnsProps, CardList, ErdaAlert, ErdaIcon } from 'common';
+import { CardColumnsProps, CardList, ErdaIcon, RadioTabs } from 'common';
 import { goTo } from 'common/utils';
 import { genLinearGradient, newColorMap } from 'app/charts/theme';
 import './service-list.scss';
@@ -29,6 +29,8 @@ import { getFormatter } from 'charts/utils';
 import moment from 'moment';
 import { getAnalyzerOverview, getServices } from 'msp/services/service-list';
 import i18n from 'i18n';
+import DiceConfigPage from 'app/config-page';
+import { functionalColor } from 'common/constants';
 
 const defaultSeriesConfig = (color?: string) => ({
   type: 'line',
@@ -103,23 +105,39 @@ const CHART_MAP: {
 
 type IListItem = Merge<MSP_SERVICES.SERVICE_LIST_ITEM, { views: MSP_SERVICES.SERVICE_LIST_CHART['views'] }>;
 
+const listDetail = (serviceId: string, serviceName: string) => {
+  const currentProject = mspStore.getState((s) => s.currentProject);
+  const params = routeInfoStore.getState((s) => s.params);
+  goTo(goTo.pages.mspServiceAnalyze, {
+    ...params,
+    applicationId: currentProject?.type === 'MSP' ? '-' : serviceId.split('_')[0],
+    serviceName,
+    serviceId: window.encodeURIComponent(serviceId || ''),
+  });
+};
+
+const tabs = [
+  {
+    label: '全部服务',
+    value: 'allService',
+  },
+  {
+    label: '异常服务',
+    value: 'abnormalService',
+  },
+  {
+    label: '无流量服务',
+    value: 'noFlowService',
+  },
+];
+
 const MicroServiceOverview = () => {
-  const params = routeInfoStore.useStore((s) => s.params);
-  const currentProject = mspStore.useStore((s) => s.currentProject);
   const [data, dataLoading] = getServices.useState();
   const tenantId = routeInfoStore.useStore((s) => s.params.terminusKey);
   const overviewList = getAnalyzerOverview.useData();
   const [searchValue, setSearchValue] = React.useState('');
   const [pagination, setPagination] = React.useState({ current: 1, pageSize: PAGINATION.pageSize });
-
-  const listDetail = (serviceId: string, serviceName: string) => {
-    goTo(goTo.pages.mspServiceAnalyze, {
-      ...params,
-      applicationId: currentProject?.type === 'MSP' ? '-' : serviceId.split('_')[0],
-      serviceName,
-      serviceId: window.encodeURIComponent(serviceId || ''),
-    });
-  };
+  const [serviceType, setServiceType] = React.useState(tabs[0].value);
 
   const getServicesList = React.useCallback(() => {
     getServices.fetch({
@@ -128,7 +146,7 @@ const MicroServiceOverview = () => {
       pageNo: pagination.current,
       pageSize: pagination.pageSize,
     });
-  }, [tenantId, pagination, searchValue]);
+  }, [tenantId, pagination, searchValue, serviceType]);
 
   React.useEffect(() => {
     getServicesList();
@@ -264,11 +282,51 @@ const MicroServiceOverview = () => {
 
   return (
     <div>
-      <ErdaAlert
-        message={i18n.t(
-          'msp:show all connected services in the current environment, as well as the key request indicators of the service in the last hour',
-        )}
+      <div className="top-button-group">
+        <Button type="default">
+          <ErdaIcon type="refresh" /> 刷新数据
+        </Button>
+      </div>
+      <DiceConfigPage
+        showLoading
+        scenarioType="service-overview"
+        scenarioKey="service-overview"
+        fullHeight={false}
+        customProps={{
+          dataRank: {
+            op: {
+              clickRow: (item: CP_DATA_RANK.IItem) => {
+                listDetail(item.id, item.name);
+              },
+            },
+            props: {
+              theme: [
+                {
+                  color: functionalColor.actions,
+                  titleIcon: 'mail',
+                  backgroundIcon: 'baocun',
+                },
+                {
+                  color: functionalColor.success,
+                  titleIcon: 'mysql',
+                  backgroundIcon: 'shezhi',
+                },
+                {
+                  color: functionalColor.warning,
+                  titleIcon: 'RocketMQ',
+                  backgroundIcon: 'map-draw',
+                },
+                {
+                  color: functionalColor.error,
+                  titleIcon: 'morenzhongjianjian',
+                  backgroundIcon: 'data-server',
+                },
+              ],
+            },
+          },
+        }}
       />
+      <RadioTabs defaultValue={tabs[0].value} options={tabs} onChange={setServiceType} className="mb-2" />
       <CardList<IListItem>
         loading={dataLoading}
         rowKey="id"
@@ -277,7 +335,6 @@ const MicroServiceOverview = () => {
         rowClick={({ id, name }) => {
           listDetail(id, name);
         }}
-        onRefresh={getServicesList}
         slot={
           <Input
             prefix={<ErdaIcon type="search1" />}
