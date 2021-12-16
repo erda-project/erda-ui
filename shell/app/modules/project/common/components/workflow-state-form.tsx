@@ -15,7 +15,7 @@ import React from 'react';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import { Form } from 'dop/pages/form-editor/index';
-import { issueStateMap } from 'project/common/config';
+import { issueMainStateMap } from 'project/common/components/issue/issue-state';
 import { map } from 'lodash';
 import { Select } from 'antd';
 import issueWorkflowStore from 'project/stores/issue-workflow';
@@ -74,11 +74,11 @@ const WorkflowStateForm = React.forwardRef(({ issueType, onOk, onCancel }: IWork
         dataSource: {
           type: 'static',
           static: () => {
-            const optionMap = issueStateMap[issueType];
+            const optionMap = issueMainStateMap[issueType];
             return map(Object.keys(optionMap), (value) => {
               return (
                 <Option key={value} value={value}>
-                  {optionMap[value]}
+                  {optionMap[value]?.stateName}
                 </Option>
               );
             });

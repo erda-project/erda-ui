@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
-import DiceConfigPage from 'app/config-page';
+import DiceConfigPage, { useMock } from 'app/config-page';
 import { getUrlQuery } from 'config-page/utils';
 import { useSwitch, useUpdate } from 'common/use-hooks';
 import { qs, mergeSearch, updateSearch, setApiWithOrg } from 'common/utils';

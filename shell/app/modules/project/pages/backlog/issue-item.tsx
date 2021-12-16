@@ -30,6 +30,7 @@ import { useUserMap } from 'core/stores/userMap';
 import { useMount } from 'react-use';
 import issueStore from 'project/stores/issues';
 import issueFieldStore from 'org/stores/issue-field';
+import IssueState from 'project/common/components/issue/issue-state';
 import orgStore from 'app/org-home/stores/org';
 import { getFieldsByIssue } from 'project/services/issue';
 import { templateMap } from 'project/common/issue-config';
@@ -131,8 +132,7 @@ export const IssueItem = (props: IIssueProps) => {
           <div className="backlog-item-priority mw-60">{curPriority.iconLabel}</div>
           {state ? (
             <div className="mr-4">
-              <CustomIcon type={`ISSUE_ICON.state.${state.stateBelong}`} />
-              {state.stateName}
+              <IssueState stateID={state.stateID} />
             </div>
           ) : null}
           <div className="w80 mr-2">

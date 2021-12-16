@@ -18,7 +18,7 @@ import { useUpdate } from 'common/use-hooks';
 import { map, isEmpty } from 'lodash';
 import { Popconfirm, Modal, Divider, Button, Tooltip } from 'antd';
 import issueWorkflowStore from 'project/stores/issue-workflow';
-import { issueStateMap } from 'project/common/config';
+import { issueMainStateMap } from 'project/common/components/issue/issue-state';
 import { produce } from 'immer';
 import WorkflowStateForm from './workflow-state-form';
 import routeInfoStore from 'core/stores/route';
@@ -225,10 +225,10 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
             </Divider>
             <div className="flex justify-between items-center">
               <div className="form-content-left">
-                {map(Object.values(issueStateMap[issueType]), (name: string) => {
+                {map(issueMainStateMap[issueType], (stateItem) => {
                   return (
-                    <div className="state-td" key={name}>
-                      {name}
+                    <div className="state-td" key={stateItem.stateName}>
+                      {stateItem.stateName}
                     </div>
                   );
                 })}
@@ -237,7 +237,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                 {map(dataList, ({ stateBelong, stateID }, stateDataIndex) => {
                   return (
                     <div className={`state-radio-group ${flexWidthClass}`} key={stateID}>
-                      {map(Object.keys(issueStateMap[issueType]), (k: string) => {
+                      {map(issueMainStateMap[issueType], (_v: Obj, k: string) => {
                         return (
                           <div className="state-td" key={k}>
                             <WithAuth pass={hasAuth}>

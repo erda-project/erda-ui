@@ -28,6 +28,14 @@ export interface IBadgeProps {
   showDot?: boolean;
 }
 
+enum BadgeStatus {
+  success = 'success',
+  error = 'error',
+  warning = 'warning',
+  default = 'default',
+  processing = 'processing',
+}
+
 const Badge = (props: IBadgeProps) => {
   const {
     color,
@@ -62,5 +70,7 @@ const Badge = (props: IBadgeProps) => {
     </Tooltip>
   );
 };
+
+Badge.BadgeStatus = BadgeStatus;
 
 export default Badge;

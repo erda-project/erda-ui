@@ -12,19 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import {
-  ISSUE_TYPE,
-  ISSUE_PRIORITY_MAP,
-  BUG_SEVERITY_MAP,
-  ISSUE_ICON,
-} from 'project/common/components/issue/issue-config';
+import { ISSUE_TYPE, ISSUE_PRIORITY_MAP, BUG_SEVERITY_MAP } from 'project/common/components/issue/issue-config';
 import routeInfoStore from 'core/stores/route';
 import projectLabelStore from 'project/stores/label';
 import issueStore from 'project/stores/issues';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
 import { map, isEmpty } from 'lodash';
+
 import { useMount } from 'react-use';
-import { CustomIssueState } from 'project/common/components/issue/issue-state';
+import IssueState from 'project/common/components/issue/issue-state';
 import { Filter, MemberSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { mergeSearch, updateSearch, getTimeRanges } from 'common/utils';
@@ -107,7 +103,7 @@ const Ticket = () => {
           children: map(ticketStateList, ({ stateID }) => {
             return (
               <Option key={stateID} value={stateID}>
-                <CustomIssueState state={stateID} issueButton={ticketStateList} />
+                <IssueState stateID={stateID} />
               </Option>
             );
           }),
@@ -117,6 +113,7 @@ const Ticket = () => {
         type: Select,
         name: 'priority',
         customProps: {
+          mode: 'multiple',
           placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:priority') }),
           allowClear: true,
           children: map(ISSUE_PRIORITY_MAP, (item) => {
@@ -275,12 +272,7 @@ const Ticket = () => {
           opts.push({
             disabled: !item.permission,
             value: item.stateID,
-            iconLabel: (
-              <div className="flex items-center">
-                {ISSUE_ICON.state[item.stateBelong]}
-                {item.stateName}
-              </div>
-            ),
+            iconLabel: <IssueState stateID={item.stateID} />,
           });
         });
 

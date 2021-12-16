@@ -12,11 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Tooltip, Dropdown, Menu, Progress, Avatar } from 'antd';
+import { Table, Dropdown, Menu, Progress, Avatar } from 'antd';
 import issueStore from 'project/stores/issues';
-import moment from 'moment';
 import { map, omit, get, find } from 'lodash';
-import issueWorkflowStore from 'project/stores/issue-workflow';
 import { MemberSelector, Icon as CustomIcon, FilterGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { ColumnProps } from 'core/common/interface';
@@ -25,10 +23,10 @@ import IssueTitleLabel from './title-label';
 import {
   ISSUE_ICON,
   ISSUE_TYPE,
-  ISSUE_STATE_MAP,
   ISSUE_PRIORITY_MAP,
   BUG_SEVERITY_MAP,
 } from 'project/common/components/issue/issue-config';
+import IssueState from 'project/common/components/issue/issue-state';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 import { useUpdateEffect, useEffectOnce } from 'react-use';
@@ -45,28 +43,6 @@ interface IProps {
   onChosenIssue: (val: ISSUE.Issue) => void;
 }
 const QKey = FilterGroup.FilterBarHandle.filterDataKey;
-
-const unFinishState = [
-  ISSUE_STATE_MAP.OPEN.value,
-  ISSUE_STATE_MAP.WORKING.value,
-  ISSUE_STATE_MAP.TESTING.value,
-  ISSUE_STATE_MAP.REOPEN.value,
-]; // 未完成状态枚举
-
-const endTimeTip = (time: string, isFinished: boolean) => {
-  const diffDay = moment(time).endOf('day').diff(moment().endOf('day'), 'day');
-  let tip = <span>{i18n.t('dop:due in {num} days', { num: diffDay })}</span>;
-  if (!isFinished) {
-    if (diffDay === 0) {
-      tip = <span className="text-warning">{i18n.t('due today')}</span>;
-    } else if (diffDay === 1) {
-      tip = <span className="text-warning">{i18n.t('due tomorrow')}</span>;
-    } else if (diffDay < 0) {
-      tip = <span className="text-danger">{i18n.t('dop:due {num} days ago', { num: -diffDay })}</span>;
-    }
-  }
-  return <Tooltip title={moment(time).format('YYYY-MM-DD')}>{tip}</Tooltip>;
-};
 
 export const memberSelectorValueItem = (user: any) => {
   const { avatar, nick, name, label, value } = user;
@@ -129,7 +105,6 @@ export const FieldSelector = (props: IFieldProps) => {
 };
 
 const TableView = React.forwardRef((props: IProps, ref: any) => {
-  const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
   const { filterObj: propsFilter, issueType, viewType, onChosenIssue } = props;
   const [params] = routeInfoStore.useStore((s) => [s.params]);
   const { getAllIssues, updateIssue } = issueStore.effects;
@@ -306,12 +281,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
           opts.push({
             disabled: !item.permission,
             value: item.stateID,
-            iconLabel: (
-              <div className="flex items-center">
-                {ISSUE_ICON.state[item.stateBelong]}
-                {item.stateName}
-              </div>
-            ),
+            iconLabel: <IssueState stateID={item.stateID} />,
           });
         });
 
@@ -352,18 +322,6 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
             />
           </WithAuth>
         );
-      },
-    },
-    {
-      title: i18n.t('deadline'),
-      width: 160,
-      dataIndex: 'planFinishedAt',
-      key: 'planFinishedAt',
-      render: (val: string, record: ISSUE.Issue) => {
-        const curStateBelong = get(find(workflowStateList, { stateID: record.state }), 'stateBelong');
-        // 当前未完成且时间临近或逾期，则提示
-        const timeTip = endTimeTip(val, !unFinishState.includes(curStateBelong));
-        return val ? timeTip : '-';
       },
     },
   ];

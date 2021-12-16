@@ -22,9 +22,9 @@ import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/iss
 import routeInfoStore from 'core/stores/route';
 import ImportFile from 'project/pages/issue/component/import-file';
 import issueFieldStore from 'org/stores/issue-field';
-import { useMount, useUpdateEffect } from 'react-use';
-import { Tooltip, Avatar } from 'antd';
-import { ErdaIcon } from 'common';
+import { useUpdateEffect } from 'react-use';
+import { Avatar } from 'antd';
+import { ErdaIcon, RadioTabs } from 'common';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import { useUserMap } from 'core/stores/userMap';
 import i18n from 'i18n';
@@ -93,6 +93,12 @@ const compareObject = (sourceObj: object, targetObj: object) => {
 };
 
 const IssueProtocol = () => {
+  const issueTabs = [
+    { value: ISSUE_TYPE.REQUIREMENT, label: i18n.t('requirement') },
+    { value: ISSUE_TYPE.TASK, label: i18n.t('task') },
+    { value: ISSUE_TYPE.BUG, label: i18n.t('bug') },
+  ];
+
   const [{ projectId, iterationId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { id: queryId, iterationID: queryItertationID, type: _queryType, ...restQuery } = query;
   const orgID = orgStore.getState((s) => s.currentOrg.id);
@@ -120,7 +126,7 @@ const IssueProtocol = () => {
     pageNo: 1,
     viewType: '',
     viewGroup: '',
-    issueType: '',
+    issueType: queryType || ISSUE_TYPE.REQUIREMENT,
     urlQueryChangeByQuery: restQuery, // Only used to listen for changes to update the page after url change
   });
   const { getFieldsByIssue: getCustomFieldsByProject } = issueFieldStore.effects;
@@ -142,6 +148,7 @@ const IssueProtocol = () => {
   const inParams = {
     fixedIteration: iterationId,
     projectId,
+    fixedIssueType: issueType,
     ...(urlQuery || {}),
   };
 
@@ -238,10 +245,20 @@ const IssueProtocol = () => {
 
   return (
     <>
+      <RadioTabs
+        options={issueTabs}
+        value={issueType}
+        onChange={(v: string) => {
+          updateSearch({ type: v }, { ignoreOrigin: true });
+          updater.issueType(v);
+        }}
+        className="mb-2"
+      />
       <DiceConfigPage
         scenarioKey="issue-kanban"
         scenarioType="issue-kanban"
         showLoading
+        key={issueType}
         // useMock={useMock}
         // forceMock
         inParams={inParams}
@@ -253,18 +270,12 @@ const IssueProtocol = () => {
           content: {
             props: { whiteBg: true, className: 'rounded-none p-0 flex-1 h-0' },
           },
-          issueTypeSelect: {
+          toolbar: {
             props: {
-              buttonStyle: 'solid',
-              radioType: 'button',
-            },
-            op: {
-              onStateChange: (val: Obj) => {
-                updater.issueType(val.value?.toUpperCase());
-              },
+              className: 'border-0 border-b border-solid border-black-100 rounded-none bg-white',
+              whiteBg: true,
             },
           },
-          toolbar: { props: { className: 'issue-board-toolbar rounded-none', whiteBg: true } },
           issueAddButton: {
             props: {
               menu: [
