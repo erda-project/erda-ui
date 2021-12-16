@@ -297,7 +297,7 @@ const IssueProtocol = ({ issueType }: IProps) => {
         />
       ) : null}
 
-      {chosenIssueType ? (
+      {[ISSUE_TYPE.BUG, ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK].includes(chosenIssueType) ? (
         <EditIssueDrawer
           iterationID={chosenIteration}
           id={chosenIssueId}

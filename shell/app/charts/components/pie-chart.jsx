@@ -34,7 +34,10 @@ class PieChart extends React.Component {
       tooltip: {
         trigger: 'item',
         confine: true,
-        formatter: '{a} <br/>{b} : {c} ({d}%)',
+        formatter: (params) => {
+          const { seriesName, name, value, percent, marker } = params;
+          return `${seriesName} <br/> <span> ${marker}${name} : ${value?.toFixed(2)} (${percent}%) </span>`;
+        },
       },
       legend: {
         orient: 'vertical',

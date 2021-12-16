@@ -23,34 +23,51 @@ interface Img {
   name: string;
   value: string;
   groupIndex: number;
+  disabled: boolean;
+  disabledTip?: string;
 }
 interface IProps {
   imgOptions: Img[];
   value?: string;
   onChangeType: (value: string) => void;
 }
+
 export class AppTypeSelect extends React.PureComponent<IProps> {
   render() {
     const { imgOptions, value, onChangeType } = this.props;
     const optionGroup = groupBy(imgOptions, 'groupIndex');
+
     return (
       <div className="app-type-select">
         {map(optionGroup, (options, key) => {
           return (
             <div key={key} className="app-type-group">
-              {options.map((img) => (
-                <div
-                  key={img.name}
-                  className={classnames('img-wrapper', value === img.value && 'active')}
-                  onClick={() => onChangeType(img.value)}
-                >
-                  <img src={img.src} alt={img.name || 'image-option'} />
-                  <CustomIcon type="yuanxingxuanzhongfill" />
-                  <Tooltip title={img.name}>
-                    <div className="desc truncate">{img.name}</div>
+              {options.map((img) => {
+                const { disabled, disabledTip } = img;
+                const cls = classnames('img-wrapper', {
+                  active: value === img.value && !disabled,
+                  'disabled-card': disabled,
+                });
+
+                return (
+                  <Tooltip key={img.value} title={disabled ? disabledTip : null}>
+                    <div
+                      className={cls}
+                      onClick={() => {
+                        if (!disabled) {
+                          onChangeType(img.value);
+                        }
+                      }}
+                    >
+                      <img src={img.src} alt={img.name || 'image-option'} />
+                      <CustomIcon type="yuanxingxuanzhongfill" />
+                      <Tooltip title={img.name}>
+                        <div className="desc truncate">{img.name}</div>
+                      </Tooltip>
+                    </div>
                   </Tooltip>
-                </div>
-              ))}
+                );
+              })}
             </div>
           );
         })}

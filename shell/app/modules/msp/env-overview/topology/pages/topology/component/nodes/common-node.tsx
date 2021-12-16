@@ -13,8 +13,6 @@
 
 import React from 'react';
 import { Handle, NodeProps, Position } from 'react-flow-renderer';
-import { Popover, Tag } from 'antd';
-import i18n from 'i18n';
 import './common-node.scss';
 
 export interface IProps extends NodeProps<TOPOLOGY.TopoNode> {
@@ -22,58 +20,12 @@ export interface IProps extends NodeProps<TOPOLOGY.TopoNode> {
   className?: string;
   children: (data: IProps['data']['metaData']) => JSX.Element;
   onMouseMoving?: (data: TOPOLOGY.TopoNode, flag: 'in' | 'out') => void;
+  onClick?: (data: IProps['data']['metaData']) => void;
 }
 
-const metric = [
-  {
-    name: i18n.t('call times'),
-    key: 'count',
-  },
-  {
-    name: `${i18n.t('msp:average response time')}(ms)`,
-    key: 'rt',
-  },
-  {
-    name: i18n.t('msp:error call times'),
-    key: 'http_error',
-  },
-  {
-    name: i18n.t('msp:error rate'),
-    key: 'error_rate',
-  },
-];
-
-const CommonNode = ({ isConnectable, data, children, className, showRuntime, onMouseMoving }: IProps) => {
+const CommonNode = ({ isConnectable, data, children, className, onMouseMoving, onClick }: IProps) => {
   const { isRoot, isLeaf, metaData, hoverStatus } = data;
-  const popoverContent = (
-    <div>
-      {showRuntime ? (
-        <p className="mb-2">
-          <span className="text-white-6 mr-2">Runtime:</span>
-          <span className="text-white-9 overflow-ellipsis overflow-hidden whitespace-nowrap">
-            {metaData.runtimeName}
-          </span>
-        </p>
-      ) : null}
-      <p className="mb-2">
-        <span className="text-white-6 mr-2">{i18n.t('type')}:</span>
-        <Tag color="#27C99A" className="border-0 bg-green bg-opacity-10">
-          {metaData.typeDisplay}
-        </Tag>
-      </p>
-      <div className="metric-detail flex flex-wrap justify-between">
-        {metric.map((item) => {
-          return (
-            <div key={item.key} style={{ width: 140 }} className="mt-2 py-3">
-              <p className="text-white text-center leading-8 m-0">{metaData.metric[item.key]}</p>
-              <p className="text-white-6 text-center text-xs m-0">{item.name}</p>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-
+  const timer = React.useRef(Date.now());
   const handleMouseEnter = () => {
     onMouseMoving?.(data, 'in');
   };
@@ -81,28 +33,28 @@ const CommonNode = ({ isConnectable, data, children, className, showRuntime, onM
   const handleMouseLeave = () => {
     onMouseMoving?.(data, 'out');
   };
+
+  const handleClick = () => {
+    if (Date.now() - timer.current > 300) {
+      return;
+    }
+    onClick?.(metaData);
+  };
   return (
     <>
       {isRoot ? null : (
         <Handle className="node-handle-start" type="target" position={Position.Left} isConnectable={isConnectable} />
       )}
       <div
-        className={`${hoverStatus === -1 ? 'opacity-30' : ''} ${className ?? ''}`}
+        className={`topology-common-node ${hoverStatus === -1 ? 'opacity-30' : ''} ${className ?? ''}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onMouseDown={() => {
+          timer.current = Date.now();
+        }}
+        onMouseUp={handleClick}
       >
-        <Popover
-          placement="right"
-          overlayClassName="topology-node-popover"
-          title={
-            <div className="h-12 py-0 px-4 flex items-center text-white">
-              <div className="overflow-hidden overflow-ellipsis whitespace-nowrap">{metaData.name}</div>
-            </div>
-          }
-          content={popoverContent}
-        >
-          {children(metaData)}
-        </Popover>
+        {children(metaData)}
       </div>
       {isLeaf ? null : (
         <Handle className="node-handle-end" type="source" position={Position.Right} isConnectable={isConnectable} />

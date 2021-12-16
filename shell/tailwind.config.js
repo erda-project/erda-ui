@@ -71,7 +71,7 @@ module.exports = {
         width: 'width',
       },
       boxShadow: {
-        card: '0 2px 4px 0 rgba(85,77,104,0.08)',
+        card: '0 1px 4px 0 rgba(48,38,71,0.16)',
       },
     },
   },

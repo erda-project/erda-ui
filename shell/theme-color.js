@@ -14,13 +14,13 @@
 module.exports = {
   primary: '#6a549e',
   'primary-800': 'rgba(106, 84, 158, 0.8)',
-  normal: '#000000cc', // color-dark-8: rgba(0, 0, 0, .8)
-  sub: '#00000099', // color-dark-6: rgba(0, 0, 0, .6)
-  // desc: '#0000007f', // color-dark-5: rgba(0, 0, 0, .5)
-  desc: '#00000066', // color-dark-4: rgba(0, 0, 0, .4)
-  icon: '#00000066', // color-dark-3: rgba(0, 0, 0, .3)
-  disabled: '#00000066', // color-dark-3: rgba(0, 0, 0, .3)
-  holder: '#00000033', // color-dark-3: rgba(0, 0, 0, .2)
+  normal: '#302647cc', // color-dark-8: rgba(48, 38, 71, .8)
+  sub: '#30264799', // color-dark-6: rgba(48, 38, 71, .6)
+  // desc: '#3026477f', // color-dark-5: rgba(48, 38, 71, .5)
+  desc: '#30264766', // color-dark-4: rgba(48, 38, 71, .4)
+  icon: '#30264766', // color-dark-3: rgba(48, 38, 71, .3)
+  disabled: '#30264766', // color-dark-3: rgba(48, 38, 71, .3)
+  holder: '#30264733', // color-dark-3: rgba(48, 38, 71, .2)
   red: '#d84b65',
   danger: '#d84b65',
   error: '#d84b65',
@@ -67,10 +67,12 @@ module.exports = {
   'white-300': 'rgba(255,255,255,0.3)',
   'white-400': 'rgba(255,255,255,0.4)',
   'white-6': 'rgba(255,255,255, 0.6)',
-  'white-800': 'rgba(255,255,255,0.8)',
-  'white-9': 'rgba(255,255,255, 0.9)',
+  'white-4': 'rgba(255,255,255, 0.4)',
+  'white-1': 'rgba(255,255,255, 0.1)',
   'white-02': 'rgba(255,255,255, 0.02)',
   'white-06': 'rgba(255,255,255, 0.06)',
+  'white-800': 'rgba(255,255,255,0.8)',
+  'white-9': 'rgba(255,255,255, 0.9)',
 
   // 标准化后的颜色
   'gray-block-bg': 'rgba(0, 0, 0, 0.02)',
@@ -88,7 +90,7 @@ module.exports = {
 
   // auxiliary color
   'purple-dark': '#302647',
-  'purple-deep': '#7C53DB',
+  'purple-deep': '#A051FF',
   'purple-mid': '#D3ADF7',
   'purple-light': '#F9F0FF',
 
