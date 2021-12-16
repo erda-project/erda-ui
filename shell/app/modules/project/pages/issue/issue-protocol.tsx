@@ -195,6 +195,29 @@ const IssueProtocol = ({ issueType }: IProps) => {
                 updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
               },
             },
+            props: {
+              processField: (field: CP_CONFIGURABLE_FILTER.Condition) => {
+                if (field.key === 'priorities') {
+                  return {
+                    ...field,
+                    options: field.options?.map((item) => ({
+                      ...item,
+                      icon: `ISSUE_ICON.priority.${item.value}`,
+                    })),
+                  };
+                } else if (field.key === 'severities') {
+                  return {
+                    ...field,
+                    options: field.options?.map((item) => ({
+                      ...item,
+                      icon: `ISSUE_ICON.severity.${item.value}`,
+                    })),
+                  };
+                } else {
+                  return field;
+                }
+              },
+            },
           },
           issueViewGroup: {
             op: {

@@ -14,7 +14,6 @@
 declare namespace CP_COMMON {
   interface Operation {
     [pro: string]: any;
-    key: string;
     reload?: boolean;
     async?: boolean;
     text?: string;

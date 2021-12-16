@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Tooltip, Popconfirm } from 'antd';
-import { Ellipsis, ErdaIcon } from 'common';
+import { Ellipsis, ErdaIcon, Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 import './index.scss';
 
@@ -35,12 +35,22 @@ interface IItemProps {
   colorMap?: Obj<string>;
   size?: 'small' | 'default';
   checked?: boolean;
+  readOnly?: boolean;
   deleteConfirm?: boolean;
   onDelete?: (p: Label) => void;
 }
 
 export const TagItem = (props: IItemProps) => {
-  const { label: _label, size = 'default', maxWidth, onDelete, deleteConfirm = true, colorMap, checked } = props;
+  const {
+    label: _label,
+    size = 'default',
+    maxWidth,
+    onDelete,
+    deleteConfirm = true,
+    colorMap,
+    checked,
+    readOnly,
+  } = props;
   const { label, color = 'blue' } = _label;
   const [isChecked, setIsChecked] = React.useState(checked);
   // TODO: compatible with gray which color is removed now
@@ -48,6 +58,12 @@ export const TagItem = (props: IItemProps) => {
   const style = {
     maxWidth,
   };
+
+  React.useEffect(() => {
+    if (readOnly) {
+      setIsChecked(checked);
+    }
+  }, [checked, readOnly]);
 
   const cls = isChecked
     ? `text-${curColor}-light bg-${curColor}-deep border-0 border-solid border-l-2 border-${curColor}-mid`
@@ -83,7 +99,7 @@ export const TagItem = (props: IItemProps) => {
             />
           )
         ) : null}
-        {checked && (
+        {isChecked && !readOnly && (
           <ErdaIcon
             size="16"
             className={`cursor-pointer text-default-2 ml-0.5 text-${color}-light`}
@@ -91,6 +107,7 @@ export const TagItem = (props: IItemProps) => {
             onClick={() => setIsChecked(!isChecked)}
           />
         )}
+        {checked && readOnly && <CustomIcon className={`text-default-2 ml-0.5 text-${color}-light`} type="tg" />}
       </div>
     </span>
   );
