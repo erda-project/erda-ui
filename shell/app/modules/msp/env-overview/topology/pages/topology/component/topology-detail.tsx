@@ -233,9 +233,6 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
                       ...axis.axisLabel,
                       name: t,
                     })),
-                    icon: 'reat',
-                    itemWidth: 12,
-                    itemHeight: 3,
                     bottom: '1%',
                   },
                   tooltip: {
