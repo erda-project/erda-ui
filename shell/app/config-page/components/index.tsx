@@ -71,6 +71,7 @@ import BarChart from './bar-chart/bar-chart';
 import Gantt from './gantt/gantt';
 import SimpleChart from './simple-chart/simple-chart';
 import ChartBlock from './chart-block/chart-block';
+import RadioTabs from './radio-tabs/radio-tabs';
 
 export const containerMap = {
   Alert,
@@ -135,4 +136,5 @@ export const containerMap = {
   Gantt,
   SimpleChart,
   ChartBlock,
+  RadioTabs,
 };
