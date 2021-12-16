@@ -92,9 +92,17 @@ class Echarts extends React.Component {
         zlevel: 0,
       });
     } else echartObj.hideLoading();
-
+    const option = this.props.option;
+    if (option.legend && (option.series ?? []).some((t) => t.type === 'line')) {
+      option.legend = {
+        ...option.legend,
+        icon: 'reat',
+        itemWidth: 12,
+        itemHeight: 3,
+      };
+    }
     // set the echart option
-    echartObj.setOption(this.props.option, this.props.notMerge || false, this.props.lazyUpdate || false);
+    echartObj.setOption(option, this.props.notMerge || false, this.props.lazyUpdate || false);
 
     return echartObj;
   }
