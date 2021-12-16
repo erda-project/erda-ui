@@ -44,7 +44,7 @@ interface Field {
 export interface ConfigData {
   id: number | string;
   label: string;
-  data: Obj;
+  values: Obj;
   isPreset?: boolean;
 }
 
@@ -68,7 +68,7 @@ const sortObj = (obj: Obj) => {
 const getItemByValues = (val: Obj, list: Obj[]) => {
   const values = sortObj(val);
 
-  return list?.find((item) => JSON.stringify(sortObj(item.data)) === JSON.stringify(values));
+  return list?.find((item) => JSON.stringify(sortObj(item.values)) === JSON.stringify(values));
 };
 
 const defaultProcessField = (item: IFormItem) => {
@@ -119,9 +119,9 @@ const ConfigurableFilter = ({
       config?.id && setCurrentConfig(config?.id);
     } else if (configList && configList.length !== 0) {
       const configData: ConfigData = configList?.find((item) => item.id === defaultConfig) || ({} as ConfigData);
-      if (configData.data) {
-        configData.data && form.setFieldsValue(configData.data);
-        onFilterProps?.(configData.data);
+      if (configData.values) {
+        configData.values && form.setFieldsValue(configData.values);
+        onFilterProps?.(configData.values);
       }
     }
   }, [configList, defaultConfig, form, value, onFilterProps]);
@@ -130,7 +130,7 @@ const ConfigurableFilter = ({
     setCurrentConfig(config.id);
     setIsNew(false);
     form.resetFields();
-    form.setFieldsValue(config.data || {});
+    form.setFieldsValue(config.values || {});
   };
 
   const onValuesChange = (_, allValues: Obj) => {

@@ -947,17 +947,14 @@ export const mockData = {
                     {
                       label: '待处理',
                       value: 21005,
-                      status: 'warning',
                     },
                     {
                       label: '进行中',
                       value: 21006,
-                      status: 'processing',
                     },
                     {
                       label: '已完成',
                       value: 21007,
-                      status: 'success',
                     },
                   ],
                   label: '任务',
@@ -968,27 +965,22 @@ export const mockData = {
                     {
                       label: '待处理',
                       value: 21011,
-                      status: 'warning',
                     },
                     {
                       label: '进行中',
                       value: 21012,
-                      status: 'processing',
                     },
                     {
                       label: '无需修复',
                       value: 21013,
-                      status: 'default',
                     },
                     {
                       label: '重复提交',
                       value: 21014,
-                      status: 'default',
                     },
                     {
                       label: '已解决',
                       value: 21015,
-                      status: 'success',
                     },
                     {
                       label: '重新打开',
@@ -997,7 +989,6 @@ export const mockData = {
                     {
                       label: '已关闭',
                       value: 21017,
-                      status: 'success',
                     },
                   ],
                   label: '缺陷',
@@ -1147,7 +1138,7 @@ export const mockData = {
               id: 1,
               values: {},
               label: '全部打开',
-              isDefault: true,
+              isPreset: true,
             },
             {
               id: 2,
@@ -1155,7 +1146,7 @@ export const mockData = {
                 states: [1, 2],
               },
               label: '自定义筛选器',
-              isDefault: false,
+              isPreset: false,
             },
           ],
         },
@@ -1163,7 +1154,7 @@ export const mockData = {
           values: {
             priorities: ['HIGH'],
           },
-          filterSet: 1,
+          selectedFilterSet: 1,
         },
         operations: {
           deleteFilterSet: {
