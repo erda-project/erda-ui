@@ -42,6 +42,9 @@ const FloatingConnectionLine: React.FC<ConnectionLineComponentProps> = ({
     targetX,
     targetY,
   });
+  if (isNaN(sx) || isNaN(sy) || isNaN(targetX) || isNaN(targetY)) {
+    return null;
+  }
 
   return (
     <g>

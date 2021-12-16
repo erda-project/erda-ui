@@ -65,6 +65,8 @@ module.exports = {
   'light-active': '#6a549e0f', // rgba($primary, .06)
   'white-9': 'rgba(255,255,255, 0.9)',
   'white-6': 'rgba(255,255,255, 0.6)',
+  'white-4': 'rgba(255,255,255, 0.4)',
+  'white-1': 'rgba(255,255,255, 0.1)',
   'white-02': 'rgba(255,255,255, 0.02)',
 
   // 标准化后的颜色
@@ -83,7 +85,7 @@ module.exports = {
 
   // auxiliary color
   'purple-dark': '#302647',
-  'purple-deep': '#7C53DB',
+  'purple-deep': '#A051FF',
   'purple-mid': '#D3ADF7',
   'purple-light': '#F9F0FF',
 
