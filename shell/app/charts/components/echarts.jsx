@@ -99,6 +99,7 @@ class Echarts extends React.Component {
         icon: 'reat',
         itemWidth: 12,
         itemHeight: 3,
+        type: 'scroll',
       };
     }
     // set the echart option

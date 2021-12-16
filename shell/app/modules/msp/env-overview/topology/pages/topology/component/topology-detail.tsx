@@ -233,6 +233,12 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
                       ...axis.axisLabel,
                       name: t,
                     })),
+                    pageIconInactiveColor: 'rgba(255, 255, 255, 0.4)',
+                    pageIconColor: 'rgba(255, 255, 255, 0.8)',
+                    pageIconSize: 12,
+                    pageTextStyle: {
+                      color: axis.axisLabel.textStyle.color,
+                    },
                     bottom: '1%',
                   },
                   tooltip: {
