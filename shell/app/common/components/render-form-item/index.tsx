@@ -382,10 +382,8 @@ interface SelectCompProps {
   itemProps: Obj;
 }
 
-const SelectComp = ({ value, onChange, options: _options, size, itemProps }: SelectCompProps) => {
-  const options = typeof _options === 'function' ? _options() : _options;
-
-  const fixOptions = options.filter((item: IOption) => item.fix);
+const SelectComp = ({ value, onChange, options, size, itemProps }: SelectCompProps) => {
+  const fixOptions = options.filter?.((item: IOption) => item.fix) || [];
 
   return (
     <Select
@@ -415,7 +413,9 @@ const SelectComp = ({ value, onChange, options: _options, size, itemProps }: Sel
         </div>
       )}
     >
-      {options.filter((item: IOption) => !item.fix).map((item: IOption) => renderSelectOption(item))}
+      {typeof options === 'function'
+        ? options()
+        : options.filter((item: IOption) => !item.fix).map((item: IOption) => renderSelectOption(item))}
     </Select>
   );
 };
