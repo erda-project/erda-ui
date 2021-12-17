@@ -23,7 +23,6 @@ import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 import { useUserMap } from 'core/stores/userMap';
 import alarmRecordStore from 'cmp/stores/alarm-record';
-import { IssueState } from 'project/common/components/issue/issue-state';
 import { AlarmState } from 'cmp/common/alarm-state';
 
 export default ({ clusters }: { clusters: any }) => {

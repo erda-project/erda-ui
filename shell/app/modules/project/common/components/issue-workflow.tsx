@@ -14,14 +14,14 @@
 import React from 'react';
 import i18n from 'i18n';
 import { useUpdate } from 'common/use-hooks';
-import { map, find, get } from 'lodash';
+import { map, find } from 'lodash';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import issueWorkflowStore from 'project/stores/issue-workflow';
-import { issueStateMap } from 'project/common/config';
+import IssueState, { issueMainStateMap } from 'project/common/components/issue/issue-state';
 import IssueWorkflowSettingModal from 'project/common/components/issue-workflow-setting-modal';
 import routeInfoStore from 'core/stores/route';
 import { useEffectOnce } from 'react-use';
-import { ISSUE_TYPE, ISSUE_STATE_MAP } from 'project/common/components/issue/issue-config';
+import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import './issue-workflow.scss';
 
 const IssueWorkflow = () => {
@@ -76,26 +76,17 @@ const IssueWorkflow = () => {
                 <div className="sub">
                   <span>{i18n.t('dop:state type')}：</span>
                   <div>
-                    {map(Object.entries(issueStateMap[item.issueType]), (data: string[]) => {
-                      return (
-                        <span className="tag-default" key={data[1]}>
-                          {data[1]}
-                        </span>
-                      );
+                    {map(issueMainStateMap[item.issueType], (stateItem: { stateName: string; status: string }) => {
+                      return <IssueState {...stateItem} key={stateItem.stateName} className="ml-2" />;
                     })}
                   </div>
                 </div>
                 <div className="sub default-workflow">
                   <div className="default-workflow-title">{i18n.t('common:state')}：</div>
                   <div className="default-workflow-content">
-                    {map(item.state, (name: string) => {
-                      const curStateBelong = get(find(workflowStateList, { stateName: name }), 'stateBelong');
-                      return (
-                        <div className="flex items-center mr-3 mb-2">
-                          {ISSUE_STATE_MAP[curStateBelong]?.icon}
-                          {name}
-                        </div>
-                      );
+                    {map(item.state, (name: string, idx) => {
+                      const curState = find(workflowStateList, { stateName: name }) || { stateName: name };
+                      return <IssueState {...curState} key={`${idx}`} className="mr-3 mb-2" />;
                     })}
                   </div>
                 </div>

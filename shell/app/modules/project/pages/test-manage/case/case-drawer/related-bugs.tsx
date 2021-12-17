@@ -15,7 +15,9 @@ import i18n from 'i18n';
 import { Table, Select, Button, Popconfirm, Tooltip, message } from 'antd';
 import React from 'react';
 import { ColumnProps } from 'core/common/interface';
-import { ISSUE_PRIORITY_MAP, ISSUE_TYPE, ISSUE_ICON } from 'project/common/components/issue/issue-config';
+import { ISSUE_PRIORITY_MAP, ISSUE_TYPE } from 'project/common/components/issue/issue-config';
+import IssueState, { issueMainStateMap } from 'project/common/components/issue/issue-state';
+
 import moment from 'moment';
 import testCaseStore from 'project/stores/test-case';
 import { MemberSelector, Icon as CustomIcon } from 'common';
@@ -128,12 +130,8 @@ const RelatedBugs = ({ relationID }: IProps) => {
       dataIndex: 'state',
       width: 96,
       render: (stateName: string, record: any) => {
-        return stateName ? (
-          <div className="flex items-center">
-            {ISSUE_ICON.state[record?.stateBelong]}
-            {stateName}
-          </div>
-        ) : undefined;
+        const curState = issueMainStateMap.BUG[record.stateBelong];
+        return stateName ? <IssueState stateName={stateName} status={curState?.status} /> : undefined;
       },
     },
     {
