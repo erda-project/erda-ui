@@ -3,8 +3,23 @@
 
   &.ant-popover-open {
     color: $white;
-    background-color: $color-default;
+    background-color: $color-default !important;
   }
+
+  .ant-badge-dot {
+    box-shadow: none !important;
+  }
+}
+
+.erda-config-filter-btn-active {
+  .erda-configurable-filter-btn {
+    color: $white;
+    background-color: $color-default !important;
+  }
+}
+
+.erda-configurable-filter-clear-btn {
+  background-color: rgba($color-default, 0.06);
 }
 
 .erda-configurable-filter {
