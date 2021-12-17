@@ -107,12 +107,6 @@ const ConfigPageRender = (props: IProps) => {
       op.callBack = () => execCommand(op.command, updateVal);
     }
 
-    if (has(val, 'clientData')) {
-      // new protocol: event: {clientData, serverData}
-      updateVal = undefined;
-      op.clientData = val.clientData;
-    }
-
     return execOperation(
       _cId,
       op,

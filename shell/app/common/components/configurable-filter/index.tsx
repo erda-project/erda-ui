@@ -157,6 +157,7 @@ const ConfigurableFilter = ({
   const onFilter = () => {
     form.validateFields().then((values) => {
       onFilterProps(values);
+      setVisible(false);
     });
   };
 

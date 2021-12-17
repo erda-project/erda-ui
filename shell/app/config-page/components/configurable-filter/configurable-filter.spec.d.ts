@@ -16,10 +16,7 @@ declare namespace CP_CONFIGURABLE_FILTER {
     type: 'ConfigurableFilter';
     data: Data;
     props?: IProps;
-    operations: Obj<CP_COMMON.Operation>;
     state: IState;
-    customOp: Obj;
-    execOperation: Function;
   }
 
   interface Data {

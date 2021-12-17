@@ -24,8 +24,9 @@ const ConfigurableFilter = ({
   data,
   customOp,
   execOperation,
+  updateState,
   operations,
-}: CP_CONFIGURABLE_FILTER.Spec) => {
+}: CP_CONFIGURABLE_FILTER.Props) => {
   const { processField = defaultProcessField } = props || {};
   const { values = {}, selectedFilterSet } = state || {};
   const { conditions = [], filterSet = [] } = data || {};
@@ -34,18 +35,21 @@ const ConfigurableFilter = ({
   React.useEffect(() => {
     onFilterChange?.(state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values]);
+  }, [state]);
 
   const onFilter = (filterValues: Obj) => {
-    execOperation({ key: 'filter', ...operations.filter }, { clientData: { values: filterValues } });
+    execOperation(
+      { key: 'filter', ...operations?.filter, clientData: { values: filterValues } },
+      { values: filterValues },
+    );
   };
 
   const onDeleteFilter = (filter: Obj) => {
-    execOperation({ key: 'deleteFilterSet', ...operations.deleteFilterSet }, { clientData: { dataRef: filter } });
+    execOperation({ key: 'deleteFilterSet', ...operations?.deleteFilterSet, clientData: { dataRef: filter } });
   };
 
   const onSaveFilter = (label: string, val: Obj) => {
-    execOperation({ key: 'saveFilterSet', ...operations.saveFilterSet }, { clientData: { val, label } });
+    execOperation({ key: 'saveFilterSet', ...operations?.saveFilterSet, clientData: { val, label } });
   };
 
   return (
