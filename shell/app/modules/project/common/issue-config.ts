@@ -103,31 +103,66 @@ export enum ISSUE_OPTION {
 export const templateMap = isZh()
   ? {
       [ISSUE_TYPE.REQUIREMENT]: `### 【用户故事/要解决的问题】*
+
+
 ### 【意向用户】*
+
+
 ### 【用户体验目标】*
+
+
 ### 【链接/参考】
+
 `,
       [ISSUE_TYPE.TASK]: ``,
       [ISSUE_TYPE.BUG]: `### 【环境信息】
+
+
 ### 【缺陷描述】*
+
+
 ### 【重现步骤】
+
+
 ### 【实际结果】
+
+
 ### 【期望结果】*
+
+
 ### 【修复建议】
+
 `,
     }
   : {
       [ISSUE_TYPE.REQUIREMENT]: `### [User story/problem to solve] *
+
+
 ### [Intended users] *
+
+
 ### [User experience Goals] *
+
+
 ### [Link/Reference]
+
 `,
       [ISSUE_TYPE.TASK]: ``,
       [ISSUE_TYPE.BUG]: `### [Environment Information]
+
+
 ### [Defect Description] *
+
+
 ### [Reoccurrence Procedure]
+
+
 ### [Actual Result]
+
+
 ### [Expected Result] *
+
+
 ### [Repair suggestion]
 `,
     };
