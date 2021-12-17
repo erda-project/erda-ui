@@ -53,7 +53,7 @@ const sortObj = (obj: Obj) => {
   Object.keys(values).forEach((key) => {
     if (Array.isArray(values[key])) {
       if (values[key].length !== 0) {
-        values[key] = values[key].sort();
+        values[key] = values[key].sort().join(',');
       } else {
         delete values[key];
       }

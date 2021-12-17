@@ -39,7 +39,7 @@ declare namespace CP_CONFIGURABLE_FILTER {
   interface ConfigItem {
     id: number | string;
     label: string;
-    data: Obj;
+    values: Obj;
     isPreset?: boolean;
   }
 
