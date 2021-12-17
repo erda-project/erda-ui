@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { map, isArray, isPlainObject, isEmpty, isEqual, cloneDeep, get, set, has, pickBy } from 'lodash';
+import { map, isArray, isPlainObject, isEmpty, merge, isEqual, cloneDeep, get, set, has, pickBy } from 'lodash';
 import { EmptyHolder } from 'common';
 import { containerMap as fullContainerMap } from './components';
 import { goTo } from 'common/utils';
@@ -126,10 +126,16 @@ const ConfigPageRender = (props: IProps) => {
       const Comp = containerMap[cId] as any;
       if (!Comp) return null;
       const configComponent = get(pageConfig, `components.${cId}`) || {};
-      const { op, props: customComponentProps, ...restCustomConfig } = customProps?.[cId] || {};
+      const {
+        op,
+        props: customComponentProps,
+        operations: customOperations,
+        ...restCustomConfig
+      } = customProps?.[cId] || {};
       const enhanceProps = {
         ...restCustomConfig,
         ...configComponent,
+        operations: merge(customOperations, { ...configComponent.operations }),
         props: { ...customComponentProps, ...configComponent.props },
         key: cId,
         cId,
@@ -197,6 +203,7 @@ const EnhanceCompProps = (
   props: Merge<CONFIG_PAGE.BaseSpec, { children: React.ReactElement; options: CONFIG_PAGE.CompOptions }>,
 ) => {
   const { children, props: configProps, data: pData, Wrapper, options, ...rest } = props;
+
   const [comProps, setCompProps] = React.useState(configProps);
   const [data, setData] = React.useState(pData);
 

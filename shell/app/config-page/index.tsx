@@ -26,6 +26,7 @@ interface ICustomProps {
   [p: string]: {
     op?: Obj;
     props?: Obj;
+    operations?: Obj;
     Wrapper?: React.ElementType;
   };
 }
@@ -35,6 +36,8 @@ interface IProps {
   scenarioType: string;
   scenarioKey: string;
   showLoading?: boolean;
+  wrapperClassName?: string;
+  className?: string;
   forbiddenRequest?: boolean;
   forceUpdateKey?: string[];
   debugConfig?: CONFIG_PAGE.RenderConfig;
@@ -63,6 +66,8 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     inParams = {},
     customProps = {},
     scenarioType,
+    wrapperClassName = '',
+    className = '',
     scenarioKey,
     showLoading = true,
     forbiddenRequest,
@@ -253,7 +258,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     updateInfo?: { dataKey: string; dataVal: Obj },
     extraUpdateInfo?: Obj,
   ) => {
-    const { key, reload = false, partial, ..._rest } = op;
+    const { key, reload = true, partial, ..._rest } = op;
     const loadCallBack = (_pageData: CONFIG_PAGE.RenderConfig) => {
       op?.callBack?.();
       onExecOp && onExecOp({ cId, op, reload, updateInfo, pageData: _pageData });
@@ -328,8 +333,11 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   );
 
   return showLoading ? (
-    <Spin spinning={showLoading && fetching} wrapperClassName={`${fullHeight ? 'full-spin-height' : ''}`}>
-      <div className="h-full overflow-auto">{Content}</div>
+    <Spin
+      spinning={showLoading && fetching}
+      wrapperClassName={`${fullHeight ? 'full-spin-height' : ''} ${wrapperClassName}`}
+    >
+      <div className={`h-full overflow-auto ${className}`}>{Content}</div>
     </Spin>
   ) : (
     Content

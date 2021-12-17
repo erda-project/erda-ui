@@ -202,7 +202,7 @@ const IssueProtocol = () => {
     update({
       chosenIssueId: val.id,
       chosenIteration: val.iterationID,
-      chosenIssueType: val.type as ISSUE_TYPE,
+      chosenIssueType: val.extra.type as ISSUE_TYPE,
     });
     openDrawer();
   };
@@ -259,6 +259,7 @@ const IssueProtocol = () => {
         scenarioType="issue-kanban"
         showLoading
         key={issueType}
+        wrapperClassName="flex-1 h-0"
         // useMock={useMock}
         // forceMock
         inParams={inParams}
@@ -360,6 +361,9 @@ const IssueProtocol = () => {
               prefixIcon: 'import',
               size: 'small',
               tooltip: '导入',
+            },
+            operations: {
+              click: { reload: false },
             },
             op: {
               click: () => {

@@ -552,8 +552,7 @@ export const mockData12 = {
         data: {},
         operations: {
           click: {
-            disabled: false,
-            reload: false,
+            disabled: true,
           },
         },
         options: null,
@@ -1245,6 +1244,11 @@ export const mockData = {
       },
       issueImport: {
         type: 'Button',
+        operations: {
+          click: {
+            disabled: false,
+          },
+        },
       },
       issueKanbanV2: {
         type: 'Kanban',

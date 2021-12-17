@@ -25,7 +25,7 @@ interface IState {
 
 const ScrollingComponent = createScrollingComponent('div');
 const Kanban = (props: CP_KANBAN.Props) => {
-  const { data, props: configProps, execOperation } = props || {};
+  const { data, props: configProps, execOperation, customOp } = props || {};
 
   const { CardRender, className = '' } = configProps || {};
 
@@ -84,6 +84,7 @@ const Kanban = (props: CP_KANBAN.Props) => {
             setCurrentCard={updater.currentCard}
             currentCard={currentCard}
             execOperation={execOperation}
+            customOp={customOp}
           />
         ) : null;
       })}

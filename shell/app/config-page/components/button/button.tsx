@@ -52,9 +52,9 @@ const CP_Button = (props: CP_BUTTON.Props) => {
 
   const { disabledTip, disabled, confirm } = operations?.click || {};
   const onClick = () => {
-    customOp?.click && customOp.click(operations?.click);
-    if (operations?.click && !disabled) {
-      execOperation(operations.click);
+    if (!disabled) {
+      customOp?.click && customOp.click(operations?.click);
+      operations?.click && execOperation(operations.click);
     }
   };
 
