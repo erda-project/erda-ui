@@ -13,9 +13,9 @@
 
 import React from 'react';
 import { useMount, useUpdateEffect } from 'react-use';
-import { isEmpty, get, set, isEqual, forEach } from 'lodash';
+import { isEmpty, get, set, isEqual, forEach, has } from 'lodash';
 import { produce } from 'immer';
-import { Spin, message } from 'antd';
+import { Spin } from 'antd';
 import { notify } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
 import { useMock } from './mock/index';
@@ -26,7 +26,6 @@ interface ICustomProps {
   [p: string]: {
     op?: Obj;
     props?: Obj;
-    operations?: Obj;
     Wrapper?: React.ElementType;
   };
 }
@@ -258,13 +257,15 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     updateInfo?: { dataKey: string; dataVal: Obj },
     extraUpdateInfo?: Obj,
   ) => {
-    const { key, reload = true, partial, ..._rest } = op;
+    const { key, reload, skipRender, partial, ..._rest } = op;
     const loadCallBack = (_pageData: CONFIG_PAGE.RenderConfig) => {
       op?.callBack?.();
       onExecOp && onExecOp({ cId, op, reload, updateInfo, pageData: _pageData });
     };
     opIndexRef.current += 1;
-    if (reload) {
+    const needRender = reload ?? !skipRender;
+
+    if (needRender) {
       // 需要请求后端接口
       const _curConfig = pageConfigRef.current;
       const newConfig = produce(_curConfig, (draft) => {

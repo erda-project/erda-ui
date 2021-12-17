@@ -16,6 +16,7 @@ declare namespace CP_COMMON {
     [pro: string]: any;
     key?: string;
     reload?: boolean;
+    skipRender?: boolean; // skipRender is a new key to replace reload;
     async?: boolean;
     text?: string;
     disabled?: boolean;

@@ -362,9 +362,6 @@ const IssueProtocol = () => {
               size: 'small',
               tooltip: '导入',
             },
-            operations: {
-              click: { reload: false },
-            },
             op: {
               click: () => {
                 updater.importFileVisible(true);
