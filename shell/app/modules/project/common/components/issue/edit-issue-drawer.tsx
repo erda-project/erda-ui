@@ -22,7 +22,6 @@ import { goTo, insertWhen } from 'common/utils';
 import {
   ISSUE_TYPE,
   ISSUE_TYPE_MAP,
-  ISSUE_ICON,
   ISSUE_PRIORITY_LIST,
   ISSUE_PRIORITY_MAP,
   ISSUE_COMPLEXITY_MAP,
@@ -42,6 +41,7 @@ import projectMemberStore from 'common/stores/project-member';
 import iterationStore from 'app/modules/project/stores/iteration';
 import labelStore from 'project/stores/label';
 import { getUserMap } from 'core/stores/userMap';
+import IssueState from 'project/common/components/issue/issue-state';
 import { useMount } from 'react-use';
 import userStore from 'app/user/stores';
 import IterationSelect from './iteration-select';
@@ -234,17 +234,11 @@ const IssueMetaFields = React.forwardRef(
           label: i18n.t('dop:state'),
           type: 'select',
           itemProps: {
-            options: map(
-              formData.issueButton,
-              ({ stateID: state, stateName: label, permission: curAuth, stateBelong }) => (
-                <Option disabled={!curAuth} key={state} value={state}>
-                  <>
-                    {ISSUE_ICON.state[stateBelong]}
-                    {label}
-                  </>
-                </Option>
-              ),
-            ),
+            options: map(formData.issueButton, ({ stateID, permission: curAuth }) => (
+              <Option disabled={!curAuth} key={stateID} value={stateID}>
+                <IssueState stateID={stateID} />
+              </Option>
+            )),
             allowClear: false,
           },
         },

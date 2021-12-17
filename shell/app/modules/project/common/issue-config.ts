@@ -45,14 +45,6 @@ export const ISSUE_PRIORITY_MAP = {
 export const ISSUE_PRIORITY_ICON_STYLE = { height: '20px', width: '20px', verticalAlign: 'sub' };
 export const ISSUE_PRIORITY_LIST = Object.values(ISSUE_PRIORITY_MAP);
 
-export const REQUIREMENT_STATE_MAP = {
-  OPEN: { icon: 'wh', label: i18n.t('dop:open') },
-  WORKING: { icon: 'jxz', label: i18n.t('processing') },
-  TESTING: { icon: 'jxz', label: i18n.t('dop:testing') },
-  DONE: { icon: 'tg', label: i18n.t('dop:done') },
-};
-export const REQUIREMENT_STATE = Object.keys(REQUIREMENT_STATE_MAP);
-
 export const REQUIREMENT_PANEL_ICON = {
   OPEN: 'wks',
   WORKING: 'jxz1',
@@ -60,33 +52,10 @@ export const REQUIREMENT_PANEL_ICON = {
   DONE: 'yjs',
 };
 
-export const TASK_STATE_MAP: ISSUE.TaskMap = {
-  OPEN: { icon: 'wh', label: i18n.t('dop:open'), nextStates: ['WORKING'] },
-  WORKING: { icon: 'jxz', label: i18n.t('processing'), nextStates: ['DONE'] },
-  DONE: { icon: 'tg', label: i18n.t('dop:done'), nextStates: [] },
-};
-export const TASK_STATE = Object.keys(TASK_STATE_MAP) as ISSUE.TaskState[];
-
 export const TASK_PANEL_ICON = {
   OPEN: 'wks',
   WORKING: 'jxz1',
   DONE: 'yjs',
-};
-
-export const BUG_STATE_MAP = {
-  OPEN: { icon: 'wh', label: i18n.t('dop:open') },
-  RESOLVED: { icon: 'tg', label: i18n.t('dop:resolved') },
-  REOPEN: { icon: 'zt', label: i18n.t('dop:reopen') },
-  WONTFIX: { icon: 'zs', label: i18n.t("dop:won't fix") },
-  DUP: { icon: 'zs', label: i18n.t("dop:won't fix, duplicated") },
-  CLOSED: { icon: 'tg', label: i18n.t('closed') },
-};
-export const BUG_STATE = Object.keys(BUG_STATE_MAP);
-
-export const ISSUE_STATE_MAP = {
-  ...REQUIREMENT_STATE_MAP,
-  ...TASK_STATE_MAP,
-  ...BUG_STATE_MAP,
 };
 
 export const ISSUE_BUTTON_STATE = {
@@ -134,66 +103,31 @@ export enum ISSUE_OPTION {
 export const templateMap = isZh()
   ? {
       [ISSUE_TYPE.REQUIREMENT]: `### 【用户故事/要解决的问题】*
-
-
 ### 【意向用户】*
-
-
 ### 【用户体验目标】*
-
-
 ### 【链接/参考】
-
 `,
       [ISSUE_TYPE.TASK]: ``,
       [ISSUE_TYPE.BUG]: `### 【环境信息】
-
-
 ### 【缺陷描述】*
-
-
 ### 【重现步骤】
-
-
 ### 【实际结果】
-
-
 ### 【期望结果】*
-
-
 ### 【修复建议】
-
 `,
     }
   : {
       [ISSUE_TYPE.REQUIREMENT]: `### [User story/problem to solve] *
-
-
 ### [Intended users] *
-
-
 ### [User experience Goals] *
-
-
 ### [Link/Reference]
-
 `,
       [ISSUE_TYPE.TASK]: ``,
       [ISSUE_TYPE.BUG]: `### [Environment Information]
-
-
 ### [Defect Description] *
-
-
 ### [Reoccurrence Procedure]
-
-
 ### [Actual Result]
-
-
 ### [Expected Result] *
-
-
 ### [Repair suggestion]
 `,
     };

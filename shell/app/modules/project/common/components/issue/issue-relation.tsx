@@ -25,12 +25,13 @@ import iterationStore from 'project/stores/iteration';
 import { Link } from 'react-router-dom';
 import { getIssues as getIssuesService } from 'project/services/issue';
 import { getIssueTypeOption, IssueIcon } from 'project/common/components/issue/issue-icon';
-import { ISSUE_OPTION, ISSUE_TYPE, ISSUE_ICON, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
+import { ISSUE_OPTION, ISSUE_TYPE, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
 import { WithAuth, usePerm, getAuth, isAssignee, isCreator } from 'user/common';
 import moment from 'moment';
 import { IssueItem, IssueForm, BACKLOG_ISSUE_TYPE } from 'project/pages/backlog/issue-item';
 import './issue-relation.scss';
 import IterationSelect from './iteration-select';
+import IssueState from 'project/common/components/issue/issue-state';
 import { ColumnProps } from 'core/common/interface';
 
 interface IProps {
@@ -139,12 +140,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
       width: 96,
       render: (v: number, record: any) => {
         const currentState = find(record?.issueButton, (item) => item.stateID === v);
-        return currentState ? (
-          <div className="flex items-center">
-            {ISSUE_ICON.state[currentState.stateBelong]}
-            {currentState.stateName}
-          </div>
-        ) : undefined;
+        return currentState ? <IssueState stateID={currentState.stateID} /> : undefined;
       },
     },
     {
