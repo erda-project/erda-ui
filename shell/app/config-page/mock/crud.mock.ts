@@ -152,7 +152,7 @@ export const mockData12 = {
           left: 'issueFilter',
           right: 'issueOperations',
         },
-        issueManage: ['topHead', 'head', 'content'],
+        issueManage: ['head', 'content'],
         issueOperations: ['issueExport', 'issueImport'],
         topHead: ['issueAddButton'],
       },
@@ -909,9 +909,8 @@ export const mockData = {
           left: 'inputFilter',
           right: 'issueOperations',
         },
-        issueManage: ['topHead', 'content'],
+        issueManage: ['content'],
         issueOperations: ['issueFilter', 'issueExport', 'issueImport'],
-        topHead: ['issueAddButton'],
       },
     },
     components: {
@@ -945,15 +944,15 @@ export const mockData = {
                   children: [
                     {
                       label: '待处理',
-                      value: 21005,
+                      value: 322221260,
                     },
                     {
                       label: '进行中',
-                      value: 21006,
+                      value: 32222359,
                     },
                     {
                       label: '已完成',
-                      value: 21007,
+                      value: 332222259,
                     },
                   ],
                   label: '任务',
@@ -963,23 +962,23 @@ export const mockData = {
                   children: [
                     {
                       label: '待处理',
-                      value: 21011,
+                      value: 33259,
                     },
                     {
                       label: '进行中',
-                      value: 21012,
+                      value: 33259,
                     },
                     {
                       label: '无需修复',
-                      value: 21013,
+                      value: 35239,
                     },
                     {
                       label: '重复提交',
-                      value: 21014,
+                      value: 32359,
                     },
                     {
                       label: '已解决',
-                      value: 21015,
+                      value: 32359,
                     },
                     {
                       label: '重新打开',
@@ -998,22 +997,18 @@ export const mockData = {
                     {
                       label: '待处理',
                       value: 21001,
-                      status: 'warning',
                     },
                     {
                       label: '进行中',
                       value: 21002,
-                      status: 'processing',
                     },
                     {
                       label: '测试中',
                       value: 21003,
-                      status: 'processing',
                     },
                     {
                       label: '已完成',
                       value: 21004,
-                      status: 'success',
                     },
                   ],
                   label: '需求',
@@ -1030,14 +1025,16 @@ export const mockData = {
                 {
                   label: 'cba',
                   value: 50,
+                  color: 'blue',
                 },
                 {
                   label: 'abc',
                   value: 49,
+                  color: 'darkred',
                 },
               ],
               placeholder: '请选择标签',
-              type: 'select',
+              type: 'tagsSelect',
             },
             {
               type: 'select',
@@ -1179,34 +1176,6 @@ export const mockData = {
           },
         },
       },
-      issueTypeSelect: {
-        type: 'Radio',
-        state: {
-          value: 'requirement',
-        },
-        data: {
-          options: [
-            {
-              key: 'requirement',
-              text: '需求(32)',
-            },
-            {
-              key: 'task',
-              text: '任务(22)',
-            },
-            {
-              key: 'bug',
-              text: '缺陷(12)',
-            },
-          ],
-        },
-        operations: {
-          onChange: {
-            key: 'changeTab',
-            reload: true,
-          },
-        },
-      },
       toolbar: {
         type: 'LRContainer',
       },
@@ -1223,8 +1192,8 @@ export const mockData = {
             {
               emptyText: 'all',
               fixed: true,
-              key: 'title',
-              label: 'title',
+              key: 'q',
+              label: 'q',
               placeholder: '按名称搜索',
               quickDelete: {},
               quickSelect: {},
@@ -1232,7 +1201,7 @@ export const mockData = {
             },
           ],
           values: {
-            title: '',
+            q: '',
           },
         },
         operations: {
@@ -1247,6 +1216,7 @@ export const mockData = {
         operations: {
           click: {
             disabled: false,
+            skipRender: true,
           },
         },
       },
@@ -1268,6 +1238,7 @@ export const mockData = {
                   extra: {
                     priority: 'HIGH',
                     type: 'TASK',
+                    iterationID: 22,
                   },
                   operations: {
                     cardMoveTo: {
@@ -1294,6 +1265,7 @@ export const mockData = {
                   extra: {
                     priority: 'HIGH',
                     type: 'TASK',
+                    iterationID: 23,
                   },
                   operations: {
                     cardMoveTo: {
@@ -1314,6 +1286,7 @@ export const mockData = {
                   extra: {
                     priority: 'HIGH',
                     type: 'TASK',
+                    iterationID: 1,
                   },
                   id: '3-1',
                   operations: {
@@ -1352,7 +1325,6 @@ export const mockData = {
       },
       topHead: {
         type: 'RowContainer',
-        name: 'topHead',
       },
     },
   },

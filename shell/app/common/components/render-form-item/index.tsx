@@ -135,7 +135,7 @@ interface IOption {
   fix?: boolean;
 }
 
-const renderSelectOption = (single: IOption) => {
+const renderSelectOption = (single: IOption, optionRender: (opt: IOption) => JSX.Element) => {
   if (single.children) {
     return (
       <OptGroup
@@ -147,11 +147,10 @@ const renderSelectOption = (single: IOption) => {
           </div>
         }
       >
-        {single.children.map((item: IOption) => renderSelectOption(item))}
+        {single.children.map((item: IOption) => renderSelectOption(item, optionRender))}
       </OptGroup>
     );
   }
-
   return (
     <Option
       className={single.fix ? 'select-fix-option' : ''}
@@ -160,7 +159,9 @@ const renderSelectOption = (single: IOption) => {
       value={`${single.value}`}
       disabled={!!single.disabled}
     >
-      {single.status ? (
+      {optionRender ? (
+        optionRender(single)
+      ) : single.status ? (
         <Badge status={single.status} text={single.name || single.label || '-'} showDot={false} />
       ) : (
         <div className="flex items-center">
@@ -382,15 +383,13 @@ interface SelectCompProps {
   itemProps: Obj;
 }
 
-const SelectComp = ({ value, onChange, options: _options, size, itemProps }: SelectCompProps) => {
-  const options = typeof _options === 'function' ? _options() : _options;
-
-  const fixOptions = options.filter((item: IOption) => item.fix);
-
+const SelectComp = ({ value, onChange, options, size, itemProps }: SelectCompProps) => {
+  const fixOptions = options.filter?.((item: IOption) => item.fix) || [];
+  const { optionRender, ...restItemProps } = itemProps;
   return (
     <Select
       optionLabelProp="label"
-      {...itemProps}
+      {...restItemProps}
       value={value}
       onChange={onChange}
       size={size}
@@ -415,7 +414,9 @@ const SelectComp = ({ value, onChange, options: _options, size, itemProps }: Sel
         </div>
       )}
     >
-      {options.filter((item: IOption) => !item.fix).map((item: IOption) => renderSelectOption(item))}
+      {typeof options === 'function'
+        ? options()
+        : options.filter((item: IOption) => !item.fix).map((item: IOption) => renderSelectOption(item, optionRender))}
     </Select>
   );
 };

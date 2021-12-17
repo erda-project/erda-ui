@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { ISSUE_TYPE, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
+import { ISSUE_TYPE, ISSUE_PRIORITY_MAP, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
 import DiceConfigPage, { useMock } from 'app/config-page';
 import { getUrlQuery } from 'config-page/utils';
 import { useSwitch, useUpdate } from 'common/use-hooks';
@@ -23,7 +23,8 @@ import routeInfoStore from 'core/stores/route';
 import ImportFile from 'project/pages/issue/component/import-file';
 import issueFieldStore from 'org/stores/issue-field';
 import { useUpdateEffect } from 'react-use';
-import { Avatar } from 'antd';
+import { Avatar, Button } from 'antd';
+import IssueState from 'project/common/components/issue/issue-state';
 import { ErdaIcon, RadioTabs } from 'common';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import { useUserMap } from 'core/stores/userMap';
@@ -92,17 +93,10 @@ const compareObject = (sourceObj: object, targetObj: object) => {
   }
 };
 
-const IssueProtocol = () => {
-  const issueTabs = [
-    { value: ISSUE_TYPE.REQUIREMENT, label: i18n.t('requirement') },
-    { value: ISSUE_TYPE.TASK, label: i18n.t('task') },
-    { value: ISSUE_TYPE.BUG, label: i18n.t('bug') },
-  ];
-
+const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => {
   const [{ projectId, iterationId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const { id: queryId, iterationID: queryItertationID, type: _queryType, ...restQuery } = query;
+  const { id: queryId, iterationID: queryItertationID, ...restQuery } = query;
   const orgID = orgStore.getState((s) => s.currentOrg.id);
-  const queryType = _queryType && _queryType.toUpperCase();
   const [
     {
       importFileVisible,
@@ -122,11 +116,11 @@ const IssueProtocol = () => {
     chosenIssueId: queryId,
     chosenIteration: queryItertationID || 0,
     urlQuery: restQuery,
-    chosenIssueType: queryType as undefined | ISSUE_TYPE,
+    chosenIssueType: propsIssueType as undefined | ISSUE_TYPE,
     pageNo: 1,
     viewType: '',
     viewGroup: '',
-    issueType: queryType || ISSUE_TYPE.REQUIREMENT,
+    issueType: propsIssueType || ISSUE_TYPE.REQUIREMENT,
     urlQueryChangeByQuery: restQuery, // Only used to listen for changes to update the page after url change
   });
   const { getFieldsByIssue: getCustomFieldsByProject } = issueFieldStore.effects;
@@ -198,10 +192,10 @@ const IssueProtocol = () => {
     reloadData();
   }, [urlQueryChangeByQuery]);
 
-  const onChosenIssue = (val: ISSUE.Issue) => {
+  const onChosenIssue = (val: Obj) => {
     update({
       chosenIssueId: val.id,
-      chosenIteration: val.iterationID,
+      chosenIteration: val.extra.iterationID,
       chosenIssueType: val.extra.type as ISSUE_TYPE,
     });
     openDrawer();
@@ -220,22 +214,14 @@ const IssueProtocol = () => {
     }
   };
 
-  const onCreate = (val: any) => {
+  const onCreate = () => {
     const filterIterationIDs = filterObj?.iterationIDs || [];
-    const createTypeMap = {
-      createRequirement: ISSUE_TYPE.REQUIREMENT,
-      createTask: ISSUE_TYPE.TASK,
-      createBug: ISSUE_TYPE.BUG,
-    };
-    const curType = createTypeMap[val?.key];
-    if (curType) {
-      // 当前选中唯一迭代，创建的时候默认为这个迭代，否则，迭代为0
-      update({
-        chosenIteration: iterationId || (filterIterationIDs.length === 1 ? filterIterationIDs[0] : 0),
-        chosenIssueType: curType,
-      });
-      openDrawer();
-    }
+    // 当前选中唯一迭代，创建的时候默认为这个迭代，否则，迭代为0
+    update({
+      chosenIteration: iterationId || (filterIterationIDs.length === 1 ? filterIterationIDs[0] : 0),
+      chosenIssueType: issueType,
+    });
+    openDrawer();
   };
 
   const onFilterChange = (val: Obj) => {
@@ -245,15 +231,11 @@ const IssueProtocol = () => {
 
   return (
     <>
-      <RadioTabs
-        options={issueTabs}
-        value={issueType}
-        onChange={(v: string) => {
-          updateSearch({ type: v }, { ignoreOrigin: true });
-          updater.issueType(v);
-        }}
-        className="mb-2"
-      />
+      <div className="top-button-group">
+        <Button type={'primary'} onClick={onCreate}>
+          {i18n.t('new {name}', { name: ISSUE_TYPE_MAP[issueType].label })}
+        </Button>
+      </div>
       <DiceConfigPage
         scenarioKey="issue-kanban"
         scenarioType="issue-kanban"
@@ -269,70 +251,11 @@ const IssueProtocol = () => {
             props: { fullHeight: true },
           },
           content: {
-            props: { whiteBg: true, className: 'rounded-none p-0 flex-1 h-0' },
+            props: { className: 'rounded-none p-0 flex-1 h-0 bg-white' },
           },
           toolbar: {
             props: {
               className: 'border-0 border-b border-solid border-black-100 rounded-none bg-white',
-              whiteBg: true,
-            },
-          },
-          issueAddButton: {
-            props: {
-              menu: [
-                {
-                  disabled: false,
-                  disabledTip: '',
-                  key: 'requirement',
-                  operations: {
-                    click: {
-                      key: 'createRequirement',
-                      reload: false,
-                    },
-                  },
-                  prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
-                  text: i18n.t('requirement'),
-                },
-                {
-                  disabled: false,
-                  disabledTip: '',
-                  key: 'task',
-                  operations: {
-                    click: {
-                      key: 'createTask',
-                      reload: false,
-                    },
-                  },
-                  prefixIcon: 'ISSUE_ICON.issue.TASK',
-                  text: i18n.t('task'),
-                },
-                {
-                  disabled: false,
-                  disabledTip: '',
-                  key: 'bug',
-                  operations: {
-                    click: {
-                      key: 'createBug',
-                      reload: false,
-                    },
-                  },
-                  prefixIcon: 'ISSUE_ICON.issue.BUG',
-                  text: i18n.t('bug'),
-                },
-              ],
-              operations: {
-                click: {
-                  key: '',
-                  reload: false,
-                },
-              },
-              suffixIcon: 'di',
-              text: i18n.t('dop:create issue'),
-              type: 'primary',
-            },
-            op: {
-              // 添加：打开滑窗
-              click: onCreate,
             },
           },
           inputFilter: {
@@ -343,6 +266,36 @@ const IssueProtocol = () => {
           },
           issueFilter: {
             op: { onFilterChange },
+            props: {
+              processField: (field: CP_CONFIGURABLE_FILTER.Condition) => {
+                if (field.key === 'priorities') {
+                  return {
+                    ...field,
+                    options: field.options?.map((item) => ({
+                      ...item,
+                      icon: `ISSUE_ICON.priority.${item.value}`,
+                    })),
+                  };
+                } else if (field.key === 'severities') {
+                  return {
+                    ...field,
+                    options: field.options?.map((item) => ({
+                      ...item,
+                      icon: `ISSUE_ICON.severity.${item.value}`,
+                    })),
+                  };
+                } else if (field.key === 'states') {
+                  return {
+                    ...field,
+                    itemProps: {
+                      optionRender: (opt: Obj) => <IssueState stateName={opt.label} stateID={opt.value} />,
+                    },
+                  };
+                } else {
+                  return field;
+                }
+              },
+            },
           },
           issueKanbanV2: {
             props: {
@@ -360,7 +313,7 @@ const IssueProtocol = () => {
             props: {
               prefixIcon: 'import',
               size: 'small',
-              tooltip: '导入',
+              tooltip: i18n.t('import'),
             },
             op: {
               click: () => {
@@ -377,7 +330,7 @@ const IssueProtocol = () => {
             props: {
               prefixIcon: 'export',
               size: 'small',
-              tooltip: '导出',
+              tooltip: i18n.t('export'),
             },
             op: {
               click: () => window.open(getDownloadUrl()),
@@ -417,4 +370,30 @@ const IssueProtocol = () => {
   );
 };
 
-export default IssueProtocol;
+const Board = () => {
+  const issueTabs = [
+    { value: ISSUE_TYPE.REQUIREMENT, label: i18n.t('requirement') },
+    { value: ISSUE_TYPE.TASK, label: i18n.t('task') },
+    { value: ISSUE_TYPE.BUG, label: i18n.t('bug') },
+  ];
+  const query = routeInfoStore.useStore((s) => s.query);
+  const { type } = query;
+  const [issueType, setIssueType] = React.useState(type?.toUpperCase() || ISSUE_TYPE.REQUIREMENT);
+  return (
+    <div className="flex flex-col h-full">
+      <RadioTabs
+        options={issueTabs}
+        value={issueType}
+        onChange={(v: string) => {
+          updateSearch({ type: v }, { ignoreOrigin: true });
+          setIssueType(v);
+        }}
+        className="mb-2"
+      />
+
+      <IssueProtocol issueType={issueType} key={issueType} />
+    </div>
+  );
+};
+
+export default Board;

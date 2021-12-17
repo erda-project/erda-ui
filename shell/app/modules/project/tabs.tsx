@@ -104,7 +104,7 @@ export const COLLABORATE_TABS = () => {
     },
     {
       key: 'all',
-      name: i18n.t('dop:issue list'),
+      name: i18n.t('dop:all issues'),
       show: [projectPerm.requirement.read.pass, projectPerm.task.read.pass, projectPerm.bug.read.pass].some((k) => k),
     },
 

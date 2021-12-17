@@ -14,8 +14,16 @@ import { ArrowHeadType, Edge, Node } from 'react-flow-renderer';
 import { cloneDeep, omit, uniqBy } from 'lodash';
 import { getFormatter } from 'charts/utils';
 
-export const servicesTypes = ['service', 'externalservice', 'internalservice'];
-export const notAddonTypes = [...servicesTypes, 'registercenter', 'configcenter', 'noticecenter', 'apigateway'];
+export const servicesTypes = ['service'];
+export const notAddonTypes = [
+  ...servicesTypes,
+  'registercenter',
+  'configcenter',
+  'noticecenter',
+  'apigateway',
+  'externalservice',
+  'internalservice',
+];
 
 export const isService = (type: string) => servicesTypes.includes(type.toLocaleLowerCase());
 export const isAddon = (type: string) => !notAddonTypes.includes(type.toLocaleLowerCase());

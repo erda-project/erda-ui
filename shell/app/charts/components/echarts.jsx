@@ -99,8 +99,21 @@ class Echarts extends React.Component {
         icon: 'reat',
         itemWidth: 12,
         itemHeight: 3,
+        type: 'scroll',
       };
     }
+    if (option.dataZoom) {
+      option.dataZoom = option.dataZoom.map((zoomItem) => {
+        if (zoomItem.type === 'slider') {
+          return {
+            ...zoomItem,
+            ...(zoomItem.orient === 'horizontal' ? { height: 24 } : { width: 16 }),
+          };
+        }
+        return zoomItem;
+      });
+    }
+
     // set the echart option
     echartObj.setOption(option, this.props.notMerge || false, this.props.lazyUpdate || false);
 

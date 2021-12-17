@@ -44,4 +44,5 @@ const AllIssue = () => {
     </div>
   );
 };
+
 export default AllIssue;
