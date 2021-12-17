@@ -215,6 +215,15 @@
       .anticon-check {
         color: $color-purple-highlight;
       }
+
+      .ant-select-item-option-grouped {
+        padding-left: 24px !important;
+      }
+
+      .ant-select-item-group {
+        color: rgba($white, 0.6);
+        font-weight: bold;
+      }
     }
 
     .ant-select-arrow {
@@ -296,7 +305,8 @@
   }
 
   .erda-badge-status-default {
-    color: $color-white-8;
+    color: $white;
+    background-color: $color-white-1;
   }
 
   &-footer {
