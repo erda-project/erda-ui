@@ -30,8 +30,6 @@ import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import { useUserMap } from 'core/stores/userMap';
 import i18n from 'i18n';
 
-import './board.scss';
-
 const CardRender = (props: { data: Obj }) => {
   // TODO: multiple text overflow
   // const titleMaxLength = 36;
