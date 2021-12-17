@@ -201,6 +201,14 @@ const IssueProtocol = ({ issueType }: IProps) => {
         inParams={inParams}
         ref={reloadRef}
         customProps={{
+          issueManage: {
+            props: { spaceSize: 'none' },
+          },
+          head: {
+            props: {
+              className: 'border-0 border-b border-solid border-black-100 rounded-none',
+            },
+          },
           // 后端未对接，由前端接管的事件
           issueAddButton: {
             op: {

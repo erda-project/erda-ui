@@ -50,6 +50,10 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
       show: [projectPerm.requirement.read.pass, projectPerm.task.read.pass, projectPerm.bug.read.pass].some((k) => k),
     },
     {
+      key: 'gantt',
+      name: i18n.t('dop:gantt chart'),
+    },
+    {
       key: 'board',
       name: i18n.t('dop:board'),
     },
@@ -108,14 +112,14 @@ export const COLLABORATE_TABS = () => {
       show: [projectPerm.requirement.read.pass, projectPerm.task.read.pass, projectPerm.bug.read.pass].some((k) => k),
     },
     {
-      key: 'plan',
-      name: i18n.t('plan'),
+      key: 'gantt',
+      name: i18n.t('dop:gantt chart'),
       show: projectPerm.requirement.read.pass,
-      split: true,
     },
     {
       key: 'board',
       name: i18n.t('dop:board'),
+      show: projectPerm.requirement.read.pass,
     },
   ];
 };
