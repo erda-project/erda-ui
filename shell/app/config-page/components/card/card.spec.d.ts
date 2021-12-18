@@ -18,20 +18,21 @@ declare namespace CP_CARD {
   }
 
   interface IProps {
-    data: Obj<InfoData>;
+    data: IData;
     cardType: string;
     className?: string;
+    setIsDrag?: (b: boolean) => void;
+    CardRender?: React.FC<{ data: Obj }>;
   }
 
-  interface InfoData {
+  interface IData {
     id: string;
     titleIcon?: string | React.ReactNode;
     title?: string | React.ReactNode;
     operations?: Obj<CP_COMMON.Operation>;
     subContent?: string | React.ReactNode;
     description?: string | React.ReactNode;
-    extraInfo?: Obj;
-    type: string;
+    extraInfo?: React.ReactNode;
   }
 
   type Props = MakeProps<Spec>;

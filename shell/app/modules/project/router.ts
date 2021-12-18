@@ -46,10 +46,10 @@ function getProjectRouter(): RouteConfigItem[] {
           breadcrumbName: i18n.t('dop:project collaboration'),
           routes: [
             {
-              path: 'plan',
+              path: 'gantt',
               tabs: COLLABORATE_TABS,
               ignoreTabQuery: true,
-              getComp: (cb) => cb(import('project/pages/issue/plan')),
+              getComp: (cb) => cb(import('project/pages/issue/gantt')),
               layout: {
                 fullHeight: true,
               },
@@ -65,10 +65,10 @@ function getProjectRouter(): RouteConfigItem[] {
               },
             },
             {
-              path: 'requirement',
+              path: 'board',
               tabs: COLLABORATE_TABS,
               ignoreTabQuery: true,
-              getComp: (cb) => cb(import('project/pages/issue/requirement')),
+              getComp: (cb) => cb(import('project/pages/issue/board')),
               layout: {
                 noWrapper: true,
               },
@@ -78,15 +78,6 @@ function getProjectRouter(): RouteConfigItem[] {
               tabs: COLLABORATE_TABS,
               ignoreTabQuery: true,
               getComp: (cb) => cb(import('project/pages/issue/task')),
-              layout: {
-                noWrapper: true,
-              },
-            },
-            {
-              path: 'bug',
-              tabs: COLLABORATE_TABS,
-              ignoreTabQuery: true,
-              getComp: (cb) => cb(import('project/pages/issue/bug')),
               layout: {
                 noWrapper: true,
               },
@@ -108,14 +99,40 @@ function getProjectRouter(): RouteConfigItem[] {
                   getComp: (cb) => cb(import('project/pages/iteration/table'), 'Iteration'),
                 },
                 {
-                  path: ':iterationId/:issueType',
+                  path: ':iterationId',
                   mark: 'iterationDetail',
                   ignoreTabQuery: true,
-                  tabs: ITERATION_DETAIL_TABS,
-                  getComp: (cb) => cb(import('project/pages/issue/')),
-                  layout: {
-                    noWrapper: true,
-                  },
+                  // getComp: (cb) => cb(import('project/pages/issue/')),
+                  routes: [
+                    {
+                      path: 'gantt',
+                      tabs: ITERATION_DETAIL_TABS,
+                      ignoreTabQuery: true,
+                      getComp: (cb) => cb(import('project/pages/issue/gantt')),
+                      layout: {
+                        fullHeight: true,
+                      },
+                    },
+                    {
+                      path: 'all',
+                      tabs: ITERATION_DETAIL_TABS,
+                      ignoreTabQuery: true,
+                      getComp: (cb) => cb(import('project/pages/issue/all')),
+                      layout: {
+                        noWrapper: true,
+                        fullHeight: true,
+                      },
+                    },
+                    {
+                      path: 'board',
+                      tabs: ITERATION_DETAIL_TABS,
+                      ignoreTabQuery: true,
+                      getComp: (cb) => cb(import('project/pages/issue/board')),
+                      layout: {
+                        noWrapper: true,
+                      },
+                    },
+                  ],
                 },
               ],
             },

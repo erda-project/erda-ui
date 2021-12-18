@@ -99,6 +99,7 @@ declare namespace CONFIG_PAGE {
     | CP_TEXT_BLOCK.Spec
     | CP_BAR_CHART.Spec
     | CP_GANTT.Spec
+    | CP_KANBAN.Spec
     | CP_RADIO_TABS.Spec
     | CP_TABLE_GROUP.Spec;
 

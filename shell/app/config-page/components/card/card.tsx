@@ -25,11 +25,11 @@ const noop = () => {};
 
 export const Card = (props: CP_CARD.Props) => {
   const { props: configProps, execOperation = noop, customOp = {} } = props;
-  const { cardType, data, className = '' } = configProps;
-  const { clickNode = noop } = customOp;
+  const { cardType, data, className = '', setIsDrag, CardRender } = configProps;
+  const { clickCard = noop } = customOp;
   const [isHover, setIsHover] = React.useState(false);
-  const { id, titleIcon, title, operations, subContent, description, extraInfo } = data?._infoData || {};
-  const { drag: dragOperation, ...menuOperations } = operations || {};
+  const { id, titleIcon, title, operations, subContent, description, extraInfo } = data || {};
+  const { cardMoveTo: dragOperation, ...menuOperations } = operations || {};
   const [dragObj, drag] = useDrag({
     item: { type: cardType, data },
     canDrag: () => {
@@ -48,10 +48,16 @@ export const Card = (props: CP_CARD.Props) => {
     }
   };
 
+  React.useEffect(() => {
+    if (setIsDrag) {
+      setIsDrag(dragObj.isDragging);
+    }
+  }, [dragObj.isDragging, setIsDrag]);
+
   const getMenu = () => {
     return (
       <Menu
-        onClick={(e: any) => {
+        onClick={(e) => {
           e.domEvent.stopPropagation();
           onClick(e.key);
         }}
@@ -90,35 +96,45 @@ export const Card = (props: CP_CARD.Props) => {
     'border-all': true,
   });
   return (
-    <div className={`${className} ${cls}`} onClick={() => clickNode(data)}>
+    <div className={`${className} ${cls}`} onClick={() => clickCard(data)}>
       <div className="info-card-content px-3 pt-2 pb-2" key={id} ref={drag}>
-        <div className={'flex justify-between items-start mb-3 pt-2'}>
-          {isString(titleIcon) ? <CustomIcon type={titleIcon} color className="head-icon mr-1" /> : titleIcon || null}
-          <div className="flex-1 text-sm text-normal break-word">{title}</div>
-          {isEmpty(menuOperations) ? (
-            <ErdaIcon type="more1" className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} />
-          ) : (
-            <span
-              ref={opRef}
-              className="pr-1"
-              onMouseEnter={() => setIsHover(true)}
-              onMouseLeave={() => setIsHover(false)}
-            >
-              <Dropdown overlay={getMenu()} getPopupContainer={() => opRef.current as any}>
-                <ErdaIcon type="more1" className="op-icon" onClick={(e) => e.stopPropagation()} />
-              </Dropdown>
-            </span>
-          )}
-        </div>
-        {isString(subContent) ? <div className="text-xs text-sub mb-3">{subContent}</div> : subContent || null}
-        {isString(description) ? (
-          <Tooltip title={description}>
-            <div className="text-xs nowrap text-desc">{description}</div>
-          </Tooltip>
+        {CardRender ? (
+          <CardRender data={data} />
         ) : (
-          description || null
+          <>
+            <div className={'flex justify-between items-start mb-3 pt-2'}>
+              {isString(titleIcon) ? (
+                <CustomIcon type={titleIcon} color className="head-icon mr-1" />
+              ) : (
+                titleIcon || null
+              )}
+              <div className="flex-1 text-sm text-normal break-word">{title}</div>
+              {isEmpty(menuOperations) ? (
+                <ErdaIcon type="more1" className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} />
+              ) : (
+                <span
+                  ref={opRef}
+                  className="pr-1"
+                  onMouseEnter={() => setIsHover(true)}
+                  onMouseLeave={() => setIsHover(false)}
+                >
+                  <Dropdown overlay={getMenu()} getPopupContainer={() => opRef.current as any}>
+                    <ErdaIcon type="more1" className="op-icon" onClick={(e) => e.stopPropagation()} />
+                  </Dropdown>
+                </span>
+              )}
+            </div>
+            {isString(subContent) ? <div className="text-xs text-sub mb-3">{subContent}</div> : subContent || null}
+            {isString(description) ? (
+              <Tooltip title={description}>
+                <div className="text-xs nowrap text-desc">{description}</div>
+              </Tooltip>
+            ) : (
+              description || null
+            )}
+            {extraInfo}
+          </>
         )}
-        {extraInfo}
       </div>
     </div>
   );

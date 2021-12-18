@@ -106,6 +106,7 @@ const ConfigPageRender = (props: IProps) => {
     if (op.command?.key) {
       op.callBack = () => execCommand(op.command, updateVal);
     }
+
     return execOperation(
       _cId,
       op,
@@ -190,6 +191,7 @@ const EnhanceCompProps = (
   props: Merge<CONFIG_PAGE.BaseSpec, { children: React.ReactElement; options: CONFIG_PAGE.CompOptions }>,
 ) => {
   const { children, props: configProps, data: pData, Wrapper, options, ...rest } = props;
+
   const [comProps, setCompProps] = React.useState(configProps);
   const [data, setData] = React.useState(pData);
 

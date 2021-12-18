@@ -54,7 +54,6 @@ const IssueWorkflow = () => {
     },
     [getStatesByIssue, projectID, updater],
   );
-
   return (
     <div className="issue-workflow">
       {map(issueList, (item) => {

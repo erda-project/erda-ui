@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 import React from 'react';
-import { Icon as CustomIcon, ErdaIcon } from 'common';
+import { Icon as CustomIcon, ErdaIcon, Badge } from 'common';
 import './issue-config.scss';
 
 export enum ISSUE_TYPE {

@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Popover, Row, Col, Form, Button } from 'antd';
+import { Popover, Row, Col, Form, Button, Badge } from 'antd';
 import { ErdaIcon, RenderFormItem, IFormItem } from 'common';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 import i18n from 'i18n';
 import ConfigSelector from './config-selector';
 
@@ -44,7 +44,7 @@ interface Field {
 export interface ConfigData {
   id: number | string;
   label: string;
-  data: Obj;
+  values: Obj;
   isPreset?: boolean;
 }
 
@@ -53,7 +53,7 @@ const sortObj = (obj: Obj) => {
   Object.keys(values).forEach((key) => {
     if (Array.isArray(values[key])) {
       if (values[key].length !== 0) {
-        values[key] = values[key].sort();
+        values[key] = values[key].sort().join(',');
       } else {
         delete values[key];
       }
@@ -68,11 +68,11 @@ const sortObj = (obj: Obj) => {
 const getItemByValues = (val: Obj, list: Obj[]) => {
   const values = sortObj(val);
 
-  return list?.find((item) => JSON.stringify(sortObj(item.data)) === JSON.stringify(values));
+  return list?.find((item) => JSON.stringify(sortObj(item.values)) === JSON.stringify(values));
 };
 
 const defaultProcessField = (item: IFormItem) => {
-  const { type, itemProps } = item;
+  const { type, itemProps, defaultValue, placeholder } = item;
   const field: IFormItem = { ...item };
 
   field.name = item.key;
@@ -94,6 +94,12 @@ const defaultProcessField = (item: IFormItem) => {
     };
   }
 
+  field.itemProps = {
+    defaultValue,
+    placeholder,
+    ...field.itemProps,
+  };
+
   return field;
 };
 
@@ -113,15 +119,15 @@ const ConfigurableFilter = ({
   const [isNew, setIsNew] = React.useState(false);
 
   React.useEffect(() => {
-    if (value) {
+    if (value && !isEmpty(value)) {
       form.setFieldsValue(value || {});
       const config = getItemByValues(value, configList);
       config?.id && setCurrentConfig(config?.id);
     } else if (configList && configList.length !== 0) {
       const configData: ConfigData = configList?.find((item) => item.id === defaultConfig) || ({} as ConfigData);
-      if (configData.data) {
-        configData.data && form.setFieldsValue(configData.data);
-        onFilterProps?.(configData.data);
+      if (configData.values) {
+        configData.values && form.setFieldsValue(configData.values);
+        onFilterProps?.(configData.values);
       }
     }
   }, [configList, defaultConfig, form, value, onFilterProps]);
@@ -130,7 +136,7 @@ const ConfigurableFilter = ({
     setCurrentConfig(config.id);
     setIsNew(false);
     form.resetFields();
-    form.setFieldsValue(config.data || {});
+    form.setFieldsValue(config.values || {});
   };
 
   const onValuesChange = (_, allValues: Obj) => {
@@ -149,7 +155,7 @@ const ConfigurableFilter = ({
 
   const setAllOpen = () => {
     form.resetFields();
-    const config = getItemByValues({}, configList);
+    const config = getItemByValues(form.getFieldsValue(), configList);
     setCurrentConfig(config?.id);
     setIsNew(false);
   };
@@ -157,6 +163,7 @@ const ConfigurableFilter = ({
   const onFilter = () => {
     form.validateFields().then((values) => {
       onFilterProps(values);
+      setVisible(false);
     });
   };
 
@@ -214,21 +221,36 @@ const ConfigurableFilter = ({
   );
 
   return (
-    <Popover
-      content={content}
-      visible={visible}
-      trigger={['click']}
-      overlayClassName="erda-configurable-filter"
-      placement="bottomLeft"
-      onVisibleChange={setVisible}
-    >
-      <div
-        className="erda-configurable-filter-btn align-middle inline-block p-1 rounded-sm leading-none cursor-pointer hover:bg-default hover:text-white"
-        onClick={() => setVisible(true)}
+    <div className={`flex items-center ${value && !isEmpty(value) ? 'erda-config-filter-btn-active' : ''}`}>
+      <Popover
+        content={content}
+        visible={visible}
+        trigger={['click']}
+        overlayClassName="erda-configurable-filter"
+        placement="bottomLeft"
+        onVisibleChange={setVisible}
       >
-        <ErdaIcon type="shaixuan" color="currentColor" size={20} />
-      </div>
-    </Popover>
+        <div
+          className={`erda-configurable-filter-btn p-1 rounded-sm leading-none cursor-pointer bg-hover`}
+          onClick={() => setVisible(true)}
+        >
+          <Badge dot={!!(value && !isEmpty(value))}>
+            <ErdaIcon type="shaixuan" color="currentColor" size={20} />
+          </Badge>
+        </div>
+      </Popover>
+      {value && !isEmpty(value) ? (
+        <div
+          className="erda-configurable-filter-clear-btn p-1 rounded-sm leading-none cursor-pointer"
+          onClick={() => {
+            setAllOpen();
+            onFilter();
+          }}
+        >
+          <ErdaIcon type="zhongzhi" color="currentColor" size={20} className="relative top-px" />
+        </div>
+      ) : null}
+    </div>
   );
 };
 
