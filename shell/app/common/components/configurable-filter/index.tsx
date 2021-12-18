@@ -68,7 +68,7 @@ const sortObj = (obj: Obj) => {
 const getItemByValues = (val: Obj, list: Obj[]) => {
   const values = sortObj(val);
 
-  return list?.find((item) => JSON.stringify(sortObj(item.values)) === JSON.stringify(values));
+  return list?.find((item) => JSON.stringify(sortObj(item.values || {})) === JSON.stringify(values));
 };
 
 const defaultProcessField = (item: IFormItem) => {
