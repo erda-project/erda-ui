@@ -388,7 +388,6 @@ const SelectComp = ({ value, onChange, options, size, itemProps }: SelectCompPro
   const { optionRender, ...restItemProps } = itemProps;
   return (
     <Select
-      optionLabelProp="label"
       {...restItemProps}
       value={value}
       onChange={onChange}

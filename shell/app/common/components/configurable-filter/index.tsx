@@ -79,6 +79,7 @@ const defaultProcessField = (item: IFormItem) => {
   if (type === 'select' || type === 'tagsSelect') {
     field.itemProps = {
       mode: 'multiple',
+      optionLabelProp: 'label',
       ...itemProps,
       showArrow: true,
       allowClear: true,
