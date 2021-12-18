@@ -15,12 +15,13 @@ import React from 'react';
 import { Col, Row, Spin } from 'antd';
 import { RowProps } from 'antd/es/row';
 import { ColProps } from 'antd/es/col';
+import { get } from 'lodash';
 import classnames from 'classnames';
 import EmptyHolder from 'common/components/empty-holder';
 import ErdaIcon from 'common/components/erda-icon';
 
 interface CardColumnsProps<T> {
-  dataIndex: keyof T;
+  dataIndex: keyof T | string[];
   colProps?: ColProps;
   render?: (text: any, record: T, index: number) => React.ReactNode;
   children?: {
@@ -44,7 +45,7 @@ interface IProps<T = Record<string, any>> {
 
 const renderChild = <T,>(record: T, columns: CardColumnsProps<T>[], index: number) => {
   return columns.map((column) => {
-    let nodes: React.ReactNode = record[column.dataIndex];
+    let nodes: React.ReactNode = get(record, column.dataIndex);
     if (column.render) {
       nodes = column.render(nodes, record, index);
     }

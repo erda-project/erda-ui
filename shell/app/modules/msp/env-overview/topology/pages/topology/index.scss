@@ -55,40 +55,6 @@
     }
   }
 
-  .zoom-buttons {
-    div {
-      background: rgba($white, 0.06);
-      box-shadow: 0 4px 8px 0 $color-card-hover-shadow;
-      color: rgba($white, 0.6);
-
-      &:hover {
-        background: rgba($white, 0.2);
-        color: rgba($white, 0.9);
-      }
-    }
-  }
-
-  .topology-overview {
-    width: 280px;
-    height: 100%;
-    border-right: 1px solid rgba($white, 0.1);
-    transition: all 0.3s ease-in-out;
-
-    .card-item {
-      width: 120px;
-      height: 76px;
-      background-color: rgba($white, 0.04);
-    }
-
-    &.collapse {
-      width: 8px;
-
-      .content {
-        opacity: 0;
-      }
-    }
-  }
-
   .topology-detail {
     background-color: $color-default;
     width: 325px;
@@ -105,6 +71,7 @@
 
     .content {
       background-color: rgba($white, 0.04);
+
       .metric-detail {
         > div {
           background: rgba($white, 0.04);

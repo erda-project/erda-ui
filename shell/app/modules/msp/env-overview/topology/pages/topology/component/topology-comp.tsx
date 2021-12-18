@@ -11,15 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import React from 'react';
-import ReactFlow, {
-  Elements,
-  isNode,
-  Node,
-  Position,
-  ReactFlowProvider,
-  removeElements,
-  useZoomPanHelper,
-} from 'react-flow-renderer';
+import ReactFlow, { Elements, isNode, Node, Position, ReactFlowProvider, removeElements, useZoomPanHelper } from 'react-flow-renderer';
 import dagre from 'dagrejs';
 import { genEdges, genNodes } from 'msp/env-overview/topology/pages/topology/utils';
 import customerNode from './nodes';
@@ -40,7 +32,7 @@ const nodeExtent = [
 interface IProps {
   filterKey: INodeKey;
   data: { nodes: TOPOLOGY.INode[] };
-  clockNode: (data: TOPOLOGY.TopoNode['metaData']) => void;
+  clockNode?: (data: TOPOLOGY.TopoNode['metaData']) => void;
 }
 
 const genEle = (nodes: TOPOLOGY.INode[], filterKey: INodeKey) => {
@@ -180,42 +172,43 @@ const TopologyComp = ({ data, filterKey = 'node', clockNode }: IProps) => {
   }, clockNode);
 
   return (
-    <div className="min-h-full min-w-full" ref={wrapperRaf}>
-      <ReactFlow
-        elements={elements}
-        nodeTypes={nodeTypes}
-        onElementsRemove={onElementsRemove}
-        edgeTypes={{
-          float: FloatingEdge,
-        }}
-        preventScrolling={false}
-        zoomOnScroll={false}
-        connectionLineComponent={FloatingConnectionLine}
-        nodeExtent={nodeExtent}
-        defaultZoom={0.8}
-        minZoom={0.2}
-        maxZoom={2}
-        onLoad={layout}
-      >
-        <div className="zoom-buttons fixed bottom-6 right-4 h-8 w-20 flex z-10">
-          <div
-            className="cursor-pointer w-9 flex justify-center items-center mr-0.5"
-            onClick={() => {
-              zoomOut();
-            }}
-          >
-            <ErdaIcon type="minus" size={12} />
-          </div>
-          <div
-            className="cursor-pointer w-9 flex justify-center items-center"
-            onClick={() => {
-              zoomIn();
-            }}
-          >
-            <ErdaIcon type="plus" size={12} />
-          </div>
+    <div className="h-full w-full overflow-auto relative">
+      <div className="min-h-full min-w-full relative" ref={wrapperRaf}>
+        <ReactFlow
+          elements={elements}
+          nodeTypes={nodeTypes}
+          onElementsRemove={onElementsRemove}
+          edgeTypes={{
+            float: FloatingEdge,
+          }}
+          preventScrolling={false}
+          zoomOnScroll={false}
+          connectionLineComponent={FloatingConnectionLine}
+          nodeExtent={nodeExtent}
+          defaultZoom={0.8}
+          minZoom={0.2}
+          maxZoom={2}
+          onLoad={layout}
+        />
+      </div>
+      <div className="zoom-buttons absolute bottom-4 right-4 h-8 w-20 flex z-10">
+        <div
+          className="cursor-pointer w-9 flex justify-center items-center mr-0.5 bg-white-1 text-white-4 hover:text-white"
+          onClick={() => {
+            zoomOut();
+          }}
+        >
+          <ErdaIcon type="minus" size={12} />
         </div>
-      </ReactFlow>
+        <div
+          className="cursor-pointer w-9 flex justify-center items-center bg-white-1 text-white-4 hover:text-white"
+          onClick={() => {
+            zoomIn();
+          }}
+        >
+          <ErdaIcon type="plus" size={12} />
+        </div>
+      </div>
     </div>
   );
 };

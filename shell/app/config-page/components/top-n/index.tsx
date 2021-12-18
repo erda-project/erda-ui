@@ -42,7 +42,7 @@ const CP_TopN: React.FC<CP_DATA_RANK.Props> = (props) => {
                   className="absolute top-0 right-0 bg-icon-wrapper flex justify-center items-center"
                   style={{ color: colorToRgb(color, 0.1) }}
                 >
-                  {backgroundIcon ? <ErdaIcon size={44} type={backgroundIcon} /> : null}
+                  {titleIcon || backgroundIcon ? <ErdaIcon size={44} type={backgroundIcon ?? titleIcon} /> : null}
                 </div>
                 <div className="mb-2 flex justify-start items-center">
                   {titleIcon ? (
@@ -56,7 +56,7 @@ const CP_TopN: React.FC<CP_DATA_RANK.Props> = (props) => {
                   </p>
                 </div>
                 <div>
-                  {items.map((item) => {
+                  {items?.map((item) => {
                     const { name, value, total, unit, id } = item;
                     const percent = (value / total) * 100;
                     return (
