@@ -72,7 +72,7 @@ const getItemByValues = (val: Obj, list: Obj[]) => {
 };
 
 const defaultProcessField = (item: IFormItem) => {
-  const { type, itemProps, defaultValue } = item;
+  const { type, itemProps, defaultValue, placeholder } = item;
   const field: IFormItem = { ...item };
 
   field.name = item.key;
@@ -96,6 +96,7 @@ const defaultProcessField = (item: IFormItem) => {
 
   field.itemProps = {
     defaultValue,
+    placeholder,
     ...field.itemProps,
   };
 
