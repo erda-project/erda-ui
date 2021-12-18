@@ -38,6 +38,10 @@ const chartConfig = [
   {
     title: i18n.t('msp:interface rps'),
     key: 'RPS',
+    formatter: (param: Obj[]) => {
+      const { data: count, marker, axisValue } = param[0] ?? [];
+      return `${axisValue}</br>${marker} ${count} reqs/s`;
+    },
   },
   {
     title: i18n.t('response time'),
@@ -54,6 +58,10 @@ const chartConfig = [
   {
     title: i18n.t('msp:request error rate'),
     key: 'ErrorRate',
+    formatter: (param: Obj[]) => {
+      const { data: count, marker, axisValue } = param[0] ?? [];
+      return `${axisValue}</br>${marker} ${count} %`;
+    },
   },
 ];
 
@@ -72,20 +80,21 @@ const OverView = () => {
   const [topologyData] = topologyStore.useStore((s) => [s.topologyData]);
   const [charts] = getAnalyzerOverview.useState();
   React.useEffect(() => {
-    getMonitorTopology({
-      startTime: range.startTimeMs,
-      endTime: range.endTimeMs,
-      terminusKey: tenantId,
-      tags: [],
-      serviceId,
-    });
-    getAnalyzerOverview.fetch({
-      tenantId,
-      view: 'topology_service_node',
-      serviceIds: [serviceId],
-      startTime: range.startTimeMs,
-      endTime: range.endTimeMs,
-    });
+    if (serviceId) {
+      getMonitorTopology({
+        startTime: range.startTimeMs,
+        endTime: range.endTimeMs,
+        terminusKey: tenantId,
+        tags: [`service:${serviceId}`],
+      });
+      getAnalyzerOverview.fetch({
+        tenantId,
+        view: 'topology_service_node',
+        serviceIds: [serviceId],
+        startTime: range.startTimeMs,
+        endTime: range.endTimeMs,
+      });
+    }
     return () => {
       clearMonitorTopology();
     };
@@ -177,8 +186,10 @@ const OverView = () => {
               <Cards list={overviewList} />
             </div>
           </TopologyOverviewWrapper>
-          <div className="flex-1 h-full">
-            {topologyData.nodes?.length ? <TopologyComp data={topologyData} filterKey={'node'} /> : null}
+          <div className="flex-1 h-full relative">
+            {topologyData.nodes?.length ? (
+              <TopologyComp allowScroll={false} data={topologyData} filterKey={'node'} />
+            ) : null}
           </div>
         </div>
       </div>
@@ -240,6 +251,7 @@ const OverView = () => {
         showLoading
         scenarioType="service-overview"
         scenarioKey="service-overview"
+        forceUpdateKey={['inParams']}
         inParams={{ tenantId, serviceId, startTime: range.startTimeMs, endTime: range.endTimeMs }}
         fullHeight={false}
         customProps={{

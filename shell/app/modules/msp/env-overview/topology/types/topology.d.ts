@@ -28,7 +28,6 @@ declare namespace TOPOLOGY {
     | 'Elasticsearch';
 
   interface ITopologyQuery {
-    serviceId?: string;
     startTime: number;
     endTime: number;
     terminusKey: string;

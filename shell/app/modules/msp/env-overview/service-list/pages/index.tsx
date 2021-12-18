@@ -18,7 +18,7 @@ import { Button, Input, Tag, Tooltip } from 'antd';
 import Pagination from 'common/components/pagination';
 import { debounce, get, isNil } from 'lodash';
 import EChart from 'charts/components/echarts';
-import { CardColumnsProps, CardList, ErdaIcon, RadioTabs } from 'common';
+import { CardColumnsProps, CardList, ErdaAlert, ErdaIcon, RadioTabs } from 'common';
 import { goTo } from 'common/utils';
 import { genLinearGradient, newColorMap } from 'app/charts/theme';
 import './service-list.scss';
@@ -58,7 +58,7 @@ const option = {
   yAxis: {
     splitLine: {
       show: true,
-    }
+    },
   },
   grid: { top: 0, bottom: 0, left: 0, right: 0 },
 };
@@ -94,12 +94,12 @@ const CHART_MAP: {
     {
       key: 'aggregateMetric.avgRps',
       name: i18n.t('msp:average throughput'),
-      tips: i18n.t('msp:definition of rps'),
+      tips: i18n.t('msp:definition of average rps'),
     },
     {
       key: 'aggregateMetric.maxRps',
       name: i18n.t('msp:maximum throughput'),
-      tips: i18n.t('msp:definition of rps'),
+      tips: i18n.t('msp:definition of maximum rps'),
     },
   ],
   AvgDuration: [
@@ -111,7 +111,7 @@ const CHART_MAP: {
     {
       key: 'aggregateMetric.maxDuration',
       name: i18n.t('msp:maximum delay'),
-      tips: i18n.t('msp:definition of average delay'),
+      tips: i18n.t('msp:definition of maximum delay'),
     },
   ],
   ErrorRate: [
@@ -144,7 +144,7 @@ const tabs: { label: string; value: ServiceStatus; countKey: keyof MSP_SERVICES.
     countKey: 'totalCount',
   },
   {
-    label: i18n.t('msp:abnormal service'),
+    label: i18n.t('msp:unhealthy service'),
     value: 'hasError',
     countKey: 'hasErrorCount',
   },
@@ -296,17 +296,17 @@ const MicroServiceOverview = () => {
                 ],
               };
               return (
-                <div className="p-2 w-full">
+                <div className="p-2 w-full bg-default-01">
                   <div className="w-full flex">
                     {chartItems.map((chartItem) => {
                       const { count, unit } = dataConvert[key](get(rest, chartItem.key));
                       return (
                         <div className="w-1/2">
-                          <p className="mb-0 whitespace-nowrap leading-8 font-number">
+                          <p className="mb-0 whitespace-nowrap font-number">
                             <span>{count}</span>
-                            <span className="text-xs text-desc">{unit}</span>
+                            <span className="text-xs text-desc ml-1">{unit}</span>
                           </p>
-                          <p className="mb-0 flex text-xs leading-5 text-desc">
+                          <p className="mb-2 flex text-xs  text-desc">
                             {chartItem.name}
                             <Tooltip title={chartItem.tips}>
                               <ErdaIcon className="ml-1" type="help" />
@@ -359,9 +359,16 @@ const MicroServiceOverview = () => {
     <div>
       <div className="top-button-group">
         <Button type="default" className="flex items-center" onClick={handleRefresh}>
-          <ErdaIcon type="refresh" className="mr-1" />{i18n.t('refresh data')}
+          <ErdaIcon type="refresh" className="mr-1" />
+          {i18n.t('refresh data')}
         </Button>
       </div>
+      <ErdaAlert
+        showOnceKey="msp-service-list"
+        message={i18n.t(
+          'msp:show all connected services in the current environment, as well as the key request indicators of the service in the last hour',
+        )}
+      />
       <DiceConfigPage
         key={componentizedProtocolKey}
         showLoading

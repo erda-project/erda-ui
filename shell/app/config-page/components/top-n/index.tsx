@@ -16,6 +16,7 @@ import { Col, Progress, Row } from 'antd';
 import { colorToRgb } from 'common/utils';
 import ErdaIcon from 'common/components/erda-icon';
 import Ellipsis from 'common/components/ellipsis';
+import EmptyHoder from 'common/components/empty-holder';
 import { functionalColor } from 'common/constants';
 import './index.scss';
 
@@ -37,7 +38,7 @@ const CP_TopN: React.FC<CP_DATA_RANK.Props> = (props) => {
           const { title, items, span } = listItem;
           return (
             <Col key={title} span={span} className="my-1">
-              <div className="px-4 py-3 relative" style={{ backgroundColor: colorToRgb(color, 0.04) }}>
+              <div className="px-4 py-3 relative h-full" style={{ backgroundColor: colorToRgb(color, 0.04) }}>
                 <div
                   className="absolute top-0 right-0 bg-icon-wrapper flex justify-center items-center"
                   style={{ color: colorToRgb(color, 0.1) }}
@@ -56,28 +57,32 @@ const CP_TopN: React.FC<CP_DATA_RANK.Props> = (props) => {
                   </p>
                 </div>
                 <div>
-                  {items?.map((item) => {
-                    const { name, value, total, unit, id } = item;
-                    const percent = (value / total) * 100;
-                    return (
-                      <div
-                        key={id}
-                        className={`${customOp?.clickRow ? 'cursor-pointer' : ''} flex flex-col mb-2 last:mb-0`}
-                        onClick={() => {
-                          handleClick(item);
-                        }}
-                      >
-                        <div className="flex py-1">
-                          <Ellipsis className="flex-1 text-purple-dark" title={name} />
-                          <div className="ml-2">
-                            <span className="text-purple-dark">{value}</span>
-                            {unit ? <span className="text-sub text-xs ml-0.5">{unit}</span> : null}
+                  {!items?.length ? (
+                    <EmptyHoder relative />
+                  ) : (
+                    items?.map((item) => {
+                      const { name, value, total, unit, id } = item;
+                      const percent = (value / total) * 100;
+                      return (
+                        <div
+                          key={id}
+                          className={`${customOp?.clickRow ? 'cursor-pointer' : ''} flex flex-col mb-2 last:mb-0`}
+                          onClick={() => {
+                            handleClick(item);
+                          }}
+                        >
+                          <div className="flex py-1">
+                            <Ellipsis className="flex-1 text-purple-dark" title={name} />
+                            <div className="ml-2">
+                              <span className="text-purple-dark">{value}</span>
+                              {unit ? <span className="text-sub text-xs ml-0.5">{unit}</span> : null}
+                            </div>
                           </div>
+                          <Progress strokeColor={color} percent={percent} showInfo={false} strokeWidth={4} />
                         </div>
-                        <Progress strokeColor={color} percent={percent} showInfo={false} strokeWidth={4} />
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  )}
                 </div>
               </div>
             </Col>

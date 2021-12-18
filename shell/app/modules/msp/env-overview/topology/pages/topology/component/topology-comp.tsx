@@ -11,7 +11,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import React from 'react';
-import ReactFlow, { Elements, isNode, Node, Position, ReactFlowProvider, removeElements, useZoomPanHelper } from 'react-flow-renderer';
+import ReactFlow, {
+  Elements,
+  isNode,
+  Node,
+  Position,
+  ReactFlowProvider,
+  removeElements,
+  useZoomPanHelper,
+} from 'react-flow-renderer';
 import dagre from 'dagrejs';
 import { genEdges, genNodes } from 'msp/env-overview/topology/pages/topology/utils';
 import customerNode from './nodes';
@@ -30,6 +38,7 @@ const nodeExtent = [
 ];
 
 interface IProps {
+  allowScroll?: boolean;
   filterKey: INodeKey;
   data: { nodes: TOPOLOGY.INode[] };
   clockNode?: (data: TOPOLOGY.TopoNode['metaData']) => void;
@@ -103,7 +112,7 @@ const calculateLayout = (
   return [layoutedElements, { width, height, maxY: height, maxX: width, minX, minY }];
 };
 
-const TopologyComp = ({ data, filterKey = 'node', clockNode }: IProps) => {
+const TopologyComp = ({ data, filterKey = 'node', clockNode, allowScroll = true }: IProps) => {
   const topologyData = React.useRef(genEle(data.nodes, filterKey));
   const layoutData = React.useRef<Elements>([]);
   const wrapperRaf = React.useRef<HTMLDivElement>();
@@ -115,7 +124,7 @@ const TopologyComp = ({ data, filterKey = 'node', clockNode }: IProps) => {
 
   const setFlowConfig = (list: Elements) => {
     const [ele, wrapperSize] = calculateLayout(list);
-    if (wrapperRaf.current) {
+    if (wrapperRaf.current && allowScroll) {
       // 200: prevents nodes from being covered by borders
       wrapperRaf.current.style.height = `${wrapperSize.height + 200}px`;
       wrapperRaf.current.style.width = `${wrapperSize.width + 200}px`;
@@ -172,24 +181,26 @@ const TopologyComp = ({ data, filterKey = 'node', clockNode }: IProps) => {
   }, clockNode);
 
   return (
-    <div className="h-full w-full overflow-auto relative">
-      <div className="min-h-full min-w-full relative" ref={wrapperRaf}>
-        <ReactFlow
-          elements={elements}
-          nodeTypes={nodeTypes}
-          onElementsRemove={onElementsRemove}
-          edgeTypes={{
-            float: FloatingEdge,
-          }}
-          preventScrolling={false}
-          zoomOnScroll={false}
-          connectionLineComponent={FloatingConnectionLine}
-          nodeExtent={nodeExtent}
-          defaultZoom={0.8}
-          minZoom={0.2}
-          maxZoom={2}
-          onLoad={layout}
-        />
+    <>
+      <div className={`h-full w-full relative ${allowScroll ? 'overflow-auto' : ''}`}>
+        <div className={`min-h-full min-w-full ${allowScroll ? '' : 'h-full w-full'}`} ref={wrapperRaf}>
+          <ReactFlow
+            elements={elements}
+            nodeTypes={nodeTypes}
+            onElementsRemove={onElementsRemove}
+            edgeTypes={{
+              float: FloatingEdge,
+            }}
+            preventScrolling={false}
+            zoomOnScroll={false}
+            connectionLineComponent={FloatingConnectionLine}
+            nodeExtent={nodeExtent}
+            defaultZoom={0.8}
+            minZoom={0.2}
+            maxZoom={2}
+            onLoad={layout}
+          />
+        </div>
       </div>
       <div className="zoom-buttons absolute bottom-4 right-4 h-8 w-20 flex z-10">
         <div
@@ -209,7 +220,7 @@ const TopologyComp = ({ data, filterKey = 'node', clockNode }: IProps) => {
           <ErdaIcon type="plus" size={12} />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default (props: IProps) => {

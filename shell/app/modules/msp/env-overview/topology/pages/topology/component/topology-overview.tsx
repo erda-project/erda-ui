@@ -109,16 +109,16 @@ export const Cards: React.FC<ICardsProps> = ({ list, defaultActiveKey, onClick, 
         return (
           <div
             key={key}
-            className={`cursor-pointer flex-shrink-0 m-1 text-center card-item py-3 border border-solid ${
+            className={`flex-shrink-0 m-1 text-center card-item py-3 border border-solid ${
               canSelect && key === selectKey ? 'border-purple-deep' : 'border-transparent'
-            } hover:border-purple-deep`}
+            } ${canSelect ? 'cursor-pointer' : ''} hover:border-purple-deep`}
             onClick={() => {
               handleClick(key);
             }}
           >
             <p className="text-white text-xl m-0 py-0.5">
               <span>{value}</span>
-              {unit ? <span className="text-xs text-white-6">{unit}</span>: null}
+              {unit ? <span className="text-xs text-white-6 ml-1">{unit}</span> : null}
             </p>
             <p className="text-white-6 text-xs m-0 py-0.5">{label}</p>
           </div>
