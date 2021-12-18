@@ -108,6 +108,10 @@
     }
   }
 
+  .ant-select-selection-placeholder {
+    color: rgba($white, 0.3);
+  }
+
   .add-filter-config.ant-popover-open {
     background-color: $color-white-2;
   }
