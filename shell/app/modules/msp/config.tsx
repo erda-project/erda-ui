@@ -49,7 +49,7 @@ export const getMSFrontPathByKey = (key: MS_INDEX.IMenuKey, params: IMSPathParam
   const serviceManagePrefix = 'service-manage';
 
   const targetPath: { [key in MS_INDEX.IMenuKey]: string } = {
-    Overview: envOverViewPrefix,
+    Overview: `${envOverViewPrefix}/service-list`,
     MonitorCenter: monitorPrefix,
     ServiceMonitor: `${monitorPrefix}/service-analysis`,
     FrontMonitor: `${monitorPrefix}/bi`,

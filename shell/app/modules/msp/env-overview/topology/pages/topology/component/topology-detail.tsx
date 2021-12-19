@@ -35,12 +35,14 @@ interface IProps {
 
 const metric = [
   {
-    name: `${i18n.t('msp:throughput')}(reqs/s)`,
+    name: i18n.t('msp:throughput'),
     key: 'rps',
+    util: 'reqs/s',
   },
   {
-    name: `${i18n.t('msp:average response time')}(ms)`,
+    name: i18n.t('msp:average response time'),
     key: 'rt',
+    unit: 'ms',
   },
   {
     name: i18n.t('msp:error call times'),
@@ -49,6 +51,7 @@ const metric = [
   {
     name: i18n.t('msp:error rate'),
     key: 'error_rate',
+    unit: '%',
   },
 ];
 
@@ -56,6 +59,10 @@ const chartConfig = [
   {
     title: i18n.t('msp:throughput'),
     key: 'RPS',
+    formatter: (param: Obj[]) => {
+      const { data: count, marker, axisValue } = param[0] ?? [];
+      return `${axisValue}</br>${marker} ${count} reqs/s`;
+    },
   },
   {
     title: `${i18n.t('msp:average response time')}(ms)`,
@@ -68,6 +75,10 @@ const chartConfig = [
   {
     title: i18n.t('msp:error rate'),
     key: 'ErrorRate',
+    formatter: (param: Obj[]) => {
+      const { data: count, marker, axisValue } = param[0] ?? [];
+      return `${axisValue}</br>${marker} ${count} %`;
+    },
   },
   {
     title: i18n.t('msp:HTTP status'),
@@ -197,7 +208,10 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
               {metric.map((item) => {
                 return (
                   <div key={item.key} style={{ width: 140 }} className="m-1 py-3">
-                    <p className="text-white text-center leading-8 m-0">{data.metric?.[item.key]}</p>
+                    <p className="text-white text-center leading-8 m-0">
+                      <span>{data.metric?.[item.key]}</span>
+                      {item.unit ? <span className="text-xs text-white-6 ml-1">{item.unit}</span> : null}
+                    </p>
                     <p className="text-white-6 text-center text-xs m-0">{item.name}</p>
                   </div>
                 );

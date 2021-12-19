@@ -20,3 +20,14 @@
     }
   }
 }
+
+.service-overview {
+  &-topology {
+    background: $color-default;
+    height: 420px;
+
+    .topology-wrapper {
+      height: 372px;
+    }
+  }
+}

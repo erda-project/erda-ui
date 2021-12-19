@@ -15,6 +15,7 @@ import React from 'react';
 import i18n from 'i18n';
 import { genEdges, genNodes } from 'msp/env-overview/topology/pages/topology/utils';
 import ErdaIcon from 'common/components/erda-icon';
+import './topology-overview.scss';
 
 export type INodeKey = 'node' | 'service' | 'addon' | 'unhealthyService' | 'freeService' | 'circularDependencies';
 
@@ -66,8 +67,73 @@ const structure: { title: string; content: { key: INodeKey; name: string }[] }[]
   },
 ];
 
-const TopologyOverview: React.FC<IProps> = ({ data, onClick }) => {
-  const [expand, setExpand] = React.useState(true);
+export const Title: React.FC = ({ children }) => {
+  return (
+    <div className="leading-8 text-white px-4 py-2 w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
+      {children}
+    </div>
+  );
+};
+
+interface ICardsProps {
+  defaultActiveKey?: string;
+  activeKey?: string;
+  onClick?: (key: string) => void;
+  canSelect?: boolean;
+  list: {
+    key: string;
+    label: string;
+    value: string | number;
+    unit?: string;
+  }[];
+}
+
+export const Cards: React.FC<ICardsProps> = ({ list, defaultActiveKey, onClick, activeKey, canSelect = true }) => {
+  const [selectKey, setSelectKey] = React.useState(defaultActiveKey);
+  React.useEffect(() => {
+    setSelectKey(activeKey);
+  }, [activeKey]);
+  const handleClick = (key: string) => {
+    if (!canSelect) {
+      return;
+    }
+    if (!activeKey) {
+      setSelectKey(key);
+    }
+    onClick?.(key);
+  };
+  return (
+    <div className="flex justify-start flex-wrap items-center rounded-sm pl-3">
+      {list.map((item) => {
+        const { key, label, value, unit } = item;
+        return (
+          <div
+            key={key}
+            className={`flex-shrink-0 m-1 text-center card-item py-3 border border-solid ${
+              canSelect && key === selectKey ? 'border-purple-deep' : 'border-transparent'
+            } ${canSelect ? 'cursor-pointer' : ''} hover:border-purple-deep`}
+            onClick={() => {
+              handleClick(key);
+            }}
+          >
+            <p className="text-white text-xl m-0 py-0.5">
+              <span>{value}</span>
+              {unit ? <span className="text-xs text-white-6 ml-1">{unit}</span> : null}
+            </p>
+            <p className="text-white-6 text-xs m-0 py-0.5">{label}</p>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+const TopologyContent: React.FC<IProps> = ({ data, onClick }) => {
+  const [selectKey, setSelectKey] = React.useState('node');
+  const handleClick = (key: INodeKey) => {
+    setSelectKey(key);
+    onClick(key);
+  };
   const values = React.useMemo<{ [key in INodeKey]: number }>(() => {
     const temp = {
       node: 0,
@@ -103,48 +169,49 @@ const TopologyOverview: React.FC<IProps> = ({ data, onClick }) => {
     }
     return temp;
   }, [data.nodes]);
-  const [selectKey, setSelectKey] = React.useState<INodeKey>('node');
+  return (
+    <>
+      {structure.map((item) => {
+        const list = item.content.map((t) => {
+          return {
+            key: t.key,
+            label: t.name,
+            value: values[t.key] ?? 0,
+          };
+        });
+        return (
+          <div className="w-full mb-4 last:mb-0">
+            <Title>{item.title}</Title>
+            <Cards list={list} activeKey={selectKey} onClick={handleClick} />
+          </div>
+        );
+      })}
+    </>
+  );
+};
+
+export const TopologyOverviewWrapper: React.FC = ({ children }) => {
+  const [expand, setExpand] = React.useState(true);
   return (
     <div className={`topology-overview relative ${expand ? 'expand' : 'collapse'}`}>
       <div
-        className="absolute h-8 w-5 bg-white-1 top-1/2 -right-5 z-10 cursor-pointer flex justify-center items-center text-white-4 hover:text-white"
+        className="absolute h-8 w-5 bg-white-1 top-1/2 -mt-4 -right-5 z-10 cursor-pointer flex justify-center items-center text-white-4 hover:text-white"
         onClick={() => {
           setExpand((prevState) => !prevState);
         }}
       >
         <ErdaIcon type={expand ? 'zuofan' : 'youfan'} />
       </div>
-      <div className="content w-full">
-        {structure.map((item) => {
-          return (
-            <div className="w-full mb-4 last:mb-0">
-              <div className="leading-8 text-white px-4 py-2 w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
-                {item.title}
-              </div>
-              <div className="flex justify-start flex-wrap items-center rounded-sm pl-3">
-                {item.content.map((v) => {
-                  return (
-                    <div
-                      key={v.key}
-                      className={`cursor-pointer flex-shrink-0 m-1 text-center card-item py-3 border border-solid ${
-                        v.key === selectKey ? 'border-purple-deep' : 'border-transparent'
-                      } hover:border-purple-deep`}
-                      onClick={() => {
-                        setSelectKey(v.key);
-                        onClick(v.key);
-                      }}
-                    >
-                      <p className="text-white text-xl m-0 py-0.5">{values[v.key] ?? 0}</p>
-                      <p className="text-white-6 text-xs m-0 py-0.5">{v.name}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      <div className="content w-full">{children}</div>
     </div>
+  );
+};
+
+const TopologyOverview: React.FC<IProps> = (props) => {
+  return (
+    <TopologyOverviewWrapper>
+      <TopologyContent {...props} />
+    </TopologyOverviewWrapper>
   );
 };
 

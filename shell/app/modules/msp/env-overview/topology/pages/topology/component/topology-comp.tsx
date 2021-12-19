@@ -38,9 +38,10 @@ const nodeExtent = [
 ];
 
 interface IProps {
+  allowScroll?: boolean;
   filterKey: INodeKey;
   data: { nodes: TOPOLOGY.INode[] };
-  clockNode: (data: TOPOLOGY.TopoNode['metaData']) => void;
+  clockNode?: (data: TOPOLOGY.TopoNode['metaData']) => void;
 }
 
 const genEle = (nodes: TOPOLOGY.INode[], filterKey: INodeKey) => {
@@ -111,7 +112,7 @@ const calculateLayout = (
   return [layoutedElements, { width, height, maxY: height, maxX: width, minX, minY }];
 };
 
-const TopologyComp = ({ data, filterKey = 'node', clockNode }: IProps) => {
+const TopologyComp = ({ data, filterKey = 'node', clockNode, allowScroll = true }: IProps) => {
   const topologyData = React.useRef(genEle(data.nodes, filterKey));
   const layoutData = React.useRef<Elements>([]);
   const wrapperRaf = React.useRef<HTMLDivElement>();
@@ -123,7 +124,7 @@ const TopologyComp = ({ data, filterKey = 'node', clockNode }: IProps) => {
 
   const setFlowConfig = (list: Elements) => {
     const [ele, wrapperSize] = calculateLayout(list);
-    if (wrapperRaf.current) {
+    if (wrapperRaf.current && allowScroll) {
       // 200: prevents nodes from being covered by borders
       wrapperRaf.current.style.height = `${wrapperSize.height + 200}px`;
       wrapperRaf.current.style.width = `${wrapperSize.width + 200}px`;
@@ -180,43 +181,46 @@ const TopologyComp = ({ data, filterKey = 'node', clockNode }: IProps) => {
   }, clockNode);
 
   return (
-    <div className="min-h-full min-w-full" ref={wrapperRaf}>
-      <ReactFlow
-        elements={elements}
-        nodeTypes={nodeTypes}
-        onElementsRemove={onElementsRemove}
-        edgeTypes={{
-          float: FloatingEdge,
-        }}
-        preventScrolling={false}
-        zoomOnScroll={false}
-        connectionLineComponent={FloatingConnectionLine}
-        nodeExtent={nodeExtent}
-        defaultZoom={0.8}
-        minZoom={0.2}
-        maxZoom={2}
-        onLoad={layout}
-      >
-        <div className="zoom-buttons fixed bottom-6 right-4 h-8 w-20 flex z-10">
-          <div
-            className="cursor-pointer w-9 flex justify-center items-center mr-0.5"
-            onClick={() => {
-              zoomOut();
+    <>
+      <div className={`h-full w-full relative ${allowScroll ? 'overflow-auto' : ''}`}>
+        <div className={`min-h-full min-w-full ${allowScroll ? '' : 'h-full w-full'}`} ref={wrapperRaf}>
+          <ReactFlow
+            elements={elements}
+            nodeTypes={nodeTypes}
+            onElementsRemove={onElementsRemove}
+            edgeTypes={{
+              float: FloatingEdge,
             }}
-          >
-            <ErdaIcon type="minus" size={12} />
-          </div>
-          <div
-            className="cursor-pointer w-9 flex justify-center items-center"
-            onClick={() => {
-              zoomIn();
-            }}
-          >
-            <ErdaIcon type="plus" size={12} />
-          </div>
+            preventScrolling={false}
+            zoomOnScroll={false}
+            connectionLineComponent={FloatingConnectionLine}
+            nodeExtent={nodeExtent}
+            defaultZoom={0.8}
+            minZoom={0.2}
+            maxZoom={2}
+            onLoad={layout}
+          />
         </div>
-      </ReactFlow>
-    </div>
+      </div>
+      <div className="zoom-buttons absolute bottom-4 right-4 h-8 w-20 flex z-10">
+        <div
+          className="cursor-pointer w-9 flex justify-center items-center mr-0.5 bg-white-1 text-white-4 hover:text-white"
+          onClick={() => {
+            zoomOut();
+          }}
+        >
+          <ErdaIcon type="minus" size={12} />
+        </div>
+        <div
+          className="cursor-pointer w-9 flex justify-center items-center bg-white-1 text-white-4 hover:text-white"
+          onClick={() => {
+            zoomIn();
+          }}
+        >
+          <ErdaIcon type="plus" size={12} />
+        </div>
+      </div>
+    </>
   );
 };
 export default (props: IProps) => {

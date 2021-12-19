@@ -141,7 +141,7 @@ const Topology = () => {
           </div>
           <div className="flex-1 flex min-h-0">
             <TopologyOverview data={topologyData} onClick={handleSelectNodeType} />
-            <div className="flex-1 topology-container overflow-auto relative">
+            <div className="flex-1 topology-container relative">
               {topologyData.nodes?.length ? (
                 <TopologyComp key={nodeType} data={topologyData} filterKey={nodeType} clockNode={handleClickNode} />
               ) : null}

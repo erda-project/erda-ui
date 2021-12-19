@@ -15,7 +15,7 @@ import i18n from 'i18n';
 import { ServiceNameSelect } from './pages/service-name-select';
 
 const tabs = [
-  { key: 'overview', name: i18n.t('backup:service') },
+  { key: 'overview', name: i18n.t('overview') },
   { key: 'transaction', name: i18n.t('msp:transaction') },
   { key: 'anomaly', name: i18n.t('msp:exception') },
   { key: 'process', name: i18n.t('msp:process') },
@@ -25,8 +25,8 @@ const serviceAnalysisRoutes = [
   {
     path: 'overview',
     tabs,
-    layout: { fullHeight: true },
-    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview')),
+    layout: { noWrapper: true },
+    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview-new')),
   },
   {
     path: 'transaction',
@@ -57,8 +57,8 @@ const serviceAnalysisRoutes = [
     getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/process')),
   },
   {
-    layout: { fullHeight: true },
-    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview')),
+    layout: { noWrapper: true },
+    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview-new')),
   },
 ];
 
@@ -76,7 +76,7 @@ export default (pageTabs) => ({
           routes: [
             {
               path: ':serviceName',
-              breadcrumbName: i18n.t('msp:service analysis'),
+              breadcrumbName: i18n.t('msp:service monitor'),
               tabs,
               alwaysShowTabKey: 'overview',
               pageNameInfo: ServiceNameSelect,
@@ -100,7 +100,7 @@ export default (pageTabs) => ({
 export function serviceAnalysisRouter() {
   return {
     path: 'service-analysis',
-    breadcrumbName: i18n.t('msp:service analysis'),
+    breadcrumbName: i18n.t('msp:service monitor'),
     tabs,
     alwaysShowTabKey: 'overview',
     pageNameInfo: ServiceNameSelect,
