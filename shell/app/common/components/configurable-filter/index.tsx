@@ -124,11 +124,7 @@ const ConfigurableFilter = ({
       form.setFieldsValue(value || {});
       const config = getItemByValues(value, configList);
       config?.id && setCurrentConfig(config?.id);
-      if (config) {
-        setIsNew(false);
-      } else {
-        setIsNew(true);
-      }
+      setIsNew(!config);
     } else if (configList && configList.length !== 0) {
       const configData: ConfigData = configList?.find((item) => item.id === defaultConfig) || ({} as ConfigData);
       if (configData.values) {
@@ -179,11 +175,7 @@ const ConfigurableFilter = ({
       form.setFieldsValue(value || {});
       const config = getItemByValues(value, configList);
       config?.id && setCurrentConfig(config?.id);
-      if (config) {
-        setIsNew(false);
-      } else {
-        setIsNew(true);
-      }
+      setIsNew(!config);
     }
   }, [visible, form, configList, value]);
 
