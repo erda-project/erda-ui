@@ -176,7 +176,8 @@
   .ant-select:not(.erda-tags-select)
     .ant-select-selection-overflow-item:not(:nth-last-child(2))
     .ant-select-selection-item:after {
-    content: '、';
+    content: ',';
+    margin-right: 0.5rem;
   }
 
   .erda-tags-select {
