@@ -245,7 +245,7 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
         inParams={inParams}
         ref={reloadRef}
         customProps={{
-          issueManage: {
+          page: {
             props: { fullHeight: true },
           },
           content: {
