@@ -38,6 +38,7 @@ const chartConfig = [
   {
     title: i18n.t('msp:throughput'),
     key: 'RPS',
+    unit: 'reqs/s',
     formatter: (param: Obj[]) => {
       const { data: count, marker, axisValue } = param[0] ?? [];
       return `${axisValue}</br>${marker} ${count} reqs/s`;
@@ -46,6 +47,7 @@ const chartConfig = [
   {
     title: i18n.t('response time'),
     key: 'AvgDuration',
+    unit: 'ms',
     formatter: (param: Obj[]) => {
       const { data: count, marker, axisValue } = param[0] ?? [];
       return `${axisValue}</br>${marker} ${formatTime.format(count * 1000000)}`;
@@ -58,6 +60,7 @@ const chartConfig = [
   {
     title: i18n.t('msp:request error rate'),
     key: 'ErrorRate',
+    unit: '%',
     formatter: (param: Obj[]) => {
       const { data: count, marker, axisValue } = param[0] ?? [];
       return `${axisValue}</br>${marker} ${count} %`;
@@ -219,12 +222,17 @@ const OverView = () => {
               yAxis: {
                 ...axis,
                 type: 'value',
+                name: item.unit,
+                nameTextStyle: {
+                  padding: [0, 7, 0, 0],
+                  align: 'right',
+                },
                 splitLine: {
                   show: true,
                 },
               },
               grid: {
-                top: '5%',
+                top: '17%',
                 left: '10%',
               },
               xAxis: {
