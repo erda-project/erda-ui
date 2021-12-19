@@ -111,7 +111,7 @@ export const Cards: React.FC<ICardsProps> = ({ list, defaultActiveKey, onClick, 
             key={key}
             className={`flex-shrink-0 m-1 text-center card-item py-3 border border-solid ${
               canSelect && key === selectKey ? 'border-purple-deep' : 'border-transparent'
-            } ${canSelect ? 'cursor-pointer' : ''} hover:border-purple-deep`}
+            } ${canSelect ? 'cursor-pointer hover:border-purple-deep' : ''}`}
             onClick={() => {
               handleClick(key);
             }}
@@ -170,7 +170,7 @@ const TopologyContent: React.FC<IProps> = ({ data, onClick }) => {
     return temp;
   }, [data.nodes]);
   return (
-    <>
+    <div>
       {structure.map((item) => {
         const list = item.content.map((t) => {
           return {
@@ -186,7 +186,7 @@ const TopologyContent: React.FC<IProps> = ({ data, onClick }) => {
           </div>
         );
       })}
-    </>
+    </div>
   );
 };
 
@@ -202,7 +202,7 @@ export const TopologyOverviewWrapper: React.FC = ({ children }) => {
       >
         <ErdaIcon type={expand ? 'zuofan' : 'youfan'} />
       </div>
-      <div className="content w-full">{children}</div>
+      <div className="content">{children}</div>
     </div>
   );
 };

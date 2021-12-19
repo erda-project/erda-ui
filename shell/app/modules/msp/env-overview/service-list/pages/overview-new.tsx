@@ -38,6 +38,7 @@ const chartConfig = [
   {
     title: i18n.t('msp:throughput'),
     key: 'RPS',
+    unit: 'reqs/s',
     formatter: (param: Obj[]) => {
       const { data: count, marker, axisValue } = param[0] ?? [];
       return `${axisValue}</br>${marker} ${count} reqs/s`;
@@ -46,6 +47,7 @@ const chartConfig = [
   {
     title: i18n.t('response time'),
     key: 'AvgDuration',
+    unit: 'ms',
     formatter: (param: Obj[]) => {
       const { data: count, marker, axisValue } = param[0] ?? [];
       return `${axisValue}</br>${marker} ${formatTime.format(count * 1000000)}`;
@@ -58,6 +60,7 @@ const chartConfig = [
   {
     title: i18n.t('msp:request error rate'),
     key: 'ErrorRate',
+    unit: '%',
     formatter: (param: Obj[]) => {
       const { data: count, marker, axisValue } = param[0] ?? [];
       return `${axisValue}</br>${marker} ${count} %`;
@@ -192,13 +195,13 @@ const OverView = () => {
         <TimeSelectWithStore className="m-0" />
       </div>
       <div className="service-overview-topology flex flex-col overflow-hidden">
-        <div className="h-12 flex justify-start items-center px-4 bg-white-02 text-white">
+        <div className="h-12 flex justify-start items-center px-4 bg-white-02 text-white font-medium">
           {i18n.t('msp:service topology')}
         </div>
         <div className="flex-1 flex topology-wrapper">
           <TopologyOverviewWrapper>
             <div className="pt-3">
-              <Cards list={overviewList} />
+              <Cards list={overviewList} canSelect={false} />
             </div>
           </TopologyOverviewWrapper>
           <div className="flex-1 h-full relative">
@@ -208,23 +211,28 @@ const OverView = () => {
           </div>
         </div>
       </div>
-      <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default">
+      <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium">
         {i18n.t('msp:service request overview')}
       </div>
-      <div>
-        <Row>
+      <div className="mx-5 mb-20 mt-3">
+        <Row gutter={8}>
           {chartConfig.map((item) => {
             const currentOption = {
               backgroundColor: 'rgba(255, 255, 255, 0.02)',
               yAxis: {
                 ...axis,
                 type: 'value',
+                name: item.unit,
+                nameTextStyle: {
+                  padding: [0, 7, 0, 0],
+                  align: 'right',
+                },
                 splitLine: {
                   show: true,
                 },
               },
               grid: {
-                top: '5%',
+                top: '17%',
                 left: '10%',
               },
               xAxis: {
@@ -249,17 +257,19 @@ const OverView = () => {
               })),
             };
             return (
-              <Col span={12} className="px-4">
-                <div className="mt-4 mb-2 px-4 text-default-8">{item.title}</div>
-                <div className="px-4" style={{ height: '170px' }}>
-                  <EChart style={{ width: '100%', height: '160px', minHeight: 0 }} option={currentOption} />
+              <Col span={12} className="my-1">
+                <div className="bg-default-01">
+                  <div className="pt-3 mb-3 px-4 text-default-8">{item.title}</div>
+                  <div className="px-4" style={{ height: '170px' }}>
+                    <EChart style={{ width: '100%', height: '160px', minHeight: 0 }} option={currentOption} />
+                  </div>
                 </div>
               </Col>
             );
           })}
         </Row>
       </div>
-      <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default">
+      <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium">
         {i18n.t('msp:service invocation analysis')}
       </div>
       <DiceConfigPage
