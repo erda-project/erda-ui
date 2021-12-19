@@ -22,7 +22,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import { getAnalyzerOverview } from 'msp/services/service-list';
 import routeInfoStore from 'core/stores/route';
 import EChart from 'charts/components/echarts';
-import { groupBy } from 'lodash';
+import { groupBy, uniqBy } from 'lodash';
 import moment from 'moment';
 import { genLinearGradient, newColorMap } from 'charts/theme';
 import i18n from 'i18n';
@@ -36,7 +36,7 @@ const formatTime = getFormatter('TIME', 'ns');
 
 const chartConfig = [
   {
-    title: i18n.t('msp:interface rps'),
+    title: i18n.t('msp:throughput'),
     key: 'RPS',
     formatter: (param: Obj[]) => {
       const { data: count, marker, axisValue } = param[0] ?? [];
@@ -167,6 +167,21 @@ const OverView = () => {
     ];
   }, [topologyData, serviceId]);
 
+  const topologyList = React.useMemo(() => {
+    if (topologyData.nodes?.length) {
+      const currentNode = topologyData.nodes.find((t) => t.serviceId === serviceId) as TOPOLOGY.INode;
+      const temp = topologyData.nodes.filter((item) => item.parents.some((t) => t.serviceId === serviceId)) ?? [];
+      const nodes = temp.map((item) => {
+        return {
+          ...item,
+          parents: item.parents.filter((t) => t.serviceId === serviceId),
+        };
+      });
+      return { nodes: uniqBy([...nodes, currentNode, ...(currentNode.parents || [])], 'id') };
+    } else {
+      return { nodes: [] };
+    }
+  }, [topologyData, serviceId]);
   if (!serviceId) {
     return <NoServicesHolder />;
   }
@@ -187,8 +202,8 @@ const OverView = () => {
             </div>
           </TopologyOverviewWrapper>
           <div className="flex-1 h-full relative">
-            {topologyData.nodes?.length ? (
-              <TopologyComp allowScroll={false} data={topologyData} filterKey={'node'} />
+            {topologyList.nodes?.length ? (
+              <TopologyComp allowScroll={false} data={topologyList} filterKey={'node'} />
             ) : null}
           </div>
         </div>
@@ -290,5 +305,4 @@ const OverView = () => {
     </div>
   );
 };
-
 export default OverView;

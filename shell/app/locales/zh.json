@@ -2238,7 +2238,6 @@
     "input rule id separated by space": "输入空格分隔的规则id",
     "interface": "接口",
     "interface description": "接口描述",
-    "interface rps": "接口 RPS",
     "internal network": "内部网络",
     "internal network address": "内网地址",
     "inverse selection of all apis": "反选全部API",
