@@ -23,6 +23,7 @@ import moment from 'moment';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { genLinearGradient, newColorMap } from 'app/charts/theme';
 import { getFormatter } from 'charts/utils';
+import Ellipsis from 'common/components/ellipsis';
 
 const formatTime = getFormatter('TIME', 'ns');
 
@@ -183,7 +184,9 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
     <div className={`topology-detail ${visible ? 'expand' : 'collapse'} ${className}`}>
       <div className="content h-full flex flex-col">
         <div className="flex px-4 justify-between h-12 items-center">
-          <div className="flex-1 overflow-ellipsis overflow-hidden whitespace-nowrap text-white">{data.name}</div>
+          <div className="flex-1 overflow-ellipsis overflow-hidden whitespace-nowrap text-white pr-4">
+            <Ellipsis title={data.name} />
+          </div>
           <div onClick={handleCancel} className="text-white-4 cursor-pointer hover:text-white">
             <ErdaIcon type="close" />
           </div>

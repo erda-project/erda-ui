@@ -4,6 +4,14 @@
   border-right: 1px solid rgba($white, 0.1);
   transition: all 0.3s ease-in-out;
 
+  .content {
+    overflow: hidden;
+
+    > div {
+      width: 280px;
+    }
+  }
+
   .card-item {
     width: 120px;
     height: 76px;
