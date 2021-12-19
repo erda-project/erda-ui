@@ -123,5 +123,5 @@ export const functionalColor = {
   success: '#27c99a',
   warning: '#f4b518',
   error: '#db4b56',
-  empty: '#302647',
+  info: '#302647',
 };

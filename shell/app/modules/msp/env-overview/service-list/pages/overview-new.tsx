@@ -168,8 +168,8 @@ const OverView = () => {
   }, [topologyData, serviceId]);
 
   const topologyList = React.useMemo(() => {
-    if (topologyData.nodes?.length) {
-      const currentNode = topologyData.nodes.find((t) => t.serviceId === serviceId) as TOPOLOGY.INode;
+    const currentNode = topologyData.nodes?.find((t) => t.serviceId === serviceId);
+    if (currentNode) {
       const temp = topologyData.nodes.filter((item) => item.parents.some((t) => t.serviceId === serviceId)) ?? [];
       const nodes = temp.map((item) => {
         return {
@@ -177,7 +177,7 @@ const OverView = () => {
           parents: item.parents.filter((t) => t.serviceId === serviceId),
         };
       });
-      return { nodes: uniqBy([...nodes, currentNode, ...(currentNode.parents || [])], 'id') };
+      return { nodes: uniqBy([...nodes, currentNode, ...(currentNode?.parents || [])], 'id') };
     } else {
       return { nodes: [] };
     }
@@ -290,7 +290,7 @@ const OverView = () => {
                   titleIcon: 'kehuduantiaoyong',
                 },
                 {
-                  color: functionalColor.empty,
+                  color: functionalColor.info,
                   titleIcon: 'SQLtiaoyong',
                 },
                 {

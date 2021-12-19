@@ -34,7 +34,7 @@ const CP_TopN: React.FC<CP_DATA_RANK.Props> = (props) => {
     <div className="bg-white card-shadow px-4 py-3 border cp-data-rank">
       <Row gutter={8} {...configProps.rowsProps}>
         {list.map((listItem, index) => {
-          const { color = functionalColor.empty, titleIcon, backgroundIcon } = configProps.theme?.[index] || {};
+          const { color = functionalColor.info, titleIcon, backgroundIcon } = configProps.theme?.[index] || {};
           const { title, items, span } = listItem;
           return (
             <Col key={title} span={span} className="my-1">

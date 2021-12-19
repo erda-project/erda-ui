@@ -27,7 +27,7 @@ const Mock = () => {
         dataRank: {
           op: {
             clickRow: (a: CP_DATA_RANK.IItem) => {
-              console.log(a);
+              // do something
             },
           },
           props: {
