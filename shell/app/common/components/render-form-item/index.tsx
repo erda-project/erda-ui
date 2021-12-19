@@ -156,7 +156,7 @@ const renderSelectOption = (single: IOption, optionRender: (opt: IOption) => JSX
       className={single.fix ? 'select-fix-option' : ''}
       key={single.value}
       label={single.name || single.label}
-      value={`${single.value}`}
+      value={single.value}
       disabled={!!single.disabled}
     >
       {optionRender ? (

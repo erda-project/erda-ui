@@ -142,18 +142,22 @@ const PageContainer = ({ route }: IProps) => {
   } else if (notFound) {
     MainContent = <NotFound />;
   } else if (state.startInit) {
-    const Inner = (
+    MainContent = (
       <ErrorBoundary>
         <DndProvider backend={HTML5Backend}>
-          {typeof customMain === 'function' ? customMain() : customMain}
-          {renderRoutes(route.routes) /* 这里必须始终调用，不用根据customMain判断 */}
+          {noWrapper ? (
+            <>
+              {typeof customMain === 'function' ? customMain() : customMain}
+              {renderRoutes(route.routes)}
+            </>
+          ) : (
+            <Card className={layout && layout.fullHeight ? 'h-full overflow-auto' : ''}>
+              {typeof customMain === 'function' ? customMain() : customMain}
+              {renderRoutes(route.routes)}
+            </Card>
+          )}
         </DndProvider>
       </ErrorBoundary>
-    );
-    MainContent = noWrapper ? (
-      Inner
-    ) : (
-      <Card className={layout && layout.fullHeight ? 'h-full overflow-auto' : ''}>{Inner}</Card>
     );
   }
 
