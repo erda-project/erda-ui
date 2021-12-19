@@ -49,7 +49,10 @@ const ConfigurableFilter = ({
   };
 
   const onSaveFilter = (label: string, val: Obj) => {
-    execOperation({ key: 'saveFilterSet', ...operations?.saveFilterSet, clientData: { values: val, label } });
+    execOperation(
+      { key: 'saveFilterSet', ...operations?.saveFilterSet, clientData: { values: val, label } },
+      { values: val },
+    );
   };
 
   return (
