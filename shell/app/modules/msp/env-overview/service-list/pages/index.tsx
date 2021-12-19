@@ -212,7 +212,10 @@ const MicroServiceOverview = () => {
 
   const handleChange = React.useCallback(
     debounce((keyword: string) => {
-      updater.searchValue(keyword);
+      update({
+        searchValue: keyword,
+        pagination: { current: 1, pageSize: PAGINATION.pageSize },
+      });
     }, 1000),
     [],
   );
@@ -410,7 +413,7 @@ const MicroServiceOverview = () => {
         defaultValue={tabs[0].value}
         options={tabsOptions}
         onChange={(v) => {
-          update({ serviceStatus: v, searchValue: '' });
+          update({ serviceStatus: v, searchValue: '', pagination: { current: 1, pageSize: PAGINATION.pageSize } });
         }}
         className="mb-2 mt-4"
       />
@@ -425,6 +428,7 @@ const MicroServiceOverview = () => {
         }}
         slot={
           <Input
+            key={serviceStatus}
             prefix={<ErdaIcon type="search1" />}
             bordered={false}
             allowClear
