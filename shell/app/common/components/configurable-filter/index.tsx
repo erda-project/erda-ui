@@ -79,7 +79,6 @@ const defaultProcessField = (item: IFormItem) => {
   if (type === 'select' || type === 'tagsSelect') {
     field.itemProps = {
       mode: 'multiple',
-      optionLabelProp: 'label',
       ...itemProps,
       showArrow: true,
       allowClear: true,
@@ -87,6 +86,10 @@ const defaultProcessField = (item: IFormItem) => {
       clearIcon: <span className="p-1">{i18n.t('common:clear')}</span>,
       getPopupContainer: (triggerNode: HTMLElement) => triggerNode.parentElement as HTMLElement,
     };
+
+    if (type === 'select') {
+      field.itemProps.optionLabelProp = 'label';
+    }
   } else if (type === 'dateRange') {
     field.itemProps = {
       customProps: {
