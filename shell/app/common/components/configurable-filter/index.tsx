@@ -124,7 +124,7 @@ const ConfigurableFilter = ({
       form.setFieldsValue(value || {});
       const config = getItemByValues(value, configList);
       config?.id && setCurrentConfig(config?.id);
-      setIsNew(false);
+      !config && setIsNew(false);
     } else if (configList && configList.length !== 0) {
       const configData: ConfigData = configList?.find((item) => item.id === defaultConfig) || ({} as ConfigData);
       if (configData.values) {
