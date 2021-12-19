@@ -491,7 +491,7 @@ const DateRange = ({
         disabledDate={disabledDate(false)}
         format={'YYYY/MM/DD'}
         placeholder={i18n.t('common:endDate')}
-        onChange={(v) => onChange(getTimeValue([startDate, v?.valueOf()]))}
+        onChange={(v) => onChange(getTimeValue([startDate, v?.endOf?.('day').valueOf()]))}
         open={endOpen}
         onOpenChange={setEndOpen}
       />
