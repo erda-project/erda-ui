@@ -124,7 +124,11 @@ const ConfigurableFilter = ({
       form.setFieldsValue(value || {});
       const config = getItemByValues(value, configList);
       config?.id && setCurrentConfig(config?.id);
-      config && setIsNew(false);
+      if (config) {
+        setIsNew(false);
+      } else {
+        setIsNew(true);
+      }
     } else if (configList && configList.length !== 0) {
       const configData: ConfigData = configList?.find((item) => item.id === defaultConfig) || ({} as ConfigData);
       if (configData.values) {
@@ -168,6 +172,20 @@ const ConfigurableFilter = ({
       setVisible(false);
     });
   };
+
+  React.useEffect(() => {
+    if (visible && value) {
+      form.resetFields();
+      form.setFieldsValue(value || {});
+      const config = getItemByValues(value, configList);
+      config?.id && setCurrentConfig(config?.id);
+      if (config) {
+        setIsNew(false);
+      } else {
+        setIsNew(true);
+      }
+    }
+  }, [visible, form, configList, value]);
 
   const content = (
     <div className="erda-configurable-filter-content">
