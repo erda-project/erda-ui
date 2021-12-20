@@ -204,7 +204,7 @@ const TopologyComp = ({ data, filterKey = 'node', clockNode, allowScroll = true,
 
   return (
     <>
-      <div className={`h-full w-full relative ${allowScroll ? 'overflow-auto' : ''}`}>
+      <div className={`h-full w-full relative ${allowScroll ? 'overflow-auto scroll-bar-dark' : ''}`}>
         <div className={`min-h-full min-w-full ${allowScroll ? '' : 'h-full w-full'}`} ref={wrapperRaf}>
           <ReactFlow
             elements={elements}

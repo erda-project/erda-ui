@@ -15,13 +15,14 @@ import { cloneDeep, omit, uniqBy } from 'lodash';
 import { getFormatter } from 'charts/utils';
 
 export const servicesTypes = ['service'];
+export const externalserviceTypes = ['externalservice'];
 export const notAddonTypes = [
   ...servicesTypes,
+  ...externalserviceTypes,
   'registercenter',
   'configcenter',
   'noticecenter',
   'apigateway',
-  'externalservice',
   'internalservice',
 ];
 

@@ -1,3 +1,8 @@
+.t {
+  background: radial-gradient(32px circle, transparent 32px, rgba(216, 75, 101, 0.6) 32px, transparent 38px);
+  background-repeat: no-repeat;
+}
+
 .service-node {
   width: 76px;
   height: 76px;
@@ -21,9 +26,35 @@
     }
   }
 
-  &.error {
-    border-color: rgba(216, 75, 101, 0.2);
+  &.has-error {
+    border-color: transparent;
+    @keyframes breathing-light {
+      0% {
+        background: radial-gradient(32px circle, transparent 32px, rgba(216, 75, 101, 0.6) 32px, transparent 38px);
+      }
+      50% {
+        background: radial-gradient(32px circle, transparent 32px, transparent 32px, transparent 38px);
+      }
+      100% {
+        background: radial-gradient(32px circle, transparent 32px, rgba(216, 75, 101, 0.6) 32px, transparent 38px);
+      }
+    }
 
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 76px;
+      height: 76px;
+      top: -6px;
+      left: -6px;
+      border-radius: 50%;
+      background-repeat: no-repeat;
+      animation: breathing-light 1.5s infinite ease-in-out;
+    }
+  }
+
+  &.error {
     &:hover {
       &:before {
         content: '';
