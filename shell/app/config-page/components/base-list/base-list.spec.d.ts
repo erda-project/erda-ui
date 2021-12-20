@@ -13,10 +13,11 @@
 
 declare namespace CP_BASE_LIST {
   interface Spec {
-    type: 'BaseList';
+    type: 'List';
     operations?: Obj<CP_COMMON.Operation>;
     props?: IProps;
     data: IData;
+    filter?: React.ElementType;
   }
 
   interface IProps {
@@ -24,6 +25,8 @@ declare namespace CP_BASE_LIST {
   }
 
   interface IData {
+    title?: string;
+    summary?: string;
     pageNo: number;
     pageSize: number;
     total: number;
@@ -33,9 +36,6 @@ declare namespace CP_BASE_LIST {
   type ListItem = Merge<
     ERDA_LIST.ListData,
     {
-      extra: {
-        [key: string]: ExtraContent;
-      };
       operations?: Obj<CP_COMMON.Operation>;
       moreOperations?: {
         operations: Obj<CP_COMMON.Operation>;

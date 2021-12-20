@@ -16,11 +16,12 @@ import { map } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import { OperationAction } from 'config-page/utils';
 import { PAGINATION } from 'app/constants';
+import ContractiveFilter from '../contractive-filter/contractive-filter';
 import ErdaList from 'app/common/components/base-list';
 
 const emptyArr = [] as CP_BASE_LIST.ListItem[];
 const List = (props: CP_BASE_LIST.Props) => {
-  const { customOp, operations, execOperation, props: configProps, data } = props;
+  const { customOp, operations, execOperation, props: configProps, data, filter } = props;
   const { list = emptyArr, total, pageNo, pageSize } = data || {};
   const [state, updater, update] = useUpdate({
     total: total || 0,
@@ -128,18 +129,29 @@ const List = (props: CP_BASE_LIST.Props) => {
   };
 
   return (
-    <ErdaList
-      dataSource={currentList}
-      pagination={{
-        pageNo: state.pageNo || 1,
-        pageSize: state.pageSize,
-        total: state.total || 0,
-        onChange: (pNo: number, pSize: number) => changePage(pNo, pSize),
-      }}
-      isLoadMore={isLoadMore}
-      onLoadMore={loadMore}
-      getKey={(item) => item.id}
-    />
+    <div>
+      <div className="flex justify-between items-center mb-2">
+        <span className="font-medium">
+          {data.title}
+          {data.summary !== undefined ? (
+            <span className="ml-1 bg-default-04 px-1 rounded-lg">{data.summary}</span>
+          ) : null}
+        </span>
+        <div>{filter}</div>
+      </div>
+      <ErdaList
+        dataSource={currentList}
+        pagination={{
+          pageNo: state.pageNo || 1,
+          pageSize: state.pageSize,
+          total: state.total || 0,
+          onChange: (pNo: number, pSize: number) => changePage(pNo, pSize),
+        }}
+        isLoadMore={isLoadMore}
+        onLoadMore={loadMore}
+        getKey={(item) => item.id}
+      />
+    </div>
   );
 };
 

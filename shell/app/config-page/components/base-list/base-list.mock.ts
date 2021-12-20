@@ -12,102 +12,106 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const mockData: CP_BASE_LIST.Spec = {
-  type: 'BaseList',
-  name: 'list',
-  state: {
-    // "pageNo": false
-  },
+  type: 'List',
+  version: '2',
   data: {
-    title: '集群列表',
+    pageNo: 1,
+    pageSize: 10,
+    total: 10,
+    title: '项目列表',
+    summary: '12',
+    filterValue: '',
     list: [
       {
-        id: '1',
-        label: [
+        id: '1', // 唯一id, eg: appid
+        logo: 'https://erda.cloud/api/files/302d582a7c054ad2be9d59ef8334da96', // url 地址或 icon 的 key
+        title: '项目 A',
+        star: true, // 当前是否已收藏
+        labels: [
           {
+            // color: 'green',
             status: 'success',
-            key: '在线',
+            label: '研发项目',
           },
         ],
-        logo: '',
-        title: 'Dev 集群',
-        description: '这是 dev 集群的描述',
-        backgroundImg: 'k8s_cluster_bg',
-        operations: [
+        // description: '这是项目 A 的描述',
+        backgroundImg: '//背景水印图片的 url 地址',
+        metaInfos: [
           {
-            key: 'addMachine',
-            meta: {
-              name: 'terminus-dev',
+            label: '已过期',
+            value: '2',
+            icon: '', // 如果配了 icon，优先展示 iocn 代替 key
+            tip: '提示信息',
+            operations: {
+              clickGotoExpired: {
+                serverData: {
+                  params: {
+                    projectId: 1,
+                  },
+                  query: {
+                    issueFilter__urlQuery: '',
+                  },
+                  target: 'projectAllIssue',
+                  jumpOut: true,
+                },
+              },
             },
-            reload: false,
-            show: true,
-            text: '添加机器',
           },
           {
-            key: 'star',
-            meta: {
-              name: 'terminus-dev',
+            label: '本日到期',
+            value: '22',
+            icon: '', // 如果配了 icon，优先展示 iocn 代替 key
+            tip: '',
+            operations: {
+              clickGotoTodayExpired: {
+                serverData: {
+                  params: {
+                    projectId: 1,
+                  },
+                  query: {
+                    issueFilter__urlQuery: '',
+                  },
+                  target: 'projectAllIssue',
+                  jumpOut: true,
+                },
+              },
             },
-            reload: false,
-            show: true,
-            text: '添加收藏',
-            icon: 'star',
-          },
-          {
-            key: 'unstar',
-            meta: {
-              name: 'terminus-dev',
-            },
-            reload: false,
-            show: true,
-            text: '取消收藏',
-            icon: 'unstar',
           },
         ],
-        extra: {
-          piechart: {
-            _meta: {
-              title: '单个',
+        operations: {
+          star: {
+            clientData: {
+              dataRef: {}, // 这个数据对象，前端提供
             },
-            type: 'PieChart',
-            name: 'cpuChart',
-            props: {},
-            state: {},
-            data: {
-              data: [
-                {
-                  color: 'primary8',
-                  formatter: '92.7 Core',
-                  name: '已分配',
-                  value: 92.76,
-                },
-                {
-                  color: 'primary5',
-                  formatter: '142.4 Core',
-                  name: '剩余分配',
-                  value: 142.44,
-                },
-                {
-                  color: 'primary2',
-                  formatter: '4.8 Core',
-                  name: '不可分配',
-                  value: 4.8,
-                },
-              ],
-              label: 'CPU',
-            },
-            operations: {},
+            skipRender: true, // 是否触发后端渲染，为 true 时页面立刻响应，不等后端返回
+            disabled: false,
+            tip: '收藏此项目',
           },
-          kv: {
-            data: {
-              icon: 'machine',
-              key: '节点数量',
-              value: '23',
-              unit: '个',
-              tooltip: '节点数量',
+          click: {
+            serverData: {
+              params: {
+                projectId: 1,
+              },
+              query: {},
+              target: 'projectAllIssue',
+              jumpOut: true, // 新开页面打开
             },
-            rowNum: 0,
-            type: 'kv',
           },
+        },
+        moreOperations: {
+          operations: {
+            gotoIssues: {
+              text: '项目管理',
+              serverData: {
+                params: {
+                  projectId: 1,
+                },
+                target: 'projectAllIssue',
+                jumpOut: true,
+              },
+            },
+          },
+          operationsOrder: ['gotoIssues'], // 操作排列顺序
         },
       },
     ],
