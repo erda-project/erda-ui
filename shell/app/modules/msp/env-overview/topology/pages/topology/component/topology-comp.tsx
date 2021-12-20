@@ -38,6 +38,7 @@ const nodeExtent = [
 ];
 
 interface IProps {
+  defaultZoom?: number;
   allowScroll?: boolean;
   filterKey: INodeKey;
   data: { nodes: TOPOLOGY.INode[] };
@@ -140,7 +141,7 @@ const calculateLayout = (
   ];
 };
 
-const TopologyComp = ({ data, filterKey = 'node', clockNode, allowScroll = true }: IProps) => {
+const TopologyComp = ({ data, filterKey = 'node', clockNode, allowScroll = true, defaultZoom = 0.8 }: IProps) => {
   const topologyData = React.useRef(genEle(data.nodes, filterKey));
   const layoutData = React.useRef<Elements>([]);
   const wrapperRaf = React.useRef<HTMLDivElement>();
@@ -216,7 +217,7 @@ const TopologyComp = ({ data, filterKey = 'node', clockNode, allowScroll = true 
             zoomOnScroll={false}
             connectionLineComponent={FloatingConnectionLine}
             nodeExtent={nodeExtent}
-            defaultZoom={0.8}
+            defaultZoom={defaultZoom}
             minZoom={0.2}
             maxZoom={2}
             onLoad={layout}
