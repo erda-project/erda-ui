@@ -74,7 +74,7 @@ declare namespace ERDA_LIST {
     value: string | number;
     type?: 'success' | 'normal' | 'warning' | 'error';
     tip?: string;
-    extraProps: ExtraProps;
+    extraProps?: ExtraProps;
   }
 
   interface ExtraProps {
