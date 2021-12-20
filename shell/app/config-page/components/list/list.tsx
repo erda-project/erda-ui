@@ -140,9 +140,9 @@ const Item = (props: ItemProps) => {
     prefixImg,
     title,
     status,
-    titlePrifxIcon,
+    titlePrefixIcon,
     prefixImgCircle,
-    titlePrifxIconTip,
+    titlePrefixIconTip,
     titleSuffixIcon,
     titleSuffixIconTip,
     description = '',
@@ -204,9 +204,9 @@ const Item = (props: ItemProps) => {
       ) : null}
       <div className="cp-list-item-body">
         <div className={'body-title'}>
-          {titlePrifxIcon ? (
-            <Tooltip title={titlePrifxIconTip}>
-              <CustomIcon type={titlePrifxIcon} className="title-icon mr-2" />
+          {titlePrefixIcon ? (
+            <Tooltip title={titlePrefixIconTip}>
+              <CustomIcon type={titlePrefixIcon} className="title-icon mr-2" />
             </Tooltip>
           ) : null}
           <Ellipsis className="font-bold title-text" title={title} />
