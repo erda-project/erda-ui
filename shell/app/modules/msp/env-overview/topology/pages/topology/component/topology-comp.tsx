@@ -92,7 +92,7 @@ const calculateLayout = (
     }
   });
   dagre.layout(dagreGraph, { weight: 2 });
-  const layoutedElements = list.map((el) => {
+  let layoutElements = list.map((el) => {
     const temp: Partial<Node> = {};
     if (isNode(el)) {
       // get node coordinates
@@ -109,7 +109,35 @@ const calculateLayout = (
     }
     return { ...el, ...temp };
   });
-  return [layoutedElements, { width, height, maxY: height, maxX: width, minX, minY }];
+  // horizontal offset：prevents the leftmost node from being outside the view. The reduction of 50 is to prevent the node from overlapping the border of the view
+  const horizontalOffset = minX - 50;
+  // vertical offset：prevents the bottommost node from being outside the view. The reduction of 50 is to prevent the node from overlapping the border of the view
+  const verticalOffset = minY - 50;
+  layoutElements = layoutElements.map((el) => {
+    if (isNode(el)) {
+      return {
+        ...el,
+        position: {
+          ...el.position,
+          x: el.position.x - horizontalOffset,
+          y: el.position.y - verticalOffset,
+        },
+      };
+    } else {
+      return el;
+    }
+  });
+  return [
+    layoutElements,
+    {
+      width: width - horizontalOffset,
+      height: height - verticalOffset,
+      maxY: height - verticalOffset,
+      maxX: width - horizontalOffset,
+      minX,
+      minY,
+    },
+  ];
 };
 
 const TopologyComp = ({ data, filterKey = 'node', clockNode, allowScroll = true }: IProps) => {
@@ -128,13 +156,6 @@ const TopologyComp = ({ data, filterKey = 'node', clockNode, allowScroll = true 
       // 200: prevents nodes from being covered by borders
       wrapperRaf.current.style.height = `${wrapperSize.height + 200}px`;
       wrapperRaf.current.style.width = `${wrapperSize.width + 200}px`;
-      // the node positions calculated by the current layout algorithm may be out of view and adjusted manually
-      // 50 : prevents nodes from hugging the border
-      wrapperRaf.current.parentElement?.scrollTo({
-        top: wrapperSize.minY - 50,
-        left: wrapperSize.minX - 50,
-        behavior: 'smooth',
-      });
     }
     layoutData.current = ele;
     setElements(layoutData.current);

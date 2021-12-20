@@ -15,7 +15,7 @@ declare namespace CP_DATA_RANK {
     id: string;
     name: string;
     value: number;
-    total: number;
+    percent: number;
     unit?: string;
 
     [key: string]: any;

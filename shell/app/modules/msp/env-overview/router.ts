@@ -31,15 +31,9 @@ const getEnvOverViewRouter = (): RouteConfigItem => {
     path: ':terminusKey',
     tabs,
     pageName: i18n.t('msp:service overview'),
-    breadcrumbName: i18n.t('msp:service monitor'),
+    breadcrumbName: i18n.t('msp:service overview'),
     alwaysShowTabKey: 'service-list',
     routes: [
-      {
-        tabs,
-        alwaysShowTabKey: 'topology',
-        layout: { fullHeight: true, noWrapper: true },
-        getComp: (cb) => cb(import('msp/env-overview/topology/pages/topology')),
-      },
       {
         path: 'topology',
         tabs,
@@ -54,6 +48,13 @@ const getEnvOverViewRouter = (): RouteConfigItem => {
         ],
       },
       serviceListRouter(tabs),
+      {
+        getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages')),
+        layout: {
+          fullHeight: true,
+          noWrapper: true,
+        },
+      },
     ],
   };
 };

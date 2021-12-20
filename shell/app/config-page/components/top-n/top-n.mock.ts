@@ -54,35 +54,35 @@ const mockData: Array<MockSpec<CP_DATA_RANK.Spec>> = [
               id: '', // serviceId
               name: '服务名称A', // serviceName
               value: 300,
-              total: 300,
+              percent: 100,
               unit: 'reqs/s',
             },
             {
               id: '', // serviceId
               name: '服务名称b',
               value: 80,
-              total: 200,
+              percent: 80,
               unit: 'reqs/s',
             },
             {
               id: '', // serviceId
               name: '服务名称c',
               value: 77,
-              total: 200,
+              percent: 70,
               unit: 'reqs/s',
             },
             {
               id: '', // serviceId
               name: '服务名称d',
               value: 50,
-              total: 200,
+              percent: 40,
               unit: 'reqs/s',
             },
             {
               id: '', // serviceId
               name: '服务名称很长的服务服务名称很长的服务服务名称很长的服务服务名称很长的服务',
               value: 25,
-              total: 200,
+              percent: 10,
               unit: 'reqs/s',
             },
           ],
@@ -95,35 +95,35 @@ const mockData: Array<MockSpec<CP_DATA_RANK.Spec>> = [
               id: '', // serviceId
               name: '服务名称A',
               value: 100,
-              total: 200,
+              percent: 11,
               unit: 'reqs/s',
             },
             {
               id: '', // serviceId
               name: '服务名称b',
               value: 80,
-              total: 200,
+              percent: 100,
               unit: 'reqs/s',
             },
             {
               id: '', // serviceId
               name: '服务名称c',
               value: 77,
-              total: 200,
+              percent: 100,
               unit: 'reqs/s',
             },
             {
               id: '', // serviceId
               name: '服务名称d',
               value: 50,
-              total: 200,
+              percent: 100,
               unit: 'reqs/s',
             },
             {
               id: '', // serviceId
               name: '服务名称很长的服务服务名称很长的服务服务名称很长的服务服务名称很长的服务',
               value: 25,
-              total: 200,
+              percent: 100,
               unit: 'reqs/s',
             },
           ],
@@ -136,35 +136,35 @@ const mockData: Array<MockSpec<CP_DATA_RANK.Spec>> = [
               id: '', // serviceId
               name: '服务名称A',
               value: 100,
-              total: 200,
+              percent: 100,
               unit: 'reqs/s',
             },
             {
               id: '', // serviceId
               name: '服务名称b',
               value: 80,
-              total: 200,
+              percent: 100,
               unit: 'reqs/s',
             },
             {
               id: '', // serviceId
               name: '服务名称c',
               value: 77,
-              total: 200,
+              percent: 100,
               unit: 'reqs/s',
             },
             {
               id: '', // serviceId
               name: '服务名称d',
               value: 50,
-              total: 200,
+              percent: 100,
               unit: 'reqs/s',
             },
             {
               id: '', // serviceId
               name: '服务名称很长的服务服务名称很长的服务服务名称很长的服务服务名称很长的服务',
               value: 25,
-              total: 200,
+              percent: 100,
               unit: 'reqs/s',
             },
           ],
@@ -177,35 +177,35 @@ const mockData: Array<MockSpec<CP_DATA_RANK.Spec>> = [
               id: '', // serviceId
               name: '服务名称A',
               value: 100,
-              total: 200,
+              percent: 100,
               unit: 'reqs/s',
             },
             {
               id: '', // serviceId
               name: '服务名称b',
               value: 80,
-              total: 200,
+              percent: 100,
               unit: 'reqs/s',
             },
             {
               id: '', // serviceId
               name: '服务名称c',
               value: 77,
-              total: 200,
+              percent: 100,
               unit: 'reqs/s',
             },
             {
               id: '', // serviceId
               name: '服务名称d',
               value: 50,
-              total: 200,
+              percent: 100,
               unit: 'reqs/s',
             },
             {
               id: '', // serviceId
               name: '服务名称很长的服务服务名称很长的服务服务名称很长的服务服务名称很长的服务',
               value: 25,
-              total: 200,
+              percent: 100,
               unit: 'reqs/s',
             },
           ],

@@ -173,11 +173,14 @@ const OverView = () => {
   const topologyList = React.useMemo(() => {
     const currentNode = topologyData.nodes?.find((t) => t.serviceId === serviceId);
     if (currentNode) {
-      const temp = topologyData.nodes.filter((item) => item.parents.some((t) => t.serviceId === serviceId)) ?? [];
+      const temp =
+        topologyData.nodes.filter(
+          (item) => item.serviceId !== serviceId && item.parents.some((t) => t.serviceId === serviceId),
+        ) ?? [];
       const nodes = temp.map((item) => {
         return {
           ...item,
-          parents: item.parents.filter((t) => t.serviceId === serviceId),
+          parents: item.parents?.filter((t) => t.serviceId === serviceId),
         };
       });
       return { nodes: uniqBy([...nodes, currentNode, ...(currentNode?.parents || [])], 'id') };
@@ -214,7 +217,7 @@ const OverView = () => {
       <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium">
         {i18n.t('msp:service request overview')}
       </div>
-      <div className="mx-5 mb-20 mt-3">
+      <div className="mx-5 mb-4 mt-3">
         <Row gutter={8}>
           {chartConfig.map((item) => {
             const currentOption = {

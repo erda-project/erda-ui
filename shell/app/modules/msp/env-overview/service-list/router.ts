@@ -68,24 +68,13 @@ export default (pageTabs) => ({
   alwaysShowTabKey: 'service-list',
   routes: [
     {
-      path: ':applicationId',
-      breadcrumbName: i18n.t('msp:service list'),
-      routes: [
-        {
-          path: ':serviceId',
-          routes: [
-            {
-              path: ':serviceName',
-              breadcrumbName: i18n.t('msp:service monitor'),
-              tabs,
-              alwaysShowTabKey: 'overview',
-              pageNameInfo: ServiceNameSelect,
-              layout: { fullHeight: true },
-              routes: serviceAnalysisRoutes,
-            },
-          ],
-        },
-      ],
+      path: ':applicationId/:applicationId/:serviceName',
+      breadcrumbName: i18n.t('msp:service monitor'),
+      tabs,
+      alwaysShowTabKey: 'overview',
+      pageNameInfo: ServiceNameSelect,
+      layout: { fullHeight: true },
+      routes: serviceAnalysisRoutes,
     },
     {
       getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages')),
