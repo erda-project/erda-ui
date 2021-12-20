@@ -292,7 +292,6 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
         <Select
           ref={compRef}
           showArrow={false}
-          showSearch
           allowClear
           className="w-full"
           value={editValue}
