@@ -22,7 +22,7 @@ const List = (props: ERDA_LIST.Props) => {
   const { dataSource, isLoadMore, onLoadMore, pagination, getKey } = props;
 
   return (
-    <div className="erda-list">
+    <div className="erda-base-list">
       {dataSource.length ? (
         <>
           {dataSource.map((item: ERDA_LIST.ListData, idx: number) => {

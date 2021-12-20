@@ -78,15 +78,15 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
 
   return (
     <div
-      className={`erda-list-item cursor-pointer rounded-sm`}
+      className={`erda-base-list-item cursor-pointer rounded-sm`}
       {...itemProps}
       style={backgroundImg ? { backgroundImage: `url(${getImg(backgroundImg)})` } : {}}
     >
       <div className="flex">
         {isString(prefixImg) ? (
-          <div className="erda-list-item-prefix-img">{getPrefixImg(prefixImg, prefixImgCircle)}</div>
+          <div className="item-prefix-img">{getPrefixImg(prefixImg, prefixImgCircle)}</div>
         ) : prefixImg ? (
-          <div className="erda-list-item-prefix-img">{prefixImg}</div>
+          <div className="item-prefix-img">{prefixImg}</div>
         ) : null}
         <div className="flex flex-1">
           <div className="flex-1">
@@ -116,11 +116,11 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                     <Tooltip key={info.key} title={info.tooltip}>
                       <span className={`info-item type-${info.type || 'normal'}`} {...info.extraProps}>
                         {info.icon ? (
-                          <ErdaIcon type={info.icon} isConfigPageIcon size="14" className="mr-1" />
+                          <ErdaIcon type={info.icon} isConfigPageIcon size="14" />
                         ) : (
                           <span className="info-text truncate">{info.key}</span>
                         )}
-                        <span className="info-value truncate">{info.value}</span>
+                        <span className="info-value truncate ml-1">{info.value}</span>
                       </span>
                     </Tooltip>
                   );
@@ -130,7 +130,10 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
           </div>
           <div className="flex items-center">
             {menuOverlay || outOperations.length ? (
-              <div className={`flex items-center ${extra ? 'self-start' : ''}`} onClick={(e) => e.stopPropagation()}>
+              <div
+                className={`flex items-center ${!isEmpty(extra) ? 'self-start' : ''}`}
+                onClick={(e) => e.stopPropagation()}
+              >
                 {outOperations}
                 {menuOverlay && (
                   <Dropdown
