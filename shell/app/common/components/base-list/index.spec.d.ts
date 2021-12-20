@@ -12,9 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace ERDA_LIST {
-  // interface onRow {
-  // }
-
   interface Props {
     dataSource: ListData[];
     pagination?: Pagination;
@@ -29,9 +26,9 @@ declare namespace ERDA_LIST {
   }
 
   interface Operation {
+    icon: string;
     key: string;
     text: React.ReactNode;
-    icon?: string;
     onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     [key: string]: any;
   }
@@ -45,7 +42,7 @@ declare namespace ERDA_LIST {
   }
 
   interface Label {
-    key: string;
+    label: string;
     color?: string;
   }
 
@@ -53,9 +50,9 @@ declare namespace ERDA_LIST {
     id: string | number;
     title: string;
     description?: string;
-    prefixImg?: string | React.ReactNode;
+    logo?: string | React.ReactNode;
     backgroundImg?: string;
-    label: Label[];
+    labels: Label[];
     metaInfos?: MetaInfo[];
     titlePrefixIcon?: string;
     titlePrefixIconTip?: string;
@@ -63,7 +60,8 @@ declare namespace ERDA_LIST {
     titleSuffixIconTip?: string;
     extra?: React.ReactNode;
     operations?: Operation[];
-    prefixImgCircle?: boolean;
+    moreOperations?: Operation[];
+    logoCircle?: boolean;
     itemProps?: {
       onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     };
@@ -72,10 +70,10 @@ declare namespace ERDA_LIST {
 
   interface MetaInfo {
     icon?: string;
-    key: string;
+    label: string;
     value: string | number;
     type?: 'success' | 'normal' | 'warning' | 'error';
-    tooltip?: string;
+    tip?: string;
     extraProps: ExtraProps;
   }
 

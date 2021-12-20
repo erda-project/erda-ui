@@ -17,13 +17,6 @@ declare namespace CP_BASE_LIST {
     operations?: Obj<CP_COMMON.Operation>;
     props?: IProps;
     data: IData;
-    state?: IState;
-  }
-
-  interface IState {
-    pageNo?: number;
-    pageSize?: number;
-    total?: number;
   }
 
   interface IProps {
@@ -31,6 +24,9 @@ declare namespace CP_BASE_LIST {
   }
 
   interface IData {
+    pageNo: number;
+    pageSize: number;
+    total: number;
     list: ListItem[];
   }
 
@@ -41,6 +37,11 @@ declare namespace CP_BASE_LIST {
         [key: string]: ExtraContent;
       };
       operations?: Obj<CP_COMMON.Operation>;
+      moreOperations?: {
+        operations: Obj<CP_COMMON.Operation>;
+        operationsOrder: string[];
+      };
+      metaInfos: MetaInfo[];
     }
   >;
 

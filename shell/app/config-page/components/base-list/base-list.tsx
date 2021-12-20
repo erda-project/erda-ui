@@ -12,22 +12,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { filter, map, sortBy } from 'lodash';
+import { map } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import { OperationAction } from 'config-page/utils';
-import { containerMap } from '../../components';
 import { PAGINATION } from 'app/constants';
 import ErdaList from 'app/common/components/base-list';
 
 const emptyArr = [] as CP_BASE_LIST.ListItem[];
 const List = (props: CP_BASE_LIST.Props) => {
-  const { customOp, operations, execOperation, props: configProps, data, state: propsState } = props;
-  const { list = emptyArr } = data || {};
+  const { customOp, operations, execOperation, props: configProps, data } = props;
+  const { list = emptyArr, total, pageNo, pageSize } = data || {};
   const [state, updater, update] = useUpdate({
-    ...propsState,
-    total: propsState?.total || 0,
-    pageNo: propsState?.pageNo || 1,
-    pageSize: propsState?.pageSize || PAGINATION.pageSize,
+    total: total || 0,
+    pageNo: pageNo || 1,
+    pageSize: pageSize || PAGINATION.pageSize,
     combineList: list,
   });
 
@@ -36,66 +34,56 @@ const List = (props: CP_BASE_LIST.Props) => {
     () =>
       (isLoadMore ? state.combineList : list).map((item: CP_BASE_LIST.ListItem) => {
         const extra: any = [];
-        const metaInfos = [] as ERDA_LIST.MetaInfo[];
-        if (item.extra) {
-          Object.values(item.extra).forEach((CompConfig) => {
-            const Comp = containerMap[CompConfig.type];
-            if (CompConfig.type === 'kvList') {
-              // TODO: add kvList component,and  remove this special logic
-              map(CompConfig.data, (infoItem) => {
-                metaInfos.push({
-                  ...infoItem,
-                  extraProps: {
-                    onClick: (e) => {
-                      e.stopPropagation();
-                      execOperation(infoItem.operations?.click, infoItem);
-                    },
-                  },
-                });
-              });
-              return;
-            }
-            if (Comp) {
-              extra.push(
-                <div className="mx-2 flex-1">
-                  <Comp {...CompConfig} />
-                </div>,
-              );
-            }
-          });
-        }
+        const metaInfos = item.metaInfos?.map((infoItem) => {
+          return {
+            ...infoItem,
+            extraProps: {
+              onClick: (e) => {
+                e.stopPropagation();
+                if (infoItem.operations?.click) {
+                  execOperation(infoItem.operations.click, infoItem);
+                }
+              },
+            },
+          };
+        });
 
-        const { click, ...restOp } = item.operations || {};
+        const { click, star } = item.operations || {};
 
-        const actions = sortBy(
-          filter(map(restOp) || [], (actionItem) => actionItem.show !== false),
-          'showIndex',
-        );
-
-        const itemOperations = actions.map((action) => {
+        const { operationsOrder } = item.moreOperations || {};
+        const moreOperations = map(item.moreOperations?.operations, (action, key) => {
           const clickFn = () => {
             execOperation(action, item);
-            if (customOp && customOp[action.key]) {
-              customOp[action.key](action, data);
-            }
           };
           return {
+            key,
+            index: operationsOrder ? operationsOrder.findIndex((actionKey) => actionKey === key) : 1,
+            icon: action.icon,
+            onClick: clickFn,
             text: (
               <OperationAction tipProps={{ placement: 'left' }} operation={action} onClick={clickFn}>
                 <div>{action.text}</div>
               </OperationAction>
             ),
-            key: action.key,
-            icon: action.icon,
-            onClick: clickFn,
           };
-        });
+        }).sort((a, b) => a.index - b.index);
 
         return {
           ...item,
           metaInfos,
           extra,
-          operations: itemOperations,
+          operations: star
+            ? [
+                {
+                  key: 'star',
+                  icon: 'star',
+                  onClick: () => {
+                    execOperation(star, item);
+                  },
+                },
+              ]
+            : [],
+          moreOperations,
           itemProps: {
             onClick: () => {
               if (click) {
@@ -108,7 +96,7 @@ const List = (props: CP_BASE_LIST.Props) => {
           },
         };
       }),
-    [customOp, data, execOperation, isLoadMore, list, state.combineList],
+    [customOp, execOperation, isLoadMore, list, state.combineList],
   );
 
   // 将接口返回的list和之前的list进行拼接
@@ -120,14 +108,16 @@ const List = (props: CP_BASE_LIST.Props) => {
     update((pre) => {
       const newState = {
         ...pre,
-        ...propsState,
+        total,
+        pageNo,
+        pageSize,
       };
       return {
         ...newState,
         combineList: newState.pageNo === 1 ? list : (newState.combineList || []).concat(list),
       };
     });
-  }, [propsState, list, update, data]);
+  }, [list, update, data, total, pageNo, pageSize]);
 
   const changePage = (pNo: number, pSize: number) => {
     operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pNo, pageSize: pSize });

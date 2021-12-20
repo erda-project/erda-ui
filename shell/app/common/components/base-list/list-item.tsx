@@ -18,19 +18,19 @@ import { Ellipsis, ErdaIcon, Badge } from 'common';
 import ImgMap, { getImg } from 'app/config-page/img-map';
 import { iconMap } from 'common/components/erda-icon';
 
-const getPrefixImg = (prefixImg: string, prefixImgCircle?: boolean) => {
-  if (Object.keys(ImgMap).includes(prefixImg)) {
+const getLogo = (logo: string, logoCircle?: boolean) => {
+  if (Object.keys(ImgMap).includes(logo)) {
     return (
       <div>
-        <img src={getImg(prefixImg)} className={`item-prefix-img ${prefixImgCircle ? 'prefix-img-circle' : ''}`} />
+        <img src={getImg(logo)} className={`item-prefix-img ${logoCircle ? 'prefix-img-circle' : ''}`} />
       </div>
     );
-  } else if (Object.keys(iconMap).includes(prefixImg)) {
-    return <ErdaIcon type={prefixImg} size="76" className={`${prefixImgCircle ? 'prefix-img-circle' : ''}`} />;
+  } else if (Object.keys(iconMap).includes(logo)) {
+    return <ErdaIcon type={logo} size="76" className={`${logoCircle ? 'prefix-img-circle' : ''}`} />;
   } else {
     return (
       <div>
-        <img src={prefixImg} className={`item-prefix-img rounded-sm ${prefixImgCircle ? 'prefix-img-circle' : ''}`} />
+        <img src={logo} className={`item-prefix-img rounded-sm ${logoCircle ? 'prefix-img-circle' : ''}`} />
       </div>
     );
   }
@@ -39,11 +39,11 @@ const getPrefixImg = (prefixImg: string, prefixImgCircle?: boolean) => {
 const ListItem = (props: ERDA_LIST.ItemProps) => {
   const { data } = props;
   const {
-    prefixImg,
+    logo,
     title,
-    label,
+    labels,
     titlePrefixIcon,
-    prefixImgCircle,
+    logoCircle,
     titlePrefixIconTip,
     titleSuffixIcon,
     titleSuffixIconTip,
@@ -52,26 +52,19 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
     extra,
     backgroundImg,
     operations,
+    moreOperations,
     itemProps,
   } = data || {};
 
-  const outOperations: JSX.Element[] = [];
-  const menuOverlay = operations?.length ? (
+  const menuOverlay = moreOperations?.length ? (
     <Menu style={{ minWidth: 80 }}>
-      {operations.map((action) => {
-        if (action.icon) {
-          outOperations.push(
-            <ErdaIcon type={action.icon} color={'gray'} className="mr-4" size={18} onClick={action?.onClick} />,
-          );
-          return null;
-        } else {
-          const { key, text, onClick } = action;
-          return (
-            <Menu.Item key={key} onClick={(item) => onClick?.(item.domEvent as any)}>
-              {text}
-            </Menu.Item>
-          );
-        }
+      {moreOperations.map((action) => {
+        const { key, text, onClick } = action;
+        return (
+          <Menu.Item key={key} onClick={(item) => onClick?.(item.domEvent as any)}>
+            {text}
+          </Menu.Item>
+        );
       })}
     </Menu>
   ) : null;
@@ -83,10 +76,10 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
       style={backgroundImg ? { backgroundImage: `url(${getImg(backgroundImg)})` } : {}}
     >
       <div className="flex">
-        {isString(prefixImg) ? (
-          <div className="item-prefix-img">{getPrefixImg(prefixImg, prefixImgCircle)}</div>
-        ) : prefixImg ? (
-          <div className="item-prefix-img">{prefixImg}</div>
+        {isString(logo) ? (
+          <div className="item-prefix-img">{getLogo(logo, logoCircle)}</div>
+        ) : logo ? (
+          <div className="item-prefix-img">{logo}</div>
         ) : null}
         <div className="flex flex-1">
           <div className="flex-1">
@@ -102,8 +95,8 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                   <ErdaIcon type={titleSuffixIcon} className="title-icon ml-2" />
                 </Tooltip>
               )}
-              {map(label, (item) => (
-                <Badge {...item} className="ml-2" text={item.key} />
+              {map(labels, (label) => (
+                <Badge {...label} className="ml-2" text={label.label} />
               ))}
             </div>
             <If condition={description !== undefined}>
@@ -113,12 +106,12 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
               <div className="body-meta-info flex">
                 {map(metaInfos, (info) => {
                   return (
-                    <Tooltip key={info.key} title={info.tooltip}>
+                    <Tooltip key={info.label} title={info.tip}>
                       <span className={`info-item type-${info.type || 'normal'}`} {...info.extraProps}>
                         {info.icon ? (
                           <ErdaIcon type={info.icon} isConfigPageIcon size="14" />
                         ) : (
-                          <span className="info-text truncate">{info.key}</span>
+                          <span className="info-text truncate">{info.label}</span>
                         )}
                         <span className="info-value truncate ml-1">{info.value}</span>
                       </span>
@@ -129,12 +122,14 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
             </If>
           </div>
           <div className="flex items-center">
-            {menuOverlay || outOperations.length ? (
+            {menuOverlay || operations?.length ? (
               <div
                 className={`flex items-center ${!isEmpty(extra) ? 'self-start' : ''}`}
                 onClick={(e) => e.stopPropagation()}
               >
-                {outOperations}
+                {map(operations, (action) => (
+                  <ErdaIcon type={action.icon} className="mr-4" size={18} onClick={action?.onClick} />
+                ))}
                 {menuOverlay && (
                   <Dropdown
                     overlay={menuOverlay}
