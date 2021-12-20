@@ -173,11 +173,14 @@ const OverView = () => {
   const topologyList = React.useMemo(() => {
     const currentNode = topologyData.nodes?.find((t) => t.serviceId === serviceId);
     if (currentNode) {
-      const temp = topologyData.nodes.filter((item) => item.parents.some((t) => t.serviceId === serviceId)) ?? [];
+      const temp =
+        topologyData.nodes.filter(
+          (item) => item.serviceId !== serviceId && item.parents.some((t) => t.serviceId === serviceId),
+        ) ?? [];
       const nodes = temp.map((item) => {
         return {
           ...item,
-          parents: item.parents.filter((t) => t.serviceId === serviceId),
+          parents: item.parents?.filter((t) => t.serviceId === serviceId),
         };
       });
       return { nodes: uniqBy([...nodes, currentNode, ...(currentNode?.parents || [])], 'id') };

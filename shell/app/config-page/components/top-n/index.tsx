@@ -61,8 +61,7 @@ const CP_TopN: React.FC<CP_DATA_RANK.Props> = (props) => {
                     <EmptyHoder relative />
                   ) : (
                     items?.map((item) => {
-                      const { name, value, total, unit, id } = item;
-                      const percent = (value / total) * 100;
+                      const { name, value, unit, id, percent } = item;
                       return (
                         <div
                           key={id}
