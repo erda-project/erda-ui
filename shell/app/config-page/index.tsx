@@ -179,13 +179,13 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
             ...extraRest,
           });
         },
+        getPageConfig: () => pageConfigRef.current,
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref, _useMock]);
 
   const inParamsStr = JSON.stringify(inParams);
-
   useUpdateEffect(() => {
     if (forceUpdateKey?.includes('inParams')) {
       queryPageConfig();
