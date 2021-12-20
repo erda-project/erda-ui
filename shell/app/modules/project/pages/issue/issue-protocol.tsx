@@ -89,7 +89,7 @@ const IssueProtocol = ({ issueType }: IProps) => {
 
   const getDownloadUrl = (IsDownload = false) => {
     const pageData = reloadRef.current?.getPageConfig();
-    const useableFilterObj = pageData.protocol.state.IssuePagingRequest || {};
+    const useableFilterObj = pageData?.protocol?.state?.IssuePagingRequest || {};
 
     return setApiWithOrg(
       `/api/issues/actions/export-excel?${qs.stringify(
