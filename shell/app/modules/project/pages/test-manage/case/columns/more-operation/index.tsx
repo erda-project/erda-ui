@@ -95,7 +95,7 @@ const MoreOperation = ({ record }: IProps) => {
       //     </Menu.Item>
       //   ))}
       // </Menu>
-      <TableActions>
+      <TableActions limit={0}>
         {list.map(({ key, name }) => (
           <span
             onClick={(e) => {

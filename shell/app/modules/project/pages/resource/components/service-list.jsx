@@ -11,7 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Table, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
+import Table from 'common/components/table';
 import { Copy, Icon as CustomIcon } from 'common';
 import { isEmpty } from 'lodash';
 import { getBrowserInfo } from 'common/utils';
@@ -147,7 +148,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
         loading={isFetching}
         columns={cols}
         dataSource={list}
-        scroll={{ x: 800 }}
+        hideHeader
       />
       <Copy selector=".cursor-copy" />
     </div>

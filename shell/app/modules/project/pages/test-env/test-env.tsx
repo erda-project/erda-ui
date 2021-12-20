@@ -14,7 +14,8 @@
 import { isEmpty } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
-import { Button, Popconfirm, Spin, Table, Alert } from 'antd';
+import { Button, Popconfirm, Spin, Alert, Modal } from 'antd';
+import Table from 'common/components/table';
 import { useLoading } from 'core/stores/loading';
 import testEnvStore from 'project/stores/test-env';
 import { TestEnvDetail } from './test-env-detail';
@@ -104,42 +105,31 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
             dataIndex: 'desc',
           },
         ]),
-        {
-          title: i18n.t('operation'),
-          key: 'ops',
-          width: 180,
-          fixed: 'right',
-          render: (_text: any, record: TEST_ENV.Item) => (
-            <div className="table-operations">
-              <span
-                className="table-operations-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleOpenDetail(record, true);
-                }}
-              >
-                {i18n.t('edit')}
-              </span>
-              <Popconfirm
-                title={i18n.t('dop:confirm to delete?')}
-                onConfirm={(e) => {
-                  if (e !== undefined) {
-                    e.stopPropagation();
-                  }
-                  onDeleteHandle(record);
-                }}
-                onCancel={(e) => e && e.stopPropagation()}
-              >
-                <span className="table-operations-btn" onClick={(e) => e.stopPropagation()}>
-                  {i18n.t('delete')}
-                </span>
-              </Popconfirm>
-            </div>
-          ),
-        },
       ] as Array<ColumnProps<TEST_ENV.Item>>,
-    [onDeleteHandle, testType],
+    [testType],
   );
+
+  const actions = {
+    render: (record: TEST_ENV.Item) => {
+      return [
+        {
+          title: i18n.t('edit'),
+          onClick: () => handleOpenDetail(record, true),
+        },
+        {
+          title: i18n.t('delete'),
+          onClick: () => {
+            Modal.confirm({
+              title: i18n.t('dop:confirm to delete?'),
+              onOk() {
+                onDeleteHandle(record);
+              },
+            });
+          },
+        },
+      ];
+    },
+  };
 
   const onRowClick = React.useCallback((record: TEST_ENV.Item | TEST_ENV.IAutoEnvItem) => {
     return {
@@ -182,7 +172,7 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
         dataSource={testType === 'manual' ? envList : autoEnvList}
         pagination={{ pageSize: PAGINATION.pageSize }}
         onRow={onRowClick}
-        scroll={{ x: 800 }}
+        actions={actions}
       />
       <TestEnvDetail
         envID={envID}

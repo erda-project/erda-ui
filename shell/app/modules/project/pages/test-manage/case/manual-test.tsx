@@ -150,58 +150,6 @@ const ManualTest = () => {
             </Tooltip>
           </span>
         </div>
-        <div className="flex justify-between items-center mb-3">
-          <div className="ml-3-group flex flex-wrap">
-            {query.recycled !== 'true' && (
-              <>
-                <Button
-                  type="primary"
-                  icon={
-                    <div>
-                      <ErdaIcon type="plus" className="mr-1 mt-1" size="14" />
-                    </div>
-                  }
-                  onClick={showCaseDrawer}
-                  className="mb-2 flex"
-                >
-                  <span>{i18n.t('dop:add use case')}</span>
-                </Button>
-                <ImportFile afterImport={afterImport} />
-                <ExportFile afterExport={afterExport} />
-              </>
-            )}
-            <CaseDrawer
-              scope="testCase"
-              visible={drawerVisible}
-              onClose={() => {
-                setDrawerVisible(false);
-              }}
-              afterClose={(saved) => {
-                saved && getCases();
-              }}
-            />
-            <BatchProcessing recycled={query.recycled === 'true'} />
-            <ImportExportRecord
-              key={importExportRecordKey}
-              setShowRefresh={setShowRefresh}
-              testSetId={+query.testSetID}
-            />
-            <ProjectTreeModal />
-          </div>
-          <div className="mr-3-group inline-flex" style={{ minWidth: '220px' }}>
-            <Input
-              style={{ width: '160px' }}
-              placeholder={i18n.t('dop:search for')}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              prefix={<ErdaIcon type="search1" size="14" className="mr-1" />}
-            />
-            <Button onClick={() => setEnhanceFilterVisible(true)}>
-              <ErdaIcon stroke="black-800" className="mt-0.5" width="16" height="18" type="filter" />
-            </Button>
-            <CaseFilterDrawer visible={enhanceFilterVisible} onSearch={onSearch} onClose={closeEnhanceFilter} />
-          </div>
-        </div>
         <CaseTable
           columns={columns}
           scope="testCase"
@@ -211,6 +159,60 @@ const ManualTest = () => {
               showCaseDrawer();
             }
           }}
+          slot={
+            <div className="flex justify-between items-center">
+              <div className="ml-3-group flex flex-wrap">
+                {query.recycled !== 'true' && (
+                  <>
+                    <Button
+                      type="primary"
+                      icon={
+                        <div>
+                          <ErdaIcon type="plus" className="mr-1 mt-1" size="14" />
+                        </div>
+                      }
+                      onClick={showCaseDrawer}
+                      className="flex"
+                    >
+                      <span>{i18n.t('dop:add use case')}</span>
+                    </Button>
+                    <ImportFile afterImport={afterImport} />
+                    <ExportFile afterExport={afterExport} />
+                  </>
+                )}
+                <CaseDrawer
+                  scope="testCase"
+                  visible={drawerVisible}
+                  onClose={() => {
+                    setDrawerVisible(false);
+                  }}
+                  afterClose={(saved) => {
+                    saved && getCases();
+                  }}
+                />
+                <BatchProcessing recycled={query.recycled === 'true'} />
+                <ImportExportRecord
+                  key={importExportRecordKey}
+                  setShowRefresh={setShowRefresh}
+                  testSetId={+query.testSetID}
+                />
+                <ProjectTreeModal />
+              </div>
+              <div className="mr-3-group inline-flex" style={{ minWidth: '220px' }}>
+                <Input
+                  style={{ width: '160px' }}
+                  placeholder={i18n.t('dop:search for')}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  prefix={<ErdaIcon type="search1" size="14" className="mr-1" />}
+                />
+                <Button onClick={() => setEnhanceFilterVisible(true)}>
+                  <ErdaIcon stroke="black-800" className="mt-0.5" width="16" height="18" type="filter" />
+                </Button>
+                <CaseFilterDrawer visible={enhanceFilterVisible} onSearch={onSearch} onClose={closeEnhanceFilter} />
+              </div>
+            </div>
+          }
         />
       </SplitPage.Right>
     </SplitPage>

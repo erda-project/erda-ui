@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Icon as CustomIcon, CustomFilter, UserInfo, MemberSelector } from 'common';
-import { Button, Progress, Spin, Tooltip, Table, Select, Input } from 'antd';
+import { Button, Progress, Spin, Tooltip, Select, Input } from 'antd';
+import Table from 'common/components/table';
 import React, { useState } from 'react';
 import PlanModal, { IPlanModal } from './plan-modal';
 import { goTo } from 'common/utils';
@@ -70,8 +71,8 @@ const TestPlan = () => {
     [getPlanList],
   );
 
-  const onPageChange = (pageNoNext: number) => {
-    getList({ ...filterObj, pageNo: pageNoNext });
+  const onPageChange = (pageNoNext: number, pageSize: number) => {
+    getList({ ...filterObj, pageNo: pageNoNext, pageSize });
   };
 
   const onSearch = ({ status, ...query }: any) => {
@@ -171,51 +172,33 @@ const TestPlan = () => {
         );
       },
     },
-    {
-      title: i18n.t('default:operation'),
-      dataIndex: 'id',
-      width: 200,
-      fixed: 'right',
-      render: (id, record) => {
-        return (
-          <div className="table-operations">
-            {!record.isArchived && (
-              <span
-                className="table-operations-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  updateModalProp({ visible: true, mode: 'edit', testPlanId: id });
-                }}
-              >
-                {i18n.t('edit')}
-              </span>
-            )}
-            <span
-              className="table-operations-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                updateModalProp({ visible: true, mode: 'copy', testPlanId: id });
-              }}
-            >
-              {i18n.t('dop:copy and create')}
-            </span>
-            <span
-              className="table-operations-btn"
-              onClick={async (e) => {
-                e.stopPropagation();
-                await toggleArchived({ id, isArchived: !record.isArchived });
-                // When has isArchived filter, this operation will delete the row from table
-                const needGoToFirstPage = planList.length === 1 && typeof filterObj.isArchived !== 'undefined';
-                getList({ ...filterObj, pageNo: needGoToFirstPage ? 1 : page.pageNo });
-              }}
-            >
-              {record.isArchived ? i18n.t('dop:unarchive') : i18n.t('archive')}
-            </span>
-          </div>
-        );
-      },
-    },
   ];
+
+  const actions = {
+    render: (record: TEST_PLAN.Plan) => {
+      const { id } = record;
+      return [
+        {
+          title: i18n.t('edit'),
+          onClick: () => updateModalProp({ visible: true, mode: 'edit', testPlanId: id }),
+          show: !record.isArchived,
+        },
+        {
+          title: i18n.t('dop:copy and create'),
+          onClick: () => updateModalProp({ visible: true, mode: 'copy', testPlanId: id }),
+        },
+        {
+          title: record.isArchived ? i18n.t('dop:unarchive') : i18n.t('archive'),
+          onClick: async () => {
+            await toggleArchived({ id, isArchived: !record.isArchived });
+            // When has isArchived filter, this operation will delete the row from table
+            const needGoToFirstPage = planList.length === 1 && typeof filterObj.isArchived !== 'undefined';
+            getList({ ...filterObj, pageNo: needGoToFirstPage ? 1 : page.pageNo });
+          },
+        },
+      ];
+    },
+  };
 
   const filterConfig: FilterItemConfig[] = React.useMemo(
     () => [
@@ -308,13 +291,13 @@ const TestPlan = () => {
           }}
         />
       </div>
-      <CustomFilter config={filterConfig} onSubmit={onSearch} />
       <Spin spinning={isFetching}>
         <Table
           className="test-plan-list"
           rowKey="id"
           columns={columns}
           dataSource={planList}
+          actions={actions}
           onRow={(plan: TEST_PLAN.Plan) => {
             return {
               onClick: () => {
@@ -329,7 +312,7 @@ const TestPlan = () => {
             pageSize: page.pageSize,
             onChange: onPageChange,
           }}
-          scroll={{ x: 800 }}
+          slot={<CustomFilter config={filterConfig} onSubmit={onSearch} />}
         />
       </Spin>
     </div>

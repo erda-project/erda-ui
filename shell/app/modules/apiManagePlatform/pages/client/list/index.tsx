@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Table, Popconfirm, Input, Modal, Alert } from 'antd';
+import { Spin, Popconfirm, Input, Modal, Alert } from 'antd';
+import Table from 'common/components/table';
 import { ColumnProps, PaginationProps } from 'core/common/interface';
 import i18n from 'i18n';
 import apiClientStore from 'apiManagePlatform/stores/api-client';
@@ -59,7 +60,7 @@ const ClientList = () => {
   const filterConfig = React.useMemo(
     (): FilterItemConfig[] => [
       {
-        type: Input.Search,
+        type: Input,
         name: 'keyword',
         customProps: {
           placeholder: i18n.t('default:search by keywords'),
@@ -74,7 +75,7 @@ const ClientList = () => {
       title: i18n.t('client name'),
       dataIndex: ['client', 'displayName'],
       width: 200,
-      render: (text, record) => text || record.client.name,
+      render: (text: string, record: API_CLIENT.ClientItem) => text || record.client.name,
     },
     {
       title: i18n.t('client identifier'),
@@ -85,44 +86,47 @@ const ClientList = () => {
       title: i18n.t('description'),
       dataIndex: ['client', 'desc'],
     },
-    {
-      title: i18n.t('operation'),
-      dataIndex: ['client', 'id'],
-      width: 160,
-      fixed: 'right',
-      render: (text, record) => {
-        return (
-          <TableActions>
-            <Popconfirm
-              title={i18n.t('confirm to {action}', { action: i18n.t('reset key') })}
-              onConfirm={() => {
-                handleReset(text, record.client);
-              }}
-            >
-              <span>{i18n.t('reset key')}</span>
-            </Popconfirm>
-            <Popconfirm
-              title={i18n.t('confirm to {action}', { action: i18n.t('delete') })}
-              onConfirm={() => {
-                handleDelete(text);
-              }}
-            >
-              <span>{i18n.t('delete')}</span>
-            </Popconfirm>
-          </TableActions>
-        );
-      },
-    },
   ];
+
+  const actions = {
+    render: (record: API_CLIENT.ClientItem) => {
+      const { client } = record;
+      const { id } = client;
+      return [
+        {
+          title: i18n.t('reset key'),
+          onClick: () => {
+            Modal.confirm({
+              title: i18n.t('confirm to {action}', { action: i18n.t('reset key') }),
+              onOk() {
+                handleReset(id, client);
+              },
+            });
+          },
+        },
+        {
+          title: i18n.t('delete'),
+          onClick: () => {
+            Modal.confirm({
+              title: i18n.t('confirm to {action}', { action: i18n.t('delete') }),
+              onOk() {
+                handleDelete(id);
+              },
+            });
+          },
+        },
+      ];
+    },
+  };
+
   return (
     <Spin spinning={isLoading.some((t) => t)}>
-      <CustomFilter config={filterConfig} onSubmit={handleSearch} />
       <Alert
         message={i18n.t('Data source: API call management', { nsSeparator: '|' })}
         description={i18n.t(
           'On this page, you can check the progress of my application to call the API request, and its specific authentication information after the application is approved.',
         )}
-        className="mb-2"
+        className="mb-3"
       />
       <Table
         rowKey="client.id"
@@ -130,6 +134,7 @@ const ClientList = () => {
         dataSource={clientList}
         onChange={handleTableChange}
         pagination={{
+          current: clientListPaging.pageNo,
           ...clientListPaging,
         }}
         onRow={(record) => {
@@ -139,7 +144,8 @@ const ClientList = () => {
             },
           };
         }}
-        scroll={{ x: 800 }}
+        slot={<CustomFilter config={filterConfig} onSubmit={handleSearch} />}
+        actions={actions}
       />
       <Modal
         title={i18n.t('client info')}

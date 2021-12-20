@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Popconfirm, Spin, Button, Input } from 'antd';
+import { Popconfirm, Spin, Button, Input, Modal } from 'antd';
+import Table from 'common/components/table';
 import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
@@ -45,12 +46,10 @@ const AccessList = () => {
   const handleSearch = (query: Record<string, any>) => {
     setKeyword(query.keyword);
   };
-  const handleEdit = (record: API_ACCESS.SubAccess, e: React.MouseEvent<HTMLSpanElement>) => {
-    e.stopPropagation();
+  const handleEdit = (record: API_ACCESS.SubAccess) => {
     goTo(`./access/edit/${record.id}`);
   };
-  const handleDelete = (record: API_ACCESS.SubAccess, e?: React.MouseEvent<HTMLElement>) => {
-    e && e.stopPropagation();
+  const handleDelete = (record: API_ACCESS.ITableSubAccess) => {
     deleteAccess({ accessID: record.id }).then(() => {
       getAccess({ pageNo: 1, paging: true, keyword });
     });
@@ -58,7 +57,7 @@ const AccessList = () => {
   const filterConfig = React.useMemo(
     (): FilterItemConfig[] => [
       {
-        type: Input.Search,
+        type: Input,
         name: 'keyword',
         customProps: {
           placeholder: i18n.t('default:search by keywords'),
@@ -95,45 +94,42 @@ const AccessList = () => {
       width: 176,
       render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss'),
     },
-    {
-      title: i18n.t('operation'),
-      dataIndex: 'permission',
-      width: 120,
-      fixed: 'right',
-      render: ({ edit, delete: canDelete }: API_ACCESS.AccessPermission, record) => {
-        return (
-          <TableActions>
-            {edit ? (
-              <span
-                onClick={(e) => {
-                  handleEdit(record, e);
-                }}
-              >
-                {i18n.t('edit')}
-              </span>
-            ) : null}
-            {canDelete ? (
-              <Popconfirm
-                title={i18n.t('confirm to {action}', { action: i18n.t('delete') })}
-                onConfirm={(e) => {
-                  handleDelete(record, e);
-                }}
-              >
-                <span>{i18n.t('delete')}</span>
-              </Popconfirm>
-            ) : null}
-          </TableActions>
-        );
-      },
-    },
   ];
+
+  const subAcions = {
+    render: (record: API_ACCESS.ITableSubAccess) => {
+      const { edit, delete: canDelete } = record;
+      return [
+        {
+          title: i18n.t('edit'),
+          onClick: () => handleEdit(record),
+          show: edit,
+        },
+        {
+          title: i18n.t('delete'),
+          onClick: () => {
+            Modal.confirm({
+              title: i18n.t('confirm to {action}', { action: i18n.t('delete') }),
+              onOk() {
+                handleDelete(record);
+              },
+            });
+          },
+          show: canDelete,
+        },
+      ];
+    },
+  };
+
   const expandedRowRender = (record: API_ACCESS.ITableData) => {
     return (
       <Table
         rowKey="swaggerVersion"
+        hideHeader
         columns={subColumns}
         dataSource={record.subData}
         pagination={false}
+        actions={subAcions}
         onRow={(data: API_ACCESS.ITableSubAccess) => {
           return {
             onClick: () => {
@@ -141,7 +137,6 @@ const AccessList = () => {
             },
           };
         }}
-        scroll={{ x: 800 }}
       />
     );
   };
@@ -161,13 +156,12 @@ const AccessList = () => {
           {i18n.t('establish')}
         </Button>
       </div>
-      <CustomFilter config={filterConfig} onSubmit={handleSearch} />
       <Table
         rowKey="assetID"
         columns={columns}
         dataSource={dataSource}
         expandedRowRender={expandedRowRender}
-        scroll={{ x: '100%' }}
+        slot={<CustomFilter config={filterConfig} onSubmit={handleSearch} />}
       />
     </Spin>
   );

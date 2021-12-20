@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Input, Spin, Popconfirm, Tooltip } from 'antd';
+import { Input, Spin, Popconfirm, Tooltip } from 'antd';
+import Table from 'common/components/table';
 import i18n from 'i18n';
 import { CustomFilter, MemberSelector, LoadMoreSelector } from 'common';
 import { useUpdate, useFilter } from 'common/use-hooks';
@@ -255,14 +256,14 @@ const PureDeployList = (props: IProps) => {
   };
   return (
     <div>
-      <CustomFilter onSubmit={onSubmit} onReset={onReset} config={filterConfig} isConnectQuery />
       <Spin spinning={isFetching}>
         <Table
           rowKey="id"
           columns={columns}
           dataSource={list}
           pagination={paging ? autoPagination(paging) : false}
-          scroll={{ x: 900 }}
+          slot={<CustomFilter onSubmit={onSubmit} onReset={onReset} config={filterConfig} isConnectQuery />}
+          onChange={() => onReset()}
         />
       </Spin>
       <FormModal

@@ -15,7 +15,8 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
 import { isEmpty, map, find, pick } from 'lodash';
-import { Spin, Modal, Tooltip, Switch, Select, Table, Button } from 'antd';
+import { Spin, Modal, Tooltip, Switch, Select, Button } from 'antd';
+import Table from 'common/components/table';
 import { FormModal } from 'common';
 import { useSwitch } from 'common/use-hooks';
 import { FormInstance, ColumnProps } from 'core/common/interface';
@@ -304,7 +305,13 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
         modalProps={{ destroyOnClose: true }}
       />
       <Spin spinning={getNotifyConfigsLoading}>
-        <Table columns={columns} dataSource={notifyConfigs} rowKey="id" pagination={false} scroll={{ x: 800 }} />
+        <Table
+          columns={columns}
+          dataSource={notifyConfigs}
+          rowKey="id"
+          pagination={false}
+          onChange={() => handleGetNotifyConfigs()}
+        />
       </Spin>
     </div>
   );
