@@ -879,7 +879,11 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       let isIncomplete = false;
       state.triggerCondition.forEach((item) => {
         for (const key in item) {
-          if ((!item[key] && item.operator !== 'all') || (isArray(item[key]) && item[key].length === 0)) {
+          // the third box is input when type is 'match' or 'notMatch', valueOptions is empty array
+          if (
+            (!item[key] && item.operator !== 'all') ||
+            (!['match', 'notMatch'].includes(item.operator) && isArray(item[key]) && item[key].length === 0)
+          ) {
             isIncomplete = true;
           }
         }
