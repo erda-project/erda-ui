@@ -476,7 +476,7 @@ const DateRange = ({
         disabledDate={disabledDate(true)}
         format={'YYYY/MM/DD'}
         allowClear={!required}
-        onChange={(v) => onChange(getTimeValue([v?.valueOf(), endDate]))}
+        onChange={(v) => onChange(getTimeValue([v?.startOf?.('day').valueOf(), endDate]))}
         placeholder={i18n.t('common:startDate')}
         open={startOpen}
         onOpenChange={setStartOpen}
