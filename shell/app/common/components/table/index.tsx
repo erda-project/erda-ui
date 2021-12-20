@@ -293,6 +293,7 @@ function WrappedTable<T extends object = any>({
       )}
 
       <Table
+        rowKey={rowKey}
         scroll={{ x: '100%' }}
         columns={[
           ...columns.filter((item) => !item.hidden).map((item) => ({ ...item, title: item.sortTitle || item.title })),
