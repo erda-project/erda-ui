@@ -47,7 +47,7 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
     titlePrefixIconTip,
     titleSuffixIcon,
     titleSuffixIconTip,
-    description = '',
+    description,
     metaInfos,
     extra,
     backgroundImg,
@@ -100,10 +100,10 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
               ))}
             </div>
             <If condition={description !== undefined}>
-              <Ellipsis className="body-description" title={description || '-'} />
+              <Ellipsis className={`body-description ${metaInfos?.length ? '' : 'mt-1'}`} title={description || '-'} />
             </If>
             <If condition={!!metaInfos?.length}>
-              <div className="body-meta-info flex">
+              <div className={`body-meta-info flex ${description ? '' : 'mt-1'}`}>
                 {map(metaInfos, (info) => {
                   return (
                     <Tooltip key={info.label} title={info.tip}>
