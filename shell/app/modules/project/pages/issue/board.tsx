@@ -146,7 +146,7 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
 
   const getDownloadUrl = (IsDownload = false) => {
     const pageData = reloadRef.current?.getPageConfig();
-    const useableFilterObj = pageData.protocol.state.IssuePagingRequestKanban || {};
+    const useableFilterObj = pageData?.protocol?.state?.IssuePagingRequestKanban || {};
     return setApiWithOrg(
       `/api/issues/actions/export-excel?${qs.stringify(
         { ...useableFilterObj, pageNo: 1, projectID: projectId, type: issueType, IsDownload, orgID },
