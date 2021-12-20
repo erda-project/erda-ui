@@ -181,7 +181,7 @@ export default ConfigPageRender;
 const getContainerMap = (container: Obj<CONFIG_PAGE.BaseSpec>) => {
   const conMap = {};
   map(container, (config, cId) => {
-    const Comp = fullContainerMap[config.type];
+    const Comp = fullContainerMap[`${config.type}${config.version}`] || fullContainerMap[config.type];
     conMap[cId] = Comp || fullContainerMap.NotFound;
   });
   return conMap;

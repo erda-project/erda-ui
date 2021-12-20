@@ -106,6 +106,7 @@ declare namespace CONFIG_PAGE {
   // 单个组件基础定义
   interface BaseSpec {
     type: string;
+    version?: string;
     state?: Obj;
     data?: Obj;
     props?: Obj;
