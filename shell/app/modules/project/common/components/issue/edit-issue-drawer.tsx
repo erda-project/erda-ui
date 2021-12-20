@@ -861,8 +861,12 @@ export const EditIssueDrawer = (props: IProps) => {
       params.labels = value.labels;
     }
     if (has(value, 'planFinishedAt') && !value.planFinishedAt) {
-      params.planFinishedAt = null;
+      params.planFinishedAt = '1970-01-01T08:00:00+08:00'; // replace null to mark delete
     }
+    if (has(value, 'planStartedAt') && !value.planStartedAt) {
+      params.planStartedAt = '1970-01-01T08:00:00+08:00';
+    }
+
     if ([ISSUE_TYPE.TASK, ISSUE_TYPE.BUG].includes(issueType)) {
       const warnMessage = [];
       if (value.state && isEditMode) {
@@ -905,7 +909,9 @@ export const EditIssueDrawer = (props: IProps) => {
     let customFieldValue: any;
     map(Object.keys(value), (k) => {
       customFieldKey = k;
-      params[k] = value[k];
+      if (!(['planFinishedAt', 'planStartedAt'].includes(k) && !value[k])) {
+        params[k] = value[k];
+      }
       customFieldValue = value[k];
     });
     const customFieldData = find(customFormData?.property, (item) => item.propertyName === customFieldKey);

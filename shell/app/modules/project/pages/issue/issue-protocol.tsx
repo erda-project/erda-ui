@@ -88,7 +88,9 @@ const IssueProtocol = ({ issueType }: IProps) => {
   };
 
   const getDownloadUrl = (IsDownload = false) => {
-    const useableFilterObj = filterObjRef?.current?.issuePagingRequest || {};
+    const pageData = reloadRef.current?.getPageConfig();
+    const useableFilterObj = pageData.protocol.state.IssuePagingRequest || {};
+
     return setApiWithOrg(
       `/api/issues/actions/export-excel?${qs.stringify(
         { ...useableFilterObj, pageNo: 1, projectID: projectId, type: getRealIssueType(issueType), IsDownload, orgID },
@@ -156,7 +158,7 @@ const IssueProtocol = ({ issueType }: IProps) => {
   };
 
   const onCreate = (curType?: string) => {
-    const filterIterationIDs = filterObj?.iterationIDs || [];
+    const filterIterationIDs = filterObj?.values?.iterationIDs || [];
     // 当前选中唯一迭代，创建的时候默认为这个迭代，否则，迭代为0
     update({
       chosenIteration: iterationId || (filterIterationIDs.length === 1 ? filterIterationIDs[0] : 0),
