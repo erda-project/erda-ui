@@ -217,7 +217,7 @@ const OverView = () => {
       <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium">
         {i18n.t('msp:service request overview')}
       </div>
-      <div className="mx-5 mb-20 mt-3">
+      <div className="mx-5 mb-4 mt-3">
         <Row gutter={8}>
           {chartConfig.map((item) => {
             const currentOption = {
