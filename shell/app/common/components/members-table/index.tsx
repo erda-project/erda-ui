@@ -428,6 +428,7 @@ const MembersTable = ({
         {
           title: 'Email',
           dataIndex: 'email',
+          hidden: true,
           render: (value: string) => (
             <Tooltip title={value}>
               <span className="cursor-copy" data-clipboard-tip="Email" data-clipboard-text={value}>
@@ -439,6 +440,7 @@ const MembersTable = ({
         {
           title: i18n.t('cellphone'),
           dataIndex: 'mobile',
+          hidden: true,
           render: (value: string | number) => (
             <span className="cursor-copy" data-clipboard-tip={i18n.t('cellphone')} data-clipboard-text={value}>
               {value || '-'}
