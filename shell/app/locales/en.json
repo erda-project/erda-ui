@@ -1,7 +1,6 @@
 {
   "backup": {
-    "parameter name": "parameter name",
-    "service": "service"
+    "parameter name": "parameter name"
   },
   "charts": {
     "Apdex": "Apdex",
@@ -847,6 +846,7 @@
     "Must be composed of letters, numbers, underscores, hyphens and dots.": "must be composed of English, numbers, underscores, underscores, dots",
     "Name already existed. Please rename it.": "Name already existed. Please rename it.",
     "New version available. Upgrade now?": "New version available. Upgrade now?",
+    "No workflow data": "No workflow data",
     "Numeric value: Please fill in according to mathematical expression standards. It supports both open and closed intervals. For examples: [-20,20] is a set, <[-200,200],-1,2>.": "Numeric value: Please fill in according to mathematical expression standards. It supports both open and closed intervals. For examples: [-20,20] is a set, <[-200,200],-1,2>.",
     "O & M": "O & M",
     "Operator": "Operator",
@@ -1181,13 +1181,10 @@
     "document is illegal": "document is illegal",
     "does not belong to": "does not belong to",
     "does not contain": "does not contain",
-    "done": "done",
     "download failed file": "download failed file",
     "download tar.gz": "download tar.gz",
     "download template": "download template",
     "download zip": "download zip",
-    "due in {num} days": "due in {num} days",
-    "due {num} days ago": "due {num} days ago",
     "duplicated": "duplicated",
     "duration": "duration",
     "easy": "easy",
@@ -1308,7 +1305,7 @@
     "included tasks": "included tasks",
     "initiated": "initiated",
     "input bug name": "input bug name",
-    "input custom board name": "input custom board name",
+    "input custom boards name": "input custom boards name",
     "input expected result": "input expected result",
     "input format error": "input format error",
     "input interface name": "input interface name",
@@ -1876,7 +1873,6 @@
     "whether {action} task {name}": "whether {action} task {name}",
     "within {num} characters": "within {num} characters",
     "won't fix": "won't fix",
-    "won't fix, duplicated": "won't fix, duplicated",
     "workflow": "workflow",
     "workload": "workload",
     "xmind-import-tip": "The file will be imported with the currently selected test set as the root",
@@ -2436,8 +2432,8 @@
     "service instance": "service instance",
     "service invocation analysis": "service invocation analysis",
     "service list": "service list",
-    "service monitor": "service monitor",
     "service load protection": "service load protection",
+    "service monitor": "service monitor",
     "service name": "service name",
     "service overview": "Overview",
     "service registration list": "service registration list",
