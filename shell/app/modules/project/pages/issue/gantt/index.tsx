@@ -211,7 +211,7 @@ const IssuePlan = () => {
     });
   };
   return (
-    <>
+    <div className="h-full">
       <DiceConfigPage
         ref={reloadRef}
         scenarioType={'issue-gantt'}
@@ -319,7 +319,7 @@ const IssuePlan = () => {
           )}`}
         />
       ) : null}
-    </>
+    </div>
   );
 };
 

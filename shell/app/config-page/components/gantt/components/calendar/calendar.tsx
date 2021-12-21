@@ -82,6 +82,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
     mousePos,
   }) => {
     const today = new Date();
+    // console.log({ width, horizontalRange, displayWidth, scrollX, svgWidth, mousePos });
     const getCalendarValuesForMonth = () => {
       const topValues: ReactChild[] = [];
       const bottomValues: ReactChild[] = [];
@@ -120,15 +121,16 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
           );
         }
       }
+
       return [topValues, bottomValues];
     };
 
     const getCalendarValuesForWeek = () => {
       const topValues: ReactChild[] = [];
       const bottomValues: ReactChild[] = [];
-      let weeksCount: number = 1;
+      let weeksCount = 1;
       const topDefaultHeight = height * 0.5;
-      const dates = dateSetup.dates;
+      const { dates } = dateSetup;
       for (let i = dates.length - 1; i >= 0; i--) {
         const date = dates[i];
         let topValue = '';
@@ -206,12 +208,14 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
     const onChangeScrollX = (direction: number) => {
       const moveLen = Math.floor(displayWidth / columnWidth) - 4; // less then display count;
       const moveX = moveLen > 0 ? moveLen * columnWidth : columnWidth;
+      // console.log({ moveLen, moveX });
       if (direction === -1) {
         setScrollX((prevX) => (moveX >= prevX ? -1 : prevX - moveX));
       } else if (direction === 1) {
         setScrollX((prevX) => (moveX + prevX + displayWidth >= svgWidth ? svgWidth - displayWidth : prevX + moveX));
       }
     };
+
     const getCalendarValuesForDay = () => {
       let bottomValues: React.ReactNode = null;
       const dates = dateSetup.dates.slice(...horizontalRange);
@@ -244,6 +248,8 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
       }
 
       const offsetX = (firstDayInWeek ? firstDayInWeek - 1 : 6) * columnWidth;
+      // console.log(dateSetup.dates, { horizontalRange, dates, firstDay, firstWeek, firstDayInWeek, lastWeek });
+
       bottomValues = (
         <div
           className="flex h-full w-full erda-gantt-calendar-header-container"
@@ -321,7 +327,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
       const bottomValues: ReactChild[] = [];
       const ticks = viewMode === ViewMode.HalfDay ? 2 : 4;
       const topDefaultHeight = height * 0.5;
-      const dates = dateSetup.dates;
+      const { dates } = dateSetup;
       for (let i = 0; i < dates.length; i++) {
         const date = dates[i];
         const bottomValue = getCachedDateTimeFormat(locale, {
@@ -375,6 +381,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
     //     break;
     // }
     const finalWidth = max([columnWidth * dateSetup.dates.length, width]);
+
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"

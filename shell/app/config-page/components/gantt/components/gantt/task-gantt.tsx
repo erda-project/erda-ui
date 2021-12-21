@@ -15,6 +15,7 @@ import React, { useRef, useEffect } from 'react';
 import { GridProps, Grid } from '../grid/grid';
 import { CalendarProps, Calendar } from '../calendar/calendar';
 import { max } from 'lodash';
+import { Radio } from 'antd';
 import { TaskGanttContentProps, TaskGanttContent } from './task-gantt-content';
 import './gantt.scss';
 
@@ -42,7 +43,8 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({ gridProps, calendarProps, 
   const mouseUnFocus = () => {
     setMousePos(null);
   };
-
+  // const { horizontalRange, scrollX, width } = calendarProps;
+  // console.log({ calendarProps });
   return (
     <div className={'erda-gantt-vertical-container'} dir="ltr" ref={verticalGanttContainerRef}>
       <Calendar
@@ -51,6 +53,7 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({ gridProps, calendarProps, 
         displayWidth={offsetWidth}
         mousePos={mousePos}
       />
+      5566
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={max([gridProps.svgWidth, offsetWidth])}
@@ -71,6 +74,12 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({ gridProps, calendarProps, 
         </g>
         <TaskGanttContent {...newBarProps} displayWidth={offsetWidth} BarContentRender={BarContentRender} />
       </svg>
+      <div className="absolute bottom-4 right-4">
+        <Radio.Group size="small" value={''} onChange={() => {}}>
+          <Radio.Button value="text">今天</Radio.Button>
+          <Radio.Button value="key-value">全屏</Radio.Button>
+        </Radio.Group>
+      </div>
     </div>
   );
 };

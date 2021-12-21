@@ -29,6 +29,8 @@ import { GanttEvent } from '../../types/gantt-task-actions';
 import { DateSetup } from '../../types/date-setup';
 import { removeHiddenTasks } from '../../helpers/other-helper';
 import './gantt.scss';
+import { Button } from 'antd';
+import moment from 'moment';
 
 export const Gantt: React.FunctionComponent<GanttProps> = ({
   tasks,
@@ -104,7 +106,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const h_number = Math.floor((horizontalRef.current?.clientWidth || 0) / columnWidth) + 2;
   const horizontalRange = [h_start, h_start + h_number];
   // console.log('横', horizontalRef.current?.clientWidth, scrollX, horizontalRange, h_number);
-
+  console.log({ scrollX, columnWidth, h_start, h_number, horizontalRange, dateSetup }, dateSetup);
   const v_start = Math.abs(Math.ceil(scrollY / rowHeight));
   const v_number = Math.floor((ganttHeight || 0) / rowHeight) + 1;
   const verticalRange = [v_start, v_start + v_number];
@@ -122,6 +124,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     const [startDate, endDate] = ganttDateRange(filteredTasks, viewMode);
 
     const newDates = seedDates(startDate, endDate, viewMode);
+    console.log({ startDate, endDate, newDates });
     // if (rtl) {
     //   newDates = newDates.reverse();
     //   if (scrollX === -1) {
@@ -497,10 +500,29 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     BarContentRender,
   };
 
+  const handlePositionToday = () => {
+    const today = new Date();
+    let [startDate, endDate] = [dateSetup.dates[0], dateSetup.dates[dateSetup.dates.length - 1]];
+    let duration = 0;
+    console.log(scrollX, 888, startDate, endDate, h_number, today);
+    if (moment(today).isBefore(moment(startDate), 'day')) {
+      startDate = new Date(moment(startDate).subtract(Math.floor(h_number / 2), 'days'));
+    }
+
+    if (moment(today).isAfter(moment(endDate), 'day')) {
+      endDate = new Date(moment(endDate).subtract(Math.floor(-h_number / 2), 'days'));
+    }
+
+    duration = Math.floor((today - startDate) / (1000 * 60 * 60 * 24) - h_number / 2) + 4;
+    console.log(today, startDate, duration, 8899);
+    setScrollX(duration * columnWidth);
+  };
+
   return (
     <>
       <div className={'erda-gantt-wrapper'} onKeyDown={handleKeyDown} tabIndex={0} ref={wrapperRef}>
         {listCellWidth && <TaskList {...tableProps} />}
+        <Button onClick={handlePositionToday}>滚到今天</Button>
         <TaskGantt
           {...ganttProps}
           gridProps={gridProps}
@@ -528,6 +550,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
             svgWidth={svgWidth}
           />
         )} */}
+        8800
         <VerticalScroll
           scrollHeight={ganttFullHeight}
           height={ganttHeight}
