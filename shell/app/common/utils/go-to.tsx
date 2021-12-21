@@ -267,17 +267,17 @@ export enum pages {
   // 微服务-监控中心-服务监控
   mspServiceMonitor = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-analysis/{applicationId}/{serviceId}/{serviceName}',
 
-  // 微服务-事务分析页
-  mspServiceTransaction = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}/transaction',
+  // 微服务-具体事务分析页
+  mspServiceTransaction = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-analysis/{applicationId}/{serviceId}/{serviceName}/transaction',
 
   mspGatewayIngress = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/topology/gateway-ingress',
 
   mspExternalInsight = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/topology/ei/{hostName}/affairs',
 
-  mspServiceProcess = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}/process',
+  mspServiceProcess = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-analysis/{applicationId}/{serviceId}/{serviceName}/process',
 
   // 服务分析页-追踪详情
-  mspServiceTraceDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}/transaction/trace-detail/{traceId}',
+  mspServiceTraceDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-analysis/{applicationId}/{serviceId}/{serviceName}/transaction/trace-detail/{traceId}',
 
   // 微服务-接入配置页
   mspConfigurationPage = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/environment/{terminusKey}/configuration',
