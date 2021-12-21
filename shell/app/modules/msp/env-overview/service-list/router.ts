@@ -89,6 +89,7 @@ export function serviceAnalysisRouter() {
     pageNameInfo: ServiceNameSelect,
     layout: { fullHeight: true },
     routes: [
+      ...serviceAnalysisRoutes,
       {
         path: ':applicationId',
         breadcrumbName: i18n.t('msp:service list'),
@@ -108,9 +109,6 @@ export function serviceAnalysisRouter() {
             ],
           },
         ],
-      },
-      {
-        serviceAnalysisRoutes,
       },
     ],
   };
