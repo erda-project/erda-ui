@@ -14,6 +14,11 @@
 import i18n from 'i18n';
 import { ServiceNameSelect } from './pages/service-name-select';
 
+interface Tabs {
+  name: string;
+  key: string;
+}
+
 const tabs = [
   { key: 'overview', name: i18n.t('overview') },
   { key: 'transaction', name: i18n.t('msp:transaction') },
@@ -62,29 +67,18 @@ const serviceAnalysisRoutes = [
   },
 ];
 
-export default (pageTabs) => ({
+const serviceListRouter = (pageTabs: Tabs[]) => ({
   path: 'service-list',
   tabs: pageTabs,
   alwaysShowTabKey: 'service-list',
-  routes: [
-    {
-      path: ':applicationId/:applicationId/:serviceName',
-      breadcrumbName: i18n.t('msp:service monitor'),
-      tabs,
-      alwaysShowTabKey: 'overview',
-      pageNameInfo: ServiceNameSelect,
-      layout: { fullHeight: true },
-      routes: serviceAnalysisRoutes,
-    },
-    {
-      getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages')),
-      layout: {
-        fullHeight: true,
-        noWrapper: true,
-      },
-    },
-  ],
+  getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages')),
+  layout: {
+    fullHeight: true,
+    noWrapper: true,
+  },
 });
+
+export default serviceListRouter;
 
 export function serviceAnalysisRouter() {
   return {
@@ -94,6 +88,28 @@ export function serviceAnalysisRouter() {
     alwaysShowTabKey: 'overview',
     pageNameInfo: ServiceNameSelect,
     layout: { fullHeight: true },
-    routes: serviceAnalysisRoutes,
+    routes: [
+      ...serviceAnalysisRoutes,
+      {
+        path: ':applicationId',
+        breadcrumbName: i18n.t('msp:service list'),
+        routes: [
+          {
+            path: ':serviceId',
+            routes: [
+              {
+                path: ':serviceName',
+                breadcrumbName: i18n.t('msp:service monitor'),
+                tabs,
+                alwaysShowTabKey: 'overview',
+                pageNameInfo: ServiceNameSelect,
+                layout: { fullHeight: true },
+                routes: serviceAnalysisRoutes,
+              },
+            ],
+          },
+        ],
+      },
+    ],
   };
 }
