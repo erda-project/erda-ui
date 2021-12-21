@@ -1,6 +1,28 @@
-.t {
-  background: radial-gradient(32px circle, transparent 32px, rgba(216, 75, 101, 0.6) 32px, transparent 38px);
-  background-repeat: no-repeat;
+$suction-shadow: 0 0 0 rgba($color-error, 0);
+$exhale-shadow: 0 0 20px rgba($color-error, 0.9);
+
+@keyframes service-node-animation {
+  0% {
+    box-shadow: $suction-shadow;
+  }
+  50% {
+    box-shadow: $exhale-shadow;
+  }
+  100% {
+    box-shadow: $suction-shadow;
+  }
+}
+
+@keyframes addon-node-animation {
+  0% {
+    filter: drop-shadow($suction-shadow);
+  }
+  50% {
+    filter: drop-shadow($exhale-shadow);
+  }
+  100% {
+    filter: drop-shadow($suction-shadow);
+  }
 }
 
 .service-node {
@@ -26,34 +48,6 @@
     }
   }
 
-  &.has-error {
-    border-color: transparent;
-    @keyframes breathing-light {
-      0% {
-        background: radial-gradient(32px circle, transparent 32px, rgba(216, 75, 101, 0.6) 32px, transparent 38px);
-      }
-      50% {
-        background: radial-gradient(32px circle, transparent 32px, transparent 32px, transparent 38px);
-      }
-      100% {
-        background: radial-gradient(32px circle, transparent 32px, rgba(216, 75, 101, 0.6) 32px, transparent 38px);
-      }
-    }
-
-    &:after {
-      content: '';
-      display: block;
-      position: absolute;
-      width: 76px;
-      height: 76px;
-      top: -6px;
-      left: -6px;
-      border-radius: 50%;
-      background-repeat: no-repeat;
-      animation: breathing-light 1.5s infinite ease-in-out;
-    }
-  }
-
   &.error {
     &:hover {
       &:before {
@@ -67,6 +61,22 @@
         border-radius: 50%;
         border: 1px dotted #d84b65;
       }
+    }
+  }
+
+  &.has-error {
+    border-color: transparent;
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+      animation: service-node-animation 2s infinite ease-in-out;
     }
   }
 }
@@ -87,5 +97,13 @@
   .unit {
     transform: scale(0.9);
     transform-origin: center;
+  }
+}
+
+.addon-node {
+  &.has-error {
+    .shadow-wrapper {
+      animation: addon-node-animation 2s infinite ease-in-out;
+    }
   }
 }
