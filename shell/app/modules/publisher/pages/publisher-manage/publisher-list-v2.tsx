@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Spin, Button, Table } from 'antd';
+import { Input, Spin, Button } from 'antd';
+import Table from 'common/components/table';
 import { useDebounce, useUnmount, useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import { CustomFilter } from 'common';
@@ -97,10 +98,11 @@ export const PurePublisherList = ({
     onItemClick(item);
   };
 
-  const handlePageChange = (pageNo: number) => {
+  const handlePageChange = (pageNo: number, pageSize: number) => {
     getList({
       q,
       pageNo,
+      pageSize,
       type: mode,
     });
   };
@@ -169,14 +171,6 @@ export const PurePublisherList = ({
   );
   return (
     <Spin spinning={isFetching}>
-      <CustomFilter
-        key={mode}
-        config={config}
-        onSubmit={onSubmit}
-        onReset={() => {
-          updater.q('');
-        }}
-      />
       <div className="publisher-list-section">
         <div className="top-button-group">
           <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
@@ -201,7 +195,16 @@ export const PurePublisherList = ({
             ...paging,
             onChange: handlePageChange,
           }}
-          scroll={{ x: 800 }}
+          slot={
+            <CustomFilter
+              key={mode}
+              config={config}
+              onSubmit={onSubmit}
+              onReset={() => {
+                updater.q('');
+              }}
+            />
+          }
         />
         <ArtifactsFormModal visible={formVisible} onCancel={closeFormModal} afterSubmit={afterSubmitAction} />
       </div>

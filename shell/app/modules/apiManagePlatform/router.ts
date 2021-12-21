@@ -26,6 +26,9 @@ const getApiManagePlatformRouter = (): RouteConfigItem[] => [
         routes: [
           {
             getComp: (cb) => cb(import('apiManagePlatform/pages/api-market/list')),
+            layout: {
+              noWrapper: true,
+            },
           },
           {
             path: ':assetID',
@@ -63,6 +66,9 @@ const getApiManagePlatformRouter = (): RouteConfigItem[] => [
         routes: [
           {
             getComp: (cb) => cb(import('apiManagePlatform/pages/access-manage/list')),
+            layout: {
+              noWrapper: true,
+            },
           },
           {
             path: 'access/:type',
@@ -91,6 +97,9 @@ const getApiManagePlatformRouter = (): RouteConfigItem[] => [
         routes: [
           {
             getComp: (cb) => cb(import('apiManagePlatform/pages/client/list')),
+            layout: {
+              noWrapper: true,
+            },
           },
           {
             path: ':id',

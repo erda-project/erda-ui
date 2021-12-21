@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
+import Table from 'common/components/table';
 import { DOC_PROJECT_RESOURCE_MANAGE, WORKSPACE_LIST } from 'common/constants';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import i18n from 'i18n';
@@ -148,7 +149,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
     <Table
       rowKey="workspace"
       dataSource={tableData}
-      tableLayout="auto"
+      onChange={() => getClusterList()}
       columns={[
         {
           key: 'workspace',
@@ -192,7 +193,6 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
           ),
         },
       ]}
-      pagination={false}
     />
   );
   return (

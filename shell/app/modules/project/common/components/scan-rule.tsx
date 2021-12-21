@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { map, isInteger, get } from 'lodash';
-import { Table, Button, Popconfirm, Input, Modal, message, Select, Tooltip } from 'antd';
+import { Button, Popconfirm, Input, Modal, message, Select, Tooltip } from 'antd';
+import Table from 'common/components/table';
 import i18n from 'i18n';
 import scanRuleStore from 'project/stores/scan-rule';
 import { useEffectOnce } from 'react-use';
@@ -48,24 +49,13 @@ const { Option } = Select;
 export default function ScanRule(props: IProps) {
   const { operationAuth, scopeId, scopeType } = props;
   const [
-    {
-      isEdit,
-      visible,
-      currentId,
-      appendedCurrent,
-      metricValue,
-      appendedRowKeys,
-      optionalRowKeys,
-      loading,
-      operationOptionalRules,
-    },
+    { isEdit, visible, currentId, metricValue, appendedRowKeys, optionalRowKeys, loading, operationOptionalRules },
     updater,
     update,
   ] = useUpdate({
     isEdit: false,
     visible: false,
     currentId: '',
-    appendedCurrent: 1,
     metricValue: '',
     appendedRowKeys: [],
     optionalRowKeys: [],
@@ -200,87 +190,74 @@ export default function ScanRule(props: IProps) {
         return record.valueType === 'RATING' ? get(valueRateMap[item], 'label', '') : `${item}${ruleType}`;
       },
     },
-    {
-      title: i18n.t('operation'),
-      dataIndex: 'operation',
-      align: 'center',
-      width: 160,
-      fixed: 'right',
-      render: (_: any, record: any) => {
-        if (isEdit && record.id === currentId) {
-          return (
-            <div className="table-operations">
-              <span className="table-operations-btn" onClick={() => updater.isEdit(!isEdit)}>
-                {i18n.t('cancel')}
-              </span>
-              <span
-                className="table-operations-btn"
-                onClick={async () => {
-                  const { id, description, valueType, decimalScale } = record;
-                  const isIllegal = checkRule([{ valueType, metricValue, decimalScale }]);
-                  if (isIllegal) {
-                    message.error(i18n.t('dop:please enter the correct data'));
-                    return;
-                  }
-                  await updateScanRule({
-                    id,
-                    description,
-                    metricValue,
-                    scopeType: record.scopeType,
-                    scopeId: record.scopeId,
-                  });
-                  reloadAppendedList();
-                  updater.isEdit(!isEdit);
-                }}
-              >
-                {i18n.t('save')}
-              </span>
-            </div>
-          );
-        }
-
-        const isHandle = record.scopeId !== '-1';
-        return (
-          <div className="table-operations">
-            <Tooltip
-              title={isHandle ? '' : i18n.t('dop:Platform default rules. Please add custom rules if necessary.')}
-            >
-              <WithAuth pass={operationAuth}>
-                <span
-                  className={`table-operations-btn ${isHandle ? '' : 'disabled'}`}
-                  onClick={() => {
-                    update({
-                      isEdit: isHandle,
-                      currentId: record.id,
-                    });
-                  }}
-                >
-                  {i18n.t('edit')}
-                </span>
-              </WithAuth>
-            </Tooltip>
-            <Popconfirm
-              disabled={!isHandle}
-              title={`${i18n.t('common:confirm to delete')}?`}
-              onConfirm={async () => {
-                await deleteScanRule({ id: record.id, scopeId, scopeType });
-                updater.appendedCurrent(1);
-                reloadAppendedList();
-              }}
-            >
-              <WithAuth pass={operationAuth}>
-                <Tooltip
-                  title={isHandle ? '' : i18n.t('dop:Platform default rules. Please add custom rules if necessary.')}
-                >
-                  <span className={`table-operations-btn ${isHandle ? '' : 'disabled'}`}>{i18n.t('delete')}</span>
-                </Tooltip>
-              </WithAuth>
-            </Popconfirm>
-          </div>
-        );
-      },
-    },
   ];
+
+  const actions = {
+    render: (record: SCAN_RULE.AppendedItem) => {
+      if (isEdit && record.id === currentId) {
+        return [
+          {
+            title: i18n.t('cancel'),
+            onClick: () => updater.isEdit(!isEdit),
+          },
+          {
+            title: i18n.t('save'),
+            onClick: async () => {
+              const { id, description, valueType, decimalScale } = record;
+              const isIllegal = checkRule([{ valueType, metricValue, decimalScale }]);
+              if (isIllegal) {
+                message.error(i18n.t('dop:please enter the correct data'));
+                return;
+              }
+              await updateScanRule({
+                id,
+                description,
+                metricValue,
+                scopeType: record.scopeType,
+                scopeId: record.scopeId,
+              });
+              reloadAppendedList();
+              updater.isEdit(!isEdit);
+            },
+          },
+        ];
+      } else {
+        const isHandle = record.scopeId !== '-1';
+        return [
+          {
+            title: (
+              <WithAuth
+                noAuthTip={i18n.t('dop:Platform default rules. Please add custom rules if necessary.')}
+                pass={operationAuth && isHandle}
+              >
+                <span>{i18n.t('edit')}</span>
+              </WithAuth>
+            ),
+            onClick: () => update({ isEdit: isHandle, currentId: record.id }),
+          },
+          {
+            title: (
+              <WithAuth
+                noAuthTip={i18n.t('dop:Platform default rules. Please add custom rules if necessary.')}
+                pass={operationAuth && isHandle}
+              >
+                <span>{i18n.t('delete')}</span>
+              </WithAuth>
+            ),
+            onClick: () => {
+              Modal.confirm({
+                title: `${i18n.t('common:confirm to delete')}?`,
+                onOk: async () => {
+                  await deleteScanRule({ id: record.id, scopeId, scopeType });
+                  reloadAppendedList();
+                },
+              });
+            },
+          },
+        ];
+      }
+    },
+  };
 
   useEffectOnce(() => {
     getAppendedScanRules({
@@ -321,7 +298,6 @@ export default function ScanRule(props: IProps) {
       content: i18n.t('dop:batch-delete-tip-content'),
       async onOk() {
         await batchDeleteScanRule({ scopeId, scopeType, ids: appendedRowKeys });
-        updater.appendedCurrent(1);
         reloadAppendedList();
         updater.appendedRowKeys([]);
       },
@@ -383,7 +359,6 @@ export default function ScanRule(props: IProps) {
       visible: false,
       optionalRowKeys: [],
     });
-    updater.appendedCurrent(1);
     reloadAppendedList();
   };
 
@@ -421,12 +396,8 @@ export default function ScanRule(props: IProps) {
         dataSource={appendedScanRules}
         rowKey="id"
         rowSelection={appendedRowSelection}
-        pagination={{
-          pageSize: 20,
-          current: appendedCurrent,
-          onChange: (pageNo) => updater.appendedCurrent(pageNo),
-        }}
-        scroll={{ y: 300, x: 900 }}
+        actions={actions}
+        onChange={() => reloadAppendedList()}
       />
       <Modal
         width={800}

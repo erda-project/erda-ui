@@ -97,6 +97,7 @@ function getProjectRouter(): RouteConfigItem[] {
                 {
                   tabs: COLLABORATE_TABS,
                   getComp: (cb) => cb(import('project/pages/iteration/table'), 'Iteration'),
+                  layout: { noWrapper: true },
                 },
                 {
                   path: ':iterationId',
@@ -171,6 +172,9 @@ function getProjectRouter(): RouteConfigItem[] {
           path: 'ticket',
           breadcrumbName: i18n.t('dop:tickets'),
           getComp: (cb) => cb(import('project/pages/ticket')),
+          layout: {
+            noWrapper: true,
+          },
         },
         {
           path: 'pipelines',
@@ -198,6 +202,9 @@ function getProjectRouter(): RouteConfigItem[] {
               routes: [
                 {
                   getComp: (cb) => cb(import('project/pages/test-plan/test-plan')),
+                  layout: {
+                    noWrapper: true,
+                  },
                 },
                 {
                   path: ':testPlanId',
@@ -213,6 +220,9 @@ function getProjectRouter(): RouteConfigItem[] {
               ignoreTabQuery: true,
               breadcrumbName: i18n.t('dop:manual test'),
               getComp: (cb) => cb(import('project/pages/test-env/test-env'), 'ManualTestEnv'),
+              layout: {
+                noWrapper: true,
+              },
               tabs: MANUAL_TEST_TABS,
             },
           ],

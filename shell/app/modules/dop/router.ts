@@ -63,6 +63,9 @@ export default function getDopRouter(): RouteConfigItem[] {
               routes: [
                 {
                   getComp: (cb) => cb(import('application/pages/deploy-list/approve')),
+                  layout: {
+                    noWrapper: true,
+                  },
                 },
               ],
             },
@@ -72,6 +75,9 @@ export default function getDopRouter(): RouteConfigItem[] {
               tabs: initiateTabs,
               ignoreTabQuery: true,
               getComp: (cb) => cb(import('application/pages/deploy-list/initiate')),
+              layout: {
+                noWrapper: true,
+              },
             },
           ],
         },
@@ -114,6 +120,9 @@ export default function getDopRouter(): RouteConfigItem[] {
               routes: [
                 {
                   getComp: (cb) => cb(import('dop/pages/publisher')),
+                  layout: {
+                    noWrapper: true,
+                  },
                 },
                 ...getPublisherRouter(),
               ],

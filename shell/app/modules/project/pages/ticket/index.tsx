@@ -25,7 +25,8 @@ import { Filter, MemberSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { mergeSearch, updateSearch, getTimeRanges } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
-import { Input, Table, Button, Select, DatePicker, Tooltip } from 'antd';
+import { Input, Button, Select, DatePicker, Tooltip } from 'antd';
+import Table from 'common/components/table';
 import { useLoading } from 'core/stores/loading';
 import { usePerm, WithAuth, getAuth, isCreator, isAssignee } from 'app/user/common';
 import i18n from 'i18n';
@@ -423,14 +424,6 @@ const Ticket = () => {
           </Button>
         </WithAuth>
       </div>
-      <Filter
-        config={filterField}
-        onFilter={onFilter}
-        connectUrlSearch
-        urlExtra={urlExtra}
-        formatFormData={formatFormData}
-        updateSearch={handleUpdateSearch}
-      />
       <Table
         loading={loading}
         columns={columns}
@@ -438,7 +431,16 @@ const Ticket = () => {
         rowKey="id"
         size="small"
         pagination={pagination}
-        scroll={{ x: 800 }}
+        slot={
+          <Filter
+            config={filterField}
+            onFilter={onFilter}
+            connectUrlSearch
+            urlExtra={urlExtra}
+            formatFormData={formatFormData}
+            updateSearch={handleUpdateSearch}
+          />
+        }
       />
       <EditIssueDrawer
         id={detailId}
