@@ -193,13 +193,15 @@ const Info = () => {
         header={
           <div>
             {i18n.t('dop:basic information')}
-            <Tooltip title={i18n.t('projects')}>
-              <CustomIcon
-                type="link1"
-                className="ml-2 hover-active"
-                onClick={() => goTo(goTo.pages.project, { projectId: info.id })}
-              />
-            </Tooltip>
+            {notMSP ? (
+              <Tooltip title={i18n.t('projects')}>
+                <CustomIcon
+                  type="link1"
+                  className="ml-2 hover-active"
+                  onClick={() => goTo(goTo.pages.project, { projectId: info.id })}
+                />
+              </Tooltip>
+            ) : null}
           </div>
         }
         actions={
@@ -329,24 +331,30 @@ const Info = () => {
       <Card
         header={i18n.t('advanced settings')}
         actions={
-          <span className="hover-active" onClick={() => setProjectRollbackEditVisible(true)}>
-            <ErdaIcon type="edit" size={16} className="mr-2 align-middle" />
-          </span>
+          notMSP ? (
+            <span className="hover-active" onClick={() => setProjectRollbackEditVisible(true)}>
+              <ErdaIcon type="edit" size={16} className="mr-2 align-middle" />
+            </span>
+          ) : null
         }
       >
-        <div className="label">{i18n.t('dop:rollback setting')}</div>
-        <Row className="erda-panel-list">
-          {Object.keys(info.rollbackConfig || {}).map((key: string) => (
-            <Col span={6} className="flex">
-              <div className="flex mr-3">{resourceIconMap[key]}</div>
-              <div>
-                <div className="label">{info.rollbackConfig[key]}</div>
-                <div className="text-xs">{resourceMap[key]}</div>
-              </div>
-            </Col>
-          ))}
-        </Row>
-        <div className="label">{i18n.t('other settings')}</div>
+        {notMSP ? (
+          <>
+            <div className="label">{i18n.t('dop:rollback setting')}</div>
+            <Row className="erda-panel-list">
+              {Object.keys(info.rollbackConfig || {}).map((key: string) => (
+                <Col span={6} className="flex">
+                  <div className="flex mr-3">{resourceIconMap[key]}</div>
+                  <div>
+                    <div className="label">{info.rollbackConfig[key]}</div>
+                    <div className="text-xs">{resourceMap[key]}</div>
+                  </div>
+                </Col>
+              ))}
+            </Row>
+            <div className="label">{i18n.t('other settings')}</div>
+          </>
+        ) : null}
         <Row>
           <Col span={12} className="pr-2">
             <div className="erda-panel-list flex justify-between items-center">
