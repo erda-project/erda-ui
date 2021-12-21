@@ -31,7 +31,7 @@ interface IPaginationProps {
   total: number;
   current: number;
   pageSize?: number;
-  onChange: (page: number, pageSize?: number) => void;
+  onChange: (page: number, pageSize: number) => void;
 }
 
 export interface IPaginationJumpProps {
@@ -78,14 +78,16 @@ const Pagination = (pagination: IPaginationProps) => {
       <div className="erda-pagination-content inline-flex">
         <div
           className={`bg-hover p-2 leading-none ${current === 1 ? 'disabled' : 'cursor-pointer'}`}
-          onClick={() => current > 1 && onChange?.(current - 1)}
+          onClick={() => current > 1 && onChange?.(current - 1, pageSize)}
         >
           <ErdaIcon type="left" size={18} color="currentColor" />
         </div>
         {paginationCenterRender}
         <div
-          className={`bg-hover p-2 leading-none ${current === Math.ceil(total / pageSize) ? 'disabled' : 'cursor-pointer'}`}
-          onClick={() => total && current < Math.ceil(total / pageSize) && onChange?.(current + 1)}
+          className={`bg-hover p-2 leading-none ${
+            current === Math.ceil(total / pageSize) ? 'disabled' : 'cursor-pointer'
+          }`}
+          onClick={() => total && current < Math.ceil(total / pageSize) && onChange?.(current + 1, pageSize)}
         >
           <ErdaIcon type="right" size={18} color="currentColor" />
         </div>
@@ -123,9 +125,9 @@ const PaginationJump = ({ pagination, hidePopover }: IPaginationJumpProps) => {
     const maxCurrent = Math.ceil(total / pageSize);
     if (value) {
       if (+value <= maxCurrent) {
-        onChange?.(+value);
+        onChange?.(+value, pageSize);
       } else {
-        onChange?.(maxCurrent);
+        onChange?.(maxCurrent, pageSize);
       }
       setValue('');
       hidePopover();
@@ -135,7 +137,14 @@ const PaginationJump = ({ pagination, hidePopover }: IPaginationJumpProps) => {
   return (
     <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
       {i18n.t('Go to page')}
-      <Input className="mx-2" style={{ width: 80 }} value={value} onChange={handleChange} onPressEnter={jump} />
+      <Input
+        className="mx-2"
+        autoFocus
+        style={{ width: 80 }}
+        value={value}
+        onChange={handleChange}
+        onPressEnter={jump}
+      />
       <Button
         type="primary"
         size="small"

@@ -106,6 +106,7 @@ declare namespace CONFIG_PAGE {
   // 单个组件基础定义
   interface BaseSpec {
     type: string;
+    version?: string;
     state?: Obj;
     data?: Obj;
     props?: Obj;
@@ -115,7 +116,7 @@ declare namespace CONFIG_PAGE {
   // 框架注入 的 props
   interface InjectProps {
     customOp?: Obj;
-    execOperation: (opObj: { [p: string]: any; key: string }, updateState?: any, extraUpdateInfo?: Obj) => void;
+    execOperation: (opObj: Obj<CP_COMMON.Operation>, updateState?: any, extraUpdateInfo?: Obj) => void;
     updateState: (val: Obj) => void;
   }
 

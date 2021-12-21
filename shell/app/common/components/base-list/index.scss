@@ -1,0 +1,117 @@
+.erda-base-list {
+  .erda-base-list-item {
+    padding: 12px 16px;
+    border-radius: 2px;
+    background-color: $white;
+    box-shadow: 0 2px 4px 0 $color-box-shadow;
+    background-position: 100% 0;
+    background-repeat: no-repeat;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .item-prefix-img {
+      margin-right: 12px;
+      line-height: 1;
+
+      img,
+      > * {
+        width: 36px;
+        height: 36px;
+      }
+    }
+
+    .body-title {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      height: 22px;
+      line-height: 22px;
+
+      .title-text {
+        width: auto;
+        color: $color-text;
+      }
+
+      .title-icon {
+        color: $color-text-desc;
+        font-size: 18px;
+      }
+
+      .erda-badge {
+        line-height: 22px;
+      }
+    }
+
+    .body-description {
+      font-size: 12px;
+      height: 20px;
+      line-height: 20px;
+      color: $color-text-sub;
+    }
+
+    .body-meta-info {
+      line-height: 20px;
+      color: $color-text-sub;
+
+      .info-item {
+        display: inline-flex;
+        align-items: center;
+        max-width: 240px;
+        margin-right: 24px;
+        font-size: 12px;
+
+        &.type-normal {
+          color: $color-text-sub;
+        }
+
+        &.type-success {
+          color: $color-success;
+        }
+
+        &.type-warning {
+          color: $color-warning;
+        }
+
+        &.type-error {
+          color: $color-danger;
+        }
+      }
+
+      .info-value {
+        background-color: rgba($color-primary, 0.04);
+        border-radius: 20px;
+        padding: 0 4px;
+      }
+    }
+  }
+
+  .load-more {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12px;
+    color: $color-text-desc;
+    font-size: 14px;
+  }
+}
+
+.erda-list-operations {
+  .ant-dropdown-menu {
+    width: 200px;
+    background-color: rgba($color-default, 0.96);
+  }
+
+  .ant-dropdown-menu-item,
+  .ant-dropdown-menu-submenu-title {
+    color: rgba($white, 0.9);
+  }
+
+  .ant-dropdown-menu-item:hover,
+  .ant-dropdown-menu-submenu-title:hover {
+    background-color: rgba($white, 0.08);
+    color: $white;
+  }
+}
