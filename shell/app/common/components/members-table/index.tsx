@@ -440,7 +440,6 @@ const MembersTable = ({
         {
           title: i18n.t('cellphone'),
           dataIndex: 'mobile',
-          hidden: true,
           render: (value: string | number) => (
             <span className="cursor-copy" data-clipboard-tip={i18n.t('cellphone')} data-clipboard-text={value}>
               {value || '-'}
@@ -467,6 +466,7 @@ const MembersTable = ({
           {
             title: i18n.t('member label'),
             dataIndex: 'labels',
+            hidden: true,
             render: (val: string[]) => {
               const curLabels = map(val, (item) => {
                 const labelObj = find(memberLabels, { label: item }) || { name: item, label: item };
