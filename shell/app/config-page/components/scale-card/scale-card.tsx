@@ -32,7 +32,7 @@ const ScaleCard = (props: CP_SCALE_CARD.Props) => {
           >
             <div className="icon-wrap">
               <ErdaIcon className="icon active-icon" type={item.icon} size={20} />
-              <ErdaIcon className="icon normal-icon" type={item.icon + '-normal'} size={20} />
+              <ErdaIcon className="icon normal-icon" type={`${item.icon}-normal`} size={20} />
             </div>
             <span className="text truncate">{item.label}</span>
           </div>
