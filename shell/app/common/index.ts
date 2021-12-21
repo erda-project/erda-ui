@@ -118,3 +118,4 @@ export type { CardColumnsProps } from './components/card-list';
 export { default as UserProfile } from './components/user-profile';
 export type { UserProfileProps } from './components/user-profile';
 export { default as BaseList } from './components/base-list';
+export { default as ListSelect } from './components/list-select';

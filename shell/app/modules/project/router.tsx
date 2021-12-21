@@ -383,6 +383,17 @@ function getProjectRouter(): RouteConfigItem[] {
           layout: { showSubSidebar: false, fullHeight: true },
           getComp: (cb) => cb(import('user/common/perm-editor/perm-editor'), 'PermEditor'),
         },
+        {
+          path: 'release',
+          pageName: i18n.t('artifact management'),
+          layout: { fullHeight: true },
+          getComp: (cb) => cb(import('project/pages/release')),
+        },
+        {
+          path: 'release/createRelease/:type',
+          pageName: i18n.t('artifact management'),
+          getComp: (cb) => cb(import('project/pages/release/components/form')),
+        },
       ],
     },
   ];

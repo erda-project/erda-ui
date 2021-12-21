@@ -27,7 +27,7 @@ import {
 } from 'antd';
 import { FormInstance } from 'app/interface/common';
 import classnames from 'classnames';
-import { ErdaIcon, Icon as CustomIcon, Badge } from 'common';
+import { ErdaIcon, Icon as CustomIcon, Badge, ListSelect, MarkdownEditor } from 'common';
 import { TagItem } from 'common/components/tags';
 import i18n from 'i18n';
 import { isString } from 'lodash';
@@ -291,6 +291,17 @@ const RenderFormItem = ({
       specialConfig.valuePropType = 'array';
       ItemComp = <Cascader {...itemProps} options={options} />;
       break;
+    case 'listSelect':
+      ItemComp = <ListSelect label={label} {...itemProps} />;
+      break;
+    case 'markdown': {
+      ItemComp = (
+        <ClassWrapper>
+          <MarkdownEditor {...itemProps} defaultHeight={400} />
+        </ClassWrapper>
+      );
+      break;
+    }
     case 'input':
     default:
       ItemComp = <Input {...itemProps} className={classnames('input-with-icon', itemProps.className)} size={size} />;

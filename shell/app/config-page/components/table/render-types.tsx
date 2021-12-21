@@ -175,7 +175,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
               </div>
             ) : null}
             <div className="leading-tight py-1 flex-1 overflow-hidden">
-              <Ellipsis title={value} className="hover:text-purple-deep" />
+              <Ellipsis title={value} className="text-hover" />
               {extraContent ? <div>{getRender(extraContent, record, {})}</div> : null}
             </div>
           </div>
