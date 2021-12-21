@@ -72,6 +72,7 @@ import SimpleChart from './simple-chart/simple-chart';
 import ChartBlock from './chart-block/chart-block';
 import Kanban from './kanban/kanban';
 import RadioTabs from './radio-tabs/radio-tabs';
+import UserProfile from './user-profile/user-profile';
 import List2 from './base-list/base-list';
 import TopN from './top-n';
 
@@ -140,6 +141,7 @@ export const containerMap = {
   ChartBlock,
   Kanban,
   RadioTabs,
+  UserProfile,
   List2,
   TopN,
 };
