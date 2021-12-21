@@ -19,25 +19,43 @@ import './index.scss';
 
 interface IEmptyProps {
   tip?: string;
+  desc?: string;
   icon?: string | JSX.Element;
   relative?: boolean;
   style?: object;
   action?: JSX.Element | null;
   className?: string;
+  // save svg to static/empty-holder directory, use https://www.zhangxinxu.com/sp/svgo/ to compress first
+  scene?: 'create-project' | 'create-app' | 'upload' | 'star-project' | 'star-app';
 }
 export const EmptyHolder = ({
   icon = 'empty',
   tip = i18n.t('common:no data'),
+  desc,
   relative = false,
   style = {},
   action = null,
   className = '',
+  scene,
 }: IEmptyProps) => {
   const cls = classnames({
     'empty-holder': true,
     'multi-line': true,
     relative,
   });
+  if (scene) {
+    return (
+      <div className={`scene-empty-holder inline-flex items-center justify-center bg-default-02 ${className || ''}`}>
+        <img src={`/empty-holder/${scene}.svg`} alt={`${scene}-empty-image`} />
+        {tip || desc ? (
+          <div className="ml-4">
+            <div className="title font-medium">{tip}</div>
+            <div className="desc text-sub">{desc}</div>
+          </div>
+        ) : null}
+      </div>
+    );
+  }
   return (
     <div className={`${cls} ${className}`} style={style}>
       {typeof icon === 'string' ? <CustomIcon type={icon} color /> : <div>{icon}</div>}
