@@ -75,6 +75,7 @@ import RadioTabs from './radio-tabs/radio-tabs';
 import UserProfile from './user-profile/user-profile';
 import List2 from './base-list/base-list';
 import TopN from './top-n';
+import ScaleCard from './scale-card/scale-card';
 
 export const containerMap = {
   Alert,
@@ -144,4 +145,5 @@ export const containerMap = {
   UserProfile,
   List2,
   TopN,
+  ScaleCard,
 };
