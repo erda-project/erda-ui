@@ -149,7 +149,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
     <Table
       rowKey="workspace"
       dataSource={tableData}
-      hideHeader
+      onChange={() => getClusterList()}
       columns={[
         {
           key: 'workspace',
@@ -193,7 +193,6 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
           ),
         },
       ]}
-      pagination={false}
     />
   );
   return (

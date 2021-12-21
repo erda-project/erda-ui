@@ -144,7 +144,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
     <div className="monitor-service-table has-into-link">
       <Table
         rowKey={(record, i) => `${i}${record.id}`}
-        pagination={false}
+        pagination={{ pageSize: 100 }}
         loading={isFetching}
         columns={cols}
         dataSource={list}

@@ -18,7 +18,8 @@ import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import moment from 'moment';
-import { Button, Progress, Table, Select } from 'antd';
+import { Button, Progress, Select, Modal } from 'antd';
+import Table from 'common/components/table';
 import React from 'react';
 import { map, sumBy } from 'lodash';
 import IterationModal from './iteration-modal';
@@ -146,58 +147,64 @@ export const Iteration = () => {
         );
       },
     },
-    {
-      title: i18n.t('operations'),
-      width: 160,
-      fixed: 'right',
-      key: 'ops',
-      render: (record: ITERATION.Detail) => {
-        if (record.state === 'FILED') {
-          return (
-            <div className="table-operations" onClick={(e) => e.stopPropagation()}>
-              <WithAuth pass={handleFiledAuth}>
-                <span className="table-operations-btn" onClick={() => onFiled(record, 'UNFILED')}>
-                  {i18n.t('dop:unarchive')}
-                </span>
-              </WithAuth>
-            </div>
-          );
-        }
-        return (
-          <div className="table-operations" onClick={(e) => e.stopPropagation()}>
-            <WithAuth pass={operationAuth}>
-              <span className="table-operations-btn" onClick={() => onEdit(record)}>
-                {i18n.t('edit')}
-              </span>
-            </WithAuth>
-            <WithAuth pass={handleFiledAuth}>
-              <span className="table-operations-btn" onClick={() => onFiled(record, 'FILED')}>
-                {i18n.t('archive')}
-              </span>
-            </WithAuth>
-            <DeleteConfirm
-              onConfirm={() => {
-                onDelete(record.id);
-              }}
-            >
-              <WithAuth pass={operationAuth}>
-                <span className="table-operations-btn">{i18n.t('delete')}</span>
-              </WithAuth>
-            </DeleteConfirm>
-          </div>
-        );
-      },
-    },
   ];
+
+  const actions = {
+    render: (record: ITERATION.Detail) => {
+      if (record.state === 'FILED') {
+        return [
+          {
+            title: (
+              <WithAuth pass={handleFiledAuth}>
+                <span>{i18n.t('dop:unarchive')}</span>
+              </WithAuth>
+            ),
+            onClick: () => onFiled(record, 'UNFILED'),
+          },
+        ];
+      }
+
+      return [
+        {
+          title: (
+            <WithAuth pass={operationAuth}>
+              <span>{i18n.t('edit')}</span>
+            </WithAuth>
+          ),
+          onClick: () => onEdit(record),
+        },
+        {
+          title: (
+            <WithAuth pass={handleFiledAuth}>
+              <span>{i18n.t('archive')}</span>
+            </WithAuth>
+          ),
+          onClick: () => onFiled(record, 'FILED'),
+        },
+        {
+          title: (
+            <WithAuth pass={operationAuth}>
+              <span>{i18n.t('delete')}</span>
+            </WithAuth>
+          ),
+          onClick: () => {
+            Modal.confirm({
+              title: `${i18n.t('common:confirm deletion')}？`,
+              content: `${i18n.t('common:confirm this action')}？`,
+              onOk() {
+                onDelete(record.id);
+              },
+            });
+          },
+        },
+      ];
+    },
+  };
 
   const addAuth = usePerm((s) => s.project.iteration.operation.pass);
 
   return (
     <div className="iteration">
-      <Select className="mb-4 w-52" value={status} onChange={(value: any) => setStatus(value)}>
-        {iterationOptions}
-      </Select>
-
       <div className="top-button-group">
         <WithAuth pass={addAuth} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={onCreate}>
@@ -210,6 +217,7 @@ export const Iteration = () => {
         dataSource={list}
         columns={columns}
         loading={isFetching}
+        actions={actions}
         pagination={{
           current: pageNo,
           pageSize,
@@ -230,7 +238,11 @@ export const Iteration = () => {
             },
           };
         }}
-        scroll={{ x: '100%' }}
+        slot={
+          <Select className="mb-4 w-52" value={status} onChange={(value: any) => setStatus(value)}>
+            {iterationOptions}
+          </Select>
+        }
       />
       <IterationModal visible={state.modalVisible} data={state.curDetail as ITERATION.Detail} onClose={handleClose} />
     </div>

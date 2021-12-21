@@ -97,6 +97,7 @@ function getProjectRouter(): RouteConfigItem[] {
                 {
                   tabs: COLLABORATE_TABS,
                   getComp: (cb) => cb(import('project/pages/iteration/table'), 'Iteration'),
+                  layout: { noWrapper: true },
                 },
                 {
                   path: ':iterationId',
