@@ -156,7 +156,7 @@ const renderSelectOption = (single: IOption, optionRender: (opt: IOption) => JSX
       className={single.fix ? 'select-fix-option' : ''}
       key={single.value}
       label={single.name || single.label}
-      value={`${single.value}`}
+      value={single.value}
       disabled={!!single.disabled}
     >
       {optionRender ? (
@@ -388,7 +388,6 @@ const SelectComp = ({ value, onChange, options, size, itemProps }: SelectCompPro
   const { optionRender, ...restItemProps } = itemProps;
   return (
     <Select
-      optionLabelProp="label"
       {...restItemProps}
       value={value}
       onChange={onChange}
@@ -477,7 +476,7 @@ const DateRange = ({
         disabledDate={disabledDate(true)}
         format={'YYYY/MM/DD'}
         allowClear={!required}
-        onChange={(v) => onChange(getTimeValue([v?.valueOf(), endDate]))}
+        onChange={(v) => onChange(getTimeValue([v?.startOf?.('day').valueOf(), endDate]))}
         placeholder={i18n.t('common:startDate')}
         open={startOpen}
         onOpenChange={setStartOpen}
@@ -492,7 +491,7 @@ const DateRange = ({
         disabledDate={disabledDate(false)}
         format={'YYYY/MM/DD'}
         placeholder={i18n.t('common:endDate')}
-        onChange={(v) => onChange(getTimeValue([startDate, v?.valueOf()]))}
+        onChange={(v) => onChange(getTimeValue([startDate, v?.endOf?.('day').valueOf()]))}
         open={endOpen}
         onOpenChange={setEndOpen}
       />
@@ -542,6 +541,7 @@ const TagsSelect = ({ size, options, value = [], onChange, itemProps }: TagsSele
       filterOption={(input, option) =>
         typeof option?.label === 'string' && option?.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
       }
+      listItemHeight={0}
     >
       {typeof options === 'function'
         ? options()

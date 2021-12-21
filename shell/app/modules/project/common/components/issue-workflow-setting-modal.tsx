@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Icon as CustomIcon, IF } from 'common';
+import { EmptyHolder, Icon as CustomIcon, IF } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { map, isEmpty } from 'lodash';
 import { Popconfirm, Modal, Divider, Button, Tooltip } from 'antd';
@@ -159,67 +159,67 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
             />
           </IF>
         </div>
-        <IF check={!isEmpty(dataList)}>
-          <div className="form-content">
-            <div className="flex justify-between items-center">
-              <div className="form-content-left mr-1">
-                <IF check={!formVisible}>
-                  <WithAuth pass={hasAuth}>
-                    <Button
-                      type="primary"
-                      className="w-full add-option-btn text-xs"
-                      onClick={() => {
-                        updater.formVisible(true);
-                      }}
-                    >
-                      <CustomIcon type="cir-add" className="mr-1" />
-                      {i18n.t('add')}
-                    </Button>
-                  </WithAuth>
-                </IF>
-              </div>
-              <div className="form-content-right flex justify-between items-center">
-                {map(dataList, ({ stateName, stateID }, stateDataIndex) => {
-                  return (
-                    <div className={`state-radio-group ${flexWidthClass}`} key={stateID}>
-                      <div className={`state-option-btn flex justify-between items-center ${flexWidthClass}`}>
-                        <WithAuth pass={hasAuth}>
-                          <CustomIcon
-                            className={`state-move-btn ${stateDataIndex === 0 ? 'disabled' : 'cursor-pointer'}`}
-                            type="arrow-left"
-                            onClick={() => {
-                              onChangeStateOrder(stateDataIndex, -1);
-                            }}
-                          />
-                        </WithAuth>
-                        <Tooltip title={stateName}>
-                          <div className="text-xs nowrap">{stateName}</div>
-                        </Tooltip>
-                        <WithAuth pass={hasAuth}>
-                          <CustomIcon
-                            className={`state-move-btn ${
-                              stateDataIndex === dataList.length - 1 ? 'disabled' : 'cursor-pointer'
-                            }`}
-                            type="arrow-right"
-                            onClick={() => {
-                              onChangeStateOrder(stateDataIndex, 1);
-                            }}
-                          />
-                        </WithAuth>
-                        <WithAuth pass={hasAuth}>
-                          <Popconfirm
-                            title={`${i18n.t('common:confirm to delete')}?`}
-                            onConfirm={() => onDeleteState(stateID)}
-                          >
-                            <CustomIcon className="state-delete-btn cursor-pointer" type="thin-del" />
-                          </Popconfirm>
-                        </WithAuth>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+        <div className="form-content">
+          <div className="flex justify-between items-center">
+            <div className="form-content-left mr-1">
+              <IF check={!formVisible}>
+                <WithAuth pass={hasAuth}>
+                  <Button
+                    type="primary"
+                    className="w-full add-option-btn text-xs"
+                    onClick={() => {
+                      updater.formVisible(true);
+                    }}
+                  >
+                    <CustomIcon type="cir-add" className="mr-1" />
+                    {i18n.t('add')}
+                  </Button>
+                </WithAuth>
+              </IF>
             </div>
+            <div className="form-content-right flex justify-between items-center">
+              {map(dataList, ({ stateName, stateID }, stateDataIndex) => {
+                return (
+                  <div className={`state-radio-group ${flexWidthClass}`} key={stateID}>
+                    <div className={`state-option-btn flex justify-between items-center ${flexWidthClass}`}>
+                      <WithAuth pass={hasAuth}>
+                        <CustomIcon
+                          className={`state-move-btn ${stateDataIndex === 0 ? 'disabled' : 'cursor-pointer'}`}
+                          type="arrow-left"
+                          onClick={() => {
+                            onChangeStateOrder(stateDataIndex, -1);
+                          }}
+                        />
+                      </WithAuth>
+                      <Tooltip title={stateName}>
+                        <div className="text-xs nowrap">{stateName}</div>
+                      </Tooltip>
+                      <WithAuth pass={hasAuth}>
+                        <CustomIcon
+                          className={`state-move-btn ${
+                            stateDataIndex === dataList.length - 1 ? 'disabled' : 'cursor-pointer'
+                          }`}
+                          type="arrow-right"
+                          onClick={() => {
+                            onChangeStateOrder(stateDataIndex, 1);
+                          }}
+                        />
+                      </WithAuth>
+                      <WithAuth pass={hasAuth}>
+                        <Popconfirm
+                          title={`${i18n.t('common:confirm to delete')}?`}
+                          onConfirm={() => onDeleteState(stateID)}
+                        >
+                          <CustomIcon className="state-delete-btn cursor-pointer" type="thin-del" />
+                        </Popconfirm>
+                      </WithAuth>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <IF check={!isEmpty(dataList)}>
             <Divider className="my-2" orientation="left">
               {i18n.t('dop:state setting')}
             </Divider>
@@ -295,8 +295,11 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                 </div>
               );
             })}
-          </div>
-        </IF>
+          </IF>
+          <IF check={isEmpty(dataList)}>
+            <EmptyHolder relative tip={i18n.t('dop:No workflow data')} />
+          </IF>
+        </div>
       </div>
     </Modal>
   );

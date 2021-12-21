@@ -176,7 +176,8 @@
   .ant-select:not(.erda-tags-select)
     .ant-select-selection-overflow-item:not(:nth-last-child(2))
     .ant-select-selection-item:after {
-    content: '、';
+    content: ',';
+    margin-right: 0.5rem;
   }
 
   .erda-tags-select {
@@ -219,7 +220,7 @@
     .ant-select {
       .ant-select-clear {
         right: 0;
-        top: -50%;
+        top: -1rem;
         width: auto;
         color: $color-purple-highlight;
         background-color: transparent;
@@ -267,6 +268,10 @@
       margin: 0;
       border-color: transparent !important;
       background-color: rgba($white, 0.08) !important;
+
+      .ant-select-selection-search {
+        margin-left: 0;
+      }
     }
 
     .erda-form-date-range {

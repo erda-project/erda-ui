@@ -160,7 +160,7 @@ const PureKanban = (props: IKanbanProps) => {
     cards: boardCards,
     pageNo: propsPageNo,
     operations,
-    total,
+    total = 0,
     pageSize = 20,
     ...dataRest
   } = data || {};
@@ -220,13 +220,13 @@ const PureKanban = (props: IKanbanProps) => {
             return {
               ...col,
               cards: col.cards ? [newItem.data, ...col.cards] : [newItem.data],
-              total: col.total + 1,
+              total: +(col.total || 0) + 1,
             };
           } else if (col.id === dragColKey) {
             return {
               ...col,
               cards: col.cards?.filter((a) => a.id !== newItem.data.id),
-              total: Math.max(col.total - 1, 0),
+              total: Math.max((col.total || 0) - 1, 0),
             };
           }
           return col;
@@ -242,10 +242,9 @@ const PureKanban = (props: IKanbanProps) => {
       const item = monitor?.getItem && monitor?.getItem();
       const targetKeys = get(item, 'data.operations.cardMoveTo.serverData.extra.allowedTargetBoardIDs') || [];
       let _isAllowDrop = true;
-      if (targetKeys?.length && !targetKeys.includes(boardId)) {
+      if (!targetKeys?.length || !targetKeys.includes(boardId)) {
         _isAllowDrop = false;
       }
-
       return {
         isOver: monitor.isOver(),
         isAllowDrop: _isAllowDrop,
@@ -266,7 +265,7 @@ const PureKanban = (props: IKanbanProps) => {
   };
 
   let cls = isOver ? 'drag-over' : '';
-  cls = isAllowDrop ? cls : `drop-disable ${cls}`;
+  cls = isDrag && !isAllowDrop ? `drop-disable ${cls}` : cls;
   cls = isDrag && !isOver ? `not-drag ${cls}` : cls;
   const deleteBoardOp = operations?.boardDelete;
   const deleteAuth = deleteBoardOp?.disabled !== true;

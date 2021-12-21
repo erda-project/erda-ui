@@ -18,12 +18,12 @@ import getEIRouter from 'external-insight/router';
 
 const tabs = [
   {
-    key: 'topology',
-    name: i18n.t('msp:topology'),
-  },
-  {
     key: 'service-list',
     name: i18n.t('msp:service list'),
+  },
+  {
+    key: 'topology',
+    name: i18n.t('msp:topology'),
   },
 ];
 const getEnvOverViewRouter = (): RouteConfigItem => {
@@ -32,14 +32,8 @@ const getEnvOverViewRouter = (): RouteConfigItem => {
     tabs,
     pageName: i18n.t('msp:service overview'),
     breadcrumbName: i18n.t('msp:service overview'),
-    alwaysShowTabKey: 'topology',
+    alwaysShowTabKey: 'service-list',
     routes: [
-      {
-        tabs,
-        alwaysShowTabKey: 'topology',
-        layout: { fullHeight: true, noWrapper: true },
-        getComp: (cb) => cb(import('msp/env-overview/topology/pages/topology')),
-      },
       {
         path: 'topology',
         tabs,
@@ -54,6 +48,13 @@ const getEnvOverViewRouter = (): RouteConfigItem => {
         ],
       },
       serviceListRouter(tabs),
+      {
+        getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages')),
+        layout: {
+          fullHeight: true,
+          noWrapper: true,
+        },
+      },
     ],
   };
 };

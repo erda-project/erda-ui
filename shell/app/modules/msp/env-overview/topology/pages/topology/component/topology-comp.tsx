@@ -38,9 +38,11 @@ const nodeExtent = [
 ];
 
 interface IProps {
+  defaultZoom?: number;
+  allowScroll?: boolean;
   filterKey: INodeKey;
   data: { nodes: TOPOLOGY.INode[] };
-  clockNode: (data: TOPOLOGY.TopoNode['metaData']) => void;
+  clockNode?: (data: TOPOLOGY.TopoNode['metaData']) => void;
 }
 
 const genEle = (nodes: TOPOLOGY.INode[], filterKey: INodeKey) => {
@@ -91,7 +93,7 @@ const calculateLayout = (
     }
   });
   dagre.layout(dagreGraph, { weight: 2 });
-  const layoutedElements = list.map((el) => {
+  let layoutElements = list.map((el) => {
     const temp: Partial<Node> = {};
     if (isNode(el)) {
       // get node coordinates
@@ -108,10 +110,38 @@ const calculateLayout = (
     }
     return { ...el, ...temp };
   });
-  return [layoutedElements, { width, height, maxY: height, maxX: width, minX, minY }];
+  // horizontal offset：prevents the leftmost node from being outside the view. The reduction of 50 is to prevent the node from overlapping the border of the view
+  const horizontalOffset = minX - 50;
+  // vertical offset：prevents the bottommost node from being outside the view. The reduction of 50 is to prevent the node from overlapping the border of the view
+  const verticalOffset = minY - 50;
+  layoutElements = layoutElements.map((el) => {
+    if (isNode(el)) {
+      return {
+        ...el,
+        position: {
+          ...el.position,
+          x: el.position.x - horizontalOffset,
+          y: el.position.y - verticalOffset,
+        },
+      };
+    } else {
+      return el;
+    }
+  });
+  return [
+    layoutElements,
+    {
+      width: width - horizontalOffset,
+      height: height - verticalOffset,
+      maxY: height - verticalOffset,
+      maxX: width - horizontalOffset,
+      minX,
+      minY,
+    },
+  ];
 };
 
-const TopologyComp = ({ data, filterKey = 'node', clockNode }: IProps) => {
+const TopologyComp = ({ data, filterKey = 'node', clockNode, allowScroll = true, defaultZoom = 0.8 }: IProps) => {
   const topologyData = React.useRef(genEle(data.nodes, filterKey));
   const layoutData = React.useRef<Elements>([]);
   const wrapperRaf = React.useRef<HTMLDivElement>();
@@ -123,17 +153,10 @@ const TopologyComp = ({ data, filterKey = 'node', clockNode }: IProps) => {
 
   const setFlowConfig = (list: Elements) => {
     const [ele, wrapperSize] = calculateLayout(list);
-    if (wrapperRaf.current) {
+    if (wrapperRaf.current && allowScroll) {
       // 200: prevents nodes from being covered by borders
       wrapperRaf.current.style.height = `${wrapperSize.height + 200}px`;
       wrapperRaf.current.style.width = `${wrapperSize.width + 200}px`;
-      // the node positions calculated by the current layout algorithm may be out of view and adjusted manually
-      // 50 : prevents nodes from hugging the border
-      wrapperRaf.current.parentElement?.scrollTo({
-        top: wrapperSize.minY - 50,
-        left: wrapperSize.minX - 50,
-        behavior: 'smooth',
-      });
     }
     layoutData.current = ele;
     setElements(layoutData.current);
@@ -180,43 +203,46 @@ const TopologyComp = ({ data, filterKey = 'node', clockNode }: IProps) => {
   }, clockNode);
 
   return (
-    <div className="min-h-full min-w-full" ref={wrapperRaf}>
-      <ReactFlow
-        elements={elements}
-        nodeTypes={nodeTypes}
-        onElementsRemove={onElementsRemove}
-        edgeTypes={{
-          float: FloatingEdge,
-        }}
-        preventScrolling={false}
-        zoomOnScroll={false}
-        connectionLineComponent={FloatingConnectionLine}
-        nodeExtent={nodeExtent}
-        defaultZoom={0.8}
-        minZoom={0.2}
-        maxZoom={2}
-        onLoad={layout}
-      >
-        <div className="zoom-buttons fixed bottom-6 right-4 h-8 w-20 flex z-10">
-          <div
-            className="cursor-pointer w-9 flex justify-center items-center mr-0.5"
-            onClick={() => {
-              zoomOut();
+    <>
+      <div className={`h-full w-full relative ${allowScroll ? 'overflow-auto' : ''}`}>
+        <div className={`min-h-full min-w-full ${allowScroll ? '' : 'h-full w-full'}`} ref={wrapperRaf}>
+          <ReactFlow
+            elements={elements}
+            nodeTypes={nodeTypes}
+            onElementsRemove={onElementsRemove}
+            edgeTypes={{
+              float: FloatingEdge,
             }}
-          >
-            <ErdaIcon type="minus" size={12} />
-          </div>
-          <div
-            className="cursor-pointer w-9 flex justify-center items-center"
-            onClick={() => {
-              zoomIn();
-            }}
-          >
-            <ErdaIcon type="plus" size={12} />
-          </div>
+            preventScrolling={false}
+            zoomOnScroll={false}
+            connectionLineComponent={FloatingConnectionLine}
+            nodeExtent={nodeExtent}
+            defaultZoom={defaultZoom}
+            minZoom={0.2}
+            maxZoom={2}
+            onLoad={layout}
+          />
         </div>
-      </ReactFlow>
-    </div>
+      </div>
+      <div className="zoom-buttons absolute bottom-4 right-4 h-8 w-20 flex z-10">
+        <div
+          className="cursor-pointer w-9 flex justify-center items-center mr-0.5 bg-white-1 text-white-4 hover:text-white"
+          onClick={() => {
+            zoomOut();
+          }}
+        >
+          <ErdaIcon type="minus" size={12} />
+        </div>
+        <div
+          className="cursor-pointer w-9 flex justify-center items-center bg-white-1 text-white-4 hover:text-white"
+          onClick={() => {
+            zoomIn();
+          }}
+        >
+          <ErdaIcon type="plus" size={12} />
+        </div>
+      </div>
+    </>
   );
 };
 export default (props: IProps) => {

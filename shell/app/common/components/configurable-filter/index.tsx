@@ -68,7 +68,7 @@ const sortObj = (obj: Obj) => {
 const getItemByValues = (val: Obj, list: Obj[]) => {
   const values = sortObj(val);
 
-  return list?.find((item) => JSON.stringify(sortObj(item.values)) === JSON.stringify(values));
+  return list?.find((item) => JSON.stringify(sortObj(item.values || {})) === JSON.stringify(values));
 };
 
 const defaultProcessField = (item: IFormItem) => {
@@ -86,6 +86,10 @@ const defaultProcessField = (item: IFormItem) => {
       clearIcon: <span className="p-1">{i18n.t('common:clear')}</span>,
       getPopupContainer: (triggerNode: HTMLElement) => triggerNode.parentElement as HTMLElement,
     };
+
+    if (type === 'select') {
+      field.itemProps.optionLabelProp = 'label';
+    }
   } else if (type === 'dateRange') {
     field.itemProps = {
       customProps: {
@@ -119,10 +123,11 @@ const ConfigurableFilter = ({
   const [isNew, setIsNew] = React.useState(false);
 
   React.useEffect(() => {
-    if (value && !isEmpty(value)) {
+    if (value) {
       form.setFieldsValue(value || {});
       const config = getItemByValues(value, configList);
       config?.id && setCurrentConfig(config?.id);
+      setIsNew(!config);
     } else if (configList && configList.length !== 0) {
       const configData: ConfigData = configList?.find((item) => item.id === defaultConfig) || ({} as ConfigData);
       if (configData.values) {
@@ -166,6 +171,16 @@ const ConfigurableFilter = ({
       setVisible(false);
     });
   };
+
+  React.useEffect(() => {
+    if (visible && value) {
+      form.resetFields();
+      form.setFieldsValue(value || {});
+      const config = getItemByValues(value, configList);
+      config?.id && setCurrentConfig(config?.id);
+      setIsNew(!config);
+    }
+  }, [visible, form, configList, value]);
 
   const content = (
     <div className="erda-configurable-filter-content">

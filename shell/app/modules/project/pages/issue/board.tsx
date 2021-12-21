@@ -145,7 +145,8 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
   };
 
   const getDownloadUrl = (IsDownload = false) => {
-    const useableFilterObj = filterObjRef?.current?.issuePagingRequest || {};
+    const pageData = reloadRef.current?.getPageConfig();
+    const useableFilterObj = pageData?.protocol?.state?.IssuePagingRequestKanban || {};
     return setApiWithOrg(
       `/api/issues/actions/export-excel?${qs.stringify(
         { ...useableFilterObj, pageNo: 1, projectID: projectId, type: issueType, IsDownload, orgID },
@@ -213,7 +214,7 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
   };
 
   const onCreate = () => {
-    const filterIterationIDs = filterObj?.iterationIDs || [];
+    const filterIterationIDs = filterObj?.values?.iterationIDs || [];
     // 当前选中唯一迭代，创建的时候默认为这个迭代，否则，迭代为0
     update({
       chosenIteration: iterationId || (filterIterationIDs.length === 1 ? filterIterationIDs[0] : 0),
@@ -245,7 +246,7 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
         inParams={inParams}
         ref={reloadRef}
         customProps={{
-          issueManage: {
+          page: {
             props: { fullHeight: true },
           },
           content: {
