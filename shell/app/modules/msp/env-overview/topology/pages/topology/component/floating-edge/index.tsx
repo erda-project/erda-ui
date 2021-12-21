@@ -18,6 +18,7 @@ import { edgeColor } from 'msp/env-overview/topology/pages/topology/utils';
 import { getEdgeParams } from './utils';
 
 const FloatingEdge: FC<EdgeProps<TOPOLOGY.TopoEdge>> = ({ id, source, target, style, data }) => {
+  const { selectStatus, hoverStatus } = data || {};
   const nodes = useStoreState((state) => state.nodes);
 
   const sourceNode = useMemo(() => nodes.find((n) => n.id === source), [source, nodes]);
@@ -38,8 +39,11 @@ const FloatingEdge: FC<EdgeProps<TOPOLOGY.TopoEdge>> = ({ id, source, target, st
     targetY: ty,
   });
 
-  const color =
-    data?.hoverStatus === 1 ? edgeColor.heightLight : data?.hoverStatus === -1 ? edgeColor.blurColor : edgeColor.common;
+  const color = [selectStatus, hoverStatus].includes(1)
+    ? edgeColor.heightLight
+    : [selectStatus, hoverStatus].includes(-1)
+    ? edgeColor.blurColor
+    : edgeColor.common;
 
   const mId = `topology-edge-end-marked-${id}`;
 

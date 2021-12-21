@@ -12,18 +12,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useRef } from 'react';
-import { useMedia, useSize, useSetState, useUnmount, useDeepCompareEffect, useUpdateEffect } from 'react-use';
+import { useDeepCompareEffect, useMedia, useSetState, useSize, useUpdateEffect } from 'react-use';
 import { notify } from 'common/utils';
-import { DropTargetMonitor, useDrag, useDrop, XYCoord, DragSourceMonitor } from 'react-dnd';
+import { DragSourceMonitor, DropTargetMonitor, useDrag, useDrop, XYCoord } from 'react-dnd';
 import FormModal from './components/form-modal';
 import { Pagination } from 'antd';
 import { FilterBarHandle } from 'common/components/filter-group';
 import { setSearch } from './utils';
-import { forIn, set, get, every, omit, isEqual, isEmpty, isFunction, mapValues, some, debounce, sortBy } from 'lodash';
+import { debounce, every, forIn, get, isEmpty, isEqual, isFunction, mapValues, omit, set, some, sortBy } from 'lodash';
 import moment, { Moment } from 'moment';
 import routeInfoStore from 'core/stores/route';
 import { IUseFilterProps, IUseMultiFilterProps } from 'app/interface/common';
 import { PAGINATION } from 'app/constants';
+import screenfull from 'screenfull';
 
 export enum ScreenSize {
   xs = 768,
@@ -105,6 +106,7 @@ interface DragItem {
   index: number;
   type: string;
 }
+
 interface IDragProps {
   type: string;
   index: number;
@@ -312,6 +314,7 @@ interface ITempPagingParams<T> {
 
 const emptyList: any[] = [];
 const emptyObj = {};
+
 /**
  * 用于Modal等地方的临时分页
  * @param param.service 接口
@@ -830,4 +833,102 @@ export const useMultiFilter = (props: IMultiModeProps): IUseMultiFilterProps => 
       onChange: (n: number) => onPageChange(n),
     }),
   };
+};
+
+type TargetValue<T> = T | undefined | null;
+
+type TargetType = HTMLElement | Element | Window | Document;
+
+export type BasicTarget<T extends TargetType = Element> =
+  | (() => TargetValue<T>)
+  | TargetValue<T>
+  | React.MutableRefObject<TargetValue<T>>;
+
+export const getTargetElement = <T extends TargetType>(target: BasicTarget<T>, defaultElement?: T) => {
+  if (!target) {
+    return defaultElement;
+  }
+
+  let targetElement: TargetValue<T>;
+
+  if (typeof target === 'function') {
+    targetElement = target();
+  } else if ('current' in target) {
+    targetElement = target.current;
+  } else {
+    targetElement = target;
+  }
+
+  return targetElement;
+};
+
+export interface Options {
+  onExit?: () => void;
+  onEnter?: () => void;
+}
+
+type IUseFullScreen = (
+  target: BasicTarget,
+  options?: Options,
+) => [boolean, { exitFullscreen: () => void; toggleFullscreen: () => void; enterFullscreen: () => void }];
+
+export const useFullScreen: IUseFullScreen = (target, options) => {
+  const [state, setState] = React.useState(false);
+
+  React.useEffect(() => {
+    const onChange = () => {
+      if (screenfull.isEnabled) {
+        const { isFullscreen } = screenfull;
+        if (isFullscreen) {
+          options?.onEnter?.();
+        } else {
+          options?.onExit?.();
+        }
+        setState(isFullscreen);
+      }
+    };
+    if (screenfull.isEnabled) {
+      screenfull.on('change', onChange);
+    }
+    return () => {
+      if (screenfull.isEnabled) {
+        screenfull.off('change', onChange);
+      }
+    };
+  }, []);
+
+  const enterFullscreen = () => {
+    const el = getTargetElement(target);
+    if (!el) {
+      return;
+    }
+    if (screenfull.isEnabled) {
+      screenfull.request(el);
+    }
+  };
+  const exitFullscreen = () => {
+    if (!state) {
+      return;
+    }
+    if (screenfull.isEnabled) {
+      screenfull.exit();
+    }
+  };
+
+  const toggleFullscreen = () => {
+    if (state) {
+      exitFullscreen();
+    } else {
+      enterFullscreen();
+    }
+  };
+
+  return [
+    state,
+    {
+      exitFullscreen,
+      enterFullscreen,
+      toggleFullscreen,
+    },
+  ];
 };

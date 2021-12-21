@@ -34,7 +34,7 @@ const AddonNode: React.FC<
         const { error_rate, rps } = data.metric;
         const iconType = iconMap[data.type.toLocaleLowerCase()] ?? iconMap.default;
         return (
-          <div className="addon-node">
+          <div className={`addon-node ${error_rate > 0 ? 'has-error' : ''}`}>
             <Hexagon stroke={['#798CF1', '#D84B65']} width={60} strokeWidth={2} percent={error_rate}>
               <div className="h-full">
                 <div className="text-white mt-4 text-center">{formatNumber(rps)}</div>
