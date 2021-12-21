@@ -31,7 +31,7 @@ import topologyStore from 'msp/env-overview/topology/stores/topology';
 import TopologyComp from 'msp/env-overview/topology/pages/topology/component/topology-comp';
 import { Cards, TopologyOverviewWrapper } from 'msp/env-overview/topology/pages/topology/component/topology-overview';
 import ErdaIcon from 'common/components/erda-icon';
-import screenFull, { Screenfull } from 'screenfull';
+import { useFullScreen } from 'common/use-hooks';
 import './index.scss';
 
 const formatTime = getFormatter('TIME', 'ns');
@@ -76,8 +76,6 @@ const axis = {
   },
 };
 
-const screenController = screenFull as Screenfull;
-
 const OverView = () => {
   const serviceId = serviceAnalyticsStore.useStore((s) => s.serviceId);
   const range = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
@@ -85,19 +83,9 @@ const OverView = () => {
   const { clearMonitorTopology } = topologyStore.reducers;
   const { getMonitorTopology } = topologyStore.effects;
   const [topologyData] = topologyStore.useStore((s) => [s.topologyData]);
-  const [isFullScreen, setIsFullScreen] = React.useState(false);
   const serviceTopologyRef = React.useRef<HTMLDivElement>(null);
+  const [isFullScreen, { toggleFullscreen }] = useFullScreen(serviceTopologyRef);
   const [charts] = getAnalyzerOverview.useState();
-
-  React.useEffect(() => {
-    const handleChange = () => {
-      setIsFullScreen(screenController.isFullscreen);
-    };
-    screenController.on('change', handleChange);
-    return () => {
-      screenController.off('change', handleChange);
-    };
-  }, []);
 
   React.useEffect(() => {
     if (serviceId) {
@@ -208,12 +196,7 @@ const OverView = () => {
   }, [topologyData, serviceId]);
 
   const handleScreen = () => {
-    if (screenController.isFullscreen) {
-      screenController.exit();
-    } else {
-      const dom = serviceTopologyRef.current;
-      screenController.request(dom);
-    }
+    toggleFullscreen();
   };
 
   if (!serviceId) {
