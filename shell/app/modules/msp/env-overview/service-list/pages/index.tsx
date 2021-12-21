@@ -84,11 +84,11 @@ const dataConvert: {
 };
 
 const CHART_MAP: {
-  [k in MSP_SERVICES.SERVICE_LIST_CHART_TYPE]: {
+  [k in MSP_SERVICES.SERVICE_LIST_CHART_TYPE]: Array<{
     key: string;
     name: string;
     tips: string;
-  }[];
+  }>;
 } = {
   RPS: [
     {
@@ -129,7 +129,7 @@ type ServiceStatus = MSP_SERVICES.ServiceStatus | 'allService';
 const listDetail = (serviceId: string, serviceName: string) => {
   const currentProject = mspStore.getState((s) => s.currentProject);
   const params = routeInfoStore.getState((s) => s.params);
-  goTo(goTo.pages.mspServiceAnalyze, {
+  goTo(goTo.pages.mspServiceMonitor, {
     ...params,
     applicationId: currentProject?.type === 'MSP' ? '-' : serviceId.split('_')[0],
     serviceName,
@@ -137,7 +137,7 @@ const listDetail = (serviceId: string, serviceName: string) => {
   });
 };
 
-const tabs: { label: string; value: ServiceStatus; countKey: keyof MSP_SERVICES.ServiceCount }[] = [
+const tabs: Array<{ label: string; value: ServiceStatus; countKey: keyof MSP_SERVICES.ServiceCount }> = [
   {
     label: i18n.t('msp:all service'),
     value: 'allService',
@@ -226,7 +226,7 @@ const MicroServiceOverview = () => {
     getServiceCount({ tenantId });
   }, [getServicesList]);
 
-  const columns: CardColumnsProps<IListItem>[] = [
+  const columns: Array<CardColumnsProps<IListItem>> = [
     {
       dataIndex: 'language',
       colProps: { span: 8, className: 'flex items-center' },
