@@ -124,29 +124,3 @@ export const actionMap = {
   B_END: '构建完成',
   G_PUSH: '推送代码',
 };
-
-export const issueStateMap = {
-  EPIC: {
-    OPEN: i18n.t('dop:pending'),
-    WORKING: i18n.t('processing'),
-    DONE: i18n.t('dop:completed'),
-  },
-  TASK: {
-    OPEN: i18n.t('dop:pending'),
-    WORKING: i18n.t('processing'),
-    DONE: i18n.t('dop:completed'),
-  },
-  REQUIREMENT: {
-    OPEN: i18n.t('dop:pending'),
-    WORKING: i18n.t('processing'),
-    DONE: i18n.t('dop:completed'),
-  },
-  BUG: {
-    OPEN: i18n.t('dop:pending'),
-    WORKING: i18n.t('processing'),
-    WONTFIX: i18n.t("dop:won't fix"),
-    REOPEN: i18n.t('dop:reopen'),
-    RESOLVED: i18n.t('dop:resolved'),
-    CLOSED: i18n.t('closed'),
-  },
-};

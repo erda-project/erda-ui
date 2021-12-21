@@ -549,7 +549,6 @@ export const theme = {
     color: ['#893448', '#d95850', '#eb8146', '#ffb248', '#f2d643', 'rgb(247,238,173)'],
   },
   dataZoom: {
-    height: 24,
     // dataBackgroundColor: 'rgba(255,178,72,0.5)',
     backgroundColor: 'rgba(45,50,128,0.06)', // primary7
     fillerColor: 'rgba(209,220,255,0.8)', // primary2

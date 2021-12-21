@@ -3,8 +3,23 @@
 
   &.ant-popover-open {
     color: $white;
-    background-color: $color-default;
+    background-color: $color-default !important;
   }
+
+  .ant-badge-dot {
+    box-shadow: none !important;
+  }
+}
+
+.erda-config-filter-btn-active {
+  .erda-configurable-filter-btn {
+    color: $white;
+    background-color: $color-default !important;
+  }
+}
+
+.erda-configurable-filter-clear-btn {
+  background-color: rgba($color-default, 0.06);
 }
 
 .erda-configurable-filter {
@@ -93,6 +108,10 @@
     }
   }
 
+  .ant-select-selection-placeholder {
+    color: rgba($white, 0.3);
+  }
+
   .add-filter-config.ant-popover-open {
     background-color: $color-white-2;
   }
@@ -157,7 +176,8 @@
   .ant-select:not(.erda-tags-select)
     .ant-select-selection-overflow-item:not(:nth-last-child(2))
     .ant-select-selection-item:after {
-    content: '、';
+    content: ',';
+    margin-right: 0.5rem;
   }
 
   .erda-tags-select {
@@ -200,7 +220,7 @@
     .ant-select {
       .ant-select-clear {
         right: 0;
-        top: -50%;
+        top: -1rem;
         width: auto;
         color: $color-purple-highlight;
         background-color: transparent;
@@ -214,6 +234,15 @@
 
       .anticon-check {
         color: $color-purple-highlight;
+      }
+
+      .ant-select-item-option-grouped {
+        padding-left: 24px !important;
+      }
+
+      .ant-select-item-group {
+        color: rgba($white, 0.6);
+        font-weight: bold;
       }
     }
 
@@ -239,6 +268,10 @@
       margin: 0;
       border-color: transparent !important;
       background-color: rgba($white, 0.08) !important;
+
+      .ant-select-selection-search {
+        margin-left: 0;
+      }
     }
 
     .erda-form-date-range {
@@ -296,7 +329,8 @@
   }
 
   .erda-badge-status-default {
-    color: $color-white-8;
+    color: $white;
+    background-color: $color-white-1;
   }
 
   &-footer {

@@ -12,18 +12,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
-import DiceConfigPage from 'app/config-page';
+import { ISSUE_TYPE, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
+import DiceConfigPage, { useMock } from 'app/config-page';
 import { getUrlQuery } from 'config-page/utils';
 import { useSwitch, useUpdate } from 'common/use-hooks';
 import { qs, mergeSearch, updateSearch, setApiWithOrg } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
-import { Badge } from 'common';
+import { Badge, ErdaIcon } from 'common';
+import { Button, Dropdown, Menu } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import ImportFile from 'project/pages/issue/component/import-file';
 import issueFieldStore from 'org/stores/issue-field';
 import { useMount, useUpdateEffect } from 'react-use';
+import i18n from 'i18n';
 
 interface IProps {
   issueType: ISSUE_TYPE;
@@ -86,7 +88,9 @@ const IssueProtocol = ({ issueType }: IProps) => {
   };
 
   const getDownloadUrl = (IsDownload = false) => {
-    const useableFilterObj = filterObjRef?.current?.issuePagingRequest || {};
+    const pageData = reloadRef.current?.getPageConfig();
+    const useableFilterObj = pageData?.protocol?.state?.IssuePagingRequest || {};
+
     return setApiWithOrg(
       `/api/issues/actions/export-excel?${qs.stringify(
         { ...useableFilterObj, pageNo: 1, projectID: projectId, type: getRealIssueType(issueType), IsDownload, orgID },
@@ -153,26 +157,45 @@ const IssueProtocol = ({ issueType }: IProps) => {
     }
   };
 
-  const onCreate = (val: any) => {
-    const filterIterationIDs = filterObj?.iterationIDs || [];
-    const createTypeMap = {
-      createRequirement: ISSUE_TYPE.REQUIREMENT,
-      createTask: ISSUE_TYPE.TASK,
-      createBug: ISSUE_TYPE.BUG,
-    };
-    const curType = createTypeMap[val?.key];
-    if (curType) {
-      // 当前选中唯一迭代，创建的时候默认为这个迭代，否则，迭代为0
-      update({
-        chosenIteration: iterationId || (filterIterationIDs.length === 1 ? filterIterationIDs[0] : 0),
-        chosenIssueType: curType,
-      });
-      openDrawer();
-    }
+  const onCreate = (curType?: string) => {
+    const filterIterationIDs = filterObj?.values?.iterationIDs || [];
+    // 当前选中唯一迭代，创建的时候默认为这个迭代，否则，迭代为0
+    update({
+      chosenIteration: iterationId || (filterIterationIDs.length === 1 ? filterIterationIDs[0] : 0),
+      chosenIssueType: curType || issueType,
+    });
+    openDrawer();
   };
+
+  const dropdownMenu = (
+    <Menu
+      onClick={(e) => {
+        e.domEvent.stopPropagation();
+        onCreate(e.key);
+      }}
+    >
+      {[ISSUE_TYPE_MAP.REQUIREMENT, ISSUE_TYPE_MAP.TASK, ISSUE_TYPE_MAP.BUG].map((mItem) => {
+        return <Menu.Item key={mItem.value}>{mItem.iconLabel}</Menu.Item>;
+      })}
+    </Menu>
+  );
 
   return (
     <>
+      <div className="top-button-group">
+        {issueType === ISSUE_TYPE.ALL ? (
+          <Dropdown overlay={dropdownMenu}>
+            <Button type="primary" className="flex items-center">
+              {i18n.t('new {name}', { name: i18n.t('dop:issue') })}
+              <ErdaIcon type="caret-down" size="18" className="ml-1" />
+            </Button>
+          </Dropdown>
+        ) : (
+          <Button type={'primary'} onClick={() => onCreate(issueType)}>
+            {i18n.t('new {name}', { name: ISSUE_TYPE_MAP[issueType]?.label })}
+          </Button>
+        )}
+      </div>
       <DiceConfigPage
         scenarioKey="issue-manage"
         scenarioType="issue-manage"
@@ -180,6 +203,9 @@ const IssueProtocol = ({ issueType }: IProps) => {
         inParams={inParams}
         ref={reloadRef}
         customProps={{
+          issueManage: {
+            props: { spaceSize: 'none' },
+          },
           // 后端未对接，由前端接管的事件
           issueAddButton: {
             op: {

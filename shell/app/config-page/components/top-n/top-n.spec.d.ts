@@ -10,31 +10,35 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-declare namespace CP_CARD {
-  interface Spec {
-    type: 'Card';
-    props: IProps;
-  }
-
-  interface IProps {
-    data: Obj<InfoData>;
-    cardType: string;
-    className?: string;
-    titleMaxLength?: number;
-    isDrag?: string;
-    setIsDrag?: (isDrag: boolean) => void;
-  }
-
-  interface InfoData {
+declare namespace CP_DATA_RANK {
+  interface IItem {
     id: string;
-    titleIcon?: string | React.ReactNode;
-    title?: string | React.ReactNode;
-    operations?: Obj<CP_COMMON.Operation>;
-    subContent?: string | React.ReactNode;
-    description?: string | React.ReactNode;
-    extraInfo?: Obj;
-    type: string;
+    name: string;
+    value: number;
+    percent: number;
+    unit?: string;
+
+    [key: string]: any;
+  }
+
+  interface IListITem {
+    title: string;
+    span: number;
+    color?: string;
+    titleIcon?: string;
+    backgroundIcon?: string;
+    items: IItem[];
+  }
+
+  interface Spec {
+    type: 'TopN';
+    props: {
+      rowsProps?: import('antd/es/row').RowProps;
+      theme: { color: string; titleIcon: string; backgroundIcon: string }[];
+    };
+    data: {
+      list: IListITem[];
+    };
   }
 
   type Props = MakeProps<Spec>;

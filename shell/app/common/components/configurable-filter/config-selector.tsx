@@ -123,6 +123,7 @@ const ConfigSelector = ({ list, defaultValue, value, onChange, onDeleteFilter, o
   const saveFilter = () => {
     form.validateFields().then(({ label }) => {
       onSaveFilter?.(label);
+      setAddVisible(false);
     });
   };
 
@@ -150,7 +151,6 @@ const ConfigSelector = ({ list, defaultValue, value, onChange, onDeleteFilter, o
       </Form>
     </div>
   );
-
   return (
     <>
       <Popover

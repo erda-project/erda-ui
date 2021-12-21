@@ -1,10 +1,10 @@
 .dice-cp {
-  &.issue-kanban {
+  &.cp-kanban {
     display: flex;
     height: calc(100vh - 150px);
     overflow: auto;
 
-    .issue-kanban-info {
+    .cp-kanban-info {
       .label-item {
         max-width: 200px;
         height: 20px;
@@ -17,7 +17,7 @@
     }
   }
 
-  .issue-kanban-col {
+  .cp-kanban-col {
     display: flex;
     flex: 1;
     flex-grow: 0;
@@ -29,7 +29,7 @@
     border: 1px solid transparent;
     border-radius: $radius;
 
-    .issue-kanban-col-header {
+    .cp-kanban-col-header {
       z-index: 1;
       padding: 12px;
 
@@ -42,13 +42,13 @@
       }
     }
 
-    .issue-kanban-col-content {
+    .cp-kanban-col-content {
       flex: 1;
       padding: 2px 12px 12px;
       overflow-y: auto;
     }
 
-    .issue-kanban-label-input {
+    .cp-kanban-label-input {
       padding-left: 0;
       border: 1px solid transparent;
       background: transparent;
@@ -136,7 +136,7 @@
     }
   }
 
-  .issue-kanban-item-special-pdd {
+  .cp-kanban-item-special-pdd {
     padding: 9px 20px 16px 20px;
   }
 }

@@ -13,9 +13,9 @@
 
 import React from 'react';
 import { useMount, useUpdateEffect } from 'react-use';
-import { isEmpty, get, set, isEqual, forEach } from 'lodash';
+import { isEmpty, get, set, isEqual, forEach, has } from 'lodash';
 import { produce } from 'immer';
-import { Spin, message } from 'antd';
+import { Spin } from 'antd';
 import { notify } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
 import { useMock } from './mock/index';
@@ -35,6 +35,8 @@ interface IProps {
   scenarioType: string;
   scenarioKey: string;
   showLoading?: boolean;
+  wrapperClassName?: string;
+  className?: string;
   forbiddenRequest?: boolean;
   forceUpdateKey?: string[];
   debugConfig?: CONFIG_PAGE.RenderConfig;
@@ -63,6 +65,8 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     inParams = {},
     customProps = {},
     scenarioType,
+    wrapperClassName = '',
+    className = '',
     scenarioKey,
     showLoading = true,
     forbiddenRequest,
@@ -175,13 +179,13 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
             ...extraRest,
           });
         },
+        getPageConfig: () => pageConfigRef.current,
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref, _useMock]);
 
   const inParamsStr = JSON.stringify(inParams);
-
   useUpdateEffect(() => {
     if (forceUpdateKey?.includes('inParams')) {
       queryPageConfig();
@@ -253,13 +257,15 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     updateInfo?: { dataKey: string; dataVal: Obj },
     extraUpdateInfo?: Obj,
   ) => {
-    const { key, reload = false, partial, ..._rest } = op;
+    const { key, reload, skipRender, partial, ..._rest } = op;
     const loadCallBack = (_pageData: CONFIG_PAGE.RenderConfig) => {
       op?.callBack?.();
       onExecOp && onExecOp({ cId, op, reload, updateInfo, pageData: _pageData });
     };
     opIndexRef.current += 1;
-    if (reload) {
+    const needRender = reload ?? !skipRender;
+
+    if (needRender) {
       // 需要请求后端接口
       const _curConfig = pageConfigRef.current;
       const newConfig = produce(_curConfig, (draft) => {
@@ -328,8 +334,11 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   );
 
   return showLoading ? (
-    <Spin spinning={showLoading && fetching} wrapperClassName={`${fullHeight ? 'full-spin-height' : ''}`}>
-      <div className="h-full overflow-auto">{Content}</div>
+    <Spin
+      spinning={showLoading && fetching}
+      wrapperClassName={`${fullHeight ? 'full-spin-height' : ''} ${wrapperClassName}`}
+    >
+      <div className={`h-full overflow-auto ${className}`}>{Content}</div>
     </Spin>
   ) : (
     Content

@@ -64,12 +64,14 @@ function WrappedTable<T extends object = any>({
   onRow,
   rowSelection,
   hideHeader,
+  rowKey,
   ...props
 }: IProps<T>) {
-  const dataSource = React.useMemo(() => ds || [], [ds]);
+  const dataSource = React.useMemo<T[]>(() => (ds as T[]) || [], [ds]);
   const [columns, setColumns] = React.useState<Array<ColumnProps<T>>>(allColumns);
   const [sort, setSort] = React.useState<SorterResult<T>>({});
   const sortCompareRef = React.useRef<((a: T, b: T) => number) | null>(null);
+  const preDataSourceRef = React.useRef<T[]>([]);
   const [defaultPagination, setDefaultPagination] = React.useState<TablePaginationConfig>({
     current: 1,
     total: dataSource.length || 0,
@@ -83,8 +85,19 @@ function WrappedTable<T extends object = any>({
   const { current = 1, pageSize = PAGINATION.pageSize } = pagination;
 
   React.useEffect(() => {
-    setDefaultPagination((before) => ({ ...before, total: dataSource.length || 0 }));
-  }, [dataSource]);
+    if (isFrontendPaging) {
+      const newRowKeys =
+        dataSource.map((item) => item[typeof rowKey === 'function' ? rowKey(item) : rowKey || 'id']) || [];
+      const preRowKeys =
+        preDataSourceRef.current.map((item) => item[typeof rowKey === 'function' ? rowKey(item) : rowKey || 'id']) ||
+        [];
+      if (newRowKeys.join(',') !== preRowKeys.join(',')) {
+        setDefaultPagination((before) => ({ ...before, current: 1, total: dataSource.length || 0 }));
+      }
+
+      preDataSourceRef.current = [...dataSource];
+    }
+  }, [dataSource, rowKey, isFrontendPaging]);
 
   const onTableChange = React.useCallback(
     ({ pageNo, pageSize: size, sorter: currentSorter }) => {
@@ -280,6 +293,7 @@ function WrappedTable<T extends object = any>({
       )}
 
       <Table
+        rowKey={rowKey}
         scroll={{ x: '100%' }}
         columns={[
           ...columns.filter((item) => !item.hidden).map((item) => ({ ...item, title: item.sortTitle || item.title })),

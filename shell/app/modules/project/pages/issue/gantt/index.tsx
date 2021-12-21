@@ -162,7 +162,7 @@ const IssuePlan = () => {
     updateSearch({ ...urlQuery });
   }, [urlQuery]);
 
-  const inParams = { projectId, ...urlQuery };
+  const inParams = { projectId, fixedIteration: iterationId, ...urlQuery };
 
   const urlQueryChange = (val: Obj) => updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 

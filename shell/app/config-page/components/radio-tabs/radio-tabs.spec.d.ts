@@ -14,34 +14,44 @@
 declare namespace CP_RADIO_TABS {
   interface Spec {
     type: 'RadioTabs';
-    props?: IProps;
-    state?: IState;
-    data?: IData;
+    props: IProps;
+    state: IState;
+    data: IData;
     operations?: Obj<CP_COMMON.Operation>;
   }
 
   interface IState {
+    childrenValue?: Obj;
     value: string;
   }
 
   interface IData {
-    options?: IOption[];
+    options?: Option[];
   }
 
   interface IProps {
     disabled?: boolean;
-    options?: IOption[];
+    disabledTip?: string;
+    options?: Option[];
+    radioType?: string;
+    size?: 'small' | 'middle' | 'large';
+    visible: boolean; // TODO: remove after support options: { visible }
   }
 
-  interface IOption {
-    label: string;
-    value: string | number;
-    key?: string;
-    disabled?: boolean;
-    icon?: string;
-    tip?: string;
-    width?: number;
-    children?: IOption[];
+  interface Option {
+    key: string;
+    text: string;
+    children?: IOptionChildren[]; // 作为下拉选项
+    operations?: Obj<CP_COMMON.Operation>;
+    prefixIcon?: string;
+    suffixIcon?: string;
+    tooltip?: string;
+    width?: string;
+  }
+
+  interface IOptionChildren {
+    key: string;
+    text: string;
   }
 
   type Props = MakeProps<Spec>;

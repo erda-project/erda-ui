@@ -36,6 +36,19 @@ class Formatter {
   format(value, fixed) {
     return this.toFixed(value, fixed);
   }
+
+  /**
+   * @description gets the formatted value and unit respectively
+   * @param value {number}
+   * @param fixed {?number}
+   * @returns {{count: string; unit: string}}
+   */
+  formatPro(value, fixed) {
+    const values = this.format(value, fixed);
+    const reg = /(?<count>\d+(\.\d+)?)(?:\s*)(?<unit>\D*)/;
+    const res = `${values}`.match(reg);
+    return res?.groups || {};
+  }
 }
 
 class PercentFormatter extends Formatter {

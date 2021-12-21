@@ -44,7 +44,6 @@ const ApiAssetDetail = () => {
   ]);
   const { getAssetVersionDetail, getListOfVersions } = apiMarketStore.effects;
   const { clearState } = apiMarketStore.reducers;
-  const { setHeaderInfo } = layoutStore.reducers;
   const [isLoading, isFetchVersionList] = useLoading(apiMarketStore, ['getAssetVersionDetail', 'getListOfVersions']);
   React.useEffect(() => {
     if (assetID && versionID) {
@@ -53,9 +52,8 @@ const ApiAssetDetail = () => {
     return () => {
       clearState({ key: 'assetVersionDetail', value: { asset: {}, spec: {}, version: {}, access: {} } });
       clearState({ key: 'assetVersionList', value: [] });
-      setHeaderInfo(null);
     };
-  }, [assetID, clearState, getAssetVersionDetail, setHeaderInfo, versionID]);
+  }, [assetID, clearState, getAssetVersionDetail, versionID]);
 
   const currentVersion = React.useMemo((): API_MARKET.AssetVersionItem<OpenAPI.Document> => {
     if (!assetVersionDetail.spec) {

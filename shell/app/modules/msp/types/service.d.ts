@@ -14,10 +14,13 @@
 declare namespace MSP_SERVICES {
   type SERVICE_LIST_CHART_TYPE = 'RPS' | 'AvgDuration' | 'ErrorRate';
 
+  type ServiceStatus = 'hasError' | 'withoutRequest';
+
   interface SERVICE_LIST_CHART {
     serviceId: string;
     views: {
       type: SERVICE_LIST_CHART_TYPE;
+      maxValue: number;
       view: {
         timestamp: number;
         value: number;
@@ -30,10 +33,21 @@ declare namespace MSP_SERVICES {
     language: string;
     lastHeartbeat: string;
     name: string;
-    rps: number;
-    avgDuration: number;
-    errorRate: number;
+    aggregateMetric: {
+      avgRps: number;
+      maxRps: number;
+      avgDuration: number;
+      maxDuration: number;
+      errorRate: number;
+    };
   }
 
   type SERVICE_LIST = IPagingResp<SERVICE_LIST_ITEM> & IPaging;
+
+
+  interface ServiceCount {
+    totalCount: number;
+    hasErrorCount: number;
+    withoutRequestCount: number
+  }
 }

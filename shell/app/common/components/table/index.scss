@@ -119,7 +119,7 @@
   }
 
   .erda-table-filter {
-    height: 48px;
+    min-height: 48px;
 
     .ant-input-affix-wrapper,
     input {
@@ -173,6 +173,10 @@
   padding: 7px 1rem;
   line-height: 50px;
   background-color: $color-table-head-bg;
+
+  &-content {
+    line-height: 1.2;
+  }
 
   .filter-group-bar {
     margin-bottom: 0;

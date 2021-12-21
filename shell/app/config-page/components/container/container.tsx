@@ -17,7 +17,6 @@ import './container.scss';
 
 export const Container = (props: CP_CONTAINER.Props) => {
   const { children, props: configProps } = props || {};
-
   const {
     direction = 'column',
     spaceSize = 'small',
@@ -75,7 +74,6 @@ export const LRContainer = (props: CP_CONTAINER.Props) => {
     left: true,
     [`flex-${leftProportion}`]: contentSetting !== 'start',
   });
-
   return (
     <Container {...rest} props={{ ...(props.props || {}), direction: 'row' }}>
       <div className={leftCls}>{left}</div>

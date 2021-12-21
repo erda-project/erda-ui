@@ -14,7 +14,9 @@
 declare namespace CP_COMMON {
   interface Operation {
     [pro: string]: any;
+    key?: string;
     reload?: boolean;
+    skipRender?: boolean; // skipRender is a new key to replace reload;
     async?: boolean;
     text?: string;
     disabled?: boolean;
@@ -28,6 +30,8 @@ declare namespace CP_COMMON {
     prefixIcon?: string;
     fillMeta?: string;
     showIndex?: number;
+    serverData?: Obj;
+    clientData?: Obj;
   }
 
   interface IConfirm {

@@ -106,6 +106,7 @@ const ConfigPageRender = (props: IProps) => {
     if (op.command?.key) {
       op.callBack = () => execCommand(op.command, updateVal);
     }
+
     return execOperation(
       _cId,
       op,
@@ -180,7 +181,7 @@ export default ConfigPageRender;
 const getContainerMap = (container: Obj<CONFIG_PAGE.BaseSpec>) => {
   const conMap = {};
   map(container, (config, cId) => {
-    const Comp = fullContainerMap[config.type];
+    const Comp = fullContainerMap[`${config.type}${config.version}`] || fullContainerMap[config.type];
     conMap[cId] = Comp || fullContainerMap.NotFound;
   });
   return conMap;
@@ -190,6 +191,7 @@ const EnhanceCompProps = (
   props: Merge<CONFIG_PAGE.BaseSpec, { children: React.ReactElement; options: CONFIG_PAGE.CompOptions }>,
 ) => {
   const { children, props: configProps, data: pData, Wrapper, options, ...rest } = props;
+
   const [comProps, setCompProps] = React.useState(configProps);
   const [data, setData] = React.useState(pData);
 

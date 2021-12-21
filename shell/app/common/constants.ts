@@ -117,3 +117,11 @@ export const auxiliaryColorMap = {
     light: '#FAF9DC',
   },
 };
+
+export const functionalColor = {
+  actions: '#1890ff',
+  success: '#27c99a',
+  warning: '#f4b518',
+  error: '#db4b56',
+  info: '#302647',
+};

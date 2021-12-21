@@ -45,14 +45,6 @@ export const ISSUE_PRIORITY_MAP = {
 export const ISSUE_PRIORITY_ICON_STYLE = { height: '20px', width: '20px', verticalAlign: 'sub' };
 export const ISSUE_PRIORITY_LIST = Object.values(ISSUE_PRIORITY_MAP);
 
-export const REQUIREMENT_STATE_MAP = {
-  OPEN: { icon: 'wh', label: i18n.t('dop:open') },
-  WORKING: { icon: 'jxz', label: i18n.t('processing') },
-  TESTING: { icon: 'jxz', label: i18n.t('dop:testing') },
-  DONE: { icon: 'tg', label: i18n.t('dop:done') },
-};
-export const REQUIREMENT_STATE = Object.keys(REQUIREMENT_STATE_MAP);
-
 export const REQUIREMENT_PANEL_ICON = {
   OPEN: 'wks',
   WORKING: 'jxz1',
@@ -60,33 +52,10 @@ export const REQUIREMENT_PANEL_ICON = {
   DONE: 'yjs',
 };
 
-export const TASK_STATE_MAP: ISSUE.TaskMap = {
-  OPEN: { icon: 'wh', label: i18n.t('dop:open'), nextStates: ['WORKING'] },
-  WORKING: { icon: 'jxz', label: i18n.t('processing'), nextStates: ['DONE'] },
-  DONE: { icon: 'tg', label: i18n.t('dop:done'), nextStates: [] },
-};
-export const TASK_STATE = Object.keys(TASK_STATE_MAP) as ISSUE.TaskState[];
-
 export const TASK_PANEL_ICON = {
   OPEN: 'wks',
   WORKING: 'jxz1',
   DONE: 'yjs',
-};
-
-export const BUG_STATE_MAP = {
-  OPEN: { icon: 'wh', label: i18n.t('dop:open') },
-  RESOLVED: { icon: 'tg', label: i18n.t('dop:resolved') },
-  REOPEN: { icon: 'zt', label: i18n.t('dop:reopen') },
-  WONTFIX: { icon: 'zs', label: i18n.t("dop:won't fix") },
-  DUP: { icon: 'zs', label: i18n.t("dop:won't fix, duplicated") },
-  CLOSED: { icon: 'tg', label: i18n.t('closed') },
-};
-export const BUG_STATE = Object.keys(BUG_STATE_MAP);
-
-export const ISSUE_STATE_MAP = {
-  ...REQUIREMENT_STATE_MAP,
-  ...TASK_STATE_MAP,
-  ...BUG_STATE_MAP,
 };
 
 export const ISSUE_BUTTON_STATE = {

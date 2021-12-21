@@ -16,19 +16,17 @@ import ContractiveFilter from './contractive-filter/contractive-filter';
 import ConfigurableFilter from './configurable-filter/configurable-filter';
 import { Form } from './form/form';
 import { FormModal } from './form-modal/form-modal';
-import { Container, RowContainer, LRContainer } from './container/container';
+import { Container, LRContainer, RowContainer } from './container/container';
 import { Card } from './card/card';
 import Button from './button/button';
 import { Drawer } from './drawer/drawer';
 import { ActionForm } from './action-form';
 import NotFound from './not-found';
-import IssueKanban from './issue-kanban';
 import { FileTree } from './file-tree/file-tree';
 import { APIEditor } from './api-editor/api-editor';
 import Radio from './radio/radio';
 import SplitPage from './split-page/split-page';
 import Tabs from './tabs/tabs';
-
 import Title from './title/title';
 import { SortDragGroupList } from './sort-drag-group/sort-drag-group';
 import Panel from './panel/panel';
@@ -72,8 +70,11 @@ import BarChart from './bar-chart/bar-chart';
 import Gantt from './gantt/gantt';
 import SimpleChart from './simple-chart/simple-chart';
 import ChartBlock from './chart-block/chart-block';
+import Kanban from './kanban/kanban';
 import RadioTabs from './radio-tabs/radio-tabs';
 import UserProfile from './user-profile/user-profile';
+import List2 from './base-list/base-list';
+import TopN from './top-n';
 
 export const containerMap = {
   Alert,
@@ -90,7 +91,6 @@ export const containerMap = {
   Form,
   SplitPage,
   ActionForm,
-  IssueKanban,
   ContractiveFilter,
   ConfigurableFilter,
   FileTree,
@@ -139,6 +139,9 @@ export const containerMap = {
   Gantt,
   SimpleChart,
   ChartBlock,
+  Kanban,
   RadioTabs,
   UserProfile,
+  List2,
+  TopN,
 };

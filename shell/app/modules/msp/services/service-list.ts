@@ -18,6 +18,7 @@ interface ServicesParams {
   serviceName?: string;
   pageNo: number;
   pageSize: number;
+  serviceStatus?: MSP_SERVICES.ServiceStatus;
 }
 
 interface AnalyzerOverviewParams {
@@ -35,9 +36,15 @@ const apis = {
   getAnalyzerOverview: {
     api: 'get@/api/msp/apm/service/analyzer-overview',
   },
+  getServiceCount: {
+    api: 'get@/api/msp/apm/service/count',
+  },
 };
 
 export const getServices = apiCreator<(payload: ServicesParams) => MSP_SERVICES.SERVICE_LIST>(apis.getServices);
+export const getServiceCount = apiCreator<(payload: { tenantId: string }) => MSP_SERVICES.ServiceCount>(
+  apis.getServiceCount,
+);
 export const getAnalyzerOverview = apiCreator<
   (payload: AnalyzerOverviewParams) => { list: MSP_SERVICES.SERVICE_LIST_CHART[] }
 >(apis.getAnalyzerOverview);

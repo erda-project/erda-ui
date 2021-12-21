@@ -26,8 +26,8 @@ const handleState = (_stateObj?: Obj) => {
 };
 
 const CP_RADIO = (props: CP_RADIO.Props) => {
-  const { updateState, customOp, execOperation, operations, state: propsState, props: configProps } = props;
-  const { radioType, options, visible, ...rest } = configProps || {};
+  const { updateState, customOp, execOperation, operations, state: propsState, props: configProps, data } = props;
+  const { radioType, options: propsOptions, visible, ...rest } = configProps || {};
   const RadioItem = radioType === 'button' ? Radio.Button : Radio;
   const [state, updater, update] = useUpdate(handleState(propsState));
 
@@ -48,6 +48,8 @@ const CP_RADIO = (props: CP_RADIO.Props) => {
   if (visible === false) {
     return null;
   }
+
+  const options = data?.options || propsOptions;
 
   return (
     <Radio.Group {...rest} value={state.value} onChange={(e: any) => onChange({ value: e.target.value })}>
