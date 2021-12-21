@@ -37,12 +37,18 @@ const nodeExtent = [
   [1000, 1000],
 ];
 
+export interface ITopologyRef {
+  selectNode: (metaData: Omit<TOPOLOGY.INode, 'parents'>) => void;
+  cancelSelectNode: () => void;
+}
+
 interface IProps {
   defaultZoom?: number;
   allowScroll?: boolean;
   filterKey: INodeKey;
   data: { nodes: TOPOLOGY.INode[] };
   clockNode?: (data: TOPOLOGY.TopoNode['metaData']) => void;
+  topologyRef: React.Ref<ITopologyRef>;
 }
 
 const genEle = (nodes: TOPOLOGY.INode[], filterKey: INodeKey) => {
@@ -141,7 +147,14 @@ const calculateLayout = (
   ];
 };
 
-const TopologyComp = ({ data, filterKey = 'node', clockNode, allowScroll = true, defaultZoom = 0.8 }: IProps) => {
+const TopologyComp = ({
+  data,
+  filterKey = 'node',
+  clockNode,
+  allowScroll = true,
+  defaultZoom = 0.8,
+  topologyRef,
+}: IProps) => {
   const topologyData = React.useRef(genEle(data.nodes, filterKey));
   const layoutData = React.useRef<Elements>([]);
   const wrapperRaf = React.useRef<HTMLDivElement>();
@@ -172,35 +185,78 @@ const TopologyComp = ({ data, filterKey = 'node', clockNode, allowScroll = true,
     setFlowConfig(elements);
   };
 
-  const nodeTypes = customerNode((currentNode, flag) => {
-    const { id } = currentNode.metaData;
+  const changeNodeStatus = (id: string, key: string) => {
+    let newLayoutData = layoutData.current;
     const originData = topologyData.current;
     const prevNodeIds = originData.edge.filter((t) => t.target === id).map((t) => t.source);
     const nextNodeIds = originData.edge.filter((t) => t.source === id).map((t) => t.target);
-    let newLayoutData = layoutData.current;
-    if (flag === 'in') {
-      newLayoutData = layoutData.current.map((item) => {
-        if (isNode(item)) {
-          return {
-            ...item,
-            data: {
-              ...item.data,
-              hoverStatus: [...prevNodeIds, ...nextNodeIds, id].includes(item.id) ? 1 : -1,
-            },
-          };
-        } else {
-          return {
-            ...item,
-            data: {
-              ...item.data,
-              hoverStatus: item.id.includes(id) ? 1 : -1,
-            },
-          };
-        }
-      });
-    }
+    newLayoutData = newLayoutData.map((item) => {
+      if (isNode(item)) {
+        return {
+          ...item,
+          data: {
+            ...item.data,
+            [key]: [...prevNodeIds, ...nextNodeIds, id].includes(item.id) ? 1 : -1,
+          },
+        };
+      } else {
+        return {
+          ...item,
+          data: {
+            ...item.data,
+            [key]: item.id.includes(id) ? 1 : -1,
+          },
+        };
+      }
+    });
+    return newLayoutData;
+  };
+
+  const handleSelect = ({ id }: Omit<TOPOLOGY.INode, 'parents'>) => {
+    const newLayoutData = changeNodeStatus(id, 'selectStatus');
+    layoutData.current = newLayoutData;
     setElements(newLayoutData);
-  }, clockNode);
+  };
+
+  React.useImperativeHandle(
+    topologyRef,
+    () => {
+      return {
+        selectNode: handleSelect,
+        cancelSelectNode: () => {
+          const newLayoutData = layoutData.current.map((item) => {
+            return {
+              ...item,
+              data: {
+                ...item.data,
+                selectStatus: 0,
+              },
+            };
+          });
+          layoutData.current = newLayoutData;
+          setElements(newLayoutData);
+        },
+      };
+    },
+    [],
+  );
+
+  const nodeTypes = customerNode(
+    (currentNode, flag) => {
+      const { id } = currentNode.metaData;
+      let newLayoutData = layoutData.current;
+      if (flag === 'in') {
+        newLayoutData = changeNodeStatus(id, 'hoverStatus');
+      }
+      setElements(newLayoutData);
+    },
+    (metaData) => {
+      if (clockNode) {
+        handleSelect(metaData);
+        clockNode(metaData);
+      }
+    },
+  );
 
   return (
     <>
@@ -245,10 +301,11 @@ const TopologyComp = ({ data, filterKey = 'node', clockNode, allowScroll = true,
     </>
   );
 };
-export default (props: IProps) => {
+export default React.forwardRef((props: IProps, ref?: React.Ref<ITopologyRef>) => {
+  const refs = React.useRef<ITopologyRef>(null);
   return (
     <ReactFlowProvider>
-      <TopologyComp {...props} />
+      <TopologyComp {...props} topologyRef={ref ?? refs} />
     </ReactFlowProvider>
   );
-};
+});
