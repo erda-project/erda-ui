@@ -144,10 +144,11 @@ const Transaction = () => {
   const currentProject = mspStore.useStore((s) => s.currentProject);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
-  const [serviceId, serviceName, _applicationId] = serviceAnalyticsStore.useStore((s) => [
+  const [serviceId, serviceName, _applicationId, requestCompleted] = serviceAnalyticsStore.useStore((s) => [
     s.serviceId,
     s.serviceName,
     s.applicationId,
+    s.requestCompleted,
   ]);
   const [
     {
@@ -294,7 +295,7 @@ const Transaction = () => {
     };
   }, [subSearch, search, topic, callType, sort, type, serviceId]);
 
-  if (!serviceId) {
+  if (!serviceId && requestCompleted) {
     return <NoServicesHolder />;
   }
 
