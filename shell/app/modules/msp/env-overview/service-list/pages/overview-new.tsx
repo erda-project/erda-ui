@@ -22,7 +22,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import { getAnalyzerOverview } from 'msp/services/service-list';
 import routeInfoStore from 'core/stores/route';
 import EChart from 'charts/components/echarts';
-import { groupBy, uniqBy } from 'lodash';
+import { groupBy, reduce, uniqBy } from 'lodash';
 import moment from 'moment';
 import { genLinearGradient, newColorMap } from 'charts/theme';
 import i18n from 'i18n';
@@ -69,6 +69,58 @@ const chartConfig = [
     },
   },
 ];
+const topNConfig = [
+  {
+    key: 'pathRpsMaxTop5',
+    color: functionalColor.actions,
+    icon: 'jiekoutuntu',
+  },
+  {
+    key: 'pathSlowTop5',
+    color: functionalColor.success,
+    icon: 'jiekoutiaoyong',
+  },
+  {
+    key: 'pathErrorRateTop5',
+    color: functionalColor.error,
+    icon: 'jiekoucuowushuai',
+  },
+  {
+    key: 'pathClientRpsMaxTop5',
+    color: auxiliaryColorMap.purple.deep,
+    icon: 'kehuduantiaoyong',
+  },
+  {
+    key: 'sqlSlowTop5',
+    color: functionalColor.info,
+    icon: 'SQLtiaoyong',
+  },
+  {
+    key: 'exceptionCountTop5',
+    color: functionalColor.warning,
+    icon: 'fuwuyichang',
+  },
+];
+
+const topNMap = reduce(
+  topNConfig,
+  (prev, next) => {
+    return {
+      ...prev,
+      [`service-overview@${next.key}`]: {
+        props: {
+          theme: [
+            {
+              titleIcon: next.icon,
+              color: next.color,
+            },
+          ],
+        },
+      },
+    };
+  },
+  {},
+);
 
 const axis = {
   splitLine: {
@@ -305,36 +357,12 @@ const OverView = () => {
         inParams={{ tenantId, serviceId, startTime: range.startTimeMs, endTime: range.endTimeMs }}
         fullHeight={false}
         customProps={{
-          topN: {
+          grid: {
             props: {
-              theme: [
-                {
-                  color: functionalColor.actions,
-                  titleIcon: 'jiekoutuntu',
-                },
-                {
-                  color: functionalColor.success,
-                  titleIcon: 'jiekoutiaoyong',
-                },
-                {
-                  color: functionalColor.error,
-                  titleIcon: 'jiekoucuowushuai',
-                },
-                {
-                  color: auxiliaryColorMap.purple.deep,
-                  titleIcon: 'kehuduantiaoyong',
-                },
-                {
-                  color: functionalColor.info,
-                  titleIcon: 'SQLtiaoyong',
-                },
-                {
-                  color: functionalColor.warning,
-                  titleIcon: 'fuwuyichang',
-                },
-              ],
+              span: [8, 8, 8, 8, 8, 8],
             },
           },
+          ...topNMap,
         }}
       />
     </div>

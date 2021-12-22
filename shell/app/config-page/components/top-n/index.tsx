@@ -31,14 +31,17 @@ const CP_TopN: React.FC<CP_DATA_RANK.Props> = (props) => {
   };
 
   return (
-    <div className="bg-white card-shadow px-4 py-3 border cp-data-rank">
-      <Row gutter={8} {...configProps.rowsProps}>
+    <div className="cp-data-rank h-full">
+      <Row gutter={8} {...configProps.rowsProps} className="h-full">
         {list.map((listItem, index) => {
           const { color = functionalColor.info, titleIcon, backgroundIcon } = configProps.theme?.[index] || {};
           const { title, items, span } = listItem;
           return (
             <Col key={title} span={span} className="my-1">
-              <div className="px-4 py-3 relative h-full" style={{ backgroundColor: colorToRgb(color, 0.04) }}>
+              <div
+                className="px-4 py-3 relative h-full items-wrapper"
+                style={{ backgroundColor: colorToRgb(color, 0.04) }}
+              >
                 <div
                   className="absolute top-0 right-0 bg-icon-wrapper flex justify-center items-center"
                   style={{ color: colorToRgb(color, 0.1) }}
