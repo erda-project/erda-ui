@@ -32,7 +32,7 @@ function TableConfig<T extends object = any>({
 
   const showLength = columns.filter((item) => !item.hidden).length;
   const columnsFilter = columns
-    .filter((item) => item.title)
+    .filter((item) => item.title && item.dataIndex)
     .map((item: ColumnProps<T>) => (
       <div key={`${item.dataIndex}`}>
         <Checkbox
