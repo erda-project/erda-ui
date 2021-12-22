@@ -17,9 +17,11 @@ interface IState {
   serviceId: string;
   serviceName: string;
   applicationId: string;
+  requestCompleted: boolean;
 }
 
 const initState: IState = {
+  requestCompleted: false,
   serviceId: '',
   serviceName: '',
   applicationId: '',

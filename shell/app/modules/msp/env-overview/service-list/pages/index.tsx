@@ -16,7 +16,7 @@ import React from 'react';
 import { PAGINATION } from 'app/constants';
 import { Button, Input, Tag, Tooltip } from 'antd';
 import Pagination from 'common/components/pagination';
-import { debounce, get, isNil } from 'lodash';
+import { debounce, get, isNil, reduce } from 'lodash';
 import EChart from 'charts/components/echarts';
 import { CardColumnsProps, CardList, ErdaAlert, ErdaIcon, RadioTabs } from 'common';
 import { goTo } from 'common/utils';
@@ -123,6 +123,54 @@ const CHART_MAP: {
   ],
 };
 
+const topNConfig = [
+  {
+    key: 'rpsMaxTop5',
+    color: functionalColor.actions,
+    icon: 'zuida',
+  },
+  {
+    key: 'rpsMinTop5',
+    color: functionalColor.success,
+    icon: 'zuixiao',
+  },
+  {
+    key: 'avgDurationTop5',
+    color: functionalColor.warning,
+    icon: 'yanshi',
+  },
+  {
+    key: 'errorRateTop5',
+    color: functionalColor.error,
+    icon: 'cuowushuai',
+  },
+];
+
+const topNMap = reduce(
+  topNConfig,
+  (prev, next) => {
+    return {
+      ...prev,
+      [`service-list@${next.key}`]: {
+        op: {
+          clickRow: (item: CP_DATA_RANK.IItem) => {
+            listDetail(item.id, item.name);
+          },
+        },
+        props: {
+          theme: [
+            {
+              titleIcon: next.icon,
+              color: next.color,
+            },
+          ],
+        },
+      },
+    };
+  },
+  {},
+);
+
 type IListItem = Merge<MSP_SERVICES.SERVICE_LIST_ITEM, { views: MSP_SERVICES.SERVICE_LIST_CHART['views'] }>;
 type ServiceStatus = MSP_SERVICES.ServiceStatus | 'allService';
 
@@ -156,8 +204,9 @@ const tabs: Array<{ label: string; value: ServiceStatus; countKey: keyof MSP_SER
 ];
 
 interface IState {
-  componentizedProtocolKey: number;
   searchValue: string;
+  startTime: number;
+  endTime: number;
   serviceStatus: MSP_SERVICES.ServiceStatus | 'allService';
   pagination: {
     current: number;
@@ -170,25 +219,29 @@ const MicroServiceOverview = () => {
   const tenantId = routeInfoStore.useStore((s) => s.params.terminusKey);
   const overviewList = getAnalyzerOverview.useData();
   const serViceCount = getServiceCount.useData();
-  const [{ componentizedProtocolKey, pagination, searchValue, serviceStatus }, updater, update] = useUpdate<IState>({
-    searchValue: '',
-    serviceStatus: tabs[0].value,
-    componentizedProtocolKey: Date.now(),
-    pagination: { current: 1, pageSize: PAGINATION.pageSize },
-  });
+  const [{ pagination, searchValue, serviceStatus, startTime, endTime }, updater, update] =
+    useUpdate<IState>({
+      searchValue: '',
+      startTime: moment().subtract(1, 'h').valueOf(),
+      endTime: moment().valueOf(),
+      serviceStatus: tabs[0].value,
+      pagination: { current: 1, pageSize: PAGINATION.pageSize },
+    });
 
   React.useEffect(() => {
     getServiceCount.fetch({ tenantId });
   }, [tenantId]);
 
   const getServicesList = React.useCallback(() => {
-    getServices.fetch({
-      tenantId,
-      serviceName: searchValue || undefined,
-      pageNo: pagination.current,
-      pageSize: pagination.pageSize,
-      serviceStatus: serviceStatus === 'allService' ? undefined : serviceStatus,
-    });
+    if (tenantId) {
+      getServices.fetch({
+        tenantId,
+        serviceName: searchValue || undefined,
+        pageNo: pagination.current,
+        pageSize: pagination.pageSize,
+        serviceStatus: serviceStatus === 'allService' ? undefined : serviceStatus,
+      });
+    }
   }, [tenantId, pagination, searchValue, serviceStatus]);
 
   React.useEffect(() => {
@@ -221,7 +274,10 @@ const MicroServiceOverview = () => {
   );
 
   const handleRefresh = React.useCallback(() => {
-    updater.componentizedProtocolKey(Date.now());
+    update({
+      startTime: moment().subtract(1, 'h').valueOf(),
+      endTime: moment().valueOf(),
+    });
     getServicesList();
     getServiceCount({ tenantId });
   }, [getServicesList]);
@@ -373,40 +429,19 @@ const MicroServiceOverview = () => {
         )}
       />
       <DiceConfigPage
-        key={componentizedProtocolKey}
         showLoading
+        forceUpdateKey={['inParams']}
         scenarioType="service-list"
         scenarioKey="service-list"
-        inParams={{ tenantId }}
+        inParams={{ tenantId, startTime, endTime }}
         fullHeight={false}
         customProps={{
-          topN: {
-            op: {
-              clickRow: (item: CP_DATA_RANK.IItem) => {
-                listDetail(item.id, item.name);
-              },
-            },
+          grid: {
             props: {
-              theme: [
-                {
-                  color: functionalColor.actions,
-                  titleIcon: 'zuida',
-                },
-                {
-                  color: functionalColor.success,
-                  titleIcon: 'zuixiao',
-                },
-                {
-                  color: functionalColor.warning,
-                  titleIcon: 'yanshi',
-                },
-                {
-                  color: functionalColor.error,
-                  titleIcon: 'cuowushuai',
-                },
-              ],
+              span: [6, 6, 6, 6],
             },
           },
+          ...topNMap,
         }}
       />
       <RadioTabs
