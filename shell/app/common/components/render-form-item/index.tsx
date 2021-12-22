@@ -215,7 +215,7 @@ const RenderFormItem = ({
 
       ItemComp = (
         <ClassWrapper>
-          <SelectComp options={options} size={size} itemProps={itemProps} />
+          <SelectComp options={options} size={size} {...itemProps} />
         </ClassWrapper>
       );
       action = i18n.t('common:select');
@@ -227,7 +227,7 @@ const RenderFormItem = ({
 
       ItemComp = (
         <ClassWrapper>
-          <TagsSelect options={options} size={size} itemProps={itemProps} />
+          <TagsSelect options={options} size={size} {...itemProps} />
         </ClassWrapper>
       );
       action = i18n.t('common:select');
@@ -278,8 +278,8 @@ const RenderFormItem = ({
       break;
     case 'dateRange':
       ItemComp = (
-        <ClassWrapper {...itemProps}>
-          <DateRange />
+        <ClassWrapper>
+          <DateRange {...itemProps} />
         </ClassWrapper>
       );
       break;
@@ -381,11 +381,11 @@ interface SelectCompProps {
   value: Array<number | string>;
   onChange: (value: Array<number | string>) => void;
   itemProps: Obj;
+  optionRender: (option: IOption) => JSX.Element;
 }
 
-const SelectComp = ({ value, onChange, options, size, itemProps }: SelectCompProps) => {
+const SelectComp = ({ value, onChange, options, size, optionRender, ...restItemProps }: SelectCompProps) => {
   const fixOptions = options.filter?.((item: IOption) => item.fix) || [];
-  const { optionRender, ...restItemProps } = itemProps;
   return (
     <Select
       {...restItemProps}
@@ -525,12 +525,12 @@ interface TagsSelectProps {
   itemProps: Obj;
 }
 
-const TagsSelect = ({ size, options, value = [], onChange, itemProps }: TagsSelectProps) => {
+const TagsSelect = ({ size, options, value = [], onChange, ...restItemProps }: TagsSelectProps) => {
   const [open, setOpen] = React.useState(false);
 
   return (
     <Select
-      {...itemProps}
+      {...restItemProps}
       value={value}
       onChange={onChange}
       className="erda-tags-select"
