@@ -80,7 +80,7 @@ export const IssueDrawer = (props: IProps) => {
     projectId,
     setData,
     footer = IssueDrawer.Empty,
-    ...rest
+    mountContainer,
   } = props;
   const [title = IssueDrawer.Empty, main = IssueDrawer.Empty, tabs = IssueDrawer.Empty, meta = IssueDrawer.Empty] =
     React.Children.toArray(children);
@@ -154,7 +154,7 @@ export const IssueDrawer = (props: IProps) => {
       onClose={onClose}
       maskClosable={maskClosable || !isChanged}
       keyboard={false}
-      {...rest}
+      getContainer={() => mountContainer || document.body}
     >
       <Spin spinning={loading}>
         <IF check={title !== IssueDrawer.Empty}>

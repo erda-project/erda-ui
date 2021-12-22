@@ -872,8 +872,20 @@ type IUseFullScreen = (
   options?: Options,
 ) => [boolean, { exitFullscreen: () => void; toggleFullscreen: () => void; enterFullscreen: () => void }];
 
+/**
+ * @description 获取最新状态, 防止闭包导致的问题
+ * @param value
+ * @returns
+ */
+export const useLatest = <T,>(value: T) => {
+  const ref = React.useRef<T>(value);
+  ref.current = value;
+  return ref;
+};
+
 export const useFullScreen: IUseFullScreen = (target, options) => {
   const [state, setState] = React.useState(false);
+  const latestState = useLatest<boolean>(state);
 
   React.useEffect(() => {
     const onChange = () => {
@@ -907,7 +919,7 @@ export const useFullScreen: IUseFullScreen = (target, options) => {
     }
   };
   const exitFullscreen = () => {
-    if (!state) {
+    if (!latestState.current) {
       return;
     }
     if (screenfull.isEnabled) {
@@ -916,7 +928,7 @@ export const useFullScreen: IUseFullScreen = (target, options) => {
   };
 
   const toggleFullscreen = () => {
-    if (state) {
+    if (latestState.current) {
       exitFullscreen();
     } else {
       enterFullscreen();

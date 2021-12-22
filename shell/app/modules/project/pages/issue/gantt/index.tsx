@@ -18,7 +18,7 @@ import { getUrlQuery } from 'config-page/utils';
 import { getAvatarChars, updateSearch, mergeSearch } from 'common/utils';
 import { Badge, ErdaIcon, Ellipsis } from 'common';
 import { useUserMap } from 'core/stores/userMap';
-import { useUpdate, useSwitch } from 'common/use-hooks';
+import { useUpdate, useSwitch, useFullScreen } from 'common/use-hooks';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import routeInfoStore from 'core/stores/route';
 import { Avatar, Select } from 'antd';
@@ -133,15 +133,20 @@ const IssuePlan = () => {
   const { id: queryId, pId: queryParentId, iterationID: queryItertationID, type: _queryType, ...restQeury } = query;
   const queryType = _queryType && _queryType.toUpperCase();
   const [drawerVisible, openDrawer, closeDrawer] = useSwitch(false);
-  const [{ urlQuery, filterObj, chosenIssueType, chosenIteration, chosenIssueId, chosenParentId }, updater, update] =
-    useUpdate({
-      filterObj: {},
-      urlQuery: restQeury,
-      chosenParentId: queryParentId || 0,
-      chosenIssueId: queryId,
-      chosenIteration: queryItertationID || 0,
-      chosenIssueType: queryType as undefined | ISSUE_TYPE,
-    });
+  const [
+    { urlQuery, filterObj, chosenIssueType, chosenIteration, chosenIssueId, chosenParentId, isFullScreen },
+    updater,
+    update,
+  ] = useUpdate({
+    filterObj: {},
+    urlQuery: restQeury,
+    chosenParentId: queryParentId || 0,
+    chosenIssueId: queryId,
+    chosenIteration: queryItertationID || 0,
+    chosenIssueType: queryType as undefined | ISSUE_TYPE,
+    isFullScreen: false,
+  });
+  const ganttRef = React.useRef<HTMLDivElement>(null);
 
   const onChosenIssue = (val: Obj) => {
     const { id, extra, pId } = val || {};
@@ -210,10 +215,21 @@ const IssuePlan = () => {
       chosenIssueType: undefined,
     });
   };
+
+  const handleScreenChange = (value: boolean) => {
+    updater.isFullScreen(value);
+  };
+
+  const buttonEle = document.getElementsByClassName('top-button-group');
+  if (buttonEle.length > 0) {
+    buttonEle[0].style.display = isFullScreen ? 'none' : 'flex';
+  }
+
   return (
-    <div className="h-full">
+    <div className={`h-full bg-white ${isFullScreen ? 'p-10' : ''}`} ref={ganttRef}>
       <DiceConfigPage
         ref={reloadRef}
+        forceUpdateKey={['customProps']}
         scenarioType={'issue-gantt'}
         scenarioKey={'issue-gantt'}
         inParams={inParams}
@@ -224,7 +240,7 @@ const IssuePlan = () => {
             },
           },
           ganttContainer: {
-            props: { flexHeight: true },
+            props: { flexHeight: true, className: 'gantt' },
           },
           page: {
             props: { fullHeight: true, overflowHidden: true },
@@ -234,6 +250,8 @@ const IssuePlan = () => {
               BarContentRender,
               TaskListHeader,
               TreeNodeRender: (p) => <TreeNodeRender {...p} clickNode={onChosenIssue} />,
+              screenChange: handleScreenChange,
+              rootWrapper: ganttRef,
             },
           },
           issueAddButton: {
@@ -308,6 +326,7 @@ const IssuePlan = () => {
 
       {chosenIssueType ? (
         <EditIssueDrawer
+          mountContainer={ganttRef.current}
           iterationID={chosenIteration}
           issueType={chosenIssueType as ISSUE_TYPE}
           visible={drawerVisible}

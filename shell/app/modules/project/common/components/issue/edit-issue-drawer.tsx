@@ -600,6 +600,7 @@ export const EditIssueDrawer = (props: IProps) => {
     subDrawer,
     ticketType,
     customUrl,
+    mountContainer,
   } = props;
   const [issueType, setIssueType] = React.useState(propsIssueType);
   const type = issueType.toLowerCase();
@@ -1189,6 +1190,7 @@ export const EditIssueDrawer = (props: IProps) => {
       issueType={issueType}
       setData={setFormData}
       footer={footer}
+      mountContainer={mountContainer}
       // loading={
       //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
       // }

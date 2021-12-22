@@ -139,4 +139,5 @@ module.exports = {
   'yellow-green-deep': '#C9C400',
   'yellow-green-mid': '#ECE97D',
   'yellow-green-light': '#FAF9DC',
+
 };
