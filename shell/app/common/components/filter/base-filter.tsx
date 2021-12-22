@@ -77,6 +77,7 @@ const Filter = React.forwardRef(
 
     const handleValueChange = throttle(
       (_changedValue: { [name: string]: any }, allValues: { [name: string]: any }) => {
+        const { validateFields } = formRef.current;
         const formattedValue: { [name: string]: any } = {};
         config.forEach(({ name, format, customProps }) => {
           const curValue = allValues?.[name];
@@ -86,7 +87,10 @@ const Filter = React.forwardRef(
             formattedValue[name] = curValue;
           }
         });
-        onSubmit?.(formattedValue);
+
+        validateFields().then(() => {
+          onSubmit?.(formattedValue);
+        });
       },
       500,
       { leading: false },

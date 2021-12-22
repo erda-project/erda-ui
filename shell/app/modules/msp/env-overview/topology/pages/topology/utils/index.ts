@@ -15,13 +15,14 @@ import { cloneDeep, omit, uniqBy } from 'lodash';
 import { getFormatter } from 'charts/utils';
 
 export const servicesTypes = ['service'];
+export const externalserviceTypes = ['externalservice'];
 export const notAddonTypes = [
   ...servicesTypes,
+  ...externalserviceTypes,
   'registercenter',
   'configcenter',
   'noticecenter',
   'apigateway',
-  'externalservice',
   'internalservice',
 ];
 
@@ -55,6 +56,7 @@ export const genNodes = (list: TOPOLOGY.INode[], edges: Edge[]): Node<TOPOLOGY.T
         isCircular,
         isUnhealthy: rest.metric.error_rate > 0,
         hoverStatus: 0,
+        selectStatus: 0,
         isRoot: !parentCount,
         isParent: !isLeaf,
         isLeaf,
@@ -101,6 +103,7 @@ export const genEdges = (data: TOPOLOGY.INode[]): Edge<TOPOLOGY.TopoEdge>[] => {
               isAddon: isAddon(rest.type) && isAddon(parent.type),
               isService: isService(rest.type) && isService(parent.type),
               hoverStatus: 0,
+              selectStatus: 0,
               source: omit(parent, 'parents'),
               target: rest,
             },

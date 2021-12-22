@@ -24,7 +24,7 @@ export interface IProps extends NodeProps<TOPOLOGY.TopoNode> {
 }
 
 const CommonNode = ({ isConnectable, data, children, className, onMouseMoving, onClick }: IProps) => {
-  const { isRoot, isLeaf, metaData, hoverStatus } = data;
+  const { isRoot, isLeaf, metaData, hoverStatus, selectStatus } = data;
   const timer = React.useRef(Date.now());
   const handleMouseEnter = () => {
     onMouseMoving?.(data, 'in');
@@ -46,7 +46,9 @@ const CommonNode = ({ isConnectable, data, children, className, onMouseMoving, o
         <Handle className="node-handle-start" type="target" position={Position.Left} isConnectable={isConnectable} />
       )}
       <div
-        className={`topology-common-node ${hoverStatus === -1 ? 'opacity-30' : ''} ${className ?? ''}`}
+        className={`topology-common-node ${[hoverStatus, selectStatus].includes(-1) ? 'opacity-30' : ''} ${
+          className ?? ''
+        }`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onMouseDown={() => {

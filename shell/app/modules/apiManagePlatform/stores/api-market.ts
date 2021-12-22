@@ -84,12 +84,11 @@ const apiMarketStore = createStore({
   name: 'apiMarket',
   state: initState,
   effects: {
-    async getAssetList({ call, update, select }, payload: API_MARKET.QueryAssets) {
+    async getAssetList({ call, update }, payload: API_MARKET.QueryAssets) {
       const { list } = await call(getApiAssetsList, payload, { paging: { key: 'assetListPaging' } });
       let assetList = list || [];
       if (payload.pageNo && payload.pageNo > 1) {
-        const prevList = select((s) => s.assetList);
-        assetList = [...prevList, ...list];
+        assetList = [...list];
       }
       update({ assetList });
     },

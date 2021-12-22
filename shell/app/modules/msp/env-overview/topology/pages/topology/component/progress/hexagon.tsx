@@ -157,15 +157,27 @@ const getPercentPathStyle = (percent: number, side: IPathStyleReturn['side'], pa
 
 const Hexagon: React.FC<IProps> = ({ width = 100, stroke, percent = 0, strokeWidth = 5, className, children }) => {
   const sideLength = getSideLengthByWidth((width + 2 * strokeWidth) / 2);
-  const { pathStyle, side } = React.useMemo(() => {
+  const { pathStyle, side, point } = React.useMemo(() => {
     return getPathStyles(width, strokeWidth);
   }, [width, strokeWidth]);
   const percentPath = React.useMemo(() => getPercentPathStyle(percent, side, pathStyle), [percent, side, pathStyle]);
+  const clipPath = React.useMemo(() => {
+    // polygon(31px 2px, 62px 19px, 62px 54px, 31px 72px, 1px 54px, 1px 19px, 31px 2px)
+    const polygon = `polygon(${point
+      .map((item) => {
+        return `${item.x}px ${item.y}px`;
+      })
+      .join(', ')})`;
+    return { clipPath: polygon };
+  }, [point]);
   const [bgColor, frontColor] = stroke;
   const wrapperWidth = width + 2 * strokeWidth;
   const wrapperHeight = 2 * sideLength;
   return (
     <div className="relative">
+      <div className="shadow-wrapper absolute top-0 left-0" style={{ width: wrapperWidth, height: wrapperHeight }}>
+        <div className="shadow h-full w-full" style={clipPath} />
+      </div>
       <svg className={`hexagon-progress ${className || ''}`} width={wrapperWidth} height={2 * sideLength}>
         <path
           className="path fill-path"

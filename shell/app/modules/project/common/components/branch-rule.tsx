@@ -16,7 +16,8 @@ import i18n from 'i18n';
 import { useUpdate } from 'common/use-hooks';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';
-import { Button, Table, Popconfirm } from 'antd';
+import { Button, Popconfirm, Modal } from 'antd';
+import Table from 'common/components/table';
 import { FormModal } from 'app/configForm/nusi-form/form-modal';
 import branchRuleStore from 'project/stores/branch-rule';
 import { WithAuth } from 'user/common';
@@ -238,50 +239,46 @@ const BranchRule = (props: IProps) => {
       title: i18n.t('description'),
       dataIndex: 'desc',
     },
-    {
-      title: i18n.t('operation'),
-      key: 'operation',
-      fixed: 'right',
-      width: 160,
-      align: 'center',
-      render: (_: any, record: PROJECT.IBranchRule) => {
-        return (
-          <div className="table-operations">
+  ];
+
+  const actions = {
+    render: (record: PROJECT.IBranchRule) => {
+      return [
+        {
+          title: (
             <WithAuth pass={operationAuth}>
-              <span
-                className="table-operations-btn"
-                onClick={() =>
-                  update({
-                    modalVis: true,
-                    editData: {
-                      ...record,
-                      ...(isProject
-                        ? { artifactWorkspace: ((record.artifactWorkspace as string) || '').split(',') }
-                        : {}),
-                    },
-                  })
-                }
-              >
-                {i18n.t('edit')}
-              </span>
+              <span>{i18n.t('edit')}</span>
             </WithAuth>
-            <Popconfirm
-              title={`${i18n.t('common:confirm to delete')}?`}
-              onConfirm={() => {
+          ),
+          onClick: () =>
+            update({
+              modalVis: true,
+              editData: {
+                ...record,
+                ...(isProject ? { artifactWorkspace: ((record.artifactWorkspace as string) || '').split(',') } : {}),
+              },
+            }),
+        },
+        {
+          title: (
+            <WithAuth pass={operationAuth}>
+              <span>{i18n.t('delete')}</span>
+            </WithAuth>
+          ),
+          onClick: () => {
+            Modal.confirm({
+              title: `${i18n.t('common:confirm to delete')}?`,
+              onOk() {
                 deleteBranchRule({ id: record.id }).then(() => {
                   getBranchRulesData();
                 });
-              }}
-            >
-              <WithAuth pass={operationAuth}>
-                <span className="table-operations-btn">{i18n.t('delete')}</span>
-              </WithAuth>
-            </Popconfirm>
-          </div>
-        );
-      },
+              },
+            });
+          },
+        },
+      ];
     },
-  ];
+  };
 
   const onCancel = () => {
     update({
@@ -323,7 +320,13 @@ const BranchRule = (props: IProps) => {
           </Button>
         </WithAuth>
       </div>
-      <Table rowKey="id" dataSource={branchRules} columns={columns} scroll={{ x: 900 }} />
+      <Table
+        rowKey="id"
+        dataSource={branchRules}
+        columns={columns}
+        actions={actions}
+        onChange={() => getBranchRulesData()}
+      />
       <FormModal
         name={i18n.t('dop:branch rule')}
         onCancel={onCancel}

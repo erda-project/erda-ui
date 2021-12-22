@@ -14,7 +14,7 @@
 import React, { useMemo, useEffect, useRef, useCallback } from 'react';
 import { cloneDeep, find, get, isEmpty, map, forEach, reduce, isNaN, filter } from 'lodash';
 import i18n from 'i18n';
-import { Table } from 'antd';
+import Table from 'common/components/table';
 
 import { Icon as CustomIcon, Ellipsis } from 'common';
 import { updateSearch } from 'common/utils';
@@ -70,12 +70,22 @@ interface IProps {
   modalQuery?: any;
   onChange?: (query: object) => void;
   onClickRow?: (record: object, recordList?: object[]) => void;
+  slot: React.ReactNode;
 }
 
 const defaultPageNo = 1;
-const defaultPageSize = 15;
+const defaultPageSize = 10;
 
-const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, testPlanId, modalQuery = {} }: IProps) => {
+const CaseTable = ({
+  query: queryProp,
+  columns,
+  onClickRow,
+  scope,
+  onChange,
+  testPlanId,
+  modalQuery = {},
+  slot,
+}: IProps) => {
   const isModal = scope === 'caseModal';
   const client = layoutStore.useStore((s) => s.client);
   const projectInfo = projectStore.useStore((s) => s.info);
@@ -292,6 +302,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
       onRow={(record: TEST_CASE.CaseTableRecord) => ({
         onClick: () => handleClickRow(record),
       })}
+      slot={slot}
       {...tempProps}
       pagination={{
         total: caseTotal,
@@ -299,7 +310,6 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
         pageSize: parseInt(query.pageSize, 10) || defaultPageSize,
         showSizeChanger: true,
       }}
-      scroll={{ x: 1500 }}
     />
   );
 };

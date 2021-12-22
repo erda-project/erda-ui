@@ -75,7 +75,8 @@ function WrappedTable<T extends object = any>({
   const [defaultPagination, setDefaultPagination] = React.useState<TablePaginationConfig>({
     current: 1,
     total: dataSource.length || 0,
-    ...PAGINATION,
+    pageSizeOptions: PAGINATION.pageSizeOptions,
+    pageSize: (paginationProps as TablePaginationConfig)?.pageSize || PAGINATION.pageSize,
   });
   const isFrontendPaging = !(paginationProps && paginationProps.current) && paginationProps !== false; // Determine whether front-end paging
 
