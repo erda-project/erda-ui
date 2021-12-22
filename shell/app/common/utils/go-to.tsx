@@ -261,8 +261,11 @@ export enum pages {
   microServiceAddCustomDashboard = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/analysis/{terminusKey}/custom-dashboard/add',
   microServiceCustomDashboardDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/analysis/{terminusKey}/custom-dashboard/{customDashboardId}',
 
-  // 微服务-服务分析页
+  // 微服务-总览服务列表
   mspServiceAnalyze = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}',
+
+  // 微服务-监控中心-服务监控
+  mspServiceMonitor = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-analysis/{applicationId}/{serviceId}/{serviceName}',
 
   // 微服务-事务分析页
   mspServiceTransaction = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}/transaction',
