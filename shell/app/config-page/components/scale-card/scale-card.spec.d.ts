@@ -16,6 +16,7 @@ declare namespace CP_SCALE_CARD {
     type: 'ScaleCard';
     operations?: Obj<CP_COMMON.Operation>;
     data: IData;
+    onClick?: (v: Item) => void;
   }
 
   interface IData {
@@ -25,7 +26,8 @@ declare namespace CP_SCALE_CARD {
   interface Item {
     icon: string;
     label: string;
-    operations: Obj<CP_COMMON.Operation>;
+    operations?: Obj<CP_COMMON.Operation>;
+    [pro: string]: any;
   }
 
   type Props = MakeProps<Spec>;

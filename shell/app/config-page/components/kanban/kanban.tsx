@@ -14,7 +14,7 @@
 import React from 'react';
 import { map, find, without, get } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
-import { Card } from '../card/card';
+import { CardItem } from '../card/card';
 import { Input, Button, Popconfirm, Tooltip } from 'antd';
 import { EmptyHolder, ErdaIcon } from 'common';
 import { notify } from 'common/utils';
@@ -371,18 +371,17 @@ const PureKanban = (props: IKanbanProps) => {
       </div>
       <div className="cp-kanban-col-content" onScroll={handleScroll}>
         {map(cards, (item) => {
+          const curDragOp = item.operations?.cardMoveTo;
           return (
-            <Card
+            <CardItem
               key={item.id}
-              execOperation={execOperation}
-              props={{
-                CardRender,
-                cardType,
-                className: `${isDrag ? 'hidden' : ''} list-item ${currentCard?.id === item.id ? 'dragged-card' : ''}`,
-                data: changeData(item),
-                setIsDrag,
-              }}
-              customOp={rest.customOp}
+              card={changeData(item)}
+              CardRender={CardRender}
+              cardType={cardType}
+              draggable={curDragOp && !curDragOp.disabled}
+              className={`${isDrag ? 'hidden' : ''} list-item ${currentCard?.id === item.id ? 'dragged-card' : ''}`}
+              setIsDrag={setIsDrag}
+              onClick={rest?.customOp?.clickCard}
             />
           );
         })}

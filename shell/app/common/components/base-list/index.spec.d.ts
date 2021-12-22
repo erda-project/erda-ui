@@ -43,7 +43,12 @@ declare namespace ERDA_LIST {
 
   interface Label {
     label: string;
-    color?: string;
+    status: 'success' | 'warning' | 'error' | 'processing';
+  }
+
+  interface Tag {
+    label: string;
+    color: string;
   }
 
   interface ListData {
@@ -53,6 +58,7 @@ declare namespace ERDA_LIST {
     logo?: string | React.ReactNode;
     backgroundImg?: string;
     labels: Label[];
+    tags: Tag[];
     metaInfos?: MetaInfo[];
     titlePrefixIcon?: string;
     titlePrefixIconTip?: string;

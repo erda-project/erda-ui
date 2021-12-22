@@ -1,4 +1,7 @@
 .erda-badge {
+  .erda-badge-status-text {
+    word-break: keep-all;
+  }
   .erda-badge-status-dot {
     border-radius: 50%;
     position: relative;

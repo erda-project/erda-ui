@@ -28,6 +28,13 @@ export const getJoinedOrgs = (): Promise<RES_BODY<IPagingResp<ORG.IOrg>>> => {
     .then((response: any) => response.body);
 };
 
+export const getPublicOrgs = () => {
+  return agent
+    .get('/api/orgs/actions/list-public')
+    .query({ pageNo: 1, pageSize: 100 })
+    .then((response: any) => response.body);
+};
+
 export const updateOrg = (org: Merge<Partial<ORG.IOrg>, { id: number }>) => {
   return agent
     .put(`/api/orgs/${org.id}`)

@@ -92,310 +92,564 @@ const makeData = (num: number) => {
 
 export const mockData = {
   scenario: {
-    scenarioType: 'issue-gantt',
-    scenarioKey: 'issue-gantt',
+    scenarioType: 'personal-workbench',
+    scenarioKey: 'personal-workbench',
   },
   protocol: {
     hierarchy: {
       root: 'page',
       structure: {
-        page: ['topHead', 'filter', 'ganttContainer'],
-        topHead: ['issueAddButton'],
-        ganttContainer: ['gantt'],
+        page: {
+          left: 'leftContent',
+          right: 'userProfile',
+        },
+        leftContent: ['head', 'workTabs', 'workContainer', 'messageTabs', 'messageList'],
+        workContainer: ['workCards', 'workList'],
+        workList: {
+          filter: ['workListFilter'],
+        },
       },
     },
     components: {
-      ganttContainer: { type: 'Container' },
-      page: { type: 'Container' },
-      topHead: {
-        data: {},
-        name: 'topHead',
-        operations: {},
-
-        state: {},
-        type: 'RowContainer',
+      page: {
+        type: 'LRContainer',
       },
-      issueAddButton: {
-        data: {},
-        name: 'issueAddButton',
-        operations: {},
-        state: {},
-        type: 'Button',
+      leftContent: {
+        type: 'Container',
       },
-      gantt: {
-        type: 'Gantt',
+      userProfile: {
+        type: 'Custom',
+      },
+      head: {
+        type: 'Custom',
+      },
+      workTabs: {
+        type: 'RadioTabs',
         data: {
-          expandList: {
-            0: [
-              {
-                start: null, //new Date('2019-1-1').getTime(),
-                end: null,
-                title: 'Rss1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
-                key: 'R1ss',
-                isLeaf: true,
-                extra: {
-                  type: 'task',
-                  user: '张三',
-                  status: { text: '进行中', status: 'processing' },
-                },
-              },
-              {
-                start: getDate(1), //new Date('2019-1-1').getTime(),
-                end: getDate(15),
-                title:
-                  'R1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
-                key: 'R1',
-                isLeaf: false,
-                extra: {
-                  type: 'requirement',
-                  user: '张三',
-                  status: { text: '进行中', status: 'processing' },
-                },
-              },
-              {
-                start: getDate(10),
-                end: getDate(20),
-                title: 'R2-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
-                key: 'R2',
-                isLeaf: false,
-                extra: {
-                  type: 'requirement',
-                  user: '张三',
-                  status: { text: '进行中', status: 'processing' },
-                },
-              },
-              {
-                start: getDate(10),
-                end: getDate(20),
-                title: 'R3-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
-                key: 'R3',
-                isLeaf: false,
-                extra: {
-                  type: 'requirement',
-                  user: '张三',
-                  status: { text: '进行中', status: 'processing' },
-                },
-              },
-            ],
-            // R1: makeData(1000),
-            R11: [
-              {
-                key: '1-1',
-                title: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
-                // start: getDate(1),
-                // end: getDate(5),
-                isLeaf: true,
-                extra: {
-                  type: 'task',
-                  user: '张三',
-                  status: { text: '进行中', status: 'processing' },
-                },
-              },
-            ],
-            R1: [
-              {
-                id: '1-1',
-                name: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
-                // start: getDate(1),
-                // end: getDate(5),
-                isLeaf: true,
-                extra: {
-                  type: 'task',
-                  user: '张三',
-                  status: { text: '进行中', status: 'processing' },
-                },
-              },
-              {
-                id: '1-2',
-                name: 'T1-2测试测试测试测试测试测试测试测试测试测试测试',
-                // start: getDate(2),
-                // end: getDate(10),
-                isLeaf: true,
-                extra: {
-                  type: 'task',
-                  user: '张三',
-                  status: { text: '进行中', status: 'error' },
-                },
-              },
-              {
-                id: '1-3',
-                name: 'T1-3测试测试测试测试测试测试测试测试测试测试测试',
-                // start: getDate(2),
-                // end: getDate(10),
-                isLeaf: true,
-                extra: {
-                  type: 'task',
-                  user: '张三',
-                  status: { text: '进行中', status: 'processing' },
-                },
-              },
-              {
-                id: '1-4',
-                name: 'T1-4测试测试测试测试测试测试测试测试测试测试测试',
-                start: getDate(28),
-                end: getDate(29),
-                isLeaf: true,
-                extra: {
-                  type: 'task',
-                  user: '张三',
-                  status: { text: '进行中', status: 'error' },
-                },
-              },
-              {
-                id: '1-5',
-                name: 'T1-5测试测试测试测试测试测试测试测试测试测试测试',
-                start: getDate(1),
-                end: getDate(30),
-                isLeaf: true,
-                extra: {
-                  type: 'task',
-                  user: '张三',
-                  status: { text: '进行中', status: 'success' },
-                },
-              },
-              {
-                id: '1-6',
-                name: 'T1-6测试测试测试测试测试测试测试测试测试测试测试',
-                start: getDate(2),
-                end: getDate(10),
-                isLeaf: true,
-                extra: {
-                  type: 'task',
-                  user: '张三',
-                  status: { text: '进行中', status: 'processing' },
-                },
-              },
-              {
-                id: '1-7',
-                name: 'T1-7测试测试测试测试测试测试测试测试测试测试测试',
-                start: getDate(2),
-                end: getDate(10),
-                isLeaf: true,
-                extra: {
-                  type: 'task',
-                  user: '张三',
-                  status: { text: '进行中', status: 'processing' },
-                },
-              },
-              {
-                id: '1-8',
-                name: 'T1-8测试测试测试测试测试测试测试测试测试测试测试',
-                start: getDate(2),
-                end: getDate(10),
-                isLeaf: true,
-                extra: {
-                  type: 'task',
-                  user: '张三',
-                  status: { text: '进行中', status: 'processing' },
-                },
-              },
-              {
-                id: '1-9',
-                name: 'T1-9测试测试测试测试测试测试测试测试测试测试测试',
-                start: getDate(2),
-                end: getDate(10),
-                isLeaf: true,
-                extra: {
-                  type: 'task',
-                  user: '张三',
-                  status: { text: '进行中', status: 'processing' },
-                },
-              },
-              {
-                id: '1-10',
-                name: 'T1-10测试测试测试测试测试测试测试测试测试测试测试',
-                start: getDate(2),
-                end: getDate(10),
-                isLeaf: true,
-                extra: {
-                  type: 'task',
-                  user: '张三',
-                  status: { text: '进行中', status: 'processing' },
-                },
-              },
-              {
-                id: '1-11',
-                name: 'T1-11测试测试测试测试测试测试测试测试测试测试测试',
-                start: getDate(2),
-                end: getDate(10),
-                isLeaf: true,
-                extra: {
-                  type: 'task',
-                  user: '张三',
-                  status: { text: '进行中', status: 'processing' },
-                },
-              },
-              {
-                id: '1-12',
-                name: 'T1-12测试测试测试测试测试测试测试测试测试测试测试',
-                start: getDate(2),
-                end: getDate(10),
-                isLeaf: true,
-                extra: {
-                  type: 'task',
-                  user: '张三',
-                  status: { text: '进行中', status: 'processing' },
-                },
-              },
-            ],
-          },
-        },
-        operations: {
-          update: {
-            key: 'update',
-            reload: true,
-            fillMeta: 'nodes',
-            async: true,
-            meta: {
-              // 前端修改的数据放在meta.nodes里，update后，后端data.updateList返回相关修改
-              nodes: [{ key: 'R1-1', start: 100, end: 1000 }],
+          options: [
+            {
+              value: 'project',
+              label: '项目(10)',
             },
-          },
-          expandNode: {
-            key: 'expandNode',
-            reload: true,
-            fillMate: 'keys',
-            meta: { keys: ['xxx'] },
+            {
+              value: 'app',
+              label: '应用(2)',
+            },
+          ],
+        },
+        state: { value: 'project' },
+        operations: {
+          onChange: {
+            clientData: { value: 'app' },
           },
         },
       },
-      filter: {
+      workContainer: {
+        type: 'Container',
+      },
+      workCards: {
+        type: 'Card',
+        data: {
+          title: '星标项目',
+          titleSummary: '4',
+          cards: [
+            {
+              id: 1,
+              icon: 'bug', // 可能为图标，优先展示img
+              title: '项目项目项目项目项目项目项目项目',
+              labels: [{ label: '默认' }],
+              star: false,
+              textMeta: [
+                {
+                  mainText: '12',
+                  subText: '已过期',
+                  operations: {
+                    // 点击跳转
+                    clickGoto: {
+                      jumpOut: true,
+                      target: 'xx', // 此处target/query/params，到时候统一整理给
+                      query: {},
+                      params: {},
+                    },
+                  },
+                },
+                {
+                  mainText: '12',
+                  subText: '今日截止',
+                  operations: {
+                    clickGoto: {
+                      jumpOut: true,
+                      target: 'xx', // 此处target/query/params，到时候统一整理给
+                      query: {},
+                      params: {},
+                    },
+                  },
+                },
+              ],
+              iconOperations: [
+                {
+                  icon: 'mail',
+                  tip: 'xx',
+                  operations: {
+                    clickGoto: {
+                      serverData: {
+                        jumpOut: true,
+                        target: 'xx', // 此处target/query/params，到时候统一整理给
+                        params: { projectId: '22' },
+                        query: {},
+                      },
+                    },
+                  },
+                },
+                {
+                  icon: 'bug',
+                  tip: 'xx',
+                  operations: {
+                    clickGoto: {
+                      serverData: {
+                        jumpOut: true,
+                        target: 'xx', // 此处target/query/params，到时候统一整理给
+                        params: { projectId: '22' },
+                        query: {},
+                      },
+                    },
+                  },
+                },
+              ],
+              operations: {
+                // 点击start的操作
+                star: {
+                  clientData: {
+                    // clientData是点击后有前端放在event.operationData里，后端不需要给
+                    dataRef: {}, // 当前这条数据回传
+                  },
+                },
+                clickGoto: {
+                  // 点击单个看板的操作
+                  serverData: {
+                    jumpOut: true,
+                    target: 'xx',
+                    params: { projectId: '22' },
+                    query: {},
+                  },
+                },
+              },
+            },
+            {
+              id: 2,
+              img: 'xx', // 可能为图片
+              icon: 'xx', // 可能为图标，优先展示img
+              title: '项目',
+              labels: [{ label: '默认' }],
+              star: false,
+              textMeta: [
+                {
+                  mainText: '12',
+                  subText: '已过期',
+                  operations: {
+                    // 点击跳转
+                    clickGoto: {
+                      jumpOut: true,
+                      target: 'xx', // 此处target/query/params，到时候统一整理给
+                      query: {},
+                      params: {},
+                    },
+                  },
+                },
+                {
+                  mainText: '12',
+                  subText: '今日截止',
+                  operations: {
+                    clickGoto: {
+                      jumpOut: true,
+                      target: 'xx', // 此处target/query/params，到时候统一整理给
+                      query: {},
+                      params: {},
+                    },
+                  },
+                },
+              ],
+              iconOperations: [
+                {
+                  icon: 'xx',
+                  tip: 'xx',
+                  operations: {
+                    clickGoto: {
+                      serverData: {
+                        jumpOut: true,
+                        target: 'xx', // 此处target/query/params，到时候统一整理给
+                        params: { projectId: '22' },
+                        query: {},
+                      },
+                    },
+                  },
+                },
+                {
+                  icon: 'xx',
+                  tip: 'xx',
+                  operations: {
+                    clickGoto: {
+                      serverData: {
+                        jumpOut: true,
+                        target: 'xx', // 此处target/query/params，到时候统一整理给
+                        params: { projectId: '22' },
+                        query: {},
+                      },
+                    },
+                  },
+                },
+              ],
+              operations: {
+                // 点击start的操作
+                star: {
+                  clientData: {
+                    // clientData是点击后有前端放在event.operationData里，后端不需要给
+                    dataRef: {}, // 当前这条数据回传
+                  },
+                },
+                clickGoto: {
+                  // 点击单个看板的操作
+                  serverData: {
+                    jumpOut: true,
+                    target: 'xx',
+                    params: { projectId: '22' },
+                    query: {},
+                  },
+                },
+              },
+            },
+            {
+              id: 3,
+              img: 'xx', // 可能为图片
+              icon: 'xx', // 可能为图标，优先展示img
+              title: '项目',
+              labels: [{ label: '默认' }],
+              star: false,
+              textMeta: [
+                {
+                  mainText: '12',
+                  subText: '已过期',
+                  operations: {
+                    // 点击跳转
+                    clickGoto: {
+                      jumpOut: true,
+                      target: 'xx', // 此处target/query/params，到时候统一整理给
+                      query: {},
+                      params: {},
+                    },
+                  },
+                },
+                {
+                  mainText: '12',
+                  subText: '今日截止',
+                  operations: {
+                    clickGoto: {
+                      jumpOut: true,
+                      target: 'xx', // 此处target/query/params，到时候统一整理给
+                      query: {},
+                      params: {},
+                    },
+                  },
+                },
+              ],
+              iconOperations: [
+                {
+                  icon: 'xx',
+                  tip: 'xx',
+                  operations: {
+                    clickGoto: {
+                      serverData: {
+                        jumpOut: true,
+                        target: 'xx', // 此处target/query/params，到时候统一整理给
+                        params: { projectId: '22' },
+                        query: {},
+                      },
+                    },
+                  },
+                },
+                {
+                  icon: 'xx',
+                  tip: 'xx',
+                  operations: {
+                    clickGoto: {
+                      serverData: {
+                        jumpOut: true,
+                        target: 'xx', // 此处target/query/params，到时候统一整理给
+                        params: { projectId: '22' },
+                        query: {},
+                      },
+                    },
+                  },
+                },
+              ],
+              operations: {
+                // 点击start的操作
+                star: {
+                  clientData: {
+                    // clientData是点击后有前端放在event.operationData里，后端不需要给
+                    dataRef: {}, // 当前这条数据回传
+                  },
+                },
+                clickGoto: {
+                  // 点击单个看板的操作
+                  serverData: {
+                    jumpOut: true,
+                    target: 'xx',
+                    params: { projectId: '22' },
+                    query: {},
+                  },
+                },
+              },
+            },
+            {
+              id: 44,
+              img: 'xx', // 可能为图片
+              icon: 'xx', // 可能为图标，优先展示img
+              title: '项目',
+              labels: [{ label: '默认' }],
+              star: false,
+              textMeta: [
+                {
+                  mainText: '12',
+                  subText: '已过期',
+                  operations: {
+                    // 点击跳转
+                    clickGoto: {
+                      jumpOut: true,
+                      target: 'xx', // 此处target/query/params，到时候统一整理给
+                      query: {},
+                      params: {},
+                    },
+                  },
+                },
+                {
+                  mainText: '12',
+                  subText: '今日截止',
+                  operations: {
+                    clickGoto: {
+                      jumpOut: true,
+                      target: 'xx', // 此处target/query/params，到时候统一整理给
+                      query: {},
+                      params: {},
+                    },
+                  },
+                },
+              ],
+              iconOperations: [
+                {
+                  icon: 'xx',
+                  tip: 'xx',
+                  operations: {
+                    clickGoto: {
+                      serverData: {
+                        jumpOut: true,
+                        target: 'xx', // 此处target/query/params，到时候统一整理给
+                        params: { projectId: '22' },
+                        query: {},
+                      },
+                    },
+                  },
+                },
+                {
+                  icon: 'xx',
+                  tip: 'xx',
+                  operations: {
+                    clickGoto: {
+                      serverData: {
+                        jumpOut: true,
+                        target: 'xx', // 此处target/query/params，到时候统一整理给
+                        params: { projectId: '22' },
+                        query: {},
+                      },
+                    },
+                  },
+                },
+              ],
+              operations: {
+                // 点击start的操作
+                star: {
+                  clientData: {
+                    // clientData是点击后有前端放在event.operationData里，后端不需要给
+                    dataRef: {}, // 当前这条数据回传
+                  },
+                },
+                clickGoto: {
+                  // 点击单个看板的操作
+                  serverData: {
+                    jumpOut: true,
+                    target: 'xx',
+                    params: { projectId: '22' },
+                    query: {},
+                  },
+                },
+              },
+            },
+          ],
+        },
+      },
+      workList: {
+        type: 'List',
+        version: '2',
+        data: {
+          pageNo: 1,
+          pageSize: 10,
+          total: 10,
+          title: '项目列表',
+          summary: '12',
+          list: [
+            {
+              id: '1', // 唯一id, eg: appid
+              logo: 'https://erda.cloud/api/files/302d582a7c054ad2be9d59ef8334da96', // url 地址或 icon 的 key
+              title: '项目 A',
+              star: true, // 当前是否已收藏
+              labels: [
+                {
+                  label: '研发项目',
+                },
+              ],
+              // description: '这是项目 A 的描述',
+              backgroundImg: '//背景水印图片的 url 地址',
+              metaInfos: [
+                {
+                  label: '已过期',
+                  value: '2',
+                  icon: '', // 如果配了 icon，优先展示 iocn 代替 key
+                  tip: '提示信息',
+                  operations: {
+                    clickGotoExpired: {
+                      serverData: {
+                        params: {
+                          projectId: 1,
+                        },
+                        query: {
+                          issueFilter__urlQuery: '',
+                        },
+                        target: 'projectAllIssue',
+                        jumpOut: true, // 新开页面打开
+                      },
+                    },
+                  },
+                },
+                {
+                  label: '本日到期',
+                  value: '22',
+                  icon: '', // 如果配了 icon，优先展示 iocn 代替 key
+                  tip: '',
+                  operations: {
+                    clickGotoTodayExpired: {
+                      serverData: {
+                        params: {
+                          projectId: 1,
+                        },
+                        query: {
+                          issueFilter__urlQuery: '',
+                        },
+                        target: 'projectAllIssue',
+                        jumpOut: true, // 新开页面打开
+                      },
+                    },
+                  },
+                },
+              ],
+              operations: {
+                star: {
+                  clientData: {
+                    dataRef: {}, // 这个数据对象，前端提供
+                  },
+                  skipRender: true, // 是否触发后端渲染，为 true 时页面立刻响应，不等后端返回
+                  disabled: false,
+                  tip: '收藏此项目',
+                },
+                click: {
+                  serverData: {
+                    params: {
+                      projectId: 1,
+                    },
+                    query: {},
+                    target: 'projectAllIssue',
+                    jumpOut: true, // 新开页面打开
+                  },
+                },
+              },
+              moreOperations: {
+                operations: {
+                  gotoIssues: {
+                    text: '项目管理',
+                    serverData: {
+                      params: {
+                        projectId: 1,
+                      },
+                      target: 'projectAllIssue',
+                      jumpOut: true, // 新开页面打开
+                    },
+                  },
+                  gotoProjectApps: {
+                    text: '应用开发',
+                    serverData: {
+                      params: {
+                        projectId: 1,
+                      },
+                      target: 'projectApps',
+                      jumpOut: true, // 新开页面打开
+                    },
+                  },
+                  gotoProjectTestDashboard: {
+                    text: '测试管理',
+                    serverData: {
+                      params: {
+                        projectId: 1,
+                      },
+                      target: 'projectTestDashboard',
+                      jumpOut: true, // 新开页面打开
+                    },
+                  },
+                  gotoMspServiceProjectRoot: {
+                    text: '服务观测',
+                    serverData: {
+                      params: {
+                        projectId: 1,
+                      },
+                      target: 'mspServiceProjectRoot',
+                      jumpOut: true, // 新开页面打开
+                    },
+                  },
+                  gotoProjectSetting: {
+                    text: '项目设置',
+                    serverData: {
+                      params: {
+                        projectId: 1,
+                      },
+                      target: 'projectSetting',
+                      jumpOut: true, // 新开页面打开
+                    },
+                  },
+                },
+                operationsOrder: [
+                  'gotoIssues',
+                  'gotoProjectApps',
+                  'gotoProjectTestDashboard',
+                  'gotoMspServiceProjectRoot',
+                  'gotoProjectSetting',
+                ], // 操作排列顺序
+              },
+            },
+          ],
+        },
+      },
+      workListFilter: {
         type: 'ContractiveFilter',
         name: 'filter',
         state: {
           conditions: [
             {
-              emptyText: '全部',
               fixed: true,
-              key: 'iteration',
-              label: '迭代',
-              options: [
-                { label: '1.1', value: '1.1' },
-                { label: '1.2', value: '1.2' },
-              ],
-              type: 'select',
-            },
-            {
-              emptyText: '全部',
-              fixed: true,
-              haveFilter: true,
-              key: 'user',
-              label: '成员',
-              options: [
-                { label: '张三', value: '1' },
-                { label: '李四', value: '1' },
-              ],
-              type: 'select',
-            },
-            {
-              fixed: true,
-              key: 'q',
-              placeholder: '根据名称过滤',
+              key: 'projectName',
+              placeholder: '搜索项目名称',
               type: 'input',
             },
           ],
           values: {
-            spaceName: '4',
+            projectName: '',
           },
         },
         operations: {
@@ -403,6 +657,47 @@ export const mockData = {
             key: 'filter',
             reload: true,
           },
+        },
+      },
+      messageTabs: {
+        type: 'RadioTabs',
+        data: {
+          options: [
+            {
+              value: 'project',
+              label: '未读消息(22)',
+            },
+          ],
+        },
+        state: { value: 'project' },
+        operations: {
+          onChange: {
+            clientData: { value: 'app' },
+          },
+        },
+      },
+      messageList: {
+        type: 'List',
+        version: '2',
+        data: {
+          pageNo: 1,
+          pageSize: 10,
+          total: 10,
+          list: [
+            {
+              id: '1', // 唯一id, eg: appid
+              logo: 'https://erda.cloud/api/files/302d582a7c054ad2be9d59ef8334da96', // url 地址或 icon 的 key
+              title: '项目 A',
+              labels: [
+                {
+                  color: 'green',
+                  // status: 'success',
+                  label: '研发项目',
+                },
+              ],
+              description: '这是的描述',
+            },
+          ],
         },
       },
     },

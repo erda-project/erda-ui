@@ -16,7 +16,6 @@ import { map } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import { OperationAction } from 'config-page/utils';
 import { PAGINATION } from 'app/constants';
-import ContractiveFilter from '../contractive-filter/contractive-filter';
 import ErdaList from 'app/common/components/base-list';
 
 const emptyArr = [] as CP_BASE_LIST.ListItem[];

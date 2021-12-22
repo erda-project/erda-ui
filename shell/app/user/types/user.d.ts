@@ -58,6 +58,7 @@ interface ILoginUser {
   token: string;
   userType?: string;
   isSysAdmin?: boolean;
+  lastLoginAt?: string;
   isNewUser?: boolean;
   adminRoles: string[];
 }

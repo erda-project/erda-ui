@@ -23,11 +23,13 @@ import ConfigPageRender from './page-render';
 import commonStore from 'common/stores/common';
 
 interface ICustomProps {
-  [p: string]: {
-    op?: Obj;
-    props?: Obj;
-    Wrapper?: React.ElementType;
-  };
+  [p: string]:
+    | {
+        op?: Obj;
+        props?: Obj;
+        Wrapper?: React.ElementType;
+      }
+    | React.FC;
 }
 interface IProps {
   inParams?: Obj;

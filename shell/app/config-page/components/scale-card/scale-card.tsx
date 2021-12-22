@@ -17,7 +17,7 @@ import React from 'react';
 import './scale-card.scss';
 
 const ScaleCard = (props: CP_SCALE_CARD.Props) => {
-  const { execOperation, data } = props;
+  const { execOperation, data, onClick } = props;
   const { list } = data || {};
 
   return (
@@ -28,7 +28,10 @@ const ScaleCard = (props: CP_SCALE_CARD.Props) => {
             key={item.label}
             className="item text-normal shadow-card"
             style={{ left: -8 * i }}
-            onClick={() => execOperation(item.operations?.click, item)}
+            onClick={() => {
+              execOperation?.(item.operations?.click, item);
+              onClick?.(item);
+            }}
           >
             <div className="icon-wrap">
               <ErdaIcon className="icon active-icon" type={item.icon} size={20} />
