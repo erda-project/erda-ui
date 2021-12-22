@@ -7,20 +7,14 @@ on:
     tags:
       - v*
 
+envs:
+  FOR_COMMUNITY: "true"
+
 stages:
   - stage:
       - git-checkout:
           alias: erda-ui
-          version: "1.0"
           params:
-            depth: 1
-  - stage:
-      - git-checkout:
-          alias: erda-ui-enterprise
-          version: "1.0"
-          params:
-            uri: https://erda.cloud/erda/dop/erda-project/erda-ui-enterprise-mirror
-            branch: ${{ outputs.erda-ui.branch }}
             depth: 1
   - stage:
       - extract-repo-version:
@@ -30,20 +24,14 @@ stages:
   - stage:
       - js-build:
           alias: build-erda-ui
-          version: "1.0"
           params:
-            node_version: 12
             build_cmd:
-              - cd ${{ dirs.erda-ui }}
-              - npm i @erda-ui/cli@1.4.x -g
-              - cp -r ${{ dirs.erda-ui-enterprise }}/* ${{ dirs.erda-ui }}/modules
-              - cd ${{ dirs.erda-ui }}/modules/admin && npm i
-              - cd ${{ dirs.erda-ui }}/modules/fdp && npm i
-              - cd ${{ dirs.erda-ui }}/shell && npm run online-extra-logic
-              - cd ${{ dirs.erda-ui }}
-              - erda-ui init --online
-              - erda-ui build --online
-              - cp -r ${{ dirs.erda-ui }}/{public,scheduler} $WORKDIR
+              - npm i -g @erda-ui/cli@1.0.23
+              - npm i -g pnpm
+              - erda-ui init -s --online
+              - erda-ui build -s -o
+            node_version: 12
+            workdir: ${{ dirs.erda-ui }}
           caches:
             - path: ${{ dirs.erda-ui }}/node_modules
             - path: ${{ dirs.erda-ui }}/core/node_modules
@@ -51,10 +39,8 @@ stages:
             - path: ${{ dirs.erda-ui }}/scheduler/node_modules
             - path: ${{ dirs.erda-ui }}/modules/uc/node_modules
             - path: ${{ dirs.erda-ui }}/modules/market/node_modules
-            - path: ${{ dirs.erda-ui }}/modules/admin/node_modules
-            - path: ${{ dirs.erda-ui }}/modules/fdp/node_modules
           resources:
-            cpu: 4
+            cpu: 2
             mem: 6144
   - stage:
       - dockerfile:
@@ -62,9 +48,9 @@ stages:
           version: "1.0"
           params:
             workdir: ${{ dirs.build-erda-ui }}
-            path: ${{ dirs.erda-ui }}/Dockerfile
+            path: Dockerfile
             image:
-              name: ui-ee
+              name: ui-ce
               tag: ${{ outputs.ui-version.image_tag }}
             registry:
               url: ${{ configs.docker_registry }}
@@ -75,13 +61,9 @@ stages:
             mem: 6144
   - stage:
       - release:
-          alias: release-ui-enterprise
-          version: "1.0"
+          alias: release-ui-community
           params:
             tag_version: ${{ outputs.ui-version.version }}
-            dice_yml: ${{ dirs.erda-ui-enterprise }}/erda.yml
+            dice_yml: ${erda-ui}/erda.yml
             image:
               ui: ${{ outputs.build-erda-ui-image.image }}
-          resources:
-            cpu: 0.5
-            mem: 512
