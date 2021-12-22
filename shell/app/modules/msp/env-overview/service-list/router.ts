@@ -31,7 +31,7 @@ const serviceAnalysisRoutes = [
     path: 'overview',
     tabs,
     layout: { noWrapper: true },
-    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview-new')),
+    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview')),
   },
   {
     path: 'transaction',
@@ -63,7 +63,7 @@ const serviceAnalysisRoutes = [
   },
   {
     layout: { noWrapper: true },
-    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview-new')),
+    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview')),
   },
 ];
 

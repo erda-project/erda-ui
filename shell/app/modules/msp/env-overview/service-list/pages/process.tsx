@@ -14,7 +14,7 @@
 import React, { useEffect } from 'react';
 import i18n from 'i18n';
 import classNames from 'classnames';
-import { Spin, Select } from 'antd';
+import { Select, Spin } from 'antd';
 import { EmptyHolder } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
@@ -32,7 +32,11 @@ const ServiceListProcess = () => {
   const _timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const { startTimeMs, endTimeMs } = _timeSpan;
   const params = routeInfoStore.useStore((s) => s.params);
-  const [serviceId, serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
+  const [serviceId, serviceName, requestCompleted] = serviceAnalyticsStore.useStore((s) => [
+    s.serviceId,
+    s.serviceName,
+    s.requestCompleted,
+  ]);
   const { terminusKey } = params;
   const { getProcessDashboardId, getInstanceIds } = topologyServiceStore;
   const [{ id, instanceId, instanceIds, timeSpan }, updater, update] = useUpdate({
@@ -72,7 +76,7 @@ const ServiceListProcess = () => {
     }
   }, [serviceId, getProcessDashboardId, serviceName, terminusKey, updater]);
 
-  if (!serviceId) {
+  if (!serviceId && requestCompleted) {
     return <NoServicesHolder />;
   }
 

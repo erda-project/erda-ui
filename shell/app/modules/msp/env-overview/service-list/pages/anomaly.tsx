@@ -39,7 +39,11 @@ const ServiceListAnomaly = () => {
   const timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const params = routeInfoStore.useStore((s) => s.params);
   const { terminusKey } = params;
-  const [serviceId, serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
+  const [serviceId, serviceName, requestCompleted] = serviceAnalyticsStore.useStore((s) => [
+    s.serviceId,
+    s.serviceName,
+    s.requestCompleted,
+  ]);
   const { getExceptionTypes } = topologyServiceStore;
   const [{ sort, limit, exceptionType, exceptionTypes }, updater] = useUpdate({
     exceptionTypes: [] as any[] | undefined,
@@ -69,7 +73,7 @@ const ServiceListAnomaly = () => {
     serviceName,
   ]);
 
-  if (!serviceId) {
+  if (!serviceId && requestCompleted) {
     return <NoServicesHolder />;
   }
 
