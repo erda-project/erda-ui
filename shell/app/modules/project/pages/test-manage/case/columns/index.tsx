@@ -21,7 +21,7 @@ import { UserInfo } from 'common';
 export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
   {
     title: '',
-    dataIndex: 'checkbox',
+    dataIndex: '',
     key: 'checkbox',
     width: 64,
   },
