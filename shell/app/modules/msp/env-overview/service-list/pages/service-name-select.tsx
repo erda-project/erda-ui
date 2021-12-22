@@ -36,6 +36,7 @@ export function ServiceNameSelect() {
     const _serviceName = service[0]?.service_name || serviceList[0]?.service_name;
     const applicationId = service[0]?.application_id || serviceList[0]?.application_id;
     updateState({
+      requestCompleted: true,
       serviceId: _serviceId ? window.decodeURIComponent(_serviceId) : '',
       serviceName: _serviceName,
       applicationId,
