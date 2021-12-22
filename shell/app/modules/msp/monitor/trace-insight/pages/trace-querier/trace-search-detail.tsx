@@ -21,6 +21,7 @@ import traceStore from '../../../../stores/trace';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
+import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import './trace-search-detail.scss';
 import { goTo } from 'common/utils';
 
@@ -32,6 +33,11 @@ export default ({ traceId, startTime }: { traceId?: string; startTime?: number }
     s.params,
     s.currentRoute,
     s.query,
+  ]);
+  const [serviceId, serviceName, applicationId] = serviceAnalyticsStore.useStore((s) => [
+    s.serviceId,
+    s.serviceName,
+    s.applicationId,
   ]);
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
   const isShowTraceDetail = monitorCommonStore.useStore((s) => s.isShowTraceDetail);
@@ -70,7 +76,11 @@ export default ({ traceId, startTime }: { traceId?: string; startTime?: number }
             setIsShowTraceDetail(false);
             if (_traceId) {
               if (currentRoute?.path?.includes('transaction')) {
-                goTo(goTo.pages.mspServiceTransaction);
+                goTo(goTo.pages.mspServiceTransaction, {
+                  applicationId,
+                  serviceName,
+                  serviceId: window.encodeURIComponent(serviceId || ''),
+                });
               } else if (currentRoute?.path?.includes('trace/debug')) {
                 goTo(goTo.pages.mspTraceDebug);
               } else {
