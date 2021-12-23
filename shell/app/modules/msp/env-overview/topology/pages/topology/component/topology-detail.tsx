@@ -14,16 +14,13 @@
 import React from 'react';
 import i18n from 'i18n';
 import { Tag } from 'antd';
-import { groupBy, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import ErdaIcon from 'common/components/erda-icon';
-import { getAnalyzerOverview } from 'msp/services/service-list';
 import routeInfoStore from 'core/stores/route';
-import EChart from 'charts/components/echarts';
-import moment from 'moment';
 import monitorCommonStore from 'common/stores/monitorCommon';
-import { genLinearGradient, newColorMap } from 'app/charts/theme';
 import { getFormatter } from 'charts/utils';
 import Ellipsis from 'common/components/ellipsis';
+import AnalyzerChart from 'msp/components/analyzer-chart';
 
 const formatTime = getFormatter('TIME', 'ns');
 
@@ -59,61 +56,28 @@ const metric = [
 const chartConfig = [
   {
     title: i18n.t('msp:throughput'),
-    key: 'RPS',
-    formatter: (param: Obj[]) => {
-      const { data: count, marker, axisValue } = param[0] ?? [];
-      return `${axisValue}</br>${marker} ${count} reqs/s`;
-    },
+    key: 'rps_chart',
   },
   {
     title: `${i18n.t('msp:average response time')}(ms)`,
-    key: 'AvgDuration',
-    formatter: (param: Obj[]) => {
-      const { data: count, marker, axisValue } = param[0] ?? [];
-      return `${axisValue}</br>${marker} ${formatTime.format(count * 1000000)}`;
-    },
+    key: 'avg_duration_chart',
   },
   {
     title: i18n.t('msp:error rate'),
-    key: 'ErrorRate',
-    formatter: (param: Obj[]) => {
-      const { data: count, marker, axisValue } = param[0] ?? [];
-      return `${axisValue}</br>${marker} ${count} %`;
-    },
+    key: 'error_rate_chart',
   },
   {
     title: i18n.t('msp:HTTP status'),
-    key: 'HttpCode',
+    key: 'http_code_chart',
   },
 ];
 
-const axis = {
-  splitLine: {
-    show: false,
-  },
-  axisLabel: {
-    textStyle: {
-      color: 'rgba(255, 255, 255, 0.3)',
-    },
-  },
-};
-
 const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRuntime }) => {
   const [range] = monitorCommonStore.useStore((s) => [s.globalTimeSelectSpan.range]);
+  const tenantId = routeInfoStore.useStore((s) => s.params.terminusKey);
   const [visible, setVisible] = React.useState(false);
-  const [charts] = getAnalyzerOverview.useState();
   React.useEffect(() => {
     setVisible(!isEmpty(data));
-    if (data.serviceId) {
-      const tenantId = routeInfoStore.getState((s) => s.params.terminusKey);
-      getAnalyzerOverview.fetch({
-        serviceIds: [data.serviceId],
-        view: 'topology_service_node',
-        tenantId,
-        startTime: range.startTimeMs,
-        endTime: range.endTimeMs,
-      });
-    }
   }, [data, range]);
 
   const handleCancel = () => {
@@ -140,45 +104,6 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
       document.body.removeEventListener('click', handleClick);
     };
   }, []);
-
-  const chartsData = React.useMemo(() => {
-    const { views } = charts?.list[0] ?? {};
-    const legendData = {};
-    const xAxisData = {};
-    const seriesData = {};
-    (views || []).forEach(({ type, view }) => {
-      const dimensions = groupBy(view, 'dimension');
-      const dimensionsArr = Object.keys(dimensions);
-      legendData[type] = dimensionsArr;
-      seriesData[type] = [];
-      dimensionsArr.forEach((name) => {
-        xAxisData[type] = dimensions[name].map((t) => moment(t.timestamp).format('HH:mm:ss'));
-        let series: Record<string, any> = {
-          name,
-          data: dimensions[name].map((t) => (type === 'AvgDuration' ? t.value / 1000000 : t.value)),
-        };
-        if (!(type === 'HttpCode' && name !== '200')) {
-          series = {
-            ...series,
-            itemStyle: {
-              normal: {
-                lineStyle: {
-                  color: newColorMap.primary4,
-                },
-              },
-            },
-            areaStyle: {
-              normal: {
-                color: genLinearGradient(newColorMap.primary4),
-              },
-            },
-          };
-        }
-        seriesData[type].push(series);
-      });
-    });
-    return { legendData, xAxisData, seriesData };
-  }, [charts]);
 
   return (
     <div className={`topology-detail ${visible ? 'expand' : 'collapse'} ${className}`}>
@@ -224,55 +149,23 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
           {data.serviceId ? (
             <div className="px-4">
               {chartConfig.map((item) => {
-                const currentOption = {
-                  backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                  yAxis: {
-                    ...axis,
-                    type: 'value',
-                    splitLine: {
-                      show: true,
-                      lineStyle: {
-                        color: ['rgba(255, 255, 255, 0.1)'],
-                      },
-                    },
-                  },
-                  grid: {
-                    top: '10%',
-                    left: '15%',
-                    bottom: '30%',
-                  },
-                  xAxis: {
-                    ...axis,
-                    data: chartsData.xAxisData[item.key] ?? [],
-                  },
-                  legend: {
-                    data: (chartsData.legendData[item.key] ?? []).map((t) => ({
-                      ...axis.axisLabel,
-                      name: t,
-                    })),
-                    pageIconInactiveColor: 'rgba(255, 255, 255, 0.4)',
-                    pageIconColor: 'rgba(255, 255, 255, 0.8)',
-                    pageIconSize: 12,
-                    pageTextStyle: {
-                      color: axis.axisLabel.textStyle.color,
-                    },
-                    bottom: '1%',
-                  },
-                  tooltip: {
-                    trigger: 'axis',
-                    formatter: item.formatter,
-                  },
-                  series: (chartsData.seriesData[item.key] ?? []).map((t) => ({
-                    ...t,
-                    type: 'line',
-                    smooth: false,
-                  })),
-                };
                 return (
                   <div>
                     <div className="text-white mt-4 mb-2">{item.title}</div>
                     <div style={{ height: '170px' }}>
-                      <EChart style={{ width: '100%', height: '160px', minHeight: 0 }} option={currentOption} />
+                      <AnalyzerChart
+                        scope="topology"
+                        xAxisFormat="HH:mm:ss"
+                        style={{ width: '100%', height: '160px', minHeight: 0 }}
+                        tenantId={tenantId}
+                        view={item.key}
+                        serviceId={data.serviceId}
+                        grid={{
+                          top: '10%',
+                          left: '15%',
+                          bottom: '30%',
+                        }}
+                      />
                     </div>
                   </div>
                 );

@@ -19,54 +19,33 @@ import { TimeSelectWithStore } from 'msp/components/time-select';
 import { auxiliaryColorMap, functionalColor } from 'common/constants';
 import DiceConfigPage from 'config-page';
 import monitorCommonStore from 'common/stores/monitorCommon';
-import { getAnalyzerOverview } from 'msp/services/service-list';
 import routeInfoStore from 'core/stores/route';
-import EChart from 'charts/components/echarts';
-import { groupBy, reduce, uniqBy } from 'lodash';
-import moment from 'moment';
-import { genLinearGradient, newColorMap } from 'charts/theme';
+import { reduce, uniqBy } from 'lodash';
 import i18n from 'i18n';
-import { getFormatter } from 'charts/utils';
 import topologyStore from 'msp/env-overview/topology/stores/topology';
 import TopologyComp from 'msp/env-overview/topology/pages/topology/component/topology-comp';
 import { Cards, TopologyOverviewWrapper } from 'msp/env-overview/topology/pages/topology/component/topology-overview';
 import ErdaIcon from 'common/components/erda-icon';
 import { useFullScreen } from 'common/use-hooks';
+import AnalyzerChart from 'msp/components/analyzer-chart';
 import './index.scss';
-
-const formatTime = getFormatter('TIME', 'ns');
 
 const chartConfig = [
   {
     title: i18n.t('msp:throughput'),
-    key: 'RPS',
-    unit: 'reqs/s',
-    formatter: (param: Obj[]) => {
-      const { data: count, marker, axisValue } = param[0] ?? [];
-      return `${axisValue}</br>${marker} ${count} reqs/s`;
-    },
+    key: 'rps_chart',
   },
   {
     title: i18n.t('response time'),
-    key: 'AvgDuration',
-    unit: 'ms',
-    formatter: (param: Obj[]) => {
-      const { data: count, marker, axisValue } = param[0] ?? [];
-      return `${axisValue}</br>${marker} ${formatTime.format(count * 1000000)}`;
-    },
+    key: 'avg_duration_chart',
   },
   {
     title: i18n.t('msp:HTTP status'),
-    key: 'HttpCode',
+    key: 'http_code_chart',
   },
   {
     title: i18n.t('msp:request error rate'),
-    key: 'ErrorRate',
-    unit: '%',
-    formatter: (param: Obj[]) => {
-      const { data: count, marker, axisValue } = param[0] ?? [];
-      return `${axisValue}</br>${marker} ${count} %`;
-    },
+    key: 'error_rate_chart',
   },
 ];
 const topNConfig = [
@@ -122,12 +101,6 @@ const topNMap = reduce(
   {},
 );
 
-const axis = {
-  splitLine: {
-    show: false,
-  },
-};
-
 const OverView = () => {
   const [serviceId, requestCompleted] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.requestCompleted]);
   const range = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
@@ -137,7 +110,6 @@ const OverView = () => {
   const [topologyData] = topologyStore.useStore((s) => [s.topologyData]);
   const serviceTopologyRef = React.useRef<HTMLDivElement>(null);
   const [isFullScreen, { toggleFullscreen }] = useFullScreen(serviceTopologyRef);
-  const [charts] = getAnalyzerOverview.useState();
 
   React.useEffect(() => {
     if (serviceId) {
@@ -147,57 +119,11 @@ const OverView = () => {
         terminusKey: tenantId,
         tags: [`service:${serviceId}`],
       });
-      getAnalyzerOverview.fetch({
-        tenantId,
-        view: 'topology_service_node',
-        serviceIds: [serviceId],
-        startTime: range.startTimeMs,
-        endTime: range.endTimeMs,
-      });
     }
     return () => {
       clearMonitorTopology();
     };
   }, [serviceId, range, tenantId]);
-
-  const chartsData = React.useMemo(() => {
-    const { views } = charts?.list[0] ?? {};
-    const legendData = {};
-    const xAxisData = {};
-    const seriesData = {};
-    (views || []).forEach(({ type, view }) => {
-      const dimensions = groupBy(view, 'dimension');
-      const dimensionsArr = Object.keys(dimensions);
-      legendData[type] = dimensionsArr;
-      seriesData[type] = [];
-      dimensionsArr.forEach((name) => {
-        xAxisData[type] = dimensions[name].map((t) => moment(t.timestamp).format('YYYY-MM-DD HH:mm:ss'));
-        let series: Record<string, any> = {
-          name,
-          data: dimensions[name].map((t) => (type === 'AvgDuration' ? t.value / 1000000 : t.value)),
-        };
-        if (!(type === 'HttpCode' && name !== '200')) {
-          series = {
-            ...series,
-            itemStyle: {
-              normal: {
-                lineStyle: {
-                  color: newColorMap.primary4,
-                },
-              },
-            },
-            areaStyle: {
-              normal: {
-                color: genLinearGradient(newColorMap.primary4),
-              },
-            },
-          };
-        }
-        seriesData[type].push(series);
-      });
-    });
-    return { legendData, xAxisData, seriesData };
-  }, [charts]);
 
   const overviewList = React.useMemo(() => {
     const { metric } = topologyData.nodes?.find((t) => t.serviceId === serviceId) ?? ({} as TOPOLOGY.INode);
@@ -260,7 +186,10 @@ const OverView = () => {
       <div className="h-12 flex justify-end items-center px-4 bg-lotion">
         <TimeSelectWithStore className="m-0" />
       </div>
-      <div className="service-overview-topology flex flex-col overflow-hidden" ref={serviceTopologyRef}>
+      <div
+        className={`service-overview-topology flex flex-col overflow-hidden ${isFullScreen ? '' : 'fixed-height'}`}
+        ref={serviceTopologyRef}
+      >
         <div className="h-12 flex justify-between items-center px-4 bg-white-02 text-white font-medium">
           {i18n.t('msp:service topology')}
           <Tooltip
@@ -294,51 +223,22 @@ const OverView = () => {
       <div className="mx-5 mb-4 mt-3">
         <Row gutter={8}>
           {chartConfig.map((item) => {
-            const currentOption = {
-              backgroundColor: 'rgba(255, 255, 255, 0.02)',
-              yAxis: {
-                ...axis,
-                type: 'value',
-                name: item.unit,
-                nameTextStyle: {
-                  padding: [0, 7, 0, 0],
-                  align: 'right',
-                },
-                splitLine: {
-                  show: true,
-                },
-              },
-              grid: {
-                top: '17%',
-                left: '10%',
-              },
-              xAxis: {
-                ...axis,
-                data: chartsData.xAxisData[item.key] ?? [],
-              },
-              legend: {
-                data: (chartsData.legendData[item.key] ?? []).map((t) => ({
-                  name: t,
-                })),
-                pageIconSize: 12,
-                bottom: '1%',
-              },
-              tooltip: {
-                trigger: 'axis',
-                formatter: item.formatter,
-              },
-              series: (chartsData.seriesData[item.key] ?? []).map((t) => ({
-                ...t,
-                type: 'line',
-                smooth: false,
-              })),
-            };
             return (
               <Col span={12} className="my-1">
                 <div className="bg-default-01">
                   <div className="pt-3 mb-3 px-4 text-default-8">{item.title}</div>
                   <div className="px-4" style={{ height: '170px' }}>
-                    <EChart style={{ width: '100%', height: '160px', minHeight: 0 }} option={currentOption} />
+                    <AnalyzerChart
+                      scope="serviceOverview"
+                      style={{ width: '100%', height: '160px', minHeight: 0 }}
+                      view={item.key}
+                      serviceId={serviceId}
+                      tenantId={tenantId}
+                      grid={{
+                        top: '17%',
+                        left: '10%',
+                      }}
+                    />
                   </div>
                 </div>
               </Col>

@@ -425,3 +425,7 @@
     }
   }
 }
+// hack for safari
+:not(:root):-webkit-full-screen {
+  height: 100%;
+}
