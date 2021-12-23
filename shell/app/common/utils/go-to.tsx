@@ -365,9 +365,6 @@ export enum pages {
   ecpSetting = '/{orgName}/ecp/setting',
   ecpSettingDetail = '/{orgName}/ecp/setting/{id}',
 
-  // sysAdmin
-  sysAdmin = '/{orgName}/sysAdmin',
-
   dataAppEntry = '/{orgName}/fdp/__cluster__/__workspace__/data-govern-platform/data-source',
 }
 
