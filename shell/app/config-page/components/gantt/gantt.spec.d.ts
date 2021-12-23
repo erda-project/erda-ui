@@ -69,6 +69,9 @@ declare namespace CP_GANTT {
       fontFamily: string;
       fontSize: string;
     }>;
+    rootWrapper: React.ReactElement;
+    onScreenChange: () => void,
+
   }
 
   type Props = MakeProps<Spec> & {};

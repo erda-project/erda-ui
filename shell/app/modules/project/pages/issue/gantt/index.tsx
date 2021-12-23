@@ -168,6 +168,13 @@ const IssuePlan = () => {
     updateSearch({ ...urlQuery });
   }, [urlQuery]);
 
+  React.useEffect(() => {
+    const buttonEle = document.getElementsByClassName('top-button-group');
+    if (buttonEle.length > 0) {
+      buttonEle[0].style.display = isFullScreen ? 'none' : 'flex';
+    }
+  }, [isFullScreen]);
+  
   const inParams = { projectId, fixedIteration: iterationId, ...urlQuery };
 
   const urlQueryChange = (val: Obj) => updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
@@ -221,11 +228,6 @@ const IssuePlan = () => {
     updater.isFullScreen(value);
   };
 
-  const buttonEle = document.getElementsByClassName('top-button-group');
-  if (buttonEle.length > 0) {
-    buttonEle[0].style.display = isFullScreen ? 'none' : 'flex';
-  }
-
   return (
     <div className={`h-full bg-white ${isFullScreen ? 'p-10' : ''}`} ref={ganttRef}>
       <DiceConfigPage
@@ -251,7 +253,7 @@ const IssuePlan = () => {
               BarContentRender,
               TaskListHeader,
               TreeNodeRender: (p) => <TreeNodeRender {...p} clickNode={onChosenIssue} />,
-              screenChange: handleScreenChange,
+              onScreenChange: handleScreenChange,
               rootWrapper: ganttRef,
             },
           },

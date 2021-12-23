@@ -877,11 +877,11 @@ type IUseFullScreen = (
  * @param value
  * @returns
  */
-export const useLatest = <T,>(value: T) => {
-  const ref = React.useRef<T>(value);
+export function useLatest<T>(value: T) {
+  const ref = React.useRef(value);
   ref.current = value;
   return ref;
-};
+}
 
 export const useFullScreen: IUseFullScreen = (target, options) => {
   const [state, setState] = React.useState(false);

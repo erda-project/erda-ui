@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { useState, SyntheticEvent, useRef, useEffect } from 'react';
+import React, { useState, SyntheticEvent, useRef, useEffect, useLayoutEffect } from 'react';
 import { ViewMode, GanttProps, Task } from '../../types/public-types';
 import { GridProps } from '../grid/grid';
 import { ganttDateRange, seedDates } from '../../helpers/date-helper';
@@ -71,7 +71,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   onDelete,
   onSelect,
   onExpanderClick,
-  screenChange,
+  onScreenChange,
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const taskListRef = useRef<HTMLDivElement>(null);
@@ -224,10 +224,10 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     }
   }, [taskListRef, listCellWidth]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     scrollToToday();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [h_number, dateSetup]);
+  }, [dateSetup]);
 
   // useEffect(() => {
   //   if (wrapperRef.current) {
@@ -532,7 +532,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     // if (today + h_number / 2) is more than endDate, endDate = today + h_number / 2
     if (
       moment(today)
-        .add(Math.floor(h_number / 2),'days')
+        .add(Math.floor(h_number / 2), 'days')
         .isAfter(moment(endDate), 'days')
     ) {
       endDate = new Date(
@@ -562,7 +562,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
           barProps={barProps}
           ganttHeight={ganttHeight}
           rootWrapper={rootWrapper}
-          screenChange={screenChange}
+          onScreenChange={onScreenChange}
           scrollToToday={scrollToToday}
         />
         {/* <div className={'erda-gantt-vertical-container'} ref={verticalGanttContainerRef} dir="ltr">

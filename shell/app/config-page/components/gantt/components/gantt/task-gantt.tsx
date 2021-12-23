@@ -28,25 +28,25 @@ export interface TaskGanttProps {
   barProps: TaskGanttContentProps;
   ganttHeight: number;
   BarContentRender: React.ReactNode;
-  screenChange: (value: boolean) => void,
-  rootWrapper: React.ReactElement,
-  scrollToToday: () => void,
+  onScreenChange: (value: boolean) => void;
+  rootWrapper: React.ReactElement;
+  scrollToToday: () => void;
 }
 export const TaskGantt: React.FC<TaskGanttProps> = ({
   gridProps,
   calendarProps,
   barProps,
   BarContentRender,
-  screenChange,
+  onScreenChange,
   rootWrapper,
   scrollToToday,
 }) => {
   const [isFullScreen, { toggleFullscreen }] = useFullScreen(rootWrapper, {
     onEnter: () => {
-      screenChange(true);
+      onScreenChange(true);
     },
     onExit: () => {
-      screenChange(false);
+      onScreenChange(false);
     },
   });
   const ganttSVGRef = useRef<SVGSVGElement>(null);
@@ -100,7 +100,10 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
           placement={isFullScreen ? 'bottomRight' : undefined}
           title={i18n.t('dop:position to today')}
         >
-          <Button onClick={() => scrollToToday()} className='text-sub hover:text-default cursor-pointer hover:border-default'>
+          <Button
+            onClick={() => scrollToToday()}
+            className="text-sub hover:text-default cursor-pointer hover:border-default"
+          >
             {i18n.t('Today')}
           </Button>
         </Tooltip>
@@ -109,13 +112,11 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
           placement={isFullScreen ? 'bottomRight' : undefined}
           title={isFullScreen ? i18n.t('exit full screen') : i18n.t('full screen')}
         >
-          <Button onClick={toggleFullscreen} className='flex justify-center items-center text-sub hover:text-default cursor-pointer hover:border-default'>
-            <ErdaIcon
-              onClick={toggleFullscreen}
-              type={isFullScreen ? 'suoxiao' : 'fangda'}
-              className=""
-              size={16}
-            />
+          <Button
+            onClick={toggleFullscreen}
+            className="flex justify-center items-center text-sub hover:text-default cursor-pointer hover:border-default"
+          >
+            <ErdaIcon onClick={toggleFullscreen} type={isFullScreen ? 'suoxiao' : 'fangda'} className="" size={16} />
           </Button>
         </Tooltip>
       </div>

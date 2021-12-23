@@ -150,7 +150,7 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
     TaskListHeader,
     listCellWidth = '320px',
     rootWrapper,
-    screenChange,
+    onScreenChange,
   } = pProps;
   const boxRef = React.useRef<HTMLDivElement>();
   const [ganttHeight, setGanttHeight] = React.useState(0);
@@ -222,7 +222,7 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
           BarContentRender={BarContentRender}
           onExpanderClick={handleExpanderClick}
           rootWrapper={rootWrapper}
-          screenChange={screenChange}
+          onScreenChange={onScreenChange}
           TaskListHeader={TaskListHeader}
           listCellWidth={listCellWidth}
           TaskListTable={(p) => <TaskTree {...p} TreeNodeRender={TreeNodeRender} />}
