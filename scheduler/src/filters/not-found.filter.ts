@@ -47,7 +47,7 @@ if (TERMINUS_TA_ENABLE) {
 $ta('start', { udata: { uid: 0 }, ak: "${TERMINUS_KEY}", url: "${TERMINUS_TA_COLLECTOR_URL}", ck: true });
 </script>
 `;
-  newContent = indexHtmlContent.replace('<!-- $ta -->', taContent);
+  newContent = newContent.replace('<!-- $ta -->', taContent);
 }
 fs.writeFileSync(newIndexHtmlPath, newContent, { encoding: 'utf8' });
 

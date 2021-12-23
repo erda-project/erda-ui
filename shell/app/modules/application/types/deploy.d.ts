@@ -22,6 +22,7 @@ declare namespace DEPLOY {
       applicationId: number;
       buildId: number;
       workspace: WORKSPACE;
+      fakeRuntime: boolean;
     };
     id: number;
     lastOperateTime: string;
