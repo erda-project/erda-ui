@@ -235,7 +235,6 @@ export const CaseAPI = (props: IProps) => {
       {map(apiList, (api, i) => (
         <ApiItem
           key={i}
-          api={api}
           index={i}
           {...{
             api,
