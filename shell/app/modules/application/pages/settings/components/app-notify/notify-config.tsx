@@ -245,43 +245,33 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
       width: 176,
       render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
-    {
-      title: i18n.t('default:operation'),
-      dataIndex: 'id',
-      width: 160,
-      fixed: 'right',
-      render: (text, record) => {
-        return (
-          <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => handleEdit(record)}>
-              {i18n.t('edit')}
-            </span>
-            <span
-              className="table-operations-btn"
-              onClick={() => {
-                handleDele(record.id);
-              }}
-            >
-              {i18n.t('delete')}
-            </span>
-            <Switch
-              size="small"
-              defaultChecked={record.enabled}
-              loading={toggleNotifyConfigsLoading}
-              onChange={() => {
-                toggleNotifyConfigs({
-                  id: text,
-                  action: record.enabled ? 'disable' : 'enable',
-                }).then(() => {
-                  handleGetNotifyConfigs();
-                });
-              }}
-            />
-          </div>
-        );
-      },
-    },
   ];
+
+  const actions = {
+    render: (record: APP_NOTIFY.INotify) => {
+      return [
+        {
+          title: i18n.t('edit'),
+          onClick: () => handleEdit(record),
+        },
+        {
+          title: i18n.t('delete'),
+          onClick: () => handleDele(record.id),
+        },
+        {
+          title: <Switch size="small" checked={record.enabled} loading={toggleNotifyConfigsLoading} />,
+          onClick: () => {
+            toggleNotifyConfigs({
+              id: record.id,
+              action: record.enabled ? 'disable' : 'enable',
+            }).then(() => {
+              handleGetNotifyConfigs();
+            });
+          },
+        },
+      ];
+    },
+  };
 
   return (
     <div className="notify-group-manage">
@@ -305,7 +295,13 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
         modalProps={{ destroyOnClose: true }}
       />
       <Spin spinning={getNotifyConfigsLoading}>
-        <Table columns={columns} dataSource={notifyConfigs} rowKey="id" onChange={() => handleGetNotifyConfigs()} />
+        <Table
+          columns={columns}
+          dataSource={notifyConfigs}
+          actions={actions}
+          rowKey="id"
+          onChange={() => handleGetNotifyConfigs()}
+        />
       </Spin>
     </div>
   );
