@@ -92,14 +92,12 @@ export function serviceAnalysisRouter() {
       ...serviceAnalysisRoutes,
       {
         path: ':applicationId',
-        breadcrumbName: i18n.t('msp:service list'),
         routes: [
           {
             path: ':serviceId',
             routes: [
               {
                 path: ':serviceName',
-                breadcrumbName: i18n.t('msp:service monitor'),
                 tabs,
                 alwaysShowTabKey: 'overview',
                 pageNameInfo: ServiceNameSelect,
