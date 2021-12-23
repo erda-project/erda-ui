@@ -21,7 +21,6 @@ import {
   getLocaleMonth,
   getWeekNumberISO8601,
 } from '../../helpers/date-helper';
-
 import { ErdaIcon } from 'common';
 import moment from 'moment';
 import { min, max, flatten } from 'lodash';
@@ -82,7 +81,6 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
     mousePos,
   }) => {
     const today = new Date();
-    // console.log({ width, horizontalRange, displayWidth, scrollX, svgWidth, mousePos });
     const getCalendarValuesForMonth = () => {
       const topValues: ReactChild[] = [];
       const bottomValues: ReactChild[] = [];
@@ -208,7 +206,6 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
     const onChangeScrollX = (direction: number) => {
       const moveLen = Math.floor(displayWidth / columnWidth) - 4; // less then display count;
       const moveX = moveLen > 0 ? moveLen * columnWidth : columnWidth;
-      // console.log({ moveLen, moveX });
       if (direction === -1) {
         setScrollX((prevX) => (moveX >= prevX ? -1 : prevX - moveX));
       } else if (direction === 1) {
@@ -248,8 +245,6 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
       }
 
       const offsetX = (firstDayInWeek ? firstDayInWeek - 1 : 6) * columnWidth;
-      // console.log(dateSetup.dates, { horizontalRange, dates, firstDay, firstWeek, firstDayInWeek, lastWeek });
-
       bottomValues = (
         <div
           className="flex h-full w-full erda-gantt-calendar-header-container"

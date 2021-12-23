@@ -93,7 +93,21 @@ const getCustomOptions = (enumeratedValues: any[]) => {
 
 const { getLabels } = labelStore.effects;
 const IssueMetaFields = React.forwardRef(
-  ({ labels, isEditMode, isBacklog, editAuth, issueType, formData, setFieldCb, projectId, ticketType }: any, ref) => {
+  (
+    {
+      labels,
+      isEditMode,
+      isBacklog,
+      editAuth,
+      issueType,
+      formData,
+      setFieldCb,
+      projectId,
+      ticketType,
+      mountContainer,
+    }: any,
+    ref,
+  ) => {
     const userMap = getUserMap();
     const projectMembers = projectMemberStore.useStore((s) => s.list);
     const urlParams = routeInfoStore.useStore((s) => s.params);
@@ -191,6 +205,7 @@ const IssueMetaFields = React.forwardRef(
                 onChange={(val: any) => onSave(val)}
                 value={value}
                 allowClear={!required}
+                mountContainer={mountContainer}
               />
             ) : propertyType === 'Number' ? (
               <NumberFieldInput
@@ -259,6 +274,7 @@ const IssueMetaFields = React.forwardRef(
               value={value}
               allowClear={false}
               showSelfChosen
+              mountContainer={mountContainer}
             />
           );
         },
@@ -283,6 +299,7 @@ const IssueMetaFields = React.forwardRef(
                 onChange={(val: any) => onSave(val)}
                 value={value}
                 allowClear={false}
+                mountContainer={mountContainer}
               />
             );
           },
@@ -366,6 +383,7 @@ const IssueMetaFields = React.forwardRef(
         showRequiredMark: ISSUE_TYPE.EPIC === issueType,
         itemProps: {
           allowClear: true,
+          getPopupContainer: (triggerNode: HTMLElement) => triggerNode.parentElement as HTMLElement,
         },
       },
       {
@@ -377,6 +395,7 @@ const IssueMetaFields = React.forwardRef(
         itemProps: {
           allowClear: true,
           endDay: true,
+          getPopupContainer: (triggerNode: HTMLElement) => triggerNode.parentElement as HTMLElement,
         },
       },
       ...insertWhen(![ISSUE_TYPE.TICKET, ISSUE_TYPE.EPIC].includes(issueType), [
@@ -421,6 +440,7 @@ const IssueMetaFields = React.forwardRef(
                   const _refMap = ref?.current?.refMap;
                   _refMap && (_refMap['issueManHour.elapsedTime'] = r);
                 }}
+                mountContainer={mountContainer}
                 onChange={(v) => setFieldCb({ issueManHour: v })}
                 isModifiedRemainingTime={formData?.issueManHour?.isModifiedRemainingTime}
                 disabled={disabled}
@@ -585,6 +605,7 @@ interface IProps {
   shareLink?: string;
   subDrawer?: JSX.Element | null;
   customUrl?: string; // 监控特殊 url 用来增改工单
+  mountContainer?: JSX.Element;
   closeDrawer: (params: CloseDrawerParam) => void;
 }
 
@@ -1309,6 +1330,7 @@ export const EditIssueDrawer = (props: IProps) => {
         editAuth={editAuth}
         formData={formData}
         setFieldCb={setFieldCb}
+        mountContainer={mountContainer}
       />
     </IssueDrawer>
   );

@@ -873,7 +873,7 @@ type IUseFullScreen = (
 ) => [boolean, { exitFullscreen: () => void; toggleFullscreen: () => void; enterFullscreen: () => void }];
 
 /**
- * @description 获取最新状态, 防止闭包导致的问题
+ * @description Get the latest status to prevent problems caused by closures
  * @param value
  * @returns
  */

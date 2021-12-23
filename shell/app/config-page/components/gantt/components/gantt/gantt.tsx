@@ -64,13 +64,13 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   TaskListHeader = TaskListHeaderDefault,
   TaskListTable = TaskListTableDefault,
   BarContentRender = null,
+  rootWrapper,
   onDateChange,
   onProgressChange,
   onDoubleClick,
   onDelete,
   onSelect,
   onExpanderClick,
-  rootWrapper,
   screenChange,
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -81,9 +81,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     return { viewMode, dates: seedDates(startDate, endDate, viewMode) };
   });
 
-  // const [dateRange, setDateRange] = useState(ganttDateRange(tasks, viewMode));
-  // const [startTime, endTime] = dateRange;
-  // console.log({ dateRange });
   const horizontalRef = React.useRef<HTMLDivElement>(null);
 
   const [taskHeight, setTaskHeight] = useState((rowHeight * barFill) / 100);
@@ -110,7 +107,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const h_number = Math.floor((horizontalRef.current?.clientWidth || 0) / columnWidth) + 2;
   const horizontalRange = [h_start, h_start + h_number];
   // console.log('横', horizontalRef.current?.clientWidth, scrollX, horizontalRange, h_number);
-  // console.log({ scrollX, columnWidth, h_start, h_number, horizontalRange, dateSetup }, dateSetup);
+
   const v_start = Math.abs(Math.ceil(scrollY / rowHeight));
   const v_number = Math.floor((ganttHeight || 0) / rowHeight) + 1;
   const verticalRange = [v_start, v_start + v_number];
@@ -128,7 +125,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     const [startDate, endDate] = ganttDateRange(filteredTasks, viewMode);
     const [newStartDate, newEndDate] = calcNewDateDuration(startDate, endDate);
     const newDates = seedDates(newStartDate, newEndDate, viewMode);
-    // console.log({ startDate, endDate, newDates });
     // if (rtl) {
     //   newDates = newDates.reverse();
     //   if (scrollX === -1) {
@@ -231,7 +227,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   useEffect(() => {
     scrollToToday();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [h_number]);
+  }, [h_number, dateSetup]);
 
   // useEffect(() => {
   //   if (wrapperRef.current) {
@@ -510,50 +506,48 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     BarContentRender,
   };
 
-  const calcNewDateDuration = (oldStartDate, oldEndDate) => {
+  const calcNewDateDuration = (oldStartDate?: Date, oldEndDate?: Date) => {
     const today = new Date();
-    let startDate = oldStartDate;
-    let endDate = oldEndDate;
-    if (!oldStartDate && !oldEndDate) {
+    let startDate = oldStartDate as Date;
+    let endDate = oldEndDate as Date;
+
+    if (!oldStartDate || !oldEndDate) {
       startDate = dateSetup.dates[0];
       endDate = dateSetup.dates[dateSetup.dates.length - 1];
     }
 
-    if (moment(today).isBefore(moment(startDate), 'day')) {
-      startDate = new Date(moment(today).subtract(Math.floor(h_number / 2), 'days'));
-    }
-
-    if (moment(today).isAfter(moment(endDate), 'day')) {
-      endDate = new Date(moment(today).add(Math.floor(h_number / 2), 'days'));
-    }
-
+    // if (today - h_number / 2) is less than startDate, startDate = today - h_number / 2
     if (
       moment(today)
-        .subtract(Math.floor(h_number / 2))
+        .subtract(Math.floor(h_number / 2), 'days')
         .isBefore(moment(startDate), 'days')
     ) {
       startDate = new Date(
-        moment(startDate).subtract(Math.floor(h_number / 2 - (today - startDate) / (1000 * 60 * 60 * 24)), 'days'),
+        moment(today)
+          .subtract(Math.floor(h_number / 2), 'days')
+          .valueOf(),
       );
     }
 
+    // if (today + h_number / 2) is more than endDate, endDate = today + h_number / 2
     if (
       moment(today)
-        .add(Math.floor(h_number / 2))
+        .add(Math.floor(h_number / 2),'days')
         .isAfter(moment(endDate), 'days')
     ) {
       endDate = new Date(
-        moment(endDate).add(Math.floor(h_number / 2 - (endDate - today) / (1000 * 60 * 60 * 24)), 'days'),
+        moment(today)
+          .add(Math.floor(h_number / 2), 'days')
+          .valueOf(),
       );
     }
-
     return [startDate, endDate];
   };
 
-  const scrollToToday = (oldStartDate, oldEndDate) => {
+  const scrollToToday = (oldStartDate?: Date, oldEndDate?: Date) => {
     const today = new Date();
     const [startDate] = calcNewDateDuration(oldStartDate, oldEndDate);
-    const duration = Math.floor((today - startDate) / (1000 * 60 * 60 * 24) - h_number / 2) + 4;
+    const duration = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) - h_number / 2) + 2;
     setScrollX(duration * columnWidth);
   };
 

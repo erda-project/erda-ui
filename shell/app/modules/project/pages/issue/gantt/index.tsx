@@ -70,13 +70,14 @@ const BarContentRender = (props: IBarProps) => {
 
 const TaskListHeader = (props: { headerHeight: number; rowWidth: number }) => {
   const { headerHeight, rowWidth } = props;
-  const [value, setValue] = React.useState('issue');
+  // const [value, setValue] = React.useState('issue');
   return (
     <div
       className="erda-task-list-header"
       style={{ height: headerHeight, width: rowWidth, lineHeight: `${headerHeight}px` }}
     >
-      <Select
+      {/* remove the demand selector temporarily, and keep the demand tree height */}
+      {/* <Select
         className="erda-task-list-header-selector"
         dropdownClassName="py-0"
         suffixIcon={<ErdaIcon size={16} color="currentColor" type="caret-down" />}
@@ -84,7 +85,7 @@ const TaskListHeader = (props: { headerHeight: number; rowWidth: number }) => {
         onChange={(v) => setValue(v)}
       >
         <Select.Option value="issue">{i18n.t('dop:display on demand')}</Select.Option>
-      </Select>
+      </Select> */}
     </div>
   );
 };

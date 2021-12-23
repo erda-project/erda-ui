@@ -28,6 +28,9 @@ export interface TaskGanttProps {
   barProps: TaskGanttContentProps;
   ganttHeight: number;
   BarContentRender: React.ReactNode;
+  screenChange: (value: boolean) => void,
+  rootWrapper: React.ReactElement,
+  scrollToToday: () => void,
 }
 export const TaskGantt: React.FC<TaskGanttProps> = ({
   gridProps,
@@ -62,8 +65,7 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
   const mouseUnFocus = () => {
     setMousePos(null);
   };
-  // const { horizontalRange, scrollX, width } = calendarProps;
-  // console.log({ isFullScreen }, '----');
+
   return (
     <div className={'erda-gantt-vertical-container'} dir="ltr" ref={verticalGanttContainerRef}>
       <Calendar
@@ -72,7 +74,6 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
         displayWidth={offsetWidth}
         mousePos={mousePos}
       />
-      5566
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={max([gridProps.svgWidth, offsetWidth])}
@@ -93,20 +94,27 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
         </g>
         <TaskGanttContent {...newBarProps} displayWidth={offsetWidth} BarContentRender={BarContentRender} />
       </svg>
-      <div className="absolute bottom-4 right-4">
-        <Button value="text" onClick={() => scrollToToday()}>
-          今天
-        </Button>
+      <div className="absolute bottom-4 right-4 flex">
+        <Tooltip
+          getTooltipContainer={(e) => e.parentNode}
+          placement={isFullScreen ? 'bottomRight' : undefined}
+          title={i18n.t('dop:position to today')}
+        >
+          <Button onClick={() => scrollToToday()} className='text-sub hover:text-default cursor-pointer hover:border-default'>
+            {i18n.t('Today')}
+          </Button>
+        </Tooltip>
         <Tooltip
           getTooltipContainer={(e) => e.parentNode}
           placement={isFullScreen ? 'bottomRight' : undefined}
           title={isFullScreen ? i18n.t('exit full screen') : i18n.t('full screen')}
         >
-          <Button value="key-value " onClick={toggleFullscreen}>
+          <Button onClick={toggleFullscreen} className='flex justify-center items-center text-sub hover:text-default cursor-pointer hover:border-default'>
             <ErdaIcon
               onClick={toggleFullscreen}
               type={isFullScreen ? 'suoxiao' : 'fangda'}
-              className="text-sub hover:text-default cursor-pointer"
+              className=""
+              size={16}
             />
           </Button>
         </Tooltip>

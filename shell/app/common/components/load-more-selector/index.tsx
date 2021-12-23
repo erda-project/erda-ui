@@ -51,6 +51,7 @@ interface IProps {
   dropdownMatchSelectWidth?: boolean;
   onChangeCategory?: Function;
   size?: 'small' | 'normal';
+  mountContainer?: HTMLElement;
   valueChangeTrigger?: 'onChange' | 'onClose';
   quickSelect?: React.ReactNode | React.ReactNode[];
   resultsRender?: (
@@ -153,6 +154,7 @@ const PureLoadMoreSelector = (props: IProps) => {
     resultsRender,
     size = '',
     q: propsQ,
+    mountContainer,
   } = props;
   const isMultiple = mode === 'multiple';
   const [visible, setVisible] = React.useState(false);
@@ -389,6 +391,7 @@ const PureLoadMoreSelector = (props: IProps) => {
         visible={visible}
         overlayClassName={`${visible ? 'load-more-selector-dropdown' : ''} ${dropdownClassName}`}
         onVisibleChange={(visible) => onVisibleChange?.(visible, innerValue)}
+        getPopupContainer={() => mountContainer || document.body }
       >
         <div
           className={`results cursor-pointer ${disabled ? 'not-allowed' : ''} ${size}`}
@@ -523,6 +526,7 @@ export interface ILoadMoreSelectorProps extends IProps {
   list?: IOption[];
   forwardedRef?: any;
   extraQuery?: object;
+  mountContainer?: HTMLElement;
   getData?: (arg: any) => Promise<{ list: IOption[]; total: number }>;
   dataFormatter?: (data: { list: any[]; total: number }) => { list: IOption[]; total: number };
 }
@@ -564,6 +568,7 @@ const LoadMoreSelector = (props: ILoadMoreSelectorProps) => {
     type,
     dataFormatter = defaultDataFormatter,
     extraQuery = {},
+    mountContainer,
     ...rest
   } = props;
 
@@ -680,6 +685,7 @@ const LoadMoreSelector = (props: ILoadMoreSelectorProps) => {
       changeQuery={changeQuery}
       onChangeCategory={onChangeCategory}
       q={q}
+      mountContainer={mountContainer}
       {...rest}
     />
   );

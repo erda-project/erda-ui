@@ -81,6 +81,7 @@ interface IProps {
   value?: ISSUE.issueManHour;
   disabled?: boolean;
   isModifiedRemainingTime?: boolean;
+  mountContainer?: HTMLElement;
   onChange?: (e: any) => void;
 }
 
@@ -93,7 +94,16 @@ const defaultValue = {
   workContent: '',
 };
 export const TimeTrace = React.forwardRef(
-  ({ value = { ...defaultValue } as any, onChange = () => {}, disabled, isModifiedRemainingTime }: IProps, ref) => {
+  (
+    {
+      value = { ...defaultValue } as any,
+      onChange = () => {},
+      disabled,
+      isModifiedRemainingTime,
+      mountContainer,
+    }: IProps,
+    ref,
+  ) => {
     const [editData, setEditData] = React.useState({} as ISSUE.issueManHour);
     const [modalVis, setModalVis] = React.useState(false);
     const form = React.useRef();
@@ -236,6 +246,7 @@ export const TimeTrace = React.forwardRef(
             visible={modalVis}
             onCancel={handleCancel}
             destroyOnClose
+            getContainer={() => mountContainer || document.body}
             footer={[
               <Button key="back" onClick={handleCancel}>
                 {i18n.t('cancel')}
