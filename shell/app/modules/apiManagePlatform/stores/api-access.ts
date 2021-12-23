@@ -42,6 +42,7 @@ interface IState {
   operationRecord: API_ACCESS.OperationRecord[];
   slaList: API_ACCESS.SlaItem[];
   slaListMapper: { [key: number]: API_ACCESS.SlaItem };
+  total: number;
 }
 
 const initState: IState = {
@@ -61,6 +62,7 @@ const initState: IState = {
   operationRecord: [],
   slaList: [],
   slaListMapper: {} as { [key: number]: API_ACCESS.SlaItem },
+  total: 0,
 };
 
 const apiAccess = createStore({
@@ -69,7 +71,10 @@ const apiAccess = createStore({
   effects: {
     async getAccess({ call, update }, payload: API_ACCESS.QueryAccess) {
       const res = await call(getAccessList, payload, { paging: { key: 'accessListPaging' } });
-      update({ accessList: res.list || [] });
+      update({
+        accessList: res.list || [],
+        total: res.total || 0,
+      });
       return res;
     },
     async createAccess({ call }, payload: API_ACCESS.CreateAccess) {

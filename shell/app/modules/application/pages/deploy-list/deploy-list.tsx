@@ -262,8 +262,8 @@ const PureDeployList = (props: IProps) => {
           columns={columns}
           dataSource={list}
           pagination={paging ? autoPagination(paging) : false}
+          onReload={() => onReset()}
           slot={<CustomFilter onSubmit={onSubmit} onReset={onReset} config={filterConfig} isConnectQuery />}
-          onChange={() => onReset()}
         />
       </Spin>
       <FormModal

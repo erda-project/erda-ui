@@ -40,6 +40,7 @@ interface IProps<T extends object = any> extends TableProps<T> {
   slot?: React.ReactNode;
   rowSelection?: IRowSelection<T>;
   hideHeader?: boolean;
+  onReload?: (pageNo: number, pageSize: number) => void;
 }
 
 const sortIcon = {
@@ -59,6 +60,7 @@ function WrappedTable<T extends object = any>({
   actions,
   pagination: paginationProps,
   onChange,
+  onReload: onReloadProps,
   slot,
   dataSource: ds,
   onRow,
@@ -269,6 +271,7 @@ function WrappedTable<T extends object = any>({
     const { onChange: onPageChange } = pagination as TablePaginationConfig;
     onChange?.({ current, pageSize }, {}, sort, { action: 'paginate', currentDataSource: [] });
     onPageChange?.(current, pageSize);
+    onReloadProps?.(current, pageSize);
   };
 
   let data = [...dataSource];
@@ -333,13 +336,12 @@ function WrappedTable<T extends object = any>({
 
 function renderActions<T extends object = any>(actions?: IActions<T> | null): Array<ColumnProps<T>> {
   if (actions) {
-    const { width, render } = actions;
+    const { render } = actions;
     return [
       {
         title: i18n.t('operation'),
-        width,
+        width: 100,
         dataIndex: 'operation',
-        ellipsis: true,
         fixed: 'right',
         render: (_: any, record: T) => {
           const list = render(record).filter((item) => item.show !== false);
