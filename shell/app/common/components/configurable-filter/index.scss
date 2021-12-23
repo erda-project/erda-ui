@@ -184,6 +184,8 @@
     .twt-tag-item {
       height: 20px;
       line-height: 20px;
+      margin-left: 0;
+      margin-right: 4px;
     }
 
     .rc-virtual-list-holder-inner {
@@ -193,6 +195,7 @@
 
     .ant-select-item {
       padding: 0;
+      margin-right: 4px;
       background-color: transparent !important;
     }
 
