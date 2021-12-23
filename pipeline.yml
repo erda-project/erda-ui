@@ -54,8 +54,8 @@ stages:
             - path: ${{ dirs.erda-ui }}/modules/admin/node_modules
             - path: ${{ dirs.erda-ui }}/modules/fdp/node_modules
           resources:
-            cpu: 4
-            mem: 6144
+            cpu: 2
+            mem: 2048
   - stage:
       - dockerfile:
           alias: build-erda-ui-image
@@ -72,7 +72,7 @@ stages:
               password: ${{ configs.docker_registry_password }}
           resources:
             cpu: 2
-            mem: 6144
+            mem: 2048
   - stage:
       - release:
           alias: release-ui-enterprise
@@ -85,3 +85,41 @@ stages:
           resources:
             cpu: 0.5
             mem: 512
+  - stage:
+      - js-build:
+          alias: build-erda-ui-ce
+          params:
+            build_cmd:
+              - npm i -g @erda-ui/cli@1.0.23
+              - npm i -g pnpm
+              - erda-ui init -s --online
+              - erda-ui build -s -o
+            node_version: 12
+            workdir: ${{ dirs.erda-ui }}
+          caches:
+            - path: ${{ dirs.erda-ui }}/node_modules
+            - path: ${{ dirs.erda-ui }}/core/node_modules
+            - path: ${{ dirs.erda-ui }}/shell/node_modules
+            - path: ${{ dirs.erda-ui }}/scheduler/node_modules
+            - path: ${{ dirs.erda-ui }}/modules/uc/node_modules
+            - path: ${{ dirs.erda-ui }}/modules/market/node_modules
+          resources:
+            cpu: 2
+            mem: 2048
+  - stage:
+      - dockerfile:
+          alias: build-erda-ui-ce-image
+          version: "1.0"
+          params:
+            workdir: ${{ dirs.build-erda-ui-ce }}
+            path: Dockerfile
+            image:
+              name: ui-ce
+              tag: ${{ outputs.ui-version.image_tag }}
+            registry:
+              url: ${{ configs.docker_registry }}
+              username: ${{ configs.docker_registry_username }}
+              password: ${{ configs.docker_registry_password }}
+          resources:
+            cpu: 2
+            mem: 2048
