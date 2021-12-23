@@ -122,21 +122,23 @@ const AnalyzerChart: React.FC<IProps> = ({
   const [chartData, setChartData] = React.useState<MSP_SERVICES.SERVICE_LIST_CHART[]>([]);
   const [loading, setLoading] = React.useState(false);
   React.useEffect(() => {
-    setLoading(true);
-    getAnalyzerOverview
-      .fetch({
-        tenantId,
-        view,
-        serviceIds: [serviceId],
-        startTime: range.startTimeMs,
-        endTime: range.endTimeMs,
-      })
-      .then((res) => {
-        setChartData(res?.data?.list || []);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    if (serviceId) {
+      setLoading(true);
+      getAnalyzerOverview
+        .fetch({
+          tenantId,
+          view,
+          serviceIds: [serviceId],
+          startTime: range.startTimeMs,
+          endTime: range.endTimeMs,
+        })
+        .then((res) => {
+          setChartData(res?.data?.list || []);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   }, [tenantId, range, view, serviceId]);
   const currentOption = React.useMemo(() => {
     const { views } = chartData[0] ?? { views: [] };
