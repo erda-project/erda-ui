@@ -219,14 +219,13 @@ const MicroServiceOverview = () => {
   const tenantId = routeInfoStore.useStore((s) => s.params.terminusKey);
   const overviewList = getAnalyzerOverview.useData();
   const serViceCount = getServiceCount.useData();
-  const [{ pagination, searchValue, serviceStatus, startTime, endTime }, updater, update] =
-    useUpdate<IState>({
-      searchValue: '',
-      startTime: moment().subtract(1, 'h').valueOf(),
-      endTime: moment().valueOf(),
-      serviceStatus: tabs[0].value,
-      pagination: { current: 1, pageSize: PAGINATION.pageSize },
-    });
+  const [{ pagination, searchValue, serviceStatus, startTime, endTime }, updater, update] = useUpdate<IState>({
+    searchValue: '',
+    startTime: moment().subtract(1, 'h').valueOf(),
+    endTime: moment().valueOf(),
+    serviceStatus: tabs[0].value,
+    pagination: { current: 1, pageSize: PAGINATION.pageSize },
+  });
 
   React.useEffect(() => {
     getServiceCount.fetch({ tenantId });
@@ -428,22 +427,24 @@ const MicroServiceOverview = () => {
           'msp:show all connected services in the current environment, as well as the key request indicators of the service in the last hour',
         )}
       />
-      <DiceConfigPage
-        showLoading
-        forceUpdateKey={['inParams']}
-        scenarioType="service-list"
-        scenarioKey="service-list"
-        inParams={{ tenantId, startTime, endTime }}
-        fullHeight={false}
-        customProps={{
-          grid: {
-            props: {
-              span: [6, 6, 6, 6],
+      {tenantId ? (
+        <DiceConfigPage
+          showLoading
+          forceUpdateKey={['inParams']}
+          scenarioType="service-list"
+          scenarioKey="service-list"
+          inParams={{ tenantId, startTime, endTime }}
+          fullHeight={false}
+          customProps={{
+            grid: {
+              props: {
+                span: [6, 6, 6, 6],
+              },
             },
-          },
-          ...topNMap,
-        }}
-      />
+            ...topNMap,
+          }}
+        />
+      ) : null}
       <RadioTabs
         defaultValue={tabs[0].value}
         options={tabsOptions}

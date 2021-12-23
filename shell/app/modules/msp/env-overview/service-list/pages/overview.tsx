@@ -249,22 +249,24 @@ const OverView = () => {
       <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium">
         {i18n.t('msp:service invocation analysis')}
       </div>
-      <DiceConfigPage
-        showLoading
-        scenarioType="service-overview"
-        scenarioKey="service-overview"
-        forceUpdateKey={['inParams']}
-        inParams={{ tenantId, serviceId, startTime: range.startTimeMs, endTime: range.endTimeMs }}
-        fullHeight={false}
-        customProps={{
-          grid: {
-            props: {
-              span: [8, 8, 8, 8, 8, 8],
+      {serviceId && tenantId ? (
+        <DiceConfigPage
+          showLoading
+          scenarioType="service-overview"
+          scenarioKey="service-overview"
+          forceUpdateKey={['inParams']}
+          inParams={{ tenantId, serviceId, startTime: range.startTimeMs, endTime: range.endTimeMs }}
+          fullHeight={false}
+          customProps={{
+            grid: {
+              props: {
+                span: [8, 8, 8, 8, 8, 8],
+              },
             },
-          },
-          ...topNMap,
-        }}
-      />
+            ...topNMap,
+          }}
+        />
+      ) : null}
     </div>
   );
 };
