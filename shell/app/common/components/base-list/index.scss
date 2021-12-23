@@ -3,22 +3,26 @@
     padding: 12px 16px;
     border-radius: 2px;
     background-color: $white;
-    box-shadow: 0 2px 4px 0 $color-box-shadow;
+    box-shadow: 0 1px 4px 0 rgba($color-default, 0.16);
     background-position: 100% 0;
     background-repeat: no-repeat;
+
+    &:hover {
+      box-shadow: 0 2px 8px 0 rgba($color-default, 0.16);
+    }
 
     &:last-child {
       border-bottom: none;
     }
 
     .item-prefix-img {
-      margin-right: 12px;
+      margin-right: 8px;
       line-height: 1;
 
       img,
       > * {
-        width: 36px;
-        height: 36px;
+        width: 28px;
+        height: 28px;
       }
     }
 

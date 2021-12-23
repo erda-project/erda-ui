@@ -27,10 +27,11 @@ export interface TextBlockInfoProps {
   className?: string;
   extra?: string | React.ElementType | JSX.Element;
   align?: 'center' | 'left' | 'right';
+  onClick?: (e: Event) => void;
 }
 
 const TextBlockInfo = (props: TextBlockInfoProps) => {
-  const { align = 'left', className = '', main, size = 'normal', sub, desc, tip, extra, style } = props;
+  const { align = 'left', className = '', main, size = 'normal', sub, desc, tip, extra, style, ...rest } = props;
 
   const alignClsMap = {
     container: {

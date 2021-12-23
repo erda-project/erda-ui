@@ -18,11 +18,17 @@ declare namespace ERDA_LIST {
     isLoadMore?: boolean;
     onLoadMore: (curPageNo: number) => void;
     getKey: (item: ListData, idx: number) => string | number;
+    EmptyHolder: React.FC;
+    defaultLogo?: string;
+    defaultBgImg?: string;
   }
 
   interface ItemProps {
     key: string | number;
     data: ListData;
+    columnsInfoWidth?: Obj<number>;
+    defaultLogo?: string;
+    defaultBgImg?: string;
   }
 
   interface Operation {
@@ -41,8 +47,8 @@ declare namespace ERDA_LIST {
     onChange: (current: number, pageSize: number) => void;
   }
 
-  interface Label {
-    label: string;
+  interface IState {
+    text: string;
     status: 'success' | 'warning' | 'error' | 'processing';
   }
 
@@ -54,12 +60,16 @@ declare namespace ERDA_LIST {
   interface ListData {
     id: string | number;
     title: string;
+    titleSummary?: string;
     description?: string;
-    logo?: string | React.ReactNode;
+    logoURL?: string | React.ReactNode;
+    icon?: string;
     backgroundImg?: string;
-    labels: Label[];
+    titleState: IState[];
+    mainState: IState;
     tags: Tag[];
-    metaInfos?: MetaInfo[];
+    columnsInfo: IColumnsInfo;
+    kvInfos?: MetaInfo[];
     titlePrefixIcon?: string;
     titlePrefixIconTip?: string;
     titleSuffixIcon?: string;
@@ -71,12 +81,18 @@ declare namespace ERDA_LIST {
     itemProps?: {
       onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     };
-    [k: string]: any;
+    // [k: string]: any;
+  }
+
+  interface IColumnsInfo {
+    users?: string[];
+    text?: Array<{ tip?: string; text: string }>;
+    state: IState;
   }
 
   interface MetaInfo {
     icon?: string;
-    label: string;
+    key: string;
     value: string | number;
     type?: 'success' | 'normal' | 'warning' | 'error';
     tip?: string;

@@ -26,6 +26,7 @@ export interface IBadgeProps {
   breathing?: boolean;
   className?: string;
   showDot?: boolean;
+  onlyDot?: boolean;
 }
 
 enum BadgeStatus {
@@ -40,13 +41,15 @@ const Badge = (props: IBadgeProps) => {
   const {
     color,
     tip,
-    status = 'default',
+    status: pStatus,
     text,
     size = 'default',
     breathing: pBreathing,
     className = '',
     showDot = true,
+    onlyDot,
   } = props;
+  const status = pStatus || 'default';
   const defaultBreath = { processing: true };
   const breathing = pBreathing === undefined && status ? defaultBreath[status] : pBreathing || false;
 
@@ -57,8 +60,10 @@ const Badge = (props: IBadgeProps) => {
   return (
     <Tooltip title={tip}>
       <span
-        style={colorStyle}
-        className={`erda-badge erda-badge-status-${status} ${breathCls} badge-${size} inline-flex items-center rounded-sm ${className}`}
+        style={onlyDot ? {} : colorStyle}
+        className={`erda-badge erda-badge-status-${status} ${breathCls} badge-${size} inline-flex items-center rounded-sm ${className} ${
+          onlyDot ? 'only-dot' : ''
+        }`}
       >
         {showDot ? (
           <span className="erda-badge-status-dot" style={color ? { backgroundColor: color } : {}}>

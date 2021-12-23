@@ -15,61 +15,10 @@ import { cloneDeep } from 'lodash';
 
 export const enhanceMock = (data: any, payload: any) => {
   console.log('------', payload);
-  if (payload?.event?.operation === 'update') {
-    const _data = cloneDeep(data);
-    _data.protocol.components.gantt.data = {
-      updateList: [
-        // {
-        //   start: getDate(1),
-        //   end: getDate(10),
-        //   title: 'R1-测试数据测试数据测试数据测试数据测试数据测试数据测试数据',
-        //   key: 'R1',
-        //   isLeaf: false,
-        //   extra: {
-        //     type: 'requirement',
-        //     user: '张三',
-        //     status: { text: '进行中', status: 'processing' },
-        //   },
-        // },
-        {
-          key: payload.event.operationData.meta.nodes.key,
-          title: `T${payload.event.operationData.meta.nodes.key}测试测试测试测试测试测试测试测试测试测试测试`,
-          start: payload.event.operationData.meta.nodes.start,
-          end: payload.event.operationData.meta.nodes.end,
-          isLeaf: true,
-          extra: {
-            type: 'task',
-            user: '张三',
-            status: { text: '进行中', status: 'processing' },
-          },
-        },
-      ],
-      expandList: null,
-    };
-    return _data;
+  if (payload?.event?.operation === 'ssa') {
+    return data;
   }
-  if (payload.event?.operation === 'expandNode') {
-    const _data = cloneDeep(data);
-    _data.protocol.components.gantt.data = {
-      expandList: {
-        R2: [
-          {
-            id: '2-1',
-            name: 'T1-1测试测试测试测试测试测试测试测试测试测试测试',
-            start: getDate(1),
-            end: getDate(5),
-            isLeaf: true,
-            extra: {
-              type: 'task',
-              user: '张三',
-              status: { text: '进行中', status: 'processing' },
-            },
-          },
-        ],
-      },
-    };
-    return _data;
-  }
+
   return data;
 };
 const currentDate = new Date();
@@ -101,16 +50,21 @@ export const mockData = {
       structure: {
         page: {
           left: 'leftContent',
-          right: 'userProfile',
+          right: 'rightContent',
         },
-        leftContent: ['head', 'workTabs', 'workContainer', 'messageTabs', 'messageList'],
+        leftContent: ['head', 'workTabs', 'workContainer', 'messageTabs', 'messageContainer'],
         workContainer: ['workCards', 'workList'],
+        messageContainer: ['messageList'],
+        rightContent: ['userProfile'],
         workList: {
           filter: ['workListFilter'],
         },
       },
     },
     components: {
+      rightContent: {
+        type: 'Container',
+      },
       page: {
         type: 'LRContainer',
       },
@@ -152,7 +106,7 @@ export const mockData = {
         data: {
           title: '星标项目',
           titleSummary: '4',
-          cards: [
+          cardss: [
             {
               id: 1,
               icon: 'bug', // 可能为图标，优先展示img
@@ -415,10 +369,12 @@ export const mockData = {
                   operations: {
                     // 点击跳转
                     clickGoto: {
-                      jumpOut: true,
-                      target: 'xx', // 此处target/query/params，到时候统一整理给
-                      query: {},
-                      params: {},
+                      serverData: {
+                        jumpOut: true,
+                        target: 'xx', // 此处target/query/params，到时候统一整理给
+                        query: {},
+                        params: {},
+                      },
                     },
                   },
                 },
@@ -427,10 +383,12 @@ export const mockData = {
                   subText: '今日截止',
                   operations: {
                     clickGoto: {
-                      jumpOut: true,
-                      target: 'xx', // 此处target/query/params，到时候统一整理给
-                      query: {},
-                      params: {},
+                      serverData: {
+                        jumpOut: true,
+                        target: 'xx', // 此处target/query/params，到时候统一整理给
+                        query: {},
+                        params: {},
+                      },
                     },
                   },
                 },
@@ -493,30 +451,31 @@ export const mockData = {
         data: {
           pageNo: 1,
           pageSize: 10,
-          total: 10,
+          total: 12,
           title: '项目列表',
-          summary: '12',
-          list: [
+          titleSummary: '12',
+          list1: [
             {
               id: '1', // 唯一id, eg: appid
-              logo: 'https://erda.cloud/api/files/302d582a7c054ad2be9d59ef8334da96', // url 地址或 icon 的 key
+              logoURL: 'https://erda.cloud/api/files/302d582a7c054ad2be9d59ef8334da96', // url 地址或 icon 的 key
               title: '项目 A',
               star: true, // 当前是否已收藏
-              labels: [
+              titleState: [
                 {
-                  label: '研发项目',
+                  status: '',
+                  text: '研发项目',
                 },
               ],
               // description: '这是项目 A 的描述',
               backgroundImg: '//背景水印图片的 url 地址',
-              metaInfos: [
+              kvInfos: [
                 {
-                  label: '已过期',
+                  key: '已过期',
                   value: '2',
                   icon: '', // 如果配了 icon，优先展示 iocn 代替 key
                   tip: '提示信息',
                   operations: {
-                    clickGotoExpired: {
+                    clickGoto: {
                       serverData: {
                         params: {
                           projectId: 1,
@@ -531,12 +490,12 @@ export const mockData = {
                   },
                 },
                 {
-                  label: '本日到期',
+                  key: '本日到期',
                   value: '22',
                   icon: '', // 如果配了 icon，优先展示 iocn 代替 key
                   tip: '',
                   operations: {
-                    clickGotoTodayExpired: {
+                    clickGoto: {
                       serverData: {
                         params: {
                           projectId: 1,
@@ -556,11 +515,10 @@ export const mockData = {
                   clientData: {
                     dataRef: {}, // 这个数据对象，前端提供
                   },
-                  skipRender: true, // 是否触发后端渲染，为 true 时页面立刻响应，不等后端返回
                   disabled: false,
                   tip: '收藏此项目',
                 },
-                click: {
+                clickGoto: {
                   serverData: {
                     params: {
                       projectId: 1,
@@ -571,69 +529,29 @@ export const mockData = {
                   },
                 },
               },
-              moreOperations: {
-                operations: {
-                  gotoIssues: {
-                    text: '项目管理',
-                    serverData: {
-                      params: {
-                        projectId: 1,
+              moreOperations: [
+                {
+                  id: 'x',
+                  text: '项目管理',
+                  icon: 'xx',
+                  operations: {
+                    clickGoto: {
+                      serverData: {
+                        params: {
+                          projectId: 1,
+                        },
+                        target: 'projectAllIssue',
+                        jumpOut: true, // 新开页面打开
                       },
-                      target: 'projectAllIssue',
-                      jumpOut: true, // 新开页面打开
-                    },
-                  },
-                  gotoProjectApps: {
-                    text: '应用开发',
-                    serverData: {
-                      params: {
-                        projectId: 1,
-                      },
-                      target: 'projectApps',
-                      jumpOut: true, // 新开页面打开
-                    },
-                  },
-                  gotoProjectTestDashboard: {
-                    text: '测试管理',
-                    serverData: {
-                      params: {
-                        projectId: 1,
-                      },
-                      target: 'projectTestDashboard',
-                      jumpOut: true, // 新开页面打开
-                    },
-                  },
-                  gotoMspServiceProjectRoot: {
-                    text: '服务观测',
-                    serverData: {
-                      params: {
-                        projectId: 1,
-                      },
-                      target: 'mspServiceProjectRoot',
-                      jumpOut: true, // 新开页面打开
-                    },
-                  },
-                  gotoProjectSetting: {
-                    text: '项目设置',
-                    serverData: {
-                      params: {
-                        projectId: 1,
-                      },
-                      target: 'projectSetting',
-                      jumpOut: true, // 新开页面打开
                     },
                   },
                 },
-                operationsOrder: [
-                  'gotoIssues',
-                  'gotoProjectApps',
-                  'gotoProjectTestDashboard',
-                  'gotoMspServiceProjectRoot',
-                  'gotoProjectSetting',
-                ], // 操作排列顺序
-              },
+              ],
             },
           ],
+          operations: {
+            changePage: {},
+          },
         },
       },
       workListFilter: {
@@ -658,6 +576,9 @@ export const mockData = {
             reload: true,
           },
         },
+      },
+      messageContainer: {
+        type: 'Container',
       },
       messageTabs: {
         type: 'RadioTabs',
@@ -686,16 +607,25 @@ export const mockData = {
           list: [
             {
               id: '1', // 唯一id, eg: appid
-              logo: 'https://erda.cloud/api/files/302d582a7c054ad2be9d59ef8334da96', // url 地址或 icon 的 key
+              icon: 'zhong',
               title: '项目 A',
-              labels: [
-                {
-                  color: 'green',
-                  // status: 'success',
-                  label: '研发项目',
+              titleSummary: '24',
+              mainState: { text: '', status: 'error' },
+              columnsInfo: {
+                users: ['1'],
+                state: { status: 'error', text: '已完成' },
+                text: [{ tip: '2020-12-22', text: '6分钟' }],
+              },
+              operations: {
+                click: {
+                  clientData: { dataRef: { id: 1 } },
                 },
-              ],
-              description: '这是的描述',
+                clickGoto: {
+                  serverData: {
+                    target: 'https://erda.cloud/erda/dop/projects/387/issues/all?id=224941&type=TASK',
+                  },
+                },
+              },
             },
           ],
         },

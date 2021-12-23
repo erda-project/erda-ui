@@ -14,24 +14,33 @@
 import React from 'react';
 import DiceConfigPage, { useMock } from 'config-page/index';
 import orgStore from 'app/org-home/stores/org';
-import { DropdownSelectNew, UserProfile } from 'common';
+import { DropdownSelectNew, UserProfile, EmptyHolder } from 'common';
 import { goTo, insertWhen } from 'common/utils';
 import ScaleCard from 'config-page/components/scale-card/scale-card';
-import defaultOrgIcon from 'app/images/default-org-icon.svg';
-import defaultUserAvatar from 'app/images/default-user-avatar.svg';
+import ImgMap from 'config-page/img-map';
 import { useMount } from 'react-use';
 import userStore from 'app/user/stores';
 import { usePerm } from 'user/common';
 import { erdaEnv } from 'common/constants';
+import PersonalHomeV1 from './personal-home-v1';
 import i18n from 'i18n';
+import routeInfoStore from 'core/stores/route';
+import moment from 'moment';
 import './personal-home.scss';
 
-const PersonalHome = () => {
-  const { getPublicOrgs } = orgStore.effects;
+const getInvitationTime = () => {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12) return i18n.t('Good morning');
+  else if (hour >= 12 && hour <= 17) return i18n.t('Good afternoon');
+  return i18n.t('Good evening');
+};
+
+const PurePersonalHome = ({ orgName }: { orgName: string }) => {
   const loginUser = userStore.useStore((s) => s.loginUser);
   const permMap = usePerm((s) => s.org);
   const [currentOrg, orgs, publicOrgs] = orgStore.useStore((s) => [s.currentOrg, s.orgs, s.publicOrgs]);
-  const inParams = { orgName: currentOrg.name || '-' };
+  const inParams = { orgName: orgName || '-' };
+  const [listType, setListType] = React.useState('project');
 
   React.useEffect(() => {
     document.title = `${i18n.t('Personal dashboard')} · Erda`;
@@ -40,6 +49,7 @@ const PersonalHome = () => {
       document.title = ' · Erda';
     };
   }, []);
+
   const openMap = {
     orgCenter: permMap.entryOrgCenter.pass,
     cmp: permMap.cmp.showApp.pass,
@@ -49,88 +59,108 @@ const PersonalHome = () => {
     ecp: erdaEnv.ENABLE_EDGE === 'true' && permMap.ecp.view.pass && currentOrg.type === 'ENTERPRISE',
   };
 
-  useMount(() => {
-    getPublicOrgs();
-  });
-
-  if (inParams.orgName === '-') {
-    return;
-  }
-
   const changeOrg = (_: string, op: Obj) => {
     goTo(goTo.pages.orgRoot, { orgName: op.desc });
   };
 
-  const Head = () => {
+  const Head = (_publicOrgs: ORG.IOrg[]) => () => {
     const options = [
       {
-        label: '我的组织',
+        label: i18n.t('dop:my organization'),
         key: 'my',
         children: orgs.map((o) => ({
           key: o.name,
           label: o.displayName,
           desc: o.name,
-          imgURL: o.logo || defaultOrgIcon,
+          imgURL: o.logo || ImgMap.frontImg_default_org_icon,
         })),
       },
-      ...insertWhen(!!publicOrgs.length, [
+      ...insertWhen(!!_publicOrgs.length, [
         {
-          label: '公开组织',
+          label: i18n.t('dop:public organization'),
           key: 'public',
-          children: publicOrgs.map((o) => ({
+          children: _publicOrgs.map((o) => ({
             key: o.name,
             label: o.displayName,
             desc: o.name,
-            imgURL: o.logo || defaultOrgIcon,
+            imgURL: o.logo || ImgMap.frontImg_default_org_icon,
           })),
         },
       ]),
     ];
+    const Days = [
+      i18n.t('Sun'),
+      i18n.t('Mon'),
+      i18n.t('Tue'),
+      i18n.t('Wed'),
+      i18n.t('Thu'),
+      i18n.t('Fri'),
+      i18n.t('Sat'),
+    ];
     return (
       <div>
-        <div>
-          <div className="font-medium text-lg text-default">上午好，麦壳，欢迎使用宇宙最强云原生产品-Erda</div>
-          <div className="text-xs text-default-6">今天是 2021/09/21 周三，距离春节还有50天~</div>
+        <div className="mt-4">
+          <div className="font-medium text-lg text-default">{`
+          ${getInvitationTime()}, ${loginUser.nick || loginUser.name}, ${i18n.t(
+            'Welcome to use cloud native product - Erda',
+          )}`}</div>
+          <div className="text-xs text-default-6">{`${i18n.t('dop:Tody is {time}', {
+            time: `${moment().format('YYYY/MM/DD')} ${i18n.t('{week}', { week: Days[new Date().getDay()] })}`,
+            interpolation: { escapeValue: false },
+          })}`}</div>
         </div>
-        <div className="flex ites-center justify-between ss">
+        <div className="flex items-center justify-between my-6">
           <DropdownSelectNew
-            title="切换组织"
-            value={currentOrg.name}
+            title={i18n.t('dop:switch organization')}
+            value={orgName}
             options={options}
             onChange={changeOrg}
             width={400}
             size="big"
           />
           <ScaleCard
+            props={{ align: 'right' }}
             onClick={(v) => {
-              goTo(v.path);
+              goTo(v.href);
             }}
             data={{
               list: [
                 {
                   icon: 'DevOps-entry',
-                  label: 'DevOps 平台',
+                  label: i18n.t('dop'),
                   show: openMap.dop,
+                  href: goTo.resolve.dopRoot(),
                 },
                 {
                   icon: 'MSP-entry',
-                  label: '微服务平台',
+                  label: i18n.t('msp'),
                   show: openMap.msp,
-                },
-                {
-                  icon: 'CMP-entry',
-                  label: '云管平台',
-                  show: openMap.cmp,
+                  href: goTo.resolve.apiManageRoot(),
                 },
                 {
                   icon: 'FDP-entry',
-                  label: '快数据平台',
+                  label: i18n.t('Fast data'),
                   show: openMap.fdp,
+                  href: goTo.resolve.cmpRoot(),
                 },
                 {
+                  icon: 'CMP-entry',
+                  label: i18n.t('Cloud management'),
+                  show: openMap.cmp,
+                  href: goTo.resolve.cmpRoot(),
+                },
+                {
+                  icon: 'bianyuanjisuan',
+                  label: i18n.t('ecp:Edge computing'),
+                  show: openMap.ecp,
+                  href: goTo.resolve.ecpApp(),
+                },
+
+                {
                   icon: 'control-entry',
-                  label: '管理中心',
+                  label: i18n.t('orgCenter'),
                   show: openMap.orgCenter,
+                  href: goTo.resolve.orgCenterRoot(),
                 },
               ].filter((item) => item.show),
             }}
@@ -143,10 +173,11 @@ const PersonalHome = () => {
   const UserProfileComp = () => {
     return (
       <UserProfile
+        className="mt-20"
         data={{
           id: loginUser.id,
           name: loginUser.nick || loginUser.name,
-          avatar: loginUser.avatar || defaultUserAvatar,
+          avatar: loginUser.avatar || ImgMap.default_user_avatar,
           email: loginUser.email,
           phone: loginUser.phone,
           lastLoginTime: loginUser.lastLoginAt,
@@ -155,36 +186,122 @@ const PersonalHome = () => {
     );
   };
 
+  const EmptyMap = {
+    project: {
+      card: (
+        <EmptyHolder
+          scene="star-project"
+          tip={i18n.t('no available {item}', { item: i18n.t('dop:star project') })}
+          desc={i18n.t('dop:set frequently used project as star project from the list below')}
+        />
+      ),
+      defaultCardImg: ImgMap.frontImg_default_project_icon,
+      list: (
+        <EmptyHolder
+          scene="create-project"
+          className="w-full"
+          tip={i18n.t('no available {item}', { item: i18n.t('project') })}
+          desc={i18n.t('dop:Did not join any project, was invited to join project or create project')}
+        />
+      ),
+      defaultListImg: ImgMap.frontImg_default_project_icon,
+    },
+    app: {
+      card: (
+        <EmptyHolder
+          scene="star-app"
+          tip={i18n.t('no available {item}', { item: i18n.t('dop:star app') })}
+          desc={i18n.t('dop:set frequently used app as star app from the list below')}
+        />
+      ),
+      defaultCardImg: ImgMap.frontImg_default_app_icon,
+      list: (
+        <EmptyHolder
+          scene="create-app"
+          className="w-full"
+          tip={i18n.t('no available {item}', { item: i18n.t('application') })}
+          desc={i18n.t('dop:Did not join any app, was invited to join or create app')}
+        />
+      ),
+      defaultListImg: ImgMap.frontImg_default_app_icon,
+    },
+  };
+
+  const customProps = React.useMemo(() => {
+    return {
+      workList: {
+        props: {
+          EmptyHolder: EmptyMap[listType]?.list,
+          defaultLogo: EmptyMap[listType]?.defaultListImg,
+        },
+      },
+      workCards: {
+        props: {
+          className: 'personal-workbench-cards',
+          EmptyHolder: EmptyMap[listType]?.card,
+          defaultImg: EmptyMap[listType]?.defaultCardImg,
+        },
+      },
+      page: {
+        props: {
+          spaceSize: 'large',
+          className: 'personal-workbench-page items-stretch',
+        },
+      },
+      leftContent: {
+        props: {
+          className: 'personal-workbench-left-content',
+        },
+      },
+      workTabs: {
+        op: {
+          onChange: (val: string) => {
+            setListType(val);
+          },
+        },
+      },
+      head: Head(publicOrgs),
+      userProfile: UserProfileComp,
+      workContainer: {
+        props: {
+          className: 'bg-white pb-0 px-4 mb-4',
+        },
+      },
+      messageContainer: {
+        props: {
+          className: 'bg-white pb-0 px-4',
+        },
+      },
+    };
+  }, [listType, publicOrgs]);
+
+  if (inParams.orgName === '-') {
+    // no org, use old homepage
+    return <PersonalHomeV1 />;
+  }
+
   return (
-    <div className="px-6 pt-6 pb-2 h-full">
+    <div className="px-6 pt-2 pb-2 h-full">
       <DiceConfigPage
         scenarioType="personal-workbench"
         scenarioKey="personal-workbench"
         useMock={useMock}
         forceMock
+        forceUpdateKey={['customProps']}
         inParams={inParams}
-        customProps={{
-          page: {
-            props: {
-              className: 'h-full personal-workbench-page',
-            },
-          },
-          leftContent: {
-            props: {
-              className: 'personal-workbench-left-content',
-            },
-          },
-          head: Head,
-          userProfile: UserProfileComp,
-          workContainer: {
-            props: {
-              className: 'bg-white',
-            },
-          },
-        }}
+        customProps={customProps}
       />
     </div>
   );
+};
+
+const PersonalHome = () => {
+  const { getPublicOrgs } = orgStore.effects;
+  const orgName = routeInfoStore.useStore((s) => s.params.orgName);
+  useMount(() => {
+    getPublicOrgs();
+  });
+  return <PurePersonalHome key={orgName} orgName={orgName} />;
 };
 
 export default PersonalHome;

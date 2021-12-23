@@ -17,17 +17,18 @@ import React from 'react';
 import './scale-card.scss';
 
 const ScaleCard = (props: CP_SCALE_CARD.Props) => {
-  const { execOperation, data, onClick } = props;
+  const { execOperation, data, onClick, props: configProps } = props;
   const { list } = data || {};
+  const { align } = configProps || {};
 
   return (
-    <div className="scale-card">
+    <div className={`scale-card flex ${align === 'right' ? 'justify-end' : ''}`}>
       {map(list, (item, i) => {
         return (
           <div
             key={item.label}
             className="item text-normal shadow-card"
-            style={{ left: -8 * i }}
+            style={{ left: align === 'right' ? 8 * (list.length - i - 1) : -8 * i }}
             onClick={() => {
               execOperation?.(item.operations?.click, item);
               onClick?.(item);

@@ -24,7 +24,7 @@ export interface DropdownSelectNewProps {
   title?: string;
   size?: 'small' | 'middle' | 'big';
   showFilter?: boolean;
-  onlyIcon?: boolean;
+  mode?: 'simple' | 'normal';
   required?: boolean;
   trigger?: Array<'click' | 'hover' | 'contextMenu'>;
   className?: string;
@@ -52,7 +52,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
     trigger,
     showFilter,
     size = 'middle',
-    onlyIcon,
+    mode = 'normal',
     required,
     className = '',
     overlayClassName = '',
@@ -121,9 +121,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
           if (isGroup) {
             return <GroupOpt onClickItem={onClickItem} key={item.key} value={value} option={item} size={size} />;
           } else {
-            return (
-              <Item onClickItem={onClickItem} option={item} size={size} onlyIcon={onlyIcon} className={className} />
-            );
+            return <Item onClickItem={onClickItem} option={item} size={size} className={className} />;
           }
         })}
       </Menu.Item>
@@ -151,11 +149,17 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
         onClick={() => setActive(!active)}
       >
         {chosenItem ? (
-          <Item option={{ ...chosenItem }} size={size} onlyIcon={onlyIcon} className={className} />
+          <Item
+            option={{ ...chosenItem }}
+            size={size}
+            onlyIcon={mode === 'simple'}
+            className={`p-0 ${className}`}
+            switcher={<span className="text-xs bg-default-06 text-default-8 px-2 py-0.5">{i18n.t('dop:switch')}</span>}
+          />
         ) : (
           <div>{i18n.t('dop:please choose')}</div>
         )}
-        <ErdaIcon type="caret-down" className="ml-0.5" size="18" />
+        {mode === 'simple' ? <ErdaIcon type="caret-down" className="ml-0.5" size="18" /> : null}
       </div>
     </Dropdown>
   );
@@ -163,13 +167,15 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
 
 interface ItemProps extends Omit<DropdownSelectNewProps, 'options'> {
   className?: string;
+  onlyIcon?: boolean;
   option: Option;
   value?: string;
+  switcher?: JSX.Element;
   onClickItem?: (op: Option) => void;
 }
 
 const Item = (props: ItemProps) => {
-  const { option, size = 'middle', className = '', onlyIcon, value, onClickItem } = props;
+  const { option, size = 'middle', className = '', onlyIcon, value, onClickItem, switcher = null } = props;
   const { icon, imgURL, label, key, desc } = option;
   const iconSizeMap = {
     small: 16,
@@ -189,7 +195,9 @@ const Item = (props: ItemProps) => {
         ) : null}
         {onlyIcon ? null : (
           <div className="flex-1 overflow-hidden">
-            <div className="option-label truncate">{label}</div>
+            <div className="option-label truncate">
+              {label} {switcher}
+            </div>
             {desc ? <div className="option-desc truncate">{desc}</div> : null}
           </div>
         )}

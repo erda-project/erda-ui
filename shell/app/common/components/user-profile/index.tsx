@@ -18,6 +18,7 @@ import React from 'react';
 import './index.scss';
 
 export interface UserProfileProps {
+  className?: string;
   data: {
     name: string;
     avatar: string;
@@ -28,7 +29,7 @@ export interface UserProfileProps {
   };
 }
 
-const UserProfile = ({ data }: UserProfileProps) => {
+const UserProfile = ({ data, className = '' }: UserProfileProps) => {
   const { name, avatar, id, email, phone, lastLoginTime } = data;
   const infoList = [
     ['mail', i18n.t('email'), email],
@@ -37,7 +38,7 @@ const UserProfile = ({ data }: UserProfileProps) => {
   ];
 
   return (
-    <div className="erda-user-profile bg-white rounded-sm shadow-card">
+    <div className={`erda-user-profile bg-white rounded-sm shadow-card ${className}`}>
       <div
         className="blur-bg"
         style={{
@@ -54,7 +55,7 @@ const UserProfile = ({ data }: UserProfileProps) => {
           <div key={key} className={`flex items-center ${i !== 0 ? 'mt-4' : ''}`}>
             <ErdaIcon type={icon} className="icon-wrap mr-2 text-base text-desc" />
             <div className="flex-1 overflow-hidden">
-              <div className="truncate value font-medium">{value}</div>
+              <div className="truncate value font-medium">{value || '-'}</div>
               <div className="text-desc key">{key}</div>
             </div>
           </div>

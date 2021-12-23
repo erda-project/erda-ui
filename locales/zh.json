@@ -61,6 +61,9 @@
     "Fri": "五",
     "Germany": "德国",
     "Go to page": "前往页",
+    "Good afternoon": "下午好",
+    "Good evening": "晚上好",
+    "Good morning": "上午好",
     "Group": "群组",
     "Hangzhou": "杭州",
     "Heyuan": "河源",
@@ -165,6 +168,7 @@
     "Virginia": "弗利尼亚",
     "Voice Template ID": "语音模板 ID",
     "Wed": "三",
+    "Welcome to use cloud native product - Erda": "欢迎使用云原生产品 - Erda",
     "Welcome!": "欢迎！",
     "You can use ClientID and ClientSecret below to access API instance after approval.": "待审批通过后, 您可以使用以下的 ClientID 和 ClientSecret 访问 API 实例。",
     "You do not have enough permissions": "您的权限不足",
@@ -604,6 +608,7 @@
     "new {name}": "新建{name}",
     "nickname": "昵称",
     "no available version": "暂无可用版本",
+    "no available {item}": "暂无{item}",
     "no description yet": "暂无描述",
     "no items selected": "未选中任何项",
     "no more data": "没有更多数据",
@@ -984,6 +989,7 @@
     "{size} items / page": "{size} 条 / 页",
     "{specific} instance": "{specific}实例",
     "{total} item added successfully": "成功添加{total}条",
-    "{unreadCount} messages unread": "共有 {unreadCount} 封未读站内信"
+    "{unreadCount} messages unread": "共有 {unreadCount} 封未读站内信",
+    "{week}": "周{week}"
   }
 }

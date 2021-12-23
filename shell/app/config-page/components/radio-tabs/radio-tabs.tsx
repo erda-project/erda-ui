@@ -24,7 +24,8 @@ const CP_RADIO_TABS = (props: CP_RADIO_TABS.Props) => {
 
   const onChange = (val?: string | number) => {
     customOp.onChange?.(val);
-    operations?.onChange && execOperation(operations.onChange, { value: val });
+    operations?.onChange &&
+      execOperation({ key: 'onChange', ...operations.onChange, clientData: { value: val } }, { value: val });
   };
 
   const options = data?.options || propsOptions || [];

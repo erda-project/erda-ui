@@ -381,7 +381,9 @@ const PureKanban = (props: IKanbanProps) => {
               draggable={curDragOp && !curDragOp.disabled}
               className={`${isDrag ? 'hidden' : ''} list-item ${currentCard?.id === item.id ? 'dragged-card' : ''}`}
               setIsDrag={setIsDrag}
-              onClick={rest?.customOp?.clickCard}
+              onClick={() => {
+                rest?.customOp?.clickCard?.(item);
+              }}
             />
           );
         })}

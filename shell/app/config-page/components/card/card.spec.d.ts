@@ -29,7 +29,9 @@ declare namespace CP_CARD {
     direction?: 'row' | 'col';
     className?: string;
     setIsDrag?: (b: boolean) => void;
+    defaultImg?: string;
     CardRender?: React.FC<{ data: Obj }>;
+    EmptyHolder?: React.FC;
   }
 
   interface ICard {
@@ -38,6 +40,8 @@ declare namespace CP_CARD {
     imgURL?: string;
     title?: string;
     star?: boolean;
+    labels?: Array<{ label: string; status: string }>;
+    textMeta?: Array<{ mainText: string; subText: string }>;
     operations?: Obj<CP_COMMON.Operation>;
     extraInfo?: React.ReactNode;
     iconOperations: IconOperation[];

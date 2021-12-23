@@ -21,6 +21,7 @@ import routeInfoStore from 'core/stores/route';
 interface IProps extends IExtraProps {
   pageConfig: CONFIG_PAGE.PageConfig;
   customProps?: Obj;
+  forceUpdateCustom?: boolean;
 }
 
 interface IExtraProps {
@@ -36,12 +37,13 @@ interface IExtraProps {
 
 const emptyObj = {};
 const ConfigPageRender = (props: IProps) => {
-  const { pageConfig, customProps, execOperation, changeScenario, updateState } = props;
+  const { pageConfig, customProps, forceUpdateCustom, execOperation, changeScenario, updateState } = props;
   const { hierarchy, components = emptyObj } = pageConfig || {};
   const [componentsKey, setComponentsKey] = React.useState([] as string[]);
   const routeParams = routeInfoStore.useStore((s) => s.params);
   const containerMapRef = React.useRef(null as any);
 
+  const customPropsUpdateMark = forceUpdateCustom ? customProps : '';
   React.useEffect(() => {
     if (components) {
       const curCompKeys = Object.keys(components);
@@ -51,7 +53,7 @@ const ConfigPageRender = (props: IProps) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [components]);
+  }, [components, customPropsUpdateMark]);
 
   if (isEmpty(pageConfig)) return <EmptyHolder relative />;
 
@@ -61,6 +63,15 @@ const ConfigPageRender = (props: IProps) => {
   const compPrefixKey = 'protocol.components';
   const reUpdateState = (_cId: string) => (val: Obj) => {
     return updateState(`${compPrefixKey}.${_cId}.state`, val);
+  };
+
+  const handleClickGoto = (_op: CP_COMMON.Operation) => {
+    const { serverData } = _op;
+    const { params, query, target, jumpOut } = serverData || {};
+    const str_num_params = pickBy({ ...params }, (v) => ['string', 'number'].includes(typeof v));
+    const str_num_query = pickBy(query, (v) => ['string', 'number'].includes(typeof v));
+    const targetPath = goTo.pages[target] || target;
+    targetPath && goTo(targetPath, { ...routeParams, ...str_num_params, jumpOut, query: str_num_query });
   };
 
   const execCommand = (command: Obj, val: Obj) => {
@@ -82,6 +93,11 @@ const ConfigPageRender = (props: IProps) => {
 
   const reExecOperation = (_cId: string) => (_op: any, val: any) => {
     if (!_op || isEmpty(_op)) return;
+
+    if (_op.key === 'clickGoto') {
+      return handleClickGoto(_op);
+    }
+
     const op = cloneDeep({ ..._op });
     let updateVal = cloneDeep(val) as any;
     if (op.fillMeta) {
