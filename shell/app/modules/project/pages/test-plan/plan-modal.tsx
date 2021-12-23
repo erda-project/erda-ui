@@ -120,7 +120,7 @@ const TestPlanModal = (props: IProps) => {
       label: i18n.t('dop:owned iteration'),
       name: 'iterationID',
       type: 'select',
-      options: iterationList.map((iteration) => ({ name: iteration.title, value: iteration.id })),
+      options: iterationList.map((iteration) => ({ name: iteration.title, value: String(iteration.id) })),
       itemProps: {
         placeholder: i18n.t('dop:select iteration'),
         allowClear: true,
