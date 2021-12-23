@@ -31,6 +31,7 @@ export interface TaskGanttProps {
   onScreenChange: (value: boolean) => void;
   rootWrapper: React.ReactElement;
   scrollToToday: () => void;
+  setIsHandleFullScreen: (value: boolean) => void;
 }
 export const TaskGantt: React.FC<TaskGanttProps> = ({
   gridProps,
@@ -40,13 +41,16 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
   onScreenChange,
   rootWrapper,
   scrollToToday,
+  setIsHandleFullScreen,
 }) => {
   const [isFullScreen, { toggleFullscreen }] = useFullScreen(rootWrapper, {
     onEnter: () => {
       onScreenChange(true);
+      setIsHandleFullScreen(true);
     },
     onExit: () => {
       onScreenChange(false);
+      setIsHandleFullScreen(true);
     },
   });
   const ganttSVGRef = useRef<SVGSVGElement>(null);
@@ -116,7 +120,7 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
             onClick={toggleFullscreen}
             className="flex justify-center items-center text-sub hover:text-default cursor-pointer hover:border-default"
           >
-            <ErdaIcon onClick={toggleFullscreen} type={isFullScreen ? 'suoxiao' : 'fangda'} className="" size={16} />
+            <ErdaIcon type={isFullScreen ? 'suoxiao' : 'fangda'} className="" size={16} />
           </Button>
         </Tooltip>
       </div>

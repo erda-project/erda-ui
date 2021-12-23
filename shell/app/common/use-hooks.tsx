@@ -872,20 +872,13 @@ type IUseFullScreen = (
   options?: Options,
 ) => [boolean, { exitFullscreen: () => void; toggleFullscreen: () => void; enterFullscreen: () => void }];
 
-/**
- * @description Get the latest status to prevent problems caused by closures
- * @param value
- * @returns
- */
-export function useLatest<T>(value: T) {
-  const ref = React.useRef(value);
-  ref.current = value;
-  return ref;
-}
-
 export const useFullScreen: IUseFullScreen = (target, options) => {
   const [state, setState] = React.useState(false);
-  const latestState = useLatest<boolean>(state);
+  const latestStateRef = React.useRef(false);
+
+  React.useEffect(() => {
+    latestStateRef.current = state;
+  }, [state]);
 
   React.useEffect(() => {
     const onChange = () => {
@@ -919,7 +912,7 @@ export const useFullScreen: IUseFullScreen = (target, options) => {
     }
   };
   const exitFullscreen = () => {
-    if (!latestState.current) {
+    if (!latestStateRef.current) {
       return;
     }
     if (screenfull.isEnabled) {
@@ -928,7 +921,7 @@ export const useFullScreen: IUseFullScreen = (target, options) => {
   };
 
   const toggleFullscreen = () => {
-    if (latestState.current) {
+    if (latestStateRef.current) {
       exitFullscreen();
     } else {
       enterFullscreen();
