@@ -191,7 +191,7 @@ const SubSideBar = () => {
       selectedKey={state.selectedKey}
       onSelect={handleSelect}
       onOpenChange={handleOpen}
-      extraNode={<MenuHeader siderInfo={siderInfo} routeMarks={routeMarks} />}
+      extraNode={(isFold: boolean) => <MenuHeader isFold={isFold} siderInfo={siderInfo} routeMarks={routeMarks} />}
       dataSource={state.menus}
       linkRender={linkRender}
       onFold={toggleSideFold}
