@@ -21,6 +21,7 @@ import moment from 'moment';
 import { CustomFilter, TableActions } from 'common';
 import { goTo } from 'common/utils';
 import { useLoading } from 'core/stores/loading';
+import { PAGINATION } from 'app/constants';
 
 const formatData = (data: API_ACCESS.AccessListItem[]): API_ACCESS.ITableData[] => {
   return data.map(({ children, ...rest }) => {
@@ -33,10 +34,13 @@ const formatData = (data: API_ACCESS.AccessListItem[]): API_ACCESS.ITableData[] 
 
 const AccessList = () => {
   const [keyword, setKeyword] = React.useState('');
-  const [accessList] = apiAccessStore.useStore((s) => [s.accessList]);
+  const [accessList, total] = apiAccessStore.useStore((s) => [s.accessList, s.total]);
   const { getAccess, deleteAccess } = apiAccessStore.effects;
   const { clearAccess } = apiAccessStore.reducers;
   const [isFetch, isDelete] = useLoading(apiAccessStore, ['getAccess', 'deleteAccess']);
+  const [current, setCurrent] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(PAGINATION.pageSize);
+
   React.useEffect(() => {
     getAccess({ pageNo: 1, paging: true, keyword });
     return () => {
@@ -162,6 +166,16 @@ const AccessList = () => {
         dataSource={dataSource}
         expandedRowRender={expandedRowRender}
         slot={<CustomFilter config={filterConfig} onSubmit={handleSearch} />}
+        pagination={{
+          current,
+          pageSize,
+          total,
+        }}
+        onChange={({ current: pageNo = current, pageSize: size = pageSize }) => {
+          setCurrent(pageNo);
+          setPageSize(size);
+          getAccess({ pageNo, pageSize: size, paging: true, keyword });
+        }}
       />
     </Spin>
   );
