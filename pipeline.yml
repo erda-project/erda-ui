@@ -55,7 +55,7 @@ stages:
             - path: ${{ dirs.erda-ui }}/modules/fdp/node_modules
           resources:
             cpu: 2
-            mem: 2048
+            mem: 6144
   - stage:
       - dockerfile:
           alias: build-erda-ui-image
@@ -105,7 +105,7 @@ stages:
             - path: ${{ dirs.erda-ui }}/modules/market/node_modules
           resources:
             cpu: 2
-            mem: 2048
+            mem: 6144
   - stage:
       - dockerfile:
           alias: build-erda-ui-ce-image
