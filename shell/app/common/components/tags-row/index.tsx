@@ -74,15 +74,15 @@ export const TagItem = (props: IItemProps) => {
             onCancel={(e) => e && e.stopPropagation()}
           >
             <ErdaIcon
-              type="close-one"
-              size="12"
+              type="qingchu"
+              size="14"
               className="tag-close cursor-pointer text-holder"
             />
           </Popconfirm>
         ) : (
           <ErdaIcon
-            type="close-one"
-            size="12"
+            type="qingchu"
+            size="14"
             className="tag-close cursor-pointer text-holder"
             onClick={() => onDelete(_label)}
           />
