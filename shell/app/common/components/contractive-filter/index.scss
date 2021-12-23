@@ -96,6 +96,18 @@
       cursor: pointer;
     }
   }
+
+  .contractive-member-selector {
+    .results {
+      padding: 4px 0;
+      border: 0;
+
+      &:hover {
+        border: 0;
+        box-shadow: unset;
+      }
+    }
+  }
 }
 
 .contractive-filter-item-dropdown {
@@ -188,18 +200,6 @@
     }
     .option-item {
       padding: 6px 10px 6px 30px;
-    }
-  }
-}
-
-.contractive-member-selector {
-  .results {
-    padding: 4px 0;
-    border: 0;
-
-    &:hover {
-      border: 0;
-      box-shadow: unset;
     }
   }
 }
