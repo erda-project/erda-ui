@@ -106,7 +106,7 @@ export const mockData = {
         data: {
           title: '星标项目',
           titleSummary: '4',
-          cardss: [
+          cards: [
             {
               id: 1,
               icon: 'bug', // 可能为图标，优先展示img
@@ -454,7 +454,7 @@ export const mockData = {
           total: 12,
           title: '项目列表',
           titleSummary: '12',
-          list1: [
+          list: [
             {
               id: '1', // 唯一id, eg: appid
               logoURL: 'https://erda.cloud/api/files/302d582a7c054ad2be9d59ef8334da96', // url 地址或 icon 的 key

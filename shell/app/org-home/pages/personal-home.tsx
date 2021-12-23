@@ -285,8 +285,8 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
       <DiceConfigPage
         scenarioType="personal-workbench"
         scenarioKey="personal-workbench"
-        useMock={useMock}
-        forceMock
+        // useMock={useMock}
+        // forceMock
         forceUpdateKey={['customProps']}
         inParams={inParams}
         customProps={customProps}
