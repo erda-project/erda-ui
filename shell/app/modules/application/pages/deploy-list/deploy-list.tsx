@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Spin, Popconfirm, Tooltip } from 'antd';
+import { Input, Spin, Popconfirm, Tooltip, Modal } from 'antd';
 import Table from 'common/components/table';
 import i18n from 'i18n';
 import { CustomFilter, MemberSelector, LoadMoreSelector } from 'common';
@@ -152,37 +152,6 @@ const PureDeployList = (props: IProps) => {
 
   const actionMap = {
     approve: {
-      pending: {
-        title: i18n.t('operate'),
-        key: 'operation',
-        width: 120,
-        fixed: 'right',
-        render: (_: any, record: DEPLOY.IDeploy) => {
-          return (
-            <div className="table-operations">
-              <Popconfirm
-                title={`${i18n.t('is it confirmed?')}`}
-                onConfirm={() => {
-                  updateState({
-                    id: record.id,
-                    reject: false,
-                  });
-                }}
-              >
-                <span className="table-operations-btn">{i18n.t('dop:pass')}</span>
-              </Popconfirm>
-              <span
-                className="table-operations-btn"
-                onClick={() => {
-                  update({ modalVis: true, editData: record });
-                }}
-              >
-                {i18n.t('dop:denied')}
-              </span>
-            </div>
-          );
-        },
-      },
       approved: {
         title: i18n.t('cmp:approval result'),
         dataIndex: 'approvalStatus',
@@ -203,6 +172,29 @@ const PureDeployList = (props: IProps) => {
 
   const action = get(actionMap, `${type}.${status}`);
   action && columns.push({ ...action, fixed: 'right', align: 'center' });
+
+  const actions = {
+    render: (record: DEPLOY.IDeploy) => [
+      {
+        title: i18n.t('dop:pass'),
+        onClick: () => {
+          Modal.confirm({
+            title: i18n.t('is it confirmed?'),
+            onOk() {
+              updateState({
+                id: record.id,
+                reject: false,
+              });
+            },
+          });
+        },
+      },
+      {
+        title: i18n.t('dop:denied'),
+        onClick: () => update({ modalVis: true, editData: record }),
+      },
+    ],
+  };
 
   const { onSubmit, onReset, fetchDataWithQuery, autoPagination } = useFilter({
     getData: getList,
@@ -264,6 +256,7 @@ const PureDeployList = (props: IProps) => {
           pagination={paging ? autoPagination(paging) : false}
           onReload={() => onReset()}
           slot={<CustomFilter onSubmit={onSubmit} onReset={onReset} config={filterConfig} isConnectQuery />}
+          actions={type === 'approve' && status === 'pending' ? actions : null}
         />
       </Spin>
       <FormModal

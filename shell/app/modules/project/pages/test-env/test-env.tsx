@@ -170,9 +170,15 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
         rowKey={testType === 'manual' ? 'id' : 'ns'}
         columns={columns}
         dataSource={testType === 'manual' ? envList : autoEnvList}
-        pagination={{ pageSize: PAGINATION.pageSize }}
         onRow={onRowClick}
         actions={actions}
+        onReload={() => {
+          if (testType === 'manual') {
+            testEnvStore.getTestEnvList({ envID, envType });
+          } else {
+            testEnvStore.getAutoTestEnvList({ scopeID: envID, scope: scopeMap.autoTest.scope });
+          }
+        }}
       />
       <TestEnvDetail
         envID={envID}
