@@ -144,7 +144,14 @@ const TaskTree = (props: ITaskTreeProps) => {
 const oneDaySec = 1000 * 60 * 60 * 24;
 const CP_Gantt = (props: CP_GANTT.Props) => {
   const { data, operations, execOperation, props: pProps } = props;
-  const { BarContentRender, TreeNodeRender, TaskListHeader, listCellWidth = '320px' } = pProps;
+  const {
+    BarContentRender,
+    TreeNodeRender,
+    TaskListHeader,
+    listCellWidth = '320px',
+    rootWrapper,
+    onScreenChange,
+  } = pProps;
   const boxRef = React.useRef<HTMLDivElement>();
   const [ganttHeight, setGanttHeight] = React.useState(0);
 
@@ -213,6 +220,8 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
           ganttHeight={ganttHeight}
           onDateChange={handleTaskChange}
           BarContentRender={BarContentRender}
+          rootWrapper={rootWrapper}
+          onScreenChange={onScreenChange}
           onExpanderClick={handleExpanderClick}
           TaskListHeader={TaskListHeader}
           listCellWidth={listCellWidth}
