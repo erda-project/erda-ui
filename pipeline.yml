@@ -45,14 +45,8 @@ stages:
               - erda-ui build --online
               - cp -r ${{ dirs.erda-ui }}/{public,scheduler} $WORKDIR
           caches:
-            - path: ${{ dirs.erda-ui }}/node_modules
-            - path: ${{ dirs.erda-ui }}/core/node_modules
-            - path: ${{ dirs.erda-ui }}/shell/node_modules
-            - path: ${{ dirs.erda-ui }}/scheduler/node_modules
-            - path: ${{ dirs.erda-ui }}/modules/uc/node_modules
-            - path: ${{ dirs.erda-ui }}/modules/market/node_modules
-            - path: ${{ dirs.erda-ui }}/modules/admin/node_modules
-            - path: ${{ dirs.erda-ui }}/modules/fdp/node_modules
+            - key: "{{basePath}}/build-cache-ee/{{endPath}}"
+              path: ${{ dirs.erda-ui }}/node_modules
           resources:
             cpu: 2
             mem: 6144
@@ -78,7 +72,7 @@ stages:
           alias: release-ui-enterprise
           version: "1.0"
           params:
-            tag_version: ${{ outputs.ui-version.version }}
+            # tag_version: ${{ outputs.ui-version.version }}
             dice_yml: ${{ dirs.erda-ui-enterprise }}/erda.yml
             image:
               ui: ${{ outputs.build-erda-ui-image.image }}
@@ -89,20 +83,16 @@ stages:
       - js-build:
           alias: build-erda-ui-ce
           params:
-            build_cmd:
-              - npm i -g @erda-ui/cli@1.0.23
-              - npm i -g pnpm
-              - erda-ui init -s --online
-              - erda-ui build -s -o
             node_version: 12
-            workdir: ${{ dirs.erda-ui }}
+            build_cmd:
+              - cd ${{ dirs.erda-ui }}
+              - npm i @erda-ui/cli@1.4.x -g
+              - erda-ui init --online
+              - erda-ui build --online
+              - cp -r ${{ dirs.erda-ui }}/{public,scheduler} $WORKDIR
           caches:
-            - path: ${{ dirs.erda-ui }}/node_modules
-            - path: ${{ dirs.erda-ui }}/core/node_modules
-            - path: ${{ dirs.erda-ui }}/shell/node_modules
-            - path: ${{ dirs.erda-ui }}/scheduler/node_modules
-            - path: ${{ dirs.erda-ui }}/modules/uc/node_modules
-            - path: ${{ dirs.erda-ui }}/modules/market/node_modules
+            - key: "{{basePath}}/build-cache-ce/{{endPath}}"
+              path: ${{ dirs.erda-ui }}/node_modules
           resources:
             cpu: 2
             mem: 6144
@@ -112,7 +102,7 @@ stages:
           version: "1.0"
           params:
             workdir: ${{ dirs.build-erda-ui-ce }}
-            path: Dockerfile
+            path: ${{ dirs.erda-ui }}/Dockerfile
             image:
               name: ui-ce
               tag: ${{ outputs.ui-version.image_tag }}
