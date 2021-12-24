@@ -58,6 +58,7 @@ declare namespace TOPOLOGY {
     isParent: boolean;
     isLeaf: boolean;
     hoverStatus: number;
+    selectStatus: number;
     childrenCount: number;
     parentCount: number;
     isUnhealthy: boolean;
@@ -73,6 +74,7 @@ declare namespace TOPOLOGY {
     isAddon: boolean;
     isService: boolean;
     hoverStatus: number;
+    selectStatus: number;
     source: Omit<INode, 'parents'>;
     target: Omit<INode, 'parents'>;
   }

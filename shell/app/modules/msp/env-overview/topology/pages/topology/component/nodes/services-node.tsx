@@ -26,7 +26,7 @@ const ServicesNode: React.FC<
       {(data: TOPOLOGY.TopoNode['metaData']) => {
         const { error_rate, rps } = data.metric;
         return (
-          <div className={`service-node ${error_rate > 50 ? 'error' : ''}`}>
+          <div className={`service-node ${error_rate > 50 ? 'error' : ''} ${error_rate > 0 ? 'has-error' : ''}`}>
             <Circular stroke={['#798CF1', '#D84B65']} width={60} strokeWidth={4} percent={error_rate}>
               <div className="h-full flex justify-center items-center flex-col">
                 <div className="text-white">{formatNumber(rps)}</div>

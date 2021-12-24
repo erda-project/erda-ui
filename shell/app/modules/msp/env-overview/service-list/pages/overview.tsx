@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Col, Row } from 'antd';
+import { Col, Row, Tooltip } from 'antd';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import NoServicesHolder from 'msp/env-overview/service-list/pages/no-services-holder';
 import { TimeSelectWithStore } from 'msp/components/time-select';
@@ -30,6 +30,8 @@ import { getFormatter } from 'charts/utils';
 import topologyStore from 'msp/env-overview/topology/stores/topology';
 import TopologyComp from 'msp/env-overview/topology/pages/topology/component/topology-comp';
 import { Cards, TopologyOverviewWrapper } from 'msp/env-overview/topology/pages/topology/component/topology-overview';
+import ErdaIcon from 'common/components/erda-icon';
+import { useFullScreen } from 'common/use-hooks';
 import './index.scss';
 
 const formatTime = getFormatter('TIME', 'ns');
@@ -134,6 +136,7 @@ const OverView = () => {
   const { getMonitorTopology } = topologyStore.effects;
   const [topologyData] = topologyStore.useStore((s) => [s.topologyData]);
   const serviceTopologyRef = React.useRef<HTMLDivElement>(null);
+  const [isFullScreen, { toggleFullscreen }] = useFullScreen(serviceTopologyRef);
   const [charts] = getAnalyzerOverview.useState();
 
   React.useEffect(() => {
@@ -244,6 +247,10 @@ const OverView = () => {
     }
   }, [topologyData, serviceId]);
 
+  const handleScreen = () => {
+    toggleFullscreen();
+  };
+
   if (!serviceId && requestCompleted) {
     return <NoServicesHolder />;
   }
@@ -253,9 +260,23 @@ const OverView = () => {
       <div className="h-12 flex justify-end items-center px-4 bg-lotion">
         <TimeSelectWithStore className="m-0" />
       </div>
-      <div className="service-overview-topology flex flex-col overflow-hidden" ref={serviceTopologyRef}>
+      <div
+        className={`service-overview-topology flex flex-col overflow-hidden ${isFullScreen ? '' : 'fixed-height'}`}
+        ref={serviceTopologyRef}
+      >
         <div className="h-12 flex justify-between items-center px-4 bg-white-02 text-white font-medium">
           {i18n.t('msp:service topology')}
+          <Tooltip
+            getTooltipContainer={(e) => e.parentNode}
+            placement={isFullScreen ? 'bottomRight' : undefined}
+            title={isFullScreen ? i18n.t('exit full screen') : i18n.t('full screen')}
+          >
+            <ErdaIcon
+              onClick={handleScreen}
+              type={isFullScreen ? 'off-screen-one' : 'full-screen-one'}
+              className="text-white-4 hover:text-white cursor-pointer"
+            />
+          </Tooltip>
         </div>
         <div className="flex-1 flex topology-wrapper">
           <TopologyOverviewWrapper>
