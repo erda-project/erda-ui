@@ -174,7 +174,7 @@ const IssuePlan = () => {
       buttonEle[0].style.display = isFullScreen ? 'none' : 'flex';
     }
   }, [isFullScreen]);
-  
+
   const inParams = { projectId, fixedIteration: iterationId, ...urlQuery };
 
   const urlQueryChange = (val: Obj) => updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
@@ -229,7 +229,7 @@ const IssuePlan = () => {
   };
 
   return (
-    <div className={`h-full bg-white ${isFullScreen ? 'p-10' : ''}`} ref={ganttRef}>
+    <div className={`h-full ${isFullScreen ? 'gantt-fullscreen' : ''}`} ref={ganttRef}>
       <DiceConfigPage
         ref={reloadRef}
         forceUpdateKey={['customProps']}

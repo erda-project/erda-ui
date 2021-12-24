@@ -104,7 +104,6 @@ const IssueMetaFields = React.forwardRef(
       setFieldCb,
       projectId,
       ticketType,
-      mountContainer,
     }: any,
     ref,
   ) => {
@@ -380,7 +379,6 @@ const IssueMetaFields = React.forwardRef(
         showRequiredMark: ISSUE_TYPE.EPIC === issueType,
         itemProps: {
           allowClear: true,
-          getPopupContainer: (triggerNode: HTMLElement) => triggerNode.parentElement as HTMLElement,
         },
       },
       {
@@ -392,7 +390,6 @@ const IssueMetaFields = React.forwardRef(
         itemProps: {
           allowClear: true,
           endDay: true,
-          getPopupContainer: (triggerNode: HTMLElement) => triggerNode.parentElement as HTMLElement,
         },
       },
       ...insertWhen(![ISSUE_TYPE.TICKET, ISSUE_TYPE.EPIC].includes(issueType), [
@@ -437,7 +434,6 @@ const IssueMetaFields = React.forwardRef(
                   const _refMap = ref?.current?.refMap;
                   _refMap && (_refMap['issueManHour.elapsedTime'] = r);
                 }}
-                mountContainer={mountContainer}
                 onChange={(v) => setFieldCb({ issueManHour: v })}
                 isModifiedRemainingTime={formData?.issueManHour?.isModifiedRemainingTime}
                 disabled={disabled}
@@ -602,7 +598,6 @@ interface IProps {
   shareLink?: string;
   subDrawer?: JSX.Element | null;
   customUrl?: string; // 监控特殊 url 用来增改工单
-  mountContainer?: JSX.Element;
   closeDrawer: (params: CloseDrawerParam) => void;
 }
 
@@ -618,7 +613,6 @@ export const EditIssueDrawer = (props: IProps) => {
     subDrawer,
     ticketType,
     customUrl,
-    mountContainer,
   } = props;
   const [issueType, setIssueType] = React.useState(propsIssueType);
   const type = issueType.toLowerCase();
@@ -1208,7 +1202,6 @@ export const EditIssueDrawer = (props: IProps) => {
       issueType={issueType}
       setData={setFormData}
       footer={footer}
-      mountContainer={mountContainer}
       // loading={
       //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
       // }
@@ -1327,7 +1320,6 @@ export const EditIssueDrawer = (props: IProps) => {
         editAuth={editAuth}
         formData={formData}
         setFieldCb={setFieldCb}
-        mountContainer={mountContainer}
       />
     </IssueDrawer>
   );

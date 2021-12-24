@@ -57,7 +57,6 @@ interface IProps extends ILoadMoreSelectorProps {
 interface IPropsWithCategory extends ILoadMoreSelectorProps {
   categorys: IOption[];
   getData: (arg: any) => Promise<any>;
-
 }
 
 const { Option } = Select;
@@ -377,7 +376,6 @@ export const UserSelector = (props: any) => {
       defaultActiveFirstOption={false}
       placeholder={i18n.t('Please enter nickname, name, email or mobile phone number to search.')}
       onSearch={debounce(handleSearch, 800)}
-      getPopupContainer={(triggerNode: HTMLElement) => triggerNode.parentElement as HTMLElement}
       {...props}
     >
       {(searchResult || []).map(userOptionRender)}

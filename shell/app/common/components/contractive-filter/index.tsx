@@ -344,7 +344,6 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         disabled={disabled}
         overlayClassName="contractive-filter-item-dropdown"
         placement="bottomLeft"
-        getPopupContainer={(triggerNode: HTMLElement) => triggerNode.parentElement as HTMLElement}
       >
         <span className="contractive-filter-item">
           <span className="text-desc mr-0.5">{label}</span>
@@ -854,7 +853,6 @@ const ContractiveFilter = ({
           <Dropdown
             trigger={['click']}
             overlayClassName="contractive-filter-item-dropdown"
-            getPopupContainer={(triggerNode: HTMLElement) => triggerNode.parentElement as HTMLElement}
             overlay={
               <Menu>
                 <Menu.Item className="not-select">

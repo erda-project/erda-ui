@@ -39,11 +39,10 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
   barProps,
   BarContentRender,
   onScreenChange,
-  rootWrapper,
   scrollToToday,
   setIsHandleFullScreen,
 }) => {
-  const [isFullScreen, { toggleFullscreen }] = useFullScreen(rootWrapper, {
+  const [isFullScreen, { toggleFullscreen }] = useFullScreen(document.body, {
     onEnter: () => {
       onScreenChange(true);
       setIsHandleFullScreen(true);
@@ -58,7 +57,6 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
   const verticalGanttContainerRef = useRef<HTMLDivElement>(null);
   const offsetWidth = verticalGanttContainerRef?.current?.offsetWidth;
   const [mousePos, setMousePos] = React.useState<null | number[]>(null);
-
   const onMouseMove = (e: React.MouseEvent) => {
     const gridPos = e.currentTarget.getBoundingClientRect();
     const mouseY = max([e.clientY - gridPos.y, 0]);

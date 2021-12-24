@@ -40,7 +40,6 @@ interface IProps {
   data: CreateDrawerData;
   issueType: string;
   projectId: string;
-  mountContainer: HTMLElement;
   onClose: (e: any) => void;
   onDelete?: () => void;
   handleCopy?: (isCopy: boolean, copyTitle: string) => void;
@@ -81,7 +80,6 @@ export const IssueDrawer = (props: IProps) => {
     projectId,
     setData,
     footer = IssueDrawer.Empty,
-    mountContainer,
   } = props;
   const [title = IssueDrawer.Empty, main = IssueDrawer.Empty, tabs = IssueDrawer.Empty, meta = IssueDrawer.Empty] =
     React.Children.toArray(children);
@@ -155,7 +153,6 @@ export const IssueDrawer = (props: IProps) => {
       onClose={onClose}
       maskClosable={maskClosable || !isChanged}
       keyboard={false}
-      getContainer={() => mountContainer || document.body}
     >
       <Spin spinning={loading}>
         <IF check={title !== IssueDrawer.Empty}>

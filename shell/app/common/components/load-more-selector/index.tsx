@@ -389,7 +389,6 @@ const PureLoadMoreSelector = (props: IProps) => {
         visible={visible}
         overlayClassName={`${visible ? 'load-more-selector-dropdown' : ''} ${dropdownClassName}`}
         onVisibleChange={(visible) => onVisibleChange?.(visible, innerValue)}
-        getPopupContainer={(triggerNode: HTMLElement) => triggerNode.parentElement as HTMLElement}
       >
         <div
           className={`results cursor-pointer ${disabled ? 'not-allowed' : ''} ${size}`}
