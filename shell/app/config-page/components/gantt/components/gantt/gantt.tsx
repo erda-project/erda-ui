@@ -279,11 +279,11 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
 
   useLayoutEffect(() => {
     // If isHandleFullScreen action, prevent scrollToToday
-    if (!isHandleFullScreen) {
+    if (!isHandleFullScreen && !onExpanderClick) {
       scrollToToday();
     }
     setIsHandleFullScreen(false);
-  }, [dateSetup, scrollToToday]);
+  }, [isHandleFullScreen, onExpanderClick, scrollToToday]);
 
   // useEffect(() => {
   //   if (wrapperRef.current) {
