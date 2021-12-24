@@ -68,7 +68,6 @@ const renderChild = <T extends unknown>(record: T, columns: CardColumnsProps<T>[
 
 interface IRowProps<T> {
   rowClass?: string;
-  rowId: string | number;
   rowClick: () => void;
   columns: CardColumnsProps<T>[];
   record: T;
@@ -78,7 +77,6 @@ interface IRowProps<T> {
 
 const RowItem = <T extends unknown>({
   rowClick,
-  rowId,
   rowClass,
   record,
   columns,
@@ -91,7 +89,7 @@ const RowItem = <T extends unknown>({
     onViewChange?.(record, isInView);
   }, [isInView, record]);
   return (
-    <Row ref={rowRef} onClick={rowClick} key={rowId} className={rowClass}>
+    <Row ref={rowRef} onClick={rowClick} className={rowClass}>
       {renderChild<T>(record, columns, index)}
     </Row>
   );
@@ -150,7 +148,6 @@ const CardList = <T extends unknown>({
                 return (
                   <RowItem<T>
                     key={rowId}
-                    rowId={rowId}
                     rowClass={rowClass}
                     rowClick={() => {
                       rowClick?.(record);
