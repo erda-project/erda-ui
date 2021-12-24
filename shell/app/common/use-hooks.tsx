@@ -875,10 +875,7 @@ type IUseFullScreen = (
 export const useFullScreen: IUseFullScreen = (target, options) => {
   const [state, setState] = React.useState(false);
   const latestStateRef = React.useRef(false);
-
-  React.useEffect(() => {
-    latestStateRef.current = state;
-  }, [state]);
+  latestStateRef.current = state;
 
   React.useEffect(() => {
     const onChange = () => {
