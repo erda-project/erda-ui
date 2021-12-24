@@ -40,7 +40,8 @@ declare namespace CP_CARD {
     imgURL?: string;
     title?: string;
     star?: boolean;
-    labels?: Array<{ label: string; status: string }>;
+    starProps?: Obj;
+    titleState?: Array<{ status: string; text: string }>;
     textMeta?: Array<{ mainText: string; subText: string }>;
     operations?: Obj<CP_COMMON.Operation>;
     extraInfo?: React.ReactNode;

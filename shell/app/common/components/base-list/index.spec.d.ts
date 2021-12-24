@@ -65,6 +65,7 @@ declare namespace ERDA_LIST {
     logoURL?: string | React.ReactNode;
     icon?: string;
     backgroundImg?: string;
+    star?: boolean;
     titleState: IState[];
     mainState: IState;
     tags: Tag[];
@@ -87,7 +88,8 @@ declare namespace ERDA_LIST {
   interface IColumnsInfo {
     users?: string[];
     text?: Array<{ tip?: string; text: string }>;
-    state: IState;
+    state?: IState;
+    hoverIcons?: Array<{ icon: string; tip: string }>;
   }
 
   interface MetaInfo {

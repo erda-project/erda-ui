@@ -29,7 +29,7 @@ const getLogo = (logo: string, logoCircle?: boolean) => {
       </div>
     );
   } else if (Object.keys(iconMap).includes(logo)) {
-    return <ErdaIcon type={logo} size="76" className={`${logoCircle ? 'prefix-img-circle' : ''}`} />;
+    return <ErdaIcon disableCurrent type={logo} size="76" className={`${logoCircle ? 'prefix-img-circle' : ''}`} />;
   } else {
     return (
       <div>
@@ -87,14 +87,16 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
     >
       <div className="flex">
         {mainState ? <Badge onlyDot {...mainState} /> : null}
-        {curLogo && isString(curLogo) ? (
-          <div className="item-prefix-img flex items-center">{getLogo(curLogo, logoCircle)}</div>
-        ) : logoURL ? (
-          <div className="item-prefix-img flex items-center">{logoURL}</div>
+        {curLogo ? (
+          isString(curLogo) ? (
+            <div className="item-prefix-img flex items-center">{getLogo(curLogo, logoCircle)}</div>
+          ) : (
+            <div className="item-prefix-img flex items-center">{curLogo}</div>
+          )
         ) : null}
         {icon ? (
           <div className="item-prefix-img flex items-center">
-            <ErdaIcon type={icon} size={28} />
+            <ErdaIcon disableCurrent type={icon} size={28} />
           </div>
         ) : null}
         <div className="flex flex-1">
@@ -105,7 +107,7 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                   <ErdaIcon type={titlePrefixIcon} className="title-icon mr-2" />
                 </Tooltip>
               )}
-              <Ellipsis className="font-bold title-text" title={title} />
+              <Ellipsis className="font-medium title-text" title={title} />
               {titleSummary ? (
                 <span className="inline-block ml-1 bg-default-1 px-1.5 rounded-lg text-default-8 text-xs leading-5">
                   {titleSummary}
@@ -116,8 +118,8 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                   <ErdaIcon type={titleSuffixIcon} className="title-icon ml-2" />
                 </Tooltip>
               )}
-              {map(titleState, (item) => (
-                <Badge showDot={false} {...item} className="ml-2" />
+              {map(titleState, (item, idx) => (
+                <Badge key={idx} showDot={false} {...item} className="ml-2" />
               ))}
               {tags ? <Tags labels={tags} containerClassName="ml-2" /> : null}
             </div>
@@ -135,7 +137,7 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                         ) : (
                           <span className="info-text truncate">{info.key}</span>
                         )}
-                        <span className="info-value truncate ml-1">{info.value}</span>
+                        <span className="info-value truncate ml-1 text-default">{info.value}</span>
                       </span>
                     </Tooltip>
                   );
@@ -145,6 +147,24 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
           </div>
           {columnsInfo ? (
             <div className="flex items-center">
+              {columnsInfo.hoverIcons ? (
+                <div className="erda-base-list-item-hover-icons">
+                  <div className="mr-4 flex ">
+                    {columnsInfo.hoverIcons.map((item, idx) => {
+                      return (
+                        <Tooltip title={item.tip} key={idx}>
+                          <ErdaIcon
+                            type={item.icon}
+                            size={16}
+                            {...item.extraProps}
+                            className={`text-default-4 hover:text-default-8 ${idx !== 0 ? 'ml-4' : ''}`}
+                          />
+                        </Tooltip>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : null}
               {columnsInfo.state ? (
                 <div className="ml-8" style={{ width: columnsInfoWidth?.state }}>
                   <Badge showDot={false} {...columnsInfo.state} />
@@ -169,9 +189,9 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
               ) : null}
               {columnsInfo.text ? (
                 <div className="ml-8 flex items-center" style={{ width: columnsInfoWidth?.text }}>
-                  {columnsInfo.text.map((item) => {
+                  {columnsInfo.text.map((item, idx) => {
                     return (
-                      <Tooltip title={item.tip}>
+                      <Tooltip title={item.tip} key={idx}>
                         <div className="text-default-4">{item.text}</div>
                       </Tooltip>
                     );
@@ -186,8 +206,10 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                 className={`flex items-center ${!isEmpty(extra) ? 'self-start' : ''}`}
                 onClick={(e) => e.stopPropagation()}
               >
-                {map(operations, (action) => (
-                  <ErdaIcon type={action.icon} className="mr-4" size={18} onClick={action?.onClick} />
+                {map(operations, (action, idx) => (
+                  <Tooltip title={action.tip} key={idx}>
+                    <ErdaIcon {...action} type={action.icon} className="mr-4" size={18} onClick={action?.onClick} />
+                  </Tooltip>
                 ))}
                 {menuOverlay && (
                   <Dropdown

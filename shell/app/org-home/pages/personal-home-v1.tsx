@@ -13,13 +13,11 @@
 
 import React from 'react';
 import DiceConfigPage from 'config-page/index';
-import orgStore from 'app/org-home/stores/org';
 import './personal-home-v1.scss';
 import i18n from 'i18n';
 
-const PersonalHome = () => {
-  const curOrgName = orgStore.useStore((s) => s.currentOrg.name);
-  const inParams = { orgName: curOrgName || '-' };
+const PersonalHome = ({ orgName }: { orgName?: string }) => {
+  const inParams = { orgName: orgName || '-' };
 
   React.useEffect(() => {
     document.title = `${i18n.t('Personal dashboard')} · Erda`;
@@ -35,7 +33,7 @@ const PersonalHome = () => {
         <DiceConfigPage
           scenarioType="home-page-sidebar"
           scenarioKey="home-page-sidebar"
-          key={curOrgName}
+          key={orgName}
           inParams={inParams}
         />
       </div>
@@ -43,7 +41,7 @@ const PersonalHome = () => {
         <DiceConfigPage
           scenarioType="home-page-content"
           scenarioKey="home-page-content"
-          key={curOrgName}
+          key={orgName}
           inParams={inParams}
         />
       </div>

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
-import { ErrorBoundary, FileEditor, ErdaIcon } from 'common';
+import { ErrorBoundary, FileEditor, ErdaIcon, DropdownSelectNew, UserProfile, EmptyHolder } from 'common';
 import { Button, message, Input, Checkbox, Tooltip } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import { statusColorMap } from 'app/config-page/utils';
@@ -22,12 +22,27 @@ import { get } from 'lodash';
 import { Form as PureForm } from 'dop/pages/form-editor/index';
 import agent from 'agent';
 import moment from 'moment';
+import orgStore from 'app/org-home/stores/org';
+import { goTo, insertWhen } from 'common/utils';
+import ScaleCard from 'config-page/components/scale-card/scale-card';
+import ImgMap from 'config-page/img-map';
+import userStore from 'app/user/stores';
+import { usePerm } from 'user/common';
+import { erdaEnv } from 'common/constants';
+import i18n from 'i18n';
 
 import './debug.scss';
 
 const stateIconMap = {
   success: <ErdaIcon type="check-one" fill={statusColorMap.success} />,
   error: <ErdaIcon type="close-one" fill={statusColorMap.error} />,
+};
+
+const getInvitationTime = () => {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12) return i18n.t('Good morning');
+  else if (hour >= 12 && hour <= 17) return i18n.t('Good afternoon');
+  return i18n.t('Good evening');
 };
 
 const DebugConfigPage = () => {
@@ -38,6 +53,7 @@ const DebugConfigPage = () => {
   const [showCode, setShowCode] = React.useState(true);
   const [showLog, setShowLog] = React.useState(false);
   const [importValue, setImportValue] = React.useState('');
+  const orgName = routeInfoStore.useStore((s) => s.params.orgName);
   const [activeLog, setActiveLog] = React.useState(0);
   const { url, scenario, debug, ...restQuery } = routeInfoStore.useStore((s) => s.query);
   const [proxyApi, setProxyApi] = React.useState(url);
@@ -78,6 +94,244 @@ const DebugConfigPage = () => {
     },
     [proxyApi],
   );
+  const loginUser = userStore.useStore((s) => s.loginUser);
+  const permMap = usePerm((s) => s.org);
+  const [currentOrg, orgs, publicOrgs] = orgStore.useStore((s) => [s.currentOrg, s.orgs, s.publicOrgs]);
+  const inParams = { orgName: orgName || '-' };
+  const [listType, setListType] = React.useState('project');
+
+  React.useEffect(() => {
+    document.title = `${i18n.t('Personal dashboard')} · Erda`;
+
+    return () => {
+      document.title = ' · Erda';
+    };
+  }, []);
+
+  const openMap = {
+    orgCenter: permMap.entryOrgCenter.pass,
+    cmp: permMap.cmp.showApp.pass,
+    dop: permMap.dop.read.pass,
+    fdp: permMap.entryFastData.pass && currentOrg.openFdp,
+    msp: permMap.entryMsp.pass,
+    ecp: erdaEnv.ENABLE_EDGE === 'true' && permMap.ecp.view.pass && currentOrg.type === 'ENTERPRISE',
+  };
+
+  const changeOrg = (_: string, op: Obj) => {
+    goTo(goTo.pages.orgRoot, { orgName: op.desc });
+  };
+
+  const Head = (_publicOrgs: ORG.IOrg[]) => () => {
+    const options = [
+      {
+        label: i18n.t('dop:my organization'),
+        key: 'my',
+        children: orgs.map((o) => ({
+          key: o.name,
+          label: o.displayName,
+          desc: o.name,
+          imgURL: o.logo || ImgMap.frontImg_default_org_icon,
+        })),
+      },
+      ...insertWhen(!!_publicOrgs.length, [
+        {
+          label: i18n.t('dop:public organization'),
+          key: 'public',
+          children: _publicOrgs.map((o) => ({
+            key: o.name,
+            label: o.displayName,
+            desc: o.name,
+            imgURL: o.logo || ImgMap.frontImg_default_org_icon,
+          })),
+        },
+      ]),
+    ];
+    const Days = [
+      i18n.t('Sun'),
+      i18n.t('Mon'),
+      i18n.t('Tue'),
+      i18n.t('Wed'),
+      i18n.t('Thu'),
+      i18n.t('Fri'),
+      i18n.t('Sat'),
+    ];
+    return (
+      <div>
+        <div className="mt-4">
+          <div className="font-medium text-lg text-default">{`
+          ${getInvitationTime()}, ${loginUser.nick || loginUser.name}, ${i18n.t(
+            'Welcome to use cloud native product - Erda',
+          )}`}</div>
+          <div className="text-xs text-default-6">{`${i18n.t('dop:Tody is {time}', {
+            time: `${moment().format('YYYY/MM/DD')} ${i18n.t('{week}', { week: Days[new Date().getDay()] })}`,
+            interpolation: { escapeValue: false },
+          })}`}</div>
+        </div>
+        <div className="flex items-center justify-between my-6">
+          <DropdownSelectNew
+            title={i18n.t('dop:switch organization')}
+            value={orgName}
+            options={options}
+            onChange={changeOrg}
+            width={400}
+            size="big"
+          />
+          <ScaleCard
+            props={{ align: 'right' }}
+            onClick={(v) => {
+              goTo(v.href);
+            }}
+            data={{
+              list: [
+                {
+                  icon: 'DevOps-entry',
+                  label: i18n.t('dop'),
+                  show: openMap.dop,
+                  href: goTo.resolve.dopRoot(),
+                },
+                {
+                  icon: 'MSP-entry',
+                  label: i18n.t('msp'),
+                  show: openMap.msp,
+                  href: goTo.resolve.apiManageRoot(),
+                },
+                {
+                  icon: 'FDP-entry',
+                  label: i18n.t('Fast data'),
+                  show: openMap.fdp,
+                  href: goTo.resolve.cmpRoot(),
+                },
+                {
+                  icon: 'CMP-entry',
+                  label: i18n.t('Cloud management'),
+                  show: openMap.cmp,
+                  href: goTo.resolve.cmpRoot(),
+                },
+                {
+                  icon: 'bianyuanjisuan',
+                  label: i18n.t('ecp:Edge computing'),
+                  show: openMap.ecp,
+                  href: goTo.resolve.ecpApp(),
+                },
+
+                {
+                  icon: 'control-entry',
+                  label: i18n.t('orgCenter'),
+                  show: openMap.orgCenter,
+                  href: goTo.resolve.orgCenterRoot(),
+                },
+              ].filter((item) => item.show),
+            }}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  const UserProfileComp = () => {
+    return (
+      <UserProfile
+        className="mt-20"
+        data={{
+          id: loginUser.id,
+          name: loginUser.nick || loginUser.name,
+          avatar: loginUser.avatar || ImgMap.default_user_avatar,
+          email: loginUser.email,
+          phone: loginUser.phone,
+          lastLoginTime: loginUser.lastLoginAt,
+        }}
+      />
+    );
+  };
+
+  const EmptyMap = {
+    project: {
+      card: (
+        <EmptyHolder
+          scene="star-project"
+          tip={i18n.t('no available {item}', { item: i18n.t('dop:star project') })}
+          desc={i18n.t('dop:set frequently used project as star project from the list below')}
+        />
+      ),
+      defaultCardImg: ImgMap.frontImg_default_project_icon,
+      list: (
+        <EmptyHolder
+          scene="create-project"
+          className="w-full"
+          tip={i18n.t('no available {item}', { item: i18n.t('project') })}
+          desc={i18n.t('dop:Did not join any project, was invited to join project or create project')}
+        />
+      ),
+      defaultListImg: ImgMap.frontImg_default_project_icon,
+    },
+    app: {
+      card: (
+        <EmptyHolder
+          scene="star-app"
+          tip={i18n.t('no available {item}', { item: i18n.t('dop:star app') })}
+          desc={i18n.t('dop:set frequently used app as star app from the list below')}
+        />
+      ),
+      defaultCardImg: ImgMap.frontImg_default_app_icon,
+      list: (
+        <EmptyHolder
+          scene="create-app"
+          className="w-full"
+          tip={i18n.t('no available {item}', { item: i18n.t('application') })}
+          desc={i18n.t('dop:Did not join any app, was invited to join or create app')}
+        />
+      ),
+      defaultListImg: ImgMap.frontImg_default_app_icon,
+    },
+  };
+
+  const customProps = React.useMemo(() => {
+    return {
+      workList: {
+        props: {
+          EmptyHolder: EmptyMap[listType]?.list,
+          defaultLogo: EmptyMap[listType]?.defaultListImg,
+        },
+      },
+      workCards: {
+        props: {
+          className: 'personal-workbench-cards',
+          EmptyHolder: EmptyMap[listType]?.card,
+          defaultImg: EmptyMap[listType]?.defaultCardImg,
+        },
+      },
+      page: {
+        props: {
+          spaceSize: 'large',
+          className: 'personal-workbench-page items-stretch',
+        },
+      },
+      leftContent: {
+        props: {
+          className: 'personal-workbench-left-content',
+        },
+      },
+      workTabs: {
+        op: {
+          onChange: (val: string) => {
+            setListType(val);
+          },
+        },
+      },
+      head: Head(publicOrgs),
+      userProfile: UserProfileComp,
+      workContainer: {
+        props: {
+          className: 'bg-white pb-0 px-4 mb-4',
+        },
+      },
+      messageContainer: {
+        props: {
+          className: 'bg-white pb-0 px-4',
+        },
+      },
+    };
+  }, [listType, publicOrgs]);
 
   if (!debug) {
     return <DiceConfigPage scenarioType={scenario} scenarioKey={scenario} inParams={restQuery} />;
@@ -236,6 +490,8 @@ const DebugConfigPage = () => {
               inParams={config?.inParams}
               debugConfig={config}
               onExecOp={onExecOp}
+              forceUpdateKey={['customProps']}
+              customProps={customProps}
               useMock={getMock}
               forceMock={!!proxyApi}
               updateConfig={(v) => {

@@ -36,7 +36,7 @@ interface CardItemProps {
 export const CardItem = (props: CardItemProps) => {
   const { card, cardType = 'cp-card', className = '', setIsDrag, CardRender, onClick, draggable, defaultImg } = props;
 
-  const { id, imgURL, icon, title, star, labels, textMeta, iconOperations } = card || {};
+  const { id, imgURL, icon, title, star, starProps = {}, titleState, textMeta, iconOperations } = card || {};
   const [dragObj, drag] = useDrag({
     item: { type: cardType, data: card },
     canDrag: () => {
@@ -81,15 +81,16 @@ export const CardItem = (props: CardItemProps) => {
                 <div className="flex items-center overflow-hidden">
                   <div className="font-medium font-ms text-default truncate">{title}</div>
                 </div>
-                {labels ? (
+
+                {titleState ? (
                   <div className="ml-1">
-                    {labels.map((item, idx) => (
+                    {titleState.map((item, idx) => (
                       <Badge
                         className={`${idx !== 0 ? 'ml-1' : ''}`}
                         showDot={false}
-                        key={item.label}
-                        text={item.label}
                         {...item}
+                        key={item.text}
+                        text={item.text}
                       />
                     ))}
                   </div>
@@ -97,14 +98,14 @@ export const CardItem = (props: CardItemProps) => {
               </div>
               <div className="ml-2">
                 {isBoolean(star) ? (
-                  <ErdaIcon
-                    size={18}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleClick(card, 'star');
-                    }}
-                    type={star ? 'unstar' : 'star'}
-                  />
+                  <Tooltip title={starProps?.tip}>
+                    <ErdaIcon
+                      {...starProps}
+                      size={18}
+                      fill={star ? 'yellow' : undefined}
+                      type={star ? 'unstar' : 'star'}
+                    />
+                  </Tooltip>
                 ) : null}
               </div>
             </div>
@@ -114,6 +115,8 @@ export const CardItem = (props: CardItemProps) => {
                   return (
                     <TextBlockInfo
                       key={idx}
+                      align="center"
+                      size="small"
                       main={item.mainText}
                       sub={item.subText}
                       onClick={(e) => {
@@ -173,9 +176,6 @@ export const Card = (props: CP_CARD.Props) => {
           });
         }
         break;
-      case 'star':
-        operations?.star && execOperation({ key: 'card', ...operations.star, clientData: { dataRef } });
-        break;
       default:
         Object.keys(operations || {}).forEach((opKey) => {
           execOperation({ key: opKey, ...operations[opKey], clientData: { dataRef } });
@@ -200,7 +200,21 @@ export const Card = (props: CP_CARD.Props) => {
               return (
                 <CardItem
                   key={card.id}
-                  card={card}
+                  card={{
+                    ...card,
+                    ...(isBoolean(card.star)
+                      ? {
+                          starProps: {
+                            tip: card.operations?.star?.tip,
+                            onClick: (e) => {
+                              e.stopPropagation();
+                              card.operations?.star &&
+                                execOperation({ key: 'star', ...card.operations.star, clientData: { dataRef: card } });
+                            },
+                          },
+                        }
+                      : {}),
+                  }}
                   defaultImg={defaultImg}
                   cardType={cardType}
                   setIsDrag={setIsDrag}

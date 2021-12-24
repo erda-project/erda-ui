@@ -2,5 +2,17 @@
   .ant-radio-button-wrapper {
     padding: 0 20px;
     line-height: 30px;
+    border: unset;
+    color: $color-default;
+    background-color: $color-default-06;
+    &.ant-radio-button-wrapper-checked {
+      color: $white;
+    }
+    &:first-child {
+      border-radius: 1px 0 0 1px;
+    }
+    &:last-child {
+      border-radius: 0 1px 1px 0;
+    }
   }
 }

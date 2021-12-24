@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { map } from 'lodash';
+import { map, isBoolean } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import { OperationAction } from 'config-page/utils';
 import { PAGINATION } from 'app/constants';
@@ -35,17 +35,36 @@ const List = (props: CP_BASE_LIST.Props) => {
     () =>
       (isLoadMore ? state.combineList : list).map((item: CP_BASE_LIST.ListItem) => {
         const extra: any = [];
-        const metaInfos = item.metaInfos?.map((infoItem) => {
+        const kvInfos = item.kvInfos?.map((infoItem) => {
           return {
             ...infoItem,
             extraProps: {
               onClick: (e) => {
                 e.stopPropagation();
                 Object.keys(infoItem.operations || {}).forEach((opKey) => {
-                  execOperation(
-                    { key: opKey, ...infoItem.operations?.[opKey], clientData: { dataRef: { ...infoItem } } },
-                    infoItem,
-                  );
+                  execOperation({
+                    key: opKey,
+                    ...infoItem.operations?.[opKey],
+                    clientData: { dataRef: { ...infoItem } },
+                  });
+                });
+              },
+            },
+          };
+        });
+
+        const hoverIcons = item.columnsInfo?.hoverIcons?.map((iconItem) => {
+          return {
+            ...iconItem,
+            extraProps: {
+              onClick: (e) => {
+                e.stopPropagation();
+                Object.keys(iconItem.operations || {}).forEach((opKey) => {
+                  execOperation({
+                    key: opKey,
+                    ...iconItem.operations?.[opKey],
+                    clientData: { dataRef: { ...iconItem } },
+                  });
                 });
               },
             },
@@ -76,20 +95,24 @@ const List = (props: CP_BASE_LIST.Props) => {
 
         return {
           ...item,
-          metaInfos,
+          kvInfos,
           extra,
-          operations: star
-            ? [
-                {
-                  key: 'star',
-                  icon: 'star',
-                  onClick: (e) => {
-                    e.stopPropagation();
-                    execOperation({ key: 'star', ...star, clientData: { dataRef: item } }, item);
+          ...(hoverIcons ? { columnsInfo: { ...item.columnsInfo, hoverIcons } } : {}),
+          operations:
+            star && isBoolean(item.star)
+              ? [
+                  {
+                    tip: star.tip,
+                    key: 'star',
+                    fill: item.star ? 'yellow' : undefined,
+                    icon: item.star ? 'unstar' : 'star',
+                    onClick: (e) => {
+                      e.stopPropagation();
+                      execOperation({ key: 'star', ...star, clientData: { dataRef: item } }, item);
+                    },
                   },
-                },
-              ]
-            : [],
+                ]
+              : [],
           moreOperations,
           itemProps: {
             onClick: () => {

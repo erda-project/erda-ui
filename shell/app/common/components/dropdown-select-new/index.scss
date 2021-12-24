@@ -39,6 +39,7 @@
 
 .erda-dropdown-select-option-item {
   padding: 16px 8px;
+
   &:hover {
     background-color: rgba($white, 0.08);
   }
@@ -68,6 +69,11 @@
     }
   }
   &.big {
+    &.seleted-item {
+      .option-label {
+        font-size: 16px;
+      }
+    }
     .option-img {
       width: 40px;
       height: 40px;

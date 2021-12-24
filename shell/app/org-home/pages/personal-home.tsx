@@ -14,7 +14,7 @@
 import React from 'react';
 import DiceConfigPage, { useMock } from 'config-page/index';
 import orgStore from 'app/org-home/stores/org';
-import { DropdownSelectNew, UserProfile, EmptyHolder } from 'common';
+import { DropdownSelectNew, UserProfile, EmptyHolder, ErdaIcon } from 'common';
 import { goTo, insertWhen } from 'common/utils';
 import ScaleCard from 'config-page/components/scale-card/scale-card';
 import ImgMap from 'config-page/img-map';
@@ -109,7 +109,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
             interpolation: { escapeValue: false },
           })}`}</div>
         </div>
-        <div className="flex items-center justify-between my-6">
+        <div className="flex items-center justify-between mt-6 mb-4">
           <DropdownSelectNew
             title={i18n.t('dop:switch organization')}
             value={orgName}
@@ -150,7 +150,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
                   href: goTo.resolve.cmpRoot(),
                 },
                 {
-                  icon: 'bianyuanjisuan',
+                  icon: 'ECP-entry',
                   label: i18n.t('ecp:Edge computing'),
                   show: openMap.ecp,
                   href: goTo.resolve.ecpApp(),
@@ -270,6 +270,11 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
       messageContainer: {
         props: {
           className: 'bg-white pb-0 px-4',
+        },
+      },
+      messageList: {
+        props: {
+          defaultLogo: <ErdaIcon type="tongzhi" disableCurrent size={28} />,
         },
       },
     };

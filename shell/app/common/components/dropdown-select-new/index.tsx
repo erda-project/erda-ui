@@ -153,8 +153,10 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
             option={{ ...chosenItem }}
             size={size}
             onlyIcon={mode === 'simple'}
-            className={`p-0 ${className}`}
-            switcher={<span className="text-xs bg-default-06 text-default-8 px-2 py-0.5">{i18n.t('dop:switch')}</span>}
+            className={`p-0 seleted-item ${className}`}
+            switcher={
+              <span className="rounded-sm bg-default-06 text-default-8 px-2 py-0.5 ml-1">{i18n.t('dop:switch')}</span>
+            }
           />
         ) : (
           <div>{i18n.t('dop:please choose')}</div>
@@ -195,10 +197,11 @@ const Item = (props: ItemProps) => {
         ) : null}
         {onlyIcon ? null : (
           <div className="flex-1 overflow-hidden">
-            <div className="option-label truncate">
-              {label} {switcher}
+            <div className="flex items-center">
+              <div className="truncate option-label">{label}</div>
+              {switcher}
             </div>
-            {desc ? <div className="option-desc truncate">{desc}</div> : null}
+            {desc ? <div className="option-desc truncate ">{desc}</div> : null}
           </div>
         )}
       </div>
