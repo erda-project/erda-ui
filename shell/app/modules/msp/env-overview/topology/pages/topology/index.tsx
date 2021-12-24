@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import TopologyComp from 'msp/env-overview/topology/pages/topology/component/topology-comp';
+import TopologyComp, { ITopologyRef } from 'msp/env-overview/topology/pages/topology/component/topology-comp';
 import TopologyOverview, { INodeKey } from 'msp/env-overview/topology/pages/topology/component/topology-overview';
 import TopologyDetail from 'msp/env-overview/topology/pages/topology/component/topology-detail';
 import { ContractiveFilter } from 'common';
@@ -33,6 +33,7 @@ const Topology = () => {
   const [currentNode, setCurrentNode] = React.useState<TOPOLOGY.TopoNode['metaData']>(
     {} as TOPOLOGY.TopoNode['metaData'],
   );
+  const topologyRef = React.useRef<ITopologyRef>(null);
   const params = routeInfoStore.useStore((s) => s.params);
   const [range] = monitorCommonStore.useStore((s) => [s.globalTimeSelectSpan.range, s.globalTimeSelectSpan.data]);
   const { getProjectApps } = monitorCommonStore.effects;
@@ -144,6 +145,7 @@ const Topology = () => {
             <div className="flex-1 topology-container relative min-w-0">
               {topologyData.nodes?.length ? (
                 <TopologyComp
+                  ref={topologyRef}
                   key={nodeType}
                   data={topologyData}
                   filterKey={nodeType}
@@ -158,6 +160,7 @@ const Topology = () => {
           className="absolute h-full top-0"
           data={currentNode}
           onCancel={() => {
+            topologyRef.current?.cancelSelectNode();
             setCurrentNode({});
           }}
         />

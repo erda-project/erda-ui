@@ -191,7 +191,7 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
             <ErdaIcon type="close" />
           </div>
         </div>
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto scroll-bar-dark">
           <div>
             {showRuntime ? (
               <p className="mb-2 px-4">
