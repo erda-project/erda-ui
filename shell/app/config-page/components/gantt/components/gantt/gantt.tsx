@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { useState, SyntheticEvent, useRef, useEffect } from 'react';
+import React, { useState, SyntheticEvent, useRef, useEffect, useLayoutEffect } from 'react';
 import { ViewMode, GanttProps, Task } from '../../types/public-types';
 import { GridProps } from '../grid/grid';
 import { ganttDateRange, seedDates } from '../../helpers/date-helper';
@@ -29,6 +29,7 @@ import { GanttEvent } from '../../types/gantt-task-actions';
 import { DateSetup } from '../../types/date-setup';
 import { removeHiddenTasks } from '../../helpers/other-helper';
 import './gantt.scss';
+import moment from 'moment';
 
 export const Gantt: React.FunctionComponent<GanttProps> = ({
   tasks,
@@ -63,12 +64,14 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   TaskListHeader = TaskListHeaderDefault,
   TaskListTable = TaskListTableDefault,
   BarContentRender = null,
+  rootWrapper,
   onDateChange,
   onProgressChange,
   onDoubleClick,
   onDelete,
   onSelect,
   onExpanderClick,
+  onScreenChange,
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const taskListRef = useRef<HTMLDivElement>(null);
@@ -111,6 +114,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   // console.log('纵', ganttHeight, scrollY, verticalRange, v_number)
   const ignoreScrollEventRef = useRef(false);
 
+  const [isHandleFullScreen, setIsHandleFullScreen] = React.useState(false);
+
   // task change events
   useEffect(() => {
     let filteredTasks: Task[];
@@ -120,14 +125,15 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       filteredTasks = tasks;
     }
     const [startDate, endDate] = ganttDateRange(filteredTasks, viewMode);
-
-    const newDates = seedDates(startDate, endDate, viewMode);
+    const [newStartDate, newEndDate] = calcNewDateDuration(startDate, endDate);
+    const newDates = seedDates(newStartDate, newEndDate, viewMode);
     // if (rtl) {
     //   newDates = newDates.reverse();
     //   if (scrollX === -1) {
     //     setScrollX(newDates.length * columnWidth);
     //   }
     // }
+
     setDateSetup({ dates: newDates, viewMode });
 
     setBarTasks(
@@ -219,6 +225,65 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       setTaskListWidth(taskListRef.current.offsetWidth);
     }
   }, [taskListRef, listCellWidth]);
+
+  const calcNewDateDuration = React.useCallback(
+    (oldStartDate?: Date, oldEndDate?: Date) => {
+      const today = new Date();
+      let startDate = oldStartDate as Date;
+      let endDate = oldEndDate as Date;
+
+      if (!oldStartDate || !oldEndDate) {
+        startDate = dateSetup.dates[0];
+        endDate = dateSetup.dates[dateSetup.dates.length - 1];
+      }
+
+      // if (today - h_number / 2) is less than startDate, startDate = today - h_number / 2
+      if (
+        moment(today)
+          .subtract(Math.floor(h_number / 2), 'days')
+          .isBefore(moment(startDate), 'days')
+      ) {
+        startDate = new Date(
+          moment(today)
+            .subtract(Math.floor(h_number / 2), 'days')
+            .valueOf(),
+        );
+      }
+
+      // if (today + h_number / 2) is more than endDate, endDate = today + h_number / 2
+      if (
+        moment(today)
+          .add(Math.floor(h_number / 2), 'days')
+          .isAfter(moment(endDate), 'days')
+      ) {
+        endDate = new Date(
+          moment(today)
+            .add(Math.floor(h_number / 2), 'days')
+            .valueOf(),
+        );
+      }
+      return [startDate, endDate];
+    },
+    [dateSetup.dates],
+  );
+
+  const scrollToToday = React.useCallback(
+    (oldStartDate?: Date, oldEndDate?: Date) => {
+      const today = new Date();
+      const [startDate] = calcNewDateDuration(oldStartDate, oldEndDate);
+      const duration = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) - h_number / 2) + 2;
+      setScrollX(duration * columnWidth);
+    },
+    [calcNewDateDuration, columnWidth],
+  );
+
+  useLayoutEffect(() => {
+    // If isHandleFullScreen action, prevent scrollToToday
+    if (!isHandleFullScreen) {
+      scrollToToday();
+    }
+    setIsHandleFullScreen(false);
+  }, [dateSetup, scrollToToday]);
 
   // useEffect(() => {
   //   if (wrapperRef.current) {
@@ -511,6 +576,10 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
           calendarProps={calendarProps}
           barProps={barProps}
           ganttHeight={ganttHeight}
+          rootWrapper={rootWrapper}
+          onScreenChange={onScreenChange}
+          scrollToToday={scrollToToday}
+          setIsHandleFullScreen={setIsHandleFullScreen}
         />
         {/* <div className={'erda-gantt-vertical-container'} ref={verticalGanttContainerRef} dir="ltr">
         </div> */}

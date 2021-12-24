@@ -874,6 +874,8 @@ type IUseFullScreen = (
 
 export const useFullScreen: IUseFullScreen = (target, options) => {
   const [state, setState] = React.useState(false);
+  const latestStateRef = React.useRef(false);
+  latestStateRef.current = state;
 
   React.useEffect(() => {
     const onChange = () => {
@@ -907,7 +909,7 @@ export const useFullScreen: IUseFullScreen = (target, options) => {
     }
   };
   const exitFullscreen = () => {
-    if (!state) {
+    if (!latestStateRef.current) {
       return;
     }
     if (screenfull.isEnabled) {
@@ -916,7 +918,7 @@ export const useFullScreen: IUseFullScreen = (target, options) => {
   };
 
   const toggleFullscreen = () => {
-    if (state) {
+    if (latestStateRef.current) {
       exitFullscreen();
     } else {
       enterFullscreen();

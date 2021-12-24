@@ -18,7 +18,7 @@ import { getUrlQuery } from 'config-page/utils';
 import { getAvatarChars, updateSearch, mergeSearch } from 'common/utils';
 import { Badge, ErdaIcon, Ellipsis } from 'common';
 import { useUserMap } from 'core/stores/userMap';
-import { useUpdate, useSwitch } from 'common/use-hooks';
+import { useUpdate, useSwitch, useFullScreen } from 'common/use-hooks';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import routeInfoStore from 'core/stores/route';
 import { Avatar, Select } from 'antd';
@@ -70,13 +70,14 @@ const BarContentRender = (props: IBarProps) => {
 
 const TaskListHeader = (props: { headerHeight: number; rowWidth: number }) => {
   const { headerHeight, rowWidth } = props;
-  const [value, setValue] = React.useState('issue');
+  // const [value, setValue] = React.useState('issue');
   return (
     <div
       className="erda-task-list-header"
       style={{ height: headerHeight, width: rowWidth, lineHeight: `${headerHeight}px` }}
     >
-      <Select
+      {/* remove the demand selector temporarily, and keep the demand tree height */}
+      {/* <Select
         className="erda-task-list-header-selector"
         dropdownClassName="py-0"
         suffixIcon={<ErdaIcon size={16} color="currentColor" type="caret-down" />}
@@ -84,7 +85,7 @@ const TaskListHeader = (props: { headerHeight: number; rowWidth: number }) => {
         onChange={(v) => setValue(v)}
       >
         <Select.Option value="issue">{i18n.t('dop:display on demand')}</Select.Option>
-      </Select>
+      </Select> */}
     </div>
   );
 };
@@ -133,15 +134,20 @@ const IssuePlan = () => {
   const { id: queryId, pId: queryParentId, iterationID: queryItertationID, type: _queryType, ...restQeury } = query;
   const queryType = _queryType && _queryType.toUpperCase();
   const [drawerVisible, openDrawer, closeDrawer] = useSwitch(false);
-  const [{ urlQuery, filterObj, chosenIssueType, chosenIteration, chosenIssueId, chosenParentId }, updater, update] =
-    useUpdate({
-      filterObj: {},
-      urlQuery: restQeury,
-      chosenParentId: queryParentId || 0,
-      chosenIssueId: queryId,
-      chosenIteration: queryItertationID || 0,
-      chosenIssueType: queryType as undefined | ISSUE_TYPE,
-    });
+  const [
+    { urlQuery, filterObj, chosenIssueType, chosenIteration, chosenIssueId, chosenParentId, isFullScreen },
+    updater,
+    update,
+  ] = useUpdate({
+    filterObj: {},
+    urlQuery: restQeury,
+    chosenParentId: queryParentId || 0,
+    chosenIssueId: queryId,
+    chosenIteration: queryItertationID || 0,
+    chosenIssueType: queryType as undefined | ISSUE_TYPE,
+    isFullScreen: false,
+  });
+  const ganttRef = React.useRef<HTMLDivElement>(null);
 
   const onChosenIssue = (val: Obj) => {
     const { id, extra, pId } = val || {};
@@ -161,6 +167,13 @@ const IssuePlan = () => {
   React.useEffect(() => {
     updateSearch({ ...urlQuery });
   }, [urlQuery]);
+
+  React.useEffect(() => {
+    const buttonEle = document.getElementsByClassName('top-button-group');
+    if (buttonEle.length > 0) {
+      buttonEle[0].style.display = isFullScreen ? 'none' : 'flex';
+    }
+  }, [isFullScreen]);
 
   const inParams = { projectId, fixedIteration: iterationId, ...urlQuery };
 
@@ -210,10 +223,16 @@ const IssuePlan = () => {
       chosenIssueType: undefined,
     });
   };
+
+  const handleScreenChange = (value: boolean) => {
+    updater.isFullScreen(value);
+  };
+
   return (
-    <>
+    <div className={`h-full ${isFullScreen ? 'gantt-fullscreen' : ''}`} ref={ganttRef}>
       <DiceConfigPage
         ref={reloadRef}
+        forceUpdateKey={['customProps']}
         scenarioType={'issue-gantt'}
         scenarioKey={'issue-gantt'}
         inParams={inParams}
@@ -224,7 +243,7 @@ const IssuePlan = () => {
             },
           },
           ganttContainer: {
-            props: { flexHeight: true },
+            props: { flexHeight: true, className: 'gantt' },
           },
           page: {
             props: { fullHeight: true, overflowHidden: true },
@@ -234,6 +253,8 @@ const IssuePlan = () => {
               BarContentRender,
               TaskListHeader,
               TreeNodeRender: (p) => <TreeNodeRender {...p} clickNode={onChosenIssue} />,
+              onScreenChange: handleScreenChange,
+              rootWrapper: ganttRef,
             },
           },
           issueAddButton: {
@@ -308,6 +329,7 @@ const IssuePlan = () => {
 
       {chosenIssueType ? (
         <EditIssueDrawer
+          mountContainer={ganttRef.current}
           iterationID={chosenIteration}
           issueType={chosenIssueType as ISSUE_TYPE}
           visible={drawerVisible}
@@ -319,7 +341,7 @@ const IssuePlan = () => {
           )}`}
         />
       ) : null}
-    </>
+    </div>
   );
 };
 

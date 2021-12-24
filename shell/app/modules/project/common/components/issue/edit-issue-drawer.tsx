@@ -93,7 +93,20 @@ const getCustomOptions = (enumeratedValues: any[]) => {
 
 const { getLabels } = labelStore.effects;
 const IssueMetaFields = React.forwardRef(
-  ({ labels, isEditMode, isBacklog, editAuth, issueType, formData, setFieldCb, projectId, ticketType }: any, ref) => {
+  (
+    {
+      labels,
+      isEditMode,
+      isBacklog,
+      editAuth,
+      issueType,
+      formData,
+      setFieldCb,
+      projectId,
+      ticketType,
+    }: any,
+    ref,
+  ) => {
     const userMap = getUserMap();
     const projectMembers = projectMemberStore.useStore((s) => s.list);
     const urlParams = routeInfoStore.useStore((s) => s.params);

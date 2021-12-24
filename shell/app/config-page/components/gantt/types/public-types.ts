@@ -48,6 +48,10 @@ export interface EventOption {
    */
   timeStep?: number;
   /**
+   * full screen bind node ref
+   */
+  rootWrapper: React.ReactElement;
+  /**
    * Invokes on bar select on unselect.
    */
   onSelect?: (task: Task, isSelected: boolean) => void;
@@ -71,6 +75,11 @@ export interface EventOption {
    * Invokes on expander on task list
    */
   onExpanderClick?: (task: Task) => void;
+
+  /**
+   * Invokes on enter full screen or exit full screen
+   */
+   onScreenChange: () => void;
 }
 
 export interface DisplayOption {
