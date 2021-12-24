@@ -217,8 +217,11 @@ interface IState {
 const MicroServiceOverview = () => {
   const [data, dataLoading] = getServices.useState();
   const tenantId = routeInfoStore.useStore((s) => s.params.terminusKey);
-  const overviewList = getAnalyzerOverview.useData();
+  const [overviewList, setOverviewList] = React.useState<MSP_SERVICES.SERVICE_LIST_CHART[]>([]);
   const serViceCount = getServiceCount.useData();
+  const charts = React.useRef<{
+    [k: string]: { status: 'null' | 'pending' | 'success' | 'error'; data: MSP_SERVICES.SERVICE_LIST_CHART[] };
+  }>({});
   const [{ pagination, searchValue, serviceStatus, startTime, endTime }, updater, update] = useUpdate<IState>({
     searchValue: '',
     startTime: moment().subtract(1, 'h').valueOf(),
@@ -248,14 +251,16 @@ const MicroServiceOverview = () => {
   }, [getServicesList]);
 
   React.useEffect(() => {
-    const serviceIdList = data?.list.map((item) => item?.id);
-    if (serviceIdList?.length) {
-      getAnalyzerOverview.fetch({
-        view: 'service_overview',
-        tenantId,
-        serviceIds: serviceIdList,
-      });
-    }
+    setOverviewList([]);
+    charts.current = data?.list.reduce((prev, next) => {
+      return {
+        ...prev,
+        [next.id]: {
+          status: 'null',
+          data: [],
+        },
+      };
+    }, {});
   }, [data]);
 
   const onPageChange = (current: number, pageSize?: number) => {
@@ -280,6 +285,35 @@ const MicroServiceOverview = () => {
     getServicesList();
     getServiceCount({ tenantId });
   }, [getServicesList]);
+  
+  const handleViewChange = React.useCallback(
+    ({ id }: IListItem, flag?: boolean) => {
+      if (flag && ['null', 'error'].includes(charts.current[id].status)) {
+        charts.current[id].status = 'pending';
+        getAnalyzerOverview
+          .fetch({
+            startTime,
+            endTime,
+            serviceIds: [id],
+            tenantId,
+            view: 'service_overview',
+          })
+          .then((res) => {
+            charts.current[id] = {
+              status: res.success ? 'success' : 'error',
+              data: res.data?.list || [],
+            };
+            const list = Object.keys(charts.current)
+              .filter((serviceId) => charts.current[serviceId].status === 'success')
+              .map((serviceId) => {
+                return charts.current[serviceId].data[0];
+              });
+            setOverviewList(list);
+          });
+      }
+    },
+    [tenantId, endTime, startTime],
+  );
 
   const columns: Array<CardColumnsProps<IListItem>> = [
     {
@@ -389,7 +423,7 @@ const MicroServiceOverview = () => {
 
   const list = React.useMemo(() => {
     return (data?.list ?? []).map((item) => {
-      const views = overviewList?.list.find((t) => t.serviceId === item.id)?.views ?? [];
+      const views = overviewList.find((t) => t.serviceId === item.id)?.views ?? [];
       return {
         ...item,
         aggregateMetric: {
@@ -400,7 +434,7 @@ const MicroServiceOverview = () => {
         views,
       };
     });
-  }, [data?.list, overviewList?.list]);
+  }, [data?.list, overviewList]);
 
   const tabsOptions = React.useMemo(
     () =>
@@ -459,6 +493,7 @@ const MicroServiceOverview = () => {
         size="small"
         columns={columns}
         dataSource={list}
+        onViewChange={handleViewChange}
         rowClick={({ id, name }) => {
           listDetail(id, name);
         }}

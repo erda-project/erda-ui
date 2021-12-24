@@ -19,6 +19,7 @@ import { get } from 'lodash';
 import classnames from 'classnames';
 import EmptyHolder from 'common/components/empty-holder';
 import ErdaIcon from 'common/components/erda-icon';
+import { useInViewport } from 'common/use-hooks';
 
 interface CardColumnsProps<T> {
   dataIndex: keyof T | string[];
@@ -41,9 +42,10 @@ interface IProps<T = Record<string, any>> {
   rowClassName?: string;
   columns: CardColumnsProps<T>[];
   emptyHolder?: React.ReactNode;
+  onViewChange?: (data: T, flag?: boolean) => void;
 }
 
-const renderChild = <T,>(record: T, columns: CardColumnsProps<T>[], index: number) => {
+const renderChild = <T extends unknown>(record: T, columns: CardColumnsProps<T>[], index: number) => {
   return columns.map((column) => {
     let nodes: React.ReactNode = get(record, column.dataIndex);
     if (column.render) {
@@ -64,10 +66,39 @@ const renderChild = <T,>(record: T, columns: CardColumnsProps<T>[], index: numbe
   });
 };
 
-const CardList = <T,>({
+interface IRowProps<T> {
+  rowClass?: string;
+  rowClick: () => void;
+  columns: CardColumnsProps<T>[];
+  record: T;
+  index: number;
+  onViewChange?: (data: T, flag?: boolean) => void;
+}
+
+const RowItem = <T extends unknown>({
+  rowClick,
+  rowClass,
+  record,
+  columns,
+  index,
+  onViewChange,
+}: IRowProps<T>) => {
+  const rowRef = React.useRef();
+  const [isInView] = useInViewport(rowRef);
+  React.useEffect(() => {
+    onViewChange?.(record, isInView);
+  }, [isInView, record]);
+  return (
+    <Row ref={rowRef} onClick={rowClick} className={rowClass}>
+      {renderChild<T>(record, columns, index)}
+    </Row>
+  );
+};
+
+const CardList = <T extends unknown>({
   loading,
   dataSource,
-  rowKey = 'key',
+  rowKey,
   rowClassName,
   columns,
   rowClick,
@@ -75,6 +106,7 @@ const CardList = <T,>({
   size = 'default',
   emptyHolder,
   onRefresh,
+  onViewChange,
 }: IProps<T>) => {
   return (
     <div className="card-list flex flex-1 flex-col bg-white shadow pb-2">
@@ -114,15 +146,17 @@ const CardList = <T,>({
                   },
                 );
                 return (
-                  <Row
-                    onClick={() => {
+                  <RowItem<T>
+                    key={rowId}
+                    rowClass={rowClass}
+                    rowClick={() => {
                       rowClick?.(record);
                     }}
-                    key={rowId}
-                    className={rowClass}
-                  >
-                    {renderChild<T>(record, columns, index)}
-                  </Row>
+                    columns={columns}
+                    index={index}
+                    record={record}
+                    onViewChange={onViewChange}
+                  />
                 );
               })
             : emptyHolder || <EmptyHolder relative />}

@@ -934,3 +934,52 @@ export const useFullScreen: IUseFullScreen = (target, options) => {
     },
   ];
 };
+
+type IUseInViewPort = (
+  target: BasicTarget,
+  options?: {
+    rootMargin?: string;
+    threshold?: number | number[];
+    root?: BasicTarget<Element>;
+  },
+) => [boolean | undefined, number | undefined];
+
+export const useInViewport: IUseInViewPort = (target, options) => {
+  const [state, setState] = React.useState<boolean>();
+  const [ratio, setRatio] = React.useState<number>();
+
+  React.useEffect(
+    () => {
+      const el = getTargetElement(target);
+      if (!el) {
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            setRatio(entry.intersectionRatio);
+            if (entry.isIntersecting) {
+              setState(true);
+            } else {
+              setState(false);
+            }
+          }
+        },
+        {
+          ...options,
+          root: getTargetElement(options?.root),
+        },
+      );
+
+      observer.observe(el);
+
+      return () => {
+        observer.disconnect();
+      };
+    },
+    []
+  );
+
+  return [state, ratio];
+};
