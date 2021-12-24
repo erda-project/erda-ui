@@ -115,7 +115,26 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   const { getRenderPageLayout } = commonStore.effects;
 
   useMount(() => {
-    queryPageConfig();
+    queryPageConfig(undefined, false, undefined, (config: CONFIG_PAGE.RenderConfig) => {
+      // if there is any component marked as asyncAtInit, fetch again to load async component
+      const comps = config?.protocol?.components || {};
+      const asyncComponents: string[] = [];
+      Object.keys(comps).forEach((k) => {
+        if (comps[k].options?.asyncAtInit) {
+          asyncComponents.push(k);
+        }
+      });
+      if (asyncComponents.length) {
+        // wait for first fetch promise finally finished, which set fetching to false
+        setTimeout(() => {
+          execOperation('', {
+            key: globalOperation.__AsyncAtInit__,
+            reload: true,
+            components: asyncComponents,
+          });
+        }, 0);
+      }
+    });
   });
 
   React.useEffect(() => {
@@ -210,24 +229,6 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
           callBack?.(res);
         }
         if (op?.successMsg) notify('success', op.successMsg);
-        // if there is any component marked as asyncAtInit, fetch again to load async component
-        const comps = res?.protocol?.components || {};
-        const asyncComponents: string[] = [];
-        Object.keys(comps).forEach((k) => {
-          if (comps[k].options?.asyncAtInit) {
-            asyncComponents.push(k);
-          }
-        });
-        if (asyncComponents.length) {
-          // wait for first fetch promise finally finished, which set fetching to false
-          setTimeout(() => {
-            execOperation('', {
-              key: globalOperation.__AsyncAtInit__,
-              reload: true,
-              components: asyncComponents,
-            });
-          }, 0);
-        }
       })
       .catch(() => {
         if (op?.errorMsg) notify('error', op.errorMsg);
