@@ -383,7 +383,11 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     showRange = [0, barTasks.length];
   } else if (verticalRange[1] > barTasks.length) {
     // there is also space left, move forward
-    const offset = verticalRange[1] - barTasks.length;
+    let offset = verticalRange[1] - barTasks.length;
+    // if last task show more than half height, move forward to show full
+    if (ganttFullHeight - ganttHeight - scrollY < rowHeight / 2) {
+      offset -= 1;
+    }
     showRange = [Math.max(0, verticalRange[0] - offset), verticalRange[1] - offset];
   }
   const visibleTaskList = barTasks.slice(...showRange);
