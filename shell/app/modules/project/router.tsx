@@ -11,6 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import { qs } from 'common/utils';
 import getAppRouter from 'application/router';
 import i18n from 'i18n';
 import {
@@ -75,11 +78,29 @@ function getProjectRouter(): RouteConfigItem[] {
             },
             {
               path: 'task',
-              tabs: COLLABORATE_TABS,
-              ignoreTabQuery: true,
-              getComp: (cb) => cb(import('project/pages/issue/task')),
-              layout: {
-                noWrapper: true,
+              render: (props) => {
+                const { location } = props;
+                const { search } = location;
+                const params = qs.parse(search);
+                return <Redirect to={`all?${qs.stringify({ ...params, type: 'TASK' })}`} />;
+              },
+            },
+            {
+              path: 'bug',
+              render: (props) => {
+                const { location } = props;
+                const { search } = location;
+                const params = qs.parse(search);
+                return <Redirect to={`all?${qs.stringify({ ...params, type: 'BUG' })}`} />;
+              },
+            },
+            {
+              path: 'requirement',
+              render: (props) => {
+                const { location } = props;
+                const { search } = location;
+                const params = qs.parse(search);
+                return <Redirect to={`all?${qs.stringify({ ...params, type: 'REQUIREMENT' })}`} />;
               },
             },
             {
