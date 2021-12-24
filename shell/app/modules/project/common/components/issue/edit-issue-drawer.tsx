@@ -205,7 +205,6 @@ const IssueMetaFields = React.forwardRef(
                 onChange={(val: any) => onSave(val)}
                 value={value}
                 allowClear={!required}
-                mountContainer={mountContainer}
               />
             ) : propertyType === 'Number' ? (
               <NumberFieldInput
@@ -274,7 +273,6 @@ const IssueMetaFields = React.forwardRef(
               value={value}
               allowClear={false}
               showSelfChosen
-              mountContainer={mountContainer}
             />
           );
         },
@@ -299,7 +297,6 @@ const IssueMetaFields = React.forwardRef(
                 onChange={(val: any) => onSave(val)}
                 value={value}
                 allowClear={false}
-                mountContainer={mountContainer}
               />
             );
           },

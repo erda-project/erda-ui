@@ -40,6 +40,7 @@ interface IProps {
   data: CreateDrawerData;
   issueType: string;
   projectId: string;
+  mountContainer: HTMLElement;
   onClose: (e: any) => void;
   onDelete?: () => void;
   handleCopy?: (isCopy: boolean, copyTitle: string) => void;

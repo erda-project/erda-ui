@@ -71,7 +71,6 @@ declare namespace CP_GANTT {
     }>;
     rootWrapper: React.ReactElement;
     onScreenChange: () => void,
-
   }
 
   type Props = MakeProps<Spec> & {};

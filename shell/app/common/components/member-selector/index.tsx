@@ -56,7 +56,6 @@ interface IProps extends ILoadMoreSelectorProps {
 
 interface IPropsWithCategory extends ILoadMoreSelectorProps {
   categorys: IOption[];
-  mountContainer?: HTMLElement;
   getData: (arg: any) => Promise<any>;
 
 }
@@ -169,7 +168,6 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
     selectSelfInOption,
     selectNoneInOption,
     onChange: _onChange,
-    mountContainer,
     ...rest
   } = props;
   const { projectId, appId } = routeInfoStore.useStore((s) => s.params);
@@ -302,7 +300,6 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
         quickSelect={quickSelect}
         size={size}
         onChange={onChange}
-        mountContainer={mountContainer}
         {...rest}
       />
       {showSelfChosen ? (
@@ -323,7 +320,7 @@ interface IAddProps extends ILoadMoreSelectorProps {
 }
 
 export const UserSelector = (props: any) => {
-  const { value, mountContainer } = props;
+  const { value } = props;
   const [searchKey, setSearchKey] = React.useState('');
   const [searchResult, setSearchResult] = React.useState([] as any[]);
   const [searchLackUser, setSearchLackUser] = React.useState(false);
@@ -380,7 +377,7 @@ export const UserSelector = (props: any) => {
       defaultActiveFirstOption={false}
       placeholder={i18n.t('Please enter nickname, name, email or mobile phone number to search.')}
       onSearch={debounce(handleSearch, 800)}
-      getPopupContainer={() => mountContainer || document.body}
+      getPopupContainer={(triggerNode: HTMLElement) => triggerNode.parentElement as HTMLElement}
       {...props}
     >
       {(searchResult || []).map(userOptionRender)}
