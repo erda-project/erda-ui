@@ -17,6 +17,7 @@ import { useDrag } from 'react-dnd';
 import { Tooltip } from 'antd';
 import { isBoolean } from 'lodash';
 import classnames from 'classnames';
+import { execMultipleOperation } from 'config-page/utils';
 import { getImg } from 'app/config-page/img-map';
 import './card.scss';
 
@@ -114,15 +115,12 @@ export const CardItem = (props: CardItemProps) => {
                 {textMeta.map((item, idx) => {
                   return (
                     <TextBlockInfo
+                      {...item.extraProps}
                       key={idx}
                       align="center"
                       size="small"
                       main={item.mainText}
                       sub={item.subText}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleClick(item, 'textBlock');
-                      }}
                     />
                   );
                 })}
@@ -136,7 +134,7 @@ export const CardItem = (props: CardItemProps) => {
                       <ErdaIcon
                         type={item.icon}
                         size={16}
-                        onClick={() => handleClick(item, 'iconOperation')}
+                        {...item.extraProps}
                         className={`text-default-4 hover:text-default-8 ${idx !== 0 ? 'ml-4' : ''}`}
                       />
                     </Tooltip>
@@ -171,15 +169,12 @@ export const Card = (props: CP_CARD.Props) => {
       case 'card':
         {
           const { star, ...restOp } = operations || {};
-          Object.keys(restOp || {}).forEach((opKey) => {
-            execOperation({ key: opKey, ...restOp[opKey], clientData: { dataRef } });
-          });
+          execMultipleOperation(restOp, (op) => execOperation({ ...op, clientData: { dataRef } }));
         }
         break;
       default:
-        Object.keys(operations || {}).forEach((opKey) => {
-          execOperation({ key: opKey, ...operations[opKey], clientData: { dataRef } });
-        });
+        execMultipleOperation(operations, (op) => execOperation({ ...op, clientData: { dataRef } }));
+
         break;
     }
   };
@@ -202,6 +197,40 @@ export const Card = (props: CP_CARD.Props) => {
                   key={card.id}
                   card={{
                     ...card,
+                    ...(card.textMeta?.length
+                      ? {
+                          textMeta: card.textMeta.map((item) => {
+                            return {
+                              ...item,
+                              extraProps: {
+                                onClick: (e) => {
+                                  e.stopPropagation();
+                                  execMultipleOperation(item.operations, (op) =>
+                                    execOperation({ ...op, clientData: { dataRef: item } }),
+                                  );
+                                },
+                              },
+                            };
+                          }),
+                        }
+                      : {}),
+                    ...(card.iconOperations?.length
+                      ? {
+                          iconOperations: card.iconOperations.map((item) => {
+                            return {
+                              ...item,
+                              extraProps: {
+                                onClick: (e) => {
+                                  e.stopPropagation();
+                                  execMultipleOperation(item.operations, (op) =>
+                                    execOperation({ ...op, clientData: { dataRef: item } }),
+                                  );
+                                },
+                              },
+                            };
+                          }),
+                        }
+                      : {}),
                     ...(isBoolean(card.star)
                       ? {
                           starProps: {

@@ -15,7 +15,20 @@ import classnames from 'classnames';
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
+import EmptyCreateApp from 'app/images/empty-holder/create-app.svg';
+import EmptyCreateProject from 'app/images/empty-holder/create-project.svg';
+import EmptyStarApp from 'app/images/empty-holder/star-app.svg';
+import EmptyStarProject from 'app/images/empty-holder/star-project.svg';
+import EmptyUpload from 'app/images/empty-holder/upload.svg';
 import './index.scss';
+
+const EmptyImgMap = {
+  'create-app': EmptyCreateApp,
+  'create-project': EmptyCreateProject,
+  'star-project': EmptyStarProject,
+  'star-app': EmptyStarApp,
+  upload: EmptyUpload,
+};
 
 interface IEmptyProps {
   tip?: string;
@@ -43,10 +56,10 @@ export const EmptyHolder = ({
     'multi-line': true,
     relative,
   });
-  if (scene) {
+  if (scene && EmptyImgMap[scene]) {
     return (
       <div className={`scene-empty-holder inline-flex items-center justify-center bg-default-02 ${className || ''}`}>
-        <img src={`/empty-holder/${scene}.svg`} alt={`${scene}-empty-image`} />
+        <img src={EmptyImgMap[scene]} alt={`${scene}-empty-image`} />
         {tip || desc ? (
           <div className="ml-4">
             <div className="title font-medium">{tip}</div>
