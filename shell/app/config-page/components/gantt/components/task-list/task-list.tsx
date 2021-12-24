@@ -87,7 +87,7 @@ export const TaskList: React.FC<TaskListProps> = ({
   };
 
   return (
-    <div ref={taskListRef} className={`erda-gantt-task-list-box ${scrollX > 1 ? 'on-scroll' : ''}`}>
+    <div ref={taskListRef} className={`erda-gantt-task-list-box ${scrollX > 1 ? 'shadow-card' : ''}`}>
       <TaskListHeader {...headerProps} />
       <TaskListTable {...tableProps} />
     </div>
