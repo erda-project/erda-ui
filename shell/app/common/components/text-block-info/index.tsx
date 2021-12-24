@@ -31,7 +31,7 @@ export interface TextBlockInfoProps {
 }
 
 const TextBlockInfo = (props: TextBlockInfoProps) => {
-  const { align = 'left', className = '', main, size = 'normal', sub, desc, tip, extra, style, ...rest } = props;
+  const { align = 'left', className = '', main, size = 'normal', sub, desc, tip, extra, style } = props;
 
   const alignClsMap = {
     container: {

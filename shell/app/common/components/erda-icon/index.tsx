@@ -197,7 +197,7 @@ interface IErdaIcon {
   onClick?: React.MouseEventHandler;
   opacity?: number;
   isConfigPageIcon?: boolean;
-  disableCurrent?: boolean; // is true, use origin color
+  disableCurrent?: boolean; // true = use origin color
 }
 
 const ErdaIcon = ({

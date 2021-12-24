@@ -136,10 +136,13 @@ const ConfigPageRender = (props: IProps) => {
       const Comp = containerMap[cId] as any;
       if (!Comp) return null;
       const configComponent = get(pageConfig, `components.${cId}`) || {};
-      const { op, props: customComponentProps, ...restCustomConfig } = customProps?.[cId] || {};
+      const { op, props: customComponentProps, data, operations, ...restCustomConfig } = customProps?.[cId] || {};
+      const { operations: dataOp, ...restData } = data || {};
       const enhanceProps = {
         ...restCustomConfig,
         ...configComponent,
+        data: restData,
+        operations: { ...operations, ...dataOp },
         props: { ...customComponentProps, ...configComponent.props },
         key: cId,
         cId,

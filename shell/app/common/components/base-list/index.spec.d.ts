@@ -82,7 +82,7 @@ declare namespace ERDA_LIST {
     itemProps?: {
       onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     };
-    // [k: string]: any;
+    [k: string]: any;
   }
 
   interface IColumnsInfo {

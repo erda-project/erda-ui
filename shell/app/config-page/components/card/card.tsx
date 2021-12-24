@@ -132,7 +132,7 @@ export const CardItem = (props: CardItemProps) => {
               <div className="mt-3 flex">
                 {iconOperations.map((item, idx) => {
                   return (
-                    <Tooltip title={item.tip}>
+                    <Tooltip title={item.tip} key={idx}>
                       <ErdaIcon
                         type={item.icon}
                         size={16}

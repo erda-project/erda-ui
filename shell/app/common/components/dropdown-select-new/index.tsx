@@ -121,7 +121,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
           if (isGroup) {
             return <GroupOpt onClickItem={onClickItem} key={item.key} value={value} option={item} size={size} />;
           } else {
-            return <Item onClickItem={onClickItem} option={item} size={size} className={className} />;
+            return <Item key={item.key} onClickItem={onClickItem} option={item} size={size} className={className} />;
           }
         })}
       </Menu.Item>
