@@ -942,7 +942,7 @@ type IUseInViewPort = (
   },
 ) => [boolean | undefined, number | undefined];
 
-export const useInViewPort: IUseInViewPort = (target, options) => {
+export const useInViewport: IUseInViewPort = (target, options) => {
   const [state, setState] = React.useState<boolean>();
   const [ratio, setRatio] = React.useState<number>();
 

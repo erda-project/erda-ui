@@ -19,7 +19,7 @@ import { get } from 'lodash';
 import classnames from 'classnames';
 import EmptyHolder from 'common/components/empty-holder';
 import ErdaIcon from 'common/components/erda-icon';
-import { useInViewPort } from 'common/use-hooks';
+import { useInViewport } from 'common/use-hooks';
 
 interface CardColumnsProps<T> {
   dataIndex: keyof T | string[];
@@ -86,7 +86,7 @@ const RowItem = <T extends unknown>({
   onViewChange,
 }: IRowProps<T>) => {
   const rowRef = React.useRef();
-  const [isInView] = useInViewPort(rowRef);
+  const [isInView] = useInViewport(rowRef);
   React.useEffect(() => {
     onViewChange?.(record, isInView);
   }, [isInView, record]);
