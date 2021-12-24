@@ -21,7 +21,6 @@ import {
   getLocaleMonth,
   getWeekNumberISO8601,
 } from '../../helpers/date-helper';
-
 import { ErdaIcon } from 'common';
 import moment from 'moment';
 import { min, max, flatten } from 'lodash';
@@ -126,9 +125,9 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
     const getCalendarValuesForWeek = () => {
       const topValues: ReactChild[] = [];
       const bottomValues: ReactChild[] = [];
-      let weeksCount: number = 1;
+      let weeksCount = 1;
       const topDefaultHeight = height * 0.5;
-      const dates = dateSetup.dates;
+      const { dates } = dateSetup;
       for (let i = dates.length - 1; i >= 0; i--) {
         const date = dates[i];
         let topValue = '';
@@ -321,7 +320,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
       const bottomValues: ReactChild[] = [];
       const ticks = viewMode === ViewMode.HalfDay ? 2 : 4;
       const topDefaultHeight = height * 0.5;
-      const dates = dateSetup.dates;
+      const { dates } = dateSetup;
       for (let i = 0; i < dates.length; i++) {
         const date = dates[i];
         const bottomValue = getCachedDateTimeFormat(locale, {
