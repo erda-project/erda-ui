@@ -231,7 +231,9 @@ const MicroServiceOverview = () => {
   });
 
   React.useEffect(() => {
-    getServiceCount.fetch({ tenantId });
+    if (tenantId) {
+      getServiceCount.fetch({ tenantId });
+    }
   }, [tenantId]);
 
   const getServicesList = React.useCallback(() => {
@@ -285,7 +287,7 @@ const MicroServiceOverview = () => {
     getServicesList();
     getServiceCount({ tenantId });
   }, [getServicesList]);
-  
+
   const handleViewChange = React.useCallback(
     ({ id }: IListItem, flag?: boolean) => {
       if (flag && ['null', 'error'].includes(charts.current[id].status)) {
