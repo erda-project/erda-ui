@@ -103,7 +103,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
         </Menu.Item>
       ) : null}
       {showFilter ? (
-        <Menu.Item>
+        <Menu.Item key="filter">
           <Input
             autoFocus
             size="small"
@@ -114,7 +114,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
           />
         </Menu.Item>
       ) : null}
-      <Menu.Item className="erda-dropdown-option-content block">
+      <Menu.Item className="erda-dropdown-option-content block" key="option">
         {map(options, (item: Option) => {
           const isGroup = item.children?.length;
 

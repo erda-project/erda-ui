@@ -31,7 +31,7 @@ export interface TextBlockInfoProps {
 }
 
 const TextBlockInfo = (props: TextBlockInfoProps) => {
-  const { align = 'left', className = '', main, size = 'normal', sub, desc, tip, extra, style } = props;
+  const { align = 'left', className = '', main, size = 'normal', sub, desc, tip, extra, style, ...rest } = props;
 
   const alignClsMap = {
     container: {
@@ -50,6 +50,7 @@ const TextBlockInfo = (props: TextBlockInfoProps) => {
     <div
       className={`erda-text-block-info ${size} flex flex-col ${className} ${alignClsMap.container[align]}`}
       style={style}
+      {...rest}
     >
       <div className={'main-text truncate'}>{main}</div>
       {sub ? <div className={'sub-text'}>{sub}</div> : null}
