@@ -12,9 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useState, SyntheticEvent, useRef, useEffect, useLayoutEffect } from 'react';
+import i18n from 'i18n';
 import { ViewMode, GanttProps, Task } from '../../types/public-types';
 import { GridProps } from '../grid/grid';
-import { ganttDateRange, seedDates } from '../../helpers/date-helper';
+import { calcDateDurationByHNumber, ganttDateRange, seedDates } from '../../helpers/date-helper';
 import { CalendarProps } from '../calendar/calendar';
 import { TaskGanttContentProps } from './task-gantt-content';
 import { TaskListHeaderDefault } from '../task-list/task-list-header';
@@ -28,12 +29,11 @@ import { convertToBarTasks } from '../../helpers/bar-helper';
 import { GanttEvent } from '../../types/gantt-task-actions';
 import { DateSetup } from '../../types/date-setup';
 import { removeHiddenTasks } from '../../helpers/other-helper';
-import moment from 'moment';
 import { useFullScreen } from 'app/common/use-hooks';
 import { ErdaIcon } from 'common';
-import i18n from 'i18n';
 import './gantt.scss';
 
+const extra_H_Number = 2;
 export const Gantt: React.FunctionComponent<GanttProps> = ({
   tasks,
   headerHeight = 76,
@@ -107,7 +107,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const [scrollX, setScrollX] = useState(-1);
 
   const h_start = Math.abs(Math.ceil(scrollX / columnWidth));
-  const h_number = Math.floor((horizontalRef.current?.clientWidth || 0) / columnWidth) + 2;
+  const h_number = Math.floor((horizontalRef.current?.clientWidth || 0) / columnWidth) + extra_H_Number;
   const horizontalRange = [h_start, h_start + h_number];
   // console.log('横', horizontalRef.current?.clientWidth, scrollX, horizontalRange, h_number);
 
@@ -116,8 +116,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const verticalRange = [v_start, v_start + v_number];
   // console.log('纵', ganttHeight, scrollY, verticalRange, v_number)
   const ignoreScrollEventRef = useRef(false);
-
-  const [isHandleFullScreen, setIsHandleFullScreen] = React.useState(false);
+  const positionToTodayAtInit = useRef(false);
 
   // task change events
   useEffect(() => {
@@ -128,7 +127,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       filteredTasks = tasks;
     }
     const [startDate, endDate] = ganttDateRange(filteredTasks, viewMode);
-    const [newStartDate, newEndDate] = calcNewDateDuration(startDate, endDate);
+    const [newStartDate, newEndDate] = calcDateDurationByHNumber(h_number, startDate, endDate);
     const newDates = seedDates(newStartDate, newEndDate, viewMode);
     // if (rtl) {
     //   newDates = newDates.reverse();
@@ -182,6 +181,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     milestoneBackgroundSelectedColor,
     rtl,
     onExpanderClick,
+    h_number,
   ]);
 
   useEffect(() => {
@@ -229,64 +229,19 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     }
   }, [taskListRef, listCellWidth]);
 
-  const calcNewDateDuration = React.useCallback(
-    (oldStartDate?: Date, oldEndDate?: Date) => {
-      const today = new Date();
-      let startDate = oldStartDate as Date;
-      let endDate = oldEndDate as Date;
-
-      if (!oldStartDate || !oldEndDate) {
-        startDate = dateSetup.dates[0];
-        endDate = dateSetup.dates[dateSetup.dates.length - 1];
-      }
-
-      // if (today - h_number / 2) is less than startDate, startDate = today - h_number / 2
-      if (
-        moment(today)
-          .subtract(Math.floor(h_number / 2), 'days')
-          .isBefore(moment(startDate), 'days')
-      ) {
-        startDate = new Date(
-          moment(today)
-            .subtract(Math.floor(h_number / 2), 'days')
-            .valueOf(),
-        );
-      }
-
-      // if (today + h_number / 2) is more than endDate, endDate = today + h_number / 2
-      if (
-        moment(today)
-          .add(Math.floor(h_number / 2), 'days')
-          .isAfter(moment(endDate), 'days')
-      ) {
-        endDate = new Date(
-          moment(today)
-            .add(Math.floor(h_number / 2), 'days')
-            .valueOf(),
-        );
-      }
-      return [startDate, endDate];
-    },
-    [dateSetup.dates],
-  );
-
-  const scrollToToday = React.useCallback(
-    (oldStartDate?: Date, oldEndDate?: Date) => {
-      const today = new Date();
-      const [startDate] = calcNewDateDuration(oldStartDate, oldEndDate);
-      const duration = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) - h_number / 2) + 2;
-      setScrollX(duration * columnWidth);
-    },
-    [calcNewDateDuration, columnWidth],
-  );
+  const scrollToToday = React.useCallback(() => {
+    const today = new Date();
+    const [startDate] = calcDateDurationByHNumber(h_number, dateSetup.dates[0], dateSetup.dates[1]);
+    const duration = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) - h_number / 2) + 2;
+    setScrollX(duration * columnWidth);
+  }, [columnWidth, dateSetup.dates, h_number]);
 
   useLayoutEffect(() => {
-    // If isHandleFullScreen action, prevent scrollToToday
-    if (!isHandleFullScreen && !onExpanderClick) {
+    if (h_number !== extra_H_Number && !positionToTodayAtInit.current) {
       scrollToToday();
+      positionToTodayAtInit.current = true;
     }
-    setIsHandleFullScreen(false);
-  }, [isHandleFullScreen, onExpanderClick, scrollToToday]);
+  }, [h_number, scrollToToday]);
 
   // useEffect(() => {
   //   if (wrapperRef.current) {
@@ -447,11 +402,9 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const [isFullScreen, { toggleFullscreen }] = useFullScreen(document.body, {
     onEnter: () => {
       onScreenChange(true);
-      setIsHandleFullScreen(true);
     },
     onExit: () => {
       onScreenChange(false);
-      setIsHandleFullScreen(true);
     },
   });
 
@@ -620,7 +573,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
           onScroll={handleScrollY}
           rtl={rtl}
         />
-        <div className="absolute bg-white bottom-4 right-4 flex shadow-card">
+        <div className="absolute bg-white bottom-4 right-6 flex shadow-card-lg">
           <div
             onClick={(e) => {
               e.stopPropagation();
