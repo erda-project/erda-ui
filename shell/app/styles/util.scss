@@ -342,14 +342,6 @@
   word-break: break-word;
 }
 
-.card-shadow {
-  box-shadow: 0 1px 4px 0 $color-card-shadow;
-
-  &:hover {
-    box-shadow: 0 2px 4px 0 $color-card-shadow;
-  }
-}
-
 .bg-color-02 {
   background-color: $color-default-02;
 }
