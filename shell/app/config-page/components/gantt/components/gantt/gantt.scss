@@ -17,3 +17,19 @@
   outline: none;
   position: relative;
 }
+
+.gantt-operate-btn {
+  display: inline-flex;
+  font-size: 14px;
+  padding: 0 12px;
+  height: 32px;
+  line-height: 32px;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  border-right: 1px solid $color-border;
+
+  &:last-child {
+    border-right: none;
+  }
+}

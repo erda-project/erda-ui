@@ -11,15 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { useRef, useEffect } from 'react';
-import { GridProps, Grid } from '../grid/grid';
-import { CalendarProps, Calendar } from '../calendar/calendar';
 import { max } from 'lodash';
-import { Button, Tooltip } from 'antd';
-import ErdaIcon from 'common/components/erda-icon';
-import { TaskGanttContentProps, TaskGanttContent } from './task-gantt-content';
-import { useFullScreen } from 'app/common/use-hooks';
-import i18n from 'i18n';
+import React, { useRef } from 'react';
+import { Calendar, CalendarProps } from '../calendar/calendar';
+import { Grid, GridProps } from '../grid/grid';
+import { TaskGanttContent, TaskGanttContentProps } from './task-gantt-content';
 import './gantt.scss';
 
 export interface TaskGanttProps {
@@ -28,30 +24,9 @@ export interface TaskGanttProps {
   barProps: TaskGanttContentProps;
   ganttHeight: number;
   BarContentRender: React.ReactNode;
-  onScreenChange: (value: boolean) => void;
   rootWrapper: React.ReactElement;
-  scrollToToday: () => void;
-  setIsHandleFullScreen: (value: boolean) => void;
 }
-export const TaskGantt: React.FC<TaskGanttProps> = ({
-  gridProps,
-  calendarProps,
-  barProps,
-  BarContentRender,
-  onScreenChange,
-  scrollToToday,
-  setIsHandleFullScreen,
-}) => {
-  const [isFullScreen, { toggleFullscreen }] = useFullScreen(document.body, {
-    onEnter: () => {
-      onScreenChange(true);
-      setIsHandleFullScreen(true);
-    },
-    onExit: () => {
-      onScreenChange(false);
-      setIsHandleFullScreen(true);
-    },
-  });
+export const TaskGantt: React.FC<TaskGanttProps> = ({ gridProps, calendarProps, barProps, BarContentRender }) => {
   const ganttSVGRef = useRef<SVGSVGElement>(null);
   const newBarProps = { ...barProps, svg: ganttSVGRef };
   const verticalGanttContainerRef = useRef<HTMLDivElement>(null);
@@ -96,32 +71,6 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
         </g>
         <TaskGanttContent {...newBarProps} displayWidth={offsetWidth} BarContentRender={BarContentRender} />
       </svg>
-      <div className="absolute bottom-4 right-4 flex">
-        <Tooltip
-          getTooltipContainer={(e) => e.parentNode}
-          placement={isFullScreen ? 'bottomRight' : undefined}
-          title={i18n.t('dop:position to today')}
-        >
-          <Button
-            onClick={() => scrollToToday()}
-            className="text-sub hover:text-default cursor-pointer hover:border-default"
-          >
-            {i18n.t('Today')}
-          </Button>
-        </Tooltip>
-        <Tooltip
-          getTooltipContainer={(e) => e.parentNode}
-          placement={isFullScreen ? 'bottomRight' : undefined}
-          title={isFullScreen ? i18n.t('exit full screen') : i18n.t('full screen')}
-        >
-          <Button
-            onClick={toggleFullscreen}
-            className="flex justify-center items-center text-sub hover:text-default cursor-pointer hover:border-default"
-          >
-            <ErdaIcon type={isFullScreen ? 'suoxiao' : 'fangda'} className="" size={16} />
-          </Button>
-        </Tooltip>
-      </div>
     </div>
   );
 };
