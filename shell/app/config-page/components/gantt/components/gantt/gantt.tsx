@@ -28,8 +28,11 @@ import { convertToBarTasks } from '../../helpers/bar-helper';
 import { GanttEvent } from '../../types/gantt-task-actions';
 import { DateSetup } from '../../types/date-setup';
 import { removeHiddenTasks } from '../../helpers/other-helper';
-import './gantt.scss';
 import moment from 'moment';
+import { useFullScreen } from 'app/common/use-hooks';
+import { ErdaIcon } from 'common';
+import i18n from 'i18n';
+import './gantt.scss';
 
 export const Gantt: React.FunctionComponent<GanttProps> = ({
   tasks,
@@ -439,6 +442,17 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     }
   };
 
+  const [isFullScreen, { toggleFullscreen }] = useFullScreen(document.body, {
+    onEnter: () => {
+      onScreenChange(true);
+      setIsHandleFullScreen(true);
+    },
+    onExit: () => {
+      onScreenChange(false);
+      setIsHandleFullScreen(true);
+    },
+  });
+
   const showLength = verticalRange[1] - verticalRange[0];
   let showRange = verticalRange;
   if (showLength > barTasks.length) {
@@ -575,9 +589,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
           barProps={barProps}
           ganttHeight={ganttHeight}
           rootWrapper={rootWrapper}
-          onScreenChange={onScreenChange}
-          scrollToToday={scrollToToday}
-          setIsHandleFullScreen={setIsHandleFullScreen}
         />
         {/* <div className={'erda-gantt-vertical-container'} ref={verticalGanttContainerRef} dir="ltr">
         </div> */}
@@ -607,6 +618,26 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
           onScroll={handleScrollY}
           rtl={rtl}
         />
+        <div className="absolute bg-white bottom-4 right-4 flex shadow-card">
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              scrollToToday();
+            }}
+            className="gantt-operate-btn text-sub hover:text-default cursor-pointer"
+          >
+            {i18n.t('Today')}
+          </div>
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleFullscreen();
+            }}
+            className="gantt-operate-btn flex justify-center items-center text-sub hover:text-default cursor-pointer"
+          >
+            <ErdaIcon type={isFullScreen ? 'collapse-text-input' : 'expand-text-input'} size={16} />
+          </div>
+        </div>
       </div>
       <HorizontalScroll
         width={svgWidth}
