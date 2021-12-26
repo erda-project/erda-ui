@@ -78,7 +78,7 @@ export interface EventOption {
   /**
    * Invokes on enter full screen or exit full screen
    */
-   onScreenChange: () => void;
+  onScreenChange: (isFullScreen: boolean) => void;
 }
 
 export interface DisplayOption {
