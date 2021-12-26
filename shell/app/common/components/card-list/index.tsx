@@ -75,14 +75,7 @@ interface IRowProps<T> {
   onViewChange?: (data: T, flag?: boolean) => void;
 }
 
-const RowItem = <T extends unknown>({
-  rowClick,
-  rowClass,
-  record,
-  columns,
-  index,
-  onViewChange,
-}: IRowProps<T>) => {
+const RowItem = <T extends unknown>({ rowClick, rowClass, record, columns, index, onViewChange }: IRowProps<T>) => {
   const rowRef = React.useRef();
   const [isInView] = useInViewport(rowRef);
   React.useEffect(() => {
@@ -136,7 +129,7 @@ const CardList = <T extends unknown>({
                   rowId = record[rowKey];
                 }
                 const rowClass = classnames(
-                  'card-shadow mb-4 mx-2 px-4 rounded-sm transition-all duration-300 hover:bg-grey',
+                  'shadow-card mb-4 mx-2 px-4 rounded-sm transition-all duration-300 hover:bg-grey',
                   {
                     'py-8': size === 'large',
                     'py-6': size === 'default',
