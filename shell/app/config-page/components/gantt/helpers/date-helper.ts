@@ -66,6 +66,39 @@ export const startOfDate = (date: Date, scale: DateHelperScales) => {
   return newDate;
 };
 
+export const calcDateDurationByHNumber = (h_number: number, oldStartDate: Date, oldEndDate: Date) => {
+  const today = new Date();
+  let startDate: Date = oldStartDate;
+  let endDate: Date = oldEndDate;
+
+  // if (today - h_number / 2) is less than startDate, startDate = today - h_number / 2
+  if (
+    moment(today)
+      .subtract(Math.floor(h_number / 2), 'days')
+      .isBefore(moment(startDate), 'days')
+  ) {
+    startDate = new Date(
+      moment(today)
+        .subtract(Math.floor(h_number / 2), 'days')
+        .valueOf(),
+    );
+  }
+
+  // if (today + h_number / 2) is more than endDate, endDate = today + h_number / 2
+  if (
+    moment(today)
+      .add(Math.floor(h_number / 2), 'days')
+      .isAfter(moment(endDate), 'days')
+  ) {
+    endDate = new Date(
+      moment(today)
+        .add(Math.floor(h_number / 2), 'days')
+        .valueOf(),
+    );
+  }
+  return [startDate, endDate];
+};
+
 export const ganttDateRange = (tasks: Task[], viewMode: ViewMode) => {
   let newStartDate: Date = tasks[0].start || 0;
   let newEndDate: Date = tasks[0].start || 0;
