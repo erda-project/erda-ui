@@ -285,7 +285,7 @@ const MicroServiceOverview = () => {
       endTime: moment().valueOf(),
     });
     getServicesList();
-    getServiceCount({ tenantId });
+    getServiceCount.fetch({ tenantId });
   }, [getServicesList]);
 
   const handleViewChange = React.useCallback(
