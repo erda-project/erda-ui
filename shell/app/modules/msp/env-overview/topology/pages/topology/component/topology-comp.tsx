@@ -21,7 +21,7 @@ import ReactFlow, {
   removeElements,
   useZoomPanHelper,
 } from 'react-flow-renderer';
-import dagre from 'dagrejs';
+import dagre, { graphlib } from 'dagrejs';
 import { genEdges, genNodes } from 'msp/env-overview/topology/pages/topology/utils';
 import customerNode from './nodes';
 import FloatingEdge from 'msp/env-overview/topology/pages/topology/component/floating-edge';
@@ -29,9 +29,6 @@ import FloatingConnectionLine from 'msp/env-overview/topology/pages/topology/com
 import ErdaIcon from 'common/components/erda-icon';
 import { useUpdateEffect } from 'react-use';
 import { INodeKey } from './topology-overview';
-
-const dagreGraph = new dagre.graphlib.Graph();
-dagreGraph.setDefaultEdgeLabel(() => ({}));
 
 export interface ITopologyRef {
   selectNode: (metaData: Omit<TOPOLOGY.INode, 'parents'>) => void;
@@ -86,6 +83,7 @@ const genEle = (nodes: TOPOLOGY.INode[], filterKey: INodeKey) => {
  */
 const calculateLayout = (
   list: Elements,
+  dagreGraph: graphlib.Graph,
 ): [Elements, { width: number; height: number; maxY: number; maxX: number; minX: number; minY: number }] => {
   let width = 0;
   let height = 0;
@@ -164,10 +162,16 @@ const TopologyComp = ({
   const initElement: Elements = [...node, ...edge];
   const [elements, setElements] = React.useState<Elements>(initElement);
   const { zoomIn, zoomOut } = useZoomPanHelper();
+  const dagreGraph = React.useRef<graphlib.Graph>(new dagre.graphlib.Graph());
+
+  React.useEffect(() => {
+    dagreGraph.current.setDefaultEdgeLabel(() => ({}));
+  }, []);
+
   const onElementsRemove = (elementsToRemove: Elements) => setElements((els) => removeElements(elementsToRemove, els));
 
   const setFlowConfig = (list: Elements) => {
-    const [ele, wrapperSize] = calculateLayout(list);
+    const [ele, wrapperSize] = calculateLayout(list, dagreGraph.current);
     if (wrapperRaf.current && allowScroll) {
       // 200: prevents nodes from being covered by borders
       wrapperRaf.current.style.height = `${wrapperSize.height + 200}px`;
