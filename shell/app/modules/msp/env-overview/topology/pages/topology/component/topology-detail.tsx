@@ -18,11 +18,8 @@ import { isEmpty } from 'lodash';
 import ErdaIcon from 'common/components/erda-icon';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
-import { getFormatter } from 'charts/utils';
 import Ellipsis from 'common/components/ellipsis';
 import AnalyzerChart from 'msp/components/analyzer-chart';
-
-const formatTime = getFormatter('TIME', 'ns');
 
 interface IProps {
   className: string;
@@ -33,7 +30,7 @@ interface IProps {
 
 const metric = [
   {
-    name: i18n.t('msp:throughput'),
+    name: i18n.t('msp:average throughput'),
     key: 'rps',
     util: 'reqs/s',
   },
