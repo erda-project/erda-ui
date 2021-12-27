@@ -198,7 +198,7 @@ const PureKanban = (props: IKanbanProps) => {
     accept: cardType,
     drop: (item: Merge<DragObjectWithType, { data: ICardData }>) => {
       const { cardMoveTo } = item.data.operations;
-      const targetKeys = cardMoveTo.serverData?.extra?.allowedTargetBoardIDs || [];
+      const targetKeys = cardMoveTo.serverData?.allowedTargetBoardIDs || [];
       if (!targetKeys?.includes(boardId)) {
         setCurrentCard(null);
         return;
@@ -212,7 +212,7 @@ const PureKanban = (props: IKanbanProps) => {
       }
       newTargetKeys = newTargetKeys.filter((t) => t !== dropColKey);
       const newItem = produce(item, (draft: { data: Obj }) => {
-        draft.data.operations.cardMoveTo.serverData.extra.allowedTargetBoardIDs = newTargetKeys;
+        draft.data.operations.cardMoveTo.serverData.allowedTargetBoardIDs = newTargetKeys;
       });
       setBoard((prev) => {
         return prev.map((col) => {
@@ -240,7 +240,7 @@ const PureKanban = (props: IKanbanProps) => {
     },
     collect: (monitor) => {
       const item = monitor?.getItem && monitor?.getItem();
-      const targetKeys = get(item, 'data.operations.cardMoveTo.serverData.extra.allowedTargetBoardIDs') || [];
+      const targetKeys = get(item, 'data.operations.cardMoveTo.serverData.allowedTargetBoardIDs') || [];
       let _isAllowDrop = true;
       if (!targetKeys?.length || !targetKeys.includes(boardId)) {
         _isAllowDrop = false;
