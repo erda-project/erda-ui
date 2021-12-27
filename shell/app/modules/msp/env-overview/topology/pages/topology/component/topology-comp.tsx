@@ -15,6 +15,7 @@ import ReactFlow, {
   Elements,
   isNode,
   Node,
+  NodeExtent,
   Position,
   ReactFlowProvider,
   removeElements,
@@ -32,11 +33,6 @@ import { INodeKey } from './topology-overview';
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-const nodeExtent = [
-  [0, 0],
-  [1000, 1000],
-];
-
 export interface ITopologyRef {
   selectNode: (metaData: Omit<TOPOLOGY.INode, 'parents'>) => void;
   cancelSelectNode: () => void;
@@ -46,6 +42,7 @@ interface IProps {
   defaultZoom?: number;
   allowScroll?: boolean;
   filterKey: INodeKey;
+  nodeExtent?: NodeExtent;
   data: { nodes: TOPOLOGY.INode[] };
   clockNode?: (data: TOPOLOGY.TopoNode['metaData']) => void;
   topologyRef: React.Ref<ITopologyRef>;
@@ -74,6 +71,10 @@ const genEle = (nodes: TOPOLOGY.INode[], filterKey: INodeKey) => {
     case 'freeService':
       edge = [];
       node = node.filter((t) => t.data?.parentCount === 0 && t.data.childrenCount === 0 && t.data.isService);
+      break;
+    case 'externalService':
+      edge = edge.filter((t) => t.data?.isExternalService);
+      node = node.filter((t) => t.data?.isExternalService);
       break;
   }
   return { node, edge };
@@ -153,6 +154,7 @@ const TopologyComp = ({
   clockNode,
   allowScroll = true,
   defaultZoom = 0.8,
+  nodeExtent,
   topologyRef,
 }: IProps) => {
   const topologyData = React.useRef(genEle(data.nodes, filterKey));
