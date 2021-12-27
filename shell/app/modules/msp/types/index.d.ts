@@ -28,7 +28,7 @@ declare namespace MS_INDEX {
   }
 
   interface IMspProject {
-    id: number;
+    id: string;
     name: string;
     displayName: string;
     isDelete: boolean;
@@ -111,5 +111,13 @@ declare namespace MS_INDEX {
     scope: string;
     scopeId: string;
     viewConfig: import('@erda-ui/dashboard-configurator/dist').Layout;
+  }
+
+  interface IProjectStatistics {
+    [key: string]: {
+      last24hAlertCount: number;
+      lastActiveTime: number;
+      serviceCount: number;
+    };
   }
 }

@@ -18,18 +18,25 @@ const apis = {
   getSpanEvents: {
     api: '/api/msp/apm/trace/span-events',
   },
+  getMspProjectList: {
+    api: 'get@/api/msp/tenant/projects',
+  },
+  getProjectStatistics: {
+    api: 'post@/api/msp/tenant/project/statistics',
+  },
 };
 
 export const getSpanEvents = apiCreator<(p: { spanId: string; startTime: number }) => MONITOR_TRACE.SpanEvent>(
   apis.getSpanEvents,
 );
 
-export const getMspProjectList = (payload: { withStats: boolean }): Promise<RAW_RESPONSE<MS_INDEX.IMspProject[]>> => {
-  return agent
-    .get('/api/msp/tenant/projects')
-    .query(payload)
-    .then((response: any) => response.body);
-};
+export const getMspProjectList = apiCreator<(payload: { withStats: boolean }) => MS_INDEX.IMspProject[]>(
+  apis.getMspProjectList,
+);
+
+export const getProjectStatistics = apiCreator<(payload: { projectIds: string[] }) => MS_INDEX.IProjectStatistics>(
+  apis.getProjectStatistics,
+);
 
 export const getMspProjectDetail = (payload: { projectId: string }): MS_INDEX.IMspProject => {
   return agent
