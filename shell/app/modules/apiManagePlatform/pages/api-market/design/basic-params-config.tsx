@@ -718,7 +718,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
     if (tempData.example && typeof tempData.example === 'object') {
       const newExample = getExampleData(tempData);
       formRef.current.resetFields(['example']);
-      setTimeout(() => formRef.current.setFieldsValue({ example: newExample }));
+      formRef.current.setFieldsValue({ example: newExample });
     }
   }, [arrayItemDataStorage, curPropertyType, dataTempStorage, getExampleData, isCurTypeOf]);
 
