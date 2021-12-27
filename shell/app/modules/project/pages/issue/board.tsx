@@ -19,11 +19,12 @@ import { useSwitch, useUpdate } from 'common/use-hooks';
 import { qs, mergeSearch, updateSearch, setApiWithOrg, ossImg, getAvatarChars } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
+import { usePerm, WithAuth } from 'app/user/common';
 import routeInfoStore from 'core/stores/route';
 import ImportFile from 'project/pages/issue/component/import-file';
 import issueFieldStore from 'org/stores/issue-field';
 import { useUpdateEffect } from 'react-use';
-import { Avatar, Button } from 'antd';
+import { Avatar, Button, Tooltip } from 'antd';
 import IssueState from 'project/common/components/issue/issue-state';
 import { ErdaIcon, RadioTabs } from 'common';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
@@ -121,6 +122,9 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
     issueType: propsIssueType || ISSUE_TYPE.REQUIREMENT,
     urlQueryChangeByQuery: restQuery, // Only used to listen for changes to update the page after url change
   });
+
+  const issuePerm = usePerm((s) => s.project.requirement);
+
   const { getFieldsByIssue: getCustomFieldsByProject } = issueFieldStore.effects;
   React.useEffect(() => {
     issueType &&
@@ -228,6 +232,32 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
     updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
   };
 
+  const ImportComp = () => (
+    <WithAuth pass={issuePerm.import.pass}>
+      <Tooltip title={i18n.t('import')}>
+        <ErdaIcon
+          type="daoru"
+          className="p-1 text-default-4 hover:text-default-8 hover:bg-default-08 cursor-pointer ml-3"
+          size={20}
+          onClick={() => updater.importFileVisible(true)}
+        />
+      </Tooltip>
+    </WithAuth>
+  );
+
+  const ExportComp = () => (
+    <WithAuth pass={issuePerm.export.pass}>
+      <Tooltip title={i18n.t('export')}>
+        <ErdaIcon
+          type="daochu-2"
+          className="p-1 text-default-4 hover:text-default-8 hover:bg-default-08 cursor-pointer ml-3"
+          size={20}
+          onClick={() => window.open(getDownloadUrl())}
+        />
+      </Tooltip>
+    </WithAuth>
+  );
+
   return (
     <>
       <div className="top-button-group">
@@ -308,31 +338,12 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
               },
             },
           },
-          issueImport: {
-            props: {
-              prefixIcon: 'import',
-              size: 'small',
-              tooltip: i18n.t('import'),
-            },
-            op: {
-              click: () => {
-                updater.importFileVisible(true);
-              },
-            },
-          },
+          issueImport: ImportComp,
+          issueExport: ExportComp,
+
           topHead: {
             props: {
               isTopHead: true,
-            },
-          },
-          issueExport: {
-            props: {
-              prefixIcon: 'export',
-              size: 'small',
-              tooltip: i18n.t('export'),
-            },
-            op: {
-              click: () => window.open(getDownloadUrl()),
             },
           },
         }}
