@@ -93,20 +93,7 @@ const getCustomOptions = (enumeratedValues: any[]) => {
 
 const { getLabels } = labelStore.effects;
 const IssueMetaFields = React.forwardRef(
-  (
-    {
-      labels,
-      isEditMode,
-      isBacklog,
-      editAuth,
-      issueType,
-      formData,
-      setFieldCb,
-      projectId,
-      ticketType,
-    }: any,
-    ref,
-  ) => {
+  ({ labels, isEditMode, isBacklog, editAuth, issueType, formData, setFieldCb, projectId, ticketType }: any, ref) => {
     const userMap = getUserMap();
     const projectMembers = projectMemberStore.useStore((s) => s.list);
     const urlParams = routeInfoStore.useStore((s) => s.params);
@@ -874,10 +861,10 @@ export const EditIssueDrawer = (props: IProps) => {
       params.labels = value.labels;
     }
     if (has(value, 'planFinishedAt') && !value.planFinishedAt) {
-      params.planFinishedAt = '1970-01-01T08:00:00+08:00'; // replace null to mark delete
+      params.planFinishedAt = ''; // replace null to mark delete
     }
     if (has(value, 'planStartedAt') && !value.planStartedAt) {
-      params.planStartedAt = '1970-01-01T08:00:00+08:00';
+      params.planStartedAt = '';
     }
 
     if ([ISSUE_TYPE.TASK, ISSUE_TYPE.BUG].includes(issueType)) {
