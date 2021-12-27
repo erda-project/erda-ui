@@ -67,7 +67,7 @@ export const startOfDate = (date: Date, scale: DateHelperScales) => {
 };
 
 export const calcDateDurationByHNumber = (h_number: number, oldStartDate: Date, oldEndDate: Date) => {
-  const today = new Date();
+  const today = moment(new Date()).startOf('day');
   let startDate: Date = oldStartDate;
   let endDate: Date = oldEndDate;
 
@@ -83,7 +83,6 @@ export const calcDateDurationByHNumber = (h_number: number, oldStartDate: Date, 
         .valueOf(),
     );
   }
-
   // if (today + h_number / 2) is more than endDate, endDate = today + h_number / 2
   if (
     moment(today)
