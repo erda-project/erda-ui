@@ -861,10 +861,10 @@ export const EditIssueDrawer = (props: IProps) => {
       params.labels = value.labels;
     }
     if (has(value, 'planFinishedAt') && !value.planFinishedAt) {
-      params.planFinishedAt = '1970-01-01T08:00:00+08:00'; // replace null to mark delete
+      params.planFinishedAt = ''; // replace null to mark delete
     }
     if (has(value, 'planStartedAt') && !value.planStartedAt) {
-      params.planStartedAt = '1970-01-01T08:00:00+08:00';
+      params.planStartedAt = '';
     }
 
     if ([ISSUE_TYPE.TASK, ISSUE_TYPE.BUG].includes(issueType)) {
