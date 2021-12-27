@@ -84,11 +84,12 @@ export const CardItem = (props: CardItemProps) => {
                 </div>
 
                 {titleState ? (
-                  <div className="ml-1">
+                  <div className="ml-1 flex items-center">
                     {titleState.map((item, idx) => (
                       <Badge
                         className={`${idx !== 0 ? 'ml-1' : ''}`}
                         showDot={false}
+                        size="small"
                         {...item}
                         key={item.text}
                         text={item.text}

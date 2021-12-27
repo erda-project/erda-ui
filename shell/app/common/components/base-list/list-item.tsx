@@ -119,7 +119,7 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                 </Tooltip>
               )}
               {map(titleState, (item, idx) => (
-                <Badge key={idx} showDot={false} {...item} className="ml-2" />
+                <Badge key={idx} showDot={false} size="small" {...item} className="ml-2" />
               ))}
               {tags ? <Tags labels={tags} containerClassName="ml-2" /> : null}
             </div>

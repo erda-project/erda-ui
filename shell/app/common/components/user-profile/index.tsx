@@ -32,9 +32,9 @@ export interface UserProfileProps {
 const UserProfile = ({ data, className = '' }: UserProfileProps) => {
   const { name, avatar, id, email, phone, lastLoginTime } = data;
   const infoList = [
-    ['mail', i18n.t('email'), email],
-    ['phone', i18n.t('phone'), phone],
-    ['time', i18n.t('last login time'), lastLoginTime],
+    ['youxiang', i18n.t('email'), email],
+    ['shouji', i18n.t('phone'), phone],
+    ['shijian-2', i18n.t('last login time'), lastLoginTime],
   ];
 
   return (
