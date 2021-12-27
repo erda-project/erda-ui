@@ -279,7 +279,7 @@ const MicroServiceOverview = () => {
       endTime: moment().valueOf(),
     });
     getServicesList();
-    getServiceCount({ tenantId });
+    getServiceCount.fetch({ tenantId });
   }, [getServicesList]);
 
   const columns: Array<CardColumnsProps<IListItem>> = [
