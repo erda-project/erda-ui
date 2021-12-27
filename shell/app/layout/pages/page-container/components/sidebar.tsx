@@ -183,7 +183,7 @@ const SideBar = () => {
         title: <span className="ml-1">{i18n.t('operation manage platform')}</span>,
         onClick: () => {
           window.localStorage.setItem('lastOrg', window.location.pathname.split('/')[1]);
-          window.location.href = `${erdaEnv.UI_PUBLIC_ADDR}/-/sysAdmin`; // jump to wildcard domain
+          window.location.href = `${window.location.protocol}://${erdaEnv.UI_PUBLIC_ADDR}/-/sysAdmin`; // jump to wildcard domain
         },
       },
     ]),
