@@ -630,6 +630,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
             }}
             key={key}
             onCancel={(e: any) => e && e.stopPropagation()}
+            zIndex={1100}
           >
             <span className="table-operations-btn" onClick={(e: any) => e.stopPropagation()}>
               {text}

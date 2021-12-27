@@ -204,7 +204,7 @@ export function Table(props: CP_TABLE.Props) {
         onChange={onChange}
       />
       {batchOperations ? (
-        <div className="absolute" style={{ bottom: 5 }}>
+        <div className="absolute" style={{ bottom: 10 }}>
           <BatchOperation
             rowKey={rowKey}
             dataSource={list}

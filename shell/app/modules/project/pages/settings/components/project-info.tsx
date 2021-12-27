@@ -47,7 +47,7 @@ const reloadHeadInfo = () => {
   selectorKey += 1;
 };
 
-export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
+const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   const { updateProject, deleteProject, getLeftResources } = projectStore.effects;
   const loginUser = userStore.useStore((s) => s.loginUser);
   const orgName = routeInfoStore.useStore((s) => s.params.orgName);
@@ -252,3 +252,5 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
     />
   );
 };
+
+export default ProjectInfo;

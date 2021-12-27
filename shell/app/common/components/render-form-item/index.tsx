@@ -32,6 +32,8 @@ import { TagItem } from 'common/components/tags';
 import i18n from 'i18n';
 import { isString } from 'lodash';
 import moment, { Moment } from 'moment';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface IProps {
   onChange?: (...args: unknown[]) => void;
@@ -122,6 +124,8 @@ export interface IFormItem {
   addOne?: (name: string | undefined) => void;
   dropOne?: (name: string | undefined) => void;
   getComp?: ({ form }: { form: FormInstance }) => React.ReactElement<any> | string;
+  readOnlyRender?: (value: Obj | string | number) => React.ReactElement<any> | string;
+  readOnly?: boolean;
 }
 
 interface IOption {
@@ -199,6 +203,8 @@ const RenderFormItem = ({
   tailFormItemLayout,
   noColon = false,
   isTailLayout, // no label, put some offset to align right part
+  readOnly,
+  readOnlyRender,
 }: IFormItem) => {
   let ItemComp = null;
   const specialConfig: any = {};
@@ -293,18 +299,33 @@ const RenderFormItem = ({
       break;
     case 'listSelect':
       ItemComp = <ListSelect label={label} {...itemProps} />;
+      if (readOnly && readOnlyRender) {
+        ItemComp = <CustomRender readOnlyRender={readOnlyRender} />;
+      }
       break;
     case 'markdown': {
       ItemComp = (
         <ClassWrapper>
-          <MarkdownEditor {...itemProps} defaultHeight={400} />
+          <EditMd {...itemProps} />
         </ClassWrapper>
       );
+      if (readOnly) {
+        ItemComp = readOnlyRender ? (
+          <CustomRender readOnlyRender={readOnlyRender} />
+        ) : (
+          <ClassWrapper>
+            <MarkdownReadOnlyRender {...itemProps} />
+          </ClassWrapper>
+        );
+      }
       break;
     }
     case 'input':
     default:
       ItemComp = <Input {...itemProps} className={classnames('input-with-icon', itemProps.className)} size={size} />;
+      if (readOnly) {
+        ItemComp = readOnlyRender ? <CustomRender readOnlyRender={readOnlyRender} /> : <InputReadOnly />;
+      }
       break;
   }
 
@@ -369,7 +390,7 @@ const RenderFormItem = ({
       label={_label}
       {...layout}
       className={`${itemProps.type === 'hidden' ? 'hidden' : ''} ${className}`}
-      required={required}
+      required={!readOnly && required}
     >
       <FormItem
         name={typeof name === 'string' && name?.includes('.') ? name.split('.') : name}
@@ -513,7 +534,7 @@ const DateRange = ({
           }`}
           onClick={() => onChange([])}
         >
-          清除
+          {i18n.t('common:clear')}
         </div>
       ) : null}
     </div>
@@ -559,6 +580,22 @@ const TagsSelect = ({ size, options, value = [], onChange, ...restItemProps }: T
         : options.map((item) => renderTagsSelectOption({ ...item, checked: value.includes(item.value) }))}
     </Select>
   );
+};
+
+const EditMd = ({ value, onChange, ...itemProps }: { value: string; onChange: (value: string) => void }) => {
+  return <MarkdownEditor value={value} onChange={onChange} {...itemProps} defaultHeight={400} />;
+};
+
+const MarkdownReadOnlyRender = ({ value }: { value: string }) => {
+  return <ReactMarkdown remarkPlugins={[remarkGfm]}>{value || i18n.t('no description yet')}</ReactMarkdown>;
+};
+
+const InputReadOnly = ({ value }: { value?: string }) => {
+  return <>{value || '-'}</>;
+};
+
+const CustomRender = ({ value, readOnlyRender }: { value?: string; readOnlyRender: Function }) => {
+  return <>{readOnlyRender(value) || '-'}</>;
 };
 
 export default RenderFormItem;

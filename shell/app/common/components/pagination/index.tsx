@@ -32,6 +32,7 @@ interface IPaginationProps {
   current: number;
   pageSize?: number;
   onChange: (page: number, pageSize: number) => void;
+  hidePageSizeChange?: boolean;
 }
 
 export interface IPaginationJumpProps {
@@ -40,7 +41,7 @@ export interface IPaginationJumpProps {
 }
 
 const Pagination = (pagination: IPaginationProps) => {
-  const { total = 0, current = 1, pageSize = PAGINATION.pageSize, onChange } = pagination;
+  const { total = 0, current = 1, pageSize = PAGINATION.pageSize, onChange, hidePageSizeChange = false } = pagination;
 
   const [goToVisible, setGoToVisible] = React.useState(false);
 
@@ -92,15 +93,17 @@ const Pagination = (pagination: IPaginationProps) => {
           <ErdaIcon type="right" size={18} color="currentColor" />
         </div>
       </div>
-      <Dropdown
-        trigger={['click']}
-        overlay={pageSizeMenu}
-        align={{ offset: [0, 5] }}
-        overlayStyle={{ minWidth: 120 }}
-        getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-      >
-        <span className="bg-hover px-3 py-1 cursor-pointer">{i18n.t('{size} items / page', { size: pageSize })}</span>
-      </Dropdown>
+      {!hidePageSizeChange ? (
+        <Dropdown
+          trigger={['click']}
+          overlay={pageSizeMenu}
+          align={{ offset: [0, 5] }}
+          overlayStyle={{ minWidth: 120 }}
+          getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+        >
+          <span className="bg-hover px-3 py-1 cursor-pointer">{i18n.t('{size} items / page', { size: pageSize })}</span>
+        </Dropdown>
+      ) : null}
     </div>
   );
 };
@@ -135,7 +138,7 @@ const PaginationJump = ({ pagination, hidePopover }: IPaginationJumpProps) => {
   };
 
   return (
-    <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
+    <div className="flex items-center erda-pagination-jump" onClick={(e) => e.stopPropagation()}>
       {i18n.t('Go to page')}
       <Input
         className="mx-2"

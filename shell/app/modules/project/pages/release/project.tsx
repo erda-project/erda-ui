@@ -12,13 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import ReleaseProtocol from './release-protocol';
 
-const Release = () => {
-  return (
-    <div>
-      <div>123</div>
-    </div>
-  );
+const ProjectRelease = () => {
+  return <ReleaseProtocol isProjectRelease={true} />;
 };
 
-export default Release;
+export default ProjectRelease;

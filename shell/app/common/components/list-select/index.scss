@@ -1,16 +1,58 @@
 .erda-list-select {
   &-btn {
+    background-color: rgba($color-purple-deep, 0.1);
     color: $color-purple-deep;
+    transition: all 0.5s;
+
+    &.ant-dropdown-open {
+      background-color: $color-purple-deep;
+      color: $white;
+    }
+  }
+
+  .result-list {
+    background-color: rgba($color-default, 0.01);
+    color: $color-default;
+
+    .desc {
+      color: rgba($color-default, 0.6);
+    }
+
+    .erda-list-select-selected-item-delete {
+      color: $color-default-4;
+      visibility: hidden;
+    }
+
+    .erda-list-select-selected-item:hover {
+      .text-hover {
+        color: $color-purple-deep !important;
+      }
+
+      .erda-list-select-selected-item-delete {
+        visibility: visible;
+      }
+    }
   }
 }
 
 .erda-list-select-overlay {
-  min-width: 1120px;
+  width: 1120px;
   height: 400px;
   background-color: $color-default;
 
+  .selected-num {
+    padding: 1px 6px;
+    background-color: rgba($white, 0.08);
+    color: $color-white-8;
+  }
+
   .erda-list-select-selected-list {
     height: calc(100% - 100px);
+    color: rgba($white, 9);
+
+    .desc {
+      color: $color-white-6;
+    }
 
     &::-webkit-scrollbar {
       width: 10px;
@@ -42,6 +84,18 @@
 
   .erda-list-select-menus {
     width: 160px;
+    overflow-y: auto;
+    flex-shrink: 0;
+
+    &::-webkit-scrollbar {
+      width: 10px;
+      background-color: $color-default;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 5px;
+      background-color: $color-white-1;
+    }
 
     .erda-list-select-menu-item {
       padding: 5px 8px;
@@ -51,26 +105,65 @@
     }
 
     .active {
-      background-color: $color-purple-deep;
+      background-color: $color-purple-deep !important;
     }
   }
 
+  .erda-list-select-list {
+    height: calc(100% - 40px);
+
+    & > div {
+      &::-webkit-scrollbar {
+        width: 10px;
+        background-color: $color-default;
+      }
+      &::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background-color: $color-white-1;
+      }
+    }
+  }
+
+  .erda-pagination {
+    color: $color-white-6;
+
+    .bg-hover:hover {
+      color: $white;
+    }
+  }
+
+  .ant-btn {
+    background-color: $color-white-2;
+    border: none;
+    color: $white;
+
+    &.ant-btn-primary {
+      background-color: $color-purple-deep;
+      border-color: $color-purple-deep;
+    }
+  }
+
+  .ant-input-prefix {
+    color: $color-white-3;
+  }
+
   input {
-    color: rgba($white, 0.6);
+    background-color: transparent;
+    color: $color-white-6;
 
     &::-webkit-input-placeholder {
       /* WebKit browsers */
-      color: rgba($white, 0.3);
+      color: $color-white-3;
     }
 
     &::-moz-placeholder {
       /* Mozilla Firefox 19+ */
-      color: rgba($white, 0.3);
+      color: $color-white-3;
     }
 
     &:-ms-input-placeholder {
       /* Internet Explorer 10+ */
-      color: rgba($white, 0.3);
+      color: $color-white-3;
     }
   }
 }
