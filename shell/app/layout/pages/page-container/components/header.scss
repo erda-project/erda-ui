@@ -1,10 +1,5 @@
 .erda-header {
-  padding: 0 16px 0 16px;
-  background-color: $white;
-
-  &-breadcrumb {
-    padding: 6px 0;
-  }
+  margin-bottom: 16px;
 
   &-top {
     height: 34px;
@@ -45,30 +40,17 @@
     }
   }
 
-  .erda-header-top {
-    .tab-menu {
-      &.tab-split-line-before {
-        margin-left: 16px;
-        &::before {
-          left: -16px;
-        }
+  .tab-menu {
+    &.tab-split-line-before {
+      margin-left: 16px;
+      &::before {
+        left: -16px;
       }
-    }
-    .tab-menu-item {
-      height: 32px;
-      line-height: 32px;
-      margin-right: 24px;
     }
   }
-
-  .ant-breadcrumb {
-    .breadcrumb-name {
-      color: $color-dark-6;
-      cursor: pointer;
-
-      &:hover {
-        color: $primary;
-      }
-    }
+  .tab-menu-item {
+    height: 32px;
+    line-height: 32px;
+    margin-right: 24px;
   }
 }

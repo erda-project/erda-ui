@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import Header from 'layout/pages/page-container/components/header';
-import SideBar from 'layout/pages/page-container/components/sidebar';
+import Navigation from 'layout/pages/page-container/components/navigation';
 import React from 'react';
 import './page-container.scss';
 import './error-layout.scss';
@@ -25,7 +25,7 @@ interface IProps {
 export const ErrorLayout = ({ layoutClass, children }: IProps) => {
   return (
     <div className={layoutClass}>
-      <SideBar />
+      <Navigation />
       <div className="dice-body">
         <Header />
         <div id="main">{children}</div>

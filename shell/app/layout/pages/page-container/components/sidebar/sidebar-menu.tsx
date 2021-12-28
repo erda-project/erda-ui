@@ -38,16 +38,17 @@ interface IProps extends MenuProps {
   selectedKey: string;
   linkRender: (child: React.ReactNode, item: IMenu) => React.ReactNode;
   dataSource: IMenu[];
+  isFixed: boolean;
   onFold: (v: boolean) => void;
 }
 
-const SideNavigation = ({
+const SidebarMenu = ({
   extraNode,
   openKeys,
   selectedKey,
   linkRender,
   dataSource,
-  onFold,
+  isFixed,
   onOpenChange,
   ...restProps
 }: IProps) => {
@@ -59,23 +60,23 @@ const SideNavigation = ({
   const renderChildrenMenu = (childList: IMenu[]) => {
     return map(childList, (child) => {
       const { icon, children, title, href, subtitle } = child;
-      const foldIcon = (
-        <span className="fold-icon relative">
-          {icon}
-          {subtitle && <span className="text-xs my-1 overflow-hidden w-full inline-block fold-title">{subtitle}</span>}
-          <div className="layer" />
-        </span>
-      );
-      const renderIcon = icon && <span className="ant-menu-item-icon m-0 p-0">{isFold ? foldIcon : icon}</span>;
+      // const foldIcon = (
+      //   <span className="fold-icon relative">
+      //     {icon}
+      //     {subtitle && <span className="text-xs my-1 overflow-hidden w-full inline-block fold-title">{subtitle}</span>}
+      //     <div className="layer" />
+      //   </span>
+      // );
+      // const renderIcon = icon && <span className="ant-menu-item-icon m-0 p-0">{icon}</span>;
       if (children && children.length) {
         return (
-          <Menu.SubMenu key={href} icon={renderIcon} title={title} className={isFold ? 'fold' : ''}>
+          <Menu.SubMenu key={href} icon={icon} title={title}>
             {renderChildrenMenu(children)}
           </Menu.SubMenu>
         );
       }
       return (
-        <Menu.Item title={title} key={href} icon={icon && isFold ? foldIcon : icon} className={isFold ? 'fold' : ''}>
+        <Menu.Item title={title} key={href} icon={icon}>
           {linkRender(title, child)}
         </Menu.Item>
       );
@@ -92,36 +93,17 @@ const SideNavigation = ({
     onFold(!isFold);
     localStorage.setItem('isSubSidebarFold', `${!isFold}`);
   };
-
+  // console.log('dataSource:', dataSource);
   return (
-    <div className="h-full side-nav-menu overflow-hidden" style={{ width: isFold ? 50 : 200 }}>
-      <div style={{ height: 'calc(100% - 48px)' }} className="pt-2 border-right flex flex-col">
-        {extraNode(isFold)}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden h-full menu-container">
-          <Menu
-            inlineCollapsed={isFold}
-            theme="light"
-            openKeys={openKeys}
-            selectedKeys={[selectedKey]}
-            mode="inline"
-            onOpenChange={onOpenChange}
-            {...restProps}
-          >
-            {renderChildrenMenu(dataSource)}
-          </Menu>
-        </div>
-      </div>
-      <div className="h-12 relative">
-        <Button type="primary" onClick={handleOnFold} className="absolute right-0 p-1">
-          {isFold ? (
-            <ErdaIcon className="mt-0.5 mr-1" type="menu-unfold" size="18" />
-          ) : (
-            <ErdaIcon className="mt-0.5 mr-1" type="menu-fold" size="18" />
-          )}
-        </Button>
+    <div className={`side-nav-menu flex-shrink-0 overflow-hidden ${isFixed ? '' : 'float'}`}>
+      {extraNode(isFold)}
+      <div className="flex-1 overflow-y-auto overflow-x-hidden h-full menu-container">
+        <Menu openKeys={openKeys} selectedKeys={[selectedKey]} mode="inline" onOpenChange={onOpenChange} {...restProps}>
+          {renderChildrenMenu(dataSource)}
+        </Menu>
       </div>
     </div>
   );
 };
 
-export default SideNavigation;
+export default SidebarMenu;

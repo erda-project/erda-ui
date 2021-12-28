@@ -1,0 +1,138 @@
+.erda-global-nav {
+  height: 100%;
+  width: 56px;
+  background: $white;
+  z-index: 10;
+
+  .erda-global-logo {
+    font-size: 32px;
+    margin: 12px;
+  }
+}
+
+.erda-global-nav-item {
+  .icon {
+    transition: opacity 0.2s cubic-bezier(0.48, 0.43, 0.29, 1.3);
+  }
+  .active-icon {
+    opacity: 0;
+  }
+  .name {
+    opacity: 0;
+    position: absolute;
+    height: 32px;
+    line-height: 32px;
+    left: 80%;
+    top: 32px;
+    background: $color-default;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: opacity 0.2s cubic-bezier(0.48, 0.43, 0.29, 1.3);
+  }
+
+  &:hover {
+    .name {
+      opacity: 1;
+    }
+    .normal-icon {
+      opacity: 0;
+    }
+    .active-icon {
+      opacity: 1;
+    }
+  }
+}
+
+.erda-global-nav-avatar-item {
+  width: 32px;
+  height: 32px;
+
+  .ant-avatar {
+    background: $gray;
+  }
+}
+
+.erda-global-nav-user-menu {
+  .ant-popover-inner-content {
+    padding: 0;
+  }
+
+  .container {
+    width: 278px;
+  }
+
+  .user-info {
+    border-bottom: 1px solid rgba(9, 24, 33, 0.08);
+    width: 100%;
+
+    .avatar {
+      padding: 12px;
+    }
+
+    .desc-container {
+      padding: 15px 12px 15px 0px;
+    }
+  }
+}
+
+.app-center-version {
+  margin-left: 4px;
+  background-color: $color-primary;
+  color: $white;
+  font-size: 12px;
+  line-height: 18px;
+  padding: 0 8px;
+  border-radius: 10px;
+}
+
+.nav-org-list {
+  margin-bottom: 0;
+
+  li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    line-height: 26px;
+    cursor: pointer;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &:hover {
+      color: $color-active;
+    }
+  }
+
+  .org-logo {
+    width: 46px;
+    max-height: 30px;
+    margin-right: 10px;
+  }
+
+  i {
+    margin-left: 8px;
+  }
+}
+
+.side-app-center {
+  color: $white;
+}
+
+.side-app-center-popover {
+  .ant-popover-inner-content {
+    padding: 0;
+  }
+
+  .ant-menu-vertical {
+    .app-center-item {
+      height: 32px;
+      line-height: 32px;
+    }
+  }
+}
+
+.message-icon .ant-badge-count {
+  transform: scale(0.9) translate(50%, -50%);
+  padding: 0 6px;
+}

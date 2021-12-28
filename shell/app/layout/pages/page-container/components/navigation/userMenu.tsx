@@ -13,11 +13,46 @@
 
 import React from 'react';
 import { Popover, Menu, Avatar } from 'antd';
-import { UserMenuProps } from './interface';
-import { getAvatarChars } from 'app/common/utils';
+import { getAvatarChars, insertWhen, ossImg } from 'app/common/utils';
+import { erdaEnv, UC_USER_SETTINGS } from 'app/common/constants';
+import { ErdaIcon } from 'common';
+import i18n from 'i18n';
+import userStore from 'user/stores';
 
-const UserMenu = ({ avatar, name, operations }: UserMenuProps) => {
-  const nick = getAvatarChars(avatar?.chars || '');
+const UserMenu = () => {
+  const loginUser = userStore.useStore((s) => s.loginUser);
+
+  const operations = [
+    ...insertWhen(!!loginUser.isSysAdmin, [
+      {
+        icon: <ErdaIcon type="user-config" />,
+        title: <span className="ml-1">{i18n.t('operation manage platform')}</span>,
+        onClick: () => {
+          window.localStorage.setItem('lastOrg', window.location.pathname.split('/')[1]);
+          window.location.href = `${window.location.protocol}://${erdaEnv.UI_PUBLIC_ADDR}/-/sysAdmin`; // jump to wildcard domain
+        },
+      },
+    ]),
+    ...insertWhen(loginUser.isNewUser || !!erdaEnv.UC_PUBLIC_URL, [
+      {
+        icon: <ErdaIcon type="user-config" />,
+        title: i18n.t('layout:personal settings'),
+        onClick: () => {
+          window.open(loginUser.isNewUser ? UC_USER_SETTINGS : erdaEnv.UC_PUBLIC_URL);
+        },
+      },
+    ]),
+    {
+      icon: <ErdaIcon className="mr-1" type="logout" size="14" />,
+      title: i18n.t('layout:logout'),
+      onClick: userStore.effects.logout,
+    },
+  ];
+
+  const avatar = loginUser.avatar ? ossImg(loginUser.avatar, { w: 32 }) : undefined;
+
+  const nickOrName = loginUser.nick || loginUser.name;
+  const nick = getAvatarChars(nickOrName);
   return (
     <Popover
       placement={'rightBottom'}
@@ -26,12 +61,12 @@ const UserMenu = ({ avatar, name, operations }: UserMenuProps) => {
         <div className="container flex flex-col">
           <div className="user-info flex">
             <div className="avatar">
-              <Avatar src={avatar?.src} size={48}>
+              <Avatar src={avatar} size={28}>
                 {nick}
               </Avatar>
             </div>
             <div className="desc-container flex items-baseline justify-center flex-col truncate">
-              <div className="name">{name}</div>
+              <div className="name">{nickOrName}</div>
             </div>
           </div>
           <div className="operation-group">
@@ -51,7 +86,7 @@ const UserMenu = ({ avatar, name, operations }: UserMenuProps) => {
         </div>
       }
     >
-      <Avatar src={avatar?.src}>{nick}</Avatar>
+      <Avatar src={avatar}>{nick}</Avatar>
     </Popover>
   );
 };

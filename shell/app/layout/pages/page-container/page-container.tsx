@@ -16,9 +16,11 @@ import { renderRoutes } from 'react-router-config';
 import { ErrorBoundary } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import classnames from 'classnames';
+import Navigation from 'layout/pages/page-container/components/navigation';
 import SideBar from 'layout/pages/page-container/components/sidebar';
-import SubSideBar from 'layout/pages/page-container/components/sub-sidebar';
 import Header from 'layout/pages/page-container/components/header';
+import Breadcrumb from 'layout/pages/page-container/components/breadcrumb';
+import { Tab } from 'layout/pages/tab/tab';
 import { NoAuth, NotFound } from 'app/layout/common/error-page';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -121,12 +123,12 @@ const PageContainer = ({ route }: IProps) => {
       noticeWrap.push('only-one');
     }
   }
-  let showSubSidebar = !noAuth && !notFound;
+  const showSidebar = !noAuth && !notFound;
   let CustomLayout;
   let noWrapper = false;
   if (typeof layout === 'object') {
-    const { className, use, showSubSidebar: layoutShowSubSiderBar } = layout;
-    if (showSubSidebar && layoutShowSubSiderBar === false) showSubSidebar = false;
+    const { className, use } = layout;
+    // if (showSidebar && layoutShowSubSiderBar === false) showSidebar = false;
     className && layoutCls.push(className);
     layoutMap[use] && (CustomLayout = layoutMap[use]);
     noWrapper = layout.noWrapper;
@@ -174,14 +176,12 @@ const PageContainer = ({ route }: IProps) => {
       ) : null}
       <div className={layoutClass}>
         <Shell
-          layout="vertical"
-          fixed
           className="dice-main-shell"
-          theme="BL"
-          globalNavigation={<SideBar />}
-          sideNavigation={showSubSidebar ? <SubSideBar /> : undefined}
-          pageHeader={!hideHeader ? <Header /> : undefined}
+          navigation={<Navigation />}
+          sidebar={showSidebar ? <SideBar /> : undefined}
+          breadcrumb={!hideHeader ? <Breadcrumb /> : undefined}
         >
+          <Header />
           <div
             id="main"
             ref={mainEle}

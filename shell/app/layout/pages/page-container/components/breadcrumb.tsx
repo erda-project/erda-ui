@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tab } from 'layout/pages/tab/tab';
 import layoutStore from 'layout/stores/layout';
 import { goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
@@ -21,8 +20,6 @@ import { isEmpty, isFunction } from 'lodash';
 import { matchPath } from 'react-router-dom';
 import { ErdaIcon } from 'common';
 import { Route } from 'core/common/interface';
-import { Breadcrumb, Tooltip } from 'antd';
-import './header.scss';
 
 const getPath = (path: string, params: Obj<string>) => {
   path = (path || '').replace(/^\//, '');
@@ -37,11 +34,13 @@ const BreadcrumbItem = ({
   paths,
   params,
   title,
+  isLast,
 }: {
   route: IRoute;
   params: Obj<string>;
   paths: string[];
   title?: string;
+  isLast: boolean;
 }) => {
   const { path, eternal, changePath, pageName } = route;
   const [link, setLink] = React.useState('');
@@ -64,7 +63,7 @@ const BreadcrumbItem = ({
 
   return displayTitle ? (
     <span
-      className={`breadcrumb-name ${route.disabled ? 'breadcrumb-disabled' : ''}`}
+      className={`breadcrumb-name ${isLast ? '' : 'text-sub'} ${route.disabled ? 'breadcrumb-disabled' : ''}`}
       title={displayTitle}
       key={eternal || path}
       onClick={() => !route.disabled && goTo(link)}
@@ -74,7 +73,7 @@ const BreadcrumbItem = ({
   ) : null;
 };
 
-const Header = () => {
+const ErdaBreadcrumb = () => {
   const [currentApp] = layoutStore.useStore((s) => [s.currentApp]);
   const routes: IRoute[] = routeInfoStore.useStore((s) => s.routes);
   const [pageName, setPageName] = React.useState<string>();
@@ -167,31 +166,36 @@ const Header = () => {
         breadcrumbName: currentApp.breadcrumbName,
         path: typeof currentApp.path === 'function' ? currentApp.path(_params || {}, routes) : currentApp.href,
       };
-      filteredRoutes.reverse().splice(1, 0, eternalApp as IRoute);
+      filteredRoutes.unshift(eternalApp as IRoute);
       setAllRoutes(filteredRoutes);
     }
   }, [currentApp, routes]);
 
-  const displayPageName = () => {
-    if (typeof pageNameInfo === 'function') {
-      const Comp = pageNameInfo;
-      return <Comp />;
-    }
-    return (
-      <div className="erda-header-title truncate">
-        <Tooltip title={pageName}>{pageName}</Tooltip>
-      </div>
-    );
-  };
+  const paths: string[] = [];
 
   return (
-    <div className="erda-header">
-      <div className={'erda-header-top'}>
-        <div className="erda-header-title-con">{pageName && displayPageName()}</div>
-        <Tab />
-      </div>
+    <div className="absolute left-28 top-0 flex items-center flex-shrink-0 h-9 text-xs">
+      {allRoutes.map((item, i) => {
+        const isLast = i === allRoutes.length - 1;
+        paths.push(getPath(item.path, params));
+
+        if (!item.breadcrumbName) {
+          return null;
+        }
+
+        const _title = getBreadcrumbTitle(item, true);
+        if (!_title) {
+          return null;
+        }
+        return (
+          <span className="cursor-pointer hover:text-default">
+            <BreadcrumbItem paths={[...paths]} route={item} params={params} title={_title} isLast={isLast} />
+            {!isLast && <ErdaIcon className="align-middle mx-1 text-sub" type="right" size="14px" />}
+          </span>
+        );
+      })}
     </div>
   );
 };
 
-export default Header;
+export default ErdaBreadcrumb;

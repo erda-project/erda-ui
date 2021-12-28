@@ -26,6 +26,8 @@ declare namespace LAYOUT {
   interface IApp {
     key: string;
     name: string;
+    shortName: string;
+    icon: string;
     breadcrumbName: string;
     href: string;
     path?: string | Function;

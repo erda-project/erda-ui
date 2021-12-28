@@ -1,24 +1,23 @@
 .sidebar-info-block {
-  padding-top: 16px;
-  padding-bottom: 26px;
-  text-align: center;
+  height: 66px;
+  background: $color-default-06;
 
   img {
-    width: 56px;
-    height: 56px;
-    min-height: 56px;
+    width: 36px;
+    height: 36px;
+    min-height: 36px;
     border-radius: 100%;
   }
 
   .big-icon {
-    width: 100px;
-    height: 80px;
+    width: 36px;
+    height: 36px;
     border-radius: 0;
   }
 
   svg:not(.i-icon svg, .erda-icon svg) {
-    width: 56px;
-    height: 56px;
+    width: 36px;
+    height: 36px;
   }
 
   .name {

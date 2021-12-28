@@ -72,9 +72,9 @@ const MenuHead = ({ siderInfo, routeMarks, isFold }: IProps) => {
       break;
   }
   return (
-    <div className={`${isFold ? 'hidden' : ''} sidebar-info-block`}>
+    <div className={`${isFold ? 'hidden' : ''} flex sidebar-info-block px-4 py-3 mb-3 rounded-sm`}>
       <IF check={!!logo}>
-        <img key={logo} className={logoClassName} src={ossImg(logo, { w: 120 })} alt="logo" />
+        <img key={logo} className={logoClassName} src={ossImg(logo, { w: 36 })} alt="logo" />
         <IF.ELSE />
         {sideIcon}
       </IF>
