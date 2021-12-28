@@ -67,22 +67,12 @@
       z-index: 2;
       background: $color-bg;
       padding: 16px;
-      height: calc(100vh - 36px - 22px);
+      height: calc(100vh - 36px - 36px);
       box-shadow: 0 2px 24px 0 rgba(48, 38, 71, 0.32);
       transition: transform 0.3s ease-in-out 0.2s;
     }
     .hover-show {
       display: inline-flex;
-    }
-    .toggle-btn {
-      &:hover {
-        .icon {
-          opacity: 0;
-        }
-        .hover-show {
-          opacity: 1;
-        }
-      }
     }
   }
 
@@ -90,6 +80,12 @@
     &.float {
       .side-nav-menu {
         transform: translateX(243px);
+      }
+      .icon {
+        opacity: 0;
+      }
+      .hover-show {
+        opacity: 1;
       }
     }
   }
