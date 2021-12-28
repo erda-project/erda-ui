@@ -12,17 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon as CustomIcon, IF } from 'common';
+import { IF, ErdaIcon } from 'common';
 import { ossImg } from 'common/utils';
 import { isFunction } from 'lodash';
-import './menu-head.scss';
-import devopsSvg from 'app/images/devops.svg';
-import cmpSvg from 'app/images/qyzx.svg';
-import mspSvg from 'app/images/wfwzl.svg';
-import dataSvg from 'app/images/ksj.svg';
-import apiManageSvg from 'app/images/fwsc.svg';
 import ecpSvg from 'app/images/ecp.svg';
 import orgCenterSvg from 'app/images/glzx.svg';
+import './menu-head.scss';
 
 interface IProps {
   siderInfo: Record<string, any>;
@@ -43,31 +38,28 @@ const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
   let sideIcon: React.ReactNode = null;
   switch (routeMarks[routeMarks.length - 2]) {
     case 'dop':
-      sideIcon = <img className="big-icon" src={devopsSvg} />;
+      sideIcon = <ErdaIcon size={36} type="devops-3n59bi9j" />;
       break;
     case 'sysAdmin':
       sideIcon = <img className="big-icon" src={orgCenterSvg} />;
       break;
     case 'cmp':
-      sideIcon = <img className="big-icon" src={cmpSvg} />;
+      sideIcon = <ErdaIcon size={36} type="duoyun" />;
       break;
     case 'orgCenter':
-      sideIcon = <img className="big-icon" src={orgCenterSvg} />;
+      sideIcon = <ErdaIcon size={36} type="guanlizhongxin-3n59bian" />;
       break;
     case 'msp':
-      sideIcon = <img className="big-icon" src={mspSvg} />;
+      sideIcon = <ErdaIcon size={36} type="weifuwu" />;
       break;
     case 'fdp':
-      sideIcon = <img className="big-icon" src={dataSvg} />;
-      break;
-    case 'apiManage':
-      sideIcon = <img className="big-icon" src={apiManageSvg} />;
+      sideIcon = <ErdaIcon size={36} type="kuaishuju" />;
       break;
     case 'ecp':
       sideIcon = <img className="big-icon" src={ecpSvg} />;
       break;
     default:
-      sideIcon = <CustomIcon color type={detail.icon || 'yy'} />;
+      sideIcon = <ErdaIcon type={detail.icon || 'yy'} />;
       break;
   }
   return (
