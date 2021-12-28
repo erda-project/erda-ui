@@ -33,7 +33,7 @@ interface IProps extends MenuProps {
   openKeys: string[];
   selectedKey: string;
   dataSource: IMenu[];
-  isFixed: boolean;
+  isFloat: boolean;
   extraNode: () => React.ReactElement;
   linkRender: (child: React.ReactNode, item: IMenu) => React.ReactNode;
 }
@@ -44,7 +44,7 @@ const SidebarMenu = ({
   selectedKey,
   linkRender,
   dataSource,
-  isFixed,
+  isFloat,
   onOpenChange,
   ...restProps
 }: IProps) => {
@@ -67,7 +67,7 @@ const SidebarMenu = ({
   };
 
   return (
-    <div className={`side-nav-menu flex-shrink-0 overflow-hidden ${isFixed ? '' : 'float'}`}>
+    <div className={`side-nav-menu flex-shrink-0 overflow-hidden ${isFloat ? 'float' : ''}`}>
       {extraNode()}
       <div className="flex-1 overflow-y-auto overflow-x-hidden h-full menu-container">
         <Menu openKeys={openKeys} selectedKeys={[selectedKey]} mode="inline" onOpenChange={onOpenChange} {...restProps}>

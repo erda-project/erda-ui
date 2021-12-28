@@ -31,8 +31,6 @@ const usePlatformEntries = () => {
   const permMap = usePerm((s) => s.org);
   const appList = layoutStore.useStore((s) => s.appList);
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
-  const { switchToApp } = layoutStore.reducers;
-  const [visible, setVisible] = React.useState(false);
   const openMap = {
     orgCenter: permMap.entryOrgCenter.pass,
     cmp: permMap.cmp.showApp.pass,
@@ -41,9 +39,7 @@ const usePlatformEntries = () => {
     msp: permMap.entryMsp.pass,
     ecp: erdaEnv.ENABLE_EDGE === 'true' && permMap.ecp.view.pass && currentOrg.type === 'ENTERPRISE',
   };
-  const dataSource = appList.filter((app) => openMap[app.key]);
-
-  return dataSource;
+  return appList.filter((app) => openMap[app.key]);
 };
 
 export interface NavItemProps {
@@ -74,10 +70,11 @@ export const NavItem = ({ icon, label, link, onClick }: NavItemProps) => {
 };
 
 const Navigation = () => {
+  const currentApp = layoutStore.useStore((s) => s.currentApp);
   const { switchMessageCenter } = layoutStore.reducers;
   const unreadCount = messageStore.useStore((s) => s.unreadCount);
   const current = window.localStorage.getItem('locale') || 'zh';
-  const [currentOrg, orgs] = orgStore.useStore((s) => [s.currentOrg,s.orgs]);
+  const [currentOrg, orgs] = orgStore.useStore((s) => [s.currentOrg, s.orgs]);
   const platformEntries = usePlatformEntries();
   const isIn = routeStore.getState((s) => s.isIn);
   const isAdminRoute = isIn('sysAdmin');
@@ -120,22 +117,29 @@ const Navigation = () => {
 
   return (
     <div className={`erda-global-nav flex flex-col items-center relative`}>
-      <ErdaIcon type="gerengongzuotai" size={32} className="m-3 cursor-pointer" onClick={()=>{
-        const isIncludeOrg = !!orgs.find((x) => x.name === curOrgName);
-        if (isAdminRoute) {
-          const lastOrg = window.localStorage.getItem('lastOrg');
-          const isInLastOrg = !!orgs.find((x: Obj) => x.name === lastOrg);
-          goTo(goTo.pages.orgRoot, { orgName: isInLastOrg ? lastOrg : '-' });
-        } else if (isIncludeOrg) {
-          goTo(goTo.pages.orgRoot);
-        } else if (!orgs?.length) {
-          // skipping warning when the user doesn't join any organization.
-          goTo(goTo.pages.orgRoot, { orgName: '-' });
-        } else {
-          message.warning(i18n.t('default:org-jump-tip'), 2, () => goTo(goTo.pages.orgRoot, { orgName: '-' }));
-        }
-      }} />
-      <OrgSelector mode="simple" size="middle" />
+      <ErdaIcon
+        type="gerengongzuotai"
+        size={32}
+        className="m-3 cursor-pointer"
+        onClick={() => {
+          const isIncludeOrg = !!orgs.find((x) => x.name === curOrgName);
+          if (isAdminRoute) {
+            const lastOrg = window.localStorage.getItem('lastOrg');
+            const isInLastOrg = !!orgs.find((x: Obj) => x.name === lastOrg);
+            goTo(goTo.pages.orgRoot, { orgName: isInLastOrg ? lastOrg : '-' });
+          } else if (isIncludeOrg) {
+            goTo(goTo.pages.orgRoot);
+          } else if (!orgs?.length) {
+            // skipping warning when the user doesn't join any organization.
+            goTo(goTo.pages.orgRoot, { orgName: '-' });
+          } else {
+            message.warning(i18n.t('default:org-jump-tip'), 2, () => goTo(goTo.pages.orgRoot, { orgName: '-' }));
+          }
+        }}
+      />
+      <div className="py-2">
+        <OrgSelector mode="simple" size="middle" />
+      </div>
       {platformEntries.map((item) => {
         return (
           <div
@@ -145,11 +149,16 @@ const Navigation = () => {
             <NavItem
               label={item.name}
               link={item.href}
+              onClick={() => layoutStore.reducers.switchToApp(item.key)}
               icon={
-                <>
-                  <ErdaIcon className="absolute icon active-icon" size={24} type={item.icon} />
-                  <ErdaIcon className="absolute icon normal-icon" size={24} type={`${item.icon}-normal`} />
-                </>
+                currentApp.key === item.key ? (
+                  <ErdaIcon className="absolute icon active-icon opacity-100" size={24} type={item.icon} />
+                ) : (
+                  <>
+                    <ErdaIcon className="absolute icon active-icon" size={24} type={item.icon} />
+                    <ErdaIcon className="absolute icon normal-icon" size={24} type={`${item.icon}-normal`} />
+                  </>
+                )
               }
             />
           </div>

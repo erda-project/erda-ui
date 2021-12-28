@@ -84,7 +84,7 @@ const SideBar = () => {
   const [subSiderInfoMap, subList] = layoutStore.useStore((s) => [s.subSiderInfoMap, s.subList]);
   const routeMarks = routeInfoStore.useStore((s) => s.routeMarks);
   const [state, updater, update] = useUpdate({
-    fixed: localStorage.getItem('isSidebarFixed') === 'true',
+    float: localStorage.getItem('sidebarFixed') === 'false',
     menus: [],
     openKeys: [],
     selectedKey: '',
@@ -161,7 +161,7 @@ const SideBar = () => {
     if (JSON.stringify(fullMenu) !== JSON.stringify(state.menus) || selectedKey !== state.selectedKey) {
       update({
         menus: fullMenu,
-        openKeys: (localStorage.getItem('isSidebarFixed') !== 'true' && activeKeyList) || [],
+        openKeys: (localStorage.getItem('sidebarFixed') !== 'true' && activeKeyList) || [],
         selectedKey,
       });
     }
@@ -182,24 +182,24 @@ const SideBar = () => {
   const handleToggleFixed = (newFlag: boolean) => {
     localStorage.setItem('sidebarFixed', `${newFlag}`);
     layoutStore.reducers.toggleSideFold(!newFlag);
-    updater.fixed(newFlag);
+    updater.float(newFlag);
   };
 
   return (
     <>
-      <div className={`erda-sidebar-trigger ${state.fixed ? '' : 'float'}`}>
+      <div className={`erda-sidebar-trigger ${state.float ? 'float' : ''}`}>
         <div className="toggle-btn inline-flex items-center justify-center">
           <ErdaIcon
             className="icon cursor-pointer p-1"
-            type={state.fixed ? 'zuofan' : 'erjicaidan'}
+            type={state.float ? 'zuofan' : 'erjicaidan'}
             size={20}
-            onClick={() => handleToggleFixed(!state.fixed)}
+            onClick={() => handleToggleFixed(!state.float)}
           />
           <ErdaIcon
             className="icon cursor-pointer p-1 absolute hover-show"
             type="youfan"
             size={20}
-            onClick={() => handleToggleFixed(!state.fixed)}
+            onClick={() => handleToggleFixed(!state.float)}
           />
         </div>
         <SidebarMenu
@@ -210,7 +210,7 @@ const SideBar = () => {
           extraNode={() => <MenuHeader siderInfo={siderInfo} routeMarks={routeMarks} />}
           dataSource={state.menus}
           linkRender={linkRender}
-          isFixed={state.fixed}
+          isFloat={!state.float}
         />
       </div>
     </>
