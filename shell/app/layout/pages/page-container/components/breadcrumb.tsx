@@ -63,7 +63,9 @@ const BreadcrumbItem = ({
 
   return displayTitle ? (
     <span
-      className={`breadcrumb-name ${isLast ? '' : 'text-sub'} ${route.disabled ? 'breadcrumb-disabled' : ''}`}
+      className={`breadcrumb-name cursor-pointer hover:text-default ${isLast ? '' : 'text-sub'} ${
+        route.disabled ? 'breadcrumb-disabled' : ''
+      }`}
       title={displayTitle}
       key={eternal || path}
       onClick={() => !route.disabled && goTo(link)}
@@ -188,10 +190,10 @@ const ErdaBreadcrumb = () => {
           return null;
         }
         return (
-          <span className="cursor-pointer hover:text-default">
+          <>
             <BreadcrumbItem paths={[...paths]} route={item} params={params} title={_title} isLast={isLast} />
             {!isLast && <ErdaIcon className="align-middle mx-1 text-sub" type="right" size="14px" />}
-          </span>
+          </>
         );
       })}
     </div>
