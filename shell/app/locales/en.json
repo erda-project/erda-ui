@@ -1583,7 +1583,6 @@
     "plugin deployment": "plugin deployment",
     "port cannot be empty": "port cannot be empty",
     "ports": "ports",
-    "position to today": "position to today",
     "post comment": "post comment",
     "preconditions": "preconditions",
     "previous": "previous",
@@ -1913,7 +1912,6 @@
     "page-not-found": "sorry, page not found",
     "personal settings": "settings",
     "sorry, you do not have access to this page": "sorry, you do not have access to this page",
-    "there is no organization information, please select an organization first": "there is no organization information, please select an organization first",
     "view doc": "view doc"
   },
   "msp": {
@@ -2751,7 +2749,6 @@
     "message content": "message content",
     "monitor log": "monitor log",
     "operation time": "operation time",
-    "pattern": "pattern",
     "please": "please ",
     "please fill in the correct domain name": "please fill in the correct domain name",
     "please fill in the custom domain name": "please fill in the custom domain name",
