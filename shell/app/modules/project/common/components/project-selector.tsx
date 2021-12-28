@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { LoadMoreSelector, Icon as CustomIcon } from 'common';
+import { LoadMoreSelector, ErdaIcon, Ellipsis } from 'common';
 import { goTo } from 'common/utils';
 import { map } from 'lodash';
 import { Tooltip } from 'antd';
@@ -45,6 +45,7 @@ export const ProjectSelector = (props: IProps) => {
   return (
     <LoadMoreSelector
       getData={getData}
+      dropdownMatchSelectWidth={false}
       dataFormatter={({ list, total }) => ({
         total,
         list: map(list, (item) => ({ ...item, label: item.displayName || item.name, value: item.id })),
@@ -59,11 +60,12 @@ const headProjectRender = (val: any = {}) => {
   const curProject = projectStore.getState((s) => s.info);
   const name = val.displayName || val.name || curProject.displayName || curProject.name || '';
   return (
-    <div className="head-project-name">
-      <span className="nowrap text-base font-bold" title={name}>
-        {name}
-      </span>
-      <CustomIcon className="caret" type="caret-down" />
+    <div className="head-project-name flex flex-col pl-2">
+      <div className="flex ">
+        <Ellipsis className="font-bold" title={name} />
+        <ErdaIcon type="caret-down" className="text-default-3" size="12" />
+      </div>
+      <Ellipsis className="text-default-8 text-xs" title={curProject.desc || '-'} />
     </div>
   );
 };
@@ -71,7 +73,7 @@ const headProjectRender = (val: any = {}) => {
 export const HeadProjectSelector = () => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
   return (
-    <div className="head-project-selector pl-2">
+    <div className="head-project-selector flex-1 overflow-hidden">
       <ProjectSelector
         valueItemRender={headProjectRender}
         value={projectId}

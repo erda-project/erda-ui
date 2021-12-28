@@ -71,7 +71,7 @@ const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
       break;
   }
   return (
-    <div className={`flex sidebar-info-block px-4 py-3 mb-3 rounded-sm`}>
+    <div className={`flex sidebar-info-block px-4 py-3 mb-3 rounded-sm items-center`}>
       <IF check={!!logo}>
         <img key={logo} className={logoClassName} src={ossImg(logo, { w: 36 })} alt="logo" />
         <IF.ELSE />

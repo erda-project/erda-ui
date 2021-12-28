@@ -74,6 +74,29 @@
   @extend %shallow-shadow;
 
   .load-more-dropdown-menu {
+    .ant-dropdown-menu-item-divider {
+      background-color: $color-white-3;
+    }
+    .search {
+      padding-left: 0.5rem;
+      padding-top: 0;
+      padding-bottom: 0;
+      margin: 0;
+      border-color: transparent !important;
+      background-color: rgba($white, 0.08) !important;
+      .ant-input {
+        color: $white;
+        background-color: transparent !important;
+        &::-webkit-input-placeholder {
+          color: rgba($white, 0.3);
+        }
+      }
+    }
+    &.ant-dropdown-menu {
+      background-color: rgba($color-default, 0.96);
+      color: $white;
+    }
+
     .ant-dropdown-menu-item:hover,
     .ant-dropdown-menu-submenu-title:hover {
       background-color: transparent;
@@ -95,12 +118,20 @@
 }
 
 .load-more-selector-container {
+  .ant-dropdown-menu-submenu-title,
+  .ant-spin-container {
+    color: $white !important;
+  }
+  .ant-menu {
+    background-color: rgba($color-default, 0.96);
+    color: $white;
+  }
   .content {
     display: flex;
     min-height: 150px;
     max-height: 200px;
     margin-top: 12px;
-    border: 1px solid $color-border;
+    border: 1px solid $color-white-3;
     border-radius: $radius;
 
     &.normal {
@@ -111,12 +142,13 @@
       overflow: hidden;
       overflow-y: auto;
       text-overflow: ellipsis;
-      border-right: 1px solid $color-border;
+      border-right: 1px solid $color-white-3;
 
       .menu-item {
         height: 36px;
         margin-top: 0;
         margin-bottom: 0;
+        color: $white !important;
       }
 
       .ant-empty-image {
@@ -141,19 +173,15 @@
       .load-more-list-item {
         display: flex;
         align-items: center;
+        // justify-content: space-between;
         margin-left: 0;
         padding: 6px 10px;
+        color: $color-white-6;
 
         &:hover,
         &.checked {
-          color: $color-primary;
-          background-color: $color-click-bg;
-        }
-      }
-
-      .load-more {
-        &:hover {
-          color: $color-primary;
+          color: $white;
+          background-color: rgba($white, 0.08);
         }
       }
     }

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Badge } from 'antd';
+import { Badge, message } from 'antd';
 import orgStore from 'app/org-home/stores/org';
 import { ErdaIcon } from 'common';
 import { DOC_HELP_HOME, erdaEnv } from 'common/constants';
@@ -20,9 +20,12 @@ import layoutStore from 'layout/stores/layout';
 import messageStore from 'layout/stores/message';
 import React from 'react';
 import { usePerm } from 'user/common';
+import { goTo } from 'common/utils';
+import routeStore from 'core/stores/route';
 import UserMenu from './userMenu';
 import './index.scss';
 import { Link } from 'react-router-dom';
+import OrgSelector from 'app/org-home/pages/org-selector';
 
 const usePlatformEntries = () => {
   const permMap = usePerm((s) => s.org);
@@ -30,7 +33,6 @@ const usePlatformEntries = () => {
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const { switchToApp } = layoutStore.reducers;
   const [visible, setVisible] = React.useState(false);
-
   const openMap = {
     orgCenter: permMap.entryOrgCenter.pass,
     cmp: permMap.cmp.showApp.pass,
@@ -75,7 +77,11 @@ const Navigation = () => {
   const { switchMessageCenter } = layoutStore.reducers;
   const unreadCount = messageStore.useStore((s) => s.unreadCount);
   const current = window.localStorage.getItem('locale') || 'zh';
+  const [currentOrg, orgs] = orgStore.useStore((s) => [s.currentOrg,s.orgs]);
   const platformEntries = usePlatformEntries();
+  const isIn = routeStore.getState((s) => s.isIn);
+  const isAdminRoute = isIn('sysAdmin');
+  const curOrgName = currentOrg.name;
   const bottomItems = [
     {
       icon: <ErdaIcon type="bangzhuwendang" className="text-normal" size={20} />,
@@ -114,8 +120,22 @@ const Navigation = () => {
 
   return (
     <div className={`erda-global-nav flex flex-col items-center relative`}>
-      <ErdaIcon type="gerengongzuotai" size={32} className="m-3" />
-      <ErdaIcon type="gerengongzuotai" size={24} className="m-3" />
+      <ErdaIcon type="gerengongzuotai" size={32} className="m-3 cursor-pointer" onClick={()=>{
+        const isIncludeOrg = !!orgs.find((x) => x.name === curOrgName);
+        if (isAdminRoute) {
+          const lastOrg = window.localStorage.getItem('lastOrg');
+          const isInLastOrg = !!orgs.find((x: Obj) => x.name === lastOrg);
+          goTo(goTo.pages.orgRoot, { orgName: isInLastOrg ? lastOrg : '-' });
+        } else if (isIncludeOrg) {
+          goTo(goTo.pages.orgRoot);
+        } else if (!orgs?.length) {
+          // skipping warning when the user doesn't join any organization.
+          goTo(goTo.pages.orgRoot, { orgName: '-' });
+        } else {
+          message.warning(i18n.t('default:org-jump-tip'), 2, () => goTo(goTo.pages.orgRoot, { orgName: '-' }));
+        }
+      }} />
+      <OrgSelector mode="simple" size="middle" />
       {platformEntries.map((item) => {
         return (
           <div

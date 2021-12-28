@@ -3,11 +3,10 @@
 
   .load-more-selector {
     .results {
-      padding: 4px 2px 4px 12px;
+      padding: 0;
       border: 1px solid transparent;
 
       &:hover {
-        border: 1px solid $color-primary;
         box-shadow: unset;
       }
 
@@ -23,8 +22,6 @@
 
   .head-app-name {
     display: flex;
-    align-items: center;
-    justify-items: center;
     width: 100%;
   }
 }
