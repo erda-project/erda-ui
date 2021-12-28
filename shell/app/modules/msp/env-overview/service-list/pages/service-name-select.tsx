@@ -26,7 +26,7 @@ export function ServiceNameSelect() {
   const [serviceId, serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
   const { startTimeMs, endTimeMs } = globalTimeSelectSpan?.range || {};
   const params = routeInfoStore.useStore((s) => s.params);
-  const serverListData = getServiceList.useData();
+  const [serverListData, loading] = getServiceList.useState();
   const { updateState } = serviceAnalyticsStore;
   const serviceList = serverListData?.data || [];
 
@@ -36,12 +36,17 @@ export function ServiceNameSelect() {
     const _serviceName = service[0]?.service_name || serviceList[0]?.service_name;
     const applicationId = service[0]?.application_id || serviceList[0]?.application_id;
     updateState({
-      requestCompleted: true,
       serviceId: _serviceId ? window.decodeURIComponent(_serviceId) : '',
       serviceName: _serviceName,
       applicationId,
     });
   };
+
+  React.useEffect(() => {
+    updateState({
+      requestCompleted: !loading,
+    });
+  }, [loading]);
 
   React.useEffect(() => {
     getServiceList.fetch({ start: startTimeMs, end: endTimeMs, terminusKey: params?.terminusKey });
