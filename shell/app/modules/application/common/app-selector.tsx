@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { LoadMoreSelector, ErdaIcon } from 'common';
+import { LoadMoreSelector, ErdaIcon, Ellipsis } from 'common';
 import { goTo } from 'common/utils';
 import { map, isArray, filter, isEmpty, find, get } from 'lodash';
 import { Tooltip } from 'antd';
@@ -80,6 +80,7 @@ export const AppSelector = (props: IProps) => {
   return (
     <LoadMoreSelector
       getData={getData}
+      dropdownMatchSelectWidth={false}
       placeholder={i18n.t('common:search by {name}', { name: i18n.t('application') })}
       dataFormatter={({ list, total }) => ({
         total,
@@ -96,11 +97,12 @@ const headAppRender = (val: any = {}) => {
   const curApp = appStore.getState((s) => s.detail);
   const name = val.displayName || val.name || curApp.displayName || curApp.name || '';
   return (
-    <div className="head-app-name">
-      <span className="nowrap text-base font-bold" title={name}>
-        {name}
-      </span>
-      <ErdaIcon type="caret-down" size="16" className="align-middle caret ml-1" />
+    <div className="head-app-name flex flex-col">
+      <div className="flex ">
+        <Ellipsis className="font-bold" title={name} />
+        <ErdaIcon type="caret-down" className="text-default-3" size="12" />
+      </div>
+      <Ellipsis className="text-default-8 text-xs" title={curApp.desc || '-'} />
     </div>
   );
 };
