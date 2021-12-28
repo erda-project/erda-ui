@@ -13,7 +13,7 @@
 
 import execa, { ExecaChildProcess } from 'execa';
 import { logSuccess, logError } from './util/log';
-import { checkIsRoot, ALL_MODULES, clearPublic, killPidTree } from './util/env';
+import { checkIsRoot, ALL_MODULES, clearPublic, killPidTree, COMMUNITY_MODULES } from './util/env';
 import generateVersion from './util/gen-version';
 import localIcon from './local-icon';
 
@@ -55,11 +55,11 @@ const buildModules = async (rebuildList: string[]) => {
   logSuccess('build successfully 😁!');
 };
 
-export default async () => {
+export default async ({ ce }: { ce: boolean }) => {
   try {
     checkIsRoot();
 
-    const buildList = ALL_MODULES;
+    const buildList = ce ? COMMUNITY_MODULES : ALL_MODULES;
 
     await clearPublic();
 
