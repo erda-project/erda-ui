@@ -40,11 +40,12 @@ program
   .option('-b, --backendUrl <backendUrl>', 'set backend(api) url')
   .option('-o, --override', 'ignore current .env file and override')
   .option('--online', 'is online execution')
+  .option('--ce', 'build community edition')
   .option('--skipInstall', 'whether to skip the installation step')
   .action(async (options) => {
-    const { online, ...restOptions } = options;
+    const { online, ce, ...restOptions } = options;
     if (online) {
-      initOnline();
+      initOnline({ ce });
     } else {
       init(restOptions);
     }
@@ -57,13 +58,14 @@ program
   )
   .option('--enableSourceMap', 'generate source map, default is false')
   .option('--online', 'whether is online build, default is false')
+  .option('--ce', 'build community edition')
   .option('--release', 'whether need build docker image & push, default is false')
   .option('--registry', 'docker registry address which to push')
   .option('--skipBuild', 'skip build and only run docker build & push command. Only take effect when --release is set')
   .action(async (options) => {
-    const { online, ...restOptions } = options;
+    const { online, ce, ...restOptions } = options;
     if (online) {
-      buildOnline();
+      buildOnline({ ce });
     } else {
       build(restOptions);
     }
