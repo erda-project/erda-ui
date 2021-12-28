@@ -191,7 +191,7 @@ const SideBar = () => {
         <div className="toggle-btn inline-flex items-center justify-center">
           <ErdaIcon
             className="icon cursor-pointer p-1"
-            type={state.float ? 'zuofan' : 'erjicaidan'}
+            type={state.float ? 'erjicaidan' : 'zuofan'}
             size={20}
             onClick={() => handleToggleFixed(!state.float)}
           />
