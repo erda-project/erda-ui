@@ -1,0 +1,45 @@
+.new-form-modal {
+  font-family: 'PingFangSC-Medium';
+
+  .ant-modal-content {
+    .ant-modal-header,
+    .ant-modal-body,
+    .ant-modal-footer {
+      background: rgba(48, 38, 71, 0.96);
+    }
+
+    .ant-modal-title {
+      color: $white;
+    }
+
+    .ant-form-item-label label {
+      color: $color-white-6;
+    }
+
+    .ant-form-item-has-error :not(.ant-input-disabled):not(.ant-input-borderless).ant-input {
+      background: rgba($white, 0.08);
+    }
+
+    .ant-modal-close-x {
+      font-size: 20px;
+      font-weight: bold;
+      color: $color-white-6;
+    }
+    // TODO: input 选择一个背景色变白
+
+    .ant-input {
+      border: 0;
+      color: rgba($white, 0.6);
+      background: rgba($white, 0.08);
+
+      &:hover,
+      &:focus {
+        border: 1px solid $color-purple-highlight;
+      }
+
+      &::placeholder {
+        color: rgba($white, 0.3);
+      }
+    }
+  }
+}

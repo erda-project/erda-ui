@@ -16,6 +16,7 @@ export { default as ErdaIcon } from './components/erda-icon';
 export { default as SimplePanel } from './components/simple-panel';
 export { default as AddMemberModal } from './components/add-member-modal';
 export { default as FormModal } from './components/form-modal';
+export { default as NewFormModal } from './components/new-form-modal';
 export { default as ImageUpload } from './components/image-upload';
 export { default as Terminal } from './components/terminal';
 export { default as CommonRangePicker } from './components/common-range-picker';

@@ -146,6 +146,7 @@ export enum pages {
   projectService = '/{orgName}/dop/projects/{projectId}/service',
   testPlanDetail = '/{orgName}/dop/projects/{projectId}/manual/testPlan/{testPlanID}?caseId={caseId}&testSetID={testSetID}',
   projectApps = '/{orgName}/dop/projects/{projectId}/apps',
+  projectHomepage = '/{orgName}/dop/projects/{projectId}/homepage',
   projectAllIssue = '/{orgName}/dop/projects/{projectId}/issues/all',
   projectIssue = '/{orgName}/dop/projects/{projectId}/issues/{type}',
   projectIssueDetail = '/{orgName}/dop/projects/{projectId}/issues/{type}?id={id}&type={type}',

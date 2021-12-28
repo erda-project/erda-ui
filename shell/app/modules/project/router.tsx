@@ -33,6 +33,12 @@ function getProjectRouter(): RouteConfigItem[] {
       mark: 'project',
       routes: [
         {
+          path: 'homepage',
+          breadcrumbName: i18n.d('项目主页'),
+          layout: { fullHeight: true },
+          getComp: (cb) => cb(import('project/pages/homepage'), 'ProjectHomepage'),
+        },
+        {
           path: 'apps',
           breadcrumbName: i18n.t('dop:Applications'),
           layout: { fullHeight: true },
@@ -383,6 +389,7 @@ function getProjectRouter(): RouteConfigItem[] {
           layout: { showSubSidebar: false, fullHeight: true },
           getComp: (cb) => cb(import('user/common/perm-editor/perm-editor'), 'PermEditor'),
         },
+
       ],
     },
   ];

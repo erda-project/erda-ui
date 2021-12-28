@@ -23,6 +23,18 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
 
   const menu = [
     {
+      href: goTo.resolve.projectHomepage(), // `/dop/projects/${projectId}/issues/all`,
+      icon: <ErdaIcon type="xiangmuxietong" />,
+      text: i18n.d('项目主页'),
+      subtitle: i18n.d('主页'),
+      show:
+        projectPerm.backLog.viewBackLog.pass ||
+        projectPerm.iteration.read.pass ||
+        projectPerm.issue.viewIssue.pass ||
+        projectPerm.epic.read.pass ||
+        projectPerm.dashboard.viewDashboard.pass,
+    },
+    {
       href: goTo.resolve.projectAllIssue(), // `/dop/projects/${projectId}/issues/all`,
       icon: <ErdaIcon type="xiangmuxietong" />,
       text: i18n.t('dop:Projects'),

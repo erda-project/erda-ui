@@ -1,0 +1,90 @@
+.project-homepage {
+  font-family: PingFangSC-Regular;
+
+  .homepage-header {
+    height: 120px;
+    background: #3fa796;
+    position: relative;
+    margin-bottom: 56px;
+
+    .project-icon {
+      position: absolute;
+      width: 76px;
+      height: 76px;
+      bottom: -38px;
+      left: 16px;
+      border: 6px white solid;
+      box-shadow: 0 2px 7px 0 rgba(48, 38, 71, 0.16);
+      border-radius: 2px;
+    }
+
+    .project-name {
+      position: absolute;
+      bottom: -38px;
+      left: 108px;
+      font-size: 30px;
+      color: #302647;
+      letter-spacing: 0;
+      line-height: 38px;
+    }
+  }
+
+  .homepage-body {
+    .homepage-info {
+      width: 280px;
+
+      .info-title {
+        font-size: 14px;
+        color: #302647;
+        letter-spacing: 0;
+        line-height: 22px;
+        margin-bottom: 12px;
+      }
+    }
+  }
+
+  // TODO: 会影响到其他页面
+  .ant-card-body {
+    padding: 0 !important;
+  }
+
+  // .ant-modal-content {
+  //   .ant-modal-header,
+  //   .ant-modal-body,
+  //   .ant-modal-footer {
+  //     background: rgba(48, 38, 71, 0.96);
+  //   }
+  // }
+}
+
+// 动画效果，会覆盖过来
+.option-item {
+  display: flex;
+  align-items: center;
+  margin-left: 0;
+  padding: 6px 10px;
+
+  &-delete {
+    background-color: $white;
+    right: 0;
+    transform: translateX(30px);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: -3px 0 4px -4px $color-text-sub;
+  }
+
+  &.checked-item {
+    color: $primary;
+  }
+
+  &:hover {
+    color: $primary;
+    background-color: $color-click-bg;
+
+    .option-item-delete {
+      transform: translateX(0);
+      &-box {
+        background-color: $color-click-bg;
+      }
+    }
+  }
+}
