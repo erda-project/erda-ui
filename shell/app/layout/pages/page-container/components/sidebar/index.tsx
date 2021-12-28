@@ -180,7 +180,7 @@ const SideBar = () => {
   };
 
   const handleToggleFixed = (newFlag: boolean) => {
-    localStorage.setItem('sidebarFixed', `${newFlag}`);
+    localStorage.setItem('sidebarFixed', `${!newFlag}`);
     layoutStore.reducers.toggleSideFold(!newFlag);
     updater.float(newFlag);
   };
