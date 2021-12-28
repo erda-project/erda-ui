@@ -1,3 +1,9 @@
+.project-homepage-wrapper {
+  .ant-card-body {
+    padding: 0 !important;
+  }
+}
+
 .project-homepage {
   font-family: PingFangSC-Regular;
 
@@ -41,11 +47,6 @@
         margin-bottom: 12px;
       }
     }
-  }
-
-  // TODO: 会影响到其他页面
-  .ant-card-body {
-    padding: 0 !important;
   }
 
   .markdown-editor .markdown-editor-content .rc-md-editor .editor-container {

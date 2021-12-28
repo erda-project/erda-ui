@@ -35,7 +35,7 @@ function getProjectRouter(): RouteConfigItem[] {
         {
           path: 'homepage',
           breadcrumbName: i18n.d('项目主页'),
-          layout: { fullHeight: true },
+          layout: { fullHeight: true, className: 'project-homepage-wrapper' },
           getComp: (cb) => cb(import('project/pages/homepage'), 'ProjectHomepage'),
         },
         {
@@ -389,7 +389,6 @@ function getProjectRouter(): RouteConfigItem[] {
           layout: { showSubSidebar: false, fullHeight: true },
           getComp: (cb) => cb(import('user/common/perm-editor/perm-editor'), 'PermEditor'),
         },
-
       ],
     },
   ];

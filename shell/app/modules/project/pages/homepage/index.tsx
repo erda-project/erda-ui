@@ -2,7 +2,7 @@ import React from 'react';
 import i18n from 'core/i18n';
 import { map } from 'lodash';
 import { Tooltip } from 'antd';
-import { ErdaIcon, Ellipsis, NewFormModal, MarkdownEditor } from 'common';
+import { ErdaIcon, Ellipsis, FormModal, MarkdownEditor } from 'common';
 import remarkGfm from 'remark-gfm';
 import routeInfoStore from 'core/stores/route';
 import { regRules, goTo } from 'common/utils';
@@ -204,7 +204,8 @@ export const ProjectHomepage = () => {
           </div>
         </div>
       </div>
-      <NewFormModal
+      <FormModal
+        wrapClassName='new-form-modal'
         onOk={() => console.log('ok')}
         onCancel={() => setIsVisible(false)}
         name={i18n.t('URL')}
