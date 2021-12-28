@@ -16,7 +16,7 @@ import layoutStore from 'layout/stores/layout';
 import { orgPerm } from 'user/stores/_perm-org';
 import { createStore } from 'core/cube';
 import userStore from 'app/user/stores';
-import { getOrgByDomain, getJoinedOrgs, updateOrg } from '../services/org';
+import { getOrgByDomain, getJoinedOrgs, updateOrg, getPublicOrgs } from '../services/org';
 import { getResourcePermissions } from 'user/services/user';
 import permStore from 'user/stores/permission';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
@@ -28,6 +28,7 @@ interface IState {
   currentOrg: ORG.IOrg;
   curPathOrg: string;
   orgs: ORG.IOrg[];
+  publicOrgs: ORG.IOrg[];
   initFinish: boolean;
 }
 
@@ -35,6 +36,7 @@ const initState: IState = {
   currentOrg: {} as ORG.IOrg,
   curPathOrg: '',
   orgs: [],
+  publicOrgs: [],
   initFinish: false,
 };
 
@@ -199,6 +201,13 @@ const org = createStore({
       if (!orgs.length || force) {
         const { list } = await call(getJoinedOrgs);
         update({ orgs: list });
+      }
+    },
+    async getPublicOrgs({ call, select, update }, force?: boolean) {
+      const publicOrgs = select((state) => state.publicOrgs);
+      if (!publicOrgs.length || force) {
+        const { list } = await call(getPublicOrgs);
+        update({ publicOrgs: list });
       }
     },
   },

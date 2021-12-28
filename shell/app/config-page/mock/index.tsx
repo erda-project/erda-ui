@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { enhanceMock, mockData } from './data-rank.mock';
+import { enhanceMock, mockData } from './crud.mock';
 
 export const useMock = (payload: Obj) => {
   if (process.env.NODE_ENV === 'production') {

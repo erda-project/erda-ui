@@ -1,4 +1,14 @@
 .erda-badge {
+  &.only-dot {
+    background-color: transparent !important;
+    padding: 0 4px 0 0 !important;
+    .erda-badge-status-dot {
+      margin-right: 0 !important;
+    }
+  }
+  .erda-badge-status-text {
+    word-break: keep-all;
+  }
   .erda-badge-status-dot {
     border-radius: 50%;
     position: relative;
@@ -43,8 +53,8 @@
   }
   &.badge-small {
     font-size: 12px;
-    line-height: 18px;
-    padding: 0 4px;
+    line-height: 20px;
+    padding: 0 8px;
     .erda-badge-status-dot {
       width: 4px;
       height: 4px;

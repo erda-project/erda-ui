@@ -188,7 +188,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         className="bg-hover-gray-bg"
         bordered={false}
         // ref={inputRef}
-        prefix={<ErdaIcon size="16" type="search1" />}
+        prefix={<ErdaIcon fill="default-3" size="16" type="search" />}
         placeholder={placeholder || i18n.t('press enter to search')}
         // onPressEnter={() => inputRef.current?.blur()}
         onChange={(e) => setInputVal(e.target.value)}
@@ -219,7 +219,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               autoFocus
               size="small"
               placeholder={i18n.t('search')}
-              prefix={<ErdaIcon size="16" type="search1" />}
+              prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
               value={filterMap[key]}
               onChange={(e) => {
                 const v = e.target.value;
@@ -859,7 +859,7 @@ const ContractiveFilter = ({
                   <Input
                     autoFocus
                     size="small"
-                    prefix={<ErdaIcon size="16" type="search1" />}
+                    prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
                     onClick={(e) => e.stopPropagation()}
                     value={hideFilterKey}
                     onChange={(e) => setHideFilterKey(e.target.value.toLowerCase())}

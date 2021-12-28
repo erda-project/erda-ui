@@ -21,6 +21,7 @@ import routeInfoStore from 'core/stores/route';
 interface IProps extends IExtraProps {
   pageConfig: CONFIG_PAGE.PageConfig;
   customProps?: Obj;
+  forceUpdateCustom?: boolean;
 }
 
 interface IExtraProps {
@@ -36,22 +37,23 @@ interface IExtraProps {
 
 const emptyObj = {};
 const ConfigPageRender = (props: IProps) => {
-  const { pageConfig, customProps, execOperation, changeScenario, updateState } = props;
+  const { pageConfig, customProps, forceUpdateCustom, execOperation, changeScenario, updateState } = props;
   const { hierarchy, components = emptyObj } = pageConfig || {};
   const [componentsKey, setComponentsKey] = React.useState([] as string[]);
   const routeParams = routeInfoStore.useStore((s) => s.params);
   const containerMapRef = React.useRef(null as any);
 
+  const customPropsUpdateMark = forceUpdateCustom ? customProps : '';
   React.useEffect(() => {
     if (components) {
       const curCompKeys = Object.keys(components);
       if (!isEqual(curCompKeys, componentsKey)) {
-        containerMapRef.current = getContainerMap(components);
+        containerMapRef.current = getContainerMap(components, customProps);
         setComponentsKey(curCompKeys);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [components]);
+  }, [components, customPropsUpdateMark]);
 
   if (isEmpty(pageConfig)) return <EmptyHolder relative />;
 
@@ -61,6 +63,15 @@ const ConfigPageRender = (props: IProps) => {
   const compPrefixKey = 'protocol.components';
   const reUpdateState = (_cId: string) => (val: Obj) => {
     return updateState(`${compPrefixKey}.${_cId}.state`, val);
+  };
+
+  const handleClickGoto = (_op: CP_COMMON.Operation) => {
+    const { serverData } = _op;
+    const { params, query, target, jumpOut } = serverData || {};
+    const str_num_params = pickBy({ ...params }, (v) => ['string', 'number'].includes(typeof v));
+    const str_num_query = pickBy(query, (v) => ['string', 'number'].includes(typeof v));
+    const targetPath = goTo.pages[target] || target;
+    targetPath && goTo(targetPath, { ...routeParams, ...str_num_params, jumpOut, query: str_num_query });
   };
 
   const execCommand = (command: Obj, val: Obj) => {
@@ -82,6 +93,11 @@ const ConfigPageRender = (props: IProps) => {
 
   const reExecOperation = (_cId: string) => (_op: any, val: any) => {
     if (!_op || isEmpty(_op)) return;
+
+    if (_op.key === 'clickGoto') {
+      return handleClickGoto(_op);
+    }
+
     const op = cloneDeep({ ..._op });
     let updateVal = cloneDeep(val) as any;
     if (op.fillMeta) {
@@ -121,9 +137,12 @@ const ConfigPageRender = (props: IProps) => {
       if (!Comp) return null;
       const configComponent = get(pageConfig, `components.${cId}`) || {};
       const { op, props: customComponentProps, ...restCustomConfig } = customProps?.[cId] || {};
+      const { operations: dataOp, ...restData } = configComponent.data || {};
       const enhanceProps = {
         ...restCustomConfig,
         ...configComponent,
+        data: restData,
+        operations: { ...configComponent.operations, ...dataOp },
         props: { ...customComponentProps, ...configComponent.props },
         key: cId,
         cId,
@@ -178,11 +197,15 @@ const ConfigPageRender = (props: IProps) => {
 export default ConfigPageRender;
 
 // 根据配置中的container，获取到当前的所有的组件map
-const getContainerMap = (container: Obj<CONFIG_PAGE.BaseSpec>) => {
+const getContainerMap = (container: Obj<CONFIG_PAGE.BaseSpec>, customProps: Obj) => {
   const conMap = {};
   map(container, (config, cId) => {
-    const Comp = fullContainerMap[`${config.type}${config.version}`] || fullContainerMap[config.type];
-    conMap[cId] = Comp || fullContainerMap.NotFound;
+    if (config.type === 'Custom') {
+      conMap[cId] = customProps?.[cId] || fullContainerMap.NotFound;
+    } else {
+      const Comp = fullContainerMap[`${config.type}${config.version}`] || fullContainerMap[config.type];
+      conMap[cId] = Comp || fullContainerMap.NotFound;
+    }
   });
   return conMap;
 };

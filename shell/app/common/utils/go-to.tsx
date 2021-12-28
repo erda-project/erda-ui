@@ -174,6 +174,7 @@ export enum pages {
   app = '/{orgName}/dop/projects/{projectId}/apps/{appId}',
   repo = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo',
   appMr = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/mr/open/{mrId}',
+  appOpenMr = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/mr/open',
   pipelineRoot = '/{orgName}/dop/projects/{projectId}/apps/{appId}/pipeline',
   appApiDesign = '/{orgName}/dop/projects/{projectId}/apps/{appId}/apiDesign',
   repoBackup = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/backup',
@@ -241,8 +242,11 @@ export enum pages {
   apiManageQuery = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/apis?redirectApp={redirectApp}&redirectService={redirectService}&redirectRuntimeId={redirectRuntimeId}',
   apiManage = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/apis',
 
+  // 微服务日志分析
+  mspLogAnalyze = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/log/{addonId}',
+
   // 微服务日志分析规则
-  ms_addLogAnalyzeRule = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/log/{addonId}/rule/add?source={source}',
+  mspAddLogAnalyzeRule = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/log/{addonId}/rule/add?source={source}',
 
   // 网关“入口流量管理”
   getwayDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail',
@@ -261,8 +265,13 @@ export enum pages {
   microServiceAddCustomDashboard = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/analysis/{terminusKey}/custom-dashboard/add',
   microServiceCustomDashboardDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/analysis/{terminusKey}/custom-dashboard/{customDashboardId}',
 
+  // 微服务- 服务列表
+  mspServiceList = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list',
   // 微服务-总览服务列表
   mspServiceAnalyze = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}',
+
+  // 微服务-监控中心-服务监控
+  mspMonitorServiceAnalyze = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-analysis',
 
   // 微服务-监控中心-服务监控
   mspServiceMonitor = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-analysis/{applicationId}/{serviceId}/{serviceName}',
@@ -291,6 +300,8 @@ export enum pages {
   // 企业告警记录详情
   orgAlarmRecordDetail = '/{orgName}/cmp/alarm/record/{id}',
 
+  // 微服务告警历史
+  microServiceAlarmRecord = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/alarm-management/{terminusKey}/alarm-record',
   // 微服务告警记录详情
   microServiceAlarmRecordDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/alarm-management/{terminusKey}/alarm-record/{id}',
 

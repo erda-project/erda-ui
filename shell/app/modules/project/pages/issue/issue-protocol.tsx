@@ -20,7 +20,8 @@ import { qs, mergeSearch, updateSearch, setApiWithOrg } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
 import { Badge, ErdaIcon } from 'common';
-import { Button, Dropdown, Menu } from 'antd';
+import { usePerm, WithAuth } from 'app/user/common';
+import { Button, Dropdown, Menu, Tooltip } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import ImportFile from 'project/pages/issue/component/import-file';
 import issueFieldStore from 'org/stores/issue-field';
@@ -72,6 +73,8 @@ const IssueProtocol = ({ issueType }: IProps) => {
       orgID,
     });
   });
+
+  const issuePerm = usePerm((s) => s.project.requirement);
 
   const reloadRef = React.useRef(null as any);
   const filterObjRef = React.useRef(null as any);
@@ -178,6 +181,32 @@ const IssueProtocol = ({ issueType }: IProps) => {
         return <Menu.Item key={mItem.value}>{mItem.iconLabel}</Menu.Item>;
       })}
     </Menu>
+  );
+
+  const ImportComp = () => (
+    <WithAuth pass={issuePerm.import.pass}>
+      <Tooltip title={i18n.t('import')}>
+        <ErdaIcon
+          type="daoru"
+          className="p-1 text-default-4 hover:text-default-8 hover:bg-default-08 cursor-pointer ml-3"
+          size={20}
+          onClick={() => updater.importFileVisible(true)}
+        />
+      </Tooltip>
+    </WithAuth>
+  );
+
+  const ExportComp = () => (
+    <WithAuth pass={issuePerm.export.pass}>
+      <Tooltip title={i18n.t('export')}>
+        <ErdaIcon
+          type="daochu-2"
+          className="p-1 text-default-4 hover:text-default-8 hover:bg-default-08 cursor-pointer ml-3"
+          size={20}
+          onClick={() => window.open(getDownloadUrl())}
+        />
+      </Tooltip>
+    </WithAuth>
   );
 
   return (
@@ -292,20 +321,8 @@ const IssueProtocol = ({ issueType }: IProps) => {
               },
             },
           },
-          issueImport: {
-            op: {
-              // 导入
-              click: () => {
-                updater.importFileVisible(true);
-              },
-            },
-          },
-          issueExport: {
-            op: {
-              // 导出
-              click: () => window.open(getDownloadUrl()),
-            },
-          },
+          issueImport: ImportComp,
+          issueExport: ExportComp,
         }}
       />
       {[ISSUE_TYPE.BUG, ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK].includes(issueType) ? (

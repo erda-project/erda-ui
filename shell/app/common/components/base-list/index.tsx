@@ -13,20 +13,21 @@
 
 import React from 'react';
 import Pagination from 'common/components/pagination';
-import { EmptyHolder } from 'common';
+import { EmptyHolder as DefaultEmptyHolder } from 'common';
 import i18n from 'i18n';
 import ListItem from 'app/common/components/base-list/list-item';
 import './index.scss';
 
 const List = (props: ERDA_LIST.Props) => {
-  const { dataSource, isLoadMore, onLoadMore, pagination, getKey } = props;
-
+  const { dataSource, isLoadMore, onLoadMore, pagination, getKey, EmptyHolder, defaultLogo, defaultBgImg } = props;
   return (
     <div className="erda-base-list">
       {dataSource.length ? (
         <>
           {dataSource.map((item: ERDA_LIST.ListData, idx: number) => {
-            return <ListItem key={getKey(item, idx)} data={item} />;
+            return (
+              <ListItem defaultLogo={defaultLogo} defaultBgImg={defaultBgImg} key={getKey(item, idx)} data={item} />
+            );
           })}
           {pagination &&
             (!isLoadMore ? (
@@ -40,7 +41,7 @@ const List = (props: ERDA_LIST.Props) => {
             ))}
         </>
       ) : (
-        <EmptyHolder relative />
+        EmptyHolder || <DefaultEmptyHolder relative />
       )}
     </div>
   );

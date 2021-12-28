@@ -10,39 +10,21 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+.home-page {
+  position: relative;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
 
-declare namespace CP_RADIO_TABS {
-  interface Spec {
-    type: 'RadioTabs';
-    props: IProps;
-    state: IState;
-    data: IData;
-    operations?: {
-      onChange?: CP_COMMON.Operation;
-    };
+  .home-page-sidebar {
+    width: 320px;
+    height: 100%;
+    background-color: $color-bg;
   }
 
-  interface IState {
-    value: string;
+  .home-page-content {
+    height: 100%;
+    margin: 0 20px;
+    overflow: auto;
   }
-
-  interface IData {
-    options?: Option[];
-  }
-
-  interface IProps {
-    disabled?: boolean;
-    options?: Option[];
-  }
-
-  interface Option {
-    label: string;
-    value: string | number;
-    disabled?: boolean;
-    icon?: string;
-    tip?: string;
-    children?: Option[];
-  }
-
-  type Props = MakeProps<Spec>;
 }

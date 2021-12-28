@@ -15,24 +15,46 @@ declare namespace CP_CARD {
   interface Spec {
     type: 'Card';
     props: IProps;
+    data: ICardData;
+  }
+
+  interface ICardData {
+    title?: string;
+    titleSummary?: string;
+    cards?: ICard[];
   }
 
   interface IProps {
-    data: IData;
-    cardType: string;
+    cardType?: string;
+    direction?: 'row' | 'col';
     className?: string;
     setIsDrag?: (b: boolean) => void;
+    defaultImg?: string;
     CardRender?: React.FC<{ data: Obj }>;
+    EmptyHolder?: React.FC;
   }
 
-  interface IData {
+  interface ICard {
     id: string;
-    titleIcon?: string | React.ReactNode;
-    title?: string | React.ReactNode;
+    icon?: string;
+    imgURL?: string;
+    title?: string;
+    star?: boolean;
+    starProps?: Obj;
+    titleState?: Array<{ status: string; text: string }>;
+    textMeta?: Array<{ mainText: string; subText: string }>;
     operations?: Obj<CP_COMMON.Operation>;
-    subContent?: string | React.ReactNode;
-    description?: string | React.ReactNode;
     extraInfo?: React.ReactNode;
+    iconOperations: IconOperation[];
+  }
+
+  interface IconOperation {
+    icon: string;
+    tip?: string;
+    operations: {
+      clickGoto?: CP_COMMON.Operation;
+      click?: CP_COMMON.Operation;
+    };
   }
 
   type Props = MakeProps<Spec>;

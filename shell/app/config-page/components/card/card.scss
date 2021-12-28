@@ -1,5 +1,30 @@
-.dice-cp {
-  &.info-card {
+.cp-cards {
+  &.row {
+    .cp-card-item {
+      margin-right: 8px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+  &.col {
+    .cp-card-item {
+      margin-bottom: 8px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .cp-card-item {
+    border: 1px solid $border-color;
+    &:hover {
+      box-shadow: 0 2px 8px 0 rgba($color-default, 0.16);
+    }
+
+    .info-card-content {
+      width: 280px;
+    }
     &.dragging {
       background: repeating-linear-gradient(
         45deg,
@@ -21,8 +46,8 @@
     }
 
     .head-icon {
-      width: 20px;
-      height: 20px;
+      width: 28px;
+      height: 28px;
     }
 
     .op-icon {

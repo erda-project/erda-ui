@@ -59,7 +59,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.runtime.read.pass,
     key: 'deploy',
     href: goTo.resolve.deploy(), // `/dop/projects/${projectId}/apps/${appId}/deploy`,
-    icon: <ErdaIcon type="bushuzhongxin" />,
+    icon: <ErdaIcon type="bushuzhongxin-menu" />,
     text: i18n.t('dop:deployment center'),
     subtitle: i18n.t('Deploy'),
   };

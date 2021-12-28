@@ -11,37 +11,42 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_RADIO_TABS {
+declare namespace CP_DROPDOWN_SELECT_V2 {
   interface Spec {
-    type: 'RadioTabs';
+    type: 'DropdownSelect';
+    version: '2';
     props: IProps;
+    data?: IData;
     state: IState;
-    data: IData;
-    operations?: {
-      onChange?: CP_COMMON.Operation;
-    };
-  }
-
-  interface IState {
-    value: string;
   }
 
   interface IData {
-    options?: Option[];
-  }
-
-  interface IProps {
-    disabled?: boolean;
-    options?: Option[];
+    title?: string;
+    options: Option[];
   }
 
   interface Option {
     label: string;
-    value: string | number;
-    disabled?: boolean;
+    key: string;
     icon?: string;
-    tip?: string;
+    img?: string;
+    desc?: string;
+    disabled?: boolean;
     children?: Option[];
+  }
+
+  interface IProps extends IData {
+    size?: 'small' | 'middle' | 'large';
+    showFilter?: boolean;
+    onlyIcon?: boolean;
+    required?: boolean;
+    trigger?: Array<'click' | 'hover' | 'contextMenu'>;
+    className?: string;
+    overlayClassName?: string;
+  }
+
+  interface IState {
+    value: string;
   }
 
   type Props = MakeProps<Spec>;

@@ -61,6 +61,9 @@
     "Fri": "Fri",
     "Germany": "Germany",
     "Go to page": "Go to page",
+    "Good afternoon": "Good afternoon",
+    "Good evening": "Good evening",
+    "Good morning": "Good morning",
     "Group": "Group",
     "Hangzhou": "Hangzhou",
     "Heyuan": "Heyuan",
@@ -166,6 +169,7 @@
     "Virginia": "Virginia",
     "Voice Template ID": "Voice Template ID",
     "Wed": "Wed",
+    "Welcome to use cloud native product - Erda": "Welcome to use cloud native product - Erda",
     "Welcome!": "Welcome!",
     "You can use ClientID and ClientSecret below to access API instance after approval.": "You can use ClientID and ClientSecret below to access API instance after approval.",
     "You do not have enough permissions": "You do not have enough permissions",
@@ -606,6 +610,7 @@
     "new {name}": "new {name}",
     "nickname": "nickname",
     "no available version": "no available version",
+    "no available {item}": "no available {item}",
     "no description yet": "no description yet",
     "no items selected": "no items selected",
     "no more data": "no more data",
@@ -986,6 +991,7 @@
     "{size} items / page": "{size} items / page",
     "{specific} instance": "{specific} instance",
     "{total} item added successfully": "{total} item added successfully",
-    "{unreadCount} messages unread": "{unreadCount} messages unread"
+    "{unreadCount} messages unread": "{unreadCount} messages unread",
+    "{week}": "{week}"
   }
 }

@@ -1,30 +1,21 @@
-// Copyright (c) 2021 Terminus, Inc.
-//
-// This program is free software: you can use, redistribute, and/or modify
-// it under the terms of the GNU Affero General Public License, version 3
-// or later ("AGPL"), as published by the Free Software Foundation.
-//
-// This program is distributed in the hope that it will be useful, but WITHOUT
-// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-// FITNESS FOR A PARTICULAR PURPOSE.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with this program. If not, see <http://www.gnu.org/licenses/>.
-.home-page {
-  position: relative;
-  display: flex;
-  height: 100%;
-  overflow: hidden;
-
-  .home-page-sidebar {
-    width: 320px;
-    height: 100%;
-    background-color: $color-bg;
+.personal-workbench-page {
+  > div {
+    &.left {
+      width: 0;
+      overflow: auto;
+    }
   }
 
-  .home-page-content {
-    height: 100%;
-    margin: 0 20px;
-    overflow: auto;
+  .personal-workbench-cards {
+    .cp-cards {
+      background-image: linear-gradient(to right, $white, $white), linear-gradient(to right, $white, $white),
+        linear-gradient(to right, rgba($color-default, 0.1), rgba($white, 0)),
+        linear-gradient(to left, rgba($color-default, 0.1), rgba($white, 0));
+      background-position: left center, right center, left center, right center;
+      background-repeat: no-repeat;
+      background-color: $white;
+      background-size: 20px 100%, 20px 100%, 10px 88%, 10px 88%;
+      background-attachment: local, local, scroll, scroll;
+    }
   }
 }

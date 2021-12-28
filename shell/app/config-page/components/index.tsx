@@ -48,6 +48,7 @@ import Icon from './icon/icon';
 import EmptyHolder from './empty-holder/empty-holder';
 import Image from './image/image';
 import DropdownSelect from './dropdown-select/dropdown-select';
+import DropdownSelect2 from './dropdown-select/v2/dropdown-select';
 import TableGroup from './table-group/table-group';
 import TextGroup from './text-group/text-group';
 import Chart from './chart/chart';
@@ -146,4 +147,5 @@ export const containerMap = {
   List2,
   TopN,
   ScaleCard,
+  DropdownSelect2,
 };

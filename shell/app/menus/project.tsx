@@ -56,7 +56,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     // },
     {
       href: goTo.resolve.projectTestStatisticsRoot(), // `/dop/projects/${projectId}`,
-      icon: <ErdaIcon type="ceshiguanli" />,
+      icon: <ErdaIcon type="ceshiguanli-menu" />,
       text: i18n.t('Test Management'),
       subtitle: i18n.t('Test'),
       show: projectPerm.testManage.viewTest.pass,

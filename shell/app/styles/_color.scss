@@ -54,6 +54,7 @@ $color-default-4: rgba($color-default, 0.4);
 $color-default-1: rgba($color-default, 0.1);
 $color-default-2: rgba($color-default, 0.2);
 $color-default-3: rgba($color-default, 0.3);
+$color-default-08: rgba($color-default, 0.08);
 $color-default-06: rgba($color-default, 0.06);
 $color-default-04: rgba($color-default, 0.04);
 $color-default-02: rgba($color-default, 0.02);
@@ -89,7 +90,7 @@ $color-text-holder: $color-default-2 !default;
 $color-text-light-desc: $color-dark-blue-6 !default;
 
 // Color border
-$color-border: $color-dark-1 !default;
+$color-border: $color-default-08 !default;
 
 //Color Tree background-color
 $color-tree-bg: #d7d1de !default;

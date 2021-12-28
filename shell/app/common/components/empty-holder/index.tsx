@@ -44,9 +44,10 @@ export const EmptyHolder = ({
     relative,
   });
   if (scene) {
+    const imgPath = process.env.NODE_ENV === 'production' ? '/static/shell' : '/app';
     return (
       <div className={`scene-empty-holder inline-flex items-center justify-center bg-default-02 ${className || ''}`}>
-        <img src={`/empty-holder/${scene}.svg`} alt={`${scene}-empty-image`} />
+        <img src={`${imgPath}/images/empty-holder/${scene}.svg`} alt={`${scene}-empty-image`} />
         {tip || desc ? (
           <div className="ml-4">
             <div className="title font-medium">{tip}</div>

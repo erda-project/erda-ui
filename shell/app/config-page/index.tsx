@@ -23,11 +23,13 @@ import ConfigPageRender from './page-render';
 import commonStore from 'common/stores/common';
 
 interface ICustomProps {
-  [p: string]: {
-    op?: Obj;
-    props?: Obj;
-    Wrapper?: React.ElementType;
-  };
+  [p: string]:
+    | {
+        op?: Obj;
+        props?: Obj;
+        Wrapper?: React.ElementType;
+      }
+    | React.FC;
 }
 interface IProps {
   inParams?: Obj;
@@ -59,11 +61,12 @@ const globalOperation = {
   __Sync__: '__Sync__',
 };
 
+const empty = {};
 const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   const {
     fullHeight = true,
     inParams = {},
-    customProps = {},
+    customProps = empty,
     scenarioType,
     wrapperClassName = '',
     className = '',
@@ -317,12 +320,16 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   };
 
   const pageProtocol = React.useMemo(() => get(pageConfig, 'protocol'), [pageConfig]);
+
+  const forceUpdateCustom = forceUpdateKey?.includes('customProps') ? customProps : '';
+
   const Content = React.useMemo(
     () => {
       return (
         <ConfigPageRender
           pageConfig={pageProtocol}
           updateState={updateState}
+          forceUpdateCustom={forceUpdateKey?.includes('customProps')}
           changeScenario={changeScenario}
           execOperation={execOperation}
           customProps={customProps}
@@ -330,7 +337,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [pageProtocol],
+    [pageProtocol, forceUpdateCustom],
   );
 
   return showLoading ? (

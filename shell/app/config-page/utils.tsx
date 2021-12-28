@@ -110,3 +110,12 @@ export const getClass = (props: Obj) => {
 export const getFormatterString = (temp: string, obj: Obj) => {
   return temp.replace(/\{(\w+)\}/g, (match, key) => obj[key]);
 };
+
+export const execMultipleOperation = (
+  operations: Obj<CP_COMMON.Operation>,
+  execOperation: (op: CP_COMMON.Operation) => void,
+) => {
+  Object.keys(operations || {}).forEach((opKey) => {
+    execOperation({ key: opKey, ...operations[opKey] });
+  });
+};

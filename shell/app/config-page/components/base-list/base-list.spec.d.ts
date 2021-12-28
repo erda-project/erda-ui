@@ -22,11 +22,13 @@ declare namespace CP_BASE_LIST {
 
   interface IProps {
     isLoadMore?: boolean;
+    defaultBgImg?: string;
+    defaultLogo?: string;
   }
 
   interface IData {
     title?: string;
-    summary?: string;
+    titleSummary?: string;
     pageNo: number;
     pageSize: number;
     total: number;
@@ -37,13 +39,17 @@ declare namespace CP_BASE_LIST {
     ERDA_LIST.ListData,
     {
       operations?: Obj<CP_COMMON.Operation>;
-      moreOperations?: {
-        operations: Obj<CP_COMMON.Operation>;
-        operationsOrder: string[];
-      };
+      moreOperations?: IMoreOp[];
       metaInfos: MetaInfo[];
     }
   >;
+
+  interface IMoreOp {
+    icon?: string;
+    key?: string;
+    text: string;
+    operations: Obj<CP_COMMON.Operation>;
+  }
 
   interface MetaInfo extends ERDA_LIST.MetaInfo {
     operations?: Obj<CP_COMMON.Operation>;

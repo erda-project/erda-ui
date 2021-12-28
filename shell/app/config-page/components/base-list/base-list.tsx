@@ -12,11 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { map } from 'lodash';
+import { map, isBoolean } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import { OperationAction } from 'config-page/utils';
 import { PAGINATION } from 'app/constants';
-import ContractiveFilter from '../contractive-filter/contractive-filter';
 import ErdaList from 'app/common/components/base-list';
 
 const emptyArr = [] as CP_BASE_LIST.ListItem[];
@@ -30,69 +29,99 @@ const List = (props: CP_BASE_LIST.Props) => {
     combineList: list,
   });
 
-  const { isLoadMore = false } = configProps || {};
+  const { isLoadMore = false, ...restProps } = configProps || {};
+
   const currentList = React.useMemo(
     () =>
       (isLoadMore ? state.combineList : list).map((item: CP_BASE_LIST.ListItem) => {
         const extra: any = [];
-        const metaInfos = item.metaInfos?.map((infoItem) => {
+        const kvInfos = item.kvInfos?.map((infoItem) => {
           return {
             ...infoItem,
             extraProps: {
               onClick: (e) => {
                 e.stopPropagation();
-                if (infoItem.operations?.click) {
-                  execOperation(infoItem.operations.click, infoItem);
-                }
+                Object.keys(infoItem.operations || {}).forEach((opKey) => {
+                  execOperation({
+                    key: opKey,
+                    ...infoItem.operations?.[opKey],
+                    clientData: { dataRef: { ...infoItem } },
+                  });
+                });
               },
             },
           };
         });
 
-        const { click, star } = item.operations || {};
+        const hoverIcons = item.columnsInfo?.hoverIcons?.map((iconItem) => {
+          return {
+            ...iconItem,
+            extraProps: {
+              onClick: (e) => {
+                e.stopPropagation();
+                Object.keys(iconItem.operations || {}).forEach((opKey) => {
+                  execOperation({
+                    key: opKey,
+                    ...iconItem.operations?.[opKey],
+                    clientData: { dataRef: { ...iconItem } },
+                  });
+                });
+              },
+            },
+          };
+        });
 
-        const { operationsOrder } = item.moreOperations || {};
-        const moreOperations = map(item.moreOperations?.operations, (action, key) => {
+        const { star, ...restOp } = item.operations || {};
+
+        const moreOperations = map(item.moreOperations, (opItem, idx) => {
+          const curOpKey = Object.keys(opItem.operations || {})?.[0];
+          const curOp = curOpKey && opItem.operations[curOpKey];
           const clickFn = () => {
-            execOperation(action, item);
+            execOperation({ key: curOpKey, ...curOp, clientData: { dataRef: { ...opItem } } }, opItem);
           };
           return {
-            key,
-            index: operationsOrder ? operationsOrder.findIndex((actionKey) => actionKey === key) : 1,
-            icon: action.icon,
+            key: opItem.key || idx,
+            icon: opItem.icon,
             onClick: clickFn,
-            text: (
-              <OperationAction tipProps={{ placement: 'left' }} operation={action} onClick={clickFn}>
-                <div>{action.text}</div>
+            text: curOp ? (
+              <OperationAction tipProps={{ placement: 'left' }} operation={curOp} onClick={clickFn}>
+                <div>{opItem.text}</div>
               </OperationAction>
+            ) : (
+              opItem.text
             ),
           };
-        }).sort((a, b) => a.index - b.index);
+        });
 
         return {
           ...item,
-          metaInfos,
+          kvInfos,
           extra,
-          operations: star
-            ? [
-                {
-                  key: 'star',
-                  icon: 'star',
-                  onClick: () => {
-                    execOperation(star, item);
+          ...(hoverIcons ? { columnsInfo: { ...item.columnsInfo, hoverIcons } } : {}),
+          operations:
+            star && isBoolean(item.star)
+              ? [
+                  {
+                    tip: star.tip,
+                    key: 'star',
+                    fill: item.star ? 'yellow' : undefined,
+                    icon: item.star ? 'unstar' : 'star',
+                    onClick: (e) => {
+                      e.stopPropagation();
+                      execOperation({ key: 'star', ...star, clientData: { dataRef: item } }, item);
+                    },
                   },
-                },
-              ]
-            : [],
+                ]
+              : [],
           moreOperations,
           itemProps: {
             onClick: () => {
-              if (click) {
-                execOperation(click, item);
+              if (restOp) {
+                Object.keys(restOp || {}).forEach((opKey) => {
+                  execOperation({ key: opKey, ...restOp[opKey], clientData: { dataRef: { ...item } } }, item);
+                });
               }
-              if (customOp?.clickItem) {
-                customOp.clickItem(click, item);
-              }
+              customOp?.clickItem?.(restOp, item);
             },
           },
         };
@@ -121,25 +150,52 @@ const List = (props: CP_BASE_LIST.Props) => {
   }, [list, update, data, total, pageNo, pageSize]);
 
   const changePage = (pNo: number, pSize: number) => {
-    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pNo, pageSize: pSize });
+    operations?.changePage &&
+      execOperation(
+        {
+          key: 'changePage',
+          ...operations.changePage,
+          clientData: {
+            pageNo: pNo,
+            pageSize: pSize,
+          },
+        },
+        { pageNo: pNo, pageSize: pSize },
+      );
   };
 
   const loadMore = (curPageNo: number) => {
-    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: curPageNo + 1 });
+    operations?.changePage &&
+      execOperation(
+        {
+          key: 'changePage',
+          ...operations.changePage,
+          clientData: {
+            pageNo: curPageNo + 1,
+            pageSize: state.pageSize,
+          },
+        },
+        { pageNo: curPageNo + 1, pageSize: state.pageSize },
+      );
   };
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-2">
-        <span className="font-medium">
-          {data.title}
-          {data.summary !== undefined ? (
-            <span className="ml-1 bg-default-04 px-1 rounded-lg">{data.summary}</span>
-          ) : null}
-        </span>
-        <div>{filter}</div>
-      </div>
+      {data.title || filter ? (
+        <div className="flex justify-between items-center mb-2">
+          <span className="font-medium">
+            {data.title}
+            {data.titleSummary !== undefined ? (
+              <span className="inline-block ml-1 bg-default-1 px-1.5 rounded-lg text-default-8 text-xs leading-5">
+                {data.titleSummary}
+              </span>
+            ) : null}
+          </span>
+          <div>{filter}</div>
+        </div>
+      ) : null}
       <ErdaList
+        {...restProps}
         dataSource={currentList}
         pagination={{
           pageNo: state.pageNo || 1,
