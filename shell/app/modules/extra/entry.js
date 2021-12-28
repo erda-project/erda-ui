@@ -11,30 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { createFlatStore } from 'core/cube';
-
-interface IState {
-  serviceId: string;
-  serviceName: string;
-  applicationId: string;
-  requestCompleted: boolean;
-}
-
-const initState: IState = {
-  requestCompleted: false,
-  serviceId: '',
-  serviceName: '',
-  applicationId: '',
+const entry = (registerModule) => {
+  // register some modules here
 };
 
-const serviceAnalytics = createFlatStore({
-  name: 'service-analytics',
-  state: initState,
-  reducers: {
-    updateState(state, payload) {
-      return { ...state, ...payload };
-    },
-  },
-});
-
-export default serviceAnalytics;
+export default entry;

@@ -33,11 +33,12 @@ const {
   TERMINUS_TA_ENABLE = false,
   TERMINUS_TA_URL = '',
   TERMINUS_TA_COLLECTOR_URL = '',
+  UI_PUBLIC_ADDR = '',
 } = process.env;
 
 let newContent = indexHtmlContent.replace(
   '<!-- $ -->',
-  `<script>window.erdaEnv={UC_PUBLIC_URL:"${UC_PUBLIC_URL}",ENABLE_BIGDATA:"${ENABLE_BIGDATA}",ENABLE_EDGE:"${ENABLE_EDGE}"}</script>`,
+  `<script>window.erdaEnv={UC_PUBLIC_URL:"${UC_PUBLIC_URL}",ENABLE_BIGDATA:"${ENABLE_BIGDATA}",ENABLE_EDGE:"${ENABLE_EDGE}",UI_PUBLIC_ADDR:"${UI_PUBLIC_ADDR}"}</script>`,
 );
 if (TERMINUS_TA_ENABLE) {
   const taContent = `
@@ -46,7 +47,7 @@ if (TERMINUS_TA_ENABLE) {
 $ta('start', { udata: { uid: 0 }, ak: "${TERMINUS_KEY}", url: "${TERMINUS_TA_COLLECTOR_URL}", ck: true });
 </script>
 `;
-  newContent = indexHtmlContent.replace('<!-- $ta -->', taContent);
+  newContent = newContent.replace('<!-- $ta -->', taContent);
 }
 fs.writeFileSync(newIndexHtmlPath, newContent, { encoding: 'utf8' });
 

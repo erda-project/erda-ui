@@ -20,6 +20,7 @@ import i18n from 'i18n';
 import { ErdaIcon } from 'common';
 import projectStore from 'project/stores/project';
 import clusterStore from 'app/modules/cmp/stores/cluster';
+import { useLoading } from 'core/stores/loading';
 
 import './project-cluster.scss';
 
@@ -118,6 +119,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
   const { getClusterList } = clusterStore.effects;
   const info = projectStore.useStore((s) => s.info);
   const { updateProject } = projectStore.effects;
+  const [loading] = useLoading(clusterStore, ['getClusterList']);
 
   React.useEffect(() => {
     hasEditAuth && getClusterList();
@@ -147,6 +149,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
 
   const readonlyForm = (
     <Table
+      loading={loading}
       rowKey="workspace"
       dataSource={tableData}
       onChange={() => getClusterList()}

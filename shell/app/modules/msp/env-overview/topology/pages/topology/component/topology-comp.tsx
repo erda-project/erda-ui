@@ -15,12 +15,13 @@ import ReactFlow, {
   Elements,
   isNode,
   Node,
+  NodeExtent,
   Position,
   ReactFlowProvider,
   removeElements,
   useZoomPanHelper,
 } from 'react-flow-renderer';
-import dagre from 'dagrejs';
+import dagre, { graphlib } from 'dagrejs';
 import { genEdges, genNodes } from 'msp/env-overview/topology/pages/topology/utils';
 import customerNode from './nodes';
 import FloatingEdge from 'msp/env-overview/topology/pages/topology/component/floating-edge';
@@ -28,14 +29,6 @@ import FloatingConnectionLine from 'msp/env-overview/topology/pages/topology/com
 import ErdaIcon from 'common/components/erda-icon';
 import { useUpdateEffect } from 'react-use';
 import { INodeKey } from './topology-overview';
-
-const dagreGraph = new dagre.graphlib.Graph();
-dagreGraph.setDefaultEdgeLabel(() => ({}));
-
-const nodeExtent = [
-  [0, 0],
-  [1000, 1000],
-];
 
 export interface ITopologyRef {
   selectNode: (metaData: Omit<TOPOLOGY.INode, 'parents'>) => void;
@@ -46,6 +39,7 @@ interface IProps {
   defaultZoom?: number;
   allowScroll?: boolean;
   filterKey: INodeKey;
+  nodeExtent?: NodeExtent;
   data: { nodes: TOPOLOGY.INode[] };
   clockNode?: (data: TOPOLOGY.TopoNode['metaData']) => void;
   topologyRef: React.Ref<ITopologyRef>;
@@ -75,6 +69,10 @@ const genEle = (nodes: TOPOLOGY.INode[], filterKey: INodeKey) => {
       edge = [];
       node = node.filter((t) => t.data?.parentCount === 0 && t.data.childrenCount === 0 && t.data.isService);
       break;
+    case 'externalService':
+      edge = edge.filter((t) => t.data?.isExternalService);
+      node = node.filter((t) => t.data?.isExternalService);
+      break;
   }
   return { node, edge };
 };
@@ -85,6 +83,7 @@ const genEle = (nodes: TOPOLOGY.INode[], filterKey: INodeKey) => {
  */
 const calculateLayout = (
   list: Elements,
+  dagreGraph: graphlib.Graph,
 ): [Elements, { width: number; height: number; maxY: number; maxX: number; minX: number; minY: number }] => {
   let width = 0;
   let height = 0;
@@ -153,6 +152,7 @@ const TopologyComp = ({
   clockNode,
   allowScroll = true,
   defaultZoom = 0.8,
+  nodeExtent,
   topologyRef,
 }: IProps) => {
   const topologyData = React.useRef(genEle(data.nodes, filterKey));
@@ -162,10 +162,16 @@ const TopologyComp = ({
   const initElement: Elements = [...node, ...edge];
   const [elements, setElements] = React.useState<Elements>(initElement);
   const { zoomIn, zoomOut } = useZoomPanHelper();
+  const dagreGraph = React.useRef<graphlib.Graph>(new dagre.graphlib.Graph());
+
+  React.useEffect(() => {
+    dagreGraph.current.setDefaultEdgeLabel(() => ({}));
+  }, []);
+
   const onElementsRemove = (elementsToRemove: Elements) => setElements((els) => removeElements(elementsToRemove, els));
 
   const setFlowConfig = (list: Elements) => {
-    const [ele, wrapperSize] = calculateLayout(list);
+    const [ele, wrapperSize] = calculateLayout(list, dagreGraph.current);
     if (wrapperRaf.current && allowScroll) {
       // 200: prevents nodes from being covered by borders
       wrapperRaf.current.style.height = `${wrapperSize.height + 200}px`;

@@ -31,7 +31,7 @@ const serviceAnalysisRoutes = [
     path: 'overview',
     tabs,
     layout: { noWrapper: true },
-    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview-new')),
+    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview')),
   },
   {
     path: 'transaction',
@@ -63,7 +63,7 @@ const serviceAnalysisRoutes = [
   },
   {
     layout: { noWrapper: true },
-    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview-new')),
+    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview')),
   },
 ];
 
@@ -92,14 +92,12 @@ export function serviceAnalysisRouter() {
       ...serviceAnalysisRoutes,
       {
         path: ':applicationId',
-        breadcrumbName: i18n.t('msp:service list'),
         routes: [
           {
             path: ':serviceId',
             routes: [
               {
                 path: ':serviceName',
-                breadcrumbName: i18n.t('msp:service monitor'),
                 tabs,
                 alwaysShowTabKey: 'overview',
                 pageNameInfo: ServiceNameSelect,

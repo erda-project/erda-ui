@@ -33,7 +33,7 @@ export interface IMenu {
 }
 
 interface IProps extends MenuProps {
-  extraNode: React.ReactElement;
+  extraNode: (isFold: boolean) => React.ReactElement;
   openKeys: string[];
   selectedKey: string;
   linkRender: (child: React.ReactNode, item: IMenu) => React.ReactNode;
@@ -96,7 +96,7 @@ const SideNavigation = ({
   return (
     <div className="h-full side-nav-menu overflow-hidden" style={{ width: isFold ? 50 : 200 }}>
       <div style={{ height: 'calc(100% - 48px)' }} className="pt-2 border-right flex flex-col">
-        {!isFold ? extraNode : null}
+        {extraNode(isFold)}
         <div className="flex-1 overflow-y-auto overflow-x-hidden h-full menu-container">
           <Menu
             inlineCollapsed={isFold}

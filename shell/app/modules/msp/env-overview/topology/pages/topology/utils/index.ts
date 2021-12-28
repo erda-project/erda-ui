@@ -27,6 +27,7 @@ export const notAddonTypes = [
 ];
 
 export const isService = (type: string) => servicesTypes.includes(type.toLocaleLowerCase());
+export const isExternalService = (type: string) => externalserviceTypes.includes(type.toLocaleLowerCase());
 export const isAddon = (type: string) => !notAddonTypes.includes(type.toLocaleLowerCase());
 
 const getNodeType = (type: string) => {
@@ -53,6 +54,7 @@ export const genNodes = (list: TOPOLOGY.INode[], edges: Edge[]): Node<TOPOLOGY.T
       data: {
         isAddon: isAddon(rest.type),
         isService: isService(rest.type),
+        isExternalService: isExternalService(rest.type),
         isCircular,
         isUnhealthy: rest.metric.error_rate > 0,
         hoverStatus: 0,
@@ -102,6 +104,7 @@ export const genEdges = (data: TOPOLOGY.INode[]): Edge<TOPOLOGY.TopoEdge>[] => {
               isUnhealthy,
               isAddon: isAddon(rest.type) && isAddon(parent.type),
               isService: isService(rest.type) && isService(parent.type),
+              isExternalService: isExternalService(rest.type) && isExternalService(parent.type),
               hoverStatus: 0,
               selectStatus: 0,
               source: omit(parent, 'parents'),

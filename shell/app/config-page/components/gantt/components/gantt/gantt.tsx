@@ -11,10 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { useState, SyntheticEvent, useRef, useEffect } from 'react';
+import React, { useState, SyntheticEvent, useRef, useEffect, useLayoutEffect } from 'react';
+import i18n from 'i18n';
 import { ViewMode, GanttProps, Task } from '../../types/public-types';
 import { GridProps } from '../grid/grid';
-import { ganttDateRange, seedDates } from '../../helpers/date-helper';
+import { calcDateDurationByHNumber, ganttDateRange, seedDates } from '../../helpers/date-helper';
 import { CalendarProps } from '../calendar/calendar';
 import { TaskGanttContentProps } from './task-gantt-content';
 import { TaskListHeaderDefault } from '../task-list/task-list-header';
@@ -28,8 +29,11 @@ import { convertToBarTasks } from '../../helpers/bar-helper';
 import { GanttEvent } from '../../types/gantt-task-actions';
 import { DateSetup } from '../../types/date-setup';
 import { removeHiddenTasks } from '../../helpers/other-helper';
+import { useFullScreen } from 'app/common/use-hooks';
+import { ErdaIcon } from 'common';
 import './gantt.scss';
 
+const extra_H_Number = 2;
 export const Gantt: React.FunctionComponent<GanttProps> = ({
   tasks,
   headerHeight = 76,
@@ -63,12 +67,14 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   TaskListHeader = TaskListHeaderDefault,
   TaskListTable = TaskListTableDefault,
   BarContentRender = null,
+  rootWrapper,
   onDateChange,
   onProgressChange,
   onDoubleClick,
   onDelete,
   onSelect,
   onExpanderClick,
+  onScreenChange,
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const taskListRef = useRef<HTMLDivElement>(null);
@@ -101,7 +107,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const [scrollX, setScrollX] = useState(-1);
 
   const h_start = Math.abs(Math.ceil(scrollX / columnWidth));
-  const h_number = Math.floor((horizontalRef.current?.clientWidth || 0) / columnWidth) + 2;
+  const h_number = Math.floor((horizontalRef.current?.clientWidth || 0) / columnWidth) + extra_H_Number;
   const horizontalRange = [h_start, h_start + h_number];
   // console.log('横', horizontalRef.current?.clientWidth, scrollX, horizontalRange, h_number);
 
@@ -110,6 +116,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const verticalRange = [v_start, v_start + v_number];
   // console.log('纵', ganttHeight, scrollY, verticalRange, v_number)
   const ignoreScrollEventRef = useRef(false);
+  const positionToTodayAtInit = useRef(false);
 
   // task change events
   useEffect(() => {
@@ -120,14 +127,15 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       filteredTasks = tasks;
     }
     const [startDate, endDate] = ganttDateRange(filteredTasks, viewMode);
-
-    const newDates = seedDates(startDate, endDate, viewMode);
+    const [newStartDate, newEndDate] = calcDateDurationByHNumber(h_number, startDate, endDate);
+    const newDates = seedDates(newStartDate, newEndDate, viewMode);
     // if (rtl) {
     //   newDates = newDates.reverse();
     //   if (scrollX === -1) {
     //     setScrollX(newDates.length * columnWidth);
     //   }
     // }
+
     setDateSetup({ dates: newDates, viewMode });
 
     setBarTasks(
@@ -173,6 +181,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     milestoneBackgroundSelectedColor,
     rtl,
     onExpanderClick,
+    h_number,
   ]);
 
   useEffect(() => {
@@ -219,6 +228,20 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       setTaskListWidth(taskListRef.current.offsetWidth);
     }
   }, [taskListRef, listCellWidth]);
+
+  const scrollToToday = React.useCallback(() => {
+    const today = new Date();
+    const [startDate] = calcDateDurationByHNumber(h_number, dateSetup.dates[0], dateSetup.dates[1]);
+    const duration = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) - h_number / 2) + 2;
+    setScrollX(duration * columnWidth);
+  }, [columnWidth, dateSetup.dates, h_number]);
+
+  useLayoutEffect(() => {
+    if (h_number !== extra_H_Number && !positionToTodayAtInit.current) {
+      scrollToToday();
+      positionToTodayAtInit.current = true;
+    }
+  }, [h_number, scrollToToday]);
 
   // useEffect(() => {
   //   if (wrapperRef.current) {
@@ -376,6 +399,15 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     }
   };
 
+  const [isFullScreen, { toggleFullscreen }] = useFullScreen(document.body, {
+    onEnter: () => {
+      onScreenChange(true);
+    },
+    onExit: () => {
+      onScreenChange(false);
+    },
+  });
+
   const showLength = verticalRange[1] - verticalRange[0];
   let showRange = verticalRange;
   if (showLength > barTasks.length) {
@@ -383,7 +415,11 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     showRange = [0, barTasks.length];
   } else if (verticalRange[1] > barTasks.length) {
     // there is also space left, move forward
-    const offset = verticalRange[1] - barTasks.length;
+    let offset = verticalRange[1] - barTasks.length;
+    // if last task show more than half height, move forward to show full
+    if (ganttFullHeight - ganttHeight - scrollY < rowHeight / 2) {
+      offset -= 1;
+    }
     showRange = [Math.max(0, verticalRange[0] - offset), verticalRange[1] - offset];
   }
   const visibleTaskList = barTasks.slice(...showRange);
@@ -507,6 +543,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
           calendarProps={calendarProps}
           barProps={barProps}
           ganttHeight={ganttHeight}
+          rootWrapper={rootWrapper}
         />
         {/* <div className={'erda-gantt-vertical-container'} ref={verticalGanttContainerRef} dir="ltr">
         </div> */}
@@ -536,6 +573,26 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
           onScroll={handleScrollY}
           rtl={rtl}
         />
+        <div className="absolute bg-white bottom-4 right-6 flex shadow-card-lg">
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              scrollToToday();
+            }}
+            className="gantt-operate-btn text-sub hover:text-default cursor-pointer"
+          >
+            {i18n.t('Today')}
+          </div>
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleFullscreen();
+            }}
+            className="gantt-operate-btn flex justify-center items-center text-sub hover:text-default cursor-pointer"
+          >
+            <ErdaIcon type={isFullScreen ? 'collapse-text-input' : 'expand-text-input'} size={16} />
+          </div>
+        </div>
       </div>
       <HorizontalScroll
         width={svgWidth}

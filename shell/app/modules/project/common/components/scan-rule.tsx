@@ -21,6 +21,7 @@ import { useEffectOnce } from 'react-use';
 import { WithAuth } from 'user/common';
 import { useUpdate } from 'common/use-hooks';
 import { ColumnProps } from 'core/common/interface';
+import { useLoading } from 'core/stores/loading';
 
 interface IProps {
   operationAuth: boolean;
@@ -80,6 +81,8 @@ export default function ScanRule(props: IProps) {
     batchDeleteScanRule,
     batchInsertScanRule,
   } = scanRuleStore;
+
+  const [tableLoading] = useLoading(scanRuleStore, ['getAppendedScanRules']);
 
   const updateOptionalScanRules = (record: SCAN_RULE.AppendedItem) => {
     updater.operationOptionalRules((prev: any) => prev.map((p: any) => (p.id === record.id ? { ...record } : p)));
@@ -392,6 +395,7 @@ export default function ScanRule(props: IProps) {
         )}
       </div>
       <Table
+        loading={tableLoading}
         columns={appendedColumns}
         dataSource={appendedScanRules}
         rowKey="id"

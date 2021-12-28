@@ -17,7 +17,14 @@ import { genEdges, genNodes } from 'msp/env-overview/topology/pages/topology/uti
 import ErdaIcon from 'common/components/erda-icon';
 import './topology-overview.scss';
 
-export type INodeKey = 'node' | 'service' | 'addon' | 'unhealthyService' | 'freeService' | 'circularDependencies';
+export type INodeKey =
+  | 'node'
+  | 'service'
+  | 'addon'
+  | 'unhealthyService'
+  | 'freeService'
+  | 'circularDependencies'
+  | 'externalService';
 
 interface IProps {
   data: { nodes: TOPOLOGY.INode[] };
@@ -45,6 +52,10 @@ const structure: { title: string; content: { key: INodeKey; name: string }[] }[]
       {
         name: i18n.t('common:middleware'),
         key: 'addon',
+      },
+      {
+        name: i18n.t('msp:external interface'),
+        key: 'externalService',
       },
     ],
   },
@@ -135,20 +146,22 @@ const TopologyContent: React.FC<IProps> = ({ data, onClick }) => {
     onClick(key);
   };
   const values = React.useMemo<{ [key in INodeKey]: number }>(() => {
-    const temp = {
+    const temp: { [key in INodeKey]: number } = {
       node: 0,
       addon: 0,
       service: 0,
       freeService: 0,
       unhealthyService: 0,
       circularDependencies: 0,
+      externalService: 0,
     };
     if (data.nodes) {
       const { node } = genEle(data.nodes);
       temp.node = node.length;
       node.forEach((item) => {
         if (item.data?.metaData) {
-          const { parentCount, childrenCount, isCircular, isService, isUnhealthy, isAddon } = item.data;
+          const { parentCount, childrenCount, isCircular, isService, isUnhealthy, isAddon, isExternalService } =
+            item.data;
           if (isUnhealthy && isService) {
             temp.unhealthyService = temp.unhealthyService + 1;
           }
@@ -163,6 +176,9 @@ const TopologyContent: React.FC<IProps> = ({ data, onClick }) => {
           }
           if (isCircular) {
             temp.circularDependencies = temp.circularDependencies + 1;
+          }
+          if (isExternalService) {
+            temp.externalService = temp.externalService + 1;
           }
         }
       });

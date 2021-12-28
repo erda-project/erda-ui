@@ -13,8 +13,7 @@
 
 import React from 'react';
 import { Input, Tag } from 'antd';
-import { useUpdate } from 'common/use-hooks';
-import { getMspProjectList } from 'msp/services';
+import { getMspProjectList, getProjectStatistics } from 'msp/services';
 import ErdaIcon from 'common/components/erda-icon';
 import { fromNow, goTo } from 'common/utils';
 import { debounce, last } from 'lodash';
@@ -30,12 +29,6 @@ import decorationImg from 'app/images/msp/microservice-governance-decoration.svg
 import CardList, { CardColumnsProps } from 'common/components/card-list';
 import i18n from 'i18n';
 import './overview.scss';
-
-interface IState {
-  data: MS_INDEX.IMspProject[];
-  loading: boolean;
-  filterKey: string;
-}
 
 const iconMap: {
   [key in MS_INDEX.IMspProject['type']]: {
@@ -80,27 +73,24 @@ const metric: { dataIndex: keyof MS_INDEX.IMspProject; name: string; renderData:
 ];
 
 const Overview = () => {
-  const [{ data, loading, filterKey }, updater] = useUpdate<IState>({
-    data: [],
-    loading: false,
-    filterKey: '',
-  });
-  const getList = async () => {
-    updater.loading(true);
-    try {
-      const res = await getMspProjectList({ withStats: true });
-      updater.data(res.data || []);
-    } finally {
-      updater.loading(false);
-    }
-  };
+  const [projectsList, loading] = getMspProjectList.useState();
+  const projectStatistics = getProjectStatistics.useData();
+  const [filterKey, setFilterKey] = React.useState('');
 
   React.useEffect(() => {
     document.title = `${i18n.t('msp')} · Erda`;
-    getList();
+    getMspProjectList.fetch({ withStats: false });
   }, []);
 
-  const handleClick = (relationship: MS_INDEX.IMspRelationship[], projectId: number) => {
+  React.useEffect(() => {
+    if (projectsList?.length) {
+      getProjectStatistics.fetch({
+        projectIds: projectsList.map((item) => item.id),
+      });
+    }
+  }, [projectsList]);
+
+  const handleClick = (relationship: MS_INDEX.IMspRelationship[], projectId: string) => {
     const item = last(relationship);
     if (item) {
       goTo(goTo.pages.mspOverview, { tenantGroup: item.tenantId, projectId, env: item.workspace });
@@ -109,14 +99,29 @@ const Overview = () => {
 
   const handleSearch = React.useCallback(
     debounce((keyword?: string) => {
-      updater.filterKey(keyword?.toLowerCase() || '');
+      setFilterKey(keyword?.toLowerCase() || '');
     }, 1000),
     [],
   );
 
+  const projectsListWithStatics = React.useMemo(() => {
+    const list = projectsList ?? [];
+    if (!projectStatistics) {
+      return list;
+    } else {
+      return list.map((item) => {
+        const statistics = projectStatistics[item.id];
+        return {
+          ...item,
+          ...statistics,
+        };
+      });
+    }
+  }, [projectsList, projectStatistics]);
+
   const list = React.useMemo(() => {
-    return data.filter((item) => item.displayName.toLowerCase().includes(filterKey));
-  }, [data, filterKey]);
+    return projectsListWithStatics.filter((item) => item.displayName.toLowerCase().includes(filterKey));
+  }, [projectsListWithStatics, filterKey]);
 
   const columns: CardColumnsProps<MS_INDEX.IMspProject>[] = [
     {

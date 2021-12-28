@@ -228,8 +228,8 @@ export enum pages {
   cmpResourceOwnerRank = '/{orgName}/cmp/resource-rank/owner',
   publisherContent = '/{orgName}/dop/publisher/{type}/{publisherItemId}',
   iterationDetail = '/{orgName}/dop/projects/{projectId}/issues/iteration/{iterationId}/{issueType}',
-  taskList = '/{orgName}/dop/projects/{projectId}/issues/task',
-  bugList = '/{orgName}/dop/projects/{projectId}/issues/bug',
+  taskList = '/{orgName}/dop/projects/{projectId}/issues/all?type=task',
+  bugList = '/{orgName}/dop/projects/{projectId}/issues/all?type=bug',
   issueDetail = '/{orgName}/dop/projects/{projectId}/issues/{issueType}?id={issueId}&iterationID={iterationId}&type={issueType}',
   ticketDetail = '/{orgName}/dop/projects/{projectId}/ticket?id={issueId}&pageNo=1',
   backlog = '/{orgName}/dop/projects/{projectId}/issues/backlog?id={issueId}&issueType={issueType}',
@@ -375,9 +375,6 @@ export enum pages {
   ecpSiteMachine = '/{orgName}/ecp/resource/{id}',
   ecpSetting = '/{orgName}/ecp/setting',
   ecpSettingDetail = '/{orgName}/ecp/setting/{id}',
-
-  // sysAdmin
-  sysAdmin = '/{orgName}/sysAdmin',
 
   dataAppEntry = '/{orgName}/fdp/__cluster__/__workspace__/data-govern-platform/data-source',
 }

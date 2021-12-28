@@ -396,6 +396,7 @@ interface RouteConfigItem {
   pageNameInfo?: () => JSX.Element;
   keepQuery?: boolean;
   getComp?: (cb: RouterGetComp) => Promise<any>;
+  render?: (props: { location: Location }) => React.ReactNode;
 }
 
 declare function GET_ROUTES(): RouteConfigItem[];

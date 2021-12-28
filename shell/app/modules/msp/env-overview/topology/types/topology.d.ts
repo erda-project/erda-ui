@@ -65,6 +65,7 @@ declare namespace TOPOLOGY {
     isCircular: boolean;
     isAddon: boolean;
     isService: boolean;
+    isExternalService: boolean;
     metaData: Omit<INode, 'parents'>;
   }
 
@@ -73,6 +74,7 @@ declare namespace TOPOLOGY {
     isUnhealthy: boolean;
     isAddon: boolean;
     isService: boolean;
+    isExternalService: boolean;
     hoverStatus: number;
     selectStatus: number;
     source: Omit<INode, 'parents'>;

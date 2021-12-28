@@ -16,7 +16,7 @@ import { debounce, isNumber } from 'lodash';
 import moment, { Moment } from 'moment';
 import { BoardGrid, ContractiveFilter, Copy, TagsRow } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { ColumnProps, IActions } from 'common/components/table/interface';
+import { ColumnProps } from 'common/components/table/interface';
 import Table from 'common/components/table';
 import { message } from 'antd';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
@@ -76,13 +76,6 @@ const convertData = (
   return [list, defaultValue];
 };
 
-interface RecordType {
-  id: string;
-  duration: number;
-  startTime: number;
-  services: string[];
-}
-
 const initialFilter = [
   {
     label: i18n.t('msp:duration'),
@@ -137,7 +130,7 @@ const TraceSearch = () => {
       durationRight: query.durationMax ? `trace_duration::field<'${query.durationMax}'` : undefined,
       serviceName: query.serviceName ? `service_names::field='${query.serviceName}'` : undefined,
       traceId: query.traceID ? `trace_id::tag='${query.traceID}'` : undefined,
-      dubboMethod: query.dubboMethod ? `dubbo_methods::field='${query.dubboMethod}'` : undefined,
+      rpcMethod: query.rpcMethod ? `rpc_methods::field='${query.rpcMethod}'` : undefined,
       httpPath: query.httpPath ? `http_paths::field='${query.httpPath}'` : undefined,
       statusSuccess: query.status === 'trace_success' ? `errors_sum::field='0'` : undefined,
       statusError: query.status === 'trace_error' ? `errors_sum::field>'0'` : undefined,
@@ -145,7 +138,7 @@ const TraceSearch = () => {
   }, [
     params.terminusKey,
     range,
-    query.dubboMethod,
+    query.rpcMethod,
     query.durationMin,
     query.durationMax,
     query.status,

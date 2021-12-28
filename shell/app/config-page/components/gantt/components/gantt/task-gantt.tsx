@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { useRef, useEffect } from 'react';
-import { GridProps, Grid } from '../grid/grid';
-import { CalendarProps, Calendar } from '../calendar/calendar';
 import { max } from 'lodash';
-import { TaskGanttContentProps, TaskGanttContent } from './task-gantt-content';
+import React, { useRef } from 'react';
+import { Calendar, CalendarProps } from '../calendar/calendar';
+import { Grid, GridProps } from '../grid/grid';
+import { TaskGanttContent, TaskGanttContentProps } from './task-gantt-content';
 import './gantt.scss';
 
 export interface TaskGanttProps {
@@ -24,6 +24,7 @@ export interface TaskGanttProps {
   barProps: TaskGanttContentProps;
   ganttHeight: number;
   BarContentRender: React.ReactNode;
+  rootWrapper: React.ReactElement;
 }
 export const TaskGantt: React.FC<TaskGanttProps> = ({ gridProps, calendarProps, barProps, BarContentRender }) => {
   const ganttSVGRef = useRef<SVGSVGElement>(null);
@@ -31,7 +32,6 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({ gridProps, calendarProps, 
   const verticalGanttContainerRef = useRef<HTMLDivElement>(null);
   const offsetWidth = verticalGanttContainerRef?.current?.offsetWidth;
   const [mousePos, setMousePos] = React.useState<null | number[]>(null);
-
   const onMouseMove = (e: React.MouseEvent) => {
     const gridPos = e.currentTarget.getBoundingClientRect();
     const mouseY = max([e.clientY - gridPos.y, 0]);

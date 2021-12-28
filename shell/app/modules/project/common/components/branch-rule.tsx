@@ -21,6 +21,7 @@ import Table from 'common/components/table';
 import { FormModal } from 'app/configForm/nusi-form/form-modal';
 import branchRuleStore from 'project/stores/branch-rule';
 import { WithAuth } from 'user/common';
+import { useLoading } from 'core/stores/loading';
 
 const envArr = {
   DEV: {
@@ -163,6 +164,7 @@ const BranchRule = (props: IProps) => {
   const { operationAuth, scopeId, scopeType } = props;
   const branchRules = branchRuleStore.useStore((s) => s.branchRules);
   const { addBranchRule, getBranchRules, deleteBranchRule, updateBranchRule, clearBranchRule } = branchRuleStore;
+  const [loading] = useLoading(branchRuleStore, ['getBranchRules']);
   const isProject = scopeType === 'project';
   const [{ modalVis, editData }, updater, update] = useUpdate({
     modalVis: false,
@@ -321,6 +323,7 @@ const BranchRule = (props: IProps) => {
         </WithAuth>
       </div>
       <Table
+        loading={loading}
         rowKey="id"
         dataSource={branchRules}
         columns={columns}
