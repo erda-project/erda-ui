@@ -85,6 +85,7 @@ stages:
           params:
             node_version: 12
             build_cmd:
+              - export FOR_COMMUNITY=true
               - cd ${{ dirs.erda-ui }}
               - npm i @erda-ui/cli@1.4.x -g
               - erda-ui init --online
