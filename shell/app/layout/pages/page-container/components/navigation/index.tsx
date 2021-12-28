@@ -72,6 +72,7 @@ export const NavItem = ({ icon, label, link, onClick }: NavItemProps) => {
 };
 
 const Navigation = () => {
+  const currentApp = layoutStore.useStore((s) => s.currentApp);
   const { switchMessageCenter } = layoutStore.reducers;
   const unreadCount = messageStore.useStore((s) => s.unreadCount);
   const current = window.localStorage.getItem('locale') || 'zh';
@@ -126,10 +127,14 @@ const Navigation = () => {
               label={item.name}
               link={item.href}
               icon={
-                <>
-                  <ErdaIcon className="absolute icon active-icon" size={24} type={item.icon} />
-                  <ErdaIcon className="absolute icon normal-icon" size={24} type={`${item.icon}-normal`} />
-                </>
+                currentApp.key === item.key ? (
+                  <ErdaIcon className="absolute icon active-icon opacity-100" size={24} type={item.icon} />
+                ) : (
+                  <>
+                    <ErdaIcon className="absolute icon active-icon" size={24} type={item.icon} />
+                    <ErdaIcon className="absolute icon normal-icon" size={24} type={`${item.icon}-normal`} />
+                  </>
+                )
               }
             />
           </div>
