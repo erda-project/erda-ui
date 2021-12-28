@@ -92,7 +92,10 @@ const generateMSMenu = (
       if (!process.env.FOR_COMMUNITY) {
         return true;
       }
-      return !COMMUNITY_REMOVE_KEYS.includes(m.key) && every(m.children, (c) => !COMMUNITY_REMOVE_KEYS.includes(c.key));
+      return (
+        !COMMUNITY_REMOVE_KEYS.includes(m.key) &&
+        (!every(m.children, (c) => COMMUNITY_REMOVE_KEYS.includes(c.key)) || !m.children.length)
+      );
     })
     .map((menu) => {
       const { key, cnName, enName, children } = menu;
@@ -110,6 +113,7 @@ const generateMSMenu = (
       if (children.length) {
         sideMenu.subMenu = children
           .filter((m) => m.exists)
+          .filter((m) => (process.env.FOR_COMMUNITY ? !COMMUNITY_REMOVE_KEYS.includes(m.key) : true))
           .map((child) => {
             if (child.key in intro) {
               intro[child.key] = !child.params._enabled;
