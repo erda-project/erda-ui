@@ -132,5 +132,5 @@ export const killPidTree = async (): Promise<boolean> => {
 export const registryDir = 'registry.erda.cloud/erda/ui';
 export const defaultRegistry = 'registry.cn-hangzhou.aliyuncs.com/terminus/erda-ui';
 
-export const ALL_MODULES = ['core', 'shell', 'market', 'uc', 'admin', 'fdp'];
 export const COMMUNITY_MODULES = ['core', 'shell', 'market', 'uc'];
+export const ALL_MODULES = [...COMMUNITY_MODULES, 'admin', 'fdp'];
