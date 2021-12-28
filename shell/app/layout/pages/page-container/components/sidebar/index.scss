@@ -121,6 +121,9 @@
         background-color: rgba($color-purple-highlight, 0.1);
         font-weight: 500;
         border-radius: 2px;
+        .ant-menu-item-icon {
+          color: $color-purple-highlight;
+        }
         a {
           color: $color-purple-highlight;
         }
