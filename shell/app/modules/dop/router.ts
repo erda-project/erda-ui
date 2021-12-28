@@ -215,7 +215,7 @@ export default function getDopRouter(): RouteConfigItem[] {
         {
           path: 'debug',
           pageName: '组件化协议调试',
-          layout: { noWrapper: true, showSubSidebar: false },
+          layout: { noWrapper: true, hideSidebar: true },
           getComp: (cb) => cb(import('config-page/debug')),
         } as RouteConfigItem,
       ],
@@ -224,7 +224,7 @@ export default function getDopRouter(): RouteConfigItem[] {
       path: 'perm',
       toMark: 'orgIndex',
       pageName: i18n.t('role permissions description'),
-      layout: { showSubSidebar: false, fullHeight: true },
+      layout: { hideSidebar: true, fullHeight: true },
       getComp: (cb) => cb(import('user/common/perm-editor/perm-editor'), 'PermEditor'),
     },
   ];

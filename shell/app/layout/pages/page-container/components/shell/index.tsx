@@ -16,20 +16,19 @@ import './index.scss';
 
 interface IProps {
   children?: React.ReactNode;
-  className?: string;
+  mainClassName?: string;
   breadcrumb?: React.ReactElement;
   navigation: React.ReactElement;
   sidebar?: React.ReactElement;
 }
 
-const Shell = ({ children, className, breadcrumb, navigation, sidebar }: IProps) => {
+const Shell = ({ children, breadcrumb, navigation, sidebar, mainClassName }: IProps) => {
   return (
-    <div className={`erda-shell ${className || ''}`}>
+    <div className="erda-shell">
       <div className="h-full">{navigation}</div>
-
       {sidebar}
       {breadcrumb}
-      <div className="flex-1 mt-9 mr-4 overflow-hidden">{children}</div>
+      <div className={`erda-main-content ${mainClassName || ''}`}>{children}</div>
     </div>
   );
 };

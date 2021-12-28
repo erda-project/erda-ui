@@ -380,7 +380,7 @@ function getProjectRouter(): RouteConfigItem[] {
         {
           path: 'perm',
           pageName: i18n.t('role permissions description'),
-          layout: { showSubSidebar: false, fullHeight: true },
+          layout: { hideSidebar: true, fullHeight: true },
           getComp: (cb) => cb(import('user/common/perm-editor/perm-editor'), 'PermEditor'),
         },
       ],

@@ -123,12 +123,12 @@ const PageContainer = ({ route }: IProps) => {
       noticeWrap.push('only-one');
     }
   }
-  const showSidebar = !noAuth && !notFound;
+  let showSidebar = !noAuth && !notFound;
   let CustomLayout;
   let noWrapper = false;
   if (typeof layout === 'object') {
-    const { className, use } = layout;
-    // if (showSidebar && layoutShowSubSiderBar === false) showSidebar = false;
+    const { className, use, hideSidebar } = layout;
+    if (hideSidebar) showSidebar = false;
     className && layoutCls.push(className);
     layoutMap[use] && (CustomLayout = layoutMap[use]);
     noWrapper = layout.noWrapper;
@@ -176,12 +176,12 @@ const PageContainer = ({ route }: IProps) => {
       ) : null}
       <div className={layoutClass}>
         <Shell
-          className="dice-main-shell"
           navigation={<Navigation />}
           sidebar={showSidebar ? <SideBar /> : undefined}
           breadcrumb={!hideHeader ? <Breadcrumb /> : undefined}
+          mainClassName={classnames({ 'ml-4': !showSidebar, 'mt-0': hideHeader })}
         >
-          <Header />
+          {!hideHeader && <Header />}
           <div
             id="main"
             ref={mainEle}

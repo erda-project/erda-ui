@@ -21,7 +21,7 @@ export default function getOrgRouter(): RouteConfigItem[] {
           getComp: (cb) => cb(import('app/org-home/pages/personal-home')),
           layout: {
             hideHeader: true,
-            showSubSidebar: false,
+            hideSidebar: true,
             fullHeight: true,
             noWrapper: true,
           },
@@ -31,7 +31,7 @@ export default function getOrgRouter(): RouteConfigItem[] {
           getComp: (cb) => cb(import('app/org-home/pages/org-list')),
           layout: {
             hideHeader: true,
-            showSubSidebar: false,
+            hideSidebar: true,
             fullHeight: true,
             noWrapper: true,
           },
