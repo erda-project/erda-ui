@@ -12,11 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Menu, Button } from 'antd';
+import { Menu, MenuProps } from 'antd';
 import { map } from 'lodash';
-import { MenuProps } from 'core/common/interface';
-import { useUpdate } from 'common/use-hooks';
-import { ErdaIcon } from 'common';
 export interface IMenu {
   key?: string;
   href: string;
@@ -33,13 +30,12 @@ export interface IMenu {
 }
 
 interface IProps extends MenuProps {
-  extraNode: (isFold: boolean) => React.ReactElement;
   openKeys: string[];
   selectedKey: string;
-  linkRender: (child: React.ReactNode, item: IMenu) => React.ReactNode;
   dataSource: IMenu[];
   isFixed: boolean;
-  onFold: (v: boolean) => void;
+  extraNode: () => React.ReactElement;
+  linkRender: (child: React.ReactNode, item: IMenu) => React.ReactNode;
 }
 
 const SidebarMenu = ({
@@ -52,22 +48,9 @@ const SidebarMenu = ({
   onOpenChange,
   ...restProps
 }: IProps) => {
-  const [{ isFold, cachedOpenKeys }, updater] = useUpdate({
-    isFold: localStorage.getItem('isSubSidebarFold') === 'true',
-    cachedOpenKeys: [] as string[],
-  });
-
   const renderChildrenMenu = (childList: IMenu[]) => {
     return map(childList, (child) => {
-      const { icon, children, title, href, subtitle } = child;
-      // const foldIcon = (
-      //   <span className="fold-icon relative">
-      //     {icon}
-      //     {subtitle && <span className="text-xs my-1 overflow-hidden w-full inline-block fold-title">{subtitle}</span>}
-      //     <div className="layer" />
-      //   </span>
-      // );
-      // const renderIcon = icon && <span className="ant-menu-item-icon m-0 p-0">{icon}</span>;
+      const { icon, children, title, href } = child;
       if (children && children.length) {
         return (
           <Menu.SubMenu key={href} icon={icon} title={title}>
@@ -83,20 +66,9 @@ const SidebarMenu = ({
     });
   };
 
-  const handleOnFold = () => {
-    if (!isFold) {
-      updater.cachedOpenKeys(openKeys);
-    } else {
-      onOpenChange?.(cachedOpenKeys);
-    }
-    updater.isFold(!isFold);
-    onFold(!isFold);
-    localStorage.setItem('isSubSidebarFold', `${!isFold}`);
-  };
-  // console.log('dataSource:', dataSource);
   return (
     <div className={`side-nav-menu flex-shrink-0 overflow-hidden ${isFixed ? '' : 'float'}`}>
-      {extraNode(isFold)}
+      {extraNode()}
       <div className="flex-1 overflow-y-auto overflow-x-hidden h-full menu-container">
         <Menu openKeys={openKeys} selectedKeys={[selectedKey]} mode="inline" onOpenChange={onOpenChange} {...restProps}>
           {renderChildrenMenu(dataSource)}

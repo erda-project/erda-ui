@@ -83,9 +83,8 @@ const findActiveKey = (menu: IMenu[], curHref: string) => {
 const SideBar = () => {
   const [subSiderInfoMap, subList] = layoutStore.useStore((s) => [s.subSiderInfoMap, s.subList]);
   const routeMarks = routeInfoStore.useStore((s) => s.routeMarks);
-  const { toggleSideFold } = layoutStore.reducers;
   const [state, updater, update] = useUpdate({
-    fixed: true,
+    fixed: localStorage.getItem('isSidebarFixed') === 'true',
     menus: [],
     openKeys: [],
     selectedKey: '',
@@ -162,7 +161,7 @@ const SideBar = () => {
     if (JSON.stringify(fullMenu) !== JSON.stringify(state.menus) || selectedKey !== state.selectedKey) {
       update({
         menus: fullMenu,
-        openKeys: (localStorage.getItem('isSubSidebarFold') !== 'true' && activeKeyList) || [],
+        openKeys: (localStorage.getItem('isSidebarFixed') !== 'true' && activeKeyList) || [],
         selectedKey,
       });
     }
@@ -180,6 +179,12 @@ const SideBar = () => {
     });
   };
 
+  const handleToggleFixed = (newFlag: boolean) => {
+    localStorage.setItem('sidebarFixed', `${newFlag}`);
+    layoutStore.reducers.toggleSideFold(!newFlag);
+    updater.fixed(newFlag);
+  };
+
   return (
     <>
       <div className={`erda-sidebar-trigger ${state.fixed ? '' : 'float'}`}>
@@ -188,13 +193,13 @@ const SideBar = () => {
             className="icon cursor-pointer p-1"
             type={state.fixed ? 'zuofan' : 'erjicaidan'}
             size={20}
-            onClick={() => updater.fixed((prev: boolean) => !prev)}
+            onClick={() => handleToggleFixed(!state.fixed)}
           />
           <ErdaIcon
             className="icon cursor-pointer p-1 absolute hover-show"
             type="youfan"
             size={20}
-            onClick={() => updater.fixed((prev: boolean) => !prev)}
+            onClick={() => handleToggleFixed(!state.fixed)}
           />
         </div>
         <SidebarMenu
@@ -202,10 +207,9 @@ const SideBar = () => {
           selectedKey={state.selectedKey}
           onSelect={handleSelect}
           onOpenChange={handleOpen}
-          extraNode={(isFold: boolean) => <MenuHeader isFold={isFold} siderInfo={siderInfo} routeMarks={routeMarks} />}
+          extraNode={() => <MenuHeader siderInfo={siderInfo} routeMarks={routeMarks} />}
           dataSource={state.menus}
           linkRender={linkRender}
-          onFold={toggleSideFold}
           isFixed={state.fixed}
         />
       </div>

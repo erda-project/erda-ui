@@ -25,7 +25,6 @@ import ecpSvg from 'app/images/ecp.svg';
 import orgCenterSvg from 'app/images/glzx.svg';
 
 interface IProps {
-  isFold: boolean;
   siderInfo: Record<string, any>;
   routeMarks: readonly string[];
 }
@@ -38,7 +37,7 @@ const defaultDetail = {
   logoClassName: '',
 };
 
-const MenuHead = ({ siderInfo, routeMarks, isFold }: IProps) => {
+const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
   const { detail = defaultDetail, getHeadName } = siderInfo || {};
   const { name, displayName, logo, logoClassName = '' } = detail;
   let sideIcon: React.ReactNode = null;
@@ -72,7 +71,7 @@ const MenuHead = ({ siderInfo, routeMarks, isFold }: IProps) => {
       break;
   }
   return (
-    <div className={`${isFold ? 'hidden' : ''} flex sidebar-info-block px-4 py-3 mb-3 rounded-sm`}>
+    <div className={`flex sidebar-info-block px-4 py-3 mb-3 rounded-sm`}>
       <IF check={!!logo}>
         <img key={logo} className={logoClassName} src={ossImg(logo, { w: 36 })} alt="logo" />
         <IF.ELSE />
