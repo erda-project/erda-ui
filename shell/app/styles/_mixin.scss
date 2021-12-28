@@ -60,9 +60,9 @@
   }
 }
 
-$sm-break-width: $sider-width + $subsider-width + $sm-content-break-width;
-$md-break-width: $sider-width + $subsider-width + $md-content-break-width;
-$lg-break-width: $sider-width + $subsider-width + $lg-content-break-width;
+$sm-break-width: $nav-width + $sidebar-width + $sm-content-break-width;
+$md-break-width: $nav-width + $sidebar-width + $md-content-break-width;
+$lg-break-width: $nav-width + $sidebar-width + $lg-content-break-width;
 // 小屏 usage: @include sm-width{  }
 @mixin sm-width() {
   @media screen and (max-width: $sm-break-width) {

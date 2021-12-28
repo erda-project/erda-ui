@@ -1,8 +1,8 @@
 .message-center {
   position: fixed;
   top: 0;
-  left: 48px;
-  width: calc(100% - 48px);
+  left: $nav-width + 2;
+  width: calc(100% - 58px);
   height: 100%;
   overflow: auto;
   background: $white;
