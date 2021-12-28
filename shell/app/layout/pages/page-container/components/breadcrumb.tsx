@@ -174,7 +174,7 @@ const ErdaBreadcrumb = () => {
   const paths: string[] = [];
 
   return (
-    <div className="absolute left-28 top-0 flex items-center flex-shrink-0 h-9 text-xs">
+    <div className="absolute z-10 left-28 top-0 flex items-center flex-shrink-0 h-9 text-xs">
       {allRoutes.map((item, i) => {
         const isLast = i === allRoutes.length - 1;
         paths.push(getPath(item.path, params));

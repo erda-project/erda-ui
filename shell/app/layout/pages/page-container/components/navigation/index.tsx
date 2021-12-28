@@ -98,7 +98,7 @@ const Navigation = () => {
         <Badge
           size="small"
           count={unreadCount}
-          offset={[-5, 2]}
+          offset={[0, 2]}
           className="message-icon select-none"
           style={{ boxShadow: 'none' }}
         >

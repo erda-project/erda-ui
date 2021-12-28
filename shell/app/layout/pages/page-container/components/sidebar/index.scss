@@ -43,9 +43,8 @@
 
   .toggle-btn {
     position: absolute;
-    top: -36px;
     color: $color-text-desc;
-    height: 36px;
+    height: $breadcrumb-height;
     width: 28px;
     .icon {
       transition: opacity 0.1s ease-in-out;
@@ -55,6 +54,7 @@
       }
     }
     .hover-show {
+      display: none;
       opacity: 0;
     }
   }
@@ -62,14 +62,17 @@
   &.float {
     .side-nav-menu {
       position: absolute;
-      width: 216px;
       left: -243px;
+      width: 216px;
       z-index: 2;
       background: $color-bg;
       padding: 16px;
       height: calc(100vh - 36px - 22px);
       box-shadow: 0 2px 24px 0 rgba(48, 38, 71, 0.32);
       transition: transform 0.3s ease-in-out 0.2s;
+    }
+    .hover-show {
+      display: inline-flex;
     }
     .toggle-btn {
       &:hover {
@@ -93,6 +96,8 @@
 }
 
 .side-nav-menu {
+  position: relative;
+  top: $breadcrumb-height;
   width: 184px;
   margin-right: 16px;
 

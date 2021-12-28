@@ -27,11 +27,9 @@ const Shell = ({ children, className, breadcrumb, navigation, sidebar }: IProps)
     <div className={`erda-shell ${className || ''}`}>
       <div className="h-full">{navigation}</div>
 
-      <div className="flex mt-9 flex-1">
-        {breadcrumb}
-        {sidebar}
-        <div className="erda-main-content relative overflow-auto">{children}</div>
-      </div>
+      {sidebar}
+      {breadcrumb}
+      <div className="flex-1 mt-9 mr-4 overflow-hidden">{children}</div>
     </div>
   );
 };
