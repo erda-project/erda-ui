@@ -1,29 +1,38 @@
 .erda-header {
   margin-bottom: 16px;
+  height: 34px;
+  display: flex;
+  align-items: center;
 
-  &-top {
-    height: 34px;
+  .erda-header-title-con {
+    font-family: PingFangSC-Medium;
+    padding-right: 16px;
+    overflow: hidden;
     display: flex;
-    align-items: center;
-    max-width: calc(100% - 130px);
-    min-width: 200px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
 
-    .erda-header-title-con {
-      font-family: PingFangSC-Medium;
-      padding-right: 16px;
-      overflow: hidden;
+    .erda-header-title {
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
+      align-items: center;
+      width: 100%;
+      font-size: 20px;
+      color: rgba(9, 24, 33, 0.84);
+    }
+  }
 
-      .erda-header-title {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        font-size: 20px;
-        color: rgba(9, 24, 33, 0.84);
+  .tab-menu {
+    &.tab-split-line-before {
+      margin-left: 16px;
+      &::before {
+        left: -16px;
       }
+    }
+    .tab-menu-item {
+      height: 32px;
+      line-height: 32px;
+      margin-right: 24px;
     }
   }
 
@@ -38,19 +47,5 @@
       top: 10px;
       left: -12px;
     }
-  }
-
-  .tab-menu {
-    &.tab-split-line-before {
-      margin-left: 16px;
-      &::before {
-        left: -16px;
-      }
-    }
-  }
-  .tab-menu-item {
-    height: 32px;
-    line-height: 32px;
-    margin-right: 24px;
   }
 }

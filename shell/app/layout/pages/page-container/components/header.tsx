@@ -186,10 +186,8 @@ const Header = () => {
 
   return (
     <div className="erda-header">
-      <div className={'erda-header-top'}>
-        <div className="erda-header-title-con">{pageName && displayPageName()}</div>
-        <Tab />
-      </div>
+      <div className="erda-header-title-con">{pageName && displayPageName()}</div>
+      <Tab />
     </div>
   );
 };
