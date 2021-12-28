@@ -17,8 +17,8 @@
 
     &.active-item,
     &:hover {
-      color: $primary;
-      border: 1px solid $primary;
+      color: $color-primary;
+      border: 1px solid $color-primary;
     }
 
     .name {
@@ -29,7 +29,7 @@
       display: -webkit-box;
       max-height: 40px;
       overflow: hidden;
-      color: $text-desc;
+      color: $color-text-desc;
       font-size: 12px;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;

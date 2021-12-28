@@ -40,12 +40,9 @@ $color-white-3: rgba(255, 255, 255, 0.3) !default;
 $color-white-2: rgba(255, 255, 255, 0.2) !default;
 $color-white-1: rgba(255, 255, 255, 0.1) !default;
 
-$color-dark-blue-6: rgba(7, 10, 26, 0.6) !default;
-
 // Color primary
-$color-primary: #6a549e !default;
+$color-primary: #302647 !default;
 $color-primary-light: #0c0b14 !default;
-$color-primary-dark: #5340c8 !default;
 
 $color-default: #302647; // rgba(48,38,71,1);
 $color-default-8: rgba($color-default, 0.8);
@@ -73,21 +70,20 @@ $color-success: $green;
 $color-success-bg: rgba($color-success, 0.1);
 
 $color-default-bg: rgba($color-default, 0.1);
-$color-active: $color-primary;
-$color-active-bg: rgba($color-primary, 0.06);
-$color-active-border: rgba($color-primary, 0.6);
+$color-active: $color-default;
+$color-active-bg: rgba($color-default, 0.06);
+$color-active-border: rgba($color-default, 0.6);
 $color-disabled: $color-dark-3;
 $color-disabled-bg: rgba($black, 0.06);
-$color-click-bg: rgba($color-primary, 0.2);
+$color-click-bg: rgba($color-default, 0.2);
 $color-light-bg: $whitesmoke;
 
 // Color text
-$color-text: $color-dark-8 !default;
+$color-text: $color-default-8 !default;
 $color-text-sub: $color-default-6 !default;
 $color-text-desc: $color-default-4 !default;
 $color-text-icon: $color-default-3 !default;
 $color-text-holder: $color-default-2 !default;
-$color-text-light-desc: $color-dark-blue-6 !default;
 
 // Color border
 $color-border: $color-default-08 !default;
@@ -101,27 +97,13 @@ $color-list-bg-active: #f6f5f9 !default;
 
 // Color decorator
 $color-hover: #f2f1fc;
-$color-bg: #f0eef5;
+$color-bg: #f3f2f4;
 $color-shadow: #9998b1 !default;
 $color-code-bg: rgba($black, 0.02);
 
 // color for nusi TODO: remove this
-$text-sub: $color-text-sub;
-$text-desc: $color-text-desc;
-$text-normal: $color-text;
-$text-light: $color-text-holder;
-$primary: $color-primary;
-$border-color: $color-border;
 $log-bg-color: #3c444f;
 $log-font-color: #c2c1d0;
-
-$color-get: #00b49d;
-$color-post: #b890fa;
-$color-put: #f2be24;
-$color-patch: #4b44c9;
-$color-delete: #d1344e;
-$color-options: #00b5d1;
-$color-head: #17bc65;
 
 $terminal-bgcolor: #48515f;
 

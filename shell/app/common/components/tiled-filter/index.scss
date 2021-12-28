@@ -34,7 +34,7 @@
     .tiled-fields-option-item {
       max-width: 240px;
       border: 1px solid;
-      border-color: $border-color;
+      border-color: $color-border;
       border-radius: $radius;
       padding: 2px 8px;
       margin: 0 8px 8px 0;
@@ -42,12 +42,12 @@
       cursor: pointer;
 
       &:hover {
-        border-color: $primary;
+        border-color: $color-primary;
       }
 
       &.chosen-item {
-        color: $primary;
-        border-color: $primary;
+        color: $color-primary;
+        border-color: $color-primary;
         background-color: $color-active-bg;
       }
     }
@@ -59,7 +59,7 @@
 
   .expand-area {
     cursor: pointer;
-    color: $primary;
+    color: $color-primary;
     .expand-icon {
       transform: rotate(0deg);
       transition: all 0.3s ease-in-out;

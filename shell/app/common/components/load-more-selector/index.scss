@@ -20,7 +20,7 @@
     max-height: 96px;
     padding: 4px 6px 4px 12px;
     overflow: auto;
-    border: 1px solid $border-color;
+    border: 1px solid $color-border;
     border-radius: $radius;
 
     &.small {
@@ -29,9 +29,9 @@
     }
 
     &:hover {
-      border: 1px solid $primary;
+      border: 1px solid $color-primary;
       outline: 0;
-      box-shadow: 0 0 0 2px rgba($primary, 0.2);
+      box-shadow: 0 0 0 2px rgba($color-primary, 0.2);
 
       .close {
         visibility: visible;
@@ -100,7 +100,7 @@
     min-height: 150px;
     max-height: 200px;
     margin-top: 12px;
-    border: 1px solid $border-color;
+    border: 1px solid $color-border;
     border-radius: $radius;
 
     &.normal {
@@ -111,7 +111,7 @@
       overflow: hidden;
       overflow-y: auto;
       text-overflow: ellipsis;
-      border-right: 1px solid $border-color;
+      border-right: 1px solid $color-border;
 
       .menu-item {
         height: 36px;
@@ -146,14 +146,14 @@
 
         &:hover,
         &.checked {
-          color: $primary;
+          color: $color-primary;
           background-color: $color-click-bg;
         }
       }
 
       .load-more {
         &:hover {
-          color: $primary;
+          color: $color-primary;
         }
       }
     }

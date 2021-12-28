@@ -8,7 +8,7 @@
       height: 48px;
       padding: 8px;
       line-height: 32px;
-      border-bottom: 1px solid $border-color;
+      border-bottom: 1px solid $color-border;
     }
 
     .info-block {
@@ -45,12 +45,12 @@
       .sub-data {
         display: flex;
         padding: 0 4px;
-        color: $text-desc;
+        color: $color-text-desc;
       }
 
       .label {
         margin-top: 12px;
-        color: $text-desc;
+        color: $color-text-desc;
         white-space: nowrap;
       }
     }

@@ -2,7 +2,7 @@
   &.container {
     &.with-border {
       border-radius: $radius;
-      border: 1px solid $border-color;
+      border: 1px solid $color-border;
     }
 
     &.column {

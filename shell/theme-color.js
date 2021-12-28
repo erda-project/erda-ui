@@ -49,8 +49,8 @@ module.exports = {
   'black-300': 'rgba(0,0,0,0.3)',
   'black-400': 'rgba(0,0,0,0.4)',
   'black-800': 'rgba(0,0,0,0.8)',
-  'light-primary': '#6a549e19', // rgba($primary, .1)
-  'shallow-primary': '#6a549e99', // rgba($primary, .6)
+  'light-primary': '#6a549e19', // rgba($color-primary, .1)
+  'shallow-primary': '#6a549e99', // rgba($color-primary, .6)
   'light-gray': '#bbbbbb',
   'dark-8': '#000000cc',
   'dark-6': '#00000066',
@@ -62,7 +62,7 @@ module.exports = {
   'log-font': '#c2c1d0',
   'log-bg': '#3c444f',
   'light-border': 'rgba(222,222,222,0.5)',
-  'light-active': '#6a549e0f', // rgba($primary, .06)
+  'light-active': '#6a549e0f', // rgba($color-primary, .06)
   'white-200': 'rgba(255,255,255,0.2)',
   'white-300': 'rgba(255,255,255,0.3)',
   'white-400': 'rgba(255,255,255,0.4)',

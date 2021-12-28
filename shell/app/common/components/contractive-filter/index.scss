@@ -157,11 +157,11 @@
     }
 
     &.checked-item {
-      color: $primary;
+      color: $color-primary;
     }
 
     &:hover {
-      color: $primary;
+      color: $color-primary;
       background-color: $color-click-bg;
 
       .option-item-delete {
@@ -187,7 +187,7 @@
       padding: 6px 10px;
       color: $color-text-desc;
       &:hover {
-        color: $primary;
+        color: $color-primary;
       }
 
       .expand-icon {

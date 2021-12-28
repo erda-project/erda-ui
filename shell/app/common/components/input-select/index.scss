@@ -20,7 +20,7 @@
   max-height: 300px;
   overflow: auto;
   background-color: $white;
-  border-right: 1px solid $border-color;
+  border-right: 1px solid $color-border;
   @extend %shallow-shadow;
 
   &.column {
@@ -40,7 +40,7 @@
     cursor: pointer;
 
     &:hover {
-      color: $primary;
+      color: $color-primary;
       background-color: $color-active-bg;
     }
   }
@@ -57,7 +57,7 @@
     height: 300px;
     overflow: auto;
     background-color: $white;
-    border-right: 1px solid $border-color;
+    border-right: 1px solid $color-border;
     @extend %shallow-shadow;
 
     .option-group-search {
@@ -82,7 +82,7 @@
       cursor: pointer;
 
       &:hover {
-        color: $primary;
+        color: $color-primary;
         background-color: $color-active-bg;
       }
     }

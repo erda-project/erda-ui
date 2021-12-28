@@ -33,10 +33,10 @@
       }
 
       &:not(.not-allowed):hover {
-        border-color: $primary;
+        border-color: $color-primary;
 
         .type-name {
-          color: $primary;
+          color: $color-primary;
         }
       }
 

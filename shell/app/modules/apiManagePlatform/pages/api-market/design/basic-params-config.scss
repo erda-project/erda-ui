@@ -47,13 +47,13 @@
       flex-grow: 1;
       width: 0;
       padding: $p16 $p16 0;
-      background-color: rgba($primary, 0.06);
+      background-color: rgba($color-primary, 0.06);
     }
   }
 
   .array-form {
     margin-left: $p16;
     padding: $p16 $p16 0;
-    background-color: rgba($primary, 0.06);
+    background-color: rgba($color-primary, 0.06);
   }
 }

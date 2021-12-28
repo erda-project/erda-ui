@@ -14,7 +14,7 @@
 
     &:hover {
       @extend %hover-shadow;
-      color: $primary;
+      color: $color-primary;
     }
 
     .add-icon {

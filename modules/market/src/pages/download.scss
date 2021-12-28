@@ -1,4 +1,4 @@
-$primary: #6a549e !default;
+$color-primary: #6a549e !default;
 
 @media screen and (max-height: 700px) {
   .download-page {
@@ -188,8 +188,8 @@ $primary: #6a549e !default;
           cursor: pointer;
 
           &.active {
-            color: $primary;
-            border: 1px solid $primary;
+            color: $color-primary;
+            border: 1px solid $color-primary;
           }
         }
       }

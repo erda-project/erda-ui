@@ -21,7 +21,7 @@
   .param-config-form {
     margin-bottom: $p16;
     padding: $p16;
-    // background-color: rgba($primary, .1);
+    // background-color: rgba($color-primary, .1);
     &-detailed {
       padding-left: $p12;
     }
@@ -110,7 +110,7 @@
       position: relative;
       align-items: center;
       box-sizing: border-box;
-      border: 1px solid rgba($primary, 0);
+      border: 1px solid rgba($color-primary, 0);
       border-radius: $radius;
       cursor: pointer;
       transition: all 0.3s;
@@ -147,7 +147,7 @@
         color: $white;
         font-size: 12px;
         text-align: center;
-        border: 1px solid rgba($primary, 0);
+        border: 1px solid rgba($color-primary, 0);
         border-radius: 50%;
 
         &-get {
@@ -186,7 +186,7 @@
         }
 
         &-empty {
-          background-color: rgba($primary, 0);
+          background-color: rgba($color-primary, 0);
         }
       }
     }
