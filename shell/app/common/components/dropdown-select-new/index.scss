@@ -1,6 +1,8 @@
 .erda-dropdown-select-menu {
-  background-color: rgba($color-default, 0.96);
-  color: $white;
+  &.ant-dropdown-menu {
+    background-color: rgba($color-default, 0.96);
+    color: $white;
+  }
   .ant-dropdown-menu-item {
     cursor: default;
     padding: 8px;

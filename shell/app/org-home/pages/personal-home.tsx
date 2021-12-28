@@ -109,7 +109,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
               'Welcome to use cloud native product - Erda',
             )}`}</div>
             <div className="text-xs text-default-6">{`${i18n.t('dop:Tody is {time}', {
-              time: `${moment().format('YYYY/MM/DD')} ${i18n.t('{week}', { week: Days[new Date().getDay()] })}`,
+              time: ` ${moment().format('YYYY/MM/DD')}  ${i18n.t('{week}', { week: Days[new Date().getDay()] })}`,
               interpolation: { escapeValue: false },
             })}`}</div>
           </div>
@@ -139,13 +139,13 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
                     icon: 'MSP-entry',
                     label: i18n.t('msp'),
                     show: openMap.msp,
-                    href: goTo.resolve.apiManageRoot(),
+                    href: goTo.resolve.mspRootOverview(),
                   },
                   {
                     icon: 'FDP-entry',
                     label: i18n.t('Fast data'),
                     show: openMap.fdp,
-                    href: goTo.resolve.cmpRoot(),
+                    href: goTo.resolve.dataAppEntry(),
                   },
                   {
                     icon: 'CMP-entry',
