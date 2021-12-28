@@ -38,11 +38,10 @@ const typeMap = {
 const caseFileExist = (file) => {
   let caseFile = file.replace('app/common', 'app/common/__tests__').split('.')[0];
   if (caseFile.endsWith('/index')) {
-    caseFile = caseFile.slice(0, -6);
+    caseFile = caseFile.slice(0, -6); // incase file path like app/common/components/icon/index.tsx, remove /index and match app/common/__tests__/components/icon.test.tsx
   }
   const caseFileTs = `${caseFile}.test.ts`;
   const caseFileTsx = `${caseFile}.test.tsx`;
-  console.log('🚀 ~ file: testcase-checker.js ~ line 45 ~ caseFileExist ~ caseFileTsx', caseFileTsx);
   // app/common/__tests__/components/erda-icon.test.tsx
   const res = {
     exist: false,
