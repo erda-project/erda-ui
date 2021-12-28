@@ -226,4 +226,6 @@ const ErdaIcon = ({
   );
 };
 
+ErdaIcon.themeColor = themeColor;
+
 export default ErdaIcon;
