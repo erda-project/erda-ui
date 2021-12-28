@@ -28,8 +28,6 @@ const usePlatformEntries = () => {
   const permMap = usePerm((s) => s.org);
   const appList = layoutStore.useStore((s) => s.appList);
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
-  const { switchToApp } = layoutStore.reducers;
-  const [visible, setVisible] = React.useState(false);
 
   const openMap = {
     orgCenter: permMap.entryOrgCenter.pass,
@@ -39,9 +37,7 @@ const usePlatformEntries = () => {
     msp: permMap.entryMsp.pass,
     ecp: erdaEnv.ENABLE_EDGE === 'true' && permMap.ecp.view.pass && currentOrg.type === 'ENTERPRISE',
   };
-  const dataSource = appList.filter((app) => openMap[app.key]);
-
-  return dataSource;
+  return appList.filter((app) => openMap[app.key]);
 };
 
 export interface NavItemProps {
@@ -126,6 +122,7 @@ const Navigation = () => {
             <NavItem
               label={item.name}
               link={item.href}
+              onClick={() => layoutStore.reducers.switchToApp(item.key)}
               icon={
                 currentApp.key === item.key ? (
                   <ErdaIcon className="absolute icon active-icon opacity-100" size={24} type={item.icon} />
