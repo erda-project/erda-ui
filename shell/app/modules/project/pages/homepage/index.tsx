@@ -1,131 +1,73 @@
 import React from 'react';
 import i18n from 'core/i18n';
 import { map } from 'lodash';
-import { Tooltip } from 'antd';
-import { ErdaIcon, Ellipsis, FormModal, MarkdownEditor } from 'common';
-import remarkGfm from 'remark-gfm';
+import { ErdaIcon, Ellipsis, FormModal } from 'common';
 import routeInfoStore from 'core/stores/route';
 import { regRules, goTo } from 'common/utils';
-import { useUpdate } from 'common/use-hooks';
-import { eventHub } from 'common/utils/event-hub';
-import ReactMarkdown from 'react-markdown';
-import { ScalableImage } from 'common/components/edit-field';
 import './index.scss';
-
-const links = [
-  'www.github.com/erda-projec/erda-ui',
-  'www.github.com/erda-project/erda-ui-enterprise',
-  'www.github.com/erda-project…',
-];
+import { useHoverDirty } from 'react-use';
+import { ReadMeMarkdown } from './readme-markdown';
 
 const LinkList = (props) => {
-  const { item } = props;
-  const [isHover, setIsHover] = React.useState(false);
-  const onHover = () => setIsHover(true);
-  const outHover = () => setIsHover(false);
+  const { item, handleEditLink } = props;
+  const linkRef = React.useRef();
+  const isHovering = useHoverDirty(linkRef);
 
   return (
-    <div
-      key={item}
-      className={`${isHover ? 'cursor-pointer' : ''} flex items-center`}
-      onMouseEnter={onHover}
-      onMouseLeave={outHover}
-    >
+    <div key={item.id} ref={linkRef} className={`${isHovering ? 'cursor-pointer' : ''} flex items-center`}>
       <ErdaIcon type="lianjie" />
-      <div className={`${isHover ? 'cursor-pointer' : ''} ml-2 w-56 px-2 flex justify-between items-center`}>
+      <div className={`${isHovering ? 'cursor-pointer' : ''} ml-2 w-56 px-2 flex justify-between items-center`}>
         <div className="w-52">
-          <Ellipsis className="text-purple-deep" title={item} />
+          <Ellipsis className="text-purple-deep" title={item.url} />
         </div>
-        <ErdaIcon type="edit" className={`${isHover ? 'inline' : 'hidden'} w-4 ml-2 self-center`} size={16} />
+        <ErdaIcon
+          type="edit"
+          className={`${isHovering ? 'inline' : 'hidden'} w-4 ml-2 self-center`}
+          size={16}
+          onClick={() => handleEditLink(item)}
+        />
       </div>
     </div>
   );
 };
 
-const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValue, maxHeight, ...rest }) => {
-  const [{ v, expanded, expandBtnVisible, isEditing }, updater, update] = useUpdate({
-    v: value,
-    expanded: false,
-    isEditing: false,
-    expandBtnVisible: false,
-  });
-
-  const mdContentRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    updater.v(value);
-  }, [updater, value]);
-
-  const operationBtns = !disabled
-    ? [
-
-        // height: 28px;
-        // width: 52px;
-        // background: #302647;
-        // border-radius: 2px;
-        // background-color: #302647;
-
-        {
-          text: i18n.t('commit'),
-          type: 'primary' as const,
-          className: 'bg-default text-white h-8 flex justify-center items-center relative -top-0.5',
-          onClick: (_v: string) => {
-            onSave(_v);
-            updater.isEditing(false);
-          },
-        },
-        {
-          text: i18n.t('cancel'),
-          className: 'text-default-8 bg-default-06 h-8 flex justify-center items-center relative -top-0.5',
-          onClick: () => {
-            update({ v: originalValue, isEditing: false });
-          },
-        },
-      ]
-    : [];
-
-  return isEditing ? (
-    <MarkdownEditor
-      {...rest}
-      value={v}
-      onChange={onChange}
-      onBlur={(_v: string) => onSave(_v, 'markdown')}
-      defaultMode="md"
-      defaultHeight={maxHeight}
-      operationBtns={operationBtns}
-    />
-  ) : (
-    <Tooltip placement="left" title={i18n.t('dop:click to edit')} arrowPointAtCenter>
-      <div
-        className="relative hover:bg-hover-gray-bg cursor-pointer rounded w-full"
-        onClick={() => updater.isEditing(true)}
-        style={{ maxHeight: expanded ? '' : maxHeight }}
-      >
-        <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
-          <div ref={mdContentRef} className="md-content">
-            <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ img: ScalableImage }}>
-              {value || i18n.t('no description yet')}
-            </ReactMarkdown>
-            <div
-              className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex justify-center items-center ${
-                !expandBtnVisible || expanded ? 'hidden' : ''
-              }`}
-            />
-          </div>
-        </div>
-      </div>
-    </Tooltip>
-  );
+const mockData = {
+  readme: 'dasfds',
+  links: [
+    { id: '1', name: 'facebook', url: 'www.facebook.com' },
+    { id: '2', name: 'google', url: 'www.google.com' },
+  ],
 };
+
 export const ProjectHomepage = () => {
   const hasBrief = false;
   const { projectId } = routeInfoStore.useStore((s) => s.params);
 
   const [isVisible, setIsVisible] = React.useState(false);
+  const [data, setData] = React.useState(mockData);
+  const [currentLink, setCurrentLink] = React.useState(null);
 
-  const handleLink = (id?: string) => {
+  function handleDelete(targetIndex) {
+    data.links.splice(targetIndex, 1);
+    handleSave(data);
+  }
+
+  function handleEditLink(item) {
+    setCurrentLink(item);
     setIsVisible(true);
-  };
+  }
+
+  function handleAdd() {
+    setCurrentLink(null);
+    setIsVisible(true);
+  }
+
+  function handleSave(data) {
+    setIsVisible(false);
+    setData({ ...data }); // 接口通后删掉，现在是用来测试
+    // TODO: 调用接口 request(data)
+  }
+
   // const maxMarkdownHeight = (document.documentElement.clientHeight - 86) * 0.7;
   const fieldsList = [
     {
@@ -182,22 +124,22 @@ export const ProjectHomepage = () => {
               'Enterprise-grade application building deployment monitoring platform (AnPaas)'
             ) : (
               <span>
-                用一句话讲述你的项目，让更多的人快速了解你的项目，前往{' '}
+                用一句话讲述你的项目，让更多的人快速了解你的项目，前往
                 <span
                   onClick={() => goTo(goTo.pages.projectSetting, { projectId })}
                   className="text-purple-deep mx-1 cursor-pointer"
                 >
                   项目设置
-                </span>{' '}
+                </span>
                 进行配置
               </span>
             )}
           </div>
           <div className="info-links">
-            {map(links, (item) => (
-              <LinkList item={item} />
+            {map(data?.links, (item) => (
+              <LinkList item={item} handleEditLink={handleEditLink} />
             ))}
-            <div className="flex items-center" onClick={handleLink}>
+            <div className="flex items-center" onClick={handleAdd}>
               <ErdaIcon type="lianjie" />
               <div className={` ml-2 w-56 px-2 flex justify-between items-center`}>{i18n.d('点击添加URL地址')}</div>
             </div>
@@ -205,13 +147,22 @@ export const ProjectHomepage = () => {
         </div>
       </div>
       <FormModal
-        wrapClassName='new-form-modal'
-        onOk={() => console.log('ok')}
+        wrapClassName="new-form-modal"
+        onOk={(res) => {
+          if (currentLink) {
+            const targetIndex = data.links.findIndex((x) => x.id === currentLink.id);
+            Object.assign(data.links[targetIndex], res);
+          } else {
+            data.links.push(res);
+          }
+
+          handleSave(data);
+        }}
         onCancel={() => setIsVisible(false)}
         name={i18n.t('URL')}
         visible={isVisible}
         fieldsList={fieldsList}
-        formData={{}}
+        formData={currentLink}
       />
     </div>
   );
