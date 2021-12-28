@@ -29,7 +29,7 @@ import layoutStore from 'layout/stores/layout';
 
 import './index.scss';
 
-const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) => {
+export const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) => {
   const [isImagePreviewOpen, scalableImgSrc] = layoutStore.useStore((s) => [s.isImagePreviewOpen, s.scalableImgSrc]);
 
   const closePreview = React.useCallback((e?: MouseEvent) => {
@@ -85,6 +85,7 @@ const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement
     </span>
   );
 };
+
 
 interface IMdProps {
   value?: string;

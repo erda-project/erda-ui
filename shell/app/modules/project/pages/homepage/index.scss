@@ -48,13 +48,22 @@
     padding: 0 !important;
   }
 
-  // .ant-modal-content {
-  //   .ant-modal-header,
-  //   .ant-modal-body,
-  //   .ant-modal-footer {
-  //     background: rgba(48, 38, 71, 0.96);
-  //   }
-  // }
+  .markdown-editor .markdown-editor-content .rc-md-editor .editor-container {
+    padding: 0;
+  }
+
+  .markdown-editor .markdown-editor-content .rc-md-editor .editor-container .sec-md .input {
+    border: none;
+  }
+
+  .markdown-editor-content {
+    &.show-btn {
+      .rc-md-editor {
+        background: $color-default-04;
+        padding-bottom: 48px;
+      }
+    }
+  }
 }
 
 // 动画效果，会覆盖过来
