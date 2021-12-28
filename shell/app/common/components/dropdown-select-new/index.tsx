@@ -155,11 +155,13 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
             onlyIcon={mode === 'simple'}
             className={`p-0 seleted-item ${className}`}
             switcher={
-              <span className="rounded-sm bg-default-06 text-default-8 px-2 py-0.5 ml-1">{i18n.t('dop:switch')}</span>
+              <span className="rounded-sm bg-default-06 text-default-8 px-2 py-0.5 ml-1">
+                {i18n.t('common:switch')}
+              </span>
             }
           />
         ) : (
-          <div>{i18n.t('dop:please choose')}</div>
+          <div>{i18n.t('please select')}</div>
         )}
         {mode === 'simple' ? <ErdaIcon type="caret-down" className="ml-0.5" size="18" /> : null}
       </div>

@@ -17,7 +17,7 @@ declare namespace CP_SCALE_CARD {
     operations?: Obj<CP_COMMON.Operation>;
     data: IData;
     onClick?: (v: Item) => void;
-    props: IProps;
+    props?: IProps;
   }
 
   interface IProps {

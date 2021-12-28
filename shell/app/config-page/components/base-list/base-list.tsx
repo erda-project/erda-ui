@@ -73,7 +73,7 @@ const List = (props: CP_BASE_LIST.Props) => {
 
         const { star, ...restOp } = item.operations || {};
 
-        const moreOperations = map(item.moreOperations || [], (opItem, idx) => {
+        const moreOperations = map(item.moreOperations, (opItem, idx) => {
           const curOpKey = Object.keys(opItem.operations || {})?.[0];
           const curOp = curOpKey && opItem.operations[curOpKey];
           const clickFn = () => {

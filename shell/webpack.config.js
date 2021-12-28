@@ -205,7 +205,7 @@ module.exports = () => {
       }),
       new CopyWebpackPlugin({
         patterns: [
-          // { from: './app/images', to: 'shell/images' },
+          { from: './app/images/empty-holder', to: resolve('../public/static/shell/images/empty-holder') },
           { from: './app/static', to: resolve('../public/static') },
         ],
       }),
