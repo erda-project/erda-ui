@@ -88,8 +88,8 @@ stages:
               - export FOR_COMMUNITY=true
               - cd ${{ dirs.erda-ui }}
               - npm i @erda-ui/cli@1.4.x -g
-              - erda-ui init --online
-              - erda-ui build --online
+              - erda-ui init --online --ce
+              - erda-ui build --online --ce
               - cp -r ${{ dirs.erda-ui }}/{public,scheduler} $WORKDIR
           caches:
             - key: "{{basePath}}/build-cache-ce/{{endPath}}"
