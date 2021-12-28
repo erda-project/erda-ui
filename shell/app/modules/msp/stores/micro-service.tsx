@@ -14,7 +14,7 @@
 import { createStore } from 'core/cube';
 import * as mspService from 'msp/services';
 import { envMap, getMSFrontPathByKey, getMSPSubtitleByName, MSIconMap } from 'msp/config';
-import { filter, get, isEmpty } from 'lodash';
+import { filter, get, isEmpty, every } from 'lodash';
 import layoutStore from 'layout/stores/layout';
 import { goTo, qs } from 'common/utils';
 import { getCurrentLocale } from 'i18n';
@@ -88,7 +88,15 @@ const generateMSMenu = (
 
   const newMenu = menuData
     .filter((m) => m.exists)
-    .filter((m) => (process.env.FOR_COMMUNITY ? !COMMUNITY_REMOVE_KEYS.includes(m.key) : true))
+    .filter((m) => {
+      if (!process.env.FOR_COMMUNITY) {
+        return true;
+      }
+      return (
+        !COMMUNITY_REMOVE_KEYS.includes(m.key) &&
+        (!every(m.children, (c) => COMMUNITY_REMOVE_KEYS.includes(c.key)) || !m.children.length)
+      );
+    })
     .map((menu) => {
       const { key, cnName, enName, children } = menu;
       const href = getMSFrontPathByKey(key, { ...menu.params, ...params } as any);
@@ -105,6 +113,7 @@ const generateMSMenu = (
       if (children.length) {
         sideMenu.subMenu = children
           .filter((m) => m.exists)
+          .filter((m) => (process.env.FOR_COMMUNITY ? !COMMUNITY_REMOVE_KEYS.includes(m.key) : true))
           .map((child) => {
             if (child.key in intro) {
               intro[child.key] = !child.params._enabled;
