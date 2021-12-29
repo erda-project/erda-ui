@@ -195,17 +195,6 @@ body {
     }
   }
 
-  .dice-layout .pk-table-tbody > tr > td,
-  .dice-layout .pk-table-thead > tr > th,
-  .dice-layout .pk-table-column-header-title {
-    white-space: nowrap;
-  }
-
-  .dice-layout .pk-form-item-no-label {
-    // TODO: use nusi api to hide pk-no-label
-    display: none !important;
-  }
-
   .ant-collapse {
     > .ant-collapse-item {
       > .ant-collapse-header {
