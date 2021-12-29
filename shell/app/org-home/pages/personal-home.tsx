@@ -19,6 +19,7 @@ import { goTo, insertWhen } from 'common/utils';
 import ScaleCard from 'config-page/components/scale-card/scale-card';
 import ImgMap from 'config-page/img-map';
 import { useMount } from 'react-use';
+import { compact } from 'lodash';
 import userStore from 'app/user/stores';
 import { usePerm } from 'user/common';
 import { erdaEnv } from 'common/constants';
@@ -68,6 +69,19 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
 
   const Head = React.useCallback(
     (_publicOrgs: ORG.IOrg[]) => () => {
+      const usedPublicOrg = compact(
+        _publicOrgs.map((o) =>
+          orgs.find((myOrg) => myOrg.id === o.id)
+            ? null
+            : {
+                key: o.name,
+                label: o.displayName,
+                desc: o.name,
+                imgURL: o.logo || ImgMap.frontImg_default_org_icon,
+              },
+        ),
+      );
+
       const options = [
         {
           label: i18n.t('dop:my organization'),
@@ -79,16 +93,11 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
             imgURL: o.logo || ImgMap.frontImg_default_org_icon,
           })),
         },
-        ...insertWhen(!!_publicOrgs.length, [
+        ...insertWhen(!!usedPublicOrg.length, [
           {
             label: i18n.t('dop:public organization'),
             key: 'public',
-            children: _publicOrgs.map((o) => ({
-              key: o.name,
-              label: o.displayName,
-              desc: o.name,
-              imgURL: o.logo || ImgMap.frontImg_default_org_icon,
-            })),
+            children: usedPublicOrg,
           },
         ]),
       ];
@@ -118,6 +127,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
               title={i18n.t('dop:switch organization')}
               value={orgName}
               options={options}
+              required
               onChange={changeOrg}
               width={400}
               size="big"
