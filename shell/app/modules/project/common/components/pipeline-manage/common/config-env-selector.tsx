@@ -217,6 +217,7 @@ const ConfigEnvSelector = (props: IProps) => {
       pipelineYmlName: caseDetail.inode,
       clusterName: curClusterName,
       autoRunAtOnce: true,
+      autoStartCron: true,
       labels: { orgID: `${orgId}`, projectID: projectId, projectName, orgName },
       ...p,
     }).then((res: any) => {
