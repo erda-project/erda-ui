@@ -51,6 +51,7 @@ module.exports = {
   'black-800': 'rgba(0,0,0,0.8)',
   'light-primary': '#6a549e19', // rgba($color-primary, .1)
   'shallow-primary': '#6a549e99', // rgba($color-primary, .6)
+  'light-pop-bg': '#59516c',
   'light-gray': '#bbbbbb',
   'dark-8': '#000000cc',
   'dark-6': '#00000066',

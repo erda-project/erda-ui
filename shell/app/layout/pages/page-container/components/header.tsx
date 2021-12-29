@@ -45,7 +45,6 @@ const BreadcrumbItem = ({
 }) => {
   const { path, eternal, changePath, pageName } = route;
   const [link, setLink] = React.useState('');
-
   React.useEffect(() => {
     const currentPath = paths[paths.length - 1];
     const lastPath = paths.length > 1 ? paths[paths.length - 2] : '';
@@ -132,7 +131,7 @@ const Header = () => {
 
   React.useEffect(() => {
     if (allRoutes.length) {
-      const lastRoute = allRoutes[allRoutes.length - 1];
+      const lastRoute = allRoutes[0];
       const _title = getBreadcrumbTitle(lastRoute);
       setPageNameInfo(() => lastRoute?.pageNameInfo);
       setPageName(_title);
@@ -183,7 +182,6 @@ const Header = () => {
       </div>
     );
   };
-
   return (
     <div className="erda-header">
       <div className="erda-header-title-con">{pageName && displayPageName()}</div>

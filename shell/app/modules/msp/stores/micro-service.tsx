@@ -104,7 +104,7 @@ const generateMSMenu = (
       const text = isZh ? cnName : enName;
       const sideMenu = {
         key,
-        icon: IconComp ? <IconComp /> : 'zujian',
+        icon: IconComp || 'zujian',
         text,
         subtitle: getMSPSubtitleByName(key)[currentLocale.key],
         href: `${href}${queryStr}`,

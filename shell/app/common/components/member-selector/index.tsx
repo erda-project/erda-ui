@@ -65,7 +65,7 @@ const optionRender = (user: IMember, roleMap?: object, _type?: string, showRole?
   const { avatar, nick, name, roles } = user;
   return (
     <>
-      <Avatar src={avatar || undefined} size="small">
+      <Avatar src={avatar || undefined} size="small" className={'bg-light-pop-bg'}>
         {nick ? getAvatarChars(nick) : i18n.t('none')}
       </Avatar>
       {
