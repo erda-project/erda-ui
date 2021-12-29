@@ -95,4 +95,14 @@
       color: $color-default;
     }
   }
+
+  .icon {
+    color: $color-text-holder;
+  }
+
+  &:hover {
+    .icon {
+      color: $color-default;
+    }
+  }
 }
