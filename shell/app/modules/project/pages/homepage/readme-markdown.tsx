@@ -8,7 +8,16 @@ import ReactMarkdown from 'react-markdown';
 import { ScalableImage } from 'common/components/edit-field';
 import './index.scss';
 
-export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValue, maxHeight, ...rest }) => {
+interface IMdProps {
+  value?: string;
+  originalValue?: string;
+  disabled?: boolean;
+  hasEdited?: boolean;
+  maxHeight: number;
+  onChange: (v: string) => void;
+  onSave: (v?: string) => void;
+}
+export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValue, maxHeight, ...rest }: IMdProps) => {
   const [{ v, expanded, expandBtnVisible, isEditing }, updater, update] = useUpdate({
     v: value,
     expanded: false,

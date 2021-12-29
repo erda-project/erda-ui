@@ -12,8 +12,24 @@ import { useHoverDirty, useMount } from 'react-use';
 import { ReadMeMarkdown } from './readme-markdown';
 import projectStore from 'app/modules/project/stores/project';
 import { useUserMap } from 'core/stores/userMap';
-import { getProjectInfo, getProjectHomepage, saveProjectHomepage } from 'project/services/project';
+import { getProjectHomepage, saveProjectHomepage } from 'project/services/project';
 import './index.scss';
+
+interface LinkItem {
+  id?: string | number;
+  name?: string;
+  url: string;
+}
+interface LinkRowProps {
+  item: LinkItem;
+  handleEditLink: (item: LinkItem) => void;
+  handleDelete: (id: number) => void;
+}
+
+interface DataProps {
+  readme: string;
+  links: LinkItem[];
+}
 
 const emptyMarkdownContent =
   '## 一个改变世界的项目 \n*用酷酷的一段话来介绍你的项目吧，让所有成员都清楚项目的背景和目标* \n### 介绍 \n*可以用一段视频或者图片来展示产品/项目的亮点* \n![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2021/png/286919/1640771214185-f4cc490e-78c4-4c07-9355-dbfdfd0ad485.png#clientId=ud159ea74-2305-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=564&id=ua2ee1ea3&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1128&originWidth=2496&originalType=binary&ratio=1&rotation=0&showTitle=false&size=827709&status=done&style=none&taskId=ue4c866ba-a91b-46b1-9821-4d546ef02b6&title=&width=1248) \n**知识库** \n---\n _罗列项目知识库内容_ \n| 产品 PRD | 设计文档  | \n | --- | --- | \n | [一个改变世界的需求 - PRD](https://www.erda.cloud) | [一个改变世界的需求 - PRD](https://www.erda.cloud) |';
@@ -22,28 +38,28 @@ const iconStyle = {
   className: 'text-default-4',
   size: 20,
 };
-const LinkRow = (props) => {
+
+const LinkRow = (props: LinkRowProps) => {
   const { item, handleEditLink, handleDelete } = props;
   const linkRef = React.useRef(null);
   const isHovering = useHoverDirty(linkRef);
 
   return (
-    <div key={item.id} ref={linkRef} className={`cursor-pointer flex items-center homepage-link mb-1`}>
+    <div key={item.id} ref={linkRef} className="cursor-pointer flex items-center homepage-link mb-1">
       <ErdaIcon type="lianjie" {...iconStyle} />
-      <div className={`cursor-pointer ml-2 w-64 px-2 py-1 flex justify-between items-center hover:bg-default-04 `}>
+      <div className="cursor-pointer ml-2 w-64 px-2 py-1 flex justify-between items-center hover:bg-default-04">
         <div className="w-52 hover:w-44 truncate text-purple-deep">
           <Tooltip title={item.name || item.url} placement="bottomLeft" overlayClassName="homepage-tooltip">
-            <span className="text-purple-deep hover:underline" onClick={() => window.open('https://www.baidu.com')}>
+            <span className="text-purple-deep hover:underline" onClick={() => window.open(item.url)}>
               {item.url}
             </span>
           </Tooltip>
-          {/* <Ellipsis className="text-purple-deep" title={item.url} /> */}
         </div>
         <div className={`${isHovering ? 'homepage-link-operation' : 'hidden'} flex justify-between items-center`}>
           <Tooltip title={i18n.t('edit')} overlayClassName="homepage-tooltip">
             <ErdaIcon
               type="edit"
-              className={` w-4 mx-2 self-center text-default-4`}
+              className={'w-4 mx-2 self-center text-default-4'}
               size={16}
               onClick={() => handleEditLink(item)}
             />
@@ -66,24 +82,13 @@ const LinkRow = (props) => {
   );
 };
 
-const mockData = {
-  readme: 'dasfds',
-  links: [
-    { id: '1', name: 'facebook', url: 'www.facebook.com' },
-    { id: '2', name: 'google', url: 'www.google.comddddddddwerw3r44552989923423423423423423400000000000000' },
-    { id: '3', name: 'google', url: 'www.google.com' },
-  ],
-};
-
 export const ProjectHomepage = () => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
-  // const { getProjectInfo } = projectStore.effects;
   const info = projectStore.useStore((s) => s.info);
   const [projectHomepageInfo, loading] = getProjectHomepage.useState();
   const [isVisible, setIsVisible] = React.useState(false);
-  // TODO: 假数据
-  const [data, setData] = React.useState(mockData);
-  const [currentLink, setCurrentLink] = React.useState(null);
+  const [data, setData] = React.useState(projectHomepageInfo);
+  const [currentLink, setCurrentLink] = React.useState(null as LinkItem | null);
   const [markdownContent, setMarkdownContent] = React.useState(projectHomepageInfo?.readme);
   const { createdAt, owners, logo, displayName, name, desc } = info;
   const userMap = useUserMap();
@@ -91,20 +96,20 @@ export const ProjectHomepage = () => {
 
   useMount(() => {
     getProjectHomepage.fetch({ projectID: projectId });
-    // getProjectInfo(projectId).then((res) => console.log(res, 333));
   });
 
-  // React.useEffect(() => {
-  //   setData(projectHomepageInfo);
-  //   setMarkdownContent(projectHomepageInfo?.readme);
-  // }, [projectHomepageInfo]);
+  React.useEffect(() => {
+    setData(projectHomepageInfo);
+    setMarkdownContent(projectHomepageInfo?.readme);
+  }, [projectHomepageInfo]);
 
-  function handleDelete(targetIndex) {
+  function handleDelete(id: number) {
+    const targetIndex = data?.links.findIndex((x) => x.id === id) as number;
     data?.links.splice(targetIndex, 1);
     handleSave(data);
   }
 
-  function handleEditLink(item) {
+  function handleEditLink(item: LinkItem) {
     setCurrentLink(item);
     setIsVisible(true);
   }
@@ -114,15 +119,13 @@ export const ProjectHomepage = () => {
     setIsVisible(true);
   }
 
-  function handleSave(data) {
+  function handleSave(newData: DataProps) {
     setIsVisible(false);
-    saveProjectHomepage.fetch({ ...data, projectID: projectId }).then(() => {
+    saveProjectHomepage.fetch({ ...newData, projectID: projectId }).then(() => {
       getProjectHomepage.fetch({ projectID: projectId });
     });
   }
 
-  // const maxMarkdownHeight = document.documentElement.clientHeight - 250;
-  const maxMarkdownHeight = (document.documentElement.clientHeight - 86) * 0.7;
   const fieldsList = [
     {
       label: 'URL',
@@ -169,7 +172,7 @@ export const ProjectHomepage = () => {
           <div className="homepage-markdown w-full mr-4">
             <ReadMeMarkdown
               value={markdownContent || emptyMarkdownContent}
-              onSave={(v) => handleSave({ ...data, readme: v })}
+              onSave={(v: string) => handleSave({ ...data, readme: v })}
               originalValue={projectHomepageInfo?.readme || emptyMarkdownContent}
             />
           </div>
@@ -201,7 +204,9 @@ export const ProjectHomepage = () => {
                 <div className="flex items-center mb-4 cursor-pointer" onClick={handleAdd}>
                   <ErdaIcon type="lianjie" {...iconStyle} />
                   <div
-                    className={` ml-2 w-64 px-2 py-1 flex justify-between items-center text-default-3 hover:bg-default-04`}
+                    className={
+                      'ml-2 w-64 px-2 py-1 flex justify-between items-center text-default-3 hover:bg-default-04'
+                    }
                   >
                     {i18n.t('dop:click to add URL path')}
                   </div>
@@ -227,7 +232,7 @@ export const ProjectHomepage = () => {
         </div>
         <FormModal
           wrapClassName="new-form-modal"
-          onOk={(res) => {
+          onOk={(res: LinkItem) => {
             if (currentLink) {
               const targetIndex = data.links.findIndex((x) => x.id === currentLink.id);
               Object.assign(data.links[targetIndex], res);
@@ -240,7 +245,8 @@ export const ProjectHomepage = () => {
           name=" URL "
           visible={isVisible}
           fieldsList={fieldsList}
-          formData={currentLink}
+          modalProps={{ destroyOnClose: true }}
+          formData={currentLink as LinkItem}
         />
       </div>
     </Spin>

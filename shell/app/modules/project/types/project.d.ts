@@ -183,12 +183,13 @@ declare namespace PROJECT {
   }
 
   interface HomepageInfoLink {
-    id?: number;
+    id?: number | string;
     name?: string;
     url: string;
   }
   interface HomepageInfo {
     readme: string;
     links: HomepageInfoLink[];
+    projectID?: string;
   }
 }

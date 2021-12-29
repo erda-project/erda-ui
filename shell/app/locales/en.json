@@ -1901,8 +1901,7 @@
     "yml-addon-not-exist-tip": "the current instance does not exist, please switch to edit mode to add again",
     "your browser does not support WebSocket!": "your browser does not support WebSocket!",
     "{num} members are following": "{num} members are following",
-    "{num} people followed": "{num} people followed",
-    "项目主页": "项目主页"
+    "{num} people followed": "{num} people followed"
   },
   "ecp": {
     "Edge computing": "Edge computing",

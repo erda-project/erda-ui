@@ -1901,8 +1901,7 @@
     "yml-addon-not-exist-tip": "当前实例不存在，请切换到编辑模式重新添加",
     "your browser does not support WebSocket!": "您的浏览器不支持 WebSocket!",
     "{num} members are following": "{num} 位成员正在关注",
-    "{num} people followed": "{num} 人关注",
-    "项目主页": "项目主页"
+    "{num} people followed": "{num} 人关注"
   },
   "ecp": {
     "Edge computing": "边缘计算平台",
