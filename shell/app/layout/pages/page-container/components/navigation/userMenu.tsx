@@ -86,7 +86,9 @@ const UserMenu = () => {
         </div>
       }
     >
-      <Avatar src={avatar}>{nick}</Avatar>
+      <Avatar src={avatar} size={28}>
+        {nick}
+      </Avatar>
     </Popover>
   );
 };
