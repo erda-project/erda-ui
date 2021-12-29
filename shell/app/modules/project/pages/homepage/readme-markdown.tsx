@@ -49,15 +49,14 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
       value={v}
       onChange={onChange}
       onBlur={(_v: string) => {
-        console.log({_v}, 999)
-        onSave(_v)
+        onSave(_v);
       }}
       defaultMode="md"
       defaultHeight={maxHeight}
       operationBtns={operationBtns}
     />
   ) : (
-    <Tooltip placement="left" title={i18n.t('dop:click to edit')} arrowPointAtCenter>
+    <Tooltip placement="topRight" title={i18n.t('dop:click to edit')} arrowPointAtCenter>
       <div
         className="relative hover:bg-hover-gray-bg cursor-pointer rounded w-full"
         onClick={() => updater.isEditing(true)}

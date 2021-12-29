@@ -40,7 +40,6 @@
       font-weight: bold;
       color: $color-white-6;
     }
-    // TODO: input 选择一个背景色变白
 
     .ant-input {
       border: 0;
@@ -54,6 +53,19 @@
 
       &::placeholder {
         color: rgba($white, 0.3);
+      }
+    }
+
+    .ant-btn {
+      color: $white;
+      // background: rgba($color-default, 0.2);
+      // TODO: cancel button background
+      &:first-child {
+        background: $color-white-2;
+        border: 0;
+      }
+      &:last-child {
+        background: $color-purple-deep;
       }
     }
   }
