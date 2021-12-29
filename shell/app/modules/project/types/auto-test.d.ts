@@ -88,6 +88,7 @@ declare namespace AUTO_TEST {
     clusterName: string;
     configManageNamespaces?: string[];
     autoRunAtOnce: boolean;
+    autoStartCron: boolean;
     runParams?: Array<{ name: string; value: string }>;
     labels?: { orgID: string; projectID: string };
   }
