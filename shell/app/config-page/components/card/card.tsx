@@ -184,7 +184,7 @@ export const Card = (props: CP_CARD.Props) => {
     <div className={`cp-cards-container ${className}`}>
       {title ? (
         <div className="font-medium">
-          <span>{title}</span>
+          <span className="text-default-8">{title}</span>
           <span className="inline-block ml-1 bg-default-1 px-1.5 rounded-lg text-default-8 text-xs leading-5">
             {titleSummary}
           </span>
