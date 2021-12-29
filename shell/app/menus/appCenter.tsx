@@ -66,7 +66,7 @@ export const appList: () => LAYOUT.IApp[] = () =>
       },
       {
         key: 'ecp',
-        icon: 'DevOps-entry',
+        icon: 'ECP-entry',
         name: i18n.t('ecp:Edge computing'),
         breadcrumbName: i18n.t('ecp:Edge computing'),
         href: goTo.resolve.ecpApp(),
