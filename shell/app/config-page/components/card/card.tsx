@@ -14,10 +14,9 @@
 import React from 'react';
 import { ErdaIcon, Badge, TextBlockInfo, EmptyHolder as DefaultEmptyHolder } from 'common';
 import { useDrag } from 'react-dnd';
-import { Tooltip } from 'antd';
 import { isBoolean } from 'lodash';
 import classnames from 'classnames';
-import { execMultipleOperation } from 'config-page/utils';
+import { execMultipleOperation, OperationAction } from 'config-page/utils';
 import { getImg } from 'app/config-page/img-map';
 import './card.scss';
 
@@ -100,14 +99,9 @@ export const CardItem = (props: CardItemProps) => {
               </div>
               <div className="ml-2">
                 {isBoolean(star) ? (
-                  <Tooltip title={starProps?.tip}>
-                    <ErdaIcon
-                      {...starProps}
-                      size={18}
-                      fill={star ? 'yellow' : undefined}
-                      type={star ? 'unstar' : 'star'}
-                    />
-                  </Tooltip>
+                  <OperationAction operation={card.operations?.star} {...starProps}>
+                    <ErdaIcon size={18} fill={star ? 'yellow' : undefined} type={star ? 'unstar' : 'star'} />
+                  </OperationAction>
                 ) : null}
               </div>
             </div>
@@ -115,14 +109,9 @@ export const CardItem = (props: CardItemProps) => {
               <div className="mt-3 bg-default-01 flex justify-around p-2">
                 {textMeta.map((item, idx) => {
                   return (
-                    <TextBlockInfo
-                      {...item.extraProps}
-                      key={idx}
-                      align="center"
-                      size="small"
-                      main={item.mainText}
-                      sub={item.subText}
-                    />
+                    <OperationAction key={idx} operations={item.operations} {...item.extraProps}>
+                      <TextBlockInfo align="center" size="small" main={item.mainText} sub={item.subText} />
+                    </OperationAction>
                   );
                 })}
               </div>
@@ -131,14 +120,13 @@ export const CardItem = (props: CardItemProps) => {
               <div className="mt-3 flex">
                 {iconOperations.map((item, idx) => {
                   return (
-                    <Tooltip title={item.tip} key={idx}>
+                    <OperationAction key={idx} operations={item.operations} {...item.extraProps}>
                       <ErdaIcon
                         type={item.icon}
                         size={20}
-                        {...item.extraProps}
                         className={`text-default-4 hover:text-default-8 ${idx !== 0 ? 'ml-4' : ''}`}
                       />
-                    </Tooltip>
+                    </OperationAction>
                   );
                 })}
               </div>
@@ -235,7 +223,6 @@ export const Card = (props: CP_CARD.Props) => {
                     ...(isBoolean(card.star)
                       ? {
                           starProps: {
-                            tip: card.operations?.star?.tip,
                             onClick: (e) => {
                               e.stopPropagation();
                               card.operations?.star &&

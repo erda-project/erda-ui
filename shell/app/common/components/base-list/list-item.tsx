@@ -129,16 +129,25 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
             <If condition={!!kvInfos?.length}>
               <div className={`body-meta-info flex ${description ? '' : 'mt-1'}`}>
                 {map(kvInfos, (info) => {
+                  const { compWapper } = info;
+
+                  const Comp = (
+                    <span className={`info-item type-${info.type || 'normal'}`} {...info.extraProps}>
+                      {info.icon ? (
+                        <ErdaIcon type={info.icon} isConfigPageIcon size="14" />
+                      ) : (
+                        <span className="info-text truncate">{info.key}</span>
+                      )}
+                      <span className="info-value truncate ml-1 text-default">{info.value}</span>
+                    </span>
+                  );
+                  if (compWapper) {
+                    return compWapper(Comp);
+                  }
+
                   return (
                     <Tooltip key={info.key} title={info.tip}>
-                      <span className={`info-item type-${info.type || 'normal'}`} {...info.extraProps}>
-                        {info.icon ? (
-                          <ErdaIcon type={info.icon} isConfigPageIcon size="14" />
-                        ) : (
-                          <span className="info-text truncate">{info.key}</span>
-                        )}
-                        <span className="info-value truncate ml-1 text-default">{info.value}</span>
-                      </span>
+                      {Comp}
                     </Tooltip>
                   );
                 })}
@@ -151,6 +160,17 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                 <div className="erda-base-list-item-hover-icons">
                   <div className="mr-4 flex ">
                     {columnsInfo.hoverIcons.map((item, idx) => {
+                      const { compWapper } = item;
+                      if (compWapper) {
+                        return compWapper(
+                          <ErdaIcon
+                            {...item}
+                            type={item.icon}
+                            size={20}
+                            className={`text-default-4 hover:text-default-8 ${idx !== 0 ? 'ml-4' : ''}`}
+                          />,
+                        );
+                      }
                       return (
                         <Tooltip title={item.tip} key={idx}>
                           <ErdaIcon
@@ -206,11 +226,23 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                 className={`flex items-center ${!isEmpty(extra) ? 'self-start' : ''}`}
                 onClick={(e) => e.stopPropagation()}
               >
-                {map(operations, (action, idx) => (
-                  <Tooltip title={action.tip} key={idx}>
-                    <ErdaIcon {...action} type={action.icon} className="mr-4" size={18} onClick={action?.onClick} />
-                  </Tooltip>
-                ))}
+                {map(operations, (action, idx) => {
+                  const { compWapper, ...restAction } = action;
+                  if (compWapper) {
+                    return compWapper(<ErdaIcon {...restAction} type={action.icon} className="mr-4" size={18} />);
+                  }
+                  return (
+                    <Tooltip title={action.tip} key={idx}>
+                      <ErdaIcon
+                        {...restAction}
+                        type={action.icon}
+                        className="mr-4"
+                        size={18}
+                        onClick={action?.onClick}
+                      />
+                    </Tooltip>
+                  );
+                })}
                 {menuOverlay && (
                   <Dropdown
                     overlay={menuOverlay}

@@ -14,7 +14,7 @@
 import React from 'react';
 import { map, isBoolean } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
-import { OperationAction } from 'config-page/utils';
+import { OperationAction, execMultipleOperation } from 'config-page/utils';
 import { PAGINATION } from 'app/constants';
 import ErdaList from 'app/common/components/base-list';
 
@@ -38,57 +38,57 @@ const List = (props: CP_BASE_LIST.Props) => {
         const kvInfos = item.kvInfos?.map((infoItem) => {
           return {
             ...infoItem,
-            extraProps: {
-              onClick: (e) => {
-                e.stopPropagation();
-                Object.keys(infoItem.operations || {}).forEach((opKey) => {
-                  execOperation({
-                    key: opKey,
-                    ...infoItem.operations?.[opKey],
-                    clientData: { dataRef: { ...infoItem } },
-                  });
-                });
-              },
-            },
+            compWapper: (children: React.ReactElement) => (
+              <OperationAction
+                operations={infoItem.operations}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  execMultipleOperation(infoItem.operations, (op) =>
+                    execOperation({ ...op, clientData: { dataRef: item } }),
+                  );
+                }}
+              >
+                {children}
+              </OperationAction>
+            ),
           };
         });
 
         const hoverIcons = item.columnsInfo?.hoverIcons?.map((iconItem) => {
           return {
             ...iconItem,
-            extraProps: {
-              onClick: (e) => {
-                e.stopPropagation();
-                Object.keys(iconItem.operations || {}).forEach((opKey) => {
-                  execOperation({
-                    key: opKey,
-                    ...iconItem.operations?.[opKey],
-                    clientData: { dataRef: { ...iconItem } },
-                  });
-                });
-              },
-            },
+            compWapper: (children: React.ReactElement) => (
+              <OperationAction
+                operations={iconItem.operations}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  execMultipleOperation(iconItem.operations, (op) =>
+                    execOperation({ ...op, clientData: { dataRef: item } }),
+                  );
+                }}
+              >
+                {children}
+              </OperationAction>
+            ),
           };
         });
 
         const { star, ...restOp } = item.operations || {};
 
         const moreOperations = map(item.moreOperations, (opItem, idx) => {
-          const curOpKey = Object.keys(opItem.operations || {})?.[0];
-          const curOp = curOpKey && opItem.operations[curOpKey];
           const clickFn = () => {
-            execOperation({ key: curOpKey, ...curOp, clientData: { dataRef: { ...opItem } } }, opItem);
+            execMultipleOperation(opItem.operations, (op) =>
+              execOperation({ ...op, clientData: { dataRef: { ...opItem } } }),
+            );
           };
           return {
             key: opItem.key || idx,
             icon: opItem.icon,
             onClick: clickFn,
-            text: curOp ? (
-              <OperationAction tipProps={{ placement: 'left' }} operation={curOp} onClick={clickFn}>
+            text: (
+              <OperationAction tipProps={{ placement: 'left' }} operations={opItem.operations} onClick={clickFn}>
                 <div>{opItem.text}</div>
               </OperationAction>
-            ) : (
-              opItem.text
             ),
           };
         });
@@ -104,12 +104,19 @@ const List = (props: CP_BASE_LIST.Props) => {
                   {
                     tip: star.tip,
                     key: 'star',
+                    compWapper: (children: React.ReactElement) => (
+                      <OperationAction
+                        operation={star}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          execOperation({ key: 'star', ...star, clientData: { dataRef: item } }, item);
+                        }}
+                      >
+                        {children}
+                      </OperationAction>
+                    ),
                     fill: item.star ? 'yellow' : undefined,
                     icon: item.star ? 'unstar' : 'star',
-                    onClick: (e) => {
-                      e.stopPropagation();
-                      execOperation({ key: 'star', ...star, clientData: { dataRef: item } }, item);
-                    },
                   },
                 ]
               : [],

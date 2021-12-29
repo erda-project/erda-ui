@@ -106,7 +106,7 @@ export const mockData = {
         data: {
           title: '星标项目',
           titleSummary: '4',
-          cards: [
+          cards2: [
             {
               // 普通项目
               id: 1, // 项目ID
@@ -121,6 +121,7 @@ export const mockData = {
                   subText: '已过期',
                   operations: {
                     clickGoto: {
+                      disabled: true,
                       serverData: {
                         jumpOut: false,
                         target: 'projectAllIssue', // 固定值
@@ -139,6 +140,7 @@ export const mockData = {
                   subText: '本日到期',
                   operations: {
                     clickGoto: {
+                      confirm: 'xx',
                       serverData: {
                         jumpOut: false,
                         target: 'projectAllIssue', // 固定值
@@ -159,6 +161,7 @@ export const mockData = {
                   tip: '项目管理',
                   operations: {
                     clickGoto: {
+                      disabled: true,
                       serverData: {
                         jumpOut: false,
                         target: 'projectAllIssue',
@@ -173,6 +176,7 @@ export const mockData = {
                   tip: '应用开发',
                   operations: {
                     clickGoto: {
+                      confirm: 'xxa',
                       serverData: {
                         jumpOut: false,
                         target: 'projectApps',
@@ -229,6 +233,7 @@ export const mockData = {
                 // 点击start的操作
                 star: {
                   tip: '取消收藏',
+                  disabled: true,
                   clientData: {
                     // clientData是点击后有前端放在event.operationData里，后端不需要给
                     dataRef: {}, // 当前这条数据回传
@@ -626,6 +631,7 @@ export const mockData = {
                   tip: '',
                   operations: {
                     clickGoto: {
+                      disabled: true,
                       serverData: {
                         jumpOut: false,
                         target: 'projectAllIssue', // 固定值
@@ -717,7 +723,7 @@ export const mockData = {
                   clientData: {
                     dataRef: {}, // 这个数据对象，前端提供
                   },
-                  disabled: false,
+                  disabled: true,
                   tip: '收藏此项目',
                 },
                 clickGoto: {
@@ -738,6 +744,7 @@ export const mockData = {
                     tip: '项目管理',
                     operations: {
                       clickGoto: {
+                        disabled: true,
                         serverData: {
                           jumpOut: false,
                           target: 'projectAllIssue',
@@ -752,6 +759,7 @@ export const mockData = {
                     tip: '应用开发',
                     operations: {
                       clickGoto: {
+                        confirm: 'xxx',
                         serverData: {
                           jumpOut: false,
                           target: 'projectApps',
@@ -812,6 +820,7 @@ export const mockData = {
                   icon: 'xiangmuguanli',
                   operations: {
                     clickGoto: {
+                      disabled: true,
                       serverData: {
                         jumpOut: false,
                         target: 'projectAllIssue',
@@ -997,7 +1006,7 @@ export const mockData = {
                     dataRef: {}, // 这个数据对象，前端提供
                   },
                   disabled: false,
-                  tip: '收藏此项目',
+                  confirm: '收藏此项目',
                 },
                 clickGoto: {
                   serverData: {
