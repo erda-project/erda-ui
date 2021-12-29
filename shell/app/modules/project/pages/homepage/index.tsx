@@ -3,29 +3,38 @@ import i18n from 'core/i18n';
 import { map } from 'lodash';
 import { ErdaIcon, Ellipsis, FormModal } from 'common';
 import routeInfoStore from 'core/stores/route';
+import { Avatar, Spin, Tooltip } from 'antd';
+import devopsSvg from 'app/images/devops.svg';
 import { regRules, goTo } from 'common/utils';
-import './index.scss';
-import { useHoverDirty } from 'react-use';
+import moment from 'moment';
+import { useHoverDirty, useMount } from 'react-use';
 import { ReadMeMarkdown } from './readme-markdown';
+import projectStore from 'app/modules/project/stores/project';
+import { getProjectHomepage, saveProjectHomepage } from 'project/services/project';
+import './index.scss';
 
 const LinkList = (props) => {
-  const { item, handleEditLink } = props;
-  const linkRef = React.useRef();
+  const { item, handleEditLink, handleDelete } = props;
+  const linkRef = React.useRef(null);
   const isHovering = useHoverDirty(linkRef);
-
+  console.log(item, 'item');
   return (
-    <div key={item.id} ref={linkRef} className={`${isHovering ? 'cursor-pointer' : ''} flex items-center`}>
+    <div key={item.id} ref={linkRef} className={`cursor-pointer flex items-center homepage-link`}>
       <ErdaIcon type="lianjie" />
-      <div className={`${isHovering ? 'cursor-pointer' : ''} ml-2 w-56 px-2 flex justify-between items-center`}>
+      <div className={`cursor-pointer ml-2 w-56 px-2 flex justify-between items-center`}>
         <div className="w-52">
-          <Ellipsis className="text-purple-deep" title={item.url} />
+          <Tooltip title={item.name || item.url} placement="bottom" overlayClassName="homepage-link-tooltip">
+            {/* TODO: window.open 还带有前缀 */}
+            <span className="text-purple-deep truncate w-48" onClick={() => window.open(item.url)}>
+              {item.url}
+            </span>
+          </Tooltip>
+          {/* <Ellipsis className="text-purple-deep" title={item.url} /> */}
         </div>
-        <ErdaIcon
-          type="edit"
-          className={`${isHovering ? 'inline' : 'hidden'} w-4 ml-2 self-center`}
-          size={16}
-          onClick={() => handleEditLink(item)}
-        />
+        <div className={`${isHovering ? 'homepage-link-operation' : 'hidden'} flex justify-between items-center`}>
+          <ErdaIcon type="edit" className={` w-4 ml-2 self-center`} size={16} onClick={() => handleEditLink(item)} />
+          <ErdaIcon type="remove" size={16} onClick={() => handleDelete(item.id)} />
+        </div>
       </div>
     </div>
   );
@@ -35,20 +44,39 @@ const mockData = {
   readme: 'dasfds',
   links: [
     { id: '1', name: 'facebook', url: 'www.facebook.com' },
-    { id: '2', name: 'google', url: 'www.google.com' },
+    { id: '2', name: 'google', url: 'www.google.comddddddddwerw3r' },
+    { id: '3', name: 'google', url: 'www.google.com' },
   ],
 };
 
 export const ProjectHomepage = () => {
   const hasBrief = false;
   const { projectId } = routeInfoStore.useStore((s) => s.params);
-
+  const info = projectStore.useStore((s) => s.info);
+  const [projectHomepageInfo, loading] = getProjectHomepage.useState();
   const [isVisible, setIsVisible] = React.useState(false);
-  const [data, setData] = React.useState(mockData);
+  const [data, setData] = React.useState(projectHomepageInfo);
   const [currentLink, setCurrentLink] = React.useState(null);
+  const [markdownContent, setMarkdownContent] = React.useState(projectHomepageInfo?.readme);
+  const { createdAt, owners, logo, displayName, name } = info;
+
+  // console.log({ info, projectHomepageInfo }, moment(createdAt).format('YYYY/MM/DD'));
+  useMount(() => {
+    getProjectHomepage.fetch({ projectID: projectId });
+  });
+  console.log({ data, projectHomepageInfo });
+  // React.useEffect(() => {
+  //   getNotifyChannels.fetch({ pageNo: paging.current, pageSize: paging.pageSize, type: activeTab });
+  // }, [paging, activeTab]);
+
+  React.useEffect(() => {
+    setData(projectHomepageInfo);
+    setMarkdownContent(projectHomepageInfo?.readme);
+  }, [projectHomepageInfo]);
 
   function handleDelete(targetIndex) {
-    data.links.splice(targetIndex, 1);
+    console.log('delete');
+    data?.links.splice(targetIndex, 1);
     handleSave(data);
   }
 
@@ -64,8 +92,10 @@ export const ProjectHomepage = () => {
 
   function handleSave(data) {
     setIsVisible(false);
-    setData({ ...data }); // 接口通后删掉，现在是用来测试
-    // TODO: 调用接口 request(data)
+    saveProjectHomepage.fetch({ ...data, projectID: projectId }).then(() => {
+      console.log(data, 111111);
+      getProjectHomepage.fetch({ projectID: projectId });
+    });
   }
 
   // const maxMarkdownHeight = (document.documentElement.clientHeight - 86) * 0.7;
@@ -90,7 +120,7 @@ export const ProjectHomepage = () => {
     {
       label: i18n.t('name'),
       required: false,
-      name: 'message',
+      name: 'name',
       itemProps: {
         placeholder: i18n.d('请给该地址取一个简单易懂的名称吧'),
         maxLength: 50,
@@ -101,20 +131,21 @@ export const ProjectHomepage = () => {
   return (
     <div className="project-homepage">
       <div className="homepage-header bg-default">
-        <div className="project-icon">3</div>
-        <div className="project-name">Erda</div>
+        <div className="project-icon bg-default">
+          {logo ? (
+            <img className="big-icon" src={logo} width={64} height={64} />
+          ) : (
+            <img className="big-icon" src={devopsSvg} width={64} height={64} />
+          )}
+        </div>
+        <div className="project-name">{displayName || name}</div>
       </div>
       <div className="homepage-body flex justify-between px-4">
         <div className="homepage-markdown w-full mr-4">
           <ReadMeMarkdown
-            value={
-              '**\nREADME.md\n**\n\n### 【环境信息】\n\n\n### 【缺陷描述】*\n\n\n### 【重现步骤】\n\n\n### 【实际结果】\n\n\n### 【期望结果】*\n\n\n### 【修复建议】\n\n **\nREADME.md\n**\n\n### 【环境信息】\n\n\n### 【缺陷描述】*\n\n\n### 【重现步骤】\n\n\n### 【实际结果】\n\n\n### 【期望结果】*\n\n\n### \n\n'
-            }
-            onChange={''}
-            onSave={(v, fieldType) => onChangeCb?.({ [name]: v }, fieldType)}
-            originalValue={
-              '**\nREADME.md\n**\n\n### 【环境信息】\n\n\n### 【缺陷描述】*\n\n\n### 【重现步骤】\n\n\n### 【实际结果】\n\n\n### 【期望结果】*\n\n\n### 【修复建议】\n\n **\nREADME.md\n**\n\n### 【环境信息】\n\n\n### 【缺陷描述】*\n\n\n### 【重现步骤】\n\n\n### 【实际结果】\n\n\n### 【期望结果】*\n\n\n### \n\n'
-            }
+            value={markdownContent}
+            onSave={(v) => handleSave({ ...data, readme: v })}
+            originalValue={projectHomepageInfo?.readme}
           />
         </div>
         <div className="homepage-info py-3">
@@ -137,12 +168,25 @@ export const ProjectHomepage = () => {
           </div>
           <div className="info-links">
             {map(data?.links, (item) => (
-              <LinkList item={item} handleEditLink={handleEditLink} />
+              <LinkList item={item} handleEditLink={handleEditLink} handleDelete={handleDelete} key={item.id} />
             ))}
-            <div className="flex items-center" onClick={handleAdd}>
-              <ErdaIcon type="lianjie" />
-              <div className={` ml-2 w-56 px-2 flex justify-between items-center`}>{i18n.d('点击添加URL地址')}</div>
-            </div>
+            {data?.links.length < 5 && (
+              <div className="flex items-center" onClick={handleAdd}>
+                <ErdaIcon type="lianjie" />
+                <div className={` ml-2 w-56 px-2 flex justify-between items-center`}>{i18n.d('点击添加URL地址')}</div>
+              </div>
+            )}
+          </div>
+          <div className="flex items-center">
+            <ErdaIcon type="zerenren" />
+            <Avatar size={24} src={undefined}>
+              33
+              {/* {nick ? getAvatarChars(nick) : i18n.t('none')} */}
+            </Avatar>
+          </div>
+          <div className="flex items-center">
+            <ErdaIcon type="chuangjianshijian" />
+            <span className="ml-2">{moment(createdAt).format('YYYY/MM/DD')}</span>
           </div>
         </div>
       </div>
@@ -155,7 +199,7 @@ export const ProjectHomepage = () => {
           } else {
             data.links.push(res);
           }
-
+          console.log('okokok');
           handleSave(data);
         }}
         onCancel={() => setIsVisible(false)}

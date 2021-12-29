@@ -48,7 +48,10 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
       {...rest}
       value={v}
       onChange={onChange}
-      onBlur={(_v: string) => onSave(_v, 'markdown')}
+      onBlur={(_v: string) => {
+        console.log({_v}, 999)
+        onSave(_v)
+      }}
       defaultMode="md"
       defaultHeight={maxHeight}
       operationBtns={operationBtns}
