@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { get } from 'lodash';
 import { PAGINATION } from 'app/constants';
 import moment from 'moment';
-import { Key, pathToRegexp, compile } from 'path-to-regexp';
+import { compile, Key, pathToRegexp } from 'path-to-regexp';
 import { AxiosResponse } from 'axios';
 import AnsiUp from 'ansi_up';
 

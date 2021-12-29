@@ -44,7 +44,7 @@ const serviceAnalysisRoutes = [
         getComp: (cb: RouterGetComp) => cb(import('msp/monitor/trace-insight/pages/trace-querier/trace-search-detail')),
       },
       {
-        layout: { fullHeight: true },
+        layout: { noWrapper: true },
         getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/transaction')),
       },
     ],

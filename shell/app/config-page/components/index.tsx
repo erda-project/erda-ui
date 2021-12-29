@@ -77,6 +77,8 @@ import UserProfile from './user-profile/user-profile';
 import List2 from './base-list/base-list';
 import TopN from './top-n';
 import ScaleCard from './scale-card/scale-card';
+import LineGraph from './line-graph';
+import KV from './kv';
 
 export const containerMap = {
   Alert,
@@ -148,4 +150,6 @@ export const containerMap = {
   TopN,
   ScaleCard,
   DropdownSelect2,
+  LineGraph,
+  KV,
 };

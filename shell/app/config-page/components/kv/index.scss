@@ -1,0 +1,31 @@
+.cp-kv {
+  &.dark {
+    .items {
+      background: rgba($white, 0.04);
+
+      .items-value {
+        color: $white;
+      }
+
+      .items-title,
+      .items-unit {
+        color: rgba($white, 0.6);
+      }
+    }
+  }
+
+  &.light {
+    .items {
+      background: rgba($color-default, 0.04);
+
+      .items-value {
+        color: $color-default;
+      }
+
+      .items-title,
+      .items-unit {
+        color: rgba($color-default, 0.6);
+      }
+    }
+  }
+}
