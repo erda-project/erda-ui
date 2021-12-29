@@ -65,7 +65,6 @@ const SidebarMenu = ({
       );
     });
   };
-
   return (
     <div className={`side-nav-menu flex-shrink-0 overflow-hidden ${isFloat ? 'float' : ''}`}>
       {extraNode()}

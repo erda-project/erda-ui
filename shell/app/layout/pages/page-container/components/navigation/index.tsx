@@ -137,7 +137,7 @@ const Navigation = () => {
           }
         }}
       />
-      <div className="py-2">
+      <div className="py-2 relative left-1">
         <OrgSelector mode="simple" size="middle" />
       </div>
       {platformEntries.map((item) => {

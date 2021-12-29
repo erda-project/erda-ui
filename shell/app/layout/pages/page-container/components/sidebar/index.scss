@@ -112,6 +112,9 @@
     //   margin-left: 4px;
     // }
 
+    .ant-menu-submenu-title:active {
+      background-color: transparent;
+    }
     .ant-menu-item {
       display: flex;
       margin: 0;

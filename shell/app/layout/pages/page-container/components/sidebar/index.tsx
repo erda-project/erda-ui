@@ -80,6 +80,15 @@ const findActiveKey = (menu: IMenu[], curHref: string) => {
   return [activeKey, realParentActiveKeyList];
 };
 
+const compareSameMenu = (sourceMenu: IMenu[], targetMenu: IMenu[]) => {
+  const getMenuHref = (_menu: IMenu[]) => {
+    return _menu.map((item) => {
+      return { href: item.href, children: item.children ? getMenuHref(item.children) : [] };
+    });
+  };
+  return JSON.stringify(getMenuHref(sourceMenu)) === JSON.stringify(getMenuHref(targetMenu));
+};
+
 const SideBar = () => {
   const [subSiderInfoMap, subList] = layoutStore.useStore((s) => [s.subSiderInfoMap, s.subList]);
   const routeMarks = routeInfoStore.useStore((s) => s.routeMarks);
@@ -158,10 +167,10 @@ const SideBar = () => {
   const { menu = [] } = siderInfo || {};
   React.useEffect(() => {
     const { activeKeyList, fullMenu, selectedKey } = organizeInfo(menu);
-    if (JSON.stringify(fullMenu) !== JSON.stringify(state.menus) || selectedKey !== state.selectedKey) {
+    if (!compareSameMenu(fullMenu, state.menus) || selectedKey !== state.selectedKey) {
       update({
         menus: fullMenu,
-        openKeys: (localStorage.getItem('sidebarFixed') !== 'true' && activeKeyList) || [],
+        openKeys: (localStorage.getItem('isSubSidebarFold') !== 'true' && activeKeyList) || [],
         selectedKey,
       });
     }
