@@ -48,20 +48,32 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
       <div className="flex justify-between items-center h-12 px-4">
         <div className="text-normal">{i18n.t('dop:active ranking')}</div>
         <div className="flex items-center">
-          {inputVisible && (
-            <Input
-              className="bg-hover-gray-bg mr-1"
-              size="small"
-              autoFocus
-              bordered={false}
-              allowClear
-              onChange={onChangeSearchKey}
-              value={searchKey}
-              style={{ width: '120px' }}
-              placeholder={i18n.t('dop:search name')}
-            />
-          )}
-          <ErdaIcon type="search" className="cursor-pointer" color="normal" size="16" onClick={toggleSearchInput} />
+          <div className={`transition-all ${inputVisible ? 'w-32' : 'w-0'}`}>
+            {inputVisible && (
+              <Input
+                className="bg-hover-gray-bg"
+                size="small"
+                autoFocus
+                bordered={false}
+                allowClear
+                onChange={onChangeSearchKey}
+                onBlur={() => {
+                  setInputVisible(false);
+                  setSearchKey('');
+                }}
+                value={searchKey}
+                style={{ width: '140px' }}
+                placeholder={i18n.t('dop:search name')}
+              />
+            )}
+          </div>
+          <ErdaIcon
+            type="search"
+            className={`cursor-pointer ${inputVisible ? 'hidden' : ''}`}
+            color="normal"
+            size="16"
+            onClick={toggleSearchInput}
+          />
         </div>
       </div>
       <div className={`${searchKey ? 'hidden' : 'px-4 mb-2'}`}>
