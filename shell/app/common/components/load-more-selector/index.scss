@@ -93,7 +93,7 @@
       }
     }
     &.ant-dropdown-menu {
-      background-color: rgba($color-default, 0.96);
+      background-color: $color-default;
       color: $white;
     }
 
@@ -123,7 +123,7 @@
     color: $white !important;
   }
   .ant-menu {
-    background-color: rgba($color-default, 0.96);
+    background-color: $color-default;
     color: $white;
   }
   .content {

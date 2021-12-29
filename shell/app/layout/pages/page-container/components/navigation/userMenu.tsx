@@ -29,7 +29,9 @@ const UserMenu = () => {
         title: <span className="ml-1">{i18n.t('operation manage platform')}</span>,
         onClick: () => {
           window.localStorage.setItem('lastOrg', window.location.pathname.split('/')[1]);
-          window.location.href = `${window.location.protocol}://${erdaEnv.UI_PUBLIC_ADDR}/-/sysAdmin`; // jump to wildcard domain
+          if (erdaEnv.UI_PUBLIC_ADDR) {
+            window.location.href = `${window.location.protocol}//${erdaEnv.UI_PUBLIC_ADDR}/-/sysAdmin`; // jump to wildcard domain
+          }
         },
       },
     ]),

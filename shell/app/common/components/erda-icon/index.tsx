@@ -180,6 +180,19 @@ export const iconMap = {
   zhongdengnandu: 'zhongdengnandu',
   nan: 'nan',
   rongyi: 'rongyi',
+  xiangmuguanli: 'xiangmuguanli',
+  yingyongkaifa: 'yingyongkaifa',
+  ceshiguanli: 'ceshiguanli',
+  fuwuguance: 'fuwuguance',
+  xiangmushezhi: 'xiangmushezhi',
+  fuwuliebiao: 'fuwuliebiao',
+  fuwujiankong: 'fuwujiankong',
+  lianluzhuizong: 'lianluzhuizong',
+  rizhifenxi: 'rizhifenxi',
+  daimacangku: 'daimacangku',
+  liushuixian: 'liushuixian',
+  apisheji: 'apisheji',
+  bushuzhongxin: 'bushuzhongxin',
 };
 
 interface IErdaIcon {
