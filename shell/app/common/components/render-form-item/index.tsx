@@ -27,13 +27,11 @@ import {
 } from 'antd';
 import { FormInstance } from 'app/interface/common';
 import classnames from 'classnames';
-import { ErdaIcon, Icon as CustomIcon, Badge, ListSelect, MarkdownEditor } from 'common';
+import { ErdaIcon, Icon as CustomIcon, Badge } from 'common';
 import { TagItem } from 'common/components/tags';
 import i18n from 'i18n';
 import { isString } from 'lodash';
 import moment, { Moment } from 'moment';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 
 interface IProps {
   onChange?: (...args: unknown[]) => void;
@@ -292,34 +290,14 @@ const RenderFormItem = ({
     case 'custom':
       // getFieldDecorator不能直接包裹FunctionalComponent，see https://github.com/ant-design/ant-design/issues/11324
       ItemComp = <ClassWrapper {...itemProps}>{(getComp as Function)({ form })}</ClassWrapper>;
+      if (readOnly && readOnlyRender) {
+        ItemComp = <CustomRender readOnlyRender={readOnlyRender} />;
+      }
       break;
     case 'cascader':
       specialConfig.valuePropType = 'array';
       ItemComp = <Cascader {...itemProps} options={options} />;
       break;
-    case 'listSelect':
-      ItemComp = <ListSelect label={label} {...itemProps} />;
-      if (readOnly && readOnlyRender) {
-        ItemComp = <CustomRender readOnlyRender={readOnlyRender} />;
-      }
-      break;
-    case 'markdown': {
-      ItemComp = (
-        <ClassWrapper>
-          <EditMd {...itemProps} />
-        </ClassWrapper>
-      );
-      if (readOnly) {
-        ItemComp = readOnlyRender ? (
-          <CustomRender readOnlyRender={readOnlyRender} />
-        ) : (
-          <ClassWrapper>
-            <MarkdownReadOnlyRender {...itemProps} />
-          </ClassWrapper>
-        );
-      }
-      break;
-    }
     case 'input':
     default:
       ItemComp = <Input {...itemProps} className={classnames('input-with-icon', itemProps.className)} size={size} />;
@@ -580,14 +558,6 @@ const TagsSelect = ({ size, options, value = [], onChange, ...restItemProps }: T
         : options.map((item) => renderTagsSelectOption({ ...item, checked: value.includes(item.value) }))}
     </Select>
   );
-};
-
-const EditMd = ({ value, onChange, ...itemProps }: { value: string; onChange: (value: string) => void }) => {
-  return <MarkdownEditor value={value} onChange={onChange} {...itemProps} defaultHeight={400} />;
-};
-
-const MarkdownReadOnlyRender = ({ value }: { value: string }) => {
-  return <ReactMarkdown remarkPlugins={[remarkGfm]}>{value || i18n.t('no description yet')}</ReactMarkdown>;
 };
 
 const InputReadOnly = ({ value }: { value?: string }) => {

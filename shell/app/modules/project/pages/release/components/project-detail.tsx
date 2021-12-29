@@ -12,52 +12,60 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Spin, Modal } from 'antd';
+import { Button, Modal, message } from 'antd';
 import ReleaseForm from './form';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
-import releaseStore from 'project/stores/release';
-import { useLoading } from 'core/stores/loading';
-
-import './form.scss';
+import routeInfoStore from 'core/stores/route';
+import { getReleaseDetail, formalRelease } from 'project/services/release';
 
 const ReleaseProjectDetail = () => {
-  const { releaseDetail } = releaseStore.getState((s) => s);
-  const { isFormal, releaseId, releaseName } = releaseDetail;
-  const [loading] = useLoading(releaseStore, ['getReleaseDetail']);
-  const { formalRelease, getReleaseDetail } = releaseStore.effects;
+  const { params } = routeInfoStore.getState((s) => s);
+  const { releaseID } = params;
+  const [releaseDetail, setReleaseDetail] = React.useState<RELEASE.ReleaseDetail>({} as RELEASE.ReleaseDetail);
+  const { isFormal, releaseName } = releaseDetail;
+
+  const getDetail = React.useCallback(async () => {
+    if (releaseID) {
+      const detail = await getReleaseDetail({ releaseID });
+      setReleaseDetail(detail);
+    }
+  }, [releaseID, setReleaseDetail]);
+
+  React.useEffect(() => {
+    getDetail();
+  }, [getDetail]);
+
   const submit = () => {
     Modal.confirm({
       title: i18n.t('dop:be sure to make {name} official?', {
         name: releaseName,
         interpolation: { escapeValue: false },
       }),
-      onOk: () => {
-        formalRelease({ releaseID: releaseId }).then((res) => {
-          if (res.success) {
-            getReleaseDetail({ releaseID: releaseId });
-          }
-        });
+      onOk: async () => {
+        const res = await formalRelease({ releaseID });
+        if (res.success) {
+          message.success(i18n.t('{action} successfully', { action: i18n.t('dop:be formal') }));
+          getReleaseDetail({ releaseID });
+        }
       },
     });
   };
 
   return (
-    <div className="release-detail">
-      <Spin spinning={loading}>
-        <ReleaseForm readyOnly />
-        <div className="mb-2">
-          {!isFormal ? (
-            <Button className="mr-3 bg-default" type="primary" onClick={submit}>
-              {i18n.t('dop:be formal')}
-            </Button>
-          ) : null}
-
-          <Button className="bg-default-06 border-default-06" onClick={() => goTo(goTo.pages.projectRelease)}>
-            {i18n.t('return to previous page')}
+    <div>
+      <ReleaseForm readyOnly />
+      <div className="mb-2">
+        {!isFormal ? (
+          <Button className="mr-3 bg-default" type="primary" onClick={submit}>
+            {i18n.t('dop:be formal')}
           </Button>
-        </div>
-      </Spin>
+        ) : null}
+
+        <Button className="bg-default-06 border-default-06" onClick={() => goTo(goTo.pages.projectRelease)}>
+          {i18n.t('return to previous page')}
+        </Button>
+      </div>
     </div>
   );
 };

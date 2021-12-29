@@ -12,31 +12,26 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Tabs, Spin, Modal } from 'antd';
+import { Button, Tabs, Modal, message } from 'antd';
 import moment from 'moment';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import { UserInfo, FileEditor } from 'common';
 import Table from 'common/components/table';
-import releaseStore from 'project/stores/release';
 import routeInfoStore from 'core/stores/route';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import FileContainer from 'application/common/components/file-container';
-
-import { useLoading } from 'core/stores/loading';
+import { getReleaseDetail, formalRelease } from 'project/services/release';
 
 import './form.scss';
 
 const { TabPane } = Tabs;
 
 const ReleaseApplicationDetail = () => {
-  const { params } = routeInfoStore.getState((s) => s);
+  const [params] = routeInfoStore.useStore((s) => [s.params]);
   const { releaseID } = params;
-  const { releaseDetail } = releaseStore.getState((s) => s);
-  const { getReleaseDetail, formalRelease } = releaseStore.effects;
-  const { updateReleaseDetail } = releaseStore.reducers;
-  const [loading] = useLoading(releaseStore, ['getReleaseDetail']);
+  const [releaseDetail, setReleaseDetail] = React.useState<RELEASE.ReleaseDetail>({} as RELEASE.ReleaseDetail);
 
   const {
     releaseName,
@@ -49,15 +44,16 @@ const ReleaseApplicationDetail = () => {
     isFormal,
   } = releaseDetail;
 
-  React.useEffect(() => {
+  const getDetail = React.useCallback(async () => {
     if (releaseID) {
-      getReleaseDetail({ releaseID });
+      const detail = await getReleaseDetail({ releaseID });
+      setReleaseDetail(detail);
     }
+  }, [releaseID, setReleaseDetail]);
 
-    return () => {
-      updateReleaseDetail({});
-    };
-  }, [releaseID, getReleaseDetail, updateReleaseDetail]);
+  React.useEffect(() => {
+    getDetail();
+  }, [getDetail]);
 
   const submit = () => {
     Modal.confirm({
@@ -65,68 +61,66 @@ const ReleaseApplicationDetail = () => {
         name: releaseName,
         interpolation: { escapeValue: false },
       }),
-      onOk: () => {
-        formalRelease({ releaseID }).then((res) => {
-          if (res.success) {
-            getReleaseDetail({ releaseID });
-          }
-        });
+      onOk: async () => {
+        const res = await formalRelease({ releaseID });
+        if (res.success) {
+          message.success(i18n.t('{action} successfully', { action: i18n.t('dop:be formal') }));
+          getReleaseDetail({ releaseID });
+        }
       },
     });
   };
 
   return (
     <div className="release-releaseDetail">
-      <Spin spinning={loading}>
-        <Tabs defaultActiveKey="1">
-          <TabPane tab={i18n.t('dop:basic information')} key="1">
-            <div className="mb-4">
-              <div className="mb-2">
-                <div className="text-black-400 mb-2">{i18n.t('name')}</div>
-                <div>{releaseName || '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-400 mb-2">{i18n.t('dop:app name')}</div>
-                <div>{applicationName || '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-400 mb-2">{i18n.t('creator')}</div>
-                <div>{userId ? <UserInfo id={userId} /> : '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-400 mb-2">{i18n.t('create time')}</div>
-                <div>{(createdAt && moment(createdAt).format('YYYY/MM/DD HH:mm:ss')) || '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-400 mb-2">{i18n.t('dop:code branch')}</div>
-                <div>{labels.gitBranch || '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-400 mb-2">commitId</div>
-                <div>{labels.gitCommitId || '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-400 mb-2">{i18n.t('content')}</div>
-                <div>
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown || i18n.t('dop:no content yet')}</ReactMarkdown>
-                </div>
+      <Tabs defaultActiveKey="1">
+        <TabPane tab={i18n.t('dop:basic information')} key="1">
+          <div className="mb-4">
+            <div className="mb-2">
+              <div className="text-black-400 mb-2">{i18n.t('name')}</div>
+              <div>{releaseName || '-'}</div>
+            </div>
+            <div className="mb-2">
+              <div className="text-black-400 mb-2">{i18n.t('dop:app name')}</div>
+              <div>{applicationName || '-'}</div>
+            </div>
+            <div className="mb-2">
+              <div className="text-black-400 mb-2">{i18n.t('creator')}</div>
+              <div>{userId ? <UserInfo id={userId} /> : '-'}</div>
+            </div>
+            <div className="mb-2">
+              <div className="text-black-400 mb-2">{i18n.t('create time')}</div>
+              <div>{(createdAt && moment(createdAt).format('YYYY/MM/DD HH:mm:ss')) || '-'}</div>
+            </div>
+            <div className="mb-2">
+              <div className="text-black-400 mb-2">{i18n.t('dop:code branch')}</div>
+              <div>{labels.gitBranch || '-'}</div>
+            </div>
+            <div className="mb-2">
+              <div className="text-black-400 mb-2">commitId</div>
+              <div>{labels.gitCommitId || '-'}</div>
+            </div>
+            <div className="mb-2">
+              <div className="text-black-400 mb-2">{i18n.t('content')}</div>
+              <div>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown || i18n.t('dop:no content yet')}</ReactMarkdown>
               </div>
             </div>
-          </TabPane>
-          <TabPane tab={i18n.t('dop:images list')} key="2">
-            <Table
-              columns={[{ title: i18n.t('dop:image name'), dataIndex: 'name' }]}
-              dataSource={images.map((item: string) => ({ name: item }))}
-              onChange={() => getReleaseDetail({ releaseID })}
-            />
-          </TabPane>
-          <TabPane tab="dice.yml" key="3">
-            <FileContainer className="mt-3" name="dice.yml">
-              <FileEditor name="dice.yml" fileExtension="yml" value={releaseDetail.diceyml} readOnly />
-            </FileContainer>
-          </TabPane>
-        </Tabs>
-      </Spin>
+          </div>
+        </TabPane>
+        <TabPane tab={i18n.t('dop:images list')} key="2">
+          <Table
+            columns={[{ title: i18n.t('dop:image name'), dataIndex: 'name' }]}
+            dataSource={images.map((item: string) => ({ name: item }))}
+            onChange={() => getReleaseDetail({ releaseID })}
+          />
+        </TabPane>
+        <TabPane tab="dice.yml" key="3">
+          <FileContainer className="mt-3" name="dice.yml">
+            <FileEditor name="dice.yml" fileExtension="yml" value={releaseDetail.diceyml} readOnly />
+          </FileContainer>
+        </TabPane>
+      </Tabs>
 
       <div className="mb-2 mt-4">
         {!isFormal ? (

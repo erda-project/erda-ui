@@ -13,38 +13,66 @@
 
 import agent from 'agent';
 
+interface ReleaseListQuery {
+  projectId?: string;
+  isStable: boolean;
+  isFormal?: boolean;
+  isProjectRelease: boolean;
+  applicationId?: string | number;
+  pageSize: number;
+  pageNo: number;
+  q?: string;
+}
+
+interface AddReleaseParams {
+  applicationReleaseList: string[];
+  isStable: boolean;
+  isFormal: boolean;
+  isProjectRelease: boolean;
+  orgId: string;
+  userId: string;
+  version: string;
+  markdown: string;
+}
+
+interface UpdateReleaseParams extends AddReleaseParams {
+  releaseID: string;
+}
+
 export const getReleaseDetail = ({ releaseID }: { releaseID?: string }): RELEASE.ReleaseDetail => {
   return agent.get(`/api/releases/${releaseID}`).then((response: any) => response.body);
 };
 
-export const getAppList = (payload: RELEASE.AppListQuery): { list: RELEASE.AppDetail[] } => {
+export const getAppList = (payload: { projectId: string; q?: string }): { list: RELEASE.AppDetail[] } => {
   return agent
     .get(`/api/applications`)
     .query(payload)
     .then((response: any) => response.body);
 };
 
-export const getReleaseList = (payload: RELEASE.ReleaseListQuery): { list: RELEASE.ReleaseDetail[]; total: number } => {
+export const getReleaseList = (
+  payload: ReleaseListQuery,
+): RAW_RESPONSE<{ list: RELEASE.ReleaseDetail[]; total: number }> => {
   return agent
     .get(`/api/releases`)
     .query({ ...payload, pageSize: payload.pageSize || 10 })
     .then((response: any) => response.body);
 };
 
-export function addRelease(payload: RELEASE.ReleaseDetail): { success: boolean } {
+export function addRelease(payload: AddReleaseParams): RAW_RESPONSE {
   return agent
     .post('/api/releases')
     .send(payload)
     .then((response: any) => response.body);
 }
 
-export function updateRelease({ releaseID, ...payload }: RELEASE.ReleaseDetail): { success: boolean } {
+export function updateRelease({ releaseID, ...payload }: UpdateReleaseParams): RAW_RESPONSE {
   return agent
     .put(`/api/releases/${releaseID}`)
     .send(payload)
     .then((response: any) => response.body);
 }
 
-export function formalRelease({ releaseID }: { releaseID: string }): { success: boolean } {
+export function formalRelease({ releaseID }: { releaseID: string }): RAW_RESPONSE {
   return agent.put(`/api/releases/${releaseID}/actions/formal`).then((response: any) => response.body);
 }

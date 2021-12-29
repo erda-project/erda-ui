@@ -27,7 +27,7 @@ import './index.scss';
     showSizeChanger // 是否选择pageSize的下拉选择框，默认为true
     onChange // 翻页或者pageSize选择时触发，第一个参数为current，第二个参数为pageSize
  */
-interface IPaginationProps {
+export interface IPaginationProps {
   total: number;
   current: number;
   pageSize?: number;
@@ -35,7 +35,7 @@ interface IPaginationProps {
   hidePageSizeChange?: boolean;
 }
 
-export interface IPaginationJumpProps {
+interface IPaginationJumpProps {
   pagination: IPaginationProps;
   hidePopover: () => void;
 }

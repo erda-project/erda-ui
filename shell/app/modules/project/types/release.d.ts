@@ -12,31 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace RELEASE {
-  interface AppListQuery {
-    projectId?: string;
-    q?: string;
-  }
-
   interface AppDetail {
     id: number;
     displayName: string;
   }
 
-  interface ReleaseListQuery {
-    projectId?: string;
-    isStable: boolean;
-    isFormal?: boolean;
-    isProjectRelease: boolean;
-    applicationId?: string | number;
-    pageSize: number;
-    pageNo: number;
-    q?: string;
-  }
-
   interface ReleaseDetail {
+    applicationReleaseList: Array<{ releaseID: string }>;
     releaseId?: string;
     releaseID?: string;
-    id?: string;
     applicationName: string;
     releaseName: string;
     userId: string;
@@ -46,6 +30,11 @@ declare namespace RELEASE {
     markdown: string;
     images: string[];
     diceyml: string;
+  }
+
+  interface ApplicationDetail {
+    id: number;
+    displayName: string;
   }
 
   interface Labels {

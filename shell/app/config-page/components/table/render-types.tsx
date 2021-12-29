@@ -613,15 +613,15 @@ const getTableOperation = (val: any, record: any, extra: any) => {
       // 无权限操作
       return (
         <WithAuth noAuthTip={disabledTip} key={key} pass={false}>
-          <Menu.Item key={key}>
-            <span className="table-operations-btn ">{text}</span>
+          <Menu.Item key={key} className="p-0">
+            <span className="table-operations-btn px-3 py-1 block">{text}</span>
           </Menu.Item>
         </WithAuth>
       );
     } else if (confirm) {
       // 需要确认的操作
       return (
-        <Menu.Item key={key}>
+        <Menu.Item key={key} className="p-0">
           <Popconfirm
             title={confirm}
             onConfirm={(e) => {
@@ -632,7 +632,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
             onCancel={(e: any) => e && e.stopPropagation()}
             zIndex={1100}
           >
-            <span className="table-operations-btn" onClick={(e: any) => e.stopPropagation()}>
+            <span className="table-operations-btn px-3 py-1 block" onClick={(e: any) => e.stopPropagation()}>
               {text}
             </span>
           </Popconfirm>
@@ -641,9 +641,9 @@ const getTableOperation = (val: any, record: any, extra: any) => {
     } else {
       // 普通的操作
       return (
-        <Menu.Item key={key}>
+        <Menu.Item key={key} className="p-0">
           <span
-            className="table-operations-btn"
+            className="table-operations-btn px-3 py-1 block"
             key={key}
             onClick={(e: any) => {
               e.stopPropagation();

@@ -204,7 +204,7 @@ export function Table(props: CP_TABLE.Props) {
         onChange={onChange}
       />
       {batchOperations ? (
-        <div className="absolute" style={{ bottom: 10 }}>
+        <div className="absolute" style={{ bottom: 10, left: 24 }}>
           <BatchOperation
             rowKey={rowKey}
             dataSource={list}
@@ -306,8 +306,8 @@ const BatchOperation = (props: IBatchProps) => {
   return (
     <div className="flex items-center">
       <Checkbox className="mx-2" indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll} />
-      <span className="mr-2">{`${i18n.t('selected {xx}', {
-        xx: `${selectedRowKeys?.length || 0} ${i18n.t('common:items')}`,
+      <span className="mr-2">{`${i18n.t('selected {name}', {
+        name: `${selectedRowKeys?.length || 0} ${i18n.t('common:items')}`,
       })}`}</span>
       <Dropdown overlay={dropdownMenu} zIndex={1000}>
         <Button className="flex items-center">

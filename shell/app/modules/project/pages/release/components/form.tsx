@@ -12,18 +12,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Spin } from 'antd';
+import { Button, message } from 'antd';
 import moment from 'moment';
-import { RenderForm } from 'common';
+import { RenderForm, ListSelect, MarkdownEditor } from 'common';
 import { FormInstance } from 'app/interface/common';
 import i18n from 'i18n';
 import { PAGINATION } from 'app/constants';
-import { useLoading } from 'core/stores/loading';
 import { goTo } from 'common/utils';
 import releaseStore from 'project/stores/release';
 import routeInfoStore from 'core/stores/route';
 import orgStore from 'app/org-home/stores/org';
 import userStore from 'user/stores';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { getReleaseList, getReleaseDetail, addRelease, updateRelease } from 'project/services/release';
 
 import './form.scss';
 
@@ -33,31 +35,36 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly: boolean }) => {
   const { projectId, releaseID } = params;
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const loginUser = userStore.useStore((s) => s.loginUser);
-  const { appList, releaseList, releaseTotal, releaseDetail } = releaseStore.getState((s) => s);
-  const { getAppList, getReleaseList, addRelease, updateRelease, getReleaseDetail } = releaseStore.effects;
-  const { updateReleaseDetail } = releaseStore.reducers;
-  const [loading] = useLoading(releaseStore, ['getReleaseDetail']);
+  const { appList } = releaseStore.getState((s) => s);
+  const { getAppList } = releaseStore.effects;
   const [pageNo, setPageNo] = React.useState(1);
-  const [appId, setAppId] = React.useState<string | undefined>();
+  const [appId, setAppId] = React.useState<number | undefined>();
   const [query, setQuery] = React.useState<string>('');
+  const [releaseDetail, setReleaseDetail] = React.useState<RELEASE.ReleaseDetail>({} as RELEASE.ReleaseDetail);
+  const [releaseList, setReleaseList] = React.useState<RELEASE.ReleaseDetail[]>([] as RELEASE.ReleaseDetail[]);
+  const [releaseTotal, setReleaseTotal] = React.useState<number>(0);
+
+  const getDetail = React.useCallback(async () => {
+    if (releaseID) {
+      const detail = await getReleaseDetail({ releaseID });
+      setReleaseDetail({
+        ...detail,
+        applicationReleaseList: detail.applicationReleaseList.map((item) => ({ ...item, releaseId: item.releaseID })),
+      });
+    }
+  }, [releaseID, setReleaseDetail]);
 
   React.useEffect(() => {
-    if (releaseID) {
-      getReleaseDetail({ releaseID });
-    }
-  }, [releaseID, getReleaseDetail]);
+    getDetail();
+  }, [getDetail]);
 
   React.useEffect(() => {
     formRef.current?.setFieldsValue(releaseDetail);
-
-    return () => {
-      updateReleaseDetail({});
-    };
-  }, [releaseDetail, updateReleaseDetail]);
+  }, [releaseDetail]);
 
   const getReleases = React.useCallback(
-    (_pageNo: number, applicationId?: string | number) => {
-      getReleaseList({
+    async (_pageNo: number, applicationId?: string | number) => {
+      const res = await getReleaseList({
         projectId,
         applicationId: applicationId !== 0 ? applicationId : undefined,
         pageNo: _pageNo,
@@ -66,17 +73,26 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly: boolean }) => {
         isStable: true,
         q: query,
       });
+
+      if (res.success) {
+        const { list, total } = res.data;
+        setReleaseList(list);
+        setReleaseTotal(total);
+      }
     },
-    [projectId, getReleaseList, query],
+    [projectId, query],
   );
 
   React.useEffect(() => {
     getAppList({ projectId });
+  }, [projectId, getAppList]);
+
+  React.useEffect(() => {
     getReleases(1);
-  }, [projectId, getAppList, getReleases]);
+  }, [getReleases]);
 
   const selectApp = React.useCallback(
-    (item: Obj) => {
+    (item: RELEASE.ApplicationDetail) => {
       setAppId(item.id);
       setPageNo(1);
       getReleases(1, item.id);
@@ -105,7 +121,8 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly: boolean }) => {
     {
       label: i18n.t('dop:app release'),
       name: 'applicationReleaseList',
-      type: 'listSelect',
+      type: 'custom',
+      getComp: () => <ListSelect label={i18n.t('dop:app release')} />,
       itemProps: {
         renderSelectedItem: (item: RELEASE.ReleaseDetail) => {
           return (
@@ -178,12 +195,16 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly: boolean }) => {
     {
       label: i18n.t('content'),
       name: 'markdown',
-      type: 'markdown',
+      type: 'custom',
+      getComp: () => <EditMd />,
+      readOnlyRender: (value: string) => {
+        return <MarkdownReadOnlyRender value={value} />;
+      },
     },
   ];
 
   const submit = () => {
-    formRef.current?.validateFields().then((values) => {
+    formRef.current?.validateFields().then(async (values) => {
       const { applicationReleaseList = [] } = values;
       const payload = {
         ...values,
@@ -193,44 +214,45 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly: boolean }) => {
         isProjectRelease: true,
         orgId,
         userId: loginUser.id,
-        releaseName: 'test-3',
+        projectID: projectId,
       };
       if (releaseID) {
-        updateRelease({
-          ...payload,
-          releaseID,
-        }).then((res: { success: boolean }) => {
-          if (res.success) {
-            goTo(goTo.pages.projectRelease);
-          }
-        });
+        const res = await updateRelease({ ...payload, releaseID });
+        if (res.success) {
+          message.success(i18n.t('edited successfully'));
+          goTo(goTo.pages.projectRelease);
+        }
       } else {
-        addRelease({
-          ...payload,
-        }).then((res: { success: boolean }) => {
-          if (res.success) {
-            goTo(goTo.pages.projectRelease);
-          }
-        });
+        const res = await addRelease({ ...payload });
+        if (res.success) {
+          message.success(i18n.t('created successfully'));
+          goTo(goTo.pages.projectRelease);
+        }
       }
     });
   };
 
   return (
     <div className="release-form">
-      <Spin spinning={loading}>
-        <RenderForm ref={formRef} layout="vertical" list={list} readOnly={readyOnly} />
-        {!readyOnly ? (
-          <div className="mb-2">
-            <Button className="mr-3" type="primary" onClick={submit}>
-              {i18n.t('submit')}
-            </Button>
-            <Button onClick={() => goTo(goTo.pages.projectRelease)}>{i18n.t('return to previous page')}</Button>
-          </div>
-        ) : null}
-      </Spin>
+      <RenderForm ref={formRef} layout="vertical" list={list} readOnly={readyOnly} />
+      {!readyOnly ? (
+        <div className="mb-2">
+          <Button className="mr-3" type="primary" onClick={submit}>
+            {i18n.t('submit')}
+          </Button>
+          <Button onClick={() => goTo(goTo.pages.projectRelease)}>{i18n.t('return to previous page')}</Button>
+        </div>
+      ) : null}
     </div>
   );
+};
+
+const EditMd = ({ value, onChange, ...itemProps }: { value: string; onChange: (value: string) => void }) => {
+  return <MarkdownEditor value={value} onChange={onChange} {...itemProps} defaultHeight={400} />;
+};
+
+const MarkdownReadOnlyRender = ({ value }: { value: string }) => {
+  return <ReactMarkdown remarkPlugins={[remarkGfm]}>{value || i18n.t('no description yet')}</ReactMarkdown>;
 };
 
 export default ReleaseForm;

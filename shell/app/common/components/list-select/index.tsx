@@ -15,20 +15,37 @@ import React from 'react';
 import { Dropdown, Row, Col, Button, Input } from 'antd';
 import i18n from 'i18n';
 import { ErdaIcon, Pagination } from 'common';
+import { IPaginationProps } from 'common/components/pagination';
+import { useUpdateEffect } from 'react-use';
 
 import './index.scss';
 
-interface IProps extends ListSelectOverlayProps {
+/**
+ * list select
+ * @param label The title used to display in buttons and popovers
+ * @param value External value of the component
+ * @param onChange A callback function when a component value changes
+ * @param rowKey The ID of list
+ * @param parentKey The ID of the menu item that the list corresponds to
+ * @param menuRowKey The ID of menu
+ * @param onMenuChange A callback function when the value of menu changes
+ * @param onMenuFilter A callback function when menu filter
+ * @param onListFilter A callback function when list filter
+ * @param listPagination pagination of list
+ * @param renderSelectedItem A function used to render the selected list
+ * @param renderItem A function used to render the list
+ */
+
+interface IProps<T extends object = any> extends ListSelectOverlayProps<T> {
   label: React.ReactNode;
-  renderSelectedItem?: (item: Obj) => React.ReactNode;
-  value: Obj[];
-  onChange: (values: Obj[]) => void;
+  value: T[];
+  onChange: (values: T[]) => void;
   rowKey: string;
   parentKey: string;
   menuRowKey: string;
 }
 
-const ListSelect = (props: IProps) => {
+function ListSelect<T extends object = any>(props: IProps<T>) {
   const {
     label,
     renderSelectedItem = defaultRenderItem,
@@ -38,25 +55,17 @@ const ListSelect = (props: IProps) => {
     menuRowKey = 'id',
     value,
   } = props;
-  const [selectedList, setSelectedList] = React.useState<Obj[]>([]);
-  const [resultList, setResultList] = React.useState<Obj[]>([]);
+  const [selectedList, setSelectedList] = React.useState<T[]>([]);
+  const [resultList, setResultList] = React.useState<T[]>([]);
   const [visible, setVisible] = React.useState<boolean>(false);
-  const select = (selectItem: Obj, checked: boolean) => {
-    const currentList = [...selectedList];
-    if (checked) {
-      currentList.push(selectItem);
-    } else {
-      const index = currentList.findIndex((item) => item[rowKey] === selectItem[rowKey]);
-      (index === 0 || index) && currentList.splice(index, 1);
-    }
-    setSelectedList(currentList);
+  const select = (selectItem: T, checked: boolean) => {
+    setSelectedList((prev) =>
+      checked ? [...prev, selectItem] : prev.filter((item) => item[rowKey] !== selectItem[rowKey]),
+    );
   };
 
   const remove = (id: string) => {
-    const currentList = [...selectedList];
-    const index = selectedList.findIndex((item) => item[rowKey] === id);
-    currentList.splice(index, 1);
-    setSelectedList(currentList);
+    setSelectedList((prev) => prev.filter((item) => item[rowKey] !== id));
   };
 
   const removeResult = (id: string) => {
@@ -73,12 +82,12 @@ const ListSelect = (props: IProps) => {
 
   const onOk = () => {
     onChange(selectedList);
-    setResultList([...selectedList]);
+    setResultList(selectedList);
     setVisible(false);
   };
 
   React.useEffect(() => {
-    value && setResultList([...value]);
+    value && setResultList(value);
   }, [value]);
 
   return (
@@ -128,46 +137,39 @@ const ListSelect = (props: IProps) => {
       </div>
     </div>
   );
-};
+}
 
-interface ListSelectOverlayProps {
+interface ListSelectOverlayProps<T> {
   label: React.ReactNode;
   multiple?: boolean;
-  menus: Obj[];
+  menus: Array<{ title: string }>;
   menusTotal?: number;
-  list: Obj[];
-  onMenuChange?: (item?: Obj) => void;
+  list: T[];
+  onMenuChange?: (item?: { title: string }) => void;
   onMenuFilter?: (q: string) => void;
   onListFilter?: (q: string) => void;
   onOk?: () => void;
   onCancel?: () => void;
   onMenuLoadMore?: (page: number, pageSize?: number) => void;
-  listPagination?: IPagination;
-  renderSelectedItem?: (item: Obj) => React.ReactNode;
-  renderItem?: (item: Obj) => React.ReactNode;
-  select: (item: Obj, checked: boolean) => void;
+  listPagination?: IPaginationProps;
+  renderSelectedItem?: (item: T) => React.ReactNode;
+  renderItem?: (item: T) => React.ReactNode;
+  select: (item: T, checked: boolean) => void;
   remove: (id: string) => void;
   clear: () => void;
-  selectedList: Obj[];
+  selectedList: T[];
   rowKey: string;
   menuRowKey: string;
   parentKey: string;
-  value: Obj[];
-  onChange: (values: Obj[]) => void;
+  value: T[];
+  onChange: (values: T[]) => void;
 }
 
-interface IPagination {
-  current: number;
-  pageSize: number;
-  total: number;
-  onChange: (pageNo: number, pageSize: number) => void;
-}
-
-const defaultRenderItem = (item: Obj) => {
+const defaultRenderItem = (item: { title: string }) => {
   return item.title || '-';
 };
 
-const ListSelectOverlay = ({
+function ListSelectOverlay<T extends object = any>({
   label,
   multiple = true,
   menus: _menus,
@@ -189,12 +191,12 @@ const ListSelectOverlay = ({
   rowKey,
   menuRowKey,
   parentKey,
-}: ListSelectOverlayProps) => {
+}: ListSelectOverlayProps<T>) {
   const menus = React.useMemo(() => [{ [menuRowKey]: 0, title: i18n.t('dop:all') }, ..._menus], [_menus, menuRowKey]);
   const [selectedMenu, setSelectedMenu] = React.useState<number | string>(0);
   const [menusPageNo, setMenusPageNo] = React.useState<number>(1);
 
-  React.useEffect(() => {
+  useUpdateEffect(() => {
     onMenuChange && onMenuChange(menus.find((item) => item[menuRowKey] === selectedMenu));
   }, [selectedMenu, menus, onMenuChange, menuRowKey]);
 
@@ -202,7 +204,7 @@ const ListSelectOverlay = ({
     <Row className="erda-list-select-overlay text-white rounded">
       <Col span={12} className="px-2 h-full">
         <div className="py-3 px-2">
-          {i18n.t('selected {xx}', { xx: label })}
+          {i18n.t('selected {name}', { name: label })}
           {selectedList.length && selectedList.length !== 0 ? (
             <span className="selected-num ml-2 rounded-full">{selectedList.length}</span>
           ) : null}
@@ -211,7 +213,7 @@ const ListSelectOverlay = ({
           {selectedList.map((item) => (
             <div
               className="erda-list-select-selected-item flex items-center p-2 hover:bg-white-06 rounded-sm"
-              key={item.rowKey}
+              key={item[rowKey]}
             >
               <div className="flex-1 pr-2 min-w-0 truncate">{renderSelectedItem(item)}</div>
               <ErdaIcon
@@ -231,7 +233,7 @@ const ListSelectOverlay = ({
             {i18n.t('cancel')}
           </Button>
           <Button className="mr-2" onClick={clear}>
-            {i18n.t('on key to empty')}
+            {i18n.t('one click to clear')}
           </Button>
         </div>
       </Col>
@@ -244,7 +246,7 @@ const ListSelectOverlay = ({
                 prefix={<ErdaIcon type="search" color="currentColor" />}
                 className="bg-white-06 border-none mb-2"
                 placeholder={i18n.t('common:keyword to search')}
-                onPressEnter={(e: Obj) => onMenuFilter?.(e.target.value)}
+                onPressEnter={(e: React.KeyboardEvent<HTMLInputElement>) => onMenuFilter?.(e.target.value)}
               />
               {menus.map((item) => {
                 const selectNum = selectedList.filter((i) => i[parentKey] === item[menuRowKey]).length;
@@ -286,7 +288,7 @@ const ListSelectOverlay = ({
                 prefix={<ErdaIcon type="search" />}
                 className="bg-white-06 border-none"
                 placeholder={i18n.t('common:keyword to search')}
-                onPressEnter={(e: Obj) => onListFilter?.(e.target.value)}
+                onPressEnter={(e: React.KeyboardEvent<HTMLInputElement>) => onListFilter?.(e.target.value)}
               />
             </div>
             <div className="erda-list-select-list flex-1 flex flex-col justify-between">
@@ -313,7 +315,7 @@ const ListSelectOverlay = ({
       </Col>
     </Row>
   );
-};
+}
 
 interface RadioProps {
   checked?: boolean;

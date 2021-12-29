@@ -19,11 +19,11 @@ import releaseStore from 'project/stores/release';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 
-import './index.scss';
+import './application.scss';
 
 const ProjectRelease = () => {
-  const { params } = routeInfoStore.getState((s) => s);
-  const { appList } = releaseStore.getState((s) => s);
+  const [params] = routeInfoStore.useStore((s) => [s.params]);
+  const [appList] = releaseStore.useStore((s) => [s.appList]);
   const { getAppList } = releaseStore.effects;
   const [applicationId, setApplicationId] = React.useState<number>(0);
   const [loading] = useLoading(releaseStore, ['getAppList']);

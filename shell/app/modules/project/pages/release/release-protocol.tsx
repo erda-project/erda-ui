@@ -26,7 +26,7 @@ interface IProps {
 
 const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
-  const [isFormal, setIsFormal] = React.useState<string>('informal');
+  const [isFormal, setIsFormal] = React.useState<string | number>('informal');
   const inParams = {
     isProjectRelease,
     isFormal: isFormal === 'formal',
@@ -34,10 +34,10 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
     applicationID,
   };
 
-  const reloadRef = React.useRef(null as any);
+  const reloadRef = React.useRef<{ reload: () => void }>(null);
 
   React.useEffect(() => {
-    reloadRef.current.reload();
+    reloadRef.current?.reload();
   }, [isFormal, applicationID]);
 
   const onCreate = () => {
@@ -63,7 +63,7 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
         options={options}
         value={isFormal}
         onChange={(v?: string | number) => {
-          setIsFormal(v as string);
+          setIsFormal(v as string | number);
         }}
         className={`mb-2 ${isProjectRelease ? '' : 'pl-4'}`}
       />
@@ -76,9 +76,9 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
         customProps={{
           releaseTable: {
             props: {
-              onRow: (record: RELEASE.ReleaseDetail) => ({
+              onRow: (record: RELEASE.ApplicationDetail) => ({
                 onClick: () => {
-                  record.id && goTo(record.id);
+                  record.id && goTo(`${record.id}`);
                 },
               }),
             },
