@@ -19,16 +19,20 @@ interface IProps {
   className?: string;
   mainClassName?: string;
   breadcrumb?: React.ReactElement;
+  announcement?: React.ReactElement;
   navigation: React.ReactElement;
   sidebar?: React.ReactElement;
 }
 
-const Shell = ({ children, breadcrumb, navigation, sidebar, className, mainClassName }: IProps) => {
+const Shell = ({ children, breadcrumb, announcement, navigation, sidebar, className, mainClassName }: IProps) => {
   return (
     <div className={`erda-shell ${className}`}>
       <div className="h-full">{navigation}</div>
       {sidebar}
-      {breadcrumb}
+      <div className="absolute flex items-center justify-between z-10 top-0 left-28 right-4">
+        {breadcrumb}
+        {announcement}
+      </div>
       <div className={`erda-main-content ${mainClassName || ''}`}>{children}</div>
     </div>
   );

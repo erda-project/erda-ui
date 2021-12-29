@@ -190,10 +190,10 @@ const ErdaBreadcrumb = () => {
           return null;
         }
         return (
-          <>
+          <div>
             <BreadcrumbItem paths={[...paths]} route={item} params={params} title={_title} isLast={isLast} />
             {!isLast && <ErdaIcon className="align-middle mx-1 text-sub" type="right" size="14px" />}
-          </>
+          </div>
         );
       })}
     </div>

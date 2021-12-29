@@ -28,6 +28,7 @@ import { useEffectOnce } from 'react-use';
 import userStore from 'app/user/stores';
 import agent from 'agent';
 import { MessageCenter } from './components/message/message';
+import { Announcement } from './components/announcement';
 import layoutStore from 'app/layout/stores/layout';
 import { checkVersion } from 'app/layout/common/check-version';
 import routeInfoStore from 'core/stores/route';
@@ -49,12 +50,8 @@ interface IProps {
 const PageContainer = ({ route }: IProps) => {
   const [noAuth, notFound] = userStore.useStore((s: any) => [s.noAuth, s.notFound]);
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
-  const [showMessage, customMain, announcementList] = layoutStore.useStore((s) => [
-    s.showMessage,
-    s.customMain,
-    s.announcementList,
-  ]);
-  const [currentRoute, prevRouteInfo, isIn] = routeInfoStore.useStore((s) => [s.currentRoute, s.prevRouteInfo, s.isIn]);
+  const [showMessage, customMain] = layoutStore.useStore((s) => [s.showMessage, s.customMain]);
+  const [currentRoute, prevRouteInfo] = routeInfoStore.useStore((s) => [s.currentRoute, s.prevRouteInfo]);
   const [state, updater] = useUpdate({
     startInit: false,
   });
@@ -115,14 +112,6 @@ const PageContainer = ({ route }: IProps) => {
   const { layout } = currentRoute;
   const hideHeader = showMessage || layout?.hideHeader;
   const layoutCls = [];
-  const noticeWrap = ['notice-wrap'];
-  if (announcementList.length) {
-    layoutCls.push('has-notice');
-    if (announcementList.length === 1) {
-      layoutCls.push('has-notice-only-one');
-      noticeWrap.push('only-one');
-    }
-  }
   let showSidebar = !noAuth && !notFound;
   let CustomLayout;
   let noWrapper = false;
@@ -134,7 +123,6 @@ const PageContainer = ({ route }: IProps) => {
     noWrapper = layout.noWrapper;
   }
   const layoutClass = classnames(layoutCls);
-  const noticeClass = classnames(noticeWrap);
   if (CustomLayout) {
     return <CustomLayout layoutClass={layoutClass}>{renderRoutes(route.routes)}</CustomLayout>;
   }
@@ -164,35 +152,20 @@ const PageContainer = ({ route }: IProps) => {
   }
 
   return (
-    <>
-      {announcementList.length ? (
-        <div className={noticeClass}>
-          <Carousel arrows autoplay autoplaySpeed={5000}>
-            {announcementList.map((announcement) => {
-              return <div key={announcement.id}>{announcement.content}</div>;
-            })}
-          </Carousel>
-        </div>
-      ) : null}
-      <Shell
-        className={layoutClass}
-        navigation={<Navigation />}
-        sidebar={showSidebar ? <SideBar /> : undefined}
-        breadcrumb={!hideHeader ? <Breadcrumb /> : undefined}
-        mainClassName={classnames({ 'ml-4': !showSidebar, 'mt-0': hideHeader })}
-      >
-        {!hideHeader && <Header />}
-        <div
-          id="main"
-          ref={mainEle}
-          style={{ opacity: showMessage ? 0 : undefined }}
-          className={hideHeader ? 'p-0' : ''}
-        >
-          {MainContent}
-        </div>
-        <MessageCenter show={showMessage} />
-      </Shell>
-    </>
+    <Shell
+      className={layoutClass}
+      navigation={<Navigation />}
+      sidebar={showSidebar ? <SideBar /> : undefined}
+      breadcrumb={!hideHeader ? <Breadcrumb /> : undefined}
+      announcement={!hideHeader ? <Announcement /> : undefined}
+      mainClassName={classnames({ 'ml-4': !showSidebar, 'mt-0': hideHeader })}
+    >
+      {!hideHeader && <Header />}
+      <div id="main" ref={mainEle} style={{ opacity: showMessage ? 0 : undefined }} className={hideHeader ? 'p-0' : ''}>
+        {MainContent}
+      </div>
+      <MessageCenter show={showMessage} />
+    </Shell>
   );
 };
 
