@@ -141,11 +141,14 @@
     .ant-menu-submenu {
       .ant-menu-item,
       .ant-menu-submenu-inline {
-        padding-left: 36px !important;
+        padding-left: 38px !important;
       }
       .ant-menu-submenu-title {
         margin: 0;
-        padding-left: 0px !important;
+        padding-left: 8px !important;
+      }
+      .ant-menu-submenu-inline .ant-menu-submenu-title {
+        padding-left: 0 !important;
       }
     }
     a:focus {
