@@ -110,7 +110,7 @@ const headAppRender = (val: any = {}) => {
 export const HeadAppSelector = () => {
   const { appId, projectId } = routeInfoStore.useStore((s) => s.params);
   return (
-    <div className="head-app-selector mt-2">
+    <div className="head-app-selector overflow-hidden flex-1">
       <AppSelector
         valueItemRender={headAppRender}
         value={appId}
