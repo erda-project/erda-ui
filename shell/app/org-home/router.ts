@@ -16,6 +16,7 @@ export default function getOrgRouter(): RouteConfigItem[] {
     {
       path: ':orgName',
       mark: 'orgIndex',
+      breadcrumbName: '{curOrgName}',
       routes: [
         {
           getComp: (cb) => cb(import('app/org-home/pages/personal-home')),

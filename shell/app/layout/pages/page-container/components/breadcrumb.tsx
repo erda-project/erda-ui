@@ -167,8 +167,8 @@ const ErdaBreadcrumb = () => {
         eternal: currentApp.href,
         breadcrumbName: currentApp.breadcrumbName,
         path: typeof currentApp.path === 'function' ? currentApp.path(_params || {}, routes) : currentApp.href,
-      };
-      filteredRoutes.reverse().unshift(eternalApp as IRoute);
+      } as IRoute;
+      filteredRoutes.reverse().splice(1, 0, eternalApp);
       setAllRoutes(filteredRoutes.slice(0, -1));
     }
   }, [currentApp, routes]);
