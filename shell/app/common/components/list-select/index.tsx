@@ -36,13 +36,17 @@ import './index.scss';
  * @param renderItem A function used to render the list
  */
 
-interface IProps<T extends object = any> extends ListSelectOverlayProps<T> {
+interface IProps<T extends object = any> {
   label: React.ReactNode;
-  value: T[];
-  onChange: (values: T[]) => void;
+  value?: T[];
+  onChange?: (values: T[]) => void;
   rowKey: string;
   parentKey: string;
   menuRowKey: string;
+  renderSelectedItem?: (item: T) => React.ReactNode;
+  renderItem?: (item: T) => React.ReactNode;
+  list: T[];
+  menus: Array<{ title: string }>;
 }
 
 function ListSelect<T extends object = any>(props: IProps<T>) {
@@ -72,7 +76,7 @@ function ListSelect<T extends object = any>(props: IProps<T>) {
     const currentList = [...resultList];
     const index = resultList.findIndex((item) => item[rowKey] === id);
     currentList.splice(index, 1);
-    onChange(currentList);
+    onChange?.(currentList);
     setResultList(currentList);
   };
 
@@ -81,7 +85,7 @@ function ListSelect<T extends object = any>(props: IProps<T>) {
   };
 
   const onOk = () => {
-    onChange(selectedList);
+    onChange?.(selectedList);
     setResultList(selectedList);
     setVisible(false);
   };
@@ -161,8 +165,8 @@ interface ListSelectOverlayProps<T> {
   rowKey: string;
   menuRowKey: string;
   parentKey: string;
-  value: T[];
-  onChange: (values: T[]) => void;
+  value?: T[];
+  onChange?: (values: T[]) => void;
 }
 
 const defaultRenderItem = (item: { title: string }) => {
