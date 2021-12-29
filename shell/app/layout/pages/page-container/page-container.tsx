@@ -114,7 +114,7 @@ const PageContainer = ({ route }: IProps) => {
 
   const { layout } = currentRoute;
   const hideHeader = showMessage || layout?.hideHeader;
-  const layoutCls = ['dice-layout'];
+  const layoutCls = [];
   const noticeWrap = ['notice-wrap'];
   if (announcementList.length) {
     layoutCls.push('has-notice');
@@ -174,25 +174,24 @@ const PageContainer = ({ route }: IProps) => {
           </Carousel>
         </div>
       ) : null}
-      <div className={layoutClass}>
-        <Shell
-          navigation={<Navigation />}
-          sidebar={showSidebar ? <SideBar /> : undefined}
-          breadcrumb={!hideHeader ? <Breadcrumb /> : undefined}
-          mainClassName={classnames({ 'ml-4': !showSidebar, 'mt-0': hideHeader })}
+      <Shell
+        className={layoutClass}
+        navigation={<Navigation />}
+        sidebar={showSidebar ? <SideBar /> : undefined}
+        breadcrumb={!hideHeader ? <Breadcrumb /> : undefined}
+        mainClassName={classnames({ 'ml-4': !showSidebar, 'mt-0': hideHeader })}
+      >
+        {!hideHeader && <Header />}
+        <div
+          id="main"
+          ref={mainEle}
+          style={{ opacity: showMessage ? 0 : undefined }}
+          className={hideHeader ? 'p-0' : ''}
         >
-          {!hideHeader && <Header />}
-          <div
-            id="main"
-            ref={mainEle}
-            style={{ opacity: showMessage ? 0 : undefined }}
-            className={hideHeader ? 'p-0' : ''}
-          >
-            {MainContent}
-          </div>
-          <MessageCenter show={showMessage} />
-        </Shell>
-      </div>
+          {MainContent}
+        </div>
+        <MessageCenter show={showMessage} />
+      </Shell>
     </>
   );
 };

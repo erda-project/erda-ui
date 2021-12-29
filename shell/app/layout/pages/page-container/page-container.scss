@@ -3,37 +3,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  // padding: 0 16px 16px;
   overflow: auto;
-}
-
-@media screen and (max-width: 1024px) {
-  // #main {
-  //   padding: 0 8px 8px;
-  // }
-
-  .skeleton-header {
-    padding: 16px 12px 15px;
-  }
-}
-
-.dice-layout {
-  display: flex;
-  max-width: 100%;
-  height: 100vh;
-  overflow: hidden;
-
-  &.has-notice {
-    height: calc(100vh - 53px);
-
-    &.has-notice-only-one {
-      height: calc(100vh - 40px);
-    }
-
-    .top-button-group {
-      top: 72px;
-    }
-  }
 }
 
 .notice-wrap {
