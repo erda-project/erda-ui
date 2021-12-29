@@ -155,7 +155,7 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                         <Tooltip title={item.tip} key={idx}>
                           <ErdaIcon
                             type={item.icon}
-                            size={16}
+                            size={20}
                             {...item.extraProps}
                             className={`text-default-4 hover:text-default-8 ${idx !== 0 ? 'ml-4' : ''}`}
                           />

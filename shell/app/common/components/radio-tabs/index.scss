@@ -5,6 +5,7 @@
     border: unset;
     color: $color-default;
     background-color: $color-default-06;
+    box-shadow: unset !important;
     &.ant-radio-button-wrapper-checked {
       color: $white;
     }
