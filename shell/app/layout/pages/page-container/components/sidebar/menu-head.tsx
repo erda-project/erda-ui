@@ -41,7 +41,7 @@ const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
       sideIcon = <ErdaIcon size={36} type="devops-3n59bi9j" />;
       break;
     case 'sysAdmin':
-      sideIcon = <img className="big-icon" src={orgCenterSvg} />;
+      sideIcon = <ErdaIcon size={36} type="xitonghoutai" />;
       break;
     case 'cmp':
       sideIcon = <ErdaIcon size={36} type="duoyun" />;
