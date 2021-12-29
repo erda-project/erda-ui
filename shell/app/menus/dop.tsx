@@ -26,18 +26,18 @@ export const getDopMenu = () => {
       [
         {
           href: goTo.resolve.dopRoot(), // '/dop/projects',
-          icon: <ErdaIcon type="api-app" />,
+          icon: <ErdaIcon type="xiangmuguanli" />,
           text: i18n.t('joined projects'),
           subtitle: i18n.t('Project'),
         },
         {
           href: goTo.resolve.dopApps(), // '/dop/apps',
-          icon: <ErdaIcon type="application-one" />,
+          icon: <ErdaIcon type="yingyongkaifa" />,
           text: i18n.t('joined apps'),
           subtitle: i18n.t('App'),
         },
         {
-          icon: <ErdaIcon type="topology" />,
+          icon: <ErdaIcon type="apisheji" />,
           key: 'apiManage',
           text: i18n.t('API'),
           subtitle: 'API',
@@ -74,7 +74,7 @@ export const getDopMenu = () => {
         {
           key: 'approval',
           href: goTo.resolve.dopApprove(), // '/dop/approval/my-approve',
-          icon: <ErdaIcon type="seal" />,
+          icon: <ErdaIcon type="shenpi" />,
           text: i18n.t('dop:approval request'),
           subtitle: i18n.t('Approve'),
           subMenu: [
@@ -93,14 +93,14 @@ export const getDopMenu = () => {
         {
           key: 'dopPublisher',
           href: goTo.resolve.dopPublisher(), // '/dop/publisher',
-          icon: <ErdaIcon type="send" />,
+          icon: <ErdaIcon type="shenpi-3n9l57j5" />,
           text: i18n.t('publisher:my release'),
           subtitle: i18n.t('Release'),
           show: orgPerm.dop.publisher.read.pass,
         },
         {
           href: goTo.resolve.dopPublicProjects(),
-          icon: <ErdaIcon type="book-one" />,
+          icon: <ErdaIcon type="gongkaixiangmu" />,
           text: i18n.t('public project'),
           subtitle: i18n.t('Public'),
         },

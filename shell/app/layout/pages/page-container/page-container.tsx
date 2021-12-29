@@ -27,7 +27,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useEffectOnce } from 'react-use';
 import userStore from 'app/user/stores';
 import agent from 'agent';
-import { MessageCenter } from '../message/message';
+import { MessageCenter } from './components/message/message';
 import layoutStore from 'app/layout/stores/layout';
 import { checkVersion } from 'app/layout/common/check-version';
 import routeInfoStore from 'core/stores/route';

@@ -98,7 +98,7 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
         ? { icon: 'unlock', text: i18n.t('dop:public application') }
         : { icon: 'lock', text: i18n.t('dop:private application') },
       {
-        icon: 'api-app',
+        icon: 'xiangmuguanli',
         text: projectDisplayName,
         tooltip: `${i18n.t('dop:owned project')}: ${projectDisplayName}(${projectName})`,
         operations: isInProject

@@ -24,13 +24,13 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
       {
         key: 'cmpOverview',
         href: goTo.resolve.cmpRoot(),
-        icon: <ErdaIcon type="data-display" />,
+        icon: <ErdaIcon type="jiqunzonglan" />,
         text: i18n.t('cluster overview'),
         subtitle: i18n.t('Overview'),
       },
       {
         key: 'cmpResources',
-        icon: <ErdaIcon type="data-all" />,
+        icon: <ErdaIcon type="jiqunziyuan" />,
         href: goTo.resolve.cmpClusters(),
         text: i18n.t('cluster resource'),
         subtitle: i18n.t('Resource'),
@@ -55,7 +55,7 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
       },
       {
         key: 'containerResource',
-        icon: <ErdaIcon type="cloud-container" />,
+        icon: <ErdaIcon type="rongqiziyuan" />,
         href: goTo.resolve.cmpClustersContainer({ clusterName: chosenCluster }),
         text: i18n.t('container resource'),
         subtitle: i18n.t('container'),
@@ -84,7 +84,7 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
       },
       {
         key: 'cmpServices',
-        icon: <ErdaIcon type="list-two" />,
+        icon: <ErdaIcon type="yingyongziyuan" />,
         href: goTo.resolve.cmpDomain(),
         text: i18n.t('application resource'),
         subtitle: i18n.t('App'),
@@ -113,14 +113,14 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
       {
         key: 'cmpReport',
         href: goTo.resolve.cmpReport(), // '/cmp/report',
-        icon: <ErdaIcon type="data-file" />,
+        icon: <ErdaIcon type="yunweibaogao" />,
         text: i18n.t('O & M report'),
         subtitle: i18n.t('Report'),
       },
       {
         key: 'cmpAlarm',
         href: goTo.resolve.cmpAlarm(), // '/cmp/alarm',
-        icon: <ErdaIcon type="database-alert" />,
+        icon: <ErdaIcon type="gaojing" />,
         text: i18n.t('O & M alarm'),
         subtitle: i18n.t('Alarm'),
         subMenu: [
@@ -145,7 +145,7 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
       {
         key: 'cmpDashboard',
         href: goTo.resolve.orgCustomDashboard(), // '/cmp/customDashboard',
-        icon: <ErdaIcon type="dashboard-car" />,
+        icon: <ErdaIcon type="zidingyi" />,
         text: i18n.t('custom dashboard'),
         subtitle: i18n.t('Dashboard'),
       },

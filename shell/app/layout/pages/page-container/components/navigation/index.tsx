@@ -168,7 +168,7 @@ const Navigation = () => {
         {bottomItems.map((item) => (
           <NavItem key={item.label} label={item.label} icon={item.icon} onClick={item.onClick} />
         ))}
-        <div className={`erda-global-nav-avatar-item rounded-2xl my-4 flex items-center justify-center cursor-pointer`}>
+        <div className={`erda-global-nav-avatar-item my-4 flex items-center justify-center cursor-pointer`}>
           <UserMenu />
         </div>
       </div>
