@@ -80,7 +80,7 @@ export const CardItem = (props: CardItemProps) => {
                   <ErdaIcon type={icon} size={28} className="head-icon mr-1" />
                 ) : null}
                 <div className="flex items-center overflow-hidden">
-                  <div className="font-medium font-ms text-default truncate">{title}</div>
+                  <div className="font-medium font-ms text-default truncate hover:text-purple-deep">{title}</div>
                 </div>
 
                 {titleState ? (
@@ -134,7 +134,7 @@ export const CardItem = (props: CardItemProps) => {
                     <Tooltip title={item.tip} key={idx}>
                       <ErdaIcon
                         type={item.icon}
-                        size={16}
+                        size={20}
                         {...item.extraProps}
                         className={`text-default-4 hover:text-default-8 ${idx !== 0 ? 'ml-4' : ''}`}
                       />
@@ -184,7 +184,7 @@ export const Card = (props: CP_CARD.Props) => {
     <div className={`cp-cards-container ${className}`}>
       {title ? (
         <div className="font-medium">
-          <span>{title}</span>
+          <span className="text-default-8">{title}</span>
           <span className="inline-block ml-1 bg-default-1 px-1.5 rounded-lg text-default-8 text-xs leading-5">
             {titleSummary}
           </span>

@@ -151,7 +151,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
       <div
         className="inline-flex items-center cursor-pointer erda-dropdown-select-content"
         style={{ maxWidth: width }}
-        onClick={() => setActive(!active)}
+        onClick={() => mode === 'simple' && setActive(!active)}
       >
         {chosenItem ? (
           <Item
@@ -160,7 +160,10 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
             onlyIcon={mode === 'simple'}
             className={`p-0 seleted-item ${className}`}
             switcher={
-              <span className="rounded-sm bg-default-06 text-default-8 px-2 py-0.5 ml-1">
+              <span
+                className="rounded-sm bg-default-06 text-default-8 px-2 py-0.5 ml-1 hover:bg-purple-deep hover:text-white"
+                onClick={() => setActive(!active)}
+              >
                 {i18n.t('common:switch')}
               </span>
             }

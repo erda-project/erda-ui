@@ -19,6 +19,7 @@ import { goTo, insertWhen } from 'common/utils';
 import ScaleCard from 'config-page/components/scale-card/scale-card';
 import ImgMap from 'config-page/img-map';
 import { useMount } from 'react-use';
+import { compact } from 'lodash';
 import userStore from 'app/user/stores';
 import { usePerm } from 'user/common';
 import { erdaEnv } from 'common/constants';
@@ -161,15 +162,18 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
         card: (
           <EmptyHolder
             scene="star-project"
+            direction="row"
             tip={i18n.t('no available {item}', { item: i18n.t('dop:star project') })}
-            desc={i18n.t('dop:set frequently used project as star project from the list below')}
+            desc={i18n.t('dop:choose to set as a star project from the list of my projects below')}
           />
         ),
+
         defaultCardImg: ImgMap.frontImg_default_project_icon,
         list: (
           <EmptyHolder
             scene="create-project"
             className="w-full"
+            direction="row"
             tip={i18n.t('no available {item}', { item: i18n.t('project') })}
             desc={i18n.t('dop:Did not join any project, was invited to join project or create project')}
           />
@@ -179,14 +183,16 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
       app: {
         card: (
           <EmptyHolder
+            direction="row"
             scene="star-app"
             tip={i18n.t('no available {item}', { item: i18n.t('dop:star app') })}
-            desc={i18n.t('dop:set frequently used app as star app from the list below')}
+            desc={i18n.t('dop:choose to set as a star app from the list of my apps below')}
           />
         ),
         defaultCardImg: ImgMap.frontImg_default_app_icon,
         list: (
           <EmptyHolder
+            direction="row"
             scene="create-app"
             className="w-full"
             tip={i18n.t('no available {item}', { item: i18n.t('application') })}
@@ -194,6 +200,16 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
           />
         ),
         defaultListImg: ImgMap.frontImg_default_app_icon,
+      },
+      messageList: {
+        emptyHolder: (
+          <EmptyHolder
+            scene="empty-message"
+            className="w-full"
+            style={{ height: 360 }}
+            tip={i18n.t('no available {item}', { item: i18n.t('message') })}
+          />
+        ),
       },
     }),
     [],
@@ -222,7 +238,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
       },
       leftContent: {
         props: {
-          className: 'personal-workbench-left-content',
+          className: 'personal-workbench-left-content overflow-hidden',
         },
       },
       workTabs: {
@@ -247,6 +263,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
       messageList: {
         props: {
           defaultLogo: <ErdaIcon type="tongzhi" disableCurrent size={28} />,
+          EmptyHolder: EmptyMap.messageList.emptyHolder,
         },
       },
     };

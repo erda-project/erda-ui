@@ -18,7 +18,7 @@ import './scale-card.scss';
 
 const ScaleCard = (props: CP_SCALE_CARD.Props) => {
   const { execOperation, data, onClick, props: configProps } = props;
-  if (data?.list) return null;
+  if (!data?.list) return null;
   const { list } = data;
   const { align } = configProps || {};
 

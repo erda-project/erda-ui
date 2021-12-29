@@ -13,6 +13,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import { DropdownSelectNew } from 'common';
+import { compact } from 'lodash';
 import { insertWhen, goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import orgStore from 'app/org-home/stores/org';
@@ -34,6 +35,19 @@ const OrgSelector = (props: IProps) => {
     getPublicOrgs();
   });
 
+  const usedPublicOrg = compact(
+    publicOrgs.map((o) =>
+      orgs.find((myOrg) => myOrg.id === o.id)
+        ? null
+        : {
+            key: o.name,
+            label: o.displayName,
+            desc: o.name,
+            imgURL: o.logo || ImgMap.frontImg_default_org_icon,
+          },
+    ),
+  );
+
   const options = [
     {
       label: i18n.t('dop:my organization'),
@@ -45,16 +59,11 @@ const OrgSelector = (props: IProps) => {
         imgURL: o.logo || ImgMap.frontImg_default_org_icon,
       })),
     },
-    ...insertWhen(!!publicOrgs.length, [
+    ...insertWhen(!!usedPublicOrg.length, [
       {
         label: i18n.t('dop:public organization'),
         key: 'public',
-        children: publicOrgs.map((o) => ({
-          key: o.name,
-          label: o.displayName,
-          desc: o.name,
-          imgURL: o.logo || ImgMap.frontImg_default_org_icon,
-        })),
+        children: usedPublicOrg,
       },
     ]),
   ];

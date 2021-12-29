@@ -183,7 +183,7 @@ const List = (props: CP_BASE_LIST.Props) => {
     <div>
       {data.title || filter ? (
         <div className="flex justify-between items-center mb-2">
-          <span className="font-medium">
+          <span className="font-medium text-default-8">
             {data.title}
             {data.titleSummary !== undefined ? (
               <span className="inline-block ml-1 bg-default-1 px-1.5 rounded-lg text-default-8 text-xs leading-5">
