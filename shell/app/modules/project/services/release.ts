@@ -39,7 +39,7 @@ interface UpdateReleaseParams extends AddReleaseParams {
   releaseID: string;
 }
 
-export const getReleaseDetail = ({ releaseID }: { releaseID?: string }): RELEASE.ReleaseDetail => {
+export const getReleaseDetail = ({ releaseID }: { releaseID?: string }): RAW_RESPONSE<RELEASE.ReleaseDetail> => {
   return agent.get(`/api/releases/${releaseID}`).then((response: any) => response.body);
 };
 

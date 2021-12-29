@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, message } from 'antd';
+import { Button, message, Spin } from 'antd';
 import moment from 'moment';
 import { RenderForm, ListSelect, MarkdownEditor } from 'common';
 import { FormInstance } from 'app/interface/common';
@@ -25,6 +25,7 @@ import orgStore from 'app/org-home/stores/org';
 import userStore from 'user/stores';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useLoading } from 'core/stores/loading';
 import { getReleaseList, getReleaseDetail, addRelease, updateRelease } from 'project/services/release';
 
 import './form.scss';
@@ -40,17 +41,21 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly: boolean }) => {
   const [pageNo, setPageNo] = React.useState(1);
   const [appId, setAppId] = React.useState<number | undefined>();
   const [query, setQuery] = React.useState<string>('');
+  const [loading] = useLoading(releaseStore, ['getAppList']);
   const [releaseDetail, setReleaseDetail] = React.useState<RELEASE.ReleaseDetail>({} as RELEASE.ReleaseDetail);
   const [releaseList, setReleaseList] = React.useState<RELEASE.ReleaseDetail[]>([] as RELEASE.ReleaseDetail[]);
   const [releaseTotal, setReleaseTotal] = React.useState<number>(0);
 
   const getDetail = React.useCallback(async () => {
     if (releaseID) {
-      const detail = await getReleaseDetail({ releaseID });
-      setReleaseDetail({
-        ...detail,
-        applicationReleaseList: detail.applicationReleaseList.map((item) => ({ ...item, releaseId: item.releaseID })),
-      });
+      const res = await getReleaseDetail({ releaseID });
+      if (res.success) {
+        const { data } = res;
+        setReleaseDetail({
+          ...data,
+          applicationReleaseList: data.applicationReleaseList.map((item) => ({ ...item, releaseId: item.releaseID })),
+        });
+      }
     }
   }, [releaseID, setReleaseDetail]);
 
@@ -115,8 +120,15 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly: boolean }) => {
       type: 'input',
       itemProps: {
         placeholder: i18n.t('please enter {name}', { name: i18n.t('dop:version name') }),
-        maxLength: 30,
       },
+      rules: [
+        { required: true, message: i18n.t('please enter {name}', { name: i18n.t('dop:version name') }) },
+        { max: 30, message: i18n.t('dop:no more than 30 characters') },
+        {
+          pattern: /^[A-Za-z0-9._-]+$/,
+          message: i18n.t('dop:Must be composed of letters, numbers, underscores, hyphens and dots.'),
+        },
+      ],
     },
     {
       label: i18n.t('dop:app release'),
@@ -194,7 +206,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly: boolean }) => {
     },
     {
       label: i18n.t('content'),
-      name: 'markdown',
+      name: 'changelog',
       type: 'custom',
       getComp: () => <EditMd />,
       readOnlyRender: (value: string) => {
@@ -214,7 +226,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly: boolean }) => {
         isProjectRelease: true,
         orgId,
         userId: loginUser.id,
-        projectID: projectId,
+        projectID: +projectId,
       };
       if (releaseID) {
         const res = await updateRelease({ ...payload, releaseID });
@@ -234,7 +246,10 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly: boolean }) => {
 
   return (
     <div className="release-form">
-      <RenderForm ref={formRef} layout="vertical" list={list} readOnly={readyOnly} />
+      <Spin spinning={loading}>
+        <RenderForm ref={formRef} layout="vertical" list={list} readOnly={readyOnly} />
+      </Spin>
+
       {!readyOnly ? (
         <div className="mb-2">
           <Button className="mr-3" type="primary" onClick={submit}>

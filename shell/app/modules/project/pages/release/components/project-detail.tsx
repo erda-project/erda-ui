@@ -27,8 +27,11 @@ const ReleaseProjectDetail = () => {
 
   const getDetail = React.useCallback(async () => {
     if (releaseID) {
-      const detail = await getReleaseDetail({ releaseID });
-      setReleaseDetail(detail);
+      const res = await getReleaseDetail({ releaseID });
+      if (res.success) {
+        const { data } = res;
+        setReleaseDetail(data);
+      }
     }
   }, [releaseID, setReleaseDetail]);
 
