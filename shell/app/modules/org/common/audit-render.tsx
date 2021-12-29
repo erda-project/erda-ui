@@ -23,7 +23,7 @@ const replaceReg = /<<(\w+)>>/g;
 const expressionReg = /{[^{}]+}/g;
 // eslint-disable-next-line no-console
 const logErr = console.error;
-export default (record: AUDIT.Item, extraTemplates = {}) => {
+const render = (record: AUDIT.Item, extraTemplates = {}) => {
   const templates = { ...auditTemplates, ...extraTemplates };
   const { templateName, scopeType, appId, projectId, context, result } = record;
   // 后端把pipelineID改为了pipelineId，兼容下
@@ -175,3 +175,5 @@ export default (record: AUDIT.Item, extraTemplates = {}) => {
 
   return parse(isZh() ? tpl.zh : tpl.en);
 };
+
+export default render;
