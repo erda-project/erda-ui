@@ -20,7 +20,6 @@ import { goTo, qs } from 'common/utils';
 import { getCurrentLocale } from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import { setGlobal } from 'app/global-space';
-import wfwzl_svg from 'app/images/wfwzl.svg';
 import { eventHub } from 'common/utils/event-hub';
 import {
   DOC_MSP_API_GATEWAY,
@@ -252,8 +251,6 @@ const mspStore = createStore({
         menu: filter(mspMenu, (n) => !isEmpty(n)),
         loading: false,
         detail: {
-          logoClassName: 'big-icon',
-          logo: wfwzl_svg,
           name: siderName,
         },
         getHeadName: switchEnv,
