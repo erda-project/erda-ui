@@ -21,19 +21,19 @@ export const getEcpMenu = () => {
   return [
     {
       href: goTo.resolve.ecpApp(),
-      icon: <ErdaIcon type="application-one" />,
+      icon: <ErdaIcon type="yingyongkaifa" />,
       text: i18n.t('ecp:application'),
       subtitle: i18n.t('App'),
     },
     {
       href: goTo.resolve.ecpResource(),
-      icon: <ErdaIcon type="data-all" />,
+      icon: <ErdaIcon type="jiqunziyuan" />,
       text: i18n.t('resource management'),
       subtitle: i18n.t('Resource'),
     },
     {
       href: goTo.resolve.ecpSetting(),
-      icon: <ErdaIcon type="setting-config" />,
+      icon: <ErdaIcon type="shezhi-menu" />,
       text: i18n.t('ecp:configuration'),
       subtitle: i18n.t('Config'),
     },

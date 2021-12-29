@@ -34,7 +34,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.repo.read.pass,
     key: 'repo',
     href: goTo.resolve.repo(), // `/dop/projects/${projectId}/apps/${appId}/repo`,
-    icon: <ErdaIcon type="code" />,
+    icon: <ErdaIcon type="daimacangku" />,
     text: i18n.t('dop:files'),
     subtitle: i18n.t('Code'),
   };
@@ -42,7 +42,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.pipeline.read.pass,
     key: 'pipeline',
     href: goTo.resolve.pipelineRoot(), // `/dop/projects/${projectId}/apps/${appId}/pipeline`,
-    icon: <ErdaIcon type="assembly-line" />,
+    icon: <ErdaIcon type="liushuixian" />,
     text: i18n.t('pipeline'),
     subtitle: i18n.t('Pipeline'),
   };
@@ -50,7 +50,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.apiDesign.read.pass,
     key: 'apiDesign',
     href: goTo.resolve.appApiDesign(), // `/dop/projects/${projectId}/apps/${appId}/apiDesign`,
-    icon: <ErdaIcon type="api" />,
+    icon: <ErdaIcon type="apisheji" />,
     text: i18n.t('dop:API design'),
     subtitle: 'API',
   };
@@ -59,7 +59,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.runtime.read.pass,
     key: 'deploy',
     href: goTo.resolve.deploy(), // `/dop/projects/${projectId}/apps/${appId}/deploy`,
-    icon: <ErdaIcon type="bushuzhongxin-menu" />,
+    icon: <ErdaIcon type="bushuzhongxin" />,
     text: i18n.t('dop:deployment center'),
     subtitle: i18n.t('Deploy'),
   };
@@ -107,7 +107,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     show: perm.setting.read.pass,
     key: 'setting',
     href: goTo.resolve.appSetting(), // `/dop/projects/${projectId}/apps/${appId}/setting`,
-    icon: <ErdaIcon type="config1" />,
+    icon: <ErdaIcon type="shezhi-menu" />,
     text: i18n.t('dop:application setting'),
     subtitle: i18n.t('Setting'),
   };

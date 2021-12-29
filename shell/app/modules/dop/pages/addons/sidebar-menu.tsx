@@ -24,7 +24,7 @@ export const getSideMenu = ({ rootPath }: { rootPath: string }) => {
     },
     {
       href: `${rootPath}/settings`,
-      icon: <ErdaIcon type="config1" />,
+      icon: <ErdaIcon type="shezhi-menu" />,
       text: i18n.t('dop:addon setting'),
     },
   ];

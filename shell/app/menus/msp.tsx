@@ -12,5 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 export const getMspMenu = () => {
+  // see shell/app/modules/msp/config.tsx
   return [];
 };
