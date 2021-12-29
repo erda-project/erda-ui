@@ -53,8 +53,14 @@ interface IState {
   scalableImgSrc: string;
 }
 
+const emptyApp = {
+  key: '',
+  name: '',
+  breadcrumbName: '',
+  href: '',
+} as LAYOUT.IApp;
 const initState: IState = {
-  currentApp: {} as LAYOUT.IApp,
+  currentApp: { ...emptyApp },
   appList: [],
   subSiderInfoMap: {},
   subList: {},
@@ -108,6 +114,8 @@ const layout = createStore({
         switchToApp('apiManage');
       } else if (isIn('fdp')) {
         switchToApp('fdp');
+      } else {
+        switchToApp('');
       }
 
       if (
@@ -179,6 +187,8 @@ const layout = createStore({
       const curApp = find(state.appList, { key: payload });
       if (curApp) {
         state.currentApp = curApp;
+      } else {
+        state.currentApp = { ...emptyApp };
       }
     },
     setSubSiderInfoMap(state, payload: { [k: string]: any; key: string }) {
