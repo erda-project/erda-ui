@@ -454,10 +454,6 @@ body {
     color: $color-dark-6;
   }
 
-  .pk-filter .ant-select {
-    width: 100%;
-  }
-
   div.ant-progress-inner {
     background-color: rgba(0, 0, 0, 0.06);
   }
@@ -484,11 +480,6 @@ body {
   div.ant-card-body {
     padding: 12px 16px;
     height: 100%;
-  }
-
-  .pk-form-item .ant-select,
-  .pk-form-item .ant-cascader-picker {
-    width: 100%;
   }
 
   .ant-list-items {
