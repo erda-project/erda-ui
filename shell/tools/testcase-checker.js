@@ -42,7 +42,6 @@ const caseFileExist = (file) => {
   }
   const caseFileTs = `${caseFile}.test.ts`;
   const caseFileTsx = `${caseFile}.test.tsx`;
-  // app/common/__tests__/components/erda-icon.test.tsx
   const res = {
     exist: false,
     file: file,
