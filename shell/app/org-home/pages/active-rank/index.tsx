@@ -6,6 +6,7 @@ import { map, find, filter } from 'lodash';
 import { ErdaIcon, EmptyHolder, Ellipsis } from 'common';
 import orgStore from 'app/org-home/stores/org';
 import { getActiveRankList } from '../../services/personal-home';
+import i18n from 'i18n';
 
 const RANK_ICONS = {
   '1': 'jin',
@@ -45,7 +46,7 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
   return (
     <div className="bg-white shadow-card pb-4 w-60">
       <div className="flex justify-between items-center h-12 px-4">
-        <div className="text-normal">活跃排行</div>
+        <div className="text-normal">{i18n.t('dop:active ranking')}</div>
         <div className="flex items-center">
           {inputVisible && (
             <Input
@@ -57,7 +58,7 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
               onChange={onChangeSearchKey}
               value={searchKey}
               style={{ width: '120px' }}
-              placeholder="搜索姓名"
+              placeholder={i18n.t('dop:search name')}
             />
           )}
           <ErdaIcon type="search" className="cursor-pointer" color="normal" size="16" onClick={toggleSearchInput} />
@@ -71,11 +72,11 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
         <div className="grid grid-cols-12 items-center h-16 bg-default-01 h-17">
           <div className="col-span-6 flex flex-col items-center">
             <div className="leading-8 truncate text-xl">{selfRank?.rank ?? '-'}</div>
-            <div className="text-xs text-sub">排名</div>
+            <div className="text-xs text-sub">{i18n.t('dop:rank')}</div>
           </div>
           <div className="col-span-6 flex flex-col items-center">
             <div className="text-purple-deep text-xl">{selfRank?.value ?? '0'}</div>
-            <div className="text-xs text-sub">活跃值</div>
+            <div className="text-xs text-sub">{i18n.t('dop:active value')}</div>
           </div>
         </div>
       </div>

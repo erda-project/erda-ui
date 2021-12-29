@@ -6,31 +6,32 @@ import { ErdaIcon } from 'common';
 import orgStore from 'app/org-home/stores/org';
 import { getPersonalContribute } from '../../services/personal-home';
 import { colorToRgb } from 'app/common/utils';
+import i18n from 'i18n';
 
 const { themeColor } = ErdaIcon;
 
 const infoList = [
   {
     icon: 'xietong',
-    desc: '创建/更新了协同事项',
+    desc: i18n.t('dop:collaboration items created/updated'),
     key: 'events',
     color: 'blue-deep',
   },
   {
     icon: 'zidonghuaceshi',
-    desc: '创建/更新了自动化测试用例',
+    desc: i18n.t('dop:created/updated automated test cases'),
     key: 'cases',
     color: 'green-deep',
   },
   {
     icon: 'daimatijiao',
-    desc: '提交代码次数',
+    desc: i18n.t('dop:number of code submissions'),
     key: 'commits',
     color: 'purple-deep',
   },
   {
     icon: 'liushuixian',
-    desc: '执行流水线次数',
+    desc: i18n.t('dop:number of execution pipelines'),
     key: 'executions',
     color: 'yellow-deep',
   },
@@ -77,13 +78,13 @@ const PersonalContribute = ({ currentUser }: { currentUser: ILoginUser }) => {
   return (
     <div className="bg-white shadow-card pb-4 w-60">
       <div className="flex justify-between items-center h-12 px-4">
-        <div className="text-normal">个人贡献</div>
+        <div className="text-normal">{i18n.t('dop:personal contribution')}</div>
       </div>
       <div className="flex justify-center">
         <Echarts style={{ maxHeight: '200px', width: '210px' }} option={getChartOption()} />
       </div>
       <div className="px-4">
-        <div className="mb-2">本月</div>
+        <div className="mb-2">{i18n.t('dop:current month')}</div>
         <div className="space-y-2">
           {map(infoList, ({ color, icon, key, desc }) => {
             return (
