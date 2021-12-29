@@ -3,6 +3,7 @@ import { useMount } from 'react-use';
 import { Echarts } from 'charts';
 import { map } from 'lodash';
 import { ErdaIcon } from 'common';
+import orgStore from 'app/org-home/stores/org';
 import { getPersonalContribute } from '../../services/personal-home';
 import { colorToRgb } from 'app/common/utils';
 
@@ -35,9 +36,11 @@ const infoList = [
   },
 ];
 
-const PersonalContribute = () => {
+const PersonalContribute = ({ currentUser }: { currentUser: ILoginUser }) => {
+  const orgId = orgStore.getState((s) => s.currentOrg.id);
+
   useMount(() => {
-    getPersonalContribute.fetch();
+    getPersonalContribute.fetch({ orgId, userId: currentUser.id });
   });
 
   const contributes = getPersonalContribute.useData();

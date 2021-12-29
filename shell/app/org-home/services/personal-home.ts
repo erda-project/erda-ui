@@ -1,7 +1,7 @@
 import { apiCreator } from 'core/service';
 
-export const getActiveRankList = apiCreator<() => P_HOME.PersonActiveData[]>({
-  api: '/api/active-rank',
+export const getActiveRankList = apiCreator<(params: { orgId: number }) => P_HOME.PersonActiveData[]>({
+  api: '/api/active-rank/:orgId',
   mock: () => [
     {
       rank: 1,
@@ -71,8 +71,10 @@ interface PersonalContributeResponse {
   };
 }
 
-export const getPersonalContribute = apiCreator<() => PersonalContributeResponse>({
-  api: '/api/personal-contribute',
+export const getPersonalContribute = apiCreator<
+  (params: { orgId: number; userId: string }) => PersonalContributeResponse
+>({
+  api: '/api/personal-contribute/:orgId/:userId',
   mock: () => {
     return {
       data: {

@@ -4,11 +4,8 @@ import { useMount } from 'react-use';
 import ImgMap from 'config-page/img-map';
 import { map, find, filter } from 'lodash';
 import { ErdaIcon, EmptyHolder, Ellipsis } from 'common';
+import orgStore from 'app/org-home/stores/org';
 import { getActiveRankList } from '../../services/personal-home';
-
-interface IProps {
-  currentUser: ILoginUser;
-}
 
 const RANK_ICONS = {
   '1': 'jin',
@@ -16,13 +13,14 @@ const RANK_ICONS = {
   '3': 'tong',
 };
 
-const ActiveRank = (props: IProps) => {
+const ActiveRank = (props: { currentUser: ILoginUser }) => {
   const { currentUser } = props;
+  const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [inputVisible, setInputVisible] = React.useState(false);
   const [searchKey, setSearchKey] = React.useState('');
 
   useMount(() => {
-    getActiveRankList.fetch();
+    getActiveRankList.fetch({ orgId });
   });
 
   const sourceList = getActiveRankList.useData();
