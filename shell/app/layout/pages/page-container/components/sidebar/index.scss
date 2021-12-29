@@ -100,21 +100,14 @@
   height: calc(100% - 36px - 16px);
   width: 184px;
   margin-right: 16px;
+  user-select: none;
 
   .ant-menu {
     background-color: transparent;
-    // .ant-menu-submenu-arrow {
-    //   color: rgba(9, 24, 33, 0.44);
-    //   font-weight: 500;
-    // }
     .ant-menu-item-icon {
       color: $color-primary;
       font-size: 20px;
     }
-
-    // .ant-menu-item-icon + .ant-menu-title-content {
-    //   margin-left: 4px;
-    // }
 
     .ant-menu-submenu-title:active {
       background-color: transparent;
@@ -129,9 +122,7 @@
         font-weight: 500;
         border-radius: 2px;
         color: $color-purple-highlight;
-        .ant-menu-item-icon {
-          color: $color-purple-highlight;
-        }
+        .ant-menu-item-icon,
         a {
           color: $color-purple-highlight;
         }
@@ -139,49 +130,23 @@
           opacity: 0;
         }
       }
-      &:not(.ant-menu-item-selected) {
-        a {
-          color: rgba(9, 23, 32, 0.64);
-        }
-        &:hover {
-          color: $color-purple-highlight;
-          a {
-            color: $color-purple-highlight;
-          }
-        }
-      }
-      // .ant-menu-item-icon {
-      //   margin: 0;
-      // }
       &:hover {
-        color: $color-purple-highlight;
+        .ant-menu-item-icon,
+        a {
+          color: $color-purple-highlight;
+        }
         background-color: rgba($color-purple-highlight, 0.1);
       }
     }
     .ant-menu-submenu {
-      .ant-menu-item {
+      .ant-menu-item,
+      .ant-menu-submenu-inline {
         padding-left: 36px !important;
       }
       .ant-menu-submenu-title {
         margin: 0;
-        padding-left: 8px !important;
+        padding-left: 0px !important;
       }
-      // &.ant-menu-submenu-open {
-      //   > .ant-menu-submenu-title {
-      //     > span:not(.ant-menu-item-icon) {
-      //       color: $color-dark-8;
-      //       font-weight: 500;
-      //     }
-      //   }
-      // }
-      // & > .ant-menu-submenu-title {
-      //   &:hover {
-      //     background-color: $color-click-bg;
-      //     > span:not(.ant-menu-item-icon) {
-      //       color: $color-dark-8;
-      //     }
-      //   }
-      // }
     }
     a:focus {
       text-decoration: none;
