@@ -62,7 +62,6 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
                   setSearchKey('');
                 }}
                 value={searchKey}
-                style={{ width: '140px' }}
                 placeholder={i18n.t('dop:search name')}
               />
             )}
@@ -92,7 +91,7 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
           </div>
         </div>
       </div>
-      <div style={{ height: searchKey ? '386px' : '224px' }} className="overflow-y-auto">
+      <div className={`overflow-y-auto ${searchKey ? 'h-[386px]' : 'h-56'}`}>
         {map(rankList, ({ rank, name, value, id, avatar }) => {
           return (
             <div key={id} className="grid grid-cols-12 h-11 items-center px-5 py-2">
@@ -109,7 +108,7 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
             </div>
           );
         })}
-        {!rankList.length && <EmptyHolder relative style={{ maxWidth: '240px' }} />}
+        {!rankList.length && <EmptyHolder relative className="max-w-[240px]" />}
       </div>
     </div>
   );
