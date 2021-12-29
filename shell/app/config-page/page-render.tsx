@@ -93,7 +93,7 @@ const ConfigPageRender = (props: IProps) => {
 
   const reExecOperation = (_cId: string) => (_op: any, val: any) => {
     if (!_op || isEmpty(_op)) return;
-
+    if (_op.disabled) return;
     if (_op.key === 'clickGoto') {
       return handleClickGoto(_op);
     }

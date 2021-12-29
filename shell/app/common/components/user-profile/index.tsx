@@ -13,6 +13,7 @@
 
 import { Avatar } from 'antd';
 import { ErdaIcon } from 'common';
+import { getAvatarChars } from 'common/utils';
 import i18n from 'i18n';
 import React from 'react';
 import './index.scss';
@@ -46,7 +47,9 @@ const UserProfile = ({ data, className = '' }: UserProfileProps) => {
         }}
       />
       <div className="name-warp p-4">
-        <Avatar src={avatar} size={64} alt="user-avatar" />
+        <Avatar src={avatar} size={64} alt="user-avatar">
+          {name ? getAvatarChars(name) : i18n.t('none')}
+        </Avatar>
         <div className="truncate mt-2 font-medium text-lg">{name}</div>
         <div className="truncate text-xs text-desc">{id}</div>
       </div>

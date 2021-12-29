@@ -13,40 +13,48 @@
 
 import React from 'react';
 import { map } from 'lodash';
-import { Popconfirm } from 'antd';
+import { Popconfirm, Tooltip } from 'antd';
 import classnames from 'classnames';
 import { WithAuth } from 'user/common';
 import { colorMap, newColorMap } from 'app/charts/theme';
 
 interface IOperationAction {
   operation?: CP_COMMON.Operation;
+  operations?: CP_COMMON.Operation;
   children: React.ReactElement;
   onClick: (e?: any) => void;
   tipProps?: Obj;
 }
 export const OperationAction = (props: IOperationAction) => {
-  const { operation, children, onClick, tipProps } = props;
-  if (!operation) return children;
-  const { confirm, disabled, disabledTip, key } = operation;
-  if (disabled === true) {
+  const { operation, children, onClick, tipProps, operations } = props;
+  if (!operation && !operations) return children;
+  let curOp: CP_COMMON.Operation = operation;
+  if (operations) {
+    const clickOp = map(filterClickOperation(operations));
+    if (clickOp[0]) {
+      curOp = clickOp[0];
+    }
+  }
+  const curTip = curOp.disabledTip || curOp.tip;
+  if (curOp.disabled === true) {
     // 无权限操作
     return (
-      <WithAuth noAuthTip={disabledTip} key={key} pass={false} tipProps={tipProps}>
+      <WithAuth noAuthTip={curTip} key={curOp.key} pass={false} tipProps={tipProps}>
         {children}
       </WithAuth>
     );
-  } else if (confirm) {
+  } else if (curOp.confirm) {
     // 需要确认的操作
     return (
       <Popconfirm
-        title={confirm}
+        title={curOp.confirm}
         arrowPointAtCenter
         placement="topRight"
         onConfirm={(e) => {
           e && e.stopPropagation();
           onClick(e);
         }}
-        key={key}
+        key={curOp.key}
         onCancel={(e) => e && e.stopPropagation()}
       >
         {React.cloneElement(children, {
@@ -56,13 +64,17 @@ export const OperationAction = (props: IOperationAction) => {
     );
   } else {
     // 普通的操作
-    return React.cloneElement(children, {
-      key,
-      onClick: (e: MouseEvent) => {
-        e.stopPropagation();
-        onClick(e);
-      },
-    });
+    return (
+      <Tooltip title={curOp.tip}>
+        {React.cloneElement(children, {
+          key: curOp.key,
+          onClick: (e: MouseEvent) => {
+            e.stopPropagation();
+            onClick(e);
+          },
+        })}
+      </Tooltip>
+    );
   }
 };
 
@@ -118,4 +130,12 @@ export const execMultipleOperation = (
   Object.keys(operations || {}).forEach((opKey) => {
     execOperation({ key: opKey, ...operations[opKey] });
   });
+};
+
+export const filterClickOperation = (operations?: Obj<CP_COMMON.Operation>) => {
+  const clickOp: Obj<CP_COMMON.Operation> = {};
+  map(operations, (op, k) => {
+    clickOp[k] = { key: k, ...op };
+  });
+  return clickOp;
 };

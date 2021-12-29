@@ -193,7 +193,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
         data={{
           id: loginUser.id,
           name: loginUser.nick || loginUser.name,
-          avatar: loginUser.avatar || ImgMap.default_user_avatar,
+          avatar: loginUser.avatar,
           email: loginUser.email,
           phone: loginUser.phone,
           lastLoginTime: loginUser.lastLoginAt,
