@@ -11,6 +11,9 @@
 }
 
 .erda-global-nav-item {
+  a {
+    color: unset;
+  }
   .icon {
     transition: opacity 0.2s cubic-bezier(0.48, 0.43, 0.29, 1.3);
   }
