@@ -460,8 +460,7 @@ body {
 
   .ant-tooltip {
     .ant-tooltip-inner {
-      background-color: #fff;
-      color: rgba(0, 0, 0, 0.6);
+      background-color: rgba($color-default, 0.96);
       max-height: 90vh;
       max-width: 600px;
       overflow: auto;
