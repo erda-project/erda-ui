@@ -131,7 +131,7 @@ const Header = () => {
 
   React.useEffect(() => {
     if (allRoutes.length) {
-      const lastRoute = allRoutes[0];
+      const lastRoute = allRoutes[allRoutes.length - 1];
       const _title = getBreadcrumbTitle(lastRoute);
       setPageNameInfo(() => lastRoute?.pageNameInfo);
       setPageName(_title);
