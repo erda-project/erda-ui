@@ -262,6 +262,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
       },
       messageList: {
         props: {
+          columnsInfoWidth: { text: 60 },
           defaultLogo: <ErdaIcon type="tongzhi" disableCurrent size={28} />,
           EmptyHolder: EmptyMap.messageList.emptyHolder,
         },
