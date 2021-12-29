@@ -92,8 +92,11 @@
 }
 
 .side-nav-menu {
+  display: flex;
+  flex-direction: column;
   position: relative;
   top: $breadcrumb-height;
+  height: calc(100% - 36px - 16px);
   width: 184px;
   margin-right: 16px;
 
