@@ -79,7 +79,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
         <div className="mt-4">
           <div className="font-medium text-lg text-default">{`
           ${getInvitationTime()}, ${loginUser.nick || loginUser.name}, ${i18n.t(
-            'Welcome to use cloud native product - Erda',
+            'Welcome to a one-stop cloud native PaaS platform - Erda',
           )}`}</div>
           <div className="text-xs text-default-6">{`${i18n.t('dop:Tody is {time}', {
             time: `${moment().format('YYYY/MM/DD')} ${i18n.t('{week}', { week: Days[new Date().getDay()] })}`,
