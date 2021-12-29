@@ -39,7 +39,7 @@ export const Announcement = () => {
         <ErdaIcon type="tonggao" fill="blue" size={20} />
         <span className="ml-1">{i18n.t('layout:announcement')}</span>
       </div>
-      <div className="text-white" style={{ height: 80 }}>
+      <div className="text-white overflow-auto break-word" style={{ height: 130 }}>
         {announcementList[index - 1].content}
       </div>
       <div className="h-8 flex items-center justify-end select-none">
@@ -49,7 +49,7 @@ export const Announcement = () => {
           size={20}
           onClick={() => setIndex(Math.max(index - 1, 1))}
         />
-        <div className="w-12 h-8 inline-flex items-center justify-center text-white-6">
+        <div className="w-12 inline-flex items-center justify-center text-white-6">
           {index} / {announcementList.length}
         </div>
         <ErdaIcon
