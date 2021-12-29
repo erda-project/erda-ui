@@ -17,38 +17,48 @@ import './index.scss';
 
 const emptyMarkdownContent =
   '## 一个改变世界的项目 \n*用酷酷的一段话来介绍你的项目吧，让所有成员都清楚项目的背景和目标* \n### 介绍 \n*可以用一段视频或者图片来展示产品/项目的亮点* \n![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2021/png/286919/1640771214185-f4cc490e-78c4-4c07-9355-dbfdfd0ad485.png#clientId=ud159ea74-2305-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=564&id=ua2ee1ea3&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1128&originWidth=2496&originalType=binary&ratio=1&rotation=0&showTitle=false&size=827709&status=done&style=none&taskId=ue4c866ba-a91b-46b1-9821-4d546ef02b6&title=&width=1248) \n**知识库** \n---\n _罗列项目知识库内容_ \n| 产品 PRD | 设计文档  | \n | --- | --- | \n | [一个改变世界的需求 - PRD](https://www.erda.cloud) | [一个改变世界的需求 - PRD](https://www.erda.cloud) |';
-const LinkList = (props) => {
+
+const iconStyle = {
+  className: 'text-default-4',
+  size: 20,
+};
+const LinkRow = (props) => {
   const { item, handleEditLink, handleDelete } = props;
   const linkRef = React.useRef(null);
   const isHovering = useHoverDirty(linkRef);
+
   return (
     <div key={item.id} ref={linkRef} className={`cursor-pointer flex items-center homepage-link mb-1`}>
-      <ErdaIcon type="lianjie" className="text-default-4" />
+      <ErdaIcon type="lianjie" {...iconStyle} />
       <div className={`cursor-pointer ml-2 w-64 px-2 py-1 flex justify-between items-center hover:bg-default-04 `}>
         <div className="w-52 hover:w-44 truncate text-purple-deep">
-          <Tooltip title={item.name || item.url} placement="bottom" overlayClassName="homepage-link-tooltip">
-            {/* TODO: window.open 还带有前缀 */}
-            <span className="text-purple-deep hover:underline" onClick={() => window.open(item.url)}>
+          <Tooltip title={item.name || item.url} placement="bottomLeft" overlayClassName="homepage-tooltip">
+            <span className="text-purple-deep hover:underline" onClick={() => window.open('https://www.baidu.com')}>
               {item.url}
             </span>
           </Tooltip>
           {/* <Ellipsis className="text-purple-deep" title={item.url} /> */}
         </div>
         <div className={`${isHovering ? 'homepage-link-operation' : 'hidden'} flex justify-between items-center`}>
-          <ErdaIcon
-            type="edit"
-            className={` w-4 mx-2 self-center text-default-4`}
-            size={16}
-            onClick={() => handleEditLink(item)}
-          />
+          <Tooltip title={i18n.t('edit')} overlayClassName="homepage-tooltip">
+            <ErdaIcon
+              type="edit"
+              className={` w-4 mx-2 self-center text-default-4`}
+              size={16}
+              onClick={() => handleEditLink(item)}
+            />
+          </Tooltip>
+
           <Popconfirm
             placement="bottomLeft"
             overlayClassName="homepage-link-delete-confirm"
-            title="确定删除？"
+            title={`${i18n.t('confirm deletion')}?`}
             icon={<></>}
             onConfirm={() => handleDelete(item.id)}
           >
-            <ErdaIcon type="remove" size={16} className="text-default-4" />
+            <Tooltip title={i18n.t('delete')} overlayClassName="homepage-tooltip">
+              <ErdaIcon type="remove" size={16} className="text-default-4" />
+            </Tooltip>
           </Popconfirm>
         </div>
       </div>
@@ -60,7 +70,7 @@ const mockData = {
   readme: 'dasfds',
   links: [
     { id: '1', name: 'facebook', url: 'www.facebook.com' },
-    { id: '2', name: 'google', url: 'www.google.comddddddddwerw3r44552' },
+    { id: '2', name: 'google', url: 'www.google.comddddddddwerw3r44552989923423423423423423400000000000000' },
     { id: '3', name: 'google', url: 'www.google.com' },
   ],
 };
@@ -81,7 +91,7 @@ export const ProjectHomepage = () => {
 
   useMount(() => {
     getProjectHomepage.fetch({ projectID: projectId });
-    getProjectInfo(projectId).then((res) => console.log(res, 333));
+    // getProjectInfo(projectId).then((res) => console.log(res, 333));
   });
 
   // React.useEffect(() => {
@@ -111,20 +121,21 @@ export const ProjectHomepage = () => {
     });
   }
 
-  // const maxMarkdownHeight = (document.documentElement.clientHeight - 86) * 0.7;
+  // const maxMarkdownHeight = document.documentElement.clientHeight - 250;
+  const maxMarkdownHeight = (document.documentElement.clientHeight - 86) * 0.7;
   const fieldsList = [
     {
-      label: i18n.t('URL'),
+      label: 'URL',
       name: 'url',
       itemProps: {
-        placeholder: i18n.d('请将地址粘贴至该处'),
+        placeholder: i18n.t('dop:paste the url path here'),
       },
       rules: [
-        { max: 255, message: i18n.t('dop:Up to 255 characters for directory name') },
+        { max: 255, message: i18n.t('dop:Up to 255 characters for url path') },
         {
           validator: (_, value: string, callback: Function) => {
-            return value && !regRules.ip.pattern.test(value) && !regRules.url.pattern.test(value)
-              ? callback(i18n.t('please fill in the correct IP address or domain name!'))
+            return value && !regRules.url.pattern.test(value)
+              ? callback(i18n.t('dop:please fill in the correct the url path!'))
               : callback();
           },
         },
@@ -135,7 +146,7 @@ export const ProjectHomepage = () => {
       required: false,
       name: 'name',
       itemProps: {
-        placeholder: i18n.d('请给该地址取一个简单易懂的名称'),
+        placeholder: i18n.t('dop:please give the url path a simple and understandable name'),
         maxLength: 50,
       },
     },
@@ -163,48 +174,54 @@ export const ProjectHomepage = () => {
             />
           </div>
           <div className="homepage-info py-3 text-default">
-            <div className="info-title">{i18n.d('关于')}</div>
+            <div className="info-title">{i18n.t('dop:About')}</div>
             <div className="info-brief mb-4">
               {desc ? (
                 'Enterprise-grade application building deployment monitoring platform (AnPaas)'
               ) : (
                 <span>
-                  用一句话讲述你的项目，让更多的人快速了解你的项目，前往
+                  {i18n.t(
+                    'dop:Tell about your project in one sentence, so that more people can quickly understand your project, go to',
+                  )}
                   <span
                     onClick={() => goTo(goTo.pages.projectSetting, { projectId })}
                     className="text-purple-deep mx-1 cursor-pointer"
                   >
-                    项目设置
+                    {i18n.t('project setting')}
                   </span>
-                  进行配置
+                  {i18n.t('dop:to configure')}
                 </span>
               )}
             </div>
             <div className="info-links">
               {map(data?.links, (item) => (
-                <LinkList item={item} handleEditLink={handleEditLink} handleDelete={handleDelete} key={item.id} />
+                <LinkRow item={item} handleEditLink={handleEditLink} handleDelete={handleDelete} key={item.id} />
               ))}
               {data?.links.length < 5 && (
                 <div className="flex items-center mb-4 cursor-pointer" onClick={handleAdd}>
-                  <ErdaIcon type="lianjie" className="text-default-4" />
-                  <div className={` ml-2 w-56 px-2 flex justify-between items-center text-default-3`}>
-                    {i18n.d('点击添加URL地址')}
+                  <ErdaIcon type="lianjie" {...iconStyle} />
+                  <div
+                    className={` ml-2 w-64 px-2 py-1 flex justify-between items-center text-default-3 hover:bg-default-04`}
+                  >
+                    {i18n.t('dop:click to add URL path')}
                   </div>
                 </div>
               )}
             </div>
             <div className="flex items-center mb-2">
-              <ErdaIcon type="zerenren" className="mr-4 text-default-4" />
-              <Avatar size={24} src={projectOwner?.avatar || undefined}>
-                {projectOwner?.nick ? getAvatarChars(projectOwner?.nick) : i18n.t('none')}
-              </Avatar>
-              {projectOwner?.name && (
-                <span className="text-default-8 ml-1">{projectOwner?.name || projectOwner?.nick}</span>
-              )}
+              <ErdaIcon type="zerenren" {...iconStyle} />
+              <span className="ml-4">
+                <Avatar size={24} src={projectOwner?.avatar || undefined}>
+                  {projectOwner?.nick ? getAvatarChars(projectOwner?.nick) : i18n.t('none')}
+                </Avatar>
+                {projectOwner?.name && (
+                  <span className="text-default-8 ml-1">{projectOwner?.name || projectOwner?.nick || '-'}</span>
+                )}
+              </span>
             </div>
             <div className="flex items-center mb-2">
-              <ErdaIcon type="chuangjianshijian" className="mr-2 text-default-4" />
-              <span className="ml-2 text-default-8">{moment(createdAt).format('YYYY/MM/DD')}</span>
+              <ErdaIcon type="chuangjianshijian" {...iconStyle} />
+              <span className="ml-4 text-default-8">{moment(createdAt).format('YYYY/MM/DD')}</span>
             </div>
           </div>
         </div>
@@ -220,7 +237,7 @@ export const ProjectHomepage = () => {
             handleSave(data);
           }}
           onCancel={() => setIsVisible(false)}
-          name={i18n.t('URL')}
+          name=" URL "
           visible={isVisible}
           fieldsList={fieldsList}
           formData={currentLink}

@@ -43,6 +43,8 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
       ]
     : [];
 
+  const maxMarkdownHeight = Math.max(document.documentElement.clientHeight - 300, 400);
+
   return isEditing ? (
     <MarkdownEditor
       {...rest}
@@ -52,11 +54,16 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
         onSave(_v);
       }}
       defaultMode="md"
-      defaultHeight={maxHeight}
+      defaultHeight={maxMarkdownHeight}
       operationBtns={operationBtns}
     />
   ) : (
-    <Tooltip placement="topRight" title={i18n.t('dop:click to edit')} arrowPointAtCenter>
+    <Tooltip
+      placement="left"
+      title={i18n.t('dop:click to edit')}
+      overlayClassName="homepage-tooltip"
+      arrowPointAtCenter
+    >
       <div
         className="relative hover:bg-hover-gray-bg cursor-pointer rounded w-full"
         onClick={() => updater.isEditing(true)}

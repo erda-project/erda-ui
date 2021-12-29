@@ -25,8 +25,8 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       href: goTo.resolve.projectHomepage(), // `/dop/projects/${projectId}/issues/all`,
       icon: <ErdaIcon type="xiangmuxietong" />,
-      text: i18n.d('项目主页'),
-      subtitle: i18n.d('主页'),
+      text: i18n.t('dop:Project homepage'),
+      subtitle: i18n.t('dop:Homepage'),
       show:
         projectPerm.backLog.viewBackLog.pass ||
         projectPerm.iteration.read.pass ||

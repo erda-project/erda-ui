@@ -34,7 +34,7 @@ function getProjectRouter(): RouteConfigItem[] {
       routes: [
         {
           path: 'homepage',
-          breadcrumbName: i18n.d('项目主页'),
+          breadcrumbName: i18n.t('dop:项目主页'),
           layout: { fullHeight: true, className: 'project-homepage-wrapper' },
           getComp: (cb) => cb(import('project/pages/homepage'), 'ProjectHomepage'),
         },
