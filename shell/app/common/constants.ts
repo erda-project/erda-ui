@@ -23,21 +23,21 @@ export const DOC_HELP_HOME = `https://${DOC_DOMAIN}`;
 export const DOC_PREFIX = `${DOC_HELP_HOME}/${process.env.mainVersion}`;
 
 // cmp > cluster overview > when cluster is empty, guid page
-export const DOC_CMP_CLUSTER_CREATE = `${DOC_PREFIX}/manual/o_m/create-cluster.html`;
+export const DOC_CMP_CLUSTER_CREATE = `${DOC_PREFIX}/manual/cmp/guide/cluster/management.html`;
 
 // project > setting > cluster setting > resource manage help doc
-export const DOC_PROJECT_RESOURCE_MANAGE = `${DOC_PREFIX}/manual/deploy/resource-management.html#管理配额`;
+export const DOC_PROJECT_RESOURCE_MANAGE = `${DOC_PREFIX}/manual/cmp/guide/cluster/management.html#修改集群配置`;
 
 // user dashboard > no org guide page
-export const DOC_ORG_INTRO = `${DOC_PREFIX}/manual/platform-design.html#租户-组织`;
-export const DOC_PROJECT_INTRO = `${DOC_PREFIX}/manual/platform-design.html#项目和应用`;
+export const DOC_ORG_INTRO = `${DOC_PREFIX}/manual/quick-start/newbie.html#加入组织`;
+export const DOC_PROJECT_INTRO = `${DOC_PREFIX}/manual/quick-start/newbie.html#加入项目`;
 
 // msp guide doc
 export const DOC_MSP_HOME_PAGE = `${DOC_PREFIX}/manual/msp/guides/platform/msp-project.html`;
-export const DOC_MSP_API_GATEWAY = `${DOC_PREFIX}/manual/microservice/api-gateway.html`;
-export const DOC_MSP_REGISTER = `${DOC_PREFIX}/manual/microservice/dubbo.html`;
-export const DOC_MSP_CONFIG_CENTER = `${DOC_PREFIX}/manual/deploy/config-center.html`;
-export const DOC_MSP_MONITOR = `${DOC_PREFIX}/manual/microservice/use-apm-monitor-app.html`;
+export const DOC_MSP_API_GATEWAY = `${DOC_PREFIX}/manual/msp/guides/apigw/policy.html`;
+export const DOC_MSP_REGISTER = `${DOC_PREFIX}/manual/msp/guides/nc/dubbo.html`;
+export const DOC_MSP_CONFIG_CENTER = `${DOC_PREFIX}/manual/dop/guides/deploy/config-center.html`;
+export const DOC_MSP_MONITOR = `${DOC_PREFIX}/manual/msp/concepts/apm.html#apm`;
 export const DOC_MSP_LOG_ANALYSIS = `${DOC_PREFIX}/manual/msp/guides/log/quickstart.html`;
 
 export const { erdaEnv = {} } = window;
