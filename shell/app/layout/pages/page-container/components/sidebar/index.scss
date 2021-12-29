@@ -46,6 +46,7 @@
     color: $color-text-desc;
     height: $breadcrumb-height;
     width: 28px;
+    z-index: 9;
     .icon {
       transition: opacity 0.1s ease-in-out;
       &:hover {
