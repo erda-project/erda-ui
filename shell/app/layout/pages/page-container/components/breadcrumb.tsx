@@ -168,15 +168,15 @@ const ErdaBreadcrumb = () => {
         breadcrumbName: currentApp.breadcrumbName,
         path: typeof currentApp.path === 'function' ? currentApp.path(_params || {}, routes) : currentApp.href,
       };
-      filteredRoutes.unshift(eternalApp as IRoute);
-      setAllRoutes(filteredRoutes);
+      filteredRoutes.reverse().unshift(eternalApp as IRoute);
+      setAllRoutes(filteredRoutes.slice(0, -1));
     }
   }, [currentApp, routes]);
 
   const paths: string[] = [];
 
   return (
-    <div className="absolute z-10 left-28 top-0 flex items-center flex-shrink-0 h-9 text-xs">
+    <div className="flex items-center flex-shrink-0 h-9 text-xs">
       {allRoutes.map((item, i) => {
         const isLast = i === allRoutes.length - 1;
         paths.push(getPath(item.path, params));
