@@ -20,7 +20,7 @@ import { Avatar, Spin, Tooltip, Popconfirm, message } from 'antd';
 import { regRules, goTo } from 'common/utils';
 import { getAvatarChars } from 'app/common/utils';
 import moment from 'moment';
-import { useHoverDirty, useMount } from 'react-use';
+import { useHoverDirty } from 'react-use';
 import { ReadMeMarkdown } from './readme-markdown';
 import projectStore from 'app/modules/project/stores/project';
 import { useUserMap } from 'core/stores/userMap';
@@ -43,8 +43,7 @@ interface DataProps {
   links: LinkItem[];
 }
 
-const emptyMarkdownContent =
-  '\n# readme\n\n\n*此处可以尽情发挥你文档小能手的才华*\n\n*可以通过一段酷炫的图文让项目成员都清楚项目的背景、目标等信息*\n\n*也可以共享项目文档、规范等材料*\n\n*还可以。。。。*';
+const emptyMarkdownContent = i18n.t('dop:empty-markdown-content');
 
 const iconStyle = {
   className: 'text-default-4',
@@ -109,9 +108,9 @@ export const ProjectHomepage = () => {
   const userMap = useUserMap();
   const projectOwner = userMap[owners?.[0]];
 
-  useMount(() => {
+  React.useEffect(() => {
     getProjectHomepage.fetch({ projectID: projectId });
-  });
+  }, [projectId]);
 
   React.useEffect(() => {
     setData(projectHomepageInfo);
@@ -221,7 +220,7 @@ export const ProjectHomepage = () => {
               {map(data?.links, (item) => (
                 <LinkRow item={item} handleEditLink={handleEditLink} handleDelete={handleDelete} key={item.id} />
               ))}
-              {data?.links.length < MAX_LINKS_LENGTH && (
+              {(data?.links.length < MAX_LINKS_LENGTH || !data) && (
                 <div className="flex items-center mb-4 cursor-pointer" onClick={handleAdd}>
                   <ErdaIcon type="lianjie" {...iconStyle} />
                   <div
