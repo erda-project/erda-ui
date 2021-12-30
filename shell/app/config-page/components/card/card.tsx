@@ -109,7 +109,7 @@ export const CardItem = (props: CardItemProps) => {
               <div className="mt-3 bg-default-01 flex justify-around p-2">
                 {textMeta.map((item, idx) => {
                   return (
-                    <OperationAction key={idx} operations={item.operations} {...item.extraProps}>
+                    <OperationAction key={idx} operations={item.operations} tip={item.tip} {...item.extraProps}>
                       <TextBlockInfo align="center" size="small" main={item.mainText} sub={item.subText} />
                     </OperationAction>
                   );
@@ -120,7 +120,7 @@ export const CardItem = (props: CardItemProps) => {
               <div className="mt-3 flex">
                 {iconOperations.map((item, idx) => {
                   return (
-                    <OperationAction key={idx} operations={item.operations} {...item.extraProps}>
+                    <OperationAction key={idx} operations={item.operations} tip={item.tip} {...item.extraProps}>
                       <ErdaIcon
                         type={item.icon}
                         size={20}

@@ -24,9 +24,10 @@ interface IOperationAction {
   children: React.ReactElement;
   onClick: (e?: any) => void;
   tipProps?: Obj;
+  tip?: string;
 }
 export const OperationAction = (props: IOperationAction) => {
-  const { operation, children, onClick, tipProps, operations } = props;
+  const { operation, children, onClick, tipProps, operations, tip } = props;
   if (!operation && !operations) return children;
   let curOp: CP_COMMON.Operation = operation;
   if (operations) {
@@ -35,7 +36,7 @@ export const OperationAction = (props: IOperationAction) => {
       curOp = clickOp[0];
     }
   }
-  const curTip = curOp.disabledTip || curOp.tip;
+  const curTip = curOp.disabledTip || curOp.tip || tip;
   if (curOp.disabled === true) {
     // 无权限操作
     return (
@@ -65,7 +66,7 @@ export const OperationAction = (props: IOperationAction) => {
   } else {
     // 普通的操作
     return (
-      <Tooltip title={curOp.tip}>
+      <Tooltip title={curTip}>
         {React.cloneElement(children, {
           key: curOp.key,
           onClick: (e: MouseEvent) => {
