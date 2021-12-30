@@ -418,7 +418,7 @@ function getProjectRouter(): RouteConfigItem[] {
             {
               path: 'updateRelease/:releaseID',
               pageName: i18n.t('edit {name}', { name: i18n.t('Artifact') }),
-              getComp: (cb) => cb(import('project/pages/release/components/form')),
+              getComp: (cb) => cb(import('project/pages/release/components/update')),
             },
           ],
         },

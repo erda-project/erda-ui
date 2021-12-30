@@ -27,9 +27,10 @@ declare namespace RELEASE {
     createdAt: string;
     labels: Labels;
     isFormal: boolean;
-    markdown: string;
+    changelog: string;
     images: string[];
     diceyml: string;
+    isProjectRelease?: boolean;
   }
 
   interface ApplicationDetail {

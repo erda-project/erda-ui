@@ -30,7 +30,7 @@ import { getReleaseList, getReleaseDetail, addRelease, updateRelease } from 'pro
 
 import './form.scss';
 
-const ReleaseForm = ({ readyOnly = false }: { readyOnly: boolean }) => {
+const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   const formRef = React.useRef<FormInstance>();
   const { params } = routeInfoStore.getState((s) => s);
   const { projectId, releaseID } = params;

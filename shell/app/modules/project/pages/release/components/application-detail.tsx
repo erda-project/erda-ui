@@ -39,15 +39,17 @@ const ReleaseApplicationDetail = () => {
     userId,
     createdAt,
     labels = {} as RELEASE.Labels,
-    markdown,
+    changelog,
     images = [],
     isFormal,
   } = releaseDetail;
 
   const getDetail = React.useCallback(async () => {
     if (releaseID) {
-      const detail = await getReleaseDetail({ releaseID });
-      setReleaseDetail(detail);
+      const res = await getReleaseDetail({ releaseID });
+      if (res.success) {
+        setReleaseDetail(res.data);
+      }
     }
   }, [releaseID, setReleaseDetail]);
 
@@ -103,7 +105,7 @@ const ReleaseApplicationDetail = () => {
             <div className="mb-2">
               <div className="text-black-400 mb-2">{i18n.t('content')}</div>
               <div>
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown || i18n.t('dop:no content yet')}</ReactMarkdown>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{changelog || i18n.t('dop:no content yet')}</ReactMarkdown>
               </div>
             </div>
           </div>
