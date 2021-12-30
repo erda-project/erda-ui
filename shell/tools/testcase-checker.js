@@ -36,7 +36,10 @@ const typeMap = {
  * @returns {{exist: boolean, file: string}}
  */
 const caseFileExist = (file) => {
-  const caseFile = file.replace('app/common', 'app/common/__tests__').split('.')[0];
+  let caseFile = file.replace('app/common', 'app/common/__tests__').split('.')[0];
+  if (caseFile.endsWith('/index')) {
+    caseFile = caseFile.slice(0, -6); // incase file path like app/common/components/icon/index.tsx, remove /index and match app/common/__tests__/components/icon.test.tsx
+  }
   const caseFileTs = `${caseFile}.test.ts`;
   const caseFileTsx = `${caseFile}.test.tsx`;
   const res = {
@@ -46,8 +49,7 @@ const caseFileExist = (file) => {
   if (fs.existsSync(caseFileTsx)) {
     res.exist = true;
     res.file = caseFileTsx;
-  }
-  if (fs.existsSync(caseFileTs)) {
+  } else if (fs.existsSync(caseFileTs)) {
     res.exist = true;
     res.file = caseFileTs;
   }

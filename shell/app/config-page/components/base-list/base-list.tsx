@@ -35,11 +35,13 @@ const List = (props: CP_BASE_LIST.Props) => {
     () =>
       (isLoadMore ? state.combineList : list).map((item: CP_BASE_LIST.ListItem) => {
         const extra: any = [];
-        const kvInfos = item.kvInfos?.map((infoItem) => {
+        const kvInfos = item.kvInfos?.map((infoItem, idx) => {
           return {
             ...infoItem,
             compWapper: (children: React.ReactElement) => (
               <OperationAction
+                key={idx}
+                tip={infoItem.tip}
                 operations={infoItem.operations}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -54,11 +56,13 @@ const List = (props: CP_BASE_LIST.Props) => {
           };
         });
 
-        const hoverIcons = item.columnsInfo?.hoverIcons?.map((iconItem) => {
+        const hoverIcons = item.columnsInfo?.hoverIcons?.map((iconItem, idx) => {
           return {
             ...iconItem,
             compWapper: (children: React.ReactElement) => (
               <OperationAction
+                key={idx}
+                tip={iconItem.tip}
                 operations={iconItem.operations}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -86,7 +90,12 @@ const List = (props: CP_BASE_LIST.Props) => {
             icon: opItem.icon,
             onClick: clickFn,
             text: (
-              <OperationAction tipProps={{ placement: 'left' }} operations={opItem.operations} onClick={clickFn}>
+              <OperationAction
+                tip={opItem.tip}
+                tipProps={{ placement: 'left' }}
+                operations={opItem.operations}
+                onClick={clickFn}
+              >
                 <div>{opItem.text}</div>
               </OperationAction>
             ),
@@ -106,6 +115,7 @@ const List = (props: CP_BASE_LIST.Props) => {
                     key: 'star',
                     compWapper: (children: React.ReactElement) => (
                       <OperationAction
+                        key={'star'}
                         operation={star}
                         onClick={(e) => {
                           e.stopPropagation();

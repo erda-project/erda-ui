@@ -17,7 +17,6 @@ const themeColors = require('./theme-color');
 
 module.exports = {
   important: true,
-  darkMode: false, // or 'media' or 'class'
   corePlugins: {
     preflight: false,
     container: false,
@@ -150,11 +149,18 @@ module.exports = {
       addUtilities(contentUtilities, ['before']);
     }),
   ],
-  purge: {
-    enabled: process.env.NODE_ENV === 'production',
-    content: ['./app/**/*.tsx', './app/**/*.jsx'],
-    options: {
-      safelist: [/red/, /blue/, /yellow/, /green/, /orange/, /gray/, /cyan/, /grey/, /white/, /purple/, /flex-\d/],
-    },
-  },
+  content: ['./app/**/*.tsx', './app/**/*.jsx'],
+  safelist: [
+    { pattern: /red/ },
+    { pattern: /blue/ },
+    { pattern: /yellow/ },
+    { pattern: /green/ },
+    { pattern: /orange/ },
+    { pattern: /gray/ },
+    { pattern: /cyan/ },
+    { pattern: /grey/ },
+    { pattern: /white/ },
+    { pattern: /purple/ },
+    { pattern: /flex-\d/ },
+  ],
 };

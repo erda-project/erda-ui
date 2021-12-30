@@ -28,6 +28,8 @@ import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import OrgSelector from './org-selector';
 import moment from 'moment';
+import ActiveRank from './active-rank';
+import PersonalContribute from './personal-contribute';
 import './personal-home.scss';
 
 const getInvitationTime = () => {
@@ -142,17 +144,21 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
 
   const UserProfileComp = React.useCallback(() => {
     return (
-      <UserProfile
-        className="mt-20"
-        data={{
-          id: loginUser.id,
-          name: loginUser.nick || loginUser.name,
-          avatar: loginUser.avatar,
-          email: loginUser.email,
-          phone: loginUser.phone,
-          lastLoginTime: loginUser.lastLoginAt,
-        }}
-      />
+      <div className="space-y-4">
+        <UserProfile
+          className="mt-20"
+          data={{
+            id: loginUser.id,
+            name: loginUser.nick || loginUser.name,
+            avatar: loginUser.avatar,
+            email: loginUser.email,
+            phone: loginUser.phone,
+            lastLoginTime: loginUser.lastLoginAt,
+          }}
+        />
+        <PersonalContribute currentUser={loginUser} />
+        <ActiveRank currentUser={loginUser} />
+      </div>
     );
   }, [loginUser]);
 
@@ -164,7 +170,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
             scene="star-project"
             direction="row"
             tip={i18n.t('no available {item}', { item: i18n.t('dop:star project') })}
-            desc={i18n.t('dop:choose to set as a star project from the list of my projects below')}
+            desc={i18n.t('dop:choose frequently used project and set them as stars for easy operation')}
           />
         ),
 
@@ -186,7 +192,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
             direction="row"
             scene="star-app"
             tip={i18n.t('no available {item}', { item: i18n.t('dop:star app') })}
-            desc={i18n.t('dop:choose to set as a star app from the list of my apps below')}
+            desc={i18n.t('dop:choose frequently used applications and set them as stars for easy operation')}
           />
         ),
         defaultCardImg: ImgMap.frontImg_default_app_icon,
@@ -262,7 +268,6 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
       },
       messageList: {
         props: {
-          columnsInfoWidth: { text: 60 },
           defaultLogo: <ErdaIcon type="tongzhi" disableCurrent size={28} />,
           EmptyHolder: EmptyMap.messageList.emptyHolder,
         },
