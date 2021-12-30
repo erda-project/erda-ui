@@ -10,10 +10,10 @@
       color: $white;
     }
     &:first-child {
-      border-radius: 1px 0 0 1px;
+      border-radius: 2px 0 0 2px;
     }
     &:last-child {
-      border-radius: 0 1px 1px 0;
+      border-radius: 0 2px 2px 0;
     }
   }
 }
