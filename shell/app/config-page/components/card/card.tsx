@@ -79,7 +79,7 @@ export const CardItem = (props: CardItemProps) => {
                   <ErdaIcon type={icon} size={28} className="head-icon mr-1" />
                 ) : null}
                 <div className="flex items-center overflow-hidden">
-                  <div className="font-medium font-ms text-default truncate hover:text-purple-deep">{title}</div>
+                  <div className="text-base text-default truncate hover:text-purple-deep">{title}</div>
                 </div>
 
                 {titleState ? (
