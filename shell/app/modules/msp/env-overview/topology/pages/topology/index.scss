@@ -30,29 +30,6 @@
         color: rgba($white, 0.9) !important;
       }
     }
-
-    .time-select {
-      .time-range,
-      .auto-refresh,
-      .manual-refresh {
-        background: rgba($white, 0.06) !important;
-        color: rgba($white, 0.9) !important;
-
-        .ant-select {
-          color: rgba($white, 0.9) !important;
-
-          .ant-select-arrow {
-            color: rgba($white, 0.6) !important;
-          }
-
-          &:hover {
-            .ant-select-arrow {
-              color: rgba($white, 0.9) !important;
-            }
-          }
-        }
-      }
-    }
   }
 
   .topology-detail {

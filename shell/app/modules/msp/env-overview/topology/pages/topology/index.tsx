@@ -138,7 +138,7 @@ const Topology = () => {
                 setFilterTags(e);
               }}
             />
-            <TimeSelectWithStore className="ml-3" />
+            <TimeSelectWithStore className="ml-3" mode="dark" />
           </div>
           <div className="flex-1 flex min-h-0">
             <TopologyOverview data={topologyData} onClick={handleSelectNodeType} />
