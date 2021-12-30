@@ -541,4 +541,12 @@ export const projectPerm = {
       },
     },
   },
+  release: {
+    name: i18n.t('Artifact'),
+    create: {
+      name: i18n.t('create {name}', { name: i18n.t('Artifact') }),
+      pass: false,
+      role: ['Owner', 'Lead', 'PM'],
+    },
+  },
 };
