@@ -1,0 +1,17 @@
+.release-form {
+  .ant-btn {
+    background-color: $color-default-06;
+    border-color: $color-default-06;
+    color: $color-default-8;
+  }
+
+  .ant-btn-primary {
+    background-color: $color-default;
+    color: $white;
+  }
+
+  input {
+    background-color: $color-default-04 !important;
+    border: none;
+  }
+}

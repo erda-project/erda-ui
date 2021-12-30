@@ -23,6 +23,7 @@ import {
   ITERATION_DETAIL_TABS,
   TEST_STATISTICS_TABS,
   MEASURE_TABS,
+  RELEASE_TABS,
 } from './tabs';
 
 function getProjectRouter(): RouteConfigItem[] {
@@ -34,7 +35,7 @@ function getProjectRouter(): RouteConfigItem[] {
       routes: [
         {
           path: 'apps',
-          breadcrumbName: i18n.t('dop:Applications'),
+          breadcrumbName: i18n.t('dop:applications'),
           layout: { fullHeight: true },
           getComp: (cb) => cb(import('project/pages/apps/app-list'), 'ProjectAppList'),
         },
@@ -382,6 +383,44 @@ function getProjectRouter(): RouteConfigItem[] {
           pageName: i18n.t('role permissions description'),
           layout: { showSubSidebar: false, fullHeight: true },
           getComp: (cb) => cb(import('user/common/perm-editor/perm-editor'), 'PermEditor'),
+        },
+        {
+          path: 'release',
+          pageName: i18n.t('artifact management'),
+          routes: [
+            {
+              path: 'project',
+              tabs: RELEASE_TABS,
+              getComp: (cb) => cb(import('project/pages/release/project')),
+              layout: { noWrapper: true },
+            },
+            {
+              path: 'application',
+              tabs: RELEASE_TABS,
+              getComp: (cb) => cb(import('project/pages/release/application')),
+              layout: { noWrapper: true },
+            },
+            {
+              path: 'project/:releaseID',
+              pageName: `${i18n.t('Artifact')}${i18n.t('detail')}`,
+              getComp: (cb) => cb(import('project/pages/release/components/project-detail')),
+            },
+            {
+              path: 'application/:releaseID',
+              pageName: `${i18n.t('Artifact')}${i18n.t('detail')}`,
+              getComp: (cb) => cb(import('project/pages/release/components/application-detail')),
+            },
+            {
+              path: 'createRelease',
+              pageName: i18n.t('create {name}', { name: i18n.t('Artifact') }),
+              getComp: (cb) => cb(import('project/pages/release/components/form')),
+            },
+            {
+              path: 'updateRelease/:releaseID',
+              pageName: i18n.t('edit {name}', { name: i18n.t('Artifact') }),
+              getComp: (cb) => cb(import('project/pages/release/components/form')),
+            },
+          ],
         },
       ],
     },

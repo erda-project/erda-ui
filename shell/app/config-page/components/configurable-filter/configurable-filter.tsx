@@ -29,7 +29,7 @@ const ConfigurableFilter = ({
 }: CP_CONFIGURABLE_FILTER.Props) => {
   const { processField = defaultProcessField } = props || {};
   const { values = {}, selectedFilterSet } = state || {};
-  const { conditions = [], filterSet = [] } = data || {};
+  const { conditions = [], filterSet = [], hideSave } = data || {};
   const { onFilterChange } = customOp || {};
 
   React.useEffect(() => {
@@ -65,6 +65,7 @@ const ConfigurableFilter = ({
       onDeleteFilter={onDeleteFilter}
       onSaveFilter={onSaveFilter}
       processField={processField}
+      hideSave={hideSave}
     />
   );
 };

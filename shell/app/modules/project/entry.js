@@ -25,6 +25,7 @@ import testCaseStore from './stores/test-case';
 import testEnvStore from './stores/test-env';
 import testSetStore from './stores/test-set';
 import testPlanStore from './stores/test-plan';
+import releaseStore from './stores/release';
 
 export default (registerModule) => {
   return registerModule({
@@ -44,6 +45,7 @@ export default (registerModule) => {
       testEnvStore,
       testSetStore,
       testPlanStore,
+      releaseStore,
     ],
   });
 };
