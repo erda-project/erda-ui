@@ -53,10 +53,10 @@ export const NavItem = ({ icon, label, link, onClick }: NavItemProps) => {
   const content = (
     <div
       key={label}
-      className="erda-global-nav-item relative flex items-center justify-center cursor-pointer flex-col w-full h-11"
+      className="erda-global-nav-item relative flex-all-center cursor-pointer w-full h-11"
       onClick={onClick}
     >
-      <div className="relative h-6 w-6">{icon}</div>
+      {icon}
       <div className="name px-3 text-white shadow-card-lg rounded-sm">{label}</div>
     </div>
   );
@@ -142,33 +142,29 @@ const Navigation = () => {
       </div>
       {platformEntries.map((item) => {
         return (
-          <div
+          <NavItem
             key={item.key}
-            className="erda-global-nav-item relative flex items-center justify-center cursor-pointer flex-col w-full h-11"
-          >
-            <NavItem
-              label={item.name}
-              link={item.href}
-              onClick={() => layoutStore.reducers.switchToApp(item.key)}
-              icon={
-                currentApp.key === item.key ? (
-                  <ErdaIcon className="absolute icon active-icon opacity-100" size={24} type={item.icon} />
-                ) : (
-                  <>
-                    <ErdaIcon className="absolute icon active-icon" size={24} type={item.icon} />
-                    <ErdaIcon className="absolute icon normal-icon" size={24} type={`${item.icon}-normal`} />
-                  </>
-                )
-              }
-            />
-          </div>
+            label={item.name}
+            link={item.href}
+            onClick={() => layoutStore.reducers.switchToApp(item.key)}
+            icon={
+              currentApp.key === item.key ? (
+                <ErdaIcon className="absolute icon active-icon opacity-100" size={24} type={item.icon} />
+              ) : (
+                <>
+                  <ErdaIcon className="absolute icon active-icon" size={24} type={item.icon} />
+                  <ErdaIcon className="absolute icon normal-icon" size={24} type={`${item.icon}-normal`} />
+                </>
+              )
+            }
+          />
         );
       })}
       <div className={`w-full flex flex-1 flex-col items-center justify-end`}>
         {bottomItems.map((item) => (
           <NavItem key={item.label} label={item.label} icon={item.icon} onClick={item.onClick} />
         ))}
-        <div className={`erda-global-nav-avatar-item my-4 flex items-center justify-center cursor-pointer`}>
+        <div className={`erda-global-nav-avatar-item my-4 flex-all-center cursor-pointer`}>
           <UserMenu />
         </div>
       </div>
