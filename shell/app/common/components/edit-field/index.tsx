@@ -26,7 +26,6 @@ import remarkGfm from 'remark-gfm';
 import { eventHub } from 'common/utils/event-hub';
 import { isZh } from 'core/i18n';
 import layoutStore from 'layout/stores/layout';
-
 import './index.scss';
 
 const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) => {
@@ -221,7 +220,7 @@ interface IProps {
   valueRender?: (value: any) => React.ReactNode;
 }
 
-const EditField = React.forwardRef((props: IProps, _compRef) => {
+const Field = React.forwardRef((props: IProps, _compRef) => {
   const {
     name,
     type,
@@ -407,5 +406,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     </div>
   );
 });
+
+const EditField = Object.assign(Field, { ScalableImage });
 
 export default EditField;

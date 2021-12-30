@@ -23,6 +23,18 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
 
   const menu = [
     {
+      href: goTo.resolve.projectHomepage(), // `/dop/projects/${projectId}/issues/all`,
+      icon: <ErdaIcon type="shouye" />,
+      text: i18n.t('dop:Project homepage'),
+      subtitle: i18n.t('dop:home page'),
+      show:
+        projectPerm.backLog.viewBackLog.pass ||
+        projectPerm.iteration.read.pass ||
+        projectPerm.issue.viewIssue.pass ||
+        projectPerm.epic.read.pass ||
+        projectPerm.dashboard.viewDashboard.pass,
+    },
+    {
       href: goTo.resolve.projectAllIssue(), // `/dop/projects/${projectId}/issues/all`,
       icon: <ErdaIcon type="xiangmuxietong" />,
       text: i18n.t('dop:Projects'),
@@ -89,6 +101,18 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       text: i18n.t('dop:Applications'),
       subtitle: i18n.t('App'),
       show: projectPerm.appList.viewAppList.pass,
+      subMenu: [
+        {
+          href: goTo.resolve.projectApps(),
+          text: i18n.t('dop:applications'),
+          prefix: `${goTo.resolve.projectApps()}`,
+        },
+        {
+          href: goTo.resolve.projectRelease(),
+          text: i18n.t('artifact management'),
+          prefix: `${goTo.resolve.projectRelease()}`,
+        },
+      ],
     },
     {
       href: goTo.resolve.project(), // `/dop/projects/${projectId}/apps`,

@@ -27,20 +27,21 @@ import './index.scss';
     showSizeChanger // 是否选择pageSize的下拉选择框，默认为true
     onChange // 翻页或者pageSize选择时触发，第一个参数为current，第二个参数为pageSize
  */
-interface IPaginationProps {
+export interface IPaginationProps {
   total: number;
   current: number;
   pageSize?: number;
   onChange: (page: number, pageSize: number) => void;
+  hidePageSizeChange?: boolean;
 }
 
-export interface IPaginationJumpProps {
+interface IPaginationJumpProps {
   pagination: IPaginationProps;
   hidePopover: () => void;
 }
 
 const Pagination = (pagination: IPaginationProps) => {
-  const { total = 0, current = 1, pageSize = PAGINATION.pageSize, onChange } = pagination;
+  const { total = 0, current = 1, pageSize = PAGINATION.pageSize, onChange, hidePageSizeChange = false } = pagination;
 
   const [goToVisible, setGoToVisible] = React.useState(false);
 
@@ -92,15 +93,17 @@ const Pagination = (pagination: IPaginationProps) => {
           <ErdaIcon type="right" size={18} color="currentColor" />
         </div>
       </div>
-      <Dropdown
-        trigger={['click']}
-        overlay={pageSizeMenu}
-        align={{ offset: [0, 5] }}
-        overlayStyle={{ minWidth: 120 }}
-        getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-      >
-        <span className="bg-hover px-3 py-1 cursor-pointer">{i18n.t('{size} items / page', { size: pageSize })}</span>
-      </Dropdown>
+      {!hidePageSizeChange ? (
+        <Dropdown
+          trigger={['click']}
+          overlay={pageSizeMenu}
+          align={{ offset: [0, 5] }}
+          overlayStyle={{ minWidth: 120 }}
+          getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+        >
+          <span className="bg-hover px-3 py-1 cursor-pointer">{i18n.t('{size} items / page', { size: pageSize })}</span>
+        </Dropdown>
+      ) : null}
     </div>
   );
 };
@@ -135,7 +138,7 @@ const PaginationJump = ({ pagination, hidePopover }: IPaginationJumpProps) => {
   };
 
   return (
-    <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
+    <div className="flex items-center erda-pagination-jump" onClick={(e) => e.stopPropagation()}>
       {i18n.t('Go to page')}
       <Input
         className="mx-2"

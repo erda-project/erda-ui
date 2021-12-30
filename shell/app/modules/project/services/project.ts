@@ -67,7 +67,14 @@ const apis = {
   getProjects: {
     api: '/api/projects',
   },
+  getProjectHomepage: {
+    api: '/api/project-home/:projectID',
+  },
+  saveProjectHomepage: {
+    api: 'post@/api/project-home/:projectID',
+  },
 };
+
 export const saveTestReport = apiCreator<(params: Merge<PROJECT.ITestReportBody, { projectId: string }>) => void>(
   apis.saveTestReport,
 );
@@ -77,3 +84,11 @@ export const getTestReportDetail = apiCreator<
 >(apis.getTestReportDetail);
 
 export const getProjectListNew = apiCreator<(p: PROJECT.ListQuery) => IPagingResp<PROJECT.Detail>>(apis.getProjects);
+
+export const getProjectHomepage = apiCreator<(params: { projectID: string }) => PROJECT.HomepageInfo>(
+  apis.getProjectHomepage,
+);
+
+export const saveProjectHomepage = apiCreator<(p: PROJECT.HomepageInfo) => PROJECT.HomepageInfo>(
+  apis.saveProjectHomepage,
+);

@@ -26,11 +26,21 @@ interface IProps {
   formItemLayout?: object;
   onlyItems?: boolean;
   style?: object;
+  readOnly?: boolean;
 }
 
 class RenderPureForm extends React.Component<IProps> {
   render() {
-    const { list, form, className = '', layout = 'horizontal', formItemLayout, onlyItems = false, style } = this.props;
+    const {
+      list,
+      form,
+      className = '',
+      layout = 'horizontal',
+      formItemLayout,
+      onlyItems = false,
+      style,
+      readOnly = false,
+    } = this.props;
     const itemLayout = layout === 'horizontal' ? formItemLayout : null;
     const items = list.map((info, i) => {
       if (info.subList) {
@@ -55,7 +65,13 @@ class RenderPureForm extends React.Component<IProps> {
                 }
                 return (
                   <Col key={`sub-field${String(j)}`} span={span}>
-                    <RenderFormItem form={form} formItemLayout={itemLayout} formLayout={layout} {...subField} />
+                    <RenderFormItem
+                      form={form}
+                      formItemLayout={itemLayout}
+                      formLayout={layout}
+                      {...subField}
+                      readOnly={readOnly}
+                    />
                   </Col>
                 );
               })}
@@ -69,7 +85,14 @@ class RenderPureForm extends React.Component<IProps> {
         return subRows;
       } else {
         return (
-          <RenderFormItem key={info.name || i} form={form} formItemLayout={itemLayout} formLayout={layout} {...info} />
+          <RenderFormItem
+            key={info.name || i}
+            form={form}
+            formItemLayout={itemLayout}
+            formLayout={layout}
+            {...info}
+            readOnly={readOnly}
+          />
         );
       }
     });

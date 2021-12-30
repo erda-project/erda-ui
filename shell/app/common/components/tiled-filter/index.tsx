@@ -159,7 +159,7 @@ const TiledFilter = (props: IProps) => {
         <div className="flex items-center">
           {curValLength ? (
             <>
-              <span>{`${i18n.t('selected {xx}', { xx: `${curValLength}${i18n.t('common:items')}` })}`}</span>
+              <span>{`${i18n.t('selected {name}', { name: `${curValLength}${i18n.t('common:items')}` })}`}</span>
               <span className="fake-link ml-2 mr-4" onClick={clearSelect}>
                 {i18n.t('common:clear selected')}
               </span>
@@ -184,11 +184,7 @@ const TiledFilter = (props: IProps) => {
         </div>
         <div className={`flex items-center expand-area`} onClick={() => setExpand(!expand)}>
           <span className="mr-2">{expand ? i18n.t('fold') : i18n.t('expand')}</span>
-          <ErdaIcon
-            type="down"
-            className={`expand-icon flex items-center ${expand ? 'expand' : ''}`}
-            size="16"
-          />
+          <ErdaIcon type="down" className={`expand-icon flex items-center ${expand ? 'expand' : ''}`} size="16" />
         </div>
       </div>
     </div>

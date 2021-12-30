@@ -122,6 +122,8 @@ export interface IFormItem {
   addOne?: (name: string | undefined) => void;
   dropOne?: (name: string | undefined) => void;
   getComp?: ({ form }: { form: FormInstance }) => React.ReactElement<any> | string;
+  readOnlyRender?: (value: Obj | string | number) => React.ReactElement<any> | string;
+  readOnly?: boolean;
 }
 
 interface IOption {
@@ -199,6 +201,8 @@ const RenderFormItem = ({
   tailFormItemLayout,
   noColon = false,
   isTailLayout, // no label, put some offset to align right part
+  readOnly,
+  readOnlyRender,
 }: IFormItem) => {
   let ItemComp = null;
   const specialConfig: any = {};
@@ -286,6 +290,9 @@ const RenderFormItem = ({
     case 'custom':
       // getFieldDecorator不能直接包裹FunctionalComponent，see https://github.com/ant-design/ant-design/issues/11324
       ItemComp = <ClassWrapper {...itemProps}>{(getComp as Function)({ form })}</ClassWrapper>;
+      if (readOnly && readOnlyRender) {
+        ItemComp = <CustomRender readOnlyRender={readOnlyRender} />;
+      }
       break;
     case 'cascader':
       specialConfig.valuePropType = 'array';
@@ -294,6 +301,9 @@ const RenderFormItem = ({
     case 'input':
     default:
       ItemComp = <Input {...itemProps} className={classnames('input-with-icon', itemProps.className)} size={size} />;
+      if (readOnly) {
+        ItemComp = readOnlyRender ? <CustomRender readOnlyRender={readOnlyRender} /> : <InputReadOnly />;
+      }
       break;
   }
 
@@ -358,7 +368,7 @@ const RenderFormItem = ({
       label={_label}
       {...layout}
       className={`${itemProps.type === 'hidden' ? 'hidden' : ''} ${className}`}
-      required={required}
+      required={!readOnly && required}
     >
       <FormItem
         name={typeof name === 'string' && name?.includes('.') ? name.split('.') : name}
@@ -502,7 +512,7 @@ const DateRange = ({
           }`}
           onClick={() => onChange([])}
         >
-          清除
+          {i18n.t('common:clear')}
         </div>
       ) : null}
     </div>
@@ -548,6 +558,14 @@ const TagsSelect = ({ size, options, value = [], onChange, ...restItemProps }: T
         : options.map((item) => renderTagsSelectOption({ ...item, checked: value.includes(item.value) }))}
     </Select>
   );
+};
+
+const InputReadOnly = ({ value }: { value?: string }) => {
+  return <>{value || '-'}</>;
+};
+
+const CustomRender = ({ value, readOnlyRender }: { value?: string; readOnlyRender: Function }) => {
+  return <>{readOnlyRender(value) || '-'}</>;
 };
 
 export default RenderFormItem;

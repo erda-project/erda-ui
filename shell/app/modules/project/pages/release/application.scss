@@ -1,0 +1,37 @@
+.release-app-list {
+  border-right: 1px solid $color-default-1;
+
+  @media screen and (max-width: 1440px) {
+    width: 240px;
+  }
+  @media screen and (min-width: 1441px) and (max-width: 2560px) {
+    width: 360px;
+  }
+  @media screen and (min-width: 2561px) {
+    width: 480px;
+  }
+}
+
+.release-right {
+  .full-spin-height {
+    height: calc(100% - 40px);
+  }
+
+  .dice-cp.container {
+    height: 100%;
+
+    & > div {
+      height: 100%;
+    }
+  }
+
+  .erda-table {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .ant-table-wrapper {
+      flex: 1;
+    }
+  }
+}

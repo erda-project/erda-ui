@@ -117,7 +117,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
           <div className="mt-4">
             <div className="font-medium text-lg text-default">{`
           ${getInvitationTime()}, ${loginUser.nick || loginUser.name}, ${i18n.t(
-              'Welcome to a one-stop cloud native PaaS platform - Erda',
+              'Welcome to the personal workbench',
             )}`}</div>
             <div className="text-xs text-default-6">{`${i18n.t('dop:Tody is {time}', {
               time: ` ${moment().format('YYYY/MM/DD')}  ${i18n.t('{week}', { week: Days[new Date().getDay()] })}`,
@@ -216,7 +216,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
             scene="star-project"
             direction="row"
             tip={i18n.t('no available {item}', { item: i18n.t('dop:star project') })}
-            desc={i18n.t('dop:choose to set as a star project from the list of my projects below')}
+            desc={i18n.t('dop:choose frequently used project and set them as stars for easy operation')}
           />
         ),
 
@@ -238,7 +238,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
             direction="row"
             scene="star-app"
             tip={i18n.t('no available {item}', { item: i18n.t('dop:star app') })}
-            desc={i18n.t('dop:choose to set as a star app from the list of my apps below')}
+            desc={i18n.t('dop:choose frequently used applications and set them as stars for easy operation')}
           />
         ),
         defaultCardImg: ImgMap.frontImg_default_app_icon,

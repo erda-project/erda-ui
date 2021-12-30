@@ -146,6 +146,7 @@ export enum pages {
   projectService = '/{orgName}/dop/projects/{projectId}/service',
   testPlanDetail = '/{orgName}/dop/projects/{projectId}/manual/testPlan/{testPlanID}?caseId={caseId}&testSetID={testSetID}',
   projectApps = '/{orgName}/dop/projects/{projectId}/apps',
+  projectHomepage = '/{orgName}/dop/projects/{projectId}/homepage',
   projectAllIssue = '/{orgName}/dop/projects/{projectId}/issues/all',
   projectIssue = '/{orgName}/dop/projects/{projectId}/issues/{type}',
   projectIssueDetail = '/{orgName}/dop/projects/{projectId}/issues/{type}?id={id}&type={type}',
@@ -169,6 +170,9 @@ export enum pages {
   projectTestReport = '/{orgName}/dop/projects/{projectId}/test-report',
   projectTestReportCreate = '/{orgName}/dop/projects/{projectId}/test-report/create',
   projectMemberManagement = '/{orgName}/dop/projects/{projectId}/setting?tabKey=projectMember',
+  projectRelease = '/{orgName}/dop/projects/{projectId}/release/project',
+  projectReleaseCreate = '/{orgName}/dop/projects/{projectId}/release/createRelease',
+  projectReleaseDetail = '/{orgName}/dop/projects/{projectId}/release/releaseDetail/{id}',
 
   // app
   app = '/{orgName}/dop/projects/{projectId}/apps/{appId}',

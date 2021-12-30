@@ -1,0 +1,272 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+import React from 'react';
+import i18n from 'core/i18n';
+import { map, uniqueId } from 'lodash';
+import { ErdaIcon, FormModal } from 'common';
+import routeInfoStore from 'core/stores/route';
+import { Avatar, Spin, Tooltip, Popconfirm, message } from 'antd';
+import devopsSvg from 'app/images/devops.svg';
+import { regRules, goTo } from 'common/utils';
+import { getAvatarChars } from 'app/common/utils';
+import moment from 'moment';
+import { useHoverDirty, useMount } from 'react-use';
+import { ReadMeMarkdown } from './readme-markdown';
+import projectStore from 'app/modules/project/stores/project';
+import { useUserMap } from 'core/stores/userMap';
+import { getProjectHomepage, saveProjectHomepage } from 'project/services/project';
+import './index.scss';
+
+interface LinkItem {
+  id: string | number;
+  name?: string;
+  url: string;
+}
+interface LinkRowProps {
+  item: LinkItem;
+  handleEditLink: (item: LinkItem) => void;
+  handleDelete: (id: number) => void;
+}
+
+interface DataProps {
+  readme: string;
+  links: LinkItem[];
+}
+
+const emptyMarkdownContent =
+  '\n# readme\n\n\n*此处可以尽情发挥你文档小能手的才华*\n\n*可以通过一段酷炫的图文让项目成员都清楚项目的背景、目标等信息*\n\n*也可以共享项目文档、规范等材料*\n\n*还可以。。。。*';
+
+const iconStyle = {
+  className: 'text-default-4',
+  size: 20,
+};
+
+const MAX_LINKS_LENGTH = 5;
+
+const LinkRow = (props: LinkRowProps) => {
+  const { item, handleEditLink, handleDelete } = props;
+  const linkRef = React.useRef(null);
+  const isHovering = useHoverDirty(linkRef);
+
+  return (
+    <div key={item.id} ref={linkRef} className="cursor-pointer flex items-center homepage-link mb-1">
+      <ErdaIcon type="lianjie" {...iconStyle} />
+      <div className="cursor-pointer ml-2 w-64 px-2 py-1 flex justify-between items-center hover:bg-default-04">
+        <div className="w-52 hover:w-44 truncate text-purple-deep">
+          <Tooltip title={item.name || item.url} placement="bottomLeft" overlayClassName="homepage-tooltip">
+            <span className="text-purple-deep hover:underline" onClick={() => window.open(item.url)}>
+              {item.url}
+            </span>
+          </Tooltip>
+        </div>
+        <div className={`${isHovering ? 'homepage-link-operation' : 'hidden'} flex justify-between items-center`}>
+          <Tooltip title={i18n.t('edit')} overlayClassName="homepage-tooltip">
+            <ErdaIcon
+              type="edit"
+              className={'w-4 mx-2 self-center text-default-4'}
+              size={16}
+              onClick={() => handleEditLink(item)}
+            />
+          </Tooltip>
+
+          <Popconfirm
+            placement="bottomLeft"
+            overlayClassName="homepage-link-delete-confirm"
+            title={`${i18n.t('confirm deletion')}?`}
+            icon={null}
+            onConfirm={() => handleDelete(item.id)}
+          >
+            <Tooltip title={i18n.t('delete')} overlayClassName="homepage-tooltip">
+              <ErdaIcon type="remove" size={16} className="text-default-4" />
+            </Tooltip>
+          </Popconfirm>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const ProjectHomepage = () => {
+  const { projectId } = routeInfoStore.useStore((s) => s.params);
+  const info = projectStore.useStore((s) => s.info);
+  const [projectHomepageInfo, loading] = getProjectHomepage.useState();
+  const [isVisible, setIsVisible] = React.useState(false);
+  const [data, setData] = React.useState(projectHomepageInfo || { links: [], readme: '' });
+  const [currentLink, setCurrentLink] = React.useState<LinkItem | null>(null);
+  const [markdownContent, setMarkdownContent] = React.useState(projectHomepageInfo?.readme);
+  const [disabledMarkdownBtn, setDisabledMarkdownBtn] = React.useState(false);
+  const { createdAt, owners, logo, displayName, name, desc } = info;
+  const userMap = useUserMap();
+  const projectOwner = userMap[owners?.[0]];
+
+  useMount(() => {
+    getProjectHomepage.fetch({ projectID: projectId });
+  });
+
+  React.useEffect(() => {
+    setData(projectHomepageInfo);
+    setMarkdownContent(projectHomepageInfo?.readme);
+  }, [projectHomepageInfo]);
+
+  function handleDelete(id: number) {
+    data.links = data?.links.filter((x) => x.id !== id);
+    handleSave(data);
+  }
+
+  function handleEditLink(item: LinkItem) {
+    setCurrentLink(item);
+    setIsVisible(true);
+  }
+
+  function handleAdd() {
+    setCurrentLink(null);
+    setIsVisible(true);
+  }
+
+  function handleSave(newData: DataProps) {
+    setIsVisible(false);
+    saveProjectHomepage.fetch({ ...newData, projectID: projectId }).then(() => {
+      getProjectHomepage.fetch({ projectID: projectId });
+    });
+  }
+
+  const fieldsList = [
+    {
+      label: 'URL',
+      name: 'url',
+      itemProps: {
+        placeholder: i18n.t('dop:paste the url path here'),
+      },
+      rules: [
+        { max: 255, message: i18n.t('dop:Up to 255 characters for url path') },
+        {
+          validator: (_, value: string, callback: Function) => {
+            return value && !regRules.url.pattern.test(value)
+              ? callback(i18n.t('dop:please fill in the correct the url path!'))
+              : callback();
+          },
+        },
+      ],
+    },
+    {
+      label: i18n.t('name'),
+      required: false,
+      name: 'name',
+      itemProps: {
+        placeholder: i18n.t('dop:please give the url path a simple and understandable name'),
+        maxLength: 50,
+      },
+    },
+  ];
+
+  return (
+    <Spin spinning={loading}>
+      <div className="project-homepage">
+        <div className="homepage-header bg-default">
+          <div className="project-icon bg-default">
+            <img className="big-icon" src={logo || devopsSvg} width={64} height={64} />
+          </div>
+          <div className="project-name">{displayName || name}</div>
+        </div>
+        <div className="homepage-body flex justify-between px-4">
+          <div className="homepage-markdown w-full mr-4">
+            <ReadMeMarkdown
+              value={markdownContent || emptyMarkdownContent}
+              onSave={(v: string) => handleSave({ ...data, readme: v })}
+              onChange={(v: string) => {
+                if (v.length > 65535) {
+                  setDisabledMarkdownBtn(true);
+                  message.warning(i18n.t('dop:Markdown content length cannot exceed 65535 characters!'));
+                } else {
+                  setDisabledMarkdownBtn(false);
+                }
+              }}
+              disabled={disabledMarkdownBtn}
+              originalValue={projectHomepageInfo?.readme || emptyMarkdownContent}
+            />
+          </div>
+          <div className="homepage-info py-3 text-default">
+            <div className="info-title">{i18n.t('dop:About')}</div>
+            <div className="info-brief mb-4">
+              {desc || (
+                <span>
+                  {i18n.t(
+                    'dop:Tell about your project in one sentence, so that more people can quickly understand your project, go to',
+                  )}
+                  <span
+                    onClick={() => goTo(goTo.pages.projectSetting, { projectId })}
+                    className="text-purple-deep mx-1 cursor-pointer"
+                  >
+                    {i18n.t('project setting')}
+                  </span>
+                  {i18n.t('dop:to configure')}
+                </span>
+              )}
+            </div>
+            <div className="info-links">
+              {map(data?.links, (item) => (
+                <LinkRow item={item} handleEditLink={handleEditLink} handleDelete={handleDelete} key={item.id} />
+              ))}
+              {data?.links.length < MAX_LINKS_LENGTH && (
+                <div className="flex items-center mb-4 cursor-pointer" onClick={handleAdd}>
+                  <ErdaIcon type="lianjie" {...iconStyle} />
+                  <div
+                    className={
+                      'ml-2 w-64 px-2 py-1 flex justify-between items-center text-default-3 hover:bg-default-04'
+                    }
+                  >
+                    {i18n.t('dop:click to add URL path')}
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="flex items-center mb-2">
+              <ErdaIcon type="zerenren" {...iconStyle} />
+              <span className="ml-4">
+                <Avatar size={24} src={projectOwner?.avatar || undefined}>
+                  {projectOwner?.nick ? getAvatarChars(projectOwner?.nick) : i18n.t('none')}
+                </Avatar>
+                {projectOwner?.name && (
+                  <span className="text-default-8 ml-1">{projectOwner?.name || projectOwner?.nick || '-'}</span>
+                )}
+              </span>
+            </div>
+            <div className="flex items-center mb-2">
+              <ErdaIcon type="chuangjianshijian" {...iconStyle} />
+              <span className="ml-4 text-default-8">{moment(createdAt).format('YYYY/MM/DD')}</span>
+            </div>
+          </div>
+        </div>
+        <FormModal
+          wrapClassName="new-form-modal"
+          onOk={(res: LinkItem) => {
+            if (currentLink) {
+              const targetIndex = data?.links.findIndex((x) => x.id === currentLink.id);
+              Object.assign(data?.links[targetIndex], res);
+            } else {
+              data?.links.push({ ...res, id: uniqueId() });
+            }
+            handleSave(data);
+          }}
+          onCancel={() => setIsVisible(false)}
+          name=" URL "
+          visible={isVisible}
+          fieldsList={fieldsList}
+          modalProps={{ destroyOnClose: true }}
+          formData={currentLink as LinkItem}
+        />
+      </div>
+    </Spin>
+  );
+};

@@ -161,9 +161,9 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
         />
         <div className="absolute left-2 flex bottom-2 space-x-2">
           {map(operationBtns, (operationBtn, i) => {
-            const { text, type, onClick } = operationBtn;
+            const { text, type, className = '', onClick } = operationBtn;
             return (
-              <Button key={i} type={type} onClick={() => onClick(content)}>
+              <Button key={i} type={type} onClick={() => onClick(content)} className={className}>
                 {text}
               </Button>
             );
