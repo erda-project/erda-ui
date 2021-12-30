@@ -22,6 +22,7 @@ import { getAvatarChars } from 'app/common/utils';
 import moment from 'moment';
 import { useHoverDirty, useMount } from 'react-use';
 import { ReadMeMarkdown } from './readme-markdown';
+import defaultProjectMainBg from 'app/images/default-project-main-bg.jpg';
 import projectStore from 'app/modules/project/stores/project';
 import { useUserMap } from 'core/stores/userMap';
 import { getProjectHomepage, saveProjectHomepage } from 'project/services/project';
@@ -172,7 +173,13 @@ export const ProjectHomepage = () => {
   return (
     <Spin spinning={loading}>
       <div className="project-homepage">
-        <div className="homepage-header bg-default">
+        <div
+          className="homepage-header relative bg-cover bg-center"
+          style={{ backgroundImage: `url(${defaultProjectMainBg})` }}
+        >
+          <div style={{ transform: 'scale(0.8)' }} className="absolute top-2 -right-1 text-xs text-white-4">
+            {i18n.t('dop:project-img-copyright-tip')}
+          </div>
           <div className="project-icon bg-white">
             {logo ? (
               <img className="big-icon" src={logo} width={64} height={64} />
