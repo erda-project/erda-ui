@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Tooltip, Card, Alert } from 'antd';
+import { Tooltip, Card } from 'antd';
 import React from 'react';
-import { Avatar, UserInfo, TagsRow } from 'common';
+import { Avatar, UserInfo, TagsRow, ErdaAlert } from 'common';
 import { ISSUE_ICON } from '../../common/components/issue/issue-config';
 import { useDrag } from 'react-dnd';
 import classnames from 'classnames';
@@ -50,12 +50,11 @@ export default ({ item, onClickItem }: IProps) => {
   return (
     <>
       {isDragging && (
-        <Alert
+        <ErdaAlert
           message={i18n.t(
             'dop:It can only be dragged to the end of the corresponding month. Please go to the details page for better modification.',
           )}
           type="info"
-          showIcon
         />
       )}
       <div key={item.id} onClick={() => onClickItem(item)} ref={drag}>

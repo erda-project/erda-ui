@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tabs, Button, Table, Alert, Tooltip } from 'antd';
-import { FormModal, ErdaIcon } from 'common';
+import { Tabs, Button, Table, Tooltip } from 'antd';
+import { FormModal, ErdaIcon, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';
@@ -114,7 +114,7 @@ const Group = () => {
   const fieldsList = [
     {
       getComp: () => (
-        <Alert
+        <ErdaAlert
           message={
             <ul>
               <li>1. {i18n.t('cmp:group-ID-used-for')}</li>

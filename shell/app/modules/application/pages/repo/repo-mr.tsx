@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Alert } from 'antd';
+import { Button } from 'antd';
 import React from 'react';
 import { goTo } from 'common/utils';
 import { RepoMrTable } from './components/repo-mr-table';
@@ -19,7 +19,7 @@ import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
 import routeInfoStore from 'core/stores/route';
 import { WithAuth, usePerm } from 'user/common';
-import { IF } from 'common';
+import { IF, ErdaAlert } from 'common';
 
 export const mrTabs = () => {
   const info = repoStore.useStore((s) => s.info);
@@ -68,7 +68,7 @@ const PureRepoMR = () => {
         </WithAuth>
       </div>
       <IF check={info.isLocked}>
-        <Alert message={i18n.t('lock-repository-tip')} type="error" />
+        <ErdaAlert message={i18n.t('lock-repository-tip')} type="error" />
       </IF>
       <RepoMrTable key={mrType} type={mrType as REPOSITORY.MrType} />
     </div>

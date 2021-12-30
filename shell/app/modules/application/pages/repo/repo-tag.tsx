@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Spin, Button, Select, Input, message, Alert } from 'antd';
-import { Icon as CustomIcon, EmptyHolder, Avatar, FormModal, IF, DeleteConfirm } from 'common';
+import { Spin, Button, Select, Input, message } from 'antd';
+import { Icon as CustomIcon, EmptyHolder, Avatar, FormModal, IF, DeleteConfirm, ErdaAlert } from 'common';
 import React from 'react';
 import { fromNow, setApiWithOrg } from 'common/utils';
 import { mergeRepoPathWith } from './util';
@@ -203,7 +203,7 @@ const RepoTag = () => {
       />
       <div className="repo-tag-list">
         <IF check={isLocked}>
-          <Alert message={i18n.t('lock-repository-tip')} type="error" />
+          <ErdaAlert message={i18n.t('lock-repository-tip')} type="error" />
         </IF>
         <IF check={tagList.length}>
           {tagList.map((item) => {

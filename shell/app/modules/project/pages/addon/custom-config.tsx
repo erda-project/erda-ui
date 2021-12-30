@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { Alert, message, Modal } from 'antd';
+import { message, Modal } from 'antd';
 import React from 'react';
 import addonStore from 'common/stores/addon';
-import { FileEditor } from 'common';
+import { FileEditor, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
 
 interface IProps {
@@ -48,7 +48,7 @@ const CustomAddonConfigModal = (props: IProps) => {
       destroyOnClose
       footer={null}
     >
-      <Alert showIcon type="info" className="mb-2" message={i18n.t('dop:transfer-custom-addon')} />
+      <ErdaAlert type="info" className="mb-2" message={i18n.t('dop:transfer-custom-addon')} />
       <FileEditor fileExtension="json" value={json} minLines={8} onChange={(value: string) => updater.json(value)} />
     </Modal>
   );

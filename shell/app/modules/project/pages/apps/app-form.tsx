@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Alert, Button, Form, Input, Spin } from 'antd';
+import { Button, Form, Input, Spin } from 'antd';
 import React from 'react';
 import { ImageUpload, RenderForm, ErdaAlert } from 'common';
 import { goTo, insertWhen } from 'common/utils';
@@ -289,13 +289,12 @@ const CreationForm = () => {
       : [
           {
             label: '',
-            getComp: () => <Alert type="info" message={repositoriesTypes[repoType].desc} />,
+            getComp: () => <ErdaAlert type="info" message={repositoriesTypes[repoType].desc} />,
           },
           {
             label: '',
             getComp: () => (
-              <Alert
-                showIcon
+              <ErdaAlert
                 type="warning"
                 message={i18n.t(
                   'dop:It is recommended to use sources in the same region. Otherwise it may cause request timeout.',

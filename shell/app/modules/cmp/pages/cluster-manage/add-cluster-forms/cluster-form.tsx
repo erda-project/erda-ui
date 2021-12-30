@@ -14,8 +14,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import i18n from 'i18n';
-import { RenderPureForm, FormModal, Copy, ErdaIcon } from 'common';
-import { Alert, Popover, Button } from 'antd';
+import { RenderPureForm, FormModal, Copy, ErdaIcon, ErdaAlert } from 'common';
+import { Popover, Button } from 'antd';
 import { find, get, debounce, flatten, isEmpty, every, set } from 'lodash';
 import { FormInstance, RadioChangeEvent } from 'core/common/interface';
 import { clusterTypeMap } from './cluster-type-modal';
@@ -264,7 +264,7 @@ const ClusterAddForm = (props: any) => {
   return (
     <div className="cluster-form">
       <If condition={clusterType === 'k8s' && mode !== 'edit'}>
-        <Alert message={`${i18n.t('tip')}:`} description={k8sAlert} type="warning" className="mb-8" />
+        <ErdaAlert message={`${i18n.t('tip')}:`} description={k8sAlert} type="warning" className="mb-8" />
       </If>
       <ClusterBasicForm
         form={form}

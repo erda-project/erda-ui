@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Table, Skeleton, Spin, Button, Popover, Input, Select, Modal, message, Tooltip, Form, Alert } from 'antd';
+import { Table, Skeleton, Spin, Button, Popover, Input, Select, Modal, message, Tooltip, Form } from 'antd';
 import { goTo, cutStr, fromNow, replaceEmoji, setApiWithOrg } from 'common/utils';
 import { groupBy, sortBy, get } from 'lodash';
 import React from 'react';
 import { useUnmount, useUpdateEffect } from 'react-use';
-import { Icon as CustomIcon, Copy, EmptyHolder, IF, FormModal, ErdaIcon } from 'common';
+import { Icon as CustomIcon, Copy, EmptyHolder, IF, FormModal, ErdaIcon, ErdaAlert } from 'common';
 import RepoFileContainer from './components/repo-file-container';
 import RepoEditor from './components/repo-editor';
 import StartTip from './components/start-tip';
@@ -492,7 +492,7 @@ const RepoTreePage = () => {
     <div className={`repo-tree-page ${fullPage ? 'full-page' : ''}`}>
       <IF check={info.isLocked}>
         <div className="repo-locked-alert">
-          <Alert message={i18n.t('lock-repository-tip')} type="error" />
+          <ErdaAlert message={i18n.t('lock-repository-tip')} type="error" />
         </div>
       </IF>
       <RepoNav ref={repoNavRef} info={info} tree={tree} isFetchingInfo={isFetchingInfo} appId={appDetail.id} />

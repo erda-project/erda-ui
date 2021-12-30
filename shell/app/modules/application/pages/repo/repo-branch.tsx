@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Spin, Button, Tooltip, Dropdown, Menu, Alert, Input } from 'antd';
-import { EmptyHolder, Avatar, DeleteConfirm, IF, ErdaIcon } from 'common';
+import { Spin, Button, Tooltip, Dropdown, Menu, Input } from 'antd';
+import { EmptyHolder, Avatar, DeleteConfirm, IF, ErdaIcon, ErdaAlert } from 'common';
 import React from 'react';
 import { fromNow, replaceEmoji, goTo } from 'common/utils';
 import { mergeRepoPathWith } from './util';
@@ -72,7 +72,7 @@ const RepoBranch = () => {
         onChange={handleChangeBranchName}
       />
       <IF check={info.isLocked}>
-        <Alert message={i18n.t('lock-repository-tip')} type="error" />
+        <ErdaAlert message={i18n.t('lock-repository-tip')} type="error" />
       </IF>
       <IF check={list.length}>
         <div className="repo-branch-list">

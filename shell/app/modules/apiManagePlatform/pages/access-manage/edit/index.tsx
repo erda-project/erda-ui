@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Alert, Button } from 'antd';
-import { RenderForm, MultiInput } from 'common';
+import { Spin, Button } from 'antd';
+import { RenderForm, MultiInput, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
@@ -245,8 +245,7 @@ const AccessEdit = () => {
     {
       getComp(): React.ReactElement<any> | string {
         return (
-          <Alert
-            showIcon
+          <ErdaAlert
             type="info"
             message={i18n.t(
               'Note: The precondition to create access management is that the API must first complete the project association and version instance association.',
@@ -374,8 +373,7 @@ const AccessEdit = () => {
     {
       getComp(): React.ReactElement<any> | string {
         return (
-          <Alert
-            showIcon
+          <ErdaAlert
             type="info"
             message={i18n.t(
               'Auto authorization: apply and call Manual authorization: apply, manual authorization and call',

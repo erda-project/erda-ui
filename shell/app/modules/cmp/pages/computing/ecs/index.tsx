@@ -12,14 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Input, Tooltip, Dropdown, Menu, Button, Alert } from 'antd';
+import { Select, Input, Tooltip, Dropdown, Menu, Button } from 'antd';
 import { useMount, useEffectOnce } from 'react-use';
 import { map, keys, get } from 'lodash';
 import { insertWhen } from 'common/utils';
 import cloudECSStore from 'app/modules/cmp/stores/computing';
 import clusterStore from 'cmp/stores/cluster';
 import { SetTagForm } from 'cmp/common/components/set-tag-form';
-import { CRUDTable, TagsRow, ErdaIcon } from 'common';
+import { CRUDTable, TagsRow, ErdaIcon, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { EcsCloudOperationForm } from './ecsCloud-operation-form';
 import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
@@ -338,7 +338,7 @@ const ComputingEcs = () => {
         },
       ],
       content: (
-        <Alert
+        <ErdaAlert
           message={
             <>
               <p>{i18n.t('cmp:instance-stopped-expiration-not-changed')}</p>
@@ -363,7 +363,7 @@ const ComputingEcs = () => {
       fieldList: [
         {
           getComp: () => (
-            <Alert
+            <ErdaAlert
               message={
                 <>
                   <div className="text-left second-title">{i18n.t('cmp:tips')}</div>

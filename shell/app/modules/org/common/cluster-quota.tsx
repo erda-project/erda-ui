@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Alert, Input, Form, Row, Col } from 'antd';
+import { Select, Input, Form, Row, Col } from 'antd';
 import i18n from 'i18n';
-import { CompactSelect, Icon as CustomIcon } from 'common';
+import { CompactSelect, Icon as CustomIcon, ErdaAlert } from 'common';
 import { FormInstance } from 'core/common/interface';
 import { useUpdate } from 'common/use-hooks';
 import projectStore from 'app/modules/project/stores/project';
@@ -203,7 +203,7 @@ const ClusterQuota = ({
             </Col>
           </Row>
 
-          {showTip && <Alert message={tip} type="info" className="mb-4" />}
+          {showTip && <ErdaAlert message={tip} type="info" className="mb-4" />}
         </>
       )}
     </>

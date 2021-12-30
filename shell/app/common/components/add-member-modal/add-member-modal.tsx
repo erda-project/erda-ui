@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormModal, MemberSelector, LoadMoreSelector } from 'common';
+import { FormModal, MemberSelector, LoadMoreSelector, ErdaAlert } from 'common';
 import i18n from 'i18n';
 import React from 'react';
 import { map, isEmpty } from 'lodash';
@@ -134,7 +134,11 @@ export const AddMemberModal = ({
     ...insertWhen(!!hasConfigAppAuth && scope.type === MemberScope.PROJECT, [
       {
         getComp: () => (
-          <Alert showIcon type="info" message={i18n.t('common:You can set application-level roles at the same time')} />
+          <ErdaAlert
+            showOnceKey="add-member-modal"
+            type="info"
+            message={i18n.t('common:You can set application-level roles at the same time')}
+          />
         ),
       },
       {

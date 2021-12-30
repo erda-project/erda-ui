@@ -13,8 +13,8 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Alert, Tooltip } from 'antd';
-import { Icon as CustomIcon } from 'common';
+import { Tooltip } from 'antd';
+import { Icon as CustomIcon, ErdaAlert } from 'common';
 import { map } from 'lodash';
 import moment from 'moment';
 import orgStore from 'app/org-home/stores/org';
@@ -42,9 +42,8 @@ export const BlockNetworkTips = () => {
     };
   }, [currentOrg]);
   return show ? (
-    <Alert
+    <ErdaAlert
       className="mb-4"
-      showIcon
       type="error"
       message={i18n.t('default:Deployment not allowed in {env} in network block period.', { env: message })}
     />

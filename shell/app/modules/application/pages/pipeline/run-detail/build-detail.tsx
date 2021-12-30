@@ -15,8 +15,8 @@ import { map, isEmpty, pick, isEqual, get } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import cronstrue from 'cronstrue/i18n';
-import { Spin, Badge, Modal, Popover, Table, Row, Col, Tooltip, Menu, Dropdown, Alert, Input } from 'antd';
-import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, ErdaIcon } from 'common';
+import { Spin, Badge, Modal, Popover, Table, Row, Col, Tooltip, Menu, Dropdown, Input } from 'antd';
+import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, ErdaIcon, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo, secondsToTime, replaceEmoji, updateSearch } from 'common/utils';
 import GotoCommit from 'application/common/components/goto-commit';
@@ -718,13 +718,12 @@ const BuildDetail = (props: IProps) => {
             </div>
           </div>
           {needApproval ? (
-            <Alert
+            <ErdaAlert
               message={i18n.t(
                 'dop:There are manual review nodes in this workflow, which need to be reviewed by the project admin.',
               )}
               className="mt-1"
               type="info"
-              showIcon
             />
           ) : null}
           <div className="main-info-parent">

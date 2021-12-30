@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { RenderPureForm } from 'common';
+import { RenderPureForm, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Alert, Modal, Form } from 'antd';
+import { Modal, Form } from 'antd';
 import i18n from 'i18n';
 import { IFormItem } from 'common/components/render-formItem/render-formItem';
 import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';
@@ -164,7 +164,7 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit }: IProps) => {
     {
       label: '',
       getComp() {
-        return <Alert message={i18n.t('cmp:must be odd and cannot be greater than 15')} type="info" showIcon />;
+        return <ErdaAlert message={i18n.t('cmp:must be odd and cannot be greater than 15')} type="info" />;
       },
     },
     {
@@ -240,7 +240,7 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit }: IProps) => {
       destroyOnClose
     >
       <RenderPureForm className="middleware-op-modal" list={fieldsList} form={form} layout="vertical" />
-      <Alert message={tips} />
+      <ErdaAlert message={tips} />
     </Modal>
   );
 };

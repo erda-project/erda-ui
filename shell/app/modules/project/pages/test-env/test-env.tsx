@@ -14,7 +14,8 @@
 import { isEmpty } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
-import { Button, Popconfirm, Spin, Alert, Modal } from 'antd';
+import { Button, Alert, Spin, Modal } from 'antd';
+import { ErdaAlert } from 'common';
 import Table from 'common/components/table';
 import { useLoading } from 'core/stores/loading';
 import testEnvStore from 'project/stores/test-env';
@@ -154,7 +155,8 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
           </Button>
         </div>
       )}
-      <Alert
+      <ErdaAlert
+        showOnceKey="manual-test-env"
         className="text-desc mb-2"
         message={
           testType === 'manual'

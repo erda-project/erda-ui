@@ -13,12 +13,12 @@
 
 import { FormComponentProps, FormInstance } from 'core/common/interface';
 import { isEqual, map, cloneDeep, keyBy, isEmpty } from 'lodash';
-import { ErdaIcon } from 'common';
+import { ErdaIcon, ErdaAlert } from 'common';
 import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 import { PLAN_NAME } from 'app/modules/addonPlatform/pages/common/configs';
 import { convertAddonPlan } from '../yml-flow-util';
-import { Input, Form, Select, Radio, Button, Alert } from 'antd';
+import { Input, Form, Select, Radio, Button } from 'antd';
 import addon_png from 'app/images/resources/addon.png';
 import i18n from 'i18n';
 import './create-add-on.scss';
@@ -195,9 +195,8 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
 
     if (addOn && !selectedAddon && !isReset) {
       alert = (
-        <Alert
+        <ErdaAlert
           className="addon-error-tag"
-          showIcon
           message={
             editing
               ? i18n.t('dop:the current instance does not exist, please add it again!')

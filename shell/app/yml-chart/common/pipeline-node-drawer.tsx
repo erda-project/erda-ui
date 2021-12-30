@@ -13,7 +13,7 @@
 
 // 此部分逻辑基本拷贝原来逻辑，方便后面如果整体删除原来代码
 import React from 'react';
-import { Drawer, Form, Button, Input, InputNumber, Collapse, Alert, Spin, Select, Tooltip } from 'antd';
+import { Drawer, Form, Button, Input, InputNumber, Collapse, Spin, Select, Tooltip } from 'antd';
 import { getActionGroup } from 'application/services/deploy';
 import { FormComponentProps } from 'core/common/interface';
 import i18n from 'i18n';
@@ -36,7 +36,7 @@ import {
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import VariableInput from 'application/common/components/object-input-group';
 import ListInput from 'application/common/components/list-input-group';
-import { Icon as CustomIcon, IF, ErdaIcon } from 'common';
+import { Icon as CustomIcon, IF, ErdaIcon, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import appDeployStore from 'application/stores/deploy';
 import { useLoading } from 'core/stores/loading';
@@ -237,7 +237,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   let alert;
   if (!isCreate && !actionConfig.type) {
     alert = (
-      <Alert
+      <ErdaAlert
         className="addon-error-tag"
         showIcon
         message={i18n.t('dop:the current action does not exist, please re-select!')}
