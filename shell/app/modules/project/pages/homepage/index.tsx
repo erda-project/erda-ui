@@ -113,7 +113,7 @@ export const ProjectHomepage = () => {
   useMount(() => getProjectInfo(projectId));
 
   React.useEffect(() => {
-    getProjectHomepage.fetch({ projectID: projectId });
+    projectId && getProjectHomepage.fetch({ projectID: projectId });
   }, [projectId]);
 
   React.useEffect(() => {
@@ -139,7 +139,7 @@ export const ProjectHomepage = () => {
   function handleSave(newData: DataProps) {
     setIsVisible(false);
     saveProjectHomepage.fetch({ ...newData, projectID: projectId }).then(() => {
-      getProjectHomepage.fetch({ projectID: projectId });
+      projectId && getProjectHomepage.fetch({ projectID: projectId });
     });
   }
 
