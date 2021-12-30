@@ -464,6 +464,9 @@ body {
       max-height: 90vh;
       max-width: 600px;
       overflow: auto;
+      a {
+        color: $color-purple-highlight;
+      }
     }
 
     .ant-tooltip-arrow {
