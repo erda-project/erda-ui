@@ -228,6 +228,7 @@ function getCmpRouter(): RouteConfigItem[] {
               getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-report/report-records')),
             },
             {
+              layout: { noWrapper: true },
               getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-report')),
             },
           ],
@@ -417,6 +418,7 @@ function getCmpRouter(): RouteConfigItem[] {
                   getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-record/detail')),
                 },
                 {
+                  layout: { noWrapper: true },
                   getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-record')),
                 },
               ],
@@ -434,6 +436,7 @@ function getCmpRouter(): RouteConfigItem[] {
               breadcrumbName: i18n.t('alarm strategy'),
               routes: [
                 {
+                  layout: { noWrapper: true },
                   getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-strategy')),
                 },
                 {
@@ -461,6 +464,7 @@ function getCmpRouter(): RouteConfigItem[] {
                   getComp: (cb) => cb(import('cmp/pages/alarm-report/custom-dashboard/custom-dashboard')),
                 },
                 {
+                  layout: { noWrapper: true },
                   getComp: (cb) => cb(import('app/modules/cmp/pages/custom-alarm')),
                 },
               ],
