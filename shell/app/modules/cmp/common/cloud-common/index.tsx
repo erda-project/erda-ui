@@ -49,7 +49,7 @@ export const getAccountsFieldsList = (selectOptions: ISelectOption[], initialSel
 export const addAuthTooltipTitle = (
   <span>
     {i18n.t('cmp:please add ')}&nbsp;
-    <span onClick={() => goTo(goTo.pages.cloudAccounts)} className="fake-link">
+    <span onClick={() => goTo(goTo.pages.cloudAccounts)} className="text-purple-deep cursor-pointer">
       {i18n.t('cmp:cloud account')}
     </span>
   </span>

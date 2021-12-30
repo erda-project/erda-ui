@@ -159,7 +159,7 @@ function CRUDTable<P>(props: ITableProps<P>) {
       <div className={showTopAdd ? 'top-button-group' : ''}>
         {typeof extraOperation === 'function' ? extraOperation() : extraOperation}
         <IF check={hasForm}>
-          <WithAuth pass={hasAddAuth} noAuthTip={addAuthTooltipTitle}>
+          <WithAuth pass={hasAddAuth} noAuthTip={addAuthTooltipTitle} tipProps={{ placement: 'bottom' }}>
             <Button type="primary" onClick={() => openModal()} className="mb-2">
               {i18n.t('add {name}', { name })}
             </Button>
