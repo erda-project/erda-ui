@@ -28,8 +28,8 @@ const ReleaseProjectDetail = () => {
   const getDetail = React.useCallback(async () => {
     if (releaseID) {
       const res = await getReleaseDetail({ releaseID });
-      if (res.success) {
-        const { data } = res;
+      const { data } = res;
+      if (data) {
         setReleaseDetail(data);
       }
     }
@@ -46,11 +46,11 @@ const ReleaseProjectDetail = () => {
         interpolation: { escapeValue: false },
       }),
       onOk: async () => {
-        const res = await formalRelease({ releaseID });
-        if (res.success) {
-          message.success(i18n.t('{action} successfully', { action: i18n.t('dop:be formal') }));
-          getReleaseDetail({ releaseID });
-        }
+        await formalRelease({
+          releaseID,
+          $options: { successMsg: i18n.t('{action} successfully', { action: i18n.t('dop:be formal') }) },
+        });
+        getDetail();
       },
     });
   };
@@ -65,7 +65,7 @@ const ReleaseProjectDetail = () => {
           </Button>
         ) : null}
 
-        <Button className="bg-default-06 border-default-06" onClick={() => goTo(goTo.pages.projectRelease)}>
+        <Button className="bg-default-06 border-default-06" onClick={() => goTo(goTo.pages.projectReleaseList)}>
           {i18n.t('return to previous page')}
         </Button>
       </div>

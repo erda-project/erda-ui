@@ -23,6 +23,7 @@ declare namespace RELEASE {
     releaseID?: string;
     applicationName: string;
     releaseName: string;
+    version: string;
     userId: string;
     createdAt: string;
     labels: Labels;
