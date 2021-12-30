@@ -107,13 +107,13 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
                   icon: 'MSP-entry',
                   label: i18n.t('msp'),
                   show: openMap.msp,
-                  href: goTo.resolve.apiManageRoot(),
+                  href: goTo.resolve.mspRootOverview(),
                 },
                 {
                   icon: 'FDP-entry',
                   label: i18n.t('Fast data'),
                   show: openMap.fdp,
-                  href: goTo.resolve.cmpRoot(),
+                  href: goTo.resolve.dataAppEntry(),
                 },
                 {
                   icon: 'CMP-entry',
