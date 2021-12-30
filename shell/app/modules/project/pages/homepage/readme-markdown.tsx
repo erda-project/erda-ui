@@ -50,7 +50,7 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
         {
           text: i18n.t('commit'),
           type: 'primary' as const,
-          className: 'bg-default text-white h-8 flex justify-center items-center relative -top-0.5',
+          className: 'bg-default text-white h-7 flex justify-center items-center relative -top-0.5',
           onClick: (_v: string) => {
             onSave(_v);
             updater.isEditing(false);
@@ -58,7 +58,7 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
         },
         {
           text: i18n.t('cancel'),
-          className: 'text-default-8 bg-default-06 h-8 flex justify-center items-center relative -top-0.5',
+          className: 'text-default-8 bg-default-06 h-7 flex justify-center items-center relative -top-0.5',
           onClick: () => {
             update({ v: originalValue, isEditing: false });
           },
@@ -84,7 +84,7 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
       arrowPointAtCenter
     >
       <div
-        className="relative hover:bg-hover-gray-bg cursor-pointer rounded w-full"
+        className="relative cursor-pointer rounded w-full"
         onClick={() => updater.isEditing(true)}
         style={{ maxHeight: expanded ? '' : maxHeight }}
       >
