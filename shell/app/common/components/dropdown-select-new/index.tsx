@@ -171,7 +171,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
         ) : (
           <div>{i18n.t('please select')}</div>
         )}
-        {mode === 'simple' ? <ErdaIcon type="caret-down" className="icon" size="12" /> : null}
+        {mode === 'simple' ? <ErdaIcon type="caret-down" className="icon" size="14" /> : null}
       </div>
     </Dropdown>
   );
