@@ -160,8 +160,12 @@ const PageContainer = ({ route }: IProps) => {
       announcement={!hideHeader ? <Announcement /> : undefined}
       mainClassName={classnames({ 'ml-4': !showSidebar, 'mt-0': hideHeader })}
     >
-      {!hideHeader && <Header />}
-      <div className={`main-scroll-tip ${y > 2 ? 'show' : ''}`} aria-hidden="true" />
+      {!hideHeader && (
+        <>
+          <Header />
+          <div className={`main-scroll-tip ${y > 2 ? 'show' : ''}`} aria-hidden="true" />
+        </>
+      )}
       <div id="main" ref={mainEle} style={{ opacity: showMessage ? 0 : undefined }} className={hideHeader ? 'p-0' : ''}>
         {MainContent}
       </div>
