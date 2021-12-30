@@ -10,7 +10,7 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
-const themeColor = '#6A549E';
+const themeColor = '#302647';
 module.exports.themeColor = themeColor;
 
 module.exports.getLessTheme = () => {
@@ -37,8 +37,7 @@ module.exports.getLessTheme = () => {
 
 module.exports.getScssTheme = () => {
   return `
-  $color-primary: #6A549E;
+  $color-primary: #302647;
   $color-primary-light: #6D5AE2;
-  $color-primary-dark: #5340C8;
   `;
 };

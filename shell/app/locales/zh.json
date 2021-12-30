@@ -1932,6 +1932,7 @@
     "site management": "站点管理"
   },
   "layout": {
+    "announcement": "公告",
     "approval": "审批管理",
     "back to application list": "返回应用列表",
     "back to dop": "返回 DevOps 平台",
@@ -1943,7 +1944,6 @@
     "page-not-found": "抱歉，当前页面不存在",
     "personal settings": "个人设置",
     "sorry, you do not have access to this page": "抱歉，您无权访问此页面",
-    "there is no organization information, please select an organization first": "当前无组织信息，请先选择组织",
     "view doc": "查看文档"
   },
   "msp": {

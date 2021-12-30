@@ -21,6 +21,7 @@ declare namespace ERDA_LIST {
     EmptyHolder: React.FC;
     defaultLogo?: string;
     defaultBgImg?: string;
+    columnsInfoWidth?: Obj<number>;
   }
 
   interface ItemProps {

@@ -13,7 +13,7 @@
 
 import { Alert, Button, Form, Input, Spin } from 'antd';
 import React from 'react';
-import { ImageUpload, RenderForm } from 'common';
+import { ImageUpload, RenderForm, ErdaAlert } from 'common';
 import { goTo, insertWhen } from 'common/utils';
 import { filter, map } from 'lodash';
 import { FormInstance } from 'core/common/interface';
@@ -127,6 +127,7 @@ const CreationForm = () => {
     }
     return item;
   });
+  console.log('mode', mode);
 
   const fieldsList = [
     {
@@ -156,7 +157,7 @@ const CreationForm = () => {
       label: '',
       getComp: () => {
         const cur = modeOptions.find((m) => m.value === mode);
-        return <Alert className="text-desc" type="info" message={cur?.desc} />;
+        return cur?.desc ? <ErdaAlert type="info" message={cur?.desc} /> : null;
       },
     },
     {

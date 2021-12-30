@@ -72,7 +72,7 @@
       }
 
       &:hover {
-        color: $primary;
+        color: $color-primary;
         background-color: $color-active-bg;
 
         .list-title-btn {
@@ -85,7 +85,7 @@
       }
 
       &-btn {
-        color: $primary;
+        color: $color-primary;
         font-weight: normal;
         opacity: 0;
         transition: opacity 0.3s;
@@ -99,31 +99,31 @@
         border-radius: 50%;
 
         &-get {
-          background: $color-get;
+          background: $green;
         }
 
         &-post {
-          background: $color-post;
+          background: $blue;
         }
 
         &-put {
-          background: $color-put;
+          background: $yellow;
         }
 
         &-patch {
-          background: $color-patch;
+          background: $purple;
         }
 
         &-delete {
-          background: $color-delete;
+          background: $red;
         }
 
         &-options {
-          background: $color-options;
+          background: $cyan;
         }
 
         &-head {
-          background: $color-head;
+          background: $palegreen;
         }
       }
     }
@@ -170,7 +170,7 @@
         border-bottom: 1px solid $color-border;
 
         &-icon {
-          color: $primary;
+          color: $color-primary;
           font-size: 24px;
           line-height: 32px;
           cursor: pointer;

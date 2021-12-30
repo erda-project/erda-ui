@@ -15,6 +15,7 @@ import { Avatar } from 'antd';
 import { ErdaIcon } from 'common';
 import { getAvatarChars } from 'common/utils';
 import i18n from 'i18n';
+import moment from 'moment';
 import React from 'react';
 import './index.scss';
 
@@ -26,7 +27,7 @@ export interface UserProfileProps {
     id: string;
     email: string;
     phone: string;
-    lastLoginTime: string;
+    lastLoginTime?: string;
   };
 }
 
@@ -35,7 +36,7 @@ const UserProfile = ({ data, className = '' }: UserProfileProps) => {
   const infoList = [
     ['youxiang', i18n.t('email'), email],
     ['shouji', i18n.t('cellphone'), phone],
-    ['shijian-2', i18n.t('last login time'), lastLoginTime],
+    ['shijian-2', i18n.t('last login time'), lastLoginTime && moment(lastLoginTime).format('YYYY-MM-DD HH:mm:hh')],
   ];
 
   return (

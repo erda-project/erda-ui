@@ -191,7 +191,7 @@ const templateArr: ICardProps[] = [
   {
     name: i18n.t('cmp:Monitor Project'),
     val: 'MSP',
-    icon: 'zhili',
+    icon: 'fuwujiankong',
     description: i18n.t('cmp:microservice governance desc'),
     disabled: false,
   },

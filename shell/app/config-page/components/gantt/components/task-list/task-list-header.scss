@@ -1,8 +1,8 @@
 .erda-gantt-table {
   display: table;
-  border-bottom: $border-color 1px solid;
-  border-top: $border-color 1px solid;
-  border-left: $border-color 1px solid;
+  border-bottom: $color-border 1px solid;
+  border-top: $color-border 1px solid;
+  border-left: $color-border 1px solid;
 }
 
 .erda-gantt-table-header {
@@ -11,7 +11,7 @@
 }
 
 .erda-gantt-table-header-separator {
-  border-right: 1px solid $border-color;
+  border-right: 1px solid $color-border;
   opacity: 1;
   margin-left: -2px;
 }

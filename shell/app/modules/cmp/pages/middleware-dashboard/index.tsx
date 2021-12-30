@@ -171,8 +171,8 @@ const MiddlewareDashboard = () => {
   return (
     <>
       <div className="middleware-dashboard-content">
-        <div className="middleware-dashboard-top">
-          <div className="filter-group-ct mb-8">
+        <div className="middleware-dashboard-top mb-4">
+          <div className="filter-group-ct mb-4">
             <Row gutter={20}>
               <Col span={6} className="filter-item">
                 <div className="filter-item-label">{i18n.t('environment')}</div>

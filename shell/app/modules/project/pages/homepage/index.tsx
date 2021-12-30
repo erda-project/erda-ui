@@ -17,7 +17,6 @@ import { map, uniqueId } from 'lodash';
 import { ErdaIcon, FormModal } from 'common';
 import routeInfoStore from 'core/stores/route';
 import { Avatar, Spin, Tooltip, Popconfirm, message } from 'antd';
-import devopsSvg from 'app/images/devops.svg';
 import { regRules, goTo } from 'common/utils';
 import { getAvatarChars } from 'app/common/utils';
 import moment from 'moment';
@@ -174,8 +173,12 @@ export const ProjectHomepage = () => {
     <Spin spinning={loading}>
       <div className="project-homepage">
         <div className="homepage-header bg-default">
-          <div className="project-icon bg-default">
-            <img className="big-icon" src={logo || devopsSvg} width={64} height={64} />
+          <div className="project-icon bg-white">
+            {logo ? (
+              <img className="big-icon" src={logo} width={64} height={64} />
+            ) : (
+              <ErdaIcon type="morenxiangmu" size={64} />
+            )}
           </div>
           <div className="project-name">{displayName || name}</div>
         </div>

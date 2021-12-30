@@ -645,7 +645,7 @@ const ClusterDashboard = () => {
           </div>
         </When>
         <Otherwise>
-          <div className="cluster-dashboard-top">
+          <div className="cluster-dashboard-top mb-4">
             <div className="filter-group-ct mb-4">
               <Row gutter={20}>
                 <Col span={8} className="filter-item flex justify-between items-center">

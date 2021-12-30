@@ -195,17 +195,6 @@ body {
     }
   }
 
-  .dice-layout .pk-table-tbody > tr > td,
-  .dice-layout .pk-table-thead > tr > th,
-  .dice-layout .pk-table-column-header-title {
-    white-space: nowrap;
-  }
-
-  .dice-layout .pk-form-item-no-label {
-    // TODO: use nusi api to hide pk-no-label
-    display: none !important;
-  }
-
   .ant-collapse {
     > .ant-collapse-item {
       > .ant-collapse-header {
@@ -462,11 +451,7 @@ body {
   }
 
   .ant-table-tbody > tr > td {
-    color: $color-dark-6;
-  }
-
-  .pk-filter .ant-select {
-    width: 100%;
+    color: $color-default;
   }
 
   div.ant-progress-inner {
@@ -475,11 +460,13 @@ body {
 
   .ant-tooltip {
     .ant-tooltip-inner {
-      background-color: #fff;
-      color: rgba(0, 0, 0, 0.6);
+      background-color: rgba($color-default, 0.96);
       max-height: 90vh;
       max-width: 600px;
       overflow: auto;
+      a {
+        color: $color-purple-highlight;
+      }
     }
 
     .ant-tooltip-arrow {
@@ -497,11 +484,6 @@ body {
     height: 100%;
   }
 
-  .pk-form-item .ant-select,
-  .pk-form-item .ant-cascader-picker {
-    width: 100%;
-  }
-
   .ant-list-items {
     padding: 8px 12px;
 
@@ -515,7 +497,7 @@ body {
   }
 
   .ant-avatar {
-    background: $color-primary;
+    background-color: rgb(89, 81, 108);
   }
 
   .ant-radio-group.ant-radio-group-solid {

@@ -1067,7 +1067,7 @@
     "choose module": "choose module",
     "choose the workflow file (master branch)": "choose the workflow file (master branch)",
     "choose frequently used applications and set them as stars for easy operation": "choose frequently used applications and set them as stars for easy operation",
-    "choose frequently used project and set them as stars for easy operation": "choose frequently used project and set them as stars for easy operation
+    "choose frequently used project and set them as stars for easy operation": "choose frequently used project and set them as stars for easy operation",
     "circulation setting": "circulation setting",
     "class catalog": "class catalog",
     "click to add URL path": "click to add URL path",
@@ -1932,6 +1932,7 @@
     "site management": "site management"
   },
   "layout": {
+    "announcement": "announcement",
     "approval": "approval",
     "back to application list": "back to application list",
     "back to dop": "back to DevOps platform",
@@ -1943,7 +1944,6 @@
     "page-not-found": "sorry, page not found",
     "personal settings": "settings",
     "sorry, you do not have access to this page": "sorry, you do not have access to this page",
-    "there is no organization information, please select an organization first": "there is no organization information, please select an organization first",
     "view doc": "view doc"
   },
   "msp": {

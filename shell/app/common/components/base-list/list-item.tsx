@@ -186,16 +186,16 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                 </div>
               ) : null}
               {columnsInfo.state ? (
-                <div className="ml-8" style={{ width: columnsInfoWidth?.state }}>
+                <div className="ml-6" style={{ width: columnsInfoWidth?.state || 80 }}>
                   <Badge showDot={false} {...columnsInfo.state} />
                 </div>
               ) : null}
               {columnsInfo.users ? (
-                <div className="ml-8 flex items-center" style={{ width: columnsInfoWidth?.users }}>
+                <div className="ml-6 flex items-center" style={{ width: columnsInfoWidth?.users || 80 }}>
                   {columnsInfo.users.map((item) => {
                     const curUser = userMap[item] || {};
                     return (
-                      <div key={item}>
+                      <div key={item} className="truncate">
                         <Avatar src={curUser?.avatar} size="small">
                           {curUser?.nick ? getAvatarChars(curUser.nick) : i18n.t('none')}
                         </Avatar>
@@ -208,7 +208,7 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                 </div>
               ) : null}
               {columnsInfo.text ? (
-                <div className="ml-8 flex items-center" style={{ width: columnsInfoWidth?.text }}>
+                <div className="ml-6 flex items-center" style={{ width: columnsInfoWidth?.text || 80 }}>
                   {columnsInfo.text.map((item, idx) => {
                     return (
                       <Tooltip title={item.tip} key={idx}>

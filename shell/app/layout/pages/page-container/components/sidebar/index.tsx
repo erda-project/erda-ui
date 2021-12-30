@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import type { IMenu } from './side-navigation';
-import SideNavigation from './side-navigation';
+import type { IMenu } from './sidebar-menu';
+import SidebarMenu from './sidebar-menu';
 import { Link } from 'react-router-dom';
 import layoutStore from 'layout/stores/layout';
 import routeInfoStore from 'core/stores/route';
@@ -21,7 +21,8 @@ import MenuHeader from './menu-head';
 import { isEmpty, isEqual, pickBy } from 'lodash';
 import { qs } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
-import './sub-sidebar.scss';
+import { ErdaIcon } from 'common';
+import './index.scss';
 
 const { stringify, parseUrl } = qs;
 
@@ -34,9 +35,7 @@ const linkRender = (children: React.ReactNode, { href, jumpOut, children: childM
       {children}
     </a>
   ) : (
-    <Link className="dice-sidebar-menu-item" to={href}>
-      {children}
-    </Link>
+    <Link to={href}>{children}</Link>
   );
 };
 
@@ -81,11 +80,20 @@ const findActiveKey = (menu: IMenu[], curHref: string) => {
   return [activeKey, realParentActiveKeyList];
 };
 
-const SubSideBar = () => {
+const compareSameMenu = (sourceMenu: IMenu[], targetMenu: IMenu[]) => {
+  const getMenuHref = (_menu: IMenu[]) => {
+    return _menu.map((item) => {
+      return { href: item.href, children: item.children ? getMenuHref(item.children) : [] };
+    });
+  };
+  return JSON.stringify(getMenuHref(sourceMenu)) === JSON.stringify(getMenuHref(targetMenu));
+};
+
+const SideBar = () => {
   const [subSiderInfoMap, subList] = layoutStore.useStore((s) => [s.subSiderInfoMap, s.subList]);
   const routeMarks = routeInfoStore.useStore((s) => s.routeMarks);
-  const { toggleSideFold } = layoutStore.reducers;
-  const [state, , update] = useUpdate({
+  const [state, updater, update] = useUpdate({
+    float: localStorage.getItem('sidebarFixed') === 'false',
     menus: [],
     openKeys: [],
     selectedKey: '',
@@ -145,13 +153,7 @@ const SubSideBar = () => {
       return {
         ...item,
         title: firstLetterUpper(item.text),
-        icon: item.icon ? (
-          <i className="flex items-center mr-1 justify-center">
-            <IconComp />
-          </i>
-        ) : item.customIcon ? (
-          item.customIcon
-        ) : null,
+        icon: item.icon || item.customIcon || null,
         href,
         children: subMenu,
         subActiveKey,
@@ -165,7 +167,7 @@ const SubSideBar = () => {
   const { menu = [] } = siderInfo || {};
   React.useEffect(() => {
     const { activeKeyList, fullMenu, selectedKey } = organizeInfo(menu);
-    if (JSON.stringify(fullMenu) !== JSON.stringify(state.menus) || selectedKey !== state.selectedKey) {
+    if (!compareSameMenu(fullMenu, state.menus) || selectedKey !== state.selectedKey) {
       update({
         menus: fullMenu,
         openKeys: (localStorage.getItem('isSubSidebarFold') !== 'true' && activeKeyList) || [],
@@ -185,18 +187,43 @@ const SubSideBar = () => {
       openKeys: openKeys as string[],
     });
   };
+
+  const handleToggleFixed = (newFlag: boolean) => {
+    localStorage.setItem('sidebarFixed', `${!newFlag}`);
+    layoutStore.reducers.toggleSideFold(!newFlag);
+    updater.float(newFlag);
+  };
+
   return (
-    <SideNavigation
-      openKeys={state.openKeys}
-      selectedKey={state.selectedKey}
-      onSelect={handleSelect}
-      onOpenChange={handleOpen}
-      extraNode={(isFold: boolean) => <MenuHeader isFold={isFold} siderInfo={siderInfo} routeMarks={routeMarks} />}
-      dataSource={state.menus}
-      linkRender={linkRender}
-      onFold={toggleSideFold}
-    />
+    <>
+      <div className={`erda-sidebar-trigger ${state.float ? 'float' : ''}`}>
+        <div className="toggle-btn inline-flex items-center justify-center">
+          <ErdaIcon
+            className="icon cursor-pointer p-1"
+            type={state.float ? 'erjicaidan' : 'zuofan'}
+            size={20}
+            onClick={() => handleToggleFixed(!state.float)}
+          />
+          <ErdaIcon
+            className="icon cursor-pointer p-1 absolute hover-show"
+            type="youfan"
+            size={20}
+            onClick={() => handleToggleFixed(!state.float)}
+          />
+        </div>
+        <SidebarMenu
+          openKeys={state.openKeys}
+          selectedKey={state.selectedKey}
+          onSelect={handleSelect}
+          onOpenChange={handleOpen}
+          extraNode={() => <MenuHeader siderInfo={siderInfo} routeMarks={routeMarks} />}
+          dataSource={state.menus}
+          linkRender={linkRender}
+          isFloat={!state.float}
+        />
+      </div>
+    </>
   );
 };
 
-export default SubSideBar;
+export default SideBar;

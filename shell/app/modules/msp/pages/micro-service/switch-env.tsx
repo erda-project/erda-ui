@@ -34,14 +34,17 @@ const SwitchEnv = () => {
     };
     const { displayWorkspace, workspace } = relationship?.find((t) => t.workspace === currentEnv) ?? {};
     return [
-      <Menu onClick={handleChangeEnv}>
+      <Menu onClick={handleChangeEnv} className="bg-default text-white hover:bg-default">
         {relationship?.map((item) => {
+          const checked = workspace === item.workspace;
           return (
-            <Menu.Item
-              className={`${workspace === item.workspace ? 'bg-light-primary text-primary' : ''}`}
-              key={item.workspace}
-            >
-              {item.displayWorkspace}
+            <Menu.Item key={item.workspace} className={` hover:bg-white-08 ${checked ? 'bg-white-08' : ''}`}>
+              <div className={` px-2 ${checked ? ' text-white' : 'text-white-6'} flex`}>
+                <span>{item.displayWorkspace}</span>
+                <span className="flex">
+                  {checked ? <ErdaIcon type="check" className="ml-2 text-purple-deep" /> : null}
+                </span>
+              </div>
             </Menu.Item>
           );
         })}
@@ -52,9 +55,9 @@ const SwitchEnv = () => {
   return (
     <div className="px-3 mt-2">
       <Dropdown overlay={menu} trigger={['click']}>
-        <div className="font-bold text-base h-8 rounded border border-solid border-transparent flex justify-center cursor-pointer hover:border-primary">
+        <div className="text-base h-8 rounded border border-solid border-transparent flex justify-center cursor-pointer ">
           <span className="self-center">{envName}</span>
-          <ErdaIcon className="self-center" type="caret-down" size="16" />
+          <ErdaIcon className="self-center text-default-3 hover:text-default" type="caret-down" size="16" />
         </div>
       </Dropdown>
     </div>

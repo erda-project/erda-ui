@@ -26,6 +26,7 @@ import { erdaEnv } from 'common/constants';
 import PersonalHomeV1 from './personal-home-v1';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
+import OrgSelector from './org-selector';
 import moment from 'moment';
 import ActiveRank from './active-rank';
 import PersonalContribute from './personal-contribute';
@@ -41,12 +42,12 @@ const getInvitationTime = () => {
 const PurePersonalHome = ({ orgName }: { orgName: string }) => {
   const loginUser = userStore.useStore((s) => s.loginUser);
   const permMap = usePerm((s) => s.org);
-  const [currentOrg, orgs, publicOrgs] = orgStore.useStore((s) => [s.currentOrg, s.orgs, s.publicOrgs]);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const inParams = { orgName: orgName || '-' };
   const [listType, setListType] = React.useState('project');
 
   React.useEffect(() => {
-    document.title = `${i18n.t('Personal dashboard')} · Erda`;
+    document.title = `${i18n.t('Personal workbench')} · Erda`;
 
     return () => {
       document.title = ' · Erda';
@@ -65,128 +66,81 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
     [permMap, currentOrg],
   );
 
-  const changeOrg = (_: string, op: Obj) => {
-    goTo(goTo.pages.orgRoot, { orgName: op.desc });
-  };
-
-  const Head = React.useCallback(
-    (_publicOrgs: ORG.IOrg[]) => () => {
-      const usedPublicOrg = compact(
-        _publicOrgs.map((o) =>
-          orgs.find((myOrg) => myOrg.id === o.id)
-            ? null
-            : {
-                key: o.name,
-                label: o.displayName,
-                desc: o.name,
-                imgURL: o.logo || ImgMap.frontImg_default_org_icon,
-              },
-        ),
-      );
-
-      const options = [
-        {
-          label: i18n.t('dop:my organization'),
-          key: 'my',
-          children: orgs.map((o) => ({
-            key: o.name,
-            label: o.displayName,
-            desc: o.name,
-            imgURL: o.logo || ImgMap.frontImg_default_org_icon,
-          })),
-        },
-        ...insertWhen(!!usedPublicOrg.length, [
-          {
-            label: i18n.t('dop:public organization'),
-            key: 'public',
-            children: usedPublicOrg,
-          },
-        ]),
-      ];
-      const Days = [
-        i18n.t('Sun'),
-        i18n.t('Mon'),
-        i18n.t('Tue'),
-        i18n.t('Wed'),
-        i18n.t('Thu'),
-        i18n.t('Fri'),
-        i18n.t('Sat'),
-      ];
-      return (
-        <div>
-          <div className="mt-4">
-            <div className="font-medium text-lg text-default">{`
-          ${getInvitationTime()}, ${loginUser.nick || loginUser.name}, ${i18n.t(
-              'Welcome to the personal workbench',
-            )}`}</div>
-            <div className="text-xs text-default-6">{`${i18n.t('dop:Tody is {time}', {
-              time: ` ${moment().format('YYYY/MM/DD')}  ${i18n.t('{week}', { week: Days[new Date().getDay()] })}`,
-              interpolation: { escapeValue: false },
-            })}`}</div>
+  const Head = React.useCallback(() => {
+    const Days = [
+      i18n.t('Sun'),
+      i18n.t('Mon'),
+      i18n.t('Tue'),
+      i18n.t('Wed'),
+      i18n.t('Thu'),
+      i18n.t('Fri'),
+      i18n.t('Sat'),
+    ];
+    return (
+      <div>
+        <div className="mt-4">
+          <div className="font-medium text-lg text-default">
+            <span>{`${getInvitationTime()}, ${loginUser.nick || loginUser.name}`}</span>
+            <span className="inline-block ml-3">{i18n.t('Welcome to your personal workbench')}</span>
           </div>
-          <div className="flex items-center justify-between mt-6 mb-4">
-            <DropdownSelectNew
-              title={i18n.t('dop:switch organization')}
-              value={orgName}
-              options={options}
-              required
-              onChange={changeOrg}
-              width={400}
-              size="big"
-            />
-            <ScaleCard
-              props={{ align: 'right' }}
-              onClick={(v) => {
-                goTo(v.href);
-              }}
-              data={{
-                list: [
-                  {
-                    icon: 'DevOps-entry',
-                    label: i18n.t('dop'),
-                    show: openMap.dop,
-                    href: goTo.resolve.dopRoot(),
-                  },
-                  {
-                    icon: 'MSP-entry',
-                    label: i18n.t('msp'),
-                    show: openMap.msp,
-                    href: goTo.resolve.mspRootOverview(),
-                  },
-                  {
-                    icon: 'FDP-entry',
-                    label: i18n.t('Fast data'),
-                    show: openMap.fdp,
-                    href: goTo.resolve.dataAppEntry(),
-                  },
-                  {
-                    icon: 'CMP-entry',
-                    label: i18n.t('Cloud management'),
-                    show: openMap.cmp,
-                    href: goTo.resolve.cmpRoot(),
-                  },
-                  {
-                    icon: 'ECP-entry',
-                    label: i18n.t('ecp:Edge computing'),
-                    show: openMap.ecp,
-                    href: goTo.resolve.ecpApp(),
-                  },
-
-                  {
-                    icon: 'control-entry',
-                    label: i18n.t('orgCenter'),
-                    show: openMap.orgCenter,
-                    href: goTo.resolve.orgCenterRoot(),
-                  },
-                ].filter((item) => item.show),
-              }}
-            />
-          </div>
+          <div className="text-xs text-default-6">{`${i18n.t('dop:Tody is {time}', {
+            time: `${moment().format('YYYY/MM/DD')} ${i18n.t('{week}', { week: Days[new Date().getDay()] })}`,
+            interpolation: { escapeValue: false },
+          })}`}</div>
         </div>
-      );
-    },
-    [loginUser, openMap, orgName, orgs],
-  );
+        <div className="flex items-center justify-between mt-6 mb-4">
+          <OrgSelector size="big" />
+          <ScaleCard
+            props={{ align: 'right' }}
+            onClick={(v) => {
+              goTo(v.href);
+            }}
+            data={{
+              list: [
+                {
+                  icon: 'DevOps-entry',
+                  label: i18n.t('dop'),
+                  show: openMap.dop,
+                  href: goTo.resolve.dopRoot(),
+                },
+                {
+                  icon: 'MSP-entry',
+                  label: i18n.t('msp'),
+                  show: openMap.msp,
+                  href: goTo.resolve.apiManageRoot(),
+                },
+                {
+                  icon: 'FDP-entry',
+                  label: i18n.t('Fast data'),
+                  show: openMap.fdp,
+                  href: goTo.resolve.cmpRoot(),
+                },
+                {
+                  icon: 'CMP-entry',
+                  label: i18n.t('Cloud management'),
+                  show: openMap.cmp,
+                  href: goTo.resolve.cmpRoot(),
+                },
+                {
+                  icon: 'ECP-entry',
+                  label: i18n.t('ecp:Edge computing'),
+                  show: openMap.ecp,
+                  href: goTo.resolve.ecpApp(),
+                },
+
+                {
+                  icon: 'control-entry',
+                  label: i18n.t('orgCenter'),
+                  show: openMap.orgCenter,
+                  href: goTo.resolve.orgCenterRoot(),
+                },
+              ].filter((item) => item.show),
+            }}
+          />
+        </div>
+      </div>
+    );
+  }, [loginUser, openMap]);
 
   const UserProfileComp = React.useCallback(() => {
     return (
@@ -300,7 +254,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
           },
         },
       },
-      head: Head(publicOrgs),
+      head: Head,
       userProfile: UserProfileComp,
       workContainer: {
         props: {
@@ -319,7 +273,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
         },
       },
     };
-  }, [listType, publicOrgs, Head, UserProfileComp, EmptyMap]);
+  }, [listType, Head, UserProfileComp, EmptyMap]);
 
   if (inParams.orgName === '-') {
     // no org, use old homepage
@@ -327,7 +281,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
   }
 
   return (
-    <div className="px-6 pt-2 pb-2 h-full">
+    <div className="pb-2 pr-4 h-full">
       <DiceConfigPage
         scenarioType="personal-workbench"
         scenarioKey="personal-workbench"

@@ -16,21 +16,23 @@ import { renderRoutes } from 'react-router-config';
 import { ErrorBoundary } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import classnames from 'classnames';
+import Navigation from 'layout/pages/page-container/components/navigation';
 import SideBar from 'layout/pages/page-container/components/sidebar';
-import SubSideBar from 'layout/pages/page-container/components/sub-sidebar';
 import Header from 'layout/pages/page-container/components/header';
+import Breadcrumb from 'layout/pages/page-container/components/breadcrumb';
 import { NoAuth, NotFound } from 'app/layout/common/error-page';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useEffectOnce } from 'react-use';
+import { useEffectOnce, useScroll } from 'react-use';
 import userStore from 'app/user/stores';
 import agent from 'agent';
-import { MessageCenter } from '../message/message';
+import { MessageCenter } from './components/message/message';
+import { Announcement } from './components/announcement';
 import layoutStore from 'app/layout/stores/layout';
 import { checkVersion } from 'app/layout/common/check-version';
 import routeInfoStore from 'core/stores/route';
 import { LSObserver } from 'common/utils';
-import { Card, Carousel } from 'antd';
+import { Card } from 'antd';
 import Shell from './components/shell';
 import { ErrorLayout } from './error-layout';
 import { eventHub } from 'common/utils/event-hub';
@@ -47,17 +49,14 @@ interface IProps {
 const PageContainer = ({ route }: IProps) => {
   const [noAuth, notFound] = userStore.useStore((s: any) => [s.noAuth, s.notFound]);
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
-  const [showMessage, customMain, announcementList] = layoutStore.useStore((s) => [
-    s.showMessage,
-    s.customMain,
-    s.announcementList,
-  ]);
-  const [currentRoute, prevRouteInfo, isIn] = routeInfoStore.useStore((s) => [s.currentRoute, s.prevRouteInfo, s.isIn]);
+  const [showMessage, customMain] = layoutStore.useStore((s) => [s.showMessage, s.customMain]);
+  const [currentRoute, prevRouteInfo] = routeInfoStore.useStore((s) => [s.currentRoute, s.prevRouteInfo]);
   const [state, updater] = useUpdate({
     startInit: false,
   });
 
   const mainEle = React.useRef<HTMLDivElement>(null);
+  const { y } = useScroll(mainEle);
 
   useEffectOnce(() => {
     const skeleton = document.querySelector('#erda-skeleton');
@@ -112,27 +111,18 @@ const PageContainer = ({ route }: IProps) => {
 
   const { layout } = currentRoute;
   const hideHeader = showMessage || layout?.hideHeader;
-  const layoutCls = ['dice-layout'];
-  const noticeWrap = ['notice-wrap'];
-  if (announcementList.length) {
-    layoutCls.push('has-notice');
-    if (announcementList.length === 1) {
-      layoutCls.push('has-notice-only-one');
-      noticeWrap.push('only-one');
-    }
-  }
-  let showSubSidebar = !noAuth && !notFound;
+  const layoutCls = [];
+  let showSidebar = !noAuth && !notFound;
   let CustomLayout;
   let noWrapper = false;
   if (typeof layout === 'object') {
-    const { className, use, showSubSidebar: layoutShowSubSiderBar } = layout;
-    if (showSubSidebar && layoutShowSubSiderBar === false) showSubSidebar = false;
+    const { className, use, hideSidebar } = layout;
+    if (hideSidebar) showSidebar = false;
     className && layoutCls.push(className);
     layoutMap[use] && (CustomLayout = layoutMap[use]);
     noWrapper = layout.noWrapper;
   }
   const layoutClass = classnames(layoutCls);
-  const noticeClass = classnames(noticeWrap);
   if (CustomLayout) {
     return <CustomLayout layoutClass={layoutClass}>{renderRoutes(route.routes)}</CustomLayout>;
   }
@@ -162,38 +152,21 @@ const PageContainer = ({ route }: IProps) => {
   }
 
   return (
-    <>
-      {announcementList.length ? (
-        <div className={noticeClass}>
-          <Carousel arrows autoplay autoplaySpeed={5000}>
-            {announcementList.map((announcement) => {
-              return <div key={announcement.id}>{announcement.content}</div>;
-            })}
-          </Carousel>
-        </div>
-      ) : null}
-      <div className={layoutClass}>
-        <Shell
-          layout="vertical"
-          fixed
-          className="dice-main-shell"
-          theme="BL"
-          globalNavigation={<SideBar />}
-          sideNavigation={showSubSidebar ? <SubSideBar /> : undefined}
-          pageHeader={!hideHeader ? <Header /> : undefined}
-        >
-          <div
-            id="main"
-            ref={mainEle}
-            style={{ opacity: showMessage ? 0 : undefined }}
-            className={hideHeader ? 'p-0' : ''}
-          >
-            {MainContent}
-          </div>
-          <MessageCenter show={showMessage} />
-        </Shell>
+    <Shell
+      className={layoutClass}
+      navigation={<Navigation />}
+      sidebar={showSidebar ? <SideBar /> : undefined}
+      breadcrumb={!hideHeader ? <Breadcrumb /> : undefined}
+      announcement={!hideHeader ? <Announcement /> : undefined}
+      mainClassName={classnames({ 'ml-4': !showSidebar, 'mt-0': hideHeader })}
+    >
+      {!hideHeader && <Header />}
+      <div className={`main-scroll-tip ${y > 2 ? 'show' : ''}`} aria-hidden="true" />
+      <div id="main" ref={mainEle} style={{ opacity: showMessage ? 0 : undefined }} className={hideHeader ? 'p-0' : ''}>
+        {MainContent}
       </div>
-    </>
+      <MessageCenter show={showMessage} />
+    </Shell>
   );
 };
 

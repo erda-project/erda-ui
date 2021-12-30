@@ -19,7 +19,7 @@
     position: relative;
     width: 110px;
     padding: 0 4px;
-    color: $primary;
+    color: $color-primary;
     height: 42px;
     line-height: 42px;
     text-align: center;
@@ -32,7 +32,7 @@
       right: -6px;
       margin: 0;
       padding: $p4;
-      color: $primary;
+      color: $color-primary;
       text-decoration: none;
       opacity: 0;
       transition: opacity 0.15s;
@@ -42,7 +42,7 @@
     }
 
     .state-move-btn {
-      color: $primary;
+      color: $color-primary;
       opacity: 0;
       margin: 0;
       transition: opacity 0.15s;

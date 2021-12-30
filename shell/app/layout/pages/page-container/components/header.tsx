@@ -45,7 +45,6 @@ const BreadcrumbItem = ({
 }) => {
   const { path, eternal, changePath, pageName } = route;
   const [link, setLink] = React.useState('');
-
   React.useEffect(() => {
     const currentPath = paths[paths.length - 1];
     const lastPath = paths.length > 1 ? paths[paths.length - 2] : '';
@@ -172,14 +171,6 @@ const Header = () => {
     }
   }, [currentApp, routes]);
 
-  const itemRender = (route: Route, _params: Obj<string>, _routes: Route[], paths: string[]) => {
-    if (!route.breadcrumbName || (allRoutes.length && allRoutes[allRoutes.length - 1] === route)) {
-      return null;
-    }
-    const _title = getBreadcrumbTitle(route, true);
-    return _title && <BreadcrumbItem paths={[...paths]} route={route as IRoute} params={_params} title={_title} />;
-  };
-
   const displayPageName = () => {
     if (typeof pageNameInfo === 'function') {
       const Comp = pageNameInfo;
@@ -191,24 +182,10 @@ const Header = () => {
       </div>
     );
   };
-
-  const paths: string[] = [];
-
   return (
     <div className="erda-header">
-      <div className="erda-header-breadcrumb">
-        <Breadcrumb separator={<ErdaIcon className="align-middle mr-1 mb-0.5" type="right" size="14px" />}>
-          {allRoutes.map((item) => {
-            paths.push(getPath(item.path, params));
-            return <Breadcrumb.Item key={item.key}>{itemRender(item, params, allRoutes, paths)}</Breadcrumb.Item>;
-          })}
-        </Breadcrumb>
-      </div>
-
-      <div className={'erda-header-top'}>
-        <div className="erda-header-title-con">{pageName && displayPageName()}</div>
-        <Tab />
-      </div>
+      <div className="erda-header-title-con">{pageName && displayPageName()}</div>
+      <Tab />
     </div>
   );
 };

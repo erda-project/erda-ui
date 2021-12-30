@@ -1,8 +1,19 @@
 .erda-shell {
-  height: 100%;
+  display: flex;
+  height: 100vh;
   width: 100%;
+  overflow: hidden;
+
+  .erda-nav {
+    z-index: 1000;
+  }
 
   .erda-main-content {
-    flex: auto;
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 600px;
+    margin-top: 36px;
   }
 }

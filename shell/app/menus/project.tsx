@@ -36,7 +36,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     },
     {
       href: goTo.resolve.projectAllIssue(), // `/dop/projects/${projectId}/issues/all`,
-      icon: <ErdaIcon type="xiangmuxietong" />,
+      icon: <ErdaIcon type="xiangmuguanli" />,
       text: i18n.t('dop:Projects'),
       subtitle: i18n.t('dop:Management'),
       show:
@@ -68,7 +68,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     // },
     {
       href: goTo.resolve.projectTestStatisticsRoot(), // `/dop/projects/${projectId}`,
-      icon: <ErdaIcon type="ceshiguanli-menu" />,
+      icon: <ErdaIcon type="ceshiguanli" />,
       text: i18n.t('Test Management'),
       subtitle: i18n.t('Test'),
       show: projectPerm.testManage.viewTest.pass,
@@ -97,7 +97,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     },
     {
       href: goTo.resolve.projectApps(), // `/dop/projects/${projectId}/apps`,
-      icon: <ErdaIcon type="application-one" />,
+      icon: <ErdaIcon type="yingyongkaifa" />,
       text: i18n.t('dop:Applications'),
       subtitle: i18n.t('App'),
       show: projectPerm.appList.viewAppList.pass,
@@ -116,7 +116,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     },
     {
       href: goTo.resolve.project(), // `/dop/projects/${projectId}/apps`,
-      icon: <ErdaIcon type="dashboard-car" />,
+      icon: <ErdaIcon type="yingyongyunwei" />,
       text: i18n.t('dop:O & M'),
       subtitle: i18n.t('dop:Operator'),
       show: projectPerm.service.viewService.pass || projectPerm.resource.viewResource.pass,
@@ -138,13 +138,13 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       text: i18n.t('dop:tickets'),
       subtitle: i18n.t('Tickets'),
-      icon: <ErdaIcon type="list1" />,
+      icon: <ErdaIcon type="gongdanfankui" />,
       href: goTo.resolve.projectTicket(),
       show: projectPerm.ticket.read.pass,
     },
     {
       href: goTo.resolve.projectSetting(), // `/dop/projects/${projectId}/setting`,
-      icon: <ErdaIcon type="config1" />,
+      icon: <ErdaIcon type="shezhi-menu" />,
       text: `${i18n.t('{key} Settings', { key: i18n.t('project') })}`,
       subtitle: i18n.t('Setting'),
       show: projectPerm.setting.viewSetting.pass,

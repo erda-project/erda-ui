@@ -16,7 +16,7 @@
     }
 
     .string-list-link {
-      color: $primary;
+      color: $color-primary;
       cursor: pointer;
     }
 
@@ -117,7 +117,7 @@
 
     &:hover {
       .arrow-icon {
-        color: $primary;
+        color: $color-primary;
       }
     }
   }
@@ -272,7 +272,7 @@
 
   &:hover {
     .arrow-icon {
-      color: $primary;
+      color: $color-primary;
     }
   }
 }

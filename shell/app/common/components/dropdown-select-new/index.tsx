@@ -19,10 +19,12 @@ import i18n from 'i18n';
 import { useUpdateEffect } from 'react-use';
 import './index.scss';
 
+type Size = 'small' | 'middle' | 'big';
 export interface DropdownSelectNewProps {
   options: Option[];
   title?: string;
-  size?: 'small' | 'middle' | 'big';
+  optionSize?: Size;
+  size?: Size;
   showFilter?: boolean;
   mode?: 'simple' | 'normal';
   required?: boolean;
@@ -51,6 +53,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
     title,
     trigger,
     showFilter,
+    optionSize = 'middle',
     size = 'middle',
     mode = 'normal',
     required,
@@ -66,6 +69,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
   const [active, setActive] = React.useState(false);
   const [value, setValue] = React.useState(pValue);
 
+  const contentRef = React.useRef<HTMLDivElement>(null);
   useUpdateEffect(() => {
     if (pValue !== value) {
       setValue(pValue);
@@ -75,12 +79,9 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
   React.useEffect(() => {
     // 控制点击外部关闭 dropdown
     const handleCloseDropdown = (e: MouseEvent) => {
-      const dropdowns = Array.from(document.querySelectorAll('.erda-dropdown-select'));
-      const dropdownButton = document.querySelector('.erda-dropdown-select-content');
       const node = e.target as Node;
-      const inner = dropdowns.some((wrap) => wrap.contains(node));
-
-      if (!inner && node !== dropdownButton) {
+      const inner = contentRef.current?.contains(node);
+      if (!inner && node !== contentRef.current) {
         setActive(false);
       }
     };
@@ -119,9 +120,11 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
           const isGroup = item.children?.length;
 
           if (isGroup) {
-            return <GroupOpt onClickItem={onClickItem} key={item.key} value={value} option={item} size={size} />;
+            return <GroupOpt onClickItem={onClickItem} key={item.key} value={value} option={item} size={optionSize} />;
           } else {
-            return <Item key={item.key} onClickItem={onClickItem} option={item} size={size} className={className} />;
+            return (
+              <Item key={item.key} onClickItem={onClickItem} option={item} size={optionSize} className={className} />
+            );
           }
         })}
       </Menu.Item>
@@ -144,6 +147,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
       {...restProps}
     >
       <div
+        ref={contentRef}
         className="inline-flex items-center cursor-pointer erda-dropdown-select-content"
         style={{ maxWidth: width }}
         onClick={() => mode === 'simple' && setActive(!active)}
@@ -166,7 +170,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
         ) : (
           <div>{i18n.t('please select')}</div>
         )}
-        {mode === 'simple' ? <ErdaIcon type="caret-down" className="ml-0.5" size="18" /> : null}
+        {mode === 'simple' ? <ErdaIcon type="caret-down" className="icon" size="14" /> : null}
       </div>
     </Dropdown>
   );
@@ -178,6 +182,7 @@ interface ItemProps extends Omit<DropdownSelectNewProps, 'options'> {
   option: Option;
   value?: string;
   switcher?: JSX.Element;
+  size?: Size;
   onClickItem?: (op: Option) => void;
 }
 
@@ -196,9 +201,9 @@ const Item = (props: ItemProps) => {
     >
       <div className="flex items-center flex-1 overflow-hidden">
         {icon ? (
-          <ErdaIcon type={icon} className="option-img" size={iconSizeMap[size]} />
+          <ErdaIcon type={icon} className={`option-img ${onlyIcon ? 'mr-0' : ''}`} size={iconSizeMap[size]} />
         ) : imgURL ? (
-          <img src={imgURL} className="option-img" />
+          <img src={imgURL} className={`option-img ${onlyIcon ? 'mr-0' : ''}`} />
         ) : null}
         {onlyIcon ? null : (
           <div className="flex-1 overflow-hidden">
@@ -217,7 +222,7 @@ const Item = (props: ItemProps) => {
 
 interface IGroupOptProps {
   value: string;
-  size?: string;
+  size?: Size;
   option: Option;
   onClickItem?: (op: Option) => void;
 }

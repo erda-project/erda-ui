@@ -35,6 +35,7 @@ interface IProps {
   q?: string;
   className?: string;
   dropdownClassName?: string;
+  dropdownStyle?: React.CSSProperties;
   category?: IOption[];
   list?: IOption[];
   forwardedRef?: any;
@@ -131,6 +132,7 @@ const PureLoadMoreSelector = (props: IProps) => {
   const {
     className = '',
     dropdownClassName = '',
+    dropdownStyle = '',
     type: initType = SelectType.Normal,
     mode,
     value,
@@ -333,18 +335,18 @@ const PureLoadMoreSelector = (props: IProps) => {
         {showSearch
           ? [
               <MenuItem key="_search-item">
-                <div className="search">
+                <div>
                   <Input
                     ref={searchRef}
                     size="small"
-                    prefix={<CustomIcon type="search" />}
+                    className="search"
+                    prefix={<ErdaIcon type="search" size={'16'} fill="white-300" />}
                     placeholder={i18n.t('search by keywords')}
                     value={q}
                     onChange={(e) => setQ(e.target.value)}
                   />
                 </div>
               </MenuItem>,
-              <Menu.Divider key="_search-divider" />,
             ]
           : null}
         {isMultiple
@@ -357,7 +359,7 @@ const PureLoadMoreSelector = (props: IProps) => {
                   &nbsp;
                   {i18n.t('common:item')}
                 </div>
-                <span className="fake-link ml-2" onClick={clearValue}>
+                <span className="fake-link ml-2 text-purple-deep" onClick={clearValue}>
                   {i18n.t('common:clear selected')}
                 </span>
               </MenuItem>,
@@ -387,7 +389,8 @@ const PureLoadMoreSelector = (props: IProps) => {
       <Dropdown
         overlay={getOverlay()}
         visible={visible}
-        overlayClassName={`${visible ? 'load-more-selector-dropdown' : ''} ${dropdownClassName}`}
+        overlayClassName={`load-more-selector-dropdown ${dropdownClassName}`}
+        overlayStyle={dropdownStyle}
         onVisibleChange={(visible) => onVisibleChange?.(visible, innerValue)}
       >
         <div
@@ -455,7 +458,10 @@ const OptionContainer = ({ list, value, clickItem, optionRender, isMultiple, vie
             key={item.value}
             onClick={() => clickItem(item, !checked)}
           >
-            {options}
+            <div className="w-full flex justify-between items-center">
+              <div className="flex-1">{options}</div>
+              {checked ? <ErdaIcon type="check" className="ml-2 text-purple-deep" /> : null}
+            </div>
           </div>
         );
       })}

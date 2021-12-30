@@ -36,7 +36,7 @@ function getProjectRouter(): RouteConfigItem[] {
         {
           path: 'homepage',
           breadcrumbName: i18n.t('dop:Project homepage'),
-          layout: { fullHeight: true, className: 'project-homepage-wrapper' },
+          layout: { fullHeight: true, noWrapper: true, className: 'project-homepage-wrapper' },
           getComp: (cb) => cb(import('project/pages/homepage'), 'ProjectHomepage'),
         },
         {
@@ -387,7 +387,7 @@ function getProjectRouter(): RouteConfigItem[] {
         {
           path: 'perm',
           pageName: i18n.t('role permissions description'),
-          layout: { showSubSidebar: false, fullHeight: true },
+          layout: { hideSidebar: true, fullHeight: true },
           getComp: (cb) => cb(import('user/common/perm-editor/perm-editor'), 'PermEditor'),
         },
         {

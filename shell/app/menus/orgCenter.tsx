@@ -28,7 +28,7 @@ export const getOrgCenterMenu = () => {
         {
           key: 'orgProjects',
           href: goTo.resolve.orgCenterRoot(), // '/orgCenter/projects',
-          icon: <ErdaIcon type="api-app" />,
+          icon: <ErdaIcon type="xiangmuguanli" />,
           text: i18n.t('projects'),
           subtitle: i18n.t('Project'),
           show: orgPerm.orgCenter.viewProjects.pass,
@@ -36,7 +36,7 @@ export const getOrgCenterMenu = () => {
         {
           key: 'orgMarket',
           href: goTo.resolve.orgCenterPublisherSetting(),
-          icon: <ErdaIcon type="ce-marking" />,
+          icon: <ErdaIcon type="yidongkaifa" />,
           text: i18n.t('layout:mobile development management'),
           subtitle: i18n.t('Mobile'),
           prefix: goTo.resolve.orgCenterMarket(),
@@ -45,7 +45,7 @@ export const getOrgCenterMenu = () => {
         {
           key: 'orgApproval',
           href: goTo.resolve.orgCenterApprovalUndone(), // '/orgCenter/approval/undone',
-          icon: <ErdaIcon type="seal" />,
+          icon: <ErdaIcon type="shenpi" />,
           text: i18n.t('layout:approval'),
           subtitle: i18n.t('Approve'),
           prefix: `${goTo.resolve.orgCenterApproval()}/`,
@@ -54,7 +54,7 @@ export const getOrgCenterMenu = () => {
         {
           key: 'orgSafety',
           href: goTo.resolve.orgCenterSafety(), // '/orgCenter/safety',
-          icon: <ErdaIcon type="log" />,
+          icon: <ErdaIcon type="shenjirizhi" />,
           text: i18n.t('cmp:audit log'),
           subtitle: i18n.t('Audit'),
           show: orgPerm.orgCenter.viewAuditLog.pass,
@@ -62,7 +62,7 @@ export const getOrgCenterMenu = () => {
         {
           key: 'orgSetting',
           href: goTo.resolve.cmpSetting(), // '/orgCenter/setting/detail',
-          icon: <ErdaIcon type="city" />,
+          icon: <ErdaIcon type="zuzhi" />,
           text: i18n.t('org setting'),
           subtitle: i18n.t('Org'),
           show: orgPerm.orgCenter.viewSetting.pass,

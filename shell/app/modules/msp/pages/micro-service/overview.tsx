@@ -170,7 +170,7 @@ const Overview = () => {
   ];
 
   return (
-    <div className="msp-overview p-6 flex flex-col pt-0">
+    <div className="msp-overview flex flex-col pt-0">
       <div className="msp-overview-header relative overflow-hidden flex content-center justify-center pl-4 flex-col">
         <img src={bgLarge} className="absolute bg-large" />
         <img src={bgMiddle} className="absolute bg-middle" />

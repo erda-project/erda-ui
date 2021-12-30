@@ -38,7 +38,7 @@ function getMspRouter(): RouteConfigItem[] {
           layout: {
             hideHeader: true,
             noWrapper: true,
-            showSubSidebar: false,
+            hideSidebar: true,
           },
           breadcrumbName: i18n.t('overview'),
           getComp: (cb) => cb(import('msp/pages/micro-service/overview')),
@@ -95,7 +95,7 @@ function getMspRouter(): RouteConfigItem[] {
             {
               path: 'perm',
               pageName: i18n.t('role permissions description'),
-              layout: { showSubSidebar: false, fullHeight: true },
+              layout: { hideSidebar: true, fullHeight: true },
               getComp: (cb) => cb(import('user/common/perm-editor/perm-editor'), 'MspPermEditor'),
             },
           ],

@@ -44,11 +44,11 @@
     width: 100%;
     padding: 6px;
     background-color: #ffffff;
-    border: 1px solid $border-color;
+    border: 1px solid $color-border;
     border-radius: $radius;
 
     .log-item {
-      border-bottom: 1px solid $border-color;
+      border-bottom: 1px solid $color-border;
       &.active-item {
         background-color: $color-active-bg;
       }

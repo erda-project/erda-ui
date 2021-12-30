@@ -19,14 +19,30 @@ import ListItem from 'app/common/components/base-list/list-item';
 import './index.scss';
 
 const List = (props: ERDA_LIST.Props) => {
-  const { dataSource, isLoadMore, onLoadMore, pagination, getKey, EmptyHolder, defaultLogo, defaultBgImg } = props;
+  const {
+    dataSource,
+    isLoadMore,
+    onLoadMore,
+    pagination,
+    getKey,
+    EmptyHolder,
+    defaultLogo,
+    defaultBgImg,
+    columnsInfoWidth,
+  } = props;
   return (
     <div className="erda-base-list">
       {dataSource.length ? (
         <>
           {dataSource.map((item: ERDA_LIST.ListData, idx: number) => {
             return (
-              <ListItem defaultLogo={defaultLogo} defaultBgImg={defaultBgImg} key={getKey(item, idx)} data={item} />
+              <ListItem
+                defaultLogo={defaultLogo}
+                defaultBgImg={defaultBgImg}
+                key={getKey(item, idx)}
+                data={item}
+                columnsInfoWidth={columnsInfoWidth}
+              />
             );
           })}
           {pagination &&

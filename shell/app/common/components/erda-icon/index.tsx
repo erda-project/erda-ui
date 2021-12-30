@@ -52,8 +52,8 @@ const themeColor = {
   'black-300': 'rgba(0,0,0,0.3)',
   'black-400': 'rgba(0,0,0,0.4)',
   'black-800': 'rgba(0,0,0,0.8)',
-  'light-primary': '#6a549e19', // rgba($primary, .1)
-  'shallow-primary': '#6a549e99', // rgba($primary, .6)
+  'light-primary': '#6a549e19', // rgba($color-primary, .1)
+  'shallow-primary': '#6a549e99', // rgba($color-primary, .6)
   'light-gray': '#bbbbbb',
   'dark-8': '#000000cc',
   'dark-6': '#00000066',
@@ -153,13 +153,13 @@ export const iconMap = {
   lock: 'lock',
   unlock: 'unlock',
   time: 'time',
-  'application-one': 'application-one',
+  'application-one': 'yingyongkaifa',
   user: 'user',
   'link-cloud-sucess': 'link-cloud-success',
   'link-cloud-faild': 'link-cloud-failed',
   'category-management': 'category-management',
   'list-numbers': 'list-numbers',
-  'api-app': 'api-app',
+  'api-app': 'xiangmuguanli',
   'double-right': 'double-right',
   'application-menu': 'application-menu',
   help: 'help',
@@ -180,6 +180,19 @@ export const iconMap = {
   zhongdengnandu: 'zhongdengnandu',
   nan: 'nan',
   rongyi: 'rongyi',
+  xiangmuguanli: 'xiangmuguanli',
+  yingyongkaifa: 'yingyongkaifa',
+  ceshiguanli: 'ceshiguanli',
+  fuwuguance: 'fuwuguance',
+  xiangmushezhi: 'xiangmushezhi',
+  fuwuliebiao: 'fuwuliebiao',
+  fuwujiankong: 'fuwujiankong',
+  lianluzhuizong: 'lianluzhuizong',
+  rizhifenxi: 'rizhifenxi',
+  daimacangku: 'daimacangku',
+  liushuixian: 'liushuixian',
+  apisheji: 'apisheji',
+  bushuzhongxin: 'bushuzhongxin',
 };
 
 interface IErdaIcon {

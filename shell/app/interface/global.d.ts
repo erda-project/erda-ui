@@ -389,7 +389,7 @@ interface RouteConfigItem {
     className?: string;
     use?: string;
     noWrapper?: boolean;
-    showSubSidebar?: boolean;
+    hideSidebar?: boolean;
     fullHeight?: boolean;
     hideHeader?: boolean;
   };

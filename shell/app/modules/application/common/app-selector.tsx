@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { LoadMoreSelector, ErdaIcon } from 'common';
+import { LoadMoreSelector, ErdaIcon, Ellipsis } from 'common';
 import { goTo } from 'common/utils';
 import { map, isArray, filter, isEmpty, find, get } from 'lodash';
 import { Tooltip } from 'antd';
@@ -80,12 +80,14 @@ export const AppSelector = (props: IProps) => {
   return (
     <LoadMoreSelector
       getData={getData}
+      dropdownMatchSelectWidth={false}
       placeholder={i18n.t('common:search by {name}', { name: i18n.t('application') })}
       dataFormatter={({ list, total }) => ({
         total,
         list: map(list, (item) => ({ ...item, label: item.displayName || item.name, value: item.id })),
       })}
       optionRender={AppItem}
+      dropdownStyle={{ width: 400, height: 300 }}
       chosenItemConvert={(v: IChosenItem[] | IChosenItem) => chosenItemConvert(v)}
       {...rest}
     />
@@ -96,11 +98,11 @@ const headAppRender = (val: any = {}) => {
   const curApp = appStore.getState((s) => s.detail);
   const name = val.displayName || val.name || curApp.displayName || curApp.name || '';
   return (
-    <div className="head-app-name">
-      <span className="nowrap text-base font-bold" title={name}>
-        {name}
-      </span>
-      <ErdaIcon type="caret-down" size="16" className="align-middle caret ml-1" />
+    <div className="head-app-name flex pl-2 text-base">
+      <div className="w-full flex justify-between">
+        <Ellipsis className="font-bold" title={name} />
+        <ErdaIcon type="caret-down" className="icon ml-0.5" size="14" />
+      </div>
     </div>
   );
 };
@@ -108,7 +110,7 @@ const headAppRender = (val: any = {}) => {
 export const HeadAppSelector = () => {
   const { appId, projectId } = routeInfoStore.useStore((s) => s.params);
   return (
-    <div className="head-app-selector mt-2">
+    <div className="head-app-selector overflow-hidden flex-1">
       <AppSelector
         valueItemRender={headAppRender}
         value={appId}

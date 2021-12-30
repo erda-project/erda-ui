@@ -3,7 +3,7 @@
     padding: 12px 16px;
     border-radius: 2px;
     background-color: $white;
-    border-bottom: 1px solid $border-color;
+    border-bottom: 1px solid $color-border;
     background-position: 100% 0;
     background-repeat: no-repeat;
 
@@ -112,7 +112,7 @@
 .erda-list-operations {
   .ant-dropdown-menu {
     width: 200px;
-    background-color: rgba($color-default, 0.96);
+    background-color: $color-default;
   }
 
   .ant-dropdown-menu-item,

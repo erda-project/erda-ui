@@ -1,0 +1,158 @@
+.sider-switch-list {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 300px;
+  background-color: $white;
+  border-radius: $radius;
+  @extend %select-shadow;
+
+  .input-wrap {
+    margin-bottom: 2px;
+    padding: 8px 6px;
+  }
+
+  ul {
+    flex: 1;
+    margin-bottom: 0;
+    overflow: auto;
+  }
+
+  li {
+    padding: 0 12px;
+    line-height: 32px;
+    cursor: pointer;
+
+    &.active,
+    &:hover {
+      color: $color-primary;
+    }
+  }
+}
+
+.sider-switch-overlay {
+  &::before {
+    content: none;
+  }
+}
+
+.erda-sidebar-trigger {
+  position: relative;
+  padding-left: 16px;
+  flex-shrink: 0;
+
+  .toggle-btn {
+    position: absolute;
+    color: $color-text-desc;
+    height: $breadcrumb-height;
+    width: 28px;
+    z-index: 9;
+    .icon {
+      transition: opacity 0.1s ease-in-out;
+      &:hover {
+        color: $color-default-8;
+        background-color: rgba($color-default, 0.04);
+      }
+    }
+    .hover-show {
+      display: none;
+      opacity: 0;
+    }
+  }
+
+  &.float {
+    .side-nav-menu {
+      position: absolute;
+      left: -243px;
+      width: 216px;
+      z-index: 999;
+      background: $color-bg;
+      padding: 16px;
+      height: calc(100vh - 36px - 36px);
+      box-shadow: 0 2px 24px 0 rgba(48, 38, 71, 0.32);
+      transition: transform 0.3s ease-in-out 0.2s;
+    }
+    .hover-show {
+      display: inline-flex;
+    }
+  }
+
+  &:hover {
+    &.float {
+      .side-nav-menu {
+        transform: translateX(243px);
+      }
+      .icon {
+        opacity: 0;
+      }
+      .hover-show {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.side-nav-menu {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: $breadcrumb-height;
+  height: calc(100% - 36px - 16px);
+  width: 184px;
+  margin-right: 16px;
+  user-select: none;
+
+  .ant-menu {
+    background-color: transparent;
+    .ant-menu-item-icon {
+      color: $color-default-8;
+      font-size: 20px;
+    }
+
+    .ant-menu-submenu-title:active {
+      background-color: transparent;
+    }
+    .ant-menu-item {
+      display: flex;
+      margin: 0;
+      padding-left: 8px !important;
+
+      &.ant-menu-item-selected {
+        background-color: rgba($color-purple-highlight, 0.1);
+        font-weight: 500;
+        border-radius: 2px;
+        color: $color-purple-highlight;
+        .ant-menu-item-icon,
+        a {
+          color: $color-purple-highlight;
+        }
+        &::after {
+          opacity: 0;
+        }
+      }
+      &:hover {
+        .ant-menu-item-icon,
+        a {
+          color: $color-purple-highlight;
+        }
+        background-color: rgba($color-purple-highlight, 0.1);
+      }
+    }
+    .ant-menu-submenu {
+      .ant-menu-item,
+      .ant-menu-submenu-inline {
+        padding-left: 38px !important;
+      }
+      .ant-menu-submenu-title {
+        margin: 0;
+        padding-left: 8px !important;
+      }
+      .ant-menu-submenu-inline .ant-menu-submenu-title {
+        padding-left: 0 !important;
+      }
+    }
+    a:focus {
+      text-decoration: none;
+    }
+  }
+}

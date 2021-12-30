@@ -1,15 +1,7 @@
 .project-homepage-wrapper {
-  .ant-card-body {
-    padding: 0 !important;
-  }
-}
-
-.homepage-tooltip {
-  .ant-tooltip-content {
-    .ant-tooltip-inner {
-      background: $color-default !important;
-      color: $white !important;
-    }
+  .erda-header,
+  .main-scroll-tip {
+    display: none;
   }
 }
 
@@ -46,6 +38,7 @@
     height: 120px;
     position: relative;
     margin-bottom: 56px;
+    border-radius: 2px 2px 0 0;
 
     .project-icon {
       position: absolute;

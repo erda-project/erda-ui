@@ -20,7 +20,7 @@ const PersonalHome = ({ orgName }: { orgName?: string }) => {
   const inParams = { orgName: orgName || '-' };
 
   React.useEffect(() => {
-    document.title = `${i18n.t('Personal dashboard')} · Erda`;
+    document.title = `${i18n.t('Personal workbench')} · Erda`;
 
     return () => {
       document.title = ' · Erda';

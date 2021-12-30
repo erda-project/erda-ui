@@ -12,20 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon as CustomIcon, IF } from 'common';
+import { IF, ErdaIcon } from 'common';
 import { ossImg } from 'common/utils';
 import { isFunction } from 'lodash';
-import './menu-head.scss';
-import devopsSvg from 'app/images/devops.svg';
-import cmpSvg from 'app/images/qyzx.svg';
-import mspSvg from 'app/images/wfwzl.svg';
-import dataSvg from 'app/images/ksj.svg';
-import apiManageSvg from 'app/images/fwsc.svg';
 import ecpSvg from 'app/images/ecp.svg';
 import orgCenterSvg from 'app/images/glzx.svg';
+import './menu-head.scss';
 
 interface IProps {
-  isFold: boolean;
   siderInfo: Record<string, any>;
   routeMarks: readonly string[];
 }
@@ -38,47 +32,48 @@ const defaultDetail = {
   logoClassName: '',
 };
 
-const MenuHead = ({ siderInfo, routeMarks, isFold }: IProps) => {
+const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
   const { detail = defaultDetail, getHeadName } = siderInfo || {};
   const { name, displayName, logo, logoClassName = '' } = detail;
   let sideIcon: React.ReactNode = null;
   switch (routeMarks[routeMarks.length - 2]) {
     case 'dop':
-      sideIcon = <img className="big-icon" src={devopsSvg} />;
+      sideIcon = <ErdaIcon size={36} type="devops-3n59bi9j" />;
       break;
     case 'sysAdmin':
-      sideIcon = <img className="big-icon" src={orgCenterSvg} />;
+      sideIcon = <ErdaIcon size={36} type="xitonghoutai" />;
       break;
     case 'cmp':
-      sideIcon = <img className="big-icon" src={cmpSvg} />;
+      sideIcon = <ErdaIcon size={36} type="duoyun" />;
       break;
     case 'orgCenter':
-      sideIcon = <img className="big-icon" src={orgCenterSvg} />;
+      sideIcon = <ErdaIcon size={36} type="guanlizhongxin-3n59bian" />;
       break;
     case 'msp':
-      sideIcon = <img className="big-icon" src={mspSvg} />;
+      sideIcon = <ErdaIcon size={36} type="weifuwu" />;
       break;
     case 'fdp':
-      sideIcon = <img className="big-icon" src={dataSvg} />;
-      break;
-    case 'apiManage':
-      sideIcon = <img className="big-icon" src={apiManageSvg} />;
+      sideIcon = <ErdaIcon size={36} type="kuaishuju" />;
       break;
     case 'ecp':
       sideIcon = <img className="big-icon" src={ecpSvg} />;
       break;
     default:
-      sideIcon = <CustomIcon color type={detail.icon || 'yy'} />;
+      sideIcon = <ErdaIcon type={detail.icon || 'yy'} />;
       break;
   }
   return (
-    <div className={`${isFold ? 'hidden' : ''} sidebar-info-block`}>
+    <div className={`flex sidebar-info-block px-4 py-3 mb-3 rounded-sm items-center`}>
       <IF check={!!logo}>
-        <img key={logo} className={logoClassName} src={ossImg(logo, { w: 120 })} alt="logo" />
+        <img key={logo} className={logoClassName} src={ossImg(logo, { w: 36 })} alt="logo" />
         <IF.ELSE />
         {sideIcon}
       </IF>
-      {isFunction(getHeadName) ? getHeadName() : <span className="nowrap name">{displayName || name}</span>}
+      {isFunction(getHeadName) ? (
+        getHeadName()
+      ) : (
+        <span className="truncate block text-left ml-2">{displayName || name}</span>
+      )}
     </div>
   );
 };

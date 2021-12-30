@@ -20,6 +20,7 @@ export const appList: () => LAYOUT.IApp[] = () =>
     [
       {
         key: 'dop',
+        icon: 'DevOps-entry',
         name: i18n.t('dop'),
         breadcrumbName: i18n.t('dop'),
         path: (params: any, routes: any[]): string => {
@@ -44,36 +45,35 @@ export const appList: () => LAYOUT.IApp[] = () =>
       },
       {
         key: 'msp',
+        icon: 'MSP-entry',
         name: i18n.t('msp'),
         breadcrumbName: i18n.t('msp'),
         href: goTo.resolve.mspRootOverview(),
       },
       {
-        key: 'apiManage',
-        name: i18n.t('default:API management platform'),
-        breadcrumbName: i18n.t('default:API management platform'),
-        href: goTo.resolve.apiManageRoot(),
-      },
-      {
-        key: 'fdp',
-        name: i18n.t('Fast data'),
-        breadcrumbName: i18n.t('Fast data'),
-        href: goTo.resolve.dataAppEntry(),
-      },
-      {
         key: 'cmp',
+        icon: 'CMP-entry',
         name: i18n.t('Cloud management'),
         breadcrumbName: i18n.t('Cloud management'),
         href: goTo.resolve.cmpRoot(),
       },
       {
+        key: 'fdp',
+        icon: 'FDP-entry',
+        name: i18n.t('Fast data'),
+        breadcrumbName: i18n.t('Fast data'),
+        href: goTo.resolve.dataAppEntry(),
+      },
+      {
         key: 'ecp',
+        icon: 'ECP-entry',
         name: i18n.t('ecp:Edge computing'),
         breadcrumbName: i18n.t('ecp:Edge computing'),
         href: goTo.resolve.ecpApp(),
       },
       {
         key: 'orgCenter',
+        icon: 'control-entry',
         name: i18n.t('orgCenter'),
         breadcrumbName: i18n.t('orgCenter'),
         href: goTo.resolve.orgCenterRoot(),

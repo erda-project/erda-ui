@@ -17,25 +17,25 @@ import './index.scss';
 interface IProps {
   children?: React.ReactNode;
   className?: string;
-  pageHeader?: React.ReactElement;
-  globalNavigation: React.ReactElement;
-  sideNavigation?: React.ReactElement;
+  mainClassName?: string;
+  breadcrumb?: React.ReactElement;
+  announcement?: React.ReactElement;
+  navigation: React.ReactElement;
+  sidebar?: React.ReactElement;
 }
 
-const Shell = ({ children, className, pageHeader, globalNavigation, sideNavigation }: IProps) => {
+const Shell = ({ children, breadcrumb, announcement, navigation, sidebar, className, mainClassName }: IProps) => {
   return (
-    <div className={`erda-shell h-full ${className || ''}`}>
-      <div className="flex flex-row h-full flex-auto">
-        <div className="h-full flex flex-row">
-          <div className="h-full relative">{globalNavigation}</div>
-
-          <div className="flex flex-auto flex-col overflow-x-hidden h-full relative">{sideNavigation}</div>
+    <div className={`erda-shell ${className}`}>
+      <div className="erda-nav h-full">{navigation}</div>
+      {sidebar}
+      {(breadcrumb || announcement) && (
+        <div className="absolute flex items-center justify-between z-10 top-0 left-28 right-4">
+          {breadcrumb}
+          {announcement}
         </div>
-        <div className="flex flex-auto flex-col h-full overflow-x-hidden">
-          {pageHeader}
-          <div className="erda-main-content relative overflow-auto">{children}</div>
-        </div>
-      </div>
+      )}
+      <div className={`erda-main-content ${mainClassName || ''}`}>{children}</div>
     </div>
   );
 };

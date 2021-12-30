@@ -176,7 +176,7 @@
   position: fixed;
   right: 0;
   bottom: 0;
-  left: $sider-width + $subsider-width;
+  left: $nav-width + $sidebar-width;
   z-index: 8;
   padding: 8px 32px;
   text-align: right;
@@ -184,7 +184,7 @@
   border-top: 1px solid $color-border;
 
   &.fold {
-    left: $sider-width + $subsider-fold-width;
+    left: $nav-width + $subsider-fold-width;
   }
 
   @include md-width() {
@@ -254,7 +254,7 @@
     margin: 0;
     margin-right: 40px;
     padding: 0;
-    color: $color-dark-6;
+    color: $color-default;
     line-height: 36px;
     text-align: center;
     border-bottom: 2px solid transparent;
@@ -269,7 +269,8 @@
     &.ant-menu-item-selected,
     &.ant-menu-item-active {
       color: $color-primary;
-      border-bottom: 2px solid $color-primary;
+      font-weight: 500;
+      border-bottom: 2px solid $color-purple-highlight;
     }
 
     &.tab-menu-disabled {
