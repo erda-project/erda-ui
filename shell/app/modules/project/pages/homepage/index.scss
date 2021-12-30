@@ -1,6 +1,6 @@
 .project-homepage-wrapper {
-  .ant-card-body {
-    padding: 0 !important;
+  .erda-header {
+    display: none;
   }
 }
 
@@ -46,6 +46,7 @@
     height: 120px;
     position: relative;
     margin-bottom: 56px;
+    border-radius: 2px 2px 0 0;
 
     .project-icon {
       position: absolute;

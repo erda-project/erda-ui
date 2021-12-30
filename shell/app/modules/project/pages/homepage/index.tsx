@@ -173,11 +173,11 @@ export const ProjectHomepage = () => {
     <Spin spinning={loading}>
       <div className="project-homepage">
         <div className="homepage-header bg-default">
-          <div className="project-icon bg-default">
+          <div className="project-icon bg-white">
             {logo ? (
               <img className="big-icon" src={logo} width={64} height={64} />
             ) : (
-              <ErdaIcon type="xiangmuguanli" fill="white-9" size={64} />
+              <ErdaIcon type="morenxiangmu" size={64} />
             )}
           </div>
           <div className="project-name">{displayName || name}</div>
