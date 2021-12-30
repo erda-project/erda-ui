@@ -53,9 +53,14 @@
       height: 76px;
       bottom: -38px;
       left: 16px;
-      border: 6px white solid;
+      border: 6px $white solid;
       box-shadow: 0 2px 7px 0 rgba($color-default, 0.16);
       border-radius: 2px;
+
+      .big-icon {
+        border-radius: 2px;
+        box-shadow: 0 0 0 10px $white;
+      }
     }
 
     .project-name {

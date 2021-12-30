@@ -16,7 +16,7 @@ import i18n from 'core/i18n';
 import { map, uniqueId } from 'lodash';
 import { ErdaIcon, FormModal } from 'common';
 import routeInfoStore from 'core/stores/route';
-import { Avatar, Spin, Tooltip, Popconfirm } from 'antd';
+import { Avatar, Spin, Tooltip, Popconfirm, message } from 'antd';
 import devopsSvg from 'app/images/devops.svg';
 import { regRules, goTo } from 'common/utils';
 import { getAvatarChars } from 'app/common/utils';
@@ -29,7 +29,7 @@ import { getProjectHomepage, saveProjectHomepage } from 'project/services/projec
 import './index.scss';
 
 interface LinkItem {
-  id?: string | number;
+  id: string | number;
   name?: string;
   url: string;
 }
@@ -45,7 +45,7 @@ interface DataProps {
 }
 
 const emptyMarkdownContent =
-  '## 一个改变世界的项目 \n*用酷酷的一段话来介绍你的项目吧，让所有成员都清楚项目的背景和目标* \n### 介绍 \n*可以用一段视频或者图片来展示产品/项目的亮点* \n![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2021/png/286919/1640771214185-f4cc490e-78c4-4c07-9355-dbfdfd0ad485.png#clientId=ud159ea74-2305-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=564&id=ua2ee1ea3&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1128&originWidth=2496&originalType=binary&ratio=1&rotation=0&showTitle=false&size=827709&status=done&style=none&taskId=ue4c866ba-a91b-46b1-9821-4d546ef02b6&title=&width=1248) \n**知识库** \n---\n _罗列项目知识库内容_ \n| 产品 PRD | 设计文档  | \n | --- | --- | \n | [一个改变世界的需求 - PRD](https://www.erda.cloud) | [一个改变世界的需求 - PRD](https://www.erda.cloud) |';
+  '\n# readme\n\n\n*此处可以尽情发挥你文档小能手的才华*\n\n*可以通过一段酷炫的图文让项目成员都清楚项目的背景、目标等信息*\n\n*也可以共享项目文档、规范等材料*\n\n*还可以。。。。*';
 
 const iconStyle = {
   className: 'text-default-4',
@@ -84,7 +84,7 @@ const LinkRow = (props: LinkRowProps) => {
             placement="bottomLeft"
             overlayClassName="homepage-link-delete-confirm"
             title={`${i18n.t('confirm deletion')}?`}
-            icon={<></>}
+            icon={null}
             onConfirm={() => handleDelete(item.id)}
           >
             <Tooltip title={i18n.t('delete')} overlayClassName="homepage-tooltip">
@@ -105,6 +105,7 @@ export const ProjectHomepage = () => {
   const [data, setData] = React.useState(projectHomepageInfo);
   const [currentLink, setCurrentLink] = React.useState(null as LinkItem | null);
   const [markdownContent, setMarkdownContent] = React.useState(projectHomepageInfo?.readme);
+  const [disabledMarkdownBtn, setDisabledMarkdownBtn] = React.useState(false);
   const { createdAt, owners, logo, displayName, name, desc } = info;
   const userMap = useUserMap();
   const projectOwner = userMap[owners?.[0]];
@@ -188,6 +189,15 @@ export const ProjectHomepage = () => {
             <ReadMeMarkdown
               value={markdownContent || emptyMarkdownContent}
               onSave={(v: string) => handleSave({ ...data, readme: v })}
+              onChange={(v: string) => {
+                if (v.length > 65535) {
+                  setDisabledMarkdownBtn(true);
+                  message.warning(i18n.t('dop:Markdown content length cannot exceed 65535 characters!'));
+                } else {
+                  setDisabledMarkdownBtn(false);
+                }
+              }}
+              disabled={disabledMarkdownBtn}
               originalValue={projectHomepageInfo?.readme || emptyMarkdownContent}
             />
           </div>
