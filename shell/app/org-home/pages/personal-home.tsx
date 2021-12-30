@@ -276,7 +276,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
   }
 
   return (
-    <div className="px-2 pt-2 pb-2 h-full">
+    <div className="pb-2 pr-4 h-full">
       <DiceConfigPage
         scenarioType="personal-workbench"
         scenarioKey="personal-workbench"

@@ -20,11 +20,10 @@ import Navigation from 'layout/pages/page-container/components/navigation';
 import SideBar from 'layout/pages/page-container/components/sidebar';
 import Header from 'layout/pages/page-container/components/header';
 import Breadcrumb from 'layout/pages/page-container/components/breadcrumb';
-import { Tab } from 'layout/pages/tab/tab';
 import { NoAuth, NotFound } from 'app/layout/common/error-page';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useEffectOnce } from 'react-use';
+import { useEffectOnce, useScroll } from 'react-use';
 import userStore from 'app/user/stores';
 import agent from 'agent';
 import { MessageCenter } from './components/message/message';
@@ -33,7 +32,7 @@ import layoutStore from 'app/layout/stores/layout';
 import { checkVersion } from 'app/layout/common/check-version';
 import routeInfoStore from 'core/stores/route';
 import { LSObserver } from 'common/utils';
-import { Card, Carousel } from 'antd';
+import { Card } from 'antd';
 import Shell from './components/shell';
 import { ErrorLayout } from './error-layout';
 import { eventHub } from 'common/utils/event-hub';
@@ -57,6 +56,7 @@ const PageContainer = ({ route }: IProps) => {
   });
 
   const mainEle = React.useRef<HTMLDivElement>(null);
+  const { y } = useScroll(mainEle);
 
   useEffectOnce(() => {
     const skeleton = document.querySelector('#erda-skeleton');
@@ -161,6 +161,7 @@ const PageContainer = ({ route }: IProps) => {
       mainClassName={classnames({ 'ml-4': !showSidebar, 'mt-0': hideHeader })}
     >
       {!hideHeader && <Header />}
+      <div className={`main-scroll-tip ${y > 2 ? 'show' : ''}`} aria-hidden="true" />
       <div id="main" ref={mainEle} style={{ opacity: showMessage ? 0 : undefined }} className={hideHeader ? 'p-0' : ''}>
         {MainContent}
       </div>

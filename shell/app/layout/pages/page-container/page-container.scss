@@ -2,6 +2,21 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  padding-right: 16px;
   height: 100%;
   overflow: auto;
+}
+
+.main-scroll-tip {
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 48px;
+  z-index: 2;
+  transition: box-shadow 0.1s ease-in-out;
+  &.show {
+    box-shadow: 0 6px 11px -11px $color-default-3 inset;
+  }
 }
