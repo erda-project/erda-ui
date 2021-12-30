@@ -48,7 +48,7 @@ const UserProfile = ({ data, className = '' }: UserProfileProps) => {
         }}
       />
       <div className="name-warp p-4">
-        <Avatar src={avatar} size={64} alt="user-avatar">
+        <Avatar src={avatar} size={64} alt="user-avatar" style={{ backgroundColor: '#59516C' }}>
           {name ? getAvatarChars(name) : i18n.t('none')}
         </Avatar>
         <div className="truncate mt-2 font-medium text-lg">{name}</div>

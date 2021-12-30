@@ -117,26 +117,29 @@ const Navigation = () => {
 
   return (
     <div className={`erda-global-nav flex flex-col items-center relative`}>
-      <ErdaIcon
-        type="gerengongzuotai"
-        size={32}
-        className="m-3 cursor-pointer"
-        onClick={() => {
-          const isIncludeOrg = !!orgs.find((x) => x.name === curOrgName);
-          if (isAdminRoute) {
-            const lastOrg = window.localStorage.getItem('lastOrg');
-            const isInLastOrg = !!orgs.find((x: Obj) => x.name === lastOrg);
-            goTo(goTo.pages.orgRoot, { orgName: isInLastOrg ? lastOrg : '-' });
-          } else if (isIncludeOrg) {
-            goTo(goTo.pages.orgRoot);
-          } else if (!orgs?.length) {
-            // skipping warning when the user doesn't join any organization.
-            goTo(goTo.pages.orgRoot, { orgName: '-' });
-          } else {
-            message.warning(i18n.t('default:org-jump-tip'), 2, () => goTo(goTo.pages.orgRoot, { orgName: '-' }));
-          }
-        }}
-      />
+      <div className="logo-wrap relative w-8 h-8 m-3 cursor-pointer">
+        <ErdaIcon type="gerengongzuotai" size={32} className="absolute erda-global-logo" />
+        <ErdaIcon
+          type="gerengongzuotaihover"
+          className="absolute workbench-icon"
+          size={32}
+          onClick={() => {
+            const isIncludeOrg = !!orgs.find((x) => x.name === curOrgName);
+            if (isAdminRoute) {
+              const lastOrg = window.localStorage.getItem('lastOrg');
+              const isInLastOrg = !!orgs.find((x: Obj) => x.name === lastOrg);
+              goTo(goTo.pages.orgRoot, { orgName: isInLastOrg ? lastOrg : '-' });
+            } else if (isIncludeOrg) {
+              goTo(goTo.pages.orgRoot);
+            } else if (!orgs?.length) {
+              // skipping warning when the user doesn't join any organization.
+              goTo(goTo.pages.orgRoot, { orgName: '-' });
+            } else {
+              message.warning(i18n.t('default:org-jump-tip'), 2, () => goTo(goTo.pages.orgRoot, { orgName: '-' }));
+            }
+          }}
+        />
+      </div>
       <div className="py-2 relative left-1">
         <OrgSelector mode="simple" size="middle" />
       </div>
