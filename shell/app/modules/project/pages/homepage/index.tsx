@@ -20,7 +20,7 @@ import { Avatar, Spin, Tooltip, Popconfirm, message } from 'antd';
 import { regRules, goTo } from 'common/utils';
 import { getAvatarChars } from 'app/common/utils';
 import moment from 'moment';
-import { useHoverDirty } from 'react-use';
+import { useHoverDirty, useMount } from 'react-use';
 import { ReadMeMarkdown } from './readme-markdown';
 import projectStore from 'app/modules/project/stores/project';
 import { useUserMap } from 'core/stores/userMap';
@@ -98,6 +98,7 @@ const LinkRow = (props: LinkRowProps) => {
 export const ProjectHomepage = () => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
   const info = projectStore.useStore((s) => s.info);
+  const { getProjectInfo } = projectStore.effects;
   const [projectHomepageInfo, loading] = getProjectHomepage.useState();
   const [isVisible, setIsVisible] = React.useState(false);
   const [data, setData] = React.useState(projectHomepageInfo || { links: [], readme: '' });
@@ -107,6 +108,8 @@ export const ProjectHomepage = () => {
   const { createdAt, owners, logo, displayName, name, desc } = info;
   const userMap = useUserMap();
   const projectOwner = userMap[owners?.[0]];
+
+  useMount(() => getProjectInfo(projectId));
 
   React.useEffect(() => {
     getProjectHomepage.fetch({ projectID: projectId });
