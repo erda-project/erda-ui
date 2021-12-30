@@ -66,7 +66,7 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
       ]
     : [];
 
-  const maxMarkdownHeight = Math.max(document.documentElement.clientHeight - 300, 400);
+  const maxMarkdownHeight = Math.max(document.documentElement.clientHeight - 240, 400);
 
   return isEditing ? (
     <MarkdownEditor

@@ -173,9 +173,9 @@ export const ProjectHomepage = () => {
   ];
 
   return (
-    <div className="full-spin-height bg-white">
+    <div className="full-spin-height">
       <Spin spinning={loading}>
-        <div className="project-homepage ">
+        <div className="project-homepage bg-white">
           <div
             className="homepage-header relative bg-cover bg-center"
             style={{ backgroundImage: `url(${defaultProjectMainBg})` }}
@@ -193,7 +193,7 @@ export const ProjectHomepage = () => {
             </div>
             <div className="project-name">{displayName || name}</div>
           </div>
-          <div className="homepage-body flex justify-between px-4">
+          <div className="homepage-body pb-4 flex justify-between px-4">
             <div className="homepage-markdown w-full mr-4">
               <ReadMeMarkdown
                 value={markdownContent || emptyMarkdownContent}
