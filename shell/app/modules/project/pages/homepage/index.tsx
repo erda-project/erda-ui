@@ -63,7 +63,7 @@ const LinkRow = (props: LinkRowProps) => {
       <ErdaIcon type="lianjie" {...iconStyle} />
       <div className="cursor-pointer ml-2 w-64 px-2 py-1 flex justify-between items-center hover:bg-default-04">
         <div className="w-52 hover:w-44 truncate text-purple-deep">
-          <Tooltip title={item.name || item.url} placement="bottomLeft" overlayClassName="homepage-tooltip">
+          <Tooltip title={item.name || item.url} placement="left" overlayClassName="homepage-tooltip">
             <span className="text-purple-deep hover:underline" onClick={() => window.open(item.url)}>
               {item.url}
             </span>
@@ -173,112 +173,108 @@ export const ProjectHomepage = () => {
   ];
 
   return (
-    <Spin spinning={loading}>
-      <div className="project-homepage">
-        <div
-          className="homepage-header relative bg-cover bg-center"
-          style={{ backgroundImage: `url(${defaultProjectMainBg})` }}
-        >
-          <div style={{ transform: 'scale(0.8)' }} className="absolute top-2 -right-1 text-xs text-white-4">
-            {i18n.t('dop:project-img-copyright-tip')}
+    <div className="full-spin-height bg-white">
+      <Spin spinning={loading}>
+        <div className="project-homepage ">
+          <div className="homepage-header bg-default">
+            <div className="project-icon bg-white">
+              {logo ? (
+                <img className="big-icon" src={logo} width={64} height={64} />
+              ) : (
+                <ErdaIcon type="morenxiangmu" size={64} />
+              )}
+            </div>
+            <div className="project-name">{displayName || name}</div>
           </div>
-          <div className="project-icon bg-white">
-            {logo ? (
-              <img className="big-icon" src={logo} width={64} height={64} />
-            ) : (
-              <ErdaIcon type="morenxiangmu" size={64} />
-            )}
-          </div>
-          <div className="project-name">{displayName || name}</div>
-        </div>
-        <div className="homepage-body flex justify-between px-4">
-          <div className="homepage-markdown w-full mr-4">
-            <ReadMeMarkdown
-              value={markdownContent || emptyMarkdownContent}
-              onSave={(v: string) => handleSave({ ...data, readme: v })}
-              onChange={(v: string) => {
-                if (v.length > 65535) {
-                  setDisabledMarkdownBtn(true);
-                  message.warning(i18n.t('dop:Markdown content length cannot exceed 65535 characters!'));
-                } else {
-                  setDisabledMarkdownBtn(false);
-                }
-              }}
-              disabled={disabledMarkdownBtn}
-              originalValue={projectHomepageInfo?.readme || emptyMarkdownContent}
-            />
-          </div>
-          <div className="homepage-info py-3 text-default">
-            <div className="info-title">{i18n.t('dop:About')}</div>
-            <div className="info-brief mb-4">
-              {desc || (
-                <span>
-                  {i18n.t(
-                    'dop:Tell about your project in one sentence, so that more people can quickly understand your project, go to',
-                  )}
-                  <span
-                    onClick={() => goTo(goTo.pages.projectSetting, { projectId })}
-                    className="text-purple-deep mx-1 cursor-pointer"
-                  >
-                    {i18n.t('project setting')}
+          <div className="homepage-body flex justify-between px-4">
+            <div className="homepage-markdown w-full mr-4">
+              <ReadMeMarkdown
+                value={markdownContent || emptyMarkdownContent}
+                onSave={(v: string) => handleSave({ ...data, readme: v })}
+                onChange={(v: string) => {
+                  if (v.length > 65535) {
+                    setDisabledMarkdownBtn(true);
+                    message.warning(i18n.t('dop:Markdown content length cannot exceed 65535 characters!'));
+                  } else {
+                    setDisabledMarkdownBtn(false);
+                  }
+                }}
+                disabled={disabledMarkdownBtn}
+                originalValue={projectHomepageInfo?.readme || emptyMarkdownContent}
+              />
+            </div>
+            <div className="homepage-info py-3 text-default">
+              <div className="info-title">{i18n.t('dop:About')}</div>
+              <div className="info-brief mb-4">
+                {desc || (
+                  <span>
+                    {i18n.t(
+                      'dop:Tell about your project in one sentence, so that more people can quickly understand your project, go to',
+                    )}
+                    <span
+                      onClick={() => goTo(goTo.pages.projectSetting, { projectId })}
+                      className="text-purple-deep mx-1 cursor-pointer"
+                    >
+                      {i18n.t('project setting')}
+                    </span>
+                    {i18n.t('dop:to configure')}
                   </span>
-                  {i18n.t('dop:to configure')}
-                </span>
-              )}
-            </div>
-            <div className="info-links">
-              {map(data?.links, (item) => (
-                <LinkRow item={item} handleEditLink={handleEditLink} handleDelete={handleDelete} key={item.id} />
-              ))}
-              {(data?.links.length < MAX_LINKS_LENGTH || !data) && (
-                <div className="flex items-center mb-4 cursor-pointer" onClick={handleAdd}>
-                  <ErdaIcon type="lianjie" {...iconStyle} />
-                  <div
-                    className={
-                      'ml-2 w-64 px-2 py-1 flex justify-between items-center text-default-3 hover:bg-default-04'
-                    }
-                  >
-                    {i18n.t('dop:click to add URL path')}
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className="flex items-center mb-2">
-              <ErdaIcon type="zerenren" {...iconStyle} />
-              <span className="ml-4">
-                <Avatar size={24} src={projectOwner?.avatar || undefined}>
-                  {projectOwner?.nick ? getAvatarChars(projectOwner?.nick) : i18n.t('none')}
-                </Avatar>
-                {projectOwner?.name && (
-                  <span className="text-default-8 ml-1">{projectOwner?.name || projectOwner?.nick || '-'}</span>
                 )}
-              </span>
-            </div>
-            <div className="flex items-center mb-2">
-              <ErdaIcon type="chuangjianshijian" {...iconStyle} />
-              <span className="ml-4 text-default-8">{moment(createdAt).format('YYYY/MM/DD')}</span>
+              </div>
+              <div className="info-links">
+                {map(data?.links, (item) => (
+                  <LinkRow item={item} handleEditLink={handleEditLink} handleDelete={handleDelete} key={item.id} />
+                ))}
+                {data?.links.length < MAX_LINKS_LENGTH && (
+                  <div className="flex items-center mb-4 cursor-pointer" onClick={handleAdd}>
+                    <ErdaIcon type="lianjie" {...iconStyle} />
+                    <div
+                      className={
+                        'ml-2 w-64 px-2 py-1 flex justify-between items-center text-default-3 hover:bg-default-04'
+                      }
+                    >
+                      {i18n.t('dop:click to add URL path')}
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center mb-2">
+                <ErdaIcon type="zerenren" {...iconStyle} />
+                <span className="ml-4">
+                  <Avatar size={24} src={projectOwner?.avatar || undefined}>
+                    {projectOwner?.nick ? getAvatarChars(projectOwner?.nick) : i18n.t('none')}
+                  </Avatar>
+                  {projectOwner?.name && (
+                    <span className="text-default-8 ml-1">{projectOwner?.name || projectOwner?.nick || '-'}</span>
+                  )}
+                </span>
+              </div>
+              <div className="flex items-center mb-2">
+                <ErdaIcon type="chuangjianshijian" {...iconStyle} />
+                <span className="ml-4 text-default-8">{moment(createdAt).format('YYYY/MM/DD')}</span>
+              </div>
             </div>
           </div>
+          <FormModal
+            wrapClassName="new-form-modal"
+            onOk={(res: LinkItem) => {
+              if (currentLink) {
+                const targetIndex = data?.links.findIndex((x) => x.id === currentLink.id);
+                Object.assign(data?.links[targetIndex], res);
+              } else {
+                data?.links.push({ ...res, id: uniqueId() });
+              }
+              handleSave(data);
+            }}
+            onCancel={() => setIsVisible(false)}
+            name=" URL "
+            visible={isVisible}
+            fieldsList={fieldsList}
+            modalProps={{ destroyOnClose: true }}
+            formData={currentLink as LinkItem}
+          />
         </div>
-        <FormModal
-          wrapClassName="new-form-modal"
-          onOk={(res: LinkItem) => {
-            if (currentLink) {
-              const targetIndex = data?.links.findIndex((x) => x.id === currentLink.id);
-              Object.assign(data?.links[targetIndex], res);
-            } else {
-              data?.links.push({ ...res, id: uniqueId() });
-            }
-            handleSave(data);
-          }}
-          onCancel={() => setIsVisible(false)}
-          name=" URL "
-          visible={isVisible}
-          fieldsList={fieldsList}
-          modalProps={{ destroyOnClose: true }}
-          formData={currentLink as LinkItem}
-        />
-      </div>
-    </Spin>
+      </Spin>
+    </div>
   );
 };
