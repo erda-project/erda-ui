@@ -29,8 +29,6 @@ interface IMdProps {
   onSave: (v: string) => void;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-/* @ts-ignore */
 const { ScalableImage } = EditField;
 
 export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValue, maxHeight }: IMdProps) => {

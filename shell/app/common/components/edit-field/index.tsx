@@ -220,7 +220,7 @@ interface IProps {
   valueRender?: (value: any) => React.ReactNode;
 }
 
-const EditField = React.forwardRef((props: IProps, _compRef) => {
+const Field = React.forwardRef((props: IProps, _compRef) => {
   const {
     name,
     type,
@@ -407,8 +407,6 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
   );
 });
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-/* @ts-ignore */
-EditField.ScalableImage = ScalableImage;
+const EditField = Object.assign(Field, { ScalableImage });
 
 export default EditField;
