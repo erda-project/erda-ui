@@ -229,7 +229,7 @@ const IssuePlan = () => {
   };
 
   return (
-    <div className={`h-full ${isFullScreen ? 'gantt-fullscreen' : ''}`} ref={ganttRef}>
+    <div className={`h-full bg-white ${isFullScreen ? 'gantt-fullscreen' : ''}`} ref={ganttRef}>
       <DiceConfigPage
         ref={reloadRef}
         forceUpdateKey={['customProps']}
@@ -322,6 +322,9 @@ const IssuePlan = () => {
                 updater.filterObj(val);
                 urlQueryChange(val);
               },
+            },
+            props: {
+              className: 'px-2 pt-2',
             },
           },
         }}
