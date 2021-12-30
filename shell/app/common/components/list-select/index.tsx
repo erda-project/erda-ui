@@ -229,7 +229,7 @@ function ListSelectOverlay<T extends object = any>({
               />
             </div>
           ))}
-          {selectedList.length === 0 ? (
+          {!selectedList.length ? (
             <div className="h-full flex items-center justify-center flex-col">
               <img src={empty} />
               <div className="text-white-6 mt-2">{i18n.t('dop:no choice {name}', { name: label })}</div>
@@ -318,7 +318,7 @@ function ListSelectOverlay<T extends object = any>({
                   );
                 })}
 
-                {list.length === 0 ? (
+                {!list.length ? (
                   <div className="h-full flex items-center justify-center flex-col">
                     <img src={empty} />
                     <div className="text-white-6 mt-2">{i18n.t('dop:no {name}', { name: label })}</div>
