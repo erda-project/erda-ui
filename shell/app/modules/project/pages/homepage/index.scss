@@ -85,6 +85,28 @@
     padding: 0;
   }
 
+  .rc-md-editor {
+    border: 0;
+  }
+
+  .rc-md-navigation {
+    background: rgba($color-default, 0.04);
+    border-bottom: rgba($color-default, 0.08);
+    box-shadow: 0 2px 1px 0 rgba($color-default, 0.08);
+  }
+
+  .markdown-editor .markdown-editor-content .rc-md-editor .editor-container .sec-md .input {
+    background: rgba($color-default, 0.04);
+    box-shadow: 0 2px 1px 0 rgba($color-default, 0.08);
+
+    &:focus {
+      background: $white;
+    }
+  }
+  .section-container:focus {
+    box-shadow: unset;
+  }
+
   .rc-md-navigation .button-wrap .active-button:after {
     height: 3px;
     width: 28px;
