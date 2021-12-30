@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Spin, Button, Tooltip, Rate, Alert } from 'antd';
+import { Spin, Button, Tooltip, Rate } from 'antd';
 import { isEmpty, find, get } from 'lodash';
 import React from 'react';
-import { IF, FormModal, Avatar, Icon as CustomIcon, BackToTop } from 'common';
+import { IF, FormModal, Avatar, Icon as CustomIcon, BackToTop, ErdaAlert } from 'common';
 
 import { goTo, fromNow, replaceEmoji, getLS, removeLS, insertWhen, connectCube } from 'common/utils';
 import Markdown from 'common/utils/marked';
@@ -343,7 +343,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
           {mergable && renderErrorBlock(mrStats, get(checkrun, '0.pipelineId'), result)}
           {!mergable && renderErrorBlock(mrStats, get(checkrun, '0.pipelineId'), String(mergable))}
           <IF check={isLocked}>
-            <Alert message={i18n.t('lock-repository-tip')} type="error" className="repo-locked-alert" />
+            <ErdaAlert message={i18n.t('lock-repository-tip')} type="error" className="repo-locked-alert" />
           </IF>
 
           <FormModal

@@ -18,13 +18,14 @@ import './index.scss';
 
 interface IProps {
   message: string | JSX.Element | React.ElementType;
+  description?: string | JSX.Element | React.ElementType;
   /** key for remember close state */
   showOnceKey?: string;
   className?: string;
   type?: AlertProps['type'];
 }
 
-const ErdaAlert = ({ type = 'info', message, showOnceKey, className }: IProps) => {
+const ErdaAlert = ({ type = 'info', message, description, showOnceKey, className }: IProps) => {
   const alertList = JSON.parse(localStorage.getItem('erda-alert-list') || '{}');
   const [isHidden, setIsHidden] = React.useState(showOnceKey ? alertList[showOnceKey] : false);
   const afterClose = () => {
@@ -45,6 +46,7 @@ const ErdaAlert = ({ type = 'info', message, showOnceKey, className }: IProps) =
           {message}
         </>
       }
+      description={description}
       closeText={<ErdaIcon type="close" className="hover-active" />}
       afterClose={afterClose}
     />

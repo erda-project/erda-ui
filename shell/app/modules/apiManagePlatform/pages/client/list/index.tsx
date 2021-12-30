@@ -12,12 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Popconfirm, Input, Modal, Alert } from 'antd';
+import { Spin, Popconfirm, Input, Modal } from 'antd';
 import Table from 'common/components/table';
 import { ColumnProps, PaginationProps } from 'core/common/interface';
 import i18n from 'i18n';
 import apiClientStore from 'apiManagePlatform/stores/api-client';
-import { Copy, CustomFilter, TableActions } from 'common';
+import { Copy, CustomFilter, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import { isEmpty } from 'lodash';
@@ -121,7 +121,7 @@ const ClientList = () => {
 
   return (
     <Spin spinning={isLoading.some((t) => t)}>
-      <Alert
+      <ErdaAlert
         message={i18n.t('Data source: API call management', { nsSeparator: '|' })}
         description={i18n.t(
           'On this page, you can check the progress of my application to call the API request, and its specific authentication information after the application is approved.',

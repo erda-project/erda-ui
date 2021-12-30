@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, message, Radio, Alert, Modal, Tooltip, Input } from 'antd';
-import { RenderForm, Icon as CustomIcon, CardsLayout, IF, FileEditor } from 'common';
+import { Button, message, Radio, Modal, Tooltip, Input } from 'antd';
+import { RenderForm, Icon as CustomIcon, CardsLayout, IF, FileEditor, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { notify, isPromise } from 'common/utils';
 import FileContainer from 'application/common/components/file-container';
@@ -278,7 +278,7 @@ const AddPipelineYml = () => {
 
   return (
     <div className="repo-add-pipelineyml">
-      <Alert message={i18n.t('dop:add-pipeline-tip')} type="info" showIcon />
+      <ErdaAlert message={i18n.t('dop:add-pipeline-tip')} type="info" />
       <PipelineTemplateSelector
         ref={selectorRef}
         onChange={(val: string) => {

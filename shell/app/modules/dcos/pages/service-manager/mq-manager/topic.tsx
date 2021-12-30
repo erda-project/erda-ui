@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Alert, Tooltip, Button, Table } from 'antd';
+import { Tooltip, Button, Table } from 'antd';
 import i18n from 'i18n';
-import { FormModal, ErdaIcon } from 'common';
+import { FormModal, ErdaIcon, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';
@@ -114,7 +114,7 @@ const Topic = () => {
   const allName = map(MQTopicList, 'topicName');
   const fieldsList = [
     {
-      getComp: () => <Alert message={i18n.t('cmp:regions-provide-intranet-default')} type="info" />,
+      getComp: () => <ErdaAlert message={i18n.t('cmp:regions-provide-intranet-default')} type="info" />,
     },
     {
       label: 'Topic',

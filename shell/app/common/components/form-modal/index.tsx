@@ -14,8 +14,8 @@
 import { isEmpty, isFunction, get, set } from 'lodash';
 import i18n from 'i18n';
 import React, { forwardRef, useImperativeHandle } from 'react';
-import { Modal, Form, Button, Spin, Alert } from 'antd';
-import { RenderPureForm } from 'common';
+import { Modal, Form, Button, Spin } from 'antd';
+import { RenderPureForm, ErdaAlert } from 'common';
 import { isPromise } from 'common/utils';
 import { FormInstance } from 'core/common/interface';
 import { IFormItem } from './render-formItem';
@@ -210,7 +210,7 @@ class FormModalComp extends React.Component<IProps, IState> {
         ]}
         {...modalProps}
       >
-        {!isEmpty(alertProps) && alertProps.message && <Alert message={alertProps.message} {...alertProps} />}
+        {!isEmpty(alertProps) && alertProps.message && <ErdaAlert message={alertProps.message} {...alertProps} />}
         <Spin spinning={loading} tip={tip}>
           {isFunction(rest.customRender) ? rest.customRender(content) : content}
           {rest.children}

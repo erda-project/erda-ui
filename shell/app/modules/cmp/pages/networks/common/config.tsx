@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Alert, Tooltip } from 'antd';
-import { Icon as CustomIcon } from 'common';
+import { Tooltip } from 'antd';
+import { Icon as CustomIcon, ErdaAlert } from 'common';
 import i18n from 'i18n';
 
 export const cloudVendor = {
@@ -30,14 +30,11 @@ export const formConfig = {
   },
   extra: {
     CIDR: {
-      default: (
-        <Alert message={i18n.t('cmp:the CIDR block cannot be modified after it is set')} type="warning" showIcon />
-      ),
+      default: <ErdaAlert message={i18n.t('cmp:the CIDR block cannot be modified after it is set')} type="warning" />,
       custom: (
-        <Alert
+        <ErdaAlert
           message={`${i18n.t('cmp:the CIDR block cannot be modified after it is set')}${i18n.t('cmp:CIDR-tips')}`}
           type="warning"
-          showIcon
         />
       ),
     },

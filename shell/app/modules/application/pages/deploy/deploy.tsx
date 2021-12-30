@@ -13,9 +13,9 @@
 
 import { groupBy, map, get, find } from 'lodash';
 import React from 'react';
-import { FormModal, LoadMoreSelector, ErdaIcon } from 'common';
+import { FormModal, LoadMoreSelector, ErdaIcon, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Spin, Tooltip, Alert, Select } from 'antd';
+import { Spin, Tooltip, Select } from 'antd';
 import { EnvCard } from './env-card';
 import RuntimeBox from './runtime-box';
 import appDeployStore from 'application/stores/deploy';
@@ -321,7 +321,7 @@ const Deploy = () => {
                   }}
                 />
                 {envBlocked && !!message ? (
-                  <Alert className="mb-4" showIcon type={appBlocked ? 'error' : 'info'} message={message} />
+                  <ErdaAlert className="mb-4" type={appBlocked ? 'error' : 'info'} message={message} />
                 ) : null}
               </div>
             );

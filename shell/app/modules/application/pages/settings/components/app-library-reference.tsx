@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Copy, CRUDTable, LoadMoreSelector, Icon as CustomIcon, ErdaIcon } from 'common';
+import { Copy, CRUDTable, LoadMoreSelector, Icon as CustomIcon, ErdaIcon, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import libraryRefStore from 'application/stores/library-reference';
@@ -23,7 +23,7 @@ import { appMode, approvalStatus } from 'application/common/config';
 import { formatTime } from 'common/utils';
 import { WithAuth } from 'user/common';
 import { useUnmount } from 'react-use';
-import { Popconfirm, Modal, Button, Alert, Input, message } from 'antd';
+import { Popconfirm, Modal, Button, Input, message } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import { getArtifactsList } from 'publisher/services/publisher';
 
@@ -208,7 +208,7 @@ const AppLibraryReference = () => {
         }
       >
         <Copy selector=".cursor-copy" />
-        <Alert className="mb-4" message={i18n.t('dop:library-usage-tips')} type="warning" showIcon />
+        <ErdaAlert className="mb-4" message={i18n.t('dop:library-usage-tips')} type="warning" showIcon />
         <p>{i18n.t('dop:code content')}</p>
         <Input className="w-full mb-4" value={state.dependence} addonAfter={addonAfter} />
       </Modal>

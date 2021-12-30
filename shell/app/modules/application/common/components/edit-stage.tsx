@@ -16,9 +16,9 @@ import ListInput from 'application/common/components/list-input-group';
 import VariableInput from 'application/common/components/object-input-group';
 import React from 'react';
 import { cloneDeep, map, isEmpty, omit, pick, get, filter, head, transform, isEqual, forEach } from 'lodash';
-import { Icon as CustomIcon, ErdaIcon } from 'common';
+import { Icon as CustomIcon, ErdaIcon, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Form, Button, Input, Popover, InputNumber, Collapse, Alert, Spin, Select } from 'antd';
+import { Form, Button, Input, Popover, InputNumber, Collapse, Spin, Select } from 'antd';
 import './edit-service.scss';
 import './task-resource-field.scss';
 import { mergeActionAndResource, getResource } from '../yml-flow-util';
@@ -190,9 +190,8 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
 
   if (!isCreateTask && !actionConfig.type) {
     alert = (
-      <Alert
+      <ErdaAlert
         className="addon-error-tag"
-        showIcon
         message={i18n.t('dop:the current action does not exist, please re-select!')}
         type="error"
       />

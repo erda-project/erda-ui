@@ -13,8 +13,8 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Copy } from 'common';
-import { Modal, Alert, Input, Button } from 'antd';
+import { Copy, ErdaAlert } from 'common';
+import { Modal, Input, Button } from 'antd';
 
 interface IProps {
   url: string;
@@ -54,7 +54,7 @@ const UrlInviteModal = ({ url, visible, code, tip, linkPrefixTip, modalProps = {
         }
         {...modalProps}
       >
-        {tip ? <Alert className="mb-5" message={tip} type="info" showIcon /> : null}
+        {tip ? <ErdaAlert className="mb-5" message={tip} type="info" showOnceKey="invite-member-modal" /> : null}
         <div className="content">
           <div className="item mb-4">
             <p className="label mb-2">{i18n.t('url address')}</p>

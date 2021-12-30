@@ -15,13 +15,13 @@ import React from 'react';
 import SwaggerParser from 'swagger-parser';
 import { OpenAPI } from 'openapi-types';
 import { cloneDeep, map, isEmpty, groupBy, pick, omit, Dictionary, uniqWith } from 'lodash';
-import { FormModal, IFormItem } from 'common';
+import { FormModal, IFormItem, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import ApiMenu from 'app/modules/apiManagePlatform/pages/api-market/detail/components/api-menu';
 import ApiDetail from 'app/modules/apiManagePlatform/pages/api-market/detail/components/api-detail';
 import TestModal from 'apiManagePlatform/pages/api-market/detail/components/test-modal';
 import './api-view.scss';
-import { message, Button, Input, Alert } from 'antd';
+import { message, Button, Input } from 'antd';
 import i18n from 'i18n';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import routeInfoStore from 'core/stores/route';
@@ -211,7 +211,7 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
       </div>
       <div className="apis-view-right">
         {deprecated ? (
-          <Alert className="mb-4" type="warning" message={i18n.t('the current version is deprecated')} />
+          <ErdaAlert className="mb-4" type="warning" message={i18n.t('the current version is deprecated')} />
         ) : null}
         <ApiDetail key={currentApi} dataSource={currentApiSource} extra={testButton} specProtocol={specProtocol} />
       </div>

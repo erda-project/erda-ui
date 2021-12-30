@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Checkbox, Alert } from 'antd';
-import { IF, Icon as CustomIcon, ErdaIcon } from 'common';
+import { Button, Checkbox } from 'antd';
+import { IF, Icon as CustomIcon, ErdaIcon, ErdaAlert } from 'common';
 import { goTo } from 'common/utils';
 import React from 'react';
 import BranchSelect from './branch-select';
@@ -44,7 +44,7 @@ export const renderErrorBlock = (mrStats: IMrStats, pipelineID?: string, result?
   }
 
   const renderAlert = (msg: any, type: 'success' | 'info' | 'warning' | 'error' | undefined) => (
-    <Alert className="mb-4" message={msg ?? ''} type={type} showIcon />
+    <ErdaAlert className="mb-4" message={msg ?? ''} type={type} />
   );
 
   const msgCheckrunTypeMap = {

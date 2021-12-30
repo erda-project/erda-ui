@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { DeleteConfirm, Avatar, IF, MenuPopover, ErdaIcon } from 'common';
+import { DeleteConfirm, Avatar, IF, MenuPopover, ErdaIcon, ErdaAlert } from 'common';
 import { cutStr, goTo, fromNow } from 'common/utils';
-import { Spin, Tooltip, Alert } from 'antd';
+import { Spin, Tooltip } from 'antd';
 import HealthPoint from 'project/common/components/health-point';
 import routeInfoStore from 'core/stores/route';
 import appStore from 'application/stores/application';
@@ -160,7 +160,7 @@ const RuntimeBox = (props: IProps) => {
             </Tooltip>
           </div>
         </div>
-        <Alert message={i18n.t('initializing, please wait')} type="warning" showIcon />
+        <ErdaAlert message={i18n.t('initializing, please wait')} type="warning" showIcon />
       </div>
     );
   }
@@ -215,7 +215,7 @@ const RuntimeBox = (props: IProps) => {
 
           {['Healthy', 'OK'].includes(status) ? null : <HealthPoint type="runtime" status={status} />}
         </div>
-        {isWaitApprove ? <Alert message={i18n.t('dop:project admin confirming')} type="info" showIcon /> : null}
+        {isWaitApprove ? <ErdaAlert message={i18n.t('dop:project admin confirming')} type="info" showIcon /> : null}
       </div>
     </Spin>
   );
