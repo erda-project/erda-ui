@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Avatar, Input } from 'antd';
+import { Avatar, Input, Empty } from 'antd';
 import { useMount } from 'react-use';
 import { map, find, filter } from 'lodash';
 import { ErdaIcon, EmptyHolder, Ellipsis } from 'common';
@@ -136,7 +136,7 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
             </div>
           );
         })}
-        {!rankList.length && <EmptyHolder relative className="max-w-[240px]" />}
+        {!rankList.length && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} className="max-w-[240px] mt-20" />}
       </div>
     </div>
   );
