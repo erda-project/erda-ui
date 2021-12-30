@@ -185,7 +185,7 @@ module.exports = () => {
           loader: 'ignore-loader',
         },
         {
-          test: /\.(png|jpe?g|gif|svg|ico)$/i,
+          test: /\.(png|jpe?g|gif|svg|ico|webp)$/i,
           use: [
             {
               loader: 'file-loader',
