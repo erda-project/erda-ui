@@ -17,6 +17,7 @@ import i18n from 'i18n';
 import { ErdaIcon, Pagination } from 'common';
 import { IPaginationProps } from 'common/components/pagination';
 import { useUpdateEffect } from 'react-use';
+import empty from 'app/images/empty.svg';
 
 import './index.scss';
 
@@ -228,6 +229,12 @@ function ListSelectOverlay<T extends object = any>({
               />
             </div>
           ))}
+          {!selectedList.length ? (
+            <div className="h-full flex items-center justify-center flex-col">
+              <img src={empty} />
+              <div className="text-white-6 mt-2">{i18n.t('dop:no choice {name}', { name: label })}</div>
+            </div>
+          ) : null}
         </div>
         <div className="py-3 px-2">
           <Button className="mr-2" type="primary" onClick={onOk}>
@@ -310,6 +317,13 @@ function ListSelectOverlay<T extends object = any>({
                     </div>
                   );
                 })}
+
+                {!list.length ? (
+                  <div className="h-full flex items-center justify-center flex-col">
+                    <img src={empty} />
+                    <div className="text-white-6 mt-2">{i18n.t('dop:no {name}', { name: label })}</div>
+                  </div>
+                ) : null}
               </div>
 
               {listPagination ? <Pagination hidePageSizeChange {...listPagination} /> : null}

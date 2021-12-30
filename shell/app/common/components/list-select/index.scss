@@ -1,11 +1,11 @@
 .erda-list-select {
   &-btn {
-    background-color: rgba($color-purple-deep, 0.1);
-    color: $color-purple-deep;
+    background-color: rgba($color-purple-highlight, 0.1);
+    color: $color-purple-highlight;
     transition: all 0.5s;
 
     &.ant-dropdown-open {
-      background-color: $color-purple-deep;
+      background-color: $color-purple-highlight;
       color: $white;
     }
   }
@@ -25,7 +25,7 @@
 
     .erda-list-select-selected-item:hover {
       .text-hover {
-        color: $color-purple-deep !important;
+        color: $color-purple-highlight !important;
       }
 
       .erda-list-select-selected-item-delete {
@@ -70,7 +70,7 @@
 
   .erda-list-select-selected-item:hover {
     .text-hover {
-      color: $color-purple-deep !important;
+      color: $color-purple-highlight !important;
     }
 
     .erda-list-select-selected-item-delete {
@@ -105,7 +105,7 @@
     }
 
     .active {
-      background-color: $color-purple-deep !important;
+      background-color: $color-purple-highlight !important;
     }
   }
 
@@ -138,8 +138,8 @@
     color: $white;
 
     &.ant-btn-primary {
-      background-color: $color-purple-deep;
-      border-color: $color-purple-deep;
+      background-color: $color-purple-highlight;
+      border-color: $color-purple-highlight;
     }
   }
 
