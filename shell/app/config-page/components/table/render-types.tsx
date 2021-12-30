@@ -612,11 +612,11 @@ const getTableOperation = (val: any, record: any, extra: any) => {
     if (disabled === true) {
       // 无权限操作
       return (
-        <WithAuth noAuthTip={disabledTip} key={key} pass={false}>
-          <Menu.Item key={key} className="p-0">
+        <Menu.Item key={key} className="p-0">
+          <WithAuth noAuthTip={disabledTip} key={key} pass={false}>
             <span className="table-operations-btn px-3 py-1 block">{text}</span>
-          </Menu.Item>
-        </WithAuth>
+          </WithAuth>
+        </Menu.Item>
       );
     } else if (confirm) {
       // 需要确认的操作
