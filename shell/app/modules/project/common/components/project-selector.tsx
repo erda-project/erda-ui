@@ -60,12 +60,11 @@ const headProjectRender = (val: any = {}) => {
   const curProject = projectStore.getState((s) => s.info);
   const name = val.displayName || val.name || curProject.displayName || curProject.name || '';
   return (
-    <div className="head-project-name flex flex-col pl-2">
-      <div className="flex ">
+    <div className="head-project-name flex pl-2 text-base">
+      <div className="w-full flex justify-between">
         <Ellipsis className="font-bold" title={name} />
-        <ErdaIcon type="caret-down" className="text-default-3" size="12" />
+        <ErdaIcon type="caret-down" className="icon ml-0.5" size="14" />
       </div>
-      <Ellipsis className="text-default-8 text-xs" title={curProject.desc || '-'} />
     </div>
   );
 };

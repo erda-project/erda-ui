@@ -1,6 +1,4 @@
 .head-app-selector {
-  padding: 0 12px;
-
   .load-more-selector {
     .results {
       padding: 0;
@@ -10,12 +8,9 @@
         box-shadow: unset;
       }
 
-      .values {
-        width: 100%;
-      }
-
+      .values,
       .value-item {
-        max-width: 100%;
+        width: 100%;
       }
     }
   }
@@ -23,5 +18,14 @@
   .head-app-name {
     display: flex;
     width: 100%;
+    .icon {
+      color: $color-text-icon;
+    }
+
+    &:hover {
+      .icon {
+        color: $color-default;
+      }
+    }
   }
 }

@@ -97,12 +97,11 @@ const headAppRender = (val: any = {}) => {
   const curApp = appStore.getState((s) => s.detail);
   const name = val.displayName || val.name || curApp.displayName || curApp.name || '';
   return (
-    <div className="head-app-name flex flex-col">
-      <div className="flex ">
+    <div className="head-app-name flex pl-2 text-base">
+      <div className="w-full flex justify-between">
         <Ellipsis className="font-bold" title={name} />
-        <ErdaIcon type="caret-down" className="text-default-3" size="12" />
+        <ErdaIcon type="caret-down" className="icon ml-0.5" size="14" />
       </div>
-      <Ellipsis className="text-default-8 text-xs" title={curApp.desc || '-'} />
     </div>
   );
 };
