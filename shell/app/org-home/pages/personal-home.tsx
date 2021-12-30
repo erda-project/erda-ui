@@ -45,7 +45,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
   const [listType, setListType] = React.useState('project');
 
   React.useEffect(() => {
-    document.title = `${i18n.t('Personal dashboard')} · Erda`;
+    document.title = `${i18n.t('Personal workbench')} · Erda`;
 
     return () => {
       document.title = ' · Erda';

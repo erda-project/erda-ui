@@ -72,7 +72,7 @@ The main code of the entire project, the directory structure is as follows:
       -locales: internationalized files under the module
       -types: Type definition under the module
       -components: common components under the module that can be reused for other modules
-  -org-home: personal dashboard
+  -org-home: Personal workbench
   -static: static files
   -styles: global style, color wheel
   -user: user module
