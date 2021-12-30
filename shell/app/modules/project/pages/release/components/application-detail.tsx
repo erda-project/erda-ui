@@ -48,8 +48,8 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
   const getDetail = React.useCallback(async () => {
     if (releaseID) {
       const res = await getReleaseDetail({ releaseID });
-      if (res.success) {
-        const { data } = res;
+      const { data } = res;
+      if (data) {
         setReleaseDetail(data);
         if (isEdit) {
           form.setFieldsValue({
@@ -72,11 +72,11 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
         interpolation: { escapeValue: false },
       }),
       onOk: async () => {
-        const res = await formalRelease({ releaseID });
-        if (res.success) {
-          message.success(i18n.t('{action} successfully', { action: i18n.t('dop:be formal') }));
-          getReleaseDetail({ releaseID });
-        }
+        await formalRelease({
+          releaseID,
+          $options: { successMsg: i18n.t('{action} successfully', { action: i18n.t('dop:be formal') }) },
+        });
+        getDetail();
       },
     });
   };
@@ -91,11 +91,8 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
         releaseID,
         projectID: +projectId,
       };
-      const res = await updateRelease(payload);
-      if (res.success) {
-        message.success(i18n.t('edited successfully'));
-        goTo(goTo.pages.applicationReleaseList);
-      }
+      await updateRelease({ ...payload, $options: { successMsg: i18n.t('edited successfully') } });
+      goTo(goTo.pages.applicationReleaseList);
     });
   };
 

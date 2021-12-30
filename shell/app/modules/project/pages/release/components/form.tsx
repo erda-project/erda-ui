@@ -49,8 +49,8 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   const getDetail = React.useCallback(async () => {
     if (releaseID) {
       const res = await getReleaseDetail({ releaseID });
-      if (res.success) {
-        const { data } = res;
+      const { data } = res;
+      if (data) {
         setReleaseDetail({
           ...data,
           applicationReleaseList: data.applicationReleaseList.map((item) => ({ ...item, releaseId: item.releaseID })),
@@ -78,9 +78,9 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         isStable: true,
         q: query,
       });
-
-      if (res.success) {
-        const { list, total } = res.data;
+      const { data } = res;
+      if (data) {
+        const { list, total } = data;
         setReleaseList(list);
         setReleaseTotal(total);
       }
@@ -233,17 +233,15 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         projectID: +projectId,
       };
       if (releaseID) {
-        const res = await updateRelease({ ...payload, releaseID });
-        if (res.success) {
-          message.success(i18n.t('edited successfully'));
-          goTo(goTo.pages.projectReleaseList);
-        }
+        await updateRelease({
+          ...payload,
+          releaseID,
+          $options: { successMsg: i18n.t('edited successfully') },
+        });
+        goTo(goTo.pages.projectReleaseList);
       } else {
-        const res = await addRelease({ ...payload });
-        if (res.success) {
-          message.success(i18n.t('created successfully'));
-          goTo(goTo.pages.projectReleaseList);
-        }
+        await addRelease({ ...payload, $options: { successMsg: i18n.t('created successfully') } });
+        goTo(goTo.pages.projectReleaseList);
       }
     });
   };

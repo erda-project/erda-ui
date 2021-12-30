@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { apiCreator } from 'core/service';
 
 interface ReleaseListQuery {
   projectId?: string;
@@ -39,40 +40,41 @@ interface UpdateReleaseParams extends AddReleaseParams {
   releaseID: string;
 }
 
-export const getReleaseDetail = ({ releaseID }: { releaseID?: string }): RAW_RESPONSE<RELEASE.ReleaseDetail> => {
-  return agent.get(`/api/releases/${releaseID}`).then((response: any) => response.body);
+const apis = {
+  getReleaseDetail: {
+    api: 'get@/api/releases/:releaseID',
+  },
+  getAppList: {
+    api: 'get@/api/applications',
+  },
+  getReleaseList: {
+    api: 'get@/api/releases',
+  },
+  addRelease: {
+    api: 'post@/api/releases',
+  },
+  updateRelease: {
+    api: 'put@/api/releases/:releaseID',
+  },
+  formalRelease: {
+    api: 'put@/api/releases/:releaseID/actions/formal',
+  },
 };
 
-export const getAppList = (payload: { projectId: string; q?: string }): { list: RELEASE.AppDetail[] } => {
-  return agent
-    .get(`/api/applications`)
-    .query(payload)
-    .then((response: any) => response.body);
-};
+export const getReleaseDetail = apiCreator<(payload: { releaseID?: string }) => RELEASE.ReleaseDetail>(
+  apis.getReleaseDetail,
+);
 
-export const getReleaseList = (
-  payload: ReleaseListQuery,
-): RAW_RESPONSE<{ list: RELEASE.ReleaseDetail[]; total: number }> => {
-  return agent
-    .get(`/api/releases`)
-    .query({ ...payload, pageSize: payload.pageSize || 10 })
-    .then((response: any) => response.body);
-};
+export const getAppList = apiCreator<(payload: { projectId: string; q?: string }) => { list: RELEASE.AppDetail[] }>(
+  apis.getAppList,
+);
 
-export function addRelease(payload: AddReleaseParams): RAW_RESPONSE {
-  return agent
-    .post('/api/releases')
-    .send(payload)
-    .then((response: any) => response.body);
-}
+export const getReleaseList = apiCreator<
+  (payload: ReleaseListQuery) => { list: RELEASE.ReleaseDetail[]; total: number }
+>(apis.getReleaseList);
 
-export function updateRelease({ releaseID, ...payload }: UpdateReleaseParams): RAW_RESPONSE {
-  return agent
-    .put(`/api/releases/${releaseID}`)
-    .send(payload)
-    .then((response: any) => response.body);
-}
+export const addRelease = apiCreator<(payload: AddReleaseParams) => RAW_RESPONSE>(apis.addRelease);
 
-export function formalRelease({ releaseID }: { releaseID: string }): RAW_RESPONSE {
-  return agent.put(`/api/releases/${releaseID}/actions/formal`).then((response: any) => response.body);
-}
+export const updateRelease = apiCreator<(payload: UpdateReleaseParams) => RAW_RESPONSE>(apis.updateRelease);
+
+export const formalRelease = apiCreator<(payload: { releaseID: string }) => RAW_RESPONSE>(apis.formalRelease);

@@ -26,8 +26,8 @@ const ReleaseUpdate = () => {
   const getDetail = React.useCallback(async () => {
     if (releaseID) {
       const res = await getReleaseDetail({ releaseID });
-      if (res.success) {
-        const { data } = res;
+      const { data } = res;
+      if (data) {
         setReleaseDetail(data);
       }
     }
