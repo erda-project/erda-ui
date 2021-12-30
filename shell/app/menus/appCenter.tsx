@@ -51,18 +51,18 @@ export const appList: () => LAYOUT.IApp[] = () =>
         href: goTo.resolve.mspRootOverview(),
       },
       {
-        key: 'fdp',
-        icon: 'FDP-entry',
-        name: i18n.t('Fast data'),
-        breadcrumbName: i18n.t('Fast data'),
-        href: goTo.resolve.dataAppEntry(),
-      },
-      {
         key: 'cmp',
         icon: 'CMP-entry',
         name: i18n.t('Cloud management'),
         breadcrumbName: i18n.t('Cloud management'),
         href: goTo.resolve.cmpRoot(),
+      },
+      {
+        key: 'fdp',
+        icon: 'FDP-entry',
+        name: i18n.t('Fast data'),
+        breadcrumbName: i18n.t('Fast data'),
+        href: goTo.resolve.dataAppEntry(),
       },
       {
         key: 'ecp',
