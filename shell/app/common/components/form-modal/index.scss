@@ -21,6 +21,8 @@
     .ant-modal-body,
     .ant-modal-footer {
       background: rgba(48, 38, 71);
+      padding-left: 16px;
+      padding-right: 16px;
     }
 
     .ant-modal-header {
@@ -90,9 +92,11 @@
       &:first-child {
         background: $color-white-2;
         border: 0;
+        margin-right: 8px;
       }
       &:last-child {
         background: $color-purple-deep;
+        margin-left: 0;
       }
     }
   }
