@@ -137,7 +137,7 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
                     </Button>
                   </Upload>
                   <span className="text-desc ml-2">
-                    {uploadFile ? i18n.t('selected {xx}', { xx: uploadFile }) : null}
+                    {uploadFile ? i18n.t('selected {name}', { name: uploadFile }) : null}
                   </span>
                   <div className="text-desc mt-2">{i18n.t('dop:upload-file-tip')}</div>
                 </Spin>

@@ -184,3 +184,14 @@ export const AUTO_TEST_TABS = [
     name: i18n.t('dop:parameter configuration'),
   },
 ];
+
+export const RELEASE_TABS = [
+  {
+    key: 'project',
+    name: i18n.t('dop:project release'),
+  },
+  {
+    key: 'application',
+    name: i18n.t('dop:app release'),
+  },
+];

@@ -89,6 +89,18 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       text: i18n.t('dop:Applications'),
       subtitle: i18n.t('App'),
       show: projectPerm.appList.viewAppList.pass,
+      subMenu: [
+        {
+          href: goTo.resolve.projectApps(),
+          text: i18n.t('dop:applications'),
+          prefix: `${goTo.resolve.projectApps()}`,
+        },
+        {
+          href: goTo.resolve.projectRelease(),
+          text: i18n.t('artifact management'),
+          prefix: `${goTo.resolve.projectRelease()}`,
+        },
+      ],
     },
     {
       href: goTo.resolve.project(), // `/dop/projects/${projectId}/apps`,

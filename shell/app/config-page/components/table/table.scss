@@ -86,6 +86,10 @@
     }
   }
 
+  td:hover .text-hover {
+    color: $color-purple-highlight;
+  }
+
   &.no-border {
     td {
       border: none;

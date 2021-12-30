@@ -218,15 +218,12 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
             <div className="upload-container">
               <Upload accept={suffix} {...uploadProps}>
                 <Button className="flex items-center">
-                  <ErdaIcon
-                    type="upload"
-                    className="mr-1"
-                    size="14"
-                  />{' '}
-                  {i18n.t('upload')}
+                  <ErdaIcon type="upload" className="mr-1" size="14" /> {i18n.t('upload')}
                 </Button>
               </Upload>
-              <span className="text-desc ml-2">{uploadFile ? i18n.t('selected {xx}', { xx: uploadFile }) : null}</span>
+              <span className="text-desc ml-2">
+                {uploadFile ? i18n.t('selected {name}', { name: uploadFile }) : null}
+              </span>
             </div>
           );
         },

@@ -30,6 +30,7 @@ export interface IProps {
   value?: Obj;
   onConfigChange?: (config: ConfigData) => void;
   processField?: (field: Field) => IFormItem;
+  hideSave?: boolean;
 }
 
 interface Field {
@@ -116,6 +117,7 @@ const ConfigurableFilter = ({
   onDeleteFilter,
   onSaveFilter,
   processField,
+  hideSave,
 }: IProps) => {
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
@@ -185,15 +187,17 @@ const ConfigurableFilter = ({
   const content = (
     <div className="erda-configurable-filter-content">
       <div className="erda-configurable-filter-header flex justify-start">
-        <ConfigSelector
-          list={configList}
-          value={currentConfig}
-          isNew={isNew}
-          defaultValue={defaultConfig}
-          onChange={onConfigChange}
-          onDeleteFilter={onDeleteFilter}
-          onSaveFilter={saveFilter}
-        />
+        {!hideSave ? (
+          <ConfigSelector
+            list={configList}
+            value={currentConfig}
+            isNew={isNew}
+            defaultValue={defaultConfig}
+            onChange={onConfigChange}
+            onDeleteFilter={onDeleteFilter}
+            onSaveFilter={saveFilter}
+          />
+        ) : null}
 
         <div className="flex-1 flex justify-end">
           <ErdaIcon
@@ -207,7 +211,7 @@ const ConfigurableFilter = ({
         </div>
       </div>
 
-      <div className="erda-configurable-filter-body mt-3">
+      <div className={`erda-configurable-filter-body ${!hideSave ? 'mt-3' : ''}`}>
         <Form form={form} layout="vertical" onValuesChange={onValuesChange}>
           <Row>
             {fieldsList?.map((item, index: number) => {
