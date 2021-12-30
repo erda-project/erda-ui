@@ -1,10 +1,24 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 import React from 'react';
 import { Avatar, Input } from 'antd';
 import { useMount } from 'react-use';
-import ImgMap from 'config-page/img-map';
 import { map, find, filter } from 'lodash';
 import { ErdaIcon, EmptyHolder, Ellipsis } from 'common';
+import { getAvatarChars } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
+import { useUserMap } from 'core/stores/userMap';
 import { getActiveRankList } from '../../services/personal-home';
 import i18n from 'i18n';
 
@@ -19,6 +33,7 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
   const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [inputVisible, setInputVisible] = React.useState(false);
   const [searchKey, setSearchKey] = React.useState('');
+  const userMap = useUserMap();
 
   useMount(() => {
     getActiveRankList.fetch({ orgId });
@@ -32,8 +47,17 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
   }, [currentUser.id, sourceList]);
 
   const rankList = React.useMemo(() => {
-    return filter(sourceList, (item) => item.name.toLowerCase().includes(searchKey.toLowerCase()));
-  }, [searchKey, sourceList]);
+    return filter(
+      map(sourceList, (item) => {
+        const user = userMap[item.id];
+        if (user) {
+          return { ...item, name: user.nick || user.name, avatar: user.avatar };
+        }
+        return { ...item, name: '-', avatar: '' };
+      }),
+      (item) => item.name.toLowerCase().includes(searchKey.toLowerCase()),
+    );
+  }, [searchKey, sourceList, userMap]);
 
   const toggleSearchInput = () => {
     setInputVisible(!inputVisible);
@@ -77,7 +101,9 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
       </div>
       <div className={`${searchKey ? 'hidden' : 'px-4 mb-2'}`}>
         <div className="flex items-center flex-col">
-          <Avatar src={currentUser.avatar || ImgMap.default_user_avatar} size={64} alt="user-avatar" />
+          <Avatar src={currentUser.avatar} size={64} alt="user-avatar">
+            {getAvatarChars(currentUser.nick || currentUser.name)}
+          </Avatar>
           <div className="truncate mt-2">{currentUser.nick || currentUser.name}</div>
         </div>
         <div className="grid grid-cols-12 items-center h-16 bg-default-01 h-17">
@@ -92,7 +118,7 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
         </div>
       </div>
       <div className={`overflow-y-auto ${searchKey ? 'h-[386px]' : 'h-56'}`}>
-        {map(rankList, ({ rank, name, value, id, avatar }) => {
+        {map(rankList, ({ rank, name, avatar, value, id }) => {
           return (
             <div key={id} className="grid grid-cols-12 h-11 items-center px-5 py-2">
               <div className="col-span-2 flex justify-center w-6 h-6 leading-6">
@@ -100,7 +126,9 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
               </div>
               <div className="col-span-7 flex items-center">
                 <div className="mr-1 w-7">
-                  <Avatar src={avatar || ImgMap.default_user_avatar} size={28} alt="user-avatar" />
+                  <Avatar src={avatar} size={28} alt="user-avatar">
+                    {getAvatarChars(name)}
+                  </Avatar>
                 </div>
                 <Ellipsis title={name} />
               </div>

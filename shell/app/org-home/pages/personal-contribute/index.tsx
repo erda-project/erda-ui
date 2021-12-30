@@ -1,3 +1,16 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 import React from 'react';
 import { useMount } from 'react-use';
 import { Echarts } from 'charts';
@@ -29,12 +42,6 @@ const infoList = [
     key: 'commits',
     color: 'purple-deep',
   },
-  {
-    icon: 'liushuixian',
-    desc: i18n.t('dop:number of execution pipelines'),
-    key: 'executions',
-    color: 'yellow-deep',
-  },
 ];
 
 const PersonalContribute = ({ currentUser }: { currentUser: ILoginUser }) => {
@@ -62,7 +69,7 @@ const PersonalContribute = ({ currentUser }: { currentUser: ILoginUser }) => {
         {
           type: 'radar',
           data: map(
-            map(contributes?.indicators.data, (item) => ({ value: item })),
+            map(contributes?.indicators.data, ({ data }) => ({ value: data })),
             (item, i) => ({
               ...item,
               areaStyle: { color: i === 1 ? '#5C6BCC' : themeColor['default-3'] },
