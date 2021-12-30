@@ -95,6 +95,13 @@ const Ticket = () => {
         },
       },
       {
+        type: Input,
+        name: 'source',
+        customProps: {
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:source') }),
+        },
+      },
+      {
         type: Select,
         name: 'state',
         customProps: {
@@ -176,13 +183,6 @@ const Ticket = () => {
           allowClear: true,
           style: { width: 'auto' },
           ranges: getTimeRanges(),
-        },
-      },
-      {
-        type: Input,
-        name: 'source',
-        customProps: {
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:source') }),
         },
       },
       {
