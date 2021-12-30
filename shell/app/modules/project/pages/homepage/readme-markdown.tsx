@@ -77,30 +77,23 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
       operationBtns={operationBtns}
     />
   ) : (
-    <Tooltip
-      placement="left"
-      title={i18n.t('dop:click to edit')}
-      overlayClassName="homepage-tooltip"
-      arrowPointAtCenter
+    <div
+      className="relative cursor-pointer rounded w-full"
+      onClick={() => updater.isEditing(true)}
+      style={{ maxHeight: expanded ? '' : maxHeight }}
     >
-      <div
-        className="relative cursor-pointer rounded w-full"
-        onClick={() => updater.isEditing(true)}
-        style={{ maxHeight: expanded ? '' : maxHeight }}
-      >
-        <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
-          <div ref={mdContentRef} className="md-content">
-            <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ img: ScalableImage }}>
-              {value || i18n.t('no description yet')}
-            </ReactMarkdown>
-            <div
-              className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex justify-center items-center ${
-                !expandBtnVisible || expanded ? 'hidden' : ''
-              }`}
-            />
-          </div>
+      <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
+        <div ref={mdContentRef} className="md-content">
+          <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ img: ScalableImage }}>
+            {value || i18n.t('no description yet')}
+          </ReactMarkdown>
+          <div
+            className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex justify-center items-center ${
+              !expandBtnVisible || expanded ? 'hidden' : ''
+            }`}
+          />
         </div>
       </div>
-    </Tooltip>
+    </div>
   );
 };
