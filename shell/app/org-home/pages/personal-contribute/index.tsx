@@ -60,11 +60,14 @@ const PersonalContribute = ({ currentUser }: { currentUser: ILoginUser }) => {
         indicator: map(contributes?.indicators.title, (item, i) => ({
           name: item,
           max: contributes?.indicators.max[i],
+          color: 'rgba(48,38,71,0.3)',
         })),
         shape: 'circle',
         splitArea: { show: false },
         nameGap: 4,
         splitNumber: 3,
+        axisLine: { lineStyle: { color: 'rgba(48,38,71,0.08)' } },
+        splitLine: { lineStyle: { color: 'rgba(48,38,71,0.08)' } },
       },
       series: [
         {
@@ -73,9 +76,10 @@ const PersonalContribute = ({ currentUser }: { currentUser: ILoginUser }) => {
             map(contributes?.indicators.data, ({ data }) => ({ value: data })),
             (item, i) => ({
               ...item,
-              areaStyle: { color: i === 1 ? newColorMap.primary5 : themeColor['default-3'] },
+              // areaStyle: { color: i === 1 ? newColorMap.primary5 : themeColor['default-3'] },
             }),
           ),
+          areaStyle: { color: '#687FFF', opacity: 1 },
           lineStyle: { opacity: 0 },
         },
       ],

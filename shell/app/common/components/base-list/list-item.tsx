@@ -99,8 +99,8 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
             <ErdaIcon disableCurrent type={icon} size={28} />
           </div>
         ) : null}
-        <div className="flex flex-1">
-          <div className="flex-1 flex flex-col justify-center">
+        <div className="flex flex-1 overflow-hidden">
+          <div className="flex-1 flex flex-col justify-center overflow-hidden">
             <div className="body-title">
               {titlePrefixIcon && (
                 <Tooltip title={titlePrefixIconTip}>
