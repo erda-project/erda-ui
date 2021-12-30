@@ -120,6 +120,24 @@ module.exports = {
         '.border-dashed': {
           border: '1px dashed #00000019',
         },
+        '.flex-h-center': {
+          display: 'flex',
+          'align-items': 'center',
+        },
+        '.flex-v-center': {
+          display: 'flex',
+          'justify-content': 'center',
+        },
+        '.flex-all-center': {
+          display: 'flex',
+          'align-items': 'center',
+          'justify-content': 'center',
+        },
+        '.inline-flex-all-center': {
+          display: 'inline-flex',
+          'align-items': 'center',
+          'justify-content': 'center',
+        },
       };
       const contentUtilities = {
         '.required': {
