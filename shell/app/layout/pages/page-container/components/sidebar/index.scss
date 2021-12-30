@@ -65,7 +65,7 @@
       position: absolute;
       left: -243px;
       width: 216px;
-      z-index: 9;
+      z-index: 999;
       background: $color-bg;
       padding: 16px;
       height: calc(100vh - 36px - 36px);
@@ -105,7 +105,7 @@
   .ant-menu {
     background-color: transparent;
     .ant-menu-item-icon {
-      color: $color-primary;
+      color: $color-default-8;
       font-size: 20px;
     }
 

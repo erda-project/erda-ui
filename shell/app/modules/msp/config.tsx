@@ -116,7 +116,7 @@ export const getMSPSubtitleByName = (key: MS_INDEX.IRootMenu) => {
 
 export const MSIconMap = {
   Overview: <ErdaIcon type="fuwuliebiao" />,
-  ServiceManage: <ErdaIcon type="fuwujiankong" />,
+  ServiceManage: <ErdaIcon type="fuwuguance" />,
   AlertCenter: <ErdaIcon type="gaojing" />,
   EnvironmentSet: <ErdaIcon type="shezhi-menu" />,
   MonitorCenter: <ErdaIcon type="fuwujiankong" />,

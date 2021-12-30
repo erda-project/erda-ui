@@ -4,6 +4,10 @@
   width: 100%;
   overflow: hidden;
 
+  .erda-nav {
+    z-index: 1000;
+  }
+
   .erda-main-content {
     position: relative;
     flex: 1;

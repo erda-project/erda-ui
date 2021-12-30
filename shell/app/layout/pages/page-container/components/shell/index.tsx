@@ -27,7 +27,7 @@ interface IProps {
 const Shell = ({ children, breadcrumb, announcement, navigation, sidebar, className, mainClassName }: IProps) => {
   return (
     <div className={`erda-shell ${className}`}>
-      <div className="h-full">{navigation}</div>
+      <div className="erda-nav h-full">{navigation}</div>
       {sidebar}
       {(breadcrumb || announcement) && (
         <div className="absolute flex items-center justify-between z-10 top-0 left-28 right-4">
