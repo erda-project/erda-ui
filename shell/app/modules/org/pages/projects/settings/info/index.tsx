@@ -71,7 +71,7 @@ const Info = () => {
   const { rollbackConfig } = info;
 
   const updatePrj = (values: Obj) => {
-    const { isPublic, resourceConfig } = values;
+    const { isPublic = String(info.isPublic), resourceConfig } = values;
     if (resourceConfig) {
       Object.keys(values.resourceConfig)
         .filter((key) => resourceConfig[key])
@@ -426,7 +426,9 @@ const Info = () => {
         formData={{ ...info, isPublic: `${info.isPublic || 'false'}` }}
       />
       <FormModal
-        onOk={(result) => updateProject(result).then(() => setProjectRollbackEditVisible(false))}
+        onOk={(result) =>
+          updateProject({ ...result, isPublic: info.isPublic }).then(() => setProjectRollbackEditVisible(false))
+        }
         onCancel={() => setProjectRollbackEditVisible(false)}
         name={i18n.t('dop:rollback point')}
         visible={projectRollbackEditVisible}
