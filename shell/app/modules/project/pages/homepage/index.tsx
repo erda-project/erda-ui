@@ -1,9 +1,9 @@
 import React from 'react';
 import i18n from 'core/i18n';
-import { map } from 'lodash';
+import { map, uniqueId } from 'lodash';
 import { ErdaIcon, FormModal } from 'common';
 import routeInfoStore from 'core/stores/route';
-import { Avatar, Spin, Tooltip, Modal, Popconfirm } from 'antd';
+import { Avatar, Spin, Tooltip, Popconfirm } from 'antd';
 import devopsSvg from 'app/images/devops.svg';
 import { regRules, goTo } from 'common/utils';
 import { getAvatarChars } from 'app/common/utils';
@@ -38,6 +38,8 @@ const iconStyle = {
   className: 'text-default-4',
   size: 20,
 };
+
+const MAX_LINKS_LENGTH = 5;
 
 const LinkRow = (props: LinkRowProps) => {
   const { item, handleEditLink, handleDelete } = props;
@@ -200,7 +202,7 @@ export const ProjectHomepage = () => {
               {map(data?.links, (item) => (
                 <LinkRow item={item} handleEditLink={handleEditLink} handleDelete={handleDelete} key={item.id} />
               ))}
-              {data?.links.length < 5 && (
+              {data?.links.length < MAX_LINKS_LENGTH && (
                 <div className="flex items-center mb-4 cursor-pointer" onClick={handleAdd}>
                   <ErdaIcon type="lianjie" {...iconStyle} />
                   <div
@@ -237,7 +239,7 @@ export const ProjectHomepage = () => {
               const targetIndex = data.links.findIndex((x) => x.id === currentLink.id);
               Object.assign(data.links[targetIndex], res);
             } else {
-              data.links.push(res);
+              data.links.push({ ...res, id: uniqueId() });
             }
             handleSave(data);
           }}
