@@ -26,10 +26,9 @@ import remarkGfm from 'remark-gfm';
 import { eventHub } from 'common/utils/event-hub';
 import { isZh } from 'core/i18n';
 import layoutStore from 'layout/stores/layout';
-
 import './index.scss';
 
-export const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) => {
+const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) => {
   const [isImagePreviewOpen, scalableImgSrc] = layoutStore.useStore((s) => [s.isImagePreviewOpen, s.scalableImgSrc]);
 
   const closePreview = React.useCallback((e?: MouseEvent) => {
@@ -407,5 +406,9 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     </div>
   );
 });
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+/* @ts-ignore */
+EditField.ScalableImage = ScalableImage;
 
 export default EditField;

@@ -102,8 +102,8 @@ export const ProjectHomepage = () => {
   const info = projectStore.useStore((s) => s.info);
   const [projectHomepageInfo, loading] = getProjectHomepage.useState();
   const [isVisible, setIsVisible] = React.useState(false);
-  const [data, setData] = React.useState(projectHomepageInfo);
-  const [currentLink, setCurrentLink] = React.useState(null as LinkItem | null);
+  const [data, setData] = React.useState(projectHomepageInfo || { links: [], readme: '' });
+  const [currentLink, setCurrentLink] = React.useState<LinkItem | null>(null);
   const [markdownContent, setMarkdownContent] = React.useState(projectHomepageInfo?.readme);
   const [disabledMarkdownBtn, setDisabledMarkdownBtn] = React.useState(false);
   const { createdAt, owners, logo, displayName, name, desc } = info;
@@ -120,8 +120,7 @@ export const ProjectHomepage = () => {
   }, [projectHomepageInfo]);
 
   function handleDelete(id: number) {
-    const targetIndex = data?.links.findIndex((x) => x.id === id) as number;
-    data?.links.splice(targetIndex, 1);
+    data.links = data?.links.filter((x) => x.id !== id);
     handleSave(data);
   }
 
@@ -176,11 +175,7 @@ export const ProjectHomepage = () => {
       <div className="project-homepage">
         <div className="homepage-header bg-default">
           <div className="project-icon bg-default">
-            {logo ? (
-              <img className="big-icon" src={logo} width={64} height={64} />
-            ) : (
-              <img className="big-icon" src={devopsSvg} width={64} height={64} />
-            )}
+            <img className="big-icon" src={logo || devopsSvg} width={64} height={64} />
           </div>
           <div className="project-name">{displayName || name}</div>
         </div>
@@ -257,10 +252,10 @@ export const ProjectHomepage = () => {
           wrapClassName="new-form-modal"
           onOk={(res: LinkItem) => {
             if (currentLink) {
-              const targetIndex = data.links.findIndex((x) => x.id === currentLink.id);
-              Object.assign(data.links[targetIndex], res);
+              const targetIndex = data?.links.findIndex((x) => x.id === currentLink.id);
+              Object.assign(data?.links[targetIndex], res);
             } else {
-              data.links.push({ ...res, id: uniqueId() });
+              data?.links.push({ ...res, id: uniqueId() });
             }
             handleSave(data);
           }}

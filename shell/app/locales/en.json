@@ -830,7 +830,7 @@
     "Format must be 2w 3d 4h 5m": "Format must be 2w 3d 4h 5m",
     "Function unavailable in network block period.": "this function cannot be used during the network closure!",
     "Git reference": "Git reference",
-    "Homepage": "Homepage",
+    "home page": "home page",
     "If it is a bugfix, please add a test case proving that the bug is fixed.": "If it is a bugfix, please add testcase to prove the bug fix",
     "If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.": "After choosing to the external code repository, the DevOps platform will no longer provide online code repository functions such as code browsing, commit history viewing, branch management, and merge requests, and other functions such as pipelines and deployment centers will not be affected.",
     "It can only be dragged to the end of the corresponding month. Please go to the details page for better modification.": "this drag can only be dragged to the end of the corresponding month, please go to the details page for precise modification",

@@ -14,23 +14,26 @@
 import React from 'react';
 import i18n from 'core/i18n';
 import { Tooltip } from 'antd';
-import { MarkdownEditor } from 'common';
+import { MarkdownEditor, EditField } from 'common';
 import remarkGfm from 'remark-gfm';
 import { useUpdate } from 'common/use-hooks';
 import ReactMarkdown from 'react-markdown';
-import { ScalableImage } from 'common/components/edit-field';
 import './index.scss';
 
 interface IMdProps {
   value?: string;
   originalValue?: string;
   disabled?: boolean;
-  hasEdited?: boolean;
   maxHeight: number;
   onChange: (v: string) => void;
-  onSave: (v?: string) => void;
+  onSave: (v: string) => void;
 }
-export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValue, maxHeight, ...rest }: IMdProps) => {
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+/* @ts-ignore */
+const { ScalableImage } = EditField;
+
+export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValue, maxHeight }: IMdProps) => {
   const [{ v, expanded, expandBtnVisible, isEditing }, updater, update] = useUpdate({
     v: value,
     expanded: false,
@@ -69,7 +72,6 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
 
   return isEditing ? (
     <MarkdownEditor
-      {...rest}
       value={v}
       onChange={onChange}
       defaultMode="md"

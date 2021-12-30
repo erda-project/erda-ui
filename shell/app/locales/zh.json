@@ -830,7 +830,7 @@
     "Format must be 2w 3d 4h 5m": "格式必须为 2w 3d 4h 5m",
     "Function unavailable in network block period.": "封网期间不可使用该功能！",
     "Git reference": "Git 引用",
-    "Homepage": "主页",
+    "home page": "主页",
     "If it is a bugfix, please add a test case proving that the bug is fixed.": "如果是 bugfix，请增加证明 bug 解决的 testcase",
     "If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.": "选择配置外置代码仓库后，DevOps 平台将不再提供代码浏览、提交历史查看、分支管理和合并请求等在线代码仓库功能，流水线和部署中心等其他功能不受影响。",
     "It can only be dragged to the end of the corresponding month. Please go to the details page for better modification.": "本次拖拽只能拖拽至对应月末, 请至详情页进行精确修改",
