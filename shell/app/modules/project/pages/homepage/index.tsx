@@ -22,7 +22,7 @@ import { getAvatarChars } from 'app/common/utils';
 import moment from 'moment';
 import { useHoverDirty, useMount } from 'react-use';
 import { ReadMeMarkdown } from './readme-markdown';
-import defaultProjectMainBg from 'app/images/default-project-main-bg.jpg';
+import defaultProjectMainBg from 'app/images/default-project-main-bg.webp';
 import projectStore from 'app/modules/project/stores/project';
 import { useUserMap } from 'core/stores/userMap';
 import { getProjectHomepage, saveProjectHomepage } from 'project/services/project';

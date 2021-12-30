@@ -36,6 +36,7 @@ declare module '*.ico';
 declare module '*.png';
 declare module '*.jpg';
 declare module '*.svg';
+declare module '*.webp';
 
 declare const mount: any;
 declare const shallow: any;
