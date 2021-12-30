@@ -239,7 +239,7 @@ function getCmpRouter(): RouteConfigItem[] {
             {
               path: 'add',
               breadcrumbName: i18n.t('cmp:new O & M dashboard'),
-              layout: { fullHeight: true },
+              layout: { fullHeight: true, noWrapper: true },
               getComp: (cb) => cb(import('cmp/pages/alarm-report/custom-dashboard/custom-dashboard')),
             },
             {
