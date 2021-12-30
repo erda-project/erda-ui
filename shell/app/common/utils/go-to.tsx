@@ -171,7 +171,8 @@ export enum pages {
   projectMemberManagement = '/{orgName}/dop/projects/{projectId}/setting?tabKey=projectMember',
   projectRelease = '/{orgName}/dop/projects/{projectId}/release/project',
   projectReleaseCreate = '/{orgName}/dop/projects/{projectId}/release/createRelease',
-  projectReleaseDetail = '/{orgName}/dop/projects/{projectId}/release/releaseDetail/{id}',
+  projectReleaseDetail = '/{orgName}/dop/projects/{projectId}/release/project/{releaseId}',
+  applicationReleaseDetail = '/{orgName}/dop/projects/{projectId}/release/application/{releaseId}',
 
   // app
   app = '/{orgName}/dop/projects/{projectId}/apps/{appId}',

@@ -140,8 +140,12 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
           return (
             <div className="flex justify-between items-center">
               <div className="flex-1 min-w-0">
-                <div className="text-hover truncate" title={item.releaseName}>
-                  {item.releaseName}
+                <div
+                  className="text-hover truncate cursor-pointer"
+                  title={item.version}
+                  onClick={() => window.open(goTo.resolve.applicationReleaseDetail({ releaseId: item.releaseId }))}
+                >
+                  {item.version}
                 </div>
                 <div className="text-xs flex mt-1">
                   <div className="desc">{i18n.t('dop:owned application')}</div>
@@ -158,8 +162,8 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
           return (
             <div className="flex justify-between items-center">
               <div className="flex-1 min-w-0">
-                <div className="truncate" title={item.releaseName}>
-                  {item.releaseName}
+                <div className="truncate" title={item.version}>
+                  {item.version}
                 </div>
                 <div className="text-xs flex">
                   <div className="desc">{i18n.t('dop:owned application')}</div>
@@ -193,7 +197,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         return (value || []).map((item: RELEASE.ReleaseDetail) => (
           <div className="flex justify-between items-center bg-default-01 p-2">
             <div>
-              <div>{item.releaseName}</div>
+              <div>{item.version}</div>
               <div className="text-xs flex mt-1">
                 <div className="text-default-6">{i18n.t('dop:owned application')}</div>
                 <div className="ml-2">{item.applicationName}</div>
