@@ -27,19 +27,19 @@ const { themeColor } = ErdaIcon;
 const infoList = [
   {
     icon: 'xietong',
-    desc: i18n.t('dop:collaboration items created/updated'),
+    desc: i18n.t('dop:project cooperative participation index'),
     key: 'events',
     color: 'blue-deep',
   },
   {
     icon: 'zidonghuaceshi',
-    desc: i18n.t('dop:created/updated automated test cases'),
+    desc: i18n.t('dop:project quality assurance contribution index'),
     key: 'cases',
     color: 'green-deep',
   },
   {
     icon: 'daimatijiao',
-    desc: i18n.t('dop:number of code submissions'),
+    desc: i18n.t('dop:code production index'),
     key: 'commits',
     color: 'purple-deep',
   },
@@ -90,7 +90,7 @@ const PersonalContribute = ({ currentUser }: { currentUser: ILoginUser }) => {
   return (
     <div className="bg-white shadow-card pb-4 w-60">
       <div className="flex justify-between items-center h-12 px-4">
-        <div className="text-normal">{i18n.t('dop:personal contribution')}</div>
+        <div className="text-normal font-bold">{i18n.t('dop:personal contribution')}</div>
       </div>
       <div className="flex justify-center">
         <Echarts style={{ maxHeight: '200px', width: '210px' }} option={getChartOption()} />
