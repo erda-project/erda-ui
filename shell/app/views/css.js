@@ -15,7 +15,7 @@ module.exports = `
 @font-face{font-family:"Roboto-Regular";src:url('/static/roboto-regular.ttf') format('opentype')}
 body{margin:0;font-family:"Roboto-Regular";background-color:#f3f2f4;}
 #erda-skeleton{position:fixed;top:0;left:0;z-index:999;display:flex;width:100%;height:100%;pointer-events:none}
-.skeleton-nav{display:flex;align-items:center;justify-content:space-between;flex-direction:column;background-color:#fff;width:56px;height:100%;margin-right:16px}
+.skeleton-nav{display:flex;align-items:center;justify-content:space-between;flex-direction:column;background-color:#fcfcfc;width:56px;height:100%;margin-right:16px}
 .skeleton-sidebar-item{width:24px;height:24px;border-radius:100%;margin:10px auto;margin-bottom:20px}
 .skeleton-sidebar-info{display:flex;margin:36px 0 0;padding:12px;background-color:rgba(48,38,71,0.03)}
 .skeleton-body{position:relative;display:flex;flex:1;flex-direction:column;overflow:hidden}
