@@ -409,6 +409,7 @@ function getProjectRouter(): RouteConfigItem[] {
               path: 'application/:releaseID',
               pageName: `${i18n.t('Artifact')}${i18n.t('detail')}`,
               getComp: (cb) => cb(import('project/pages/release/components/application-detail')),
+              layout: { fullHeight: true },
             },
             {
               path: 'createRelease',

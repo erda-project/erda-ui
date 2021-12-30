@@ -236,13 +236,13 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         const res = await updateRelease({ ...payload, releaseID });
         if (res.success) {
           message.success(i18n.t('edited successfully'));
-          goTo(goTo.pages.projectRelease);
+          goTo(goTo.pages.projectReleaseList);
         }
       } else {
         const res = await addRelease({ ...payload });
         if (res.success) {
           message.success(i18n.t('created successfully'));
-          goTo(goTo.pages.projectRelease);
+          goTo(goTo.pages.projectReleaseList);
         }
       }
     });
@@ -259,7 +259,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
           <Button className="mr-3" type="primary" onClick={submit}>
             {i18n.t('submit')}
           </Button>
-          <Button onClick={() => goTo(goTo.pages.projectRelease)}>{i18n.t('return to previous page')}</Button>
+          <Button onClick={() => goTo(goTo.pages.projectReleaseList)}>{i18n.t('return to previous page')}</Button>
         </div>
       ) : null}
     </div>

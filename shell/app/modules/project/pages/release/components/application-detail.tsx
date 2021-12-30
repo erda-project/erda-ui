@@ -83,7 +83,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
 
   const submit = () => {
     form.validateFields().then(async (values) => {
-      const params = {
+      const payload = {
         ...values,
         isStable: true,
         isFormal: false,
@@ -91,16 +91,16 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
         releaseID,
         projectID: +projectId,
       };
-      const res = await updateRelease(params);
+      const res = await updateRelease(payload);
       if (res.success) {
         message.success(i18n.t('edited successfully'));
-        goTo(goTo.pages.projectRelease);
+        goTo(goTo.pages.applicationReleaseList);
       }
     });
   };
 
   return (
-    <div className="release-releaseDetail release-form">
+    <div className="release-releaseDetail release-form h-full overflow-y-auto pb-18">
       <Form layout="vertical" form={form}>
         <Tabs defaultActiveKey="1">
           <TabPane tab={i18n.t('dop:basic information')} key="1">
@@ -148,7 +148,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                 <div>{labels.gitCommitId || '-'}</div>
               </div>
               {isEdit ? (
-                <div className="w-2/5">
+                <div className="w-4/5">
                   <RenderFormItem label={i18n.t('content')} name="changelog" type="custom" getComp={() => <EditMd />} />
                 </div>
               ) : (
@@ -178,7 +178,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
         </Tabs>
       </Form>
 
-      <div className="mb-2 mt-4">
+      <div className="absolute bottom-0 left-4 right-0 bg-white z-10 py-4">
         {isEdit ? (
           <Button className="mr-3 bg-default" type="primary" onClick={submit}>
             {i18n.t('submit')}
@@ -189,7 +189,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
             {i18n.t('dop:be formal')}
           </Button>
         ) : null}
-        <Button className="bg-default-06 border-default-06" onClick={() => goTo(goTo.pages.projectRelease)}>
+        <Button className="bg-default-06 border-default-06" onClick={() => goTo(goTo.pages.applicationReleaseList)}>
           {i18n.t('return to previous page')}
         </Button>
       </div>

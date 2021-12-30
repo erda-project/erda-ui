@@ -1,4 +1,8 @@
 .release-form {
+  .render-form.ant-form-vertical {
+    width: 80%;
+  }
+
   .ant-btn {
     background-color: $color-default-06;
     border-color: $color-default-06;
@@ -10,7 +14,8 @@
     color: $white;
   }
 
-  input {
+  .ant-form-item-control-input-content > input {
+    width: 50%;
     background-color: $color-default-04 !important;
     border: none;
   }

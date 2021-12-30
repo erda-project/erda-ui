@@ -230,9 +230,9 @@ const ConfigurableFilter = ({
           {i18n.t('cancel')}
         </Button>
         <Button className="mx-1" onClick={setAllOpen}>
-          {i18n.t('dop:set it to open all')}
+          {hideSave ? i18n.t('clear') : i18n.t('dop:set it to open all')}
         </Button>
-        <Button type="primary" className="mx-1" onClick={onFilter}>
+        <Button type="primary" className="mx-1 bg-purple-deep border-purple-deep" onClick={onFilter}>
           {i18n.t('common:filter')}
         </Button>
       </div>

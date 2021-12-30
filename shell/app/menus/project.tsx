@@ -96,9 +96,9 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
           prefix: `${goTo.resolve.projectApps()}`,
         },
         {
-          href: goTo.resolve.projectRelease(),
+          href: goTo.resolve.projectReleaseList(),
           text: i18n.t('artifact management'),
-          prefix: `${goTo.resolve.projectRelease()}`,
+          prefix: `${goTo.resolve.projectRelease()}/`,
         },
       ],
     },
