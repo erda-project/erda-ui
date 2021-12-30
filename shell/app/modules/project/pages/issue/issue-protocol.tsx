@@ -183,18 +183,19 @@ const IssueProtocol = ({ issueType }: IProps) => {
     </Menu>
   );
 
-  const ImportComp = () => (
-    <WithAuth pass={issuePerm.import.pass}>
-      <Tooltip title={i18n.t('import')}>
-        <ErdaIcon
-          type="daoru"
-          className="p-1 text-default-4 hover:text-default-8 hover:bg-default-08 cursor-pointer ml-3"
-          size={20}
-          onClick={() => updater.importFileVisible(true)}
-        />
-      </Tooltip>
-    </WithAuth>
-  );
+  const ImportComp = () =>
+    issueType === ISSUE_TYPE.ALL ? null : (
+      <WithAuth pass={issuePerm.import.pass}>
+        <Tooltip title={i18n.t('import')}>
+          <ErdaIcon
+            type="daoru"
+            className="p-1 text-default-4 hover:text-default-8 hover:bg-default-08 cursor-pointer ml-3"
+            size={20}
+            onClick={() => updater.importFileVisible(true)}
+          />
+        </Tooltip>
+      </WithAuth>
+    );
 
   const ExportComp = () => (
     <WithAuth pass={issuePerm.export.pass}>
