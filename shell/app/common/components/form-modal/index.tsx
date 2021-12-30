@@ -20,6 +20,7 @@ import { isPromise } from 'common/utils';
 import { FormInstance } from 'core/common/interface';
 import { IFormItem } from './render-formItem';
 import moment from 'moment';
+import './index.scss';
 
 interface IProps {
   visible: boolean;
@@ -40,6 +41,7 @@ interface IProps {
   modalProps?: {
     [propName: string]: any;
   };
+  wrapClassName?: string;
   alertProps?: { [propName: string]: any };
   customRender?: (content: JSX.Element) => JSX.Element;
   onOk?: (result: object, isAddMode: boolean) => PromiseLike<object> | void;
@@ -163,6 +165,7 @@ class FormModalComp extends React.Component<IProps, IState> {
       formProps = {},
       modalProps = {},
       alertProps = {},
+      wrapClassName = '',
       ...rest
     } = this.props;
     const { confirmLoading } = this.state;
@@ -182,6 +185,7 @@ class FormModalComp extends React.Component<IProps, IState> {
 
     return (
       <Modal
+        wrapClassName={wrapClassName}
         title={modalTitle}
         visible={visible}
         onOk={this.handleOk}

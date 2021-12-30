@@ -34,6 +34,12 @@ function getProjectRouter(): RouteConfigItem[] {
       mark: 'project',
       routes: [
         {
+          path: 'homepage',
+          breadcrumbName: i18n.t('dop:Project homepage'),
+          layout: { fullHeight: true, className: 'project-homepage-wrapper' },
+          getComp: (cb) => cb(import('project/pages/homepage'), 'ProjectHomepage'),
+        },
+        {
           path: 'apps',
           breadcrumbName: i18n.t('dop:applications'),
           layout: { fullHeight: true },

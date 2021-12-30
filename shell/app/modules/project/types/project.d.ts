@@ -181,4 +181,15 @@ declare namespace PROJECT {
       'issue-dashboard': Obj;
     };
   }
+
+  interface HomepageInfoLink {
+    id?: number | string;
+    name?: string;
+    url: string;
+  }
+  interface HomepageInfo {
+    readme: string;
+    links: HomepageInfoLink[];
+    projectID?: string;
+  }
 }
