@@ -78,10 +78,8 @@
       background-color: $color-white-3;
     }
     .search {
-      padding-left: 0.5rem;
-      padding-top: 0;
-      padding-bottom: 0;
-      margin: 0;
+      padding: 0 4px;
+      margin-top: 5px;
       border-color: transparent !important;
       background-color: rgba($white, 0.08) !important;
       .ant-input {
@@ -95,6 +93,7 @@
     &.ant-dropdown-menu {
       background-color: $color-default;
       color: $white;
+      height: 100%;
     }
 
     .ant-dropdown-menu-item:hover,
@@ -129,7 +128,7 @@
   .content {
     display: flex;
     min-height: 150px;
-    max-height: 200px;
+    max-height: 240px;
     margin-top: 12px;
     border: 1px solid $color-white-3;
     border-radius: $radius;
@@ -174,8 +173,8 @@
         display: flex;
         align-items: center;
         // justify-content: space-between;
-        margin-left: 0;
-        padding: 6px 10px;
+        margin: 0 8px;
+        padding: 9px 10px;
         color: $color-white-6;
 
         &:hover,

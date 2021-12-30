@@ -35,6 +35,7 @@ interface IProps {
   q?: string;
   className?: string;
   dropdownClassName?: string;
+  dropdownStyle?: React.CSSProperties;
   category?: IOption[];
   list?: IOption[];
   forwardedRef?: any;
@@ -131,6 +132,7 @@ const PureLoadMoreSelector = (props: IProps) => {
   const {
     className = '',
     dropdownClassName = '',
+    dropdownStyle = '',
     type: initType = SelectType.Normal,
     mode,
     value,
@@ -345,7 +347,6 @@ const PureLoadMoreSelector = (props: IProps) => {
                   />
                 </div>
               </MenuItem>,
-              <Menu.Divider key="_search-divider" />,
             ]
           : null}
         {isMultiple
@@ -389,6 +390,7 @@ const PureLoadMoreSelector = (props: IProps) => {
         overlay={getOverlay()}
         visible={visible}
         overlayClassName={`load-more-selector-dropdown ${dropdownClassName}`}
+        overlayStyle={dropdownStyle}
         onVisibleChange={(visible) => onVisibleChange?.(visible, innerValue)}
       >
         <div

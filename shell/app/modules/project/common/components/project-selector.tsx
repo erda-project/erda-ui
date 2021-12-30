@@ -51,6 +51,7 @@ export const ProjectSelector = (props: IProps) => {
         list: map(list, (item) => ({ ...item, label: item.displayName || item.name, value: item.id })),
       })}
       optionRender={ProjectItem}
+      dropdownStyle={{ width: 400, height: 300 }}
       {...props}
     />
   );
