@@ -69,6 +69,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
   const [active, setActive] = React.useState(false);
   const [value, setValue] = React.useState(pValue);
 
+  const contentRef = React.useRef<HTMLDivElement>(null);
   useUpdateEffect(() => {
     if (pValue !== value) {
       setValue(pValue);
@@ -78,12 +79,9 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
   React.useEffect(() => {
     // 控制点击外部关闭 dropdown
     const handleCloseDropdown = (e: MouseEvent) => {
-      const dropdowns = Array.from(document.querySelectorAll('.erda-dropdown-select'));
-      const dropdownButton = document.querySelector('.erda-dropdown-select-content');
       const node = e.target as Node;
-      const inner = dropdowns.some((wrap) => wrap.contains(node));
-
-      if (!inner && node !== dropdownButton) {
+      const inner = contentRef.current?.contains(node);
+      if (!inner && node !== contentRef.current) {
         setActive(false);
       }
     };
@@ -149,6 +147,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
       {...restProps}
     >
       <div
+        ref={contentRef}
         className="inline-flex items-center cursor-pointer erda-dropdown-select-content"
         style={{ maxWidth: width }}
         onClick={() => mode === 'simple' && setActive(!active)}
