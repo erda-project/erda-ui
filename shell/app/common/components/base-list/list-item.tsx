@@ -107,7 +107,7 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                   <ErdaIcon type={titlePrefixIcon} className="title-icon mr-2" />
                 </Tooltip>
               )}
-              <Ellipsis className="font-medium title-text text-default-8" title={title} />
+              <Ellipsis className=" title-text text-base text-default hover:text-purple-deep" title={title} />
               {titleSummary ? (
                 <span className="inline-block ml-1 bg-default-1 px-1.5 rounded-lg text-default-8 text-xs leading-5">
                   {titleSummary}
