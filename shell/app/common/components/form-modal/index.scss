@@ -20,11 +20,38 @@
     .ant-modal-header,
     .ant-modal-body,
     .ant-modal-footer {
-      background: rgba(48, 38, 71, 0.96);
+      background: rgba(48, 38, 71);
+    }
+
+    .ant-modal-header {
+      height: 48px;
+      display: flex;
+      align-items: center;
+    }
+
+    .ant-modal-body {
+      padding-top: 0;
+      padding-bottom: 0;
+      min-height: 64px;
+    }
+
+    .ant-modal-footer {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
     }
 
     .ant-modal-title {
       color: $white;
+    }
+
+    .ant-form-item {
+      margin-bottom: 16px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
 
     .ant-form-item-label label {
@@ -42,7 +69,7 @@
     }
 
     .ant-input {
-      border: 0;
+      border-color: transparent;
       color: rgba($white, 0.6);
       background: rgba($white, 0.08);
 
