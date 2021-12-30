@@ -1,17 +1,18 @@
-.middleware-dashboard-content {
-  margin: -12px;
-}
-
 .middleware-dashboard-top {
   min-width: 1000px;
-  margin-bottom: 32px;
-  padding: $p12;
-  background: $white;
-  box-shadow: $color-dark-1 0 1px 8px 0;
 
   .filter-item {
     display: flex;
     align-items: flex-start;
+  }
+
+  // TODO: remove this after DC support overwrite style
+  .dc-dashboard {
+    background-color: unset;
+    border: none;
+    .dc-dashboard-content {
+      padding: 0;
+    }
   }
 
   // TODO: 合并相同样式
