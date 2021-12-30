@@ -20,6 +20,7 @@ import orgStore from 'app/org-home/stores/org';
 import { getPersonalContribute } from '../../services/personal-home';
 import { colorToRgb } from 'app/common/utils';
 import i18n from 'i18n';
+import { newColorMap } from 'charts/theme';
 
 const { themeColor } = ErdaIcon;
 
@@ -72,7 +73,7 @@ const PersonalContribute = ({ currentUser }: { currentUser: ILoginUser }) => {
             map(contributes?.indicators.data, ({ data }) => ({ value: data })),
             (item, i) => ({
               ...item,
-              areaStyle: { color: i === 1 ? '#5C6BCC' : themeColor['default-3'] },
+              areaStyle: { color: i === 1 ? newColorMap.primary5 : themeColor['default-3'] },
             }),
           ),
           lineStyle: { opacity: 0 },
