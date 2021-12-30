@@ -181,9 +181,7 @@ export const ProjectHomepage = () => {
           <div className="homepage-info py-3 text-default">
             <div className="info-title">{i18n.t('dop:About')}</div>
             <div className="info-brief mb-4">
-              {desc ? (
-                'Enterprise-grade application building deployment monitoring platform (AnPaas)'
-              ) : (
+              {desc || (
                 <span>
                   {i18n.t(
                     'dop:Tell about your project in one sentence, so that more people can quickly understand your project, go to',
