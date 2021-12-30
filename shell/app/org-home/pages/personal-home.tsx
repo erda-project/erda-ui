@@ -27,6 +27,8 @@ import PersonalHomeV1 from './personal-home-v1';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import moment from 'moment';
+import ActiveRank from './active-rank';
+import PersonalContribute from './personal-contribute';
 import './personal-home.scss';
 
 const getInvitationTime = () => {
@@ -188,17 +190,21 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
 
   const UserProfileComp = React.useCallback(() => {
     return (
-      <UserProfile
-        className="mt-20"
-        data={{
-          id: loginUser.id,
-          name: loginUser.nick || loginUser.name,
-          avatar: loginUser.avatar,
-          email: loginUser.email,
-          phone: loginUser.phone,
-          lastLoginTime: loginUser.lastLoginAt,
-        }}
-      />
+      <div className="space-y-4">
+        <UserProfile
+          className="mt-20"
+          data={{
+            id: loginUser.id,
+            name: loginUser.nick || loginUser.name,
+            avatar: loginUser.avatar,
+            email: loginUser.email,
+            phone: loginUser.phone,
+            lastLoginTime: loginUser.lastLoginAt,
+          }}
+        />
+        <PersonalContribute currentUser={loginUser} />
+        <ActiveRank currentUser={loginUser} />
+      </div>
     );
   }, [loginUser]);
 
