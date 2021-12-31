@@ -12,10 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Avatar, Input, Empty } from 'antd';
-import { useMount } from 'react-use';
-import { map, find, filter } from 'lodash';
-import { ErdaIcon, EmptyHolder, Ellipsis } from 'common';
+import { Avatar, Empty } from 'antd';
+import { map, find } from 'lodash';
+import { ErdaIcon, Ellipsis } from 'common';
 import { getAvatarChars } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import { useUserMap } from 'core/stores/userMap';
@@ -31,13 +30,11 @@ const RANK_ICONS = {
 const ActiveRank = (props: { currentUser: ILoginUser }) => {
   const { currentUser } = props;
   const orgId = orgStore.getState((s) => s.currentOrg.id);
-  const [inputVisible, setInputVisible] = React.useState(false);
-  const [searchKey, setSearchKey] = React.useState('');
   const userMap = useUserMap();
 
-  useMount(() => {
+  React.useEffect(() => {
     getActiveRankList.fetch({ orgId });
-  });
+  }, [orgId]);
 
   const sourceList = getActiveRankList.useData();
 
@@ -47,59 +44,21 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
   }, [currentUser.id, sourceList]);
 
   const rankList = React.useMemo(() => {
-    return filter(
-      map(sourceList, (item) => {
-        const user = userMap[item.id];
-        if (user) {
-          return { ...item, name: user.nick || user.name, avatar: user.avatar };
-        }
-        return { ...item, name: '-', avatar: '' };
-      }),
-      (item) => item.name.toLowerCase().includes(searchKey.toLowerCase()),
-    );
-  }, [searchKey, sourceList, userMap]);
-
-  const toggleSearchInput = () => {
-    setInputVisible(!inputVisible);
-  };
-
-  const onChangeSearchKey = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchKey(event.target.value);
-  };
+    return map(sourceList, (item) => {
+      const user = userMap[item.id];
+      if (user) {
+        return { ...item, name: user.nick || user.name, avatar: user.avatar };
+      }
+      return { ...item, name: '-', avatar: '' };
+    });
+  }, [sourceList, userMap]);
 
   return (
     <div className="bg-white shadow-card pb-4 w-60">
       <div className="flex justify-between items-center h-12 px-4">
         <div className="text-normal font-bold">{i18n.t('dop:contribution ranking')}</div>
-        <div className="flex items-center">
-          <div className={`transition-all ${inputVisible ? 'w-32' : 'w-0'}`}>
-            {inputVisible && (
-              <Input
-                className="bg-hover-gray-bg"
-                size="small"
-                autoFocus
-                bordered={false}
-                allowClear
-                onChange={onChangeSearchKey}
-                onBlur={() => {
-                  setInputVisible(false);
-                  setSearchKey('');
-                }}
-                value={searchKey}
-                placeholder={i18n.t('dop:search name')}
-              />
-            )}
-          </div>
-          <ErdaIcon
-            type="search"
-            className={`cursor-pointer ${inputVisible ? 'hidden' : ''}`}
-            color="normal"
-            size="16"
-            onClick={toggleSearchInput}
-          />
-        </div>
       </div>
-      <div className={`${searchKey ? 'hidden' : 'px-4 mb-2'}`}>
+      <div className="px-4 mb-2">
         <div className="flex items-center flex-col">
           <Avatar src={currentUser.avatar} size={64} alt="user-avatar">
             {getAvatarChars(currentUser.nick || currentUser.name)}
@@ -117,7 +76,7 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
           </div>
         </div>
       </div>
-      <div className={`overflow-y-auto ${searchKey ? 'h-[386px]' : 'h-56'}`}>
+      <div className="overflow-y-auto h-56">
         {map(rankList, ({ rank, name, avatar, value, id }) => {
           return (
             <div key={id} className="grid grid-cols-12 h-11 items-center px-5 py-2">
