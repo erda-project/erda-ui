@@ -70,7 +70,7 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
   return (
     <div className="bg-white shadow-card pb-4 w-60">
       <div className="flex justify-between items-center h-12 px-4">
-        <div className="text-normal font-bold">{i18n.t('dop:active ranking')}</div>
+        <div className="text-normal font-bold">{i18n.t('dop:contribution ranking')}</div>
         <div className="flex items-center">
           <div className={`transition-all ${inputVisible ? 'w-32' : 'w-0'}`}>
             {inputVisible && (
@@ -113,7 +113,7 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
           </div>
           <div className="col-span-6 flex flex-col items-center">
             <div className="text-purple-deep text-xl">{selfRank?.value ?? '0'}</div>
-            <div className="text-xs text-sub">{i18n.t('dop:active value')}</div>
+            <div className="text-xs text-sub">{i18n.t('dop:contribution value')}</div>
           </div>
         </div>
       </div>

@@ -178,7 +178,7 @@ export const Card = (props: CP_CARD.Props) => {
           </span>
         </div>
       ) : null}
-      <div className={`cp-cards flex ${direction} py-3 px-0.5 overflow-auto`}>
+      <div className={`cp-cards flex ${direction} py-3 px-2 overflow-auto`} style={{ transform: 'translateX(-6px)' }}>
         {cards?.length
           ? cards.map((card) => {
               return (

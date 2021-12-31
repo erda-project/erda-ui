@@ -115,7 +115,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       ],
     },
     {
-      href: goTo.resolve.project(), // `/dop/projects/${projectId}/apps`,
+      href: goTo.resolve.projectOM(),
       icon: <ErdaIcon type="yingyongyunwei" />,
       text: i18n.t('dop:O & M'),
       subtitle: i18n.t('dop:Operator'),

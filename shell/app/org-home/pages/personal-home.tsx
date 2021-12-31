@@ -239,7 +239,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
       page: {
         props: {
           spaceSize: 'large',
-          className: 'personal-workbench-page items-stretch',
+          className: 'personal-workbench-page items-stretch mr-4',
         },
       },
       leftContent: {
@@ -281,7 +281,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
   }
 
   return (
-    <div className="pb-2 pr-4 h-full">
+    <div className="pb-2 h-full">
       <DiceConfigPage
         scenarioType="personal-workbench"
         scenarioKey="personal-workbench"
