@@ -124,6 +124,8 @@ const Navigation = () => {
           className="absolute workbench-icon"
           size={32}
           onClick={() => {
+            // close message site
+            layoutStore.reducers.switchMessageCenter(null);
             const isIncludeOrg = !!orgs.find((x) => x.name === curOrgName);
             if (isAdminRoute) {
               const lastOrg = window.localStorage.getItem('lastOrg');
