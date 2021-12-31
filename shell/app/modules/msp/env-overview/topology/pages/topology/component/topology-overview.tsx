@@ -211,7 +211,7 @@ export const TopologyOverviewWrapper: React.FC = ({ children }) => {
   return (
     <div className={`topology-overview relative ${expand ? 'expand' : 'collapse'}`}>
       <div
-        className="absolute h-8 w-5 bg-white-1 top-1/2 -mt-4 -right-5 z-10 cursor-pointer flex justify-center items-center text-white-4 hover:text-white"
+        className="expand-handle absolute h-8 w-5 bg-white-1 top-1/2 -mt-4 -right-5 z-10 cursor-pointer flex justify-center items-center text-white-4 hover:text-white"
         onClick={() => {
           setExpand((prevState) => !prevState);
         }}
