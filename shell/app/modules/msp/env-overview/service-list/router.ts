@@ -21,7 +21,7 @@ interface Tabs {
 
 const tabs = [
   { key: 'overview', name: i18n.t('overview') },
-  { key: 'transaction', name: i18n.t('msp:transaction') },
+  { key: 'transaction', name: i18n.t('msp:call monitor') },
   { key: 'anomaly', name: i18n.t('msp:exception') },
   { key: 'process', name: i18n.t('msp:process') },
 ];
