@@ -86,6 +86,31 @@
     }
   }
 
+  .dice-cp-table-batch-operations {
+    .ant-dropdown-menu {
+      background-color: rgba($color-default, 0.96);
+      color: $white;
+      box-shadow: 0 1px 4px 0 rgba($color-default, 0.16);
+    }
+
+    .ant-dropdown-menu-item:hover {
+      background-color: rgba($white, 0.08);
+    }
+
+    .ant-dropdown-menu-item,
+    .ant-dropdown-menu-submenu-title {
+      color: $color-white-9;
+
+      &:hover {
+        color: $white;
+      }
+    }
+
+    .disabled {
+      color: $color-white-9 !important;
+    }
+  }
+
   td:hover .text-hover {
     color: $color-purple-highlight;
   }
