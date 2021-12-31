@@ -416,6 +416,22 @@ body {
     display: block;
   }
 
+  // for table operations
+  .ant-dropdown-menu-dark,
+  .ant-dropdown-menu-dark .ant-dropdown-menu {
+    background: $color-default;
+    .disabled {
+      color: #999 !important;
+    }
+  }
+
+  // for table operations
+  .ant-dropdown-menu-dark {
+    .fake-link {
+      color: unset;
+    }
+  }
+
   .ant-dropdown-menu-title-content {
     width: 100%;
   }

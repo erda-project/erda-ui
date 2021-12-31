@@ -614,7 +614,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
       return (
         <Menu.Item key={key} className="p-0">
           <WithAuth noAuthTip={disabledTip} key={key} pass={false}>
-            <span className="table-operations-btn px-3 py-1 block">{text}</span>
+            <span className="table-operations-btn px-4 py-1 block">{text}</span>
           </WithAuth>
         </Menu.Item>
       );
@@ -632,7 +632,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
             onCancel={(e: any) => e && e.stopPropagation()}
             zIndex={1100}
           >
-            <span className="table-operations-btn px-3 py-1 block" onClick={(e: any) => e.stopPropagation()}>
+            <span className="table-operations-btn px-4 py-1 block" onClick={(e: any) => e.stopPropagation()}>
               {text}
             </span>
           </Popconfirm>
@@ -643,7 +643,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
       return (
         <Menu.Item key={key} className="p-0">
           <span
-            className="table-operations-btn px-3 py-1 block"
+            className="table-operations-btn px-4 py-1 block"
             key={key}
             onClick={(e: any) => {
               e.stopPropagation();
@@ -687,7 +687,15 @@ const getTableOperation = (val: any, record: any, extra: any) => {
 
   return (
     <div className="table-operations">
-      <Dropdown overlay={<Menu>{operationList}</Menu>} align={{ offset: [0, 5] }} trigger={['click']}>
+      <Dropdown
+        overlay={
+          <Menu theme="dark" style={{ minWidth: 160, padding: '8px 0' }}>
+            {operationList}
+          </Menu>
+        }
+        align={{ offset: [0, 5] }}
+        trigger={['click']}
+      >
         <ErdaIcon type="more" className="cursor-pointer p-1 bg-hover rounded-sm" onClick={(e) => e.stopPropagation()} />
       </Dropdown>
     </div>
