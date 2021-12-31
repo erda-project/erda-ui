@@ -31,7 +31,7 @@ export const OperationAction = (props: IOperationAction) => {
   if (!operation && !operations) return children;
   let curOp: CP_COMMON.Operation = operation;
   if (operations) {
-    const clickOp = map(filterClickOperation(operations));
+    const clickOp = map(filterClickOperations(operations));
     if (clickOp[0]) {
       curOp = clickOp[0];
     }
