@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { useMount } from 'react-use';
 import { Echarts } from 'charts';
 import { map } from 'lodash';
 import { ErdaIcon } from 'common';
@@ -20,7 +19,7 @@ import orgStore from 'app/org-home/stores/org';
 import { getPersonalContribute } from '../../services/personal-home';
 import { colorToRgb } from 'app/common/utils';
 import i18n from 'i18n';
-import { newColorMap } from 'charts/theme';
+// import { newColorMap } from 'charts/theme';
 
 const { themeColor } = ErdaIcon;
 
@@ -48,9 +47,9 @@ const infoList = [
 const PersonalContribute = ({ currentUser }: { currentUser: ILoginUser }) => {
   const orgId = orgStore.getState((s) => s.currentOrg.id);
 
-  useMount(() => {
+  React.useEffect(() => {
     getPersonalContribute.fetch({ orgId, userId: currentUser.id });
-  });
+  }, [currentUser.id, orgId]);
 
   const contributes = getPersonalContribute.useData();
 
