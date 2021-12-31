@@ -24,6 +24,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
   const menu = [
     {
       href: goTo.resolve.project(), // `/dop/projects/${projectId}/issues/all`,
+      withOpenKeys: [goTo.resolve.projectAllIssue()],
       icon: <ErdaIcon type="shouye" />,
       text: i18n.t('dop:Project homepage'),
       subtitle: i18n.t('dop:home page'),

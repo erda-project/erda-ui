@@ -167,10 +167,14 @@ const SideBar = () => {
   const { menu = [] } = siderInfo || {};
   React.useEffect(() => {
     const { activeKeyList, fullMenu, selectedKey } = organizeInfo(menu);
+    const currentMenu = fullMenu.find((item) => item.href === selectedKey);
     if (!compareSameMenu(fullMenu, state.menus) || selectedKey !== state.selectedKey) {
+      const currentOpenKeys = (currentMenu?.withOpenKeys || []).concat(
+        (localStorage.getItem('isSubSidebarFold') !== 'true' && activeKeyList) || [],
+      );
       update({
         menus: fullMenu,
-        openKeys: (localStorage.getItem('isSubSidebarFold') !== 'true' && activeKeyList) || [],
+        openKeys: currentOpenKeys,
         selectedKey,
       });
     }
