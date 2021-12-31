@@ -13,7 +13,7 @@
 
 declare namespace CP_KV {
   interface IProps {
-    mode?: 'dark' | 'light';
+    theme?: 'dark' | 'light';
     gutter?: number;
     span?: number[];
     wrapperClass?: string;

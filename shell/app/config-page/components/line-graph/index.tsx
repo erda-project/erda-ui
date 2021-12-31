@@ -24,7 +24,7 @@ const themeColor = {
 
 const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
   const { props: configProps, data } = props;
-  const color = themeColor[configProps.mode ?? 'light'];
+  const color = themeColor[configProps.theme ?? 'light'];
 
   const option = React.useMemo(() => {
     const { dimensions, xAxis, yAxis, subTitle } = data;
@@ -118,7 +118,7 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
     <div className={`px-4 pb-2 ${configProps.className ?? ''}`} style={{ backgroundColor: colorToRgb(color, 0.02) }}>
       <div
         className={`title h-12 flex items-center justify-between ${
-          configProps.mode === 'dark' ? 'text-white' : 'text-normal'
+          configProps.theme === 'dark' ? 'text-white' : 'text-normal'
         }`}
       >
         {data.title}

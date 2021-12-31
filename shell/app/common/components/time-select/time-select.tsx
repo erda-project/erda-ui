@@ -210,7 +210,7 @@ interface IState {
 }
 
 export interface IProps {
-  mode: 'dark' | 'light';
+  theme: 'dark' | 'light';
   className?: string;
   triggerChangeOnMounted?: boolean;
   defaultValue?: ITimeRange;
@@ -332,7 +332,7 @@ const TimeSelect = (props: IProps) => {
   };
 
   return (
-    <div className={`time-select h-7 flex rounded ${props.className ?? ''} ${props.mode || 'light'}`}>
+    <div className={`time-select h-7 flex rounded ${props.className ?? ''} ${props.theme || 'light'}`}>
       <Dropdown
         getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
         visible={visible}

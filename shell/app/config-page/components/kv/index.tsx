@@ -23,7 +23,7 @@ const IndicatorCard: React.FC<CP_KV.Props> = (props) => {
   const list = data.list ?? [];
   const itemSpan = span ?? new Array(list.length).fill(Math.ceil(24 / list.length));
   return (
-    <Row className={`${configProps.wrapperClass ?? ''} ${configProps.mode ?? 'light'} cp-kv w-full`} gutter={gutter}>
+    <Row className={`${configProps.wrapperClass ?? ''} ${configProps.theme ?? 'light'} cp-kv w-full`} gutter={gutter}>
       {list.map((item, index) => {
         return (
           <Col key={item.key} span={itemSpan[index]}>

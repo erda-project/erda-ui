@@ -192,7 +192,7 @@ const Transaction = () => {
           <div className="flex justify-end items-center h-8 my-2">
             <TimeSelect
               className="ml-3"
-              mode="dark"
+              theme="dark"
               defaultValue={rangeData}
               defaultStrategy={refreshStrategy}
               onChange={handleTimeChange}
@@ -222,7 +222,7 @@ const Transaction = () => {
                     ...previousValue,
                     [currentValue]: {
                       props: {
-                        mode: 'dark',
+                        theme: 'dark',
                         className: 'mb-2',
                         style: {
                           width: '100%',
@@ -240,7 +240,7 @@ const Transaction = () => {
                     [currentValue]: {
                       props: {
                         gutter: 0,
-                        mode: 'dark',
+                        theme: 'dark',
                       },
                     },
                   }),

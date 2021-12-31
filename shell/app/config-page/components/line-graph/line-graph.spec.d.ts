@@ -13,7 +13,7 @@
 
 declare namespace CP_LINE_GRAPH {
   interface IProps {
-    mode: 'dark' | 'light';
+    theme: 'dark' | 'light';
     className?: string;
     style: import('react').CSSProperties;
   }
