@@ -118,7 +118,7 @@ const SideBar = () => {
     let selectedKey = '';
     const fullMenu: IMenu[] = menu.map((item: IMenu) => {
       let { subMenu = [], href } = item;
-      href = href.split('?')[0];
+      href = href?.split('?')[0];
       if (isEmpty(subMenu) && item.key && subList[item.key]) {
         subMenu = removeQuery(subList[item.key]) as any;
       }

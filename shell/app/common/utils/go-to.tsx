@@ -175,6 +175,7 @@ export enum pages {
   projectReleaseDetail = '/{orgName}/dop/projects/{projectId}/release/project/{releaseId}',
   applicationReleaseList = '/{orgName}/dop/projects/{projectId}/release/application',
   applicationReleaseDetail = '/{orgName}/dop/projects/{projectId}/release/application/{releaseId}',
+  projectOM = '/{orgName}/dop/projects/{projectId}/om',
 
   // app
   app = '/{orgName}/dop/projects/{projectId}/apps/{appId}',

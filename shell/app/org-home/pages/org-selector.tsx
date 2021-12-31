@@ -13,12 +13,10 @@
 import React from 'react';
 import i18n from 'i18n';
 import { DropdownSelectNew } from 'common';
-import { compact } from 'lodash';
-import { insertWhen, goTo } from 'common/utils';
+import { goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import orgStore from 'app/org-home/stores/org';
 import ImgMap from 'config-page/img-map';
-import { useMount } from 'react-use';
 
 type Size = 'small' | 'middle' | 'big';
 interface IProps {
@@ -28,25 +26,25 @@ interface IProps {
 }
 const OrgSelector = (props: IProps) => {
   const { mode, size, optionSize } = props;
-  const { getPublicOrgs } = orgStore.effects;
+  // const { getPublicOrgs } = orgStore.effects;
   const orgName = routeInfoStore.useStore((s) => s.params.orgName);
-  const [orgs, publicOrgs] = orgStore.useStore((s) => [s.orgs, s.publicOrgs]);
-  useMount(() => {
-    getPublicOrgs();
-  });
+  const orgs = orgStore.useStore((s) => s.orgs);
+  // useMount(() => {
+  //   getPublicOrgs();
+  // });
 
-  const usedPublicOrg = compact(
-    publicOrgs.map((o) =>
-      orgs.find((myOrg) => myOrg.id === o.id)
-        ? null
-        : {
-            key: o.name,
-            label: o.displayName,
-            desc: o.name,
-            imgURL: o.logo || ImgMap.frontImg_default_org_icon,
-          },
-    ),
-  );
+  // const usedPublicOrg = compact(
+  //   publicOrgs.map((o) =>
+  //     orgs.find((myOrg) => myOrg.id === o.id)
+  //       ? null
+  //       : {
+  //           key: o.name,
+  //           label: o.displayName,
+  //           desc: o.name,
+  //           imgURL: o.logo || ImgMap.frontImg_default_org_icon,
+  //         },
+  //   ),
+  // );
 
   const options = [
     {
@@ -59,13 +57,14 @@ const OrgSelector = (props: IProps) => {
         imgURL: o.logo || ImgMap.frontImg_default_org_icon,
       })),
     },
-    ...insertWhen(!!usedPublicOrg.length, [
-      {
-        label: i18n.t('dop:public organization'),
-        key: 'public',
-        children: usedPublicOrg,
-      },
-    ]),
+    // delete in 12.31 by PD
+    // ...insertWhen(!!usedPublicOrg.length, [
+    //   {
+    //     label: i18n.t('dop:public organization'),
+    //     key: 'public',
+    //     children: usedPublicOrg,
+    //   },
+    // ]),
   ];
 
   const changeOrg = (_: string, op: Obj) => {
