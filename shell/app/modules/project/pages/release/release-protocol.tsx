@@ -14,6 +14,7 @@
 import React from 'react';
 import DiceConfigPage, { useMock } from 'app/config-page';
 import { RadioTabs } from 'common';
+import { usePerm, WithAuth } from 'user/common';
 import { Button } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
@@ -26,6 +27,7 @@ interface IProps {
 
 const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
+  const [canCreateRelease] = usePerm((s) => [s.project.release.create.pass]);
   const [isFormal, setIsFormal] = React.useState<string | number>('informal');
   const inParams = {
     isProjectRelease,
@@ -53,9 +55,11 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
     <>
       {isProjectRelease ? (
         <div className="top-button-group">
-          <Button type={'primary'} onClick={onCreate}>
-            {i18n.t('new {name}', { name: i18n.t('Artifact') })}
-          </Button>
+          <WithAuth pass={canCreateRelease}>
+            <Button type={'primary'} onClick={onCreate}>
+              {i18n.t('new {name}', { name: i18n.t('Artifact') })}
+            </Button>
+          </WithAuth>
         </div>
       ) : null}
 
