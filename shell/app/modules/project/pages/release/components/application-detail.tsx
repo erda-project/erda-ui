@@ -41,7 +41,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
     createdAt,
     labels = {} as RELEASE.Labels,
     changelog,
-    images = [],
+    serviceImages = [],
     isFormal,
   } = releaseDetail;
 
@@ -97,7 +97,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
   };
 
   return (
-    <div className="release-releaseDetail release-form h-full overflow-y-auto pb-18">
+    <div className="release-releaseDetail release-form h-full overflow-y-auto pb-16">
       <Form layout="vertical" form={form}>
         <Tabs defaultActiveKey="1">
           <TabPane tab={i18n.t('dop:basic information')} key="1">
@@ -162,8 +162,11 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
           </TabPane>
           <TabPane tab={i18n.t('dop:images list')} key="2">
             <Table
-              columns={[{ title: i18n.t('dop:image name'), dataIndex: 'name' }]}
-              dataSource={images.map((item: string) => ({ name: item }))}
+              columns={[
+                { title: i18n.t('dop:image name'), dataIndex: 'image' },
+                { title: i18n.t('service name'), dataIndex: 'name' },
+              ]}
+              dataSource={serviceImages}
               onChange={() => getReleaseDetail({ releaseID })}
             />
           </TabPane>
