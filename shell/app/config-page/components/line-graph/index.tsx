@@ -27,10 +27,10 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
   const color = themeColor[configProps.mode ?? 'light'];
 
   const option = React.useMemo(() => {
-    const { dimensions, xAxis, yAxis, unit } = data;
-    const yAxisName = unit
+    const { dimensions, xAxis, yAxis, subTitle } = data;
+    const yAxisName = subTitle
       ? {
-          name: unit,
+          name: subTitle,
           nameTextStyle: {
             padding: [0, 7, -4, 0],
             align: 'right',
@@ -45,7 +45,7 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
           const { axisValue } = param[0] || [];
           const tips = [`${axisValue}`];
           param.forEach((item) => {
-            tips.push(`${item.marker} ${item.seriesName}: ${item.data} ${unit ?? ''}`);
+            tips.push(`${item.marker} ${item.seriesName}: ${item.data} ${subTitle ?? ''}`);
           });
           return tips.join('</br>');
         },
@@ -54,7 +54,7 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
         containLabel: true,
         left: 25,
         bottom: 30,
-        top: unit ? 20 : 10,
+        top: subTitle ? 25 : 10,
         right: 0,
       },
       legend: {

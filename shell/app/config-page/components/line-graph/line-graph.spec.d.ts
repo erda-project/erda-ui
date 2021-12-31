@@ -24,7 +24,7 @@ declare namespace CP_LINE_GRAPH {
     data: {
       dimensions: string[];
       title: string;
-      unit?: string;
+      subTitle?: string;
       inverse: boolean;
       xAxis: {
         inverse: boolean;
