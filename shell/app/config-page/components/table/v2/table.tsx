@@ -15,7 +15,7 @@ import React from 'react';
 import { Button, Checkbox, Dropdown, Menu } from 'antd';
 import PureTable from 'common/components/table';
 import { TablePaginationConfig } from 'common/components/table/interface';
-import { compact, difference, has, intersection, map } from 'lodash';
+import { compact, difference, has, intersection, isNil, map } from 'lodash';
 import { ErdaIcon, Title } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useUpdateEffect } from 'react-use';
@@ -108,13 +108,17 @@ const Table = (props: CP_TABLE2.Props) => {
   };
 
   const onChange = (_pg: TablePaginationConfig, _filter: Obj, _sorter: ISorter, _extra: ITableAction) => {
-    console.log(changeSort, _extra);
     if (_extra?.action === 'sort' && changeSort) {
-      const sorterData = _sorter?.order ? { field: _sorter?.field, order: _sorter?.order } : undefined;
-      execOperation({ key: 'changeSort', ...changeSort, clientData: sorterData });
-    }
-    if (_extra.action === 'paginate' && changePage) {
-      changePage(_pg.current || 1, _pg.pageSize);
+      execOperation({
+        key: 'changeSort',
+        ...changeSort,
+        clientData: {
+          dataRef: {
+            fieldBindToOrder: _sorter.field,
+            ascOrder: isNil(_sorter?.order) ? null : _sorter?.order === 'ascend',
+          },
+        },
+      });
     }
   };
 
