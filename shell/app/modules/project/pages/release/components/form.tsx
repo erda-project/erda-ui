@@ -26,7 +26,8 @@ import userStore from 'user/stores';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useLoading } from 'core/stores/loading';
-import { getReleaseList, getReleaseDetail, addRelease, updateRelease } from 'project/services/release';
+import { debounce } from 'lodash';
+import { getReleaseList, getReleaseDetail, addRelease, updateRelease, checkVersion } from 'project/services/release';
 
 import './form.scss';
 
@@ -45,6 +46,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   const [releaseDetail, setReleaseDetail] = React.useState<RELEASE.ReleaseDetail>({} as RELEASE.ReleaseDetail);
   const [releaseList, setReleaseList] = React.useState<RELEASE.ReleaseDetail[]>([] as RELEASE.ReleaseDetail[]);
   const [releaseTotal, setReleaseTotal] = React.useState<number>(0);
+  const [isUnique, setIsUnique] = React.useState<boolean>(true);
 
   const getDetail = React.useCallback(async () => {
     if (releaseID) {
@@ -113,6 +115,25 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
     setQuery(q);
   };
 
+  const check = React.useCallback(
+    debounce(async (version) => {
+      if (version && version !== releaseDetail.version) {
+        const payload = {
+          orgID: orgId,
+          isProjectRelease: true,
+          projectID: +projectId,
+          version,
+        };
+        const res = await checkVersion(payload);
+        const { data } = res;
+        if (data) {
+          setIsUnique(data.isUnique);
+        }
+      }
+    }, 1000),
+    [releaseDetail],
+  );
+
   const list = [
     {
       label: i18n.t('dop:version name'),
@@ -121,12 +142,23 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
       itemProps: {
         placeholder: i18n.t('please enter {name}', { name: i18n.t('dop:version name') }),
       },
+      formItemProps: {
+        validateStatus: !isUnique ? 'error' : undefined,
+        help: !isUnique ? i18n.t('{name} already exists', { name: i18n.t('dop:version name') }) : undefined,
+      },
       rules: [
         { required: true, message: i18n.t('please enter {name}', { name: i18n.t('dop:version name') }) },
         { max: 30, message: i18n.t('dop:no more than 30 characters') },
         {
           pattern: /^[A-Za-z0-9._-]+$/,
           message: i18n.t('dop:Must be composed of letters, numbers, underscores, hyphens and dots.'),
+        },
+        {
+          validator: (_, value: string) => {
+            setIsUnique(true);
+            check(value);
+            return Promise.resolve();
+          },
         },
       ],
     },

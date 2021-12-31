@@ -35,7 +35,10 @@ const ProjectRelease = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <ErdaAlert showOnceKey="application-release-list" message={i18n.t('dop:Applications release list top desc')} />
+      <ErdaAlert
+        showOnceKey="application-release-list"
+        message={<pre className="mb-0">{i18n.t('dop:Applications release list top desc')}</pre>}
+      />
 
       <div className="flex-1 flex bg-white">
         <div className="release-app-list overflow-y-auto px-2">

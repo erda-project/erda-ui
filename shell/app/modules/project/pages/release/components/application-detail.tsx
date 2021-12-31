@@ -21,8 +21,10 @@ import Table from 'common/components/table';
 import routeInfoStore from 'core/stores/route';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { debounce } from 'lodash';
+import orgStore from 'app/org-home/stores/org';
 import FileContainer from 'application/common/components/file-container';
-import { getReleaseDetail, formalRelease, updateRelease } from 'project/services/release';
+import { getReleaseDetail, formalRelease, updateRelease, checkVersion } from 'project/services/release';
 
 import './form.scss';
 
@@ -31,8 +33,10 @@ const { TabPane } = Tabs;
 const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
   const [params] = routeInfoStore.useStore((s) => [s.params]);
   const { releaseID, projectId } = params;
+  const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const [releaseDetail, setReleaseDetail] = React.useState<RELEASE.ReleaseDetail>({} as RELEASE.ReleaseDetail);
   const [form] = Form.useForm();
+  const [isUnique, setIsUnique] = React.useState<boolean>(true);
 
   const {
     version,
@@ -96,6 +100,25 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
     });
   };
 
+  const check = React.useCallback(
+    debounce(async (value) => {
+      if (value && value !== version) {
+        const payload = {
+          orgID: orgId,
+          isProjectRelease: true,
+          projectID: +projectId,
+          version: value,
+        };
+        const res = await checkVersion(payload);
+        const { data } = res;
+        if (data) {
+          setIsUnique(data.isUnique);
+        }
+      }
+    }, 1000),
+    [releaseDetail],
+  );
+
   return (
     <div className="release-releaseDetail release-form h-full overflow-y-auto pb-18">
       <Form layout="vertical" form={form}>
@@ -108,12 +131,25 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                     label={i18n.t('dop:version name')}
                     name="version"
                     type="input"
+                    formItemProps={{
+                      validateStatus: !isUnique ? 'error' : undefined,
+                      help: !isUnique
+                        ? i18n.t('{name} already exists', { name: i18n.t('dop:version name') })
+                        : undefined,
+                    }}
                     rules={[
                       { required: true, message: i18n.t('please enter {name}', { name: i18n.t('dop:version name') }) },
                       { max: 30, message: i18n.t('dop:no more than 30 characters') },
                       {
                         pattern: /^[A-Za-z0-9._-]+$/,
                         message: i18n.t('dop:Must be composed of letters, numbers, underscores, hyphens and dots.'),
+                      },
+                      {
+                        validator: (_, value: string) => {
+                          setIsUnique(true);
+                          check(value);
+                          return Promise.resolve();
+                        },
                       },
                     ]}
                   />
