@@ -309,10 +309,15 @@ const BatchOperation = (props: IBatchProps) => {
       <span className="mr-2">{`${i18n.t('selected {name}', {
         name: `${selectedRowKeys?.length || 0} ${i18n.t('common:items')}`,
       })}`}</span>
-      <Dropdown overlay={dropdownMenu} zIndex={1000}>
-        <Button className="flex items-center">
+      <Dropdown
+        overlay={dropdownMenu}
+        zIndex={1000}
+        overlayClassName="dice-cp-table-batch-operations"
+        getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+      >
+        <Button className="flex items-center bg-default-06 border-transparent text-default-8">
           {i18n.t('batch operate')}
-          <ErdaIcon size="18" type="caret-down" className="ml-1 text-black-200" />
+          <ErdaIcon size="18" type="caret-down" className="ml-1 text-default-4" />
         </Button>
       </Dropdown>
     </div>
