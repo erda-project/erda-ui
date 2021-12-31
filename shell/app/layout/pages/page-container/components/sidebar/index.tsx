@@ -169,9 +169,7 @@ const SideBar = () => {
     const { activeKeyList, fullMenu, selectedKey } = organizeInfo(menu);
     const currentMenu = fullMenu.find((item) => item.href === selectedKey);
     if (!compareSameMenu(fullMenu, state.menus) || selectedKey !== state.selectedKey) {
-      const currentOpenKeys = (currentMenu?.withOpenKeys || []).concat(
-        (localStorage.getItem('isSubSidebarFold') !== 'true' && activeKeyList) || [],
-      );
+      const currentOpenKeys = (currentMenu?.withOpenKeys || []).concat(activeKeyList || []);
       update({
         menus: fullMenu,
         openKeys: currentOpenKeys,

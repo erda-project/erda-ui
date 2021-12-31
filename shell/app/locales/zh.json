@@ -861,7 +861,7 @@
     "Please enter the issue title": "请输入事项标题",
     "Please enter the repository address started with http or https.": "请输入以http或https开头的仓库地址",
     "Please fill in the json expression of obtained target key to determine if the key exists.": "值请填获取目标key的json表达式，以判断该key是否存在。",
-    "Project homepage": "项目主页",
+    "Project homepage": "主页",
     "Projects": "项目管理",
     "Quickly create from artifacts": "通过制品快速创建",
     "Quickly update from artifacts": "通过制品快速更新",

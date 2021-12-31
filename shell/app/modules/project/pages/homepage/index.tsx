@@ -68,7 +68,7 @@ const LinkRow = (props: LinkRowProps) => {
               className="text-purple-deep hover:underline"
               onClick={() => {
                 if (item.url.startsWith('www')) {
-                  window.open(`http://${item.url}`);
+                  window.open(`https://${item.url}`);
                 }
                 window.open(item.url);
               }}
