@@ -52,7 +52,7 @@
 
       .big-icon {
         border-radius: 2px;
-        box-shadow: 0 0 0 10px $white;
+        box-shadow: 0 0 0 4px $white;
       }
     }
 
@@ -79,6 +79,10 @@
         line-height: 22px;
         margin-bottom: 12px;
       }
+
+      .info-brief {
+        line-height: 22px;
+      }
     }
   }
   .markdown-editor .markdown-editor-content .rc-md-editor .editor-container {
@@ -87,16 +91,17 @@
 
   .rc-md-editor {
     border: 0;
+    background: rgba($color-default, 0.04);
   }
 
   .rc-md-navigation {
-    background: rgba($color-default, 0.04);
+    background: transparent;
     border-bottom: rgba($color-default, 0.08);
     box-shadow: 0 2px 1px 0 rgba($color-default, 0.08);
   }
 
   .markdown-editor .markdown-editor-content .rc-md-editor .editor-container .sec-md .input {
-    background: rgba($color-default, 0.04);
+    background: transparent;
     box-shadow: 0 2px 1px 0 rgba($color-default, 0.08);
 
     &:focus {

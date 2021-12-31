@@ -4,6 +4,10 @@
   line-height: 1.6;
   word-break: break-word;
 
+  a {
+    color: $color-purple-highlight;
+  }
+
   p {
     white-space: normal !important;
   }
