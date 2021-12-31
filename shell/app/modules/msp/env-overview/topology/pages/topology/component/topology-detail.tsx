@@ -89,10 +89,12 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
     const handleClick = (e: MouseEvent) => {
       const wrapper = Array.from(document.querySelectorAll('.topology-detail'));
       const commonNode = Array.from(document.querySelectorAll('.topology-common-node'));
+      const expandHandleNode = Array.from(document.querySelectorAll('.expand-handle'));
       const node = e.target as Node;
       const inner = wrapper.some((wrap) => wrap.contains(node));
       const inNode = commonNode.some((wrap) => wrap.contains(node));
-      if (!(inner || inNode)) {
+      const inExpandHandle = expandHandleNode.some((wrap) => wrap.contains(node));
+      if (!(inner || inNode || inExpandHandle)) {
         handleCancel();
       }
     };
