@@ -105,11 +105,11 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
               {isEdit ? (
                 <div className="w-2/5">
                   <RenderFormItem
-                    label={i18n.t('dop:version name')}
+                    label={i18n.t('dop:release name')}
                     name="version"
                     type="input"
                     rules={[
-                      { required: true, message: i18n.t('please enter {name}', { name: i18n.t('dop:version name') }) },
+                      { required: true, message: i18n.t('please enter {name}', { name: i18n.t('dop:release name') }) },
                       { max: 30, message: i18n.t('dop:no more than 30 characters') },
                       {
                         pattern: /^[A-Za-z0-9._-]+$/,
@@ -120,7 +120,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                 </div>
               ) : (
                 <div className="mb-2">
-                  <div className="text-black-400 mb-2">{i18n.t('dop:version name')}</div>
+                  <div className="text-black-400 mb-2">{i18n.t('dop:release name')}</div>
                   <div>{version || '-'}</div>
                 </div>
               )}
