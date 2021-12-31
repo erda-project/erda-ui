@@ -80,10 +80,10 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
       <div>
         <div className="mt-4">
           <div className="font-medium text-lg text-default">
-            <span>{`${getInvitationTime()}, ${loginUser.nick || loginUser.name}`}</span>
-            <span className="inline-block ml-3">{i18n.t('Welcome to your personal workbench')}</span>
+            <span>{`${getInvitationTime()}~ ${loginUser.nick || loginUser.name}，`}</span>
+            <span className="inline-block">{i18n.t('Welcome to your personal workbench')}</span>
           </div>
-          <div className="text-xs text-default-6">{`${i18n.t('dop:Tody is {time}', {
+          <div className="text-xs text-default-6">{`${i18n.t('dop:Today is {time}', {
             time: `${moment().format('YYYY/MM/DD')} ${i18n.t('{week}', { week: Days[new Date().getDay()] })}`,
             interpolation: { escapeValue: false },
           })}`}</div>
