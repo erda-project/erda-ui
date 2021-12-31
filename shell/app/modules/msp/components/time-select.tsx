@@ -18,7 +18,7 @@ import { ITimeRange } from 'common/components/time-select/common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { getTimeSpan } from 'common/utils';
 
-export const TimeSelectWithStore = ({ className }: { className?: string }) => {
+export const TimeSelectWithStore = ({ className, theme }: { className?: string; theme?: 'dark' | 'light' }) => {
   const globalTimeSelectSpan = monitorCommonStore.getState((s) => s.globalTimeSelectSpan);
   const handleChange = (data: ITimeRange, range: Moment[]) => {
     const triggerTime = Date.now();
@@ -47,6 +47,7 @@ export const TimeSelectWithStore = ({ className }: { className?: string }) => {
       defaultValue={globalTimeSelectSpan.data}
       className={className}
       onChange={handleChange}
+      theme={theme}
       defaultStrategy={globalTimeSelectSpan.refreshStrategy}
       onRefreshStrategyChange={handleChangeStrategy}
     />

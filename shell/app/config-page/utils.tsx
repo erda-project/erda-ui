@@ -133,10 +133,12 @@ export const execMultipleOperation = (
   });
 };
 
-export const filterClickOperation = (operations?: Obj<CP_COMMON.Operation>) => {
-  const clickOp: Obj<CP_COMMON.Operation> = {};
-  map(operations, (op, k) => {
-    clickOp[k] = { key: k, ...op };
+export const filterClickOperations = (operations: Obj<CP_COMMON.Operation>) => {
+  const clickOps = {};
+  map(operations, (op, key) => {
+    if (key.startsWith('click')) {
+      clickOps[key] = op;
+    }
   });
-  return clickOp;
+  return clickOps;
 };

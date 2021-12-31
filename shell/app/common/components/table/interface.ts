@@ -14,7 +14,7 @@
 import { SorterResult, TablePaginationConfig, TableRowSelection } from 'antd/es/table/interface';
 import { ColumnProps as AntdColumnProps, TableProps } from 'antd/es/table';
 
-export { SorterResult, TablePaginationConfig, TableProps };
+export { SorterResult, TablePaginationConfig, TableProps, AntdColumnProps };
 
 export interface IActions<T> {
   width?: number | string;

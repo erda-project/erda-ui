@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Table } from './table/table';
+import Table2 from './table/v2/table';
 import ContractiveFilter from './contractive-filter/contractive-filter';
 import ConfigurableFilter from './configurable-filter/configurable-filter';
 import { Form } from './form/form';
@@ -77,6 +78,8 @@ import UserProfile from './user-profile/user-profile';
 import List2 from './base-list/base-list';
 import TopN from './top-n';
 import ScaleCard from './scale-card/scale-card';
+import LineGraph from './line-graph';
+import KV from './kv';
 
 export const containerMap = {
   Alert,
@@ -84,6 +87,7 @@ export const containerMap = {
   Button,
   FormModal,
   Table,
+  Table2,
   PieChart,
   Card,
   Container,
@@ -148,4 +152,6 @@ export const containerMap = {
   TopN,
   ScaleCard,
   DropdownSelect2,
+  LineGraph,
+  KV,
 };

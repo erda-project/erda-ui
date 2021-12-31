@@ -16,7 +16,7 @@ import { DatePicker, Dropdown, Select } from 'antd';
 import { produce } from 'immer';
 import { useMount } from 'react-use';
 import { Moment } from 'moment';
-import { SelectProps } from 'core/common/interface';
+import { SelectProps } from 'antd/lib/select';
 import i18n from 'i18n';
 import './time-select.scss';
 import { useUpdate } from 'common/use-hooks';
@@ -31,7 +31,7 @@ import {
   transformRange,
   translateAutoRefreshDuration,
 } from './common';
-import { ErdaIcon } from 'common';;
+import { ErdaIcon } from 'common';
 
 type IRefreshStrategy = 'off' | IRefreshDuration;
 
@@ -39,7 +39,7 @@ const { Option } = Select;
 
 export const AutoRefreshStrategy = (props: SelectProps<IRefreshStrategy>) => {
   return (
-    <div className="auto-refresh relative border-all hover:border-primary bg-white hover:z-10">
+    <div className="auto-refresh relative  hover:border-primary">
       <Select defaultValue="off" bordered={false} dropdownMatchSelectWidth={false} {...props}>
         <Option key="off" value="off">
           OFF
@@ -145,8 +145,8 @@ export const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
   return (
     <div className="flex h-full items-stretch">
       <div className="w-56 h-full px-3">
-        <p className="pt-3 font-medium">{i18n.t('absolute time range')}</p>
-        <p className="mt-3 mb-1">{i18n.t('common:start at')}</p>
+        <p className="pt-3 font-medium text-white-9">{i18n.t('absolute time range')}</p>
+        <p className="mt-3 mb-1 text-white-6">{i18n.t('common:start at')}</p>
         <DatePicker
           format={format}
           disabledDate={disabledStart}
@@ -161,7 +161,7 @@ export const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
             handleChangeDate('start', ...arg);
           }}
         />
-        <p className="mt-3 mb-1">{i18n.t('common:end at')}</p>
+        <p className="mt-3 mb-1 text-white-6">{i18n.t('common:end at')}</p>
         <DatePicker
           format={format}
           disabledDate={disabledEnd}
@@ -178,13 +178,13 @@ export const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
         />
       </div>
       <div className="w-44 h-full border-left flex flex-col">
-        <p className="px-3 pt-3 font-medium">{i18n.t('relative time range')}</p>
-        <ul className="time-quick-select overflow-y-auto flex-1 mt-3">
+        <p className="px-3 pt-3 font-medium text-white-9">{i18n.t('relative time range')}</p>
+        <ul className="time-quick-select overflow-y-auto flex-1 mt-3 scroll-bar-dark">
           {map(relativeTimeRange, (label, range: IRelativeTime) => {
             return (
               <li
-                className={`time-quick-select-item h-9 px-3 flex items-center hover:bg-grey cursor-pointer ${
-                  mode === 'quick' && activeQuick === range ? 'text-primary font-medium' : ''
+                className={`time-quick-select-item font-normal h-9 px-3 flex items-center hover:bg-white-08 cursor-pointer ${
+                  mode === 'quick' && activeQuick === range ? 'text-white bg-white-08' : 'text-white-9'
                 }`}
                 key={range}
                 onClick={() => {
@@ -210,6 +210,7 @@ interface IState {
 }
 
 export interface IProps {
+  theme: 'dark' | 'light';
   className?: string;
   triggerChangeOnMounted?: boolean;
   defaultValue?: ITimeRange;
@@ -331,18 +332,19 @@ const TimeSelect = (props: IProps) => {
   };
 
   return (
-    <div className={`time-select h-8 flex rounded ${props.className ?? ''}`}>
+    <div className={`time-select h-7 flex rounded ${props.className ?? ''} ${props.theme || 'light'}`}>
       <Dropdown
+        getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
         visible={visible}
         trigger={['click']}
-        overlayClassName="time-range-dropdown bg-white"
+        overlayClassName="time-range-dropdown scroll-bar-dark"
         overlay={
           <TimeRange format={format} key={`${visible}`} value={props?.value ?? data} onChange={handleSelectDate} />
         }
         onVisibleChange={updater.visible}
       >
         <div
-          className="time-range cursor-pointer border-all rounded-l flex items-center px-2 hover:border-primary bg-white hover:z-10"
+          className="time-range cursor-pointer rounded-l flex items-center px-2"
           onClick={() => {
             updater.visible(true);
           }}
@@ -355,9 +357,12 @@ const TimeSelect = (props: IProps) => {
         suffixIcon={<ErdaIcon type="caret-down" className="ml-1 -mt-0.5" size="16" />}
         style={{ width: 70 }}
         defaultValue={refreshStrategy}
+        bordered={false}
+        size="small"
+        getPopupContainer={(triggerNode) => triggerNode.parentNode as HTMLElement}
         onChange={handleChangeRefreshStrategy}
       />
-      <div className="manual-refresh flex justify-center items-center w-8 relative border-all rounded-r hover:border-primary bg-white">
+      <div className="ml-3 manual-refresh flex justify-center items-center w-7 relative  rounded-r hover:border-primary">
         <ErdaIcon
           size="14"
           type="refresh1"

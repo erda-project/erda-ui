@@ -21,7 +21,7 @@ interface Tabs {
 
 const tabs = [
   { key: 'overview', name: i18n.t('overview') },
-  { key: 'transaction', name: i18n.t('msp:transaction') },
+  { key: 'transaction', name: i18n.t('msp:call monitor') },
   { key: 'anomaly', name: i18n.t('msp:exception') },
   { key: 'process', name: i18n.t('msp:process') },
 ];
@@ -44,7 +44,7 @@ const serviceAnalysisRoutes = [
         getComp: (cb: RouterGetComp) => cb(import('msp/monitor/trace-insight/pages/trace-querier/trace-search-detail')),
       },
       {
-        layout: { fullHeight: true },
+        layout: { noWrapper: true },
         getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/transaction')),
       },
     ],
