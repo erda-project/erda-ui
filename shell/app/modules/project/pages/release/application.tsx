@@ -37,7 +37,7 @@ const ProjectRelease = () => {
     <div className="h-full flex flex-col">
       <ErdaAlert showOnceKey="application-release-list" message={i18n.t('dop:Applications release list top desc')} />
 
-      <div className="flex-1 flex bg-white">
+      <div className="flex-1 flex bg-white min-h-0 mb-4">
         <div className="release-app-list overflow-y-auto px-2">
           <Spin spinning={loading}>
             <div className="px-2 py-4 leading-4 font-medium">{i18n.t('dop:applications')}</div>
