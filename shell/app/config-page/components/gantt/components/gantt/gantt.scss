@@ -1,4 +1,6 @@
 .erda-gantt-vertical-container {
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   margin: 0;
   font-size: 0;
