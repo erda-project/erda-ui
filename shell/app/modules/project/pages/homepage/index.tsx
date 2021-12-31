@@ -62,7 +62,7 @@ const LinkRow = (props: LinkRowProps) => {
     <div key={item.id} ref={linkRef} className="cursor-pointer flex items-center homepage-link mb-1">
       <ErdaIcon type="lianjie" {...iconStyle} />
       <div className="cursor-pointer ml-2 w-64 px-2 py-1 flex justify-between items-center hover:bg-default-04">
-        <div className="w-52 hover:w-44 truncate text-purple-deep">
+        <div className="w-52 truncate text-purple-deep">
           <Tooltip title={item.name || item.url} placement="left" overlayClassName="homepage-tooltip">
             <span className="text-purple-deep hover:underline" onClick={() => window.open(item.url)}>
               {item.url}
@@ -72,8 +72,8 @@ const LinkRow = (props: LinkRowProps) => {
         <div className={`${isHovering ? 'homepage-link-operation' : 'hidden'} flex justify-between items-center`}>
           <Tooltip title={i18n.t('edit')} overlayClassName="homepage-tooltip">
             <ErdaIcon
-              type="edit"
-              className={'w-4 mx-2 self-center text-default-4'}
+              type="correction"
+              className={'w-4 mx-2 self-center text-default-4 hover:text-default-8'}
               size={16}
               onClick={() => handleEditLink(item)}
             />
@@ -87,7 +87,7 @@ const LinkRow = (props: LinkRowProps) => {
             onConfirm={() => handleDelete(item.id)}
           >
             <Tooltip title={i18n.t('delete')} overlayClassName="homepage-tooltip">
-              <ErdaIcon type="remove" size={16} className="text-default-4" />
+              <ErdaIcon type="remove" size={16} className="text-default-4 hover:text-default-8" />
             </Tooltip>
           </Popconfirm>
         </div>
@@ -183,7 +183,6 @@ export const ProjectHomepage = () => {
             <div style={{ transform: 'scale(0.8)' }} className="absolute top-2 -right-1 text-xs text-white-4">
               {i18n.t('dop:project-img-copyright-tip')}
             </div>
-
             <div className="project-icon bg-white">
               {logo ? (
                 <img className="big-icon" src={logo} width={64} height={64} />
@@ -277,7 +276,7 @@ export const ProjectHomepage = () => {
             name=" URL "
             visible={isVisible}
             fieldsList={fieldsList}
-            modalProps={{ destroyOnClose: true }}
+            modalProps={{ destroyOnClose: true, closeIcon: <ErdaIcon type="guanbi" /> }}
             formData={currentLink as LinkItem}
           />
         </div>
