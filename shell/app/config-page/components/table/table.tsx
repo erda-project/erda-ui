@@ -277,7 +277,7 @@ const BatchOperation = (props: IBatchProps) => {
   }, [batchOperations, chosenItems, operations, selectedRowKeys]);
 
   const dropdownMenu = (
-    <Menu>
+    <Menu theme="dark">
       {map(optMenus, (mItem) => {
         return (
           <Menu.Item key={mItem.key} disabled={mItem.disabled}>

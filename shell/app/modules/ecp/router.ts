@@ -24,7 +24,7 @@ const getEcpRouter = () => [
         breadcrumbName: i18n.t('ecp:application'),
         routes: [
           {
-            layout: { fullHeight: true },
+            layout: { fullHeight: true, noWrapper: true },
             getComp: (cb: RouterGetComp) => cb(import('./pages/application')),
           },
           {
@@ -52,7 +52,7 @@ const getEcpRouter = () => [
         routes: [
           {
             breadcrumbName: i18n.t('ecp:site management'),
-            layout: { fullHeight: true },
+            layout: { fullHeight: true, noWrapper: true },
             getComp: (cb: RouterGetComp) => cb(import('./pages/resource')),
           },
           {
@@ -68,7 +68,7 @@ const getEcpRouter = () => [
         breadcrumbName: i18n.t('ecp:configuration'),
         routes: [
           {
-            layout: { fullHeight: true },
+            layout: { fullHeight: true, noWrapper: true },
             getComp: (cb: RouterGetComp) => cb(import('./pages/setting')),
           },
           {

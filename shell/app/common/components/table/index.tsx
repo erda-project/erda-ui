@@ -232,7 +232,7 @@ function WrappedTable<T extends object = any>({
               <div
                 className={`
                     erda-table-compose-td flex items-center
-                    ${icon ? 'erda-table-icon-td' : ''} 
+                    ${icon ? 'erda-table-icon-td' : ''}
                     ${(Object.keys(args).includes('subTitle') && 'double-row') || ''}
                   `}
               >
@@ -350,7 +350,7 @@ function renderActions<T extends object = any>(actions?: IActions<T> | null): Ar
           const list = render(record).filter((item) => item.show !== false);
 
           const menu = (
-            <Menu>
+            <Menu theme="dark">
               {list.map((item) => (
                 <Menu.Item key={item.title} onClick={item.onClick}>
                   <span className="fake-link mr-1">{item.title}</span>
