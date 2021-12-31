@@ -41,6 +41,7 @@ interface IProps<T extends object = any> extends TableProps<T> {
   rowSelection?: IRowSelection<T>;
   hideHeader?: boolean;
   onReload?: (pageNo: number, pageSize: number) => void;
+  className?: string;
 }
 
 const sortIcon = {
@@ -67,6 +68,7 @@ function WrappedTable<T extends object = any>({
   rowSelection,
   hideHeader,
   rowKey,
+  className,
   ...props
 }: IProps<T>) {
   const dataSource = React.useMemo<T[]>(() => (ds as T[]) || [], [ds]);
@@ -285,7 +287,7 @@ function WrappedTable<T extends object = any>({
   }
 
   return (
-    <div className={`erda-table ${hideHeader ? 'hide-header' : ''}`}>
+    <div className={`flex flex-col erda-table ${hideHeader ? 'hide-header' : ''}`}>
       {!hideHeader && (
         <TableConfig
           slot={slot}
@@ -311,6 +313,7 @@ function WrappedTable<T extends object = any>({
         onRow={onRow}
         rowSelection={rowSelection}
         {...props}
+        className={`flex-1 min-h-0 overflow-y-auto ${className}`}
         tableLayout="auto"
         locale={{
           emptyText:
