@@ -40,6 +40,13 @@ interface UpdateReleaseParams extends AddReleaseParams {
   releaseID: string;
 }
 
+interface checkVersionParams {
+  orgID: number;
+  isProjectRelease: boolean;
+  projectID: number;
+  version: string;
+}
+
 const apis = {
   getReleaseDetail: {
     api: 'get@/api/releases/:releaseID',
@@ -58,6 +65,9 @@ const apis = {
   },
   formalRelease: {
     api: 'put@/api/releases/:releaseID/actions/formal',
+  },
+  checkVersion: {
+    api: 'get@/api/releases/actions/check-version',
   },
 };
 
@@ -78,3 +88,5 @@ export const addRelease = apiCreator<(payload: AddReleaseParams) => RAW_RESPONSE
 export const updateRelease = apiCreator<(payload: UpdateReleaseParams) => RAW_RESPONSE>(apis.updateRelease);
 
 export const formalRelease = apiCreator<(payload: { releaseID: string }) => RAW_RESPONSE>(apis.formalRelease);
+
+export const checkVersion = apiCreator<(payload: checkVersionParams) => { isUnique: boolean }>(apis.checkVersion);
