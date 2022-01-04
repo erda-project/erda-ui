@@ -392,7 +392,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'release',
-          pageName: i18n.t('artifact management'),
+          breadcrumbName: i18n.t('artifact management'),
           routes: [
             {
               path: 'project',
