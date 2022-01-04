@@ -243,7 +243,7 @@ const IssuePlan = () => {
             },
           },
           ganttContainer: {
-            props: { flexHeight: true, className: 'gantt' },
+            props: { flexHeight: true, className: 'gantt mt-0' },
           },
           page: {
             props: { fullHeight: true, overflowHidden: true },
@@ -324,7 +324,7 @@ const IssuePlan = () => {
               },
             },
             props: {
-              className: 'px-2 pt-2',
+              className: 'p-2 bg-default-02',
             },
           },
         }}
