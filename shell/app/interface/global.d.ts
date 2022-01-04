@@ -17,6 +17,7 @@ declare module 'path';
 declare module 'lodash/_stringToPath';
 declare module 'js-yaml';
 declare module 'react-flame-graph';
+declare module 'react-sticky-mouse-tooltip';
 
 declare let If: React.FunctionComponent<{ condition: boolean }>;
 declare let For: React.FunctionComponent<{ each: string; index: string; of: any[] }>;

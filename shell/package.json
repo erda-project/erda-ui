@@ -93,6 +93,7 @@
     "react-markdown": "^7.1.0",
     "react-router-config": "^5.0.0",
     "react-router-dom": "^5.2.0",
+    "react-sticky-mouse-tooltip": "^0.0.1",
     "react-use": "^15.3.4",
     "remark-gfm": "^3.0.1",
     "requestidlecallback-polyfill": "^1.0.2",

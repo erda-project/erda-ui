@@ -13,12 +13,12 @@
 
 import React from 'react';
 import i18n from 'core/i18n';
-import { Tooltip } from 'antd';
 import { MarkdownEditor, EditField } from 'common';
 import remarkGfm from 'remark-gfm';
 import { useUpdate } from 'common/use-hooks';
 import ReactMarkdown from 'react-markdown';
 import './index.scss';
+import MouseTooltip from 'react-sticky-mouse-tooltip';
 
 interface IMdProps {
   value?: string;
@@ -32,11 +32,13 @@ interface IMdProps {
 const { ScalableImage } = EditField;
 
 export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValue, maxHeight }: IMdProps) => {
-  const [{ v, expanded, expandBtnVisible, isEditing }, updater, update] = useUpdate({
+  const [{ v, expanded, expandBtnVisible, isEditing, cursorType, tooltipVisible }, updater, update] = useUpdate({
     v: value,
     expanded: false,
     isEditing: false,
     expandBtnVisible: false,
+    cursorType: '',
+    tooltipVisible: false,
   });
 
   const mdContentRef = React.useRef<HTMLDivElement>(null);
@@ -44,6 +46,23 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
   React.useEffect(() => {
     updater.v(value);
   }, [updater, value]);
+
+  React.useEffect(() => {
+    document.addEventListener('mousemove', (e) => {
+      if (e.target) {
+        updater.cursorType(e.target.style.cursor || '');
+      }
+    });
+  }, [cursorType, updater]);
+
+  // if hover on image, the tooltip can't be showed, for click at image, it will be enlarge image instead of editing
+  if (document.getElementById('tooltip-with-mouse')) {
+    if (cursorType === 'zoom-in') {
+      document.getElementById('tooltip-with-mouse').style.display = 'none';
+    } else {
+      document.getElementById('tooltip-with-mouse').style.display = 'block';
+    }
+  }
 
   const operationBtns = !disabled
     ? [
@@ -82,7 +101,21 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
       onClick={() => updater.isEditing(true)}
       style={{ maxHeight: expanded ? '' : maxHeight }}
     >
-      <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
+      <MouseTooltip visible={tooltipVisible} offsetX={15} offsetY={10}>
+        <span id="tooltip-with-mouse" className="bg-default text-white p-2 rounded-[3px]">
+          {i18n.t('dop:click to edit')}
+        </span>
+      </MouseTooltip>
+      <div
+        className="overflow-hidden"
+        style={{ maxHeight: 'inherit' }}
+        onMouseEnter={() => {
+          updater.tooltipVisible(true);
+        }}
+        onMouseLeave={() => {
+          updater.tooltipVisible(false);
+        }}
+      >
         <div ref={mdContentRef} className="md-content">
           <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ img: ScalableImage }}>
             {value || i18n.t('no description yet')}
