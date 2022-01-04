@@ -259,7 +259,7 @@ export const ProjectHomepage = () => {
                     {projectOwner?.nick ? getAvatarChars(projectOwner?.nick) : i18n.t('none')}
                   </Avatar>
                   {projectOwner?.name && (
-                    <span className="text-default-8 ml-1">{projectOwner?.name || projectOwner?.nick || '-'}</span>
+                    <span className="text-default-8 ml-1">{projectOwner?.nick || projectOwner?.name || '-'}</span>
                   )}
                 </span>
               </div>
