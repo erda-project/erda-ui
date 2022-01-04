@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, message, Spin } from 'antd';
+import { Button, Spin } from 'antd';
 import moment from 'moment';
 import { RenderForm, ListSelect, MarkdownEditor } from 'common';
 import { FormInstance } from 'app/interface/common';
@@ -26,10 +26,28 @@ import userStore from 'user/stores';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useLoading } from 'core/stores/loading';
-import { debounce } from 'lodash';
 import { getReleaseList, getReleaseDetail, addRelease, updateRelease, checkVersion } from 'project/services/release';
 
 import './form.scss';
+
+const promiseDebounce = (func: Function, delay = 1000) => {
+  let timer: NodeJS.Timeout | undefined;
+  return (...args: unknown[]) => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    return new Promise((resolve, reject) => {
+      timer = setTimeout(async () => {
+        try {
+          await func(...args);
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+      }, delay);
+    });
+  };
+};
 
 const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   const formRef = React.useRef<FormInstance>();
@@ -43,23 +61,26 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   const [appId, setAppId] = React.useState<number | undefined>();
   const [query, setQuery] = React.useState<string>('');
   const [loading] = useLoading(releaseStore, ['getAppList']);
-  const [releaseDetail, setReleaseDetail] = React.useState<RELEASE.ReleaseDetail>({} as RELEASE.ReleaseDetail);
+
   const [releaseList, setReleaseList] = React.useState<RELEASE.ReleaseDetail[]>([] as RELEASE.ReleaseDetail[]);
-  const [releaseTotal, setReleaseTotal] = React.useState<number>(0);
-  const [isUnique, setIsUnique] = React.useState<boolean>(true);
+  const [releaseTotal, setReleaseTotal] = React.useState(0);
+
+  const _releaseDetail = getReleaseDetail.useData();
+  const releaseDetail = React.useMemo(() => {
+    return {
+      ..._releaseDetail,
+      applicationReleaseList: _releaseDetail?.applicationReleaseList?.map?.((item) => ({
+        ...item,
+        releaseId: item.releaseID,
+      })),
+    };
+  }, [_releaseDetail]);
 
   const getDetail = React.useCallback(async () => {
     if (releaseID) {
-      const res = await getReleaseDetail({ releaseID });
-      const { data } = res;
-      if (data) {
-        setReleaseDetail({
-          ...data,
-          applicationReleaseList: data.applicationReleaseList.map((item) => ({ ...item, releaseId: item.releaseID })),
-        });
-      }
+      await getReleaseDetail.fetch({ releaseID });
     }
-  }, [releaseID, setReleaseDetail]);
+  }, [releaseID]);
 
   React.useEffect(() => {
     getDetail();
@@ -116,7 +137,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   };
 
   const check = React.useCallback(
-    debounce(async (version) => {
+    promiseDebounce(async (version: string) => {
       if (version && version !== releaseDetail.version) {
         const payload = {
           orgID: orgId,
@@ -124,14 +145,14 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
           projectID: +projectId,
           version,
         };
-        const res = await checkVersion(payload);
+        const res = await checkVersion.fetch(payload);
         const { data } = res;
-        if (data) {
-          setIsUnique(data.isUnique);
+        if (data && !data.isUnique) {
+          throw new Error(i18n.t('{name} already exists', { name: i18n.t('dop:version name') }));
         }
       }
-    }, 1000),
-    [releaseDetail],
+    }),
+    [releaseDetail, orgId, projectId],
   );
 
   const list = [
@@ -142,10 +163,6 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
       itemProps: {
         placeholder: i18n.t('please enter {name}', { name: i18n.t('dop:version name') }),
       },
-      formItemProps: {
-        validateStatus: !isUnique ? 'error' : undefined,
-        help: !isUnique ? i18n.t('{name} already exists', { name: i18n.t('dop:version name') }) : undefined,
-      },
       rules: [
         { required: true, message: i18n.t('please enter {name}', { name: i18n.t('dop:version name') }) },
         { max: 30, message: i18n.t('dop:no more than 30 characters') },
@@ -155,9 +172,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         },
         {
           validator: (_, value: string) => {
-            setIsUnique(true);
-            check(value);
-            return Promise.resolve();
+            return check(value);
           },
         },
       ],

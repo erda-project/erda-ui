@@ -30,13 +30,31 @@ import './form.scss';
 
 const { TabPane } = Tabs;
 
+const promiseDebounce = (func: Function, delay = 1000) => {
+  let timer: NodeJS.Timeout | undefined;
+  return (...args: unknown[]) => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    return new Promise((resolve, reject) => {
+      timer = setTimeout(async () => {
+        try {
+          await func(...args);
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+      }, delay);
+    });
+  };
+};
+
 const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
   const [params] = routeInfoStore.useStore((s) => [s.params]);
   const { releaseID, projectId } = params;
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
-  const [releaseDetail, setReleaseDetail] = React.useState<RELEASE.ReleaseDetail>({} as RELEASE.ReleaseDetail);
+  const releaseDetail = getReleaseDetail.useData() || ({} as RELEASE.ReleaseDetail);
   const [form] = Form.useForm();
-  const [isUnique, setIsUnique] = React.useState<boolean>(true);
 
   const {
     version,
@@ -51,10 +69,9 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
 
   const getDetail = React.useCallback(async () => {
     if (releaseID) {
-      const res = await getReleaseDetail({ releaseID });
+      const res = await getReleaseDetail.fetch({ releaseID });
       const { data } = res;
       if (data) {
-        setReleaseDetail(data);
         if (isEdit) {
           form.setFieldsValue({
             version: data.version,
@@ -63,7 +80,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
         }
       }
     }
-  }, [releaseID, setReleaseDetail, isEdit, form]);
+  }, [releaseID, isEdit, form]);
 
   React.useEffect(() => {
     getDetail();
@@ -101,7 +118,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
   };
 
   const check = React.useCallback(
-    debounce(async (value) => {
+    promiseDebounce(async (value) => {
       if (value && value !== version) {
         const payload = {
           orgID: orgId,
@@ -111,11 +128,11 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
         };
         const res = await checkVersion(payload);
         const { data } = res;
-        if (data) {
-          setIsUnique(data.isUnique);
+        if (data && !data.isUnique) {
+          throw new Error(i18n.t('{name} already exists', { name: i18n.t('dop:version name') }));
         }
       }
-    }, 1000),
+    }),
     [releaseDetail],
   );
 
@@ -131,12 +148,6 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                     label={i18n.t('dop:version name')}
                     name="version"
                     type="input"
-                    formItemProps={{
-                      validateStatus: !isUnique ? 'error' : undefined,
-                      help: !isUnique
-                        ? i18n.t('{name} already exists', { name: i18n.t('dop:version name') })
-                        : undefined,
-                    }}
                     rules={[
                       { required: true, message: i18n.t('please enter {name}', { name: i18n.t('dop:version name') }) },
                       { max: 30, message: i18n.t('dop:no more than 30 characters') },
@@ -146,9 +157,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                       },
                       {
                         validator: (_, value: string) => {
-                          setIsUnique(true);
-                          check(value);
-                          return Promise.resolve();
+                          return check(value);
                         },
                       },
                     ]}

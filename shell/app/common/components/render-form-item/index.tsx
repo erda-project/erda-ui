@@ -108,7 +108,6 @@ export interface IFormItem {
   message?: string;
   itemProps?: any;
   extraProps?: object;
-  formItemProps?: object;
   rules?: any[];
   config?: object;
   options?: Array<{ name: string; value: string | number; disabled?: boolean }> | Function;
@@ -189,7 +188,6 @@ const RenderFormItem = ({
   message = i18n.t('common:please fill in the format correctly'),
   itemProps = {},
   extraProps = {},
-  formItemProps = {},
   className = '',
   rules = [],
   config,
@@ -371,7 +369,6 @@ const RenderFormItem = ({
       {...layout}
       className={`${itemProps.type === 'hidden' ? 'hidden' : ''} ${className}`}
       required={!readOnly && required}
-      {...formItemProps}
     >
       <FormItem
         name={typeof name === 'string' && name?.includes('.') ? name.split('.') : name}
