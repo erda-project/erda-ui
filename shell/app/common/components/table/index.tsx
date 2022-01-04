@@ -89,6 +89,8 @@ function WrappedTable<T extends object = any>({
     : (paginationProps as TablePaginationConfig);
   const { current = 1, pageSize = PAGINATION.pageSize } = pagination;
 
+  const containerRef = React.useRef(document.body);
+
   React.useEffect(() => {
     if (isFrontendPaging) {
       const newRowKeys =
@@ -204,7 +206,7 @@ function WrappedTable<T extends object = any>({
               overlay={sorterMenu({ ...args, title, sorter })}
               align={{ offset: [0, 5] }}
               overlayClassName="erda-table-sorter-overlay"
-              getPopupContainer={(triggerNode) => triggerNode.parentElement?.parentElement as HTMLElement}
+              getPopupContainer={() => containerRef.current as HTMLElement}
             >
               <span
                 className={`cursor-pointer erda-table-sorter flex items-center ${(align && alignMap[align]) || ''}`}
@@ -287,7 +289,7 @@ function WrappedTable<T extends object = any>({
   }
 
   return (
-    <div className={`flex flex-col erda-table ${hideHeader ? 'hide-header' : ''}`}>
+    <div className={`flex flex-col erda-table ${hideHeader ? 'hide-header' : ''}`} ref={containerRef}>
       {!hideHeader && (
         <TableConfig
           slot={slot}
