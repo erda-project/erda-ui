@@ -17,6 +17,8 @@ import { getAvatarChars } from 'common/utils';
 import i18n from 'i18n';
 import moment from 'moment';
 import React from 'react';
+import userStore from 'user/stores';
+import { erdaEnv, UC_USER_SETTINGS } from 'app/common/constants';
 import './index.scss';
 
 export interface UserProfileProps {
@@ -32,6 +34,7 @@ export interface UserProfileProps {
 }
 
 const UserProfile = ({ data, className = '' }: UserProfileProps) => {
+  const loginUser = userStore.useStore((s) => s.loginUser);
   const { name, avatar, id, email, phone, lastLoginTime } = data;
   const infoList = [
     ['youxiang', i18n.t('email'), email],
@@ -47,7 +50,12 @@ const UserProfile = ({ data, className = '' }: UserProfileProps) => {
           background: `center / cover no-repeat url(${avatar})`,
         }}
       />
-      <div className="name-warp p-4">
+
+      {/* Jump to personal settings of UC */}
+      <div
+        className="name-warp p-4 cursor-pointer hover:bg-default-06"
+        onClick={() => window.open(loginUser.isNewUser ? UC_USER_SETTINGS : erdaEnv.UC_PUBLIC_URL)}
+      >
         <Avatar src={avatar} size={64} alt="user-avatar">
           {name ? getAvatarChars(name) : i18n.t('none')}
         </Avatar>
