@@ -291,6 +291,7 @@ const VpcFormModal = (props: IProps) => {
       visible={visible}
       maskClosable={false}
       destroyOnClose
+      centered
       onCancel={onCancel}
       footer={formFootMap[stepKey]}
     >

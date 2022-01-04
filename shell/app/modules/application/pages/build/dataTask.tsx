@@ -66,6 +66,7 @@ export const DataTask = () => {
         title={i18n.t('dop:choose the workflow file (master branch)')}
         visible={modalVisible}
         destroyOnClose
+        centered
         footer={null}
         onCancel={resetModal}
       >

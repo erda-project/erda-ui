@@ -176,6 +176,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
     const { major, minor } = state.chooseVersionInfo;
     Modal.confirm({
       title: i18n.t('default:confirm to delete the current version?'),
+      centered: true,
       onOk: async () => {
         await deleteAssetVersion({ versionID: id, assetID });
         // 当前minor中还有patch版本
@@ -207,6 +208,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
       title,
       content,
       icon,
+      centered: true,
       onOk: () => {
         updateAssetVersion({ assetID, versionID: id, deprecated: !deprecated }).then(() => {
           getListOfVersions({ assetID, major, minor, spec: false });
@@ -281,6 +283,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
         title: i18n.t(
           'The current version has been referenced by the management entry. Please dereference before editing.',
         ),
+        centered: true,
       });
       return;
     }

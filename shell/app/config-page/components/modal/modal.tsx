@@ -65,6 +65,7 @@ const CP_MODAL = (props: CP_MODAL.Props) => {
       visible={visible}
       destroyOnClose
       closable
+      centered
       width={widthMap[size]}
       okText={i18n.t('ok')}
       cancelText={i18n.t('cancel')}

@@ -62,6 +62,7 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
       visible={visible}
       onCancel={onCancel}
       destroyOnClose
+      centered
       footer={null}
       className="client-detail-modal"
       width={960}

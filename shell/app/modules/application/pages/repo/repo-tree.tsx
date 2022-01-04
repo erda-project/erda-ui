@@ -503,6 +503,7 @@ const RepoTreePage = () => {
         <Modal
           title={i18n.t('dop:how to start')}
           visible={tipVisible}
+          centered
           footer={null}
           onCancel={() => toggleTip(false)}
           style={{ minWidth: '80%' }}

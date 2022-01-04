@@ -476,6 +476,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
       <Modal
         visible={showCalculate}
         title={i18n.t('cmp:Node conversion formula')}
+        centered
         onCancel={() => updater.showCalculate(false)}
         onOk={() => {
           window.localStorage.setItem(

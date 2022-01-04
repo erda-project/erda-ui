@@ -177,6 +177,7 @@ const ApiAssetDetail = () => {
       <Modal
         width={960}
         title={`${i18n.t('version list')}(${version.major}.${version.minor}.*)`}
+        centered
         visible={versionListVisible}
         onCancel={() => {
           setVersionListVisible(false);

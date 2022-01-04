@@ -43,6 +43,7 @@ const CustomAddonConfigModal = (props: IProps) => {
     <Modal
       title={i18n.t('dop:custom addon config')}
       width={800}
+      centered
       visible={visible}
       onCancel={onCancel}
       destroyOnClose

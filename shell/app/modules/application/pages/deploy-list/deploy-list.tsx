@@ -180,6 +180,7 @@ const PureDeployList = (props: IProps) => {
         onClick: () => {
           Modal.confirm({
             title: i18n.t('is it confirmed?'),
+            centered: true,
             onOk() {
               updateState({
                 id: record.id,

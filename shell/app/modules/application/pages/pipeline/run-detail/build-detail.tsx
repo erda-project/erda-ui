@@ -259,6 +259,7 @@ const BuildDetail = (props: IProps) => {
     const disabled = node.status === 'Disabled';
     confirm({
       title: i18n.t('ok'),
+      centered: true,
       className: 'node-click-confirm',
       content: i18n.t('dop:whether {action} task {name}', {
         action: disabled ? i18n.t('open') : i18n.t('close'),
@@ -380,6 +381,7 @@ const BuildDetail = (props: IProps) => {
             }}
           />
         ),
+        centered: true,
         onOk() {
           updateApproval({
             id: +reviewIdObj.value,

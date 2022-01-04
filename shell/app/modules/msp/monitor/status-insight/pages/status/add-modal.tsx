@@ -403,6 +403,7 @@ const AddModal = (props: IProps) => {
                       if (body.content.length > 0) {
                         Modal.confirm({
                           title: i18n.t('confirm to switch Body type?'),
+                          centered: true,
                           onOk() {
                             updater.bodyType(e.target.value);
                           },
@@ -415,6 +416,7 @@ const AddModal = (props: IProps) => {
                       if (bodyType !== noneType && body.content !== '') {
                         Modal.confirm({
                           title: i18n.t('confirm to switch Body type?'),
+                          centered: true,
                           onOk() {
                             updater.bodyType(e.target.value);
                             updater.body({ ...body, content: [] });
@@ -429,6 +431,7 @@ const AddModal = (props: IProps) => {
                       if (bodyType !== noneType && body.content.length > 0) {
                         Modal.confirm({
                           title: i18n.t('confirm to switch Body type?'),
+                          centered: true,
                           onOk() {
                             updater.bodyType(e.target.value);
                             body.content = '';

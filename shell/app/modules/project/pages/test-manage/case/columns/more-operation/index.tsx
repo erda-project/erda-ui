@@ -40,6 +40,7 @@ const MoreOperation = ({ record }: IProps) => {
         Modal.confirm({
           title: i18n.t('delete'),
           content: i18n.t('dop:are you sure to delete the current use case?'),
+          centered: true,
           onOk: () => {
             toggleToRecycle({ testCaseIDs: [record.id], recycled: true, moveToTestSetID: rootId });
           },
@@ -51,6 +52,7 @@ const MoreOperation = ({ record }: IProps) => {
           content:
             i18n.t('dop:the use case will not be recovered after it is completely deleted, ') +
             i18n.t('is it confirmed?'),
+          centered: true,
           onOk: () => {
             deleteEntirely(record.id);
           },

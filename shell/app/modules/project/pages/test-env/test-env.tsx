@@ -122,6 +122,7 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
           onClick: () => {
             Modal.confirm({
               title: i18n.t('dop:confirm to delete?'),
+              centered: true,
               onOk() {
                 onDeleteHandle(record);
               },

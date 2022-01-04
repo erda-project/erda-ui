@@ -82,7 +82,7 @@ function SelectPro<T, S>({
         className="hover-active mr-1 -mt-3 text-base select-pro-icon"
         onClick={handleModal}
       />
-      <Modal {...modalRest} visible={showModal} onCancel={handleCancel} onOk={handleOk} destroyOnClose>
+      <Modal {...modalRest} visible={showModal} onCancel={handleCancel} onOk={handleOk} destroyOnClose centered>
         {modalChildren(dataSource, tempV, setTempV)}
       </Modal>
     </div>

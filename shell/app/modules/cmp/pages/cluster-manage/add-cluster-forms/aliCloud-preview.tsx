@@ -81,6 +81,7 @@ const AliCloudPreview = ({
       maskClosable={false}
       width={1000}
       destroyOnClose
+      centered
       title={i18n.t('cmp:confirm configuration')}
       visible={visible}
       footer={[

@@ -28,6 +28,7 @@ const CloudAccounts = () => {
     confirm({
       title: i18n.t('cmp:confirm deletion of cloud account?'),
       content: i18n.t('cmp:cloud account cannot be restored after deletion, confirm execution?'),
+      centered: true,
       onOk() {
         const { vendor, accessKeyID } = record;
         deleteItem({ vendor, accessKeyID }).then(() => {

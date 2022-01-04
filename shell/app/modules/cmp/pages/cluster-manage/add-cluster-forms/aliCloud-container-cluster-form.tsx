@@ -455,6 +455,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
             ? i18n.t('cmp:add Alibaba Cloud Container Service Cluster (Proprietary Version)')
             : i18n.t('cmp:add Alibaba Cloud Container Service Cluster (Hosted Version)')
         }
+        centered
         visible={visible}
         onCancel={onClose}
         onOk={onOk}

@@ -114,6 +114,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     confirm({
       title: i18n.t('dop:are you sure you want to delete this item?'),
       content: i18n.t('dop:the notification will be permanently deleted'),
+      centered: true,
       onOk() {
         deleteNotifyConfigs(id).then(() => {
           handleGetNotifyConfigs();

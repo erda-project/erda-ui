@@ -26,6 +26,7 @@ interface IProps {
 
 const TokenManageModal = (props: IProps) => {
   const { visible, onCancel, token, clusterName } = props;
+  // TODO:  modal
   return (
     <Modal
       className="relative"
@@ -33,6 +34,7 @@ const TokenManageModal = (props: IProps) => {
       width={720}
       title={i18n.t('cmp:cluster Token Management')}
       visible={visible}
+      centered
       footer={[
         token ? (
           <Popconfirm

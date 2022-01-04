@@ -107,6 +107,7 @@ export const IssueItem = (props: IIssueProps) => {
           ? deleteConfirmText(name)
           : deleteConfirmText
         : `${i18n.t('common:confirm deletion')}(${name})`,
+      centered: true,
       onOk() {
         onDelete && onDelete(currentData);
       },

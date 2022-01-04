@@ -30,6 +30,7 @@ const { confirm } = Modal;
 export const confirmRedeploy = () => {
   confirm({
     title: i18n.t('runtime:confirm restart Runtime?'),
+    centered: true,
     onOk: () => {
       runtimeDomainStore.updateDomains().then(() => {
         runtimeStore.redeployRuntime();

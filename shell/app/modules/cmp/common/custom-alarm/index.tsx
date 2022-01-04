@@ -219,6 +219,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
     confirm({
       title: i18n.t('are you sure you want to delete this item?'),
       content: i18n.t('the item will be permanently deleted!'),
+      centered: true,
       onOk() {
         deleteCustomAlarm(id);
       },
@@ -582,6 +583,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
     Modal.info({
       title: i18n.t('cmp:template sample'),
       content: <span className="prewrap">{customMetricMap.notifySample}</span>,
+      centered: true,
     });
   };
 

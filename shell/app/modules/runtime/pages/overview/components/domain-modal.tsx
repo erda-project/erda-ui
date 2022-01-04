@@ -154,6 +154,7 @@ const DomainModal = (props: IProps) => {
     <Modal
       title={i18n.t('runtime:domain settings')}
       visible={visible}
+      centered
       destroyOnClose
       onOk={saveConfig}
       onCancel={onCancel}

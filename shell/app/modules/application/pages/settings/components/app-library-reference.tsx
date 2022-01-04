@@ -192,6 +192,7 @@ const AppLibraryReference = () => {
       <Modal
         title={i18n.t('dop:refer-to-market')}
         width={570}
+        centered
         visible={state.visible}
         destroyOnClose
         onCancel={() => {

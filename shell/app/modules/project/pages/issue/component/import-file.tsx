@@ -68,6 +68,7 @@ const ImportFile = ({ afterImport, issueType, download, projectID, visible, onCl
             </div>
           </div>
         ),
+        centered: true,
         onOk() {},
       });
     }

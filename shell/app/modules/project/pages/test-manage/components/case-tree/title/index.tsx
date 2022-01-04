@@ -123,6 +123,7 @@ const Title = ({
           content:
             i18n.t('dop:Deleting will put the current test set and included test cases into the recycle bin.') +
             i18n.t('are you sure?'),
+          centered: true,
           onOk: () => {
             deleteTestSetToRecycle(id).then(() => {
               onOperateNode(eventKey, TestOperation.delete);
@@ -134,6 +135,7 @@ const Title = ({
         Modal.confirm({
           title: i18n.t('delete'),
           content: i18n.t('dop:It cannot be restored if completely deleted.') + i18n.t('is it confirmed?'),
+          centered: true,
           onOk: () => {
             deleteTestSetEntirely(id).then(() => {
               onOperateNode(eventKey, TestOperation.deleteEntirely);
@@ -226,6 +228,7 @@ const Title = ({
           Modal.confirm({
             title: i18n.t('delete'),
             content: i18n.t('dop:It cannot be restored if completely deleted.') + i18n.t('is it confirmed?'),
+            centered: true,
             onOk: () => {
               customClickDic[key](id).then(() => {
                 onOperateNode(eventKey, TestOperation.deleteEntirely);

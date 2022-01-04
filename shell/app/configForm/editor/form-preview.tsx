@@ -417,7 +417,7 @@ const PreviewForm = (props: any) => {
   };
 
   return (
-    <NusiModal visible={visible} title={i18n.t('common:form preview')} footer={null} onCancel={onClose}>
+    <NusiModal visible={visible} title={i18n.t('common:form preview')} footer={null} onCancel={onClose} centered>
       {visible ? (
         <DiceForm fields={formConfig} formRef={formRef} onFinish={onFinish}>
           <DiceForm.Submit Button={Button} type="primary" />

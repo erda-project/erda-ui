@@ -364,6 +364,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
           </div>
         }
         maskClosable={false}
+        centered
         footer={[
           <Button
             key="cancel"

@@ -54,6 +54,7 @@ const ConfigSelector = ({ list, defaultValue, value, onChange, onDeleteFilter, o
       onOk() {
         onDeleteFilter(item);
       },
+      centered: true,
     });
   };
 

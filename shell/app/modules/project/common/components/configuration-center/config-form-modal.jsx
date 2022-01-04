@@ -96,6 +96,7 @@ class ConfigFormModal extends React.PureComponent {
         title={title || i18n.t('common:new configuration')}
         width={800}
         visible={modalVisible}
+        centered
         onOk={this.onSubmit}
         onCancel={this.onCancel}
         okText={i18n.t('save')}

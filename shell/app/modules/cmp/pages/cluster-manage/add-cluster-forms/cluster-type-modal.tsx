@@ -90,6 +90,7 @@ export const ClusterTypeModal = (props: any) => {
     <Modal
       title={i18n.t('cmp:select the cluster type')}
       visible={visible}
+      centered
       onOk={handleSubmit}
       onCancel={toggleModal}
       width={650}

@@ -67,6 +67,7 @@ const PodTable = (props: IProps) => {
     Modal.confirm({
       title: i18n.t('runtime:confirm to delete the Pod'),
       content: infoContent,
+      centered: true,
       width: 500,
       onOk,
     });

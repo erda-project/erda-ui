@@ -191,6 +191,7 @@ export const Iteration = () => {
             Modal.confirm({
               title: `${i18n.t('common:confirm deletion')}？`,
               content: `${i18n.t('common:confirm this action')}？`,
+              centered: true,
               onOk() {
                 onDelete(record.id);
               },

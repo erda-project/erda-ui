@@ -250,6 +250,7 @@ export default function ScanRule(props: IProps) {
             onClick: () => {
               Modal.confirm({
                 title: `${i18n.t('common:confirm to delete')}?`,
+                centered: true,
                 onOk: async () => {
                   await deleteScanRule({ id: record.id, scopeId, scopeType });
                   reloadAppendedList();
@@ -299,6 +300,7 @@ export default function ScanRule(props: IProps) {
     Modal.confirm({
       title: i18n.t('dop:Are you sure to delete in batches?'),
       content: i18n.t('dop:batch-delete-tip-content'),
+      centered: true,
       async onOk() {
         await batchDeleteScanRule({ scopeId, scopeType, ids: appendedRowKeys });
         reloadAppendedList();
@@ -407,6 +409,7 @@ export default function ScanRule(props: IProps) {
         width={800}
         visible={visible}
         destroyOnClose
+        centered
         title={i18n.t('dop:add access control rules')}
         closable={false}
         afterClose={() => updater.visible(false)}

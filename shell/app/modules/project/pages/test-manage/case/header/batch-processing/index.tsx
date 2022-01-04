@@ -52,6 +52,7 @@ const BatchProcessing = ({ recycled }: IProps) => {
         Modal.confirm({
           title: i18n.t('delete'),
           content: i18n.t('dop:are you sure to delete the currently selected use case?'),
+          centered: true,
           onOk: () => {
             toggleToRecycle({ testCaseIDs: primaryKeys, recycled: true, moveToTestSetID: rootId });
           },
@@ -75,6 +76,7 @@ const BatchProcessing = ({ recycled }: IProps) => {
           content:
             i18n.t('dop:the use case will not be recovered after it is completely deleted, ') +
             i18n.t('is it confirmed?'),
+          centered: true,
           onOk: () => deleteEntirely(),
         });
         break;

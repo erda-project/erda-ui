@@ -114,6 +114,7 @@ const AccessList = () => {
           onClick: () => {
             Modal.confirm({
               title: i18n.t('confirm to {action}', { action: i18n.t('delete') }),
+              centered: true,
               onOk() {
                 handleDelete(record);
               },

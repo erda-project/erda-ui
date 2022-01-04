@@ -150,6 +150,7 @@ const NotifyChannel = () => {
       confirm({
         title: i18n.t('are you sure you want to delete this item?'),
         content: i18n.t('the notification channel will be permanently deleted'),
+        centered: true,
         onOk() {
           deleteNotifyChannel.fetch({ id }).then((res) => {
             if (res) {
@@ -246,6 +247,7 @@ const NotifyChannel = () => {
     confirm({
       title,
       content,
+      centered: true,
       onOk() {
         setNotifyChannelEnable.fetch({ enable: true, id: channel.id }).then((res) => {
           updater.paging({ ...paging, current: 1 });

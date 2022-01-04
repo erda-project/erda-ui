@@ -120,6 +120,7 @@ const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
     <Modal
       title={i18n.t('authorize user {user}', { user: member ? member.nick || member.name : '' })}
       visible={!!member}
+      centered
       onOk={closeModal}
       onCancel={closeModal}
       destroyOnClose

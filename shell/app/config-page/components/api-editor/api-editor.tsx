@@ -1022,6 +1022,7 @@ const APIBody = (props: any) => {
     if (!isEmpty(data.content) && resetContent) {
       Modal.confirm({
         title: i18n.t('confirm to switch Body type?'),
+        centered: true,
         onOk() {
           updateBody('type', type === 'raw' ? BODY_RAW_OPTION[0] : type, autoSave, resetContent);
         },

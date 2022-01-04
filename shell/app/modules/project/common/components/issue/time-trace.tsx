@@ -236,6 +236,7 @@ export const TimeTrace = React.forwardRef(
             visible={modalVis}
             onCancel={handleCancel}
             destroyOnClose
+            centered
             footer={[
               <Button key="back" onClick={handleCancel}>
                 {i18n.t('cancel')}

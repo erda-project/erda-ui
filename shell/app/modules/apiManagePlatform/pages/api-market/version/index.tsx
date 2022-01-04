@@ -105,6 +105,7 @@ const ApiVersions = () => {
   const handleDeleteAsset = () => {
     Modal.confirm({
       title: i18n.t('default:confirm to delete the current API resource?'),
+      centered: true,
       onOk: async () => {
         await deleteAsset({ assetID: params.assetID });
         goTo(goTo.pages.apiManageRoot);
@@ -114,6 +115,7 @@ const ApiVersions = () => {
   const toggleAssetPublic = ({ key }: Merge<ClickParam, { key: KeyAuth }>) => {
     Modal.confirm({
       ...confirmTips[key],
+      centered: true,
       onOk: () => {
         const data = pick(asset, ['assetName', 'desc', 'logo', 'assetID']);
         editAsset({

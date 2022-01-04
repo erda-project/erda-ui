@@ -891,6 +891,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       if (isIncomplete) {
         warning({
           title: i18n.t('cmp:content of filter rule is missing, please complete!'),
+          centered: true,
         });
         return null;
       }
@@ -899,6 +900,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     if (isEmpty(state.editingRules)) {
       warning({
         title: i18n.t('cmp:create at least one rule'),
+        centered: true,
       });
       return null;
     } else {
@@ -916,6 +918,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       if (isIncomplete) {
         warning({
           title: i18n.t('cmp:content of alarm rule is missing, please complete!'),
+          centered: true,
         });
         return null;
       }
@@ -924,6 +927,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     if (isEmpty(state.notifies)) {
       warning({
         title: i18n.t('cmp:create at least one notification object'),
+        centered: true,
       });
       return null;
     } else {
@@ -938,6 +942,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       if (isIncomplete) {
         warning({
           title: i18n.t('content of notification object is missing, please complete!'),
+          centered: true,
         });
         return null;
       }
@@ -952,6 +957,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     if (!isLegalFunctions) {
       warning({
         title: i18n.t('cmp:rule value cannot be empty'),
+        centered: true,
       });
       return null;
     }

@@ -323,6 +323,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
         onCancel={onClose}
         onOk={onOk}
         destroyOnClose
+        centered
         maskClosable={false}
         width={600}
       >

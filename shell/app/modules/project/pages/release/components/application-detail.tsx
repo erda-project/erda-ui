@@ -71,6 +71,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
         name: version,
         interpolation: { escapeValue: false },
       }),
+      centered: true,
       onOk: async () => {
         await formalRelease({
           releaseID,

@@ -165,6 +165,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
       width="660px"
       onCancel={onCloseModal}
       destroyOnClose
+      centered
       maskClosable={false}
       footer={[
         <Button type="primary" key="back" onClick={onCloseModal}>

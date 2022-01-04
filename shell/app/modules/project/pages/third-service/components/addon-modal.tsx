@@ -273,6 +273,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
         width={800}
         visible={visible}
         destroyOnClose
+        centered
         maskClosable={false}
         onCancel={this.handleCancel}
         footer={null}

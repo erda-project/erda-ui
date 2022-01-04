@@ -16,6 +16,10 @@
     -webkit-box-shadow: 0 0 0px 1000px rgb(71, 64, 90) inset;
   }
 
+  .ant-modal {
+    padding: 0
+  }
+  
   .ant-modal-content {
     .ant-modal-header,
     .ant-modal-body,

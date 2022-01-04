@@ -38,6 +38,7 @@ const SelectPro = (props: CP_SELECT_PRO.Props) => {
       Modal.confirm({
         title: confirm?.title,
         content: confirm?.subTitle,
+        centered: true,
         onOk: () => {
           setSelectVal(val);
           execOperation(operations?.onChange, val ?? null);

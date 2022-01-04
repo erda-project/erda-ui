@@ -71,6 +71,7 @@ const UpgradeModal = ({ formData, visible, onCancel, afterSubmit, dataSource }: 
       visible={visible}
       title={i18n.t('default:configuration upgrade')}
       destroyOnClose
+      centered
       className="middleware-op-modal"
       onOk={handleOk}
       onCancel={onCancel}

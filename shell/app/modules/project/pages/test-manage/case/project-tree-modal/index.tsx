@@ -41,6 +41,7 @@ const ProjectTreeModal = () => {
       onOk={() => submitTreeModal()}
       confirmLoading={confirmLoading}
       destroyOnClose
+      centered
     >
       <div style={{ position: 'relative' }}>
         <CaseTree readOnly needRecycled={false} needActiveKey={false} onSelect={updateTreeModalExtra} mode="temp" />

@@ -67,6 +67,7 @@ export const TreeTitle = ({
       popToggle(false);
       Modal.confirm({
         title: `${i18n.t('common:confirm to delete')}?`,
+        centered: true,
         onOk: () => {
           execOperation(e.key, { name: targetBranch?.name });
         },

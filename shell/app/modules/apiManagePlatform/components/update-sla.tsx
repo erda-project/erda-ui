@@ -70,6 +70,7 @@ const UpdateSLA = ({ visible, onCancel, metaData, slaList, onOk, confirmLoading 
       onCancel={handleCancel}
       onOk={handleOk}
       destroyOnClose
+      centered
       confirmLoading={confirmLoading}
     >
       <div className="text-base font-medium mb-3">{i18n.t('current SLA')}</div>

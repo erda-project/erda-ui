@@ -147,6 +147,7 @@ class Operation extends React.PureComponent<IOperation> {
       className: 'terminal-confirm-modal',
       content,
       title: i18n.t('cmp:confirm login config'),
+      centered: true,
       onOk: this.openTerminal,
       onCancel: this.resetDefaultUserInfo,
     });

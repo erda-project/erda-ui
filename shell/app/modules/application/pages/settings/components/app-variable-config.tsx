@@ -394,6 +394,7 @@ const VariableConfig = ({
       <VariableConfigForm visible={visible} formData={editData} onCancel={closeModal} onOk={handelSubmit} />
       <Modal
         visible={importVisible}
+        centered
         onOk={handleImportSubmit}
         okButtonProps={{ disabled: isJsonInvalid }}
         onCancel={closeImportModal}
@@ -423,6 +424,7 @@ const VariableConfig = ({
       </Modal>
       <Modal
         visible={exportVisible}
+        centered
         onOk={closeExportModal}
         onCancel={closeExportModal}
         title={i18n.t('export configuration')}

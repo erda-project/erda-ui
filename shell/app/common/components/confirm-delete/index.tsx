@@ -82,6 +82,7 @@ const ConfirmDelete = (props: IProps) => {
         }
         visible={isVisible}
         onCancel={cancel}
+        centered
         footer={[
           <Button key="back" onClick={cancel}>
             {i18n.t('cancel')}

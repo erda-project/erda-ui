@@ -382,6 +382,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
       </FileContainer>
       <Modal
         visible={!isEmpty(errorMsg)}
+        centered
         title={
           <div>
             <CustomIcon type="guanbi-fill" className="text-danger" />

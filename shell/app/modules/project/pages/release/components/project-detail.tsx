@@ -45,6 +45,7 @@ const ReleaseProjectDetail = () => {
         name: releaseName,
         interpolation: { escapeValue: false },
       }),
+      centered: true,
       onOk: async () => {
         await formalRelease({
           releaseID,

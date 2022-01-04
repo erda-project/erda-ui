@@ -353,6 +353,7 @@ const MembersTable = ({
       }
       Modal.confirm({
         title,
+        centered: true,
         onOk: () => {
           removeMember({ userIds, scope }, {
             ...state.queryParams,

@@ -184,6 +184,7 @@ const Configuration = () => {
   const deleteKey = async (id: string) => {
     Modal.confirm({
       title: `${i18n.t('common:confirm to delete')}?`,
+      centered: true,
       onOk: async () => {
         await deleteDetailToken.fetch({
           id,
@@ -237,6 +238,7 @@ const Configuration = () => {
           width={720}
           title={i18n.t('established successfully')}
           visible={visible}
+          centered
           footer={[
             <Button
               key={mode}

@@ -66,6 +66,7 @@ const ProjectLabel = () => {
   const handleDelete = (label: LABEL.Item) => {
     Modal.confirm({
       title: i18n.t('dop:issues associated label will be deleted, confirm to delete?'),
+      centered: true,
       onOk: () => {
         deleteLabel(label.id);
       },

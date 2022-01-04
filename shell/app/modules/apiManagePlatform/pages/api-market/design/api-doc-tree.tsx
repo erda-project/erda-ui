@@ -94,6 +94,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
       if (isDocChanged) {
         Modal.confirm({
           title: `${i18n.t('dop:not saved yet, confirm to leave')}?`,
+          centered: true,
           onOk: onSelectHandle,
         });
       } else {
@@ -235,6 +236,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
           : `${i18n.t('dop:whether to jump to the newly created document')}?`;
         Modal.confirm({
           title: confirmTitle,
+          centered: true,
           onOk: () => {
             if (isConnectedWs) {
               commitSaveApi();

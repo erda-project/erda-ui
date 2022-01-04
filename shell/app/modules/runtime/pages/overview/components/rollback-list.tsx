@@ -46,6 +46,7 @@ export default ({ visible, onClose }: { visible: boolean; onClose: (e?: any) => 
     Modal.confirm({
       title: i18n.t('runtime:confirm rollback to this deploy?'),
       content,
+      centered: true,
       width: 500,
       onOk: () => rollbackRuntime(id),
     });

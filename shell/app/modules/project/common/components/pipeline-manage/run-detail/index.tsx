@@ -196,6 +196,7 @@ const RunDetail = (props: IProps) => {
         action: disabled ? i18n.t('open') : i18n.t('close'),
         name: node.name,
       }),
+      centered: true,
       onOk: () => updateEnv({ id: node.id, disabled: !disabled }),
       onCancel: noop,
     });

@@ -64,6 +64,7 @@ const ServiceDropdown = (props: IProps) => {
       className: 'modal-info',
       title,
       content,
+      centered: true,
       width: 500,
       okText: i18n.t('close'),
     });

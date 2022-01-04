@@ -98,6 +98,7 @@ const ClientList = () => {
           onClick: () => {
             Modal.confirm({
               title: i18n.t('confirm to {action}', { action: i18n.t('reset key') }),
+              centered: true,
               onOk() {
                 handleReset(id, client);
               },
@@ -109,6 +110,7 @@ const ClientList = () => {
           onClick: () => {
             Modal.confirm({
               title: i18n.t('confirm to {action}', { action: i18n.t('delete') }),
+              centered: true,
               onOk() {
                 handleDelete(id);
               },
@@ -152,6 +154,7 @@ const ClientList = () => {
         visible={!isEmpty(resetModalInfo)}
         onCancel={() => updater.resetModalInfo({})}
         destroyOnClose
+        centered
         footer={null}
       >
         <p className="mb-1">

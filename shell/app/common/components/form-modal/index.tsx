@@ -189,6 +189,7 @@ class FormModalComp extends React.Component<IProps, IState> {
         title={modalTitle}
         visible={visible}
         onOk={this.handleOk}
+        centered
         onCancel={this.handleCancel}
         footer={[
           onCancel ? (

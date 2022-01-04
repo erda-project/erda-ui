@@ -174,6 +174,7 @@ const AlarmReport = () => {
     confirm({
       title: i18n.t('cmp:are you sure you want to delete this task?'),
       content: i18n.t('cmp:the task will be permanently deleted'),
+      centered: true,
       onOk() {
         deleteReportTask(id);
       },

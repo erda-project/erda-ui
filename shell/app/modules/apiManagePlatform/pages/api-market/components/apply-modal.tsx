@@ -325,6 +325,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
       />
       <Modal
         visible={state.infoModal}
+        centered
         title={i18n.t('API request')}
         onCancel={handleCloseInfo}
         footer={<Button onClick={handleCloseInfo}>{i18n.t('close')}</Button>}

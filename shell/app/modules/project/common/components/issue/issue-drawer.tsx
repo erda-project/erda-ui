@@ -101,6 +101,7 @@ export const IssueDrawer = (props: IProps) => {
         if (isChanged && confirmCloseTip) {
           Modal.confirm({
             title: confirmCloseTip,
+            centered: true,
             onOk() {
               onClose(e);
             },

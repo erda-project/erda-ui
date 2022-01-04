@@ -68,6 +68,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
   const handleDelete = (id: string) => {
     Modal.confirm({
       title: `${i18n.t('common:confirm to delete')}?`,
+      centered: true,
       onOk: async () => {
         await deleteCustomDashboard({ id, scopeId });
         _getCustomDashboard(total - 1 > (pageNo - 1) * pageSize ? pageNo : 1, pageSize);

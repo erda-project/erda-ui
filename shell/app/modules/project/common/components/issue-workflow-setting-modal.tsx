@@ -137,6 +137,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
       width="1010px"
       onCancel={onCancel}
       destroyOnClose
+      centered
       maskClosable={false}
       footer={[
         <Button key="cancel" onClick={onCancel}>

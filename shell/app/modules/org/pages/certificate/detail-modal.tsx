@@ -195,6 +195,7 @@ const DetailModal = ({ id, onClose, detail: originDetail }: IProps) => {
   return (
     <Modal
       visible={detailVis}
+      centered
       title={detail.name || i18n.t('download')}
       footer={[
         <Button key="cancel" onClick={closeDetail}>

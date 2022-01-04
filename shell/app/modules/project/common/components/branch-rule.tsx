@@ -270,6 +270,7 @@ const BranchRule = (props: IProps) => {
           onClick: () => {
             Modal.confirm({
               title: `${i18n.t('common:confirm to delete')}?`,
+              centered: true,
               onOk() {
                 deleteBranchRule({ id: record.id }).then(() => {
                   getBranchRulesData();

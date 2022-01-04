@@ -141,6 +141,7 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
       visible={visible}
       title={i18n.t('dop:import use case')}
       width={1000}
+      centered
       onOk={onOk}
       onCancel={handleCancel}
       confirmLoading={confirmLoading}

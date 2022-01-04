@@ -180,6 +180,7 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
   const clearAllMessage = () => {
     Modal.confirm({
       title: i18n.t('confirm to read all'),
+      centered: true,
       onOk() {
         return clearAll().then(() => message.success(i18n.t('operated successfully')));
       },

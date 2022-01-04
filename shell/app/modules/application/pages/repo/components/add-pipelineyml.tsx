@@ -336,6 +336,7 @@ const AddPipelineYml = () => {
             {i18n.t('error')}
           </div>
         }
+        centered
         maskClosable={false}
         footer={[
           <Button

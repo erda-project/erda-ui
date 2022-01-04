@@ -71,7 +71,7 @@ class JsonChecker extends React.PureComponent<IProps, IState> {
         <Button type="primary" size="small" ghost onClick={this.toggleVisible}>
           {buttonText || `${i18n.t('common:view')} JSON`}
         </Button>
-        <Modal className="json-checker-modal" {...configs}>
+        <Modal className="json-checker-modal" {...configs} centered>
           <div className="json-detail-wrap">
             {jsonString ? (
               <>

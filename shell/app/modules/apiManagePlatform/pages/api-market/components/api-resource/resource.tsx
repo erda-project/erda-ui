@@ -385,6 +385,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
       if (formErrorNum > 0) {
         confirm({
           title: i18n.t('dop:Are you sure to leave, with the error message not saved?'),
+          centered: true,
           onOk() {
             nextHandle();
           },
@@ -470,6 +471,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
     if (formErrorNum > 0) {
       confirm({
         title: i18n.t('dop:Are you sure to leave, with the error message not saved?'),
+        centered: true,
         onOk() {
           nextHandle();
         },

@@ -104,12 +104,14 @@ const ClusterList = ({ onEdit }: IProps) => {
             Modal.warning({
               title: i18n.t('warning'),
               content: precheckHint,
+              centered: true,
             });
             break;
           case 2:
             Modal.confirm({
               title: i18n.t('warning'),
               content: precheckHint,
+              centered: true,
               onOk() {
                 upgradeCluster({ clusterName: cluster.name, precheck: false });
                 goTo(`./history?clusterName=${cluster.name}`);
@@ -120,6 +122,7 @@ const ClusterList = ({ onEdit }: IProps) => {
             Modal.confirm({
               title: i18n.t('warning'),
               content: precheckHint,
+              centered: true,
               onOk() {
                 goTo(`./history?clusterName=${cluster.name}`);
               },

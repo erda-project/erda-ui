@@ -52,6 +52,7 @@ const UrlInviteModal = ({ url, visible, code, tip, linkPrefixTip, modalProps = {
             <Copy selector=".cursor-copy" />
           </>
         }
+        centered
         {...modalProps}
       >
         {tip ? <ErdaAlert className="mb-5" message={tip} type="info" showOnceKey="invite-member-modal" /> : null}

@@ -55,7 +55,7 @@ class PagingTable extends React.PureComponent {
               <span
                 className="table-operations-btn"
                 onClick={() =>
-                  confirm({ title: i18n.t('common:confirm deletion'), onOk: () => props.onDelete(record) })
+                  confirm({ title: i18n.t('common:confirm deletion'), centered: true, onOk: () => props.onDelete(record) })
                 }
               >
                 {i18n.t('delete')}

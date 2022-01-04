@@ -67,6 +67,7 @@ const Status = () => {
   const handleDelete = (id: string) => {
     Modal.confirm({
       title: i18n.t('msp:are you sure to delete this monitor?'),
+      centered: true,
       onOk: () => {
         deleteMetric(id).then(() => {
           getProjectDashboard();

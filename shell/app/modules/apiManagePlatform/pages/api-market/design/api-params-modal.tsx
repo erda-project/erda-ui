@@ -151,6 +151,7 @@ const ApiParamsModal = (props: IProps) => {
       visible={visible}
       onCancel={onCancel}
       destroyOnClose
+      centered
       maskClosable={false}
       className="api-params-modal"
       footer={

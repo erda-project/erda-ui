@@ -47,6 +47,7 @@ const CreateLog = (props: IProps) => {
     <Modal
       title={i18n.t('log')}
       visible={visible}
+      centered
       onCancel={() => toggleModal(false)}
       width={750}
       footer={<Button onClick={() => toggleModal(false)}>{i18n.t('close')}</Button>}

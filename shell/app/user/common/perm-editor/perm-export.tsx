@@ -232,6 +232,7 @@ ${_ymlStr}
         onOk={onOk}
         onCancel={onCancel}
         width={800}
+        centered
         {...modalProps}
       >
         <Tabs

@@ -235,6 +235,7 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit }: IProps) => {
       title={i18n.t('cmp:scale')}
       className="middleware-op-modal scale"
       visible={visible}
+      centered
       onCancel={onCancel}
       onOk={handleOk}
       destroyOnClose

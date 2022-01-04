@@ -32,6 +32,7 @@ const Operation = ({ record, afterDelete }: IProps) => {
     Modal.confirm({
       title: i18n.t('remove'),
       content: i18n.t('dop:are you sure to remove the relevant use cases from the current plan?'),
+      centered: true,
       onOk: () => {
         deleteRelations({ relationIDs: [id], type: 'single' }).then(afterDelete);
       },

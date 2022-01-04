@@ -288,6 +288,7 @@ const ApiDesign = () => {
       if (formErrorNum > 0) {
         confirm({
           title: i18n.t('dop:Are you sure to leave, with the error message not saved?'),
+          centered: true,
           onOk() {
             nextHandle();
           },
@@ -598,6 +599,7 @@ const ApiDesign = () => {
     if (isDocChanged) {
       confirm({
         title: i18n.t('dop:The current document has not been saved. Publish the saved document?'),
+        centered: true,
         onOk() {
           updater.apiModalVisible(true);
         },

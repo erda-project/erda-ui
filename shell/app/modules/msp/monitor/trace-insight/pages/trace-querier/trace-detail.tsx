@@ -55,6 +55,7 @@ const SpanDetail = (props: ISpanDetailProps) => {
       visible={spanDetailContent.visible}
       onCancel={() => getSpanDetailContent && getSpanDetailContent({ span: spanDetailContent, visible: false })}
       className="span-detail-modal"
+      centered
       width={920}
       title={[
         spanName && spanName.length > 95 ? (

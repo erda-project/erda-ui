@@ -84,6 +84,7 @@ const AccessDetail = () => {
   const handleDelete = () => {
     Modal.confirm({
       title: i18n.t('confirm to {action}', { action: i18n.t('delete') }),
+      centered: true,
       onOk: async () => {
         await deleteAccess({ accessID: accessDetail.access.id });
         goTo(goTo.pages.apiAccessManage);

@@ -104,6 +104,7 @@ export const FormModal = (props: IProps) => {
       title={_title}
       width={width}
       destroyOnClose
+      centered
       visible={visible}
       onCancel={handleCancel}
       onOk={handleOk}
