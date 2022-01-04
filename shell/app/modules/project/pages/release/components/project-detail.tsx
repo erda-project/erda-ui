@@ -22,18 +22,14 @@ import { getReleaseDetail, formalRelease } from 'project/services/release';
 const ReleaseProjectDetail = () => {
   const { params } = routeInfoStore.getState((s) => s);
   const { releaseID } = params;
-  const [releaseDetail, setReleaseDetail] = React.useState<RELEASE.ReleaseDetail>({} as RELEASE.ReleaseDetail);
+  const releaseDetail = getReleaseDetail.useData() || ({} as RELEASE.ReleaseDetail);
   const { isFormal, releaseName } = releaseDetail;
 
   const getDetail = React.useCallback(async () => {
     if (releaseID) {
-      const res = await getReleaseDetail({ releaseID });
-      const { data } = res;
-      if (data) {
-        setReleaseDetail(data);
-      }
+      await getReleaseDetail.fetch({ releaseID });
     }
-  }, [releaseID, setReleaseDetail]);
+  }, [releaseID]);
 
   React.useEffect(() => {
     getDetail();

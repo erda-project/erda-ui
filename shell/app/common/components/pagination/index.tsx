@@ -74,7 +74,7 @@ const Pagination = (pagination: IPaginationProps) => {
   );
 
   return (
-    <div className="erda-pagination flex justify-end items-center">
+    <div className="erda-pagination flex justify-end items-center relative">
       <div className="erda-pagination-total mr-2">{i18n.t('total {total} items', { total })}</div>
       <div className="erda-pagination-content inline-flex">
         <div
