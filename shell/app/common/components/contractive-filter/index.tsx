@@ -186,7 +186,6 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         style={{ width: 180 }}
         allowClear
         className="bg-hover-gray-bg"
-        bordered={false}
         // ref={inputRef}
         prefix={<ErdaIcon fill="default-3" size="16" type="search" />}
         placeholder={placeholder || i18n.t('press enter to search')}
