@@ -13,9 +13,20 @@
 
 import React from 'react';
 import Echarts from 'charts/components/echarts';
+import type { ECharts } from 'echarts';
 import { functionalColor } from 'common/constants';
 import { colorToRgb } from 'common/utils';
 import { genLinearGradient, theme } from 'charts/theme';
+
+interface IBrushSelectedParams {
+  type: 'brushselected';
+  batch: Array<{
+    areas: Array<{
+      coordRange: number[];
+      coordRanges: number[][];
+    }>;
+  }>;
+}
 
 const themeColor = {
   dark: '#ffffff',
@@ -23,10 +34,22 @@ const themeColor = {
 };
 
 const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
-  const { props: configProps, data } = props;
+  const { props: configProps, data, operations, execOperation, customOp } = props;
   const color = themeColor[configProps.theme ?? 'light'];
+  const chartRef = React.useRef<ECharts>();
+  const dataRef = React.useRef(data);
+  dataRef.current = data;
 
-  const option = React.useMemo(() => {
+  const clearBrush = () => {
+    if (chartRef.current) {
+      chartRef.current.dispatchAction({
+        type: 'brush',
+        areas: [],
+      });
+    }
+  };
+
+  const [option, onEvents] = React.useMemo(() => {
     const { dimensions, xAxis, yAxis, subTitle } = data;
     const yAxisName = subTitle
       ? {
@@ -37,7 +60,7 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
           },
         }
       : {};
-    return {
+    const chartOption = {
       backgroundColor: 'transparent',
       tooltip: {
         trigger: 'axis',
@@ -112,7 +135,57 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
         };
       }),
     };
-  }, [color, data]);
+    clearBrush();
+    const chartEvents = {};
+    if (operations?.onSelect || customOp?.onSelect) {
+      Object.assign(chartOption, {
+        brush: {
+          toolbox: [''],
+          throttleType: 'debounce',
+          throttleDelay: 300,
+          xAxisIndex: 0,
+        },
+      });
+      Object.assign(chartEvents, {
+        brushSelected: (params: IBrushSelectedParams) => {
+          const { areas } = params.batch[0] ?? {};
+          const xAxisValues = dataRef.current.xAxis.values || [];
+          if (areas?.length) {
+            const { coordRange } = areas[0];
+            if (coordRange?.length) {
+              const [startIndex, endIndex] = coordRange;
+              if (startIndex >= endIndex) {
+                clearBrush();
+                return;
+              }
+              const start = xAxisValues[Math.max(startIndex, 0)];
+              const end = xAxisValues[Math.min(endIndex, xAxisValues.length - 1)];
+              customOp?.onSelect && customOp.onSelect({ start, end });
+              operations?.onSelect && execOperation(operations.onSelect, { start, end });
+            }
+          }
+        },
+      });
+    }
+    return [chartOption, chartEvents];
+  }, [color, data, operations, customOp]);
+
+  const handleReady = React.useCallback(
+    (chart: ECharts) => {
+      chartRef.current = chart;
+      if (operations?.onSelect || customOp?.onSelect) {
+        chart.dispatchAction({
+          type: 'takeGlobalCursor',
+          key: 'brush',
+          brushOption: {
+            brushType: 'lineX',
+            brushMode: 'single',
+          },
+        });
+      }
+    },
+    [operations?.onSelect, customOp?.onSelect],
+  );
 
   return (
     <div className={`px-4 pb-2 ${configProps.className ?? ''}`} style={{ backgroundColor: colorToRgb(color, 0.02) }}>
@@ -124,7 +197,7 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
         {data.title}
       </div>
       <div>
-        <Echarts option={option} style={configProps.style ?? {}} />
+        <Echarts onEvents={onEvents} onChartReady={handleReady} option={option} style={configProps.style ?? {}} />
       </div>
     </div>
   );

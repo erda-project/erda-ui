@@ -24,9 +24,10 @@ import routeInfoStore from 'core/stores/route';
 import Ellipsis from 'common/components/ellipsis';
 import TimeSelect from 'common/components/time-select';
 import { ITimeRange, transformRange } from 'common/components/time-select/common';
-import { Moment } from 'moment';
+import moment, { Moment } from 'moment';
 import { useUpdate } from 'common/use-hooks';
 import './transaction.scss';
+import { getTimeSpan } from 'common/utils';
 
 const dashboardIdMap = [
   {
@@ -134,6 +135,28 @@ const Transaction = () => {
     });
   };
 
+  const handleSelectLineChart = ({ start, end }: { start: string; end: string }) => {
+    const startMoment = moment(start);
+    const endMoment = moment(end);
+    const span = getTimeSpan([startMoment, endMoment]);
+    monitorCommonStore.reducers.updateState({
+      globalTimeSelectSpan: {
+        refreshStrategy,
+        data: {
+          mode: 'customize',
+          customize: {
+            start: startMoment,
+            end: endMoment,
+          },
+        },
+        range: {
+          triggerTime: Date.now(),
+          ...span,
+        },
+      },
+    });
+  };
+
   if (!serviceId && requestCompleted) {
     return <NoServicesHolder />;
   }
@@ -161,6 +184,9 @@ const Transaction = () => {
               (previousValue, currentValue) => ({
                 ...previousValue,
                 [currentValue]: {
+                  op: {
+                    onSelect: handleSelectLineChart,
+                  },
                   props: {
                     style: {
                       width: '100%',
