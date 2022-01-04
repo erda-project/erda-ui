@@ -26,7 +26,6 @@ interface IProps {
 
 const TokenManageModal = (props: IProps) => {
   const { visible, onCancel, token, clusterName } = props;
-  // TODO:  modal
   return (
     <Modal
       className="relative"
