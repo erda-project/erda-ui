@@ -41,17 +41,22 @@ const TaskSummary = () => {
               onFilterChange: urlQueryChange,
             },
             props: {
-              className: 'py-2 px-4 bg-color-02',
+              className: 'flex justify-end',
             },
           },
-          pageContent: {
+          chartBlock: {
             props: {
-              className: 'only-bg-white',
+              className: 'bg-white shadow-card',
+            },
+          },
+          stackChartBlock: {
+            props: {
+              className: 'bg-white shadow-card',
             },
           },
           container: {
             props: {
-              className: 'm-4',
+              className: 'bg-white shadow-card',
               leftProportion: 3,
               rightProportion: 7,
             },
