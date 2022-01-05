@@ -68,9 +68,6 @@ const getExpandParams = (path: string, sections: any[], content: string) => {
   return { path, since, to, bottom, unfold, offset, sectionIndex };
 };
 
-const TemporaryStorageIcon = ({ disableComment, onClick }: { disableComment?: boolean; onClick: () => void }) =>
-  disableComment ? null : <CustomIcon className="temporary-storage-icon" type="jl" onClick={onClick} />;
-
 const CommentIcon = ({ disableComment, onClick }: { disableComment?: boolean; onClick: () => void }) =>
   disableComment ? null : <CustomIcon className="hover-active comment-icon" type="message" onClick={onClick} />;
 
@@ -171,7 +168,6 @@ export const FileDiff = ({
   const [leftCommentEditVisible, setLeftCommentEditVisible] = useState({});
   const [rightCommentEditVisible, setRightCommentEditVisible] = useState({});
   const [isExpanding, setFileExpanding] = useState(diffSize < DIFF_SIZE_LIMIT);
-  const [hasLS, setHasLs] = useState({});
   const [isShowLS, setIsShowLS] = useState({});
 
   const { projectId, appId, mergeId } = routeInfoStore.useStore((s) => s.params);
@@ -241,40 +237,6 @@ export const FileDiff = ({
     setRightCommentEditVisible({
       ...rightCommentEditVisible,
       [lineKey]: visible,
-    });
-  };
-
-  const handleRightGetLS = (lineKey: string, visible: boolean) => {
-    setRightCommentEditVisible({
-      ...leftCommentEditVisible,
-      [lineKey]: visible,
-    });
-    setIsShowLS({
-      ...isShowLS,
-      [lineKey]: true,
-    });
-  };
-
-  const handleLeftGetLS = (lineKey: string, visible: boolean) => {
-    setLeftCommentEditVisible({
-      ...leftCommentEditVisible,
-      [lineKey]: visible,
-    });
-    setIsShowLS({
-      ...isShowLS,
-      [lineKey]: true,
-    });
-  };
-
-  const handleSetLS = (lineKey: string, content: string) => {
-    const timestamp = new Date().getTime();
-    localStorage.setItem(
-      `mr-comment-${projectId}-${appId}-${mergeId}-${name}-${lineKey}`,
-      JSON.stringify({ content, timestamp }),
-    );
-    setHasLs({
-      ...hasLS,
-      [lineKey]: true,
     });
   };
 
@@ -392,9 +354,6 @@ export const FileDiff = ({
 
                   const tsComment = tsCommentObj ? JSON.parse(tsCommentObj) : {};
 
-                  // 暂存icon展示条件：可评论，存在暂存内容
-                  const showTsCommentIcon = !disableComment && !!tsCommentObj;
-
                   const showRightCommentEdit = rightCommentEditVisible[lineKey];
                   const showRightCommentIcon =
                     !disableComment && !comments && newLineNo !== -1 && !showRightCommentEdit;
@@ -446,9 +405,6 @@ export const FileDiff = ({
                             onClick={handleExpand}
                             data-prefix={oldPrefix}
                           >
-                            {showTsCommentIcon && (
-                              <TemporaryStorageIcon onClick={() => handleLeftGetLS(lineKey, true)} />
-                            )}
                             <IF check={showLeftCommentIcon || showRightCommentIcon}>
                               <CommentIcon onClick={() => toggleLeftCommentEdit(lineKey, true)} />
                             </IF>
@@ -482,11 +438,7 @@ export const FileDiff = ({
                                         }).then(() => toggleEditFn(lineKey, false)),
                                     },
                                     {
-                                      text: i18n.t('dop:temporary storage'),
-                                      onClick: (v) => handleSetLS(lineKey, v),
-                                    },
-                                    {
-                                      text: i18n.t('common:discard'),
+                                      text: i18n.t('cancel'),
                                       onClick: () => toggleEditFn(lineKey, false),
                                     },
                                   ]}
@@ -511,7 +463,6 @@ export const FileDiff = ({
                           onClick={handleExpand}
                           data-prefix={oldPrefix}
                         >
-                          {showTsCommentIcon && <TemporaryStorageIcon onClick={() => handleLeftGetLS(lineKey, true)} />}
                           {showLeftCommentIcon && <CommentIcon onClick={() => toggleLeftCommentEdit(lineKey, true)} />}
                         </td>
                         <td className="diff-line-content" data-prefix={leftContent === '' ? '' : actionPrefix}>
@@ -524,9 +475,6 @@ export const FileDiff = ({
                           onClick={handleExpand}
                           data-prefix={newPrefix}
                         >
-                          {showTsCommentIcon && (
-                            <TemporaryStorageIcon onClick={() => handleRightGetLS(lineKey, true)} />
-                          )}
                           {showRightCommentIcon && (
                             <CommentIcon onClick={() => toggleRightCommentEdit(lineKey, true)} />
                           )}
@@ -562,7 +510,7 @@ export const FileDiff = ({
                                       }).then(() => toggleLeftCommentEdit(lineKey, false)),
                                   },
                                   {
-                                    text: i18n.t('common:discard'),
+                                    text: i18n.t('cancel'),
                                     onClick: () => toggleLeftCommentEdit(lineKey, false),
                                   },
                                 ]}
@@ -592,7 +540,7 @@ export const FileDiff = ({
                                       }).then(() => toggleRightCommentEdit(lineKey, false)),
                                   },
                                   {
-                                    text: i18n.t('common:discard'),
+                                    text: i18n.t('cancel'),
                                     onClick: () => toggleRightCommentEdit(lineKey, false),
                                   },
                                 ]}
