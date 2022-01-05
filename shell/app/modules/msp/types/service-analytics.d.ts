@@ -27,4 +27,26 @@ declare namespace SERVICE_ANALYTICS {
   interface ServiceList {
     data: ServiceItem[];
   }
+
+  type IFixedConditionType = 'sort' | 'limit' | 'traceStatus';
+
+  interface IConditionItem {
+    key: string;
+    value: string;
+    displayName: string;
+  }
+
+  type IFixedCondition = {
+    [k in IFixedConditionType]: IConditionItem[];
+  };
+
+  interface TraceConditions extends IFixedCondition {
+    others: {
+      key: string;
+      value: string;
+      displayName: string;
+      type: string;
+      paramKey: string;
+    }[];
+  }
 }

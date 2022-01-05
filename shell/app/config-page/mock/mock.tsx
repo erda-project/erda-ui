@@ -24,6 +24,13 @@ const Mock = () => {
       useMock={useMock}
       forceMock
       customProps={{
+        BubbleGraph: {
+          op: {
+            click: (a: CP_DATA_RANK.IItem) => {
+              console.log(a);
+            },
+          },
+        },
         dataRank: {
           op: {
             clickRow: (a: CP_DATA_RANK.IItem) => {

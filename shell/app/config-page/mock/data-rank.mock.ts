@@ -25,165 +25,91 @@ export const mockData = {
   },
   protocol: {
     hierarchy: {
-      root: 'dataRank',
+      root: 'BubbleGraph',
       structure: {
-        myPage: ['dataRank'],
+        myPage: ['BubbleGraph'],
       },
     },
     components: {
       myPage: { type: 'Container' },
-      dataRank: {
-        type: 'TopN',
+      BubbleGraph: {
+        type: 'BubbleGraph',
         data: {
           list: [
             {
-              title: '吞吐量最大Top5',
-              type: 'maximumThroughputTop5',
-              span: 6,
-              items: [
-                {
-                  id: '', // serviceId
-                  name: '服务名称A', // serviceName
-                  value: 300,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-                {
-                  name: '服务名称b',
-                  value: 80,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-                {
-                  name: '服务名称c',
-                  value: 77,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-                {
-                  name: '服务名称d',
-                  value: 50,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-                {
-                  name: '服务名称很长的服务服务名称很长的服务服务名称很长的服务服务名称很长的服务',
-                  value: 25,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-              ],
+              dimension: 'dimension A',
+              group: 'group A',
+              size: {
+                value: 10,
+              },
+              x: {
+                unit: '',
+                value: 100,
+              },
+              y: {
+                unit: '',
+                value: 100,
+              },
             },
             {
-              title: '吞吐量最小Top5',
-              type: 'minimumThroughputTop5',
-              span: 6,
-              items: [
-                {
-                  name: '服务名称A',
-                  value: 100,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-                {
-                  name: '服务名称b',
-                  value: 80,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-                {
-                  name: '服务名称c',
-                  value: 77,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-                {
-                  name: '服务名称d',
-                  value: 50,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-                {
-                  name: '服务名称很长的服务服务名称很长的服务服务名称很长的服务服务名称很长的服务',
-                  value: 25,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-              ],
+              dimension: 'dimension A',
+              group: 'group B',
+              size: {
+                value: 15,
+              },
+              x: {
+                unit: '',
+                value: 150,
+              },
+              y: {
+                unit: '',
+                value: 200,
+              },
             },
             {
-              title: '平均延迟Top5',
-              type: 'averageDelayTop5',
-              span: 6,
-              items: [
-                {
-                  name: '服务名称A',
-                  value: 100,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-                {
-                  name: '服务名称b',
-                  value: 80,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-                {
-                  name: '服务名称c',
-                  value: 77,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-                {
-                  name: '服务名称d',
-                  value: 50,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-                {
-                  name: '服务名称很长的服务服务名称很长的服务服务名称很长的服务服务名称很长的服务',
-                  value: 25,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-              ],
+              dimension: 'dimension B',
+              group: 'group A',
+              size: {
+                value: 25,
+              },
+              x: {
+                unit: '',
+                value: 400,
+              },
+              y: {
+                unit: '',
+                value: 300,
+              },
             },
             {
-              title: '错误率Top5',
-              type: 'errorRateTop5',
-              span: 6,
-              items: [
-                {
-                  name: '服务名称A',
-                  value: 100,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-                {
-                  name: '服务名称b',
-                  value: 80,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-                {
-                  name: '服务名称c',
-                  value: 77,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-                {
-                  name: '服务名称d',
-                  value: 50,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-                {
-                  name: '服务名称很长的服务服务名称很长的服务服务名称很长的服务服务名称很长的服务',
-                  value: 25,
-                  percent: 100,
-                  unit: 'reqs/s',
-                },
-              ],
+              dimension: 'dimension B',
+              group: 'group B',
+              size: {
+                value: 30,
+              },
+              x: {
+                unit: '',
+                value: 1,
+              },
+              y: {
+                unit: '',
+                value: 400,
+              },
+            },
+            {
+              dimension: 'dimension B',
+              group: 'group B',
+              size: {
+                value: 100,
+              },
+              x: {
+                unit: '',
+                value: 100,
+              },
+              y: {
+                unit: '',
+                value: 400,
+              },
             },
           ],
         },

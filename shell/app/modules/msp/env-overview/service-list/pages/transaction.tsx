@@ -201,6 +201,15 @@ const Transaction = () => {
                 className: 'bg-white',
               },
             },
+            reqDistribution: {
+              props: {
+                style: {
+                  width: '100%',
+                  height: '170px',
+                  minHeight: 0,
+                },
+              },
+            },
             ...['rps', 'avgDuration'].reduce(
               (previousValue, currentValue) => ({
                 ...previousValue,

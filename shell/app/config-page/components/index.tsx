@@ -80,6 +80,7 @@ import TopN from './top-n';
 import ScaleCard from './scale-card/scale-card';
 import LineGraph from './line-graph';
 import KV from './kv';
+import BubbleGraph from './bubble-graph';
 
 export const containerMap = {
   Alert,
@@ -154,4 +155,5 @@ export const containerMap = {
   DropdownSelect2,
   LineGraph,
   KV,
+  BubbleGraph,
 };

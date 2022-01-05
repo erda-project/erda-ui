@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Terminus, Inc.
+// Copyright (c) 2022 Terminus, Inc.
 //
 // This program is free software: you can use, redistribute, and/or modify
 // it under the terms of the GNU Affero General Public License, version 3
@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Input, Select } from 'antd';
-import i18n from 'i18n';
+import './duration.scss';
 
 const timeUnit = [
   {
@@ -26,7 +26,7 @@ const timeUnit = [
   },
 ];
 
-interface IValue {
+export interface IValue {
   timer: number | string;
   unit: 'ms' | 's';
 }
