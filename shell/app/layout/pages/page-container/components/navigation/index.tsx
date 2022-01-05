@@ -124,7 +124,6 @@ const Navigation = () => {
           className="absolute workbench-icon"
           size={32}
           onClick={() => {
-            // with same the route, close message site
             layoutStore.reducers.switchMessageCenter(false);
             const isIncludeOrg = !!orgs.find((x) => x.name === curOrgName);
             if (isAdminRoute) {
@@ -152,7 +151,6 @@ const Navigation = () => {
             label={item.name}
             link={item.href}
             onClick={() => {
-              // with same the route, close message site
               layoutStore.reducers.switchMessageCenter(false);
               layoutStore.reducers.switchToApp(item.key);
             }}
