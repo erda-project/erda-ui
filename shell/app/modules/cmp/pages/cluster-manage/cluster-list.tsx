@@ -79,7 +79,7 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
   React.useImperativeHandle(
     ref,
     () => ({
-      reload: () => reloadRef?.current?.reload?.(),
+      reload: () => reloadRef.current?.reload(),
     }),
     [],
   );
