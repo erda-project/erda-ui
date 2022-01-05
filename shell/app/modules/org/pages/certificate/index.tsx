@@ -561,6 +561,14 @@ const Certificate = () => {
     const reData = { ...data, orgId };
     if (reData.androidInfo) {
       reData.androidInfo.manualCreate = `${reData.androidInfo.manualCreate}` === 'true';
+      const { autoInfo } = reData.androidInfo;
+      if (autoInfo) {
+        map(autoInfo, (val, key) => {
+          if (typeof val === 'string') {
+            autoInfo[key] = autoInfo[key].trim();
+          }
+        });
+      }
     }
     return addItem(reData);
   };
