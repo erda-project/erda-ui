@@ -11,18 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
 import { get, map } from 'lodash';
 
 export const isPromise = (obj: any) => {
   return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
-};
-
-export const useMount = (fn) => {
-  React.useEffect(() => {
-    fn();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 };
 
 export const getData = ({ dataPath, valueKey, nameKey }) => {
