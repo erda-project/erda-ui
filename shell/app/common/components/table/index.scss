@@ -121,6 +121,14 @@
   .erda-table-filter {
     min-height: 48px;
 
+    // TODO: remove this after update global input style
+    .ant-input-affix-wrapper,
+    input {
+      background-color: $color-bg-gray;
+      border: none;
+      border-radius: 2px;
+    }
+
     .ant-picker-range {
       input {
         background: none;
