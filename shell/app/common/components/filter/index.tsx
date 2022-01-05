@@ -90,7 +90,7 @@ const PureFilter = (props: IPureFilterProps) => {
     if (filterForm) {
       const filterFields = filterForm.getFieldsValue();
       const formValue = {};
-      map(filterFields, ({ name: _key }) => has(obj, _key) && set(formValue, _key, obj[_key]));
+      map(filterFields, (_, _key) => has(obj, _key) && set(formValue, _key, obj[_key]));
       filterForm.setFieldsValue(formatFormData ? formatFormData(formValue) : formValue);
       changeFilterData(obj); // 带上除filter之外的其他参数，如pageNo
     }
