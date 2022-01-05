@@ -21,6 +21,8 @@ module.exports = {
     cy: 'readonly',
   },
   extends: ['eslint-config-ali/typescript/react', 'prettier', 'prettier/@typescript-eslint', 'prettier/react'],
+  parser: '@typescript-eslint/parser',
+  plugins: ['deprecation'],
   parserOptions: {
     ecmaVersion: 2020, // specify the version of ECMAScript syntax you want to use: 2015 => (ES6)
     sourceType: 'module', // Allows for the use of imports
@@ -32,6 +34,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   rules: {
+    'deprecation/deprecation': 'error',
     'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['draft', 'state', 'acc'] }],
     'import/prefer-default-export': 'off',
     // 'react/jsx-filename-extension': [2, { 'extensions': ['.js', '.jsx', '.ts', '.tsx'] }],
