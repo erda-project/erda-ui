@@ -19,7 +19,7 @@ import { getResourceClass, getClusterTrend, getProjectTrend } from 'dcos/service
 import { map, merge, update } from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { useMount } from 'configForm/form/utils';
+import { useMount } from 'react-use';
 import i18n from 'i18n';
 import { getProjectListNew } from 'project/services/project';
 import { colorMap } from 'charts/theme';
