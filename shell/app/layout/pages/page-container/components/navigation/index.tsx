@@ -117,7 +117,7 @@ const Navigation = () => {
 
   return (
     <div className={`erda-global-nav flex flex-col items-center relative`}>
-      <div className="logo-wrap relative w-8 h-8 m-3 cursor-pointer">
+      <div className="logo-wrap relative min-h-[32px] w-8 h-8 m-3 cursor-pointer">
         <ErdaIcon type="gerengongzuotai" size={32} className="absolute erda-global-logo" />
         <ErdaIcon
           type="gerengongzuotaihover"
