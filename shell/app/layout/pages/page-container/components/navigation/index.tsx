@@ -124,8 +124,8 @@ const Navigation = () => {
           className="absolute workbench-icon"
           size={32}
           onClick={() => {
-            // close message site
-            layoutStore.reducers.switchMessageCenter(null);
+            // with same the route, close message site
+            layoutStore.reducers.switchMessageCenter(false);
             const isIncludeOrg = !!orgs.find((x) => x.name === curOrgName);
             if (isAdminRoute) {
               const lastOrg = window.localStorage.getItem('lastOrg');
@@ -151,7 +151,11 @@ const Navigation = () => {
             key={item.key}
             label={item.name}
             link={item.href}
-            onClick={() => layoutStore.reducers.switchToApp(item.key)}
+            onClick={() => {
+              // with same the route, close message site
+              layoutStore.reducers.switchMessageCenter(false);
+              layoutStore.reducers.switchToApp(item.key);
+            }}
             icon={
               currentApp.key === item.key ? (
                 <ErdaIcon className="absolute icon active-icon opacity-100" size={24} type={item.icon} />
