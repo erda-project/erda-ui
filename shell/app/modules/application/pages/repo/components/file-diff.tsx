@@ -428,7 +428,7 @@ export const FileDiff = ({
                     'issue-line': lineIssue,
                   });
                   if (showStyle === 'inline') {
-                    const showCommentEdit = showLeftCommentEdit;
+                    const showCommentEdit = showLeftCommentEdit || showRightCommentEdit;
                     const showCommentLine = comments || showCommentEdit;
                     let toggleEditFn = toggleLeftCommentEdit;
                     if (oldLineNo < 0) {
