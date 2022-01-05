@@ -15,7 +15,7 @@ import { useUserMap } from 'core/stores/userMap';
 import { CustomFilter, MemberSelector, FileEditor } from 'common';
 import { useFilter } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
-import i18n from 'i18n';
+import i18n, { getCurrentLocale } from 'i18n';
 import moment from 'moment';
 import { DatePicker, Table, Button, Popover, Drawer } from 'antd';
 import auditStore from 'org/stores/audit';
@@ -193,7 +193,14 @@ const AuditList = ({ sys }: { sys: boolean }) => {
     const extra = sys ? { sys: true } : { orgId };
     window.open(
       setApiWithOrg(
-        `/api/audits/actions/export-excel?${qs.stringify({ ...queryCondition, ...extra }, { arrayFormat: 'repeat' })}`,
+        `/api/audits/actions/export-excel?${qs.stringify(
+          {
+            ...queryCondition,
+            ...extra,
+            lang: getCurrentLocale().key === 'zh' ? 'zh-CN' : 'en-US',
+          },
+          { arrayFormat: 'repeat' },
+        )}`,
       ),
     );
   };
