@@ -17,7 +17,7 @@ import ReactDOM from 'react-dom';
 import { get } from 'lodash';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import { Pagination, message, ConfigProvider } from 'antd';
+import { Pagination, message, ConfigProvider, Modal } from 'antd';
 import antd_zhCN from 'antd/es/locale-provider/zh_CN';
 import antd_enUS from 'antd/es/locale-provider/en_US';
 import { IconProvider, DEFAULT_ICON_CONFIGS } from '@icon-park/react/es/runtime';
@@ -63,6 +63,11 @@ Pagination.defaultProps = {
   pageSize: PAGINATION.pageSize,
   pageSizeOptions: PAGINATION.pageSizeOptions,
   showTotal: (total) => (isZh() ? `共计 ${total} 条` : `total ${total} items`),
+};
+
+Modal.defaultProps = {
+  ...Modal.defaultProps,
+  centered: true,
 };
 
 const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
