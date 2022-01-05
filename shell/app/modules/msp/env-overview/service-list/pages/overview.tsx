@@ -182,12 +182,14 @@ const OverView = () => {
   }
 
   return (
-    <div className="service-overview bg-white">
-      <div className="h-12 flex justify-end items-center px-4 bg-lotion">
+    <div className="service-overview">
+      <div className="h-12 flex justify-end items-center px-4">
         <TimeSelectWithStore className="m-0" />
       </div>
       <div
-        className={`service-overview-topology flex flex-col overflow-hidden ${isFullScreen ? '' : 'fixed-height'}`}
+        className={`service-overview-topology flex flex-col shadow-card overflow-hidden ${
+          isFullScreen ? '' : 'fixed-height'
+        }`}
         ref={serviceTopologyRef}
       >
         <div className="h-12 flex justify-between items-center px-4 bg-white-02 text-white font-medium">
@@ -217,56 +219,62 @@ const OverView = () => {
           </div>
         </div>
       </div>
-      <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium">
-        {i18n.t('msp:service request overview')}
-      </div>
-      <div className="mx-5 mb-4 mt-3">
-        <Row gutter={8}>
-          {chartConfig.map((item) => {
-            return (
-              <Col span={12} className="my-1">
-                <div className="bg-default-01">
-                  <div className="pt-3 mb-3 px-4 text-default-8">{item.title}</div>
-                  <div className="px-4" style={{ height: '170px' }}>
-                    <AnalyzerChart
-                      scope="serviceOverview"
-                      style={{ width: '100%', height: '160px', minHeight: 0 }}
-                      view={item.key}
-                      serviceId={serviceId}
-                      tenantId={tenantId}
-                      grid={{
-                        top: '17%',
-                        left: '10%',
-                      }}
-                    />
+      <div className="bg-white shadow-card">
+        <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium mt-2">
+          {i18n.t('msp:service request overview')}
+        </div>
+        <div className="px-5 pt-3">
+          <Row gutter={8}>
+            {chartConfig.map((item) => {
+              return (
+                <Col span={12} className="my-1">
+                  <div className="bg-default-01">
+                    <div className="pt-3 mb-3 px-4 text-default-8">{item.title}</div>
+                    <div className="px-4" style={{ height: '170px' }}>
+                      <AnalyzerChart
+                        scope="serviceOverview"
+                        style={{ width: '100%', height: '160px', minHeight: 0 }}
+                        view={item.key}
+                        serviceId={serviceId}
+                        tenantId={tenantId}
+                        grid={{
+                          top: '17%',
+                          left: '10%',
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
-              </Col>
-            );
-          })}
-        </Row>
+                </Col>
+              );
+            })}
+          </Row>
+        </div>
       </div>
-      <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium">
-        {i18n.t('msp:service invocation analysis')}
-      </div>
-      {serviceId && tenantId ? (
-        <DiceConfigPage
-          showLoading
-          scenarioType="service-overview"
-          scenarioKey="service-overview"
-          forceUpdateKey={['inParams']}
-          inParams={{ tenantId, serviceId, startTime: range.startTimeMs, endTime: range.endTimeMs }}
-          fullHeight={false}
-          customProps={{
-            grid: {
-              props: {
-                span: [8, 8, 8, 8, 8, 8],
+
+      <div className="bg-white shadow-card">
+        <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium  mt-2">
+          {i18n.t('msp:service invocation analysis')}
+        </div>
+        {serviceId && tenantId ? (
+          <DiceConfigPage
+            wrapperClassName="px-2"
+            showLoading
+            scenarioType="service-overview"
+            scenarioKey="service-overview"
+            forceUpdateKey={['inParams']}
+            inParams={{ tenantId, serviceId, startTime: range.startTimeMs, endTime: range.endTimeMs }}
+            fullHeight={false}
+            customProps={{
+              grid: {
+                props: {
+                  span: [8, 8, 8, 8, 8, 8],
+                },
               },
-            },
-            ...topNMap,
-          }}
-        />
-      ) : null}
+              ...topNMap,
+            }}
+          />
+        ) : null}
+      </div>
     </div>
   );
 };
