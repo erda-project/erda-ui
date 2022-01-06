@@ -6,6 +6,8 @@ values:
     replicas: 2
     request_cpu: 0.2
     request_mem: 256
+envs:
+  FDP_UI_ADDR: "fdp-ui:80"
 services:
   ui:
     ports:
@@ -21,7 +23,6 @@ services:
       COLLECTOR_ADDR: "collector:7076"
       COLLECTOR_PUBLIC_ADDR: "collector:7076"
       SCHEDULER_ADDR: "scheduler:9091"
-      FDP_UI_ADDR: "fdp-ui:80"
     resources:
       cpu: ${request_cpu:0.2}
       max_cpu: 0.2
