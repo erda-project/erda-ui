@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import agent from 'agent';
 import { apiCreator } from 'core/service';
 
 interface ReleaseListQuery {
@@ -38,6 +37,13 @@ interface AddReleaseParams {
 
 interface UpdateReleaseParams extends AddReleaseParams {
   releaseID: string;
+}
+
+interface AddReleaseByFileParams {
+  diceFileID: string;
+  projectID: number;
+  orgID: number;
+  markdown: string;
 }
 
 interface checkVersionParams {
@@ -69,6 +75,12 @@ const apis = {
   checkVersion: {
     api: 'get@/api/releases/actions/check-version',
   },
+  parseVersion: {
+    api: 'get@/api/releases/actions/parse-version',
+  },
+  addReleaseByFile: {
+    api: 'post@/api/releases/actions/upload',
+  },
 };
 
 export const getReleaseDetail = apiCreator<(payload: { releaseID?: string }) => RELEASE.ReleaseDetail>(
@@ -90,3 +102,7 @@ export const updateRelease = apiCreator<(payload: UpdateReleaseParams) => RAW_RE
 export const formalRelease = apiCreator<(payload: { releaseID: string }) => RAW_RESPONSE>(apis.formalRelease);
 
 export const checkVersion = apiCreator<(payload: checkVersionParams) => { isUnique: boolean }>(apis.checkVersion);
+
+export const parseVersion = apiCreator<(payload: { diceFileID: string }) => { version: string }>(apis.parseVersion);
+
+export const addReleaseByFile = apiCreator<(payload: AddReleaseByFileParams) => RAW_RESPONSE>(apis.addReleaseByFile);

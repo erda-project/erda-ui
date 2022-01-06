@@ -61,6 +61,7 @@ export type {
   AntTreeNodeDropEvent,
 } from 'antd/lib/tree/Tree';
 export type { UploadProps } from 'antd/es/upload';
+export type { UploadFile } from 'antd/es/upload/interface';
 export type { InputProps } from 'antd/es/input';
 export type { MenuProps } from 'antd/es/menu';
 // export type { ColumnProps, IActions } from '../nusi/wrapped-table'; // TODO: replace with antd-overwrite table
