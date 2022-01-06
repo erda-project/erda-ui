@@ -156,13 +156,23 @@ function WrappedTable<T extends object = any>({
 
       const onSort = (order?: 'ascend' | 'descend') => {
         setSort({ ...sorter, order });
-        const { sorter: columnSorter } = column as { sorter: { compare: (a: T, b: T) => number } };
+        const { sorter: columnSorter } = column as {
+          sorter: { compare: (a: T, b: T) => number } | ((a: T, b: T) => number);
+        };
         if (order && columnSorter?.compare) {
           sortCompareRef.current = (a: T, b: T) => {
             if (order === 'ascend') {
               return columnSorter?.compare?.(a, b);
             } else {
               return columnSorter?.compare?.(b, a);
+            }
+          };
+        } else if (order && typeof columnSorter === 'function') {
+          sortCompareRef.current = (a: T, b: T) => {
+            if (order === 'ascend') {
+              return columnSorter?.(a, b);
+            } else {
+              return columnSorter?.(b, a);
             }
           };
         } else {
