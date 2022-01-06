@@ -41,7 +41,7 @@ function getProjectRouter(): RouteConfigItem[] {
         {
           path: 'apps',
           breadcrumbName: i18n.t('dop:applications'),
-          layout: { fullHeight: true },
+          layout: { noWrapper: true },
           getComp: (cb) => cb(import('project/pages/apps/app-list'), 'ProjectAppList'),
         },
         {
