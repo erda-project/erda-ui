@@ -39,7 +39,6 @@ export const ProjectAppList = () => {
         inParams={{
           projectId,
         }}
-        showLoading={false}
         customProps={{
           list: {
             props: {
