@@ -34,7 +34,12 @@ const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
 
   return (
     <Spin spinning={isFetching}>
-      <Tabs className="dice-tab" defaultActiveKey={!hideComment ? 'comment' : 'commit'} tabBarGutter={40}>
+      <Tabs
+        className="dice-tab"
+        defaultActiveKey={!hideComment ? 'comment' : 'commit'}
+        tabBarGutter={40}
+        destroyInactiveTabPane
+      >
         {!hideComment && (
           <TabPane
             key="comment"
