@@ -93,12 +93,12 @@ const CHART_MAP: {
   RPS: [
     {
       key: 'aggregateMetric.avgRps',
-      name: i18n.t('msp:average throughput'),
+      name: i18n.t('msp:average request volume'),
       tips: i18n.t('msp:definition of average rps'),
     },
     {
       key: 'aggregateMetric.maxRps',
-      name: i18n.t('msp:maximum throughput'),
+      name: i18n.t('msp:maximum request volume'),
       tips: i18n.t('msp:definition of maximum rps'),
     },
   ],
