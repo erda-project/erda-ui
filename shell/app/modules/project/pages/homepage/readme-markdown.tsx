@@ -83,7 +83,12 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
       <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
         <div ref={mdContentRef} className="md-content">
           <Tooltip title={i18n.t('dop:click to edit')}>
-            <div className={'markdown-edit-button h-8 w-8 fixed bg-white'} onClick={() => updater.isEditing(true)}>
+            <div
+              className={
+                'markdown-edit-button h-8 w-8 fixed bg-white rounded-2xl shadow-card justify-center items-center'
+              }
+              onClick={() => updater.isEditing(true)}
+            >
               <ErdaIcon type="edit" size={16} className="text-default-4 hover:text-default-8" />
             </div>
           </Tooltip>
