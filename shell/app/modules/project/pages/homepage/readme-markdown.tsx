@@ -14,7 +14,7 @@
 import React from 'react';
 import i18n from 'core/i18n';
 import { Tooltip } from 'antd';
-import { MarkdownEditor, EditField } from 'common';
+import { MarkdownEditor, EditField, ErdaIcon } from 'common';
 import remarkGfm from 'remark-gfm';
 import { useUpdate } from 'common/use-hooks';
 import ReactMarkdown from 'react-markdown';
@@ -32,13 +32,15 @@ interface IMdProps {
 const { ScalableImage } = EditField;
 
 export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValue, maxHeight }: IMdProps) => {
-  const [{ v, expanded, expandBtnVisible, isEditing }, updater, update] = useUpdate({
+  const [{ v, expanded, expandBtnVisible, isEditing, isHover }, updater, update] = useUpdate({
     v: value,
     expanded: false,
     isEditing: false,
     expandBtnVisible: false,
+    isHover: false,
   });
-
+  const onHover = () => updater.isHover(true);
+  const outHover = () => updater.isHover(false);
   const mdContentRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -79,11 +81,20 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
   ) : (
     <div
       className="relative cursor-pointer rounded w-full"
-      onClick={() => updater.isEditing(true)}
       style={{ maxHeight: expanded ? '' : maxHeight }}
+      onMouseEnter={onHover}
+      onMouseLeave={outHover}
     >
       <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
         <div ref={mdContentRef} className="md-content">
+          <Tooltip title={i18n.t('dop:click to edit')}>
+            <div
+              className={`markdown-edit-button h-8 w-8 fixed bg-white ${isHover ? 'flex-all-center' : 'hidden'}`}
+              onClick={() => updater.isEditing(true)}
+            >
+              <ErdaIcon type="edit" size={16} className="text-default-4 hover:text-default-8" />
+            </div>
+          </Tooltip>
           <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ img: ScalableImage }}>
             {value || i18n.t('no description yet')}
           </ReactMarkdown>
