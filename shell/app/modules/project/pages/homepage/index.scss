@@ -67,6 +67,21 @@
     }
   }
 
+  .read-only-markdown {
+    .markdown-edit-button {
+      display: none;
+      right: 380px;
+      top: 228px;
+      z-index: 2;
+    }
+
+    &:hover {
+      .markdown-edit-button {
+        display: flex;
+      }
+    }
+  }
+
   .homepage-body {
     .homepage-info {
       width: 280px;
