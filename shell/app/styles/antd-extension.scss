@@ -71,24 +71,6 @@ body {
     }
   }
 
-  .ant-progress-bg {
-    background-image: linear-gradient(90deg, $color-primary-light, $color-primary);
-    // border-top-right-radius: 0;
-    // border-bottom-right-radius: 0;
-    border-top-left-radius: 100px;
-    border-bottom-left-radius: 100px;
-  }
-
-  .ant-progress {
-    &.progress-full {
-      .ant-progress-bg {
-        background-image: linear-gradient(90deg, $color-primary-light, $color-primary);
-        border-top-right-radius: 100px;
-        border-bottom-right-radius: 100px;
-      }
-    }
-  }
-
   .ant-form-item > label:after {
     position: relative;
     top: -0.5px;

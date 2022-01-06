@@ -129,7 +129,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
         const res = await checkVersion(payload);
         const { data } = res;
         if (data && !data.isUnique) {
-          throw new Error(i18n.t('{name} already exists', { name: i18n.t('dop:version name') }));
+          throw new Error(i18n.t('{name} already exists', { name: i18n.t('dop:release name') }));
         }
       }
     }),
@@ -208,8 +208,8 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
           <TabPane tab={i18n.t('dop:images list')} key="2">
             <Table
               columns={[
-                { title: i18n.t('dop:image name'), dataIndex: 'image' },
                 { title: i18n.t('service name'), dataIndex: 'name' },
+                { title: i18n.t('dop:image name'), dataIndex: 'image' },
               ]}
               dataSource={serviceImages}
               onChange={() => getReleaseDetail({ releaseID })}

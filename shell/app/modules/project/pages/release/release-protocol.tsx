@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage, { useMock } from 'app/config-page';
-import { RadioTabs } from 'common';
+import DiceConfigPage from 'app/config-page';
+import { RadioTabs, ErdaIcon } from 'common';
 import { usePerm, WithAuth } from 'user/common';
-import { Button } from 'antd';
+import { Button, Dropdown, Menu } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
@@ -42,8 +42,8 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
     reloadRef.current?.reload();
   }, [isFormal, applicationID]);
 
-  const onCreate = () => {
-    goTo(goTo.pages.projectReleaseCreate);
+  const onCreate = (type: string) => {
+    goTo(goTo.resolve.projectReleaseCreate({ type }));
   };
 
   const options = [
@@ -51,14 +51,34 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
     { value: 'formal', label: i18n.t('dop:formal') },
   ];
 
+  const addDropdownMenu = (
+    <Menu className="bg-default">
+      <Menu.Item onClick={() => onCreate('app')} key={'app'} className="bg-default hover:bg-white-08">
+        <div className="flex-h-center text-white-9">
+          <ErdaIcon type="tj1" size={16} className="mr-1" />
+          {i18n.t('dop:select apps create')}
+        </div>
+      </Menu.Item>
+      <Menu.Item onClick={() => onCreate('file')} key={'file'} className="bg-default hover:bg-white-08">
+        <div className="flex-h-center text-white-9">
+          <ErdaIcon type="upload" size={16} className="mr-1" />
+          {i18n.t('dop:select file create')}
+        </div>
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <>
       {isProjectRelease ? (
         <div className="top-button-group">
           <WithAuth pass={canCreateRelease}>
-            <Button type={'primary'} onClick={onCreate}>
-              {i18n.t('new {name}', { name: i18n.t('Artifact') })}
-            </Button>
+            <Dropdown overlay={addDropdownMenu} placement="bottomRight" trigger={['click']}>
+              <Button type={'primary'} className="bg-default flex-h-center">
+                {i18n.t('new {name}', { name: i18n.t('Artifact') })}
+                <ErdaIcon type="caret-down" size="18" color="currentColor" className="ml-1 text-white-400" />
+              </Button>
+            </Dropdown>
           </WithAuth>
         </div>
       ) : null}
