@@ -16,10 +16,34 @@
     }
   }
 
+  @keyframes border {
+    50% {
+      transform: scaleX(0);
+    }
+    100% {
+      transform: scaleX(1);
+      height: 3px;
+    }
+  }
+
   .cp-card-item {
+    position: relative;
+    overflow: hidden;
     border: 1px solid $color-border;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0px;
+      left: 0;
+      height: 2px;
+      width: 100%;
+      background-color: $color-cyan-600;
+    }
     &:hover {
       box-shadow: 0 2px 8px 0 rgba($color-default, 0.16);
+      &::after {
+        animation: border 0.1s ease-in-out forwards;
+      }
     }
 
     .info-card-content {
