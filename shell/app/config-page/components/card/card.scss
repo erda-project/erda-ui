@@ -21,8 +21,7 @@
       transform: scaleX(0);
     }
     100% {
-      transform: scaleX(1);
-      height: 3px;
+      transform: scaleX(1) translateY(-1px);
     }
   }
 
@@ -33,9 +32,9 @@
     &::after {
       content: '';
       position: absolute;
-      bottom: 0px;
+      bottom: -1px;
       left: 0;
-      height: 2px;
+      height: 3px;
       width: 100%;
       background-color: $color-cyan-600;
     }
@@ -43,7 +42,7 @@
       outline: none;
       box-shadow: 0 2px 8px 0 rgba($color-default, 0.16);
       &::after {
-        animation: border 0.1s ease-in-out forwards;
+        animation: border 0.3s ease-in-out forwards;
       }
     }
 
