@@ -32,15 +32,12 @@ interface IMdProps {
 const { ScalableImage } = EditField;
 
 export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValue, maxHeight }: IMdProps) => {
-  const [{ v, expanded, expandBtnVisible, isEditing, isHover }, updater, update] = useUpdate({
+  const [{ v, expanded, expandBtnVisible, isEditing }, updater, update] = useUpdate({
     v: value,
     expanded: false,
     isEditing: false,
     expandBtnVisible: false,
-    isHover: false,
   });
-  const onHover = () => updater.isHover(true);
-  const outHover = () => updater.isHover(false);
   const mdContentRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -80,18 +77,13 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
     />
   ) : (
     <div
-      className="relative cursor-pointer rounded w-full"
+      className="relative cursor-pointer rounded w-full read-only-markdown"
       style={{ maxHeight: expanded ? '' : maxHeight }}
-      onMouseEnter={onHover}
-      onMouseLeave={outHover}
     >
       <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
         <div ref={mdContentRef} className="md-content">
           <Tooltip title={i18n.t('dop:click to edit')}>
-            <div
-              className={`markdown-edit-button h-8 w-8 fixed bg-white ${isHover ? 'flex-all-center' : 'hidden'}`}
-              onClick={() => updater.isEditing(true)}
-            >
+            <div className={'markdown-edit-button h-8 w-8 fixed bg-white'} onClick={() => updater.isEditing(true)}>
               <ErdaIcon type="edit" size={16} className="text-default-4 hover:text-default-8" />
             </div>
           </Tooltip>
