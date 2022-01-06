@@ -55,6 +55,12 @@ interface IState {
   transactionType: string;
   visible: boolean;
   detailParams: {
+    _?: number;
+    startTime: number;
+    endTime: number;
+  };
+  analysisParams: {
+    _?: number;
     startTime: number;
     endTime: number;
   };
@@ -77,6 +83,12 @@ const indicators = [
   'kvGrid@errorRate',
 ];
 
+const getTimeParams = (startTime: number, endTime: number) => ({
+  startTime,
+  endTime,
+  _: Date.now(), // fixed bug that refresh button is invalid when absolute time is selected
+});
+
 const Transaction = () => {
   const [range, rangeData, refreshStrategy] = monitorCommonStore.useStore((s) => [
     s.globalTimeSelectSpan.range,
@@ -86,37 +98,49 @@ const Transaction = () => {
 
   const tenantId = routeInfoStore.useStore((s) => s.params.terminusKey);
   const [serviceId, requestCompleted] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.requestCompleted]);
-  const [{ transactionType, visible, recordItem, detailParams }, updater, update] = useUpdate<IState>({
+  const [{ transactionType, visible, recordItem, detailParams, analysisParams }, updater, update] = useUpdate<IState>({
     transactionType: dashboardIdMap[0].value,
     visible: false,
     recordItem: undefined,
     detailParams: {
+      _: range.triggerTime,
       startTime: range.startTimeMs,
-      endTime: range.startTimeMs,
+      endTime: range.endTimeMs,
+    },
+    analysisParams: {
+      _: range.triggerTime,
+      startTime: range.startTimeMs,
+      endTime: range.endTimeMs,
     },
   });
 
   React.useEffect(() => {
+    updater.analysisParams(getTimeParams(range.startTimeMs, range.endTimeMs));
+  }, [range]);
+
+  React.useEffect(() => {
     if (!visible) {
-      updater.detailParams({
-        startTime: range.startTimeMs,
-        endTime: range.startTimeMs,
-      });
+      updater.detailParams(getTimeParams(range.startTimeMs, range.endTimeMs));
     }
   }, [visible, range]);
-  const handleChangeType = (type: string) => {
-    updater.transactionType(type);
-  };
+
+  const handleChangeType = React.useCallback(
+    (type: string) => {
+      const { date } = transformRange(rangeData);
+      update({
+        transactionType: type,
+        analysisParams: getTimeParams(date[0].valueOf(), date[1].valueOf()),
+      });
+    },
+    [rangeData],
+  );
 
   const openDetail = (item: IState['recordItem']) => {
     const { date } = transformRange(rangeData);
     update({
       visible: true,
       recordItem: item,
-      detailParams: {
-        startTime: date[0].valueOf(),
-        endTime: date[1].valueOf(),
-      },
+      detailParams: getTimeParams(date[0].valueOf(), date[1].valueOf()),
     });
   };
 
@@ -128,10 +152,7 @@ const Transaction = () => {
   };
 
   const handleTimeChange = (_range: ITimeRange, [start, end]: Moment[]) => {
-    updater.detailParams({
-      startTime: start.valueOf(),
-      endTime: end.valueOf(),
-    });
+    updater.detailParams(getTimeParams(start.valueOf(), end.valueOf()));
   };
 
   if (!serviceId && requestCompleted) {
@@ -150,7 +171,7 @@ const Transaction = () => {
           scenarioType={`${transactionType}-analysis`}
           showLoading
           forceUpdateKey={['inParams']}
-          inParams={{ tenantId, serviceId, startTime: range.startTimeMs, endTime: range.endTimeMs }}
+          inParams={{ tenantId, serviceId, ...analysisParams }}
           customProps={{
             page: {
               props: {
