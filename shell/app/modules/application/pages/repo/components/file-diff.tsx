@@ -435,11 +435,17 @@ export const FileDiff = ({
                                       onClick: (v) =>
                                         addCommentFn({
                                           note: v,
-                                        }).then(() => toggleEditFn(lineKey, false)),
+                                        }).then(() => {
+                                          toggleLeftCommentEdit(lineKey, false);
+                                          toggleRightCommentEdit(lineKey, false);
+                                        }),
                                     },
                                     {
                                       text: i18n.t('cancel'),
-                                      onClick: () => toggleEditFn(lineKey, false),
+                                      onClick: () => {
+                                        toggleLeftCommentEdit(lineKey, false);
+                                        toggleRightCommentEdit(lineKey, false);
+                                      },
                                     },
                                   ]}
                                 />
