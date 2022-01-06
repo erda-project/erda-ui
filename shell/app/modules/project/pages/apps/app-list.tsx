@@ -19,6 +19,7 @@ import i18n from 'i18n';
 import DiceConfigPage from 'config-page/index';
 import ImgMap from 'config-page/img-map';
 import routeInfoStore from 'core/stores/route';
+import './app-list.scss';
 
 export const ProjectAppList = () => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
@@ -42,12 +43,18 @@ export const ProjectAppList = () => {
         customProps={{
           list: {
             props: {
+              className: 'px-2',
               defaultLogo: ImgMap.frontImg_default_app_icon,
             },
           },
           content: {
             props: {
-              className: 'bg-white pb-0 px-4 mb-4',
+              className: 'bg-white p-0 mb-4 prj-app-list',
+            },
+          },
+          filter: {
+            props: {
+              className: 'px-4 py-2',
             },
           },
         }}
