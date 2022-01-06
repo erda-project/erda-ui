@@ -15,7 +15,7 @@ import Header from 'layout/pages/page-container/components/header';
 import Navigation from 'layout/pages/page-container/components/navigation';
 import React from 'react';
 import './page-container.scss';
-import './error-layout.scss';
+import './layout.scss';
 
 interface IProps {
   layoutClass: string;
@@ -32,4 +32,8 @@ export const ErrorLayout = ({ layoutClass, children }: IProps) => {
       </div>
     </div>
   );
+};
+
+export const EmptyLayout = ({ children }: IProps) => {
+  return <div className="empty-layout">{children}</div>;
 };

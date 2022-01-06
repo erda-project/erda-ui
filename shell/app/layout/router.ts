@@ -19,10 +19,9 @@ function getLayoutRouter(): RouteConfigItem[] {
       path: 'noAuth',
       toMark: 'orgIndex',
       breadcrumbName: i18n.t('layout:error page'),
-      getComp: (cb) => cb(import('layout/common/error-page'), 'NoAuth'),
+      getComp: (cb) => cb(import('layout/common/error-page'), 'NotJoinOrg'),
       layout: {
-        use: 'error',
-        noWrapper: true,
+        use: 'empty',
       },
     },
     {
@@ -31,18 +30,16 @@ function getLayoutRouter(): RouteConfigItem[] {
       breadcrumbName: i18n.t('layout:error page'),
       getComp: (cb) => cb(import('layout/common/error-page'), 'NotJoinOrg'),
       layout: {
-        use: 'error',
-        noWrapper: true,
+        use: 'empty',
       },
     },
     {
       path: 'notFound',
       toMark: 'orgIndex',
       breadcrumbName: i18n.t('layout:error page'),
-      getComp: (cb) => cb(import('layout/common/error-page'), 'NotFound'),
+      getComp: (cb) => cb(import('layout/common/error-page'), 'NotJoinOrg'),
       layout: {
-        use: 'error',
-        noWrapper: true,
+        use: 'empty',
       },
     },
     {

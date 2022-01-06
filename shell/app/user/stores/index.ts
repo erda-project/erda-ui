@@ -28,7 +28,6 @@ interface IState {
   noAuth: boolean;
   notFound: boolean;
   authContact: string;
-  joinOrgTip: string;
   loginUser: ILoginUser;
 }
 
@@ -58,7 +57,6 @@ const initState: IState = {
   noAuth: false,
   notFound: false,
   authContact: '',
-  joinOrgTip: '',
   loginUser: {
     id: '',
     email: '',
@@ -174,9 +172,6 @@ const userStore = createStore({
   reducers: {
     setLoginUser(state, userData: ILoginUser) {
       state.loginUser = { ...userData, isNewUser: userData.userType === 'new' };
-    },
-    setJoinOrgTip(state, joinOrgTip: string) {
-      state.joinOrgTip = joinOrgTip;
     },
     onIndexEnter(state) {
       const { loginUser } = state;

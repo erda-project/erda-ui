@@ -160,8 +160,6 @@ const org = createStore({
           const orgAccess = get(orgPermRes, 'data.access');
           // 当前无该企业权限
           if (!orgAccess) {
-            const joinOrgTip = map(orgPermRes.userInfo, (u) => u.nick).join(', ');
-            userStore.reducers.setJoinOrgTip(joinOrgTip);
             goTo(goTo.pages.freshMan);
             update({ initFinish: true });
             return;
