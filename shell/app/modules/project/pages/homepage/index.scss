@@ -68,6 +68,10 @@
   }
 
   .read-only-markdown {
+    .markdown-edit-button {
+      display: none;
+    }
+
     &:hover {
       .markdown-edit-button {
         display: flex;
