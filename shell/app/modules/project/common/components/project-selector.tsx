@@ -29,13 +29,8 @@ interface IProps {
 }
 
 const ProjectItem = (project: PROJECT.Detail) => {
-  return (
-    <Tooltip key={project.id} title={project.name}>
-      {project.displayName || project.name}
-    </Tooltip>
-  );
+  return project.displayName || project.name;
 };
-const noop = () => {};
 
 export const ProjectSelector = (props: IProps) => {
   const getData = (_q: any = {}) => {
