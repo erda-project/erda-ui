@@ -28,7 +28,7 @@ interface IOperationAction {
 }
 export const OperationAction = (props: IOperationAction) => {
   const { operation, children, onClick, tipProps, operations, tip } = props;
-  if (!operation && !operations) return children;
+  if (!operation && !operations) return <Tooltip title={tip}>{children}</Tooltip>;
   let curOp: CP_COMMON.Operation = operation;
   if (operations) {
     const clickOp = map(filterClickOperations(operations));
