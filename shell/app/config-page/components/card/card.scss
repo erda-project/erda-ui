@@ -29,7 +29,7 @@
   .cp-card-item {
     position: relative;
     overflow: hidden;
-    border: 1px solid $color-border;
+    outline: 1px solid $color-border;
     &::after {
       content: '';
       position: absolute;
@@ -40,6 +40,7 @@
       background-color: $color-cyan-600;
     }
     &:hover {
+      outline: none;
       box-shadow: 0 2px 8px 0 rgba($color-default, 0.16);
       &::after {
         animation: border 0.1s ease-in-out forwards;
