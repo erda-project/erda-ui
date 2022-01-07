@@ -223,7 +223,7 @@ const OverView = () => {
         <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium mt-2">
           {i18n.t('msp:service request overview')}
         </div>
-        <div className="px-5 pt-3">
+        <div className="px-5 pt-1">
           <Row gutter={8}>
             {chartConfig.map((item) => {
               return (
@@ -252,7 +252,7 @@ const OverView = () => {
       </div>
 
       <div className="bg-white shadow-card">
-        <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium  mt-2">
+        <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium  mt-2 mb-1">
           {i18n.t('msp:service invocation analysis')}
         </div>
         {serviceId && tenantId ? (
