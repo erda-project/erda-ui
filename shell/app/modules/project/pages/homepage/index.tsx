@@ -65,7 +65,7 @@ const LinkRow = (props: LinkRowProps) => {
         <div className="w-52 truncate text-purple-deep">
           <Tooltip title={item.name || item.url} placement="left" overlayClassName="homepage-tooltip">
             <span
-              className="text-purple-deep hover:underline"
+              className="text-link hover:underline"
               onClick={() => {
                 if (item.url.startsWith('www')) {
                   window.open(`https://${item.url}`);
