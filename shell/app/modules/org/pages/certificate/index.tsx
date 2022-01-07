@@ -112,7 +112,7 @@ const Certificate = () => {
     manualCreate: 'true',
     detailVis: false,
     detail: {} as Certificate.Detail,
-    chosenRowId: undefined as undefined | number,
+    chosenRowId: undefined as undefined | string,
   });
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const getColumns = (effects: any, { onEdit, reloadList }: any) => {
@@ -228,6 +228,12 @@ const Certificate = () => {
       },
     ];
 
+    const noSpaceRule = { pattern: /^[\S]+$/, message: `${i18n.t('common:Cannot contain spaces')}` };
+    const pwdRule = {
+      pattern: /^[\S]{6,30}$/,
+      message: `${i18n.t('common:Cannot contain spaces, length is {min}~{max}', { min: 6, max: 30 })}`,
+    };
+
     const typeFieldsMap = {
       IOS: [
         {
@@ -237,7 +243,7 @@ const Certificate = () => {
           ...getUploadFieldProps({
             form,
             onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
-              let value = {};
+              const value = {};
               set(value, keyPrefix.iosKeyChainP12, {
                 fileName,
                 uuid,
@@ -254,7 +260,7 @@ const Certificate = () => {
           name: keyPrefix.iosKeyChainP12.concat(['password']),
           type: 'custom',
           required: false,
-          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
+          rules: [pwdRule],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -273,7 +279,7 @@ const Certificate = () => {
           ...getUploadFieldProps({
             form,
             onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
-              let value = {};
+              const value = {};
               set(value, keyPrefix.iosDebug, {
                 fileName,
                 uuid,
@@ -297,7 +303,7 @@ const Certificate = () => {
           ...getUploadFieldProps({
             form,
             onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
-              let value = {};
+              const value = {};
               set(value, keyPrefix.iosRelease, {
                 fileName,
                 uuid,
@@ -359,7 +365,6 @@ const Certificate = () => {
         },
       ],
     };
-
     const createFieldsMap = {
       manual: [
         {
@@ -369,7 +374,7 @@ const Certificate = () => {
           ...getUploadFieldProps({
             form,
             onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
-              let value = {};
+              const value = {};
               set(value, keyPrefix.adrManualDebug, {
                 fileName,
                 uuid,
@@ -391,7 +396,7 @@ const Certificate = () => {
           label: `Debug-key ${i18n.t('password')}`,
           name: keyPrefix.adrManualDebug.concat(['keyPassword']),
           type: 'custom',
-          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
+          rules: [pwdRule],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -401,7 +406,7 @@ const Certificate = () => {
           label: `Debug-store ${i18n.t('password')}`,
           name: keyPrefix.adrManualDebug.concat(['storePassword']),
           type: 'custom',
-          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
+          rules: [pwdRule],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -420,7 +425,7 @@ const Certificate = () => {
           ...getUploadFieldProps({
             form,
             onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
-              let value = {};
+              const value = {};
               set(value, keyPrefix.adrManualRelease, {
                 fileName,
                 uuid,
@@ -442,7 +447,7 @@ const Certificate = () => {
           label: `Release-key ${i18n.t('password')}`,
           name: keyPrefix.adrManualRelease.concat(['keyPassword']),
           type: 'custom',
-          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
+          rules: [pwdRule],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -452,7 +457,7 @@ const Certificate = () => {
           label: `Release-store ${i18n.t('password')}`,
           name: keyPrefix.adrManualRelease.concat(['storePassword']),
           type: 'custom',
-          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
+          rules: [pwdRule],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -473,7 +478,7 @@ const Certificate = () => {
         {
           label: `Debug-key ${i18n.t('password')}`,
           name: keyPrefix.adrAuto.concat(['debugKeyStore', 'keyPassword']),
-          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
+          rules: [pwdRule],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -482,7 +487,7 @@ const Certificate = () => {
         {
           label: `Debug-store ${i18n.t('password')}`,
           name: keyPrefix.adrAuto.concat(['debugKeyStore', 'storePassword']),
-          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
+          rules: [pwdRule],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -495,7 +500,7 @@ const Certificate = () => {
         {
           label: `Release-key ${i18n.t('password')}`,
           name: keyPrefix.adrAuto.concat(['releaseKeyStore', 'keyPassword']),
-          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
+          rules: [pwdRule],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -504,7 +509,7 @@ const Certificate = () => {
         {
           label: `Release-store ${i18n.t('password')}`,
           name: keyPrefix.adrAuto.concat(['releaseKeyStore', 'storePassword']),
-          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
+          rules: [pwdRule],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -513,26 +518,32 @@ const Certificate = () => {
         {
           label: `${i18n.t('name or surname')}/CN`,
           name: keyPrefix.adrAuto.concat(['name']),
+          rules: [noSpaceRule],
         },
         {
           label: `${i18n.t('organization unit')}/OU`,
           name: keyPrefix.adrAuto.concat(['ou']),
+          rules: [noSpaceRule],
         },
         {
           label: `${i18n.t('common:organization')}/O`,
           name: keyPrefix.adrAuto.concat(['org']),
+          rules: [noSpaceRule],
         },
         {
           label: `${i18n.t('city')}/L`,
           name: keyPrefix.adrAuto.concat(['city']),
+          rules: [noSpaceRule],
         },
         {
           label: `${i18n.t('province')}/ST`,
           name: keyPrefix.adrAuto.concat(['province']),
+          rules: [noSpaceRule],
         },
         {
           label: `${i18n.t('country')}/C`,
           name: keyPrefix.adrAuto.concat(['state']),
+          rules: [noSpaceRule],
         },
       ],
     } as any;
@@ -561,14 +572,6 @@ const Certificate = () => {
     const reData = { ...data, orgId };
     if (reData.androidInfo) {
       reData.androidInfo.manualCreate = `${reData.androidInfo.manualCreate}` === 'true';
-      const { autoInfo } = reData.androidInfo;
-      if (autoInfo) {
-        map(autoInfo, (val, key) => {
-          if (typeof val === 'string') {
-            autoInfo[key] = autoInfo[key].trim();
-          }
-        });
-      }
     }
     return addItem(reData);
   };
