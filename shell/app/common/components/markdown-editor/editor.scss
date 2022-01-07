@@ -1,16 +1,18 @@
 .md-content {
+  font-family: 'Avenir-Book';
   padding: 8px;
   font-size: 14px;
-  line-height: 1.6;
+  color: $color-default;
   word-break: break-word;
 
   a {
-    color: #424CA6;
+    color: #424ca6;
     text-decoration: underline;
   }
 
   p {
     white-space: normal !important;
+    line-height: 22px;
   }
 
   > *:first-child {
@@ -58,7 +60,7 @@
   h5 .mini-icon-link,
   h6 .mini-icon-link {
     display: none;
-    color: #000000;
+    color: $color-default;
   }
 
   h1:hover a.anchor,
@@ -122,7 +124,7 @@
   }
 
   h6 {
-    color: #777777;
+    color: $color-default-8;
     font-size: 14px;
   }
 
@@ -139,7 +141,7 @@
   hr {
     height: 4px;
     padding: 0;
-    color: #cccccc;
+    color: $color-default;
     border: 0 none;
   }
 
