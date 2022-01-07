@@ -89,4 +89,4 @@ const apis = {
   },
 };
 
-export const getTraceConditions = apiCreator<() => SERVICE_ANALYTICS.TraceConditions>(apis.getTraceConditions);
+export const getTraceConditions = apiCreator<() => MONITOR_TRACE.TraceConditions>(apis.getTraceConditions);
