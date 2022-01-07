@@ -626,7 +626,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
             title={confirm}
             onConfirm={(e) => {
               e && e.stopPropagation();
-              extra.execOperation({ ...op, key });
+              extra.execOperation({ ...op, key }, { selectedRowKeys: [] });
             }}
             key={key}
             onCancel={(e: any) => e && e.stopPropagation()}
@@ -647,7 +647,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
             key={key}
             onClick={(e: any) => {
               e.stopPropagation();
-              extra.execOperation({ ...op, key });
+              extra.execOperation({ ...op, key }, { selectedRowKeys: [] });
               const customFunc = get(extra, `customOp.operations.${key}`);
               if (customFunc) {
                 customFunc(op);
