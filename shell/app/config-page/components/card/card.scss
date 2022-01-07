@@ -18,7 +18,7 @@
 
   @keyframes border {
     50% {
-      transform: scaleX(0);
+      transform: scaleX(0) translateY(-1px);
     }
     100% {
       transform: scaleX(1) translateY(-1px);
