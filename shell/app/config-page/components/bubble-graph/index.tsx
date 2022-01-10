@@ -1,4 +1,4 @@
-// Copyright (c) 2022 Terminus, Inc.
+// Copyright (c) 2021 Terminus, Inc.
 //
 // This program is free software: you can use, redistribute, and/or modify
 // it under the terms of the GNU Affero General Public License, version 3
@@ -20,10 +20,6 @@ import { groupBy } from 'lodash';
 const themeColor = {
   dark: '#ffffff',
   light: functionalColor.info,
-};
-
-const getGridRight = (len: number) => {
-  return Math.ceil(len / 2) * 10;
 };
 
 const genCommonSize = (min: number, max: number, current: number, interval = 5) => {
