@@ -20,7 +20,6 @@ import 'moment/locale/zh-cn';
 import { Pagination, message, ConfigProvider, Modal } from 'antd';
 import antd_zhCN from 'antd/es/locale-provider/zh_CN';
 import antd_enUS from 'antd/es/locale-provider/en_US';
-import { IconProvider, DEFAULT_ICON_CONFIGS } from '@icon-park/react/es/runtime';
 // core modules
 import { isZh } from 'core/i18n';
 import { startApp, registerModule } from 'core/index';
