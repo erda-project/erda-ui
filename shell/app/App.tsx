@@ -77,7 +77,9 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
   startApp().then(async (App) => {
     // get the organization info first, or will get org is undefined when need org info (like issueStore)
     const orgName = get(location.pathname.split('/'), '[1]');
-    await orgStore.effects.getOrgByDomain({ orgName });
+    if (orgName) {
+      await orgStore.effects.getOrgByDomain({ orgName });
+    }
     [
       import('layout/entry'),
       import('org/entry'),
@@ -144,11 +146,6 @@ const init = (userData: ILoginUser) => {
       // TODO check if admin has org permissions
       getJoinedOrgs().then((orgResult) => {
         const orgs = orgResult.data?.list || [];
-        if (location.pathname === '/') {
-          // replace to default org
-          const defaultOrgPath = `/${orgs?.[0]?.name || '-'}`;
-          history.replace(defaultOrgPath);
-        }
         start(perRes, orgs);
       });
     });

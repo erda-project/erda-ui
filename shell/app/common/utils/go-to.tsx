@@ -119,11 +119,11 @@ const pathFormat = (url: string) => (params: object) => {
 goTo.pagePrefix = '__dice__'; // 防止goTo传入同名参数
 
 export enum pages {
+  landPage = '',
   noAuth = '/{orgName}/noAuth',
   perm = '/{orgName}/perm?scope={scope}',
   inviteToOrg = '/{orgName}/inviteToOrg',
   freshMan = '/{orgName}/freshMan',
-  notFound = '/{orgName}/notFound',
 
   // dop
   orgRoot = '/{orgName}',

@@ -11,35 +11,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import React from 'react';
 import i18n from 'core/i18n';
+import { Redirect } from 'react-router-dom';
 
 function getLayoutRouter(): RouteConfigItem[] {
   return [
     {
       path: 'noAuth',
       toMark: 'orgIndex',
-      breadcrumbName: i18n.t('layout:error page'),
-      getComp: (cb) => cb(import('layout/common/error-page'), 'NotJoinOrg'),
-      layout: {
-        use: 'empty',
+      render: () => {
+        return <Redirect to="" />;
       },
     },
     {
       path: 'freshMan',
       toMark: 'orgIndex',
-      breadcrumbName: i18n.t('layout:error page'),
-      getComp: (cb) => cb(import('layout/common/error-page'), 'NotJoinOrg'),
-      layout: {
-        use: 'empty',
-      },
-    },
-    {
-      path: 'notFound',
-      toMark: 'orgIndex',
-      breadcrumbName: i18n.t('layout:error page'),
-      getComp: (cb) => cb(import('layout/common/error-page'), 'NotJoinOrg'),
-      layout: {
-        use: 'empty',
+      render: () => {
+        return <Redirect to="" />;
       },
     },
     {

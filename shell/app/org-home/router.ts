@@ -14,6 +14,13 @@
 export default function getOrgRouter(): RouteConfigItem[] {
   return [
     {
+      path: '',
+      getComp: (cb) => cb(import('app/org-home/pages/land')),
+      layout: {
+        use: 'empty',
+      },
+    },
+    {
       path: ':orgName',
       mark: 'orgIndex',
       breadcrumbName: '{curOrgName}',
