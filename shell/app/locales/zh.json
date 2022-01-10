@@ -808,7 +808,7 @@
     "After the use case is selected, the batch operation can be performed.": "选中用例后，才能进行批量操作",
     "An Action with the same name exists.": "存在同名 Action!",
     "Applications": "应用开发",
-    "Applications release list top desc": "应用制品依赖于 pipeline 流水线中 release action 生成，制品生成的方式：1. release action 中明确输入 tag_version，指定具体的制品版本；2. 否则只有 release 分支代码构建的制品才会推送到应用制品，比如 release/1.1.3 分支生成的制品版本名：1.1.3-2021-12-30-134348。",
+    "Applications release list top desc": "应用制品依赖于 pipeline 流水线中 release action 生成。release action 中填写了符合版本号语义的 tag_version 时，使用该 tag_version 作为制品版本名称；或基于 release/* 分支构建制品，且分支名称的基础部分符合版本号语义时，使用分支名称的基本部分生成制品版本名称，如 release/1.1.3 分支构建的制品的版本名称为 1.1.3+20220101150405。",
     "Are you sure to delete in batches?": "确定批量删除吗？",
     "Are you sure to disinclude {name}": "确认与 {name} 解除包含关系吗",
     "Are you sure to leave, with the error message not saved?": "是否确认离开，离开将不保存错误信息",
