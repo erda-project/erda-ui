@@ -90,7 +90,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
   });
 
   React.useEffect(() => {
-    mdEditorRef?.current?.on('fullscreen', (isFullScreen: boolean) => {
+    mdEditorRef.current?.on('fullscreen', (isFullScreen: boolean) => {
       updater.fullscreen(isFullScreen);
     });
   }, []);
