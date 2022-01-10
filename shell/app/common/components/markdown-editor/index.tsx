@@ -50,6 +50,7 @@ interface IState {
     html: boolean;
     menu: boolean;
   };
+  fullscreen: boolean;
 }
 
 export interface EC_MarkdownEditor {
@@ -77,7 +78,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
 ) => {
   const mdEditorRef = React.useRef<any>(null); // TODO ts type should export from @erda-ui/react-markdown-editor-lite
 
-  const [{ content, view, tempContent }, updater] = useUpdate<IState>({
+  const [{ content, view, tempContent, fullscreen }, updater] = useUpdate<IState>({
     content: value || '',
     tempContent: value || '',
     view: {
@@ -85,7 +86,14 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
       html: defaultMode === 'html',
       menu: showMenu,
     },
+    fullscreen: false,
   });
+
+  React.useEffect(() => {
+    mdEditorRef.current?.on('fullscreen', (isFullScreen: boolean) => {
+      updater.fullscreen(isFullScreen);
+    });
+  }, []);
 
   useMount(() => {
     setTimeout(() => {
@@ -135,8 +143,18 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
   // const height: string | number = style.height ? parseInt(style.height, 10) : 400;
   // height = view.menu ? (view.md && curShowButton ? height + 50 : height) : 'auto';
 
+  const btnCls = fullscreen ? 'fixed full-screen-btn' : 'absolute';
+
   return (
-    <div className="markdown-editor relative">
+    <div
+      className="markdown-editor relative"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') {
+          mdEditorRef.current?.fullScreen(false);
+        }
+      }}
+    >
       <div
         className={`markdown-editor-content flex flex-col ${disableEdit ? 'disable-edit' : ''} ${
           readOnly ? 'read-only' : ''
@@ -159,7 +177,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
           onChange={onChangeContent}
           onBlur={() => onBlur?.(content)}
         />
-        <div className="absolute left-2 flex bottom-2 space-x-2">
+        <div className={`${btnCls} left-2 flex bottom-2 space-x-2`}>
           {map(operationBtns, (operationBtn, i) => {
             const { text, type, className = '', onClick } = operationBtn;
             return (
