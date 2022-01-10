@@ -78,7 +78,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
   const addIssueRelationRef = React.useRef({});
 
   const [{ projectId }, { type: routeIssueType }] = routeInfoStore.getState((s) => [s.params, s.query]);
-  const issueType = issueDetail?.type || routeIssueType;
+  const issueType = issueDetail?.type || (Array.isArray(routeIssueType) ? routeIssueType[0] : routeIssueType);
   const defaultIssueType = initTypeMap[relationType][issueType];
   const { getIssueRelation, addIssueRelation, deleteIssueRelation } = issueStore.effects;
 
