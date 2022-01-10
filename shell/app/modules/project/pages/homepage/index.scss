@@ -98,6 +98,12 @@
       .info-brief {
         line-height: 22px;
       }
+
+      .homepage-link {
+        span {
+          color: #424CA6,
+        }
+      }
     }
   }
   .markdown-editor .markdown-editor-content .rc-md-editor .editor-container {
@@ -106,13 +112,14 @@
 
   .rc-md-editor {
     border: 0;
-    background: rgba($color-default, 0.04);
+    background: $white;
   }
 
   .rc-md-navigation {
     background: transparent;
     border-bottom: rgba($color-default, 0.08);
     box-shadow: 0 2px 1px 0 rgba($color-default, 0.08);
+    z-index: 9999;
   }
 
   .markdown-editor .markdown-editor-content .rc-md-editor .editor-container .sec-md .input {
@@ -138,7 +145,6 @@
   .markdown-editor-content {
     &.show-btn {
       .rc-md-editor {
-        background: $color-default-04;
         padding-bottom: 48px;
       }
     }
