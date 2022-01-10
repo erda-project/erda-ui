@@ -54,6 +54,7 @@
   .options {
     position: absolute;
     height: 220px;
+    max-height: calc(50vh - 140px);
     width: 100%;
     top: 66px;
     left: 0;
