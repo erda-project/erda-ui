@@ -15,20 +15,21 @@ import React from 'react';
 import routeInfoStore from 'core/stores/route';
 import apiMarketStore from 'app/modules/apiManagePlatform/stores/api-market';
 import { useLoading } from 'core/stores/loading';
-import { message, Spin, Button, Modal, Table } from 'antd';
-import layoutStore from 'layout/stores/layout';
+import { Button, message, Modal, Spin } from 'antd';
 import i18n from 'i18n';
 import ApplyModal from 'apiManagePlatform/pages/api-market/components/apply-modal';
 import ApiView from 'app/modules/apiManagePlatform/pages/api-market/detail/components/api-view';
 import { OpenAPI } from 'openapi-types';
 import { goTo } from 'common/utils';
 import yaml from 'js-yaml';
-import { ColumnProps } from 'core/common/interface';
-import { Avatar, TableActions, UserInfo } from 'common';
+import { Avatar, UserInfo } from 'common';
 import moment from 'moment';
 import { exportSwagger } from 'apiManagePlatform/services/api-market';
 import { map, pickBy } from 'lodash';
 import { protocolMap } from 'apiManagePlatform/pages/api-market/components/config';
+import Table from 'common/components/table';
+import { ColumnProps, IActions } from 'common/components/table/interface';
+
 import './index.scss';
 
 const ApiAssetDetail = () => {
@@ -94,29 +95,6 @@ const ApiAssetDetail = () => {
     window.open(exportSwagger({ assetID, versionID: id, specProtocol }));
   };
 
-  const renderExport = (id: number, redord: API_MARKET.VersionItem) => {
-    const filterProtocolMap = pickBy(protocolMap, (_, protocol) => {
-      const protocolPrefix = redord.version?.specProtocol?.substr(0, 4) || '';
-      return protocol.indexOf(protocolPrefix) > -1;
-    });
-    return (
-      <TableActions>
-        {map(filterProtocolMap, ({ name }, key: API_MARKET.SpecProtocol) => {
-          return (
-            <span
-              key={key}
-              onClick={() => {
-                handleExport(key, id);
-              }}
-            >
-              {i18n.t('export {type}', { type: name })}
-            </span>
-          );
-        })}
-      </TableActions>
-    );
-  };
-
   const columns: Array<ColumnProps<API_MARKET.VersionItem>> = [
     {
       title: i18n.t('default:version number'),
@@ -142,13 +120,25 @@ const ApiAssetDetail = () => {
       width: 200,
       render: (text) => (text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''),
     },
-    {
-      title: i18n.t('operate'),
-      dataIndex: ['version', 'id'],
-      width: 180,
-      render: renderExport,
-    },
   ];
+
+  const tableAction: IActions<API_MARKET.VersionItem> = {
+    render: (record) => {
+      const filterProtocolMap = pickBy(protocolMap, (_, protocol) => {
+        const protocolPrefix = record.version?.specProtocol?.substr(0, 4) || '';
+        return protocol.indexOf(protocolPrefix) > -1;
+      });
+      return map(filterProtocolMap, ({ name }, key: API_MARKET.SpecProtocol) => {
+        return {
+          title: i18n.t('export {type}', { type: name }),
+          onClick: () => {
+            handleExport(key, record.version.id);
+          },
+        };
+      });
+    },
+  };
+
   return (
     <div className="api-market-detail full-spin-height">
       <div className="top-button-group">
@@ -184,10 +174,15 @@ const ApiAssetDetail = () => {
         footer={null}
       >
         <Table
+          loading={isFetchVersionList}
           rowKey={({ version: { major, minor, patch } }) => `${major}-${minor}-${patch}`}
           columns={columns}
           dataSource={assetVersionList}
           pagination={false}
+          onChange={() => {
+            getListOfVersions({ major: version.major, minor: version.minor, spec: false, assetID });
+          }}
+          actions={tableAction}
           scroll={{ x: '100%' }}
         />
       </Modal>
