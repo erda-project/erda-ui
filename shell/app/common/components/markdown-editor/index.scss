@@ -1,4 +1,6 @@
 .markdown-editor {
+  outline: none;
+
   .markdown-editor-content {
     display: block;
     .rc-md-editor {
@@ -40,6 +42,10 @@
     &.show-btn {
       .rc-md-editor {
         padding-bottom: 42px;
+      }
+
+      .full-screen-btn {
+        z-index: 9999;
       }
     }
 
