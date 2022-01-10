@@ -12,28 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { debounce, isNumber } from 'lodash';
-import moment, { Moment } from 'moment';
-import { BoardGrid, ContractiveFilter, Copy, TagsRow } from 'common';
-import { useUpdate } from 'common/use-hooks';
-import { ColumnProps } from 'common/components/table/interface';
-import Table from 'common/components/table';
-import { message } from 'antd';
-import { useEffectOnce, useUpdateEffect } from 'react-use';
-import i18n from 'i18n';
-import { getDashboard } from 'msp/services';
-import { getFormatter } from 'charts/utils/formatter';
-import { useLoading } from 'core/stores/loading';
-import traceStore from '../../../../stores/trace';
-import TraceSearchDetail from './trace-search-detail';
-import { ICondition } from 'common/components/contractive-filter';
-import { getQueryConditions } from 'trace-insight/services/trace-querier';
-import Duration, { transformDuration } from 'trace-insight/components/duration';
 import { TimeSelectWithStore } from 'msp/components/time-select';
-import monitorCommonStore from 'common/stores/monitorCommon';
+import { getTraceConditions } from 'msp/monitor/trace-insight/services/trace-querier';
+import ContractiveFilter, { ICondition } from 'common/components/contractive-filter';
+import Duration, { IValue, transformDuration } from 'trace-insight/components/duration';
+import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
-
-const DashBoard = React.memo(BoardGrid.Pure);
+import monitorCommonStore from 'common/stores/monitorCommon';
+import DiceConfigPage from 'config-page';
+import serviceAnalyticsStore from 'msp/stores/service-analytics';
+import NoServicesHolder from 'msp/env-overview/service-list/pages/no-services-holder';
+import { isNumber } from 'lodash';
+import { message } from 'antd';
+import TraceSearchDetail from 'trace-insight/pages/trace-querier/trace-search-detail';
+import { useUpdate } from 'common/use-hooks';
+import moment from 'moment';
 
 const name = {
   sort: i18n.t('msp:sort method'),
@@ -41,161 +34,110 @@ const name = {
   traceStatus: i18n.t('msp:tracking status'),
 };
 
-const convertData = (
-  data: MONITOR_TRACE.TraceConditions,
-): [any[], { [k in MONITOR_TRACE.IFixedConditionType]: string }] => {
-  const { others, ...rest } = data;
-  const list: ICondition[] = [];
-  const defaultValue = {};
-  const fixC = Object.keys(rest);
-  fixC.forEach((key, index) => {
-    const option = data[key];
-    defaultValue[key] = option?.[0]?.value;
-    list.push({
-      type: 'select',
-      fixed: true,
-      showIndex: index + 2,
-      key,
-      label: name[key],
-      options: option.map((t) => ({ ...t, label: t.displayName })),
-      customProps: {
-        mode: 'single',
-      },
-    });
-  });
-  others?.forEach(({ paramKey, displayName, type }) => {
-    list.push({
-      type,
-      showIndex: 0,
-      fixed: false,
-      placeholder: i18n.t('please enter {name}', { name: displayName }),
-      key: paramKey,
-      label: displayName,
-    });
-  });
-  return [list, defaultValue];
-};
-
-const initialFilter = [
-  {
-    label: i18n.t('msp:duration'),
-    key: 'duration',
-    showIndex: 1,
-    fixed: true,
-    getComp: (props) => {
-      return <Duration {...props} />;
-    },
-  },
-];
-
 interface IState {
-  filter: ICondition[];
   traceId?: string;
-  defaultQuery: Obj;
-  query: Obj;
-  layout: DC.Layout;
-  startTime: number;
+  startTime?: number;
+  query: {
+    serviceName?: string;
+    rpcMethod?: string;
+    durationMin?: string;
+    durationMax?: string;
+    status?: string;
+    traceID?: string;
+    httpPath?: string;
+  };
 }
 
-type IQuery = {
-  [k in MONITOR_TRACE.IFixedConditionType]: string;
-} & {
-  time: [Moment, Moment];
-  duration: Array<{ timer: number; unit: 'ms' | 's' }>;
-} & {
-  [k: string]: string;
-};
+interface IProps {
+  scope?: 'serviceMonitor' | 'trace';
+}
 
-const TraceSearch = () => {
+interface ITableRow {
+  traceId: {
+    data: { text: string };
+  };
+  traceStartTime: {
+    data: { text: string };
+  };
+}
+
+const TraceSearch: React.FC<IProps> = ({ scope = 'trace' }) => {
   const range = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
-  const [traceSummary] = traceStore.useStore((s) => [s.traceSummary]);
-  const { getTraceSummary } = traceStore;
-  const [loading] = useLoading(traceStore, ['getTraceSummary']);
+  const [requestCompleted, serviceName] = serviceAnalyticsStore.useStore((s) => [s.requestCompleted, s.serviceName]);
+  const tenantId = routeInfoStore.useStore((s) => s.params.terminusKey);
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
-  const [{ traceId, filter, defaultQuery, query, layout, startTime }, updater, update] = useUpdate<IState>({
-    filter: [],
+  const conditions = getTraceConditions.useData();
+  const [{ traceId, startTime, query }, updater, update] = useUpdate<IState>({
     traceId: undefined,
-    defaultQuery: {},
     query: {},
-    layout: [],
-    startTime: 0,
+    startTime: undefined,
   });
-  const [routeQuery, params] = routeInfoStore.useStore((s) => [s.query, s.params]);
-  const globalVariable = React.useMemo(() => {
-    return {
-      startTime: range.startTimeMs,
-      endTime: range.endTimeMs,
-      terminusKey: params.terminusKey,
-      durationLeft: query.durationMin ? `trace_duration::field>'${query.durationMin}'` : undefined,
-      durationRight: query.durationMax ? `trace_duration::field<'${query.durationMax}'` : undefined,
-      serviceName: query.serviceName ? `service_names::field='${query.serviceName}'` : undefined,
-      traceId: query.traceID ? `trace_id::tag='${query.traceID}'` : undefined,
-      rpcMethod: query.rpcMethod ? `rpc_methods::field='${query.rpcMethod}'` : undefined,
-      httpPath: query.httpPath ? `http_paths::field='${query.httpPath}'` : undefined,
-      statusSuccess: query.status === 'trace_success' ? `errors_sum::field='0'` : undefined,
-      statusError: query.status === 'trace_error' ? `errors_sum::field>'0'` : undefined,
-    };
-  }, [
-    params.terminusKey,
-    range,
-    query.rpcMethod,
-    query.durationMin,
-    query.durationMax,
-    query.status,
-    query.traceID,
-    query.serviceName,
-    query.httpPath,
-  ]);
-
-  useEffectOnce(() => {
-    getQueryConditions().then((res) => {
-      if (res.success) {
-        const [list, defaultValue] = convertData(res.data);
-        const handleDefaultValue = {
-          ...defaultValue,
-          traceStatus: routeQuery?.status || defaultValue.traceStatus,
-        };
-        update({
-          defaultQuery: {
-            ...handleDefaultValue,
+  React.useEffect(() => {
+    getTraceConditions.fetch();
+  }, []);
+  const [filter, defaultQuery] = React.useMemo<[ICondition[], Record<string, string>]>(() => {
+    const list: ICondition[] = [];
+    const defaultValue: Record<string, string> = {};
+    if (conditions) {
+      const { others, sort, ...rest } = conditions;
+      const fixConditions = Object.keys(rest);
+      fixConditions.forEach((key, index) => {
+        const option = conditions[key];
+        defaultValue[key] = option?.[0]?.value;
+        list.push({
+          type: 'select',
+          fixed: true,
+          showIndex: index + 2,
+          key,
+          label: name[key],
+          options: option.map((t: SERVICE_ANALYTICS.IConditionItem) => ({
+            value: t.value,
+            label: t.displayName,
+            icon: '',
+          })),
+          customProps: {
+            mode: 'single',
           },
-          query: {
-            ...handleDefaultValue,
+        });
+      });
+      others
+        ?.filter((t) => (scope === 'serviceMonitor' ? t.paramKey !== 'serviceName' : true))
+        .forEach(({ paramKey, displayName }) => {
+          list.push({
+            type: 'input',
+            showIndex: 0,
+            fixed: false,
+            placeholder: i18n.t('please enter {name}', { name: displayName }),
+            key: paramKey,
+            label: displayName,
+            customProps: {},
+          });
+        });
+    }
+    updater.query(defaultValue);
+    return [
+      [
+        {
+          label: i18n.t('msp:duration'),
+          key: 'duration',
+          showIndex: 1,
+          fixed: true,
+          getComp: (props) => {
+            return <Duration {...props} />;
           },
-          filter: [...initialFilter, ...list],
-        });
-        getData({
-          startTime: range.startTimeMs,
-          endTime: range.endTimeMs,
-          status: defaultValue.traceStatus,
-          ...handleDefaultValue,
-        });
-      }
-    });
-    getDashboard({ type: 'trace_count' }).then(({ success, data }) => {
-      if (success) {
-        updater.layout(data?.viewConfig);
-      }
-    });
-  });
+        },
+        ...list,
+      ] as ICondition[],
+      defaultValue,
+    ];
+  }, [conditions]);
 
-  useUpdateEffect(() => {
-    getData({
-      ...query,
-      startTime: range.startTimeMs,
-      endTime: range.endTimeMs,
-    });
-  }, [query, range]);
-
-  const getData = React.useCallback(
-    debounce((obj: Omit<MS_MONITOR.ITraceSummaryQuery, 'tenantId'>) => {
-      getTraceSummary(obj);
-    }, 500),
-    [],
-  );
-
-  const handleSearch = (query: Partial<IQuery>) => {
-    const { duration, traceStatus, ...rest } = query;
+  const handleSearch = (data: {
+    [key: string]: string | Array<IValue>;
+    duration: Array<IValue>;
+    traceStatus: string;
+  }) => {
+    const { duration, traceStatus, ...rest } = data;
     const durationMin = transformDuration(duration?.[0]);
     const durationMax = transformDuration(duration?.[1]);
     let durations = {};
@@ -216,71 +158,65 @@ const TraceSearch = () => {
     });
   };
 
-  const handleCheckTraceDetail = (id: string, time: number) => {
-    updater.traceId(id);
-    updater.startTime(time);
-    setIsShowTraceDetail(true);
-  };
-
-  const columns: Array<ColumnProps<MS_MONITOR.ITraceSummary>> = [
-    {
-      title: i18n.t('msp:trace id'),
-      dataIndex: 'id',
-      render: (id: string) => <Copy>{id}</Copy>,
-    },
-    {
-      title: i18n.t('msp:duration'),
-      dataIndex: 'duration',
-      width: 240,
-      sorter: {
-        compare: (a: MS_MONITOR.ITraceSummary, b: MS_MONITOR.ITraceSummary) => a.duration - b.duration,
-      },
-      render: (duration: number) => getFormatter('TIME', 'ns').format(duration),
-    },
-    {
-      title: i18n.t('msp:start time'),
-      dataIndex: 'startTime',
-      width: 200,
-      render: (time: number) => moment(time).format('YYYY-MM-DD HH:mm:ss'),
-    },
-    {
-      title: i18n.t('service'),
-      dataIndex: 'services',
-      width: 240,
-      render: (services: string[]) => <TagsRow labels={services.map((service) => ({ label: service }))} />,
-    },
-  ];
-
+  const params = React.useMemo(() => {
+    return {
+      tenantId,
+      startTime: range.startTimeMs,
+      endTime: range.endTimeMs,
+      ...query,
+      serviceName: scope === 'serviceMonitor' ? serviceName : query.serviceName,
+      traceId: query.traceID,
+    };
+  }, [tenantId, range, query, scope, serviceName]);
+  if (!serviceName && requestCompleted && scope == 'serviceMonitor') {
+    return <NoServicesHolder />;
+  }
   return (
-    <>
-      <div className="flex justify-between items-start bg-white px-2 py-2 mb-3">
-        <div className="flex-1">
-          {filter.length > 0 ? (
-            <ContractiveFilter delay={1000} conditions={filter} initValue={defaultQuery} onChange={handleSearch} />
-          ) : null}
-        </div>
+    <div>
+      <div className="flex justify-end items-start px-2 py-2">
+        {filter.length > 1 ? (
+          <ContractiveFilter delay={1000} conditions={filter} initValue={defaultQuery} onChange={handleSearch} />
+        ) : null}
         <TimeSelectWithStore />
       </div>
-      <div className="mb-6">
-        <DashBoard layout={layout} globalVariable={globalVariable} />
-      </div>
-      <Table
-        loading={loading}
-        rowKey="id"
-        columns={columns}
-        dataSource={traceSummary}
-        onRow={(record) => {
-          return {
-            onClick: () => handleCheckTraceDetail(record.id, record.startTime),
-          };
-        }}
-        scroll={{ x: 1100 }}
-        onChange={() => {
-          getData({ ...query, startTime: range.startTimeMs, endTime: range.endTimeMs });
-        }}
-      />
+      {tenantId ? (
+        <DiceConfigPage
+          scenarioKey="trace-query"
+          scenarioType="trace-query"
+          showLoading
+          forceUpdateKey={['inParams']}
+          inParams={params}
+          customProps={{
+            page: {
+              props: {
+                className: 'bg-white',
+              },
+            },
+            table: {
+              op: {
+                clickRow: (data: ITableRow) => {
+                  update({
+                    traceId: data.traceId.data.text,
+                    startTime: moment(data.traceStartTime.data.text).valueOf(),
+                  });
+                  setIsShowTraceDetail(true);
+                },
+              },
+            },
+            reqDistribution: {
+              props: {
+                style: {
+                  width: '100%',
+                  height: '170px',
+                  minHeight: 0,
+                },
+              },
+            },
+          }}
+        />
+      ) : null}
       <TraceSearchDetail traceId={traceId} startTime={startTime} />
-    </>
+    </div>
   );
 };
 

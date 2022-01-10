@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Input, Select } from 'antd';
-import i18n from 'i18n';
+import './duration.scss';
 
 const timeUnit = [
   {
@@ -26,7 +26,7 @@ const timeUnit = [
   },
 ];
 
-interface IValue {
+export interface IValue {
   timer: number | string;
   unit: 'ms' | 's';
 }

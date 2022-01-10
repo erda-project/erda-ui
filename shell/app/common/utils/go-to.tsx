@@ -286,6 +286,8 @@ export enum pages {
   // 微服务-具体事务分析页
   mspServiceTransaction = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-analysis/{applicationId}/{serviceId}/{serviceName}/transaction',
 
+  mspServiceAnalysisTrace = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-analysis/trace',
+
   mspGatewayIngress = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/topology/gateway-ingress',
 
   mspExternalInsight = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/topology/ei/{hostName}/affairs',

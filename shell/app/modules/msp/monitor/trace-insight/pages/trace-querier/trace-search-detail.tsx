@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon as CustomIcon, Copy, ErdaIcon } from 'common';
+import { Copy, ErdaIcon, Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import PureTraceDetail from './trace-detail-new';
 import monitorCommonStore from 'common/stores/monitorCommon';
@@ -83,6 +83,8 @@ export default ({ traceId, startTime }: { traceId?: string; startTime?: number }
                 });
               } else if (currentRoute?.path?.includes('trace/debug')) {
                 goTo(goTo.pages.mspTraceDebug);
+              } else if (currentRoute?.path?.includes('service-analysis/trace')) {
+                goTo(goTo.pages.mspServiceAnalysisTrace);
               } else {
                 goTo(goTo.pages.microTrace);
               }

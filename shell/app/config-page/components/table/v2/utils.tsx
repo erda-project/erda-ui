@@ -12,8 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import React from 'react';
 import { Tooltip } from 'antd';
-import { ErdaIcon } from 'common';
+import { Copy, ErdaIcon, TagsRow } from 'common';
 import { has } from 'lodash';
+import i18n from 'i18n';
 
 export const convertTableData = (data?: CP_TABLE2.IData, haveBatchOp?: boolean, props?: CP_TABLE2.IProps) => {
   const { columnsMap: pColumnsMap, pageSizeOptions } = props || {};
@@ -93,6 +94,38 @@ export const getRender = (val: Obj, record: Obj) => {
       // const {menus, operations} = data || {};
       // Comp = <DropdownSelectNew options={} />
       // }
+      break;
+    case 'text':
+      {
+        const value = (typeof data === 'string' ? data : data?.text) || '-';
+        Comp = data.enableCopy ? (
+          <span className="flex group" title={value}>
+            <Copy copyText={value} className="ant-table-cell-ellipsis group-hover:text-purple-deep">
+              {value || i18n.t('copy')}
+            </Copy>
+            <span className="text-desc opacity-0 group-hover:text-purple-deep group-hover:opacity-100">
+              <ErdaIcon type="fz1" size={12} className="ml-1" />
+            </span>
+          </span>
+        ) : (
+          value
+        );
+      }
+      break;
+    case 'labels':
+      {
+        const { labels, showCount } = data;
+        // TODO showCount should be calculated based on the container width
+        Comp = (
+          <TagsRow
+            labels={labels.map((item: { id: string; title?: string; color?: string; group?: string }) => ({
+              ...item,
+              label: item.title || item.id,
+            }))}
+            showCount={showCount ?? 2}
+          />
+        );
+      }
       break;
     default:
       Comp = (typeof data === 'string' ? data : data?.text) || '-';

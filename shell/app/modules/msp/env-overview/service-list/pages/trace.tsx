@@ -11,13 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { apiCreator } from 'core/service';
+import React from 'react';
+import TraceSearch from 'trace-insight/pages/trace-querier/trace-search';
 
-const apis = {
-  getService: {
-    api: '/api/apm/topology/services',
-  },
+const Trace = () => {
+  return <TraceSearch scope="serviceMonitor" />;
 };
-export const getServiceList = apiCreator<(p: SERVICE_ANALYTICS.IServiceListQuery) => SERVICE_ANALYTICS.ServiceList>(
-  apis.getService,
-);
+
+export default Trace;
