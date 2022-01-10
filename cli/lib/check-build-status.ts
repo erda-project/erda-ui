@@ -82,7 +82,7 @@ const checkBuildStatus = async () => {
         }
       }
 
-      if (skipBuild) {
+      if (skipBuild && prevGitSha) {
         logInfo(`no change detected between ${prevGitSha} and ${headSha}. will skip build ${moduleName}`);
       } else {
         logWarn(`Diff detected between ${prevGitSha} and ${headSha}, will start new built for ${moduleName}`);
