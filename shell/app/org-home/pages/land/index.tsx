@@ -78,9 +78,13 @@ const LandPage = () => {
               <div className={`h-full flex-all-center`}>
                 <ErdaIcon type="zuzhi-40k0k60g" size={64} className="mr-2" />
                 <div>
-                  <div className="org-name">{filterKey ? '搜索结果为空' : '暂无组织'}</div>
+                  <div className="org-name">
+                    {filterKey ? i18n.t('No matching organization') : i18n.t("Haven't join any org")}
+                  </div>
                   <div className="org-sub-name text-xs text-desc">
-                    {filterKey ? '没有搜索到匹配的组织' : '联系组织管理员，邀请您加入'}
+                    {filterKey
+                      ? i18n.t('Search results are empty')
+                      : i18n.t('Contact your organization administrator to invite you to join')}
                   </div>
                 </div>
               </div>
