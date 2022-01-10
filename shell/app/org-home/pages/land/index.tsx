@@ -65,8 +65,12 @@ const LandPage = () => {
                       onMouseEnter={() => setActiveOrg(org)}
                       onMouseLeave={() => setActiveOrg(null)}
                     >
-                      <img className="w-10 h-10 rounded-sm mr-2" src={org.logo} alt={`${org.name} logo`} />
-                      <div>
+                      {org.logo ? (
+                        <img className="w-10 h-10 rounded-sm" src={org.logo} alt={`${org.name} logo`} />
+                      ) : (
+                        <ErdaIcon type="zuzhi-40k0k60g" size={40} />
+                      )}
+                      <div className="ml-2">
                         <div className="org-name">{org.displayName}</div>
                         <div className="org-sub-name text-xs text-desc">{org.desc}</div>
                       </div>
@@ -76,7 +80,7 @@ const LandPage = () => {
               })
             ) : (
               <div className={`h-full flex-all-center`}>
-                <ErdaIcon type="zuzhi-40k0k60g" size={64} className="mr-2" />
+                <ErdaIcon type="zuzhi-40k0k60g" size={64} />
                 <div>
                   <div className="org-name">
                     {filterKey ? i18n.t('No matching organization') : i18n.t("Haven't join any org")}
