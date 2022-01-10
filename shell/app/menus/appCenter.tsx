@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { goTo } from 'common/utils';
+import { goTo, insertWhen } from 'common/utils';
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
 
@@ -57,13 +57,15 @@ export const appList: () => LAYOUT.IApp[] = () =>
         breadcrumbName: i18n.t('Cloud management'),
         href: goTo.resolve.cmpRoot(),
       },
-      {
-        key: 'fdp',
-        icon: 'FDP-entry',
-        name: i18n.t('Fast data'),
-        breadcrumbName: i18n.t('Fast data'),
-        href: goTo.resolve.dataAppEntry(),
-      },
+      ...insertWhen(!process.env.FOR_COMMUNITY, [
+        {
+          key: 'fdp',
+          icon: 'FDP-entry',
+          name: i18n.t('Fast data'),
+          breadcrumbName: i18n.t('Fast data'),
+          href: goTo.resolve.dataAppEntry(),
+        },
+      ]),
       {
         key: 'ecp',
         icon: 'ECP-entry',
