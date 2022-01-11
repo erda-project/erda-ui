@@ -15,7 +15,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import { createStore } from '../cube';
-import { isObject, forEach, unset } from 'lodash';
+import { isObject, forEach, unset, uniqueId } from 'lodash';
 import axios from 'axios';
 import { Key, pathToRegexp, compile } from 'path-to-regexp';
 import qs from 'query-string';
@@ -183,8 +183,6 @@ export interface APIConfig<T extends FN> {
   mock?: T;
 }
 
-let subscribeSeriesId = 0;
-
 export function enhanceAPI<T extends FN>(_apiFn: T, config?: APIConfig<T>) {
   const { globalKey, mock } = config || {};
 
@@ -244,7 +242,7 @@ export function enhanceAPI<T extends FN>(_apiFn: T, config?: APIConfig<T>) {
    */
   const subscribe = (subscribeIdRef: React.MutableRefObject<string>, setData: Function) => {
     if (!subscribeIdRef.current) {
-      const uid = `id_${++subscribeSeriesId}`;
+      const uid = uniqueId('id_');
       subscribeIdRef.current = uid;
       _setData = { ..._setData, [uid]: setData };
     }
