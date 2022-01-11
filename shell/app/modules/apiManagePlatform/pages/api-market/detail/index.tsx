@@ -178,7 +178,6 @@ const ApiAssetDetail = () => {
           rowKey={({ version: { major, minor, patch } }) => `${major}-${minor}-${patch}`}
           columns={columns}
           dataSource={assetVersionList}
-          pagination={false}
           onChange={() => {
             getListOfVersions({ major: version.major, minor: version.minor, spec: false, assetID });
           }}
