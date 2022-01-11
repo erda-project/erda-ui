@@ -197,7 +197,17 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
         {data.title}
       </div>
       <div>
-        <Echarts onEvents={onEvents} onChartReady={handleReady} option={option} style={configProps.style ?? {}} />
+        <Echarts
+          onEvents={onEvents}
+          onChartReady={handleReady}
+          option={option}
+          style={{
+            width: '100%',
+            height: '170px',
+            minHeight: 0,
+            ...configProps.style,
+          }}
+        />
       </div>
     </div>
   );

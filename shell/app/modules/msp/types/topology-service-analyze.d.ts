@@ -51,4 +51,8 @@ declare namespace TOPOLOGY_SERVICE_ANALYZE {
     service_name: string;
     application_id: string;
   }
+
+  interface ServiceLange {
+    language: string;
+  }
 }
