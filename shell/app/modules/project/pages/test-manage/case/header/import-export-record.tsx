@@ -194,7 +194,7 @@ const ImportExportRecord = ({
         {!!badgeCount && Object.keys(counter).length > 0 && (
           <span className="align-baseline">
             <CustomIcon type="warning" className="ml-4 font-bold text-sm text-warning" />
-            <span className="text-sm text-dark-6 font-normal">
+            <span className="text-sm text-black-6 font-normal">
               {i18n.t(
                 'dop:import and export tasks are in queue, there are export tasks({export}), import tasks({import}), please wait',
                 { export: counter.export || 0, import: counter.import || 0 },

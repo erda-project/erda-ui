@@ -99,7 +99,7 @@ const ListItem = (props: ERDA_LIST.IListItemProps) => {
       {...onRowFn}
       style={backgroundImg ? { backgroundImage: `url(${getImg(backgroundImg)})` } : {}}
     >
-      <div className="erda-list-item-container hover:bg-gray-block-bg relative">
+      <div className="erda-list-item-container hover:bg-black-02 relative">
         <div className="flex">
           {isString(prefixImg) ? (
             <div className="erda-list-item-prefix-img">{getPrefixImg(prefixImg, prefixImgCircle)}</div>
@@ -154,7 +154,7 @@ const ListItem = (props: ERDA_LIST.IListItemProps) => {
               <ErdaIcon
                 type="more"
                 size={20}
-                className="hover-active px-2 py-1 rounded hover:bg-hover-gray-bg"
+                className="hover-active px-2 py-1 rounded hover:bg-black-06"
                 onClick={(e) => e.stopPropagation()}
               />
             </Dropdown>

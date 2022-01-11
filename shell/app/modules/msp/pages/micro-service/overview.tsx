@@ -209,7 +209,7 @@ const Overview = () => {
             bordered={false}
             allowClear
             placeholder={i18n.t('msp:search by project name')}
-            className="bg-hover-gray-bg w-72"
+            className="bg-black-06 w-72"
             onChange={(e) => {
               handleSearch(e.target.value);
             }}

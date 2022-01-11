@@ -304,7 +304,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
               format={(v) => null}
               strokeColor={getStrokeColor(value)}
             />
-            <span className="text-dark-8  ml-2">{`${value.toFixed(1)}%`}</span>
+            <span className="text-black-8  ml-2">{`${value.toFixed(1)}%`}</span>
           </Tooltip>
         ) : (
           _val
@@ -341,7 +341,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
               format={(v) => null}
               strokeColor={getStrokeColor(value)}
             />
-            <span className="text-dark-8 ml-2">{`${value.toFixed(1)}%`}</span>
+            <span className="text-black-8 ml-2">{`${value.toFixed(1)}%`}</span>
           </Tooltip>
         ) : (
           _val

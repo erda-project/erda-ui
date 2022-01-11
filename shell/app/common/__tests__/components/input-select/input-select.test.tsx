@@ -87,7 +87,7 @@ describe('InputSelect', () => {
     });
     wrapper.update();
     expect(onChangeFn).toHaveBeenLastCalledWith(options[1].value);
-    expect(wrapper.find('.option-item').at(1).prop('className')).toContain('bg-light-active');
+    expect(wrapper.find('.option-item').at(1).prop('className')).toContain('bg-default-06');
     act(() => {
       wrapper
         .find('.input-select-dropdown-box')

@@ -506,7 +506,7 @@ const MicroServiceOverview = () => {
             bordered={false}
             allowClear
             placeholder={i18n.t('msp:search by service name')}
-            className="bg-hover-gray-bg w-72"
+            className="bg-black-06 w-72"
             onChange={(e) => {
               handleChange(e.target.value);
             }}

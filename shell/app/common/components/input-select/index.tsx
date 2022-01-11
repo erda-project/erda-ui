@@ -253,7 +253,7 @@ const PureSelect = (props: SelectorProps) => {
           return (
             <div
               key={op.value}
-              className={`option-item ${value === op.value ? 'text-primary bg-light-active' : ''}`}
+              className={`option-item ${value === op.value ? 'text-primary bg-default-06' : ''}`}
               onClick={(e) => {
                 e.stopPropagation();
                 onSelect(op);
@@ -394,7 +394,7 @@ const OptionGroup = (props: IOptionGroupProps) => {
           return (
             <div
               key={op.value}
-              className={`option-item ${op.value === chosenOption?.value ? 'text-primary bg-light-active' : ''}`}
+              className={`option-item ${op.value === chosenOption?.value ? 'text-primary bg-default-06' : ''}`}
               onClick={(e) => {
                 e.stopPropagation();
                 onSelect(op);

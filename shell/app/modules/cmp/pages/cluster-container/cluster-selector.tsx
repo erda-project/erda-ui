@@ -38,11 +38,11 @@ const ClusterSelector = () => {
   return (
     <div className="flex items-center">
       <span className="flex items-center font-bold text-lg">{pageName}</span>
-      <span className="bg-dark-2 mx-5" style={{ width: 1, height: 12 }} />
+      <span className="bg-black-2 mx-5" style={{ width: 1, height: 12 }} />
       <Select
         bordered={false}
         dropdownMatchSelectWidth={false}
-        className={'hover:bg-hover-gray-bg rounded'}
+        className={'hover:bg-black-06 rounded'}
         getPopupContainer={() => document.body}
         value={chosenCluster === EMPTY_CLUSTER ? undefined : chosenCluster}
         placeholder={i18n.t('choose cluster')}
