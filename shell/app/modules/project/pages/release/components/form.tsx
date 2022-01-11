@@ -372,10 +372,13 @@ const progressStatusMap = {
 const CustomUpload = ({ form, onChange }: { form: { form: FormInstance }; onChange: (value?: string) => void }) => {
   const [fileList, setFileList] = React.useState<UploadFile[]>([]);
 
+  const fileType = 'application/zip';
+
   const props: UploadProps = {
     fileList,
+    accept: '.zip',
     beforeUpload: (file) => {
-      if (file.type !== 'application/x-tar') {
+      if (file.type !== fileType) {
         onChange('type-error');
         return false;
       }
@@ -383,7 +386,7 @@ const CustomUpload = ({ form, onChange }: { form: { form: FormInstance }; onChan
       return true;
     },
     onChange: async ({ file }) => {
-      if (file.type !== 'application/x-tar') {
+      if (file.type !== fileType) {
         setFileList([{ ...file, status: 'error', percent: 100, name: file.name }]);
       } else {
         setFileList([file]);
