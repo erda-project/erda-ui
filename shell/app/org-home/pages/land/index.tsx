@@ -40,8 +40,8 @@ const LandPage = () => {
       <img className="bg-image" src={springBg} alt="background-image" />
       <div className="content text-white z-10">
         <div className="title">
-          <div>{i18n.t('layout:Global optimization')}</div>
-          <div>{i18n.t('layout:Help enterprises to create an agile R & D organization')}</div>
+          <div>{i18n.t('layout:Optimize global performance')}</div>
+          <div>{i18n.t('layout:to assist you building agile R&D organizations')}</div>
         </div>
         <div className="mt-8 org-select-text">{i18n.t('layout:Choose your organization space')}</div>
         <div
