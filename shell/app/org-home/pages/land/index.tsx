@@ -79,7 +79,7 @@ const LandPage = () => {
                 );
               })
             ) : (
-              <div className={`h-full flex-all-center`}>
+              <div className="h-full flex-all-center">
                 <ErdaIcon type="zuzhi-40k0k60g" size={64} />
                 <div>
                   <div className="org-name">
