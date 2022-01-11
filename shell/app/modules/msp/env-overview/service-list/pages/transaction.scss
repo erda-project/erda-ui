@@ -1,20 +1,10 @@
 .transaction-detail-drawer {
   .ant-drawer-header {
-    background: $color-default;
-    border-bottom: 1px solid rgba($white, 0.1);
+    border-bottom: 1px solid rgba($color-default, 0.1);
     padding: 12px 60px 12px 16px;
-
-    div {
-      color: $white;
-    }
-
-    button {
-      color: rgba($white, 0.6);
-    }
   }
 
   .ant-drawer-body {
-    background: $color-default;
     padding: 0;
   }
 }
