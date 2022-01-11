@@ -15,12 +15,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import { createStore } from '../cube';
-import { isObject } from 'lodash';
+import { isObject, forEach, unset } from 'lodash';
 import axios from 'axios';
 import { Key, pathToRegexp, compile } from 'path-to-regexp';
 import qs from 'query-string';
 import { IUserInfo, setUserMap } from '../stores/user-map';
 import { getConfig } from '../config';
+import { useUnmount } from 'react-use';
 
 const DEFAULT_PAGESIZE = 15;
 
@@ -87,7 +88,7 @@ type Merge<A, B> = { [K in keyof A]: K extends keyof B ? B[K] : A[K] } & B exten
  * @param apiConfig
  * @returns callable api function
  */
-export const genRequest = function <T extends FN>(apiConfig: APIConfig) {
+export const genRequest = function <T extends FN>(apiConfig: APIConfig<T>) {
   const { api, headers } = apiConfig;
   let [method, path] = api.split('@');
   if (!path) {
@@ -182,11 +183,13 @@ export interface APIConfig<T extends FN> {
   mock?: T;
 }
 
+let subscribeSeriesId = 0;
+
 export function enhanceAPI<T extends FN>(_apiFn: T, config?: APIConfig<T>) {
   const { globalKey, mock } = config || {};
 
   let _toggleLoading: undefined | ((p: boolean) => void);
-  let _setData: undefined | Function;
+  let _setData: Obj<Function> = {};
 
   const onResponse = (body: PICK_BODY<T>, params?: Parameters<T>[0]) => {
     // standard response
@@ -233,13 +236,27 @@ export function enhanceAPI<T extends FN>(_apiFn: T, config?: APIConfig<T>) {
       return body;
     });
 
+  /**
+   * when calling useData or useState, it may be called by multiple components at the same time,
+   * so when fetch finished, each setData function should be invoked one by one
+   * @param subscribeIdRef each subscribe maintains one unique id, used to unsubscribe when unmount component
+   * @param setData subscribe callback, which to set state data
+   */
+  const subscribe = (subscribeIdRef: React.MutableRefObject<string>, setData: Function) => {
+    if (!subscribeIdRef.current) {
+      const uid = `id_${++subscribeSeriesId}`;
+      subscribeIdRef.current = uid;
+      _setData = { ..._setData, [uid]: setData };
+    }
+  };
+
   return Object.assign(service, {
     fetch: (params?: Parameters<T>[0]): ReturnType<T> => {
       _toggleLoading?.(true);
       return apiFn(params)
         .then((body: PICK_BODY<T>) => {
           onResponse(body, params);
-          _setData?.(body?.data);
+          forEach(_setData, (fn) => fn(body?.data));
           return body;
         })
         .finally(() => {
@@ -248,13 +265,18 @@ export function enhanceAPI<T extends FN>(_apiFn: T, config?: APIConfig<T>) {
     },
     useData: (): PICK_DATA<T> | null => {
       const [data, setData] = React.useState(null);
+      const subscribeIdRef = React.useRef('');
+
+      useUnmount(() => {
+        unset(_setData, subscribeIdRef.current);
+      });
 
       if (globalKey) {
-        _setData = (d: PICK_DATA<T>) => apiDataStore.reducers.setData(globalKey, d);
+        subscribe(subscribeIdRef, (d: PICK_DATA<T>) => apiDataStore.reducers.setData(globalKey, d));
         return apiDataStore.useStore((s) => s.data[globalKey]) as PICK_DATA<T>;
       }
-      _setData = setData;
 
+      subscribe(subscribeIdRef, setData);
       return data;
     },
     useLoading: (): boolean => {
@@ -271,15 +293,20 @@ export function enhanceAPI<T extends FN>(_apiFn: T, config?: APIConfig<T>) {
     useState: (): [PICK_DATA<T> | null, boolean] => {
       const [loading, setLoading] = React.useState(false);
       const [data, setData] = React.useState(null);
+      const subscribeIdRef = React.useRef('');
+
+      useUnmount(() => {
+        unset(_setData, subscribeIdRef.current);
+      });
 
       if (globalKey) {
         _toggleLoading = (isLoading: boolean) => apiDataStore.reducers.setLoading(globalKey, isLoading);
-        _setData = (d: PICK_DATA<T>) => apiDataStore.reducers.setData(globalKey, d);
+        subscribe(subscribeIdRef, (d: PICK_DATA<T>) => apiDataStore.reducers.setData(globalKey, d));
         return apiDataStore.useStore((s) => [s.data[globalKey], !!s.loading[globalKey]]) as [PICK_DATA<T>, boolean];
       }
       _toggleLoading = setLoading;
-      _setData = setData;
 
+      subscribe(subscribeIdRef, setData);
       return [data, loading];
     },
     getData: () => {
