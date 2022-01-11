@@ -24,8 +24,7 @@ const tabs = [
   { key: 'transaction', name: i18n.t('msp:call monitor') },
   { key: 'trace', name: i18n.t('msp:tracing query') },
   // { key: 'anomaly', name: i18n.t('msp:exception') }, // hide temporarily
-  { key: 'process', name: i18n.t('msp:process monitor') },
-  { key: 'host', name: i18n.t('msp:host monitor') },
+  { key: 'process', name: i18n.t('cmp:resource monitor') },
 ];
 
 const serviceAnalysisRoutes = [
@@ -77,12 +76,6 @@ const serviceAnalysisRoutes = [
     tabs,
     layout: { noWrapper: true },
     getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/process')),
-  },
-  {
-    path: 'host',
-    tabs,
-    layout: { noWrapper: true },
-    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/host')),
   },
   {
     layout: { noWrapper: true },

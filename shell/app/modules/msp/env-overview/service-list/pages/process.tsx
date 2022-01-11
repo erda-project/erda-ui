@@ -35,6 +35,10 @@ const MONITOR_TYPE: { value: IState['monitorType']; label: string }[] = [
     value: 'container',
     label: i18n.t('msp:container monitor'),
   },
+  {
+    value: 'host',
+    label: i18n.t('msp:host monitor'),
+  },
 ];
 
 const runtimeGridSpan = {
@@ -45,7 +49,7 @@ const runtimeGridSpan = {
 interface IState {
   instanceId: string;
   hostIP: string;
-  monitorType: 'container' | 'runtime';
+  monitorType: 'container' | 'runtime' | 'host';
 }
 
 const ServiceListProcess = () => {
@@ -77,13 +81,13 @@ const ServiceListProcess = () => {
   }, [serviceName, terminusKey, range, serviceId]);
 
   React.useEffect(() => {
-    if (monitorType === 'runtime' && !languages && serviceId) {
+    if (monitorType === 'runtime' && serviceId) {
       getServiceLanguage.fetch({
         serviceId,
         tenantId: terminusKey,
       });
     }
-  }, [serviceId, terminusKey, monitorType, languages]);
+  }, [serviceId, terminusKey, monitorType]);
 
   const [conditions, defaultQuery] = React.useMemo(() => {
     if (!instances?.data?.length) {
@@ -114,14 +118,24 @@ const ServiceListProcess = () => {
     return [filter, { instanceId: defaultInstance.instanceId }];
   }, [instances?.data, instanceId]);
 
-  const scenarioName = React.useMemo(() => {
+  const [scenarioName, scenarioParams] = React.useMemo(() => {
     let scenario;
+    let params: Record<string, string> = {
+      serviceId,
+      instanceId,
+      tenantId: terminusKey,
+    };
     if (monitorType === 'container') {
       scenario = 'resources-container-monitor';
+    } else if (monitorType === 'host') {
+      params = {
+        hostIP,
+      };
+      scenario = 'resources-node-monitor';
     } else if (languages?.language) {
       scenario = `resources-runtime-monitor-${languages.language}`;
     }
-    return scenario;
+    return [scenario, params];
   }, [monitorType, languages?.language, hostIP, instanceId, serviceId, terminusKey]);
 
   const handleChangeInstance = React.useCallback(
@@ -146,6 +160,7 @@ const ServiceListProcess = () => {
         <div className="left flex items-center">
           {conditions.length ? (
             <ContractiveFilter
+              key={defaultQuery?.instanceId}
               conditions={conditions}
               initValue={defaultQuery}
               onChange={handleChangeInstance}
@@ -155,7 +170,7 @@ const ServiceListProcess = () => {
           <TimeSelectWithStore className="m-0 ml-3" />
         </div>
       </div>
-      {scenarioName ? (
+      {scenarioName && instanceId ? (
         <DiceConfigPage
           key={scenarioName}
           scenarioType={scenarioName}
@@ -165,15 +180,20 @@ const ServiceListProcess = () => {
             startTime: range.startTimeMs,
             endTime: range.endTimeMs,
             _: range.triggerTime,
-            serviceId,
-            instanceId,
-            tenantId: terminusKey,
+            ...scenarioParams,
           }}
           customProps={{
             runtime: {
               props: {
                 gutter: 8,
                 span: runtimeGridSpan[languages?.language ?? 'nodejs'],
+                className: 'mb-2',
+              },
+            },
+            node: {
+              props: {
+                gutter: 8,
+                span: [12, 12, 12, 12, 12, 12],
                 className: 'mb-2',
               },
             },
