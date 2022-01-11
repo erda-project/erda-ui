@@ -268,7 +268,7 @@ export function enhanceAPI<T extends FN>(_apiFn: T, config?: APIConfig<T>) {
         return () => {
           unset(_setData, subscribeIdRef.current);
         };
-      });
+      }, []);
 
       if (globalKey) {
         subscribe(subscribeIdRef, (d: PICK_DATA<T>) => apiDataStore.reducers.setData(globalKey, d));
@@ -298,7 +298,7 @@ export function enhanceAPI<T extends FN>(_apiFn: T, config?: APIConfig<T>) {
         return () => {
           unset(_setData, subscribeIdRef.current);
         };
-      });
+      }, []);
 
       if (globalKey) {
         _toggleLoading = (isLoading: boolean) => apiDataStore.reducers.setLoading(globalKey, isLoading);
