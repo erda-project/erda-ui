@@ -316,7 +316,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
           }}
         >
           <>
-            <ErdaIcon fill="black-400" type="play" size="16" />
+            <ErdaIcon fill="black-4" type="play" size="16" />
             {i18n.t('execute')}
             <span className="text-xs">
               ({i18n.t('dop:When you click directly, it will execute cases without environment.')})
@@ -366,12 +366,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                   />
                 </>
               ) : null}
-              <ErdaIcon
-                type="close"
-                onClick={handleClose}
-                className="ml-3 mt-1 cursor-pointer"
-                size="16"
-              />
+              <ErdaIcon type="close" onClick={handleClose} className="ml-3 mt-1 cursor-pointer" size="16" />
             </div>
           </div>
           <div className="flex justify-between items-center mt-4">

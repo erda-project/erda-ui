@@ -12,15 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const colors = {
-  primary: '#6a549e',
-  'primary-800': 'rgba(106, 84, 158, 0.8)',
-  normal: '#302647cc', // color-dark-8: rgba(48, 38, 71, .8)
-  sub: '#30264799', // color-dark-6: rgba(48, 38, 71, .6)
-  // desc: '#3026477f', // color-dark-5: rgba(48, 38, 71, .5)
-  desc: '#30264766', // color-dark-4: rgba(48, 38, 71, .4)
-  icon: '#30264766', // color-dark-3: rgba(48, 38, 71, .3)
-  disabled: '#30264766', // color-dark-3: rgba(48, 38, 71, .3)
-  holder: '#30264733', // color-dark-3: rgba(48, 38, 71, .2)
+  primary: '#302647',
+  normal: 'rgba(48, 38, 71, .8)',
+  sub: 'rgba(48, 38, 71, .6)',
+  desc: 'rgba(48, 38, 71, .4)',
+  icon: 'rgba(48, 38, 71, .3)',
+  disabled: 'rgba(48, 38, 71, .3)',
+  holder: 'rgba(48, 38, 71, .2)',
   red: '#d84b65',
   danger: '#d84b65',
   error: '#d84b65',
@@ -44,11 +42,11 @@ const colors = {
   magnolia: '#f2f1fc',
   mask: 'rgba(0,0,0,0.45)',
   black: 'rgba(0,0,0,1)',
-  'black-200': 'rgba(0,0,0,0.2)',
-  'black-100': 'rgba(0,0,0,0.1)',
-  'black-300': 'rgba(0,0,0,0.3)',
-  'black-400': 'rgba(0,0,0,0.4)',
-  'black-800': 'rgba(0,0,0,0.8)',
+  'black-1': 'rgba(0,0,0,0.1)',
+  'black-2': 'rgba(0,0,0,0.2)',
+  'black-3': 'rgba(0,0,0,0.3)',
+  'black-4': 'rgba(0,0,0,0.4)',
+  'black-8': 'rgba(0,0,0,0.8)',
   'light-primary': '#6a549e19', // rgba($color-primary, .1)
   'shallow-primary': '#6a549e99', // rgba($color-primary, .6)
   'light-pop-bg': '#59516c',

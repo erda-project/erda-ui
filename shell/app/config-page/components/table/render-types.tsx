@@ -64,7 +64,7 @@ export const getTitleRender = (cItem: CP_TABLE.Column) => {
 
 const dropDownHoverBgAndArrow = (
   <div className="cursor-pointer absolute top-0 left-0 bottom-0 right-0 hover:bg-default-04 opacity-0 hover:opacity-100">
-    <ErdaIcon type="caret-down" size={20} fill="black-300" className="arrow-icon absolute right-2 top-1/3" />
+    <ErdaIcon type="caret-down" size={20} fill="black-3" className="arrow-icon absolute right-2 top-1/3" />
   </div>
 );
 

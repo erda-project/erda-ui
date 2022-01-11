@@ -492,7 +492,7 @@ const BuildDetail = (props: IProps) => {
           <ErdaIcon
             type="loading"
             className="mx-0.5"
-            color="black-400"
+            color="black-4"
             size="20px"
             style={{ transform: 'translateY(0)' }}
             spin
@@ -512,7 +512,7 @@ const BuildDetail = (props: IProps) => {
                 <ErdaIcon
                   size="20"
                   className="mr-2"
-                  fill="black-400"
+                  fill="black-4"
                   onClick={() => {
                     runBuild();
                   }}
@@ -534,7 +534,7 @@ const BuildDetail = (props: IProps) => {
             >
               <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
                 <Tooltip title={i18n.t('dop:cancel build')}>
-                  <ErdaIcon fill="black-400" size="20" type="pause" />
+                  <ErdaIcon fill="black-4" size="20" type="pause" />
                 </Tooltip>
               </WithAuth>
             </DeleteConfirm>
@@ -549,7 +549,7 @@ const BuildDetail = (props: IProps) => {
             <IF check={canRerunFailed}>
               {deployAuth.hasAuth ? (
                 <Dropdown overlay={renderReRunMenu()} placement="bottomCenter">
-                  <ErdaIcon size="21" fill="black-400" type="redo" className="mr-1.5" />
+                  <ErdaIcon size="21" fill="black-4" type="redo" className="mr-1.5" />
                 </Dropdown>
               ) : (
                 <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
@@ -712,7 +712,7 @@ const BuildDetail = (props: IProps) => {
                 content={renderBuildHistory()}
                 arrowPointAtCenter
               >
-                <ErdaIcon fill="black-400" size="20" type="jsjl" className="mb-2 mr-1 cursor-pointer" />
+                <ErdaIcon fill="black-4" size="20" type="jsjl" className="mb-2 mr-1 cursor-pointer" />
               </Popover>
               {renderRunBtn()}
             </div>

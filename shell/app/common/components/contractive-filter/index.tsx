@@ -948,7 +948,7 @@ const ContractiveFilter = ({
             placement="bottomLeft"
           >
             <span className="contractive-filter-item more-conditions">
-              <ErdaIcon color="black-800" type="plus" className="mr-0.5 color-text" />
+              <ErdaIcon color="black-8" type="plus" className="mr-0.5 color-text" />
               <span>{i18n.t('filter')}</span>
               <ErdaIcon type="caret-down" className="hover" size="16" />
             </span>
