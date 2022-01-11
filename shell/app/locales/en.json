@@ -1943,8 +1943,7 @@
   },
   "layout": {
     "Choose your organization space": "Choose your organization space",
-    "Global optimization": "Global optimization",
-    "Help enterprises to create an agile R & D organization": "Help enterprises to create an agile R & D organization",
+    "Optimize global performance": "Optimize global performance",
     "Organizational space": "Organizational space",
     "announcement": "announcement",
     "approval": "approval",
@@ -1957,6 +1956,7 @@
     "page-not-found": "sorry, page not found",
     "personal settings": "settings",
     "sorry, you do not have access to this page": "sorry, you do not have access to this page",
+    "to assist you building agile R&D organizations": "to assist you building agile R&D organizations",
     "view doc": "view doc"
   },
   "msp": {
