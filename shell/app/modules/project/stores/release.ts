@@ -27,7 +27,7 @@ const releaseStore = createStore({
   state: initState,
   effects: {
     async getAppList({ call, update }, payload: { projectId: string; q?: string }) {
-      const res = await call(getAppList, payload);
+      const res = await call(getAppList, { ...payload, pageSize: 1000 });
       const { list } = res;
       update({ appList: list.map((item) => ({ ...item, title: item.displayName })) });
     },
