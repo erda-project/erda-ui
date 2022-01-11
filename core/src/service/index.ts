@@ -21,7 +21,6 @@ import { Key, pathToRegexp, compile } from 'path-to-regexp';
 import qs from 'query-string';
 import { IUserInfo, setUserMap } from '../stores/user-map';
 import { getConfig } from '../config';
-import { useUnmount } from 'react-use';
 
 const DEFAULT_PAGESIZE = 15;
 
@@ -265,9 +264,11 @@ export function enhanceAPI<T extends FN>(_apiFn: T, config?: APIConfig<T>) {
       const [data, setData] = React.useState(null);
       const subscribeIdRef = React.useRef('');
 
-      useUnmount(() => {
-        unset(_setData, subscribeIdRef.current);
-      });
+      React.useEffect(() => {
+        return () => {
+          unset(_setData, subscribeIdRef.current);
+        };
+      }, []);
 
       if (globalKey) {
         subscribe(subscribeIdRef, (d: PICK_DATA<T>) => apiDataStore.reducers.setData(globalKey, d));
@@ -293,9 +294,11 @@ export function enhanceAPI<T extends FN>(_apiFn: T, config?: APIConfig<T>) {
       const [data, setData] = React.useState(null);
       const subscribeIdRef = React.useRef('');
 
-      useUnmount(() => {
-        unset(_setData, subscribeIdRef.current);
-      });
+      React.useEffect(() => {
+        return () => {
+          unset(_setData, subscribeIdRef.current);
+        };
+      }, []);
 
       if (globalKey) {
         _toggleLoading = (isLoading: boolean) => apiDataStore.reducers.setLoading(globalKey, isLoading);
