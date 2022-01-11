@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Radio, Select, Input, Button, message } from 'antd';
-import { map, isString } from 'lodash';
+import { Button, Input, message, Radio, Select } from 'antd';
+import { isString, map } from 'lodash';
 import KeyValueEdit from 'apiManagePlatform/pages/api-market/detail/components/key-val-edit';
 import { FileEditor } from 'common';
 import i18n from 'i18n';
@@ -102,7 +102,7 @@ const TestJsonEditor = (props: any) => {
           setContent(formatJSON(content));
         }}
       >
-        格式化
+        {i18n.t('format')}
       </Button>
       <FileEditor
         fileExtension="json"
