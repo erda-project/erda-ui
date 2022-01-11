@@ -29,6 +29,7 @@ const {
   UC_PUBLIC_URL = '',
   ENABLE_BIGDATA = '',
   ENABLE_EDGE = '',
+  ENABLE_APPLY_ORG = '',
   TERMINUS_KEY = '',
   TERMINUS_TA_ENABLE = false,
   TERMINUS_TA_URL = '',

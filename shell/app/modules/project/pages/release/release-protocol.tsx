@@ -76,7 +76,7 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
             <Dropdown overlay={addDropdownMenu} placement="bottomRight" trigger={['click']}>
               <Button type={'primary'} className="bg-default flex-h-center">
                 {i18n.t('new {name}', { name: i18n.t('Artifact') })}
-                <ErdaIcon type="caret-down" size="18" color="currentColor" className="ml-1 text-white-400" />
+                <ErdaIcon type="caret-down" size="18" color="currentColor" className="ml-1 text-white-4" />
               </Button>
             </Dropdown>
           </WithAuth>

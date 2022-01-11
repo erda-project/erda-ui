@@ -171,7 +171,7 @@ const ConfigSelector = ({ list, defaultValue, value, onChange, onDeleteFilter, o
           {value && isNew ? (
             <Badge text={i18n.t('dop:changed')} status="processing" showDot={false} className="ml-2" />
           ) : null}
-          <ErdaIcon type="caret-down" className="ml-1 text-white-800" />
+          <ErdaIcon type="caret-down" className="ml-1 text-white-8" />
         </div>
       </Popover>
       {isNew || !value ? (
@@ -185,7 +185,7 @@ const ConfigSelector = ({ list, defaultValue, value, onChange, onDeleteFilter, o
           getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
         >
           <div
-            className="add-filter-config hover:bg-white-200 cursor-pointer rounded-sm py-1 px-3 ml-2 flex items-center"
+            className="add-filter-config hover:bg-white-2 cursor-pointer rounded-sm py-1 px-3 ml-2 flex items-center"
             onClick={() => setAddVisible(true)}
           >
             <ErdaIcon size={16} fill="white" type="baocun" className="mr-1" /> {i18n.t('dop:new filter')}
