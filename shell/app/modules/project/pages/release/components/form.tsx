@@ -417,7 +417,7 @@ const CustomUpload = ({ form, onChange }: { form: { form: FormInstance }; onChan
         <div className="flex-all-center py-1">
           <img src={EmptySVG} style={{ height: 80 }} />
           <div className="ml-2.5">
-            <div className="text-left text-default text-base">{i18n.t('dop:upload yml file')}</div>
+            <div className="text-left text-default text-base">{i18n.t('dop:upload zip file')}</div>
             <div className="text-xs text-default-6 leading-5">{i18n.t('dop:click this area to browse and upload')}</div>
           </div>
         </div>
