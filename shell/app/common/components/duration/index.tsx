@@ -104,7 +104,12 @@ const Duration = ({ value, onChange }: IProps) => {
     if (!value?.[index]) {
       setTimes(newTimer);
     }
-    onChange?.(newTimer);
+    onChange?.(
+      newTimer.map((item) => ({
+        ...item,
+        timer: item.timer ? +item.timer : '',
+      })),
+    );
   };
   return (
     <Input.Group compact className="trace-duration flex items-center w-64">
