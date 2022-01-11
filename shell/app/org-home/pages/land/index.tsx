@@ -16,6 +16,7 @@ import orgStore from 'app/org-home/stores/org';
 import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 import React from 'react';
+import { useClickAway } from 'react-use';
 import './index.scss';
 
 const LandPage = () => {
@@ -23,6 +24,11 @@ const LandPage = () => {
   const [activeOrg, setActiveOrg] = React.useState<any>(null);
   const [showOptions, setShowOptions] = React.useState(false);
   const [filterKey, setFilterKey] = React.useState('');
+
+  const ref = React.useRef(null);
+  useClickAway(ref, () => {
+    setShowOptions(false);
+  });
 
   const filteredList = orgs.filter((org) => org.displayName?.toLowerCase().includes(filterKey.toLowerCase()));
 
@@ -39,6 +45,7 @@ const LandPage = () => {
         </div>
         <div className="mt-8 org-select-text">{i18n.t('layout:Choose your organization space')}</div>
         <div
+          ref={ref}
           className={`mt-4 rounded-sm h-16 py-5 text-default cursor-pointer flex items-center justify-between org-select ${
             showOptions ? 'showOptions' : ''
           } ${filterKey ? 'searching' : ''}`}
@@ -47,9 +54,8 @@ const LandPage = () => {
             className="input"
             type="text"
             value={activeOrg?.displayName || filterKey}
-            onChange={(e) => setFilterKey(e.target.value)}
-            onFocus={() => setShowOptions(true)}
-            onBlur={() => setShowOptions(false)}
+            onChange={(e) => !activeOrg && setFilterKey(e.target.value)}
+            onClick={(e) => setShowOptions(true)}
           />
           <div className="tip text-default-6">{i18n.t('layout:Organizational space')}</div>
           <ErdaIcon className="icon mr-6" size={20} type="caret-down" />
