@@ -691,7 +691,6 @@
     "confirm to delete {name} ?": "confirm to delete {name} ?",
     "confirm to remove user": "confirm to remove user",
     "confirm to remove user in batches": "confirm to remove user in batches",
-    "contact business": "contact business",
     "copy configuration": "copy configuration",
     "custom": "custom",
     "day": "day",
@@ -792,7 +791,6 @@
     "this item is required": "this item is required",
     "to": "to",
     "view": "view",
-    "vip features tips": "VIP user features, please contact Business Opening",
     "yes": "yes",
     "{deleteItem} cannot be restored after deletion. Continue?": "{deleteItem} cannot recover after deletion, confirm deletion?"
   },

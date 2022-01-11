@@ -13,13 +13,12 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ErdaIcon, Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon } from 'common';
 import { Button, Spin } from 'antd';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import userStore from 'app/user/stores';
 import permStore from 'user/stores/permission';
-import springBg from 'app/images/land-spring.jpg';
 
 import './error-page.scss';
 
@@ -134,22 +133,4 @@ const NotFound = ({ message, force }: { message?: string; force?: boolean }) => 
   );
 };
 
-const FreeUserTips = () => {
-  return (
-    <div className="basic-error-page">
-      <div className="info">
-        <CustomIcon type="VIP" color />
-        <div className="desc">
-          <span>{i18n.t('common:vip features tips')}</span>
-          <a target="_blank" href="https://www.erda.cloud/contact" rel="noreferrer">
-            <Button size="large" type="primary">
-              {i18n.t('common:contact business')}
-            </Button>
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export { NoAuth, NotFound, FreeUserTips };
+export { NoAuth, NotFound };

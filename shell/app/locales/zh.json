@@ -691,7 +691,6 @@
     "confirm to delete {name} ?": "确认删除 {name} ？",
     "confirm to remove user": "确认移除用户",
     "confirm to remove user in batches": "确认批量移除用户",
-    "contact business": "联系商务",
     "copy configuration": "复制配置",
     "custom": "自定义",
     "day": "天",
@@ -792,7 +791,6 @@
     "this item is required": "该项为必填项",
     "to": "至",
     "view": "查看",
-    "vip features tips": "VIP 用户功能，请联系商务开通",
     "yes": "是",
     "{deleteItem} cannot be restored after deletion. Continue?": "{deleteItem}删除后无法恢复, 确认删除？"
   },
