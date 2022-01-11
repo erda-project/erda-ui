@@ -123,7 +123,6 @@ export enum pages {
   noAuth = '/{orgName}/noAuth',
   perm = '/{orgName}/perm?scope={scope}',
   inviteToOrg = '/{orgName}/inviteToOrg',
-  freshMan = '/{orgName}/freshMan',
 
   // dop
   orgRoot = '/{orgName}',
