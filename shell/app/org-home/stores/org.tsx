@@ -53,7 +53,7 @@ const org = createStore({
       if (isIn('orgIndex')) {
         const { orgName } = params;
         const [curPathOrg, initFinish] = org.getState((s) => [s.curPathOrg, s.initFinish]);
-        if (!isAdminRoute() && initFinish && (curPathOrg !== orgName || orgName === '-') && !isMatch(/\w\/notFound/)) {
+        if (!isAdminRoute() && initFinish && (curPathOrg !== orgName || orgName === '-')) {
           layoutStore.reducers.clearLayout();
           org.effects.getOrgByDomain({ orgName });
         }
@@ -119,7 +119,7 @@ const org = createStore({
       }
       const curPathname = location.pathname;
       if (!Object.keys(resOrg).length) {
-        goTo(goTo.pages.notFound);
+        goTo(goTo.pages.landPage);
         update({ initFinish: true });
       } else {
         const currentOrg = resOrg || {};
@@ -160,8 +160,6 @@ const org = createStore({
           const orgAccess = get(orgPermRes, 'data.access');
           // 当前无该企业权限
           if (!orgAccess) {
-            const joinOrgTip = map(orgPermRes.userInfo, (u) => u.nick).join(', ');
-            userStore.reducers.setJoinOrgTip(joinOrgTip);
             goTo(goTo.pages.freshMan);
             update({ initFinish: true });
             return;
@@ -255,10 +253,6 @@ const setLocationByAuth = (authObj: { roles: string[]; orgName: string }) => {
     },
     freshMan: {
       isCurPage: curPathname.startsWith(`/${orgName}/freshMan`),
-      authRole: [],
-    },
-    notFound: {
-      isCurPage: curPathname.startsWith(`/${orgName}/notFound`),
       authRole: [],
     },
   };

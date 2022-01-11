@@ -10,9 +10,18 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+import i18n from 'i18n';
 
 export default function getOrgRouter(): RouteConfigItem[] {
   return [
+    {
+      path: '',
+      breadcrumbName: i18n.t('land page'),
+      getComp: (cb) => cb(import('app/org-home/pages/land')),
+      layout: {
+        use: 'empty',
+      },
+    },
     {
       path: ':orgName',
       mark: 'orgIndex',

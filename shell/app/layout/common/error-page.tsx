@@ -13,12 +13,13 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Icon as CustomIcon } from 'common';
+import { ErdaIcon, Icon as CustomIcon } from 'common';
 import { Button, Spin } from 'antd';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import userStore from 'app/user/stores';
 import permStore from 'user/stores/permission';
+import springBg from 'app/images/land-spring.jpg';
 
 import './error-page.scss';
 
@@ -134,17 +135,61 @@ const NotFound = ({ message, force }: { message?: string; force?: boolean }) => 
 };
 
 const NotJoinOrg = () => {
-  const joinOrgTip = userStore.useStore((s) => s.joinOrgTip);
+  const [orgs] = userStore.useStore((s) => [s.orgs]);
+  const [activeOrg, setActiveOrg] = React.useState<any>(null);
+  const [showOptions, setShowOptions] = React.useState(false);
+  const [filterKey, setFilterKey] = React.useState('');
+
+  const filteredList = orgs.filter((org) => org.displayName?.toLowerCase().includes(filterKey.toLowerCase()));
 
   return (
-    <div className="basic-error-page">
-      <div className="info">
-        <CustomIcon type="no-auth" color />
-        <div className="desc">
-          <span>{i18n.t("You haven't joined current organization.")}</span>
-          <span className="contact-info">
-            {i18n.t('please contact')} {joinOrgTip}
-          </span>
+    <div className="land-page flex items-center justify-center h-full">
+      <div className="absolute left-20 top-5">
+        <ErdaIcon className="text-white" size={60} type="erda" />
+      </div>
+      <img className="bg-image" src={springBg} alt="background-image" />
+      <div className="content text-white z-10">
+        <div className="title">
+          <div>{i18n.t('layout:Global optimization')}</div>
+          <div>{i18n.t('layout:Help enterprises to create an agile R & D organization')}</div>
+        </div>
+        <div className="mt-8 org-select-text">{i18n.t('layout:Choose your organization space')}</div>
+        <div
+          className={`mt-4 rounded-sm h-16 py-5 text-default cursor-pointer flex items-center justify-between org-select  ${
+            showOptions ? 'showOptions' : ''
+          }`}
+        >
+          <input
+            className="input"
+            type="text"
+            value={activeOrg?.displayName || filterKey}
+            onChange={(e) => setFilterKey(e.target.value)}
+            onFocus={() => setShowOptions(true)}
+            onBlur={() => setShowOptions(false)}
+          />
+          <div className="tip text-default-6">{i18n.t('layout:Organizational space')}</div>
+          <ErdaIcon className="icon mr-6" size={20} type="caret-down" />
+          <div className="options">
+            {filteredList.map((org) => {
+              return (
+                <a key={org.id} href={`/${org.name}`}>
+                  <div
+                    className={`option flex items-center px-2 h-[76px] cursor-pointer hover:bg-default-04 ${
+                      org.id === activeOrg?.id ? 'active' : ''
+                    }`}
+                    onMouseEnter={() => setActiveOrg(org)}
+                    onMouseLeave={() => setActiveOrg(null)}
+                  >
+                    <img className="w-10 h-10 rounded-sm mr-2" src={org.logo} alt="" />
+                    <div>
+                      <div className="org-name">{org.displayName}</div>
+                      <div className="org-sub-name text-xs text-desc">{org.desc}</div>
+                    </div>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
