@@ -1984,8 +1984,8 @@
   "createProjectRelease": {
     "desc": "创建项目级制品",
     "success": {
-      "zh": "在 [@orgName] 组织下的 [@projectName](project) 项目中，创建了项目级制品 [@version](release)",
-      "en": "Create project release [@version](release) in project [@projectName](project) of org [@orgName]"
+      "zh": "在 [@orgName] 组织下的 [@projectName](project) 项目中，创建了项目级制品 [@version](projectReleaseDetail)",
+      "en": "Create project release [@version](projectReleaseDetail) in project [@projectName](project) of org [@orgName]"
     },
     "fail": {
       "zh": "",
@@ -1995,8 +1995,8 @@
   "updateProjectRelease": {
     "desc": "更新项目级制品",
     "success": {
-      "zh": "在 [@orgName] 组织下的 [@projectName](project) 项目中，更新了项目级制品 [@version](release)",
-      "en": "Update project release [@version](release) in project [@projectName](project) of org [@orgName]"
+      "zh": "在 [@orgName] 组织下的 [@projectName](project) 项目中，更新了项目级制品 [@version](projectReleaseDetail)",
+      "en": "Update project release [@version](projectReleaseDetail) in project [@projectName](project) of org [@orgName]"
     },
     "fail": {
       "zh": "",
@@ -2006,8 +2006,8 @@
   "updateAppRelease": {
     "desc": "更新应用级制品",
     "success": {
-      "zh": "在 [@orgName] 组织下的 [@projectName](project) 项目中，更新了应用级制品 [@version](release)",
-      "en": "Update application release [@version](release) in project [@projectName](project) of org [@orgName]"
+      "zh": "在 [@orgName] 组织下的 [@projectName](project) 项目中，更新了应用级制品 [@version](projectReleaseDetail)",
+      "en": "Update application release [@version](projectReleaseDetail) in project [@projectName](project) of org [@orgName]"
     },
     "fail": {
       "zh": "",
