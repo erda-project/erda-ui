@@ -64,23 +64,23 @@ const LandPage = () => {
             {filteredList.length ? (
               filteredList.map((org) => {
                 return (
-                  <a key={org.id} href={`/${org.name}`}>
-                    <div
-                      className={`option flex items-center px-2 h-[76px] cursor-pointer hover:bg-default-04 ${
-                        org.id === activeOrg?.id ? 'active' : ''
-                      }`}
-                      onMouseEnter={() => setActiveOrg(org)}
-                      onMouseLeave={() => setActiveOrg(null)}
-                    >
-                      {org.logo ? (
-                        <img className="w-10 h-10 rounded-sm" src={org.logo} alt={`${org.name} logo`} />
-                      ) : (
-                        <ErdaIcon type="zuzhi-40k0k60g" size={40} />
-                      )}
-                      <div className="ml-2">
-                        <div className="org-name">{org.displayName}</div>
-                        <div className="org-sub-name text-xs text-desc">{org.desc}</div>
-                      </div>
+                  <a
+                    key={org.id}
+                    href={`/${org.name}`}
+                    className={`option flex items-center px-2 h-[76px] cursor-pointer hover:bg-default-04 ${
+                      org.id === activeOrg?.id ? 'active' : ''
+                    }`}
+                    onMouseEnter={() => setActiveOrg(org)}
+                    onMouseLeave={() => setActiveOrg(null)}
+                  >
+                    {org.logo ? (
+                      <img className="w-10 h-10 rounded-sm" src={org.logo} alt={`${org.name} logo`} />
+                    ) : (
+                      <ErdaIcon type="zuzhi-40k0k60g" size={40} />
+                    )}
+                    <div className="ml-2 flex-1 truncate">
+                      <div className="org-name truncate">{org.displayName}</div>
+                      <div className="org-sub-name text-xs text-desc truncate">{org.desc}</div>
                     </div>
                   </a>
                 );
