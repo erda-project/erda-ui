@@ -44,7 +44,7 @@ export const Announcement = () => {
       </div>
       <div className="h-8 flex items-center justify-end select-none">
         <ErdaIcon
-          className={`rounded-sm w-8 h-8 text-white-6 hover:text-white hover:bg-white-200 cursor-pointer`}
+          className={`rounded-sm w-8 h-8 text-white-6 hover:text-white hover:bg-white-2 cursor-pointer`}
           type="left"
           size={20}
           onClick={() => setIndex(Math.max(index - 1, 1))}
@@ -53,7 +53,7 @@ export const Announcement = () => {
           {index} / {announcementList.length}
         </div>
         <ErdaIcon
-          className={`rounded-sm w-8 h-8 text-white-6 hover:text-white hover:bg-white-200 cursor-pointer`}
+          className={`rounded-sm w-8 h-8 text-white-6 hover:text-white hover:bg-white-2 cursor-pointer`}
           type="right"
           size={20}
           onClick={() => setIndex(Math.min(index + 1, total))}

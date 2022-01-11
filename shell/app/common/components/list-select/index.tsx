@@ -343,7 +343,7 @@ interface RadioProps {
 const Radio = ({ checked, multiple = false }: RadioProps) => {
   return multiple ? (
     <div
-      className={`w-6 h-6 inline-block rounded-full border border-solid border-white-300 flex p-1 ${
+      className={`w-6 h-6 inline-block rounded-full border border-solid border-white-3 flex p-1 ${
         checked ? 'bg-purple-deep border-purple-deep' : ''
       }`}
     >
@@ -351,7 +351,7 @@ const Radio = ({ checked, multiple = false }: RadioProps) => {
     </div>
   ) : (
     <div
-      className={`w-6 h-6 inline-block rounded-full border border-solid border-white-300 flex p-1 ${
+      className={`w-6 h-6 inline-block rounded-full border border-solid border-white-3 flex p-1 ${
         checked ? 'border-purple-deep' : ''
       }`}
     >
