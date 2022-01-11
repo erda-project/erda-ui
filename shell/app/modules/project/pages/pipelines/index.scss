@@ -1,0 +1,15 @@
+.project-pipeline {
+  .app-list {
+    border-right: 1px solid $color-default-1;
+
+    @media screen and (max-width: 1440px) {
+      width: 240px;
+    }
+    @media screen and (min-width: 1441px) and (max-width: 2560px) {
+      width: 360px;
+    }
+    @media screen and (min-width: 2561px) {
+      width: 480px;
+    }
+  }
+}

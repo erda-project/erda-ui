@@ -608,13 +608,16 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
 // 渲染table操作列
 const getTableOperation = (val: any, record: any, extra: any) => {
   const getTableOperationItem = (op: CP_COMMON.Operation, key: string, _record: any) => {
-    const { confirm, disabled, disabledTip, text, ..._rest } = op;
+    const { confirm, disabled, disabledTip, text, icon, ..._rest } = op;
     if (disabled === true) {
       // 无权限操作
       return (
         <Menu.Item key={key} className="p-0">
           <WithAuth noAuthTip={disabledTip} key={key} pass={false}>
-            <span className="table-operations-btn px-4 py-1 block">{text}</span>
+            <span className="table-operations-btn px-4 py-1 block flex-h-center">
+              {icon ? <ErdaIcon type={icon} color="currentColor" className="mr-1" /> : null}
+              {text}
+            </span>
           </WithAuth>
         </Menu.Item>
       );
@@ -632,7 +635,11 @@ const getTableOperation = (val: any, record: any, extra: any) => {
             onCancel={(e: any) => e && e.stopPropagation()}
             zIndex={1100}
           >
-            <span className="table-operations-btn px-4 py-1 block" onClick={(e: any) => e.stopPropagation()}>
+            <span
+              className="table-operations-btn px-4 py-1 block flex-h-center"
+              onClick={(e: any) => e.stopPropagation()}
+            >
+              {icon ? <ErdaIcon type={icon} color="currentColor" className="mr-1" /> : null}
               {text}
             </span>
           </Popconfirm>
@@ -643,7 +650,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
       return (
         <Menu.Item key={key} className="p-0">
           <span
-            className="table-operations-btn px-4 py-1 block"
+            className="table-operations-btn px-4 py-1 block flex-h-center"
             key={key}
             onClick={(e: any) => {
               e.stopPropagation();
@@ -654,6 +661,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
               }
             }}
           >
+            {icon ? <ErdaIcon type={icon} color="currentColor" size={16} className="mr-1" /> : null}
             {text}
           </span>
         </Menu.Item>

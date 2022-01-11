@@ -1085,6 +1085,7 @@
     "code quality": "代码质量",
     "code quality access control": "代码质量门禁",
     "code quality analysis": "代码质量分析",
+    "code source": "代码源",
     "code smell": "代码异味",
     "code vulnerability": "代码脆弱点",
     "code-trigger-CI": "该分支代码发生变化时触发持续集成",

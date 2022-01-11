@@ -1085,6 +1085,7 @@
     "code quality": "code quality",
     "code quality access control": "code quality access control",
     "code quality analysis": "code quality analysis",
+    "code source": "code source",
     "code smell": "code smell",
     "code vulnerability": "code vulnerability",
     "code-trigger-CI": "Continuous integration is triggered when the branch code changes",

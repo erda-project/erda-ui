@@ -207,7 +207,7 @@ function getProjectRouter(): RouteConfigItem[] {
         {
           path: 'pipelines',
           breadcrumbName: i18n.t('pipeline'),
-          layout: { fullHeight: true },
+          layout: { fullHeight: true, noWrapper: true },
           getComp: (cb) => cb(import('project/pages/pipelines')),
         },
         {
