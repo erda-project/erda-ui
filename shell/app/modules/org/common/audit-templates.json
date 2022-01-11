@@ -2102,19 +2102,35 @@
       "en": ""
     }
   },
+  "createServiceNotifyGroup": {
+    "desc": "创建微服务通知组",
+    "success": {
+      "zh": "[@workspace] 环境的[@projectName]项目中，创建或更新了通知组 [@notifyGroupName]",
+      "en": "create or update [@notifyGroupName] notifyGroup in the [@projectName] project of the [@workspace] environment"
+    },
+    "fail": {}
+  },
+  "deleteServiceNotifyGroup": {
+    "desc": "删除微服务通知组",
+    "success": {
+      "zh": "[@workspace] 环境的[@projectName]项目中，删除了通知组 [@notifyGroupName]",
+      "en": "delete [@notifyGroupName] notifyGroup in the [@projectName] project of the [@workspace] environment"
+    },
+    "fail": {}
+  },
   "addServiceMember": {
     "desc": "添加微服务成员",
     "success": {
-      "zh": "[@workspace] 环境的[@project]项目中，添加或修改了成员 [@users]",
-      "en": "[@users] added or modified members in the [@project] project of the [@workspace] environment."
+      "zh": "在[@projectName]项目中，添加或修改了成员 [@users]",
+      "en": "[@users] added or modified members in the [@projectName] project ."
     },
     "fail": {}
   },
   "deleteServiceMember": {
     "desc": "删除微服务成员",
     "success": {
-      "zh": "[@workspace] 环境的[@project]项目中，删除了成员 [@users]",
-      "en": "[@users] delete members in the [@project] project of the [@workspace] environment."
+      "zh": "在[@projectName]项目中，删除了成员 [@users]",
+      "en": "[@users] delete members in the [@projectName] project."
     },
     "fail": {}
   },
@@ -2137,32 +2153,32 @@
   "addServiceDashboard": {
     "desc": "创建微服务自定义大盘",
     "success": {
-      "zh": "[@workspace] 环境的[@project]项目中，创建或更新了自定义大盘 [@dashboardName]",
-      "en": "create or update custom dashboards in the [@project] project of the [@workspace] environment [@dashboardName]"
+      "zh": "[@workspace] 环境的[@projectName]项目中，创建或更新了自定义大盘 [@dashboardName]",
+      "en": "create or update custom [@dashboardName] dashboards in the [@projectName] project of the [@workspace] environment"
     },
     "fail": {}
   },
   "deleteServiceDashboard": {
     "desc": "删除微服务自定义大盘",
     "success": {
-      "zh": "[@workspace] 环境的[@project]项目中，删除了自定义大盘 [@dashboardName]",
-      "en": "delete custom dashboards in the [@project] project of the [@workspace] environment [@dashboardName]"
+      "zh": "[@workspace] 环境的[@projectName]项目中，删除了自定义大盘 [@dashboardName]",
+      "en": "delete custom [@dashboardName] dashboards in the [@projectName] project of the [@workspace] environment"
     },
     "fail": {}
   },
   "createServiceToken": {
     "desc": "创建token",
     "success": {
-      "zh": "创建了token [@token]",
-      "en": "create token [@token]"
+      "zh": "在[@projectName]项目中创建了token [@token]",
+      "en": "create token [@token] in the [@projectName] project"
     },
     "fail": {}
   },
   "deleteServiceToken": {
     "desc": "创建token",
     "success": {
-      "zh": "删除了token [@token]",
-      "en": "delete token [@token]"
+      "zh": "在[@projectName]项目中删除了token [@token]",
+      "en": "delete token [@token] in the [@projectName] project"
     },
     "fail": {}
   }
