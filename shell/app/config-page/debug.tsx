@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage, { useMock } from 'app/config-page';
+import DiceConfigPage from 'app/config-page';
 import { ErrorBoundary, FileEditor, ErdaIcon } from 'common';
 import { Button, message, Input, Checkbox, Tooltip } from 'antd';
 import routeInfoStore from 'core/stores/route';
@@ -236,8 +236,8 @@ const DebugConfigPage = () => {
               inParams={config?.inParams}
               debugConfig={config}
               onExecOp={onExecOp}
-              useMock={useMock}
-              forceMock
+              useMock={getMock}
+              forceMock={!!proxyApi}
               updateConfig={(v) => {
                 setConfig(v);
                 setText(JSON.stringify(v, null, 2));

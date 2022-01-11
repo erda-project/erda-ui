@@ -13,34 +13,142 @@
 
 import React from 'react';
 import { Form, Button } from 'antd';
+import { get } from 'lodash';
 import i18n from 'i18n';
 import { ErdaIcon, RenderFormItem } from 'common';
+import routeInfoStore from 'core/stores/route';
+import { getFileTree, getFileDetail, createPipeline } from 'project/services/pipeline';
 
 interface IProps {
   onCancel: () => void;
+  application?: { id: string; name: string };
 }
 
-const PipelineForm = ({ onCancel }: IProps) => {
+interface Node {
+  value: string;
+  name: string;
+}
+
+const PipelineForm = ({ onCancel, application }: IProps) => {
+  const { id, name } = application || {};
+  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
+  const [form] = Form.useForm();
+  const [appList, setAppList] = React.useState<Node[]>([]);
+  const [appNodeId, setAppNodeId] = React.useState<string>((id && btoa(encodeURI(`${projectId}/${id}`))) || '');
+  const [branchList, setBranchList] = React.useState<Node[]>([]);
+  const [branchId, setBranchId] = React.useState<string>('');
+  const [pipelineList, setPipelineList] = React.useState<Node[]>([]);
+  const [pipelineName, setPipelineName] = React.useState('');
+
+  const getList = async (pinode: string) => {
+    const res = await getFileTree.fetch({
+      scopeID: projectId,
+      scope: 'project-app',
+      pinode,
+    });
+
+    if (res.success) {
+      return res.data;
+    } else {
+      return [];
+    }
+  };
+
+  const getAppList = async () => {
+    const list = await getList('0');
+    setAppList(list?.map((item) => ({ value: item.inode, name: item.name })) || ([] as Node[]));
+  };
+
+  const getBranchList = async () => {
+    const list = await getList(appNodeId as string);
+    setBranchList(list?.map((item) => ({ value: item.inode, name: item.name })) || ([] as Node[]));
+  };
+
+  const getPipelineList = async () => {
+    const list = await getList(branchId as string);
+    setPipelineList(list?.map((item) => ({ value: item.inode, name: item.name })) || ([] as Node[]));
+  };
+
+  React.useEffect(() => {
+    if (!appNodeId) {
+      getAppList();
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (appNodeId) {
+      getBranchList();
+    }
+  }, [appNodeId]);
+
+  React.useEffect(() => {
+    if (branchId) {
+      getPipelineList();
+    }
+  }, [branchId]);
+
+  const getPipelineDetail = async (id: string) => {
+    const res = await getFileDetail.fetch({
+      scopeID: projectId,
+      scope: 'project-app',
+      id,
+    });
+    if (res.success) {
+      return res.data;
+    } else {
+      return Promise.reject();
+    }
+  };
+
+  const submit = () => {
+    form.validateFields().then(async (value) => {
+      const detail = await getPipelineDetail(value.pipeline);
+      if (detail) {
+        const path = get(detail, 'meta.snippetAction.snippet_config.labels.gittarYmlPath');
+        const branchPath = atob(decodeURI(value.branch)).split('/');
+        const params = {
+          sourceType: 'erda',
+          projectID: +projectId,
+          name: value.name,
+          appID: +branchPath[1],
+          ref: branchPath[branchPath.length - 1],
+          path,
+          fileName: pipelineName,
+        };
+
+        const res = await createPipeline.fetch({ ...params, $options: { successMsg: i18n.t('created successfully') } });
+        if (res.success) {
+          onCancel();
+        }
+      }
+    });
+  };
+
   return (
     <div className="project-pipeline-form flex flex-col h-full">
       <div className="header py-2.5 pl-4 bg-default-02 flex-h-center">
-        <span className="text-base text-default">创建流水线</span>
+        <span className="text-base text-default">{i18n.t('create {name}', { name: i18n.t('pipeline') })}</span>
         <ErdaIcon type="zhedie" className="ml-1" />
-        <div className="flex-1 flex">
-          <div className="flex-h-center ml-2 bg-default-08 px-2 py-1">
-            <ErdaIcon type="wodeyingyong" className="mr-0.5" size={18} />
-            这里是应用的名称
+        {name ? (
+          <div className="flex-1 flex">
+            <div className="flex-h-center ml-2 bg-default-08 px-2 py-1">
+              <ErdaIcon type="wodeyingyong" className="mr-0.5" size={18} />
+              {name}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex-1" />
+        )}
+
         <div className="flex-h-center cursor-pointer mx-2 px-2 py-1">
           <ErdaIcon type="guanbi" size="20" onClick={() => onCancel()} />
         </div>
       </div>
 
       <div className="flex-1 min-h-0 pl-4 pt-4 w-1/2">
-        <Form>
+        <Form form={form}>
           <RenderFormItem
-            name={'version'}
+            name={'name'}
             type={'input'}
             rules={[
               { required: true, message: i18n.t('please enter {name}', { name: i18n.t('dop:release name') }) },
@@ -56,37 +164,53 @@ const PipelineForm = ({ onCancel }: IProps) => {
             }}
           />
           <div>
-            <div className="text-default">代码源</div>
+            <div className="text-default">{i18n.t('dop:code source')}</div>
             <CodeResource />
           </div>
           <div>
-            <div className="text-default mb-3">配置</div>
-            <div>
+            <div className="text-default mb-3">{i18n.t('Config')}</div>
+            {!id ? (
               <div className="flex-h-center">
-                <div className="mb-6 w-28 text-default-6a">分支</div>
+                <div className="mb-6 w-28 text-default-6a">{i18n.t('App')}</div>
                 <div className="flex-1">
                   <RenderFormItem
-                    name="branch"
+                    name="app"
                     type="select"
+                    options={appList}
                     itemProps={{
                       className: 'bg-default-06',
+                      onChange: (id: string) => setAppNodeId(id),
                     }}
                   />
                 </div>
               </div>
+            ) : null}
+            <div className="flex-h-center">
+              <div className="mb-6 w-28 text-default-6a">{i18n.t('dop:branch')}</div>
+              <div className="flex-1">
+                <RenderFormItem
+                  name="branch"
+                  type="select"
+                  options={branchList}
+                  itemProps={{
+                    className: 'bg-default-06',
+                    onChange: (id: string) => setBranchId(id),
+                  }}
+                />
+              </div>
             </div>
-            <div>
-              <div className="flex-h-center">
-                <div className="mb-6 w-28 text-default-6a">pipeline文件</div>
-                <div className="flex-1">
-                  <RenderFormItem
-                    name="file"
-                    type="select"
-                    itemProps={{
-                      className: 'bg-default-06',
-                    }}
-                  />
-                </div>
+            <div className="flex-h-center">
+              <div className="mb-6 w-28 text-default-6a">pipeline {i18n.t('file')}</div>
+              <div className="flex-1">
+                <RenderFormItem
+                  name="pipeline"
+                  type="select"
+                  options={pipelineList}
+                  itemProps={{
+                    className: 'bg-default-06',
+                    onChange: (_, node: { label: string }) => setPipelineName(node.label),
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -94,11 +218,11 @@ const PipelineForm = ({ onCancel }: IProps) => {
       </div>
 
       <div className="py-3 px-4">
-        <Button type="primary" className="mr-2">
-          创建
+        <Button type="primary" className="mr-2" onClick={submit}>
+          {i18n.t('establish')}
         </Button>
         <Button className="bg-default-06 border-default-06 text-default-8" onClick={() => onCancel()}>
-          取消
+          {i18n.t('cancel')}
         </Button>
       </div>
     </div>
@@ -109,7 +233,7 @@ const CodeResource = () => {
   const list = [
     {
       icon: <ErdaIcon type="Erdadaimacangku" size={30} />,
-      label: '内置代码库',
+      label: i18n.t('dop:Built-in code base'),
     },
   ];
   return (

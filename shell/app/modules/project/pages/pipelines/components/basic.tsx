@@ -11,16 +11,25 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { enhanceMock, mockData } from './data-rank.mock';
+import React from 'react';
+import PipelineConfigDetail from 'application/pages/pipeline/config-detail';
 
-export const useMock = (payload: Obj) => {
-  if (process.env.NODE_ENV === 'production') {
-    return Promise.resolve();
-  } else {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(enhanceMock(mockData, payload));
-      }, 200);
-    });
-  }
+const PipelineBasic = ({ nodeId, appId }: { nodeId: string; appId: string }) => {
+  return (
+    <div>
+      <PipelineConfigDetail
+        scope="projectLevelAppPipeline"
+        nodeId={nodeId}
+        editAuth={{
+          hasAuth: true,
+        }}
+        scopeParams={{
+          scope: 'project-app',
+          scopeID: appId,
+        }}
+      />
+    </div>
+  );
 };
+
+export default PipelineBasic;

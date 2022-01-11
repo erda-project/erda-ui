@@ -1,4 +1,8 @@
 .project-pipeline {
+  .application-item.active {
+    background: $color-purple-100;
+  }
+
   .app-list {
     border-right: 1px solid $color-default-1;
 

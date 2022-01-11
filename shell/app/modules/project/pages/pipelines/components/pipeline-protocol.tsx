@@ -13,24 +13,26 @@
 
 import React from 'react';
 import { Drawer } from 'antd';
-import DiceConfigPage, { useMock } from 'app/config-page';
-import { usePerm } from 'user/common';
+import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
-import { goTo } from 'common/utils';
 import PipelineForm from './form';
+import PipelineBasic from './basic';
 
 interface IProps {
-  applicationID?: number;
+  application: { ID: number };
 }
 
-const PipelineProtocol = ({ applicationID }: IProps) => {
+const PipelineProtocol = ({ application }: IProps) => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
+  const { ID: applicationID } = application;
   const inParams = {
     projectID: +projectId,
     applicationID,
   };
 
   const [visible, setVisible] = React.useState(false);
+  const [detailVisible, setDetailVisible] = React.useState(false);
+  const [detail, setDetail] = React.useState<{ id: string; appId: string }>({} as { id: string; appId: string });
 
   const reloadRef = React.useRef<{ reload: () => void }>(null);
 
@@ -42,29 +44,39 @@ const PipelineProtocol = ({ applicationID }: IProps) => {
     setVisible(false);
   }, []);
 
+  const onDetailClose = React.useCallback(() => {
+    setDetailVisible(false);
+  }, []);
+
   return (
     <>
       <DiceConfigPage
-        scenarioKey="release-manage"
-        scenarioType="release-manage"
+        scenarioKey="project-pipeline-manage"
+        scenarioType="project-release-manage"
         showLoading
         inParams={inParams}
         ref={reloadRef}
-        useMock={useMock}
-        forceMock
         customProps={{
+          myPage: {
+            props: {
+              fullHeight: true,
+            },
+          },
           PageHeader: {
             props: {
               className: 'mx-2',
             },
           },
           pipelineTable: {
+            op: {
+              clickRow: (record: { id: string; appId: string }) => {
+                setDetail(record);
+                setDetailVisible(true);
+              },
+            },
             props: {
-              onRow: (record: RELEASE.ApplicationDetail) => ({
-                onClick: () => {
-                  record.id && goTo(`${record.id}`);
-                },
-              }),
+              styleNames: 'h-full',
+              wrapperClassName: 'flex-1',
             },
           },
           addPipelineBtn: {
@@ -84,7 +96,10 @@ const PipelineProtocol = ({ applicationID }: IProps) => {
         destroyOnClose
         closable={false}
       >
-        <PipelineForm onCancel={onClose} />
+        <PipelineForm onCancel={onClose} application={application} />
+      </Drawer>
+      <Drawer onClose={onDetailClose} visible={detailVisible} width="80%" destroyOnClose>
+        <PipelineBasic nodeId={detail.id} appId={detail.appId} />
       </Drawer>
     </>
   );

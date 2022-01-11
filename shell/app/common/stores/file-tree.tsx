@@ -127,6 +127,9 @@ const fileTreeStore = createFlatStore({
     clearTreeNodeDetail(state) {
       state.curNodeDetail = {} as TREE.NODE;
     },
+    updateTreeNodeDetail(state, payload: TREE.NODE) {
+      state.curNodeDetail = payload;
+    },
   },
 });
 

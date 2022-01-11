@@ -13,12 +13,46 @@
 
 import { apiCreator } from 'core/service';
 
+interface CreatePipelineParams {
+  projectID: number;
+  name: string;
+  appID: number;
+  sourceType: string;
+  ref: string;
+  path: string;
+  fileName: string;
+}
+
+interface AppDetail {
+  ID: number;
+  runningNum: number;
+  failedNum: number;
+  displayName: string;
+}
+
 const apis = {
   getAppList: {
-    api: 'get@/api/applications',
+    api: 'get@/api/project-pipeline/apps/:id',
+  },
+  getFileTree: {
+    api: 'get@/api/project-pipeline/filetree',
+  },
+  getFileDetail: {
+    api: 'get@/api/project-pipeline/filetree/:id',
+  },
+  createPipeline: {
+    api: 'post@/api/project-pipeline',
   },
 };
 
-export const getAppList = apiCreator<(payload: { projectId: string; q?: string }) => { list: RELEASE.AppDetail[] }>(
-  apis.getAppList,
-);
+export const getAppList = apiCreator<(payload: { id: string }) => { list: AppDetail[] }>(apis.getAppList);
+
+export const getFileTree = apiCreator<
+  (payload: { pinode: string; scope: string; scopeID: string }) => Array<{ inode: string; name: string }>
+>(apis.getFileTree);
+
+export const getFileDetail = apiCreator<
+  (payload: { id: string; scope: string; scopeID: string }) => Array<{ inode: string; name: string }>
+>(apis.getFileDetail);
+
+export const createPipeline = apiCreator<(payload: CreatePipelineParams) => RAW_RESPONSE>(apis.createPipeline);

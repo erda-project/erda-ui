@@ -66,7 +66,7 @@ export const OperationAction = (props: IOperationAction) => {
   } else {
     // 普通的操作
     return (
-      <Tooltip title={curTip}>
+      <div>
         {React.cloneElement(children, {
           key: curOp.key,
           onClick: (e: MouseEvent) => {
@@ -74,7 +74,7 @@ export const OperationAction = (props: IOperationAction) => {
             onClick(e);
           },
         })}
-      </Tooltip>
+      </div>
     );
   }
 };

@@ -39,413 +39,353 @@ const makeData = (num: number) => {
 
 export const mockData = {
   scenario: {
-    scenarioType: 'pipeline-manage',
-    scenarioKey: 'pipeline-manage',
+    scenarioKey: 'table-demo',
+    scenarioType: 'table-demo',
   },
   protocol: {
+    version: '',
+    scenario: 'table-demo',
+    state: {
+      _error_: null,
+    },
     hierarchy: {
-      root: 'myPage',
+      root: 'page',
       structure: {
-        myPage: ['PageHeader', 'tabsTable'],
-        PageHeader: {
-          left: 'pipelineTabs',
-          right: 'addPipelineBtn',
-        },
-        tabsTable: {
-          slot: 'filterContainer',
-          table: 'pipelineTable',
-        },
-        filterContainer: {
-          left: 'inputFilter',
-          right: 'customFilter',
-        },
+        page: ['table'],
       },
     },
     components: {
-      myPage: {
+      page: {
         type: 'Container',
-        name: 'myPage',
+        name: 'page',
+        props: null,
+        state: {},
+        data: {},
+        operations: {},
+        options: null,
+        version: '',
       },
-      PageHeader: {
-        type: 'LRContainer',
-        name: 'rightPageHeader',
-      },
-      pipelineTabs: {
-        type: 'RadioTabs',
-        data: {
-          options: [
-            {
-              label: '我的流水线(3)',
-              value: 'mine',
-            },
-            {
-              label: '星标流水线(3)',
-              value: 'star',
-            },
-            {
-              label: '全部流水线(3)',
-              value: 'all',
-            },
-          ],
-        },
-        operations: {
-          onChange: {
-            fillMeta: '',
-            key: 'changeViewType',
-            meta: {
-              activeKey: '',
-            },
-            reload: true,
-          },
-        },
-        state: {
-          value: 'mine',
-        },
-      },
-      addPipelineBtn: {
-        type: 'Button',
-        name: 'addPipelineBtn',
-        props: {
-          prefixIcon: 'add',
-          text: '创建流水线',
-          type: 'primary',
-        },
-      },
-      tabsTable: {
-        name: 'tabsTable',
-        type: 'ComposeTable',
-      },
-      filterContainer: {
-        type: 'LRContainer',
-        name: 'filterContainer',
-      },
-      pipelineTable: {
+      table: {
         type: 'Table',
-        name: 'pipelineTable',
+        name: 'table',
+        props: null,
+        state: {},
         data: {
-          list: [
-            {
-              name: 'test',
-              status: {
-                renderType: 'textWithBadge',
-                value: '成功',
-                status: 'success',
-                showDot: false,
-              },
-              time: '10s',
-              app: '这里是应用名称',
-              branch: 'feature/Erda-docs',
-              assignee: {
-                renderType: 'userAvatar',
-                value: '1',
-              },
-              startTime: '2021/09/09 11:09:34',
-              operations: {
-                operations: {
-                  star: {
-                    key: 'star',
-                    meta: {
-                      id: 'pipelineId',
-                    },
-                    reload: true,
-                    successMsg: '标星成功',
-                    text: '标星',
-                    icon: 'star',
-                  },
-                  start: {
-                    key: 'start',
-                    meta: {
-                      id: 'pipelineId',
-                    },
-                    reload: true,
-                    text: '执行',
-                    icon: 'play',
-                  },
-                  restart: {
-                    key: 'restart',
-                    meta: {
-                      id: 'pipelineId',
-                    },
-                    reload: true,
-                    text: '从失败处执行',
-                    icon: 'shuaxin',
-                  },
-                  edit: {
-                    key: 'edit',
-                    meta: {
-                      id: 'pipelineId',
-                    },
-                    reload: true,
-                    text: '编辑',
-                    icon: 'correction',
-                  },
-                  startTiming: {
-                    key: 'startTiming',
-                    meta: {
-                      id: 'pipelineId',
-                    },
-                    reload: true,
-                    text: '开始定时',
-                    icon: 'shijian',
-                  },
-                  delete: {
-                    command: {},
-                    confirm: '确认删除？',
-                    disabledTip: '权限不足',
-                    key: 'delete',
-                    meta: {
-                      id: '24c9da6ceb444023999373a38e5227ed',
-                    },
-                    reload: true,
-                    successMsg: '制品删除成功',
+          operations: {
+            batchRowsHandle: {
+              serverData: {
+                options: [
+                  {
+                    allowedRowIDs: ['row1'],
+                    id: 'delete',
                     text: '删除',
-                    icon: 'delete1',
+                  },
+                  {
+                    allowedRowIDs: ['row2'],
+                    id: 'start',
+                    text: '启动',
+                  },
+                ],
+              },
+              // text: '批量操作',
+            },
+            changePage: {
+              serverData: {},
+            },
+            changeSort: {},
+          },
+          table: {
+            columns: {
+              columnsMap: {
+                assignee: {
+                  title: '处理人',
+                },
+                finishedAt: {
+                  title: '截止日期',
+                },
+                priority: {
+                  title: '优先级',
+
+                  sorter: true,
+                },
+                state: {
+                  title: '状态',
+                },
+                mergedTitle: {
+                  title: '合并单元',
+                },
+              },
+              merges: {
+                mergedTitle: {
+                  orders: ['icon', 'title', 'labels'],
+                },
+              },
+              orders: ['mergedTitle', 'priority', 'state', 'assignee', 'finishedAt'],
+            },
+            pageNo: 1,
+            pageSize: 10,
+            rows: [
+              {
+                cellsMap: {
+                  assignee: {
+                    data: {
+                      operations: {
+                        userSelector: {},
+                      },
+                      scope: 'project',
+                      scopeID: '1000300',
+                      selectedUserIDs: ['92'],
+                    },
+                    type: 'userSelector',
+                  },
+                  finishedAt: {
+                    data: {
+                      text: '2021-12-29',
+                    },
+                    type: 'text',
+                  },
+                  icon: {
+                    data: {
+                      type: 'ISSUE_ICON.issue.TASK',
+                    },
+                    type: 'icon',
+                  },
+                  labels: {
+                    data: {
+                      labels: [
+                        {
+                          id: 'label-id-1',
+                          title: 'area/监控',
+                        },
+                        {
+                          color: 4,
+                          id: 'label-id-2',
+                          title: 'team/前端',
+                        },
+                      ],
+                    },
+                    type: 'labels',
+                  },
+                  priority: {
+                    data: {
+                      menus: [
+                        {
+                          icon: {
+                            type: 'ISSUE_ICON.priority.URGENT',
+                          },
+                          id: 'urgent',
+                          text: '紧急',
+                        },
+                        {
+                          icon: {
+                            type: 'ISSUE_ICON.priority.HIGH',
+                          },
+                          id: 'high',
+                          text: '高',
+                        },
+                        {
+                          icon: {
+                            type: 'ISSUE_ICON.priority.NORMAL',
+                          },
+                          id: 'normal',
+                          selected: true,
+                          text: '中',
+                        },
+                        {
+                          icon: {
+                            type: 'ISSUE_ICON.priority.LOW',
+                          },
+                          id: 'low',
+                          text: '低',
+                        },
+                      ],
+                      operations: {
+                        dropDownMenuChange: {},
+                      },
+                    },
+                    type: 'dropDownMenu',
+                  },
+                  state: {
+                    data: {
+                      menus: [
+                        {
+                          disabled: true,
+                          hidden: true,
+                          id: 'state-id-for-open',
+                          text: '待处理',
+                          tip: '无法转移',
+                        },
+                        {
+                          id: 'state-id-for-working',
+                          selected: true,
+                          text: '进行中',
+                        },
+                        {
+                          id: 'state-id-for-done',
+                          text: '已完成',
+                        },
+                        {
+                          id: 'state-id-for-abandoned',
+                          text: '已作废',
+                        },
+                      ],
+                      operations: {
+                        dropDownMenuChange: {},
+                      },
+                    },
+                    type: 'dropDownMenu',
+                  },
+                  title: {
+                    data: {
+                      text: '【服务监控】增加链路查询页面',
+                    },
+                    type: 'text',
                   },
                 },
-                renderType: 'tableOperation',
+                id: 'row1',
+                operations: {
+                  rowAdd: {},
+                  rowDelete: {},
+                  rowEdit: {},
+                  rowSelect: {},
+                },
+                selectable: true,
               },
-              batchOperations: ['start'],
-            },
-          ],
-        },
-        props: {
-          batchOperations: ['start'],
-          selectable: true,
-          columns: [
-            {
-              dataIndex: 'name',
-              title: '流水线名称',
-            },
-            {
-              dataIndex: 'status',
-              title: '状态',
-            },
-            {
-              dataIndex: 'time',
-              title: '耗时',
-            },
-            {
-              dataIndex: 'app',
-              title: '应用',
-            },
-            {
-              dataIndex: 'branch',
-              title: '分支',
-            },
-            {
-              dataIndex: 'assignee',
-              title: '执行人',
-            },
-            {
-              dataIndex: 'startTime',
-              title: '开始时间',
-              sorter: true,
-            },
-            {
-              dataIndex: 'operations',
-              title: '操作',
-            },
-          ],
-          rowKey: 'id',
-        },
-        operations: {
-          changePageNo: {
-            key: 'changePageNo',
-            reload: true,
-          },
-          changePageSize: {
-            key: 'changePageSize',
-            reload: true,
-          },
-          start: {
-            confirm: '',
-            key: 'start',
-            reload: true,
-            text: '执行',
-          },
-        },
-      },
-      inputFilter: {
-        name: 'inputFilter',
-        type: 'ContractiveFilter',
-        operations: {
-          filter: {
-            key: 'filter',
-            reload: true,
-          },
-        },
-        props: {
-          delay: 1000,
-        },
-        state: {
-          conditions: [
-            {
-              key: 'appName',
-              placeholder: '搜索流水线名称',
-              type: 'input',
-            },
-          ],
-        },
-      },
-      customFilter: {
-        data: {
-          conditions: [
-            {
-              key: 'status',
-              label: '状态',
-              options: [
-                {
-                  label: '失败',
-                  value: 1,
+              {
+                cellsMap: {
+                  assignee: {
+                    data: {
+                      operations: {
+                        userSelector: {},
+                      },
+                      scope: 'project',
+                      scopeID: '1000300',
+                      selectedUserIDs: ['92'],
+                    },
+                    type: 'userSelector',
+                  },
+                  finishedAt: {
+                    data: {
+                      text: '2021-12-29',
+                    },
+                    type: 'text',
+                  },
+                  icon: {
+                    data: {
+                      type: 'ISSUE_ICON.issue.TASK',
+                    },
+                    type: 'icon',
+                  },
+                  labels: {
+                    data: {
+                      labels: [
+                        {
+                          id: 'label-id-1',
+                          title: 'area/监控',
+                        },
+                        {
+                          color: 4,
+                          id: 'label-id-2',
+                          title: 'team/前端',
+                        },
+                      ],
+                    },
+                    type: 'labels',
+                  },
+                  priority: {
+                    data: {
+                      menus: [
+                        {
+                          icon: {
+                            type: 'ISSUE_ICON.priority.URGENT',
+                          },
+                          id: 'urgent',
+                          text: '紧急',
+                        },
+                        {
+                          icon: {
+                            type: 'ISSUE_ICON.priority.HIGH',
+                          },
+                          id: 'high',
+                          text: '高',
+                        },
+                        {
+                          icon: {
+                            type: 'ISSUE_ICON.priority.NORMAL',
+                          },
+                          id: 'normal',
+                          selected: true,
+                          text: '中',
+                        },
+                        {
+                          icon: {
+                            type: 'ISSUE_ICON.priority.LOW',
+                          },
+                          id: 'low',
+                          text: '低',
+                        },
+                      ],
+                      operations: {
+                        dropDownMenuChange: {},
+                      },
+                    },
+                    type: 'dropDownMenu',
+                  },
+                  state: {
+                    data: {
+                      menus: [
+                        {
+                          disabled: true,
+                          hidden: true,
+                          id: 'state-id-for-open',
+                          text: '待处理',
+                          tip: '无法转移',
+                        },
+                        {
+                          id: 'state-id-for-working',
+                          selected: true,
+                          text: '进行中',
+                        },
+                        {
+                          id: 'state-id-for-done',
+                          text: '已完成',
+                        },
+                        {
+                          id: 'state-id-for-abandoned',
+                          text: '已作废',
+                        },
+                      ],
+                      operations: {
+                        dropDownMenuChange: {},
+                      },
+                    },
+                    type: 'dropDownMenu',
+                  },
+                  title: {
+                    data: {
+                      text: '【服务监控】增加链路查询页面',
+                    },
+                    type: 'text',
+                  },
                 },
-                {
-                  label: '成功',
-                  value: 2,
+                id: 'row2',
+                operations: {
+                  rowAdd: {},
+                  rowDelete: {},
+                  rowEdit: {},
+                  rowSelect: {},
                 },
-              ],
-              placeholder: '请选择状态',
-              type: 'select',
-            },
-            {
-              key: 'applicationIds',
-              label: '应用',
-              options: [
-                {
-                  label: 'base-api-design',
-                  value: 1149,
-                },
-              ],
-              placeholder: '请选择应用',
-              type: 'select',
-            },
-            {
-              key: 'assignee',
-              label: '执行者',
-              options: [
-                {
-                  label: 'admin',
-                  value: '1',
-                },
-                {
-                  label: 'chenzhongrun',
-                  value: '1000001',
-                },
-                {
-                  label: '王迎春1',
-                  value: '1000004',
-                },
-                {
-                  label: 'erda 前端',
-                  value: '1000175',
-                },
-                {
-                  label: '陆秋燕',
-                  value: '1000299',
-                },
-                {
-                  label: '自动化测试执行',
-                  value: '1000330',
-                },
-                {
-                  label: 'zc',
-                  value: '1000346',
-                },
-                {
-                  label: 'ch',
-                  value: '1000383',
-                },
-                {
-                  label: '前程似锦',
-                  value: '1001457',
-                },
-                {
-                  label: 'lihui',
-                  value: '1003074',
-                },
-              ],
-              placeholder: '请选择执行者',
-              type: 'select',
-            },
-            {
-              key: 'startTime',
-              label: '开始时间',
-              type: 'dateRange',
-            },
-            {
-              key: 'creatorIDs',
-              label: '创建者',
-              options: [
-                {
-                  label: 'admin',
-                  value: '1',
-                },
-                {
-                  label: 'chenzhongrun',
-                  value: '1000001',
-                },
-                {
-                  label: '王迎春1',
-                  value: '1000004',
-                },
-                {
-                  label: 'erda 前端',
-                  value: '1000175',
-                },
-                {
-                  label: '陆秋燕',
-                  value: '1000299',
-                },
-                {
-                  label: '自动化测试执行',
-                  value: '1000330',
-                },
-                {
-                  label: 'zc',
-                  value: '1000346',
-                },
-                {
-                  label: 'ch',
-                  value: '1000383',
-                },
-                {
-                  label: '前程似锦',
-                  value: '1001457',
-                },
-                {
-                  label: 'lihui',
-                  value: '1003074',
-                },
-              ],
-              placeholder: '请选择创建者',
-              type: 'select',
-            },
-            {
-              key: 'createdAtStartEnd',
-              label: '创建日期',
-              type: 'dateRange',
-            },
-          ],
-          filterSet: [
-            {
-              id: 'all',
-              isPreset: true,
-              label: '全部打开',
-            },
-            {
-              id: 'fae7f9fe-92d6-4001-827c-3a4bb79554db',
-              label: 'test',
-              values: {
-                status: [1],
+                selectable: true,
               },
-            },
-          ],
+            ],
+            total: 1,
+          },
         },
-        name: 'releaseFilter',
-        state: {
-          values: {},
-        },
-        type: 'ConfigurableFilter',
+        operations: {},
+        version: '2',
       },
     },
+    rendering: {},
+    options: null,
   },
 };
