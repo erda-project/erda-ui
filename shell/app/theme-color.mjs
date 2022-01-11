@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const colors = {
-  primary: '#302647',
+  primary: 'rgba(48, 38, 71, 1)', // #302647
   normal: 'rgba(48, 38, 71, .8)',
   sub: 'rgba(48, 38, 71, .6)',
   desc: 'rgba(48, 38, 71, .4)',
@@ -37,7 +37,6 @@ const colors = {
   'light-gray': '#bbbbbb',
   darkgray: '#999999',
   grey: '#f5f5f5',
-  layout: '#f0eef5',
   lotion: '#fcfcfc',
   cultured: '#f6f4f9',
   magnolia: '#f2f1fc',
