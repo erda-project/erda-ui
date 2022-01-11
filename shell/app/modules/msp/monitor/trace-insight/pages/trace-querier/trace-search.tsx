@@ -15,7 +15,7 @@ import React from 'react';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import { getTraceConditions } from 'msp/monitor/trace-insight/services/trace-querier';
 import ContractiveFilter, { ICondition } from 'common/components/contractive-filter';
-import Duration, { IValue, transformDuration } from 'trace-insight/components/duration';
+import Duration, { IValue, transformDuration } from 'common/components/duration';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';

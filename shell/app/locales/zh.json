@@ -691,7 +691,6 @@
     "confirm to delete {name} ?": "确认删除 {name} ？",
     "confirm to remove user": "确认移除用户",
     "confirm to remove user in batches": "确认批量移除用户",
-    "contact business": "联系商务",
     "copy configuration": "复制配置",
     "custom": "自定义",
     "day": "天",
@@ -792,7 +791,6 @@
     "this item is required": "该项为必填项",
     "to": "至",
     "view": "查看",
-    "vip features tips": "VIP 用户功能，请联系商务开通",
     "yes": "是",
     "{deleteItem} cannot be restored after deletion. Continue?": "{deleteItem}删除后无法恢复, 确认删除？"
   },
@@ -1944,8 +1942,7 @@
   },
   "layout": {
     "Choose your organization space": "选择您的组织空间",
-    "Global optimization": "全局优化",
-    "Help enterprises to create an agile R & D organization": "助力企业打造敏捷型研发组织",
+    "Optimize global performance": "优化全局性能",
     "Organizational space": "组织空间",
     "announcement": "公告",
     "approval": "审批管理",
@@ -1958,6 +1955,7 @@
     "page-not-found": "抱歉，当前页面不存在",
     "personal settings": "个人设置",
     "sorry, you do not have access to this page": "抱歉，您无权访问此页面",
+    "to assist you building agile R&D organizations": "助力企业打造敏捷型研发组织",
     "view doc": "查看文档"
   },
   "msp": {
@@ -2378,6 +2376,7 @@
     "operator guide": "Ctrl（Cmd）+ Enter 换行，Enter 查询",
     "overall QPS": "整体QPS",
     "overall latency": "整体延时",
+    "overview": "概览",
     "owned service": "所属服务",
     "page": "页面",
     "page download": "页面下载",
@@ -2497,6 +2496,7 @@
     "show": "显示",
     "show all connected services in the current environment, as well as the key request indicators of the service in the last hour": "展示当前环境下所有接入的服务，以及该服务最近一小时内的关键请求指标",
     "skip authentication": "跳过鉴权",
+    "slow call": "慢调用",
     "slow database tracking TOP10": "慢数据库追踪TOP10",
     "slow loading tracking": "慢加载追踪",
     "slow transaction tracking": "慢事务追踪",

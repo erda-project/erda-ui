@@ -17,7 +17,7 @@ import moment from 'moment';
 import { RenderForm, ListSelect, MarkdownEditor, ErdaIcon } from 'common';
 import i18n from 'i18n';
 import { PAGINATION } from 'app/constants';
-import { goTo } from 'common/utils';
+import { goTo, insertWhen } from 'common/utils';
 import { getUploadProps } from 'common/utils/upload-props';
 import releaseStore from 'project/stores/release';
 import routeInfoStore from 'core/stores/route';
@@ -290,15 +290,17 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
             },
           ],
         },
-    {
-      label: i18n.t('content'),
-      name: 'changelog',
-      type: 'custom',
-      getComp: () => <EditMd />,
-      readOnlyRender: (value: string) => {
-        return <MarkdownReadOnlyRender value={value} />;
+    ...insertWhen(type === 'app', [
+      {
+        label: i18n.t('content'),
+        name: 'changelog',
+        type: 'custom',
+        getComp: () => <EditMd />,
+        readOnlyRender: (value: string) => {
+          return <MarkdownReadOnlyRender value={value} />;
+        },
       },
-    },
+    ]),
   ];
 
   const submit = () => {
@@ -338,10 +340,12 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   };
 
   return (
-    <div className="release-form">
-      <Spin spinning={loading}>
-        <RenderForm ref={formRef} layout="vertical" list={list} readOnly={readyOnly} />
-      </Spin>
+    <div className="release-form h-full flex flex-col">
+      <div className="flex-1">
+        <Spin spinning={loading}>
+          <RenderForm ref={formRef} layout="vertical" list={list} readOnly={readyOnly} />
+        </Spin>
+      </div>
 
       {!readyOnly ? (
         <div className="mb-2">
@@ -372,10 +376,13 @@ const progressStatusMap = {
 const CustomUpload = ({ form, onChange }: { form: { form: FormInstance }; onChange: (value?: string) => void }) => {
   const [fileList, setFileList] = React.useState<UploadFile[]>([]);
 
+  const fileType = 'application/zip';
+
   const props: UploadProps = {
     fileList,
+    accept: '.zip',
     beforeUpload: (file) => {
-      if (file.type !== 'application/x-tar') {
+      if (file.type !== fileType) {
         onChange('type-error');
         return false;
       }
@@ -383,7 +390,7 @@ const CustomUpload = ({ form, onChange }: { form: { form: FormInstance }; onChan
       return true;
     },
     onChange: async ({ file }) => {
-      if (file.type !== 'application/x-tar') {
+      if (file.type !== fileType) {
         setFileList([{ ...file, status: 'error', percent: 100, name: file.name }]);
       } else {
         setFileList([file]);
