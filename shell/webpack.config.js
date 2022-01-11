@@ -20,7 +20,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const { getScssTheme, getLessTheme } = require('./config/theme');
 const css = require('./app/views/css.js');
 const pkg = require('./package.json');
 const { ModuleFederationPlugin } = require('webpack').container;
@@ -36,7 +35,7 @@ const mainVersion = packageJson.version.slice(0, -2);
 
 const resolve = (pathname) => path.resolve(__dirname, pathname);
 
-module.exports = () => {
+module.exports = async () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
   const isProd = nodeEnv === 'production';
   const cpuNum = os.cpus().length;
@@ -121,7 +120,6 @@ module.exports = () => {
               options: {
                 sourceMap: false,
                 webpackImporter: false,
-                additionalData: getScssTheme(),
               },
             },
             {
@@ -147,7 +145,7 @@ module.exports = () => {
               options: {
                 sourceMap: true,
                 lessOptions: {
-                  modifyVars: getLessTheme(),
+                  modifyVars: await import('./app/theme-color.mjs').then((m) => m.getLessTheme()),
                   javascriptEnabled: true,
                 },
               },
@@ -162,9 +160,7 @@ module.exports = () => {
             {
               loader: 'postcss-loader',
               options: {
-                postcssOptions: {
-                  plugins: [require.resolve('tailwindcss'), require.resolve('autoprefixer')],
-                },
+                postcssOptions: await import('./postcss.config.mjs').then((m) => m.default),
               },
             },
           ],

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-module.exports = {
+const colors = {
   primary: '#6a549e',
   'primary-800': 'rgba(106, 84, 158, 0.8)',
   normal: '#302647cc', // color-dark-8: rgba(48, 38, 71, .8)
@@ -143,3 +143,26 @@ module.exports = {
   'yellow-green-mid': '#ECE97D',
   'yellow-green-light': '#FAF9DC',
 };
+
+const themeColor = colors.primary;
+
+export const getLessTheme = () => {
+  return {
+    '@primary-color': themeColor,
+    '@success-color': '#27c99a',
+    '@error-color': '#d84b65',
+    '@warning-color': '#f4b518',
+    '@link-color': themeColor,
+    '@progress-remaining-color': '#E1E7FF',
+    '@font-size-base': '14px',
+    '@height-base': '32px',
+    '@height-lg': '36px',
+    '@height-sm': '28px',
+    '@border-radius-base': '2px;',
+    '@font-family':
+      '"Roboto-Regular", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif',
+  };
+};
+
+
+export default colors;
