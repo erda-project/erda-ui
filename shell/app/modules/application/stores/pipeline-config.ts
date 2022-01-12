@@ -17,6 +17,7 @@ import {
   addConfigs,
   removeConfigs,
   getConfigNameSpaces,
+  updateConfigs,
   importConfigs,
   exportConfigs,
 } from '../services/pipeline-config';
@@ -102,7 +103,7 @@ const pipelineConfig = createFlatStore({
       const { query, configs, batch } = payload;
       const curAppId = payload.query.appID || appID;
       await call(
-        addConfigs, // 溪杨说创建和更新暂时使用同一个接口
+        updateConfigs,
         { configs, batch, query: { ...query, appID: curAppId }, apiPrefix },
         { successMsg: i18n.t('dop:modified successfully') },
       );

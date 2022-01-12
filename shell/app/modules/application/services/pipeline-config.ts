@@ -37,11 +37,11 @@ export const addConfigs = ({ query, configs, apiPrefix, batch }: PIPELINE_CONFIG
     .then((response: any) => response.body);
 };
 
-export const updateConfigs = ({ query, configs, apiPrefix }: PIPELINE_CONFIG.AddConfigsBody) => {
+export const updateConfigs = ({ query, configs, apiPrefix, batch }: PIPELINE_CONFIG.AddConfigsBody) => {
   return agent
     .put(`/api/${apiPrefix || 'cicds'}/configs`)
     .query(query)
-    .send({ configs })
+    .send({ configs, batch })
     .then((response: any) => response.body);
 };
 
