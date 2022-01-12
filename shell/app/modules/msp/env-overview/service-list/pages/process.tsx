@@ -23,6 +23,7 @@ import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import NoServicesHolder from 'msp/env-overview/service-list/pages/no-services-holder';
 import { getInstanceIds, getServiceLanguage } from 'msp/services/topology-service-analyze';
 import RadioTabs from 'common/components/radio-tabs';
+import EmptyHolder from 'common/components/empty-holder';
 import DiceConfigPage from 'config-page';
 import './index.scss';
 
@@ -103,7 +104,7 @@ const ServiceListProcess = () => {
         key: 'instanceId',
         options: instances.data.map((t) => ({
           value: t.instanceId,
-          label: t.ip || t.instanceId,
+          label: t.hostIp || t.instanceId,
           icon: '',
         })),
         customProps: {
@@ -113,7 +114,7 @@ const ServiceListProcess = () => {
     ];
     update({
       instanceId: defaultInstance.instanceId,
-      hostIP: defaultInstance.ip,
+      hostIP: defaultInstance.hostIp,
     });
     return [filter, { instanceId: defaultInstance.instanceId }];
   }, [instances?.data, instanceId]);
@@ -143,7 +144,7 @@ const ServiceListProcess = () => {
       const instance = instances?.data.find((t) => t.instanceId === data.instanceId);
       update({
         instanceId: data.instanceId,
-        hostIP: instance?.ip,
+        hostIP: instance?.hostIp,
       });
     },
     [instances?.data],
@@ -210,7 +211,9 @@ const ServiceListProcess = () => {
             },
           }}
         />
-      ) : null}
+      ) : (
+        <EmptyHolder relative />
+      )}
     </Spin>
   );
 };

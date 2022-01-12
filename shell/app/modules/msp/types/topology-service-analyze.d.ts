@@ -44,6 +44,7 @@ declare namespace TOPOLOGY_SERVICE_ANALYZE {
     instanceId: string;
     status: boolean;
     ip: string;
+    hostIp: string;
   }
 
   interface ServiceData {
