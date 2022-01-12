@@ -57,6 +57,14 @@
   }
 
   &.small {
+    padding: 4px 8px;
+    .option-label {
+      font-weight: unset;
+      color: $color-white-8;
+      &:hover {
+        color: $white;
+      }
+    }
     .option-img {
       width: 16px;
       height: 16px;

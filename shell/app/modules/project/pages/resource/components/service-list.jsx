@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Tooltip } from 'antd';
-import Table from 'common/components/table';
 import { Copy, Icon as CustomIcon } from 'common';
+import ErdaTable from 'common/components/table';
 import { isEmpty } from 'lodash';
 import { getBrowserInfo } from 'common/utils';
 import { getFormatter } from 'charts/utils/formatter';
@@ -142,7 +142,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
   }
   return (
     <div className="monitor-service-table has-into-link">
-      <Table
+      <ErdaTable
         rowKey={(record, i) => `${i}${record.id}`}
         pagination={{ pageSize: 100 }}
         loading={isFetching}

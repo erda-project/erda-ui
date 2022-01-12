@@ -17,13 +17,15 @@ declare namespace CP_BASE_LIST {
     operations?: Obj<CP_COMMON.Operation>;
     props?: IProps;
     data: IData;
-    filter?: React.ElementType;
+    filter?: React.ReactElement;
   }
 
   interface IProps {
     isLoadMore?: boolean;
     defaultBgImg?: string;
     defaultLogo?: string;
+    hideHead?: boolean;
+    className?: string;
   }
 
   interface IData {

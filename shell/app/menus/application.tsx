@@ -103,6 +103,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     text: i18n.t('artifact management'),
     subtitle: i18n.t('Artifact'),
   };
+
   const setting = {
     show: perm.setting.read.pass,
     key: 'setting',

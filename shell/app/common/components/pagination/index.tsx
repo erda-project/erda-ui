@@ -31,6 +31,7 @@ export interface IPaginationProps {
   total: number;
   current: number;
   pageSize?: number;
+  theme?: 'light' | 'dark';
   onChange: (page: number, pageSize: number) => void;
   hidePageSizeChange?: boolean;
 }
@@ -41,7 +42,14 @@ interface IPaginationJumpProps {
 }
 
 const Pagination = (pagination: IPaginationProps) => {
-  const { total = 0, current = 1, pageSize = PAGINATION.pageSize, onChange, hidePageSizeChange = false } = pagination;
+  const {
+    total = 0,
+    current = 1,
+    pageSize = PAGINATION.pageSize,
+    onChange,
+    hidePageSizeChange = false,
+    theme = 'light',
+  } = pagination;
 
   const [goToVisible, setGoToVisible] = React.useState(false);
 
@@ -74,7 +82,7 @@ const Pagination = (pagination: IPaginationProps) => {
   );
 
   return (
-    <div className="erda-pagination flex justify-end items-center relative">
+    <div className={`erda-pagination flex justify-end items-center relative theme-${theme}`}>
       <div className="erda-pagination-total mr-2">{i18n.t('total {total} items', { total })}</div>
       <div className="erda-pagination-content inline-flex">
         <div

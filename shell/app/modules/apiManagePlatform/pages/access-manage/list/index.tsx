@@ -13,13 +13,13 @@
 
 import React from 'react';
 import { Popconfirm, Spin, Button, Input, Modal } from 'antd';
-import Table from 'common/components/table';
-import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import moment from 'moment';
 import { CustomFilter, TableActions } from 'common';
 import { goTo } from 'common/utils';
+import ErdaTable from 'common/components/table';
+import { ColumnProps } from 'common/components/table/interface';
 import { useLoading } from 'core/stores/loading';
 import { PAGINATION } from 'app/constants';
 
@@ -127,7 +127,7 @@ const AccessList = () => {
 
   const expandedRowRender = (record: API_ACCESS.ITableData) => {
     return (
-      <Table
+      <ErdaTable
         rowKey="swaggerVersion"
         hideHeader
         columns={subColumns}
@@ -160,7 +160,7 @@ const AccessList = () => {
           {i18n.t('establish')}
         </Button>
       </div>
-      <Table
+      <ErdaTable
         rowKey="assetID"
         columns={columns}
         dataSource={dataSource}

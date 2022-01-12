@@ -1,0 +1,42 @@
+.project-app-list {
+  .app-item {
+    font-size: 14px;
+    line-height: 24px;
+  }
+  &.theme-light {
+    background-color: $color-default-06;
+    .project-app-search {
+      background-color: $color-dark-06;
+      .ant-input {
+        color: $color-default-8;
+      }
+    }
+    .app-item {
+      &.selected,
+      &:hover {
+        color: $color-purple-highlight;
+        background-color: rgba($color-purple-highlight, 0.1);
+      }
+    }
+  }
+
+  &.theme-dark {
+    background-color: $color-white-04;
+
+    .app-item {
+      color: $color-white-8;
+      &.selected,
+      &:hover {
+        color: $white;
+        background-color: $color-purple-highlight;
+      }
+    }
+  }
+}
+
+.app-selector-dropdown-menu {
+  .app-selector-dropdown-content {
+    max-height: 70vh;
+    overflow: auto;
+  }
+}

@@ -1,0 +1,29 @@
+.project-deploy-config {
+  .project-app-selector {
+    &.load-more-selector {
+      .results {
+        padding: 0;
+        border: 1px solid transparent;
+
+        &:hover {
+          box-shadow: unset;
+        }
+
+        .values,
+        .value-item {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .type-select {
+    border-bottom: 3px solid transparent;
+    padding-bottom: 4px;
+    margin-top: 4px;
+    &:hover,
+    &.selected {
+      border-bottom-color: $color-purple-highlight;
+    }
+  }
+}

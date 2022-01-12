@@ -41,25 +41,8 @@ declare namespace CP_TABLE2 {
   interface TableOperation {
     changePage?: Merge<CP_COMMON.Operation, { clientData: { pageNo: number; pageSize: number } }>;
     changeSort?: Merge<CP_COMMON.Operation, { clientData: { columnKey: string; order: string } }>;
-    batchRowsHandle?: IBatchOperation;
+    batchRowsHandle?: CP_COMMON.IBatchOperation;
   }
-
-  type IBatchOperation = Merge<
-    CP_COMMON.Operation,
-    {
-      clientData: { dataRef: Obj; selectedOptionsID: string; selectedRowIDs: string[] };
-      serverData: {
-        options: Array<{
-          id: string;
-          text: string;
-          icon?: string;
-          disabled?: boolean;
-          allowedRowIDs: string[];
-          forbiddenRowIDs: string[];
-        }>;
-      };
-    }
-  >;
 
   interface Columns {
     columnsMap: Obj<ColumnItem>;

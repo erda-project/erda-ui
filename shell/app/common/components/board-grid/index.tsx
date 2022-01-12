@@ -20,12 +20,12 @@ import {
   setLocale,
   setTheme,
 } from '@erda-ui/dashboard-configurator';
-import Table from 'common/components/table';
+import ErdaTable from 'common/components/table';
 import { theme } from 'app/charts/theme';
 
 registTheme('erda', theme);
-dcRegisterComp.use('table', (props: Parameters<typeof Table>['0']) => {
-  return <Table hideHeader {...props} />;
+dcRegisterComp.use('table', (props: Parameters<typeof ErdaTable>['0']) => {
+  return <ErdaTable hideHeader {...props} />;
 });
 
 export const BoardGrid = ({ ...restProps }: DC.BoardGridProps) => {

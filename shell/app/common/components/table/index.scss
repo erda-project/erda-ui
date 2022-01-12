@@ -103,7 +103,7 @@
   }
 
   .ant-table-tbody > tr.ant-table-row:hover > td {
-    background-color: $color-table-bg-hover !important;
+    background: $color-table-bg-hover;
 
     .erda-table-td-title {
       color: $color-table-text-highlight;
@@ -116,7 +116,7 @@
   }
 
   .ant-table-tbody > tr.ant-table-row-selected > td {
-    background-color: $color-table-bg-hover !important;
+    background: $color-table-bg-hover;
   }
 
   .erda-table-filter {
@@ -168,6 +168,41 @@
 
   .ant-progress-circle-path {
     transition: all 0.8s !important;
+  }
+
+  &.theme-dark {
+    .ant-table-tbody > tr > td {
+      color: $white;
+    }
+    .erda-table-footer {
+      background-color: transparent;
+    }
+    .ant-table {
+      color: $white;
+      background-color: transparent;
+      .ant-table-row {
+        border-bottom-color: $color-white-1;
+      }
+    }
+    .ant-table-cell-fix-left,
+    .ant-table-cell-fix-right {
+      background-color: transparent;
+    }
+    thead.ant-table-thead tr > th {
+      background-color: transparent;
+      color: $color-white-6;
+    }
+
+    .ant-table-tbody > tr.ant-table-row:hover > td,
+    .ant-table-tbody > tr.ant-table-row-selected > td {
+      background: $color-white-06;
+    }
+    .ant-table-thead > tr > th {
+      border-bottom-color: transparent;
+    }
+    .ant-table-tbody > tr > td {
+      border-bottom-color: $color-white-1;
+    }
   }
 }
 

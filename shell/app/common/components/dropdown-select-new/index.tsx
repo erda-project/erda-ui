@@ -35,6 +35,8 @@ export interface DropdownSelectNewProps {
   value?: string;
   disabled?: boolean;
   onChange?: (val: string, option: Option) => void;
+  onClickItem?: (val: string, option: Option) => void;
+  children?: React.ReactElement;
 }
 
 interface Option {
@@ -62,7 +64,9 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
     value: pValue,
     width,
     disabled,
+    children,
     onChange,
+    onClickItem: pClickItem,
     ...restProps
   } = props;
   const [filterValue, setFilterValue] = React.useState('');
@@ -90,10 +94,13 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
   }, []);
 
   const onClickItem = (option: Option) => {
+    pClickItem?.(option.key, option);
     if (option.key === value && required) return;
     const curValue = option.key === value ? '' : option.key;
-    setValue(curValue);
-    onChange?.(curValue, option);
+    if (onChange) {
+      setValue(curValue);
+      onChange(curValue, option);
+    }
   };
 
   const overlay = (
@@ -123,7 +130,14 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
             return <GroupOpt onClickItem={onClickItem} key={item.key} value={value} option={item} size={optionSize} />;
           } else {
             return (
-              <Item key={item.key} onClickItem={onClickItem} option={item} size={optionSize} className={className} />
+              <Item
+                value={value}
+                key={item.key}
+                onClickItem={onClickItem}
+                option={item}
+                size={optionSize}
+                className={className}
+              />
             );
           }
         })}
@@ -148,35 +162,41 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
     >
       <div
         ref={contentRef}
-        className="inline-flex items-center cursor-pointer erda-dropdown-select-content"
+        className={`inline-flex items-center cursor-pointer erda-dropdown-select-content ${
+          disabled ? 'not-allowed' : ''
+        }`}
         style={{ maxWidth: width }}
-        onClick={() => mode === 'simple' && setActive(!active)}
+        onClick={() => !disabled && (mode === 'simple' || children) && setActive(!active)}
       >
-        {chosenItem ? (
-          <Item
-            option={{ ...chosenItem }}
-            size={size}
-            onlyIcon={mode === 'simple'}
-            className={`p-0 seleted-item ${className}`}
-            switcher={
-              <span
-                className="rounded-sm bg-default-06 text-default-8 px-2 py-0.5 ml-1 hover:bg-purple-deep hover:text-white"
-                onClick={() => setActive(!active)}
-              >
-                {i18n.t('common:switch')}
-              </span>
-            }
-          />
-        ) : (
-          <div>{i18n.t('please select')}</div>
+        {children || (
+          <>
+            {chosenItem ? (
+              <Item
+                option={{ ...chosenItem }}
+                size={size}
+                onlyIcon={mode === 'simple'}
+                className={`p-0 seleted-item ${className}`}
+                switcher={
+                  <span
+                    className="rounded-sm bg-default-06 text-default-8 px-2 py-0.5 ml-1 hover:bg-purple-deep hover:text-white"
+                    onClick={() => !disabled && setActive(!active)}
+                  >
+                    {i18n.t('common:switch')}
+                  </span>
+                }
+              />
+            ) : (
+              <div>{i18n.t('please select')}</div>
+            )}
+            {mode === 'simple' ? <ErdaIcon type="caret-down" className="icon" size="14" /> : null}
+          </>
         )}
-        {mode === 'simple' ? <ErdaIcon type="caret-down" className="icon" size="14" /> : null}
       </div>
     </Dropdown>
   );
 };
 
-interface ItemProps extends Omit<DropdownSelectNewProps, 'options'> {
+interface ItemProps extends Omit<DropdownSelectNewProps, 'options' | 'onClickItem'> {
   className?: string;
   onlyIcon?: boolean;
   option: Option;

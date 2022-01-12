@@ -12,10 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { map, isBoolean } from 'lodash';
+import { map, isBoolean, difference, intersection, has, compact } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
+import { HeadOperationBar, ErdaIcon } from 'common';
+import { Checkbox, Menu, Dropdown, Button } from 'antd';
 import { OperationAction, execMultipleOperation } from 'config-page/utils';
 import { PAGINATION } from 'app/constants';
+import i18n from 'i18n';
 import ErdaList from 'app/common/components/base-list';
 
 const emptyArr = [] as CP_BASE_LIST.ListItem[];
@@ -26,10 +29,11 @@ const List = (props: CP_BASE_LIST.Props) => {
     total: total || 0,
     pageNo: pageNo || 1,
     pageSize: pageSize || PAGINATION.pageSize,
+    selectedRowKeys: [],
     combineList: list,
   });
 
-  const { isLoadMore = false, ...restProps } = configProps || {};
+  const { isLoadMore = false, hideHead, className = '', ...restProps } = configProps || {};
 
   const currentList = React.useMemo(
     () =>
@@ -46,13 +50,29 @@ const List = (props: CP_BASE_LIST.Props) => {
                 onClick={(e) => {
                   e.stopPropagation();
                   execMultipleOperation(infoItem.operations, (op) =>
-                    execOperation({ ...op, clientData: { dataRef: item } }),
+                    execOperation({ ...op, clientData: { dataRef: item, operationRef: infoItem } }),
                   );
                 }}
               >
                 {children}
               </OperationAction>
             ),
+          };
+        });
+
+        const titleState = item.titleState?.map((stateItem, idx) => {
+          return {
+            ...stateItem,
+            onClick: (e) => {
+              if (stateItem.operations) {
+                stateItem.operations?.click &&
+                  customOp?.clickItem?.(stateItem.operations?.click, { record: item, action: 'clickTitleState' });
+                e.stopPropagation();
+                execMultipleOperation(stateItem.operations, (op) =>
+                  execOperation({ ...op, clientData: { dataRef: item, operationRef: stateItem } }),
+                );
+              }
+            },
           };
         });
 
@@ -67,7 +87,7 @@ const List = (props: CP_BASE_LIST.Props) => {
                 onClick={(e) => {
                   e.stopPropagation();
                   execMultipleOperation(iconItem.operations, (op) =>
-                    execOperation({ ...op, clientData: { dataRef: item } }),
+                    execOperation({ ...op, clientData: { dataRef: item, operationRef: iconItem } }),
                   );
                 }}
               >
@@ -82,7 +102,7 @@ const List = (props: CP_BASE_LIST.Props) => {
         const moreOperations = map(item.moreOperations, (opItem, idx) => {
           const clickFn = () => {
             execMultipleOperation(opItem.operations, (op) =>
-              execOperation({ ...op, clientData: { dataRef: { ...opItem } } }),
+              execOperation({ ...op, clientData: { dataRef: item, operationRef: opItem } }),
             );
           };
           return {
@@ -96,7 +116,10 @@ const List = (props: CP_BASE_LIST.Props) => {
                 operations={opItem.operations}
                 onClick={clickFn}
               >
-                <div>{opItem.text}</div>
+                <div className="flex-h-center">
+                  {opItem.icon ? <ErdaIcon type={opItem.icon} className="mr-1" /> : null}
+                  <span>{opItem.text}</span>
+                </div>
               </OperationAction>
             ),
           };
@@ -104,7 +127,9 @@ const List = (props: CP_BASE_LIST.Props) => {
 
         return {
           ...item,
+          selected: state.selectedRowKeys.includes(item.id),
           kvInfos,
+          titleState,
           extra,
           ...(hoverIcons ? { columnsInfo: { ...item.columnsInfo, hoverIcons } } : {}),
           operations:
@@ -138,12 +163,12 @@ const List = (props: CP_BASE_LIST.Props) => {
                   execOperation({ key: opKey, ...restOp[opKey], clientData: { dataRef: { ...item } } }, item);
                 });
               }
-              customOp?.clickItem?.(restOp, item);
+              customOp?.clickItem?.(restOp, { record: item, action: 'clickLine' });
             },
           },
         };
       }),
-    [customOp, execOperation, isLoadMore, list, state.combineList],
+    [customOp, execOperation, isLoadMore, list, state.combineList, state.selectedRowKeys],
   );
 
   // 将接口返回的list和之前的list进行拼接
@@ -196,24 +221,61 @@ const List = (props: CP_BASE_LIST.Props) => {
       );
   };
 
-  return (
-    <div>
-      {data.title || filter ? (
-        <div className="flex justify-between items-center mb-2">
-          <span className="font-medium text-default-8">
-            {data.title}
-            {data.titleSummary !== undefined ? (
-              <span className="inline-block ml-1 bg-default-1 px-1.5 rounded-lg text-default-8 text-xs leading-5">
-                {data.titleSummary}
-              </span>
-            ) : null}
-          </span>
-          <div>{filter}</div>
-        </div>
+  const onSelectChange = (_selectedRowKeys: Array<string | number>) => {
+    updater.selectedRowKeys(_selectedRowKeys);
+  };
+
+  const [batchOperation, onSelectItemChange] = operations?.batchRowsHandle
+    ? [
+        <BatchOperation
+          rowKey={'id'}
+          dataSource={currentList}
+          batchRowsHandle={operations.batchRowsHandle}
+          selectedRowKeys={state.selectedRowKeys}
+          execOperation={execOperation}
+          onSelectChange={onSelectChange}
+        />,
+        (rowId: string) => {
+          onSelectChange(
+            state.selectedRowKeys.includes(rowId)
+              ? state.selectedRowKeys.filter((item) => item !== rowId)
+              : [...state.selectedRowKeys, rowId],
+          );
+        },
+      ]
+    : [];
+
+  const HeadTitle = data.title ? (
+    <span className="font-medium text-default-8 h-[48px]">
+      {data.title}
+      {data.titleSummary !== undefined ? (
+        <span className="inline-block ml-1 bg-default-1 px-1.5 rounded-lg text-default-8 text-xs leading-5">
+          {data.titleSummary}
+        </span>
       ) : null}
+    </span>
+  ) : null;
+  const onReload = () => {};
+  const Head = !hideHead ? (
+    <div>
+      <div className="px-4">{HeadTitle}</div>
+      <HeadOperationBar leftSolt={filter} onReload={onReload} />
+    </div>
+  ) : HeadTitle || filter ? (
+    <div className="flex justify-between items-center mb-2 min-h-[48px] px-4">
+      {HeadTitle}
+      <div>{filter}</div>
+    </div>
+  ) : null;
+  return (
+    <div className="rounded-sm flex h-full flex-col">
+      {Head}
       <ErdaList
         {...restProps}
+        className={`${className} flex-1 h-0`}
         dataSource={currentList}
+        onSelectChange={onSelectItemChange}
+        batchOperation={batchOperation}
         pagination={{
           pageNo: state.pageNo || 1,
           pageSize: state.pageSize,
@@ -224,6 +286,107 @@ const List = (props: CP_BASE_LIST.Props) => {
         onLoadMore={loadMore}
         getKey={(item) => item.id}
       />
+    </div>
+  );
+};
+
+interface IBatchProps<T> {
+  rowKey: string;
+  dataSource: T[];
+  onSelectChange: (keys: string[]) => void;
+  batchRowsHandle: CP_COMMON.IBatchOperation;
+  execOperation: Function;
+  selectedRowKeys?: string[];
+}
+
+const emptyKeys: string[] = [];
+const BatchOperation = <T extends unknown>(props: IBatchProps<T>) => {
+  const { rowKey, dataSource, onSelectChange, execOperation, selectedRowKeys = emptyKeys, batchRowsHandle } = props;
+
+  const [{ checkAll, indeterminate }, updater, update] = useUpdate({
+    checkAll: false,
+    indeterminate: false,
+  });
+
+  React.useEffect(() => {
+    const allKeys = map(dataSource, rowKey);
+    const curChosenKeys = intersection(allKeys, selectedRowKeys);
+    update({
+      checkAll: !!(curChosenKeys.length && curChosenKeys.length === allKeys.length),
+      indeterminate: !!(curChosenKeys.length && curChosenKeys.length < allKeys.length),
+    });
+  }, [update, dataSource, rowKey, selectedRowKeys]);
+
+  const optMenus = React.useMemo(() => {
+    const { options } = batchRowsHandle?.serverData;
+    return options.map((mItem) => {
+      const { allowedRowIDs, forbiddenRowIDs } = mItem;
+      const validChosenOpt =
+        intersection(selectedRowKeys, allowedRowIDs || selectedRowKeys).length === selectedRowKeys.length &&
+        intersection(selectedRowKeys, forbiddenRowIDs).length === 0;
+
+      const disabledProps = selectedRowKeys?.length
+        ? {
+            disabled: has(mItem, 'disabled') ? mItem.disabled : !validChosenOpt,
+            disabledTip: i18n.t('exist item which not match operation'),
+          }
+        : { disabled: true, disabledTip: i18n.t('no items selected') };
+      const reMenu = {
+        ...mItem,
+        ...disabledProps,
+      };
+      return reMenu;
+    });
+  }, [batchRowsHandle, selectedRowKeys]);
+
+  const dropdownMenu = (
+    <Menu theme="dark">
+      {map(optMenus, (mItem) => {
+        return (
+          <Menu.Item key={mItem.id} disabled={!!mItem.disabled}>
+            <OperationAction
+              operation={{ ...mItem, ...batchRowsHandle }}
+              onClick={() =>
+                execOperation({
+                  key: 'batchRowsHandle',
+                  ...batchRowsHandle,
+                  clientData: { dataRef: mItem, selectedOptionsID: mItem.id, selectedRowIDs: selectedRowKeys },
+                })
+              }
+              tipProps={{ placement: 'right' }}
+            >
+              <div className="flex-h-center">
+                {mItem.icon ? <ErdaIcon type={mItem.icon} className="mr-1" /> : null}
+                <span>{mItem.text}</span>
+              </div>
+            </OperationAction>
+          </Menu.Item>
+        );
+      })}
+    </Menu>
+  );
+
+  const onCheckAllChange = () => {
+    const allKeys = map(dataSource, rowKey);
+    if (checkAll) {
+      onSelectChange(difference(selectedRowKeys, allKeys));
+    } else {
+      onSelectChange(compact(selectedRowKeys.concat(allKeys)));
+    }
+  };
+
+  return (
+    <div className="flex items-center">
+      <Checkbox className="mr-2" indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll} />
+      <span className="mr-2">{`${i18n.t('selected {name}', {
+        name: `${selectedRowKeys?.length || 0} ${i18n.t('common:items')}`,
+      })}`}</span>
+      <Dropdown overlay={dropdownMenu} zIndex={1000}>
+        <Button className="flex items-center">
+          {i18n.t('batch operate')}
+          <ErdaIcon size="18" type="caret-down" className="ml-1 text-black-200" />
+        </Button>
+      </Dropdown>
     </div>
   );
 };

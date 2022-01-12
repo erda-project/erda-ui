@@ -16,7 +16,7 @@ import React from 'react';
 import i18n from 'i18n';
 import { Button, Alert, Spin, Modal } from 'antd';
 import { ErdaAlert } from 'common';
-import Table from 'common/components/table';
+import ErdaTable from 'common/components/table';
 import { useLoading } from 'core/stores/loading';
 import testEnvStore from 'project/stores/test-env';
 import { TestEnvDetail } from './test-env-detail';
@@ -168,7 +168,7 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
         type="info"
         showIcon
       />
-      <Table
+      <ErdaTable
         rowKey={testType === 'manual' ? 'id' : 'ns'}
         columns={columns}
         dataSource={testType === 'manual' ? envList : autoEnvList}

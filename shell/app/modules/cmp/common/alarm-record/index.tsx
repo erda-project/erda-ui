@@ -14,9 +14,10 @@
 import React from 'react';
 import { Select } from 'antd';
 import { goTo } from 'common/utils';
-import Table from 'common/components/table';
 import { map } from 'lodash';
 import { CustomFilter } from 'common';
+
+import ErdaTable from 'common/components/table';
 import { useFilter } from 'common/use-hooks';
 import { useMount } from 'react-use';
 import moment from 'moment';
@@ -125,7 +126,7 @@ const AlarmRecord = ({ scope }: { scope: string }) => {
 
   return (
     <>
-      <Table
+      <ErdaTable
         rowKey={(r) => r.groupId}
         dataSource={recordList}
         loading={loading}

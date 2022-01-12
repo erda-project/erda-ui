@@ -29,9 +29,9 @@ import {
 import { useMount, useUnmount } from 'react-use';
 import { FormInstance } from 'core/common/interface';
 import { Modal, Button, Switch, Select, Input, InputNumber, Popover, Tooltip, Form } from 'antd';
-import Table from 'common/components/table';
-import { IActions } from 'common/components/table/interface';
+import { IActions } from 'app/common/components/table/interface';
 import { RenderForm, ErdaIcon } from 'common';
+import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
 import { ColumnProps } from 'app/interface/common';
@@ -618,7 +618,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
               <span>{i18n.t('cmp:add rule')}</span>
             </Button>
           </div>
-          <Table
+          <ErdaTable
             hideHeader
             rowKey="key"
             actions={actions}

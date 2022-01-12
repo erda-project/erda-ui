@@ -213,6 +213,10 @@
   }
 }
 
+.jump-out-link {
+  cursor: alias;
+}
+
 .text-link {
   color: transparentize($color-primary, 0.2);
   cursor: pointer;

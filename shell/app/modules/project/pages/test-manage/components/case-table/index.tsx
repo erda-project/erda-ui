@@ -14,9 +14,9 @@
 import React, { useMemo, useEffect, useRef, useCallback } from 'react';
 import { cloneDeep, find, get, isEmpty, map, forEach, reduce, isNaN, filter } from 'lodash';
 import i18n from 'i18n';
-import Table from 'common/components/table';
 
 import { Icon as CustomIcon, Ellipsis } from 'common';
+import ErdaTable from 'common/components/table';
 import { updateSearch } from 'common/utils';
 import layoutStore from 'layout/stores/layout';
 import routeInfoStore from 'core/stores/route';
@@ -288,7 +288,7 @@ const CaseTable = ({
   };
 
   return (
-    <Table
+    <ErdaTable
       ref={ref}
       loading={loading}
       className={className}

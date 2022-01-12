@@ -15,8 +15,9 @@ import React from 'react';
 import { map } from 'lodash';
 import moment from 'moment';
 import { useMount, useUnmount } from 'react-use';
-import { Button, Modal, Spin, Tooltip } from 'antd';
+import { Modal, Button, Spin, Tooltip } from 'antd';
 import { Badge, UserInfo } from 'common';
+import ErdaTable from 'common/components/table';
 import { goTo } from 'common/utils';
 import { ColumnProps } from 'app/interface/common';
 import i18n from 'i18n';
@@ -26,8 +27,7 @@ import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import cmpAlarmStrategyStore from 'app/modules/cmp/stores/alarm-strategy';
 import mspAlarmStrategyStore from 'app/modules/msp/alarm-manage/alarm-strategy/stores/alarm-strategy';
-import Table from 'common/components/table';
-import { IActions } from 'common/components/table/interface';
+import { IActions } from 'app/common/components/table/interface';
 import './index.scss';
 
 const { confirm } = Modal;
@@ -212,7 +212,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
         </Button>
       </div>
       <Spin spinning={getAlertsLoading || toggleAlertLoading}>
-        <Table
+        <ErdaTable
           rowKey="id"
           columns={alertListColumns}
           dataSource={alertList}

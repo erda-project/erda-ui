@@ -61,4 +61,21 @@ declare namespace CP_COMMON {
     removeWhen?: Array<Array<{ field: string; operator: string; value: any }>>;
     disableWhen?: Array<Array<{ [prop: string]: any }>>;
   }
+
+  type IBatchOperation = Merge<
+    Operation,
+    {
+      clientData?: { dataRef: Obj; selectedOptionsID: string; selectedRowIDs: string[] };
+      serverData: {
+        options: Array<{
+          id: string;
+          text: string;
+          icon?: string;
+          disabled?: boolean;
+          allowedRowIDs: string[];
+          forbiddenRowIDs: string[];
+        }>;
+      };
+    }
+  >;
 }

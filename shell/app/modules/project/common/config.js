@@ -13,6 +13,13 @@
 
 import i18n from 'i18n';
 
+export const ENV_MAP = {
+  DEV: i18n.t('dev environment'),
+  TEST: i18n.t('test environment'),
+  STAGING: i18n.t('staging environment'),
+  PROD: i18n.t('prod environment'),
+};
+
 export const logStatusMap = {
   INIT: 'default',
   PACKING: 'processing',

@@ -14,7 +14,7 @@
 import React from 'react';
 import { map, isInteger, get } from 'lodash';
 import { Button, Popconfirm, Input, Modal, message, Select, Tooltip } from 'antd';
-import Table from 'common/components/table';
+import ErdaTable from 'common/components/table';
 import i18n from 'i18n';
 import scanRuleStore from 'project/stores/scan-rule';
 import { useEffectOnce } from 'react-use';
@@ -394,7 +394,7 @@ export default function ScanRule(props: IProps) {
           </WithAuth>
         )}
       </div>
-      <Table
+      <ErdaTable
         loading={tableLoading}
         columns={appendedColumns}
         dataSource={appendedScanRules}
@@ -419,7 +419,7 @@ export default function ScanRule(props: IProps) {
         }}
         onOk={handleOk}
       >
-        <Table
+        <ErdaTable
           pagination={{
             pageSize: 10,
           }}

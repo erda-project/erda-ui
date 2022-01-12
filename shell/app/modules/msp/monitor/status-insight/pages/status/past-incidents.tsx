@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import Table from 'common/components/table';
+import ErdaTable from 'common/components/table';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { resolvePath } from 'common/utils';
@@ -59,7 +59,7 @@ const PastIncidents = ({ pastIncidents, fetchData }: { pastIncidents: any[]; fet
   ];
   return (
     <div className="past-incidents">
-      <Table rowKey="key" dataSource={dataSource} onChange={() => fetchData()} columns={pastIncidentsCols} />
+      <ErdaTable rowKey="key" dataSource={dataSource} onChange={() => fetchData()} columns={pastIncidentsCols} />
     </div>
   );
 };

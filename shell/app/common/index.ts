@@ -120,4 +120,6 @@ export type { UserProfileProps } from './components/user-profile';
 export { default as BaseList } from './components/base-list';
 export { default as Pagination } from './components/pagination';
 export { default as ListSelect } from './components/list-select';
+export { default as HeadOperationBar } from './components/head-operation-bar';
+export { default as SimpleTabs } from './components/simple-tabs';
 export { default as Duration } from './components/duration';

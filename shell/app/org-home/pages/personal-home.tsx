@@ -225,13 +225,14 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
     return {
       workList: {
         props: {
+          hideHead: true,
           EmptyHolder: EmptyMap[listType]?.list,
           defaultLogo: EmptyMap[listType]?.defaultListImg,
         },
       },
       workCards: {
         props: {
-          className: 'personal-workbench-cards',
+          className: 'personal-workbench-cards px-4',
           EmptyHolder: EmptyMap[listType]?.card,
           defaultImg: EmptyMap[listType]?.defaultCardImg,
         },
@@ -258,16 +259,17 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
       userProfile: UserProfileComp,
       workContainer: {
         props: {
-          className: 'bg-white pb-0 px-4 mb-4',
+          className: 'bg-white pb-0 px-0 mb-4',
         },
       },
       messageContainer: {
         props: {
-          className: 'bg-white pb-0 px-4',
+          className: 'bg-white pb-0 px-0',
         },
       },
       messageList: {
         props: {
+          hideHead: true,
           defaultLogo: <ErdaIcon type="tongzhi" disableCurrent size={28} />,
           EmptyHolder: EmptyMap.messageList.emptyHolder,
         },

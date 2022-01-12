@@ -17,7 +17,7 @@ import { useUpdate } from 'common/use-hooks';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';
 import { Button, Popconfirm, Modal } from 'antd';
-import Table from 'common/components/table';
+import ErdaTable from 'common/components/table';
 import { FormModal } from 'app/configForm/nusi-form/form-modal';
 import branchRuleStore from 'project/stores/branch-rule';
 import { WithAuth } from 'user/common';
@@ -322,7 +322,7 @@ const BranchRule = (props: IProps) => {
           </Button>
         </WithAuth>
       </div>
-      <Table
+      <ErdaTable
         loading={loading}
         rowKey="id"
         dataSource={branchRules}

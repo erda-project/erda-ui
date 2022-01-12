@@ -15,81 +15,81 @@
       }
     }
   }
+}
 
-  @keyframes border {
-    50% {
-      transform: scaleX(0) translateY(-1px);
-    }
-    100% {
-      transform: scaleX(1) translateY(-1px);
+@keyframes border {
+  50% {
+    transform: scaleX(0) translateY(-1px);
+  }
+  100% {
+    transform: scaleX(1) translateY(-1px);
+  }
+}
+
+.cp-card-item {
+  position: relative;
+  outline: 1px solid $color-border;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    border-radius: 0 0 3px 3px;
+    background-color: $color-cyan-600;
+  }
+  &:hover {
+    outline: none;
+    box-shadow: 0 2px 8px 0 rgba($color-default, 0.16);
+    &::after {
+      animation: border 0.3s ease-in-out forwards;
     }
   }
 
-  .cp-card-item {
-    position: relative;
-    outline: 1px solid $color-border;
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      height: 3px;
-      width: 100%;
-      border-radius: 0 0 3px 3px;
-      background-color: $color-cyan-600;
-    }
-    &:hover {
-      outline: none;
-      box-shadow: 0 2px 8px 0 rgba($color-default, 0.16);
-      &::after {
-        animation: border 0.3s ease-in-out forwards;
-      }
-    }
+  .info-card-content {
+    width: 280px;
+  }
+  &.dragging {
+    background: repeating-linear-gradient(
+      45deg,
+      $color-dark-06,
+      $color-dark-06 2px,
+      $color-white-8 0,
+      $color-white-8 8px
+    );
+    cursor: move;
 
     .info-card-content {
-      width: 280px;
-    }
-    &.dragging {
-      background: repeating-linear-gradient(
-        45deg,
-        $color-dark-06,
-        $color-dark-06 2px,
-        $color-white-8 0,
-        $color-white-8 8px
-      );
-      cursor: move;
-
-      .info-card-content {
-        background: transparent;
-        opacity: 0;
-      }
-    }
-
-    .info-card-head {
-      align-items: flex-start;
-    }
-
-    .head-icon {
-      width: 28px;
-      height: 28px;
-    }
-
-    .op-icon {
-      margin-right: 0;
-      margin-left: 4px;
-      padding: 1px 2px;
-      background-color: $color-light-bg;
-      border-radius: $radius;
+      background: transparent;
       opacity: 0;
     }
+  }
 
-    &:hover {
-      .op-icon {
-        opacity: 1;
+  .info-card-head {
+    align-items: flex-start;
+  }
 
-        &.hide-icon {
-          opacity: 0;
-        }
+  .head-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .op-icon {
+    margin-right: 0;
+    margin-left: 4px;
+    padding: 1px 2px;
+    background-color: $color-light-bg;
+    border-radius: $radius;
+    opacity: 0;
+  }
+
+  &:hover {
+    .op-icon {
+      opacity: 1;
+
+      &.hide-icon {
+        opacity: 0;
       }
     }
   }

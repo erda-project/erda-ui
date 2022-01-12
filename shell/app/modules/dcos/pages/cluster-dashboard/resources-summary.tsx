@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Echarts } from 'charts';
-import Table from 'common/components/table';
-import { ColumnProps } from 'common/components/table/interface';
+import { ColumnProps } from 'app/common/components/table/interface';
 import { colorMap } from 'charts/theme';
 import { ContractiveFilter, CardContainer, ErdaIcon, Title } from 'common';
+import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { Button, Col, InputNumber, Progress, Radio, Row, Select, Spin, Tooltip, Modal } from 'antd';
 import { getResourceGauge, getResourceTable } from 'dcos/services/dashboard';
@@ -443,7 +443,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
           </span>
         }
       /> */}
-      <Table
+      <ErdaTable
         slot={
           <div className="flex justify-between align-center">
             <ContractiveFilter

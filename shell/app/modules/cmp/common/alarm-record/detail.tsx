@@ -14,11 +14,12 @@
 import React from 'react';
 import { useMount } from 'react-use';
 import { Radio } from 'antd';
-import Table from 'common/components/table';
 import { isEmpty, get, forEach, mapKeys } from 'lodash';
 import i18n from 'i18n';
 import moment from 'moment';
 import { CommonRangePicker, BoardGrid, IF, Icon as CustomIcon } from 'common';
+
+import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { getTimeSpan } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
@@ -194,7 +195,7 @@ const AlarmRecordDetail = ({ scope, tenantGroup }: { scope: string; tenantGroup?
         {/* </Radio.Group> */}
       </div>
       <IF check={view === 'table'}>
-        <Table
+        <ErdaTable
           rowKey="timestamp"
           dataSource={recordHistories}
           loading={loading}

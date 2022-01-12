@@ -36,11 +36,12 @@ declare namespace CP_CARD {
 
   interface ICard {
     id: string;
-    icon?: string;
+    icon?: string | React.ReactElement;
     imgURL?: string;
     title?: string;
     star?: boolean;
     starProps?: Obj;
+    buttonOperation?: { type: string; text: string } | React.ReactElement;
     titleState?: Array<{ status: string; text: string }>;
     textMeta?: Array<{ mainText: string; subText: string }>;
     operations?: Obj<CP_COMMON.Operation>;

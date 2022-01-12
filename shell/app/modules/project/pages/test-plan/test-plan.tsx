@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Icon as CustomIcon, CustomFilter, UserInfo, MemberSelector } from 'common';
+import ErdaTable from 'common/components/table';
 import { Button, Progress, Spin, Tooltip, Select, Input } from 'antd';
-import Table from 'common/components/table';
 import React, { useState } from 'react';
 import PlanModal, { IPlanModal } from './plan-modal';
 import { goTo } from 'common/utils';
@@ -292,7 +292,7 @@ const TestPlan = () => {
         />
       </div>
       <Spin spinning={isFetching}>
-        <Table
+        <ErdaTable
           className="test-plan-list"
           rowKey="id"
           columns={columns}

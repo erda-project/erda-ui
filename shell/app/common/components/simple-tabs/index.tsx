@@ -1,0 +1,45 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+import * as React from 'react';
+import { map } from 'lodash';
+import './index.scss';
+
+interface IProps {
+  tabs: Array<{ key: string; text: string }>;
+  onSelect: (key: string) => void;
+  value: string;
+  className?: string;
+  theme?: 'light' | 'dark';
+}
+
+const SimpleTabs = (props: IProps) => {
+  const { tabs, onSelect, value, className = '', theme = 'light' } = props;
+  return (
+    <div className={`common-simple-tabs flex-h-center ${className} theme-${theme}`}>
+      {map(tabs, (item) => {
+        return (
+          <div
+            key={item.key}
+            className={`mr-6 common-simple-tabs-item cursor-pointer ${value === item.key ? 'selected' : ''}`}
+            onClick={() => onSelect(item.key)}
+          >
+            {item.text}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export default SimpleTabs;

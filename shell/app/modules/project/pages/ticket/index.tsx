@@ -22,11 +22,11 @@ import { map, isEmpty } from 'lodash';
 import { useMount } from 'react-use';
 import IssueState from 'project/common/components/issue/issue-state';
 import { Filter, MemberSelector } from 'common';
+import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { mergeSearch, updateSearch, getTimeRanges } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
 import { Input, Button, Select, DatePicker, Tooltip } from 'antd';
-import Table from 'common/components/table';
 import { useLoading } from 'core/stores/loading';
 import { usePerm, WithAuth, getAuth, isCreator, isAssignee } from 'app/user/common';
 import i18n from 'i18n';
@@ -424,7 +424,7 @@ const Ticket = () => {
           </Button>
         </WithAuth>
       </div>
-      <Table
+      <ErdaTable
         loading={loading}
         columns={columns}
         dataSource={list}

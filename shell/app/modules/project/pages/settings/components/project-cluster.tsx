@@ -13,11 +13,11 @@
 
 import React from 'react';
 import { Tooltip } from 'antd';
-import Table from 'common/components/table';
 import { DOC_PROJECT_RESOURCE_MANAGE, WORKSPACE_LIST } from 'common/constants';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import i18n from 'i18n';
 import { ErdaIcon } from 'common';
+import ErdaTable from 'common/components/table';
 import projectStore from 'project/stores/project';
 import clusterStore from 'app/modules/cmp/stores/cluster';
 import { useLoading } from 'core/stores/loading';
@@ -148,7 +148,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
     });
 
   const readonlyForm = (
-    <Table
+    <ErdaTable
       loading={loading}
       rowKey="workspace"
       dataSource={tableData}
