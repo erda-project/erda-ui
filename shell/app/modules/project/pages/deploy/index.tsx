@@ -330,7 +330,7 @@ const DeployContent = ({ projectId, env }: { projectId: string; env: string }) =
               placeholder={i18n.t('dop:search by person or product information')}
             />
           </div>
-          <div className="mt-2 flex-1 h-0 px-4">
+          <div className="mt-2 flex-1 h-0">
             <Spin
               spinning={!isAutoLoaing.current && loading}
               wrapperClassName="full-spin-height overflow-hidden project-deploy-orders"

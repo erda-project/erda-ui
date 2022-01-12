@@ -1,5 +1,9 @@
 .project-deploy-orders {
   .ant-spin-container {
     overflow: auto;
+    padding: 0 12px;
+  }
+  .ant-timeline-item .ant-timeline-item-content {
+    margin: 0 0 0 16px;
   }
 }
