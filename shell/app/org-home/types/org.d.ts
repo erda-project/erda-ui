@@ -17,7 +17,6 @@ declare namespace ORG {
     creator: string;
     desc: string;
     domain: string;
-    isPublic: boolean;
     id: number;
     logo: string;
     name: string;

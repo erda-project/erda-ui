@@ -41,7 +41,6 @@ Role('Manager', () => {
     await page.click('text=English');
     await page.click('text=English');
     await page.click('div[role="document"] >> text=Chinese');
-    await page.click('text=private org');
     await page.click('span:has-text("public org")');
     await page.click('.ant-upload');
     await base.uploadFile(testData.image, '[type="file"]');

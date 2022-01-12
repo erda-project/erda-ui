@@ -48,7 +48,7 @@ const OrgSelector = (props: IProps) => {
 
   const options = [
     {
-      label: i18n.t('dop:my organization'),
+      label: i18n.t('dop:The organizations I joined'),
       key: 'my',
       children: orgs.map((o) => ({
         key: o.name,
@@ -57,14 +57,6 @@ const OrgSelector = (props: IProps) => {
         imgURL: o.logo || ImgMap.frontImg_default_org_icon,
       })),
     },
-    // delete in 12.31 by PD
-    // ...insertWhen(!!usedPublicOrg.length, [
-    //   {
-    //     label: i18n.t('dop:public organization'),
-    //     key: 'public',
-    //     children: usedPublicOrg,
-    //   },
-    // ]),
   ];
 
   const changeOrg = (_: string, op: Obj) => {
