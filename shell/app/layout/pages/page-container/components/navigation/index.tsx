@@ -129,14 +129,15 @@ const Navigation = () => {
             if (isAdminRoute) {
               const lastOrg = window.localStorage.getItem('lastOrg');
               const isInLastOrg = !!orgs.find((x: Obj) => x.name === lastOrg);
-              goTo(goTo.pages.orgRoot, { orgName: isInLastOrg ? lastOrg : '-' });
+              if (isInLastOrg) {
+                goTo(goTo.pages.orgRoot, { orgName: lastOrg });
+              } else {
+                goTo(goTo.pages.landPage);
+              }
             } else if (isIncludeOrg) {
               goTo(goTo.pages.orgRoot);
-            } else if (!orgs?.length) {
-              // skipping warning when the user doesn't join any organization.
-              goTo(goTo.pages.orgRoot, { orgName: '-' });
             } else {
-              message.warning(i18n.t('default:org-jump-tip'), 2, () => goTo(goTo.pages.orgRoot, { orgName: '-' }));
+              goTo(goTo.pages.landPage);
             }
           }}
         />
