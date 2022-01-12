@@ -5,19 +5,20 @@ import { ErdaIcon } from 'common';
 import EmptySVG from 'app/images/upload_empty.svg';
 import { getCookies, getOrgFromPath } from 'common/utils';
 import { FormInstance } from 'core/common/interface';
+import { UploadFile } from 'app/interface/common';
 import './import-project-template.scss';
 
 export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
   const [fileStatus, setFileStatus] = React.useState('init');
-  const [fileData, setFileData] = React.useState(null);
+  const [fileData, setFileData] = React.useState(null as unknown as PROJECT_LIST.FileData);
 
-  function handleChange({ file }: any) {
-    setFileData(file);
+  function handleChange({ file }: { file: PROJECT_LIST.FileData }) {
     if (file.status === 'uploading') {
       setFileStatus('uploading');
     }
     if (file.status === 'done') {
       setFileStatus('done');
+      setFileData(file);
       form.setFieldsValue({
         projectTemplate: file,
       });
@@ -40,9 +41,9 @@ export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
     ),
   };
 
-  function beforeUpload(file: any) {
+  function beforeUpload(file: UploadFile) {
     const UPLOAD_SIZE_LIMIT = 10; // M
-    const isLtSize = file.size / 1024 / 1024 < UPLOAD_SIZE_LIMIT;
+    const isLtSize = (file.size || 0) / 1024 / 1024 < UPLOAD_SIZE_LIMIT;
     if (!isLtSize) {
       message.warning(i18n.t('common:the uploaded file must not exceed {size}M', { size: UPLOAD_SIZE_LIMIT }));
     }
@@ -91,7 +92,7 @@ export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
             <div className="flex-h-center">
               <span className="text-default-9 mr-1">{i18n.t('dop:applications')} </span>
               <div className="bg-default-04 px-1 py-0.5 rounded-lg">
-                {fileData?.response?.data?.applications?.length || 0}
+                {fileData?.response.data.applications?.length || 0}
               </div>
             </div>
           </div>
@@ -107,7 +108,7 @@ export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
                   e.stopPropagation();
                   Modal.error({
                     title: i18n.t('error reason'),
-                    content: fileData?.response?.err?.msg,
+                    content: fileData?.response.err.msg,
                   });
                 }}
               >
@@ -116,7 +117,7 @@ export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
             </div>
             <div className="flex-h-center">
               <span className="text-default-9 mr-1">
-                {i18n.t('dop:applications')}:{fileData?.response?.data?.applications?.length}
+                {i18n.t('dop:applications')}:{fileData?.response.data.applications?.length}
               </span>
               <div className="bg-default-04 px-1 py-0.5 rounded-lg">0</div>
             </div>

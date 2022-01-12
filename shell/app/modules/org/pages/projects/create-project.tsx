@@ -332,10 +332,10 @@ const CreationForm = () => {
       label: i18n.t('project identifier'),
       name: 'name',
       rules: [
-        { max: 30, message: i18n.t('cannot exceed 40 characters') },
+        { max: 30, message: i18n.t('cannot exceed 30 characters') },
         {
           pattern: /^[a-z0-9]+([-_][a-z0-9]+)*$/,
-          message: i18n.t('project-app-name-tip'),
+          message: i18n.t('project-name-tip'),
         },
         {
           validator: (_rule: any, value: any, callback: (message?: string) => void) => {
@@ -347,7 +347,7 @@ const CreationForm = () => {
         },
       ],
       itemProps: {
-        placeholder: i18n.t('project-app-name-tip'),
+        placeholder: i18n.t('project-name-tip'),
         maxLength: 30,
       },
     },

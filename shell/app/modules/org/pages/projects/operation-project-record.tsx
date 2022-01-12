@@ -58,7 +58,6 @@ export const OperationProjectRecords = ({ visible, setVisible }: IProps) => {
     pageNo: 1,
     pageSize: 10,
     query: '',
-    orderBy: 'activeTime',
     asc: false,
   });
 
@@ -113,7 +112,7 @@ export const OperationProjectRecords = ({ visible, setVisible }: IProps) => {
       ellipsis: {
         showTitle: false,
       },
-      render: (text: any) => {
+      render: (text: string) => {
         const { avatar, nick } = userMap[text];
         return (
           <>
@@ -137,9 +136,9 @@ export const OperationProjectRecords = ({ visible, setVisible }: IProps) => {
     },
   ];
 
-  const recordActions: IActions<any> = {
+  const recordActions: IActions<PROJECT_LIST.FileRecord> = {
     width: 120,
-    render: (record: any) => {
+    render: (record: PROJECT_LIST.FileRecord) => {
       const { viewResult, exportProject } = {
         viewResult: {
           title: i18n.t('view results'),
@@ -214,6 +213,7 @@ export const OperationProjectRecords = ({ visible, setVisible }: IProps) => {
           value={activeKey}
           onChange={(v: string) => {
             setActiveKey(v);
+            setSearchObj({ ...searchObj, pageNo: 1 });
           }}
           className="mb-2"
         />

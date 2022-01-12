@@ -35,10 +35,16 @@ export const importProjectTemplate = apiCreator<(p: { projectID: string; orgID: 
   apis.importProjectTemplate,
 );
 
-export const parseProjectTemplate = apiCreator<(p: { projectID: string; orgID: number; file: unknown }) => any>(
+export const parseProjectTemplate = apiCreator<(p: { projectID: string; orgID: number; file: unknown }) => void>(
   apis.parseProjectTemplate,
 );
 
 export const importExportProjectRecord = apiCreator<
-  (p: { projectName?: string; orgID: number; types: string[]; pageSize?: number; pageNo?: number }) => any
+  (p: {
+    projectName?: string;
+    orgID: number;
+    types: string[];
+    pageSize?: number;
+    pageNo?: number;
+  }) => PROJECT_LIST.ProjectList
 >(apis.importExportProjectRecord);
