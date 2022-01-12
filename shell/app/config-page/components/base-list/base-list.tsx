@@ -255,7 +255,9 @@ const List = (props: CP_BASE_LIST.Props) => {
       ) : null}
     </span>
   ) : null;
-  const onReload = () => {};
+  const onReload = () => {
+    changePage(pageNo, pageSize);
+  };
   const Head = !hideHead ? (
     <div>
       <div className="px-4">{HeadTitle}</div>
