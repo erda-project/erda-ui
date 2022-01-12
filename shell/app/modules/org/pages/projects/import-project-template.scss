@@ -1,0 +1,31 @@
+.import-project-template {
+  .ant-upload-list-item {
+    display: flex;
+    align-items: center;
+
+    .ant-upload-list-item-info {
+      position: absolute;
+      &:hover {
+        background-color: $color-default-01;
+      }
+    }
+    .ant-upload-list-item-info {
+      &:hover {
+        background-color: $color-default-01;
+      }
+    }
+    .ant-upload-text-icon {
+      display: flex;
+      align-items: center;
+    }
+    .ant-btn-text {
+      &:hover {
+        background-color: transparent;
+      }
+    }
+
+    .ant-upload-list-item-card-actions-btn {
+      opacity: 1;
+    }
+  }
+}

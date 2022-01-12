@@ -13,15 +13,15 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Spin, Button, Input, Tooltip, Drawer, Menu, Dropdown, message } from 'antd';
+import { Spin, Button, Input, Tooltip, Menu, Dropdown, message } from 'antd';
 import Table from 'common/components/table';
 import { ColumnProps, IActions } from 'common/components/table/interface';
 import { goTo, fromNow } from 'common/utils';
-import { Filter, ErdaIcon, ErdaAlert, RadioTabs, Badge } from 'common';
+import { Filter, ErdaIcon, ErdaAlert } from 'common';
 import { useUnmount } from 'react-use';
 import { PAGINATION } from 'app/constants';
 import projectStore from 'project/stores/project';
-import { importExportProjectRecord, exportProjectTemplate } from 'org/services/project-list';
+import { exportProjectTemplate } from 'org/services/project-list';
 import { useLoading } from 'core/stores/loading';
 import { OperationProjectRecords } from './operation-project-record';
 
@@ -48,7 +48,6 @@ export const ProjectList = () => {
   const { pageNo, pageSize, total } = paging;
   const [loadingList] = useLoading(projectStore, ['getProjectList']);
   const orgID = orgStore.getState((s) => s.currentOrg.id);
-  const [handleProjectRecord, handleRecordLoading] = importExportProjectRecord.useState();
   const [searchObj, setSearchObj] = React.useState<IState>({
     pageNo: 1,
     pageSize,
@@ -182,13 +181,13 @@ export const ProjectList = () => {
       <Menu.Item onClick={() => goTo('./createProject')} key={'app'} className="bg-default hover:bg-white-08">
         <div className="flex-h-center text-white-9">
           <ErdaIcon type="tj1" size={16} className="mr-1" />
-          {i18n.t('添加项目')}
+          {i18n.t('add project')}
         </div>
       </Menu.Item>
       <Menu.Item onClick={() => goTo('./importProject')} key={'file'} className="bg-default hover:bg-white-08">
         <div className="flex-h-center text-white-9">
           <ErdaIcon type="upload" size={16} className="mr-1" />
-          {i18n.t('导入项目')}
+          {i18n.t('import project')}
         </div>
       </Menu.Item>
     </Menu>
@@ -204,7 +203,7 @@ export const ProjectList = () => {
               setVisible(true);
             }}
           >
-            {i18n.d('导入导出记录')}
+            {i18n.t('import and export records')}
           </Button>
           <Dropdown overlay={addDropdownMenu} trigger={['click']}>
             <Button type={'primary'} className="bg-default flex-h-center">

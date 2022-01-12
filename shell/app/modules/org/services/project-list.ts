@@ -31,14 +31,14 @@ export const exportProjectTemplate = apiCreator<(p: { projectID: string; orgID: 
   apis.exportProjectTemplate,
 );
 
-export const importProjectTemplate = apiCreator<(p: { projectID: string; orgID: number; file: any }) => string>(
+export const importProjectTemplate = apiCreator<(p: { projectID: string; orgID: number; file: unknown }) => string>(
   apis.importProjectTemplate,
 );
 
-export const parseProjectTemplate = apiCreator<(p: { projectID: string; orgID: number; file: any }) => any>(
+export const parseProjectTemplate = apiCreator<(p: { projectID: string; orgID: number; file: unknown }) => any>(
   apis.parseProjectTemplate,
 );
 
 export const importExportProjectRecord = apiCreator<
-  (p: { projectName: string; orgID: number; types: string[]; pageSize: number; pageNo: number }) => any
+  (p: { projectName?: string; orgID: number; types: string[]; pageSize?: number; pageNo?: number }) => any
 >(apis.importExportProjectRecord);

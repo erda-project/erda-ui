@@ -13,19 +13,22 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Spin, Button, Input, Tooltip, Drawer, Menu, Dropdown, Modal } from 'antd';
+import { Spin, Input, Drawer, Modal, Avatar } from 'antd';
 import Table from 'common/components/table';
-import { ColumnProps, IActions } from 'common/components/table/interface';
-import { goTo, fromNow } from 'common/utils';
-import { Filter, ErdaIcon, ErdaAlert, RadioTabs, Badge } from 'common';
-import { useMount, useUnmount } from 'react-use';
+import { IActions } from 'common/components/table/interface';
+import { Filter, RadioTabs, Badge } from 'common';
+import { getAvatarChars } from 'common/utils';
 import { PAGINATION } from 'app/constants';
-import projectStore from 'project/stores/project';
+import { useUserMap } from 'core/stores/userMap';
 import { importExportProjectRecord } from 'org/services/project-list';
 import moment from 'moment';
 import orgStore from 'app/org-home/stores/org';
 import './project-list.scss';
 
+interface IProps {
+  visible: boolean;
+  setVisible: (visible: boolean) => void;
+}
 interface IState {
   pageNo: number;
   pageSize?: number;
@@ -46,11 +49,11 @@ const options = [
   { value: 'export', label: `${i18n.t('export')}` },
 ];
 
-export const OperationProjectRecords = ({ visible, setVisible }) => {
+export const OperationProjectRecords = ({ visible, setVisible }: IProps) => {
   const orgID = orgStore.getState((s) => s.currentOrg.id);
   const [handleProjectRecord, handleRecordLoading] = importExportProjectRecord.useState();
+  const userMap = useUserMap();
   const [activeKey, setActiveKey] = React.useState('all');
-  const [result, setResult] = React.useState('');
   const [searchObj, setSearchObj] = React.useState<IState>({
     pageNo: 1,
     pageSize: 10,
@@ -61,7 +64,7 @@ export const OperationProjectRecords = ({ visible, setVisible }) => {
 
   React.useEffect(() => {
     importExportProjectRecord.fetch({ orgID, types: handleFileTypeMap.all });
-  }, [visible]);
+  }, [orgID, visible]);
 
   const getColumnOrder = (key?: string) => {
     if (key) {
@@ -105,15 +108,25 @@ export const OperationProjectRecords = ({ visible, setVisible }) => {
       },
     },
     {
-      title: i18n.d('操作者'),
+      title: i18n.t('operator'),
       dataIndex: 'operatorID',
       ellipsis: {
         showTitle: false,
       },
-      // TODO: 头像
+      render: (text: any) => {
+        const { avatar, nick } = userMap[text];
+        return (
+          <>
+            <Avatar src={avatar || undefined} size="small" className="flex-shrink-0">
+              {nick ? getAvatarChars(nick) : i18n.t('none')}
+            </Avatar>
+            <span> {userMap[text].nick}</span>
+          </>
+        );
+      },
     },
     {
-      title: i18n.d('执行时间'),
+      title: i18n.t('execution time'),
       dataIndex: 'updatedAt',
       ellipsis: {
         showTitle: false,
@@ -129,24 +142,26 @@ export const OperationProjectRecords = ({ visible, setVisible }) => {
     render: (record: any) => {
       const { viewResult, exportProject } = {
         viewResult: {
-          title: i18n.d('查看结果'),
+          title: i18n.t('view results'),
           onClick: () => {
             if (record.state === 'success') {
               Modal.success({
-                title: i18n.d('查看结果'),
+                title: i18n.t('view results'),
                 content: (
                   <span className="font-medium text-base text-default text-success">
-                    {record.type === 'projectTemplateImport' ? i18n.d('导入成功！') : i18n.d('导出成功！')}
+                    {record.type === 'projectTemplateImport'
+                      ? i18n.t('imported successfully')
+                      : i18n.t('exported successfully')}
+                    !
                   </span>
                 ),
               });
             } else {
               Modal.error({
-                title: i18n.d('查看结果'),
+                title: i18n.t('view results'),
                 content: record.errorInfo,
               });
             }
-            setResult(record);
           },
         },
         exportProject: {
@@ -172,9 +187,9 @@ export const OperationProjectRecords = ({ visible, setVisible }) => {
       pageNo: searchObj.pageNo,
       pageSize: searchObj.pageSize,
     });
-  }, [activeKey, searchObj]);
+  }, [activeKey, orgID, searchObj]);
 
-  const handleTableChange = (pagination: any, filters: any, sorter: any) => {
+  const handleTableChange = (pagination: { current: number; pageSize: number }, filters: any, sorter: any) => {
     setSearchObj((prev) => ({
       ...prev,
       pageNo: pagination.current,
@@ -183,7 +198,7 @@ export const OperationProjectRecords = ({ visible, setVisible }) => {
       asc: sorter?.order ? sorter.order === 'ascend' : undefined,
     }));
   };
-  console.log(result, 88);
+
   return (
     <>
       <Drawer
@@ -191,13 +206,13 @@ export const OperationProjectRecords = ({ visible, setVisible }) => {
         onClose={() => setVisible(false)}
         visible={visible}
         destroyOnClose
-        title={i18n.d('导入导出记录')}
+        title={i18n.t('import and export records')}
         className="dice-drawer advanced-filter-drawer"
       >
         <RadioTabs
           options={options}
           value={activeKey}
-          onChange={(v: string[]) => {
+          onChange={(v: string) => {
             setActiveKey(v);
           }}
           className="mb-2"

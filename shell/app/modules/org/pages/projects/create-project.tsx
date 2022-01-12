@@ -230,7 +230,6 @@ const CreationForm = () => {
   const quotaFields = useQuotaFields(true, true);
   const [ifConfigCluster, setIfConfigCluster] = React.useState(true);
   const [template, setTemplate] = React.useState(templateArr[0].val);
-  const [fileData, setFileData] = React.useState(null);
 
   const handleSubmit = (form: FormInstance) => {
     form
@@ -278,7 +277,7 @@ const CreationForm = () => {
                   });
                 })
                 .then(() => {
-                  message.success(`${values.displayName} ${i18n.d('项目初始化成功！')}`, 4);
+                  message.success(`${values.displayName} ${i18n.t('The project was initialized successfully!')}`, 4);
                   goTo('../');
                 });
             }
@@ -326,16 +325,16 @@ const CreationForm = () => {
       ),
       itemProps: {
         placeholder: i18n.t('dop:the project name displayed on the Erda platform, supports Chinese characters'),
-        maxLength: 40,
+        maxLength: 30,
       },
     },
     {
       label: i18n.t('project identifier'),
       name: 'name',
       rules: [
-        { max: 40, message: i18n.t('cannot exceed 40 characters') },
+        { max: 30, message: i18n.t('cannot exceed 40 characters') },
         {
-          pattern: /^[a-z0-9]+(-[a-z0-9]+)*$/,
+          pattern: /^[a-z0-9]+([-_][a-z0-9]+)*$/,
           message: i18n.t('project-app-name-tip'),
         },
         {
@@ -349,23 +348,21 @@ const CreationForm = () => {
       ],
       itemProps: {
         placeholder: i18n.t('project-app-name-tip'),
-        maxLength: 40,
+        maxLength: 30,
       },
     },
     ...insertWhen(currentRoute.relativePath === 'importProject', [
       {
-        label: i18n.d('项目模板'),
+        label: i18n.t('project template'),
         name: 'projectTemplate',
-        getComp: ({ form }: { form: FormInstance }) => (
-          <ImportProjectTemplate setFileData={setFileData} form={form} fileData={fileData} />
-        ),
+        getComp: ({ form }: { form: FormInstance }) => <ImportProjectTemplate form={form} />,
       },
       {
-        label: i18n.d('备注'),
+        label: i18n.t('dop:remark'),
         name: 'remark',
         type: 'textArea',
         required: false,
-        itemProps: { rows: 4, maxLength: 200, style: { resize: 'none' } },
+        itemProps: { rows: 4, maxLength: 1024, style: { resize: 'none' } },
       },
     ]),
     ...insertWhen(template !== 'MSP', [
