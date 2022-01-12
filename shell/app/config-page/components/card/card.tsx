@@ -85,10 +85,9 @@ export const CardItem = (props: CardItemProps) => {
   const handleClick = (dataRef: Obj, target: string) => {
     onClick?.(dataRef, target);
   };
-
   return (
     <div className={`${className} ${cls}`} onClick={() => handleClick(card, 'card')}>
-      <div className={`w-[${width}px] info-card-content cursor-pointer px-4 py-3`} key={id} ref={drag}>
+      <div style={{ width }} className={`info-card-content cursor-pointer px-4 py-3`} key={id} ref={drag}>
         {CardRender ? (
           <CardRender data={card} />
         ) : (
