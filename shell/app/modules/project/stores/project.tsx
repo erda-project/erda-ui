@@ -232,6 +232,7 @@ const project = createStore({
     },
     clearProjectAppList(state) {
       state.projectAppList = [];
+      state.projectAppPaging = getDefaultPaging();
     },
     clearProjectSettingAppList(state) {
       state.projectSettingAppList = [];

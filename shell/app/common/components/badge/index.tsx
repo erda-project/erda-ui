@@ -14,6 +14,7 @@
 import React from 'react';
 import { Tooltip } from 'antd';
 import { shuffle } from 'lodash';
+import { ErdaIcon } from 'common';
 import { colorToRgb } from 'common/utils';
 import './index.scss';
 
@@ -27,6 +28,8 @@ export interface IBadgeProps {
   className?: string;
   showDot?: boolean;
   onlyDot?: boolean;
+  suffixIcon?: string;
+  onClick?: () => void;
 }
 
 enum BadgeStatus {
@@ -48,6 +51,8 @@ const Badge = (props: IBadgeProps) => {
     className = '',
     showDot = true,
     onlyDot,
+    suffixIcon,
+    onClick,
   } = props;
   const status = pStatus || 'default';
   const defaultBreath = { processing: true };
@@ -56,7 +61,6 @@ const Badge = (props: IBadgeProps) => {
   const colorStyle = color ? { color, backgroundColor: colorToRgb(color, 0.1) } : undefined;
 
   const breathCls = breathing ? `badge-breathing badge-breathing-${shuffle([1, 2, 3])[0]}` : '';
-
   return (
     <Tooltip title={tip}>
       <span
@@ -64,13 +68,18 @@ const Badge = (props: IBadgeProps) => {
         className={`erda-badge erda-badge-status-${status} ${breathCls} badge-${size} inline-flex items-center rounded-sm ${className} ${
           onlyDot ? 'only-dot' : ''
         }`}
+        onClick={onClick}
       >
-        {showDot ? (
+        {onlyDot || showDot ? (
           <span className="erda-badge-status-dot" style={color ? { backgroundColor: color } : {}}>
             <span className="erda-badge-status-breath" />
           </span>
         ) : null}
-        <span className="erda-badge-status-text">{text}</span>
+        {!onlyDot ? (
+          <span className="erda-badge-status-text">
+            {text} {suffixIcon ? <ErdaIcon type={suffixIcon} /> : null}
+          </span>
+        ) : null}
       </span>
     </Tooltip>
   );

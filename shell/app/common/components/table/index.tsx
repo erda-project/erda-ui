@@ -39,6 +39,7 @@ interface IProps<T extends object = any> extends TableProps<T> {
   actions?: IActions<T> | null;
   slot?: React.ReactNode;
   rowSelection?: IRowSelection<T>;
+  theme?: 'dark' | 'light';
   hideHeader?: boolean;
   onReload?: (pageNo: number, pageSize: number) => void;
   className?: string;
@@ -68,6 +69,7 @@ function WrappedTable<T extends object = any>({
   rowSelection,
   hideHeader,
   rowKey,
+  theme = 'light',
   className,
   ...props
 }: IProps<T>) {
@@ -287,7 +289,7 @@ function WrappedTable<T extends object = any>({
   }
 
   return (
-    <div className={`flex flex-col erda-table ${hideHeader ? 'hide-header' : ''}`}>
+    <div className={`flex flex-col erda-table ${hideHeader ? 'hide-header' : ''} theme-${theme}`}>
       {!hideHeader && (
         <TableConfig
           slot={slot}

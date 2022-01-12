@@ -1,9 +1,12 @@
 .erda-base-list {
   .erda-base-list-item {
-    padding: 12px 16px;
+    &-container {
+      border-bottom: 1px solid $color-border;
+      margin: 0 16px;
+      padding: 12px 0;
+    }
     border-radius: 2px;
     background-color: $white;
-    border-bottom: 1px solid $color-border;
     background-position: 100% 0;
     background-repeat: no-repeat;
 
@@ -91,9 +94,28 @@
       }
 
       .info-value {
-        background-color: rgba($color-primary, 0.04);
         border-radius: 20px;
-        padding: 0 4px;
+        padding: 0 8px;
+        &.info-value-success {
+          color: $color-error;
+          background-color: rgba($color-error, 0.08);
+        }
+        &.info-value-warning {
+          color: $color-warning;
+          background-color: rgba($color-warning, 0.08);
+        }
+        &.info-value-error {
+          color: $color-error;
+          background-color: rgba($color-error, 0.08);
+        }
+        &.info-value-processing {
+          color: $color-info;
+          background-color: rgba($color-info, 0.08);
+        }
+        &.info-value-default {
+          color: $color-default;
+          background-color: rgba($color-default, 0.08);
+        }
       }
     }
   }

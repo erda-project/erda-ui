@@ -676,6 +676,7 @@ const LoadMoreSelector = (props: ILoadMoreSelectorProps) => {
   const LoadMoreComp = (LoadMoreRender || DefaultLoadMoreRender) as React.ReactType;
 
   const LoadMore = hasMore ? <LoadMoreComp onLoadMore={onLoadMore} loading={loading} /> : null;
+
   return (
     <PureLoadMoreSelector
       onDropdownVisible={onDropdownVisible}

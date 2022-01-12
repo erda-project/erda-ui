@@ -14,12 +14,12 @@
 import { goTo } from 'common/utils';
 import iterationStore from 'app/modules/project/stores/iteration';
 import { DeleteConfirm, Ellipsis } from 'common';
+import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import moment from 'moment';
 import { Button, Progress, Select, Modal } from 'antd';
-import Table from 'common/components/table';
 import React from 'react';
 import { map, sumBy } from 'lodash';
 import IterationModal from './iteration-modal';
@@ -212,7 +212,7 @@ export const Iteration = () => {
           </Button>
         </WithAuth>
       </div>
-      <Table
+      <ErdaTable
         rowKey="id"
         dataSource={list}
         columns={columns}

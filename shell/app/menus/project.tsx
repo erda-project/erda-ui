@@ -113,6 +113,11 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
           text: i18n.t('artifact management'),
           prefix: `${goTo.resolve.projectRelease()}/`,
         },
+        {
+          href: goTo.resolve.projectDeployEnv({ env: 'DEV' }),
+          text: i18n.t('dop:deployment center'),
+          prefix: `${goTo.resolve.projectDeploy()}/`,
+        },
       ],
     },
     {

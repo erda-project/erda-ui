@@ -22,10 +22,11 @@ interface IProps {
   className?: string;
   ops?: any;
   isEditing?: boolean;
+  showLoading?: boolean;
 }
 
-const FileContainer = ({ children, name, className = '', ops, isEditing }: IProps) => {
-  const [isSpinning, setSpin] = React.useState(true);
+const FileContainer = ({ children, name, className = '', ops, isEditing, showLoading = true }: IProps) => {
+  const [isSpinning, setSpin] = React.useState(showLoading);
   React.useEffect(() => {
     let unMount = false;
 

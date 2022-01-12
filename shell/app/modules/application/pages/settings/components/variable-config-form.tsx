@@ -15,6 +15,7 @@ import { FormModal, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { getUploadProps } from 'common/utils/upload-props';
 import i18n from 'i18n';
+import { insertWhen } from 'common/utils';
 import { FormInstance } from 'core/common/interface';
 import { Button, message, Spin, Upload } from 'antd';
 import React from 'react';
@@ -33,13 +34,14 @@ const typeMap = {
 };
 interface IProps {
   visible: boolean;
-  formData: PIPELINE_CONFIG.ConfigItem | null;
+  addType?: 'file' | 'kv';
+  formData?: PIPELINE_CONFIG.ConfigItem | null;
   onOk: (data: any, isAdd: boolean) => any;
   onCancel: () => void;
 }
-export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps) => {
+export const VariableConfigForm = ({ formData, visible, onOk, onCancel, addType }: IProps) => {
   const [{ type, uploadFile, uploading }, updater, _, reset] = useUpdate({
-    type: typeMap.kv,
+    type: addType || typeMap.kv,
     uploadFile: '',
     uploading: false,
   });
@@ -61,24 +63,26 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
         },
       ],
     },
-    {
-      label: i18n.t('type'),
-      name: 'type',
-      type: 'select',
-      options: [
-        { name: i18n.t('value'), value: typeMap.kv },
-        { name: i18n.t('file'), value: typeMap.file },
-      ],
-      initialValue: typeMap.kv,
-      itemProps: {
-        onChange(v: string) {
-          updater.type(v);
-          updater.uploadFile('');
-          updater.uploading(false);
+    ...insertWhen(!addType, [
+      {
+        label: i18n.t('type'),
+        name: 'type',
+        type: 'select',
+        options: [
+          { name: i18n.t('value'), value: typeMap.kv },
+          { name: i18n.t('file'), value: typeMap.file },
+        ],
+        initialValue: typeMap.kv,
+        itemProps: {
+          onChange(v: string) {
+            updater.type(v);
+            updater.uploadFile('');
+            updater.uploading(false);
+          },
+          disabled: isEdit,
         },
-        disabled: isEdit,
       },
-    },
+    ]),
     type === typeMap.kv
       ? {
           label: 'Value',

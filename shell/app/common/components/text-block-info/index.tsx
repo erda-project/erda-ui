@@ -21,6 +21,7 @@ export interface TextBlockInfoProps {
   size?: 'small' | 'normal';
   main: string;
   sub?: string;
+  subTip?: string;
   desc?: string;
   tip?: string;
   style?: Obj;
@@ -31,7 +32,19 @@ export interface TextBlockInfoProps {
 }
 
 const TextBlockInfo = (props: TextBlockInfoProps) => {
-  const { align = 'left', className = '', main, size = 'normal', sub, desc, tip, extra, style, ...rest } = props;
+  const {
+    align = 'left',
+    className = '',
+    main,
+    size = 'normal',
+    sub,
+    subTip,
+    desc,
+    tip,
+    extra,
+    style,
+    ...rest
+  } = props;
 
   const alignClsMap = {
     container: {
@@ -53,7 +66,16 @@ const TextBlockInfo = (props: TextBlockInfoProps) => {
       {...rest}
     >
       <div className={'main-text truncate'}>{main}</div>
-      {sub ? <div className={'sub-text'}>{sub}</div> : null}
+      {sub ? (
+        <div className={`sub-text w-full flex items-center ${alignClsMap.desc[align]}`}>
+          <span className="truncate">{sub}</span>
+          {subTip ? (
+            <Tooltip title={subTip}>
+              <ErdaIcon type="help" className="ml-1" />
+            </Tooltip>
+          ) : null}
+        </div>
+      ) : null}
       {desc ? (
         <div className={`desc-text flex items-center w-full ${alignClsMap.desc[align]}`}>
           <span className="truncate">{desc}</span>

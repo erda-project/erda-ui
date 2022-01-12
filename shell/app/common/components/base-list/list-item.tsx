@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Menu, Tooltip, Dropdown, Avatar } from 'antd';
+import { Menu, Tooltip, Dropdown, Avatar, Checkbox } from 'antd';
 import { isEmpty, isString, map } from 'lodash';
 import { Ellipsis, ErdaIcon, Badge, Tags } from 'common';
 import { getAvatarChars } from 'common/utils';
@@ -40,12 +40,14 @@ const getLogo = (logo: string, logoCircle?: boolean) => {
 };
 
 const ListItem = (props: ERDA_LIST.ItemProps) => {
-  const { data, columnsInfoWidth, defaultLogo = '', defaultBgImg = '' } = props;
+  const { data, columnsInfoWidth, defaultLogo = '', defaultBgImg = '', onSelectChange } = props;
   const {
     logoURL,
     title,
     icon,
     titleSummary,
+    selected,
+    selectable = true,
     titleState,
     mainState,
     tags,
@@ -81,191 +83,203 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
   const curLogo = logoURL || defaultLogo;
   return (
     <div
-      className={`erda-base-list-item cursor-pointer rounded-sm`}
+      className={`erda-base-list-item cursor-pointer`}
       {...itemProps}
       style={backgroundImg || defaultBgImg ? { backgroundImage: `url(${getImg(backgroundImg || defaultBgImg)})` } : {}}
     >
-      <div className="flex">
-        {mainState ? <Badge onlyDot {...mainState} /> : null}
-        {curLogo ? (
-          isString(curLogo) ? (
-            <div className="item-prefix-img flex items-center">{getLogo(curLogo, logoCircle)}</div>
-          ) : (
-            <div className="item-prefix-img flex items-center">{curLogo}</div>
-          )
-        ) : null}
-        {icon ? (
-          <div className="item-prefix-img flex items-center">
-            <ErdaIcon disableCurrent type={icon} size={28} />
-          </div>
-        ) : null}
-        <div className="flex flex-1 overflow-hidden">
-          <div className="flex-1 flex flex-col justify-center overflow-hidden">
-            <div className="body-title">
-              {titlePrefixIcon && (
-                <Tooltip title={titlePrefixIconTip}>
-                  <ErdaIcon type={titlePrefixIcon} className="title-icon mr-2" />
-                </Tooltip>
-              )}
-              <Ellipsis className=" title-text text-base text-default hover:text-purple-deep" title={title} />
-              {titleSummary ? (
-                <span className="inline-block ml-1 bg-default-1 px-1.5 rounded-lg text-default-8 text-xs leading-5">
-                  {titleSummary}
-                </span>
-              ) : null}
-              {titleSuffixIcon && (
-                <Tooltip title={titleSuffixIconTip}>
-                  <ErdaIcon type={titleSuffixIcon} className="title-icon ml-2" />
-                </Tooltip>
-              )}
-              {map(titleState, (item, idx) => (
-                <Badge key={idx} showDot={false} size="small" {...item} className="ml-2" />
-              ))}
-              {tags ? <Tags labels={tags} containerClassName="ml-2" /> : null}
+      <div className="erda-base-list-item-container">
+        <div className="flex">
+          {onSelectChange ? (
+            <Checkbox
+              className="flex items-center mr-2"
+              disabled={!selectable}
+              checked={selected}
+              onClick={(e) => e.stopPropagation()}
+              onChange={(e) => onSelectChange(e.target.checked)}
+            />
+          ) : null}
+          {mainState ? <Badge onlyDot {...mainState} /> : null}
+          {curLogo ? (
+            isString(curLogo) ? (
+              <div className="item-prefix-img flex items-center">{getLogo(curLogo, logoCircle)}</div>
+            ) : (
+              <div className="item-prefix-img flex items-center">{curLogo}</div>
+            )
+          ) : null}
+          {icon ? (
+            <div className="item-prefix-img flex items-center">
+              <ErdaIcon disableCurrent type={icon} size={28} />
             </div>
-            <If condition={description !== undefined}>
-              <Ellipsis className={`body-description ${kvInfos?.length ? '' : 'mt-1'}`} title={description || '-'} />
-            </If>
-            <If condition={!!kvInfos?.length}>
-              <div className={`body-meta-info flex ${description ? '' : 'mt-1'}`}>
-                {map(kvInfos, (info) => {
-                  const { compWapper } = info;
-
-                  const Comp = (
-                    <span className={`info-item type-${info.type || 'normal'}`} {...info.extraProps}>
-                      {info.icon ? (
-                        <ErdaIcon type={info.icon} isConfigPageIcon size="14" />
-                      ) : (
-                        <span className="info-text truncate">{info.key}</span>
-                      )}
-                      <span className="info-value truncate ml-1 text-default">{info.value}</span>
-                    </span>
-                  );
-                  if (compWapper) {
-                    return compWapper(Comp);
-                  }
-
-                  return (
-                    <Tooltip key={info.key} title={info.tip}>
-                      {Comp}
-                    </Tooltip>
-                  );
-                })}
+          ) : null}
+          <div className="flex flex-1 overflow-hidden">
+            <div className="flex-1 flex flex-col justify-center overflow-hidden">
+              <div className="body-title">
+                {titlePrefixIcon && (
+                  <Tooltip title={titlePrefixIconTip}>
+                    <ErdaIcon type={titlePrefixIcon} className="title-icon mr-2" />
+                  </Tooltip>
+                )}
+                <Ellipsis className=" title-text text-base text-default hover:text-purple-deep" title={title} />
+                {titleSummary ? (
+                  <span className="inline-block ml-1 bg-default-1 px-1.5 rounded-lg text-default-8 text-xs leading-5">
+                    {titleSummary}
+                  </span>
+                ) : null}
+                {titleSuffixIcon && (
+                  <Tooltip title={titleSuffixIconTip}>
+                    <ErdaIcon type={titleSuffixIcon} className="title-icon ml-2" />
+                  </Tooltip>
+                )}
+                {map(titleState, (item, idx) => (
+                  <Badge key={idx} showDot={false} size="small" {...item} className="ml-2" />
+                ))}
+                {tags ? <Tags labels={tags} containerClassName="ml-2" /> : null}
               </div>
-            </If>
-          </div>
-          {columnsInfo ? (
-            <div className="flex items-center">
-              {columnsInfo.hoverIcons ? (
-                <div className="erda-base-list-item-hover-icons">
-                  <div className="mr-4 flex ">
-                    {columnsInfo.hoverIcons.map((item, idx) => {
-                      const { compWapper } = item;
-                      if (compWapper) {
-                        return compWapper(
-                          <ErdaIcon
-                            {...item}
-                            type={item.icon}
-                            size={20}
-                            className={`text-default-4 hover:text-default-8 ${idx !== 0 ? 'ml-4' : ''}`}
-                          />,
-                        );
-                      }
-                      return (
-                        <Tooltip title={item.tip} key={idx}>
-                          <ErdaIcon
-                            type={item.icon}
-                            size={20}
-                            {...item.extraProps}
-                            className={`text-default-4 hover:text-default-8 ${idx !== 0 ? 'ml-4' : ''}`}
-                          />
-                        </Tooltip>
-                      );
-                    })}
-                  </div>
-                </div>
-              ) : null}
-              {columnsInfo.state ? (
-                <div className="ml-6" style={{ width: columnsInfoWidth?.state || 80 }}>
-                  <Badge showDot={false} {...columnsInfo.state} />
-                </div>
-              ) : null}
-              {columnsInfo.users ? (
-                <div className="ml-6 flex items-center" style={{ width: columnsInfoWidth?.users || 80 }}>
-                  {columnsInfo.users.map((item) => {
-                    const curUser = userMap[item] || {};
-                    return (
-                      <div key={item} className="truncate">
-                        <Avatar src={curUser?.avatar} size="small">
-                          {curUser?.nick ? getAvatarChars(curUser.nick) : i18n.t('none')}
-                        </Avatar>
-                        <span className="ml-1" title={curUser?.name || item}>
-                          {curUser?.nick || curUser?.name || i18n.t('common:none')}
-                        </span>
-                      </div>
+              <If condition={description !== undefined}>
+                <Ellipsis className={`body-description ${kvInfos?.length ? '' : 'mt-1'}`} title={description || '-'} />
+              </If>
+              <If condition={!!kvInfos?.length}>
+                <div className={`body-meta-info flex ${description ? '' : 'mt-1'}`}>
+                  {map(kvInfos, (info) => {
+                    const { compWapper, status = 'default' } = info;
+
+                    const Comp = (
+                      <span className={`info-item type-${info.type || 'normal'}`} {...info.extraProps}>
+                        {info.icon ? (
+                          <ErdaIcon type={info.icon} isConfigPageIcon size="14" />
+                        ) : (
+                          <span className="info-text truncate">{info.key}</span>
+                        )}
+                        <span className={`info-value truncate ml-1 info-value-${status}`}>{info.value}</span>
+                      </span>
                     );
-                  })}
-                </div>
-              ) : null}
-              {columnsInfo.text ? (
-                <div className="ml-6 flex items-center" style={{ width: columnsInfoWidth?.text || 80 }}>
-                  {columnsInfo.text.map((item, idx) => {
+                    if (compWapper) {
+                      return compWapper(Comp);
+                    }
+
                     return (
-                      <Tooltip title={item.tip} key={idx}>
-                        <div className="text-default-4">{item.text}</div>
+                      <Tooltip key={info.key} title={info.tip}>
+                        {Comp}
                       </Tooltip>
                     );
                   })}
                 </div>
-              ) : null}
+              </If>
             </div>
-          ) : null}
-          <div className="flex items-center">
-            {menuOverlay || operations?.length ? (
-              <div
-                className={`flex items-center ${!isEmpty(extra) ? 'self-start' : ''}`}
-                onClick={(e) => e.stopPropagation()}
-              >
-                {map(operations, (action, idx) => {
-                  const { compWapper, ...restAction } = action;
-                  if (compWapper) {
-                    return compWapper(<ErdaIcon {...restAction} type={action.icon} className="mr-4" size={18} />);
-                  }
-                  return (
-                    <Tooltip title={action.tip} key={idx}>
-                      <ErdaIcon
-                        {...restAction}
-                        type={action.icon}
-                        className="mr-4"
-                        size={18}
-                        onClick={action?.onClick}
-                      />
-                    </Tooltip>
-                  );
-                })}
-                {menuOverlay && (
-                  <Dropdown
-                    overlay={menuOverlay}
-                    overlayClassName={'erda-list-operations'}
-                    overlayStyle={{ zIndex: 1000 }}
-                    trigger={['click']}
-                  >
-                    <ErdaIcon
-                      type="more"
-                      size={18}
-                      className="hover-active p-1 rounded hover:bg-hover-gray-bg"
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                  </Dropdown>
-                )}
+            {columnsInfo ? (
+              <div className="flex items-center">
+                {columnsInfo.hoverIcons ? (
+                  <div className="erda-base-list-item-hover-icons">
+                    <div className="mr-4 flex ">
+                      {columnsInfo.hoverIcons.map((item, idx) => {
+                        const { compWapper } = item;
+                        if (compWapper) {
+                          return compWapper(
+                            <ErdaIcon
+                              {...item}
+                              type={item.icon}
+                              size={20}
+                              className={`text-default-4 hover:text-default-8 ${idx !== 0 ? 'ml-4' : ''}`}
+                            />,
+                          );
+                        }
+                        return (
+                          <Tooltip title={item.tip} key={idx}>
+                            <ErdaIcon
+                              type={item.icon}
+                              size={20}
+                              {...item.extraProps}
+                              className={`text-default-4 hover:text-default-8 ${idx !== 0 ? 'ml-4' : ''}`}
+                            />
+                          </Tooltip>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : null}
+                {columnsInfo.state ? (
+                  <div className="ml-6" style={{ width: columnsInfoWidth?.state || 80 }}>
+                    <Badge showDot={false} {...columnsInfo.state} />
+                  </div>
+                ) : null}
+                {columnsInfo.users ? (
+                  <div className="ml-6 flex items-center" style={{ width: columnsInfoWidth?.users || 80 }}>
+                    {columnsInfo.users.map((item) => {
+                      const curUser = userMap[item] || {};
+                      return (
+                        <div key={item} className="truncate">
+                          <Avatar src={curUser?.avatar} size="small">
+                            {curUser?.nick ? getAvatarChars(curUser.nick) : i18n.t('none')}
+                          </Avatar>
+                          <span className="ml-1" title={curUser?.name || item}>
+                            {curUser?.nick || curUser?.name || i18n.t('common:none')}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : null}
+                {columnsInfo.text ? (
+                  <div className="ml-6 flex items-center" style={{ width: columnsInfoWidth?.text || 80 }}>
+                    {columnsInfo.text.map((item, idx) => {
+                      return (
+                        <Tooltip title={item.tip} key={idx}>
+                          <div className="text-default-4">{item.text}</div>
+                        </Tooltip>
+                      );
+                    })}
+                  </div>
+                ) : null}
               </div>
             ) : null}
+            <div className="flex items-center">
+              {menuOverlay || operations?.length ? (
+                <div
+                  className={`flex items-center ${!isEmpty(extra) ? 'self-start' : ''}`}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {map(operations, (action, idx) => {
+                    const { compWapper, ...restAction } = action;
+                    if (compWapper) {
+                      return compWapper(<ErdaIcon {...restAction} type={action.icon} className="mr-4" size={18} />);
+                    }
+                    return (
+                      <Tooltip title={action.tip} key={idx}>
+                        <ErdaIcon
+                          {...restAction}
+                          type={action.icon}
+                          className="mr-4"
+                          size={18}
+                          onClick={action?.onClick}
+                        />
+                      </Tooltip>
+                    );
+                  })}
+                  {menuOverlay && (
+                    <Dropdown
+                      overlay={menuOverlay}
+                      overlayClassName={'erda-list-operations'}
+                      overlayStyle={{ zIndex: 1000 }}
+                      trigger={['click']}
+                    >
+                      <ErdaIcon
+                        type="more"
+                        size={18}
+                        className="hover-active p-1 rounded hover:bg-hover-gray-bg"
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    </Dropdown>
+                  )}
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
+
+        <If condition={!isEmpty(extra)}>
+          <div className="py-1">{extra}</div>
+        </If>
       </div>
-      <If condition={!isEmpty(extra)}>
-        <div className="py-1">{extra}</div>
-      </If>
     </div>
   );
 };

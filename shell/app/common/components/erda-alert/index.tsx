@@ -23,9 +23,10 @@ interface IProps {
   showOnceKey?: string;
   className?: string;
   type?: AlertProps['type'];
+  theme?: 'light' | 'dark';
 }
 
-const ErdaAlert = ({ type = 'info', message, description, showOnceKey, className }: IProps) => {
+const ErdaAlert = ({ type = 'info', message, description, showOnceKey, className, theme = 'light' }: IProps) => {
   const alertList = JSON.parse(localStorage.getItem('erda-alert-list') || '{}');
   const [isHidden, setIsHidden] = React.useState(showOnceKey ? alertList[showOnceKey] : false);
   const afterClose = () => {
@@ -39,7 +40,7 @@ const ErdaAlert = ({ type = 'info', message, description, showOnceKey, className
   return !isHidden ? (
     <Alert
       type={type}
-      className={`erda-alert py-2 px-4 mb-4 ${className || ''}`}
+      className={`erda-alert py-2 px-4 mb-4 ${className || ''} theme-${theme}`}
       message={
         <>
           <ErdaIcon type="message" className="erda-alert-icon mr-2" />
@@ -47,7 +48,12 @@ const ErdaAlert = ({ type = 'info', message, description, showOnceKey, className
         </>
       }
       description={description}
-      closeText={<ErdaIcon type="close" className="hover-active" />}
+      closeText={
+        <ErdaIcon
+          type="close"
+          className={`${theme === 'dark' ? 'text-white-6 hover:text-purple-deep' : 'hover-active'}`}
+        />
+      }
       afterClose={afterClose}
     />
   ) : null;

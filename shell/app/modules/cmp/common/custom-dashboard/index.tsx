@@ -16,13 +16,13 @@ import { Button, Modal } from 'antd';
 import { formatTime, fromNow, goTo } from 'common/utils';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
+import ErdaTable from 'common/components/table';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 import orgCustomDashboardStore from 'app/modules/cmp/stores/custom-dashboard';
 import mspCustomDashboardStore from 'msp/query-analysis/custom-dashboard/stores/custom-dashboard';
 import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dashboard';
-import Table from 'common/components/table';
-import { ColumnProps, IActions } from 'common/components/table/interface';
+import { ColumnProps, IActions } from 'app/common/components/table/interface';
 
 const storeMap = {
   [CustomDashboardScope.ORG]: orgCustomDashboardStore,
@@ -115,7 +115,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
           {i18n.t('cmp:new dashboard')}
         </Button>
       </div>
-      <Table
+      <ErdaTable
         rowKey="id"
         columns={columns}
         actions={tableActions}

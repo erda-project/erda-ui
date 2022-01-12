@@ -29,25 +29,34 @@ const List = (props: ERDA_LIST.Props) => {
     defaultLogo,
     defaultBgImg,
     columnsInfoWidth,
+    onSelectChange,
+    batchOperation,
+    className = '',
   } = props;
   return (
-    <div className="erda-base-list">
+    <div className={`erda-base-list ${className} flex flex-col`}>
       {dataSource.length ? (
         <>
-          {dataSource.map((item: ERDA_LIST.ListData, idx: number) => {
-            return (
-              <ListItem
-                defaultLogo={defaultLogo}
-                defaultBgImg={defaultBgImg}
-                key={getKey(item, idx)}
-                data={item}
-                columnsInfoWidth={columnsInfoWidth}
-              />
-            );
-          })}
+          <div className="flex-1 h-0 overflow-auto">
+            {dataSource.map((item: ERDA_LIST.ListData, idx: number) => {
+              return (
+                <ListItem
+                  defaultLogo={defaultLogo}
+                  defaultBgImg={defaultBgImg}
+                  key={getKey(item, idx)}
+                  onSelectChange={onSelectChange ? () => onSelectChange(item.id) : undefined}
+                  data={item}
+                  columnsInfoWidth={columnsInfoWidth}
+                />
+              );
+            })}
+          </div>
           {pagination &&
             (!isLoadMore ? (
-              <Pagination {...pagination} current={pagination.pageNo} />
+              <div className="flex items-center justify-between px-4 bg-default-02">
+                <div>{batchOperation}</div>
+                <Pagination {...pagination} current={pagination.pageNo} />
+              </div>
             ) : (
               (pagination?.total || 0) > dataSource.length && (
                 <div className="hover-active load-more" onClick={() => onLoadMore(pagination.pageNo)}>

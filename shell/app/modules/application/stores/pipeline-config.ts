@@ -41,9 +41,14 @@ const pipelineConfig = createFlatStore({
   name: 'pipelineConfig',
   state: initState,
   effects: {
-    async getConfigs({ getParams, select, call, update }, payload: PIPELINE_CONFIG.ConfigQuery[], apiPrefix?: string) {
+    async getConfigs(
+      { getParams, select, call, update },
+      payload: { namespace: PIPELINE_CONFIG.ConfigQuery[]; appID?: string },
+      apiPrefix?: string,
+    ) {
       const { appId } = getParams();
-      const newConfigs = await call(getConfigs, { appID: appId, payload, apiPrefix });
+      const { appID, namespace } = payload;
+      const newConfigs = await call(getConfigs, { appID: appID || appId, payload: namespace, apiPrefix });
       const { fullConfigs, unEncryptConfigs, encryptConfigs } = select((s) => s);
       const newUnEncryptConfigs = reduce(
         newConfigs,
@@ -81,47 +86,58 @@ const pipelineConfig = createFlatStore({
     },
     async addConfigs({ getParams, call }, payload: PIPELINE_CONFIG.AddConfigsBodyWithoutAppId, apiPrefix?: string) {
       const { appId: appID } = getParams();
+      const curAppId = payload.query.appID || appID;
       await call(
         addConfigs,
-        { ...payload, query: { ...payload.query, appID }, apiPrefix },
+        { ...payload, query: { ...payload.query, appID: curAppId }, apiPrefix },
         { successMsg: i18n.t('added successfully') },
       );
-      pipelineConfig.getConfigs([{ namespace_name: payload.query.namespace_name, decrypt: false }], apiPrefix);
+      pipelineConfig.getConfigs(
+        { namespace: [{ namespace_name: payload.query.namespace_name, decrypt: false }], appID: curAppId },
+        apiPrefix,
+      );
     },
     async updateConfigs({ getParams, call }, payload: PIPELINE_CONFIG.AddConfigsBodyWithoutAppId, apiPrefix?: string) {
       const { appId: appID } = getParams();
+      const { query, configs, batch } = payload;
+      const curAppId = payload.query.appID || appID;
       await call(
         addConfigs, // 溪杨说创建和更新暂时使用同一个接口
-        { ...payload, query: { ...payload.query, appID }, apiPrefix },
+        { configs, batch, query: { ...query, appID: curAppId }, apiPrefix },
         { successMsg: i18n.t('dop:modified successfully') },
       );
-      pipelineConfig.getConfigs([{ namespace_name: payload.query.namespace_name, decrypt: false }], apiPrefix);
+      pipelineConfig.getConfigs(
+        { namespace: [{ namespace_name: payload.query.namespace_name, decrypt: false }], appID: curAppId },
+        apiPrefix,
+      );
     },
     async removeConfig(
       { getParams, call },
-      { namespace_name, key }: Omit<PIPELINE_CONFIG.DeleteConfigQuery, 'appID'>,
+      { namespace_name, key, appID: _appID }: PIPELINE_CONFIG.DeleteConfigQuery,
       apiPrefix?: string,
     ) {
       const { appId: appID } = getParams();
+      const curAppId = _appID || appID;
       await call(
         removeConfigs,
-        { namespace_name, key, appID, apiPrefix },
+        { namespace_name, key, appID: curAppId, apiPrefix },
         { successMsg: i18n.t('deleted successfully') },
       );
-      pipelineConfig.getConfigs([{ namespace_name, decrypt: false }], apiPrefix);
+      pipelineConfig.getConfigs({ namespace: [{ namespace_name, decrypt: false }], appID: curAppId }, apiPrefix);
     },
     async removeConfigWithoutDeploy(
       { getParams, call },
-      { namespace_name, key }: Omit<PIPELINE_CONFIG.DeleteConfigQuery, 'appID'>,
+      { namespace_name, key, appID: _appID }: PIPELINE_CONFIG.DeleteConfigQuery,
       apiPrefix?: string,
     ) {
       const { appId: appID } = getParams();
+      const curAppId = _appID || appID;
       await call(
         removeConfigs,
-        { namespace_name, key, appID, apiPrefix },
+        { namespace_name, key, appID: curAppId, apiPrefix },
         { successMsg: i18n.t('deleted successfully') },
       );
-      pipelineConfig.getConfigs([{ namespace_name, decrypt: false }], apiPrefix);
+      pipelineConfig.getConfigs({ namespace: [{ namespace_name, decrypt: false }], appID: curAppId }, apiPrefix);
     },
     async getConfigNameSpaces({ call, getParams }) {
       const { appId: appID } = getParams();
@@ -134,7 +150,10 @@ const pipelineConfig = createFlatStore({
         { configs: JSON.parse(payload.configs), query: { ...payload.query } },
         { successMsg: i18n.t('imported successfully') },
       );
-      pipelineConfig.getConfigs([{ namespace_name: payload.query.namespace_name, decrypt: false }], apiPrefix);
+      pipelineConfig.getConfigs(
+        { namespace: [{ namespace_name: payload.query.namespace_name, decrypt: false }] },
+        apiPrefix,
+      );
     },
     async exportConfigs({ call }, query) {
       const content = await call(exportConfigs, query);

@@ -24,6 +24,14 @@
   .erda-pagination-jump {
     width: 170px;
   }
+
+  &.theme-dark {
+    .bg-hover:not(.disabled) {
+      &:hover {
+        color: $white;
+      }
+    }
+  }
 }
 
 .pagination-jump {

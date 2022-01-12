@@ -216,7 +216,7 @@ const ConfigurableFilter = ({
           <Row>
             {fieldsList?.map((item, index: number) => {
               return (
-                <Col span={12} className={index % 2 === 1 ? 'pl-2' : 'pr-2'}>
+                <Col span={12} key={item.key} className={index % 2 === 1 ? 'pl-2' : 'pr-2'}>
                   <RenderFormItem required={false} {...defaultProcessField(processField ? processField(item) : item)} />
                 </Col>
               );

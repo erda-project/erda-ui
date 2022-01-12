@@ -36,6 +36,11 @@ declare namespace PIPELINE_CONFIG {
     createTime: string;
     updateTime: string;
     isFromDefault?: boolean;
+    operations?: {
+      canDelete: boolean;
+      canDownload: boolean;
+      canEdit: boolean;
+    };
   }
 
   interface AddConfigsQuery {
@@ -49,11 +54,13 @@ declare namespace PIPELINE_CONFIG {
     apiPrefix?: string;
     query: AddConfigsQuery;
     configs: ConfigItem[];
+    batch?: boolean;
   }
 
   interface AddConfigsBodyWithoutAppId {
-    query: Omit<AddConfigsQuery, 'appID'>;
+    query: AddConfigsQuery;
     configs: ConfigItem[];
+    batch?: boolean;
   }
 
   interface importConfigsBody {

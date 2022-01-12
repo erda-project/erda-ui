@@ -15,7 +15,7 @@
 import React from 'react';
 import { Tree, Tooltip, Row, Col, Tabs, Radio, RadioChangeEvent, Spin } from 'antd';
 import { TimeSelect, KeyValueList, Icon as CustomIcon, EmptyHolder, Ellipsis } from 'common';
-import Table from 'common/components/table';
+import ErdaTable from 'common/components/table';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
 import { getSpanAnalysis, getSpanEvents } from 'msp/services';
 import './index.scss';
@@ -412,7 +412,7 @@ export function TraceGraph(props: IProps) {
                     </TabPane>
                     <TabPane tab={i18n.t('msp:events')} key={2}>
                       <Spin spinning={spanDataLoading}>
-                        <Table columns={columns} dataSource={spanDataSource} onChange={handleTableChange} />
+                        <ErdaTable columns={columns} dataSource={spanDataSource} onChange={handleTableChange} />
                       </Spin>
                     </TabPane>
                     <TabPane tab={i18n.t('msp:associated services')} key={3}>

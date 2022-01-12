@@ -15,9 +15,9 @@ import React from 'react';
 import { debounce, isNumber } from 'lodash';
 import moment, { Moment } from 'moment';
 import { BoardGrid, ContractiveFilter, Copy, TagsRow } from 'common';
+import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
-import { ColumnProps } from 'common/components/table/interface';
-import Table from 'common/components/table';
+import { ColumnProps } from 'app/common/components/table/interface';
 import { message } from 'antd';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
@@ -264,7 +264,7 @@ const TraceSearch = () => {
       <div className="mb-6">
         <DashBoard layout={layout} globalVariable={globalVariable} />
       </div>
-      <Table
+      <ErdaTable
         loading={loading}
         rowKey="id"
         columns={columns}

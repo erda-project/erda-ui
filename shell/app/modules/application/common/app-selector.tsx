@@ -17,6 +17,7 @@ import { goTo } from 'common/utils';
 import { map, isArray, filter, isEmpty, find, get } from 'lodash';
 import { Tooltip } from 'antd';
 import i18n from 'i18n';
+import { useMount } from 'react-use';
 import { getApps } from 'common/services';
 import routeInfoStore from 'core/stores/route';
 import appStore from 'application/stores/application';
@@ -26,6 +27,7 @@ import './app-selector.scss';
 interface IProps {
   [pro: string]: any;
   value: string | number;
+  autoSelect?: boolean;
   projectId?: string;
   onClickItem?: (arg: IApplication) => void;
   onChange?: (arg: number) => void;
@@ -69,8 +71,20 @@ export const chosenItemConvert = (values: IChosenItem[] | IChosenItem) => {
 };
 
 export const AppSelector = (props: IProps) => {
-  const { projectId: _projectId, ...rest } = props;
+  const { projectId: _projectId, autoSelect = false, ...rest } = props;
   const pId = routeInfoStore.useStore((s) => s.params.projectId);
+  useMount(() => {
+    if (autoSelect && !rest.value) {
+      getData().then((res) => {
+        const curApp = res.list?.[0];
+        if (curApp) {
+          rest.onClickItem?.(curApp);
+          rest.onChange?.(curApp.id);
+        }
+      });
+    }
+  });
+
   const projectId = _projectId || pId;
   const getData = (_q: Obj = {}) => {
     if (!projectId) return;

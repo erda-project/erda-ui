@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { ColumnProps, IActions } from 'common/components/table/interface';
+import { ColumnProps, IActions } from 'app/common/components/table/interface';
 import { Copy, EmptyHolder, ErdaIcon } from 'common';
-import Table from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
+import ErdaTable from 'common/components/table';
 import i18n from 'i18n';
 import { Button, message, Modal, Spin } from 'antd';
 import TypeSelect, { Item } from 'msp/env-setting/configuration/type-select';
@@ -270,7 +270,7 @@ const Configuration = () => {
             {i18n.t('create {name}', { name: 'Token' })}
           </Button>
         </WithAuth>
-        <Table
+        <ErdaTable
           className="mt-2 mb-4"
           columns={columns}
           actions={tableActions}

@@ -22,6 +22,9 @@ declare namespace ERDA_LIST {
     defaultLogo?: string;
     defaultBgImg?: string;
     columnsInfoWidth?: Obj<number>;
+    batchOperation?: React.ReactElement;
+    onSelectChange?: (rowId: string) => void;
+    className?: string;
   }
 
   interface ItemProps {
@@ -30,6 +33,7 @@ declare namespace ERDA_LIST {
     columnsInfoWidth?: Obj<number>;
     defaultLogo?: string;
     defaultBgImg?: string;
+    onSelectChange?: (bol: boolean) => void;
   }
 
   interface Operation {

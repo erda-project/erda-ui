@@ -452,7 +452,7 @@ export const MobileConfig = () => {
     };
   });
   useEffectOnce(() => {
-    configStore.getConfigs(nsQuery);
+    configStore.getConfigs({ namespace: nsQuery });
 
     return () => configStore.clearConfigs();
   });
@@ -482,12 +482,12 @@ export const PipelineConfig = () => {
       });
       updater.envToNs(temp);
 
-      configStore.getConfigs(
-        result.map(({ namespace }) => ({
+      configStore.getConfigs({
+        namespace: result.map(({ namespace }) => ({
           namespace_name: namespace,
           decrypt: false,
         })),
-      );
+      });
     });
     return () => configStore.clearConfigs();
   });
@@ -517,7 +517,7 @@ export const DeployConfig = () => {
           decrypt: false,
         };
       });
-      configStore.getConfigs(namespaceParams, 'configmanage');
+      configStore.getConfigs({ namespace: namespaceParams }, 'configmanage');
     }
   }, [appDetail.workspaces, appId, envToNs]);
 

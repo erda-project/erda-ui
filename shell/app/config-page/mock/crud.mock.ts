@@ -39,353 +39,309 @@ const makeData = (num: number) => {
 
 export const mockData = {
   scenario: {
-    scenarioKey: 'table-demo',
-    scenarioType: 'table-demo',
+    scenarioKey: 'x',
+    scenarioType: 'x',
   },
   protocol: {
-    version: '',
-    scenario: 'table-demo',
-    state: {
-      _error_: null,
-    },
     hierarchy: {
       root: 'page',
       structure: {
-        page: ['table'],
+        page: ['list'],
+        list: { filter: 'filterContainer' },
+        filterContainer: {
+          left: 'inputFilter',
+          right: 'advanceFilter',
+        },
       },
     },
     components: {
-      page: {
-        type: 'Container',
-        name: 'page',
-        props: null,
-        state: {},
-        data: {},
-        operations: {},
-        options: null,
-        version: '',
-      },
-      table: {
-        type: 'Table',
-        name: 'table',
-        props: null,
-        state: {},
+      page: { type: 'Container' },
+      filterContainer: { type: 'LRContainer' },
+      advanceFilter: {
+        type: 'ConfigurableFilter',
         data: {
           operations: {
+            filter: {},
+          },
+          conditions: [
+            {
+              key: 'status',
+              label: '状态',
+              placeholder: '选择状态',
+              type: 'select',
+              options: [
+                { label: '1', value: '1' },
+                { label: '2', value: '2' },
+              ],
+            },
+            {
+              key: 'app',
+              label: '应用',
+              placeholder: '选择应用',
+              type: 'select',
+              options: [
+                { label: '1', value: '1' },
+                { label: '2', value: '2' },
+              ],
+            },
+            {
+              key: 'deployName',
+              label: '部署单名称',
+              placeholder: '选择部署单名称',
+              type: 'select',
+              options: [
+                { label: '1', value: '1' },
+                { label: '2', value: '2' },
+              ],
+            },
+            {
+              key: 'deployTime',
+              label: '部署时间',
+              placeholder: '选择部署时间',
+              type: 'dateRange',
+            },
+          ],
+        },
+      },
+      inputFilter: {
+        type: 'ContractiveFilter',
+        operations: {
+          filter: { key: 'filter', reload: true },
+        },
+        state: {
+          conditions: [
+            {
+              key: 'title',
+              placeholder: '按关键字搜索',
+              type: 'input',
+            },
+          ],
+          values: {},
+        },
+      },
+      list: {
+        type: 'List',
+        version: '2',
+        data: {
+          operations: {
+            changePage: {},
             batchRowsHandle: {
               serverData: {
                 options: [
-                  {
-                    allowedRowIDs: ['row1'],
-                    id: 'delete',
-                    text: '删除',
-                  },
-                  {
-                    allowedRowIDs: ['row2'],
-                    id: 'start',
-                    text: '启动',
-                  },
+                  { allowedRowIDs: ['1'], icon: 'chongxinqidong', id: '1', text: '重启' }, // allowedRowIDs = null 或不传这个key，表示所有都可选，allowedRowIDs=[]表示当前没有可选择，此处应该可以不传
+                  { allowedRowIDs: ['1', '2'], icon: 'remove', id: '2', text: '删除', confirm: 'sss' },
                 ],
               },
-              // text: '批量操作',
+              clientData: {
+                dataRef: {}, // 当前选择的操作对象  { allowedRowIDs: ['1', '2'], icon: 'chongxinqidong', id: '1', text: '重启' },
+                selectedOptionsID: '1', // 当前选择的批量操作 id
+                selectedRowIDs: ['1', '3'], // 选择的行id
+              },
             },
-            changePage: {
-              serverData: {},
-            },
-            changeSort: {},
           },
-          table: {
-            columns: {
-              columnsMap: {
-                assignee: {
-                  title: '处理人',
+          pageNo: 1,
+          pageSize: 10,
+          total: 1,
+          list: [
+            {
+              id: '1',
+              title: 'erda/develop',
+              mainState: { status: 'error' },
+              titleState: [
+                // 可能存在多个状态
+                {
+                  status: 'processing',
+                  text: '研发',
                 },
-                finishedAt: {
-                  title: '截止日期',
+                {
+                  status: 'success',
+                  text: '部署中',
+                  suffixIcon: 'right',
+                  operations: {
+                    click: {
+                      skipRender: true,
+                      serverData: {
+                        logId: '313',
+                        appId: '87',
+                      },
+                    },
+                  },
                 },
-                priority: {
-                  title: '优先级',
-
-                  sorter: true,
+              ],
+              kvInfos: [
+                {
+                  key: '应用',
+                  value: 'erda',
                 },
-                state: {
-                  title: '状态',
+                {
+                  key: '部署单',
+                  value: '212323',
+                  status: 'success', // red / blue
+                  tip: 'xxx',
                 },
-                mergedTitle: {
-                  title: '合并单元',
+                {
+                  key: '部署人',
+                  value: '张三',
+                },
+                {
+                  key: '运行时间',
+                  value: '23天',
+                },
+                {
+                  key: '最近部署',
+                  value: '2021/09/09 23:23:23',
+                },
+              ],
+              moreOperations: [
+                {
+                  id: 3,
+                  icon: 'shuaxin',
+                  key: 'update',
+                  text: '更新',
+                  operations: {
+                    click: {
+                      clientData: {
+                        selectedRowID: '1',
+                        dataRef: { id: 1, icon: 'remove', key: 'delete', text: '删除' },
+                      },
+                    },
+                  },
+                },
+                {
+                  id: 2,
+                  icon: 'chongxinqidong',
+                  key: 'restart',
+                  text: '重启',
+                  operations: {
+                    click: {
+                      clientData: {
+                        selectedRowID: '1',
+                        dataRef: { id: 1, icon: 'remove', key: 'delete', text: '删除' },
+                      },
+                    },
+                  },
+                },
+                {
+                  id: 1,
+                  icon: 'remove',
+                  key: 'delete',
+                  text: '删除',
+                  operations: {
+                    click: {
+                      confirm: '确认删除？',
+                      clientData: {
+                        selectedRowID: '1',
+                        dataRef: { id: 1, icon: 'remove', key: 'delete', text: '删除' },
+                      },
+                    },
+                  },
+                },
+              ],
+              operations: {
+                clickGoto: {
+                  serverData: {
+                    target: 'runtimeDetailRoot',
+                    params: { projectId: '1', appId: '2', runtimeId: '2' },
+                  },
                 },
               },
-              merges: {
-                mergedTitle: {
-                  orders: ['icon', 'title', 'labels'],
-                },
-              },
-              orders: ['mergedTitle', 'priority', 'state', 'assignee', 'finishedAt'],
             },
-            pageNo: 1,
-            pageSize: 10,
-            rows: [
-              {
-                cellsMap: {
-                  assignee: {
-                    data: {
-                      operations: {
-                        userSelector: {},
-                      },
-                      scope: 'project',
-                      scopeID: '1000300',
-                      selectedUserIDs: ['92'],
-                    },
-                    type: 'userSelector',
-                  },
-                  finishedAt: {
-                    data: {
-                      text: '2021-12-29',
-                    },
-                    type: 'text',
-                  },
-                  icon: {
-                    data: {
-                      type: 'ISSUE_ICON.issue.TASK',
-                    },
-                    type: 'icon',
-                  },
-                  labels: {
-                    data: {
-                      labels: [
-                        {
-                          id: 'label-id-1',
-                          title: 'area/监控',
-                        },
-                        {
-                          color: 4,
-                          id: 'label-id-2',
-                          title: 'team/前端',
-                        },
-                      ],
-                    },
-                    type: 'labels',
-                  },
-                  priority: {
-                    data: {
-                      menus: [
-                        {
-                          icon: {
-                            type: 'ISSUE_ICON.priority.URGENT',
-                          },
-                          id: 'urgent',
-                          text: '紧急',
-                        },
-                        {
-                          icon: {
-                            type: 'ISSUE_ICON.priority.HIGH',
-                          },
-                          id: 'high',
-                          text: '高',
-                        },
-                        {
-                          icon: {
-                            type: 'ISSUE_ICON.priority.NORMAL',
-                          },
-                          id: 'normal',
-                          selected: true,
-                          text: '中',
-                        },
-                        {
-                          icon: {
-                            type: 'ISSUE_ICON.priority.LOW',
-                          },
-                          id: 'low',
-                          text: '低',
-                        },
-                      ],
-                      operations: {
-                        dropDownMenuChange: {},
+            {
+              id: '2',
+              title: 'erda/develop',
+              selectable: true,
+              titleState: [
+                // 可能存在多个状态
+                {
+                  status: 'processing',
+                  text: '研发',
+                },
+                {
+                  status: 'success',
+                  text: '部署',
+                },
+              ],
+              kvInfos: [
+                {
+                  key: '应用',
+                  value: 'erda',
+                },
+                {
+                  key: '部署单',
+                  value: '212323',
+                  status: 'success', // red / blue
+                  tip: 'xxx',
+                },
+                {
+                  key: '部署人',
+                  value: '张三',
+                },
+                {
+                  key: '运行时间',
+                  value: '23天',
+                },
+                {
+                  key: '最近部署',
+                  value: '2021/09/09 23:23:23',
+                },
+              ],
+              moreOperations: [
+                {
+                  id: 3,
+                  icon: 'shuaxin',
+                  key: 'update',
+                  text: '更新',
+                  operations: {
+                    click: {
+                      clientData: {
+                        selectedRowID: '1',
+                        dataRef: { id: 1, icon: 'remove', key: 'delete', text: '删除' },
                       },
                     },
-                    type: 'dropDownMenu',
-                  },
-                  state: {
-                    data: {
-                      menus: [
-                        {
-                          disabled: true,
-                          hidden: true,
-                          id: 'state-id-for-open',
-                          text: '待处理',
-                          tip: '无法转移',
-                        },
-                        {
-                          id: 'state-id-for-working',
-                          selected: true,
-                          text: '进行中',
-                        },
-                        {
-                          id: 'state-id-for-done',
-                          text: '已完成',
-                        },
-                        {
-                          id: 'state-id-for-abandoned',
-                          text: '已作废',
-                        },
-                      ],
-                      operations: {
-                        dropDownMenuChange: {},
-                      },
-                    },
-                    type: 'dropDownMenu',
-                  },
-                  title: {
-                    data: {
-                      text: '【服务监控】增加链路查询页面',
-                    },
-                    type: 'text',
                   },
                 },
-                id: 'row1',
-                operations: {
-                  rowAdd: {},
-                  rowDelete: {},
-                  rowEdit: {},
-                  rowSelect: {},
+                {
+                  id: 2,
+                  icon: 'chongxinqidong',
+                  key: 'restart',
+                  text: '重启',
+                  operations: {
+                    click: {
+                      clientData: {
+                        selectedRowID: '1',
+                        dataRef: { id: 1, icon: 'remove', key: 'delete', text: '删除' },
+                      },
+                    },
+                  },
                 },
-                selectable: true,
+                {
+                  id: 1,
+                  icon: 'remove',
+                  key: 'delete',
+                  text: '删除',
+                  operations: {
+                    click: {
+                      confirm: '确认删除？',
+                      clientData: {
+                        selectedRowID: '1',
+                        dataRef: { id: 1, icon: 'remove', key: 'delete', text: '删除' },
+                      },
+                    },
+                  },
+                },
+              ],
+              operations: {
+                clickGoto: {
+                  serverData: {
+                    target: 'runtimeDetailRoot',
+                    params: { projectId: '1', appId: '2', runtimeId: '2' },
+                  },
+                },
               },
-              {
-                cellsMap: {
-                  assignee: {
-                    data: {
-                      operations: {
-                        userSelector: {},
-                      },
-                      scope: 'project',
-                      scopeID: '1000300',
-                      selectedUserIDs: ['92'],
-                    },
-                    type: 'userSelector',
-                  },
-                  finishedAt: {
-                    data: {
-                      text: '2021-12-29',
-                    },
-                    type: 'text',
-                  },
-                  icon: {
-                    data: {
-                      type: 'ISSUE_ICON.issue.TASK',
-                    },
-                    type: 'icon',
-                  },
-                  labels: {
-                    data: {
-                      labels: [
-                        {
-                          id: 'label-id-1',
-                          title: 'area/监控',
-                        },
-                        {
-                          color: 4,
-                          id: 'label-id-2',
-                          title: 'team/前端',
-                        },
-                      ],
-                    },
-                    type: 'labels',
-                  },
-                  priority: {
-                    data: {
-                      menus: [
-                        {
-                          icon: {
-                            type: 'ISSUE_ICON.priority.URGENT',
-                          },
-                          id: 'urgent',
-                          text: '紧急',
-                        },
-                        {
-                          icon: {
-                            type: 'ISSUE_ICON.priority.HIGH',
-                          },
-                          id: 'high',
-                          text: '高',
-                        },
-                        {
-                          icon: {
-                            type: 'ISSUE_ICON.priority.NORMAL',
-                          },
-                          id: 'normal',
-                          selected: true,
-                          text: '中',
-                        },
-                        {
-                          icon: {
-                            type: 'ISSUE_ICON.priority.LOW',
-                          },
-                          id: 'low',
-                          text: '低',
-                        },
-                      ],
-                      operations: {
-                        dropDownMenuChange: {},
-                      },
-                    },
-                    type: 'dropDownMenu',
-                  },
-                  state: {
-                    data: {
-                      menus: [
-                        {
-                          disabled: true,
-                          hidden: true,
-                          id: 'state-id-for-open',
-                          text: '待处理',
-                          tip: '无法转移',
-                        },
-                        {
-                          id: 'state-id-for-working',
-                          selected: true,
-                          text: '进行中',
-                        },
-                        {
-                          id: 'state-id-for-done',
-                          text: '已完成',
-                        },
-                        {
-                          id: 'state-id-for-abandoned',
-                          text: '已作废',
-                        },
-                      ],
-                      operations: {
-                        dropDownMenuChange: {},
-                      },
-                    },
-                    type: 'dropDownMenu',
-                  },
-                  title: {
-                    data: {
-                      text: '【服务监控】增加链路查询页面',
-                    },
-                    type: 'text',
-                  },
-                },
-                id: 'row2',
-                operations: {
-                  rowAdd: {},
-                  rowDelete: {},
-                  rowEdit: {},
-                  rowSelect: {},
-                },
-                selectable: true,
-              },
-            ],
-            total: 1,
-          },
+            },
+          ],
         },
-        operations: {},
-        version: '2',
       },
     },
-    rendering: {},
-    options: null,
   },
 };

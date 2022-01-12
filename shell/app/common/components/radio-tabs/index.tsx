@@ -30,7 +30,7 @@ export interface RadioTabsProps {
 type Value = string | number | undefined;
 
 interface IOption {
-  label: string;
+  label: string | React.ReactElement;
   value: string | number;
   disabled?: boolean;
   icon?: string;

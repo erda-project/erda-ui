@@ -15,10 +15,11 @@ import React from 'react';
 import { useDebounce, useUnmount } from 'react-use';
 import { CustomFilter, TableActions, UserInfo } from 'common';
 import { useUpdate } from 'common/use-hooks';
+
+import ErdaTable from 'common/components/table';
 import apiMarketStore from 'app/modules/apiManagePlatform/stores/api-market';
 import { useLoading } from 'core/stores/loading';
 import { Input, Button, Tooltip } from 'antd';
-import Table from 'common/components/table';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import AssetModal, { IMode, IScope } from 'app/modules/apiManagePlatform/pages/api-market/components/asset-modal';
@@ -219,7 +220,7 @@ const ApiMarketList = () => {
           {i18n.t('default:create resource')}
         </Button>
       </div>
-      <Table
+      <ErdaTable
         rowKey="asset.assetID"
         columns={columns}
         dataSource={assetList}

@@ -14,7 +14,7 @@
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import { ErrorBoundary, FileEditor, ErdaIcon } from 'common';
-import { Button, message, Input, Checkbox, Tooltip } from 'antd';
+import { Button, message, Input, Checkbox, Tooltip, Drawer } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import { statusColorMap } from 'app/config-page/utils';
 import { useUpdateEffect, useThrottleFn } from 'react-use';
@@ -22,6 +22,8 @@ import { get } from 'lodash';
 import { Form as PureForm } from 'dop/pages/form-editor/index';
 import agent from 'agent';
 import moment from 'moment';
+import { useUpdate } from 'common/use-hooks';
+import DeployLog from 'runtime/common/logs/components/deploy-log';
 
 import './debug.scss';
 
@@ -41,6 +43,21 @@ const DebugConfigPage = () => {
   const [activeLog, setActiveLog] = React.useState(0);
   const { url, scenario, debug, ...restQuery } = routeInfoStore.useStore((s) => s.query);
   const [proxyApi, setProxyApi] = React.useState(url);
+
+  const [
+    { drawerVisible, addDrawerVisible, searchValue, configDrawerVis, configEnv, deployOrders, logVisible, logData },
+    updater,
+    update,
+  ] = useUpdate({
+    drawerVisible: false,
+    configDrawerVis: false,
+    addDrawerVisible: false,
+    configEnv: '',
+    deployOrders: [],
+    logVisible: false,
+    logData: null,
+    searchValue: '',
+  });
   const _defaultData = scenario
     ? {
         scenario: {
@@ -231,6 +248,33 @@ const DebugConfigPage = () => {
             <DiceConfigPage
               ref={pageRef}
               showLoading
+              customProps={{
+                list: {
+                  props: {
+                    fixedPagination: true,
+                  },
+                  op: {
+                    clickItem: (op, extra) => {
+                      console.log('------', op);
+                      if (extra.action === 'clickTitleState' && op.serverData) {
+                        update({
+                          logVisible: true,
+                          logData: {
+                            detailLogId: op.serverData.logId,
+                            applicationId: op.serverData.appId,
+                            hasLogs: false,
+                          },
+                        });
+                      }
+                    },
+                  },
+                },
+                page: {
+                  props: {
+                    className: 'h-full',
+                  },
+                },
+              }}
               scenarioType={scenario || config?.scenario?.scenarioType}
               scenarioKey={scenario || config?.scenario?.scenarioKey}
               inParams={config?.inParams}
@@ -243,6 +287,9 @@ const DebugConfigPage = () => {
                 setText(JSON.stringify(v, null, 2));
               }}
             />
+            <Drawer visible={logVisible} width={'80%'} onClose={() => update({ logVisible: false, logData: null })}>
+              {logData ? <DeployLog {...logData} /> : null}
+            </Drawer>
           </ErrorBoundary>
         </div>
       </div>

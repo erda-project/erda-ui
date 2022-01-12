@@ -144,10 +144,6 @@ body {
       }
     }
 
-    .ant-table-row:hover td {
-      background-color: $color-hover !important;
-    }
-
     // table下的button默认使用small大小的
     .ant-btn {
       height: 28px;
@@ -240,10 +236,13 @@ body {
 
   .ant-drawer-body {
     height: calc(100% - 55px);
+    padding: 12px 16px;
   }
 
   .ant-drawer-header {
     border-bottom: unset;
+    background: $color-default-02;
+    padding: 12px 16px;
   }
 
   .ant-pagination-simple .ant-pagination-prev,
@@ -532,6 +531,140 @@ body {
         &:before {
           display: none;
         }
+      }
+    }
+  }
+
+  .ant-drawer {
+    &.theme-dark {
+      .ant-drawer-header {
+        color: $color-white-8;
+        background-color: $color-default;
+        border-bottom: 1px solid $color-white-1;
+        .ant-drawer-title {
+          color: $white;
+        }
+      }
+      .ant-drawer-content {
+        color: $color-white-8;
+        background-color: $color-default;
+      }
+    }
+  }
+
+  .ant-select-dropdown {
+    &.theme-dark {
+      padding: 0.5rem 0;
+      background-color: $color-dropdown-bg-dark;
+
+      .ant-select-item {
+        padding: 5px 8px;
+        color: $white;
+      }
+
+      div.ant-select-item-option-active {
+        background-color: rgba($white, 0.08);
+      }
+
+      .ant-select-item-option-selected {
+        background-color: transparent;
+      }
+
+      .ant-select-item-option-state {
+        color: $color-purple-deep;
+      }
+
+      .rc-virtual-list-holder {
+        padding: 0 0.5rem;
+      }
+    }
+  }
+
+  .ant-select {
+    &.theme-dark {
+      .ant-select-selector {
+        padding-left: 0.5rem;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin: 0;
+        border-color: transparent;
+        background-color: rgba($white, 0.08);
+
+        .ant-select-selection-search {
+          margin-left: 0;
+        }
+      }
+      .ant-select-selection-item {
+        padding-left: 0;
+        padding-right: 0;
+        margin-right: 0;
+        color: $white;
+        border: none;
+        background-color: transparent;
+
+        &-remove {
+          display: none;
+        }
+      }
+
+      .ant-select-arrow {
+        transform: scale(1.5);
+        transition: 0.2s;
+      }
+      &.ant-select-open {
+        .ant-select-arrow {
+          transform: scale(1.5) rotate(180deg);
+        }
+      }
+
+      &.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) {
+        .ant-select-selector {
+          border: 1px solid $color-purple-highlight;
+        }
+      }
+    }
+  }
+
+  .ant-input-affix-wrapper {
+    &.theme-dark {
+      background-color: $color-white-06;
+      .ant-input {
+        color: $white;
+        &::placeholder {
+          color: $color-white-4;
+        }
+      }
+    }
+  }
+
+  .ant-btn {
+    &.theme-dark {
+      background-color: $color-white-2;
+      border: none;
+      color: $white;
+
+      &.ant-btn-primary {
+        background-color: $color-purple-highlight;
+        border-color: $color-purple-highlight;
+      }
+    }
+  }
+  .ant-radio-wrapper {
+    &.theme-dark {
+      .ant-radio-inner {
+        background: transparent;
+        border-color: $color-white-3;
+      }
+      .ant-radio-checked {
+        &::after {
+          border: 1px solid $color-purple-highlight;
+        }
+        .ant-radio-inner {
+          border-color: $color-purple-highlight;
+        }
+      }
+      .ant-radio-inner::after {
+        background-color: $color-purple-highlight;
       }
     }
   }

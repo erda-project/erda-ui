@@ -1,0 +1,15 @@
+.head-operation-bar {
+  .head-operations {
+    iconpark-icon {
+      color: $color-default-4;
+      cursor: pointer;
+      font-size: 20px;
+      padding: 4px;
+      margin-left: 12px;
+      &:hover {
+        background-color: $color-default-08;
+        color: $color-default-8;
+      }
+    }
+  }
+}

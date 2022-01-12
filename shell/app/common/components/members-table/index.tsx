@@ -16,13 +16,13 @@ import { usePerm } from 'app/user/common';
 import userStore from 'app/user/stores';
 import appMemberStore from 'common/stores/application-member';
 import { AddMemberModal, Copy, FilterGroup, FormModal, IF, ErdaIcon } from 'common';
+import ErdaTable from 'common/components/table';
+import { IActions, ColumnProps } from 'common/components/table/interface';
 import { useLoading } from 'core/stores/loading';
 import AuthorizeMemberModal from '../authorize-member-modal';
 import i18n from 'i18n';
 import { debounce, map, isEmpty, find, isArray, filter, get } from 'lodash';
 import { Button, Modal, Select, Spin, Tooltip, message, Avatar } from 'antd';
-import Table from 'common/components/table';
-import { IActions, ColumnProps } from 'common/components/table/interface';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import sysMemberStore from 'common/stores/sys-member';
@@ -558,7 +558,7 @@ const MembersTable = ({
       updater.queryParams({ ...state.queryParams, pageNo: no, pageSize: size });
     };
     return (
-      <Table
+      <ErdaTable
         slot={<FilterGroup list={filterList} onChange={debounce(onSearchMembers, 1000)} />}
         rowKey={'userId'}
         rowSelection={

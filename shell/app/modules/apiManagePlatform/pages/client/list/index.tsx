@@ -13,11 +13,11 @@
 
 import React from 'react';
 import { Spin, Popconfirm, Input, Modal } from 'antd';
-import Table from 'common/components/table';
 import { ColumnProps, PaginationProps } from 'core/common/interface';
 import i18n from 'i18n';
 import apiClientStore from 'apiManagePlatform/stores/api-client';
 import { Copy, CustomFilter, ErdaAlert } from 'common';
+import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import { isEmpty } from 'lodash';
@@ -128,7 +128,7 @@ const ClientList = () => {
         )}
         className="mb-3"
       />
-      <Table
+      <ErdaTable
         rowKey="client.id"
         columns={columns}
         dataSource={clientList}

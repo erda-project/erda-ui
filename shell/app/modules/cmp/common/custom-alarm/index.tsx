@@ -34,9 +34,9 @@ import {
   merge,
 } from 'lodash';
 import { Spin, Button, Switch, Select, Input, InputNumber, message, Modal, Tooltip } from 'antd';
-import Table from 'common/components/table';
-import { IActions } from 'common/components/table/interface';
+import { IActions } from 'app/common/components/table/interface';
 import { Badge, FormModal, MarkdownEditor, RenderPureForm, IF, BoardGrid } from 'common';
+import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { useMount } from 'react-use';
 import { FormInstance } from 'core/common/interface';
@@ -778,7 +778,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
               >
                 {i18n.t('cmp:add filter rules')}
               </Button>
-              <Table
+              <ErdaTable
                 hideHeader
                 className="filter-rule-table"
                 rowKey="uniKey"
@@ -817,7 +817,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
               >
                 {i18n.t('cmp:add field rules')}
               </Button>
-              <Table
+              <ErdaTable
                 hideHeader
                 className="field-rule-table"
                 rowKey="uniKey"
@@ -948,7 +948,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
         </Button>
       </div>
       <Spin spinning={getCustomAlarmsLoading}>
-        <Table
+        <ErdaTable
           dataSource={customAlarms}
           columns={columns}
           rowKey="id"

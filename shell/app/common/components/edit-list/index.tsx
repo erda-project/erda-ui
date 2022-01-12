@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Input, Select, Tooltip } from 'antd';
+import { Button, Input, Select, Tooltip, Switch } from 'antd';
 import { useUpdate } from 'common/use-hooks';
 import { InputSelect, Icon as CustomIcon, ErdaIcon } from 'common';
 import { produce } from 'immer';
@@ -33,7 +33,7 @@ interface ITemp {
   flex?: number;
   titleTip?: string;
   render: {
-    type: 'input' | 'text' | 'select' | 'inputSelect';
+    type: 'input' | 'text' | 'select' | 'inputSelect' | 'switch';
     props?: Obj;
     required?: boolean;
     uniqueValue?: boolean;
@@ -213,9 +213,7 @@ const EditList = (props: IELProps) => {
           <ListItem
             dataTemp={dataTemp}
             isTitle
-            operation={
-              <ErdaIcon type="reduce-one" className="edit-list-item-operation not-allowed" />
-            }
+            operation={<ErdaIcon type="reduce-one" className="edit-list-item-operation not-allowed" />}
           />
         ) : null}
         {map(value, (item, idx) => (
@@ -423,6 +421,19 @@ const RenderItem = (props: IRenderItem) => {
           value={curVal}
           onChange={(val: string) => updateItem(val)}
           onBlur={() => onBlurSave()}
+        />
+      );
+      break;
+    case 'switch':
+      Comp = (
+        <Switch
+          {...rProps}
+          disabled={disabled}
+          checked={curVal}
+          onChange={(val: boolean) => {
+            updateItem(val);
+            onBlurSave();
+          }}
         />
       );
       break;

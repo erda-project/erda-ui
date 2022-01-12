@@ -28,7 +28,7 @@ interface IOperationAction {
 }
 export const OperationAction = (props: IOperationAction) => {
   const { operation, children, onClick, tipProps, operations, tip } = props;
-  if (!operation && !operations) return children;
+  if (!operation && !operations) return tip ? <Tooltip title={tip}>{children}</Tooltip> : children;
   let curOp: CP_COMMON.Operation = operation;
   if (operations) {
     const clickOp = map(filterClickOperations(operations));
@@ -36,11 +36,11 @@ export const OperationAction = (props: IOperationAction) => {
       curOp = clickOp[0];
     }
   }
-  const curTip = curOp.disabledTip || curOp.tip || tip;
+  const curTip = curOp.tip || tip;
   if (curOp.disabled === true) {
     // 无权限操作
     return (
-      <WithAuth noAuthTip={curTip} key={curOp.key} pass={false} tipProps={tipProps}>
+      <WithAuth noAuthTip={curOp.disabledTip || curTip} key={curOp.key} pass={false} tipProps={tipProps}>
         {children}
       </WithAuth>
     );
