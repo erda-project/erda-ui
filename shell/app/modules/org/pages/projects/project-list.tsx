@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Spin, Button, Input, Tooltip, Drawer, Menu, Dropdown } from 'antd';
+import { Spin, Button, Input, Tooltip, Drawer, Menu, Dropdown, message } from 'antd';
 import Table from 'common/components/table';
 import { ColumnProps, IActions } from 'common/components/table/interface';
 import { goTo, fromNow } from 'common/utils';
@@ -21,7 +21,11 @@ import { Filter, ErdaIcon, ErdaAlert, RadioTabs, Badge } from 'common';
 import { useUnmount } from 'react-use';
 import { PAGINATION } from 'app/constants';
 import projectStore from 'project/stores/project';
+import { importExportProjectRecord, exportProjectTemplate } from 'org/services/project-list';
 import { useLoading } from 'core/stores/loading';
+import { OperationProjectRecords } from './operation-project-record';
+
+import orgStore from 'app/org-home/stores/org';
 import './project-list.scss';
 
 interface IState {
@@ -43,6 +47,8 @@ export const ProjectList = () => {
   const { clearProjectList } = projectStore.reducers;
   const { pageNo, pageSize, total } = paging;
   const [loadingList] = useLoading(projectStore, ['getProjectList']);
+  const orgID = orgStore.getState((s) => s.currentOrg.id);
+  const [handleProjectRecord, handleRecordLoading] = importExportProjectRecord.useState();
   const [searchObj, setSearchObj] = React.useState<IState>({
     pageNo: 1,
     pageSize,
@@ -50,14 +56,8 @@ export const ProjectList = () => {
     orderBy: 'activeTime',
     asc: false,
   });
-  const [visible, setVisible] = React.useState(false);
-  const [activeKey, setActiveKey] = React.useState('all');
 
-  const options = [
-    { value: 'all', label: `${i18n.t('all')}` },
-    { value: 'import', label: `${i18n.t('import')}` },
-    { value: 'export', label: `${i18n.t('export')}` },
-  ];
+  const [visible, setVisible] = React.useState(false);
 
   useUnmount(() => {
     clearProjectList();
@@ -125,53 +125,20 @@ export const ProjectList = () => {
     return columns;
   };
 
-  const recordColumns = [
-    {
-      title: i18n.t('project'),
-      dataIndex: 'displayName',
-      ellipsis: {
-        showTitle: false,
-      },
-    },
-    {
-      title: i18n.t('status'),
-      dataIndex: 'status',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (status: string) => <Badge status={status} />,
-    },
-    {
-      title: i18n.t('type'),
-      dataIndex: 'type',
-      ellipsis: {
-        showTitle: false,
-      },
-    },
-    {
-      title: i18n.d('操作者'),
-      dataIndex: 'operator',
-      ellipsis: {
-        showTitle: false,
-      },
-      // TODO: 头像
-    },
-    {
-      title: i18n.d('执行时间'),
-      dataIndex: 'execTime',
-      ellipsis: {
-        showTitle: false,
-      },
-    },
-  ];
-
   const ProjectActions: IActions<any> = {
     width: 120,
     render: (record: any) => {
       const { exportProject, goToEfficiencyMeasure } = {
         exportProject: {
           title: i18n.t('export'),
-          onClick: () => {},
+          onClick: () => {
+            exportProjectTemplate.fetch({ orgID, projectID: record.id }).then(() => {
+              message.success(
+                i18n.t('dop:The export task has been created, please check the progress in the record'),
+                4,
+              );
+            });
+          },
         },
         goToEfficiencyMeasure: {
           title: i18n.t('dop:efficiency measure'),
@@ -182,24 +149,6 @@ export const ProjectList = () => {
       };
 
       return record.type === 'MSP' ? [exportProject] : [exportProject, goToEfficiencyMeasure];
-    },
-  };
-
-  const recordActions: IActions<any> = {
-    width: 120,
-    render: (record: any) => {
-      const { viewResult, exportProject } = {
-        viewResult: {
-          title: i18n.d('查看结果'),
-          onClick: () => {},
-        },
-        exportProject: {
-          title: i18n.t('export'),
-          onClick: () => {},
-        },
-      };
-
-      return record.type === 'import' ? [exportProject] : [viewResult, exportProject];
     },
   };
 
@@ -249,7 +198,12 @@ export const ProjectList = () => {
     <div className="org-project-list">
       <Spin spinning={loadingList}>
         <div className="top-button-group flex">
-          <Button className="text-default-8 bg-default-06 font-medium" onClick={() => setVisible(true)}>
+          <Button
+            className="text-default-8 bg-default-06 font-medium"
+            onClick={() => {
+              setVisible(true);
+            }}
+          >
             {i18n.d('导入导出记录')}
           </Button>
           <Dropdown overlay={addDropdownMenu} trigger={['click']}>
@@ -303,24 +257,7 @@ export const ProjectList = () => {
           onChange={handleTableChange}
         />
       </Spin>
-      <Drawer
-        width="80%"
-        onClose={() => setVisible(false)}
-        visible={visible}
-        destroyOnClose
-        title={i18n.d('导入导出记录')}
-        className="dice-drawer advanced-filter-drawer"
-      >
-        <RadioTabs
-          options={options}
-          value={activeKey}
-          onChange={(v: string) => {
-            setActiveKey(v);
-          }}
-          className="mb-2"
-        />
-        <Table rowKey="id" columns={recordColumns} dataSource={[]} actions={recordActions} />
-      </Drawer>
+      <OperationProjectRecords visible={visible} setVisible={setVisible} />
     </div>
   );
 };

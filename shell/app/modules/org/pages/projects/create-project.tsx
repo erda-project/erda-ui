@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Badge, Button, Checkbox, Input } from 'antd';
+import { Badge, Button, Checkbox, Input, message, Upload } from 'antd';
 import i18n from 'i18n';
 import React from 'react';
 import { ErdaIcon, ImageUpload, RenderForm } from 'common';
@@ -19,13 +19,15 @@ import { FormInstance } from 'core/common/interface';
 import projectStore from 'app/modules/project/stores/project';
 import clusterStore from 'cmp/stores/cluster';
 import { createTenantProject } from 'msp/services';
-import { goTo, insertWhen } from 'common/utils';
+import { goTo, insertWhen, convertToFormData } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import classnames from 'classnames';
 import pinyin from 'tiny-pinyin';
 import ClusterQuota, { IData } from 'org/common/cluster-quota';
-
+import routeInfoStore from 'core/stores/route';
 import './create-project.scss';
+import { ImportProjectTemplate } from './import-project-template';
+import { importProjectTemplate } from 'org/services/project-list';
 
 interface ICardProps {
   name: string;
@@ -125,6 +127,7 @@ interface IProjectType {
 const ProjectType = (props: IProjectType) => {
   const { list, value, onChange } = props;
   const [selectType, setType] = React.useState<string | undefined>();
+
   React.useEffect(() => {
     setType(value);
   }, [value]);
@@ -223,9 +226,11 @@ const workSpaceMap = {
 const CreationForm = () => {
   const { createProject } = projectStore.effects;
   const orgId = orgStore.getState((s) => s.currentOrg.id);
+  const currentRoute = routeInfoStore.getState((s) => s.currentRoute);
   const quotaFields = useQuotaFields(true, true);
   const [ifConfigCluster, setIfConfigCluster] = React.useState(true);
   const [template, setTemplate] = React.useState(templateArr[0].val);
+  const [fileData, setFileData] = React.useState(null);
 
   const handleSubmit = (form: FormInstance) => {
     form
@@ -240,17 +245,43 @@ const CreationForm = () => {
               resourceConfig[key].memQuota = +resourceConfig[key].memQuota;
             });
         }
+        const { projectTemplate, ...rest } = values;
 
-        createProject({ ...values, orgId }).then((res: any) => {
+        createProject({ ...rest, orgId }).then((res: any) => {
           if (res.success) {
-            createTenantProject({
-              id: `${res.data}`,
-              name: values.name,
-              displayName: values.displayName,
-              type: values.template === 'MSP' ? 'MSP' : 'DOP',
-            }).then(() => {
-              goTo('../');
-            });
+            if (currentRoute.relativePath === 'createProject') {
+              createTenantProject({
+                id: `${res.data}`,
+                name: values.name,
+                displayName: values.displayName,
+                type: values.template === 'MSP' ? 'MSP' : 'DOP',
+              }).then(() => {
+                goTo('../');
+              });
+              return;
+            }
+
+            if (currentRoute.relativePath === 'importProject') {
+              createTenantProject({
+                id: `${res.data}`,
+                name: values.name,
+                displayName: values.displayName,
+                // Importing a project creates a dop project by default
+                type: 'DOP',
+              })
+                .then(() => {
+                  importProjectTemplate.fetch({
+                    projectID: res.data,
+                    file: convertToFormData({ file: projectTemplate.originFileObj }),
+                    orgID: orgId,
+                    $options: { uploadFileKey: 'file' },
+                  });
+                })
+                .then(() => {
+                  message.success(`${values.displayName} ${i18n.d('项目初始化成功！')}`, 4);
+                  goTo('../');
+                });
+            }
           }
         });
       })
@@ -260,20 +291,22 @@ const CreationForm = () => {
   };
 
   const fieldsList = [
-    {
-      label: i18n.t('select template'),
-      name: 'template',
-      initialValue: templateArr[0].val,
-      getComp: ({ form }: { form: FormInstance }) => (
-        <ProjectType
-          list={templateArr}
-          onChange={(type) => {
-            setTemplate(type);
-            form.resetFields(['resourceConfig']);
-          }}
-        />
-      ),
-    },
+    ...insertWhen(currentRoute.relativePath === 'createProject', [
+      {
+        label: i18n.t('select template'),
+        name: 'template',
+        initialValue: templateArr[0].val,
+        getComp: ({ form }: { form: FormInstance }) => (
+          <ProjectType
+            list={templateArr}
+            onChange={(type) => {
+              setTemplate(type);
+              form.resetFields(['resourceConfig']);
+            }}
+          />
+        ),
+      },
+    ]),
     {
       label: i18n.t('project name'),
       name: 'displayName',
@@ -319,6 +352,22 @@ const CreationForm = () => {
         maxLength: 40,
       },
     },
+    ...insertWhen(currentRoute.relativePath === 'importProject', [
+      {
+        label: i18n.d('项目模板'),
+        name: 'projectTemplate',
+        getComp: ({ form }: { form: FormInstance }) => (
+          <ImportProjectTemplate setFileData={setFileData} form={form} fileData={fileData} />
+        ),
+      },
+      {
+        label: i18n.d('备注'),
+        name: 'remark',
+        type: 'textArea',
+        required: false,
+        itemProps: { rows: 4, maxLength: 200, style: { resize: 'none' } },
+      },
+    ]),
     ...insertWhen(template !== 'MSP', [
       {
         getComp: () => (
