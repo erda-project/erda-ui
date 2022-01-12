@@ -23,6 +23,7 @@ declare namespace CP_GRID {
     justify?: 'start' | 'end' | 'center' | 'space-around' | 'space-between';
     wrap?: boolean;
     span: number[];
+    colFlex?: number | 'none' | 'auto' | string;
     className?: string;
     wrapperClassName?: string;
   }
