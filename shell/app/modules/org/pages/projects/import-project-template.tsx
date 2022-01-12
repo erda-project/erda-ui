@@ -76,7 +76,7 @@ export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
           </div>
         )}
       </Upload>
-      <div className="bg-default-01 py-2 mt-4 px-1">
+      <div className="bg-default-01 py-2 2 px-1">
         {fileStatus === 'uploading' && (
           <div className="flex-h-center text-info">
             <Spin spinning size="small" className="flex-all-center" />
@@ -85,8 +85,8 @@ export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
         )}
         {fileStatus === 'done' && (
           <div className="flex-v-center flex-col">
-            <div className="text-success mb-2">
-              <ErdaIcon type="check" />
+            <div className="text-success mb-2 flex-h-center">
+              <ErdaIcon type="check" size={12} />
               <span className="ml-1">{i18n.t('parsing succeeded')}</span>
             </div>
             <div className="flex-h-center">
@@ -100,7 +100,7 @@ export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
         {fileStatus === 'error' && (
           <div>
             <div className="flex-h-center text-error mb-2">
-              <ErdaIcon type="guanbi" />
+              <ErdaIcon type="guanbi" size={12} />
               <span className="mx-1">{i18n.t('parsing failed')}, </span>
               <span
                 className="underline cursor-pointer"

@@ -1,14 +1,12 @@
 .import-project-template {
+  font-family: 'PingFangSC-Regular';
+  line-height: 22px;
+
   .ant-upload-list-item {
     display: flex;
     align-items: center;
+    margin-top: 0;
 
-    .ant-upload-list-item-info {
-      position: absolute;
-      &:hover {
-        background-color: $color-default-01;
-      }
-    }
     .ant-upload-list-item-info {
       &:hover {
         background-color: $color-default-01;
