@@ -16,13 +16,13 @@ import { Col, Row } from 'antd';
 
 const CP_GRID = (props: CP_GRID.Props) => {
   const { props: configProps, children } = props;
-  const { gutter = 12, span, className = '' } = configProps || {};
+  const { gutter = 12, span, className = '', wrapperClassName = '' } = configProps || {};
   let itemSpan = span;
   if (!itemSpan) {
     itemSpan = new Array(children.length).fill(Math.ceil(24 / children.length));
   }
   return (
-    <div className="overflow-hidden">
+    <div className={`overflow-hidden ${wrapperClassName}`}>
       <Row gutter={gutter}>
         {children.map((child, i) => (
           <Col span={itemSpan[i]} key={i} className={`overflow-auto ${className}`}>
