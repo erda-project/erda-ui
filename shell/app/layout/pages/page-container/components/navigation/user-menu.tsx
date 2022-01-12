@@ -66,7 +66,7 @@ const UserMenu = ({ placement, size }: { placement?: TooltipPlacement; size?: nu
           <Avatar src={avatar} size={48} className="user-avatar">
             {nick}
           </Avatar>
-          <div className="mt-2 w-full truncate">{nickOrName}</div>
+          <div className="mt-2 w-full text-center truncate">{nickOrName}</div>
           <div className="mt-3 w-full self-start">
             {operations?.map(({ onClick, icon, title, danger }, i) => {
               return (
