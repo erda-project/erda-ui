@@ -123,7 +123,7 @@ const ConfigDrawer = (props: IProps) => {
               );
             }}
           />
-          <div className="w-[1px] h-[12px] bg-dark-1 ml-3 mr-4" />
+          <div className="w-[1px] h-[12px] bg-default-1 ml-3 mr-4" />
 
           <SimpleTabs
             tabs={map(ConfigTabs, (item) => ({ key: item.key, text: item.text }))}

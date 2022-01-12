@@ -111,7 +111,7 @@ const DeployDetail = (props: IProps) => {
                 <ErdaIcon type="caret-down" className="ml-1" size="14" />
               </div>
             </DropdownSelectNew>
-            <div className="w-[1px] h-[12px] bg-dark-1 ml-3 mr-4" />
+            <div className="w-[1px] h-[12px] bg-default-1 ml-3 mr-4" />
             <SimpleTabs
               tabs={map(tabs, (tab) => ({ key: tab.key, text: tab.text }))}
               onSelect={setSelectedType}

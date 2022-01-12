@@ -3,10 +3,11 @@ import { RadioTabs, ErdaIcon, EmptyHolder, Badge } from 'common';
 import { ENV_MAP } from 'project/common/config';
 import { map, debounce } from 'lodash';
 import { Drawer, Button, Input, Timeline, Avatar, Spin } from 'antd';
-import { goTo, getAvatarChars } from 'common/utils';
+import { goTo, getAvatarChars, updateSearch } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
 import routeInfoStore from 'core/stores/route';
 import DiceConfigPage, { useMock } from 'app/config-page';
+import { getUrlQuery } from 'config-page/utils';
 import { CardItem } from 'app/config-page/components/card/card';
 import i18n from 'i18n';
 import DeployLog from 'runtime/common/logs/components/deploy-log';
@@ -37,6 +38,7 @@ interface IState {
   deployDetail: PROJECT_DEPLOY.DeployDetail | undefined;
   selectedOrder: string;
   selectedRelease: string;
+  urlQuery: Obj<{ [key: string]: string }>;
 }
 
 const DeployContainer = () => {
@@ -82,6 +84,7 @@ const DeployContainer = () => {
 };
 
 const DeployContent = ({ projectId, env }: { projectId: string; env: string }) => {
+  const [query] = routeInfoStore.useStore((s) => [s.query]);
   const [
     {
       detailDrawerVisible,
@@ -92,6 +95,7 @@ const DeployContent = ({ projectId, env }: { projectId: string; env: string }) =
       deployDetail,
       selectedOrder,
       selectedRelease,
+      urlQuery,
     },
     updater,
     update,
@@ -104,7 +108,14 @@ const DeployContent = ({ projectId, env }: { projectId: string; env: string }) =
     deployDetail: undefined,
     selectedRelease: '',
     selectedOrder: '',
+    urlQuery: query,
   });
+
+  const urlQueryChange = (val: Obj) => updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+
+  React.useEffect(() => {
+    updateSearch({ ...urlQuery });
+  }, [urlQuery]);
 
   const [deployOrdersData, loading] = getDeployOrders.useState();
   const deployOrders = React.useMemo(() => deployOrdersData?.list || [], [deployOrdersData]);
@@ -148,6 +159,7 @@ const DeployContent = ({ projectId, env }: { projectId: string; env: string }) =
     projectId,
     // deployId: selectedOrder,
     env,
+    ...urlQuery,
   };
 
   const deployOrderOpMap = React.useMemo(
@@ -240,6 +252,16 @@ const DeployContent = ({ projectId, env }: { projectId: string; env: string }) =
             forceUpdateKey={['inParams']}
             inParams={inParams}
             customProps={{
+              inputFilter: {
+                op: {
+                  onFilterChange: urlQueryChange,
+                },
+              },
+              advanceFilter: {
+                op: {
+                  onFilterChange: urlQueryChange,
+                },
+              },
               list: {
                 op: {
                   clickItem: (op: { serverData?: { logId: string; appId: string } }, extra: { action: string }) => {

@@ -87,7 +87,7 @@ const AddDeploy = ({ onSelect: propsOnSelect }: { onSelect: (v: string) => void 
       )}
       <div className="flex-h-center ">
         <span>{i18n.t('please select {name}', { name: i18n.t('Artifact') })}</span>
-        <div className="w-[1px] h-[12px] bg-dark-1 mx-4" />
+        <div className="w-[1px] h-[12px] bg-default-1 mx-4" />
         <AddRelease onSelect={onSelect} />
       </div>
       <div className="pt-4">
@@ -112,7 +112,7 @@ const AddDeploy = ({ onSelect: propsOnSelect }: { onSelect: (v: string) => void 
                   <ErdaIcon type="caret-down" className="ml-1" size="14" />
                 </div>
               </DropdownSelectNew>
-              <div className="w-[1px] h-[12px] bg-dark-1 ml-3 mr-4" />
+              <div className="w-[1px] h-[12px] bg-default-1 ml-3 mr-4" />
 
               <SimpleTabs
                 tabs={map(ConfigTabs, (item) => ({ key: item.key, text: item.text }))}
