@@ -12,16 +12,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Popover, Avatar } from 'antd';
+import { Popover, Avatar, PopoverProps } from 'antd';
 import { getAvatarChars, insertWhen, ossImg } from 'app/common/utils';
 import { erdaEnv, UC_USER_SETTINGS } from 'app/common/constants';
 import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 import userStore from 'user/stores';
-import { TooltipPlacement } from 'antd/lib/tooltip';
 import './user-menu.scss';
 
-const UserMenu = ({ placement, size }: { placement?: TooltipPlacement; size?: number }) => {
+const UserMenu = ({
+  placement,
+  size,
+  className = '',
+  ...rest
+}: Merge<PopoverProps, { size: number; className: string }>) => {
   const loginUser = userStore.useStore((s) => s.loginUser);
 
   const operations = [
@@ -59,8 +63,9 @@ const UserMenu = ({ placement, size }: { placement?: TooltipPlacement; size?: nu
   const nick = getAvatarChars(nickOrName);
   return (
     <Popover
+      {...rest}
       placement={placement || 'rightBottom'}
-      overlayClassName="erda-global-nav-user-menu cursor-pointer"
+      overlayClassName={`erda-global-nav-user-menu ${className}`}
       content={
         <div className="px-2 pb-2 pt-4 w-[160px] flex flex-col items-center truncate">
           <Avatar src={avatar} size={48} className="user-avatar">
@@ -86,7 +91,7 @@ const UserMenu = ({ placement, size }: { placement?: TooltipPlacement; size?: nu
         </div>
       }
     >
-      <Avatar src={avatar} size={size || 28}>
+      <Avatar className="cursor-pointer" src={avatar} size={size || 28}>
         {nick}
       </Avatar>
     </Popover>

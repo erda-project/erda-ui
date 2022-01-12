@@ -3,6 +3,12 @@
     padding: 0;
   }
 
+  &.no-arrow {
+    .ant-popover-arrow-content {
+      background-color: unset;
+    }
+  }
+
   .user-avatar {
     box-shadow: 0 3px 11px 0 rgba(0, 0, 0, 0.15);
   }
