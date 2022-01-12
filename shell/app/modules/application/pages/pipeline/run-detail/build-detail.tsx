@@ -705,17 +705,19 @@ const BuildDetail = (props: IProps) => {
                 {i18n.t('historical build')}
               </span>
             </div>
-            <div className="info-header-right">
-              <Popover
-                placement="bottomRight"
-                title={i18n.t('dop:execute records')}
-                content={renderBuildHistory()}
-                arrowPointAtCenter
-              >
-                <ErdaIcon fill="black-4" size="20" type="jsjl" className="mb-2 mr-1 cursor-pointer" />
-              </Popover>
-              {renderRunBtn()}
-            </div>
+            {appId ? (
+              <div className="info-header-right">
+                <Popover
+                  placement="bottomRight"
+                  title={i18n.t('dop:execute records')}
+                  content={renderBuildHistory()}
+                  arrowPointAtCenter
+                >
+                  <ErdaIcon fill="black-4" size="20" type="jsjl" className="mb-2 mr-1 cursor-pointer" />
+                </Popover>
+                {renderRunBtn()}
+              </div>
+            ) : null}
           </div>
           {needApproval ? (
             <ErdaAlert

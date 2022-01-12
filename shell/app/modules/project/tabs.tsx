@@ -195,3 +195,14 @@ export const RELEASE_TABS = [
     name: i18n.t('dop:app release'),
   },
 ];
+
+export const PIPELINE_TABS = [
+  {
+    key: 'list',
+    name: i18n.t('dop:pipeline list'),
+  },
+  {
+    key: 'logs',
+    name: i18n.t('dop:execute records'),
+  },
+];

@@ -123,7 +123,9 @@ const build = createStore({
       { call, update, getParams },
       payload: { branch: string; source: string; pageNo: number; pagingYmlNames: string[] },
     ) {
-      const { appId } = getParams();
+      const [{ applicationId }] = routeInfoStore.useStore((s) => [s.params]);
+      const { appId: _appId } = getParams();
+      const appId = _appId || params.applicationId;
       const { branch, source, pageNo, pagingYmlNames } = payload;
       const pagingYmlNamesStr = (pagingYmlNames || []).join(',');
       const params = {

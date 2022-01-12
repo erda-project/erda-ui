@@ -24,6 +24,7 @@ import {
   TEST_STATISTICS_TABS,
   MEASURE_TABS,
   RELEASE_TABS,
+  PIPELINE_TABS,
 } from './tabs';
 
 function getProjectRouter(): RouteConfigItem[] {
@@ -207,8 +208,22 @@ function getProjectRouter(): RouteConfigItem[] {
         {
           path: 'pipelines',
           breadcrumbName: i18n.t('pipeline'),
-          layout: { fullHeight: true },
-          getComp: (cb) => cb(import('project/pages/pipelines')),
+          routes: [
+            {
+              path: 'list',
+              tabs: PIPELINE_TABS,
+              breadcrumbName: i18n.t('dop:pipeline list'),
+              getComp: (cb) => cb(import('project/pages/pipelines')),
+              layout: { fullHeight: true, noWrapper: true },
+            },
+            {
+              path: 'logs',
+              tabs: PIPELINE_TABS,
+              breadcrumbName: i18n.t('dop:execute records'),
+              getComp: (cb) => cb(import('project/pages/pipelines/components/logs')),
+              layout: { fullHeight: true, noWrapper: true },
+            },
+          ],
         },
         {
           path: 'manual',

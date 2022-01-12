@@ -43,6 +43,7 @@ const Table = (props: CP_TABLE2.Props) => {
     data,
     !!batchRowsHandle,
     pProps,
+    { customOp, execOperation },
   );
 
   const [state, updater, update] = useUpdate({

@@ -60,13 +60,12 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
         },
       ],
     },
-    // { // TODO： 3.21临时去除
-
-    //   text: i18n.t('pipeline'),
-    //   icon: 'lsx',
-    //   href: `/dop/projects/${projectId}/pipelines`,
-    //   show: projectPerm.pipeline.view.pass,
-    // },
+    {
+      text: i18n.t('pipeline'),
+      icon: <ErdaIcon type="liushuixian" />,
+      href: goTo.resolve.projectPipeline(),
+      show: projectPerm.pipeline.view.pass,
+    },
     {
       href: goTo.resolve.projectTestStatisticsRoot(), // `/dop/projects/${projectId}`,
       icon: <ErdaIcon type="ceshiguanli" />,

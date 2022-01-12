@@ -57,6 +57,7 @@ export function Table(props: CP_TABLE.Props) {
     pageSizeOptions,
     selectable,
     styleNames = {},
+    wrapperClassName = '',
     rowKey,
     batchOperations,
     ...rest
@@ -185,7 +186,7 @@ export function Table(props: CP_TABLE.Props) {
 
   return visible ? (
     <div
-      className="relative"
+      className={`relative ${wrapperClassName}`}
       style={{ paddingBottom: configProps?.pagination === false && batchOperations ? 64 : 'unset' }}
     >
       {title ? <Title showDivider={false} level={2} title={title} /> : null}
