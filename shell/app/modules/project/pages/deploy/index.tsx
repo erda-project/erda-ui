@@ -113,6 +113,9 @@ const DeployContent = ({ projectId, env }: { projectId: string; env: string }) =
 
   const urlQueryChange = (val: Obj) => updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 
+  const timer = React.useRef<number>();
+  const isAutoLoaing = React.useRef(false);
+
   React.useEffect(() => {
     updateSearch({ ...urlQuery });
   }, [urlQuery]);
@@ -122,6 +125,7 @@ const DeployContent = ({ projectId, env }: { projectId: string; env: string }) =
 
   const getDeployOrdersFunc = React.useCallback(
     (_query?: { q: string }) => {
+      clearInterval(timer.current);
       getDeployOrders.fetch({
         q: searchValue,
         ..._query,
@@ -130,6 +134,19 @@ const DeployContent = ({ projectId, env }: { projectId: string; env: string }) =
         projectID: projectId,
         workspace: env,
       });
+      timer.current = setInterval(() => {
+        isAutoLoaing.current = true;
+        getDeployOrders
+          .fetch({
+            q: searchValue,
+            ..._query,
+            pageNo: 1,
+            pageSize: 100,
+            projectID: projectId,
+            workspace: env,
+          })
+          .then(() => (isAutoLoaing.current = false));
+      }, 1000 * 30);
     },
     [projectId, env, searchValue],
   );
@@ -313,8 +330,11 @@ const DeployContent = ({ projectId, env }: { projectId: string; env: string }) =
               placeholder={i18n.t('dop:search by person or product information')}
             />
           </div>
-          <div className="mt-2 flex-1 h-0 overflow-auto px-4">
-            <Spin spinning={loading} wrapperClassName="full-spin-height">
+          <div className="mt-2 flex-1 h-0 px-4">
+            <Spin
+              spinning={!isAutoLoaing.current && loading}
+              wrapperClassName="full-spin-height overflow-hidden project-deploy-orders"
+            >
               {cards.length ? (
                 <Timeline className="mt-2">
                   {cards.map((card) => {
