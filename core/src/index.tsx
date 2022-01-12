@@ -13,6 +13,7 @@
 
 import React from 'react';
 import ReactDom from 'react-dom';
+import { useLocation } from 'react-use';
 import { Router } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import { registStore } from './framework/regist-store';
@@ -22,13 +23,62 @@ import routeInfoStore from './stores/route';
 import { emit } from './utils/event-hub';
 import browserHistory from './history';
 import { setConfig } from './config';
+import { initModuleFederationModule, useDynamicScript } from './utils/mf-helper';
 
-const holderReactDom = ReactDom; // if not use it, minified build file will cause infinite loop when use ReactDom.render. errMsg: Cannot set property 'getCurrentStack' of undefined
+// @ts-ignore if not use it, minified build file will cause infinite loop when use ReactDom.render. errMsg: Cannot set property 'getCurrentStack' of undefined
+const holderReactDom = ReactDom;
 
 setConfig('history', browserHistory);
 
+const enterpriseModule = [
+  {
+    name: 'fdp',
+    routerPrefix: '/fdp',
+  },
+  {
+    name: 'admin',
+    routerPrefix: '/sysAdmin',
+  },
+];
+
+const matchEnterpriseRoute = () => {
+  const target = enterpriseModule.find(({ routerPrefix }) => {
+    const routeRegex = new RegExp(`^/[^/]+${routerPrefix}`);
+    if (routeRegex.test(location.pathname)) {
+      return true;
+    }
+    return false;
+  });
+  return target;
+};
+
 const App = () => {
   const route = routeInfoStore.useStore((s) => s.parsed);
+  let location = useLocation();
+  // register enterprise remotes
+  const [scriptSource, setScriptSource] = React.useState<{ url?: string; remoteName?: string }>({});
+  const [loadedSource, setLoadedSource] = React.useState<string[]>([]);
+  const { ready, failed } = useDynamicScript(scriptSource);
+
+  React.useEffect(() => {
+    const currentModule = matchEnterpriseRoute();
+    if (currentModule && !loadedSource.includes(currentModule.name)) {
+      setScriptSource({
+        url: `/static/${currentModule.name}/scripts/mf_${currentModule.name}.js`,
+        remoteName: currentModule.name,
+      });
+    }
+  }, [location.pathname]);
+
+  React.useEffect(() => {
+    if (ready && scriptSource.remoteName) {
+      const initFn = initModuleFederationModule(`mf_${scriptSource.remoteName}`, './entry');
+      initFn.then((fn) => {
+        fn.default(registerModule);
+        setLoadedSource([...loadedSource, scriptSource.remoteName!]);
+      });
+    }
+  }, [ready]);
 
   React.useEffect(() => {
     browserHistory.listen((loc) => {

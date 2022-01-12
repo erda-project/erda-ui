@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { NestFactory } from '@nestjs/core';
+import WebSocket, { WebSocketServer } from 'ws';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
 import { NotFoundExceptionFilter } from './filters/not-found.filter';
@@ -53,6 +54,22 @@ async function bootstrap() {
   }
   app.use(guardMiddleware); // must create global guard middleware here, otherwise the proxy middleware will ignore the guard
   const wsProxy = createProxyService(app);
+
+  const wss = new WebSocketServer({
+    port: 8080,
+  });
+
+  wss.on('connection', function connection(ws) {
+    ws.on('message', function message(data) {
+      console.log('received: %s', data);
+    });
+
+    ws.send('register');
+  });
+
+  wss.on('message', function message(data) {
+    console.log('received: %s', data);
+  });
 
   const server = await app.listen(isProd ? 80 : SCHEDULER_PORT);
   server.on('upgrade', wsProxy.upgrade);

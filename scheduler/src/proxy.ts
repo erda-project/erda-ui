@@ -20,7 +20,7 @@ import qs from 'query-string';
 const isProd = process.env.NODE_ENV === 'production';
 
 const { envConfig } = getEnv();
-const { BACKEND_URL, GITTAR_ADDR, UC_BACKEND_URL } = envConfig;
+const { BACKEND_URL, GITTAR_ADDR, UC_BACKEND_URL, ENTERPRISE_URL } = envConfig;
 
 const API_URL = BACKEND_URL.startsWith('http') ? BACKEND_URL : `http://${BACKEND_URL}`;
 const UC_API_URL = UC_BACKEND_URL.startsWith('http') ? UC_BACKEND_URL : `http://${UC_BACKEND_URL}`;
@@ -58,6 +58,18 @@ export const createProxyService = (app: INestApplication) => {
         });
       },
     },
+  );
+  app.use(
+    createProxyMiddleware(
+      (pathname: string) => {
+        return !!pathname.match('^/static/[admin|fdp]');
+      },
+      {
+        target: ENTERPRISE_URL,
+        changeOrigin: true,
+        secure: false,
+      },
+    ),
   );
   app.use(wsProxy);
   app.use(

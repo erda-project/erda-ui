@@ -20,6 +20,7 @@ import 'moment/locale/zh-cn';
 import { Pagination, message, ConfigProvider, Modal } from 'antd';
 import antd_zhCN from 'antd/es/locale-provider/zh_CN';
 import antd_enUS from 'antd/es/locale-provider/en_US';
+import * as erdaWebSocket from 'core/utils/ws';
 // core modules
 import { isZh } from 'core/i18n';
 import { startApp, registerModule } from 'core/index';
@@ -37,7 +38,6 @@ import userStore from './user/stores';
 import permStore from 'user/stores/permission';
 import { getJoinedOrgs } from 'app/org-home/services/org';
 import orgStore, { isAdminRoute } from 'app/org-home/stores/org';
-import modules from './mf-modules'; // ambiguous modules may conflict with modules folder, then rename to mf-modules
 import './styles/antd-extension.scss';
 import './styles/app.scss';
 import '@erda-ui/dashboard-configurator/dist/index.css';
@@ -73,6 +73,16 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
   moment.locale(momentLangMap[locale]);
   orgStore.reducers.updateJoinedOrg(orgs);
   initAxios();
+  // erdaWebSocket.connect('http://localhost:8080/ws');
+  let socket = new WebSocket('ws://localhost:8080/'); // sockjs-client style
+  socket.onopen = () => {
+    console.log(666);
+    socket.send('2222222');
+  };
+  socket.onmessage = (e) => {
+    console.log('🚀 ~ file: App.tsx ~ line 84 ~ start ~ e', e);
+  };
+
   startApp().then(async (App) => {
     // get the organization info first, or will get org is undefined when need org info (like issueStore)
     const orgName = get(location.pathname.split('/'), '[1]');
@@ -96,9 +106,10 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
       import('dcos/entry'),
       import('addonPlatform/entry'),
       import('./modules/extra/entry'),
-      ...Object.values(modules),
     ].forEach((p) => p.then((m) => m.default(registerModule)));
+
     userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息
+
     const Wrap = () => {
       return (
         <ConfigProvider renderEmpty={EmptyListHolder} locale={isZh() ? antd_zhCN : antd_enUS}>

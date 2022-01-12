@@ -63,6 +63,7 @@ const getEnv = () => {
       BACKEND_URL: process.env.OPENAPI_ADDR,
       UC_BACKEND_URL: process.env.KRATOS_ADDR,
       GITTAR_ADDR: process.env.GITTAR_ADDR,
+      ENTERPRISE_URL: process.env.ENTERPRISE_UI_ADDR,
     };
   }
 
@@ -73,6 +74,7 @@ const getEnv = () => {
     envConfig: envConfig as {
       BACKEND_URL: string;
       UC_BACKEND_URL: string;
+      ENTERPRISE_URL: string;
       GITTAR_ADDR?: string;
       MODULES?: string;
       SCHEDULER_URL?: string;

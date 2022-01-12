@@ -13,40 +13,6 @@
 
 const AutomaticVendorFederation = require('@module-federation/automatic-vendor-federation');
 const packageJson = require('./package.json');
-const fs = require('fs');
-const path = require('path');
-const dotenv = require('dotenv');
-
-const { parsed: envConfig } = dotenv.config({ path: path.resolve(__dirname, '../.env') });
-
-if (!envConfig) {
-  throw Error('cannot find .env file in erda-ui root directory');
-}
-
-const remotes = {};
-const entries = [];
-const { MODULES } = envConfig;
-const excludeModules = ['market', 'shell', 'uc'];
-
-MODULES.split(',')
-  .filter((m) => !excludeModules.includes(m))
-  .forEach((m) => {
-    remotes[m] = `mf_${m}@/static/${m}/scripts/mf_${m}.js`;
-    if (m !== 'core') {
-      entries.push(`${m}: import('${m}/entry'),`);
-    }
-  });
-
-console.log('================ remotes: =================\n', remotes);
-
-fs.writeFileSync(
-  './app/mf-modules.js',
-  `
-export default {
-  ${entries.join('\n')}
-};
-`,
-);
 
 module.exports = [
   {
@@ -70,7 +36,9 @@ module.exports = [
   },
   {
     name: 'main',
-    remotes,
+    remotes: {
+      core: 'mf_core@/static/core/scripts/mf_core.js',
+    },
     shared: {
       ...AutomaticVendorFederation({
         exclude: ['babel', 'plugin', 'preset', 'webpack', 'loader', 'serve'],

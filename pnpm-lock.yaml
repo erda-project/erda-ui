@@ -141,6 +141,7 @@ importers:
       react-dom: 16.14.0
       react-router-config: ^5.0.0
       react-router-dom: ^5.2.0
+      react-use: ^15.3.4
       speed-measure-webpack-plugin: ^1.5.0
       superagent: ^5.2.2
       superagent-use: ^0.1.0
@@ -163,6 +164,7 @@ importers:
       react-dom: 16.14.0_react@16.14.0
       react-router-config: 5.1.1_react@16.14.0
       react-router-dom: 5.2.0_react@16.14.0
+      react-use: 15.3.8_react-dom@16.14.0+react@16.14.0
       superagent: 5.3.1
       superagent-use: 0.1.0
     devDependencies:
@@ -301,6 +303,7 @@ importers:
       reflect-metadata: ^0.1.13
       typescript: ^4.3.5
       winston: ^3.3.3
+      ws: ^8.4.0
     dependencies:
       '@nestjs/cli': 8.0.2
       '@nestjs/common': 8.0.1_reflect-metadata@0.1.13
@@ -315,6 +318,7 @@ importers:
       query-string: 7.0.1
       reflect-metadata: 0.1.13
       winston: 3.3.3
+      ws: 8.4.0
     devDependencies:
       '@babel/plugin-transform-async-to-generator': 7.13.0
       '@nestjs/schematics': 8.0.0_typescript@4.3.5
@@ -24276,14 +24280,14 @@ packages:
     dev: false
     optional: true
 
-  /react-universal-interface/0.6.2_react@16.14.0+tslib@2.2.0:
+  /react-universal-interface/0.6.2_react@16.14.0+tslib@2.3.1:
     resolution: {integrity: sha512-dg8yXdcQmvgR13RIlZbTRQOoUrDciFVoSBZILwjE2LFISxZZ8loVJKAkuzswl5js8BHda79bIb2b84ehU8IjXw==}
     peerDependencies:
       react: '*'
       tslib: '*'
     dependencies:
       react: 16.14.0
-      tslib: 2.2.0
+      tslib: 2.3.1
     dev: false
 
   /react-use/15.3.8_react-dom@16.14.0+react@16.14.0:
@@ -24301,13 +24305,13 @@ packages:
       nano-css: 5.3.1_react-dom@16.14.0+react@16.14.0
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
-      react-universal-interface: 0.6.2_react@16.14.0+tslib@2.2.0
+      react-universal-interface: 0.6.2_react@16.14.0+tslib@2.3.1
       resize-observer-polyfill: 1.5.1
       screenfull: 5.1.0
       set-harmonic-interval: 1.0.1
       throttle-debounce: 2.3.0
       ts-easing: 0.2.0
-      tslib: 2.2.0
+      tslib: 2.3.1
     dev: false
 
   /react-window/1.8.6_react-dom@16.14.0+react@16.14.0:
@@ -27482,13 +27486,13 @@ packages:
   /tslib/2.2.0:
     resolution: {integrity: sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w==}
     dev: false
+    optional: true
 
   /tslib/2.3.0:
     resolution: {integrity: sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==}
 
   /tslib/2.3.1:
     resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
-    dev: true
 
   /tsutils/3.21.0:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
@@ -29167,6 +29171,19 @@ packages:
         optional: true
     dev: false
     optional: true
+
+  /ws/8.4.0:
+    resolution: {integrity: sha512-IHVsKe2pjajSUIl4KYMQOdlyliovpEPquKkqbwswulszzI7r0SfQrxnXdWAEqOlDCLrVSJzo+O1hAwdog2sKSQ==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
 
   /x-is-string/0.1.0:
     resolution: {integrity: sha1-R0tQhlrzpJqcRlfwWs0UVFj3fYI=}
