@@ -23,6 +23,9 @@ const themeColor = {
 };
 
 const genCommonSize = (chartSize: number, maxSize: number, current: number) => {
+  if (current === 0) {
+    return current;
+  }
   const baseSize = isNaN(chartSize) ? maxSize : chartSize;
   // the largest node size is 1/4 of the chart height, the smallest node size is 1/20 of the chart height
   return Math.max(baseSize / 20, (baseSize / 4) * (current / (maxSize || 1)));
