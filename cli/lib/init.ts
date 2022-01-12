@@ -18,18 +18,15 @@ import execa from 'execa';
 import { EOL } from 'os';
 import { ALL_MODULES, isCwdInRoot } from './util/env';
 import ora from 'ora';
+import inquirer from 'inquirer';
 
 export default async ({
-  hostName,
   port,
   override,
-  backendUrl,
   skipInstall,
 }: {
-  hostName?: string;
   port?: string;
   override?: boolean;
-  backendUrl?: string;
   skipInstall?: boolean;
 }) => {
   const currentDir = process.cwd();
@@ -55,11 +52,35 @@ export default async ({
 
   if (!fullConfig || override) {
     const newConfig: dotenv.DotenvParseOutput = {};
-    newConfig.BACKEND_URL = backendUrl || 'https://erda.dev.terminus.io';
-    newConfig.UC_BACKEND_URL = hostName || 'https://erda.dev.terminus.io';
+    const { backendUrl } = await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'backendUrl',
+        message: 'Backend Url(API server):',
+        default: 'https://erda.dev.terminus.io',
+      },
+    ]);
+    newConfig.BACKEND_URL = backendUrl;
+    const { ucUrl } = await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'ucUrl',
+        message: 'UC url(User center service):',
+        default: 'https://erda.dev.terminus.io',
+      },
+    ]);
+    newConfig.UC_BACKEND_URL = ucUrl;
     newConfig.MODULES = ALL_MODULES.join(',');
     newConfig.SCHEDULER_PORT = port || '3000';
-    newConfig.SCHEDULER_URL = hostName || 'https://local.erda.dev.terminus.io';
+    const { hostUrl } = await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'hostUrl',
+        message: 'Scheduler Url(host name):',
+        default: 'https://erda.dev.terminus.io',
+      },
+    ]);
+    newConfig.SCHEDULER_URL = hostUrl;
 
     const newFullConfig: string[] = [];
     Object.keys(newConfig).forEach((k) => {
@@ -67,6 +88,7 @@ export default async ({
     });
     fs.writeFileSync(envConfigPath, newFullConfig.join(EOL), 'utf8');
     logSuccess('update erda-ui/.env file');
+    logSuccess('you can update .env file manually if you need');
   } else {
     logInfo('.env config is not empty, skip env config initialize step, or you can override with option --override');
   }

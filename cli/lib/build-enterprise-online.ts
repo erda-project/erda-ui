@@ -13,31 +13,23 @@
 
 import execa, { ExecaChildProcess } from 'execa';
 import { logSuccess, logError } from './util/log';
-import { checkIsRoot, clearPublic, killPidTree, ALL_MODULES } from './util/env';
-import generateVersion from './util/gen-version';
-import localIcon from './local-icon';
+import { clearPublic, killPidTree, isCwdInRoot } from './util/env';
 
 const currentDir = process.cwd();
 
 const dirCollection: { [k: string]: string } = {
-  core: `${currentDir}/core`,
-  shell: `${currentDir}/shell`,
-  market: `${currentDir}/modules/market`,
-  uc: `${currentDir}/modules/uc`,
+  fdp: `${currentDir}/fdp`,
+  admin: `${currentDir}/admin`,
 };
 
 const dirMap = new Map(Object.entries(dirCollection));
 
-const buildModules = async (rebuildList: string[]) => {
+const buildModules = async () => {
   const pList: ExecaChildProcess[] = [];
-  rebuildList.forEach((moduleName) => {
+  Object.keys(dirCollection).forEach((moduleName) => {
     const moduleDir = dirMap.get(moduleName);
     const promise = execa('npm', ['run', 'build'], {
       cwd: moduleDir,
-      env: {
-        ...process.env,
-        isOnline: 'true',
-      },
       stdio: 'inherit',
     });
     pList.push(promise);
@@ -55,17 +47,11 @@ const buildModules = async (rebuildList: string[]) => {
 
 export default async () => {
   try {
-    checkIsRoot();
-
-    const buildList = ALL_MODULES;
+    isCwdInRoot({ alert: true, isEnterprise: true });
 
     await clearPublic();
 
-    await buildModules(buildList);
-
-    generateVersion();
-
-    localIcon();
+    await buildModules();
   } catch (error) {
     logError('build exit with error:', error.message);
     process.exit(1);

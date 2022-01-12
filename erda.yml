@@ -8,6 +8,7 @@ values:
     request_mem: 256
 envs:
   FDP_UI_ADDR: "fdp-ui:80"
+  ENTERPRISE_UI_ADDR: "enterprise-ui:80"
 services:
   ui:
     ports:

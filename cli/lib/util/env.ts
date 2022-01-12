@@ -26,7 +26,7 @@ export const checkIsRoot = () => {
   }
 };
 
-export const isCwdInRoot = (params?: { currentPath?: string; alert?: boolean }) => {
+export const isCwdInRoot = (params?: { currentPath?: string; alert?: boolean; isEnterprise?: boolean }) => {
   const currentDir = params?.currentPath || process.cwd();
   let isInRoot = true;
   if (!fs.existsSync(join(currentDir, 'package.json'))) {
@@ -34,13 +34,17 @@ export const isCwdInRoot = (params?: { currentPath?: string; alert?: boolean }) 
   } else {
     const pkg = fs.readFileSync(join(currentDir, 'package.json'), 'utf8');
     const { name } = JSON.parse(pkg);
-    if (name !== 'erda-ui') {
+    if (params?.isEnterprise) {
+      if (name !== '@erda-ui/enterprise-ui') {
+        isInRoot = false;
+      }
+    } else if (name !== 'erda-ui') {
       isInRoot = false;
     }
   }
 
   if (!isInRoot && params?.alert) {
-    logError('please run this command under erda-ui root directory');
+    logError(`please run this command under ${params?.isEnterprise ? 'erda-enterprise-ui' : 'erda-ui'} root directory`);
     process.exit(1);
   }
   return isInRoot;
@@ -131,6 +135,6 @@ export const killPidTree = async (): Promise<boolean> => {
 
 export const registryDir = 'registry.erda.cloud/erda/ui';
 export const defaultRegistry = 'registry.cn-hangzhou.aliyuncs.com/terminus/erda-ui';
+export const defaultEnterpriseRegistry = 'registry.cn-hangzhou.aliyuncs.com/terminus/erda-enterprise-ui';
 
-export const COMMUNITY_MODULES = ['core', 'shell', 'market', 'uc'];
-export const ALL_MODULES = [...COMMUNITY_MODULES, 'admin', 'fdp'];
+export const ALL_MODULES = ['core', 'shell', 'market', 'uc'];
