@@ -22,7 +22,7 @@ import React from 'react';
 import { usePerm } from 'user/common';
 import { goTo } from 'common/utils';
 import routeStore from 'core/stores/route';
-import UserMenu from './userMenu';
+import UserMenu from './user-menu';
 import './index.scss';
 import { Link } from 'react-router-dom';
 import OrgSelector from 'app/org-home/pages/org-selector';

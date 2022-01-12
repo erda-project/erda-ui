@@ -63,29 +63,6 @@
   }
 }
 
-.erda-global-nav-user-menu {
-  .ant-popover-inner-content {
-    padding: 0;
-  }
-
-  .container {
-    width: 278px;
-  }
-
-  .user-info {
-    border-bottom: 1px solid rgba(9, 24, 33, 0.08);
-    width: 100%;
-
-    .avatar {
-      padding: 12px;
-    }
-
-    .desc-container {
-      padding: 15px 12px 15px 0px;
-    }
-  }
-}
-
 .app-center-version {
   margin-left: 4px;
   background-color: $color-primary;

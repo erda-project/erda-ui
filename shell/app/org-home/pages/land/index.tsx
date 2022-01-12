@@ -17,12 +17,11 @@ import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 import React from 'react';
 import { useClickAway } from 'react-use';
-import userStore from 'user/stores';
 import { erdaEnv } from 'common/constants';
+import UserMenu from 'layout/pages/page-container/components/navigation/user-menu';
 import './index.scss';
 
 const LandPage = () => {
-  const user = userStore.useStore((s) => s.loginUser);
   const orgs = orgStore.useStore((s) => s.orgs);
   const [activeOrg, setActiveOrg] = React.useState<any>(null);
   const [showOptions, setShowOptions] = React.useState(false);
@@ -40,8 +39,8 @@ const LandPage = () => {
       <div className="absolute left-20 top-5">
         <ErdaIcon className="text-white" size={60} type="erda" />
       </div>
-      <div className="absolute right-20 top-5">
-        <img className="w-9 h-9 rounded-full" src={user.avatar} alt="user avatar" />
+      <div className="absolute right-20 top-5 z-10">
+        <UserMenu placement="bottomRight" size={36} />
       </div>
       <img className="bg-image" src={springBg} alt="background-image" />
       <div className="content text-white z-10">
