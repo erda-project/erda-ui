@@ -1804,8 +1804,8 @@
   "createDeploymentOrder": {
     "desc": "创建部署请求",
     "success": {
-        "zh": "在项目 [@projectName](project) 中, 创建了部署请求 [@deploymentOrderName]",
-        "en": "Create deployment requests [@deploymentOrderName] in project [@projectName]"
+      "zh": "在项目 [@projectName](project) 中, 创建了部署请求 [@deploymentOrderName]",
+      "en": "Create deployment requests [@deploymentOrderName] in project [@projectName]"
     }
   },
   "executeDeploymentOrder": {
@@ -2058,22 +2058,44 @@
       "en": ""
     }
   },
-  "batchDeleteRelease": {
-    "desc": "批量删除制品",
+  "batchDeleteProjectRelease": {
+    "desc": "批量删除项目制品",
     "success": {
-      "zh": "在 [@orgName] 组织下的 [@projectName](project) 项目中，删除了下列制品： [@versionList]",
-      "en": "Delete release [@versionList] in project [@projectName](project) of org [@orgName]"
+      "zh": "在 [@orgName] 组织下的 [@projectName](project) 项目中，删除了下列项目级制品： [@versionList]",
+      "en": "Delete project release [@versionList] in project [@projectName](project) of org [@orgName]"
     },
     "fail": {
       "zh": "",
       "en": ""
     }
   },
-  "batchFormalRelease": {
+  "batchDeleteAppRelease": {
+    "desc": "批量删除应用制品",
+    "success": {
+      "zh": "在 [@orgName] 组织下的 [@projectName](project) 项目中，删除了下列应用级制品： [@versionList]",
+      "en": "Delete application release [@versionList] in project [@projectName](project) of org [@orgName]"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
+  },
+  "batchFormalProjectRelease": {
+    "desc": "批量转正项目制品",
+    "success": {
+      "zh": "在 [@orgName] 组织下的 [@projectName](project) 项目中，将下列项目级制品转为正式版： [@versionList]",
+      "en": "Formal project release [@versionList] in project [@projectName](project) of org [@orgName]"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
+  },
+  "batchFormalAppRelease": {
     "desc": "批量转正制品",
     "success": {
-      "zh": "在 [@orgName] 组织下的 [@projectName](project) 项目中，将下列制品转为正式版： [@versionList]",
-      "en": "Formal release [@versionList] in project [@projectName](project) of org [@orgName]"
+      "zh": "在 [@orgName] 组织下的 [@projectName](project) 项目中，将下列应用级制品转为正式版： [@versionList]",
+      "en": "Formal application release [@versionList] in project [@projectName](project) of org [@orgName]"
     },
     "fail": {
       "zh": "",
