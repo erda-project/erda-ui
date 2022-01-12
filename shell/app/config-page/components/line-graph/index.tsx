@@ -198,6 +198,7 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
       </div>
       <div>
         <Echarts
+          key={Date.now()} // FIXME render exception occasionally，the exact reason is not yet clear
           onEvents={onEvents}
           onChartReady={handleReady}
           option={option}
