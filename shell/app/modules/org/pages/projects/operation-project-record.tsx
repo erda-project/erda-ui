@@ -49,7 +49,6 @@ const options = [
 export const OperationProjectRecords = ({ visible, setVisible }) => {
   const orgID = orgStore.getState((s) => s.currentOrg.id);
   const [handleProjectRecord, handleRecordLoading] = importExportProjectRecord.useState();
-  const [isVisible, setIsVisible] = React.useState(false);
   const [activeKey, setActiveKey] = React.useState('all');
   const [result, setResult] = React.useState('');
   const [searchObj, setSearchObj] = React.useState<IState>({
@@ -132,8 +131,22 @@ export const OperationProjectRecords = ({ visible, setVisible }) => {
         viewResult: {
           title: i18n.d('查看结果'),
           onClick: () => {
-            setIsVisible(true);
-            setResult(record.errorInfo);
+            if (record.state === 'success') {
+              Modal.success({
+                title: i18n.d('查看结果'),
+                content: (
+                  <span className="font-medium text-base text-default text-success">
+                    {record.type === 'projectTemplateImport' ? i18n.d('导入成功！') : i18n.d('导出成功！')}
+                  </span>
+                ),
+              });
+            } else {
+              Modal.error({
+                title: i18n.d('查看结果'),
+                content: record.errorInfo,
+              });
+            }
+            setResult(record);
           },
         },
         exportProject: {
@@ -170,7 +183,7 @@ export const OperationProjectRecords = ({ visible, setVisible }) => {
       asc: sorter?.order ? sorter.order === 'ascend' : undefined,
     }));
   };
-
+  console.log(result, 88);
   return (
     <>
       <Drawer
@@ -221,9 +234,6 @@ export const OperationProjectRecords = ({ visible, setVisible }) => {
           />
         </Spin>
       </Drawer>
-      <Modal visible={isVisible} onCancel={() => setIsVisible(false)}>
-        {result}
-      </Modal>
     </>
   );
 };

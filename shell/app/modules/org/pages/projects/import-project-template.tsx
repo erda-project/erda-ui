@@ -8,7 +8,6 @@ import './create-project.scss';
 
 export const ImportProjectTemplate = ({ setFileData, fileData, form }) => {
   const [fileStatus, setFileStatus] = React.useState('init');
-  const [isVisible, setIsVisible] = React.useState(false);
 
   function handleChange({ file }: any) {
     setFileData(file);
@@ -87,7 +86,16 @@ export const ImportProjectTemplate = ({ setFileData, fileData, form }) => {
             <div className="flex-v-center text-error mb-2">
               <ErdaIcon type="guanbi" />
               <span className="mx-1">{i18n.d('解析失败')}, </span>
-              <span className="underline cursor-pointer" onClick={() => setIsVisible(true)}>
+              <span
+                className="underline cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  Modal.error({
+                    title: i18n.d('错误原因'),
+                    content: fileData?.response?.err?.msg,
+                  });
+                }}
+              >
                 {i18n.d('错误原因')}
               </span>
             </div>
@@ -97,9 +105,6 @@ export const ImportProjectTemplate = ({ setFileData, fileData, form }) => {
           </div>
         )}
       </Upload>
-      <Modal title={i18n.d('错误原因')} visible={isVisible} onCancel={() => setIsVisible(false)}>
-        {fileData?.response?.err?.msg}
-      </Modal>
     </div>
   );
 };
