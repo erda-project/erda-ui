@@ -136,7 +136,7 @@ export const createProxyService = (app: INestApplication) => {
     '/metadata.json',
     createProxyMiddleware({
       target: API_URL,
-      changeOrigin: isProd,
+      changeOrigin: !isProd,
     }),
   );
   return wsProxy;
