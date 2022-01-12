@@ -14,7 +14,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import { Spin, Button, Input, Tooltip, Menu, Dropdown, message } from 'antd';
-import Table from 'common/components/table';
+import ErdaTable from 'common/components/table';
 import { ColumnProps, IActions } from 'common/components/table/interface';
 import { goTo, fromNow } from 'common/utils';
 import { Filter, ErdaIcon, ErdaAlert } from 'common';
@@ -24,7 +24,6 @@ import projectStore from 'project/stores/project';
 import { exportProjectTemplate } from 'org/services/project-list';
 import { useLoading } from 'core/stores/loading';
 import { OperationProjectRecords } from './operation-project-record';
-
 import orgStore from 'app/org-home/stores/org';
 import './project-list.scss';
 
@@ -55,7 +54,6 @@ export const ProjectList = () => {
     orderBy: 'activeTime',
     asc: false,
   });
-
   const [visible, setVisible] = React.useState(false);
 
   useUnmount(() => {
@@ -124,9 +122,9 @@ export const ProjectList = () => {
     return columns;
   };
 
-  const ProjectActions: IActions<any> = {
+  const ProjectActions: IActions<PROJECT.Detail> = {
     width: 120,
-    render: (record: any) => {
+    render: (record: PROJECT.Detail) => {
       const { exportProject, goToEfficiencyMeasure } = {
         exportProject: {
           title: i18n.t('export'),

@@ -53,7 +53,7 @@ export const OperationProjectRecords = ({ visible, setVisible }: IProps) => {
   const orgID = orgStore.getState((s) => s.currentOrg.id);
   const [handleProjectRecord, handleRecordLoading] = importExportProjectRecord.useState();
   const userMap = useUserMap();
-  const [activeKey, setActiveKey] = React.useState('all');
+  const [activeKey, setActiveKey] = React.useState('all' as string);
   const [searchObj, setSearchObj] = React.useState<IState>({
     pageNo: 1,
     pageSize: 10,
@@ -63,7 +63,7 @@ export const OperationProjectRecords = ({ visible, setVisible }: IProps) => {
 
   React.useEffect(() => {
     importExportProjectRecord.fetch({ orgID, types: handleFileTypeMap.all });
-  }, [orgID, visible]);
+  }, [orgID]);
 
   const getColumnOrder = (key?: string) => {
     if (key) {
@@ -119,7 +119,7 @@ export const OperationProjectRecords = ({ visible, setVisible }: IProps) => {
             <Avatar src={avatar || undefined} size="small" className="flex-shrink-0">
               {nick ? getAvatarChars(nick) : i18n.t('none')}
             </Avatar>
-            <span> {userMap[text].nick}</span>
+            <span> {nick}</span>
           </>
         );
       },
@@ -202,7 +202,10 @@ export const OperationProjectRecords = ({ visible, setVisible }: IProps) => {
     <>
       <Drawer
         width="80%"
-        onClose={() => setVisible(false)}
+        onClose={() => {
+          setVisible(false);
+          setActiveKey('all');
+        }}
         visible={visible}
         destroyOnClose
         title={i18n.t('import and export records')}
@@ -211,8 +214,8 @@ export const OperationProjectRecords = ({ visible, setVisible }: IProps) => {
         <RadioTabs
           options={options}
           value={activeKey}
-          onChange={(v: string) => {
-            setActiveKey(v);
+          onChange={(v) => {
+            setActiveKey(v as string);
             setSearchObj({ ...searchObj, pageNo: 1 });
           }}
           className="mb-2"

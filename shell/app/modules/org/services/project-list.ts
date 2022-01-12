@@ -27,15 +27,15 @@ const apis = {
     api: '/api/test-file-records',
   },
 };
-export const exportProjectTemplate = apiCreator<(p: { projectID: string; orgID: number }) => string>(
+export const exportProjectTemplate = apiCreator<(p: { projectID: number; orgID: number }) => string>(
   apis.exportProjectTemplate,
 );
 
-export const importProjectTemplate = apiCreator<(p: { projectID: string; orgID: number; file: unknown }) => string>(
+export const importProjectTemplate = apiCreator<(p: { projectID: number; orgID: number; file: unknown }) => string>(
   apis.importProjectTemplate,
 );
 
-export const parseProjectTemplate = apiCreator<(p: { projectID: string; orgID: number; file: unknown }) => void>(
+export const parseProjectTemplate = apiCreator<(p: { projectID: number; orgID: number; file: unknown }) => void>(
   apis.parseProjectTemplate,
 );
 

@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-
 import permStore from 'user/stores/permission';
 import { MEASURE_TABS } from 'app/modules/project/tabs';
 
