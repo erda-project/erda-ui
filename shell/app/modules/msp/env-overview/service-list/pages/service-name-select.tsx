@@ -19,6 +19,7 @@ import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import { getServiceList } from 'msp/services/service-analytics';
 import { EmptyListHolder, ErdaIcon } from 'common';
 import i18n from 'i18n';
+import moment from 'moment';
 import { useUnmount } from 'react-use';
 
 export function ServiceNameSelect() {
@@ -49,8 +50,12 @@ export function ServiceNameSelect() {
   }, [loading]);
 
   React.useEffect(() => {
-    getServiceList.fetch({ start: startTimeMs, end: endTimeMs, terminusKey: params?.terminusKey });
-  }, [getServiceList, startTimeMs, endTimeMs]);
+    getServiceList.fetch({
+      start: moment().subtract(1, 'days').valueOf(),
+      end: moment().valueOf(),
+      terminusKey: params?.terminusKey,
+    });
+  }, []);
 
   React.useEffect(() => {
     if (serviceId) {

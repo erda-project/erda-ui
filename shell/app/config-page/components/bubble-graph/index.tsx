@@ -144,7 +144,16 @@ const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
         {data.title}
       </div>
       <div>
-        <Echarts onEvents={onEvents} option={option} style={configProps.style ?? {}} />
+        <Echarts
+          onEvents={onEvents}
+          option={option}
+          style={{
+            width: '100%',
+            height: '170px',
+            minHeight: 0,
+            ...configProps.style,
+          }}
+        />
       </div>
     </div>
   );
