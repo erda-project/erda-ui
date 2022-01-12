@@ -16,11 +16,11 @@ import { logInfo, logSuccess } from './util/log';
 import dotenv from 'dotenv';
 import execa from 'execa';
 import { EOL } from 'os';
-import { ALL_MODULES, COMMUNITY_MODULES, isCwdInRoot } from './util/env';
+import { ALL_MODULES, isCwdInRoot } from './util/env';
 import ora from 'ora';
 
 // init step ONLY for pipeline CI
-export default async ({ ce }: { ce: boolean }) => {
+export default async () => {
   const currentDir = process.cwd();
   isCwdInRoot({ currentPath: currentDir, alert: true });
 
@@ -45,7 +45,7 @@ export default async ({ ce }: { ce: boolean }) => {
   const envConfigPath = `${currentDir}/.env`;
 
   const newConfig: dotenv.DotenvParseOutput = {
-    MODULES: (ce ? COMMUNITY_MODULES : ALL_MODULES).join(','),
+    MODULES: ALL_MODULES.join(','),
   };
 
   const newFullConfig: string[] = [];

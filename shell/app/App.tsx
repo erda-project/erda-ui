@@ -37,7 +37,6 @@ import userStore from './user/stores';
 import permStore from 'user/stores/permission';
 import { getJoinedOrgs } from 'app/org-home/services/org';
 import orgStore, { isAdminRoute } from 'app/org-home/stores/org';
-import modules from './mf-modules'; // ambiguous modules may conflict with modules folder, then rename to mf-modules
 import './styles/antd-extension.scss';
 import './styles/app.scss';
 import '@erda-ui/dashboard-configurator/dist/index.css';
@@ -96,9 +95,10 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
       import('dcos/entry'),
       import('addonPlatform/entry'),
       import('./modules/extra/entry'),
-      ...Object.values(modules),
     ].forEach((p) => p.then((m) => m.default(registerModule)));
+
     userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息
+
     const Wrap = () => {
       return (
         <ConfigProvider renderEmpty={EmptyListHolder} locale={isZh() ? antd_zhCN : antd_enUS}>
