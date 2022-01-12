@@ -13,10 +13,10 @@
 
 import React from 'react';
 import { Menu, Button, Dropdown, Checkbox } from 'antd';
-import PureTable from 'common/components/table';
 import { map, get, find, intersection, has, difference, compact } from 'lodash';
 import { Icon as CustomIcon, Title, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
+import ErdaTable from 'common/components/table';
 import { useUserMap } from 'core/stores/userMap';
 import { OperationAction } from 'app/config-page/utils';
 import { getRender, getTitleRender } from './render-types';
@@ -147,7 +147,7 @@ export function Table(props: CP_TABLE.Props) {
     extra.expandedRowRender = (rowData: any) => {
       const { expandedList } = rowData || {};
       return (
-        <PureTable columns={exTableColumns} rowKey={rowKey} dataSource={expandedList} pagination={false} slot={slot} />
+        <ErdaTable columns={exTableColumns} rowKey={rowKey} dataSource={expandedList} pagination={false} slot={slot} />
       );
     };
   }
@@ -190,7 +190,7 @@ export function Table(props: CP_TABLE.Props) {
       style={{ paddingBottom: configProps?.pagination === false && batchOperations ? 64 : 'unset' }}
     >
       {title ? <Title showDivider={false} level={2} title={title} /> : null}
-      <PureTable
+      <ErdaTable
         className={`${cls} ${isGanttTable ? 'task-gantt-table' : ''}`}
         dataSource={list}
         slot={slot}

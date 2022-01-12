@@ -13,10 +13,10 @@
 
 import React from 'react';
 import { Input, Spin, Popconfirm, Tooltip, Modal } from 'antd';
-import Table from 'common/components/table';
 import i18n from 'i18n';
 import { CustomFilter, MemberSelector, LoadMoreSelector } from 'common';
 import { useUpdate, useFilter } from 'common/use-hooks';
+import ErdaTable from 'common/components/table';
 import { insertWhen, goTo } from 'common/utils';
 import { get } from 'lodash';
 import { useEffectOnce } from 'react-use';
@@ -249,7 +249,7 @@ const PureDeployList = (props: IProps) => {
   return (
     <div>
       <Spin spinning={isFetching}>
-        <Table
+        <ErdaTable
           rowKey="id"
           columns={columns}
           dataSource={list}

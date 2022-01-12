@@ -284,7 +284,7 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
           },
           toolbar: {
             props: {
-              className: 'border-0 border-b border-solid border-black-100 rounded-none bg-white',
+              className: 'border-0 border-b border-solid border-black-1 rounded-none bg-white',
             },
           },
           inputFilter: {

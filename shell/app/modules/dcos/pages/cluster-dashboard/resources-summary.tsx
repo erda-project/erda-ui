@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Echarts } from 'charts';
-import Table from 'common/components/table';
-import { ColumnProps } from 'common/components/table/interface';
+import { ColumnProps } from 'app/common/components/table/interface';
 import { colorMap } from 'charts/theme';
 import { ContractiveFilter, CardContainer, ErdaIcon, Title } from 'common';
+import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { Button, Col, InputNumber, Progress, Radio, Row, Select, Spin, Tooltip, Modal } from 'antd';
 import { getResourceGauge, getResourceTable } from 'dcos/services/dashboard';
@@ -261,7 +261,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
       title: () => (
         <div className="inline-flex flex-col justify-center align-center">
           <div className="text-sm">{i18n.t('cmp:Number of used nodes')}</div>
-          <div className="text-xs text-black-400">
+          <div className="text-xs text-black-4">
             {`(${i18n.t('cmp:one node')}: ${cpuAndMem.current.cpuPerNode} Core ${cpuAndMem.current.memPerNode} GiB)`}
           </div>
         </div>
@@ -304,7 +304,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
               format={(v) => null}
               strokeColor={getStrokeColor(value)}
             />
-            <span className="text-dark-8  ml-2">{`${value.toFixed(1)}%`}</span>
+            <span className="text-black-8  ml-2">{`${value.toFixed(1)}%`}</span>
           </Tooltip>
         ) : (
           _val
@@ -341,7 +341,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
               format={(v) => null}
               strokeColor={getStrokeColor(value)}
             />
-            <span className="text-dark-8 ml-2">{`${value.toFixed(1)}%`}</span>
+            <span className="text-black-8 ml-2">{`${value.toFixed(1)}%`}</span>
           </Tooltip>
         ) : (
           _val
@@ -443,7 +443,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
           </span>
         }
       /> */}
-      <Table
+      <ErdaTable
         slot={
           <div className="flex justify-between align-center">
             <ContractiveFilter

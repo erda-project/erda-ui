@@ -28,7 +28,7 @@ interface IOperationAction {
 }
 export const OperationAction = (props: IOperationAction) => {
   const { operation, children, onClick, tipProps, operations, tip } = props;
-  if (!operation && !operations) return <Tooltip title={tip}>{children}</Tooltip>;
+  if (!operation && !operations) return tip ? <Tooltip title={tip}>{children}</Tooltip> : children;
   let curOp: CP_COMMON.Operation = operation;
   if (operations) {
     const clickOp = map(filterClickOperations(operations));
@@ -36,11 +36,11 @@ export const OperationAction = (props: IOperationAction) => {
       curOp = clickOp[0];
     }
   }
-  const curTip = curOp.disabledTip || curOp.tip || tip;
+  const curTip = curOp.tip || tip;
   if (curOp.disabled === true) {
     // 无权限操作
     return (
-      <WithAuth noAuthTip={curTip} key={curOp.key} pass={false} tipProps={tipProps}>
+      <WithAuth noAuthTip={curOp.disabledTip || curTip} key={curOp.key} pass={false} tipProps={tipProps}>
         {children}
       </WithAuth>
     );
@@ -113,7 +113,7 @@ export const textColorMap = {
 export const getClass = (props: Obj) => {
   return classnames({
     'bg-white': props?.whiteBg,
-    'bg-gray-block-bg': props?.grayBg,
+    'bg-black-02': props?.grayBg,
     'h-full': props?.fullHeight,
     'w-full': props?.fullWidth,
     'flex items-center justify-center': props?.flexCenter,

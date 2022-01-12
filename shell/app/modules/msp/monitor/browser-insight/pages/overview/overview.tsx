@@ -12,41 +12,109 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Row, Col } from 'antd';
-import GeographyMap from 'browser-insight/pages/geography-china/config/chartMap';
-import PositionMap from 'browser-insight/pages/position/config/chartMap';
-import OverviewMap, { commonAttr } from './config/chartMap';
 import { TimeSelectWithStore } from 'msp/components/time-select';
-import i18n, { isZh } from 'i18n';
+import DiceConfigPage from 'app/config-page';
+import monitorCommonStore from 'common/stores/monitorCommon';
+import routeInfoStore from 'core/stores/route';
+import { functionalColor } from 'common/constants';
+
+const topNConfig = [
+  {
+    key: 'maxReqDomainTop5',
+    color: functionalColor.actions,
+    icon: 'gaofangwenliangyemian',
+  },
+  {
+    key: 'maxReqPageTop5',
+    color: functionalColor.success,
+    icon: 'gaofangwenliangyemian',
+  },
+  {
+    key: 'slowReqPageTop5',
+    color: functionalColor.warning,
+    icon: 'manxiangyingyemian',
+  },
+  {
+    key: 'slowReqRegionTop5',
+    color: functionalColor.error,
+    icon: 'manxiangyingdiqu',
+  },
+];
+const indicators = [
+  'apdex',
+  'apiSuccessRate',
+  'avgPageLoadDuration',
+  'jsErrorCount',
+  'pv',
+  'uv',
+  'resourceLoadErrorCount',
+];
 
 const Overview = () => {
+  const range = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
+  const tenantId = routeInfoStore.useStore((s) => s.params.terminusKey);
   return (
     <div>
-      <div className="flex justify-end mb-3">
+      <div className="flex justify-end mb-2">
         <TimeSelectWithStore />
       </div>
-      <Row gutter={[20, 20]}>
-        <Col span={16}>
-          <OverviewMap.performanceInterval />
-        </Col>
-        <Col span={8}>
-          <PositionMap.apdex titleText={i18n.t('msp:user experience')} groupId={commonAttr.groupId} />
-        </Col>
-        <Col span={12}>
-          <OverviewMap.scriptError />
-        </Col>
-        <Col span={12}>
-          <OverviewMap.pagePerformanceTrends />
-        </Col>
-        {isZh() && (
-          <Col span={12}>
-            <GeographyMap.regionalLoadingTime />
-          </Col>
-        )}
-        <Col span={12}>
-          <OverviewMap.ajaxPerformanceTrends />
-        </Col>
-      </Row>
+      {tenantId ? (
+        <DiceConfigPage
+          scenarioKey="browser-overview"
+          scenarioType="browser-overview"
+          inParams={{ tenantId, startTime: range.startTimeMs, endTime: range.endTimeMs, _: range.triggerTime }}
+          forceUpdateKey={['inParams']}
+          customProps={{
+            topNs: {
+              props: {
+                gutter: 8,
+                span: [6, 6, 6, 6],
+                wrapperClassName: 'mt-1',
+              },
+            },
+            cards: {
+              props: {
+                colFlex: 'auto',
+                gutter: 0,
+              },
+            },
+            charts: {
+              props: {
+                gutter: 8,
+                span: [12, 12, 12, 12],
+                wrapperClassName: 'mt-1',
+                className: 'mb-2 overflow-visible',
+              },
+            },
+            ...topNConfig.reduce((prev, next) => {
+              return {
+                ...prev,
+                [`topN@${next.key}`]: {
+                  props: {
+                    theme: [
+                      {
+                        titleIcon: next.icon,
+                        color: next.color,
+                      },
+                    ],
+                  },
+                },
+              };
+            }, {}),
+            ...indicators.reduce(
+              (previousValue, currentValue) => ({
+                ...previousValue,
+                [`kvCard@${currentValue}`]: {
+                  props: {
+                    gutter: 0,
+                  },
+                },
+              }),
+              {},
+            ),
+          }}
+        />
+      ) : null}
     </div>
   );
 };

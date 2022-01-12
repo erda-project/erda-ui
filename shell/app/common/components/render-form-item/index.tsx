@@ -409,7 +409,7 @@ const SelectComp = ({ value, onChange, options, size, optionRender, ...restItemP
         <div>
           {fixOptions?.length !== 0 ? (
             <>
-              <div className="p-2 text-white-400">
+              <div className="p-2 text-white-4">
                 {fixOptions.map((item: IOption) => (
                   <div className="px-1 text-purple-deep" onClick={() => onChange([item.value])}>
                     {item.label}

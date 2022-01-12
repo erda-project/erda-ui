@@ -16,9 +16,9 @@ import moment from 'moment';
 import i18n from 'i18n';
 import { head, isEmpty, map, take, forEach, cloneDeep } from 'lodash';
 import { Button, message, Modal, Select, Spin, Tooltip } from 'antd';
-import Table from 'common/components/table';
-import { IActions } from 'common/components/table/interface';
+import { IActions } from 'app/common/components/table/interface';
 import { Avatar, ErdaIcon, FormModal, MemberSelector } from 'common';
+import ErdaTable from 'common/components/table';
 import { useSwitch, useUpdate } from 'common/use-hooks';
 import { ColumnProps, FormInstance } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';
@@ -118,7 +118,7 @@ export const ListTargets = ({
   let text = '';
   let targetsEle = (
     <>
-      <ErdaIcon fill="black-400" size="16" type="sidebarUser" className="color-text-desc mr-1" />
+      <ErdaIcon fill="black-4" size="16" type="sidebarUser" className="color-text-desc mr-1" />
       <Tooltip title={`${i18n.t('dop:group address')}: ${firstValue}`}>
         <span className="group-address nowrap">{`${i18n.t('dop:group address')}: ${firstValue}`}</span>
       </Tooltip>
@@ -164,7 +164,7 @@ export const ListTargets = ({
       text = `${i18n.t('dop:notify role')}：${map(values, (obj) => roleMap[obj.receiver]).join(',')}`;
       targetsEle = (
         <>
-          <ErdaIcon fill="black-400" size="16" type="sidebarUser" className="mr-1" />
+          <ErdaIcon fill="black-4" size="16" type="sidebarUser" className="mr-1" />
           <Tooltip title={text}>
             <span className="group-address nowrap">{text}</span>
           </Tooltip>
@@ -532,7 +532,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
         modalProps={{ destroyOnClose: true }}
       />
       <Spin spinning={loading}>
-        <Table
+        <ErdaTable
           rowKey="id"
           pagination={{ pageSize, current: pageNo, total }}
           dataSource={notifyGroups}

@@ -13,10 +13,10 @@
 
 import React from 'react';
 import { Input, Spin, Button } from 'antd';
-import Table from 'common/components/table';
 import { useDebounce, useUnmount, useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import { CustomFilter } from 'common';
+import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { connectCube, goTo, insertWhen } from 'common/utils';
 import './publisher-list-v2.scss';
@@ -179,7 +179,7 @@ export const PurePublisherList = ({
             </Button>
           </WithAuth>
         </div>
-        <Table
+        <ErdaTable
           rowKey="id"
           columns={column}
           dataSource={list}

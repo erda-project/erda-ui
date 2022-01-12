@@ -69,7 +69,7 @@ const OperateBtn = ({ children, limit = 3, ellipses, className }: IProps) => {
           <Dropdown
             overlayClassName="table-operate-dropdown"
             trigger={['click']}
-            className="hover:bg-hover-gray-bg p-1"
+            className="hover:bg-black-06 p-1"
             overlay={menu}
             placement="bottomRight"
           >

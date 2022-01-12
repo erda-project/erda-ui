@@ -27,10 +27,10 @@ import React from 'react';
 import i18n from 'i18n';
 import { isEmpty, isNumber, map } from 'lodash';
 import { Button, Modal, Select, Spin, Tooltip, Input, message, Tabs, Checkbox } from 'antd';
-import Table from 'common/components/table';
-import { ColumnProps, IActions } from 'common/components/table/interface';
+import { ColumnProps, IActions } from 'app/common/components/table/interface';
 import { FormModal, Copy, ErdaIcon, Badge } from 'common';
 import { useUpdate } from 'common/use-hooks';
+import ErdaTable from 'common/components/table';
 import { FormInstance } from 'app/interface/common';
 import { useMount } from 'react-use';
 import { regRules } from 'common/utils';
@@ -775,7 +775,7 @@ const NotifyChannel = () => {
           <TabPane key="sms" tab={i18n.t('SMS')} />
           <TabPane key="vms" tab={i18n.t('phone')} />
         </Tabs>
-        <Table
+        <ErdaTable
           rowKey="id"
           dataSource={channelDatasource?.data || []}
           columns={columns}

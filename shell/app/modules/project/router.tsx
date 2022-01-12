@@ -446,6 +446,12 @@ function getProjectRouter(): RouteConfigItem[] {
             },
           ],
         },
+        {
+          path: 'deploy/:env',
+          pageName: i18n.t('dop:deployment center'),
+          getComp: (cb) => cb(import('project/pages/deploy')),
+          layout: { noWrapper: true },
+        },
       ],
     },
   ];

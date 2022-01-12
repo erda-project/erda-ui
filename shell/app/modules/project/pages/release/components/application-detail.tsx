@@ -17,7 +17,7 @@ import moment from 'moment';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import { UserInfo, FileEditor, RenderFormItem, MarkdownEditor } from 'common';
-import Table from 'common/components/table';
+import ErdaTable from 'common/components/table';
 import routeInfoStore from 'core/stores/route';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -165,28 +165,28 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                 </div>
               ) : (
                 <div className="mb-2">
-                  <div className="text-black-400 mb-2">{i18n.t('dop:release name')}</div>
+                  <div className="text-black-4 mb-2">{i18n.t('dop:release name')}</div>
                   <div>{version || '-'}</div>
                 </div>
               )}
               <div className="mb-2">
-                <div className="text-black-400 mb-2">{i18n.t('dop:app name')}</div>
+                <div className="text-black-4 mb-2">{i18n.t('dop:app name')}</div>
                 <div>{applicationName || '-'}</div>
               </div>
               <div className="mb-2">
-                <div className="text-black-400 mb-2">{i18n.t('creator')}</div>
+                <div className="text-black-4 mb-2">{i18n.t('creator')}</div>
                 <div>{userId ? <UserInfo id={userId} /> : '-'}</div>
               </div>
               <div className="mb-2">
-                <div className="text-black-400 mb-2">{i18n.t('create time')}</div>
+                <div className="text-black-4 mb-2">{i18n.t('create time')}</div>
                 <div>{(createdAt && moment(createdAt).format('YYYY/MM/DD HH:mm:ss')) || '-'}</div>
               </div>
               <div className="mb-2">
-                <div className="text-black-400 mb-2">{i18n.t('dop:code branch')}</div>
+                <div className="text-black-4 mb-2">{i18n.t('dop:code branch')}</div>
                 <div>{labels.gitBranch || '-'}</div>
               </div>
               <div className="mb-2">
-                <div className="text-black-400 mb-2">commitId</div>
+                <div className="text-black-4 mb-2">commitId</div>
                 <div>{labels.gitCommitId || '-'}</div>
               </div>
               {isEdit ? (
@@ -195,7 +195,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                 </div>
               ) : (
                 <div className="mb-2">
-                  <div className="text-black-400 mb-2">{i18n.t('content')}</div>
+                  <div className="text-black-4 mb-2">{i18n.t('content')}</div>
                   <div>
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {changelog || i18n.t('dop:no content yet')}
@@ -206,7 +206,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
             </div>
           </TabPane>
           <TabPane tab={i18n.t('dop:images list')} key="2">
-            <Table
+            <ErdaTable
               columns={[
                 { title: i18n.t('service name'), dataIndex: 'name' },
                 { title: i18n.t('dop:image name'), dataIndex: 'image' },

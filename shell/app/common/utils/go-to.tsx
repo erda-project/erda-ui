@@ -123,7 +123,6 @@ export enum pages {
   noAuth = '/{orgName}/noAuth',
   perm = '/{orgName}/perm?scope={scope}',
   inviteToOrg = '/{orgName}/inviteToOrg',
-  freshMan = '/{orgName}/freshMan',
 
   // dop
   orgRoot = '/{orgName}',
@@ -171,6 +170,8 @@ export enum pages {
   projectMemberManagement = '/{orgName}/dop/projects/{projectId}/setting?tabKey=projectMember',
   projectRelease = '/{orgName}/dop/projects/{projectId}/release',
   projectReleaseList = '/{orgName}/dop/projects/{projectId}/release/project',
+  projectDeploy = '/{orgName}/dop/projects/{projectId}/deploy',
+  projectDeployEnv = '/{orgName}/dop/projects/{projectId}/deploy/{env}',
   projectReleaseCreate = '/{orgName}/dop/projects/{projectId}/release/createRelease/{type}',
   projectReleaseDetail = '/{orgName}/dop/projects/{projectId}/release/project/{releaseId}',
   applicationReleaseList = '/{orgName}/dop/projects/{projectId}/release/application',

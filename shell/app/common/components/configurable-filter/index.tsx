@@ -83,7 +83,7 @@ const defaultProcessField = (item: IFormItem) => {
       ...itemProps,
       showArrow: true,
       allowClear: true,
-      suffixIcon: <ErdaIcon type="caret-down" color="currentColor" className="text-white-400" />,
+      suffixIcon: <ErdaIcon type="caret-down" color="currentColor" className="text-white-4" />,
       clearIcon: <span className="p-1">{i18n.t('common:clear')}</span>,
       getPopupContainer: (triggerNode: HTMLElement) => triggerNode.parentElement as HTMLElement,
     };
@@ -216,7 +216,7 @@ const ConfigurableFilter = ({
           <Row>
             {fieldsList?.map((item, index: number) => {
               return (
-                <Col span={12} className={index % 2 === 1 ? 'pl-2' : 'pr-2'}>
+                <Col span={12} key={item.key} className={index % 2 === 1 ? 'pl-2' : 'pr-2'}>
                   <RenderFormItem required={false} {...defaultProcessField(processField ? processField(item) : item)} />
                 </Col>
               );

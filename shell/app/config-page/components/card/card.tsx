@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { ErdaIcon, Badge, TextBlockInfo, EmptyHolder as DefaultEmptyHolder } from 'common';
+import { ErdaIcon, Badge, TextBlockInfo, EmptyHolder as DefaultEmptyHolder, Ellipsis } from 'common';
 import { useDrag } from 'react-dnd';
 import { isBoolean } from 'lodash';
 import classnames from 'classnames';
@@ -25,6 +25,7 @@ const noop = () => {};
 interface CardItemProps {
   card: CP_CARD.ICard;
   cardType?: string;
+  width?: number;
   className?: string;
   defaultImg?: string;
   setIsDrag?: (bol: boolean) => void;
@@ -34,9 +35,30 @@ interface CardItemProps {
 }
 
 export const CardItem = (props: CardItemProps) => {
-  const { card, cardType = 'cp-card', className = '', setIsDrag, CardRender, onClick, draggable, defaultImg } = props;
+  const {
+    card,
+    cardType = 'cp-card',
+    className = '',
+    setIsDrag,
+    CardRender,
+    onClick,
+    draggable,
+    defaultImg,
+    width = 280,
+  } = props;
 
-  const { id, imgURL, icon, title, star, starProps = {}, titleState, textMeta, iconOperations } = card || {};
+  const {
+    id,
+    imgURL,
+    icon,
+    title,
+    star,
+    starProps = {},
+    titleState,
+    textMeta,
+    iconOperations,
+    buttonOperation,
+  } = card || {};
   const [dragObj, drag] = useDrag({
     item: { type: cardType, data: card },
     canDrag: () => {
@@ -60,26 +82,37 @@ export const CardItem = (props: CardItemProps) => {
     rounded: true,
   });
 
-  const handleClick = (dataRef: Obj, action: string) => {
-    onClick?.(dataRef, action);
+  const handleClick = (dataRef: Obj, target: string) => {
+    onClick?.(dataRef, target);
   };
-
   return (
     <div className={`${className} ${cls}`} onClick={() => handleClick(card, 'card')}>
-      <div className="info-card-content cursor-pointer px-4 py-3" key={id} ref={drag}>
+      <div style={{ width }} className={`info-card-content cursor-pointer px-4 py-3`} key={id} ref={drag}>
         {CardRender ? (
           <CardRender data={card} />
         ) : (
           <>
             <div className={'flex justify-between items-start mb-3'}>
-              <div className="flex flex-1 overflow-hidden">
+              <div className="flex flex-1 overflow-hidden mr-2">
                 {imgURL || defaultImg ? (
-                  <img src={imgURL ? getImg(imgURL) : defaultImg} className="head-icon mr-1" />
+                  <img src={imgURL ? getImg(imgURL) : defaultImg} className="head-icon mr-1 flex-shrink-0" />
                 ) : icon ? (
-                  <ErdaIcon type={icon} size={28} className="head-icon mr-1" />
+                  typeof icon === 'string' ? (
+                    <ErdaIcon type={icon} size={28} className="head-icon mr-1 flex-shrink-0" />
+                  ) : (
+                    React.cloneElement(icon, { className: 'flex-shrink-0 mr-1' })
+                  )
                 ) : null}
-                <div className="flex items-center overflow-hidden">
-                  <div className="text-base text-default truncate hover:text-purple-deep">{title}</div>
+                <div
+                  className="flex items-center overflow-hidden"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleClick(card, 'title');
+                  }}
+                >
+                  <div className="text-base text-default truncate hover:text-purple-deep">
+                    <Ellipsis title={title} />
+                  </div>
                 </div>
 
                 {titleState ? (
@@ -90,27 +123,36 @@ export const CardItem = (props: CardItemProps) => {
                         showDot={false}
                         size="small"
                         {...item}
-                        key={item.text}
+                        key={idx}
                         text={item.text}
                       />
                     ))}
                   </div>
                 ) : null}
               </div>
-              <div className="ml-2">
-                {isBoolean(star) ? (
+              {React.isValidElement(buttonOperation) ? <div className="mr-1">{buttonOperation}</div> : null}
+
+              {isBoolean(star) ? (
+                <div className="ml-2">
                   <OperationAction operation={card.operations?.star} {...starProps}>
                     <ErdaIcon size={18} fill={star ? 'yellow' : undefined} type={star ? 'unstar' : 'star'} />
                   </OperationAction>
-                ) : null}
-              </div>
+                </div>
+              ) : null}
             </div>
             {textMeta ? (
               <div className="mt-3 bg-default-01 flex justify-around p-2">
                 {textMeta.map((item, idx) => {
                   return (
                     <OperationAction key={idx} operations={item.operations} tip={item.tip} {...item.extraProps}>
-                      <TextBlockInfo align="center" size="small" main={item.mainText} sub={item.subText} />
+                      <TextBlockInfo
+                        align="center"
+                        size="small"
+                        className={`flex-1 overflow-hidden ${idx !== 0 ? 'ml-1' : ''}`}
+                        main={item.mainText}
+                        sub={item.subText}
+                        subTip={item.subTip}
+                      />
                     </OperationAction>
                   );
                 })}

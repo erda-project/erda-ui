@@ -147,11 +147,7 @@ const org = createStore({
           // user doesn't joined the public org, go to dop
           // temporary solution, it will removed until new solution is proposed by PD
           // except Support role
-          if (
-            !orgPermRes?.data?.roles.includes('Support') &&
-            resOrg?.isPublic &&
-            curPathname?.split('/')[2] !== 'dop'
-          ) {
+          if (!orgPermRes?.data?.roles.includes('Support') && curPathname?.split('/')[2] !== 'dop') {
             if (!orgs?.find((x) => x.name === currentOrg.name) || orgs?.length === 0) {
               goTo(goTo.pages.dopRoot, { replace: true });
             }
@@ -160,12 +156,12 @@ const org = createStore({
           const orgAccess = get(orgPermRes, 'data.access');
           // 当前无该企业权限
           if (!orgAccess) {
-            goTo(goTo.pages.freshMan);
+            goTo(goTo.pages.landPage);
             update({ initFinish: true });
             return;
           }
           // redirect path by roles.
-          // due to once orgAccess is false will redirect to freshMan page forcedly, then no need to hasAuth param
+          // due to once orgAccess is false will redirect to land page forcedly, then no need to hasAuth param
           const roles = get(orgPermRes, 'data.roles');
           setLocationByAuth({
             roles,
@@ -250,10 +246,6 @@ const setLocationByAuth = (authObj: { roles: string[]; orgName: string }) => {
     dop: {
       isCurPage: curPathname.startsWith(`/${orgName}/dop`),
       authRole: intersection(orgPerm.dop.read.role, roles),
-    },
-    freshMan: {
-      isCurPage: curPathname.startsWith(`/${orgName}/freshMan`),
-      authRole: [],
     },
   };
 

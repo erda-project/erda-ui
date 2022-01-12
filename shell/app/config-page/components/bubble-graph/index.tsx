@@ -15,22 +15,20 @@ import React from 'react';
 import { colorToRgb } from 'common/utils';
 import Echarts from 'charts/components/echarts';
 import { functionalColor } from 'common/constants';
-import { groupBy } from 'lodash';
+import { groupBy, isNumber } from 'lodash';
 
 const themeColor = {
   dark: '#ffffff',
   light: functionalColor.info,
 };
 
-const genCommonSize = (min: number, max: number, current: number, interval = 5) => {
-  const range = Math.ceil((max - min) / interval);
-  for (let i = 1; i <= interval; i++) {
-    const criticalValue = min + i * range;
-    if (current <= criticalValue) {
-      return criticalValue;
-    }
+const genCommonSize = (chartSize: number, maxSize: number, current: number) => {
+  if (current === 0) {
+    return current;
   }
-  return current;
+  const baseSize = isNaN(chartSize) ? maxSize : chartSize;
+  // the largest node size is 1/4 of the chart height, the smallest node size is 1/20 of the chart height
+  return Math.max(baseSize / 20, (baseSize / 4) * (current / (maxSize || 1)));
 };
 
 type ISerieData = [number, number, number, string, string];
@@ -38,6 +36,13 @@ type ISerieData = [number, number, number, string, string];
 const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
   const { props: configProps, data, operations, execOperation, customOp } = props;
   const color = themeColor[configProps.theme ?? 'light'];
+  const style = {
+    width: '100%',
+    height: 'auto',
+    minHeight: 0,
+    ...configProps.style,
+  };
+  const chartHeight = isNumber(style.height) ? style.height : parseInt(style.height.replace('px', ''));
   const [option, onEvents] = React.useMemo(() => {
     const dimensions = groupBy(data.list, 'dimension');
     const dimensionsArr = Object.keys(groupBy(data.list, 'dimension'));
@@ -58,14 +63,13 @@ const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
     });
 
     const maxSize = Math.max(...sizeArr);
-    const minSize = Math.min(...sizeArr);
     const series = Object.keys(metaData).map((dimension) => {
       return {
         name: dimension,
         data: metaData[dimension],
         type: 'scatter',
         symbolSize: (meta: ISerieData) => {
-          return configProps.useRealSize ? meta[2] : genCommonSize(minSize, maxSize, meta[2]);
+          return configProps.useRealSize ? meta[2] : genCommonSize(chartHeight, maxSize, meta[2]);
         },
         emphasis: {
           focus: 'series',
@@ -144,7 +148,7 @@ const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
         {data.title}
       </div>
       <div>
-        <Echarts onEvents={onEvents} option={option} style={configProps.style ?? {}} />
+        <Echarts onEvents={onEvents} option={option} style={style} />
       </div>
     </div>
   );

@@ -14,10 +14,10 @@
 import React from 'react';
 import i18n from 'i18n';
 import { Spin, Button, Input, Tooltip } from 'antd';
-import Table from 'common/components/table';
-import { ColumnProps } from 'common/components/table/interface';
+import { ColumnProps } from 'app/common/components/table/interface';
 import { goTo, fromNow } from 'common/utils';
 import { Filter, ErdaIcon, ErdaAlert } from 'common';
+import ErdaTable from 'common/components/table';
 import { useUnmount } from 'react-use';
 import { PAGINATION } from 'app/constants';
 import projectStore from 'project/stores/project';
@@ -180,7 +180,7 @@ export const ProjectList = () => {
             'support the creation and deletion of all projects in the organization, as well as the operation and management of project members and quotas.',
           )}
         />
-        <Table
+        <ErdaTable
           rowKey="id"
           dataSource={list}
           columns={getColumns()}

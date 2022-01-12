@@ -192,7 +192,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         size="small"
         style={{ width: 180 }}
         allowClear
-        className="bg-hover-gray-bg"
+        className="bg-black-06"
         // ref={inputRef}
         prefix={<ErdaIcon fill="default-3" size="16" type="search" />}
         placeholder={placeholder || i18n.t('press enter to search')}
@@ -948,7 +948,7 @@ const ContractiveFilter = ({
             placement="bottomLeft"
           >
             <span className="contractive-filter-item more-conditions">
-              <ErdaIcon color="black-800" type="plus" className="mr-0.5 color-text" />
+              <ErdaIcon color="black-8" type="plus" className="mr-0.5 color-text" />
               <span>{i18n.t('filter')}</span>
               <ErdaIcon type="caret-down" className="hover" size="16" />
             </span>

@@ -25,13 +25,6 @@ function getLayoutRouter(): RouteConfigItem[] {
       },
     },
     {
-      path: 'freshMan',
-      toMark: 'orgIndex',
-      render: () => {
-        return <Redirect to="" />;
-      },
-    },
-    {
       path: 'inviteToOrg',
       toMark: 'orgIndex',
       breadcrumbName: i18n.t('layout:join organization'),

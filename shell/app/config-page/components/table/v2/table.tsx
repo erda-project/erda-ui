@@ -13,10 +13,10 @@
 
 import React from 'react';
 import { Button, Checkbox, Dropdown, Menu } from 'antd';
-import PureTable from 'common/components/table';
-import { TablePaginationConfig } from 'common/components/table/interface';
+import { TablePaginationConfig } from 'app/common/components/table/interface';
 import { compact, difference, has, intersection, isNil, map } from 'lodash';
 import { ErdaIcon, Title } from 'common';
+import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { useUpdateEffect } from 'react-use';
 import { execMultipleOperation, filterClickOperations, OperationAction } from 'app/config-page/utils';
@@ -133,7 +133,7 @@ const Table = (props: CP_TABLE2.Props) => {
   return (
     <div className="relative" style={{ paddingBottom: pagination === false && batchRowsHandle ? 64 : 'unset' }}>
       {curTitle ? <Title showDivider={false} level={2} title={curTitle} /> : null}
-      <PureTable
+      <ErdaTable
         {...extra}
         dataSource={dataSource}
         slot={slot}
@@ -165,7 +165,7 @@ interface IBatchProps<T> {
   rowKey: string;
   dataSource: T[];
   onSelectChange: (keys: string[]) => void;
-  batchRowsHandle: CP_TABLE2.IBatchOperation;
+  batchRowsHandle: CP_COMMON.IBatchOperation;
   execOperation: Function;
   selectedRowKeys?: string[];
 }
@@ -252,7 +252,7 @@ const BatchOperation = <T extends unknown>(props: IBatchProps<T>) => {
       <Dropdown overlay={dropdownMenu} zIndex={1000}>
         <Button className="flex items-center">
           {i18n.t('batch operate')}
-          <ErdaIcon size="18" type="caret-down" className="ml-1 text-black-200" />
+          <ErdaIcon size="18" type="caret-down" className="ml-1 text-black-2" />
         </Button>
       </Dropdown>
     </div>

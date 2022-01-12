@@ -16,13 +16,14 @@ import { Button, Modal } from 'antd';
 import { formatTime, fromNow, goTo } from 'common/utils';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
+import ErdaTable from 'common/components/table';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 import orgCustomDashboardStore from 'app/modules/cmp/stores/custom-dashboard';
 import mspCustomDashboardStore from 'msp/query-analysis/custom-dashboard/stores/custom-dashboard';
 import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dashboard';
-import Table from 'common/components/table';
 import { ColumnProps, IActions } from 'common/components/table/interface';
+import { UserInfo } from 'common';
 
 const storeMap = {
   [CustomDashboardScope.ORG]: orgCustomDashboardStore,
@@ -91,6 +92,11 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
       render: (timestamp: number) => fromNow(timestamp),
     },
     {
+      title: i18n.t('creator'),
+      dataIndex: 'creator',
+      render: (text: string) => <UserInfo id={text} />,
+    },
+    {
       title: i18n.t('create time'),
       dataIndex: 'createdAt',
       render: (timestamp: number) => formatTime(timestamp, 'YYYY-MM-DD HH:mm:ss'),
@@ -115,7 +121,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
           {i18n.t('cmp:new dashboard')}
         </Button>
       </div>
-      <Table
+      <ErdaTable
         rowKey="id"
         columns={columns}
         actions={tableActions}

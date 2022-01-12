@@ -19,7 +19,7 @@ import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import moment from 'moment';
 import { Button, Progress, Modal } from 'antd';
-import Table from 'common/components/table';
+import ErdaTable from 'common/components/table';
 import React from 'react';
 import { map, sumBy } from 'lodash';
 import IterationModal from './iteration-modal';
@@ -214,7 +214,7 @@ export const Iteration = () => {
         }}
         className="mb-2"
       />
-      <Table
+      <ErdaTable
         rowKey="id"
         dataSource={list}
         columns={columns}

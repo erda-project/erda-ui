@@ -16,8 +16,8 @@ import moment from 'moment';
 import i18n from 'i18n';
 import { isEmpty, map, find, pick } from 'lodash';
 import { Spin, Modal, Tooltip, Switch, Select, Button } from 'antd';
-import Table from 'common/components/table';
 import { FormModal } from 'common';
+import ErdaTable from 'common/components/table';
 import { useSwitch } from 'common/use-hooks';
 import { FormInstance, ColumnProps } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';
@@ -295,7 +295,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
         modalProps={{ destroyOnClose: true }}
       />
       <Spin spinning={getNotifyConfigsLoading}>
-        <Table
+        <ErdaTable
           columns={columns}
           dataSource={notifyConfigs}
           actions={actions}

@@ -37,4 +37,15 @@
   .ant-alert-message {
     display: flex;
   }
+  &.theme-dark {
+    &.ant-alert-info {
+      background-color: $color-white-04;
+      .erda-alert-icon {
+        color: $white;
+      }
+    }
+    .ant-alert-message {
+      color: $white;
+    }
+  }
 }

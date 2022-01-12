@@ -84,21 +84,6 @@ export const OrgInfo = () => {
       ],
     },
     {
-      label: i18n.t('whether to put {name} in public', { name: i18n.t('organization') }),
-      name: 'isPublic',
-      type: 'radioGroup',
-      options: [
-        {
-          name: i18n.t('cmp:public org'),
-          value: 'true',
-        },
-        {
-          name: i18n.t('cmp:private org'),
-          value: 'false',
-        },
-      ],
-    },
-    {
       label: i18n.t('cmp:org logo'),
       name: 'logo',
       required: false,
@@ -180,10 +165,10 @@ export const OrgInfo = () => {
     // },
   ];
 
-  const updateInfo = (values: Obj) => {
+  const updateInfo = (values: Merge<ORG.IOrg, { isPublisher: boolean }>) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { isPublisher: _isPublisher, isPublic, ...rest } = values;
-    orgStore.effects.updateOrg({ ...rest, isPublic: isPublic === 'true' });
+    const { isPublisher: _isPublisher, ...rest } = values;
+    orgStore.effects.updateOrg(rest);
   };
 
   const exitOrg = () => {
@@ -198,7 +183,7 @@ export const OrgInfo = () => {
   return (
     <SectionInfoEdit
       hasAuth // 系统管理员默认有权限
-      data={{ ...currentOrg, isPublic: `${currentOrg.isPublic || 'false'}` }}
+      data={currentOrg}
       fieldsList={fieldsList}
       extraSections={[
         {

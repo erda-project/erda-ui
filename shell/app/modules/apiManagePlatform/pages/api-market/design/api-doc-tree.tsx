@@ -376,7 +376,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
             ? `${treeNodeData?.branchName}/${treeNodeData?.apiDocName}`
             : i18n.t('common:expand branch directory selection document')}
         </span>
-        <ErdaIcon type="caret-down" size="20" color="black-400" />
+        <ErdaIcon type="caret-down" size="20" color="black-4" />
       </button>
     </Popover>
   );

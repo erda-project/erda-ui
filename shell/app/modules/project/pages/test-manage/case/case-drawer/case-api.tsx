@@ -501,7 +501,7 @@ const ApiItem = ({
             maxLength={50}
           />
           <ErdaIcon
-            fill="black-400"
+            fill="black-4"
             className={`${isShow ? 'arrow-down' : 'arrow-up'} api-op hover-active`}
             type="chevron-down"
             onClick={() => setCurShow(index)}
@@ -509,7 +509,7 @@ const ApiItem = ({
           {inPlan ? null : (
             <SelectEnv envList={envList} onClick={(extra: TEST_ENV.Item) => handleExecute(api, index, extra)}>
               <ErdaIcon
-                fill="black-400"
+                fill="black-4"
                 className="ml-3 mt-1 api-op hover-active"
                 type="play"
                 onClick={() => handleExecute(api, index)}
@@ -517,7 +517,7 @@ const ApiItem = ({
             </SelectEnv>
           )}
           <Popconfirm title={`${i18n.t('common:confirm deletion')}？`} onConfirm={() => handleDelete(index)}>
-            <ErdaIcon fill="black-400" size="18" className="ml-3 delete-icon api-op hover-active" type="sc1" />
+            <ErdaIcon fill="black-4" size="18" className="ml-3 delete-icon api-op hover-active" type="sc1" />
           </Popconfirm>
         </div>
         <div className={`api-content ${isShow ? 'block' : 'hidden'}`}>
@@ -1140,7 +1140,7 @@ const KeyValEdit = (props: IKeyValProps) => {
                   onConfirm={() => handleDelete(i)}
                 >
                   <ErdaIcon
-                    fill="black-800"
+                    fill="black-8"
                     size="16"
                     type="sc1"
                     className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'}
@@ -1150,7 +1150,7 @@ const KeyValEdit = (props: IKeyValProps) => {
                 <ErdaIcon
                   type="sc1"
                   size="16"
-                  fill="black-800"
+                  fill="black-8"
                   onClick={() => {
                     handleDelete(i);
                   }}

@@ -340,7 +340,7 @@ const PureLoadMoreSelector = (props: IProps) => {
                     ref={searchRef}
                     size="small"
                     className="search"
-                    prefix={<ErdaIcon type="search" size={'16'} fill="white-300" />}
+                    prefix={<ErdaIcon type="search" size={'16'} fill="white-3" />}
                     placeholder={i18n.t('search by keywords')}
                     value={q}
                     onChange={(e) => setQ(e.target.value)}
@@ -676,6 +676,7 @@ const LoadMoreSelector = (props: ILoadMoreSelectorProps) => {
   const LoadMoreComp = (LoadMoreRender || DefaultLoadMoreRender) as React.ReactType;
 
   const LoadMore = hasMore ? <LoadMoreComp onLoadMore={onLoadMore} loading={loading} /> : null;
+
   return (
     <PureLoadMoreSelector
       onDropdownVisible={onDropdownVisible}

@@ -44,11 +44,16 @@ declare namespace TOPOLOGY_SERVICE_ANALYZE {
     instanceId: string;
     status: boolean;
     ip: string;
+    hostIp: string;
   }
 
   interface ServiceData {
     service_id: string;
     service_name: string;
     application_id: string;
+  }
+
+  interface ServiceLange {
+    language: string;
   }
 }

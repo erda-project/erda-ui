@@ -14,9 +14,9 @@
 import React from 'react';
 import { Button, Modal, Tooltip, Select } from 'antd';
 import { goTo, cutStr, resolvePath } from 'common/utils';
-import Table from 'common/components/table';
 import { Badge, ErdaIcon } from 'common';
-import { IActions } from 'common/components/table/interface';
+import ErdaTable from 'common/components/table';
+import { IActions } from 'app/common/components/table/interface';
 import { reverse, map, filter, floor } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import StatusChart from './status-chart';
@@ -273,7 +273,7 @@ const Status = () => {
         formData={formData}
         afterSubmit={getProjectDashboard}
       />
-      <Table
+      <ErdaTable
         rowKey="id"
         rowClassName={() => 'row-click'}
         onRow={(record) => {

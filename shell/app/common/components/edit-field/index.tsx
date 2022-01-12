@@ -156,7 +156,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
   ) : (
     <Tooltip placement="left" title={i18n.t('dop:click to edit')} arrowPointAtCenter>
       <div
-        className="relative hover:bg-hover-gray-bg cursor-pointer rounded"
+        className="relative hover:bg-black-06 cursor-pointer rounded"
         onClick={() => updater.isEditing(true)}
         style={{ maxHeight: expanded ? '' : maxHeight }}
       >

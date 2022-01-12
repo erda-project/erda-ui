@@ -12,15 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
-
-export const getProcessDashboardId = (
-  query: TOPOLOGY_SERVICE_ANALYZE.CommonQuery,
-): TOPOLOGY_SERVICE_ANALYZE.ProcessDashboardId => {
-  return agent
-    .get('/api/apm/topology/process/dashboardId')
-    .query(query)
-    .then((response: any) => response.body);
-};
+import { apiCreator } from 'core/service';
 
 export const getTraceSlowTranslation = (
   query: Merge<
@@ -43,11 +35,20 @@ export const getExceptionTypes = (
     .then((response: any) => response.body);
 };
 
-export const getInstanceIds = (
-  query: Merge<TOPOLOGY_SERVICE_ANALYZE.CommonQuery, TOPOLOGY_SERVICE_ANALYZE.TimestampQuery>,
-): { data?: TOPOLOGY_SERVICE_ANALYZE.InstanceId[] } => {
-  return agent
-    .get('/api/apm/topology/service/instance/ids')
-    .query(query)
-    .then((response: any) => response.body);
+const apis = {
+  getServiceLanguage: {
+    api: 'get@/api/msp/apm/service/language',
+  },
+  getInstanceIds: {
+    api: 'get@/api/apm/topology/service/instance/ids',
+  },
 };
+
+export const getServiceLanguage = apiCreator<
+  (payload: { serviceId: string; tenantId: string }) => TOPOLOGY_SERVICE_ANALYZE.ServiceLange
+>(apis.getServiceLanguage);
+export const getInstanceIds = apiCreator<
+  (payload: Merge<TOPOLOGY_SERVICE_ANALYZE.CommonQuery, TOPOLOGY_SERVICE_ANALYZE.TimestampQuery>) => {
+    data: TOPOLOGY_SERVICE_ANALYZE.InstanceId[];
+  }
+>(apis.getInstanceIds);

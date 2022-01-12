@@ -88,7 +88,7 @@ export const EditCategory = (props: IProps) => {
       />
       <ErdaIcon type="check" className="ml-3 cursor-pointer" onClick={handleSave} size="16" />
       <ErdaIcon
-        fill="black-800"
+        fill="black-8"
         type="close"
         className="ml-3 cursor-pointer"
         onClick={props.onHide || handleHide}
