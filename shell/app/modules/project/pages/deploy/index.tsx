@@ -13,7 +13,7 @@ import i18n from 'i18n';
 import DeployLog from 'runtime/common/logs/components/deploy-log';
 import { useUserMap } from 'core/stores/userMap';
 import ConfigDrawer from './deploy-config';
-import { useMount, useUpdateEffect } from 'react-use';
+import { useEffectOnce, useUpdateEffect } from 'react-use';
 import DeployDetail from './deploy-detail';
 import { deployOrderStatusMap } from './config';
 import moment from 'moment';
@@ -42,11 +42,13 @@ interface IState {
 }
 
 const DeployContainer = () => {
-  const { env, projectId } = routeInfoStore.useStore((s) => s.params);
+  const { env: routeEnv, projectId } = routeInfoStore.useStore((s) => s.params);
   const [{ configDrawerVis, configEnv }, updater, update] = useUpdate<{ configDrawerVis: boolean; configEnv: string }>({
     configDrawerVis: false,
     configEnv: '',
   });
+  const env = routeEnv?.toUpperCase();
+
   return (
     <div className="project-deploy flex flex-col h-full pb-2">
       <div className="top-button-group">
@@ -68,7 +70,7 @@ const DeployContainer = () => {
       <div className="flex items-center justify-between">
         <RadioTabs
           value={env}
-          onChange={(v) => goTo(goTo.pages.projectDeployEnv, { projectId, env: v })}
+          onChange={(v) => goTo(goTo.pages.projectDeployEnv, { projectId, env: `${v}`?.toLowerCase() })}
           options={map(ENV_MAP, (v, k) => ({ label: v, value: k }))}
         />
       </div>
@@ -83,7 +85,7 @@ const DeployContainer = () => {
   );
 };
 
-const DeployContent = ({ projectId, env }: { projectId: string; env: string }) => {
+const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: string }) => {
   const [query] = routeInfoStore.useStore((s) => [s.query]);
   const [
     {
@@ -110,6 +112,7 @@ const DeployContent = ({ projectId, env }: { projectId: string; env: string }) =
     selectedOrder: '',
     urlQuery: query,
   });
+  const env = propsEnv?.toUpperCase();
 
   const urlQueryChange = (val: Obj) => updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 
@@ -153,8 +156,11 @@ const DeployContent = ({ projectId, env }: { projectId: string; env: string }) =
 
   const debounceChange = React.useRef(debounce(getDeployOrdersFunc, 600));
 
-  useMount(() => {
+  useEffectOnce(() => {
     getDeployOrdersFunc();
+    return () => {
+      clearInterval(timer.current);
+    };
   });
 
   useUpdateEffect(() => {
@@ -260,7 +266,7 @@ const DeployContent = ({ projectId, env }: { projectId: string; env: string }) =
   return (
     <>
       <div className="flex flex-1 mt-2 overflow-hidden">
-        <div className="bg-white flex-1">
+        <div className="bg-white flex-1 overflow-hidden">
           <DiceConfigPage
             scenarioKey="project-runtime"
             scenarioType="project-runtime"

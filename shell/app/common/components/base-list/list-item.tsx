@@ -98,13 +98,11 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
               onChange={(e) => onSelectChange(e.target.checked)}
             />
           ) : null}
-          {mainState ? <Badge onlyDot {...mainState} /> : null}
+          {mainState && (curLogo || icon) ? <Badge onlyDot {...mainState} /> : null}
           {curLogo ? (
-            isString(curLogo) ? (
-              <div className="item-prefix-img flex items-center">{getLogo(curLogo, logoCircle)}</div>
-            ) : (
-              <div className="item-prefix-img flex items-center">{curLogo}</div>
-            )
+            <div className="item-prefix-img flex items-center">
+              {isString(curLogo) ? getLogo(curLogo, logoCircle) : curLogo}
+            </div>
           ) : null}
           {icon ? (
             <div className="item-prefix-img flex items-center">
@@ -114,6 +112,7 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
           <div className="flex flex-1 overflow-hidden">
             <div className="flex-1 flex flex-col justify-center overflow-hidden">
               <div className="body-title">
+                {mainState && !(curLogo || icon) ? <Badge className="" onlyDot {...mainState} /> : null}
                 {titlePrefixIcon && (
                   <Tooltip title={titlePrefixIconTip}>
                     <ErdaIcon type={titlePrefixIcon} className="title-icon mr-2" />

@@ -123,7 +123,7 @@ const ConfigDrawer = (props: IProps) => {
               );
             }}
           />
-          <div className="w-[1px] h-[12px] bg-default-1 ml-3 mr-4" />
+          <div className="w-px h-3 bg-default-1 ml-3 mr-4" />
 
           <SimpleTabs
             tabs={map(ConfigTabs, (item) => ({ key: item.key, text: item.text }))}
@@ -290,7 +290,7 @@ const OtherConfig = (props: IOtherProps) => {
         addType="file"
         onCancel={() => setAddVisible(false)}
         onOk={(data) => {
-          addConfig(data).then(() => {
+          addConfig({ ...data, type: 'dice-file' }).then(() => {
             setAddVisible(false);
           });
         }}

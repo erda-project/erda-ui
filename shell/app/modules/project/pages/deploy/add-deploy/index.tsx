@@ -11,7 +11,8 @@ import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 
 const AddDeploy = ({ onSelect: propsOnSelect }: { onSelect: (v: string) => void }) => {
-  const { env } = routeInfoStore.useStore((s) => s.params);
+  const { env: routeEnv } = routeInfoStore.useStore((s) => s.params);
+  const env = routeEnv?.toUpperCase();
   const [selectedRelease, setSelectedRelease] = React.useState('');
   const [selectedApp, setSelectedApp] = React.useState<PROJECT_DEPLOY.IApplicationsInfo | null>(null);
   const [selectedType, setSelectedType] = React.useState('text');
@@ -87,7 +88,7 @@ const AddDeploy = ({ onSelect: propsOnSelect }: { onSelect: (v: string) => void 
       )}
       <div className="flex-h-center ">
         <span>{i18n.t('please select {name}', { name: i18n.t('Artifact') })}</span>
-        <div className="w-[1px] h-[12px] bg-default-1 mx-4" />
+        <div className="w-px h-3 bg-default-1 mx-4" />
         <AddRelease onSelect={onSelect} />
       </div>
       <div className="pt-4">
@@ -112,7 +113,7 @@ const AddDeploy = ({ onSelect: propsOnSelect }: { onSelect: (v: string) => void 
                   <ErdaIcon type="caret-down" className="ml-1" size="14" />
                 </div>
               </DropdownSelectNew>
-              <div className="w-[1px] h-[12px] bg-default-1 ml-3 mr-4" />
+              <div className="w-px h-3 bg-default-1 ml-3 mr-4" />
 
               <SimpleTabs
                 tabs={map(ConfigTabs, (item) => ({ key: item.key, text: item.text }))}
