@@ -45,7 +45,7 @@ export const renderCommitItem = ({ id, author, commitMessage }: REPOSITORY.IComm
           <span className="ml-1">{i18n.t('committed at')}</span>
           <span className="text-sub ml-1">{fromNow(author.when)}</span>
           <span className="cursor-copy commit-sub-sha flex" data-clipboard-text={id} data-clipboard-tip=" commit SHA ">
-            <ErdaIcon fill="black-400" size="16" type="commit" />
+            <ErdaIcon fill="black-4" size="16" type="commit" />
             <span className="sha-text">{id.slice(0, 6)}</span>
           </span>
           <Copy selector=".cursor-copy" />

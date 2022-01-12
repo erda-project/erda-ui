@@ -78,10 +78,7 @@ export function ServiceNameSelect() {
     return (
       <Menu onClick={handleChangeService}>
         {serviceList.map((x) => (
-          <Menu.Item
-            key={x.service_id}
-            className={`${serviceId === x.service_id ? 'bg-light-primary text-primary' : ''}`}
-          >
+          <Menu.Item key={x.service_id} className={`${serviceId === x.service_id ? 'bg-default-1 text-primary' : ''}`}>
             {x.service_name}
           </Menu.Item>
         ))}
@@ -95,7 +92,7 @@ export function ServiceNameSelect() {
       <div className="font-bold text-lg">{i18n.t('msp:service monitor')}</div>
       {serviceName ? (
         <>
-          <span className="bg-dark-2 mx-5 w-px h-3" />
+          <span className="bg-black-2 mx-5 w-px h-3" />
           <Dropdown overlay={menu} trigger={['click']}>
             <div className="font-bold text-lg h-8 rounded border border-solid border-transparent flex justify-center cursor-pointer">
               <span className="self-center text-lg">{serviceName} </span>

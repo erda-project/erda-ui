@@ -11,16 +11,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-module.exports = {
-  primary: '#6a549e',
-  'primary-800': 'rgba(106, 84, 158, 0.8)',
-  normal: '#302647cc', // color-dark-8: rgba(48, 38, 71, .8)
-  sub: '#30264799', // color-dark-6: rgba(48, 38, 71, .6)
-  // desc: '#3026477f', // color-dark-5: rgba(48, 38, 71, .5)
-  desc: '#30264766', // color-dark-4: rgba(48, 38, 71, .4)
-  icon: '#30264766', // color-dark-3: rgba(48, 38, 71, .3)
-  disabled: '#30264766', // color-dark-3: rgba(48, 38, 71, .3)
-  holder: '#30264733', // color-dark-3: rgba(48, 38, 71, .2)
+const colors = {
+  primary: 'rgba(48, 38, 71, 1)', // #302647
+  normal: 'rgba(48, 38, 71, .8)',
+  sub: 'rgba(48, 38, 71, .6)',
+  desc: 'rgba(48, 38, 71, .4)',
+  icon: 'rgba(48, 38, 71, .3)',
+  disabled: 'rgba(48, 38, 71, .3)',
+  holder: 'rgba(48, 38, 71, .2)',
+
   red: '#d84b65',
   danger: '#d84b65',
   error: '#d84b65',
@@ -35,35 +34,25 @@ module.exports = {
   cyan: '#5bd6d0ff',
   gray: '#666666',
   brightgray: '#eaeaea',
+  'light-gray': '#bbbbbb',
   darkgray: '#999999',
   grey: '#f5f5f5',
-  layout: '#f0eef5',
-  white: '#ffffff',
   lotion: '#fcfcfc',
   cultured: '#f6f4f9',
   magnolia: '#f2f1fc',
   mask: 'rgba(0,0,0,0.45)',
+
   black: 'rgba(0,0,0,1)',
-  'black-200': 'rgba(0,0,0,0.2)',
-  'black-100': 'rgba(0,0,0,0.1)',
-  'black-300': 'rgba(0,0,0,0.3)',
-  'black-400': 'rgba(0,0,0,0.4)',
-  'black-800': 'rgba(0,0,0,0.8)',
-  'light-primary': '#6a549e19', // rgba($color-primary, .1)
-  'shallow-primary': '#6a549e99', // rgba($color-primary, .6)
-  'light-pop-bg': '#59516c',
-  'light-gray': '#bbbbbb',
-  'dark-8': '#000000cc',
-  'dark-6': '#00000066',
-  'dark-2': '#00000033',
-  'dark-1': '#00000019',
-  'dark-04': '#0000000a',
-  'dark-02': '#00000005',
-  'log-font': '#c2c1d0',
-  'log-bg': '#3c444f',
-  'light-border': 'rgba(222,222,222,0.5)',
-  'light-active': '#6a549e0f', // rgba($color-primary, .06)
-  'white-1': 'rgba(255,255,255, 0.1)',
+  'black-1': 'rgba(0,0,0,0.1)',
+  'black-2': 'rgba(0,0,0,0.2)',
+  'black-3': 'rgba(0,0,0,0.3)',
+  'black-4': 'rgba(0,0,0,0.4)',
+  'black-6': 'rgba(0,0,0,0.6)',
+  'black-8': 'rgba(0,0,0,0.8)',
+  'black-02': 'rgba(0,0,0,0.02)',
+  'black-06': 'rgba(0,0,0,0.06)',
+  white: 'rgba(255,255,255)',
+  'white-1': 'rgba(255,255,255,0.1)',
   'white-2': 'rgba(255,255,255,0.2)',
   'white-3': 'rgba(255,255,255,0.3)',
   'white-4': 'rgba(255,255,255,0.4)',
@@ -75,9 +64,11 @@ module.exports = {
   'white-06': 'rgba(255,255,255, 0.06)',
   'white-08': 'rgba(255,255,255, 0.08)',
 
+  'light-pop-bg': '#59516c',
+  'log-font': '#c2c1d0',
+  'log-bg': '#3c444f',
+  'light-border': 'rgba(222,222,222,0.5)',
   // 标准化后的颜色
-  'gray-block-bg': 'rgba(0, 0, 0, 0.02)',
-  'hover-gray-bg': 'rgba(0,0,0,0.06)',
 
   default: '#302647',
   'default-1': 'rgba(48, 38, 71, 0.1)',
@@ -143,3 +134,26 @@ module.exports = {
   'yellow-green-mid': '#ECE97D',
   'yellow-green-light': '#FAF9DC',
 };
+
+const themeColor = colors.primary;
+
+export const getLessTheme = () => {
+  return {
+    '@primary-color': themeColor,
+    '@success-color': '#27c99a',
+    '@error-color': '#d84b65',
+    '@warning-color': '#f4b518',
+    '@link-color': themeColor,
+    '@progress-remaining-color': '#E1E7FF',
+    '@font-size-base': '14px',
+    '@height-base': '32px',
+    '@height-lg': '36px',
+    '@height-sm': '28px',
+    '@border-radius-base': '2px;',
+    '@font-family':
+      '"Roboto-Regular", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif',
+  };
+};
+
+
+export default colors;

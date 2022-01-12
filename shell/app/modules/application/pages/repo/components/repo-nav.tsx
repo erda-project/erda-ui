@@ -166,7 +166,7 @@ const PureRepoNavOperation = () => {
         <Dropdown overlay={addMenu}>
           <Button className="ml-2 flex items-center">
             {i18n.t('add')}
-            <ErdaIcon type="caret-down" size="18" className="ml-1 hover" color="black-400" />
+            <ErdaIcon type="caret-down" size="18" className="ml-1 hover" color="black-4" />
           </Button>
         </Dropdown>
         <IF.ELSE />
@@ -178,7 +178,7 @@ const PureRepoNavOperation = () => {
         <Tooltip title={disabledTips[0]}>
           <Button className="ml-2 flex items-center" disabled>
             {i18n.t('add')}
-            <ErdaIcon type="caret-down" size="18" className="ml-1 hover" color="black-400" />
+            <ErdaIcon type="caret-down" size="18" className="ml-1 hover" color="black-4" />
           </Button>
         </Tooltip>
       </IF>

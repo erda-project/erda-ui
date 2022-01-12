@@ -106,7 +106,7 @@ class ImageUpload extends Component<IProps, IState> {
         <Input type="hidden" />
         <Upload className="pure-upload" accept=".jpg, .jpeg, .png, .gif" {...this.getUploadProps(queryData)}>
           <div className="mt-5">
-            <ErdaIcon fill="black-800" size="30" key="icon" type="cir-add" />
+            <ErdaIcon fill="black-8" size="30" key="icon" type="cir-add" />
             <div key="text">{uploadText}</div>
           </div>
         </Upload>
@@ -145,7 +145,7 @@ class ImageUpload extends Component<IProps, IState> {
           }}
         >
           <div className="mt-5">
-            <ErdaIcon fill="black-800" size="30" key="icon" type="shanchu" />
+            <ErdaIcon fill="black-8" size="30" key="icon" type="shanchu" />
             <div key="text">{i18n.t('remove')}</div>
           </div>
         </div>

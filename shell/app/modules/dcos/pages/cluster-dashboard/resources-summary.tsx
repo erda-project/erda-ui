@@ -261,7 +261,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
       title: () => (
         <div className="inline-flex flex-col justify-center align-center">
           <div className="text-sm">{i18n.t('cmp:Number of used nodes')}</div>
-          <div className="text-xs text-black-400">
+          <div className="text-xs text-black-4">
             {`(${i18n.t('cmp:one node')}: ${cpuAndMem.current.cpuPerNode} Core ${cpuAndMem.current.memPerNode} GiB)`}
           </div>
         </div>
@@ -304,7 +304,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
               format={(v) => null}
               strokeColor={getStrokeColor(value)}
             />
-            <span className="text-dark-8  ml-2">{`${value.toFixed(1)}%`}</span>
+            <span className="text-black-8  ml-2">{`${value.toFixed(1)}%`}</span>
           </Tooltip>
         ) : (
           _val
@@ -341,7 +341,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
               format={(v) => null}
               strokeColor={getStrokeColor(value)}
             />
-            <span className="text-dark-8 ml-2">{`${value.toFixed(1)}%`}</span>
+            <span className="text-black-8 ml-2">{`${value.toFixed(1)}%`}</span>
           </Tooltip>
         ) : (
           _val

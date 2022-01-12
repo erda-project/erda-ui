@@ -91,7 +91,7 @@ const RepoBranch = () => {
                         <ErdaIcon size="22" type="baohu" />
                       </Tooltip>
                     ) : (
-                      <ErdaIcon fill="black-800" size="22" type="fz" />
+                      <ErdaIcon fill="black-8" size="22" type="fz" />
                     )}
                     <Link to={mergeRepoPathWith(`/tree/${name}`)}>
                       <span className="text-normal hover-active">{name}</span>
@@ -155,7 +155,7 @@ const RepoBranch = () => {
                     }
                   >
                     <Button>
-                      <ErdaIcon className="hover mt-1" fill="black-800" size="16" type="more" />
+                      <ErdaIcon className="hover mt-1" fill="black-8" size="16" type="more" />
                     </Button>
                   </Dropdown>
                 </div>

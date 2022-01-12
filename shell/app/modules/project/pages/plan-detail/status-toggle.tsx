@@ -45,7 +45,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
       child: (
         <span>
           <CustomIcon className="bg-icon rounded-full text-white" type="wh" />
-          <span className="text-dark-6">{i18n.t('dop:not performed')}</span>
+          <span className="text-black-6">{i18n.t('dop:not performed')}</span>
         </span>
       ),
     },

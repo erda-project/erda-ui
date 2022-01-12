@@ -37,7 +37,7 @@ const GotoCommit = ({ projectId, appId, commitId = '', length = 6, className = '
         });
       }}
     >
-      <ErdaIcon className="mr-1" fill="primary-800" size="16" type="commit" />
+      <ErdaIcon className="mr-1" fill="default-8" size="16" type="commit" />
       <span>{commitId.slice(0, length)}</span>
     </span>
   );

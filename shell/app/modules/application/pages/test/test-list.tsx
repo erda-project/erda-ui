@@ -15,7 +15,7 @@ import React from 'react';
 import { floor } from 'lodash';
 import { Tooltip, Progress, Table, Spin } from 'antd';
 import { goTo, cutStr, secondsToTime, fromNow } from 'common/utils';
-import { theme } from 'app/themes';
+import themeColor from 'app/theme-color.mjs';
 import i18n from 'i18n';
 import './test-list.scss';
 import applicationTestStore from 'application/stores/test';
@@ -57,7 +57,7 @@ const ExecuteResult = ({ totals }: { totals: { tests: number; statuses: TEST.Sta
       <Progress
         percent={100}
         successPercent={passedPercent}
-        strokeColor={theme.strokeColor}
+        strokeColor={themeColor['default-02']}
         format={(_percent: number, successPercent: number) => `${Math.floor(successPercent)}%`}
       />
     </Tooltip>

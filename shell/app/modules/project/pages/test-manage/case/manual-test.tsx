@@ -140,7 +140,7 @@ const ManualTest = () => {
             {i18n.t('dop:use case list')}
             <Tooltip title={i18n.t('dop:there is a new import case, click to refresh the list')}>
               <ErdaIcon
-                color="black-800"
+                color="black-8"
                 size="16"
                 fill="black"
                 className={`ml-3 cursor-pointer ${showRefresh ? '' : 'hidden'}`}
@@ -207,7 +207,7 @@ const ManualTest = () => {
                   prefix={<ErdaIcon type="search1" size="14" className="mr-1" />}
                 />
                 <Button onClick={() => setEnhanceFilterVisible(true)}>
-                  <ErdaIcon stroke="black-800" className="mt-0.5" width="16" height="18" type="filter" />
+                  <ErdaIcon stroke="black-8" className="mt-0.5" width="16" height="18" type="filter" />
                 </Button>
                 <CaseFilterDrawer visible={enhanceFilterVisible} onSearch={onSearch} onClose={closeEnhanceFilter} />
               </div>

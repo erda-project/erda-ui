@@ -295,10 +295,10 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
         onChange={(e: any) => changeViewType(e.target.value)}
       >
         <Radio.Button value={ViewType.graphic}>
-          <ErdaIcon className="hover mt-0.5" width="20" height="21" fill="black-400" type="lc" />
+          <ErdaIcon className="hover mt-0.5" width="20" height="21" fill="black-4" type="lc" />
         </Radio.Button>
         <Radio.Button value={ViewType.code}>
-          <ErdaIcon className="hover mt-0.5" width="20" height="21" fill="black-400" type="html1" />
+          <ErdaIcon className="hover mt-0.5" width="20" height="21" fill="black-4" type="html1" />
         </Radio.Button>
       </Radio.Group>
       {!editing ? (

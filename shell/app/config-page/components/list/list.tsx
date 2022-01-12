@@ -247,7 +247,7 @@ const Item = (props: ItemProps) => {
       {menuOverlay ? (
         <div className="cp-list-item-operations" onClick={(e) => e?.stopPropagation()}>
           <Dropdown overlay={menuOverlay} zIndex={1000}>
-            <ErdaIcon type="more1" size="20" color="black-800" className="hover-active" />
+            <ErdaIcon type="more1" size="20" color="black-8" className="hover-active" />
           </Dropdown>
         </div>
       ) : null}
