@@ -17,6 +17,7 @@ import type { ECharts } from 'echarts';
 import { functionalColor } from 'common/constants';
 import { colorToRgb } from 'common/utils';
 import { genLinearGradient, theme } from 'charts/theme';
+import EmptyHolder from 'common/components/empty-holder';
 
 interface IBrushSelectedParams {
   type: 'brushselected';
@@ -94,10 +95,10 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
         bottom: true,
       },
       xAxis: {
-        data: xAxis.values,
+        data: xAxis?.values,
         axisLabel: {
           color: colorToRgb(color, 0.6),
-          formatter: xAxis.formatter,
+          formatter: xAxis?.formatter,
         },
         splitLine: {
           show: false,
@@ -197,18 +198,22 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
         {data.title}
       </div>
       <div>
-        <Echarts
-          key={Date.now()} // FIXME render exception occasionally，the exact reason is not yet clear
-          onEvents={onEvents}
-          onChartReady={handleReady}
-          option={option}
-          style={{
-            width: '100%',
-            height: '170px',
-            minHeight: 0,
-            ...configProps.style,
-          }}
-        />
+        {option.series.length ? (
+          <Echarts
+            key={Date.now()} // FIXME render exception occasionally，the exact reason is not yet clear
+            onEvents={onEvents}
+            onChartReady={handleReady}
+            option={option}
+            style={{
+              width: '100%',
+              height: '170px',
+              minHeight: 0,
+              ...configProps.style,
+            }}
+          />
+        ) : (
+          <EmptyHolder relative />
+        )}
       </div>
     </div>
   );
