@@ -172,7 +172,8 @@ const ServiceListProcess = () => {
       </div>
       {scenarioName && instanceId ? (
         <DiceConfigPage
-          key={scenarioName}
+          className="overflow-visible"
+          key={scenarioName + serviceId + instanceId}
           scenarioType={scenarioName}
           scenarioKey={scenarioName}
           forceUpdateKey={['inParams']}
@@ -187,21 +188,24 @@ const ServiceListProcess = () => {
               props: {
                 gutter: 8,
                 span: runtimeGridSpan[languages?.language ?? 'nodejs'],
-                className: 'mb-2',
+                className: 'mb-2 overflow-visible',
+                wrapperClassName: 'overflow-visible',
               },
             },
             node: {
               props: {
                 gutter: 8,
                 span: [12, 12, 12, 12, 12, 12],
-                className: 'mb-2',
+                className: 'mb-2 overflow-visible',
+                wrapperClassName: 'overflow-visible',
               },
             },
             container: {
               props: {
                 gutter: 8,
                 span: [12, 12, 12, 12],
-                className: 'mb-2',
+                className: 'mb-2 overflow-visible',
+                wrapperClassName: 'overflow-visible',
               },
             },
           }}

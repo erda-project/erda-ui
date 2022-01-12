@@ -173,10 +173,12 @@ const TraceSearch: React.FC<IProps> = ({ scope = 'trace' }) => {
   }
   return (
     <div>
-      <div className="flex justify-end items-start px-2 py-2">
+      <div className="flex justify-between items-center py-2">
         {filter.length > 1 ? (
           <ContractiveFilter delay={1000} conditions={filter} initValue={defaultQuery} onChange={handleSearch} />
-        ) : null}
+        ) : (
+          <div />
+        )}
         <TimeSelectWithStore />
       </div>
       {tenantId ? (

@@ -16,7 +16,7 @@ import { map } from 'lodash';
 import moment from 'moment';
 import { useMount, useUnmount } from 'react-use';
 import { Modal, Button, Spin, Tooltip } from 'antd';
-import { Badge } from 'common';
+import { Badge, UserInfo } from 'common';
 import ErdaTable from 'common/components/table';
 import { goTo } from 'common/utils';
 import { ColumnProps } from 'app/interface/common';
@@ -153,6 +153,11 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
           </div>
         );
       },
+    },
+    {
+      title: i18n.t('creator'),
+      dataIndex: 'creator',
+      render: (text: string) => <UserInfo id={text} />,
     },
     {
       title: i18n.t('default:create time'),

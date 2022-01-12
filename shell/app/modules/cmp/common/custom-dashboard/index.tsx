@@ -22,7 +22,8 @@ import { useLoading } from 'core/stores/loading';
 import orgCustomDashboardStore from 'app/modules/cmp/stores/custom-dashboard';
 import mspCustomDashboardStore from 'msp/query-analysis/custom-dashboard/stores/custom-dashboard';
 import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dashboard';
-import { ColumnProps, IActions } from 'app/common/components/table/interface';
+import { ColumnProps, IActions } from 'common/components/table/interface';
+import { UserInfo } from 'common';
 
 const storeMap = {
   [CustomDashboardScope.ORG]: orgCustomDashboardStore,
@@ -89,6 +90,11 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
       title: i18n.t('update time'),
       dataIndex: 'updatedAt',
       render: (timestamp: number) => fromNow(timestamp),
+    },
+    {
+      title: i18n.t('creator'),
+      dataIndex: 'creator',
+      render: (text: string) => <UserInfo id={text} />,
     },
     {
       title: i18n.t('create time'),

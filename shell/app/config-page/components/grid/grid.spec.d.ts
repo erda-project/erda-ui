@@ -23,6 +23,8 @@ declare namespace CP_GRID {
     justify?: 'start' | 'end' | 'center' | 'space-around' | 'space-between';
     wrap?: boolean;
     span: number[];
+    className?: string;
+    wrapperClassName?: string;
   }
 
   type Props = MakeProps<Spec> & {

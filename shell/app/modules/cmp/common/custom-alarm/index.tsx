@@ -14,28 +14,28 @@
 import React from 'react';
 import i18n from 'i18n';
 import {
-  map,
-  filter,
-  uniqueId,
-  reduce,
   cloneDeep,
+  concat,
+  debounce,
+  fill,
+  filter,
   find,
   findIndex,
-  fill,
-  concat,
+  get,
   isEmpty,
+  keyBy,
+  map,
+  merge,
   omit,
+  reduce,
   some,
   toString,
   uniqBy,
-  debounce,
-  keyBy,
-  get,
-  merge,
+  uniqueId,
 } from 'lodash';
-import { Spin, Button, Switch, Select, Input, InputNumber, message, Modal, Tooltip } from 'antd';
-import { IActions } from 'app/common/components/table/interface';
-import { Badge, FormModal, MarkdownEditor, RenderPureForm, IF, BoardGrid } from 'common';
+import { Button, Input, InputNumber, message, Modal, Select, Spin, Switch, Tooltip } from 'antd';
+import { IActions } from 'common/components/table/interface';
+import { Badge, BoardGrid, FormModal, IF, MarkdownEditor, RenderPureForm, UserInfo } from 'common';
 import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { useMount } from 'react-use';
@@ -254,6 +254,11 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
       dataIndex: 'notifyTargets',
       key: 'notifyTargets',
       render: (value: string[]) => `${value.join('、')}`,
+    },
+    {
+      title: i18n.t('creator'),
+      dataIndex: 'creator',
+      render: (text: string) => <UserInfo id={text} />,
     },
   ];
 

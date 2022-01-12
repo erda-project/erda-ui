@@ -147,11 +147,7 @@ const org = createStore({
           // user doesn't joined the public org, go to dop
           // temporary solution, it will removed until new solution is proposed by PD
           // except Support role
-          if (
-            !orgPermRes?.data?.roles.includes('Support') &&
-            resOrg?.isPublic &&
-            curPathname?.split('/')[2] !== 'dop'
-          ) {
+          if (!orgPermRes?.data?.roles.includes('Support') && curPathname?.split('/')[2] !== 'dop') {
             if (!orgs?.find((x) => x.name === currentOrg.name) || orgs?.length === 0) {
               goTo(goTo.pages.dopRoot, { replace: true });
             }
