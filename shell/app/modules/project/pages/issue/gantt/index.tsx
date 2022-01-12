@@ -26,8 +26,8 @@ import moment from 'moment';
 import { max } from 'lodash';
 import i18n from 'i18n';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
+import { useMount } from 'react-use';
 import './index.scss';
-import { useMount } from 'configForm/form/utils';
 
 interface IBarProps {
   task: CP_GANTT.IGanttData;
@@ -131,7 +131,7 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
 
 const IssuePlan = () => {
   const [{ projectId, iterationId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const { id: queryId, pId: queryParentId, iterationID: queryItertationID, type: _queryType, ...restQeury } = query;
+  const { id: queryId, pId: queryParentId, iterationID: queryIterationID, type: _queryType, ...restQuery } = query;
   const queryType = _queryType && _queryType.toUpperCase();
   const [drawerVisible, openDrawer, closeDrawer] = useSwitch(false);
   const [
@@ -140,10 +140,10 @@ const IssuePlan = () => {
     update,
   ] = useUpdate({
     filterObj: {},
-    urlQuery: restQeury,
+    urlQuery: restQuery,
     chosenParentId: queryParentId || 0,
     chosenIssueId: queryId,
-    chosenIteration: queryItertationID || 0,
+    chosenIteration: queryIterationID || 0,
     chosenIssueType: queryType as undefined | ISSUE_TYPE,
     isFullScreen: false,
   });
@@ -163,6 +163,10 @@ const IssuePlan = () => {
   };
 
   const reloadRef = React.useRef(null as any);
+
+  useMount(() => {
+    queryId ? openDrawer() : closeDrawer();
+  });
 
   React.useEffect(() => {
     updateSearch({ ...urlQuery });
@@ -243,7 +247,7 @@ const IssuePlan = () => {
             },
           },
           ganttContainer: {
-            props: { flexHeight: true, className: 'gantt' },
+            props: { flexHeight: true, className: 'gantt mt-0' },
           },
           page: {
             props: { fullHeight: true, overflowHidden: true },
@@ -324,7 +328,7 @@ const IssuePlan = () => {
               },
             },
             props: {
-              className: 'px-2 pt-2',
+              className: 'p-2 bg-default-02',
             },
           },
         }}

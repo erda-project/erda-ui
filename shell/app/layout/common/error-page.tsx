@@ -133,40 +133,4 @@ const NotFound = ({ message, force }: { message?: string; force?: boolean }) => 
   );
 };
 
-const NotJoinOrg = () => {
-  const joinOrgTip = userStore.useStore((s) => s.joinOrgTip);
-
-  return (
-    <div className="basic-error-page">
-      <div className="info">
-        <CustomIcon type="no-auth" color />
-        <div className="desc">
-          <span>{i18n.t("You haven't joined current organization.")}</span>
-          <span className="contact-info">
-            {i18n.t('please contact')} {joinOrgTip}
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const FreeUserTips = () => {
-  return (
-    <div className="basic-error-page">
-      <div className="info">
-        <CustomIcon type="VIP" color />
-        <div className="desc">
-          <span>{i18n.t('common:vip features tips')}</span>
-          <a target="_blank" href="https://www.erda.cloud/contact" rel="noreferrer">
-            <Button size="large" type="primary">
-              {i18n.t('common:contact business')}
-            </Button>
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export { NoAuth, NotFound, NotJoinOrg, FreeUserTips };
+export { NoAuth, NotFound };

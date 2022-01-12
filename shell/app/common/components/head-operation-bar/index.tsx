@@ -33,7 +33,7 @@ const HeadOperationBar = (props: HeadOperationBarProps) => {
           <Input
             size="small"
             bordered={false}
-            className="w-[180px] border-0 bg-hover-gray-bg"
+            className="w-[180px] border-0 bg-black-02"
             value={searchValue}
             prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
             onChange={(e) => {

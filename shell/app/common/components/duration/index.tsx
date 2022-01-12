@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Input, Select } from 'antd';
-import i18n from 'i18n';
+import './duration.scss';
 
 const timeUnit = [
   {
@@ -26,7 +26,7 @@ const timeUnit = [
   },
 ];
 
-interface IValue {
+export interface IValue {
   timer: number | string;
   unit: 'ms' | 's';
 }
@@ -104,7 +104,12 @@ const Duration = ({ value, onChange }: IProps) => {
     if (!value?.[index]) {
       setTimes(newTimer);
     }
-    onChange?.(newTimer);
+    onChange?.(
+      newTimer.map((item) => ({
+        ...item,
+        timer: item.timer ? +item.timer : '',
+      })),
+    );
   };
   return (
     <Input.Group compact className="trace-duration flex items-center w-64">

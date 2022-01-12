@@ -91,6 +91,8 @@ function WrappedTable<T extends object = any>({
     : (paginationProps as TablePaginationConfig);
   const { current = 1, pageSize = PAGINATION.pageSize } = pagination;
 
+  const containerRef = React.useRef<HTMLElement>(document.body);
+
   React.useEffect(() => {
     if (isFrontendPaging) {
       const newRowKeys =
@@ -156,13 +158,23 @@ function WrappedTable<T extends object = any>({
 
       const onSort = (order?: 'ascend' | 'descend') => {
         setSort({ ...sorter, order });
-        const { sorter: columnSorter } = column as { sorter: { compare: (a: T, b: T) => number } };
+        const { sorter: columnSorter } = column as {
+          sorter: { compare: (a: T, b: T) => number } | ((a: T, b: T) => number);
+        };
         if (order && columnSorter?.compare) {
           sortCompareRef.current = (a: T, b: T) => {
             if (order === 'ascend') {
               return columnSorter?.compare?.(a, b);
             } else {
               return columnSorter?.compare?.(b, a);
+            }
+          };
+        } else if (order && typeof columnSorter === 'function') {
+          sortCompareRef.current = (a: T, b: T) => {
+            if (order === 'ascend') {
+              return columnSorter?.(a, b);
+            } else {
+              return columnSorter?.(b, a);
             }
           };
         } else {
@@ -206,7 +218,7 @@ function WrappedTable<T extends object = any>({
               overlay={sorterMenu({ ...args, title, sorter })}
               align={{ offset: [0, 5] }}
               overlayClassName="erda-table-sorter-overlay"
-              getPopupContainer={(triggerNode) => triggerNode.parentElement?.parentElement as HTMLElement}
+              getPopupContainer={() => containerRef.current}
             >
               <span
                 className={`cursor-pointer erda-table-sorter flex items-center ${(align && alignMap[align]) || ''}`}
@@ -289,7 +301,7 @@ function WrappedTable<T extends object = any>({
   }
 
   return (
-    <div className={`flex flex-col erda-table ${hideHeader ? 'hide-header' : ''} theme-${theme}`}>
+    <div className={`flex flex-col erda-table ${hideHeader ? 'hide-header' : ''} theme-${theme}`} ref={containerRef}>
       {!hideHeader && (
         <TableConfig
           slot={slot}

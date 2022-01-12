@@ -515,7 +515,7 @@ const BuildDetail = (props: IProps) => {
           <ErdaIcon
             type="loading"
             className="mx-0.5"
-            color="black-400"
+            color="black-4"
             size="20px"
             style={{ transform: 'translateY(0)' }}
             spin

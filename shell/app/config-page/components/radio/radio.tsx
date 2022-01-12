@@ -73,7 +73,7 @@ const CP_RADIO = (props: CP_RADIO.Props) => {
                   }
                   return (
                     <Menu.Item
-                      className={`${curChildrenVal === g.key ? 'text-primary bg-light-active' : ''}`}
+                      className={`${curChildrenVal === g.key ? 'text-primary bg-default-06' : ''}`}
                       key={g.key}
                       {...extraProps}
                     >

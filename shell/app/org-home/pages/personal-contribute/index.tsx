@@ -102,7 +102,7 @@ const PersonalContribute = ({ currentUser }: { currentUser: ILoginUser }) => {
               <div
                 key={key}
                 className="w-52 px-4 py-3 relative"
-                style={{ backgroundColor: colorToRgb(themeColor[color], 0.04) }}
+                style={{ backgroundColor: colorToRgb(themeColor[color], 0.1) }}
               >
                 <div
                   className="absolute top-0 right-0 bg-icon-wrapper flex justify-center items-center"

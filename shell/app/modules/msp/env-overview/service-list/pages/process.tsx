@@ -11,124 +11,203 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import i18n from 'i18n';
-import classNames from 'classnames';
-import { Select, Spin } from 'antd';
-import { EmptyHolder } from 'common';
+import { Spin } from 'antd';
 import { useUpdate } from 'common/use-hooks';
-import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
-import topologyServiceStore from 'msp/stores/topology-service-analyze';
-import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelectWithStore } from 'msp/components/time-select';
-import { get } from 'lodash';
+import ContractiveFilter from 'common/components/contractive-filter';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
-import './index.scss';
 import NoServicesHolder from 'msp/env-overview/service-list/pages/no-services-holder';
+import { getInstanceIds, getServiceLanguage } from 'msp/services/topology-service-analyze';
+import RadioTabs from 'common/components/radio-tabs';
+import DiceConfigPage from 'config-page';
+import './index.scss';
+
+const MONITOR_TYPE: { value: IState['monitorType']; label: string }[] = [
+  {
+    value: 'runtime',
+    label: i18n.t('msp:runtime monitor'),
+  },
+  {
+    value: 'container',
+    label: i18n.t('msp:container monitor'),
+  },
+  {
+    value: 'host',
+    label: i18n.t('msp:host monitor'),
+  },
+];
+
+const runtimeGridSpan = {
+  nodejs: [12, 12, 12, 12, 12, 12],
+  java: [12, 12, 8, 8, 8, 12, 12, 12, 12],
+};
+
+interface IState {
+  instanceId: string;
+  hostIP: string;
+  monitorType: 'container' | 'runtime' | 'host';
+}
 
 const ServiceListProcess = () => {
-  const _timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
-  const { startTimeMs, endTimeMs } = _timeSpan;
-  const params = routeInfoStore.useStore((s) => s.params);
+  const range = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
+  const { terminusKey } = routeInfoStore.useStore((s) => s.params);
   const [serviceId, serviceName, requestCompleted] = serviceAnalyticsStore.useStore((s) => [
     s.serviceId,
     s.serviceName,
     s.requestCompleted,
   ]);
-  const { terminusKey } = params;
-  const { getProcessDashboardId, getInstanceIds } = topologyServiceStore;
-  const [{ id, instanceId, instanceIds, timeSpan }, updater, update] = useUpdate({
-    id: undefined as string | undefined,
-    instanceId: undefined as string | undefined,
-    instanceIds: [] as TOPOLOGY_SERVICE_ANALYZE.InstanceId[] | undefined,
-    timeSpan: _timeSpan,
+  const [{ monitorType, instanceId, hostIP }, updater, update] = useUpdate<IState>({
+    monitorType: MONITOR_TYPE[0].value,
+    instanceId: '',
+    hostIP: '',
   });
-  const [isFetching] = useLoading(topologyServiceStore, ['getProcessDashboardId']);
+  const [instances, isFetchInstance] = getInstanceIds.useState();
+  const [languages, isFetchLanguage] = getServiceLanguage.useState();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (serviceId) {
-      getInstanceIds({
+      getInstanceIds.fetch({
         serviceName,
         serviceId,
         terminusKey,
-        start: startTimeMs,
-        end: endTimeMs,
-      }).then((res) => {
-        const defaultInstanceId = get(res, ['data', 0, 'instanceId']);
-        update({
-          timeSpan: _timeSpan,
-          instanceId: defaultInstanceId,
-          instanceIds: res?.data,
-        });
+        start: range.startTimeMs,
+        end: range.endTimeMs,
       });
     }
-  }, [getInstanceIds, serviceName, terminusKey, endTimeMs, startTimeMs, serviceId, _timeSpan, update]);
+  }, [serviceName, terminusKey, range, serviceId]);
 
-  useEffect(() => {
-    if (serviceId) {
-      getProcessDashboardId({
-        serviceName,
+  React.useEffect(() => {
+    if (monitorType === 'runtime' && serviceId) {
+      getServiceLanguage.fetch({
         serviceId,
-        terminusKey,
-      }).then((_id) => updater.id(_id));
+        tenantId: terminusKey,
+      });
     }
-  }, [serviceId, getProcessDashboardId, serviceName, terminusKey, updater]);
+  }, [serviceId, terminusKey, monitorType]);
+
+  const [conditions, defaultQuery] = React.useMemo(() => {
+    if (!instances?.data?.length) {
+      return [[], undefined];
+    }
+    const defaultInstance = instances.data.find((t) => t.instanceId === instanceId) ?? instances.data[0];
+    const filter = [
+      {
+        label: i18n.t('dop:select instance'),
+        type: 'select',
+        fixed: true,
+        showIndex: 1,
+        key: 'instanceId',
+        options: instances.data.map((t) => ({
+          value: t.instanceId,
+          label: t.ip || t.instanceId,
+          icon: '',
+        })),
+        customProps: {
+          mode: 'single',
+        },
+      },
+    ];
+    update({
+      instanceId: defaultInstance.instanceId,
+      hostIP: defaultInstance.ip,
+    });
+    return [filter, { instanceId: defaultInstance.instanceId }];
+  }, [instances?.data, instanceId]);
+
+  const [scenarioName, scenarioParams] = React.useMemo(() => {
+    let scenario;
+    let params: Record<string, string> = {
+      serviceId,
+      instanceId,
+      tenantId: terminusKey,
+    };
+    if (monitorType === 'container') {
+      scenario = 'resources-container-monitor';
+    } else if (monitorType === 'host') {
+      params = {
+        hostIP,
+      };
+      scenario = 'resources-node-monitor';
+    } else if (languages?.language) {
+      scenario = `resources-runtime-monitor-${languages.language}`;
+    }
+    return [scenario, params];
+  }, [monitorType, languages?.language, hostIP, instanceId, serviceId, terminusKey]);
+
+  const handleChangeInstance = React.useCallback(
+    (data: { instanceId: string }) => {
+      const instance = instances?.data.find((t) => t.instanceId === data.instanceId);
+      update({
+        instanceId: data.instanceId,
+        hostIP: instance?.ip,
+      });
+    },
+    [instances?.data],
+  );
 
   if (!serviceId && requestCompleted) {
     return <NoServicesHolder />;
   }
 
   return (
-    <div className="service-analyze flex flex-col h-full">
-      <div className="flex justify-between items-center flex-wrap mb-1">
-        <div className="left flex justify-between items-center mb-2">
-          <Select
-            className="mr-3"
-            placeholder={i18n.t('dop:select instance')}
-            allowClear
-            value={instanceId}
-            style={{ width: '300px' }}
-            onChange={(v: any) => updater.instanceId(v)}
-          >
-            {(instanceIds || []).map(({ instanceId: v, status, ip }) => (
-              <Select.Option key={v} value={v} title={status ? i18n.t('running') : i18n.t('stopped')}>
-                <div className="instance-item flex justify-between items-center">
-                  <span className="instance-name nowrap">{ip || v}</span>
-                  <div className="status ml-2">
-                    <span
-                      className={classNames({
-                        'status-point': true,
-                        success: status,
-                        grey: !status,
-                      })}
-                    />
-                  </div>
-                </div>
-              </Select.Option>
-            ))}
-          </Select>
-        </div>
-        <div>
+    <Spin spinning={isFetchInstance || isFetchLanguage}>
+      <div className="flex justify-between items-center flex-wrap mb-2">
+        <RadioTabs defaultValue={MONITOR_TYPE[0].value} options={MONITOR_TYPE} onChange={updater.monitorType} />
+        <div className="left flex items-center">
+          {conditions.length ? (
+            <ContractiveFilter
+              key={defaultQuery?.instanceId}
+              conditions={conditions}
+              initValue={defaultQuery}
+              onChange={handleChangeInstance}
+              delay={100}
+            />
+          ) : null}
           <TimeSelectWithStore className="m-0 ml-3" />
         </div>
       </div>
-      {id ? (
-        <div className="overflow-auto flex-1">
-          <Spin spinning={isFetching}>
-            <ServiceListDashboard
-              timeSpan={timeSpan}
-              dashboardId={id}
-              extraGlobalVariable={{ instanceId }}
-              serviceId={serviceId}
-            />
-          </Spin>
-        </div>
-      ) : (
-        <EmptyHolder relative />
-      )}
-    </div>
+      {scenarioName && instanceId ? (
+        <DiceConfigPage
+          key={scenarioName}
+          scenarioType={scenarioName}
+          scenarioKey={scenarioName}
+          forceUpdateKey={['inParams']}
+          inParams={{
+            startTime: range.startTimeMs,
+            endTime: range.endTimeMs,
+            _: range.triggerTime,
+            ...scenarioParams,
+          }}
+          customProps={{
+            runtime: {
+              props: {
+                gutter: 8,
+                span: runtimeGridSpan[languages?.language ?? 'nodejs'],
+                className: 'mb-2',
+              },
+            },
+            node: {
+              props: {
+                gutter: 8,
+                span: [12, 12, 12, 12, 12, 12],
+                className: 'mb-2',
+              },
+            },
+            container: {
+              props: {
+                gutter: 8,
+                span: [12, 12, 12, 12],
+                className: 'mb-2',
+              },
+            },
+          }}
+        />
+      ) : null}
+    </Spin>
   );
 };
 

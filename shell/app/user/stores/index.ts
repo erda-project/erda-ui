@@ -20,7 +20,6 @@ import layoutStore from 'app/layout/stores/layout';
 import { PAGINATION } from 'app/constants';
 
 interface IState {
-  orgs: ORG.IOrg[];
   projectList: PROJECT.Detail[];
   projectPaging: IPaging;
   appList: IApplication[];
@@ -28,7 +27,6 @@ interface IState {
   noAuth: boolean;
   notFound: boolean;
   authContact: string;
-  joinOrgTip: string;
   loginUser: ILoginUser;
 }
 
@@ -40,7 +38,6 @@ interface IPagingQuery {
 }
 
 const initState: IState = {
-  orgs: [],
   projectList: [],
   projectPaging: {
     pageNo: 1,
@@ -58,7 +55,6 @@ const initState: IState = {
   noAuth: false,
   notFound: false,
   authContact: '',
-  joinOrgTip: '',
   loginUser: {
     id: '',
     email: '',
@@ -175,9 +171,6 @@ const userStore = createStore({
     setLoginUser(state, userData: ILoginUser) {
       state.loginUser = { ...userData, isNewUser: userData.userType === 'new' };
     },
-    setJoinOrgTip(state, joinOrgTip: string) {
-      state.joinOrgTip = joinOrgTip;
-    },
     onIndexEnter(state) {
       const { loginUser } = state;
       const { currentApp = {}, appList } = layoutStore.getState((s) => s);
@@ -205,9 +198,6 @@ const userStore = createStore({
     setNoAuth(state, info?: any) {
       state.noAuth = true;
       state.authContact = info;
-    },
-    updateOrgs(state, list: ORG.IOrg[]) {
-      state.orgs = list;
     },
     cleanNoAuth(state) {
       state.noAuth = false;

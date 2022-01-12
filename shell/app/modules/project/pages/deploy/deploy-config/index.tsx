@@ -268,7 +268,7 @@ const OtherConfig = (props: IOtherProps) => {
       <div className="py-2">
         <Input
           size="small"
-          className="w-[200px] bg-hover-gray-bg"
+          className="w-[200px] bg-black-02"
           value={searchValue}
           bordered={false}
           prefix={<ErdaIcon size="16" fill={'default-3'} type="search" />}

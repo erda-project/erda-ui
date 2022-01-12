@@ -34,13 +34,14 @@ import routeInfoStore from 'core/stores/route';
 import { LSObserver } from 'common/utils';
 import { Card } from 'antd';
 import Shell from './components/shell';
-import { ErrorLayout } from './error-layout';
+import { ErrorLayout, EmptyLayout } from './layout';
 import { eventHub } from 'common/utils/event-hub';
 import orgStore from 'app/org-home/stores/org';
 import './page-container.scss';
 
 const layoutMap = {
   error: ErrorLayout,
+  empty: EmptyLayout,
 };
 
 interface IProps {

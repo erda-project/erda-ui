@@ -265,7 +265,7 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                       <ErdaIcon
                         type="more"
                         size={18}
-                        className="hover-active p-1 rounded hover:bg-hover-gray-bg"
+                        className="hover-active p-1 rounded hover:bg-black-02"
                         onClick={(e) => e.stopPropagation()}
                       />
                     </Dropdown>

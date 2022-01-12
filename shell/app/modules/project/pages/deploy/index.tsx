@@ -281,7 +281,7 @@ const DeployContent = ({ projectId, env }: { projectId: string; env: string }) =
             <Input
               size="small"
               bordered={false}
-              className="border-0 bg-hover-gray-bg"
+              className="border-0 bg-black-02"
               value={searchValue}
               prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
               onChange={(e) => {

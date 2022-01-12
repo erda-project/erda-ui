@@ -18,7 +18,6 @@ const apis = {
     api: '/api/apm/topology/services',
   },
 };
-
 export const getServiceList = apiCreator<(p: SERVICE_ANALYTICS.IServiceListQuery) => SERVICE_ANALYTICS.ServiceList>(
   apis.getService,
 );

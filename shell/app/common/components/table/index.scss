@@ -18,6 +18,7 @@
 
   .erda-table-sorter-overlay {
     width: 160px;
+    min-width: 160px !important;
 
     .ant-dropdown-menu-title-content > span {
       color: $color-table-color;
@@ -121,9 +122,10 @@
   .erda-table-filter {
     min-height: 48px;
 
+    // TODO: remove this after update global input style
     .ant-input-affix-wrapper,
     input {
-      background-color: $color-input-bg;
+      background-color: $color-bg-gray;
       border: none;
       border-radius: 2px;
     }

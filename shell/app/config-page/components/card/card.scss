@@ -17,12 +17,39 @@
   }
 }
 
+@keyframes border {
+  50% {
+    transform: scaleX(0) translateY(-1px);
+  }
+  100% {
+    transform: scaleX(1) translateY(-1px);
+  }
+}
+
 .cp-card-item {
-  border: 1px solid $color-border;
+  position: relative;
+  outline: 1px solid $color-border;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    border-radius: 0 0 3px 3px;
+    background-color: $color-cyan-600;
+  }
   &:hover {
+    outline: none;
     box-shadow: 0 2px 8px 0 rgba($color-default, 0.16);
+    &::after {
+      animation: border 0.3s ease-in-out forwards;
+    }
   }
 
+  .info-card-content {
+    width: 280px;
+  }
   &.dragging {
     background: repeating-linear-gradient(
       45deg,

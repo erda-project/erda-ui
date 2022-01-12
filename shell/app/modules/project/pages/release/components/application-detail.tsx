@@ -21,17 +21,39 @@ import ErdaTable from 'common/components/table';
 import routeInfoStore from 'core/stores/route';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { debounce } from 'lodash';
+import orgStore from 'app/org-home/stores/org';
 import FileContainer from 'application/common/components/file-container';
-import { getReleaseDetail, formalRelease, updateRelease } from 'project/services/release';
+import { getReleaseDetail, formalRelease, updateRelease, checkVersion } from 'project/services/release';
 
 import './form.scss';
 
 const { TabPane } = Tabs;
 
+const promiseDebounce = (func: Function, delay = 1000) => {
+  let timer: NodeJS.Timeout | undefined;
+  return (...args: unknown[]) => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    return new Promise((resolve, reject) => {
+      timer = setTimeout(async () => {
+        try {
+          await func(...args);
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+      }, delay);
+    });
+  };
+};
+
 const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
   const [params] = routeInfoStore.useStore((s) => [s.params]);
   const { releaseID, projectId } = params;
-  const [releaseDetail, setReleaseDetail] = React.useState<RELEASE.ReleaseDetail>({} as RELEASE.ReleaseDetail);
+  const orgId = orgStore.useStore((s) => s.currentOrg.id);
+  const releaseDetail = getReleaseDetail.useData() || ({} as RELEASE.ReleaseDetail);
   const [form] = Form.useForm();
 
   const {
@@ -47,10 +69,9 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
 
   const getDetail = React.useCallback(async () => {
     if (releaseID) {
-      const res = await getReleaseDetail({ releaseID });
+      const res = await getReleaseDetail.fetch({ releaseID });
       const { data } = res;
       if (data) {
-        setReleaseDetail(data);
         if (isEdit) {
           form.setFieldsValue({
             version: data.version,
@@ -59,7 +80,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
         }
       }
     }
-  }, [releaseID, setReleaseDetail, isEdit, form]);
+  }, [releaseID, isEdit, form]);
 
   React.useEffect(() => {
     getDetail();
@@ -96,6 +117,25 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
     });
   };
 
+  const check = React.useCallback(
+    promiseDebounce(async (value) => {
+      if (value && value !== version) {
+        const payload = {
+          orgID: orgId,
+          isProjectRelease: true,
+          projectID: +projectId,
+          version: value,
+        };
+        const res = await checkVersion(payload);
+        const { data } = res;
+        if (data && !data.isUnique) {
+          throw new Error(i18n.t('{name} already exists', { name: i18n.t('dop:release name') }));
+        }
+      }
+    }),
+    [releaseDetail],
+  );
+
   return (
     <div className="release-releaseDetail release-form h-full overflow-y-auto pb-16">
       <Form layout="vertical" form={form}>
@@ -115,33 +155,38 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                         pattern: /^[A-Za-z0-9._-]+$/,
                         message: i18n.t('dop:Must be composed of letters, numbers, underscores, hyphens and dots.'),
                       },
+                      {
+                        validator: (_, value: string) => {
+                          return check(value);
+                        },
+                      },
                     ]}
                   />
                 </div>
               ) : (
                 <div className="mb-2">
-                  <div className="text-black-400 mb-2">{i18n.t('dop:release name')}</div>
+                  <div className="text-black-4 mb-2">{i18n.t('dop:release name')}</div>
                   <div>{version || '-'}</div>
                 </div>
               )}
               <div className="mb-2">
-                <div className="text-black-400 mb-2">{i18n.t('dop:app name')}</div>
+                <div className="text-black-4 mb-2">{i18n.t('dop:app name')}</div>
                 <div>{applicationName || '-'}</div>
               </div>
               <div className="mb-2">
-                <div className="text-black-400 mb-2">{i18n.t('creator')}</div>
+                <div className="text-black-4 mb-2">{i18n.t('creator')}</div>
                 <div>{userId ? <UserInfo id={userId} /> : '-'}</div>
               </div>
               <div className="mb-2">
-                <div className="text-black-400 mb-2">{i18n.t('create time')}</div>
+                <div className="text-black-4 mb-2">{i18n.t('create time')}</div>
                 <div>{(createdAt && moment(createdAt).format('YYYY/MM/DD HH:mm:ss')) || '-'}</div>
               </div>
               <div className="mb-2">
-                <div className="text-black-400 mb-2">{i18n.t('dop:code branch')}</div>
+                <div className="text-black-4 mb-2">{i18n.t('dop:code branch')}</div>
                 <div>{labels.gitBranch || '-'}</div>
               </div>
               <div className="mb-2">
-                <div className="text-black-400 mb-2">commitId</div>
+                <div className="text-black-4 mb-2">commitId</div>
                 <div>{labels.gitCommitId || '-'}</div>
               </div>
               {isEdit ? (
@@ -150,7 +195,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                 </div>
               ) : (
                 <div className="mb-2">
-                  <div className="text-black-400 mb-2">{i18n.t('content')}</div>
+                  <div className="text-black-4 mb-2">{i18n.t('content')}</div>
                   <div>
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {changelog || i18n.t('dop:no content yet')}
@@ -163,8 +208,8 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
           <TabPane tab={i18n.t('dop:images list')} key="2">
             <ErdaTable
               columns={[
-                { title: i18n.t('dop:image name'), dataIndex: 'image' },
                 { title: i18n.t('service name'), dataIndex: 'name' },
+                { title: i18n.t('dop:image name'), dataIndex: 'image' },
               ]}
               dataSource={serviceImages}
               onChange={() => getReleaseDetail({ releaseID })}

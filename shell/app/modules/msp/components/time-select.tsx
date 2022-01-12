@@ -19,7 +19,11 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import { getTimeSpan } from 'common/utils';
 
 export const TimeSelectWithStore = ({ className, theme }: { className?: string; theme?: 'dark' | 'light' }) => {
-  const globalTimeSelectSpan = monitorCommonStore.getState((s) => s.globalTimeSelectSpan);
+  const globalTimeSelectSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan);
+  const [time, setTime] = React.useState(globalTimeSelectSpan.data);
+  React.useEffect(() => {
+    setTime(globalTimeSelectSpan.data);
+  }, [globalTimeSelectSpan.data]);
   const handleChange = (data: ITimeRange, range: Moment[]) => {
     const triggerTime = Date.now();
     const span = getTimeSpan(range);
@@ -44,7 +48,7 @@ export const TimeSelectWithStore = ({ className, theme }: { className?: string; 
   };
   return (
     <TimeSelect
-      defaultValue={globalTimeSelectSpan.data}
+      value={time}
       className={className}
       onChange={handleChange}
       theme={theme}

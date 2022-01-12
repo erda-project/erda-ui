@@ -62,10 +62,10 @@ const LinkRow = (props: LinkRowProps) => {
     <div key={item.id} ref={linkRef} className="cursor-pointer flex items-center homepage-link mb-1">
       <ErdaIcon type="lianjie" {...iconStyle} />
       <div className="cursor-pointer ml-2 w-64 px-2 py-1 flex justify-between items-center hover:bg-default-04">
-        <div className="w-52 truncate text-purple-deep">
+        <div className="w-52 truncate">
           <Tooltip title={item.name || item.url} placement="left" overlayClassName="homepage-tooltip">
             <span
-              className="text-purple-deep hover:underline"
+              className="hover:underline"
               onClick={() => {
                 if (item.url.startsWith('www')) {
                   window.open(`https://${item.url}`);
@@ -259,7 +259,7 @@ export const ProjectHomepage = () => {
                     {projectOwner?.nick ? getAvatarChars(projectOwner?.nick) : i18n.t('none')}
                   </Avatar>
                   {projectOwner?.name && (
-                    <span className="text-default-8 ml-1">{projectOwner?.name || projectOwner?.nick || '-'}</span>
+                    <span className="text-default-8 ml-1">{projectOwner?.nick || projectOwner?.name || '-'}</span>
                   )}
                 </span>
               </div>

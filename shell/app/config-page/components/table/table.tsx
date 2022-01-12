@@ -83,7 +83,7 @@ export function Table(props: CP_TABLE.Props) {
 
   const changePage = operations?.changePageNo
     ? (pNo: number, pSize?: number) => {
-        execOperation(operations.changePageNo, { pageNo: pNo, pageSize: pSize });
+        execOperation(operations.changePageNo, { pageNo: pNo, pageSize: pSize, selectedRowKeys: [] });
       }
     : undefined;
 
@@ -165,7 +165,7 @@ export function Table(props: CP_TABLE.Props) {
   const onChange = (_pg: Obj, _filter: Obj, _sorter: ISorter, _extra: ITableAction) => {
     if (_extra?.action === 'sort' && operations?.changeSort) {
       const sorterData = _sorter?.order ? { field: _sorter?.field, order: _sorter?.order } : undefined;
-      execOperation(operations.changeSort, { sorterData });
+      execOperation(operations.changeSort, { sorterData, selectedRowKeys: [] });
     }
   };
 

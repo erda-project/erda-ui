@@ -119,11 +119,10 @@ const pathFormat = (url: string) => (params: object) => {
 goTo.pagePrefix = '__dice__'; // 防止goTo传入同名参数
 
 export enum pages {
+  landPage = '',
   noAuth = '/{orgName}/noAuth',
   perm = '/{orgName}/perm?scope={scope}',
   inviteToOrg = '/{orgName}/inviteToOrg',
-  freshMan = '/{orgName}/freshMan',
-  notFound = '/{orgName}/notFound',
 
   // dop
   orgRoot = '/{orgName}',
@@ -173,7 +172,7 @@ export enum pages {
   projectReleaseList = '/{orgName}/dop/projects/{projectId}/release/project',
   projectDeploy = '/{orgName}/dop/projects/{projectId}/deploy',
   projectDeployEnv = '/{orgName}/dop/projects/{projectId}/deploy/{env}',
-  projectReleaseCreate = '/{orgName}/dop/projects/{projectId}/release/createRelease',
+  projectReleaseCreate = '/{orgName}/dop/projects/{projectId}/release/createRelease/{type}',
   projectReleaseDetail = '/{orgName}/dop/projects/{projectId}/release/project/{releaseId}',
   applicationReleaseList = '/{orgName}/dop/projects/{projectId}/release/application',
   applicationReleaseDetail = '/{orgName}/dop/projects/{projectId}/release/application/{releaseId}',
@@ -287,6 +286,8 @@ export enum pages {
 
   // 微服务-具体事务分析页
   mspServiceTransaction = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-analysis/{applicationId}/{serviceId}/{serviceName}/transaction',
+
+  mspServiceAnalysisTrace = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-analysis/trace',
 
   mspGatewayIngress = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/topology/gateway-ingress',
 

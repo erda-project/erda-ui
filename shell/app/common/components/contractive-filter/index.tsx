@@ -12,13 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Menu, Dropdown, Input, DatePicker, Checkbox, Tooltip } from 'antd';
-import { MemberSelector, ErdaIcon, Icon as CustomIcon } from 'common';
+import { Checkbox, DatePicker, Dropdown, Input, Menu, message, Tooltip } from 'antd';
+import { Duration, ErdaIcon, Icon as CustomIcon, MemberSelector } from 'common';
 import moment, { Moment } from 'moment';
 import { useUpdateEffect } from 'react-use';
-import { debounce, isEmpty, isArray, map, max, sortBy, isString, has, isNumber } from 'lodash';
+import { debounce, has, isArray, isEmpty, isNumber, isString, map, max, sortBy } from 'lodash';
 import i18n from 'i18n';
 import './index.scss';
+import { transformDuration } from 'common/components/duration';
 
 interface Option {
   label: string;
@@ -101,6 +102,7 @@ interface IOptionItemProps {
   onClick: (option: Option) => void;
   onDelete?: (option: Option) => void;
 }
+
 const OptionItem = (props: IOptionItemProps) => {
   const { value, option, onClick, onDelete } = props;
   return (
@@ -155,7 +157,9 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   } = itemData;
   const [filterMap, setFilterMap] = React.useState({});
   const memberSelectorRef = React.useRef(null as any);
+  const durationRef = React.useRef(false);
   const [inputVal, setInputVal] = React.useState(value);
+  const [duration, setDuration] = React.useState(value);
   const [hasMore, setHasMore] = React.useState(firstShowLength ? (options?.length || 0) > firstShowLength : false);
   // const inputRef = React.useRef(null);
 
@@ -163,6 +167,9 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
 
   useUpdateEffect(() => {
     setInputVal(value);
+    if (durationRef.current) {
+      setDuration(value);
+    }
   }, [value]);
 
   useUpdateEffect(() => {
@@ -185,8 +192,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         size="small"
         style={{ width: 180 }}
         allowClear
-        className="bg-hover-gray-bg"
-        bordered={false}
+        className="bg-black-06"
         // ref={inputRef}
         prefix={<ErdaIcon fill="default-3" size="16" type="search" />}
         placeholder={placeholder || i18n.t('press enter to search')}
@@ -522,6 +528,39 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
       </span>
     );
   }
+
+  if (type === 'timespanRange') {
+    const _value = isArray(duration) ? duration : [];
+    return (
+      <span className="contractive-filter-item">
+        <span className="text-desc mr-0.5">{label}</span>
+        <Duration
+          value={_value}
+          onChange={(v) => {
+            const durationMin = transformDuration(v?.[0]);
+            const durationMax = transformDuration(v?.[1]);
+            if (isNumber(durationMin) && isNumber(durationMax)) {
+              if (durationMin <= durationMax) {
+                durationRef.current = true;
+                onChange({ key, value: v });
+              } else {
+                durationRef.current = false;
+                setDuration(v);
+                message.error(i18n.t('msp:wrong duration'));
+              }
+            } else if (!isNumber(durationMin) && !isNumber(durationMax)) {
+              durationRef.current = false;
+              setDuration(v);
+              onChange({ key, value: [] });
+            } else {
+              durationRef.current = false;
+              setDuration(v);
+            }
+          }}
+        />
+      </span>
+    );
+  }
   if (getComp) {
     const comp = getComp({
       onChange: (v) => {
@@ -543,6 +582,7 @@ interface IQuickSaveProps {
   options?: Option[];
   quickAdd?: { placeholder?: string };
 }
+
 const QuickSave = (props: IQuickSaveProps) => {
   const { onSave, options, quickAdd } = props;
   const [v, setV] = React.useState('');
@@ -628,6 +668,7 @@ const GroupOpt = (props: IGroupOptProps) => {
   );
 };
 const noop = () => {};
+
 interface ContractiveFilterProps {
   initValue?: Obj; // 初始化
   values?: Obj; // 完全受控
@@ -907,7 +948,7 @@ const ContractiveFilter = ({
             placement="bottomLeft"
           >
             <span className="contractive-filter-item more-conditions">
-              <ErdaIcon color="black-800" type="plus" className="mr-0.5 color-text" />
+              <ErdaIcon color="black-8" type="plus" className="mr-0.5 color-text" />
               <span>{i18n.t('filter')}</span>
               <ErdaIcon type="caret-down" className="hover" size="16" />
             </span>

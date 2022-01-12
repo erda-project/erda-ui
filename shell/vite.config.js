@@ -16,9 +16,8 @@ import legacyPlugin from '@vitejs/plugin-legacy';
 import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import * as path from 'path';
-import tailwindcss from 'tailwindcss';
-import autoprefixer from 'autoprefixer';
-import { getLessTheme, getScssTheme } from './config/theme';
+import postcss from './postcss.config.mjs';
+import { getLessTheme } from './app/theme-color.mjs';
 
 const babelConfig = require('./babel.config.js');
 
@@ -144,12 +143,11 @@ export default ({ command, mode }) => {
           modifyVars: getLessTheme(),
         },
         scss: {
-          additionalData: `@import "app/styles/_color.scss";@import "app/styles/_variable.scss";@import "app/styles/_mixin.scss";${getScssTheme()}`,
+          additionalData:
+            '@import "app/styles/_color.scss";@import "app/styles/_variable.scss";@import "app/styles/_mixin.scss";',
         },
       },
-      postcss: {
-        plugins: [tailwindcss, autoprefixer],
-      },
+      postcss,
     },
   };
 };

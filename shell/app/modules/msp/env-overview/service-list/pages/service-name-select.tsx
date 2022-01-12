@@ -19,6 +19,7 @@ import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import { getServiceList } from 'msp/services/service-analytics';
 import { EmptyListHolder, ErdaIcon } from 'common';
 import i18n from 'i18n';
+import moment from 'moment';
 import { useUnmount } from 'react-use';
 
 export function ServiceNameSelect() {
@@ -49,8 +50,12 @@ export function ServiceNameSelect() {
   }, [loading]);
 
   React.useEffect(() => {
-    getServiceList.fetch({ start: startTimeMs, end: endTimeMs, terminusKey: params?.terminusKey });
-  }, [getServiceList, startTimeMs, endTimeMs]);
+    getServiceList.fetch({
+      start: moment().subtract(1, 'days').valueOf(),
+      end: moment().valueOf(),
+      terminusKey: params?.terminusKey,
+    });
+  }, []);
 
   React.useEffect(() => {
     if (serviceId) {
@@ -78,10 +83,7 @@ export function ServiceNameSelect() {
     return (
       <Menu onClick={handleChangeService}>
         {serviceList.map((x) => (
-          <Menu.Item
-            key={x.service_id}
-            className={`${serviceId === x.service_id ? 'bg-light-primary text-primary' : ''}`}
-          >
+          <Menu.Item key={x.service_id} className={`${serviceId === x.service_id ? 'bg-default-1 text-primary' : ''}`}>
             {x.service_name}
           </Menu.Item>
         ))}
@@ -95,7 +97,7 @@ export function ServiceNameSelect() {
       <div className="font-bold text-lg">{i18n.t('msp:service monitor')}</div>
       {serviceName ? (
         <>
-          <span className="bg-dark-2 mx-5 w-px h-3" />
+          <span className="bg-black-2 mx-5 w-px h-3" />
           <Dropdown overlay={menu} trigger={['click']}>
             <div className="font-bold text-lg h-8 rounded border border-solid border-transparent flex justify-center cursor-pointer">
               <span className="self-center text-lg">{serviceName} </span>

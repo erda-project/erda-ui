@@ -117,15 +117,14 @@ const Navigation = () => {
 
   return (
     <div className={`erda-global-nav flex flex-col items-center relative`}>
-      <div className="logo-wrap relative w-8 h-8 m-3 cursor-pointer">
+      <div className="logo-wrap relative min-h-[32px] w-8 h-8 m-3 cursor-pointer">
         <ErdaIcon type="gerengongzuotai" size={32} className="absolute erda-global-logo" />
         <ErdaIcon
           type="gerengongzuotaihover"
           className="absolute workbench-icon"
           size={32}
           onClick={() => {
-            // close message site
-            layoutStore.reducers.switchMessageCenter(null);
+            layoutStore.reducers.switchMessageCenter(false);
             const isIncludeOrg = !!orgs.find((x) => x.name === curOrgName);
             if (isAdminRoute) {
               const lastOrg = window.localStorage.getItem('lastOrg');
@@ -151,7 +150,10 @@ const Navigation = () => {
             key={item.key}
             label={item.name}
             link={item.href}
-            onClick={() => layoutStore.reducers.switchToApp(item.key)}
+            onClick={() => {
+              layoutStore.reducers.switchMessageCenter(false);
+              layoutStore.reducers.switchToApp(item.key);
+            }}
             icon={
               currentApp.key === item.key ? (
                 <ErdaIcon className="absolute icon active-icon opacity-100" size={24} type={item.icon} />

@@ -13,7 +13,6 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Drawer } from 'antd';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import RadioTabs from 'common/components/radio-tabs';
 import monitorCommonStore from 'common/stores/monitorCommon';
@@ -21,12 +20,12 @@ import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import NoServicesHolder from 'msp/env-overview/service-list/pages/no-services-holder';
 import DiceConfigPage from 'config-page';
 import routeInfoStore from 'core/stores/route';
-import Ellipsis from 'common/components/ellipsis';
-import TimeSelect from 'common/components/time-select';
-import { ITimeRange, transformRange } from 'common/components/time-select/common';
-import { Moment } from 'moment';
+import { transformRange } from 'common/components/time-select/common';
+import moment from 'moment';
 import { useUpdate } from 'common/use-hooks';
 import './transaction.scss';
+import { getTimeSpan } from 'common/utils';
+import TransactionDetail from 'msp/env-overview/service-list/pages/transaction-detail';
 
 const dashboardIdMap = [
   {
@@ -55,6 +54,12 @@ interface IState {
   transactionType: string;
   visible: boolean;
   detailParams: {
+    _?: number;
+    startTime: number;
+    endTime: number;
+  };
+  analysisParams: {
+    _?: number;
     startTime: number;
     endTime: number;
   };
@@ -68,14 +73,11 @@ interface IState {
   };
 }
 
-const indicators = [
-  'kvGrid@totalCount',
-  'kvGrid@avgRps',
-  'kvGrid@avgDuration',
-  'kvGrid@slowCount',
-  'kvGrid@errorCount',
-  'kvGrid@errorRate',
-];
+const getTimeParams = (startTime: number, endTime: number) => ({
+  startTime,
+  endTime,
+  _: Date.now(), // fixed bug that refresh button is invalid when absolute time is selected
+});
 
 const Transaction = () => {
   const [range, rangeData, refreshStrategy] = monitorCommonStore.useStore((s) => [
@@ -86,37 +88,49 @@ const Transaction = () => {
 
   const tenantId = routeInfoStore.useStore((s) => s.params.terminusKey);
   const [serviceId, requestCompleted] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.requestCompleted]);
-  const [{ transactionType, visible, recordItem, detailParams }, updater, update] = useUpdate<IState>({
+  const [{ transactionType, visible, recordItem, detailParams, analysisParams }, updater, update] = useUpdate<IState>({
     transactionType: dashboardIdMap[0].value,
     visible: false,
     recordItem: undefined,
     detailParams: {
+      _: range.triggerTime,
       startTime: range.startTimeMs,
-      endTime: range.startTimeMs,
+      endTime: range.endTimeMs,
+    },
+    analysisParams: {
+      _: range.triggerTime,
+      startTime: range.startTimeMs,
+      endTime: range.endTimeMs,
     },
   });
 
   React.useEffect(() => {
+    updater.analysisParams(getTimeParams(range.startTimeMs, range.endTimeMs));
+  }, [range]);
+
+  React.useEffect(() => {
     if (!visible) {
-      updater.detailParams({
-        startTime: range.startTimeMs,
-        endTime: range.startTimeMs,
-      });
+      updater.detailParams(getTimeParams(range.startTimeMs, range.endTimeMs));
     }
   }, [visible, range]);
-  const handleChangeType = (type: string) => {
-    updater.transactionType(type);
-  };
+
+  const handleChangeType = React.useCallback(
+    (type: string) => {
+      const { date } = transformRange(rangeData);
+      update({
+        transactionType: type,
+        analysisParams: getTimeParams(date[0].valueOf(), date[1].valueOf()),
+      });
+    },
+    [rangeData],
+  );
 
   const openDetail = (item: IState['recordItem']) => {
     const { date } = transformRange(rangeData);
     update({
       visible: true,
       recordItem: item,
-      detailParams: {
-        startTime: date[0].valueOf(),
-        endTime: date[1].valueOf(),
-      },
+      detailParams: getTimeParams(date[0].valueOf(), date[1].valueOf()),
     });
   };
 
@@ -127,10 +141,25 @@ const Transaction = () => {
     });
   };
 
-  const handleTimeChange = (_range: ITimeRange, [start, end]: Moment[]) => {
-    updater.detailParams({
-      startTime: start.valueOf(),
-      endTime: end.valueOf(),
+  const handleSelectLineChart = ({ start, end }: { start: string; end: string }) => {
+    const startMoment = moment(start);
+    const endMoment = moment(end);
+    const span = getTimeSpan([startMoment, endMoment]);
+    monitorCommonStore.reducers.updateState({
+      globalTimeSelectSpan: {
+        refreshStrategy,
+        data: {
+          mode: 'customize',
+          customize: {
+            start: startMoment,
+            end: endMoment,
+          },
+        },
+        range: {
+          triggerTime: Date.now(),
+          ...span,
+        },
+      },
     });
   };
 
@@ -150,17 +179,29 @@ const Transaction = () => {
           scenarioType={`${transactionType}-analysis`}
           showLoading
           forceUpdateKey={['inParams']}
-          inParams={{ tenantId, serviceId, startTime: range.startTimeMs, endTime: range.endTimeMs }}
+          inParams={{ tenantId, serviceId, ...analysisParams }}
           customProps={{
             page: {
               props: {
                 className: 'bg-white',
               },
             },
+            reqDistribution: {
+              props: {
+                style: {
+                  width: '100%',
+                  height: '170px',
+                  minHeight: 0,
+                },
+              },
+            },
             ...['rps', 'avgDuration'].reduce(
               (previousValue, currentValue) => ({
                 ...previousValue,
                 [currentValue]: {
+                  op: {
+                    onSelect: handleSelectLineChart,
+                  },
                   props: {
                     style: {
                       width: '100%',
@@ -180,77 +221,15 @@ const Transaction = () => {
           }}
         />
       ) : null}
-      <Drawer
-        title={<Ellipsis title={recordItem?.transactionName.data.text ?? '-'} />}
-        className="transaction-detail-drawer"
+      <TransactionDetail
+        transactionType={transactionType}
+        tenantId={tenantId}
+        serviceId={serviceId}
+        timeRange={detailParams}
         visible={visible}
-        width="80%"
-        onClose={closeDetail}
-        destroyOnClose
-      >
-        <div className="px-4">
-          <div className="flex justify-end items-center h-8 my-2">
-            <TimeSelect
-              className="ml-3"
-              theme="dark"
-              defaultValue={rangeData}
-              defaultStrategy={refreshStrategy}
-              onChange={handleTimeChange}
-            />
-          </div>
-          {recordItem?.transactionName.data.text ? (
-            <DiceConfigPage
-              scenarioKey={`${transactionType}-detail`}
-              scenarioType={`${transactionType}-detail`}
-              showLoading
-              forceUpdateKey={['inParams']}
-              inParams={{ ...detailParams, tenantId, serviceId, layerPath: recordItem?.transactionName.data.text }}
-              customProps={{
-                grid: {
-                  props: {
-                    gutter: 8,
-                    span: [12, 12, 12, 12],
-                  },
-                },
-                kvGrid: {
-                  props: {
-                    gutter: 0,
-                  },
-                },
-                ...['rps', 'avgDuration', 'slowCount', 'errorCount'].reduce(
-                  (previousValue, currentValue) => ({
-                    ...previousValue,
-                    [currentValue]: {
-                      props: {
-                        theme: 'dark',
-                        className: 'mb-2',
-                        style: {
-                          width: '100%',
-                          height: '170px',
-                          minHeight: 0,
-                        },
-                      },
-                    },
-                  }),
-                  {},
-                ),
-                ...indicators.reduce(
-                  (previousValue, currentValue) => ({
-                    ...previousValue,
-                    [currentValue]: {
-                      props: {
-                        gutter: 0,
-                        theme: 'dark',
-                      },
-                    },
-                  }),
-                  {},
-                ),
-              }}
-            />
-          ) : null}
-        </div>
-      </Drawer>
+        closeDetail={closeDetail}
+        layerPath={recordItem?.transactionName.data.text}
+      />
     </div>
   );
 };

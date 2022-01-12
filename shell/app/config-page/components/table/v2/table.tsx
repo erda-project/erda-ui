@@ -245,13 +245,13 @@ const BatchOperation = <T extends unknown>(props: IBatchProps<T>) => {
   return (
     <div className="flex items-center">
       <Checkbox className="mx-2" indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll} />
-      <span className="mr-2">{`${i18n.t('selected {xx}', {
-        xx: `${selectedRowKeys?.length || 0} ${i18n.t('common:items')}`,
+      <span className="mr-2">{`${i18n.t('selected {name}', {
+        name: `${selectedRowKeys?.length || 0} ${i18n.t('common:items')}`,
       })}`}</span>
       <Dropdown overlay={dropdownMenu} zIndex={1000}>
         <Button className="flex items-center">
           {i18n.t('batch operate')}
-          <ErdaIcon size="18" type="caret-down" className="ml-1 text-black-200" />
+          <ErdaIcon size="18" type="caret-down" className="ml-1 text-black-2" />
         </Button>
       </Dropdown>
     </div>

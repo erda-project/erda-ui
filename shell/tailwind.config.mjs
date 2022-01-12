@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-// const path = require('path');
-const plugin = require('tailwindcss/plugin');
-const themeColors = require('./theme-color');
+import plugin from 'tailwindcss/plugin.js';
+import themeColors from './app/theme-color.mjs';
 
-module.exports = {
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
   important: true,
   corePlugins: {
     preflight: false,

@@ -72,7 +72,7 @@ const TypeSelect = <T extends Item>({ list, onChange, value, className }: IProps
         return (
           <div
             className={`relative conf-item group mr-4 mb-4 flex justify-items-start items-center pl-3 hover:border-primary ${
-              isSelect ? 'border-primary bg-light-primary' : ''
+              isSelect ? 'border-primary bg-default-1' : ''
             }`}
             key={key || itemType}
             onClick={() => {

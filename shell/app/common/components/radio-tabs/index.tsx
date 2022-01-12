@@ -102,7 +102,7 @@ const RadioTabs = (props: RadioTabsProps) => {
               >
                 {children.map((g) => {
                   return (
-                    <Menu.Item className={`${sv === g.value ? 'text-primary bg-light-active' : ''}`} key={g.value}>
+                    <Menu.Item className={`${sv === g.value ? 'text-primary bg-default-06' : ''}`} key={g.value}>
                       {g.label}
                     </Menu.Item>
                   );

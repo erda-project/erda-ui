@@ -240,7 +240,7 @@ export function TraceGraph(props: IProps) {
             />
           }
         >
-          <div className="left flex items-center " style={{ width: width - 24 * depth }}>
+          <div className="left flex items-center" style={{ width: width - 24 * depth }}>
             <div className="w-1 h-4 relative mr-1" style={{ background: error ? errorColor : bg[depth % 5] }} />
             <div className="flex items-center w-full">
               <span className="font-semibold text-ms mr-2 whitespace-nowrap">{serviceName}</span>
@@ -443,14 +443,14 @@ export function TraceGraph(props: IProps) {
               disableDefaultTooltips
             />
             {tooltipState !== null && (
-              <div ref={tooltipRef} className="absolute bg-white px-2 py-1 shadow-lg break-words">
+              <div ref={tooltipRef} className="absolute bg-default p-2 shadow-lg break-words rounded-[3px]">
                 <SpanTitleInfo
                   operationName={tooltipState?.content.name}
                   spanKind={tooltipState?.content.spanKind}
                   component={tooltipState?.content.component}
                   serviceName={tooltipState?.content.serviceName}
                 />
-                <div className="text-sub">
+                <div className="text-white">
                   {i18n.t('current')} span {mkDurationStr(tooltipState?.content.selfDuration / 1000)} -{' '}
                   {i18n.t('total')} span {mkDurationStr(tooltipState?.content.value / 1000)}
                 </div>

@@ -154,7 +154,7 @@ const RuntimeBox = (props: IProps) => {
       <div className="flex justify-between items-center runtime-box">
         <div className="flex justify-between items-center runtime-box-header">
           <div className="branch disabled">
-            <ErdaIcon fill="black-800" width="20" height="21" type="slbb" />
+            <ErdaIcon fill="black-8" width="20" height="21" type="slbb" />
             <Tooltip title={name}>
               <span className="font-bold nowrap">{name}</span>
             </Tooltip>
@@ -173,7 +173,7 @@ const RuntimeBox = (props: IProps) => {
       >
         <div className="flex justify-between items-center runtime-box-header">
           <div className="branch">
-            <ErdaIcon className="mr-1 mt-0.5" color="black-800" fill="black-800" width="20" height="21" type="slbb" />
+            <ErdaIcon className="mr-1 mt-0.5" color="black-8" fill="black-8" width="20" height="21" type="slbb" />
             <Tooltip title={name}>
               <span className="font-bold nowrap">{name}</span>
             </Tooltip>
@@ -200,7 +200,7 @@ const RuntimeBox = (props: IProps) => {
           <div className="transform-box">
             <Tooltip title={i18n.t('dop:view version information')}>
               <span className="text-link release-link" onClick={(e) => gotoRelease(releaseId, e)}>
-                <ErdaIcon className="mr-1 transform-icon" fill="primary-800" width="20" height="21" type="bb" />
+                <ErdaIcon className="mr-1 transform-icon" fill="default-8" width="20" height="21" type="bb" />
                 <span>{cutStr(releaseId, 6, { suffix: '' })}</span>
               </span>
             </Tooltip>

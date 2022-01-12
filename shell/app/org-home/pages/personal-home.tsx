@@ -59,7 +59,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
       orgCenter: permMap.entryOrgCenter.pass,
       cmp: permMap.cmp.showApp.pass,
       dop: permMap.dop.read.pass,
-      fdp: permMap.entryFastData.pass && currentOrg.openFdp,
+      fdp: permMap.entryFastData.pass && currentOrg.openFdp && !process.env.FOR_COMMUNITY,
       msp: permMap.entryMsp.pass,
       ecp: erdaEnv.ENABLE_EDGE === 'true' && permMap.ecp.view.pass && currentOrg.type === 'ENTERPRISE',
     }),

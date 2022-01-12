@@ -72,6 +72,12 @@
     }
   }
 
+  // TODO: remove after overwrite global input style
+  .ant-input-affix-wrapper {
+    border: none;
+    margin-left: 2px;
+  }
+
   .contractive-filter-item-close {
     position: absolute;
     top: -6px;
@@ -80,10 +86,6 @@
     display: none;
     color: rgba($color-default, 0.4);
     cursor: pointer;
-  }
-
-  .ant-input {
-    background: none;
   }
 
   .anticon-calendar {

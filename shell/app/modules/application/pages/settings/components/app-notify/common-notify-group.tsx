@@ -17,7 +17,8 @@ import i18n from 'i18n';
 import { head, isEmpty, map, take, forEach, cloneDeep } from 'lodash';
 import { Button, message, Modal, Select, Spin, Tooltip } from 'antd';
 import { IActions } from 'app/common/components/table/interface';
-import { ErdaTable, Avatar, ErdaIcon, FormModal, MemberSelector } from 'common';
+import { Avatar, ErdaIcon, FormModal, MemberSelector } from 'common';
+import ErdaTable from 'common/components/table';
 import { useSwitch, useUpdate } from 'common/use-hooks';
 import { ColumnProps, FormInstance } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';
@@ -117,7 +118,7 @@ export const ListTargets = ({
   let text = '';
   let targetsEle = (
     <>
-      <ErdaIcon fill="black-400" size="16" type="sidebarUser" className="color-text-desc mr-1" />
+      <ErdaIcon fill="black-4" size="16" type="sidebarUser" className="color-text-desc mr-1" />
       <Tooltip title={`${i18n.t('dop:group address')}: ${firstValue}`}>
         <span className="group-address nowrap">{`${i18n.t('dop:group address')}: ${firstValue}`}</span>
       </Tooltip>
@@ -163,7 +164,7 @@ export const ListTargets = ({
       text = `${i18n.t('dop:notify role')}：${map(values, (obj) => roleMap[obj.receiver]).join(',')}`;
       targetsEle = (
         <>
-          <ErdaIcon fill="black-400" size="16" type="sidebarUser" className="mr-1" />
+          <ErdaIcon fill="black-4" size="16" type="sidebarUser" className="mr-1" />
           <Tooltip title={text}>
             <span className="group-address nowrap">{text}</span>
           </Tooltip>

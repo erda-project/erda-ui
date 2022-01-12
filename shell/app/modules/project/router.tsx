@@ -41,7 +41,7 @@ function getProjectRouter(): RouteConfigItem[] {
         {
           path: 'apps',
           breadcrumbName: i18n.t('dop:applications'),
-          layout: { fullHeight: true },
+          layout: { noWrapper: true },
           getComp: (cb) => cb(import('project/pages/apps/app-list'), 'ProjectAppList'),
         },
         {
@@ -392,7 +392,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'release',
-          pageName: i18n.t('artifact management'),
+          breadcrumbName: i18n.t('artifact management'),
           routes: [
             {
               path: 'project',
@@ -418,14 +418,16 @@ function getProjectRouter(): RouteConfigItem[] {
               layout: { fullHeight: true },
             },
             {
-              path: 'createRelease',
+              path: 'createRelease/:type',
               pageName: i18n.t('create {name}', { name: i18n.t('Artifact') }),
               getComp: (cb) => cb(import('project/pages/release/components/form')),
+              layout: { fullHeight: true },
             },
             {
               path: 'updateRelease/:releaseID',
               pageName: i18n.t('edit {name}', { name: i18n.t('Artifact') }),
               getComp: (cb) => cb(import('project/pages/release/components/update')),
+              layout: { fullHeight: true },
             },
           ],
         },

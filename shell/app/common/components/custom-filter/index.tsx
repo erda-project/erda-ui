@@ -37,6 +37,7 @@ interface IFilterProps {
   showButton?: boolean;
 }
 
+/** @deprecated use configurable-filter instead */
 const CustomFilter = (props: IFilterProps) => {
   const {
     config,

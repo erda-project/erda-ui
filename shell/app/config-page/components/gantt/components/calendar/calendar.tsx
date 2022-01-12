@@ -178,7 +178,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
     const HoverBar = ({ style }: { style: Obj }) =>
       highlightRange ? (
         <div
-          className="absolute rounded bg-hover-gray-bg"
+          className="absolute rounded bg-black-06"
           style={{
             width: Math.abs(reHighlightRange.x2 - reHighlightRange.x1),
             height: 40,
@@ -192,7 +192,7 @@ export const Calendar: React.FC<CalendarProps> = React.memo(
     const HoverTime = ({ style }: { style: Obj }) =>
       mousePos ? (
         <div
-          className="absolute rounded bg-hover-gray-bg"
+          className="absolute rounded bg-black-06"
           style={{
             width: columnWidth,
             height: 40,

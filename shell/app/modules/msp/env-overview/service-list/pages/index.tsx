@@ -93,12 +93,12 @@ const CHART_MAP: {
   RPS: [
     {
       key: 'aggregateMetric.avgRps',
-      name: i18n.t('msp:average throughput'),
+      name: i18n.t('msp:average request volume'),
       tips: i18n.t('msp:definition of average rps'),
     },
     {
       key: 'aggregateMetric.maxRps',
-      name: i18n.t('msp:maximum throughput'),
+      name: i18n.t('msp:maximum request volume'),
       tips: i18n.t('msp:definition of maximum rps'),
     },
   ],
@@ -506,7 +506,7 @@ const MicroServiceOverview = () => {
             bordered={false}
             allowClear
             placeholder={i18n.t('msp:search by service name')}
-            className="bg-hover-gray-bg w-72"
+            className="bg-black-06 w-72"
             onChange={(e) => {
               handleChange(e.target.value);
             }}

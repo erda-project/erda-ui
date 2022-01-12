@@ -84,7 +84,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
   const logOperation = [
     {
       title: isFetching ? (
-        <ErdaIcon type="loading" color="black-400" spin className="mr-1.5" />
+        <ErdaIcon type="loading" color="black-4" spin className="mr-1.5" />
       ) : (
         <Tooltip
           title={
@@ -96,7 +96,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
           }
         >
           <ErdaIcon
-            color="black-400"
+            color="black-4"
             size="18"
             type="redo"
             className="mr-1 cursor-pointer"

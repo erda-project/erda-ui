@@ -14,7 +14,7 @@
 import React from 'react';
 import i18n from 'core/i18n';
 import { Tooltip } from 'antd';
-import { MarkdownEditor, EditField } from 'common';
+import { MarkdownEditor, EditField, ErdaIcon } from 'common';
 import remarkGfm from 'remark-gfm';
 import { useUpdate } from 'common/use-hooks';
 import ReactMarkdown from 'react-markdown';
@@ -38,8 +38,6 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
     isEditing: false,
     expandBtnVisible: false,
   });
-
-  const mdContentRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     updater.v(value);
@@ -78,13 +76,22 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
     />
   ) : (
     <div
-      className="relative cursor-pointer rounded w-full"
-      onClick={() => updater.isEditing(true)}
+      className="relative cursor-pointer rounded w-full read-only-markdown"
       style={{ maxHeight: expanded ? '' : maxHeight }}
     >
       <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
-        <div ref={mdContentRef} className="md-content">
-          <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ img: ScalableImage }}>
+        <div className="md-content">
+          <Tooltip title={i18n.t('dop:click to edit')}>
+            <div
+              className={
+                'markdown-edit-button h-8 w-8 fixed bg-white rounded-2xl shadow-card justify-center items-center'
+              }
+              onClick={() => updater.isEditing(true)}
+            >
+              <ErdaIcon type="edit" size={16} className="text-default-4 hover:text-default-8" />
+            </div>
+          </Tooltip>
+          <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ img: ScalableImage }} linkTarget='_blank'>
             {value || i18n.t('no description yet')}
           </ReactMarkdown>
           <div

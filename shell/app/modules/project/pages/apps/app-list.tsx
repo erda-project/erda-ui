@@ -14,17 +14,15 @@
 import { goTo } from 'common/utils';
 import React from 'react';
 import { Button } from 'antd';
-import { PureAppList } from 'application/common/app-list-protocol';
 import { WithAuth, usePerm } from 'app/user/common';
 import i18n from 'i18n';
-import projectStore from 'project/stores/project';
-import { useLoading } from 'core/stores/loading';
+import DiceConfigPage from 'config-page/index';
+import ImgMap from 'config-page/img-map';
+import routeInfoStore from 'core/stores/route';
+import './app-list.scss';
 
 export const ProjectAppList = () => {
-  const [loading] = useLoading(projectStore, ['getProjectApps']);
-  const { getProjectApps } = projectStore.effects;
-  const { clearProjectAppList } = projectStore.reducers;
-
+  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const permMap = usePerm((s) => s.project);
 
   return (
@@ -36,7 +34,31 @@ export const ProjectAppList = () => {
           </Button>
         </WithAuth>
       </div>
-      <PureAppList getList={getProjectApps} clearList={clearProjectAppList} isFetching={loading} isInProject />
+      <DiceConfigPage
+        scenarioType={'app-list-all'}
+        scenarioKey={'app-list-all'}
+        inParams={{
+          projectId,
+        }}
+        customProps={{
+          list: {
+            props: {
+              className: 'px-2',
+              defaultLogo: ImgMap.frontImg_default_app_icon,
+            },
+          },
+          content: {
+            props: {
+              className: 'bg-white p-0 mb-4 prj-app-list',
+            },
+          },
+          filter: {
+            props: {
+              className: 'px-4 py-2',
+            },
+          },
+        }}
+      />
     </React.Fragment>
   );
 };

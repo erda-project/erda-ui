@@ -72,7 +72,6 @@ stages:
           alias: release-ui-enterprise
           version: "1.0"
           params:
-            # tag_version: ${{ outputs.ui-version.version }}
             dice_yml: ${{ dirs.erda-ui-enterprise }}/erda.yml
             image:
               ui: ${{ outputs.build-erda-ui-image.image }}

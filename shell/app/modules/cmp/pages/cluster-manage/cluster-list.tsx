@@ -12,22 +12,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Table, Button, Drawer, Input, Spin } from 'antd';
-import { goTo, insertWhen, notify, setSearch } from 'common/utils';
-import { map, get, find } from 'lodash';
+import { Modal, Button, Drawer, Input, Spin } from 'antd';
+import { goTo, notify, setSearch } from 'common/utils';
+import { get } from 'lodash';
 import AddMachineModal from 'app/modules/cmp/common/components/machine-form-modal';
 import AddCloudMachineModal from './cloud-machine-form-modal';
 import TokenManageModal from './token-manage-modal';
-import { Icon as CustomIcon, Copy, ConfirmDelete } from 'common';
+import { Copy, ConfirmDelete } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import machineStore from 'app/modules/cmp/stores/machine';
 import clusterStore from 'app/modules/cmp/stores/cluster';
 import i18n from 'i18n';
 import { ClusterLog } from './cluster-log';
 import { getClusterOperationHistory } from 'app/modules/cmp/services/machine';
-import { ColumnProps, IActions } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
-import { bgColorClsMap } from 'common/utils/style-constants';
 import { useLoading } from 'core/stores/loading';
 import DiceConfigPage from 'config-page/index';
 
@@ -37,10 +35,6 @@ import './cluster-list.scss';
 
 interface IProps {
   onEdit: (record: any) => void;
-}
-
-interface ICluster {
-  title: string;
 }
 
 export const statusMap = {
@@ -58,7 +52,7 @@ export const manageTypeMap = {
   import: i18n.t('import'),
 };
 
-const ClusterList = ({ onEdit }: IProps) => {
+const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps> = ({ onEdit }: IProps, ref) => {
   const { addCloudMachine } = machineStore.effects;
   const { upgradeCluster, deleteCluster, getRegisterCommand, clusterInitRetry } = clusterStore.effects;
   const [curCluster, setCurCluster] = React.useState<ORG_CLUSTER.ICluster | null>(null);
@@ -79,6 +73,16 @@ const ClusterList = ({ onEdit }: IProps) => {
     deleteClusterName: '',
     registerCommandVisible: false,
   });
+
+  const reloadRef = React.useRef<Obj | null>(null);
+
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      reload: () => reloadRef.current?.reload(),
+    }),
+    [],
+  );
 
   const toggleAddCloudMachine = (cluster?: ORG_CLUSTER.ICluster) => {
     if (cluster) {
@@ -154,6 +158,9 @@ const ClusterList = ({ onEdit }: IProps) => {
             notify('error', curRecord.detail);
           }
         });
+      if (reloadRef.current && reloadRef.current.reload) {
+        reloadRef.current.reload();
+      }
     });
     toggleDeleteModal();
   };
@@ -245,6 +252,7 @@ const ClusterList = ({ onEdit }: IProps) => {
         <DiceConfigPage
           scenarioKey="cmp-cluster-list"
           scenarioType="cmp-cluster-list"
+          ref={reloadRef}
           customProps={{
             list: {
               props: {
@@ -303,4 +311,4 @@ const ClusterList = ({ onEdit }: IProps) => {
   );
 };
 
-export default ClusterList;
+export default React.forwardRef<{ reload: () => void }, IProps>(ClusterList);

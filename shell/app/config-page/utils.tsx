@@ -113,7 +113,7 @@ export const textColorMap = {
 export const getClass = (props: Obj) => {
   return classnames({
     'bg-white': props?.whiteBg,
-    'bg-gray-block-bg': props?.grayBg,
+    'bg-black-02': props?.grayBg,
     'h-full': props?.fullHeight,
     'w-full': props?.fullWidth,
     'flex items-center justify-center': props?.flexCenter,

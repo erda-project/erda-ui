@@ -31,6 +31,7 @@ const ClusterManage = () => {
   const list = clusterStore.useStore((s) => s.list);
   const { addCluster, updateCluster, getClusterList } = clusterStore.effects;
   const [loading] = useLoading(clusterStore, ['getClusterList']);
+  const listRef = React.useRef<Obj | null>(null);
 
   const [
     {
@@ -102,7 +103,7 @@ const ClusterManage = () => {
     toggleAddModalVis();
   };
 
-  const handleAddCluster = (values: any) => {
+  const handleAddCluster = async (values: any) => {
     const { id, credential: credentialData, ...restData } = values;
     const credential =
       credentialData?.content === '********'
@@ -114,7 +115,8 @@ const ClusterManage = () => {
       // urls 中仍有其他配置，后面可能会加入
       updateCluster({ ...values, credential });
     } else {
-      addCluster({ ...restData, credential });
+      await addCluster({ ...restData, credential });
+      listRef.current?.reload();
       if (restData.credentialType === 'proxy') {
         setSearch({ autoOpenCmd: true, clusterName: restData.name }, [], true);
       }
@@ -134,7 +136,7 @@ const ClusterManage = () => {
   return (
     <div className="cluster-manage-ct">
       <Spin spinning={loading}>
-        <ClusterList onEdit={handleShowAddClusterModal} />
+        <ClusterList ref={listRef} onEdit={handleShowAddClusterModal} />
       </Spin>
       <div className="top-button-group">
         <Button onClick={() => goTo('./history')}>{i18n.t('cmp:operation history')}</Button>

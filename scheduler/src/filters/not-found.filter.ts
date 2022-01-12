@@ -29,6 +29,7 @@ const {
   UC_PUBLIC_URL = '',
   ENABLE_BIGDATA = '',
   ENABLE_EDGE = '',
+  ENABLE_APPLY_ORG = '',
   TERMINUS_KEY = '',
   TERMINUS_TA_ENABLE = false,
   TERMINUS_TA_URL = '',
@@ -38,7 +39,7 @@ const {
 
 let newContent = indexHtmlContent.replace(
   '<!-- $ -->',
-  `<script>window.erdaEnv={UC_PUBLIC_URL:"${UC_PUBLIC_URL}",ENABLE_BIGDATA:"${ENABLE_BIGDATA}",ENABLE_EDGE:"${ENABLE_EDGE}",UI_PUBLIC_ADDR:"${UI_PUBLIC_ADDR}"}</script>`,
+  `<script>window.erdaEnv={UC_PUBLIC_URL:"${UC_PUBLIC_URL}",ENABLE_BIGDATA:"${ENABLE_BIGDATA}",ENABLE_EDGE:"${ENABLE_EDGE}",UI_PUBLIC_ADDR:"${UI_PUBLIC_ADDR}",ENABLE_APPLY_ORG:"${ENABLE_APPLY_ORG}"}</script>`,
 );
 if (TERMINUS_TA_ENABLE) {
   const taContent = `

@@ -13,29 +13,23 @@
 
 import { goTo } from 'common/utils';
 import iterationStore from 'app/modules/project/stores/iteration';
-import { DeleteConfirm, Ellipsis } from 'common';
-import ErdaTable from 'common/components/table';
+import { Ellipsis, RadioTabs } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import moment from 'moment';
-import { Button, Progress, Select, Modal } from 'antd';
+import { Button, Progress, Modal } from 'antd';
+import ErdaTable from 'common/components/table';
 import React from 'react';
 import { map, sumBy } from 'lodash';
 import IterationModal from './iteration-modal';
 import { WithAuth, usePerm } from 'user/common';
 import routeInfoStore from 'core/stores/route';
 
-const { Option } = Select;
-
-const iterationOptions = [
-  { cnName: i18n.t('processing'), enName: 'unarchive' },
-  { cnName: i18n.t('archived'), enName: 'archived' },
-].map(({ cnName, enName }) => (
-  <Option key={enName} value={enName}>
-    {cnName}
-  </Option>
-));
+const options = [
+  { value: 'unarchive', label: i18n.t('processing') },
+  { value: 'archived', label: i18n.t('archived') },
+];
 
 export const Iteration = () => {
   const [status, setStatus] = React.useState('unarchive');
@@ -212,6 +206,14 @@ export const Iteration = () => {
           </Button>
         </WithAuth>
       </div>
+      <RadioTabs
+        options={options}
+        value={status}
+        onChange={(v: string) => {
+          setStatus(v);
+        }}
+        className="mb-2"
+      />
       <ErdaTable
         rowKey="id"
         dataSource={list}
@@ -238,11 +240,6 @@ export const Iteration = () => {
             },
           };
         }}
-        slot={
-          <Select className="mb-4 w-52" value={status} onChange={(value: any) => setStatus(value)}>
-            {iterationOptions}
-          </Select>
-        }
       />
       <IterationModal visible={state.modalVisible} data={state.curDetail as ITERATION.Detail} onClose={handleClose} />
     </div>

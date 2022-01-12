@@ -34,11 +34,7 @@ interface IProps {
 }
 
 const AppItem = (app: IApplication) => {
-  return (
-    <Tooltip key={app.id} title={app.name}>
-      {app.displayName || app.name}
-    </Tooltip>
-  );
+  return app.displayName || app.name;
 };
 
 interface IChosenItem {

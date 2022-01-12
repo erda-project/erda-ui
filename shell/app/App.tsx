@@ -17,10 +17,9 @@ import ReactDOM from 'react-dom';
 import { get } from 'lodash';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import { Pagination, message, ConfigProvider } from 'antd';
+import { Pagination, message, ConfigProvider, Modal } from 'antd';
 import antd_zhCN from 'antd/es/locale-provider/zh_CN';
 import antd_enUS from 'antd/es/locale-provider/en_US';
-import { IconProvider, DEFAULT_ICON_CONFIGS } from '@icon-park/react/es/runtime';
 // core modules
 import { isZh } from 'core/i18n';
 import { startApp, registerModule } from 'core/index';
@@ -62,6 +61,11 @@ Pagination.defaultProps = {
   showTotal: (total) => (isZh() ? `共计 ${total} 条` : `total ${total} items`),
 };
 
+Modal.defaultProps = {
+  ...Modal.defaultProps,
+  centered: true,
+};
+
 const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
   setLS('diceLoginState', true);
 
@@ -72,7 +76,9 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
   startApp().then(async (App) => {
     // get the organization info first, or will get org is undefined when need org info (like issueStore)
     const orgName = get(location.pathname.split('/'), '[1]');
-    await orgStore.effects.getOrgByDomain({ orgName });
+    if (orgName) {
+      await orgStore.effects.getOrgByDomain({ orgName });
+    }
     [
       import('layout/entry'),
       import('org/entry'),
@@ -139,11 +145,6 @@ const init = (userData: ILoginUser) => {
       // TODO check if admin has org permissions
       getJoinedOrgs().then((orgResult) => {
         const orgs = orgResult.data?.list || [];
-        if (location.pathname === '/') {
-          // replace to default org
-          const defaultOrgPath = `/${orgs?.[0]?.name || '-'}`;
-          history.replace(defaultOrgPath);
-        }
         start(perRes, orgs);
       });
     });
