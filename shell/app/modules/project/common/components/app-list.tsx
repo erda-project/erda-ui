@@ -59,7 +59,7 @@ export const PureAppList = (props: PureAppListProps) => {
           bordered={false}
           className={`theme-${theme}`}
           value={searchValue}
-          prefix={<ErdaIcon size="16" fill={theme === 'dark' ? 'white-300' : 'default-3'} type="search" />}
+          prefix={<ErdaIcon size="16" fill={theme === 'dark' ? 'white-3' : 'default-3'} type="search" />}
           onChange={(e) => {
             const { value } = e.target;
             updater.searchValue(value);

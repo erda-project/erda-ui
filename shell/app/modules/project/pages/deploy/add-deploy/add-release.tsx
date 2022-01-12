@@ -146,7 +146,7 @@ const ProjectRelease = (props: IReleaseProps) => {
         bordered={false}
         className="theme-dark w-full mb-2"
         value={searchValue}
-        prefix={<ErdaIcon size="16" fill={'white-300'} type="search" />}
+        prefix={<ErdaIcon size="16" fill={'white-3'} type="search" />}
         onChange={(e) => {
           const { value } = e.target;
           setSearchValue(value);
@@ -226,7 +226,7 @@ const AppRelease = (props: IReleaseProps) => {
           bordered={false}
           className="theme-dark w-full "
           value={searchValue}
-          prefix={<ErdaIcon size="16" fill={'white-300'} type="search" />}
+          prefix={<ErdaIcon size="16" fill={'white-3'} type="search" />}
           onChange={(e) => {
             const { value } = e.target;
             setSearchValue(value);
