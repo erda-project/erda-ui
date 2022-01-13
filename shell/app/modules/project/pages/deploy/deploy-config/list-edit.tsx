@@ -212,6 +212,7 @@ const ListEditConfig = (props: IProps) => {
           <ErdaTable
             columns={mergedColumns}
             dataSource={filterValue}
+            rowKey="key"
             hideHeader
             onRow={(record) => ({
               onClick: () => {

@@ -253,7 +253,7 @@ const Params = ({ data }: ISubProps) => {
         : [];
     },
   };
-  return <ErdaTable hideHeader dataSource={data?.params || []} columns={columns} actions={actions} />;
+  return <ErdaTable hideHeader rowKey="key" dataSource={data?.params || []} columns={columns} actions={actions} />;
 };
 
 const Log = ({ data }: ISubProps) => {

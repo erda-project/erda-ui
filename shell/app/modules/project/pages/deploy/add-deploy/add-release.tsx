@@ -129,7 +129,7 @@ const ProjectRelease = (props: IReleaseProps) => {
   const [searchValue, setSearchValue] = React.useState('');
   const [selectedRelease, setSelectedRelease] = React.useState('');
   const getReleaseList = (q?: IReleaseQuery) => {
-    getList({ q: searchValue, pageNo: 1, ...q });
+    getList({ isProjectRelease: true, q: searchValue, pageNo: 1, ...q });
   };
 
   React.useEffect(() => {
@@ -186,7 +186,13 @@ const AppRelease = (props: IReleaseProps) => {
   const [selectedApp, setSelectedApp] = React.useState<IApplication | null>(null);
   const getReleaseList = (q?: IReleaseQuery) => {
     selectedAppRef.current &&
-      getList({ q: searchValue, pageNo: 1, applicationId: `${selectedAppRef.current.id}`, ...q });
+      getList({
+        isProjectRelease: false,
+        q: searchValue,
+        pageNo: 1,
+        applicationId: `${selectedAppRef.current.id}`,
+        ...q,
+      });
   };
 
   const debouncedChange = React.useRef(debounce(getReleaseList, 1000));
