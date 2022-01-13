@@ -26,8 +26,7 @@
     "http-proxy-middleware": "^2.0.1",
     "query-string": "^7.0.1",
     "reflect-metadata": "^0.1.13",
-    "winston": "^3.3.3",
-    "ws": "^8.4.0"
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@babel/plugin-transform-async-to-generator": "^7.13.0",

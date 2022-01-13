@@ -64,6 +64,7 @@ const getEnv = () => {
       UC_BACKEND_URL: process.env.KRATOS_ADDR,
       GITTAR_ADDR: process.env.GITTAR_ADDR,
       ENTERPRISE_URL: process.env.ENTERPRISE_UI_ADDR,
+      FDP_URL: process.env.FDP_UI_ADDR,
     };
   }
 
@@ -77,6 +78,7 @@ const getEnv = () => {
       ENTERPRISE_URL: string;
       GITTAR_ADDR?: string;
       MODULES?: string;
+      FDP_URL?: string;
       SCHEDULER_URL?: string;
       SCHEDULER_PORT?: number;
     },

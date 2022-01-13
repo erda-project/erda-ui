@@ -20,7 +20,7 @@ import qs from 'query-string';
 const isProd = process.env.NODE_ENV === 'production';
 
 const { envConfig } = getEnv();
-const { BACKEND_URL, GITTAR_ADDR, UC_BACKEND_URL, ENTERPRISE_URL } = envConfig;
+const { BACKEND_URL, GITTAR_ADDR, UC_BACKEND_URL, ENTERPRISE_URL, FDP_URL } = envConfig;
 
 const API_URL = BACKEND_URL.startsWith('http') ? BACKEND_URL : `http://${BACKEND_URL}`;
 const UC_API_URL = UC_BACKEND_URL.startsWith('http') ? UC_BACKEND_URL : `http://${UC_BACKEND_URL}`;
@@ -109,7 +109,10 @@ export const createProxyService = (app: INestApplication) => {
       },
     ),
   );
-  let dataServiceUIAddr = isProd ? process.env.FDP_UI_ADDR : API_URL;
+  if ((!process.env.FOR_COMMUNITY || process.env.FOR_COMMUNITY === 'false') && !FDP_URL) {
+    logger.warn('FDP_URL is not set, will cause error in EE');
+  }
+  let dataServiceUIAddr = FDP_URL || API_URL;
   dataServiceUIAddr = dataServiceUIAddr.startsWith('http') ? dataServiceUIAddr : `http://${dataServiceUIAddr}`;
   app.use(
     '/fdp-app/',
