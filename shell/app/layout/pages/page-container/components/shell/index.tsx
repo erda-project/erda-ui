@@ -30,7 +30,11 @@ const Shell = ({ children, breadcrumb, announcement, navigation, sidebar, classN
       <div className="erda-nav h-full">{navigation}</div>
       {sidebar}
       {(breadcrumb || announcement) && (
-        <div className="absolute flex items-center justify-between z-10 top-0 left-28 right-4">
+        <div
+          className={`absolute flex items-center justify-between z-10 top-0 ${
+            sidebar ? 'left-28' : 'left-[72px]'
+          } right-4`}
+        >
           {breadcrumb}
           {announcement}
         </div>
