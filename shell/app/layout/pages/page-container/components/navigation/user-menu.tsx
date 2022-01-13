@@ -52,7 +52,7 @@ const UserMenu = ({
     {
       icon: <ErdaIcon className="mr-1" type="tuichu" size="16" />,
       title: i18n.t('layout:logout'),
-      onClick: userStore.effects.logout,
+      onClick: () => userStore.effects.logout(),
       danger: true,
     },
   ];

@@ -44,7 +44,7 @@ export const CardItem = (props: CardItemProps) => {
     onClick,
     draggable,
     defaultImg,
-    width = 280,
+    width,
   } = props;
 
   const {
@@ -185,6 +185,7 @@ export const Card = (props: CP_CARD.Props) => {
   const {
     cardType = 'cp-card',
     className = '',
+    itemClassName = '',
     setIsDrag,
     direction = 'row',
     CardRender,
@@ -274,6 +275,7 @@ export const Card = (props: CP_CARD.Props) => {
                         }
                       : {}),
                   }}
+                  className={itemClassName}
                   defaultImg={defaultImg}
                   cardType={cardType}
                   setIsDrag={setIsDrag}
