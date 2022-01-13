@@ -239,8 +239,14 @@ const ConfigurableFilter = ({
     </div>
   );
 
+  const isAllOpen = !!(
+    value &&
+    !isEmpty(value) &&
+    Object.keys(value).find((key) => value[key] && !isEmpty(value[key]))
+  );
+
   return (
-    <div className={`flex items-center ${value && !isEmpty(value) ? 'erda-config-filter-btn-active' : ''}`}>
+    <div className={`flex items-center ${isAllOpen ? 'erda-config-filter-btn-active' : ''}`}>
       <Popover
         content={content}
         visible={visible}
@@ -253,12 +259,12 @@ const ConfigurableFilter = ({
           className={`erda-configurable-filter-btn p-1 rounded-sm leading-none cursor-pointer bg-hover`}
           onClick={() => setVisible(true)}
         >
-          <Badge dot={!!(value && !isEmpty(value))}>
+          <Badge dot={isAllOpen}>
             <ErdaIcon type="shaixuan" color="currentColor" size={20} />
           </Badge>
         </div>
       </Popover>
-      {value && !isEmpty(value) ? (
+      {isAllOpen ? (
         <div
           className="erda-configurable-filter-clear-btn p-1 rounded-sm leading-none cursor-pointer"
           onClick={() => {
