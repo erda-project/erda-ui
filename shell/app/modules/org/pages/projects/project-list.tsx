@@ -21,7 +21,7 @@ import { Filter, ErdaIcon, ErdaAlert } from 'common';
 import { useUnmount } from 'react-use';
 import { PAGINATION } from 'app/constants';
 import projectStore from 'project/stores/project';
-import { exportProjectTemplate } from 'org/services/project-list';
+import { exportProjectTemplate, importExportProjectRecord } from 'org/services/project-list';
 import { useLoading } from 'core/stores/loading';
 import { OperationProjectRecords } from './operation-project-record';
 import orgStore from 'app/org-home/stores/org';
@@ -55,6 +55,7 @@ export const ProjectList = () => {
     asc: false,
   });
   const [visible, setVisible] = React.useState(false);
+  const [isClickExport, setIsClickExport] = React.useState(false);
 
   useUnmount(() => {
     clearProjectList();
@@ -130,10 +131,17 @@ export const ProjectList = () => {
           title: i18n.t('export'),
           onClick: () => {
             exportProjectTemplate.fetch({ orgID, projectID: record.id }).then(() => {
-              message.success(
-                i18n.t('dop:The export task has been created, please check the progress in the record'),
-                4,
-              );
+              message
+                .success(i18n.t('dop:The export task has been created, please check the progress in the record'), 4)
+                .then(() => {
+                  importExportProjectRecord.fetch({
+                    orgID,
+                    types: ['projectTemplateExport'],
+                    pageNo: 1,
+                    pageSize: searchObj.pageSize,
+                  });
+                });
+              setIsClickExport(true);
               setVisible(true);
             });
           },
@@ -255,7 +263,12 @@ export const ProjectList = () => {
           onChange={handleTableChange}
         />
       </Spin>
-      <OperationProjectRecords visible={visible} setVisible={setVisible} />
+      <OperationProjectRecords
+        visible={visible}
+        setVisible={setVisible}
+        isClickExport={isClickExport}
+        setIsClickExport={setIsClickExport}
+      />
     </div>
   );
 };

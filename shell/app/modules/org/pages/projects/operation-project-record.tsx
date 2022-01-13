@@ -30,6 +30,8 @@ import { map } from 'lodash';
 interface IProps {
   visible: boolean;
   setVisible: (visible: boolean) => void;
+  isClickExport: boolean;
+  setIsClickExport: (isClickExport: boolean) => void;
 }
 interface IState {
   pageNo: number;
@@ -70,11 +72,11 @@ const stateMap = {
   },
 };
 
-export const OperationProjectRecords = ({ visible, setVisible }: IProps) => {
+export const OperationProjectRecords = ({ visible, setVisible, isClickExport, setIsClickExport }: IProps) => {
   const orgID = orgStore.getState((s) => s.currentOrg.id);
   const [handleProjectRecord, handleRecordLoading] = importExportProjectRecord.useState();
   const userMap = useUserMap();
-  const [activeKey, setActiveKey] = React.useState('all' as string);
+  const [activeKey, setActiveKey] = React.useState('all');
   const [hasError, setHasError] = React.useState(false);
   const [isFinished, setIsFinished] = React.useState(false);
   const [searchObj, setSearchObj] = React.useState<IState>({
@@ -97,6 +99,9 @@ export const OperationProjectRecords = ({ visible, setVisible }: IProps) => {
       .then((res) => {
         if (res.data?.list.every((item) => ['success', 'fail'].includes(item.state))) {
           setIsFinished(true);
+        }
+        if (res.data?.list.some((item) => !['success', 'fail'].includes(item.state))) {
+          setIsFinished(false);
         }
       })
       .catch(() => {
@@ -123,6 +128,12 @@ export const OperationProjectRecords = ({ visible, setVisible }: IProps) => {
   );
 
   React.useEffect(() => getImportExportProjectRecord(), [activeKey, getImportExportProjectRecord, orgID, searchObj]);
+
+  React.useEffect(() => {
+    if (isClickExport) {
+      setActiveKey('export');
+    }
+  }, [isClickExport]);
 
   const recordColumns = [
     {
@@ -271,6 +282,7 @@ export const OperationProjectRecords = ({ visible, setVisible }: IProps) => {
         onClose={() => {
           setVisible(false);
           setActiveKey('all');
+          setIsClickExport(false);
         }}
         visible={visible}
         destroyOnClose
