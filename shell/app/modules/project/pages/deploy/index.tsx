@@ -50,7 +50,7 @@ interface IState {
   logVisible: boolean;
   deployDetail: PROJECT_DEPLOY.DeployDetail | undefined;
   selectedOrder: string;
-  selectedRelease: string;
+  selectedRelease: { id: string; releaseId: string } | undefined;
   urlQuery: Obj<{ [key: string]: string }>;
 }
 
@@ -90,6 +90,7 @@ const DeployContainer = () => {
       <DeployContent key={env} projectId={projectId} env={env} />
       <ConfigDrawer
         key={configEnv}
+        projectId={projectId}
         visible={configDrawerVis}
         onClose={() => update({ configEnv: '', configDrawerVis: false })}
         env={configEnv}
@@ -121,7 +122,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
     logData: undefined,
     searchValue: '',
     deployDetail: undefined,
-    selectedRelease: '',
+    selectedRelease: undefined,
     selectedOrder: '',
     urlQuery: query,
   });
@@ -180,7 +181,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
     debounceChange.current({ q: searchValue });
   }, [searchValue]);
 
-  const getDeployDetailFunc = (deploymentOrderId: string) => {
+  const getDeployDetailFunc = React.useCallback((deploymentOrderId: string) => {
     getDeployOrderDetail.fetch({ deploymentOrderId }).then((res) => {
       if (res.data) {
         update({
@@ -189,7 +190,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
         });
       }
     });
-  };
+  }, []);
 
   const inParams = {
     projectId,
@@ -208,6 +209,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
             e.stopPropagation();
             startDeploy.fetch({ deploymentOrderID }).then(() => {
               getDeployOrdersFunc();
+              deployDetail && getDeployDetailFunc(deployDetail.id);
             });
           }}
         >
@@ -222,6 +224,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
             e.stopPropagation();
             startDeploy.fetch({ deploymentOrderID }).then(() => {
               getDeployOrdersFunc();
+              deployDetail && getDeployDetailFunc(deployDetail.id);
             });
           }}
         >
@@ -235,6 +238,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
             e.stopPropagation();
             cancelDeploy.fetch({ deploymentOrderID, force: true }).then(() => {
               getDeployOrdersFunc();
+              deployDetail && getDeployDetailFunc(deployDetail.id);
             });
           }}
         >
@@ -242,7 +246,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
         </Button>
       ),
     }),
-    [getDeployOrdersFunc],
+    [getDeployOrdersFunc, getDeployDetailFunc, deployDetail],
   );
 
   const userMap = useUserMap();
@@ -259,7 +263,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
           {
             mainText: item.applicationStatus,
             subText: i18n.t('application'),
-            subTip: i18n.t('dop:deploy failed applications count / applications count'),
+            subTip: i18n.t('dop:deploy succeeded applications count / applications count'),
           },
 
           { mainText: item.releaseVersion || item.releaseId, subText: i18n.t('Artifact') },
@@ -269,12 +273,13 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
             {curUser?.nick ? getAvatarChars(curUser.nick) : i18n.t('none')}
           </Avatar>
         ),
-        buttonOperation: deployOrderOpMap[curStatus.op]?.(item.id),
+        buttonOperation: item.type !== 'PIPELINE' ? deployOrderOpMap[curStatus.op]?.(item.id) : undefined,
       };
     });
   }, [userMap, deployOrders, deployOrderOpMap]);
 
-  const curDetailStatus = deployDetail?.status && deployOrderStatusMap[deployDetail?.status];
+  const curDetailStatus =
+    deployDetail?.type !== 'PIPELINE' && deployDetail?.status && deployOrderStatusMap[deployDetail?.status];
   const closeAddDrawer = () => updater.addDrawerVisible(false);
   return (
     <>
@@ -338,8 +343,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
           <div className="mt-2 px-4">
             <Input
               size="small"
-              bordered={false}
-              className="border-0 bg-black-02"
+              className="bg-black-06 border-none"
               value={searchValue}
               prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
               onChange={(e) => {
@@ -415,10 +419,11 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
               className="mr-2"
               disabled={!selectedRelease}
               onClick={() => {
-                createDeploy.fetch({ workspace: env, releaseId: selectedRelease }).then(() => {
-                  getDeployOrdersFunc();
-                  closeAddDrawer();
-                });
+                selectedRelease &&
+                  createDeploy.fetch({ workspace: env, ...selectedRelease }).then(() => {
+                    getDeployOrdersFunc();
+                    closeAddDrawer();
+                  });
               }}
             >
               {i18n.t('create')}
@@ -427,7 +432,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
           </div>
         }
       >
-        <AddDeploy onSelect={(v: string) => updater.selectedRelease(v)} />
+        <AddDeploy onSelect={(v: { id: string; releaseId: string }) => updater.selectedRelease(v)} />
       </Drawer>
 
       <Drawer visible={logVisible} width={'80%'} onClose={() => update({ logVisible: false, logData: undefined })}>

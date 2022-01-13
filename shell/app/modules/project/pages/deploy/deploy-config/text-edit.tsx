@@ -14,7 +14,8 @@
 import React from 'react';
 import { FileEditor } from 'common';
 import { Button } from 'antd';
-import { uniq } from 'lodash';
+import { uniq, intersection } from 'lodash';
+import { ConfigTypeMap } from '../config';
 import { isValidJsonStr } from 'common/utils';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
@@ -22,6 +23,7 @@ import i18n from 'i18n';
 interface IProps {
   slot?: React.ReactElement;
   configData: PIPELINE_CONFIG.ConfigItem[];
+  fullConfigData: PIPELINE_CONFIG.ConfigItem[];
   updateConfig: (data: PIPELINE_CONFIG.ConfigItem[]) => Promise<any>;
   onChange?: (val: string) => void;
   onEditChange?: (isEdit: boolean) => void;
@@ -36,24 +38,30 @@ const convertData = (data: PIPELINE_CONFIG.ConfigItem[]) => {
   }));
 };
 
-const validateSameKey = (val: string) => {
+const validateSameKey = (val: string, fullConfigData: PIPELINE_CONFIG.ConfigItem[] = []) => {
   const valData = JSON.parse(val);
   const keys = valData.map((item) => item.key);
+  const otherKeys = fullConfigData.filter((item) => item.type !== ConfigTypeMap.kv.key).map((item) => item.key);
   if (uniq(keys).length !== keys.length) {
     return i18n.t('the same {key} exists', { key: 'key' });
+  } else if (intersection(keys, otherKeys).length) {
+    return i18n.t('{name} already exists in {place}', {
+      name: intersection(keys, otherKeys).join(','),
+      place: i18n.t('common:other type'),
+    });
   }
   return '';
 };
 
 const TextEditConfig = (props: IProps) => {
-  const { slot, configData, onChange, updateConfig, onEditChange } = props;
+  const { slot, configData, onChange, updateConfig, onEditChange, fullConfigData } = props;
   const [value, setValue] = React.useState(JSON.stringify(convertData(configData), null, 2));
 
   React.useEffect(() => {
     setValue(JSON.stringify(convertData(configData), null, 2));
   }, [configData]);
 
-  const unvalidInfo = isValidJsonStr(value) ? validateSameKey(value) : i18n.t('dop:JSON format error');
+  const unvalidInfo = isValidJsonStr(value) ? validateSameKey(value, fullConfigData) : i18n.t('dop:JSON format error');
   const isUpdated = React.useMemo(
     () => !isValidJsonStr(value) || JSON.stringify(JSON.parse(value)) !== JSON.stringify(convertData(configData)),
     [value, configData],

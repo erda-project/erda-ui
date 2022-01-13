@@ -97,7 +97,12 @@ const DeployDetail = (props: IProps) => {
   const tabs = {
     base: { key: 'base', text: i18n.t('dop:basic information'), Comp: <BaseInfo data={selectedApp} /> },
     params: { key: 'params', text: i18n.t('dop:parameter information'), Comp: <Params data={selectedApp} /> },
-    log: { key: 'log', text: i18n.t('dop:system log'), Comp: <Log data={selectedApp} /> },
+    log: {
+      key: 'log',
+      ...(!selectedApp?.deploymentId ? { disabled: true, tip: i18n.t('common:no data') } : {}),
+      text: i18n.t('dop:system log'),
+      Comp: <Log data={selectedApp} />,
+    },
   };
 
   return (
@@ -119,17 +124,13 @@ const DeployDetail = (props: IProps) => {
               }}
               width={160}
             >
-              <div className="flex items-center truncate w-[100px] text-default-3 hover:text-default-8 ">
+              <div className="flex h-[28px] rounded-sm  bg-default-06 items-center px-2 truncate w-[100px] text-default-3 hover:text-default-8 ">
                 <span className="truncate text-default font-bold">{selectedApp?.name || i18n.t('please select')}</span>
                 <ErdaIcon type="caret-down" className="ml-1" size="14" />
               </div>
             </DropdownSelectNew>
             <div className="w-px h-3 bg-default-1 ml-3 mr-4" />
-            <SimpleTabs
-              tabs={map(tabs, (tab) => ({ key: tab.key, text: tab.text }))}
-              onSelect={setSelectedType}
-              value={selectedType}
-            />
+            <SimpleTabs tabs={tabs} onSelect={setSelectedType} value={selectedType} />
           </div>
           <div className="mt-3  flex-1 overflow-auto">{tabs[selectedType].Comp || null}</div>
         </div>

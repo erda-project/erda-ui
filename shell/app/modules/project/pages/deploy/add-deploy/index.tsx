@@ -23,7 +23,7 @@ import AddRelease from './add-release';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 
-const AddDeploy = ({ onSelect: propsOnSelect }: { onSelect: (v: string) => void }) => {
+const AddDeploy = ({ onSelect: propsOnSelect }: { onSelect: (v: { id: string; releaseId: string }) => void }) => {
   const { env: routeEnv } = routeInfoStore.useStore((s) => s.params);
   const env = routeEnv?.toUpperCase();
   const [selectedRelease, setSelectedRelease] = React.useState('');
@@ -33,8 +33,10 @@ const AddDeploy = ({ onSelect: propsOnSelect }: { onSelect: (v: string) => void 
   const [detail] = getReleaseRenderDetail.useState();
 
   useUpdateEffect(() => {
-    selectedRelease && getReleaseRenderDetail.fetch({ releaseID: selectedRelease, workspace: env });
-    propsOnSelect(selectedRelease);
+    selectedRelease &&
+      getReleaseRenderDetail.fetch({ releaseID: selectedRelease, workspace: env }).then((res) => {
+        res.data?.id && propsOnSelect({ releaseId: selectedRelease, id: res.data?.id });
+      });
   }, [selectedRelease, env]);
 
   React.useEffect(() => {
@@ -119,7 +121,7 @@ const AddDeploy = ({ onSelect: propsOnSelect }: { onSelect: (v: string) => void 
                 }}
                 width={160}
               >
-                <div className="flex items-center truncate w-[100px] text-default-3 hover:text-default-8">
+                <div className="flex h-[28px] rounded-sm  bg-default-06 px-2 items-center truncate w-[100px] text-default-3 hover:text-default-8">
                   <span className="truncate text-default font-bold">
                     {selectedApp?.name || i18n.t('please select')}
                   </span>

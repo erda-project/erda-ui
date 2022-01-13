@@ -67,11 +67,11 @@ export const chosenItemConvert = (values: IChosenItem[] | IChosenItem) => {
 };
 
 export const AppSelector = (props: IProps) => {
-  const { projectId: _projectId, autoSelect = false, ...rest } = props;
+  const { projectId: _projectId, autoSelect = false, getData: propsGetData, ...rest } = props;
   const pId = routeInfoStore.useStore((s) => s.params.projectId);
   useMount(() => {
     if (autoSelect && !rest.value) {
-      getData().then((res) => {
+      (propsGetData || getData)().then((res) => {
         const curApp = res.list?.[0];
         if (curApp) {
           rest.onClickItem?.(curApp);
@@ -89,7 +89,7 @@ export const AppSelector = (props: IProps) => {
 
   return (
     <LoadMoreSelector
-      getData={getData}
+      getData={propsGetData || getData}
       dropdownMatchSelectWidth={false}
       placeholder={i18n.t('common:search by {name}', { name: i18n.t('application') })}
       dataFormatter={({ list, total }) => ({

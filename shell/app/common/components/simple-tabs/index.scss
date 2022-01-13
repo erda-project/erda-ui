@@ -6,8 +6,10 @@
     color: $color-default;
     &:hover,
     &.selected {
-      font-weight: bold;
-      border-bottom-color: $color-purple-highlight;
+      &:not(.not-allowed) {
+        font-weight: bold;
+        border-bottom-color: $color-purple-highlight;
+      }
     }
   }
   &.theme-dark {

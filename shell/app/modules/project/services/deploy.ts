@@ -60,5 +60,5 @@ export const cancelDeploy = apiCreator<
 >(apis.cancelDeploy);
 
 export const createDeploy = apiCreator<
-  (params: { releaseId: string; workspace: string }) => PROJECT_DEPLOY.DeployOrder
+  (params: { releaseId: string; workspace: string; id: string }) => PROJECT_DEPLOY.DeployOrder
 >(apis.createDeploy);

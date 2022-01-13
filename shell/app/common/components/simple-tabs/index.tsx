@@ -12,11 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
+import { Tooltip } from 'antd';
 import { map } from 'lodash';
 import './index.scss';
 
 interface IProps {
-  tabs: Array<{ key: string; text: string }>;
+  tabs: Array<{ key: string; text: string; disabled?: boolean; tip?: string }>;
   onSelect: (key: string) => void;
   value: string;
   className?: string;
@@ -31,10 +32,14 @@ const SimpleTabs = (props: IProps) => {
         return (
           <div
             key={item.key}
-            className={`mr-6 common-simple-tabs-item cursor-pointer ${value === item.key ? 'selected' : ''}`}
-            onClick={() => onSelect(item.key)}
+            className={`mr-6 common-simple-tabs-item cursor-pointer ${value === item.key ? 'selected' : ''} ${
+              item.disabled ? 'not-allowed' : ''
+            }`}
+            onClick={() => !item.disabled && onSelect(item.key)}
           >
-            {item.text}
+            <Tooltip title={item.tip}>
+              <span>{item.text}</span>
+            </Tooltip>
           </div>
         );
       })}

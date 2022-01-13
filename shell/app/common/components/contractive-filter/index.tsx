@@ -864,7 +864,7 @@ const ContractiveFilter = ({
             setCloseAll(false);
           }}
         >
-          {!item.fixed && (
+          {!item.fixed && item.type!=='input' && (
             <ErdaIcon
               fill="gray"
               color="gray"
