@@ -1,0 +1,38 @@
+.import-project-template {
+  font-family: 'PingFangSC-Regular';
+  line-height: 22px;
+
+  .ant-upload-list-text-container {
+    margin-top: -8px;
+
+    .ant-upload-list-item {
+      display: flex;
+      align-items: center;
+      margin-top: 0;
+
+      .ant-upload-list-item-info {
+        color: $color-default;
+
+        &:hover {
+          background-color: $color-default-01;
+        }
+        .ant-upload-list-item-name {
+          color: $color-default;
+        }
+      }
+      .ant-upload-text-icon {
+        display: flex;
+        align-items: center;
+      }
+      .ant-btn-text {
+        &:hover {
+          background-color: transparent;
+        }
+      }
+
+      .ant-upload-list-item-card-actions-btn {
+        opacity: 1;
+      }
+    }
+  }
+}
