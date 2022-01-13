@@ -36,76 +36,32 @@
 
   .homepage-header {
     height: 120px;
-    position: relative;
-    margin-bottom: 56px;
     border-radius: 2px 2px 0 0;
-
-    .project-icon {
-      position: absolute;
-      width: 76px;
-      height: 76px;
-      bottom: -38px;
-      left: 16px;
-      border: 6px $white solid;
-      box-shadow: 0 2px 7px 0 rgba($color-default, 0.16);
-      border-radius: 2px;
-
-      .big-icon {
-        border-radius: 2px;
-        box-shadow: 0 0 0 4px $white;
-      }
-    }
-
-    .project-name {
-      position: absolute;
-      bottom: -38px;
-      left: 108px;
-      font-size: 30px;
-      color: $color-default;
-      letter-spacing: 0;
-      line-height: 38px;
-    }
   }
 
   .read-only-markdown {
     .markdown-edit-button {
-      display: none;
-      right: 380px;
-      top: 228px;
+      opacity: 0;
+      right: 396px;
+      top: 272px;
       z-index: 2;
     }
 
     &:hover {
       .markdown-edit-button {
-        display: flex;
+        opacity: 1;
       }
     }
   }
 
-  .homepage-body {
-    .homepage-info {
-      width: 280px;
+  .homepage-info {
+    border-left: 1px solid $color-default-04;
 
-      .info-title {
-        font-family: 'PingFangSC-Medium';
-        font-size: 14px;
-        color: $color-default;
-        letter-spacing: 0;
-        line-height: 22px;
-        margin-bottom: 12px;
-      }
-
-      .info-brief {
-        line-height: 22px;
-      }
-
-      .homepage-link {
-        span {
-          color: #424CA6,
-        }
-      }
+    .info-brief {
+      line-height: 22px;
     }
   }
+
   .markdown-editor .markdown-editor-content .rc-md-editor .editor-container {
     padding: 0;
   }

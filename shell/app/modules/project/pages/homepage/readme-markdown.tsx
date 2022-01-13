@@ -24,7 +24,7 @@ interface IMdProps {
   value?: string;
   originalValue?: string;
   disabled?: boolean;
-  maxHeight: number;
+  maxHeight?: number;
   onChange: (v: string) => void;
   onSave: (v: string) => void;
 }
@@ -80,22 +80,20 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
       style={{ maxHeight: expanded ? '' : maxHeight }}
     >
       <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
-        <div className="md-content">
+        <div className="md-content p-0">
           <Tooltip title={i18n.t('dop:click to edit')}>
             <div
-              className={
-                'markdown-edit-button h-8 w-8 fixed bg-white rounded-2xl shadow-card justify-center items-center'
-              }
+              className={'markdown-edit-button flex-all-center h-8 w-8 fixed bg-white rounded-2xl shadow-card'}
               onClick={() => updater.isEditing(true)}
             >
               <ErdaIcon type="edit" size={16} className="text-default-4 hover:text-default-8" />
             </div>
           </Tooltip>
-          <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ img: ScalableImage }} linkTarget='_blank'>
+          <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ img: ScalableImage }} linkTarget="_blank">
             {value || i18n.t('no description yet')}
           </ReactMarkdown>
           <div
-            className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex justify-center items-center ${
+            className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex-all-center ${
               !expandBtnVisible || expanded ? 'hidden' : ''
             }`}
           />

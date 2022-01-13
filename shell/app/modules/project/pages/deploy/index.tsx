@@ -370,7 +370,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
                           {moment(card.time).format('YYYY-MM-DD HH:mm:ss')}
                         </span>
                         <CardItem
-                          className={selectedOrder === card.id ? 'bg-default-06' : ''}
+                          className={`animate-border ${selectedOrder === card.id ? 'bg-default-06' : ''}`}
                           card={card}
                           onClick={() => {
                             getDeployDetailFunc(card.id);
