@@ -79,14 +79,17 @@ const PipelineProtocol = ({ application }: IProps) => {
           },
           pipelineTable: {
             op: {
-              clickRow: async (record: { id: string }) => {
-                if (record.id && record.id !== '0') {
-                  const res = await getINodeByPipelineId({ pipelineId: record.id });
+              clickRow: async (record: { pipelineID: { data: { text: string } } }) => {
+                const { pipelineID } = record;
+                const { data } = pipelineID;
+                const { text: pipelineId } = data;
+                if (pipelineId && pipelineId !== '-') {
+                  const res = await getINodeByPipelineId({ pipelineId });
                   const inode = res?.data?.inode;
                   updateTreeNodeDetail(res.data);
-                  const response = await getPipelineDetail({ pipelineID: +record.id });
+                  const response = await getPipelineDetail({ pipelineID: +pipelineId });
                   const { applicationID: appId, applicationName, projectName } = response.data;
-                  inode && updateSearch({ nodeId: inode, applicationId: appId, pipelineID: record.id });
+                  inode && updateSearch({ nodeId: inode, applicationId: appId, pipelineID: pipelineId });
                   setDetail({ id: inode, appId });
                   updateAppDetail({ id: appId, gitRepoAbbrev: `${projectName}/${applicationName}` });
                   setDetailVisible(true);
