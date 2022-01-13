@@ -16,7 +16,9 @@ import path from 'path';
 import { Command } from 'commander';
 import inquirer from 'inquirer';
 import build from '../lib/build';
+import buildEnterprise from '../lib/build-enterprise';
 import buildOnline from '../lib/build-online';
+import buildEnterpriseOnline from '../lib/build-enterprise-online';
 import addLicense from '../lib/add-license';
 import checkLicense from '../lib/check-license';
 import init from '../lib/init';
@@ -40,12 +42,11 @@ program
   .option('-b, --backendUrl <backendUrl>', 'set backend(api) url')
   .option('-o, --override', 'ignore current .env file and override')
   .option('--online', 'is online execution')
-  .option('--ce', 'build community edition')
   .option('--skipInstall', 'whether to skip the installation step')
   .action(async (options) => {
-    const { online, ce, ...restOptions } = options;
+    const { online, ...restOptions } = options;
     if (online) {
-      initOnline({ ce });
+      initOnline();
     } else {
       init(restOptions);
     }
@@ -58,16 +59,17 @@ program
   )
   .option('--enableSourceMap', 'generate source map, default is false')
   .option('--online', 'whether is online build, default is false')
-  .option('--ce', 'build community edition')
+  .option('--enterprise', 'whether is enterprise build, default is false')
   .option('--release', 'whether need build docker image & push, default is false')
   .option('--registry', 'docker registry address which to push')
   .option('--skipBuild', 'skip build and only run docker build & push command. Only take effect when --release is set')
   .action(async (options) => {
-    const { online, ce, ...restOptions } = options;
+    const { online, enterprise, ...restOptions } = options;
     if (online) {
-      buildOnline({ ce });
+      buildOnline();
+      enterprise ? buildEnterpriseOnline() : buildOnline();
     } else {
-      build(restOptions);
+      enterprise ? buildEnterprise(restOptions) : build(restOptions);
     }
   });
 
