@@ -58,7 +58,7 @@ const App = () => {
   // register enterprise remotes
   const [scriptSource, setScriptSource] = React.useState<{ url?: string; remoteName?: string }>({});
   const [loadedSource, setLoadedSource] = React.useState<string[]>([]);
-  const { ready, failed } = useDynamicScript(scriptSource);
+  const { ready } = useDynamicScript(scriptSource);
 
   React.useEffect(() => {
     const currentModule = matchEnterpriseRoute();
