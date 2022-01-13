@@ -66,7 +66,6 @@ program
   .action(async (options) => {
     const { online, enterprise, ...restOptions } = options;
     if (online) {
-      buildOnline();
       enterprise ? buildEnterpriseOnline() : buildOnline();
     } else {
       enterprise ? buildEnterprise(restOptions) : build(restOptions);
