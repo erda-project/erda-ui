@@ -124,7 +124,7 @@ const build = createStore({
       payload: { branch: string; source: string; pageNo: number; pagingYmlNames: string[] },
     ) {
       const { applicationId } = getQuery();
-      const { _appId } = getParams();
+      const { appId: _appId } = getParams();
       const appId = _appId || applicationId;
       const { branch, source, pageNo, pagingYmlNames } = payload;
       const pagingYmlNamesStr = (pagingYmlNames || []).join(',');
