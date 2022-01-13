@@ -223,7 +223,7 @@ const OverView = () => {
         <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium mt-2">
           {i18n.t('msp:service request overview')}
         </div>
-        <div className="px-5 pt-1">
+        <div className="px-4 pt-1 pb-3">
           <Row gutter={8}>
             {chartConfig.map((item) => {
               return (
@@ -265,8 +265,14 @@ const OverView = () => {
             inParams={{ tenantId, serviceId, startTime: range.startTimeMs, endTime: range.endTimeMs }}
             fullHeight={false}
             customProps={{
+              page: {
+                props: {
+                  className: 'px-2',
+                },
+              },
               grid: {
                 props: {
+                  gutter: 8,
                   span: [8, 8, 8, 8, 8, 8],
                 },
               },
