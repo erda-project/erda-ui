@@ -22,6 +22,7 @@ import { getINodeByPipelineId, getPipelineDetail } from 'application/services/bu
 import PipelineForm from './form';
 import PipelineBasic from './basic';
 import PipelineRunDetail from 'application/pages/pipeline/run-detail';
+import appStore from 'application/stores/application';
 
 interface IProps {
   application: { ID: number; name?: string };
@@ -32,10 +33,11 @@ const { TabPane } = Tabs;
 const PipelineProtocol = ({ application }: IProps) => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const { updateTreeNodeDetail } = fileTreeStore;
+  const { updateAppDetail } = appStore.reducers;
   const { ID: applicationID } = application;
   const inParams = {
-    projectID: +projectId,
-    applicationID,
+    projectId,
+    appId: `${applicationID}`,
   };
 
   const [visible, setVisible] = React.useState(false);
@@ -78,14 +80,17 @@ const PipelineProtocol = ({ application }: IProps) => {
           pipelineTable: {
             op: {
               clickRow: async (record: { id: string }) => {
-                const res = await getINodeByPipelineId({ pipelineId: record.id });
-                const inode = res?.data?.inode;
-                updateTreeNodeDetail(res.data);
-                const response = await getPipelineDetail({ pipelineID: +record.id });
-                const appId = response.data.applicationID;
-                inode && updateSearch({ nodeId: inode, applicationId: appId, pipelineID: record.id });
-                setDetail({ id: inode, appId });
-                setDetailVisible(true);
+                if (record.id) {
+                  const res = await getINodeByPipelineId({ pipelineId: record.id });
+                  const inode = res?.data?.inode;
+                  updateTreeNodeDetail(res.data);
+                  const response = await getPipelineDetail({ pipelineID: +record.id });
+                  const { applicationID: appId, applicationName, projectName } = response.data;
+                  inode && updateSearch({ nodeId: inode, applicationId: appId, pipelineID: record.id });
+                  setDetail({ id: inode, appId });
+                  updateAppDetail({ id: appId, gitRepoAbbrev: `${projectName}/${applicationName}` });
+                  setDetailVisible(true);
+                }
               },
             },
             props: {
@@ -110,7 +115,14 @@ const PipelineProtocol = ({ application }: IProps) => {
         destroyOnClose
         closable={false}
       >
-        <PipelineForm onCancel={onClose} application={application} />
+        <PipelineForm
+          onCancel={onClose}
+          application={application}
+          onOk={() => {
+            onClose();
+            reloadRef.current?.reload();
+          }}
+        />
       </Drawer>
       <Drawer onClose={onDetailClose} visible={detailVisible} width="80%" destroyOnClose>
         <Tabs defaultActiveKey="basic">

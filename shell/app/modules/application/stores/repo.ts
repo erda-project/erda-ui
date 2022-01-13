@@ -118,8 +118,9 @@ const getSubList = (info: Obj, { projectId, appId }: { projectId: string; appId:
 
 const getAppDetail: () => Promise<IApplication> = () =>
   new Promise((resolve) => {
-    const { appId } = routeInfoStore.getState((s) => s.params);
+    const [{ appId: appIdParams }, { applicationId: appIdQuery }] = routeInfoStore.getState((s) => [s.params, s.query]);
     let appDetail = appStore.getState((s) => s.detail);
+    const appId = appIdParams || appIdQuery;
     const notSameApp = appId && String(appId) !== String(appDetail.id);
     if (!appId || notSameApp) {
       eventHub.once('appStore/getAppDetail', () => {

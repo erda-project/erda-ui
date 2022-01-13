@@ -99,6 +99,11 @@ const getTitleRender = (column?: CP_TABLE2.ColumnItem) => {
 export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
   const { type, data } = val || {};
   let Comp: React.ReactNode = null;
+
+  if (!data) {
+    return '-';
+  }
+
   switch (type) {
     case 'user':
       const userMap = useUserMap();
@@ -189,7 +194,9 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
         };
 
         const getTableOperationItem = (op: CP_COMMON.Operation, key: string, record: Obj) => {
-          const { confirm, disabled, disabledTip, text, icon } = op;
+          const { confirm, disabled, disabledTip, text, icon, operations } = op;
+          const { click } = operations || {};
+          const { serverData } = click || {};
           if (disabled === true) {
             // 无权限操作
             return (
@@ -216,6 +223,7 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
                         dataRef: op,
                         parentDataRef: record,
                       },
+                      serverData,
                     });
                   }}
                   key={key}
@@ -247,6 +255,7 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
                         dataRef: op,
                         parentDataRef: record,
                       },
+                      serverData,
                     });
                     const customFunc = get(extra, `customOp.operations.${key}`);
                     if (customFunc) {

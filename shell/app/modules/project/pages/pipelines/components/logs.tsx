@@ -17,9 +17,11 @@ import { updateSearch } from 'common/utils';
 import DiceConfigPage from 'app/config-page';
 import PipelineRunDetail from 'application/pages/pipeline/run-detail';
 import fileTreeStore from 'common/stores/file-tree';
+import routeInfoStore from 'core/stores/route';
 import { getINodeByPipelineId, getPipelineDetail } from 'application/services/build';
 
 const PipelineLogs = () => {
+  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const { updateTreeNodeDetail } = fileTreeStore;
   const [visible, setVisible] = React.useState(false);
 
@@ -32,6 +34,7 @@ const PipelineLogs = () => {
         scenarioKey="project-pipeline-exec-list"
         scenarioType="project-pipeline-exec-list"
         showLoading
+        inParams={{ projectId }}
         customProps={{
           pipelineTable: {
             op: {

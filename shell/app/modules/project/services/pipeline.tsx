@@ -32,10 +32,10 @@ interface AppDetail {
 
 const apis = {
   getAppList: {
-    api: 'get@/api/project-pipeline/apps/:id',
+    api: 'get@/api/project-pipeline/actions/get-my-apps',
   },
-  getFileTree: {
-    api: 'get@/api/project-pipeline/filetree',
+  getBranchList: {
+    api: 'get@/api/repo/:projectName/:applicationName/stats',
   },
   getFileDetail: {
     api: 'get@/api/project-pipeline/filetree/:id',
@@ -43,16 +43,23 @@ const apis = {
   createPipeline: {
     api: 'post@/api/project-pipeline',
   },
+  getPipelineList: {
+    api: 'get@/api/project-pipeline/actions/get-pipeline-yml-list',
+  },
 };
 
-export const getAppList = apiCreator<(payload: { id: string; name: string }) => { list: AppDetail[] }>(apis.getAppList);
+export const getAppList = apiCreator<(payload: { projectID: string; name?: string }) => AppDetail[]>(apis.getAppList);
 
-export const getFileTree = apiCreator<
-  (payload: { pinode: string; scope: string; scopeID: string }) => Array<{ inode: string; name: string }>
->(apis.getFileTree);
+export const getBranchList = apiCreator<
+  (payload: { projectName: string; applicationName: string }) => Array<{ inode: string; name: string }>
+>(apis.getBranchList);
 
 export const getFileDetail = apiCreator<
   (payload: { id: string; scope: string; scopeID: string }) => Array<{ inode: string; name: string }>
 >(apis.getFileDetail);
 
 export const createPipeline = apiCreator<(payload: CreatePipelineParams) => RAW_RESPONSE>(apis.createPipeline);
+
+export const getPipelineList = apiCreator<
+  (payload: { appID: string; branch: string }) => { result: Array<{ ymlPath: string; ymlName: string }> }
+>(apis.getPipelineList);
