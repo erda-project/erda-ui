@@ -120,12 +120,12 @@ const build = createStore({
       return result;
     },
     async getExecuteRecords(
-      { call, update, getParams },
+      { call, update, getParams, getQuery },
       payload: { branch: string; source: string; pageNo: number; pagingYmlNames: string[] },
     ) {
-      const [{ applicationId }] = routeInfoStore.useStore((s) => [s.params]);
-      const { appId: _appId } = getParams();
-      const appId = _appId || params.applicationId;
+      const { applicationId } = getQuery();
+      const { _appId } = getParams();
+      const appId = _appId || applicationId;
       const { branch, source, pageNo, pagingYmlNames } = payload;
       const pagingYmlNamesStr = (pagingYmlNames || []).join(',');
       const params = {
