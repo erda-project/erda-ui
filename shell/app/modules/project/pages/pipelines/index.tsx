@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin } from 'antd';
+import { Spin, Input } from 'antd';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
-import { Badge } from 'common';
+import { Badge, ErdaIcon } from 'common';
 import { getAppList } from 'project/services/pipeline';
 import PipelineProtocol from './components/pipeline-protocol';
 
@@ -27,20 +27,32 @@ const Pipeline = () => {
   const { ID: applicationId } = application;
   const [data, loading] = getAppList.useState();
   const { list = [] } = data || {};
+  const [searchValue, setSearchValue] = React.useState('');
 
   React.useEffect(() => {
-    getAppList.fetch({ id: projectId });
-  }, []);
+    getAppList.fetch({ id: projectId, name: searchValue });
+  }, [searchValue, projectId]);
 
   return (
     <div className="project-pipeline flex-1 flex bg-white min-h-0 mb-4 h-full">
       <div className="app-list overflow-auto h-full px-2">
-        <div>
+        <div className="flex flex-col">
           <div className="px-2 py-4 leading-4 font-medium">{i18n.t('dop:applications')}</div>
+          <Input
+            size="small"
+            className="bg-default-06 border-transparent shadow-none mb-2 mx-2"
+            style={{ width: 'auto' }}
+            prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
+            placeholder={i18n.t('search {name}', { name: i18n.t('dop:app name') })}
+            onPressEnter={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              setSearchValue(e.target.value);
+              setApplication({ ID: 0 });
+            }}
+          />
           <div className="flex-1">
             <div
-              className={`application-item px-2 py-1.5 mb-1 leading-5 hover:bg-default-04 cursor-pointer rounded-sm ${
-                applicationId ? '' : 'text-purple-deep active'
+              className={`application-item px-2 mb-1 leading-5 cursor-pointer rounded-sm flex-h-center ${
+                applicationId ? 'hover:bg-default-04' : 'text-purple-deep active'
               }`}
               onClick={() => setApplication({ ID: 0 })}
             >
@@ -50,8 +62,8 @@ const Pipeline = () => {
             <Spin spinning={loading}>
               {list?.map((item) => (
                 <div
-                  className={`application-item px-2 py-1.5 mb-1 leading-5 hover:bg-default-04 cursor-pointer rounded-sm flex-h-center ${
-                    applicationId === item.ID ? 'text-purple-deep active' : ''
+                  className={`application-item px-2 mb-1 leading-5 cursor-pointer rounded-sm flex-h-center ${
+                    applicationId === item.ID ? 'text-purple-deep active' : 'hover:bg-default-04'
                   }`}
                   onClick={() => setApplication(item)}
                 >

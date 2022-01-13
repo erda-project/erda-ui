@@ -21,7 +21,7 @@ import { getFileTree, getFileDetail, createPipeline } from 'project/services/pip
 
 interface IProps {
   onCancel: () => void;
-  application?: { id: string; name: string };
+  application?: { ID: string; name?: string };
 }
 
 interface Node {
@@ -30,7 +30,7 @@ interface Node {
 }
 
 const PipelineForm = ({ onCancel, application }: IProps) => {
-  const { id, name } = application || {};
+  const { ID: id, name } = application || {};
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const [form] = Form.useForm();
   const [appList, setAppList] = React.useState<Node[]>([]);
@@ -40,58 +40,61 @@ const PipelineForm = ({ onCancel, application }: IProps) => {
   const [pipelineList, setPipelineList] = React.useState<Node[]>([]);
   const [pipelineName, setPipelineName] = React.useState('');
 
-  const getList = async (pinode: string) => {
-    const res = await getFileTree.fetch({
-      scopeID: projectId,
-      scope: 'project-app',
-      pinode,
-    });
+  const getList = React.useCallback(
+    async (pinode: string) => {
+      const res = await getFileTree.fetch({
+        scopeID: projectId,
+        scope: 'project-app',
+        pinode,
+      });
 
-    if (res.success) {
-      return res.data;
-    } else {
-      return [];
-    }
-  };
+      if (res.success) {
+        return res.data;
+      } else {
+        return [];
+      }
+    },
+    [projectId],
+  );
 
-  const getAppList = async () => {
+  const getAppList = React.useCallback(async () => {
     const list = await getList('0');
     setAppList(list?.map((item) => ({ value: item.inode, name: item.name })) || ([] as Node[]));
-  };
+  }, [getList]);
 
-  const getBranchList = async () => {
+  const getBranchList = React.useCallback(async () => {
     const list = await getList(appNodeId as string);
     setBranchList(list?.map((item) => ({ value: item.inode, name: item.name })) || ([] as Node[]));
-  };
+  }, [appNodeId, getList]);
 
-  const getPipelineList = async () => {
+  const getPipelineList = React.useCallback(async () => {
     const list = await getList(branchId as string);
     setPipelineList(list?.map((item) => ({ value: item.inode, name: item.name })) || ([] as Node[]));
-  };
+  }, [branchId, getList]);
 
   React.useEffect(() => {
     if (!appNodeId) {
       getAppList();
     }
-  }, []);
+  }, [appNodeId, getAppList]);
 
   React.useEffect(() => {
     if (appNodeId) {
       getBranchList();
     }
-  }, [appNodeId]);
+  }, [appNodeId, getBranchList]);
 
   React.useEffect(() => {
     if (branchId) {
       getPipelineList();
     }
-  }, [branchId]);
+  }, [branchId, getPipelineList]);
 
-  const getPipelineDetail = async (id: string) => {
+  const getPipelineDetail = async (pipelineId: string) => {
     const res = await getFileDetail.fetch({
       scopeID: projectId,
       scope: 'project-app',
-      id,
+      id: pipelineId,
     });
     if (res.success) {
       return res.data;
@@ -179,7 +182,7 @@ const PipelineForm = ({ onCancel, application }: IProps) => {
                     options={appList}
                     itemProps={{
                       className: 'bg-default-06',
-                      onChange: (id: string) => setAppNodeId(id),
+                      onChange: (appId: string) => setAppNodeId(appId),
                     }}
                   />
                 </div>
@@ -194,7 +197,7 @@ const PipelineForm = ({ onCancel, application }: IProps) => {
                   options={branchList}
                   itemProps={{
                     className: 'bg-default-06',
-                    onChange: (id: string) => setBranchId(id),
+                    onChange: (bId: string) => setBranchId(bId),
                   }}
                 />
               </div>

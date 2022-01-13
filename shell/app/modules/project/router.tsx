@@ -212,7 +212,7 @@ function getProjectRouter(): RouteConfigItem[] {
             {
               path: 'list',
               tabs: PIPELINE_TABS,
-              breadcrumbName: i18n.t('dop:pipeline list'),
+              breadcrumbName: i18n.t('pipeline'),
               getComp: (cb) => cb(import('project/pages/pipelines')),
               layout: { fullHeight: true, noWrapper: true },
             },

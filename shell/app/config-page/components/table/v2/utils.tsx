@@ -100,15 +100,15 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
   const { type, data } = val || {};
   let Comp: React.ReactNode = null;
   switch (type) {
-    case 'userAvatar':
+    case 'user':
       const userMap = useUserMap();
       const curUsers = [];
-      if (isArray(data.value)) {
-        data.value.forEach((vItem: any) => {
+      if (isArray(data.id)) {
+        data.id.forEach((vItem: any) => {
           curUsers.push(userMap[vItem] || {});
         });
       } else {
-        curUsers.push(userMap[data.value] || {});
+        curUsers.push(userMap[data.id] || {});
       }
       if (data.showIcon === false) {
         Comp = map(curUsers, (item) => item.nick || item.name || item.id || i18n.t('common:none')).join(', ');
@@ -133,9 +133,6 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
         );
       }
       break;
-    case 'badge':
-      Comp = data.text ? <Badge text={data.text} status={data.status} showDot={data.showDot} /> : '-';
-      break;
     case 'dropDownMenu':
       // {
       // const {menus, operations} = data || {};
@@ -143,9 +140,12 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
       // }
       break;
     case 'text':
-      {
-        const value = (typeof data === 'string' ? data : data?.text) || '-';
-        Comp = data.enableCopy ? (
+      if (typeof data === 'string') {
+        Comp = data;
+      } else if (typeof data === 'object') {
+        const { text, enableCopy, status, showDot = false } = data;
+        const value = status ? <Badge text={text} status={status} showDot={showDot} /> : text;
+        Comp = enableCopy ? (
           <span className="flex group" title={value}>
             <Copy copyText={value} className="ant-table-cell-ellipsis group-hover:text-purple-deep">
               {value || i18n.t('copy')}

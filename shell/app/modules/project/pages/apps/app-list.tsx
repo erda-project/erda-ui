@@ -43,6 +43,7 @@ export const ProjectAppList = () => {
         customProps={{
           list: {
             props: {
+              hideHead: true,
               className: 'px-2',
               defaultLogo: ImgMap.frontImg_default_app_icon,
             },

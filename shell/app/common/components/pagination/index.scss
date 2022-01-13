@@ -10,6 +10,11 @@
     line-height: 32px;
   }
 
+  .pagination-pre,
+  .pagination-next {
+    width: 32px;
+  }
+
   .bg-hover:not(.disabled) {
     &:hover {
       color: $black;
