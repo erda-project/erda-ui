@@ -864,6 +864,7 @@
     "Platform default rules. Please add custom rules if necessary.": "平台默认规则，如需要调整请通过添加自定义规则来完成",
     "Please enter the issue title": "请输入事项标题",
     "Please enter the repository address started with http or https.": "请输入以http或https开头的仓库地址",
+    "Please execute pipeline first": "请先执行流水线",
     "Please fill in the json expression of obtained target key to determine if the key exists.": "值请填获取目标key的json表达式，以判断该key是否存在。",
     "Project homepage": "主页",
     "Projects": "项目管理",

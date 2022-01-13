@@ -133,7 +133,7 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
             name={'name'}
             type={'input'}
             rules={[
-              { required: true, message: i18n.t('please enter {name}', { name: i18n.t('dop:release name') }) },
+              { required: true, message: i18n.t('please enter {name}', { name: i18n.t('pipeline') }) },
               { max: 30, message: i18n.t('dop:no more than 30 characters') },
               {
                 pattern: /^[A-Za-z0-9._-]+$/,
@@ -142,7 +142,7 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
             ]}
             itemProps={{
               className: 'border-transparent shadow-none pl-0',
-              placeholder: i18n.t('please enter {name}', { name: i18n.t('dop:release name') }),
+              placeholder: i18n.t('please enter {name}', { name: i18n.t('pipeline') }),
             }}
           />
           <div>
@@ -159,6 +159,7 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
                     name="app"
                     type="select"
                     options={appList}
+                    rules={[{ required: true, message: i18n.t('please choose {name}', { name: i18n.t('App') }) }]}
                     itemProps={{
                       className: 'bg-default-06',
                       onChange: (v: string, app: Obj) => setApp(app),
@@ -174,6 +175,7 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
                   name="branch"
                   type="select"
                   options={branchList}
+                  rules={[{ required: true, message: i18n.t('please choose {name}', { name: i18n.t('dop:branch') }) }]}
                   itemProps={{
                     className: 'bg-default-06',
                     onChange: (bId: string) => setBranchId(bId),
@@ -188,6 +190,7 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
                   name="pipeline"
                   type="select"
                   options={pipelineList}
+                  rules={[{ required: true, message: i18n.t('please choose {name}', { name: i18n.t('pipeline') }) }]}
                   itemProps={{
                     className: 'bg-default-06',
                     onChange: (_, node: { label: string }) => setPipeline(node),

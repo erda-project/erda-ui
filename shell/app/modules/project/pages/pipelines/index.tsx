@@ -47,7 +47,7 @@ const Pipeline = () => {
 
   return (
     <div className="project-pipeline flex-1 flex bg-white min-h-0 mb-4 h-full">
-      <div className="app-list overflow-auto h-full px-2">
+      <div className="app-list overflow-auto h-full px-2 flex-shrink-0">
         <div className="flex flex-col">
           <div className="px-2 py-4 leading-4 font-medium">{i18n.t('dop:applications')}</div>
           <Input
@@ -98,7 +98,7 @@ const Pipeline = () => {
         </div>
       </div>
 
-      <div className="pipeline-right flex-1 pt-2 h-full">
+      <div className="pipeline-right flex-1 pt-2 h-full min-w-0">
         <PipelineProtocol application={application} />
       </div>
     </div>
