@@ -27,12 +27,12 @@ export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
   const [fileData, setFileData] = React.useState(null as unknown as PROJECT_LIST.FileData);
 
   function handleChange({ file }: { file: PROJECT_LIST.FileData }) {
+    setFileData(file);
     if (file.status === 'uploading') {
       setFileStatus('uploading');
     }
     if (file.status === 'done') {
       setFileStatus('done');
-      setFileData(file);
       form.setFieldsValue({
         projectTemplate: file,
       });
@@ -77,6 +77,10 @@ export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
     onChange: handleChange,
     iconRender: () => <ErdaIcon type="shenjirizhi" />,
     className: `w-full ${fileStatus === 'init' ? 'flex-all-center' : ''}`,
+    onRemove: () =>
+      form.setFieldsValue({
+        projectTemplate: undefined,
+      }),
   });
 
   return (
@@ -136,9 +140,7 @@ export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
               </span>
             </div>
             <div className="flex-h-center">
-              <span className="text-default-9 mr-1">
-                {i18n.t('dop:applications')}:{fileData?.response.data.applications?.length}
-              </span>
+              <span className="text-default-9 mr-1">{i18n.t('dop:applications')}:</span>
               <div className="bg-default-04 px-1 py-0.5 rounded-lg">0</div>
             </div>
           </div>

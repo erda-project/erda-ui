@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Input } from 'antd';
+import { debounce } from 'lodash';
+import { Input } from 'antd';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import { Badge, ErdaIcon } from 'common';
@@ -25,13 +26,24 @@ const Pipeline = () => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const [application, setApplication] = React.useState({ ID: 0 });
   const { ID: applicationId } = application;
-  const [data, loading] = getAppList.useState();
-  const { list = [] } = data || {};
+  const [list, setList] = React.useState();
   const [searchValue, setSearchValue] = React.useState('');
 
+  const getList = React.useCallback(async () => {
+    const res = await getAppList.fetch({ projectID: projectId });
+    if (res.success) {
+      setList(res.data);
+    }
+  }, [projectId]);
+
   React.useEffect(() => {
-    getAppList.fetch({ id: projectId, name: searchValue });
-  }, [searchValue, projectId]);
+    getList();
+  }, [getList]);
+
+  const search = debounce((value: string) => {
+    setSearchValue(value);
+    setApplication({ ID: 0 });
+  }, 1000);
 
   return (
     <div className="project-pipeline flex-1 flex bg-white min-h-0 mb-4 h-full">
@@ -44,10 +56,7 @@ const Pipeline = () => {
             style={{ width: 'auto' }}
             prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
             placeholder={i18n.t('search {name}', { name: i18n.t('dop:app name') })}
-            onPressEnter={(e: React.KeyboardEvent<HTMLInputElement>) => {
-              setSearchValue(e.target.value);
-              setApplication({ ID: 0 });
-            }}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => search(e.target.value)}
           />
           <div className="flex-1">
             <div
@@ -59,30 +68,32 @@ const Pipeline = () => {
               {i18n.t('dop:all')}
             </div>
 
-            <Spin spinning={loading}>
-              {list?.map((item) => (
-                <div
-                  className={`application-item px-2 mb-1 leading-5 cursor-pointer rounded-sm flex-h-center ${
-                    applicationId === item.ID ? 'text-purple-deep active' : 'hover:bg-default-04'
-                  }`}
-                  onClick={() => setApplication(item)}
-                >
-                  <div className="flex-1">{item.displayName}</div>
-                  {item.runningNum ? (
-                    <div className="flex-h-center mr-3">
-                      <Badge onlyDot breathing status={'success'} className="mr-0.5" />
-                      <div className="bg-default-04 text-default-9 rounded-lg px-2 text-xs">{item.runningNum}</div>
-                    </div>
-                  ) : null}
-                  {item.failedNum ? (
-                    <div className="flex-h-center">
-                      <Badge onlyDot breathing status={'error'} className="mr-0.5" />
-                      <div className="bg-default-04 text-default-9 rounded-lg px-2 text-xs">{item.failedNum}</div>
-                    </div>
-                  ) : null}
-                </div>
-              ))}
-            </Spin>
+            <div>
+              {list
+                ?.filter((item) => (searchValue ? item.displayName.includes(searchValue) : true))
+                ?.map((item) => (
+                  <div
+                    className={`application-item px-2 mb-1 leading-5 cursor-pointer rounded-sm flex-h-center ${
+                      applicationId === item.ID ? 'text-purple-deep active' : 'hover:bg-default-04'
+                    }`}
+                    onClick={() => setApplication(item)}
+                  >
+                    <div className="flex-1">{item.displayName}</div>
+                    {item.runningNum ? (
+                      <div className="flex-h-center mr-3">
+                        <Badge onlyDot breathing status={'success'} className="mr-0.5" />
+                        <div className="bg-default-04 text-default-9 rounded-lg px-2 text-xs">{item.runningNum}</div>
+                      </div>
+                    ) : null}
+                    {item.failedNum ? (
+                      <div className="flex-h-center">
+                        <Badge onlyDot breathing status={'error'} className="mr-0.5" />
+                        <div className="bg-default-04 text-default-9 rounded-lg px-2 text-xs">{item.failedNum}</div>
+                      </div>
+                    ) : null}
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       </div>

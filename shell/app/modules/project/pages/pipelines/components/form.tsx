@@ -17,7 +17,7 @@ import { get } from 'lodash';
 import i18n from 'i18n';
 import { ErdaIcon, RenderFormItem } from 'common';
 import routeInfoStore from 'core/stores/route';
-import { getFileTree, getFileDetail, createPipeline } from 'project/services/pipeline';
+import { getAppList, getBranchList, getFileDetail, createPipeline, getPipelineList } from 'project/services/pipeline';
 
 interface IProps {
   onCancel: () => void;
@@ -27,102 +27,81 @@ interface IProps {
 interface Node {
   value: string;
   name: string;
+  onOk: () => void;
 }
 
-const PipelineForm = ({ onCancel, application }: IProps) => {
-  const { ID: id, name } = application || {};
+const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
+  const { ID: id, name, projectName: projectNameProps } = application || {};
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const [form] = Form.useForm();
   const [appList, setAppList] = React.useState<Node[]>([]);
-  const [appNodeId, setAppNodeId] = React.useState<string>((id && btoa(encodeURI(`${projectId}/${id}`))) || '');
+  const [app, setApp] = React.useState<string>({ value: id, label: name, projectName: projectNameProps });
   const [branchList, setBranchList] = React.useState<Node[]>([]);
   const [branchId, setBranchId] = React.useState<string>('');
   const [pipelineList, setPipelineList] = React.useState<Node[]>([]);
-  const [pipelineName, setPipelineName] = React.useState('');
+  const [pipeline, setPipeline] = React.useState('');
 
-  const getList = React.useCallback(
-    async (pinode: string) => {
-      const res = await getFileTree.fetch({
-        scopeID: projectId,
-        scope: 'project-app',
-        pinode,
-      });
+  const getApps = React.useCallback(async () => {
+    const res = await getAppList.fetch({ projectID: projectId });
+    if (res.success) {
+      setAppList(
+        res.data?.map((item) => ({ value: item.ID, label: item.displayName, projectName: item.projectName })) || [],
+      );
+    }
+  }, [projectId]);
 
-      if (res.success) {
-        return res.data;
-      } else {
-        return [];
-      }
-    },
-    [projectId],
-  );
+  const getBranch = React.useCallback(async () => {
+    const { value } = app;
+    const application = appList.find((item) => item.value === value) || {};
+    const { projectName, label } = id ? app : application;
+    const res = await getBranchList({ projectName, applicationName: label });
+    if (res.success) {
+      setBranchList(res.data.branches?.map((item) => ({ value: item, name: item })) || ([] as Node[]));
+    }
+  }, [app, appList]);
 
-  const getAppList = React.useCallback(async () => {
-    const list = await getList('0');
-    setAppList(list?.map((item) => ({ value: item.inode, name: item.name })) || ([] as Node[]));
-  }, [getList]);
-
-  const getBranchList = React.useCallback(async () => {
-    const list = await getList(appNodeId as string);
-    setBranchList(list?.map((item) => ({ value: item.inode, name: item.name })) || ([] as Node[]));
-  }, [appNodeId, getList]);
-
-  const getPipelineList = React.useCallback(async () => {
-    const list = await getList(branchId as string);
-    setPipelineList(list?.map((item) => ({ value: item.inode, name: item.name })) || ([] as Node[]));
-  }, [branchId, getList]);
+  const getPipelines = React.useCallback(async () => {
+    const { value } = app;
+    const res = await getPipelineList({ appID: value, branch: branchId });
+    if (res.success) {
+      const { result } = res.data;
+      setPipelineList(result?.map((item) => ({ value: item.ymlPath, name: item.ymlName })) || ([] as Node[]));
+    }
+  }, [branchId, app]);
 
   React.useEffect(() => {
-    if (!appNodeId) {
-      getAppList();
+    if (!id) {
+      getApps();
     }
-  }, [appNodeId, getAppList]);
+  }, [id, getApps]);
 
   React.useEffect(() => {
-    if (appNodeId) {
-      getBranchList();
+    if (app) {
+      getBranch();
     }
-  }, [appNodeId, getBranchList]);
+  }, [app, getBranch]);
 
   React.useEffect(() => {
     if (branchId) {
-      getPipelineList();
+      getPipelines();
     }
-  }, [branchId, getPipelineList]);
-
-  const getPipelineDetail = async (pipelineId: string) => {
-    const res = await getFileDetail.fetch({
-      scopeID: projectId,
-      scope: 'project-app',
-      id: pipelineId,
-    });
-    if (res.success) {
-      return res.data;
-    } else {
-      return Promise.reject();
-    }
-  };
+  }, [branchId, getPipelines]);
 
   const submit = () => {
     form.validateFields().then(async (value) => {
-      const detail = await getPipelineDetail(value.pipeline);
-      if (detail) {
-        const path = get(detail, 'meta.snippetAction.snippet_config.labels.gittarYmlPath');
-        const branchPath = atob(decodeURI(value.branch)).split('/');
-        const params = {
-          sourceType: 'erda',
-          projectID: +projectId,
-          name: value.name,
-          appID: +branchPath[1],
-          ref: branchPath[branchPath.length - 1],
-          path,
-          fileName: pipelineName,
-        };
+      const params = {
+        sourceType: 'erda',
+        projectID: +projectId,
+        name: value.name,
+        appID: value.app || id,
+        ref: branchId,
+        path: pipeline.value,
+        fileName: pipeline.label,
+      };
 
-        const res = await createPipeline.fetch({ ...params, $options: { successMsg: i18n.t('created successfully') } });
-        if (res.success) {
-          onCancel();
-        }
+      const res = await createPipeline.fetch({ ...params, $options: { successMsg: i18n.t('created successfully') } });
+      if (res.success) {
+        onOk();
       }
     });
   };
@@ -182,7 +161,7 @@ const PipelineForm = ({ onCancel, application }: IProps) => {
                     options={appList}
                     itemProps={{
                       className: 'bg-default-06',
-                      onChange: (appId: string) => setAppNodeId(appId),
+                      onChange: (v: string, app: Obj) => setApp(app),
                     }}
                   />
                 </div>
@@ -211,7 +190,7 @@ const PipelineForm = ({ onCancel, application }: IProps) => {
                   options={pipelineList}
                   itemProps={{
                     className: 'bg-default-06',
-                    onChange: (_, node: { label: string }) => setPipelineName(node.label),
+                    onChange: (_, node: { label: string }) => setPipeline(node),
                   }}
                 />
               </div>

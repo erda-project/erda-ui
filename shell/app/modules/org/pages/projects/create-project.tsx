@@ -244,7 +244,7 @@ const CreationForm = ({ createType }: { createType: string }) => {
         }
         const { projectTemplate, ...rest } = values;
 
-        createProject({ ...rest, orgId }).then((res: any) => {
+        createProject({ template: 'DevOps', ...rest, orgId }).then((res: any) => {
           if (res.success) {
             if (createType === 'createProject') {
               createTenantProject({
@@ -332,8 +332,8 @@ const CreationForm = ({ createType }: { createType: string }) => {
       rules: [
         { max: 30, message: i18n.t('cannot exceed {max} characters', { max: 30 }) },
         {
-          pattern: /^[a-z0-9]+([-_][a-z0-9]+)*$/,
-          message: i18n.t('project-name-tip'),
+          pattern: /^[a-z0-9]+([-][a-z0-9]+)*$/,
+          message: i18n.t('project-app-name-tip'),
         },
         {
           validator: (_rule: any, value: any, callback: (message?: string) => void) => {
@@ -345,7 +345,7 @@ const CreationForm = ({ createType }: { createType: string }) => {
         },
       ],
       itemProps: {
-        placeholder: i18n.t('project-name-tip'),
+        placeholder: i18n.t('project-app-name-tip'),
         maxLength: 30,
       },
     },
@@ -355,13 +355,6 @@ const CreationForm = ({ createType }: { createType: string }) => {
         name: 'projectTemplate',
         labelTip: i18n.t('please upload the zip file'),
         getComp: ({ form }: { form: FormInstance }) => <ImportProjectTemplate form={form} />,
-      },
-      {
-        label: i18n.t('dop:remark'),
-        name: 'remark',
-        type: 'textArea',
-        required: false,
-        itemProps: { rows: 4, maxLength: 1024, style: { resize: 'none' } },
       },
     ]),
     ...insertWhen(template !== 'MSP', [
