@@ -21,6 +21,7 @@ import configStore from 'app/modules/application/stores/pipeline-config';
 import { map } from 'lodash';
 import { useUnmount, useUpdateEffect } from 'react-use';
 import { AppSelector } from 'application/common/app-selector';
+import { getJoinedApps } from 'app/user/services/user';
 import { ConfigTabs, ConfigTypeMap } from '../config';
 import { VariableConfigForm } from 'application/pages/settings/components/variable-config-form';
 import ListEdit from './list-edit';
@@ -32,6 +33,7 @@ interface IProps {
   visible: boolean;
   onClose: () => void;
   env: string;
+  projectId: string;
 }
 
 interface IState {
@@ -42,7 +44,7 @@ interface IState {
 }
 
 const ConfigDrawer = (props: IProps) => {
-  const { visible, onClose, env } = props;
+  const { visible, onClose, env, projectId } = props;
   const [{ selectedApp, selectedEnv, selectedType, editing }, updater, update] = useUpdate<IState>({
     selectedApp: null,
     selectedEnv: env,
@@ -64,6 +66,7 @@ const ConfigDrawer = (props: IProps) => {
         title: i18n.t('dop:The current application parameters have changed. Do you want to give up the modification?'),
         onOk() {
           func();
+          updater.editing(false);
         },
       });
     } else {
@@ -118,11 +121,14 @@ const ConfigDrawer = (props: IProps) => {
             autoSelect
             className="project-app-selector"
             value={selectedApp?.id || ''}
+            getData={(_q: { pageNo: number; pageSize: number }) => {
+              return getJoinedApps({ projectID: +projectId, ..._q }).then((res) => res.data);
+            }}
             disabled={editing}
             onClickItem={(app) => updater.selectedApp(app)}
             resultsRender={() => {
               return (
-                <div className="w-[100px] flex text-default-3 hover:text-default-8">
+                <div className="w-[100px] h-[28px] rounded-sm  bg-default-06 leading-7 px-2 flex text-default-3 hover:text-default-8">
                   {selectedApp ? (
                     <Ellipsis
                       className="font-bold text-default"
@@ -148,6 +154,7 @@ const ConfigDrawer = (props: IProps) => {
           selectedType === 'text' ? (
             <TextConfig
               className="flex-1"
+              fullConfigData={fullConfigs[configNamespace]}
               configData={configData}
               onEditChange={(isEdit) => {
                 updater.editing(isEdit);
@@ -187,6 +194,7 @@ const ConfigDrawer = (props: IProps) => {
               className="flex-1"
               key={`${selectedEnv}-${selectedApp?.id}`}
               configData={configData}
+              fullConfigData={fullConfigs[configNamespace]}
               addConfig={(data) =>
                 configStore.addConfigs(
                   {
@@ -216,12 +224,13 @@ const ConfigDrawer = (props: IProps) => {
 
 interface IOtherProps {
   className?: string;
+  fullConfigData: PIPELINE_CONFIG.ConfigItem[];
   configData: PIPELINE_CONFIG.ConfigItem[];
   addConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<any>;
   deleteConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<any>;
 }
 const OtherConfig = (props: IOtherProps) => {
-  const { configData, deleteConfig, addConfig, className = '' } = props;
+  const { configData, deleteConfig, addConfig, className = '', fullConfigData } = props;
   const [addVisble, setAddVisible] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState('');
 
@@ -281,9 +290,8 @@ const OtherConfig = (props: IOtherProps) => {
       <div className="py-2">
         <Input
           size="small"
-          className="w-[200px] bg-black-02"
+          className="w-[200px] bg-black-06 border-none ml-0.5"
           value={searchValue}
-          bordered={false}
           prefix={<ErdaIcon size="16" fill={'default-3'} type="search" />}
           onChange={(e) => {
             const { value } = e.target;
@@ -300,6 +308,7 @@ const OtherConfig = (props: IOtherProps) => {
       </div>
       <VariableConfigForm
         visible={addVisble}
+        fullConfigData={fullConfigData}
         addType="file"
         onCancel={() => setAddVisible(false)}
         onOk={(data) => {
@@ -315,6 +324,7 @@ const OtherConfig = (props: IOtherProps) => {
 interface ITextProps {
   className?: string;
   configData: PIPELINE_CONFIG.ConfigItem[];
+  fullConfigData: PIPELINE_CONFIG.ConfigItem[];
   addConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<any>;
   updateConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<any>;
   deleteConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<any>;
@@ -322,11 +332,20 @@ interface ITextProps {
 }
 
 const TextConfig = (props: ITextProps) => {
-  const { configData, className = '', onEditChange: propsEditChange, addConfig, deleteConfig, updateConfig } = props;
+  const {
+    configData,
+    className = '',
+    onEditChange: propsEditChange,
+    addConfig,
+    deleteConfig,
+    updateConfig,
+    fullConfigData,
+  } = props;
   const [{ editType, editing }, updater, update] = useUpdate({
     editType: 'list',
     editing: false,
   });
+
   const typeList = [
     {
       icon: 'list-view',
@@ -350,6 +369,7 @@ const TextConfig = (props: ITextProps) => {
         title: i18n.t('dop:The current application parameters have changed. Do you want to give up the modification?'),
         onOk() {
           func();
+          updater.editing(false);
         },
       });
     } else {
@@ -388,6 +408,7 @@ const TextConfig = (props: ITextProps) => {
         <ListEdit
           configData={configData}
           slot={TypeSwitch}
+          fullConfigData={fullConfigData}
           addConfig={addConfig}
           deleteConfig={deleteConfig}
           updateConfig={updateConfig}
@@ -397,6 +418,7 @@ const TextConfig = (props: ITextProps) => {
         />
       ) : (
         <TextEdit
+          fullConfigData={fullConfigData}
           onEditChange={(isEditing) => {
             updater.editing(isEditing);
           }}

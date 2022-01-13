@@ -66,7 +66,7 @@ const List = (props: ERDA_LIST.Props) => {
             ))}
         </>
       ) : (
-        <div className="pb-2">{EmptyHolder || <DefaultEmptyHolder relative />}</div>
+        <div>{EmptyHolder || <DefaultEmptyHolder relative />}</div>
       )}
     </div>
   );

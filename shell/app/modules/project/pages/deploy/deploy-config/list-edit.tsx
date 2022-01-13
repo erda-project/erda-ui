@@ -18,12 +18,14 @@ import ErdaTable from 'common/components/table';
 import { uuid } from 'common/utils';
 import { useUpdateEffect } from 'react-use';
 import { useUpdate } from 'common/use-hooks';
+import { ConfigTypeMap } from '../config';
 import { VariableConfigForm } from 'application/pages/settings/components/variable-config-form';
 import i18n from 'i18n';
 
 interface IProps {
   slot: React.ReactElement;
   configData: PIPELINE_CONFIG.ConfigItem[];
+  fullConfigData: PIPELINE_CONFIG.ConfigItem[];
   addConfig: (data: ListData) => Promise<any>;
   updateConfig: (data: ListData | ListData[]) => Promise<any>;
   deleteConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<any>;
@@ -56,7 +58,7 @@ interface IState {
 }
 
 const ListEditConfig = (props: IProps) => {
-  const { configData, slot, addConfig, updateConfig, deleteConfig, onEditChange } = props;
+  const { configData, slot, addConfig, updateConfig, deleteConfig, onEditChange, fullConfigData } = props;
   const [form] = Form.useForm();
   const [{ value, searchValue, editData, addVisble }, updater, update] = useUpdate<IState>({
     value: convertData(configData),
@@ -177,6 +179,7 @@ const ListEditConfig = (props: IProps) => {
         dataIndex: col.dataIndex,
         save,
         cancel,
+        fullConfigData,
         list: value,
         title: col.title,
         editing: editData?.uuid === record.uuid,
@@ -194,9 +197,8 @@ const ListEditConfig = (props: IProps) => {
       <div className="flex-h-center justify-between py-2">
         <Input
           size="small"
-          className="w-[200px] bg-black-02"
+          className="w-[200px] bg-black-06 border-none ml-0.5"
           value={searchValue}
-          bordered={false}
           prefix={<ErdaIcon size="16" fill={'default-3'} type="search" />}
           onChange={(e) => {
             update({
@@ -233,6 +235,7 @@ const ListEditConfig = (props: IProps) => {
       </div>
       <VariableConfigForm
         visible={addVisble}
+        fullConfigData={fullConfigData}
         addType="kv"
         onCancel={() => updater.addVisble(false)}
         onOk={(data) => {
@@ -252,6 +255,7 @@ interface EditCellProps {
   inputType: string;
   index: number;
   editing: boolean;
+  fullConfigData: PIPELINE_CONFIG.ConfigItem[];
   list: ListData[];
   children: React.ReactElement;
   cancel: () => void;
@@ -265,6 +269,7 @@ const EditableCell = ({
   cancel,
   save,
   list,
+  fullConfigData,
   record,
   index,
   children,
@@ -291,8 +296,11 @@ const EditableCell = ({
               },
               {
                 validator: async (_rule: any, value: any) => {
-                  if (value && value !== record.key && list.find((item) => item.key === value)) {
-                    throw new Error(i18n.t('{name} already exists)', { name: value }));
+                  const existConfig = fullConfigData?.find((item) => item.key === value);
+
+                  if (value && value !== record.key && existConfig) {
+                    const place = ConfigTypeMap[existConfig.type].type || i18n.t('common:other type');
+                    throw new Error(i18n.t('{name} already exists in {place}', { name: value, place }));
                   }
                 },
               },

@@ -29,6 +29,7 @@ declare namespace PROJECT_DEPLOY {
   interface DeployOrderReq {
     pageNo: number;
     pageSize: number;
+    isProjectRelease?: boolean;
     projectID: string;
     workspace: string;
     q?: string;
@@ -135,6 +136,7 @@ declare namespace PROJECT_DEPLOY {
   }
 
   interface ReleaseRenderDetail {
+    id: string;
     name: string;
     applicationsInfo: IApplicationsInfo[];
   }

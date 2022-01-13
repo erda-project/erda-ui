@@ -264,7 +264,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
       },
       messageContainer: {
         props: {
-          className: 'bg-white pb-0 px-0',
+          className: 'bg-white p-0',
         },
       },
       messageList: {

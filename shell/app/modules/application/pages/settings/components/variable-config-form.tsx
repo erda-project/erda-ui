@@ -38,8 +38,9 @@ interface IProps {
   formData?: PIPELINE_CONFIG.ConfigItem | null;
   onOk: (data: any, isAdd: boolean) => any;
   onCancel: () => void;
+  fullConfigData?: PIPELINE_CONFIG.ConfigItem[];
 }
-export const VariableConfigForm = ({ formData, visible, onOk, onCancel, addType }: IProps) => {
+export const VariableConfigForm = ({ fullConfigData = [], formData, visible, onOk, onCancel, addType }: IProps) => {
   const [{ type, uploadFile, uploading }, updater, _, reset] = useUpdate({
     type: addType || typeMap.kv,
     uploadFile: '',
@@ -60,6 +61,19 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel, addType 
           message: i18n.t(
             'common:start with letters, which can contain letters, numbers, dots, underscores and hyphens.',
           ),
+        },
+        {
+          validator: async (_rule: any, value: any) => {
+            const existConfig = fullConfigData.find((item) => item.key === value);
+            if (value && value !== formData?.key && existConfig) {
+              const place =
+                {
+                  kv: i18n.t('common:text type'),
+                  'dice-file': i18n.t('common:file type'),
+                }[existConfig.type] || i18n.t('common:other type');
+              throw new Error(i18n.t('{name} already exists in {place}', { name: value, place }));
+            }
+          },
         },
       ],
     },

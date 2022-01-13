@@ -985,6 +985,7 @@
     "{label} can not be empty": "{label} 不能为空",
     "{min} ~ {max} digits": "{min} ~ {max} 位",
     "{name} already exists": "{name}已存在",
+    "{name} already exists in {place}": "{name}已存在于{place}",
     "{name} can not empty": "{name}不可为空",
     "{name} format": "{name} 格式",
     "{name} identifier": "{name}标识",

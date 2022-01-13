@@ -246,7 +246,7 @@ const List = (props: CP_BASE_LIST.Props) => {
     : [];
 
   const HeadTitle = data.title ? (
-    <span className="font-medium text-default-8 h-[48px]">
+    <span className="font-medium text-default-8 h-[48px] flex-h-center">
       {data.title}
       {data.titleSummary !== undefined ? (
         <span className="inline-block ml-1 bg-default-1 px-1.5 rounded-lg text-default-8 text-xs leading-5">

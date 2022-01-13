@@ -19,8 +19,8 @@ export const ConfigTabs = {
 };
 
 export const ConfigTypeMap = {
-  kv: { key: 'kv', text: i18n.t('value') },
-  'dice-file': { key: 'dice-file', text: i18n.t('file') },
+  kv: { key: 'kv', text: i18n.t('value'), type: i18n.t('common:text type') },
+  'dice-file': { key: 'dice-file', text: i18n.t('file'), type: i18n.t('common:file type') },
 };
 
 export const deployOrderStatusMap = {

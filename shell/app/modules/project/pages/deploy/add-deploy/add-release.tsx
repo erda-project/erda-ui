@@ -15,6 +15,7 @@ import * as React from 'react';
 import { Button, Dropdown, Menu, Input } from 'antd';
 import { ErdaIcon, Ellipsis, SimpleTabs } from 'common';
 import { map, debounce } from 'lodash';
+import { getJoinedApps } from 'app/user/services/user';
 import ReleaseList from './release-list';
 import { getDefaultPaging } from 'common/utils';
 import { useUpdateEffect, useMount } from 'react-use';
@@ -27,6 +28,7 @@ import './add-release.scss';
 
 interface IReleaseQuery {
   applicationId?: string;
+  isProjectRelease?: boolean;
   pageNo?: number;
   q?: string;
   pageSize?: number;
@@ -59,7 +61,15 @@ const AddRelease = ({ onSelect }: { onSelect: (v: string) => void }) => {
     app: {
       key: 'app',
       text: i18n.t('dop:app release'),
-      Comp: <AppRelease {...paging} list={list} getList={getList} onSelect={(v) => setSelectedRelease(v)} />,
+      Comp: (
+        <AppRelease
+          {...paging}
+          projectId={projectId}
+          list={list}
+          getList={getList}
+          onSelect={(v) => setSelectedRelease(v)}
+        />
+      ),
     },
   };
   const overlay = (
@@ -119,6 +129,7 @@ const AddRelease = ({ onSelect }: { onSelect: (v: string) => void }) => {
 interface IReleaseProps {
   pageNo: number;
   pageSize: number;
+  projectId: string;
   total: number;
   onSelect: (v: string) => void;
   list: PROJECT_DEPLOY.Release[];
@@ -180,7 +191,7 @@ const ProjectRelease = (props: IReleaseProps) => {
 };
 
 const AppRelease = (props: IReleaseProps) => {
-  const { onSelect, list, getList, ...rest } = props;
+  const { onSelect, list, getList, projectId, ...rest } = props;
   const [searchValue, setSearchValue] = React.useState('');
   const [selectedRelease, setSelectedRelease] = React.useState('');
   const [selectedApp, setSelectedApp] = React.useState<IApplication | null>(null);
@@ -225,10 +236,13 @@ const AppRelease = (props: IReleaseProps) => {
           autoSelect
           dropdownClassName="project-add-release-app"
           value={selectedApp?.id || ''}
+          getData={(_q: { pageNo: number; pageSize: number }) => {
+            return getJoinedApps({ projectID: +projectId, ..._q }).then((res) => res.data);
+          }}
           onClickItem={(app) => setSelectedApp(app)}
           resultsRender={() => {
             return (
-              <div className="w-[100px] flex text-white-3 hover:text-white-8">
+              <div className="w-[100px] h-[28px] px-2 leading-7 rounded-sm bg-white-06 flex text-white-3 hover:text-white-8">
                 {selectedApp ? (
                   <Ellipsis className="font-bold text-white" title={selectedApp?.displayName || selectedApp?.name} />
                 ) : (
