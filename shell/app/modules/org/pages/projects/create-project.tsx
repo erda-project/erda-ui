@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Badge, Button, Checkbox, Input, message, Upload } from 'antd';
+import { Badge, Button, Checkbox, Input, message } from 'antd';
 import i18n from 'i18n';
 import React from 'react';
 import { ErdaIcon, ImageUpload, RenderForm } from 'common';
@@ -24,7 +24,6 @@ import orgStore from 'app/org-home/stores/org';
 import classnames from 'classnames';
 import pinyin from 'tiny-pinyin';
 import ClusterQuota, { IData } from 'org/common/cluster-quota';
-import routeInfoStore from 'core/stores/route';
 import './create-project.scss';
 import { ImportProjectTemplate } from './import-project-template';
 import { importProjectTemplate } from 'org/services/project-list';
@@ -223,10 +222,9 @@ const workSpaceMap = {
   PROD: i18n.t('prod environment'),
 };
 
-const CreationForm = () => {
+const CreationForm = ({ createType }: { createType: string }) => {
   const { createProject } = projectStore.effects;
   const orgId = orgStore.getState((s) => s.currentOrg.id);
-  const currentRoute = routeInfoStore.getState((s) => s.currentRoute);
   const quotaFields = useQuotaFields(true, true);
   const [ifConfigCluster, setIfConfigCluster] = React.useState(true);
   const [template, setTemplate] = React.useState(templateArr[0].val);
@@ -248,7 +246,7 @@ const CreationForm = () => {
 
         createProject({ ...rest, orgId }).then((res: any) => {
           if (res.success) {
-            if (currentRoute.relativePath === 'createProject') {
+            if (createType === 'createProject') {
               createTenantProject({
                 id: `${res.data}`,
                 name: values.name,
@@ -260,7 +258,7 @@ const CreationForm = () => {
               return;
             }
 
-            if (currentRoute.relativePath === 'importProject') {
+            if (createType === 'importProject') {
               createTenantProject({
                 id: `${res.data}`,
                 name: values.name,
@@ -290,7 +288,7 @@ const CreationForm = () => {
   };
 
   const fieldsList = [
-    ...insertWhen(currentRoute.relativePath === 'createProject', [
+    ...insertWhen(createType === 'createProject', [
       {
         label: i18n.t('select template'),
         name: 'template',
@@ -332,7 +330,7 @@ const CreationForm = () => {
       label: i18n.t('project identifier'),
       name: 'name',
       rules: [
-        { max: 30, message: i18n.t('cannot exceed 30 characters') },
+        { max: 30, message: i18n.t('cannot exceed {max} characters', { max: 30 }) },
         {
           pattern: /^[a-z0-9]+([-_][a-z0-9]+)*$/,
           message: i18n.t('project-name-tip'),
@@ -351,10 +349,11 @@ const CreationForm = () => {
         maxLength: 30,
       },
     },
-    ...insertWhen(currentRoute.relativePath === 'importProject', [
+    ...insertWhen(createType === 'importProject', [
       {
         label: i18n.t('project template'),
         name: 'projectTemplate',
+        labelTip: i18n.t('please upload the zip file'),
         getComp: ({ form }: { form: FormInstance }) => <ImportProjectTemplate form={form} />,
       },
       {

@@ -291,7 +291,7 @@ const EditableCell = ({
               {
                 validator: async (_rule: any, value: any) => {
                   if (value && value !== record.key && list.find((item) => item.key === value)) {
-                    throw new Error(i18n.t('{name} already exists)', { name: value }));
+                    throw new Error(i18n.t('{name} already exists', { name: value }));
                   }
                 },
               },

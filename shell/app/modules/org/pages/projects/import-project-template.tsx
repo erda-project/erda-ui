@@ -16,9 +16,10 @@ import i18n from 'i18n';
 import React from 'react';
 import { ErdaIcon } from 'common';
 import EmptySVG from 'app/images/upload_empty.svg';
-import { getCookies, getOrgFromPath } from 'common/utils';
+import { getOrgFromPath } from 'common/utils';
 import { FormInstance } from 'core/common/interface';
 import { UploadFile } from 'app/interface/common';
+import { getUploadProps } from 'common/utils/upload-props';
 import './import-project-template.scss';
 
 export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
@@ -57,11 +58,26 @@ export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
   function beforeUpload(file: UploadFile) {
     const UPLOAD_SIZE_LIMIT = 10; // M
     const isLtSize = (file.size || 0) / 1024 / 1024 < UPLOAD_SIZE_LIMIT;
+    const isLtType = file.type === 'application/zip';
     if (!isLtSize) {
       message.warning(i18n.t('common:the uploaded file must not exceed {size}M', { size: UPLOAD_SIZE_LIMIT }));
     }
-    return isLtSize;
+    if (!isLtType) {
+      message.warning(i18n.t('please upload the zip file'));
+    }
+
+    return isLtSize && isLtType ? true : Upload.LIST_IGNORE;
   }
+
+  const uploadProps = getUploadProps({
+    accept: '.zip',
+    showUploadList,
+    beforeUpload,
+    action: `/api/${getOrgFromPath()}/projects/template/actions/parse`,
+    onChange: handleChange,
+    iconRender: () => <ErdaIcon type="shenjirizhi" />,
+    className: `w-full ${fileStatus === 'init' ? 'flex-all-center' : ''}`,
+  });
 
   return (
     <div
@@ -69,16 +85,7 @@ export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
         fileStatus === 'init' ? 'flex-all-center bg-default-04 py-5' : ''
       } `}
     >
-      <Upload
-        accept={'.zip'}
-        showUploadList={showUploadList}
-        onChange={handleChange}
-        action={`/api/${getOrgFromPath()}/projects/template/actions/parse`}
-        headers={{ 'OPENAPI-CSRF-TOKEN': getCookies('OPENAPI-CSRF-TOKEN'), org: getOrgFromPath() }}
-        beforeUpload={beforeUpload}
-        iconRender={() => <ErdaIcon type="shenjirizhi" />}
-        className={`w-full ${fileStatus === 'init' ? 'flex-all-center' : ''}`}
-      >
+      <Upload {...uploadProps}>
         {fileStatus === 'init' && (
           <div className="flex-all-center cursor-pointer">
             <img src={EmptySVG} style={{ height: 80 }} />

@@ -69,12 +69,12 @@ function getOrgCenterRouter(): RouteConfigItem[] {
             {
               path: 'createProject',
               breadcrumbName: i18n.t('add project'),
-              getComp: (cb) => cb(import('app/modules/org/pages/projects/create-project')),
+              getComp: (cb) => cb(import('app/modules/org/pages/projects/add-project')),
             },
             {
               path: 'importProject',
               breadcrumbName: i18n.t('import project'),
-              getComp: (cb) => cb(import('app/modules/org/pages/projects/create-project')),
+              getComp: (cb) => cb(import('app/modules/org/pages/projects/import-project')),
             },
             {
               layout: { noWrapper: true },
