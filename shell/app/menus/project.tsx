@@ -61,12 +61,6 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       ],
     },
     {
-      text: i18n.t('pipeline'),
-      icon: <ErdaIcon type="liushuixian" />,
-      href: goTo.resolve.projectPipeline(),
-      show: projectPerm.pipeline.view.pass,
-    },
-    {
       href: goTo.resolve.projectTestStatisticsRoot(), // `/dop/projects/${projectId}`,
       icon: <ErdaIcon type="ceshiguanli" />,
       text: i18n.t('Test Management'),
@@ -74,9 +68,9 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       show: projectPerm.testManage.viewTest.pass,
       subMenu: [
         {
-          href: goTo.resolve.projectTestDashboard(),
-          text: i18n.t('dop:statistics'),
-          prefix: goTo.resolve.projectTestStatisticsRoot(),
+          href: goTo.resolve.projectAutoTestCase(),
+          text: i18n.t('dop:auto test'),
+          prefix: `${goTo.resolve.projectAutoTestRoot()}/`,
         },
         {
           href: goTo.resolve.projectManualTestCase(),
@@ -84,9 +78,9 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
           prefix: `${goTo.resolve.projectManualTestRoot()}/`,
         },
         {
-          href: goTo.resolve.projectAutoTestCase(),
-          text: i18n.t('dop:auto test'),
-          prefix: `${goTo.resolve.projectAutoTestRoot()}/`,
+          href: goTo.resolve.projectTestDashboard(),
+          text: i18n.t('dop:statistics'),
+          prefix: goTo.resolve.projectTestStatisticsRoot(),
         },
         {
           href: goTo.resolve.projectTestReport(),
@@ -98,19 +92,24 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       href: goTo.resolve.projectApps(), // `/dop/projects/${projectId}/apps`,
       icon: <ErdaIcon type="yingyongkaifa" />,
-      text: i18n.t('dop:Applications'),
+      text: i18n.t('dop:development deployment'),
       subtitle: i18n.t('App'),
       show: projectPerm.appList.viewAppList.pass,
       subMenu: [
         {
           href: goTo.resolve.projectApps(),
-          text: i18n.t('dop:applications'),
+          text: i18n.t('App'),
           prefix: `${goTo.resolve.projectApps()}`,
         },
         {
           href: goTo.resolve.projectReleaseList(),
-          text: i18n.t('artifact management'),
+          text: i18n.t('Artifact'),
           prefix: `${goTo.resolve.projectRelease()}/`,
+        },
+        {
+          text: i18n.t('pipeline'),
+          href: goTo.resolve.projectPipeline(),
+          show: projectPerm.pipeline.view.pass,
         },
         {
           href: goTo.resolve.projectDeployEnv({ env: 'dev' }),
@@ -141,7 +140,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       ],
     },
     {
-      text: i18n.t('dop:tickets'),
+      text: i18n.t('Tickets'),
       subtitle: i18n.t('Tickets'),
       icon: <ErdaIcon type="gongdanfankui" />,
       href: goTo.resolve.projectTicket(),
