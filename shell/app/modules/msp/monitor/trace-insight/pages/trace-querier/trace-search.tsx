@@ -42,7 +42,7 @@ interface IState {
     rpcMethod?: string;
     durationMin?: string;
     durationMax?: string;
-    status?: string;
+    traceStatus?: string;
     traceID?: string;
     httpPath?: string;
   };
@@ -138,7 +138,7 @@ const TraceSearch: React.FC<IProps> = ({ scope = 'trace' }) => {
     duration: Array<IValue>;
     traceStatus: string;
   }) => {
-    const { duration, traceStatus, ...rest } = data;
+    const { duration, ...rest } = data;
     const durationMin = transformDuration(duration?.[0]);
     const durationMax = transformDuration(duration?.[1]);
     let durations = {};
@@ -153,20 +153,21 @@ const TraceSearch: React.FC<IProps> = ({ scope = 'trace' }) => {
       }
     }
     updater.query({
-      status: traceStatus,
       ...durations,
       ...rest,
     });
   };
 
   const params = React.useMemo(() => {
+    const { traceStatus, traceID, ...rest } = query;
     return {
       tenantId,
       startTime: range.startTimeMs,
       endTime: range.endTimeMs,
-      ...query,
-      serviceName: scope === 'serviceMonitor' ? serviceName : query.serviceName,
-      traceId: query.traceID,
+      ...rest,
+      status: traceStatus,
+      serviceName: scope === 'serviceMonitor' ? serviceName : rest.serviceName,
+      traceId: traceID,
     };
   }, [tenantId, range, query, scope, serviceName]);
   if (!serviceName && requestCompleted && scope == 'serviceMonitor') {

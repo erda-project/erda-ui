@@ -38,7 +38,7 @@ const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
   const color = themeColor[configProps.theme ?? 'light'];
   const style = {
     width: '100%',
-    height: 'auto',
+    height: '170px',
     minHeight: 0,
     ...configProps.style,
   };
