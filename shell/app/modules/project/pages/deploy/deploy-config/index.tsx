@@ -293,7 +293,7 @@ const OtherConfig = (props: IOtherProps) => {
         />
       </div>
       <div className="relative">
-        <ErdaTable hideHeader columns={columns} dataSource={useData} actions={actions} />
+        <ErdaTable hideHeader rowKey="key" columns={columns} dataSource={useData} actions={actions} />
         <Button className="absolute bottom-3" onClick={() => setAddVisible(true)}>
           {i18n.t('common:add')}
         </Button>

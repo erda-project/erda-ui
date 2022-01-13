@@ -14,6 +14,7 @@
 import React from 'react';
 import { FileEditor } from 'common';
 import { Button } from 'antd';
+import { uniq } from 'lodash';
 import { isValidJsonStr } from 'common/utils';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
@@ -35,6 +36,15 @@ const convertData = (data: PIPELINE_CONFIG.ConfigItem[]) => {
   }));
 };
 
+const validateSameKey = (val: string) => {
+  const valData = JSON.parse(val);
+  const keys = valData.map((item) => item.key);
+  if (uniq(keys).length !== keys.length) {
+    return i18n.t('the same {key} exists', { key: 'key' });
+  }
+  return '';
+};
+
 const TextEditConfig = (props: IProps) => {
   const { slot, configData, onChange, updateConfig, onEditChange } = props;
   const [value, setValue] = React.useState(JSON.stringify(convertData(configData), null, 2));
@@ -43,8 +53,7 @@ const TextEditConfig = (props: IProps) => {
     setValue(JSON.stringify(convertData(configData), null, 2));
   }, [configData]);
 
-  const _isValid = isValidJsonStr(value);
-
+  const unvalidInfo = isValidJsonStr(value) ? validateSameKey(value) : i18n.t('dop:JSON format error');
   const isUpdated = React.useMemo(
     () => !isValidJsonStr(value) || JSON.stringify(JSON.parse(value)) !== JSON.stringify(convertData(configData)),
     [value, configData],
@@ -55,7 +64,7 @@ const TextEditConfig = (props: IProps) => {
   }, [isUpdated]);
 
   useUpdateEffect(() => {
-    _isValid && onChange?.(value);
+    !unvalidInfo && onChange?.(value);
   }, [value]);
   return (
     <div className="h-full flex flex-col">
@@ -76,12 +85,12 @@ const TextEditConfig = (props: IProps) => {
         />
       </div>
       <div className={`mt-2 ${isUpdated ? 'flex flex-col' : 'hidden'}`}>
-        {_isValid ? null : <span className="text-danger mb-1">{i18n.t('dop:JSON format error')}</span>}
+        {!unvalidInfo ? null : <span className="text-danger mb-1">{unvalidInfo}</span>}
         <div className="flex-h-center">
           <Button
             type="primary"
             className="mr-2"
-            disabled={!_isValid}
+            disabled={!!unvalidInfo}
             onClick={() => {
               updateConfig(JSON.parse(value));
             }}
