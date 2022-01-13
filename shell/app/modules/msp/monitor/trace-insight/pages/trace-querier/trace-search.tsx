@@ -122,6 +122,7 @@ const TraceSearch: React.FC<IProps> = ({ scope = 'trace' }) => {
           key: 'duration',
           showIndex: 1,
           fixed: true,
+          tips: i18n.t('msp:the minimum and maximum values need to be filled in at the same time'),
           getComp: (props) => {
             return <Duration {...props} />;
           },

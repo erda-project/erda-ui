@@ -34,6 +34,7 @@ const { RangePicker } = DatePicker;
 export interface ICondition {
   key: string;
   label: string;
+  tips?: string;
   type: ConditionType;
   disabled?: boolean;
   emptyText?: string;
@@ -141,6 +142,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   const {
     key,
     label,
+    tips,
     haveFilter,
     type,
     firstShowLength = 200,
@@ -202,6 +204,17 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
       />
     );
   }
+
+  const labels = (
+    <span className="text-desc mr-0.5 flex-all-center">
+      {label}
+      {tips ? (
+        <Tooltip title={tips}>
+          <ErdaIcon type="help" className="ml-1" />
+        </Tooltip>
+      ) : null}
+    </span>
+  );
 
   if (type === 'select') {
     const _value = value ? (isString(value) || isNumber(value) ? [value] : value) : [];
@@ -352,7 +365,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         placement="bottomLeft"
       >
         <span className="contractive-filter-item">
-          <span className="text-desc mr-0.5">{label}</span>
+          {labels}
           <span className="contractive-filter-item-value nowrap">{valueText}</span>
           <ErdaIcon type="caret-down" className="hover" size="16" />
         </span>
@@ -398,7 +411,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
 
     return (
       <span className="contractive-filter-item contractive-filter-date-picker">
-        <span className="text-desc mr-0.5">{label}</span>
+        {labels}
         <DatePicker
           size="small"
           bordered={false}
@@ -457,7 +470,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     };
     return (
       <span className="contractive-filter-item contractive-filter-date-picker">
-        <span className="text-desc mr-0.5">{label}</span>
+        {labels}
         <RangePicker
           value={valueConvert(value)}
           ranges={rangeConvert(ranges)}
@@ -507,7 +520,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           onVisibleChange(true);
         }}
       >
-        <span className="text-desc mr-0.5">{label}</span>
+        {labels}
         <MemberSelector
           {...((customProps || {}) as any)}
           onChange={(v) => {
@@ -533,7 +546,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     const _value = isArray(duration) ? duration : [];
     return (
       <span className="contractive-filter-item">
-        <span className="text-desc mr-0.5">{label}</span>
+        {labels}
         <Duration
           value={_value}
           onChange={(v) => {
@@ -569,7 +582,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     });
     return (
       <span className="contractive-filter-item flex items-center">
-        <span className="text-desc mr-0.5">{label}</span>
+        {labels}
         {comp}
       </span>
     );
