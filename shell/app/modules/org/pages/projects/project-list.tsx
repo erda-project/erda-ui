@@ -134,6 +134,7 @@ export const ProjectList = () => {
                 i18n.t('dop:The export task has been created, please check the progress in the record'),
                 4,
               );
+              setVisible(true);
             });
           },
         },
@@ -179,13 +180,13 @@ export const ProjectList = () => {
       <Menu.Item onClick={() => goTo('./createProject')} key={'app'} className="bg-default hover:bg-white-08">
         <div className="flex-h-center text-white-9">
           <ErdaIcon type="tj1" size={16} className="mr-1" />
-          {i18n.t('add project')}
+          {i18n.t('add')}
         </div>
       </Menu.Item>
       <Menu.Item onClick={() => goTo('./importProject')} key={'file'} className="bg-default hover:bg-white-08">
         <div className="flex-h-center text-white-9">
           <ErdaIcon type="upload" size={16} className="mr-1" />
-          {i18n.t('import project')}
+          {i18n.t('import')}
         </div>
       </Menu.Item>
     </Menu>

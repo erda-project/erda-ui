@@ -20,6 +20,7 @@ declare namespace PROJECT_LIST {
     state: string;
     type: string;
     updatedAt: string;
+    description: string;
   }
 
   interface ProjectList {
