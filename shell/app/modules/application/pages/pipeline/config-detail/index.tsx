@@ -50,7 +50,7 @@ const PipelineConfigDetail = (props: IProps) => {
   }, [caseDetail, updater, useCaseDetail]);
 
   React.useEffect(() => {
-    onCaseChange(isLastRecord);
+    onCaseChange?.(isLastRecord);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLastRecord]);
 

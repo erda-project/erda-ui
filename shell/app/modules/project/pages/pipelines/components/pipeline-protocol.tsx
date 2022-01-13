@@ -12,18 +12,26 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer } from 'antd';
+import { Drawer, Tabs } from 'antd';
+import i18n from 'i18n';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
+import { updateSearch } from 'common/utils';
+import fileTreeStore from 'common/stores/file-tree';
+import { getINodeByPipelineId, getPipelineDetail } from 'application/services/build';
 import PipelineForm from './form';
 import PipelineBasic from './basic';
+import PipelineRunDetail from 'application/pages/pipeline/run-detail';
 
 interface IProps {
-  application: { ID: number };
+  application: { ID: number; name?: string };
 }
+
+const { TabPane } = Tabs;
 
 const PipelineProtocol = ({ application }: IProps) => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
+  const { updateTreeNodeDetail } = fileTreeStore;
   const { ID: applicationID } = application;
   const inParams = {
     projectID: +projectId,
@@ -51,8 +59,8 @@ const PipelineProtocol = ({ application }: IProps) => {
   return (
     <>
       <DiceConfigPage
-        scenarioKey="project-pipeline-manage"
-        scenarioType="project-release-manage"
+        scenarioKey="project-pipeline"
+        scenarioType="project-pipeline"
         showLoading
         inParams={inParams}
         ref={reloadRef}
@@ -62,15 +70,21 @@ const PipelineProtocol = ({ application }: IProps) => {
               fullHeight: true,
             },
           },
-          PageHeader: {
+          pageHeader: {
             props: {
               className: 'mx-2',
             },
           },
           pipelineTable: {
             op: {
-              clickRow: (record: { id: string; appId: string }) => {
-                setDetail(record);
+              clickRow: async (record: { id: string }) => {
+                const res = await getINodeByPipelineId({ pipelineId: record.id });
+                const inode = res?.data?.inode;
+                updateTreeNodeDetail(res.data);
+                const response = await getPipelineDetail({ pipelineID: +record.id });
+                const appId = response.data.applicationID;
+                inode && updateSearch({ nodeId: inode, applicationId: appId, pipelineID: record.id });
+                setDetail({ id: inode, appId });
                 setDetailVisible(true);
               },
             },
@@ -99,7 +113,14 @@ const PipelineProtocol = ({ application }: IProps) => {
         <PipelineForm onCancel={onClose} application={application} />
       </Drawer>
       <Drawer onClose={onDetailClose} visible={detailVisible} width="80%" destroyOnClose>
-        <PipelineBasic nodeId={detail.id} appId={detail.appId} />
+        <Tabs defaultActiveKey="basic">
+          <TabPane tab={i18n.t('basic information')} key="basic">
+            <PipelineBasic nodeId={detail.id} appId={detail.appId} />
+          </TabPane>
+          <TabPane tab={i18n.t('execute detail')} key="2">
+            <PipelineRunDetail deployAuth={{ hasAuth: false }} isMobileInit={false} />
+          </TabPane>
+        </Tabs>
       </Drawer>
     </>
   );

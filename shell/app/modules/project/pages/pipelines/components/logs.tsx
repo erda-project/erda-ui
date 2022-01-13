@@ -29,8 +29,8 @@ const PipelineLogs = () => {
   return (
     <>
       <DiceConfigPage
-        scenarioKey="project-pipeline-log"
-        scenarioType="project-pipeline-log"
+        scenarioKey="project-pipeline-exec-list"
+        scenarioType="project-pipeline-exec-list"
         showLoading
         customProps={{
           pipelineTable: {

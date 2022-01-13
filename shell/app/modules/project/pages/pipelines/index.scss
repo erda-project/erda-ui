@@ -1,6 +1,10 @@
 .project-pipeline {
-  .application-item.active {
-    background: $color-purple-100;
+  .application-item {
+    height: 40px;
+
+    &.active {
+      background: $color-purple-100;
+    }
   }
 
   .app-list {

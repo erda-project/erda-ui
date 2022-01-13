@@ -45,7 +45,7 @@ const apis = {
   },
 };
 
-export const getAppList = apiCreator<(payload: { id: string }) => { list: AppDetail[] }>(apis.getAppList);
+export const getAppList = apiCreator<(payload: { id: string; name: string }) => { list: AppDetail[] }>(apis.getAppList);
 
 export const getFileTree = apiCreator<
   (payload: { pinode: string; scope: string; scopeID: string }) => Array<{ inode: string; name: string }>

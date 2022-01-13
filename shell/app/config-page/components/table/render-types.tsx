@@ -78,7 +78,7 @@ const getItemClickProps = (params: IParams) => {
   const { operations, customOp, execOperation, record } = params;
   const extraProps: Obj = {};
   if (operations?.click || customOp?.clickTableItem) {
-    extraProps.onClick = (e: any) => {
+    extraProps.onClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
       e.stopPropagation();
       operations?.click && execOperation(operations.click);
       customOp?.clickTableItem && customOp.clickTableItem(record, operations?.click);
@@ -562,7 +562,10 @@ interface IDropdownSelectorProps {
 const DropdownSelector = (props: IDropdownSelectorProps) => {
   const { disabled, disabledTip, operations, prefixIcon, value, status, execOperation } = props;
   const ValueRender = (
-    <div className="flex items-center hover-active dropdown-field-selector" onClick={(e: any) => e.stopPropagation()}>
+    <div
+      className="flex items-center hover-active dropdown-field-selector"
+      onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => e.stopPropagation()}
+    >
       <div className="flex items-center">
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
         {value || <span className="text-desc">{i18n.t('unspecified')}</span>}
@@ -577,7 +580,7 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
       </WithAuth>
     );
 
-  const onClick = (e: any) => {
+  const onClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.domEvent.stopPropagation();
     execOperation(operations[e.key]);
   };
@@ -632,12 +635,12 @@ const getTableOperation = (val: any, record: any, extra: any) => {
               extra.execOperation({ ...op, key }, { selectedRowKeys: [] });
             }}
             key={key}
-            onCancel={(e: any) => e && e.stopPropagation()}
+            onCancel={(e: React.MouseEvent<HTMLElement, MouseEvent>) => e && e.stopPropagation()}
             zIndex={1100}
           >
             <span
               className="table-operations-btn px-4 py-1 block flex-h-center"
-              onClick={(e: any) => e.stopPropagation()}
+              onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => e.stopPropagation()}
             >
               {icon ? <ErdaIcon type={icon} color="currentColor" className="mr-1" /> : null}
               {text}
@@ -652,7 +655,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
           <span
             className="table-operations-btn px-4 py-1 block flex-h-center"
             key={key}
-            onClick={(e: any) => {
+            onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
               e.stopPropagation();
               extra.execOperation({ ...op, key }, { selectedRowKeys: [] });
               const customFunc = get(extra, `customOp.operations.${key}`);
@@ -731,7 +734,7 @@ const DropdownMenu = (props: DropDownMenuProps) => {
           return (
             <Menu.Item
               key={item.id}
-              onClick={(e: any) => {
+              onClick={() => {
                 execOperation({ ...item });
               }}
             >
