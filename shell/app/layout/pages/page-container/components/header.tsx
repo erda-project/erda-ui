@@ -14,64 +14,12 @@
 import React from 'react';
 import { Tab } from 'layout/pages/tab/tab';
 import layoutStore from 'layout/stores/layout';
-import { goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import breadcrumbStore from 'layout/stores/breadcrumb';
 import { isEmpty, isFunction } from 'lodash';
 import { matchPath } from 'react-router-dom';
-import { ErdaIcon } from 'common';
-import { Route } from 'core/common/interface';
-import { Breadcrumb, Tooltip } from 'antd';
+import { Ellipsis } from 'common';
 import './header.scss';
-
-const getPath = (path: string, params: Obj<string>) => {
-  path = (path || '').replace(/^\//, '');
-  Object.keys(params).forEach((key) => {
-    path = path.replace(`:${key}`, params[key]);
-  });
-  return path;
-};
-
-const BreadcrumbItem = ({
-  route,
-  paths,
-  params,
-  title,
-}: {
-  route: IRoute;
-  params: Obj<string>;
-  paths: string[];
-  title?: string;
-}) => {
-  const { path, eternal, changePath, pageName } = route;
-  const [link, setLink] = React.useState('');
-  React.useEffect(() => {
-    const currentPath = paths[paths.length - 1];
-    const lastPath = paths.length > 1 ? paths[paths.length - 2] : '';
-
-    let finalPath = route.encode
-      ? `${lastPath}/${encodeURIComponent(params[route.relativePath.slice(1)])}`
-      : currentPath;
-    if (changePath) {
-      finalPath = changePath(finalPath);
-    }
-
-    setLink(`/${finalPath}`);
-  }, [changePath, params, paths, route.encode, route.relativePath]);
-
-  const displayTitle = title || pageName;
-
-  return displayTitle ? (
-    <span
-      className={`breadcrumb-name ${route.disabled ? 'breadcrumb-disabled' : ''}`}
-      title={displayTitle}
-      key={eternal || path}
-      onClick={() => !route.disabled && goTo(link)}
-    >
-      {displayTitle}
-    </span>
-  ) : null;
-};
 
 const Header = () => {
   const [currentApp] = layoutStore.useStore((s) => [s.currentApp]);
@@ -80,7 +28,7 @@ const Header = () => {
   const infoMap = breadcrumbStore.useStore((s) => s.infoMap);
   const [query] = routeInfoStore.useStore((s) => [s.query]);
 
-  const [allRoutes, setAllRoutes] = React.useState<Route[]>([]);
+  const [allRoutes, setAllRoutes] = React.useState<IRoute[]>([]);
   const [params, setParams] = React.useState<Obj<string>>({});
   const [pageNameInfo, setPageNameInfo] = React.useState<Function>();
   const checkHasTemplate = React.useCallback(
@@ -112,7 +60,7 @@ const Header = () => {
   );
 
   const getBreadcrumbTitle = React.useCallback(
-    (route: Route, isBreadcrumb = false) => {
+    (route: IRoute, isBreadcrumb = false) => {
       const { breadcrumbName, pageName } = route;
       let _title = '';
       if (!isBreadcrumb && pageName) {
@@ -176,11 +124,7 @@ const Header = () => {
       const Comp = pageNameInfo;
       return <Comp />;
     }
-    return (
-      <div className="erda-header-title truncate">
-        <Tooltip title={pageName}>{pageName}</Tooltip>
-      </div>
-    );
+    return <div className="text-xl truncate">{pageName}</div>;
   };
   return (
     <div className="erda-header">
