@@ -864,6 +864,7 @@
     "Platform default rules. Please add custom rules if necessary.": "platform default rules, if you need to adjust by adding custom rules",
     "Please enter the issue title": "Please enter the issue title",
     "Please enter the repository address started with http or https.": "Please enter the repository address started with http or https.",
+    "Please execute pipeline first": "Please execute pipeline first",
     "Please fill in the json expression of obtained target key to determine if the key exists.": "Please fill in the json expression of obtained target key to determine if the key exists.",
     "Project homepage": "Project homepage",
     "Projects": "Projects",

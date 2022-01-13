@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Tabs } from 'antd';
+import { Drawer, Tabs, message } from 'antd';
 import i18n from 'i18n';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
@@ -80,7 +80,7 @@ const PipelineProtocol = ({ application }: IProps) => {
           pipelineTable: {
             op: {
               clickRow: async (record: { id: string }) => {
-                if (record.id) {
+                if (record.id && record.id !== '0') {
                   const res = await getINodeByPipelineId({ pipelineId: record.id });
                   const inode = res?.data?.inode;
                   updateTreeNodeDetail(res.data);
@@ -90,6 +90,8 @@ const PipelineProtocol = ({ application }: IProps) => {
                   setDetail({ id: inode, appId });
                   updateAppDetail({ id: appId, gitRepoAbbrev: `${projectName}/${applicationName}` });
                   setDetailVisible(true);
+                } else {
+                  message.error(i18n.t('dop:Please execute pipeline first'));
                 }
               },
             },
