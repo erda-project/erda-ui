@@ -14,7 +14,7 @@
 
 import React from 'react';
 import { PAGINATION } from 'app/constants';
-import { Button, Input, Tag, Tooltip } from 'antd';
+import { Input, Tag, Tooltip } from 'antd';
 import Pagination from 'common/components/pagination';
 import { debounce, get, isNil, reduce } from 'lodash';
 import EChart from 'charts/components/echarts';
@@ -452,10 +452,12 @@ const MicroServiceOverview = () => {
   return (
     <div>
       <div className="top-button-group">
-        <Button type="default" className="flex items-center" onClick={handleRefresh}>
-          <ErdaIcon type="refresh" className="mr-1" />
-          {i18n.t('refresh data')}
-        </Button>
+        <div
+          className="cursor-pointer flex items-center h-8 w-8 justify-center bg-default-04 rounded-sm text-default-6 hover:bg-default-2 hover:text-default"
+          onClick={handleRefresh}
+        >
+          <ErdaIcon type="refresh" onClick={handleRefresh} />
+        </div>
       </div>
       <ErdaAlert
         showOnceKey="msp-service-list"
@@ -472,8 +474,14 @@ const MicroServiceOverview = () => {
           inParams={{ tenantId, startTime, endTime }}
           fullHeight={false}
           customProps={{
+            page: {
+              props: {
+                className: 'px-4 py-3',
+              },
+            },
             grid: {
               props: {
+                gutter: 8,
                 span: [6, 6, 6, 6],
               },
             },

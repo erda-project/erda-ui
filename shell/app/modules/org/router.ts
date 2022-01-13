@@ -13,6 +13,7 @@
 
 import i18n from 'i18n';
 import permStore from 'user/stores/permission';
+import { MEASURE_TABS } from 'app/modules/project/tabs';
 
 const projectSettingTabs = () => [
   {
@@ -68,7 +69,12 @@ function getOrgCenterRouter(): RouteConfigItem[] {
             {
               path: 'createProject',
               breadcrumbName: i18n.t('add project'),
-              getComp: (cb) => cb(import('app/modules/org/pages/projects/create-project')),
+              getComp: (cb) => cb(import('app/modules/org/pages/projects/add-project')),
+            },
+            {
+              path: 'importProject',
+              breadcrumbName: i18n.t('import project'),
+              getComp: (cb) => cb(import('app/modules/org/pages/projects/import-project')),
             },
             {
               layout: { noWrapper: true },
@@ -83,12 +89,26 @@ function getOrgCenterRouter(): RouteConfigItem[] {
                 //   getComp: cb => cb(import('org/pages/projects/dashboard')),
                 // },
                 {
-                  path: 'dashboard',
-                  breadcrumbName: i18n.t('dop:statistics'),
-                  getComp: (cb) => cb(import('project/pages/issue/issue-dashboard')),
-                  layout: {
-                    noWrapper: true,
-                  },
+                  path: 'measure',
+                  breadcrumbName: i18n.t('dop:efficiency measure'),
+                  routes: [
+                    {
+                      path: 'bug',
+                      tabs: MEASURE_TABS,
+                      ignoreTabQuery: true,
+                      getComp: (cb) => cb(import('project/pages/issue/issue-dashboard')),
+                      layout: {
+                        noWrapper: true,
+                      },
+                    },
+                    {
+                      path: 'task',
+                      tabs: MEASURE_TABS,
+                      ignoreTabQuery: true,
+                      layout: { noWrapper: true, fullHeight: true },
+                      getComp: (cb) => cb(import('project/pages/issue/task-summary')),
+                    },
+                  ],
                 },
                 {
                   path: 'info',

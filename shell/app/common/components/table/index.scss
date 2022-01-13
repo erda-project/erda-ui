@@ -33,8 +33,6 @@
   }
 
   .bg-hover:hover {
-    background-color: $color-default-06;
-
     &:not(.disabled) {
       cursor: pointer;
     }

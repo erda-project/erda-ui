@@ -53,63 +53,66 @@ const Pagination = (pagination: IPaginationProps) => {
 
   const [goToVisible, setGoToVisible] = React.useState(false);
 
-  const paginationCenterRender = (
-    <Popover
-      content={<PaginationJump pagination={pagination} hidePopover={() => setGoToVisible(false)} />}
-      trigger="click"
-      getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-      placement="top"
-      overlayClassName="pagination-jump"
-      visible={goToVisible}
-      onVisibleChange={setGoToVisible}
-    >
-      <div className="pagination-center bg-hover px-3 rounded cursor-pointer" onClick={() => setGoToVisible(true)}>
-        {total ? pagination.current : 0} / {(total && pageSize && Math.ceil(total / pageSize)) || 0}
-      </div>
-    </Popover>
-  );
-
-  const pageSizeMenu = (
-    <Menu>
-      {PAGINATION.pageSizeOptions.map((item: string | number) => {
-        return (
-          <Menu.Item key={item} onClick={() => onChange?.(1, +item)}>
-            <span className="fake-link mr-1">{i18n.t('{size} items / page', { size: item })}</span>
-          </Menu.Item>
-        );
-      })}
-    </Menu>
-  );
-
   return (
     <div className={`erda-pagination flex justify-end items-center relative theme-${theme}`}>
       <div className="erda-pagination-total mr-2">{i18n.t('total {total} items', { total })}</div>
       <div className="erda-pagination-content inline-flex">
         <div
-          className={`bg-hover p-2 leading-none ${current === 1 ? 'disabled' : 'cursor-pointer'}`}
+          className={`bg-hover p-2 leading-none hover:bg-default-06 pagination-pre ${
+            current === 1 ? 'disabled' : 'cursor-pointer'
+          }`}
           onClick={() => current > 1 && onChange?.(current - 1, pageSize)}
         >
-          <ErdaIcon type="left" size={18} color="currentColor" />
+          <ErdaIcon type="left" size={18} />
         </div>
-        {paginationCenterRender}
+
+        <Popover
+          content={<PaginationJump pagination={pagination} hidePopover={() => setGoToVisible(false)} />}
+          trigger="click"
+          getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+          placement="top"
+          overlayClassName="pagination-jump"
+          visible={goToVisible}
+          onVisibleChange={setGoToVisible}
+        >
+          <div
+            className="pagination-center bg-hover hover:bg-default-06 px-3 rounded cursor-pointer"
+            onClick={() => setGoToVisible(true)}
+          >
+            {total ? pagination.current : 0} / {(total && pageSize && Math.ceil(total / pageSize)) || 0}
+          </div>
+        </Popover>
+
         <div
-          className={`bg-hover p-2 leading-none ${
+          className={`bg-hover p-2 leading-none hover:bg-default-06 pagination-next ${
             current === Math.ceil(total / pageSize) ? 'disabled' : 'cursor-pointer'
           }`}
           onClick={() => total && current < Math.ceil(total / pageSize) && onChange?.(current + 1, pageSize)}
         >
-          <ErdaIcon type="right" size={18} color="currentColor" />
+          <ErdaIcon type="right" size={18} />
         </div>
       </div>
       {!hidePageSizeChange ? (
         <Dropdown
           trigger={['click']}
-          overlay={pageSizeMenu}
+          overlay={
+            <Menu>
+              {PAGINATION.pageSizeOptions.map((item: string | number) => {
+                return (
+                  <Menu.Item key={item} onClick={() => onChange?.(1, +item)}>
+                    <span className="fake-link mr-1">{i18n.t('{size} items / page', { size: item })}</span>
+                  </Menu.Item>
+                );
+              })}
+            </Menu>
+          }
           align={{ offset: [0, 5] }}
           overlayStyle={{ minWidth: 120 }}
           getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
         >
-          <span className="bg-hover px-3 py-1 cursor-pointer">{i18n.t('{size} items / page', { size: pageSize })}</span>
+          <span className="bg-hover px-3 py-1 cursor-pointer hover:bg-default-06">
+            {i18n.t('{size} items / page', { size: pageSize })}
+          </span>
         </Dropdown>
       ) : null}
     </div>

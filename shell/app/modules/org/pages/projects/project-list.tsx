@@ -13,15 +13,18 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Spin, Button, Input, Tooltip } from 'antd';
-import { ColumnProps } from 'app/common/components/table/interface';
+import { Spin, Button, Input, Tooltip, Menu, Dropdown, message } from 'antd';
+import ErdaTable from 'common/components/table';
+import { ColumnProps, IActions } from 'common/components/table/interface';
 import { goTo, fromNow } from 'common/utils';
 import { Filter, ErdaIcon, ErdaAlert } from 'common';
-import ErdaTable from 'common/components/table';
 import { useUnmount } from 'react-use';
 import { PAGINATION } from 'app/constants';
 import projectStore from 'project/stores/project';
+import { exportProjectTemplate } from 'org/services/project-list';
 import { useLoading } from 'core/stores/loading';
+import { OperationProjectRecords } from './operation-project-record';
+import orgStore from 'app/org-home/stores/org';
 import './project-list.scss';
 
 interface IState {
@@ -43,6 +46,7 @@ export const ProjectList = () => {
   const { clearProjectList } = projectStore.reducers;
   const { pageNo, pageSize, total } = paging;
   const [loadingList] = useLoading(projectStore, ['getProjectList']);
+  const orgID = orgStore.getState((s) => s.currentOrg.id);
   const [searchObj, setSearchObj] = React.useState<IState>({
     pageNo: 1,
     pageSize,
@@ -50,6 +54,7 @@ export const ProjectList = () => {
     orderBy: 'activeTime',
     asc: false,
   });
+  const [visible, setVisible] = React.useState(false);
 
   useUnmount(() => {
     clearProjectList();
@@ -113,32 +118,35 @@ export const ProjectList = () => {
         sortOrder: getColumnOrder('activeTime'),
         render: (text) => (text ? fromNow(text) : i18n.t('none')),
       },
-
-      {
-        title: i18n.t('dop:statistics'),
-        key: 'op',
-        dataIndex: 'id',
-        render: (id, record) => {
-          if (record.type === 'MSP') {
-            return null;
-          }
-          return (
-            <div className="table-operations">
-              <span
-                className="table-operations-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  goTo(`./${id}/dashboard`);
-                }}
-              >
-                <ErdaIcon type="jiankong" />
-              </span>
-            </div>
-          );
-        },
-      },
     ];
     return columns;
+  };
+
+  const ProjectActions: IActions<PROJECT.Detail> = {
+    width: 120,
+    render: (record: PROJECT.Detail) => {
+      const { exportProject, goToEfficiencyMeasure } = {
+        exportProject: {
+          title: i18n.t('export'),
+          onClick: () => {
+            exportProjectTemplate.fetch({ orgID, projectID: record.id }).then(() => {
+              message.success(
+                i18n.t('dop:The export task has been created, please check the progress in the record'),
+                4,
+              );
+            });
+          },
+        },
+        goToEfficiencyMeasure: {
+          title: i18n.t('dop:efficiency measure'),
+          onClick: () => {
+            goTo(`./${record.id}/measure/task`);
+          },
+        },
+      };
+
+      return record.type === 'MSP' ? [exportProject] : [exportProject, goToEfficiencyMeasure];
+    },
   };
 
   const onSearch = (query: string) => {
@@ -166,13 +174,41 @@ export const ProjectList = () => {
     }));
   };
 
+  const addDropdownMenu = (
+    <Menu className="bg-default">
+      <Menu.Item onClick={() => goTo('./createProject')} key={'app'} className="bg-default hover:bg-white-08">
+        <div className="flex-h-center text-white-9">
+          <ErdaIcon type="tj1" size={16} className="mr-1" />
+          {i18n.t('add project')}
+        </div>
+      </Menu.Item>
+      <Menu.Item onClick={() => goTo('./importProject')} key={'file'} className="bg-default hover:bg-white-08">
+        <div className="flex-h-center text-white-9">
+          <ErdaIcon type="upload" size={16} className="mr-1" />
+          {i18n.t('import project')}
+        </div>
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <div className="org-project-list">
       <Spin spinning={loadingList}>
-        <div className="top-button-group">
-          <Button type="primary" onClick={() => goTo('./createProject')}>
-            {i18n.t('add project')}
+        <div className="top-button-group flex">
+          <Button
+            className="text-default-8 bg-default-06 font-medium"
+            onClick={() => {
+              setVisible(true);
+            }}
+          >
+            {i18n.t('import and export records')}
           </Button>
+          <Dropdown overlay={addDropdownMenu} trigger={['click']}>
+            <Button type={'primary'} className="bg-default flex-h-center">
+              {i18n.t('add project')}
+              <ErdaIcon type="caret-down" size="18" color="currentColor" className="ml-1 text-white-400" />
+            </Button>
+          </Dropdown>
         </div>
         <ErdaAlert
           showOnceKey="project-list"
@@ -185,6 +221,7 @@ export const ProjectList = () => {
           dataSource={list}
           columns={getColumns()}
           rowClassName={() => 'cursor-pointer'}
+          actions={ProjectActions}
           slot={
             <Filter
               config={[
@@ -217,6 +254,7 @@ export const ProjectList = () => {
           onChange={handleTableChange}
         />
       </Spin>
+      <OperationProjectRecords visible={visible} setVisible={setVisible} />
     </div>
   );
 };

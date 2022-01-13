@@ -809,7 +809,7 @@ const BuildDetail = (props: IProps) => {
               changeType={changeType}
             />
           </div>
-          {!isMobileInit ? (
+          {appId && !isMobileInit ? (
             <PipelineLog
               resourceId={`${state.chosenPipelineId}`}
               resourceType="pipeline"

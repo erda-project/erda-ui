@@ -233,6 +233,7 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
       workCards: {
         props: {
           className: 'personal-workbench-cards px-4',
+          itemClassName: 'w-[280px] animate-border',
           EmptyHolder: EmptyMap[listType]?.card,
           defaultImg: EmptyMap[listType]?.defaultCardImg,
         },

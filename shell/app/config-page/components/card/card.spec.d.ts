@@ -28,6 +28,7 @@ declare namespace CP_CARD {
     cardType?: string;
     direction?: 'row' | 'col';
     className?: string;
+    itemClassName?: string;
     setIsDrag?: (b: boolean) => void;
     defaultImg?: string;
     CardRender?: React.FC<{ data: Obj }>;
