@@ -27,8 +27,8 @@ const genCommonSize = (chartSize: number, maxSize: number, current: number) => {
     return current;
   }
   const baseSize = isNaN(chartSize) ? maxSize : chartSize;
-  // the largest node size is 1/4 of the chart height, the smallest node size is 1/20 of the chart height
-  return Math.max(baseSize / 20, (baseSize / 4) * (current / (maxSize || 1)));
+  // the largest node size is 1/8 of the chart height, the smallest node size is 1/20 of the chart height
+  return Math.max(baseSize / 20, (baseSize / 8) * (current / (maxSize || 1)));
 };
 
 type ISerieData = [number, number, number, string, string];
@@ -61,7 +61,6 @@ const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
         metaData[dimension].push([xCoords, yCoords, size, item]);
       });
     });
-
     const maxSize = Math.max(...sizeArr);
     const series = Object.keys(metaData).map((dimension) => {
       return {
