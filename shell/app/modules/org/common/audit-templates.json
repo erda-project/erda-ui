@@ -1113,8 +1113,8 @@
   "createMicroserviceAlert": {
     "desc": "创建微服务下的告警",
     "success": {
-      "zh": "在项目 [@projectName](project) 下，创建了告警 [@alertName]",
-      "en": "in the project [@projectName](project) , created alert [@alertName]"
+      "zh": "[@workspace] 环境的 [@projectName] 项目中，创建了[@alertName] 告警策略",
+      "en": "create alarm strategy [@alertName] in the [@projectName] project of the [@workspace] environment"
     },
     "fail": {
       "zh": "",
@@ -1124,8 +1124,8 @@
   "deleteMicroserviceAlert": {
     "desc": "删除微服务下的告警",
     "success": {
-      "zh": "在项目 [@projectName](project) 下，删除了告警 [@alertName]",
-      "en": "in the project [@projectName](project) , deleted alert [@alertName]"
+      "zh": "[@workspace] 环境的 [@projectName] 项目中，删除了 [@alertName] 告警策略",
+      "en": "delete alarm strategy [@alertName] in the [@projectName] project of the [@workspace] environment"
     },
     "fail": {
       "zh": "",
@@ -1146,8 +1146,8 @@
   "updateMicroserviceAlert": {
     "desc": "更新微服务下的告警",
     "success": {
-      "zh": "在项目 [@projectName](project) 下，更新了告警 [@alertName]",
-      "en": "in the project [@projectName](project) , updated alert [@alertName]"
+      "zh": "[@workspace] 环境的 [@projectName] 项目中，更新了 [@alertName] 告警策略",
+      "en": "update alarm strategy [@alertName] in the [@projectName] project of the [@workspace] environment"
     },
     "fail": {
       "zh": "",
@@ -1157,8 +1157,8 @@
   "createMicroserviceCustomAlert": {
     "desc": "创建微服务下的自定义告警",
     "success": {
-      "zh": "在项目 [@projectName](project) 下，创建了自定义告警 [@alertName]",
-      "en": "in the project [@projectName](project) , created custom alert [@alertName]"
+      "zh": "[@workspace] 环境的 [@projectName] 项目中，创建了自定义告警 [@alertName]",
+      "en": "[@alertName] custom alarms are create in the [@projectName] project of the [@workspace] environment."
     },
     "fail": {
       "zh": "",
@@ -1168,8 +1168,8 @@
   "deleteMicroserviceCustomAlert": {
     "desc": "删除微服务下的自定义告警",
     "success": {
-      "zh": "在项目 [@projectName](project) 下，删除了自定义告警 [@alertName]",
-      "en": "in the project [@projectName](project) , deleted custom alert [@alertName]"
+      "zh": "[@workspace] 环境的 [@projectName] 项目中，删除了自定义告警 [@alertName]",
+      "en": "[@alertName] custom alarms are delete in the [@projectName] project of the [@workspace] environment."
     },
     "fail": {
       "zh": "",
@@ -1190,8 +1190,8 @@
   "updateMicroserviceCustomAlert": {
     "desc": "更新微服务下的自定义告警",
     "success": {
-      "zh": "在项目 [@projectName](project) 下，更新了自定义告警 [@alertName]",
-      "en": "in the project [@projectName](project) , updated custom alert [@alertName]"
+      "zh": "[@workspace] 环境的 [@projectName] 项目中，更新了自定义告警 [@alertName]",
+      "en": "[@alertName] custom alarms are updated in the [@projectName] project of the [@workspace] environment."
     },
     "fail": {
       "zh": "",
@@ -2100,6 +2100,100 @@
     "fail": {
       "zh": "",
       "en": ""
+    }
+  },
+  "createServiceNotifyGroup": {
+    "desc": "创建微服务通知组",
+    "success": {
+      "zh": "[@workspace] 环境的 [@projectName] 项目中，创建或更新了通知组 [@notifyGroupName]",
+      "en": "create or update [@notifyGroupName] notifyGroup in the [@projectName] project of the [@workspace] environment"
+    },
+    "fail": {}
+  },
+  "deleteServiceNotifyGroup": {
+    "desc": "删除微服务通知组",
+    "success": {
+      "zh": "[@workspace] 环境的 [@projectName] 项目中，删除了通知组 [@notifyGroupName]",
+      "en": "delete [@notifyGroupName] notifyGroup in the [@projectName] project of the [@workspace] environment"
+    },
+    "fail": {}
+  },
+  "addServiceMember": {
+    "desc": "添加微服务成员",
+    "success": {
+      "zh": "在 [@projectName] 项目中，添加或修改了成员 [@users]",
+      "en": "[@users] added or modified members in the [@projectName] project ."
+    },
+    "fail": {}
+  },
+  "deleteServiceMember": {
+    "desc": "删除微服务成员",
+    "success": {
+      "zh": "在 [@projectName] 项目中，删除了成员 [@users]",
+      "en": "[@users] delete members in the [@projectName] project."
+    },
+    "fail": {}
+  },
+  "addDashboard": {
+    "desc": "创建自定义大盘",
+    "success": {
+      "zh": "在企业 [@orgName] 下，创建或更新了自定义大盘 [@dashboardName]",
+      "en": "in the org [@orgName], created or modified dashboard [@dashboardName]"
+    },
+    "fail": {}
+  },
+  "deleteDashboard": {
+    "desc": "删除自定义大盘",
+    "success": {
+      "zh": "在企业 [@orgName] 下，删除了自定义大盘 [@dashboardName]",
+      "en": "in the org [@orgName], delete dashboard [@dashboardName]"
+    },
+    "fail": {}
+  },
+  "addServiceDashboard": {
+    "desc": "创建微服务自定义大盘",
+    "success": {
+      "zh": "[@workspace] 环境的 [@projectName] 项目中，创建或更新了自定义大盘 [@dashboardName]",
+      "en": "create or update custom [@dashboardName] dashboards in the [@projectName] project of the [@workspace] environment"
+    },
+    "fail": {}
+  },
+  "deleteServiceDashboard": {
+    "desc": "删除微服务自定义大盘",
+    "success": {
+      "zh": "[@workspace] 环境的 [@projectName] 项目中，删除了自定义大盘 [@dashboardName]",
+      "en": "delete custom [@dashboardName] dashboards in the [@projectName] project of the [@workspace] environment"
+    },
+    "fail": {}
+  },
+  "createServiceToken": {
+    "desc": "创建token",
+    "success": {
+      "zh": "在 [@projectName] 项目中创建了token [@token]",
+      "en": "create token [@token] in the [@projectName] project"
+    },
+    "fail": {}
+  },
+  "deleteServiceToken": {
+    "desc": "删除token",
+    "success": {
+      "zh": "在 [@projectName] 项目中删除了token [@token]",
+      "en": "delete token [@token] in the [@projectName] project"
+    },
+    "fail": {}
+  },
+  "createAnalyzerRule": {
+    "desc": "创建分析规则",
+    "success": {
+      "zh": "[@workspace] 环境的 [@projectName] 项目中,创建或修改了 [@analyzeRule] 分析规则",
+      "en": "create or update [@analyzeRule] analyzeRule in the [@projectName] project of the [@workspace] environment"
+    }
+  },
+  "deleteAnalyzerRule": {
+    "desc": "删除分析规则",
+    "success": {
+      "zh": "[@workspace] 环境的 [@projectName] 项目中,删除了 [@analyzeRule] 分析规则",
+      "en": "delete [@analyzeRule] analyzeRule in the [@projectName] project of the [@workspace] environment"
     }
   }
 }
