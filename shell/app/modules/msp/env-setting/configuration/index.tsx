@@ -82,7 +82,8 @@ const Configuration = () => {
   const [acquisitionAndLangData, acquisitionAndLangDataLoading] = getAcquisitionAndLang.useState();
   const [tokenDetailInfo, tokenDetailInfoLoading] = getDetailToken.useState();
   const [infoData, infoDataLoading] = getInfo.useState();
-  const [createTokenInfo, createTokenInfoLoading] = createToken.useState();
+  const [createTokenData, createTokenInfoLoading] = createToken.useState();
+  const createTokenInfo = createTokenData?.id;
 
   const detail = React.useMemo(
     () => (mode === 'create' ? createTokenInfo : tokenDetailInfo),

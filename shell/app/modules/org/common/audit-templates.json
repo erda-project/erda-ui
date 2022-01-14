@@ -1113,7 +1113,7 @@
   "createMicroserviceAlert": {
     "desc": "创建微服务下的告警",
     "success": {
-      "zh": "[@workspace] 环境的 [@projectName] 项目中，创建了[@alertName] 告警策略",
+      "zh": "在 [@workspace] 环境的 [@projectName] 项目中，创建了[@alertName] 告警策略",
       "en": "create alarm strategy [@alertName] in the [@projectName] project of the [@workspace] environment"
     },
     "fail": {
@@ -1124,7 +1124,7 @@
   "deleteMicroserviceAlert": {
     "desc": "删除微服务下的告警",
     "success": {
-      "zh": "[@workspace] 环境的 [@projectName] 项目中，删除了 [@alertName] 告警策略",
+      "zh": "在 [@workspace] 环境的 [@projectName] 项目中，删除了 [@alertName] 告警策略",
       "en": "delete alarm strategy [@alertName] in the [@projectName] project of the [@workspace] environment"
     },
     "fail": {
@@ -1146,7 +1146,7 @@
   "updateMicroserviceAlert": {
     "desc": "更新微服务下的告警",
     "success": {
-      "zh": "[@workspace] 环境的 [@projectName] 项目中，更新了 [@alertName] 告警策略",
+      "zh": "在 [@workspace] 环境的 [@projectName] 项目中，更新了 [@alertName] 告警策略",
       "en": "update alarm strategy [@alertName] in the [@projectName] project of the [@workspace] environment"
     },
     "fail": {
@@ -1157,7 +1157,7 @@
   "createMicroserviceCustomAlert": {
     "desc": "创建微服务下的自定义告警",
     "success": {
-      "zh": "[@workspace] 环境的 [@projectName] 项目中，创建了自定义告警 [@alertName]",
+      "zh": "在 [@workspace] 环境的 [@projectName] 项目中，创建了自定义告警 [@alertName]",
       "en": "[@alertName] custom alarms are create in the [@projectName] project of the [@workspace] environment."
     },
     "fail": {
@@ -1168,7 +1168,7 @@
   "deleteMicroserviceCustomAlert": {
     "desc": "删除微服务下的自定义告警",
     "success": {
-      "zh": "[@workspace] 环境的 [@projectName] 项目中，删除了自定义告警 [@alertName]",
+      "zh": "在 [@workspace] 环境的 [@projectName] 项目中，删除了自定义告警 [@alertName]",
       "en": "[@alertName] custom alarms are delete in the [@projectName] project of the [@workspace] environment."
     },
     "fail": {
@@ -1190,7 +1190,7 @@
   "updateMicroserviceCustomAlert": {
     "desc": "更新微服务下的自定义告警",
     "success": {
-      "zh": "[@workspace] 环境的 [@projectName] 项目中，更新了自定义告警 [@alertName]",
+      "zh": "在 [@workspace] 环境的 [@projectName] 项目中，更新了自定义告警 [@alertName]",
       "en": "[@alertName] custom alarms are updated in the [@projectName] project of the [@workspace] environment."
     },
     "fail": {
@@ -2105,7 +2105,7 @@
   "createServiceNotifyGroup": {
     "desc": "创建微服务通知组",
     "success": {
-      "zh": "[@workspace] 环境的 [@projectName] 项目中，创建或更新了通知组 [@notifyGroupName]",
+      "zh": "在 [@workspace] 环境的 [@projectName] 项目中，创建或更新了通知组 [@notifyGroupName]",
       "en": "create or update [@notifyGroupName] notifyGroup in the [@projectName] project of the [@workspace] environment"
     },
     "fail": {}
@@ -2113,7 +2113,7 @@
   "deleteServiceNotifyGroup": {
     "desc": "删除微服务通知组",
     "success": {
-      "zh": "[@workspace] 环境的 [@projectName] 项目中，删除了通知组 [@notifyGroupName]",
+      "zh": "在 [@workspace] 环境的 [@projectName] 项目中，删除了通知组 [@notifyGroupName]",
       "en": "delete [@notifyGroupName] notifyGroup in the [@projectName] project of the [@workspace] environment"
     },
     "fail": {}
@@ -2153,7 +2153,7 @@
   "addServiceDashboard": {
     "desc": "创建微服务自定义大盘",
     "success": {
-      "zh": "[@workspace] 环境的 [@projectName] 项目中，创建或更新了自定义大盘 [@dashboardName]",
+      "zh": "在 [@workspace] 环境的 [@projectName] 项目中，创建或更新了自定义大盘 [@dashboardName]",
       "en": "create or update custom [@dashboardName] dashboards in the [@projectName] project of the [@workspace] environment"
     },
     "fail": {}
@@ -2161,7 +2161,7 @@
   "deleteServiceDashboard": {
     "desc": "删除微服务自定义大盘",
     "success": {
-      "zh": "[@workspace] 环境的 [@projectName] 项目中，删除了自定义大盘 [@dashboardName]",
+      "zh": "在 [@workspace] 环境的 [@projectName] 项目中，删除了自定义大盘 [@dashboardName]",
       "en": "delete custom [@dashboardName] dashboards in the [@projectName] project of the [@workspace] environment"
     },
     "fail": {}
@@ -2185,14 +2185,14 @@
   "createAnalyzerRule": {
     "desc": "创建分析规则",
     "success": {
-      "zh": "[@workspace] 环境的 [@projectName] 项目中,创建或修改了 [@analyzeRule] 分析规则",
+      "zh": "在 [@workspace] 环境的 [@projectName] 项目中,创建或修改了 [@analyzeRule] 分析规则",
       "en": "create or update [@analyzeRule] analyzeRule in the [@projectName] project of the [@workspace] environment"
     }
   },
   "deleteAnalyzerRule": {
     "desc": "删除分析规则",
     "success": {
-      "zh": "[@workspace] 环境的 [@projectName] 项目中,删除了 [@analyzeRule] 分析规则",
+      "zh": "在 [@workspace] 环境的 [@projectName] 项目中,删除了 [@analyzeRule] 分析规则",
       "en": "delete [@analyzeRule] analyzeRule in the [@projectName] project of the [@workspace] environment"
     }
   }
