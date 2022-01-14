@@ -261,7 +261,7 @@
     color: $color-default;
     line-height: 36px;
     text-align: center;
-    border-bottom: 2px solid transparent;
+    border-bottom: 3px solid transparent;
     cursor: pointer;
 
     &:hover,
@@ -274,7 +274,7 @@
     &.ant-menu-item-active {
       color: $color-primary;
       font-weight: 500;
-      border-bottom: 2px solid $color-purple-highlight;
+      border-bottom: 3px solid $color-purple-highlight;
     }
 
     &.tab-menu-disabled {

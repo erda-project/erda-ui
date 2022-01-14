@@ -121,7 +121,6 @@ export const CardItem = (props: CardItemProps) => {
                       <Badge
                         className={`${idx !== 0 ? 'ml-1' : ''}`}
                         showDot={false}
-                        size="small"
                         {...item}
                         key={idx}
                         text={item.text}

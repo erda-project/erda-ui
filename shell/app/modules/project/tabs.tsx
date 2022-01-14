@@ -85,7 +85,7 @@ export const DEPLOY_RUNTIME_TABS = (params: Obj) => {
       name: (
         <span>
           <CustomIcon type="back" />
-          {`${appName === runtimeName ? runtimeName : `${appName}/${runtimeName}`}`}
+          {`${appName === runtimeName ? runtimeName : `${appName}#${runtimeName}`}`}
         </span>
       ),
     },

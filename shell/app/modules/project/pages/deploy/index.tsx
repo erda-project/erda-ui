@@ -229,6 +229,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
         id: item.id,
         title: item.name,
         time: item.createdAt,
+        operator: curUser?.nick || curUser?.name || item.operator,
         titleState: [{ status: curStatus?.status, onlyDot: true }],
         textMeta: [
           {
@@ -240,9 +241,10 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
           { mainText: item.releaseVersion || item.releaseId, subText: i18n.t('Artifact') },
         ],
         icon: (
-          <Avatar src={curUser?.avatar} size="small" className="mr-1">
-            {curUser?.nick ? getAvatarChars(curUser.nick) : i18n.t('none')}
-          </Avatar>
+          <ErdaIcon type="id" size="20" disableCurrent />
+          // <Avatar src={curUser?.avatar} size="small" className="mr-1">
+          //   {curUser?.nick ? getAvatarChars(curUser.nick) : i18n.t('none')}
+          // </Avatar>
         ),
         buttonOperation: item.type !== 'PIPELINE' ? deployOrderOpMap[curStatus.op]?.(item.id) : undefined,
       };
@@ -303,11 +305,10 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
             <span className="text-default-8 font-medium">{i18n.t('dop:deployment records')}</span>
             <Button
               size="small"
-              type="primary"
-              className="text-white-4 hover:text-white flex items-center"
+              className="text-default-4 hover:text-default-8 flex items-center"
               onClick={() => updater.addDrawerVisible(true)}
             >
-              <span className="text-white">{i18n.t('add')}</span>
+              <ErdaIcon type="tj1" />
             </Button>
           </div>
           <div className="mt-2 px-4">
@@ -331,17 +332,19 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
               {cards.length ? (
                 <Timeline className="mt-2">
                   {cards.map((card) => {
+                    const { operator, ...cardRest } = card;
                     return (
                       <Timeline.Item
                         key={card.id}
                         dot={<div className="ml-0.5 mt-1 bg-default-3 w-[8px] h-[8px] rounded-full" />}
                       >
-                        <span className="text-sm text-default-6 mb-1">
-                          {moment(card.time).format('YYYY-MM-DD HH:mm:ss')}
-                        </span>
+                        <div className="text-sm text-default-6 mb-1">
+                          <span className="mr-2">{operator}</span>
+                          <span>{moment(card.time).format('YYYY-MM-DD HH:mm:ss')}</span>
+                        </div>
                         <CardItem
                           className={`animate-border ${selectedOrder === card.id ? 'bg-default-06' : ''}`}
-                          card={card}
+                          card={cardRest}
                           onClick={() => {
                             getDeployDetailFunc(card.id);
                           }}
@@ -377,7 +380,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
         <DeployDetail detail={deployDetail} />
       </Drawer>
       <Drawer
-        title={i18n.t('dop:create deployment request')}
+        title={i18n.t('dop:create deployment')}
         width={'80%'}
         destroyOnClose
         visible={addDrawerVisible}

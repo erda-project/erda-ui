@@ -17,7 +17,7 @@ import { ErdaIcon, FileEditor, DropdownSelectNew, EmptyHolder, SimpleTabs } from
 import ErdaTable from 'common/components/table';
 import { map } from 'lodash';
 import { useUserMap } from 'core/stores/userMap';
-import { ConfigTypeMap } from '../config';
+import { ConfigTypeMap, CONFIG_ENV_MAP } from '../config';
 import { fromNow, getAvatarChars, goTo } from 'common/utils';
 import DeployLog from 'runtime/common/logs/components/deploy-log';
 import FileContainer from 'application/common/components/file-container';
@@ -67,6 +67,12 @@ const DeployDetail = (props: IProps) => {
       },
     },
     {
+      icon: 'huanjing',
+      title: i18n.t('env'),
+      valueKey: 'workspace',
+      render: (val: string) => CONFIG_ENV_MAP[val] || val || '-',
+    },
+    {
       icon: 'zerenren',
       title: i18n.t('dop:executor'),
       valueKey: 'operator',
@@ -96,7 +102,33 @@ const DeployDetail = (props: IProps) => {
 
   const tabs = {
     // base: { key: 'base', text: i18n.t('dop:basic information'), Comp: <BaseInfo data={selectedApp} /> },
-    params: { key: 'params', text: i18n.t('dop:parameter information'), Comp: <Params data={selectedApp} /> },
+    params: {
+      key: 'params',
+      text: i18n.t('dop:parameter information'),
+      Comp: (
+        <Params
+          data={selectedApp}
+          slot={
+            <DropdownSelectNew
+              options={map(appList, (app) => ({ key: app.id, label: app.name }))}
+              optionSize={'small'}
+              mode="simple"
+              value={selectedApp?.id}
+              onClickItem={(v: string) => {
+                setSelectedType('params');
+                setSelectedApp(appList?.find((app) => app.id === v));
+              }}
+              width={160}
+            >
+              <div className="flex h-[28px] rounded-sm  bg-default-06 items-center px-2 truncate w-[100px] text-default-3 hover:text-default-8 ">
+                <span className="truncate text-default font-bold">{selectedApp?.name || i18n.t('please select')}</span>
+                <ErdaIcon type="caret-down" className="ml-1" size="14" />
+              </div>
+            </DropdownSelectNew>
+          }
+        />
+      ),
+    },
     // log: {
     //   key: 'log',
     //   ...(!selectedApp?.deploymentId ? { disabled: true, tip: i18n.t('common:no data') } : {}),
@@ -109,29 +141,9 @@ const DeployDetail = (props: IProps) => {
     <div className="project-deploy-detail h-full flex flex-col overflow-hidden">
       <div className="pb-2 text-default font-medium">{i18n.t('dop:basic information')}</div>
       <InfoRender fields={fields} data={detail} />
-      <div className="pb-2 pt-8 text-default font-medium">{i18n.t('dop:application deployment information')}</div>
+      <div className="pb-2 pt-8 text-default font-medium">{i18n.t('dop:config information')}</div>
       {appList?.length ? (
         <div className="flex flex-col flex-1 h-0 overflow-hidden">
-          <div className="flex-h-center">
-            <DropdownSelectNew
-              options={map(appList, (app) => ({ key: app.id, label: app.name }))}
-              optionSize={'small'}
-              mode="simple"
-              value={selectedApp?.id}
-              onClickItem={(v: string) => {
-                setSelectedType('base');
-                setSelectedApp(appList?.find((app) => app.id === v));
-              }}
-              width={160}
-            >
-              <div className="flex h-[28px] rounded-sm  bg-default-06 items-center px-2 truncate w-[100px] text-default-3 hover:text-default-8 ">
-                <span className="truncate text-default font-bold">{selectedApp?.name || i18n.t('please select')}</span>
-                <ErdaIcon type="caret-down" className="ml-1" size="14" />
-              </div>
-            </DropdownSelectNew>
-            <div className="w-px h-3 bg-default-1 ml-3 mr-4" />
-            {/* <SimpleTabs tabs={tabs} onSelect={setSelectedType} value={selectedType} /> */}
-          </div>
           <div className="mt-3  flex-1 overflow-auto">{tabs[selectedType].Comp || null}</div>
         </div>
       ) : (
@@ -143,6 +155,7 @@ const DeployDetail = (props: IProps) => {
 
 interface ISubProps {
   data?: PROJECT_DEPLOY.DeployDetailApp;
+  slot?: React.ReactElement;
 }
 const BaseInfo = ({ data }: ISubProps) => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
@@ -209,7 +222,7 @@ const BaseInfo = ({ data }: ISubProps) => {
   );
 };
 
-const Params = ({ data }: ISubProps) => {
+const Params = ({ data, slot }: ISubProps) => {
   const columns = [
     { dataIndex: 'key', title: 'Key' },
     {
@@ -254,7 +267,16 @@ const Params = ({ data }: ISubProps) => {
         : [];
     },
   };
-  return <ErdaTable hideHeader rowKey="key" dataSource={data?.params || []} columns={columns} actions={actions} />;
+  return (
+    <ErdaTable
+      slot={slot}
+      hideReload
+      rowKey="key"
+      dataSource={data?.params || []}
+      columns={columns}
+      actions={actions}
+    />
+  );
 };
 
 const Log = ({ data }: ISubProps) => {

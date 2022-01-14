@@ -137,8 +137,8 @@ const AddDeploy = ({ onSelect: propsOnSelect }: { onSelect: (v: { id: string; re
               />
             </div>
             <ErdaTable
-              hideHeader
               rowKey="id"
+              hideReload
               dataSource={(selectedApp?.params || []).filter((item) =>
                 selectedType === ConfigTabs.text.key
                   ? item.type === ConfigTypeMap.kv.key

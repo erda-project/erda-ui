@@ -65,6 +65,8 @@ export interface TableConfigProps<T> {
   setColumns: (val: Array<ColumnProps<T>>) => void;
   onReload: ([key]: any) => void;
   sortColumn: SorterResult<T>;
+  hideReload?: boolean;
+  hideColumnConfig?: boolean;
 }
 
 export declare type TableAction = 'paginate' | 'sort' | 'filter';
