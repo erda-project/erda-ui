@@ -60,6 +60,7 @@ const DeployContainer = () => {
     <div className="project-deploy flex flex-col h-full pb-2">
       <div className="flex items-center justify-between">
         <RadioTabs
+          key={env}
           value={env}
           onChange={(v) => goTo(goTo.pages.projectDeployEnv, { projectId, env: `${v}`?.toLowerCase() })}
           options={map(ENV_MAP, (v, k) => ({ label: v, value: k }))}
