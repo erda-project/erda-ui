@@ -22,12 +22,12 @@ interface IRouteInfo {
     [k: string]: string;
   };
   query: {
-    [k: string]: any;
+    [k: string]: string;
   };
   currentRoute: SHELL.Route | {};
   routeMarks: string[];
   routePatterns: string[];
-  routeMap: Record<string, any>;
+  routeMap: Record<string, SHELL.Route>;
   parsed: any;
   prevRouteInfo: IRouteInfo;
   isIn: (mark: string) => boolean;
