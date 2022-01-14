@@ -37,7 +37,7 @@ const enterpriseModules = [
   },
   {
     name: 'admin',
-    routerPrefix: '/sysAdmin',
+    routePrefix: '/sysAdmin',
   },
 ];
 
