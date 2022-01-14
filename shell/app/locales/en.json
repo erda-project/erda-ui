@@ -1515,6 +1515,7 @@
     "notify role": "notify role",
     "number of application instance": "number of application instance",
     "number of case": "number of case",
+    "number of failures in a day": "number of failures in a day",
     "number of interface passing": "pass number",
     "number of lines not covered": "number of lines not covered",
     "numeric type": "numeric type",
