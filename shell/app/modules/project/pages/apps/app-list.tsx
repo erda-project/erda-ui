@@ -26,7 +26,7 @@ export const ProjectAppList = () => {
   const permMap = usePerm((s) => s.project);
 
   return (
-    <React.Fragment>
+    <div>
       <div className="top-button-group">
         <WithAuth pass={permMap.addApp} disableMode={false} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={() => goTo('./createApp')}>
@@ -43,7 +43,6 @@ export const ProjectAppList = () => {
         customProps={{
           list: {
             props: {
-              hideHead: true,
               className: 'px-2',
               defaultLogo: ImgMap.frontImg_default_app_icon,
             },
@@ -60,6 +59,6 @@ export const ProjectAppList = () => {
           },
         }}
       />
-    </React.Fragment>
+    </div>
   );
 };
