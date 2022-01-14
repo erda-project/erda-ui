@@ -228,6 +228,11 @@ function getProjectRouter(): RouteConfigItem[] {
           ],
         },
         {
+          path: 'old-pipelines',
+          breadcrumbName: i18n.t('pipeline'),
+          getComp: (cb) => cb(import('project/pages/pipelines/old-pipeline')),
+        },
+        {
           path: 'manual',
           pageName: i18n.t('dop:manual test'),
           routes: [
