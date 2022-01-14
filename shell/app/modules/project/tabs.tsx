@@ -231,7 +231,7 @@ export const RELEASE_TABS = [
 export const PIPELINE_TABS = [
   {
     key: 'list',
-    name: i18n.t('dop:pipeline list'),
+    name: i18n.t('pipeline'),
   },
   {
     key: 'logs',

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { debounce } from 'lodash';
-import { Input } from 'antd';
+import { Input, Tooltip } from 'antd';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import { Badge, ErdaIcon } from 'common';
@@ -80,16 +80,20 @@ const Pipeline = () => {
                   >
                     <div className="flex-1">{item.displayName}</div>
                     {item.runningNum ? (
-                      <div className="flex-h-center mr-3">
-                        <Badge onlyDot breathing status={'success'} className="mr-0.5" />
-                        <div className="bg-default-04 text-default-9 rounded-lg px-2 text-xs">{item.runningNum}</div>
-                      </div>
+                      <Tooltip title={i18n.t('running')}>
+                        <div className="flex-h-center mr-3">
+                          <Badge onlyDot breathing status={'success'} className="mr-0.5" />
+                          <div className="bg-default-04 text-default-9 rounded-lg px-2 text-xs">{item.runningNum}</div>
+                        </div>
+                      </Tooltip>
                     ) : null}
                     {item.failedNum ? (
-                      <div className="flex-h-center">
-                        <Badge onlyDot breathing status={'error'} className="mr-0.5" />
-                        <div className="bg-default-04 text-default-9 rounded-lg px-2 text-xs">{item.failedNum}</div>
-                      </div>
+                      <Tooltip title={i18n.t('dop:number of failures in a day')}>
+                        <div className="flex-h-center">
+                          <Badge onlyDot breathing status={'error'} className="mr-0.5" />
+                          <div className="bg-default-04 text-default-9 rounded-lg px-2 text-xs">{item.failedNum}</div>
+                        </div>
+                      </Tooltip>
                     ) : null}
                   </div>
                 ))}

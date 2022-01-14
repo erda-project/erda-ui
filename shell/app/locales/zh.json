@@ -1515,6 +1515,7 @@
     "notify role": "通知角色",
     "number of application instance": "应用实例数",
     "number of case": "用例数",
+    "number of failures in a day": "一天内失败数",
     "number of interface passing": "接口通过数",
     "number of lines not covered": "未覆盖行数",
     "numeric type": "数值类型",
