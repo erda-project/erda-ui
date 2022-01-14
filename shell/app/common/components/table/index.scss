@@ -73,7 +73,7 @@
 
   .erda-table-footer {
     padding: 0 1rem;
-    background-color: $color-default-02;
+    background-color: $color-table-head-bg;
   }
 
   .ant-table {
@@ -207,7 +207,7 @@
 .erda-table-filter {
   padding: 7px 1rem;
   line-height: 50px;
-  background-color: $color-default-02;
+  background-color: $color-table-head-bg;
 
   &-content {
     line-height: 1.2;
