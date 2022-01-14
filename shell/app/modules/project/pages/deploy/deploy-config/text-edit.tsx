@@ -39,6 +39,7 @@ const convertData = (data: PIPELINE_CONFIG.ConfigItem[]) => {
 };
 
 const validateSameKey = (val: string, fullConfigData: PIPELINE_CONFIG.ConfigItem[] = []) => {
+  if (!val) return i18n.t('can not be empty');
   const valData = JSON.parse(val);
   const keys = valData.map((item) => item.key);
   const otherKeys = fullConfigData.filter((item) => item.type !== ConfigTypeMap.kv.key).map((item) => item.key);
@@ -63,7 +64,8 @@ const TextEditConfig = (props: IProps) => {
 
   const unvalidInfo = isValidJsonStr(value) ? validateSameKey(value, fullConfigData) : i18n.t('dop:JSON format error');
   const isUpdated = React.useMemo(
-    () => !isValidJsonStr(value) || JSON.stringify(JSON.parse(value)) !== JSON.stringify(convertData(configData)),
+    () =>
+      !isValidJsonStr(value) || JSON.stringify(value && JSON.parse(value)) !== JSON.stringify(convertData(configData)),
     [value, configData],
   );
 
@@ -75,13 +77,13 @@ const TextEditConfig = (props: IProps) => {
     !unvalidInfo && onChange?.(value);
   }, [value]);
   return (
-    <div className="h-full flex flex-col">
-      <div className="flex justify-end py-2">{slot}</div>
+    <>
+      <div className="flex justify-end py-3 bg-default-02 px-4">{slot}</div>
       <div className="flex-1 overflow-auto">
         <FileEditor
           fileExtension="json"
           minLines={4}
-          className="rounded border-all h-full overflow-auto"
+          className="rounded border-all h-full overflow-auto bg-default-02"
           actions={{
             copy: true,
             format: true,
@@ -114,7 +116,7 @@ const TextEditConfig = (props: IProps) => {
           </Button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

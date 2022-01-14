@@ -395,7 +395,7 @@ interface SelectCompProps {
 }
 
 const SelectComp = ({ value, onChange, options, size, optionRender, ...restItemProps }: SelectCompProps) => {
-  const fixOptions = options.filter?.((item: IOption) => item.fix) || [];
+  const fixOptions = (typeof options === 'function' ? options() : options)?.filter?.((item: IOption) => item.fix) || [];
   return (
     <Select
       {...restItemProps}
@@ -425,7 +425,9 @@ const SelectComp = ({ value, onChange, options, size, optionRender, ...restItemP
     >
       {typeof options === 'function'
         ? options()
-        : options.filter((item: IOption) => !item.fix).map((item: IOption) => renderSelectOption(item, optionRender))}
+        : options
+            ?.filter?.((item: IOption) => !item.fix)
+            .map((item: IOption) => renderSelectOption(item, optionRender))}
     </Select>
   );
 };

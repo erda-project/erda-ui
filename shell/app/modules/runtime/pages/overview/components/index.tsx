@@ -22,6 +22,7 @@ import ServiceCard from './service-card';
 import AddonCard from './addon-card';
 import Info from './info';
 import ActivityLog from './activity';
+import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import runtimeStore from 'app/modules/runtime/stores/runtime';
@@ -30,6 +31,8 @@ import './index.scss';
 
 const RuntimeOverView = () => {
   const params = routeInfoStore.useStore((s) => s.params);
+
+  const isProjectRuntime = !!params.env;
   const [runtimeDetail, addons] = runtimeStore.useStore((s) => [s.runtimeDetail, s.addons]);
   const services = {};
   const endpoints = {};
@@ -168,7 +171,7 @@ const RuntimeOverView = () => {
     setLS('fold-activity', false);
     isFoldActivity = false;
   }
-  const [proportion, setProportion] = React.useState(isFoldActivity ? [24, 0] : [16, 8]);
+  const [proportion, setProportion] = React.useState(isProjectRuntime || isFoldActivity ? [24, 0] : [16, 8]);
   const toggleFold = (fold: boolean) => {
     setLS('fold-activity', fold);
     if (fold) {
@@ -178,13 +181,13 @@ const RuntimeOverView = () => {
     }
   };
   const lg960 = useMediaLt(960, true);
-  React.useEffect(() => {
+  useUpdateEffect(() => {
     toggleFold(lg960);
   }, [lg960]);
 
   return (
     <div className="runtime-overview">
-      <Info />
+      <Info isProjectRuntime={isProjectRuntime} />
       <Row gutter={20} style={{ margin: 'unset' }}>
         <Col span={proportion[0]} style={{ paddingLeft: 'unset' }}>
           <ErrorBoundary>

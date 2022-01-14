@@ -15,8 +15,8 @@ import * as React from 'react';
 import { RadioTabs, ErdaIcon, EmptyHolder, Badge } from 'common';
 import { ENV_MAP } from 'project/common/config';
 import { map, debounce } from 'lodash';
-import { Drawer, Button, Input, Timeline, Avatar, Spin } from 'antd';
-import { goTo, getAvatarChars, updateSearch } from 'common/utils';
+import { Drawer, Button, Input, Timeline, Spin } from 'antd';
+import { goTo, updateSearch } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
 import routeInfoStore from 'core/stores/route';
 import DiceConfigPage, { useMock } from 'app/config-page';
@@ -25,12 +25,10 @@ import { CardItem } from 'app/config-page/components/card/card';
 import i18n from 'i18n';
 import DeployLog from 'runtime/common/logs/components/deploy-log';
 import { useUserMap } from 'core/stores/userMap';
-import ConfigDrawer from './deploy-config';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import DeployDetail from './deploy-detail';
 import { deployOrderStatusMap } from './config';
 import moment from 'moment';
-import EnvSelect from './common/env-select';
 import {
   getDeployOrders,
   getDeployOrderDetail,
@@ -50,51 +48,25 @@ interface IState {
   logVisible: boolean;
   deployDetail: PROJECT_DEPLOY.DeployDetail | undefined;
   selectedOrder: string;
-  selectedRelease: { id: string; releaseId: string } | undefined;
+  selectedRelease: { id: string; releaseId: string; name: string } | undefined;
   urlQuery: Obj<{ [key: string]: string }>;
 }
 
 const DeployContainer = () => {
   const { env: routeEnv, projectId } = routeInfoStore.useStore((s) => s.params);
-  const [{ configDrawerVis, configEnv }, updater, update] = useUpdate<{ configDrawerVis: boolean; configEnv: string }>({
-    configDrawerVis: false,
-    configEnv: '',
-  });
   const env = routeEnv?.toUpperCase();
 
   return (
     <div className="project-deploy flex flex-col h-full pb-2">
-      <div className="top-button-group">
-        <EnvSelect
-          onClickItem={(v) => {
-            update({
-              configDrawerVis: true,
-              configEnv: v,
-            });
-          }}
-          placement={'bottomRight'}
-        >
-          <Button type="primary" className="flex-h-center">
-            <span>{i18n.t('config')}</span>
-            <ErdaIcon type="caret-down" className="ml-1" size="14" />
-          </Button>
-        </EnvSelect>
-      </div>
       <div className="flex items-center justify-between">
         <RadioTabs
+          key={env}
           value={env}
           onChange={(v) => goTo(goTo.pages.projectDeployEnv, { projectId, env: `${v}`?.toLowerCase() })}
           options={map(ENV_MAP, (v, k) => ({ label: v, value: k }))}
         />
       </div>
       <DeployContent key={env} projectId={projectId} env={env} />
-      <ConfigDrawer
-        key={configEnv}
-        projectId={projectId}
-        visible={configDrawerVis}
-        onClose={() => update({ configEnv: '', configDrawerVis: false })}
-        env={configEnv}
-      />
     </div>
   );
 };
@@ -258,6 +230,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
         id: item.id,
         title: item.name,
         time: item.createdAt,
+        operator: curUser?.nick || curUser?.name || item.operator,
         titleState: [{ status: curStatus?.status, onlyDot: true }],
         textMeta: [
           {
@@ -269,9 +242,10 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
           { mainText: item.releaseVersion || item.releaseId, subText: i18n.t('Artifact') },
         ],
         icon: (
-          <Avatar src={curUser?.avatar} size="small" className="mr-1">
-            {curUser?.nick ? getAvatarChars(curUser.nick) : i18n.t('none')}
-          </Avatar>
+          <ErdaIcon type="id" size="20" disableCurrent />
+          // <Avatar src={curUser?.avatar} size="small" className="mr-1">
+          //   {curUser?.nick ? getAvatarChars(curUser.nick) : i18n.t('none')}
+          // </Avatar>
         ),
         buttonOperation: item.type !== 'PIPELINE' ? deployOrderOpMap[curStatus.op]?.(item.id) : undefined,
       };
@@ -280,7 +254,12 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
 
   const curDetailStatus =
     deployDetail?.type !== 'PIPELINE' && deployDetail?.status && deployOrderStatusMap[deployDetail?.status];
-  const closeAddDrawer = () => updater.addDrawerVisible(false);
+  const closeAddDrawer = () => {
+    update({
+      addDrawerVisible: false,
+      selectedRelease: undefined,
+    });
+  };
   return (
     <>
       <div className="flex flex-1 mt-2 overflow-hidden">
@@ -290,7 +269,6 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
             scenarioType="project-runtime"
             // useMock={useMock}
             // forceMock
-            forceUpdateKey={['inParams']}
             inParams={inParams}
             customProps={{
               inputFilter: {
@@ -333,11 +311,10 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
             <span className="text-default-8 font-medium">{i18n.t('dop:deployment records')}</span>
             <Button
               size="small"
-              type="primary"
-              className="text-white-4 hover:text-white flex items-center"
+              className="text-default-4 hover:text-default-8 flex items-center"
               onClick={() => updater.addDrawerVisible(true)}
             >
-              <span className="text-white">{i18n.t('add')}</span>
+              <ErdaIcon type="tj1" />
             </Button>
           </div>
           <div className="mt-2 px-4">
@@ -361,17 +338,19 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
               {cards.length ? (
                 <Timeline className="mt-2">
                   {cards.map((card) => {
+                    const { operator, ...cardRest } = card;
                     return (
                       <Timeline.Item
                         key={card.id}
                         dot={<div className="ml-0.5 mt-1 bg-default-3 w-[8px] h-[8px] rounded-full" />}
                       >
-                        <span className="text-sm text-default-6 mb-1">
-                          {moment(card.time).format('YYYY-MM-DD HH:mm:ss')}
-                        </span>
+                        <div className="text-sm text-default-6 mb-1">
+                          <span className="mr-2">{operator}</span>
+                          <span>{moment(card.time).format('YYYY-MM-DD HH:mm:ss')}</span>
+                        </div>
                         <CardItem
                           className={`animate-border ${selectedOrder === card.id ? 'bg-default-06' : ''}`}
-                          card={card}
+                          card={cardRest}
                           onClick={() => {
                             getDeployDetailFunc(card.id);
                           }}
@@ -407,7 +386,17 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
         <DeployDetail detail={deployDetail} />
       </Drawer>
       <Drawer
-        title={i18n.t('dop:create deployment request')}
+        title={
+          <div className="flex-h-center">
+            <span className="mr-2">{i18n.t('dop:create deployment')}</span>
+            {selectedRelease ? (
+              <>
+                <ErdaIcon size={20} type="id" disableCurrent className="mr-1" />
+                <span>{selectedRelease.name}</span>
+              </>
+            ) : null}
+          </div>
+        }
         width={'80%'}
         destroyOnClose
         visible={addDrawerVisible}
@@ -420,10 +409,12 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
               disabled={!selectedRelease}
               onClick={() => {
                 selectedRelease &&
-                  createDeploy.fetch({ workspace: env, ...selectedRelease }).then(() => {
-                    getDeployOrdersFunc();
-                    closeAddDrawer();
-                  });
+                  createDeploy
+                    .fetch({ workspace: env, id: selectedRelease.id, releaseId: selectedRelease.releaseId })
+                    .then(() => {
+                      getDeployOrdersFunc();
+                      closeAddDrawer();
+                    });
               }}
             >
               {i18n.t('create')}
@@ -432,7 +423,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
           </div>
         }
       >
-        <AddDeploy onSelect={(v: { id: string; releaseId: string }) => updater.selectedRelease(v)} />
+        <AddDeploy onSelect={(v: { id: string; releaseId: string; name: string }) => updater.selectedRelease(v)} />
       </Drawer>
 
       <Drawer visible={logVisible} width={'80%'} onClose={() => update({ logVisible: false, logData: undefined })}>

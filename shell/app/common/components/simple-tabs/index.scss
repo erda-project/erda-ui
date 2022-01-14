@@ -1,20 +1,26 @@
 .common-simple-tabs {
   &-item {
-    border-bottom: 3px solid transparent;
-    padding-bottom: 2px;
-    margin-top: 4px;
     color: $color-default;
+    padding: 4px 8px;
+    border-radius: $border-radius;
     &:hover,
     &.selected {
       &:not(.not-allowed) {
-        font-weight: bold;
-        border-bottom-color: $color-purple-highlight;
+        font-weight: 500;
+        background-color: $color-default-06;
       }
     }
   }
   &.theme-dark {
     .common-simple-tabs-item {
       color: $white;
+      &:hover,
+      &.selected {
+        &:not(.not-allowed) {
+          font-weight: 500;
+          background-color: $color-white-1;
+        }
+      }
     }
   }
 }

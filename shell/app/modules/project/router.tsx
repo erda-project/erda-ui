@@ -22,6 +22,8 @@ import {
   MANUAL_TEST_TABS,
   ITERATION_DETAIL_TABS,
   TEST_STATISTICS_TABS,
+  DEPLOY_RUNTIME_TABS,
+  DEPLOY_TABS,
   MEASURE_TABS,
   RELEASE_TABS,
   PIPELINE_TABS,
@@ -224,6 +226,11 @@ function getProjectRouter(): RouteConfigItem[] {
               layout: { fullHeight: true, noWrapper: true },
             },
           ],
+        },
+        {
+          path: 'obsoleted-pipelines',
+          breadcrumbName: i18n.t('pipeline'),
+          getComp: (cb) => cb(import('project/pages/pipelines/old-pipeline')),
         },
         {
           path: 'manual',
@@ -447,10 +454,38 @@ function getProjectRouter(): RouteConfigItem[] {
           ],
         },
         {
-          path: 'deploy/:env',
+          path: 'deploy',
           pageName: i18n.t('dop:deployment center'),
-          getComp: (cb) => cb(import('project/pages/deploy')),
-          layout: { noWrapper: true },
+          routes: [
+            {
+              path: 'list/:env',
+              tabs: DEPLOY_TABS,
+              ignoreTabQuery: true,
+              alwaysShowTabKey: 'list',
+              routes: [
+                {
+                  layout: { noWrapper: true },
+                  getComp: (cb) => cb(import('project/pages/deploy')),
+                },
+                {
+                  path: ':appId/runtime/:runtimeId',
+                  tabs: DEPLOY_RUNTIME_TABS,
+                  mark: 'projectDeployRuntime',
+                  getComp: (cb) => cb(import('app/modules/runtime/pages/overview')),
+                  layout: {
+                    noWrapper: true,
+                  },
+                },
+              ],
+            },
+            {
+              path: 'config/:env',
+              layout: { noWrapper: true },
+              alwaysShowTabKey: 'config',
+              tabs: DEPLOY_TABS,
+              getComp: (cb) => cb(import('project/pages/deploy/deploy-config')),
+            },
+          ],
         },
       ],
     },

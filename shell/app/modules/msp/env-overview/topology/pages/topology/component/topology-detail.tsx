@@ -127,7 +127,7 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
             ) : null}
             <p className="mb-2 px-4">
               <span className="text-white-6 mr-2">{i18n.t('type')}:</span>
-              <Tag color="#27C99A" className="border-0 bg-green bg-opacity-10">
+              <Tag color="#27C99A" className="border-0 bg-green-1">
                 {data.typeDisplay}
               </Tag>
             </p>

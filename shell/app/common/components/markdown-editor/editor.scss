@@ -47,7 +47,6 @@
     font-family: 'Avenir-Heavy';
     position: relative;
     color: $color-default;
-    margin: 20px 0 10px;
     padding: 0;
     font-weight: bold;
     cursor: text;
@@ -103,20 +102,24 @@
   h1 {
     font-size: 24px;
     line-height: 32px;
+    margin-top: 20px;
   }
 
   h2 {
     font-size: 20px;
     line-height: 28px;
+    margin-top: 16px;
   }
 
   h3 {
     font-size: 16px;
     line-height: 24px;
+    margin-top: 12px;
   }
 
   h4 {
     font-size: 16px;
+    margin-top: 6px;
   }
 
   h5 {
@@ -200,8 +203,11 @@
     margin-top: 0;
   }
 
-  li > p {
-    margin: 4px 0;
+  li {
+    padding: 3px 0;
+    > p {
+      margin: 4px 0;
+    }
   }
 
   ul ul,

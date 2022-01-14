@@ -64,10 +64,10 @@ const runtime = createFlatStore({
   state: initState,
   subscriptions({ listenRoute, registerWSHandler }: IStoreSubs) {
     listenRoute(({ isEntering, isLeaving, params }) => {
-      if (isEntering('runtime')) {
+      if (isEntering('runtime') || isEntering('projectDeployRuntime')) {
         const { runtimeId } = params;
         runtime.getRuntimeDetail({ runtimeId });
-      } else if (isLeaving('runtime')) {
+      } else if (isLeaving('runtime') || isLeaving('projectDeployRuntime')) {
         runtime.clearRuntimeDetail();
       }
     });
@@ -151,6 +151,7 @@ const runtime = createFlatStore({
       runtimeDetail = await call(getRuntimeDetail, { runtimeId: String(data) });
       update({ runtimeDetail });
       breadcrumbStore.reducers.setInfo('runtimeName', runtimeDetail.name);
+      breadcrumbStore.reducers.setInfo('appName', runtimeDetail.applicationName);
       const domainType = ['k8s', 'edas'].includes(runtimeDetail.clusterType) ? 'k8s-domains' : 'domains';
       const {
         extra: { workspace },

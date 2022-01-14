@@ -190,7 +190,15 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
                   name="pipeline"
                   type="select"
                   options={pipelineList}
-                  rules={[{ required: true, message: i18n.t('please choose {name}', { name: i18n.t('pipeline') }) }]}
+                  rules={[
+                    {
+                      validator: async (rule, value: string) => {
+                        if (!value && value !== '') {
+                          throw new Error(i18n.t('please choose {name}', { name: i18n.t('pipeline') }));
+                        }
+                      },
+                    },
+                  ]}
                   itemProps={{
                     className: 'bg-default-06',
                     onChange: (_, node: { label: string }) => setPipeline(node),

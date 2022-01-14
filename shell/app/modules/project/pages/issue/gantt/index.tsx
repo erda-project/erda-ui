@@ -141,7 +141,7 @@ const IssuePlan = () => {
   ] = useUpdate({
     filterObj: {},
     urlQuery: restQuery,
-    chosenParentId: queryParentId || 0,
+    chosenParentId: queryParentId ? Number(queryParentId) : 0,
     chosenIssueId: queryId,
     chosenIteration: queryIterationID || 0,
     chosenIssueType: queryType as undefined | ISSUE_TYPE,

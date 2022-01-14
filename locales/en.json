@@ -840,6 +840,7 @@
     "select role": "select role",
     "select template": "select template",
     "select the existing": "select the existing",
+    "select {name}": "select {name}",
     "selected template": "selected template",
     "selected {name}": "selected {name}",
     "separated by comma, start with letters and can contain": "multiple use, separate, start with a letter and can contain: numbers / _ - . $ # @ *, * only available in last",

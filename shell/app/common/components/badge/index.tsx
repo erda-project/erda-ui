@@ -76,7 +76,7 @@ const Badge = (props: IBadgeProps) => {
           </span>
         ) : null}
         {!onlyDot ? (
-          <span className="erda-badge-status-text">
+          <span className="erda-badge-status-text flex-h-center">
             {text} {suffixIcon ? <ErdaIcon type={suffixIcon} /> : null}
           </span>
         ) : null}
