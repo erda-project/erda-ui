@@ -15,8 +15,8 @@
  * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/1/22 14:35.
  */
 import React from 'react';
-import { Icon as CustomIcon, Title as CommonTitle, ErdaIcon } from 'common';
-import { Tooltip, Button } from 'antd';
+import { ErdaIcon, Icon as CustomIcon, Title as CommonTitle } from 'common';
+import { Button, Tooltip } from 'antd';
 import { OperationAction } from 'config-page/utils';
 import { getImg } from 'app/config-page/img-map';
 import './title.scss';
@@ -36,6 +36,7 @@ const Title = (props: CP_TITLE.Props) => {
     subtitle = '',
     noMarginBottom = false,
     operations = [],
+    className = '',
   } = configProps || {};
 
   const titleComp = tips ? (
@@ -101,7 +102,7 @@ const Title = (props: CP_TITLE.Props) => {
   });
 
   return visible ? (
-    <div className="dice-cp-title">
+    <div className={`dice-cp-title ${className}`}>
       <CommonTitle
         title={titleComp}
         level={level}

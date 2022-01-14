@@ -34,6 +34,7 @@ declare namespace CP_TITLE {
     visible?: boolean;
     noMarginBottom?: boolean;
     operations?: Obj[];
+    className?: string;
   }
 
   type Props = MakeProps<Spec>;
