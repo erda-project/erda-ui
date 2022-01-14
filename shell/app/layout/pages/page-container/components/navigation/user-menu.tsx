@@ -27,19 +27,19 @@ const UserMenu = ({
   ...rest
 }: Merge<PopoverProps, { size: number; className: string }>) => {
   const loginUser = userStore.useStore((s) => s.loginUser);
-
   const operations = [
-    ...insertWhen(!!loginUser.isSysAdmin, []),
-    {
-      icon: <ErdaIcon className="mr-1" type="yunying" size="16" />,
-      title: i18n.t('operation manage platform'),
-      onClick: () => {
-        window.localStorage.setItem('lastOrg', window.location.pathname.split('/')[1]);
-        if (erdaEnv.UI_PUBLIC_ADDR) {
-          window.location.href = `${window.location.protocol}//${erdaEnv.UI_PUBLIC_ADDR}/-/sysAdmin`; // jump to wildcard domain
-        }
+    ...insertWhen(!!loginUser.isSysAdmin, [
+      {
+        icon: <ErdaIcon className="mr-1" type="yunying" size="16" />,
+        title: i18n.t('operation manage platform'),
+        onClick: () => {
+          window.localStorage.setItem('lastOrg', window.location.pathname.split('/')[1]);
+          if (erdaEnv.UI_PUBLIC_ADDR) {
+            window.location.href = `${window.location.protocol}//${erdaEnv.UI_PUBLIC_ADDR}/-/sysAdmin`; // jump to wildcard domain
+          }
+        },
       },
-    },
+    ]),
     ...insertWhen(loginUser.isNewUser || !!erdaEnv.UC_PUBLIC_URL, [
       {
         icon: <ErdaIcon className="mr-1" type="shezhi" size="16" />,
