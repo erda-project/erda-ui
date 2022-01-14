@@ -225,6 +225,9 @@ body {
     border-bottom: unset;
     background: $color-default-02;
     padding: 12px 16px;
+    .ant-drawer-close {
+      padding: 15px;
+    }
   }
 
   .ant-pagination-simple .ant-pagination-prev,
