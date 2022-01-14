@@ -39,7 +39,6 @@ program
   .command('init')
   .description('install dependency & initialize .env config')
   .option('-p, --port <port>', 'set scheduler port')
-  .option('-b, --backendUrl <backendUrl>', 'set backend(api) url')
   .option('-o, --override', 'ignore current .env file and override')
   .option('--online', 'is online execution')
   .option('--skipInstall', 'whether to skip the installation step')

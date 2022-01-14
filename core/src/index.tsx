@@ -30,10 +30,10 @@ const holderReactDom = ReactDom;
 
 setConfig('history', browserHistory);
 
-const enterpriseModule = [
+const enterpriseModules = [
   {
     name: 'fdp',
-    routerPrefix: '/fdp',
+    routePrefix: '/fdp',
   },
   {
     name: 'admin',
@@ -42,8 +42,8 @@ const enterpriseModule = [
 ];
 
 const matchEnterpriseRoute = () => {
-  const target = enterpriseModule.find(({ routerPrefix }) => {
-    const routeRegex = new RegExp(`^/[^/]+${routerPrefix}`);
+  const target = enterpriseModules.find(({ routePrefix }) => {
+    const routeRegex = new RegExp(`^/[^/]+${routePrefix}`);
     if (routeRegex.test(location.pathname)) {
       return true;
     }
@@ -62,7 +62,11 @@ const App = () => {
 
   React.useEffect(() => {
     const currentModule = matchEnterpriseRoute();
-    if (currentModule && !loadedSource.includes(currentModule.name)) {
+    if (
+      currentModule &&
+      (!process.env.FOR_COMMUNITY || process.env.FOR_COMMUNITY === 'false') &&
+      !loadedSource.includes(currentModule.name)
+    ) {
       setScriptSource({
         url: `/static/${currentModule.name}/scripts/mf_${currentModule.name}.js`,
         remoteName: currentModule.name,
