@@ -43,7 +43,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'apps',
-          breadcrumbName: i18n.t('dop:applications'),
+          breadcrumbName: i18n.t('App'),
           layout: { noWrapper: true },
           getComp: (cb) => cb(import('project/pages/apps/app-list'), 'ProjectAppList'),
         },
@@ -412,7 +412,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'release',
-          breadcrumbName: i18n.t('artifact management'),
+          breadcrumbName: i18n.t('Artifact'),
           routes: [
             {
               path: 'project',
