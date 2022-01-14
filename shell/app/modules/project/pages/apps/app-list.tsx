@@ -26,7 +26,7 @@ export const ProjectAppList = () => {
   const permMap = usePerm((s) => s.project);
 
   return (
-    <React.Fragment>
+    <>
       <div className="top-button-group">
         <WithAuth pass={permMap.addApp} disableMode={false} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={() => goTo('./createApp')}>
@@ -35,6 +35,7 @@ export const ProjectAppList = () => {
         </WithAuth>
       </div>
       <DiceConfigPage
+        fullHeight={false}
         scenarioType={'app-list-all'}
         scenarioKey={'app-list-all'}
         inParams={{
@@ -59,6 +60,6 @@ export const ProjectAppList = () => {
           },
         }}
       />
-    </React.Fragment>
+    </>
   );
 };
