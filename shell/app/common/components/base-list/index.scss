@@ -10,12 +10,19 @@
     background-position: 100% 0;
     background-repeat: no-repeat;
 
+    .list-item-more {
+      display: none;
+    }
+
     .erda-base-list-item-hover-icons {
       display: none;
     }
 
     &:hover {
       background-color: $color-table-bg-hover;
+      .list-item-more {
+        display: block;
+      }
       .erda-base-list-item-hover-icons {
         display: block;
       }
@@ -98,23 +105,23 @@
         padding: 0 8px;
         &.info-value-success {
           color: $color-error;
-          background-color: rgba($color-error, 0.08);
+          background-color: rgba($color-error, 0.06);
         }
         &.info-value-warning {
           color: $color-warning;
-          background-color: rgba($color-warning, 0.08);
+          background-color: rgba($color-warning, 0.06);
         }
         &.info-value-error {
           color: $color-error;
-          background-color: rgba($color-error, 0.08);
+          background-color: rgba($color-error, 0.06);
         }
         &.info-value-processing {
           color: $color-info;
-          background-color: rgba($color-info, 0.08);
+          background-color: rgba($color-info, 0.06);
         }
         &.info-value-default {
           color: $color-default;
-          background-color: rgba($color-default, 0.08);
+          background-color: rgba($color-default, 0.06);
         }
       }
     }

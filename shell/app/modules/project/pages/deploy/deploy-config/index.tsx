@@ -12,29 +12,23 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Drawer, Modal, Tooltip, Input, Button } from 'antd';
-import EnvSelect, { envMap } from '../common/env-select';
+import { Modal, Tooltip, Input, Button } from 'antd';
 import { useUpdate } from 'common/use-hooks';
-import { ErdaIcon, Ellipsis, IF, SimpleTabs } from 'common';
+import { ErdaIcon, Ellipsis, IF, SimpleTabs, RadioTabs } from 'common';
 import ErdaTable from 'common/components/table';
 import configStore from 'app/modules/application/stores/pipeline-config';
 import { map } from 'lodash';
 import { useUnmount, useUpdateEffect } from 'react-use';
 import { AppSelector } from 'application/common/app-selector';
 import { getJoinedApps } from 'app/user/services/user';
-import { ConfigTabs, ConfigTypeMap } from '../config';
+import { ConfigTabs, ConfigTypeMap, CONFIG_ENV_MAP } from '../config';
 import { VariableConfigForm } from 'application/pages/settings/components/variable-config-form';
 import ListEdit from './list-edit';
 import TextEdit from './text-edit';
+import { goTo } from 'common/utils';
 import i18n from 'i18n';
+import routeInfoStore from 'core/stores/route';
 import './index.scss';
-
-interface IProps {
-  visible: boolean;
-  onClose: () => void;
-  env: string;
-  projectId: string;
-}
 
 interface IState {
   selectedApp: IApplication | null;
@@ -43,8 +37,9 @@ interface IState {
   editing: boolean;
 }
 
-const ConfigDrawer = (props: IProps) => {
-  const { visible, onClose, env, projectId } = props;
+const Config = () => {
+  const { env: routeEnv, projectId } = routeInfoStore.useStore((s) => s.params);
+  const env = routeEnv?.toUpperCase();
   const [{ selectedApp, selectedEnv, selectedType, editing }, updater, update] = useUpdate<IState>({
     selectedApp: null,
     selectedEnv: env,
@@ -100,125 +95,126 @@ const ConfigDrawer = (props: IProps) => {
   );
 
   return (
-    <Drawer
-      visible={visible}
-      width={'80%'}
-      onClose={() => {
-        checkEdit(() => onClose());
-      }}
-      title={
-        <EnvSelect value={selectedEnv} disabled={editing} onChange={(v) => updater.selectedEnv(v)} required>
-          <div className="flex items-center">
-            <span>{`${i18n.t('config')} - ${envMap[selectedEnv]}`}</span>
-            <ErdaIcon type="caret-down" className="ml-1" size="14" />
-          </div>
-        </EnvSelect>
-      }
-    >
-      <div className="h-full project-deploy-config flex flex-col">
-        <div className="flex items-center mb-2">
-          <AppSelector
-            autoSelect
-            className="project-app-selector"
-            value={selectedApp?.id || ''}
-            getData={(_q: { pageNo: number; pageSize: number }) => {
-              return getJoinedApps({ projectID: +projectId, ..._q }).then((res) => res.data);
-            }}
-            disabled={editing}
-            onClickItem={(app) => updater.selectedApp(app)}
-            resultsRender={() => {
-              return (
-                <div className="w-[100px] h-[28px] rounded-sm  bg-default-06 leading-7 px-2 flex text-default-3 hover:text-default-8">
-                  {selectedApp ? (
-                    <Ellipsis
-                      className="font-bold text-default"
-                      title={selectedApp?.displayName || selectedApp?.name}
-                    />
-                  ) : (
-                    <span className="text-default-3">{i18n.t('please select')}</span>
-                  )}
-                  <ErdaIcon type="caret-down" className="ml-0.5" size="14" />
-                </div>
-              );
-            }}
-          />
-          <div className="w-px h-3 bg-default-1 ml-3 mr-4" />
+    // <Drawer
+    //   visible={visible}
+    //   width={'80%'}
+    //   onClose={() => {
+    //     checkEdit(() => onClose());
+    //   }}
+    //   title={
+    //     <EnvSelect value={selectedEnv} disabled={editing} onChange={(v) => updater.selectedEnv(v)} required>
+    //       <div className="flex items-center">
+    //         <span>{`${i18n.t('config')} - ${envMap[selectedEnv]}`}</span>
+    //         <ErdaIcon type="caret-down" className="ml-1" size="14" />
+    //       </div>
+    //     </EnvSelect>
+    //   }
+    // >
+    <div className="h-full project-deploy-config flex flex-col">
+      <RadioTabs
+        value={env}
+        onChange={(v) => goTo(goTo.pages.projectDeployConfigEnv, { projectId, env: `${v}`?.toLowerCase() })}
+        options={map(CONFIG_ENV_MAP, (v, k) => ({ label: v, value: k }))}
+      />
+      <div className="flex items-center py-2">
+        <AppSelector
+          autoSelect
+          className="project-app-selector"
+          value={selectedApp?.id || ''}
+          getData={(_q: { pageNo: number; pageSize: number }) => {
+            return getJoinedApps({ projectID: +projectId, ..._q }).then((res) => res.data);
+          }}
+          disabled={editing}
+          onClickItem={(app) => updater.selectedApp(app)}
+          resultsRender={() => {
+            return (
+              <div className="w-[100px] h-[28px] rounded-sm  bg-default-06 leading-7 px-2 flex text-default-3 hover:text-default-8">
+                {selectedApp ? (
+                  <Ellipsis className="font-bold text-default" title={selectedApp?.displayName || selectedApp?.name} />
+                ) : (
+                  <span className="text-default-3">{i18n.t('please select')}</span>
+                )}
+                <ErdaIcon type="caret-down" className="ml-0.5" size="14" />
+              </div>
+            );
+          }}
+        />
+        <div className="w-px h-3 bg-default-1 ml-3 mr-4" />
 
-          <SimpleTabs
-            tabs={map(ConfigTabs, (item) => ({ key: item.key, text: item.text }))}
-            value={selectedType}
-            onSelect={(v) => checkEdit(() => updater.selectedType(v))}
-          />
-        </div>
-        {selectedApp && configNamespace ? (
-          selectedType === 'text' ? (
-            <TextConfig
-              className="flex-1"
-              fullConfigData={fullConfigs[configNamespace]}
-              configData={configData}
-              onEditChange={(isEdit) => {
-                updater.editing(isEdit);
-              }}
-              addConfig={(data) =>
-                configStore.addConfigs(
-                  {
-                    query: { namespace_name: configNamespace, encrypt: data.encrypt, appID: `${selectedApp.id}` },
-                    configs: [data],
-                  },
-                  'configmanage',
-                )
-              }
-              updateConfig={(data) =>
-                configStore.updateConfigs(
-                  {
-                    query: { namespace_name: configNamespace, encrypt: data.encrypt, appID: `${selectedApp.id}` },
-                    configs: Array.isArray(data) ? data : [data],
-                    batch: Array.isArray(data),
-                  },
-                  'configmanage',
-                )
-              }
-              deleteConfig={(data) =>
-                configStore.removeConfigWithoutDeploy(
-                  {
-                    key: data.key,
-                    namespace_name: configNamespace,
-                    appID: `${selectedApp.id}`,
-                  },
-                  'configmanage',
-                )
-              }
-            />
-          ) : (
-            <OtherConfig
-              className="flex-1"
-              key={`${selectedEnv}-${selectedApp?.id}`}
-              configData={configData}
-              fullConfigData={fullConfigs[configNamespace]}
-              addConfig={(data) =>
-                configStore.addConfigs(
-                  {
-                    query: { namespace_name: configNamespace, encrypt: data.encrypt, appID: `${selectedApp.id}` },
-                    configs: [data],
-                  },
-                  'configmanage',
-                )
-              }
-              deleteConfig={(data) =>
-                configStore.removeConfigWithoutDeploy(
-                  {
-                    key: data.key,
-                    namespace_name: configNamespace,
-                    appID: `${selectedApp.id}`,
-                  },
-                  'configmanage',
-                )
-              }
-            />
-          )
-        ) : null}
+        <SimpleTabs
+          tabs={map(ConfigTabs, (item) => ({ key: item.key, text: item.text }))}
+          value={selectedType}
+          onSelect={(v) => checkEdit(() => updater.selectedType(v))}
+        />
       </div>
-    </Drawer>
+      {selectedApp && configNamespace ? (
+        selectedType === 'text' ? (
+          <TextConfig
+            className="flex-1"
+            fullConfigData={fullConfigs[configNamespace]}
+            configData={configData}
+            onEditChange={(isEdit) => {
+              updater.editing(isEdit);
+            }}
+            addConfig={(data) =>
+              configStore.addConfigs(
+                {
+                  query: { namespace_name: configNamespace, encrypt: data.encrypt, appID: `${selectedApp.id}` },
+                  configs: [data],
+                },
+                'configmanage',
+              )
+            }
+            updateConfig={(data) =>
+              configStore.updateConfigs(
+                {
+                  query: { namespace_name: configNamespace, encrypt: data.encrypt, appID: `${selectedApp.id}` },
+                  configs: Array.isArray(data) ? data : [data],
+                  batch: Array.isArray(data),
+                },
+                'configmanage',
+              )
+            }
+            deleteConfig={(data) =>
+              configStore.removeConfigWithoutDeploy(
+                {
+                  key: data.key,
+                  namespace_name: configNamespace,
+                  appID: `${selectedApp.id}`,
+                },
+                'configmanage',
+              )
+            }
+          />
+        ) : (
+          <OtherConfig
+            className="flex-1"
+            key={`${selectedEnv}-${selectedApp?.id}`}
+            configData={configData}
+            fullConfigData={fullConfigs[configNamespace]}
+            addConfig={(data) =>
+              configStore.addConfigs(
+                {
+                  query: { namespace_name: configNamespace, encrypt: data.encrypt, appID: `${selectedApp.id}` },
+                  configs: [data],
+                },
+                'configmanage',
+              )
+            }
+            deleteConfig={(data) =>
+              configStore.removeConfigWithoutDeploy(
+                {
+                  key: data.key,
+                  namespace_name: configNamespace,
+                  appID: `${selectedApp.id}`,
+                },
+                'configmanage',
+              )
+            }
+          />
+        )
+      ) : null}
+    </div>
   );
 };
 
@@ -302,7 +298,7 @@ const OtherConfig = (props: IOtherProps) => {
       </div>
       <div className="relative">
         <ErdaTable hideHeader rowKey="key" columns={columns} dataSource={useData} actions={actions} />
-        <Button className="absolute bottom-3" onClick={() => setAddVisible(true)}>
+        <Button className="absolute bottom-3 ml-2" onClick={() => setAddVisible(true)}>
           {i18n.t('common:add')}
         </Button>
       </div>
@@ -431,4 +427,4 @@ const TextConfig = (props: ITextProps) => {
   );
 };
 
-export default ConfigDrawer;
+export default Config;

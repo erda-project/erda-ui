@@ -175,7 +175,7 @@ const ProjectRelease = (props: IReleaseProps) => {
           const { value } = e.target;
           setSearchValue(value);
         }}
-        placeholder={i18n.t('search by keyword')}
+        placeholder={i18n.t('search {name}', { name: i18n.t('dop:release name') })}
       />
 
       <ReleaseList
@@ -264,7 +264,7 @@ const AppRelease = (props: IReleaseProps) => {
             const { value } = e.target;
             setSearchValue(value);
           }}
-          placeholder={i18n.t('search by keyword')}
+          placeholder={i18n.t('search {name}', { name: i18n.t('dop:release name') })}
         />
       </div>
       <ReleaseList

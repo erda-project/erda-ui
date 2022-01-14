@@ -352,7 +352,8 @@ type ROUTE_MARK =
   | 'gateway-route'
   | 'api'
   | 'old-policies'
-  | 'api-monitor';
+  | 'api-monitor'
+  | 'projectDeployRuntime';
 
 type ROUTE_TO_MARK = 'orgIndex' | 'mspDetail';
 interface ROUTE_TABS {

@@ -12,10 +12,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
+import { ENV_MAP } from 'project/common/config';
 
 export const ConfigTabs = {
   text: { key: 'text', text: i18n.t('common:text type') },
   other: { key: 'other', text: i18n.t('common:other type') },
+};
+
+export const CONFIG_ENV_MAP = {
+  DEFAULT: i18n.t('global'),
+  ...ENV_MAP,
 };
 
 export const ConfigTypeMap = {

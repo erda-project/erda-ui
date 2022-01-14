@@ -60,6 +60,38 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
   ];
 };
 
+export const DEPLOY_TABS = (params: Obj) => {
+  return [
+    {
+      key: 'list/dev',
+      name: '部署信息',
+      isActive: (activeKey: string) => activeKey.split('/')[0] === 'list',
+    },
+    {
+      key: 'config/default',
+      name: '配置',
+      isActive: (activeKey: string) => activeKey.split('/')[0] === 'config',
+    },
+  ];
+};
+
+export const DEPLOY_RUNTIME_TABS = (params: Obj) => {
+  const { breadcrumbInfoMap } = params;
+  const { appName, runtimeName } = breadcrumbInfoMap;
+  return [
+    {
+      key: '../../',
+      hrefType: 'back',
+      name: (
+        <span>
+          <CustomIcon type="back" />
+          {`${appName === runtimeName ? runtimeName : `${appName}/${runtimeName}`}`}
+        </span>
+      ),
+    },
+  ];
+};
+
 export const AUTO_TEST_SPACE_TABS = (params: Obj) => {
   const { breadcrumbInfoMap } = params;
   const autoTestSpaceName = breadcrumbInfoMap?.autoTestSpaceName;

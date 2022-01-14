@@ -38,7 +38,7 @@ const DeployDetail = (props: IProps) => {
     appList?.[0] || undefined,
   );
 
-  const [selectedType, setSelectedType] = React.useState('base');
+  const [selectedType, setSelectedType] = React.useState('params');
 
   if (!detail) return null;
 
@@ -95,14 +95,14 @@ const DeployDetail = (props: IProps) => {
   ];
 
   const tabs = {
-    base: { key: 'base', text: i18n.t('dop:basic information'), Comp: <BaseInfo data={selectedApp} /> },
+    // base: { key: 'base', text: i18n.t('dop:basic information'), Comp: <BaseInfo data={selectedApp} /> },
     params: { key: 'params', text: i18n.t('dop:parameter information'), Comp: <Params data={selectedApp} /> },
-    log: {
-      key: 'log',
-      ...(!selectedApp?.deploymentId ? { disabled: true, tip: i18n.t('common:no data') } : {}),
-      text: i18n.t('dop:system log'),
-      Comp: <Log data={selectedApp} />,
-    },
+    // log: {
+    //   key: 'log',
+    //   ...(!selectedApp?.deploymentId ? { disabled: true, tip: i18n.t('common:no data') } : {}),
+    //   text: i18n.t('dop:system log'),
+    //   Comp: <Log data={selectedApp} />,
+    // },
   };
 
   return (
@@ -130,7 +130,7 @@ const DeployDetail = (props: IProps) => {
               </div>
             </DropdownSelectNew>
             <div className="w-px h-3 bg-default-1 ml-3 mr-4" />
-            <SimpleTabs tabs={tabs} onSelect={setSelectedType} value={selectedType} />
+            {/* <SimpleTabs tabs={tabs} onSelect={setSelectedType} value={selectedType} /> */}
           </div>
           <div className="mt-3  flex-1 overflow-auto">{tabs[selectedType].Comp || null}</div>
         </div>

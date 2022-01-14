@@ -17,6 +17,7 @@ import { ErdaIcon } from 'common';
 import ErdaTable from 'common/components/table';
 import { uuid } from 'common/utils';
 import { useUpdateEffect } from 'react-use';
+import { FormInstance } from 'core/common/interface';
 import { useUpdate } from 'common/use-hooks';
 import { ConfigTypeMap } from '../config';
 import { VariableConfigForm } from 'application/pages/settings/components/variable-config-form';
@@ -103,7 +104,7 @@ const ListEditConfig = (props: IProps) => {
         })),
       );
     } catch (errInfo) {
-      message.warn(`Validate Failed: ${errInfo}`);
+      console.error('------', `Validate Failed: ${JSON.stringify(errInfo)}`);
     }
   };
 
@@ -179,6 +180,7 @@ const ListEditConfig = (props: IProps) => {
         dataIndex: col.dataIndex,
         save,
         cancel,
+        form,
         fullConfigData,
         list: value,
         title: col.title,
@@ -229,7 +231,7 @@ const ListEditConfig = (props: IProps) => {
             }}
           />
         </Form>
-        <Button className="absolute bottom-3" onClick={onAdd}>
+        <Button className="absolute bottom-3 ml-2" onClick={onAdd}>
           {i18n.t('common:add')}
         </Button>
       </div>
@@ -251,6 +253,7 @@ const ListEditConfig = (props: IProps) => {
 interface EditCellProps {
   dataIndex: string;
   record: ListData;
+  form: FormInstance;
   title: string;
   inputType: string;
   index: number;
@@ -269,6 +272,7 @@ const EditableCell = ({
   cancel,
   save,
   list,
+  form,
   fullConfigData,
   record,
   index,
@@ -317,8 +321,12 @@ const EditableCell = ({
             style={{ margin: 0 }}
             rules={[
               {
-                required: true,
-                message: i18n.t('please enter {name}', { name: 'Value' }),
+                validator: async (_rule: any, value: any) => {
+                  const encrypt = form.getFieldValue('encrypt');
+                  if (!encrypt && !value) {
+                    throw new Error(i18n.t('please enter {name}', { name: 'Value' }));
+                  }
+                },
               },
             ]}
           >
@@ -336,7 +344,11 @@ const EditableCell = ({
       case 'encrypt':
         Comp = (
           <Form.Item name={dataIndex} style={{ margin: 0 }} valuePropName="checked">
-            <Switch />
+            <Switch
+              onChange={() => {
+                form.validateFields(['value']);
+              }}
+            />
           </Form.Item>
         );
         break;
