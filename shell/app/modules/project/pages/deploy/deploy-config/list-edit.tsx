@@ -76,7 +76,12 @@ const ListEditConfig = (props: IProps) => {
     updater.value(convertData(configData));
   }, [configData, updater]);
 
-  const cancel = () => updater.editData(null);
+  const cancel = () => {
+    update({
+      editData: null,
+      value: value.filter((item) => item.uuid),
+    });
+  };
 
   const save = async () => {
     try {
@@ -241,9 +246,11 @@ const ListEditConfig = (props: IProps) => {
           />
         </Form>
       </div>
-      <Button className="ml-2 mt-2" onClick={onAdd}>
-        {i18n.t('common:add')}
-      </Button>
+      <div className="py-2 bg-default-02">
+        <Button className="ml-2" onClick={onAdd}>
+          {i18n.t('common:add')}
+        </Button>
+      </div>
       <VariableConfigForm
         visible={addVisble}
         fullConfigData={fullConfigData}

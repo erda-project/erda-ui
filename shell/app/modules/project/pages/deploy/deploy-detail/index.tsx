@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { Tooltip, Avatar, Input } from 'antd';
-import { ErdaIcon, FileEditor, DropdownSelectNew, EmptyHolder, SimpleTabs } from 'common';
+import { ErdaIcon, FileEditor, DropdownSelectNew, EmptyHolder } from 'common';
 import ErdaTable from 'common/components/table';
 import { map } from 'lodash';
 import { useUserMap } from 'core/stores/userMap';

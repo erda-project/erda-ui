@@ -83,7 +83,7 @@ const ConfigContainer = () => {
   };
 
   return (
-    <div className="project-deploy-config flex flex-col">
+    <div className="project-deploy-config flex flex-col h-full">
       <RadioTabs
         value={env}
         key={env}
@@ -171,7 +171,7 @@ const Config = ({
   );
 
   return (
-    <div className="bg-white px-4 py-3 rounded-sm mt-2 flex-1 overflow-auto">
+    <div className="bg-white px-4 py-3 rounded-sm mt-2 flex-1 overflow-hidden flex flex-col">
       <div className="flex items-center pb-2">
         {slot}
         <div className="w-px h-3 bg-default-1 mr-4" />
@@ -438,7 +438,7 @@ const TextConfig = (props: ITextProps) => {
     </div>
   );
   return (
-    <div className={`project-text-config flex-1 overflow-auto ${className}`}>
+    <div className={`project-text-config flex flex-col flex-1 overflow-auto ${className}`}>
       {editType === 'list' ? (
         <ListEdit
           configData={configData}
