@@ -54,7 +54,7 @@ const Overview = () => {
   const range = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const tenantId = routeInfoStore.useStore((s) => s.params.terminusKey);
   return (
-    <div className="front-monitor-overview">
+    <div>
       <div className="flex justify-end mb-2">
         <TimeSelectWithStore />
       </div>
