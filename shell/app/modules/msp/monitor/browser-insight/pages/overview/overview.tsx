@@ -65,24 +65,42 @@ const Overview = () => {
           inParams={{ tenantId, startTime: range.startTimeMs, endTime: range.endTimeMs, _: range.triggerTime }}
           forceUpdateKey={['inParams']}
           customProps={{
+            ...['cards', 'topNs', 'charts'].reduce((previousValue, currentValue) => {
+              return {
+                ...previousValue,
+                [`${currentValue}Wrapper`]: {
+                  props: {
+                    className: 'p-0',
+                  },
+                },
+                [`${currentValue}Title`]: {
+                  props: {
+                    level: 1,
+                    noMarginBottom: true,
+                    className: 'h-12 bg-lotion px-4 mb-2',
+                  },
+                },
+              };
+            }, {}),
             topNs: {
               props: {
                 gutter: 8,
                 span: [6, 6, 6, 6],
-                wrapperClassName: 'mt-1',
+                wrapperClassName: '-mt-1 px-4 pb-3',
               },
             },
             cards: {
               props: {
                 colFlex: 'auto',
                 gutter: 0,
+                wrapperClassName: 'px-4 pb-4',
               },
             },
             charts: {
               props: {
                 gutter: 8,
                 span: [12, 12, 12, 12],
-                wrapperClassName: 'mt-1',
+                wrapperClassName: 'px-4 pb-2',
                 className: 'mb-2 overflow-visible',
               },
             },
