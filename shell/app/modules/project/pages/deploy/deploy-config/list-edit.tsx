@@ -113,7 +113,12 @@ const ListEditConfig = (props: IProps) => {
       message.error(i18n.t('common:please save first'));
       return;
     }
-    updater.addVisble(true);
+    const newData = { key: '', value: '', comment: '', encrypt: false };
+    form.setFieldsValue(newData);
+    update({
+      value: value.concat(newData),
+      editData: newData,
+    });
   };
 
   const columns = [
@@ -190,7 +195,7 @@ const ListEditConfig = (props: IProps) => {
   });
 
   const filterValue = React.useMemo(
-    () => (searchValue ? value.filter((item) => !item.key || !item.value || item.key.includes(searchValue)) : value),
+    () => (searchValue ? value.filter((item) => !item.key || item.key.includes(searchValue)) : value),
     [value, searchValue],
   );
 
@@ -211,13 +216,14 @@ const ListEditConfig = (props: IProps) => {
                       searchValue: e.target.value,
                     });
                   }}
-                  placeholder={i18n.t('search by keyword')}
+                  placeholder={i18n.t('search {name}', { name: 'Key' })}
                 />
                 {slot}
               </div>
             }
             hideColumnConfig
             hideReload
+            pagination={false}
             columns={mergedColumns}
             dataSource={filterValue}
             rowKey="key"
@@ -234,10 +240,10 @@ const ListEditConfig = (props: IProps) => {
             }}
           />
         </Form>
-        <Button className="absolute bottom-3 ml-2" onClick={onAdd}>
-          {i18n.t('common:add')}
-        </Button>
       </div>
+      <Button className="ml-2 mt-2" onClick={onAdd}>
+        {i18n.t('common:add')}
+      </Button>
       <VariableConfigForm
         visible={addVisble}
         fullConfigData={fullConfigData}
@@ -358,7 +364,7 @@ const EditableCell = ({
       case 'op':
         Comp = (
           <div className="flex-h-center">
-            <span className="mr-2 fake-link" onClick={save}>
+            <span className="mr-2 fake-link text-purple-deep" onClick={save}>
               {i18n.t('save')}
             </span>
             <span className="fake-link" onClick={cancel}>

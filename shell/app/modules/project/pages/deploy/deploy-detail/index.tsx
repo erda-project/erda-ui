@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Tooltip, Avatar } from 'antd';
+import { Tooltip, Avatar, Input } from 'antd';
 import { ErdaIcon, FileEditor, DropdownSelectNew, EmptyHolder, SimpleTabs } from 'common';
 import ErdaTable from 'common/components/table';
 import { map } from 'lodash';
@@ -105,29 +105,7 @@ const DeployDetail = (props: IProps) => {
     params: {
       key: 'params',
       text: i18n.t('dop:parameter information'),
-      Comp: (
-        <Params
-          data={selectedApp}
-          slot={
-            <DropdownSelectNew
-              options={map(appList, (app) => ({ key: app.id, label: app.name }))}
-              optionSize={'small'}
-              mode="simple"
-              value={selectedApp?.id}
-              onClickItem={(v: string) => {
-                setSelectedType('params');
-                setSelectedApp(appList?.find((app) => app.id === v));
-              }}
-              width={160}
-            >
-              <div className="flex h-[28px] rounded-sm  bg-default-06 items-center px-2 truncate w-[100px] text-default-3 hover:text-default-8 ">
-                <span className="truncate text-default font-bold">{selectedApp?.name || i18n.t('please select')}</span>
-                <ErdaIcon type="caret-down" className="ml-1" size="14" />
-              </div>
-            </DropdownSelectNew>
-          }
-        />
-      ),
+      Comp: <Params data={selectedApp} key={selectedApp?.id} />,
     },
     // log: {
     //   key: 'log',
@@ -144,6 +122,22 @@ const DeployDetail = (props: IProps) => {
       <div className="pb-2 pt-8 text-default font-medium">{i18n.t('dop:config information')}</div>
       {appList?.length ? (
         <div className="flex flex-col flex-1 h-0 overflow-hidden">
+          <DropdownSelectNew
+            options={map(appList, (app) => ({ key: app.id, label: app.name }))}
+            optionSize={'small'}
+            mode="simple"
+            value={selectedApp?.id}
+            onClickItem={(v: string) => {
+              setSelectedType('params');
+              setSelectedApp(appList?.find((app) => app.id === v));
+            }}
+            width={160}
+          >
+            <div className="flex h-[28px] rounded-sm  items-center px-2 truncate w-[100px] text-default-3 hover:text-default-8 ">
+              <span className="truncate text-default font-bold">{selectedApp?.name || i18n.t('please select')}</span>
+              <ErdaIcon type="caret-down" className="ml-1" size="14" />
+            </div>
+          </DropdownSelectNew>
           <div className="mt-3  flex-1 overflow-auto">{tabs[selectedType].Comp || null}</div>
         </div>
       ) : (
@@ -155,7 +149,6 @@ const DeployDetail = (props: IProps) => {
 
 interface ISubProps {
   data?: PROJECT_DEPLOY.DeployDetailApp;
-  slot?: React.ReactElement;
 }
 const BaseInfo = ({ data }: ISubProps) => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
@@ -223,6 +216,7 @@ const BaseInfo = ({ data }: ISubProps) => {
 };
 
 const Params = ({ data, slot }: ISubProps) => {
+  const [searchValue, setSearchValue] = React.useState('');
   const columns = [
     { dataIndex: 'key', title: 'Key' },
     {
@@ -267,7 +261,29 @@ const Params = ({ data, slot }: ISubProps) => {
         : [];
     },
   };
-  return <ErdaTable slot={slot} rowKey="key" dataSource={data?.params || []} columns={columns} actions={actions} />;
+  const curData = data?.params || [];
+  const useData = searchValue ? curData.filter((item) => item.key.includes(searchValue)) : curData;
+  return (
+    <ErdaTable
+      slot={
+        <Input
+          size="small"
+          className="w-[200px] bg-black-06 border-none ml-0.5"
+          value={searchValue}
+          prefix={<ErdaIcon size="16" fill={'default-3'} type="search" />}
+          onChange={(e) => {
+            const { value } = e.target;
+            setSearchValue(value);
+          }}
+          placeholder={i18n.t('search {name}', { name: 'Key' })}
+        />
+      }
+      rowKey="key"
+      dataSource={useData}
+      columns={columns}
+      actions={actions}
+    />
+  );
 };
 
 const Log = ({ data }: ISubProps) => {

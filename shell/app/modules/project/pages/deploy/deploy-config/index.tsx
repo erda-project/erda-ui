@@ -55,7 +55,7 @@ const ConfigContainer = () => {
       onClickItem={(app) => setSelectedApp(app)}
       resultsRender={() => {
         return (
-          <div className="w-[100px] h-[28px] rounded-sm  leading-7 px-2 flex text-default-3 hover:text-default-8">
+          <div className="w-[160px] h-7 rounded-sm  leading-7 px-2 flex text-default-3 hover:text-default-8">
             {selectedApp ? (
               <Ellipsis className="font-bold text-default" title={selectedApp?.displayName || selectedApp?.name} />
             ) : (
@@ -83,7 +83,7 @@ const ConfigContainer = () => {
   };
 
   return (
-    <div className="h-full project-deploy-config flex flex-col">
+    <div className="project-deploy-config flex flex-col">
       <RadioTabs
         value={env}
         key={env}
@@ -329,7 +329,7 @@ const OtherConfig = (props: IOtherProps) => {
                 const { value } = e.target;
                 setSearchValue(value);
               }}
-              placeholder={i18n.t('search by keyword')}
+              placeholder={i18n.t('search {name}', { name: 'Key' })}
             />
           }
           rowKey="key"
