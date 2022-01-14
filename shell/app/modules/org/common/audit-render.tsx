@@ -134,7 +134,7 @@ const render = (record: AUDIT.Item, extraTemplates = {}) => {
         contentList.push(userList.join(', '));
       } else if (urlKey) {
         contentList.push({
-          value: contextValue,
+          value: contextValue || '',
           Comp: (_props: { value: string }) => (
             <Link
               key={`${String(mIndex)}-2`}
@@ -149,7 +149,7 @@ const render = (record: AUDIT.Item, extraTemplates = {}) => {
       } else {
         // 没有()部分，就只替换，不加链接
         contentList.push({
-          value: contextValue,
+          value: contextValue || '',
           Comp: (_props: { value: string }) => (
             <span key={`${String(mIndex)}-3`} className="font-bold">
               {_props.value}

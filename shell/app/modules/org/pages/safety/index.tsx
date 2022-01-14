@@ -65,6 +65,7 @@ const TestModal = ({ onOk }: { onOk: (d: Obj) => void }) => {
 };
 
 const formatStrWithBr = (s: string) => {
+  if (typeof s !== 'string') return '';
   const reContent: Array<string | JSX.Element> = [];
   if (s.includes('\n')) {
     s.split('\n').forEach((a) => {
