@@ -17,6 +17,7 @@ import DiceConfigPage from 'app/config-page';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'core/stores/route';
 import { functionalColor } from 'common/constants';
+import './index.scss';
 
 const topNConfig = [
   {
@@ -54,7 +55,7 @@ const Overview = () => {
   const range = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const tenantId = routeInfoStore.useStore((s) => s.params.terminusKey);
   return (
-    <div>
+    <div className="front-monitor-overview">
       <div className="flex justify-end mb-2">
         <TimeSelectWithStore />
       </div>
@@ -75,6 +76,7 @@ const Overview = () => {
                 },
                 [`${currentValue}Title`]: {
                   props: {
+                    size: 'small',
                     level: 1,
                     noMarginBottom: true,
                     className: 'h-12 bg-lotion px-4 mb-2',
