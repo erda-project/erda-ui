@@ -18,18 +18,10 @@ const tabs = [
   { key: 'bi', name: i18n.t('overview') },
   { key: 'bi/domain', name: i18n.t('msp:access domain') },
   { key: 'bi/page', name: i18n.t('msp:access page') },
-  { key: 'bi/position', name: i18n.t('msp:location analysis') },
-  // { key: 'exception', name: i18n.t('msp:access error') },
   { key: 'bi/ajax', name: i18n.t('msp:ajax interface') },
   { key: 'bi/script', name: i18n.t('msp:script error') },
   { key: 'bi/browser', name: i18n.t('msp:browser performance') },
-  { key: 'bi/summary', name: i18n.t('msp:summary') },
 ];
-
-if (isZh()) {
-  tabs.push({ key: 'bi/geography', name: i18n.t('msp:geography') });
-}
-
 const getBIRouter = (): RouteConfigItem => ({
   path: 'bi',
   breadcrumbName: i18n.t('msp:front-end monitor'),
