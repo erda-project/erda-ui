@@ -159,7 +159,6 @@ const AddDeploy = ({
           </div>
           <ErdaTable
             rowKey="id"
-            hideReload
             slot={
               <Input
                 size="small"

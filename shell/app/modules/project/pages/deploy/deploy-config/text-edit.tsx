@@ -83,7 +83,7 @@ const TextEditConfig = (props: IProps) => {
         <FileEditor
           fileExtension="json"
           minLines={4}
-          className="rounded border-all h-full overflow-auto bg-default-02 px-2"
+          className="rounded border-all h-full overflow-auto bg-default-02"
           actions={{
             copy: true,
             format: true,
