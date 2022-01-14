@@ -267,16 +267,7 @@ const Params = ({ data, slot }: ISubProps) => {
         : [];
     },
   };
-  return (
-    <ErdaTable
-      slot={slot}
-      hideReload
-      rowKey="key"
-      dataSource={data?.params || []}
-      columns={columns}
-      actions={actions}
-    />
-  );
+  return <ErdaTable slot={slot} rowKey="key" dataSource={data?.params || []} columns={columns} actions={actions} />;
 };
 
 const Log = ({ data }: ISubProps) => {

@@ -34,7 +34,13 @@ interface IReleaseQuery {
   pageSize?: number;
 }
 
-const AddRelease = ({ onSelect }: { onSelect: (v: string) => void }) => {
+const AddRelease = ({
+  onSelect,
+  detail,
+}: {
+  onSelect: (v: string) => void;
+  detail: PROJECT_DEPLOY.ReleaseRenderDetail | null;
+}) => {
   const projectId = routeInfoStore.useStore((s) => s.params.projectId);
   const [visible, setVisible] = React.useState(false);
   const [selectedType, setSelectedType] = React.useState('project');
@@ -118,10 +124,22 @@ const AddRelease = ({ onSelect }: { onSelect: (v: string) => void }) => {
         setVisible(vis);
       }}
     >
-      <Button onClick={() => setVisible(true)} type="primary" size="small" className="flex-h-center">
-        <ErdaIcon type="plus" />
-        <span className="ml-1">{i18n.t('add {name}', { name: i18n.t('Artifact') })}</span>
-      </Button>
+      <div
+        onClick={() => setVisible(true)}
+        className="rounded-sm py-0.5 px-2 flex-h-center cursor-pointer text-purple-deep bg-purple-light"
+      >
+        {detail ? (
+          <>
+            <ErdaIcon type={'zhongshi'} className="mr-1" />
+            <span>{i18n.t('dop:switch artifact')}</span>
+          </>
+        ) : (
+          <>
+            <ErdaIcon type={'xuanze'} className="mr-1" />
+            <span>{i18n.t('select {name}', { name: i18n.t('Artifact') })}</span>
+          </>
+        )}
+      </div>
     </Dropdown>
   );
 };
@@ -242,7 +260,7 @@ const AppRelease = (props: IReleaseProps) => {
           onClickItem={(app) => setSelectedApp(app)}
           resultsRender={() => {
             return (
-              <div className="w-[100px] h-[28px] px-2 leading-7 rounded-sm bg-white-06 flex text-white-3 hover:text-white-8">
+              <div className="w-[100px] h-[28px] px-2 leading-7 rounded-sm bg-white-06 flex text-white-3 hover:text-white-8 mr-2">
                 {selectedApp ? (
                   <Ellipsis className="font-bold text-white" title={selectedApp?.displayName || selectedApp?.name} />
                 ) : (

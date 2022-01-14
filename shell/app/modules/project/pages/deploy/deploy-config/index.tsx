@@ -331,7 +331,6 @@ const OtherConfig = (props: IOtherProps) => {
               placeholder={i18n.t('search by keyword')}
             />
           }
-          hideReload
           rowKey="key"
           columns={columns}
           dataSource={useData}
