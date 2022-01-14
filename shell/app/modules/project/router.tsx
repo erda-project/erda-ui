@@ -228,7 +228,7 @@ function getProjectRouter(): RouteConfigItem[] {
           ],
         },
         {
-          path: 'old-pipelines',
+          path: 'obsoleted-pipelines',
           breadcrumbName: i18n.t('pipeline'),
           getComp: (cb) => cb(import('project/pages/pipelines/old-pipeline')),
         },
