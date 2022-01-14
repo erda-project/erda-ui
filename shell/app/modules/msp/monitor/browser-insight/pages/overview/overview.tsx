@@ -93,7 +93,7 @@ const Overview = () => {
               props: {
                 colFlex: 'auto',
                 gutter: 0,
-                wrapperClassName: 'px-4 pb-4',
+                wrapperClassName: 'p-4',
               },
             },
             charts: {
