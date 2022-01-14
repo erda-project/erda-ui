@@ -53,7 +53,7 @@ const List = (props: ERDA_LIST.Props) => {
           </div>
           {pagination &&
             (!isLoadMore ? (
-              <div className="flex items-center justify-between px-4 bg-default-02">
+              <div className="pagination-wrap flex items-center justify-between px-4 bg-default-02">
                 <div>{batchOperation}</div>
                 <Pagination {...pagination} current={pagination.pageNo} />
               </div>
