@@ -4,6 +4,11 @@
     .results {
       padding: 0;
       border: 1px solid transparent;
+      min-height: 24px;
+      > div {
+        line-height: 24px !important;
+        height: 24px !important;
+      }
 
       &:hover {
         box-shadow: unset;
