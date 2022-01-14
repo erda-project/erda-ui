@@ -30,12 +30,12 @@ export const getDopMenu = () => {
           text: i18n.t('joined projects'),
           subtitle: i18n.t('Project'),
         },
-        {
-          href: goTo.resolve.dopApps(), // '/dop/apps',
-          icon: <ErdaIcon type="yingyongkaifa" />,
-          text: i18n.t('joined apps'),
-          subtitle: i18n.t('App'),
-        },
+        // {
+        //   href: goTo.resolve.dopApps(), // '/dop/apps',
+        //   icon: <ErdaIcon type="yingyongkaifa" />,
+        //   text: i18n.t('joined apps'),
+        //   subtitle: i18n.t('App'),
+        // },
         {
           icon: <ErdaIcon type="apisheji" />,
           key: 'apiManage',

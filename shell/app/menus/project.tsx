@@ -102,14 +102,14 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
           prefix: `${goTo.resolve.projectApps()}`,
         },
         {
-          text: i18n.t('pipeline'),
-          href: goTo.resolve.projectPipeline(),
-          show: projectPerm.pipeline.view.pass,
-        },
-        {
           href: goTo.resolve.projectReleaseList(),
           text: i18n.t('Artifact'),
           prefix: `${goTo.resolve.projectRelease()}/`,
+        },
+        {
+          text: i18n.t('pipeline'),
+          href: goTo.resolve.projectPipeline(),
+          show: projectPerm.pipeline.view.pass,
         },
         {
           href: goTo.resolve.projectDeployEnv({ env: 'dev' }),
