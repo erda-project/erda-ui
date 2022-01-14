@@ -287,7 +287,7 @@ export const OperationProjectRecords = ({ visible, setVisible, isClickExport, se
         visible={visible}
         destroyOnClose
         title={i18n.t('import and export records')}
-        className="dice-drawer advanced-filter-drawer"
+        className="dice-drawer"
       >
         <RadioTabs
           options={options}
