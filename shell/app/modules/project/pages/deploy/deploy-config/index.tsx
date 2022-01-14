@@ -329,7 +329,7 @@ const OtherConfig = (props: IOtherProps) => {
                 const { value } = e.target;
                 setSearchValue(value);
               }}
-              placeholder={i18n.t('search by keyword')}
+              placeholder={i18n.t('search {name}', { name: 'Key' })}
             />
           }
           rowKey="key"

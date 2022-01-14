@@ -216,7 +216,7 @@ const ListEditConfig = (props: IProps) => {
                       searchValue: e.target.value,
                     });
                   }}
-                  placeholder={i18n.t('search by keyword')}
+                  placeholder={i18n.t('search {name}', { name: 'Key' })}
                 />
                 {slot}
               </div>
