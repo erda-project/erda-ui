@@ -17,7 +17,6 @@ import DiceConfigPage from 'app/config-page';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'core/stores/route';
 import { functionalColor } from 'common/constants';
-import './index.scss';
 
 const topNConfig = [
   {
@@ -74,21 +73,13 @@ const Overview = () => {
                     className: 'p-0',
                   },
                 },
-                [`${currentValue}Title`]: {
-                  props: {
-                    size: 'small',
-                    level: 1,
-                    noMarginBottom: true,
-                    className: 'h-12 bg-lotion px-4 mb-2',
-                  },
-                },
               };
             }, {}),
             topNs: {
               props: {
                 gutter: 8,
                 span: [6, 6, 6, 6],
-                wrapperClassName: '-mt-1 px-4 pb-3',
+                wrapperClassName: 'px-4 py-3',
               },
             },
             cards: {
@@ -102,7 +93,7 @@ const Overview = () => {
               props: {
                 gutter: 8,
                 span: [12, 12, 12, 12],
-                wrapperClassName: 'px-4 pb-2',
+                wrapperClassName: 'pt-4 px-4 pb-2',
                 className: 'mb-2 overflow-visible',
               },
             },
