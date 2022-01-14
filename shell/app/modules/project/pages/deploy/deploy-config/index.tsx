@@ -86,6 +86,7 @@ const ConfigContainer = () => {
     <div className="h-full project-deploy-config flex flex-col">
       <RadioTabs
         value={env}
+        key={env}
         onChange={(v) =>
           checkEdit(() => goTo(goTo.pages.projectDeployConfigEnv, { projectId, env: `${v}`?.toLowerCase() }))
         }
