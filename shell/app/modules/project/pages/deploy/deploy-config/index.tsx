@@ -383,7 +383,7 @@ const TextConfig = (props: ITextProps) => {
 
   const typeList = [
     {
-      icon: 'list-view',
+      icon: 'liebiao',
       tip: i18n.t('common:list view'),
       key: 'list',
     },

@@ -67,7 +67,7 @@ const DeployDetail = (props: IProps) => {
       },
     },
     {
-      icon: '',
+      icon: 'huanjing',
       title: i18n.t('env'),
       valueKey: 'workspace',
       render: (val: string) => CONFIG_ENV_MAP[val] || val || '-',
