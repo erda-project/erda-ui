@@ -348,7 +348,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
       </div>
 
       {!readyOnly ? (
-        <div className="mb-2">
+        <div className="pb-2">
           <Button className="mr-3" type="primary" onClick={submit}>
             {i18n.t('submit')}
           </Button>

@@ -137,7 +137,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
   );
 
   return (
-    <div className="release-releaseDetail release-form h-full overflow-y-auto pb-16">
+    <div className="release-releaseDetail release-form h-full overflow-y-auto pb-16 relative">
       <Form layout="vertical" form={form}>
         <Tabs defaultActiveKey="1">
           <TabPane tab={i18n.t('dop:basic information')} key="1">
