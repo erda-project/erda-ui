@@ -77,13 +77,13 @@ const TextEditConfig = (props: IProps) => {
     !unvalidInfo && onChange?.(value);
   }, [value]);
   return (
-    <div className="h-full flex flex-col">
-      <div className="flex justify-end py-2">{slot}</div>
+    <>
+      <div className="flex justify-end py-3 bg-default-02 px-4">{slot}</div>
       <div className="flex-1 overflow-auto">
         <FileEditor
           fileExtension="json"
           minLines={4}
-          className="rounded border-all h-full overflow-auto"
+          className="rounded border-all h-full overflow-auto bg-default-02 px-2"
           actions={{
             copy: true,
             format: true,
@@ -116,7 +116,7 @@ const TextEditConfig = (props: IProps) => {
           </Button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

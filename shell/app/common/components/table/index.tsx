@@ -43,6 +43,8 @@ interface IProps<T extends object = any> extends TableProps<T> {
   hideHeader?: boolean;
   onReload?: (pageNo: number, pageSize: number) => void;
   className?: string;
+  hideReload?: boolean;
+  hideColumnConfig?: boolean;
 }
 
 const sortIcon = {
@@ -68,6 +70,8 @@ function WrappedTable<T extends object = any>({
   onRow,
   rowSelection,
   hideHeader,
+  hideReload,
+  hideColumnConfig,
   rowKey,
   theme = 'light',
   className,
@@ -305,6 +309,8 @@ function WrappedTable<T extends object = any>({
       {!hideHeader && (
         <TableConfig
           slot={slot}
+          hideColumnConfig={hideColumnConfig}
+          hideReload={hideReload}
           columns={columns}
           sortColumn={sort}
           setColumns={(val) => setColumns(val)}

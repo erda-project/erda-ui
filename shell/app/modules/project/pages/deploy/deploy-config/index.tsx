@@ -31,17 +31,88 @@ import routeInfoStore from 'core/stores/route';
 import './index.scss';
 
 interface IState {
-  selectedApp: IApplication | null;
   selectedEnv: string;
   selectedType: 'text' | 'other';
   editing: boolean;
 }
 
-const Config = () => {
+const ConfigContainer = () => {
   const { env: routeEnv, projectId } = routeInfoStore.useStore((s) => s.params);
+  const [selectedApp, setSelectedApp] = React.useState<IApplication | null>(null);
+  const [editing, setEditing] = React.useState(false);
+
   const env = routeEnv?.toUpperCase();
-  const [{ selectedApp, selectedEnv, selectedType, editing }, updater, update] = useUpdate<IState>({
-    selectedApp: null,
+
+  const AppSelectorSlot = (
+    <AppSelector
+      autoSelect
+      className="project-app-selector"
+      value={selectedApp?.id || ''}
+      getData={(_q: { pageNo: number; pageSize: number }) => {
+        return getJoinedApps({ projectID: +projectId, ..._q }).then((res) => res.data);
+      }}
+      disabled={editing}
+      onClickItem={(app) => setSelectedApp(app)}
+      resultsRender={() => {
+        return (
+          <div className="w-[100px] h-[28px] rounded-sm  leading-7 px-2 flex text-default-3 hover:text-default-8">
+            {selectedApp ? (
+              <Ellipsis className="font-bold text-default" title={selectedApp?.displayName || selectedApp?.name} />
+            ) : (
+              <span className="text-default-3">{i18n.t('please select')}</span>
+            )}
+            <ErdaIcon type="caret-down" className="ml-0.5" size="14" />
+          </div>
+        );
+      }}
+    />
+  );
+
+  const checkEdit = (func: Function) => {
+    if (editing) {
+      Modal.confirm({
+        title: i18n.t('dop:The current application parameters have changed. Do you want to give up the modification?'),
+        onOk() {
+          func();
+          setEditing(false);
+        },
+      });
+    } else {
+      func();
+    }
+  };
+
+  return (
+    <div className="h-full project-deploy-config flex flex-col">
+      <RadioTabs
+        value={env}
+        onChange={(v) =>
+          checkEdit(() => goTo(goTo.pages.projectDeployConfigEnv, { projectId, env: `${v}`?.toLowerCase() }))
+        }
+        options={map(CONFIG_ENV_MAP, (v, k) => ({ label: v, value: k }))}
+      />
+      <Config
+        key={`${env}-${selectedApp?.id}`}
+        slot={AppSelectorSlot}
+        selectedApp={selectedApp}
+        onEditChange={(v) => setEditing(v)}
+      />
+    </div>
+  );
+};
+
+const Config = ({
+  slot,
+  selectedApp,
+  onEditChange,
+}: {
+  slot: React.ReactElement;
+  selectedApp: IApplication | null;
+  onEditChange: (v: boolean) => void;
+}) => {
+  const { env: routeEnv } = routeInfoStore.useStore((s) => s.params);
+  const env = routeEnv?.toUpperCase();
+  const [{ selectedEnv, selectedType, editing }, updater, update] = useUpdate<IState>({
     selectedEnv: env,
     selectedType: 'text',
     editing: false,
@@ -70,6 +141,10 @@ const Config = () => {
   };
 
   React.useEffect(() => {
+    onEditChange(editing);
+  }, [editing]);
+
+  React.useEffect(() => {
     if (selectedApp) {
       const namespaceParams = [
         {
@@ -95,52 +170,10 @@ const Config = () => {
   );
 
   return (
-    // <Drawer
-    //   visible={visible}
-    //   width={'80%'}
-    //   onClose={() => {
-    //     checkEdit(() => onClose());
-    //   }}
-    //   title={
-    //     <EnvSelect value={selectedEnv} disabled={editing} onChange={(v) => updater.selectedEnv(v)} required>
-    //       <div className="flex items-center">
-    //         <span>{`${i18n.t('config')} - ${envMap[selectedEnv]}`}</span>
-    //         <ErdaIcon type="caret-down" className="ml-1" size="14" />
-    //       </div>
-    //     </EnvSelect>
-    //   }
-    // >
-    <div className="h-full project-deploy-config flex flex-col">
-      <RadioTabs
-        value={env}
-        onChange={(v) => goTo(goTo.pages.projectDeployConfigEnv, { projectId, env: `${v}`?.toLowerCase() })}
-        options={map(CONFIG_ENV_MAP, (v, k) => ({ label: v, value: k }))}
-      />
-      <div className="flex items-center py-2">
-        <AppSelector
-          autoSelect
-          className="project-app-selector"
-          value={selectedApp?.id || ''}
-          getData={(_q: { pageNo: number; pageSize: number }) => {
-            return getJoinedApps({ projectID: +projectId, ..._q }).then((res) => res.data);
-          }}
-          disabled={editing}
-          onClickItem={(app) => updater.selectedApp(app)}
-          resultsRender={() => {
-            return (
-              <div className="w-[100px] h-[28px] rounded-sm  bg-default-06 leading-7 px-2 flex text-default-3 hover:text-default-8">
-                {selectedApp ? (
-                  <Ellipsis className="font-bold text-default" title={selectedApp?.displayName || selectedApp?.name} />
-                ) : (
-                  <span className="text-default-3">{i18n.t('please select')}</span>
-                )}
-                <ErdaIcon type="caret-down" className="ml-0.5" size="14" />
-              </div>
-            );
-          }}
-        />
-        <div className="w-px h-3 bg-default-1 ml-3 mr-4" />
-
+    <div className="bg-white px-4 py-3 rounded-sm mt-2 flex-1 overflow-auto">
+      <div className="flex items-center pb-2">
+        {slot}
+        <div className="w-px h-3 bg-default-1 mr-4" />
         <SimpleTabs
           tabs={map(ConfigTabs, (item) => ({ key: item.key, text: item.text }))}
           value={selectedType}
@@ -188,7 +221,7 @@ const Config = () => {
           />
         ) : (
           <OtherConfig
-            className="flex-1"
+            className="flex-1 overflow-auto"
             key={`${selectedEnv}-${selectedApp?.id}`}
             configData={configData}
             fullConfigData={fullConfigs[configNamespace]}
@@ -283,21 +316,27 @@ const OtherConfig = (props: IOtherProps) => {
   const useData = searchValue ? configData.filter((item) => item.key.includes(searchValue)) : configData;
   return (
     <div className={`project-other-config ${className}`}>
-      <div className="py-2">
-        <Input
-          size="small"
-          className="w-[200px] bg-black-06 border-none ml-0.5"
-          value={searchValue}
-          prefix={<ErdaIcon size="16" fill={'default-3'} type="search" />}
-          onChange={(e) => {
-            const { value } = e.target;
-            setSearchValue(value);
-          }}
-          placeholder={i18n.t('search by keyword')}
-        />
-      </div>
       <div className="relative">
-        <ErdaTable hideHeader rowKey="key" columns={columns} dataSource={useData} actions={actions} />
+        <ErdaTable
+          slot={
+            <Input
+              size="small"
+              className="w-[200px] bg-black-06 border-none ml-0.5"
+              value={searchValue}
+              prefix={<ErdaIcon size="16" fill={'default-3'} type="search" />}
+              onChange={(e) => {
+                const { value } = e.target;
+                setSearchValue(value);
+              }}
+              placeholder={i18n.t('search by keyword')}
+            />
+          }
+          hideReload
+          rowKey="key"
+          columns={columns}
+          dataSource={useData}
+          actions={actions}
+        />
         <Button className="absolute bottom-3 ml-2" onClick={() => setAddVisible(true)}>
           {i18n.t('common:add')}
         </Button>
@@ -399,7 +438,7 @@ const TextConfig = (props: ITextProps) => {
     </div>
   );
   return (
-    <div className={`project-text-config h-full flex-1 overflow-auto ${className}`}>
+    <div className={`project-text-config flex-1 overflow-auto ${className}`}>
       {editType === 'list' ? (
         <ListEdit
           configData={configData}
@@ -427,4 +466,4 @@ const TextConfig = (props: ITextProps) => {
   );
 };
 
-export default Config;
+export default ConfigContainer;

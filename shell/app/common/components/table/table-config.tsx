@@ -22,6 +22,8 @@ function TableConfig<T extends object = any>({
   setColumns,
   onReload,
   sortColumn = {},
+  hideColumnConfig = false,
+  hideReload = false,
 }: TableConfigProps<T>) {
   const { column, order } = sortColumn;
   const onCheck = (checked: boolean, title: string) => {
@@ -52,22 +54,26 @@ function TableConfig<T extends object = any>({
         <div className="flex-1">{slot}</div>
       </div>
       <div className="erda-table-filter-ops flex items-center">
-        <ErdaIcon
-          size="20"
-          className={`icon-hover ml-3 bg-hover p-1`}
-          type="refresh"
-          color="currentColor"
-          onClick={onReload}
-        />
-        <Popover
-          content={columnsFilter}
-          trigger="click"
-          placement="bottomRight"
-          overlayClassName="erda-table-columns-filter"
-          getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-        >
-          <ErdaIcon type="config" size="20" className={`ml-3 icon-hover bg-hover p-1`} />
-        </Popover>
+        {!hideReload ? (
+          <ErdaIcon
+            size="20"
+            className={`icon-hover ml-3 bg-hover p-1`}
+            type="refresh"
+            color="currentColor"
+            onClick={onReload}
+          />
+        ) : null}
+        {!hideColumnConfig ? (
+          <Popover
+            content={columnsFilter}
+            trigger="click"
+            placement="bottomRight"
+            overlayClassName="erda-table-columns-filter"
+            getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+          >
+            <ErdaIcon type="config" size="20" className={`ml-3 icon-hover bg-hover p-1`} />
+          </Popover>
+        ) : null}
       </div>
     </div>
   );

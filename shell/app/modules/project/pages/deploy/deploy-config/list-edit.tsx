@@ -195,29 +195,32 @@ const ListEditConfig = (props: IProps) => {
   );
 
   return (
-    <div>
-      <div className="flex-h-center justify-between py-2">
-        <Input
-          size="small"
-          className="w-[200px] bg-black-06 border-none ml-0.5"
-          value={searchValue}
-          prefix={<ErdaIcon size="16" fill={'default-3'} type="search" />}
-          onChange={(e) => {
-            update({
-              searchValue: e.target.value,
-            });
-          }}
-          placeholder={i18n.t('search by keyword')}
-        />
-        {slot}
-      </div>
+    <>
       <div className="relative">
         <Form form={form} component={false}>
           <ErdaTable
+            slot={
+              <div className="flex-h-center justify-between">
+                <Input
+                  size="small"
+                  className="w-[200px] bg-black-06 border-none ml-0.5"
+                  value={searchValue}
+                  prefix={<ErdaIcon size="16" fill={'default-3'} type="search" />}
+                  onChange={(e) => {
+                    update({
+                      searchValue: e.target.value,
+                    });
+                  }}
+                  placeholder={i18n.t('search by keyword')}
+                />
+                {slot}
+              </div>
+            }
+            hideColumnConfig
+            hideReload
             columns={mergedColumns}
             dataSource={filterValue}
             rowKey="key"
-            hideHeader
             onRow={(record) => ({
               onClick: () => {
                 form.setFieldsValue(record);
@@ -246,7 +249,7 @@ const ListEditConfig = (props: IProps) => {
           });
         }}
       />
-    </div>
+    </>
   );
 };
 

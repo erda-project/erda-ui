@@ -157,7 +157,19 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                     }
 
                     return (
-                      <Tooltip key={info.key} title={info.tip}>
+                      <Tooltip
+                        key={info.key}
+                        title={
+                          <div>
+                            {info.tip?.split('\n').map((item) => (
+                              <>
+                                {item}
+                                <br />
+                              </>
+                            ))}
+                          </div>
+                        }
+                      >
                         {Comp}
                       </Tooltip>
                     );
