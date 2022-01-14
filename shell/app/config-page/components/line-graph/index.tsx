@@ -76,7 +76,7 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
       },
       grid: {
         containLabel: true,
-        left: 25,
+        left: 30,
         bottom: 30,
         top: subTitle ? 25 : 10,
         right: 0,
