@@ -71,16 +71,18 @@ const ReleaseSelector = (props: IProps) => {
           <EmptyHolder relative className={'w-[500px] text-white-6'} />
         )}
       </Radio.Group>
-      <div className="flex justify-end">
-        <Pagination
-          theme="dark"
-          hidePageSizeChange
-          total={total}
-          pageSize={pageSize}
-          current={pageNo}
-          onChange={(pgNo: number) => getList({ pageNo: pgNo })}
-        />
-      </div>
+      {list.length ? (
+        <div className="flex justify-end">
+          <Pagination
+            theme="dark"
+            hidePageSizeChange
+            total={total}
+            pageSize={pageSize}
+            current={pageNo}
+            onChange={(pgNo: number) => getList({ pageNo: pgNo })}
+          />
+        </div>
+      ) : null}
     </div>
   );
 };

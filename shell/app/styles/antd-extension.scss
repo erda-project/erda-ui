@@ -628,6 +628,11 @@ body {
   }
 
   .ant-btn {
+    &:not(.ant-btn-primary, .ant-btn-dashed, .ant-btn-link, .ant-btn-text) {
+      background: $color-default-06;
+      border-color: transparent;
+      color: $color-default-8;
+    }
     &.theme-dark {
       background-color: $color-white-2;
       border: none;

@@ -25,12 +25,10 @@ import { CardItem } from 'app/config-page/components/card/card';
 import i18n from 'i18n';
 import DeployLog from 'runtime/common/logs/components/deploy-log';
 import { useUserMap } from 'core/stores/userMap';
-import ConfigDrawer from './deploy-config';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import DeployDetail from './deploy-detail';
 import { deployOrderStatusMap } from './config';
 import moment from 'moment';
-import EnvSelect from './common/env-select';
 import {
   getDeployOrders,
   getDeployOrderDetail,
@@ -56,30 +54,10 @@ interface IState {
 
 const DeployContainer = () => {
   const { env: routeEnv, projectId } = routeInfoStore.useStore((s) => s.params);
-  const [{ configDrawerVis, configEnv }, updater, update] = useUpdate<{ configDrawerVis: boolean; configEnv: string }>({
-    configDrawerVis: false,
-    configEnv: '',
-  });
   const env = routeEnv?.toUpperCase();
 
   return (
     <div className="project-deploy flex flex-col h-full pb-2">
-      <div className="top-button-group">
-        <EnvSelect
-          onClickItem={(v) => {
-            update({
-              configDrawerVis: true,
-              configEnv: v,
-            });
-          }}
-          placement={'bottomRight'}
-        >
-          <Button type="primary" className="flex-h-center">
-            <span>{i18n.t('config')}</span>
-            <ErdaIcon type="caret-down" className="ml-1" size="14" />
-          </Button>
-        </EnvSelect>
-      </div>
       <div className="flex items-center justify-between">
         <RadioTabs
           value={env}
@@ -88,13 +66,6 @@ const DeployContainer = () => {
         />
       </div>
       <DeployContent key={env} projectId={projectId} env={env} />
-      <ConfigDrawer
-        key={configEnv}
-        projectId={projectId}
-        visible={configDrawerVis}
-        onClose={() => update({ configEnv: '', configDrawerVis: false })}
-        env={configEnv}
-      />
     </div>
   );
 };
@@ -290,7 +261,6 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
             scenarioType="project-runtime"
             // useMock={useMock}
             // forceMock
-            forceUpdateKey={['inParams']}
             inParams={inParams}
             customProps={{
               inputFilter: {

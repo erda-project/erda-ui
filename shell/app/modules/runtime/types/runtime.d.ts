@@ -20,6 +20,7 @@ declare namespace RUNTIME {
     name: string;
     serviceGroupName: string;
     serviceGroupNamespace: string;
+    applicationName: string;
     source: string;
     status: string;
     deployStatus: DeployStatus;

@@ -91,7 +91,7 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
         <div className="flex">
           {onSelectChange ? (
             <Checkbox
-              className="flex items-center mr-2"
+              className="flex items-center mr-4"
               disabled={!selectable}
               checked={selected}
               onClick={(e) => e.stopPropagation()}
@@ -138,7 +138,7 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                 <Ellipsis className={`body-description ${kvInfos?.length ? '' : 'mt-1'}`} title={description || '-'} />
               </If>
               <If condition={!!kvInfos?.length}>
-                <div className={`body-meta-info flex ${description ? '' : 'mt-1'}`}>
+                <div className={`body-meta-info flex ${description ? '' : 'mt-2'}`}>
                   {map(kvInfos, (info) => {
                     const { compWapper, status = 'default' } = info;
 
@@ -259,12 +259,11 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                       overlay={menuOverlay}
                       overlayClassName={'erda-list-operations'}
                       overlayStyle={{ zIndex: 1000 }}
-                      trigger={['click']}
                     >
                       <ErdaIcon
                         type="more"
                         size={18}
-                        className="hover-active p-1 rounded hover:bg-black-02"
+                        className="list-item-more hover-active p-1 rounded hover:bg-black-02"
                         onClick={(e) => e.stopPropagation()}
                       />
                     </Dropdown>

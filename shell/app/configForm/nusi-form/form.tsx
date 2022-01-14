@@ -79,10 +79,9 @@ export const renderField =
     );
   };
 
-registComponents(components);
-
 export { registComponents };
 
+registComponents(components);
 export const Form = (props: any) => {
   const { formProps, ...rest } = props;
 
