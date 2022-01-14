@@ -23,7 +23,7 @@ import { emit } from './utils/event-hub';
 import browserHistory from './history';
 import { setConfig } from './config';
 
-const holderDractDom = ReactDom; // if not use it, minified build file will cause infinite loop when use ReactDom.render. errMsg: Cannot set property 'getCurrentStack' of undefined
+const holderReactDom = ReactDom; // if not use it, minified build file will cause infinite loop when use ReactDom.render. errMsg: Cannot set property 'getCurrentStack' of undefined
 
 setConfig('history', browserHistory);
 

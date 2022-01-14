@@ -97,7 +97,7 @@ const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
       },
       grid: {
         containLabel: true,
-        left: '5%',
+        left: 30,
         bottom: 30,
         top: data.subTitle ? 25 : 10,
         right: 0,

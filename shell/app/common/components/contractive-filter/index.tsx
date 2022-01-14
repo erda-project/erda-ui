@@ -452,10 +452,27 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
       return Array.isArray(val) ? val.map((vItem) => convertItem(vItem)) : convertItem(val);
     };
 
-    const rangeConvert = (_ranges?: Obj<number[]>) => {
+    /**
+     * support object type for i18n
+     * {
+        LastWeek: {
+          label: '近一周' | 'Last Week',
+          range: []
+        }
+      }
+     * @param _ranges
+     * @returns
+     */
+    const rangeConvert = (_ranges?: Obj<number[]> | Obj<{ label: string; range: number[] }>) => {
       const reRanges = {};
       map(_ranges, (v, k) => {
-        reRanges[k] = valueConvert(v);
+        let _k = k;
+        let _v = v;
+        if (!Array.isArray(v)) {
+          _k = v.label;
+          _v = v.range;
+        }
+        reRanges[_k] = valueConvert(_v as number[]);
       });
       return reRanges;
     };
@@ -877,7 +894,7 @@ const ContractiveFilter = ({
             setCloseAll(false);
           }}
         >
-          {!item.fixed && item.type!=='input' && (
+          {!item.fixed && item.type !== 'input' && (
             <ErdaIcon
               fill="gray"
               color="gray"

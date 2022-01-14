@@ -225,6 +225,9 @@ body {
     border-bottom: unset;
     background: $color-default-02;
     padding: 12px 16px;
+    .ant-drawer-close {
+      padding: 15px;
+    }
   }
 
   .ant-pagination-simple .ant-pagination-prev,
@@ -273,16 +276,17 @@ body {
     .ant-drawer-wrapper-body {
       display: flex;
       flex-direction: column;
+      background-color: $color-default-04;
     }
 
     .ant-drawer-header {
-      padding: 19px 24px;
+      padding: 12px 16px;
     }
 
     .ant-drawer-body {
       flex: 1;
       margin-bottom: 49px;
-      padding: 8px 20px 0;
+      padding: 16px 16px 0;
     }
 
     .drawer-footer {
@@ -292,8 +296,11 @@ body {
       width: 100%;
       padding: 8px 16px;
       text-align: right;
-      background: $white;
       border-top: 1px solid $color-border;
+    }
+
+    .ant-drawer-close {
+      padding: 14px 16px;
     }
   }
 
