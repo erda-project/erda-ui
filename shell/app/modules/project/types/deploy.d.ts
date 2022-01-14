@@ -138,6 +138,8 @@ declare namespace PROJECT_DEPLOY {
   interface ReleaseRenderDetail {
     id: string;
     name: string;
+    releaseVersion: string;
+    releaseUpdateAt: string;
     applicationsInfo: IApplicationsInfo[];
   }
   interface IApplicationsInfo {

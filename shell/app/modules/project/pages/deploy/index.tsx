@@ -15,8 +15,8 @@ import * as React from 'react';
 import { RadioTabs, ErdaIcon, EmptyHolder, Badge } from 'common';
 import { ENV_MAP } from 'project/common/config';
 import { map, debounce } from 'lodash';
-import { Drawer, Button, Input, Timeline, Avatar, Spin } from 'antd';
-import { goTo, getAvatarChars, updateSearch } from 'common/utils';
+import { Drawer, Button, Input, Timeline, Spin } from 'antd';
+import { goTo, updateSearch } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
 import routeInfoStore from 'core/stores/route';
 import DiceConfigPage, { useMock } from 'app/config-page';
@@ -48,7 +48,7 @@ interface IState {
   logVisible: boolean;
   deployDetail: PROJECT_DEPLOY.DeployDetail | undefined;
   selectedOrder: string;
-  selectedRelease: { id: string; releaseId: string } | undefined;
+  selectedRelease: { id: string; releaseId: string; name: string } | undefined;
   urlQuery: Obj<{ [key: string]: string }>;
 }
 
@@ -253,7 +253,12 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
 
   const curDetailStatus =
     deployDetail?.type !== 'PIPELINE' && deployDetail?.status && deployOrderStatusMap[deployDetail?.status];
-  const closeAddDrawer = () => updater.addDrawerVisible(false);
+  const closeAddDrawer = () => {
+    update({
+      addDrawerVisible: false,
+      selectedRelease: undefined,
+    });
+  };
   return (
     <>
       <div className="flex flex-1 mt-2 overflow-hidden">
@@ -380,7 +385,17 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
         <DeployDetail detail={deployDetail} />
       </Drawer>
       <Drawer
-        title={i18n.t('dop:create deployment')}
+        title={
+          <div className="flex-h-center">
+            <span className="mr-2">{i18n.t('dop:create deployment')}</span>
+            {selectedRelease ? (
+              <>
+                <ErdaIcon size={20} type="id" disableCurrent className="mr-1" />
+                <span>{selectedRelease.name}</span>
+              </>
+            ) : null}
+          </div>
+        }
         width={'80%'}
         destroyOnClose
         visible={addDrawerVisible}
@@ -393,10 +408,12 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
               disabled={!selectedRelease}
               onClick={() => {
                 selectedRelease &&
-                  createDeploy.fetch({ workspace: env, ...selectedRelease }).then(() => {
-                    getDeployOrdersFunc();
-                    closeAddDrawer();
-                  });
+                  createDeploy
+                    .fetch({ workspace: env, id: selectedRelease.id, releaseId: selectedRelease.releaseId })
+                    .then(() => {
+                      getDeployOrdersFunc();
+                      closeAddDrawer();
+                    });
               }}
             >
               {i18n.t('create')}
@@ -405,7 +422,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
           </div>
         }
       >
-        <AddDeploy onSelect={(v: { id: string; releaseId: string }) => updater.selectedRelease(v)} />
+        <AddDeploy onSelect={(v: { id: string; releaseId: string; name: string }) => updater.selectedRelease(v)} />
       </Drawer>
 
       <Drawer visible={logVisible} width={'80%'} onClose={() => update({ logVisible: false, logData: undefined })}>
