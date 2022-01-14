@@ -114,7 +114,9 @@ const AddDeploy = ({
         <div className={`pt-2`}>
           <div className="bg-default-02 h-[78px] w-[550px] flex-h-center justify-between mb-4">
             <div className="flex flex-col m-4">
-              <span className="text-default mb-1">{detail.releaseVersion || '-'}</span>
+              <span className="text-default mb-1">
+                {`${i18n.t('dop:artifact version')}: ${detail.releaseVersion}` || '-'}
+              </span>
               {/* <span>
                 <span className="text-default-6 mr-1">{i18n.t('dop:owned application')}</span>
                 <span className="bg-default-08 text-default px-2 rounded-2xl inline-block">
