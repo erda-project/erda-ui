@@ -64,12 +64,12 @@ export const DEPLOY_TABS = (params: Obj) => {
   return [
     {
       key: 'list/dev',
-      name: '部署信息',
+      name: i18n.t('dop:deployment information'),
       isActive: (activeKey: string) => activeKey.split('/')[0] === 'list',
     },
     {
       key: 'config/default',
-      name: '配置',
+      name: i18n.t('config'),
       isActive: (activeKey: string) => activeKey.split('/')[0] === 'config',
     },
   ];
