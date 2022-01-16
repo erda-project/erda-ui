@@ -34,8 +34,8 @@ const apis = {
   getAppList: {
     api: 'get@/api/project-pipeline/actions/get-my-apps',
   },
-  getBranchList: {
-    api: 'get@/api/repo/:projectName/:applicationName/stats',
+  getFileTree: {
+    api: 'get@/api/project-pipeline/filetree',
   },
   getFileDetail: {
     api: 'get@/api/project-pipeline/filetree/:id',
@@ -50,9 +50,9 @@ const apis = {
 
 export const getAppList = apiCreator<(payload: { projectID: string; name?: string }) => AppDetail[]>(apis.getAppList);
 
-export const getBranchList = apiCreator<
-  (payload: { projectName: string; applicationName: string }) => Array<{ inode: string; name: string }>
->(apis.getBranchList);
+export const getFileTree = apiCreator<
+  (payload: { pinode: string; scope: string; scopeID: string }) => Array<{ inode: string; name: string }>
+>(apis.getFileTree);
 
 export const getFileDetail = apiCreator<
   (payload: { id: string; scope: string; scopeID: string }) => Array<{ inode: string; name: string }>
