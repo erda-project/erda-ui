@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { debounce } from 'lodash';
-import { Input, Tooltip } from 'antd';
+import { Input, Tooltip, Spin } from 'antd';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import { Badge, ErdaIcon } from 'common';
@@ -26,14 +26,11 @@ const Pipeline = () => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const [application, setApplication] = React.useState({ ID: 0 });
   const { ID: applicationId } = application;
-  const [list, setList] = React.useState();
   const [searchValue, setSearchValue] = React.useState('');
+  const [list, loading] = getAppList.useState();
 
-  const getList = React.useCallback(async () => {
-    const res = await getAppList.fetch({ projectID: projectId });
-    if (res.success) {
-      setList(res.data);
-    }
+  const getList = React.useCallback(() => {
+    getAppList.fetch({ projectID: projectId });
   }, [projectId]);
 
   React.useEffect(() => {
@@ -59,51 +56,55 @@ const Pipeline = () => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => search(e.target.value)}
           />
           <div className="flex-1">
-            <div
-              className={`application-item px-2 mb-1 leading-5 cursor-pointer rounded-sm flex-h-center ${
-                applicationId ? 'hover:bg-default-04' : 'text-purple-deep active'
-              }`}
-              onClick={() => setApplication({ ID: 0 })}
-            >
-              {i18n.t('dop:all')}
-            </div>
+            <Spin spinning={loading}>
+              <div
+                className={`application-item px-2 mb-1 leading-5 cursor-pointer rounded-sm flex-h-center ${
+                  applicationId ? 'hover:bg-default-04' : 'text-purple-deep active'
+                }`}
+                onClick={() => setApplication({ ID: 0 })}
+              >
+                {i18n.t('dop:all')}
+              </div>
 
-            <div>
-              {list
-                ?.filter((item) => (searchValue ? item.displayName.includes(searchValue) : true))
-                ?.map((item) => (
-                  <div
-                    className={`application-item px-2 mb-1 leading-5 cursor-pointer rounded-sm flex-h-center ${
-                      applicationId === item.ID ? 'text-purple-deep active' : 'hover:bg-default-04'
-                    }`}
-                    onClick={() => setApplication(item)}
-                  >
-                    <div className="flex-1">{item.displayName}</div>
-                    {item.runningNum ? (
-                      <Tooltip title={i18n.t('running')}>
-                        <div className="flex-h-center mr-3">
-                          <Badge onlyDot breathing status={'success'} className="mr-0.5" />
-                          <div className="bg-default-04 text-default-9 rounded-lg px-2 text-xs">{item.runningNum}</div>
-                        </div>
-                      </Tooltip>
-                    ) : null}
-                    {item.failedNum ? (
-                      <Tooltip title={i18n.t('dop:number of failures in a day')}>
-                        <div className="flex-h-center">
-                          <Badge onlyDot breathing status={'error'} className="mr-0.5" />
-                          <div className="bg-default-04 text-default-9 rounded-lg px-2 text-xs">{item.failedNum}</div>
-                        </div>
-                      </Tooltip>
-                    ) : null}
-                  </div>
-                ))}
-            </div>
+              <div>
+                {list
+                  ?.filter((item) => (searchValue ? item.displayName.includes(searchValue) : true))
+                  ?.map((item) => (
+                    <div
+                      className={`application-item px-2 mb-1 leading-5 cursor-pointer rounded-sm flex-h-center ${
+                        applicationId === item.ID ? 'text-purple-deep active' : 'hover:bg-default-04'
+                      }`}
+                      onClick={() => setApplication(item)}
+                    >
+                      <div className="flex-1">{item.displayName}</div>
+                      {item.runningNum ? (
+                        <Tooltip title={i18n.t('running')}>
+                          <div className="flex-h-center mr-3">
+                            <Badge onlyDot breathing status={'success'} className="mr-0.5" />
+                            <div className="bg-default-04 text-default-9 rounded-lg px-2 text-xs">
+                              {item.runningNum}
+                            </div>
+                          </div>
+                        </Tooltip>
+                      ) : null}
+                      {item.failedNum ? (
+                        <Tooltip title={i18n.t('dop:number of failures in a day')}>
+                          <div className="flex-h-center">
+                            <Badge onlyDot breathing status={'error'} className="mr-0.5" />
+                            <div className="bg-default-04 text-default-9 rounded-lg px-2 text-xs">{item.failedNum}</div>
+                          </div>
+                        </Tooltip>
+                      ) : null}
+                    </div>
+                  ))}
+              </div>
+            </Spin>
           </div>
         </div>
       </div>
 
       <div className="pipeline-right flex-1 pt-2 h-full min-w-0">
-        <PipelineProtocol application={application} />
+        <PipelineProtocol application={application} setApp={setApplication} />
       </div>
     </div>
   );
