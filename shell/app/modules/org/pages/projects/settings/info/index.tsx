@@ -216,7 +216,9 @@ const Info = () => {
             {info.logo && <img src={info.logo} className="w-16 h-16 mr-4" />}
             <div className={`${info.logo ? 'org-with-logo' : ''}`}>
               <Ellipsis title={info.displayName} className="text-xl label" />
-              <div className="desc">{info.desc}</div>
+              <Tooltip title={info.desc}>
+                <div className="desc">{info.desc}</div>
+              </Tooltip>
             </div>
           </Col>
           <Col span={12} className="py-1">
