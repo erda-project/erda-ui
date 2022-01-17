@@ -21,7 +21,6 @@ import ErdaTable from 'common/components/table';
 import routeInfoStore from 'core/stores/route';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { debounce } from 'lodash';
 import orgStore from 'app/org-home/stores/org';
 import FileContainer from 'application/common/components/file-container';
 import { getReleaseDetail, formalRelease, updateRelease, checkVersion } from 'project/services/release';
@@ -137,8 +136,8 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
   );
 
   return (
-    <div className="release-releaseDetail release-form h-full overflow-y-auto pb-16 relative">
-      <Form layout="vertical" form={form}>
+    <div className="release-releaseDetail release-form h-full pb-16 relative">
+      <Form layout="vertical" form={form} className="h-full overflow-auto">
         <Tabs defaultActiveKey="1">
           <TabPane tab={i18n.t('dop:basic information')} key="1">
             <div className="mb-4 pl-0.5">
@@ -223,7 +222,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
         </Tabs>
       </Form>
 
-      <div className="absolute bottom-0 left-4 right-0 bg-white z-10 py-4">
+      <div className="absolute bottom-0 left-0 right-0 bg-white z-10 py-4">
         {isEdit ? (
           <Button className="mr-3 bg-default" type="primary" onClick={submit}>
             {i18n.t('submit')}
