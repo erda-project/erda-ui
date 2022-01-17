@@ -36,10 +36,8 @@ const LandPage = () => {
 
   return (
     <div className="land-page flex items-center justify-center h-full">
-      <div className="absolute left-20 top-5">
+      <div className="absolute flex items-center justify-between left-20 right-20 top-5 z-10">
         <ErdaIcon className="text-white" size={60} type="erda" />
-      </div>
-      <div className="absolute right-20 top-5 z-10">
         <UserMenu placement="bottomRight" size={36} align={{ offset: [0, -6] }} className="no-arrow" />
       </div>
       <img className="bg-image" src={springBg} alt="background-image" />
