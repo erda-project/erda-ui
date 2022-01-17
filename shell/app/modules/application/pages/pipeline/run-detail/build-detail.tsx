@@ -285,7 +285,10 @@ const BuildDetail = (props: IProps) => {
         const target = node.findInMeta((item: BUILD.MetaData) => item.name === 'runtimeID');
         if (target) {
           getBuildRuntimeDetail({ runtimeId: +target.value }).then((result) => {
-            !isEmpty(result) && goTo(`../deploy/runtimes/${target.value}/overview`, { jumpOut: true });
+            !isEmpty(result) &&
+              goTo(goTo.resolve.runtimeDetailRoot({ runtimeId: target.value, appId: result.extra?.applicationId }), {
+                jumpOut: true,
+              });
           });
         }
         break;
@@ -297,7 +300,7 @@ const BuildDetail = (props: IProps) => {
       case 'release-link': {
         const target = node.findInMeta((item: BUILD.MetaData) => item.name === 'releaseID');
         if (target) {
-          goTo(goTo.pages.release, { ...params, q: target.value, jumpOut: true });
+          goTo(goTo.pages.release, { appId: query.applicationId, ...params, q: target.value, jumpOut: true });
         }
         break;
       }
