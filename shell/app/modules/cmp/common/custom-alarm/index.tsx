@@ -277,6 +277,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
               { key: 'value', value: undefined },
             ]);
           }}
+          getPopupContainer={() => document.body}
         >
           {map(tags, ({ key, name }) => (
             <Select.Option key={key} value={key}>
@@ -297,6 +298,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
           onSelect={(operator) => {
             handleEditEditingFilters(uniKey, [{ key: 'operator', value: operator }]);
           }}
+          getPopupContainer={() => document.body}
         >
           {map(filters, ({ operation, name }) => (
             <Select.Option key={operation}>{name}</Select.Option>
@@ -328,6 +330,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
               onSelect={(v: any) => {
                 handleEditEditingFilters(uniKey, [{ key: 'value', value: v }]);
               }}
+              getPopupContainer={() => document.body}
             >
               {map(_values, ({ value: v, name }) => (
                 <Select.Option key={v} value={v}>
@@ -368,6 +371,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
               { key: 'aggregations', value: get(types[get(fieldsMap[field], 'type')], 'aggregations') },
             ]);
           }}
+          getPopupContainer={() => document.body}
         >
           {map(fields, ({ key, name }) => (
             <Select.Option key={key} value={key}>
@@ -403,6 +407,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
               { key: 'aggregatorType', value: get(find(aggregations, { aggregation: aggregator }), 'result_type') },
             ]);
           }}
+          getPopupContainer={() => document.body}
         >
           {map(aggregations, ({ aggregation, name }) => (
             <Select.Option key={aggregation}>{name}</Select.Option>
@@ -421,6 +426,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
           onSelect={(operator) => {
             handleEditEditingFields(uniKey, [{ key: 'operator', value: operator }]);
           }}
+          getPopupContainer={() => document.body}
         >
           {map(get(types[aggregatorType], 'operations'), ({ operation, name }) => (
             <Select.Option key={operation}>{name}</Select.Option>
