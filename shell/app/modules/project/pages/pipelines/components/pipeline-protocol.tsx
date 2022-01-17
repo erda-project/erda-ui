@@ -79,7 +79,7 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
             }
           } else if (component === 'customFilter') {
             const app = get(operationData, 'clientData.values.app');
-            if (operation === 'filter' && applicationID !== 0 && (!app || isEmpty(app))) {
+            if (operation === 'filter' && applicationID !== 0 && isEmpty(app)) {
               setApp({ ID: 0 });
             }
           }
