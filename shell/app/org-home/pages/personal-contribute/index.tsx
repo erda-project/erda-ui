@@ -48,7 +48,7 @@ const PersonalContribute = ({ currentUser }: { currentUser: ILoginUser }) => {
   const orgId = orgStore.getState((s) => s.currentOrg.id);
 
   React.useEffect(() => {
-    getPersonalContribute.fetch({ orgId, userId: currentUser.id });
+    orgId && getPersonalContribute.fetch({ orgId, userId: currentUser.id });
   }, [currentUser.id, orgId]);
 
   const contributes = getPersonalContribute.useData();
