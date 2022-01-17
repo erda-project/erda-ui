@@ -47,6 +47,10 @@ const RadioTabs = (props: RadioTabsProps) => {
     subValues: {},
   });
 
+  React.useEffect(() => {
+    updater.value((prev: string) => (prev !== propsValue ? propsValue : prev));
+  }, [propsValue, updater]);
+
   const convertValue = (val: Value) => {
     if (options.find((o) => o.value === val)) {
       return val;
