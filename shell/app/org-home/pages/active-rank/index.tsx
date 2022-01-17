@@ -33,7 +33,7 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
   const userMap = useUserMap();
 
   React.useEffect(() => {
-    getActiveRankList.fetch({ orgId });
+    orgId && getActiveRankList.fetch({ orgId });
   }, [orgId]);
 
   const sourceList = getActiveRankList.useData();
