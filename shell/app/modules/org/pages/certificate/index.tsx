@@ -391,6 +391,7 @@ const Certificate = () => {
         {
           label: `Debug-key ${i18n.t('cmp:alias')}`,
           name: keyPrefix.adrManualDebug.concat(['alias']),
+          rules: [noSpaceRule],
         },
         {
           label: `Debug-key ${i18n.t('password')}`,
@@ -442,6 +443,7 @@ const Certificate = () => {
         {
           label: `Release-key ${i18n.t('cmp:alias')}`,
           name: keyPrefix.adrManualRelease.concat(['alias']),
+          rules: [noSpaceRule],
         },
         {
           label: `Release-key ${i18n.t('password')}`,
@@ -474,6 +476,7 @@ const Certificate = () => {
         {
           label: `Debug-key ${i18n.t('cmp:alias')}`,
           name: keyPrefix.adrAuto.concat(['debugKeyStore', 'alias']),
+          rules: [noSpaceRule],
         },
         {
           label: `Debug-key ${i18n.t('password')}`,
@@ -496,6 +499,7 @@ const Certificate = () => {
         {
           label: `Release-key ${i18n.t('cmp:alias')}`,
           name: keyPrefix.adrAuto.concat(['releaseKeyStore', 'alias']),
+          rules: [noSpaceRule],
         },
         {
           label: `Release-key ${i18n.t('password')}`,
