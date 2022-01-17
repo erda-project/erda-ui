@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Dropdown, Menu, Input } from 'antd';
-import { ErdaIcon } from 'common';
+import { ErdaIcon, Ellipsis } from 'common';
 import React from 'react';
 import { map } from 'lodash';
 import i18n from 'i18n';
@@ -178,7 +178,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
                 className={`p-0 seleted-item ${className}`}
                 switcher={
                   <span
-                    className="rounded-sm bg-default-06 text-default-8 px-2 py-0.5 ml-1 hover:bg-purple-deep hover:text-white"
+                    className="whitespace-nowrap rounded-sm bg-default-06 text-default-8 px-2 py-0.5 ml-1 hover:bg-purple-deep hover:text-white"
                     onClick={() => !disabled && setActive(!active)}
                   >
                     {i18n.t('common:switch')}
@@ -228,7 +228,7 @@ const Item = (props: ItemProps) => {
         {onlyIcon ? null : (
           <div className="flex-1 overflow-hidden">
             <div className="flex items-center">
-              <div className="truncate option-label">{label}</div>
+              <Ellipsis className="option-label" title={label} />
               {switcher}
             </div>
             {desc ? <div className="option-desc truncate ">{desc}</div> : null}
