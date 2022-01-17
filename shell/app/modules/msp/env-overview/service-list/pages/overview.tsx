@@ -16,7 +16,6 @@ import { Col, Row, Tooltip } from 'antd';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import NoServicesHolder from 'msp/env-overview/service-list/pages/no-services-holder';
 import { TimeSelectWithStore } from 'msp/components/time-select';
-import { auxiliaryColorMap, functionalColor } from 'common/constants';
 import DiceConfigPage from 'config-page';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'core/stores/route';
@@ -28,6 +27,7 @@ import { Cards, TopologyOverviewWrapper } from 'msp/env-overview/topology/pages/
 import ErdaIcon from 'common/components/erda-icon';
 import { useFullScreen } from 'common/use-hooks';
 import AnalyzerChart from 'msp/components/analyzer-chart';
+import themeColor from 'app/theme-color.mjs';
 import './index.scss';
 
 const chartConfig = [
@@ -51,32 +51,32 @@ const chartConfig = [
 const topNConfig = [
   {
     key: 'pathRpsMaxTop5',
-    color: functionalColor.actions,
+    color: themeColor['blue-deep'],
     icon: 'jiekoutuntu',
   },
   {
     key: 'pathSlowTop5',
-    color: functionalColor.success,
+    color: themeColor.success,
     icon: 'jiekoutiaoyong',
   },
   {
     key: 'pathErrorRateTop5',
-    color: functionalColor.error,
+    color: themeColor.error,
     icon: 'jiekoucuowushuai',
   },
   {
     key: 'pathClientRpsMaxTop5',
-    color: auxiliaryColorMap.purple.deep,
+    color: themeColor['purple-deep'],
     icon: 'kehuduantiaoyong',
   },
   {
     key: 'sqlSlowTop5',
-    color: functionalColor.info,
+    color: themeColor.default,
     icon: 'SQLtiaoyong',
   },
   {
     key: 'exceptionCountTop5',
-    color: functionalColor.warning,
+    color: themeColor.warning,
     icon: 'fuwuyichang',
   },
 ];

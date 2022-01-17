@@ -554,6 +554,8 @@ export const transformLog = (content: string) => {
 export const colorToRgb = (color: string, opacity?: number) => {
   let sColor = color.toLowerCase();
   const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+  const rgb = /^rgba?\((?<R>\d+),\s*(?<G>\d+),\s*(?<B>\d+)(,\s*(\d?\.)?\d+)?\)$/;
+  const rgbMatch = sColor.match(rgb);
   if (sColor && reg.test(sColor)) {
     if (sColor.length === 4) {
       let sColorNew = '#';
@@ -567,6 +569,9 @@ export const colorToRgb = (color: string, opacity?: number) => {
       sColorChange.push(parseInt(`0x${sColor.slice(i, i + 2)}`, 16));
     }
     return opacity ? `rgba(${sColorChange.concat(opacity).join(',')})` : `rgb(${sColorChange.join(',')})`;
+  } else if (rgbMatch) {
+    const { R, G, B } = rgbMatch.groups;
+    return opacity ? `rgba(${R}, ${G}, ${B}, ${opacity})` : sColor;
   }
   return sColor;
 };
