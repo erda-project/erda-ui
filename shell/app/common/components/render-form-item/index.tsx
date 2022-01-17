@@ -399,7 +399,7 @@ const SelectComp = ({ value, onChange, options, size, optionRender, ...restItemP
   return (
     <Select
       {...restItemProps}
-      value={value}
+      value={value || undefined}
       onChange={onChange}
       size={size}
       filterOption={(input, option) =>
