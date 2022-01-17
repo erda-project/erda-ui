@@ -212,9 +212,9 @@ const Info = () => {
         }
       >
         <Row>
-          <Col span={12} className="flex items-center pr-4">
+          <Col span={12} className="flex items-center pr-4 flex-1">
             {info.logo && <img src={info.logo} className="w-16 h-16 mr-4" />}
-            <div className={`${info.logo ? 'org-with-logo' : ''}`}>
+            <div>
               <Ellipsis title={info.displayName} className="text-xl label" />
               <Tooltip title={info.desc}>
                 <div className="desc">{info.desc}</div>
