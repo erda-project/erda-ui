@@ -201,7 +201,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'ticket',
-          breadcrumbName: i18n.t('dop:tickets'),
+          breadcrumbName: i18n.t('Tickets'),
           getComp: (cb) => cb(import('project/pages/ticket')),
           layout: {
             noWrapper: true,

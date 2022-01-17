@@ -49,7 +49,7 @@ function TableConfig<T extends object = any>({
     ));
 
   return (
-    <div className="erda-table-filter flex justify-between">
+    <div className="erda-table-filter flex justify-between bg-default-02">
       <div className="erda-table-filter-content flex-1 flex items-center">
         <div className="flex-1">{slot}</div>
       </div>
