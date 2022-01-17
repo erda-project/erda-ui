@@ -20,7 +20,7 @@ import { auxiliaryColorMap, functionalColor } from 'common/constants';
 import DiceConfigPage from 'config-page';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'core/stores/route';
-import { reduce, uniqBy } from 'lodash';
+import { reduce } from 'lodash';
 import i18n from 'i18n';
 import topologyStore from 'msp/env-overview/topology/stores/topology';
 import TopologyComp from 'msp/env-overview/topology/pages/topology/component/topology-comp';
@@ -154,25 +154,6 @@ const OverView = () => {
     ];
   }, [topologyData, serviceId]);
 
-  const topologyList = React.useMemo(() => {
-    const currentNode = topologyData.nodes?.find((t) => t.serviceId === serviceId);
-    if (currentNode) {
-      const temp =
-        topologyData.nodes.filter(
-          (item) => item.serviceId !== serviceId && item.parents.some((t) => t.serviceId === serviceId),
-        ) ?? [];
-      const nodes = temp.map((item) => {
-        return {
-          ...item,
-          parents: item.parents?.filter((t) => t.serviceId === serviceId),
-        };
-      });
-      return { nodes: uniqBy([...nodes, currentNode, ...(currentNode?.parents || [])], 'id') };
-    } else {
-      return { nodes: [] };
-    }
-  }, [topologyData, serviceId]);
-
   const handleScreen = () => {
     toggleFullscreen();
   };
@@ -213,8 +194,8 @@ const OverView = () => {
             </div>
           </TopologyOverviewWrapper>
           <div className="flex-1 h-full relative">
-            {topologyList.nodes?.length ? (
-              <TopologyComp allowScroll={false} data={topologyList} filterKey={'node'} />
+            {topologyData.nodes?.length ? (
+              <TopologyComp allowScroll={false} data={topologyData} filterKey={'node'} />
             ) : null}
           </div>
         </div>
