@@ -28,6 +28,7 @@ import { HeadProjectSelector } from 'project/common/components/project-selector'
 import userStore from 'app/user/stores';
 import Card from 'org/common/card';
 import { WORKSPACE_LIST } from 'common/constants';
+import './index.scss';
 
 // 修改项目信息后，更新左侧菜单上方的信息
 let selectorKey = 1;
@@ -206,19 +207,21 @@ const Info = () => {
         }
         actions={
           <span className="hover-active" onClick={() => setProjectInfoEditVisible(true)}>
-            <ErdaIcon type="edit" size={16} className="mr-2 align-middle " />
+            <ErdaIcon type="edit" size={16} className="mr-2 align-middle" />
           </span>
         }
       >
         <Row>
-          <Col span={12} className="flex items-center h-20">
+          <Col span={12} className="flex items-center pr-4 flex-1">
             {info.logo && <img src={info.logo} className="w-16 h-16 mr-4" />}
             <div>
-              <div className="text-xl label">{info.displayName}</div>
-              <div className="desc">{info.desc}</div>
+              <Ellipsis title={info.displayName} className="text-xl label" />
+              <Tooltip title={info.desc}>
+                <div className="desc">{info.desc}</div>
+              </Tooltip>
             </div>
           </Col>
-          <Col span={12} className="py-5">
+          <Col span={12} className="py-1">
             <Panel
               columnNum={2}
               fields={[

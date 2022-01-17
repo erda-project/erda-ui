@@ -221,7 +221,7 @@ export const ProjectHomepage = () => {
                 />
               </div>
               <div className="py-3 text-default">
-                <div className="homepage-info pl-4 pb-4">
+                <div className="homepage-info pl-4 pb-4 w-[296px]">
                   <div className="mb-2 font-bold">{i18n.t('dop:About')}</div>
                   <div className="info-brief mb-4">
                     {desc || (
