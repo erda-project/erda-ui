@@ -139,8 +139,8 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
               { required: true, message: i18n.t('please enter {name}', { name: i18n.t('pipeline') }) },
               { max: 30, message: i18n.t('dop:no more than 30 characters') },
               {
-                pattern: /^[A-Za-z0-9._-]+$/,
-                message: i18n.t('dop:Must be composed of letters, numbers, underscores, hyphens and dots.'),
+                pattern: /^[\u4e00-\u9fa5A-Za-z0-9._-]+$/,
+                message: i18n.t('dop:Must be composed of Chinese, letters, numbers, underscores, hyphens and dots.'),
               },
             ]}
             itemProps={{
