@@ -13,6 +13,7 @@
 
 import React from 'react';
 import { Drawer, Tabs, message } from 'antd';
+import { get } from 'lodash';
 import i18n from 'i18n';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
@@ -26,11 +27,12 @@ import appStore from 'application/stores/application';
 
 interface IProps {
   application: { ID: number; name?: string };
+  getApps: () => void;
 }
 
 const { TabPane } = Tabs;
 
-const PipelineProtocol = ({ application }: IProps) => {
+const PipelineProtocol = ({ application, getApps }: IProps) => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const { updateTreeNodeDetail } = fileTreeStore;
   const { updateAppDetail } = appStore.reducers;
@@ -66,6 +68,16 @@ const PipelineProtocol = ({ application }: IProps) => {
         showLoading
         inParams={inParams}
         ref={reloadRef}
+        operationCallBack={(reqConfig) => {
+          const { event } = reqConfig;
+          const { component, operationData } = event || {};
+          if (component === 'pipelineTable') {
+            const id = get(operationData, 'clientData.dataRef.id');
+            if (['run', 'cancelRun'].includes(id)) {
+              getApps();
+            }
+          }
+        }}
         customProps={{
           myPage: {
             props: {

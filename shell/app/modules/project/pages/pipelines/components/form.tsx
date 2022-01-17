@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { Form, Button } from 'antd';
-import { get } from 'lodash';
 import i18n from 'i18n';
 import { ErdaIcon, RenderFormItem } from 'common';
 import routeInfoStore from 'core/stores/route';
