@@ -193,7 +193,8 @@ const TraceSearch: React.FC<IProps> = ({ scope = 'trace' }) => {
           customProps={{
             page: {
               props: {
-                className: 'bg-white',
+                whiteBg: true,
+                className: 'p-4',
               },
             },
             table: {

@@ -14,7 +14,7 @@
 import React from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
-import { head, isEmpty, map, take, forEach, cloneDeep } from 'lodash';
+import { cloneDeep, forEach, head, isEmpty, map, take } from 'lodash';
 import { Button, message, Modal, Select, Spin, Tooltip } from 'antd';
 import { IActions } from 'app/common/components/table/interface';
 import { Avatar, ErdaIcon, FormModal, MemberSelector } from 'common';
@@ -292,6 +292,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       updateNotifyGroups({
         id,
         name,
+        scopeType: commonPayload.scopeType,
         targets: [
           {
             type: targetType,
