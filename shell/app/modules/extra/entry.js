@@ -11,8 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import routers from './msp/router';
+
 const entry = (registerModule) => {
-  // register some modules here
+  return registerModule({
+    key: 'msp-extra',
+    routers,
+  });
 };
 
 export default entry;
