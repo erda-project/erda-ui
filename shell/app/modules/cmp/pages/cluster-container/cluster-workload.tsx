@@ -118,12 +118,7 @@ const ClusterWorkload = () => {
       />
       <Drawer visible={visible} onClose={closeDetail} width={'80%'} maskClosable getContainer={false}>
         {visible && detailData ? (
-          <PureClusterWorkloadDetail
-            className="mt-4"
-            clusterName={clusterName}
-            {...detailData}
-            onDelete={onDeleteDetail}
-          />
+          <PureClusterWorkloadDetail clusterName={clusterName} {...detailData} onDelete={onDeleteDetail} />
         ) : null}
       </Drawer>
     </ClusterContainer>

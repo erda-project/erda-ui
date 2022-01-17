@@ -41,6 +41,13 @@ export const PureClusterWorkloadDetail = (props: IProps) => {
         scenarioKey={'cmp-dashboard-workload-detail'}
         inParams={inParams}
         operationCallBack={operationCallBack}
+        customProps={{
+          header: {
+            props: {
+              className: 'mr-8',
+            },
+          },
+        }}
       />
     </div>
   );

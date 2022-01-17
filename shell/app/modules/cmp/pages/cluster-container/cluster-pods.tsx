@@ -127,7 +127,7 @@ const ClusterPods = () => {
       />
       <Drawer visible={visible} getContainer={false} onClose={closeDetail} width={'80%'} maskClosable>
         {visible && detailData ? (
-          <PureClusterPodDetail className="mt-4" clusterName={clusterName} {...detailData} onDelete={onDeleteDetail} />
+          <PureClusterPodDetail clusterName={clusterName} {...detailData} onDelete={onDeleteDetail} />
         ) : null}
       </Drawer>
     </ClusterContainer>

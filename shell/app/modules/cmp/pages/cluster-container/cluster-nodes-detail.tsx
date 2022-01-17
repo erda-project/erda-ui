@@ -70,6 +70,13 @@ export const PureClusterNodeDetail = (props: IProps) => {
           scenarioType={'cmp-dashboard-nodeDetail'}
           scenarioKey={'cmp-dashboard-nodeDetail'}
           inParams={inParams}
+          customProps={{
+            header: {
+              props: {
+                className: 'mr-8',
+              },
+            },
+          }}
         />
       </div>
       <Spin spinning={chartLoading} wrapperClassName="mt-8">

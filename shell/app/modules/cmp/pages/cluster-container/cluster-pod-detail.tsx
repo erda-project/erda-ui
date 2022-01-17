@@ -117,6 +117,11 @@ export const PureClusterPodDetail = (props: IProps) => {
           inParams={inParams}
           operationCallBack={operationCallBack}
           customProps={{
+            header: {
+              props: {
+                className: 'mr-8',
+              },
+            },
             containerTable: {
               op: {
                 clickTableItem: (_: Obj, op: IPodMeta) => {
