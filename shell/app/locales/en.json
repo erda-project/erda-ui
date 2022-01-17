@@ -854,6 +854,7 @@
     "Mobile application is a mobile client developed on Android and iOS platforms, including the overall process of development, release and submit to the app store.": "The mobile application is a mobile APP client applied to the development of two major platforms, Android and iOS, and includes the overall process of development, release, and launch to the market.",
     "Modified or added features affect the original function.": "Modified or added features affect the original function.",
     "Modifying service parameters will restart all associated applications.": "modify service parameters, you need to restart all associated applications",
+    "Must be composed of Chinese, letters, numbers, underscores, hyphens and dots.": "Must be composed of Chinese, letters, numbers, underscores, hyphens and dots.",
     "Must be composed of letters, numbers, underscores, hyphens and dots.": "must be composed of English, numbers, underscores, underscores, dots",
     "Name already existed. Please rename it.": "Name already existed. Please rename it.",
     "New version available. Upgrade now?": "New version available. Upgrade now?",

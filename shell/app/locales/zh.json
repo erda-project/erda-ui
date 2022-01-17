@@ -854,6 +854,7 @@
     "Mobile application is a mobile client developed on Android and iOS platforms, including the overall process of development, release and submit to the app store.": "移动应用是应用于 Android 和 iOS 两大平台开发的移动 APP 客户端，包含了开发、发布、上架到市场的整体流程。",
     "Modified or added features affect the original function.": "修改或新增的功能影响原来的功能",
     "Modifying service parameters will restart all associated applications.": "修改服务参数，需重启所有关联应用",
+    "Must be composed of Chinese, letters, numbers, underscores, hyphens and dots.": "必须由中文、英文、数字、下划线、中划线、点组成",
     "Must be composed of letters, numbers, underscores, hyphens and dots.": "必须由英文、数字、下划线、中划线、点组成",
     "Name already existed. Please rename it.": "名称已存在，请重新命名",
     "New version available. Upgrade now?": "版本可升级，是否升级",
