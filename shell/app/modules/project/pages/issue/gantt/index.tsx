@@ -216,7 +216,7 @@ const IssuePlan = () => {
       if ((chosenParentId === 0 && (isDelete || isCreate)) || chosenParentId !== 0) {
         reInParams = [chosenParentId];
       } else {
-        reInParams = [chosenParentId, chosenIssueId];
+        reInParams = [chosenParentId, +chosenIssueId];
       }
       reloadData({ parentId: reInParams });
     }
