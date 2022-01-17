@@ -47,6 +47,13 @@ const RadioTabs = (props: RadioTabsProps) => {
     subValues: {},
   });
 
+  React.useEffect(() => {
+    if (value !== propsValue) {
+      updater.value(propsValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [propsValue]);
+
   const convertValue = (val: Value) => {
     if (options.find((o) => o.value === val)) {
       return val;
