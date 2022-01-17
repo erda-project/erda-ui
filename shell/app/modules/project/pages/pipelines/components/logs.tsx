@@ -55,7 +55,7 @@ const PipelineLogs = () => {
           },
         }}
       />
-      <Drawer onClose={onClose} visible={visible} width="80%" destroyOnClose closable={false}>
+      <Drawer onClose={onClose} visible={visible} width="80%" destroyOnClose>
         <PipelineRunDetail deployAuth={{ hasAuth: false }} isMobileInit={false} />
       </Drawer>
     </>
