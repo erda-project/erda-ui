@@ -26,12 +26,11 @@ import appStore from 'application/stores/application';
 
 interface IProps {
   application: { ID: number; name?: string };
-  setApp: ({ ID }: { ID: number }) => void;
 }
 
 const { TabPane } = Tabs;
 
-const PipelineProtocol = ({ application, setApp }: IProps) => {
+const PipelineProtocol = ({ application }: IProps) => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const { updateTreeNodeDetail } = fileTreeStore;
   const { updateAppDetail } = appStore.reducers;
@@ -108,16 +107,6 @@ const PipelineProtocol = ({ application, setApp }: IProps) => {
             op: {
               click: () => {
                 setVisible(true);
-              },
-            },
-          },
-          customFilter: {
-            op: {
-              afterFilter: (state: { values: { app: string[] } }) => {
-                const app = state.values.app || [];
-                if (applicationID !== 0 && (!app || app.length === 0)) {
-                  setApp({ ID: 0 });
-                }
               },
             },
           },
