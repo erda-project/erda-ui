@@ -183,7 +183,8 @@ const Transaction = () => {
           customProps={{
             page: {
               props: {
-                className: 'bg-white',
+                whiteBg: true,
+                className: 'p-4',
               },
             },
             reqDistribution: {

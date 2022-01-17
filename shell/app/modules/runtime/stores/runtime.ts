@@ -26,7 +26,7 @@ import {
   cancelDeployment,
 } from '../services/runtime';
 import userStore from 'app/user/stores';
-import moment from 'moment';
+import permStore from 'user/stores/permission';
 
 const defaultRuntimeDetail = {
   services: {},
@@ -64,11 +64,18 @@ const runtime = createFlatStore({
   state: initState,
   subscriptions({ listenRoute, registerWSHandler }: IStoreSubs) {
     listenRoute(({ isEntering, isLeaving, params }) => {
+      const { runtimeId, appId } = params;
       if (isEntering('runtime') || isEntering('projectDeployRuntime')) {
-        const { runtimeId } = params;
         runtime.getRuntimeDetail({ runtimeId });
       } else if (isLeaving('runtime') || isLeaving('projectDeployRuntime')) {
         runtime.clearRuntimeDetail();
+      }
+      if (isEntering('projectDeployRuntime')) {
+        permStore.effects.checkRouteAuth({
+          type: 'app',
+          id: appId,
+          routeMark: 'projectDeployRuntime',
+        });
       }
     });
 

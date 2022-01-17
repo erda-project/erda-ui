@@ -305,7 +305,10 @@ function WrappedTable<T extends object = any>({
   }
 
   return (
-    <div className={`flex flex-col erda-table ${hideHeader ? 'hide-header' : ''} theme-${theme}`} ref={containerRef}>
+    <div
+      className={`flex flex-col erda-table bg-white ${hideHeader ? 'hide-header' : ''} theme-${theme}`}
+      ref={containerRef}
+    >
       {!hideHeader && (
         <TableConfig
           slot={slot}

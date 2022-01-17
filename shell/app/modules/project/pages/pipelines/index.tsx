@@ -104,7 +104,7 @@ const Pipeline = () => {
       </div>
 
       <div className="pipeline-right flex-1 pt-2 h-full min-w-0">
-        <PipelineProtocol application={application} />
+        <PipelineProtocol application={application} getApps={getList} />
       </div>
     </div>
   );

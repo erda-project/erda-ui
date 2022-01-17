@@ -41,7 +41,7 @@ const TableFooter = ({ rowSelection, pagination, hidePagination, onTableChange }
   };
 
   return (
-    <div className="erda-table-footer flex justify-between">
+    <div className="erda-table-footer flex justify-between bg-default-02">
       {rowSelection?.actions ? (
         <div className="erda-table-batch-ops flex items-center">
           <Dropdown

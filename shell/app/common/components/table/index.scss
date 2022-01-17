@@ -73,7 +73,6 @@
 
   .erda-table-footer {
     padding: 0 1rem;
-    background-color: $color-table-head-bg;
   }
 
   .ant-table {
@@ -123,7 +122,6 @@
     // TODO: remove this after update global input style
     .ant-input-affix-wrapper,
     input {
-      background-color: $color-bg-gray;
       border: none;
       border-radius: 2px;
     }
@@ -207,7 +205,6 @@
 .erda-table-filter {
   padding: 7px 1rem;
   line-height: 50px;
-  background-color: $color-table-head-bg;
 
   &-content {
     line-height: 1.2;

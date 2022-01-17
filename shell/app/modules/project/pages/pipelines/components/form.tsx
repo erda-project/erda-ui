@@ -13,11 +13,10 @@
 
 import React from 'react';
 import { Form, Button } from 'antd';
-import { get } from 'lodash';
 import i18n from 'i18n';
 import { ErdaIcon, RenderFormItem } from 'common';
 import routeInfoStore from 'core/stores/route';
-import { getAppList, getBranchList, getFileDetail, createPipeline, getPipelineList } from 'project/services/pipeline';
+import { getAppList, getFileTree, createPipeline, getPipelineList } from 'project/services/pipeline';
 
 interface IProps {
   onCancel: () => void;
@@ -51,14 +50,18 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
   }, [projectId]);
 
   const getBranch = React.useCallback(async () => {
-    const { value } = app;
-    const application = appList.find((item) => item.value === value) || {};
-    const { projectName, label } = id ? app : application;
-    const res = await getBranchList({ projectName, applicationName: label });
-    if (res.success) {
-      setBranchList(res.data.branches?.map((item) => ({ value: item, name: item })) || ([] as Node[]));
+    const appId = id || app.value;
+    if (appId) {
+      const res = await getFileTree.fetch({
+        scopeID: projectId,
+        scope: 'project-app',
+        pinode: btoa(encodeURI(`${projectId}/${appId}`)),
+      });
+      if (res.success) {
+        setBranchList(res.data?.map((item) => ({ value: item.name, name: item.name })) || ([] as Node[]));
+      }
     }
-  }, [app, appList]);
+  }, [id, projectId, app]);
 
   const getPipelines = React.useCallback(async () => {
     const { value } = app;

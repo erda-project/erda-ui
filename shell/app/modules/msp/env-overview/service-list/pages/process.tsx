@@ -185,6 +185,12 @@ const ServiceListProcess = () => {
             ...scenarioParams,
           }}
           customProps={{
+            page: {
+              props: {
+                whiteBg: true,
+                className: 'p-4 pb-2',
+              },
+            },
             runtime: {
               props: {
                 gutter: 8,
