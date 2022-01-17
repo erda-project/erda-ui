@@ -148,8 +148,17 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
       if (typeof data === 'string') {
         Comp = data;
       } else if (typeof data === 'object') {
-        const { text, enableCopy, status, showDot = false } = data;
-        const value = status ? <Badge text={text} status={status} showDot={showDot} /> : text;
+        const { text, enableCopy, status, showDot = false, tip } = data;
+        let value = status ? <Badge text={text} status={status} showDot={showDot} /> : text;
+
+        if (tip) {
+          value = (
+            <Tooltip overlayClassName="whitespace-pre" title={tip}>
+              {value}
+            </Tooltip>
+          );
+        }
+
         Comp = enableCopy ? (
           <span className="flex group" title={value}>
             <Copy copyText={value} className="ant-table-cell-ellipsis group-hover:text-purple-deep">
