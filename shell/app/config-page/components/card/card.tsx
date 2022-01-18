@@ -198,6 +198,7 @@ export const Card = (props: CP_CARD.Props) => {
     const { operations } = dataRef || {};
     switch (action) {
       case 'card':
+      case 'title':
         {
           const { star, ...restOp } = operations || {};
           execMultipleOperation(restOp, (op) => execOperation({ ...op, clientData: { dataRef } }));
