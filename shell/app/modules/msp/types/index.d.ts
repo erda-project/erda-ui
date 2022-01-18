@@ -81,6 +81,8 @@ declare namespace MS_INDEX {
     cnName: string;
     enName: string;
     exists?: boolean; // false表示没有用到或还未拉起来，先展示引导页
+    isK8S: boolean;
+    isEdas: boolean;
     params: {
       [key: string]: string;
       key: IMenuKey;
