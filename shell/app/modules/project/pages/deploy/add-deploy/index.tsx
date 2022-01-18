@@ -136,24 +136,8 @@ const AddDeploy = ({
                 { dataIndex: 'name' },
                 {
                   dataIndex: ['preCheckResult', 'success'],
-                  render: (val: boolean, record: PROJECT_DEPLOY.IApplicationsInfo) => {
-                    return (
-                      <Tooltip
-                        title={
-                          record?.preCheckResult?.failReasons ? (
-                            <div className="flex flex-col">
-                              {record?.preCheckResult?.failReasons?.map((item) => (
-                                <span className="mb-0.5" key={item}>
-                                  {item}
-                                </span>
-                              )) || '-'}
-                            </div>
-                          ) : undefined
-                        }
-                      >
-                        <ErdaIcon type={val ? 'tongguo' : 'butongguo'} disableCurrent size={18} />
-                      </Tooltip>
-                    );
+                  render: (val: boolean) => {
+                    return <ErdaIcon type={val ? 'tongguo' : 'butongguo'} disableCurrent size={18} />;
                   },
                 },
                 {
