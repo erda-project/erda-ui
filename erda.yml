@@ -40,3 +40,17 @@ services:
         port: 80
         path: "/"
         duration: 120
+  enterprise-ui:
+    ports:
+    - 80
+    resources:
+      cpu: ${request_cpu:0.2}
+      max_cpu: 0.2
+      mem: ${request_mem:256}
+      max_mem: 256
+      network:
+        mode: "container"
+    deployments:
+      replicas: ${replicas:1}
+    expose:
+    - 80
