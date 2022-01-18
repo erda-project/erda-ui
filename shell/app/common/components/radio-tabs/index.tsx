@@ -69,7 +69,6 @@ const RadioTabs = (props: RadioTabsProps) => {
     }
     return curVal;
   };
-
   return (
     <Radio.Group
       buttonStyle="solid"
