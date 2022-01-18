@@ -16,7 +16,7 @@ import { apiCreator } from 'core/service';
 interface CreatePipelineParams {
   projectID: number;
   name: string;
-  appID: number;
+  appID: string;
   sourceType: string;
   ref: string;
   path: string;
@@ -51,7 +51,11 @@ const apis = {
 export const getAppList = apiCreator<(payload: { projectID: string; name?: string }) => AppDetail[]>(apis.getAppList);
 
 export const getFileTree = apiCreator<
-  (payload: { pinode: string; scope: string; scopeID: string }) => Array<{ inode: string; name: string }>
+  (payload: {
+    pinode: string;
+    scope: string;
+    scopeID: string;
+  }) => Array<{ inode: string; name: string; pinode: string; type: string }>
 >(apis.getFileTree);
 
 export const getFileDetail = apiCreator<
