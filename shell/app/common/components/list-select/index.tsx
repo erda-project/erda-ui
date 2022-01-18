@@ -197,12 +197,16 @@ function ListSelectOverlay<T extends object = any>({
   menuRowKey,
   parentKey,
 }: ListSelectOverlayProps<T>) {
-  const menus = React.useMemo(() => [{ [menuRowKey]: 0, title: i18n.t('dop:all') }, ..._menus], [_menus, menuRowKey]);
-  const [selectedMenu, setSelectedMenu] = React.useState<number | string>(0);
+  const defaultSelectMenu = React.useMemo(
+    () => ({ [menuRowKey]: 0, title: i18n.t('dop:all {name}', { name: label }) }),
+    [menuRowKey, label],
+  );
+  const menus = React.useMemo(() => [defaultSelectMenu, ..._menus], [_menus, defaultSelectMenu]);
+  const [selectedMenu, setSelectedMenu] = React.useState<{ title: string }>(defaultSelectMenu);
   const [menusPageNo, setMenusPageNo] = React.useState<number>(1);
 
   useUpdateEffect(() => {
-    onMenuChange && onMenuChange(menus.find((item) => item[menuRowKey] === selectedMenu));
+    onMenuChange && onMenuChange(selectedMenu);
   }, [selectedMenu, menus, onMenuChange, menuRowKey]);
 
   return (
@@ -249,50 +253,64 @@ function ListSelectOverlay<T extends object = any>({
         </div>
       </Col>
       <Col span={12} className="px-2 h-full bg-white-08">
-        <div className="py-3 px-2 flex items-center justify-between">{i18n.t('dop:all {name}', { name: label })}</div>
-        <div className="erda-list-select-right-content flex">
-          {menus && menus.length !== 0 ? (
-            <div className="erda-list-select-menus p-2 bg-white-04">
-              <Input
-                prefix={<ErdaIcon type="search" color="currentColor" />}
-                className="bg-white-06 border-none mb-2"
-                placeholder={i18n.t('common:keyword to search')}
-                onPressEnter={(e: React.KeyboardEvent<HTMLInputElement>) => onMenuFilter?.(e.target.value)}
-              />
-              {menus.map((item) => {
-                const selectNum = selectedList.filter((i) => i[parentKey] === item[menuRowKey]).length;
-                return (
-                  <div
-                    className={`erda-list-select-menu-item flex items-center hover:bg-white-06 ${
-                      selectedMenu === item[menuRowKey] ? 'active' : ''
-                    }`}
-                    onClick={() => setSelectedMenu(item[menuRowKey])}
-                    key={item[menuRowKey]}
-                  >
-                    <span className="truncate" title={item.title}>
-                      {item.title}
-                    </span>
-                    {selectNum !== 0 ? (
-                      <span className="selected-num bg-purple-deep ml-2 rounded-full text-xs">{selectNum}</span>
-                    ) : null}
-                  </div>
-                );
-              })}
-              {menus.length < menusTotal && onMenuLoadMore ? (
-                <div
-                  className="erda-list-select-menu-item hover:bg-white-06"
-                  onClick={() => {
-                    setMenusPageNo(menusPageNo + 1);
-                    onMenuLoadMore(menusPageNo + 1);
-                  }}
-                >
-                  <ErdaIcon type="loading" className="align-middle mr-2" spin />
-                  {i18n.t('load more')}
+        <div className="py-3 px-2 flex items-center justify-between">
+          <Dropdown
+            trigger={['click']}
+            getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+            overlay={
+              <div className="erda-list-select-menus p-2 bg-default">
+                <div onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => e.stopPropagation()}>
+                  <Input
+                    prefix={<ErdaIcon type="search" color="currentColor" />}
+                    className="bg-white-06 border-none mb-2"
+                    placeholder={i18n.t('common:keyword to search')}
+                    onPressEnter={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                      onMenuFilter?.(e.target.value);
+                      setSelectedMenu(defaultSelectMenu);
+                    }}
+                  />
                 </div>
-              ) : null}
-            </div>
-          ) : null}
 
+                {menus.map((item) => {
+                  const selectNum = selectedList.filter((i) => i[parentKey] === item[menuRowKey]).length;
+                  return (
+                    <div
+                      className={`erda-list-select-menu-item flex items-center hover:bg-white-06 ${
+                        selectedMenu[menuRowKey] === item[menuRowKey] ? 'active' : ''
+                      }`}
+                      onClick={() => setSelectedMenu(item)}
+                      key={item[menuRowKey]}
+                    >
+                      <span className="truncate" title={item.title}>
+                        {item.title}
+                      </span>
+                      {selectNum !== 0 ? (
+                        <span className="selected-num bg-purple-deep ml-2 rounded-full text-xs">{selectNum}</span>
+                      ) : null}
+                    </div>
+                  );
+                })}
+                {menus.length < menusTotal && onMenuLoadMore ? (
+                  <div
+                    className="erda-list-select-menu-item hover:bg-white-06"
+                    onClick={() => {
+                      setMenusPageNo(menusPageNo + 1);
+                      onMenuLoadMore(menusPageNo + 1);
+                    }}
+                  >
+                    <ErdaIcon type="loading" className="align-middle mr-2" spin />
+                    {i18n.t('load more')}
+                  </div>
+                ) : null}
+              </div>
+            }
+          >
+            <div className="pl-2 flex-h-center cursor-pointer">
+              {selectedMenu.title} <ErdaIcon size={16} type="caret-down" className="ml-1 text-white-3" />
+            </div>
+          </Dropdown>
+        </div>
+        <div className="erda-list-select-right-content flex">
           <div className="flex-1 pl-2 min-w-0">
             <div className="px-2 mb-2">
               <Input
