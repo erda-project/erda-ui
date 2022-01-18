@@ -14,7 +14,7 @@
 import { createStore } from 'core/cube';
 import * as mspService from 'msp/services';
 import { envMap, getMSFrontPathByKey, getMSPSubtitleByName, MSIconMap } from 'msp/config';
-import { filter, get, isEmpty, every } from 'lodash';
+import { every, filter, get, isEmpty } from 'lodash';
 import layoutStore from 'layout/stores/layout';
 import { goTo, qs } from 'common/utils';
 import { getCurrentLocale } from 'i18n';
@@ -139,7 +139,7 @@ export const initMenu = (refresh = false) => {
       const DICE_CLUSTER_NAME = msMenu[0].clusterName;
       const DICE_CLUSTER_TYPE = msMenu[0].clusterType || '';
       const isEdas = DICE_CLUSTER_TYPE.includes('edasv2');
-      const isK8S = DICE_CLUSTER_TYPE === 'kubernetes';
+      const isK8S = msMenu[0].isK8S;
       const clusterType = isEdas ? 'EDAS' : 'TERMINUS';
       setGlobal('service-provider', clusterType);
       mspStore.reducers.updateClusterInfo({
