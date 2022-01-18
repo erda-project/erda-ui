@@ -266,20 +266,25 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                       </Tooltip>
                     );
                   })}
-                  {menuOverlay && (
-                    <Dropdown
-                      overlay={menuOverlay}
-                      overlayClassName={'erda-list-operations'}
-                      overlayStyle={{ zIndex: 1000 }}
-                    >
-                      <ErdaIcon
-                        type="more"
-                        size={18}
-                        className="list-item-more hover-active p-1 rounded hover:bg-black-02"
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                    </Dropdown>
+                  {selectable ? (
+                    menuOverlay && (
+                      <Dropdown
+                        overlay={menuOverlay}
+                        overlayClassName={'erda-list-operations'}
+                        overlayStyle={{ zIndex: 1000 }}
+                      >
+                        <ErdaIcon
+                          type="more"
+                          size={18}
+                          className="list-item-more hover-active p-1 rounded hover:bg-black-02"
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      </Dropdown>
+                    )
+                  ) : (
+                    <ErdaIcon type="lock" size={18} className="text-default-2" onClick={(e) => e.stopPropagation()} />
                   )}
+                  {}
                 </div>
               ) : null}
             </div>

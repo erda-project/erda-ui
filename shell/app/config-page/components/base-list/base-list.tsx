@@ -14,6 +14,7 @@
 import React from 'react';
 import { map, isBoolean, difference, intersection, has, compact } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
+import { useUpdateEffect } from 'react-use';
 import { HeadOperationBar, ErdaIcon } from 'common';
 import { Checkbox, Menu, Dropdown, Button } from 'antd';
 import { OperationAction, execMultipleOperation } from 'config-page/utils';
@@ -171,6 +172,10 @@ const List = (props: CP_BASE_LIST.Props) => {
     [customOp, execOperation, isLoadMore, list, state.combineList, state.selectedRowKeys],
   );
 
+  useUpdateEffect(() => {
+    customOp?.onStateChange(state);
+  }, [state]);
+
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
     // if isLoadMore is true, the data will be set undefined, combineList don't need to do anything
@@ -305,19 +310,21 @@ const emptyKeys: string[] = [];
 const BatchOperation = <T extends unknown>(props: IBatchProps<T>) => {
   const { rowKey, dataSource, onSelectChange, execOperation, selectedRowKeys = emptyKeys, batchRowsHandle } = props;
 
+  const selectableData = React.useMemo(() => dataSource.filter((item) => item.selectable !== false), [dataSource]);
+
   const [{ checkAll, indeterminate }, updater, update] = useUpdate({
     checkAll: false,
     indeterminate: false,
   });
 
   React.useEffect(() => {
-    const allKeys = map(dataSource, rowKey);
+    const allKeys = map(selectableData, rowKey);
     const curChosenKeys = intersection(allKeys, selectedRowKeys);
     update({
       checkAll: !!(curChosenKeys.length && curChosenKeys.length === allKeys.length),
       indeterminate: !!(curChosenKeys.length && curChosenKeys.length < allKeys.length),
     });
-  }, [update, dataSource, rowKey, selectedRowKeys]);
+  }, [update, selectableData, rowKey, selectedRowKeys]);
 
   const optMenus = React.useMemo(() => {
     const { options } = batchRowsHandle?.serverData;
@@ -369,7 +376,7 @@ const BatchOperation = <T extends unknown>(props: IBatchProps<T>) => {
   );
 
   const onCheckAllChange = () => {
-    const allKeys = map(dataSource, rowKey);
+    const allKeys = map(selectableData, rowKey);
     if (checkAll) {
       onSelectChange(difference(selectedRowKeys, allKeys));
     } else {

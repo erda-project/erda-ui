@@ -486,6 +486,7 @@
     "exported successfully": "exported successfully",
     "external": "external",
     "failed": "failed",
+    "failed reason": "failed reason",
     "failed to create node": "failed to create node",
     "failed to parse API description document": "failed to parse API description document",
     "failed to start node": "failed to start node",

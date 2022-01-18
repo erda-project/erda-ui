@@ -12,16 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Tooltip, Avatar, Input } from 'antd';
-import { ErdaIcon, FileEditor, DropdownSelectNew, EmptyHolder } from 'common';
+import { Tooltip, Input } from 'antd';
+import { ErdaIcon, FileEditor, DropdownSelectNew, EmptyHolder, Panel, Badge } from 'common';
 import ErdaTable from 'common/components/table';
 import { map } from 'lodash';
 import { useUserMap } from 'core/stores/userMap';
 import { ConfigTypeMap, CONFIG_ENV_MAP } from '../config';
-import { fromNow, getAvatarChars, goTo } from 'common/utils';
+import { fromNow, goTo } from 'common/utils';
 import DeployLog from 'runtime/common/logs/components/deploy-log';
 import FileContainer from 'application/common/components/file-container';
 import routeInfoStore from 'core/stores/route';
+import moment from 'moment';
 import i18n from 'i18n';
 
 interface IProps {
@@ -44,20 +45,22 @@ const DeployDetail = (props: IProps) => {
 
   const fields = [
     {
-      icon: 'version',
-      title: i18n.t('dop:artifact version'),
-      valueKey: 'releaseVersion',
-      render: (val: string, record: PROJECT_DEPLOY.DeployDetail) => {
-        const curText = record.releaseVersion || record.releaseId || '-';
-
-        return record.releaseId ? (
+      label: i18n.t('dop:artifact version'),
+      valueKey: 'releaseInfo',
+      valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
+        const curText = value?.version || value?.id || '-';
+        return value?.id ? (
           <a
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-purple-deep jump-out-link"
-            onClick={() =>
-              goTo(goTo.pages.projectReleaseDetail, { projectId, releaseId: record.releaseId, jumpOut: true })
-            }
+            onClick={() => {
+              if (value.type === 'application') {
+                goTo(goTo.pages.applicationReleaseDetail, { projectId, releaseId: value.id, jumpOut: true });
+              } else {
+                goTo(goTo.pages.projectReleaseDetail, { projectId, releaseId: value.id, jumpOut: true });
+              }
+            }}
           >
             {curText}
           </a>
@@ -67,35 +70,50 @@ const DeployDetail = (props: IProps) => {
       },
     },
     {
-      icon: 'huanjing',
-      title: i18n.t('env'),
-      valueKey: 'workspace',
-      render: (val: string) => CONFIG_ENV_MAP[val] || val || '-',
-    },
-    {
-      icon: 'zerenren',
-      title: i18n.t('dop:executor'),
-      valueKey: 'operator',
-      render: (value: string) => {
-        const { nick, avatar, name } = userMap[value] || {};
-        return (
-          <div>
-            <Avatar src={avatar} size="small">
-              {nick ? getAvatarChars(nick) : i18n.t('none')}
-            </Avatar>
-            <span className="ml-2" title={name}>
-              {nick || i18n.t('common:none')}
-            </span>
-          </div>
-        );
+      label: i18n.t('dop:artifact type'),
+      valueKey: 'releaseInfo',
+      valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
+        const type = value?.type;
+        const typeMap = {
+          application: <Badge status="success" text={i18n.t('application')} showDot={false} />,
+          project: <Badge status="processing" text={i18n.t('project')} showDot={false} />,
+        };
+        return typeMap[type] || '-';
       },
     },
     {
-      icon: 'shijian-2',
-      title: i18n.t('dop:execute time'),
+      label: i18n.t('env'),
+      valueKey: 'workspace',
+      valueItem: ({ value }: { value: string }) => CONFIG_ENV_MAP[value] || value || '-',
+    },
+    {
+      label: i18n.t('dop:executor'),
+      valueKey: 'operator',
+      valueItem: ({ value }: { value: string }) => {
+        const { nick, name } = userMap[value] || {};
+        return nick || name || i18n.t('common:none');
+      },
+    },
+    {
+      label: i18n.t('dop:execute time'),
       valueKey: 'startedAt',
-      render: (value: string) => {
+      valueItem: ({ value }: { value: string }) => {
         return value ? fromNow(value) : '-';
+      },
+    },
+    {
+      label: i18n.t('creator'),
+      valueKey: 'releaseInfo',
+      valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
+        const { nick, name } = userMap[value?.creator] || {};
+        return nick || name || i18n.t('common:none');
+      },
+    },
+    {
+      label: i18n.t('create time'),
+      valueKey: 'releaseInfo',
+      valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
+        return value?.createdAt ? moment(value.createdAt).format('YYYY/MM/DD HH:mm:ss') : '-';
       },
     },
   ];
@@ -116,10 +134,25 @@ const DeployDetail = (props: IProps) => {
   };
 
   return (
-    <div className="project-deploy-detail h-full flex flex-col overflow-hidden">
+    <div className="project-deploy-detail  flex flex-col">
       <div className="pb-2 text-default font-medium">{i18n.t('dop:basic information')}</div>
-      <InfoRender fields={fields} data={detail} />
-      <div className="pb-2 pt-8 text-default font-medium">{i18n.t('dop:config information')}</div>
+      <Panel fields={fields} data={detail} columnNum={4} />
+      <div className="pb-2 pt-4  flex-h-center">
+        <span className="text-default font-medium">{i18n.t('application')}</span>
+        <span className="bg-default-1 text-default-8 px-2 ml-1 text-xs rounded-lg">{appList?.length || 0}</span>
+      </div>
+      <div className="p-2">
+        <ErdaTable
+          rowKey="id"
+          columns={[{ title: '', dataIndex: 'name' }]}
+          dataSource={appList}
+          hideHeader
+          showHeader={false}
+          pagination={{ hideTotal: true, hidePageSizeChange: true }}
+        />
+      </div>
+
+      <div className="pb-2 pt-4 text-default font-medium ">{i18n.t('dop:config information')}</div>
       {appList?.length ? (
         <div className="flex flex-col flex-1 h-0 overflow-hidden">
           <DropdownSelectNew

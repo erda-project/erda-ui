@@ -23,7 +23,7 @@ export interface PanelField {
   label?: React.ReactNode;
   value?: any;
   valueKey?: string;
-  valueItem?: (item: PanelField) => React.ReactNode;
+  valueItem?: (item: PanelField, record: Obj) => React.ReactNode;
   hide?: boolean;
   spaceNum?: number;
   tips?: string;
@@ -65,7 +65,7 @@ const Panel = (props: PanelProps) => {
   const getRealValue = (item: PanelField) =>
     data
       ? item.valueItem
-        ? item.valueItem({ value: item.valueKey && data[item.valueKey] })
+        ? item.valueItem({ value: item.valueKey && data[item.valueKey] }, data)
         : item.valueKey
         ? data[item.valueKey] || '-'
         : '-'
@@ -112,6 +112,9 @@ const Panel = (props: PanelProps) => {
           return (
             <Row gutter={12} key={item.label as React.Key}>
               <Col span={24} className="pb-2">
+                <div title={item.value || getInnerText(getRealValue(item))} className="break-words">
+                  {item.value || getRealValue(item)}
+                </div>
                 <div className="erda-panel-label" title={`${getInnerText(item.label)}`}>
                   {item.label}
                   {item.tips && (
@@ -121,9 +124,6 @@ const Panel = (props: PanelProps) => {
                       </Tooltip>
                     </span>
                   )}
-                </div>
-                <div title={item.value || getInnerText(getRealValue(item))} className="break-words">
-                  {item.value || getRealValue(item)}
                 </div>
               </Col>
             </Row>
@@ -137,10 +137,16 @@ const Panel = (props: PanelProps) => {
       <div ref={parentRef} className="erda-panel">
         <Row gutter={12}>
           {parentWidth
-            ? map(fields, (item) => {
+            ? map(fields, (item, idx) => {
                 if (item.hide) return null;
                 return (
-                  <Col span={item.spaceNum ? colSpan * item.spaceNum : colSpan} className="erda-panel-item">
+                  <Col key={idx} span={item.spaceNum ? colSpan * item.spaceNum : colSpan} className="erda-panel-item">
+                    <div
+                      title={item.value || getInnerText(getRealValue(item))}
+                      className="break-words erda-panel-value"
+                    >
+                      {item.value || getRealValue(item)}
+                    </div>
                     <div className="erda-panel-label" title={`${getInnerText(item.label)}`}>
                       {item.label}
                       {item.tips && (
@@ -150,12 +156,6 @@ const Panel = (props: PanelProps) => {
                           </Tooltip>
                         </span>
                       )}
-                    </div>
-                    <div
-                      title={item.value || getInnerText(getRealValue(item))}
-                      className="break-words erda-panel-value"
-                    >
-                      {item.value || getRealValue(item)}
                     </div>
                   </Col>
                 );
