@@ -76,7 +76,7 @@ export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
     action: `/api/${getOrgFromPath()}/projects/template/actions/parse`,
     onChange: handleChange,
     iconRender: () => <ErdaIcon type="shenjirizhi" />,
-    className: `w-full ${fileStatus === 'init' ? 'flex-all-center' : ''}`,
+    className: `w-full ${fileStatus === 'init' ? 'flex-all-center init-upload' : ''}`,
     onRemove: () =>
       form.setFieldsValue({
         projectTemplate: undefined,
