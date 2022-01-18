@@ -173,7 +173,7 @@ const List = (props: CP_BASE_LIST.Props) => {
   );
 
   useUpdateEffect(() => {
-    customOp?.onStateChange(state);
+    customOp?.onStateChange?.(state);
   }, [state]);
 
   // 将接口返回的list和之前的list进行拼接
