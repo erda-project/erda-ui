@@ -12,33 +12,74 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Form, Button } from 'antd';
+import { Form, Button, TreeSelect } from 'antd';
 import i18n from 'i18n';
 import { ErdaIcon, RenderFormItem } from 'common';
 import routeInfoStore from 'core/stores/route';
-import { getAppList, getFileTree, createPipeline, getPipelineList } from 'project/services/pipeline';
+import { getFileTree, createPipeline, getAppList } from 'project/services/pipeline';
+
+import './form.scss';
 
 interface IProps {
+  onOk: () => void;
   onCancel: () => void;
   application?: { ID: string; name?: string };
 }
 
+interface TreeNode extends Node {
+  id: string;
+  pId: string;
+  title: string;
+}
+
 interface Node {
-  value: string;
+  inode: string;
+  pinode: string;
   name: string;
-  onOk: () => void;
+  type: string;
 }
 
 const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
-  const { ID: id, name, projectName: projectNameProps } = application || {};
+  const { ID: id, name } = application || {};
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const [form] = Form.useForm();
-  const [appList, setAppList] = React.useState<Node[]>([]);
-  const [app, setApp] = React.useState<string>({ value: id, label: name, projectName: projectNameProps });
-  const [branchList, setBranchList] = React.useState<Node[]>([]);
-  const [branchId, setBranchId] = React.useState<string>('');
-  const [pipelineList, setPipelineList] = React.useState<Node[]>([]);
-  const [pipeline, setPipeline] = React.useState('');
+  const [appList, setAppList] = React.useState([]);
+  const [app, setApp] = React.useState<{ value: string; label: string }>({ value: id, label: name });
+  const [tree, setTree] = React.useState<TreeNode[]>([]);
+
+  const convertTreeData = (data: Node[]) => {
+    return data.map((item) => ({
+      ...item,
+      id: item.inode,
+      pId: item.pinode,
+      title: item.name,
+      isLeaf: item.type === 'f',
+      disabled: item.type !== 'f',
+    }));
+  };
+
+  const getTree = React.useCallback(
+    async (pinode: string) => {
+      const res = await getFileTree.fetch({
+        scopeID: projectId,
+        scope: 'project-app',
+        pinode,
+      });
+
+      if (res.success) {
+        return convertTreeData(res.data || []);
+      } else {
+        return [];
+      }
+    },
+    [projectId],
+  );
+
+  const loadTree = async (node: TreeNode) => {
+    const data = await getTree(node.id);
+    setTree((prev) => [...prev, ...data]);
+    return Promise.resolve();
+  };
 
   const getApps = React.useCallback(async () => {
     const res = await getAppList.fetch({ projectID: projectId });
@@ -49,29 +90,6 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
     }
   }, [projectId]);
 
-  const getBranch = React.useCallback(async () => {
-    const appId = id || app.value;
-    if (appId) {
-      const res = await getFileTree.fetch({
-        scopeID: projectId,
-        scope: 'project-app',
-        pinode: btoa(encodeURI(`${projectId}/${appId}`)),
-      });
-      if (res.success) {
-        setBranchList(res.data?.map((item) => ({ value: item.name, name: item.name })) || ([] as Node[]));
-      }
-    }
-  }, [id, projectId, app]);
-
-  const getPipelines = React.useCallback(async () => {
-    const { value } = app;
-    const res = await getPipelineList({ appID: value, branch: branchId });
-    if (res.success) {
-      const { result } = res.data;
-      setPipelineList(result?.map((item) => ({ value: item.ymlPath, name: item.ymlName })) || ([] as Node[]));
-    }
-  }, [branchId, app]);
-
   React.useEffect(() => {
     if (!id) {
       getApps();
@@ -79,27 +97,30 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
   }, [id, getApps]);
 
   React.useEffect(() => {
-    if (app) {
-      getBranch();
+    const initialTree = async () => {
+      const data = await getTree(btoa(encodeURI(`${projectId}/${app.value}`)));
+      setTree(data);
+    };
+    if (app.value) {
+      initialTree();
     }
-  }, [app, getBranch]);
-
-  React.useEffect(() => {
-    if (branchId) {
-      getPipelines();
-    }
-  }, [branchId, getPipelines]);
+  }, [app.value, projectId, getTree]);
 
   const submit = () => {
     form.validateFields().then(async (value) => {
+      const node = tree.find((item) => item.id === value.tree) || ({} as TreeNode);
+      const path = atob(decodeURI(node.pId));
+      const appId = path.split('/')[1];
+      const branch = path.split('tree/')[1].split('/.dice')[0].split('/.erda')[0];
+      const ymlPath = (path.split(branch)[1] || '').substr(1);
       const params = {
         sourceType: 'erda',
         projectID: +projectId,
         name: value.name,
-        appID: value.app || id,
-        ref: branchId,
-        path: pipeline.value,
-        fileName: pipeline.label,
+        appID: appId,
+        ref: branch,
+        path: ymlPath,
+        fileName: node.name,
       };
 
       const res = await createPipeline.fetch({ ...params, $options: { successMsg: i18n.t('created successfully') } });
@@ -144,7 +165,7 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
               },
             ]}
             itemProps={{
-              className: 'border-transparent shadow-none pl-0',
+              className: 'border-transparent shadow-none pl-0 text-xl',
               placeholder: i18n.t('please enter {name}', { name: i18n.t('pipeline') }),
             }}
           />
@@ -156,7 +177,7 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
             <div className="text-default mb-3">{i18n.t('Config')}</div>
             {!id ? (
               <div className="flex-h-center">
-                <div className="mb-6 w-28 text-default-6a">{i18n.t('App')}</div>
+                <div className="mb-6 w-28 text-default-6">{i18n.t('App')}</div>
                 <div className="flex-1">
                   <RenderFormItem
                     name="app"
@@ -164,7 +185,7 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
                     options={appList}
                     rules={[{ required: true, message: i18n.t('please choose {name}', { name: i18n.t('App') }) }]}
                     itemProps={{
-                      className: 'bg-default-06',
+                      className: 'project-release-select',
                       onChange: (v: string, app: Obj) => setApp(app),
                     }}
                   />
@@ -172,39 +193,15 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
               </div>
             ) : null}
             <div className="flex-h-center">
-              <div className="mb-6 w-28 text-default-6a">{i18n.t('dop:branch')}</div>
+              <div className="mb-6 w-28 text-default-6">pipeline {i18n.t('file')}</div>
               <div className="flex-1">
                 <RenderFormItem
-                  name="branch"
-                  type="select"
-                  options={branchList}
-                  rules={[{ required: true, message: i18n.t('please choose {name}', { name: i18n.t('dop:branch') }) }]}
+                  name="tree"
+                  type="custom"
+                  rules={[{ required: true, message: i18n.t('please choose {name}', { name: i18n.t('Pipeline') }) }]}
+                  getComp={() => <TreeSelect treeDataSimpleMode treeData={tree} loadData={loadTree} />}
                   itemProps={{
-                    className: 'bg-default-06',
-                    onChange: (bId: string) => setBranchId(bId),
-                  }}
-                />
-              </div>
-            </div>
-            <div className="flex-h-center">
-              <div className="mb-6 w-28 text-default-6a">pipeline {i18n.t('file')}</div>
-              <div className="flex-1">
-                <RenderFormItem
-                  name="pipeline"
-                  type="select"
-                  options={pipelineList}
-                  rules={[
-                    {
-                      validator: async (rule, value: string) => {
-                        if (!value && value !== '') {
-                          throw new Error(i18n.t('please choose {name}', { name: i18n.t('pipeline') }));
-                        }
-                      },
-                    },
-                  ]}
-                  itemProps={{
-                    className: 'bg-default-06',
-                    onChange: (_, node: { label: string }) => setPipeline(node),
+                    className: 'project-release-select',
                   }}
                 />
               </div>
