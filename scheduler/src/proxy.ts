@@ -62,7 +62,7 @@ export const createProxyService = (app: INestApplication) => {
   app.use(
     createProxyMiddleware(
       (pathname: string) => {
-        return !!pathname.match('^/static/[admin|fdp]');
+        return !!pathname.match('^/static/(admin|fdp)');
       },
       {
         target: ENTERPRISE_URL,
