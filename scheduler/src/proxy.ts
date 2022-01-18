@@ -65,8 +65,8 @@ export const createProxyService = (app: INestApplication) => {
         return !!pathname.match('^/static/(admin|fdp)');
       },
       {
-        target: ENTERPRISE_URL,
-        changeOrigin: true,
+        target: ENTERPRISE_URL.startsWith('http') ? ENTERPRISE_URL : `http://${ENTERPRISE_URL}`,
+        changeOrigin: !isProd,
         secure: false,
       },
     ),
