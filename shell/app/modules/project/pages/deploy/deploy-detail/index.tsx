@@ -24,7 +24,6 @@ import FileContainer from 'application/common/components/file-container';
 import routeInfoStore from 'core/stores/route';
 import moment from 'moment';
 import i18n from 'i18n';
-import './index.scss';
 
 interface IProps {
   detail: PROJECT_DEPLOY.DeployDetail | undefined;
@@ -142,7 +141,7 @@ const DeployDetail = (props: IProps) => {
         <span className="text-default font-medium">{i18n.t('application')}</span>
         <span className="bg-default-1 text-default-8 px-2 ml-1 text-xs rounded-lg">{appList?.length || 0}</span>
       </div>
-      <div className="bg-default-02 p-2 project-deploy-detail-app">
+      <div className="p-2">
         <ErdaTable
           rowKey="id"
           columns={[{ title: '', dataIndex: 'name' }]}
