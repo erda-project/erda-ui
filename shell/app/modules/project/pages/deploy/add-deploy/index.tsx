@@ -24,7 +24,6 @@ import { Tooltip } from 'antd';
 import moment from 'moment';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
-import './index.scss';
 
 const AddDeploy = ({
   onSelect: propsOnSelect,
@@ -122,14 +121,14 @@ const AddDeploy = ({
         <AddRelease onSelect={onSelect} detail={detail} />
       </div>
       {detail ? (
-        <div className={`mt-2 p-2 bg-default-02`}>
+        <div className={`mt-2 p-2`}>
           <div className="pb-2 text-default font-medium">{i18n.t('dop:basic information')}</div>
           <Panel fields={fields} data={detail} columnNum={4} />
           <div className="pb-2 pt-4  flex-h-center">
             <span className="text-default font-medium">{i18n.t('application')}</span>
             <span className="bg-default-1 text-default-8 px-2 ml-1 text-xs rounded-lg">{appList?.length || 0}</span>
           </div>
-          <div className=" project-deploy-add-app">
+          <div>
             <ErdaTable
               rowKey="id"
               columns={[
