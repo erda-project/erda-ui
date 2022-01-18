@@ -2,6 +2,12 @@
   font-family: 'PingFangSC-Regular';
   line-height: 22px;
 
+  .init-upload {
+    .ant-upload-list-item-info {
+      display: none;
+    }
+  }
+
   .ant-upload-list-text-container {
     margin-top: -8px;
 
