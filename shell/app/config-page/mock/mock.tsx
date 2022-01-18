@@ -13,7 +13,7 @@
 
 import React from 'react';
 import DiceConfigPage, { useMock } from 'app/config-page';
-import { functionalColor } from 'common/constants';
+import themeColor from 'app/theme-color.mjs';
 
 const Mock = () => {
   return (
@@ -40,22 +40,22 @@ const Mock = () => {
           props: {
             theme: [
               {
-                color: functionalColor.actions,
+                color: themeColor.blue,
                 titleIcon: 'mail',
                 backgroundIcon: 'baocun',
               },
               {
-                color: functionalColor.success,
+                color: themeColor.success,
                 titleIcon: 'mysql',
                 backgroundIcon: 'shezhi',
               },
               {
-                color: functionalColor.warning,
+                color: themeColor.warning,
                 titleIcon: 'RocketMQ',
                 backgroundIcon: 'map-draw',
               },
               {
-                color: functionalColor.error,
+                color: themeColor.error,
                 titleIcon: 'morenzhongjianjian',
                 backgroundIcon: 'data-server',
               },

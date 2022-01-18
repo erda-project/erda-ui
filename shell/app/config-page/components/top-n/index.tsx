@@ -17,8 +17,8 @@ import { colorToRgb } from 'common/utils';
 import ErdaIcon from 'common/components/erda-icon';
 import Ellipsis from 'common/components/ellipsis';
 import EmptyHoder from 'common/components/empty-holder';
-import { functionalColor } from 'common/constants';
 import './index.scss';
+import themeColor from 'app/theme-color.mjs';
 
 const CP_TopN: React.FC<CP_DATA_RANK.Props> = (props) => {
   const {
@@ -34,7 +34,7 @@ const CP_TopN: React.FC<CP_DATA_RANK.Props> = (props) => {
     <div className="cp-data-rank h-full">
       <Row gutter={8} {...configProps.rowsProps} className="h-full">
         {(list ?? []).map((listItem, index) => {
-          const { color = functionalColor.info, titleIcon, backgroundIcon } = configProps.theme?.[index] || {};
+          const { color = themeColor.default, titleIcon, backgroundIcon } = configProps.theme?.[index] || {};
           const { title, items, span } = listItem;
           return (
             <Col key={title} span={span} className="my-1">

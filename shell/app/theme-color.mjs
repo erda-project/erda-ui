@@ -71,8 +71,7 @@ const colors = {
   'light-pop-bg': '#59516c',
   'log-font': '#c2c1d0',
   'log-bg': '#3c444f',
-  'light-border': 'rgba(222,222,222,0.5)',
-  // 标准化后的颜色
+  'light-border': 'rgba(222,222,222,0.5)', // 标准化后的颜色
 
   default: '#302647',
   'default-1': 'rgba(48, 38, 71, 0.1)',
@@ -83,7 +82,7 @@ const colors = {
   'default-8': 'rgba(48, 38, 71, 0.8)',
   'default-01': 'rgba(48, 38, 71, 0.01)',
   'default-02': 'rgba(48, 38, 71, 0.02)',
-  'default-04': ' rgba(48, 38, 71, 0.04)',
+  'default-04': 'rgba(48, 38, 71, 0.04)',
   'default-06': 'rgba(48, 38, 71, 0.06)',
   'default-08': 'rgba(48, 38, 71, 0.08)',
 
@@ -154,8 +153,7 @@ export const getLessTheme = () => {
     '@height-lg': '36px',
     '@height-sm': '28px',
     '@border-radius-base': '2px;',
-    '@font-family':
-      '"Roboto-Regular", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif',
+    '@font-family': '"Roboto-Regular", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif',
   };
 };
 

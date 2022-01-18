@@ -161,6 +161,7 @@ export default {
     { pattern: /grey/ },
     { pattern: /white/ },
     { pattern: /purple/ },
+    { pattern: /magenta/ },
     { pattern: /flex-\d/ },
   ],
 };

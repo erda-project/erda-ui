@@ -30,8 +30,8 @@ import moment from 'moment';
 import { getAnalyzerOverview, getServiceCount, getServices } from 'msp/services/service-list';
 import i18n from 'i18n';
 import DiceConfigPage from 'app/config-page';
-import { functionalColor } from 'common/constants';
 import { useUpdate } from 'common/use-hooks';
+import themeColor from 'app/theme-color.mjs';
 
 const defaultSeriesConfig = (color?: string) => ({
   type: 'line',
@@ -126,22 +126,22 @@ const CHART_MAP: {
 const topNConfig = [
   {
     key: 'rpsMaxTop5',
-    color: functionalColor.actions,
+    color: themeColor['blue-deep'],
     icon: 'zuida',
   },
   {
     key: 'rpsMinTop5',
-    color: functionalColor.success,
+    color: themeColor.success,
     icon: 'zuixiao',
   },
   {
     key: 'avgDurationTop5',
-    color: functionalColor.warning,
+    color: themeColor.warning,
     icon: 'yanshi',
   },
   {
     key: 'errorRateTop5',
-    color: functionalColor.error,
+    color: themeColor.error,
     icon: 'cuowushuai',
   },
 ];

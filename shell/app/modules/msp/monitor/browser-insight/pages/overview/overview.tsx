@@ -16,27 +16,27 @@ import { TimeSelectWithStore } from 'msp/components/time-select';
 import DiceConfigPage from 'app/config-page';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'core/stores/route';
-import { functionalColor } from 'common/constants';
+import themeColor from 'app/theme-color.mjs';
 
 const topNConfig = [
   {
     key: 'maxReqDomainTop5',
-    color: functionalColor.actions,
+    color: themeColor['blue-deep'],
     icon: 'gaofangwenliangyemian',
   },
   {
     key: 'maxReqPageTop5',
-    color: functionalColor.success,
+    color: themeColor.success,
     icon: 'gaofangwenliangyemian',
   },
   {
     key: 'slowReqPageTop5',
-    color: functionalColor.warning,
+    color: themeColor.warning,
     icon: 'manxiangyingyemian',
   },
   {
     key: 'slowReqRegionTop5',
-    color: functionalColor.error,
+    color: themeColor.error,
     icon: 'manxiangyingdiqu',
   },
 ];

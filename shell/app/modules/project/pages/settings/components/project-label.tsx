@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormModal, Icon as CustomIcon, ErdaIcon } from 'common';
+import { ErdaIcon, FormModal, Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'app/i18n';
 import { FormInstance } from 'core/common/interface';
@@ -20,9 +20,22 @@ import projectLabel from 'project/stores/label';
 import React from 'react';
 import { useEffectOnce } from 'react-use';
 import './project-label.scss';
-import { auxiliaryColorMap } from 'common/constants';
+import themeColor from 'app/theme-color.mjs';
 
-const colors = Object.keys(auxiliaryColorMap);
+const colorMap = {
+  purple: themeColor['purple-deep'],
+  blue: themeColor['blue-deep'],
+  orange: themeColor['orange-deep'],
+  cyan: themeColor['cyan-deep'],
+  green: themeColor['green-deep'],
+  magenta: themeColor['magenta-deep'],
+  yellow: themeColor['yellow-deep'],
+  red: themeColor['red-deep'],
+  'water-blue': themeColor['water-blue-deep'],
+  'yellow-green': themeColor['yellow-green-deep'],
+};
+
+const colors = Object.keys(colorMap);
 const ProjectLabel = () => {
   const list = projectLabel.useStore((s) => s.list);
   const { getLabels, createLabel, updateLabel, deleteLabel } = projectLabel.effects;

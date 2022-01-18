@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { functionalColor } from 'common/constants';
+import themeColor from 'app/theme-color.mjs';
 
 const mockData: Array<MockSpec<CP_DATA_RANK.Spec>> = [
   {
@@ -23,22 +23,22 @@ const mockData: Array<MockSpec<CP_DATA_RANK.Spec>> = [
     props: {
       theme: [
         {
-          color: functionalColor.actions,
+          color: themeColor.blue,
           titleIcon: 'mail',
           backgroundIcon: 'map-draw',
         },
         {
-          color: functionalColor.success,
+          color: themeColor.success,
           titleIcon: 'mysql',
           backgroundIcon: 'shezhi',
         },
         {
-          color: functionalColor.warning,
+          color: themeColor.yellow,
           titleIcon: 'RocketMQ',
           backgroundIcon: 'map-draw',
         },
         {
-          color: functionalColor.error,
+          color: themeColor.error,
           titleIcon: 'morenzhongjianjian',
           backgroundIcon: 'data-server',
         },

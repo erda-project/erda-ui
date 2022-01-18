@@ -14,12 +14,12 @@
 import React from 'react';
 import { colorToRgb } from 'common/utils';
 import Echarts from 'charts/components/echarts';
-import { functionalColor } from 'common/constants';
 import { groupBy, isNumber } from 'lodash';
+import themeColors from 'app/theme-color.mjs';
 
 const themeColor = {
   dark: '#ffffff',
-  light: functionalColor.info,
+  light: themeColors.default,
 };
 
 const genCommonSize = (chartSize: number, maxSize: number, current: number) => {

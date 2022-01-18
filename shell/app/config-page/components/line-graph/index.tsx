@@ -14,10 +14,10 @@
 import React from 'react';
 import Echarts from 'charts/components/echarts';
 import type { ECharts } from 'echarts';
-import { functionalColor } from 'common/constants';
 import { colorToRgb } from 'common/utils';
 import { genLinearGradient, theme } from 'charts/theme';
 import EmptyHolder from 'common/components/empty-holder';
+import themeColors from 'app/theme-color.mjs';
 
 interface IBrushSelectedParams {
   type: 'brushselected';
@@ -31,7 +31,7 @@ interface IBrushSelectedParams {
 
 const themeColor = {
   dark: '#ffffff',
-  light: functionalColor.info,
+  light: themeColors.default,
 };
 
 const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
