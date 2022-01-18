@@ -169,7 +169,7 @@ export enum pages {
   projectTestReportCreate = '/{orgName}/dop/projects/{projectId}/test-report/create',
   projectMemberManagement = '/{orgName}/dop/projects/{projectId}/setting?tabKey=projectMember',
   projectRelease = '/{orgName}/dop/projects/{projectId}/release',
-  projectReleaseList = '/{orgName}/dop/projects/{projectId}/release/project',
+  projectReleaseList = '/{orgName}/dop/projects/{projectId}/release/application',
   projectDeploy = '/{orgName}/dop/projects/{projectId}/deploy',
   projectDeployEnv = '/{orgName}/dop/projects/{projectId}/deploy/list/{env}',
   projectDeployConfigEnv = '/{orgName}/dop/projects/{projectId}/deploy/config/{env}',
