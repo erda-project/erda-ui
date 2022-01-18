@@ -108,7 +108,7 @@ const AddDeploy = ({
       label: i18n.t('create time'),
       valueKey: 'releaseInfo',
       valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
-        return value?.createdAt ? moment(value.createdAt).format('YYYY-MM-DD HH:mm:ss') : '-';
+        return value?.createdAt ? moment(value.createdAt).format('YYYY/MM/DD HH:mm:ss') : '-';
       },
     },
   ];
