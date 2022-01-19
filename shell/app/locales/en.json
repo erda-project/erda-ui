@@ -395,6 +395,7 @@
     "message content rules": "message content rules",
     "message template": "message template",
     "message title rules": "message title rules",
+    "message title rules template": "[{{application name}} Application {{service name}} Service exception alarm]",
     "microservice governance desc": "provide one-stop micro-service system observation, including service monitoring, link tracking, dashboard and alarm functions",
     "middleware": "middleware",
     "middleware container chart": "middleware container chart",
