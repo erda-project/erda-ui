@@ -105,7 +105,7 @@ declare namespace PROJECT_DEPLOY {
     isStable?: boolean;
     applicationId?: string;
     projectId?: string;
-    q?: string;
+    version?: string;
     pageSize: number;
     pageNo: number;
   }
