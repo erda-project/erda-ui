@@ -894,7 +894,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
         name: ['notify', 'title'],
         itemProps: {
           maxLength: 128,
-          placeholder: '【{{application_name}}应用{{service_name}}服务异常告警】',
+          placeholder: i18n.t('cmp:message title rules template', { interpolation: { suffix: '>', prefix: '<' } }),
         },
       },
       {
