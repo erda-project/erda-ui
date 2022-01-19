@@ -20,7 +20,7 @@ import { goTo } from 'common/utils';
 import userStore from 'app/user/stores';
 import permStore from 'user/stores/permission';
 import { once } from 'core/event-hub';
-import { getGlobal } from 'core/global-space';
+import { getGlobal, GLOBAL_KEY } from 'core/global-space';
 
 import './error-page.scss';
 
@@ -108,7 +108,7 @@ const NotFound = ({ message, force }: { message?: string; force?: boolean }) => 
     // incase after the first load, useEffect of inner component will trigger first, useEffect of root component will trigger in the end
     // so setGlobal at root can't exec before this useEffect, we need move this logic to next tick
     setTimeout(() => {
-      const isLoadingModule = getGlobal('loadingModule');
+      const isLoadingModule = getGlobal(GLOBAL_KEY.LOADING_MODULE);
       if (!isLoadingModule) {
         setReady(true);
       }

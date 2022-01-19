@@ -13,6 +13,10 @@
 
 import { set, get } from 'lodash';
 
+export const GLOBAL_KEY = {
+  LOADING_MODULE: 'loadingModule',
+};
+
 export const globalSpace = {
   initRouteData: {
     routes: [],

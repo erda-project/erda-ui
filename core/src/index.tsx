@@ -23,7 +23,7 @@ import routeInfoStore from './stores/route';
 import { emit } from './utils/event-hub';
 import browserHistory from './history';
 import { setConfig } from './config';
-import { setGlobal } from './utils/global-space';
+import { setGlobal, GLOBAL_KEY } from './utils/global-space';
 import { initModuleFederationModule, useDynamicScript } from './utils/mf-helper';
 
 // @ts-ignore if not use it, minified build file will cause infinite loop when use ReactDom.render. errMsg: Cannot set property 'getCurrentStack' of undefined
@@ -57,7 +57,7 @@ const App = ({ dynamicModules = [] }: { dynamicModules: DynamicModule[] }) => {
   React.useEffect(() => {
     const currentModule = matchEnterpriseRoute(dynamicModules);
     if (currentModule && !loadedSource.includes(currentModule.name)) {
-      setGlobal('loadingModule', true);
+      setGlobal(GLOBAL_KEY.LOADING_MODULE, true);
       setScriptSource({
         url: `/static/${currentModule.name}/scripts/mf_${currentModule.name}.js`,
         remoteName: currentModule.name,
@@ -68,7 +68,7 @@ const App = ({ dynamicModules = [] }: { dynamicModules: DynamicModule[] }) => {
   React.useEffect(() => {
     if (failed) {
       emit('loadingModuleFailed');
-      setGlobal('loadingModule', false);
+      setGlobal(GLOBAL_KEY.LOADING_MODULE, false);
     }
   }, [failed]);
 
@@ -78,7 +78,7 @@ const App = ({ dynamicModules = [] }: { dynamicModules: DynamicModule[] }) => {
       initFn.then((fn) => {
         fn.default(registerModule);
         setLoadedSource([...loadedSource, scriptSource.remoteName!]);
-        setGlobal('loadingModule', false);
+        setGlobal(GLOBAL_KEY.LOADING_MODULE, false);
       });
     }
   }, [ready]);
