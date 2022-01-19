@@ -19,12 +19,29 @@ declare namespace CP_BUBBLE_GRAPH {
     style: import('react').CSSProperties;
   }
 
+  type ValueType = 'string' | 'number' | 'capacity' | 'trafficRate' | 'storage' | 'timestamp' | 'time';
+
+  interface AxisOptions {
+    inverse: boolean;
+    structure: {
+      enable: boolean;
+      precision: string;
+      type: ValueType;
+    };
+  }
+
   interface Spec {
     type: 'BubbleGraph';
     props: IProps;
     data: {
       title: string;
       subTitle?: string;
+      xOptions: AxisOptions | null;
+      yOptions: Array<
+        AxisOptions & {
+          dimension: string[];
+        }
+      >;
       list: {
         dimension: string;
         group: string;

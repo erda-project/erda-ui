@@ -18,6 +18,7 @@ import { colorToRgb } from 'common/utils';
 import { genLinearGradient, theme } from 'charts/theme';
 import EmptyHolder from 'common/components/empty-holder';
 import themeColors from 'app/theme-color.mjs';
+import { formatValue } from 'charts/utils';
 
 interface IBrushSelectedParams {
   type: 'brushselected';
@@ -51,16 +52,7 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
   };
 
   const [option, onEvents] = React.useMemo(() => {
-    const { dimensions, xAxis, yAxis, subTitle } = data;
-    const yAxisName = subTitle
-      ? {
-          name: subTitle,
-          nameTextStyle: {
-            padding: [0, 7, -4, 0],
-            align: 'right',
-          },
-        }
-      : {};
+    const { dimensions, xAxis, yAxis, yOptions, xOptions } = data;
     const chartOption = {
       backgroundColor: 'transparent',
       tooltip: {
@@ -69,7 +61,10 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
           const { axisValue } = param[0] || [];
           const tips = [`${axisValue}`];
           param.forEach((item) => {
-            tips.push(`${item.marker} ${item.seriesName}: ${item.data} ${subTitle ?? ''}`);
+            const { structure } = yOptions.find((t) => t.dimension?.includes(item.seriesName)) ?? yOptions[0];
+            tips.push(
+              `${item.marker} ${item.seriesName}: ${formatValue(structure.type, structure.precision, item.data)}`,
+            );
           });
           return tips.join('</br>');
         },
@@ -78,7 +73,7 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
         containLabel: true,
         left: 30,
         bottom: 30,
-        top: subTitle ? 25 : 10,
+        top: 10,
         right: 0,
       },
       legend: {
@@ -98,25 +93,31 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
         data: xAxis?.values,
         axisLabel: {
           color: colorToRgb(color, 0.6),
-          formatter: xAxis?.formatter,
+          formatter: xOptions?.structure?.enable
+            ? (v: number) => formatValue(xOptions?.structure.type, xOptions?.structure.precision, v)
+            : undefined,
         },
         splitLine: {
           show: false,
         },
       },
-      yAxis: {
-        type: 'value',
-        ...yAxisName,
-        axisLabel: {
-          color: colorToRgb(color, 0.3),
-        },
-        splitLine: {
-          show: true,
-          lineStyle: {
-            color: [colorToRgb(color, 0.1)],
+      yAxis: (yOptions ?? []).map(({ structure }) => {
+        const { enable, type, precision } = structure;
+        return {
+          type: 'value',
+          xx: structure,
+          axisLabel: {
+            color: colorToRgb(color, 0.3),
+            formatter: enable ? (v: number) => formatValue(type, precision, v) : undefined,
           },
-        },
-      },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: [colorToRgb(color, 0.1)],
+            },
+          },
+        };
+      }),
       series: (yAxis ?? []).map((item, index) => {
         let temp = {};
         if (index === 0) {
@@ -198,7 +199,7 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
         {data.title}
       </div>
       <div>
-        {option.series.length ? (
+        {option.series.length && option.yAxis.length ? (
           <Echarts
             key={Date.now()} // FIXME render exception occasionally，the exact reason is not yet clear
             onEvents={onEvents}

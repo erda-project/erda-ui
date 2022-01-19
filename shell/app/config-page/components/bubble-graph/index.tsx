@@ -15,7 +15,9 @@ import React from 'react';
 import { colorToRgb } from 'common/utils';
 import Echarts from 'charts/components/echarts';
 import { groupBy, isNumber } from 'lodash';
+import EmptyHolder from 'common/components/empty-holder';
 import themeColors from 'app/theme-color.mjs';
+import { formatValue } from 'charts/utils';
 
 const themeColor = {
   dark: '#ffffff',
@@ -44,8 +46,9 @@ const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
   };
   const chartHeight = isNumber(style.height) ? style.height : parseInt(style.height.replace('px', ''));
   const [option, onEvents] = React.useMemo(() => {
-    const dimensions = groupBy(data.list, 'dimension');
-    const dimensionsArr = Object.keys(groupBy(data.list, 'dimension'));
+    const { yOptions, xOptions, list } = data;
+    const dimensions = groupBy(list, 'dimension');
+    const dimensionsArr = Object.keys(groupBy(list, 'dimension'));
     const metaData = {};
     const xAxisData: Array<string | number> = [];
     const sizeArr: Array<number> = [];
@@ -106,23 +109,30 @@ const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
         data: xAxisData,
         axisLabel: {
           color: colorToRgb(color, 0.6),
+          formatter: xOptions?.structure?.enable
+            ? (v: number) => formatValue(xOptions?.structure.type, xOptions?.structure.precision, v)
+            : undefined,
         },
         splitLine: {
           show: false,
         },
       },
-      yAxis: {
-        axisLabel: {
-          color: colorToRgb(color, 0.3),
-        },
-        splitLine: {
-          show: true,
-          lineStyle: {
-            color: [colorToRgb(color, 0.1)],
+      yAxis: (yOptions ?? []).map(({ structure }) => {
+        const { enable, type, precision } = structure;
+        return {
+          axisLabel: {
+            color: colorToRgb(color, 0.3),
+            formatter: enable ? (v: number) => formatValue(type, precision, v) : undefined,
           },
-        },
-        scale: true,
-      },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: [colorToRgb(color, 0.1)],
+            },
+          },
+          scale: true,
+        };
+      }),
       series,
     };
     const chartEvent = {};
@@ -147,7 +157,11 @@ const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
         {data.title}
       </div>
       <div>
-        <Echarts onEvents={onEvents} option={option} style={style} />
+        {option.series.length && option.yAxis.length ? (
+          <Echarts onEvents={onEvents} option={option} style={style} />
+        ) : (
+          <EmptyHolder relative />
+        )}
       </div>
     </div>
   );

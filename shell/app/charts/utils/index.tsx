@@ -13,4 +13,4 @@
 
 import './regist';
 
-export { getFormatter } from './formatter';
+export { getFormatter, formatValue } from './formatter';
