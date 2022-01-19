@@ -120,25 +120,11 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       ],
     },
     {
-      href: goTo.resolve.projectOM(),
+      text: i18n.t('Resource summary'),
+      subtitle: i18n.t('Resource'),
       icon: <ErdaIcon type="yingyongyunwei" />,
-      text: i18n.t('dop:O & M'),
-      subtitle: i18n.t('dop:Operator'),
-      show: projectPerm.service.viewService.pass || projectPerm.resource.viewResource.pass,
-      subMenu: [
-        {
-          href: goTo.resolve.projectService(),
-          text: i18n.t('dop:Addon'),
-          subtitle: 'Addon',
-          show: projectPerm.service.viewService.pass,
-        },
-        {
-          href: goTo.resolve.projectResource(),
-          text: i18n.t('Resource summary'),
-          subtitle: i18n.t('Resource'),
-          show: projectPerm.resource.viewResource.pass,
-        },
-      ],
+      href: goTo.resolve.projectResource(),
+      show: projectPerm.resource.viewResource.pass,
     },
     {
       text: i18n.t('Tickets'),
