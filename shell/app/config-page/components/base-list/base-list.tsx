@@ -34,7 +34,7 @@ const List = (props: CP_BASE_LIST.Props) => {
     combineList: list,
   });
 
-  const { isLoadMore = false, hideHead, className = '', ...restProps } = configProps || {};
+  const { isLoadMore = false, hideHead, className = '', wrapperClassName = '', ...restProps } = configProps || {};
 
   const currentList = React.useMemo(
     () =>
@@ -275,7 +275,7 @@ const List = (props: CP_BASE_LIST.Props) => {
     </div>
   ) : null;
   return (
-    <div className="rounded-sm flex h-full flex-col">
+    <div className={`rounded-sm flex h-full flex-col ${wrapperClassName}`}>
       {Head}
       <ErdaList
         {...restProps}
