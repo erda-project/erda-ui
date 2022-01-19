@@ -165,7 +165,7 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
               },
             ]}
             itemProps={{
-              className: 'border-transparent shadow-none pl-0 text-xl',
+              className: 'border-transparent shadow-none pl-0 text-xl bg-transparent',
               placeholder: i18n.t('please enter {name}', { name: i18n.t('pipeline') }),
             }}
           />
@@ -177,7 +177,10 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
             <div className="text-default mb-3">{i18n.t('Config')}</div>
             {!id ? (
               <div className="flex-h-center">
-                <div className="mb-6 w-28 text-default-6">{i18n.t('App')}</div>
+                <div className="mb-3 w-32 text-default-6 flex-h-center">
+                  <ErdaIcon type="yingyongmingcheng" size={20} className="text-default-4 mr-1" />
+                  {i18n.t('App')}
+                </div>
                 <div className="flex-1">
                   <RenderFormItem
                     name="app"
@@ -193,7 +196,10 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
               </div>
             ) : null}
             <div className="flex-h-center">
-              <div className="mb-6 w-28 text-default-6">pipeline {i18n.t('file')}</div>
+              <div className="mb-3 w-32 text-default-6 flex-h-center">
+                <ErdaIcon type="pipeline" size={20} className="text-default-4 mr-1" />
+                pipeline {i18n.t('file')}
+              </div>
               <div className="flex-1">
                 <RenderFormItem
                   name="tree"
