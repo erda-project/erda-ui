@@ -2201,7 +2201,7 @@
   "deleteAnalyzerRule": {
     "desc": "删除分析规则",
     "success": {
-      "zh": "在[@projectName]项目的[@workspace]环境中,删除了[@analyzeRule]分析规则",
+      "zh": "在 [@projectName] 项目的 [@workspace] 环境中,删除了 [@analyzeRule] 分析规则",
       "en": "A analysis rule [@analyzeRule] was deleted in the [@workspace] environment of the [@projectName] project."
     },
     "fail": {}
