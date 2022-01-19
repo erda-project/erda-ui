@@ -30,20 +30,13 @@ import { initModuleFederationModule, useDynamicScript } from './utils/mf-helper'
 const holderReactDom = ReactDom;
 
 setConfig('history', browserHistory);
+interface DynamicModule {
+  name: string;
+  routePrefix: string;
+}
 
-const enterpriseModules = [
-  {
-    name: 'fdp',
-    routePrefix: '/fdp',
-  },
-  {
-    name: 'admin',
-    routePrefix: '/sysAdmin',
-  },
-];
-
-const matchEnterpriseRoute = () => {
-  const target = enterpriseModules.find(({ routePrefix }) => {
+const matchEnterpriseRoute = (dynamicModules: DynamicModule[]) => {
+  const target = dynamicModules.find(({ routePrefix }) => {
     const routeRegex = new RegExp(`^/[^/]+${routePrefix}`);
     if (routeRegex.test(location.pathname)) {
       return true;
@@ -53,7 +46,7 @@ const matchEnterpriseRoute = () => {
   return target;
 };
 
-const App = () => {
+const App = ({ dynamicModules = [] }: { dynamicModules: DynamicModule[] }) => {
   const route = routeInfoStore.useStore((s) => s.parsed);
   let location = useLocation();
   // register enterprise remotes
@@ -62,12 +55,8 @@ const App = () => {
   const { ready, failed } = useDynamicScript(scriptSource);
 
   React.useEffect(() => {
-    const currentModule = matchEnterpriseRoute();
-    if (
-      currentModule &&
-      (!process.env.FOR_COMMUNITY || process.env.FOR_COMMUNITY === 'false') &&
-      !loadedSource.includes(currentModule.name)
-    ) {
+    const currentModule = matchEnterpriseRoute(dynamicModules);
+    if (currentModule && !loadedSource.includes(currentModule.name)) {
       setGlobal('loadingModule', true);
       setScriptSource({
         url: `/static/${currentModule.name}/scripts/mf_${currentModule.name}.js`,

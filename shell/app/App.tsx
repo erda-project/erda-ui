@@ -65,6 +65,20 @@ Modal.defaultProps = {
   centered: true,
 };
 
+const dynamicModules =
+  process.env.FOR_COMMUNITY && process.env.FOR_COMMUNITY !== 'false'
+    ? []
+    : [
+        {
+          name: 'fdp',
+          routePrefix: '/fdp',
+        },
+        {
+          name: 'admin',
+          routePrefix: '/sysAdmin',
+        },
+      ];
+
 const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
   setLS('diceLoginState', true);
 
@@ -102,7 +116,7 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
     const Wrap = () => {
       return (
         <ConfigProvider renderEmpty={EmptyListHolder} locale={isZh() ? antd_zhCN : antd_enUS}>
-          <App />
+          <App dynamicModules={dynamicModules} />
         </ConfigProvider>
       );
     };

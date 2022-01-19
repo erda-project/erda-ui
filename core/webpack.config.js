@@ -90,7 +90,6 @@ module.exports = () => {
     plugins: [
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(nodeEnv),
-        'process.env.FOR_COMMUNITY': JSON.stringify(process.env.FOR_COMMUNITY),
       }),
       new webpack.ContextReplacementPlugin(/moment[\\/]locale$/, /(zh-cn)\.js/),
       new CleanWebpackPlugin(),
