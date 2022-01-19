@@ -208,29 +208,25 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       fetchingRef.current = true;
     }
     const curConfig = p || pageConfig;
-    const reqConfig = { ...curConfig, inParams: { ...inParamsRef.current, ...curConfig?.inParams } };
+    const reqConfig = { ...curConfig, inParams: { ...inParamsRef.current, ...p?.inParams } };
     ((useMockMark && _useMock) || getRenderPageLayout)(reqConfig)
       .then((res: CONFIG_PAGE.RenderConfig) => {
-        if (partial) {
-          const _curConfig = pageConfigRef.current;
-          const newConfig = produce(_curConfig, (draft) => {
-            if (draft.protocol?.components) {
-              draft.protocol.components = { ...draft.protocol.components };
-            }
-          });
-          updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
-          pageConfigRef.current = newConfig;
-          operationCallBack?.(reqConfig, newConfig, op);
-          callBack?.(newConfig);
-        } else {
-          // if (op?.index === undefined || (op.index && opIndexRef.current === op.index))  {
-          // }
-          // Retain the response data that matches the latest operation
-          updateConfig ? updateConfig(res) : updater.pageConfig(res);
-          pageConfigRef.current = res;
-          operationCallBack?.(reqConfig, res, op);
-          callBack?.(res);
-        }
+        const _curConfig = pageConfigRef.current;
+        const newConfig = produce(_curConfig, (draft) => {
+          draft.protocol = {
+            ...draft.protocol,
+            ...res.protocol,
+            components: {
+              ...draft.protocol?.components,
+              ...res.protocol?.components,
+            },
+          };
+        });
+        updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
+        pageConfigRef.current = newConfig;
+        operationCallBack?.(reqConfig, newConfig, op);
+        callBack?.(newConfig);
+
         if (op?.successMsg) notify('success', op.successMsg);
       })
       .catch(() => {
