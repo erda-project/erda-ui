@@ -24,6 +24,7 @@ const { BACKEND_URL, GITTAR_ADDR, UC_BACKEND_URL, ENTERPRISE_URL, FDP_URL } = en
 
 const API_URL = BACKEND_URL.startsWith('http') ? BACKEND_URL : `http://${BACKEND_URL}`;
 const UC_API_URL = UC_BACKEND_URL.startsWith('http') ? UC_BACKEND_URL : `http://${UC_BACKEND_URL}`;
+const ENTERPRISE_UI_URL = ENTERPRISE_URL?.startsWith('http') ? ENTERPRISE_URL : `http://${ENTERPRISE_URL}`;
 
 let gittarUrl = isProd ? GITTAR_ADDR : BACKEND_URL;
 gittarUrl = gittarUrl.startsWith('http') ? gittarUrl : `http://${gittarUrl}`;
@@ -65,8 +66,8 @@ export const createProxyService = (app: INestApplication) => {
         return !!pathname.match('^/static/(admin|fdp)');
       },
       {
-        target: ENTERPRISE_URL,
-        changeOrigin: true,
+        target: ENTERPRISE_UI_URL,
+        changeOrigin: !isProd,
         secure: false,
       },
     ),
