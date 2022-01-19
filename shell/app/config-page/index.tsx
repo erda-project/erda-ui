@@ -118,7 +118,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   const { getRenderPageLayout } = commonStore.effects;
 
   useMount(() => {
-    queryPageConfig(undefined, false, undefined, (config: CONFIG_PAGE.RenderConfig) => {
+    queryPageConfig(undefined, undefined, (config: CONFIG_PAGE.RenderConfig) => {
       // if there is any component marked as asyncAtInit, fetch again to load async component
       const comps = config?.protocol?.components || {};
       const asyncComponents: string[] = [];
@@ -195,12 +195,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     }
   }, [inParamsStr]);
 
-  const queryPageConfig = (
-    p?: CONFIG_PAGE.RenderConfig,
-    partial?: boolean,
-    op?: CP_COMMON.Operation,
-    callBack?: Function,
-  ) => {
+  const queryPageConfig = (p?: CONFIG_PAGE.RenderConfig, op?: CP_COMMON.Operation, callBack?: Function) => {
     if (fetchingRef.current || forbiddenRequest) return; // forbidden request when fetching
     // 此处用state，为了兼容useMock的情况
     if (!op?.async) {
@@ -256,7 +251,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     updateInfo?: { dataKey: string; dataVal: Obj },
     extraUpdateInfo?: Obj,
   ) => {
-    const { key, reload, skipRender, partial, ..._rest } = op;
+    const { key, reload, skipRender, ..._rest } = op;
     const loadCallBack = (_pageData: CONFIG_PAGE.RenderConfig) => {
       op?.callBack?.();
       onExecOp && onExecOp({ cId, op, reload, updateInfo, pageData: _pageData });
@@ -292,7 +287,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       });
 
       const formatConfig = clearLoadMoreData(newConfig);
-      queryPageConfig(formatConfig, partial, { ...op, index: opIndexRef.current }, loadCallBack);
+      queryPageConfig(formatConfig, { ...op, index: opIndexRef.current }, loadCallBack);
     } else if (updateInfo) {
       updateState(updateInfo.dataKey, updateInfo.dataVal, loadCallBack);
     }
