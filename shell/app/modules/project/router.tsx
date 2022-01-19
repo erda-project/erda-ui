@@ -387,14 +387,8 @@ function getProjectRouter(): RouteConfigItem[] {
           ],
         },
         {
-          path: 'service',
-          breadcrumbName: i18n.t('dop:addon'),
-          layout: { fullHeight: true },
-          getComp: (cb) => cb(import('project/pages/addon/addon-category'), 'AddonCategory'),
-        },
-        {
           path: 'resource',
-          breadcrumbName: i18n.t('resource summary'),
+          breadcrumbName: i18n.t('Resource summary'),
           getComp: (cb) => cb(import('project/pages/resource')),
         },
         {
@@ -482,6 +476,12 @@ function getProjectRouter(): RouteConfigItem[] {
               alwaysShowTabKey: 'config',
               tabs: DEPLOY_TABS,
               getComp: (cb) => cb(import('project/pages/deploy/deploy-config')),
+            },
+            {
+              path: 'addon',
+              tabs: DEPLOY_TABS,
+              layout: { fullHeight: true },
+              getComp: (cb) => cb(import('project/pages/addon/addon-category'), 'AddonCategory'),
             },
           ],
         },
