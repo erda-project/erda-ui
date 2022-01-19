@@ -105,7 +105,6 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
         const { enable, type, precision } = structure;
         return {
           type: 'value',
-          xx: structure,
           axisLabel: {
             color: colorToRgb(color, 0.3),
             formatter: enable ? (v: number) => formatValue(type, precision, v) : undefined,
