@@ -65,7 +65,9 @@ function ListSelect<T extends object = any>(props: IProps<T>) {
   const [visible, setVisible] = React.useState<boolean>(false);
   const select = (selectItem: T, checked: boolean) => {
     setSelectedList((prev) =>
-      checked ? [...prev, selectItem] : prev.filter((item) => item[rowKey] !== selectItem[rowKey]),
+      checked
+        ? [...prev.filter((item) => item[parentKey] !== selectItem[parentKey]), selectItem]
+        : prev.filter((item) => item[rowKey] !== selectItem[rowKey]),
     );
   };
 
@@ -115,11 +117,17 @@ function ListSelect<T extends object = any>(props: IProps<T>) {
         }
         visible={visible}
         onVisibleChange={(_visible: boolean) => {
-          _visible && setSelectedList(resultList);
-          setVisible(_visible);
+          if (_visible) {
+            setSelectedList(resultList);
+            setVisible(_visible);
+          }
         }}
       >
-        <div className="erda-list-select-btn px-2 py-1 rounded-sm inline-flex items-center cursor-pointer">
+        <div
+          className={`erda-list-select-btn px-2 py-1 rounded-sm inline-flex items-center cursor-pointer ${
+            visible ? 'dropdown-open' : ''
+          }`}
+        >
           <ErdaIcon type="plus" color="currentColor" size={16} className="mr-1" />
           {i18n.t('add {name}', { name: label })}
         </div>
@@ -244,11 +252,11 @@ function ListSelectOverlay<T extends object = any>({
           <Button className="mr-2" type="primary" onClick={onOk}>
             {i18n.t('ok')}
           </Button>
-          <Button className="mr-2" onClick={onCancel}>
-            {i18n.t('cancel')}
-          </Button>
           <Button className="mr-2" onClick={clear}>
             {i18n.t('one click to clear')}
+          </Button>
+          <Button className="mr-2" onClick={onCancel}>
+            {i18n.t('cancel')}
           </Button>
         </div>
       </Col>
