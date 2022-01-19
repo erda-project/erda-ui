@@ -208,6 +208,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       .then((res: CONFIG_PAGE.RenderConfig) => {
         const _curConfig = pageConfigRef.current;
         const newConfig = produce(_curConfig, (draft) => {
+          draft.inParams = undefined;
           draft.protocol = {
             ...draft.protocol,
             ...res.protocol,
