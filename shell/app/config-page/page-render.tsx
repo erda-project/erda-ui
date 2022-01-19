@@ -13,6 +13,7 @@
 
 import React from 'react';
 import { map, isArray, isPlainObject, isEmpty, isEqual, cloneDeep, get, set, has, pickBy } from 'lodash';
+import { message } from 'antd';
 import { EmptyHolder } from 'common';
 import { containerMap as fullContainerMap } from './components';
 import { goTo } from 'common/utils';
@@ -93,7 +94,11 @@ const ConfigPageRender = (props: IProps) => {
 
   const reExecOperation = (_cId: string) => (_op: any, val: any) => {
     if (!_op || isEmpty(_op)) return;
-    if (_op.disabled) return;
+    if (_op.disabled) {
+      const tip = _op.disabledTip || _op.tip;
+      tip && message.error(tip);
+      return;
+    }
     if (_op.key === 'clickGoto') {
       return handleClickGoto(_op);
     }
