@@ -161,7 +161,6 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
     <Tooltip
       placement="left"
       title={i18n.t('dop:click to edit')}
-      visible
       zIndex={isImagePreviewOpen ? 999 : 1001}
       arrowPointAtCenter
     >
