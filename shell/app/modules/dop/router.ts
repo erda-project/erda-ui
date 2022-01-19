@@ -102,12 +102,6 @@ export default function getDopRouter(): RouteConfigItem[] {
           getComp: (cb) => cb(import('dop/pages/projects/project-list-protocol')),
         },
         {
-          path: 'service',
-          breadcrumbName: i18n.t('addon service'),
-          layout: { fullHeight: true },
-          getComp: (cb) => cb(import('dop/pages/addons/addon-category'), 'AddonCategory'),
-        },
-        {
           path: 'publisher',
           breadcrumbName: i18n.t('publisher:my release'),
           routes: [
