@@ -103,7 +103,7 @@ const pipelineConfig = createFlatStore({
       const { query, configs, batch } = payload;
       const curAppId = payload.query.appID || appID;
       await call(
-        updateConfigs,
+        apiPrefix === 'configmanage' ? updateConfigs : addConfigs,
         { configs, batch, query: { ...query, appID: curAppId }, apiPrefix },
         { successMsg: i18n.t('dop:modified successfully') },
       );
