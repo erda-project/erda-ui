@@ -12,9 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import { get } from 'lodash';
 import DiceConfigPage from 'app/config-page';
 import { RadioTabs, ErdaIcon } from 'common';
 import { usePerm, WithAuth } from 'user/common';
+import qs from 'query-string';
 import { Button, Dropdown, Menu } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
@@ -23,17 +25,19 @@ import { goTo } from 'common/utils';
 interface IProps {
   isProjectRelease: boolean;
   applicationID?: number;
+  appReleaseIDs?: string;
 }
 
-const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
+const ReleaseProtocol = ({ isProjectRelease, applicationID, appReleaseIDs }: IProps) => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const [canCreateRelease] = usePerm((s) => [s.project.release.create.pass]);
-  const [isFormal, setIsFormal] = React.useState<string | number>('informal');
+  const [isFormal, setIsFormal] = React.useState<string | number>();
   const inParams = {
     isProjectRelease,
-    isFormal: isFormal === 'formal',
+    isFormal: isFormal && isFormal === 'formal',
     projectID: +projectId,
     applicationID,
+    appReleaseIDs,
   };
 
   const reloadRef = React.useRef<{ reload: () => void }>(null);
@@ -47,6 +51,7 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
   };
 
   const options = [
+    { label: i18n.t('dop:all') },
     { value: 'informal', label: i18n.t('dop:informal') },
     { value: 'formal', label: i18n.t('dop:formal') },
   ];
@@ -105,6 +110,14 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
                   record.id && goTo(`${record.id}`);
                 },
               }),
+              customOp: {
+                operations: {
+                  referencedReleases: (operation: { meta: { appReleaseIDs: string } }) => {
+                    const IDs = get(operation, 'meta.appReleaseIDs');
+                    goTo(`${goTo.resolve.projectReleaseList()}?${qs.stringify({ appReleaseIDs: IDs })}`);
+                  },
+                },
+              },
             },
           },
         }}
