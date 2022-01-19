@@ -67,7 +67,7 @@ const UserMenu = ({
       placement={placement || 'rightBottom'}
       overlayClassName={`erda-global-nav-user-menu ${className}`}
       content={
-        <div className="px-2 pb-2 pt-4 w-[160px] flex flex-col items-center truncate">
+        <div className="px-2 pb-2 pt-4 min-w-[160px] flex flex-col items-center truncate">
           <Avatar src={avatar} size={48} className="user-avatar">
             {nick}
           </Avatar>
