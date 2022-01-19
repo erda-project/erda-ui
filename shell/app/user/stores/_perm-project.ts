@@ -452,7 +452,7 @@ export const projectPerm = {
     },
   },
   resource: {
-    name: i18n.t('resource summary'),
+    name: i18n.t('Resource summary'),
     viewResource: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],

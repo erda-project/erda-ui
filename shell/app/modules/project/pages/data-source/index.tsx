@@ -146,7 +146,7 @@ export default function DataSourceManagement() {
           title={
             <div>
               {i18n.t('dop:add-data-source-tip-1')}
-              <Link to={goTo.resolve.projectService({ projectId })}>{i18n.t('dop:add-data-source-tip-2')}</Link>
+              <Link to={goTo.resolve.projectAddon({ projectId })}>{i18n.t('dop:add-data-source-tip-2')}</Link>
             </div>
           }
           placement="left"
