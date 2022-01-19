@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { createPublisherList, publisherTabs } from 'app/modules/publisher/pages/publisher-manage/publisher-list-v2';
+import { createPublisherList } from 'app/modules/publisher/pages/publisher-manage/publisher-list-v2';
 import publisherStore from 'app/modules/publisher/stores/publisher';
 import { useLoading } from 'core/stores/loading';
 import { goTo } from 'common/utils';
@@ -42,7 +42,5 @@ const Mapper = () => {
   };
 };
 const PublisherList = createPublisherList(Mapper);
-
-export { publisherTabs };
 
 export default PublisherList;

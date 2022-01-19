@@ -388,4 +388,5 @@ export const PureAppList = ({ getList: _getList, isFetching, clearList, isInProj
   );
 };
 
+// TODO: remove this
 export const MyAppList = connectCube(PureAppList, Mapper);
