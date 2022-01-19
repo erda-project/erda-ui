@@ -15,7 +15,7 @@ import { getFromRepo } from 'application/services/repo';
 import { getLatestSonarStatistics, getSonarResults } from '../services/quality';
 import routeInfoStore from 'core/stores/route';
 import appStore from 'application/stores/application';
-import { eventHub } from 'common/utils/event-hub';
+import { once } from 'core/event-hub';
 import { createStore } from 'core/cube';
 
 const getAppDetail = () =>
@@ -24,7 +24,7 @@ const getAppDetail = () =>
     let appDetail = appStore.getState((s) => s.detail);
     const notSameApp = appId && String(appId) !== String(appDetail.id);
     if (!appId || notSameApp) {
-      eventHub.once('appStore/getAppDetail', () => {
+      once('appStore/getAppDetail', () => {
         appDetail = appStore.getState((s) => s.detail);
         resolve(appDetail);
       });

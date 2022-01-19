@@ -23,6 +23,7 @@ import routeInfoStore from './stores/route';
 import { emit } from './utils/event-hub';
 import browserHistory from './history';
 import { setConfig } from './config';
+import { setGlobal } from './utils/global-space';
 import { initModuleFederationModule, useDynamicScript } from './utils/mf-helper';
 
 // @ts-ignore if not use it, minified build file will cause infinite loop when use ReactDom.render. errMsg: Cannot set property 'getCurrentStack' of undefined
@@ -58,7 +59,7 @@ const App = () => {
   // register enterprise remotes
   const [scriptSource, setScriptSource] = React.useState<{ url?: string; remoteName?: string }>({});
   const [loadedSource, setLoadedSource] = React.useState<string[]>([]);
-  const { ready } = useDynamicScript(scriptSource);
+  const { ready, failed } = useDynamicScript(scriptSource);
 
   React.useEffect(() => {
     const currentModule = matchEnterpriseRoute();
@@ -67,6 +68,7 @@ const App = () => {
       (!process.env.FOR_COMMUNITY || process.env.FOR_COMMUNITY === 'false') &&
       !loadedSource.includes(currentModule.name)
     ) {
+      setGlobal('loadingModule', true);
       setScriptSource({
         url: `/static/${currentModule.name}/scripts/mf_${currentModule.name}.js`,
         remoteName: currentModule.name,
@@ -75,11 +77,19 @@ const App = () => {
   }, [location.pathname]);
 
   React.useEffect(() => {
+    if (failed) {
+      emit('loadingModuleFailed');
+      setGlobal('loadingModule', false);
+    }
+  }, [failed]);
+
+  React.useEffect(() => {
     if (ready && scriptSource.remoteName) {
       const initFn = initModuleFederationModule(`mf_${scriptSource.remoteName}`, './entry');
       initFn.then((fn) => {
         fn.default(registerModule);
         setLoadedSource([...loadedSource, scriptSource.remoteName!]);
+        setGlobal('loadingModule', false);
       });
     }
   }, [ready]);

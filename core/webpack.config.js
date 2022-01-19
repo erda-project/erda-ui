@@ -107,6 +107,8 @@ module.exports = () => {
           './stores/userMap': './src/stores/user-map.ts',
           './utils/ws': './src/utils/ws.ts',
           './service': './src/service/index.ts',
+          './global-space': './src/utils/global-space.ts',
+          './event-hub': './src/utils/event-hub.ts',
         },
         shared: {
           ...AutomaticVendorFederation({

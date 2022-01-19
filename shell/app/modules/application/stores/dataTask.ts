@@ -23,7 +23,7 @@ import {
 import i18n from 'i18n';
 import appStore from 'application/stores/application';
 import routeInfoStore from 'core/stores/route';
-import { eventHub } from 'common/utils/event-hub';
+import { once } from 'core/event-hub';
 import { createStore } from 'core/cube';
 import { PAGINATION } from 'app/constants';
 import { isEmpty } from 'lodash';
@@ -34,7 +34,7 @@ const getAppDetail = () =>
     let appDetail = appStore.getState((s) => s.detail);
     const notSameApp = appId && String(appId) !== String(appDetail.id);
     if (!appId || notSameApp) {
-      eventHub.once('appStore/getAppDetail', () => {
+      once('appStore/getAppDetail', () => {
         appDetail = appStore.getState((s) => s.detail);
         resolve(appDetail);
       });

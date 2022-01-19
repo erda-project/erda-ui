@@ -59,7 +59,7 @@ import routeInfoStore from 'core/stores/route';
 import { getInfoFromRefName, getSplitPathBy } from 'application/pages/repo/util';
 import i18n from 'i18n';
 import { getEnvFromRefName, isPipelineWorkflowYml } from 'application/common/yml-flow-util';
-import { eventHub } from 'common/utils/event-hub';
+import { once } from 'core/event-hub';
 
 import { getLatestSonarStatistics, getSonarResults } from 'application/services/quality';
 import { PAGINATION } from 'app/constants';
@@ -123,7 +123,7 @@ const getAppDetail: () => Promise<IApplication> = () =>
     const appId = appIdParams || appIdQuery;
     const notSameApp = appId && String(appId) !== String(appDetail.id);
     if (!appId || notSameApp) {
-      eventHub.once('appStore/getAppDetail', () => {
+      once('appStore/getAppDetail', () => {
         appDetail = appStore.getState((s) => s.detail);
         resolve(appDetail);
       });

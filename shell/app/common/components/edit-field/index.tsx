@@ -23,7 +23,7 @@ import i18n from 'i18n';
 import classnames from 'classnames';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { eventHub } from 'common/utils/event-hub';
+import { emit, on, off } from 'core/event-hub';
 import { isZh } from 'core/i18n';
 import layoutStore from 'layout/stores/layout';
 import './index.scss';
@@ -45,7 +45,7 @@ const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement
   };
 
   const onLoad = () => {
-    eventHub.emit('md-img-loaded');
+    emit('md-img-loaded');
   };
 
   useUnmount(() => {
@@ -75,7 +75,7 @@ const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement
       <span
         className={`${
           isImagePreviewOpen && src === scalableImgSrc
-            ? 'fixed top-0 right-0 left-0 bottom-0 z-50 flex items-center justify-center overflow-auto bg-desc'
+            ? 'fixed top-0 right-0 left-0 bottom-0 z-[1071] flex items-center justify-center overflow-auto bg-desc'
             : 'hidden'
         }`}
       >
@@ -103,6 +103,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
   });
 
   const mdContentRef = React.useRef<HTMLDivElement>(null);
+  const [isImagePreviewOpen] = layoutStore.useStore((s) => [s.isImagePreviewOpen]);
 
   const checkContentHeight = React.useCallback(() => {
     if (value?.length && !isEditing && mdContentRef.current) {
@@ -113,10 +114,10 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
   }, [isEditing, maxHeight, updater, value]);
 
   React.useEffect(() => {
-    eventHub.on('md-img-loaded', checkContentHeight);
+    on('md-img-loaded', checkContentHeight);
     checkContentHeight();
     return () => {
-      eventHub.off('md-img-loaded', checkContentHeight);
+      off('md-img-loaded', checkContentHeight);
     };
   }, [checkContentHeight]);
 
@@ -154,7 +155,16 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       operationBtns={operationBtns}
     />
   ) : (
-    <Tooltip placement="left" title={i18n.t('dop:click to edit')} arrowPointAtCenter>
+    // drawer z-index is 1000, tooltip default z-index is 1070. Tooltip is alway insert before drawer
+    // so if set two components with same z-index, drawer will override tooltip
+    // solution: when open img, set tooltip z-index to 999, otherwise set to 1001
+    <Tooltip
+      placement="left"
+      title={i18n.t('dop:click to edit')}
+      visible
+      zIndex={isImagePreviewOpen ? 999 : 1001}
+      arrowPointAtCenter
+    >
       <div
         className="relative hover:bg-black-06 cursor-pointer rounded"
         onClick={() => updater.isEditing(true)}
