@@ -138,7 +138,7 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                 <Ellipsis className={`body-description ${kvInfos?.length ? '' : 'mt-1'}`} title={description || '-'} />
               </If>
               <If condition={!!kvInfos?.length}>
-                <div className={`body-meta-info flex ${description ? '' : 'mt-2'}`}>
+                <div className="body-meta-info flex mt-2">
                   {map(kvInfos, (info) => {
                     const { compWapper, status = 'default' } = info;
 
