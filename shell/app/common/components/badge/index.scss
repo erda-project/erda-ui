@@ -68,6 +68,10 @@
     .erda-badge-status-dot {
       background-color: $color-info;
     }
+    &.badge-hover-active:hover {
+      background-color: $color-info;
+      color: $white;
+    }
   }
 
   &.erda-badge-status-error {
@@ -75,6 +79,10 @@
     background-color: $color-error-bg;
     .erda-badge-status-dot {
       background-color: $color-error;
+    }
+    &.badge-hover-active:hover {
+      background-color: $color-error;
+      color: $white;
     }
   }
 
@@ -84,6 +92,10 @@
     .erda-badge-status-dot {
       background-color: $color-success;
     }
+    &.badge-hover-active:hover {
+      background-color: $color-success;
+      color: $white;
+    }
   }
 
   &.erda-badge-status-warning {
@@ -92,12 +104,26 @@
     .erda-badge-status-dot {
       background-color: $color-warning;
     }
+    &.badge-hover-active:hover {
+      background-color: $color-warning;
+      color: $white;
+    }
   }
   &.erda-badge-status-default {
     color: $color-default;
     background-color: $color-default-bg;
     .erda-badge-status-dot {
       background-color: $color-default;
+    }
+    &.badge-hover-active:hover {
+      background-color: $color-default;
+      color: $white;
+    }
+  }
+
+  &.badge-hover-active:hover {
+    .erda-badge-status-dot {
+      display: none;
     }
   }
 
