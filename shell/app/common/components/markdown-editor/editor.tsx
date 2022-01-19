@@ -22,8 +22,10 @@ import { convertToFormData } from 'common/utils';
 import { getFormatter } from 'charts/utils';
 import '@erda-ui/react-markdown-editor-lite/lib/index.css';
 import './editor.scss';
+import { isZh } from 'core/i18n';
 
 MdEditor.use(UploadPlugin);
+MdEditor.useLocale(isZh() ? 'zhCN' : 'enUS');
 
 interface IProps extends Omit<EditorProps, 'renderHTML'> {
   defaultHeight: number;
