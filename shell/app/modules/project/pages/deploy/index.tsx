@@ -367,7 +367,7 @@ const DeployContent = ({
                 const { value } = e.target;
                 updater.searchValue(value);
               }}
-              placeholder={i18n.t('dop:search by person or product information')}
+              placeholder={i18n.t('dop:search by ID, person or product information')}
             />
           </div>
           <div className="mt-2 flex-1 h-0">
@@ -389,7 +389,7 @@ const DeployContent = ({
                           <span>{moment(card.time).format('YYYY-MM-DD HH:mm:ss')}</span>
                         </div>
                         <CardItem
-                          className={`animate-border ${selectedOrder === card.id ? 'bg-default-06' : ''}`}
+                          className={`${selectedOrder === card.id ? 'bg-default-06' : ''}`}
                           card={cardRest}
                           onClick={() => {
                             getDeployDetailFunc(card.id);

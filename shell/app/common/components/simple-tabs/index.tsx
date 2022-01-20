@@ -32,7 +32,7 @@ const SimpleTabs = (props: IProps) => {
         return (
           <div
             key={item.key}
-            className={`mr-6 common-simple-tabs-item cursor-pointer ${value === item.key ? 'selected' : ''} ${
+            className={`mr-2 common-simple-tabs-item cursor-pointer ${value === item.key ? 'selected' : ''} ${
               item.disabled ? 'not-allowed' : ''
             }`}
             onClick={() => !item.disabled && onSelect(item.key)}
