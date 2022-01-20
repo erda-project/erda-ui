@@ -19,6 +19,7 @@ declare namespace ERDA_LIST {
     onLoadMore: (curPageNo: number) => void;
     getKey: (item: ListData, idx: number) => string | number;
     EmptyHolder: React.FC;
+    whiteFooter?: boolean;
     defaultLogo?: string;
     defaultBgImg?: string;
     columnsInfoWidth?: Obj<number>;
