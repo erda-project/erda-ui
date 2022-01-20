@@ -12,17 +12,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Dropdown, Menu } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import { getServiceList } from 'msp/services/service-analytics';
-import { EmptyListHolder, ErdaIcon } from 'common';
+import LoadMoreSelector from 'common/components/load-more-selector';
+import Ellipsis from 'common/components/ellipsis';
+import ErdaIcon from 'common/components/erda-icon';
 import i18n from 'i18n';
 import moment from 'moment';
 import { useUnmount } from 'react-use';
+import './service-name-select.scss';
 
 export function ServiceNameSelect() {
-  const [serviceId, serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
+  const [serviceId] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
   const params = routeInfoStore.useStore((s) => s.params);
   const [serverListData, loading] = getServiceList.useState();
   const { updateState } = serviceAnalyticsStore;
@@ -72,37 +74,47 @@ export function ServiceNameSelect() {
     });
   });
 
-  const menu = React.useMemo(() => {
-    const handleChangeService = ({ key }: { key: string }) => {
-      configServiceData(key);
-    };
+  const list = React.useMemo(
+    () =>
+      serviceList.map((item) => ({
+        ...item,
+        value: item.service_id,
+        label: item.service_name.repeat(1),
+      })),
+    [serviceId, serviceList],
+  );
 
-    return (
-      <Menu onClick={handleChangeService}>
-        {serviceList.map((x) => (
-          <Menu.Item key={x.service_id} className={`${serviceId === x.service_id ? 'bg-default-1 text-primary' : ''}`}>
-            {x.service_name}
-          </Menu.Item>
-        ))}
-        {!serviceList?.length && <EmptyListHolder />}
-      </Menu>
-    );
-  }, [serviceId, serviceList]);
+  const handleChangeService = (serviceID: string) => {
+    configServiceData(serviceID);
+  };
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center service-name-select">
       <div className="font-bold text-lg">{i18n.t('msp:service monitor')}</div>
-      {serviceName ? (
-        <>
-          <span className="bg-black-2 mx-5 w-px h-3" />
-          <Dropdown overlay={menu} trigger={['click']}>
-            <div className="font-bold text-lg h-8 rounded border border-solid border-transparent flex justify-center cursor-pointer">
-              <span className="self-center text-lg">{serviceName} </span>
-              <ErdaIcon className="self-center" type="caret-down" size="16" />
-            </div>
-          </Dropdown>
-        </>
-      ) : null}
+      <span className="bg-black-2 mx-4 w-px h-3" />
+      <div className="max-w-48">
+        <LoadMoreSelector
+          list={list}
+          value={serviceId}
+          dropdownMatchSelectWidth={false}
+          dropdownStyle={{ width: 300 }}
+          onChange={handleChangeService}
+          valueItemRender={(item) => {
+            return (
+              <div className="flex w-full pl-2 text-base group">
+                <div className="w-full flex justify-between">
+                  <Ellipsis className="font-bold" title={item.label} />
+                  <ErdaIcon
+                    type="caret-down"
+                    className="icon ml-0.5 text-default-3 group-hover:text-default"
+                    size="14"
+                  />
+                </div>
+              </div>
+            );
+          }}
+        />
+      </div>
     </div>
   );
 }
