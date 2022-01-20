@@ -1417,6 +1417,7 @@
     "local execution results of dev ut": "本地执行dev ut的结果",
     "lock-operation-tip": "仓库已锁定，无法进行此操作",
     "logAnalysis": "日志分析",
+    "logService": "日志服务",
     "logged": "已记录",
     "loop strategy": "循环策略",
     "low": "一般",
