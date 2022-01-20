@@ -12,19 +12,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Menu } from 'antd';
 import { ArtifactsInfo } from './artifacts-info';
 import VersionList from './version-list';
 import i18n from 'i18n';
+import { RadioTabs } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import Authenticate from '../authenticate';
 import SafetyManage from '../safety-manage';
 import Statistics from '../statistics';
 import ErrorReport from '../error-report';
+import { ArtifactsTypeMap } from './config';
+import { insertWhen } from 'app/common/utils';
 
 import './artifacts-detail.scss';
-import { ArtifactsTypeMap } from './config';
-import { map } from 'lodash';
 
 interface IProps {
   artifactsId: string;
@@ -40,9 +40,6 @@ const ArtifactsDetail = ({ data, artifactsId }: IProps) => {
     updater.chosenTab('info');
   }, [artifactsId, updater]);
 
-  const changeMenu = (e: any) => {
-    updater.chosenTab(e.key);
-  };
   const TabCompMap = {
     info: <ArtifactsInfo data={data} />,
     version: <VersionList artifacts={data} />,
@@ -53,39 +50,24 @@ const ArtifactsDetail = ({ data, artifactsId }: IProps) => {
   };
   const isMobileApp = data.type === ArtifactsTypeMap.MOBILE.value;
 
-  const menuText = [
-    ['info', i18n.t('configuration information')],
-    ['version', i18n.t('publisher:version content')],
+  const tabs = [
+    { value: 'info', label: i18n.t('configuration information') },
+    { value: 'version', label: i18n.t('publisher:version content') },
+    ...insertWhen(isMobileApp, [
+      { value: 'certification', label: i18n.t('publisher:authenticate list') },
+      { value: 'safety', label: i18n.t('publisher:safety management') },
+      { value: 'statistics', label: i18n.t('publisher:statistics dashboard') },
+      { value: 'errorReport', label: i18n.t('publisher:error report') },
+    ]),
   ];
-  if (isMobileApp) {
-    menuText.push(
-      ...[
-        ['certification', i18n.t('publisher:authenticate list')],
-        ['safety', i18n.t('publisher:safety management')],
-        ['statistics', i18n.t('publisher:statistics dashboard')],
-        ['errorReport', i18n.t('publisher:error report')],
-      ],
-    );
-  }
 
   return (
-    <div className="artifacts-detail">
-      <div className="artifacts-detail-header">
-        <div className="tab-menu">
-          <Menu onClick={changeMenu} selectedKeys={[chosenTab]} mode="horizontal">
-            {map(menuText, ([key, text]) => (
-              <Menu.Item key={key}>{text}</Menu.Item>
-            ))}
-          </Menu>
-        </div>
-      </div>
-      <div
-        className={`artifacts-content ${['statistics', 'errorReport'].includes(chosenTab) ? 'bg-lotion' : ''}`}
-        id="artifacts-content"
-      >
+    <>
+      <RadioTabs value={chosenTab} options={tabs} onChange={(v) => updater.chosenTab(v)} />
+      <div className={`artifacts-content ${['statistics', 'errorReport'].includes(chosenTab) ? 'bg-lotion' : ''}`}>
         {TabCompMap[chosenTab] || null}
       </div>
-    </div>
+    </>
   );
 };
 
