@@ -64,6 +64,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
     changelog,
     serviceImages = [],
     isFormal,
+    clusterName,
   } = releaseDetail;
 
   const getDetail = React.useCallback(async () => {
@@ -173,6 +174,10 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                 <div>{applicationName || '-'}</div>
               </div>
               <div className="mb-2">
+                <div className="text-black-4 mb-2">{i18n.t('cluster name')}</div>
+                <div>{clusterName || '-'}</div>
+              </div>
+              <div className="mb-2">
                 <div className="text-black-4 mb-2">{i18n.t('creator')}</div>
                 <div>{userId ? <UserInfo id={userId} /> : '-'}</div>
               </div>
@@ -187,6 +192,10 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
               <div className="mb-2">
                 <div className="text-black-4 mb-2">commitId</div>
                 <div>{labels.gitCommitId || '-'}</div>
+              </div>
+              <div className="mb-2">
+                <div className="text-black-4 mb-2">GitRepo {i18n.t('dop:address')}</div>
+                <div>{labels.gitRepo || '-'}</div>
               </div>
               {isEdit ? (
                 <div className="w-4/5">
