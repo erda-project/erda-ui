@@ -14,6 +14,7 @@
 import React from 'react';
 import { get } from 'lodash';
 import DiceConfigPage from 'app/config-page';
+import { getUrlQuery } from 'config-page/utils';
 import { RadioTabs, ErdaIcon } from 'common';
 import { usePerm, WithAuth } from 'user/common';
 import { Button, Dropdown, Menu } from 'antd';
@@ -24,11 +25,10 @@ import { goTo, updateSearch } from 'common/utils';
 interface IProps {
   isProjectRelease: boolean;
   applicationID?: number;
-  appReleaseIDs?: string;
 }
 
-const ReleaseProtocol = ({ isProjectRelease, applicationID, appReleaseIDs }: IProps) => {
-  const [{ projectId }, { appReleaseIDs: releaseIds }] = routeInfoStore.useStore((s) => [s.params, s.query]);
+const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
+  const [{ projectId }, { releaseFilter__urlQuery }] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [canCreateRelease] = usePerm((s) => [s.project.release.create.pass]);
   const [isFormal, setIsFormal] = React.useState<string | number>();
   const inParams = {
@@ -36,7 +36,7 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID, appReleaseIDs }: IPr
     isFormal: isFormal && isFormal === 'formal',
     projectID: +projectId,
     applicationID,
-    appReleaseIDs,
+    releaseFilter__urlQuery,
   };
 
   const reloadRef = React.useRef<{ reload: () => void }>(null);
@@ -101,16 +101,6 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID, appReleaseIDs }: IPr
         showLoading
         inParams={inParams}
         ref={reloadRef}
-        operationCallBack={(reqConfig) => {
-          const { event } = reqConfig;
-          const { component, operationData, operation } = event || {};
-          if (component === 'releaseFilter' && operation === 'filter') {
-            const IDs = get(operationData, 'clientData.values.releaseID');
-            if (IDs !== releaseIds) {
-              updateSearch({ appReleaseIDs: IDs });
-            }
-          }
-        }}
         customProps={{
           releaseTable: {
             props: {
@@ -126,6 +116,15 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID, appReleaseIDs }: IPr
                     goTo(goTo.resolve.projectReleaseList({ appReleaseIDs: IDs }));
                   },
                 },
+              },
+            },
+          },
+          releaseFilter: {
+            op: {
+              onFilterChange: (val: { releaseFilter__urlQuery: string }) => {
+                const { releaseFilter__urlQuery, values } = val;
+                console.log(getUrlQuery(val));
+                updateSearch(getUrlQuery(val));
               },
             },
           },

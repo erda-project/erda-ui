@@ -23,11 +23,12 @@ import { useLoading } from 'core/stores/loading';
 import './application.scss';
 
 const ProjectRelease = () => {
-  const [params, { appReleaseIDs }] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [params] = routeInfoStore.useStore((s) => [s.params]);
   const [appList] = releaseStore.useStore((s) => [s.appList]);
   const { getAppList } = releaseStore.effects;
   const [applicationId, setApplicationId] = React.useState<number>(0);
   const [loading] = useLoading(releaseStore, ['getAppList']);
+
   React.useEffect(() => {
     getAppList({ projectId: params.projectId });
   }, [params.projectId, getAppList]);
@@ -62,7 +63,7 @@ const ProjectRelease = () => {
         </div>
 
         <div className="release-right flex-1 mt-2">
-          <ReleaseProtocol applicationID={applicationId} isProjectRelease={false} appReleaseIDs={appReleaseIDs} />
+          <ReleaseProtocol applicationID={applicationId} isProjectRelease={false} />
         </div>
       </div>
     </div>
