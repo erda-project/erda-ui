@@ -486,6 +486,7 @@
     "exported successfully": "导出成功",
     "external": "外部",
     "failed": "失败",
+    "failed reason": "失败原因",
     "failed to create node": "创建节点失败",
     "failed to parse API description document": "API 描述文档解析失败",
     "failed to start node": "开始节点失败",

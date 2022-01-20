@@ -34,6 +34,7 @@ export interface IPaginationProps {
   theme?: 'light' | 'dark';
   onChange: (page: number, pageSize: number) => void;
   hidePageSizeChange?: boolean;
+  hideTotal?: boolean;
 }
 
 interface IPaginationJumpProps {
@@ -48,6 +49,7 @@ const Pagination = (pagination: IPaginationProps) => {
     pageSize = PAGINATION.pageSize,
     onChange,
     hidePageSizeChange = false,
+    hideTotal = false,
     theme = 'light',
   } = pagination;
 
@@ -55,7 +57,7 @@ const Pagination = (pagination: IPaginationProps) => {
 
   return (
     <div className={`erda-pagination flex justify-end items-center relative theme-${theme}`}>
-      <div className="erda-pagination-total mr-2">{i18n.t('total {total} items', { total })}</div>
+      {!hideTotal ? <div className="erda-pagination-total mr-2">{i18n.t('total {total} items', { total })}</div> : null}
       <div className="erda-pagination-content inline-flex">
         <div
           className={`bg-hover p-2 leading-none hover:bg-default-06 pagination-pre ${

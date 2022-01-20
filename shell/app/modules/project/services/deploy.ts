@@ -35,6 +35,9 @@ const apis = {
   createDeploy: {
     api: 'post@/api/deployment-orders',
   },
+  getProjectRuntimeCount: {
+    api: '/api/countProjectRuntime',
+  },
 };
 
 export const getDeployOrders = apiCreator<(params: PROJECT_DEPLOY.DeployOrderReq) => PROJECT_DEPLOY.DeployOrderRes>(
@@ -62,3 +65,7 @@ export const cancelDeploy = apiCreator<
 export const createDeploy = apiCreator<
   (params: { releaseId: string; workspace: string; id: string }) => PROJECT_DEPLOY.DeployOrder
 >(apis.createDeploy);
+
+export const getProjectRuntimeCount = apiCreator<(params: { projectId: string }) => PROJECT_DEPLOY.ProjectRuntimeCount>(
+  apis.getProjectRuntimeCount,
+);

@@ -69,7 +69,7 @@ export const DEPLOY_TABS = (params: Obj) => {
     },
     {
       key: 'config/default',
-      name: i18n.t('dop:environments config'),
+      name: i18n.t('config'),
       isActive: (activeKey: string) => activeKey.split('/')[0] === 'config',
     },
     {
