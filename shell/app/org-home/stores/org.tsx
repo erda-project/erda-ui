@@ -110,13 +110,6 @@ const org = createStore({
       const orgs = select((s) => s.orgs); // get joined orgs
 
       if (!orgName) return;
-      if (orgName === '-' && !Object.keys(resOrg).length) {
-        if (orgs?.length) {
-          goTo(`/${get(orgs, '[0].name')}`);
-        }
-        update({ curPathOrg: orgName, initFinish: true });
-        return;
-      }
       const curPathname = location.pathname;
       if (!Object.keys(resOrg).length) {
         goTo(goTo.pages.landPage);

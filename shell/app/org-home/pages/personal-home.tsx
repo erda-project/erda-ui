@@ -12,18 +12,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage, { useMock } from 'config-page/index';
+import DiceConfigPage from 'config-page/index';
 import orgStore from 'app/org-home/stores/org';
-import { DropdownSelectNew, UserProfile, EmptyHolder, ErdaIcon } from 'common';
-import { goTo, insertWhen } from 'common/utils';
+import { UserProfile, EmptyHolder, ErdaIcon } from 'common';
+import { goTo } from 'common/utils';
 import ScaleCard from 'config-page/components/scale-card/scale-card';
 import ImgMap from 'config-page/img-map';
 import { useMount } from 'react-use';
-import { compact } from 'lodash';
 import userStore from 'app/user/stores';
 import { usePerm } from 'user/common';
 import { erdaEnv } from 'common/constants';
-import PersonalHomeV1 from './personal-home-v1';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import OrgSelector from './org-selector';
@@ -277,11 +275,6 @@ const PurePersonalHome = ({ orgName }: { orgName: string }) => {
       },
     };
   }, [listType, Head, UserProfileComp, EmptyMap]);
-
-  if (inParams.orgName === '-') {
-    // no org, use old homepage
-    return <PersonalHomeV1 />;
-  }
 
   return (
     <div className="pb-2 h-full">
