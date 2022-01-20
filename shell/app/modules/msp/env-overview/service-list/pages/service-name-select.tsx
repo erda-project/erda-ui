@@ -14,7 +14,6 @@
 import React from 'react';
 import { Dropdown, Menu } from 'antd';
 import routeInfoStore from 'core/stores/route';
-import monitorCommonStore from 'common/stores/monitorCommon';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import { getServiceList } from 'msp/services/service-analytics';
 import { EmptyListHolder, ErdaIcon } from 'common';
@@ -23,9 +22,7 @@ import moment from 'moment';
 import { useUnmount } from 'react-use';
 
 export function ServiceNameSelect() {
-  const globalTimeSelectSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan);
   const [serviceId, serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
-  const { startTimeMs, endTimeMs } = globalTimeSelectSpan?.range || {};
   const params = routeInfoStore.useStore((s) => s.params);
   const [serverListData, loading] = getServiceList.useState();
   const { updateState } = serviceAnalyticsStore;
