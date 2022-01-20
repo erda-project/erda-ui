@@ -16,11 +16,10 @@ import { get } from 'lodash';
 import DiceConfigPage from 'app/config-page';
 import { RadioTabs, ErdaIcon } from 'common';
 import { usePerm, WithAuth } from 'user/common';
-import qs from 'query-string';
 import { Button, Dropdown, Menu } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
-import { goTo } from 'common/utils';
+import { goTo, updateSearch } from 'common/utils';
 
 interface IProps {
   isProjectRelease: boolean;
@@ -29,7 +28,7 @@ interface IProps {
 }
 
 const ReleaseProtocol = ({ isProjectRelease, applicationID, appReleaseIDs }: IProps) => {
-  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
+  const [{ projectId }, { appReleaseIDs: releaseIds }] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [canCreateRelease] = usePerm((s) => [s.project.release.create.pass]);
   const [isFormal, setIsFormal] = React.useState<string | number>();
   const inParams = {
@@ -102,6 +101,16 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID, appReleaseIDs }: IPr
         showLoading
         inParams={inParams}
         ref={reloadRef}
+        operationCallBack={(reqConfig) => {
+          const { event } = reqConfig;
+          const { component, operationData, operation } = event || {};
+          if (component === 'releaseFilter' && operation === 'filter') {
+            const IDs = get(operationData, 'clientData.values.releaseID');
+            if (IDs !== releaseIds) {
+              updateSearch({ appReleaseIDs: IDs });
+            }
+          }
+        }}
         customProps={{
           releaseTable: {
             props: {
@@ -114,7 +123,7 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID, appReleaseIDs }: IPr
                 operations: {
                   referencedReleases: (operation: { meta: { appReleaseIDs: string } }) => {
                     const IDs = get(operation, 'meta.appReleaseIDs');
-                    goTo(`${goTo.resolve.projectReleaseList()}?${qs.stringify({ appReleaseIDs: IDs })}`);
+                    goTo(goTo.resolve.projectReleaseList({ appReleaseIDs: IDs }));
                   },
                 },
               },

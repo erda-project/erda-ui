@@ -327,14 +327,14 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
             releaseID,
             $options: { successMsg: i18n.t('edited successfully') },
           });
-          goTo(goTo.pages.projectReleaseList);
+          goTo(goTo.pages.projectReleaseListProject);
         } else {
           await addRelease({ ...payload, $options: { successMsg: i18n.t('created successfully') } });
-          goTo(goTo.pages.projectReleaseList);
+          goTo(goTo.pages.projectReleaseListProject);
         }
       } else {
         await addReleaseByFile({ ...payload, $options: { successMsg: i18n.t('created successfully') } });
-        goTo(goTo.pages.projectReleaseList);
+        goTo(goTo.pages.projectReleaseListProject);
       }
     });
   };
@@ -352,7 +352,9 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
           <Button className="mr-3" type="primary" onClick={submit}>
             {i18n.t('submit')}
           </Button>
-          <Button onClick={() => goTo(goTo.pages.projectReleaseList)}>{i18n.t('return to previous page')}</Button>
+          <Button onClick={() => goTo(goTo.pages.projectReleaseListProject)}>
+            {i18n.t('return to previous page')}
+          </Button>
         </div>
       ) : null}
     </div>
