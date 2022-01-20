@@ -262,12 +262,16 @@ const DeployContent = ({
     return deployOrders.map((item) => {
       const curUser = userMap[item.operator];
       const curStatus = deployOrderStatusMap[item.status];
+      const typeStatusMap = {
+        project: { status: 'processing', text: i18n.t('project'), showDot: false },
+        application: { status: 'success', text: i18n.t('application'), showDot: false },
+      };
       return {
         id: item.id,
         title: item.name,
         time: item.createdAt,
         operator: curUser?.nick || curUser?.name || item.operator,
-        titleState: [{ status: curStatus?.status, onlyDot: true }],
+        titleState: [{ status: curStatus?.status, onlyDot: true }, typeStatusMap[item.releaseInfo?.type]],
         textMeta: [
           {
             mainText: item.applicationStatus,
@@ -319,6 +323,10 @@ const DeployContent = ({
                 },
               },
               list: {
+                props: {
+                  whiteHead: true,
+                  whiteFooter: true,
+                },
                 op: {
                   onStateChange: (data: { total: number }) => {
                     onCountChange(data?.total);
@@ -345,64 +353,65 @@ const DeployContent = ({
             }}
           />
         </div>
-
-        <div className="w-[320px] bg-white ml-4 rounded-sm flex flex-col">
-          <div className="px-4 flex justify-between items-center mt-2">
-            <span className="text-default-8 font-medium">{i18n.t('dop:deployment records')}</span>
-            <Button
-              size="small"
-              className="text-default-4 hover:text-default-8 flex items-center"
-              onClick={() => updater.addDrawerVisible(true)}
-            >
-              <ErdaIcon type="tj1" />
-            </Button>
-          </div>
-          <div className="mt-2 px-4">
-            <Input
-              size="small"
-              className="bg-black-06 border-none"
-              value={searchValue}
-              prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
-              onChange={(e) => {
-                const { value } = e.target;
-                updater.searchValue(value);
-              }}
-              placeholder={i18n.t('dop:search by ID, person or product information')}
-            />
-          </div>
-          <div className="mt-2 flex-1 h-0">
-            <Spin
-              spinning={!isAutoLoaing.current && loading}
-              wrapperClassName="full-spin-height overflow-hidden project-deploy-orders"
-            >
-              {cards.length ? (
-                <Timeline className="mt-2">
-                  {cards.map((card) => {
-                    const { operator, ...cardRest } = card;
-                    return (
-                      <Timeline.Item
-                        key={card.id}
-                        dot={<div className="ml-0.5 mt-1 bg-default-3 w-[8px] h-[8px] rounded-full" />}
-                      >
-                        <div className="text-sm text-default-6 mb-1">
-                          <span className="mr-2">{operator}</span>
-                          <span>{moment(card.time).format('YYYY-MM-DD HH:mm:ss')}</span>
-                        </div>
-                        <CardItem
-                          className={`${selectedOrder === card.id ? 'bg-default-06' : ''}`}
-                          card={cardRest}
-                          onClick={() => {
-                            getDeployDetailFunc(card.id);
-                          }}
-                        />
-                      </Timeline.Item>
-                    );
-                  })}
-                </Timeline>
-              ) : (
-                <EmptyHolder relative />
-              )}
-            </Spin>
+        <div className="bg-white flex">
+          <div className="w-[320px] bg-default-02 rounded-sm flex flex-col">
+            <div className="px-4 flex justify-between items-center mt-2">
+              <span className="text-default-8 font-medium">{i18n.t('dop:deployment records')}</span>
+              <Button
+                size="small"
+                className="text-default-4 hover:text-default-8 flex items-center"
+                onClick={() => updater.addDrawerVisible(true)}
+              >
+                <ErdaIcon type="tj1" />
+              </Button>
+            </div>
+            <div className="mt-2 px-4">
+              <Input
+                size="small"
+                className="bg-black-06 border-none"
+                value={searchValue}
+                prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
+                onChange={(e) => {
+                  const { value } = e.target;
+                  updater.searchValue(value);
+                }}
+                placeholder={i18n.t('dop:search by ID, person or product information')}
+              />
+            </div>
+            <div className="mt-2 flex-1 h-0">
+              <Spin
+                spinning={!isAutoLoaing.current && loading}
+                wrapperClassName="full-spin-height overflow-hidden project-deploy-orders"
+              >
+                {cards.length ? (
+                  <Timeline className="mt-2">
+                    {cards.map((card) => {
+                      const { operator, ...cardRest } = card;
+                      return (
+                        <Timeline.Item
+                          key={card.id}
+                          dot={<div className="ml-0.5 mt-1 bg-default-3 w-[8px] h-[8px] rounded-full" />}
+                        >
+                          <div className="text-sm text-default-6 mb-1">
+                            <span className="mr-2">{operator}</span>
+                            <span>{moment(card.time).format('YYYY-MM-DD HH:mm:ss')}</span>
+                          </div>
+                          <CardItem
+                            className={'bg-white'}
+                            card={cardRest}
+                            onClick={() => {
+                              getDeployDetailFunc(card.id);
+                            }}
+                          />
+                        </Timeline.Item>
+                      );
+                    })}
+                  </Timeline>
+                ) : (
+                  <EmptyHolder relative />
+                )}
+              </Spin>
+            </div>
           </div>
         </div>
       </div>

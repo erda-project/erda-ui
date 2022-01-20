@@ -40,7 +40,11 @@ const HeadOperationBar = (props: HeadOperationBarProps) => {
   const [searchValue, setSearchValue] = React.useState(pSearchValue);
 
   return (
-    <div className={`w-full flex items-center min-h-[48px] px-4 head-operation-bar bg-default-02 ${className}`}>
+    <div
+      className={`w-full flex items-center min-h-[48px] px-4 head-operation-bar ${
+        className?.includes('bg-') ? `${className}` : `bg-default-02 ${className}`
+      }`}
+    >
       <div className="flex-1">
         {onSearch ? (
           <Input

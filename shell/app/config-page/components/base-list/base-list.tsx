@@ -34,7 +34,14 @@ const List = (props: CP_BASE_LIST.Props) => {
     combineList: list,
   });
 
-  const { isLoadMore = false, hideHead, className = '', wrapperClassName = '', ...restProps } = configProps || {};
+  const {
+    whiteHead,
+    isLoadMore = false,
+    hideHead,
+    className = '',
+    wrapperClassName = '',
+    ...restProps
+  } = configProps || {};
 
   const currentList = React.useMemo(
     () =>
@@ -268,7 +275,7 @@ const List = (props: CP_BASE_LIST.Props) => {
   const Head = !hideHead ? (
     <div>
       <div className="px-4">{HeadTitle}</div>
-      <HeadOperationBar leftSolt={filter} onReload={onReload} />
+      <HeadOperationBar className={`${whiteHead ? 'bg-white' : ''}`} leftSolt={filter} onReload={onReload} />
     </div>
   ) : HeadTitle || filter ? (
     <div className="flex justify-between items-center mb-2 min-h-[48px] px-4">
