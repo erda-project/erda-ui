@@ -23,7 +23,7 @@ const { envConfig } = getEnv();
 const { BACKEND_URL, GITTAR_ADDR, UC_BACKEND_URL, ENTERPRISE_URL, FDP_URL } = envConfig;
 
 const getHttpUrl = (url: string) => {
-  return url.startsWith('http') ? url : `http://${url}`;
+  return url?.startsWith('http') ? url : `http://${url}`;
 };
 
 const API_URL = getHttpUrl(BACKEND_URL);
