@@ -206,7 +206,7 @@ function ListSelectOverlay<T extends object = any>({
   parentKey,
 }: ListSelectOverlayProps<T>) {
   const defaultSelectMenu = React.useMemo(
-    () => ({ [menuRowKey]: 0, title: i18n.t('dop:all {name}', { name: label }) }),
+    () => ({ [menuRowKey]: 0, title: i18n.t('dop:all {name}', { name: i18n.t('App') }) }),
     [menuRowKey, label],
   );
   const menus = React.useMemo(() => [defaultSelectMenu, ..._menus], [_menus, defaultSelectMenu]);
@@ -271,7 +271,7 @@ function ListSelectOverlay<T extends object = any>({
                   <Input
                     prefix={<ErdaIcon type="search" color="currentColor" />}
                     className="bg-white-06 border-none mb-2"
-                    placeholder={i18n.t('common:keyword to search')}
+                    placeholder={i18n.t('search {name}', { name: i18n.t('dop:app name') })}
                     onPressEnter={(e: React.KeyboardEvent<HTMLInputElement>) => {
                       onMenuFilter?.(e.target.value);
                       setSelectedMenu(defaultSelectMenu);
@@ -324,7 +324,7 @@ function ListSelectOverlay<T extends object = any>({
               <Input
                 prefix={<ErdaIcon type="search" />}
                 className="bg-white-06 border-none"
-                placeholder={i18n.t('common:keyword to search')}
+                placeholder={i18n.t('search {name}', { name: label })}
                 onPressEnter={(e: React.KeyboardEvent<HTMLInputElement>) => onListFilter?.(e.target.value)}
               />
             </div>

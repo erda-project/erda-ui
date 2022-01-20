@@ -161,7 +161,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         const res = await checkVersion.fetch(payload);
         const { data } = res;
         if (data && !data.isUnique) {
-          throw new Error(i18n.t('{name} already exists', { name: i18n.t('dop:release name') }));
+          throw new Error(i18n.t('{name} already exists', { name: i18n.t('version') }));
         }
       }
     }),
@@ -170,15 +170,15 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
 
   const list = [
     {
-      label: i18n.t('dop:release name'),
+      label: i18n.t('version'),
       name: 'version',
       type: 'input',
       itemProps: {
-        placeholder: i18n.t('please enter {name}', { name: i18n.t('dop:release name') }),
+        placeholder: i18n.t('please enter {name}', { name: i18n.t('version') }),
         disabled: type === 'file',
       },
       rules: [
-        { required: true, message: i18n.t('please enter {name}', { name: i18n.t('dop:release name') }) },
+        { required: true, message: i18n.t('please enter {name}', { name: i18n.t('version') }) },
         { max: 30, message: i18n.t('dop:no more than 30 characters') },
         {
           pattern: /^[A-Za-z0-9._-]+$/,
