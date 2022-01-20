@@ -17,6 +17,7 @@ import { get, isEmpty } from 'lodash';
 import i18n from 'i18n';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
+import projectStore from 'project/stores/project';
 import { updateSearch } from 'common/utils';
 import fileTreeStore from 'common/stores/file-tree';
 import { getINodeByPipelineId, getPipelineDetail } from 'application/services/build';
@@ -35,6 +36,7 @@ const { TabPane } = Tabs;
 
 const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
+  const { name: projectName } = projectStore.useStore((s) => s.info);
   const { updateTreeNodeDetail } = fileTreeStore;
   const { updateAppDetail } = appStore.reducers;
   const { ID: applicationID } = application;
@@ -45,7 +47,9 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
 
   const [visible, setVisible] = React.useState(false);
   const [detailVisible, setDetailVisible] = React.useState(false);
-  const [detail, setDetail] = React.useState<{ id: string; appId: string }>({} as { id: string; appId: string });
+  const [detail, setDetail] = React.useState<{ id: string; appId: string; pipelineId: string }>(
+    {} as { id: string; appId: string; pipelineId: string },
+  );
 
   const reloadRef = React.useRef<{ reload: () => void }>(null);
 
@@ -97,22 +101,22 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
           },
           pipelineTable: {
             op: {
-              clickRow: async (record: { pipelineID: { data: { text: string } } }) => {
-                const { pipelineID } = record;
-                const { data } = pipelineID;
-                const { text: pipelineId } = data;
-                if (pipelineId && pipelineId !== '-') {
+              clickRow: async (record: {
+                pipelineID: { data: { text: string } };
+                applicationName: { data: { text: string } };
+              }) => {
+                const { operations, applicationName } = record;
+                const serverData = get(operations, 'click.serverData');
+                const { pipelineID: pipelineId, inode } = serverData;
+                const appName = get(applicationName, 'data.text');
+                const appId = inode && atob(decodeURI(inode)).split('/')[1];
+                inode && updateSearch({ nodeId: inode, applicationId: appId, pipelineID: pipelineId });
+                setDetail({ id: inode, appId, pipelineId });
+                updateAppDetail({ id: appId, gitRepoAbbrev: `${projectName}/${appName}` });
+                setDetailVisible(true);
+                if (pipelineId) {
                   const res = await getINodeByPipelineId({ pipelineId });
-                  const inode = res?.data?.inode;
                   updateTreeNodeDetail(res.data);
-                  const response = await getPipelineDetail({ pipelineID: +pipelineId });
-                  const { applicationID: appId, applicationName, projectName } = response.data;
-                  inode && updateSearch({ nodeId: inode, applicationId: appId, pipelineID: pipelineId });
-                  setDetail({ id: inode, appId });
-                  updateAppDetail({ id: appId, gitRepoAbbrev: `${projectName}/${applicationName}` });
-                  setDetailVisible(true);
-                } else {
-                  message.error(i18n.t('dop:Please execute pipeline first'));
                 }
               },
             },
@@ -152,9 +156,13 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
           <TabPane tab={i18n.t('basic information')} key="basic">
             <PipelineBasic nodeId={detail.id} appId={detail.appId} />
           </TabPane>
-          <TabPane tab={i18n.t('execute detail')} key="2">
-            <PipelineRunDetail deployAuth={{ hasAuth: false }} isMobileInit={false} />
-          </TabPane>
+          {detail.pipelineId ? (
+            <TabPane tab={i18n.t('execute detail')} key="2">
+              <div className="m-3 bg-white rounded-xl p-4">
+                <PipelineRunDetail deployAuth={{ hasAuth: false }} isMobileInit={false} />
+              </div>
+            </TabPane>
+          ) : null}
         </Tabs>
       </Drawer>
     </>
