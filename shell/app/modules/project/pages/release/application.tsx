@@ -32,9 +32,9 @@ const replaceWithLink = (str: string, href: string) => {
     result.push(item);
     if (index !== strArr.length - 1) {
       result.push(
-        <span className="text-purple-deep mx-1 cursor-pointer" onClick={() => window.open(href)}>
+        <a className="text-purple-deep mx-1" href={href} target="_blank" rel="noopener noreferrer">
           {matchArr[index].replace(/\[|]/g, '')}
-        </span>,
+        </a>,
       );
     }
   });
