@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { map, isEmpty } from 'lodash';
-import { Row, Col, Tooltip, Button } from 'antd';
-import { Responsive, ErrorBoundary, IF, ErdaIcon } from 'common';
-import { goTo, getLS, setLS, qs } from 'common/utils';
+import { isEmpty, map } from 'lodash';
+import { Button, Col, Row, Tooltip } from 'antd';
+import { ErdaIcon, ErrorBoundary, IF, Responsive } from 'common';
+import { getLS, goTo, qs, setLS } from 'common/utils';
 import { useMediaLt } from 'common/use-hooks';
 import { getMSFrontPathByKey } from 'msp/config';
 import ServiceCard from './service-card';
@@ -87,7 +87,7 @@ const RuntimeOverView = () => {
         }
         break;
       case 1: {
-        if (addonName === 'log-analytics') {
+        if (addonName === 'log-analytics' || addonName === 'log-service') {
           // 3.20把日志分析移到了微服务下面，兼容旧的日志分析实例
           let tenantGroup = '';
           try {

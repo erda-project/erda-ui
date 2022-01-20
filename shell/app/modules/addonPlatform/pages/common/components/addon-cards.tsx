@@ -13,13 +13,13 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Tooltip, Badge, Button } from 'antd';
+import { Badge, Button, Tooltip } from 'antd';
 import { get, isEmpty } from 'lodash';
-import { Icon as CustomIcon, CardsLayout, Holder, IF, ErdaIcon } from 'common';
+import { CardsLayout, ErdaIcon, Holder, Icon as CustomIcon, IF } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo, ossImg } from 'common/utils';
 import { AddonDetailDrawer } from './addon-detail-drawer';
-import { PLAN_NAME, ENV_NAME } from '../configs';
+import { ENV_NAME, PLAN_NAME } from '../configs';
 import { getMSFrontPathByKey } from 'app/modules/msp/config';
 import CreateLog from './create-log';
 import addon_png from 'app/images/resources/addon.png';
@@ -90,7 +90,7 @@ export const AddonCards = (props: IProps) => {
       window.open(`${window.location.protocol}//${consoleUrl}`);
       return;
     }
-    if (addonName === 'log-analytics') {
+    if (addonName === 'log-analytics' || addonName === 'log-service') {
       // 3.20把日志分析移到了微服务下面，兼容旧的日志分析实例
       let tenantGroup = '';
       try {
