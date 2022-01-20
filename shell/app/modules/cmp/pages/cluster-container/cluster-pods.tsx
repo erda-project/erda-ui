@@ -97,9 +97,6 @@ const ClusterPods = () => {
 
   return (
     <ClusterContainer>
-      <div className="top-button-group" style={{ right: 135 }}>
-        <K8sClusterTerminalButton clusterName={clusterName} />
-      </div>
       <DiceConfigPage
         scenarioType={'cmp-dashboard-pods'}
         scenarioKey={'cmp-dashboard-pods'}
@@ -107,6 +104,7 @@ const ClusterPods = () => {
         ref={reloadRef}
         customProps={{
           ...customProps,
+          consoleButton: () => <K8sClusterTerminalButton clusterName={clusterName} />,
           filter: {
             op: {
               onFilterChange: urlQueryChange,
