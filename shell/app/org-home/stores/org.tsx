@@ -92,6 +92,7 @@ const org = createStore({
   effects: {
     async updateOrg({ call, update }, payload: Merge<Partial<ORG.IOrg>, { id: number }>) {
       const currentOrg = await call(updateOrg, payload);
+      breadcrumbStore.reducers.setInfo('curOrgName', payload.displayName);
       await org.effects.getJoinedOrgs(true);
       update({ currentOrg });
     },
