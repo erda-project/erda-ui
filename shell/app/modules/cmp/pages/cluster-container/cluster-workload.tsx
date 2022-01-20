@@ -93,9 +93,6 @@ const ClusterWorkload = () => {
 
   return (
     <ClusterContainer>
-      <div className="top-button-group" style={{ right: 162 }}>
-        <K8sClusterTerminalButton clusterName={clusterName} />
-      </div>
       <DiceConfigPage
         scenarioType={'cmp-dashboard-workloads-list'}
         scenarioKey={'cmp-dashboard-workloads-list'}
@@ -103,6 +100,7 @@ const ClusterWorkload = () => {
         ref={reloadRef}
         customProps={{
           ...customProps,
+          consoleButton: () => <K8sClusterTerminalButton clusterName={clusterName} />,
           filter: {
             op: {
               onFilterChange: urlQueryChange,
