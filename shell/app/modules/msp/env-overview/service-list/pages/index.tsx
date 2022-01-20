@@ -219,14 +219,13 @@ const MicroServiceOverview = () => {
   const tenantId = routeInfoStore.useStore((s) => s.params.terminusKey);
   const overviewList = getAnalyzerOverview.useData();
   const serViceCount = getServiceCount.useData();
-  const [{ pagination, searchValue, serviceStatus, startTime, endTime }, updater, update] =
-    useUpdate<IState>({
-      searchValue: '',
-      startTime: moment().subtract(1, 'h').valueOf(),
-      endTime: moment().valueOf(),
-      serviceStatus: tabs[0].value,
-      pagination: { current: 1, pageSize: PAGINATION.pageSize },
-    });
+  const [{ pagination, searchValue, serviceStatus, startTime, endTime }, updater, update] = useUpdate<IState>({
+    searchValue: '',
+    startTime: moment().subtract(1, 'h').valueOf(),
+    endTime: moment().valueOf(),
+    serviceStatus: tabs[0].value,
+    pagination: { current: 1, pageSize: PAGINATION.pageSize },
+  });
 
   React.useEffect(() => {
     getServiceCount.fetch({ tenantId });
