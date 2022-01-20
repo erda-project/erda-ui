@@ -27,6 +27,7 @@ interface AppDetail {
   ID: number;
   runningNum: number;
   failedNum: number;
+  totalNum: number;
   displayName: string;
 }
 
