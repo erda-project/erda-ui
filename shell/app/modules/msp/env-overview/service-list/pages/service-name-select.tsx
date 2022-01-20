@@ -79,7 +79,7 @@ export function ServiceNameSelect() {
       serviceList.map((item) => ({
         ...item,
         value: item.service_id,
-        label: item.service_name.repeat(1),
+        label: item.service_name,
       })),
     [serviceId, serviceList],
   );
