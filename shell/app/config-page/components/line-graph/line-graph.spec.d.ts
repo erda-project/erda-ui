@@ -18,24 +18,37 @@ declare namespace CP_LINE_GRAPH {
     style: import('react').CSSProperties;
   }
 
+  type ValueType = 'string' | 'number' | 'capacity' | 'trafficRate' | 'storage' | 'timestamp' | 'time';
+
+  interface AxisOptions {
+    inverse: boolean;
+    structure: {
+      enable: boolean;
+      precision: string;
+      type: ValueType;
+    };
+  }
+
   interface Spec {
     type: 'LineGraph';
     props: IProps;
     data: {
       dimensions: string[];
       title: string;
-      subTitle?: string;
       inverse: boolean;
       xAxis: {
-        inverse: boolean;
         values: Array<string | number>;
-        formatter?: string;
       };
+      xOptions: AxisOptions | null;
       yAxis: {
         dimension: string;
-        inverse: boolean;
         values: Array<string | number>;
       }[];
+      yOptions: Array<
+        AxisOptions & {
+          dimension: string[];
+        }
+      >;
     };
   }
 
