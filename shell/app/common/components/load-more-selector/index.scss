@@ -178,6 +178,10 @@
         padding: 9px 10px;
         color: $color-white-6;
 
+        .ant-checkbox {
+          top: 0;
+        }
+
         &:hover,
         &.checked {
           color: $white;
