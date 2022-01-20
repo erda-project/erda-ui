@@ -24,7 +24,7 @@ import { transformRange } from 'common/components/time-select/common';
 import moment from 'moment';
 import { useUpdate } from 'common/use-hooks';
 import './transaction.scss';
-import { getTimeSpan } from 'common/utils';
+import { getTimeSpan, setSearch } from 'common/utils';
 import TransactionDetail from 'msp/env-overview/service-list/pages/transaction-detail';
 
 const dashboardIdMap = [
@@ -64,7 +64,6 @@ interface IState {
     endTime: number;
   };
   recordItem?: {
-    id: string;
     transactionName: {
       data: {
         text: string;
@@ -86,10 +85,10 @@ const Transaction = () => {
     s.globalTimeSelectSpan.refreshStrategy,
   ]);
 
-  const tenantId = routeInfoStore.useStore((s) => s.params.terminusKey);
+  const [tenantId, query] = routeInfoStore.useStore((s) => [s.params.terminusKey, s.query]);
   const [serviceId, requestCompleted] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.requestCompleted]);
   const [{ transactionType, visible, recordItem, detailParams, analysisParams }, updater, update] = useUpdate<IState>({
-    transactionType: dashboardIdMap[0].value,
+    transactionType: query.transactionType ?? dashboardIdMap[0].value,
     visible: false,
     recordItem: undefined,
     detailParams: {
@@ -103,6 +102,23 @@ const Transaction = () => {
       endTime: range.endTimeMs,
     },
   });
+
+  React.useEffect(() => {
+    const { layerPath, endTime, startTime } = query;
+    if (layerPath) {
+      update({
+        visible: true,
+        recordItem: {
+          transactionName: {
+            data: {
+              text: layerPath,
+            },
+          },
+        },
+        detailParams: getTimeParams(+startTime, +endTime),
+      });
+    }
+  }, []);
 
   React.useEffect(() => {
     updater.analysisParams(getTimeParams(range.startTimeMs, range.endTimeMs));
@@ -135,6 +151,7 @@ const Transaction = () => {
   };
 
   const closeDetail = () => {
+    setSearch({}, [], true);
     update({
       visible: false,
       recordItem: undefined,
@@ -229,6 +246,7 @@ const Transaction = () => {
         timeRange={detailParams}
         visible={visible}
         closeDetail={closeDetail}
+        defaultScenarioName={query.detailType}
         layerPath={recordItem?.transactionName.data.text}
       />
     </div>

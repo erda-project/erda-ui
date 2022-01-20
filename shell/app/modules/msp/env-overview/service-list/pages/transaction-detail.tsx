@@ -13,8 +13,10 @@
 
 import React from 'react';
 import Ellipsis from 'common/components/ellipsis';
+import ErdaIcon from 'common/components/erda-icon';
 import RadioTabs from 'common/components/radio-tabs';
 import i18n from 'i18n';
+import { qs } from 'common/utils';
 import TimeSelect from 'common/components/time-select';
 import DiceConfigPage from 'config-page';
 import { Drawer } from 'antd';
@@ -23,6 +25,8 @@ import { ITimeRange, transformRange } from 'common/components/time-select/common
 import moment, { Moment } from 'moment';
 import { useUpdate } from 'common/use-hooks';
 import TraceSearchDetail from 'trace-insight/pages/trace-querier/trace-search-detail';
+import { Copy } from 'common';
+import routeInfoStore from 'core/stores/route';
 
 const indicators = [
   'kvGrid@totalCount',
@@ -41,6 +45,7 @@ interface IProps {
   serviceId: string;
   closeDetail: () => void;
   timeRange: IState['detailParams'];
+  defaultScenarioName?: string;
 }
 
 interface IState {
@@ -71,6 +76,7 @@ const TransactionDetail: React.FC<IProps> = ({
   serviceId,
   tenantId,
   timeRange,
+  defaultScenarioName,
 }) => {
   const [{ detailParams, scenarioName, traceId, startTime }, updater, update] = useUpdate<IState>({
     traceId: undefined,
@@ -80,14 +86,43 @@ const TransactionDetail: React.FC<IProps> = ({
   });
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
   React.useEffect(() => {
-    update({ detailParams: timeRange, scenarioName: `${transactionType}-detail` });
-  }, [timeRange, transactionType]);
+    update({ detailParams: timeRange, scenarioName: defaultScenarioName ?? `${transactionType}-detail` });
+  }, [timeRange, transactionType, defaultScenarioName]);
   const [rangeData, refreshStrategy] = React.useMemo(() => {
     if (visible) {
-      return monitorCommonStore.getState((s) => [s.globalTimeSelectSpan.data, s.globalTimeSelectSpan.refreshStrategy]);
+      const query = routeInfoStore.getState((s) => s.query);
+      if (query.layerPath) {
+        return [
+          {
+            mode: 'customize',
+            customize: {
+              start: moment(+detailParams.startTime),
+              end: moment(+detailParams.endTime),
+            },
+          },
+          monitorCommonStore.getState((s) => s.globalTimeSelectSpan.refreshStrategy),
+        ];
+      } else {
+        return monitorCommonStore.getState((s) => [
+          s.globalTimeSelectSpan.data,
+          s.globalTimeSelectSpan.refreshStrategy,
+        ]);
+      }
     }
     return [];
   }, [visible]);
+
+  const copyPath = React.useMemo(() => {
+    const { pathname, origin } = window.location;
+    const query = {
+      ...detailParams,
+      layerPath,
+      transactionType,
+      detailType: scenarioName,
+    };
+    const queryStr = qs.stringify(query);
+    return `${origin}${pathname}?${queryStr}`;
+  }, [detailParams, layerPath, transactionType, scenarioName]);
 
   const handleTimeChange = (_range: ITimeRange, [start, end]: Moment[]) => {
     updater.detailParams({
@@ -124,7 +159,19 @@ const TransactionDetail: React.FC<IProps> = ({
   return (
     <>
       <Drawer
-        title={<Ellipsis title={layerPath ?? '-'} />}
+        title={
+          <div className="flex items-center pr-8">
+            <Ellipsis className="flex-1" title={layerPath ?? '-'} />
+            <Copy selector=".cursor-copy">
+              <ErdaIcon
+                type="share-one"
+                className="hover-active cursor-copy ml-1"
+                data-clipboard-text={copyPath}
+                data-clipboard-tip={i18n.t('link')}
+              />
+            </Copy>
+          </div>
+        }
         className="transaction-detail-drawer"
         visible={visible}
         width="80%"
@@ -134,7 +181,7 @@ const TransactionDetail: React.FC<IProps> = ({
         <div className="px-4">
           <div className="flex justify-between items-center h-8 my-2">
             <RadioTabs
-              defaultValue={`${transactionType}-detail`}
+              defaultValue={defaultScenarioName ?? scenarioName}
               options={[
                 {
                   label: i18n.t('msp:overview'),
