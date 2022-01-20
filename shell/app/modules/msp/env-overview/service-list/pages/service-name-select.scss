@@ -1,0 +1,17 @@
+.service-name-select {
+  .load-more-selector {
+    .results {
+      padding: 0;
+      border: 1px solid transparent;
+
+      &:hover {
+        box-shadow: unset;
+      }
+
+      .values,
+      .value-item {
+        width: 100%;
+      }
+    }
+  }
+}
