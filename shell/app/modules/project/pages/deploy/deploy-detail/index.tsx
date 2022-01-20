@@ -102,7 +102,7 @@ const DeployDetail = (props: IProps) => {
       },
     },
     {
-      label: i18n.t('creator'),
+      label: i18n.t('dop:artifact creator'),
       valueKey: 'releaseInfo',
       valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
         const { nick, name } = userMap[value?.creator] || {};
@@ -110,7 +110,7 @@ const DeployDetail = (props: IProps) => {
       },
     },
     {
-      label: i18n.t('create time'),
+      label: i18n.t('dop:artifact created at'),
       valueKey: 'releaseInfo',
       valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
         return value?.createdAt ? moment(value.createdAt).format('YYYY/MM/DD HH:mm:ss') : '-';
@@ -141,7 +141,6 @@ const DeployDetail = (props: IProps) => {
         <span className="text-default font-medium">{i18n.t('application')}</span>
         <span className="bg-default-1 text-default-8 px-2 ml-1 text-xs rounded-lg">{appList?.length || 0}</span>
       </div>
-      <div className="p-2">
         <ErdaTable
           rowKey="id"
           columns={[{ title: '', dataIndex: 'name' }]}
@@ -150,7 +149,6 @@ const DeployDetail = (props: IProps) => {
           showHeader={false}
           pagination={{ hideTotal: true, hidePageSizeChange: true }}
         />
-      </div>
 
       <div className="pb-2 pt-4 text-default font-medium ">{i18n.t('dop:config information')}</div>
       {appList?.length ? (
@@ -166,7 +164,7 @@ const DeployDetail = (props: IProps) => {
             }}
             width={160}
           >
-            <div className="flex h-[28px] rounded-sm  items-center px-2 truncate w-[100px] text-default-3 hover:text-default-8 ">
+            <div className="flex h-[28px] rounded-sm  items-center px-2 truncate w-[200px] text-default-3 hover:text-default-8 ">
               <span className="truncate text-default font-bold">{selectedApp?.name || i18n.t('please select')}</span>
               <ErdaIcon type="caret-down" className="ml-1" size="14" />
             </div>

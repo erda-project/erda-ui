@@ -26,6 +26,8 @@ import edasClusterBg from 'app/images/edas-cluster-bg.svg';
 import dcosClusterBg from 'app/images/dcos-cluster-bg.svg';
 import aliCloudClusterBg from 'app/images/ali-cloud-cluster-bg.svg';
 import defaultUserAvatar from 'app/images/default-user-avatar.svg';
+import defaultLoading from 'app/images/default-loading.gif';
+import defaultBreathing from 'app/images/default-breathing.gif';
 
 const ImgMap = {
   frontImg_default_project_icon: defaultProjectIcon,
@@ -43,6 +45,8 @@ const ImgMap = {
   dcos_cluster_bg: dcosClusterBg,
   ali_cloud_cluster_bg: aliCloudClusterBg,
   default_user_avatar: defaultUserAvatar,
+  default_loading: defaultLoading,
+  default_breathing: defaultBreathing,
 };
 
 export default ImgMap;
