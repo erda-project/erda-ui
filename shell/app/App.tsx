@@ -115,7 +115,11 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
 
     const Wrap = () => {
       return (
-        <ConfigProvider renderEmpty={EmptyListHolder} locale={isZh() ? antd_zhCN : antd_enUS}>
+        <ConfigProvider
+          autoInsertSpaceInButton={false}
+          renderEmpty={EmptyListHolder}
+          locale={isZh() ? antd_zhCN : antd_enUS}
+        >
           <App dynamicModules={dynamicModules} />
         </ConfigProvider>
       );
