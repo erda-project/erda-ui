@@ -113,7 +113,11 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
                 operations: {
                   referencedReleases: (operation: { meta: { appReleaseIDs: string } }) => {
                     const IDs = get(operation, 'meta.appReleaseIDs');
-                    goTo(goTo.resolve.projectReleaseList({ appReleaseIDs: IDs }));
+                    goTo(
+                      goTo.resolve.projectReleaseList({
+                        releaseFilter__urlQuery: btoa(decodeURI(JSON.stringify({ releaseID: IDs }))),
+                      }),
+                    );
                   },
                 },
               },
@@ -122,8 +126,6 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
           releaseFilter: {
             op: {
               onFilterChange: (val: { releaseFilter__urlQuery: string }) => {
-                const { releaseFilter__urlQuery, values } = val;
-                console.log(getUrlQuery(val));
                 updateSearch(getUrlQuery(val));
               },
             },
