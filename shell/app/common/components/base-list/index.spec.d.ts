@@ -68,7 +68,7 @@ declare namespace ERDA_LIST {
     titleSummary?: string;
     description?: string;
     logoURL?: string | React.ReactNode;
-    icon?: string;
+    icon?: { type?: string; url?: string };
     backgroundImg?: string;
     star?: boolean;
     titleState: IState[];
