@@ -1,53 +1,14 @@
 .artifacts-detail {
-  display: flex;
-  flex-direction: column;
   height: 100%;
   overflow: hidden;
 }
 
-.artifacts-detail-header {
-  height: 50px;
-  margin-top: -10px;
-  padding: 16px 0 0;
-  padding-top: 0;
-
-  .title {
-    margin-bottom: 10px;
-    font-size: 20px;
-  }
-
-  &::after {
-    position: absolute;
-    top: 50px;
-    //left: 299px;
-    display: block;
-    width: calc(100% - 50px);
-    border-bottom: thin solid $color-border;
-    content: '';
-  }
-
-  .ant-menu {
-    display: inline-block;
-    border-bottom: unset;
-  }
-
-  .edit {
-    float: right;
-    margin-top: 10px;
-    font-size: 20px;
-
-    &:hover {
-      @include hover();
-    }
-  }
-}
-
 .artifacts-content {
   flex: 1;
-  padding: 10px 10px 20px;
+  padding: 12px;
   overflow: auto;
   background-color: $white;
-  border-radius: 4px;
+  border-radius: 2px;
 
   &.bg-gray {
     padding: unset;
