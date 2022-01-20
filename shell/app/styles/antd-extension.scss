@@ -221,6 +221,10 @@ body {
     padding: 12px 16px;
   }
 
+  .ant-drawer-wrapper-body {
+    background-color: $color-default-04;
+  }
+
   .ant-drawer-header {
     border-bottom: unset;
     background: $color-default-02;

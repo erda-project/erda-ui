@@ -15,13 +15,19 @@ declare namespace PROJECT_DEPLOY {
   interface DeployOrder {
     id: string;
     name: string;
-    releaseId: string;
     type: string;
     applicationStatus: string;
     status: OrderStatus;
     operator: string;
     createdAt: string;
-    releaseVersion?: string;
+    releaseInfo: ReleaseInfo;
+  }
+
+  interface ProjectRuntimeCount {
+    DEV: number;
+    PROD: number;
+    STAGING: number;
+    TEST: number;
   }
 
   type OrderStatus = 'WAITDEPLOY';
@@ -77,13 +83,21 @@ declare namespace PROJECT_DEPLOY {
   interface DeployDetail {
     id: string;
     name: string;
-    releaseId: string;
     type: string;
     status: string;
     operator: string;
     startAt: string;
-    releaseVersion: string;
+    releaseInfo: ReleaseInfo;
     applicationsInfo: DeployDetailApp[];
+  }
+
+  interface ReleaseInfo {
+    id: string;
+    version: string;
+    type: string;
+    updatedAt: string;
+    createdAt: string;
+    creator: string;
   }
 
   interface ReleaseReq {
@@ -91,7 +105,7 @@ declare namespace PROJECT_DEPLOY {
     isStable?: boolean;
     applicationId?: string;
     projectId?: string;
-    q?: string;
+    version?: string;
     pageSize: number;
     pageNo: number;
   }
@@ -138,13 +152,16 @@ declare namespace PROJECT_DEPLOY {
   interface ReleaseRenderDetail {
     id: string;
     name: string;
-    releaseVersion: string;
-    releaseUpdateAt: string;
+    releaseInfo: ReleaseInfo;
     applicationsInfo: IApplicationsInfo[];
   }
   interface IApplicationsInfo {
     id: string;
     name: string;
     params: IAppParams[];
+    preCheckResult: {
+      success: boolean;
+      failReasons?: string[];
+    };
   }
 }

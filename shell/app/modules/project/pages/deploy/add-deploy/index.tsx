@@ -12,14 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Tooltip, Input } from 'antd';
-import { ErdaIcon, DropdownSelectNew, SimpleTabs } from 'common';
+import { Badge, Panel, ErdaIcon } from 'common';
 import ErdaTable from 'common/components/table';
-import { map } from 'lodash';
-import { ConfigTabs, ConfigTypeMap } from '../config';
+import { useUserMap } from 'core/stores/userMap';
+import { CONFIG_ENV_MAP } from '../config';
 import { getReleaseRenderDetail } from 'project/services/deploy';
 import routeInfoStore from 'core/stores/route';
+import { goTo } from 'common/utils';
 import AddRelease from './add-release';
+import { Tooltip } from 'antd';
 import moment from 'moment';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
@@ -27,82 +28,91 @@ import i18n from 'i18n';
 const AddDeploy = ({
   onSelect: propsOnSelect,
 }: {
-  onSelect: (v: { id: string; releaseId: string; name: string }) => void;
+  onSelect: (v: { id: string; releaseId: string; name: string; hasFail: boolean }) => void;
 }) => {
-  const { env: routeEnv } = routeInfoStore.useStore((s) => s.params);
+  const { env: routeEnv, projectId } = routeInfoStore.useStore((s) => s.params);
   const env = routeEnv?.toUpperCase();
   const [selectedRelease, setSelectedRelease] = React.useState('');
 
-  const [searchValue, setSearchValue] = React.useState('');
-  const [selectedApp, setSelectedApp] = React.useState<PROJECT_DEPLOY.IApplicationsInfo | null>(null);
-  const [selectedType, setSelectedType] = React.useState('text');
+  const userMap = useUserMap();
 
   const [detail] = getReleaseRenderDetail.useState();
 
   useUpdateEffect(() => {
     selectedRelease &&
       getReleaseRenderDetail.fetch({ releaseID: selectedRelease, workspace: env }).then((res) => {
-        res.data?.id && propsOnSelect({ name: res.data.name, releaseId: selectedRelease, id: res.data?.id });
+        res.data?.id &&
+          propsOnSelect({
+            name: res.data.name,
+            releaseId: selectedRelease,
+            id: res.data?.id,
+            hasFail: !!res.data?.applicationsInfo?.filter((item) => !item?.preCheckResult.success).length,
+          });
       });
   }, [selectedRelease, env]);
 
-  React.useEffect(() => {
-    setSelectedApp(detail?.applicationsInfo?.[0] || null);
-  }, [detail]);
-
   const onSelect = (r: string) => setSelectedRelease(r);
 
-  const columns = [
-    { dataIndex: 'key', title: 'Key' },
+  const fields = [
     {
-      dataIndex: 'value',
-      title: 'Value',
-      render: (v: string, record: PROJECT_DEPLOY.IAppParams) => (record.encrypt ? '******' : v),
+      label: i18n.t('dop:artifact version'),
+      valueKey: 'releaseInfo',
+      valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
+        const curText = value?.version || value?.id || '-';
+        return value?.id ? (
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-purple-deep jump-out-link"
+            onClick={() => {
+              if (value.type === 'application') {
+                goTo(goTo.pages.applicationReleaseDetail, { projectId, releaseId: value.id, jumpOut: true });
+              } else {
+                goTo(goTo.pages.projectReleaseDetail, { projectId, releaseId: value.id, jumpOut: true });
+              }
+            }}
+          >
+            {curText}
+          </a>
+        ) : (
+          curText
+        );
+      },
     },
-    { dataIndex: 'type', title: i18n.t('type'), render: (v: string) => ConfigTypeMap[v]?.text },
     {
-      dataIndex: 'encrypt',
-      title: i18n.t('dop:encrypt'),
-      render: (v: boolean) => (v ? i18n.t('common:yes') : i18n.t('common:no')),
+      label: i18n.t('dop:artifact type'),
+      valueKey: 'releaseInfo',
+      valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
+        const typeMap = {
+          application: <Badge status="success" text={i18n.t('application')} showDot={false} />,
+          project: <Badge status="processing" text={i18n.t('project')} showDot={false} />,
+        };
+        return typeMap[value?.type] || '-';
+      },
     },
-    { dataIndex: 'comment', title: i18n.t('dop:remark') },
+    {
+      label: i18n.t('env'),
+      valueKey: 'workspace',
+      valueItem: ({ value }: { value: string }) => CONFIG_ENV_MAP[value] || value || '-',
+    },
+
+    {
+      label: i18n.t('creator'),
+      valueKey: 'releaseInfo',
+      valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
+        const { nick, name } = userMap[value?.creator] || {};
+        return nick || name || i18n.t('common:none');
+      },
+    },
+    {
+      label: i18n.t('create time'),
+      valueKey: 'releaseInfo',
+      valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
+        return value?.createdAt ? moment(value.createdAt).format('YYYY/MM/DD HH:mm:ss') : '-';
+      },
+    },
   ];
-
-  const actions = {
-    render: (record: PROJECT_DEPLOY.IAppParams) => {
-      const { encrypt, type } = record;
-      return type === ConfigTypeMap['dice-file'].key
-        ? [
-            {
-              title: (
-                <>
-                  {encrypt ? (
-                    <Tooltip title={i18n.t('dop:encrypted files cannot be downloaded')}>
-                      <a className="disabled">{i18n.t('download')}</a>
-                    </Tooltip>
-                  ) : (
-                    <a
-                      className="text-white-6 hover:text-white"
-                      download={record.value}
-                      href={`/api/files/${record.value}`}
-                    >
-                      {i18n.t('download')}
-                    </a>
-                  )}
-                </>
-              ),
-            },
-          ]
-        : [];
-    },
-  };
-
-  const curData = (selectedApp?.params || []).filter((item) =>
-    selectedType === ConfigTabs.text.key ? item.type === ConfigTypeMap.kv.key : item.type !== ConfigTypeMap.kv.key,
-  );
-
-  const useData = searchValue ? curData.filter((item) => item.key.includes(searchValue)) : curData;
-
+  const appList = detail?.applicationsInfo || [];
   return (
     <div>
       <div className="flex-h-center ">
@@ -111,71 +121,61 @@ const AddDeploy = ({
         <AddRelease onSelect={onSelect} detail={detail} />
       </div>
       {detail ? (
-        <div className={`pt-2`}>
-          <div className="bg-default-02 h-[78px] w-[550px] flex-h-center justify-between mb-4">
-            <div className="flex flex-col m-4">
-              <span className="text-default mb-1">
-                {`${i18n.t('dop:artifact version')}: ${detail.releaseVersion}` || '-'}
-              </span>
-              {/* <span>
-                <span className="text-default-6 mr-1">{i18n.t('dop:owned application')}</span>
-                <span className="bg-default-08 text-default px-2 rounded-2xl inline-block">
-                  {detail.applicationName || '-'}
-                </span>
-              </span> */}
-            </div>
-            <div className="m-4">
-              {detail.releaseUpdateAt ? moment(detail.releaseUpdateAt).format('YYYY-MM-DD HH:mm:ss') : '-'}
-            </div>
+        <div className={`mt-2 p-2`}>
+          <div className="pb-2 text-default font-medium">{i18n.t('dop:basic information')}</div>
+          <Panel fields={fields} data={detail} columnNum={4} />
+          <div className="pb-2 pt-4  flex-h-center">
+            <span className="text-default font-medium">{i18n.t('application')}</span>
+            <span className="bg-default-1 text-default-8 px-2 ml-1 text-xs rounded-lg">{appList?.length || 0}</span>
           </div>
-          <div className="pb-2 text-default font-medium">{i18n.t('dop:application parameters')}</div>
-          <div className="flex-h-center mb-2">
-            <DropdownSelectNew
-              options={map(detail?.applicationsInfo, (app) => ({ key: app.id, label: app.name }))}
-              optionSize={'small'}
-              mode="simple"
-              value={selectedApp?.id}
-              onClickItem={(v: string) => {
-                setSearchValue('');
-                setSelectedApp(detail?.applicationsInfo?.find((app) => app.id === v) || null);
-              }}
-              width={160}
-            >
-              <div className="flex h-[28px] rounded-sm  px-2 items-center truncate text-default-3 hover:text-default-8">
-                <span className="truncate text-default font-bold">{selectedApp?.name || i18n.t('please select')}</span>
-                <ErdaIcon type="caret-down" className="ml-1" size="14" />
-              </div>
-            </DropdownSelectNew>
-            <div className="w-px h-3 bg-default-1 ml-1 mr-4" />
-
-            <SimpleTabs
-              tabs={map(ConfigTabs, (item) => ({ key: item.key, text: item.text }))}
-              value={selectedType}
-              onSelect={(v) => {
-                setSearchValue('');
-                setSelectedType(v);
-              }}
+          <div>
+            <ErdaTable
+              rowKey="id"
+              columns={[
+                { dataIndex: 'name' },
+                {
+                  dataIndex: ['preCheckResult', 'success'],
+                  render: (val: boolean) => {
+                    return <ErdaIcon type={val ? 'tongguo' : 'butongguo'} disableCurrent size={18} />;
+                  },
+                },
+                {
+                  dataIndex: ['preCheckResult', 'failReasons'],
+                  render: (val: string[]) => {
+                    return val?.length ? (
+                      <Tooltip
+                        overlayStyle={{ maxWidth: 480 }}
+                        placement="right"
+                        title={
+                          <div className="flex flex-col px-3 py-2">
+                            <div className="flex-h-center">
+                              <span>{i18n.t('failed reason')}</span>
+                              <span className="ml-1 bg-white-1 px-2 text-white-8 text-xs rounded-lg">{val.length}</span>
+                            </div>
+                            <div className="text-white-8 flex flex-col">
+                              {val?.map((item, idx) => (
+                                <span className="mb-0.5" key={idx}>
+                                  {`${idx + 1}、${item}`}
+                                </span>
+                              )) || '-'}
+                            </div>
+                          </div>
+                        }
+                      >
+                        <span className="hover:text-purple-deep">{i18n.t('dop:check failed reason')}</span>
+                      </Tooltip>
+                    ) : (
+                      '-'
+                    );
+                  },
+                },
+              ]}
+              dataSource={appList}
+              hideHeader
+              showHeader={false}
+              pagination={{ hideTotal: true, hidePageSizeChange: true }}
             />
           </div>
-          <ErdaTable
-            rowKey="id"
-            slot={
-              <Input
-                size="small"
-                className="w-[200px] bg-black-06 border-none ml-0.5"
-                value={searchValue}
-                prefix={<ErdaIcon size="16" fill={'default-3'} type="search" />}
-                onChange={(e) => {
-                  const { value } = e.target;
-                  setSearchValue(value);
-                }}
-                placeholder={i18n.t('search {name}', { name: 'Key' })}
-              />
-            }
-            dataSource={useData}
-            columns={columns}
-            actions={selectedType === ConfigTabs.text.key ? undefined : actions}
-          />
         </div>
       ) : null}
     </div>

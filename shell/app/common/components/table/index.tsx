@@ -90,9 +90,11 @@ function WrappedTable<T extends object = any>({
   });
   const isFrontendPaging = !(paginationProps && paginationProps.current) && paginationProps !== false; // Determine whether front-end paging
 
-  const pagination: TablePaginationConfig = isFrontendPaging
-    ? defaultPagination
-    : (paginationProps as TablePaginationConfig);
+  const pagination: TablePaginationConfig = React.useMemo(
+    () =>
+      isFrontendPaging ? { ...defaultPagination, ...paginationProps } : (paginationProps as TablePaginationConfig),
+    [paginationProps],
+  );
   const { current = 1, pageSize = PAGINATION.pageSize } = pagination;
 
   const containerRef = React.useRef<HTMLElement>(document.body);
@@ -159,7 +161,6 @@ function WrappedTable<T extends object = any>({
         columnKey: column.dataIndex,
         field: column.dataIndex,
       } as SorterResult<T>;
-
       const onSort = (order?: 'ascend' | 'descend') => {
         setSort({ ...sorter, order });
         const { sorter: columnSorter } = column as {

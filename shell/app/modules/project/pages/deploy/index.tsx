@@ -35,6 +35,7 @@ import {
   cancelDeploy,
   startDeploy,
   createDeploy,
+  getProjectRuntimeCount,
 } from 'project/services/deploy';
 import AddDeploy from './add-deploy';
 
@@ -48,13 +49,26 @@ interface IState {
   logVisible: boolean;
   deployDetail: PROJECT_DEPLOY.DeployDetail | undefined;
   selectedOrder: string;
-  selectedRelease: { id: string; releaseId: string; name: string } | undefined;
+  selectedRelease: { id: string; releaseId: string; name: string; hasFail: boolean } | undefined;
   urlQuery: Obj<{ [key: string]: string }>;
 }
 
 const DeployContainer = () => {
   const { env: routeEnv, projectId } = routeInfoStore.useStore((s) => s.params);
   const env = routeEnv?.toUpperCase();
+  const [runtimeCount, setRuntimeCount] = React.useState({
+    DEV: 0,
+    PROD: 0,
+    STAGING: 0,
+    TEST: 0,
+  });
+  React.useEffect(() => {
+    getProjectRuntimeCount.fetch({ projectId }).then((res) => {
+      res?.data && setRuntimeCount(res.data);
+    });
+  }, []);
+
+  const options = map(ENV_MAP, (v, k) => ({ label: `${v}(${runtimeCount[k] || 0})`, value: k }));
 
   return (
     <div className="project-deploy flex flex-col h-full pb-2">
@@ -63,15 +77,28 @@ const DeployContainer = () => {
           key={env}
           value={env}
           onChange={(v) => goTo(goTo.pages.projectDeployEnv, { projectId, env: `${v}`?.toLowerCase() })}
-          options={map(ENV_MAP, (v, k) => ({ label: v, value: k }))}
+          options={options}
         />
       </div>
-      <DeployContent key={env} projectId={projectId} env={env} />
+      <DeployContent
+        key={env}
+        projectId={projectId}
+        env={env}
+        onCountChange={(count: number) => setRuntimeCount((prev) => ({ ...prev, [env]: count }))}
+      />
     </div>
   );
 };
 
-const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: string }) => {
+const DeployContent = ({
+  projectId,
+  env: propsEnv,
+  onCountChange,
+}: {
+  projectId: string;
+  env: string;
+  onCountChange: (count: number) => void;
+}) => {
   const [query] = routeInfoStore.useStore((s) => [s.query]);
   const [
     {
@@ -104,6 +131,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
 
   const timer = React.useRef<number>();
   const isAutoLoaing = React.useRef(false);
+  const reloadRef = React.useRef<{ reload: () => void }>();
 
   React.useEffect(() => {
     updateSearch({ ...urlQuery });
@@ -111,6 +139,12 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
 
   const [deployOrdersData, loading] = getDeployOrders.useState();
   const deployOrders = React.useMemo(() => deployOrdersData?.list || [], [deployOrdersData]);
+
+  const reloadRuntime = () => {
+    if (reloadRef.current && reloadRef.current.reload) {
+      reloadRef.current.reload();
+    }
+  };
 
   const getDeployOrdersFunc = React.useCallback(
     (_query?: { q: string }) => {
@@ -144,6 +178,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
 
   useEffectOnce(() => {
     getDeployOrdersFunc();
+
     return () => {
       clearInterval(timer.current);
     };
@@ -180,6 +215,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
           onClick={(e) => {
             e.stopPropagation();
             startDeploy.fetch({ deploymentOrderID }).then(() => {
+              reloadRuntime();
               getDeployOrdersFunc();
               deployDetail && getDeployDetailFunc(deployDetail.id);
             });
@@ -239,7 +275,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
             subTip: i18n.t('dop:deploy succeeded applications count / applications count'),
           },
 
-          { mainText: item.releaseVersion || item.releaseId, subText: i18n.t('Artifact') },
+          { mainText: item.releaseInfo?.version || item.releaseInfo?.id, subText: i18n.t('Artifact') },
         ],
         icon: (
           <ErdaIcon type="id" size="20" disableCurrent />
@@ -269,6 +305,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
             scenarioType="project-runtime"
             // useMock={useMock}
             // forceMock
+            ref={reloadRef}
             inParams={inParams}
             customProps={{
               inputFilter: {
@@ -283,6 +320,9 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
               },
               list: {
                 op: {
+                  onStateChange: (data: { total: number }) => {
+                    onCountChange(data?.total);
+                  },
                   clickItem: (op: { serverData?: { logId: string; appId: string } }, extra: { action: string }) => {
                     const { logId, appId } = op.serverData || {};
                     if (extra.action === 'clickTitleState' && logId && appId) {
@@ -406,7 +446,7 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
             <Button
               type="primary"
               className="mr-2"
-              disabled={!selectedRelease}
+              disabled={!selectedRelease || selectedRelease.hasFail}
               onClick={() => {
                 selectedRelease &&
                   createDeploy
@@ -423,7 +463,11 @@ const DeployContent = ({ projectId, env: propsEnv }: { projectId: string; env: s
           </div>
         }
       >
-        <AddDeploy onSelect={(v: { id: string; releaseId: string; name: string }) => updater.selectedRelease(v)} />
+        <AddDeploy
+          onSelect={(v: { id: string; releaseId: string; name: string; hasFail: boolean }) =>
+            updater.selectedRelease(v)
+          }
+        />
       </Drawer>
 
       <Drawer visible={logVisible} width={'80%'} onClose={() => update({ logVisible: false, logData: undefined })}>

@@ -244,44 +244,48 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
               </div>
             ) : null}
             <div className="flex items-center">
-              {menuOverlay || operations?.length ? (
-                <div
-                  className={`flex items-center ${!isEmpty(extra) ? 'self-start' : ''}`}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {map(operations, (action, idx) => {
-                    const { compWapper, ...restAction } = action;
-                    if (compWapper) {
-                      return compWapper(<ErdaIcon {...restAction} type={action.icon} className="mr-4" size={18} />);
-                    }
-                    return (
-                      <Tooltip title={action.tip} key={idx}>
+              {selectable ? (
+                menuOverlay || operations?.length ? (
+                  <div
+                    className={`flex items-center ${!isEmpty(extra) ? 'self-start' : ''}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {map(operations, (action, idx) => {
+                      const { compWapper, ...restAction } = action;
+                      if (compWapper) {
+                        return compWapper(<ErdaIcon {...restAction} type={action.icon} className="mr-4" size={18} />);
+                      }
+                      return (
+                        <Tooltip title={action.tip} key={idx}>
+                          <ErdaIcon
+                            {...restAction}
+                            type={action.icon}
+                            className="mr-4"
+                            size={18}
+                            onClick={action?.onClick}
+                          />
+                        </Tooltip>
+                      );
+                    })}
+                    {menuOverlay && (
+                      <Dropdown
+                        overlay={menuOverlay}
+                        overlayClassName={'erda-list-operations'}
+                        overlayStyle={{ zIndex: 1000 }}
+                      >
                         <ErdaIcon
-                          {...restAction}
-                          type={action.icon}
-                          className="mr-4"
+                          type="more"
                           size={18}
-                          onClick={action?.onClick}
+                          className="list-item-more hover-active p-1 rounded hover:bg-black-02"
+                          onClick={(e) => e.stopPropagation()}
                         />
-                      </Tooltip>
-                    );
-                  })}
-                  {menuOverlay && (
-                    <Dropdown
-                      overlay={menuOverlay}
-                      overlayClassName={'erda-list-operations'}
-                      overlayStyle={{ zIndex: 1000 }}
-                    >
-                      <ErdaIcon
-                        type="more"
-                        size={18}
-                        className="list-item-more hover-active p-1 rounded hover:bg-black-02"
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                    </Dropdown>
-                  )}
-                </div>
-              ) : null}
+                      </Dropdown>
+                    )}
+                  </div>
+                ) : null
+              ) : (
+                <ErdaIcon type="lock" size={18} className="text-default-2" onClick={(e) => e.stopPropagation()} />
+              )}
             </div>
           </div>
         </div>

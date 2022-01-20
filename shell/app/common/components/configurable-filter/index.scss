@@ -9,6 +9,13 @@
   .ant-badge-dot {
     box-shadow: none !important;
   }
+  &.bg-hover {
+    &:not(.ant-popover-open):hover {
+      background-color: rgba($color-default, 0.08);
+      color: $color-default;
+      cursor: pointer;
+    }
+  }
 }
 
 .erda-config-filter-btn-active {
@@ -342,11 +349,6 @@
       color: $white;
       background-color: rgba($white, 0.2);
     }
-  }
-
-  .bg-hover:hover {
-    background-color: rgba($white, 0.08);
-    cursor: pointer;
   }
 
   input {
