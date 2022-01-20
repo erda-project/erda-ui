@@ -46,7 +46,7 @@ const matchEnterpriseRoute = (dynamicModules: DynamicModule[]) => {
   return target;
 };
 
-const App = ({ dynamicModules = [] }: { dynamicModules: DynamicModule[] }) => {
+const App = ({ dynamicModules = [] }: { dynamicModules?: DynamicModule[] }) => {
   const route = routeInfoStore.useStore((s) => s.parsed);
   let location = useLocation();
   // register enterprise remotes
