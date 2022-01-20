@@ -1363,6 +1363,7 @@
     "local execution results of dev ut": "local execution results of dev ut",
     "lock-operation-tip": "the repository is locked and this operation cannot be performed",
     "logAnalysis": "logAnalysis",
+    "logService": "logService",
     "logged": "logged",
     "loop strategy": "loop strategy",
     "low": "low",
