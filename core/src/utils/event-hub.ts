@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const hub = {};
-const init = {}; // preserve emitted data before register listener
+const hub: Obj<Function[]> = {};
+const init: Obj<any> = {}; // preserve emitted data before register listener
 const maxListeners = 20;
 
 export function on(type: string, cb: Function, clearInit = true) {
@@ -27,7 +27,7 @@ export function on(type: string, cb: Function, clearInit = true) {
   return () => off(type, cb);
 }
 
-export function emit(type: string, data: any) {
+export function emit(type: string, data?: any) {
   if (!hub[type]) {
     init[type] = data;
     return;
@@ -37,4 +37,11 @@ export function emit(type: string, data: any) {
 
 export function off(type: string, cb: Function) {
   hub[type] = hub[type].filter((item: Function) => item !== cb);
+}
+
+export function once(type: string, cb: Function) {
+  const off = on(type, (data?: any) => {
+    off();
+    cb(data);
+  });
 }

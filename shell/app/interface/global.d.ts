@@ -100,16 +100,6 @@ interface Obj<T = any> {
 type RefreshApiGateway = <T>(data: T) => void;
 
 interface Window {
-  _master: {
-    registModule: (key: string, module: object) => void;
-    getModule: (key: string) => object;
-    insert: (key: string[] | string, requireVendorModules?: string[]) => void;
-    stopLoadingModule: () => void;
-    isLoadingModule: () => boolean;
-    on: (type: string, cb: Function, clearInit: boolean) => Function;
-    off: (type: string, cb: Function) => void;
-    emit: (type: string, data: any) => void;
-  };
   _modules: {
     [key: string]: object;
   };

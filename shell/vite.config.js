@@ -42,6 +42,8 @@ export default ({ command, mode }) => {
     'core/stores/route': path.resolve(__dirname, '../core/src/stores/route'),
     'core/stores/userMap': path.resolve(__dirname, '../core/src/stores/user-map'),
     'core/utils/ws': path.resolve(__dirname, '../core/src/utils/ws.ts'),
+    'core/global-space': path.resolve(__dirname, '../core/src/utils/global-space.ts'),
+    'core/event-hub': path.resolve(__dirname, '../core/src/utils/event-hub.ts'),
     'core/stores/loading': path.resolve(__dirname, '../core/src/stores/loading.ts'),
     __mocks__: path.resolve(__dirname, './__mocks__'),
     app: path.resolve(__dirname, './app'),

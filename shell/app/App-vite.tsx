@@ -26,7 +26,7 @@ import { startApp, registerModule } from 'core/index';
 import { setConfig, getConfig } from 'core/config';
 // common modules
 import { registChartControl } from 'charts/utils/regist';
-import { setGlobal } from 'app/global-space';
+import { setGlobal } from 'core/global-space';
 import { PAGINATION } from 'app/constants';
 import { erdaEnv } from 'common/constants';
 import { EmptyListHolder } from 'common';

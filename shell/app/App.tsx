@@ -26,7 +26,7 @@ import { startApp, registerModule } from 'core/index';
 import { setConfig, getConfig } from 'core/config';
 // common modules
 import { registChartControl } from 'charts/utils/regist';
-import { setGlobal } from 'app/global-space';
+import { setGlobal } from 'core/global-space';
 import { PAGINATION } from 'app/constants';
 import { erdaEnv } from 'common/constants';
 import { EmptyListHolder } from 'common';
@@ -65,6 +65,20 @@ Modal.defaultProps = {
   centered: true,
 };
 
+const dynamicModules =
+  process.env.FOR_COMMUNITY && process.env.FOR_COMMUNITY !== 'false'
+    ? []
+    : [
+        {
+          name: 'fdp',
+          routePrefix: '/fdp',
+        },
+        {
+          name: 'admin',
+          routePrefix: '/sysAdmin',
+        },
+      ];
+
 const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
   setLS('diceLoginState', true);
 
@@ -102,7 +116,7 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
     const Wrap = () => {
       return (
         <ConfigProvider renderEmpty={EmptyListHolder} locale={isZh() ? antd_zhCN : antd_enUS}>
-          <App />
+          <App dynamicModules={dynamicModules} />
         </ConfigProvider>
       );
     };

@@ -92,7 +92,7 @@ import { getRuntimeDetail } from 'runtime/services/runtime';
 import { getProjectInfo } from 'project/services/project';
 import apiRequestStore from 'api-insight/stores/request';
 import { PAGINATION } from 'app/constants';
-import { eventHub } from 'common/utils/event-hub';
+import { once } from 'core/event-hub';
 
 interface PolicyFilter {
   diceApp: string;
@@ -227,7 +227,7 @@ const queryRegisterApps = (hasMenu: boolean, showIntro: boolean) => {
       gatewayStore.effects.getRegisterApps();
     }
   } else {
-    eventHub.once('gatewayStore/getRegisterApps', (flag) => {
+    once('gatewayStore/getRegisterApps', (flag) => {
       if (!flag) {
         gatewayStore.effects.getRegisterApps();
       }

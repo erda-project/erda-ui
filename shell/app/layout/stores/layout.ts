@@ -18,7 +18,7 @@ import { enableIconfont, setApiWithOrg } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import { find, merge } from 'lodash';
 import orgStore from 'app/org-home/stores/org';
-import { getGlobal } from 'app/global-space';
+import { getGlobal } from 'core/global-space';
 
 const sendMsgUtilWsReady = async (targetWs: any, msg: { command: '__detach' | '__attach' }) => {
   while (targetWs.readyState !== 1 || targetWs.isReady !== true) {

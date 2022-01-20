@@ -12,16 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { initAxios } from 'common/utils/axios-config';
-import { setGlobal } from 'app/global-space';
 import axios from 'axios';
 
 describe('initAxios', () => {
   beforeEach(() => {
     initAxios();
-    setGlobal('service-provider', 'ERDA');
-  });
-  afterEach(() => {
-    setGlobal('service-provider', undefined);
   });
   it('request interceptors should work well', () => {
     const request = axios.interceptors.request.handlers || [];

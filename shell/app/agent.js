@@ -13,7 +13,7 @@
 
 import agent from 'core/agent';
 import { getCookies, setApiWithOrg, getOrgFromPath } from 'common/utils';
-import { getGlobal } from 'app/global-space';
+import { getGlobal } from 'core/global-space';
 import { some } from 'lodash';
 import errorHandler from './error-handler';
 

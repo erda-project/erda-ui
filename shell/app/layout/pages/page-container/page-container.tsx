@@ -35,7 +35,7 @@ import { LSObserver } from 'common/utils';
 import { Card } from 'antd';
 import Shell from './components/shell';
 import { ErrorLayout, EmptyLayout } from './layout';
-import { eventHub } from 'common/utils/event-hub';
+import { emit } from 'core/event-hub';
 import orgStore from 'app/org-home/stores/org';
 import './page-container.scss';
 
@@ -73,7 +73,7 @@ const PageContainer = ({ route }: IProps) => {
         }
       }, 500);
     }
-    eventHub.emit('layout/mount');
+    emit('layout/mount');
 
     if (process.env.NODE_ENV === 'production') {
       checkVersion();
