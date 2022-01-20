@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { map, keys } from 'lodash';
+import { keys, map } from 'lodash';
 
 const addonNameMap = {
   应用监控: i18n.t('dop:appMonitor'),
@@ -24,6 +24,7 @@ const addonNameMap = {
   服务网格: i18n.t('dop:serviceMesh'),
   注册中心: i18n.t('dop:registration center'),
   通知中心: i18n.t('dop:notification center'),
+  日志服务: i18n.t('dop:logService'),
 };
 
 export const monthMap = {
