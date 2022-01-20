@@ -43,7 +43,7 @@ const ErdaAlert = ({ type = 'info', message, description, showOnceKey, className
       className={`erda-alert py-2 px-4 mb-4 ${className || ''} theme-${theme}`}
       message={
         <>
-          <ErdaIcon type="message" className="erda-alert-icon mr-2" />
+          <ErdaIcon type="message" className="erda-alert-icon self-start mr-2 my-1" />
           {message}
         </>
       }

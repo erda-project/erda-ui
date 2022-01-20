@@ -89,7 +89,7 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
         onChange={(v?: string | number) => {
           setIsFormal(v as string | number);
         }}
-        className={`mb-2 ${isProjectRelease ? '' : 'pl-4'}`}
+        className="mb-2"
       />
       <DiceConfigPage
         scenarioKey="release-manage"
