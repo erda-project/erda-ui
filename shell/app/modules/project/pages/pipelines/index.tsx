@@ -16,7 +16,7 @@ import { debounce } from 'lodash';
 import { Input, Tooltip, Spin, Divider } from 'antd';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
-import { Badge, ErdaIcon } from 'common';
+import { Badge, ErdaIcon, Ellipsis } from 'common';
 import { getAppList } from 'project/services/pipeline';
 import PipelineProtocol from './components/pipeline-protocol';
 
@@ -76,7 +76,9 @@ const Pipeline = () => {
                       }`}
                       onClick={() => setApplication(item)}
                     >
-                      <div className="flex-1">{item.displayName}</div>
+                      <div className="flex-1 min-w-0">
+                        <Ellipsis title={item.displayName} />
+                      </div>
                       {item.runningNum || item.failedNum || item.totalNum ? (
                         <div className="bg-default-04 text-default-9 rounded-2xl px-3 py-0.5 text-xs flex-h-center">
                           {item.runningNum ? (
