@@ -47,7 +47,7 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
 
   const [visible, setVisible] = React.useState(false);
   const [detailVisible, setDetailVisible] = React.useState(false);
-  const [detail, setDetail] = React.useState<{ id: string; appId: string; pipelineId: string }>(
+  const [detail, setDetail] = React.useState<Partial<{ id: string; appId: string; pipelineId: string }>>(
     {} as { id: string; appId: string; pipelineId: string },
   );
 
