@@ -280,7 +280,7 @@ interface IListItemProps {
 const oprationKey = '__op__';
 const operationTemp = {
   key: oprationKey,
-  title: '操作',
+  title: i18n.t('operate'),
   width: 60,
   render: { type: 'custom' },
 };
