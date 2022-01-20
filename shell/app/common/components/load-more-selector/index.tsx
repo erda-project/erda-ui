@@ -352,16 +352,16 @@ const PureLoadMoreSelector = (props: IProps) => {
         {isMultiple
           ? [
               <MenuItem className="chosen-info" key="_chosen-info-item">
-                <div className={''}>
-                  {i18n.t('common:selected')}
-                  &nbsp;
-                  <span>{chosenItem.length}</span>
-                  &nbsp;
-                  {i18n.t('common:item')}
+                <div className="w-full flex justify-between my-1">
+                  <div>
+                    {i18n.t('common:selected')}
+                    <span className="mx-0.5">{chosenItem.length}</span>
+                    {i18n.t('common:item')}
+                  </div>
+                  <span className="fake-link ml-2 text-purple-deep" onClick={clearValue}>
+                    {i18n.t('common:clear selected')}
+                  </span>
                 </div>
-                <span className="fake-link ml-2 text-purple-deep" onClick={clearValue}>
-                  {i18n.t('common:clear selected')}
-                </span>
               </MenuItem>,
               <Menu.Divider key="_chosen-info-divider" />,
             ]
