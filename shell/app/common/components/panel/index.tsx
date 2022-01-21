@@ -113,7 +113,7 @@ const Panel = (props: PanelProps) => {
             <Row gutter={12} key={item.label as React.Key}>
               <Col span={24} className="pb-2">
                 <div title={item.value || getInnerText(getRealValue(item))} className="break-words">
-                  {item.value || getRealValue(item)}
+                  {item.value || getRealValue(item) || '-'}
                 </div>
                 <div className="erda-panel-label" title={`${getInnerText(item.label)}`}>
                   {item.label}
@@ -145,7 +145,7 @@ const Panel = (props: PanelProps) => {
                       title={item.value || getInnerText(getRealValue(item))}
                       className="break-words erda-panel-value"
                     >
-                      {item.value || getRealValue(item)}
+                      {item.value || getRealValue(item) || '-'}
                     </div>
                     <div className="erda-panel-label" title={`${getInnerText(item.label)}`}>
                       {item.label}
