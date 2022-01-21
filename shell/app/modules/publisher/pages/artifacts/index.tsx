@@ -77,7 +77,7 @@ const Artifacts = () => {
     <div className="artifacts-list-container">
       <div className="top-button-group">
         <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
-          <Button type="primary" className="mr-2" onClick={openFormModal}>
+          <Button type="primary" onClick={openFormModal}>
             {i18n.t('edit')}
           </Button>
         </WithAuth>
@@ -90,7 +90,7 @@ const Artifacts = () => {
             }}
           >
             <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
-              <Button type="primary" className="mr-2" ghost>
+              <Button type="primary" ghost>
                 {i18n.t('publisher:withdraw')}
               </Button>
             </WithAuth>
@@ -99,14 +99,14 @@ const Artifacts = () => {
           <>
             <Popconfirm title={i18n.t('is it confirmed?')} placement="bottomRight" onConfirm={() => setPublic(true)}>
               <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
-                <Button type="primary" className="mr-2" ghost>
+                <Button type="primary" ghost>
                   {i18n.t('publisher:release')}
                 </Button>
               </WithAuth>
             </Popconfirm>
             <Popconfirm title={i18n.t('is it confirmed?')} placement="bottomRight" onConfirm={onDelete}>
               <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
-                <Button type="primary" className="mr-2" danger>
+                <Button type="primary" danger ghost>
                   {i18n.t('delete')}
                 </Button>
               </WithAuth>
