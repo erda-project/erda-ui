@@ -60,6 +60,7 @@ export const iconMap = {
   liushuixian: 'liushuixian',
   apisheji: 'apisheji',
   bushuzhongxin: 'bushuzhongxin',
+  branch: 'daimafenzhi',
 };
 
 interface IErdaIcon {
