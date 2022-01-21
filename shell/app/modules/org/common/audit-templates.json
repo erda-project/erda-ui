@@ -2154,7 +2154,7 @@
     "desc": "创建自定义大盘",
     "success": {
       "zh": "{@scope==='org'?'在企业'+ @orgName +'下':'在 '+@projectName+' 项目的'+@workspace+'环境中'},创建了自定义大盘 [@dashboardName]",
-      "en": "{@scope==='org'?'In enterprise '+ @orgName:' in '+ @projectName +' project '+ @workspace +' environment'}, created a custom dashboard [@dashboardName]"
+      "en": "{@scope==='org'?'In enterprise '+ @orgName:' In '+ @projectName +' project '+ @workspace +' environment'}, created a custom dashboard [@dashboardName]"
     },
     "fail": {}
   },
@@ -2162,7 +2162,7 @@
     "desc": "更新自定义大盘",
     "success": {
       "zh": "{@scope==='org'?'在企业'+ @orgName +'下':'在 '+@projectName+' 项目的'+@workspace+'环境中'},更新了自定义大盘 [@dashboardName]",
-      "en": "{@scope==='org'?'In enterprise '+ @orgName:' in '+ @projectName +' project '+ @workspace +' environment'}, updated a custom dashboard [@dashboardName]"
+      "en": "{@scope==='org'?'In enterprise '+ @orgName:' In '+ @projectName +' project '+ @workspace +' environment'}, updated a custom dashboard [@dashboardName]"
     },
     "fail": {}
   },
@@ -2170,7 +2170,7 @@
     "desc": "删除自定义大盘",
     "success": {
       "zh": "{@scope==='org'?'在企业'+ @orgName +'下':'在 '+@projectName+' 项目的'+@workspace+'环境中'},删除了自定义大盘 [@dashboardName]",
-      "en": "{@scope==='org'?'In enterprise '+ @orgName:'in '+ @projectName +' project '+ @workspace +' environment'}, deleted a custom dashboard [@dashboardName]"
+      "en": "{@scope==='org'?'In enterprise '+ @orgName:'In '+ @projectName +' project '+ @workspace +' environment'}, deleted a custom dashboard [@dashboardName]"
     },
     "fail": {}
   },
