@@ -314,10 +314,8 @@ const Cascader = (props: SelectorProps) => {
 
   useUpdateEffect(() => {
     const lastVal = last(values);
-    if (lastVal) {
-      if (lastVal.isLeaf !== false) {
-        onChange(map(values, 'value') as string[]);
-      }
+    if (lastVal && lastVal.isLeaf !== false) {
+      onChange(map(values, 'value') as string[]);
     }
   }, [values]);
 
