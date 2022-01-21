@@ -2205,5 +2205,38 @@
       "en": "A analysis rule [@analyzeRule] was deleted in the [@workspace] environment of the [@projectName] project."
     },
     "fail": {}
+  },
+  "createReleaseRule": {
+    "desc": "创建制品规则",
+    "success": {
+      "zh": "在 [@orgName] 组织下的 [@projectName](project) 项目中，创建制品规则 [@releaseRule]",
+      "en": "Create release rule [@releaseRule] in project [@projectName](project) of org [@orgName]"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
+  },
+  "updateReleaseRule": {
+    "desc": "更新制品规则",
+    "success": {
+      "zh": "在 [@orgName] 组织下的 [@projectName](project) 项目中，将制品规则 [@oldReleaseRule] 更新为 [@newReleaseRule]",
+      "en": "Update release rule [@oldReleaseRule] to [@newReleaseRule] in project [@projectName](project) of org [@orgName]"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
+  },
+  "deleteReleaseRule": {
+    "desc": "删除制品规则",
+    "success": {
+      "zh": "在 [@orgName] 组织下的 [@projectName](project) 项目中，删除制品规则 [@releaseRule]",
+      "en": "Delete release rule [@releaseRule] in project [@projectName](project) of org [@orgName]"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
   }
 }
