@@ -235,7 +235,7 @@ const Status = () => {
           {i18n.t('msp:add monitoring')}
         </Button>
       </div>
-      <ErdaAlert.Alert className="erda-alert mb-2" message={hasDown.text} type={hasDown.type} showIcon />
+      <ErdaAlert className="erda-alert mb-2" message={hasDown.text} type={hasDown.type} closeable={false} />
       <RadioTabs
         className="mb-2"
         onChange={updater.filterType}
