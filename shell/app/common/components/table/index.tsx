@@ -93,7 +93,7 @@ function WrappedTable<T extends object = any>({
   const pagination: TablePaginationConfig = React.useMemo(
     () =>
       isFrontendPaging ? { ...defaultPagination, ...paginationProps } : (paginationProps as TablePaginationConfig),
-    [paginationProps],
+    [defaultPagination, paginationProps, isFrontendPaging],
   );
   const { current = 1, pageSize = PAGINATION.pageSize } = pagination;
 
