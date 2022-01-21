@@ -211,7 +211,7 @@ const BatchOperation = <T extends unknown>(props: IBatchProps<T>) => {
   }, [batchRowsHandle, selectedRowKeys]);
 
   const dropdownMenu = (
-    <Menu>
+    <Menu theme="dark">
       {map(optMenus, (mItem) => {
         return (
           <Menu.Item key={mItem.id} disabled={!!mItem.disabled}>
@@ -249,7 +249,12 @@ const BatchOperation = <T extends unknown>(props: IBatchProps<T>) => {
       <span className="mr-2">{`${i18n.t('selected {name}', {
         name: `${selectedRowKeys?.length || 0} ${i18n.t('common:items')}`,
       })}`}</span>
-      <Dropdown overlay={dropdownMenu} zIndex={1000}>
+      <Dropdown
+        overlay={dropdownMenu}
+        zIndex={1000}
+        overlayClassName="dice-cp-table-batch-operations"
+        getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+      >
         <Button className="flex items-center">
           {i18n.t('batch operate')}
           <ErdaIcon size="18" type="caret-down" className="ml-1 text-black-2" />

@@ -49,7 +49,7 @@ const Pipeline = () => {
           <div className="p-4 leading-4 font-medium">{i18n.t('dop:my involved applications')}</div>
           <Input
             size="small"
-            className="bg-default-06 border-transparent shadow-none mb-2 mx-4"
+            className="bg-default-06 border-transparent mb-2 mx-4"
             style={{ width: 'auto' }}
             prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
             placeholder={i18n.t('search {name}', { name: i18n.t('dop:app name') })}
