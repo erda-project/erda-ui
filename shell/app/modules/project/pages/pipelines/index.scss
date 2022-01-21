@@ -19,8 +19,6 @@
   }
 
   .app-list {
-    border-right: 1px solid $color-default-1;
-
     @media screen and (max-width: 1440px) {
       width: 240px;
     }

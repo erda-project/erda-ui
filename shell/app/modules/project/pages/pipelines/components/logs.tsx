@@ -39,13 +39,13 @@ const PipelineLogs = () => {
           pipelineTable: {
             op: {
               clickRow: async (record: { id: string; pipelineId: number }) => {
+                setVisible(true);
                 const res = await getINodeByPipelineId({ pipelineId: record.id });
                 const inode = res?.data?.inode;
                 updateTreeNodeDetail(res.data);
                 const response = await getPipelineDetail({ pipelineID: +record.id });
                 const appId = response.data.applicationID;
                 inode && updateSearch({ nodeId: inode, applicationId: appId, pipelineID: record.id });
-                setVisible(true);
               },
             },
             props: {
@@ -56,7 +56,9 @@ const PipelineLogs = () => {
         }}
       />
       <Drawer onClose={onClose} visible={visible} width="80%" destroyOnClose>
-        <PipelineRunDetail deployAuth={{ hasAuth: false }} isMobileInit={false} />
+        <div className="p-4 bg-white rounded-xl">
+          <PipelineRunDetail deployAuth={{ hasAuth: false }} isMobileInit={false} />
+        </div>
       </Drawer>
     </>
   );
