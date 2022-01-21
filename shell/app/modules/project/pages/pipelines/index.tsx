@@ -43,10 +43,10 @@ const Pipeline = () => {
   }, 1000);
 
   return (
-    <div className="project-pipeline shadow-card flex-1 flex bg-white min-h-0 m-1 mb-4 h-full">
-      <div className="app-list bg-default-04 overflow-auto h-full flex-shrink-0">
+    <div className="project-pipeline flex-1 flex bg-white min-h-0 mb-4 h-full">
+      <div className="app-list bg-default-02 overflow-auto h-full flex-shrink-0">
         <div className="flex flex-col">
-          <div className="p-4 leading-4 font-medium">{i18n.t('dop:applications')}</div>
+          <div className="p-4 leading-4 font-medium">{i18n.t('dop:my involved applications')}</div>
           <Input
             size="small"
             className="bg-default-06 border-transparent shadow-none mb-2 mx-4"

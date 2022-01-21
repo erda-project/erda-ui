@@ -1463,6 +1463,7 @@
     "mr-tpl-unit-test": "单元测试 (注意：单元测试必须能够在本地、任意环境可以顺利跑过，请自行 mock 或则规避依赖）",
     "must start with a letter or number": "必须以字母或数字开头",
     "my approval": "我审批的",
+    "my involved applications": "我参与的应用",
     "mysql addon account switching, please restart to take effect": "mysql addon 账号切换中，请重启生效",
     "name is required": "名称不能为空",
     "network configuration": "网络配置",
