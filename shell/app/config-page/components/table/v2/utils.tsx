@@ -72,7 +72,7 @@ export const convertTableData = (
         dataItem[curDataKey] = cellsMap?.[curDataKey];
       }
     });
-    dataItem.rowOperations = { ...operations };
+    dataItem.operations = { ...operations };
     dataSource.push(dataItem);
   });
   if (haveBatchOp) {
