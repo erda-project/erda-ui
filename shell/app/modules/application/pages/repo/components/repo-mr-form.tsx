@@ -293,14 +293,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
     if (mrStats.hasError) {
       disableSubmitTip = i18n.t('dop:merge request has errors');
     }
-    const {
-      sourceBranch,
-      targetBranch,
-      removeSourceBranch = true,
-      title,
-      description,
-      assigneeId,
-    } = (formData || {}) as any;
+    const { sourceBranch, targetBranch, removeSourceBranch, title, description, assigneeId } = (formData || {}) as any;
 
     const fieldExtraProps = {
       style: {

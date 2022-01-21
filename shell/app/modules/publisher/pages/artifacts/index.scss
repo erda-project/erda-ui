@@ -1,6 +1,8 @@
 .artifacts-list-container {
   display: flex;
   height: 100%;
+  white-space: nowrap;
+  overflow: auto;
 }
 
 .artifacts-list-page {
