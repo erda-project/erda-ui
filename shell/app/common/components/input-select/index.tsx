@@ -299,25 +299,23 @@ const Cascader = (props: SelectorProps) => {
   const onSelect = (op: IOption, idx: number) => {
     const curValue = idx === 0 ? [op] : values.slice(0, idx).concat(op);
     updater.values(curValue);
+    const lastVal = last(curValue);
+    if (lastVal && lastVal.isLeaf === false) {
+      loadData &&
+        (lastVal.children === undefined || lastVal.children === null) &&
+        loadData(
+          map(curValue, (vItem) => {
+            const { children, ...vRest } = vItem;
+            return { ...vRest };
+          }),
+        );
+    }
   };
 
   useUpdateEffect(() => {
     const lastVal = last(values);
-    if (lastVal) {
-      if (lastVal.isLeaf === false) {
-        // 选中了非叶子节点，且无子，触发请求
-        loadData &&
-          (lastVal.children === undefined || lastVal.children === null) &&
-          loadData(
-            map(values, (vItem) => {
-              const { children, ...vRest } = vItem;
-              return { ...vRest };
-            }),
-          );
-      } else {
-        // 选中叶子，触发onChange
-        onChange(map(values, 'value') as string[]);
-      }
+    if (lastVal && lastVal.isLeaf !== false) {
+      onChange(map(values, 'value') as string[]);
     }
   }, [values]);
 
