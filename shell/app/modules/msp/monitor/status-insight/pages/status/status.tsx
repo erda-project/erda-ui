@@ -12,12 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Modal, Tooltip, Select } from 'antd';
-import { goTo, cutStr, resolvePath } from 'common/utils';
-import { Badge, ErdaIcon } from 'common';
-import ErdaTable from 'common/components/table';
+import { Button, Modal } from 'antd';
+import { goTo, resolvePath } from 'common/utils';
+import { Badge } from 'common';
+import Table from 'common/components/table';
+import RadioTabs from 'common/components/radio-tabs';
+import ErdaAlert from 'common/components/erda-alert';
 import { IActions } from 'app/common/components/table/interface';
-import { reverse, map, filter, floor } from 'lodash';
+import { filter, floor, map, reverse } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import StatusChart from './status-chart';
 import AddModal from './add-modal';
@@ -28,8 +30,6 @@ import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 
 import './status.scss';
-
-const { Option } = Select;
 
 const Status = () => {
   const query = routeInfoStore.useStore((s) => s.query);
@@ -80,10 +80,6 @@ const Status = () => {
     goTo(path);
   };
 
-  const changeType = (_type: any) => {
-    updater.filterType(_type);
-  };
-
   let data = [] as any[];
   if (dashboard && dashboard.metrics) {
     const curMetrics = dashboard.metrics;
@@ -131,11 +127,6 @@ const Status = () => {
     {
       title: i18n.t('msp:index'),
       dataIndex: 'name',
-      render: (text: string) => (
-        <span className="name-link">
-          <Tooltip title={text}>{cutStr(text, 25)}</Tooltip>
-        </span>
-      ),
     },
     {
       title: i18n.t('status'),
@@ -226,56 +217,39 @@ const Status = () => {
 
     return [editMonitor, deleteMonitor];
   };
-
-  const filterSlot = (
-    <div className="status-button-group-left">
-      <Select onChange={changeType} value={filterType} className="type-filter">
-        {map(typeMap, (item, key) => {
-          return (
-            <Option key={key} value={key}>
-              {item.text}
-            </Option>
-          );
-        })}
-      </Select>
-    </div>
-  );
-
-  let hasDown = {
+  let hasDown: { text: string; type: 'info' | 'error' | 'success' } = {
     text: 'no Data',
-    color: '',
+    type: 'info',
   };
   if (dashboard.downCount !== undefined) {
     hasDown =
       dashboard.downCount > 0
-        ? { text: `${dashboard.downCount} Down`, color: 'red' }
-        : { text: 'All up', color: 'green' };
+        ? { text: `${dashboard.downCount} Down`, type: 'error' }
+        : { text: 'All up', type: 'success' };
   }
 
   return (
     <div className="project-status-page">
-      <div className="status-button-group">
-        {/* <Button className="account-button" type="primary" ghost onClick={() => goTo('./account')}>{i18n.t('msp:authentication management')}</Button> */}
+      <div className="top-button-group">
         <Button className="add-button" type="primary" onClick={() => toggleModal()}>
           {i18n.t('msp:add monitoring')}
         </Button>
       </div>
-      <div className="top-bar">
-        <span className={`summary-down-count ${hasDown.color}`}>
-          <span className="flex items-center justify-center">
-            <ErdaIcon type="info" className="mr-2.5" size="16" /> {hasDown.text}{' '}
-          </span>
-        </span>
-      </div>
+      <ErdaAlert className="erda-alert mb-2" message={hasDown.text} type={hasDown.type} closeable={false} />
+      <RadioTabs
+        className="mb-2"
+        onChange={updater.filterType}
+        defaultValue={filterType}
+        options={map(typeMap, (item, key) => ({ value: key, label: item.text }))}
+      />
       <AddModal
         modalVisible={modalVisible}
         toggleModal={toggleModal}
         formData={formData}
         afterSubmit={getProjectDashboard}
       />
-      <ErdaTable
+      <Table
         rowKey="id"
-        rowClassName={() => 'row-click'}
         onRow={(record) => {
           return {
             onClick: () => goTo(`./${record.id}`),
@@ -285,7 +259,6 @@ const Status = () => {
         loading={isFetchingList}
         columns={columns}
         dataSource={filterData}
-        slot={filterSlot}
         onChange={() => getProjectDashboard()}
       />
     </div>
