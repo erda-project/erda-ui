@@ -34,7 +34,7 @@ import classnames from 'classnames';
 import { FormModal, RenderForm } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo, notify } from 'common/utils';
-
+import bgImage from 'app/images/editor-background.png';
 import { cloneDeep, filter, find, findIndex, forEach, get, omit, isEmpty } from 'lodash';
 import { Button, message, Spin } from 'antd';
 import React from 'react';
@@ -60,7 +60,10 @@ interface IBlockContainerProps {
 }
 const BlockContainer = (props: IBlockContainerProps) => {
   return (
-    <div className={classnames('yaml-editor-block-container', props.className)}>
+    <div
+      className={classnames('yaml-editor-block-container', props.className)}
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
       <span className="yaml-editor-block-title">{props.title}</span>
       <div className="yaml-editor-block-content">{props.children}</div>
     </div>

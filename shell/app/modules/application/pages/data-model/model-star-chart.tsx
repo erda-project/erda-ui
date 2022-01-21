@@ -18,6 +18,7 @@ import { DiceFlowType } from 'application/common/components/dice-yaml-editor-typ
 import { IDiceYamlEditorItem } from 'application/common/components/dice-yaml-editor-item';
 import { connectCube } from 'common/utils';
 import { TableDrawer } from '../../common/components/table-drawer';
+import bgImage from 'app/images/editor-background.png';
 
 import './index.scss';
 import dataTaskStore from 'application/stores/dataTask';
@@ -93,7 +94,7 @@ const ModelStarChart = (props: any) => {
   };
 
   return (
-    <div className="flow-container">
+    <div className="flow-container" style={{ backgroundImage: `url(${bgImage})` }}>
       <DiceFlowChart
         lineStyle={{ borderColor: BORDER_COLOR }}
         type={DiceFlowType.DATA_MARKET}

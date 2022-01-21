@@ -17,6 +17,7 @@ import Snap from 'snapsvg-cjs';
 import { externalKey, CHART_CONFIG, CHART_NODE_SIZE } from './config';
 import { renderSvgChart } from './yml-chart-utils';
 import { get } from 'lodash';
+import bgImage from 'app/images/editor-background.png';
 import './yml-chart.scss';
 
 export interface IData {
@@ -131,7 +132,10 @@ export const YmlChart = (props: IProps) => {
   }, [data]);
 
   return (
-    <div className={`yml-svg-container-box rounded h-full w-full ${border ? 'border-all' : ''}`}>
+    <div
+      className={`yml-svg-container-box rounded h-full w-full ${border ? 'border-all' : ''}`}
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
       <div className={`yml-svg-container ${editing ? 'editing' : ''}`} ref={boxRef}>
         <svg id={id} width="100%" height="100%" className={'yml-svg'} />
       </div>
