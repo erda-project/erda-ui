@@ -58,5 +58,7 @@ const ErdaAlert = ({ type = 'info', message, description, showOnceKey, className
     />
   ) : null;
 };
-
+ErdaAlert.Alert = ({ className, theme = 'light', ...rest }: AlertProps & { theme?: IProps['theme'] }) => {
+  return <Alert className={`erda-alert py-2 px-4 mb-4 ${className || ''} theme-${theme}`} {...rest} />;
+};
 export default ErdaAlert;
