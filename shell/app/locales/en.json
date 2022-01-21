@@ -1463,6 +1463,7 @@
     "mr-tpl-unit-test": "Unit testing（Note:unit testing must be able to run locally, in any environment, please mock or evade dependencies）",
     "must start with a letter or number": "must start with a letter or number",
     "my approval": "my approval",
+    "my involved applications": "my involved applications",
     "mysql addon account switching, please restart to take effect": "mysql addon account switching, please restart to take effect",
     "name is required": "name is required",
     "network configuration": "network configuration",

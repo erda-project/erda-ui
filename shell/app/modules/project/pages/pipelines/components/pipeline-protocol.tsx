@@ -20,7 +20,7 @@ import routeInfoStore from 'core/stores/route';
 import projectStore from 'project/stores/project';
 import { updateSearch } from 'common/utils';
 import fileTreeStore from 'common/stores/file-tree';
-import { getINodeByPipelineId, getPipelineDetail } from 'application/services/build';
+import { getINodeByPipelineId } from 'application/services/build';
 import PipelineForm from './form';
 import PipelineBasic from './basic';
 import PipelineRunDetail from 'application/pages/pipeline/run-detail';
@@ -102,18 +102,16 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
           pipelineTable: {
             op: {
               clickRow: async (record: {
-                pipelineID: { data: { text: string } };
-                applicationName: { data: { text: string } };
+                operations: { click: { serverData: { pipelineID: string; inode: string; appName: string } } };
               }) => {
-                const { operations, applicationName } = record;
+                setDetailVisible(true);
+                const { operations } = record;
                 const serverData = get(operations, 'click.serverData');
-                const { pipelineID: pipelineId, inode } = serverData;
-                const appName = get(applicationName, 'data.text');
+                const { pipelineID: pipelineId, inode, appName } = serverData;
                 const appId = inode && atob(decodeURI(inode)).split('/')[1];
                 inode && updateSearch({ nodeId: inode, applicationId: appId, pipelineID: pipelineId });
                 setDetail({ id: inode, appId, pipelineId });
                 updateAppDetail({ id: appId, gitRepoAbbrev: `${projectName}/${appName}` });
-                setDetailVisible(true);
                 if (pipelineId) {
                   const res = await getINodeByPipelineId({ pipelineId });
                   updateTreeNodeDetail(res.data);
@@ -123,6 +121,19 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
             props: {
               styleNames: 'h-full',
               wrapperClassName: 'flex-1',
+              columnsRender: {
+                source: (val, record, map) => {
+                  return (
+                    <div>
+                      <div className="leading-5 text-default-9">{map.applicationName}</div>
+                      <div className="flex-h-center">
+                        <div className="mr-1 flex-h-center text-default-4">{map.icon}</div>
+                        <div className="text-default-6">{map.branch}</div>
+                      </div>
+                    </div>
+                  );
+                },
+              },
             },
           },
           addPipelineBtn: {
@@ -148,6 +159,7 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
           onOk={() => {
             onClose();
             reloadRef.current?.reload();
+            getApps();
           }}
         />
       </Drawer>
