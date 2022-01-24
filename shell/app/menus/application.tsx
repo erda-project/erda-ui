@@ -60,7 +60,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     key: 'deploy',
     href: goTo.resolve.deploy(), // `/dop/projects/${projectId}/apps/${appId}/deploy`,
     icon: <ErdaIcon type="bushuzhongxin" />,
-    text: i18n.t('dop:deployment center'),
+    text: i18n.t('dop:Environments'),
     subtitle: i18n.t('Deploy'),
   };
   const dataTask = {

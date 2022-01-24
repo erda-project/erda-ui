@@ -447,7 +447,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'deploy',
-          pageName: i18n.t('dop:deployment center'),
+          pageName: i18n.t('dop:Environments'),
           routes: [
             {
               path: 'list/:env',
