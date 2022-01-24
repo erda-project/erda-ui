@@ -26,6 +26,7 @@ declare namespace CP_TABLE2 {
     columnsMap?: Obj<{ [key: string]: ColumnItem }>;
     pageSizeOptions?: string[];
     pagination?: false;
+    tableProps?: import('common/components/table').IProps;
   }
   interface IData {
     table: {
