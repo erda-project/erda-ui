@@ -15,7 +15,7 @@ import i18n from 'i18n';
 
 const AlarmRecord = () => ({
   path: 'alarm-record',
-  breadcrumbName: i18n.t('msp:alarm history'),
+  breadcrumbName: i18n.t('msp:AlarmHistory'),
   routes: [
     {
       path: ':recordId',

@@ -76,17 +76,17 @@ function getMspRouter(): RouteConfigItem[] {
               routes: [
                 {
                   path: ':terminusKey/configuration',
-                  breadcrumbName: i18n.t('msp:access configuration'),
+                  breadcrumbName: i18n.t('msp:AccessConfig'),
                   getComp: (cb) => cb(import('msp/env-setting/configuration')),
                 },
                 {
                   path: ':terminusKey/member',
-                  breadcrumbName: i18n.t('cmp:member management'),
+                  breadcrumbName: i18n.t('msp:MemberManagement'),
                   getComp: (cb) => cb(import('msp/env-setting/member-manage')),
                 },
                 {
                   path: 'info/:tenantId?',
-                  breadcrumbName: i18n.t('msp:component info'),
+                  breadcrumbName: i18n.t('msp:ComponentInfo'),
                   layout: { fullHeight: true },
                   getComp: (cb) => cb(import('msp/env-setting/info')),
                 },

@@ -19,7 +19,7 @@ function AlarmRouter() {
     path: 'alarm',
     routes: [
       {
-        pageName: i18n.t('alarm strategy'),
+        pageName: i18n.t('msp:AlertStrategy'),
         getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index')),
       },
       {

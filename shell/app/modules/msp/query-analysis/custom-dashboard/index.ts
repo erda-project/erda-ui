@@ -12,14 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
+import { firstCharToUpper } from 'common/utils';
 
 const CustomDashBoard = () => ({
   path: 'custom-dashboard',
-  breadcrumbName: i18n.t('dop:dashboard'),
+  breadcrumbName: firstCharToUpper(i18n.t('msp:custom Dashboard')),
   routes: [
     {
       path: 'add',
-      breadcrumbName: i18n.t('dop:dashboard'),
+      breadcrumbName: firstCharToUpper(i18n.t('msp:custom Dashboard')),
       layout: { fullHeight: true },
       getComp: (cb: RouterGetComp) => cb(import('msp/query-analysis/custom-dashboard/pages/custom-dashboard')),
     },
