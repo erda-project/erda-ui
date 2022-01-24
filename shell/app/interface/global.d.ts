@@ -386,7 +386,6 @@ interface RouteConfigItem {
     hideHeader?: boolean;
   };
   pageNameInfo?: () => JSX.Element;
-  keepQuery?: boolean;
   getComp?: (cb: RouterGetComp) => Promise<any>;
   render?: (props: { location: Location }) => React.ReactNode;
 }
