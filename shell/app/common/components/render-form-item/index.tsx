@@ -50,12 +50,13 @@ class ClassWrapper extends React.PureComponent<IProps> {
     children?.props?.onChange?.(...args);
   };
   render() {
-    const { children, ...rest } = this.props;
+    const { children, value, ...rest } = this.props;
     if (!children || typeof children !== 'object') {
       return children || null;
     }
     return React.cloneElement(children as any, {
       ...rest,
+      value: children?.props?.hasOwnProperty('value') ? children?.props?.value : value,
       onChange: this.onChange,
     });
   }
