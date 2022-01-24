@@ -24,11 +24,12 @@ interface CreatePipelineParams {
 }
 
 interface AppDetail {
-  ID: number;
+  ID: string;
   runningNum: number;
   failedNum: number;
   totalNum: number;
   displayName: string;
+  projectName?: string;
 }
 
 const apis = {
