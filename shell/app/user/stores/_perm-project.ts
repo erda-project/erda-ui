@@ -523,7 +523,7 @@ export const projectPerm = {
       },
     },
     accessConfiguration: {
-      name: i18n.t('msp:access configuration'),
+      name: i18n.t('msp:AccessConfig'),
       createAccessKey: {
         name: i18n.t('create {name}', { name: 'AccessKey' }),
         pass: false,
