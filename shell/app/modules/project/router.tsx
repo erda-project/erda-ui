@@ -411,12 +411,14 @@ function getProjectRouter(): RouteConfigItem[] {
             {
               path: 'project',
               tabs: RELEASE_TABS,
+              ignoreTabQuery: true,
               getComp: (cb) => cb(import('project/pages/release/project')),
               layout: { noWrapper: true },
             },
             {
               path: 'application',
               tabs: RELEASE_TABS,
+              ignoreTabQuery: true,
               getComp: (cb) => cb(import('project/pages/release/application')),
               layout: { noWrapper: true },
             },
