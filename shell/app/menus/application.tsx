@@ -55,14 +55,6 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     subtitle: 'API',
   };
 
-  const deploy = {
-    show: perm.runtime.read.pass,
-    key: 'deploy',
-    href: goTo.resolve.deploy(), // `/dop/projects/${projectId}/apps/${appId}/deploy`,
-    icon: <ErdaIcon type="bushuzhongxin" />,
-    text: i18n.t('dop:Environments'),
-    subtitle: i18n.t('Deploy'),
-  };
   const dataTask = {
     show: perm.dataTask.read.pass,
     key: 'dataTask',
@@ -95,14 +87,6 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     text: i18n.t('dop:code quality'),
     subtitle: i18n.t('Quality'),
   };
-  const release = {
-    show: perm.release.read.pass,
-    key: 'release',
-    href: goTo.resolve.release(), // `/dop/projects/${projectId}/apps/${appId}/repo/release`,
-    icon: <ErdaIcon type="zhipinguanli" />,
-    text: i18n.t('artifact management'),
-    subtitle: i18n.t('Artifact'),
-  };
 
   const setting = {
     show: perm.setting.read.pass,
@@ -113,14 +97,14 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     subtitle: i18n.t('Setting'),
   };
 
-  // const full = [repo, pipeline, deploy, dataTask, dataModel, dataMarket, test, analysis, release, setting];
+  // const full = [repo, pipeline, dataTask, dataModel, dataMarket, test, analysis, setting];
   const modeMap = {
-    [appMode.SERVICE]: [repo, pipeline, apiDesign, deploy, test, release, setting],
-    [appMode.PROJECT_SERVICE]: [repo, pipeline, test, release, setting],
-    [appMode.MOBILE]: [repo, pipeline, apiDesign, deploy, test, release, setting],
-    [appMode.LIBRARY]: [repo, pipeline, apiDesign, deploy, test, release, setting],
+    [appMode.SERVICE]: [repo, pipeline, apiDesign, test, setting],
+    [appMode.PROJECT_SERVICE]: [repo, pipeline, test, setting],
+    [appMode.MOBILE]: [repo, pipeline, apiDesign, test, setting],
+    [appMode.LIBRARY]: [repo, pipeline, apiDesign, test, setting],
     [appMode.BIGDATA]: [repo, dataTask, dataModel, dataMarket, setting],
-    [appMode.ABILITY]: [deploy, test, release, setting],
+    [appMode.ABILITY]: [test, setting],
   };
 
   return filter(modeMap[mode], (item: IMenuItem) => item.show !== false);
