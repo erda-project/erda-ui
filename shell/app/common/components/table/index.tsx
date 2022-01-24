@@ -227,6 +227,7 @@ function WrappedTable<T extends object = any>({
               overlay={sorterMenu({ ...args, title, sorter })}
               align={{ offset: [0, 5] }}
               overlayClassName="erda-table-sorter-overlay"
+              placement={align === 'right' ? 'bottomRight' : 'bottomLeft'}
               getPopupContainer={() => containerRef.current}
             >
               <span
