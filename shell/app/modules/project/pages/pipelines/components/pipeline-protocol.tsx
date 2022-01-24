@@ -119,8 +119,12 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
               },
             },
             props: {
-              styleNames: 'h-full',
-              wrapperClassName: 'flex-1',
+              tableProps: {
+                whiteHead: true,
+                whiteFooter: true,
+                styleNames: 'h-full',
+                wrapperClassName: 'flex-1',
+              },
               columnsRender: {
                 source: (val, record, map) => {
                   return (
