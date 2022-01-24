@@ -160,7 +160,7 @@ export const PureAppSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('dop:deployment center'),
+      groupTitle: i18n.t('dop:Environments'),
       groupKey: 'deploy',
       tabGroup: [
         {

@@ -26,7 +26,7 @@ function getAppRouter(): RouteConfigItem {
       {
         path: 'deploy',
         mark: 'deploy',
-        breadcrumbName: i18n.t('dop:deployment center'),
+        breadcrumbName: i18n.t('dop:Environments'),
         routes: [
           ...getRuntimeRouter(),
           {

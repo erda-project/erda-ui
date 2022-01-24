@@ -92,7 +92,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       href: goTo.resolve.projectApps(), // `/dop/projects/${projectId}/apps`,
       icon: <ErdaIcon type="yingyongkaifa" />,
-      text: i18n.t('dop:integrated deployment'),
+      text: i18n.t('dop:App Center'),
       subtitle: i18n.t('App'),
       show: projectPerm.appList.viewAppList.pass,
       subMenu: [
@@ -114,7 +114,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
         },
         {
           href: goTo.resolve.projectDeployEnv({ env: 'dev' }),
-          text: i18n.t('dop:deployment center'),
+          text: i18n.t('dop:Environments'),
           prefix: `${goTo.resolve.projectDeploy()}/`,
         },
       ],
