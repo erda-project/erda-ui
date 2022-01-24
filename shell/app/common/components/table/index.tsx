@@ -34,7 +34,7 @@ import {
 
 const { Column, ColumnGroup, Summary } = Table;
 
-interface IProps<T extends object = any> extends TableProps<T> {
+export interface IProps<T extends object = any> extends TableProps<T> {
   columns: Array<ColumnProps<T>>;
   actions?: IActions<T> | null;
   slot?: React.ReactNode;
@@ -45,6 +45,8 @@ interface IProps<T extends object = any> extends TableProps<T> {
   className?: string;
   hideReload?: boolean;
   hideColumnConfig?: boolean;
+  whiteFooter?: boolean;
+  whiteHead?: boolean;
 }
 
 const sortIcon = {
@@ -75,6 +77,8 @@ function WrappedTable<T extends object = any>({
   rowKey,
   theme = 'light',
   className,
+  whiteFooter = false,
+  whiteHead = false,
   ...props
 }: IProps<T>) {
   const dataSource = React.useMemo<T[]>(() => (ds as T[]) || [], [ds]);
@@ -319,6 +323,7 @@ function WrappedTable<T extends object = any>({
           sortColumn={sort}
           setColumns={(val) => setColumns(val)}
           onReload={onReload}
+          whiteHead={whiteHead}
         />
       )}
 
@@ -356,6 +361,7 @@ function WrappedTable<T extends object = any>({
         pagination={pagination}
         hidePagination={paginationProps === false}
         onTableChange={onTableChange}
+        whiteFooter={whiteFooter}
       />
     </div>
   );

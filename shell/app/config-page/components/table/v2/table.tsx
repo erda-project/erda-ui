@@ -89,7 +89,7 @@ const Table = (props: CP_TABLE2.Props) => {
         }
       : undefined);
 
-  const extra: Obj = {};
+  const extra: Obj = { ...(pProps?.tableProps || {}) };
   if (dataSource.find((item) => Object.keys(filterClickOperations(item.operations)).length) || customOp?.clickRow) {
     extra.onRow = (record: Obj) => {
       return {
