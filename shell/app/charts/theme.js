@@ -77,13 +77,6 @@ export const genLinearGradient = (color) => {
   ]);
 };
 
-export const genLinearGradient = (color) => {
-  return new LinearGradient(0, 0, 0, 1, [
-    { offset: 0, color: colorToRgb(color, 0.2) },
-    { offset: 1, color: colorToRgb(color, 0.01) },
-  ]);
-};
-
 export const theme = {
   color: [
     colorMap.blue,
