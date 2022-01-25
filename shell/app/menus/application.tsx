@@ -55,6 +55,14 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     subtitle: 'API',
   };
 
+  const deploy = {
+    show: perm.runtime.read.pass,
+    key: 'deploy',
+    href: goTo.resolve.deploy(), // `/dop/projects/${projectId}/apps/${appId}/deploy`,
+    icon: <ErdaIcon type="bushuzhongxin" />,
+    text: i18n.t('dop:Environments'),
+    subtitle: i18n.t('Deploy'),
+  };
   const dataTask = {
     show: perm.dataTask.read.pass,
     key: 'dataTask',
@@ -97,14 +105,14 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     subtitle: i18n.t('Setting'),
   };
 
-  // const full = [repo, pipeline, dataTask, dataModel, dataMarket, test, analysis, setting];
+  // const full = [repo, pipeline, deploy, dataTask, dataModel, dataMarket, test, analysis, setting];
   const modeMap = {
-    [appMode.SERVICE]: [repo, pipeline, apiDesign, test, setting],
+    [appMode.SERVICE]: [repo, pipeline, apiDesign, deploy, test, setting],
     [appMode.PROJECT_SERVICE]: [repo, pipeline, test, setting],
-    [appMode.MOBILE]: [repo, pipeline, apiDesign, test, setting],
-    [appMode.LIBRARY]: [repo, pipeline, apiDesign, test, setting],
+    [appMode.MOBILE]: [repo, pipeline, apiDesign, deploy, test, setting],
+    [appMode.LIBRARY]: [repo, pipeline, apiDesign, deploy, test, setting],
     [appMode.BIGDATA]: [repo, dataTask, dataModel, dataMarket, setting],
-    [appMode.ABILITY]: [test, setting],
+    [appMode.ABILITY]: [deploy, test, setting],
   };
 
   return filter(modeMap[mode], (item: IMenuItem) => item.show !== false);
