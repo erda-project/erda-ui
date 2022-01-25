@@ -22,11 +22,6 @@ const nodeModules = Object.keys(dependencies)
   .concat(Object.keys(devDependencies))
   .concat(['path', 'prop-types', 'history']);
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const webpackConfig = require(path.resolve(__dirname, '../webpack.config.js'));
-const aliasMap = webpackConfig().resolve.alias;
-const aliasKeys = Object.keys(aliasMap);
-
 const noneJs = ['zh-cn'];
 const ignoreSuffix = ['.md', '.d.ts', 'mock.ts'];
 const ignorePath = [
@@ -39,7 +34,12 @@ const ignorePath = [
   'app/styles',
 ];
 
-const detect = () => {
+const detect = async () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const webpackConfig = require(path.resolve(__dirname, '../webpack.config.js'));
+  const _webpackConfig = await webpackConfig();
+  const aliasMap = _webpackConfig.resolve.alias;
+  const aliasKeys = Object.keys(aliasMap);
   const result = findUnusedModule({
     cwd: `${path.resolve(__dirname, '../app')}`,
     entries: [`${path.resolve(__dirname, '../app/App.tsx')}`],

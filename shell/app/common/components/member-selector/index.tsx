@@ -23,7 +23,7 @@ import { LoadMoreSelector } from 'common';
 import { Tag, Select, Avatar } from 'antd';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
-import { ILoadMoreSelectorProps } from './load-more-selector';
+import { ILoadMoreSelectorProps } from '../load-more-selector';
 import routeInfoStore from 'core/stores/route';
 import orgStore from 'app/org-home/stores/org';
 import userStore from 'app/user/stores';
