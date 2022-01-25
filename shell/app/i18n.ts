@@ -29,10 +29,8 @@ map(merge(defaultEn, en), (enValue, enKey) => {
 const currentLocale = getCurrentLocale();
 document.body.lang = currentLocale.key;
 const docDesc = document.querySelector('meta[name=description]');
-if (currentLocale.key === 'en') {
-  docDesc &&
-    (docDesc.content =
-      'A simple and efficient one-stop enterprise-level digital platform that provides enterprises with multiple platform services such as DevOps, microservice governance, multi-cloud management, and fast data management');
+if (currentLocale.key === 'en' && docDesc) {
+  docDesc.content = 'Collaborative Application Development Platform On The Cloud';
 }
 
 export default i18n;
