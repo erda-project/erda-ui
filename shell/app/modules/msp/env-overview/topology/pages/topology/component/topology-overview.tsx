@@ -27,7 +27,7 @@ export type INodeKey =
   | 'externalService';
 
 interface IProps {
-  data: { nodes: TOPOLOGY.INode[] };
+  data: { nodes: TOPOLOGY.INode[] } | null;
   onClick: (data: INodeKey) => void;
 }
 
@@ -155,7 +155,7 @@ const TopologyContent: React.FC<IProps> = ({ data, onClick }) => {
       circularDependencies: 0,
       externalService: 0,
     };
-    if (data.nodes) {
+    if (data?.nodes) {
       const { node } = genEle(data.nodes);
       temp.node = node.length;
       node.forEach((item) => {
@@ -184,7 +184,7 @@ const TopologyContent: React.FC<IProps> = ({ data, onClick }) => {
       });
     }
     return temp;
-  }, [data.nodes]);
+  }, [data?.nodes]);
   return (
     <div>
       {structure.map((item) => {
