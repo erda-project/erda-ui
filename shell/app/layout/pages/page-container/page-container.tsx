@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { renderRoutes } from 'react-router-config';
+import { renderRoutes, RouteConfig } from 'react-router-config';
 import { ErrorBoundary } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import classnames from 'classnames';
@@ -133,23 +133,7 @@ const PageContainer = ({ route }: IProps) => {
   } else if (notFound) {
     MainContent = <NotFound />;
   } else if (state.startInit) {
-    MainContent = (
-      <ErrorBoundary>
-        <DndProvider backend={HTML5Backend}>
-          {noWrapper ? (
-            <>
-              {typeof customMain === 'function' ? customMain() : customMain}
-              {renderRoutes(route.routes)}
-            </>
-          ) : (
-            <Card className={layout && layout.fullHeight ? 'h-full overflow-auto' : ''}>
-              {typeof customMain === 'function' ? customMain() : customMain}
-              {renderRoutes(route.routes)}
-            </Card>
-          )}
-        </DndProvider>
-      </ErrorBoundary>
-    );
+    MainContent = <RenderMainContent noWrapper={noWrapper} customMain={customMain} route={route} layout={layout} />;
   }
 
   return (
@@ -174,5 +158,39 @@ const PageContainer = ({ route }: IProps) => {
     </Shell>
   );
 };
+
+const RenderMainContent = React.memo(
+  ({
+    noWrapper,
+    customMain,
+    route,
+    layout,
+  }: {
+    noWrapper: boolean;
+    customMain: Function | JSX.Element | null;
+    route: RouteConfig;
+    layout: {
+      [k: string]: any;
+    };
+  }) => {
+    return (
+      <ErrorBoundary>
+        <DndProvider backend={HTML5Backend}>
+          {noWrapper ? (
+            <>
+              {typeof customMain === 'function' ? customMain() : customMain}
+              {renderRoutes(route.routes)}
+            </>
+          ) : (
+            <Card className={layout && layout.fullHeight ? 'h-full overflow-auto' : ''}>
+              {typeof customMain === 'function' ? customMain() : customMain}
+              {renderRoutes(route.routes)}
+            </Card>
+          )}
+        </DndProvider>
+      </ErrorBoundary>
+    );
+  },
+);
 
 export default PageContainer;
