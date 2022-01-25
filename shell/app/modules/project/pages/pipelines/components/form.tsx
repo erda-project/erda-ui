@@ -14,9 +14,9 @@
 import React from 'react';
 import { Form, Button, TreeSelect } from 'antd';
 import i18n from 'i18n';
-import { ErdaIcon, RenderFormItem } from 'common';
+import { ErdaIcon, RenderFormItem, ErdaAlert } from 'common';
 import routeInfoStore from 'core/stores/route';
-import { getFileTree, createPipeline, getAppList } from 'project/services/pipeline';
+import { getFileTree, createPipeline, getAppList, checkName, checkSource } from 'project/services/pipeline';
 
 import './form.scss';
 
@@ -30,6 +30,7 @@ interface TreeNode extends Node {
   id: string;
   pId: string;
   title: string;
+  isLeaf: string;
 }
 
 interface Node {
@@ -45,6 +46,24 @@ interface App {
   projectName?: string;
 }
 
+const promiseDebounce = (func: Function, delay = 1000) => {
+  let timer: NodeJS.Timeout | undefined;
+  return (...args: unknown[]) => {
+    timer && clearTimeout(timer);
+
+    return new Promise((resolve, reject) => {
+      timer = setTimeout(async () => {
+        try {
+          await func(...args);
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+      }, delay);
+    });
+  };
+};
+
 const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
   const { ID: id, name } = application || {};
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
@@ -56,6 +75,8 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
   const [treeValue, setTreeValue] = React.useState('');
   const [treeExpandedKeys, setTreeExpandedKeys] = React.useState<Array<string | number>>([]);
   const canTreeSelectClose = React.useRef(true);
+  const [nameRepeatMessage, setNameRepeatMessage] = React.useState('');
+  const [sourceErrorMessage, setSourceErrorMessage] = React.useState('');
 
   const convertTreeData = (data: Node[]) => {
     return data.map((item) => ({
@@ -140,6 +161,52 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
     });
   };
 
+  const nameCheck = React.useCallback(
+    promiseDebounce(async (value: string) => {
+      if (value) {
+        const payload = {
+          projectID: +projectId,
+          name: value,
+        };
+        const res = await checkName.fetch(payload);
+        const { data } = res;
+        if (data?.pass) {
+          setNameRepeatMessage('');
+        } else {
+          data?.message && setNameRepeatMessage(data.message);
+        }
+      }
+
+      return Promise.resolve();
+    }),
+    [projectId],
+  );
+
+  const sourceCheck = async (value: string) => {
+    const node = tree.find((item) => item.id === value);
+    if (node?.isLeaf) {
+      const path = atob(decodeURI(node.pId));
+      const appID = path.split('/')[1];
+      const ref = path.split('tree/')[1].split('/.dice')[0].split('/.erda')[0];
+      const payload = {
+        appID,
+        ref,
+        fileName: node.name,
+        sourceType: 'erda',
+      };
+
+      const res = await checkSource.fetch(payload);
+      const { data } = res;
+      if (data?.pass) {
+        setSourceErrorMessage('');
+      } else {
+        data?.message && setSourceErrorMessage(data.message);
+      }
+    }
+
+    return Promise.resolve();
+  };
+
   return (
     <div className="project-pipeline-form flex flex-col h-full">
       <div className="header py-2.5 pl-4 bg-default-02 flex-h-center">
@@ -173,12 +240,20 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
                 pattern: /^[\u4e00-\u9fa5A-Za-z0-9._-]+$/,
                 message: i18n.t('dop:Must be composed of Chinese, letters, numbers, underscores, hyphens and dots.'),
               },
+              {
+                validator: (_, value: string) => {
+                  return nameCheck(value);
+                },
+              },
             ]}
             itemProps={{
               className: 'border-transparent shadow-none pl-0 text-xl bg-transparent',
               placeholder: i18n.t('please enter {name}', { name: i18n.t('pipeline') }),
             }}
           />
+          {nameRepeatMessage ? (
+            <ErdaAlert message={nameRepeatMessage} type="error" closeable={false} className="py-1.5" />
+          ) : null}
           <div>
             <div className="text-default">{i18n.t('dop:code source')}</div>
             <CodeResource />
@@ -225,7 +300,7 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
                           );
                         }
 
-                        return Promise.resolve();
+                        return sourceCheck(value);
                       },
                     },
                   ]}
@@ -267,6 +342,9 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
                 />
               </div>
             </div>
+            {sourceErrorMessage ? (
+              <ErdaAlert message={sourceErrorMessage} type="error" closeable={false} className="py-1.5" />
+            ) : null}
           </div>
         </Form>
       </div>

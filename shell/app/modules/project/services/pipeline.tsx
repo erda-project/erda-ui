@@ -48,6 +48,12 @@ const apis = {
   getPipelineList: {
     api: 'get@/api/project-pipeline/actions/get-pipeline-yml-list',
   },
+  checkName: {
+    api: 'get@/api/project-pipeline/actions/name-pre-check',
+  },
+  checkSource: {
+    api: 'get@/api/project-pipeline/actions/source-pre-check',
+  },
 };
 
 export const getAppList = apiCreator<(payload: { projectID: string; name?: string }) => AppDetail[]>(apis.getAppList);
@@ -69,3 +75,11 @@ export const createPipeline = apiCreator<(payload: CreatePipelineParams) => RAW_
 export const getPipelineList = apiCreator<
   (payload: { appID: string; branch: string }) => { result: Array<{ ymlPath: string; ymlName: string }> }
 >(apis.getPipelineList);
+
+export const checkName = apiCreator<
+  (payload: { projectID: number; name: string }) => { pass: boolean; message: string }
+>(apis.checkName);
+
+export const checkSource = apiCreator<
+  (payload: { appID: string; sourceType: string; ref: string; fileName: string }) => { pass: boolean; message: string }
+>(apis.checkSource);
