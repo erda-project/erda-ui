@@ -71,16 +71,20 @@ const List = (props: CP_BASE_LIST.Props) => {
         const titleState = item.titleState?.map((stateItem, idx) => {
           return {
             ...stateItem,
-            onClick: (e) => {
-              if (stateItem.operations) {
-                stateItem.operations?.click &&
-                  customOp?.clickItem?.(stateItem.operations?.click, { record: item, action: 'clickTitleState' });
-                e.stopPropagation();
-                execMultipleOperation(stateItem.operations, (op) =>
-                  execOperation({ ...op, clientData: { dataRef: item, operationRef: stateItem } }),
-                );
-              }
-            },
+            ...(stateItem.operations
+              ? {
+                  onClick: (e) => {
+                    if (stateItem.operations) {
+                      stateItem.operations?.click &&
+                        customOp?.clickItem?.(stateItem.operations?.click, { record: item, action: 'clickTitleState' });
+                      e.stopPropagation();
+                      execMultipleOperation(stateItem.operations, (op) =>
+                        execOperation({ ...op, clientData: { dataRef: item, operationRef: stateItem } }),
+                      );
+                    }
+                  },
+                }
+              : {}),
           };
         });
 
@@ -288,7 +292,7 @@ const List = (props: CP_BASE_LIST.Props) => {
       {Head}
       <ErdaList
         {...restProps}
-        className={`${className} flex-1 h-0`}
+        className={`${className} flex-1`}
         dataSource={currentList}
         onSelectChange={onSelectItemChange}
         batchOperation={batchOperation}
