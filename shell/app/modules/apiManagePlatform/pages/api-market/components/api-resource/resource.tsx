@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon as CustomIcon, FormBuilder, IFormExtendType } from 'common';
+import { FormBuilder, IFormExtendType, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Input, Tabs, Button, message, Popconfirm, Select, Modal } from 'antd';
 import i18n from 'i18n';
@@ -27,9 +27,9 @@ import {
   DEFAULT_RESPONSE,
   API_RESOURCE_TAB,
 } from 'app/modules/apiManagePlatform/configs.ts';
+import { useClickAway } from 'react-use';
 import { produce } from 'immer';
 import ResourceSummary from './resource-summary';
-import ReactDOM from 'react-dom';
 import './resource.scss';
 
 const { confirm } = Modal;
@@ -342,20 +342,9 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
   const popconfirmRef = React.useRef(null as any);
   const selectRef = React.useRef(null) as any;
 
-  React.useEffect(() => {
-    const selectHide = (e: any) => {
-      // 点击外部，隐藏选项
-      // eslint-disable-next-line react/no-find-dom-node
-      const el2 = ReactDOM.findDOMNode(selectRef.current) as HTMLElement;
-      if (!(el2 && el2.contains(e.target))) {
-        updater.open(false);
-        document.body.removeEventListener('click', selectHide);
-      }
-    };
-    if (open) {
-      document.body.addEventListener('click', selectHide);
-    }
-  }, [open, selectRef, updater]);
+  useClickAway(selectRef, () => {
+    updater.open(false);
+  });
 
   const maskClick = React.useCallback(
     (e: any) => {
@@ -401,21 +390,40 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
       <div className="select-container" ref={selectRef}>
         {!apiData?.apiMethod ? (
           <Select
+            getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
             style={{ marginRight: '8px', width: '141px' }}
             defaultValue={currentMethod}
             open={open}
             value={currentMethod}
           >
             {map(API_METHODS, (methodKey) => {
-              const item = (
-                <div className="circle-container flex flex-wrap justify-center items-center">
+              let item = (
+                <div className="circle-container flex-all-center">
                   {iconClassMap.emptyIcon[methodKey] ? (
-                    <div className={`${iconClassMap.classMap[methodKey]} disableIcon`} />
+                    <div className={`${iconClassMap.classMap[methodKey]}`} />
                   ) : (
-                    <CustomIcon type="duigou" className={iconClassMap.classMap[methodKey]} />
+                    <ErdaIcon type="check" className={iconClassMap.classMap[methodKey]} />
                   )}
                 </div>
               );
+              if (get(openApiDoc, ['paths', apiName, methodKey])) {
+                item = (
+                  <Popconfirm
+                    title={`${i18n.t('common:confirm deletion')}?`}
+                    onConfirm={() => deleteMethod(methodKey)}
+                    placement="right"
+                    // disabled={apiLockState}
+                    overlayClassName="popconfirm-container"
+                    getPopupContainer={() => popconfirmRef?.current}
+                    onCancel={(e: any) => {
+                      e.stopPropagation();
+                      updater.open(false);
+                    }}
+                  >
+                    {item}
+                  </Popconfirm>
+                );
+              }
               return (
                 <Option value={methodKey} key={methodKey}>
                   <div
@@ -423,30 +431,14 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
                     key={methodKey}
                   >
                     <div
-                      className="btn-label"
                       onClick={(e) => {
+                        e.stopPropagation();
                         labelClick(e, methodKey);
                       }}
                     >
                       {methodKey.toUpperCase()}
                     </div>
-                    {get(openApiDoc, ['paths', apiName, methodKey]) ? (
-                      <Popconfirm
-                        title={`${i18n.t('common:confirm deletion')}?`}
-                        onConfirm={() => deleteMethod(methodKey)}
-                        disabled={apiLockState}
-                        overlayClassName="popconfirm-container"
-                        getPopupContainer={() => popconfirmRef?.current}
-                        onCancel={(e: any) => {
-                          e.stopPropagation();
-                          updater.open(false);
-                        }}
-                      >
-                        <span>{item}</span>
-                      </Popconfirm>
-                    ) : (
-                      <span>{item}</span>
-                    )}
+                    {item}
                   </div>
                 </Option>
               );
