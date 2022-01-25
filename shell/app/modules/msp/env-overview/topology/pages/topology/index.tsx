@@ -17,13 +17,11 @@ import TopologyOverview, { INodeKey } from 'msp/env-overview/topology/pages/topo
 import TopologyDetail from 'msp/env-overview/topology/pages/topology/component/topology-detail';
 import { ContractiveFilter } from 'common';
 import i18n from 'i18n';
-import topologyStore from 'msp/env-overview/topology/stores/topology';
-import { useUnmount } from 'react-use';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'core/stores/route';
 import { Spin } from 'antd';
+import { getMonitorTopology } from 'msp/env-overview/topology/services/topology';
 import { getServices } from 'msp/services/service-list';
-import { useLoading } from 'core/stores/loading';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import './index.scss';
 
@@ -36,16 +34,9 @@ const Topology = () => {
   const topologyRef = React.useRef<ITopologyRef>(null);
   const params = routeInfoStore.useStore((s) => s.params);
   const [range] = monitorCommonStore.useStore((s) => [s.globalTimeSelectSpan.range, s.globalTimeSelectSpan.data]);
-  const { getMonitorTopology } = topologyStore.effects;
-  const { clearMonitorTopology } = topologyStore.reducers;
   const serverListData = getServices.useData();
   const serviceList = serverListData?.list || [];
-  const [isLoading] = useLoading(topologyStore, ['getMonitorTopology']);
-  const [topologyData] = topologyStore.useStore((s) => [s.topologyData]);
-
-  useUnmount(() => {
-    clearMonitorTopology();
-  });
+  const [topologyData, isLoading] = getMonitorTopology.useState();
 
   React.useEffect(() => {
     if (params.terminusKey) {
@@ -58,7 +49,7 @@ const Topology = () => {
         terminusKey: params.terminusKey,
         tags,
       };
-      getMonitorTopology(query);
+      getMonitorTopology.fetch(query);
     }
   }, [range, params.terminusKey, filterTags]);
 
@@ -117,7 +108,7 @@ const Topology = () => {
           <div className="flex-1 flex min-h-0">
             <TopologyOverview data={topologyData} onClick={handleSelectNodeType} />
             <div className="flex-1 topology-container relative min-w-0">
-              {topologyData.nodes?.length ? (
+              {topologyData?.nodes.length ? (
                 <TopologyComp
                   ref={topologyRef}
                   key={nodeType}
