@@ -24,8 +24,6 @@ import { getFormatter } from 'charts/utils';
 import '@erda-ui/react-markdown-editor-lite/lib/index.css';
 import './editor.scss';
 
-// eslint-disable-next-line react-hooks/rules-of-hooks
-MdEditor.useLocale(getLang() === 'zh-CN' ? 'zhCN' : 'enUS');
 MdEditor.use(UploadPlugin);
 
 interface IProps extends Omit<EditorProps, 'renderHTML'> {
@@ -55,6 +53,10 @@ const Editor = React.forwardRef((props: IProps, ref) => {
         });
     }) as Promise<string>;
   }
+
+  // have to call this every time rerender
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  MdEditor.useLocale(getLang() === 'zh-CN' ? 'zhCN' : 'enUS');
 
   return (
     <MdEditor
