@@ -1,27 +1,31 @@
 .erda-configurable-filter-btn {
   height: 28px;
+  color: $color-default-4;
+  background-color: $color-default-06;
 
-  &.ant-popover-open {
-    color: $white;
-    background-color: $color-default !important;
+  .filter-text,
+  .filter-icon {
+    color: $color-default-8;
+  }
+  &:hover {
+    color: $color-default-8;
   }
 
   .ant-badge-dot {
     box-shadow: none !important;
   }
-  &.bg-hover {
-    &:not(.ant-popover-open):hover {
-      background-color: rgba($color-default, 0.08);
-      color: $color-default;
-      cursor: pointer;
-    }
-  }
-}
 
-.erda-config-filter-btn-active {
-  .erda-configurable-filter-btn {
-    color: $white;
-    background-color: $color-default !important;
+  &.has-filter,
+  &.ant-popover-open {
+    color: $color-white-4;
+    background-color: $color-default;
+    &:hover {
+      color: $color-white-8;
+    }
+    .filter-text,
+    .filter-icon {
+      color: $white;
+    }
   }
 }
 
@@ -31,110 +35,24 @@
 
 .erda-configurable-filter {
   padding-top: 0;
-  width: 720px;
 
   .ant-popover-inner {
     background-color: $color-default;
   }
 
   .ant-popover-inner-content {
+    display: flex;
     color: $white;
+    max-height: 70vh;
+    padding: 0 16px 12px;
   }
 
   .ant-popover-arrow {
     display: none;
   }
 
-  .erda-configurable-filter-config,
-  .erda-configurable-filter-add {
-    padding-top: 0;
-    width: 200px;
-
-    .config-item {
-      line-height: 24px;
-
-      &.active {
-        background-color: rgba($white, 0.08);
-      }
-
-      .config-item-icon {
-        color: rgba($white, 0.4);
-        opacity: 0;
-
-        &:hover {
-          color: rgba($white, 0.8);
-        }
-
-        &.ant-popover-open {
-          opacity: 1;
-          color: rgba($white, 0.8);
-        }
-      }
-
-      &:hover {
-        .config-item-icon {
-          opacity: 1;
-        }
-      }
-    }
-
-    .ant-popover-inner {
-      background-color: $white;
-
-      .ant-popover-inner-content {
-        border-radius: 2px;
-        padding: 0;
-        background-color: $color-dropdown-bg-dark;
-      }
-
-      .ant-divider {
-        border-color: $color-white-2;
-      }
-    }
-
-    .default-config {
-      padding: 12px 8px 4px 8px;
-    }
-
-    .custom-config {
-      padding: 12px 8px;
-
-      .config-title {
-        font-size: 12px;
-        color: $color-white-6;
-      }
-    }
-
-    .default-text {
-      font-size: 12px;
-      color: $blue;
-    }
-
-    &-operation {
-      width: 120px;
-    }
-  }
-
   .ant-select-selection-placeholder {
     color: rgba($white, 0.3);
-  }
-
-  .add-filter-config.ant-popover-open {
-    background-color: $color-white-2;
-  }
-
-  .erda-configurable-filter-add {
-    width: 240px;
-    z-index: 10;
-
-    .ant-form-item {
-      margin-bottom: 0;
-
-      label.ant-form-item-required:before {
-        position: absolute;
-        right: -15px;
-      }
-    }
   }
 
   .ant-form-item-label label {

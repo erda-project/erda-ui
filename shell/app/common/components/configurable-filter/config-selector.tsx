@@ -12,10 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Popover, Divider, Form, Input, Button, Modal } from 'antd';
+import { Popover, Modal } from 'antd';
 import { ErdaIcon, Ellipsis, Badge } from 'common';
 import { ConfigData } from './index';
 import i18n from 'i18n';
+import './config-selector.scss';
 
 export interface IProps {
   list: ConfigData[];
@@ -25,16 +26,14 @@ export interface IProps {
   onDeleteFilter: (config: ConfigData) => void;
   onSaveFilter: (label: string) => void;
   onChange: (config: ConfigData) => void;
+  className?: string;
 }
 
-const ConfigSelector = ({ list, defaultValue, value, onChange, onDeleteFilter, onSaveFilter, isNew }: IProps) => {
-  const [form] = Form.useForm();
-  const configSelectorRef = React.useRef();
+const ConfigSelector = ({ className = '', list, defaultValue, value, onChange, onDeleteFilter, isNew }: IProps) => {
+  const configSelectorRef = React.useRef<HTMLDivElement>();
 
   const [defaultData, setDefaultData] = React.useState<ConfigData[]>([]);
   const [customData, setCustomData] = React.useState<ConfigData[]>([]);
-  const [addVisible, setAddVisible] = React.useState(false);
-  const [configListVisible, setConfigListVisible] = React.useState(false);
 
   React.useEffect(() => {
     setDefaultData(list.filter((item: ConfigData) => item.isPreset));
@@ -43,7 +42,6 @@ const ConfigSelector = ({ list, defaultValue, value, onChange, onDeleteFilter, o
 
   const onConfigChange = (config: ConfigData) => {
     onChange(config);
-    setConfigListVisible(false);
   };
 
   const deleteFilter = (item: ConfigData) => {
@@ -62,7 +60,7 @@ const ConfigSelector = ({ list, defaultValue, value, onChange, onDeleteFilter, o
       <div className="px-2 py-3">
         {/* <div className="py-1 px-2 bg-hover">设为默认</div>
         <div className="py-1 px-2 bg-hover">重命名</div> */}
-        <div className="py-1 px-2 bg-hover text-red" onClick={() => deleteFilter(item)}>
+        <div className="py-1 px-2 cursor-pointer bg-hover text-red" onClick={() => deleteFilter(item)}>
           {i18n.t('delete')}
         </div>
       </div>
@@ -74,125 +72,55 @@ const ConfigSelector = ({ list, defaultValue, value, onChange, onDeleteFilter, o
       <Popover
         content={configItemContent(item)}
         trigger={['click']}
-        overlayClassName="erda-configurable-filter-config-operation"
         placement="bottomLeft"
+        overlayClassName="erda-configurable-filter-add w-[120px]"
         getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
       >
-        <ErdaIcon
-          type="gengduo"
-          size={20}
-          className="config-item-icon absolute right-2"
-          onClick={(e) => e.stopPropagation()}
-        />
+        <ErdaIcon type="gengduo" size={20} className="more-op" onClick={(e) => e.stopPropagation()} />
       </Popover>
     );
   };
 
   const currentConfig = list.find((item) => item.id === value);
 
-  const renderConfigList = (configList: ConfigData[], showMore: boolean) =>
+  const changedId = isNew && (value || 'all');
+  const renderConfigList = (configList: ConfigData[], showOp: boolean) =>
     configList.map((item) => (
       <div
-        className={`config-item bg-hover pl-2 py-1 pr-7 flex items-center relative ${
-          item.id === currentConfig?.id ? 'active' : ''
+        key={item.id}
+        className={`filter-config-selector-item mb-0.5 flex-h-center cursor-pointer px-2 py-1  hover:text-white hover:bg-white-08 rounded-sm ${
+          item.id === currentConfig?.id ? 'text-white bg-white-08' : 'text-white-8'
         }`}
         onClick={() => onConfigChange(item)}
       >
-        <Ellipsis title={item.label} />
-        {item.id === defaultValue ? <span className="default-text ml-3 mr-1 whitespace-nowrap">默认</span> : null}
-        {showMore ? configItemMore(item) : null}
+        <div className="flex-h-center flex-1 overflow-hidden">
+          <Ellipsis title={item.label} />
+          {item.id === defaultValue ? (
+            <span className="leading-5 text-xs px-2 border border-solid border-white-1 rounded-sm  ml-2 whitespace-nowrap">
+              {i18n.t('default')}
+            </span>
+          ) : null}
+        </div>
+        <div className="flex-h-center">
+          {changedId === item.id ? (
+            <Badge text={i18n.t('dop:changed')} status="processing" showDot={false} className="ml-2" />
+          ) : null}
+          {showOp ? configItemMore(item) : null}
+        </div>
       </div>
     ));
 
-  const configContent = (
-    <div>
-      <div className="default-config">{renderConfigList(defaultData, false)}</div>
-      <Divider className="my-1" />
-      <div className="custom-config">
-        <div className="config-title px-2 pb-2">{i18n.t('dop:custom filter')}</div>
-        {renderConfigList(customData, true)}
+  return (
+    <div className={`flex flex-col rounded-sm bg-white-04 py-3 pl-2 w-[230px] ${className}`} ref={configSelectorRef}>
+      <div className="flex-1 overflow-auto">
+        <div className="pr-2">{renderConfigList(defaultData, false)}</div>
+        <div className="my-1 bg-white-2 h-[1px] mr-2" />
+        <div className="pr-2">
+          <div className="my-2 px-2 text-xs text-white-6">{i18n.t('dop:custom filter')}</div>
+          {renderConfigList(customData, true)}
+        </div>
       </div>
     </div>
-  );
-
-  const addCancel = () => {
-    form.resetFields();
-    setAddVisible(false);
-  };
-
-  const saveFilter = () => {
-    form.validateFields().then(({ label }) => {
-      onSaveFilter?.(label);
-      setAddVisible(false);
-    });
-  };
-
-  const addConfigContent = (
-    <div>
-      <Form form={form} layout="vertical" className="p-4">
-        <Form.Item
-          label={i18n.t('dop:filter name')}
-          name="label"
-          rules={[
-            { required: true, message: i18n.t('please enter {name}', { name: i18n.t('dop:filter name') }) },
-            { max: 10, message: i18n.t('dop:within {num} characters', { num: 10 }) },
-          ]}
-        >
-          <Input placeholder={i18n.t('dop:please enter, within {num} characters', { num: 10 })} />
-        </Form.Item>
-        <div className="mt-3">
-          <Button type="primary" onClick={saveFilter}>
-            {i18n.t('ok')}
-          </Button>
-          <span className="text-white ml-3 cursor-pointer" onClick={addCancel}>
-            {i18n.t('cancel')}
-          </span>
-        </div>
-      </Form>
-    </div>
-  );
-  return (
-    <>
-      <Popover
-        content={configContent}
-        trigger={['click']}
-        overlayClassName="erda-configurable-filter-config"
-        placement="bottomLeft"
-        getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-        visible={configListVisible}
-        onVisibleChange={setConfigListVisible}
-      >
-        <div
-          className="erda-configurable-filter-config-select flex items-center cursor-pointer"
-          ref={configSelectorRef}
-        >
-          <ErdaIcon type="shaixuan" fill="white" className="mr-1" size={16} />
-          {currentConfig?.label || i18n.t('dop:filter criteria are not saved')}
-          {value && isNew ? (
-            <Badge text={i18n.t('dop:changed')} status="processing" showDot={false} className="ml-2" />
-          ) : null}
-          <ErdaIcon type="caret-down" className="ml-1 text-white-8" />
-        </div>
-      </Popover>
-      {isNew || !value ? (
-        <Popover
-          content={addConfigContent}
-          visible={addVisible}
-          onVisibleChange={setAddVisible}
-          trigger={['click']}
-          overlayClassName="erda-configurable-filter-add"
-          placement="bottomLeft"
-          getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-        >
-          <div
-            className="add-filter-config hover:bg-white-2 cursor-pointer rounded-sm py-1 px-3 ml-2 flex items-center"
-            onClick={() => setAddVisible(true)}
-          >
-            <ErdaIcon size={16} fill="white" type="baocun" className="mr-1" /> {i18n.t('dop:new filter')}
-          </div>
-        </Popover>
-      ) : null}
-    </>
   );
 };
 
