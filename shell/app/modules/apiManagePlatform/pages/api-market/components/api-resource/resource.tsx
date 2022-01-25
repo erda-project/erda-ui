@@ -398,7 +398,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
           >
             {map(API_METHODS, (methodKey) => {
               let item = (
-                <div className="circle-container flex-all-center">
+                <div className="circle-container flex items-center">
                   {iconClassMap.emptyIcon[methodKey] ? (
                     <div className={`${iconClassMap.classMap[methodKey]}`} />
                   ) : (
