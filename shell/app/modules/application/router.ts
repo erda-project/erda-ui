@@ -160,7 +160,7 @@ function getAppRouter(): RouteConfigItem {
         breadcrumbName: i18n.t('pipeline'),
         pageName: i18n.t('pipeline'),
         getComp: (cb) => cb(import('application/pages/pipeline')),
-        layout: { fullHeight: true },
+        layout: { fullHeight: true, noWrapper: true },
       },
       {
         path: 'dataTask',
