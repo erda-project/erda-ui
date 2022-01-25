@@ -26,8 +26,10 @@ interface IProps {
   scope: string;
 }
 
+const emptyObj = {};
+
 const PipelineDetail = (props: IProps) => {
-  const { caseId: propsCaseId, addDrawerProps = {}, scope } = props || {};
+  const { caseId: propsCaseId, addDrawerProps = emptyObj, scope } = props || {};
   const caseId = propsCaseId || routeInfoStore.useStore((s) => s.query.caseId);
   const [{ activeKey, runKey, canRunTest }, updater] = useUpdate({
     activeKey: 'configDetail',

@@ -68,6 +68,8 @@ const PipelineConfigDetail = (props: IProps) => {
     updater.useCaseDetail(c || caseDetail);
   };
 
+  const _addDrawerProps = React.useMemo(() => ({ ...addDrawerProps, curCaseId: caseId }), [addDrawerProps, caseId]);
+
   return (
     <div>
       <div className="flex justify-between items-center mb-2">
@@ -82,7 +84,7 @@ const PipelineConfigDetail = (props: IProps) => {
       <CaseInfo caseDetail={useCaseDetail} />
       <CasePipelineEditor
         scope={scope}
-        addDrawerProps={{ ...addDrawerProps, curCaseId: caseId }}
+        addDrawerProps={_addDrawerProps}
         caseDetail={useCaseDetail}
         editable={isLastRecord}
         onUpdateYml={onUpdateYml}
