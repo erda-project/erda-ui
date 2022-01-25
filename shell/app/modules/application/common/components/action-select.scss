@@ -55,6 +55,7 @@
   color: $red;
 }
 
+// TODO: this section is duplicate from yml-chart/common/action-select.scss
 .dice-yml-actions {
   position: relative;
   display: block;
@@ -94,7 +95,6 @@
       font-size: 12px;
       line-height: 16px;
       letter-spacing: 0;
-      text-align: justify;
     }
   }
 

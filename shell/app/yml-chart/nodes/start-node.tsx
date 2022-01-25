@@ -40,7 +40,7 @@ export const StartNode = (props: IProps) => {
 
   return (
     <div className={classes} onClick={onClick}>
-      {disabled ? '' : i18n.t('dop:params configuration')}
+      {disabled ? '' : i18n.t('dop:inputs')}
     </div>
   );
 };
