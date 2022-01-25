@@ -17,18 +17,18 @@ import TopologyOverview, { INodeKey } from 'msp/env-overview/topology/pages/topo
 import TopologyDetail from 'msp/env-overview/topology/pages/topology/component/topology-detail';
 import { ContractiveFilter } from 'common';
 import i18n from 'i18n';
-import { get } from 'lodash';
 import topologyStore from 'msp/env-overview/topology/stores/topology';
-import { useMount, useUnmount, useUpdateEffect } from 'react-use';
+import { useUnmount } from 'react-use';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'core/stores/route';
 import { Spin } from 'antd';
+import { getServices } from 'msp/services/service-list';
 import { useLoading } from 'core/stores/loading';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import './index.scss';
 
 const Topology = () => {
-  const [filterTags, setFilterTags] = React.useState({});
+  const [filterTags, setFilterTags] = React.useState({ service: '' });
   const [nodeType, setNodeType] = React.useState<INodeKey>('node');
   const [currentNode, setCurrentNode] = React.useState<TOPOLOGY.TopoNode['metaData']>(
     {} as TOPOLOGY.TopoNode['metaData'],
@@ -36,85 +36,59 @@ const Topology = () => {
   const topologyRef = React.useRef<ITopologyRef>(null);
   const params = routeInfoStore.useStore((s) => s.params);
   const [range] = monitorCommonStore.useStore((s) => [s.globalTimeSelectSpan.range, s.globalTimeSelectSpan.data]);
-  const { getProjectApps } = monitorCommonStore.effects;
-  const { getMonitorTopology, getTopologyTags, getTagsOptions } = topologyStore.effects;
+  const { getMonitorTopology } = topologyStore.effects;
   const { clearMonitorTopology } = topologyStore.reducers;
+  const serverListData = getServices.useData();
+  const serviceList = serverListData?.list || [];
   const [isLoading] = useLoading(topologyStore, ['getMonitorTopology']);
-  const [topologyData, topologyTags, tagOptionsCollection] = topologyStore.useStore((s) => [
-    s.topologyData,
-    s.topologyTags,
-    s.tagOptionsCollection,
-  ]);
-
-  const getData = () => {
-    const { startTimeMs, endTimeMs } = range;
-    const tags = Object.keys(filterTags || {}).reduce(
-      (acc: string[], key) => [...acc, ...(filterTags[key] || []).map((x: string) => `${key}:${x}`)],
-      [],
-    );
-
-    const query = {
-      startTime: startTimeMs,
-      endTime: endTimeMs,
-      terminusKey: params.terminusKey,
-      tags,
-    };
-    getMonitorTopology(query);
-  };
-
-  useMount(() => {
-    getProjectApps();
-  });
+  const [topologyData] = topologyStore.useStore((s) => [s.topologyData]);
 
   useUnmount(() => {
     clearMonitorTopology();
   });
 
-  useUpdateEffect(() => {
+  React.useEffect(() => {
     if (params.terminusKey) {
-      getData();
+      const { startTimeMs, endTimeMs } = range;
+      const tags = filterTags.service ? [`service:${filterTags.service}`] : [];
+
+      const query = {
+        startTime: startTimeMs,
+        endTime: endTimeMs,
+        terminusKey: params.terminusKey,
+        tags,
+      };
+      getMonitorTopology(query);
     }
   }, [range, params.terminusKey, filterTags]);
 
   React.useEffect(() => {
-    const { startTimeMs, endTimeMs } = range;
-    const query = {
-      startTime: startTimeMs,
-      endTime: endTimeMs,
-      terminusKey: params.terminusKey,
-    };
-
-    topologyTags.forEach((item: TOPOLOGY.ISingleTopologyTags) => {
-      // 这个接口可能有问题，可能不需要依赖于startTime和endTime
-      getTagsOptions({ ...query, tag: item.tag });
+    getServices.fetch({
+      startTime: range.startTimeMs,
+      endTime: range.endTimeMs,
+      pageNo: 1,
+      pageSize: 1000,
+      tenantId: params?.terminusKey,
     });
-  }, [topologyTags, range]);
+  }, [range]);
 
-  React.useEffect(() => {
-    if (params.terminusKey) {
-      getTopologyTags({ terminusKey: params.terminusKey }).then((res) => {
-        const initialTags = {};
-        res.forEach((item: TOPOLOGY.ISingleTopologyTags) => {
-          Object.assign(initialTags, { [item.tag]: [] });
-        });
-
-        setFilterTags(initialTags);
-      });
-    }
-  }, [params.terminusKey]);
   const conditionsFilter = React.useMemo(
-    () =>
-      topologyTags.map((item: TOPOLOGY.ISingleTopologyTags) => ({
+    () => [
+      {
         type: 'select',
-        key: item.tag,
-        label: item.label,
-        fixed: item.tag === 'application',
+        key: 'service',
+        label: i18n.t('service name'),
+        fixed: true,
         showIndex: 0,
         haveFilter: true,
         emptyText: i18n.t('dop:all'),
-        options: (get(tagOptionsCollection, item.tag, []) || []).map((x: string) => ({ value: x, label: x })),
-      })),
-    [tagOptionsCollection, topologyTags],
+        customProps: {
+          mode: 'single',
+        },
+        options: serviceList.map((item: MSP_SERVICES.SERVICE_LIST_ITEM) => ({ value: item.id, label: item.name })),
+      },
+    ],
+    [serviceList],
   );
 
   const handleSelectNodeType = (key: INodeKey) => {

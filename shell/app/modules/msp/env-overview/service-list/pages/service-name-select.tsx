@@ -14,31 +14,32 @@
 import React from 'react';
 import routeInfoStore from 'core/stores/route';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
-import { getServiceList } from 'msp/services/service-analytics';
+import { getServices } from 'msp/services/service-list';
 import LoadMoreSelector from 'common/components/load-more-selector';
 import Ellipsis from 'common/components/ellipsis';
 import ErdaIcon from 'common/components/erda-icon';
 import i18n from 'i18n';
-import moment from 'moment';
 import { useUnmount } from 'react-use';
 import './service-name-select.scss';
+import mspStore from 'msp/stores/micro-service';
 
 export function ServiceNameSelect() {
   const [serviceId] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
+  const currentProject = mspStore.getState((s) => s.currentProject);
   const params = routeInfoStore.useStore((s) => s.params);
-  const [serverListData, loading] = getServiceList.useState();
+  const [serverListData, loading] = getServices.useState();
   const { updateState } = serviceAnalyticsStore;
-  const serviceList = serverListData?.data || [];
+  const serviceList = serverListData?.list || [];
 
   const configServiceData = (key: string) => {
-    const service = serviceList.filter((v: TOPOLOGY_SERVICE_ANALYZE.ServiceData) => v.service_id === key);
-    const _serviceId = service[0]?.service_id || serviceList[0]?.service_id;
-    const _serviceName = service[0]?.service_name || serviceList[0]?.service_name;
-    const applicationId = service[0]?.application_id || serviceList[0]?.application_id;
+    const service = serviceList.filter((v: MSP_SERVICES.SERVICE_LIST_ITEM) => v.id === key);
+    const _serviceId = service[0]?.id || serviceList[0]?.id;
+    const _serviceName = service[0]?.name || serviceList[0]?.name;
+    const [applicationId] = _serviceId?.split('_') || [];
     updateState({
       serviceId: _serviceId ? window.decodeURIComponent(_serviceId) : '',
       serviceName: _serviceName,
-      applicationId,
+      applicationId: currentProject?.type === 'MSP' ? '-' : applicationId,
     });
   };
 
@@ -49,10 +50,10 @@ export function ServiceNameSelect() {
   }, [loading]);
 
   React.useEffect(() => {
-    getServiceList.fetch({
-      start: moment().subtract(1, 'days').valueOf(),
-      end: moment().valueOf(),
-      terminusKey: params?.terminusKey,
+    getServices.fetch({
+      pageNo: 1,
+      pageSize: 1000,
+      tenantId: params?.terminusKey,
     });
   }, []);
 
@@ -78,8 +79,8 @@ export function ServiceNameSelect() {
     () =>
       serviceList.map((item) => ({
         ...item,
-        value: item.service_id,
-        label: item.service_name,
+        value: item.id,
+        label: item.name,
       })),
     [serviceId, serviceList],
   );

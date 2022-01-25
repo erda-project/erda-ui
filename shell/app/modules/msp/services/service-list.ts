@@ -18,6 +18,8 @@ interface ServicesParams {
   serviceName?: string;
   pageNo: number;
   pageSize: number;
+  startTime?: number;
+  endTime?: number;
   serviceStatus?: MSP_SERVICES.ServiceStatus;
 }
 
