@@ -29,7 +29,8 @@
   &.ant-alert-error {
     background-color: $color-error-bg;
 
-    .erda-alert-icon {
+    .erda-alert-icon,
+    .ant-alert-message {
       color: $color-error;
     }
   }
