@@ -258,6 +258,15 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
     </WithAuth>
   );
 
+  const RefreshComp = () => (
+    <ErdaIcon
+      type="refresh"
+      className="p-1 text-default-4 hover:text-default-8 hover:bg-default-08 cursor-pointer ml-3"
+      size={20}
+      onClick={() => reloadData()}
+    />
+  );
+
   return (
     <>
       <div className="top-button-group">
@@ -340,6 +349,7 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
           },
           issueImport: ImportComp,
           issueExport: ExportComp,
+          issueRefresh: RefreshComp,
 
           topHead: {
             props: {
