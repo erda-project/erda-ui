@@ -38,7 +38,7 @@ const List = (props: ERDA_LIST.Props) => {
     <div className={`erda-base-list ${className} flex flex-col`}>
       {dataSource.length ? (
         <>
-          <div className="flex-1 h-0 overflow-auto">
+          <div className="flex-1 overflow-auto">
             {dataSource.map((item: ERDA_LIST.ListData, idx: number) => {
               return (
                 <ListItem

@@ -292,7 +292,7 @@ const List = (props: CP_BASE_LIST.Props) => {
       {Head}
       <ErdaList
         {...restProps}
-        className={`${className} flex-1 h-0`}
+        className={`${className} flex-1 overflow-hidden`}
         dataSource={currentList}
         onSelectChange={onSelectItemChange}
         batchOperation={batchOperation}

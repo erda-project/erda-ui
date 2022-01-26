@@ -58,7 +58,6 @@ export const Bar: React.FC<TaskItemProps> = ({
     <g className={'erda-gantt-bar-wrapper'} tabIndex={0}>
       {isDateChangeable && (
         <foreignObject
-          transform={`translate(${task.x1 - 14},${task.y})`}
           onMouseDown={(e) => {
             isDateChangeable && onEventStart('move', task, e);
           }}
@@ -67,6 +66,7 @@ export const Bar: React.FC<TaskItemProps> = ({
           height={handleHeight}
         >
           <div
+            style={{ transform: `translate(${task.x1 - 14}px,${task.y}px)` }}
             className="erda-gantt-bar-container relative"
             onMouseDown={(e) => {
               isDateChangeable && onEventStart('move', task, e);
