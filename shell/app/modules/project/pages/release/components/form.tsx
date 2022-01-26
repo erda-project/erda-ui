@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Upload, Spin, Progress } from 'antd';
+import { Button, Upload, Spin, Progress, Checkbox } from 'antd';
 import moment from 'moment';
 import { RenderForm, ListSelect, MarkdownEditor, ErdaIcon } from 'common';
 import i18n from 'i18n';
@@ -21,6 +21,7 @@ import { goTo, insertWhen } from 'common/utils';
 import { getUploadProps } from 'common/utils/upload-props';
 import releaseStore from 'project/stores/release';
 import routeInfoStore from 'core/stores/route';
+import { CheckboxChangeEvent } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
 import userStore from 'user/stores';
 import ReactMarkdown from 'react-markdown';
@@ -73,6 +74,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   const [pageNo, setPageNo] = React.useState(1);
   const [appId, setAppId] = React.useState<number | undefined>();
   const [query, setQuery] = React.useState<string>('');
+  const [isLatest, setIsLatest] = React.useState(false);
   const [loading] = useLoading(releaseStore, ['getAppList']);
 
   const [releaseList, setReleaseList] = React.useState<RELEASE.ReleaseDetail[]>([] as RELEASE.ReleaseDetail[]);
@@ -113,6 +115,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         pageSize: PAGINATION.pageSize,
         isStable: true,
         q: query,
+        latest: isLatest,
       });
       const { data } = res;
       if (data) {
@@ -121,7 +124,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         setReleaseTotal(total);
       }
     },
-    [projectId, query],
+    [projectId, query, isLatest],
   );
 
   React.useEffect(() => {
@@ -256,6 +259,11 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
                 getReleases(_pageNo, appId);
               },
             },
+            rightSlot: (
+              <Checkbox checked={isLatest} onChange={(e: CheckboxChangeEvent) => setIsLatest(e.target.checked)}>
+                <span className="text-white">按分支聚合</span>
+              </Checkbox>
+            ),
           },
           readOnlyRender: (value: RELEASE.ReleaseDetail[]) => {
             return (value || []).map((item: RELEASE.ReleaseDetail) => (

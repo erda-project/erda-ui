@@ -48,6 +48,7 @@ interface IProps<T extends object = any> {
   renderItem?: (item: T) => React.ReactNode;
   list: T[];
   menus: Array<{ title: string }>;
+  rightSlot?: React.ReactNode;
 }
 
 function ListSelect<T extends object = any>(props: IProps<T>) {
@@ -176,6 +177,7 @@ interface ListSelectOverlayProps<T> {
   parentKey: string;
   value?: T[];
   onChange?: (values: T[]) => void;
+  rightSlot?: React.ReactNode;
 }
 
 const defaultRenderItem = (item: { title: string }) => {
@@ -204,6 +206,7 @@ function ListSelectOverlay<T extends object = any>({
   rowKey,
   menuRowKey,
   parentKey,
+  rightSlot,
 }: ListSelectOverlayProps<T>) {
   const defaultSelectMenu = React.useMemo(
     () => ({ [menuRowKey]: 0, title: i18n.t('dop:all {name}', { name: i18n.t('App') }) }),
@@ -215,7 +218,7 @@ function ListSelectOverlay<T extends object = any>({
 
   useUpdateEffect(() => {
     onMenuChange && onMenuChange(selectedMenu);
-  }, [selectedMenu, menus, onMenuChange, menuRowKey]);
+  }, [selectedMenu, menus, menuRowKey]);
 
   return (
     <Row className="erda-list-select-overlay text-white rounded">
@@ -261,7 +264,7 @@ function ListSelectOverlay<T extends object = any>({
         </div>
       </Col>
       <Col span={12} className="px-2 h-full bg-white-08">
-        <div className="py-3 px-2 flex items-center justify-between">
+        <div className="py-3 px-2 flex items-center">
           <Dropdown
             trigger={['click']}
             getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
@@ -317,6 +320,7 @@ function ListSelectOverlay<T extends object = any>({
               {selectedMenu.title} <ErdaIcon size={16} type="caret-down" className="ml-1 text-white-3" />
             </div>
           </Dropdown>
+          <div className="pl-4">{rightSlot}</div>
         </div>
         <div className="erda-list-select-right-content flex">
           <div className="flex-1 pl-2 min-w-0">
