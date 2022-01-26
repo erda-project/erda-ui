@@ -11,18 +11,25 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_COPY_BUTTON {
-  interface Spec {
-    type: 'CopyButton';
-    props?: IProps;
-  }
+import React from 'react';
+import DiceConfigPage from 'config-page';
 
-  interface IProps {
-    copyText: string;
-    copyTip?: string;
-    buttonText?: string;
-    renderType?: 'button' | 'icon' | 'custom';
-  }
-
-  type Props = MakeProps<Spec>;
+interface IProps {
+  scope: 'micro_service' | 'org';
+  scopeId: string;
 }
+
+const BaseNotificationList: React.FC<IProps> = ({ scope, scopeId }) => {
+  return (
+    <DiceConfigPage
+      scenarioKey="msp-notify-list"
+      scenarioType="msp-notify-list"
+      inParams={{
+        scope,
+        scopeId,
+      }}
+    />
+  );
+};
+
+export default BaseNotificationList;

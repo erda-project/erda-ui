@@ -11,18 +11,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_COPY_BUTTON {
-  interface Spec {
-    type: 'CopyButton';
-    props?: IProps;
-  }
+import React from 'react';
+import { ErdaIcon } from 'common';
+import i18n from 'i18n';
 
-  interface IProps {
-    copyText: string;
-    copyTip?: string;
-    buttonText?: string;
-    renderType?: 'button' | 'icon' | 'custom';
-  }
+const AlarmDetailTitle = () => {
+  return (
+    <div>
+      <ErdaIcon
+        type="arrow-left"
+        size="18"
+        className="cursor-pointer text-gray mr-3"
+        onClick={() => window.history.back()}
+      />
+      <ErdaIcon type="remind" size="18" className="text-white bg-primary p-2 text-bold rounded-sm mr-2" />
+      <span className="font-bold text-lg">{i18n.t('cmp:new alarm strategy')}</span>
+    </div>
+  );
+};
 
-  type Props = MakeProps<Spec>;
-}
+export default AlarmDetailTitle;

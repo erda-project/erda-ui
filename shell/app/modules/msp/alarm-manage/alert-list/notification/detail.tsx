@@ -11,18 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_COPY_BUTTON {
-  interface Spec {
-    type: 'CopyButton';
-    props?: IProps;
-  }
+import React from 'react';
+import BaseNotificationDetail from './base-notification-detail';
+import routeInfoStore from 'core/stores/route';
 
-  interface IProps {
-    copyText: string;
-    copyTip?: string;
-    buttonText?: string;
-    renderType?: 'button' | 'icon' | 'custom';
-  }
+const NotificationDetail = () => {
+  const { terminusKey } = routeInfoStore.useStore((s) => s.params);
+  return <BaseNotificationDetail scope="micro_service" scopeId={terminusKey} />;
+};
 
-  type Props = MakeProps<Spec>;
-}
+export default NotificationDetail;

@@ -31,6 +31,17 @@ const alarmConfigTab = [
   },
 ];
 
+const alarmListTabs = [
+  {
+    key: 'events',
+    name: i18n.t('msp:events'),
+  },
+  {
+    key: 'notification',
+    name: i18n.t('notification'),
+  },
+];
+
 const alarmManageRouters = [
   alarmRecordRouter(),
   {
@@ -74,6 +85,49 @@ const alarmManageRouters = [
         getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/notify-group')),
       },
     ],
+  },
+  {
+    path: 'list',
+    breadcrumbName: getMspBreadcrumb('AlertList'),
+    tabs: alarmListTabs,
+    alwaysShowTabKey: 'events',
+    routes: [
+      {
+        getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alert-list/events')),
+      },
+      {
+        path: 'events',
+        tabs: alarmListTabs,
+        alwaysShowTabKey: 'events',
+        routes: [
+          {
+            getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alert-list/events')),
+          },
+          {
+            path: ':eventId',
+            getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alert-list/events/detail')),
+          },
+        ],
+      },
+      {
+        path: 'notification',
+        tabs: alarmListTabs,
+        alwaysShowTabKey: 'notification',
+        routes: [
+          {
+            getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alert-list/notification')),
+          },
+          {
+            path: ':notificationId',
+            getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alert-list/notification/detail')),
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: 'integration',
+    breadcrumbName: getMspBreadcrumb('AlertTegrate'),
   },
 ];
 

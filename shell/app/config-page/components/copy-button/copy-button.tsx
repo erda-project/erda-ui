@@ -12,13 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Button } from 'antd';
-import { Copy as CopyComp,ErdaIcon } from 'common';
+import { Copy as CopyComp, ErdaIcon } from 'common';
 import i18n from 'i18n';
 import React from 'react';
 import { uniqueId } from 'lodash';
 
-const CopyButton = (props: CP_COPY_BUTTON.Props) => {
-  const { props: configProps } = props;
+const CopyButton: React.FC<CP_COPY_BUTTON.Props> = (props) => {
+  const { props: configProps, children: child } = props;
   const { copyText, copyTip, buttonText, renderType = 'button' } = configProps || {};
 
   const idRef = React.useRef(uniqueId('cp-copy-'));
@@ -26,8 +26,10 @@ const CopyButton = (props: CP_COPY_BUTTON.Props) => {
   const children =
     renderType === 'button' ? (
       <Button type="primary">{buttonText || i18n.t('copy')}</Button>
-    ) : (
+    ) : renderType === 'icon' ? (
       <ErdaIcon type="copy" className="hover:text-primary" size={16} />
+    ) : (
+      child
     );
 
   return (
