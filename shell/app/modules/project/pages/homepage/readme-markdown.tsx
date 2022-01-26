@@ -93,8 +93,8 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
             {value || i18n.t('no description yet')}
           </ReactMarkdown>
           <div
-            className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex-all-center ${
-              !expandBtnVisible || expanded ? 'hidden' : ''
+            className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white ${
+              !expandBtnVisible || expanded ? 'hidden' : 'flex-all-center'
             }`}
           />
         </div>
