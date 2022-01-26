@@ -92,7 +92,7 @@ const Backlog = () => {
           const label = ISSUE_TYPE_ICON_MAP[issueType];
           return {
             label: (
-              <span>
+              <span className="flex-h-center">
                 {label.icon}
                 {label.name}
               </span>
