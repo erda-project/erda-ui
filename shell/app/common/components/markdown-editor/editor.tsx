@@ -25,6 +25,8 @@ import '@erda-ui/react-markdown-editor-lite/lib/index.css';
 import '../markdown-render/index.scss';
 
 MdEditor.use(UploadPlugin);
+// set locale at first time
+MdEditor.useLocale(getLang() === 'zh-CN' ? 'zhCN' : 'enUS');
 
 interface IProps extends Omit<EditorProps, 'renderHTML'> {
   defaultHeight: number;
