@@ -113,7 +113,7 @@ const OptionItem = (props: IOptionItemProps) => {
       onClick={() => onClick(option)}
     >
       <div className="flex justify-between items-center w-full">
-        <span>
+        <span className="flex-h-center">
           {option.icon && <CustomIcon type={option.icon} />}
           {option.label}
         </span>
