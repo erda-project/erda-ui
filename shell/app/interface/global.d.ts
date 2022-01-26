@@ -37,7 +37,10 @@ declare module '*.png';
 declare module '*.jpg';
 declare module '*.svg';
 declare module '*.webp';
-
+declare module 'path-browserify' {
+  import path from 'path';
+  export default path;
+}
 declare const mount: any;
 declare const shallow: any;
 declare const renderer: any;
