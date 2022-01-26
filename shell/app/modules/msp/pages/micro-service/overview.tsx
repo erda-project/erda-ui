@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Tag } from 'antd';
+import { Input, Spin } from 'antd';
 import { getMspProjectList, getProjectStatistics } from 'msp/services';
 import ErdaIcon from 'common/components/erda-icon';
 import { fromNow, goTo } from 'common/utils';
@@ -26,7 +26,7 @@ import middleImg from 'app/images/msp/microservice-governance-middle.svg';
 import bottomImg from 'app/images/msp/microservice-governance-bottom.svg';
 import backgroundImg from 'app/images/msp/microservice-governance-background.svg';
 import decorationImg from 'app/images/msp/microservice-governance-decoration.svg';
-import CardList, { CardColumnsProps } from 'common/components/card-list';
+import List from 'common/components/base-list';
 import i18n from 'i18n';
 import './overview.scss';
 
@@ -40,35 +40,39 @@ const iconMap: {
   DOP: {
     icon: 'DevOps',
     tag: i18n.t('msp:DevOps Project'),
-    color: '#1890FF',
+    color: 'blue',
   },
   MSP: {
     icon: 'MSP',
     tag: i18n.t('cmp:Monitor Project'),
-    color: '#27C99A',
+    color: 'green',
   },
 };
 
-const metric: { dataIndex: keyof MS_INDEX.IMspProject; name: string; renderData: (data: any) => React.ReactNode }[] = [
+const metric: {
+  dataIndex: keyof MS_INDEX.IMspProject;
+  name: string;
+  renderData: (data: MS_INDEX.IMspProject) => React.ReactNode;
+}[] = [
   {
     dataIndex: 'relationship',
     name: i18n.t('env'),
-    renderData: (data: MS_INDEX.IMspRelationship[]) => data.length,
+    renderData: (data) => data.relationship.length,
   },
   {
     dataIndex: 'serviceCount',
     name: i18n.t('service'),
-    renderData: (data: number) => data ?? 0,
+    renderData: (data) => data.serviceCount ?? 0,
   },
   {
     dataIndex: 'last24hAlertCount',
     name: i18n.t('msp:last 1 day alarm'),
-    renderData: (data: number) => data ?? 0,
+    renderData: (data) => data.last24hAlertCount ?? 0,
   },
   {
     dataIndex: 'lastActiveTime',
     name: i18n.t('msp:last active time'),
-    renderData: (data: number) => (data ? fromNow(data) : '-'),
+    renderData: (data) => (data.lastActiveTime ? fromNow(data.lastActiveTime) : '-'),
   },
 ];
 
@@ -89,13 +93,6 @@ const Overview = () => {
       });
     }
   }, [projectsList]);
-
-  const handleClick = (relationship: MS_INDEX.IMspRelationship[], projectId: string) => {
-    const item = last(relationship);
-    if (item) {
-      goTo(goTo.pages.mspOverview, { tenantGroup: item.tenantId, projectId, env: item.workspace });
-    }
-  };
 
   const handleSearch = React.useCallback(
     debounce((keyword?: string) => {
@@ -120,54 +117,44 @@ const Overview = () => {
   }, [projectsList, projectStatistics]);
 
   const list = React.useMemo(() => {
-    return projectsListWithStatics.filter((item) => item.displayName.toLowerCase().includes(filterKey));
-  }, [projectsListWithStatics, filterKey]);
-
-  const columns: CardColumnsProps<MS_INDEX.IMspProject>[] = [
-    {
-      dataIndex: 'displayName',
-      colProps: {
-        className: 'flex items-center',
-      },
-      render: (displayName: string, { logo, desc, type }) => {
-        const { icon, color, tag } = iconMap[type];
-        return (
-          <>
-            <div className="w-14 h-14 mr-2">
-              {logo ? <img src={logo} width={56} height={56} /> : <ErdaIcon type={icon} size={56} />}
-            </div>
-            <div>
-              <p className="mb-0 font-medium text-xl leading-8">{displayName}</p>
-              <Tag className="mb-0.5 text-xs leading-5 border-0" color={color}>
-                {tag}
-              </Tag>
-              <div className="text-xs	leading-5 desc">{desc || i18n.t('no description yet')}</div>
-            </div>
-          </>
-        );
-      },
-    },
-    {
-      dataIndex: 'id',
-      colProps: {
-        className: 'flex items-center',
-      },
-      children: {
-        columns: metric.map((item) => ({
-          dataIndex: item.dataIndex,
-          colProps: {
-            span: 6,
+    return projectsListWithStatics
+      .filter((item) => item.displayName.toLowerCase().includes(filterKey))
+      .map((item) => {
+        const { logo, desc, displayName, type, relationship, id } = item;
+        return {
+          ...item,
+          logoURL: logo,
+          icon: logo ? undefined : iconMap[type].icon,
+          title: displayName,
+          description: desc || i18n.t('no description yet'),
+          tags: [
+            {
+              label: iconMap[type].tag,
+              color: iconMap[type].color,
+            },
+          ],
+          kvInfos: metric.map((t) => {
+            return {
+              key: t.name,
+              value: t.renderData(item),
+              compWapper: (comp: JSX.Element) => <>{comp}</>,
+            };
+          }),
+          itemProps: {
+            onClick: () => {
+              const lastRelation = last(relationship);
+              if (lastRelation) {
+                goTo(goTo.pages.mspOverview, {
+                  tenantGroup: lastRelation.tenantId,
+                  projectId: id,
+                  env: lastRelation.workspace,
+                });
+              }
+            },
           },
-          render: (text) => (
-            <>
-              <p className="mb-0 text-xl leading-8 font-number">{item.renderData(text)}</p>
-              <p className="mb-0 text-xs leading-5 desc">{item.name}</p>
-            </>
-          ),
-        })),
-      },
-    },
-  ];
+        };
+      });
+  }, [projectsListWithStatics, filterKey]);
 
   return (
     <div className="msp-overview flex flex-col pt-0">
@@ -194,16 +181,8 @@ const Overview = () => {
           <img src={decorationImg} className="absolute decoration-img top" />
         </div>
       </div>
-      <CardList<MS_INDEX.IMspProject>
-        rowKey="id"
-        size="large"
-        loading={loading}
-        columns={columns}
-        dataSource={list}
-        rowClick={({ relationship, id }) => {
-          handleClick(relationship, id);
-        }}
-        slot={
+      <div className="bg-white mr-4 rounded-sm shadow-card">
+        <div className="h-12 flex items-center px-4 bg-default-02">
           <Input
             prefix={<ErdaIcon type="search1" />}
             bordered={false}
@@ -214,8 +193,13 @@ const Overview = () => {
               handleSearch(e.target.value);
             }}
           />
-        }
-      />
+        </div>
+        <div className="p-4">
+          <Spin spinning={loading}>
+            <List getKey={(item) => item.id} dataSource={list} />
+          </Spin>
+        </div>
+      </div>
     </div>
   );
 };
