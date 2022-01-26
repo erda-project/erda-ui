@@ -60,38 +60,40 @@ const PipelineManage = (props: IProps) => {
     selectedKeys: nodeId,
   };
   return (
-    <SplitPage>
-      <SplitPage.Left className="pipeline-manage-left">
-        {pipelineID && !nodeId ? (
-          <EmptyHolder relative />
-        ) : (
-          <DiceConfigPage
-            scenarioType=""
-            scenarioKey={'app-pipeline-tree'}
-            inParams={inParams}
-            showLoading
-            forceUpdateKey={['inParams']}
-            customProps={{
-              fileTree: {
-                op: {
-                  onClickNode: (_inode: string) => {
-                    if (nodeIdRef.current !== _inode) {
-                      clearTreeNodeDetail();
-                      setTimeout(() => {
-                        updateSearch({ nodeId: _inode, pipelineID: undefined });
-                      }, 0);
-                    }
+    <div className="bg-white py-3 px-4">
+      <SplitPage>
+        <SplitPage.Left className="pipeline-manage-left">
+          {pipelineID && !nodeId ? (
+            <EmptyHolder relative />
+          ) : (
+            <DiceConfigPage
+              scenarioType=""
+              scenarioKey={'app-pipeline-tree'}
+              inParams={inParams}
+              showLoading
+              forceUpdateKey={['inParams']}
+              customProps={{
+                fileTree: {
+                  op: {
+                    onClickNode: (_inode: string) => {
+                      if (nodeIdRef.current !== _inode) {
+                        clearTreeNodeDetail();
+                        setTimeout(() => {
+                          updateSearch({ nodeId: _inode, pipelineID: undefined });
+                        }, 0);
+                      }
+                    },
                   },
                 },
-              },
-            }}
-          />
-        )}
-      </SplitPage.Left>
-      <SplitPage.Right>
-        {nodeId ? <PipelineDetail scopeParams={scopeParams} key={nodeId} scope={scope} /> : <EmptyHolder relative />}
-      </SplitPage.Right>
-    </SplitPage>
+              }}
+            />
+          )}
+        </SplitPage.Left>
+        <SplitPage.Right>
+          {nodeId ? <PipelineDetail scopeParams={scopeParams} key={nodeId} scope={scope} /> : <EmptyHolder relative />}
+        </SplitPage.Right>
+      </SplitPage>
+    </div>
   );
 };
 
