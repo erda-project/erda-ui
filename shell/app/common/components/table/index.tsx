@@ -343,7 +343,7 @@ function WrappedTable<T extends object = any>({
         onRow={onRow}
         rowSelection={rowSelection}
         {...props}
-        className={`flex-1 min-h-0 overflow-y-auto ${className}`}
+        className={`flex-1 overflow-y-auto ${className}`}
         tableLayout="auto"
         locale={{
           emptyText:
