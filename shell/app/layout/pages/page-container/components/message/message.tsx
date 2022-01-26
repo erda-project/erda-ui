@@ -13,9 +13,8 @@
 
 import React from 'react';
 import messageStore, { MSG_STATUS } from 'app/layout/stores/message';
-import { Holder, Icon as CustomIcon, LoadMore, ErdaIcon } from 'common';
+import { Holder, Icon as CustomIcon, LoadMore, ErdaIcon, MarkdownRender } from 'common';
 import { Badge, Timeline, Drawer, notification, Button, Modal, message } from 'antd';
-import Markdown from 'common/utils/marked';
 import { map } from 'lodash';
 import moment from 'moment';
 import i18n from 'i18n';
@@ -250,10 +249,7 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
             destroyOnClose
             className="site-message-drawer"
           >
-            <article
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{ __html: Markdown((detail && detail.content) || '') }}
-            />
+            <MarkdownRender value={(detail && detail.content) || ''} />
           </Drawer>
         </Holder>
       </div>

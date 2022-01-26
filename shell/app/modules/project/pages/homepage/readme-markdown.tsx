@@ -14,10 +14,8 @@
 import React from 'react';
 import i18n from 'core/i18n';
 import { Tooltip } from 'antd';
-import { MarkdownEditor, EditField, ErdaIcon } from 'common';
-import remarkGfm from 'remark-gfm';
+import { MarkdownEditor, ErdaIcon, MarkdownRender } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import ReactMarkdown from 'react-markdown';
 import './index.scss';
 
 interface IMdProps {
@@ -28,8 +26,6 @@ interface IMdProps {
   onChange: (v: string) => void;
   onSave: (v: string) => void;
 }
-
-const { ScalableImage } = EditField;
 
 export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValue, maxHeight }: IMdProps) => {
   const [{ v, isEditing }, updater, update] = useUpdate({
@@ -75,19 +71,15 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
   ) : (
     <div className="relative cursor-pointer rounded w-full read-only-markdown" style={{ maxHeight }}>
       <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
-        <div className="md-content p-0">
-          <Tooltip title={i18n.t('dop:click to edit')}>
-            <div
-              className={'markdown-edit-button flex-all-center h-8 w-8 fixed bg-white rounded-2xl shadow-card'}
-              onClick={() => updater.isEditing(true)}
-            >
-              <ErdaIcon type="edit" size={16} className="text-default-4 hover:text-default-8" />
-            </div>
-          </Tooltip>
-          <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ img: ScalableImage }} linkTarget="_blank">
-            {value || i18n.t('no description yet')}
-          </ReactMarkdown>
-        </div>
+        <MarkdownRender value={value || i18n.t('no description yet')} />
+        <Tooltip title={i18n.t('dop:click to edit')}>
+          <div
+            className={'markdown-edit-button flex-all-center h-8 w-8 fixed bg-white rounded-2xl shadow-card'}
+            onClick={() => updater.isEditing(true)}
+          >
+            <ErdaIcon type="edit" size={16} className="text-default-4 hover:text-default-8" />
+          </div>
+        </Tooltip>
       </div>
     </div>
   );

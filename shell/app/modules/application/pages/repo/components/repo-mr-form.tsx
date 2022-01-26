@@ -13,9 +13,8 @@
 
 import { Button, Menu, Dropdown, message, Tooltip } from 'antd';
 import React from 'react';
-import { RenderForm, FormModal, MemberSelector, ErdaIcon } from 'common';
+import { RenderForm, FormModal, MemberSelector, ErdaIcon, MarkdownRender } from 'common';
 import { connectCube } from 'common/utils';
-import Markdown from 'common/utils/marked';
 import MarkdownEditor from 'common/components/markdown-editor';
 import SourceTargetSelect from './source-target-select';
 import i18n from 'i18n';
@@ -74,13 +73,7 @@ const TplModel = ({ visible, tplContent, templateConfig, onOk, onCancel }: IMode
       required: false,
       initialValue: tplContent,
       getComp() {
-        return (
-          <article
-            className="mr-template-preview"
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: Markdown(tplContent || '') }}
-          />
-        );
+        return <MarkdownRender className="mr-template-preview" value={tplContent || ''} />;
       },
     },
   ];

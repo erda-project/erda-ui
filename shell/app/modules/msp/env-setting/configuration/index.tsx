@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { ColumnProps, IActions } from 'common/components/table/interface';
-import { Copy, EmptyHolder, ErdaIcon, UserInfo } from 'common';
+import { Copy, EmptyHolder, ErdaIcon, UserInfo, MarkdownRender } from 'common';
+import Table from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import ErdaTable from 'common/components/table';
 import i18n from 'i18n';
@@ -22,7 +23,6 @@ import TypeSelect, { Item } from 'msp/env-setting/configuration/type-select';
 import { PAGINATION } from 'app/constants';
 import { usePerm, WithAuth } from 'user/common';
 import moment from 'moment';
-import Markdown from 'common/utils/marked';
 import {
   createToken,
   deleteDetailToken,
@@ -306,10 +306,10 @@ const Configuration = () => {
           </ItemRender>
         )}
 
-        <article
-          className="h-full bg-grey border-all p-4 mt-2 rounded text-sm md-content"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: Markdown(infoData || '') }}
+        <MarkdownRender
+          value={infoData || ''}
+          noWrapper
+          className="h-full bg-grey border-all p-4 mt-2 rounded text-sm"
         />
       </div>
     </Spin>

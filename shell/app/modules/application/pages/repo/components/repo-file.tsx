@@ -12,13 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react/no-danger */
-import React from 'react';
-import pathLib from 'path';
+import React, { ImgHTMLAttributes, LinkHTMLAttributes } from 'react';
+import pathLib from 'path-browserify';
 import FileContainer from 'application/common/components/file-container';
-import { FileEditor, ErdaIcon } from 'common';
+import { FileEditor, ErdaIcon, MarkdownRender } from 'common';
 import { goTo, qs, getOrgFromPath, connectCube } from 'common/utils';
 import { getSplitPathBy, getInfoFromRefName } from '../util';
-import Markdown from 'common/utils/marked';
 import i18n from 'i18n';
 import './repo-file.scss';
 import appStore from 'application/stores/application';
@@ -173,20 +172,21 @@ class RepoFile extends React.PureComponent<IProps, IState> {
           // debugger;
           return null;
         }
-        const renderFns = {
-          link(href: string, _title: string, text: string) {
+        const { resolve, dirname } = pathLib;
+        const components = {
+          a({ href = '', children }: LinkHTMLAttributes<HTMLAnchorElement>) {
             let link = href;
             if (!href.startsWith('http') && !href.startsWith('#')) {
               if (urlIsFilePath) {
-                link = pathLib.resolve(pathLib.dirname(pathname), link);
+                link = resolve(dirname(pathname), link);
               } else {
-                link = pathLib.resolve(pathname, link);
+                link = resolve(pathname, link);
               }
             }
 
-            return `<a href="${link}">${text}</a>`;
+            return <a href={link}>{children}</a>;
           },
-          image(src: string, title: string) {
+          img({ src = '', alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) {
             // markdown中 src 的4种文件格式:
             // 1: http(s)://foo/bar.png -> src 不进行处理
             // 2: ./bar.png
@@ -207,15 +207,12 @@ class RepoFile extends React.PureComponent<IProps, IState> {
               _src = `${fileSrcPrefix}/${curBranch}/${src}`;
             }
 
-            return `<img src="${_src}" alt="${title || 'preview-image'}" />`;
+            return <img src={_src} alt={alt || 'preview-image'} {...rest} />;
           },
         };
         return (
           <FileContainer name={name} ops={ops} className={`repo-file ${className}`}>
-            <article
-              className="md-content md-key"
-              dangerouslySetInnerHTML={{ __html: Markdown(blob.content, renderFns) }}
-            />
+            <MarkdownRender className="md-key" value={blob.content} components={components} />
           </FileContainer>
         );
       } else if (['png', 'jpg', 'jpeg', 'gif', 'bmp'].includes(fileExtension)) {
