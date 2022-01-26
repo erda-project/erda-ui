@@ -883,6 +883,7 @@
     "The default branch cannot be deleted.": "The default branch cannot be deleted.",
     "The deployment time should not be longer than 7 days.": "The deployment time should not be longer than 7 days.",
     "The export task has been created, please check the progress in the record": "The export task has been created, please check the progress in the record",
+    "deploy-upload-file-tip": "The file is stored in the /init-data directory of the container. The file name is the configured Key value. The content of the file is the uploaded file",
     "The import and export tasks you submitted have status updates, please check the records": "The import and export tasks you submitted have status updates, please check the records",
     "The name cannot contain forward and backward slashes. Please enter again.": "The name cannot contain forward and backward slashes. Please enter again.",
     "The new data will be lost if closed. Continue?": "new data will be lost after closing, confirm closing ?",

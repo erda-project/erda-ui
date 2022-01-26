@@ -883,6 +883,7 @@
     "The default branch cannot be deleted.": "默认分支不可删除",
     "The deployment time should not be longer than 7 days.": "部署时间不得大于7天",
     "The export task has been created, please check the progress in the record": "导出任务已创建，请在记录中查看进度",
+    "deploy-upload-file-tip": "文件位于容器的 /init-data 目录下，文件名为配置的 Key 值，文件内容即上传的文件，可进入容器控制台查看",
     "The import and export tasks you submitted have status updates, please check the records": "你提交的导入导出任务有状态更新，请查看记录",
     "The name cannot contain forward and backward slashes. Please enter again.": "名称不能使用正反斜杠，请重新输入",
     "The new data will be lost if closed. Continue?": "关闭后新建数据将丢失，确认关闭 ？",
