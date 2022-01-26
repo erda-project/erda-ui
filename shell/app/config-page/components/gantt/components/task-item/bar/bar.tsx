@@ -67,6 +67,7 @@ export const Bar: React.FC<TaskItemProps> = ({
           height={handleHeight}
         >
           <div
+            style={{ transform: `translate(${task.x1 - 14}px,${task.y}px)` }}
             className="erda-gantt-bar-container relative"
             onMouseDown={(e) => {
               isDateChangeable && onEventStart('move', task, e);
