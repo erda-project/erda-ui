@@ -25,91 +25,66 @@ export const mockData = {
   },
   protocol: {
     hierarchy: {
-      root: 'BubbleGraph',
+      root: 'myPage',
       structure: {
-        myPage: ['BubbleGraph'],
+        myPage: ['graph'],
       },
     },
     components: {
-      myPage: { type: 'Container' },
-      BubbleGraph: {
-        type: 'BubbleGraph',
+      myPage: {
+        type: 'Container',
+        props: {
+          className: 'bg-white',
+        },
+      },
+      graph: {
+        type: 'ComplexGraph',
         data: {
-          list: [
+          dimensions: ['Evaporation', 'Precipitation', 'Temperature'],
+          inverse: false,
+          series: [
             {
-              dimension: 'dimension A',
-              group: 'group A',
-              size: {
-                value: 10,
-              },
-              x: {
-                unit: '',
-                value: 100,
-              },
-              y: {
-                unit: '',
-                value: 100,
-              },
+              data: [2, 4.9, 7, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20, 6.4, 3.3],
+              dimension: 'Evaporation',
+              name: 'Evaporation',
+              type: 'bar',
             },
             {
-              dimension: 'dimension A',
-              group: 'group B',
-              size: {
-                value: 15,
-              },
-              x: {
-                unit: '',
-                value: 150,
-              },
-              y: {
-                unit: '',
-                value: 200,
-              },
+              data: [2.6, 5.9, 9, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6, 2.3],
+              dimension: 'Precipitation',
+              name: 'Precipitation',
+              type: 'bar',
             },
             {
-              dimension: 'dimension B',
-              group: 'group A',
-              size: {
-                value: 25,
-              },
-              x: {
-                unit: '',
-                value: 400,
-              },
-              y: {
-                unit: '',
-                value: 300,
-              },
+              data: [2, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23, 16.5, 12, 118],
+              dimension: 'Temperature',
+              name: 'Temperature',
+              type: 'line',
             },
+          ],
+          title: '柱状图 📊 DEMO',
+          xAxis: [
             {
-              dimension: 'dimension B',
-              group: 'group B',
-              size: {
-                value: 30,
+              data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+              structure: {
+                enable: false,
+                precision: '',
+                type: 'string',
               },
-              x: {
-                unit: '',
-                value: 1,
-              },
-              y: {
-                unit: '',
-                value: 400,
-              },
+              type: 'category',
             },
+          ],
+          yAxis: [
             {
-              dimension: 'dimension B',
-              group: 'group B',
-              size: {
-                value: 100,
+              dimensions: ['Evaporation', 'Precipitation', 'Temperature'],
+              name: 'Evaporation',
+              position: 'left',
+              structure: {
+                enable: true,
+                precision: 'ml',
+                type: 'string',
               },
-              x: {
-                unit: '',
-                value: 100,
-              },
-              y: {
-                unit: '',
-                value: 400,
-              },
+              type: 'value',
             },
           ],
         },

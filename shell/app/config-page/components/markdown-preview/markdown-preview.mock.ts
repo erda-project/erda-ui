@@ -11,26 +11,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_CHART_BLOCK {
-  interface Spec {
-    type: 'ChartBlock';
-    props?: IProps;
-    data: IData;
-  }
+const mockData: Array<MockSpec<CP_MARKDOWN_PREVIEW.Spec>> = [
+  {
+    _meta: {
+      title: 'Markdown Preview',
+      desc: 'markdown 预览',
+    },
+    type: 'MarkdownPreview',
+    props: {
+      wrapperClassName: 'py-4',
+    },
+    data: {
+      content: '## markdown 预览\n [erda cloud](https://www.erda.cloud)',
+    },
+  },
+];
 
-  interface IData {
-    title: string;
-  }
-
-  interface IProps {
-    chartOptions?: any;
-    className?: string;
-    childClassName?: string;
-    showDefaultBgColor?: boolean;
-  }
-
-  type Props = MakeProps<Spec> & {
-    filter: React.ElementType;
-    children: React.ElementType[];
-  };
-}
+export default mockData;

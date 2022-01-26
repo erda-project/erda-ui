@@ -81,6 +81,8 @@ import ScaleCard from './scale-card/scale-card';
 import LineGraph from './line-graph';
 import KV from './kv';
 import BubbleGraph from './bubble-graph';
+import ComplexGraph from './complex-graph';
+import MarkdownPreview from './markdown-preview';
 
 export const containerMap = {
   Alert,
@@ -156,4 +158,6 @@ export const containerMap = {
   LineGraph,
   KV,
   BubbleGraph,
+  ComplexGraph,
+  MarkdownPreview,
 };

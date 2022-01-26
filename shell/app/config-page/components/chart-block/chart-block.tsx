@@ -16,16 +16,18 @@ import React from 'react';
 const ChartBlock = (props: CP_CHART_BLOCK.Props) => {
   const { filter, children, data: configData, props: configProps } = props;
   const { title } = configData || {};
-  const { className = '' } = configProps || {};
-
+  const { className = '', childClassName = '', showDefaultBgColor = true } = configProps || {};
+  const showHead = title || filter;
   return (
-    <div className={className}>
-      <div className="bg-color-02 h-12 px-4 flex items-center justify-between">
-        <span className="font-medium">{title}</span>
-        {filter || null}
-      </div>
-      <div className="p-4">
-        <div className="bg-color-01">{children}</div>
+    <div className={`rounded-sm ${className}`}>
+      {showHead ? (
+        <div className="bg-color-02 h-12 px-4 flex items-center justify-between rounded-t-sm">
+          <span className="font-medium">{title}</span>
+          <div>{filter || null}</div>
+        </div>
+      ) : null}
+      <div className={`p-4 ${childClassName}`}>
+        <div className={showDefaultBgColor ? 'bg-color-01' : ''}>{children}</div>
       </div>
     </div>
   );

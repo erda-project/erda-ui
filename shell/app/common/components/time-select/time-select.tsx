@@ -17,6 +17,7 @@ import { produce } from 'immer';
 import { useMount } from 'react-use';
 import { Moment } from 'moment';
 import { SelectProps } from 'antd/lib/select';
+import { DropDownProps } from 'antd/lib/dropdown/dropdown';
 import i18n from 'i18n';
 import './time-select.scss';
 import { useUpdate } from 'common/use-hooks';
@@ -211,6 +212,7 @@ interface IState {
 
 export interface IProps {
   theme: 'dark' | 'light';
+  placement?: DropDownProps['placement'];
   className?: string;
   triggerChangeOnMounted?: boolean;
   defaultValue?: ITimeRange;
@@ -334,6 +336,7 @@ const TimeSelect = (props: IProps) => {
   return (
     <div className={`time-select h-7 flex rounded ${props.className ?? ''} ${props.theme || 'light'}`}>
       <Dropdown
+        placement={props.placement}
         getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
         visible={visible}
         trigger={['click']}

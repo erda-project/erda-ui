@@ -13,7 +13,6 @@
 
 import React from 'react';
 import DiceConfigPage, { useMock } from 'app/config-page';
-import themeColor from 'app/theme-color.mjs';
 
 const Mock = () => {
   return (
@@ -24,42 +23,9 @@ const Mock = () => {
       useMock={useMock}
       forceMock
       customProps={{
-        BubbleGraph: {
-          op: {
-            click: (a: CP_DATA_RANK.IItem) => {
-              console.log(a);
-            },
-          },
-        },
-        dataRank: {
-          op: {
-            clickRow: (a: CP_DATA_RANK.IItem) => {
-              // do something
-            },
-          },
+        cards: {
           props: {
-            theme: [
-              {
-                color: themeColor.blue,
-                titleIcon: 'mail',
-                backgroundIcon: 'baocun',
-              },
-              {
-                color: themeColor.success,
-                titleIcon: 'mysql',
-                backgroundIcon: 'shezhi',
-              },
-              {
-                color: themeColor.warning,
-                titleIcon: 'RocketMQ',
-                backgroundIcon: 'map-draw',
-              },
-              {
-                color: themeColor.error,
-                titleIcon: 'morenzhongjianjian',
-                backgroundIcon: 'data-server',
-              },
-            ],
+            gutter: 0,
           },
         },
       }}

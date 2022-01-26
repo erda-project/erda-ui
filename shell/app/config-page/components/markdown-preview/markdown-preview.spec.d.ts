@@ -11,26 +11,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_CHART_BLOCK {
-  interface Spec {
-    type: 'ChartBlock';
-    props?: IProps;
-    data: IData;
-  }
-
-  interface IData {
-    title: string;
-  }
-
+declare namespace CP_MARKDOWN_PREVIEW {
   interface IProps {
-    chartOptions?: any;
+    wrapperClassName?: string;
     className?: string;
-    childClassName?: string;
-    showDefaultBgColor?: boolean;
   }
 
-  type Props = MakeProps<Spec> & {
-    filter: React.ElementType;
-    children: React.ElementType[];
-  };
+  interface Spec {
+    type: 'MarkdownPreview';
+    props?: IProps;
+    data: {
+      content: string;
+    };
+  }
+
+  type Props = MakeProps<Spec>;
 }
