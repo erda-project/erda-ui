@@ -53,6 +53,8 @@ const ProjectList = () => {
         scenarioType="project-list-all"
         scenarioKey="project-list-all"
         ref={reloadRef}
+        forceMock
+        useMock={useMock}
         customProps={{
           list: {
             props: {
@@ -60,11 +62,14 @@ const ProjectList = () => {
               defaultLogo: <ErdaIcon type="morenxiangmu" size={28} />,
             },
             op: {
-              applyDeploy: (op: CP_COMMON.Operation, data: any) => {
-                const pId = get(op, 'meta.projectId') || data?.projectId;
-                const pName = get(op, 'meta.projectName') || data?.projectName;
-                if (pId && pName) {
-                  handleShowApplyModal({ name: pName, id: pId } as PROJECT.Detail);
+              clickItem: (op: CP_COMMON.Operation, data: { record: any }) => {
+                if (op.id === 'applyDeploy') {
+                  const { record } = data;
+                  const pId = record.id;
+                  const pName = record.title;
+                  if (pId && pName) {
+                    handleShowApplyModal({ name: pName, id: pId } as PROJECT.Detail);
+                  }
                 }
               },
             },

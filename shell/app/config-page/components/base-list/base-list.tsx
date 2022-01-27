@@ -102,6 +102,7 @@ const List = (props: CP_BASE_LIST.Props) => {
 
         const moreOperations = map(item.moreOperations, (opItem, idx) => {
           const clickFn = () => {
+            customOp?.clickItem?.(opItem, { record: item, action: 'clickMoreOperation' });
             execMultipleOperation(opItem.operations, (op) =>
               execOperation({ ...op, clientData: { dataRef: item, operationRef: opItem } }),
             );
