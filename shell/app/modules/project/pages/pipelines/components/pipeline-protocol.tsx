@@ -51,7 +51,7 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
   const [detailVisible, setDetailVisible] = React.useState(false);
   const [detail, setDetail] = React.useState<
     Partial<{ id: string; appId: string; pipelineId: string; branchExist: boolean }>
-  >({} as { id: string; appId: string; pipelineId: string });
+  >({});
 
   const reloadRef = React.useRef<{ reload: () => void }>(null);
 
@@ -115,7 +115,7 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
                   let path = atob(decodeURI(inode)).split('/');
                   path.pop();
                   const appId = path[1];
-                  const branchName = path.join('/').split('tree/')[1].split('/.dice')[0].split('/.erda')[0];
+                  const branchName = path.join('/').split('tree/')[1].split('/.dice')[0].split('/.erda')[0]; // such as '1/12/tree/feature/0.17.x-treeOrder/.dice', take the 'feature/0.17.x-treeOrder' of it
                   const res = await getAllBranch.fetch({ appID: +appId });
                   let branchExist = false;
                   if (res.data) {
