@@ -26,6 +26,7 @@ declare namespace CP_BASE_LIST {
     defaultLogo?: string;
     hideHead?: boolean;
     className?: string;
+    wrapperClassName?: string;
   }
 
   interface IData {

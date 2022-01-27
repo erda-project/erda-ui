@@ -53,13 +53,10 @@ const ProjectList = () => {
         scenarioType="project-list-all"
         scenarioKey="project-list-all"
         ref={reloadRef}
-        forceMock
-        useMock={useMock}
         customProps={{
           list: {
             props: {
-              hideHead: true,
-              wrapperClassName: 'mt-0',
+              wrapperClassName: 'mt-0 bg-white',
               defaultLogo: <ErdaIcon type="morenxiangmu" size={28} />,
             },
             op: {
@@ -70,16 +67,6 @@ const ProjectList = () => {
                   handleShowApplyModal({ name: pName, id: pId } as PROJECT.Detail);
                 }
               },
-            },
-          },
-          content: {
-            props: {
-              className: 'bg-white p-0 mb-4',
-            },
-          },
-          filter: {
-            props: {
-              className: 'px-4 py-2 bg-default-02',
             },
           },
         }}

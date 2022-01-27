@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
-import { goTo } from 'common/utils';
+import { goTo, insertWhen } from 'common/utils';
 import { filter } from 'lodash';
 import permStore from 'user/stores/permission';
 import { ErdaIcon } from 'common';
