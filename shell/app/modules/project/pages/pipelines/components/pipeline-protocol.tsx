@@ -20,11 +20,13 @@ import routeInfoStore from 'core/stores/route';
 import projectStore from 'project/stores/project';
 import { updateSearch } from 'common/utils';
 import fileTreeStore from 'common/stores/file-tree';
+import { EmptyHolder } from 'common';
 import { getINodeByPipelineId } from 'application/services/build';
 import PipelineForm from './form';
 import PipelineBasic from './basic';
 import PipelineRunDetail from 'application/pages/pipeline/run-detail';
 import appStore from 'application/stores/application';
+import { getAllBranch } from 'project/services/pipeline';
 
 interface IProps {
   application: { ID: number; name?: string };
@@ -47,9 +49,9 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
 
   const [visible, setVisible] = React.useState(false);
   const [detailVisible, setDetailVisible] = React.useState(false);
-  const [detail, setDetail] = React.useState<Partial<{ id: string; appId: string; pipelineId: string }>>(
-    {} as { id: string; appId: string; pipelineId: string },
-  );
+  const [detail, setDetail] = React.useState<
+    Partial<{ id: string; appId: string; pipelineId: string; branchExist: boolean }>
+  >({});
 
   const reloadRef = React.useRef<{ reload: () => void }>(null);
 
@@ -63,6 +65,7 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
 
   const onDetailClose = React.useCallback(() => {
     setDetailVisible(false);
+    setDetail({});
   }, []);
 
   return (
@@ -108,13 +111,25 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
                 const { operations } = record;
                 const serverData = get(operations, 'click.serverData');
                 const { pipelineID: pipelineId, inode, appName } = serverData;
-                const appId = inode && atob(decodeURI(inode)).split('/')[1];
-                inode && updateSearch({ nodeId: inode, applicationId: appId, pipelineID: pipelineId });
-                setDetail({ id: inode, appId, pipelineId });
-                updateAppDetail({ id: appId, gitRepoAbbrev: `${projectName}/${appName}` });
-                if (pipelineId) {
-                  const res = await getINodeByPipelineId({ pipelineId });
-                  updateTreeNodeDetail(res.data);
+                if (inode) {
+                  let path = atob(decodeURI(inode)).split('/');
+                  path.pop();
+                  const appId = path[1];
+                  const branchName = path.join('/').split('tree/')[1].split('/.dice')[0].split('/.erda')[0]; // such as '1/12/tree/feature/0.17.x-treeOrder/.dice', take the 'feature/0.17.x-treeOrder' of it
+                  const res = await getAllBranch.fetch({ appID: +appId });
+                  let branchExist = false;
+                  if (res.data) {
+                    const branch = res.data.find((item: { name: string }) => item.name === branchName);
+                    branch && (branchExist = true);
+                  }
+                  updateSearch({ nodeId: inode, applicationId: appId, pipelineID: pipelineId });
+                  setDetail({ id: inode, appId, pipelineId, branchExist });
+                  updateAppDetail({ id: appId, gitRepoAbbrev: `${projectName}/${appName}` });
+
+                  if (pipelineId && branchExist) {
+                    const res = await getINodeByPipelineId({ pipelineId });
+                    updateTreeNodeDetail(res.data);
+                  }
                 }
               },
             },
@@ -169,9 +184,12 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
       </Drawer>
       <Drawer onClose={onDetailClose} visible={detailVisible} width="80%" destroyOnClose>
         <Tabs defaultActiveKey="basic">
-          <TabPane tab={i18n.t('basic information')} key="basic">
-            <PipelineBasic nodeId={detail.id} appId={detail.appId} />
-          </TabPane>
+          {detail.branchExist ? (
+            <TabPane tab={i18n.t('basic information')} key="basic">
+              <PipelineBasic nodeId={detail.id} appId={detail.appId} />
+            </TabPane>
+          ) : null}
+
           {detail.pipelineId ? (
             <TabPane tab={i18n.t('execute detail')} key="2">
               <div className="m-3 bg-white rounded-xl p-4">
@@ -180,6 +198,7 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
             </TabPane>
           ) : null}
         </Tabs>
+        {!detail.branchExist && !detail.pipelineId ? <EmptyHolder /> : null}
       </Drawer>
     </>
   );

@@ -54,6 +54,9 @@ const apis = {
   checkSource: {
     api: 'get@/api/project-pipeline/actions/source-pre-check',
   },
+  getAllBranch: {
+    api: 'get@/api/cicds/actions/app-all-valid-branch-workspaces',
+  },
 };
 
 export const getAppList = apiCreator<(payload: { projectID: string; name?: string }) => AppDetail[]>(apis.getAppList);
@@ -83,3 +86,7 @@ export const checkName = apiCreator<
 export const checkSource = apiCreator<
   (payload: { appID: string; sourceType: string; ref: string; fileName: string }) => { pass: boolean; message: string }
 >(apis.checkSource);
+
+export const getAllBranch = apiCreator<(payload: { appID: number }) => RAW_RESPONSE<Array<{ name: string }>>>(
+  apis.getAllBranch,
+);
