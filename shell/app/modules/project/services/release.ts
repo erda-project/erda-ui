@@ -22,6 +22,7 @@ interface ReleaseListQuery {
   pageSize: number;
   pageNo: number;
   q?: string;
+  latest?: boolean;
 }
 
 interface AddReleaseParams {
