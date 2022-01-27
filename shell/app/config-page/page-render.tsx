@@ -46,7 +46,7 @@ const ConfigPageRender = (props: IProps) => {
     if (components) {
       const curCompKeys = Object.keys(components);
       if (!isEqual(curCompKeys, componentsKey)) {
-        containerMapRef.current = getContainerMap(components);
+        containerMapRef.current = getContainerMap(components, customProps);
         setComponentsKey(curCompKeys);
       }
     }
@@ -178,11 +178,15 @@ const ConfigPageRender = (props: IProps) => {
 export default ConfigPageRender;
 
 // 根据配置中的container，获取到当前的所有的组件map
-const getContainerMap = (container: Obj<CONFIG_PAGE.BaseSpec>) => {
+const getContainerMap = (container: Obj<CONFIG_PAGE.BaseSpec>, customProps?: Obj) => {
   const conMap = {};
   map(container, (config, cId) => {
-    const Comp = fullContainerMap[config.type];
-    conMap[cId] = Comp || fullContainerMap.NotFound;
+    if (config.type === 'Custom') {
+      conMap[cId] = customProps?.[cId] || fullContainerMap.NotFound;
+    } else {
+      const Comp = fullContainerMap[config.type];
+      conMap[cId] = Comp || fullContainerMap.NotFound;
+    }
   });
   return conMap;
 };
