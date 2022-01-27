@@ -21,7 +21,7 @@ import { goTo, insertWhen } from 'common/utils';
 import { getUploadProps } from 'common/utils/upload-props';
 import releaseStore from 'project/stores/release';
 import routeInfoStore from 'core/stores/route';
-import { CheckboxChangeEvent } from 'core/common/interface';
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import orgStore from 'app/org-home/stores/org';
 import userStore from 'user/stores';
 import ReactMarkdown from 'react-markdown';
@@ -261,7 +261,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
             },
             rightSlot: (
               <Checkbox checked={isLatest} onChange={(e: CheckboxChangeEvent) => setIsLatest(e.target.checked)}>
-                <span className="text-white">按分支聚合</span>
+                <span className="text-white">{i18n.t('dop:aggregate by branch')}</span>
               </Checkbox>
             ),
           },
