@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { findIndex } from 'lodash';
+import moment from 'moment';
 
 class Formatter {
   toFixed(value, fixed = 2, unitType = 'NUMBER') {
@@ -156,4 +157,23 @@ const MonitorChartFormatterMap = (unitType, unit) => {
 
 export const getFormatter = (unitType, unit) => {
   return MonitorChartFormatterMap(unitType, unit) || new NumberFormatter(unit);
+};
+
+/**
+ * @description format the chart axes
+ * @param type {'string' | 'number' | 'capacity' | 'trafficRate' | 'storage' | 'timestamp' | 'time'}
+ * @param precision {string}
+ * @param value {number}
+ * @returns {string}
+ */
+export const formatValue = (type, precision, value) => {
+  const valueType = type === 'trafficRate' ? 'TRAFFIC' : type.toUpperCase();
+  if (['NUMBER', 'PERCENT', 'CAPACITY', 'TIME', 'STORAGE', 'TRAFFIC'].includes(valueType)) {
+    const format = getFormatter(valueType, precision);
+    return format.format(value);
+  } else if (valueType === 'TIMESTAMP') {
+    return moment(value).format(precision);
+  } else {
+    return `${value} ${precision}`;
+  }
 };

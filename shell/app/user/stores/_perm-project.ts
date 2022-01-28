@@ -452,7 +452,7 @@ export const projectPerm = {
     },
   },
   resource: {
-    name: i18n.t('resource summary'),
+    name: i18n.t('Resource summary'),
     viewResource: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
@@ -523,7 +523,7 @@ export const projectPerm = {
       },
     },
     accessConfiguration: {
-      name: i18n.t('msp:access configuration'),
+      name: i18n.t('msp:AccessConfig'),
       createAccessKey: {
         name: i18n.t('create {name}', { name: 'AccessKey' }),
         pass: false,

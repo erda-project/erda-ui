@@ -11,13 +11,31 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { apiCreator } from 'core/service';
+import { set, get } from 'lodash';
 
-const apis = {
-  getService: {
-    api: '/api/apm/topology/services',
+export const GLOBAL_KEY = {
+  LOADING_MODULE: 'loadingModule',
+};
+
+export const globalSpace = {
+  initRouteData: {
+    routes: [],
+    params: {},
+    currentRoute: {},
+    routeMarks: [],
+    isIn: () => false,
+    isMatch: () => false,
+    isEntering: () => false,
+    isLeaving: () => false,
+  },
+  history: null,
+  erdaInfo: {
+    currentOrgId: 0,
+    isSysAdmin: false,
   },
 };
-export const getServiceList = apiCreator<(p: SERVICE_ANALYTICS.IServiceListQuery) => SERVICE_ANALYTICS.ServiceList>(
-  apis.getService,
-);
+
+export const getGlobal = (key: string) => get(globalSpace, key);
+export const setGlobal = (key: string, value: any) => {
+  set(globalSpace, key, value);
+};

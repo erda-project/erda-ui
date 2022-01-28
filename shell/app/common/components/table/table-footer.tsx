@@ -23,9 +23,10 @@ interface IProps {
   pagination: TablePaginationConfig;
   hidePagination: boolean;
   onTableChange: ([key]: any) => void;
+  whiteFooter?: boolean;
 }
 
-const TableFooter = ({ rowSelection, pagination, hidePagination, onTableChange }: IProps) => {
+const TableFooter = ({ rowSelection, pagination, hidePagination, onTableChange, whiteFooter }: IProps) => {
   const batchMenu = () => {
     return (
       <Menu>
@@ -41,7 +42,7 @@ const TableFooter = ({ rowSelection, pagination, hidePagination, onTableChange }
   };
 
   return (
-    <div className="erda-table-footer flex justify-between bg-default-02">
+    <div className={`erda-table-footer flex justify-between ${whiteFooter ? 'bg-white' : 'bg-default-02'}`}>
       {rowSelection?.actions ? (
         <div className="erda-table-batch-ops flex items-center">
           <Dropdown

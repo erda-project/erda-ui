@@ -22,6 +22,8 @@ declare namespace CP_BASE_LIST {
 
   interface IProps {
     isLoadMore?: boolean;
+    whiteFooter?: boolean;
+    whiteHead?: boolean;
     defaultBgImg?: string;
     defaultLogo?: string;
     hideHead?: boolean;

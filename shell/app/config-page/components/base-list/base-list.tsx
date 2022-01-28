@@ -34,7 +34,14 @@ const List = (props: CP_BASE_LIST.Props) => {
     combineList: list,
   });
 
-  const { isLoadMore = false, hideHead, className = '', wrapperClassName = '', ...restProps } = configProps || {};
+  const {
+    whiteHead,
+    isLoadMore = false,
+    hideHead,
+    className = '',
+    wrapperClassName = '',
+    ...restProps
+  } = configProps || {};
 
   const currentList = React.useMemo(
     () =>
@@ -64,16 +71,20 @@ const List = (props: CP_BASE_LIST.Props) => {
         const titleState = item.titleState?.map((stateItem, idx) => {
           return {
             ...stateItem,
-            onClick: (e) => {
-              if (stateItem.operations) {
-                stateItem.operations?.click &&
-                  customOp?.clickItem?.(stateItem.operations?.click, { record: item, action: 'clickTitleState' });
-                e.stopPropagation();
-                execMultipleOperation(stateItem.operations, (op) =>
-                  execOperation({ ...op, clientData: { dataRef: item, operationRef: stateItem } }),
-                );
-              }
-            },
+            ...(stateItem.operations
+              ? {
+                  onClick: (e) => {
+                    if (stateItem.operations) {
+                      stateItem.operations?.click &&
+                        customOp?.clickItem?.(stateItem.operations?.click, { record: item, action: 'clickTitleState' });
+                      e.stopPropagation();
+                      execMultipleOperation(stateItem.operations, (op) =>
+                        execOperation({ ...op, clientData: { dataRef: item, operationRef: stateItem } }),
+                      );
+                    }
+                  },
+                }
+              : {}),
           };
         });
 
@@ -126,9 +137,11 @@ const List = (props: CP_BASE_LIST.Props) => {
             ),
           };
         });
-
+        const { icon, ...restItem } = item;
+        const { type, url } = icon || {};
         return {
-          ...item,
+          ...(type ? { icon: type } : url ? { logoURL: url } : {}),
+          ...restItem,
           selected: state.selectedRowKeys.includes(item.id),
           kvInfos,
           titleState,
@@ -268,7 +281,7 @@ const List = (props: CP_BASE_LIST.Props) => {
   const Head = !hideHead ? (
     <div>
       <div className="px-4">{HeadTitle}</div>
-      <HeadOperationBar leftSolt={filter} onReload={onReload} />
+      <HeadOperationBar className={`${whiteHead ? 'bg-white' : ''}`} leftSolt={filter} onReload={onReload} />
     </div>
   ) : HeadTitle || filter ? (
     <div className="flex justify-between items-center mb-2 min-h-[48px] px-4">
@@ -281,7 +294,7 @@ const List = (props: CP_BASE_LIST.Props) => {
       {Head}
       <ErdaList
         {...restProps}
-        className={`${className} flex-1 h-0`}
+        className={`${className} flex-1 overflow-hidden`}
         dataSource={currentList}
         onSelectChange={onSelectItemChange}
         batchOperation={batchOperation}
@@ -395,7 +408,7 @@ const BatchOperation = <T extends unknown>(props: IBatchProps<T>) => {
       <Dropdown overlay={dropdownMenu} zIndex={1000}>
         <Button className="flex items-center">
           {i18n.t('batch operate')}
-          <ErdaIcon size="18" type="caret-down" className="ml-1 text-black-200" />
+          <ErdaIcon size="18" type="caret-down" className="ml-1 text-default-4" />
         </Button>
       </Dropdown>
     </div>

@@ -12,13 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { apiCreator } from 'core/service';
 
-export const getMonitorTopology = (query: TOPOLOGY.ITopologyQuery): TOPOLOGY.ITopologyResp => {
-  return agent
-    .get('/api/apm/topology')
-    .query({ ...query })
-    .then((response: any) => response.body);
+const apis = {
+  queryTopology: {
+    api: 'get@/api/apm/topology',
+  },
 };
+
+export const getMonitorTopology = apiCreator<(payload: TOPOLOGY.ITopologyQuery) => TOPOLOGY.ITopologyResp>(
+  apis.queryTopology,
+);
 
 export const getErrorDetail = (query: TOPOLOGY.IErrorDetailQuery): IChartResult => {
   return agent

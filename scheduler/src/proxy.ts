@@ -22,12 +22,16 @@ const isProd = process.env.NODE_ENV === 'production';
 const { envConfig } = getEnv();
 const { BACKEND_URL, GITTAR_ADDR, UC_BACKEND_URL, ENTERPRISE_URL, FDP_URL } = envConfig;
 
-const API_URL = BACKEND_URL.startsWith('http') ? BACKEND_URL : `http://${BACKEND_URL}`;
-const UC_API_URL = UC_BACKEND_URL.startsWith('http') ? UC_BACKEND_URL : `http://${UC_BACKEND_URL}`;
-const ENTERPRISE_UI_URL = ENTERPRISE_URL?.startsWith('http') ? ENTERPRISE_URL : `http://${ENTERPRISE_URL}`;
+const getHttpUrl = (url: string) => {
+  return url?.startsWith('http') ? url : `http://${url}`;
+};
+
+const API_URL = getHttpUrl(BACKEND_URL);
+const UC_API_URL = getHttpUrl(UC_BACKEND_URL);
+const ENTERPRISE_UI_URL = getHttpUrl(ENTERPRISE_URL);
 
 let gittarUrl = isProd ? GITTAR_ADDR : BACKEND_URL;
-gittarUrl = gittarUrl.startsWith('http') ? gittarUrl : `http://${gittarUrl}`;
+gittarUrl = getHttpUrl(gittarUrl);
 
 const wsPathRegex = [
   /^\/api\/[^/]*\/websocket/,
@@ -114,7 +118,7 @@ export const createProxyService = (app: INestApplication) => {
     logger.warn('FDP_URL is not set, will cause error in EE');
   }
   let dataServiceUIAddr = FDP_URL || API_URL;
-  dataServiceUIAddr = dataServiceUIAddr.startsWith('http') ? dataServiceUIAddr : `http://${dataServiceUIAddr}`;
+  dataServiceUIAddr = getHttpUrl(dataServiceUIAddr);
   app.use(
     '/fdp-app/',
     createProxyMiddleware({

@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
+import { firstCharToUpper } from 'common/utils';
 
 const traceTabs = [
   {
@@ -29,7 +30,7 @@ function monitorTraceRouter(): RouteConfigItem {
     path: 'trace',
     alwaysShowTabKey: 'search',
     tabs: traceTabs,
-    breadcrumbName: i18n.t('msp:tracing'),
+    breadcrumbName: firstCharToUpper(i18n.t('msp:tracing')),
     routes: [
       {
         path: 'debug',

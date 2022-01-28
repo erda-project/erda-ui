@@ -25,9 +25,6 @@ import { getSideMenu } from '../pages/addons/sidebar-menu';
 import { ErdaIcon } from 'common';
 
 interface IState {
-  addonCategory: {
-    [k: string]: ADDON.Instance[];
-  };
   addonList: ADDON.Instance[];
   projectAddonCategory: {
     [k: string]: ADDON.Instance[];
@@ -35,7 +32,6 @@ interface IState {
 }
 
 const initState: IState = {
-  addonCategory: {},
   addonList: [],
   projectAddonCategory: {},
 };
@@ -102,12 +98,6 @@ const dopStore = createFlatStore({
     });
   },
   effects: {
-    async getDopAddons({ call, update }) {
-      let addonList = await call(getAddons, { type: 'workbench', value: 'workbench' });
-      addonList = getTranslateAddonList(addonList, 'name');
-      update({ addonList });
-      dopStore.getAddonsSuccess({ addonList, type: 'addonCategory' });
-    },
     async getProjectAddons({ call, getParams, update }, projectId?: string) {
       const { projectId: paramProjectId } = getParams();
       const _projectId = paramProjectId || projectId;
@@ -149,9 +139,6 @@ const dopStore = createFlatStore({
       );
 
       return { ...state, [type]: addonCategory };
-    },
-    clearDopAddons(state) {
-      return { ...state, addonCategory: {}, addonList: [] };
     },
     clearProjectAddons(state) {
       return { ...state, projectAddonCategory: {}, addonList: [] };

@@ -125,7 +125,7 @@ const AccessEdit = () => {
     e.stopPropagation();
     const projectId = formRef.current.getFieldValue('projectID');
     window.refreshApiGateway = refreshApiGateway;
-    goTo(goTo.pages.projectService, { projectId, jumpOut: true, query: { env, addon: 'api-gateway' } });
+    goTo(goTo.pages.projectAddon, { projectId, jumpOut: true, query: { env, addon: 'api-gateway' } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const gateways = React.useMemo(() => {

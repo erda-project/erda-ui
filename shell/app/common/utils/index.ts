@@ -608,3 +608,8 @@ export const getAvatarChars = (name: string) => {
     return name.slice(0, maxLength);
   }
 };
+
+export const firstCharToUpper = (str: string) => {
+  if (typeof str !== 'string') return str;
+  return str.replace(/^\w/, (s) => s.toUpperCase());
+};

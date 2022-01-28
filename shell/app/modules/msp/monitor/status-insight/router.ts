@@ -16,7 +16,7 @@ import i18n from 'i18n';
 function monitorStatusRouter(): RouteConfigItem {
   return {
     path: 'status',
-    breadcrumbName: i18n.t('msp:active monitoring'),
+    breadcrumbName: i18n.t('msp:ActiveMonitor'),
     routes: [
       {
         getComp: (cb) => cb(import('status-insight/pages/status/status')),

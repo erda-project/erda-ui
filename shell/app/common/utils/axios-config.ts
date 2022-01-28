@@ -16,8 +16,7 @@ import { axios } from 'core/service';
 import { downloadFileAxios, getCookies, getOrgFromPath, setApiWithOrg } from './index';
 import { getCurrentLocale } from 'i18n';
 import errorHandler from '../../error-handler';
-import { getGlobal } from '../../global-space';
-import userStore from 'app/user/stores';
+import { getGlobal } from 'core/global-space';
 
 const isExcludeOrgHeaderApi = (url: string) => {
   const excludeApis = ['/api/files', '/api/uc'];

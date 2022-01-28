@@ -19,6 +19,7 @@ import { EditorProps } from '@erda-ui/react-markdown-editor-lite/editor';
 import UploadPlugin from './upload-plugin';
 import { uploadFile } from '../../services';
 import { convertToFormData } from 'common/utils';
+import { getLang } from 'i18n';
 import { getFormatter } from 'charts/utils';
 import '@erda-ui/react-markdown-editor-lite/lib/index.css';
 import './editor.scss';
@@ -52,6 +53,10 @@ const Editor = React.forwardRef((props: IProps, ref) => {
         });
     }) as Promise<string>;
   }
+
+  // have to call this every time rerender
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  MdEditor.useLocale(getLang() === 'zh-CN' ? 'zhCN' : 'enUS');
 
   return (
     <MdEditor

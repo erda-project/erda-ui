@@ -16,7 +16,7 @@ import i18n from 'i18n';
 function monitorErrorRouter(): RouteConfigItem {
   return {
     path: 'error',
-    breadcrumbName: i18n.t('msp:error analysis'),
+    breadcrumbName: i18n.t('msp:ErrorInsight'),
     routes: [
       {
         getComp: (cb) => cb(import('error-insight/pages/errors/error-overview')),

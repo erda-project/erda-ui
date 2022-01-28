@@ -4,7 +4,7 @@
     color: $color-purple-highlight;
     transition: all 0.5s;
 
-    &.ant-dropdown-open {
+    &.dropdown-open {
       background-color: $color-purple-highlight;
       color: $white;
     }
@@ -129,16 +129,23 @@
     .bg-hover:hover {
       color: $white;
     }
+
+    .pagination-pre,
+    .pagination-next {
+      &.disabled {
+        color: $color-white-2 !important;
+      }
+    }
   }
 
   .ant-btn {
-    background-color: $color-white-2;
+    background-color: $color-white-2 !important;
     border: none;
-    color: $white;
+    color: $white !important;
 
     &.ant-btn-primary {
-      background-color: $color-purple-highlight;
-      border-color: $color-purple-highlight;
+      background-color: $color-purple-highlight !important;
+      border-color: $color-purple-highlight !important;
     }
   }
 

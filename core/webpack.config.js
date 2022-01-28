@@ -90,7 +90,6 @@ module.exports = () => {
     plugins: [
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(nodeEnv),
-        'process.env.FOR_COMMUNITY': JSON.stringify(process.env.FOR_COMMUNITY),
       }),
       new webpack.ContextReplacementPlugin(/moment[\\/]locale$/, /(zh-cn)\.js/),
       new CleanWebpackPlugin(),
@@ -107,6 +106,8 @@ module.exports = () => {
           './stores/userMap': './src/stores/user-map.ts',
           './utils/ws': './src/utils/ws.ts',
           './service': './src/service/index.ts',
+          './global-space': './src/utils/global-space.ts',
+          './event-hub': './src/utils/event-hub.ts',
         },
         shared: {
           ...AutomaticVendorFederation({

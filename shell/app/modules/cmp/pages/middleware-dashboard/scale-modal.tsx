@@ -16,7 +16,7 @@ import { RenderPureForm, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Modal, Form } from 'antd';
 import i18n from 'i18n';
-import { IFormItem } from 'common/components/render-formItem/render-formItem';
+import { IFormItem } from 'common/components/render-form-item';
 import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';
 import { isEqual, pick } from 'lodash';
 import { FormInstance } from 'core/common/interface';

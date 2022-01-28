@@ -25,7 +25,7 @@ import { HeadAppSelector } from 'application/common/app-selector';
 import userStore from 'app/user/stores';
 import { theme } from 'app/themes';
 import { getAppMenu } from 'app/menus';
-import { eventHub } from 'common/utils/event-hub';
+import { emit } from 'core/event-hub';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 
@@ -112,7 +112,7 @@ const appStore = createStore({
         },
       });
       breadcrumbStore.reducers.setInfo('appName', detail.name);
-      eventHub.emit('appStore/getAppDetail');
+      emit('appStore/getAppDetail');
       return detail;
     },
     async getAppBlockNetworkStatus({ call, select, update }, applicationId: string) {

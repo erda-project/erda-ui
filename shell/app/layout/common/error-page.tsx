@@ -19,6 +19,8 @@ import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import userStore from 'app/user/stores';
 import permStore from 'user/stores/permission';
+import { once } from 'core/event-hub';
+import { getGlobal, GLOBAL_KEY } from 'core/global-space';
 
 import './error-page.scss';
 
@@ -100,14 +102,28 @@ const NoAuth = () => {
 };
 
 const NotFound = ({ message, force }: { message?: string; force?: boolean }) => {
-  const { _master } = window;
-  if (_master && _master.isLoadingModule()) {
+  const [ready, setReady] = React.useState(false);
+
+  React.useEffect(() => {
+    // incase after the first load, useEffect of inner component will trigger first, useEffect of root component will trigger in the end
+    // so setGlobal at root can't exec before this useEffect, we need move this logic to next tick
+    setTimeout(() => {
+      const isLoadingModule = getGlobal(GLOBAL_KEY.LOADING_MODULE);
+      if (!isLoadingModule) {
+        setReady(true);
+      }
+      once('loadingModuleFailed', () => setReady(true));
+    });
+  }, []);
+
+  if (!ready) {
     return (
       <div className="basic-error-page flex flex-wrap justify-center items-center">
         <Spin spinning size="large" tip={i18n.t('please wait, the module is loading')} />
       </div>
     );
   }
+
   return (
     <div className="not-found-page basic-error-page">
       <div className="info">

@@ -21,7 +21,7 @@ import { getResourcePermissions } from 'user/services/user';
 import permStore from 'user/stores/permission';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { get, intersection, map } from 'lodash';
-import { eventHub } from 'common/utils/event-hub';
+import { once } from 'core/event-hub';
 import announcementStore from 'org/stores/announcement';
 
 interface IState {
@@ -49,7 +49,7 @@ const org = createStore({
   name: 'org',
   state: initState,
   subscriptions: async ({ listenRoute }: IStoreSubs) => {
-    listenRoute(async ({ params, isIn, isMatch, isLeaving }) => {
+    listenRoute(async ({ params, isIn, isLeaving }) => {
       if (isIn('orgIndex')) {
         const { orgName } = params;
         const [curPathOrg, initFinish] = org.getState((s) => [s.curPathOrg, s.initFinish]);
@@ -70,7 +70,7 @@ const org = createStore({
         org.reducers.clearOrg();
       }
 
-      eventHub.once('layout/mount', () => {
+      once('layout/mount', () => {
         const loginUser = userStore.getState((s) => s.loginUser);
         const orgId = org.getState((s) => s.currentOrg.id);
         // 非系统管理员
@@ -92,6 +92,7 @@ const org = createStore({
   effects: {
     async updateOrg({ call, update }, payload: Merge<Partial<ORG.IOrg>, { id: number }>) {
       const currentOrg = await call(updateOrg, payload);
+      breadcrumbStore.reducers.setInfo('curOrgName', payload.displayName);
       await org.effects.getJoinedOrgs(true);
       update({ currentOrg });
     },
@@ -110,13 +111,6 @@ const org = createStore({
       const orgs = select((s) => s.orgs); // get joined orgs
 
       if (!orgName) return;
-      if (orgName === '-' && !Object.keys(resOrg).length) {
-        if (orgs?.length) {
-          goTo(`/${get(orgs, '[0].name')}`);
-        }
-        update({ curPathOrg: orgName, initFinish: true });
-        return;
-      }
       const curPathname = location.pathname;
       if (!Object.keys(resOrg).length) {
         goTo(goTo.pages.landPage);

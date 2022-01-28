@@ -122,7 +122,7 @@ export const appPerm = {
     },
   },
   runtime: {
-    name: i18n.t('dop:deployment center'),
+    name: i18n.t('dop:Environments'),
     read: {
       pass: false,
       role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],

@@ -19,8 +19,8 @@ import layoutStore from 'layout/stores/layout';
 import { goTo, qs } from 'common/utils';
 import { getCurrentLocale } from 'i18n';
 import routeInfoStore from 'core/stores/route';
-import { setGlobal } from 'app/global-space';
-import { eventHub } from 'common/utils/event-hub';
+import { setGlobal } from 'core/global-space';
+import { emit } from 'core/event-hub';
 import {
   DOC_MSP_API_GATEWAY,
   DOC_MSP_CONFIG_CENTER,
@@ -29,7 +29,6 @@ import {
   DOC_MSP_REGISTER,
   DOC_PREFIX,
 } from 'common/constants';
-import React from 'react';
 import switchEnv from 'msp/pages/micro-service/switch-env';
 import breadcrumbStore from 'layout/stores/breadcrumb';
 import permStore from 'user/stores/permission';
@@ -243,7 +242,7 @@ const mspStore = createStore({
           });
         }
       });
-      eventHub.emit('gatewayStore/getRegisterApps', intro.APIGateway);
+      emit('gatewayStore/getRegisterApps', intro.APIGateway);
       await update({ mspMenu, msMenuMap, intro });
 
       layoutStore.reducers.setSubSiderInfoMap({

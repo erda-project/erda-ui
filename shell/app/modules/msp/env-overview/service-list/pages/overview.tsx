@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Col, Row, Tooltip } from 'antd';
+import { Col, Row, Spin, Tooltip } from 'antd';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import NoServicesHolder from 'msp/env-overview/service-list/pages/no-services-holder';
 import { TimeSelectWithStore } from 'msp/components/time-select';
@@ -21,7 +21,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'core/stores/route';
 import { reduce } from 'lodash';
 import i18n from 'i18n';
-import topologyStore from 'msp/env-overview/topology/stores/topology';
+import { getMonitorTopology } from 'msp/env-overview/topology/services/topology';
 import TopologyComp from 'msp/env-overview/topology/pages/topology/component/topology-comp';
 import { Cards, TopologyOverviewWrapper } from 'msp/env-overview/topology/pages/topology/component/topology-overview';
 import ErdaIcon from 'common/components/erda-icon';
@@ -105,28 +105,23 @@ const OverView = () => {
   const [serviceId, requestCompleted] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.requestCompleted]);
   const range = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const tenantId = routeInfoStore.useStore((s) => s.params.terminusKey);
-  const { clearMonitorTopology } = topologyStore.reducers;
-  const { getMonitorTopology } = topologyStore.effects;
-  const [topologyData] = topologyStore.useStore((s) => [s.topologyData]);
+  const [topologyData, isLoading] = getMonitorTopology.useState();
   const serviceTopologyRef = React.useRef<HTMLDivElement>(null);
   const [isFullScreen, { toggleFullscreen }] = useFullScreen(serviceTopologyRef);
 
   React.useEffect(() => {
     if (serviceId) {
-      getMonitorTopology({
+      getMonitorTopology.fetch({
         startTime: range.startTimeMs,
         endTime: range.endTimeMs,
         terminusKey: tenantId,
         tags: [`service:${serviceId}`],
       });
     }
-    return () => {
-      clearMonitorTopology();
-    };
   }, [serviceId, range, tenantId]);
 
   const overviewList = React.useMemo(() => {
-    const { metric } = topologyData.nodes?.find((t) => t.serviceId === serviceId) ?? ({} as TOPOLOGY.INode);
+    const { metric } = topologyData?.nodes?.find((t) => t.serviceId === serviceId) ?? ({} as TOPOLOGY.INode);
     return [
       {
         key: 'rps',
@@ -167,39 +162,41 @@ const OverView = () => {
       <div className="h-12 flex justify-end items-center px-4">
         <TimeSelectWithStore className="m-0" />
       </div>
-      <div
-        className={`service-overview-topology flex flex-col shadow-card overflow-hidden ${
-          isFullScreen ? '' : 'fixed-height'
-        }`}
-        ref={serviceTopologyRef}
-      >
-        <div className="h-12 flex justify-between items-center px-4 bg-white-02 text-white font-medium">
-          {i18n.t('msp:service topology')}
-          <Tooltip
-            getTooltipContainer={(e) => e.parentNode}
-            placement={isFullScreen ? 'bottomRight' : undefined}
-            title={isFullScreen ? i18n.t('exit full screen') : i18n.t('full screen')}
-          >
-            <ErdaIcon
-              onClick={handleScreen}
-              type={isFullScreen ? 'off-screen-one' : 'full-screen-one'}
-              className="text-white-4 hover:text-white cursor-pointer"
-            />
-          </Tooltip>
-        </div>
-        <div className="flex-1 flex topology-wrapper">
-          <TopologyOverviewWrapper>
-            <div className="pt-3">
-              <Cards list={overviewList} canSelect={false} />
+      <Spin spinning={isLoading}>
+        <div
+          className={`service-overview-topology flex flex-col shadow-card overflow-hidden ${
+            isFullScreen ? '' : 'fixed-height'
+          }`}
+          ref={serviceTopologyRef}
+        >
+          <div className="h-12 flex justify-between items-center px-4 bg-white-02 text-white font-medium">
+            {i18n.t('msp:service topology')}
+            <Tooltip
+              getTooltipContainer={(e) => e.parentNode}
+              placement={isFullScreen ? 'bottomRight' : undefined}
+              title={isFullScreen ? i18n.t('exit full screen') : i18n.t('full screen')}
+            >
+              <ErdaIcon
+                onClick={handleScreen}
+                type={isFullScreen ? 'off-screen-one' : 'full-screen-one'}
+                className="text-white-4 hover:text-white cursor-pointer"
+              />
+            </Tooltip>
+          </div>
+          <div className="flex-1 flex topology-wrapper">
+            <TopologyOverviewWrapper>
+              <div className="pt-3">
+                <Cards list={overviewList} canSelect={false} />
+              </div>
+            </TopologyOverviewWrapper>
+            <div className="flex-1 h-full relative">
+              {topologyData?.nodes?.length ? (
+                <TopologyComp allowScroll={false} data={topologyData} filterKey={'node'} />
+              ) : null}
             </div>
-          </TopologyOverviewWrapper>
-          <div className="flex-1 h-full relative">
-            {topologyData.nodes?.length ? (
-              <TopologyComp allowScroll={false} data={topologyData} filterKey={'node'} />
-            ) : null}
           </div>
         </div>
-      </div>
+      </Spin>
       <div className="bg-white shadow-card">
         <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium mt-2">
           {i18n.t('msp:service request overview')}
@@ -208,7 +205,7 @@ const OverView = () => {
           <Row gutter={8}>
             {chartConfig.map((item) => {
               return (
-                <Col span={12} className="my-1">
+                <Col span={12} className="my-1" key={item.key}>
                   <div className="bg-default-01">
                     <div className="pt-3 mb-3 px-4 text-default-8">{item.title}</div>
                     <div className="px-4" style={{ height: '170px' }}>

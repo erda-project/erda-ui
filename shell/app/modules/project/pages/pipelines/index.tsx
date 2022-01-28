@@ -13,10 +13,10 @@
 
 import React from 'react';
 import { debounce } from 'lodash';
-import { Input, Tooltip, Spin } from 'antd';
+import { Input, Tooltip, Spin, Divider } from 'antd';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
-import { Badge, ErdaIcon } from 'common';
+import { Badge, ErdaIcon, Ellipsis } from 'common';
 import { getAppList } from 'project/services/pipeline';
 import PipelineProtocol from './components/pipeline-protocol';
 
@@ -44,12 +44,12 @@ const Pipeline = () => {
 
   return (
     <div className="project-pipeline flex-1 flex bg-white min-h-0 mb-4 h-full">
-      <div className="app-list overflow-auto h-full px-2 flex-shrink-0">
+      <div className="app-list bg-default-02 overflow-auto h-full flex-shrink-0">
         <div className="flex flex-col">
-          <div className="px-2 py-4 leading-4 font-medium">{i18n.t('dop:applications')}</div>
+          <div className="p-4 leading-4 font-medium">{i18n.t('dop:my involved applications')}</div>
           <Input
             size="small"
-            className="bg-default-06 border-transparent shadow-none mb-2 mx-2"
+            className="bg-default-06 border-transparent mb-2 mx-4"
             style={{ width: 'auto' }}
             prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
             placeholder={i18n.t('search {name}', { name: i18n.t('dop:app name') })}
@@ -58,8 +58,8 @@ const Pipeline = () => {
           <div className="flex-1">
             <Spin spinning={loading}>
               <div
-                className={`application-item px-2 mb-1 leading-5 cursor-pointer rounded-sm flex-h-center ${
-                  applicationId ? 'hover:bg-default-04' : 'text-purple-deep active'
+                className={`application-item px-4 leading-5 cursor-pointer rounded-sm flex-h-center ${
+                  applicationId ? 'hover:bg-white' : 'text-purple-deep active'
                 }`}
                 onClick={() => setApplication({ ID: 0 })}
               >
@@ -71,30 +71,38 @@ const Pipeline = () => {
                   ?.filter((item) => (searchValue ? item.displayName.includes(searchValue) : true))
                   ?.map((item) => (
                     <div
-                      className={`application-item px-2 mb-1 leading-5 cursor-pointer rounded-sm flex-h-center ${
-                        applicationId === item.ID ? 'text-purple-deep active' : 'hover:bg-default-04'
+                      className={`application-item px-4 leading-5 cursor-pointer rounded-sm flex-h-center ${
+                        applicationId === item.ID ? 'text-purple-deep active' : 'hover:bg-white'
                       }`}
                       onClick={() => setApplication(item)}
                     >
-                      <div className="flex-1">{item.displayName}</div>
-                      {item.runningNum ? (
-                        <Tooltip title={i18n.t('running')}>
-                          <div className="flex-h-center mr-3">
-                            <Badge onlyDot breathing status={'success'} className="mr-0.5" />
-                            <div className="bg-default-04 text-default-9 rounded-lg px-2 text-xs">
-                              {item.runningNum}
+                      <div className="flex-1 min-w-0">
+                        <Ellipsis title={item.displayName} />
+                      </div>
+                      <div className="bg-default-04 text-default-9 rounded-2xl px-3 py-0.5 text-xs flex-h-center">
+                        {item.runningNum ? (
+                          <Tooltip title={i18n.t('running')}>
+                            <div className="flex-h-center mr-0.5">
+                              <Badge onlyDot breathing status={'success'} className="mr-0.5" />
+                              <div>{item.runningNum}</div>
                             </div>
-                          </div>
+                          </Tooltip>
+                        ) : null}
+                        {item.failedNum ? (
+                          <Tooltip title={i18n.t('dop:number of failures in a day')}>
+                            <div className="flex-h-center">
+                              <Badge onlyDot breathing status={'error'} className="mr-0.5" />
+                              <div>{item.failedNum}</div>
+                            </div>
+                          </Tooltip>
+                        ) : null}
+                        {(item.runningNum || item.failedNum) && item.totalNum ? (
+                          <Divider type="vertical" className="top-0" />
+                        ) : null}
+                        <Tooltip title={i18n.t('dop:total number of pipelines')}>
+                          <div>{item.totalNum || 0}</div>
                         </Tooltip>
-                      ) : null}
-                      {item.failedNum ? (
-                        <Tooltip title={i18n.t('dop:number of failures in a day')}>
-                          <div className="flex-h-center">
-                            <Badge onlyDot breathing status={'error'} className="mr-0.5" />
-                            <div className="bg-default-04 text-default-9 rounded-lg px-2 text-xs">{item.failedNum}</div>
-                          </div>
-                        </Tooltip>
-                      ) : null}
+                      </div>
                     </div>
                   ))}
               </div>

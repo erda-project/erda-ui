@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Upload, Spin, Progress } from 'antd';
+import { Button, Upload, Spin, Progress, Checkbox } from 'antd';
 import moment from 'moment';
 import { RenderForm, ListSelect, MarkdownEditor, ErdaIcon } from 'common';
 import i18n from 'i18n';
@@ -21,6 +21,7 @@ import { goTo, insertWhen } from 'common/utils';
 import { getUploadProps } from 'common/utils/upload-props';
 import releaseStore from 'project/stores/release';
 import routeInfoStore from 'core/stores/route';
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import orgStore from 'app/org-home/stores/org';
 import userStore from 'user/stores';
 import ReactMarkdown from 'react-markdown';
@@ -73,6 +74,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   const [pageNo, setPageNo] = React.useState(1);
   const [appId, setAppId] = React.useState<number | undefined>();
   const [query, setQuery] = React.useState<string>('');
+  const [isLatest, setIsLatest] = React.useState(false);
   const [loading] = useLoading(releaseStore, ['getAppList']);
 
   const [releaseList, setReleaseList] = React.useState<RELEASE.ReleaseDetail[]>([] as RELEASE.ReleaseDetail[]);
@@ -113,6 +115,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         pageSize: PAGINATION.pageSize,
         isStable: true,
         q: query,
+        latest: isLatest,
       });
       const { data } = res;
       if (data) {
@@ -121,7 +124,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         setReleaseTotal(total);
       }
     },
-    [projectId, query],
+    [projectId, query, isLatest],
   );
 
   React.useEffect(() => {
@@ -161,7 +164,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         const res = await checkVersion.fetch(payload);
         const { data } = res;
         if (data && !data.isUnique) {
-          throw new Error(i18n.t('{name} already exists', { name: i18n.t('dop:release name') }));
+          throw new Error(i18n.t('{name} already exists', { name: i18n.t('version') }));
         }
       }
     }),
@@ -170,15 +173,15 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
 
   const list = [
     {
-      label: i18n.t('dop:release name'),
+      label: i18n.t('version'),
       name: 'version',
       type: 'input',
       itemProps: {
-        placeholder: i18n.t('please enter {name}', { name: i18n.t('dop:release name') }),
+        placeholder: i18n.t('please enter {name}', { name: i18n.t('version') }),
         disabled: type === 'file',
       },
       rules: [
-        { required: true, message: i18n.t('please enter {name}', { name: i18n.t('dop:release name') }) },
+        { required: true, message: i18n.t('please enter {name}', { name: i18n.t('version') }) },
         { max: 30, message: i18n.t('dop:no more than 30 characters') },
         {
           pattern: /^[A-Za-z0-9._-]+$/,
@@ -256,6 +259,11 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
                 getReleases(_pageNo, appId);
               },
             },
+            rightSlot: (
+              <Checkbox checked={isLatest} onChange={(e: CheckboxChangeEvent) => setIsLatest(e.target.checked)}>
+                <span className="text-white">{i18n.t('dop:aggregate by branch')}</span>
+              </Checkbox>
+            ),
           },
           readOnlyRender: (value: RELEASE.ReleaseDetail[]) => {
             return (value || []).map((item: RELEASE.ReleaseDetail) => (
@@ -327,14 +335,14 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
             releaseID,
             $options: { successMsg: i18n.t('edited successfully') },
           });
-          goTo(goTo.pages.projectReleaseList);
+          goTo(goTo.pages.projectReleaseListProject);
         } else {
           await addRelease({ ...payload, $options: { successMsg: i18n.t('created successfully') } });
-          goTo(goTo.pages.projectReleaseList);
+          goTo(goTo.pages.projectReleaseListProject);
         }
       } else {
         await addReleaseByFile({ ...payload, $options: { successMsg: i18n.t('created successfully') } });
-        goTo(goTo.pages.projectReleaseList);
+        goTo(goTo.pages.projectReleaseListProject);
       }
     });
   };
@@ -352,7 +360,9 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
           <Button className="mr-3" type="primary" onClick={submit}>
             {i18n.t('submit')}
           </Button>
-          <Button onClick={() => goTo(goTo.pages.projectReleaseList)}>{i18n.t('return to previous page')}</Button>
+          <Button onClick={() => goTo(goTo.pages.projectReleaseListProject)}>
+            {i18n.t('return to previous page')}
+          </Button>
         </div>
       ) : null}
     </div>

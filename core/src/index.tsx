@@ -23,26 +23,20 @@ import routeInfoStore from './stores/route';
 import { emit } from './utils/event-hub';
 import browserHistory from './history';
 import { setConfig } from './config';
+import { setGlobal, GLOBAL_KEY } from './utils/global-space';
 import { initModuleFederationModule, useDynamicScript } from './utils/mf-helper';
 
 // @ts-ignore if not use it, minified build file will cause infinite loop when use ReactDom.render. errMsg: Cannot set property 'getCurrentStack' of undefined
 const holderReactDom = ReactDom;
 
 setConfig('history', browserHistory);
+interface DynamicModule {
+  name: string;
+  routePrefix: string;
+}
 
-const enterpriseModules = [
-  {
-    name: 'fdp',
-    routePrefix: '/fdp',
-  },
-  {
-    name: 'admin',
-    routePrefix: '/sysAdmin',
-  },
-];
-
-const matchEnterpriseRoute = () => {
-  const target = enterpriseModules.find(({ routePrefix }) => {
+const matchEnterpriseRoute = (dynamicModules: DynamicModule[]) => {
+  const target = dynamicModules.find(({ routePrefix }) => {
     const routeRegex = new RegExp(`^/[^/]+${routePrefix}`);
     if (routeRegex.test(location.pathname)) {
       return true;
@@ -52,21 +46,18 @@ const matchEnterpriseRoute = () => {
   return target;
 };
 
-const App = () => {
+const App = ({ dynamicModules = [] }: { dynamicModules?: DynamicModule[] }) => {
   const route = routeInfoStore.useStore((s) => s.parsed);
   let location = useLocation();
   // register enterprise remotes
   const [scriptSource, setScriptSource] = React.useState<{ url?: string; remoteName?: string }>({});
   const [loadedSource, setLoadedSource] = React.useState<string[]>([]);
-  const { ready } = useDynamicScript(scriptSource);
+  const { ready, failed } = useDynamicScript(scriptSource);
 
   React.useEffect(() => {
-    const currentModule = matchEnterpriseRoute();
-    if (
-      currentModule &&
-      (!process.env.FOR_COMMUNITY || process.env.FOR_COMMUNITY === 'false') &&
-      !loadedSource.includes(currentModule.name)
-    ) {
+    const currentModule = matchEnterpriseRoute(dynamicModules);
+    if (currentModule && !loadedSource.includes(currentModule.name)) {
+      setGlobal(GLOBAL_KEY.LOADING_MODULE, true);
       setScriptSource({
         url: `/static/${currentModule.name}/scripts/mf_${currentModule.name}.js`,
         remoteName: currentModule.name,
@@ -75,11 +66,19 @@ const App = () => {
   }, [location.pathname]);
 
   React.useEffect(() => {
+    if (failed) {
+      emit('loadingModuleFailed');
+      setGlobal(GLOBAL_KEY.LOADING_MODULE, false);
+    }
+  }, [failed]);
+
+  React.useEffect(() => {
     if (ready && scriptSource.remoteName) {
       const initFn = initModuleFederationModule(`mf_${scriptSource.remoteName}`, './entry');
       initFn.then((fn) => {
         fn.default(registerModule);
         setLoadedSource([...loadedSource, scriptSource.remoteName!]);
+        setGlobal(GLOBAL_KEY.LOADING_MODULE, false);
       });
     }
   }, [ready]);

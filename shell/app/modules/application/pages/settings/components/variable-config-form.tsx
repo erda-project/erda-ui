@@ -39,8 +39,17 @@ interface IProps {
   onOk: (data: any, isAdd: boolean) => any;
   onCancel: () => void;
   fullConfigData?: PIPELINE_CONFIG.ConfigItem[];
+  uploadTip?: string;
 }
-export const VariableConfigForm = ({ fullConfigData = [], formData, visible, onOk, onCancel, addType }: IProps) => {
+export const VariableConfigForm = ({
+  fullConfigData = [],
+  formData,
+  visible,
+  onOk,
+  onCancel,
+  addType,
+  uploadTip,
+}: IProps) => {
   const [{ type, uploadFile, uploading }, updater, _, reset] = useUpdate({
     type: addType || typeMap.kv,
     uploadFile: '',
@@ -157,7 +166,7 @@ export const VariableConfigForm = ({ fullConfigData = [], formData, visible, onO
                   <span className="text-desc ml-2">
                     {uploadFile ? i18n.t('selected {name}', { name: uploadFile }) : null}
                   </span>
-                  <div className="text-desc mt-2">{i18n.t('dop:upload-file-tip')}</div>
+                  {uploadTip && <div className="text-desc mt-2">{uploadTip}</div>}
                 </Spin>
               </div>
             );

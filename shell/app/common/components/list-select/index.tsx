@@ -48,6 +48,7 @@ interface IProps<T extends object = any> {
   renderItem?: (item: T) => React.ReactNode;
   list: T[];
   menus: Array<{ title: string }>;
+  rightSlot?: React.ReactNode;
 }
 
 function ListSelect<T extends object = any>(props: IProps<T>) {
@@ -65,7 +66,9 @@ function ListSelect<T extends object = any>(props: IProps<T>) {
   const [visible, setVisible] = React.useState<boolean>(false);
   const select = (selectItem: T, checked: boolean) => {
     setSelectedList((prev) =>
-      checked ? [...prev, selectItem] : prev.filter((item) => item[rowKey] !== selectItem[rowKey]),
+      checked
+        ? [...prev.filter((item) => item[parentKey] !== selectItem[parentKey]), selectItem]
+        : prev.filter((item) => item[rowKey] !== selectItem[rowKey]),
     );
   };
 
@@ -115,11 +118,17 @@ function ListSelect<T extends object = any>(props: IProps<T>) {
         }
         visible={visible}
         onVisibleChange={(_visible: boolean) => {
-          _visible && setSelectedList(resultList);
-          setVisible(_visible);
+          if (_visible) {
+            setSelectedList(resultList);
+            setVisible(_visible);
+          }
         }}
       >
-        <div className="erda-list-select-btn px-2 py-1 rounded-sm inline-flex items-center cursor-pointer">
+        <div
+          className={`erda-list-select-btn px-2 py-1 rounded-sm inline-flex items-center cursor-pointer ${
+            visible ? 'dropdown-open' : ''
+          }`}
+        >
           <ErdaIcon type="plus" color="currentColor" size={16} className="mr-1" />
           {i18n.t('add {name}', { name: label })}
         </div>
@@ -168,6 +177,7 @@ interface ListSelectOverlayProps<T> {
   parentKey: string;
   value?: T[];
   onChange?: (values: T[]) => void;
+  rightSlot?: React.ReactNode;
 }
 
 const defaultRenderItem = (item: { title: string }) => {
@@ -196,9 +206,10 @@ function ListSelectOverlay<T extends object = any>({
   rowKey,
   menuRowKey,
   parentKey,
+  rightSlot,
 }: ListSelectOverlayProps<T>) {
   const defaultSelectMenu = React.useMemo(
-    () => ({ [menuRowKey]: 0, title: i18n.t('dop:all {name}', { name: label }) }),
+    () => ({ [menuRowKey]: 0, title: i18n.t('dop:all {name}', { name: i18n.t('App') }) }),
     [menuRowKey, label],
   );
   const menus = React.useMemo(() => [defaultSelectMenu, ..._menus], [_menus, defaultSelectMenu]);
@@ -207,7 +218,7 @@ function ListSelectOverlay<T extends object = any>({
 
   useUpdateEffect(() => {
     onMenuChange && onMenuChange(selectedMenu);
-  }, [selectedMenu, menus, onMenuChange, menuRowKey]);
+  }, [selectedMenu, menus, menuRowKey]);
 
   return (
     <Row className="erda-list-select-overlay text-white rounded">
@@ -244,16 +255,16 @@ function ListSelectOverlay<T extends object = any>({
           <Button className="mr-2" type="primary" onClick={onOk}>
             {i18n.t('ok')}
           </Button>
-          <Button className="mr-2" onClick={onCancel}>
-            {i18n.t('cancel')}
-          </Button>
           <Button className="mr-2" onClick={clear}>
             {i18n.t('one click to clear')}
+          </Button>
+          <Button className="mr-2" onClick={onCancel}>
+            {i18n.t('cancel')}
           </Button>
         </div>
       </Col>
       <Col span={12} className="px-2 h-full bg-white-08">
-        <div className="py-3 px-2 flex items-center justify-between">
+        <div className="py-3 px-2 flex items-center">
           <Dropdown
             trigger={['click']}
             getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
@@ -263,7 +274,7 @@ function ListSelectOverlay<T extends object = any>({
                   <Input
                     prefix={<ErdaIcon type="search" color="currentColor" />}
                     className="bg-white-06 border-none mb-2"
-                    placeholder={i18n.t('common:keyword to search')}
+                    placeholder={i18n.t('search {name}', { name: i18n.t('dop:app name') })}
                     onPressEnter={(e: React.KeyboardEvent<HTMLInputElement>) => {
                       onMenuFilter?.(e.target.value);
                       setSelectedMenu(defaultSelectMenu);
@@ -309,6 +320,7 @@ function ListSelectOverlay<T extends object = any>({
               {selectedMenu.title} <ErdaIcon size={16} type="caret-down" className="ml-1 text-white-3" />
             </div>
           </Dropdown>
+          <div className="pl-4">{rightSlot}</div>
         </div>
         <div className="erda-list-select-right-content flex">
           <div className="flex-1 pl-2 min-w-0">
@@ -316,7 +328,7 @@ function ListSelectOverlay<T extends object = any>({
               <Input
                 prefix={<ErdaIcon type="search" />}
                 className="bg-white-06 border-none"
-                placeholder={i18n.t('common:keyword to search')}
+                placeholder={i18n.t('search {name}', { name: label })}
                 onPressEnter={(e: React.KeyboardEvent<HTMLInputElement>) => onListFilter?.(e.target.value)}
               />
             </div>

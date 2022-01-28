@@ -351,6 +351,7 @@ const OtherConfig = (props: IOtherProps) => {
             setAddVisible(false);
           });
         }}
+        uploadTip={i18n.t('dop:deploy-upload-file-tip')}
       />
     </div>
   );

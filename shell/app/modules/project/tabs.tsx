@@ -16,6 +16,7 @@ import i18n from 'i18n';
 import { Icon as CustomIcon } from 'common';
 import permStore from 'user/stores/permission';
 import { Tooltip } from 'antd';
+import { firstCharToUpper } from 'app/common/utils';
 
 export const ITERATION_DETAIL_TABS = (params: Obj) => {
   const { breadcrumbInfoMap } = params;
@@ -64,13 +65,18 @@ export const DEPLOY_TABS = (params: Obj) => {
   return [
     {
       key: 'list/dev',
-      name: i18n.t('deploy'),
+      name: firstCharToUpper(i18n.t('deploy')),
       isActive: (activeKey: string) => activeKey.split('/')[0] === 'list',
     },
     {
       key: 'config/default',
-      name: i18n.t('config'),
+      name: firstCharToUpper(i18n.t('config')),
       isActive: (activeKey: string) => activeKey.split('/')[0] === 'config',
+    },
+    {
+      key: 'addon',
+      name: 'Addons',
+      isActive: (activeKey: string) => activeKey === 'addon',
     },
   ];
 };

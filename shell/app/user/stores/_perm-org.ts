@@ -45,14 +45,6 @@ export const orgPerm = {
         name: i18n.t('dop:view'),
       },
     },
-    addonService: {
-      name: i18n.t('addon service'),
-      read: {
-        pass: false,
-        role: ['Manager', 'Dev', 'Support', 'DataManager', 'Reporter', 'PublisherManager', 'Guest'],
-        name: i18n.t('dop:view'),
-      },
-    },
     publisher: {
       name: i18n.t('publisher:my release'),
       read: {

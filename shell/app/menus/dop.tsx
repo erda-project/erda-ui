@@ -57,15 +57,6 @@ export const getDopMenu = () => {
             },
           ],
         },
-        ...insertWhen(!process.env.FOR_COMMUNITY, [
-          {
-            href: goTo.resolve.dopService(), // '/dop/service',
-            icon: <ErdaIcon type="kuozhanfuwu" />,
-            text: i18n.t('addon service'),
-            subtitle: 'Addon',
-            show: orgPerm.dop.addonService.read.pass,
-          },
-        ]),
         {
           key: 'approval',
           href: goTo.resolve.dopApprove(), // '/dop/approval/my-approve',

@@ -26,7 +26,7 @@ import { startApp, registerModule } from 'core/index';
 import { setConfig, getConfig } from 'core/config';
 // common modules
 import { registChartControl } from 'charts/utils/regist';
-import { setGlobal } from 'app/global-space';
+import { setGlobal } from 'core/global-space';
 import { PAGINATION } from 'app/constants';
 import { erdaEnv } from 'common/constants';
 import { EmptyListHolder } from 'common';
@@ -103,7 +103,11 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
     userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息
     const Wrap = () => {
       return (
-        <ConfigProvider renderEmpty={EmptyListHolder} locale={isZh() ? antd_zhCN : antd_enUS}>
+        <ConfigProvider
+          autoInsertSpaceInButton={false}
+          renderEmpty={EmptyListHolder}
+          locale={isZh() ? antd_zhCN : antd_enUS}
+        >
           <App />
         </ConfigProvider>
       );

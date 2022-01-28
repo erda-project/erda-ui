@@ -31,13 +31,14 @@ const List = (props: ERDA_LIST.Props) => {
     columnsInfoWidth,
     onSelectChange,
     batchOperation,
+    whiteFooter,
     className = '',
   } = props;
   return (
     <div className={`erda-base-list ${className} flex flex-col`}>
       {dataSource.length ? (
         <>
-          <div className="flex-1 h-0 overflow-auto">
+          <div className="flex-1 overflow-auto">
             {dataSource.map((item: ERDA_LIST.ListData, idx: number) => {
               return (
                 <ListItem
@@ -53,7 +54,11 @@ const List = (props: ERDA_LIST.Props) => {
           </div>
           {pagination &&
             (!isLoadMore ? (
-              <div className="pagination-wrap flex items-center justify-between px-4 bg-default-02">
+              <div
+                className={`pagination-wrap flex items-center justify-between px-4 ${
+                  whiteFooter ? 'bg-white' : 'bg-default-02'
+                }`}
+              >
                 <div>{batchOperation}</div>
                 <Pagination {...pagination} current={pagination.pageNo} />
               </div>

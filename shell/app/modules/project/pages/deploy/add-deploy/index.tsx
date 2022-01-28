@@ -97,7 +97,7 @@ const AddDeploy = ({
     },
 
     {
-      label: i18n.t('creator'),
+      label: i18n.t('dop:artifact creator'),
       valueKey: 'releaseInfo',
       valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
         const { nick, name } = userMap[value?.creator] || {};
@@ -105,7 +105,7 @@ const AddDeploy = ({
       },
     },
     {
-      label: i18n.t('create time'),
+      label: i18n.t('dop:artifact created at'),
       valueKey: 'releaseInfo',
       valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
         return value?.createdAt ? moment(value.createdAt).format('YYYY/MM/DD HH:mm:ss') : '-';

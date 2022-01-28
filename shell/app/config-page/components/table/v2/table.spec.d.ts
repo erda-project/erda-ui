@@ -26,6 +26,7 @@ declare namespace CP_TABLE2 {
     columnsMap?: Obj<{ [key: string]: ColumnItem }>;
     pageSizeOptions?: string[];
     pagination?: false;
+    tableProps?: import('common/components/table').IProps;
   }
   interface IData {
     table: {
@@ -68,7 +69,7 @@ declare namespace CP_TABLE2 {
 
   interface RowOperations {}
 
-  type CellsItem = TextCell | UserCell | DropdownMenuCell;
+  type CellsItem = TextCell | UserCell | DropdownMenuCell | MultipleCell | DurationCell | IconCell | ProgressBarCell;
 
   // types of cells
   interface TextCell {
@@ -84,6 +85,33 @@ declare namespace CP_TABLE2 {
   interface DropdownMenuCell {
     type: 'dropdownMenu';
     data: {};
+  }
+
+  interface MultipleCell {
+    type: 'multiple';
+    data: CellsItem[];
+  }
+
+  interface IconCell {
+    type: 'icon';
+    data: { type?: string; url?: string };
+  }
+
+  interface DurationCell {
+    type: 'duration';
+    data: { value: number; tip?: string };
+  }
+
+  interface ProgressBarCell {
+    type: 'progressBar';
+    data: {
+      barCompletedNum?: number;
+      barTotalNum?: number;
+      barPercent?: number;
+      text?: string;
+      status?: string;
+      tip?: string;
+    };
   }
 
   type Props = MakeProps<Spec> & {

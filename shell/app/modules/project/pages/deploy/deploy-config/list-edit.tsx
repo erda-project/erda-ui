@@ -55,17 +55,15 @@ interface IState {
   value: ListData[];
   searchValue: string;
   editData: null | ListData;
-  addVisble: boolean;
 }
 
 const ListEditConfig = (props: IProps) => {
   const { configData, slot, addConfig, updateConfig, deleteConfig, onEditChange, fullConfigData } = props;
   const [form] = Form.useForm();
-  const [{ value, searchValue, editData, addVisble }, updater, update] = useUpdate<IState>({
+  const [{ value, searchValue, editData }, updater, update] = useUpdate<IState>({
     value: convertData(configData),
     searchValue: '',
     editData: null,
-    addVisble: false,
   });
 
   useUpdateEffect(() => {
@@ -251,17 +249,6 @@ const ListEditConfig = (props: IProps) => {
           {i18n.t('common:add')}
         </Button>
       </div>
-      <VariableConfigForm
-        visible={addVisble}
-        fullConfigData={fullConfigData}
-        addType="kv"
-        onCancel={() => updater.addVisble(false)}
-        onOk={(data) => {
-          addConfig(data).then(() => {
-            updater.addVisble(false);
-          });
-        }}
-      />
     </>
   );
 };

@@ -387,14 +387,8 @@ function getProjectRouter(): RouteConfigItem[] {
           ],
         },
         {
-          path: 'service',
-          breadcrumbName: i18n.t('dop:addon'),
-          layout: { fullHeight: true },
-          getComp: (cb) => cb(import('project/pages/addon/addon-category'), 'AddonCategory'),
-        },
-        {
           path: 'resource',
-          breadcrumbName: i18n.t('resource summary'),
+          breadcrumbName: i18n.t('Resource summary'),
           getComp: (cb) => cb(import('project/pages/resource')),
         },
         {
@@ -417,12 +411,14 @@ function getProjectRouter(): RouteConfigItem[] {
             {
               path: 'project',
               tabs: RELEASE_TABS,
+              ignoreTabQuery: true,
               getComp: (cb) => cb(import('project/pages/release/project')),
               layout: { noWrapper: true },
             },
             {
               path: 'application',
               tabs: RELEASE_TABS,
+              ignoreTabQuery: true,
               getComp: (cb) => cb(import('project/pages/release/application')),
               layout: { noWrapper: true },
             },
@@ -453,7 +449,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'deploy',
-          pageName: i18n.t('dop:deployment center'),
+          pageName: i18n.t('dop:Environments'),
           routes: [
             {
               path: 'list/:env',
@@ -482,6 +478,12 @@ function getProjectRouter(): RouteConfigItem[] {
               alwaysShowTabKey: 'config',
               tabs: DEPLOY_TABS,
               getComp: (cb) => cb(import('project/pages/deploy/deploy-config')),
+            },
+            {
+              path: 'addon',
+              tabs: DEPLOY_TABS,
+              layout: { fullHeight: true },
+              getComp: (cb) => cb(import('project/pages/addon/addon-category'), 'AddonCategory'),
             },
           ],
         },

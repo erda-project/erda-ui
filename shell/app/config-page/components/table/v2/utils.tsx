@@ -11,17 +11,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import React from 'react';
-import { Tooltip, Menu, Popconfirm, Dropdown } from 'antd';
+import { Tooltip, Menu, Popconfirm, Dropdown, Progress } from 'antd';
+import moment from 'moment';
 import { Copy, ErdaIcon, TagsRow, Badge, Avatar } from 'common';
 import { has, map, isArray, get, sortBy, filter } from 'lodash';
 import { getAvatarChars } from 'app/common/utils';
 import { WithAuth } from 'user/common';
 import i18n from 'i18n';
 import { useUserMap } from 'core/stores/userMap';
+import { statusColorMap } from 'app/config-page/utils';
 
 interface Extra {
   customOp?: Obj;
   execOperation: (operation: CP_COMMON.Operation) => void;
+  props?: CP_TABLE2.IProps;
 }
 
 export const convertTableData = (
@@ -46,7 +49,7 @@ export const convertTableData = (
       sorter: !!columnsMap?.[item].enableSort,
       ...columnsMap?.[item],
       title: getTitleRender(columnsMap?.[item]),
-      render: (val: Obj, record: Obj) => getRender(val, record, extra),
+      render: (val: Obj, record: Obj) => getRender({ ...val, key: item }, record, { ...extra, props }),
       ...pColumnsMap?.[item],
     });
   });
@@ -60,16 +63,16 @@ export const convertTableData = (
     columns.forEach((cItem) => {
       const curDataKey = cItem.dataIndex;
       if (merges?.[curDataKey]) {
-        const curItem: Obj = { type: 'multiple' };
+        const curItem: Obj = { type: 'multiple', data: {} };
         merges[curDataKey].orders.forEach((oItem) => {
-          curItem[oItem] = cellsMap?.[oItem];
+          curItem.data[oItem] = cellsMap?.[oItem];
         });
         dataItem[curDataKey] = curItem;
       } else {
         dataItem[curDataKey] = cellsMap?.[curDataKey];
       }
     });
-    dataItem.rowOperations = { ...operations };
+    dataItem.operations = { ...operations };
     dataSource.push(dataItem);
   });
   if (haveBatchOp) {
@@ -78,6 +81,7 @@ export const convertTableData = (
       selectedRowKeys,
     };
   }
+
   return { dataSource, columns, rowSelection, rowKey: 'id', total, pageNo, pageSize, pageSizeOptions };
 };
 
@@ -96,15 +100,86 @@ const getTitleRender = (column?: CP_TABLE2.ColumnItem) => {
   return title;
 };
 
-export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
-  const { type, data } = val || {};
-  let Comp: React.ReactNode = null;
+const defaultMultiple = (val: Obj, record: Obj, CompMap: React.ReactNode[]) => {
+  return <div>{Object.keys(CompMap).map((key) => CompMap[key]) || ''}</div>;
+};
 
+export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
+  const { type, data, key } = val || {};
+  let Comp: React.ReactNode = null;
   if (!data) {
     return '-';
   }
 
   switch (type) {
+    case 'multiple':
+      {
+        const { props } = extra || ({} as Extra);
+        const render = get(props, `columnsRender.${key}`) || defaultMultiple;
+
+        const CompMap = {};
+        map(data, (v, k) => {
+          CompMap[k] = getRender(v, record, extra);
+        });
+        Comp = <div>{render(val, record, CompMap)}</div>;
+      }
+      break;
+    case 'icon':
+      {
+        const { type: iconType, url } = data;
+        if (url) {
+          Comp = <img src={url} />;
+        } else if (iconType) {
+          Comp = <ErdaIcon isConfigPageIcon size={16} type={iconType} />;
+        } else {
+          Comp = '';
+        }
+      }
+      break;
+    case 'duration':
+      {
+        const { value, tip } = data;
+        if (!value) {
+          Comp = '0s';
+        } else if (value === -1) {
+          Comp = '-';
+        } else {
+          const _duration = moment.duration(value, 'seconds');
+          const duration = [
+            { value: _duration.years(), unit: 'y' },
+            { value: _duration.months(), unit: 'm' },
+            { value: _duration.days(), unit: 'd' },
+            { value: _duration.hours(), unit: 'h' },
+            { value: _duration.minutes(), unit: 'min' },
+            { value: _duration.seconds(), unit: 's' },
+          ];
+          const durationArr = duration.filter((item) => item.value) || [];
+          const durationStr = durationArr.map((item) => `${item.value}${item.unit}`).join('');
+          Comp = tip ? <Tooltip title={tip}>{durationStr}</Tooltip> : durationStr;
+        }
+      }
+      break;
+    case 'progressBar':
+      {
+        const { barCompletedNum, barTotalNum, barPercent, text, status, tip } = data;
+        const value = barPercent || (barCompletedNum / barTotalNum) * 100 || 0;
+
+        const content = (
+          <>
+            <Progress
+              percent={value}
+              type="circle"
+              width={20}
+              strokeWidth={18}
+              format={() => null}
+              strokeColor={statusColorMap[status]}
+            />
+            <span className="text-black-8  ml-2">{text}</span>
+          </>
+        );
+        Comp = tip ? <Tooltip title={tip}>{content}</Tooltip> : content;
+      }
+      break;
     case 'user':
       const userMap = useUserMap();
       const curUsers = [];

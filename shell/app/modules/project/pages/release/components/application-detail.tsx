@@ -64,6 +64,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
     changelog,
     serviceImages = [],
     isFormal,
+    clusterName,
   } = releaseDetail;
 
   const getDetail = React.useCallback(async () => {
@@ -128,7 +129,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
         const res = await checkVersion(payload);
         const { data } = res;
         if (data && !data.isUnique) {
-          throw new Error(i18n.t('{name} already exists', { name: i18n.t('dop:release name') }));
+          throw new Error(i18n.t('{name} already exists', { name: i18n.t('version') }));
         }
       }
     }),
@@ -144,11 +145,11 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
               {isEdit ? (
                 <div className="w-2/5">
                   <RenderFormItem
-                    label={i18n.t('dop:release name')}
+                    label={i18n.t('version')}
                     name="version"
                     type="input"
                     rules={[
-                      { required: true, message: i18n.t('please enter {name}', { name: i18n.t('dop:release name') }) },
+                      { required: true, message: i18n.t('please enter {name}', { name: i18n.t('version') }) },
                       { max: 30, message: i18n.t('dop:no more than 30 characters') },
                       {
                         pattern: /^[A-Za-z0-9._-]+$/,
@@ -164,13 +165,17 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                 </div>
               ) : (
                 <div className="mb-2">
-                  <div className="text-black-4 mb-2">{i18n.t('dop:release name')}</div>
+                  <div className="text-black-4 mb-2">{i18n.t('version')}</div>
                   <div>{version || '-'}</div>
                 </div>
               )}
               <div className="mb-2">
                 <div className="text-black-4 mb-2">{i18n.t('dop:app name')}</div>
                 <div>{applicationName || '-'}</div>
+              </div>
+              <div className="mb-2">
+                <div className="text-black-4 mb-2">{i18n.t('cluster name')}</div>
+                <div>{clusterName || '-'}</div>
               </div>
               <div className="mb-2">
                 <div className="text-black-4 mb-2">{i18n.t('creator')}</div>
@@ -187,6 +192,10 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
               <div className="mb-2">
                 <div className="text-black-4 mb-2">commitId</div>
                 <div>{labels.gitCommitId || '-'}</div>
+              </div>
+              <div className="mb-2">
+                <div className="text-black-4 mb-2">GitRepo {i18n.t('dop:address')}</div>
+                <div>{labels.gitRepo || '-'}</div>
               </div>
               {isEdit ? (
                 <div className="w-4/5">

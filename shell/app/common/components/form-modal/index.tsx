@@ -18,7 +18,7 @@ import { Modal, Form, Button, Spin } from 'antd';
 import { RenderPureForm, ErdaAlert } from 'common';
 import { isPromise } from 'common/utils';
 import { FormInstance } from 'core/common/interface';
-import { IFormItem } from './render-formItem';
+import { IFormItem } from '../render-form-item';
 import moment from 'moment';
 import './index.scss';
 

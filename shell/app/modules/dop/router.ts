@@ -107,12 +107,6 @@ export default function getDopRouter(): RouteConfigItem[] {
           getComp: (cb) => cb(import('dop/pages/projects/project-list-protocol')),
         },
         {
-          path: 'service',
-          breadcrumbName: i18n.t('addon service'),
-          layout: { fullHeight: true },
-          getComp: (cb) => cb(import('dop/pages/addons/addon-category'), 'AddonCategory'),
-        },
-        {
           path: 'publisher',
           breadcrumbName: i18n.t('publisher:my release'),
           routes: [
@@ -169,7 +163,6 @@ export default function getDopRouter(): RouteConfigItem[] {
                 // {
                 //   path: 'log-analytics',
                 //   breadcrumbName: i18n.t('console'),
-                //   keepQuery: true,
                 //   getComp: cb => cb(import('msp/pages/log-analytics')),
                 // },
                 {
@@ -177,13 +170,11 @@ export default function getDopRouter(): RouteConfigItem[] {
                   routes: [
                     {
                       breadcrumbName: i18n.t('console'),
-                      keepQuery: true,
                       getComp: (cb) => cb(import('addonPlatform/pages/jvm-profiler/analysis')),
                     },
                     {
                       path: ':profileId',
                       breadcrumbName: i18n.t('dop:JVM analysis'),
-                      keepQuery: true,
                       getComp: (cb) => cb(import('addonPlatform/pages/jvm-profiler/jvm-overview')),
                     },
                   ],

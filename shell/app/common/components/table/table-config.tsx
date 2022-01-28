@@ -24,6 +24,7 @@ function TableConfig<T extends object = any>({
   sortColumn = {},
   hideColumnConfig = false,
   hideReload = false,
+  whiteHead,
 }: TableConfigProps<T>) {
   const { column, order } = sortColumn;
   const onCheck = (checked: boolean, title: string) => {
@@ -49,7 +50,7 @@ function TableConfig<T extends object = any>({
     ));
 
   return (
-    <div className="erda-table-filter flex justify-between bg-default-02">
+    <div className={`erda-table-filter flex justify-between ${whiteHead ? 'bg-white' : 'bg-default-02'}`}>
       <div className="erda-table-filter-content flex-1 flex items-center">
         <div className="flex-1">{slot}</div>
       </div>

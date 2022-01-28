@@ -87,7 +87,7 @@ const Pagination = (pagination: IPaginationProps) => {
 
         <div
           className={`bg-hover p-2 leading-none hover:bg-default-06 pagination-next ${
-            current === Math.ceil(total / pageSize) ? 'disabled' : 'cursor-pointer'
+            current === Math.ceil(total / pageSize) || total === 0 ? 'disabled' : 'cursor-pointer'
           }`}
           onClick={() => total && current < Math.ceil(total / pageSize) && onChange?.(current + 1, pageSize)}
         >
