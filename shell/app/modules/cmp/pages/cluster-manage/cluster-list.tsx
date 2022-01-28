@@ -268,7 +268,7 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
                 },
                 edit: (record: { meta: object }) => {
                   const { meta } = record;
-                  onEdit({ ...meta });
+                  onEdit(meta);
                 },
                 addMachine: (record: { meta: object }) => {
                   const { meta } = record;
