@@ -29,7 +29,7 @@ import { registChartControl } from 'charts/utils/regist';
 import { setGlobal } from 'core/global-space';
 import { PAGINATION } from 'app/constants';
 import { erdaEnv } from 'common/constants';
-import { EmptyListHolder } from 'common';
+import { EmptyListHolder, Loading } from 'common';
 import { setLS, notify, insertWhen } from 'common/utils';
 import { initAxios } from 'common/utils/axios-config';
 import { getResourcePermissions } from 'user/services/user';
@@ -65,6 +65,10 @@ Modal.defaultProps = {
   centered: true,
 };
 
+Spin.setDefaultIndicator(<Loading />);
+Spin.defaultProps = {
+  delay: 100,
+};
 const dynamicModules =
   process.env.FOR_COMMUNITY && process.env.FOR_COMMUNITY !== 'false'
     ? []

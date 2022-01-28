@@ -17,7 +17,7 @@ import ReactDOM from 'react-dom';
 import { get } from 'lodash';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import { Pagination, message, ConfigProvider, Modal } from 'antd';
+import { Pagination, message, ConfigProvider, Modal, Spin } from 'antd';
 import antd_zhCN from 'antd/es/locale-provider/zh_CN';
 import antd_enUS from 'antd/es/locale-provider/en_US';
 // core modules
@@ -29,7 +29,7 @@ import { registChartControl } from 'charts/utils/regist';
 import { setGlobal } from 'core/global-space';
 import { PAGINATION } from 'app/constants';
 import { erdaEnv } from 'common/constants';
-import { EmptyListHolder } from 'common';
+import { EmptyListHolder, Loading } from 'common';
 import { setLS, notify, insertWhen } from 'common/utils';
 import { initAxios } from 'common/utils/axios-config';
 import { getResourcePermissions } from 'user/services/user';
@@ -67,6 +67,11 @@ Pagination.defaultProps = {
 Modal.defaultProps = {
   ...Modal.defaultProps,
   centered: true,
+};
+
+Spin.setDefaultIndicator(<Loading />);
+Spin.defaultProps = {
+  delay: 100,
 };
 
 const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
