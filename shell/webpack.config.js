@@ -20,7 +20,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const css = require('./app/views/css.js');
+// const css = require('./app/views/css.js');
 const pkg = require('./package.json');
 const { ModuleFederationPlugin } = require('webpack').container;
 const mfConfigs = require('./mf.config');
@@ -210,10 +210,10 @@ module.exports = async () => {
         filename: 'index.html',
         template: './app/views/index.ejs',
         excludeChunks: ['modules'],
-        css,
-        skeleton: {
-          html: fs.readFileSync(resolve('./app/views/skeleton.html')),
-        },
+        // css,
+        // skeleton: {
+        //   html: fs.readFileSync(resolve('./app/views/skeleton.html')),
+        // },
         minify: isProd
           ? {
               collapseWhitespace: true,
