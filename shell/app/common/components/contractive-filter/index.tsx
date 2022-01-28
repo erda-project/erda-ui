@@ -260,7 +260,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
             </span>
             {!required ? (
-              <span className="fake-link ml-2" onClick={() => onChange({ key, value: [] })}>
+              <span className="fake-link ml-2" onClick={() => onChange({ key, value: undefined })}>
                 {i18n.t('common:clear selected')}
               </span>
             ) : null}
