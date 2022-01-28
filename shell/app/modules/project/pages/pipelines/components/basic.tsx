@@ -18,7 +18,6 @@ const PipelineBasic = ({ nodeId, appId }: { nodeId: string; appId: string }) => 
   return (
     <div>
       <PipelineConfigDetail
-        scope="projectLevelAppPipeline"
         nodeId={nodeId}
         editAuth={{
           hasAuth: true,
