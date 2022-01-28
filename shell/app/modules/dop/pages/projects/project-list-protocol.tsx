@@ -14,7 +14,6 @@
 import React from 'react';
 import DiceConfigPage, { useMock } from 'config-page/index';
 import { useUpdate } from 'common/use-hooks';
-import { get } from 'lodash';
 import ApplyUnblockModal, { IMetaData } from 'dop/pages/projects/apply-unblock-modal';
 import { ErdaIcon } from 'common';
 
@@ -53,12 +52,10 @@ const ProjectList = () => {
         scenarioType="project-list-all"
         scenarioKey="project-list-all"
         ref={reloadRef}
-        forceMock
-        useMock={useMock}
         customProps={{
           list: {
             props: {
-              wrapperClassName: 'mt-0 bg-white',
+              wrapperClassName: 'bg-white',
               defaultLogo: <ErdaIcon type="morenxiangmu" size={28} />,
             },
             op: {
@@ -72,6 +69,21 @@ const ProjectList = () => {
                   }
                 }
               },
+            },
+          },
+          emptyContainer: {
+            props: {
+              className: 'bg-white flex-all-center py-4',
+            },
+          },
+          emptyPublicContainer: {
+            props: {
+              className: 'bg-white flex-all-center py-4',
+            },
+          },
+          alert: {
+            props: {
+              className: 'mb-2',
             },
           },
         }}
