@@ -14,7 +14,8 @@
 import React from 'react';
 import { map, isFunction, isEmpty } from 'lodash';
 import moment from 'moment';
-import { Spin, Table, Badge } from 'antd';
+import { Spin, Badge } from 'antd';
+import ErdaTable from 'common/components/table';
 import { Link } from 'react-router-dom';
 import { Icon as CustomIcon, Copy, IF } from 'common';
 import { goTo } from 'common/utils';
@@ -137,7 +138,7 @@ export const PureBaseAddonInfo = ({
         {extra}
         <div className="ref mb-8">
           <span className="title font-medium">{i18n.t('cmp:reference detail')}</span>
-          <Table
+          <ErdaTable
             columns={refTableList}
             dataSource={addonDetail.referenceInfos}
             pagination={false}

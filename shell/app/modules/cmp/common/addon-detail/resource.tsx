@@ -13,7 +13,8 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Table, Badge, Tooltip } from 'antd';
+import { Badge, Tooltip } from 'antd';
+import ErdaTable from 'common/components/table';
 import moment from 'moment';
 import { Copy } from 'common';
 import { getFormatter } from 'app/charts/utils/formatter';
@@ -126,7 +127,7 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }
 
   return (
     <>
-      <Table
+      <ErdaTable
         rowKey="containerId"
         columns={resourceCols}
         dataSource={resourceList}

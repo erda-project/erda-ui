@@ -14,7 +14,8 @@
 import React, { useState } from 'react';
 import i18n from 'i18n';
 import { map } from 'lodash';
-import { Row, Col, Select, Input, Spin, Table } from 'antd';
+import { Row, Col, Select, Input, Spin } from 'antd';
+import ErdaTable from 'common/components/table';
 import { IF } from 'common';
 import { goTo } from 'common/utils';
 import { getFormatter } from 'app/charts/utils/formatter';
@@ -237,7 +238,7 @@ const MiddlewareDashboard = () => {
           <AddonUsageChart />
         </div>
       </div>
-      <Table
+      <ErdaTable
         className="cursor-pointer"
         rowKey="instanceId"
         columns={middlewareCols}

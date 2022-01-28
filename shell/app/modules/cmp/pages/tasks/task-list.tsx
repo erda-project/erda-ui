@@ -14,7 +14,8 @@
 import React from 'react';
 import i18n from 'i18n';
 import moment from 'moment';
-import { Table, Badge, message } from 'antd';
+import { Badge, message } from 'antd';
+import ErdaTable from 'common/components/table';
 import { goTo } from 'common/utils';
 import { TASKS_STATUS_MAP, WORKSPACE_MAP } from './config';
 import { ClusterSelector } from 'app/modules/cmp/common/components/cluster-selector';
@@ -137,7 +138,7 @@ const ServicesList = ({ taskType }: IProps) => {
       <div className="mb-4">
         <ClusterSelector clusterList={orgClusterList} onChange={handleClusterChange} />
       </div>
-      <Table
+      <ErdaTable
         rowKey="taskID"
         loading={loading}
         columns={getClusterTasksCols(userMap)}

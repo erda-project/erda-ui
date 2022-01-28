@@ -12,8 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Select, Divider, Spin, Modal, Switch, Table, Tooltip } from 'antd';
+import { Button, Select, Divider, Spin, Modal, Switch, Tooltip } from 'antd';
 import { isEmpty, map, find, get } from 'lodash';
+import ErdaTable from 'common/components/table';
 import i18n from 'i18n';
 import moment from 'moment';
 import { useMount } from 'react-use';
@@ -253,52 +254,35 @@ const AlarmReport = () => {
       width: 180,
       render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
-    {
-      title: i18n.t('default:operation'),
-      dataIndex: 'id',
-      width: 150,
-      render: (id, record) => {
-        return (
-          <div className="table-operations">
-            <span
-              className="table-operations-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleEdit(record);
-              }}
-            >
-              {i18n.t('edit')}
-            </span>
-            <span
-              className="table-operations-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDelete(id);
-              }}
-            >
-              {i18n.t('delete')}
-            </span>
-            <span
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-            >
-              <Switch
-                size="small"
-                defaultChecked={record.enable}
-                onChange={() => {
-                  switchReportTask({
-                    id,
-                    enable: !record.enable,
-                  });
-                }}
-              />
-            </span>
-          </div>
-        );
-      },
-    },
   ];
+
+  const actions = {
+    render: (record: COMMON_ALARM_REPORT.ReportTask) => {
+      return [
+        {
+          title: i18n.t('edit'),
+          onClick: () => {
+            handleEdit(record);
+          },
+        },
+        {
+          title: i18n.t('delete'),
+          onClick: () => {
+            handleDelete(record.id);
+          },
+        },
+        {
+          title: record.enable ? i18n.t('close') : i18n.t('open'),
+          onClick: () => {
+            switchReportTask({
+              id: record.id,
+              enable: !record.enable,
+            });
+          },
+        },
+      ];
+    },
+  };
 
   return (
     <>
@@ -322,11 +306,12 @@ const AlarmReport = () => {
         />
       </div>
       <Spin spinning={loading}>
-        <Table
+        <ErdaTable
           rowKey="id"
           className="common-notify-list"
           dataSource={reportTasks}
           columns={columns}
+          actions={actions}
           pagination={{
             current: pageNo,
             pageSize,

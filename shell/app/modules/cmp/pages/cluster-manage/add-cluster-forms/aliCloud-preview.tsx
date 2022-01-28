@@ -13,8 +13,9 @@
 
 import React from 'react';
 import { find, get, map } from 'lodash';
-import { Modal, Button, Table, Checkbox } from 'antd';
+import { Modal, Button, Checkbox } from 'antd';
 import { useUpdate } from 'common/use-hooks';
+import ErdaTable from 'common/components/table';
 import i18n from 'i18n';
 import { chargeTypeMap, chargePeriodMap } from '../config';
 
@@ -92,7 +93,7 @@ const AliCloudPreview = ({
         </Button>,
       ]}
     >
-      <Table
+      <ErdaTable
         rowKey={'resourceType'}
         pagination={false}
         columns={columns}

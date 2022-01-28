@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon as CustomIcon } from 'common';
 import { FormInstance } from 'core/common/interface';
+import ErdaTable from 'common/components/table';
 import { map } from 'lodash';
-import { Form, Table, Popconfirm, Button, Input, Select } from 'antd';
+import { Form, Modal, Button, Input, Select } from 'antd';
 import i18n from 'i18n';
 import './edit-table.scss';
 
@@ -32,20 +32,25 @@ interface IEditableTableProps {
 export const EditableTable = (props: IEditableTableProps) => {
   const { columns, data, add, del, edit } = props;
 
-  const fullColumns = [
-    ...columns,
-    {
-      title: i18n.t('operation'),
-      className: 'edit-operation',
-      dataIndex: 'operation',
-      width: 120,
-      render: (text: any, rec: any) => (
-        <Popconfirm title={`${i18n.t('confirm deletion')}?`} onConfirm={() => handleDelete(rec)}>
-          <CustomIcon type="shanchu" />
-        </Popconfirm>
-      ),
+  const fullColumns = [...columns];
+
+  const actions = {
+    render: (record) => {
+      return [
+        {
+          title: i18n.t('delete'),
+          onClick: () => {
+            Modal.confirm({
+              title: i18n.t('confirm to {action}', { action: i18n.t('delete') }),
+              onOk() {
+                handleDelete(record);
+              },
+            });
+          },
+        },
+      ];
     },
-  ];
+  };
 
   const handleDelete = (rec: any) => {
     del(rec);
@@ -93,12 +98,13 @@ export const EditableTable = (props: IEditableTableProps) => {
       <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
         {i18n.t('add')}
       </Button>
-      <Table
+      <ErdaTable
         className="node-edit-table"
         components={components}
         rowClassName={() => 'editable-row'}
         bordered
         dataSource={data}
+        actions={actions}
         columns={_columns}
         rowKey={(rec: any, i: number) => `${i}${rec.ip}`}
         pagination={false}
