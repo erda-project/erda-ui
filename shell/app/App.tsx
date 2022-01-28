@@ -17,7 +17,7 @@ import ReactDOM from 'react-dom';
 import { get } from 'lodash';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import { Pagination, message, ConfigProvider, Modal } from 'antd';
+import { Pagination, message, ConfigProvider, Modal, Spin } from 'antd';
 import antd_zhCN from 'antd/es/locale-provider/zh_CN';
 import antd_enUS from 'antd/es/locale-provider/en_US';
 // core modules
@@ -66,9 +66,6 @@ Modal.defaultProps = {
 };
 
 Spin.setDefaultIndicator(<Loading />);
-Spin.defaultProps = {
-  delay: 100,
-};
 const dynamicModules =
   process.env.FOR_COMMUNITY && process.env.FOR_COMMUNITY !== 'false'
     ? []

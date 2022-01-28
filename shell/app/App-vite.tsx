@@ -70,9 +70,6 @@ Modal.defaultProps = {
 };
 
 Spin.setDefaultIndicator(<Loading />);
-Spin.defaultProps = {
-  delay: 100,
-};
 
 const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
   setLS('diceLoginState', true);
