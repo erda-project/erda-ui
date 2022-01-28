@@ -27,7 +27,7 @@ export interface IMenu {
   jumpOut?: boolean;
   prefix?: string; // if page under this menu has different prefix of url, use this property get find active key
   withOpenKeys?: string[]; // enter one page expand other menu at the same time
-  isActive?: (s: string) => boolean;
+  isActive?: (pathname: string) => boolean;
 }
 
 interface IProps extends MenuProps {

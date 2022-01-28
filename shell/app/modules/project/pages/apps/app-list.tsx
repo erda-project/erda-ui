@@ -19,7 +19,6 @@ import i18n from 'i18n';
 import DiceConfigPage from 'config-page/index';
 import { ErdaIcon } from 'common';
 import routeInfoStore from 'core/stores/route';
-import './app-list.scss';
 
 export const ProjectAppList = () => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
@@ -44,13 +43,14 @@ export const ProjectAppList = () => {
         customProps={{
           list: {
             props: {
+              wrapperClassName: 'mt-0',
               hideHead: true,
               defaultLogo: <ErdaIcon type="morenyingyong" size={28} />,
             },
           },
           content: {
             props: {
-              className: 'bg-white p-0 mb-4 prj-app-list',
+              className: 'bg-white p-0 mb-4',
             },
           },
           filter: {

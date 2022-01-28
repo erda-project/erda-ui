@@ -25,17 +25,12 @@ export const getDopMenu = () => {
     filter(
       [
         {
+          key: 'projects',
           href: goTo.resolve.dopRoot(), // '/dop/projects',
           icon: <ErdaIcon type="xiangmuguanli" />,
-          text: i18n.t('joined projects'),
+          text: i18n.t('dop:projects'),
           subtitle: i18n.t('Project'),
         },
-        // {
-        //   href: goTo.resolve.dopApps(), // '/dop/apps',
-        //   icon: <ErdaIcon type="yingyongkaifa" />,
-        //   text: i18n.t('joined apps'),
-        //   subtitle: i18n.t('App'),
-        // },
         {
           icon: <ErdaIcon type="apisheji" />,
           key: 'apiManage',
@@ -88,12 +83,6 @@ export const getDopMenu = () => {
           text: i18n.t('publisher:my release'),
           subtitle: i18n.t('Release'),
           show: orgPerm.dop.publisher.read.pass,
-        },
-        {
-          href: goTo.resolve.dopPublicProjects(),
-          icon: <ErdaIcon type="gongkaixiangmu" />,
-          text: i18n.t('public project'),
-          subtitle: i18n.t('Public'),
         },
       ],
       (item) => item.show !== false,

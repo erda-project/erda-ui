@@ -1658,6 +1658,7 @@
     "project updated successfully": "更新项目成功",
     "project-img-copyright-tip": "* Pexels 上的 Scott Webb 拍摄的图片",
     "project-level-app-form-tip": "设置为项目级应用后，该应用的流水线中直接可以调用项目其他应用的流水线",
+    "projects": "项目",
     "protect branch, not editable": "保护分支, 不可编辑",
     "protected branch": "分支保护",
     "protected-branch-form-tip": "分支保护开启后，只有应用所有者、应用研发主管才能操作，其他成员只能通过mr提交代码",

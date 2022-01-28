@@ -1658,6 +1658,7 @@
     "project updated successfully": "project updated successfully",
     "project-img-copyright-tip": "* image by Scott Webb on Pexels",
     "project-level-app-form-tip": "after setting as a project-level application, the pipeline of the application can directly call the pipelines of other applications of the project",
+    "projects": "projects",
     "protect branch, not editable": "protect branch, not editable",
     "protected branch": "protected branch",
     "protected-branch-form-tip": "after branch protection is turned on, only the application owner and application leader can operate, and other members can only submit code through mr",

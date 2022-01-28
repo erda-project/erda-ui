@@ -44,19 +44,6 @@ export interface IPubliserListProps extends IMapperProps {
   getList: (p: any) => Promise<any>;
 }
 
-export const publisherTabs = () => {
-  return [
-    {
-      key: 'MOBILE',
-      name: i18n.t('dop:mobile app'),
-    },
-    {
-      key: 'LIBRARY',
-      name: i18n.t('dop:library/module'),
-    },
-  ];
-};
-
 export const PurePublisherList = ({
   list = [],
   paging,
