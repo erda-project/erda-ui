@@ -22,7 +22,8 @@ const mockData: Array<MockSpec<CP_MARKDOWN_PREVIEW.Spec>> = [
       wrapperClassName: 'py-4',
     },
     data: {
-      content: '## markdown 预览\n [erda cloud](https://www.erda.cloud)',
+      content:
+        '## markdown 预览\n 提供一站式的服务系统观测，包括服务监控、链路追踪、仪表盘和告警等功能。\n\n [erda cloud](https://www.erda.cloud) ',
     },
   },
 ];

@@ -12,82 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { TimeSelectWithStore } from 'msp/components/time-select';
-import DiceConfigPage from 'app/config-page';
-import monitorCommon from 'common/stores/monitorCommon';
-import { useMock } from 'msp/alarm-manage/overview/data.mock';
+import BaseOverview from 'msp/alarm-manage/overview/base-overview';
+import routeInfoStore from 'core/stores/route';
 
-const indicators = ['apdex', 'apiSuccessRate', 'avgPageLoadDuration', 'jsErrorCount', 'alertEvent', 'uv'];
 const Overview = () => {
-  const range = monitorCommon.useStore((s) => s.globalTimeSelectSpan.range);
-  return (
-    <div>
-      <div className="top-button-group z-10">
-        <TimeSelectWithStore placement="bottomRight" />
-      </div>
-      <DiceConfigPage
-        scenarioKey=""
-        scenarioType=""
-        inParams={{
-          startTime: range.startTimeMs,
-          endTime: range.endTimeMs,
-          _: range.triggerTime,
-        }}
-        forceUpdateKey={['inParams']}
-        forceMock
-        useMock={useMock}
-        customProps={{
-          ...indicators.reduce(
-            (previousValue, currentValue) => ({
-              ...previousValue,
-              [`kvCard@${currentValue}`]: {
-                props: {
-                  gutter: 0,
-                  className: 'h-24 py-6',
-                },
-              },
-            }),
-            {},
-          ),
-          cards: {
-            props: {
-              gutter: 0,
-            },
-          },
-          comp: {
-            props: {
-              showDefaultBgColor: false,
-              className: 'bg-white',
-            },
-          },
-          alarmEvent: {
-            props: {
-              showDefaultBgColor: false,
-              className: 'bg-white',
-            },
-          },
-          alertNotice: {
-            props: {
-              showDefaultBgColor: false,
-              className: 'bg-white',
-            },
-          },
-          alarmDurationAnalysis: {
-            props: {
-              showDefaultBgColor: false,
-              className: 'bg-white',
-            },
-          },
-          compContainer: {
-            props: {
-              leftProportion: 3,
-              rightProportion: 7,
-            },
-          },
-        }}
-      />
-    </div>
-  );
+  const { terminusKey } = routeInfoStore.useStore((s) => s.params);
+
+  return <BaseOverview scope="micro_service" scopeId={terminusKey} />;
 };
 
 export default Overview;

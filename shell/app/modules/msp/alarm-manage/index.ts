@@ -19,6 +19,12 @@ const alarmManageRouters = [
   alarmRouter(),
   alarmRecordRouter(),
   {
+    path: 'alarm-overview',
+    breadcrumbName: i18n.t('msp:NotifyGroupManagement'),
+    layout: { noWrapper: true },
+    getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/overview')),
+  },
+  {
     path: 'custom-alarm',
     breadcrumbName: i18n.t('msp:RuleManagement'),
     routes: [

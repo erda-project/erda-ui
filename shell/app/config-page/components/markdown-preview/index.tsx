@@ -12,9 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import Markdown from 'common/utils/marked';
+import MarkdownRender from 'common/components/markdown-render';
 import EmptyHolder from 'common/components/empty-holder';
-import './index.scss';
 
 const CP_MarkdownPreview: React.FC<CP_MARKDOWN_PREVIEW.Props> = (props) => {
   const { data, props: configProps } = props;
@@ -24,10 +23,7 @@ const CP_MarkdownPreview: React.FC<CP_MARKDOWN_PREVIEW.Props> = (props) => {
       {!data.content ? (
         <EmptyHolder relative />
       ) : (
-        <article
-          className={`markdown-content ${className}`}
-          dangerouslySetInnerHTML={{ __html: Markdown(data.content) }}
-        />
+        <MarkdownRender value={data.content} className={`p-0 ${className}`} />
       )}
     </div>
   );

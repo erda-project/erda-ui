@@ -15,6 +15,7 @@ declare namespace CP_MARKDOWN_PREVIEW {
   interface IProps {
     wrapperClassName?: string;
     className?: string;
+    noWrapper?: boolean;
   }
 
   interface Spec {

@@ -11,32 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_PANEL {
-  interface Field {
-    label?: string;
-    valueKey?: any;
-    renderType?: 'ellipsis' | 'tagsRow' | 'linkText' | 'copyText' | 'highlightText';
-    value?: any;
-    operations?: CP_COMMON.Operation;
-  }
+import React from 'react';
+import BaseOverview from 'msp/alarm-manage/overview/base-overview';
+import orgStore from 'app/org-home/stores/org';
 
-  interface IProps {
-    visible?: boolean;
-    fields: Field[];
-    column?: number;
-    colon?: boolean;
-    columnNum?: number;
-    isMultiColumn?: boolean;
-    layout?: 'vertical' | 'horizontal';
-    data?: Obj;
-    type?: 'Z' | 'N';
-    numOfRowsLimit?: number;
-  }
+const AlarmOverview = () => {
+  const orgId = orgStore.useStore((s) => s.currentOrg.id);
+  return <BaseOverview scope="org" scopeId={`${orgId}`} />;
+};
 
-  interface Spec {
-    type: 'Panel';
-    props: IProps;
-  }
-
-  type Props = MakeProps<Spec>;
-}
+export default AlarmOverview;

@@ -18,7 +18,7 @@ import { mqTabs } from 'dcos/pages/service-manager/mq-manager/index';
 import { redisTabs } from 'dcos/pages/service-manager/redis-manager/index';
 import { rdsTabs } from 'dcos/pages/service-manager/rds-manager/index';
 import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
-import { EditStrategyPageName, AddStrategyPageName } from 'cmp/common/alarm-strategy/strategy-form';
+import { AddStrategyPageName, EditStrategyPageName } from 'cmp/common/alarm-strategy/strategy-form';
 import ClusterSelector from 'cmp/pages/cluster-container/cluster-selector';
 
 export const getOrgProjectTabs = () => [
@@ -385,6 +385,12 @@ function getCmpRouter(): RouteConfigItem[] {
         {
           path: 'alarm',
           routes: [
+            {
+              path: 'overview',
+              breadcrumbName: i18n.t('alarm overview'),
+              layout: { noWrapper: true },
+              getComp: (cb: RouterGetComp) => cb(import('cmp/pages/alarm-overview')),
+            },
             {
               path: 'report',
               routes: [

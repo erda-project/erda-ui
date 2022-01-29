@@ -190,13 +190,15 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
 
   return (
     <div className={`px-4 pb-2 ${configProps.className ?? ''}`} style={{ backgroundColor: colorToRgb(color, 0.02) }}>
-      <div
-        className={`title h-12 flex items-center justify-between ${
-          configProps.theme === 'dark' ? 'text-white' : 'text-normal'
-        }`}
-      >
-        {data.title}
-      </div>
+      {data.title ? (
+        <div
+          className={`title h-12 flex items-center justify-between ${
+            configProps.theme === 'dark' ? 'text-white' : 'text-normal'
+          }`}
+        >
+          {data.title}
+        </div>
+      ) : null}
       <div>
         {option.series.length && option.yAxis.length ? (
           <Echarts
