@@ -45,7 +45,7 @@ export interface Field {
   type: string;
   key: string;
   mode?: string;
-  isExternal?: boolean;
+  outside?: boolean;
   value: number | string;
   label: string;
   children?: Field[];
@@ -85,7 +85,7 @@ const sortObj = (obj: Obj) => {
 const getItemByValues = (val: Obj, list: Obj[], fieldsList: Field[]) => {
   const reValue = {};
   fieldsList.forEach((item) => {
-    if (!item.isExternal && has(val, item.key)) {
+    if (!item.outside && has(val, item.key)) {
       reValue[item.key] = val[item.key];
     }
   });
@@ -135,7 +135,7 @@ const convertValue = (value: Obj, fieldList: Field[]) => {
   const formValue = {};
   const externalValue = {};
   fieldList.forEach((item) => {
-    if (item.isExternal) {
+    if (item.outside) {
       externalValue[item.key] = value?.[item.key];
     } else {
       formValue[item.key] = value?.[item.key];
@@ -232,7 +232,7 @@ const ConfigurableFilter = ({
     }
   }, [visible, form, configList, formValue, fieldsList]);
 
-  const externalField = fieldsList.filter((item) => item.isExternal);
+  const externalField = fieldsList.filter((item) => item.outside);
 
   const addConfigContent = (
     <div>
@@ -324,7 +324,7 @@ const ConfigurableFilter = ({
             <Form form={form} layout="vertical" onValuesChange={onValuesChange}>
               <Row>
                 {fieldsList
-                  ?.filter((item) => !item.isExternal)
+                  ?.filter((item) => !item.outside)
                   ?.map((item, index: number) => {
                     return (
                       <Col span={12} key={item.key} className={index % 2 === 1 ? 'pl-2' : 'pr-2'}>
