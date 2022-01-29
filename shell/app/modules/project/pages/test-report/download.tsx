@@ -15,8 +15,7 @@ import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import { Input, Form } from 'antd';
 import ExportPdf from 'project/pages/plan-detail/report/export-pdf';
-import Markdown from 'common/utils/marked';
-import { Title, ErdaIcon } from 'common';
+import { Title, ErdaIcon, MarkdownRender } from 'common';
 import IterationSelect from 'project/common/components/issue/iteration-select';
 import { useMount } from 'react-use';
 import { getTestReportDetail } from 'project/services/project';
@@ -77,10 +76,7 @@ const Preview = (props: { data: PROJECT.ITestReportBody; onMount: Function }) =>
             <IterationSelect value={data.iterationID} bordered={false} suffixIcon={null} />
           </Form.Item>
           <Form.Item label={i18n.t('dop:test summary')}>
-            <div
-              className="border-all rounded p-2 md-content"
-              dangerouslySetInnerHTML={{ __html: Markdown(data.summary) }}
-            />
+            <MarkdownRender className="border-all rounded p-2" value={data.summary} />
           </Form.Item>
         </Form>
       </div>

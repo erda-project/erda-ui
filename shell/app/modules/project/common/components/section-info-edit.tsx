@@ -12,10 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { FormModal, ConfigLayout } from 'common';
+import { FormModal, ConfigLayout, MarkdownRender } from 'common';
 import { Form, Button, Avatar } from 'antd';
 import { isEmpty, concat, get, forEach, isFunction } from 'lodash';
-import Markdown from 'common/utils/marked';
 import i18n from 'i18n';
 
 interface IProps {
@@ -97,8 +96,7 @@ class SectionInfoEdit extends React.Component<IProps, IState> {
           } else if (viewType === 'markdown') {
             readonlyView.push(
               <FormItem label={label} key={index}>
-                {/* eslint-disable-next-line react/no-danger */}
-                <p className="md-content" dangerouslySetInnerHTML={{ __html: Markdown(value) }} />
+                <MarkdownRender value={value} />
               </FormItem>,
             );
           } else if (type === 'select') {

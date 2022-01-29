@@ -18,7 +18,6 @@ import React from 'react';
 import { FileDiff } from './file-diff';
 import MarkdownEditor, { EC_MarkdownEditor } from 'common/components/markdown-editor';
 import { CommentBox } from 'application/common/components/comment-box';
-import Markdown from 'common/utils/marked';
 import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
 import { useMount } from 'react-use';
@@ -167,7 +166,7 @@ export const PureCommentList = ({ comments = [] }: ICommentList) => {
               user={comment.author.nickName}
               time={comment.createdAt}
               action={i18n.t('dop:commented at')}
-              content={Markdown(comment.note || '')}
+              content={comment.note || ''}
             />
           );
         }

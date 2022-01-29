@@ -77,6 +77,7 @@ export { default as SwitchAutoScroll } from './components/switch-auto-scroll';
 export { default as FileSelect } from './components/file-select';
 export { default as EditField } from './components/edit-field';
 export { default as MarkdownEditor } from './components/markdown-editor';
+export { default as MarkdownRender } from './components/markdown-render';
 export { default as DropdownSelect } from './components/dropdown-select';
 export { default as DropdownSelectNew } from './components/dropdown-select-new';
 export { default as FilterGroup } from './components/filter-group';
