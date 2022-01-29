@@ -64,10 +64,12 @@ export const PureBaseAddonInfo = ({
   addonDetail,
   loading,
   extra,
+  onReload,
 }: {
   addonDetail: Merge<MIDDLEWARE_DASHBOARD.IBaseInfo, { addonStatus?: string }>;
   loading: boolean;
   extra: React.ReactNode;
+  onReload: () => void;
 }) => {
   const itemConfigs = [
     {
@@ -140,6 +142,7 @@ export const PureBaseAddonInfo = ({
           <span className="title font-medium">{i18n.t('cmp:reference detail')}</span>
           <ErdaTable
             columns={refTableList}
+            onReload={onReload}
             dataSource={addonDetail.referenceInfos}
             pagination={false}
             rowKey="applicationName"

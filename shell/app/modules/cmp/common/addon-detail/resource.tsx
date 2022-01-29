@@ -28,8 +28,9 @@ interface IProps {
   loading: boolean;
   drawerComp: JSX.Element;
   renderOp: (record: any) => JSX.Element;
+  onReload: () => void;
 }
-export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }: IProps) => {
+export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp, onReload }: IProps) => {
   const resourceCols: Array<ColumnProps<IResource>> = [
     {
       title: i18n.t('container IP'),
@@ -129,6 +130,7 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }
     <>
       <ErdaTable
         rowKey="containerId"
+        onReload={onReload}
         columns={resourceCols}
         dataSource={resourceList}
         loading={loading}

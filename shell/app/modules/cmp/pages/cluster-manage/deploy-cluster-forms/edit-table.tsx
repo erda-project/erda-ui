@@ -99,6 +99,7 @@ export const EditableTable = (props: IEditableTableProps) => {
         {i18n.t('add')}
       </Button>
       <ErdaTable
+        hideHeader
         className="node-edit-table"
         components={components}
         rowClassName={() => 'editable-row'}

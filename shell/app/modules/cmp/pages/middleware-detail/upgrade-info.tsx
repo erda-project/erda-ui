@@ -51,7 +51,7 @@ const TableView = React.memo(({ data }: { data: any }) => {
     },
   ];
 
-  return <ErdaTable columns={columns} dataSource={translateData(data)} pagination={false} scroll={{ x: '100%' }} />;
+  return <ErdaTable hideHeader columns={columns} dataSource={translateData(data)} pagination={false} />;
 });
 
 const TextView = React.memo(({ data }: { data: Record<string, any> }) => {

@@ -94,6 +94,7 @@ const AliCloudPreview = ({
       ]}
     >
       <ErdaTable
+        hideHeader
         rowKey={'resourceType'}
         pagination={false}
         columns={columns}

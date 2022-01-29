@@ -122,6 +122,7 @@ const PodDetail = () => {
               rowKey="containerId"
               pagination={false}
               columns={columns}
+              onReload={getPodDetail}
               dataSource={podDetail.instances || []}
               scroll={{ x: '100%' }}
             />
