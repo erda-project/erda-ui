@@ -19,6 +19,7 @@ import ReactMarkdown from 'react-markdown';
 import { useEvent, useUnmount } from 'react-use';
 import { gfm, gfmHtml } from 'micromark-extension-gfm';
 import remarkGfm from 'remark-gfm';
+import remarkBreaks from 'remark-breaks';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { CodeComponent } from 'react-markdown/lib/ast-to-react';
 import './index.scss';
@@ -131,7 +132,10 @@ interface IMdProps {
 }
 export const MarkdownRender = ({ value, className, style, noWrapper, components }: IMdProps) => {
   const content = (
-    <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ img: ScalableImage, a: Link, pre, code, ...components }}>
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm, remarkBreaks]}
+      components={{ img: ScalableImage, a: Link, pre, code, ...components }}
+    >
       {value}
     </ReactMarkdown>
   );
