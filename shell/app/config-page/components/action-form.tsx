@@ -133,14 +133,6 @@ export const ActionForm = (props: IProps) => {
       data = omit(data, ['resource.resources']);
     }
 
-    const _type = get(data, 'resource.type');
-    if (_type === 'custom-script') {
-      // 自定义任务，如果镜像值跟默认的一直，不体现在返回数据上（从原逻辑上摘下来）
-      const defaultImg = get(find(fields, { key: 'image' } as Obj), 'defaultValue');
-      if (defaultImg === get(data, 'resource.image')) {
-        data = omit(data, ['resource.image']);
-      }
-    }
     const filledFieldsData = clearEmptyField(data);
     const resData = { ...filledFieldsData, action: chosenAction } as any;
     propsSubmit(resData);
