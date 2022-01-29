@@ -49,8 +49,8 @@ const ProjectList = () => {
   return (
     <>
       <DiceConfigPage
-        scenarioType="project-list-all"
-        scenarioKey="project-list-all"
+        scenarioType="project-list-my"
+        scenarioKey="project-list-my"
         ref={reloadRef}
         customProps={{
           list: {
