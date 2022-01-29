@@ -14,7 +14,8 @@
 import React from 'react';
 import { useMount } from 'react-use';
 import { map, isEmpty } from 'lodash';
-import { Spin, Table } from 'antd';
+import { Spin } from 'antd';
+import ErdaTable from 'common/components/table';
 import { Holder } from 'common';
 import i18n from 'i18n';
 import { useLoading } from 'core/stores/loading';
@@ -117,10 +118,11 @@ const PodDetail = () => {
           </div>
           <div className="instance mb-8">
             <span className="title font-medium">{i18n.t('cmp:instance list')} TOP10</span>
-            <Table
+            <ErdaTable
               rowKey="containerId"
               pagination={false}
               columns={columns}
+              onReload={getPodDetail}
               dataSource={podDetail.instances || []}
               scroll={{ x: '100%' }}
             />

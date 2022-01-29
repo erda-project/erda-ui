@@ -14,9 +14,10 @@
 import React from 'react';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
-import { Spin, Table, Input, Select, Tooltip } from 'antd';
+import { Spin, Input, Select, Tooltip } from 'antd';
 import { isEmpty, map } from 'lodash';
 import { Holder, LoadMoreSelector, Filter } from 'common';
+import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { getClusterList, getDomainList } from 'cmp/services/domain-manage';
 import { getDefaultPaging, goTo } from 'common/utils';
@@ -192,55 +193,51 @@ const DomainManage = () => {
       dataIndex: 'workspace',
       render: (key: string) => <Tooltip title={ENV_DIC[key]}>{ENV_DIC[key]}</Tooltip>,
     },
-    {
-      title: i18n.t('default:operation'),
-      dataIndex: 'operation',
-      render: (text, record: DOMAIN_MANAGE.IDomain) => {
-        const { domain, type, workspace: env, link } = record;
-        if (!link) {
-          return undefined;
-        }
-
-        const {
-          projectID: projectId = '',
-          tenantGroup = '',
-          appID: appId = '',
-          runtimeID: runtimeId = '',
-          serviceName = '',
-        } = link;
-        return type !== 'other'
-          ? [
-              <span
-                className="fake-link mr-1"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (type === 'service') {
-                    if (serviceName && projectId && appId && runtimeId) {
-                      goTo(goTo.pages.runtimeDetail, {
-                        serviceName,
-                        projectId,
-                        appId,
-                        runtimeId,
-                        jumpFrom: 'domainPage',
-                        jumpOut: true,
-                      });
-                    }
-                  }
-                  if (type === 'gateway') {
-                    if (domain && projectId && tenantGroup && env) {
-                      goTo(goTo.pages.gatewayList, { domain, projectId, tenantGroup, env, jumpOut: true });
-                    }
-                  }
-                }}
-              >
-                {i18n.t('manage')}
-              </span>,
-            ]
-          : [];
-      },
-      width: 150,
-    },
   ];
+
+  const actions = {
+    render: (record: DOMAIN_MANAGE.IDomain) => {
+      const { domain, type, workspace: env, link } = record;
+      if (!link) {
+        return [];
+      }
+
+      const {
+        projectID: projectId = '',
+        tenantGroup = '',
+        appID: appId = '',
+        runtimeID: runtimeId = '',
+        serviceName = '',
+      } = link;
+
+      return type !== 'other'
+        ? [
+            {
+              title: i18n.t('manage'),
+              onClick: () => {
+                if (type === 'service') {
+                  if (serviceName && projectId && appId && runtimeId) {
+                    goTo(goTo.pages.runtimeDetail, {
+                      serviceName,
+                      projectId,
+                      appId,
+                      runtimeId,
+                      jumpFrom: 'domainPage',
+                      jumpOut: true,
+                    });
+                  }
+                }
+                if (type === 'gateway') {
+                  if (domain && projectId && tenantGroup && env) {
+                    goTo(goTo.pages.gatewayList, { domain, projectId, tenantGroup, env, jumpOut: true });
+                  }
+                }
+              },
+            },
+          ]
+        : [];
+    },
+  };
 
   const pagination = {
     total: domainPaging.total,
@@ -255,7 +252,7 @@ const DomainManage = () => {
       <Filter config={filterConfig} onFilter={onFilter} connectUrlSearch urlExtra={urlExtra} />
       <Spin spinning={loadingList}>
         <Holder when={isEmpty(domainList)}>
-          <Table columns={columns} dataSource={domainList} pagination={pagination} rowKey="id" scroll={{ x: '100%' }} />
+          <ErdaTable columns={columns} dataSource={domainList} pagination={pagination} actions={actions} rowKey="id" />
         </Holder>
       </Spin>
     </>

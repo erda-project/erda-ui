@@ -88,7 +88,16 @@ const Detail = () => {
     instanceId,
   ]);
 
-  return <PureBaseAddonInfo addonDetail={{ ...addonDetail, addonStatus }} loading={loading} extra={extraNode} />;
+  return (
+    <PureBaseAddonInfo
+      addonDetail={{ ...addonDetail, addonStatus }}
+      loading={loading}
+      extra={extraNode}
+      onReload={() => {
+        getBaseInfo(instanceId);
+      }}
+    />
+  );
 };
 
 export default Detail;

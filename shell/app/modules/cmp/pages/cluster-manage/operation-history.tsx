@@ -17,7 +17,8 @@ import { Icon as CustomIcon, LogRoller, FilterGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import moment from 'moment';
-import { Table, Drawer, Badge, Tooltip, Switch } from 'antd';
+import { Drawer, Badge, Tooltip, Switch } from 'antd';
+import ErdaTable from 'common/components/table';
 import machineStore from 'app/modules/cmp/stores/machine';
 import React from 'react';
 import { useUserMap } from 'core/stores/userMap';
@@ -77,7 +78,7 @@ export const OperationHistory = () => {
     }
   }, [clusterList, filters, getList]);
 
-  const columns: Array<ColumnProps<any>> = [
+  const columns: Array<ColumnProps<ORG_MACHINE.IClusterOperateRecord>> = [
     {
       title: 'ID',
       dataIndex: 'recordID',
@@ -133,23 +134,23 @@ export const OperationHistory = () => {
         </Tooltip>
       ),
     },
-    {
-      title: i18n.t('operation'),
-      width: 120,
-      render: (_, record) => {
-        const hasLog = !isEmpty(record.pipelineDetail);
-        return hasLog ? (
-          <CustomIcon
-            type="log"
-            className="cursor-pointer"
-            onClick={() => {
-              updater.curRow(record);
-            }}
-          />
-        ) : null;
-      },
-    },
   ];
+
+  const actions = {
+    render: (record: ORG_MACHINE.IClusterOperateRecord) => {
+      const hasLog = !isEmpty(record.pipelineDetail);
+      return hasLog
+        ? [
+            {
+              title: i18n.t('log'),
+              onClick: () => {
+                updater.curRow(record);
+              },
+            },
+          ]
+        : [];
+    },
+  };
 
   const changeFilter = (filtersObj: any) => {
     const _recordType = filtersObj.recordType;
@@ -162,32 +163,35 @@ export const OperationHistory = () => {
 
   return (
     <div>
-      <FilterGroup
-        list={[
-          {
-            name: 'clusterName',
-            type: 'select',
-            placeholder: i18n.t('cmp:please select cluster'),
-            options: map(clusterList, (c) => ({ name: c.name, value: c.name })),
-            style: { width: '260px' },
-            mode: 'multiple',
-            value: filters ? filters.clusterName : undefined,
-          },
-          {
-            name: 'recordType',
-            type: 'select',
-            placeholder: i18n.t('cmp:please select operation type'),
-            allowClear: true,
-            mode: 'multiple',
-            options: map(operationTypes, (o) => ({ name: o.recordType, value: o.rawRecordType })),
-          },
-        ]}
-        onChange={changeFilter}
-      />
-      <Table
+      <ErdaTable
+        slot={
+          <FilterGroup
+            list={[
+              {
+                name: 'clusterName',
+                type: 'select',
+                placeholder: i18n.t('cmp:please select cluster'),
+                options: map(clusterList, (c) => ({ name: c.name, value: c.name })),
+                style: { width: '260px' },
+                mode: 'multiple',
+                value: filters ? filters.clusterName : undefined,
+              },
+              {
+                name: 'recordType',
+                type: 'select',
+                placeholder: i18n.t('cmp:please select operation type'),
+                allowClear: true,
+                mode: 'multiple',
+                options: map(operationTypes, (o) => ({ name: o.recordType, value: o.rawRecordType })),
+              },
+            ]}
+            onChange={changeFilter}
+          />
+        }
         rowKey="recordID"
         columns={columns}
         loading={loading}
+        actions={actions}
         dataSource={operationList}
         pagination={{
           current: operationPaging.pageNo,
@@ -195,7 +199,7 @@ export const OperationHistory = () => {
           total: operationPaging.total,
           onChange: (no: number) => getList({ pageNo: no, ...filters }),
         }}
-        scroll={{ x: 1100 }}
+        // scroll={{ x: 1100 }}
       />
       <ClusterLog recordID={curRow && curRow.recordID} onClose={() => updater.curRow(null)} />
     </div>

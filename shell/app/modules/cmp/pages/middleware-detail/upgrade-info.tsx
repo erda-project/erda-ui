@@ -13,8 +13,9 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Spin, Button, Radio, Table, Tooltip } from 'antd';
+import { Spin, Button, Radio, Tooltip } from 'antd';
 import { map, isEmpty } from 'lodash';
+import ErdaTable from 'common/components/table';
 import { RadioChangeEvent, ColumnProps } from 'core/common/interface';
 import UpgradeModal from 'cmp/pages/middleware-dashboard/upgrade-modal';
 import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';
@@ -50,7 +51,7 @@ const TableView = React.memo(({ data }: { data: any }) => {
     },
   ];
 
-  return <Table columns={columns} dataSource={translateData(data)} pagination={false} scroll={{ x: '100%' }} />;
+  return <ErdaTable hideHeader columns={columns} dataSource={translateData(data)} pagination={false} />;
 });
 
 const TextView = React.memo(({ data }: { data: Record<string, any> }) => {
