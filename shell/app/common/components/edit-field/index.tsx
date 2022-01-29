@@ -114,7 +114,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
           <div ref={mdContentRef} className="md-content">
             <MarkdownRender noWrapper value={value || i18n.t('no description yet')} />
             <div
-              className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex justify-center items-center ${
+              className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-t from-white flex justify-center items-center ${
                 !expandBtnVisible || expanded ? 'hidden' : ''
               }`}
             />
