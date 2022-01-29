@@ -571,14 +571,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         if (isResourceDefault) {
           data = omit(data, ['resource.resources']);
         }
-        const _type = get(values, 'resource.type');
-        if (_type === 'custom-script') {
-          // 自定义任务，如果镜像值跟默认的一直，则不保存这个字段；
-          const defaultImg = get(find(resource.data, { name: 'image' }), 'default');
-          if (defaultImg === get(data, 'resource.image')) {
-            data = omit(data, ['resource.image']);
-          }
-        }
+
         const filledFieldsData = clearEmptyField(data);
         const resData = { ...filledFieldsData, action: chosenAction } as any;
         if (data.executionCondition) resData.executionCondition = data.executionCondition;
