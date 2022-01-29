@@ -50,10 +50,10 @@ interface IItemProps {
 }
 const FormItem = Form.Item;
 class SectionInfoEdit extends React.Component<IProps, IState> {
-  state = { modalVisible: false };
+  state = { modalVisible: false, saveDisabled: true };
 
   toggleModal = () => {
-    this.setState({ modalVisible: !this.state.modalVisible });
+    this.setState({ modalVisible: !this.state.modalVisible, saveDisabled: true });
     this.props.setCanGetClusterListAndResources?.(!this.state.modalVisible);
   };
 
@@ -131,7 +131,7 @@ class SectionInfoEdit extends React.Component<IProps, IState> {
   };
 
   render() {
-    const { modalVisible } = this.state;
+    const { modalVisible, saveDisabled } = this.state;
     const { data, fieldsList, hasAuth, readonlyForm, name, desc, formName, extraSections } = this.props;
     let sectionList = [
       {
@@ -160,6 +160,10 @@ class SectionInfoEdit extends React.Component<IProps, IState> {
           onOk={this.handleSubmit}
           onCancel={this.toggleModal}
           modalProps={{ destroyOnClose: true }}
+          okButtonState={saveDisabled}
+          onValuesChange={() => {
+            this.setState({ saveDisabled: false });
+          }}
         />
       </React.Fragment>
     );

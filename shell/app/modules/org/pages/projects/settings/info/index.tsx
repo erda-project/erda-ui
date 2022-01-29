@@ -66,8 +66,11 @@ const Info = () => {
   const [confirmProjectName, setConfirmProjectName] = React.useState('');
 
   const [projectInfoEditVisible, setProjectInfoEditVisible] = React.useState(false);
+  const [projectInfoSaveDisabled, setProjectInfoSaveDisabled] = React.useState(true);
   const [projectQuotaEditVisible, setProjectQuotaEditVisible] = React.useState(false);
+  const [projectQuotaSaveDisabled, setProjectQuotaSaveDisabled] = React.useState(true);
   const [projectRollbackEditVisible, setProjectRollbackEditVisible] = React.useState(false);
+  const [projectRollbackSaveDisabled, setProjectRollbackSaveDisabled] = React.useState(true);
 
   const { rollbackConfig } = info;
 
@@ -321,12 +324,24 @@ const Info = () => {
               : i18n.t('no quota')}
           </Card>
           <FormModal
-            onOk={(result) => updatePrj(result).then(() => setProjectQuotaEditVisible(false))}
-            onCancel={() => setProjectQuotaEditVisible(false)}
+            onOk={(result) =>
+              updatePrj(result).then(() => {
+                setProjectQuotaEditVisible(false);
+                setProjectQuotaSaveDisabled(true);
+              })
+            }
+            onCancel={() => {
+              setProjectQuotaEditVisible(false);
+              setProjectQuotaSaveDisabled(true);
+            }}
             name={i18n.t('dop:project quota')}
             visible={projectQuotaEditVisible}
             fieldsList={fieldsListQuota}
             formData={{ ...info, isPublic: `${info.isPublic || 'false'}` }}
+            okButtonState={projectQuotaSaveDisabled}
+            onValuesChange={() => {
+              setProjectQuotaSaveDisabled(false);
+            }}
           />
         </>
       )}
@@ -421,22 +436,44 @@ const Info = () => {
       </Card>
 
       <FormModal
-        onOk={(result) => updatePrj(result).then(() => setProjectInfoEditVisible(false))}
-        onCancel={() => setProjectInfoEditVisible(false)}
+        onOk={(result) =>
+          updatePrj(result).then(() => {
+            setProjectInfoEditVisible(false);
+            setProjectInfoSaveDisabled(true);
+          })
+        }
+        onCancel={() => {
+          setProjectInfoEditVisible(false);
+          setProjectInfoSaveDisabled(true);
+        }}
         name={i18n.t('dop:project info')}
         visible={projectInfoEditVisible}
         fieldsList={fieldsListInfo}
         formData={{ ...info, isPublic: `${info.isPublic || 'false'}` }}
+        okButtonState={projectInfoSaveDisabled}
+        onValuesChange={() => {
+          setProjectInfoSaveDisabled(false);
+        }}
       />
       <FormModal
         onOk={(result) =>
-          updateProject({ ...result, isPublic: info.isPublic }).then(() => setProjectRollbackEditVisible(false))
+          updateProject({ ...result, isPublic: info.isPublic }).then(() => {
+            setProjectRollbackEditVisible(false);
+            setProjectRollbackSaveDisabled(true);
+          })
         }
-        onCancel={() => setProjectRollbackEditVisible(false)}
+        onCancel={() => {
+          setProjectRollbackEditVisible(false);
+          setProjectRollbackSaveDisabled(true);
+        }}
         name={i18n.t('dop:rollback point')}
         visible={projectRollbackEditVisible}
         fieldsList={fieldsListRollback}
         formData={{ rollbackConfig: configData }}
+        okButtonState={projectRollbackSaveDisabled}
+        onValuesChange={() => {
+          setProjectRollbackSaveDisabled(false);
+        }}
       />
     </div>
   );
