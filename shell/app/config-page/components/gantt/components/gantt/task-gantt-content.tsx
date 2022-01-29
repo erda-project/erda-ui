@@ -205,7 +205,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
     }
     // Mouse Events
     else if (action === 'mouseenter') {
-      if (!ganttEvent.action) {
+      if (!ganttEvent.action || ganttEvent.action === 'mouseenter') {
         setGanttEvent({
           action,
           changedTask: task,

@@ -18,11 +18,10 @@ import './project.scss';
 export const Project: React.FC<TaskItemProps> = ({ task, BarContentRender }) => {
   return (
     <g tabIndex={0} className={'erda-gantt-project-wrapper'}>
-      <foreignObject className="overflow-visible" width={task.x2 - task.x1} height={task.height}>
+      <foreignObject className="overflow-visible" width={task.x2 - task.x1} height={task.height} x={task.x1} y={task.y}>
         <div
           className="relative erda-gantt-project-background text-default-8"
           style={{
-            transform: `translate(${task.x1}px, ${task.y}px)`,
             left: 0,
             top: 0,
             width: task.x2 - task.x1,
