@@ -93,7 +93,7 @@ class Echarts extends React.Component {
       });
     } else echartObj.hideLoading();
     const option = this.props.option;
-    if (option.legend && (option.series ?? []).some((t) => t.type === 'line')) {
+    if (option.legend && (option.series || []).some((t) => t.type === 'line')) {
       option.legend = {
         ...option.legend,
         icon: 'reat',

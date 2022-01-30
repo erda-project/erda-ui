@@ -13,7 +13,7 @@
 
 import { goTo } from 'common/utils';
 import i18n from 'i18n';
-import { ErdaIcon } from 'common';
+import ErdaIcon from 'common/components/erda-icon';
 
 import React from 'react';
 

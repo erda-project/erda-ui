@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Panel should render with multiColumn 1`] = `
+<div>
+  <div
+    class="erda-panel"
+  >
+    <div
+      class="ant-row"
+      style="margin-left: -6px; margin-right: -6px;"
+    />
+  </div>
+</div>
+`;

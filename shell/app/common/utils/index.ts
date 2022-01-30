@@ -39,7 +39,7 @@ export {
   formatTime,
 } from './str-num-date';
 
-export { getLabel } from './component-utils';
+// export { getLabel } from './component-utils';
 
 export const isPromise = (obj: any) => {
   return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
@@ -71,6 +71,7 @@ interface ICountPagination {
   total: number;
   minus: number;
 }
+
 export function countPagination({ pageNo, pageSize, total, minus }: ICountPagination) {
   const totalPage = Math.ceil(total / pageSize);
   const newTotalPage = Math.ceil((total - minus) / pageSize);
@@ -183,6 +184,7 @@ export const isImage = (filename: string) => /\.(jpg|bmp|gif|png|jpeg|svg)$/i.te
 
 // t: stepTime  b: begin  c: end  d: duration
 /* eslint-disable */
+
 /* tslint:disable */
 export function easeInOutCubic(t: number, b: number, c: number, d: number) {
   const cc = c - b;
@@ -192,7 +194,9 @@ export function easeInOutCubic(t: number, b: number, c: number, d: number) {
   }
   return (cc / 2) * ((t -= 2) * t * t + 2) + b;
 }
+
 /* tslint:enable */
+
 /* eslint-enable */
 
 interface IOssConfig {
@@ -200,6 +204,7 @@ interface IOssConfig {
   h?: number;
   op?: string;
 }
+
 export function ossImg(src: string | undefined | null, config: IOssConfig = { w: 200, h: 200 }) {
   if (src === undefined || src === null) {
     return undefined;
@@ -255,6 +260,7 @@ export function guid() {
     return v.toString(16);
   });
 }
+
 /* eslint-enable */
 
 export const getDefaultPaging = (overwrite = {}): IPaging => ({

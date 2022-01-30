@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loading should render well 1`] = `
+<div>
+  <div
+    class="h-full w-full flex-all-center"
+  >
+    <div
+      class="e-loading-content"
+    >
+      <div
+        class="e-loading-point e-loading-lt"
+      />
+      <div
+        class="e-loading-point e-loading-rt"
+      />
+      <div
+        class="e-loading-point e-loading-lb"
+      />
+      <div
+        class="e-loading-point e-loading-rb"
+      />
+    </div>
+  </div>
+</div>
+`;

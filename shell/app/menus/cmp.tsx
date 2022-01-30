@@ -15,7 +15,7 @@ import i18n from 'i18n';
 import { goTo, insertWhen } from 'common/utils';
 import { filterMenu, MENU_SCOPE } from './util';
 import React from 'react';
-import { ErdaIcon } from 'common';
+import ErdaIcon from 'common/components/erda-icon';
 import { EMPTY_CLUSTER } from 'cmp/pages/cluster-manage/config';
 
 export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {

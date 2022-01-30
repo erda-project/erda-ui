@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loading-skeleton LoadingSkeleton should render well 1`] = `
+<div>
+  <div
+    class="skeleton-header"
+  >
+    <div
+      class="header-row"
+    >
+      <div
+        class="skeleton-line skeleton-bg"
+        style="width: 100px;"
+      />
+    </div>
+    <div
+      class="header-row"
+    >
+      <div
+        class="skeleton-line skeleton-bg"
+        style="width: 200px;"
+      />
+    </div>
+  </div>
+  <div
+    class="main-holder"
+  >
+    <div
+      id="enter-loading"
+    />
+  </div>
+</div>
+`;

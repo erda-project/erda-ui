@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import i18n, { getCurrentLocale, setLocale, isZh, getLang } from 'core/i18n';
+import i18n, { getCurrentLocale, getLang, isZh, setLocale } from 'core/i18n';
 import zh from './locales/zh.json';
 import en from './locales/en.json';
 import defaultZh from '../../locales/zh.json';
@@ -28,7 +28,7 @@ map(merge(defaultEn, en), (enValue, enKey) => {
 // TODO: move to page-container
 const currentLocale = getCurrentLocale();
 document.body.lang = currentLocale.key;
-const docDesc = document.querySelector('meta[name=description]');
+const docDesc = document.querySelector('meta[name=description]') as HTMLMetaElement;
 if (currentLocale.key === 'en' && docDesc) {
   docDesc.content = 'Collaborative Application Development Platform On The Cloud';
 }

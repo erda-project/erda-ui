@@ -46,6 +46,7 @@ const ErdaAlert = ({
   const alertList = JSON.parse(localStorage.getItem('erda-alert-list') || '{}');
   const [isHidden, setIsHidden] = React.useState(showOnceKey ? alertList[showOnceKey] : false);
   const afterClose = () => {
+    console.log('AFTERCLOSE')
     setIsHidden('true');
     if (showOnceKey) {
       alertList[showOnceKey] = 'true';

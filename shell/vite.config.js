@@ -19,7 +19,7 @@ import * as path from 'path';
 import postcss from './postcss.config.mjs';
 import { getLessTheme } from './app/theme-color.mjs';
 
-const babelConfig = require('./babel.config.js');
+const babelConfig = require('./babel.config.js')();
 
 const packageJson = require('./package.json');
 
