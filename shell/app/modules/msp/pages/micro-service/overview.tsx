@@ -167,7 +167,7 @@ const Overview = () => {
           {i18n.t(
             'msp:Provides one-stop service system observation, including service monitoring, tracing, dashboard, and alarm.',
           )}
-          <a className="flex" href={DOC_MSP_HOME_PAGE} target="_blank">
+          <a className="flex" href={DOC_MSP_HOME_PAGE} target="_blank" rel="noopener noreferrer">
             {i18n.t('msp:view guide')} <ErdaIcon size={14} type="jinru" className="mb-0" />
           </a>
         </p>
