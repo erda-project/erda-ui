@@ -380,7 +380,7 @@ const ConfigurableFilter = ({
         >
           <Badge dot={isAllOpen}>
             <div className="flex-h-center">
-              <ErdaIcon type="shaixuan" className="filter-icon" size={18} />
+              <ErdaIcon type="futaishaixuan" className="filter-icon" size={14} />
               <span className="mx-1 filter-text">{i18n.t('common:filter')}</span>
             </div>
           </Badge>
