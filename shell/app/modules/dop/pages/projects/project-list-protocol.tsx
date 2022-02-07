@@ -12,26 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage from 'config-page/index';
+import DiceConfigPage, { useMock } from 'config-page/index';
 import { useUpdate } from 'common/use-hooks';
-import { get } from 'lodash';
 import ApplyUnblockModal, { IMetaData } from 'dop/pages/projects/apply-unblock-modal';
-import routeInfoStore from 'core/stores/route';
-
-const scenarioConfig = {
-  'public-projects': {
-    scenarioKey: 'project-list-all',
-    scenarioType: 'project-list-all',
-  },
-  projects: {
-    scenarioKey: 'project-list-my',
-    scenarioType: 'project-list-my',
-  },
-};
+import { ErdaIcon } from 'common';
 
 const ProjectList = () => {
-  const currentRoute = routeInfoStore.getState((s) => s.currentRoute);
-  const { scenarioKey, scenarioType } = scenarioConfig[get(currentRoute, 'relativePath')] || {};
   const [state, updater, update] = useUpdate({
     visible: false,
     metaData: {} as IMetaData,
@@ -63,19 +49,41 @@ const ProjectList = () => {
   return (
     <>
       <DiceConfigPage
-        scenarioType={scenarioType}
+        scenarioType="project-list-all"
+        scenarioKey="project-list-all"
         ref={reloadRef}
-        scenarioKey={scenarioKey}
         customProps={{
           list: {
+            props: {
+              wrapperClassName: 'bg-white',
+              defaultLogo: <ErdaIcon type="morenxiangmu" size={28} />,
+            },
             op: {
-              applyDeploy: (op: CP_COMMON.Operation, data: any) => {
-                const pId = get(op, 'meta.projectId') || data?.projectId;
-                const pName = get(op, 'meta.projectName') || data?.projectName;
-                if (pId && pName) {
-                  handleShowApplyModal({ name: pName, id: pId } as PROJECT.Detail);
+              clickItem: (op: CP_COMMON.Operation, data: { record: any }) => {
+                if (op.id === 'applyDeploy') {
+                  const { record } = data;
+                  const pId = record.id;
+                  const pName = record.title;
+                  if (pId && pName) {
+                    handleShowApplyModal({ name: pName, id: pId } as PROJECT.Detail);
+                  }
                 }
               },
+            },
+          },
+          emptyContainer: {
+            props: {
+              className: 'bg-white flex-all-center py-4',
+            },
+          },
+          emptyPublicContainer: {
+            props: {
+              className: 'bg-white flex-all-center py-4',
+            },
+          },
+          alert: {
+            props: {
+              className: 'mb-2',
             },
           },
         }}

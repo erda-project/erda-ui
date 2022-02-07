@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import Markdown from 'common/utils/marked';
 import MdEditor from '@erda-ui/react-markdown-editor-lite';
 import { itemInfo } from '@erda-ui/react-markdown-editor-lite/share/var';
 import { EditorProps } from '@erda-ui/react-markdown-editor-lite/editor';
@@ -21,12 +20,13 @@ import { uploadFile } from '../../services';
 import { convertToFormData } from 'common/utils';
 import { getLang } from 'i18n';
 import { getFormatter } from 'charts/utils';
+import MarkdownRender from '../markdown-render';
 import '@erda-ui/react-markdown-editor-lite/lib/index.css';
-import './editor.scss';
+import '../markdown-render/index.scss';
 
-// eslint-disable-next-line react-hooks/rules-of-hooks
-MdEditor.useLocale(getLang() === 'zh-CN' ? 'zhCN' : 'enUS');
 MdEditor.use(UploadPlugin);
+// set locale at first time
+MdEditor.useLocale(getLang() === 'zh-CN' ? 'zhCN' : 'enUS');
 
 interface IProps extends Omit<EditorProps, 'renderHTML'> {
   defaultHeight: number;
@@ -56,6 +56,12 @@ const Editor = React.forwardRef((props: IProps, ref) => {
     }) as Promise<string>;
   }
 
+  React.useEffect(() => {
+    // have to call this every time rerender
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    MdEditor.useLocale(getLang() === 'zh-CN' ? 'zhCN' : 'enUS');
+  });
+
   return (
     <MdEditor
       ref={ref}
@@ -63,7 +69,7 @@ const Editor = React.forwardRef((props: IProps, ref) => {
       {...restEditorProps}
       config={config}
       htmlClass="md-content"
-      renderHTML={(text: string) => Markdown(text)}
+      renderHTML={(text: string) => <MarkdownRender value={text} />}
       onImageUpload={onImageUpload}
     />
   );

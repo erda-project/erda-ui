@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map } from 'lodash';
-import Markdown from 'common/utils/marked';
+import MarkdownRender from '../markdown-render';
 import './index.scss';
 
 interface IParam {
@@ -84,10 +84,9 @@ const KeyValueList = ({
                   <div className="k-v-row" key={normalK}>
                     <span className="key">{normalK}</span>
                     {markdownTextFields.includes(normalK) ? (
-                      <span
-                        className="w-7/10 overflow-auto max-h-72"
-                        dangerouslySetInnerHTML={{ __html: Markdown(normalV || '') }}
-                      />
+                      <span className="w-7/10 overflow-auto max-h-72">
+                        <MarkdownRender noWrapper value={normalV || ''} />
+                      </span>
                     ) : (
                       <span className="value"> {textRender ? textRender(normalK, normalV) : String(normalV)} </span>
                     )}

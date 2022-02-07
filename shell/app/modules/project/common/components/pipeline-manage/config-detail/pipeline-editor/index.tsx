@@ -33,14 +33,20 @@ stages: []
 const CasePipelineEditor = (props: IProps) => {
   const { caseDetail, onUpdateYml, addDrawerProps, scope, editable } = props;
   const curPipelineYml = get(caseDetail, 'meta.pipelineYml') || defaultPipelineYml;
-  const ymlStr = isEmpty(caseDetail) ? '' : curPipelineYml; //
+  const ymlStr = isEmpty(caseDetail) ? '' : curPipelineYml;
+
+  const ymlEditorRender = React.useCallback(
+    (p: any) => <CaseYmlGraphicEditor scope={scope} addDrawerProps={addDrawerProps} {...p} />,
+    [scope, addDrawerProps],
+  );
+
   return (
     <div>
       <PipelineEditor
         ymlStr={ymlStr}
         editable={editable}
         title={i18n.t('pipeline')}
-        YmlGraphicEditor={(p: any) => <CaseYmlGraphicEditor scope={scope} addDrawerProps={addDrawerProps} {...p} />}
+        YmlGraphicEditor={ymlEditorRender}
         onSubmit={onUpdateYml}
         addDrawerProps={{ ...addDrawerProps, scope, showInParams: true, showOutParams: true }}
         chartProps={{

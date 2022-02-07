@@ -17,7 +17,7 @@ import ReactDOM from 'react-dom';
 import { get } from 'lodash';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import { Pagination, message, ConfigProvider, Modal } from 'antd';
+import { message, ConfigProvider } from 'antd';
 import antd_zhCN from 'antd/es/locale-provider/zh_CN';
 import antd_enUS from 'antd/es/locale-provider/en_US';
 // core modules
@@ -27,7 +27,6 @@ import { setConfig, getConfig } from 'core/config';
 // common modules
 import { registChartControl } from 'charts/utils/regist';
 import { setGlobal } from 'core/global-space';
-import { PAGINATION } from 'app/constants';
 import { erdaEnv } from 'common/constants';
 import { EmptyListHolder } from 'common';
 import { setLS, notify, insertWhen } from 'common/utils';
@@ -37,7 +36,7 @@ import userStore from './user/stores';
 import permStore from 'user/stores/permission';
 import { getJoinedOrgs } from 'app/org-home/services/org';
 import orgStore, { isAdminRoute } from 'app/org-home/stores/org';
-// import modules from './mf-modules'; // ambiguous modules may conflict with modules folder, then rename to mf-modules
+import './antd-default-props';
 import './styles/antd-extension.scss';
 import './styles/app.scss';
 import '@erda-ui/dashboard-configurator/dist/index.css';
@@ -54,19 +53,6 @@ const history = getConfig('history');
 const momentLangMap = {
   en: 'en',
   zh: 'zh-cn',
-};
-
-Pagination.defaultProps = {
-  showSizeChanger: false,
-  ...Pagination.defaultProps,
-  pageSize: PAGINATION.pageSize,
-  pageSizeOptions: PAGINATION.pageSizeOptions,
-  showTotal: (total) => (isZh() ? `共计 ${total} 条` : `total ${total} items`),
-};
-
-Modal.defaultProps = {
-  ...Modal.defaultProps,
-  centered: true,
 };
 
 const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {

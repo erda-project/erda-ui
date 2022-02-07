@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Holder, Avatar } from 'common';
+import { Holder, Avatar, MarkdownRender } from 'common';
 import { fromNow } from 'common/utils';
 import { useLoading } from 'core/stores/loading';
 import { map } from 'lodash';
@@ -21,7 +21,6 @@ import issueStore from 'project/stores/issues';
 import { useUserMap } from 'core/stores/userMap';
 import React from 'react';
 import { goTo } from 'common/utils';
-import Markdown from 'common/utils/marked';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'app/i18n';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
@@ -62,14 +61,7 @@ export const IssueActivities = (props: IProps) => {
               <span>{fromNow(updatedAt, { edgeNow: true })}</span>
             </div>
             {streamType !== 'Comment' && <span className="ml-2">{content}</span>}
-            {streamType === 'Comment' && (
-              <article
-                className="md-content"
-                style={{ minHeight: 'auto' }}
-                // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{ __html: Markdown(content || '') }}
-              />
-            )}
+            {streamType === 'Comment' && <MarkdownRender value={content || ''} style={{ minHeight: 'auto' }} />}
           </>
         );
         break;

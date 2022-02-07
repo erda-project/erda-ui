@@ -22,7 +22,6 @@ import { getFileCommentMap } from './mr-comments';
 import MarkdownEditor from 'common/components/markdown-editor';
 import { isImage, setApiWithOrg, getOrgFromPath } from 'common/utils';
 import { CommentBox } from 'application/common/components/comment-box';
-import Markdown from 'common/utils/marked';
 import 'requestidlecallback-polyfill';
 import './file-diff.scss';
 import repoStore from 'application/stores/repo';
@@ -83,7 +82,7 @@ const CommentListBox = ({ comments }: { comments: REPOSITORY.IComment[] }) => {
           user={comment.author.nickName}
           time={comment.createdAt}
           action={i18n.t('dop:commented at')}
-          content={Markdown(comment.note || '')}
+          content={comment.note || ''}
         />
       ))}
     </>

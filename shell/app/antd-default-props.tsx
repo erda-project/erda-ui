@@ -12,35 +12,25 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import routeInfoStore from 'core/stores/route';
-import Requirement from './requirement';
-import Task from './task';
-import Bug from './bug';
-import AllIssue from './all';
-import Board from './board';
+import { Pagination, Modal, Spin } from 'antd';
+import { Loading } from 'common';
+import { isZh } from 'i18n';
+import { PAGINATION } from './constants';
 
-const issueTypeMap = {
-  all: {
-    Comp: AllIssue,
-  },
-  requirement: {
-    Comp: Requirement,
-  },
-  task: {
-    Comp: Task,
-  },
-  bug: {
-    Comp: Bug,
-  },
-  board: {
-    Comp: Board,
-  },
+Pagination.defaultProps = {
+  showSizeChanger: false,
+  ...Pagination.defaultProps,
+  pageSize: PAGINATION.pageSize,
+  pageSizeOptions: PAGINATION.pageSizeOptions,
+  showTotal: (total) => (isZh() ? `共计 ${total} 条` : `total ${total} items`),
 };
 
-const Issues = () => {
-  const issueType = routeInfoStore.useStore((s) => s.params.issueType);
-  const { Comp } = issueTypeMap[issueType] || {};
-  return <>{Comp && <Comp />}</>;
+Modal.defaultProps = {
+  ...Modal.defaultProps,
+  centered: true,
 };
 
-export default Issues;
+Spin.defaultProps = {
+  delay: 100,
+};
+Spin.setDefaultIndicator(<Loading />);

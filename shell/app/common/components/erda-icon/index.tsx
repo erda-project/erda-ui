@@ -61,6 +61,8 @@ export const iconMap = {
   apisheji: 'apisheji',
   bushuzhongxin: 'bushuzhongxin',
   branch: 'daimafenzhi',
+  private: 'siyou',
+  public: 'gongyou',
 };
 
 interface IErdaIcon {

@@ -79,34 +79,30 @@ const Pipeline = () => {
                       <div className="flex-1 min-w-0">
                         <Ellipsis title={item.displayName} />
                       </div>
-                      {item.runningNum || item.failedNum || item.totalNum ? (
-                        <div className="bg-default-04 text-default-9 rounded-2xl px-3 py-0.5 text-xs flex-h-center">
-                          {item.runningNum ? (
-                            <Tooltip title={i18n.t('running')}>
-                              <div className="flex-h-center mr-0.5">
-                                <Badge onlyDot breathing status={'success'} className="mr-0.5" />
-                                <div>{item.runningNum}</div>
-                              </div>
-                            </Tooltip>
-                          ) : null}
-                          {item.failedNum ? (
-                            <Tooltip title={i18n.t('dop:number of failures in a day')}>
-                              <div className="flex-h-center">
-                                <Badge onlyDot breathing status={'error'} className="mr-0.5" />
-                                <div>{item.failedNum}</div>
-                              </div>
-                            </Tooltip>
-                          ) : null}
-                          {(item.runningNum || item.failedNum) && item.totalNum ? (
-                            <Divider type="vertical" className="top-0" />
-                          ) : null}
-                          {item.totalNum ? (
-                            <Tooltip title={i18n.t('dop:total number of pipelines')}>
-                              <div>{item.totalNum}</div>
-                            </Tooltip>
-                          ) : null}
-                        </div>
-                      ) : null}
+                      <div className="bg-default-04 text-default-9 rounded-2xl px-3 py-0.5 text-xs flex-h-center">
+                        {item.runningNum ? (
+                          <Tooltip title={i18n.t('running')}>
+                            <div className="flex-h-center mr-0.5">
+                              <Badge onlyDot breathing status={'success'} className="mr-0.5" />
+                              <div>{item.runningNum}</div>
+                            </div>
+                          </Tooltip>
+                        ) : null}
+                        {item.failedNum ? (
+                          <Tooltip title={i18n.t('dop:number of failures in a day')}>
+                            <div className="flex-h-center">
+                              <Badge onlyDot breathing status={'error'} className="mr-0.5" />
+                              <div>{item.failedNum}</div>
+                            </div>
+                          </Tooltip>
+                        ) : null}
+                        {(item.runningNum || item.failedNum) && item.totalNum ? (
+                          <Divider type="vertical" className="top-0" />
+                        ) : null}
+                        <Tooltip title={i18n.t('dop:total number of pipelines')}>
+                          <div>{item.totalNum || 0}</div>
+                        </Tooltip>
+                      </div>
                     </div>
                   ))}
               </div>

@@ -14,10 +14,9 @@
 import { Spin, Button, Tooltip, Rate } from 'antd';
 import { isEmpty, find, get } from 'lodash';
 import React from 'react';
-import { IF, FormModal, Avatar, Icon as CustomIcon, BackToTop, ErdaAlert } from 'common';
+import { IF, FormModal, Avatar, Icon as CustomIcon, BackToTop, ErdaAlert, MarkdownRender } from 'common';
 
 import { goTo, fromNow, replaceEmoji, getLS, removeLS, insertWhen, connectCube } from 'common/utils';
-import Markdown from 'common/utils/marked';
 import RepoMRForm from './components/repo-mr-form';
 import RepoCompareDetail from './components/compare-detail';
 import { renderErrorBlock } from './components/source-target-select';
@@ -382,11 +381,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
                 <span key={String(i)}>{item}</span>
               ))}
             </div>
-            <article
-              className="md-content"
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{ __html: Markdown(description || '') }}
-            />
+            <MarkdownRender value={description || ''} />
           </div>
 
           <div className="section-title mt-8">{i18n.t('comparison results')}</div>

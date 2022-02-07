@@ -18,7 +18,7 @@ import './alert.scss';
 
 const CP_Alert = (props: CP_ALERT.Props) => {
   const { props: configProps } = props || {};
-  const { message, visible = true, ...rest } = configProps || {};
+  const { message, visible = true, className = '', ...rest } = configProps || {};
 
   if (!visible) return null;
   const msgComp = isArray(message) ? (
@@ -32,7 +32,7 @@ const CP_Alert = (props: CP_ALERT.Props) => {
   ) : (
     message
   );
-  return <ErdaAlert className="config-page-alert" message={msgComp} showIcon {...rest} />;
+  return <ErdaAlert className={`config-page-alert ${className}`} message={msgComp} showIcon {...rest} />;
 };
 
 export default CP_Alert;

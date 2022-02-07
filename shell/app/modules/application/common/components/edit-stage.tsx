@@ -496,9 +496,6 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
         if (isResourceDefault) {
           data = omit(data, ['resource.resources']);
         }
-        if (values.type !== 'custom-script') {
-          data = omit(data, ['resource.image']);
-        }
         const filledFieldsData = clearEmptyField(data);
         handleSubmit(filledFieldsData);
       })

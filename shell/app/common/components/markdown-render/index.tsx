@@ -1,0 +1,161 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+import { emit } from 'core/event-hub';
+import layoutStore from 'layout/stores/layout';
+import React, { ImgHTMLAttributes, LinkHTMLAttributes } from 'react';
+import { micromark } from 'micromark';
+import ReactMarkdown from 'react-markdown';
+import { useEvent, useUnmount } from 'react-use';
+import { gfm, gfmHtml } from 'micromark-extension-gfm';
+import remarkGfm from 'remark-gfm';
+import remarkBreaks from 'remark-breaks';
+import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { CodeComponent } from 'react-markdown/lib/ast-to-react';
+import './index.scss';
+
+import js from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
+import typescript from 'react-syntax-highlighter/dist/esm/languages/hljs/typescript';
+import css from 'react-syntax-highlighter/dist/esm/languages/hljs/css';
+import java from 'react-syntax-highlighter/dist/esm/languages/hljs/java';
+import go from 'react-syntax-highlighter/dist/esm/languages/hljs/go';
+import xml from 'react-syntax-highlighter/dist/esm/languages/hljs/xml';
+import sql from 'react-syntax-highlighter/dist/esm/languages/hljs/sql';
+import bash from 'react-syntax-highlighter/dist/esm/languages/hljs/bash';
+
+SyntaxHighlighter.registerLanguage('javascript', js);
+SyntaxHighlighter.registerLanguage('typescript', typescript);
+SyntaxHighlighter.registerLanguage('css', css);
+SyntaxHighlighter.registerLanguage('java', java);
+SyntaxHighlighter.registerLanguage('go', go);
+SyntaxHighlighter.registerLanguage('xml', xml);
+SyntaxHighlighter.registerLanguage('sql', sql);
+SyntaxHighlighter.registerLanguage('bash', bash);
+
+const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) => {
+  const [isImagePreviewOpen, scalableImgSrc] = layoutStore.useStore((s) => [s.isImagePreviewOpen, s.scalableImgSrc]);
+
+  const closePreview = React.useCallback((e?: MouseEvent) => {
+    e?.stopPropagation();
+    layoutStore.reducers.setImagePreviewOpen(false);
+    document.body.removeEventListener('click', closePreview);
+  }, []);
+
+  const openPreview = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    layoutStore.reducers.setImagePreviewOpen(true);
+    layoutStore.reducers.setScalableImgSrc(src || '');
+    document.body.addEventListener('click', closePreview);
+  };
+
+  const onLoad = () => {
+    emit('md-img-loaded');
+  };
+
+  useUnmount(() => {
+    closePreview();
+  });
+
+  const escClose = React.useCallback(
+    (e) => {
+      if (e.keyCode === 27 && isImagePreviewOpen) {
+        closePreview(e);
+      }
+    },
+    [isImagePreviewOpen, closePreview],
+  );
+
+  useEvent('keydown', escClose);
+  return (
+    <span>
+      <img
+        style={{ cursor: 'zoom-in' }}
+        onLoad={onLoad}
+        src={src}
+        onClick={openPreview}
+        alt={alt || 'preview-image'}
+        {...rest}
+      />
+      <span
+        className={`${
+          isImagePreviewOpen && src === scalableImgSrc
+            ? 'fixed top-0 right-0 left-0 bottom-0 z-50 flex items-center justify-center overflow-auto bg-desc'
+            : 'hidden'
+        }`}
+      >
+        <img style={{ cursor: 'zoom-out', margin: 'auto' }} src={src} alt={alt || 'preview-image'} {...rest} />
+      </span>
+    </span>
+  );
+};
+
+const Link = ({ href, children }: LinkHTMLAttributes<HTMLAnchorElement>) => {
+  return (
+    <a href={href} rel="noopener noreferrer" target="_blank" onClick={(e) => e.stopPropagation()}>
+      {children}
+    </a>
+  );
+};
+
+const code: CodeComponent = ({ node, inline, className, children, ...props }) => {
+  const match = /language-(\w+)/.exec(className || '');
+  return !inline && match ? (
+    <SyntaxHighlighter language={match[1]} {...props}>
+      {String(children).replace(/\n$/, '')}
+    </SyntaxHighlighter>
+  ) : (
+    <code className={className} {...props}>
+      {children}
+    </code>
+  );
+};
+
+// multiple line code will add duplicate pre wrapper
+const pre = ({ children }: any) => children;
+
+interface IMdProps {
+  value: string;
+  className?: string;
+  style?: React.CSSProperties;
+  noWrapper?: boolean;
+  components?: Obj<Function>;
+}
+export const MarkdownRender = ({ value, className, style, noWrapper, components }: IMdProps) => {
+  const content = (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm, remarkBreaks]}
+      components={{ img: ScalableImage, a: Link, pre, code, ...components }}
+    >
+      {value}
+    </ReactMarkdown>
+  );
+  if (noWrapper) {
+    return content;
+  }
+  return (
+    <div style={style} className={`md-content ${className || ''}`}>
+      {content}
+    </div>
+  );
+};
+
+// have to overwrite img or other elements by extension
+const toHtml = (value: string) =>
+  micromark(value, {
+    extensions: [gfm()],
+    htmlExtensions: [gfmHtml()],
+  });
+/** @deprecated prevent use this */
+MarkdownRender.toHtml = toHtml;
+
+export default MarkdownRender;

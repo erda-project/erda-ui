@@ -13,9 +13,21 @@
 
 import getProjectRouter from 'project/router';
 import getPublisherRouter from 'publisher/router';
-import { publisherTabs } from 'dop/pages/publisher/index';
 import getApiManagePlatformRouter from 'apiManagePlatform/router';
 import i18n from 'i18n';
+
+const publisherTabs = () => {
+  return [
+    {
+      key: 'MOBILE',
+      name: i18n.t('dop:mobile app'),
+    },
+    {
+      key: 'LIBRARY',
+      name: i18n.t('dop:library/module'),
+    },
+  ];
+};
 
 const approvalTabs = [
   {
@@ -81,6 +93,7 @@ export default function getDopRouter(): RouteConfigItem[] {
             },
           ],
         },
+        // TODO: remove
         {
           path: 'apps',
           breadcrumbName: i18n.t('joined apps'),
@@ -89,16 +102,8 @@ export default function getDopRouter(): RouteConfigItem[] {
         },
         {
           path: 'projects',
-          pageName: i18n.t('joined projects'),
-          breadcrumbName: i18n.t('joined projects'),
-          layout: { fullHeight: true },
-          getComp: (cb) => cb(import('dop/pages/projects/project-list-protocol')),
-        },
-        {
-          path: 'public-projects',
-          pageName: i18n.t('public project'),
-          breadcrumbName: i18n.t('public project'),
-          layout: { fullHeight: true },
+          breadcrumbName: i18n.t('dop:projects'),
+          layout: { noWrapper: true },
           getComp: (cb) => cb(import('dop/pages/projects/project-list-protocol')),
         },
         {
@@ -158,7 +163,6 @@ export default function getDopRouter(): RouteConfigItem[] {
                 // {
                 //   path: 'log-analytics',
                 //   breadcrumbName: i18n.t('console'),
-                //   keepQuery: true,
                 //   getComp: cb => cb(import('msp/pages/log-analytics')),
                 // },
                 {
@@ -166,13 +170,11 @@ export default function getDopRouter(): RouteConfigItem[] {
                   routes: [
                     {
                       breadcrumbName: i18n.t('console'),
-                      keepQuery: true,
                       getComp: (cb) => cb(import('addonPlatform/pages/jvm-profiler/analysis')),
                     },
                     {
                       path: ':profileId',
                       breadcrumbName: i18n.t('dop:JVM analysis'),
-                      keepQuery: true,
                       getComp: (cb) => cb(import('addonPlatform/pages/jvm-profiler/jvm-overview')),
                     },
                   ],

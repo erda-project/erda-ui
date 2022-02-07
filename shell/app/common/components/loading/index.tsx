@@ -11,13 +11,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { apiCreator } from 'core/service';
+import React from 'react';
 
-const apis = {
-  getService: {
-    api: '/api/apm/topology/services',
-  },
+const Loading = () => {
+  return (
+    <div className="h-full w-full flex-all-center">
+      <div className="e-loading-content">
+        <div className="e-loading-point e-loading-lt" />
+        <div className="e-loading-point e-loading-rt" />
+        <div className="e-loading-point e-loading-lb" />
+        <div className="e-loading-point e-loading-rb" />
+      </div>
+    </div>
+  );
 };
-export const getServiceList = apiCreator<(p: SERVICE_ANALYTICS.IServiceListQuery) => SERVICE_ANALYTICS.ServiceList>(
-  apis.getService,
-);
+
+export default Loading;

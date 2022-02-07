@@ -64,6 +64,7 @@ interface IProps {
   envToNs: Obj<string>;
   configs: PIPELINE_CONFIG.ConfigItemMap;
   configType?: string;
+  uploadTip?: string;
   addConfig: (data: PIPELINE_CONFIG.AddConfigsBodyWithoutAppId) => Promise<any>;
   updateConfig: (data: PIPELINE_CONFIG.AddConfigsBodyWithoutAppId) => Promise<any>;
   deleteConfig: (data: Omit<PIPELINE_CONFIG.DeleteConfigQuery, 'appID'>) => Promise<any>;
@@ -79,6 +80,7 @@ const VariableConfig = ({
   deleteConfig,
   importConfig,
   exportConfig,
+  uploadTip,
 }: IProps) => {
   const { appId } = routeInfoStore.useStore((s) => s.params);
 
@@ -391,7 +393,13 @@ const VariableConfig = ({
           })}
         </Collapse>
       </Spin>
-      <VariableConfigForm visible={visible} formData={editData} onCancel={closeModal} onOk={handelSubmit} />
+      <VariableConfigForm
+        visible={visible}
+        formData={editData}
+        onCancel={closeModal}
+        onOk={handelSubmit}
+        uploadTip={uploadTip}
+      />
       <Modal
         visible={importVisible}
         onOk={handleImportSubmit}
@@ -499,6 +507,7 @@ export const PipelineConfig = () => {
       addConfig={configStore.addConfigs}
       updateConfig={configStore.updateConfigs}
       deleteConfig={configStore.removeConfigWithoutDeploy}
+      uploadTip={i18n.t('dop:upload-file-tip')}
     />
   );
 };
@@ -535,6 +544,7 @@ export const DeployConfig = () => {
       deleteConfig={(data) => configStore.removeConfigWithoutDeploy(data, 'configmanage')}
       importConfig={(data) => configStore.importConfigs(data, 'configmanage')}
       exportConfig={configStore.exportConfigs}
+      uploadTip={i18n.t('dop:deploy-upload-file-tip')}
     />
   );
 };

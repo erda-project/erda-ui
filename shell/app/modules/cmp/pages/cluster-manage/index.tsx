@@ -113,7 +113,8 @@ const ClusterManage = () => {
         : credentialData;
     if (id) {
       // urls 中仍有其他配置，后面可能会加入
-      updateCluster({ ...values, credential });
+      await updateCluster({ ...values, credential });
+      listRef.current?.reload();
     } else {
       await addCluster({ ...restData, credential });
       listRef.current?.reload();

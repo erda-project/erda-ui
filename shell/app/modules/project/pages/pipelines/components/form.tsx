@@ -14,9 +14,9 @@
 import React from 'react';
 import { Form, Button, TreeSelect } from 'antd';
 import i18n from 'i18n';
-import { ErdaIcon, RenderFormItem } from 'common';
+import { ErdaIcon, RenderFormItem, ErdaAlert } from 'common';
 import routeInfoStore from 'core/stores/route';
-import { getFileTree, createPipeline, getAppList } from 'project/services/pipeline';
+import { getFileTree, createPipeline, getAppList, checkName, checkSource } from 'project/services/pipeline';
 
 import './form.scss';
 
@@ -30,6 +30,7 @@ interface TreeNode extends Node {
   id: string;
   pId: string;
   title: string;
+  isLeaf: string;
 }
 
 interface Node {
@@ -39,22 +40,52 @@ interface Node {
   type: string;
 }
 
+interface App {
+  value: string;
+  label: string;
+  projectName?: string;
+}
+
+const promiseDebounce = (func: Function, delay = 1000) => {
+  let timer: NodeJS.Timeout | undefined;
+  return (...args: unknown[]) => {
+    timer && clearTimeout(timer);
+
+    return new Promise((resolve, reject) => {
+      timer = setTimeout(async () => {
+        try {
+          await func(...args);
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+      }, delay);
+    });
+  };
+};
+
 const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
   const { ID: id, name } = application || {};
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const [form] = Form.useForm();
-  const [appList, setAppList] = React.useState([]);
-  const [app, setApp] = React.useState<{ value: string; label: string }>({ value: id, label: name });
+  const [appList, setAppList] = React.useState<App[]>([]);
+  const [app, setApp] = React.useState<App>({ value: id, label: name } as App);
   const [tree, setTree] = React.useState<TreeNode[]>([]);
+  const [treeVisible, setTreeVisible] = React.useState(false);
+  const [treeValue, setTreeValue] = React.useState('');
+  const [treeExpandedKeys, setTreeExpandedKeys] = React.useState<Array<string | number>>([]);
+  const canTreeSelectClose = React.useRef(true);
+  const [nameRepeatMessage, setNameRepeatMessage] = React.useState('');
+  const [sourceErrorMessage, setSourceErrorMessage] = React.useState('');
 
   const convertTreeData = (data: Node[]) => {
     return data.map((item) => ({
       ...item,
+      key: item.inode,
       id: item.inode,
       pId: item.pinode,
       title: item.name,
       isLeaf: item.type === 'f',
-      disabled: item.type !== 'f',
     }));
   };
 
@@ -130,6 +161,52 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
     });
   };
 
+  const nameCheck = React.useCallback(
+    promiseDebounce(async (value: string) => {
+      if (value) {
+        const payload = {
+          projectID: +projectId,
+          name: value,
+        };
+        const res = await checkName.fetch(payload);
+        const { data } = res;
+        if (data?.pass) {
+          setNameRepeatMessage('');
+        } else {
+          data?.message && setNameRepeatMessage(data.message);
+        }
+      }
+
+      return Promise.resolve();
+    }),
+    [projectId],
+  );
+
+  const sourceCheck = async (value: string) => {
+    const node = tree.find((item) => item.id === value);
+    if (node?.isLeaf) {
+      const path = atob(decodeURI(node.pId));
+      const appID = path.split('/')[1];
+      const ref = path.split('tree/')[1].split('/.dice')[0].split('/.erda')[0];
+      const payload = {
+        appID,
+        ref,
+        fileName: node.name,
+        sourceType: 'erda',
+      };
+
+      const res = await checkSource.fetch(payload);
+      const { data } = res;
+      if (data?.pass) {
+        setSourceErrorMessage('');
+      } else {
+        data?.message && setSourceErrorMessage(data.message);
+      }
+    }
+
+    return Promise.resolve();
+  };
+
   return (
     <div className="project-pipeline-form flex flex-col h-full">
       <div className="header py-2.5 pl-4 bg-default-02 flex-h-center">
@@ -163,12 +240,20 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
                 pattern: /^[\u4e00-\u9fa5A-Za-z0-9._-]+$/,
                 message: i18n.t('dop:Must be composed of Chinese, letters, numbers, underscores, hyphens and dots.'),
               },
+              {
+                validator: (_, value: string) => {
+                  return nameCheck(value);
+                },
+              },
             ]}
             itemProps={{
               className: 'border-transparent shadow-none pl-0 text-xl bg-transparent',
               placeholder: i18n.t('please enter {name}', { name: i18n.t('pipeline') }),
             }}
           />
+          {nameRepeatMessage ? (
+            <ErdaAlert message={nameRepeatMessage} type="error" closeable={false} className="py-1.5" />
+          ) : null}
           <div>
             <div className="text-default">{i18n.t('dop:code source')}</div>
             <CodeResource />
@@ -189,29 +274,77 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
                     rules={[{ required: true, message: i18n.t('please choose {name}', { name: i18n.t('App') }) }]}
                     itemProps={{
                       className: 'project-release-select',
-                      onChange: (v: string, app: Obj) => setApp(app),
+                      onChange: (v: string, _app: App) => setApp(_app),
                     }}
                   />
                 </div>
               </div>
             ) : null}
-            <div className="flex-h-center">
-              <div className="mb-3 w-32 text-default-6 flex-h-center">
-                <ErdaIcon type="pipeline" size={20} className="text-default-4 mr-1" />
-                pipeline {i18n.t('file')}
+            <div className="flex">
+              <div className="w-32 text-default-6">
+                <div className="flex-h-center mt-1.5">
+                  <ErdaIcon type="pipeline" size={20} className="text-default-4 mr-1" />
+                  pipeline {i18n.t('file')}
+                </div>
               </div>
               <div className="flex-1">
                 <RenderFormItem
                   name="tree"
                   type="custom"
-                  rules={[{ required: true, message: i18n.t('please choose {name}', { name: i18n.t('Pipeline') }) }]}
-                  getComp={() => <TreeSelect treeDataSimpleMode treeData={tree} loadData={loadTree} />}
+                  rules={[
+                    {
+                      validator: (_, value: string) => {
+                        if (!value) {
+                          return Promise.reject(
+                            new Error(i18n.t('please choose {name}', { name: i18n.t('Pipeline') })),
+                          );
+                        }
+
+                        return sourceCheck(value);
+                      },
+                    },
+                  ]}
+                  getComp={() => (
+                    <TreeSelect
+                      treeDataSimpleMode
+                      treeData={tree}
+                      open={treeVisible}
+                      onDropdownVisibleChange={(visible) => {
+                        if (canTreeSelectClose.current) {
+                          setTreeVisible(visible);
+                        } else {
+                          canTreeSelectClose.current = true;
+                        }
+                      }}
+                      value={treeValue}
+                      onSelect={(value, node) => {
+                        if (node.isLeaf === false) {
+                          canTreeSelectClose.current = false;
+                          if (treeExpandedKeys.includes(value)) {
+                            setTreeExpandedKeys((pre) => pre.filter((item) => item !== value));
+                          } else {
+                            setTreeExpandedKeys((pre) => [...pre, value]);
+                          }
+                        } else {
+                          setTreeValue(value);
+                        }
+                      }}
+                      treeExpandedKeys={treeExpandedKeys}
+                      onTreeExpand={(expandedKeys: Array<string | number>) => {
+                        setTreeExpandedKeys(expandedKeys);
+                      }}
+                      loadData={loadTree}
+                    />
+                  )}
                   itemProps={{
                     className: 'project-release-select',
                   }}
                 />
               </div>
             </div>
+            {sourceErrorMessage ? (
+              <ErdaAlert message={sourceErrorMessage} type="error" closeable={false} className="py-1.5" />
+            ) : null}
           </div>
         </Form>
       </div>

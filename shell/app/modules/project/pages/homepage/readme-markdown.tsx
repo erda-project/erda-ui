@@ -14,10 +14,8 @@
 import React from 'react';
 import i18n from 'core/i18n';
 import { Tooltip } from 'antd';
-import { MarkdownEditor, EditField, ErdaIcon } from 'common';
-import remarkGfm from 'remark-gfm';
+import { MarkdownEditor, ErdaIcon, MarkdownRender } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import ReactMarkdown from 'react-markdown';
 import './index.scss';
 
 interface IMdProps {
@@ -29,14 +27,10 @@ interface IMdProps {
   onSave: (v: string) => void;
 }
 
-const { ScalableImage } = EditField;
-
 export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValue, maxHeight }: IMdProps) => {
-  const [{ v, expanded, expandBtnVisible, isEditing }, updater, update] = useUpdate({
+  const [{ v, isEditing }, updater, update] = useUpdate({
     v: value,
-    expanded: false,
     isEditing: false,
-    expandBtnVisible: false,
   });
 
   React.useEffect(() => {
@@ -75,29 +69,17 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
       operationBtns={operationBtns}
     />
   ) : (
-    <div
-      className="relative cursor-pointer rounded w-full read-only-markdown"
-      style={{ maxHeight: expanded ? '' : maxHeight }}
-    >
+    <div className="relative cursor-pointer rounded w-full read-only-markdown" style={{ maxHeight }}>
       <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
-        <div className="md-content p-0">
-          <Tooltip title={i18n.t('dop:click to edit')}>
-            <div
-              className={'markdown-edit-button flex-all-center h-8 w-8 fixed bg-white rounded-2xl shadow-card'}
-              onClick={() => updater.isEditing(true)}
-            >
-              <ErdaIcon type="edit" size={16} className="text-default-4 hover:text-default-8" />
-            </div>
-          </Tooltip>
-          <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ img: ScalableImage }} linkTarget="_blank">
-            {value || i18n.t('no description yet')}
-          </ReactMarkdown>
+        <MarkdownRender value={value || i18n.t('no description yet')} />
+        <Tooltip title={i18n.t('dop:click to edit')}>
           <div
-            className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex-all-center ${
-              !expandBtnVisible || expanded ? 'hidden' : ''
-            }`}
-          />
-        </div>
+            className={'markdown-edit-button flex-all-center h-8 w-8 fixed bg-white rounded-2xl shadow-card'}
+            onClick={() => updater.isEditing(true)}
+          >
+            <ErdaIcon type="edit" size={16} className="text-default-4 hover:text-default-8" />
+          </div>
+        </Tooltip>
       </div>
     </div>
   );

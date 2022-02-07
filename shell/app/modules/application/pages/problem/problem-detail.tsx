@@ -21,13 +21,12 @@ import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 import { CommentBox } from 'application/common/components/comment-box';
 import MarkdownEditor from 'common/components/markdown-editor';
-import { LoadMoreSelector, Avatar } from 'common';
+import { LoadMoreSelector, Avatar, MarkdownRender } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { fromNow, goTo } from 'common/utils';
 import { getProjectList } from 'app/modules/project/services/project';
 import { getProjectIterations } from 'project/services/project-iteration';
 import { getIssues as getProjectIssues } from 'app/modules/project/services/issue';
-import Markdown from 'common/utils/marked';
 import i18n from 'i18n';
 import './problem-detail.scss';
 
@@ -79,13 +78,13 @@ ${i18n.t('dop:jump to code')}：[${linkLabel || label.path}](${url})`
   let _content;
   if (label && label.lineCode) {
     _note = _note.replace(label.lineCode, `$t_start${label.lineCode}$t_end`);
-    _content = Markdown(_note || '');
+    _content = MarkdownRender.toHtml(_note || '');
     _content = _content.replace('$t_start', '<div class="error">').replace('$t_end', '</div>');
   } else {
-    _content = Markdown(_note || '');
+    _content = MarkdownRender.toHtml(_note || '');
   }
 
-  return <CommentBox user={author} time={createdAt} action={i18n.t('dop:built in')} content={_content} />;
+  return <CommentBox user={author} time={createdAt} action={i18n.t('dop:built in')} content={_content} html />;
 };
 
 const { TabPane } = Tabs;

@@ -24,11 +24,12 @@ interface CreatePipelineParams {
 }
 
 interface AppDetail {
-  ID: number;
+  ID: string;
   runningNum: number;
   failedNum: number;
   totalNum: number;
   displayName: string;
+  projectName?: string;
 }
 
 const apis = {
@@ -46,6 +47,15 @@ const apis = {
   },
   getPipelineList: {
     api: 'get@/api/project-pipeline/actions/get-pipeline-yml-list',
+  },
+  checkName: {
+    api: 'get@/api/project-pipeline/actions/name-pre-check',
+  },
+  checkSource: {
+    api: 'get@/api/project-pipeline/actions/source-pre-check',
+  },
+  getAllBranch: {
+    api: 'get@/api/cicds/actions/app-all-valid-branch-workspaces',
   },
 };
 
@@ -68,3 +78,15 @@ export const createPipeline = apiCreator<(payload: CreatePipelineParams) => RAW_
 export const getPipelineList = apiCreator<
   (payload: { appID: string; branch: string }) => { result: Array<{ ymlPath: string; ymlName: string }> }
 >(apis.getPipelineList);
+
+export const checkName = apiCreator<
+  (payload: { projectID: number; name: string }) => { pass: boolean; message: string }
+>(apis.checkName);
+
+export const checkSource = apiCreator<
+  (payload: { appID: string; sourceType: string; ref: string; fileName: string }) => { pass: boolean; message: string }
+>(apis.checkSource);
+
+export const getAllBranch = apiCreator<(payload: { appID: number }) => RAW_RESPONSE<Array<{ name: string }>>>(
+  apis.getAllBranch,
+);

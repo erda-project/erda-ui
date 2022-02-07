@@ -22,6 +22,7 @@ declare namespace CP_ALERT {
     showIcon?: boolean;
     type?: 'success' | 'info' | 'warning' | 'error';
     message: string[] | string;
+    className?: string;
   }
 
   type Props = MakeProps<Spec>;

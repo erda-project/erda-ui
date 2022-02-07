@@ -28,7 +28,7 @@ const mockData: CP_TABLE.Spec = {
   props: {
     rowKey: 'id',
     columns: [
-      { title: '标题', dataIndex: 'title' },
+      { title: '标题', dataIndex: 'title', titleTip: '表头提示，v2版本的table是用的tip' },
       { title: '进度', dataIndex: 'progress', width: 100 },
       { title: '严重程度', dataIndex: 'severity', width: 100 },
       { title: '优先级', dataIndex: 'priority', width: 120 },

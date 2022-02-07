@@ -34,7 +34,7 @@ import {
 
 const { Column, ColumnGroup, Summary } = Table;
 
-interface IProps<T extends object = any> extends TableProps<T> {
+export interface IProps<T extends object = any> extends TableProps<T> {
   columns: Array<ColumnProps<T>>;
   actions?: IActions<T> | null;
   slot?: React.ReactNode;
@@ -45,6 +45,8 @@ interface IProps<T extends object = any> extends TableProps<T> {
   className?: string;
   hideReload?: boolean;
   hideColumnConfig?: boolean;
+  whiteFooter?: boolean;
+  whiteHead?: boolean;
 }
 
 const sortIcon = {
@@ -75,6 +77,8 @@ function WrappedTable<T extends object = any>({
   rowKey,
   theme = 'light',
   className,
+  whiteFooter = false,
+  whiteHead = false,
   ...props
 }: IProps<T>) {
   const dataSource = React.useMemo<T[]>(() => (ds as T[]) || [], [ds]);
@@ -223,6 +227,7 @@ function WrappedTable<T extends object = any>({
               overlay={sorterMenu({ ...args, title, sorter })}
               align={{ offset: [0, 5] }}
               overlayClassName="erda-table-sorter-overlay"
+              placement={align === 'right' ? 'bottomRight' : 'bottomLeft'}
               getPopupContainer={() => containerRef.current}
             >
               <span
@@ -319,6 +324,7 @@ function WrappedTable<T extends object = any>({
           sortColumn={sort}
           setColumns={(val) => setColumns(val)}
           onReload={onReload}
+          whiteHead={whiteHead}
         />
       )}
 
@@ -337,7 +343,7 @@ function WrappedTable<T extends object = any>({
         onRow={onRow}
         rowSelection={rowSelection}
         {...props}
-        className={`flex-1 min-h-0 overflow-y-auto ${className}`}
+        className={`flex-1 overflow-y-auto ${className}`}
         tableLayout="auto"
         locale={{
           emptyText:
@@ -356,6 +362,7 @@ function WrappedTable<T extends object = any>({
         pagination={pagination}
         hidePagination={paginationProps === false}
         onTableChange={onTableChange}
+        whiteFooter={whiteFooter}
       />
     </div>
   );

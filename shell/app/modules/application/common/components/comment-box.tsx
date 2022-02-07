@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { fromNow } from 'common/utils';
-import { Avatar } from 'common';
+import { Avatar, MarkdownRender } from 'common';
 import React from 'react';
 import { Tooltip } from 'antd';
 import classnames from 'classnames';
@@ -24,9 +24,10 @@ interface IProps {
   time: string;
   content: string;
   className?: string;
+  html?: boolean;
 }
 
-export const CommentBox = ({ user, action, time, content, className }: IProps) => {
+export const CommentBox = ({ user, action, time, content, className, html }: IProps) => {
   return (
     <div className={classnames('comment-box', className)}>
       <div className="title">
@@ -34,11 +35,15 @@ export const CommentBox = ({ user, action, time, content, className }: IProps) =
         <span className="mx-1"> {action}</span>
         {fromNow(time)}
       </div>
-      <article
-        className="md-content"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
+      {html ? (
+        <article
+          className="md-content"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+      ) : (
+        <MarkdownRender value={content} />
+      )}
     </div>
   );
 };

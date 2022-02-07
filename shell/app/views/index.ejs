@@ -5,13 +5,16 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Erda</title>
-  <meta name="description" content="新一代企业级云原生 PaaS 平台，助力企业构建领先的数字化架构">
+  <meta name="description" content="云上，应用协同开发平台">
   <link rel="shortcut icon" href="/static/favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--  dice  -->
   <link class='icon-style dice-icon' rel="stylesheet" href="//at.alicdn.com/t/font_500774_kzpe8fzg3t.css">
   <style type="text/css">
-    <%=htmlWebpackPlugin.options.css %>
+    @font-face{font-family:"Roboto-Regular";src:url('/static/roboto-regular.ttf') format('opentype')}
+    body{margin:0;font-family:"Roboto-Regular";background-color:#f3f2f4;}
+    #erda-skeleton{display:flex;align-items:center;justify-content:center;position:fixed;z-index:999;width:100%;height:100%;pointer-events:none}
+    .e-loading-content{position:relative;width:20px;height:20px;animation:e-loading 2s ease infinite}.e-loading-point{position:absolute;display:inline-block;width:20px;height:20px;border-radius:100%}.e-loading-lt{left:0;top:0;background-color:#1890ff;animation:e-loading-lt 2s ease 0s infinite}.e-loading-rt{right:0;top:0;background-color:#d84b65;animation:e-loading-rt 2s ease 0s infinite}.e-loading-lb{left:0;bottom:0;background-color:#27c99a;animation:e-loading-lb 2s ease 0s infinite}.e-loading-rb{right:0;bottom:0;background-color:#f4b518;animation:e-loading-rb 2s ease 0s infinite}@keyframes e-loading{0%{transform:rotate(0deg)}35%{transform:rotate(20deg)}65%{transform:rotate(360deg)}90%{transform:rotate(380deg)}100%{transform:rotate(480deg)}}@keyframes e-loading-lt{35%{transform:translate(-50px,-50px)}65%{transform:translate(-50px,-50px)}}@keyframes e-loading-rt{35%{transform:translate(50px,-50px)}65%{transform:translate(50px,-50px)}}@keyframes e-loading-lb{35%{transform:translate(-50px,50px)}65%{transform:translate(-50px,50px)}}@keyframes e-loading-rb{35%{transform:translate(50px,50px)}65%{transform:translate(50px,50px)}}
   </style>
   <!-- $ta -->
 </head>
@@ -19,7 +22,12 @@
 <body>
   <div id="erda-content" class="hidden"></div>
   <div id="erda-skeleton">
-    <%= htmlWebpackPlugin.options.skeleton.html %>
+    <div class="e-loading-content">
+      <div class="e-loading-point e-loading-lt"></div>
+      <div class="e-loading-point e-loading-rt"></div>
+      <div class="e-loading-point e-loading-lb"></div>
+      <div class="e-loading-point e-loading-rb"></div>
+    </div>
   </div>
 
   <script id='init-script'>
@@ -28,7 +36,7 @@
         document.querySelector('.main-holder').innerText = "服务暂时不可用";
         return;
       }
-      if(userRes.status === 401){
+      if (userRes.status === 401) {
         fetch('/api/-/openapi/login').then((loginRes) => {
           loginRes.json().then(data => {
             if (data && data.url) {
@@ -36,8 +44,8 @@
             }
           });
         });
-      }else {
-        userRes.json().then(result=>{
+      } else {
+        userRes.json().then(result => {
           const userData = result && result.data || {};
           if (typeof window.userCb === 'function') {
             window.userCb(userData);
@@ -51,7 +59,7 @@
   <!-- dice -->
   <script src="//at.alicdn.com/t/font_500774_kzpe8fzg3t.js" async></script>
   <!-- dice iconpark -->
-  <script src="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/icons_138_372.e70a21882d997de84b30452de1b2f597.es5.js"></script>
+  <script src="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/icons_138_397.8f6c7fc58562c6902e2b9ba6693b11f5.es5.js"></script>
   <!-- $ -->
 </body>
 

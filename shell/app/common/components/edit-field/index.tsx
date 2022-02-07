@@ -11,79 +11,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { ImgHTMLAttributes } from 'react';
-import { Input, Select, DatePicker, Tooltip } from 'antd';
-import moment from 'moment';
-import { useEvent, useMount, useUnmount } from 'react-use';
-import { ErdaIcon, MarkdownEditor } from 'common';
+import { DatePicker, Input, Select, Tooltip } from 'antd';
+import layoutStore from 'layout/stores/layout';
+import classnames from 'classnames';
+import { ErdaIcon, MarkdownEditor, MarkdownRender } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { getTimeRanges } from 'common/utils';
-import { isFunction, get, set } from 'lodash';
-import i18n from 'i18n';
-import classnames from 'classnames';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import { emit, on, off } from 'core/event-hub';
+import { off, on } from 'core/event-hub';
 import { isZh } from 'core/i18n';
-import layoutStore from 'layout/stores/layout';
+import i18n from 'i18n';
+import { get, isFunction, set } from 'lodash';
+import moment from 'moment';
+import React from 'react';
+import { useMount } from 'react-use';
 import './index.scss';
-
-const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) => {
-  const [isImagePreviewOpen, scalableImgSrc] = layoutStore.useStore((s) => [s.isImagePreviewOpen, s.scalableImgSrc]);
-
-  const closePreview = React.useCallback((e?: MouseEvent) => {
-    e?.stopPropagation();
-    layoutStore.reducers.setImagePreviewOpen(false);
-    document.body.removeEventListener('click', closePreview);
-  }, []);
-
-  const openPreview = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    layoutStore.reducers.setImagePreviewOpen(true);
-    layoutStore.reducers.setScalableImgSrc(src || '');
-    document.body.addEventListener('click', closePreview);
-  };
-
-  const onLoad = () => {
-    emit('md-img-loaded');
-  };
-
-  useUnmount(() => {
-    closePreview();
-  });
-
-  const escClose = React.useCallback(
-    (e) => {
-      if (e.keyCode === 27 && isImagePreviewOpen) {
-        closePreview(e);
-      }
-    },
-    [isImagePreviewOpen, closePreview],
-  );
-
-  useEvent('keydown', escClose);
-  return (
-    <span>
-      <img
-        style={{ cursor: 'zoom-in' }}
-        onLoad={onLoad}
-        src={src}
-        onClick={openPreview}
-        alt={alt || 'preview-image'}
-        {...rest}
-      />
-      <span
-        className={`${
-          isImagePreviewOpen && src === scalableImgSrc
-            ? 'fixed top-0 right-0 left-0 bottom-0 z-[1071] flex items-center justify-center overflow-auto bg-desc'
-            : 'hidden'
-        }`}
-      >
-        <img style={{ cursor: 'zoom-out', margin: 'auto' }} src={src} alt={alt || 'preview-image'} {...rest} />
-      </span>
-    </span>
-  );
-};
 
 interface IMdProps {
   value?: string;
@@ -171,11 +112,9 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       >
         <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
           <div ref={mdContentRef} className="md-content">
-            <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ img: ScalableImage }}>
-              {value || i18n.t('no description yet')}
-            </ReactMarkdown>
+            <MarkdownRender noWrapper value={value || i18n.t('no description yet')} />
             <div
-              className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-b from-transparent to-white flex justify-center items-center ${
+              className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-t from-white flex justify-center items-center ${
                 !expandBtnVisible || expanded ? 'hidden' : ''
               }`}
             />
@@ -229,7 +168,7 @@ interface IProps {
   valueRender?: (value: any) => React.ReactNode;
 }
 
-const Field = React.forwardRef((props: IProps, _compRef) => {
+const EditField = React.forwardRef((props: IProps, _compRef) => {
   const {
     name,
     type,
@@ -415,7 +354,5 @@ const Field = React.forwardRef((props: IProps, _compRef) => {
     </div>
   );
 });
-
-const EditField = Object.assign(Field, { ScalableImage });
 
 export default EditField;

@@ -411,12 +411,14 @@ function getProjectRouter(): RouteConfigItem[] {
             {
               path: 'project',
               tabs: RELEASE_TABS,
+              ignoreTabQuery: true,
               getComp: (cb) => cb(import('project/pages/release/project')),
               layout: { noWrapper: true },
             },
             {
               path: 'application',
               tabs: RELEASE_TABS,
+              ignoreTabQuery: true,
               getComp: (cb) => cb(import('project/pages/release/application')),
               layout: { noWrapper: true },
             },
@@ -447,7 +449,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'deploy',
-          pageName: i18n.t('dop:deployment center'),
+          pageName: i18n.t('dop:Environments'),
           routes: [
             {
               path: 'list/:env',

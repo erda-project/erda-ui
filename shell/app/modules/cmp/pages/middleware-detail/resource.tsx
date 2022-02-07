@@ -39,12 +39,24 @@ const Resource = () => {
     },
   });
 
-  useEffectOnce(() => {
+  const getList = () => {
     middlewareDashboardStore.effects.getResourceList(params.instanceId);
+  };
+
+  useEffectOnce(() => {
+    getList();
     return () => middlewareDashboardStore.reducers.clearResourceList();
   });
 
-  return <PureResourceList renderOp={renderOp} resourceList={resourceList} loading={loading} drawerComp={drawerComp} />;
+  return (
+    <PureResourceList
+      renderOp={renderOp}
+      resourceList={resourceList}
+      loading={loading}
+      drawerComp={drawerComp}
+      onReload={getList}
+    />
+  );
 };
 
 export default Resource;
