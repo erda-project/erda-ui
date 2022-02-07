@@ -17,20 +17,25 @@ import { Loading } from 'common';
 import { isZh } from 'i18n';
 import { PAGINATION } from './constants';
 
-Pagination.defaultProps = {
-  showSizeChanger: false,
-  ...Pagination.defaultProps,
-  pageSize: PAGINATION.pageSize,
-  pageSizeOptions: PAGINATION.pageSizeOptions,
-  showTotal: (total) => (isZh() ? `共计 ${total} 条` : `total ${total} items`),
+const setAntdDefault = () => {
+  Pagination.defaultProps = {
+    showSizeChanger: false,
+    ...Pagination.defaultProps,
+    pageSize: PAGINATION.pageSize,
+    pageSizeOptions: PAGINATION.pageSizeOptions,
+    showTotal: (total) => (isZh() ? `共计 ${total} 条` : `total ${total} items`),
+  };
+
+  Modal.defaultProps = {
+    ...Modal.defaultProps,
+    centered: true,
+  };
+
+  Spin.defaultProps = {
+    ...Spin.defaultProps,
+    delay: 100,
+  };
+  Spin.setDefaultIndicator(<Loading />);
 };
 
-Modal.defaultProps = {
-  ...Modal.defaultProps,
-  centered: true,
-};
-
-Spin.defaultProps = {
-  delay: 100,
-};
-Spin.setDefaultIndicator(<Loading />);
+export default setAntdDefault;

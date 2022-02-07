@@ -36,7 +36,7 @@ import userStore from './user/stores';
 import permStore from 'user/stores/permission';
 import { getJoinedOrgs } from 'app/org-home/services/org';
 import orgStore, { isAdminRoute } from 'app/org-home/stores/org';
-import './antd-default-props';
+import setAntdDefault from './antd-default-props';
 import './styles/antd-extension.scss';
 import './styles/app.scss';
 import '@erda-ui/dashboard-configurator/dist/index.css';
@@ -54,6 +54,7 @@ const momentLangMap = {
   en: 'en',
   zh: 'zh-cn',
 };
+setAntdDefault();
 
 const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
   setLS('diceLoginState', true);

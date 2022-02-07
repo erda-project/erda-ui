@@ -48,7 +48,7 @@ const matchEnterpriseRoute = (dynamicModules: DynamicModule[]) => {
 
 const App = ({ dynamicModules = [] }: { dynamicModules?: DynamicModule[] }) => {
   const route = routeInfoStore.useStore((s) => s.parsed);
-  let location = useLocation();
+  const location = useLocation();
   // register enterprise remotes
   const [scriptSource, setScriptSource] = React.useState<{ url?: string; remoteName?: string }>({});
   const [loadedSource, setLoadedSource] = React.useState<string[]>([]);
