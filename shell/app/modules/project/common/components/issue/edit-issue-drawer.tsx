@@ -54,6 +54,7 @@ import { IssueTestCaseRelation } from './issue-testCase-relation';
 import { FIELD_WITH_OPTION, FIELD_TYPE_ICON_MAP } from 'org/common/config';
 import { produce } from 'immer';
 import issueFieldStore from 'org/stores/issue-field';
+import projectLabelStore from 'project/stores/label';
 import orgStore from 'app/org-home/stores/org';
 import { templateMap } from 'project/common/issue-config';
 
@@ -718,6 +719,9 @@ export const EditIssueDrawer = (props: IProps) => {
         getIssueStreams({ type: issueType, id, pageNo: 1, pageSize: 50 });
         getCustomFields();
       }
+      projectLabelStore.effects.getLabels({ type: 'issue' });
+      issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'BUG' });
+      issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'TASK' });
       getCustomFieldsByProject({
         propertyIssueType: issueType,
         orgID,
@@ -729,6 +733,8 @@ export const EditIssueDrawer = (props: IProps) => {
           issueID: undefined,
         });
       });
+    } else {
+      projectLabelStore.reducers.clearList();
     }
   }, [
     addRelatedMattersProjectId,
