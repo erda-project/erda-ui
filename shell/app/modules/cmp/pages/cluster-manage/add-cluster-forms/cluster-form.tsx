@@ -306,6 +306,11 @@ interface IProps {
   clusterType: string;
 }
 
+interface FormData {
+  credentialType: string;
+  credential: { address: string };
+}
+
 export const AddClusterModal = (props: IProps) => {
   const { initData, toggleModal, visible, onSubmit, clusterList, clusterType } = props;
   const handleSubmit = (values: any) => {
@@ -324,11 +329,14 @@ export const AddClusterModal = (props: IProps) => {
     toggleModal();
   };
 
+  const formData: FormData = (initData && { ...initData }) || ({} as FormData);
+
   if (TYPE_K8S_AND_EDAS.includes(clusterType) && initData) {
     const { manageConfig } = initData as Obj;
     const { credentialSource, address } = manageConfig || {};
-    set(initData, 'credentialType', credentialSource);
-    set(initData, 'credential.address', address);
+
+    formData.credentialType = credentialSource;
+    formData.credential = { ...formData.credential, address };
   }
 
   return (
@@ -339,7 +347,7 @@ export const AddClusterModal = (props: IProps) => {
       })}
       title={
         clusterType === 'k8s'
-          ? initData
+          ? formData
             ? i18n.t('dop:edit cluster configuration')
             : i18n.t('cmp:import an existing Erda {type} cluster', { type: 'Kubernetes' })
           : undefined
@@ -348,7 +356,7 @@ export const AddClusterModal = (props: IProps) => {
       onOk={handleSubmit}
       onCancel={() => toggleModal(true)}
       PureForm={ClusterAddForm}
-      formData={initData}
+      formData={formData}
       clusterList={clusterList}
       clusterType={clusterType}
       modalProps={{

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { isNumber, filter, map, sortBy, cloneDeep } from 'lodash';
+import { isNumber, filter, map, sortBy } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import { OperationAction } from 'config-page/utils';
 import { containerMap } from '../../components';
@@ -170,7 +170,7 @@ const List = (props: CP_LIST_NEW.Props) => {
           onClick={() => {
             execOperation(action);
             if (customOp && customOp[action.key]) {
-              customOp[action.key](cloneDeep(action), data);
+              customOp[action.key](action, data);
             }
           }}
         >
