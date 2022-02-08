@@ -396,6 +396,9 @@ export enum pages {
 
 goTo.pages = {
   ...pages,
+  // override by edition
+  /** @attention: make sure the path params exist in both paths */
+  project: process.env.FOR_COMMUNITY ? pages.projectAllIssue : pages.project,
   // doc path
   'doc-project-intro': DOC_PROJECT_INTRO,
   'doc-org-intro': DOC_ORG_INTRO,

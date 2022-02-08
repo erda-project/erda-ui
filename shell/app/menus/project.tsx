@@ -14,7 +14,7 @@
 import i18n from 'i18n';
 import { filter } from 'lodash';
 import permStore from 'user/stores/permission';
-import { goTo } from 'common/utils';
+import { goTo, insertWhen } from 'common/utils';
 import React from 'react';
 import { ErdaIcon } from 'common';
 
@@ -22,19 +22,21 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
   const projectPerm = permStore.getState((s) => s.project);
 
   const menu = [
-    {
-      href: goTo.resolve.project(), // `/dop/projects/${projectId}/issues/all`,
-      withOpenKeys: [goTo.resolve.projectAllIssue()],
-      icon: <ErdaIcon type="shouye" />,
-      text: i18n.t('dop:Project homepage'),
-      subtitle: i18n.t('dop:home page'),
-      show:
-        projectPerm.backLog.viewBackLog.pass ||
-        projectPerm.iteration.read.pass ||
-        projectPerm.issue.viewIssue.pass ||
-        projectPerm.epic.read.pass ||
-        projectPerm.dashboard.viewDashboard.pass,
-    },
+    ...insertWhen(!process.env.FOR_COMMUNITY, [
+      {
+        href: goTo.resolve.project(), // `/dop/projects/${projectId}/issues/all`,
+        withOpenKeys: [goTo.resolve.projectAllIssue()],
+        icon: <ErdaIcon type="shouye" />,
+        text: i18n.t('dop:Project homepage'),
+        subtitle: i18n.t('dop:home page'),
+        show:
+          projectPerm.backLog.viewBackLog.pass ||
+          projectPerm.iteration.read.pass ||
+          projectPerm.issue.viewIssue.pass ||
+          projectPerm.epic.read.pass ||
+          projectPerm.dashboard.viewDashboard.pass,
+      },
+    ]),
     {
       href: goTo.resolve.projectAllIssue(), // `/dop/projects/${projectId}/issues/all`,
       icon: <ErdaIcon type="xiangmuguanli" />,
