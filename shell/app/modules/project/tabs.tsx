@@ -128,11 +128,11 @@ export const COLLABORATE_TABS = () => {
   const projectPerm = permStore.useStore((s) => s.project);
 
   return [
-    {
-      key: 'milestone',
-      name: i18n.t('dop:milestone'),
-      show: projectPerm.epic.read.pass,
-    },
+    // {
+    //   key: 'milestone',
+    //   name: i18n.t('dop:milestone'),
+    //   show: projectPerm.epic.read.pass,
+    // },
     {
       key: 'backlog',
       name: i18n.t('dop:backlog'),
