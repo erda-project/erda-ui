@@ -73,7 +73,7 @@ const ExternalItem = ({ itemData, value, onChange, className = '' }: IProps) => 
   const [filterValue, setFilterValue] = React.useState('');
   const [curValue, setCurValue] = React.useState(value);
   const [active, setActive] = React.useState(false);
-  const [hasMore, setHasMore] = React.useState(firstShowLength ? (options?.length || 0) > firstShowLength : false);
+  const [hasMore, setHasMore] = React.useState((options?.length || 0) > firstShowLength);
 
   const debouncedChange = React.useRef(debounce(onChange, 1000));
 
