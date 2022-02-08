@@ -400,7 +400,12 @@ const SelectComp = ({ value, onChange, options, size, optionRender, ...restItemP
   const optionType = typeof (typeof options === 'function' ? options() : options)[0]?.value;
   const valueType = typeof (Array.isArray(value) ? value[0] : value);
   if (optionType !== 'undefined' && valueType !== 'undefined' && optionType !== valueType) {
-    console.error('Warning: The value type accepted by the select does not match the value type of the options.');
+    console.error(
+      'Warning: The value type accepted by the select does not match the value type of the options.The wrong options is ',
+      options,
+      '. The value is',
+      value,
+    );
   }
 
   return (
