@@ -94,7 +94,7 @@ const ExternalItem = ({ itemData, value, onChange, className = '' }: IProps) => 
         size="small"
         style={{ width: 180 }}
         allowClear
-        className={`bg-default-06 border-none ${className}`}
+        className={`bg-default-06 border-none config-filter-item ${className}`}
         prefix={<ErdaIcon fill="default-3" size="16" type="search" />}
         placeholder={placeholder}
         onChange={(e) => setCurValue(e.target.value)}
