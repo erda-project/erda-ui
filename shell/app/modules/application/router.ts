@@ -41,7 +41,7 @@ function getAppRouter(): RouteConfigItem {
         tabs: problemTabs,
         routes: [
           {
-            layout: { fullHeight: true },
+            layout: { noWrapper: true },
             getComp: (cb) => cb(import('application/pages/problem')),
           },
           {
@@ -203,6 +203,7 @@ function getAppRouter(): RouteConfigItem {
             listKey: 'apps',
             breadcrumbName: i18n.t('dop:lists'),
             getComp: (cb) => cb(import('application/pages/test/test-list')),
+            layout: { noWrapper: true },
           },
           {
             path: 'quality',

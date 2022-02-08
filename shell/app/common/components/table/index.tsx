@@ -294,10 +294,13 @@ function WrappedTable<T extends object = any>({
   }, [allColumns, sorterMenu, sort, onRow]);
 
   const onReload = () => {
-    const { onChange: onPageChange } = pagination as TablePaginationConfig;
-    onChange?.({ current, pageSize }, {}, sort, { action: 'paginate', currentDataSource: [] });
-    onPageChange?.(current, pageSize);
-    onReloadProps?.(current, pageSize);
+    if (onReloadProps) {
+      onReloadProps(current, pageSize);
+    } else {
+      const { onChange: onPageChange } = pagination as TablePaginationConfig;
+      onChange?.({ current, pageSize }, {}, sort, { action: 'paginate', currentDataSource: [] });
+      onPageChange?.(current, pageSize);
+    }
   };
 
   let data = [...dataSource];

@@ -12,8 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Spin, Select, Table } from 'antd';
+import { Input, Spin, Select } from 'antd';
 import { SwitchAutoScroll, CustomFilter } from 'common';
+import ErdaTable from 'common/components/table';
 import { goTo, fromNow, insertWhen } from 'common/utils';
 import { getProblemType, ProblemPriority } from 'application/pages/problem/problem-form';
 import { useLoading } from 'core/stores/loading';
@@ -76,7 +77,7 @@ const updateKeyMap = {
 
 export const ProblemList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' | 'onPageChange'>) => {
   const [ticketList, paging] = problemStore.useStore((s) => [s.ticketList, s.paging]);
-  const { onSubmit, onReset, onPageChange } = props;
+  const { onSubmit, onReset, onPageChange, fetchDataWithQuery } = props;
   const [loading] = useLoading(problemStore, ['getTicketList']);
   const { ticketType } = routeInfoStore.useStore((s) => s.params);
 
@@ -144,13 +145,15 @@ export const ProblemList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' 
   return (
     <React.Fragment>
       <SwitchAutoScroll toPageTop triggerBy={paging.pageNo} />
-      <Filter onReset={handleReset} onSubmit={handleSubmit} />
       <Spin spinning={loading}>
-        <Table
+        <ErdaTable
           tableKey="ticket_list"
           rowKey="id"
           dataSource={ticketList}
           columns={columns}
+          onReload={(pageNo) => {
+            fetchDataWithQuery(pageNo);
+          }}
           pagination={{
             current: paging.pageNo,
             total: paging.total,
@@ -164,7 +167,7 @@ export const ProblemList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' 
               },
             };
           }}
-          scroll={{ x: 1100 }}
+          slot={<Filter onReset={handleReset} onSubmit={handleSubmit} />}
         />
       </Spin>
     </React.Fragment>
