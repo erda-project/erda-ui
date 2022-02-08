@@ -164,7 +164,7 @@ const OverView = () => {
       </div>
       <Spin spinning={isLoading}>
         <div
-          className={`service-overview-topology flex flex-col shadow-card overflow-hidden ${
+          className={`service-overview-topology flex flex-col overflow-hidden ${
             isFullScreen ? '' : 'fixed-height'
           }`}
           ref={serviceTopologyRef}
@@ -197,7 +197,7 @@ const OverView = () => {
           </div>
         </div>
       </Spin>
-      <div className="bg-white shadow-card">
+      <div className="bg-white">
         <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium mt-2">
           {i18n.t('msp:service request overview')}
         </div>
@@ -229,7 +229,7 @@ const OverView = () => {
         </div>
       </div>
 
-      <div className="bg-white shadow-card">
+      <div className="bg-white">
         <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium  mt-2 mb-1">
           {i18n.t('msp:service invocation analysis')}
         </div>

@@ -521,7 +521,7 @@ const MicroServiceOverview = () => {
           />
         }
       />
-      <div className="flex flex-1 flex-col bg-white shadow pb-2">
+      <div className="flex flex-1 flex-col bg-white pb-2">
         <Pagination
           {...pagination}
           onChange={onPageChange}

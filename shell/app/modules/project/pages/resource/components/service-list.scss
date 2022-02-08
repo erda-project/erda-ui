@@ -1,6 +1,5 @@
 .monitor-service-table {
   border-radius: $radius;
-  @extend %shallow-shadow;
 
   table {
     table-layout: auto;

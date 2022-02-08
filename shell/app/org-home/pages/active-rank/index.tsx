@@ -54,7 +54,7 @@ const ActiveRank = (props: { currentUser: ILoginUser }) => {
   }, [sourceList, userMap]);
 
   return (
-    <div className="bg-white shadow-card pb-4 w-60">
+    <div className="bg-white pb-4 w-60">
       <div className="flex justify-between items-center h-12 px-4">
         <div className="text-normal font-bold">{i18n.t('dop:contribution ranking')}</div>
       </div>
