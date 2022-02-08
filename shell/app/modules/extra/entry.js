@@ -11,8 +11,17 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+// import mspRouters from './msp/router';
+import getProjectRouters from './project/router';
+
 const entry = (registerModule) => {
-  // register some modules here
+  return registerModule({
+    key: 'extra-modules',
+    routers: [
+      // mspRouters,
+      // ...getProjectRouters(),
+    ],
+  });
 };
 
 export default entry;

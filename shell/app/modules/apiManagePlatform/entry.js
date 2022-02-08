@@ -17,10 +17,12 @@ import apiClientStore from './stores/api-client';
 import apiDesignStore from './stores/api-design';
 import apiMarketStore from './stores/api-market';
 
-export default (registerModule) => {
+const entry = (registerModule) => {
   return registerModule({
     key: 'apiManagePlatform',
     stores: [apiAccessStore, apiClientStore, apiDesignStore, apiMarketStore],
     // routers,
   });
 };
+
+export default entry;

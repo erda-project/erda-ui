@@ -27,7 +27,7 @@ import testSetStore from './stores/test-set';
 import testPlanStore from './stores/test-plan';
 import releaseStore from './stores/release';
 
-export default (registerModule) => {
+const entry = (registerModule) => {
   return registerModule({
     key: 'project',
     stores: [
@@ -49,3 +49,5 @@ export default (registerModule) => {
     ],
   });
 };
+
+export default entry;

@@ -25,7 +25,7 @@ import traceStore from './stores/trace';
 import zkproxyStore from './stores/zkproxy';
 import logAnalyzeStore from './stores/log-analyze';
 
-export default (registerModule) => {
+const entry = (registerModule) => {
   return registerModule({
     key: 'msp',
     stores: [
@@ -45,3 +45,5 @@ export default (registerModule) => {
     routers,
   });
 };
+
+export default entry;

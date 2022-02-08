@@ -16,7 +16,7 @@ import PageContainer from 'layout/pages/page-container/page-container';
 import { NotFound } from 'layout/common/error-page';
 import orgStore from './stores/org';
 
-export default (registerModule) => {
+const entry = (registerModule) => {
   return registerModule({
     key: 'orgHome',
     stores: [orgStore],
@@ -25,3 +25,5 @@ export default (registerModule) => {
     NotFound,
   });
 };
+
+export default entry;

@@ -16,9 +16,11 @@ import logStore from './stores/log';
 import serviceStore from './stores/service';
 import runtimeStore from './stores/runtime';
 
-export default (registerModule) => {
+const entry = (registerModule) => {
   return registerModule({
     key: 'runtime',
     stores: [domainStore, logStore, serviceStore, runtimeStore],
   });
 };
+
+export default entry;
