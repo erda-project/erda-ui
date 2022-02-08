@@ -102,7 +102,7 @@ const CardList = <T extends unknown>({
   onViewChange,
 }: IProps<T>) => {
   return (
-    <div className="card-list flex flex-1 flex-col bg-white shadow pb-2">
+    <div className="card-list flex flex-1 flex-col bg-white pb-2">
       <div className="card-list-header px-4 py-2 h-12 bg-lotion flex justify-between items-center">
         <div>{slot}</div>
         <div>
@@ -129,7 +129,7 @@ const CardList = <T extends unknown>({
                   rowId = record[rowKey];
                 }
                 const rowClass = classnames(
-                  'shadow-card mb-4 mx-2 px-4 rounded-sm transition-all duration-300 hover:bg-grey',
+                  'border-0 border-b border-solid border-default-08 mx-2 px-4 rounded-sm transition-all duration-300 hover:bg-grey',
                   {
                     'py-8': size === 'large',
                     'py-6': size === 'default',

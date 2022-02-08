@@ -43,7 +43,7 @@ const UserProfile = ({ data, className = '' }: UserProfileProps) => {
   ];
 
   return (
-    <div className={`erda-user-profile bg-white rounded-sm shadow-card ${className}`}>
+    <div className={`erda-user-profile bg-white rounded-sm ${className}`}>
       <div
         className="blur-bg"
         style={{

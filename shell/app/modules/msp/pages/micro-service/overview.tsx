@@ -181,7 +181,7 @@ const Overview = () => {
           <img src={decorationImg} className="absolute decoration-img top" />
         </div>
       </div>
-      <div className="bg-white mr-4 rounded-sm shadow-card">
+      <div className="bg-white mr-4 rounded-sm">
         <div className="h-12 flex items-center px-4 bg-default-02">
           <Input
             prefix={<ErdaIcon type="search1" />}
