@@ -397,21 +397,10 @@ interface SelectCompProps {
 
 const SelectComp = ({ value, onChange, options, size, optionRender, ...restItemProps }: SelectCompProps) => {
   const fixOptions = (typeof options === 'function' ? options() : options)?.filter?.((item: IOption) => item.fix) || [];
-  const typeErrorOptions =
-    value &&
-    (typeof options === 'function' ? options() : options).find((item: IOption) => {
-      if (Array.isArray(value)) {
-        return value.find((val) => typeof val !== typeof item.value);
-      } else {
-        return typeof item.value !== typeof value;
-      }
-    });
-
-  if (typeErrorOptions) {
-    console.error(
-      'Warning: The value type accepted by the select does not match the value type of the options, The options that have the wrong value are: ',
-      typeErrorOptions,
-    );
+  const optionType = typeof (typeof options === 'function' ? options() : options)[0]?.value;
+  const valueType = typeof (Array.isArray(value) ? value[0] : value);
+  if (optionType !== 'undefined' && valueType !== 'undefined' && optionType !== valueType) {
+    console.error('Warning: The value type accepted by the select does not match the value type of the options.');
   }
 
   return (
