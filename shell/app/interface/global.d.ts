@@ -348,7 +348,7 @@ type ROUTE_MARK =
   | 'api-monitor'
   | 'projectDeployRuntime';
 
-type ROUTE_TO_MARK = 'orgIndex' | 'mspDetail' | 'project';
+type ROUTE_TO_MARK = 'orgIndex' | 'mspDetail';
 interface ROUTE_TABS {
   key: string;
   name: string | JSX.Element;

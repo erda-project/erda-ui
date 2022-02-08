@@ -1,0 +1,108 @@
+.project-homepage-wrapper {
+  .erda-header,
+  .main-scroll-tip {
+    display: none;
+  }
+}
+
+.homepage-link-delete-confirm {
+  .ant-popover-inner-content {
+    width: 200px;
+    background: $color-default;
+    color: white;
+
+    .ant-popover-message {
+      .ant-popover-message-title {
+        color: $white !important;
+        padding: 0 !important;
+      }
+    }
+
+    .ant-btn {
+      color: $white;
+      &:first-child {
+        background: $color-white-2;
+        border: 0;
+      }
+      &:last-child {
+        background: $color-purple-deep;
+      }
+    }
+  }
+}
+
+.project-homepage {
+  font-family: 'PingFangSC-Regular';
+
+  .homepage-header {
+    height: 120px;
+    border-radius: 2px 2px 0 0;
+  }
+
+  .read-only-markdown {
+    .markdown-edit-button {
+      opacity: 0;
+      right: 396px;
+      top: 272px;
+      z-index: 2;
+    }
+
+    &:hover {
+      .markdown-edit-button {
+        opacity: 1;
+      }
+    }
+  }
+
+  .homepage-info {
+    border-left: 1px solid $color-default-04;
+
+    .info-brief {
+      line-height: 22px;
+    }
+  }
+
+  .markdown-editor .markdown-editor-content .rc-md-editor .editor-container {
+    padding: 0;
+  }
+
+  .rc-md-editor {
+    border: 0;
+    background: $white;
+  }
+
+  .rc-md-navigation {
+    background: transparent;
+    border-bottom: rgba($color-default, 0.08);
+    box-shadow: 0 2px 1px 0 rgba($color-default, 0.08);
+    z-index: 9999;
+  }
+
+  .markdown-editor .markdown-editor-content .rc-md-editor .editor-container .sec-md .input {
+    background: transparent;
+    box-shadow: 0 2px 1px 0 rgba($color-default, 0.08);
+
+    &:focus {
+      background: $white;
+    }
+  }
+  .section-container:focus {
+    box-shadow: unset;
+  }
+
+  .rc-md-navigation .button-wrap .active-button:after {
+    height: 3px;
+    width: 28px;
+    background: $color-purple-highlight;
+    border-radius: 1.5px;
+    left: 10px;
+  }
+
+  .markdown-editor-content {
+    &.show-btn {
+      .rc-md-editor {
+        padding-bottom: 48px;
+      }
+    }
+  }
+}
