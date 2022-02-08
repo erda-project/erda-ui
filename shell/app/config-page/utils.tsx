@@ -56,11 +56,11 @@ export const OperationAction = (props: IOperationAction) => {
   }
   const curTip = (curOp.tip || tip) && (
     <div>
-      {(curOp.tip || tip).split('\n').map((item) => (
-        <>
+      {(curOp.tip || tip).split('\n').map((item: string) => (
+        <React.Fragment key={item}>
           {item}
           <br />
-        </>
+        </React.Fragment>
       ))}
     </div>
   );
