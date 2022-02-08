@@ -103,7 +103,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     setActivedData({
       id,
       name,
-      notifyItemIds: map(items, ({ id: notifyItemId }) => `${notifyItemId}`),
+      notifyItemIds: map(items, ({ id: notifyItemId }) => notifyItemId),
       notifyGroupId,
       channels: channels.split(','),
     });
