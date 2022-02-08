@@ -34,10 +34,10 @@ export const OperationAction = (props: IOperationAction) => {
         title={
           <div>
             {tip.split('\n').map((item) => (
-              <>
+              <React.Fragment key={item}>
                 {item}
                 <br />
-              </>
+              </React.Fragment>
             ))}
           </div>
         }
