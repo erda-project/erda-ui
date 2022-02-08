@@ -33,7 +33,8 @@ const setAntdDefault = () => {
 
   Spin.defaultProps = {
     ...Spin.defaultProps,
-    delay: 100,
+    // @ts-ignore this property is exist
+    delay: 200,
   };
   Spin.setDefaultIndicator(<Loading />);
 };
