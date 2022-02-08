@@ -126,6 +126,7 @@ export enum pages {
 
   // dop
   orgRoot = '/{orgName}',
+  // TODO: remove orgList
   orgList = '/{orgName}/org-list',
   dopRoot = '/{orgName}/dop/projects',
   dopApps = '/{orgName}/dop/apps',
@@ -396,6 +397,9 @@ export enum pages {
 
 goTo.pages = {
   ...pages,
+  // override by edition
+  /** @attention: make sure the path params exist in both paths */
+  orgRoot: process.env.FOR_COMMUNITY ? pages.dopRoot : pages.orgRoot,
   // doc path
   'doc-project-intro': DOC_PROJECT_INTRO,
   'doc-org-intro': DOC_ORG_INTRO,

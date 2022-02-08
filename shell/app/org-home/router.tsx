@@ -11,6 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import i18n from 'i18n';
+import { goTo } from 'app/common/utils';
+import { Redirect } from 'react-router-dom';
+import React from 'react';
 
 export default function getOrgRouter(): RouteConfigItem[] {
   return [
@@ -26,26 +29,25 @@ export default function getOrgRouter(): RouteConfigItem[] {
       path: ':orgName',
       mark: 'orgIndex',
       breadcrumbName: '{curOrgName}',
+      render: (props) => {
+        const { location, route } = props;
+        // redirect /{org} to dopRoot in ce edition
+        if (process.env.FOR_COMMUNITY && !location.pathname.slice(1).includes('/')) {
+          return <Redirect to={goTo.resolve.dopRoot()} />;
+        }
+        return route.component(props);
+      },
       routes: [
-        {
-          getComp: (cb) => cb(import('app/org-home/pages/personal-home')),
-          layout: {
-            hideHeader: true,
-            hideSidebar: true,
-            fullHeight: true,
-            noWrapper: true,
-          },
-        },
-        {
-          path: 'org-list',
-          getComp: (cb) => cb(import('app/org-home/pages/org-list')),
-          layout: {
-            hideHeader: true,
-            hideSidebar: true,
-            fullHeight: true,
-            noWrapper: true,
-          },
-        },
+        // {
+        //   path: 'org-list',
+        //   getComp: (cb) => cb(import('app/org-home/pages/org-list')),
+        //   layout: {
+        //     hideHeader: true,
+        //     hideSidebar: true,
+        //     fullHeight: true,
+        //     noWrapper: true,
+        //   },
+        // },
       ],
     },
   ];
