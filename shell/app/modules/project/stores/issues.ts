@@ -147,18 +147,6 @@ const DETAIL_KEY_MAP = {
 const issueStore = createStore({
   name: 'issues',
   state: initState,
-  subscriptions({ listenRoute }: IStoreSubs) {
-    listenRoute(({ isEntering, isLeaving }) => {
-      if (isEntering('issues')) {
-        projectLabelStore.effects.getLabels({ type: 'issue' });
-        const orgID = orgStore.getState((s) => s.currentOrg.id);
-        issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'BUG' });
-        issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'TASK' });
-      } else if (isLeaving('issues')) {
-        projectLabelStore.reducers.clearList();
-      }
-    });
-  },
   effects: {
     async getAllIssues({ call, update, select, getParams }, payload: ISSUE.IGetIssueQuery) {
       const { projectId: projectID, iterationId: iterationID } = getParams();
