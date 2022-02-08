@@ -259,7 +259,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
           onClick: () => handleDele(record.id),
         },
         {
-          title: <Switch size="small" checked={record.enabled} loading={toggleNotifyConfigsLoading} />,
+          title: record.enabled ? i18n.t('close') : i18n.t('open'),
           onClick: () => {
             toggleNotifyConfigs({
               id: record.id,
