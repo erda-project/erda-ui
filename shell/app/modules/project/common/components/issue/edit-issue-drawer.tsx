@@ -54,7 +54,6 @@ import { IssueTestCaseRelation } from './issue-testCase-relation';
 import { FIELD_WITH_OPTION, FIELD_TYPE_ICON_MAP } from 'org/common/config';
 import { produce } from 'immer';
 import issueFieldStore from 'org/stores/issue-field';
-import projectLabelStore from 'project/stores/label';
 import orgStore from 'app/org-home/stores/org';
 import { templateMap } from 'project/common/issue-config';
 
@@ -96,6 +95,7 @@ const { getLabels } = labelStore.effects;
 const IssueMetaFields = React.forwardRef(
   ({ labels, isEditMode, isBacklog, editAuth, issueType, formData, setFieldCb, projectId, ticketType }: any, ref) => {
     const userMap = getUserMap();
+    const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
     const projectMembers = projectMemberStore.useStore((s) => s.list);
     const urlParams = routeInfoStore.useStore((s) => s.params);
     // const isRequirement = issueType === ISSUE_TYPE.REQUIREMENT;
@@ -147,6 +147,8 @@ const IssueMetaFields = React.forwardRef(
 
     useMount(() => {
       getLabels({ type: 'issue', projectID: Number(projectId) });
+      issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'BUG' });
+      issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'TASK' });
       if (!iterationList.length && !isBacklog) {
         iterationStore.effects.getIterations({
           pageNo: 1,
@@ -719,9 +721,6 @@ export const EditIssueDrawer = (props: IProps) => {
         getIssueStreams({ type: issueType, id, pageNo: 1, pageSize: 50 });
         getCustomFields();
       }
-      projectLabelStore.effects.getLabels({ type: 'issue' });
-      issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'BUG' });
-      issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'TASK' });
       getCustomFieldsByProject({
         propertyIssueType: issueType,
         orgID,
@@ -733,8 +732,6 @@ export const EditIssueDrawer = (props: IProps) => {
           issueID: undefined,
         });
       });
-    } else {
-      projectLabelStore.reducers.clearList();
     }
   }, [
     addRelatedMattersProjectId,
