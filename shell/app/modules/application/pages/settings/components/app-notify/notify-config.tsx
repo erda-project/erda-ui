@@ -57,10 +57,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     getNotifyItems,
   } = appNotifyStore.effects;
   const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
-  const [toggleNotifyConfigsLoading, getNotifyConfigsLoading] = useLoading(appNotifyStore, [
-    'toggleNotifyConfigs',
-    'getNotifyConfigs',
-  ]);
+  const [getNotifyConfigsLoading] = useLoading(appNotifyStore, ['getNotifyConfigs']);
   const userMap = useUserMap();
   const { getNotifyGroups } = notifyGroupStore.effects;
   const { clearNotifyGroups } = notifyGroupStore.reducers;
