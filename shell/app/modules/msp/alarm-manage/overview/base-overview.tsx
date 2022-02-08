@@ -15,7 +15,6 @@ import React from 'react';
 import monitorCommon from 'common/stores/monitorCommon';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import DiceConfigPage from 'config-page';
-import { useMock } from 'msp/alarm-manage/overview/data.mock';
 
 const indicators = [
   'alertTriggerCount',
@@ -50,8 +49,6 @@ const BaseOverview: React.FC<IProps> = ({ scope, scopeId }) => {
         }}
         wrapperClassName="overflow"
         forceUpdateKey={['inParams']}
-        // forceMock
-        useMock={useMock}
         customProps={{
           ...indicators.reduce(
             (previousValue, currentValue) => ({

@@ -40,49 +40,48 @@ export const mockData = {
       graph: {
         type: 'ComplexGraph',
         data: {
-          dimensions: ['Evaporation', 'Precipitation', 'Temperature'],
+          dimensions: ['Fatal1', 'Fatal'],
           inverse: false,
           series: [
             {
-              data: [2, 4.9, 7, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20, 6.4, 3.3],
-              dimension: 'Evaporation',
-              name: 'Evaporation',
-              type: 'bar',
+              data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+              dimension: 'Fatal1',
+              name: '',
+              type: 'line',
             },
             {
-              data: [2.6, 5.9, 9, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6, 2.3],
-              dimension: 'Precipitation',
-              name: 'Precipitation',
-              type: 'bar',
-            },
-            {
-              data: [2, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23, 16.5, 12, 118],
-              dimension: 'Temperature',
-              name: 'Temperature',
+              data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 78, 148, 140],
+              dimension: 'Fatal',
+              name: '',
               type: 'line',
             },
           ],
-          title: '柱状图 📊 DEMO',
+          title: 'alertEventGroupByLevelCountLine',
           xAxis: [
             {
-              data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+              data: [
+                1644384894333, 1644385014333, 1644385134333, 1644385254333, 1644385374333,
+                1644385494333, 1644385614333, 1644385734333, 1644385854333, 1644385974333,
+                1644386094333, 1644386214333, 1644386334333, 1644386454333, 1644386574333,
+                1644386694333, 1644386814333, 1644386934333, 1644387054333, 1644387174333,
+                1644387294333, 1644387414333, 1644387534333, 1644387654333, 1644387774333,
+                1644387894333, 1644388014333, 1644388134333, 1644388254333, 1644388374333,
+              ],
               structure: {
-                enable: false,
-                precision: '',
-                type: 'string',
+                enable: true,
+                precision: 'ms',
+                type: 'timestamp',
               },
               type: 'category',
             },
           ],
           yAxis: [
             {
-              dimensions: ['Evaporation', 'Precipitation', 'Temperature'],
-              name: 'Evaporation',
-              position: 'left',
+              dimensions: ['Fatal1', 'Fatal'],
               structure: {
                 enable: true,
-                precision: 'ml',
-                type: 'string',
+                precision: '',
+                type: 'number',
               },
               type: 'value',
             },

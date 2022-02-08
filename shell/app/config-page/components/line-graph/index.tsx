@@ -53,13 +53,15 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
 
   const [option, onEvents] = React.useMemo(() => {
     const { dimensions, xAxis, yAxis, yOptions, xOptions } = data;
+    const xAxisData = xAxis?.values || [];
     const chartOption = {
       backgroundColor: 'transparent',
       tooltip: {
         trigger: 'axis',
         formatter: (param: any[]) => {
           const { axisValue } = param[0] || [];
-          const tips = [`${axisValue}`];
+          const xStructure = xOptions?.structure || { type: 'string', precision: '' };
+          const tips = [`${formatValue(xStructure.type, xStructure.precision, axisValue)}`];
           param.forEach((item) => {
             const { structure } = yOptions.find((t) => t.dimension?.includes(item.seriesName)) ?? yOptions[0];
             tips.push(
@@ -90,12 +92,20 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
         bottom: true,
       },
       xAxis: {
-        data: xAxis?.values,
+        data: xAxisData,
         axisLabel: {
           color: colorToRgb(color, 0.6),
-          formatter: xOptions?.structure?.enable
-            ? (v: number) => formatValue(xOptions?.structure.type, xOptions?.structure.precision, v)
-            : undefined,
+          formatter:
+            xOptions?.structure?.enable && xAxisData.length
+              ? (v: number) =>
+                  formatValue(
+                    xOptions?.structure.type,
+                    xOptions?.structure.precision,
+                    v,
+                    xAxisData[0],
+                    xAxisData[xAxisData.length - 1],
+                  )
+              : undefined,
         },
         splitLine: {
           show: false,
@@ -199,7 +209,7 @@ const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {
           {data.title}
         </div>
       ) : null}
-      <div>
+      <div className={data.title ? '' : 'pt-4'}>
         {option.series.length && option.yAxis.length ? (
           <Echarts
             key={Date.now()} // FIXME render exception occasionally，the exact reason is not yet clear

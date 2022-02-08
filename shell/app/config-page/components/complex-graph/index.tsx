@@ -33,13 +33,19 @@ const genAxis = (axis: CP_COMPLEX_GRAPH.Axis[], axisType: 'x' | 'y', color: stri
   return axis.map((item) => {
     const { structure, ...rest } = item;
     const { enable, type, precision } = structure;
-    const a = positionMap[rest.position];
-    positionMap[rest.position] = a + 1;
+    const offset = positionMap[rest.position];
+    positionMap[rest.position] = offset + 1;
+    let min: number | undefined;
+    let max: number | undefined;
+    if (type === 'timestamp') {
+      min = rest.data[0] as number;
+      max = rest.data[rest.data.length - 1] as number;
+    }
     return {
-      offset: a * 50,
+      offset: offset * 50,
       axisLabel: {
         color: colorToRgb(color, 0.3),
-        formatter: enable ? (v: number) => formatValue(type, precision, v) : undefined,
+        formatter: enable ? (v: number) => formatValue(type, precision, v, min, max) : undefined,
       },
       splitLine: {
         show: axisType === 'y',
@@ -72,8 +78,9 @@ const CP_ComplexGraph: React.FC<CP_COMPLEX_GRAPH.Props> = (props) => {
       tooltip: {
         trigger: 'axis',
         formatter: (param: any[]) => {
+          const { structure: xStructure } = xAxis[0];
           const { axisValue } = param[0] || [];
-          const tips = [`${axisValue}`];
+          const tips = [`${formatValue(xStructure.type, xStructure.precision, axisValue)}`];
           param.forEach((item) => {
             const { structure } = yAxis.find((t) => t.dimensions?.includes(item.seriesName)) ?? yAxis[0];
             tips.push(
@@ -84,7 +91,7 @@ const CP_ComplexGraph: React.FC<CP_COMPLEX_GRAPH.Props> = (props) => {
         },
       },
       legend: {
-        data: (dimensions ?? []).map((item) => ({
+        data: (dimensions || []).map((item) => ({
           name: item,
           textStyle: {
             color: colorToRgb(color, 0.6),
@@ -96,9 +103,10 @@ const CP_ComplexGraph: React.FC<CP_COMPLEX_GRAPH.Props> = (props) => {
         type: 'scroll',
         bottom: true,
       },
-      series: series.map((item) => {
+      series: (series || []).map((item) => {
         return {
           ...item,
+          name: item.name || item.dimension,
           type: item.type,
           [axisIndex]: yAxis.findIndex((t) => t.dimensions.includes(item.dimension)),
         };
@@ -111,14 +119,16 @@ const CP_ComplexGraph: React.FC<CP_COMPLEX_GRAPH.Props> = (props) => {
 
   return (
     <div className={`px-4 pb-2 ${configProps.className ?? ''}`} style={{ backgroundColor: colorToRgb(color, 0.02) }}>
-      <div
-        className={`title h-12 flex items-center justify-between ${
-          configProps.theme === 'dark' ? 'text-white' : 'text-normal'
-        }`}
-      >
-        {data.title}
-      </div>
-      <div>
+      {data.title ? (
+        <div
+          className={`title h-12 flex items-center justify-between ${
+            configProps.theme === 'dark' ? 'text-white' : 'text-normal'
+          }`}
+        >
+          {data.title}
+        </div>
+      ) : null}
+      <div className={data.title ? '' : 'pt-4'}>
         {option.series.length && option.yAxis.length ? (
           <Echarts
             key={Date.now()}

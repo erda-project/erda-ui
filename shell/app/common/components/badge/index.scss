@@ -121,6 +121,10 @@
     }
   }
 
+  &.erda-badge-hide-bg{
+    background: transparent;
+  }
+
   &.badge-hover-active:hover {
     .erda-badge-status-dot {
       display: none;
