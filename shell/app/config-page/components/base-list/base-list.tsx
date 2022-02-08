@@ -52,7 +52,7 @@ const List = (props: CP_BASE_LIST.Props) => {
             ...infoItem,
             compWapper: (children: React.ReactElement) => (
               <OperationAction
-                key={idx}
+                key={infoItem.icon || idx}
                 tip={infoItem.tip}
                 operations={infoItem.operations}
                 onClick={(e) => {

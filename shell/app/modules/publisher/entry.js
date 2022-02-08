@@ -18,9 +18,11 @@ import errorStore from './stores/error-report';
 import publisherStore from './stores/publisher';
 import statisticsStore from './stores/statistics';
 
-export default (registerModule) => {
+const entry = (registerModule) => {
   return registerModule({
     key: 'publisher',
     stores: [authenticateStore, blacklistStore, eraseStore, errorStore, publisherStore, statisticsStore],
   });
 };
+
+export default entry;

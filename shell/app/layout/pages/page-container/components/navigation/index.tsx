@@ -25,7 +25,7 @@ import routeStore from 'core/stores/route';
 import UserMenu from './user-menu';
 import './index.scss';
 import { Link } from 'react-router-dom';
-import OrgSelector from 'app/org-home/pages/org-selector';
+import OrgSelector from '../org-selector';
 
 const usePlatformEntries = () => {
   const permMap = usePerm((s) => s.org);
@@ -117,30 +117,38 @@ const Navigation = () => {
 
   return (
     <div className={`erda-global-nav flex flex-col items-center relative`}>
-      <div className="logo-wrap relative min-h-[32px] w-8 h-8 m-3 cursor-pointer">
-        <ErdaIcon type="gerengongzuotai" size={32} className="absolute erda-global-logo" />
-        <ErdaIcon
-          type="gerengongzuotaihover"
-          className="absolute workbench-icon"
-          size={32}
-          onClick={() => {
-            layoutStore.reducers.switchMessageCenter(false);
-            const isIncludeOrg = !!orgs.find((x) => x.name === curOrgName);
-            if (isAdminRoute) {
-              const lastOrg = window.localStorage.getItem('lastOrg');
-              const isInLastOrg = !!orgs.find((x: Obj) => x.name === lastOrg);
-              if (isInLastOrg) {
-                goTo(goTo.pages.orgRoot, { orgName: lastOrg });
-              } else {
-                goTo(goTo.pages.landPage);
-              }
-            } else if (isIncludeOrg) {
-              goTo(goTo.pages.orgRoot);
-            } else {
-              goTo(goTo.pages.landPage);
-            }
-          }}
-        />
+      <div
+        className={`logo-wrap relative min-h-[32px] w-8 h-8 m-3 ${process.env.FOR_COMMUNITY ? '' : 'cursor-pointer'}`}
+      >
+        {process.env.FOR_COMMUNITY ? (
+          <ErdaIcon type="gerengongzuotai" size={32} />
+        ) : (
+          <>
+            <ErdaIcon type="gerengongzuotai" size={32} className="absolute erda-global-logo" />
+            <ErdaIcon
+              type="gerengongzuotaihover"
+              className="absolute workbench-icon"
+              size={32}
+              onClick={() => {
+                layoutStore.reducers.switchMessageCenter(false);
+                const isIncludeOrg = !!orgs.find((x) => x.name === curOrgName);
+                if (isAdminRoute) {
+                  const lastOrg = window.localStorage.getItem('lastOrg');
+                  const isInLastOrg = !!orgs.find((x: Obj) => x.name === lastOrg);
+                  if (isInLastOrg) {
+                    goTo(goTo.pages.orgRoot, { orgName: lastOrg });
+                  } else {
+                    goTo(goTo.pages.landPage);
+                  }
+                } else if (isIncludeOrg) {
+                  goTo(goTo.pages.orgRoot);
+                } else {
+                  goTo(goTo.pages.landPage);
+                }
+              }}
+            />
+          </>
+        )}
       </div>
       <div className="py-2 relative left-1">
         <OrgSelector mode="simple" size="middle" />

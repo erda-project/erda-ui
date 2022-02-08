@@ -14,9 +14,11 @@
 import userStore from './stores/index';
 import permStore from './stores/permission';
 
-export default (registerModule) => {
+const entry = (registerModule) => {
   return registerModule({
     key: 'user',
     stores: [userStore, permStore],
   });
 };
+
+export default entry;

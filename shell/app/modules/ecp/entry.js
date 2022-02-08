@@ -14,10 +14,12 @@
 import routers from './router';
 import MachineManageStore from './stores/machine-manage';
 
-export default (registerModule) => {
+const entry = (registerModule) => {
   return registerModule({
     key: 'ecp',
     stores: [MachineManageStore],
     routers,
   });
 };
+
+export default entry;

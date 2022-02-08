@@ -19,10 +19,12 @@ import certificateStore from './stores/certificate';
 import issueFieldStore from './stores/issue-field';
 import entryStore from './stores/index';
 
-export default (registerModule) => {
+const entry = (registerModule) => {
   return registerModule({
     key: 'org',
     stores: [announcementStore, approvalStore, auditStore, certificateStore, issueFieldStore, entryStore],
     routers,
   });
 };
+
+export default entry;

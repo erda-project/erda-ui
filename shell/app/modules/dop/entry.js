@@ -16,7 +16,7 @@ import zh from './locales/zh.json';
 import en from './locales/en.json';
 import routers from './router';
 
-export default (registerModule) => {
+const entry = (registerModule) => {
   return registerModule({
     key: 'dop',
     stores: [store],
@@ -27,3 +27,5 @@ export default (registerModule) => {
     },
   });
 };
+
+export default entry;

@@ -20,7 +20,7 @@ import '../styles/util.scss';
 import PageContainer from 'layout/pages/page-container/page-container';
 import { NotFound } from 'layout/common/error-page';
 
-export default (registerModule) => {
+const entry = (registerModule) => {
   return registerModule({
     key: 'layout',
     stores: [layoutStore, breadcrumbStore, messageStore],
@@ -29,3 +29,5 @@ export default (registerModule) => {
     NotFound,
   });
 };
+
+export default entry;
