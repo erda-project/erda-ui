@@ -183,27 +183,32 @@ const Info = () => {
     });
   };
 
-  const configData = {};
-  const tableData: object[] = [];
-  const fieldsListRollback: object[] = [];
-  const sortBy = WORKSPACE_LIST;
-  sortBy.forEach((workspace) => {
-    const name = workspace.toUpperCase();
-    const point = rollbackConfig?.[workspace];
+  const projectInfoFormData = React.useMemo(() => ({ ...info, isPublic: `${info.isPublic || 'false'}` }), [info]);
+  const projectRollbackForm = React.useMemo(() => {
+    const configData = {};
+    const fieldsListRollback: object[] = [];
+    const sortBy = WORKSPACE_LIST;
+    sortBy.forEach((workspace) => {
+      const name = workspace.toUpperCase();
+      const point = rollbackConfig?.[workspace];
 
-    tableData.push({ workspace, point });
-    configData[`${name}`] = point || 5;
-    fieldsListRollback.push({
-      label: resourceMap[name] || name,
-      name: ['rollbackConfig', name],
-      type: 'inputNumber',
-      itemProps: {
-        max: 1000,
-        min: 1,
-        precision: 0,
-      },
+      configData[`${name}`] = point || 5;
+      fieldsListRollback.push({
+        label: resourceMap[name] || name,
+        name: ['rollbackConfig', name],
+        type: 'inputNumber',
+        itemProps: {
+          max: 1000,
+          min: 1,
+          precision: 0,
+        },
+      });
     });
-  });
+    return {
+      fields: fieldsListRollback,
+      data: { rollbackConfig: configData },
+    };
+  }, [rollbackConfig]);
 
   return (
     <div className="project-setting-info">
@@ -351,7 +356,7 @@ const Info = () => {
             name={i18n.t('dop:project quota')}
             visible={projectQuotaEditVisible}
             fieldsList={fieldsListQuota}
-            formData={{ ...info, isPublic: `${info.isPublic || 'false'}` }}
+            formData={info}
             okButtonState={projectQuotaSaveDisabled}
             onValuesChange={() => {
               updater.projectQuotaSaveDisabled(false);
@@ -463,7 +468,7 @@ const Info = () => {
         name={i18n.t('dop:project info')}
         visible={projectInfoEditVisible}
         fieldsList={fieldsListInfo}
-        formData={{ ...info, isPublic: `${info.isPublic || 'false'}` }}
+        formData={projectInfoFormData}
         okButtonState={projectInfoSaveDisabled}
         onValuesChange={() => {
           updater.projectInfoSaveDisabled(false);
@@ -482,8 +487,8 @@ const Info = () => {
         }}
         name={i18n.t('dop:rollback point')}
         visible={projectRollbackEditVisible}
-        fieldsList={fieldsListRollback}
-        formData={{ rollbackConfig: configData }}
+        fieldsList={projectRollbackForm.fields}
+        formData={projectRollbackForm.data}
         okButtonState={projectRollbackSaveDisabled}
         onValuesChange={() => {
           updater.projectRollbackSaveDisabled(false);
