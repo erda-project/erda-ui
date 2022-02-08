@@ -42,8 +42,8 @@ Welcome to use [Erda Cloud](https://erda.cloud)
 
 Please use the following installation documents to install Erda.
 
-- [English](https://github.com/erda-project/erda/blob/master/docs/guides/deploy/How-to-install-Erda.md)
-- [简体中文](https://github.com/erda-project/erda/blob/master/docs/guides/deploy/How-to-install-Erda-zh.md)
+- English(Coming soon)
+- [简体中文](https://docs.erda.cloud/latest/manual/install/helm-install/introduction.html)
 
 ### Run Erda-UI project
 
@@ -62,24 +62,8 @@ Please use the following installation documents to install Erda.
   # Generate initial config to the .env file. After successful running, the .env configuration file will be generated in the root directory of erda-ui.
 
 
-# Step3 Build core package
-  # Run the following command in the directory of core
-	npm run build
-
-  # What does this command do?
-  # The core package file will be generated in the public folder of the root directory, and static files will be read from that directory in development mode.
-
-
-# Step4 Watch shell package
+# Step3 Start App
   # Run the following command in the directory of shell
-	npm run watch
-
-  # What does this command do?
-  # Watch the shell package file change and build file to the public folder of the root directory.
-
-
-# Step5 Start App
-  # Run the following command in the directory of scheduler
   npm start
 
   # What does this command do?
@@ -93,7 +77,8 @@ Technology stack：
 - UI library: Ant Design
 - state management: cube-state
 - i18n: i18next
-- bundler: webpack
+- bundler: webpack(production) & vite(development)
+- style: sass & tailwind
 
 This project contain the following parts:
 
@@ -114,7 +99,7 @@ architecture of development mode
 - [Erda Cloud](https://erda.cloud)
 - [Official Website](https://www.erda.cloud)
 - [User Docs](https://docs.erda.cloud)
-- [Backend project](https://github.com/erda-project/erda)
+- [Erda backend project](https://github.com/erda-project/erda)
 
 
 ## 🤝 Contributing [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
@@ -142,4 +127,4 @@ If you have any questions, please feel free to contact us.
 
 ## License
 
-Erda is under the AGPL 3.0 license. See the [LICENSE](/LICENSE) file for details.
+Erda ui is under the AGPL 3.0 license. See the [LICENSE](/LICENSE) file for details.

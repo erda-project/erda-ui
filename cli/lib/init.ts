@@ -32,18 +32,18 @@ export default async ({
   const currentDir = process.cwd();
   isCwdInRoot({ currentPath: currentDir, alert: true });
 
-  logInfo('start local env initialization');
+  logInfo('Start local environment initialization');
   if (!skipInstall) {
-    let spinner = ora('installing lerna pnpm & commitizen...').start();
+    let spinner = ora('[1/2] Installing lerna, pnpm & commitizen globally...').start();
     const { stdout: msg } = await execa('npm', ['i', '-g', '--force', 'pnpm', 'commitizen', 'lerna']);
     logInfo(msg);
-    logSuccess('installed pnpm, commitizen globally successfully😁');
+    logSuccess('Successfully installed pnpm, commitizen globally😁');
     spinner.stop();
 
-    spinner = ora('installing dependencies...').start();
+    spinner = ora('[2/2] Installing dependencies...').start();
     const { stdout: installMsg } = await execa('pnpm', ['i']);
     logInfo(installMsg);
-    logSuccess('finish installing dependencies.');
+    logSuccess('Installing dependencies finished.');
     spinner.stop();
   }
 
@@ -57,7 +57,7 @@ export default async ({
         type: 'input',
         name: 'backendUrl',
         message: 'Backend Url(API server):',
-        default: 'https://erda.dev.terminus.io',
+        default: 'https://openapi.erda.io',
       },
     ]);
     newConfig.BACKEND_URL = backendUrl;
@@ -66,7 +66,7 @@ export default async ({
         type: 'input',
         name: 'ucUrl',
         message: 'UC url(User center service):',
-        default: 'https://erda.dev.terminus.io',
+        default: 'https://uc.erda.io',
       },
     ]);
     newConfig.UC_BACKEND_URL = ucUrl;
@@ -77,7 +77,7 @@ export default async ({
         type: 'input',
         name: 'hostUrl',
         message: 'Scheduler Url(host name):',
-        default: 'https://erda.dev.terminus.io',
+        default: 'https://local.erda.io',
       },
     ]);
     newConfig.SCHEDULER_URL = hostUrl;
@@ -87,8 +87,8 @@ export default async ({
       newFullConfig.push(`${k}=${newConfig[k]}`);
     });
     fs.writeFileSync(envConfigPath, newFullConfig.join(EOL), 'utf8');
-    logSuccess('update erda-ui/.env file');
-    logSuccess('you can update .env file manually if you need');
+    logSuccess('Successfully create or update erda-ui/.env file, you can edit .env file manually as you wish.');
+    logSuccess('Now you can enter `shell` directory and run `npm run dev` to start project in development mode.');
   } else {
     logInfo('.env config is not empty, skip env config initialize step, or you can override with option --override');
   }

@@ -24,13 +24,13 @@ export default async () => {
   const currentDir = process.cwd();
   isCwdInRoot({ currentPath: currentDir, alert: true });
 
-  let spinner = ora('installing pnpm').start();
+  let spinner = ora('[1/2] Installing pnpm globally...').start();
   const { stdout: msg } = await execa('npm', ['i', '-g', '--force', 'pnpm']);
   logInfo(msg);
-  logSuccess('installed pnpm globally successfully😁');
+  logSuccess('Successfully Installed pnpm globally😁');
   spinner.stop();
 
-  spinner = ora('installing dependencies...').start();
+  spinner = ora('[2/2] Installing dependencies...').start();
   const { stdout: installMsg } = await execa('pnpm', [
     'i',
     '--frozen-lockfile',
@@ -39,7 +39,7 @@ export default async () => {
     '--filter=!./cli',
   ]);
   logInfo(installMsg);
-  logSuccess('finish installing dependencies.');
+  logSuccess('Installing dependencies finished.');
   spinner.stop();
 
   const envConfigPath = `${currentDir}/.env`;
@@ -53,5 +53,5 @@ export default async () => {
     newFullConfig.push(`${k}=${newConfig[k]}`);
   });
   fs.writeFileSync(envConfigPath, newFullConfig.join(EOL), 'utf8');
-  logSuccess('created erda-ui/.env file');
+  logSuccess('Successfully created erda-ui/.env file');
 };
