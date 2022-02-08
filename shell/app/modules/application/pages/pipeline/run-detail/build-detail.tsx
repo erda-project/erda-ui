@@ -668,10 +668,10 @@ const BuildDetail = (props: IProps) => {
           key={`${state.recordTableKey}`}
           rowKey="runIndex"
           className="build-history-list"
+          wrapperClassName="max-h-80"
           columns={columns}
           loading={getExecuteRecordsLoading}
           dataSource={dataSource}
-          scroll={{ y: 240 }}
           rowClassName={setRowClassName}
           pagination={{ pageSize, total, current: pageNo, onChange: handleRecordPageChange }}
           onRow={({ id: targetPipelineID }) => ({
