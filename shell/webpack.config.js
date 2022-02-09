@@ -79,7 +79,6 @@ module.exports = async () => {
         'browser-insight': resolve('./app/modules/msp/monitor/browser-insight'),
         'gateway-ingress': resolve('./app/modules/msp/monitor/gateway-ingress'),
         'docker-container': resolve('./app/modules/msp/monitor/docker-container'),
-        'mobile-insight': resolve('./app/modules/msp/monitor/mobile-insight'),
         'api-insight': resolve('./app/modules/msp/monitor/api-insight'),
         'trace-insight': resolve('./app/modules/msp/monitor/trace-insight'),
         'monitor-common': resolve('./app/modules/msp/monitor/monitor-common'),

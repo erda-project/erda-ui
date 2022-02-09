@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import getBIRouter from 'msp/monitor/browser-insight/router';
-import getMIRouter from 'msp/monitor/mobile-insight/router';
 import getApiInsightRouter from 'msp/monitor/api-insight/router';
 import monitorTraceRouter from 'msp/monitor/trace-insight/router';
 import monitorErrorRouter from 'msp/monitor/error-insight/router';
@@ -32,7 +31,6 @@ function getMonitorRouter(): RouteConfigItem {
         getComp: (cb) => cb(import('msp/monitor/monitor-overview/pages/overview/overview')),
       },
       getBIRouter(),
-      getMIRouter(),
       getApiInsightRouter(),
       monitorTraceRouter(),
       monitorStatusRouter(),

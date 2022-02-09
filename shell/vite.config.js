@@ -79,7 +79,6 @@ export default ({ command, mode }) => {
     'browser-insight': path.resolve(__dirname, './app/modules/msp/monitor/browser-insight'),
     'gateway-ingress': path.resolve(__dirname, './app/modules/msp/monitor/gateway-ingress'),
     'docker-container': path.resolve(__dirname, './app/modules/msp/monitor/docker-container'),
-    'mobile-insight': path.resolve(__dirname, './app/modules/msp/monitor/mobile-insight'),
     'api-insight': path.resolve(__dirname, './app/modules/msp/monitor/api-insight'),
     'trace-insight': path.resolve(__dirname, './app/modules/msp/monitor/trace-insight'),
     'monitor-common': path.resolve(__dirname, './app/modules/msp/monitor/monitor-common'),

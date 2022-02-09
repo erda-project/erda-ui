@@ -68,8 +68,6 @@
       "gateway-ingress/*": ["app/modules/msp/monitor/gateway-ingress/*"],
       "docker-container": ["app/modules/msp/monitor/docker-container"],
       "docker-container/*": ["app/modules/msp/monitor/docker-container/*"],
-      "mobile-insight": ["app/modules/msp/monitor/mobile-insight"],
-      "mobile-insight/*": ["app/modules/msp/monitor/mobile-insight/*"],
       "api-insight": ["app/modules/msp/monitor/api-insight"],
       "api-insight/*": ["app/modules/msp/monitor/api-insight/*"],
       "trace-insight": ["app/modules/msp/monitor/trace-insight"],
