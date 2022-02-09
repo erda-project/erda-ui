@@ -368,6 +368,7 @@ declare namespace TEST_CASE {
   }
 
   interface ImportExportResult {
+    total: number;
     list: ImportExportRecordItem[];
     counter: ImportExportCounter;
   }

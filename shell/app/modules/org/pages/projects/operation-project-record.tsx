@@ -20,7 +20,7 @@ import { Filter, RadioTabs, Badge } from 'common';
 import { getAvatarChars } from 'common/utils';
 import { PAGINATION } from 'app/constants';
 import { useUserMap } from 'core/stores/userMap';
-import { importExportProjectRecord } from 'org/services/project-list';
+import { importExportFileRecord } from 'org/services/project-list';
 import moment from 'moment';
 import { useInterval, useMount } from 'react-use';
 import orgStore from 'app/org-home/stores/org';
@@ -74,7 +74,7 @@ const stateMap = {
 
 export const OperationProjectRecords = ({ visible, setVisible, isClickExport, setIsClickExport }: IProps) => {
   const orgID = orgStore.getState((s) => s.currentOrg.id);
-  const [handleProjectRecord, handleRecordLoading] = importExportProjectRecord.useState();
+  const [handleProjectRecord, handleRecordLoading] = importExportFileRecord.useState();
   const userMap = useUserMap();
   const [activeKey, setActiveKey] = React.useState('all');
   const [hasError, setHasError] = React.useState(false);
@@ -87,7 +87,7 @@ export const OperationProjectRecords = ({ visible, setVisible, isClickExport, se
   });
 
   const getImportExportProjectRecord = React.useCallback(() => {
-    importExportProjectRecord
+    importExportFileRecord
       .fetch({
         ...searchObj,
         orgID,
@@ -194,7 +194,7 @@ export const OperationProjectRecords = ({ visible, setVisible, isClickExport, se
     },
   ];
 
-  const ErrorContent = ({ record }: { record: PROJECT_LIST.FileRecord }) => {
+  const ErrorContent = ({ record }: { record: IMPORT_EXPORT_FILE_LIST.FileRecord }) => {
     const results = record.description.match(/\d+/g) || [];
     const errorInfo = record.errorInfo.split('\n').filter((item) => item !== ')');
     return (
@@ -217,9 +217,9 @@ export const OperationProjectRecords = ({ visible, setVisible, isClickExport, se
     );
   };
 
-  const recordActions: IActions<PROJECT_LIST.FileRecord> = {
+  const recordActions: IActions<IMPORT_EXPORT_FILE_LIST.FileRecord> = {
     width: 120,
-    render: (record: PROJECT_LIST.FileRecord) => {
+    render: (record: IMPORT_EXPORT_FILE_LIST.FileRecord) => {
       const { viewResult, exportProject } = {
         viewResult: {
           title: i18n.t('view results'),

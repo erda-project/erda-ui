@@ -290,14 +290,9 @@ const issueStore = createStore({
       }
       return customFieldDetail;
     },
-    async importIssueFile({ call }, payload: { file: any; issueType: string; projectID: number | string }) {
-      const orgID = orgStore.getState((s) => s.currentOrg.id);
-      const { file, issueType, projectID } = payload;
-      const formData = convertToFormData(file);
-      const res = await call(importFileInIssues, {
-        payload: formData,
-        query: { orgID, projectID: +projectID, type: issueType },
-      });
+    async importIssueFile({ call }, payload: { fileID: string; issueType: string; projectID: string }) {
+      const { fileID, issueType, projectID } = payload;
+      const res = await call(importFileInIssues, { projectID, type: issueType, fileID });
       return res;
     },
     async subscribe({ call }, payload: { id: number }) {

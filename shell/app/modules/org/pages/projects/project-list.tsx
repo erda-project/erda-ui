@@ -21,7 +21,7 @@ import { Filter, ErdaIcon, ErdaAlert } from 'common';
 import { useUnmount } from 'react-use';
 import { PAGINATION } from 'app/constants';
 import projectStore from 'project/stores/project';
-import { exportProjectTemplate, importExportProjectRecord } from 'org/services/project-list';
+import { exportProjectTemplate, importExportFileRecord } from 'org/services/project-list';
 import { useLoading } from 'core/stores/loading';
 import { OperationProjectRecords } from './operation-project-record';
 import orgStore from 'app/org-home/stores/org';
@@ -134,7 +134,7 @@ export const ProjectList = () => {
               message
                 .success(i18n.t('dop:The export task has been created, please check the progress in the record'), 4)
                 .then(() => {
-                  importExportProjectRecord.fetch({
+                  importExportFileRecord.fetch({
                     orgID,
                     types: ['projectTemplateExport'],
                     pageNo: 1,

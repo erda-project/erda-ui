@@ -22,17 +22,18 @@ interface IProps {
   value: string;
   className?: string;
   theme?: 'light' | 'dark';
+  mode?: 'underline' | 'button';
 }
 
 const SimpleTabs = (props: IProps) => {
-  const { tabs, onSelect, value, className = '', theme = 'light' } = props;
+  const { tabs, onSelect, value, className = '', theme = 'light', mode = 'button' } = props;
   return (
-    <div className={`common-simple-tabs flex-h-center ${className} theme-${theme}`}>
+    <div className={`common-simple-tabs tabs-${mode} flex-h-center ${className} theme-${theme}`}>
       {map(tabs, (item) => {
         return (
           <div
             key={item.key}
-            className={`mr-2 common-simple-tabs-item cursor-pointer ${value === item.key ? 'selected' : ''} ${
+            className={`common-simple-tabs-item cursor-pointer ${value === item.key ? 'selected' : ''} ${
               item.disabled ? 'not-allowed' : ''
             }`}
             onClick={() => !item.disabled && onSelect(item.key)}

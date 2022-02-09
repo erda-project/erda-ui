@@ -368,9 +368,10 @@ const testCaseStore = createStore({
       );
       return res;
     },
-    async getImportExportRecords({ call, getParams }, types: TEST_CASE.ImportOrExport[]) {
+    async getImportExportRecords({ call, getParams }, payload: { types: TEST_CASE.ImportOrExport[] }) {
       const { projectId } = getParams();
-      return call(getImportExportRecords, { projectId, types });
+      const res = await call(getImportExportRecords, { projectId, ...payload });
+      return res;
     },
   },
   reducers: {

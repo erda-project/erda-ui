@@ -136,7 +136,7 @@ export const IterationItem = (props: IProps) => {
           )}
         </Spin>
         <div>
-          {total && (
+          {total ? (
             <Pagination
               className="flex items-center flex-wrap justify-end pt-2"
               simple
@@ -147,7 +147,7 @@ export const IterationItem = (props: IProps) => {
                 update({ pageNo: _page });
               }}
             />
-          )}
+          ) : null}
         </div>
       </div>
       {drawerVisible ? (

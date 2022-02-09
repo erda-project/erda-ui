@@ -1,25 +1,55 @@
 .common-simple-tabs {
-  &-item {
-    color: $color-default;
-    padding: 4px 8px;
-    border-radius: $border-radius;
-    &:hover,
-    &.selected {
-      &:not(.not-allowed) {
-        font-weight: 500;
-        background-color: $color-default-06;
-      }
-    }
-  }
-  &.theme-dark {
+  &.tabs-button {
     .common-simple-tabs-item {
-      color: $white;
+      margin-right: 8px;
+      color: $color-default;
+      padding: 4px 8px;
+      border-radius: $border-radius;
       &:hover,
       &.selected {
         &:not(.not-allowed) {
           font-weight: 500;
-          background-color: $color-white-1;
+          background-color: $color-default-06;
         }
+      }
+    }
+    &.theme-dark {
+      .common-simple-tabs-item {
+        color: $white;
+        &:hover,
+        &.selected {
+          &:not(.not-allowed) {
+            font-weight: 500;
+            background-color: $color-white-1;
+          }
+        }
+      }
+    }
+  }
+
+  &.tabs-underline {
+    .common-simple-tabs-item {
+      margin-right: 24px;
+      position: relative;
+      &:hover,
+      &.selected {
+        &:not(.not-allowed) {
+          &::after {
+            content: '';
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background-color: $color-purple-highlight;
+            left: 0;
+            bottom: -6px;
+          }
+          font-weight: bold;
+        }
+      }
+    }
+    &.theme-dark {
+      .common-simple-tabs-item {
+        color: $white;
       }
     }
   }

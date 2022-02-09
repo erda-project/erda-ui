@@ -23,9 +23,7 @@ import testCaseStore from 'project/stores/test-case';
 import { CaseTable, CaseTree } from '../components';
 import { columns } from './columns';
 import BatchProcessing from './header/batch-processing';
-import ExportFile from './header/export-file';
-import ImportFile from './header/import-file';
-import ImportExportRecord from './header/import-export-record';
+import ImportExport from './import-export';
 import AddTestSet from './new-set';
 import CaseFilterDrawer from './filter-drawer';
 import ProjectTreeModal from './project-tree-modal';
@@ -176,8 +174,10 @@ const ManualTest = () => {
                     >
                       <span>{i18n.t('dop:add use case')}</span>
                     </Button>
-                    <ImportFile afterImport={afterImport} />
-                    <ExportFile afterExport={afterExport} />
+
+                    <ImportExport testSetId={+query.testSetID} setShowRefresh={setShowRefresh} />
+                    {/* <ImportFile afterImport={afterImport} />
+                    <ExportFile afterExport={afterExport} /> */}
                   </>
                 )}
                 <CaseDrawer
@@ -191,11 +191,11 @@ const ManualTest = () => {
                   }}
                 />
                 <BatchProcessing recycled={query.recycled === 'true'} />
-                <ImportExportRecord
+                {/* <ImportExportRecord
                   key={importExportRecordKey}
                   setShowRefresh={setShowRefresh}
                   testSetId={+query.testSetID}
-                />
+                /> */}
                 <ProjectTreeModal />
               </div>
               <div className="mr-3-group inline-flex" style={{ minWidth: '220px' }}>

@@ -11,8 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace PROJECT_LIST {
+declare namespace IMPORT_EXPORT_FILE_LIST {
   interface FileRecord {
+    id: string;
     apiFileUUID: string;
     errorInfo: string;
     name: string;
@@ -23,7 +24,7 @@ declare namespace PROJECT_LIST {
     description: string;
   }
 
-  interface ProjectList {
+  interface FileList {
     list: FileRecord[];
     total: number;
   }

@@ -23,7 +23,7 @@ const apis = {
   parseProjectTemplate: {
     api: 'api/projects/template/actions/parse',
   },
-  importExportProjectRecord: {
+  importExportFileRecord: {
     api: '/api/test-file-records',
   },
 };
@@ -39,12 +39,12 @@ export const parseProjectTemplate = apiCreator<(p: { projectID: number; orgID: n
   apis.parseProjectTemplate,
 );
 
-export const importExportProjectRecord = apiCreator<
+export const importExportFileRecord = apiCreator<
   (p: {
     projectName?: string;
-    orgID: number;
+    orgID?: number;
     types: string[];
     pageSize?: number;
     pageNo?: number;
-  }) => PROJECT_LIST.ProjectList
->(apis.importExportProjectRecord);
+  }) => IMPORT_EXPORT_FILE_LIST.FileList
+>(apis.importExportFileRecord);

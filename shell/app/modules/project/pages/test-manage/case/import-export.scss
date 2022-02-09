@@ -1,0 +1,17 @@
+.test-manage-import-export-modal {
+  .ant-modal-header {
+    padding: 0;
+  }
+
+  .ant-modal-body {
+    padding: 0 16px;
+    max-height: 80vh;
+    display: flex;
+  }
+
+  .issue-import-upload {
+    .ant-upload-list-item:hover .ant-upload-list-item-info {
+      background-color: transparent;
+    }
+  }
+}
