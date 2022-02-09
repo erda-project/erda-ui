@@ -16,7 +16,6 @@ import getApiInsightRouter from 'msp/monitor/api-insight/router';
 import monitorTraceRouter from 'msp/monitor/trace-insight/router';
 import monitorErrorRouter from 'msp/monitor/error-insight/router';
 import monitorStatusRouter from 'msp/monitor/status-insight/router';
-import projectReportRouter from 'msp/monitor/project-report/router';
 import { serviceAnalysisRouter } from 'msp/env-overview/service-list/router';
 import { getMspBreadcrumb } from 'msp/config';
 
@@ -36,7 +35,6 @@ function getMonitorRouter(): RouteConfigItem {
       monitorStatusRouter(),
       serviceAnalysisRouter(),
       monitorErrorRouter(),
-      projectReportRouter(),
     ],
   };
 }
