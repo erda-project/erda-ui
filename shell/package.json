@@ -32,8 +32,6 @@
     "gen-cp-md": "node ./tools/gen-cp-md",
     "gen-cp-go": "node ./tools/gen-cp-go",
     "gen-cp-all": "npm run gen-cp-md && npm run gen-cp-go",
-    "iconfont": "node -e 'require(\"./tools/manage-iconfont.js\").manageIconFont()'",
-    "restore-iconfont": "node -e 'require(\"./tools/manage-iconfont.js\").restoreIconFont()'",
     "precommit": "lint-staged",
     "check-unit-test": "node -e 'require(\"./tools/testcase-checker.js\").checkTestCase()'",
     "extra-logic": "node ../../erda-ui-enterprise/extra-job.js",
