@@ -16,8 +16,7 @@ import moment from 'moment';
 import React from 'react';
 import cronstrue from 'cronstrue/i18n';
 import { Spin, Badge, Modal, Popover, Row, Col, Tooltip, Menu, Dropdown, Input } from 'antd';
-import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, ErdaIcon, ErdaAlert } from 'common';
-import ErdaTable from 'common/components/table';
+import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, ErdaIcon, ErdaAlert, Table } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo, secondsToTime, replaceEmoji, updateSearch } from 'common/utils';
 import GotoCommit from 'application/common/components/goto-commit';
@@ -664,7 +663,7 @@ const BuildDetail = (props: IProps) => {
           <ErdaIcon className="hover" size="16" type="shuaxin" />
           {i18n.t('fetch latest records')}
         </div>
-        <ErdaTable
+        <Table
           key={`${state.recordTableKey}`}
           rowKey="runIndex"
           className="build-history-list"

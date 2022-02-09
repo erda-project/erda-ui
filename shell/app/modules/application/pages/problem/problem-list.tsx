@@ -13,8 +13,7 @@
 
 import React from 'react';
 import { Input, Spin, Select } from 'antd';
-import { SwitchAutoScroll, CustomFilter } from 'common';
-import ErdaTable from 'common/components/table';
+import { SwitchAutoScroll, CustomFilter, Table } from 'common';
 import { goTo, fromNow, insertWhen } from 'common/utils';
 import { getProblemType, ProblemPriority } from 'application/pages/problem/problem-form';
 import { useLoading } from 'core/stores/loading';
@@ -146,7 +145,7 @@ export const ProblemList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' 
     <React.Fragment>
       <SwitchAutoScroll toPageTop triggerBy={paging.pageNo} />
       <Spin spinning={loading}>
-        <ErdaTable
+        <Table
           tableKey="ticket_list"
           rowKey="id"
           dataSource={ticketList}
