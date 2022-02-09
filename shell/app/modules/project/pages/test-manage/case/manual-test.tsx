@@ -23,9 +23,7 @@ import testCaseStore from 'project/stores/test-case';
 import { CaseTable, CaseTree } from '../components';
 import { columns } from './columns';
 import BatchProcessing from './header/batch-processing';
-import ExportFile from './header/export-file';
-import ImportFile from './header/import-file';
-import ImportExportRecord from './header/import-export-record';
+import ImportExport from './import-export';
 import AddTestSet from './new-set';
 import CaseFilterDrawer from './filter-drawer';
 import ProjectTreeModal from './project-tree-modal';
@@ -44,7 +42,6 @@ const ManualTest = () => {
   const [searchQuery, setSearchQuery] = React.useState(query.query);
   const [enhanceFilterVisible, setEnhanceFilterVisible] = React.useState(false);
   const [showRefresh, setShowRefresh] = React.useState(false);
-  const [importExportRecordKey, setImportExportRecordKey] = React.useState(0);
 
   useEffectOnce(() => {
     getTestEnvList({ envID: +params.projectId, envType: 'project' });
@@ -90,16 +87,6 @@ const ManualTest = () => {
 
   const handleAddTestSetFromOut = (data: TEST_SET.TestSet) => {
     caseRef.current && caseRef.current.addNodeFromOuter(data);
-  };
-
-  const afterImport = () => {
-    const { testSetID, eventKey } = query;
-    caseRef.current && caseRef.current.reloadLoadData(testSetID, eventKey, false);
-    setImportExportRecordKey(importExportRecordKey + 1);
-  };
-
-  const afterExport = () => {
-    setImportExportRecordKey(importExportRecordKey + 1);
   };
 
   const showCaseDrawer = () => {
@@ -176,8 +163,8 @@ const ManualTest = () => {
                     >
                       <span>{i18n.t('dop:add use case')}</span>
                     </Button>
-                    <ImportFile afterImport={afterImport} />
-                    <ExportFile afterExport={afterExport} />
+
+                    <ImportExport testSetId={+query.testSetID} setShowRefresh={setShowRefresh} />
                   </>
                 )}
                 <CaseDrawer
@@ -191,11 +178,7 @@ const ManualTest = () => {
                   }}
                 />
                 <BatchProcessing recycled={query.recycled === 'true'} />
-                <ImportExportRecord
-                  key={importExportRecordKey}
-                  setShowRefresh={setShowRefresh}
-                  testSetId={+query.testSetID}
-                />
+
                 <ProjectTreeModal />
               </div>
               <div className="mr-3-group inline-flex" style={{ minWidth: '220px' }}>

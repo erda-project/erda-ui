@@ -24,9 +24,9 @@ import './import-project-template.scss';
 
 export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
   const [fileStatus, setFileStatus] = React.useState('init');
-  const [fileData, setFileData] = React.useState(null as unknown as PROJECT_LIST.FileData);
+  const [fileData, setFileData] = React.useState(null as unknown as IMPORT_EXPORT_FILE_LIST.FileData);
 
-  function handleChange({ file }: { file: PROJECT_LIST.FileData }) {
+  function handleChange({ file }: { file: IMPORT_EXPORT_FILE_LIST.FileData }) {
     setFileData(file);
     if (file.status === 'uploading') {
       setFileStatus('uploading');

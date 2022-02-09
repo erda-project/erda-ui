@@ -78,7 +78,7 @@ function WrappedTable<T extends object = any>({
   rowKey,
   theme = 'light',
   className,
-  wrapperClassName,
+  wrapperClassName = '',
   whiteFooter = false,
   whiteHead = false,
   ...props
@@ -314,12 +314,11 @@ function WrappedTable<T extends object = any>({
   if (isFrontendPaging) {
     data = data.slice((current - 1) * pageSize, current * pageSize);
   }
-
   return (
     <div
-      className={`flex flex-col erda-table bg-white ${hideHeader ? 'hide-header' : ''} theme-${theme} ${
-        wrapperClassName || ''
-      }`}
+      className={`flex flex-col erda-table bg-white ${
+        hideHeader ? 'hide-header' : ''
+      } theme-${theme} ${wrapperClassName}`}
       ref={containerRef}
     >
       {!hideHeader && (

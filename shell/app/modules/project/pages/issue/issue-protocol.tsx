@@ -16,26 +16,21 @@ import { ISSUE_TYPE, ISSUE_TYPE_MAP } from 'project/common/components/issue/issu
 import DiceConfigPage, { useMock } from 'app/config-page';
 import { getUrlQuery } from 'config-page/utils';
 import { useSwitch, useUpdate } from 'common/use-hooks';
-import { qs, mergeSearch, updateSearch, setApiWithOrg } from 'common/utils';
+import { mergeSearch, updateSearch, insertWhen } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
 import { Badge, ErdaIcon } from 'common';
-import { usePerm, WithAuth } from 'app/user/common';
-import { Button, Dropdown, Menu, Tooltip } from 'antd';
+import { usePerm } from 'app/user/common';
+import { Button, Dropdown, Menu } from 'antd';
 import routeInfoStore from 'core/stores/route';
-import ImportFile from 'project/pages/issue/component/import-file';
 import issueFieldStore from 'org/stores/issue-field';
+import ImportExport from './import-export';
 import { useMount, useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 
 interface IProps {
   issueType: ISSUE_TYPE;
 }
-
-const getRealIssueType = (issueType: ISSUE_TYPE) => {
-  if (issueType === ISSUE_TYPE.ALL) return [ISSUE_TYPE.EPIC, ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK, ISSUE_TYPE.BUG];
-  return issueType;
-};
 
 const compareObject = (sourceObj: object, targetObj: object) => {
   if (Object.keys(sourceObj).length === Object.keys(targetObj).length) {
@@ -51,11 +46,10 @@ const IssueProtocol = ({ issueType }: IProps) => {
   const orgID = orgStore.getState((s) => s.currentOrg.id);
   const queryType = _queryType && _queryType.toUpperCase();
   const [
-    { importFileVisible, filterObj, chosenIssueType, chosenIssueId, chosenIteration, urlQuery, urlQueryChangeByQuery },
+    { filterObj, chosenIssueType, chosenIssueId, chosenIteration, urlQuery, urlQueryChangeByQuery },
     updater,
     update,
   ] = useUpdate({
-    importFileVisible: false,
     filterObj: {},
     chosenIssueId: queryId,
     chosenIteration: queryItertationID || 0,
@@ -88,18 +82,6 @@ const IssueProtocol = ({ issueType }: IProps) => {
     fixedIssueType: issueType,
     projectId,
     ...(urlQuery || {}),
-  };
-
-  const getDownloadUrl = (IsDownload = false) => {
-    const pageData = reloadRef.current?.getPageConfig();
-    const useableFilterObj = pageData?.protocol?.state?.IssuePagingRequest || {};
-
-    return setApiWithOrg(
-      `/api/issues/actions/export-excel?${qs.stringify(
-        { ...useableFilterObj, pageNo: 1, projectID: projectId, type: getRealIssueType(issueType), IsDownload, orgID },
-        { arrayFormat: 'none' },
-      )}`,
-    );
   };
 
   const reloadData = () => {
@@ -183,39 +165,39 @@ const IssueProtocol = ({ issueType }: IProps) => {
     </Menu>
   );
 
-  const ImportComp = () =>
-    issueType === ISSUE_TYPE.ALL ? null : (
-      <WithAuth pass={issuePerm.import.pass}>
-        <Tooltip title={i18n.t('import')}>
-          <ErdaIcon
-            type="daoru"
-            className="p-1 text-default-4 hover:text-default-8 hover:bg-default-08 cursor-pointer ml-3"
-            size={20}
-            onClick={() => updater.importFileVisible(true)}
-          />
-        </Tooltip>
-      </WithAuth>
-    );
+  const pageData = reloadRef.current?.getPageConfig();
+  const useableFilterObj = pageData?.protocol?.state?.IssuePagingRequest || {};
 
-  const ExportComp = () => (
-    <WithAuth pass={issuePerm.export.pass}>
-      <Tooltip title={i18n.t('export')}>
-        <ErdaIcon
-          type="daochu-2"
-          className="p-1 text-default-4 hover:text-default-8 hover:bg-default-08 cursor-pointer ml-3"
-          size={20}
-          onClick={() => window.open(getDownloadUrl())}
-        />
-      </Tooltip>
-    </WithAuth>
-  );
+  const tabs = [
+    {
+      key: 'export',
+      text: i18n.t('export'),
+      disabled: !issuePerm.export.pass,
+      tip: issuePerm.export.pass ? '' : i18n.t('common:no permission to operate'),
+    },
+    ...insertWhen(issueType !== ISSUE_TYPE.ALL, [
+      {
+        key: 'import',
+        text: i18n.t('import'),
+        disabled: !issuePerm.import.pass,
+        tip: issuePerm.import.pass ? '' : i18n.t('common:no permission to operate'),
+      },
+    ]),
+    {
+      key: 'record',
+      text: i18n.t('record'),
+      disabled: false,
+    },
+  ];
 
   return (
     <>
-      <div className="top-button-group">
+      <div className="top-button-group flex">
+        <ImportExport tabs={tabs} queryObj={useableFilterObj} issueType={issueType} projectId={projectId} />
+
         {issueType === ISSUE_TYPE.ALL ? (
           <Dropdown overlay={dropdownMenu}>
-            <Button type="primary" className="flex items-center">
+            <Button type="primary" className="flex-h-center">
               {i18n.t('new {name}', { name: i18n.t('dop:issue') })}
               <ErdaIcon type="caret-down" size="18" className="ml-1" />
             </Button>
@@ -235,13 +217,6 @@ const IssueProtocol = ({ issueType }: IProps) => {
         customProps={{
           issueManage: {
             props: { spaceSize: 'none' },
-          },
-          // 后端未对接，由前端接管的事件
-          issueAddButton: {
-            op: {
-              // 添加：打开滑窗
-              click: onCreate,
-            },
           },
           issueFilter: {
             op: {
@@ -275,16 +250,6 @@ const IssueProtocol = ({ issueType }: IProps) => {
               },
             },
           },
-          issueViewGroup: {
-            op: {
-              // 视图切换： 改变url
-              onStateChange: (val: Obj) => {
-                updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
-                // updater.viewType(val?.value);
-                // updater.viewType(val?.childrenValue?.kanban);
-              },
-            },
-          },
           issueTable: {
             props: {
               menuItemRender: (item: { text: string; status: string }) => (
@@ -302,44 +267,10 @@ const IssueProtocol = ({ issueType }: IProps) => {
               },
             },
           },
-          issueKanban: {
-            op: {
-              // 看板：点击单个看板节点，打开滑窗
-              clickNode: (_data: ISSUE.Issue) => {
-                onChosenIssue(_data);
-              },
-            },
-          },
-          issueGantt: {
-            op: {
-              // 点击单个看板任务：打开滑窗
-              onStateChange: (val: Obj) => {
-                updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
-                updater.pageNo(val?.pageNo || 1);
-              },
-              clickTableItem: (_data: ISSUE.Issue) => {
-                onChosenIssue(_data);
-              },
-            },
-          },
-          issueImport: ImportComp,
-          issueExport: ExportComp,
+          issueImport: () => null,
+          issueExport: () => null,
         }}
       />
-      {[ISSUE_TYPE.BUG, ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK].includes(issueType) ? (
-        <ImportFile
-          issueType={issueType}
-          download={getDownloadUrl(true)}
-          projectID={projectId}
-          visible={importFileVisible}
-          onClose={() => {
-            updater.importFileVisible(false);
-          }}
-          afterImport={() => {
-            reloadData();
-          }}
-        />
-      ) : null}
 
       {[ISSUE_TYPE.BUG, ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK].includes(chosenIssueType) ? (
         <EditIssueDrawer

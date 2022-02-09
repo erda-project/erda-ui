@@ -14,7 +14,7 @@
 import React from 'react';
 import { indexOf, isEmpty, map, sortBy, unset } from 'lodash';
 import { useDrop } from 'react-dnd';
-import { Button, Pagination, Popconfirm, Spin, Tooltip } from 'antd';
+import { Button, Pagination, Spin, Tooltip } from 'antd';
 import { ContractiveFilter, ErdaIcon, Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
@@ -25,11 +25,12 @@ import { useEffectOnce } from 'react-use';
 import issueStore from 'project/stores/issues';
 import { BACKLOG_ISSUE_TYPE, IssueForm, IssueItem } from './issue-item';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
-import { mergeSearch, qs, setApiWithOrg, updateSearch } from 'common/utils';
+import { mergeSearch, updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import { ISSUE_OPTION, ISSUE_PRIORITY_MAP, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
 import { ISSUE_TYPE_ICON_MAP } from 'project/common/components/issue/issue-icon';
 import backlog_db_svg from 'app/images/backlog-db.svg';
+import ImportExport from 'project/pages/issue/import-export';
 import i18n from 'i18n';
 import issueWorkflowStore from 'project/stores/issue-workflow';
 import './backlog.scss';
@@ -277,12 +278,6 @@ const Backlog = () => {
   };
 
   const curType = isEmpty(filterState.type) ? map(ISSUE_OPTION) : filterState.type;
-  const downloadUrl = setApiWithOrg(
-    `/api/issues/actions/export-excel?${qs.stringify(
-      { ...filterState, iterationID: -1, projectID: projectId, type: curType },
-      { arrayFormat: 'none' },
-    )}`,
-  );
 
   const handleChangePage = (curPage: number, curSize?: number) => {
     getList({
@@ -293,6 +288,17 @@ const Backlog = () => {
 
   const listRef = React.useRef(null as any);
   const isHide = !!listRef.current && listRef.current.scrollTop;
+
+  const tabs = [
+    {
+      key: 'export',
+      text: i18n.t('export'),
+    },
+    {
+      key: 'record',
+      text: i18n.t('record'),
+    },
+  ];
   return (
     <div className="backlog-issues flex flex-col justify-center h-full" ref={drop}>
       <div className="backlog-issues-title flex justify-between items-center mb-2">
@@ -307,18 +313,21 @@ const Backlog = () => {
           <span className="text-desc">{i18n.t('{num} {type}', { num: total, type: i18n.t('dop:issue') })}</span>
         </div>
         <div>
+          <ImportExport
+            tabs={tabs}
+            title={i18n.t('export')}
+            extraQuery={{ iterationID: -1 }}
+            queryObj={{ ...filterState, projectID: +projectId }}
+            issueType={curType}
+            projectId={projectId}
+          />
+
           <WithAuth pass={addAuth}>
-            <Button className="mr-2" type="primary" onClick={onAdd}>
+            <Button className="ml-2" type="primary" onClick={onAdd}>
               <CustomIcon type="cir-add" className="mr-1" />
               {i18n.t('add {name}', { name: i18n.t('dop:issue') })}
             </Button>
           </WithAuth>
-
-          <Popconfirm title={i18n.t('dop:confirm to export')} onConfirm={() => window.open(downloadUrl)}>
-            <Button className="ml-2 px-2">
-              <CustomIcon type="daochu" />
-            </Button>
-          </Popconfirm>
         </div>
       </div>
       <div className={'backlog-filter'}>

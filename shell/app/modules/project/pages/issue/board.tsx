@@ -16,19 +16,19 @@ import { ISSUE_TYPE, ISSUE_PRIORITY_MAP, ISSUE_TYPE_MAP } from 'project/common/c
 import DiceConfigPage, { useMock } from 'app/config-page';
 import { getUrlQuery } from 'config-page/utils';
 import { useSwitch, useUpdate } from 'common/use-hooks';
-import { qs, mergeSearch, updateSearch, setApiWithOrg, ossImg, getAvatarChars } from 'common/utils';
+import { mergeSearch, updateSearch, ossImg, getAvatarChars } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
-import { usePerm, WithAuth } from 'app/user/common';
+import { usePerm } from 'app/user/common';
 import routeInfoStore from 'core/stores/route';
-import ImportFile from 'project/pages/issue/component/import-file';
 import issueFieldStore from 'org/stores/issue-field';
 import { useUpdateEffect } from 'react-use';
-import { Avatar, Button, Tooltip } from 'antd';
+import { Avatar, Button } from 'antd';
 import IssueState from 'project/common/components/issue/issue-state';
 import { ErdaIcon, RadioTabs } from 'common';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import { useUserMap } from 'core/stores/userMap';
+import ImportExport from './import-export';
 import i18n from 'i18n';
 
 const CardRender = (props: { data: Obj }) => {
@@ -97,20 +97,10 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
   const { id: queryId, iterationID: queryItertationID, ...restQuery } = query;
   const orgID = orgStore.getState((s) => s.currentOrg.id);
   const [
-    {
-      importFileVisible,
-      filterObj,
-      chosenIssueType,
-      chosenIssueId,
-      chosenIteration,
-      urlQuery,
-      urlQueryChangeByQuery,
-      issueType,
-    },
+    { filterObj, chosenIssueType, chosenIssueId, chosenIteration, urlQuery, urlQueryChangeByQuery, issueType },
     updater,
     update,
   ] = useUpdate({
-    importFileVisible: false,
     filterObj: {},
     chosenIssueId: queryId,
     chosenIteration: queryItertationID || 0,
@@ -146,17 +136,6 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
     projectId,
     fixedIssueType: issueType,
     ...(urlQuery || {}),
-  };
-
-  const getDownloadUrl = (IsDownload = false) => {
-    const pageData = reloadRef.current?.getPageConfig();
-    const useableFilterObj = pageData?.protocol?.state?.IssuePagingRequestKanban || {};
-    return setApiWithOrg(
-      `/api/issues/actions/export-excel?${qs.stringify(
-        { ...useableFilterObj, pageNo: 1, projectID: projectId, type: issueType, IsDownload, orgID },
-        { arrayFormat: 'none' },
-      )}`,
-    );
   };
 
   const reloadData = () => {
@@ -232,32 +211,6 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
     updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
   };
 
-  const ImportComp = () => (
-    <WithAuth pass={issuePerm.import.pass}>
-      <Tooltip title={i18n.t('import')}>
-        <ErdaIcon
-          type="daoru"
-          className="p-1 text-default-4 hover:text-default-8 hover:bg-default-08 cursor-pointer ml-3"
-          size={20}
-          onClick={() => updater.importFileVisible(true)}
-        />
-      </Tooltip>
-    </WithAuth>
-  );
-
-  const ExportComp = () => (
-    <WithAuth pass={issuePerm.export.pass}>
-      <Tooltip title={i18n.t('export')}>
-        <ErdaIcon
-          type="daochu-2"
-          className="p-1 text-default-4 hover:text-default-8 hover:bg-default-08 cursor-pointer ml-3"
-          size={20}
-          onClick={() => window.open(getDownloadUrl())}
-        />
-      </Tooltip>
-    </WithAuth>
-  );
-
   const RefreshComp = () => (
     <ErdaIcon
       type="refresh"
@@ -266,10 +219,34 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
       onClick={() => reloadData()}
     />
   );
+  const pageData = reloadRef.current?.getPageConfig();
+  const useableFilterObj = pageData?.protocol?.state?.IssuePagingRequest || {};
 
+  const tabs = [
+    {
+      key: 'export',
+      text: i18n.t('export'),
+      disabled: !issuePerm.export.pass,
+      tip: issuePerm.export.pass ? '' : i18n.t('common:no permission to operate'),
+    },
+
+    {
+      key: 'import',
+      text: i18n.t('import'),
+      disabled: !issuePerm.import.pass,
+      tip: issuePerm.import.pass ? '' : i18n.t('common:no permission to operate'),
+    },
+
+    {
+      key: 'record',
+      text: i18n.t('record'),
+      disabled: false,
+    },
+  ];
   return (
     <>
       <div className="top-button-group">
+        <ImportExport tabs={tabs} queryObj={useableFilterObj} issueType={issueType} projectId={projectId} />
         <Button type={'primary'} onClick={onCreate}>
           {i18n.t('new {name}', { name: ISSUE_TYPE_MAP[issueType].label })}
         </Button>
@@ -347,8 +324,8 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
               },
             },
           },
-          issueImport: ImportComp,
-          issueExport: ExportComp,
+          issueImport: () => null,
+          issueExport: () => null,
           issueRefresh: RefreshComp,
 
           topHead: {
@@ -358,20 +335,6 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
           },
         }}
       />
-      {[ISSUE_TYPE.BUG, ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK].includes(issueType) ? (
-        <ImportFile
-          issueType={issueType}
-          download={getDownloadUrl(true)}
-          projectID={projectId}
-          visible={importFileVisible}
-          onClose={() => {
-            updater.importFileVisible(false);
-          }}
-          afterImport={() => {
-            reloadData();
-          }}
-        />
-      ) : null}
 
       {chosenIssueType ? (
         <EditIssueDrawer

@@ -19,11 +19,16 @@ const apis = {
   getFieldsByIssue: {
     api: '/api/issues/actions/get-property-instance',
   },
+  issueDownload: {
+    api: '/api/issues/actions/export-excel',
+  },
 };
 
 export const getFieldsByIssue = apiCreator<(params: ISSUE.IFiledQuery) => ISSUE.IFieldInstanceBody>(
   apis.getFieldsByIssue,
 );
+
+export const issueDownload = apiCreator<(params: ISSUE.IssueListQuery) => void>(apis.issueDownload);
 
 export const getIssues = (query: ISSUE.IssueListQuery): Promise<IPagingResp<ISSUE.IssueType>> => {
   return agent
@@ -121,11 +126,12 @@ export const addFieldsToIssue = (payload: ISSUE.ICreateField) => {
     .then((response: any) => response.body);
 };
 
-export function importFileInIssues({ payload, query }: any): { successCount: number } {
+export function importFileInIssues(query: { projectID: string; type: string; fileID: string }): {
+  successCount: number;
+} {
   return agent
     .post('/api/issues/actions/import-excel')
     .query(query)
-    .send(payload)
     .then((response: any) => response.body);
 }
 
