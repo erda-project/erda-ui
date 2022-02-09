@@ -397,7 +397,7 @@ interface SelectCompProps {
 
 const SelectComp = ({ value, onChange, options, size, optionRender, ...restItemProps }: SelectCompProps) => {
   const fixOptions = (typeof options === 'function' ? options() : options)?.filter?.((item: IOption) => item.fix) || [];
-  const optionType = typeof (typeof options === 'function' ? options() : options)[0]?.value;
+  const optionType = typeof (typeof options === 'function' ? options() : options)?.[0]?.value;
   const valueType = typeof (Array.isArray(value) ? value[0] : value);
   if (optionType !== 'undefined' && valueType !== 'undefined' && optionType !== valueType) {
     console.error(
