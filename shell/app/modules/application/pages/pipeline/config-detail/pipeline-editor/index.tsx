@@ -22,6 +22,7 @@ interface IProps {
   addDrawerProps: Obj;
   onUpdateYml: (ymlStr: string) => void;
   editable: boolean;
+  loading?: boolean;
 }
 
 const defaultPipelineYml = `version: 1.1
@@ -29,7 +30,7 @@ stages: []
 `;
 
 const CasePipelineEditor = (props: IProps) => {
-  const { caseDetail, onUpdateYml, addDrawerProps, editable } = props;
+  const { caseDetail, onUpdateYml, loading, addDrawerProps, editable } = props;
   const curPipelineYml = get(caseDetail, 'meta.pipelineYml') || defaultPipelineYml;
   const ymlStr = isEmpty(caseDetail) ? '' : curPipelineYml; //
   return (
@@ -40,6 +41,7 @@ const CasePipelineEditor = (props: IProps) => {
         title={i18n.t('pipeline')}
         addDrawerProps={addDrawerProps}
         onSubmit={onUpdateYml}
+        loading={loading}
         chartProps={{
           nodeEleMap: {
             startNode: () => <NodeEleMap.startNode disabled />,
