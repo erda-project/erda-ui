@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { floor } from 'lodash';
-import { Tooltip, Progress, Table, Spin } from 'antd';
+import { Tooltip, Progress, Spin } from 'antd';
+import ErdaTable from 'common/components/table';
 import { goTo, cutStr, secondsToTime, fromNow } from 'common/utils';
 import themeColor from 'app/theme-color.mjs';
 import i18n from 'i18n';
@@ -123,7 +124,7 @@ const TestList = () => {
   return (
     <div className="application-test">
       <Spin spinning={isFetching}>
-        <Table
+        <ErdaTable
           rowKey="id"
           dataSource={list}
           columns={columns}
@@ -139,7 +140,6 @@ const TestList = () => {
             ...testListPaging,
             onChange: handlePageChange,
           }}
-          scroll={{ x: 1100 }}
         />
       </Spin>
     </div>
