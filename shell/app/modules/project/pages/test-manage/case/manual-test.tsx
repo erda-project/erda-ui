@@ -42,7 +42,6 @@ const ManualTest = () => {
   const [searchQuery, setSearchQuery] = React.useState(query.query);
   const [enhanceFilterVisible, setEnhanceFilterVisible] = React.useState(false);
   const [showRefresh, setShowRefresh] = React.useState(false);
-  const [importExportRecordKey, setImportExportRecordKey] = React.useState(0);
 
   useEffectOnce(() => {
     getTestEnvList({ envID: +params.projectId, envType: 'project' });
@@ -88,16 +87,6 @@ const ManualTest = () => {
 
   const handleAddTestSetFromOut = (data: TEST_SET.TestSet) => {
     caseRef.current && caseRef.current.addNodeFromOuter(data);
-  };
-
-  const afterImport = () => {
-    const { testSetID, eventKey } = query;
-    caseRef.current && caseRef.current.reloadLoadData(testSetID, eventKey, false);
-    setImportExportRecordKey(importExportRecordKey + 1);
-  };
-
-  const afterExport = () => {
-    setImportExportRecordKey(importExportRecordKey + 1);
   };
 
   const showCaseDrawer = () => {
@@ -176,8 +165,6 @@ const ManualTest = () => {
                     </Button>
 
                     <ImportExport testSetId={+query.testSetID} setShowRefresh={setShowRefresh} />
-                    {/* <ImportFile afterImport={afterImport} />
-                    <ExportFile afterExport={afterExport} /> */}
                   </>
                 )}
                 <CaseDrawer
@@ -191,11 +178,7 @@ const ManualTest = () => {
                   }}
                 />
                 <BatchProcessing recycled={query.recycled === 'true'} />
-                {/* <ImportExportRecord
-                  key={importExportRecordKey}
-                  setShowRefresh={setShowRefresh}
-                  testSetId={+query.testSetID}
-                /> */}
+
                 <ProjectTreeModal />
               </div>
               <div className="mr-3-group inline-flex" style={{ minWidth: '220px' }}>

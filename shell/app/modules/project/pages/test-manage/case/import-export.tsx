@@ -74,7 +74,7 @@ const ImportExport = (props: IProps) => {
       </Button>
       <Modal
         onCancel={closeModal}
-        width={840}
+        width={700}
         destroyOnClose
         maskClosable={false}
         wrapClassName={'test-manage-import-export-modal'}

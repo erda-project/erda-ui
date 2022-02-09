@@ -93,7 +93,7 @@ const ImportExport = (props: IProps) => {
       <Button onClick={() => updater.modalVis(true)}>{title}</Button>
       <Modal
         onCancel={closeModal}
-        width={640}
+        width={700}
         destroyOnClose
         maskClosable={false}
         wrapClassName={'import-export-modal'}
@@ -366,6 +366,11 @@ const Record = () => {
         };
         return statusMap[val] ? <Badge {...statusMap[val]} showDot={false} /> : '-';
       },
+    },
+    {
+      title: i18n.t('description'),
+      dataIndex: 'description',
+      key: 'description',
     },
   ];
 
