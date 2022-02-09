@@ -46,17 +46,17 @@ const TaskSummary = () => {
           },
           chartBlock: {
             props: {
-              className: 'bg-white shadow-card',
+              className: 'bg-white',
             },
           },
           stackChartBlock: {
             props: {
-              className: 'bg-white shadow-card',
+              className: 'bg-white',
             },
           },
           container: {
             props: {
-              className: 'bg-white shadow-card',
+              className: 'bg-white',
               leftProportion: 3,
               rightProportion: 7,
             },

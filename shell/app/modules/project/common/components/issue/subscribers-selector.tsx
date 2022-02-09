@@ -153,7 +153,7 @@ export const SubscribersSelector = (props: IProps) => {
             {subscribers.map((item) => {
               const user = usersMap[item] || {};
               return (
-                <div key={user.id}>
+                <div key={user.userId}>
                   <Avatar src={user.avatar} size="small">
                     {user.nick ? getAvatarChars(user.nick) : i18n.t('none')}
                   </Avatar>

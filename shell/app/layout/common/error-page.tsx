@@ -88,7 +88,7 @@ const NoAuth = () => {
                   </Button>
                 </Link>
               )}
-              <Link to={goTo.resolve.orgRoot()}>
+              <Link to={goTo.resolve.landPage()}>
                 <Button size="large" type={`${isProjectOwner ? 'ghost' : 'primary'}`}>
                   {i18n.t('back to home')}
                 </Button>
@@ -131,13 +131,13 @@ const NotFound = ({ message, force }: { message?: string; force?: boolean }) => 
         <div className="desc">
           <span>{message || i18n.t('layout:page-not-found')}</span>
           {force ? ( // force jump to erda root
-            <a href={goTo.resolve.orgRoot({ orgName: '-' })}>
+            <a href={goTo.resolve.landPage()}>
               <Button size="large" type="primary">
                 {i18n.t('back to home')}
               </Button>
             </a>
           ) : (
-            <Link to={goTo.resolve.orgRoot({ orgName: '-' })}>
+            <Link to={goTo.resolve.landPage()}>
               <Button size="large" type="primary">
                 {i18n.t('back to home')}
               </Button>

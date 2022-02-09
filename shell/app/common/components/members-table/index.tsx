@@ -368,7 +368,7 @@ const MembersTable = ({
               goTo(goTo.resolve.mspProjects());
             }
             if (scope?.type === 'org') {
-              location.href = goTo.resolve.orgRoot({ orgName: '-' });
+              location.href = goTo.resolve.landPage();
             }
             if (scope?.type === 'project') {
               goTo(goTo.resolve.dopRoot({ orgName: currentOrgName }), { replace: true });

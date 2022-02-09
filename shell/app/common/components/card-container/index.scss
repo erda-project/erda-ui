@@ -2,7 +2,6 @@
   padding: 0 8px 8px;
   border-radius: $radius;
   background-color: $white;
-  @extend %shallow-shadow;
 }
 
 .ec-chart-container {

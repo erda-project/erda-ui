@@ -167,7 +167,7 @@ const Overview = () => {
           {i18n.t(
             'msp:Provides one-stop service system observation, including service monitoring, tracing, dashboard, and alarm.',
           )}
-          <a className="flex" href={DOC_MSP_HOME_PAGE} target="_blank">
+          <a className="flex" href={DOC_MSP_HOME_PAGE} target="_blank" rel="noopener noreferrer">
             {i18n.t('msp:view guide')} <ErdaIcon size={14} type="jinru" className="mb-0" />
           </a>
         </p>
@@ -181,7 +181,7 @@ const Overview = () => {
           <img src={decorationImg} className="absolute decoration-img top" />
         </div>
       </div>
-      <div className="bg-white mr-4 rounded-sm shadow-card">
+      <div className="bg-white mr-4 rounded-sm">
         <div className="h-12 flex items-center px-4 bg-default-02">
           <Input
             prefix={<ErdaIcon type="search1" />}

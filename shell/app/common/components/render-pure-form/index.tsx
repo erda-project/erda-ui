@@ -27,6 +27,7 @@ interface IProps {
   onlyItems?: boolean;
   style?: object;
   readOnly?: boolean;
+  formProps?: Obj;
 }
 
 class RenderPureForm extends React.Component<IProps> {
@@ -40,6 +41,7 @@ class RenderPureForm extends React.Component<IProps> {
       onlyItems = false,
       style,
       readOnly = false,
+      ...formProps
     } = this.props;
     const itemLayout = layout === 'horizontal' ? formItemLayout : null;
     const items = list.map((info, i) => {
@@ -100,7 +102,7 @@ class RenderPureForm extends React.Component<IProps> {
     return onlyItems ? (
       items
     ) : (
-      <Form form={form} className={formClass} layout={layout} style={style}>
+      <Form form={form} className={formClass} layout={layout} style={style} {...formProps}>
         {items}
       </Form>
     );

@@ -285,9 +285,9 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
               return (
                 <div>
                   {displayValue.map((item) => {
-                    const { avatar, nick, name } = item;
+                    const { avatar, nick, name, id } = item;
                     return (
-                      <div>
+                      <div key={id}>
                         <Avatar src={avatar} size="small">
                           {nick ? getAvatarChars(nick) : i18n.t('none')}
                         </Avatar>

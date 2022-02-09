@@ -12,9 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Popover, Row, Col, Form, Button, Badge } from 'antd';
+import { Popover, Row, Col, Form, Button, Badge, Input } from 'antd';
 import { ErdaIcon, RenderFormItem, IFormItem } from 'common';
-import { cloneDeep, isEmpty } from 'lodash';
+import { cloneDeep, isEmpty, has } from 'lodash';
+import ExternalItem from './external-item';
+import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import ConfigSelector from './config-selector';
 
@@ -33,13 +35,27 @@ export interface IProps {
   hideSave?: boolean;
 }
 
-interface Field {
+export interface Option {
+  label: string;
+  value: string;
+  children?: Option[];
+}
+
+export interface Field {
   type: string;
   key: string;
   mode?: string;
+  outside?: boolean;
   value: number | string;
   label: string;
   children?: Field[];
+  placeholder?: string;
+  options: Option[];
+  haveFilter?: boolean;
+  required?: boolean;
+  emptyText?: string;
+  getComp?: (props: Obj) => React.ReactNode;
+  customProps?: Obj;
 }
 
 export interface ConfigData {
@@ -66,8 +82,14 @@ const sortObj = (obj: Obj) => {
   return values;
 };
 
-const getItemByValues = (val: Obj, list: Obj[]) => {
-  const values = sortObj(val);
+const getItemByValues = (val: Obj, list: Obj[], fieldsList: Field[]) => {
+  const reValue = {};
+  fieldsList.forEach((item) => {
+    if (!item.outside && has(val, item.key)) {
+      reValue[item.key] = val[item.key];
+    }
+  });
+  const values = sortObj(reValue);
 
   return list?.find((item) => JSON.stringify(sortObj(item.values || {})) === JSON.stringify(values));
 };
@@ -85,7 +107,8 @@ const defaultProcessField = (item: IFormItem) => {
       allowClear: true,
       suffixIcon: <ErdaIcon type="caret-down" color="currentColor" className="text-white-4" />,
       clearIcon: <span className="p-1">{i18n.t('common:clear')}</span>,
-      getPopupContainer: (triggerNode: HTMLElement) => triggerNode.parentElement as HTMLElement,
+      getPopupContainer: () => document.body,
+      dropdownClassName: `${itemProps?.dropdownClassName || ''} theme-dark`,
     };
 
     if (type === 'select') {
@@ -109,6 +132,19 @@ const defaultProcessField = (item: IFormItem) => {
   return field;
 };
 
+const convertValue = (value: Obj, fieldList: Field[]) => {
+  const formValue = {};
+  const externalValue = {};
+  fieldList.forEach((item) => {
+    if (item.outside) {
+      externalValue[item.key] = value?.[item.key];
+    } else {
+      formValue[item.key] = value?.[item.key];
+    }
+  });
+  return { formValue, externalValue };
+};
+
 const ConfigurableFilter = ({
   fieldsList,
   configList,
@@ -120,15 +156,23 @@ const ConfigurableFilter = ({
   processField,
   hideSave,
 }: IProps) => {
+  const { externalValue: _externalValue, formValue } = React.useMemo(
+    () => convertValue(value, fieldsList),
+    [value, fieldsList],
+  );
+
   const [form] = Form.useForm();
+  const [addForm] = Form.useForm();
+  const [externalValue, setExternalValue] = React.useState<Obj<string>>(_externalValue);
   const [visible, setVisible] = React.useState(false);
   const [currentConfig, setCurrentConfig] = React.useState<string | number>();
   const [isNew, setIsNew] = React.useState(false);
+  const [addVisible, setAddVisible] = React.useState(false);
 
   React.useEffect(() => {
-    if (value) {
-      form.setFieldsValue(value || {});
-      const config = getItemByValues(value, configList);
+    if (formValue) {
+      form.setFieldsValue(formValue || {});
+      const config = getItemByValues(formValue, configList, fieldsList);
       config?.id && setCurrentConfig(config?.id);
       setIsNew(!config);
     } else if (configList && configList.length !== 0) {
@@ -138,7 +182,11 @@ const ConfigurableFilter = ({
         onFilterProps?.(configData.values);
       }
     }
-  }, [configList, defaultConfig, form, value, onFilterProps]);
+  }, [configList, defaultConfig, form, formValue, onFilterProps, fieldsList]);
+
+  useUpdateEffect(() => {
+    onFilter();
+  }, [externalValue]);
 
   const onConfigChange = (config: ConfigData) => {
     setCurrentConfig(config.id);
@@ -148,7 +196,7 @@ const ConfigurableFilter = ({
   };
 
   const onValuesChange = (_, allValues: Obj) => {
-    const config = getItemByValues(allValues, configList);
+    const config = getItemByValues(allValues, configList, fieldsList);
     if (config?.id) {
       setCurrentConfig(config?.id);
       setIsNew(false);
@@ -163,44 +211,94 @@ const ConfigurableFilter = ({
 
   const setAllOpen = () => {
     form.resetFields();
-    const config = getItemByValues(form.getFieldsValue(), configList);
+    const config = getItemByValues(form.getFieldsValue(), configList, fieldsList);
     setCurrentConfig(config?.id);
     setIsNew(false);
   };
 
   const onFilter = () => {
     form.validateFields().then((values) => {
-      onFilterProps(values);
+      onFilterProps({ ...values, ...externalValue });
       setVisible(false);
     });
   };
 
   React.useEffect(() => {
-    if (visible && value) {
+    if (visible && formValue) {
       form.resetFields();
-      form.setFieldsValue(value || {});
-      const config = getItemByValues(value, configList);
+      form.setFieldsValue(formValue || {});
+      const config = getItemByValues(formValue, configList, fieldsList);
       config?.id && setCurrentConfig(config?.id);
       setIsNew(!config);
     }
-  }, [visible, form, configList, value]);
+  }, [visible, form, configList, formValue, fieldsList]);
+
+  const externalField = fieldsList.filter((item) => item.outside);
+
+  const addConfigContent = (
+    <div>
+      <Form form={addForm} layout="vertical" className="p-4">
+        <Form.Item
+          label={i18n.t('dop:filter name')}
+          name="label"
+          rules={[
+            { required: true, message: i18n.t('please enter {name}', { name: i18n.t('dop:filter name') }) },
+            { max: 10, message: i18n.t('dop:within {num} characters', { num: 10 }) },
+          ]}
+        >
+          <Input placeholder={i18n.t('dop:please enter, within {num} characters', { num: 10 })} />
+        </Form.Item>
+        <div className="mt-3">
+          <Button
+            type="primary"
+            onClick={() => {
+              addForm.validateFields().then(({ label }) => {
+                saveFilter?.(label);
+                setAddVisible(false);
+              });
+            }}
+          >
+            {i18n.t('ok')}
+          </Button>
+          <span
+            className="text-white ml-3 cursor-pointer"
+            onClick={() => {
+              addForm.resetFields();
+              setAddVisible(false);
+            }}
+          >
+            {i18n.t('cancel')}
+          </span>
+        </div>
+      </Form>
+    </div>
+  );
 
   const content = (
-    <div className="erda-configurable-filter-content">
-      <div className="erda-configurable-filter-header flex justify-start">
-        {!hideSave ? (
-          <ConfigSelector
-            list={configList}
-            value={currentConfig}
-            isNew={isNew}
-            defaultValue={defaultConfig}
-            onChange={onConfigChange}
-            onDeleteFilter={onDeleteFilter}
-            onSaveFilter={saveFilter}
-          />
-        ) : null}
-
-        <div className="flex-1 flex justify-end">
+    <div className="flex-1">
+      <div className="h-full flex flex-col overflow-hidden">
+        <div className=" h-[48px] flex-h-center justify-between">
+          <div className="flex-h-center">
+            <span>{i18n.t('common:filter')}</span>
+            {isNew && currentConfig ? (
+              <Popover
+                content={addConfigContent}
+                visible={addVisible}
+                onVisibleChange={setAddVisible}
+                trigger={['click']}
+                overlayClassName="erda-configurable-filter-add"
+                placement="rightTop"
+                getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+              >
+                <div
+                  className="ml-2 hover:bg-white-2 cursor-pointer rounded-sm px-2 mr-2 py-1  hover:text-white hover:bg-white-08 flex-h-center"
+                  onClick={() => setAddVisible(true)}
+                >
+                  <ErdaIcon size={16} fill="white" type="baocun" className="mr-1" /> {i18n.t('dop:new filter')}
+                </div>
+              </Popover>
+            ) : null}
+          </div>
           <ErdaIcon
             type="guanbi"
             fill="white"
@@ -210,59 +308,84 @@ const ConfigurableFilter = ({
             onClick={() => setVisible(false)}
           />
         </div>
-      </div>
+        <div className="flex justify-start flex-1 overflow-hidden">
+          {!hideSave ? (
+            <ConfigSelector
+              className="overflow-auto"
+              list={configList}
+              value={currentConfig}
+              isNew={isNew}
+              defaultValue={defaultConfig}
+              onChange={onConfigChange}
+              onDeleteFilter={onDeleteFilter}
+              onSaveFilter={saveFilter}
+            />
+          ) : null}
+          <div className={'erda-configurable-filter-body ml-4 pr-2 overflow-auto flex-1'}>
+            <Form form={form} layout="vertical" onValuesChange={onValuesChange}>
+              <Row>
+                {fieldsList
+                  ?.filter((item) => !item.outside)
+                  ?.map((item, index: number) => {
+                    return (
+                      <Col span={12} key={item.key} className={index % 2 === 1 ? 'pl-2' : 'pr-2'}>
+                        <RenderFormItem
+                          required={false}
+                          {...defaultProcessField(processField ? processField(item) : item)}
+                        />
+                      </Col>
+                    );
+                  })}
+              </Row>
+            </Form>
+          </div>
+        </div>
 
-      <div className={`erda-configurable-filter-body ${!hideSave ? 'mt-3' : ''}`}>
-        <Form form={form} layout="vertical" onValuesChange={onValuesChange}>
-          <Row>
-            {fieldsList?.map((item, index: number) => {
-              return (
-                <Col span={12} key={item.key} className={index % 2 === 1 ? 'pl-2' : 'pr-2'}>
-                  <RenderFormItem required={false} {...defaultProcessField(processField ? processField(item) : item)} />
-                </Col>
-              );
-            })}
-          </Row>
-        </Form>
-      </div>
-
-      <div className="erda-configurable-filter-footer flex justify-end">
-        <Button className="mx-1" onClick={() => setVisible(false)}>
-          {i18n.t('cancel')}
-        </Button>
-        <Button className="mx-1" onClick={setAllOpen}>
-          {hideSave ? i18n.t('clear') : i18n.t('dop:set it to open all')}
-        </Button>
-        <Button type="primary" className="mx-1 bg-purple-deep border-purple-deep" onClick={onFilter}>
-          {i18n.t('common:filter')}
-        </Button>
+        <div className="erda-configurable-filter-footer flex justify-end">
+          <Button className="mx-1" onClick={() => setVisible(false)}>
+            {i18n.t('cancel')}
+          </Button>
+          <Button className="mx-1" onClick={setAllOpen}>
+            {hideSave ? i18n.t('clear') : i18n.t('dop:set it to open all')}
+          </Button>
+          <Button type="primary" className="mx-1 bg-purple-deep border-purple-deep" onClick={onFilter}>
+            {i18n.t('common:filter')}
+          </Button>
+        </div>
       </div>
     </div>
   );
 
   const isAllOpen = !!(
-    value &&
-    !isEmpty(value) &&
-    Object.keys(value).find((key) => value[key] && !isEmpty(value[key]))
+    formValue &&
+    !isEmpty(formValue) &&
+    Object.keys(formValue).find((key) => formValue[key] && !isEmpty(formValue[key]))
   );
 
   return (
-    <div className={`flex items-center ${isAllOpen ? 'erda-config-filter-btn-active' : ''}`}>
+    <div className={'flex items-center'}>
       <Popover
         content={content}
         visible={visible}
+        forceRender
         trigger={['click']}
-        overlayClassName="erda-configurable-filter"
+        overlayClassName={`erda-configurable-filter ${hideSave ? 'w-[720px]' : 'w-[960px]'}`}
         placement="bottomLeft"
         onVisibleChange={setVisible}
       >
         <div
-          className={`erda-configurable-filter-btn p-1 rounded-sm leading-none cursor-pointer bg-hover`}
+          className={`flex-h-center erda-configurable-filter-btn ${
+            isAllOpen ? 'has-filter' : ''
+          } py-1 px-2 rounded-sm leading-none cursor-pointer`}
           onClick={() => setVisible(true)}
         >
           <Badge dot={isAllOpen}>
-            <ErdaIcon type="shaixuan" color="currentColor" size={20} />
+            <div className="flex-h-center">
+              <ErdaIcon type="futaishaixuan" className="filter-icon" size={14} />
+              <span className="mx-1 filter-text">{i18n.t('common:filter')}</span>
+            </div>
           </Badge>
+          <ErdaIcon type="caret-down" />
         </div>
       </Popover>
       {isAllOpen ? (
@@ -276,6 +399,21 @@ const ConfigurableFilter = ({
           <ErdaIcon type="zhongzhi" color="currentColor" size={20} className="relative top-px" />
         </div>
       ) : null}
+      <div className="flex-h-center">
+        {externalField?.map((item) => {
+          return (
+            <ExternalItem
+              itemData={item}
+              value={externalValue?.[item.key]}
+              onChange={(v) => {
+                setExternalValue((prev) => ({ ...prev, [item.key]: v }));
+              }}
+              key={item.key}
+              className="ml-2"
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

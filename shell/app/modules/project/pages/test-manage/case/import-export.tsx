@@ -437,14 +437,10 @@ const Record = ({ testSetId, setShowRefresh }: { testSetId: number; setShowRefre
       rowKey="id"
       loading={loading}
       columns={columns}
-      containerClass="h-full"
+      wrapperClassName="h-full"
       actions={actions}
       onReload={() => getData(false)}
-      // pagination={{ ...paging, current: paging.pageNo }}
       dataSource={list}
-      // onChange={(pageInfo) => {
-      //   getData({ pageNo: pageInfo.current || 1, pageSize: pageInfo.pageSize }, false);
-      // }}
     />
   );
 };

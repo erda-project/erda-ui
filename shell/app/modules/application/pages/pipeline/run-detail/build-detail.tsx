@@ -15,8 +15,8 @@ import { map, isEmpty, pick, isEqual, get } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import cronstrue from 'cronstrue/i18n';
-import { Spin, Badge, Modal, Popover, Table, Row, Col, Tooltip, Menu, Dropdown, Input } from 'antd';
-import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, ErdaIcon, ErdaAlert } from 'common';
+import { Spin, Badge, Modal, Popover, Row, Col, Tooltip, Menu, Dropdown, Input } from 'antd';
+import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, ErdaIcon, ErdaAlert, Table } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo, secondsToTime, replaceEmoji, updateSearch } from 'common/utils';
 import GotoCommit from 'application/common/components/goto-commit';
@@ -667,10 +667,10 @@ const BuildDetail = (props: IProps) => {
           key={`${state.recordTableKey}`}
           rowKey="runIndex"
           className="build-history-list"
+          wrapperClassName="max-h-80"
           columns={columns}
           loading={getExecuteRecordsLoading}
           dataSource={dataSource}
-          scroll={{ y: 240 }}
           rowClassName={setRowClassName}
           pagination={{ pageSize, total, current: pageNo, onChange: handleRecordPageChange }}
           onRow={({ id: targetPipelineID }) => ({

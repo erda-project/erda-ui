@@ -34,7 +34,7 @@ import queryMonitorStore from './stores/query-monitor-metadata';
 import storageStore from './stores/storage';
 import taskStore from './stores/task';
 
-export default (registerModule) => {
+const entry = (registerModule) => {
   return registerModule({
     key: 'cmp',
     stores: [
@@ -63,3 +63,5 @@ export default (registerModule) => {
     routers,
   });
 };
+
+export default entry;

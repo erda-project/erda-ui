@@ -1,0 +1,22 @@
+.filter-config-selector-item {
+  .more-op {
+    display: none;
+  }
+
+  &:hover {
+    .more-op {
+      display: flex;
+    }
+  }
+}
+
+.erda-configurable-filter-add {
+  .ant-popover-content {
+    .ant-popover-inner {
+      background-color: $color-dropdown-bg-dark;
+      &-content {
+        padding: 0;
+      }
+    }
+  }
+}

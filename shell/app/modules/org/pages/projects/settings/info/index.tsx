@@ -28,6 +28,7 @@ import { HeadProjectSelector } from 'project/common/components/project-selector'
 import userStore from 'app/user/stores';
 import Card from 'org/common/card';
 import { WORKSPACE_LIST } from 'common/constants';
+import { useUpdate } from 'common/use-hooks';
 import './index.scss';
 
 // 修改项目信息后，更新左侧菜单上方的信息
@@ -63,11 +64,27 @@ const Info = () => {
   const loginUser = userStore.useStore((s) => s.loginUser);
   const orgName = routeInfoStore.useStore((s) => s.params.orgName);
   const info = projectStore.useStore((s) => s.info);
-  const [confirmProjectName, setConfirmProjectName] = React.useState('');
 
-  const [projectInfoEditVisible, setProjectInfoEditVisible] = React.useState(false);
-  const [projectQuotaEditVisible, setProjectQuotaEditVisible] = React.useState(false);
-  const [projectRollbackEditVisible, setProjectRollbackEditVisible] = React.useState(false);
+  const [
+    {
+      confirmProjectName,
+      projectInfoEditVisible,
+      projectInfoSaveDisabled,
+      projectQuotaEditVisible,
+      projectQuotaSaveDisabled,
+      projectRollbackEditVisible,
+      projectRollbackSaveDisabled,
+    },
+    updater,
+  ] = useUpdate({
+    confirmProjectName: '',
+    projectInfoEditVisible: false,
+    projectInfoSaveDisabled: true,
+    projectQuotaEditVisible: false,
+    projectQuotaSaveDisabled: true,
+    projectRollbackEditVisible: false,
+    projectRollbackSaveDisabled: true,
+  });
 
   const { rollbackConfig } = info;
 
@@ -147,7 +164,7 @@ const Info = () => {
 
   const inOrgCenter = location.pathname.startsWith(`/${orgName}/orgCenter`);
   const onDelete = async () => {
-    setConfirmProjectName('');
+    updater.confirmProjectName('');
     await deleteProject();
     await deleteTenantProject({ projectId: info.id });
     if (inOrgCenter) {
@@ -166,27 +183,32 @@ const Info = () => {
     });
   };
 
-  const configData = {};
-  const tableData: object[] = [];
-  const fieldsListRollback: object[] = [];
-  const sortBy = WORKSPACE_LIST;
-  sortBy.forEach((workspace) => {
-    const name = workspace.toUpperCase();
-    const point = rollbackConfig?.[workspace];
+  const projectInfoFormData = React.useMemo(() => ({ ...info, isPublic: `${info.isPublic || 'false'}` }), [info]);
+  const projectRollbackForm = React.useMemo(() => {
+    const configData = {};
+    const fieldsListRollback: object[] = [];
+    const sortBy = WORKSPACE_LIST;
+    sortBy.forEach((workspace) => {
+      const name = workspace.toUpperCase();
+      const point = rollbackConfig?.[workspace];
 
-    tableData.push({ workspace, point });
-    configData[`${name}`] = point || 5;
-    fieldsListRollback.push({
-      label: resourceMap[name] || name,
-      name: ['rollbackConfig', name],
-      type: 'inputNumber',
-      itemProps: {
-        max: 1000,
-        min: 1,
-        precision: 0,
-      },
+      configData[`${name}`] = point || 5;
+      fieldsListRollback.push({
+        label: resourceMap[name] || name,
+        name: ['rollbackConfig', name],
+        type: 'inputNumber',
+        itemProps: {
+          max: 1000,
+          min: 1,
+          precision: 0,
+        },
+      });
     });
-  });
+    return {
+      fields: fieldsListRollback,
+      data: { rollbackConfig: configData },
+    };
+  }, [rollbackConfig]);
 
   return (
     <div className="project-setting-info">
@@ -206,7 +228,7 @@ const Info = () => {
           </div>
         }
         actions={
-          <span className="hover-active" onClick={() => setProjectInfoEditVisible(true)}>
+          <span className="hover-active" onClick={() => updater.projectInfoEditVisible(true)}>
             <ErdaIcon type="edit" size={16} className="mr-2 align-middle" />
           </span>
         }
@@ -244,7 +266,7 @@ const Info = () => {
           <Card
             header={i18n.t('dop:project quota')}
             actions={
-              <span className="hover-active" onClick={() => setProjectQuotaEditVisible(true)}>
+              <span className="hover-active" onClick={() => updater.projectQuotaEditVisible(true)}>
                 <ErdaIcon type="edit" size={16} className="mr-2 align-middle" />
               </span>
             }
@@ -321,12 +343,24 @@ const Info = () => {
               : i18n.t('no quota')}
           </Card>
           <FormModal
-            onOk={(result) => updatePrj(result).then(() => setProjectQuotaEditVisible(false))}
-            onCancel={() => setProjectQuotaEditVisible(false)}
+            onOk={(result) =>
+              updatePrj(result).then(() => {
+                updater.projectQuotaEditVisible(false);
+                updater.projectQuotaSaveDisabled(true);
+              })
+            }
+            onCancel={() => {
+              updater.projectQuotaEditVisible(false);
+              updater.projectQuotaSaveDisabled(true);
+            }}
             name={i18n.t('dop:project quota')}
             visible={projectQuotaEditVisible}
             fieldsList={fieldsListQuota}
-            formData={{ ...info, isPublic: `${info.isPublic || 'false'}` }}
+            formData={info}
+            okButtonState={projectQuotaSaveDisabled}
+            onValuesChange={() => {
+              updater.projectQuotaSaveDisabled(false);
+            }}
           />
         </>
       )}
@@ -335,7 +369,7 @@ const Info = () => {
         header={i18n.t('advanced settings')}
         actions={
           notMSP ? (
-            <span className="hover-active" onClick={() => setProjectRollbackEditVisible(true)}>
+            <span className="hover-active" onClick={() => updater.projectRollbackEditVisible(true)}>
               <ErdaIcon type="edit" size={16} className="mr-2 align-middle" />
             </span>
           ) : null
@@ -396,7 +430,7 @@ const Info = () => {
               <ConfirmDelete
                 onConfirm={onDelete}
                 deleteItem={`${i18n.t('project')}?`}
-                onCancel={() => setConfirmProjectName('')}
+                onCancel={() => updater.confirmProjectName('')}
                 disabledConfirm={confirmProjectName !== info.displayName}
                 confirmTip={false}
                 secondTitle={i18n.t(
@@ -409,7 +443,7 @@ const Info = () => {
                   <Input
                     value={confirmProjectName}
                     placeholder={i18n.t('please enter {name}', { name: i18n.t('project name') })}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmProjectName(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.confirmProjectName(e.target.value)}
                   />
                 }
               >
@@ -421,22 +455,44 @@ const Info = () => {
       </Card>
 
       <FormModal
-        onOk={(result) => updatePrj(result).then(() => setProjectInfoEditVisible(false))}
-        onCancel={() => setProjectInfoEditVisible(false)}
+        onOk={(result) =>
+          updatePrj(result).then(() => {
+            updater.projectInfoEditVisible(false);
+            updater.projectInfoSaveDisabled(true);
+          })
+        }
+        onCancel={() => {
+          updater.projectInfoEditVisible(false);
+          updater.projectInfoSaveDisabled(true);
+        }}
         name={i18n.t('dop:project info')}
         visible={projectInfoEditVisible}
         fieldsList={fieldsListInfo}
-        formData={{ ...info, isPublic: `${info.isPublic || 'false'}` }}
+        formData={projectInfoFormData}
+        okButtonState={projectInfoSaveDisabled}
+        onValuesChange={() => {
+          updater.projectInfoSaveDisabled(false);
+        }}
       />
       <FormModal
         onOk={(result) =>
-          updateProject({ ...result, isPublic: info.isPublic }).then(() => setProjectRollbackEditVisible(false))
+          updateProject({ ...result, isPublic: info.isPublic }).then(() => {
+            updater.projectRollbackEditVisible(false);
+            updater.projectRollbackSaveDisabled(true);
+          })
         }
-        onCancel={() => setProjectRollbackEditVisible(false)}
+        onCancel={() => {
+          updater.projectRollbackEditVisible(false);
+          updater.projectRollbackSaveDisabled(true);
+        }}
         name={i18n.t('dop:rollback point')}
         visible={projectRollbackEditVisible}
-        fieldsList={fieldsListRollback}
-        formData={{ rollbackConfig: configData }}
+        fieldsList={projectRollbackForm.fields}
+        formData={projectRollbackForm.data}
+        okButtonState={projectRollbackSaveDisabled}
+        onValuesChange={() => {
+          updater.projectRollbackSaveDisabled(false);
+        }}
       />
     </div>
   );

@@ -42,7 +42,7 @@ module.exports = [
     shared: {
       ...AutomaticVendorFederation({
         exclude: ['babel', 'plugin', 'preset', 'webpack', 'loader', 'serve'],
-        ignoreVersion: ['react-router-dom', 'react-router-config', 'history'],
+        ignoreVersion: ['react-router-dom', 'antd/', 'react-router-config', 'history'],
         packageJson,
         shareFrom: ['dependencies', 'peerDependencies'],
         ignorePatchVersion: true,
@@ -54,6 +54,10 @@ module.exports = [
       'react-dom': {
         singleton: true,
         requiredVersion: packageJson.dependencies['react-dom'],
+      },
+      'antd/': {
+        singleton: true,
+        requiredVersion: packageJson.dependencies.antd,
       },
     },
   },

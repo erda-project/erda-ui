@@ -406,7 +406,7 @@ const Record = () => {
       rowKey="id"
       loading={loading}
       columns={columns}
-      containerClass="h-full"
+      wrapperClassName="h-full"
       actions={actions}
       dataSource={list}
       pagination={{ ...paging, current: paging.pageNo }}

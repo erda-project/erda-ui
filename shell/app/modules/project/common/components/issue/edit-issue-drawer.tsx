@@ -95,6 +95,7 @@ const { getLabels } = labelStore.effects;
 const IssueMetaFields = React.forwardRef(
   ({ labels, isEditMode, isBacklog, editAuth, issueType, formData, setFieldCb, projectId, ticketType }: any, ref) => {
     const userMap = getUserMap();
+    const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
     const projectMembers = projectMemberStore.useStore((s) => s.list);
     const urlParams = routeInfoStore.useStore((s) => s.params);
     // const isRequirement = issueType === ISSUE_TYPE.REQUIREMENT;
@@ -146,6 +147,8 @@ const IssueMetaFields = React.forwardRef(
 
     useMount(() => {
       getLabels({ type: 'issue', projectID: Number(projectId) });
+      issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'BUG' });
+      issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'TASK' });
       if (!iterationList.length && !isBacklog) {
         iterationStore.effects.getIterations({
           pageNo: 1,

@@ -20,6 +20,7 @@ export { default as ImageUpload } from './components/image-upload';
 export { default as Terminal } from './components/terminal';
 export { default as CommonRangePicker } from './components/common-range-picker';
 export { default as CRUDTable } from './components/crud-table';
+export { default as Table } from './components/table';
 export { default as RenderForm } from './components/render-form';
 export { default as RenderPureForm } from './components/render-pure-form';
 export { default as ReadonlyForm } from './components/readonly-form';

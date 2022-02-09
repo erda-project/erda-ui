@@ -43,7 +43,7 @@ export interface IProps<T extends object = any> extends TableProps<T> {
   hideHeader?: boolean;
   onReload?: (pageNo: number, pageSize: number) => void;
   className?: string;
-  containerClass?: string;
+  wrapperClassName?: string;
   hideReload?: boolean;
   hideColumnConfig?: boolean;
   whiteFooter?: boolean;
@@ -78,7 +78,7 @@ function WrappedTable<T extends object = any>({
   rowKey,
   theme = 'light',
   className,
-  containerClass = '',
+  wrapperClassName = '',
   whiteFooter = false,
   whiteHead = false,
   ...props
@@ -296,10 +296,13 @@ function WrappedTable<T extends object = any>({
   }, [allColumns, sorterMenu, sort, onRow]);
 
   const onReload = () => {
-    const { onChange: onPageChange } = pagination as TablePaginationConfig;
-    onChange?.({ current, pageSize }, {}, sort, { action: 'paginate', currentDataSource: [] });
-    onPageChange?.(current, pageSize);
-    onReloadProps?.(current, pageSize);
+    if (onReloadProps) {
+      onReloadProps(current, pageSize);
+    } else {
+      const { onChange: onPageChange } = pagination as TablePaginationConfig;
+      onChange?.({ current, pageSize }, {}, sort, { action: 'paginate', currentDataSource: [] });
+      onPageChange?.(current, pageSize);
+    }
   };
 
   let data = [...dataSource];
@@ -315,7 +318,7 @@ function WrappedTable<T extends object = any>({
     <div
       className={`flex flex-col erda-table bg-white ${
         hideHeader ? 'hide-header' : ''
-      } theme-${theme} ${containerClass}`}
+      } theme-${theme} ${wrapperClassName}`}
       ref={containerRef}
     >
       {!hideHeader && (
