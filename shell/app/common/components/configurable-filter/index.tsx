@@ -66,23 +66,23 @@ export interface ConfigData {
 }
 
 const sortObj = (obj: Obj) => {
-  const values = cloneDeep(obj);
-  Object.keys(values).forEach((key) => {
-    if (Array.isArray(values[key])) {
-      if (values[key].length !== 0) {
-        values[key] = values[key].sort().join(',');
-      } else {
-        delete values[key];
+  const values = {};
+  Object.keys(obj)
+    .sort()
+    .forEach((key) => {
+      if (Array.isArray(obj[key])) {
+        if (obj[key].length !== 0) {
+          values[key] = obj[key].sort().join(',');
+        }
+      } else if (![undefined, null].includes(obj[key])) {
+        values[key] = obj[key];
       }
-    } else if (!values[key]) {
-      delete values[key];
-    }
-  });
-
+    });
   return values;
 };
 
-const getItemByValues = (val: Obj, list: Obj[], fieldsList: Field[]) => {
+const getItemByValues = (val: Obj, list: ConfigData[], fieldsList: Field[]) => {
+  if (!list.length) return null;
   const reValue = {};
   fieldsList.forEach((item) => {
     if (!item.outside && has(val, item.key)) {
@@ -90,8 +90,7 @@ const getItemByValues = (val: Obj, list: Obj[], fieldsList: Field[]) => {
     }
   });
   const values = sortObj(reValue);
-
-  return list?.find((item) => JSON.stringify(sortObj(item.values || {})) === JSON.stringify(values));
+  return list?.find((item) => JSON.stringify(sortObj(item.values || {})) === JSON.stringify(values)) || null;
 };
 
 const defaultProcessField = (item: IFormItem) => {
@@ -280,24 +279,6 @@ const ConfigurableFilter = ({
         <div className=" h-[48px] flex-h-center justify-between">
           <div className="flex-h-center">
             <span>{i18n.t('common:filter')}</span>
-            {isNew && currentConfig ? (
-              <Popover
-                content={addConfigContent}
-                visible={addVisible}
-                onVisibleChange={setAddVisible}
-                trigger={['click']}
-                overlayClassName="erda-configurable-filter-add"
-                placement="rightTop"
-                getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-              >
-                <div
-                  className="ml-2 hover:bg-white-2 cursor-pointer rounded-sm px-2 mr-2 py-1  hover:text-white hover:bg-white-08 flex-h-center"
-                  onClick={() => setAddVisible(true)}
-                >
-                  <ErdaIcon size={16} fill="white" type="baocun" className="mr-1" /> {i18n.t('dop:new filter')}
-                </div>
-              </Popover>
-            ) : null}
           </div>
           <ErdaIcon
             type="guanbi"
@@ -342,11 +323,29 @@ const ConfigurableFilter = ({
         </div>
 
         <div className="erda-configurable-filter-footer flex justify-end">
+          {hideSave ? (
+            <Button className="mx-1" onClick={setAllOpen}>
+              {i18n.t('clear')}
+            </Button>
+          ) : isNew && currentConfig ? (
+            <Popover
+              content={addConfigContent}
+              visible={addVisible}
+              onVisibleChange={setAddVisible}
+              trigger={['click']}
+              overlayClassName="erda-configurable-filter-add"
+              getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+            >
+              <Button
+                className="mx-1 hover:bg-white-2 cursor-pointer rounded-sm px-2 py-1  hover:text-white hover:bg-white-08 flex-h-center"
+                onClick={() => setAddVisible(true)}
+              >
+                <ErdaIcon size={16} fill="white" type="baocun" className="mr-1" /> {i18n.t('dop:new filter')}
+              </Button>
+            </Popover>
+          ) : null}
           <Button className="mx-1" onClick={() => setVisible(false)}>
             {i18n.t('cancel')}
-          </Button>
-          <Button className="mx-1" onClick={setAllOpen}>
-            {hideSave ? i18n.t('clear') : i18n.t('dop:set it to open all')}
           </Button>
           <Button type="primary" className="mx-1 bg-purple-deep border-purple-deep" onClick={onFilter}>
             {i18n.t('common:filter')}
@@ -355,6 +354,9 @@ const ConfigurableFilter = ({
       </div>
     </div>
   );
+  const getFilterName = () => {
+    return getItemByValues(formValue, configList, fieldsList)?.label || i18n.t('common:filter');
+  };
 
   const isAllOpen = !!(
     formValue &&
@@ -364,41 +366,42 @@ const ConfigurableFilter = ({
 
   return (
     <div className={'flex items-center'}>
-      <Popover
-        content={content}
-        visible={visible}
-        forceRender
-        trigger={['click']}
-        overlayClassName={`erda-configurable-filter ${hideSave ? 'w-[720px]' : 'w-[960px]'}`}
-        placement="bottomLeft"
-        onVisibleChange={setVisible}
-      >
-        <div
-          className={`flex-h-center erda-configurable-filter-btn ${
-            isAllOpen ? 'has-filter' : ''
-          } py-1 px-2 rounded-sm leading-none cursor-pointer`}
-          onClick={() => setVisible(true)}
+      <div className="flex-h-center bg-default-06 rounded-sm">
+        <Popover
+          content={content}
+          visible={visible}
+          forceRender
+          trigger={['click']}
+          overlayClassName={`erda-configurable-filter ${hideSave ? 'w-[720px]' : 'w-[960px]'}`}
+          placement="bottomLeft"
+          onVisibleChange={setVisible}
         >
-          <Badge dot={isAllOpen}>
-            <div className="flex-h-center">
-              <ErdaIcon type="futaishaixuan" className="filter-icon" size={14} />
-              <span className="mx-1 filter-text">{i18n.t('common:filter')}</span>
-            </div>
-          </Badge>
-          <ErdaIcon type="caret-down" />
-        </div>
-      </Popover>
-      {isAllOpen ? (
-        <div
-          className="erda-configurable-filter-clear-btn p-1 rounded-sm leading-none cursor-pointer"
-          onClick={() => {
-            setAllOpen();
-            onFilter();
-          }}
-        >
-          <ErdaIcon type="zhongzhi" color="currentColor" size={20} className="relative top-px" />
-        </div>
-      ) : null}
+          <div
+            className={`flex-h-center erda-configurable-filter-btn py-1 px-2 rounded-sm leading-none cursor-pointer`}
+            onClick={() => setVisible(true)}
+          >
+            <Badge dot={isAllOpen}>
+              <div className="flex-h-center">
+                <ErdaIcon type="futaishaixuan" className="filter-icon" size={14} />
+                <span className="mx-1 filter-text">{getFilterName()}</span>
+              </div>
+            </Badge>
+            <ErdaIcon type="caret-down" />
+          </div>
+        </Popover>
+        {isAllOpen ? (
+          <div
+            className="erda-configurable-filter-clear-btn p-1 rounded-sm leading-none cursor-pointer"
+            onClick={() => {
+              setAllOpen();
+              onFilter();
+            }}
+          >
+            <ErdaIcon type="zhongzhi" color="currentColor" size={20} className="relative top-px" />
+          </div>
+        ) : null}
+      </div>
+
       <div className="flex-h-center">
         {externalField?.map((item) => {
           return (

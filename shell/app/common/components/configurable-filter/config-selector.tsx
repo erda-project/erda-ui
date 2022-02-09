@@ -82,7 +82,6 @@ const ConfigSelector = ({ className = '', list, defaultValue, value, onChange, o
   };
 
   const currentConfig = list.find((item) => item.id === value);
-
   const changedId = isNew && (value || 'all');
   const renderConfigList = (configList: ConfigData[], showOp: boolean) =>
     configList.map((item) => (

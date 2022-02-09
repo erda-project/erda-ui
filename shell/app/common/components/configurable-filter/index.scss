@@ -1,7 +1,6 @@
 .erda-configurable-filter-btn {
   height: 28px;
   color: $color-default-4;
-  background-color: $color-default-06;
 
   .filter-text,
   .filter-icon {
@@ -14,23 +13,11 @@
   .ant-badge-dot {
     box-shadow: none !important;
   }
-
-  &.has-filter,
-  &.ant-popover-open {
-    color: $color-white-4;
-    background-color: $color-default;
-    &:hover {
-      color: $color-white-8;
-    }
-    .filter-text,
-    .filter-icon {
-      color: $white;
-    }
-  }
 }
 
 .erda-configurable-filter-clear-btn {
-  background-color: rgba($color-default, 0.06);
+  height: 28px;
+  background-color: rgba($color-default, 0.04);
 }
 
 .erda-configurable-filter {
