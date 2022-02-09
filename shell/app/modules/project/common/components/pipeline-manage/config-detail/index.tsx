@@ -16,6 +16,7 @@ import CaseInfo from './case-info';
 import autoTestStore from 'project/stores/auto-test-case';
 import CasePipelineEditor from './pipeline-editor';
 import RecordList from './record-list';
+import { useLoading } from 'core/stores/loading';
 import { useUpdate } from 'common/use-hooks';
 import { get } from 'lodash';
 import i18n from 'i18n';
@@ -30,6 +31,8 @@ const PipelineConfigDetail = (props: IProps) => {
   const { caseId, addDrawerProps = {}, scope, onCaseChange } = props;
   const [caseDetail] = autoTestStore.useStore((s) => [s.caseDetail]);
   const { getCaseDetail, updateCasePipeline } = autoTestStore;
+
+  const [updateLoading] = useLoading(autoTestStore, ['updateCasePipeline']);
 
   const [{ useCaseDetail, isLastRecord }, updater] = useUpdate({
     useCaseDetail: caseDetail,
@@ -84,6 +87,7 @@ const PipelineConfigDetail = (props: IProps) => {
       <CaseInfo caseDetail={useCaseDetail} />
       <CasePipelineEditor
         scope={scope}
+        loading={updateLoading}
         addDrawerProps={_addDrawerProps}
         caseDetail={useCaseDetail}
         editable={isLastRecord}
