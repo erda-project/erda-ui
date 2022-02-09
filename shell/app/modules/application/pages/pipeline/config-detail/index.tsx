@@ -17,6 +17,7 @@ import fileTreeStore from 'common/stores/file-tree';
 import CasePipelineEditor from './pipeline-editor';
 // import RecordList from './record-list';
 import { useUpdate } from 'common/use-hooks';
+import { useLoading } from 'core/stores/loading';
 import repoStore from 'application/stores/repo';
 import { getBranchPath } from 'application/pages/pipeline/config';
 import { get } from 'lodash';
@@ -36,6 +37,8 @@ const PipelineConfigDetail = (props: IProps) => {
   const [caseDetail] = fileTreeStore.useStore((s) => [s.curNodeDetail]);
   const { getTreeNodeDetailNew } = fileTreeStore;
   const { commit } = repoStore.effects;
+
+  const [commitLoading] = useLoading(repoStore, ['commit']);
   const [{ useCaseDetail, isLastRecord }, updater] = useUpdate({
     useCaseDetail: caseDetail,
     isLastRecord: true,
@@ -96,6 +99,7 @@ const PipelineConfigDetail = (props: IProps) => {
       <CasePipelineEditor
         addDrawerProps={{ ...addDrawerProps, curCaseId: nodeId, scope }}
         caseDetail={useCaseDetail}
+        loading={commitLoading}
         editable={editAuth.hasAuth && isLastRecord}
         onUpdateYml={onUpdateYml}
       />
