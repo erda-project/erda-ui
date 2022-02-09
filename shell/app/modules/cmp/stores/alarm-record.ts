@@ -29,16 +29,16 @@ interface IState {
   recordListPaging: IPaging;
   alarmAttrs: { [k: string]: Array<{ key: string; display: string }> };
   recordDetail: ALARM_REPORT.RecordListItem;
-  alarmTimesChart: any;
+  alarmTimesChart: ALARM_REPORT.AlarmTimesChart;
   recordHistories: ALARM_REPORT.AlarmHistory[];
 }
 
 const initState: IState = {
   recordList: [],
   recordListPaging: getDefaultPaging(),
-  alarmAttrs: {} as any,
+  alarmAttrs: {} as { [k: string]: Array<{ key: string; display: string }> },
   recordDetail: {} as ALARM_REPORT.RecordListItem,
-  alarmTimesChart: {} as any,
+  alarmTimesChart: {} as ALARM_REPORT.AlarmTimesChart,
   recordHistories: [],
 };
 

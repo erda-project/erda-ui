@@ -75,7 +75,6 @@ module.exports = async () => {
         i18n: resolve('./app/i18n.ts'),
 
         'monitor-overview': resolve('./app/modules/msp/monitor/monitor-overview'),
-        'application-insight': resolve('./app/modules/msp/monitor/application-insight'),
         'external-insight': resolve('./app/modules/msp/monitor/external-insight'),
         'browser-insight': resolve('./app/modules/msp/monitor/browser-insight'),
         'gateway-ingress': resolve('./app/modules/msp/monitor/gateway-ingress'),

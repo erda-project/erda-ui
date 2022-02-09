@@ -75,7 +75,6 @@ export default ({ command, mode }) => {
     agent: path.resolve(__dirname, './app/agent.js'),
     i18n: path.resolve(__dirname, './app/i18n.ts'),
     'monitor-overview': path.resolve(__dirname, './app/modules/msp/monitor/monitor-overview'),
-    'application-insight': path.resolve(__dirname, './app/modules/msp/monitor/application-insight'),
     'external-insight': path.resolve(__dirname, './app/modules/msp/monitor/external-insight'),
     'browser-insight': path.resolve(__dirname, './app/modules/msp/monitor/browser-insight'),
     'gateway-ingress': path.resolve(__dirname, './app/modules/msp/monitor/gateway-ingress'),

@@ -60,8 +60,6 @@
       "apiManagePlatform/*": ["app/modules/apiManagePlatform/*"],
       "monitor-overview": ["app/modules/msp/monitor/monitor-overview"],
       "monitor-overview/*": ["app/modules/msp/monitor/monitor-overview/*"],
-      "application-insight": ["app/modules/msp/monitor/application-insight"],
-      "application-insight/*": ["app/modules/msp/monitor/application-insight/*"],
       "external-insight": ["app/modules/msp/monitor/external-insight"],
       "external-insight/*": ["app/modules/msp/monitor/external-insight/*"],
       "browser-insight": ["app/modules/msp/monitor/browser-insight"],
