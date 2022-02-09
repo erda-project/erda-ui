@@ -107,7 +107,8 @@ const defaultProcessField = (item: IFormItem) => {
       allowClear: true,
       suffixIcon: <ErdaIcon type="caret-down" color="currentColor" className="text-white-4" />,
       clearIcon: <span className="p-1">{i18n.t('common:clear')}</span>,
-      getPopupContainer: (triggerNode: HTMLElement) => triggerNode.parentElement as HTMLElement,
+      getPopupContainer: () => document.body,
+      dropdownClassName: `${itemProps?.dropdownClassName || ''} theme-dark`,
     };
 
     if (type === 'select') {
