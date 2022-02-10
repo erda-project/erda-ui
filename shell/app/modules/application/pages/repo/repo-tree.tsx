@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Skeleton, Spin, Button, Popover, Input, Select, Modal, message, Tooltip, Form } from 'antd';
+import { Table, Skeleton, Spin, Button, Popover, Input, Select, Modal, message, Tooltip, Form } from 'antd';
 import { goTo, cutStr, fromNow, replaceEmoji, setApiWithOrg } from 'common/utils';
 import { groupBy, sortBy, get } from 'lodash';
 import React from 'react';
 import { useUnmount, useUpdateEffect } from 'react-use';
-import { Icon as CustomIcon, Copy, EmptyHolder, IF, FormModal, ErdaIcon, ErdaAlert, Table } from 'common';
+import { Icon as CustomIcon, Copy, EmptyHolder, IF, FormModal, ErdaIcon, ErdaAlert } from 'common';
 import RepoFileContainer from './components/repo-file-container';
 import RepoEditor from './components/repo-editor';
 import StartTip from './components/start-tip';
@@ -169,9 +169,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
             dataSource={dataSource}
             pagination={false}
             rowKey="name"
-            onReload={() => {
-              repoStore.effects.getRepoTree();
-            }}
+            scroll={{ x: 800 }}
             onRow={({ name, id }) => {
               const tropicalPathName = encodeURI(name);
               return {
