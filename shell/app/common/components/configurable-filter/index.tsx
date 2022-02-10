@@ -72,7 +72,7 @@ const sortObj = (obj: Obj) => {
     .forEach((key) => {
       if (Array.isArray(obj[key])) {
         if (obj[key].length !== 0) {
-          values[key] = obj[key].sort().join(',');
+          values[key] = [...obj[key]].sort().join(',');
         }
       } else if (![undefined, null].includes(obj[key])) {
         values[key] = obj[key];
