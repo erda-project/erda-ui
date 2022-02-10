@@ -218,9 +218,10 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
             },
           };
         });
+        // execute callback before, to update outside props before next render
+        operationCallBack?.(reqConfig, newConfig, op);
         updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
         pageConfigRef.current = newConfig;
-        operationCallBack?.(reqConfig, newConfig, op);
         callBack?.(newConfig);
 
         if (op?.successMsg) notify('success', op.successMsg);
