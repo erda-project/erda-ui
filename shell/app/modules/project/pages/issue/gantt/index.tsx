@@ -148,6 +148,7 @@ const IssuePlan = () => {
     isFullScreen: false,
   });
   const ganttRef = React.useRef<HTMLDivElement>(null);
+  const positionToTodayKey = React.useRef(1);
 
   const onChosenIssue = (val: Obj) => {
     const { id, extra, pId } = val || {};
@@ -232,6 +233,13 @@ const IssuePlan = () => {
     updater.isFullScreen(value);
   };
 
+  const operationCallBack = (config: CONFIG_PAGE.RenderConfig) => {
+    const curEvent = config.event;
+    if (curEvent?.component === 'filter' && curEvent?.operation === 'filter') {
+      positionToTodayKey.current += 1;
+    }
+  };
+
   return (
     <div className={`h-full bg-white ${isFullScreen ? 'gantt-fullscreen' : ''}`} ref={ganttRef}>
       <DiceConfigPage
@@ -240,6 +248,7 @@ const IssuePlan = () => {
         scenarioType={'issue-gantt'}
         scenarioKey={'issue-gantt'}
         inParams={inParams}
+        operationCallBack={operationCallBack}
         customProps={{
           topHead: {
             props: {
@@ -259,6 +268,7 @@ const IssuePlan = () => {
               TreeNodeRender: (p) => <TreeNodeRender {...p} clickNode={onChosenIssue} />,
               onScreenChange: handleScreenChange,
               rootWrapper: ganttRef,
+              positionToTodayKey: positionToTodayKey.current,
             },
           },
           issueAddButton: {

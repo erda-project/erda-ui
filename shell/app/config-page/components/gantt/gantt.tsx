@@ -151,6 +151,7 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
     listCellWidth = '320px',
     rootWrapper,
     onScreenChange,
+    positionToTodayKey,
   } = pProps;
   const boxRef = React.useRef<HTMLDivElement>();
   const [ganttHeight, setGanttHeight] = React.useState(0);
@@ -225,6 +226,7 @@ const CP_Gantt = (props: CP_GANTT.Props) => {
           onScreenChange={onScreenChange}
           TaskListHeader={TaskListHeader}
           listCellWidth={listCellWidth}
+          positionToTodayKey={positionToTodayKey}
           TaskListTable={(p) => <TaskTree {...p} TreeNodeRender={TreeNodeRender} />}
         />
       ) : (

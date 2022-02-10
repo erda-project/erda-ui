@@ -75,6 +75,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   onSelect,
   onExpanderClick,
   onScreenChange,
+  positionToTodayKey,
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const taskListRef = useRef<HTMLDivElement>(null);
@@ -242,6 +243,10 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       positionToTodayAtInit.current = true;
     }
   }, [h_number, scrollToToday]);
+
+  React.useEffect(() => {
+    scrollToToday();
+  }, [positionToTodayKey, scrollToToday]);
 
   // useEffect(() => {
   //   if (wrapperRef.current) {
