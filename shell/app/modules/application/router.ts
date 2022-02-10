@@ -133,6 +133,7 @@ function getAppRouter(): RouteConfigItem {
           {
             path: 'backup',
             breadcrumbName: i18n.t('dop:repo backup'),
+            layout: { noWrapper: true },
             getComp: (cb) => cb(import('app/modules/application/pages/repo/repo-backup')),
           },
         ],

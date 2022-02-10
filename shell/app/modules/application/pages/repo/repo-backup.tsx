@@ -13,10 +13,10 @@
 
 import React from 'react';
 import { get } from 'lodash';
-import { Table, Button, Popconfirm, Select, Tooltip } from 'antd';
+import { Button, Popconfirm, Select, Tooltip } from 'antd';
 import { WithAuth, usePerm } from 'user/common';
 import { fromNow, setApiWithOrg } from 'common/utils';
-import { Copy, FormModal } from 'common';
+import { Copy, FormModal, Table } from 'common';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
@@ -196,7 +196,7 @@ export default function BackupManagement() {
         rowKey="id"
         dataSource={backupList}
         pagination={backupPagination}
-        scroll={{ x: '100%' }}
+        onReload={reloadBackupList}
       />
     </div>
   );
