@@ -60,7 +60,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
     const extension = path.extname(request.path);
-    if (!extension || request.path.match(/^\/\w+\/dop\/projects\/\d+\/apps\/\d+\/repo/)) {
+    if (!extension || request.path.match(/^\/[\w-]+\/dop\/projects\/\d+\/apps\/\d+\/repo/)) {
       response.setHeader('cache-control', 'no-store');
       if (process.env.DEV) {
         if (!fs.existsSync(newIndexHtmlPath)) {
