@@ -337,7 +337,7 @@ const ConfigurableFilter = ({
               getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
             >
               <Button
-                className="mx-1 hover:bg-white-2 cursor-pointer rounded-sm px-2 py-1  hover:text-white hover:bg-white-08 flex-h-center"
+                className="mx-1 cursor-pointer rounded-sm px-2 py-1 flex-h-center"
                 onClick={() => setAddVisible(true)}
               >
                 <ErdaIcon size={16} fill="white" type="baocun" className="mr-1" /> {i18n.t('dop:new filter')}
@@ -347,7 +347,7 @@ const ConfigurableFilter = ({
           <Button className="mx-1" onClick={() => setVisible(false)}>
             {i18n.t('cancel')}
           </Button>
-          <Button type="primary" className="mx-1 bg-purple-deep border-purple-deep" onClick={onFilter}>
+          <Button type="primary" className="ml-1 mr-2 bg-purple-deep border-purple-deep" onClick={onFilter}>
             {i18n.t('common:filter')}
           </Button>
         </div>
