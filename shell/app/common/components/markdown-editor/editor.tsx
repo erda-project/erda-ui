@@ -67,6 +67,27 @@ const Editor = React.forwardRef((props: IProps, ref) => {
       ref={ref}
       style={{ height: `${defaultHeight}px`, ...style }}
       {...restEditorProps}
+      plugins={[
+        'header',
+        'font-bold',
+        'font-italic',
+        // 'font-underline',
+        'font-strikethrough',
+        'list-unordered',
+        'list-ordered',
+        'block-quote',
+        'block-wrap',
+        'block-code-inline',
+        'block-code-block',
+        'table',
+        'image',
+        'link',
+        'clear',
+        'logger',
+        'mode-toggle',
+        'full-screen',
+        'upload',
+      ]}
       config={config}
       htmlClass="md-content"
       renderHTML={(text: string) => <MarkdownRender value={text} />}
