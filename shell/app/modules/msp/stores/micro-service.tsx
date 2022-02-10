@@ -32,6 +32,7 @@ import {
 import switchEnv from 'msp/pages/micro-service/switch-env';
 import breadcrumbStore from 'layout/stores/breadcrumb';
 import permStore from 'user/stores/permission';
+import IMenuKey = MS_INDEX.IMenuKey;
 
 const docUrlMap = {
   apiGatewayIntro: DOC_MSP_API_GATEWAY,
@@ -51,6 +52,7 @@ interface IState {
   mspProjectList: MS_INDEX.IMspProject[];
   mspMenu: MS_INDEX.Menu[];
   msMenuMap: MS_INDEX.MenuMap;
+  menuText: Record<IMenuKey, string>;
   clusterName: string;
   clusterType: string;
   DICE_CLUSTER_TYPE: string;
@@ -83,6 +85,7 @@ const generateMSMenu = (
   };
 
   const isZh = currentLocale.key === 'zh';
+  const menuText = {};
 
   const newMenu = menuData
     .filter((m) => m.exists)
@@ -100,6 +103,7 @@ const generateMSMenu = (
       const href = getMSFrontPathByKey(key, { ...menu.params, ...params } as any);
       const IconComp = MSIconMap[key];
       const text = isZh ? cnName : enName;
+      menuText[key] = text;
       const sideMenu = {
         key,
         icon: IconComp || 'zujian',
@@ -117,6 +121,7 @@ const generateMSMenu = (
               intro[child.key] = !child.params._enabled;
             }
             const childHref = getMSFrontPathByKey(child.key, { ...child.params, ...params } as any);
+            menuText[child.key] = isZh ? child.cnName : child.enName;
             return {
               key: child.key,
               text: isZh ? child.cnName : child.enName,
@@ -128,7 +133,7 @@ const generateMSMenu = (
       }
       return sideMenu;
     });
-  return [newMenu, intro];
+  return [newMenu, intro, menuText];
 };
 
 export const initMenu = (refresh = false) => {
@@ -164,6 +169,7 @@ const initState: IState = {
   clusterType: '',
   DICE_CLUSTER_TYPE: '',
   isK8S: true,
+  menuText: {},
   currentEnvInfo: {},
   currentProject: {},
 };
@@ -220,16 +226,23 @@ const mspStore = createStore({
     },
     async getMspMenuList({ call, select, update }, payload?: { refresh: boolean }) {
       const [params, routes, query] = routeInfoStore.getState((s) => [s.params, s.routes, s.query]);
-      let [mspMenu, currentProject, intro] = await select((s) => [s.mspMenu, s.currentProject, s.intro]);
+      let [mspMenu, currentProject, intro, menuText] = await select((s) => [
+        s.mspMenu,
+        s.currentProject,
+        s.intro,
+        s.menuText,
+      ]);
       const { env, tenantGroup } = params;
       let menuData: MS_INDEX.IMspMenu[] = [];
       if (isEmpty(mspMenu) || payload?.refresh) {
         // 如果菜单数据为空说明是第一次进入具体微服务，请求菜单接口
         menuData = await call(mspService.getMspMenuList, { tenantId: tenantGroup, type: currentProject.type });
-        const [newMspMenu, newIntro] = generateMSMenu(menuData, params, query, intro);
+        const [newMspMenu, newIntro, newMenuText] = generateMSMenu(menuData, params, query, intro);
         mspMenu = newMspMenu;
         intro = newIntro;
+        menuText = newMenuText;
       }
+      breadcrumbStore.reducers.setInfo('mspBreadcrumb', menuText);
       const [firstMenu] = mspMenu;
       const firstMenuHref = get(firstMenu, 'href');
       const siderName = `${firstMenu?.text}(${envMap[env]})`;
@@ -243,7 +256,7 @@ const mspStore = createStore({
         }
       });
       emit('gatewayStore/getRegisterApps', intro.APIGateway);
-      await update({ mspMenu, msMenuMap, intro });
+      await update({ mspMenu, msMenuMap, intro, menuText });
 
       layoutStore.reducers.setSubSiderInfoMap({
         key: 'mspDetail',

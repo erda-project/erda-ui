@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import i18n from 'i18n';
+import { getMspBreadcrumb } from 'msp/config';
 
 const AlarmRecord = () => ({
   path: 'alarm-record',
-  breadcrumbName: i18n.t('msp:AlarmHistory'),
+  breadcrumbName: getMspBreadcrumb('AlarmHistory'),
   routes: [
     {
       path: ':recordId',

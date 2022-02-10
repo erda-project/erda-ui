@@ -37,7 +37,7 @@ const genAxis = (axis: CP_COMPLEX_GRAPH.Axis[], axisType: 'x' | 'y', color: stri
     positionMap[rest.position] = offset + 1;
     let min: number | undefined;
     let max: number | undefined;
-    if (type === 'timestamp') {
+    if (type === 'timestamp' && rest.data?.length) {
       min = rest.data[0] as number;
       max = rest.data[rest.data.length - 1] as number;
     }

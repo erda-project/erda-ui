@@ -50,6 +50,7 @@ declare namespace MS_INDEX {
     | 'ActiveMonitor'
     | 'AlertStrategy'
     | 'AlarmHistory'
+    | 'AlertOverview'
     | 'RuleManagement'
     | 'NotifyGroupManagement'
     | 'Tracing'
