@@ -82,7 +82,6 @@ const ConfigSelector = ({ className = '', list, defaultValue, value, onChange, o
   };
 
   const currentConfig = list.find((item) => item.id === value);
-
   const changedId = isNew && (value || 'all');
   const renderConfigList = (configList: ConfigData[], showOp: boolean) =>
     configList.map((item) => (
@@ -103,7 +102,7 @@ const ConfigSelector = ({ className = '', list, defaultValue, value, onChange, o
         </div>
         <div className="flex-h-center">
           {changedId === item.id ? (
-            <Badge text={i18n.t('dop:changed')} status="processing" showDot={false} className="ml-2" />
+            <Badge text={i18n.t('dop:changed')} size="small" status="processing" showDot={false} className="ml-2" />
           ) : null}
           {showOp ? configItemMore(item) : null}
         </div>
