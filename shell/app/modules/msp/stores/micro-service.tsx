@@ -32,7 +32,6 @@ import {
 import switchEnv from 'msp/pages/micro-service/switch-env';
 import breadcrumbStore from 'layout/stores/breadcrumb';
 import permStore from 'user/stores/permission';
-import IMenuKey = MS_INDEX.IMenuKey;
 
 const docUrlMap = {
   apiGatewayIntro: DOC_MSP_API_GATEWAY,
@@ -52,7 +51,7 @@ interface IState {
   mspProjectList: MS_INDEX.IMspProject[];
   mspMenu: MS_INDEX.Menu[];
   msMenuMap: MS_INDEX.MenuMap;
-  menuText: Record<IMenuKey, string>;
+  menuText: Record<MS_INDEX.IMenuKey, string>;
   clusterName: string;
   clusterType: string;
   DICE_CLUSTER_TYPE: string;
