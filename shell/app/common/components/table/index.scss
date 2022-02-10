@@ -143,6 +143,20 @@
     .no-label .ant-form-item-label {
       display: none;
     }
+
+    &-ops {
+      iconpark-icon {
+        color: $color-default-4;
+        cursor: pointer;
+        font-size: 20px;
+        padding: 4px;
+        margin-left: 12px;
+        &:hover {
+          background-color: $color-default-08;
+          color: $color-default-8;
+        }
+      }
+    }
   }
 
   .erda-table-columns-filter {

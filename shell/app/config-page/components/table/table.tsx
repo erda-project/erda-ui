@@ -136,6 +136,12 @@ export function Table(props: CP_TABLE.Props) {
     };
   }
 
+  if (operations?.reload) {
+    extra.onReload = () => {
+      execOperation(operations.reload);
+    };
+  }
+
   if (configProps?.expandedProps) {
     const { rowKey, columns: exColumns } = configProps.expandedProps || {};
     const exTableColumns = map([...(exColumns || [])], (cItem) => ({
