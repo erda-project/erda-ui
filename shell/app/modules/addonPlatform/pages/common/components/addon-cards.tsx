@@ -18,6 +18,7 @@ import { get, isEmpty } from 'lodash';
 import { CardsLayout, ErdaIcon, Holder, Icon as CustomIcon, IF } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo, ossImg } from 'common/utils';
+import { usePerm } from 'app/user/common';
 import { AddonDetailDrawer } from './addon-detail-drawer';
 import { ENV_NAME, PLAN_NAME } from '../configs';
 import { getMSFrontPathByKey } from 'app/modules/msp/config';
@@ -186,6 +187,7 @@ export const AddonCards = (props: IProps) => {
       mysqlAccountState,
       tag,
     } = content;
+    const permMap = usePerm((s) => s.project.service);
     const onError = () => {
       updater.logoUrlMap((prev: any) => ({ ...prev, [instanceId]: addon_png }));
     };
@@ -262,8 +264,12 @@ export const AddonCards = (props: IProps) => {
                     </span>
                   </Tooltip>
                 </IF>
-                {/* 云Addon 3.15 不做编辑 */}
-                <IF check={onEitAddon && category === 'custom' && customAddonType !== 'cloud'}>
+                {/* 云Addon 3.15 不做编辑, 编辑权限同新增权限 */}
+                <IF
+                  check={
+                    onEitAddon && category === 'custom' && customAddonType !== 'cloud' && permMap.addProjectService.pass
+                  }
+                >
                   <Tooltip title={i18n.t('edit')}>
                     <span
                       className="mr-3"
