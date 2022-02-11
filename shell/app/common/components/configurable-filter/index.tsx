@@ -192,6 +192,7 @@ const ConfigurableFilter = ({
     setIsNew(false);
     form.resetFields();
     form.setFieldsValue(config.values || {});
+    onFilter();
   };
 
   const onValuesChange = (_, allValues: Obj) => {
@@ -322,7 +323,7 @@ const ConfigurableFilter = ({
           </div>
         </div>
 
-        <div className="erda-configurable-filter-footer flex justify-end">
+        <div className="erda-configurable-filter-footer flex justify-end mt-3">
           {hideSave ? (
             <Button className="mx-1" onClick={setAllOpen}>
               {i18n.t('clear')}

@@ -131,7 +131,12 @@
     div.ant-form-item-label label {
       color: $color-white-6;
     }
-
+    .ant-form-vertical .ant-form-item-label {
+      padding-bottom: 4px;
+    }
+    .ant-form-item {
+      margin-bottom: 16px;
+    }
     .ant-select {
       .ant-select-clear {
         right: 0;
