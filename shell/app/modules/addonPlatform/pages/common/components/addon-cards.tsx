@@ -27,6 +27,7 @@ import './addon-cards.scss';
 import addonStore from 'common/stores/addon';
 import CustomAddonConfigModal from 'project/pages/addon/custom-config';
 import routeInfoStore from 'core/stores/route';
+import { usePerm } from 'app/user/common';
 
 interface IProps {
   dataSource?: any[];
@@ -186,6 +187,8 @@ export const AddonCards = (props: IProps) => {
       mysqlAccountState,
       tag,
     } = content;
+    const permMap = usePerm((s) => s.project.service);
+
     const onError = () => {
       updater.logoUrlMap((prev: any) => ({ ...prev, [instanceId]: addon_png }));
     };
@@ -262,8 +265,12 @@ export const AddonCards = (props: IProps) => {
                     </span>
                   </Tooltip>
                 </IF>
-                {/* 云Addon 3.15 不做编辑 */}
-                <IF check={onEitAddon && category === 'custom' && customAddonType !== 'cloud'}>
+                {/* 云Addon 3.15 不做编辑, 编辑权限同新增权限 */}
+                <IF
+                  check={
+                    onEitAddon && category === 'custom' && customAddonType !== 'cloud' && permMap.addProjectService.pass
+                  }
+                >
                   <Tooltip title={i18n.t('edit')}>
                     <span
                       className="mr-3"
