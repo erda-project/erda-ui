@@ -45,6 +45,7 @@
     "Dashboard": "大盘",
     "Data source: API call management": "数据来源：我的 API 申请调用管理",
     "December": "12月",
+    "Deploy": "部署",
     "Deployment not allowed in {env} in network block period.": "组织处于封网期间，{env}禁止部署！",
     "DingTalk": "钉钉群",
     "DingTalk address": "钉钉地址",
