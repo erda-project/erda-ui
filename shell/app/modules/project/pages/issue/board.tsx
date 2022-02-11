@@ -220,7 +220,7 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
     />
   );
   const pageData = reloadRef.current?.getPageConfig();
-  const useableFilterObj = pageData?.protocol?.state?.IssuePagingRequest || {};
+  const useableFilterObj = pageData?.protocol?.components?.IssuePagingRequestKanban || {};
 
   const tabs = [
     {
