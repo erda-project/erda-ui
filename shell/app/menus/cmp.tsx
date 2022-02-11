@@ -129,10 +129,6 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
             href: goTo.resolve.cmpAlarmOverview(), // '/cmp/alarm/overview',
           },
           {
-            text: i18n.t('alarm statistics'),
-            href: goTo.resolve.cmpAlarmStatistics(), // '/cmp/alarm/statistics',
-          },
-          {
             text: i18n.t('alarm record'),
             href: goTo.resolve.cmpAlarmRecord(), // '/cmp/alarm/record',
           },

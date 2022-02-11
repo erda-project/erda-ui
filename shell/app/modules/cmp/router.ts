@@ -431,14 +431,6 @@ function getCmpRouter(): RouteConfigItem[] {
               ],
             },
             {
-              path: 'statistics',
-              breadcrumbName: i18n.t('alarm statistics'),
-              getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-analyze')),
-              layout: {
-                noWrapper: true,
-              },
-            },
-            {
               path: 'strategy',
               breadcrumbName: i18n.t('alarm strategy'),
               routes: [
