@@ -31,10 +31,18 @@ const iconMap = {
   error: 'butongguo',
   success: 'tongguo',
   info: 'message',
-  warning: 'attention'
+  warning: 'attention',
 };
 
-const ErdaAlert = ({ type = 'info', message, description, showOnceKey, className, theme = 'light', closeable=true }: IProps) => {
+const ErdaAlert = ({
+  type = 'info',
+  message,
+  description,
+  showOnceKey,
+  className,
+  theme = 'light',
+  closeable = true,
+}: IProps) => {
   const alertList = JSON.parse(localStorage.getItem('erda-alert-list') || '{}');
   const [isHidden, setIsHidden] = React.useState(showOnceKey ? alertList[showOnceKey] : false);
   const afterClose = () => {
@@ -50,21 +58,23 @@ const ErdaAlert = ({ type = 'info', message, description, showOnceKey, className
       type={type}
       className={`erda-alert py-2 px-4 mb-4 ${className || ''} theme-${theme}`}
       message={
-        <>
-          <ErdaIcon type={iconMap[type]} className="erda-alert-icon self-start mr-2 my-1" />
+        <div className="flex items-center">
+          <ErdaIcon type={iconMap[type]} className="erda-alert-icon text-xl mr-2" />
           {message}
-        </>
+        </div>
       }
       description={description}
-      {
-        ...closeable ? {
-          closeText:<ErdaIcon
-            type="close"
-            className={`${theme === 'dark' ? 'text-white-6 hover:text-purple-deep' : 'hover-active'}`}
-          />,
-          afterClose
-        }: {}
-      }
+      {...(closeable
+        ? {
+            closeText: (
+              <ErdaIcon
+                type="close"
+                className={`${theme === 'dark' ? 'text-white-6 hover:text-purple-deep' : 'hover-active'}`}
+              />
+            ),
+            afterClose,
+          }
+        : {})}
     />
   ) : null;
 };
