@@ -39,12 +39,12 @@ const iconMap: {
 } = {
   DOP: {
     icon: 'DevOps',
-    tag: i18n.t('msp:DevOps Project'),
+    tag: i18n.t('msp:DevOps'),
     color: 'blue',
   },
   MSP: {
     icon: 'MSP',
-    tag: i18n.t('cmp:Monitor Project'),
+    tag: i18n.t('cmp:Monitor'),
     color: 'green',
   },
 };

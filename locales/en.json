@@ -45,6 +45,7 @@
     "Dashboard": "Dashboard",
     "Data source: API call management": "Data source: API call management",
     "December": "December",
+    "Deploy": "Deploy",
     "Deployment not allowed in {env} in network block period.": "during the period of network closure, deployment is prohibited in the {env}!",
     "DingTalk": "DingTalk",
     "DingTalk address": "DingTalk address",

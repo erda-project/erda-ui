@@ -259,11 +259,11 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
                 getReleases(_pageNo, appId);
               },
             },
-            rightSlot: (
-              <Checkbox checked={isLatest} onChange={(e: CheckboxChangeEvent) => setIsLatest(e.target.checked)}>
-                <span className="text-white">{i18n.t('dop:aggregate by branch')}</span>
-              </Checkbox>
-            ),
+            // rightSlot: (
+            //   <Checkbox checked={isLatest} onChange={(e: CheckboxChangeEvent) => setIsLatest(e.target.checked)}>
+            //     <span className="text-white">{i18n.t('dop:aggregate by branch')}</span>
+            //   </Checkbox>
+            // ),
           },
           readOnlyRender: (value: RELEASE.ReleaseDetail[]) => {
             return (value || []).map((item: RELEASE.ReleaseDetail) => (

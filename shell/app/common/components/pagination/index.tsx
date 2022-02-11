@@ -78,7 +78,7 @@ const Pagination = (pagination: IPaginationProps) => {
           onVisibleChange={setGoToVisible}
         >
           <div
-            className="pagination-center bg-hover hover:bg-default-06 px-3 rounded cursor-pointer"
+            className="pagination-center bg-hover hover:bg-default-06 px-3 cursor-pointer"
             onClick={() => setGoToVisible(true)}
           >
             {total ? pagination.current : 0} / {(total && pageSize && Math.ceil(total / pageSize)) || 0}
