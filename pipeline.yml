@@ -7,109 +7,123 @@ on:
     tags:
       - v*
 
+cron: 0 0 10,13,16,19,23 * * ?
+
 stages:
   - stage:
       - git-checkout:
           alias: erda-ui
+          description: 代码仓库克隆
           version: "1.0"
           params:
+            branch: master
             depth: 1
-  - stage:
+            uri: https://erda.cloud/erda/dop/erda-project/erda-ui-mirror
       - git-checkout:
           alias: erda-ui-enterprise
+          description: 代码仓库克隆
           version: "1.0"
           params:
-            uri: https://erda.cloud/erda/dop/erda-project/erda-ui-enterprise-mirror
-            branch: ${{ outputs.erda-ui.branch }}
+            branch: master
             depth: 1
+            uri: https://erda.cloud/erda/dop/erda-project/erda-ui-enterprise-mirror
   - stage:
       - extract-repo-version:
           alias: ui-version
+          description: Extract repo version in git dir
           params:
             git_dir: ${{ dirs.erda-ui }}
+      - extract-repo-version:
+          alias: ui-enterprise-version
+          description: Extract repo version in git dir
+          params:
+            git_dir: ${{ dirs.erda-ui-enterprise }}
   - stage:
       - js-build:
           alias: build-erda-ui
+          description: 针对 nodejs 工程的编译打包任务
           version: "1.0"
           params:
-            node_version: 12
             build_cmd:
               - cd ${{ dirs.erda-ui }}
-              - npm i @erda-ui/cli@1.4.x -g
-              - cp -r ${{ dirs.erda-ui-enterprise }}/* ${{ dirs.erda-ui }}/modules
-              - cd ${{ dirs.erda-ui }}/modules/admin && npm i
-              - cd ${{ dirs.erda-ui }}/modules/fdp && npm i
-              - cd ${{ dirs.erda-ui }}/shell && npm run online-extra-logic
+              - npm i @erda-ui/cli@1.5.x -g
+              - cd ${{ dirs.erda-ui }}/shell && npm run extra-logic
               - cd ${{ dirs.erda-ui }}
               - erda-ui init --online
               - erda-ui build --online
               - cp -r ${{ dirs.erda-ui }}/{public,scheduler} $WORKDIR
-          caches:
-            - key: "{{basePath}}/build-cache-ee/{{endPath}}"
-              path: ${{ dirs.erda-ui }}/node_modules
+            node_version: 12
           resources:
             cpu: 2
             mem: 6144
+          caches:
+            - key: '{{basePath}}/build-cache-community/{{endPath}}'
+              path: ${{ dirs.erda-ui }}/node_modules
+      - js-build:
+          alias: build-erda-ui-enterprise
+          description: 针对 nodejs 工程的编译打包任务
+          version: "1.0"
+          params:
+            build_cmd:
+              - cd ${{ dirs.erda-ui-enterprise }}/fdp && npm i
+              - npm run build
+              - cd ${{ dirs.erda-ui-enterprise }}/admin && npm i
+              - npm run build
+              - cp -r ${{ dirs.erda-ui-enterprise }}/{public,server} $WORKDIR
+            node_version: 12
+          resources:
+            cpu: 2
+            mem: 2048
+          caches:
+            - key: '{{basePath}}/build-cache-enterprise/{{endPath}}'
+              path: ${{ dirs.erda-ui }}/node_modules
   - stage:
       - dockerfile:
           alias: build-erda-ui-image
+          description: 针对自定义 dockerfile 打包，产出可运行镜像
           version: "1.0"
           params:
-            workdir: ${{ dirs.build-erda-ui }}
-            path: ${{ dirs.erda-ui }}/Dockerfile
             image:
-              name: ui-ee
+              name: ui
               tag: ${{ outputs.ui-version.image_tag }}
+            path: ${{ dirs.erda-ui }}/Dockerfile
             registry:
+              password: ${{ configs.docker_registry_password }}
               url: ${{ configs.docker_registry }}
               username: ${{ configs.docker_registry_username }}
+            workdir: ${{ dirs.build-erda-ui }}
+          resources:
+            cpu: 2
+            mem: 2048
+      - dockerfile:
+          alias: build-erda-ui-enterprise-image
+          description: 针对自定义 dockerfile 打包，产出可运行镜像
+          version: "1.0"
+          params:
+            image:
+              name: ui-enterprise
+              tag: ${{ outputs.ui-enterprise-version.image_tag }}
+            path: ${{ dirs.erda-ui-enterprise }}/Dockerfile
+            registry:
               password: ${{ configs.docker_registry_password }}
+              url: ${{ configs.docker_registry }}
+              username: ${{ configs.docker_registry_username }}
+            workdir: ${{ dirs.build-erda-ui-enterprise }}
           resources:
             cpu: 2
             mem: 2048
   - stage:
       - release:
-          alias: release-ui-enterprise
+          alias: release-ui
+          description: 用于打包完成时，向dicehub 提交完整可部署的dice.yml。用户若没在pipeline.yml里定义该action，CI会自动在pipeline.yml里插入该action
           version: "1.0"
           params:
-            dice_yml: ${{ dirs.erda-ui-enterprise }}/erda.yml
+            check_diceyml: false
+            cross_cluster: "true"
+            dice_yml: ${{ dirs.erda-ui }}/erda.yml
             image:
+              enterprise-ui: ${{ outputs.build-erda-ui-enterprise-image.image }}
               ui: ${{ outputs.build-erda-ui-image.image }}
           resources:
             cpu: 0.5
             mem: 512
-  - stage:
-      - js-build:
-          alias: build-erda-ui-ce
-          params:
-            node_version: 12
-            build_cmd:
-              - export FOR_COMMUNITY=true
-              - cd ${{ dirs.erda-ui }}
-              - npm i @erda-ui/cli@1.4.x -g
-              - erda-ui init --online --ce
-              - erda-ui build --online --ce
-              - cp -r ${{ dirs.erda-ui }}/{public,scheduler} $WORKDIR
-          caches:
-            - key: "{{basePath}}/build-cache-ce/{{endPath}}"
-              path: ${{ dirs.erda-ui }}/node_modules
-          resources:
-            cpu: 2
-            mem: 6144
-  - stage:
-      - dockerfile:
-          alias: build-erda-ui-ce-image
-          version: "1.0"
-          params:
-            workdir: ${{ dirs.build-erda-ui-ce }}
-            path: ${{ dirs.erda-ui }}/Dockerfile
-            image:
-              name: ui-ce
-              tag: ${{ outputs.ui-version.image_tag }}
-            registry:
-              url: ${{ configs.docker_registry }}
-              username: ${{ configs.docker_registry_username }}
-              password: ${{ configs.docker_registry_password }}
-          resources:
-            cpu: 2
-            mem: 2048

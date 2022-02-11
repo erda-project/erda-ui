@@ -113,7 +113,7 @@ const ConfigSelector = ({ className = '', list, defaultValue, value, onChange, o
     <div className={`flex flex-col rounded-sm bg-white-04 py-3 pl-2 w-[230px] ${className}`} ref={configSelectorRef}>
       <div className="flex-1 overflow-auto">
         <div className="pr-2">{renderConfigList(defaultData, false)}</div>
-        <div className="my-1 bg-white-2 h-[1px] mr-2" />
+        <div className="my-2 bg-white-1 h-[1px] mr-2" />
         <div className="pr-2">
           <div className="my-2 px-2 text-xs text-white-6">{i18n.t('dop:custom filter')}</div>
           {renderConfigList(customData, true)}
