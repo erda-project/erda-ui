@@ -1749,6 +1749,7 @@
     "select apps create": "选择应用创建",
     "select data domain": "选择数据域",
     "select file create": "选择文件创建",
+    "selected from {name}": "已在{name}中选择",
     "select group": "选择群组",
     "select instance": "选择实例",
     "select iteration": "选择迭代",

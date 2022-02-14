@@ -1749,6 +1749,7 @@
     "select apps create": "select apps create",
     "select data domain": "select data domain",
     "select file create": "select file create",
+    "selected from {name}": "selected from {name}",
     "select group": "select group",
     "select instance": "select instance",
     "select iteration": "select iteration",

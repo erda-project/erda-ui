@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Dropdown, Row, Col, Button, Input, Timeline, Collapse, Modal } from 'antd';
+import { Dropdown, Row, Col, Button, Input, Timeline, Collapse, Modal, message } from 'antd';
 import i18n from 'i18n';
 import { ErdaIcon, Pagination } from 'common';
 import { IPaginationProps } from 'common/components/pagination';
@@ -78,11 +78,18 @@ function ReleaseSelect<T extends object = any>(props: IProps<T>) {
   const [releaseVisible, setReleaseVisible] = React.useState<boolean>(false);
   const [currentGroup, setCurrentGroup] = React.useState<number>(0);
   const select = (selectItem: T, checked: boolean) => {
-    setSelectedList((prev) =>
-      checked
-        ? [...prev.filter((item) => item[parentKey] !== selectItem[parentKey]), selectItem]
-        : prev.filter((item) => item[rowKey] !== selectItem[rowKey]),
+    const groupIndex = groupList.findIndex((group) =>
+      group.list.find((item) => item.releaseId === selectItem.releaseId),
     );
+    if (groupIndex === -1 || groupIndex === currentGroup) {
+      setSelectedList((prev) =>
+        checked
+          ? [...prev.filter((item) => item[parentKey] !== selectItem[parentKey]), selectItem]
+          : prev.filter((item) => item[rowKey] !== selectItem[rowKey]),
+      );
+    } else {
+      message.error(i18n.t('dop:selected from {name}', { name: groupsTitle[groupIndex] }));
+    }
   };
 
   const remove = (id: string) => {
