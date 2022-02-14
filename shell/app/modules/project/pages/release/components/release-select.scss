@@ -1,4 +1,6 @@
 .erda-list-select {
+  width: 50%;
+
   &-btn {
     background-color: rgba($color-purple-highlight, 0.1);
     color: $color-purple-highlight;
@@ -31,6 +33,26 @@
       .erda-list-select-selected-item-delete {
         visibility: visible;
       }
+    }
+  }
+
+  .time-line-collapse {
+    .ant-collapse-header {
+      padding: 0 !important;
+    }
+  }
+}
+
+.no-wrapper-modal {
+  .ant-modal-body {
+    padding: 0;
+  }
+
+  .ant-modal-close {
+    color: $color-white-4;
+
+    &:hover {
+      color: $color-white-6;
     }
   }
 }

@@ -12,14 +12,24 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Dropdown, Row, Col, Button, Input } from 'antd';
+import { Dropdown, Row, Col, Button, Input, Timeline, Collapse, Modal } from 'antd';
 import i18n from 'i18n';
 import { ErdaIcon, Pagination } from 'common';
 import { IPaginationProps } from 'common/components/pagination';
 import { useUpdateEffect } from 'react-use';
 import empty from 'app/images/empty.svg';
 
-import './index.scss';
+import './release-select.scss';
+
+const { Panel } = Collapse;
+
+const groupsTitle = [
+  i18n.t('dop:the {index} group', { index: i18n.t('dop:first') }),
+  i18n.t('dop:the {index} group', { index: i18n.t('dop:second') }),
+  i18n.t('dop:the {index} group', { index: i18n.t('dop:third') }),
+  i18n.t('dop:the {index} group', { index: i18n.t('dop:fourth') }),
+  i18n.t('dop:the {index} group', { index: i18n.t('dop:fifth') }),
+];
 
 /**
  * list select
@@ -49,9 +59,10 @@ interface IProps<T extends object = any> {
   list: T[];
   menus: Array<{ title: string }>;
   rightSlot?: React.ReactNode;
+  readOnly?: boolean;
 }
 
-function ListSelect<T extends object = any>(props: IProps<T>) {
+function ReleaseSelect<T extends object = any>(props: IProps<T>) {
   const {
     label,
     renderSelectedItem = defaultRenderItem,
@@ -60,10 +71,12 @@ function ListSelect<T extends object = any>(props: IProps<T>) {
     parentKey = 'pId',
     menuRowKey = 'id',
     value,
+    readOnly,
   } = props;
   const [selectedList, setSelectedList] = React.useState<T[]>([]);
-  const [resultList, setResultList] = React.useState<T[]>([]);
-  const [visible, setVisible] = React.useState<boolean>(false);
+  const [groupList, setGroupList] = React.useState<Array<{ active: boolean; list: T[] }>>([{ active: true, list: [] }]);
+  const [releaseVisible, setReleaseVisible] = React.useState<boolean>(false);
+  const [currentGroup, setCurrentGroup] = React.useState<number>(0);
   const select = (selectItem: T, checked: boolean) => {
     setSelectedList((prev) =>
       checked
@@ -76,12 +89,14 @@ function ListSelect<T extends object = any>(props: IProps<T>) {
     setSelectedList((prev) => prev.filter((item) => item[rowKey] !== id));
   };
 
-  const removeResult = (id: string) => {
-    const currentList = [...resultList];
-    const index = resultList.findIndex((item) => item[rowKey] === id);
+  const removeResult = (i: number, id: string) => {
+    const { list } = groupList[i];
+    const currentList = [...list];
+    const index = list.findIndex((item) => item[rowKey] === id);
     currentList.splice(index, 1);
-    onChange?.(currentList);
-    setResultList(currentList);
+    groupList[i].list = currentList;
+    setGroupList([...groupList]);
+    onChange?.(groupList);
   };
 
   const clear = () => {
@@ -89,66 +104,156 @@ function ListSelect<T extends object = any>(props: IProps<T>) {
   };
 
   const onOk = () => {
-    onChange?.(selectedList);
-    setResultList(selectedList);
-    setVisible(false);
+    groupList[currentGroup].list = selectedList;
+    setGroupList(groupList);
+    onChange?.([...groupList]);
+    setReleaseVisible(false);
   };
 
   React.useEffect(() => {
-    value && setResultList(value);
+    value && setGroupList(value);
   }, [value]);
 
   return (
     <div className="erda-list-select">
-      <Dropdown
-        trigger={['click']}
-        overlay={
-          <ListSelectOverlay
-            {...props}
-            selectedList={selectedList}
-            select={select}
-            remove={remove}
-            onOk={onOk}
-            onCancel={() => setVisible(false)}
-            clear={clear}
-            rowKey={rowKey}
-            menuRowKey={menuRowKey}
-            parentKey={parentKey}
-          />
-        }
-        visible={visible}
-        onVisibleChange={(_visible: boolean) => {
-          if (_visible) {
-            setSelectedList(resultList);
-            setVisible(_visible);
-          }
-        }}
-      >
-        <div
-          className={`erda-list-select-btn px-2 py-1 rounded-sm inline-flex items-center cursor-pointer ${
-            visible ? 'dropdown-open' : ''
-          }`}
-        >
-          <ErdaIcon type="plus" color="currentColor" size={16} className="mr-1" />
-          {i18n.t('add {name}', { name: label })}
-        </div>
-      </Dropdown>
-      <div className="result-list mt-4 rounded-sm">
-        {resultList.map((item) => (
-          <div
-            className="erda-list-select-selected-item flex items-center p-2 hover:bg-default-04 rounded-sm"
-            key={item[rowKey]}
+      <Timeline className="mt-1">
+        {groupList.map((group, index) => (
+          <Timeline.Item
+            dot={
+              <div className="leading-4">
+                <i
+                  className={`inline-block rounded-full border-primary border-solid w-2 h-2 ${
+                    group.active ? 'bg-primary' : ''
+                  }`}
+                  style={{ borderWidth: 1 }}
+                />
+              </div>
+            }
           >
-            <div className="flex-1 pr-2">{renderSelectedItem(item)}</div>
-            <ErdaIcon
-              type="close-small"
-              size={24}
-              className="erda-list-select-selected-item-delete cursor-pointer"
-              onClick={() => removeResult(item[rowKey])}
-            />
-          </div>
+            <Collapse
+              activeKey={group.active ? ['1'] : []}
+              onChange={() => {
+                groupList[index].active = !groupList[index].active;
+                setGroupList([...groupList]);
+              }}
+              ghost
+              className="time-line-collapse"
+            >
+              <Panel
+                header={
+                  <span>
+                    {groupsTitle[index]}{' '}
+                    {group.list?.length ? (
+                      <span className="bg-default-1 rounded-full px-2 py-0.5 text-xs">{group.list.length}</span>
+                    ) : (
+                      ''
+                    )}
+                  </span>
+                }
+                key="1"
+              >
+                {group.list?.length ? (
+                  <div className="bg-default-02 p-2">
+                    {group.list?.map?.((item) => (
+                      <div
+                        className={`erda-list-select-selected-item flex items-center p-2 rounded-sm ${
+                          !readOnly ? 'hover:bg-default-04' : ''
+                        }`}
+                        key={item[rowKey]}
+                      >
+                        <div className="flex-1 pr-2">{renderSelectedItem(item)}</div>
+                        {!readOnly ? (
+                          <ErdaIcon
+                            type="close-small"
+                            size={24}
+                            className="erda-list-select-selected-item-delete cursor-pointer text-default-4"
+                            onClick={() => removeResult(index, item[rowKey])}
+                          />
+                        ) : (
+                          ''
+                        )}
+                      </div>
+                    ))}
+                    {!readOnly ? (
+                      <div
+                        className="text-center text-purple-deep cursor-pointer"
+                        onClick={() => {
+                          setReleaseVisible(true);
+                          setCurrentGroup(index);
+                          setSelectedList(group.list);
+                        }}
+                      >
+                        {i18n.t('dop:manage the group of releases')}
+                      </div>
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                ) : (
+                  <div className="bg-default-02 py-4 flex-all-center">
+                    <img src={empty} className="mr-2" />
+                    <div>
+                      <div className="text-lg leading-6">{i18n.t('dop:no releases have been selected yet')}</div>
+                      <div
+                        className="text-xs text-purple-deep cursor-pointer leading-5"
+                        onClick={() => {
+                          setReleaseVisible(true);
+                          setCurrentGroup(index);
+                          setSelectedList([]);
+                        }}
+                      >
+                        {i18n.t('dop:click to add application release')}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </Panel>
+            </Collapse>
+          </Timeline.Item>
         ))}
-      </div>
+        {!readOnly && groupList.length < 5 ? (
+          <Timeline.Item
+            dot={
+              <div className="leading-4">
+                <i
+                  className="inline-block rounded-full border-primary border-solid w-2 h-2"
+                  style={{ borderWidth: 1 }}
+                />
+              </div>
+            }
+          >
+            <div
+              className={'erda-list-select-btn px-2 py-1 rounded-sm inline-flex items-center cursor-pointer'}
+              onClick={() => setGroupList((prev) => [...prev, { active: true, list: [] }])}
+            >
+              <ErdaIcon type="plus" color="currentColor" size={16} className="mr-1" />
+              {i18n.t('add {name}', { name: i18n.t('dop:group') })}
+            </div>
+          </Timeline.Item>
+        ) : (
+          ''
+        )}
+      </Timeline>
+      <Modal
+        visible={releaseVisible}
+        onCancel={() => setReleaseVisible(false)}
+        wrapClassName="no-wrapper-modal"
+        width={1120}
+        footer={null}
+      >
+        <ListSelectOverlay
+          {...props}
+          selectedList={selectedList}
+          select={select}
+          remove={remove}
+          onOk={onOk}
+          onCancel={() => setReleaseVisible(false)}
+          clear={clear}
+          rowKey={rowKey}
+          menuRowKey={menuRowKey}
+          parentKey={parentKey}
+        />
+      </Modal>
     </div>
   );
 }
@@ -390,4 +495,4 @@ const Radio = ({ checked, multiple = false }: RadioProps) => {
   );
 };
 
-export default ListSelect;
+export default ReleaseSelect;

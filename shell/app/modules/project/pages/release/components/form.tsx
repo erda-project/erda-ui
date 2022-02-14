@@ -14,7 +14,7 @@
 import React from 'react';
 import { Button, Upload, Spin, Progress, Checkbox } from 'antd';
 import moment from 'moment';
-import { RenderForm, ListSelect, MarkdownEditor, ErdaIcon } from 'common';
+import { RenderForm, MarkdownEditor, ErdaIcon } from 'common';
 import i18n from 'i18n';
 import { PAGINATION } from 'app/constants';
 import { goTo, insertWhen } from 'common/utils';
@@ -28,6 +28,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useLoading } from 'core/stores/loading';
 import { FormInstance, UploadProps, UploadFile } from 'app/interface/common';
+import ReleaseSelect from './release-select';
 import {
   getReleaseList,
   getReleaseDetail,
@@ -84,9 +85,9 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   const releaseDetail = React.useMemo(() => {
     return {
       ..._releaseDetail,
-      applicationReleaseList: _releaseDetail?.applicationReleaseList?.map?.((item) => ({
-        ...item,
-        releaseId: item.releaseID,
+      applicationReleaseList: _releaseDetail?.applicationReleaseList?.map?.((group, index) => ({
+        active: index === 0,
+        list: [...group.map((item) => ({ ...item, releaseId: item.releaseID }))],
       })),
     };
   }, [_releaseDetail]);
@@ -199,50 +200,11 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
           label: i18n.t('dop:app release'),
           name: 'applicationReleaseList',
           type: 'custom',
-          getComp: () => <ListSelect label={i18n.t('dop:app release')} />,
+          className: 'flex-nowrap',
+          getComp: () => <ReleaseSelect label={i18n.t('dop:app release')} />,
           itemProps: {
-            renderSelectedItem: (item: RELEASE.ReleaseDetail) => {
-              return (
-                <div className="flex justify-between items-center">
-                  <div className="flex-1 min-w-0">
-                    <div
-                      className="text-hover truncate cursor-pointer"
-                      title={item.version}
-                      onClick={() => window.open(goTo.resolve.applicationReleaseDetail({ releaseId: item.releaseId }))}
-                    >
-                      {item.version}
-                    </div>
-                    <div className="text-xs flex mt-1">
-                      <div className="desc">{i18n.t('dop:owned application')}</div>
-                      <div className="ml-2 flex-1 min-w-0 truncate" title={item.applicationName}>
-                        {item.applicationName}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="desc">
-                    {item.createdAt ? moment(item.createdAt).format('YYYY/MM/DD HH:mm:ss') : null}
-                  </div>
-                </div>
-              );
-            },
-            renderItem: (item: RELEASE.ReleaseDetail) => {
-              return (
-                <div className="flex justify-between items-center">
-                  <div className="flex-1 min-w-0">
-                    <div className="truncate" title={item.version}>
-                      {item.version}
-                    </div>
-                    <div className="text-xs flex">
-                      <div className="desc">{i18n.t('dop:owned application')}</div>
-                      <div className="ml-2 truncate" title={item.applicationName}>
-                        {item.applicationName}
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-xs text-white-6">{moment(item.createdAt).format('YYYY/MM/DD HH:mm:ss')}</span>
-                </div>
-              );
-            },
+            renderSelectedItem,
+            renderItem,
             rowKey: 'releaseId',
             parentKey: 'applicationId',
             menus: appList,
@@ -266,18 +228,14 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
             // ),
           },
           readOnlyRender: (value: RELEASE.ReleaseDetail[]) => {
-            return (value || []).map((item: RELEASE.ReleaseDetail) => (
-              <div className="flex justify-between items-center bg-default-01 p-2">
-                <div>
-                  <div>{item.version}</div>
-                  <div className="text-xs flex mt-1">
-                    <div className="text-default-6">{i18n.t('dop:owned application')}</div>
-                    <div className="ml-2">{item.applicationName}</div>
-                  </div>
-                </div>
-                <div className="text-default-6">{item.createdAt}</div>
-              </div>
-            ));
+            return (
+              <ReleaseSelect
+                label={i18n.t('dop:app release')}
+                value={value}
+                readOnly
+                renderSelectedItem={renderSelectedItem}
+              />
+            );
           },
         }
       : {
@@ -324,7 +282,9 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         const { applicationReleaseList = [] } = values;
         payload = {
           ...payload,
-          applicationReleaseList: applicationReleaseList.map((item: { releaseId: string }) => item.releaseId),
+          applicationReleaseList: applicationReleaseList.map((group: { list: Array<{ releaseId: string }> }) =>
+            group.list.map((item: { releaseId: string }) => item.releaseId),
+          ),
           isStable: true,
           isFormal: false,
           isProjectRelease: true,
@@ -365,6 +325,48 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
           </Button>
         </div>
       ) : null}
+    </div>
+  );
+};
+
+const renderSelectedItem = (item: RELEASE.ReleaseDetail) => {
+  return (
+    <div className="flex justify-between items-center">
+      <div className="flex-1 min-w-0">
+        <div
+          className="text-purple-deep truncate cursor-pointer"
+          title={item.version}
+          onClick={() => window.open(goTo.resolve.applicationReleaseDetail({ releaseId: item.releaseId }))}
+        >
+          {item.version}
+        </div>
+        <div className="text-xs flex mt-1">
+          <div className="desc">{i18n.t('dop:owned application')}</div>
+          <div className="ml-2 flex-1 min-w-0 truncate" title={item.applicationName}>
+            {item.applicationName}
+          </div>
+        </div>
+      </div>
+      <div className="desc">{item.createdAt ? moment(item.createdAt).format('YYYY/MM/DD HH:mm:ss') : null}</div>
+    </div>
+  );
+};
+
+const renderItem = (item: RELEASE.ReleaseDetail) => {
+  return (
+    <div className="flex justify-between items-center">
+      <div className="flex-1 min-w-0">
+        <div className="truncate" title={item.version}>
+          {item.version}
+        </div>
+        <div className="text-xs flex">
+          <div className="desc">{i18n.t('dop:owned application')}</div>
+          <div className="ml-2 truncate" title={item.applicationName}>
+            {item.applicationName}
+          </div>
+        </div>
+      </div>
+      <span className="text-xs text-white-6">{moment(item.createdAt).format('YYYY/MM/DD HH:mm:ss')}</span>
     </div>
   );
 };
