@@ -170,7 +170,7 @@ export const AddonCards = (props: IProps) => {
     }
   };
 
-  const CardRender = (content: ADDON.Instance) => {
+  const CardRender = ({ content }: { content: ADDON.Instance }) => {
     const {
       name,
       plan,

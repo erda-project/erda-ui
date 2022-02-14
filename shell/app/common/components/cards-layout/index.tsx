@@ -39,7 +39,7 @@ const getCardGridClass = (compWidth: number) => {
 };
 
 const CardsLayout = (props: IProps) => {
-  const { dataList, contentRender } = props;
+  const { dataList, contentRender: ContentRender } = props;
   const [gridClass, setGridClass] = React.useState('');
   const [widthHolder, width] = useComponentWidth();
 
@@ -54,7 +54,7 @@ const CardsLayout = (props: IProps) => {
       {widthHolder}
       <IF check={!isEmpty(dataList) && gridClass}>
         <ul className={`card-list-container ${gridClass}`}>
-          {dataList && dataList.map((content) => contentRender(content))}
+          {dataList && dataList.map((content) => <ContentRender content={content} />)}
         </ul>
       </IF>
     </>
