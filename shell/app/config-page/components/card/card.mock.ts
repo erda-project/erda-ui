@@ -14,19 +14,53 @@
 const mockData: CP_CARD.Spec = {
   type: 'Card',
   props: {
-    data: {
-      a: {
-        id: 'id',
-        titleIcon: 'titleIcon',
-        title: 'title',
-        // operations: Obj<CP_COMMON.Operation>,
-        subContent: 'subContent',
-        description: 'description',
-        extraInfo: {},
-        type: 'type',
-      },
-    },
     cardType: 'string',
+  },
+  data: {
+    title: '标题',
+    titleSummary: '标题描述',
+    cards: [
+      {
+        id: 'id',
+        icon: 'unlock',
+        star: true,
+        title: 'title',
+        extraInfo: {},
+        titleState: [
+          {
+            status: 'success',
+            text: 'success',
+          },
+        ],
+        textMeta: [
+          {
+            mainText: 'mainText',
+            subText: 'subText',
+          },
+        ],
+        iconOperations: [],
+      },
+      {
+        id: 'id',
+        icon: 'lock',
+        star: true,
+        title: 'title',
+        extraInfo: {},
+        titleState: [
+          {
+            status: 'error',
+            text: 'error',
+          },
+        ],
+        textMeta: [
+          {
+            mainText: 'mainText',
+            subText: 'subText',
+          },
+        ],
+        iconOperations: [],
+      },
+    ],
   },
 };
 
