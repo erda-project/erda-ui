@@ -41,6 +41,16 @@
       padding: 0 !important;
     }
   }
+
+  .project-release-time-line {
+    .ant-timeline-item .ant-timeline-item-tail {
+      left: 4px;
+    }
+
+    .ant-timeline-item-head {
+      background: transparent;
+    }
+  }
 }
 
 .no-wrapper-modal {

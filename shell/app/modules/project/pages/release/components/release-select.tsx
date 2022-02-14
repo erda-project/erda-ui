@@ -116,7 +116,7 @@ function ReleaseSelect<T extends object = any>(props: IProps<T>) {
 
   return (
     <div className="erda-list-select">
-      <Timeline className="mt-1">
+      <Timeline className="mt-1 project-release-time-line">
         {groupList.map((group, index) => (
           <Timeline.Item
             dot={
