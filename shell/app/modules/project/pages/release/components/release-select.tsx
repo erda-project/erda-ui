@@ -41,8 +41,8 @@ const { Panel } = Collapse;
 
 interface IProps<T extends object = any> {
   label: React.ReactNode;
-  value?: T[];
-  onChange?: (values: T[]) => void;
+  value?: Array<{ active: boolean; list: T[] }>;
+  onChange?: (values: Array<{ active: boolean; list: T[] }>) => void;
   rowKey: string;
   parentKey: string;
   menuRowKey: string;
@@ -54,9 +54,8 @@ interface IProps<T extends object = any> {
   readOnly?: boolean;
 }
 
-function ReleaseSelect<T extends object = any>(props: IProps<T>) {
+function ReleaseSelect<T extends { applicationId: string; title: string }>(props: IProps<T>) {
   const {
-    label,
     renderSelectedItem = defaultRenderItem,
     onChange,
     rowKey = 'id',
@@ -71,7 +70,7 @@ function ReleaseSelect<T extends object = any>(props: IProps<T>) {
   const [currentGroup, setCurrentGroup] = React.useState<number>(0);
   const select = (selectItem: T, checked: boolean) => {
     const groupIndex = groupList.findIndex((group) =>
-      group.list.find((item) => item.releaseId === selectItem.releaseId),
+      group.list.find((item) => item.applicationId === selectItem.applicationId),
     );
     if (groupIndex === -1 || groupIndex === currentGroup) {
       setSelectedList((prev) =>
@@ -81,7 +80,9 @@ function ReleaseSelect<T extends object = any>(props: IProps<T>) {
       );
     } else {
       message.error(
-        i18n.t('dop:selected from {name}', { name: i18n.t('dop:group {index}', { index: groupIndex + 1 }) }),
+        i18n.t('dop:this application already has release selected in {name}', {
+          name: i18n.t('dop:group {index}', { index: groupIndex + 1 }),
+        }),
       );
     }
   };
@@ -102,7 +103,7 @@ function ReleaseSelect<T extends object = any>(props: IProps<T>) {
 
   const removeGroup = (index: number, e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    setGroupList((prev) => prev.filter((item, i) => i !== index));
+    setGroupList((prev) => prev.filter((_item, i) => i !== index));
   };
 
   const clear = () => {
@@ -154,12 +155,16 @@ function ReleaseSelect<T extends object = any>(props: IProps<T>) {
                     ) : (
                       ''
                     )}
-                    <ErdaIcon
-                      className="float-right mr-5 mt-1 text-default-6 remove-group"
-                      type="remove"
-                      size={16}
-                      onClick={(e) => removeGroup(index, e)}
-                    />
+                    {!readOnly ? (
+                      <ErdaIcon
+                        className="float-right mr-5 mt-1 text-default-6 remove-group"
+                        type="remove"
+                        size={16}
+                        onClick={(e: React.MouseEvent<HTMLElement>) => removeGroup(index, e)}
+                      />
+                    ) : (
+                      ''
+                    )}
                   </span>
                 }
                 key="1"
@@ -292,8 +297,6 @@ interface ListSelectOverlayProps<T> {
   rowKey: string;
   menuRowKey: string;
   parentKey: string;
-  value?: T[];
-  onChange?: (values: T[]) => void;
   rightSlot?: React.ReactNode;
 }
 
@@ -327,7 +330,7 @@ function ListSelectOverlay<T extends object = any>({
 }: ListSelectOverlayProps<T>) {
   const defaultSelectMenu = React.useMemo(
     () => ({ [menuRowKey]: 0, title: i18n.t('dop:all {name}', { name: i18n.t('App') }) }),
-    [menuRowKey, label],
+    [menuRowKey],
   );
   const menus = React.useMemo(() => [defaultSelectMenu, ..._menus], [_menus, defaultSelectMenu]);
   const [selectedMenu, setSelectedMenu] = React.useState<{ title: string }>(defaultSelectMenu);
