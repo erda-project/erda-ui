@@ -13,6 +13,7 @@
 
 import i18n from 'i18n';
 import { ServiceNameSelect } from './pages/service-name-select';
+import { getMspBreadcrumb } from 'msp/config';
 
 interface Tabs {
   name: string;
@@ -99,7 +100,7 @@ export default serviceListRouter;
 export function serviceAnalysisRouter() {
   return {
     path: 'service-analysis',
-    breadcrumbName: i18n.t('msp:service monitor'),
+    breadcrumbName: getMspBreadcrumb('ServiceMonitor'),
     tabs,
     alwaysShowTabKey: 'overview',
     pageNameInfo: ServiceNameSelect,

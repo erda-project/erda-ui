@@ -12,9 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { TagsRow, Panel, Ellipsis } from 'common';
+import { Ellipsis, Panel, TagsRow } from 'common';
 import Text from '../text/text';
 import { map } from 'lodash';
+import './panel.scss';
 
 interface IField extends CP_PANEL.Field {
   valueItem?: (props: Obj) => any;
@@ -27,7 +28,7 @@ const CP_PANEL = (props: CP_PANEL.Props) => {
   if (!visible) return null;
   const curData = data?.data;
   const _fields: IField[] = map(fields, (item) => {
-    const { renderType, operations, ...itemRest } = item;
+    const { renderType, operations, color, ...itemRest } = item;
     const reField: IField = { ...item };
     switch (renderType) {
       case 'ellipsis':
@@ -71,11 +72,27 @@ const CP_PANEL = (props: CP_PANEL.Props) => {
           <Text type="Text" props={{ renderType: 'copyText', value: { text: _props.value } }} />
         );
         break;
+      case 'highlightText':
+        reField.valueItem = (_props: Obj) => (
+          <Text
+            type="Text"
+            props={{
+              renderType: 'copyText',
+              value: { text: _props.value },
+              textStyleName: { [`text-${color}`]: !!color },
+            }}
+          />
+        );
+        break;
       default:
         break;
     }
     return reField;
   });
-  return <Panel {...rest} fields={_fields} data={curData} />;
+  return (
+    <div className="cp-erda-panel">
+      <Panel {...rest} fields={_fields} data={curData} />
+    </div>
+  );
 };
 export default CP_PANEL;

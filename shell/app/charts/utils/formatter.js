@@ -126,6 +126,31 @@ class TimeFormatter extends AryFormatter {
     this.aryTower = this.getCurAryTower(allAryTower, unit || 'ms');
     this.ary = 1000;
   }
+
+  format(value, fixed) {
+    const { ary, aryTower } = this;
+    if (value === 0) {
+      return `${this.toFixed(value, fixed)} ${aryTower[0]}`;
+    }
+    if (ary && aryTower) {
+      let power = Math.floor(Math.log(value) / Math.log(ary));
+      power = power < aryTower.length ? power : aryTower.length - 1;
+      power = power > 0 ? power : 0;
+      let count = value / ary ** power;
+      let unit = aryTower[power];
+      if (count >= 60) {
+        unit = 'min';
+        count = count / 60;
+      }
+      if (count >= 60) {
+        unit = 'h';
+        count = count / 60;
+      }
+      const displayValue = this.toFixed(count, fixed);
+      return `${displayValue} ${unit}`;
+    }
+    return value;
+  }
 }
 
 class OwnUnit extends Formatter {
@@ -164,15 +189,32 @@ export const getFormatter = (unitType, unit) => {
  * @param type {'string' | 'number' | 'capacity' | 'trafficRate' | 'storage' | 'timestamp' | 'time'}
  * @param precision {string}
  * @param value {number}
+ * @param [min] {number}
+ * @param [max] {number}
  * @returns {string}
  */
-export const formatValue = (type, precision, value) => {
+export const formatValue = (type, precision, value, min, max) => {
   const valueType = type === 'trafficRate' ? 'TRAFFIC' : type.toUpperCase();
   if (['NUMBER', 'PERCENT', 'CAPACITY', 'TIME', 'STORAGE', 'TRAFFIC'].includes(valueType)) {
     const format = getFormatter(valueType, precision);
     return format.format(value);
   } else if (valueType === 'TIMESTAMP') {
-    return moment(value).format(precision);
+    const timer = precision === 'ns' ? value / Math.pow(10, 6) : value;
+    let formatStr = 'YYYY/MM/DD HH:mm:ss';
+    if (max && min) {
+      const minTimer = precision === 'ns' ? min / Math.pow(10, 6) : min;
+      const maxTimer = precision === 'ns' ? max / Math.pow(10, 6) : max;
+      const isSameDay = moment(minTimer).isSame(moment(maxTimer), 'day');
+      const isSameYear = moment(minTimer).isSame(moment(maxTimer), 'year');
+      if (isSameYear) {
+        formatStr = 'MM/DD HH:mm:ss';
+      }
+      if (isSameDay) {
+        formatStr = 'HH:mm:ss';
+      }
+    }
+    console.log(timer - 0, typeof (timer - 0), precision);
+    return moment(timer - 0).format(formatStr);
   } else {
     return `${value} ${precision}`;
   }

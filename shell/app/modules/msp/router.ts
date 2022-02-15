@@ -17,6 +17,7 @@ import getEnvOverViewRouter from 'msp/env-overview/router';
 import i18n from 'i18n';
 import wrapper from './pages/wait-wrapper';
 import getQueryAnalysisRouter from 'msp/query-analysis';
+import { getMspBreadcrumb } from 'msp/config';
 
 const injectWrapper = (route: RouteConfigItem): RouteConfigItem => {
   route.wrapper = wrapper;
@@ -76,17 +77,17 @@ function getMspRouter(): RouteConfigItem[] {
               routes: [
                 {
                   path: ':terminusKey/configuration',
-                  breadcrumbName: i18n.t('msp:AccessConfig'),
+                  breadcrumbName: getMspBreadcrumb('AccessConfig'),
                   getComp: (cb) => cb(import('msp/env-setting/configuration')),
                 },
                 {
                   path: ':terminusKey/member',
-                  breadcrumbName: i18n.t('msp:MemberManagement'),
+                  breadcrumbName: getMspBreadcrumb('MemberManagement'),
                   getComp: (cb) => cb(import('msp/env-setting/member-manage')),
                 },
                 {
                   path: 'info/:tenantId?',
-                  breadcrumbName: i18n.t('msp:ComponentInfo'),
+                  breadcrumbName: getMspBreadcrumb('ComponentInfo'),
                   layout: { fullHeight: true },
                   getComp: (cb) => cb(import('msp/env-setting/info')),
                 },

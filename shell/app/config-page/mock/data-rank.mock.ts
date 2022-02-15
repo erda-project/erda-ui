@@ -25,91 +25,65 @@ export const mockData = {
   },
   protocol: {
     hierarchy: {
-      root: 'BubbleGraph',
+      root: 'myPage',
       structure: {
-        myPage: ['BubbleGraph'],
+        myPage: ['graph'],
       },
     },
     components: {
-      myPage: { type: 'Container' },
-      BubbleGraph: {
-        type: 'BubbleGraph',
+      myPage: {
+        type: 'Container',
+        props: {
+          className: 'bg-white',
+        },
+      },
+      graph: {
+        type: 'ComplexGraph',
         data: {
-          list: [
+          dimensions: ['Fatal1', 'Fatal'],
+          inverse: false,
+          series: [
             {
-              dimension: 'dimension A',
-              group: 'group A',
-              size: {
-                value: 10,
-              },
-              x: {
-                unit: '',
-                value: 100,
-              },
-              y: {
-                unit: '',
-                value: 100,
-              },
+              data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+              dimension: 'Fatal1',
+              name: '',
+              type: 'line',
             },
             {
-              dimension: 'dimension A',
-              group: 'group B',
-              size: {
-                value: 15,
-              },
-              x: {
-                unit: '',
-                value: 150,
-              },
-              y: {
-                unit: '',
-                value: 200,
-              },
+              data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 78, 148, 140],
+              dimension: 'Fatal',
+              name: '',
+              type: 'line',
             },
+          ],
+          title: 'alertEventGroupByLevelCountLine',
+          xAxis: [
             {
-              dimension: 'dimension B',
-              group: 'group A',
-              size: {
-                value: 25,
+              data: [
+                1644384894333, 1644385014333, 1644385134333, 1644385254333, 1644385374333,
+                1644385494333, 1644385614333, 1644385734333, 1644385854333, 1644385974333,
+                1644386094333, 1644386214333, 1644386334333, 1644386454333, 1644386574333,
+                1644386694333, 1644386814333, 1644386934333, 1644387054333, 1644387174333,
+                1644387294333, 1644387414333, 1644387534333, 1644387654333, 1644387774333,
+                1644387894333, 1644388014333, 1644388134333, 1644388254333, 1644388374333,
+              ],
+              structure: {
+                enable: true,
+                precision: 'ms',
+                type: 'timestamp',
               },
-              x: {
-                unit: '',
-                value: 400,
-              },
-              y: {
-                unit: '',
-                value: 300,
-              },
+              type: 'category',
             },
+          ],
+          yAxis: [
             {
-              dimension: 'dimension B',
-              group: 'group B',
-              size: {
-                value: 30,
+              dimensions: ['Fatal1', 'Fatal'],
+              structure: {
+                enable: true,
+                precision: '',
+                type: 'number',
               },
-              x: {
-                unit: '',
-                value: 1,
-              },
-              y: {
-                unit: '',
-                value: 400,
-              },
-            },
-            {
-              dimension: 'dimension B',
-              group: 'group B',
-              size: {
-                value: 100,
-              },
-              x: {
-                unit: '',
-                value: 100,
-              },
-              y: {
-                unit: '',
-                value: 400,
-              },
+              type: 'value',
             },
           ],
         },

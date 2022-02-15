@@ -109,9 +109,17 @@ const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
         data: xAxisData,
         axisLabel: {
           color: colorToRgb(color, 0.6),
-          formatter: xOptions?.structure?.enable
-            ? (v: number) => formatValue(xOptions?.structure.type, xOptions?.structure.precision, v)
-            : undefined,
+          formatter:
+            xOptions?.structure?.enable && xAxisData.length
+              ? (v: number) =>
+                  formatValue(
+                    xOptions?.structure.type,
+                    xOptions?.structure.precision,
+                    v,
+                    xAxisData[0],
+                    xAxisData[xAxisData.length - 1],
+                  )
+              : undefined,
         },
         splitLine: {
           show: false,
@@ -149,14 +157,16 @@ const CP_BubbleGraph: React.FC<CP_BUBBLE_GRAPH.Props> = (props) => {
 
   return (
     <div className={`px-4 pb-2 ${configProps.className ?? ''}`} style={{ backgroundColor: colorToRgb(color, 0.02) }}>
-      <div
-        className={`title h-12 flex items-center justify-between ${
-          configProps.theme === 'dark' ? 'text-white' : 'text-normal'
-        }`}
-      >
-        {data.title}
-      </div>
-      <div>
+      {data.title ? (
+        <div
+          className={`title h-12 flex items-center justify-between ${
+            configProps.theme === 'dark' ? 'text-white' : 'text-normal'
+          }`}
+        >
+          {data.title}
+        </div>
+      ) : null}
+      <div className={data.title ? '' : 'pt-4'}>
         {option.series.length && option.yAxis.length ? (
           <Echarts onEvents={onEvents} option={option} style={style} />
         ) : (

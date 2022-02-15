@@ -33,6 +33,7 @@ interface IState {
     curOrgName: string;
     mspProjectName: string;
     cmpCluster: null | ORG_CLUSTER.ICluster;
+    mspBreadcrumb: { [key in MS_INDEX.IMenuKey]: string };
   };
 }
 
@@ -56,6 +57,7 @@ const initState: IState = {
     curOrgName: '',
     mspProjectName: '',
     cmpCluster: null,
+    mspBreadcrumb: {},
   },
 };
 

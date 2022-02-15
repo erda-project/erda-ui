@@ -13,7 +13,7 @@
 
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import i18n, { isZh } from 'i18n';
-import { firstCharToUpper } from 'common/utils';
+import { getMspBreadcrumb } from 'msp/config';
 
 const tabs = [
   { key: 'bi', name: i18n.t('overview') },
@@ -25,8 +25,7 @@ const tabs = [
 ];
 const getBIRouter = (): RouteConfigItem => ({
   path: 'bi',
-  breadcrumbName: firstCharToUpper(i18n.t('msp:frontMonitor')),
-  pageName: firstCharToUpper(i18n.t('msp:frontMonitor')),
+  breadcrumbName: getMspBreadcrumb('FrontMonitor'),
   tabs,
   routes: [
     {

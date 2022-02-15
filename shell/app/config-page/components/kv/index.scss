@@ -1,7 +1,7 @@
 .cp-kv {
   &.dark {
     .items {
-      background: rgba($white, 0.04);
+      background: rgba($white, 0.02);
 
       .items-value {
         color: $white;
@@ -16,7 +16,7 @@
 
   &.light {
     .items {
-      background: rgba($color-default, 0.04);
+      background: rgba($color-default, 0.02);
 
       .items-value {
         color: $color-default;

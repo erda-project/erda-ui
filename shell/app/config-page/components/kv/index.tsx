@@ -19,15 +19,15 @@ import './index.scss';
 
 const IndicatorCard: React.FC<CP_KV.Props> = (props) => {
   const { props: configProps, data } = props;
-  const { gutter = 8, span } = configProps || {};
+  const { gutter = 8, span, className, wrapperClass, theme } = configProps || {};
   const list = data.list ?? [];
   const itemSpan = span ?? new Array(list.length).fill(Math.ceil(24 / list.length));
   return (
-    <Row className={`${configProps.wrapperClass ?? ''} ${configProps.theme ?? 'light'} cp-kv w-full`} gutter={gutter}>
+    <Row className={`${wrapperClass ?? ''} ${theme ?? 'light'} cp-kv w-full`} gutter={gutter}>
       {list.map((item, index) => {
         return (
           <Col key={item.key} span={itemSpan[index]}>
-            <div className="items p-3">
+            <div className={`items p-3 ${className ?? ''}`}>
               <div className="text-center">
                 <span className="text-xl items-value">{item.value}</span>
                 {item.subKey ? <span className="text-xs	items-unit ml-0.5">{item.subKey}</span> : null}
