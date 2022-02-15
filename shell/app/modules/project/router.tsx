@@ -143,6 +143,7 @@ function getProjectRouter(): RouteConfigItem[] {
                       getComp: (cb) => cb(import('project/pages/issue/gantt')),
                       layout: {
                         fullHeight: true,
+                        noWrapper: true,
                       },
                     },
                     {

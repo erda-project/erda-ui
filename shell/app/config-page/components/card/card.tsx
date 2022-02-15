@@ -180,7 +180,7 @@ export const CardItem = (props: CardItemProps) => {
 };
 
 export const Card = (props: CP_CARD.Props) => {
-  const { props: configProps, execOperation = noop, customOp = {}, data } = props;
+  const { props: configProps, execOperation = noop, customOp = {}, data = {} } = props;
   const {
     cardType = 'cp-card',
     className = '',
