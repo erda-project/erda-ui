@@ -11,16 +11,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import i18n from 'i18n';
-import { firstCharToUpper } from 'common/utils';
+import { getMspBreadcrumb } from 'msp/config';
 
 const CustomDashBoard = () => ({
   path: 'custom-dashboard',
-  breadcrumbName: firstCharToUpper(i18n.t('msp:custom Dashboard')),
+  breadcrumbName: getMspBreadcrumb('Dashboard'),
   routes: [
     {
       path: 'add',
-      breadcrumbName: firstCharToUpper(i18n.t('msp:custom Dashboard')),
+      breadcrumbName: getMspBreadcrumb('Dashboard'),
       layout: { fullHeight: true },
       getComp: (cb: RouterGetComp) => cb(import('msp/query-analysis/custom-dashboard/pages/custom-dashboard')),
     },

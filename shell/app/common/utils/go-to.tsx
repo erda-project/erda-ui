@@ -329,7 +329,7 @@ export enum pages {
   cmpJobs = '/{orgName}/cmp/jobs',
   cmpReport = '/{orgName}/cmp/report',
   cmpAlarm = '/{orgName}/cmp/alarm',
-  cmpAlarmStatistics = '/{orgName}/cmp/alarm/statistics',
+  cmpAlarmOverview = '/{orgName}/cmp/alarm/overview',
   cmpAlarmRecord = '/{orgName}/cmp/alarm/record',
   cmpAlarmStrategy = '/{orgName}/cmp/alarm/strategy',
   cmpAlarmCustom = '/{orgName}/cmp/alarm/custom',

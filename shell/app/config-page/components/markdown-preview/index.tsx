@@ -12,24 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage, { useMock } from 'app/config-page';
+import MarkdownRender from 'common/components/markdown-render';
+import EmptyHolder from 'common/components/empty-holder';
 
-const Mock = () => {
+const CP_MarkdownPreview: React.FC<CP_MARKDOWN_PREVIEW.Props> = (props) => {
+  const { data, props: configProps } = props;
+  const { className = '', wrapperClassName = '' } = configProps || {};
   return (
-    <DiceConfigPage
-      showLoading
-      scenarioType="mock"
-      scenarioKey={'mock'}
-      useMock={useMock}
-      forceMock
-      customProps={{
-        cards: {
-          props: {
-            gutter: 0,
-          },
-        },
-      }}
-    />
+    <div className={`cp-markdown-preview ${wrapperClassName}`}>
+      {!data.content ? (
+        <EmptyHolder relative />
+      ) : (
+        <MarkdownRender value={data.content} className={`p-0 ${className}`} />
+      )}
+    </div>
   );
 };
-export default Mock;
+
+export default CP_MarkdownPreview;

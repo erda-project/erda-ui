@@ -125,8 +125,8 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
         subtitle: i18n.t('Alarm'),
         subMenu: [
           {
-            text: i18n.t('alarm statistics'),
-            href: goTo.resolve.cmpAlarmStatistics(), // '/cmp/alarm/statistics',
+            text: i18n.t('alarm overview'),
+            href: goTo.resolve.cmpAlarmOverview(), // '/cmp/alarm/overview',
           },
           {
             text: i18n.t('alarm record'),

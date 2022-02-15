@@ -20,7 +20,7 @@ import monitorErrorRouter from 'msp/monitor/error-insight/router';
 import monitorStatusRouter from 'msp/monitor/status-insight/router';
 import projectReportRouter from 'msp/monitor/project-report/router';
 import { serviceAnalysisRouter } from 'msp/env-overview/service-list/router';
-import i18n from 'i18n';
+import { getMspBreadcrumb } from 'msp/config';
 
 function getMonitorRouter(): RouteConfigItem {
   return {
@@ -29,7 +29,7 @@ function getMonitorRouter(): RouteConfigItem {
     routes: [
       {
         path: 'overview',
-        breadcrumbName: i18n.t('msp:monitoring overview'),
+        breadcrumbName: getMspBreadcrumb('MonitorCenter'),
         getComp: (cb) => cb(import('msp/monitor/monitor-overview/pages/overview/overview')),
       },
       getAIRouter(),

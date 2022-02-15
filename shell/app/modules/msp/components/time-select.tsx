@@ -13,12 +13,20 @@
 
 import React from 'react';
 import { Moment } from 'moment';
-import { TimeSelect } from 'common';
 import { ITimeRange } from 'common/components/time-select/common';
+import TimeSelect, { IProps } from 'common/components/time-select/time-select';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { getTimeSpan } from 'common/utils';
 
-export const TimeSelectWithStore = ({ className, theme }: { className?: string; theme?: 'dark' | 'light' }) => {
+export const TimeSelectWithStore = ({
+  className,
+  theme,
+  placement,
+}: {
+  className?: string;
+  theme?: 'dark' | 'light';
+  placement?: IProps['placement'];
+}) => {
   const globalTimeSelectSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan);
   const [time, setTime] = React.useState(globalTimeSelectSpan.data);
   React.useEffect(() => {
@@ -48,6 +56,7 @@ export const TimeSelectWithStore = ({ className, theme }: { className?: string; 
   };
   return (
     <TimeSelect
+      placement={placement}
       value={time}
       className={className}
       onChange={handleChange}

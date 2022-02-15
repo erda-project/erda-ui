@@ -11,26 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_CHART_BLOCK {
-  interface Spec {
-    type: 'ChartBlock';
-    props?: IProps;
-    data: IData;
-  }
+import React from 'react';
+import BaseOverview from 'msp/alarm-manage/overview/base-overview';
+import routeInfoStore from 'core/stores/route';
 
-  interface IData {
-    title: string;
-  }
+const Overview = () => {
+  const { terminusKey } = routeInfoStore.useStore((s) => s.params);
 
-  interface IProps {
-    chartOptions?: any;
-    className?: string;
-    childClassName?: string;
-    showDefaultBgColor?: boolean;
-  }
+  return <BaseOverview scope="micro_service" scopeId={terminusKey} />;
+};
 
-  type Props = MakeProps<Spec> & {
-    filter: React.ElementType;
-    children: React.ElementType[];
-  };
-}
+export default Overview;

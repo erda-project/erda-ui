@@ -12,11 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
+import { getMspBreadcrumb } from 'msp/config';
 
 function monitorErrorRouter(): RouteConfigItem {
   return {
     path: 'error',
-    breadcrumbName: i18n.t('msp:ErrorInsight'),
+    breadcrumbName: getMspBreadcrumb('ErrorInsight'),
     routes: [
       {
         getComp: (cb) => cb(import('error-insight/pages/errors/error-overview')),
