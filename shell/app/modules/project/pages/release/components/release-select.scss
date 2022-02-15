@@ -1,4 +1,6 @@
 .erda-list-select {
+  width: 50%;
+
   &-btn {
     background-color: rgba($color-purple-highlight, 0.1);
     color: $color-purple-highlight;
@@ -31,6 +33,56 @@
       .erda-list-select-selected-item-delete {
         visibility: visible;
       }
+    }
+  }
+
+  .time-line-collapse {
+    .ant-collapse-header {
+      padding: 0 !important;
+    }
+
+    &-header {
+      display: inline-block;
+      width: calc(100% - 24px);
+
+      .remove-group {
+        visibility: hidden;
+      }
+
+      &.active,
+      &:hover {
+        .group-title {
+          font-weight: 500;
+        }
+
+        .remove-group {
+          visibility: visible;
+        }
+      }
+    }
+  }
+
+  .project-release-time-line {
+    .ant-timeline-item .ant-timeline-item-tail {
+      left: 4px;
+    }
+
+    .ant-timeline-item-head {
+      background: transparent;
+    }
+  }
+}
+
+.no-wrapper-modal {
+  .ant-modal-body {
+    padding: 0;
+  }
+
+  .ant-modal-close {
+    color: $color-white-4;
+
+    &:hover {
+      color: $color-white-6;
     }
   }
 }
