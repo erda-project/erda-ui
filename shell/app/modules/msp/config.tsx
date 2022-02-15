@@ -56,6 +56,7 @@ export const getMSFrontPathByKey = (key: MS_INDEX.IMenuKey, params: IMSPathParam
     ActiveMonitor: `${monitorPrefix}/status`,
     AlertCenter: alarmManagementPrefix,
     AlertStrategy: `${alarmManagementPrefix}/alarm`,
+    AlertOverview: `${alarmManagementPrefix}/alarm-overview`,
     AlarmHistory: `${alarmManagementPrefix}/alarm-record`,
     RuleManagement: `${alarmManagementPrefix}/custom-alarm`,
     NotifyGroupManagement: `${alarmManagementPrefix}/notify-group`,
@@ -122,3 +123,9 @@ export const MSIconMap = {
   MonitorCenter: <ErdaIcon type="fuwujiankong" />,
   DiagnoseAnalyzer: <ErdaIcon type="zhenduanfenxi" />,
 };
+
+export const getMspBreadcrumb =
+  (key: MS_INDEX.IMenuKey) =>
+  ({ infoMap }: { infoMap: Obj; route: any; params: Obj<string>; query: Obj<string> }) => {
+    return infoMap.mspBreadcrumb[key];
+  };

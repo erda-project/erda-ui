@@ -29,6 +29,7 @@ export interface IBadgeProps {
   className?: string;
   showDot?: boolean;
   onlyDot?: boolean;
+  onlyText?: boolean;
   suffixIcon?: string;
   onClick?: () => void;
 }
@@ -53,6 +54,7 @@ const Badge = (props: IBadgeProps) => {
     showDot = true,
     onlyDot,
     suffixIcon,
+    onlyText,
     onClick,
   } = props;
   const status = pStatus || 'default';
@@ -68,6 +70,7 @@ const Badge = (props: IBadgeProps) => {
     {
       'erda-badge': true,
       [`erda-badge-status-${status}`]: true,
+      'bg-transparent': onlyText,
       [`badge-${size}`]: true,
       'inline-flex': true,
       'items-center': true,
@@ -87,7 +90,7 @@ const Badge = (props: IBadgeProps) => {
             <span className="erda-badge-status-breath" />
           </span>
         ) : null}
-        {!onlyDot ? (
+        {!onlyDot || onlyText ? (
           <span className="erda-badge-status-text flex-h-center">
             {text} {suffixIcon ? <ErdaIcon type={suffixIcon} /> : null}
           </span>

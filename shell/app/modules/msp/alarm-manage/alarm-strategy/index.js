@@ -13,13 +13,14 @@
 
 import i18n from 'i18n';
 import { AddStrategyPageName, EditStrategyPageName } from 'cmp/common/alarm-strategy/strategy-form';
+import { getMspBreadcrumb } from 'msp/config';
 
 function AlarmRouter() {
   return {
     path: 'alarm',
     routes: [
       {
-        pageName: i18n.t('msp:AlertStrategy'),
+        breadcrumbName: getMspBreadcrumb('AlertStrategy'),
         getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index')),
       },
       {

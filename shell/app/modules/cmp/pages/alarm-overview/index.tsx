@@ -11,26 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_CHART_BLOCK {
-  interface Spec {
-    type: 'ChartBlock';
-    props?: IProps;
-    data: IData;
-  }
+import React from 'react';
+import BaseOverview from 'msp/alarm-manage/overview/base-overview';
+import orgStore from 'app/org-home/stores/org';
 
-  interface IData {
-    title: string;
-  }
+const AlarmOverview = () => {
+  const orgId = orgStore.useStore((s) => s.currentOrg.id);
+  return <BaseOverview scope="org" scopeId={`${orgId}`} />;
+};
 
-  interface IProps {
-    chartOptions?: any;
-    className?: string;
-    childClassName?: string;
-    showDefaultBgColor?: boolean;
-  }
-
-  type Props = MakeProps<Spec> & {
-    filter: React.ElementType;
-    children: React.ElementType[];
-  };
-}
+export default AlarmOverview;

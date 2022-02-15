@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import React from 'react';
-import { Tooltip, Menu, Popconfirm, Dropdown, Progress } from 'antd';
+import { Dropdown, Menu, Popconfirm, Progress, Tooltip } from 'antd';
 import moment from 'moment';
-import { Copy, ErdaIcon, TagsRow, Badge, Avatar } from 'common';
-import { has, map, isArray, get, sortBy, filter } from 'lodash';
+import { Avatar, Badge, Copy, ErdaIcon, TagsRow } from 'common';
+import { filter, get, has, isArray, map, sortBy } from 'lodash';
 import { getAvatarChars } from 'app/common/utils';
 import { WithAuth } from 'user/common';
 import i18n from 'i18n';
@@ -223,8 +223,8 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
       if (typeof data === 'string') {
         Comp = data;
       } else if (typeof data === 'object') {
-        const { text, enableCopy, status, showDot = false, tip } = data;
-        let value = status ? <Badge text={text} status={status} showDot={showDot} /> : text;
+        const { text, enableCopy, status, showDot = false, tip, onlyText = false } = data;
+        let value = status ? <Badge text={text} status={status} showDot={showDot} onlyText={onlyText} /> : text;
 
         if (tip) {
           value = (

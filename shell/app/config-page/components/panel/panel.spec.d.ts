@@ -15,7 +15,7 @@ declare namespace CP_PANEL {
   interface Field {
     label?: string;
     valueKey?: any;
-    renderType?: 'ellipsis' | 'tagsRow' | 'linkText' | 'copyText';
+    renderType?: 'ellipsis' | 'tagsRow' | 'linkText' | 'copyText' | 'highlightText';
     value?: any;
     operations?: CP_COMMON.Operation;
   }
@@ -32,6 +32,7 @@ declare namespace CP_PANEL {
     type?: 'Z' | 'N';
     numOfRowsLimit?: number;
   }
+
   interface Spec {
     type: 'Panel';
     props: IProps;

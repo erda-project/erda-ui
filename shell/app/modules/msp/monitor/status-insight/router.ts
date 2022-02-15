@@ -12,11 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
+import { getMspBreadcrumb } from 'msp/config';
 
 function monitorStatusRouter(): RouteConfigItem {
   return {
     path: 'status',
-    breadcrumbName: i18n.t('msp:ActiveMonitor'),
+    breadcrumbName: getMspBreadcrumb('ActiveMonitor'),
     routes: [
       {
         getComp: (cb) => cb(import('status-insight/pages/status/status')),
