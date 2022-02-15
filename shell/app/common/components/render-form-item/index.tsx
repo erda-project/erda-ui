@@ -569,7 +569,6 @@ const TagsSelect = ({ size, options, value = [], onChange, ...restItemProps }: T
       filterOption={(input, option) =>
         typeof option?.label === 'string' && option?.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
       }
-      listItemHeight={0}
     >
       {typeof options === 'function'
         ? options()
