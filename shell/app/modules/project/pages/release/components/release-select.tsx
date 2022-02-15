@@ -23,14 +23,6 @@ import './release-select.scss';
 
 const { Panel } = Collapse;
 
-const groupsTitle = [
-  i18n.t('dop:the {index} group', { index: i18n.t('dop:first') }),
-  i18n.t('dop:the {index} group', { index: i18n.t('dop:second') }),
-  i18n.t('dop:the {index} group', { index: i18n.t('dop:third') }),
-  i18n.t('dop:the {index} group', { index: i18n.t('dop:fourth') }),
-  i18n.t('dop:the {index} group', { index: i18n.t('dop:fifth') }),
-];
-
 /**
  * list select
  * @param label The title used to display in buttons and popovers
@@ -88,7 +80,9 @@ function ReleaseSelect<T extends object = any>(props: IProps<T>) {
           : prev.filter((item) => item[rowKey] !== selectItem[rowKey]),
       );
     } else {
-      message.error(i18n.t('dop:selected from {name}', { name: groupsTitle[groupIndex] }));
+      message.error(
+        i18n.t('dop:selected from {name}', { name: i18n.t('dop:group {index}', { index: groupIndex + 1 }) }),
+      );
     }
   };
 
@@ -149,7 +143,7 @@ function ReleaseSelect<T extends object = any>(props: IProps<T>) {
               <Panel
                 header={
                   <span>
-                    {groupsTitle[index]}{' '}
+                    {i18n.t('dop:group {index}', { index: index + 1 })}
                     {group.list?.length ? (
                       <span className="bg-default-1 rounded-full px-2 py-0.5 text-xs">{group.list.length}</span>
                     ) : (
