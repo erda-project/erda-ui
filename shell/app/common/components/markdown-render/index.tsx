@@ -22,6 +22,7 @@ import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { CodeComponent } from 'react-markdown/lib/ast-to-react';
+import github from 'react-syntax-highlighter/dist/esm/styles/hljs/googlecode.js';
 import './index.scss';
 
 import js from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
@@ -107,21 +108,17 @@ const Link = ({ href, children }: LinkHTMLAttributes<HTMLAnchorElement>) => {
   );
 };
 
-const code: CodeComponent = ({ node, inline, className, children, ...props }) => {
-  const match = /language-(\w+)/.exec(className || '');
-  return !inline && match ? (
-    <SyntaxHighlighter language={match[1]} {...props}>
-      {String(children).replace(/\n$/, '')}
+// overwrite code will add duplicate pre wrappers(SyntaxHighlighter + original) in multiple line, so overwrite pre
+const pre = ({ children }: { children: React.ReactChild }) => {
+  const preProps = children?.[0].props;
+  const codeStr = preProps.children[0].replace(/\n$/, '');
+  const match = /language-(\w+)/.exec(preProps.className);
+  return (
+    <SyntaxHighlighter language={match?.[1]} style={github}>
+      {codeStr}
     </SyntaxHighlighter>
-  ) : (
-    <code className={className} {...props}>
-      {children}
-    </code>
   );
 };
-
-// multiple line code will add duplicate pre wrapper
-const pre = ({ children }: any) => children;
 
 interface IMdProps {
   value: string;
@@ -134,7 +131,7 @@ export const MarkdownRender = ({ value, className, style, noWrapper, components 
   const content = (
     <ReactMarkdown
       remarkPlugins={[remarkGfm, remarkBreaks]}
-      components={{ img: ScalableImage, a: Link, pre, code, ...components }}
+      components={{ img: ScalableImage, a: Link, pre, ...components }}
     >
       {value}
     </ReactMarkdown>
