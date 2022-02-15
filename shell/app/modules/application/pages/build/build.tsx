@@ -282,7 +282,7 @@ export const Build = (props: IProps) => {
           });
           return (
             <div key={pipelineID} className={cls} {...liProps}>
-              <div className="list-item flex justify-between items-center">
+              <div className="w-full flex flex-col justify-between items-center">
                 <div className="title flex justify-between items-center">
                   <Tooltip title={toolTipName} overlayClassName="commit-tip">
                     <span className="branch-name font-medium nowrap">
