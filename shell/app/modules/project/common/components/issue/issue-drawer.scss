@@ -127,15 +127,6 @@
     width: 100% !important;
   }
 
-  .list-item {
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    .ant-checkbox-checked::after {
-      height: 16px;
-    }
-  }
-
   .ant-checkbox-inner {
     display: inline-block;
   }
