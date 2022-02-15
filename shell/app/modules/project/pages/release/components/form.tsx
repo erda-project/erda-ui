@@ -341,13 +341,15 @@ const renderSelectedItem = (item: RELEASE.ReleaseDetail) => {
           {item.version}
         </div>
         <div className="text-xs flex mt-1">
-          <div className="desc">{i18n.t('dop:owned application')}</div>
+          <div className="desc text-default-6">{i18n.t('dop:owned application')}</div>
           <div className="ml-2 flex-1 min-w-0 truncate" title={item.applicationName}>
             {item.applicationName}
           </div>
         </div>
       </div>
-      <div className="desc">{item.createdAt ? moment(item.createdAt).format('YYYY/MM/DD HH:mm:ss') : null}</div>
+      <div className="desc text-default-6">
+        {item.createdAt ? moment(item.createdAt).format('YYYY/MM/DD HH:mm:ss') : null}
+      </div>
     </div>
   );
 };

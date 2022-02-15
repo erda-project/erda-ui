@@ -100,6 +100,11 @@ function ReleaseSelect<T extends object = any>(props: IProps<T>) {
     onChange?.(groupList);
   };
 
+  const removeGroup = (index: number, e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    setGroupList((prev) => prev.filter((item, i) => i !== index));
+  };
+
   const clear = () => {
     setSelectedList([]);
   };
@@ -142,13 +147,19 @@ function ReleaseSelect<T extends object = any>(props: IProps<T>) {
             >
               <Panel
                 header={
-                  <span>
-                    {i18n.t('dop:group {index}', { index: index + 1 })}
+                  <span className={`time-line-collapse-header ${group.active ? 'active' : ''}`}>
+                    <span className="group-title">{i18n.t('dop:group {index}', { index: index + 1 })}</span>
                     {group.list?.length ? (
-                      <span className="bg-default-1 rounded-full px-2 py-0.5 text-xs">{group.list.length}</span>
+                      <span className="bg-default-1 rounded-full px-2 py-0.5 text-xs ml-1">{group.list.length}</span>
                     ) : (
                       ''
                     )}
+                    <ErdaIcon
+                      className="float-right mr-5 mt-1 text-default-6 remove-group"
+                      type="remove"
+                      size={16}
+                      onClick={(e) => removeGroup(index, e)}
+                    />
                   </span>
                 }
                 key="1"

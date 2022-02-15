@@ -40,6 +40,26 @@
     .ant-collapse-header {
       padding: 0 !important;
     }
+
+    &-header {
+      display: inline-block;
+      width: calc(100% - 24px);
+
+      .remove-group {
+        visibility: hidden;
+      }
+
+      &.active,
+      &:hover {
+        .group-title {
+          font-weight: 500;
+        }
+
+        .remove-group {
+          visibility: visible;
+        }
+      }
+    }
   }
 
   .project-release-time-line {
