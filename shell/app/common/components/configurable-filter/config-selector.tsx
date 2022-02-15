@@ -104,7 +104,8 @@ const ConfigSelector = ({ className = '', list, defaultValue, value, onChange, o
           {changedId === item.id ? (
             <Badge text={i18n.t('dop:changed')} size="small" status="processing" showDot={false} className="ml-2" />
           ) : null}
-          {showOp ? configItemMore(item) : null}
+
+          {showOp ? <span onClick={(e) => e.stopPropagation()}>{configItemMore(item)}</span> : null}
         </div>
       </div>
     ));
