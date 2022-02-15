@@ -200,14 +200,14 @@ export const formatValue = (type, precision, value, min, max) => {
     return format.format(value);
   } else if (valueType === 'TIMESTAMP') {
     const timer = precision === 'ns' ? value / Math.pow(10, 6) : value;
-    let formatStr = 'YYYY-MM-DD HH:mm:ss';
+    let formatStr = 'YYYY/MM/DD HH:mm:ss';
     if (max && min) {
       const minTimer = precision === 'ns' ? min / Math.pow(10, 6) : min;
       const maxTimer = precision === 'ns' ? max / Math.pow(10, 6) : max;
       const isSameDay = moment(minTimer).isSame(moment(maxTimer), 'day');
       const isSameYear = moment(minTimer).isSame(moment(maxTimer), 'year');
       if (isSameYear) {
-        formatStr = 'MM-DD HH:mm:ss';
+        formatStr = 'MM/DD HH:mm:ss';
       }
       if (isSameDay) {
         formatStr = 'HH:mm:ss';

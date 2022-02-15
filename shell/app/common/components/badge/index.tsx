@@ -70,7 +70,7 @@ const Badge = (props: IBadgeProps) => {
     {
       'erda-badge': true,
       [`erda-badge-status-${status}`]: true,
-      'erda-badge-hide-bg': onlyText,
+      'bg-transparent': onlyText,
       [`badge-${size}`]: true,
       'inline-flex': true,
       'items-center': true,
