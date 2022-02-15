@@ -120,34 +120,32 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
         const isLast = index === fieldList.length - 1;
         return (
           <div className="panel" key={propertyName}>
-            <div className="common-list-item">
-              <div className="list-item">
-                <div className="flex justify-between items-center">
-                  <div className="nowrap flex items-center justify-start">
-                    {renderFieldItem({ displayName, propertyType })}
-                  </div>
-                  <div className="table-operations">
-                    <Popconfirm
-                      title={`${i18n.t('dop:confirm to remove the quote?')}`}
-                      onConfirm={() => {
-                        onDelete(propertyID);
-                      }}
-                    >
-                      <span className="table-operations-btn">{i18n.t('remove')}</span>
-                    </Popconfirm>
-                    <span
-                      className={`table-operations-btn ${isFirst ? 'disabled' : ''}`}
-                      onClick={() => !isFirst && changePos(index, -1)}
-                    >
-                      {i18n.t('move up')}
-                    </span>
-                    <span
-                      className={`table-operations-btn ${isLast ? 'disabled' : ''}`}
-                      onClick={() => !isLast && changePos(index, 1)}
-                    >
-                      {i18n.t('move down')}
-                    </span>
-                  </div>
+            <div className="border-bottom px-4 py-2">
+              <div className="flex justify-between items-center">
+                <div className="nowrap flex items-center justify-start">
+                  {renderFieldItem({ displayName, propertyType })}
+                </div>
+                <div className="table-operations">
+                  <Popconfirm
+                    title={`${i18n.t('dop:confirm to remove the quote?')}`}
+                    onConfirm={() => {
+                      onDelete(propertyID);
+                    }}
+                  >
+                    <span className="table-operations-btn">{i18n.t('remove')}</span>
+                  </Popconfirm>
+                  <span
+                    className={`table-operations-btn ${isFirst ? 'disabled' : ''}`}
+                    onClick={() => !isFirst && changePos(index, -1)}
+                  >
+                    {i18n.t('move up')}
+                  </span>
+                  <span
+                    className={`table-operations-btn ${isLast ? 'disabled' : ''}`}
+                    onClick={() => !isLast && changePos(index, 1)}
+                  >
+                    {i18n.t('move down')}
+                  </span>
                 </div>
               </div>
             </div>

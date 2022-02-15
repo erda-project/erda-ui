@@ -379,7 +379,9 @@ const PureKanban = (props: IKanbanProps) => {
               CardRender={CardRender}
               cardType={cardType}
               draggable={curDragOp && !curDragOp.disabled}
-              className={`${isDrag ? 'hidden' : ''} list-item ${currentCard?.id === item.id ? 'dragged-card' : ''}`}
+              className={`${isDrag ? 'hidden' : ''} kanban-list-item ${
+                currentCard?.id === item.id ? 'dragged-card' : ''
+              }`}
               setIsDrag={setIsDrag}
               onClick={() => {
                 rest?.customOp?.clickCard?.(item);
