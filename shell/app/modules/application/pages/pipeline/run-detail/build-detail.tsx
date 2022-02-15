@@ -300,7 +300,11 @@ const BuildDetail = (props: IProps) => {
       case 'release-link': {
         const target = node.findInMeta((item: BUILD.MetaData) => item.name === 'releaseID');
         if (target) {
-          goTo(goTo.pages.release, { appId: query.applicationId, ...params, q: target.value, jumpOut: true });
+          goTo(goTo.pages.applicationReleaseDetail, {
+            ...params,
+            releaseId: target.value,
+            jumpOut: true,
+          });
         }
         break;
       }
