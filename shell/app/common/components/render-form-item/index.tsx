@@ -572,7 +572,12 @@ const TagsSelect = ({ size, options, value = [], onChange, ...restItemProps }: T
     >
       {typeof options === 'function'
         ? options()
-        : options.map((item) => renderTagsSelectOption({ ...item, checked: value.includes(item.value) }))}
+        : options.map((item) =>
+            renderTagsSelectOption({
+              ...item,
+              checked: Array.isArray(value) ? value.includes(item.value) : value === item.value,
+            }),
+          )}
     </Select>
   );
 };
