@@ -13,30 +13,25 @@
 
 import i18n from 'i18n';
 import { AddStrategyPageName, EditStrategyPageName } from 'cmp/common/alarm-strategy/strategy-form';
-import { getMspBreadcrumb } from 'msp/config';
 
 function AlarmRouter() {
-  return {
-    path: 'alarm',
-    routes: [
-      {
-        breadcrumbName: getMspBreadcrumb('AlertStrategy'),
-        getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index')),
-      },
-      {
-        path: 'add-strategy',
-        breadcrumbName: i18n.t('cmp:new alarm strategy'),
-        pageNameInfo: AddStrategyPageName,
-        getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index/msp-strategy')),
-      },
-      {
-        path: 'edit-strategy/:id',
-        breadcrumbName: i18n.t('cmp:edit alarm strategy'),
-        pageNameInfo: EditStrategyPageName,
-        getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index/msp-strategy')),
-      },
-    ],
-  };
+  return [
+    {
+      getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index')),
+    },
+    {
+      path: 'add-strategy',
+      breadcrumbName: i18n.t('cmp:new alarm strategy'),
+      pageNameInfo: AddStrategyPageName,
+      getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index/msp-strategy')),
+    },
+    {
+      path: 'edit-strategy/:id',
+      breadcrumbName: i18n.t('cmp:edit alarm strategy'),
+      pageNameInfo: EditStrategyPageName,
+      getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index/msp-strategy')),
+    },
+  ];
 }
 
 export default AlarmRouter;
