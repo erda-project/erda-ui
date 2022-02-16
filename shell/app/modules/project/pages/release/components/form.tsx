@@ -282,9 +282,11 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         const { applicationReleaseList = [] } = values;
         payload = {
           ...payload,
-          applicationReleaseList: applicationReleaseList.map((group: { list: Array<{ releaseId: string }> }) =>
-            group.list.map((item: { releaseId: string }) => item.releaseId),
-          ),
+          applicationReleaseList: applicationReleaseList
+            .filter((group: { list: Array<{ releaseId: string }> }) => group.list?.length)
+            .map((group: { list: Array<{ releaseId: string }> }) =>
+              group.list.map((item: { releaseId: string }) => item.releaseId),
+            ),
           isStable: true,
           isFormal: false,
           isProjectRelease: true,
