@@ -288,7 +288,7 @@ interface ListSelectOverlayProps<T> {
   onCancel?: () => void;
   onMenuLoadMore?: (page: number, pageSize?: number) => void;
   listPagination?: IPaginationProps;
-  renderSelectedItem?: (item: T) => React.ReactNode;
+  renderSelectedItem?: (item: T, isDark?: boolean) => React.ReactNode;
   renderItem?: (item: T) => React.ReactNode;
   select: (item: T, checked: boolean) => void;
   remove: (id: string) => void;
@@ -355,7 +355,7 @@ function ListSelectOverlay<T extends object = any>({
               className="erda-list-select-selected-item flex items-center p-2 hover:bg-white-06 rounded-sm"
               key={item[rowKey]}
             >
-              <div className="flex-1 pr-2 min-w-0 truncate">{renderSelectedItem(item)}</div>
+              <div className="flex-1 pr-2 min-w-0 truncate">{renderSelectedItem(item, true)}</div>
               <ErdaIcon
                 type="close-small"
                 size={24}

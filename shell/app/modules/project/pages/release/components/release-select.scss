@@ -16,10 +16,6 @@
     background-color: rgba($color-default, 0.01);
     color: $color-default;
 
-    .desc {
-      color: rgba($color-default, 0.6);
-    }
-
     .erda-list-select-selected-item-delete {
       color: $color-default-4;
       visibility: hidden;
@@ -59,10 +55,6 @@
           visibility: visible;
         }
       }
-    }
-
-    .desc {
-      color: $color-default-6;
     }
   }
 
@@ -105,10 +97,6 @@
   .erda-list-select-selected-list {
     height: calc(100% - 100px);
     color: rgba($white, 9);
-
-    .desc {
-      color: $color-white-6;
-    }
 
     &::-webkit-scrollbar {
       width: 10px;

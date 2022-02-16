@@ -329,7 +329,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   );
 };
 
-const renderSelectedItem = (item: RELEASE.ReleaseDetail) => {
+const renderSelectedItem = (item: RELEASE.ReleaseDetail, isDark: boolean) => {
   return (
     <div className="flex justify-between items-center">
       <div className="flex-1 min-w-0">
@@ -341,13 +341,13 @@ const renderSelectedItem = (item: RELEASE.ReleaseDetail) => {
           {item.version}
         </div>
         <div className="text-xs flex mt-1">
-          <div className="desc">{i18n.t('dop:owned application')}</div>
+          <div className={isDark ? 'text-white-6' : 'text-default-6'}>{i18n.t('dop:owned application')}</div>
           <div className="ml-2 flex-1 min-w-0 truncate" title={item.applicationName}>
             {item.applicationName}
           </div>
         </div>
       </div>
-      <div className="desc text-default-6">
+      <div className="text-default-6">
         {item.createdAt ? moment(item.createdAt).format('YYYY/MM/DD HH:mm:ss') : null}
       </div>
     </div>
@@ -362,7 +362,7 @@ const renderItem = (item: RELEASE.ReleaseDetail) => {
           {item.version}
         </div>
         <div className="text-xs flex">
-          <div className="desc text-white-6">{i18n.t('dop:owned application')}</div>
+          <div className="text-white-6">{i18n.t('dop:owned application')}</div>
           <div className="ml-2 truncate" title={item.applicationName}>
             {item.applicationName}
           </div>
