@@ -59,8 +59,8 @@ export const VariableConfigForm = ({
   });
 
   React.useEffect(() => {
-    updater.type(formData?.type || typeMap.kv);
-  }, [formData, updater]);
+    updater.type(formData?.type || addType || typeMap.kv);
+  }, [formData, addType, updater]);
 
   const formRef = React.useRef<FormInstance>({});
   const fieldsList = (_formRef: FormInstance, isEdit: boolean) => [
