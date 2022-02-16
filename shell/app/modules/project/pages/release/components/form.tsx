@@ -87,7 +87,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
       ..._releaseDetail,
       applicationReleaseList: _releaseDetail?.applicationReleaseList?.map?.((group, index) => ({
         active: index === 0,
-        list: [...group.map((item) => ({ ...item, releaseId: item.releaseID }))],
+        list: [...group.map((item) => ({ ...item, releaseId: item.releaseID, applicationId: item.applicationID }))],
       })),
     };
   }, [_releaseDetail]);
