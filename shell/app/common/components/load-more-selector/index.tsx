@@ -542,7 +542,7 @@ const DefaultLoadMoreRender = ({ onLoadMore, loading }: { onLoadMore: () => void
         onLoadMore();
       }}
     >
-      <ErdaIcon type="loading" className="align-middle" spin={loading} />
+      <ErdaIcon type="refresh1" className="align-middle mr-1" />
       {i18n.t('load more')}
     </div>
   );
