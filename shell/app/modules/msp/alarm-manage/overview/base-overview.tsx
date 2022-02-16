@@ -67,6 +67,18 @@ const BaseOverview: React.FC<IProps> = ({ scope, scopeId }) => {
               gutter: 0,
             },
           },
+          ...['alertDurationAnalysisGrid', 'alertNotifyGrid', 'alertEventGrid'].reduce(
+            (previousValue, currentValue) => ({
+              ...previousValue,
+              [currentValue]: {
+                props: {
+                  wrapperClassName: 'overflow-visible',
+                  className: 'overflow-visible',
+                },
+              },
+            }),
+            {},
+          ),
           compositeHeader: {
             props: {
               showDefaultBgColor: false,
