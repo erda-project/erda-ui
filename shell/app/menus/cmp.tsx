@@ -133,12 +133,8 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
             href: goTo.resolve.cmpAlarmRecord(), // '/cmp/alarm/record',
           },
           {
-            text: i18n.t('alarm strategy'),
-            href: goTo.resolve.cmpAlarmStrategy(), // '/cmp/alarm/strategy',
-          },
-          {
-            text: i18n.t('custom alarm'),
-            href: goTo.resolve.cmpAlarmCustom(), // '/cmp/alarm/custom',
+            text: i18n.t('alarm config'),
+            href: goTo.resolve.cmpAlarmConfig(), // '/cmp/alarm/strategy',
           },
         ],
       },

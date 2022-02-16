@@ -34,6 +34,17 @@ const middlewareTabs = [
   { key: 'detail', name: i18n.t('basic information') },
 ];
 
+const alarmConfigTab = [
+  {
+    key: 'strategy',
+    name: i18n.t('alarm strategy'),
+  },
+  {
+    key: 'custom',
+    name: i18n.t('custom alarm'),
+  },
+];
+
 const clusterDetailTabs = (params: Obj) => {
   const clusterType = params.breadcrumbInfoMap.cmpCluster?.type;
   return TYPE_K8S_AND_EDAS.includes(clusterType)
@@ -51,6 +62,25 @@ const kubernetesTabs = [
   { key: 'base', name: i18n.t('cmp:Basic Information') },
   { key: 'pod', name: i18n.t('cmp:related pod information') },
   { key: 'detail', name: i18n.t('detail') },
+];
+
+const alarmConfigRouters = [
+  {
+    layout: { noWrapper: true },
+    getComp: (cb: RouterGetComp) => cb(import('app/modules/cmp/pages/alarm-strategy')),
+  },
+  {
+    path: 'add-strategy',
+    pageNameInfo: AddStrategyPageName,
+    breadcrumbName: i18n.t('cmp:new alarm strategy'),
+    getComp: (cb: RouterGetComp) => cb(import('app/modules/cmp/pages/alarm-strategy/cmp-stratege')),
+  },
+  {
+    path: 'edit-strategy/:id',
+    breadcrumbName: i18n.t('cmp:edit alarm strategy'),
+    pageNameInfo: EditStrategyPageName,
+    getComp: (cb: RouterGetComp) => cb(import('app/modules/cmp/pages/alarm-strategy/cmp-stratege')),
+  },
 ];
 
 const resourceRankTabs = [
@@ -431,40 +461,32 @@ function getCmpRouter(): RouteConfigItem[] {
               ],
             },
             {
-              path: 'strategy',
-              breadcrumbName: i18n.t('alarm strategy'),
+              path: 'config',
+              breadcrumbName: i18n.t('alarm config'),
+              tabs: alarmConfigTab,
+              alwaysShowTabKey: 'strategy',
               routes: [
+                ...alarmConfigRouters,
                 {
-                  layout: { noWrapper: true },
-                  getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-strategy')),
+                  path: 'strategy',
+                  tabs: alarmConfigTab,
+                  routes: alarmConfigRouters,
                 },
                 {
-                  path: 'add-strategy',
-                  pageNameInfo: AddStrategyPageName,
-                  breadcrumbName: i18n.t('cmp:new alarm strategy'),
-                  getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-strategy/cmp-stratege')),
-                },
-                {
-                  path: 'edit-strategy/:id',
-                  breadcrumbName: i18n.t('cmp:edit alarm strategy'),
-                  pageNameInfo: EditStrategyPageName,
-                  getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-strategy/cmp-stratege')),
-                },
-              ],
-            },
-            {
-              path: 'custom',
-              breadcrumbName: i18n.t('custom alarm'),
-              routes: [
-                {
-                  path: ':dashboardId',
-                  breadcrumbName: '{dashboardName}',
-                  layout: { fullHeight: true },
-                  getComp: (cb) => cb(import('cmp/pages/alarm-report/custom-dashboard/custom-dashboard')),
-                },
-                {
-                  layout: { noWrapper: true },
-                  getComp: (cb) => cb(import('app/modules/cmp/pages/custom-alarm')),
+                  path: 'custom',
+                  tabs: alarmConfigTab,
+                  routes: [
+                    {
+                      path: ':dashboardId',
+                      breadcrumbName: '{dashboardName}',
+                      layout: { fullHeight: true },
+                      getComp: (cb) => cb(import('cmp/pages/alarm-report/custom-dashboard/custom-dashboard')),
+                    },
+                    {
+                      layout: { noWrapper: true },
+                      getComp: (cb) => cb(import('app/modules/cmp/pages/custom-alarm')),
+                    },
+                  ],
                 },
               ],
             },
