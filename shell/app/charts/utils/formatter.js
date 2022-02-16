@@ -213,7 +213,6 @@ export const formatValue = (type, precision, value, min, max) => {
         formatStr = 'HH:mm:ss';
       }
     }
-    console.log(timer - 0, typeof (timer - 0), precision);
     return moment(timer - 0).format(formatStr);
   } else {
     return `${value} ${precision}`;
