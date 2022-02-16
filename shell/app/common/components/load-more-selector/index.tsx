@@ -19,6 +19,7 @@ import { map, isEmpty, isNumber, filter, find, isArray, get, isEqual } from 'lod
 import { useEffectOnce, useDebounce, useDeepCompareEffect } from 'react-use';
 import { Icon as CustomIcon, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
+import { uuid } from 'common/utils';
 import { isPromise } from 'common/utils';
 import i18n from 'i18n';
 
@@ -165,6 +166,7 @@ const PureLoadMoreSelector = (props: IProps) => {
   const [contentWidth, setContentWidth] = React.useState('');
   const [innerValue, setInnerValue] = React.useState([value] as any[]);
   const [valueChanged, setValueChanged] = React.useState(false);
+  const [compId, setCompId] = React.useState(uuid());
   const reqRef = React.useRef(null as any);
 
   const searchRef = React.useRef(null);
@@ -197,7 +199,7 @@ const PureLoadMoreSelector = (props: IProps) => {
   }, [visible, searchRefCur]);
 
   // 带上select的dropdownMatchSelectWidth特性
-  const dropdownMinWidth = get(document.querySelector('.load-more-selector-dropdown'), 'style.minWidth');
+  const dropdownMinWidth = get(document.querySelector(`.load-more-selector-dropdown-${compId}`), 'style.minWidth');
   React.useEffect(() => {
     if (dropdownMatchSelectWidth && dropdownMinWidth) {
       setContentWidth(dropdownMinWidth);
@@ -389,7 +391,7 @@ const PureLoadMoreSelector = (props: IProps) => {
       <Dropdown
         overlay={getOverlay()}
         visible={visible}
-        overlayClassName={`load-more-selector-dropdown ${dropdownClassName}`}
+        overlayClassName={`load-more-selector-dropdown load-more-selector-dropdown-${compId} ${dropdownClassName}`}
         overlayStyle={dropdownStyle}
         onVisibleChange={(visible) => onVisibleChange?.(visible, innerValue)}
       >
