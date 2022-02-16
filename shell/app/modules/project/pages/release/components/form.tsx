@@ -347,7 +347,7 @@ const renderSelectedItem = (item: RELEASE.ReleaseDetail, isDark: boolean) => {
           </div>
         </div>
       </div>
-      <div className="text-default-6">
+      <div className={isDark ? 'text-white-6' : 'text-default-6'}>
         {item.createdAt ? moment(item.createdAt).format('YYYY/MM/DD HH:mm:ss') : null}
       </div>
     </div>
