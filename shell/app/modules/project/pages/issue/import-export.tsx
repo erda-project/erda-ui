@@ -98,7 +98,7 @@ const ImportExport = (props: IProps) => {
       />
     ),
     import: <Import issueType={issueType} projectId={projectId} onClose={closeModal} toRecord={toRecord} />,
-    record: <Record />,
+    record: <Record projectId={projectId} />,
   };
 
   return (
@@ -297,7 +297,7 @@ const Import = (props: ImportProps) => {
   );
 };
 
-const Record = () => {
+const Record = ({ projectId }: { projectId: string }) => {
   const [data, loading] = importExportFileRecord.useState();
   const userMap = useUserMap();
   const list = data?.list || [];
@@ -307,6 +307,7 @@ const Record = () => {
   const getList = (q: { pageSize?: number; pageNo: number }) => {
     importExportFileRecord.fetch({
       pageSize: paging?.pageSize,
+      projectId,
       ...q,
       types: ['issueImport', 'issueExport'],
     });
