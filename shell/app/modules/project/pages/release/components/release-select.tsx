@@ -103,7 +103,9 @@ function ReleaseSelect<T extends { applicationId: string; title: string }>(props
 
   const removeGroup = (index: number, e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    setGroupList((prev) => prev.filter((_item, i) => i !== index));
+    const _groupList = groupList.filter((_item, i) => i !== index);
+    setGroupList(_groupList);
+    onChange?.(_groupList);
   };
 
   const clear = () => {
