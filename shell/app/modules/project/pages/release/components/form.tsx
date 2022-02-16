@@ -341,7 +341,7 @@ const renderSelectedItem = (item: RELEASE.ReleaseDetail) => {
           {item.version}
         </div>
         <div className="text-xs flex mt-1">
-          <div className="desc text-default-6">{i18n.t('dop:owned application')}</div>
+          <div className="desc">{i18n.t('dop:owned application')}</div>
           <div className="ml-2 flex-1 min-w-0 truncate" title={item.applicationName}>
             {item.applicationName}
           </div>
@@ -362,7 +362,7 @@ const renderItem = (item: RELEASE.ReleaseDetail) => {
           {item.version}
         </div>
         <div className="text-xs flex">
-          <div className="desc">{i18n.t('dop:owned application')}</div>
+          <div className="desc text-white-6">{i18n.t('dop:owned application')}</div>
           <div className="ml-2 truncate" title={item.applicationName}>
             {item.applicationName}
           </div>
