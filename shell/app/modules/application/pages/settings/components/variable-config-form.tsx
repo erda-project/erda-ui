@@ -38,6 +38,7 @@ interface IProps {
   formData?: PIPELINE_CONFIG.ConfigItem | null;
   onOk: (data: any, isAdd: boolean) => any;
   onCancel: () => void;
+  configType?: string;
   fullConfigData?: PIPELINE_CONFIG.ConfigItem[];
   uploadTip?: string;
 }
@@ -48,14 +49,20 @@ export const VariableConfigForm = ({
   onOk,
   onCancel,
   addType,
+  configType,
   uploadTip,
 }: IProps) => {
   const [{ type, uploadFile, uploading }, updater, _, reset] = useUpdate({
-    type: addType || typeMap.kv,
+    type: formData?.type || addType || typeMap.kv,
     uploadFile: '',
     uploading: false,
   });
 
+  React.useEffect(() => {
+    updater.type(formData?.type || addType || typeMap.kv);
+  }, [formData, addType, updater]);
+
+  const formRef = React.useRef<FormInstance>({});
   const fieldsList = (_formRef: FormInstance, isEdit: boolean) => [
     {
       label: 'Key',
@@ -106,72 +113,97 @@ export const VariableConfigForm = ({
         },
       },
     ]),
-    type === typeMap.kv
-      ? {
-          label: 'Value',
-          name: 'value',
-          itemProps: {
-            maxLength: 4096,
+    ...(type === typeMap.kv
+      ? [
+          {
+            label: i18n.t('dop:encrypt'),
+            name: 'encrypt',
+            type: 'switch',
+            initialValue: false,
           },
-          config: {
-            getValueFromEvent: (e: any) => e.target.value,
+          {
+            label: 'Value',
+            name: 'value',
+            itemProps: {
+              maxLength: 4096,
+            },
+            config: {
+              getValueFromEvent: (e: any) => e.target.value,
+            },
+            required: formData ? `${formData.encrypt}` && isEdit : true, // 只有编辑加密的时，可为空，为空认为没有修改，不为空认为修改了
           },
-          required: formData ? formData.encrypt && isEdit : true, // 只有编辑加密的时，可为空，为空认为没有修改，不为空认为修改了
-        }
-      : {
-          label: i18n.t('file'),
-          name: 'value',
-          type: 'custom',
-          rules: [{ required: true, message: i18n.t('common:Please select the file to be uploaded') }],
-          config: {
-            getValueFromEvent: (e: any) => {
-              if (Array.isArray(e)) {
-                return e;
-              }
-              return e && e.fileList;
+        ]
+      : [
+          {
+            label: i18n.t('dop:encrypt'),
+            name: 'encrypt',
+            type: 'switch',
+            initialValue: false,
+            itemProps: {
+              onChange: () => {
+                const curForm = formRef.current;
+                curForm?.setFieldsValue?.({ value: '' });
+                updater.uploadFile('');
+              },
             },
           },
-          getComp: ({ form }: { form: FormInstance }) => {
-            const uploadProps = getUploadProps(
-              {
-                onChange: ({ file, event }: any) => {
-                  if (event) {
-                    updater.uploading(true); // 上传后后端还要处理一阵，不使用进度条
-                  }
-                  if (file.response) {
-                    const { success, err, data } = file.response;
-                    if (!success) {
-                      message.error(err.msg);
-                    } else {
-                      form.setFieldsValue({
-                        value: data.uuid,
-                      });
-                      updater.uploadFile(data.name);
-                    }
-                    updater.uploading(false);
-                  }
-                  return file;
-                },
+          {
+            label: i18n.t('file'),
+            name: 'value',
+            type: 'custom',
+            rules: [{ required: true, message: i18n.t('common:Please select the file to be uploaded') }],
+            config: {
+              getValueFromEvent: (e: any) => {
+                if (Array.isArray(e)) {
+                  return e;
+                }
+                return e && e.fileList;
               },
-              300,
-            );
-            return (
-              <div className="upload-container">
-                <Spin spinning={uploading} tip={i18n.t('uploading, please wait a moment')}>
-                  <Upload {...uploadProps}>
-                    <Button className="flex items-center">
-                      <ErdaIcon className="mr-1 align-center" type="upload" /> {i18n.t('upload')}
-                    </Button>
-                  </Upload>
-                  <span className="text-desc ml-2">
-                    {uploadFile ? i18n.t('selected {name}', { name: uploadFile }) : null}
-                  </span>
-                  {uploadTip && <div className="text-desc mt-2">{uploadTip}</div>}
-                </Spin>
-              </div>
-            );
+            },
+            getComp: ({ form }: { form: FormInstance }) => {
+              const _formData = form.getFieldsValue();
+              const uploadProps = getUploadProps(
+                {
+                  queryData: { fileFrom: configType, encrypt: _formData.encrypt },
+                  onChange: ({ file, event }: any) => {
+                    if (event) {
+                      updater.uploading(true); // 上传后后端还要处理一阵，不使用进度条
+                    }
+                    if (file.response) {
+                      const { success, err, data } = file.response;
+                      if (!success) {
+                        message.error(err.msg);
+                      } else {
+                        form.setFieldsValue({
+                          value: data.uuid,
+                        });
+                        updater.uploadFile(data.name);
+                      }
+                      updater.uploading(false);
+                    }
+                    return file;
+                  },
+                },
+                300,
+              );
+              return (
+                <div className="upload-container">
+                  <Spin spinning={uploading} tip={i18n.t('uploading, please wait a moment')}>
+                    <Upload {...uploadProps}>
+                      <Button className="flex items-center">
+                        <ErdaIcon className="mr-1 align-center" type="upload" /> {i18n.t('upload')}
+                      </Button>
+                    </Upload>
+                    <span className="text-desc ml-2">
+                      {uploadFile ? i18n.t('selected {name}', { name: uploadFile }) : null}
+                    </span>
+                    {uploadTip && <div className="text-desc mt-2">{uploadTip}</div>}
+                  </Spin>
+                </div>
+              );
+            },
           },
-        },
+        ]),
     {
       label: i18n.t('dop:remark'),
       name: 'comment',
@@ -180,21 +212,12 @@ export const VariableConfigForm = ({
         maxLength: 200,
       },
     },
-    {
-      label: i18n.t('dop:encrypt'),
-      name: 'encrypt',
-      type: 'switch',
-      initialValue: false,
-      itemProps: {
-        // disabled: isEdit,
-      },
-    },
   ];
-
   return (
     <FormModal
       name={i18n.t('config')}
       fieldsList={fieldsList}
+      ref={formRef}
       visible={visible}
       onOk={(data: any, isAdd: boolean) => {
         onOk(data, isAdd);

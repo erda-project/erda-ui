@@ -396,6 +396,7 @@ const VariableConfig = ({
       <VariableConfigForm
         visible={visible}
         formData={editData}
+        configType={configType}
         onCancel={closeModal}
         onOk={handelSubmit}
         uploadTip={uploadTip}
@@ -504,6 +505,7 @@ export const PipelineConfig = () => {
     <VariableConfig
       envToNs={envToNs}
       configs={fullConfigs}
+      configType={configTypeMap.pipeline}
       addConfig={configStore.addConfigs}
       updateConfig={configStore.updateConfigs}
       deleteConfig={configStore.removeConfigWithoutDeploy}
