@@ -41,6 +41,7 @@ export const parseProjectTemplate = apiCreator<(p: { projectID: number; orgID: n
 
 export const importExportFileRecord = apiCreator<
   (p: {
+    projectId?: string;
     projectName?: string;
     orgID?: number;
     types: string[];
