@@ -11,12 +11,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import alarmRouter from 'msp/alarm-manage/alarm-strategy';
 import alarmRecordRouter from 'msp/alarm-manage/alarm-record';
+import i18n from 'i18n';
+import AlarmRouter from 'msp/alarm-manage/alarm-strategy';
 import { getMspBreadcrumb } from 'msp/config';
 
+const alarmConfigTab = [
+  {
+    key: 'strategy',
+    name: i18n.t('alarm strategy'),
+  },
+  {
+    key: 'rule',
+    name: i18n.t('rule management'),
+  },
+  {
+    key: 'notify-group',
+    name: i18n.t('notification group management'),
+  },
+];
+
 const alarmManageRouters = [
-  alarmRouter(),
   alarmRecordRouter(),
   {
     path: 'alarm-overview',
@@ -25,25 +40,38 @@ const alarmManageRouters = [
     getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/overview')),
   },
   {
-    path: 'custom-alarm',
-    breadcrumbName: getMspBreadcrumb('RuleManagement'),
+    path: 'config',
+    breadcrumbName: getMspBreadcrumb('AlertConfig'),
+    tabs: alarmConfigTab,
+    alwaysShowTabKey: 'strategy',
     routes: [
+      ...AlarmRouter(),
       {
-        path: ':dashboardId',
-        breadcrumbName: '{dashboardName}',
-        layout: { fullHeight: true },
-        getComp: (cb: RouterGetComp) => cb(import('msp/query-analysis/custom-dashboard/pages/custom-dashboard')),
+        path: 'strategy',
+        tabs: alarmConfigTab,
+        routes: AlarmRouter(),
       },
       {
-        getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alarm-strategy/pages/custom-alarm')),
+        path: 'rule',
+        tabs: alarmConfigTab,
+        routes: [
+          {
+            path: ':dashboardId',
+            breadcrumbName: '{dashboardName}',
+            layout: { fullHeight: true },
+            getComp: (cb: RouterGetComp) => cb(import('msp/query-analysis/custom-dashboard/pages/custom-dashboard')),
+          },
+          {
+            getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alarm-strategy/pages/custom-alarm')),
+          },
+        ],
+      },
+      {
+        path: 'notify-group',
+        tabs: alarmConfigTab,
+        getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/notify-group')),
       },
     ],
-  },
-  {
-    path: 'notify-group',
-    breadcrumbName: getMspBreadcrumb('NotifyGroupManagement'),
-    layout: { noWrapper: true },
-    getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/notify-group')),
   },
 ];
 
