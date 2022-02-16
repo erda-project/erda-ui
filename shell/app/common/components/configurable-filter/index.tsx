@@ -93,14 +93,20 @@ const getItemByValues = (val: Obj, list: ConfigData[], fieldsList: Field[]) => {
   return list?.find((item) => JSON.stringify(sortObj(item.values || {})) === JSON.stringify(values)) || null;
 };
 
-const defaultProcessField = (item: IFormItem) => {
-  const { type, itemProps, defaultValue, placeholder, disabled } = item;
+interface FieldItem extends IFormItem {
+  mode?: string;
+  disabled?: boolean;
+  placeholder?: string;
+}
+
+const defaultProcessField = (item: FieldItem) => {
+  const { type, itemProps, defaultValue, placeholder, disabled, mode } = item;
   const field: IFormItem = { ...item };
 
   field.name = item.key;
   if (type === 'select' || type === 'tagsSelect') {
     field.itemProps = {
-      mode: 'multiple',
+      mode: mode !== 'single' ? 'multiple' : false,
       ...itemProps,
       showArrow: true,
       allowClear: true,
