@@ -42,7 +42,7 @@ export const ProblemList = () => {
   const [visible, openModal, closeModal] = useSwitch(false);
   const appId = routeInfoStore.useStore((s) => s.params.appId);
   const loginUser = userStore.getState((s) => s.loginUser);
-  const [state, updater] = useUpdate({
+  const [state, updater, update] = useUpdate({
     detailVisibleId: 0,
     ...getDefaultPaging(),
     hasMore: undefined,
@@ -56,15 +56,16 @@ export const ProblemList = () => {
 
   const userMap = useUserMap();
 
-  const filterFn = (values?: Obj) => {
+  const filterFn = (paging?: Obj, values?: Obj) => {
     setFilterData((prev) => ({ ...prev, ...values }));
+    paging && update(paging);
     getTicketList
       .fetch({
         ...filterData,
-        ...values,
-        status: values?.status === 'all' ? undefined : values?.status || filterData.status,
         pageNo: state.pageNo,
         pageSize: state.pageSize,
+        ...values,
+        status: values?.status === 'all' ? undefined : values?.status || filterData.status,
         targetID: +routeAppId,
         targetType: 'application',
       })
@@ -222,7 +223,14 @@ export const ProblemList = () => {
               },
             };
           }}
-          slot={<ConfigurableFilter hideSave value={filterData} fieldsList={fieldsList} onFilter={filterFn} />}
+          slot={
+            <ConfigurableFilter
+              hideSave
+              value={filterData}
+              fieldsList={fieldsList}
+              onFilter={(values) => filterFn(undefined, values)}
+            />
+          }
         />
       </Spin>
       <div className="top-button-group">
