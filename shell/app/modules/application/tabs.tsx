@@ -13,16 +13,15 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Icon as CustomIcon, RadioTabs } from 'common';
+import { ErdaIcon } from 'common';
 import permStore from 'user/stores/permission';
 import layoutStore from 'layout/stores/layout';
-import { Tooltip } from 'antd';
-import { goTo } from 'app/common/utils';
 import appStore from './stores/application';
 import routeInfoStore from 'core/stores/route';
 import { appMode } from './common/config';
 import { filter } from 'lodash';
 import { getSubList } from './stores/repo';
+import { HeadAppSelector } from './common/app-selector';
 
 interface ITab {
   show?: boolean;
@@ -38,33 +37,28 @@ export const APP_TABS = () => {
     : ['repo', 'repo/commits', 'repo/branches', 'repo/mr/open'];
   const appDetail = appStore.useStore((s) => s.detail);
 
-  const { mode, displayName } = appDetail;
+  const { mode } = appDetail;
   const perm = permStore.getState((s) => s.app);
   const back = {
     key: '../',
     hrefType: 'back',
     name: (
-      <span>
-        <CustomIcon type="back" />
+      <span className="cursor-pointer">
+        <ErdaIcon type="arrow-left" className="mr-1 relative top-0.5" />
         {i18n.t('dop:application')}
-        {displayName ? (
-          displayName.length > 16 ? (
-            <Tooltip title={displayName} placement="topLeft">
-              ({displayName.slice(0, 16)}...)
-            </Tooltip>
-          ) : (
-            `(${displayName})`
-          )
-        ) : (
-          ''
-        )}
       </span>
     ),
+  };
+  const appSwitch = {
+    key: '_',
+    className: 'mr-4',
+    name: <HeadAppSelector />,
   };
   const repo = {
     show: perm.repo.read.pass,
     key: repoKey,
     // href: goTo.resolve.repo(),
+    split: true,
     name: i18n.t('dop:code'),
     isActive: (activeKey: string) => {
       return activeKey === 'repo' || activeKey.startsWith('repo/tree');
@@ -147,7 +141,7 @@ export const APP_TABS = () => {
 
   const tabs = filter(modeMap[mode], (item: ITab) => item.show !== false);
   console.log('tabs', tabs);
-  return [back, ...tabs];
+  return [back, appSwitch, ...tabs];
   // const currentRoute = routeInfoStore.useStore(s => s.currentRoute);
   // if (currentRoute.mark === "application") {
   //   const firstAvailableTab = tabs.find(t => t.show && t.href);
