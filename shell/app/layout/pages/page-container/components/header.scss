@@ -31,6 +31,9 @@
   }
 
   .tab-split-line-before {
+    &.tab-menu-item {
+      margin-left: 16px;
+    }
     &::before {
       position: absolute;
       content: '';
@@ -39,7 +42,7 @@
       height: 12px;
       background-color: rgba($color-default, 0.16);
       top: 10px;
-      left: -12px;
+      left: -17px;
     }
   }
 }

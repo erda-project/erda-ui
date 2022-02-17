@@ -11,23 +11,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { ProblemPriority, getProblemType } from 'application/pages/problem/problem-form';
-import React from 'react';
-import { Button, Spin, Tabs, Select } from 'antd';
-import { isEmpty, map, toLower } from 'lodash';
-import problemStore from 'application/stores/problem';
-import { useMount } from 'react-use';
-import routeInfoStore from 'core/stores/route';
-import { useLoading } from 'core/stores/loading';
+import { Button, Drawer, Select, Spin, Tabs } from 'antd';
+import { getIssues as getProjectIssues } from 'app/modules/project/services/issue';
+import { getProjectList } from 'app/modules/project/services/project';
 import { CommentBox } from 'application/common/components/comment-box';
+import { ProblemPriority, ProblemTypeOptions } from 'application/pages/problem/problem-form';
+import { closeTicket, createTicketComments, getTicketComments, getTicketDetail } from 'application/services/problem';
+import { Avatar, LoadMoreSelector, MarkdownRender } from 'common';
 import MarkdownEditor from 'common/components/markdown-editor';
-import { LoadMoreSelector, Avatar, MarkdownRender } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { fromNow, goTo } from 'common/utils';
-import { getProjectList } from 'app/modules/project/services/project';
-import { getProjectIterations } from 'project/services/project-iteration';
-import { getIssues as getProjectIssues } from 'app/modules/project/services/issue';
+import routeInfoStore from 'core/stores/route';
+import { useUserMap } from 'core/stores/userMap';
 import i18n from 'i18n';
+import { isEmpty, map, toLower } from 'lodash';
+import { getProjectIterations } from 'project/services/project-iteration';
+import React from 'react';
+import userStore from 'user/stores';
+import { getUserInfo } from './problem-list';
 import './problem-detail.scss';
 
 interface IProps {
@@ -91,27 +92,43 @@ const { TabPane } = Tabs;
 const { Option } = Select;
 
 const initialState = {
-  activedProject: undefined,
-  activedIteration: undefined,
-  activedIssueType: undefined,
-  activedIssue: undefined,
-  activedIssueTitle: undefined,
+  detail: null,
+  loadingDetail: false,
+  comments: [] as PROBLEM.Comment[],
+  loadingComments: false,
+  activeProject: undefined,
+  activeIteration: undefined,
+  activeIssueType: undefined,
+  activeIssue: undefined,
+  activeIssueTitle: undefined,
 };
 
-const TicketDetail = () => {
-  const [detail, comments] = problemStore.useStore((s) => [s.detail, s.comments]);
-  const { getTicketDetail, getTicketComments, createTicketComments, closeTicket } = problemStore.effects;
-  const [getTicketDetailLoading, getTicketCommentsLoading] = useLoading(problemStore, [
-    'getTicketDetail',
-    'getTicketComments',
-  ]);
-  const [{ activedProject, activedIteration, activedIssueType, activedIssue, activedIssueTitle }, , update] =
-    useUpdate(initialState);
+const TicketDetail = ({ id, onClose }: { id: number; onClose: () => void }) => {
+  const [
+    { detail, comments, activeProject, activeIteration, activeIssueType, activeIssue, activeIssueTitle },
+    ,
+    update,
+  ] = useUpdate(initialState);
+  const userMap = useUserMap();
+  const loginUser = userStore.useStore((s) => s.loginUser);
 
-  useMount(() => {
-    getTicketDetail();
-    getTicketComments();
-  });
+  React.useEffect(() => {
+    if (id) {
+      getTicketDetail({ ticketId: id }).then((res) => {
+        update({ detail: res.data });
+      });
+      getTicketComments({ ticketID: id }).then((res) => {
+        update({ comments: res.data?.comments || [] });
+      });
+    } else {
+      update({
+        detail: null,
+        comments: [],
+      });
+    }
+  }, [id, update]);
+
+  if (!detail) return null;
 
   const handleSubmit = (content: string) => {
     if (!content) {
@@ -119,21 +136,18 @@ const TicketDetail = () => {
     }
 
     createTicketComments({
+      ticketID: detail.id,
+      userID: loginUser.id,
       content,
       commentType: 'normal',
+    }).then((res) => {
+      if (res.success) {
+        getTicketComments.fetch({ ticketID: detail.id });
+      }
     });
   };
 
-  const closedBtn =
-    detail.status === 'open' ? (
-      <div className="top-button-group">
-        <Button type="primary" onClick={() => closeTicket()}>
-          {i18n.t('close')}
-        </Button>
-      </div>
-    ) : null;
-
-  const type = getProblemType().find((t) => t.value === detail.type);
+  const type = ProblemTypeOptions.find((t) => t.value === detail.type);
   const priority = ProblemPriority.find((t: any) => t.value === detail.priority);
 
   const getProjects = (q: any) => {
@@ -141,208 +155,219 @@ const TicketDetail = () => {
   };
 
   const getIterations = (q: any) => {
-    if (!activedProject) return;
+    if (!activeProject) return;
     return getProjectIterations({ ...q }).then((res: any) => res.data);
   };
 
   const getIssues = (q: any) => {
-    if (!(activedProject && activedIteration && activedIssueType)) return;
+    if (!(activeProject && activeIteration && activeIssueType)) return;
     return getProjectIssues({ ...q }).then((res: any) => res.data);
   };
 
   const handleAssociationIssue = () => {
     createTicketComments({
+      ticketID: detail.id,
+      userID: loginUser.id,
       commentType: 'issueRelation',
       irComment: {
-        issueID: activedIssue || 0,
-        issueTitle: activedIssueTitle || '',
-        projectID: activedProject || 0,
-        iterationID: activedIteration || 0,
-        issueType: toLower(activedIssueType) || '',
+        issueID: activeIssue || 0,
+        issueTitle: activeIssueTitle || '',
+        projectID: activeProject || 0,
+        iterationID: activeIteration || 0,
+        issueType: toLower(activeIssueType) || '',
       },
     });
   };
   return (
-    <div className="comments-container">
-      {closedBtn}
-      <Spin spinning={getTicketDetailLoading}>
-        <div>
-          <div className="detail-title mb-2">{detail.title}</div>
-          <div className="mb-5">
-            <span className="mr-5">
-              <span className="detail-property">{i18n.t('type')}: </span>
-              <span className="detail-value">{type ? type.name : '-'}</span>
-            </span>
-            <span>
-              <span className="detail-property">{i18n.t('dop:emergency level')}: </span>
-              <span className="detail-value">{priority ? priority.name : '-'}</span>
-            </span>
+    <Drawer
+      width="70%"
+      visible={!!id}
+      title={
+        <div className="flex items-center">
+          <span>{detail.title}</span>
+          <span className={`ml-1 ${priority?.color}`}>{priority?.name || '-'}</span>
+        </div>
+      }
+      onClose={() => onClose()}
+    >
+      <div className="h-full">
+        <div className="mb-5">
+          <span className="mr-5">
+            <span className="detail-property">{i18n.t('type')}: </span>
+            <span className="detail-value">{type ? type.name : '-'}</span>
+          </span>
+        </div>
+        <div className="comments-container">
+          <ProblemContent detail={detail} />
+          <div className="mt-3">
+            {(comments || []).map((comment) => {
+              const user = getUserInfo(userMap, comment.userID);
+              return comment.commentType === 'issueRelation' ? (
+                <div className="comments-association-box">
+                  <Avatar name={user} showName size={28} />
+                  <span className="mx-1">{i18n.t('at')}</span>
+                  <span className="mx-1">{fromNow(comment.createdAt)}</span>
+                  <span className="mx-1">{i18n.t('dop:associated issue')}</span>
+                  <span
+                    className="text-link"
+                    onClick={() => {
+                      let page = '';
+                      const { issueType, projectID, issueID } = comment.irComment;
+                      switch (issueType) {
+                        case 'task':
+                          page = goTo.pages.taskList;
+                          break;
+                        case 'bug':
+                          page = goTo.pages.bugList;
+                          break;
+                        default:
+                          break;
+                      }
+                      goTo(page, { projectId: projectID, taskId: issueID, jumpOut: true });
+                    }}
+                  >
+                    {comment.irComment.issueTitle}
+                  </span>
+                </div>
+              ) : (
+                <CommentBox
+                  className="mb-4"
+                  key={comment.id}
+                  user={user}
+                  time={comment.createdAt}
+                  action={i18n.t('dop:commented at')}
+                  content={comment.content}
+                />
+              );
+            })}
           </div>
-        </div>
-        <ProblemContent detail={detail} />
-        <div className="comments-section">
-          <span className="comments-section-text">{i18n.t('dop:comment area')}</span>
-          <div className="section-line" />
-        </div>
-        <Spin spinning={getTicketCommentsLoading}>
-          {comments.map((comment) =>
-            comment.commentType === 'issueRelation' ? (
-              <div className="comments-association-box">
-                <Avatar name={comment.author} showName size={28} />
-                <span className="mx-1">{i18n.t('at')}</span>
-                <span className="mx-1">{fromNow(comment.createdAt)}</span>
-                <span className="mx-1">{i18n.t('dop:associated issue')}</span>
-                <span
-                  className="text-link"
-                  onClick={() => {
-                    let page = '';
-                    const { issueType, projectID, issueID } = comment.irComment;
-                    switch (issueType) {
-                      case 'task':
-                        page = goTo.pages.taskList;
-                        break;
-                      case 'bug':
-                        page = goTo.pages.bugList;
-                        break;
-                      default:
-                        break;
-                    }
-                    goTo(page, { projectId: projectID, taskId: issueID, jumpOut: true });
-                  }}
-                >
-                  {comment.irComment.issueTitle}
-                </span>
-              </div>
-            ) : (
-              <CommentBox
-                className="mb-4"
-                key={comment.id}
-                user={comment.author}
-                time={comment.createdAt}
-                action={i18n.t('dop:commented at')}
-                content={comment.content}
+          <Tabs>
+            <TabPane tab={i18n.t('comment')} key="comment">
+              <MarkdownEditor
+                maxLength={5000}
+                operationBtns={[
+                  {
+                    text: i18n.t('dop:submit comments'),
+                    type: 'primary',
+                    onClick: (v) => handleSubmit(v),
+                  },
+                ]}
               />
-            ),
-          )}
-        </Spin>
-        <Tabs>
-          <TabPane tab={i18n.t('comment')} key="comment">
-            <MarkdownEditor
-              maxLength={5000}
-              operationBtns={[
-                {
-                  text: i18n.t('dop:submit comments'),
-                  type: 'primary',
-                  onClick: (v) => handleSubmit(v),
-                },
-              ]}
-            />
-          </TabPane>
-          <TabPane tab={i18n.t('relate to issue')} key="relate">
-            <div className="flex justify-between items-center">
-              <div className="selecter-wrap flex items-center justify-start flex-1">
-                <LoadMoreSelector
-                  className="selecter-item"
-                  value={activedProject}
-                  getData={getProjects}
-                  placeholder={i18n.t('dop:please select project')}
-                  dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
-                    total,
-                    list: map(list, (project) => {
-                      const { name, id } = project;
-                      return {
-                        ...project,
-                        label: name,
-                        value: id,
-                      };
-                    }),
-                  })}
-                  onChange={(val) => {
-                    update({
-                      ...initialState,
-                      activedProject: val as any,
-                    });
-                  }}
-                />
-                <LoadMoreSelector
-                  className="selecter-item"
-                  value={activedIteration}
-                  getData={getIterations}
-                  extraQuery={{ projectID: activedProject }}
-                  showSearch={false}
-                  placeholder={i18n.t('dop:please select iteration')}
-                  onChange={(val) => {
-                    update({
-                      activedIteration: val as any,
-                      activedIssueType: undefined,
-                      activedIssue: undefined,
-                      activedIssueTitle: undefined,
-                    });
-                  }}
-                  dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
-                    total,
-                    list: map(list, (iteration) => {
-                      const { title, id } = iteration;
-                      return {
-                        ...iteration,
-                        label: title,
-                        value: id,
-                      };
-                    }),
-                  })}
-                />
-                <Select
-                  className="selecter-item"
-                  placeholder={i18n.t('dop:please select issue type')}
-                  value={activedIssueType}
-                  onSelect={(val) => {
-                    update({
-                      activedIssueType: val as any,
-                      activedIssue: undefined,
-                      activedIssueTitle: undefined,
-                    });
-                  }}
-                >
-                  <Option value="TASK">{i18n.t('task')}</Option>
-                  <Option value="BUG">{i18n.t('bug')}</Option>
-                </Select>
-                <LoadMoreSelector
-                  className="selecter-item"
-                  value={activedIssue}
-                  getData={getIssues}
-                  extraQuery={{ projectID: activedProject, iterationID: activedIteration, type: activedIssueType }}
-                  showSearch={false}
-                  placeholder={i18n.t('dop:please select issue')}
-                  dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
-                    total,
-                    list: map(list, (issue) => {
-                      const { title, id } = issue;
-                      return {
-                        ...issue,
-                        label: title,
-                        value: id,
-                      };
-                    }),
-                  })}
-                  onChange={(val, opts) => {
-                    update({
-                      activedIssue: val as any,
-                      activedIssueTitle: opts.title as any,
-                    });
-                  }}
-                />
+            </TabPane>
+            <TabPane tab={i18n.t('relate to issue')} key="relate">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center justify-start flex-1">
+                  <LoadMoreSelector
+                    className="selector-item"
+                    value={activeProject}
+                    getData={getProjects}
+                    placeholder={i18n.t('dop:please select project')}
+                    dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
+                      total,
+                      list: map(list, (project) => {
+                        const { name, id } = project;
+                        return {
+                          ...project,
+                          label: name,
+                          value: id,
+                        };
+                      }),
+                    })}
+                    onChange={(val) => {
+                      update({
+                        ...initialState,
+                        activeProject: val as any,
+                      });
+                    }}
+                  />
+                  <LoadMoreSelector
+                    className="selector-item"
+                    value={activeIteration}
+                    getData={getIterations}
+                    extraQuery={{ projectID: activeProject }}
+                    showSearch={false}
+                    placeholder={i18n.t('dop:please select iteration')}
+                    onChange={(val) => {
+                      update({
+                        activeIteration: val as any,
+                        activeIssueType: undefined,
+                        activeIssue: undefined,
+                        activeIssueTitle: undefined,
+                      });
+                    }}
+                    dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
+                      total,
+                      list: map(list, (iteration) => {
+                        const { title, id } = iteration;
+                        return {
+                          ...iteration,
+                          label: title,
+                          value: id,
+                        };
+                      }),
+                    })}
+                  />
+                  <Select
+                    className="selector-item"
+                    placeholder={i18n.t('dop:please select issue type')}
+                    value={activeIssueType}
+                    onSelect={(val) => {
+                      update({
+                        activeIssueType: val as any,
+                        activeIssue: undefined,
+                        activeIssueTitle: undefined,
+                      });
+                    }}
+                  >
+                    <Option value="TASK">{i18n.t('task')}</Option>
+                    <Option value="BUG">{i18n.t('bug')}</Option>
+                  </Select>
+                  <LoadMoreSelector
+                    className="selector-item"
+                    value={activeIssue}
+                    getData={getIssues}
+                    extraQuery={{ projectID: activeProject, iterationID: activeIteration, type: activeIssueType }}
+                    showSearch={false}
+                    placeholder={i18n.t('dop:please select issue')}
+                    dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
+                      total,
+                      list: map(list, (issue) => {
+                        const { title, id } = issue;
+                        return {
+                          ...issue,
+                          label: title,
+                          value: id,
+                        };
+                      }),
+                    })}
+                    onChange={(val, opts) => {
+                      update({
+                        activeIssue: val as any,
+                        activeIssueTitle: opts.title as any,
+                      });
+                    }}
+                  />
+                </div>
+                <div className="options-wrap">
+                  <Button className="mr-2" type="primary" disabled={!activeIssue} onClick={handleAssociationIssue}>
+                    {i18n.t('association')}
+                  </Button>
+                  <Button onClick={() => update(initialState)}>{i18n.t('reset')}</Button>
+                </div>
               </div>
-              <div className="options-wrap">
-                <Button className="mr-2" type="primary" disabled={!activedIssue} onClick={handleAssociationIssue}>
-                  {i18n.t('association')}
-                </Button>
-                <Button onClick={() => update(initialState)}>{i18n.t('reset')}</Button>
-              </div>
-            </div>
-          </TabPane>
-        </Tabs>
-      </Spin>
-    </div>
+            </TabPane>
+          </Tabs>
+        </div>
+
+        {detail.status === 'open' && (
+          <div className="absolute bottom-0 py-3">
+            <Button type="primary" onClick={() => closeTicket(detail.id)}>
+              {i18n.t('application:close issue')}
+            </Button>
+          </div>
+        )}
+      </div>
+    </Drawer>
   );
 };
 

@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Spin, Button, Tooltip, Dropdown, Menu, Input } from 'antd';
-import { EmptyHolder, Avatar, DeleteConfirm, IF, ErdaIcon, ErdaAlert } from 'common';
+import { Spin, Button, Tooltip, Dropdown, Menu, Input, Card } from 'antd';
+import { EmptyHolder, Avatar, DeleteConfirm, IF, ErdaIcon, ErdaAlert, RadioTabs } from 'common';
 import React from 'react';
 import { fromNow, replaceEmoji, goTo } from 'common/utils';
 import { mergeRepoPathWith } from './util';
@@ -26,19 +26,9 @@ import repoStore from 'application/stores/repo';
 import { useLoading } from 'core/stores/loading';
 import appStore from 'application/stores/application';
 import DOMPurify from 'dompurify';
+import RepoTag from './repo-tag';
 
 const { Search } = Input;
-
-export const BRANCH_TABS = [
-  {
-    key: 'branches',
-    name: i18n.t('dop:branch'),
-  },
-  {
-    key: 'tags',
-    name: i18n.t('tag'),
-  },
-];
 
 const RepoBranch = () => {
   const permMap = usePerm((s) => s.app.repo.branch);
@@ -170,4 +160,29 @@ const RepoBranch = () => {
   );
 };
 
-export default RepoBranch;
+const BranchTagEntry = () => {
+  const tabs = [
+    { value: 'branches', label: i18n.t('dop:branches'), Comp: RepoBranch },
+    { value: 'tags', label: i18n.t('dop:tags'), Comp: RepoTag },
+  ];
+  const [tab, setTab] = React.useState(tabs[0]);
+  const Content = tab.Comp;
+
+  return (
+    <>
+      <RadioTabs
+        options={tabs}
+        value={tab.value}
+        onChange={(_, newTab) => {
+          setTab(newTab as typeof tabs[0]);
+        }}
+        className="mb-2"
+      />
+      <Card>
+        <Content />
+      </Card>
+    </>
+  );
+};
+
+export default BranchTagEntry;

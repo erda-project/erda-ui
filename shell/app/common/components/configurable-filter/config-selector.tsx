@@ -22,9 +22,8 @@ export interface IProps {
   list: ConfigData[];
   value?: number | string;
   isNew: boolean;
-  defaultValue: number | string;
-  onDeleteFilter: (config: ConfigData) => void;
-  onSaveFilter: (label: string) => void;
+  defaultValue?: number | string;
+  onDeleteFilter?: (config: ConfigData) => void;
   onChange: (config: ConfigData) => void;
   className?: string;
 }
@@ -50,7 +49,7 @@ const ConfigSelector = ({ className = '', list, defaultValue, value, onChange, o
       zIndex: 9999,
       getContainer: configSelectorRef.current,
       onOk() {
-        onDeleteFilter(item);
+        onDeleteFilter?.(item);
       },
     });
   };

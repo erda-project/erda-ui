@@ -24,7 +24,7 @@ interface IProps {
   className?: string;
   type?: AlertProps['type'];
   theme?: 'light' | 'dark';
-  closeable: boolean;
+  closeable?: boolean;
 }
 
 const iconMap = {

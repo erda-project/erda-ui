@@ -306,7 +306,7 @@ export const appPerm = {
     },
   },
   apiDesign: {
-    name: i18n.t('user:API design'),
+    name: 'API',
     read: {
       pass: false,
       role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],

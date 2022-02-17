@@ -24,11 +24,11 @@ import './index.scss';
 
 export interface IProps {
   fieldsList: Field[];
-  configList: ConfigData[];
-  defaultConfig: number | string;
+  configList?: ConfigData[];
+  defaultConfig?: number | string;
   onFilter: (data: Obj) => void;
-  onDeleteFilter: (data: Obj) => void;
-  onSaveFilter: (label: string, values: Obj) => void;
+  onDeleteFilter?: (data: Obj) => void;
+  onSaveFilter?: (label: string, values: Obj) => void;
   value?: Obj;
   onConfigChange?: (config: ConfigData) => void;
   processField?: (field: Field) => IFormItem;
@@ -46,11 +46,11 @@ export interface Field {
   key: string;
   mode?: string;
   outside?: boolean;
-  value: number | string;
+  value?: number | string;
   label: string;
   children?: Field[];
   placeholder?: string;
-  options: Option[];
+  options?: Option[];
   haveFilter?: boolean;
   required?: boolean;
   emptyText?: string;
@@ -152,7 +152,7 @@ const convertValue = (value: Obj, fieldList: Field[]) => {
 
 const ConfigurableFilter = ({
   fieldsList,
-  configList,
+  configList = [],
   defaultConfig,
   value,
   onFilter: onFilterProps,
@@ -212,7 +212,7 @@ const ConfigurableFilter = ({
   };
 
   const saveFilter = (label: string) => {
-    onSaveFilter(label, form.getFieldsValue());
+    onSaveFilter?.(label, form.getFieldsValue());
   };
 
   const setAllOpen = () => {

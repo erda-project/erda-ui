@@ -11,49 +11,43 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button } from 'antd';
+import { Button, Card } from 'antd';
 import React from 'react';
 import { goTo } from 'common/utils';
 import { RepoMrTable } from './components/repo-mr-table';
 import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
-import routeInfoStore from 'core/stores/route';
 import { WithAuth, usePerm } from 'user/common';
-import { IF, ErdaAlert } from 'common';
+import { ErdaAlert, RadioTabs } from 'common';
 
-export const mrTabs = () => {
+const PureRepoMR = () => {
   const info = repoStore.useStore((s) => s.info);
-  return [
+  const permObj = usePerm((s) => s.app.repo.mr);
+  const [mrType, setMrType] = React.useState('open');
+
+  const options = [
     {
-      key: 'all',
-      name: i18n.t('all'),
+      value: 'all',
+      label: i18n.t('all'),
     },
     {
-      key: 'open',
-      name: (
+      value: 'open',
+      label: (
         <span>
           {i18n.t('dop:committed')}
-          <span className="dice-badge">{info ? info.mergeRequestCount : 0}</span>
+          <span className="ml-1">({info ? info.mergeRequestCount : 0})</span>
         </span>
       ),
     },
     {
-      key: 'merged',
-      name: i18n.t('dop:have merged'),
+      value: 'merged',
+      label: i18n.t('dop:have merged'),
     },
     {
-      key: 'closed',
-      name: i18n.t('closed'),
+      value: 'closed',
+      label: i18n.t('closed'),
     },
   ];
-};
-
-const PureRepoMR = () => {
-  const info = repoStore.useStore((s) => s.info);
-  const params = routeInfoStore.useStore((s) => s.params);
-  const permObj = usePerm((s) => s.app.repo.mr);
-  const { mrType = 'open' } = params;
-
   return (
     <div>
       <div className="top-button-group">
@@ -67,10 +61,19 @@ const PureRepoMR = () => {
           </Button>
         </WithAuth>
       </div>
-      <IF check={info.isLocked}>
-        <ErdaAlert message={i18n.t('lock-repository-tip')} type="error" />
-      </IF>
-      <RepoMrTable key={mrType} type={mrType as REPOSITORY.MrType} />
+
+      <RadioTabs
+        options={options}
+        value={mrType}
+        onChange={(v?: string | number) => setMrType(v as string)}
+        className="mb-2"
+      />
+      <Card>
+        <If condition={info.isLocked}>
+          <ErdaAlert message={i18n.t('lock-repository-tip')} type="error" />
+        </If>
+        <RepoMrTable key={mrType} type={mrType as REPOSITORY.MrType} />
+      </Card>
     </div>
   );
 };

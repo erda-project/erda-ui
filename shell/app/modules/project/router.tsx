@@ -43,14 +43,20 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'apps',
-          breadcrumbName: i18n.t('App'),
-          layout: { noWrapper: true },
-          getComp: (cb) => cb(import('project/pages/apps/app-list'), 'ProjectAppList'),
-        },
-        {
-          path: 'apps/createApp',
-          breadcrumbName: i18n.t('add application'),
-          getComp: (cb) => cb(import('project/pages/apps/app-form')),
+          mark: 'projectAppList',
+          routes: [
+            {
+              path: 'createApp',
+              breadcrumbName: i18n.t('add application'),
+              getComp: (cb) => cb(import('project/pages/apps/app-form')),
+            },
+            getAppRouter(),
+            {
+              breadcrumbName: i18n.t('App'),
+              layout: { noWrapper: true },
+              getComp: (cb) => cb(import('project/pages/apps/app-list'), 'ProjectAppList'),
+            },
+          ],
         },
         {
           path: 'issues',
@@ -398,7 +404,6 @@ function getProjectRouter(): RouteConfigItem[] {
           layout: { fullHeight: true },
           getComp: (cb) => cb(import('project/pages/settings')),
         },
-        getAppRouter(),
         {
           path: 'perm',
           pageName: i18n.t('role permissions description'),

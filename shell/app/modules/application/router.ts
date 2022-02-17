@@ -13,159 +13,169 @@
 
 import getRuntimeRouter from 'runtime/router';
 import i18n from 'i18n';
-import { mrTabs } from './pages/repo/repo-mr';
-import { problemTabs } from './pages/problem';
-import { BRANCH_TABS } from './pages/repo/repo-branch';
+import { APP_TABS } from './tabs';
 
 function getAppRouter(): RouteConfigItem {
   return {
-    path: 'apps/:appId',
+    path: ':appId',
     mark: 'application',
     breadcrumbName: '{appName}',
+    tabs: APP_TABS,
+    backToUp: 'projectAppList',
     routes: [
-      {
-        path: 'deploy',
-        mark: 'deploy',
-        breadcrumbName: i18n.t('dop:Environments'),
-        routes: [
-          ...getRuntimeRouter(),
-          {
-            layout: { noWrapper: true },
-            getComp: (cb) => cb(import('application/pages/deploy/deploy'), 'DeployWrap'),
-          },
-        ],
-      },
-      {
-        path: 'ticket/:ticketType',
-        breadcrumbName: i18n.t('dop:issues'),
-        tabs: problemTabs,
-        routes: [
-          {
-            layout: { noWrapper: true },
-            getComp: (cb) => cb(import('application/pages/problem')),
-          },
-          {
-            path: ':ticketId',
-            breadcrumbName: i18n.t('dop:issue detail'),
-            getComp: (cb) => cb(import('application/pages/problem/problem-detail')),
-          },
-        ],
-      },
+      // TODO: remove
+      // {
+      //   path: 'deploy',
+      //   mark: 'deploy',
+      //   breadcrumbName: i18n.t('dop:Environments'),
+      //   routes: [
+      //     ...getRuntimeRouter(),
+      //     {
+      //       layout: { noWrapper: true },
+      //       getComp: (cb) => cb(import('application/pages/deploy/deploy'), 'DeployWrap'),
+      //     },
+      //   ],
+      // },
       {
         path: 'repo',
         mark: 'repo',
         breadcrumbName: i18n.t('dop:code'),
         pageName: i18n.t('dop:files'),
+        tabs: APP_TABS,
+        backToUp: 'projectAppList',
+        alwaysShowTabKey: 'repo',
         routes: [
           {
+            tabs: APP_TABS,
+            backToUp: 'projectAppList',
+            alwaysShowTabKey: 'repo',
+            ignoreTabQuery: true,
             getComp: (cb) => cb(import('application/pages/repo/repo-tree')),
           },
           {
             path: 'tree/(.*)',
             mark: 'repoTree',
             breadcrumbName: i18n.t('dop:code'),
+            tabs: APP_TABS,
+            backToUp: 'projectAppList',
+            alwaysShowTabKey: 'repo',
+            ignoreTabQuery: true,
             getComp: (cb) => cb(import('application/pages/repo/repo-tree')),
           },
           {
             path: 'branches',
-            tabs: BRANCH_TABS,
-            breadcrumbName: i18n.t('dop:branch management'),
+            tabs: APP_TABS,
+            alwaysShowTabKey: 'repo/branches',
+            mark: 'repoBranches',
+            ignoreTabQuery: true,
+            breadcrumbName: i18n.t('dop:branch'),
             routes: [
               {
                 path: 'compare/:branches*',
                 mark: 'repoCompare',
+                backToUp: 'repoBranches',
                 breadcrumbName: i18n.t('dop:branch comparison'),
+                ignoreTabQuery: true,
                 getComp: (cb) => cb(import('application/pages/repo/branch-compare-detail'), 'BranchCompareDetail'),
+                layout: { noWrapper: true },
               },
               {
-                tabs: BRANCH_TABS,
+                ignoreTabQuery: true,
+                backToUp: 'projectAppList',
                 getComp: (cb) => cb(import('application/pages/repo/repo-branch')),
-              },
-            ],
-          },
-          {
-            path: 'tags',
-            tabs: BRANCH_TABS,
-            breadcrumbName: i18n.t('dop:branch management'),
-            routes: [
-              {
-                tabs: BRANCH_TABS,
-                getComp: (cb) => cb(import('application/pages/repo/repo-tag')),
+                layout: { noWrapper: true },
               },
             ],
           },
           {
             path: 'commit',
+            tabs: APP_TABS,
+            backToUp: 'projectAppList',
+            alwaysShowTabKey: 'repo/commits',
+            ignoreTabQuery: true,
             routes: [
               {
                 path: ':commitId',
                 breadcrumbName: i18n.t('dop:commit details'),
+                backToUp: 'projectAppList',
+                ignoreTabQuery: true,
                 getComp: (cb) => cb(import('application/pages/repo/commit-detail')),
               },
             ],
           },
           {
             path: 'commits/(.*)', // commits后面可能有分支(包含/)，commit后面只有commitId
-            breadcrumbName: i18n.t('dop:commit history'),
+            breadcrumbName: i18n.t('dop:commits'),
+            tabs: APP_TABS,
+            backToUp: 'projectAppList',
+            alwaysShowTabKey: 'repo/commits',
+            ignoreTabQuery: true,
             getComp: (cb) => cb(import('application/pages/repo/repo-commit')),
           },
           {
             path: 'mr/:mrType',
             breadcrumbName: i18n.t('dop:merge requests'),
-            tabs: mrTabs,
+            tabs: APP_TABS,
+            mark: 'repoMr',
+            alwaysShowTabKey: 'repo/mr/open',
+            ignoreTabQuery: true,
             routes: [
               {
                 path: 'createMR',
                 breadcrumbName: i18n.t('dop:new merge request'),
+                ignoreTabQuery: true,
+                backToUp: 'repoMr',
                 getComp: (cb) => cb(import('application/pages/repo/repo-mr-creation'), 'RepoMRCreation'),
               },
               {
                 path: ':mergeId',
                 breadcrumbName: i18n.t('dop:merge request detail'),
+                backToUp: 'repoMr',
+                ignoreTabQuery: true,
                 getComp: (cb) => cb(import('application/pages/repo/mr-detail')),
               },
               {
-                tabs: mrTabs,
+                ignoreTabQuery: true,
+                backToUp: 'projectAppList',
                 getComp: (cb) => cb(import('application/pages/repo/repo-mr')),
+                layout: { noWrapper: true },
               },
             ],
           },
-          {
-            path: 'backup',
-            breadcrumbName: i18n.t('dop:repo backup'),
-            layout: { noWrapper: true },
-            getComp: (cb) => cb(import('app/modules/application/pages/repo/repo-backup')),
-          },
+          // entry is closed
+          // {
+          //   path: 'backup',
+          //   breadcrumbName: i18n.t('dop:repo backup'),
+          //   tabs: APP_TABS,
+          //   layout: { noWrapper: true },
+          //   getComp: (cb) => cb(import('app/modules/application/pages/repo/repo-backup')),
+          // },
         ],
       },
-      {
-        path: 'release',
-        breadcrumbName: i18n.t('artifact management'),
-        layout: { fullHeight: true, noWrapper: true },
-        getComp: (cb) => cb(import('app/modules/application/pages/release/release-list')),
-      },
-      {
-        path: 'apiDesign',
-        mark: 'apiDesign',
-        breadcrumbName: i18n.t('dop:API design'),
-        routes: [
-          {
-            layout: { fullHeight: true },
-            getComp: (cb) => cb(import('apiManagePlatform/pages/api-market/design')),
-          },
-        ],
-      },
+      // TODO: remove
+      // {
+      //   path: 'release',
+      //   breadcrumbName: i18n.t('artifact management'),
+      //   tabs: APP_TABS,
+      //   layout: { fullHeight: true, noWrapper: true },
+      //   getComp: (cb) => cb(import('app/modules/application/pages/release/release-list')),
+      // },
       {
         path: 'pipeline',
         mark: 'pipeline',
         breadcrumbName: i18n.t('pipeline'),
         pageName: i18n.t('pipeline'),
+        backToUp: 'projectAppList',
+        tabs: APP_TABS,
+        ignoreTabQuery: true,
         getComp: (cb) => cb(import('application/pages/pipeline')),
         layout: { fullHeight: true, noWrapper: true },
       },
       {
         path: 'dataTask',
         mark: 'dataTask',
+        backToUp: 'projectAppList',
+        tabs: APP_TABS,
         pageName: `${i18n.t('dop:data task')}`,
         routes: [
           {
@@ -181,6 +191,8 @@ function getAppRouter(): RouteConfigItem {
       {
         path: 'dataModel',
         breadcrumbName: i18n.t('dop:data model'),
+        backToUp: 'projectAppList',
+        tabs: APP_TABS,
         routes: [
           {
             path: 'starChart/:filePath',
@@ -195,32 +207,35 @@ function getAppRouter(): RouteConfigItem {
       {
         path: 'dataMarket',
         breadcrumbName: i18n.t('dop:data market'),
+        backToUp: 'projectAppList',
+        tabs: APP_TABS,
         getComp: (cb) => cb(import('application/pages/data-market/data-market'), 'DataMarket'),
       },
       {
-        path: 'test',
-        routes: [
-          {
-            listKey: 'apps',
-            breadcrumbName: i18n.t('dop:lists'),
-            getComp: (cb) => cb(import('application/pages/test/test-list')),
-            layout: { noWrapper: true },
-          },
-          {
-            path: 'quality',
-            breadcrumbName: i18n.t('dop:quality reports'),
-            getComp: (cb) => cb(import('application/pages/quality'), 'CodeQualityWrap'),
-          },
-          {
-            path: ':testId',
-            breadcrumbName: i18n.t('dop:test detail'),
-            getComp: (cb) => cb(import('application/pages/test/test-detail-container')),
-          },
-        ],
+        path: 'quality',
+        breadcrumbName: i18n.t('dop:code quality'),
+        backToUp: 'projectAppList',
+        tabs: APP_TABS,
+        ignoreTabQuery: true,
+        getComp: (cb) => cb(import('application/pages/quality/entry')),
+        layout: { noWrapper: true },
+      },
+      {
+        path: 'apiDesign',
+        mark: 'apiDesign',
+        breadcrumbName: 'API',
+        tabs: APP_TABS,
+        backToUp: 'projectAppList',
+        ignoreTabQuery: true,
+        layout: { fullHeight: true },
+        getComp: (cb) => cb(import('apiManagePlatform/pages/api-market/design')),
       },
       {
         path: 'setting',
-        breadcrumbName: i18n.t('dop:application setting'),
+        breadcrumbName: i18n.t('dop:setting'),
+        tabs: APP_TABS,
+        backToUp: 'projectAppList',
+        ignoreTabQuery: true,
         layout: { fullHeight: true },
         getComp: (cb) => cb(import('application/pages/settings/app-settings')),
       },

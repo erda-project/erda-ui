@@ -21,7 +21,8 @@ import i18n from 'i18n';
 import './test-list.scss';
 import applicationTestStore from 'application/stores/test';
 import { useLoading } from 'core/stores/loading';
-import { ColumnProps } from 'core/common/interface';
+import TestDetailContainer from './test-detail-container';
+import { ColumnProps } from 'antd/lib/table';
 
 const getTestDuration = (duration: any) => {
   const seconds = floor(parseInt(duration, 10) / 10 ** 9, 3); // 时间为纳秒
@@ -107,6 +108,7 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
 ];
 
 const TestList = () => {
+  const [activeId, setActiveId] = React.useState(0);
   const [list, testListPaging] = applicationTestStore.useStore((s) => [s.list, s.testListPaging]);
   const [isFetching] = useLoading(applicationTestStore, ['getTestList']);
   const { getTestTypes, getTestList } = applicationTestStore.effects;
@@ -131,7 +133,7 @@ const TestList = () => {
           onRow={({ id }: TEST.RunTestItem) => {
             return {
               onClick: () => {
-                goTo(`./${id}`);
+                setActiveId(id);
               },
             };
           }}
@@ -142,6 +144,8 @@ const TestList = () => {
           }}
         />
       </Spin>
+
+      <TestDetailContainer key={activeId} testId={activeId} onClose={() => setActiveId(0)} />
     </div>
   );
 };

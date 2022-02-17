@@ -24,6 +24,7 @@ interface IMenuItem {
   disabled?: boolean;
   split?: boolean;
   isActive?: (v: string) => boolean;
+  className?: string;
 }
 
 interface IMenu {
@@ -115,12 +116,13 @@ const PureMenu = (props: IMenu) => {
     <div className={tabClass}>
       <ul className="tab-item-wraps">
         {finalMenus.map((menu: Merge<IMenuItem, { hrefType: 'back' }>) => {
-          const { disabled, key, name, hrefType, split, isActive } = menu;
+          const { disabled, key, name, hrefType, split, isActive, className: itemClass = '' } = menu;
           const menuItemClass = classnames({
             'tab-menu-item': true,
             'tab-menu-disabled': disabled,
             'tab-split-line-before': split,
             active: isActive ? isActive(activeKey) : activeKey === key,
+            [itemClass]: !!itemClass,
           });
           return (
             <li
@@ -128,7 +130,7 @@ const PureMenu = (props: IMenu) => {
               className={menuItemClass}
               onClick={() => {
                 if (!disabled && activeKey !== key) {
-                  // 点击当前，不响应
+                  // click current not trigger
                   handleClick(activeKey, key, hrefType);
                 }
               }}
