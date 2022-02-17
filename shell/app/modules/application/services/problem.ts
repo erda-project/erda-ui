@@ -11,51 +11,44 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import agent from 'agent';
+import { apiCreator } from 'core/service';
 
-export const getTicketList = (params: PROBLEM.ListQuery): IPagingResp<PROBLEM.Ticket> => {
-  return agent
-    .get('/api/tickets')
-    .query(params)
-    .then((response: any) => response.body);
+const apis = {
+  getTicketList: {
+    api: '/api/tickets',
+  },
+  addTicket: {
+    api: 'post@/api/tickets',
+  },
+  closeTicket: {
+    api: 'put@/api/tickets/:ticketId/actions/close',
+  },
+  reopenTicket: {
+    api: 'put@/api/tickets/:ticketId/actions/reopen',
+  },
+  getTicketDetail: {
+    api: '/api/tickets/:ticketId',
+  },
+  getTicketComments: {
+    api: '/api/comments',
+  },
+  createTicketComments: {
+    api: 'post@/api/comments',
+  },
 };
 
-export const getTicketDetail = (ticketId: number): PROBLEM.Ticket => {
-  return agent.get(`/api/tickets/${ticketId}`).then((response: any) => response.body);
-};
-
-export const addTicket = (data: PROBLEM.CreateBody) => {
-  return agent
-    .post('/api/tickets')
-    .send(data)
-    .then((response: any) => response.body);
-};
-
-// export const updateTicket = (data: PROBLEM.CreateBody) => {
-//   return agent.put('/api/tickets')
-//     .send(data)
-//     .then((response: any) => response.body);
-// };
-
-export const closeTicket = (ticketId: number) => {
-  return agent.put(`/api/tickets/${ticketId}/actions/close`).then((response: any) => response.body);
-};
-
-export const reopenTicket = (ticketId: number) => {
-  return agent.put(`/api/tickets/${ticketId}/actions/reopen`).then((response: any) => response.body);
-};
-
-// 这个接口不用传分页参数，返回类型需自定义
-export const getComments = (ticketId: number): { comments: PROBLEM.Comment[]; total: number } => {
-  return agent
-    .get('/api/comments')
-    .query({ ticketID: ticketId })
-    .then((response: any) => response.body);
-};
-
-export const createComment = (payload: PROBLEM.CommentBody) => {
-  return agent
-    .post('/api/comments')
-    .send(payload)
-    .then((response: any) => response.body);
-};
+interface TicketListResp {
+  tickets: PROBLEM.Ticket[];
+  total: number;
+}
+export const getTicketList = apiCreator<(p: PROBLEM.ListQuery) => TicketListResp>(apis.getTicketList);
+export const addTicket = apiCreator<(data: PROBLEM.CreateBody) => number>(apis.addTicket);
+export const closeTicket = apiCreator<(query: { ticketId: number | string }) => void>(apis.closeTicket);
+export const reopenTicket = apiCreator<(query: { ticketId: number | string }) => void>(apis.reopenTicket);
+export const getTicketDetail = apiCreator<(query: { ticketId: number | string }) => PROBLEM.Ticket>(
+  apis.getTicketDetail,
+);
+export const getTicketComments = apiCreator<
+  (query: { ticketID: number }) => { comments: PROBLEM.Comment[]; total: number }
+>(apis.getTicketComments);
+export const createTicketComments = apiCreator<(data: PROBLEM.CommentBody) => void>(apis.createTicketComments);

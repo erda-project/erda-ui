@@ -24,10 +24,10 @@ export interface RadioTabsProps {
   className?: string;
   options: IOption[];
   value?: Value;
-  onChange?: (v: Value) => void;
+  onChange?: (v: Value, o: IOption) => void;
 }
 
-type Value = string | number | undefined;
+type Value = string | number;
 
 interface IOption {
   label: string | React.ReactElement;
@@ -51,7 +51,8 @@ const RadioTabs = (props: RadioTabsProps) => {
     propsValue && updater.value((prev: string) => (prev !== propsValue ? propsValue : prev));
   }, [propsValue, updater]);
 
-  const convertValue = (val: Value) => {
+  const convertValue = (val?: Value) => {
+    if (val === undefined) return val;
     if (options.find((o) => o.value === val)) {
       return val;
     } else {
@@ -65,13 +66,13 @@ const RadioTabs = (props: RadioTabsProps) => {
     }
   };
 
-  const valueHandle = (v: Value) => {
+  const valueHandle = (v: Value): [Value, IOption] => {
     let curVal = v;
-    const curOption = options.find((o) => o.value === curVal);
+    const curOption = options.find((o) => o.value === curVal) as IOption;
     if (curOption?.children?.length) {
       curVal = subValues[curOption.value];
     }
-    return curVal;
+    return [curVal, curOption];
   };
   return (
     <Radio.Group
@@ -81,9 +82,9 @@ const RadioTabs = (props: RadioTabsProps) => {
       size="middle"
       value={convertValue(value)}
       onChange={(e) => {
-        const curVal = valueHandle(e.target.value);
+        const [curVal, curOption] = valueHandle(e.target.value);
         updater.value(curVal);
-        onChange?.(curVal);
+        onChange?.(curVal, curOption);
       }}
     >
       {options.map((mItem) => {
@@ -91,7 +92,7 @@ const RadioTabs = (props: RadioTabsProps) => {
 
         if (isArray(children) && children.length) {
           const sv = subValues[itemValue] || children[0].value;
-          const childName = children.find((c) => c.value === sv);
+          const child = children.find((c) => c.value === sv);
           const getMenu = () => {
             return (
               <Menu
@@ -100,7 +101,7 @@ const RadioTabs = (props: RadioTabsProps) => {
                     value: e.key,
                     subValues: { ...subValues, [itemValue]: e.key },
                   });
-                  onChange?.(e.key);
+                  onChange?.(e.key, child);
                 }}
               >
                 {children.map((g) => {
@@ -119,7 +120,7 @@ const RadioTabs = (props: RadioTabsProps) => {
                 <RadioItem value={itemValue} key={itemValue} disabled={disabled}>
                   <div className="inline-flex justify-between items-center">
                     {icon ? <ErdaIcon size={18} type={icon} className="mr-1" /> : null}
-                    <span className="nowrap">{childName?.label}</span>
+                    <span className="nowrap">{child?.label}</span>
                     <ErdaIcon size="18" type="caret-down" className="ml-1" />
                   </div>
                 </RadioItem>

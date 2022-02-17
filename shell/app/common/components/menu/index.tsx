@@ -127,10 +127,8 @@ const PureMenu = (props: IMenu) => {
               key={key}
               className={menuItemClass}
               onClick={() => {
-                if (!disabled && activeKey !== key) {
-                  // 点击当前，不响应
-                  handleClick(activeKey, key, hrefType);
-                }
+                // trigger even click the same key, for back from child route
+                handleClick(activeKey, key, hrefType);
               }}
             >
               {name}

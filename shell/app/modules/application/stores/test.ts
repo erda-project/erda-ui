@@ -12,33 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as TestServices from '../services/test';
-import layoutStore from 'layout/stores/layout';
-import i18n from 'i18n';
 import { createStore } from 'core/cube';
-import { getDefaultPaging, goTo } from 'common/utils';
-
-interface IParams {
-  projectId: string;
-  appId: string;
-}
-
-const getSubList = (params: IParams) => {
-  return [
-    {
-      text: i18n.t('dop:quality reports'),
-      href: goTo.resolve.appCodeQualityReports(params),
-    },
-    {
-      text: i18n.t('dop:issues'),
-      href: goTo.resolve.appCodeQualityIssueOpen(params),
-      prefix: `${goTo.resolve.appCodeQualityIssue(params)}/`,
-    },
-    {
-      text: i18n.t('dop:lists'),
-      href: goTo.resolve.appCodeQuality(params),
-    },
-  ];
-};
+import { getDefaultPaging } from 'common/utils';
 
 const initState = {
   testTypes: [],
@@ -53,17 +28,6 @@ const initState = {
 
 const test = createStore({
   name: 'applicationTest',
-  subscriptions({ listenRoute }: IStoreSubs) {
-    const setSubList = (params: IParams) =>
-      layoutStore.reducers.setSubSiderSubList({
-        test: getSubList(params),
-      });
-    listenRoute(({ isIn, params }: IRouteInfo) => {
-      if (isIn('application')) {
-        setSubList(params as any);
-      }
-    });
-  },
   state: initState,
   effects: {
     async getTestTypes({ call, update }) {
@@ -77,11 +41,9 @@ const test = createStore({
         { applicationId, ...payload },
         { paging: { key: 'testListPaging' } },
       );
-      const preList = select((state) => state.list);
-      const newList = preList.concat(list || []);
 
       update({
-        list: newList,
+        list,
         testListQueryParams: { applicationId, ...payload },
       });
 
@@ -90,9 +52,8 @@ const test = createStore({
         total,
       };
     },
-    async getTestDetail({ call, select, update, getParams }) {
+    async getTestDetail({ call, select, update }, testId: number) {
       test.reducers.clearTestDetail();
-      const { testId } = getParams();
       const testDetailCache = select((state) => state.testDetailCache);
       let testDetail = testDetailCache[testId];
       if (testDetail) {

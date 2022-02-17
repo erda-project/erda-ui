@@ -21,7 +21,6 @@ import { gfm, gfmHtml } from 'micromark-extension-gfm';
 import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { CodeComponent } from 'react-markdown/lib/ast-to-react';
 import github from 'react-syntax-highlighter/dist/esm/styles/hljs/googlecode.js';
 import './index.scss';
 

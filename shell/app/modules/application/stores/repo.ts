@@ -78,7 +78,7 @@ const buildIdParams = (appId: string, info: REPOSITORY.IInfo) => {
   return { appId, commitId: info.commitId, branch: currentBranch };
 };
 
-const getSubList = (info: Obj, { projectId, appId }: { projectId: string; appId: string }) => {
+export const getSubList = (info: Obj, { projectId, appId }: { projectId: string; appId: string }) => {
   const location = window.location as any;
   const repoRoot = goTo.resolve.repo({ projectId, appId });
   const branchInQuery = location.query && location.query.cb;
@@ -94,22 +94,26 @@ const getSubList = (info: Obj, { projectId, appId }: { projectId: string; appId:
   return [
     {
       text: i18n.t('dop:code'),
+      tabKey: currentBranch ? `repo/tree/${currentBranch}` : 'repo',
       href: getHref(currentBranch ? `/tree/${currentBranch}` : ''),
       isActive: (key: string) =>
         key === repoRoot || key.startsWith(`${repoRoot}/tree`) || key.startsWith(`${repoRoot}/backup`),
     },
     {
       text: i18n.t('dop:commit history'),
+      tabKey: currentBranch ? `repo/commits/${currentBranch}` : 'repo/commits',
       href: getHref(currentBranch ? `/commits/${currentBranch}` : '/commits/'),
       prefix: getHref('/commit'),
     },
     {
       text: i18n.t('dop:branch management'),
+      tabKey: currentBranch ? `repo/branches?cb=${currentBranch}` : 'repo/branches',
       href: getHref(currentBranch ? `/branches?cb=${currentBranch}` : '/branches'),
       isActive: (key: string) => key.startsWith(`${repoRoot}/branches`) || key.startsWith(`${repoRoot}/tags`),
     },
     {
       text: i18n.t('dop:merge requests'),
+      tabKey: currentBranch ? `repo/mr/open?cb=${currentBranch}` : 'repo/mr/open',
       href: getHref(currentBranch ? `/mr/open?cb=${currentBranch}` : '/mr/open'),
       isActive: (key: string) => key.startsWith(`${repoRoot}/mr`),
     },

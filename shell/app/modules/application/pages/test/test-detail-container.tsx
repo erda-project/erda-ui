@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Select, Spin } from 'antd';
+import { Drawer, Select, Spin } from 'antd';
 import { Holder, IF } from 'common';
 import { connectCube } from 'common/utils';
 import { map, isEmpty, forEach } from 'lodash';
@@ -24,9 +24,11 @@ import applicationTestStore from 'application/stores/test';
 import { useLoading } from 'core/stores/loading';
 
 interface IProps {
+  testId: number;
   testDetail: ITestDetail;
   isFetching: boolean;
-  getTestDetail: () => Promise<any>;
+  getTestDetail: typeof applicationTestStore.effects.getTestDetail;
+  onClose: () => void;
 }
 interface IState {
   chosenSuiteIndex: number;
@@ -63,6 +65,14 @@ const getValidSuites = (suites: ISuite[]): ISuite[] => {
 };
 
 class TestDetailContainer extends React.Component<IProps, IState> {
+  static getDerivedStateFromProps(nextProps: IProps, prevState: IState) {
+    const { testDetail } = nextProps;
+    if (testDetail !== prevState.preProps.testDetail) {
+      return { suites: getValidSuites(testDetail.suites || []) };
+    }
+    return null;
+  }
+
   constructor(props: IProps) {
     super(props);
     const { testDetail } = props;
@@ -74,16 +84,52 @@ class TestDetailContainer extends React.Component<IProps, IState> {
     };
   }
 
-  static getDerivedStateFromProps(nextProps: IProps, prevState: IState) {
-    const { testDetail } = nextProps;
-    if (testDetail !== prevState.preProps.testDetail) {
-      return { suites: getValidSuites(testDetail.suites || []) };
-    }
-    return null;
+  render() {
+    const { suites, chosenSuiteIndex, logVisible } = this.state;
+    const detailOptions = map(suites, (suite, index) => ({ value: index, text: suite.name || index }));
+    const currentSuite = suites[chosenSuiteIndex] || null;
+    const { testId, testDetail, isFetching, onClose } = this.props;
+    return (
+      <Drawer width="80%" visible={!!testId} title={testDetail?.name} onClose={onClose}>
+        <Spin spinning={isFetching}>
+          <div className="test-detail-header flex justify-between items-center">
+            <IF check={!isEmpty(detailOptions)}>
+              <Select
+                onChange={(v) => this.changeDetail(+v)}
+                dropdownMatchSelectWidth={false}
+                defaultValue={chosenSuiteIndex}
+                className="test-selector"
+              >
+                {map(detailOptions, (opt) => (
+                  <Option value={opt.value} key={`${opt.value}`}>
+                    {opt.text}
+                  </Option>
+                ))}
+              </Select>
+            </IF>
+
+            <IF check={testDetail && testDetail.uuid}>
+              <span className="test-log hover-active" onClick={this.toggleLog}>
+                {i18n.t('log')}
+              </span>
+            </IF>
+          </div>
+          <Holder
+            when={!currentSuite}
+            page
+            relative
+            tip={`${i18n.t('dop:no data, please confirm if there is a corresponding test code')}(UT/IT)`}
+          >
+            <TestDetail key={chosenSuiteIndex} suite={currentSuite} />
+          </Holder>
+          <BuildLog visible={logVisible} hideLog={this.toggleLog} logId={testDetail.uuid} />
+        </Spin>
+      </Drawer>
+    );
   }
 
   componentDidMount(): void {
-    this.props.getTestDetail();
+    this.props.testId && this.props.getTestDetail(this.props.testId);
   }
 
   changeDetail = (chosenSuiteIndex: number) => {
@@ -91,52 +137,8 @@ class TestDetailContainer extends React.Component<IProps, IState> {
   };
 
   toggleLog = () => {
-    this.setState({
-      logVisible: !this.state.logVisible,
-    });
+    this.setState((prev) => ({ ...prev, logVisible: !prev.logVisible }));
   };
-
-  render() {
-    const { suites, chosenSuiteIndex, logVisible } = this.state;
-    const detailOptions = map(suites, (suite, index) => ({ value: index, text: suite.name || index }));
-    const currentSuite = suites[chosenSuiteIndex] || null;
-    const { testDetail, isFetching } = this.props;
-    return (
-      <Spin spinning={isFetching}>
-        <div className="test-detail-header flex justify-between items-center">
-          <IF check={!isEmpty(detailOptions)}>
-            <Select
-              onChange={(v) => this.changeDetail(+v)}
-              dropdownMatchSelectWidth={false}
-              defaultValue={chosenSuiteIndex}
-              className="test-selector"
-            >
-              {map(detailOptions, (opt) => (
-                <Option value={opt.value} key={`${opt.value}`}>
-                  {opt.text}
-                </Option>
-              ))}
-            </Select>
-          </IF>
-
-          <IF check={testDetail && testDetail.uuid}>
-            <span className="test-log hover-active" onClick={this.toggleLog}>
-              {i18n.t('log')}
-            </span>
-          </IF>
-        </div>
-        <Holder
-          when={!currentSuite}
-          page
-          relative
-          tip={`${i18n.t('dop:no data, please confirm if there is a corresponding test code')}(UT/IT)`}
-        >
-          <TestDetail key={chosenSuiteIndex} suite={currentSuite} />
-        </Holder>
-        <BuildLog visible={logVisible} hideLog={this.toggleLog} logId={testDetail.uuid} />
-      </Spin>
-    );
-  }
 }
 
 const Mapper = () => {

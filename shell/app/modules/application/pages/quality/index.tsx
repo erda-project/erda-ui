@@ -125,7 +125,7 @@ const CodeQuality = () => {
             <div
               className="quality-data flex justify-between items-center"
               onClick={() => {
-                goTo(goTo.pages.qaTicket, {
+                goTo(goTo.pages.appCodeQualityIssueOpen, {
                   projectId,
                   appId,
                   type: query,
@@ -332,4 +332,4 @@ const CodeQuality = () => {
   );
 };
 
-export { CodeQuality as CodeQualityWrap };
+export default CodeQuality;

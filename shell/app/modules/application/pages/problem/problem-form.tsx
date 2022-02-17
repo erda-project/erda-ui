@@ -16,23 +16,20 @@ import { FormModal } from 'common';
 import MarkdownEditor from 'common/components/markdown-editor';
 import i18n from 'i18n';
 
-export const getProblemType = (): PROBLEM.TicketType[] => {
-  const typeArr = [
-    {
-      value: 'bug',
-      name: i18n.t('dop:code defect'),
-    },
-    {
-      value: 'vulnerability',
-      name: i18n.t('dop:code vulnerability'),
-    },
-    {
-      value: 'codeSmell',
-      name: i18n.t('dop:code smell'),
-    },
-  ];
-  return typeArr;
-};
+export const ProblemTypeOptions = [
+  {
+    value: 'bug',
+    name: i18n.t('dop:code defect'),
+  },
+  {
+    value: 'vulnerability',
+    name: i18n.t('dop:code vulnerability'),
+  },
+  {
+    value: 'codeSmell',
+    name: i18n.t('dop:code smell'),
+  },
+];
 
 export const ProblemPriority = [
   {
@@ -75,7 +72,7 @@ export const ProblemForm = ({
       label: i18n.t('dop:ticket type'),
       name: 'type',
       type: 'select',
-      options: getProblemType(),
+      options: ProblemTypeOptions,
     },
     {
       label: i18n.t('dop:priority'),

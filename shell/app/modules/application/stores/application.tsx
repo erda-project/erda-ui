@@ -24,7 +24,6 @@ import layoutStore from 'layout/stores/layout';
 import { HeadAppSelector } from 'application/common/app-selector';
 import userStore from 'app/user/stores';
 import { theme } from 'app/themes';
-import { getAppMenu } from 'app/menus';
 import { emit } from 'core/event-hub';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
@@ -71,15 +70,16 @@ const appStore = createStore({
             cb() {
               appStore.effects.getBranchInfo({ appId }); // 请求app下全量branch
               appStore.effects.getAppDetail(appId).then((detail: IApplication) => {
-                const curAppMenu = getAppMenu({ appDetail: detail });
+                // const curAppTabs = getAppMenu({ appDetail: detail });
                 loadingInApp = false;
-                layoutStore.reducers.setSubSiderInfoMap({
-                  menu: curAppMenu,
-                  key: 'application',
-                  detail: { ...detail, icon: theme.appIcon },
-                  getHeadName: () => <HeadAppSelector />,
-                });
-                checkIsAppIndex(curAppMenu); // 设置app的menu后，重定向
+                // layoutStore.reducers.setAppTabs(curAppTabs);
+                // layoutStore.reducers.setSubSiderInfoMap({
+                //   menu: curAppMenu,
+                //   key: 'application',
+                //   detail: { ...detail, icon: theme.appIcon },
+                //   getHeadName: () => <HeadAppSelector />,
+                // });
+                checkIsAppIndex(); // 设置app的menu后，重定向
               });
             },
           });
@@ -89,7 +89,7 @@ const appStore = createStore({
       }
 
       if (isLeaving('application')) {
-        layoutStore.reducers.setSubSiderInfoMap({ key: 'application', menu: [] });
+        // layoutStore.reducers.setSubSiderInfoMap({ key: 'application', menu: [] });
         userStore.reducers.clearAppList();
         appStore.reducers.cleanAppDetail();
         appStore.reducers.updateCurAppId();
@@ -194,14 +194,14 @@ const appStore = createStore({
       state.curAppId = appId;
     },
     onAppIndexEnter(_state, appMenu?: any[]) {
-      let curAppMenu: any = appMenu;
-      if (!curAppMenu) {
-        const subSiderInfoMap = layoutStore.getState((s) => s.subSiderInfoMap);
-        curAppMenu = get(subSiderInfoMap, 'application.menu');
-      }
+      // let curAppMenu: any = appMenu;
+      // if (!curAppMenu) {
+      //   const subSiderInfoMap = layoutStore.getState((s) => s.subSiderInfoMap);
+      //   curAppMenu = get(subSiderInfoMap, 'application.menu');
+      // }
       // app首页重定向到第一个菜单链接
-      const rePathname = get(curAppMenu, '[0].href');
-      rePathname && goTo(rePathname, { replace: true });
+      // const rePathname = get(curAppMenu, '[0].href');
+      goTo(goTo.pages.repo, { replace: true });
     },
   },
 });

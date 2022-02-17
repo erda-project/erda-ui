@@ -24,7 +24,6 @@ import qualityStore from './stores/quality';
 import releaseStore from './stores/release';
 import repoStore from './stores/repo';
 import testStore from './stores/test';
-import problemStore from './stores/problem';
 
 const entry = (registerModule) => {
   return registerModule({
@@ -43,7 +42,6 @@ const entry = (registerModule) => {
       releaseStore,
       repoStore,
       testStore,
-      problemStore,
     ],
   });
 };

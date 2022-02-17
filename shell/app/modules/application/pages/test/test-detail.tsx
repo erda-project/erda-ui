@@ -52,13 +52,14 @@ const { ChartContainer } = CardContainer;
 const convertTestCases = (tests: ITest[]) => map(tests, (item) => ({ ...item, key: uniqueId() }));
 
 class TestDetail extends React.Component<IProps, IState> {
-  onSearchKeyChange = debounce(
-    (value: string) =>
-      this.setState({ searchKey: value }, () => {
-        this.changeFilterList();
-      }),
-    300,
-  );
+  static getDerivedStateFromProps(nextProps: IProps, prevState: IState) {
+    const { suite } = nextProps;
+    if (suite !== prevState.preProps.suite) {
+      suite.tests = convertTestCases(suite.tests || []);
+      return { suite, checkedCaseKey: get(suite.tests, '[0].key') || '', filterList: suite.tests };
+    }
+    return null;
+  }
 
   constructor(props: IProps) {
     super(props);
@@ -75,79 +76,6 @@ class TestDetail extends React.Component<IProps, IState> {
       filterList: stateSuite.tests,
     };
   }
-
-  static getDerivedStateFromProps(nextProps: IProps, prevState: IState) {
-    const { suite } = nextProps;
-    if (suite !== prevState.preProps.suite) {
-      suite.tests = convertTestCases(suite.tests || []);
-      return { suite, checkedCaseKey: get(suite.tests, '[0].key') || '', filterList: suite.tests };
-    }
-    return null;
-  }
-
-  showTestInfo = (key: string | undefined, e?: React.MouseEvent<Element, MouseEvent> | undefined) => {
-    if (e) e.stopPropagation();
-    const { checkedCaseKey } = this.state;
-    if (key && key !== checkedCaseKey) {
-      this.setState({
-        checkedCaseKey: key,
-      });
-    }
-  };
-
-  toggleErrorInfo = () => {
-    // this.setState({ isShowing: !this.state.isShowing });
-  };
-
-  renderTestInfo = (test?: ITest | null) => {
-    const { isShowing } = this.state;
-    if (!test) return <div className="test-output" />;
-    const { error, stdout } = test;
-    const { message = '', body = '', type = '' } = error || {};
-    const errorClass = classNames({ block: isShowing });
-    const hasLog = stdout || message || body || type;
-
-    return (
-      <div className="test-output">
-        <Holder when={!hasLog}>
-          <pre>
-            {stdout}
-            <p>
-              {type || body ? (
-                <span className="error-type" onClick={() => this.toggleErrorInfo()}>
-                  {type || 'error'}
-                </span>
-              ) : null}
-            </p>
-            <p className={`error-message ${errorClass}`}>{message ? `Error: ${message}` : ''}</p>
-            <p className={`error-body ${errorClass}`}>{`${body}`}</p>
-          </pre>
-        </Holder>
-      </div>
-    );
-  };
-
-  changeFilterKey = (filterKey: string) => {
-    this.setState({ filterKey }, () => {
-      this.changeFilterList();
-    });
-  };
-
-  changeFilterList = () => {
-    const { suite, filterKey, searchKey, checkedCaseKey } = this.state;
-    const { tests } = suite;
-    const filterList = filter(tests, (item) => {
-      const { status, name } = item;
-      return name.toLowerCase().includes(searchKey.toLowerCase()) && (filterKey === 'all' || status === filterKey);
-    });
-    const checkedTestCase = find(filterList, { key: checkedCaseKey });
-    const forUpdate: any = { filterList };
-    if (!checkedTestCase) {
-      // 当前选中的没匹配数据
-      forUpdate.checkedCaseKey = get(filterList, '[0].key') || '';
-    }
-    this.setState({ ...forUpdate });
-  };
 
   render() {
     const { checkedCaseKey, filterKey, suite, filterList } = this.state;
@@ -256,5 +184,77 @@ class TestDetail extends React.Component<IProps, IState> {
       </div>
     );
   }
+
+  onSearchKeyChange = debounce(
+    (value: string) =>
+      this.setState({ searchKey: value }, () => {
+        this.changeFilterList();
+      }),
+    300,
+  );
+
+  showTestInfo = (key: string | undefined, e?: React.MouseEvent<Element, MouseEvent> | undefined) => {
+    if (e) e.stopPropagation();
+    const { checkedCaseKey } = this.state;
+    if (key && key !== checkedCaseKey) {
+      this.setState({
+        checkedCaseKey: key,
+      });
+    }
+  };
+
+  toggleErrorInfo = () => {
+    // this.setState({ isShowing: !this.state.isShowing });
+  };
+
+  renderTestInfo = (test?: ITest | null) => {
+    const { isShowing } = this.state;
+    if (!test) return <div className="test-output" />;
+    const { error, stdout } = test;
+    const { message = '', body = '', type = '' } = error || {};
+    const errorClass = classNames({ block: isShowing });
+    const hasLog = stdout || message || body || type;
+
+    return (
+      <div className="test-output">
+        <Holder when={!hasLog}>
+          <pre>
+            {stdout}
+            <p>
+              {type || body ? (
+                <span className="error-type" onClick={() => this.toggleErrorInfo()}>
+                  {type || 'error'}
+                </span>
+              ) : null}
+            </p>
+            <p className={`error-message ${errorClass}`}>{message ? `Error: ${message}` : ''}</p>
+            <p className={`error-body ${errorClass}`}>{`${body}`}</p>
+          </pre>
+        </Holder>
+      </div>
+    );
+  };
+
+  changeFilterKey = (filterKey: string) => {
+    this.setState({ filterKey }, () => {
+      this.changeFilterList();
+    });
+  };
+
+  changeFilterList = () => {
+    const { suite, filterKey, searchKey, checkedCaseKey } = this.state;
+    const { tests } = suite;
+    const filterList = filter(tests, (item) => {
+      const { status, name } = item;
+      return name.toLowerCase().includes(searchKey.toLowerCase()) && (filterKey === 'all' || status === filterKey);
+    });
+    const checkedTestCase = find(filterList, { key: checkedCaseKey });
+    const forUpdate: any = { filterList };
+    if (!checkedTestCase) {
+      // 当前选中的没匹配数据
+      forUpdate.checkedCaseKey = get(filterList, '[0].key') || '';
+    }
+    this.setState({ ...forUpdate });
+  };
 }
 export default TestDetail;

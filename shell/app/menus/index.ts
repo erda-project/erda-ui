@@ -16,14 +16,13 @@ import { getCmpMenu } from './cmp';
 import { getDopMenu } from './dop';
 import { getMspMenu } from './msp';
 import { getProjectMenu } from './project';
-import { getAppMenu } from './application';
 import { getEcpMenu } from './ecp';
 import i18n from 'app/i18n';
 import { produce } from 'immer';
 import { filter, map } from 'lodash';
 import { appList } from './appCenter';
 
-export { getProjectMenu, getAppMenu, getOrgCenterMenu, getCmpMenu, getDopMenu, getMspMenu, getEcpMenu };
+export { getProjectMenu, getOrgCenterMenu, getCmpMenu, getDopMenu, getMspMenu, getEcpMenu };
 
 export const getAppCenterAppList = appList;
 
