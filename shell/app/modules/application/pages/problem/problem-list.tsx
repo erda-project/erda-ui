@@ -132,7 +132,7 @@ export const ProblemList = () => {
       key: 'q',
       outside: true,
       label: 'title',
-      placeholder: '根据标题过滤',
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
       type: 'input',
     },
   ];
