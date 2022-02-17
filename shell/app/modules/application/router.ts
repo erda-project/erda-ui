@@ -217,7 +217,7 @@ function getAppRouter(): RouteConfigItem {
       },
       {
         path: 'setting',
-        breadcrumbName: i18n.t('dop:application setting'),
+        breadcrumbName: i18n.t('dop:setting'),
         tabs: APP_TABS,
         ignoreTabQuery: true,
         layout: { fullHeight: true },

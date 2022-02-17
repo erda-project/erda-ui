@@ -127,7 +127,7 @@ export const APP_TABS = () => {
     show: perm.setting.read.pass,
     key: 'setting',
     // href: goTo.resolve.appSetting(),
-    name: i18n.t('dop:application setting'),
+    name: i18n.t('dop:setting'),
   };
 
   const modeMap = {
@@ -140,7 +140,7 @@ export const APP_TABS = () => {
   };
 
   const tabs = filter(modeMap[mode], (item: ITab) => item.show !== false);
-  return [back, appSwitch, ...tabs];
+  return [back, appSwitch, ...tabs] as ROUTE_TABS[];
   // const currentRoute = routeInfoStore.useStore(s => s.currentRoute);
   // if (currentRoute.mark === "application") {
   //   const firstAvailableTab = tabs.find(t => t.show && t.href);

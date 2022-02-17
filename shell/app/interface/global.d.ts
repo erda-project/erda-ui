@@ -354,6 +354,8 @@ interface ROUTE_TABS {
   name: string | JSX.Element;
   show?: boolean;
   hrefType?: string;
+  isActive: () => boolean;
+  [key: string]: any;
 }
 
 interface RouteConfigItem {
