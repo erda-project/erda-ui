@@ -16,8 +16,8 @@ import BaseEventDetail, { PageTitle } from './base-event-detail';
 import routeInfoStore from 'core/stores/route';
 
 const EventDetail = () => {
-  const { terminusKey, eventId } = routeInfoStore.useStore((s) => s.params);
-  return <BaseEventDetail scope="micro_service" scopeId={terminusKey} id={eventId} />;
+  const { tenantGroup, eventId } = routeInfoStore.useStore((s) => s.params);
+  return <BaseEventDetail scope="micro_service" scopeId={tenantGroup} id={eventId} />;
 };
 export const EventDetailTitle = PageTitle;
 export default EventDetail;

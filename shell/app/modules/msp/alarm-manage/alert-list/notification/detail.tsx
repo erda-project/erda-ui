@@ -16,9 +16,9 @@ import BaseNotificationDetail, { PageTitle } from './base-notification-detail';
 import routeInfoStore from 'core/stores/route';
 
 const NotificationDetail = () => {
-  const { terminusKey, notificationId } = routeInfoStore.useStore((s) => s.params);
+  const { tenantGroup, notificationId } = routeInfoStore.useStore((s) => s.params);
 
-  return <BaseNotificationDetail scope="micro_service" scopeId={terminusKey} id={+notificationId} />;
+  return <BaseNotificationDetail scope="micro_service" scopeId={tenantGroup} id={+notificationId} />;
 };
 
 export const NotificationTitle = PageTitle;

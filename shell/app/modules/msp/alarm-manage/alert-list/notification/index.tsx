@@ -17,11 +17,11 @@ import routeInfoStore from 'core/stores/route';
 import { goTo } from 'common/utils';
 
 const Notification = () => {
-  const { terminusKey } = routeInfoStore.useStore((s) => s.params);
+  const { tenantGroup } = routeInfoStore.useStore((s) => s.params);
   return (
     <BaseNotificationList
       scope="micro_service"
-      scopeId={terminusKey}
+      scopeId={tenantGroup}
       clickRow={({ id }) => {
         goTo(`./${id}`);
       }}
