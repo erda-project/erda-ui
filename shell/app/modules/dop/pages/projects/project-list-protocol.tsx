@@ -14,6 +14,9 @@
 import React from 'react';
 import DiceConfigPage, { useMock } from 'config-page/index';
 import { useUpdate } from 'common/use-hooks';
+import { usePerm } from 'user/common';
+import { goTo } from 'common/utils';
+import i18n from 'i18n';
 import ApplyUnblockModal, { IMetaData } from 'dop/pages/projects/apply-unblock-modal';
 import { ErdaIcon } from 'common';
 
@@ -22,6 +25,8 @@ const ProjectList = () => {
     visible: false,
     metaData: {} as IMetaData,
   });
+  const permMap = usePerm((s) => s.org);
+  const reloadRef = React.useRef(null as any);
   const reloadRef = React.useRef<{ reload: () => void }>({} as { reload: () => void });
 
   const closeModal = () => {
@@ -53,6 +58,25 @@ const ProjectList = () => {
         scenarioKey="project-list-all"
         ref={reloadRef}
         customProps={{
+          tabs: {
+            Wrapper: ({ children }: { children: React.ReactElement }) => {
+              return (
+                <div className="flex-h-center justify-between">
+                  {children}
+                  {permMap.orgCenter.viewProjects.pass ? (
+                    <div
+                      className="cursor-pointer mr-1 text-purple-deep"
+                      onClick={() => {
+                        goTo(goTo.pages.orgCenterRoot, { jumpOut: true });
+                      }}
+                    >
+                      {i18n.t('go to create a project')}
+                    </div>
+                  ) : null}
+                </div>
+              );
+            },
+          },
           list: {
             props: {
               wrapperClassName: 'bg-white',
