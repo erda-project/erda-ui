@@ -18,9 +18,9 @@ import routeInfoStore from 'core/stores/route';
 import breadcrumbStore from 'layout/stores/breadcrumb';
 import { isEmpty, isFunction } from 'lodash';
 import { matchPath } from 'react-router-dom';
-import { Ellipsis, ErdaIcon } from 'common';
-import './header.scss';
+import { ErdaIcon } from 'common';
 import { goTo } from 'app/common/utils';
+import './header.scss';
 
 const Header = () => {
   const [currentApp] = layoutStore.useStore((s) => [s.currentApp]);

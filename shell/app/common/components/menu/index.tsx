@@ -129,8 +129,10 @@ const PureMenu = (props: IMenu) => {
               key={key}
               className={menuItemClass}
               onClick={() => {
-                // trigger even click the same key, for back from child route
-                handleClick(activeKey, key, hrefType);
+                if (!disabled && activeKey !== key) {
+                  // click current not trigger
+                  handleClick(activeKey, key, hrefType);
+                }
               }}
             >
               {name}
