@@ -22,7 +22,7 @@ import commonStore from 'common/stores/common';
 const linkMark = '##to_link:';
 
 interface IProps {
-  logId: any;
+  logId: string;
   customFetchAPIPrefix?: string;
   downloadAPI?: string;
   pipelineID: string;

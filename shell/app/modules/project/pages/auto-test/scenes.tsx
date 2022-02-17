@@ -78,7 +78,7 @@ const AutoTestScenes = () => {
           executeTaskTable: {
             op: {
               operations: {
-                checkLog: (d: any) => {
+                checkLog: (d: { logId: string; pipelineId: string; nodeId: string }) => {
                   const { logId, pipelineId: pId, nodeId: nId } = get(d, 'meta') || {};
                   if (logId) {
                     update({
@@ -94,7 +94,12 @@ const AutoTestScenes = () => {
                     });
                   }
                 },
-                checkDetail: (d: any) => {
+                checkDetail: (d: {
+                  meta: {
+                    metadata: Array<{ type: string; value: string; name: string }>;
+                    errors: Array<{ name: string; value: string; msg: string }>;
+                  };
+                }) => {
                   if (d) {
                     update({
                       resultVis: true,
@@ -171,7 +176,7 @@ const parseObj = (obj: Obj, key: string) => {
 
 const getJsonObj = (val: IJsonObjVal) => {
   if (isEmpty(val)) return val;
-  let jsonObj = parseObj(val, 'value') as any;
+  let jsonObj = parseObj(val, 'value');
   if (val.name === 'api_response' && get(jsonObj, 'value.body')) {
     jsonObj = parseObj(jsonObj, 'value.body');
   } else if (val.name === 'api_request' && get(jsonObj, 'value.body.content')) {
@@ -180,12 +185,30 @@ const getJsonObj = (val: IJsonObjVal) => {
   return jsonObj;
 };
 const apiResultKeys = ['api_request', 'api_response', 'api_assert_detail', 'api_assert_success'];
-export const getPreviewData = (d: any) => {
+
+interface ResultDataItem {
+  key: string[];
+  value: {
+    data: { type: string; value: string; name: string };
+    render: {
+      type: string;
+      dataIndex: string;
+      props: { title: string; minHeight: number; actions: { copy: boolean } };
+    };
+  };
+}
+
+export const getPreviewData = (d: {
+  meta: {
+    metadata: Array<{ type: string; value: string; name: string }>;
+    errors: Array<{ name: string; value: string; msg: string }>;
+  };
+}) => {
   const { metadata = [], errors = [] } = d?.meta || {};
 
-  const fileDownload = [] as any[];
-  const resultData = [] as any[];
-  (metadata || []).forEach((item: any) => {
+  const fileDownload: React.ReactNode[] = [];
+  const resultData: ResultDataItem[] = [];
+  (metadata || []).forEach((item) => {
     if (item.type === 'DiceFile') {
       fileDownload.push(
         <div key={`${fileDownload.length}`}>
@@ -217,7 +240,7 @@ export const getPreviewData = (d: any) => {
   const renderList = [];
 
   if (errors.length) {
-    dataObj._errors = errors.map((err: any, idx: number) => (
+    dataObj._errors = errors.map((err, idx: number) => (
       <div key={`error-${String(idx)}`} className="test-case-node-msg">
         <span className="">{err.name || 'error'}: </span>
         {err.value || err.msg}

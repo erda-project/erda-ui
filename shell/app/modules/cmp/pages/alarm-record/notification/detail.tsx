@@ -11,24 +11,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import agent from 'agent';
+import React from 'react';
+import BaseNotificationDetail, { PageTitle } from 'msp/alarm-manage/alert-list/notification/base-notification-detail';
+import orgStore from 'app/org-home/stores/org';
+import routeInfoStore from 'core/stores/route';
 
-export const getAddons = (query: {
-  type: string;
-  value: string;
-  projectId?: number;
-  workspace?: string | string[];
-  displayName?: string[];
-}): ADDON.Instance[] => {
-  return agent
-    .get('/api/addons')
-    .query(query)
-    .then((response: { body: ADDON.Instance[] }) => response.body);
+const Notification = () => {
+  const orgId = orgStore.useStore((s) => s.currentOrg.id);
+  const { notificationId } = routeInfoStore.useStore((s) => s.params);
+
+  return <BaseNotificationDetail scopeId={`${orgId}`} scope="org" id={+notificationId} />;
 };
 
-export const approves = (payload: PROJECT.Approves) => {
-  return agent
-    .post('/api/approves')
-    .send(payload)
-    .then((response: any) => response.body);
-};
+export const NotificationTitle = PageTitle;
+
+export default Notification;

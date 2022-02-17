@@ -11,24 +11,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import agent from 'agent';
+import React from 'react';
+import BaseNotificationList from './base-notification-list';
+import routeInfoStore from 'core/stores/route';
+import { goTo } from 'common/utils';
 
-export const getAddons = (query: {
-  type: string;
-  value: string;
-  projectId?: number;
-  workspace?: string | string[];
-  displayName?: string[];
-}): ADDON.Instance[] => {
-  return agent
-    .get('/api/addons')
-    .query(query)
-    .then((response: { body: ADDON.Instance[] }) => response.body);
+const Notification = () => {
+  const { tenantGroup } = routeInfoStore.useStore((s) => s.params);
+  return (
+    <BaseNotificationList
+      scope="micro_service"
+      scopeId={tenantGroup}
+      clickRow={({ id }) => {
+        goTo(`./${id}`);
+      }}
+    />
+  );
 };
 
-export const approves = (payload: PROJECT.Approves) => {
-  return agent
-    .post('/api/approves')
-    .send(payload)
-    .then((response: any) => response.body);
-};
+export default Notification;

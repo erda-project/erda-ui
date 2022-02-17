@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Tooltip, Dropdown, Menu, Popconfirm } from 'antd';
-import { isEmpty, map, find } from 'lodash';
+import { Button, Dropdown, Menu, Popconfirm, Tooltip } from 'antd';
+import { find, isEmpty, map } from 'lodash';
 import { useUnmount } from 'react-use';
-import { Icon as CustomIcon, ErdaIcon } from 'common';
+import { ErdaIcon, Icon as CustomIcon } from 'common';
 import { iconMap } from 'common/components/erda-icon';
 
 const fakeClick = 'fake-click';

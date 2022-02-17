@@ -18,12 +18,13 @@ import produce from 'immer';
 import { cloneDeep, find, isArray, isEmpty, isString, map, reduce, reject, set } from 'lodash';
 import { Button, Input, Popconfirm, Radio, Select, Tabs, message } from 'antd';
 import React from 'react';
+import { IEditorProps } from 'react-ace';
 import './api-test.scss';
 
 interface IProps {
   disabled?: boolean;
   value?: IApi;
-  onChange: (api: IApi, adjustData?: Function) => any;
+  onChange: (api: IApi, adjustData?: Function) => void;
 }
 const formatJSON = (str: string) => {
   let res = str;
@@ -63,6 +64,13 @@ export interface IApi {
     value: string;
   }>;
 }
+
+interface Param {
+  key: string;
+  value: string;
+  desc: string;
+}
+
 const { Option } = Select;
 const { TabPane } = Tabs;
 const { TextArea } = Input;
@@ -92,7 +100,7 @@ export const ApiItem = ({ value, onChange, disabled }: IProps) => {
           // 同步url和params
           case 'url': {
             const { query } = qs.parseUrl(v, { arrayFormat: undefined }); // 使用a=b&a=c格式解析
-            const paramList: any = [];
+            const paramList: Param[] = [] as Param[];
             map(query, (qv: string | string[], qk: string) => {
               if (Array.isArray(qv)) {
                 qv.forEach((vs: string) => {
@@ -116,7 +124,7 @@ export const ApiItem = ({ value, onChange, disabled }: IProps) => {
           case 'params': {
             const { url } = qs.parseUrl(draft.url);
             const queryStr: string[] = [];
-            map(v, (item: any) => {
+            map(v, (item: { key: string; value: string }) => {
               if (item.key && item.value) {
                 queryStr.push(`${item.key}=${item.value}`);
               }
@@ -162,7 +170,7 @@ export const ApiItem = ({ value, onChange, disabled }: IProps) => {
       </div>
       <div className="api-tabs">
         <Tabs defaultActiveKey="Params">
-          {map(ApiTabComps, ({ Comp, dataKey }: any, tab) => {
+          {map(ApiTabComps, ({ Comp, dataKey }: Obj, tab) => {
             return (
               <TabPane tab={tab} key={tab}>
                 <Comp
@@ -190,10 +198,17 @@ export const ApiItem = ({ value, onChange, disabled }: IProps) => {
 };
 const Empty = () => null;
 const dataModal = { key: '', value: '', desc: '' };
+
+interface CompProps {
+  data: Obj;
+  disabled: boolean;
+  onChange: (k: string, v: Obj, adjustData?: Function) => void;
+}
+
 const ApiTabComps = {
   Params: {
     dataKey: 'params',
-    Comp: (props: any) => {
+    Comp: (props: CompProps) => {
       const { data, onChange, disabled } = props;
       return (
         <KeyValEdit
@@ -202,7 +217,7 @@ const ApiTabComps = {
           disabled={disabled}
           dataModel={dataModal}
           dataMainKey="key"
-          onChange={(val: any) => {
+          onChange={(val: string) => {
             onChange('params', val);
           }}
           itemMap={{
@@ -229,7 +244,7 @@ const ApiTabComps = {
   },
   Headers: {
     dataKey: 'headers',
-    Comp: (props: any) => {
+    Comp: (props: CompProps) => {
       const { data, onChange, disabled } = props;
       return (
         <KeyValEdit
@@ -238,7 +253,7 @@ const ApiTabComps = {
           disabled={disabled}
           dataModel={dataModal}
           dataMainKey="key"
-          onChange={(val: any) => {
+          onChange={(val: string) => {
             onChange('headers', val);
           }}
           itemMap={{
@@ -265,11 +280,11 @@ const ApiTabComps = {
   },
   Body: {
     dataKey: 'body',
-    Comp: (props: any) => <APIBody {...props} />,
+    Comp: (props: CompProps) => <APIBody {...props} />,
   },
   Tests: {
     dataKey: ['out_params', 'asserts'],
-    Comp: (props: any) => {
+    Comp: (props: CompProps) => {
       const { data, onChange, disabled } = props;
       return (
         <div className="api-tables">
@@ -286,7 +301,7 @@ const ApiTabComps = {
                 matchIndex: '',
               }}
               dataMainKey="key"
-              onChange={(val: any, adjustData?: Function) => {
+              onChange={(val: string, adjustData?: Function) => {
                 onChange('out_params', val, adjustData);
               }}
               itemMap={{
@@ -297,7 +312,12 @@ const ApiTabComps = {
                   trim: true,
                 },
                 source: {
-                  Comp: (p: any) => {
+                  Comp: (p: {
+                    value: string;
+                    disabled: boolean;
+                    className: string;
+                    onChange: (curVal: string) => void;
+                  }) => {
                     const { value, onChange: onCurChange, className = '', disabled: propsDisabled } = p;
                     return (
                       <Select
@@ -319,7 +339,7 @@ const ApiTabComps = {
                   props: {
                     placeholder: 'example: .data.id',
                   },
-                  getProps(record: any) {
+                  getProps(record: { source: string }) {
                     if (record.source === 'status') {
                       return { disabled: true, value: 'status' };
                     }
@@ -348,12 +368,12 @@ const ApiTabComps = {
                 operator: '',
                 value: '',
               }}
-              onChange={(val: any, adjustData?: Function) => {
+              onChange={(val: string, adjustData?: Function) => {
                 onChange('asserts', val, adjustData);
               }}
               itemMap={{
                 arg: {
-                  Comp: (p: any) => {
+                  Comp: (p: { value: string; className: string; onChange: (value: string) => void }) => {
                     const { value, onChange: onCurChange, className = '' } = p;
                     return (
                       <Select
@@ -363,7 +383,7 @@ const ApiTabComps = {
                         onChange={onCurChange}
                         disabled={disabled}
                       >
-                        {data.out_params?.map((option: any) => {
+                        {data.out_params?.map((option: { key: string }) => {
                           return option.key === '' ? null : (
                             <Option key={option.key} value={option.key}>
                               {option.key}
@@ -375,7 +395,7 @@ const ApiTabComps = {
                   },
                 },
                 operator: {
-                  Comp: (p: any) => {
+                  Comp: (p: { value: string; className: string; onChange: (value: string) => void }) => {
                     const { value, onChange: onCurChange, className = '' } = p;
                     return (
                       <Select
@@ -416,8 +436,12 @@ const ApiTabComps = {
     },
   },
 };
-const TestJsonEditor = (props: any) => {
-  const { data, updateBody, disabled }: any = props;
+const TestJsonEditor = (props: {
+  data: { content: string };
+  disabled: boolean;
+  updateBody: (content: string, value: string) => void;
+}) => {
+  const { data, updateBody, disabled } = props;
   const val = isString(data.content) ? `${data.content}` : '';
   const [content, setContent] = React.useState('');
   React.useEffect(() => {
@@ -440,7 +464,7 @@ const TestJsonEditor = (props: any) => {
         readOnly={disabled}
         minLines={8}
         onChange={(value: string) => updateBody('content', value)}
-        onLoad={(editor: any) => {
+        onLoad={(editor: IEditorProps) => {
           editor.getSession().setUseWorker(false);
         }}
       />
@@ -450,20 +474,24 @@ const TestJsonEditor = (props: any) => {
 const BasicForm = 'application/x-www-form-urlencoded';
 const ValMap = {
   none: () => <div className="body-val-none">{i18n.t('dop:the current request has no body')}</div>,
-  [BasicForm]: (props: any) => {
-    const { data, updateBody, disabled }: any = props;
+  [BasicForm]: (props: {
+    data: { content: string };
+    disabled: boolean;
+    updateBody: (content: string, value: string) => void;
+  }) => {
+    const { data, updateBody, disabled } = props;
     return (
       <KeyValEdit
         type="body"
         disabled={disabled}
-        data={isString(data.content) ? [] : (data.content as any)}
+        data={isString(data.content) ? [] : data.content}
         dataModel={{
           key: '',
           value: '',
           desc: '',
         }}
         dataMainKey="key"
-        onChange={(val: any) => {
+        onChange={(val: string) => {
           updateBody('content', val);
         }}
         itemMap={{
@@ -487,21 +515,29 @@ const ValMap = {
       />
     );
   },
-  raw: (props: any) => {
-    const { data, updateBody, disabled }: any = props;
+  raw: (props: {
+    data: { content: string };
+    disabled: boolean;
+    updateBody: (content: string, value: string) => void;
+  }) => {
+    const { data, updateBody, disabled } = props;
     const val = isString(data.content) ? data.content : '';
     return (
       <TextArea disabled={disabled} rows={10} value={val} onChange={(e) => updateBody('content', e.target.value)} />
     );
   },
-  'JSON(application/json)': (props: any) => <TestJsonEditor {...props} />,
+  'JSON(application/json)': (props: {
+    data: { content: string };
+    disabled: boolean;
+    updateBody: (content: string, value: string) => void;
+  }) => <TestJsonEditor {...props} />,
 };
-const APIBody = (props: any) => {
+const APIBody = (props: CompProps) => {
   const { data, onChange, disabled } = props;
   const isRaw = !['none', BasicForm].includes(data.type);
   const realType = data.type;
-  const updateBody = (key: string, val: any) => {
-    const newBody: any = { ...data, [key]: val || '' };
+  const updateBody = (key: string, val: string) => {
+    const newBody: Obj = { ...data, [key]: val || '' };
     if (key === 'type') {
       switch (val) {
         case 'none':
@@ -514,11 +550,11 @@ const APIBody = (props: any) => {
           break;
       }
     }
-    onChange('body', newBody, (newData: any) => {
+    onChange('body', newBody, (newData: Obj) => {
       const { headers = [], body } = newData;
-      const adjustHeader = (action: string, headerType: any) => {
+      const adjustHeader = (action: string, headerType: { key: string; value: string; desc: string }) => {
         // 按key查找
-        const exist: any = find(headers, { key: headerType.key });
+        const exist: { key: string; value: string; desc: string } = find(headers, { key: headerType.key });
         if (action === 'push') {
           // 有的话更新，没有就添加
           if (exist) {
@@ -585,21 +621,29 @@ const APIBody = (props: any) => {
     </div>
   );
 };
+
+interface KeyValueData {
+  key: string;
+  value: string;
+  desc: string;
+  expression: string;
+}
+
 interface IKeyValProps {
   dataMainKey?: string;
-  data: object[];
+  data: KeyValueData[];
   type: string;
-  dataModel: object;
+  dataModel: KeyValueData;
   itemMap: object;
-  opList?: any[];
+  opList?: string[];
   disabled?: boolean;
-  onChange: (...args: any) => any;
+  onChange: (val: Obj, adjustData?: Function) => void;
 }
 const KeyValEdit = (props: IKeyValProps) => {
   const { data, type, dataModel, dataMainKey, itemMap, opList = [], onChange, disabled } = props;
   const [values, setValues] = React.useState(data || []);
   React.useEffect(() => {
-    let newVal: any = [];
+    let newVal: KeyValueData[] = [] as KeyValueData[];
     if (isEmpty(data)) {
       newVal = [{ ...dataModel }];
     } else if (find(data, dataModel)) {
@@ -613,7 +657,7 @@ const KeyValEdit = (props: IKeyValProps) => {
   const updateValue = (idx: number, key: string, val: string) => {
     if (disabled) return;
     const oldVal = cloneDeep(values);
-    const newVal: any = cloneDeep(values);
+    const newVal: KeyValueData[] = cloneDeep(values);
     newVal[idx][key] = val;
     // source选了status时，把这一行expression设为status
     if (key === 'source') {
@@ -635,13 +679,13 @@ const KeyValEdit = (props: IKeyValProps) => {
         if (dataMainKey) return item[dataMainKey];
         return !Object.values(item).every((v) => !v);
       }),
-      (newData: any, k: string) => {
+      (newData: { out_params: KeyValueData[]; asserts: Array<{ arg: string }> }, k: string) => {
         const { out_params = [], asserts = [] } = newData;
         if (k === 'out_params') {
           // 修改出参时修改对应断言
           const oldKey = oldVal[idx].key;
           asserts &&
-            asserts.forEach((a: any) => {
+            asserts.forEach((a) => {
               if (a.arg === oldKey) {
                 set(a, 'arg', out_params[idx].key);
               }
@@ -664,16 +708,16 @@ const KeyValEdit = (props: IKeyValProps) => {
     if (disabled) return;
     const newVals = values.filter((item, i) => i !== num);
     setValues(newVals);
-    onChange(newVals.slice(0, -1), (newData: any, k: string) => {
+    onChange(newVals.slice(0, -1), (newData: Obj, k: string) => {
       const { out_params = [], asserts = [] } = newData;
       // 删除出参时删除对应断言，data为apis全部数据
       if (k === 'out_params') {
         const outParamKeys = {};
-        out_params.forEach((p: any) => {
+        out_params.forEach((p: KeyValueData[]) => {
           outParamKeys[p.key] = true;
         });
         // 只保留arg没填或者在out_params有匹配的断言
-        const newAsserts = asserts && asserts.filter((a: any) => a.arg === '' || outParamKeys[a.arg]);
+        const newAsserts = asserts && asserts.filter((a) => a.arg === '' || outParamKeys[a.arg]);
         set(newData, 'asserts', newAsserts);
       }
       // 删除断言时同时删除小试中对应断言的结果
@@ -704,7 +748,7 @@ const KeyValEdit = (props: IKeyValProps) => {
                       className="flex-1 width0"
                       value={val}
                       record={item}
-                      onChange={(curVal: any) => updateValue(i, key, trim ? curVal?.trim() : curVal)}
+                      onChange={(curVal: string) => updateValue(i, key, trim ? curVal?.trim() : curVal)}
                     />
                   ) : (
                     <Input

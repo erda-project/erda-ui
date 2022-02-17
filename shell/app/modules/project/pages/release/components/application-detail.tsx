@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Tabs, Modal, message, Form } from 'antd';
+import { Button, Tabs, Modal, message, Form, Divider } from 'antd';
 import moment from 'moment';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
@@ -54,7 +54,6 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const releaseDetail = getReleaseDetail.useData() || ({} as RELEASE.ReleaseDetail);
   const [form] = Form.useForm();
-
   const {
     version,
     applicationName,
@@ -65,6 +64,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
     serviceImages = [],
     isFormal,
     clusterName,
+    resources,
   } = releaseDetail;
 
   const getDetail = React.useCallback(async () => {
@@ -164,39 +164,17 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                   />
                 </div>
               ) : (
-                <div className="mb-2">
-                  <div className="text-black-4 mb-2">{i18n.t('version')}</div>
-                  <div>{version || '-'}</div>
-                </div>
+                renderItems([{ label: i18n.t('version'), value: version }])
               )}
-              <div className="mb-2">
-                <div className="text-black-4 mb-2">{i18n.t('dop:app name')}</div>
-                <div>{applicationName || '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-4 mb-2">{i18n.t('cluster name')}</div>
-                <div>{clusterName || '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-4 mb-2">{i18n.t('creator')}</div>
-                <div>{userId ? <UserInfo id={userId} /> : '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-4 mb-2">{i18n.t('create time')}</div>
-                <div>{(createdAt && moment(createdAt).format('YYYY/MM/DD HH:mm:ss')) || '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-4 mb-2">{i18n.t('dop:code branch')}</div>
-                <div>{labels.gitBranch || '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-4 mb-2">commitId</div>
-                <div>{labels.gitCommitId || '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-4 mb-2">GitRepo {i18n.t('dop:address')}</div>
-                <div>{labels.gitRepo || '-'}</div>
-              </div>
+              {renderItems([
+                { label: i18n.t('dop:app name'), value: applicationName },
+                { label: i18n.t('cluster name'), value: clusterName },
+                { label: i18n.t('creator'), value: userId ? <UserInfo id={userId} /> : '-' },
+                { label: i18n.t('create time'), value: createdAt && moment(createdAt).format('YYYY/MM/DD HH:mm:ss') },
+                { label: i18n.t('dop:code branch'), value: labels.gitBranch },
+                { label: 'commitId', value: labels.gitCommitId },
+                { label: `GitRepo ${i18n.t('dop:address')}`, value: labels.gitRepo },
+              ])}
               {isEdit ? (
                 <div className="w-4/5">
                   <RenderFormItem label={i18n.t('content')} name="changelog" type="custom" getComp={() => <EditMd />} />
@@ -228,6 +206,25 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
               <FileEditor name="dice.yml" fileExtension="yml" value={releaseDetail.diceyml} readOnly />
             </FileContainer>
           </TabPane>
+          {resources ? (
+            <TabPane tab="resource" key="4">
+              <div className="mb-4 pl-0.5">
+                {resources.map((item, index) => (
+                  <div>
+                    {renderItems([
+                      { label: 'name', value: item.name },
+                      { label: 'type', value: item.type },
+                      { label: 'url', value: item.url },
+                      ...(item.meta ? [{ label: 'meta', value: item.meta }] : []),
+                    ])}
+                    {index !== resources.length - 1 ? <Divider /> : ''}
+                  </div>
+                ))}
+              </div>
+            </TabPane>
+          ) : (
+            ''
+          )}
         </Tabs>
       </Form>
 
@@ -252,6 +249,15 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
 
 const EditMd = ({ value, onChange, ...itemProps }: { value: string; onChange: (value: string) => void }) => {
   return <MarkdownEditor value={value} onChange={onChange} {...itemProps} defaultHeight={400} />;
+};
+
+const renderItems = (list: Array<{ label: string; value: string }>) => {
+  return list.map((item) => (
+    <div className="mb-2">
+      <div className="text-black-4 mb-2">{item.label}</div>
+      <div>{item.value || '-'}</div>
+    </div>
+  ));
 };
 
 export default ReleaseApplicationDetail;

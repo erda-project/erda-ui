@@ -21,7 +21,7 @@ declare namespace CP_COPY_BUTTON {
     copyText: string;
     copyTip?: string;
     buttonText?: string;
-    renderType?: 'button' | 'icon';
+    renderType?: 'button' | 'icon' | 'custom';
   }
 
   type Props = MakeProps<Spec>;

@@ -27,6 +27,7 @@ const ProjectList = () => {
   });
   const permMap = usePerm((s) => s.org);
   const reloadRef = React.useRef(null as any);
+  const reloadRef = React.useRef<{ reload: () => void }>({} as { reload: () => void });
 
   const closeModal = () => {
     update({
@@ -82,7 +83,7 @@ const ProjectList = () => {
               defaultLogo: <ErdaIcon type="morenxiangmu" size={28} />,
             },
             op: {
-              clickItem: (op: CP_COMMON.Operation, data: { record: any }) => {
+              clickItem: (op: CP_COMMON.Operation, data: { record: { id: number; title: string } }) => {
                 if (op.id === 'applyDeploy') {
                   const { record } = data;
                   const pId = record.id;

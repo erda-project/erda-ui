@@ -11,24 +11,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import agent from 'agent';
+import React from 'react';
+import ErdaIcon from 'common/components/erda-icon';
+import mspStore from 'msp/stores/micro-service';
 
-export const getAddons = (query: {
-  type: string;
-  value: string;
-  projectId?: number;
-  workspace?: string | string[];
-  displayName?: string[];
-}): ADDON.Instance[] => {
-  return agent
-    .get('/api/addons')
-    .query(query)
-    .then((response: { body: ADDON.Instance[] }) => response.body);
+interface IProps {
+  onClick: () => void;
+}
+
+const AlarmDetailTitle: React.FC<IProps> = ({ onClick }) => {
+  const title = mspStore.useStore((s) => s.alarmTitle);
+  return (
+    <div className="flex items-center">
+      <ErdaIcon type="arrow-left" size="18" className="cursor-pointer text-gray mr-2" onClick={onClick} />
+      <span className="font-bold text-lg">{title}</span>
+    </div>
+  );
 };
 
-export const approves = (payload: PROJECT.Approves) => {
-  return agent
-    .post('/api/approves')
-    .send(payload)
-    .then((response: any) => response.body);
-};
+export default AlarmDetailTitle;

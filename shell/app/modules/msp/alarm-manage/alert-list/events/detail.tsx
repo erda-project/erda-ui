@@ -11,24 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import agent from 'agent';
+import React from 'react';
+import BaseEventDetail, { PageTitle } from './base-event-detail';
+import routeInfoStore from 'core/stores/route';
 
-export const getAddons = (query: {
-  type: string;
-  value: string;
-  projectId?: number;
-  workspace?: string | string[];
-  displayName?: string[];
-}): ADDON.Instance[] => {
-  return agent
-    .get('/api/addons')
-    .query(query)
-    .then((response: { body: ADDON.Instance[] }) => response.body);
+const EventDetail = () => {
+  const { tenantGroup, eventId } = routeInfoStore.useStore((s) => s.params);
+  return <BaseEventDetail scope="micro_service" scopeId={tenantGroup} id={eventId} />;
 };
-
-export const approves = (payload: PROJECT.Approves) => {
-  return agent
-    .post('/api/approves')
-    .send(payload)
-    .then((response: any) => response.body);
-};
+export const EventDetailTitle = PageTitle;
+export default EventDetail;
