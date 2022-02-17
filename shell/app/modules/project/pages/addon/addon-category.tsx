@@ -40,7 +40,7 @@ export const AddonCategory = () => {
   const addonSpecList = customAddonStore.useStore((s) => s.addonList);
   const [projectAddonCategory, addonInsList] = dopStore.useStore((s) => [s.projectAddonCategory, s.addonList]);
   const query = routeInfoStore.useStore((s) => s.query);
-  const timer = React.useRef<any>(0);
+  const timer = React.useRef<number>(0);
 
   useEffectOnce(() => {
     customAddonStore.getAddonsList();
@@ -82,13 +82,13 @@ export const AddonCategory = () => {
     }, 5000);
   };
 
-  const handleOk = (values: any) => {
+  const handleOk = (values: CUSTOM_ADDON.AddBody) => {
     const after = () => {
       dopStore.getProjectAddons();
       closeModal();
     };
     if (state.editData) {
-      const { instanceId, projectId, orgId } = state.editData as any as IData;
+      const { instanceId, projectId, orgId } = state.editData as IData;
       return customAddonStore
         .updateCustomAddonConfig({
           config: values.configs,

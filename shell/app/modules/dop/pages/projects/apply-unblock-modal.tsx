@@ -65,7 +65,7 @@ const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps)
       ),
       rules: [
         {
-          validator: (_rule: any, [start, end]: [Moment, Moment], callback: Function) => {
+          validator: (_rule: Obj[], [start, end]: [Moment, Moment], callback: Function) => {
             if (end.diff(start, 'days') > 7) {
               callback(i18n.t('dop:The deployment time should not be longer than 7 days.'));
               return;

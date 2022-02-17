@@ -51,6 +51,9 @@ declare namespace CUSTOM_ADDON {
     projectId: number;
     tag: string;
     workspace: string;
+    plan: Plan;
+    addonInstanceRoutingId?: string;
+    importConfig?: string;
   }
 
   interface AddDiceAddOns {

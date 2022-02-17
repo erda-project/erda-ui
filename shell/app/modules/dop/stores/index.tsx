@@ -52,7 +52,7 @@ const dopStore = createFlatStore({
           const { logoUrl, name, addonName } = ret;
           const prefixPath = `/${orgName}/dop/addonsManage/${projectId}`;
           const rootPath = `${prefixPath}/${insId}`;
-          const menu = getSideMenu({ rootPath }) as any[];
+          const menu = getSideMenu({ rootPath });
           if (['log-analytics'].includes(addonName)) {
             menu.splice(1, 0, {
               key: 'console',
