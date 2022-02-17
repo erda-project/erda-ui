@@ -917,6 +917,7 @@
     "add configuration": "add configuration",
     "add data source": "add data source",
     "add enum value": "add enum value",
+    "add issue": "add issue",
     "add label": "add label",
     "add pipeline": "add pipeline",
     "add relation to MR": "add relation to MR",
@@ -2812,7 +2813,6 @@
     "waiting for deployment": "waiting for deployment"
   },
   "user": {
-    "API design": "API design",
     "API management": "API management",
     "API resource editing": "API resource editing",
     "Assignee": "Assignee",

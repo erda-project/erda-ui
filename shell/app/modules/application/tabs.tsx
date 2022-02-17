@@ -126,7 +126,7 @@ export const APP_TABS = () => {
     show: perm.apiDesign.read.pass,
     key: 'apiDesign',
     // href: goTo.resolve.appApiDesign(),
-    name: i18n.t('dop:API design'),
+    name: 'API',
   };
 
   const setting = {
