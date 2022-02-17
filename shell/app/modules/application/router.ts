@@ -97,7 +97,7 @@ function getAppRouter(): RouteConfigItem {
           },
           {
             path: 'commits/(.*)', // commits后面可能有分支(包含/)，commit后面只有commitId
-            breadcrumbName: i18n.t('dop:commit history'),
+            breadcrumbName: i18n.t('dop:commits'),
             tabs: APP_TABS,
             alwaysShowTabKey: 'repo/commits',
             ignoreTabQuery: true,

@@ -100,7 +100,7 @@ export const getSubList = (info: Obj, { projectId, appId }: { projectId: string;
         key === repoRoot || key.startsWith(`${repoRoot}/tree`) || key.startsWith(`${repoRoot}/backup`),
     },
     {
-      text: i18n.t('dop:commit history'),
+      text: i18n.t('dop:commits'),
       tabKey: currentBranch ? `repo/commits/${currentBranch}` : 'repo/commits',
       href: getHref(currentBranch ? `/commits/${currentBranch}` : '/commits/'),
       prefix: getHref('/commit'),
