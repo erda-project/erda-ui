@@ -140,7 +140,6 @@ export const APP_TABS = () => {
   };
 
   const tabs = filter(modeMap[mode], (item: ITab) => item.show !== false);
-  console.log('tabs', tabs);
   return [back, appSwitch, ...tabs];
   // const currentRoute = routeInfoStore.useStore(s => s.currentRoute);
   // if (currentRoute.mark === "application") {

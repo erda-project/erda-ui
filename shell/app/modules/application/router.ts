@@ -13,7 +13,7 @@
 
 import getRuntimeRouter from 'runtime/router';
 import i18n from 'i18n';
-import { APP_TABS, getQualityTabs, prependTabs } from './tabs';
+import { APP_TABS } from './tabs';
 
 function getAppRouter(): RouteConfigItem {
   return {
@@ -64,7 +64,7 @@ function getAppRouter(): RouteConfigItem {
             tabs: APP_TABS,
             alwaysShowTabKey: 'repo/branches',
             ignoreTabQuery: true,
-            breadcrumbName: i18n.t('dop:branch management'),
+            breadcrumbName: i18n.t('dop:branch'),
             routes: [
               {
                 path: 'compare/:branches*',
@@ -81,15 +81,6 @@ function getAppRouter(): RouteConfigItem {
               },
             ],
           },
-          // {
-          //   path: 'tags',
-          //   tabs: APP_TABS,
-          //   alwaysShowTabKey: 'repo/branches',
-          //   ignoreTabQuery: true,
-          //   breadcrumbName: i18n.t('dop:branch management'),
-          //   getComp: (cb) => cb(import('application/pages/repo/repo-tag')),
-          //   layout: { noWrapper: true },
-          // },
           {
             path: 'commit',
             tabs: APP_TABS,
@@ -205,71 +196,16 @@ function getAppRouter(): RouteConfigItem {
       },
       {
         path: 'quality',
-        breadcrumbName: i18n.t('dop:quality reports'),
+        breadcrumbName: i18n.t('dop:code quality'),
         tabs: APP_TABS,
         ignoreTabQuery: true,
         getComp: (cb) => cb(import('application/pages/quality/entry')),
-        // wrapper: prependTabs(getQualityTabs, 'quality'),
         layout: { noWrapper: true },
-        //   routes: [
-        //     {
-        //       breadcrumbName: i18n.t('dop:lists'),
-        //       getComp: (cb) => cb(import('application/pages/test/test-list')),
-        //       wrapper: prependTabs(getQualityTabs, 'test'),
-        //       layout: { noWrapper: true },
-        //     },
-        //     {
-        //       path: ':testId',
-        //       breadcrumbName: i18n.t('dop:test detail'),
-        //       getComp: (cb) => cb(import('application/pages/test/test-detail-container')),
-        //       wrapper: prependTabs(getQualityTabs, 'test'),
-        //       layout: { noWrapper: true },
-        //     },
-        //   ],
       },
-      // {
-      //   path: 'ticket/:ticketType',
-      //   breadcrumbName: i18n.t('dop:issues'),
-      //   tabs: APP_TABS,
-      //   alwaysShowTabKey: 'quality',
-      //   routes: [
-      //     {
-      //       getComp: (cb) => cb(import('application/pages/problem')),
-      //       wrapper: prependTabs(getQualityTabs, 'ticket'),
-      //       layout: { noWrapper: true },
-      //     },
-      //     {
-      //       path: ':ticketId',
-      //       breadcrumbName: i18n.t('dop:issue detail'),
-      //       getComp: (cb) => cb(import('application/pages/problem/problem-detail')),
-      //       wrapper: prependTabs(getQualityTabs, 'ticket'),
-      //       layout: { noWrapper: true },
-      //     },
-      //   ],
-      // },
-      // {
-      //   path: 'test',
-      //   tabs: APP_TABS,
-      //   routes: [
-      //     {
-      //       breadcrumbName: i18n.t('dop:lists'),
-      //       getComp: (cb) => cb(import('application/pages/test/test-list')),
-      //       wrapper: prependTabs(getQualityTabs, 'test'),
-      //       layout: { noWrapper: true },
-      //     },
-      //     {
-      //       path: ':testId',
-      //       breadcrumbName: i18n.t('dop:test detail'),
-      //       getComp: (cb) => cb(import('application/pages/test/test-detail-container')),
-      //       wrapper: prependTabs(getQualityTabs, 'test'),
-      //       layout: { noWrapper: true },
-      //     },
-      //   ],
-      // },
       {
         path: 'apiDesign',
         mark: 'apiDesign',
-        breadcrumbName: i18n.t('dop:API design'),
+        breadcrumbName: 'API',
         tabs: APP_TABS,
         ignoreTabQuery: true,
         routes: [

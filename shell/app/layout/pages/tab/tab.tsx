@@ -31,7 +31,7 @@ interface IProps {
   path: string;
 }
 
-export class PureTab extends React.PureComponent<IProps> {
+class PureTab extends React.PureComponent<IProps> {
   render() {
     const { routes, path } = this.props;
     const lastRouteWithPath = find(routes, 'relativePath');
