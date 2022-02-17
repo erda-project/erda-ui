@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import permStore from 'user/stores/permission';
+import { usePerm } from 'app/user/common';
 import layoutStore from 'layout/stores/layout';
 import appStore from './stores/application';
 import routeInfoStore from 'core/stores/route';
@@ -37,7 +37,7 @@ export const APP_TABS = () => {
   const appDetail = appStore.useStore((s) => s.detail);
 
   const { mode } = appDetail;
-  const perm = permStore.useStore((s) => s.app);
+  const perm = usePerm((s) => s.app);
   const appSwitch = {
     key: '_',
     className: 'mr-4',
