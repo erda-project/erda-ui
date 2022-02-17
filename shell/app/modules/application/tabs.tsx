@@ -22,6 +22,7 @@ import { appMode } from './common/config';
 import { filter } from 'lodash';
 import { getSubList } from './stores/repo';
 import { HeadAppSelector } from './common/app-selector';
+import { goTo } from 'app/common/utils';
 
 interface ITab {
   show?: boolean;
@@ -57,7 +58,7 @@ export const APP_TABS = () => {
   const repo = {
     show: perm.repo.read.pass,
     key: repoKey,
-    // href: goTo.resolve.repo(),
+    href: goTo.resolve.repo(),
     split: true,
     name: i18n.t('dop:code'),
     isActive: (activeKey: string) => {
@@ -88,45 +89,45 @@ export const APP_TABS = () => {
   const pipeline = {
     show: perm.pipeline.read.pass,
     key: 'pipeline',
-    // href: goTo.resolve.pipelineRoot(),
+    href: goTo.resolve.pipelineRoot(),
     name: i18n.t('pipeline'),
   };
   const dataTask = {
     show: perm.dataTask.read.pass,
     key: 'dataTask',
-    // href: goTo.resolve.dataTaskRoot(),
+    href: goTo.resolve.dataTaskRoot(),
     name: `${i18n.t('dop:data task')}`,
   };
   const dataModel = {
     show: perm.dataModel.read.pass,
     key: 'dataModel',
-    // href: goTo.resolve.appDataModel(),
+    href: goTo.resolve.appDataModel(),
     name: `${i18n.t('dop:data model')}`,
   };
   const dataMarket = {
     show: perm.dataMarket.read.pass,
     key: 'dataMarket',
-    // href: goTo.resolve.appDataMarket(),
+    href: goTo.resolve.appDataMarket(),
     name: `${i18n.t('dop:data market')}`,
   };
   const quality = {
     show: perm.codeQuality.read.pass,
     key: 'quality',
-    // href: goTo.resolve.appCodeQuality(),
+    href: goTo.resolve.appCodeQuality(),
     name: i18n.t('dop:code quality'),
   };
 
   const apiDesign = {
     show: perm.apiDesign.read.pass,
     key: 'apiDesign',
-    // href: goTo.resolve.appApiDesign(),
+    href: goTo.resolve.appApiDesign(),
     name: 'API',
   };
 
   const setting = {
     show: perm.setting.read.pass,
     key: 'setting',
-    // href: goTo.resolve.appSetting(),
+    href: goTo.resolve.appSetting(),
     name: i18n.t('dop:setting'),
   };
 
@@ -139,19 +140,19 @@ export const APP_TABS = () => {
     [appMode.ABILITY]: [quality, setting],
   };
 
-  const tabs = filter(modeMap[mode], (item: ITab) => item.show !== false);
+  const tabs = filter(modeMap[mode], (item: ITab) => item.show !== false) as ROUTE_TABS[];
+  // console.log('tabs:', tabs);
+  const currentRoute = routeInfoStore.useStore((s) => s.currentRoute);
+  React.useEffect(() => {
+    if (currentRoute.mark === 'application') {
+      const firstAvailableTab = tabs.find((t) => t.show && t.href);
+      if (firstAvailableTab?.href) {
+        console.log('currentRoute', currentRoute);
+        goTo(firstAvailableTab.href, { replace: true });
+      }
+    }
+  }, [currentRoute, tabs]);
   return [back, appSwitch, ...tabs] as ROUTE_TABS[];
-  // const currentRoute = routeInfoStore.useStore(s => s.currentRoute);
-  // if (currentRoute.mark === "application") {
-  //   const firstAvailableTab = tabs.find(t => t.show && t.href);
-  //   // appStore.reducers.onAppIndexEnter(appMenu);
-  //   if (firstAvailableTab?.href) {
-  //     console.log('currentRoute', currentRoute);
-  //     goTo(firstAvailableTab.href, { replace: true })
-  //     return;
-  //   }
-  // }
-  // return tabs;
 };
 
 // export const getQualityTabs = (params: Obj<string>) => {

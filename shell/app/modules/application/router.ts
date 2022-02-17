@@ -20,7 +20,7 @@ function getAppRouter(): RouteConfigItem {
     path: 'apps/:appId',
     mark: 'application',
     breadcrumbName: '{appName}',
-    // tabs: APP_TABS,
+    tabs: APP_TABS,
     routes: [
       // TODO: remove
       // {

@@ -42,14 +42,6 @@ const initState: IState = {
   branchInfo: [],
 };
 
-// 检测是否是app的首页，重定向
-const checkIsAppIndex = (appMenu?: any) => {
-  const appEnterRegex = /\/dop\/projects\/\d+\/apps\/\d+$/;
-  if (appEnterRegex.test(location.pathname)) {
-    appStore.reducers.onAppIndexEnter(appMenu);
-  }
-};
-let loadingInApp = false;
 const appStore = createStore({
   name: 'application',
   state: initState,
@@ -60,7 +52,6 @@ const appStore = createStore({
       if (isIn('application')) {
         if (`${curAppId}` !== `${appId}`) {
           // 应用切换后才重新checkRouteAuth
-          loadingInApp = true;
           appStore.reducers.updateCurAppId(appId);
           breadcrumbStore.reducers.setInfo('appName', '');
           permStore.effects.checkRouteAuth({
@@ -69,22 +60,9 @@ const appStore = createStore({
             routeMark: 'application',
             cb() {
               appStore.effects.getBranchInfo({ appId }); // 请求app下全量branch
-              appStore.effects.getAppDetail(appId).then((detail: IApplication) => {
-                // const curAppTabs = getAppMenu({ appDetail: detail });
-                loadingInApp = false;
-                // layoutStore.reducers.setAppTabs(curAppTabs);
-                // layoutStore.reducers.setSubSiderInfoMap({
-                //   menu: curAppMenu,
-                //   key: 'application',
-                //   detail: { ...detail, icon: theme.appIcon },
-                //   getHeadName: () => <HeadAppSelector />,
-                // });
-                checkIsAppIndex(); // 设置app的menu后，重定向
-              });
+              appStore.effects.getAppDetail(appId);
             },
           });
-        } else {
-          !loadingInApp && checkIsAppIndex();
         }
       }
 
@@ -192,16 +170,6 @@ const appStore = createStore({
     },
     updateCurAppId(state, appId = '') {
       state.curAppId = appId;
-    },
-    onAppIndexEnter(_state, appMenu?: any[]) {
-      // let curAppMenu: any = appMenu;
-      // if (!curAppMenu) {
-      //   const subSiderInfoMap = layoutStore.getState((s) => s.subSiderInfoMap);
-      //   curAppMenu = get(subSiderInfoMap, 'application.menu');
-      // }
-      // app首页重定向到第一个菜单链接
-      // const rePathname = get(curAppMenu, '[0].href');
-      goTo(goTo.pages.repo, { replace: true });
     },
   },
 });
