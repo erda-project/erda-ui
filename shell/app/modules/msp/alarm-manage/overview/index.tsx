@@ -16,9 +16,9 @@ import BaseOverview from 'msp/alarm-manage/overview/base-overview';
 import routeInfoStore from 'core/stores/route';
 
 const Overview = () => {
-  const { terminusKey } = routeInfoStore.useStore((s) => s.params);
+  const { tenantGroup } = routeInfoStore.useStore((s) => s.params);
 
-  return <BaseOverview scope="micro_service" scopeId={terminusKey} />;
+  return <BaseOverview scope="micro_service" scopeId={tenantGroup} />;
 };
 
 export default Overview;

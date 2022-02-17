@@ -20,9 +20,11 @@ const AlarmRecord = () => ({
     {
       path: ':recordId',
       breadcrumbName: '{alarmRecordName}',
+      layout: { noWrapper: true },
       getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alarm-record/pages/detail')),
     },
     {
+      layout: { noWrapper: true },
       getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alarm-record/pages')),
     },
   ],
