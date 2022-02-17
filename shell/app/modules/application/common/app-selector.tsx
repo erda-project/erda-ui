@@ -108,7 +108,7 @@ const headAppRender = (val: any = {}) => {
   const curApp = appStore.getState((s) => s.detail);
   const name = val.displayName || val.name || curApp.displayName || curApp.name || '';
   return (
-    <div className="head-app-name flex text-sm">
+    <div className="head-app-name flex text-base">
       <div className="w-full flex justify-between">
         <Ellipsis title={name} />
         <ErdaIcon type="caret-down" className="icon ml-0.5" size="14" />
