@@ -28,7 +28,7 @@ interface IProps {
 const BaseEventDetail: React.FC<IProps> = ({ scopeId, scope, id }) => {
   const range = monitorCommon.useStore((s) => s.globalTimeSelectSpan.range);
   return (
-    <>
+    <div>
       <DiceConfigPage
         scenarioKey="msp-alert-event-detail"
         scenarioType="msp-alert-event-detail"
@@ -78,7 +78,7 @@ const BaseEventDetail: React.FC<IProps> = ({ scopeId, scope, id }) => {
           mspStore.reducers.updateAlarmTitle(renderConfig?.protocol?.state.pageTitle);
         }}
       />
-    </>
+    </div>
   );
 };
 

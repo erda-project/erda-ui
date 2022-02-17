@@ -22,21 +22,23 @@ interface IProps {
 
 const BaseEventList: React.FC<IProps> = ({ scopeId, scope, clickRow }) => {
   return (
-    <DiceConfigPage
-      scenarioKey="msp-alert-event-list"
-      scenarioType="msp-alert-event-list"
-      inParams={{
-        scopeId,
-        scope,
-      }}
-      customProps={{
-        table: {
-          op: {
-            clickRow,
+    <div>
+      <DiceConfigPage
+        scenarioKey="msp-alert-event-list"
+        scenarioType="msp-alert-event-list"
+        inParams={{
+          scopeId,
+          scope,
+        }}
+        customProps={{
+          table: {
+            op: {
+              clickRow,
+            },
           },
-        },
-      }}
-    />
+        }}
+      />
+    </div>
   );
 };
 

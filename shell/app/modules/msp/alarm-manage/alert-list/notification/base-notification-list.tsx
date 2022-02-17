@@ -22,21 +22,23 @@ interface IProps {
 
 const BaseNotificationList: React.FC<IProps> = ({ scope, scopeId, clickRow }) => {
   return (
-    <DiceConfigPage
-      scenarioKey="msp-notify-list"
-      scenarioType="msp-notify-list"
-      inParams={{
-        scope,
-        scopeId,
-      }}
-      customProps={{
-        table: {
-          op: {
-            clickRow,
+    <div>
+      <DiceConfigPage
+        scenarioKey="msp-notify-list"
+        scenarioType="msp-notify-list"
+        inParams={{
+          scope,
+          scopeId,
+        }}
+        customProps={{
+          table: {
+            op: {
+              clickRow,
+            },
           },
-        },
-      }}
-    />
+        }}
+      />
+    </div>
   );
 };
 

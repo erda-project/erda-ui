@@ -25,7 +25,7 @@ interface IProps {
 
 const BaseNotificationDetail: React.FC<IProps> = ({ scope, scopeId, id }) => {
   return (
-    <>
+    <div>
       <DiceConfigPage
         scenarioKey="msp-notify-detail"
         scenarioType="msp-notify-detail"
@@ -53,7 +53,7 @@ const BaseNotificationDetail: React.FC<IProps> = ({ scope, scopeId, id }) => {
           mspStore.reducers.updateAlarmTitle(renderConfig?.protocol?.state.pageTitle);
         }}
       />
-    </>
+    </div>
   );
 };
 
