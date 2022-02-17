@@ -12,12 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import BaseEventDetail from 'msp/alarm-manage/alert-list/events/base-event-detail';
+import BaseEventDetail, { PageTitle } from 'msp/alarm-manage/alert-list/events/base-event-detail';
 import orgStore from 'app/org-home/stores/org';
+import routeInfoStore from 'core/stores/route';
 
 const EventDetail = () => {
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
-  return <BaseEventDetail scope="org" scopeId={`${orgId}`} />;
+  const { eventId } = routeInfoStore.useStore((s) => s.params);
+
+  return <BaseEventDetail scope="org" scopeId={`${orgId}`} id={eventId} />;
 };
+
+export const EventDetailTitle = PageTitle;
 
 export default EventDetail;

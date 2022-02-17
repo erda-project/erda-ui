@@ -101,7 +101,6 @@ const CP_Button = (props: CP_BUTTON.Props) => {
           const curOp = find(menu, { key: e.key });
           customOp?.click && customOp.click(curOp?.operations.click);
           if (curOp?.operations?.click) {
-            console.log(curOp?.operations?.click);
             execOperation(curOp.operations.click);
           }
         }}

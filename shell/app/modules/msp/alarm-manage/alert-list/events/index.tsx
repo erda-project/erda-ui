@@ -14,10 +14,21 @@
 import React from 'react';
 import BaseEventList from './base-event-list';
 import routeInfoStore from 'core/stores/route';
+import { goTo } from 'common/utils';
 
 const Events = () => {
   const { terminusKey } = routeInfoStore.useStore((s) => s.params);
-  return <BaseEventList scopeId={terminusKey} scope="micro_service" />;
+  return (
+    <BaseEventList
+      scopeId={terminusKey}
+      scope="micro_service"
+      clickRow={({ id }) => {
+        goTo(goTo.pages.mspAlarmEventDetail, {
+          eventId: id,
+        });
+      }}
+    />
+  );
 };
 
 export default Events;

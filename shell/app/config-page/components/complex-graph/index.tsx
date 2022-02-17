@@ -30,7 +30,7 @@ const genAxis = (axis: CP_COMPLEX_GRAPH.Axis[], axisType: 'x' | 'y', color: stri
     top: 0,
     bottom: 0,
   };
-  return axis.map((item) => {
+  return axis?.map((item) => {
     const { structure, ...rest } = item;
     const { enable, type, precision } = structure;
     const offset = positionMap[rest.position];

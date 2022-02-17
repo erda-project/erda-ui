@@ -62,6 +62,7 @@ interface IState {
     tenantGroup: string;
   };
   currentProject: MS_INDEX.IMspProject;
+  alarmTitle: string;
 }
 
 const currentLocale = getCurrentLocale();
@@ -171,6 +172,7 @@ const initState: IState = {
   menuText: {},
   currentEnvInfo: {},
   currentProject: {},
+  alarmTitle: '',
 };
 
 const mspStore = createStore({
@@ -291,6 +293,9 @@ const mspStore = createStore({
     },
     updateCurrentEnvInfo(state, payload) {
       state.currentEnvInfo = payload;
+    },
+    updateAlarmTitle(state, payload) {
+      state.alarmTitle = payload;
     },
   },
 });

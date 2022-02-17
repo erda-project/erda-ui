@@ -14,10 +14,19 @@
 import React from 'react';
 import BaseNotificationList from 'msp/alarm-manage/alert-list/notification/base-notification-list';
 import orgStore from 'app/org-home/stores/org';
+import { goTo } from 'common/utils';
 
 const Notification = () => {
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
-  return <BaseNotificationList scopeId={`${orgId}`} scope="org" />;
+  return (
+    <BaseNotificationList
+      scopeId={`${orgId}`}
+      scope="org"
+      clickRow={({ id }) => {
+        goTo(`./${id}`);
+      }}
+    />
+  );
 };
 
 export default Notification;

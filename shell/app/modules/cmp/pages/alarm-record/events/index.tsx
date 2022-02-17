@@ -14,10 +14,21 @@
 import React from 'react';
 import BaseEventList from 'msp/alarm-manage/alert-list/events/base-event-list';
 import orgStore from 'app/org-home/stores/org';
+import { goTo } from 'common/utils';
 
 const Events = () => {
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
-  return <BaseEventList scope="org" scopeId={`${orgId}`} />;
+  return (
+    <BaseEventList
+      scope="org"
+      scopeId={`${orgId}`}
+      clickRow={({ id }) => {
+        goTo(goTo.pages.orgAlarmEventDetail, {
+          eventId: id,
+        });
+      }}
+    />
+  );
 };
 
 export default Events;

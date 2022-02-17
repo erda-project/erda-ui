@@ -13,20 +13,55 @@
 
 import React from 'react';
 import DiceConfigPage from 'config-page';
+import AlarmDetailTitle from '../component/alarm-detail-title';
+import { goTo } from 'common/utils';
+import mspStore from 'msp/stores/micro-service';
 
 interface IProps {
   scope: 'micro_service' | 'org';
-  scopeId: string;
+  scopeId: string | number;
+  id: number;
 }
 
-const BaseNotificationDetail: React.FC<IProps> = ({ scope, scopeId }) => {
+const BaseNotificationDetail: React.FC<IProps> = ({ scope, scopeId, id }) => {
   return (
-    <DiceConfigPage
-      scenarioKey="msp-notify-detail"
-      scenarioType="msp-notify-detail"
-      inParams={{
-        scope,
-        scopeId,
+    <>
+      <DiceConfigPage
+        scenarioKey="msp-notify-detail"
+        scenarioType="msp-notify-detail"
+        inParams={{
+          id,
+          scope,
+          scopeId,
+        }}
+        customProps={{
+          ...['eventOverview', 'notificationContent'].reduce(
+            (previousValue, currentValue) => ({
+              ...previousValue,
+              [currentValue]: {
+                props: {
+                  showDefaultBgColor: false,
+                  className: 'bg-white',
+                },
+              },
+            }),
+            {},
+          ),
+        }}
+        operationCallBack={(_, renderConfig) => {
+          // @ts-ignore
+          mspStore.reducers.updateAlarmTitle(renderConfig?.protocol?.state.pageTitle);
+        }}
+      />
+    </>
+  );
+};
+
+export const PageTitle = () => {
+  return (
+    <AlarmDetailTitle
+      onClick={() => {
+        goTo('..');
       }}
     />
   );

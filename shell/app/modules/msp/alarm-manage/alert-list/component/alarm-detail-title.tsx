@@ -12,20 +12,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { ErdaIcon } from 'common';
-import i18n from 'i18n';
+import ErdaIcon from 'common/components/erda-icon';
+import mspStore from 'msp/stores/micro-service';
 
-const AlarmDetailTitle = () => {
+interface IProps {
+  onClick: () => void;
+}
+
+const AlarmDetailTitle: React.FC<IProps> = ({ onClick }) => {
+  const title = mspStore.useStore((s) => s.alarmTitle);
   return (
-    <div>
-      <ErdaIcon
-        type="arrow-left"
-        size="18"
-        className="cursor-pointer text-gray mr-3"
-        onClick={() => window.history.back()}
-      />
-      <ErdaIcon type="remind" size="18" className="text-white bg-primary p-2 text-bold rounded-sm mr-2" />
-      <span className="font-bold text-lg">{i18n.t('cmp:new alarm strategy')}</span>
+    <div className="flex items-center">
+      <ErdaIcon type="arrow-left" size="18" className="cursor-pointer text-gray mr-2" onClick={onClick} />
+      <span className="font-bold text-lg">{title}</span>
     </div>
   );
 };

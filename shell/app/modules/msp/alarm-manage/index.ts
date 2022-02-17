@@ -15,6 +15,8 @@ import alarmRecordRouter from 'msp/alarm-manage/alarm-record';
 import i18n from 'i18n';
 import AlarmRouter from 'msp/alarm-manage/alarm-strategy';
 import { getMspBreadcrumb } from 'msp/config';
+import { EventDetailTitle } from 'msp/alarm-manage/alert-list/events/detail';
+import { NotificationTitle } from 'msp/alarm-manage/alert-list/notification/detail';
 
 const alarmConfigTab = [
   {
@@ -101,10 +103,14 @@ const alarmManageRouters = [
         alwaysShowTabKey: 'events',
         routes: [
           {
+            layout: { noWrapper: true },
             getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alert-list/events')),
           },
           {
             path: ':eventId',
+            breadcrumbName: getMspBreadcrumb('AlertList'),
+            pageNameInfo: EventDetailTitle,
+            layout: { noWrapper: true },
             getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alert-list/events/detail')),
           },
         ],
@@ -115,10 +121,14 @@ const alarmManageRouters = [
         alwaysShowTabKey: 'notification',
         routes: [
           {
+            layout: { noWrapper: true },
             getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alert-list/notification')),
           },
           {
             path: ':notificationId',
+            breadcrumbName: getMspBreadcrumb('AlertList'),
+            pageNameInfo: NotificationTitle,
+            layout: { noWrapper: true },
             getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alert-list/notification/detail')),
           },
         ],

@@ -12,12 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import BaseNotificationDetail from './base-notification-detail';
+import BaseNotificationDetail, { PageTitle } from './base-notification-detail';
 import routeInfoStore from 'core/stores/route';
 
 const NotificationDetail = () => {
-  const { terminusKey } = routeInfoStore.useStore((s) => s.params);
-  return <BaseNotificationDetail scope="micro_service" scopeId={terminusKey} />;
+  const { terminusKey, notificationId } = routeInfoStore.useStore((s) => s.params);
+
+  return <BaseNotificationDetail scope="micro_service" scopeId={terminusKey} id={+notificationId} />;
 };
+
+export const NotificationTitle = PageTitle;
 
 export default NotificationDetail;

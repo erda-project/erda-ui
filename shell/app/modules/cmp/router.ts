@@ -20,6 +20,8 @@ import { rdsTabs } from 'dcos/pages/service-manager/rds-manager/index';
 import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 import { AddStrategyPageName, EditStrategyPageName } from 'cmp/common/alarm-strategy/strategy-form';
 import ClusterSelector from 'cmp/pages/cluster-container/cluster-selector';
+import { NotificationTitle } from 'cmp/pages/alarm-record/notification/detail';
+import { EventDetailTitle } from 'cmp/pages/alarm-record/events/detail';
 
 export const getOrgProjectTabs = () => [
   {
@@ -443,14 +445,19 @@ function getCmpRouter(): RouteConfigItem[] {
                 },
                 {
                   path: 'events',
+                  breadcrumbName: i18n.t('alarm record'),
                   tabs: alarmListTabs,
                   alwaysShowTabKey: 'events',
                   routes: [
                     {
+                      layout: { noWrapper: true },
                       getComp: (cb: RouterGetComp) => cb(import('cmp/pages/alarm-record/events')),
                     },
                     {
                       path: ':eventId',
+                      breadcrumbName: i18n.t('alarm record'),
+                      pageNameInfo: EventDetailTitle,
+                      layout: { noWrapper: true },
                       getComp: (cb: RouterGetComp) => cb(import('cmp/pages/alarm-record/events/detail')),
                     },
                   ],
@@ -461,10 +468,14 @@ function getCmpRouter(): RouteConfigItem[] {
                   alwaysShowTabKey: 'notification',
                   routes: [
                     {
+                      layout: { noWrapper: true },
                       getComp: (cb: RouterGetComp) => cb(import('cmp/pages/alarm-record/notification')),
                     },
                     {
                       path: ':notificationId',
+                      breadcrumbName: i18n.t('alarm record'),
+                      pageNameInfo: NotificationTitle,
+                      layout: { noWrapper: true },
                       getComp: (cb: RouterGetComp) => cb(import('cmp/pages/alarm-record/notification/detail')),
                     },
                   ],

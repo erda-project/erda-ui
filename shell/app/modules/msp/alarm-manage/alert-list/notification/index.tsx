@@ -14,10 +14,19 @@
 import React from 'react';
 import BaseNotificationList from './base-notification-list';
 import routeInfoStore from 'core/stores/route';
+import { goTo } from 'common/utils';
 
 const Notification = () => {
   const { terminusKey } = routeInfoStore.useStore((s) => s.params);
-  return <BaseNotificationList scope="micro_service" scopeId={terminusKey} />;
+  return (
+    <BaseNotificationList
+      scope="micro_service"
+      scopeId={terminusKey}
+      clickRow={({ id }) => {
+        goTo(`./${id}`);
+      }}
+    />
+  );
 };
 
 export default Notification;

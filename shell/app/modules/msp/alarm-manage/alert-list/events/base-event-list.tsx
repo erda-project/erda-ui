@@ -17,9 +17,10 @@ import DiceConfigPage from 'config-page';
 interface IProps {
   scope: 'micro_service' | 'org';
   scopeId: string;
+  clickRow?: (data: { id: string }) => void;
 }
 
-const BaseEventList: React.FC<IProps> = ({ scopeId, scope }) => {
+const BaseEventList: React.FC<IProps> = ({ scopeId, scope, clickRow }) => {
   return (
     <DiceConfigPage
       scenarioKey="msp-alert-event-list"
@@ -28,8 +29,12 @@ const BaseEventList: React.FC<IProps> = ({ scopeId, scope }) => {
         scopeId,
         scope,
       }}
-      operationCallBack={(...rest) => {
-        console.log(...rest);
+      customProps={{
+        table: {
+          op: {
+            clickRow,
+          },
+        },
       }}
     />
   );

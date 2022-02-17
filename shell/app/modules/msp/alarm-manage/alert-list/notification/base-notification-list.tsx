@@ -17,9 +17,10 @@ import DiceConfigPage from 'config-page';
 interface IProps {
   scope: 'micro_service' | 'org';
   scopeId: string;
+  clickRow?: (data: { id: string }) => void;
 }
 
-const BaseNotificationList: React.FC<IProps> = ({ scope, scopeId }) => {
+const BaseNotificationList: React.FC<IProps> = ({ scope, scopeId, clickRow }) => {
   return (
     <DiceConfigPage
       scenarioKey="msp-notify-list"
@@ -27,6 +28,13 @@ const BaseNotificationList: React.FC<IProps> = ({ scope, scopeId }) => {
       inParams={{
         scope,
         scopeId,
+      }}
+      customProps={{
+        table: {
+          op: {
+            clickRow,
+          },
+        },
       }}
     />
   );

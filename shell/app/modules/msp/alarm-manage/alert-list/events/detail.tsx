@@ -12,12 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import BaseEventDetail from './base-event-detail';
+import BaseEventDetail, { PageTitle } from './base-event-detail';
 import routeInfoStore from 'core/stores/route';
 
 const EventDetail = () => {
-  const { terminusKey } = routeInfoStore.useStore((s) => s.params);
-  return <BaseEventDetail scope="micro_service" scopeId={terminusKey} />;
+  const { terminusKey, eventId } = routeInfoStore.useStore((s) => s.params);
+  return <BaseEventDetail scope="micro_service" scopeId={terminusKey} id={eventId} />;
 };
-
+export const EventDetailTitle = PageTitle;
 export default EventDetail;
