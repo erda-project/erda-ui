@@ -2016,7 +2016,6 @@
     "Provides one-stop service system observation, including service monitoring, tracing, dashboard, and alarm.": "提供一站式的服务系统观测，包括服务监控、链路追踪、仪表盘和告警等功能。",
     "RPC call": "RPC 调用",
     "RPC transaction": "RPC事务",
-    "RegisterCenter": "注册中心",
     "The selected interface weight will be set to": "所选接口权重将置为",
     "URL path": "URL 路径",
     "URL path prefix": "URL 路径前缀",
