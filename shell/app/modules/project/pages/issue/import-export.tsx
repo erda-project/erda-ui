@@ -40,7 +40,7 @@ interface IProps {
 }
 
 const getRealIssueType = (issueType: string) => {
-  if (issueType === ISSUE_TYPE.ALL) return [ISSUE_TYPE.EPIC, ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK, ISSUE_TYPE.BUG];
+  if (issueType === ISSUE_TYPE.ALL) return [ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK, ISSUE_TYPE.BUG];
   return issueType;
 };
 

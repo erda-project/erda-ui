@@ -16,12 +16,14 @@ import DiceConfigPage, { useMock } from 'app/config-page';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import { getUrlQuery } from 'config-page/utils';
 import { getAvatarChars, updateSearch, mergeSearch } from 'common/utils';
-import { Badge, ErdaIcon, Ellipsis } from 'common';
+import { Badge, Ellipsis } from 'common';
 import { useUserMap } from 'core/stores/userMap';
-import { useUpdate, useSwitch, useFullScreen } from 'common/use-hooks';
+import ImportExport from '../import-export';
+import { useUpdate, useSwitch } from 'common/use-hooks';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import routeInfoStore from 'core/stores/route';
-import { Avatar, Select } from 'antd';
+import { Avatar } from 'antd';
+import { usePerm } from 'app/user/common';
 import moment from 'moment';
 import { max } from 'lodash';
 import i18n from 'i18n';
@@ -239,6 +241,38 @@ const IssuePlan = () => {
       positionToTodayKey.current += 1;
     }
   };
+  const issuePerm = usePerm((s) => s.project.requirement);
+  const TopHeadWrapper = React.useCallback(
+    ({ children }: { children: React.ReactElement }) => {
+      const tabs = [
+        {
+          key: 'export',
+          text: i18n.t('export'),
+          disabled: !issuePerm.export.pass,
+          tip: issuePerm.export.pass ? '' : i18n.t('common:no permission to operate'),
+        },
+
+        {
+          key: 'record',
+          text: i18n.t('record'),
+          disabled: false,
+        },
+      ];
+      const pageData = reloadRef.current?.getPageConfig();
+      const useableFilterObj = pageData?.protocol?.components.gantt.state?.values || {};
+      return (
+        <div>
+          <ImportExport tabs={tabs} queryObj={useableFilterObj} issueType={'ALL'} projectId={projectId} />
+          {children}
+        </div>
+      );
+    },
+    [issuePerm, projectId],
+  );
+
+  const FilterWrapper = React.useCallback(({ children }: { children: React.ReactElement }) => {
+    return <div className="p-2 bg-default-02">{children}</div>;
+  }, []);
 
   return (
     <div className={`h-full bg-white ${isFullScreen ? 'gantt-fullscreen' : ''}`} ref={ganttRef}>
@@ -329,6 +363,7 @@ const IssuePlan = () => {
               // 添加：打开滑窗
               click: onCreate,
             },
+            Wrapper: TopHeadWrapper,
           },
           filter: {
             op: {
@@ -337,9 +372,7 @@ const IssuePlan = () => {
                 urlQueryChange(val);
               },
             },
-            props: {
-              className: 'p-2 bg-default-02',
-            },
+            Wrapper: FilterWrapper,
           },
         }}
       />
