@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Tabs, Modal, message, Form } from 'antd';
+import { Button, Tabs, Modal, message, Form, Divider } from 'antd';
 import moment from 'moment';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
@@ -54,7 +54,6 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const releaseDetail = getReleaseDetail.useData() || ({} as RELEASE.ReleaseDetail);
   const [form] = Form.useForm();
-
   const {
     version,
     applicationName,
@@ -65,6 +64,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
     serviceImages = [],
     isFormal,
     clusterName,
+    resources,
   } = releaseDetail;
 
   const getDetail = React.useCallback(async () => {
@@ -228,6 +228,39 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
               <FileEditor name="dice.yml" fileExtension="yml" value={releaseDetail.diceyml} readOnly />
             </FileContainer>
           </TabPane>
+          {resources ? (
+            <TabPane tab="resource" key="4">
+              <div className="mb-4 pl-0.5">
+                {resources.map((item, index) => (
+                  <div>
+                    <div className="mb-2">
+                      <div className="text-black-4 mb-2">name</div>
+                      <div>{item.name || '-'}</div>
+                    </div>
+                    <div className="mb-2">
+                      <div className="text-black-4 mb-2">type</div>
+                      <div>{item.type || '-'}</div>
+                    </div>
+                    <div className="mb-2">
+                      <div className="text-black-4 mb-2">url</div>
+                      <div>{item.url || '-'}</div>
+                    </div>
+                    {item.meta ? (
+                      <div className="mb-2">
+                        <div className="text-black-4 mb-2">meta</div>
+                        <div>{item.meta || '-'}</div>
+                      </div>
+                    ) : (
+                      ''
+                    )}
+                    {index !== resources.length - 1 ? <Divider /> : ''}
+                  </div>
+                ))}
+              </div>
+            </TabPane>
+          ) : (
+            ''
+          )}
         </Tabs>
       </Form>
 
