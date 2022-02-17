@@ -32,6 +32,7 @@ const BaseEventDetail: React.FC<IProps> = ({ scopeId, scope, id }) => {
       <DiceConfigPage
         scenarioKey="msp-alert-event-detail"
         scenarioType="msp-alert-event-detail"
+        forceUpdateKey={['inParams']}
         inParams={{
           scopeId,
           scope,
