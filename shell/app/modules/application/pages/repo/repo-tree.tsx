@@ -188,7 +188,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
               {
                 title: 'Name',
                 dataIndex: 'name',
-                width: 220,
+                width: '30%',
                 render: (text, record) => {
                   const iconProps = record.type === 'tree' ? { type: 'folder' } : { type: 'page' };
                   return (
