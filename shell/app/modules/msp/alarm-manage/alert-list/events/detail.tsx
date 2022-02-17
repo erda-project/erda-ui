@@ -12,13 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import BaseOverview from 'msp/alarm-manage/overview/base-overview';
+import BaseEventDetail, { PageTitle } from './base-event-detail';
 import routeInfoStore from 'core/stores/route';
 
-const Overview = () => {
-  const { tenantGroup } = routeInfoStore.useStore((s) => s.params);
-
-  return <BaseOverview scope="micro_service" scopeId={tenantGroup} />;
+const EventDetail = () => {
+  const { tenantGroup, eventId } = routeInfoStore.useStore((s) => s.params);
+  return <BaseEventDetail scope="micro_service" scopeId={tenantGroup} id={eventId} />;
 };
-
-export default Overview;
+export const EventDetailTitle = PageTitle;
+export default EventDetail;

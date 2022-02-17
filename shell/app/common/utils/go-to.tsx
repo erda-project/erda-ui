@@ -316,10 +316,14 @@ export enum pages {
   // 企业告警记录详情
   orgAlarmRecordDetail = '/{orgName}/cmp/alarm/record/{id}',
 
+  orgAlarmEventDetail = '/{orgName}/cmp/alarm/record/events/{eventId}',
+
   // 微服务告警历史
   microServiceAlarmRecord = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/alarm-management/{terminusKey}/alarm-record',
   // 微服务告警记录详情
   microServiceAlarmRecordDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/alarm-management/{terminusKey}/alarm-record/{id}',
+
+  mspAlarmEventDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/alarm-management/{terminusKey}/list/events/{eventId}',
 
   // 云资源管理
   cloudSource = '/{orgName}/cmp/cloudSource',

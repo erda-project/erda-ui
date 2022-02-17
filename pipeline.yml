@@ -16,7 +16,7 @@ stages:
           description: 代码仓库克隆
           version: "1.0"
           params:
-            branch: master
+            branch: ((gittar.branch))
             depth: 1
             uri: https://erda.cloud/erda/dop/erda-project/erda-ui-mirror
       - git-checkout:
@@ -24,7 +24,7 @@ stages:
           description: 代码仓库克隆
           version: "1.0"
           params:
-            branch: master
+            branch: ((gittar.branch))
             depth: 1
             uri: https://erda.cloud/erda/dop/erda-project/erda-ui-enterprise-mirror
   - stage:

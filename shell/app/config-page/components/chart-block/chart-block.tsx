@@ -16,14 +16,16 @@ import React from 'react';
 const ChartBlock = (props: CP_CHART_BLOCK.Props) => {
   const { filter, children, data: configData, props: configProps } = props;
   const { title } = configData || {};
-  const { className = '', childClassName = '', showDefaultBgColor = true } = configProps || {};
-  const showHead = title || filter;
+  const { className = '', childClassName = '', showDefaultBgColor = true, slot } = configProps || {};
+  const showHead = title || filter || slot;
   return (
     <div className={`rounded-sm ${className}`}>
       {showHead ? (
         <div className="bg-color-02 h-12 px-4 flex items-center justify-between rounded-t-sm">
           <span className="font-medium">{title}</span>
-          <div>{filter || null}</div>
+          <div>
+            {filter || null} {slot}
+          </div>
         </div>
       ) : null}
       <div className={`p-4 ${childClassName}`}>

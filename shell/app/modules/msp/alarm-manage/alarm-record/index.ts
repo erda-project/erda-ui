@@ -11,19 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { getMspBreadcrumb } from 'msp/config';
-
 const AlarmRecord = () => ({
   path: 'alarm-record',
-  breadcrumbName: getMspBreadcrumb('AlarmHistory'),
   routes: [
     {
       path: ':recordId',
       breadcrumbName: '{alarmRecordName}',
+      layout: { noWrapper: true },
       getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alarm-record/pages/detail')),
-    },
-    {
-      getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alarm-record/pages')),
     },
   ],
 });

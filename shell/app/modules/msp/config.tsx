@@ -56,7 +56,6 @@ export const getMSFrontPathByKey = (key: MS_INDEX.IMenuKey, params: IMSPathParam
     ActiveMonitor: `${monitorPrefix}/status`,
     AlertCenter: alarmManagementPrefix,
     AlertOverview: `${alarmManagementPrefix}/alarm-overview`,
-    AlarmHistory: `${alarmManagementPrefix}/alarm-record`,
     AlertConfig: `${alarmManagementPrefix}/config`,
     AlertTegrate: `${alarmManagementPrefix}/integration`,
     AlertList: `${alarmManagementPrefix}/list`,

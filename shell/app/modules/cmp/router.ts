@@ -20,6 +20,8 @@ import { rdsTabs } from 'dcos/pages/service-manager/rds-manager/index';
 import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 import { AddStrategyPageName, EditStrategyPageName } from 'cmp/common/alarm-strategy/strategy-form';
 import ClusterSelector from 'cmp/pages/cluster-container/cluster-selector';
+import { NotificationTitle } from 'cmp/pages/alarm-record/notification/detail';
+import { EventDetailTitle } from 'cmp/pages/alarm-record/events/detail';
 
 export const getOrgProjectTabs = () => [
   {
@@ -64,6 +66,22 @@ const kubernetesTabs = [
   { key: 'detail', name: i18n.t('detail') },
 ];
 
+const resourceRankTabs = [
+  { key: 'project', name: i18n.t('cmp:by project') },
+  { key: 'owner', name: i18n.t('cmp:by owner') },
+];
+
+const alarmListTabs = [
+  {
+    key: 'events',
+    name: i18n.t('msp:events'),
+  },
+  {
+    key: 'notification',
+    name: i18n.t('notification'),
+  },
+];
+
 const alarmConfigRouters = [
   {
     layout: { noWrapper: true },
@@ -81,11 +99,6 @@ const alarmConfigRouters = [
     pageNameInfo: EditStrategyPageName,
     getComp: (cb: RouterGetComp) => cb(import('app/modules/cmp/pages/alarm-strategy/cmp-stratege')),
   },
-];
-
-const resourceRankTabs = [
-  { key: 'project', name: i18n.t('cmp:by project') },
-  { key: 'owner', name: i18n.t('cmp:by owner') },
 ];
 
 function getCmpRouter(): RouteConfigItem[] {
@@ -422,6 +435,59 @@ function getCmpRouter(): RouteConfigItem[] {
               getComp: (cb: RouterGetComp) => cb(import('cmp/pages/alarm-overview')),
             },
             {
+              path: 'record',
+              breadcrumbName: i18n.t('alarm record'),
+              tabs: alarmListTabs,
+              alwaysShowTabKey: 'events',
+              routes: [
+                {
+                  getComp: (cb) => cb(import('cmp/pages/alarm-record/events')),
+                },
+                {
+                  path: 'events',
+                  breadcrumbName: i18n.t('alarm record'),
+                  tabs: alarmListTabs,
+                  alwaysShowTabKey: 'events',
+                  routes: [
+                    {
+                      layout: { noWrapper: true },
+                      getComp: (cb: RouterGetComp) => cb(import('cmp/pages/alarm-record/events')),
+                    },
+                    {
+                      path: ':eventId',
+                      breadcrumbName: i18n.t('alarm record'),
+                      pageNameInfo: EventDetailTitle,
+                      layout: { noWrapper: true },
+                      getComp: (cb: RouterGetComp) => cb(import('cmp/pages/alarm-record/events/detail')),
+                    },
+                  ],
+                },
+                {
+                  path: 'notification',
+                  tabs: alarmListTabs,
+                  alwaysShowTabKey: 'notification',
+                  routes: [
+                    {
+                      layout: { noWrapper: true },
+                      getComp: (cb: RouterGetComp) => cb(import('cmp/pages/alarm-record/notification')),
+                    },
+                    {
+                      path: ':notificationId',
+                      breadcrumbName: i18n.t('alarm record'),
+                      pageNameInfo: NotificationTitle,
+                      layout: { noWrapper: true },
+                      getComp: (cb: RouterGetComp) => cb(import('cmp/pages/alarm-record/notification/detail')),
+                    },
+                  ],
+                },
+                {
+                  path: ':recordId',
+                  breadcrumbName: '{alarmRecordName}',
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-record/detail')),
+                },
+              ],
+            },
+            {
               path: 'report',
               routes: [
                 {
@@ -446,17 +512,24 @@ function getCmpRouter(): RouteConfigItem[] {
               ],
             },
             {
-              path: 'record',
-              breadcrumbName: i18n.t('alarm record'),
+              path: 'strategy',
+              breadcrumbName: i18n.t('alarm strategy'),
               routes: [
                 {
-                  path: ':recordId',
-                  breadcrumbName: '{alarmRecordName}',
-                  getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-record/detail')),
+                  layout: { noWrapper: true },
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-strategy')),
                 },
                 {
-                  layout: { noWrapper: true },
-                  getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-record')),
+                  path: 'add-strategy',
+                  pageNameInfo: AddStrategyPageName,
+                  breadcrumbName: i18n.t('cmp:new alarm strategy'),
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-strategy/cmp-stratege')),
+                },
+                {
+                  path: 'edit-strategy/:id',
+                  breadcrumbName: i18n.t('cmp:edit alarm strategy'),
+                  pageNameInfo: EditStrategyPageName,
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-strategy/cmp-stratege')),
                 },
               ],
             },

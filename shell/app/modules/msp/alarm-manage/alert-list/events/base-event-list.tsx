@@ -12,13 +12,34 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import BaseOverview from 'msp/alarm-manage/overview/base-overview';
-import routeInfoStore from 'core/stores/route';
+import DiceConfigPage from 'config-page';
 
-const Overview = () => {
-  const { tenantGroup } = routeInfoStore.useStore((s) => s.params);
+interface IProps {
+  scope: 'micro_service' | 'org';
+  scopeId: string;
+  clickRow?: (data: { id: string }) => void;
+}
 
-  return <BaseOverview scope="micro_service" scopeId={tenantGroup} />;
+const BaseEventList: React.FC<IProps> = ({ scopeId, scope, clickRow }) => {
+  return (
+    <div>
+      <DiceConfigPage
+        scenarioKey="msp-alert-event-list"
+        scenarioType="msp-alert-event-list"
+        inParams={{
+          scopeId,
+          scope,
+        }}
+        customProps={{
+          table: {
+            op: {
+              clickRow,
+            },
+          },
+        }}
+      />
+    </div>
+  );
 };
 
-export default Overview;
+export default BaseEventList;

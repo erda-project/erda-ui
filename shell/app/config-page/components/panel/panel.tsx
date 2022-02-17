@@ -77,7 +77,7 @@ const CP_PANEL = (props: CP_PANEL.Props) => {
           <Text
             type="Text"
             props={{
-              renderType: 'copyText',
+              renderType: 'text',
               value: { text: _props.value },
               textStyleName: { [`text-${color}`]: !!color },
             }}

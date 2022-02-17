@@ -12,13 +12,23 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import BaseOverview from 'msp/alarm-manage/overview/base-overview';
-import routeInfoStore from 'core/stores/route';
+import BaseEventList from 'msp/alarm-manage/alert-list/events/base-event-list';
+import orgStore from 'app/org-home/stores/org';
+import { goTo } from 'common/utils';
 
-const Overview = () => {
-  const { tenantGroup } = routeInfoStore.useStore((s) => s.params);
-
-  return <BaseOverview scope="micro_service" scopeId={tenantGroup} />;
+const Events = () => {
+  const orgId = orgStore.useStore((s) => s.currentOrg.id);
+  return (
+    <BaseEventList
+      scope="org"
+      scopeId={`${orgId}`}
+      clickRow={({ id }) => {
+        goTo(goTo.pages.orgAlarmEventDetail, {
+          eventId: id,
+        });
+      }}
+    />
+  );
 };
 
-export default Overview;
+export default Events;

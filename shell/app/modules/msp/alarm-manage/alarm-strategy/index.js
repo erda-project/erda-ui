@@ -17,11 +17,13 @@ import { AddStrategyPageName, EditStrategyPageName } from 'cmp/common/alarm-stra
 function AlarmRouter() {
   return [
     {
+      layout: { noWrapper: true },
       getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index')),
     },
     {
       path: 'add-strategy',
       breadcrumbName: i18n.t('cmp:new alarm strategy'),
+      layout: { noWrapper: true },
       pageNameInfo: AddStrategyPageName,
       getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index/msp-strategy')),
     },
@@ -29,6 +31,7 @@ function AlarmRouter() {
       path: 'edit-strategy/:id',
       breadcrumbName: i18n.t('cmp:edit alarm strategy'),
       pageNameInfo: EditStrategyPageName,
+      layout: { noWrapper: true },
       getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index/msp-strategy')),
     },
   ];

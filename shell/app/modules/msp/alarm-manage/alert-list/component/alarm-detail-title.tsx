@@ -12,13 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import BaseOverview from 'msp/alarm-manage/overview/base-overview';
-import routeInfoStore from 'core/stores/route';
+import ErdaIcon from 'common/components/erda-icon';
+import mspStore from 'msp/stores/micro-service';
 
-const Overview = () => {
-  const { tenantGroup } = routeInfoStore.useStore((s) => s.params);
+interface IProps {
+  onClick: () => void;
+}
 
-  return <BaseOverview scope="micro_service" scopeId={tenantGroup} />;
+const AlarmDetailTitle: React.FC<IProps> = ({ onClick }) => {
+  const title = mspStore.useStore((s) => s.alarmTitle);
+  return (
+    <div className="flex items-center">
+      <ErdaIcon type="arrow-left" size="18" className="cursor-pointer text-gray mr-2" onClick={onClick} />
+      <span className="font-bold text-lg">{title}</span>
+    </div>
+  );
 };
 
-export default Overview;
+export default AlarmDetailTitle;

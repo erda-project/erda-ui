@@ -12,13 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import BaseOverview from 'msp/alarm-manage/overview/base-overview';
+import BaseNotificationList from './base-notification-list';
 import routeInfoStore from 'core/stores/route';
+import { goTo } from 'common/utils';
 
-const Overview = () => {
+const Notification = () => {
   const { tenantGroup } = routeInfoStore.useStore((s) => s.params);
-
-  return <BaseOverview scope="micro_service" scopeId={tenantGroup} />;
+  return (
+    <BaseNotificationList
+      scope="micro_service"
+      scopeId={tenantGroup}
+      clickRow={({ id }) => {
+        goTo(`./${id}`);
+      }}
+    />
+  );
 };
 
-export default Overview;
+export default Notification;
