@@ -20,12 +20,14 @@ export const walker = ({
   root,
   dealFile,
   recursive = true,
+  excludePath = [],
   files = { level: 0 },
 }: {
   root: string;
   dealFile: (content: string, filePath: string, isEnd: boolean) => void;
   recursive?: boolean;
   files?: { level: number };
+  excludePath?: string[];
 }) => {
   if (!dealFile) {
     logError('[walker] Not assign file handler');
@@ -33,6 +35,11 @@ export const walker = ({
   }
   if (root.includes('node_modules')) {
     logWarn('[walker] Skip node_modules');
+    return;
+  }
+
+  if (excludePath.some((p) => root.startsWith(p))) {
+    logWarn('[walker] Skip excluded path');
     return;
   }
   // add withFileTypes incase file name like Dockerfile without extension name would be mistaken treat as folder
@@ -49,7 +56,7 @@ export const walker = ({
       }
       const subPath = path.resolve(`${root}/${fileName}`);
       if (item.isDirectory() && recursive) {
-        return walker({ root: subPath, dealFile, recursive, files });
+        return walker({ root: subPath, dealFile, recursive, files, excludePath });
       }
       const filePath = subPath;
       files.level += 1;

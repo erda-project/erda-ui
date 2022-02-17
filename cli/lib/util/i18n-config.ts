@@ -38,8 +38,10 @@ export const externalLocalePathMap: Obj = {
 
 // all source code locations
 export const internalSrcDirMap: Obj<string[]> = {
-  shell: [resolveUI('shell', 'app'), resolveEnterprise('msp')],
+  shell: [resolveUI('shell', 'app'), resolveEnterprise('msp'), resolveEnterprise('org-home')],
 };
+
+export const excludeSrcDirs = [resolveUI('shell', 'app', 'modules', 'extra')];
 
 export const externalSrcDirMap: Obj<string[]> = {
   fdp: [resolveEnterprise('fdp', 'src')],

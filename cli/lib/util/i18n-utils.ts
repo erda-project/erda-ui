@@ -21,6 +21,7 @@ import chalk from 'chalk';
 import inquirer from 'inquirer';
 import { walker } from './file-walker';
 import {
+  excludeSrcDirs,
   externalLocalePathMap,
   externalModuleNamespace,
   externalSrcDirMap,
@@ -150,6 +151,7 @@ export const extractAllI18nD = async (
         // first step is to find out the content that needs to be translated, and assign the content to two parts: untranslated and translated
         walker({
           root: srcPath,
+          excludePath: excludeSrcDirs,
           dealFile: (...args) => {
             extractUntranslatedWords.apply(null, [
               ...args,
