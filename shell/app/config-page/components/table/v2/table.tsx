@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Button, Checkbox, Dropdown, Menu } from 'antd';
-import { TablePaginationConfig } from 'app/common/components/table/interface';
+import { ColumnProps, TablePaginationConfig } from 'app/common/components/table/interface';
 import { compact, difference, has, intersection, isNil, map } from 'lodash';
 import { ErdaIcon, Title } from 'common';
 import ErdaTable from 'common/components/table';
@@ -26,6 +26,10 @@ import { convertTableData } from './utils';
 interface ISorter {
   order: 'ascend' | 'descend' | undefined;
   field: string;
+  column: ColumnProps<any> & {
+    fieldBindToOrder?: string;
+    enableSort?: boolean;
+  };
 }
 
 interface ITableAction {
@@ -115,7 +119,7 @@ const Table = (props: CP_TABLE2.Props) => {
         ...changeSort,
         clientData: {
           dataRef: {
-            fieldBindToOrder: _sorter.field,
+            fieldBindToOrder: _sorter.column.fieldBindToOrder || _sorter.field,
             ascOrder: isNil(_sorter?.order) ? null : _sorter?.order === 'ascend',
           },
         },
