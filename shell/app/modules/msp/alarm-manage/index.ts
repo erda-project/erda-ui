@@ -58,10 +58,11 @@ const alarmManageRouters = [
           {
             path: ':dashboardId',
             breadcrumbName: '{dashboardName}',
-            layout: { fullHeight: true },
+            layout: { noWrapper: true },
             getComp: (cb: RouterGetComp) => cb(import('msp/query-analysis/custom-dashboard/pages/custom-dashboard')),
           },
           {
+            layout: { noWrapper: true },
             getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alarm-strategy/pages/custom-alarm')),
           },
         ],
@@ -69,6 +70,7 @@ const alarmManageRouters = [
       {
         path: 'notify-group',
         tabs: alarmConfigTab,
+        layout: { noWrapper: true },
         getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/notify-group')),
       },
     ],
