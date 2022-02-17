@@ -164,39 +164,17 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                   />
                 </div>
               ) : (
-                <div className="mb-2">
-                  <div className="text-black-4 mb-2">{i18n.t('version')}</div>
-                  <div>{version || '-'}</div>
-                </div>
+                renderItems([{ label: i18n.t('version'), value: version }])
               )}
-              <div className="mb-2">
-                <div className="text-black-4 mb-2">{i18n.t('dop:app name')}</div>
-                <div>{applicationName || '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-4 mb-2">{i18n.t('cluster name')}</div>
-                <div>{clusterName || '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-4 mb-2">{i18n.t('creator')}</div>
-                <div>{userId ? <UserInfo id={userId} /> : '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-4 mb-2">{i18n.t('create time')}</div>
-                <div>{(createdAt && moment(createdAt).format('YYYY/MM/DD HH:mm:ss')) || '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-4 mb-2">{i18n.t('dop:code branch')}</div>
-                <div>{labels.gitBranch || '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-4 mb-2">commitId</div>
-                <div>{labels.gitCommitId || '-'}</div>
-              </div>
-              <div className="mb-2">
-                <div className="text-black-4 mb-2">GitRepo {i18n.t('dop:address')}</div>
-                <div>{labels.gitRepo || '-'}</div>
-              </div>
+              {renderItems([
+                { label: i18n.t('dop:app name'), value: applicationName },
+                { label: i18n.t('cluster name'), value: clusterName },
+                { label: i18n.t('creator'), value: userId ? <UserInfo id={userId} /> : '-' },
+                { label: i18n.t('create time'), value: createdAt && moment(createdAt).format('YYYY/MM/DD HH:mm:ss') },
+                { label: i18n.t('dop:code branch'), value: labels.gitBranch },
+                { label: 'commitId', value: labels.gitCommitId },
+                { label: `GitRepo ${i18n.t('dop:address')}`, value: labels.gitRepo },
+              ])}
               {isEdit ? (
                 <div className="w-4/5">
                   <RenderFormItem label={i18n.t('content')} name="changelog" type="custom" getComp={() => <EditMd />} />
@@ -233,26 +211,12 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
               <div className="mb-4 pl-0.5">
                 {resources.map((item, index) => (
                   <div>
-                    <div className="mb-2">
-                      <div className="text-black-4 mb-2">name</div>
-                      <div>{item.name || '-'}</div>
-                    </div>
-                    <div className="mb-2">
-                      <div className="text-black-4 mb-2">type</div>
-                      <div>{item.type || '-'}</div>
-                    </div>
-                    <div className="mb-2">
-                      <div className="text-black-4 mb-2">url</div>
-                      <div>{item.url || '-'}</div>
-                    </div>
-                    {item.meta ? (
-                      <div className="mb-2">
-                        <div className="text-black-4 mb-2">meta</div>
-                        <div>{item.meta || '-'}</div>
-                      </div>
-                    ) : (
-                      ''
-                    )}
+                    {renderItems([
+                      { label: 'name', value: item.name },
+                      { label: 'type', value: item.type },
+                      { label: 'url', value: item.url },
+                      ...(item.meta ? [{ label: 'meta', value: item.meta }] : []),
+                    ])}
                     {index !== resources.length - 1 ? <Divider /> : ''}
                   </div>
                 ))}
@@ -285,6 +249,15 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
 
 const EditMd = ({ value, onChange, ...itemProps }: { value: string; onChange: (value: string) => void }) => {
   return <MarkdownEditor value={value} onChange={onChange} {...itemProps} defaultHeight={400} />;
+};
+
+const renderItems = (list: Array<{ label: string; value: string }>) => {
+  return list.map((item) => (
+    <div className="mb-2">
+      <div className="text-black-4 mb-2">{item.label}</div>
+      <div>{item.value || '-'}</div>
+    </div>
+  ));
 };
 
 export default ReleaseApplicationDetail;
