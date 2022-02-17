@@ -37,7 +37,7 @@ export const APP_TABS = () => {
   const appDetail = appStore.useStore((s) => s.detail);
 
   const { mode } = appDetail;
-  const perm = permStore.getState((s) => s.app);
+  const perm = permStore.useStore((s) => s.app);
   const appSwitch = {
     key: '_',
     className: 'mr-4',
