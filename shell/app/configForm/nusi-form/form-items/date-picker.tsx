@@ -11,12 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Form, DatePicker } from 'antd';
+import { DatePicker, Form } from 'antd';
 import React from 'react';
-import { isEmpty, isArray, isString } from 'lodash';
+import { isArray, isEmpty, isString } from 'lodash';
 import { getLabel, noop } from './common';
-import { commonFields, checkWhen } from './common/config';
+import { checkWhen, commonFields } from './common/config';
 import i18n from 'i18n';
+import moment from 'moment';
 
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 
@@ -31,7 +32,7 @@ const CompMap = {
 
 const DatePickerComp = (props: any) => {
   const { componentProps, id, disabled, fixIn, handleChange, value } = props;
-  const { dateType = 'date', placeholder, ...restCompProps } = componentProps || {};
+  const { dateType = 'date', valueType, placeholder, ...restCompProps } = componentProps || {};
   const Comp = CompMap[dateType];
 
   const plcholder = dateType === 'range' && isString(placeholder) ? placeholder.split(',') : placeholder;
@@ -42,7 +43,7 @@ const DatePickerComp = (props: any) => {
       placeholder={plcholder}
       {...restCompProps}
       disabled={disabled}
-      value={fixIn(value, { dateType })}
+      value={fixIn(value, { dateType, valueType })}
       onChange={handleChange}
     />
   );
@@ -77,8 +78,8 @@ export const FormDatePicker = ({
 
     registerRequiredCheck(_requiredCheck || requiredCheck);
     const handleChange = (e: any) => {
-      form.setFieldValue(key, curFixOut(e));
-      (componentProps.onChange || noop)(e);
+      form.setFieldValue(key, curFixOut(e, { valueType: componentProps.valueType }));
+      (componentProps.onChange || noop)(curFixOut(e, { valueType: componentProps.valueType }));
     };
 
     return (
@@ -112,14 +113,29 @@ export const config = {
     return [!isEmpty(value), i18n.t('can not be empty')];
   },
   fixOut: (value, options) => {
+    const { valueType = 'moment' } = options || {};
     // 在获取表单数据时，将React组件的value格式化成需要的格式
+    if (valueType === 'timestamp' && value) {
+      if (isArray(value)) {
+        return value.map((item) => item.valueOf());
+      } else {
+        return value.valueOf();
+      }
+    }
     return value;
   },
   fixIn: (value: any, options: any) => {
-    const { dateType = 'date' } = options || {};
+    const { dateType = 'date', valueType = 'moment' } = options || {};
     if (dateType === 'range' && !isArray(value)) return undefined;
     if (dateType !== 'range' && isArray(value)) return undefined;
     // 从schema到React组件映射时，修正传入React组件的value
+    if (valueType === 'timestamp' && value) {
+      if (isArray(value)) {
+        return value.map((item) => moment(item));
+      } else {
+        return moment(value);
+      }
+    }
     return value;
   },
   extensionFix: (data, options) => {
@@ -154,6 +170,19 @@ export const formConfig = {
                 { name: '月份', value: 'month' },
                 { name: '日期范围', value: 'range' },
                 { name: '星期', value: 'week' },
+              ],
+            },
+          },
+          {
+            label: '值类型',
+            key: 'componentProps.valueType',
+            type: 'radio',
+            component: 'radio',
+            defaultValue: 'moment',
+            dataSource: {
+              static: [
+                { name: '时间戳', value: 'timestamp' },
+                { name: 'moment', value: 'moment' },
               ],
             },
           },

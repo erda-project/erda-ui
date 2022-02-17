@@ -11,16 +11,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const AlarmRecord = () => ({
-  path: 'alarm-record',
-  routes: [
-    {
-      path: ':recordId',
-      breadcrumbName: '{alarmRecordName}',
-      layout: { noWrapper: true },
-      getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alarm-record/pages/detail')),
-    },
-  ],
-});
+import React from 'react';
+import BaseNotificationList from './base-notification-list';
+import routeInfoStore from 'core/stores/route';
+import { goTo } from 'common/utils';
 
-export default AlarmRecord;
+const Notification = () => {
+  const { tenantGroup } = routeInfoStore.useStore((s) => s.params);
+  return (
+    <BaseNotificationList
+      scope="micro_service"
+      scopeId={tenantGroup}
+      clickRow={({ id }) => {
+        goTo(`./${id}`);
+      }}
+    />
+  );
+};
+
+export default Notification;

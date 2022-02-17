@@ -27,6 +27,7 @@ declare namespace CP_CHART_BLOCK {
     className?: string;
     childClassName?: string;
     showDefaultBgColor?: boolean;
+    slot?: React.ReactNode;
   }
 
   type Props = MakeProps<Spec> & {

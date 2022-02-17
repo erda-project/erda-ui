@@ -11,16 +11,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const AlarmRecord = () => ({
-  path: 'alarm-record',
-  routes: [
-    {
-      path: ':recordId',
-      breadcrumbName: '{alarmRecordName}',
-      layout: { noWrapper: true },
-      getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alarm-record/pages/detail')),
-    },
-  ],
-});
+import React from 'react';
+import ErdaIcon from 'common/components/erda-icon';
+import mspStore from 'msp/stores/micro-service';
 
-export default AlarmRecord;
+interface IProps {
+  onClick: () => void;
+}
+
+const AlarmDetailTitle: React.FC<IProps> = ({ onClick }) => {
+  const title = mspStore.useStore((s) => s.alarmTitle);
+  return (
+    <div className="flex items-center">
+      <ErdaIcon type="arrow-left" size="18" className="cursor-pointer text-gray mr-2" onClick={onClick} />
+      <span className="font-bold text-lg">{title}</span>
+    </div>
+  );
+};
+
+export default AlarmDetailTitle;

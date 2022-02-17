@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { map, isNumber, isString, isArray, isPlainObject } from 'lodash';
+import { isArray, isNumber, isObject, isPlainObject, isString, map } from 'lodash';
 import { Copy, ErdaIcon, Title } from 'common';
 import { Badge, Tooltip } from 'antd';
 import { textColorMap } from 'app/config-page/utils';
@@ -190,6 +190,12 @@ const Text = (props: CP_TEXT.Props) => {
         TextComp = (
           <span className={textClassNames} style={styleObj}>
             {value}
+          </span>
+        );
+      } else if (isObject(value)) {
+        TextComp = (
+          <span className={textClassNames} style={styleObj}>
+            {value.text}
           </span>
         );
       }

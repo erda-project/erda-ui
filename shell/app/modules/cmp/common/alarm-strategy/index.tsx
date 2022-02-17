@@ -15,9 +15,9 @@ import React from 'react';
 import { map } from 'lodash';
 import moment from 'moment';
 import { useMount, useUnmount } from 'react-use';
-import { Modal, Button, Spin, Tooltip } from 'antd';
-import { Badge, UserInfo } from 'common';
-import ErdaTable from 'common/components/table';
+import { Button, Dropdown, Menu, Modal, Spin, Tooltip } from 'antd';
+import { Badge, ErdaIcon, UserInfo } from 'common';
+import ErdaTable, { IProps as TableProps } from 'common/components/table';
 import { goTo } from 'common/utils';
 import { ColumnProps } from 'app/interface/common';
 import i18n from 'i18n';
@@ -60,11 +60,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
   const alarmStrategyStore = alarmStrategyStoreMap[scopeType];
   const [alertList, alarmPaging] = alarmStrategyStore.useStore((s) => [s.alertList, s.alarmPaging]);
   const { total, pageNo, pageSize } = alarmPaging;
-  const [getAlertDetailLoading, getAlertsLoading, toggleAlertLoading] = useLoading(alarmStrategyStore, [
-    'getAlertDetail',
-    'getAlerts',
-    'toggleAlert',
-  ]);
+  const [getAlertsLoading, toggleAlertLoading] = useLoading(alarmStrategyStore, ['getAlerts', 'toggleAlert']);
   const { getAlerts, toggleAlert, deleteAlert, getAlarmScopes, getAlertTypes, getAlertTriggerConditions } =
     alarmStrategyStore.effects;
   const { clearAlerts } = alarmStrategyStore.reducers;
@@ -100,9 +96,25 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
     });
   };
 
-  const handlePageChange = (paging: { current: number; pageSize?: number }) => {
+  const handlePageChange: TableProps<COMMON_STRATEGY_NOTIFY.IAlert>['onChange'] = (
+    paging,
+    _filters,
+    _sorter,
+    extra,
+  ) => {
     const { current, pageSize: size } = paging;
-    getAlerts({ pageNo: current, pageSize: size });
+    if (extra.action === 'paginate') {
+      getAlerts({ pageNo: current, pageSize: size });
+    }
+  };
+
+  const handleEnableStrategy = (enable: string, record: COMMON_STRATEGY_NOTIFY.IAlert) => {
+    toggleAlert({
+      id: record.id,
+      enable: enable === 'enable',
+    }).then(() => {
+      getAlerts({ pageNo });
+    });
   };
 
   const alertListColumns: Array<ColumnProps<COMMON_STRATEGY_NOTIFY.IAlert>> = [
@@ -113,8 +125,32 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('status'),
       dataIndex: 'enable',
-      render: (enable) => (
-        <Badge text={enable ? i18n.t('enable') : i18n.t('unable')} status={enable ? 'success' : 'default'} />
+      render: (enable, record) => (
+        <Dropdown
+          trigger={['click']}
+          overlay={
+            <Menu
+              onClick={(e) => {
+                handleEnableStrategy(e.key, record);
+              }}
+            >
+              <Menu.Item key="enable">
+                <Badge text={i18n.t('enable')} status="success" />
+              </Menu.Item>
+              <Menu.Item key="unable">
+                <Badge text={i18n.t('unable')} status="default" />
+              </Menu.Item>
+            </Menu>
+          }
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="group flex items-center justify-between px-2 cursor-pointer absolute top-0 left-0 bottom-0 right-0 hover:bg-default-04"
+          >
+            <Badge text={enable ? i18n.t('enable') : i18n.t('unable')} status={enable ? 'success' : 'default'} />
+            <ErdaIcon type="caret-down" size={20} fill="black-3" className="opacity-0 group-hover:opacity-100" />
+          </div>
+        </Dropdown>
       ),
     },
     // ...insertWhen(scopeType === ScopeType.ORG, [
@@ -171,7 +207,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
   };
 
   const renderMenu = (record: COMMON_STRATEGY_NOTIFY.IAlert) => {
-    const { editStrategy, deleteStrategy, enableStrategy } = {
+    const { editStrategy, deleteStrategy } = {
       editStrategy: {
         title: i18n.t('edit'),
         onClick: () => {
@@ -184,20 +220,9 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
           handleDeleteAlarm(record.id);
         },
       },
-      enableStrategy: {
-        title: record?.enable ? i18n.t('unable') : i18n.t('enable'),
-        onClick: () => {
-          toggleAlert({
-            id: record.id,
-            enable: !record.enable,
-          }).then(() => {
-            getAlerts({ pageNo });
-          });
-        },
-      },
     };
 
-    return [editStrategy, deleteStrategy, enableStrategy];
+    return [editStrategy, deleteStrategy];
   };
   return (
     <div className="alarm-strategy">

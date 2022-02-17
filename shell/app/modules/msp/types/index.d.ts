@@ -48,7 +48,6 @@ declare namespace MS_INDEX {
     | 'ServiceMonitor'
     | 'FrontMonitor'
     | 'ActiveMonitor'
-    | 'AlarmHistory'
     | 'AlertConfig'
     | 'AlertTegrate'
     | 'AlertList'

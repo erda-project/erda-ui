@@ -11,16 +11,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const AlarmRecord = () => ({
-  path: 'alarm-record',
-  routes: [
-    {
-      path: ':recordId',
-      breadcrumbName: '{alarmRecordName}',
-      layout: { noWrapper: true },
-      getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alarm-record/pages/detail')),
-    },
-  ],
-});
+import React from 'react';
+import BaseEventList from 'msp/alarm-manage/alert-list/events/base-event-list';
+import orgStore from 'app/org-home/stores/org';
+import { goTo } from 'common/utils';
 
-export default AlarmRecord;
+const Events = () => {
+  const orgId = orgStore.useStore((s) => s.currentOrg.id);
+  return (
+    <BaseEventList
+      scope="org"
+      scopeId={`${orgId}`}
+      clickRow={({ id }) => {
+        goTo(goTo.pages.orgAlarmEventDetail, {
+          eventId: id,
+        });
+      }}
+    />
+  );
+};
+
+export default Events;
