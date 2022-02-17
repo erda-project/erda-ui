@@ -16,7 +16,7 @@ import React from 'react';
 import { ImageUpload, RenderForm, ErdaAlert } from 'common';
 import { goTo, insertWhen } from 'common/utils';
 import { filter, map } from 'lodash';
-import { FormInstance } from 'core/common/interface';
+import { FormInstance } from 'app/interface/common';
 import { appMode, modeOptions, repositoriesTypes, RepositoryMode } from 'application/common/config';
 import { AppTypeSelect } from './app-type-select';
 import i18n from 'i18n';
@@ -51,7 +51,7 @@ const CreationForm = () => {
   const { clusterConfig } = info;
   const currentProjectClusters = Object.values(clusterConfig || {});
   const [isCreateApp, isInitApp] = useLoading(appStore, ['createApp', 'initApp']);
-  const formRef = React.useRef(null as any);
+  const formRef = React.useRef<FormInstance>({} as FormInstance);
   const repoConfigTemp = React.useRef({});
   React.useEffect(() => {
     if (mode === appMode.MOBILE && template.length === 1) {
@@ -173,7 +173,7 @@ const CreationForm = () => {
           message: i18n.t('project-app-name-tip'),
         },
         {
-          validator: (_rule: any, value: any, callback: (message?: string) => void) => {
+          validator: (_rule: Obj[], value: Obj, callback: (message?: string) => void) => {
             if (value && value.toLowerCase().endsWith('_ability')) {
               return callback(i18n.t('The name is reserved internally. Please change the name.'));
             }
@@ -360,4 +360,4 @@ const CreationForm = () => {
   );
 };
 
-export default CreationForm as any;
+export default CreationForm;

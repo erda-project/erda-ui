@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Form } from 'antd';
-import { ApiItem } from '../components/api-test';
+import { ApiItem, IApi } from '../components/api-test';
 import React from 'react';
 import { commonFields, exceptField } from 'app/configForm/nusi-form/form-items';
 
@@ -40,7 +40,7 @@ export const FormApiTest = ({
       requiredCheck: _requiredCheck,
     } = fieldConfig || {};
     registerRequiredCheck(_requiredCheck || requiredCheck);
-    const handleChange = (e: any) => {
+    const handleChange = (e: IApi) => {
       form.setFieldValue(key, fixOut(e));
       (componentProps.onChange || noop)(e);
     };

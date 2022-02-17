@@ -23,7 +23,7 @@ export const getAddons = (query: {
   return agent
     .get('/api/addons')
     .query(query)
-    .then((response: any) => response.body);
+    .then((response: { body: ADDON.Instance[] }) => response.body);
 };
 
 export const approves = (payload: PROJECT.Approves) => {
