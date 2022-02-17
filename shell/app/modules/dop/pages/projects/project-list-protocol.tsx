@@ -26,7 +26,6 @@ const ProjectList = () => {
     metaData: {} as IMetaData,
   });
   const permMap = usePerm((s) => s.org);
-  const reloadRef = React.useRef(null as any);
   const reloadRef = React.useRef<{ reload: () => void }>({} as { reload: () => void });
 
   const closeModal = () => {
