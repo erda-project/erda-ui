@@ -309,6 +309,7 @@ type ROUTE_MARK =
   | 'addonsManage'
   | 'publisher'
   | 'project'
+  | 'projectAppList'
   | 'issues'
   | 'iterationDetail'
   | 'apiManage'
@@ -319,6 +320,8 @@ type ROUTE_MARK =
   | 'deploy'
   | 'repo'
   | 'repoTree'
+  | 'repoBranches'
+  | 'repoMr'
   | 'repoCompare'
   | 'apiDesign'
   | 'pipeline'
@@ -354,7 +357,7 @@ interface ROUTE_TABS {
   name: string | JSX.Element;
   show?: boolean;
   hrefType?: string;
-  isActive: () => boolean;
+  isActive?: () => boolean;
   [key: string]: any;
 }
 
@@ -378,6 +381,7 @@ interface RouteConfigItem {
   ignoreTabQuery?: boolean;
   alwaysShowTabKey?: string;
   mark?: ROUTE_MARK;
+  backToUp?: ROUTE_MARK;
   toMark?: ROUTE_TO_MARK;
   routes?: RouteConfigItem[];
   wrapper?: any;

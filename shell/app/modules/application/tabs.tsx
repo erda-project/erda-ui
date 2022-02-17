@@ -13,14 +13,12 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { ErdaIcon } from 'common';
 import permStore from 'user/stores/permission';
 import layoutStore from 'layout/stores/layout';
 import appStore from './stores/application';
 import routeInfoStore from 'core/stores/route';
 import { appMode } from './common/config';
 import { filter } from 'lodash';
-import { getSubList } from './stores/repo';
 import { HeadAppSelector } from './common/app-selector';
 import { goTo } from 'app/common/utils';
 
@@ -40,16 +38,6 @@ export const APP_TABS = () => {
 
   const { mode } = appDetail;
   const perm = permStore.getState((s) => s.app);
-  const back = {
-    key: '../',
-    hrefType: 'back',
-    name: (
-      <span className="cursor-pointer">
-        <ErdaIcon type="arrow-left" className="mr-1 relative top-0.5" />
-        {i18n.t('dop:application')}
-      </span>
-    ),
-  };
   const appSwitch = {
     key: '_',
     className: 'mr-4',
@@ -147,12 +135,11 @@ export const APP_TABS = () => {
     if (currentRoute.mark === 'application') {
       const firstAvailableTab = tabs.find((t) => t.show && t.href);
       if (firstAvailableTab?.href) {
-        console.log('currentRoute', currentRoute);
         goTo(firstAvailableTab.href, { replace: true });
       }
     }
   }, [currentRoute, tabs]);
-  return [back, appSwitch, ...tabs] as ROUTE_TABS[];
+  return [appSwitch, ...tabs] as ROUTE_TABS[];
 };
 
 // export const getQualityTabs = (params: Obj<string>) => {

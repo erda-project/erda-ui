@@ -23,7 +23,8 @@ interface IRoute {
   relativePath: string;
   breadcrumbName?: string | Function;
   _parent: IRoute;
-  mark?: string;
+  mark?: ROUTE_MARK;
+  backToUp?: string;
   layout: {
     [k: string]: any;
   };

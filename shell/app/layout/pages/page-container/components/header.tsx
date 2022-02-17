@@ -18,13 +18,15 @@ import routeInfoStore from 'core/stores/route';
 import breadcrumbStore from 'layout/stores/breadcrumb';
 import { isEmpty, isFunction } from 'lodash';
 import { matchPath } from 'react-router-dom';
-import { Ellipsis } from 'common';
+import { Ellipsis, ErdaIcon } from 'common';
 import './header.scss';
+import { goTo } from 'app/common/utils';
 
 const Header = () => {
   const [currentApp] = layoutStore.useStore((s) => [s.currentApp]);
   const routes: IRoute[] = routeInfoStore.useStore((s) => s.routes);
   const [pageName, setPageName] = React.useState<string>();
+  const [backToUp, setBackToUp] = React.useState(0);
   const infoMap = breadcrumbStore.useStore((s) => s.infoMap);
   const [query] = routeInfoStore.useStore((s) => [s.query]);
 
@@ -103,6 +105,15 @@ const Header = () => {
         _params = match.params;
         setParams(_params);
       }
+      let backToUpLevel = 0;
+      const currentRoute = routes[0];
+      if (currentRoute.backToUp) {
+        const targetRoute = routes.find((a) => a.mark === currentRoute.backToUp);
+        if (targetRoute) {
+          backToUpLevel = location.pathname.split('/').length - targetRoute.path.split('/').length;
+        }
+      }
+      setBackToUp(backToUpLevel);
     }
     const filteredRoutes = routes.filter((route) => {
       return route.path && (route.breadcrumbName || route.pageName || typeof route.breadcrumbName === 'function');
@@ -124,11 +135,22 @@ const Header = () => {
       const Comp = pageNameInfo;
       return <Comp />;
     }
+    if (backToUp) {
+      return (
+        <div
+          className="text-xl truncate inline-flex items-center cursor-pointer"
+          onClick={() => goTo('../'.repeat(backToUp))}
+        >
+          <ErdaIcon type="arrow-left" className="mr-1" />
+          {pageName}
+        </div>
+      );
+    }
     return <div className="text-xl truncate">{pageName}</div>;
   };
   return (
     <div className="erda-header">
-      <div className="erda-header-title-con">{pageName && displayPageName()}</div>
+      <div className="erda-header-title-con inline-flex">{pageName && displayPageName()}</div>
       <Tab />
     </div>
   );
