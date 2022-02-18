@@ -200,10 +200,7 @@ export enum pages {
   dataTaskRoot = '/{orgName}/dop/projects/{projectId}/apps/{appId}/dataTask',
   appDataModel = '/{orgName}/dop/projects/{projectId}/apps/{appId}/dataModel',
   appDataMarket = '/{orgName}/dop/projects/{projectId}/apps/{appId}/dataMarket',
-  appCodeQuality = '/{orgName}/dop/projects/{projectId}/apps/{appId}/quality',
-  appCodeQualityReports = '/{orgName}/dop/projects/{projectId}/apps/{appId}/test',
-  appCodeQualityIssueOpen = '/{orgName}/dop/projects/{projectId}/apps/{appId}/ticket/open?type={type}',
-  appCodeQualityIssue = '/{orgName}/dop/projects/{projectId}/apps/{appId}/ticket',
+  appCodeQuality = '/{orgName}/dop/projects/{projectId}/apps/{appId}/quality?tabKey={tabKey}&type={type}',
   appSetting = '/{orgName}/dop/projects/{projectId}/apps/{appId}/setting',
 
   // 中间件平台首页 /addonPlatform/addonsManage 去掉了。详情页保留，暂时挂在DevOps平台下面。

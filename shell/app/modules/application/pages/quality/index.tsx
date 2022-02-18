@@ -125,10 +125,11 @@ const CodeQuality = () => {
             <div
               className="quality-data flex justify-between items-center"
               onClick={() => {
-                goTo(goTo.pages.appCodeQualityIssueOpen, {
+                goTo(goTo.pages.appCodeQuality, {
                   projectId,
                   appId,
                   type: query,
+                  tabKey: 'issues',
                 });
               }}
             >

@@ -141,29 +141,3 @@ export const APP_TABS = () => {
   }, [currentRoute, tabs]);
   return [appSwitch, ...tabs] as ROUTE_TABS[];
 };
-
-// export const getQualityTabs = (params: Obj<string>) => {
-//   return [
-//     { value: 'quality', label: i18n.t('dop:code quality'), onClick: () => goTo(goTo.resolve.appCodeQualityReports(params)) },
-//     { value: 'ticket', label: i18n.t('dop:ticket'), onClick: () => goTo(goTo.resolve.appCodeQualityIssueOpen(params)) },
-//     { value: 'test', label: i18n.t('dop:report'), onClick: () => goTo(goTo.resolve.appCodeQuality(params)) },
-//   ]
-// }
-
-// export const prependTabs = (tabs: typeof getQualityTabs, activeTabKey: string) => (Comp: React.ElementType) => (props: any) => {
-//   const _tabs = tabs(props.match.params);
-
-//   return (
-//     <>
-//       <RadioTabs
-//         options={_tabs}
-//         value={activeTabKey}
-//         onChange={(v?: string | number, tab) => {
-//           tab?.onClick();
-//         }}
-//         className="mb-2"
-//       />
-//       <Comp {...props} _tabKey={activeTabKey} />
-//     </>
-//   )
-// }
