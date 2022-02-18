@@ -113,7 +113,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
           prefix: `${goTo.resolve.projectPipeline()}/`,
         },
         {
-          href: goTo.resolve.projectDeployEnv({ env: 'dev' }),
+          href: goTo.resolve.projectDeployEnv({ workspace: 'dev' }),
           text: i18n.t('dop:Environments'),
           prefix: `${goTo.resolve.projectDeploy()}/`,
         },
