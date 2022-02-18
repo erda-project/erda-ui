@@ -147,7 +147,7 @@ const initState = {
   pipelineTemplates: [] as REPOSITORY.IPipelineTemplate[],
   mr: {},
   mrList: [] as any[],
-  mrStats: {},
+  mrStats: {} as REPOSITORY.IMrStats,
   mrDetail: {},
   comments: [] as REPOSITORY.MrNote[],
   commitDetail: {} as REPOSITORY.CommitDetail,
