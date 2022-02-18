@@ -110,13 +110,13 @@ export const APP_TABS = () => {
     name: i18n.t('dop:setting'),
   };
 
-  const repoTabs = isExternalRepo ? [] : [commit, branch, mr];
+  const extraRepoTabs = isExternalRepo ? [] : [commit, branch, mr];
   const modeMap = {
-    [appMode.SERVICE]: [repo, ...repoTabs, pipeline, apiDesign, quality, setting],
-    [appMode.PROJECT_SERVICE]: [repo, ...repoTabs, pipeline, quality, setting],
-    [appMode.MOBILE]: [repo, ...repoTabs, pipeline, apiDesign, quality, setting],
-    [appMode.LIBRARY]: [repo, ...repoTabs, pipeline, apiDesign, quality, setting],
-    [appMode.BIGDATA]: [repo, ...repoTabs, dataTask, dataModel, dataMarket, setting],
+    [appMode.SERVICE]: [repo, ...extraRepoTabs, pipeline, apiDesign, quality, setting],
+    [appMode.PROJECT_SERVICE]: [repo, ...extraRepoTabs, pipeline, quality, setting],
+    [appMode.MOBILE]: [repo, ...extraRepoTabs, pipeline, apiDesign, quality, setting],
+    [appMode.LIBRARY]: [repo, ...extraRepoTabs, pipeline, apiDesign, quality, setting],
+    [appMode.BIGDATA]: [repo, ...extraRepoTabs, dataTask, dataModel, dataMarket, setting],
     [appMode.ABILITY]: [quality, setting],
   };
 
