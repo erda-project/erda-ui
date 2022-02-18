@@ -26,22 +26,17 @@ import projectStore from 'app/modules/project/stores/project';
 interface ITab {
   show?: boolean;
   key: string;
-  href: string;
   icon: string;
   text: string;
 }
 export const APP_TABS = () => {
-  const projectDetail = projectStore.useStore((s) => s.info);
   const repoMenu = layoutStore.useStore((s) => s.subList.repo);
   const [repoKey, commitKey, branchKey, mrKey] = repoMenu?.length
     ? repoMenu.map((a: { tabKey: string }) => a.tabKey)
     : ['repo', 'repo/commits', 'repo/branches', 'repo/mr/open'];
   const appDetail = appStore.useStore((s) => s.detail);
 
-  // FIXME: wait get projectDetail and set href params
-  const projectId = projectDetail.id;
-  const { mode, id } = appDetail;
-  const routeParams = { projectId, appId: id };
+  const { mode, isExternalRepo } = appDetail;
   const perm = usePerm((s) => s.app);
   const appSwitch = {
     key: '_',
@@ -51,85 +46,77 @@ export const APP_TABS = () => {
   const repo = {
     show: perm.repo.read.pass,
     key: repoKey,
-    href: goTo.resolve.repo(routeParams),
     split: true,
     name: i18n.t('dop:code'),
     isActive: (activeKey: string) => {
       return activeKey === 'repo' || activeKey.startsWith('repo/tree');
     },
   };
+  // these tab auth same with repo
   const commit = {
     show: perm.repo.read.pass,
     key: commitKey,
-    // href: goTo.resolve.commits(),
     name: i18n.t('dop:commits'),
     isActive: (activeKey: string) => activeKey.startsWith('repo/commits'),
   };
   const branch = {
     show: perm.repo.read.pass,
     key: branchKey,
-    // href: goTo.resolve.repo(),
     name: i18n.t('dop:branch'),
     isActive: (activeKey: string) => activeKey.startsWith('repo/branches'),
   };
   const mr = {
     show: perm.repo.read.pass,
     key: mrKey,
-    // href: goTo.resolve.appOpenMr(),
     name: i18n.t('dop:merge request'),
     isActive: (activeKey: string) => activeKey.startsWith('repo/mr'),
   };
+
   const pipeline = {
     show: perm.pipeline.read.pass,
     key: 'pipeline',
-    // href: goTo.resolve.pipelineRoot(routeParams),
     name: i18n.t('pipeline'),
   };
   const dataTask = {
     show: perm.dataTask.read.pass,
     key: 'dataTask',
-    // href: goTo.resolve.dataTaskRoot(routeParams),
     name: `${i18n.t('dop:data task')}`,
   };
   const dataModel = {
     show: perm.dataModel.read.pass,
     key: 'dataModel',
-    // href: goTo.resolve.appDataModel(routeParams),
     name: `${i18n.t('dop:data model')}`,
   };
   const dataMarket = {
     show: perm.dataMarket.read.pass,
     key: 'dataMarket',
-    // href: goTo.resolve.appDataMarket(routeParams),
     name: `${i18n.t('dop:data market')}`,
   };
   const quality = {
     show: perm.codeQuality.read.pass,
     key: 'quality',
-    // href: goTo.resolve.appCodeQuality(routeParams),
     name: i18n.t('dop:code quality'),
   };
 
   const apiDesign = {
     show: perm.apiDesign.read.pass,
     key: 'apiDesign',
-    // href: goTo.resolve.appApiDesign(routeParams),
     name: 'API',
   };
 
   const setting = {
     show: perm.setting.read.pass,
     key: 'setting',
-    // href: goTo.resolve.appSetting(routeParams),
     name: i18n.t('dop:setting'),
   };
 
+  const repoTabs = isExternalRepo ? [] : [commit, branch, mr];
   const modeMap = {
-    [appMode.SERVICE]: [repo, commit, branch, mr, pipeline, apiDesign, quality, setting],
-    [appMode.PROJECT_SERVICE]: [repo, commit, branch, mr, pipeline, quality, setting],
-    [appMode.MOBILE]: [repo, commit, branch, mr, pipeline, apiDesign, quality, setting],
-    [appMode.LIBRARY]: [repo, commit, branch, mr, pipeline, apiDesign, quality, setting],
-    [appMode.BIGDATA]: [repo, commit, branch, mr, dataTask, dataModel, dataMarket, setting],
+    [appMode.SERVICE]: [repo, ...repoTabs, pipeline, apiDesign, quality, setting],
+    [appMode.PROJECT_SERVICE]: [repo, ...repoTabs, pipeline, quality, setting],
+    [appMode.MOBILE]: [repo, ...repoTabs, pipeline, apiDesign, quality, setting],
+    [appMode.LIBRARY]: [repo, ...repoTabs, pipeline, apiDesign, quality, setting],
+    [appMode.BIGDATA]: [repo, ...repoTabs, dataTask, dataModel, dataMarket, setting],
     [appMode.ABILITY]: [quality, setting],
   };
 
@@ -139,7 +126,7 @@ export const APP_TABS = () => {
     if (currentRoute.mark === 'application') {
       const firstAvailableTab = tabs.find((t) => t.show && t.href);
       if (firstAvailableTab?.href) {
-        goTo(firstAvailableTab.href, { replace: true });
+        goTo(`${firstAvailableTab.key}`, { replace: true });
       }
     }
   }, [currentRoute, tabs]);
