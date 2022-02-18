@@ -30,22 +30,22 @@ import List from 'common/components/base-list';
 import i18n from 'i18n';
 import './overview.scss';
 
-const iconMap: {
+const baseProjectInfo: {
   [key in MS_INDEX.IMspProject['type']]: {
     icon: string;
-    tag: string;
-    color: string;
+    text: string;
+    status: string;
   };
 } = {
   DOP: {
     icon: 'DevOps',
-    tag: i18n.t('msp:DevOps'),
-    color: 'blue',
+    text: i18n.t('msp:DevOps'),
+    status: 'processing',
   },
   MSP: {
     icon: 'MSP',
-    tag: i18n.t('cmp:Monitor'),
-    color: 'green',
+    text: i18n.t('cmp:Monitor'),
+    status: 'warning',
   },
 };
 
@@ -121,18 +121,14 @@ const Overview = () => {
       .filter((item) => item.displayName.toLowerCase().includes(filterKey))
       .map((item) => {
         const { logo, desc, displayName, type, relationship, id } = item;
+        const { icon, ...titleState } = baseProjectInfo[type];
         return {
           ...item,
           logoURL: logo,
-          icon: logo ? undefined : iconMap[type].icon,
+          icon: logo ? undefined : icon,
           title: displayName,
           description: desc || i18n.t('no description yet'),
-          tags: [
-            {
-              label: iconMap[type].tag,
-              color: iconMap[type].color,
-            },
-          ],
+          titleState: [titleState],
           kvInfos: metric.map((t) => {
             return {
               key: t.name,
