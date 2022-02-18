@@ -66,6 +66,7 @@ export const ProblemList = () => {
         ...filterData,
         pageNo: state.pageNo,
         pageSize: state.pageSize,
+        ...paging,
         ...values,
         status: filterStatus === 'all' ? undefined : filterStatus,
         targetID: +routeAppId,
