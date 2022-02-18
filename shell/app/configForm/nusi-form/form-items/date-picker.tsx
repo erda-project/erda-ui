@@ -13,7 +13,7 @@
 
 import { DatePicker, Form } from 'antd';
 import React from 'react';
-import { isArray, isEmpty, isString } from 'lodash';
+import { isArray, isNil, isString } from 'lodash';
 import { getLabel, noop } from './common';
 import { checkWhen, commonFields } from './common/config';
 import i18n from 'i18n';
@@ -110,7 +110,7 @@ export const config = {
   Component: FormDatePicker, // 某React组件，props中必须有value、onChange
   requiredCheck: (value) => {
     // 必填校验时，特殊的校验规则
-    return [!isEmpty(value), i18n.t('can not be empty')];
+    return [!isNil(value), i18n.t('can not be empty')];
   },
   fixOut: (value, options) => {
     const { valueType = 'moment' } = options || {};
