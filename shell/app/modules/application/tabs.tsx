@@ -52,7 +52,7 @@ export const APP_TABS = () => {
       return activeKey === 'repo' || activeKey.startsWith('repo/tree');
     },
   };
-  // these tab auth same with repo
+  // these tab auth is same with repo
   const commit = {
     show: perm.repo.read.pass,
     key: commitKey,
