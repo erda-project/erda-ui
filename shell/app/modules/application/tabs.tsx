@@ -38,6 +38,7 @@ export const APP_TABS = () => {
     : ['repo', 'repo/commits', 'repo/branches', 'repo/mr/open'];
   const appDetail = appStore.useStore((s) => s.detail);
 
+  // FIXME: wait get projectDetail and set href params
   const projectId = projectDetail.id;
   const { mode, id } = appDetail;
   const routeParams = { projectId, appId: id };
@@ -81,45 +82,45 @@ export const APP_TABS = () => {
   const pipeline = {
     show: perm.pipeline.read.pass,
     key: 'pipeline',
-    href: goTo.resolve.pipelineRoot(routeParams),
+    // href: goTo.resolve.pipelineRoot(routeParams),
     name: i18n.t('pipeline'),
   };
   const dataTask = {
     show: perm.dataTask.read.pass,
     key: 'dataTask',
-    href: goTo.resolve.dataTaskRoot(routeParams),
+    // href: goTo.resolve.dataTaskRoot(routeParams),
     name: `${i18n.t('dop:data task')}`,
   };
   const dataModel = {
     show: perm.dataModel.read.pass,
     key: 'dataModel',
-    href: goTo.resolve.appDataModel(routeParams),
+    // href: goTo.resolve.appDataModel(routeParams),
     name: `${i18n.t('dop:data model')}`,
   };
   const dataMarket = {
     show: perm.dataMarket.read.pass,
     key: 'dataMarket',
-    href: goTo.resolve.appDataMarket(routeParams),
+    // href: goTo.resolve.appDataMarket(routeParams),
     name: `${i18n.t('dop:data market')}`,
   };
   const quality = {
     show: perm.codeQuality.read.pass,
     key: 'quality',
-    href: goTo.resolve.appCodeQuality(routeParams),
+    // href: goTo.resolve.appCodeQuality(routeParams),
     name: i18n.t('dop:code quality'),
   };
 
   const apiDesign = {
     show: perm.apiDesign.read.pass,
     key: 'apiDesign',
-    href: goTo.resolve.appApiDesign(routeParams),
+    // href: goTo.resolve.appApiDesign(routeParams),
     name: 'API',
   };
 
   const setting = {
     show: perm.setting.read.pass,
     key: 'setting',
-    href: goTo.resolve.appSetting(routeParams),
+    // href: goTo.resolve.appSetting(routeParams),
     name: i18n.t('dop:setting'),
   };
 
@@ -133,7 +134,6 @@ export const APP_TABS = () => {
   };
 
   const tabs = filter(modeMap[mode], (item: ITab) => item.show !== false) as ROUTE_TABS[];
-  // console.log('tabs:', tabs);
   const currentRoute = routeInfoStore.useStore((s) => s.currentRoute);
   React.useEffect(() => {
     if (currentRoute.mark === 'application') {
