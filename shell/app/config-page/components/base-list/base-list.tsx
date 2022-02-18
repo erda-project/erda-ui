@@ -380,7 +380,9 @@ const BatchOperation = <T extends unknown>(props: IBatchProps<T>) => {
               tipProps={{ placement: 'right' }}
             >
               <div className="flex-h-center">
-                {mItem.icon ? <ErdaIcon type={mItem.icon} className="mr-1" /> : null}
+                {mItem.icon ? (
+                  <ErdaIcon type={typeof mItem.icon === 'string' ? mItem.icon : mItem.icon.type} className="mr-1" />
+                ) : null}
                 <span>{mItem.text}</span>
               </div>
             </OperationAction>
