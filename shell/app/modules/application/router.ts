@@ -18,15 +18,13 @@ function getAppRouter(): RouteConfigItem {
   return {
     path: ':appId',
     mark: 'application',
-    breadcrumbName: '{appName}',
+    breadcrumbName: i18n.t('application'),
     tabs: APP_TABS,
     backToUp: 'projectAppList',
     routes: [
       {
         path: 'repo',
         mark: 'repo',
-        breadcrumbName: i18n.t('dop:code'),
-        pageName: i18n.t('dop:code'),
         tabs: APP_TABS,
         backToUp: 'projectAppList',
         alwaysShowTabKey: 'repo',
@@ -41,7 +39,6 @@ function getAppRouter(): RouteConfigItem {
           {
             path: 'tree/(.*)',
             mark: 'repoTree',
-            breadcrumbName: i18n.t('dop:code'),
             tabs: APP_TABS,
             backToUp: 'projectAppList',
             alwaysShowTabKey: 'repo',
@@ -54,7 +51,6 @@ function getAppRouter(): RouteConfigItem {
             alwaysShowTabKey: 'repo/branches',
             mark: 'repoBranches',
             ignoreTabQuery: true,
-            breadcrumbName: i18n.t('dop:branch'),
             routes: [
               {
                 path: 'compare/:branches*',
@@ -82,7 +78,6 @@ function getAppRouter(): RouteConfigItem {
             routes: [
               {
                 path: ':commitId',
-                breadcrumbName: i18n.t('dop:commit details'),
                 backToUp: 'projectAppList',
                 ignoreTabQuery: true,
                 getComp: (cb) => cb(import('application/pages/repo/commit-detail')),
@@ -91,7 +86,6 @@ function getAppRouter(): RouteConfigItem {
           },
           {
             path: 'commits/(.*)', // commits后面可能有分支(包含/)，commit后面只有commitId
-            breadcrumbName: i18n.t('dop:commits'),
             tabs: APP_TABS,
             backToUp: 'projectAppList',
             alwaysShowTabKey: 'repo/commits',
@@ -100,7 +94,6 @@ function getAppRouter(): RouteConfigItem {
           },
           {
             path: 'mr/:mrType',
-            breadcrumbName: i18n.t('dop:merge requests'),
             tabs: APP_TABS,
             mark: 'repoMr',
             alwaysShowTabKey: 'repo/mr/open',
@@ -141,8 +134,6 @@ function getAppRouter(): RouteConfigItem {
       {
         path: 'pipeline',
         mark: 'pipeline',
-        breadcrumbName: i18n.t('pipeline'),
-        pageName: i18n.t('pipeline'),
         backToUp: 'projectAppList',
         tabs: APP_TABS,
         ignoreTabQuery: true,
@@ -154,11 +145,9 @@ function getAppRouter(): RouteConfigItem {
         mark: 'dataTask',
         backToUp: 'projectAppList',
         tabs: APP_TABS,
-        pageName: `${i18n.t('dop:data task')}`,
         routes: [
           {
             path: ':pipelineID',
-            breadcrumbName: `${i18n.t('dop:data task')}`,
             getComp: (cb) => cb(import('application/pages/build/dataTask'), 'DataTask'),
           },
           {
@@ -168,13 +157,11 @@ function getAppRouter(): RouteConfigItem {
       },
       {
         path: 'dataModel',
-        breadcrumbName: i18n.t('dop:data model'),
         backToUp: 'projectAppList',
         tabs: APP_TABS,
         routes: [
           {
             path: 'starChart/:filePath',
-            breadcrumbName: i18n.t('dop:data model detail'),
             getComp: (cb) => cb(import('application/pages/data-model/model-star-chart'), 'ModelStarChart'),
           },
           {
@@ -184,14 +171,12 @@ function getAppRouter(): RouteConfigItem {
       },
       {
         path: 'dataMarket',
-        breadcrumbName: i18n.t('dop:data market'),
         backToUp: 'projectAppList',
         tabs: APP_TABS,
         getComp: (cb) => cb(import('application/pages/data-market/data-market'), 'DataMarket'),
       },
       {
         path: 'quality',
-        breadcrumbName: i18n.t('dop:code quality'),
         backToUp: 'projectAppList',
         tabs: APP_TABS,
         ignoreTabQuery: true,
@@ -201,7 +186,6 @@ function getAppRouter(): RouteConfigItem {
       {
         path: 'apiDesign',
         mark: 'apiDesign',
-        breadcrumbName: 'API',
         tabs: APP_TABS,
         backToUp: 'projectAppList',
         ignoreTabQuery: true,
@@ -210,7 +194,6 @@ function getAppRouter(): RouteConfigItem {
       },
       {
         path: 'setting',
-        breadcrumbName: i18n.t('dop:setting'),
         tabs: APP_TABS,
         backToUp: 'projectAppList',
         ignoreTabQuery: true,
