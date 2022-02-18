@@ -231,7 +231,7 @@ export const ProblemList = () => {
               hideSave
               value={filterData}
               fieldsList={fieldsList}
-              onFilter={(values) => filterFn(undefined, values)}
+              onFilter={(values) => filterFn({ pageNo: 1 }, values)}
             />
           }
         />
