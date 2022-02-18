@@ -70,7 +70,7 @@ declare namespace CP_COMMON {
         options: Array<{
           id: string;
           text: string;
-          icon?: string;
+          icon?: string | { type?: string };
           disabled?: boolean;
           allowedRowIDs: string[];
           forbiddenRowIDs: string[];
