@@ -311,7 +311,7 @@ const RepoTreePage = () => {
 
   React.useEffect(() => {
     if (get(appDetail, 'mode') === 'ABILITY') {
-      goTo(goTo.pages.deploy, { replace: true, ...params });
+      goTo(goTo.pages.projectDeploy, { replace: true, ...params });
     }
   }, [appDetail, params]);
 

@@ -169,7 +169,7 @@ export enum pages {
   projectTestReportCreate = '/{orgName}/dop/projects/{projectId}/test-report/create',
   projectMemberManagement = '/{orgName}/dop/projects/{projectId}/setting?tabKey=projectMember',
   projectRelease = '/{orgName}/dop/projects/{projectId}/release',
-  projectReleaseList = '/{orgName}/dop/projects/{projectId}/release/application?releaseFilter__urlQuery={releaseFilter__urlQuery}',
+  projectReleaseList = '/{orgName}/dop/projects/{projectId}/release/application?q={q}&releaseFilter__urlQuery={releaseFilter__urlQuery}',
   projectReleaseListProject = '/{orgName}/dop/projects/{projectId}/release/project',
   projectDeploy = '/{orgName}/dop/projects/{projectId}/deploy',
   projectDeployEnv = '/{orgName}/dop/projects/{projectId}/deploy/list/{workspace}',
@@ -198,9 +198,6 @@ export enum pages {
   pipeline = '/{orgName}/dop/projects/{projectId}/apps/{appId}/pipeline?caseId={caseId}&pipelineID={pipelineID}',
   dataTask = '/{orgName}/dop/projects/{projectId}/apps/{appId}/dataTask/{pipelineID}',
   dataTaskRoot = '/{orgName}/dop/projects/{projectId}/apps/{appId}/dataTask',
-  // TODO: remove
-  deploy = '/{orgName}/dop/projects/{projectId}/apps/{appId}/deploy',
-  release = '/{orgName}/dop/projects/{projectId}/apps/{appId}/release?q={q}',
   appDataModel = '/{orgName}/dop/projects/{projectId}/apps/{appId}/dataModel',
   appDataMarket = '/{orgName}/dop/projects/{projectId}/apps/{appId}/dataMarket',
   appCodeQuality = '/{orgName}/dop/projects/{projectId}/apps/{appId}/quality',
