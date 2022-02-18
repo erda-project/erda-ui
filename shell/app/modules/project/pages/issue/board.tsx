@@ -94,7 +94,7 @@ const compareObject = (sourceObj: object, targetObj: object) => {
 
 const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => {
   const [{ projectId, iterationId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const { id: queryId, iterationID: queryItertationID, ...restQuery } = query;
+  const { id: queryId, iterationID: queryItertationID, type, ...restQuery } = query;
   const orgID = orgStore.getState((s) => s.currentOrg.id);
   const [
     { filterObj, chosenIssueType, chosenIssueId, chosenIteration, urlQuery, urlQueryChangeByQuery, issueType },
