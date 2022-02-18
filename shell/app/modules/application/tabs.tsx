@@ -21,7 +21,6 @@ import { appMode } from './common/config';
 import { filter } from 'lodash';
 import { HeadAppSelector } from './common/app-selector';
 import { goTo } from 'app/common/utils';
-import projectStore from 'app/modules/project/stores/project';
 
 interface ITab {
   show?: boolean;
@@ -124,9 +123,9 @@ export const APP_TABS = () => {
   const currentRoute = routeInfoStore.useStore((s) => s.currentRoute);
   React.useEffect(() => {
     if (currentRoute.mark === 'application') {
-      const firstAvailableTab = tabs.find((t) => t.show && t.href);
-      if (firstAvailableTab?.href) {
-        goTo(`${firstAvailableTab.key}`, { replace: true });
+      const firstAvailableTab = tabs.find((t) => t.show);
+      if (firstAvailableTab?.key) {
+        goTo(firstAvailableTab.key, { replace: true });
       }
     }
   }, [currentRoute, tabs]);
