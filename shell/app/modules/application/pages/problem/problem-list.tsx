@@ -60,13 +60,14 @@ export const ProblemList = () => {
   const filterFn = (paging?: Obj, values?: Obj) => {
     setFilterData((prev) => ({ ...prev, ...values }));
     paging && update(paging);
+    const filterStatus = values?.status || filterData.status;
     getTicketList
       .fetch({
         ...filterData,
         pageNo: state.pageNo,
         pageSize: state.pageSize,
         ...values,
-        status: values?.status === 'all' ? undefined : values?.status || filterData.status,
+        status: filterStatus === 'all' ? undefined : filterStatus,
         targetID: +routeAppId,
         targetType: 'application',
       })
