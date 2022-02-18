@@ -326,7 +326,6 @@ type ROUTE_MARK =
   | 'apiDesign'
   | 'pipeline'
   | 'dataTask'
-  | 'runtime'
   | 'cmp'
   | 'cluster'
   | 'orgCenter'

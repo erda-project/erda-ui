@@ -48,10 +48,10 @@ interface IRouteInfo {
   currentRoute: IRoute;
   routeMarks: string[];
   prevRouteInfo: IRouteInfo;
-  isIn: (mark: string) => boolean;
+  isIn: (mark: ROUTE_MARK) => boolean;
   isMatch: (pattern?: string | RegExp) => boolean;
-  isEntering: (mark: string) => boolean;
-  isLeaving: (mark: string) => boolean;
+  isEntering: (mark: ROUTE_MARK) => boolean;
+  isLeaving: (mark: ROUTE_MARK) => boolean;
 }
 
 type IListenRouteCb = (routeInfo: IRouteInfo) => any;

@@ -192,9 +192,7 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
 
           {detail.pipelineId ? (
             <TabPane tab={i18n.t('execute detail')} key="2">
-              <div className="m-3 bg-white rounded-xl p-4">
-                <PipelineRunDetail deployAuth={{ hasAuth: false }} isMobileInit={false} />
-              </div>
+              <PipelineRunDetail deployAuth={{ hasAuth: false }} isMobileInit={false} />
             </TabPane>
           ) : null}
         </Tabs>
