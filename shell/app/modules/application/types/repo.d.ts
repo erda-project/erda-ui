@@ -57,6 +57,13 @@ declare namespace REPOSITORY {
     fileBlame: boolean;
   }
 
+  interface IMrStats {
+    errorMsg?: string;
+    hasConflict?: boolean;
+    hasError?: boolean;
+    isMerged?: boolean;
+  }
+
   interface IComment {
     id: number;
     type: 'diff_note' | 'diff_note_reply' | 'normal';

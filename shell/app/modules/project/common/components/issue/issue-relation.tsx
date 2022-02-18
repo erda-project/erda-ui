@@ -330,13 +330,14 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
 interface IAddProps {
   editAuth: boolean;
   projectId: string;
-  currentIssue: ISSUE.IssueType;
-  iterationID: number | undefined;
-  defaultIssueType: IDefaultIssueType;
-  onSave: (v: number) => void;
+  currentIssue?: ISSUE.IssueType;
+  iterationID?: number | undefined;
+  defaultIssueType?: IDefaultIssueType;
+  onSave: (v: number, chosenIssue: ISSUE.IssueType) => void;
   onCancel: () => void;
   typeDisabled?: boolean;
   relationType?: string;
+  hideCancelButton?: boolean;
 }
 
 const initState = {
@@ -346,7 +347,7 @@ const initState = {
   chosenIterationID: undefined as undefined | number | 'ALL',
 };
 
-const AddIssueRelation = React.forwardRef(
+export const AddIssueRelation = React.forwardRef(
   (
     {
       onSave,
@@ -355,9 +356,10 @@ const AddIssueRelation = React.forwardRef(
       iterationID,
       currentIssue,
       onCancel,
-      defaultIssueType,
-      typeDisabled,
-      relationType,
+      defaultIssueType = 'TASK',
+      typeDisabled = false,
+      hideCancelButton = false,
+      relationType = 'connection',
     }: IAddProps,
     ref,
   ) => {
@@ -392,7 +394,7 @@ const AddIssueRelation = React.forwardRef(
       update({
         chosenIssue: undefined,
         chosenIssueType: defaultIssueType,
-        chosenIterationID: iterationID,
+        chosenIterationID: iterationID || 'ALL',
         issueList: [],
       });
       onCancel();
@@ -451,7 +453,7 @@ const AddIssueRelation = React.forwardRef(
             placeholder={i18n.t('please select {name}', { name: i18n.t('dop:issue') })}
           >
             {map(
-              filter(issueList, (item) => item.id !== currentIssue.id),
+              filter(issueList, (item) => item.id !== currentIssue?.id),
               (issue) => {
                 return (
                   <Option key={issue.id} value={issue.id}>
@@ -464,23 +466,27 @@ const AddIssueRelation = React.forwardRef(
               },
             )}
           </Select>
-
           <Button
             type="primary"
             className="ml-3 mt-3"
             disabled={!chosenIssue}
             onClick={() => {
               if (chosenIssue) {
-                onSave(chosenIssue);
+                onSave(
+                  chosenIssue,
+                  issueList.find((item) => item.id === chosenIssue),
+                );
                 updater.chosenIssue(undefined);
               }
             }}
           >
             {i18n.t('ok')}
           </Button>
-          <Button type="link" className="mt-3" onClick={onClose}>
-            {i18n.t('cancel')}
-          </Button>
+          {hideCancelButton ? null : (
+            <Button type="link" className="mt-3" onClick={onClose}>
+              {i18n.t('cancel')}
+            </Button>
+          )}
         </div>
       </div>
     );

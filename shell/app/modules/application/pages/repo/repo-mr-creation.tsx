@@ -28,24 +28,25 @@ const RepoMRCreation = () => {
   };
 
   return (
-    <div className="mr-creation">
+    <div className="mr-creation h-full">
       <RepoMRForm
         onOk={() => goTo('../../open')}
         onCancel={() => goTo('../')}
         onBranchChange={() => toggleDiff(false)}
         onShowComparison={() => toggleDiff(true)}
         moveToDiff={moveToDiff}
-      />
-      {showDiff && (
-        <React.Fragment>
-          <div className="section-title" ref={diffRef}>
-            {i18n.t('comparison results')}
-          </div>
-          <div className="mr-compare-diff">
-            <RepoCompareDetail hideComment disableComment />
-          </div>
-        </React.Fragment>
-      )}
+      >
+        {showDiff && (
+          <React.Fragment>
+            <div className="section-title" ref={diffRef}>
+              {i18n.t('comparison results')}
+            </div>
+            <div className="mr-compare-diff">
+              <RepoCompareDetail hideComment disableComment />
+            </div>
+          </React.Fragment>
+        )}
+      </RepoMRForm>
     </div>
   );
 };

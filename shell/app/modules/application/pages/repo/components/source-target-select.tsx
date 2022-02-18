@@ -94,7 +94,7 @@ interface IProps {
   disabled?: boolean;
   disableSourceBranch?: boolean;
   disableTargetBranch?: boolean;
-  mrStats: IMrStats;
+  mrStats: REPOSITORY.IMrStats;
   sourceBranch?: string;
   defaultSourceBranch?: string;
   targetBranch?: string;

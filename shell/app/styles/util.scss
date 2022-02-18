@@ -172,28 +172,6 @@
   }
 }
 
-.page-bottom-bar {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: $nav-width + $b16 + 1;
-  z-index: 8;
-  padding: 8px 32px;
-  text-align: right;
-  background-color: $white;
-  border-top: 1px solid $color-border;
-
-  &.fold {
-    left: $nav-width + $sidebar-width + $b32 + 1;
-  }
-
-  @include md-width() {
-    & {
-      padding: 8px 16px;
-    }
-  }
-}
-
 .dice-badge {
   margin-left: 4px;
   padding: 0 4px;

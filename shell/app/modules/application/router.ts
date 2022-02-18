@@ -104,6 +104,7 @@ function getAppRouter(): RouteConfigItem {
                 breadcrumbName: i18n.t('dop:new merge request'),
                 ignoreTabQuery: true,
                 backToUp: 'repoMr',
+                layout: { fullHeight: true },
                 getComp: (cb) => cb(import('application/pages/repo/repo-mr-creation'), 'RepoMRCreation'),
               },
               {
@@ -111,6 +112,7 @@ function getAppRouter(): RouteConfigItem {
                 breadcrumbName: i18n.t('dop:merge request detail'),
                 backToUp: 'repoMr',
                 ignoreTabQuery: true,
+                layout: { fullHeight: true },
                 getComp: (cb) => cb(import('application/pages/repo/mr-detail')),
               },
               {

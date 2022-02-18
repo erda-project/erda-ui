@@ -11,20 +11,31 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Menu, Dropdown, message, Tooltip } from 'antd';
+import { Button, Menu, Dropdown, message, Tooltip, Avatar } from 'antd';
 import React from 'react';
-import { RenderForm, FormModal, MemberSelector, ErdaIcon, MarkdownRender } from 'common';
-import { connectCube } from 'common/utils';
+import { RenderForm, FormModal, MemberSelector, ErdaIcon, MarkdownRender, Table } from 'common';
+import { connectCube, goTo, getAvatarChars } from 'common/utils';
 import MarkdownEditor from 'common/components/markdown-editor';
 import SourceTargetSelect from './source-target-select';
 import i18n from 'i18n';
+import { useUpdate } from 'common/use-hooks';
+import { Link } from 'react-router-dom';
 import { connectUser } from 'app/user/common';
-import { isEmpty } from 'lodash';
+import { useEffectOnce } from 'react-use';
+import { isEmpty, find } from 'lodash';
 import repoStore from 'application/stores/repo';
-import { FormInstance } from 'core/common/interface';
+import { useUserMap } from 'core/stores/userMap';
+import { IssueIcon } from 'project/common/components/issue/issue-icon';
+import { ISSUE_TYPE, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
+import { FormInstance, ColumnProps } from 'core/common/interface';
+import { AddIssueRelation } from 'project/common/components/issue/issue-relation';
 import './repo-mr-form.scss';
 import routeInfoStore from 'core/stores/route';
+import IssueState from 'project/common/components/issue/issue-state';
 import layoutStore from 'layout/stores/layout';
+import { batchCreatCommentStream } from 'project/services/issue';
+import userStore from 'app/user/stores';
+import moment from 'moment';
 
 interface IModel {
   visible: boolean;
@@ -99,16 +110,15 @@ interface IBranchObj {
 interface IProps {
   sideFold: boolean;
   info: REPOSITORY.IInfo;
-  loginUser: ILoginUser;
-  params: any;
+  params: Obj<string>;
   templateConfig: {
     names: [];
     branch: string;
     path: string;
   };
-  mrStats: any;
-  formData: any;
-  editMode: boolean;
+  mrStats: REPOSITORY.IMrStats;
+  children: React.ReactElement;
+  formData: Obj;
   operateMR: typeof repoStore.effects.operateMR;
   getRepoBlob: typeof repoStore.effects.getRepoBlob;
   getMRStats: typeof repoStore.effects.getMRStats;
@@ -120,110 +130,122 @@ interface IProps {
   onBranchChange: (b: IBranchObj) => void;
   onShowComparison: () => Promise<any>;
   onCancel: () => void;
-  onOk: (data: any) => void;
+  onOk: (data: Obj) => void;
   getTemplateConfig: () => Promise<any>;
   moveToDiff: () => void;
 }
 
-interface IState {
-  tplName: string;
-  tplContent: string;
-  tplModelVisible: boolean;
-}
+const tplMap: Obj<string> = {};
+let tplNameCache = '';
+const RepoMRForm = (props: IProps) => {
+  const {
+    templateConfig,
+    formData,
+    mrStats,
+    info,
+    params: { appId },
+    sideFold,
+    createMR,
+    operateMR,
+    getRepoInfo,
+    onOk,
+    commit,
+    getTemplateConfig,
+    clearMRStats,
+    onBranchChange: propsOnBranchChange,
+    getMRStats: propsGetMRStats,
+    onCancel: propsOnCancel,
+    getCompareDetail,
+    onShowComparison,
+    getRepoBlob,
+    moveToDiff,
+    children = null,
+  } = props;
+  const [state, updater, update] = useUpdate({
+    tplName: '',
+    tplContent: '',
+    tplModelVisible: false,
+  });
 
-class RepoMRForm extends React.PureComponent<IProps, IState> {
-  tplMap: object;
+  const loginUser = userStore.useStore((s) => s.loginUser);
+  const { tplModelVisible, tplContent, tplName } = state;
+  const form = React.useRef<FormInstance>();
+  const issueRef = React.useRef<{ getChosenIssues: () => ISSUE.IssueType[] }>();
 
-  form = React.createRef<FormInstance>();
+  const isEdit = !!formData;
 
-  tplNameCache: string;
-
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      tplName: '',
-      tplContent: '',
-      tplModelVisible: false,
-    };
-    this.tplMap = {};
-  }
-
-  componentDidMount() {
-    if (!isEmpty(this.props.formData)) {
-      const { sourceBranch, targetBranch, removeSourceBranch } = this.props.formData;
-      this.getMRStats({ sourceBranch, targetBranch, removeSourceBranch });
+  useEffectOnce(() => {
+    if (!isEmpty(formData)) {
+      const { sourceBranch, targetBranch, removeSourceBranch } = formData;
+      getMRStats({ sourceBranch, targetBranch, removeSourceBranch });
     }
-    this.props.getTemplateConfig().then((config) => {
+    getTemplateConfig().then((config) => {
       if (config.names.length) {
-        this.selectTemplate(config.names[0]);
+        selectTemplate(config.names[0]);
       }
     });
-  }
+    return () => {
+      clearMRStats();
+    };
+  });
 
-  componentWillUnmount() {
-    this.props.clearMRStats();
-  }
-
-  onBranchChange = (branch: IBranchObj, isBranchChange: boolean) => {
+  const onBranchChange = (branch: IBranchObj, isBranchChange: boolean) => {
     if (isBranchChange) {
-      this.props.onBranchChange && this.props.onBranchChange(branch);
-      this.getMRStats(branch);
+      propsOnBranchChange?.(branch);
+      getMRStats(branch);
     }
   };
 
-  getMRStats = (branch: IBranchObj) => {
+  const getMRStats = (branch: IBranchObj) => {
     const { sourceBranch, targetBranch } = branch;
     if (sourceBranch) {
-      this.props.getMRStats({
-        sourceBranch: sourceBranch || this.props.info.defaultBranch,
+      propsGetMRStats({
+        sourceBranch: sourceBranch || info.defaultBranch,
         targetBranch,
       });
     }
   };
 
-  onCancel = () => {
-    this.form.current?.resetFields();
-    this.props.clearMRStats();
-    this.props.onCancel();
+  const onCancel = () => {
+    form.current?.resetFields();
+    clearMRStats();
+    propsOnCancel();
   };
 
-  onCompare = ({ sourceBranch, targetBranch }: IBranchObj) => {
-    this.props.getCompareDetail({ compareA: sourceBranch, compareB: targetBranch });
-    this.props.onShowComparison && this.props.onShowComparison();
+  const onCompare = ({ sourceBranch, targetBranch }: IBranchObj) => {
+    getCompareDetail({ compareA: sourceBranch, compareB: targetBranch });
+    onShowComparison?.();
   };
 
-  selectTemplate = (name: string) => {
-    const { templateConfig, getRepoBlob } = this.props;
+  const selectTemplate = (name: string) => {
     const { branch, path } = templateConfig;
-    if (this.tplMap[name]) {
-      this.handleTplChange({
+    if (tplMap[name]) {
+      handleTplChange({
         tplName: name,
-        tplContent: this.tplMap[name],
+        tplContent: tplMap[name],
       });
       return;
     }
     getRepoBlob({ path: `/${branch}/${path}/${name}` }).then((data) => {
-      this.setState({
+      update({
         tplName: name,
         tplContent: data.content,
       });
-      this.tplMap[name] = data.content;
-      this.tplNameCache = name;
+      tplMap[name] = data.content;
+      tplNameCache = name;
     });
   };
 
-  handleTplChange = ({ tplContent, tplName }: any) => {
-    this.form.current?.setFieldsValue({ description: tplContent });
-    this.setState({ tplContent, tplName });
+  const handleTplChange = (params: { tplContent: string; tplName: string }) => {
+    form.current?.setFieldsValue({ description: params.tplContent });
+    update({ tplContent: params.tplContent, tplName: params.tplName });
   };
 
-  toggleTplModel = (visible: boolean) => {
-    this.setState({ tplModelVisible: visible });
+  const toggleTplModel = (visible: boolean) => {
+    update({ tplModelVisible: visible });
   };
 
-  getTplSelect = () => {
-    const { templateConfig } = this.props;
-    const { tplName } = this.state;
+  const getTplSelect = () => {
     const tplNames = templateConfig.names.filter((file: string) => file.endsWith('.md'));
 
     const menu = (
@@ -231,7 +253,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
         {tplNames.length ? (
           tplNames.map((name: string) => {
             return (
-              <Menu.Item key={`tpl_${name}`} onClick={() => this.selectTemplate(name)}>
+              <Menu.Item key={`tpl_${name}`} onClick={() => selectTemplate(name)}>
                 {name.replace('.md', '')}
               </Menu.Item>
             );
@@ -242,7 +264,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
           </Menu.Item>
         )}
         <Menu.Divider />
-        <Menu.Item key="clear" onClick={() => this.handleTplChange({ tplContent: '', tplName: '' })}>
+        <Menu.Item key="clear" onClick={() => handleTplChange({ tplContent: '', tplName: '' })}>
           {i18n.t('clear content')}
         </Menu.Item>
         {/* <Menu.Item key="save" disabled={!this.state.tplContent} onClick={() => this.toggleTplModel(true)}>
@@ -252,9 +274,9 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
           key="reset"
           disabled={!tplName || !tplNames.length}
           onClick={() =>
-            this.handleTplChange({
-              tplName: tplName || this.tplNameCache,
-              tplContent: this.tplMap[tplName || this.tplNameCache],
+            handleTplChange({
+              tplName: tplName || tplNameCache,
+              tplContent: tplMap[tplName || tplNameCache],
             })
           }
         >
@@ -272,20 +294,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
     );
   };
 
-  getFieldsList = () => {
-    const {
-      info,
-      mrStats,
-      formData,
-      moveToDiff,
-      params: { appId },
-      sideFold,
-    } = this.props;
-    const { tplContent } = this.state;
-    let disableSubmitTip: string | null = null;
-    if (mrStats.hasError) {
-      disableSubmitTip = i18n.t('dop:merge request has errors');
-    }
+  const getFieldsList = () => {
     const { sourceBranch, targetBranch, removeSourceBranch, title, description, assigneeId } = (formData || {}) as any;
 
     const fieldExtraProps = {
@@ -310,8 +319,8 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
             defaultTargetBranch={targetBranch || info.defaultBranch}
             defaultRemoveSourceBranch={removeSourceBranch}
             disableSourceBranch={!!formData}
-            onChange={this.onBranchChange}
-            onCompare={this.onCompare}
+            onChange={onBranchChange}
+            onCompare={onCompare}
             branches={info.branches || []}
             moveToDiff={moveToDiff}
           />
@@ -353,10 +362,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
         name: 'description',
         initialValue: description || tplContent || '',
         getComp: () => (
-          <MarkdownEditor
-            onChange={(content) => this.setState({ tplContent: content })}
-            extraRight={this.getTplSelect()}
-          />
+          <MarkdownEditor onChange={(content) => update({ tplContent: content })} extraRight={getTplSelect()} />
         ),
         extraProps: fieldExtraProps,
       },
@@ -364,65 +370,64 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
         label: i18n.t('designated person'),
         name: 'assigneeId',
         initialValue: assigneeId,
+        className: 'repo-mr-form-assignee',
         getComp: () => {
-          return <MemberSelector scopeId={appId} scopeType="app" showSelfChosen />;
+          return <MemberSelector className="w-full" scopeId={appId} scopeType="app" showSelfChosen />;
         },
         extraProps: fieldExtraProps,
       },
-      {
-        label: '',
-        isTailLayout: true,
-        tailFormItemLayout: {
-          wrapperCol: {
-            span: 21,
-          },
-        },
-        getComp: ({ form }: { form: FormInstance }) => (
-          <div className={`page-bottom-bar ${sideFold ? 'fold' : 'unfold'}`}>
-            <Tooltip title={disableSubmitTip}>
-              <Button type="primary" disabled={!!disableSubmitTip} onClick={() => this.handleSubmit(form)}>
-                {i18n.t('submit')}
-              </Button>
-            </Tooltip>
-            <Button className="ml-3" onClick={this.onCancel}>
-              {i18n.t('cancel')}
-            </Button>
-          </div>
-        ),
-      },
+      // {
+      //   label: '',
+      //   isTailLayout: true,
+      //   tailFormItemLayout: {
+      //     wrapperCol: {
+      //       span: 21,
+      //     },
+      //   },
+      //   getComp: ({ form: _form }: { form: FormInstance }) => {
+      //     console.log('------', _form.getF);
+      //     return (
+      //       <div className={`repo-mr-bottom-bar ${sideFold ? 'fold' : 'unfold'}`}>
+      //         <Tooltip title={disableSubmitTip}>
+      //           <Button type="primary" disabled={!!disableSubmitTip} onClick={() => handleSubmit(form.current)}>
+      //             {i18n.t('submit')}
+      //           </Button>
+      //         </Tooltip>
+      //         <Button className="ml-3" onClick={onCancel}>
+      //           {i18n.t('cancel')}
+      //         </Button>
+      //       </div>
+      //     );
+      //   },
+      // },
     ];
     return fieldsList;
   };
 
-  createTemplate = (values: any) => {
-    const { templateConfig, getTemplateConfig } = this.props;
-    const { tplContent } = this.state;
+  const createTemplate = (values: any) => {
     const { branch, path } = templateConfig;
-    this.props
-      .commit({
-        message: `Add merge request template: ${values.name}`,
-        branch,
-        actions: [
-          {
-            action: 'add',
-            content: tplContent,
-            path: `${path}/${values.name}.md`,
-            pathType: 'blob',
-          },
-        ],
-      })
-      .then((res: any) => {
-        if (res.success) {
-          message.success(i18n.t('template was created successfully'));
-          this.toggleTplModel(false);
-          getTemplateConfig();
-        }
-      });
+    commit({
+      message: `Add merge request template: ${values.name}`,
+      branch,
+      actions: [
+        {
+          action: 'add',
+          content: tplContent,
+          path: `${path}/${values.name}.md`,
+          pathType: 'blob',
+        },
+      ],
+    }).then((res: any) => {
+      if (res.success) {
+        message.success(i18n.t('template was created successfully'));
+        toggleTplModel(false);
+        getTemplateConfig();
+      }
+    });
   };
 
-  handleSubmit = (form: FormInstance) => {
-    form.validateFields().then((values: any) => {
-      const { createMR, operateMR, getRepoInfo, onOk, formData, info } = this.props;
+  const handleSubmit = (_form: FormInstance) => {
+    _form.validateFields().then((values: any) => {
       const { branch, ...rest } = values;
       const { sourceBranch, targetBranch, removeSourceBranch } = branch;
       // 源分支为默认分支时禁止删除
@@ -439,39 +444,205 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
           // 更新列表tab上的统计数据
           getRepoInfo();
           onOk(result);
-          this.form.current?.resetFields();
-          this.props.clearMRStats();
+          form.current?.resetFields();
+          clearMRStats();
         });
       } else {
         createMR(data).then((result) => {
-          getRepoInfo();
-          onOk(result);
-          this.form.current?.resetFields();
-          this.props.clearMRStats();
+          const callBackFun = () => {
+            getRepoInfo();
+            onOk(result);
+            form.current?.resetFields();
+            clearMRStats();
+          };
+          const curChosenIssue = issueRef.current?.getChosenIssues() || [];
+
+          if (curChosenIssue.length) {
+            batchCreatCommentStream
+              .fetch({
+                issueStreams: curChosenIssue.map((item) => ({
+                  issueID: item.id,
+                  type: 'RelateMR',
+                  content: '',
+                  userID: loginUser.id,
+                  mrInfo: {
+                    appID: +appId,
+                    mrID: result?.data?.id,
+                    mrTitle: result?.data?.title,
+                  },
+                })),
+              })
+              .then(() => {
+                message.success(i18n.t('dop:relation added successfully'));
+              })
+              .finally(() => {
+                callBackFun();
+              });
+          } else {
+            callBackFun();
+          }
         });
       }
     });
   };
-
-  render() {
-    const { templateConfig } = this.props;
-    const { tplModelVisible, tplContent } = this.state;
-    return (
-      <div className="repo-mr-form">
+  let disableSubmitTip: string | null = null;
+  if (mrStats.hasError) {
+    disableSubmitTip = i18n.t('dop:merge request has errors');
+  }
+  return (
+    <div className="repo-mr-form flex flex-col h-full">
+      <div className="flex-1 overflow-auto pb-4">
         <TplModel
           visible={tplModelVisible}
           tplContent={tplContent}
           templateConfig={templateConfig}
-          onOk={this.createTemplate}
+          onOk={createTemplate}
           onCancel={() => {
-            this.toggleTplModel(false);
+            toggleTplModel(false);
           }}
         />
-        <RenderForm ref={this.form} layout="vertical" list={this.getFieldsList()} />
+        <RenderForm ref={form} layout="vertical" list={getFieldsList()} />
+        {isEdit ? null : <IssueRelation ref={issueRef} />}
+        {children}
       </div>
-    );
-  }
-}
+
+      <div className={'repo-mr-bottom-bar'}>
+        <Tooltip title={disableSubmitTip}>
+          <Button type="primary" disabled={!!disableSubmitTip} onClick={() => handleSubmit(form.current)}>
+            {i18n.t('submit')}
+          </Button>
+        </Tooltip>
+        <Button className="ml-3" onClick={onCancel}>
+          {i18n.t('cancel')}
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType }>((_, ref) => {
+  const [showAddField, setShowAddField] = React.useState(false);
+  const [chosenIssues, setChosenIssues] = React.useState<ISSUE.IssueType[]>([]);
+  const projectId = routeInfoStore.useStore((s) => s.params.projectId);
+  const userMap = useUserMap();
+  const addRelation = (issueId: number, issue: ISSUE.IssueType) => {
+    if (!chosenIssues.find((item) => item.id === issueId)) {
+      setChosenIssues((prev) => prev.concat(issue));
+    }
+  };
+
+  React.useEffect(() => {
+    if (ref) {
+      ref.current = {
+        getChosenIssues: () => chosenIssues,
+      };
+    }
+  }, [chosenIssues, ref]);
+
+  const getColumns = (): Array<ColumnProps<ISSUE.IssueType>> => [
+    {
+      title: i18n.t('{name} title', { name: i18n.t('dop:issue') }),
+      dataIndex: 'title',
+      render: (v: string, record: ISSUE.IssueType) => {
+        const { type, id, iterationID: _iterationID } = record;
+        const url =
+          type === ISSUE_TYPE.TICKET
+            ? goTo.resolve.ticketDetail({ projectId, issueId: id })
+            : _iterationID === -1
+            ? goTo.resolve.backlog({ projectId, issueId: id, issueType: type })
+            : goTo.resolve.issueDetail({
+                projectId,
+                issueType: type.toLowerCase(),
+                issueId: id,
+                iterationId: _iterationID,
+              });
+        return (
+          <Tooltip title={`${v}`}>
+            <Link to={url} target="_blank" className="flex items-center justify-start  w-full">
+              <IssueIcon type={record.type as any} />
+              <span className="flex-1 nowrap">{`${v}`}</span>
+            </Link>
+          </Tooltip>
+        );
+      },
+    },
+    {
+      title: i18n.t('status'),
+      dataIndex: 'state',
+      width: 96,
+      render: (v: number, record: any) => {
+        const currentState = find(record?.issueButton, (item) => item.stateID === v);
+        return currentState ? <IssueState stateID={currentState.stateID} /> : undefined;
+      },
+    },
+    {
+      title: i18n.t('dop:priority'),
+      dataIndex: 'priority',
+      width: 80,
+      render: (v: string) => (v ? ISSUE_PRIORITY_MAP[v]?.iconLabel : null),
+    },
+    {
+      title: i18n.t('dop:assignee'),
+      dataIndex: 'assignee',
+      width: 240,
+      render: (userId: string) => {
+        const curUser = userMap[userId];
+        return (
+          <div>
+            <Avatar src={curUser?.avatar || undefined} size="small" className="flex-shrink-0">
+              {curUser?.nick ? getAvatarChars(curUser.nick) : i18n.t('none')}
+            </Avatar>
+            <span> {curUser?.nick || curUser?.name || userId}</span>
+          </div>
+        );
+      },
+    },
+    {
+      title: i18n.t('create time'),
+      dataIndex: 'createdAt',
+      width: 176,
+      render: (v: string) => moment(v).format('YYYY-MM-DD HH:mm:ss'),
+    },
+  ];
+
+  const actions = {
+    render: (record: ISSUE.IssueType) => {
+      return [
+        {
+          title: i18n.t('delete'),
+          onClick: () => {
+            setChosenIssues((prev) => prev.filter((item) => item.id !== record.id));
+          },
+        },
+      ];
+    },
+  };
+
+  return (
+    <div className="mb-3 repo-mr-issue-relation">
+      <div className="section-title mt-3">{i18n.t('relate to issue')}</div>
+
+      <AddIssueRelation
+        editAuth
+        onSave={addRelation}
+        onCancel={() => setShowAddField(false)}
+        projectId={projectId}
+        hideCancelButton
+      />
+
+      <Table
+        wrapperClassName="mt-2"
+        columns={getColumns()}
+        dataSource={chosenIssues}
+        actions={actions}
+        hideHeader
+        pagination={false}
+        scroll={{ x: 900 }}
+        rowKey={(rec: ISSUE.IssueType, i: number | undefined) => `${i}${rec.id}`}
+      />
+    </div>
+  );
+});
 
 const Mapper = () => {
   const [info, mrStats, templateConfig] = repoStore.useStore((s) => [s.info, s.mrStats, s.templateConfig]);

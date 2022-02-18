@@ -18,6 +18,21 @@ declare namespace ISSUE {
     stateID: number;
     stateName: string;
   }
+
+  interface BatchCreateCommentStream {
+    issueStreams: Array<{
+      issueID: number;
+      type: string;
+      content: string;
+      userID: string;
+      mrInfo: {
+        appID: number;
+        mrID: number;
+        mrTitle: string;
+      };
+    }>;
+  }
+
   interface Issue {
     id: number;
     projectID: number;
