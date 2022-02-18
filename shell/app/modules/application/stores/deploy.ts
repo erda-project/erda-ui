@@ -24,6 +24,7 @@ import {
   updateApproval,
 } from '../services/deploy';
 import { isEmpty } from 'lodash';
+import appStore from 'application/stores/application';
 
 interface IState {
   actions: DEPLOY.ExtensionAction[];
@@ -48,6 +49,14 @@ const initState: IState = {
 const deploy = createStore({
   name: 'appDeploy',
   state: initState,
+  subscriptions({ listenRoute }: IStoreSubs) {
+    listenRoute(({ isIn, params }: IRouteInfo) => {
+      const { appId } = params;
+      if (isIn('pipeline')) {
+        appStore.effects.getAppBlockNetworkStatus(appId);
+      }
+    });
+  },
   effects: {
     async getActions({ call, update }) {
       const actions = (await call(getExtensions)) as DEPLOY.ExtensionAction[];
