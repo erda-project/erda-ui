@@ -17,7 +17,7 @@ import ReactDOM from 'react-dom';
 import { Dropdown, Input, Menu, Checkbox, Tag, Empty, Spin } from 'antd';
 import { map, isEmpty, isNumber, filter, find, isArray, get, isEqual } from 'lodash';
 import { useEffectOnce, useDebounce, useDeepCompareEffect } from 'react-use';
-import { Icon as CustomIcon, ErdaIcon } from 'common';
+import { ErdaIcon, Ellipsis } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { uuid } from 'common/utils';
 import { isPromise } from 'common/utils';
@@ -461,7 +461,7 @@ const OptionContainer = ({ list, value, clickItem, optionRender, isMultiple, vie
             onClick={() => clickItem(item, !checked)}
           >
             <div className="w-full flex justify-between items-center">
-              <div className="flex-1">{options}</div>
+              <Ellipsis className="flex-1" title={options} />
               {checked ? <ErdaIcon type="check" className="ml-2 text-purple-deep" /> : null}
             </div>
           </div>
