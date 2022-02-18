@@ -13,13 +13,6 @@
 
 import agent from 'agent';
 
-export const getRunTimes = (appId: string): DEPLOY.Runtime[] => {
-  return agent
-    .get('/api/runtimes')
-    .query({ applicationId: appId })
-    .then((response: any) => response.body);
-};
-
 export const getExtensions = (query?: {
   menu: boolean;
 }): DEPLOY.ExtensionAction[] | Obj<Obj<DEPLOY.ExtensionAction[]>> => {
@@ -38,13 +31,6 @@ export const getActionGroup = (query: { labels?: string } = {}): Obj<DEPLOY.IGro
 
 export const getActionConfigs = ({ actionType }: { actionType: string }): DEPLOY.ActionConfig[] => {
   return agent.get(`/api/extensions/${actionType}`).then((response: any) => response.body);
-};
-
-export const addRuntimeByRelease = (body: DEPLOY.AddByRelease) => {
-  return agent
-    .post('/api/runtimes/actions/deploy-release')
-    .send(body)
-    .then((response: any) => response.body);
 };
 
 export const getReleaseByWorkspace = ({ appId, ...rest }: { appId: string; workspace: string }): DEPLOY.IReleaseMap => {

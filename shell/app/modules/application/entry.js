@@ -15,13 +15,11 @@ import applicationStore from './stores/application';
 import buildStore from './stores/build';
 import certificateStore from './stores/certificate-reference';
 import dataTaskStore from './stores/dataTask';
-import deployStore from './stores/deploy';
 import libraryStore from './stores/library-reference';
 import notifyStore from './stores/notify';
 import notifyGroupStore from './stores/notify-group';
 import pipelineStore from './stores/pipeline-config';
 import qualityStore from './stores/quality';
-import releaseStore from './stores/release';
 import repoStore from './stores/repo';
 import testStore from './stores/test';
 
@@ -33,13 +31,11 @@ const entry = (registerModule) => {
       buildStore,
       certificateStore,
       dataTaskStore,
-      deployStore,
       libraryStore,
       notifyStore,
       notifyGroupStore,
       pipelineStore,
       qualityStore,
-      releaseStore,
       repoStore,
       testStore,
     ],

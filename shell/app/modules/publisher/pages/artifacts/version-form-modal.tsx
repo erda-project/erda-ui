@@ -18,7 +18,7 @@ import { map, get } from 'lodash';
 import { FormInstance } from 'core/common/interface';
 import publisherStore from 'app/modules/publisher/stores/publisher';
 import { getJoinedApps } from 'user/services/user';
-import { getReleaseList } from 'application/services/release';
+import { getReleaseList } from 'project/services/release';
 
 interface IProps {
   visible: boolean;
