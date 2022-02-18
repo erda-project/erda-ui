@@ -129,7 +129,6 @@ export const APP_TABS = () => {
   };
 
   const tabs = filter(modeMap[mode], (item: ITab) => item.show !== false) as ROUTE_TABS[];
-  // console.log('tabs:', tabs);
   const currentRoute = routeInfoStore.useStore((s) => s.currentRoute);
   React.useEffect(() => {
     if (currentRoute.mark === 'application') {

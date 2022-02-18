@@ -128,6 +128,7 @@ function getProjectRouter(): RouteConfigItem[] {
             },
             {
               path: 'iteration',
+              mark: 'projectIteration',
               tabs: COLLABORATE_TABS,
               ignoreTabQuery: true,
               routes: [
@@ -139,12 +140,14 @@ function getProjectRouter(): RouteConfigItem[] {
                 {
                   path: ':iterationId',
                   mark: 'iterationDetail',
+                  breadcrumbName: i18n.t('dop:iteration'),
                   ignoreTabQuery: true,
                   // getComp: (cb) => cb(import('project/pages/issue/')),
                   routes: [
                     {
                       path: 'gantt',
                       tabs: ITERATION_DETAIL_TABS,
+                      backToUp: 'projectIteration',
                       ignoreTabQuery: true,
                       getComp: (cb) => cb(import('project/pages/issue/gantt')),
                       layout: {
@@ -155,6 +158,7 @@ function getProjectRouter(): RouteConfigItem[] {
                     {
                       path: 'all',
                       tabs: ITERATION_DETAIL_TABS,
+                      backToUp: 'projectIteration',
                       ignoreTabQuery: true,
                       getComp: (cb) => cb(import('project/pages/issue/all')),
                       layout: {
@@ -165,6 +169,7 @@ function getProjectRouter(): RouteConfigItem[] {
                     {
                       path: 'board',
                       tabs: ITERATION_DETAIL_TABS,
+                      backToUp: 'projectIteration',
                       ignoreTabQuery: true,
                       getComp: (cb) => cb(import('project/pages/issue/board')),
                       layout: {
@@ -460,6 +465,7 @@ function getProjectRouter(): RouteConfigItem[] {
             {
               path: 'list/:env',
               tabs: DEPLOY_TABS,
+              mark: 'projectDeployEnv',
               ignoreTabQuery: true,
               alwaysShowTabKey: 'list',
               routes: [
@@ -470,6 +476,7 @@ function getProjectRouter(): RouteConfigItem[] {
                 {
                   path: ':appId/runtime/:runtimeId',
                   tabs: DEPLOY_RUNTIME_TABS,
+                  backToUp: 'projectDeployEnv',
                   mark: 'projectDeployRuntime',
                   getComp: (cb) => cb(import('app/modules/runtime/pages/overview')),
                   layout: {

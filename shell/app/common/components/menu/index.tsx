@@ -102,21 +102,21 @@ const PureMenu = (props: IMenu) => {
     return goToPath(path);
   };
 
-  const handleClick = (currentKey: string, targetKey: string, hrefType: 'back') => {
+  const handleClick = (currentKey: string, targetKey: string) => {
     const { pathname } = window.location;
     // 可能存在路由中匹配多个currentKey，故split后假如length>1则删除最后一个后再拼
     const pathArr = pathname.split(currentKey);
     pathArr.length > 1 && pathArr.pop();
     const basePath = pathArr.join(currentKey);
     const newPath = `${basePath}/${targetKey}`;
-    const concatPath = `${newPath}${hrefType === 'back' ? '' : query}`.replace(/\/{2,}/, '/'); // 避免路由中多个连续的/
+    const concatPath = `${newPath}${query}`.replace(/\/{2,}/, '/'); // 避免路由中多个连续的/
     goTo(concatPath);
   };
   return (
     <div className={tabClass}>
       <ul className="tab-item-wraps">
-        {finalMenus.map((menu: Merge<IMenuItem, { hrefType: 'back' }>) => {
-          const { disabled, key, name, hrefType, split, isActive, className: itemClass = '' } = menu;
+        {finalMenus.map((menu: IMenuItem) => {
+          const { disabled, key, name, split, isActive, className: itemClass = '' } = menu;
           const menuItemClass = classnames({
             'tab-menu-item': true,
             'tab-menu-disabled': disabled,
@@ -131,7 +131,7 @@ const PureMenu = (props: IMenu) => {
               onClick={() => {
                 if (!disabled && activeKey !== key) {
                   // click current not trigger
-                  handleClick(activeKey, key, hrefType);
+                  handleClick(activeKey, key);
                 }
               }}
             >
