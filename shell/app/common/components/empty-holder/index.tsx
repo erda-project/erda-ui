@@ -69,7 +69,7 @@ export const EmptyHolder = ({
       {typeof icon === 'string' ? <CustomIcon className="w-full" type={icon} color /> : <div>{icon}</div>}
       <span className="py-4">
         {tip}
-        {action ? <span className="action">{action}</span> : ''}
+        {action ? <span className="action">{action}</span> : null}
       </span>
     </div>
   );
