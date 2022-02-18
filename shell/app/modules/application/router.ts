@@ -26,7 +26,7 @@ function getAppRouter(): RouteConfigItem {
         path: 'repo',
         mark: 'repo',
         breadcrumbName: i18n.t('dop:code'),
-        pageName: i18n.t('dop:files'),
+        pageName: i18n.t('dop:code'),
         tabs: APP_TABS,
         backToUp: 'projectAppList',
         alwaysShowTabKey: 'repo',
