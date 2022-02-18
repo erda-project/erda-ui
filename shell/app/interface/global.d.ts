@@ -310,6 +310,8 @@ type ROUTE_MARK =
   | 'publisher'
   | 'project'
   | 'projectAppList'
+  | 'projectDeployEnv'
+  | 'projectIteration'
   | 'issues'
   | 'iterationDetail'
   | 'apiManage'
@@ -355,7 +357,6 @@ interface ROUTE_TABS {
   key: string;
   name: string | JSX.Element;
   show?: boolean;
-  hrefType?: string;
   isActive?: (activeKey: string) => boolean;
   [key: string]: any;
 }

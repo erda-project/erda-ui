@@ -24,30 +24,25 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
   const projectPerm = permStore.useStore((s) => s.project);
   return [
     {
-      key: '../',
-      hrefType: 'back',
+      key: '_',
       name: (
-        <span>
-          <CustomIcon type="back" />
-          {i18n.t('dop:iteration')}
+        <>
           {iterationName ? (
-            iterationName.length > 8 ? (
+            iterationName.length > 16 ? (
               <Tooltip title={iterationName} placement="topLeft">
-                ({iterationName.slice(0, 8)}...)
+                ({iterationName.slice(0, 16)}...)
               </Tooltip>
             ) : (
-              `(${iterationName})`
+              iterationName
             )
-          ) : (
-            ''
-          )}
-        </span>
+          ) : null}
+        </>
       ),
-      show: projectPerm.iteration.read.pass,
     },
     {
       key: 'all',
       name: i18n.t('dop:issue list'),
+      split: true,
       show: [projectPerm.requirement.read.pass, projectPerm.task.read.pass, projectPerm.bug.read.pass].some((k) => k),
     },
     {
@@ -86,40 +81,8 @@ export const DEPLOY_RUNTIME_TABS = (params: Obj) => {
   const { appName, runtimeName } = breadcrumbInfoMap;
   return [
     {
-      key: '../../',
-      hrefType: 'back',
-      name: (
-        <span>
-          <CustomIcon type="back" />
-          {`${appName === runtimeName ? runtimeName : `${appName}#${runtimeName}`}`}
-        </span>
-      ),
-    },
-  ];
-};
-
-export const AUTO_TEST_SPACE_TABS = (params: Obj) => {
-  const { breadcrumbInfoMap } = params;
-  const autoTestSpaceName = breadcrumbInfoMap?.autoTestSpaceName;
-  return [
-    {
-      key: '../',
-      hrefType: 'back',
-      name: (
-        <span>
-          <CustomIcon type="back" />
-          {i18n.t('dop:test space')}
-          {autoTestSpaceName ? `(${autoTestSpaceName})` : ''}
-        </span>
-      ),
-    },
-    {
-      key: 'apis',
-      name: i18n.t('dop:APIs'),
-    },
-    {
-      key: 'scenes',
-      name: i18n.t('dop:Scenes'),
+      key: '_',
+      name: appName === runtimeName ? runtimeName : `${appName}#${runtimeName}`,
     },
   ];
 };
