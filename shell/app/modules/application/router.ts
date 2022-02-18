@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import getRuntimeRouter from 'runtime/router';
 import i18n from 'i18n';
 import { APP_TABS } from './tabs';
 
@@ -23,19 +22,6 @@ function getAppRouter(): RouteConfigItem {
     tabs: APP_TABS,
     backToUp: 'projectAppList',
     routes: [
-      // TODO: remove
-      // {
-      //   path: 'deploy',
-      //   mark: 'deploy',
-      //   breadcrumbName: i18n.t('dop:Environments'),
-      //   routes: [
-      //     ...getRuntimeRouter(),
-      //     {
-      //       layout: { noWrapper: true },
-      //       getComp: (cb) => cb(import('application/pages/deploy/deploy'), 'DeployWrap'),
-      //     },
-      //   ],
-      // },
       {
         path: 'repo',
         mark: 'repo',

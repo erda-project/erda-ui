@@ -15,7 +15,6 @@ import applicationStore from './stores/application';
 import buildStore from './stores/build';
 import certificateStore from './stores/certificate-reference';
 import dataTaskStore from './stores/dataTask';
-import deployStore from './stores/deploy';
 import libraryStore from './stores/library-reference';
 import notifyStore from './stores/notify';
 import notifyGroupStore from './stores/notify-group';
@@ -32,7 +31,6 @@ const entry = (registerModule) => {
       buildStore,
       certificateStore,
       dataTaskStore,
-      deployStore,
       libraryStore,
       notifyStore,
       notifyGroupStore,
