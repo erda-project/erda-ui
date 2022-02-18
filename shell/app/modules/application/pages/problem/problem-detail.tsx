@@ -103,28 +103,19 @@ const initialState = {
   activeIssueTitle: undefined,
 };
 
-const TicketDetail = ({ id, onClose }: { id: number; onClose: () => void }) => {
-  const [
-    { detail, comments, activeProject, activeIteration, activeIssueType, activeIssue, activeIssueTitle },
-    ,
-    update,
-  ] = useUpdate(initialState);
+const TicketDetail = ({ id, onClose, onCloseIssue }: { id: number; onClose: () => void; onCloseIssue: () => void }) => {
+  const [{ activeProject, activeIteration, activeIssueType, activeIssue, activeIssueTitle }, , update] =
+    useUpdate(initialState);
   const userMap = useUserMap();
   const loginUser = userStore.useStore((s) => s.loginUser);
+  const detail = getTicketDetail.useData();
+  const commentsData = getTicketComments.useData();
+  const mdRef = React.useRef(null);
 
   React.useEffect(() => {
     if (id) {
-      getTicketDetail({ ticketId: id }).then((res) => {
-        update({ detail: res.data });
-      });
-      getTicketComments({ ticketID: id }).then((res) => {
-        update({ comments: res.data?.comments || [] });
-      });
-    } else {
-      update({
-        detail: null,
-        comments: [],
-      });
+      getTicketDetail.fetch({ ticketId: id });
+      getTicketComments.fetch({ ticketID: id });
     }
   }, [id, update]);
 
@@ -143,6 +134,7 @@ const TicketDetail = ({ id, onClose }: { id: number; onClose: () => void }) => {
     }).then((res) => {
       if (res.success) {
         getTicketComments.fetch({ ticketID: detail.id });
+        mdRef.current?.clear();
       }
     });
   };
@@ -200,7 +192,7 @@ const TicketDetail = ({ id, onClose }: { id: number; onClose: () => void }) => {
         <div className="comments-container pb-16">
           <ProblemContent detail={detail} />
           <div className="mt-3">
-            {(comments || []).map((comment) => {
+            {(commentsData?.comments || []).map((comment) => {
               const user = getUserInfo(userMap, comment.userID);
               return comment.commentType === 'issueRelation' ? (
                 <div className="comments-association-box">
@@ -244,6 +236,7 @@ const TicketDetail = ({ id, onClose }: { id: number; onClose: () => void }) => {
           <Tabs>
             <TabPane tab={i18n.t('comment')} key="comment">
               <MarkdownEditor
+                ref={mdRef}
                 maxLength={5000}
                 operationBtns={[
                   {
@@ -361,7 +354,7 @@ const TicketDetail = ({ id, onClose }: { id: number; onClose: () => void }) => {
 
         {detail.status === 'open' && (
           <div className="absolute bottom-0 right-0 left-0 py-3 px-4 bg-white ">
-            <Button type="primary" onClick={() => closeTicket(detail.id)}>
+            <Button type="primary" onClick={() => closeTicket({ ticketId: detail.id }).then(() => onCloseIssue())}>
               {i18n.t('dop:close issue')}
             </Button>
           </div>
