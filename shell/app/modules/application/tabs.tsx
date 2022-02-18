@@ -21,6 +21,7 @@ import { appMode } from './common/config';
 import { filter } from 'lodash';
 import { HeadAppSelector } from './common/app-selector';
 import { goTo } from 'app/common/utils';
+import projectStore from 'app/modules/project/stores/project';
 
 interface ITab {
   show?: boolean;
@@ -30,13 +31,17 @@ interface ITab {
   text: string;
 }
 export const APP_TABS = () => {
+  const projectDetail = projectStore.useStore((s) => s.info);
   const repoMenu = layoutStore.useStore((s) => s.subList.repo);
   const [repoKey, commitKey, branchKey, mrKey] = repoMenu?.length
     ? repoMenu.map((a: { tabKey: string }) => a.tabKey)
     : ['repo', 'repo/commits', 'repo/branches', 'repo/mr/open'];
   const appDetail = appStore.useStore((s) => s.detail);
 
-  const { mode } = appDetail;
+  // FIXME: wait get projectDetail and set href params
+  const projectId = projectDetail.id;
+  const { mode, id } = appDetail;
+  const routeParams = { projectId, appId: id };
   const perm = usePerm((s) => s.app);
   const appSwitch = {
     key: '_',
@@ -46,7 +51,7 @@ export const APP_TABS = () => {
   const repo = {
     show: perm.repo.read.pass,
     key: repoKey,
-    href: goTo.resolve.repo(),
+    href: goTo.resolve.repo(routeParams),
     split: true,
     name: i18n.t('dop:code'),
     isActive: (activeKey: string) => {
@@ -77,45 +82,45 @@ export const APP_TABS = () => {
   const pipeline = {
     show: perm.pipeline.read.pass,
     key: 'pipeline',
-    href: goTo.resolve.pipelineRoot(),
+    // href: goTo.resolve.pipelineRoot(routeParams),
     name: i18n.t('pipeline'),
   };
   const dataTask = {
     show: perm.dataTask.read.pass,
     key: 'dataTask',
-    href: goTo.resolve.dataTaskRoot(),
+    // href: goTo.resolve.dataTaskRoot(routeParams),
     name: `${i18n.t('dop:data task')}`,
   };
   const dataModel = {
     show: perm.dataModel.read.pass,
     key: 'dataModel',
-    href: goTo.resolve.appDataModel(),
+    // href: goTo.resolve.appDataModel(routeParams),
     name: `${i18n.t('dop:data model')}`,
   };
   const dataMarket = {
     show: perm.dataMarket.read.pass,
     key: 'dataMarket',
-    href: goTo.resolve.appDataMarket(),
+    // href: goTo.resolve.appDataMarket(routeParams),
     name: `${i18n.t('dop:data market')}`,
   };
   const quality = {
     show: perm.codeQuality.read.pass,
     key: 'quality',
-    href: goTo.resolve.appCodeQuality(),
+    // href: goTo.resolve.appCodeQuality(routeParams),
     name: i18n.t('dop:code quality'),
   };
 
   const apiDesign = {
     show: perm.apiDesign.read.pass,
     key: 'apiDesign',
-    href: goTo.resolve.appApiDesign(),
+    // href: goTo.resolve.appApiDesign(routeParams),
     name: 'API',
   };
 
   const setting = {
     show: perm.setting.read.pass,
     key: 'setting',
-    href: goTo.resolve.appSetting(),
+    // href: goTo.resolve.appSetting(routeParams),
     name: i18n.t('dop:setting'),
   };
 
@@ -140,29 +145,3 @@ export const APP_TABS = () => {
   }, [currentRoute, tabs]);
   return [appSwitch, ...tabs] as ROUTE_TABS[];
 };
-
-// export const getQualityTabs = (params: Obj<string>) => {
-//   return [
-//     { value: 'quality', label: i18n.t('dop:code quality'), onClick: () => goTo(goTo.resolve.appCodeQualityReports(params)) },
-//     { value: 'ticket', label: i18n.t('dop:ticket'), onClick: () => goTo(goTo.resolve.appCodeQualityIssueOpen(params)) },
-//     { value: 'test', label: i18n.t('dop:report'), onClick: () => goTo(goTo.resolve.appCodeQuality(params)) },
-//   ]
-// }
-
-// export const prependTabs = (tabs: typeof getQualityTabs, activeTabKey: string) => (Comp: React.ElementType) => (props: any) => {
-//   const _tabs = tabs(props.match.params);
-
-//   return (
-//     <>
-//       <RadioTabs
-//         options={_tabs}
-//         value={activeTabKey}
-//         onChange={(v?: string | number, tab) => {
-//           tab?.onClick();
-//         }}
-//         className="mb-2"
-//       />
-//       <Comp {...props} _tabKey={activeTabKey} />
-//     </>
-//   )
-// }

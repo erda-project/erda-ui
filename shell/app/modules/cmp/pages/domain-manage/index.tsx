@@ -217,11 +217,12 @@ const DomainManage = () => {
               onClick: () => {
                 if (type === 'service') {
                   if (serviceName && projectId && appId && runtimeId) {
-                    goTo(goTo.pages.runtimeDetail, {
+                    goTo(goTo.pages.projectDeployRuntime, {
                       serviceName,
                       projectId,
                       appId,
                       runtimeId,
+                      workspace: env,
                       jumpFrom: 'domainPage',
                       jumpOut: true,
                     });

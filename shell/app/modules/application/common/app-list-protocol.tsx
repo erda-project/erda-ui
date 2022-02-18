@@ -378,7 +378,7 @@ export const PureAppList = ({ getList: _getList, isFetching, clearList, isInProj
               },
               gotoDeploy: (_: unknown, _data: IApplication) => {
                 const { projectId, id } = _data;
-                goTo(goTo.pages.deploy, { projectId, appId: id });
+                goTo(goTo.pages.projectDeploy, { projectId });
               },
             },
           },

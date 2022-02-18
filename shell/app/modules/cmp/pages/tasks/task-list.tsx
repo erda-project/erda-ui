@@ -113,19 +113,20 @@ const ServicesList = ({ taskType }: IProps) => {
   if (taskType === 'deployment') {
     extraTableAttr = {
       rowClassName: 'cursor-pointer',
-      onRow: ({ projectID, applicationID, runtimeID }: any) => {
+      onRow: ({ projectID, applicationID, runtimeID, env }: any) => {
         return {
           onClick: () => {
             if (!runtimeID) {
               message.warning(i18n.t('no running runtime'));
               return;
             }
-            runtimeID &&
-              goTo(goTo.pages.runtimeDetail, {
+            env &&
+              goTo(goTo.pages.projectDeployRuntime, {
                 jumpOut: true,
                 projectId: projectID,
                 appId: applicationID,
                 runtimeId: runtimeID,
+                workspace: env,
               });
           },
         };

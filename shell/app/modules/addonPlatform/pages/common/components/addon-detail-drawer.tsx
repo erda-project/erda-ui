@@ -32,35 +32,6 @@ interface IProps {
   closeDrawer: (e: any) => void;
 }
 
-const refTableList = [
-  {
-    title: i18n.t('application'),
-    dataIndex: 'applicationName',
-    key: 'applicationName',
-    width: 220,
-  },
-  {
-    title: i18n.t('application instance'),
-    dataIndex: 'runtimeName',
-    key: 'runtimeName',
-    width: 220,
-  },
-  {
-    title: i18n.t('dop:deployment details'),
-    dataIndex: 'applicationId',
-    key: 'applicationId',
-    align: 'center' as const,
-    render: (_text: string, row: { applicationId: string; projectId: string; runtimeId: string }) => {
-      const { applicationId: appId, projectId, runtimeId } = row;
-      return (
-        <Link to={goTo.resolve.runtimeDetailRoot({ appId, projectId, runtimeId })}>
-          <CustomIcon type="link1" />
-        </Link>
-      );
-    },
-  },
-];
-
 const AddonDetailDrawer = (props: IProps) => {
   const { closeDrawer, drawerVisible, isFetching, addonDetail, addonReferences } = props;
   if (isEmpty(addonDetail)) return null;
@@ -79,6 +50,35 @@ const AddonDetailDrawer = (props: IProps) => {
   ];
 
   const jsonStr = config === null ? '' : JSON.stringify(config, null, 2);
+
+  const refTableList = [
+    {
+      title: i18n.t('application'),
+      dataIndex: 'applicationName',
+      key: 'applicationName',
+      width: 220,
+    },
+    {
+      title: i18n.t('application instance'),
+      dataIndex: 'runtimeName',
+      key: 'runtimeName',
+      width: 220,
+    },
+    {
+      title: i18n.t('dop:deployment details'),
+      dataIndex: 'applicationId',
+      key: 'applicationId',
+      align: 'center' as const,
+      render: (_text: string, row: { applicationId: string; projectId: string; runtimeId: string }) => {
+        const { applicationId: appId, projectId, runtimeId } = row;
+        return (
+          <Link to={goTo.resolve.projectDeployRuntime({ appId, projectId, runtimeId, workspace })}>
+            <CustomIcon type="link1" />
+          </Link>
+        );
+      },
+    },
+  ];
 
   return (
     <Drawer

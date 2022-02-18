@@ -37,7 +37,7 @@ interface IState {
 }
 
 const ConfigContainer = () => {
-  const { env: routeEnv, projectId } = routeInfoStore.useStore((s) => s.params);
+  const { workspace: routeEnv, projectId } = routeInfoStore.useStore((s) => s.params);
   const [selectedApp, setSelectedApp] = React.useState<IApplication | null>(null);
   const [editing, setEditing] = React.useState(false);
 
@@ -88,7 +88,7 @@ const ConfigContainer = () => {
         value={env}
         key={env}
         onChange={(v) =>
-          checkEdit(() => goTo(goTo.pages.projectDeployConfigEnv, { projectId, env: `${v}`?.toLowerCase() }))
+          checkEdit(() => goTo(goTo.pages.projectDeployConfigEnv, { projectId, workspace: `${v}`?.toLowerCase() }))
         }
         options={map(CONFIG_ENV_MAP, (v, k) => ({ label: v, value: k }))}
       />

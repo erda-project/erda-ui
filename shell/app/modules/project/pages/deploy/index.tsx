@@ -54,7 +54,7 @@ interface IState {
 }
 
 const DeployContainer = () => {
-  const { env: routeEnv, projectId } = routeInfoStore.useStore((s) => s.params);
+  const { workspace: routeEnv, projectId } = routeInfoStore.useStore((s) => s.params);
   const env = routeEnv?.toUpperCase();
   const [runtimeCount, setRuntimeCount] = React.useState({
     DEV: 0,

@@ -38,7 +38,7 @@ export const getUserInfo = (userMap: Obj<IUserInfo>, userId: string) => {
 };
 
 export const ProblemList = () => {
-  const routeAppId = routeInfoStore.useStore((s) => s.params.appId);
+  const [{ appId: routeAppId }, { type: routeType }] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [visible, openModal, closeModal] = useSwitch(false);
   const appId = routeInfoStore.useStore((s) => s.params.appId);
   const loginUser = userStore.getState((s) => s.loginUser);
@@ -50,6 +50,7 @@ export const ProblemList = () => {
 
   const [filterData, setFilterData] = React.useState({
     status: 'open',
+    type: routeType,
   });
   const [data, loading] = getTicketList.useState();
   const list = data?.tickets || [];
@@ -59,13 +60,15 @@ export const ProblemList = () => {
   const filterFn = (paging?: Obj, values?: Obj) => {
     setFilterData((prev) => ({ ...prev, ...values }));
     paging && update(paging);
+    const filterStatus = values?.status || filterData.status;
     getTicketList
       .fetch({
         ...filterData,
         pageNo: state.pageNo,
         pageSize: state.pageSize,
+        ...paging,
         ...values,
-        status: values?.status === 'all' ? undefined : values?.status || filterData.status,
+        status: filterStatus === 'all' ? undefined : filterStatus,
         targetID: +routeAppId,
         targetType: 'application',
       })

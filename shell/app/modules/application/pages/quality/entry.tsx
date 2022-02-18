@@ -17,27 +17,40 @@ import React from 'react';
 import CodeQuality from '.';
 import TestList from '../test/test-list';
 import { ProblemList } from '../problem/problem-list';
+import routeInfoStore from 'core/stores/route';
+import { updateSearch } from 'app/common/utils';
 
 const AppQuality = () => {
+  const { tabKey } = routeInfoStore.useStore((s) => s.query);
   const tabs = [
-    { value: 'quality', label: i18n.t('dop:quality reports'), Comp: CodeQuality },
-    { value: 'issues', label: i18n.t('dop:app-issues'), Comp: ProblemList },
-    { value: 'test', label: i18n.t('dop:lists'), Comp: TestList },
+    { value: 'quality', label: i18n.t('dop:quality reports') },
+    { value: 'issues', label: i18n.t('dop:app-issues') },
+    { value: 'test', label: i18n.t('dop:lists') },
   ];
-  const [tab, setTab] = React.useState(tabs[0]);
-  const Content = tab.Comp;
+  const [tab, setTab] = React.useState(tabs[0].value);
+
+  React.useEffect(() => {
+    if (tabKey) {
+      setTab(tabKey);
+    }
+  }, [tabKey]);
 
   return (
     <>
       <RadioTabs
         options={tabs}
-        value={tab.value}
-        onChange={(_, newTab) => {
-          setTab(newTab as typeof tabs[0]);
+        value={tab}
+        onChange={(v?: string | number) => {
+          setTab(v);
+          if (v !== 'issues') {
+            updateSearch({ tabKey: undefined, type: undefined });
+          }
         }}
         className="mb-2"
       />
-      <Content />
+      {tab === 'quality' && <CodeQuality />}
+      {tab === 'issues' && <ProblemList />}
+      {tab === 'test' && <TestList />}
     </>
   );
 };

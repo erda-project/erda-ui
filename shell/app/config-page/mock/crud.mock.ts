@@ -240,7 +240,7 @@ export const mockData = {
               operations: {
                 clickGoto: {
                   serverData: {
-                    target: 'runtimeDetailRoot',
+                    target: 'projectDeployRuntime',
                     params: { projectId: '1', appId: '2', runtimeId: '2' },
                   },
                 },
@@ -333,8 +333,8 @@ export const mockData = {
               operations: {
                 clickGoto: {
                   serverData: {
-                    target: 'runtimeDetailRoot',
-                    params: { projectId: '1', appId: '2', runtimeId: '2' },
+                    target: 'projectDeployRuntime',
+                    params: { projectId: '1', appId: '2', runtimeId: '2', env: 'test' },
                   },
                 },
               },

@@ -463,7 +463,7 @@ function getProjectRouter(): RouteConfigItem[] {
           pageName: i18n.t('dop:Environments'),
           routes: [
             {
-              path: 'list/:env',
+              path: 'list/:workspace',
               tabs: DEPLOY_TABS,
               mark: 'projectDeployEnv',
               ignoreTabQuery: true,
