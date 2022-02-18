@@ -357,7 +357,7 @@ interface ROUTE_TABS {
   name: string | JSX.Element;
   show?: boolean;
   hrefType?: string;
-  isActive?: () => boolean;
+  isActive?: (activeKey: string) => boolean;
   [key: string]: any;
 }
 
