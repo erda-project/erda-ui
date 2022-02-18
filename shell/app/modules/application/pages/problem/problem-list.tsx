@@ -45,6 +45,7 @@ export const ProblemList = () => {
   const [state, updater, update] = useUpdate({
     detailVisibleId: 0,
     ...getDefaultPaging(),
+    list: [],
     hasMore: undefined,
   });
 
@@ -52,8 +53,8 @@ export const ProblemList = () => {
     status: 'open',
     type: routeType,
   });
-  const [data, loading] = getTicketList.useState();
-  const list = data?.tickets || [];
+  const loading = getTicketList.useLoading();
+  const list = state.list || [];
 
   const userMap = useUserMap();
 
@@ -73,7 +74,10 @@ export const ProblemList = () => {
         targetType: 'application',
       })
       .then((resp) => {
-        updater.total(resp.data?.total || 0);
+        update({
+          list: resp.data?.tickets || [],
+          total: resp.data?.total || 0,
+        });
       });
   };
 
@@ -241,7 +245,14 @@ export const ProblemList = () => {
           {i18n.t('dop:add issue')}
         </Button>
         <ProblemForm visible={visible} onOk={onOk} onCancel={closeModal} />
-        <TicketDetail id={state.detailVisibleId} onClose={() => updater.detailVisibleId(0)} />
+        <TicketDetail
+          id={state.detailVisibleId}
+          onClose={() => updater.detailVisibleId(0)}
+          onCloseIssue={() => {
+            filterFn({ pageNo: 1 });
+            updater.detailVisibleId(0);
+          }}
+        />
       </div>
     </React.Fragment>
   );

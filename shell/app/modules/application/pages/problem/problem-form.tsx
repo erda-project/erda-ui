@@ -60,16 +60,16 @@ export const ProblemForm = ({
 }) => {
   const fieldsList = [
     {
-      label: i18n.t('dop:ticket title'),
+      label: i18n.t('dop:issue title'),
       name: 'title',
     },
     {
-      label: i18n.t('dop:ticket content'),
+      label: i18n.t('dop:issue content'),
       name: 'content',
       getComp: () => <MarkdownEditor />,
     },
     {
-      label: i18n.t('dop:ticket type'),
+      label: i18n.t('dop:issue type'),
       name: 'type',
       type: 'select',
       options: ProblemTypeOptions,
@@ -84,7 +84,7 @@ export const ProblemForm = ({
   return (
     <FormModal
       width={700}
-      name={i18n.t('task ticket')}
+      name={i18n.t('dop:issue')}
       fieldsList={fieldsList}
       visible={visible}
       onOk={onOk}
