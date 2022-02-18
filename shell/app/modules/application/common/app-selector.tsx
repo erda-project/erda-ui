@@ -23,12 +23,14 @@ import routeInfoStore from 'core/stores/route';
 import appStore from 'application/stores/application';
 import { getAppDetail } from 'application/services/application';
 import './app-selector.scss';
+import { getJoinedApps } from 'user/services/user';
 
 interface IProps {
   [pro: string]: any;
   value: string | number;
   autoSelect?: boolean;
   projectId?: string;
+  joined: boolean;
   onClickItem?: (arg: IApplication) => void;
   onChange?: (arg: number) => void;
 }
@@ -67,7 +69,7 @@ export const chosenItemConvert = (values: IChosenItem[] | IChosenItem) => {
 };
 
 export const AppSelector = (props: IProps) => {
-  const { projectId: _projectId, autoSelect = false, getData: propsGetData, ...rest } = props;
+  const { projectId: _projectId, autoSelect = false, getData: propsGetData, joined, ...rest } = props;
   const pId = routeInfoStore.useStore((s) => s.params.projectId);
   useMount(() => {
     if (autoSelect && !rest.value) {
@@ -84,7 +86,9 @@ export const AppSelector = (props: IProps) => {
   const projectId = _projectId || pId;
   const getData = (_q: Obj = {}) => {
     if (!projectId) return;
-    return getApps({ projectId, ..._q } as any).then((res: any) => res.data);
+    return joined
+      ? getJoinedApps({ projectID: +projectId, ..._q } as any).then((res: any) => res.data)
+      : getApps({ projectId, ..._q } as any).then((res: any) => res.data);
   };
 
   return (
@@ -124,6 +128,7 @@ export const HeadAppSelector = () => {
       <AppSelector
         valueItemRender={headAppRender}
         value={appId}
+        joined
         onClickItem={(app: IApplication) => {
           goTo(goTo.pages.app, { projectId, appId: app.id }); // 切换app
         }}
