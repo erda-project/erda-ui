@@ -17,7 +17,7 @@ import { getProjectList } from 'app/modules/project/services/project';
 import { CommentBox } from 'application/common/components/comment-box';
 import { ProblemPriority, ProblemTypeOptions } from 'application/pages/problem/problem-form';
 import { closeTicket, createTicketComments, getTicketComments, getTicketDetail } from 'application/services/problem';
-import { Avatar, LoadMoreSelector, MarkdownRender } from 'common';
+import { Avatar, LoadMoreSelector, MarkdownRender, Ellipsis } from 'common';
 import MarkdownEditor from 'common/components/markdown-editor';
 import { useUpdate } from 'common/use-hooks';
 import { fromNow, goTo } from 'common/utils';
@@ -183,8 +183,8 @@ const TicketDetail = ({ id, onClose }: { id: number; onClose: () => void }) => {
       width="70%"
       visible={!!id}
       title={
-        <div className="flex items-center">
-          <span>{detail.title}</span>
+        <div className="flex items-center pr-4">
+          <Ellipsis title={detail.title} />
           <span className={`ml-1 ${priority?.color}`}>{priority?.name || '-'}</span>
         </div>
       }
@@ -197,7 +197,7 @@ const TicketDetail = ({ id, onClose }: { id: number; onClose: () => void }) => {
             <span className="detail-value">{type ? type.name : '-'}</span>
           </span>
         </div>
-        <div className="comments-container">
+        <div className="comments-container pb-16">
           <ProblemContent detail={detail} />
           <div className="mt-3">
             {(comments || []).map((comment) => {
@@ -360,9 +360,9 @@ const TicketDetail = ({ id, onClose }: { id: number; onClose: () => void }) => {
         </div>
 
         {detail.status === 'open' && (
-          <div className="absolute bottom-0 py-3">
+          <div className="absolute bottom-0 right-0 left-0 py-3 px-4 bg-white ">
             <Button type="primary" onClick={() => closeTicket(detail.id)}>
-              {i18n.t('application:close issue')}
+              {i18n.t('dop:close issue')}
             </Button>
           </div>
         )}
