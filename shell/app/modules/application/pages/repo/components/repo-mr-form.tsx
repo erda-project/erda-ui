@@ -443,7 +443,7 @@ const RepoMRForm = (props: IProps) => {
                   userID: loginUser.id,
                   mrInfo: {
                     appID: +appId,
-                    mrID: result?.data?.id,
+                    mrID: result?.data?.mergeId,
                     mrTitle: result?.data?.title,
                   },
                 })),
