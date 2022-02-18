@@ -152,14 +152,6 @@ function getAppRouter(): RouteConfigItem {
           // },
         ],
       },
-      // TODO: remove
-      // {
-      //   path: 'release',
-      //   breadcrumbName: i18n.t('artifact management'),
-      //   tabs: APP_TABS,
-      //   layout: { fullHeight: true, noWrapper: true },
-      //   getComp: (cb) => cb(import('app/modules/application/pages/release/release-list')),
-      // },
       {
         path: 'pipeline',
         mark: 'pipeline',

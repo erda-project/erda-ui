@@ -21,7 +21,6 @@ import notifyStore from './stores/notify';
 import notifyGroupStore from './stores/notify-group';
 import pipelineStore from './stores/pipeline-config';
 import qualityStore from './stores/quality';
-import releaseStore from './stores/release';
 import repoStore from './stores/repo';
 import testStore from './stores/test';
 
@@ -39,7 +38,6 @@ const entry = (registerModule) => {
       notifyGroupStore,
       pipelineStore,
       qualityStore,
-      releaseStore,
       repoStore,
       testStore,
     ],

@@ -23,7 +23,7 @@ import GotoCommit from 'application/common/components/goto-commit';
 import { useLoading } from 'core/stores/loading';
 import { useEffectOnce } from 'react-use';
 import appStore from 'application/stores/application';
-import { getReleaseList } from 'application/services/release';
+import { getReleaseList } from 'project/services/release';
 import routeInfoStore from 'core/stores/route';
 import { FormInstance } from 'core/common/interface';
 import { usePerm, WithAuth } from 'user/common';
