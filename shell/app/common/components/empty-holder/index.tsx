@@ -67,8 +67,9 @@ export const EmptyHolder = ({
   return (
     <div className={`${cls} ${className}`} style={style}>
       {typeof icon === 'string' ? <CustomIcon className="w-full" type={icon} color /> : <div>{icon}</div>}
-      <span>
-        {tip} <span className="action">{action}</span>
+      <span className="py-4">
+        {tip}
+        {action ? <span className="action">{action}</span> : null}
       </span>
     </div>
   );
