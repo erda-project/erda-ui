@@ -191,7 +191,7 @@ const IssueProtocol = ({ issueType }: IProps) => {
   ];
 
   return (
-    <>
+    <div className="pb-4">
       <div className="top-button-group flex">
         <ImportExport tabs={tabs} queryObj={useableFilterObj} issueType={issueType} projectId={projectId} />
 
@@ -213,6 +213,7 @@ const IssueProtocol = ({ issueType }: IProps) => {
         scenarioType="issue-manage"
         showLoading
         inParams={inParams}
+        fullHeight={false}
         ref={reloadRef}
         customProps={{
           issueManage: {
@@ -285,7 +286,7 @@ const IssueProtocol = ({ issueType }: IProps) => {
           closeDrawer={onCloseDrawer}
         />
       ) : null}
-    </>
+    </div>
   );
 };
 
