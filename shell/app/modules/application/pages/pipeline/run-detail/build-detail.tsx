@@ -286,9 +286,16 @@ const BuildDetail = (props: IProps) => {
         if (target) {
           getBuildRuntimeDetail({ runtimeId: +target.value }).then((result) => {
             !isEmpty(result) &&
-              goTo(goTo.resolve.runtimeDetailRoot({ runtimeId: target.value, appId: result.extra?.applicationId }), {
-                jumpOut: true,
-              });
+              goTo(
+                goTo.resolve.projectDeployRuntime({
+                  runtimeId: target.value,
+                  appId: result.extra?.applicationId,
+                  workspace: result.extra?.workspace,
+                }),
+                {
+                  jumpOut: true,
+                },
+              );
           });
         }
         break;

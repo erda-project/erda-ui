@@ -30,7 +30,7 @@ const AddDeploy = ({
 }: {
   onSelect: (v: { id: string; releaseId: string; name: string; hasFail: boolean }) => void;
 }) => {
-  const { env: routeEnv, projectId } = routeInfoStore.useStore((s) => s.params);
+  const { workspace: routeEnv, projectId } = routeInfoStore.useStore((s) => s.params);
   const env = routeEnv?.toUpperCase();
   const [selectedRelease, setSelectedRelease] = React.useState('');
 

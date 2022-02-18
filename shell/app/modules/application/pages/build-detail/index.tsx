@@ -307,7 +307,13 @@ const BuildDetail = (props: IProps) => {
         const target = node.findInMeta((item: BUILD.MetaData) => item.name === 'runtimeID');
         if (target) {
           getBuildRuntimeDetail({ runtimeId: +target.value }).then((result) => {
-            !isEmpty(result) && goTo(`../../deploy/runtimes/${target.value}/overview`, { jumpOut: true });
+            !isEmpty(result) &&
+              goTo(goTo.pages.projectDeployRuntime, {
+                appId: result.extra?.applicationId,
+                runtimeId: result.id,
+                workspace: result.extra?.workspace,
+                jumpOut: true,
+              });
           });
         }
         break;

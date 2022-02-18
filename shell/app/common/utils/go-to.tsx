@@ -172,9 +172,9 @@ export enum pages {
   projectReleaseList = '/{orgName}/dop/projects/{projectId}/release/application?releaseFilter__urlQuery={releaseFilter__urlQuery}',
   projectReleaseListProject = '/{orgName}/dop/projects/{projectId}/release/project',
   projectDeploy = '/{orgName}/dop/projects/{projectId}/deploy',
-  projectDeployEnv = '/{orgName}/dop/projects/{projectId}/deploy/list/{env}',
-  projectDeployConfigEnv = '/{orgName}/dop/projects/{projectId}/deploy/config/{env}',
-  projectDeployRuntime = '/{orgName}/dop/projects/{projectId}/deploy/list/{env}/{appId}/runtime/{runtimeId}',
+  projectDeployEnv = '/{orgName}/dop/projects/{projectId}/deploy/list/{workspace}',
+  projectDeployConfigEnv = '/{orgName}/dop/projects/{projectId}/deploy/config/{workspace}',
+  projectDeployRuntime = '/{orgName}/dop/projects/{projectId}/deploy/list/{workspace}/{appId}/runtime/{runtimeId}?serviceName={serviceName}&jumpFrom={jumpFrom}',
   projectAddon = '/{orgName}/dop/projects/{projectId}/deploy/addon',
   projectReleaseCreate = '/{orgName}/dop/projects/{projectId}/release/createRelease/{type}',
   projectReleaseDetail = '/{orgName}/dop/projects/{projectId}/release/project/{releaseId}',
@@ -201,9 +201,6 @@ export enum pages {
   // TODO: remove
   deploy = '/{orgName}/dop/projects/{projectId}/apps/{appId}/deploy',
   release = '/{orgName}/dop/projects/{projectId}/apps/{appId}/release?q={q}',
-  // TODO: remove
-  runtimeDetail = '/{orgName}/dop/projects/{projectId}/apps/{appId}/deploy/runtimes/{runtimeId}/overview?serviceName={serviceName}&jumpFrom={jumpFrom}',
-  runtimeDetailRoot = '/{orgName}/dop/projects/{projectId}/apps/{appId}/deploy/runtimes/{runtimeId}/overview',
   appDataModel = '/{orgName}/dop/projects/{projectId}/apps/{appId}/dataModel',
   appDataMarket = '/{orgName}/dop/projects/{projectId}/apps/{appId}/dataMarket',
   appCodeQuality = '/{orgName}/dop/projects/{projectId}/apps/{appId}/quality',

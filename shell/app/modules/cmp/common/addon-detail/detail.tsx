@@ -33,33 +33,6 @@ const addonStatusMap = {
   Stopped: <Badge status="error" text={i18n.t('stopped')} />,
 };
 
-const refTableList = [
-  {
-    title: i18n.t('application'),
-    dataIndex: 'applicationName',
-    key: 'applicationName',
-  },
-  {
-    title: i18n.t('application instance'),
-    dataIndex: 'runtimeName',
-    key: 'runtimeName',
-  },
-  {
-    title: i18n.t('cmp:deployment details'),
-    dataIndex: 'applicationId',
-    key: 'applicationId',
-    align: 'center' as const,
-    render: (_text: string, row: { applicationId: number; projectId: number; runtimeId: number }) => {
-      const { applicationId, projectId, runtimeId } = row;
-      return (
-        <Link to={goTo.resolve.runtimeDetailRoot({ projectId, appId: applicationId, runtimeId })}>
-          <CustomIcon type="link1" />
-        </Link>
-      );
-    },
-  },
-];
-
 export const PureBaseAddonInfo = ({
   addonDetail,
   loading,
@@ -120,6 +93,40 @@ export const PureBaseAddonInfo = ({
   }
 
   const jsonStr = addonDetail.config === null ? '' : JSON.stringify(addonDetail.config, null, 2);
+
+  const refTableList = [
+    {
+      title: i18n.t('application'),
+      dataIndex: 'applicationName',
+      key: 'applicationName',
+    },
+    {
+      title: i18n.t('application instance'),
+      dataIndex: 'runtimeName',
+      key: 'runtimeName',
+    },
+    {
+      title: i18n.t('cmp:deployment details'),
+      dataIndex: 'applicationId',
+      key: 'applicationId',
+      align: 'center' as const,
+      render: (_text: string, row: { applicationId: number; projectId: number; runtimeId: number }) => {
+        const { applicationId, projectId, runtimeId } = row;
+        return (
+          <Link
+            to={goTo.resolve.projectDeployRuntime({
+              projectId,
+              appId: applicationId,
+              runtimeId,
+              workspace: addonDetail.workspace,
+            })}
+          >
+            <CustomIcon type="link1" />
+          </Link>
+        );
+      },
+    },
+  ];
 
   return (
     <Spin spinning={loading}>

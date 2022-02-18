@@ -1972,8 +1972,8 @@
   "resetAttachmentMySQLAddonAccount": {
     "desc": "修改 MySQL Addon 账号引用",
     "success": {
-      "zh": "在 [@projectName](project) / [@appName](app) 中, 对 runtime [@runtimeName](runtimeDetailRoot) 修改了 MySQL 账号 [@preMysqlUsername] -> [@mysqlUsername]",
-      "en": "Change MySQL account [@preMysqlUsername] -> [@mysqlUsername] for runtime [@runtimeName](runtimeDetailRoot) in [@projectName](project) / [@appName](app)"
+      "zh": "在 [@projectName](project) / [@appName](app) 中, 对 runtime [@runtimeName](projectDeployRuntime) 修改了 MySQL 账号 [@preMysqlUsername] -> [@mysqlUsername]",
+      "en": "Change MySQL account [@preMysqlUsername] -> [@mysqlUsername] for runtime [@runtimeName](projectDeployRuntime) in [@projectName](project) / [@appName](app)"
     }
   },
   "updateAutoTestSpaceName": {
