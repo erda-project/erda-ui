@@ -16,6 +16,7 @@ import DiceConfigPage, { useMock } from 'config-page/index';
 import { useUpdate } from 'common/use-hooks';
 import { usePerm } from 'user/common';
 import { goTo } from 'common/utils';
+import { Button } from 'antd';
 import i18n from 'i18n';
 import ApplyUnblockModal, { IMetaData } from 'dop/pages/projects/apply-unblock-modal';
 import { ErdaIcon } from 'common';
@@ -63,14 +64,15 @@ const ProjectList = () => {
                 <div className="flex-h-center justify-between">
                   {children}
                   {permMap.orgCenter.viewProjects.pass ? (
-                    <div
-                      className="cursor-pointer mr-1 text-purple-deep"
+                    <Button
+                      type="primary"
+                      className="mr-1 "
                       onClick={() => {
                         goTo(goTo.pages.orgCenterRoot, { jumpOut: true });
                       }}
                     >
-                      {i18n.t('go to create a project')}
-                    </div>
+                      {i18n.t('create {name}', { name: i18n.t('project') })}
+                    </Button>
                   ) : null}
                 </div>
               );
