@@ -376,30 +376,6 @@ const RepoMRForm = (props: IProps) => {
         },
         extraProps: fieldExtraProps,
       },
-      // {
-      //   label: '',
-      //   isTailLayout: true,
-      //   tailFormItemLayout: {
-      //     wrapperCol: {
-      //       span: 21,
-      //     },
-      //   },
-      //   getComp: ({ form: _form }: { form: FormInstance }) => {
-      //     console.log('------', _form.getF);
-      //     return (
-      //       <div className={`repo-mr-bottom-bar ${sideFold ? 'fold' : 'unfold'}`}>
-      //         <Tooltip title={disableSubmitTip}>
-      //           <Button type="primary" disabled={!!disableSubmitTip} onClick={() => handleSubmit(form.current)}>
-      //             {i18n.t('submit')}
-      //           </Button>
-      //         </Tooltip>
-      //         <Button className="ml-3" onClick={onCancel}>
-      //           {i18n.t('cancel')}
-      //         </Button>
-      //       </div>
-      //     );
-      //   },
-      // },
     ];
     return fieldsList;
   };
@@ -521,7 +497,6 @@ const RepoMRForm = (props: IProps) => {
 };
 
 const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType }>((_, ref) => {
-  const [showAddField, setShowAddField] = React.useState(false);
   const [chosenIssues, setChosenIssues] = React.useState<ISSUE.IssueType[]>([]);
   const projectId = routeInfoStore.useStore((s) => s.params.projectId);
   const userMap = useUserMap();
@@ -569,7 +544,6 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
     {
       title: i18n.t('status'),
       dataIndex: 'state',
-      width: 96,
       render: (v: number, record: any) => {
         const currentState = find(record?.issueButton, (item) => item.stateID === v);
         return currentState ? <IssueState stateID={currentState.stateID} /> : undefined;
@@ -578,13 +552,11 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
     {
       title: i18n.t('dop:priority'),
       dataIndex: 'priority',
-      width: 80,
       render: (v: string) => (v ? ISSUE_PRIORITY_MAP[v]?.iconLabel : null),
     },
     {
       title: i18n.t('dop:assignee'),
       dataIndex: 'assignee',
-      width: 240,
       render: (userId: string) => {
         const curUser = userMap[userId];
         return (
@@ -600,8 +572,7 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
     {
       title: i18n.t('create time'),
       dataIndex: 'createdAt',
-      width: 176,
-      render: (v: string) => moment(v).format('YYYY-MM-DD HH:mm:ss'),
+      render: (v: string) => moment(v).format('YYYY/MM/DD HH:mm:ss'),
     },
   ];
 
@@ -622,13 +593,7 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
     <div className="mb-3 repo-mr-issue-relation">
       <div className="section-title mt-3">{i18n.t('relate to issue')}</div>
 
-      <AddIssueRelation
-        editAuth
-        onSave={addRelation}
-        onCancel={() => setShowAddField(false)}
-        projectId={projectId}
-        hideCancelButton
-      />
+      <AddIssueRelation editAuth onSave={addRelation} projectId={projectId} hideCancelButton />
 
       <Table
         wrapperClassName="mt-2"
