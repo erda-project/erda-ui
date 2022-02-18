@@ -56,7 +56,7 @@ function getAppRouter(): RouteConfigItem {
                 path: 'compare/:branches*',
                 mark: 'repoCompare',
                 backToUp: 'repoBranches',
-                breadcrumbName: i18n.t('dop:branch comparison'),
+                breadcrumbName: i18n.t('dop:branches'),
                 ignoreTabQuery: true,
                 getComp: (cb) => cb(import('application/pages/repo/branch-compare-detail'), 'BranchCompareDetail'),
                 layout: { noWrapper: true },
@@ -101,14 +101,14 @@ function getAppRouter(): RouteConfigItem {
             routes: [
               {
                 path: 'createMR',
-                breadcrumbName: i18n.t('dop:new merge request'),
+                breadcrumbName: i18n.t('dop:merge request'),
                 ignoreTabQuery: true,
                 backToUp: 'repoMr',
                 getComp: (cb) => cb(import('application/pages/repo/repo-mr-creation'), 'RepoMRCreation'),
               },
               {
                 path: ':mergeId',
-                breadcrumbName: i18n.t('dop:merge request detail'),
+                breadcrumbName: i18n.t('dop:merge request'),
                 backToUp: 'repoMr',
                 ignoreTabQuery: true,
                 getComp: (cb) => cb(import('application/pages/repo/mr-detail')),
