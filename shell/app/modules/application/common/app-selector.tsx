@@ -14,8 +14,7 @@
 import React from 'react';
 import { LoadMoreSelector, ErdaIcon, Ellipsis } from 'common';
 import { goTo } from 'common/utils';
-import { map, isArray, filter, isEmpty, find, get } from 'lodash';
-import { Tooltip } from 'antd';
+import { map, isArray, filter, isEmpty, find } from 'lodash';
 import i18n from 'i18n';
 import { useMount } from 'react-use';
 import { getApps } from 'common/services';
@@ -30,7 +29,7 @@ interface IProps {
   value: string | number;
   autoSelect?: boolean;
   projectId?: string;
-  joined: boolean;
+  joined?: boolean;
   onClickItem?: (arg: IApplication) => void;
   onChange?: (arg: number) => void;
 }
