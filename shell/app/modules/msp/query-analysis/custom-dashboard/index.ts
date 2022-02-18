@@ -30,6 +30,7 @@ const CustomDashBoard = () => ({
       getComp: (cb: RouterGetComp) => cb(import('msp/query-analysis/custom-dashboard/pages/custom-dashboard')),
     },
     {
+      layout: { noWrapper: true },
       getComp: (cb: RouterGetComp) => cb(import('msp/query-analysis/custom-dashboard/pages')),
     },
   ],

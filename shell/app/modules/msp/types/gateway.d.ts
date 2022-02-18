@@ -116,11 +116,24 @@ declare namespace GATEWAY {
   }
 
   interface PackageDetailApiListItem {
+    allowPassAuth: boolean;
+    apiId: string;
+    apiPath: string;
+    createAt: string;
+    description: string;
     diceApp: string;
     diceService: string;
-    apiPath: string;
+    hosts: null;
+    mutable: boolean;
+    origin: string;
+    redirectAddr: string;
+    redirectApp: string;
+    redirectPath: string;
+    redirectRuntimeId: string;
+    redirectRuntimeName: string;
+    redirectService: string;
+    redirectType: string;
     method: string;
-    createAt: string;
   }
 
   interface ApiFilterCondition {
