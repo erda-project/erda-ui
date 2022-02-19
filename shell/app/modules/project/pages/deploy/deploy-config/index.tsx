@@ -111,7 +111,7 @@ const Config = ({
   selectedApp: IApplication | null;
   onEditChange: (v: boolean) => void;
 }) => {
-  const { env: routeEnv } = routeInfoStore.useStore((s) => s.params);
+  const { workspace: routeEnv } = routeInfoStore.useStore((s) => s.params);
   const env = routeEnv?.toUpperCase();
   const [{ selectedEnv, selectedType, editing }, updater, update] = useUpdate<IState>({
     selectedEnv: env,

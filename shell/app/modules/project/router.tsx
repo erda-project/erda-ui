@@ -486,7 +486,7 @@ function getProjectRouter(): RouteConfigItem[] {
               ],
             },
             {
-              path: 'config/:env',
+              path: 'config/:workspace',
               layout: { noWrapper: true },
               alwaysShowTabKey: 'config',
               tabs: DEPLOY_TABS,
