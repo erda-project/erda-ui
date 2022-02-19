@@ -76,7 +76,7 @@ const DeployContainer = () => {
         <RadioTabs
           key={env}
           value={env}
-          onChange={(v) => goTo(goTo.pages.projectDeployEnv, { projectId, env: `${v}`?.toLowerCase() })}
+          onChange={(v) => goTo(goTo.pages.projectDeployEnv, { projectId, workspace: `${v}`?.toLowerCase() })}
           options={options}
         />
       </div>
