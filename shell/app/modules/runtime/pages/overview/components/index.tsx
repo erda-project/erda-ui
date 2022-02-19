@@ -32,7 +32,6 @@ import './index.scss';
 const RuntimeOverView = () => {
   const params = routeInfoStore.useStore((s) => s.params);
 
-  const isProjectRuntime = !!params.env;
   const [runtimeDetail, addons] = runtimeStore.useStore((s) => [s.runtimeDetail, s.addons]);
   const services = {};
   const endpoints = {};
@@ -171,7 +170,7 @@ const RuntimeOverView = () => {
     setLS('fold-activity', false);
     isFoldActivity = false;
   }
-  const [proportion, setProportion] = React.useState(isProjectRuntime || isFoldActivity ? [24, 0] : [16, 8]);
+  const [proportion, setProportion] = React.useState(isFoldActivity ? [24, 0] : [16, 8]);
   const toggleFold = (fold: boolean) => {
     setLS('fold-activity', fold);
     if (fold) {
@@ -187,7 +186,7 @@ const RuntimeOverView = () => {
 
   return (
     <div className="runtime-overview">
-      <Info isProjectRuntime={isProjectRuntime} />
+      <Info />
       <Row gutter={20} style={{ margin: 'unset' }}>
         <Col span={proportion[0]} style={{ paddingLeft: 'unset' }}>
           <ErrorBoundary>
