@@ -127,7 +127,6 @@ const CreationForm = () => {
     }
     return item;
   });
-  console.log('mode', mode);
 
   const fieldsList = [
     {
