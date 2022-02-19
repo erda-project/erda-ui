@@ -170,7 +170,7 @@ const RuntimeOverView = () => {
     setLS('fold-activity', false);
     isFoldActivity = false;
   }
-  const [proportion, setProportion] = React.useState(isFoldActivity ? [24, 0] : [16, 8]);
+  const [proportion, setProportion] = React.useState([24, 0]);
   const toggleFold = (fold: boolean) => {
     setLS('fold-activity', fold);
     if (fold) {
