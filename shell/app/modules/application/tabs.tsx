@@ -21,6 +21,7 @@ import { appMode } from './common/config';
 import { filter } from 'lodash';
 import { HeadAppSelector } from './common/app-selector';
 import { goTo } from 'app/common/utils';
+import repoStore from './stores/repo';
 
 interface ITab {
   show?: boolean;
@@ -30,10 +31,11 @@ interface ITab {
 }
 export const APP_TABS = () => {
   const repoMenu = layoutStore.useStore((s) => s.subList.repo);
-  const [repoKey, commitKey, branchKey, mrKey] = repoMenu?.length
+  const [, commitKey, branchKey, mrKey] = repoMenu?.length
     ? repoMenu.map((a: { tabKey: string }) => a.tabKey)
     : ['repo', 'repo/commits', 'repo/branches', 'repo/mr/open'];
   const appDetail = appStore.useStore((s) => s.detail);
+  const repoInfo = repoStore.useStore((s) => s.info);
 
   const { mode, isExternalRepo } = appDetail;
   const perm = usePerm((s) => s.app);
@@ -44,7 +46,7 @@ export const APP_TABS = () => {
   };
   const repo = {
     show: perm.repo.read.pass,
-    key: repoKey,
+    key: 'repo', // keep as root path, prevent no branch error when switch to an empty repo
     split: true,
     name: i18n.t('dop:code'),
     isActive: (activeKey: string) => {
@@ -56,18 +58,21 @@ export const APP_TABS = () => {
     show: perm.repo.read.pass,
     key: commitKey,
     name: i18n.t('dop:commits'),
+    disabled: repoInfo.empty,
     isActive: (activeKey: string) => activeKey.startsWith('repo/commits'),
   };
   const branch = {
     show: perm.repo.read.pass,
     key: branchKey,
     name: i18n.t('dop:branch'),
+    disabled: repoInfo.empty,
     isActive: (activeKey: string) => activeKey.startsWith('repo/branches'),
   };
   const mr = {
     show: perm.repo.read.pass,
     key: mrKey,
     name: i18n.t('dop:merge request'),
+    disabled: repoInfo.empty,
     isActive: (activeKey: string) => activeKey.startsWith('repo/mr'),
   };
 
