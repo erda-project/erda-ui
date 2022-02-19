@@ -40,8 +40,7 @@ const evnBlockMap: { [key in APPLICATION.Workspace]: string } = {
   PROD: 'blockProd',
 };
 
-const DeployInfo = ({ isProjectRuntime = false }: { isProjectRuntime: boolean }) => {
-  const params = routeInfoStore.useStore((s) => s.params);
+const DeployInfo = () => {
   const { blockStatus } = appStore.useStore((s) => s.detail);
   const appBlocked = blockStatus !== 'unblocked';
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
@@ -139,11 +138,6 @@ const DeployInfo = ({ isProjectRuntime = false }: { isProjectRuntime: boolean })
               </IF>
             </div>
           </IF>
-          {isProjectRuntime ? null : (
-            <Button type="primary" ghost onClick={() => goTo(goTo.pages.appSetting_config, params)}>
-              {i18n.t('runtime:deployment config')}
-            </Button>
-          )}
           <IF check={hasAuth}>
             <Dropdown overlay={menu} trigger={['click']} disabled={showCancelBtn || isBlocked}>
               <Button type="primary" disabled={showCancelBtn || isBlocked}>
