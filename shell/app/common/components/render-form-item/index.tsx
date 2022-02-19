@@ -398,8 +398,9 @@ interface SelectCompProps {
 const SelectComp = ({ value, onChange, options, size, optionRender, ...restItemProps }: SelectCompProps) => {
   const fixOptions = (typeof options === 'function' ? options() : options)?.filter?.((item: IOption) => item.fix) || [];
   const optionType = typeof (typeof options === 'function' ? options() : options)?.[0]?.value;
-  const valueType = typeof (Array.isArray(value) ? value[0] : value);
-  if (optionType !== 'undefined' && valueType !== 'undefined' && optionType !== valueType) {
+  const firstValue = Array.isArray(value) ? value[0] : value;
+  const valueType = typeof firstValue;
+  if (optionType !== 'undefined' && valueType !== 'undefined' && firstValue !== null && optionType !== valueType) {
     console.error(
       'Warning: The value type accepted by the select does not match the value type of the options.The wrong options is ',
       options,
