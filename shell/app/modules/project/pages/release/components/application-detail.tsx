@@ -212,10 +212,20 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                 {resources.map((item, index) => (
                   <div>
                     {renderItems([
+                      ...(item.meta
+                        ? [
+                            { label: 'buildID', value: item.meta.buildID || '-' },
+                            { label: 'byteSize', value: item.meta.byteSize || '-' },
+                            { label: 'displayName', value: item.meta.displayName || '-' },
+                            { label: 'fileId', value: item.meta.fileId || '-' },
+                            { label: 'logo', value: item.meta.logo || '-' },
+                            { label: 'packageName', value: item.meta.packageName || '-' },
+                            { label: 'version', value: item.meta.version || '-' },
+                          ]
+                        : []),
                       { label: 'name', value: item.name },
                       { label: 'type', value: item.type },
                       { label: 'url', value: item.url },
-                      ...(item.meta ? [{ label: 'meta', value: item.meta }] : []),
                     ])}
                     {index !== resources.length - 1 ? <Divider /> : ''}
                   </div>
