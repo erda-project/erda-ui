@@ -14,9 +14,8 @@
 import React, { MutableRefObject } from 'react';
 import { FormModal, ImageUpload, IFormItem, ErdaIcon } from 'common';
 import i18n from 'i18n';
-import { FormInstance } from 'core/common/interface';
 import { getUploadProps } from 'common/utils/upload-props';
-import { Button, message, Upload } from 'antd';
+import { Button, message, Upload, FormInstance } from 'antd';
 import { insertWhen } from 'common/utils';
 import { map } from 'lodash';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';

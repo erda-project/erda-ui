@@ -18,8 +18,7 @@ import { slaAuthorizationMap } from 'apiManagePlatform/pages/access-manage/compo
 import Limit from 'apiManagePlatform/pages/access-manage/detail/limit';
 import { map } from 'lodash';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
-import { Button } from 'antd';
-import { FormInstance } from 'core/common/interface';
+import { Button, FormInstance } from 'antd';
 import { useLoading } from 'core/stores/loading';
 import { regRules } from 'common/utils';
 

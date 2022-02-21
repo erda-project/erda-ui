@@ -14,12 +14,11 @@
 import React from 'react';
 import { RenderPureForm, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Modal, Form } from 'antd';
+import { Modal, Form, FormInstance } from 'antd';
 import i18n from 'i18n';
 import { IFormItem } from 'common/components/render-form-item';
 import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';
 import { isEqual, pick } from 'lodash';
-import { FormInstance } from 'core/common/interface';
 import './modal.scss';
 
 interface IProps {

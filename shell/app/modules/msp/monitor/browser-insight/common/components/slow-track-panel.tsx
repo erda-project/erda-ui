@@ -14,9 +14,9 @@
 import React from 'react';
 import { Table } from 'antd';
 import { get } from 'lodash';
-import { ColumnProps } from 'core/common/interface';
 import moment from 'moment';
 import i18n from 'i18n';
+import { ColumnProps } from 'antd/lib/table';
 
 interface IData {
   [pro: string]: any;

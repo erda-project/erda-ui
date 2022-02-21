@@ -16,7 +16,7 @@ import React from 'react';
 import { Checkbox } from 'antd';
 import { getChoosenInfo } from 'project/utils/test-case';
 import testCaseStore from 'project/stores/test-case';
-import { CheckboxChangeEvent } from 'core/common/interface';
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 
 interface IProps {
   id: number | string;

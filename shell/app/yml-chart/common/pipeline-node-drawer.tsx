@@ -13,9 +13,8 @@
 
 // 此部分逻辑基本拷贝原来逻辑，方便后面如果整体删除原来代码
 import React from 'react';
-import { Drawer, Form, Button, Input, InputNumber, Collapse, Spin, Select, Tooltip } from 'antd';
+import { Drawer, Form, Button, Input, InputNumber, Collapse, Spin, Select, Tooltip, FormProps } from 'antd';
 import { getActionGroup } from 'application/services/deploy';
-import { FormComponentProps } from 'core/common/interface';
 import i18n from 'i18n';
 import {
   cloneDeep,
@@ -79,7 +78,7 @@ const formKeyFormat = (key: string) => {
   });
 };
 
-const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
+const PurePipelineNodeForm = (props: IEditStageProps & FormProps) => {
   const [form] = Form.useForm();
   const {
     nodeData: propsNodeData,

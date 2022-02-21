@@ -216,7 +216,10 @@ const getContainerMap = (container: Obj<CONFIG_PAGE.BaseSpec>, customProps: Obj)
 };
 
 const EnhanceCompProps = (
-  props: Merge<CONFIG_PAGE.BaseSpec, { children: React.ReactElement; options: CONFIG_PAGE.CompOptions }>,
+  props: Merge<
+    CONFIG_PAGE.BaseSpec,
+    { children: React.ReactElement; options: CONFIG_PAGE.CompOptions; Wrapper: React.ElementType }
+  >,
 ) => {
   const { children, props: configProps, data: pData, Wrapper, options, ...rest } = props;
 

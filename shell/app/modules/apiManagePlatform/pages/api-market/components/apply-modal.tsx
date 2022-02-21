@@ -12,11 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { MutableRefObject } from 'react';
-import { Modal, Button } from 'antd';
+import { Modal, Button, FormInstance } from 'antd';
 import { Copy, FormModal, IFormItem, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
-import { FormInstance } from 'core/common/interface';
 import apiClientStore from 'apiManagePlatform/stores/api-client';
 import { getClientList } from 'apiManagePlatform/services/api-client';
 import { getVersionTree } from 'apiManagePlatform/services/api-market';

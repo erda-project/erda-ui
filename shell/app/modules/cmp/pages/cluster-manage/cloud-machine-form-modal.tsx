@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import { diskTypeMap, getOptions } from './config';
 import LabelSelector from 'dcos/common/label-selector';
 import { CustomLabel, checkCustomLabels } from 'dcos/common/custom-label';
-import { FormInstance } from 'core/common/interface';
+import { FormInstance } from 'antd';
 import orgStore from 'app/org-home/stores/org';
 import React from 'react';
 

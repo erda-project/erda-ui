@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Button } from 'antd';
+import { Modal, Button, FormInstance } from 'antd';
 import { RenderForm } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { get, map } from 'lodash';
@@ -21,7 +21,6 @@ import { useEffectOnce } from 'react-use';
 import { VswCIDRField, VpcCIDRField } from '../common/components/cidr-input';
 import { getSubnetCount, validateIsSubnet } from '../common/util';
 import { formConfig } from '../common/config';
-import { FormInstance } from 'core/common/interface';
 import { useLoading } from 'core/stores/loading';
 import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
 import i18n from 'i18n';

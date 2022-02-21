@@ -30,7 +30,6 @@ import {
 import { useUpdate } from 'common/use-hooks';
 import { goTo, secondsToTime, replaceEmoji } from 'common/utils';
 import GotoCommit from 'application/common/components/goto-commit';
-import { ColumnProps } from 'core/common/interface';
 import { BuildLog } from './build-log';
 import PipelineChart from './pipeline-chart';
 import { ciStatusMap, ciBuildStatusSet } from './config';
@@ -45,6 +44,7 @@ import PipelineLog from './pipeline-log';
 import './index.scss';
 import deployStore from 'application/stores/deploy';
 import orgStore from 'app/org-home/stores/org';
+import { ColumnProps } from 'antd/lib/table';
 
 const { TextArea } = Input;
 const { ELSE } = IF;

@@ -15,11 +15,11 @@ import { goTo, formatTime, fromNow } from 'common/utils';
 import { FilterGroup, SimplePanel } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
-import { ColumnProps } from 'core/common/interface';
 import { Button, Cascader, message, Spin, Table, Tooltip } from 'antd';
 import React from 'react';
 import addonStore from 'common/stores/addon';
 import jvmStore, { ProfileStateMap } from '../../stores/jvm';
+import { ColumnProps } from 'antd/lib/table';
 
 const Analysis = () => {
   const [services, runningList, historyList, historyPaging] = jvmStore.useStore((s) => [

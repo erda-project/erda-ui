@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Table, Tabs, Tooltip } from 'antd';
+import { PaginationProps, Spin, Table, Tabs, Tooltip } from 'antd';
 import apiClientStore from 'apiManagePlatform/stores/api-client';
 import routeInfoStore from 'core/stores/route';
 import { Copy, DetailsPanel, Icon as CustomIcon, TableActions, Ellipsis } from 'common';
@@ -20,11 +20,11 @@ import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { get, map } from 'lodash';
 import { contractStatueMap } from 'apiManagePlatform/pages/client/components/config';
-import { ColumnProps, PaginationProps } from 'core/common/interface';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import UpdateSLA from 'apiManagePlatform/components/update-sla';
 import { useLoading } from 'core/stores/loading';
 import TrafficAuditDrawer from 'apiManagePlatform/components/traffic-audit-drawer';
+import { ColumnProps } from 'antd/lib/table';
 import './index.scss';
 
 const { TabPane } = Tabs;

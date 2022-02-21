@@ -12,11 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input } from 'antd';
+import { FormInstance, Input } from 'antd';
 import { InputProps } from 'antd/es/input';
 import { ErdaIcon } from 'common';
-import FormBuilder from '../form-builder';
-import { FormInstance, IFieldType } from 'core/common/interface';
+import FormBuilder, { IFieldType } from '../form-builder';
 import { throttle } from 'lodash';
 
 export interface IFilterProps {

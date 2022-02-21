@@ -16,8 +16,8 @@ import i18n from 'i18n';
 import { Progress } from 'antd';
 import { commonColumns } from '../../test-manage/case/columns';
 import Operation from './operation';
-import { ColumnProps } from 'core/common/interface';
 import { UserInfo } from 'common';
+import { ColumnProps } from 'antd/lib/table';
 
 const planDetailColumns = [...commonColumns];
 // 放在更新人前面

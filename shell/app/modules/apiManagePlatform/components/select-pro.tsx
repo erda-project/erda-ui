@@ -12,8 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Select } from 'antd';
-import { SelectProps, ModalProps } from 'core/common/interface';
+import { Modal, ModalProps, Select, SelectProps } from 'antd';
 import { ErdaIcon } from 'common';
 
 import './select-pro.scss';

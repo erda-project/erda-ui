@@ -19,7 +19,6 @@ import breadcrumbStore from 'layout/stores/breadcrumb';
 import { isEmpty, isFunction } from 'lodash';
 import { matchPath } from 'react-router-dom';
 import { ErdaIcon } from 'common';
-import { Route } from 'core/common/interface';
 
 const getPath = (path: string, params: Obj<string>) => {
   path = (path || '').replace(/^\//, '');
@@ -82,7 +81,7 @@ const ErdaBreadcrumb = () => {
   const infoMap = breadcrumbStore.useStore((s) => s.infoMap);
   const [query] = routeInfoStore.useStore((s) => [s.query]);
 
-  const [allRoutes, setAllRoutes] = React.useState<Route[]>([]);
+  const [allRoutes, setAllRoutes] = React.useState<IRoute[]>([]);
   const [params, setParams] = React.useState<Obj<string>>({});
   const [pageNameInfo, setPageNameInfo] = React.useState<Function>();
   const checkHasTemplate = React.useCallback(
@@ -114,7 +113,7 @@ const ErdaBreadcrumb = () => {
   );
 
   const getBreadcrumbTitle = React.useCallback(
-    (route: Route, isBreadcrumb = false) => {
+    (route: IRoute, isBreadcrumb = false) => {
       const { breadcrumbName, pageName } = route;
       let _title = '';
       if (!isBreadcrumb && pageName) {

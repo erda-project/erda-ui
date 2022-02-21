@@ -13,8 +13,7 @@
 
 /* eslint-disable no-param-reassign */
 import React from 'react';
-import { Form } from 'antd';
-import { FormInstance, FormProps } from 'core/common/interface';
+import { Form, FormInstance, FormProps } from 'antd';
 import ResizeObserver from 'rc-resize-observer';
 import { throttle } from 'lodash';
 import { IFieldType } from './fields';

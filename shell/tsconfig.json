@@ -101,8 +101,7 @@
       "core/stores/route": ["../core/src/stores/route.ts"],
       "core/stores/loading": ["../core/src/stores/loading.ts"],
       "core/stores/userMap": ["../core/src/stores/user-map.ts"],
-      "common/all": ["../shell/app/common/index"],
-      "core/common/interface": ["../core/src/common/interface.d.ts"]
+      "common/all": ["../shell/app/common/index"]
     },
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,

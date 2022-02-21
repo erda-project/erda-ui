@@ -15,13 +15,13 @@ import { map } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
 import moment from 'moment';
-import { ColumnProps } from 'core/common/interface';
 import { Badge, Table } from 'antd';
 
 import { Icon as CustomIcon } from 'common';
 import { useLoading } from 'core/stores/loading';
 import testPlanStore from 'project/stores/test-plan';
 import { ciStatusMap } from 'application/pages/build-detail/config';
+import { ColumnProps } from 'antd/lib/table';
 import './build-history.scss';
 
 interface IProps {

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Table, Spin } from 'antd';
+import { Button, Table, Spin, FormInstance } from 'antd';
 import FormModal from '../form-modal';
 import CustomFilter from '../custom-filter';
 import IF from '../if';
@@ -22,10 +22,10 @@ import { isEmpty, reduce } from 'lodash';
 import { isPromise } from 'common/utils';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
-import { FormInstance, ColumnProps } from 'core/common/interface';
 import { ICRUDStore } from 'common/stores/_crud_module';
 import { useLoading } from 'core/stores/loading';
 import { WithAuth } from 'user/common';
+import { ColumnProps } from 'antd/lib/table';
 
 export interface ITableProps<P> {
   isFetching: boolean;

@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { Select, Radio, Table } from 'antd';
-import { SelectValue, ColumnProps } from 'core/common/interface';
 import { map, get } from 'lodash';
 import { useEffectOnce, useUnmount } from 'react-use';
 import moment from 'moment';
@@ -24,6 +23,8 @@ import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import { useLoading } from 'core/stores/loading';
 import monitorCommonStore from 'common/stores/monitorCommon';
+import { SelectValue } from 'antd/lib/select';
+import { ColumnProps } from 'antd/lib/table';
 import './index.scss';
 
 const RadioGroup = Radio.Group;

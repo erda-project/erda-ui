@@ -23,7 +23,7 @@ import { useMount, useDebounce } from 'react-use';
 import { useLoading } from 'core/stores/loading';
 import middlewareDashboardStore from '../../stores/middleware-dashboard';
 import { AddonUsageChart } from './usage-chart';
-import { ColumnProps } from 'core/common/interface';
+import { ColumnProps } from 'antd/lib/table';
 
 import './index.scss';
 

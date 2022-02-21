@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Menu, Dropdown, message, Tooltip, Avatar } from 'antd';
+import { Button, Menu, Dropdown, message, Tooltip, Avatar, FormInstance } from 'antd';
 import React from 'react';
 import { RenderForm, FormModal, MemberSelector, ErdaIcon, MarkdownRender, Table } from 'common';
 import { connectCube, goTo, getAvatarChars } from 'common/utils';
@@ -27,7 +27,6 @@ import repoStore from 'application/stores/repo';
 import { useUserMap } from 'core/stores/userMap';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import { ISSUE_TYPE, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
-import { FormInstance, ColumnProps } from 'core/common/interface';
 import { AddIssueRelation } from 'project/common/components/issue/issue-relation';
 import './repo-mr-form.scss';
 import routeInfoStore from 'core/stores/route';
@@ -36,6 +35,7 @@ import layoutStore from 'layout/stores/layout';
 import { batchCreatCommentStream } from 'project/services/issue';
 import userStore from 'app/user/stores';
 import moment from 'moment';
+import { ColumnProps } from 'antd/lib/table';
 
 interface IModel {
   visible: boolean;

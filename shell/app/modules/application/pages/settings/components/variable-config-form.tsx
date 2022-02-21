@@ -16,8 +16,7 @@ import { useUpdate } from 'common/use-hooks';
 import { getUploadProps } from 'common/utils/upload-props';
 import i18n from 'i18n';
 import { insertWhen } from 'common/utils';
-import { FormInstance } from 'core/common/interface';
-import { Button, message, Spin, Upload } from 'antd';
+import { Button, message, Spin, Upload, FormInstance } from 'antd';
 import React from 'react';
 
 export const ENV_I18N = {

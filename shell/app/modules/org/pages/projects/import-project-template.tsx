@@ -11,13 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Upload, Spin, Modal, message } from 'antd';
+import { Upload, Spin, Modal, message, FormInstance } from 'antd';
 import i18n from 'i18n';
 import React from 'react';
 import { ErdaIcon } from 'common';
 import EmptySVG from 'app/images/upload_empty.svg';
 import { getOrgFromPath } from 'common/utils';
-import { FormInstance } from 'core/common/interface';
 import { UploadFile } from 'app/interface/common';
 import { getUploadProps } from 'common/utils/upload-props';
 import './import-project-template.scss';

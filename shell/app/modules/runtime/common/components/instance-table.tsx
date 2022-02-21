@@ -15,7 +15,7 @@ import React from 'react';
 import { Select, Table, Tooltip } from 'antd';
 import moment from 'moment';
 import HealthPoint, { statusMap } from 'project/common/components/health-point';
-import { ColumnProps } from 'core/common/interface';
+import { ColumnProps } from 'antd/lib/table';
 import { isEmpty } from 'lodash';
 import { IInstance, IServiceIns } from '../../pages/overview/components/service-card';
 import i18n from 'i18n';

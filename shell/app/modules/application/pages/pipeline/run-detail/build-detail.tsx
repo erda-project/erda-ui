@@ -20,7 +20,6 @@ import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, ErdaIcon, E
 import { useUpdate } from 'common/use-hooks';
 import { goTo, secondsToTime, replaceEmoji, updateSearch } from 'common/utils';
 import GotoCommit from 'application/common/components/goto-commit';
-import { ColumnProps } from 'core/common/interface';
 import { BuildLog } from './build-log';
 import PipelineChart from './pipeline-chart';
 import { ciStatusMap, ciBuildStatusSet } from './config';
@@ -33,6 +32,7 @@ import { useLoading } from 'core/stores/loading';
 import PipelineLog from './pipeline-log';
 import './build-detail.scss';
 import deployStore from 'application/stores/deploy';
+import { ColumnProps } from 'antd/lib/table';
 
 const { TextArea } = Input;
 const { ELSE } = IF;

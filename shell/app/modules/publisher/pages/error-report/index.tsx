@@ -17,7 +17,6 @@ import { map, get } from 'lodash';
 import { Icon as CustomIcon, BoardGrid, TimeSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import moment from 'moment';
-import { SelectValue, ColumnProps } from 'core/common/interface';
 import errorReportStore from 'app/modules/publisher/stores/error-report';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
@@ -25,6 +24,8 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import { goTo } from 'common/utils';
 import publisherStore from 'publisher/stores/publisher';
 import './index.scss';
+import { SelectValue } from 'antd/lib/select';
+import { ColumnProps } from 'antd/lib/table';
 
 interface IProps {
   artifacts: PUBLISHER.IArtifacts;

@@ -18,7 +18,6 @@ import { Avatar, TableActions, UserInfo } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import { get } from 'lodash';
-import { AntTreeNodeSelectedEvent, ColumnProps } from 'core/common/interface';
 import moment from 'moment';
 import ExportFile from 'apiManagePlatform/pages/api-market/components/export-file';
 import { RelationMode } from 'apiManagePlatform/pages/api-market/components/relation';
@@ -26,6 +25,8 @@ import { UnityAuthWrap } from 'apiManagePlatform/components/auth-wrap';
 import { goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import { protocolMap } from 'apiManagePlatform/pages/api-market/components/config';
+import { ColumnProps } from 'antd/lib/table';
+import { AntTreeNodeSelectedEvent } from 'antd/lib/tree';
 
 const formatVersionTree = (data: API_MARKET.VersionTreeItem[]) => {
   const tree = (data || []).map(({ versions, swaggerVersion }) => {

@@ -17,7 +17,6 @@ import { Drawer, Table, Breadcrumb, Popconfirm as PopConfirm } from 'antd';
 import { map } from 'lodash';
 import { TagsRow, TableActions, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { ColumnProps } from 'core/common/interface';
 import { useLoading } from 'core/stores/loading';
 import machineManageStore from '../../stores/machine-manage';
 import routeInfoStore from 'core/stores/route';
@@ -26,6 +25,7 @@ import { DoubleProgressItem } from 'dcos/pages/machine-manager/machine-table';
 import { useUnmount } from 'react-use';
 import { goTo } from 'common/utils';
 import 'dcos/pages/machine-manager/machine-table.scss';
+import { ColumnProps } from 'antd/lib/table';
 
 const MachineManage = () => {
   const [{ drawerVisible, activeMachine }, updater, update] = useUpdate({

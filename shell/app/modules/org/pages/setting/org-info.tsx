@@ -14,8 +14,7 @@
 import React from 'react';
 import { ImageUpload, ConfirmDelete } from 'common';
 import { insertWhen, goTo } from 'common/utils';
-import { Button } from 'antd';
-import { FormInstance } from 'core/common/interface';
+import { Button, FormInstance } from 'antd';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import userStore from 'app/user/stores';
 import orgStore from 'app/org-home/stores/org';

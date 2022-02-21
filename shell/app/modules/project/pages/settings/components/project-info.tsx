@@ -13,8 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Tooltip, Button, Input, Checkbox } from 'antd';
-import { FormInstance } from 'core/common/interface';
+import { Tooltip, Button, Input, Checkbox, FormInstance } from 'antd';
 import { theme } from 'app/themes';
 import { ImageUpload, Icon as CustomIcon, ConfirmDelete } from 'common';
 import { goTo, insertWhen } from 'common/utils';

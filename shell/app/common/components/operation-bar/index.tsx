@@ -12,9 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button } from 'antd';
+import { Button, FormInstance } from 'antd';
 import { RenderForm } from 'common';
-import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 import './index.scss';
 

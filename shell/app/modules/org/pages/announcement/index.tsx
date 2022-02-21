@@ -13,7 +13,6 @@
 
 import React, { useCallback, useEffect } from 'react';
 import { Button, Input, Popconfirm, Table, Spin } from 'antd';
-import { PaginationConfig } from 'core/common/interface';
 import moment from 'moment';
 import { get, throttle } from 'lodash';
 import { FormModal } from 'common';
@@ -24,6 +23,7 @@ import announcementStore from 'org/stores/announcement';
 import './index.scss';
 import { PAGINATION } from 'app/constants';
 import layoutStore from 'app/layout/stores/layout';
+import { PaginationConfig } from 'antd/lib/pagination';
 
 const { Search } = Input;
 

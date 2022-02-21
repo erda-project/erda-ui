@@ -17,14 +17,14 @@ import { ceil, set } from 'lodash';
 import { Table, Tooltip } from 'antd';
 import { Copy } from 'common';
 import { getBrowserInfo } from 'common/utils';
-import { ColumnProps } from 'core/common/interface';
 import { getFormatter } from 'charts/utils/formatter';
 import clusterDashboardStore from '../../stores/dashboard';
 import { useLoading } from 'core/stores/loading';
 import { useInstanceOperation } from 'app/modules/cmp/common/components/instance-operation';
-import './instance-list.scss';
 import { PAGINATION } from 'app/constants';
 import orgStore from 'app/org-home/stores/org';
+import { ColumnProps } from 'antd/lib/table';
+import './instance-list.scss';
 
 const getImageText = (text: string) => {
   const headTxt = text.substr(0, 5);

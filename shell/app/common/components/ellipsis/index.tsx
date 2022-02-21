@@ -13,7 +13,7 @@
 
 import React, { useState, useRef, useCallback } from 'react';
 import { Tooltip } from 'antd';
-import { AbstractTooltipProps } from 'core/common/interface';
+import { AbstractTooltipProps } from 'antd/lib/tooltip';
 
 const TOOLTIP_MOUSE_ENTER_DELAY = 100;
 

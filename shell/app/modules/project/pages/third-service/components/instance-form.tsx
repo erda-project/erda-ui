@@ -14,9 +14,8 @@
 import { KeyValueEditor, RenderPureForm } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
-import { FormInstance } from 'core/common/interface';
 import { isEmpty } from 'lodash';
-import { Form } from 'antd';
+import { Form, FormInstance } from 'antd';
 import customAddonStore from 'project/stores/custom-addon';
 import React, { forwardRef, useImperativeHandle } from 'react';
 import {

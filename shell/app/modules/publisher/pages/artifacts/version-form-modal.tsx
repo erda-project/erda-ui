@@ -15,7 +15,7 @@ import { FormModal, LoadMoreSelector } from 'common';
 import i18n from 'i18n';
 import React from 'react';
 import { map, get } from 'lodash';
-import { FormInstance } from 'core/common/interface';
+import { FormInstance } from 'antd';
 import publisherStore from 'app/modules/publisher/stores/publisher';
 import { getJoinedApps } from 'user/services/user';
 import { getReleaseList } from 'project/services/release';

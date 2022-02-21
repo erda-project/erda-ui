@@ -13,7 +13,7 @@
 
 import React from 'react';
 import moment from 'moment';
-import { ColumnProps } from 'core/common/interface';
+import { ColumnProps } from 'antd/lib/table';
 import { Avatar, Copy } from 'common';
 import { Table, Tooltip } from 'antd';
 import i18n from 'i18n';

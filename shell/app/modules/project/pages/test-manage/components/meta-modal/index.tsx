@@ -13,15 +13,15 @@
 
 import { find, get, isEmpty } from 'lodash';
 import React, { useEffect } from 'react';
-import { FormComponentProps } from 'core/common/interface';
 
 import { filterOption } from 'common/utils';
 import { useLoading } from 'core/stores/loading';
 import testCaseStore from 'project/stores/test-case';
 import { TestOperation } from 'project/pages/test-manage/constants';
 import { FormModal } from 'common';
+import { FormProps } from 'antd';
 
-interface IProps extends FormComponentProps {
+interface IProps extends FormProps {
   onOk?: (values: any) => void;
   labelName?: string;
 }

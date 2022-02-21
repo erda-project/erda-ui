@@ -14,8 +14,7 @@
 import React from 'react';
 import { ImageUpload, ConfirmDelete } from 'common';
 import { goTo } from 'common/utils';
-import { FormInstance } from 'core/common/interface';
-import { Button, Input } from 'antd';
+import { Button, Input, FormInstance } from 'antd';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import { modeOptions } from 'application/common/config';
 import { usePerm } from 'app/user/common';

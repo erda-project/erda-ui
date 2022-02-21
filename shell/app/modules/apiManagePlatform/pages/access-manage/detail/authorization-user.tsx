@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { Table, Popconfirm, Tooltip } from 'antd';
-import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 import { contractStatueMap } from 'apiManagePlatform/pages/access-manage/components/config';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
@@ -24,6 +23,7 @@ import { useLoading } from 'core/stores/loading';
 import UpdateSLA from 'apiManagePlatform/components/update-sla';
 import TrafficAuditDrawer from 'apiManagePlatform/components/traffic-audit-drawer';
 import { isEmpty } from 'lodash';
+import { ColumnProps } from 'antd/lib/table';
 
 interface IState {
   visible: boolean;

@@ -14,11 +14,10 @@
 import React, { Component } from 'react';
 import i18n from 'i18n';
 import classnames from 'classnames';
-import { Input, Upload } from 'antd';
+import { FormInstance, Input, Upload } from 'antd';
 import { ErdaIcon } from 'common';
 import { get, isEqual, map } from 'lodash';
 import { getUploadProps } from 'common/utils/upload-props';
-import { FormInstance } from 'core/common/interface';
 
 import './index.scss';
 

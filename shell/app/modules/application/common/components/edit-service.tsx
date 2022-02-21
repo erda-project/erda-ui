@@ -11,10 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormComponentProps, FormInstance } from 'core/common/interface';
 import React, { PureComponent } from 'react';
 import { isEqual, map } from 'lodash';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, FormInstance, FormProps } from 'antd';
 import ObjectInput from './object-input-group';
 import ListInput from './list-input-group';
 import ResourceField from './resource-field';
@@ -40,7 +39,7 @@ interface IFormComponentState {
   };
 }
 
-class EditService extends PureComponent<IEditServiceProps & FormComponentProps, IFormComponentState> {
+class EditService extends PureComponent<IEditServiceProps & FormProps, IFormComponentState> {
   formRef = React.createRef<FormInstance>();
 
   state = {

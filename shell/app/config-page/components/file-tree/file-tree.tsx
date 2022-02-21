@@ -18,8 +18,9 @@ import { useUpdateEffect } from 'react-use';
 import { Icon as CustomIcon, EmptyHolder, Ellipsis, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { WithAuth } from 'user/common';
-import { TreeNodeNormal, AntTreeNodeProps } from 'core/common/interface';
 import i18n from 'i18n';
+import { AntTreeNodeProps } from 'antd/lib/tree';
+import { TreeNodeNormal } from 'antd/lib/tree/Tree';
 import './file-tree.scss';
 
 interface IAction {

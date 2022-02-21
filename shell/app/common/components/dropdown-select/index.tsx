@@ -11,8 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Dropdown, Menu } from 'antd';
-import { ClickParam } from 'core/common/interface';
+import { Button, Dropdown, Menu, MenuProps } from 'antd';
 import { ErdaIcon } from 'common';
 import React from 'react';
 import { map } from 'lodash';
@@ -27,7 +26,7 @@ interface IProps {
   menuList?: IMenuItem[];
   loading?: boolean;
   trigger?: Array<'click' | 'hover' | 'contextMenu'>;
-  onClickMenu?: (item: ClickParam) => void;
+  onClickMenu?: MenuProps['onClick'];
 }
 
 interface IMenuItem {
