@@ -43,6 +43,7 @@ export const APP_TABS = () => {
     key: '_',
     className: 'mr-4',
     name: <HeadAppSelector />,
+    readonly: true,
   };
   const repo = {
     show: perm.repo.read.pass,
