@@ -38,6 +38,8 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
           ) : null}
         </>
       ),
+      readonly: true,
+      className: 'cursor-default',
     },
     {
       key: 'all',

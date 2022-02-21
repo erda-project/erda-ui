@@ -23,6 +23,7 @@ interface IMenuItem {
   name: string;
   disabled?: boolean;
   split?: boolean;
+  readonly?: boolean;
   isActive?: (v: string) => boolean;
   className?: string;
 }
@@ -116,7 +117,7 @@ const PureMenu = (props: IMenu) => {
     <div className={tabClass}>
       <ul className="tab-item-wraps">
         {finalMenus.map((menu: IMenuItem) => {
-          const { disabled, key, name, split, isActive, className: itemClass = '' } = menu;
+          const { disabled, key, name, split, readonly, isActive, className: itemClass = '' } = menu;
           const menuItemClass = classnames({
             'tab-menu-item': true,
             'tab-menu-disabled': disabled,
@@ -129,7 +130,7 @@ const PureMenu = (props: IMenu) => {
               key={key}
               className={menuItemClass}
               onClick={() => {
-                if (!disabled && activeKey !== key) {
+                if (!readonly && !disabled && activeKey !== key) {
                   // click current not trigger
                   handleClick(activeKey, key);
                 }

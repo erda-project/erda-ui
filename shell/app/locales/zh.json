@@ -2730,7 +2730,6 @@
     "deploy at": "部署于",
     "deploying, please operate later": "正在部署中，请稍后操作",
     "deployment canceled": "部署取消",
-    "deployment config": "部署配置",
     "deployment expired and cannot roll back": "部署过期，无法回滚",
     "deployment failed": "部署失败",
     "deployment failed and cannot roll back": "部署失败，无法回滚",
