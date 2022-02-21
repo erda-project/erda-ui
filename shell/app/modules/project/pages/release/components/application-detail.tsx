@@ -213,15 +213,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                   <div>
                     {renderItems([
                       ...(item.meta
-                        ? [
-                            { label: 'buildID', value: item.meta.buildID || '-' },
-                            { label: 'byteSize', value: item.meta.byteSize || '-' },
-                            { label: 'displayName', value: item.meta.displayName || '-' },
-                            { label: 'fileId', value: item.meta.fileId || '-' },
-                            { label: 'logo', value: item.meta.logo || '-' },
-                            { label: 'packageName', value: item.meta.packageName || '-' },
-                            { label: 'version', value: item.meta.version || '-' },
-                          ]
+                        ? Object.keys(item.meta).map((key) => ({ label: key, value: item.meta[key] }))
                         : []),
                       { label: 'name', value: item.name },
                       { label: 'type', value: item.type },
