@@ -212,10 +212,12 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                 {resources.map((item, index) => (
                   <div>
                     {renderItems([
+                      ...(item.meta
+                        ? Object.keys(item.meta).map((key) => ({ label: key, value: item.meta[key] }))
+                        : []),
                       { label: 'name', value: item.name },
                       { label: 'type', value: item.type },
                       { label: 'url', value: item.url },
-                      ...(item.meta ? [{ label: 'meta', value: item.meta }] : []),
                     ])}
                     {index !== resources.length - 1 ? <Divider /> : ''}
                   </div>
