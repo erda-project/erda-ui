@@ -27,8 +27,7 @@ import {
   isArray,
 } from 'lodash';
 import { useMount, useUnmount } from 'react-use';
-import { FormInstance } from 'core/common/interface';
-import { Modal, Button, Switch, Select, Input, InputNumber, Popover, Tooltip, Form } from 'antd';
+import { Modal, Button, Switch, Select, Input, InputNumber, Popover, Tooltip, Form, FormInstance } from 'antd';
 import { IActions } from 'app/common/components/table/interface';
 import { RenderForm, ErdaIcon } from 'common';
 import ErdaTable from 'common/components/table';

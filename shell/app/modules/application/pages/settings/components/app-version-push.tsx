@@ -15,7 +15,7 @@ import React from 'react';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import applicationStore from 'application/stores/application';
 import { useEffectOnce } from 'react-use';
-import { FormInstance } from 'core/common/interface';
+import { FormInstance } from 'antd';
 import { getPublisherList, getArtifactsList } from 'publisher/services/publisher';
 import { LoadMoreSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';

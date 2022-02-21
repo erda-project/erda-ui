@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, message, Input } from 'antd';
+import { Button, message, Input, FormInstance } from 'antd';
 import React from 'react';
 import { RenderForm, FileEditor } from 'common';
 import { useUpdate } from 'common/use-hooks';
@@ -23,7 +23,6 @@ import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
 import AddPipelineYml from './add-pipelineyml';
 import './repo-editor.scss';
-import { FormInstance } from 'core/common/interface';
 
 interface IProps {
   name?: string;

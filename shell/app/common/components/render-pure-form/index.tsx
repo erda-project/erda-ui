@@ -12,10 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Form, Row, Col } from 'antd';
+import { Form, Row, Col, FormInstance } from 'antd';
 import classNames from 'classnames';
 import RenderFormItem from '../render-form-item';
-import { FormInstance } from 'core/common/interface';
 import './index.scss';
 
 interface IProps {

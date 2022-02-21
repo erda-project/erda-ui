@@ -12,12 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Dropdown, Menu, Switch, Form, Button, message, Modal } from 'antd';
+import { Input, Dropdown, Menu, Switch, Form, Button, message, Modal, FormInstance } from 'antd';
 import { ErdaIcon } from 'common';
 import ErdaTable from 'common/components/table';
 import { uuid } from 'common/utils';
 import { useUpdateEffect } from 'react-use';
-import { FormInstance } from 'core/common/interface';
 import { useUpdate } from 'common/use-hooks';
 import { ConfigTypeMap } from '../config';
 import { VariableConfigForm } from 'application/pages/settings/components/variable-config-form';

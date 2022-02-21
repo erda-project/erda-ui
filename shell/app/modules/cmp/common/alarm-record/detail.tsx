@@ -13,16 +13,14 @@
 
 import React from 'react';
 import { useMount } from 'react-use';
-import { Radio } from 'antd';
 import { isEmpty, get, forEach, mapKeys } from 'lodash';
 import i18n from 'i18n';
 import moment from 'moment';
-import { CommonRangePicker, BoardGrid, IF, Icon as CustomIcon } from 'common';
+import { CommonRangePicker, BoardGrid, IF } from 'common';
 
 import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { getTimeSpan } from 'common/utils';
-import { ColumnProps } from 'core/common/interface';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
 import EditIssueDrawer from 'project/common/components/issue/edit-issue-drawer';
@@ -32,6 +30,7 @@ import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 
 import orgAlarmRecordStore from 'cmp/stores/alarm-record';
 import mspAlarmRecordStore from 'msp/alarm-manage/alarm-record/stores/alarm-record';
+import { ColumnProps } from 'antd/lib/table';
 
 import './detail.scss';
 

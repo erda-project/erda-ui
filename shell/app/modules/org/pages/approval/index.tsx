@@ -25,7 +25,7 @@ import { useUserMap } from 'core/stores/userMap';
 import DetailModal from '../certificate/detail-modal';
 import { typeMap as certificateTypeMap } from '../certificate/index';
 import i18n from 'i18n';
-import { ColumnProps } from 'core/common/interface';
+import { ColumnProps } from 'antd/lib/table';
 
 const { Option } = Select;
 const undoneStatusMap = {

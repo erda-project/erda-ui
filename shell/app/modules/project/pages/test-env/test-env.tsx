@@ -21,11 +21,10 @@ import { useLoading } from 'core/stores/loading';
 import testEnvStore from 'project/stores/test-env';
 import { TestEnvDetail } from './test-env-detail';
 import './test-env.scss';
-import { PAGINATION } from 'app/constants';
 import routeInfoStore from 'core/stores/route';
 import { insertWhen } from 'common/utils';
-import { ColumnProps } from 'core/common/interface';
 import { scopeMap } from 'project/common/components/pipeline-manage/config';
+import { ColumnProps } from 'antd/lib/table';
 
 interface IProps {
   envID: number;

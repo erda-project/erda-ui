@@ -13,8 +13,7 @@
 
 import React from 'react';
 import { Anchor } from 'antd';
-import { OperationProps, PanelProps, IAnchorContainer } from 'core/common/interface';
-import { IF, Title, TitleProps, Panel } from 'common';
+import { IF, Title, TitleProps, Panel, PanelProps } from 'common';
 import { map, isEmpty } from 'lodash';
 import classnames from 'classnames';
 import './index.scss';
@@ -22,7 +21,6 @@ import './index.scss';
 interface ITitleProps {
   title?: string | React.ReactNode;
   icon?: React.ReactNode;
-  operations?: OperationProps[];
   level?: number;
   tips?: string;
   prefixCls?: string;
@@ -54,7 +52,7 @@ export interface ILink extends IContentProps {
 interface IProps {
   baseInfoConf?: IContentPanelProps;
   linkList?: ILink[];
-  anchorContainer?: IAnchorContainer;
+  anchorContainer?: HTMLDivElement;
   children?: React.ReactNode;
 }
 
@@ -98,7 +96,7 @@ const DetailsPanel = (props: IProps) => {
     },
   };
 
-  const container = React.useRef(anchorContainer || (document.getElementById('main') as IAnchorContainer));
+  const container = React.useRef(anchorContainer || (document.getElementById('main') as HTMLDivElement));
 
   return (
     <div className="details-panel-template">

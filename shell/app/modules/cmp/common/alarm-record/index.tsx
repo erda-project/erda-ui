@@ -22,13 +22,13 @@ import { useFilter } from 'common/use-hooks';
 import { useMount } from 'react-use';
 import moment from 'moment';
 import { useLoading } from 'core/stores/loading';
-import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 import { AlarmState } from 'cmp/common/alarm-state';
 import { useUserMap } from 'core/stores/userMap';
 import routeInfoStore from 'core/stores/route';
 import orgAlarmRecordStore from 'cmp/stores/alarm-record';
 import mspAlarmRecordStore from 'msp/alarm-manage/alarm-record/stores/alarm-record';
+import { ColumnProps } from 'antd/lib/table';
 
 export enum AlarmRecordScope {
   ORG = 'org',

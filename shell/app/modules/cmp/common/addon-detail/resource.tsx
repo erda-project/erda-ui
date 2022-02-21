@@ -18,8 +18,8 @@ import ErdaTable from 'common/components/table';
 import moment from 'moment';
 import { Copy } from 'common';
 import { getFormatter } from 'app/charts/utils/formatter';
-import { ColumnProps } from 'core/common/interface';
 import { PAGINATION } from 'app/constants';
+import { ColumnProps } from 'antd/lib/table';
 
 type IResource = MIDDLEWARE_DASHBOARD.IResource;
 

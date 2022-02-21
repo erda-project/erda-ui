@@ -15,11 +15,10 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
 import { isEmpty, map, find, pick } from 'lodash';
-import { Spin, Modal, Tooltip, Switch, Select, Button } from 'antd';
+import { Spin, Modal, Tooltip, Select, Button, FormInstance } from 'antd';
 import { FormModal } from 'common';
 import ErdaTable from 'common/components/table';
 import { useSwitch } from 'common/use-hooks';
-import { FormInstance, ColumnProps } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';
 import { useUserMap } from 'core/stores/userMap';
 import { useLoading } from 'core/stores/loading';
@@ -32,6 +31,7 @@ import {
 } from 'application/pages/settings/components/app-notify/common-notify-group';
 import { getNotifyChannelMethods } from 'application/services/notify';
 import './index.scss';
+import { ColumnProps } from 'antd/lib/table';
 
 const { confirm } = Modal;
 

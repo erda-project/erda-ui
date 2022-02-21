@@ -23,7 +23,7 @@ import { useLoading } from 'core/stores/loading';
 import testPlanStore from 'project/stores/test-plan';
 import iterationStore from 'project/stores/iteration';
 import i18n from 'i18n';
-import { ColumnProps } from 'core/common/interface';
+import { ColumnProps } from 'antd/lib/table';
 import './test-plan.scss';
 
 const { Option } = Select;

@@ -32,7 +32,7 @@ import { IssueItem, IssueForm, BACKLOG_ISSUE_TYPE } from 'project/pages/backlog/
 import './issue-relation.scss';
 import IterationSelect from './iteration-select';
 import IssueState from 'project/common/components/issue/issue-state';
-import { ColumnProps } from 'core/common/interface';
+import { ColumnProps } from 'antd/lib/table';
 
 interface IProps {
   issueDetail: ISSUE.IssueType;

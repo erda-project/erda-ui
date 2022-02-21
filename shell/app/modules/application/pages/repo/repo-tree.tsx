@@ -11,7 +11,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Table, Skeleton, Spin, Button, Popover, Input, Select, Modal, message, Tooltip, Form } from 'antd';
+import {
+  Table,
+  Skeleton,
+  Spin,
+  Button,
+  Popover,
+  Input,
+  Select,
+  Modal,
+  message,
+  Tooltip,
+  Form,
+  FormInstance,
+} from 'antd';
 import { goTo, cutStr, fromNow, replaceEmoji, setApiWithOrg } from 'common/utils';
 import { groupBy, sortBy, get } from 'lodash';
 import React from 'react';
@@ -30,7 +43,6 @@ import { useLoading } from 'core/stores/loading';
 import { WithAuth, usePerm } from 'user/common';
 import appStore from 'application/stores/application';
 import i18n from 'i18n';
-import { FormInstance } from 'core/common/interface';
 
 import './repo-tree.scss';
 import { repositoriesTypes } from 'application/common/config';

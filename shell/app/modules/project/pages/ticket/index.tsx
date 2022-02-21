@@ -25,7 +25,7 @@ import { Filter, MemberSelector } from 'common';
 import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { mergeSearch, updateSearch, getTimeRanges } from 'common/utils';
-import { ColumnProps } from 'core/common/interface';
+import { ColumnProps } from 'antd/lib/table';
 import { Input, Button, Select, DatePicker, Tooltip } from 'antd';
 import { useLoading } from 'core/stores/loading';
 import { usePerm, WithAuth, getAuth, isCreator, isAssignee } from 'app/user/common';

@@ -11,11 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Badge, Button, Checkbox, Input, message } from 'antd';
+import { Badge, Button, Checkbox, Input, message, FormInstance } from 'antd';
 import i18n from 'i18n';
 import React from 'react';
 import { ErdaIcon, ImageUpload, RenderForm } from 'common';
-import { FormInstance } from 'core/common/interface';
 import projectStore from 'app/modules/project/stores/project';
 import clusterStore from 'cmp/stores/cluster';
 import { createTenantProject } from 'msp/services';

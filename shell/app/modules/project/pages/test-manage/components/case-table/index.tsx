@@ -26,7 +26,7 @@ import testSetStore from 'project/stores/test-set';
 import AllCheckBox from './all-checkbox';
 import CaseCheckBox from './case-checkbox';
 import projectStore from 'project/stores/project';
-import { ColumnProps } from 'core/common/interface';
+import { ColumnProps } from 'antd/lib/table';
 
 const sorterMap: object = {
   ascend: 'ASC',

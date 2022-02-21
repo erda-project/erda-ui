@@ -11,14 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormComponentProps } from 'core/common/interface';
 import ListInput from 'application/common/components/list-input-group';
 import VariableInput from 'application/common/components/object-input-group';
 import React from 'react';
 import { cloneDeep, map, isEmpty, omit, pick, get, filter, head, transform, isEqual, forEach } from 'lodash';
 import { Icon as CustomIcon, ErdaIcon, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Form, Button, Input, Popover, InputNumber, Collapse, Spin, Select } from 'antd';
+import { Form, Button, Input, Popover, InputNumber, Collapse, Spin, Select, FormProps } from 'antd';
 import './edit-service.scss';
 import './task-resource-field.scss';
 import { mergeActionAndResource, getResource } from '../yml-flow-util';
@@ -49,7 +48,7 @@ const getDefaultVersionConfig = (actionConfigs: DEPLOY.ActionConfig[]) => {
   return defaultConfig || actionConfigs[0];
 };
 
-const EditStage = (props: IEditStageProps & FormComponentProps) => {
+const EditStage = (props: IEditStageProps & FormProps) => {
   const [form] = Form.useForm();
   const [state, updater] = useUpdate({
     task: {} as IStageTask | {},

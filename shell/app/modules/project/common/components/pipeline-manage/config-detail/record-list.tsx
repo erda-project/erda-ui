@@ -16,7 +16,6 @@ import { Popover, Button, Table } from 'antd';
 import { isEmpty, get, map } from 'lodash';
 import { Icon as CustomIcon } from 'common';
 import { useLoading } from 'core/stores/loading';
-import { ColumnProps } from 'core/common/interface';
 import { useEffectOnce } from 'react-use';
 import moment from 'moment';
 import { useUserMap } from 'core/stores/userMap';
@@ -24,6 +23,7 @@ import autoTestStore from 'project/stores/auto-test-case';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import './record-list.scss';
+import { ColumnProps } from 'antd/lib/table';
 
 interface IProps {
   caseId?: string;

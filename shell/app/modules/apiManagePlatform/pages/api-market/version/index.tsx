@@ -23,7 +23,6 @@ import { UnityAuthWrap } from 'apiManagePlatform/components/auth-wrap';
 import AssetModal, { IScope, IMode } from 'apiManagePlatform/pages/api-market/components/asset-modal';
 import RelationModal, { RelationMode } from 'apiManagePlatform/pages/api-market/components/relation';
 import VersionInfo, { ChooseVersion } from 'apiManagePlatform/pages/api-market/version/version-info';
-import { ClickParam } from 'core/common/interface';
 import { get, pick } from 'lodash';
 import moment from 'moment';
 import i18n from 'i18n';
@@ -111,7 +110,7 @@ const ApiVersions = () => {
       },
     });
   };
-  const toggleAssetPublic = ({ key }: Merge<ClickParam, { key: KeyAuth }>) => {
+  const toggleAssetPublic = ({ key }: { key: KeyAuth }) => {
     Modal.confirm({
       ...confirmTips[key],
       onOk: () => {

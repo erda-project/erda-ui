@@ -14,10 +14,9 @@
 import { isEmpty, isFunction, get, set } from 'lodash';
 import i18n from 'i18n';
 import React, { forwardRef, useImperativeHandle } from 'react';
-import { Modal, Form, Button, Spin } from 'antd';
+import { Modal, Form, Button, Spin, FormInstance } from 'antd';
 import { RenderPureForm, ErdaAlert } from 'common';
 import { isPromise } from 'common/utils';
-import { FormInstance } from 'core/common/interface';
 import { IFormItem } from '../render-form-item';
 import moment from 'moment';
 import './index.scss';

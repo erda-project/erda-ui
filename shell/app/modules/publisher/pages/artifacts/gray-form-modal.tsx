@@ -18,7 +18,7 @@ import { FormModal } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import routeInfoStore from 'core/stores/route';
 import { validators, insertWhen } from 'common/utils';
-import { RadioChangeEvent } from 'core/common/interface';
+import { RadioChangeEvent } from 'antd';
 
 interface IProps {
   visible: boolean;

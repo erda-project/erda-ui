@@ -13,11 +13,10 @@
 
 import React from 'react';
 import { ClusterTerminal } from 'cmp/common/cluster-terminal';
-import { Button, Drawer, DatePicker, InputNumber } from 'antd';
+import { Button, Drawer, DatePicker, InputNumber, FormInstance } from 'antd';
 import { getOrgFromPath, setApiWithOrg } from 'common/utils';
 import moment, { Moment } from 'moment';
 import { FormModal, ErdaIcon } from 'common';
-import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 import './cluster-terminal.scss';
 

@@ -12,8 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Popconfirm, Input, Modal } from 'antd';
-import { ColumnProps, PaginationProps } from 'core/common/interface';
+import { Spin, Input, Modal, PaginationProps } from 'antd';
 import i18n from 'i18n';
 import apiClientStore from 'apiManagePlatform/stores/api-client';
 import { Copy, CustomFilter, ErdaAlert } from 'common';
@@ -22,6 +21,7 @@ import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import { isEmpty } from 'lodash';
 import { goTo } from 'common/utils';
+import { ColumnProps } from 'antd/lib/table';
 
 interface IState {
   keyword: string;

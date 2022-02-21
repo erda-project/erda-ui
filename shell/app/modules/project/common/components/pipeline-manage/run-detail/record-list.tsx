@@ -16,7 +16,6 @@ import { Popover, Button, Badge, Table, Drawer } from 'antd';
 import { isEmpty, map, get } from 'lodash';
 import { Icon as CustomIcon } from 'common';
 import { useLoading } from 'core/stores/loading';
-import { ColumnProps } from 'core/common/interface';
 import { ciStatusMap } from './config';
 import { useEffectOnce } from 'react-use';
 import moment from 'moment';
@@ -25,6 +24,7 @@ import i18n from 'i18n';
 import { insertWhen } from 'common/utils';
 import { scopeConfig } from '../scope-config';
 import './record-list.scss';
+import { ColumnProps } from 'antd/lib/table';
 
 interface IProps {
   curPipelineDetail?: PIPELINE.IPipeline;

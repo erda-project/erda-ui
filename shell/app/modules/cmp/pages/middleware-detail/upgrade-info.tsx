@@ -16,11 +16,11 @@ import i18n from 'i18n';
 import { Spin, Button, Radio, Tooltip } from 'antd';
 import { map, isEmpty } from 'lodash';
 import ErdaTable from 'common/components/table';
-import { RadioChangeEvent, ColumnProps } from 'core/common/interface';
 import UpgradeModal from 'cmp/pages/middleware-dashboard/upgrade-modal';
 import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';
 import { useLoading } from 'core/stores/loading';
 import { Holder, Icon } from 'common';
+import { ColumnProps } from 'antd/lib/table';
 import './index.scss';
 
 interface IProps {

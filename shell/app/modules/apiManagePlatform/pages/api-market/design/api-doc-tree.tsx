@@ -17,7 +17,6 @@ import { EmptyHolder, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Popover, Tree, Modal } from 'antd';
 import i18n from 'i18n';
-import { AntTreeNodeSelectedEvent } from 'core/common/interface';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { map, filter, isEmpty, find, forEach, some } from 'lodash';
 import { API_TREE_OPERATION } from 'app/modules/apiManagePlatform/configs.ts';
@@ -28,6 +27,7 @@ import { updateSearch } from 'common/utils';
 import { useMount, useUpdateEffect } from 'react-use';
 import './index.scss';
 import ReactDOM from 'react-dom';
+import { AntTreeNodeSelectedEvent } from 'antd/lib/tree';
 
 const { TreeNode } = Tree;
 

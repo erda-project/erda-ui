@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Spin, Button, Select, Input, message } from 'antd';
+import { Spin, Button, Select, Input, message, FormInstance } from 'antd';
 import { Icon as CustomIcon, EmptyHolder, Avatar, FormModal, IF, DeleteConfirm, ErdaAlert } from 'common';
 import React from 'react';
 import { fromNow, setApiWithOrg } from 'common/utils';
@@ -20,12 +20,12 @@ import GotoCommit from 'application/common/components/goto-commit';
 import { Link } from 'react-router-dom';
 import i18n from 'i18n';
 import { debounce } from 'lodash';
-import { SelectValue, FormInstance } from 'core/common/interface';
 import { usePerm, WithAuth } from 'app/user/common';
 import './repo-tag.scss';
 import repoStore from 'application/stores/repo';
 import appStore from 'application/stores/application';
 import { useLoading } from 'core/stores/loading';
+import { SelectValue } from 'antd/lib/select';
 
 const { Option } = Select;
 const { Search } = Input;

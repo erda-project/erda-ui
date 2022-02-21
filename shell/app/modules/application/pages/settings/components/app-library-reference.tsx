@@ -17,13 +17,12 @@ import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import libraryRefStore from 'application/stores/library-reference';
 import publisherStore from 'publisher/stores/publisher';
-import { FormInstance } from 'core/common/interface';
 import appStore from 'application/stores/application';
 import { appMode, approvalStatus } from 'application/common/config';
 import { formatTime } from 'common/utils';
 import { WithAuth } from 'user/common';
 import { useUnmount } from 'react-use';
-import { Popconfirm, Modal, Button, Input, message } from 'antd';
+import { Popconfirm, Modal, Button, Input, message, FormInstance } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import { getArtifactsList } from 'publisher/services/publisher';
 

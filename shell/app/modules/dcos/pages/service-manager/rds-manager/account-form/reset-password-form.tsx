@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { FormModal, Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { checkPassword } from 'dcos/common/config';
-import { FormInstance } from 'core/common/interface';
+import { FormInstance } from 'antd';
 
 export interface IFormRes {
   password: string;

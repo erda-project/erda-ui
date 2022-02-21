@@ -22,7 +22,7 @@ import { connectCube, goTo, insertWhen } from 'common/utils';
 import './publisher-list-v2.scss';
 import routeInfoStore from 'core/stores/route';
 import ArtifactsFormModal from 'publisher/pages/artifacts/artifacts-form-modal';
-import { ColumnProps } from 'core/common/interface';
+import { ColumnProps } from 'antd/lib/table';
 import { WithAuth, usePerm } from 'user/common';
 
 interface IMapperProps {

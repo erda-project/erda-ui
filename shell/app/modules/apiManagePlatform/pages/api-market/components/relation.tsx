@@ -16,13 +16,12 @@ import { FormModal, LoadMoreSelector, IFormItem } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { insertWhen, regRules } from 'common/utils';
-import { FormInstance, RadioChangeEvent } from 'core/common/interface';
 import { getMyProject, getApps, getAppInstance, getAppDetail } from 'apiManagePlatform/services/api-market';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import routeInfoStore from 'core/stores/route';
 import { ChooseVersion } from 'apiManagePlatform/pages/api-market/version/version-info';
 import { get, pick, groupBy, map, isEmpty, uniqBy } from 'lodash';
-import { Select } from 'antd';
+import { FormInstance, RadioChangeEvent, Select } from 'antd';
 
 export type RelationMode = 'instance' | 'asset';
 

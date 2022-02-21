@@ -20,11 +20,9 @@ import monitorStatusStore from 'status-insight/stores/status';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import constants from './constants';
-import { Modal } from 'antd';
-import './add-modal.scss';
-import { Input, Select, Radio, Tabs, Form, Tooltip, Button, InputNumber } from 'antd';
-import { FormInstance } from 'core/common/interface';
+import { Input, Select, Radio, Tabs, Form, Tooltip, Button, InputNumber, Modal, FormInstance } from 'antd';
 import { produce } from 'immer';
+import './add-modal.scss';
 
 const { Option } = Select;
 const { TextArea } = Input;

@@ -17,7 +17,7 @@ import moment, { Moment } from 'moment';
 import { useUpdate } from 'common/use-hooks';
 import { getTimeRanges, getTimeSpan } from 'common/utils';
 import i18n from 'i18n';
-import { RangePickerProps } from 'core/common/interface';
+import { RangePickerProps } from 'antd/lib/date-picker';
 
 const { RangePicker } = DatePicker;
 

@@ -14,7 +14,6 @@
 import React from 'react';
 import i18n from 'i18n';
 import { Transfer, Radio } from 'antd';
-import { TransferItem } from 'core/common/interface';
 import { FormModal } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import routeInfoStore from 'core/stores/route';
@@ -22,6 +21,7 @@ import { map, get, forEach, reduce } from 'lodash';
 import cloudServiceStore from 'dcos/stores/cloud-service';
 import { rdsAccountType } from 'dcos/common/config.js';
 import { useMount } from 'react-use';
+import { TransferItem } from 'antd/lib/transfer';
 import './change-permission-form.scss';
 
 interface IProps {

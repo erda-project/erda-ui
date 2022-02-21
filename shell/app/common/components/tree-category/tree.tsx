@@ -14,14 +14,15 @@
 import React from 'react';
 import { useMount, useLatest } from 'react-use';
 import { map, set, find, cloneDeep, noop, findIndex, get, reduce, forEach } from 'lodash';
-import { Spin, Tree, Popover, Select } from 'antd';
+import { Spin, Tree, Popover, Select, TreeProps } from 'antd';
 import i18n from 'i18n';
 import { Icon as CustomIcon, Title } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { TreeProps, AntTreeNodeProps, TreeNodeNormal } from 'core/common/interface';
 import { EditCategory } from './edit-category';
 import { findTargetNode, getIcon, isAncestor, walkTree } from './utils';
 import { WithAuth } from 'user/common';
+import { AntTreeNodeProps } from 'antd/lib/tree';
+import { TreeNodeNormal } from 'antd/lib/tree/Tree';
 
 import './tree.scss';
 

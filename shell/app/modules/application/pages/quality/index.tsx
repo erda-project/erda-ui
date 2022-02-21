@@ -21,7 +21,6 @@ import React from 'react';
 import moment from 'moment';
 import { Row, Col, Tabs, Table, Tooltip, Spin } from 'antd';
 import { get, isEmpty } from 'lodash';
-import { ColumnProps } from 'core/common/interface';
 import { Icon as CustomIcon, EmptyHolder, IF, FileEditor } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
@@ -33,6 +32,7 @@ import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 
 import './index.scss';
+import { ColumnProps } from 'antd/lib/table';
 
 const { TabPane } = Tabs;
 const { ELSE } = IF;

@@ -13,11 +13,10 @@
 
 import { map, findLast, isEqual, cloneDeep, filter } from 'lodash';
 import React from 'react';
-import { FormInstance } from 'core/common/interface';
 import { useUpdate } from 'common/use-hooks';
 import { ErdaIcon } from 'common';
 import { setLS, goTo } from 'common/utils';
-import { Row, Col, Form, Input, Popconfirm, Modal, message } from 'antd';
+import { Row, Col, Form, Input, Popconfirm, Modal, message, FormInstance } from 'antd';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import runtimeStore from 'runtime/stores/runtime';

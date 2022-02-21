@@ -24,7 +24,7 @@ import { FormModal } from 'app/configForm/nusi-form/form-modal';
 import { useUserMap } from 'core/stores/userMap';
 import { Link } from 'react-router-dom';
 import { getProjectList } from 'project/services/project';
-import { ColumnProps } from 'core/common/interface';
+import { ColumnProps } from 'antd/lib/table';
 
 interface IProps {
   type: APPROVE_TYPE;

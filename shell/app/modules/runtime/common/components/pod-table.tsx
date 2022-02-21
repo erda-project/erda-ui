@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import moment from 'moment';
 import runtimeServiceStore from 'runtime/stores/service';
 import { useUpdate } from 'common/use-hooks';
-import { ColumnProps } from 'core/common/interface';
+import { ColumnProps } from 'antd/lib/table';
 
 interface IProps {
   runtimeID: number;

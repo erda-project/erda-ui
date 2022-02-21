@@ -12,9 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Form } from 'antd';
+import { Input, Form, FormInstance } from 'antd';
 import { regRules } from 'common/utils';
-import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 import './index.scss';
 

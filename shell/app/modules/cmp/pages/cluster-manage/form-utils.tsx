@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { FormInstance } from 'core/common/interface';
+import { FormInstance } from 'antd';
 import { regRules } from 'common/utils';
 import i18n from 'i18n';
 

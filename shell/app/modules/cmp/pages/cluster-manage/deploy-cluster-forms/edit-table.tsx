@@ -12,10 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { FormInstance } from 'core/common/interface';
 import ErdaTable from 'common/components/table';
 import { map } from 'lodash';
-import { Form, Modal, Button, Input, Select } from 'antd';
+import { Form, Modal, Button, Input, Select, FormInstance } from 'antd';
 import i18n from 'i18n';
 import './edit-table.scss';
 

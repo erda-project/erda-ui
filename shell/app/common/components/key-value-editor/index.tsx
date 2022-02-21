@@ -14,9 +14,8 @@
 import React from 'react';
 import KeyValueTextArea from '../key-value-textarea';
 import KeyValueTable from '../key-value-table';
-import { Radio } from 'antd';
+import { FormInstance, Radio } from 'antd';
 import { isEqual } from 'lodash';
-import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 import './index.scss';
 

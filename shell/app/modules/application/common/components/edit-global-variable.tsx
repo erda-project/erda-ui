@@ -11,9 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormComponentProps, FormInstance } from 'core/common/interface';
 import React, { PureComponent } from 'react';
-import { Form, Button } from 'antd';
+import { Form, Button, FormInstance, FormProps } from 'antd';
 import { cloneDeep, forEach, findIndex, uniqueId } from 'lodash';
 import VariableInputGroup from './variable-input-group';
 import i18n from 'i18n';
@@ -39,7 +38,7 @@ const convertGlobalVariableList = (globalVariable: any) => {
   return list;
 };
 
-class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormComponentProps, any> {
+class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormProps, any> {
   formRef = React.createRef<FormInstance>();
 
   state = {
@@ -85,11 +84,7 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
         <div className="global-input-form-title">
           {i18n.t('dop:global environment variable')}
           {editing ? (
-            <ErdaIcon
-              type="plus"
-              className="variable-icon cursor-pointer"
-              onClick={this.addNewVariable}
-            />
+            <ErdaIcon type="plus" className="variable-icon cursor-pointer" onClick={this.addNewVariable} />
           ) : null}
         </div>
         {content}

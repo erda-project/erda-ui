@@ -11,14 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormComponentProps, FormInstance } from 'core/common/interface';
 import { isEqual, map, cloneDeep, keyBy, isEmpty } from 'lodash';
 import { ErdaIcon, ErdaAlert } from 'common';
 import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 import { PLAN_NAME } from 'app/modules/addonPlatform/pages/common/configs';
 import { convertAddonPlan } from '../yml-flow-util';
-import { Input, Form, Select, Radio, Button } from 'antd';
+import { Input, Form, Select, Radio, Button, FormInstance, FormProps } from 'antd';
 import addon_png from 'app/images/resources/addon.png';
 import i18n from 'i18n';
 import './create-add-on.scss';
@@ -123,7 +122,7 @@ const AddOn = ({ addon, className, onClick, editing, reselect, reselectFunc }: I
   );
 };
 
-class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, any> {
+class CreateAddOn extends PureComponent<ICreateAddOnProps & FormProps, any> {
   formRef = React.createRef<FormInstance>();
 
   state = {

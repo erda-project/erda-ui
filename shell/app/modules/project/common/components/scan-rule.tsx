@@ -20,8 +20,8 @@ import scanRuleStore from 'project/stores/scan-rule';
 import { useEffectOnce } from 'react-use';
 import { WithAuth } from 'user/common';
 import { useUpdate } from 'common/use-hooks';
-import { ColumnProps } from 'core/common/interface';
 import { useLoading } from 'core/stores/loading';
+import { ColumnProps } from 'antd/lib/table';
 
 interface IProps {
   operationAuth: boolean;

@@ -15,9 +15,8 @@
  * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/1/25 17:57.
  */
 import React from 'react';
-import { Button, message, Upload } from 'antd';
+import { Button, message, Upload, FormInstance } from 'antd';
 import { getUploadProps } from 'common/utils/upload-props';
-import { FormInstance } from 'core/common/interface';
 import { FormModal, IFormItem, ErdaIcon } from 'common';
 import publisherStore from 'publisher/stores/publisher';
 import i18n from 'i18n';

@@ -15,13 +15,13 @@ import React from 'react';
 import { TableActions, Ellipsis } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Table, Popconfirm } from 'antd';
-import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import { useLoading } from 'core/stores/loading';
 import SlaEditor from 'apiManagePlatform/pages/access-manage/detail/sla-editor';
 import { slaUnitMap, slaAuthorizationMap } from 'apiManagePlatform/pages/access-manage/components/config';
 import { uniq } from 'lodash';
+import { ColumnProps } from 'antd/lib/table';
 import './sla.scss';
 
 interface IState {

@@ -11,9 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { ColumnProps } from 'core/common/interface';
 import { useLoading } from 'core/stores/loading';
-import { Icon as CustomIcon, LogRoller, FilterGroup } from 'common';
+import { LogRoller, FilterGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import moment from 'moment';
@@ -29,6 +28,7 @@ import { useMount } from 'react-use';
 import { map, isEmpty } from 'lodash';
 import { ClusterLog } from './cluster-log';
 import orgStore from 'app/org-home/stores/org';
+import { ColumnProps } from 'antd/lib/table';
 
 export const OperationHistory = () => {
   const currentOrg = orgStore.useStore((s) => s.currentOrg);

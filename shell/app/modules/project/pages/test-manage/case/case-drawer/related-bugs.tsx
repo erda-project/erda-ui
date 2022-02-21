@@ -14,7 +14,7 @@
 import i18n from 'i18n';
 import { Table, Select, Button, Popconfirm, Tooltip, message } from 'antd';
 import React from 'react';
-import { ColumnProps } from 'core/common/interface';
+import { ColumnProps } from 'antd/lib/table';
 import { ISSUE_PRIORITY_MAP, ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import IssueState, { issueMainStateMap } from 'project/common/components/issue/issue-state';
 

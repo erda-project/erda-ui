@@ -15,7 +15,7 @@ import { FormModal, ImageUpload } from 'common';
 import i18n from 'i18n';
 import React from 'react';
 import { isEmpty, get } from 'lodash';
-import { FormInstance } from 'core/common/interface';
+import { FormInstance } from 'antd';
 import publisherStore from 'app/modules/publisher/stores/publisher';
 
 interface IProps {

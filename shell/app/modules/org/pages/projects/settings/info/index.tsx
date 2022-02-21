@@ -13,8 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Row, Col, Button, Input, Tooltip } from 'antd';
-import { FormInstance } from 'core/common/interface';
+import { Row, Col, Button, Input, Tooltip, FormInstance } from 'antd';
 import { theme } from 'app/themes';
 import { ImageUpload, ErdaIcon, ConfirmDelete, Panel, Ellipsis, Icon as CustomIcon, FormModal } from 'common';
 import { goTo, insertWhen } from 'common/utils';

@@ -11,11 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { message } from 'antd';
+import { message, UploadProps } from 'antd';
 import { getCookies } from '.';
 import { qs, getOrgFromPath } from 'common/utils';
 import i18n from 'i18n';
-import { UploadProps } from 'core/common/interface';
 
 /**
  * 获得公共上传props

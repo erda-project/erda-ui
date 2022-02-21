@@ -18,7 +18,6 @@ import { groupBy, isNaN, isEmpty, filter, get, map, round } from 'lodash';
 import classNames from 'classnames';
 import { IF, Icon as CustomIcon, TagsRow, TableActions } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { ColumnProps } from 'core/common/interface';
 import { getFormatter } from 'charts/utils/formatter';
 import HealthPoint from 'project/common/components/health-point';
 import Terminal from 'dcos/common/containers/terminal';
@@ -29,6 +28,7 @@ import orgMachineStore from '../../stores/machine';
 import { ClusterLog } from 'app/modules/cmp/pages/cluster-manage/cluster-log';
 import { customTagColor } from 'dcos/common/config';
 import './machine-table.scss';
+import { ColumnProps } from 'antd/lib/table';
 
 const { confirm } = Modal;
 const compareClass = (rate: number) => {
