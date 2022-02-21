@@ -78,7 +78,8 @@ function getAppRouter(): RouteConfigItem {
             routes: [
               {
                 path: ':commitId',
-                backToUp: 'projectAppList',
+                backToUp: 'repo',
+                breadcrumbName: i18n.t('dop:code'),
                 ignoreTabQuery: true,
                 getComp: (cb) => cb(import('application/pages/repo/commit-detail')),
               },
