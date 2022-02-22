@@ -12,6 +12,12 @@
     }
   }
 
+  .ant-picker {
+    &:hover {
+      background-color: $color-default-06 !important;
+    }
+  }
+
   .ant-select-arrow,
   .anticon-calendar {
     opacity: 0;
@@ -40,16 +46,6 @@
     }
   }
 
-  .member-selector {
-    .results {
-      border: 1px solid transparent;
-
-      &:hover {
-        box-shadow: none;
-      }
-    }
-  }
-
   .with-error {
     .ant-input,
     .ant-select-selector {
@@ -67,12 +63,6 @@
     .ant-select-arrow,
     .anticon-calendar {
       opacity: 1;
-    }
-
-    .member-selector {
-      .results {
-        border-color: $color-active;
-      }
     }
   }
 }

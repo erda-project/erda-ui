@@ -14,7 +14,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import { Menu, Dropdown, Avatar } from 'antd';
-import { Icon as CustomIcon, MemberSelector, ErdaIcon } from 'common';
+import { MemberSelector, ErdaIcon } from 'common';
 import userStore from 'app/user/stores';
 import { useUserMap } from 'core/stores/userMap';
 import issueStore from 'project/stores/issues';
@@ -171,9 +171,11 @@ export const SubscribersSelector = (props: IProps) => {
   return (
     <>
       {isFollowed ? (
-        <CustomIcon
-          type="watch"
-          className="followed"
+        <ErdaIcon
+          type="yiguanzhu"
+          size="20px"
+          className="px-2 py-1 bg-default-06 cursor-pointer"
+          disableCurrent
           onClick={async () => {
             if (issueID) {
               await unsubscribe({ id: issueID });
@@ -186,9 +188,10 @@ export const SubscribersSelector = (props: IProps) => {
           }}
         />
       ) : (
-        <CustomIcon
-          type="watch"
-          className="notFollowed"
+        <ErdaIcon
+          type="weiguanzhu"
+          size="20px"
+          className="px-2 py-1 bg-default-06 cursor-pointer text-default-4 hover:text-default-8"
           onClick={async () => {
             if (issueID) {
               await subscribe({ id: issueID });
@@ -209,11 +212,13 @@ export const SubscribersSelector = (props: IProps) => {
           }
         }}
       >
-        <span className="attention-dropdown-btn ml-1">
-          {subscribers.length !== 0
-            ? i18n.t('dop:{num} people followed', { num: subscribers.length })
-            : i18n.t('dop:no attention')}
-          <CustomIcon type="caret-down" className="ml-0.5 mr-0" />
+        <span className="ml-0.5 p-1 bg-default-06 text-default-4 hover:text-default-8 flex-all-center">
+          <span className="text-default-8 text-sm">
+            {subscribers.length !== 0
+              ? i18n.t('dop:{num} people followed', { num: subscribers.length })
+              : i18n.t('dop:no attention')}
+          </span>
+          <ErdaIcon type="caret-down" className="ml-0.5 mr-0" />
         </span>
       </Dropdown>
     </>

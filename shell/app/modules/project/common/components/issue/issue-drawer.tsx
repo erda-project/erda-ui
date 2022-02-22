@@ -34,7 +34,6 @@ interface IProps {
   canDelete?: boolean;
   canCreate?: boolean;
   shareLink?: string;
-  subDrawer?: JSX.Element | null;
   confirmCloseTip?: string;
   maskClosable?: boolean;
   data: CreateDrawerData;
@@ -64,7 +63,6 @@ export const IssueDrawer = (props: IProps) => {
     className = '',
     canCreate = false,
     canDelete = false,
-    subDrawer = null,
     children,
     editMode,
     shareLink,
@@ -82,8 +80,13 @@ export const IssueDrawer = (props: IProps) => {
     footer = IssueDrawer.Empty,
     ...rest
   } = props;
-  const [title = IssueDrawer.Empty, main = IssueDrawer.Empty, tabs = IssueDrawer.Empty, meta = IssueDrawer.Empty] =
-    React.Children.toArray(children);
+  const [
+    title = IssueDrawer.Empty,
+    formField = IssueDrawer.Empty,
+    detailField = IssueDrawer.Empty,
+    listField = IssueDrawer.Empty,
+    commentField = IssueDrawer.Empty,
+  ] = React.Children.toArray(children);
   const customFieldDetail = issueStore.useStore((s) => s.customFieldDetail);
   const isImagePreviewOpen = layoutStore.useStore((s) => s.isImagePreviewOpen);
   const [copyTitle, setCopyTitle] = React.useState('');
@@ -249,15 +252,18 @@ export const IssueDrawer = (props: IProps) => {
             </div>
           </div>
         </IF>
-        {subDrawer}
-        <div className="task-drawer-body" style={footer !== IssueDrawer.Empty ? { paddingBottom: '60px' } : {}}>
-          <div className="task-drawer-main">
-            <div className="task-drawer-content">{main}</div>
+        <div className="flex flex-col px-4" style={footer !== IssueDrawer.Empty ? { paddingBottom: '60px' } : {}}>
+          <div className="mb-4">{formField}</div>
+          <div className="mb-4">{detailField}</div>
+          <div className="mb-4">{listField}</div>
+
+          {/* <div className="task-drawer-main">
+            <div className="task-drawer-content">{detailField}</div>
             <div className="task-drawer-tabs">{tabs}</div>
           </div>
           <IF check={meta !== IssueDrawer.Empty}>
             <div className="task-drawer-meta">{meta}</div>
-          </IF>
+          </IF> */}
         </div>
       </Spin>
       <IF check={footer !== IssueDrawer.Empty}>

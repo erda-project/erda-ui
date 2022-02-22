@@ -88,12 +88,12 @@ const valueItemRender =
     const cls = {
       normal: {
         size: 20,
-        name: 'ml-2 text-sm',
+        name: 'ml-2 text-sm member-selector-value-item',
         tag: 'py-1 px-2',
       },
       small: {
         size: 14,
-        name: 'ml-2',
+        name: 'ml-2 member-selector-value-item',
         tag: 'py-0.5 px-1 member-value-small',
       },
     };

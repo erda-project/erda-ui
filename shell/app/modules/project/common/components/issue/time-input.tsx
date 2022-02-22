@@ -143,7 +143,8 @@ export const TimeInput = React.forwardRef(
       <Tooltip placement="topLeft" title={tooltip}>
         <Input
           allowClear
-          className={showTip ? 'with-error' : ''}
+          bordered={false}
+          className={`hover:bg-default-06 ${showTip ? 'with-error' : ''}`}
           placeholder={i18n.t('dop:please input time')}
           onFocus={() => setShowBtn(true)}
           {...rest}

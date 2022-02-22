@@ -13,7 +13,6 @@
 
 import { DatePicker, Input, Select, Tooltip } from 'antd';
 import layoutStore from 'layout/stores/layout';
-import classnames from 'classnames';
 import { ErdaIcon, MarkdownEditor, MarkdownRender } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { getTimeRanges } from 'common/utils';
@@ -142,6 +141,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
 interface IProps {
   name: string;
   label?: string;
+  icon?: string;
   labelStyle?: 'normal' | 'desc';
   type?:
     | 'input'
@@ -180,6 +180,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     disabled = false,
     onChangeCb,
     data,
+    icon,
     suffix = null,
     showRequiredMark = false,
     valueRender,
@@ -238,15 +239,16 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
       Comp = (
         <Select
           ref={compRef}
-          showArrow={false}
+          bordered={false}
           allowClear
-          className="w-full"
           value={editValue}
           onChange={onSelectChange}
           onBlur={() => onBlur()}
           placeholder={placeHolder || (label && `${i18n.t('dop:please set ')}${label}`)}
           disabled={disabled}
           {...rest}
+          className={` w-full hover:bg-default-06 ${rest?.className || ''}`}
+          suffixIcon={<ErdaIcon type="caret-down" className="text-default-3" />}
         >
           {isFunction(options) ? options() : options}
         </Select>
@@ -284,7 +286,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     case 'datePicker':
       Comp = (
         <DatePicker
-          className="w-full"
+          bordered={false}
           allowClear={false}
           value={editValue ? moment(editValue) : undefined}
           onChange={(m: moment.Moment) =>
@@ -296,6 +298,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
           disabled={disabled}
           ranges={getTimeRanges()}
           {...itemProps}
+          className={`w-full hover:bg-default-06 ${itemProps.className || ''}`}
         />
       );
       break;
@@ -321,10 +324,11 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
         <Input
           ref={compRef}
           disabled={disabled}
-          className={itemProps.className}
+          bordered={false}
           value={editValue}
           onBlur={() => onBlur()}
           {...itemProps}
+          className={`hover:bg-default-06 ${itemProps.className}`}
           onChange={onInputChange}
           allowClear={false}
         />
@@ -333,21 +337,14 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
   }
 
   return (
-    <div className={`common-edit-field ${className}`}>
-      {label && (
-        <div
-          data-required={showRequiredMark ? '* ' : ''}
-          className={classnames(
-            labelStyle === 'desc' ? 'text-sub' : 'text-normal',
-            'mb-1',
-            showRequiredMark ? 'before:required' : '',
-          )}
-          style={{ paddingLeft: '10px' }}
-        >
-          {label}
-        </div>
-      )}
-      <div>
+    <div className={`relative common-edit-field flex-h-center ${className} pr-4`}>
+      <div
+        data-required={showRequiredMark ? '* ' : ''}
+        className={`mr-1 ${showRequiredMark ? 'before:required' : ''} absolute -left-2`}
+      />
+      {icon ? <ErdaIcon type={icon} className="text-default-6 mr-1" /> : null}
+      {label && <div className={'text-default-6 w-[64px]'}>{label}</div>}
+      <div className="flex-1 flex-h-center">
         {Comp}
         {suffix}
       </div>

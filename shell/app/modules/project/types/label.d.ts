@@ -38,5 +38,6 @@ declare namespace LABEL {
     creator: string;
     createdAt: string;
     updatedAt: string;
+    isNewLabel?: boolean;
   }
 }
