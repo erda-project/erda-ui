@@ -88,7 +88,7 @@ declare namespace PROJECT_DEPLOY {
     operator: string;
     startAt: string;
     releaseInfo: ReleaseInfo;
-    applicationsInfo: DeployDetailApp[];
+    applicationsInfo: DeployDetailApp[][];
   }
 
   interface ReleaseInfo {
