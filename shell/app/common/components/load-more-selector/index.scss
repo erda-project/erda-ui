@@ -86,7 +86,7 @@
       .ant-input {
         color: $white;
         background-color: transparent !important;
-        &::-webkit-input-placeholder {
+        &::placeholder {
           color: rgba($white, 0.3);
         }
       }
