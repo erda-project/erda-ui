@@ -9,6 +9,13 @@
 - [ ] Display normally in english mode
 
 
+## Which issue(s) this PR fixes:
+Fixes #
+
+- Fixes #your-issue_number
+- [Erda Cloud Issue Link]()
+
+
 ## Does this PR introduce a user interface change?
 <!--
 Delete the unchosen one
@@ -28,16 +35,7 @@ Describe the specific changes from the user's perspective, as well as possible B
 | 🇨🇳 中文    |              |
 
 
-## Does this PR need be patched to older version?
+## Need cherry-pick to release versions?
 ✅ Yes(version is required)
 ❎ No
-
-
-## Which issue(s) this PR fixes:
-<!--
-*Automatically closes linked issue when PR is merged.
-Usage: `Fixes #<issue number>`, or `Fixes (paste link of issue)`.
-_If PR is about `failing-tests or flakes`, please post the related issues/tests in a comment and do not use `Fixes`_*
--->
-Fixes #
 
