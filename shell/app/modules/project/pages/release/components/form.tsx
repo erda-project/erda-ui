@@ -227,7 +227,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
             //   </Checkbox>
             // ),
           },
-          readOnlyRender: (value: RELEASE.ReleaseDetail[]) => {
+          readOnlyRender: (value: { active: boolean; list: RELEASE.ReleaseDetail[] }) => {
             return (
               <ReleaseSelect
                 label={i18n.t('dop:app release')}
