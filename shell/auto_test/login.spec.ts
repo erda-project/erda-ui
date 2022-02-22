@@ -18,7 +18,7 @@ export type RoleTypes = keyof typeof authConfig.roles;
 export default async ({ browser, role }: { browser: Browser; role: RoleTypes }) => {
   const page = await browser.newPage();
 
-  // Go to https://erda.hkci.terminus.io/
+  // Go to https://erda.jicheng.terminus.io/
   await page.goto(authConfig.url);
 
   // Click input[type="text"]
@@ -36,7 +36,7 @@ export default async ({ browser, role }: { browser: Browser; role: RoleTypes }) 
   // Click button:has-text("立即登录")
   await Promise.all([page.waitForNavigation(), page.click('button:has-text("立即登录")')]);
 
-  // Go to https://erda.hkci.terminus.io/
+  // Go to https://erda.jicheng.terminus.io/
   await page.goto(authConfig.url);
 
   // Save storage state into the file.

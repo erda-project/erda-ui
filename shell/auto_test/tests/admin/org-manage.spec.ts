@@ -21,8 +21,8 @@ const orgData = {
 
 Role('Admin', () => {
   test('org manage/org list', async ({ page, wait, expectExist }) => {
-    // Go to https://erda.hkci.terminus.io/-/sysAdmin/orgs
-    await page.goto('https://erda.hkci.terminus.io/-/sysAdmin/orgs');
+    // Go to https://erda.jicheng.terminus.io/-/sysAdmin/orgs
+    await page.goto('https://erda.jicheng.terminus.io/-/sysAdmin/orgs');
 
     // Click [placeholder="filter"]
     await page.click('[placeholder="filter"]');

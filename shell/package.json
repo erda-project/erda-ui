@@ -18,7 +18,7 @@
     "test:watch": "jest --verbose --watch",
     "auto-test": "npx playwright test --config=auto_test/playwright.config.ts --project=all",
     "debug-test": "PWDEBUG=1 npx playwright test --config=auto_test/playwright.config.ts --project=all",
-    "gen-test": "npx playwright codegen --lang=en-US --load-storage=auto_test/auth/Manager.json https://erda.hkci.terminus.io/",
+    "gen-test": "npx playwright codegen --lang=en-US --load-storage=auto_test/auth/Manager.json https://erda.jicheng.terminus.io/",
     "copy:coverage": "cp -R ./coverage ../coverage",
     "watch": "cross-env-shell NODE_ENV=development 'webpack --progress --color -w'",
     "dev-build": "cross-env-shell NODE_ENV=development 'npm run build-app'",

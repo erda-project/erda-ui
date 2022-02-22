@@ -15,12 +15,12 @@ import { Role, test, expect } from '../../fixtures';
 
 Role('Admin', () => {
   test('cluster manage', async ({ page, wait, expectExist }, testInfo) => {
-    // Go to https://erda.hkci.terminus.io/-/sysAdmin/orgs
-    await page.goto('https://erda.hkci.terminus.io/-/sysAdmin/orgs');
+    // Go to https://erda.jicheng.terminus.io/-/sysAdmin/orgs
+    await page.goto('https://erda.jicheng.terminus.io/-/sysAdmin/orgs');
 
     // Click text=Clusters
     await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/-/sysAdmin/cluster-manage?pageNo=1' }*/),
+      page.waitForNavigation(/*{ url: 'https://erda.jicheng.terminus.io/-/sysAdmin/cluster-manage?pageNo=1' }*/),
       page.click('text=Clusters'),
     ]);
 
@@ -32,7 +32,7 @@ Role('Admin', () => {
 
     // Click text=integration
     await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/-/sysAdmin/cluster-manage?orgName=integration&pageNo=1' }*/),
+      page.waitForNavigation(/*{ url: 'https://erda.jicheng.terminus.io/-/sysAdmin/cluster-manage?orgName=integration&pageNo=1' }*/),
       page.click('text=integration'),
     ]);
 
@@ -41,7 +41,7 @@ Role('Admin', () => {
 
     // Click text=keyifangshujiazuzhi
     await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/-/sysAdmin/cluster-manage?orgName=keyifangshujiazuzhi&pageNo=1' }*/),
+      page.waitForNavigation(/*{ url: 'https://erda.jicheng.terminus.io/-/sysAdmin/cluster-manage?orgName=keyifangshujiazuzhi&pageNo=1' }*/),
       page.click('text=keyifangshujiazuzhi'),
     ]);
 
@@ -51,7 +51,7 @@ Role('Admin', () => {
     // Click button:has-text("operation history")
     await page.click('button:has-text("operation history")');
     expect(page.url()).toBe(
-      'https://erda.hkci.terminus.io/-/sysAdmin/cluster-manage/history?recordType=upgradeEdgeCluster&scope=system',
+      'https://erda.jicheng.terminus.io/-/sysAdmin/cluster-manage/history?recordType=upgradeEdgeCluster&scope=system',
     );
 
     await page.close();

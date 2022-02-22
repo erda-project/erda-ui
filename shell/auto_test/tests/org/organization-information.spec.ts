@@ -49,7 +49,7 @@ Role('Manager', () => {
     await page.click('button:has-text("ok")');
     await page.click('button:has-text("exit current org")');
     await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda' }*/),
+      page.waitForNavigation(/*{ url: 'https://erda.jicheng.terminus.io/erda' }*/),
       page.click('button:has-text("ok")'),
     ]);
     expect(page.url()).toMatch(/\/erda/);

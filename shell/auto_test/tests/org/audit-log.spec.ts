@@ -17,7 +17,7 @@ Role('Manager', () => {
   test('Audit-log', async ({ page, goTo, expectExist }) => {
     goTo('projectManagement');
     await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/orgCenter/safety?endAt=2021-10-28%2014%3A17%3A51&pageNo=1&startAt=2021-10-28%2013%3A17%3A51' }*/),
+      page.waitForNavigation(/*{ url: 'https://erda.jicheng.terminus.io/erda/orgCenter/safety?endAt=2021-10-28%2014%3A17%3A51&pageNo=1&startAt=2021-10-28%2013%3A17%3A51' }*/),
       page.click('text=Audit log'),
     ]);
     const [download] = await Promise.all([

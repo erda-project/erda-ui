@@ -19,7 +19,7 @@ const addPipelineName = 'playwright____test____.yml';
 
 Role('Manager', () => {
   test('application pipeline test', async ({ page, expectExist, wait, goTo }) => {
-    // Go to https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/pipeline
+    // Go to https://erda.jicheng.terminus.io/integration/dop/projects/123/apps/788/pipeline
     await goTo('pipeline');
 
     // switch to pipeline execute detail, execute pipeline
