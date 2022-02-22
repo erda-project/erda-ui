@@ -54,6 +54,7 @@ module.exports = {
     },
   },
   testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/test/extend-expect.ts'],
   setupFiles: ['<rootDir>/test/setupJest.ts'],
   moduleNameMapper: {
     '\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'identity-obj-proxy',

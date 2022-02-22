@@ -109,6 +109,6 @@
     "emitDecoratorMetadata": true,
     "suppressImplicitAnyIndexErrors": true
   },
-  "include": ["./app/**/*"],
+  "include": ["./app/**/*", "./test/extend-expect.d.ts"],
   "exclude": ["node_modules", "dist"]
 }
