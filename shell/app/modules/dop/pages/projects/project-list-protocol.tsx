@@ -84,10 +84,10 @@ const ProjectList = () => {
               defaultLogo: <ErdaIcon type="morenxiangmu" size={28} />,
             },
             op: {
-              clickItem: (op: CP_COMMON.Operation, data: { record: { id: number; title: string } }) => {
+              clickItem: (op: CP_COMMON.Operation, data: { record: { id: string; title: string } }) => {
                 if (op.id === 'applyDeploy') {
                   const { record } = data;
-                  const pId = record.id;
+                  const pId = +record.id;
                   const pName = record.title;
                   if (pId && pName) {
                     handleShowApplyModal({ name: pName, id: pId } as PROJECT.Detail);
