@@ -25,11 +25,12 @@ stages:
       - js-build:
           alias: build-erda-ui
           params:
-            - cd ${{ dirs.erda-ui }}
-            - npm i @erda-ui/cli@1.5.x -g
-            - erda-ui init --online
-            - erda-ui build --online
-            - cp -r ${{ dirs.erda-ui }}/{public,scheduler} $WORKDIR
+            build_cmd:
+              - cd ${{ dirs.erda-ui }}
+              - npm i @erda-ui/cli@1.5.x -g
+              - erda-ui init --online
+              - erda-ui build --online
+              - cp -r ${{ dirs.erda-ui }}/{public,scheduler} $WORKDIR
             node_version: 12
             workdir: ${{ dirs.erda-ui }}
           resources:
