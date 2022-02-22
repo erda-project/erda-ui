@@ -24,6 +24,7 @@ import { Tooltip } from 'antd';
 import moment from 'moment';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
+import { flatten } from 'lodash';
 
 const AddDeploy = ({
   onSelect: propsOnSelect,
@@ -112,7 +113,7 @@ const AddDeploy = ({
       },
     },
   ];
-  const appList = detail?.applicationsInfo || [];
+  const appList = flatten(detail?.applicationsInfo) || [];
   return (
     <div>
       <div className="flex-h-center ">

@@ -39,19 +39,14 @@ const { Panel } = Collapse;
  * @param renderItem A function used to render the list
  */
 
-interface IProps<T extends object = any> {
-  label: React.ReactNode;
+interface IProps<T extends Obj> {
   value?: Array<{ active: boolean; list: T[] }>;
-  onChange?: (values: Array<{ active: boolean; list: T[] }>) => void;
-  rowKey: string;
-  parentKey: string;
-  menuRowKey: string;
-  renderSelectedItem?: (item: T) => React.ReactNode;
-  renderItem?: (item: T) => React.ReactNode;
-  list: T[];
-  menus: Array<{ title: string }>;
-  rightSlot?: React.ReactNode;
+  rowKey?: string;
+  parentKey?: string;
+  menuRowKey?: string;
   readOnly?: boolean;
+  onChange?: (values: Array<{ active: boolean; list: T[] }>) => void;
+  renderSelectedItem?: (item: T) => React.ReactNode;
 }
 
 function ReleaseSelect<T extends { applicationId: string; title: string }>(props: IProps<T>) {
@@ -180,7 +175,7 @@ function ReleaseSelect<T extends { applicationId: string; title: string }>(props
                         }`}
                         key={item[rowKey]}
                       >
-                        <div className="flex-1 pr-2">{renderSelectedItem(item)}</div>
+                        <div className="flex-1 pr-2 overflow-auto">{renderSelectedItem(item)}</div>
                         {!readOnly ? (
                           <ErdaIcon
                             type="close-small"
@@ -188,9 +183,7 @@ function ReleaseSelect<T extends { applicationId: string; title: string }>(props
                             className="erda-list-select-selected-item-delete cursor-pointer text-default-4"
                             onClick={() => removeResult(index, item[rowKey])}
                           />
-                        ) : (
-                          ''
-                        )}
+                        ) : null}
                       </div>
                     ))}
                     {!readOnly ? (
@@ -242,7 +235,7 @@ function ReleaseSelect<T extends { applicationId: string; title: string }>(props
             }
           >
             <div
-              className={'erda-list-select-btn px-2 py-1 rounded-sm inline-flex items-center cursor-pointer'}
+              className={'erda-list-select-btn px-2 leading-7 rounded-sm inline-flex items-center cursor-pointer'}
               onClick={() => setGroupList((prev) => [...prev, { active: true, list: [] }])}
             >
               <ErdaIcon type="plus" color="currentColor" size={16} className="mr-1" />
