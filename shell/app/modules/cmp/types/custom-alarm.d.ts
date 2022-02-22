@@ -20,6 +20,7 @@ declare namespace COMMON_CUSTOM_ALARM {
     notifyTargets: string;
     dashboardId?: string;
     enable: boolean;
+    ruleCount: number;
   }
   interface Metrics {
     name: CommonKey;

@@ -27,6 +27,7 @@ declare namespace COMMON_STRATEGY_NOTIFY {
   interface IPageParam {
     pageNo?: number;
     pageSize?: number;
+    name?: string;
   }
 
   interface IKeyDisplay {
@@ -42,6 +43,7 @@ declare namespace COMMON_STRATEGY_NOTIFY {
     appIds?: string[];
     notifies: INotifyGroupNotify[];
     createTime: number;
+    ruleCount: number;
   }
 
   interface INotifyGroup {

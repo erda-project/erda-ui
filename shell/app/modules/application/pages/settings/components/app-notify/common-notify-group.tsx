@@ -14,8 +14,8 @@
 import React from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
-import { cloneDeep, forEach, head, isEmpty, map, take } from 'lodash';
-import { Button, FormInstance, message, Modal, Select, Spin, Tooltip } from 'antd';
+import { cloneDeep, debounce, forEach, head, isEmpty, map, take } from 'lodash';
+import { Button, FormInstance, Input, message, Modal, Select, Spin, Tooltip } from 'antd';
 import { ColumnProps, IActions } from 'app/common/components/table/interface';
 import { Avatar, ErdaIcon, FormModal, MemberSelector } from 'common';
 import ErdaTable from 'common/components/table';
@@ -96,10 +96,9 @@ const groupTargetMap = {
 // };
 
 interface IProps {
-  commonPayload: {
-    scopeType: string;
+  commonPayload: COMMON_NOTIFY.IGetNotifyGroupQuery & {
     scopeId: string;
-    projectId?: string;
+    projectId?: number;
   };
   memberStore: any;
 }
@@ -189,9 +188,10 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
   const { clearNotifyGroups } = notifyGroupStore.reducers;
   const [loading] = useLoading(notifyGroupStore, ['getNotifyGroups']);
   const [modalVisible, openModal, closeModal] = useSwitch(false);
-  const [{ activedData, groupType }, updater, update] = useUpdate({
+  const [{ activedData, groupType, searchValue }, updater, update] = useUpdate({
     activedData: {},
     groupType: '',
+    searchValue: '',
   });
   const isEditing = !isEmpty(activedData);
 
@@ -218,13 +218,13 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
     clearNotifyGroups();
   });
 
-  const handleGetNotifyGroups = (payload?: COMMON_NOTIFY.IGetNotifyGroupQuery) => {
+  const handleGetNotifyGroups = (payload?: Partial<COMMON_NOTIFY.IGetNotifyGroupQuery>) => {
     getNotifyGroups({ ...commonPayload, ...payload });
   };
 
   const handlePageChange = (paging: { pageSize: number; current?: number }) => {
     const { pageSize: size, current } = paging;
-    getNotifyGroups({ ...commonPayload, pageSize: size, pageNo: current });
+    getNotifyGroups({ ...commonPayload, pageSize: size, pageNo: current, name: searchValue });
   };
 
   const handleEdit = ({ name, targets, id }: COMMON_NOTIFY.INotifyGroup) => {
@@ -261,7 +261,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       content: i18n.t('dop:the notification group will be permanently deleted'),
       onOk() {
         deleteNotifyGroups({ id, scopeType: commonPayload.scopeType }).then(() => {
-          handleGetNotifyGroups();
+          handleGetNotifyGroups({ name: searchValue });
         });
       },
     });
@@ -300,7 +300,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
         ],
       }).then(() => {
         handleCancel();
-        handleGetNotifyGroups();
+        handleGetNotifyGroups({ name: searchValue });
       });
       return;
     }
@@ -315,7 +315,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       ],
     }).then(() => {
       handleCancel();
-      handleGetNotifyGroups();
+      handleGetNotifyGroups({ name: searchValue });
     });
   };
 
@@ -506,6 +506,14 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
     return [editNotifyGroup, deleteNotifyGroup];
   };
 
+  const handleChange = React.useCallback(
+    debounce((value) => {
+      updater.searchValue(value);
+      handleGetNotifyGroups({ name: value });
+    }, 1000),
+    [],
+  );
+
   return (
     <div className="notify-group-manage">
       <Tooltip title={i18n.t('dop:new notification group')}>
@@ -538,6 +546,18 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
           dataSource={notifyGroups}
           columns={columns}
           actions={actions}
+          slot={
+            <Input
+              size="small"
+              className="w-[200px] bg-black-06 border-none ml-0.5"
+              allowClear
+              prefix={<ErdaIcon size="16" fill={'default-3'} type="search" />}
+              onChange={(e) => {
+                handleChange(e.target.value);
+              }}
+              placeholder={i18n.t('search {name}', { name: i18n.t('name') })}
+            />
+          }
           onChange={handlePageChange}
         />
       </Spin>
