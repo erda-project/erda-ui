@@ -27,7 +27,7 @@ Role('Manager', () => {
     await goTo('qualityReport');
     // Click text=Issues
     await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1' }*/),
+      page.waitForNavigation(/*{ url: 'https://erda.jicheng.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1' }*/),
       page.click('text=Issues'),
     ]);
 
@@ -56,16 +56,16 @@ Role('Manager', () => {
     // find about ticket
     await page.click('input[role="combobox"]');
     await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1&type=codeSmell' }*/),
+      page.waitForNavigation(/*{ url: 'https://erda.jicheng.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1&type=codeSmell' }*/),
       page.click('text=code smell'),
     ]);
     await page.click('text=no-labelfilter by priority >> input[role="combobox"]');
     await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1&priority=low&type=codeSmell' }*/),
+      page.waitForNavigation(/*{ url: 'https://erda.jicheng.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1&priority=low&type=codeSmell' }*/),
       page.click('form >> :nth-match(:text("low"), 2)'),
     ]);
     await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1&q=aaaaaa&type=bug' }*/),
+      page.waitForNavigation(/*{ url: 'https://erda.jicheng.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1&q=aaaaaa&type=bug' }*/),
       page.fill('[placeholder="filter by title"]', testData.title),
     ]);
     await expectExist(`text=${testData.title}`);
@@ -81,7 +81,7 @@ Role('Manager', () => {
     await expectExist(`text=${testData.title}`);
     await page.click('button:has-text("close")');
     await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1' }*/),
+      page.waitForNavigation(/*{ url: 'https://erda.jicheng.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1' }*/),
       page.click(':nth-match(:text("issues"), 2)'),
     ]);
     await page.click('text=closed');

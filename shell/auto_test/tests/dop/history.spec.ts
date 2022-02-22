@@ -19,7 +19,7 @@ const commit = 'feat';
 
 Role('Manager', () => {
   test('commit history', async ({ page, wait, expectExist, goTo }) => {
-    // Go to https://erda.hkci.terminus.io/erda/dop/projects/1/apps/16/repo/commits/master
+    // Go to https://erda.jicheng.terminus.io/erda/dop/projects/1/apps/16/repo/commits/master
     await goTo('commitHistory');
 
     // switch to pipeline execute detail, execute pipeline

@@ -16,7 +16,7 @@ import { Role, test } from '../../fixtures';
 // based on https://erda.cloud/erda/dop/projects/387/testPlan/manual/1472?eventKey=0-111362-111363-111385-111439&pageNo=1&recycled=false&testSetID=111439
 Role('Manager', () => {
   test('test', async ({ page, expectExist, wait, goTo }) => {
-    // Go to https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/deploy
+    // Go to https://erda.jicheng.terminus.io/integration/dop/projects/123/apps/788/deploy
     await goTo('deploy');
 
     if (page.$$('.sm-more-icon svg')) {
