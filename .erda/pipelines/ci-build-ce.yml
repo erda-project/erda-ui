@@ -25,20 +25,13 @@ stages:
       - js-build:
           alias: build-erda-ui
           params:
-            build_cmd:
-              - npm i -g @erda-ui/cli@1.0.23
-              - npm i -g pnpm
-              - erda-ui init -s --online
-              - erda-ui build -s -o
+            - cd ${{ dirs.erda-ui }}
+            - npm i @erda-ui/cli@1.5.x -g
+            - erda-ui init --online
+            - erda-ui build --online
+            - cp -r ${{ dirs.erda-ui }}/{public,scheduler} $WORKDIR
             node_version: 12
             workdir: ${{ dirs.erda-ui }}
-          caches:
-            - path: ${{ dirs.erda-ui }}/node_modules
-            - path: ${{ dirs.erda-ui }}/core/node_modules
-            - path: ${{ dirs.erda-ui }}/shell/node_modules
-            - path: ${{ dirs.erda-ui }}/scheduler/node_modules
-            - path: ${{ dirs.erda-ui }}/modules/uc/node_modules
-            - path: ${{ dirs.erda-ui }}/modules/market/node_modules
           resources:
             cpu: 2
             mem: 6144
@@ -58,7 +51,7 @@ stages:
               password: ${{ configs.docker_registry_password }}
           resources:
             cpu: 2
-            mem: 6144
+            mem: 2048
   - stage:
       - release:
           alias: release-ui-community
