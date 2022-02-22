@@ -1,5 +1,6 @@
 .erda-list-select {
   width: 50%;
+  min-width: 460px;
 
   &-btn {
     background-color: rgba($color-purple-highlight, 0.1);
@@ -66,6 +67,16 @@
     .ant-timeline-item-head {
       background: transparent;
     }
+  }
+
+  .ant-timeline-item {
+    padding-bottom: 16px;
+  }
+
+  .ant-collapse-ghost > .ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box {
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
   }
 }
 

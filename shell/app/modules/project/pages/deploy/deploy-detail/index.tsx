@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Tooltip, Input } from 'antd';
 import { ErdaIcon, FileEditor, DropdownSelectNew, EmptyHolder, Panel, Badge } from 'common';
 import ErdaTable from 'common/components/table';
-import { map } from 'lodash';
+import { flatten, map } from 'lodash';
 import { useUserMap } from 'core/stores/userMap';
 import { ConfigTypeMap, CONFIG_ENV_MAP } from '../config';
 import { fromNow, goTo } from 'common/utils';
@@ -24,10 +24,56 @@ import FileContainer from 'application/common/components/file-container';
 import routeInfoStore from 'core/stores/route';
 import moment from 'moment';
 import i18n from 'i18n';
+import ReleaseSelect from 'project/pages/release/components/release-select';
 
 interface IProps {
   detail: PROJECT_DEPLOY.DeployDetail | undefined;
 }
+
+const APP_DEPLOY_STATUES = {
+  WAITDEPLOY: {
+    status: 'default',
+    text: i18n.t('dop:Wait deploy'),
+  },
+  DEPLOYING: {
+    status: 'processing',
+    text: i18n.t('dop:Deploying'),
+  },
+  FAILED: {
+    status: 'error',
+    text: i18n.t('dop:Deploy failed'),
+  },
+  CANCELED: {
+    status: 'warning',
+    text: i18n.t('dop:Deploy canceled'),
+  },
+  OK: {
+    status: 'success',
+    text: i18n.t('dop:Deploy success'),
+  },
+};
+const renderSelectedItem = (item: PROJECT_DEPLOY.DeployDetailApp) => {
+  return (
+    <div key={item.id} className="flex justify-between items-center mb-1" title={item.name}>
+      <span>
+        {item.name}
+        <span
+          className="ml-2 text-xs text-purple-deep truncate cursor-pointer"
+          title={item.releaseVersion}
+          onClick={() => window.open(goTo.resolve.applicationReleaseDetail({ releaseId: item.releaseId }))}
+        >
+          {item.releaseVersion}
+        </span>
+      </span>
+      <Badge
+        className="ml-1"
+        size="small"
+        status={APP_DEPLOY_STATUES[item.status].status}
+        text={APP_DEPLOY_STATUES[item.status].text}
+      />
+    </div>
+  );
+};
 
 const DeployDetail = (props: IProps) => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
@@ -35,8 +81,14 @@ const DeployDetail = (props: IProps) => {
   const userMap = useUserMap();
 
   const appList = detail?.applicationsInfo;
+  const flattenAppList = flatten(appList);
   const [selectedApp, setSelectedApp] = React.useState<PROJECT_DEPLOY.DeployDetailApp | undefined>(
-    appList?.[0] || undefined,
+    flattenAppList?.[0] || undefined,
+  );
+
+  const _appList = React.useMemo(
+    () => appList?.filter((a) => a.length).map((s, i) => ({ active: i === 0, list: s })),
+    [appList],
   );
 
   const [selectedType, setSelectedType] = React.useState('params');
@@ -139,28 +191,26 @@ const DeployDetail = (props: IProps) => {
       <Panel fields={fields} data={detail} columnNum={4} />
       <div className="pb-2 pt-4  flex-h-center">
         <span className="text-default font-medium">{i18n.t('application')}</span>
-        <span className="bg-default-1 text-default-8 px-2 ml-1 text-xs rounded-lg">{appList?.length || 0}</span>
+        <span className="bg-default-1 text-default-8 px-2 ml-1 text-xs rounded-lg">{flattenAppList?.length || 0}</span>
       </div>
-        <ErdaTable
-          rowKey="id"
-          columns={[{ title: '', dataIndex: 'name' }]}
-          dataSource={appList}
-          hideHeader
-          showHeader={false}
-          pagination={{ hideTotal: true, hidePageSizeChange: true }}
-        />
+      <ReleaseSelect
+        label={i18n.t('dop:app release')}
+        value={_appList}
+        readOnly
+        renderSelectedItem={renderSelectedItem}
+      />
 
       <div className="pb-2 pt-4 text-default font-medium ">{i18n.t('dop:config information')}</div>
-      {appList?.length ? (
+      {flattenAppList?.length ? (
         <div className="flex flex-col flex-1 h-0 overflow-hidden">
           <DropdownSelectNew
-            options={map(appList, (app) => ({ key: app.id, label: app.name }))}
+            options={map(flattenAppList, (app) => ({ key: app.id, label: app.name }))}
             optionSize={'small'}
             mode="simple"
             value={selectedApp?.id}
             onClickItem={(v: string) => {
               setSelectedType('params');
-              setSelectedApp(appList?.find((app) => app.id === v));
+              setSelectedApp(flattenAppList?.find((app) => app.id === v));
             }}
             width={160}
           >
