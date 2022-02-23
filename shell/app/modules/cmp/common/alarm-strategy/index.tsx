@@ -159,7 +159,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
       ),
     },
     {
-      title: '规则',
+      title: i18n.t('rule'),
       dataIndex: 'ruleCount',
     },
     {
