@@ -12,15 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Spin, Input, Tooltip, message } from 'antd';
-import { Avatar, Copy, ErdaIcon, MarkdownEditor, UserInfo } from 'common';
+import { Drawer, Input, message, Spin, Tooltip } from 'antd';
+import { Copy, ErdaIcon, MarkdownEditor, UserInfo } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import testCaseStore from 'project/stores/test-case';
 import i18n from 'i18n';
 import { fromNow, mergeSearch, qs, updateSearch } from 'common/utils';
 import testSetStore from 'project/stores/test-set';
 import routeInfoStore from 'core/stores/route';
-import { CaseAPI, IApi, getEmptyApi } from './case-api';
+import { CaseAPI, getEmptyApi, IApi } from './case-api';
 import classnames from 'classnames';
 import ContentPanel from './content-panel';
 import CaseStep, { getEmptyStep } from './case-step';
@@ -378,11 +378,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
             </Tooltip>
             {editMode && (
               <div className="inline-flex justify-between items-center">
-                <Avatar
-                  showName
-                  name={<UserInfo id={caseDetail.updaterID} render={(data) => data.nick || data.name} />}
-                  size={28}
-                />
+                <UserInfo.RenderWithAvatar id={caseDetail.updaterID} />
                 &nbsp;{i18n.t('dop:updated on')}&nbsp;{updateDate}
               </div>
             )}

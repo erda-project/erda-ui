@@ -13,20 +13,19 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { ISSUE_PRIORITY_MAP, ISSUE_OPTION } from 'project/common/components/issue/issue-config';
-import { Ellipsis, Icon as CustomIcon, MemberSelector, Avatar } from 'common';
+import { ISSUE_OPTION, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
+import { Ellipsis, Icon as CustomIcon, MemberSelector } from 'common';
 import { useDrag } from 'react-dnd';
-import { WithAuth, usePerm, isAssignee, isCreator, getAuth } from 'user/common';
+import { getAuth, isAssignee, isCreator, usePerm, WithAuth } from 'user/common';
 import { isPromise } from 'common/utils';
-import { get, map } from 'lodash';
+import { map } from 'lodash';
 import i18n from 'i18n';
-import { IssueIcon, getIssueTypeOption } from 'project/common/components/issue/issue-icon';
-import { Menu, Dropdown, Modal, message } from 'antd';
+import { getIssueTypeOption, IssueIcon } from 'project/common/components/issue/issue-icon';
+import { Dropdown, Menu, message, Modal } from 'antd';
 import { Form } from 'dop/pages/form-editor/index';
 import './issue-item.scss';
 import routeInfoStore from 'core/stores/route';
 import userStore from 'app/user/stores';
-import { useUserMap } from 'core/stores/userMap';
 import { useMount } from 'react-use';
 import issueStore from 'project/stores/issues';
 import issueFieldStore from 'org/stores/issue-field';
@@ -35,6 +34,7 @@ import orgStore from 'app/org-home/stores/org';
 import { getFieldsByIssue } from 'project/services/issue';
 import { templateMap } from 'project/common/issue-config';
 import issueWorkflowStore from 'project/stores/issue-workflow';
+import UserInfo from 'common/components/user-info';
 
 export enum BACKLOG_ISSUE_TYPE {
   iterationIssue = 'iterationIssue',
@@ -69,7 +69,6 @@ export const IssueItem = (props: IIssueProps) => {
   const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
   const { title, type, priority, creator, assignee, id } = data;
   const curPriority = ISSUE_PRIORITY_MAP[priority] || {};
-  const userMap = useUserMap();
   const projectPerm = usePerm((s) => s.project);
   const permObj =
     type === ISSUE_OPTION.REQUIREMENT
@@ -97,8 +96,6 @@ export const IssueItem = (props: IIssueProps) => {
     },
   });
   const name = `${title}`;
-  const user = get(userMap, data.assignee, {});
-  const username = user.nick || user.name;
 
   const confirmDelete = (currentData: any) => {
     Modal.confirm({
@@ -135,9 +132,7 @@ export const IssueItem = (props: IIssueProps) => {
               <IssueState stateID={state.stateID} />
             </div>
           ) : null}
-          <div className="w80 mr-2">
-            <Avatar showName name={username} size={20} wrapClassName="w-full" />
-          </div>
+          <UserInfo.RenderWithAvatar id={data.assignee} className="w80 mr-2" />
           {onDelete ? (
             <div>
               <Dropdown

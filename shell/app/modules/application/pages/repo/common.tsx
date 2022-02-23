@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Tooltip } from 'antd';
-import { Copy, Avatar } from 'common';
+import { Avatar, Copy } from 'common';
 import { fromNow, replaceEmoji } from 'common/utils';
 import { renderAsLink } from './util';
 import i18n from 'i18n';
@@ -31,6 +31,7 @@ export const CommitBlock = ({ commit }: { commit?: ICommit }) => {
     return null;
   }
   const { id, author, commitMessage } = commit;
+  console.log(author);
   const msg = replaceEmoji(commitMessage);
   return (
     <div className="repo-commit-block flex justify-between items-center">
