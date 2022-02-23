@@ -87,8 +87,8 @@ const DeployDetail = (props: IProps) => {
   );
 
   const _appList = React.useMemo(
-    () => appList?.filter((a) => a.length).map((s, i) => ({ active: i === 0, list: s })),
-    [appList],
+    () => appList?.filter((a) => a.length).map((s, i) => ({ active: i + 1 === detail?.currentBatch, list: s })),
+    [appList, detail?.currentBatch],
   );
 
   const [selectedType, setSelectedType] = React.useState('params');

@@ -87,6 +87,8 @@ declare namespace PROJECT_DEPLOY {
     status: string;
     operator: string;
     startAt: string;
+    batchSize: number;
+    currentBatch: number;
     releaseInfo: ReleaseInfo;
     applicationsInfo: DeployDetailApp[][];
   }
