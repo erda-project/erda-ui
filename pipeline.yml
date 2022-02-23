@@ -3,6 +3,7 @@ version: "1.1"
 on:
   push:
     branches:
+      - master
       - release/*
     tags:
       - v*
@@ -119,6 +120,7 @@ stages:
           params:
             check_diceyml: false
             cross_cluster: "true"
+            tag_version: ${{ outputs.ui-version.version }}
             dice_yml: ${{ dirs.erda-ui }}/erda.yml
             image:
               enterprise-ui: ${{ outputs.build-erda-ui-enterprise-image.image }}
