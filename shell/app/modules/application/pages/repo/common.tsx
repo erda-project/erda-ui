@@ -31,7 +31,6 @@ export const CommitBlock = ({ commit }: { commit?: ICommit }) => {
     return null;
   }
   const { id, author, commitMessage } = commit;
-  console.log(author);
   const msg = replaceEmoji(commitMessage);
   return (
     <div className="repo-commit-block flex justify-between items-center">
