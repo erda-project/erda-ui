@@ -27,14 +27,14 @@ Role('Admin', () => {
   test('user manage', async ({ page, wait, expectExist, expectRequestSuccess }) => {
     await expectRequestSuccess();
 
-    // Go to https://erda.jicheng.terminus.io/-/sysAdmin/orgs
-    await page.goto('https://erda.jicheng.terminus.io/-/sysAdmin/user-manage');
+    // Go to https://erda.daily.terminus.io/-/sysAdmin/orgs
+    await page.goto('https://erda.daily.terminus.io/-/sysAdmin/user-manage');
 
     // Click [placeholder="user name"]
     await page.click('[placeholder="user name"]');
     // Fill [placeholder="user name"]
     await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.jicheng.terminus.io/-/sysAdmin/user-manage?name=auto_123&pageNo=1' }*/),
+      page.waitForNavigation(/*{ url: 'https://erda.daily.terminus.io/-/sysAdmin/user-manage?name=auto_123&pageNo=1' }*/),
       page.fill('[placeholder="user name"]', formData.name),
     ]);
 

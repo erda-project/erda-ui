@@ -19,12 +19,12 @@ test.use({
 
 Role('Admin', () => {
   test('audit log page', async ({ page, wait, expectExist }) => {
-    // Go to https://erda.jicheng.terminus.io/-/sysAdmin/orgs
-    await page.goto('https://erda.jicheng.terminus.io/-/sysAdmin/orgs', { timeout: 15000 });
+    // Go to https://erda.daily.terminus.io/-/sysAdmin/orgs
+    await page.goto('https://erda.daily.terminus.io/-/sysAdmin/orgs', { timeout: 15000 });
 
     // Click text=Audit log
     await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.jicheng.terminus.io/-/sysAdmin/audit-log?endAt=2021-07-06%2020%3A35%3A00&pageNo=1&startAt=2021-07-06%2019%3A35%3A00&sys=true' }*/),
+      page.waitForNavigation(/*{ url: 'https://erda.daily.terminus.io/-/sysAdmin/audit-log?endAt=2021-07-06%2020%3A35%3A00&pageNo=1&startAt=2021-07-06%2019%3A35%3A00&sys=true' }*/),
       page.click('text=Audit log'),
     ]);
 
@@ -66,7 +66,7 @@ Role('Admin', () => {
     await page.click('.ant-picker-cell.ant-picker-cell-start .ant-picker-cell-inner');
     // Click button:has-text("Ok")
     await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.jicheng.terminus.io/-/sysAdmin/audit-log?endAt=2022-07-01%2009%3A56%3A00&pageNo=1&startAt=2022-07-01%2009%3A54%3A54&sys=true' }*/),
+      page.waitForNavigation(/*{ url: 'https://erda.daily.terminus.io/-/sysAdmin/audit-log?endAt=2022-07-01%2009%3A56%3A00&pageNo=1&startAt=2022-07-01%2009%3A54%3A54&sys=true' }*/),
       page.click('button:has-text("Ok")'),
     ]);
 

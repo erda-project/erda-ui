@@ -15,8 +15,8 @@ import { Role, test } from '../../fixtures';
 
 Role('Admin', () => {
   test('global config page/user configuration', async ({ page, wait, expectExist }) => {
-    // Go to https://erda.jicheng.terminus.io/-/sysAdmin/orgs
-    await page.goto('https://erda.jicheng.terminus.io/-/sysAdmin/orgs');
+    // Go to https://erda.daily.terminus.io/-/sysAdmin/orgs
+    await page.goto('https://erda.daily.terminus.io/-/sysAdmin/orgs');
 
     // Click text=Global config
     await page.click('text=Global config');
