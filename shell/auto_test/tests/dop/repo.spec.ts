@@ -18,7 +18,7 @@ const pipelineDir = '.dice/pipelines';
 
 Role('Manager', () => {
   test('repo', async ({ page, expectExist, wait, goTo }) => {
-    // Go to https://erda.jicheng.terminus.io/erda/dop/projects/1/apps/16/repo/tree/master
+    // Go to https://erda.daily.terminus.io/erda/dop/projects/1/apps/16/repo/tree/master
     test.setTimeout(240000);
     await goTo('repo');
     await wait(2);

@@ -13,7 +13,7 @@
 Fixes #
 
 - Fixes #your-issue_number
-- [Erda Cloud Issue Link]()
+- [Erda Cloud Issue Link](paste your link here)
 
 
 ## Does this PR introduce a user interface change?

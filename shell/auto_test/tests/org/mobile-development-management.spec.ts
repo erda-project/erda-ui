@@ -35,7 +35,7 @@ Role('Manager', () => {
 
     // Add certificate
     await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.jicheng.terminus.io/erda/orgCenter/market/publisher/certificate?pageNo=1' }*/),
+      page.waitForNavigation(/*{ url: 'https://erda.daily.terminus.io/erda/orgCenter/market/publisher/certificate?pageNo=1' }*/),
       page.click('text=certificate'),
     ]);
     await page.click('button:has-text("add certificate")');

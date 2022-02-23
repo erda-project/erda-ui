@@ -15,8 +15,8 @@ import { Role, test } from '../../fixtures';
 
 Role('Manager', () => {
   test('have full platforms entry', async ({ page, expectExist }) => {
-    // Go to https://erda.jicheng.terminus.io/integration
-    await page.goto('https://erda.jicheng.terminus.io/integration');
+    // Go to https://erda.daily.terminus.io/integration
+    await page.goto('https://erda.daily.terminus.io/integration');
 
     // Click [aria-label="icon: appstore"]
     await page.click('[name="appstore"]');
@@ -32,8 +32,8 @@ Role('Manager', () => {
 
 Role('Dev', () => {
   test('have part platforms entry', async ({ page, expectExist }) => {
-    // Go to https://erda.jicheng.terminus.io/integration
-    await page.goto('https://erda.jicheng.terminus.io/integration');
+    // Go to https://erda.daily.terminus.io/integration
+    await page.goto('https://erda.daily.terminus.io/integration');
 
     // Click [aria-label="icon: appstore"]
     await page.click('[aria-label="icon: appstore"]');

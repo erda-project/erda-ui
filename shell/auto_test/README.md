@@ -8,7 +8,7 @@
 
 ```
 export default {
-  url: 'https://erda.jicheng.terminus.io/',
+  url: 'https://erda.daily.terminus.io/',
   roles: {
     Admin: {
       userName: 'admin',
