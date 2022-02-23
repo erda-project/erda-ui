@@ -14,7 +14,7 @@
 import React from 'react';
 import { Popover, Row, Col, Form, Button, Badge, Input } from 'antd';
 import { ErdaIcon, RenderFormItem, IFormItem } from 'common';
-import { cloneDeep, isEmpty, has } from 'lodash';
+import { isEmpty, has } from 'lodash';
 import ExternalItem from './external-item';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
@@ -150,9 +150,11 @@ const convertValue = (value: Obj, fieldList: Field[]) => {
   return { formValue, externalValue };
 };
 
+const emptyArr = [] as ConfigData[];
+
 const ConfigurableFilter = ({
   fieldsList,
-  configList = [],
+  configList = emptyArr,
   defaultConfig,
   value,
   onFilter: onFilterProps,
@@ -163,7 +165,8 @@ const ConfigurableFilter = ({
 }: IProps) => {
   const { externalValue: _externalValue, formValue } = React.useMemo(
     () => convertValue(value, fieldsList),
-    [value, fieldsList],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [value],
   );
 
   const [form] = Form.useForm();
@@ -176,7 +179,6 @@ const ConfigurableFilter = ({
 
   React.useEffect(() => {
     if (formValue) {
-      form.setFieldsValue(formValue || {});
       const config = getItemByValues(formValue, configList, fieldsList);
       config?.id && setCurrentConfig(config?.id);
       setIsNew(!config);
@@ -188,6 +190,12 @@ const ConfigurableFilter = ({
       }
     }
   }, [configList, defaultConfig, form, formValue, onFilterProps, fieldsList]);
+
+  React.useEffect(() => {
+    if (formValue) {
+      form.setFieldsValue(formValue || {});
+    }
+  }, [formValue, form]);
 
   useUpdateEffect(() => {
     onFilter();
@@ -229,7 +237,7 @@ const ConfigurableFilter = ({
     });
   };
 
-  React.useEffect(() => {
+  useUpdateEffect(() => {
     if (visible && formValue) {
       form.resetFields();
       form.setFieldsValue(formValue || {});
@@ -237,7 +245,7 @@ const ConfigurableFilter = ({
       config?.id && setCurrentConfig(config?.id);
       setIsNew(!config);
     }
-  }, [visible, form, configList, formValue, fieldsList]);
+  }, [visible, form, configList, formValue]);
 
   const externalField = fieldsList.filter((item) => item.outside);
 
