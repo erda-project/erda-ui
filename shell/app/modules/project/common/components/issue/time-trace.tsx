@@ -220,7 +220,7 @@ export const TimeTrace = React.forwardRef(
     };
 
     return (
-      <div>
+      <>
         <TimeTraceBar
           active={!disabled}
           logged={value.elapsedTime}
@@ -257,7 +257,7 @@ export const TimeTrace = React.forwardRef(
             <Form formRef={form} fields={fields} onChange={setEditData} />
           </Modal>
         )}
-      </div>
+      </>
     );
   },
 );

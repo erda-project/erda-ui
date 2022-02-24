@@ -47,8 +47,6 @@ import orgStore from 'app/org-home/stores/org';
 import { templateMap } from 'project/common/issue-config';
 import IssueMetaFields from './meta-fields';
 
-import './index.scss';
-
 export const ColorIcon = ({ icon }: { icon: string }) => {
   return (
     <CustomIcon type={icon} className="mr-2" color style={{ height: '20px', width: '20px', verticalAlign: 'sub' }} />
