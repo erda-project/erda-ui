@@ -141,7 +141,7 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
                 wrapperClassName: 'flex-1',
               },
               columnsRender: {
-                source: (val, record, map) => {
+                source: (_val: string, _record: string, map: { [key: string]: React.ReactNode }) => {
                   return (
                     <div>
                       <div className="leading-5 text-default-9">{map.applicationName}</div>
@@ -149,6 +149,14 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
                         <div className="mr-1 flex-h-center text-default-4">{map.icon}</div>
                         <div className="text-default-6">{map.branch}</div>
                       </div>
+                    </div>
+                  );
+                },
+                pipeline: (_val: string, _record: string, map: { [key: string]: React.ReactNode }) => {
+                  return (
+                    <div>
+                      <div className="leading-5 text-default-9">{map.pipelineName}</div>
+                      <div className="text-default-6">{map.sourceFile}</div>
                     </div>
                   );
                 },
