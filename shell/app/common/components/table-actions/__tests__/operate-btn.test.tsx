@@ -44,7 +44,7 @@ describe('TableActions', () => {
   it('should render with default props', () => {
     const onClick = jest.fn();
     const wrapper = getWrapper({}, onClick);
-    expect(wrapper.container.querySelectorAll('.btns').length).toBe(2);
+    expect(wrapper.container).isExit('.btns', 2);
     expect(wrapper.getAllByLabelText('icon: more').length).toBe(1);
     fireEvent.click(wrapper.getByLabelText('icon: more'));
     fireEvent.click(wrapper.container.querySelector('.operator-dropdown-wrap')!);
@@ -55,7 +55,7 @@ describe('TableActions', () => {
     const more = <span className="more-operations">more-operations</span>;
     const wrapper = getWrapper({ limit: 4, ellipses: more, className: 'customize-class' });
     expect(wrapper.container.querySelector('.more-operations')?.innerHTML).toBe('more-operations');
-    expect(wrapper.container.querySelectorAll('.btns').length).toBe(3);
+    expect(wrapper.container).isExit('.btns', 3);
     expect(
       wrapper.container.querySelector('.table-operations')?.classList.value.includes('customize-class'),
     ).toBeTruthy();
@@ -63,6 +63,6 @@ describe('TableActions', () => {
   it('should render with limit greater than the number of btns', () => {
     const more = <span className="more-operations">more-operations</span>;
     const wrapper = getWrapper({ limit: 8, ellipses: more, className: 'customize-class' });
-    expect(wrapper.container.querySelectorAll('.btns').length).toBe(6);
+    expect(wrapper.container).isExit('.btns', 6);
   });
 });

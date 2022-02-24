@@ -25,7 +25,7 @@ expect.extend({
         return [
           this.utils.matcherHint(`${this.isNot ? '.not' : ''}.isExit`, selector, expect.toString()),
           `Expected: ${this.utils.EXPECTED_COLOR(expect)}`,
-          `Received: ${this.utils.EXPECTED_COLOR(count)}`,
+          `Received: ${this.utils.RECEIVED_COLOR(count)}`,
         ].join('\n');
       },
     };

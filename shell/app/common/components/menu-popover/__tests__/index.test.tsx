@@ -17,7 +17,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 describe('MenuPopover', () => {
-  it('should ', async () => {
+  it('should work well', async () => {
     const renderContent = (setVisible: Function) => {
       return (
         <div

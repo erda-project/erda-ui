@@ -38,7 +38,6 @@ import orgStore from 'app/org-home/stores/org';
 import { FULL_ROOT_DOMAIN } from '../../constants';
 import mspProjectMember from 'common/stores/msp-project-member';
 import './index.scss';
-import * as console from 'console';
 
 const storeMap = {
   [MemberScope.ORG]: orgMemberStore,
@@ -334,8 +333,6 @@ const MembersTable = ({
 
   const confirmDelete = React.useCallback(
     (user: IMember | string[], isSelf?: boolean) => {
-      console.log(user);
-      console.log(isSelf);
       const { projectId, orgName: currentOrgName } = params;
       let title = '' as any;
       let userIds = [] as string[];
