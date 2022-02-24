@@ -155,7 +155,7 @@ declare namespace PROJECT_DEPLOY {
     id: string;
     name: string;
     releaseInfo: ReleaseInfo;
-    applicationsInfo: IApplicationsInfo[];
+    applicationsInfo: IApplicationsInfo[][];
   }
   interface IApplicationsInfo {
     id: string;
