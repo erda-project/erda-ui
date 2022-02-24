@@ -12,18 +12,18 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Tabs, Modal, message, Form, Divider } from 'antd';
+import { Button, Divider, Form, Modal, Tabs } from 'antd';
 import moment from 'moment';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
-import { UserInfo, FileEditor, RenderFormItem, MarkdownEditor } from 'common';
+import { FileEditor, MarkdownEditor, RenderFormItem, UserInfo } from 'common';
 import ErdaTable from 'common/components/table';
 import routeInfoStore from 'core/stores/route';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import orgStore from 'app/org-home/stores/org';
 import FileContainer from 'application/common/components/file-container';
-import { getReleaseDetail, formalRelease, updateRelease, checkVersion } from 'project/services/release';
+import { checkVersion, formalRelease, getReleaseDetail, updateRelease } from 'project/services/release';
 
 import './form.scss';
 
@@ -138,8 +138,8 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
 
   return (
     <div className="release-releaseDetail release-form h-full pb-16 relative">
-      <Form layout="vertical" form={form} className="h-full overflow-auto">
-        <Tabs defaultActiveKey="1">
+      <Form layout="vertical" form={form} className="h-full">
+        <Tabs defaultActiveKey="1" className="h-full">
           <TabPane tab={i18n.t('dop:basic information')} key="1">
             <div className="mb-4 pl-0.5">
               {isEdit ? (
@@ -202,7 +202,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
             />
           </TabPane>
           <TabPane tab="dice.yml" key="3">
-            <FileContainer className="mt-3" name="dice.yml">
+            <FileContainer name="dice.yml">
               <FileEditor name="dice.yml" fileExtension="yml" value={releaseDetail.diceyml} readOnly />
             </FileContainer>
           </TabPane>

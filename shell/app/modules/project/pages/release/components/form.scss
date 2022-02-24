@@ -19,4 +19,13 @@
     background-color: $color-default-04 !important;
     border: none;
   }
+
+  .ant-tabs {
+    display: flex;
+
+    .ant-tabs-content-holder {
+      flex: 1;
+      overflow: auto;
+    }
+  }
 }
