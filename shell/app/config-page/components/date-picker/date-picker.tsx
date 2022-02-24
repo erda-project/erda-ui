@@ -36,7 +36,8 @@ const DatePicker = (props: CP_DATE_PICKER.Props) => {
   const [value, setValue] = React.useState<Moment | Moment[]>(valueConvert(state?.value) as Moment | Moment[]);
 
   useUpdateEffect(() => {
-    setValue(valueConvert(state?.value) as Moment | Moment[]);
+    const convertVal = valueConvert(value);
+    if (state.value.toString() !== convertVal.toString()) setValue(valueConvert(state?.value) as Moment | Moment[]);
   }, [state?.value]);
 
   React.useEffect(() => {
