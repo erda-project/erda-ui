@@ -117,12 +117,12 @@ export const IssueIcon = ({ type, iconMap = 'TYPE', withName = false, ...rest }:
 export const getIssueTypeOption = (currentIssueType?: string) =>
   map(ISSUE_OPTION, (item) => {
     const iconObj = ISSUE_TYPE_MAP[item];
-    const { value, icon } = iconObj;
+    const { value } = iconObj;
     return (
       <Option
         key={value}
         value={value}
-        data-icon={<div className="flex items-center h-full">{icon}</div>}
+        data-icon={<div className="flex items-center h-full">{iconObj.iconLabel}</div>}
         disabled={value === currentIssueType}
       >
         <IssueIcon type={item} withName />

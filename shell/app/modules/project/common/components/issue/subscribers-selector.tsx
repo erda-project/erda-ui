@@ -212,7 +212,7 @@ export const SubscribersSelector = (props: IProps) => {
           }
         }}
       >
-        <span className="ml-0.5 p-1 bg-default-06 text-default-4 hover:text-default-8 flex-all-center">
+        <span className="ml-0.5 p-1 bg-default-06 text-default-4 cursor-pointer hover:text-default-8 flex-all-center">
           <span className="text-default-8 text-sm">
             {subscribers.length !== 0
               ? i18n.t('dop:{num} people followed', { num: subscribers.length })
