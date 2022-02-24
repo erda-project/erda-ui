@@ -11,9 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { fromNow, goTo } from 'common/utils';
-import { Holder, Avatar, RadioTabs,MarkdownRender } from 'common';
 import { goTo } from 'common/utils';
+import { Holder, RadioTabs } from 'common';
 import { useLoading } from 'core/stores/loading';
 import moment from 'moment';
 import { Spin } from 'antd';
