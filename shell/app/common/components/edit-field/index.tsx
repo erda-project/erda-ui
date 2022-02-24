@@ -105,7 +105,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       arrowPointAtCenter
     >
       <div
-        className="relative hover:bg-black-06 cursor-pointer rounded"
+        className="relative w-full hover:bg-black-06 cursor-pointer rounded"
         onClick={() => updater.isEditing(true)}
         style={{ maxHeight: expanded ? '' : maxHeight }}
       >
@@ -247,7 +247,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
           placeholder={placeHolder || (label && `${i18n.t('dop:please set ')}${label}`)}
           disabled={disabled}
           {...rest}
-          className={` w-full hover:bg-default-06 ${rest?.className || ''}`}
+          className={`w-full hover:bg-default-06 ${rest?.className || ''}`}
           suffixIcon={<ErdaIcon type="caret-down" className="text-default-3" />}
         >
           {isFunction(options) ? options() : options}
@@ -338,11 +338,10 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
 
   return (
     <div className={`relative common-edit-field flex-h-center ${className} pr-4`}>
-      <div
-        data-required={showRequiredMark ? '* ' : ''}
-        className={`mr-1 ${showRequiredMark ? 'before:required' : ''} absolute -left-2`}
-      />
-      {icon ? <ErdaIcon type={icon} className="text-default-6 mr-1" /> : null}
+      <If condition={showRequiredMark}>
+        <div data-required="* " className="mr-1 before:required absolute -left-2" />
+      </If>
+      {icon ? <ErdaIcon type={icon} className="text-default-6 mr-1" size={16} /> : null}
       {label && <div className={'text-default-6 w-[64px]'}>{label}</div>}
       <div className="flex-1 flex-h-center">
         {Comp}
