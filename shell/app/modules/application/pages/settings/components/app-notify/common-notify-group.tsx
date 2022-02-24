@@ -15,9 +15,9 @@ import React from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
 import { cloneDeep, debounce, forEach, head, isEmpty, map, take } from 'lodash';
-import { Button, FormInstance, Input, message, Modal, Select, Spin, Tooltip } from 'antd';
+import { Avatar,Button, FormInstance, Input, message, Modal, Select, Spin, Tooltip } from 'antd';
 import { ColumnProps, IActions } from 'app/common/components/table/interface';
-import { Avatar, ErdaIcon, FormModal, MemberSelector } from 'common';
+import { ErdaIcon, FormModal, MemberSelector } from 'common';
 import ErdaTable from 'common/components/table';
 import { useSwitch, useUpdate } from 'common/use-hooks';
 import { useMount, useUnmount } from 'react-use';
@@ -25,6 +25,8 @@ import { useUserMap } from 'core/stores/userMap';
 import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from 'application/stores/notify-group';
 import ExternalUserModal from './external-user-table';
+import UserInfo from 'common/components/user-info';
+import { getAvatarChars } from 'common/utils';
 import agent from 'agent';
 
 import './index.scss';
@@ -129,9 +131,9 @@ export const ListTargets = ({
       })}`;
       targetsEle = (
         <>
-          <div className="group-members mr-2">
+          <div className="group-members mr-2 flex">
             {map(take(values, 6), (obj: { receiver: string }) => (
-              <Avatar name={obj.receiver} size={24} key={obj.receiver} />
+              <UserInfo.RenderWithAvatar id={obj.receiver} key={obj.receiver} showName={false} />
             ))}
           </div>
           <Tooltip title={text}>
@@ -149,7 +151,11 @@ export const ListTargets = ({
           <div className="group-members mr-2">
             {map(take(values, 3), (obj: { receiver: string }) => {
               const { username } = JSON.parse(obj.receiver);
-              return <Avatar name={username} size={24} key={username} />;
+              return (
+                <Avatar size={'small'} key={username}>
+                  {getAvatarChars(username)}
+                </Avatar>
+              );
             })}
           </div>
           <Tooltip title={text}>

@@ -13,16 +13,17 @@
 
 import React from 'react';
 import { Spin, Tooltip } from 'antd';
-import { LoadMore, EmptyListHolder, Avatar, Icon as CustomIcon, CustomFilter, MemberSelector } from 'common';
+import { CustomFilter, EmptyListHolder, Icon as CustomIcon, LoadMore, MemberSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { get } from 'lodash';
 import { useEffectOnce } from 'react-use';
-import { goTo, fromNow } from 'common/utils';
+import { fromNow, goTo } from 'common/utils';
 import i18n from 'i18n';
 import { useLoading } from 'core/stores/loading';
 import { useUserMap } from 'core/stores/userMap';
 import './repo-mr-table.scss';
 import repoStore from 'application/stores/repo';
+import UserInfo from 'common/components/user-info';
 
 interface IProps {
   type: REPOSITORY.MrType;
@@ -141,16 +142,14 @@ const RepoMrTable = ({ type }: IProps) => {
                   <div className="sub-title flex items-center flex-wrap justify-start">
                     <span className="mr-1">#{item.mergeId}</span>
                     <span className="mr-6 flex items-center flex-wrap justify-start">
-                      <Tooltip title={curActor.name}>
-                        <Avatar className="mb-1 mr-1" showName name={curActor.nick} />
-                      </Tooltip>
+                      <UserInfo.RenderWithAvatar id={item[actorMap[item.state]]} />
                       &nbsp;{actionMap[item.state]}&nbsp;{i18n.t('at')} {fromNow(item[updateKeyMap[item.state]])}
                     </span>
                   </div>
                   <div className="desc flex items-center flex-wrap justify-start">
-                    <span className="mr-1">
-                      <Avatar showName name={<Tooltip title={authorUser.name}>{authorUser.nick}</Tooltip>} />
-                    </span>
+                    <Tooltip title={authorUser.name} className="mr-1">
+                      <UserInfo.RenderWithAvatar id={authorUser.id} />
+                    </Tooltip>
                     <span>
                       {i18n.t('created at')} {fromNow(item.createdAt)}
                     </span>
