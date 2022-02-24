@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { map } from 'lodash';
+import { debounce, map } from 'lodash';
 import moment from 'moment';
-import { useMount, useUnmount } from 'react-use';
-import { Button, Dropdown, Menu, Modal, Spin, Tooltip } from 'antd';
+import { useMount, useUnmount, useUpdateEffect } from 'react-use';
+import { Button, Dropdown, Input, Menu, Modal, Spin, Tooltip } from 'antd';
 import { Badge, ErdaIcon, UserInfo } from 'common';
 import ErdaTable, { IProps as TableProps } from 'common/components/table';
 import { goTo } from 'common/utils';
@@ -65,6 +65,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
     alarmStrategyStore.effects;
   const { clearAlerts } = alarmStrategyStore.reducers;
   const { getNotifyGroups } = notifyGroupStore.effects;
+  const [searchValue, setSearchValue] = React.useState('');
 
   useMount(() => {
     let payload = { scopeType, scopeId };
@@ -81,6 +82,10 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
     getRoleMap({ scopeType, scopeId: scopeType === ScopeType.MSP ? commonPayload?.scopeId : scopeId });
     getAlertTriggerConditions(scopeType);
   });
+
+  useUpdateEffect(() => {
+    getAlerts({ name: searchValue });
+  }, [searchValue]);
 
   useUnmount(() => {
     clearAlerts();
@@ -104,7 +109,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
   ) => {
     const { current, pageSize: size } = paging;
     if (extra.action === 'paginate') {
-      getAlerts({ pageNo: current, pageSize: size });
+      getAlerts({ pageNo: current, pageSize: size, name: searchValue });
     }
   };
 
@@ -113,7 +118,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
       id: record.id,
       enable: enable === 'enable',
     }).then(() => {
-      getAlerts({ pageNo });
+      getAlerts({ pageNo, name: searchValue });
     });
   };
 
@@ -153,22 +158,10 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
         </Dropdown>
       ),
     },
-    // ...insertWhen(scopeType === ScopeType.ORG, [
-    //   {
-    //     title: i18n.t('cmp:cluster'),
-    //     dataIndex: 'clusterNames',
-    //     width: 200,
-    //     render: (clusterNames: string[]) => map(clusterNames, (clusterName) => alarmScopeMap[clusterName]).join(),
-    //   },
-    // ]),
-    // ...insertWhen(scopeType === ScopeType.MSP && commonPayload?.projectType !== 'MSP', [
-    //   {
-    //     title: i18n.t('application'),
-    //     dataIndex: 'appIds',
-    //     width: 200,
-    //     render: (appIds: string[]) => map(appIds, (appId) => alarmScopeMap[appId]).join(),
-    //   },
-    // ]),
+    {
+      title: i18n.t('rule'),
+      dataIndex: 'ruleCount',
+    },
     {
       title: i18n.t('default:notification target'),
       dataIndex: 'notifies',
@@ -224,6 +217,14 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
 
     return [editStrategy, deleteStrategy];
   };
+
+  const handleChange = React.useCallback(
+    debounce((value) => {
+      setSearchValue(value);
+    }, 1000),
+    [],
+  );
+
   return (
     <div className="alarm-strategy">
       <div className="top-button-group">
@@ -247,6 +248,18 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
             pageSize,
             total,
           }}
+          slot={
+            <Input
+              size="small"
+              className="w-[200px] bg-black-06 border-none ml-0.5"
+              allowClear
+              prefix={<ErdaIcon size="16" fill={'default-3'} type="search" />}
+              onChange={(e) => {
+                handleChange(e.target.value);
+              }}
+              placeholder={i18n.t('search {name}', { name: i18n.t('name') })}
+            />
+          }
           onChange={handlePageChange}
         />
       </Spin>

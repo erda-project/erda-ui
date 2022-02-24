@@ -42,11 +42,13 @@ declare namespace COMMON_NOTIFY {
   }
 
   interface IGetNotifyGroupQuery {
+    projectId?: number;
     scopeType: ScopeType;
     scopeId: string;
     label?: string;
     pageNo?: number;
     pageSize?: number;
+    name?: string;
   }
 
   interface ExternalUserInfo {

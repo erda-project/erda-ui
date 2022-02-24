@@ -33,10 +33,23 @@ import {
   uniqBy,
   uniqueId,
 } from 'lodash';
-import { Button, Input, InputNumber, message, Modal, Select, Spin, Switch, Tooltip, FormInstance } from 'antd';
+import {
+  Button,
+  Dropdown,
+  FormInstance,
+  Input,
+  InputNumber,
+  Menu,
+  message,
+  Modal,
+  Select,
+  Spin,
+  Switch,
+  Tooltip,
+} from 'antd';
 import { IActions } from 'common/components/table/interface';
-import { Badge, BoardGrid, FormModal, IF, MarkdownEditor, RenderPureForm, UserInfo } from 'common';
-import ErdaTable from 'common/components/table';
+import { Badge, BoardGrid, ErdaIcon, FormModal, IF, MarkdownEditor, RenderPureForm, UserInfo } from 'common';
+import ErdaTable, { IProps as TableProps } from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { useMount } from 'react-use';
 import { useLoading } from 'core/stores/loading';
@@ -44,8 +57,7 @@ import orgCustomAlarmStore from 'app/modules/cmp/stores/custom-alarm';
 import mspCustomAlarmStore from 'msp/alarm-manage/alarm-strategy/stores/custom-alarm';
 import orgMonitorMetaDataStore from 'app/modules/cmp/stores/analysis-monitor-metadata';
 import mspMonitorMetaDataStore from 'app/modules/msp/alarm-manage/alarm-strategy/stores/analysis-monitor-metadata';
-import { createLoadDataFn } from 'cmp/common/custom-dashboard/data-loader';
-
+import { ColumnProps } from 'app/interface/common';
 import './index.scss';
 
 enum DataType {
@@ -124,7 +136,6 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
     getCustomAlarmDetail,
     getCustomAlarmTargets,
     createCustomAlarm,
-    getPreviewMetaData,
     editCustomAlarm,
   } = customAlarmStore.effects;
   const { clearCustomAlarmDetail } = customAlarmStore.reducers;
@@ -137,7 +148,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
   });
 
   const [
-    { modalVisible, editingFilters, editingFields, selectedMetric, activedFormData, previewerKey, layout },
+    { modalVisible, editingFilters, editingFields, selectedMetric, activedFormData, previewerKey, layout, searchValue },
     updater,
     update,
   ] = useUpdate({
@@ -148,6 +159,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
     selectedMetric: undefined as any,
     activedFormData: {},
     previewerKey: undefined,
+    searchValue: '',
   });
 
   React.useEffect(() => {
@@ -207,12 +219,12 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
   }, [customAlarmDetail, update]);
 
   React.useEffect(() => {
-    getCustomAlarms();
-  }, []);
+    getCustomAlarms({ name: searchValue, pageNo: 1 });
+  }, [searchValue]);
 
-  const handlePageChange = (paging: { current: number; pageSize?: number }) => {
+  const handlePageChange: TableProps<COMMON_CUSTOM_ALARM.CustomAlarms>['onChange'] = (paging) => {
     const { current, pageSize: size } = paging;
-    getCustomAlarms({ pageNo: current, pageSize: size });
+    getCustomAlarms({ pageNo: current, pageSize: size, name: searchValue });
   };
   const handleDeleteAlarm = (id: number) => {
     confirm({
@@ -224,7 +236,16 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
     });
   };
 
-  const columns = [
+  const handleEnableRule = (enable: string, record: COMMON_CUSTOM_ALARM.CustomAlarms) => {
+    switchCustomAlarm({
+      enable: enable === 'enable',
+      id: record.id,
+    }).then(() => {
+      getCustomAlarms({ pageNo, pageSize, name: searchValue });
+    });
+  };
+
+  const columns: Array<ColumnProps<COMMON_CUSTOM_ALARM.CustomAlarms>> = [
     {
       title: i18n.t('name'),
       dataIndex: 'name',
@@ -233,8 +254,32 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
     {
       title: i18n.t('status'),
       dataIndex: 'enable',
-      render: (enable: boolean) => (
-        <Badge text={enable ? i18n.t('enable') : i18n.t('unable')} status={enable ? 'success' : 'default'} />
+      render: (enable: boolean, record) => (
+        <Dropdown
+          trigger={['click']}
+          overlay={
+            <Menu
+              onClick={(e) => {
+                handleEnableRule(e.key, record);
+              }}
+            >
+              <Menu.Item key="enable">
+                <Badge text={i18n.t('enable')} status="success" />
+              </Menu.Item>
+              <Menu.Item key="unable">
+                <Badge text={i18n.t('unable')} status="default" />
+              </Menu.Item>
+            </Menu>
+          }
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="group flex items-center justify-between px-2 cursor-pointer absolute top-0 left-0 bottom-0 right-0 hover:bg-default-04"
+          >
+            <Badge text={enable ? i18n.t('enable') : i18n.t('unable')} status={enable ? 'success' : 'default'} />
+            <ErdaIcon type="caret-down" size={20} fill="black-3" className="opacity-0 group-hover:opacity-100" />
+          </div>
+        </Dropdown>
       ),
     },
     {
@@ -482,51 +527,6 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
         return valueEle;
       },
     },
-    // {
-    //   title: i18n.t('operate'),
-    //   fixed: 'right',
-    //   width: 150,
-    //   render: ({ uniKey }: any) => {
-    //     const isPreviewing = uniKey === previewerKey;
-    //     return (
-    //       <div className="table-operations">
-    //         <span
-    //           className="table-operations-btn"
-    //           onClick={() => {
-    //             handleRemoveEditingField(uniKey);
-    //             isPreviewing && updater.previewerKey(undefined);
-    //           }}
-    //         >
-    //           {i18n.t('delete')}
-    //         </span>
-
-    //         The interface data is returned incorrectly. The back-end suggests to hide the preview button temporarily
-    //         <IF check={isPreviewing}>
-    //           <span
-    //             className="table-operations-btn"
-    //             onClick={() => {
-    //               handlePreview(form, uniKey);
-    //             }}
-    //           >
-    //             {i18n.t('refresh')}
-    //           </span>
-    //         </IF>
-    //         <span
-    //           className="table-operations-btn"
-    //           onClick={() => {
-    //             if (isPreviewing) {
-    //               updater.previewerKey(undefined);
-    //             } else {
-    //               handlePreview(form, uniKey);
-    //             }
-    //           }}
-    //         >
-    //           {isPreviewing ? i18n.t('cancel') : i18n.t('preview')}
-    //         </span>
-    //       </div>
-    //     );
-    //   },
-    // },
   ];
 
   const fieldsTableActions: IActions<COMMON_CUSTOM_ALARM.Field> = {
@@ -614,45 +614,6 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
   };
 
   const extraKeys = ['uniKey', 'aggregations', 'aggregatorType'];
-  const handlePreview = (form: FormInstance, uniKey: any) => {
-    const { rule } = form.getFieldsValue();
-    const payload = {
-      rules: [
-        {
-          ...rule,
-          metric: selectedMetric,
-          functions: [omit(find(editingFields, { uniKey }), extraKeys)],
-          filters: map(editingFilters, (item) => omit(item, extraKeys)),
-        },
-      ],
-    };
-    updater.previewerKey(uniKey);
-    getPreviewMetaData(payload).then((metaData: any) => {
-      const apiInfo = merge({}, metaData.api, {
-        query: {
-          ...reduce(defaultFilters, (acc, { tag, op, value }) => ({ ...acc, [`${op}_${tag}`]: value }), {}),
-        },
-      });
-      const _layout = [
-        {
-          w: 24,
-          h: 9,
-          x: 0,
-          y: 0,
-          i: 'custom-rule-preview',
-          moved: false,
-          static: false,
-          view: {
-            ...metaData,
-            hideReload: true,
-            loadData: createLoadDataFn(apiInfo, metaData.chartType),
-          },
-        },
-      ];
-      updater.layout(_layout);
-    });
-  };
-
   const openModal = (id?: number) => {
     id && getCustomAlarmDetail(id);
     updater.modalVisible(true);
@@ -950,6 +911,13 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
     return [editAlarmRule, deleteAlarmRule];
   };
 
+  const handleChange = React.useCallback(
+    debounce((value) => {
+      updater.searchValue(value);
+    }, 1000),
+    [],
+  );
+
   return (
     <div className="custom-alarm">
       <div className="top-button-group">
@@ -957,16 +925,27 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
           {i18n.t('cmp:create custom rule')}
         </Button>
       </div>
-      <Spin spinning={getCustomAlarmsLoading}>
-        <ErdaTable
-          dataSource={customAlarms}
-          columns={columns}
-          rowKey="id"
-          onChange={handlePageChange}
-          pagination={{ current: pageNo, pageSize, total }}
-          actions={actions}
-        />
-      </Spin>
+      <ErdaTable
+        slot={
+          <Input
+            size="small"
+            className="w-[200px] bg-black-06 border-none ml-0.5"
+            allowClear
+            prefix={<ErdaIcon size="16" fill={'default-3'} type="search" />}
+            onChange={(e) => {
+              handleChange(e.target.value);
+            }}
+            placeholder={i18n.t('search {name}', { name: i18n.t('name') })}
+          />
+        }
+        loading={getCustomAlarmsLoading || switchCustomAlarmLoading}
+        dataSource={customAlarms}
+        columns={columns}
+        rowKey="id"
+        onChange={handlePageChange}
+        pagination={{ current: pageNo, pageSize, total }}
+        actions={actions}
+      />
       <FormModal
         name={i18n.t('cmp:custom rule')}
         loading={getCustomAlarmDetailLoading || extraLoading}
