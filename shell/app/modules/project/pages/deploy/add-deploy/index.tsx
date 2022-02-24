@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Badge, Panel, ErdaIcon } from 'common';
+import { Badge, ErdaIcon, Panel } from 'common';
 import ErdaTable from 'common/components/table';
 import { useUserMap } from 'core/stores/userMap';
 import { CONFIG_ENV_MAP } from '../config';
@@ -47,7 +47,7 @@ const AddDeploy = ({
             name: res.data.name,
             releaseId: selectedRelease,
             id: res.data?.id,
-            hasFail: !!res.data?.applicationsInfo?.filter((item) => !item?.preCheckResult.success).length,
+            hasFail: !!flatten(res.data?.applicationsInfo)?.filter((item) => !item?.preCheckResult.success).length,
           });
       });
   }, [selectedRelease, env]);
