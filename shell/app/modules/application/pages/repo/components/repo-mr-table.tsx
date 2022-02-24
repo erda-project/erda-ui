@@ -108,7 +108,7 @@ const RepoMrTable = ({ type }: IProps) => {
       <Spin spinning={isFetching}>
         <Holder>
           <ul className="repo-mr-list">
-            {mrList.map((item: any) => {
+            {mrList.map((item) => {
               const actorMap = {
                 open: 'authorId',
                 closed: 'closeUserId',

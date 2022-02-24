@@ -146,28 +146,52 @@ declare namespace REPOSITORY {
     [prop: string]: any;
   }
 
-  interface MRItem {
+  interface MrUser {
+    email: string;
     id: number;
-    mergeId: number;
+    nickName: string;
+    phone: string;
+    username: string;
+  }
+
+  interface MRItem {
     appId: number;
-    repoId: number;
-    title: string;
-    authorId: string;
-    description: string;
     assigneeId: string;
-    mergeUserId: string;
-    closeUserId: string;
-    sourceBranch: string;
-    targetBranch: string;
-    sourceSha: string;
-    targetSha: string;
-    removeSourceBranch: true;
-    state: string;
-    defaultCommitMessage: string;
-    createdAt: string;
-    updatedAt: string;
+    assigneeUser: MrUser;
+    authorId: string;
+    authorUser: MrUser;
+    checkRuns: {
+      checkrun: null | Obj;
+      mergable: boolean;
+      result: string;
+    };
     closeAt: string;
-    mergeAt: string;
+    closeUser: MrUser;
+    closeUserId: string;
+    createdAt: string;
+    defaultCommitMessage: string;
+    description: string;
+    eventName: string;
+    id: number;
+    isCheckRunValid: boolean;
+    link: string;
+    mergeAt: null | string;
+    mergeId: number;
+    mergeUser: null | MrUser;
+    mergeUserId: string;
+    rebaseBranch: string;
+    removeSourceBranch: boolean;
+    repoId: number;
+    score: number;
+    scoreNum: number;
+    sourceBranch: string;
+    sourceSha: string;
+    state: string;
+    targetBranch: string;
+    targetBranchRule: null | Obj;
+    targetSha: string;
+    title: string;
+    updatedAt: string;
   }
 
   interface IBranch {
@@ -219,7 +243,7 @@ declare namespace REPOSITORY {
     tag: any[];
     commit: any[];
     mr: Obj;
-    mrList: any[];
+    mrList: MRItem[];
     mrStats: Obj;
     mrDetail: Obj;
     comments: any[];
@@ -270,10 +294,14 @@ declare namespace REPOSITORY {
   }
 
   interface QueryMrs {
-    state: REPOSITORY.MrType;
+    projectName: string;
+    appName: string;
+    state?: REPOSITORY.MrType;
     assigneeId?: number;
     authorId?: number;
     pageNo?: number;
+    pageSize?: number;
+    query?: string;
   }
 
   interface QueryBuildId {

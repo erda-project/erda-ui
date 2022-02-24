@@ -12,23 +12,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { apiCreator } from 'core/service';
 
-export const getAppMR = ({
-  projectName,
-  appName,
-  query,
-  authorId,
-}: {
-  projectName: string;
-  appName: string;
-  query?: string;
-  authorId?: number;
-}) => {
-  return agent
-    .get(`/api/repo/${projectName}/${appName}/merge-requests`)
-    .query({ query, authorId })
-    .then((response: any) => response.body);
+const apis = {
+  getAppMR: {
+    api: '/api/repo/:projectName:/:appName:/merge-requests',
+  },
 };
+
+export const getAppMR = apiCreator<(p: REPOSITORY.QueryMrs) => IPagingResp<REPOSITORY.MRItem>>(apis.getAppMR);
+
 export const getRepoInfo = ({ repoPrefix, branch }: REPOSITORY.GetInfo): REPOSITORY.IInfo => {
   const api = `/api/repo/${repoPrefix}/stats${branch ? `/${branch}` : ''}`;
   return agent.get(api).then((response: any) => response.body);
