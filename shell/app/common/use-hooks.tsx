@@ -537,7 +537,7 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps<T> {
     });
   };
 
-  const onTableChange = (pagination: PaginationConfig, _filters: any, sorter: SorterResult<any>) => {
+  const onTableChange = (pagination: any, _filters: any, sorter: Obj<any>) => {
     if (!isEmpty(sorter)) {
       const { field, order } = sorter;
       if (order) {

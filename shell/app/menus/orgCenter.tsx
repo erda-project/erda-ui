@@ -16,7 +16,7 @@ import { filterMenu, MENU_SCOPE } from './util';
 import { goTo } from 'common/utils';
 import permStore from 'user/stores/permission';
 import React from 'react';
-import { ErdaIcon } from 'common';
+import ErdaIcon from 'common/components/erda-icon';
 import { filter } from 'lodash';
 
 // 应用中心菜单

@@ -16,7 +16,7 @@ import { filter } from 'lodash';
 import permStore from 'user/stores/permission';
 import { goTo } from 'common/utils';
 import React from 'react';
-import { ErdaIcon } from 'common';
+import ErdaIcon from 'common/components/erda-icon';
 
 export const getProjectMenu = (projectId: string, pathname: string) => {
   const projectPerm = permStore.getState((s) => s.project);

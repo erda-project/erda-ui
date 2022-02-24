@@ -18,6 +18,20 @@ import replaceAllInserter from 'string.prototype.replaceall';
 
 replaceAllInserter.shim();
 
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
+
 jest.mock('i18n', () => {
   return {
     t: (str, data) => {
@@ -35,6 +49,9 @@ jest.mock('i18n', () => {
     getCurrentLocale: () => ({
       moment: 'en',
     }),
+    addResourceBundle: () => {},
+    init: () => {},
+    getLang: () => {},
   };
 });
 

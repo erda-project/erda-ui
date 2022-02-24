@@ -12,12 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'core/cube';
-import { getResourcePermissions, getMspResourcePermissions } from '../services/user';
+import { getMspResourcePermissions, getResourcePermissions } from '../services/user';
 import { orgRoleMap } from './_perm-org';
 import { projectRoleMap } from './_perm-project';
 import { appRoleMap } from './_perm-app';
 import { mspRoleMap } from './_perm-msp';
-import { map, set, get, cloneDeep } from 'lodash';
+import { cloneDeep, get, map, set } from 'lodash';
 import routeInfoStore from 'core/stores/route';
 import { getUserMap } from 'core/stores/userMap';
 import userStore from './index';

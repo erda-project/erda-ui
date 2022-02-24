@@ -13,8 +13,7 @@
   ],
   "scripts": {
     "test": "jest",
-    "test:coverage": "jest --verbose --coverage",
-    "test-local:coverage": "jest --verbose --coverage -c ./jest.config.local.js",
+    "test:coverage": "jest",
     "test:watch": "jest --verbose --watch",
     "auto-test": "npx playwright test --config=auto_test/playwright.config.ts --project=all",
     "debug-test": "PWDEBUG=1 npx playwright test --config=auto_test/playwright.config.ts --project=all",
@@ -111,25 +110,23 @@
   },
   "optionalDependencies": {
     "@playwright/test": "^1.14.0",
-    "@types/enzyme": "^3.1.15",
-    "@types/jest": "23.3.14",
-    "@types/react-test-renderer": "^16.0.3",
+    "@types/jest": "^27.4.0",
+    "@types/react-test-renderer": "^17.0.1",
+    "babel-jest": "^27.4.6",
     "chalk": "^4.1.1",
-    "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
-    "jest": "26.6.3",
+    "jest": "^27.4.7",
     "jest-canvas-mock": "1.1.0",
-    "jest-environment-enzyme": "7.1.2",
-    "jest-enzyme": "7.1.2",
     "mocha-multi-reporters": "^1.1.7",
     "mochawesome": "^6.2.1",
     "mochawesome-merge": "^4.2.0",
     "mochawesome-report-generator": "^5.1.0",
     "mockdate": "^3.0.5",
     "mockjs": "^1.0.1-beta3",
+    "mq-polyfill": "^1.1.8",
     "playwright": "^1.14.0",
-    "react-test-renderer": "^16.7.0",
-    "ts-jest": "26.5.6",
+    "react-test-renderer": "^17.0.2",
+    "ts-jest": "^27.1.3",
     "tsconfig-paths-jest": "0.0.1"
   },
   "devDependencies": {
@@ -145,6 +142,10 @@
     "@module-federation/automatic-vendor-federation": "^1.2.1",
     "@paiva/translation-google": "^1.0.9",
     "@phenomnomnominal/tsquery": "^4.1.1",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/react-hooks": "^1.1.0",
+    "@testing-library/user-event": "^13.5.0",
     "@types/diff-match-patch": "^1.0.32",
     "@types/echarts": "^4.1.3",
     "@types/lodash": "^4.14.118",
@@ -204,8 +205,7 @@
     "webpack-merge": "^5.7.3"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,scss,css,md}": "prettier --write",
-    "app/common/**/*.{js,jsx,ts,tsx}": "npm run check-unit-test"
+    "*.{js,jsx,ts,tsx,json,scss,css,md}": "prettier --write"
   },
   "config": {
     "commitizen": {
