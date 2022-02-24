@@ -271,7 +271,7 @@ const BatchOperation = (props: IBatchProps) => {
     return fullMenus.map((mItem) => {
       const disabledProps = selectedRowKeys?.length
         ? {
-            disabled: has(mItem, 'disabled') ? mItem.disabeld : !chosenOpts.includes(mItem.key),
+            disabled: has(mItem, 'disabled') ? mItem.disabled : !chosenOpts.includes(mItem.key),
             disabledTip: i18n.t('exist item which not match operation'),
           }
         : { disabled: true, disabledTip: i18n.t('no items selected') };
