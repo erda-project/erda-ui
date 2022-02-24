@@ -15,7 +15,7 @@ import React from 'react';
 import i18n from 'i18n';
 import { Select } from 'antd';
 import { priorityList } from 'project/pages/test-manage/constants';
-import { Avatar, UserInfo } from 'common';
+import { UserInfo } from 'common';
 import moment from 'moment';
 
 const { Option } = Select;
@@ -49,11 +49,7 @@ const CaseMeta = ({ onBlurCapture, onChange, dataSource }: IProps) => {
       </div>
       <p className="text-desc my-0">{i18n.t('creator')}</p>
       <p className="mt-2 mb-5">
-        <Avatar
-          showName
-          name={<UserInfo id={dataSource.creatorID} render={(data) => data.nick || data.name} />}
-          size={28}
-        />
+        <UserInfo.RenderWithAvatar id={dataSource.creatorID} />
       </p>
       <p className="text-desc my-0">{i18n.t('create time')}</p>
       <p className="mt-2 mb-5">

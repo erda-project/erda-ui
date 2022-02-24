@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Holder, Avatar, MarkdownRender } from 'common';
-import { fromNow } from 'common/utils';
+import { Holder, MarkdownRender } from 'common';
+import { fromNow, goTo } from 'common/utils';
 import { useLoading } from 'core/stores/loading';
 import { map } from 'lodash';
 import moment from 'moment';
@@ -20,10 +20,10 @@ import { Spin, Timeline } from 'antd';
 import issueStore from 'project/stores/issues';
 import { useUserMap } from 'core/stores/userMap';
 import React from 'react';
-import { goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'app/i18n';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
+import UserInfo from 'common/components/user-info';
 
 interface IProps {
   type: ISSUE_TYPE;
@@ -54,8 +54,7 @@ export const IssueActivities = (props: IProps) => {
         renderContent = (
           <>
             <div className="flex items-center flex-wrap justify-start">
-              <Avatar name={user.nick || user.name} showName />
-              &nbsp;
+              <UserInfo.RenderWithAvatar id={user.id} />
               <span>{i18n.t('dop:remarked at')}</span>
               &nbsp;
               <span>{fromNow(updatedAt, { edgeNow: true })}</span>
@@ -69,7 +68,7 @@ export const IssueActivities = (props: IProps) => {
         const { appID, mrID, mrTitle } = mrInfo as ISSUE.IssueStreamMrInfo;
         renderContent = (
           <div className="flex items-center flex-wrap justify-start">
-            <Avatar name={user.nick || user.name} showName />
+            <UserInfo.RenderWithAvatar id={user.id} />
             <span className="mx-2">{i18n.t('dop:add relation to MR')}:</span>
             <a onClick={() => goTo(goTo.pages.appMr, { projectId, appId: appID, mrId: mrID, jumpOut: true })}>
               {mrTitle}
@@ -81,7 +80,7 @@ export const IssueActivities = (props: IProps) => {
       default:
         renderContent = (
           <div className="flex items-center flex-wrap justify-start">
-            <Avatar name={user.nick || user.name} showName />
+            <UserInfo.RenderWithAvatar id={user.id} />
             <span className="ml-2">{content}</span>
           </div>
         );
