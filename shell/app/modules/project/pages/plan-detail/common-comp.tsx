@@ -15,9 +15,9 @@ import i18n from 'i18n';
 import SelectEnv from 'project/pages/test-manage/case/case-drawer/select-env';
 import React from 'react';
 import testCaseStore from 'project/stores/test-case';
-import { Avatar, UserInfo } from 'common';
+import { UserInfo } from 'common';
 import { useEffectOnce } from 'react-use';
-import { Progress, Popover } from 'antd';
+import { Popover, Progress } from 'antd';
 import testPlanStore from 'project/stores/test-plan';
 import testEnvStore from 'project/stores/test-env';
 import routeInfoStore from 'core/stores/route';
@@ -37,6 +37,7 @@ interface IPropsOfEnvSelect {
   children: JSX.Element;
   execute: (data: Omit<TEST_PLAN.CaseApi, 'testPlanID'>) => void;
 }
+
 export const EnvSelect = ({ execute, children }: IPropsOfEnvSelect) => {
   const projectEnvList = testEnvStore.useStore((s) => s.projectEnvList);
   const { getProjectTestEnvList, clearProjectEnvList } = testEnvStore;
@@ -87,7 +88,7 @@ export const BaseInfo = () => {
         {partnerIDs.map((value, index) => {
           return (
             <span key={`${String(index)}-${value}`} className="mr-2 mb-2">
-              <Avatar showName name={<UserInfo id={value} />} />
+              <UserInfo.RenderWithAvatar id={value} />
             </span>
           );
         })}
@@ -102,12 +103,12 @@ export const BaseInfo = () => {
         </div>
         <div className="sub member">
           <span className="ml-1">{i18n.t('dop:principal')}：</span>
-          <Avatar showName name={<UserInfo id={planItemDetail.ownerID} render={(data) => data.nick || data.name} />} />
+          <UserInfo.RenderWithAvatar id={planItemDetail.ownerID} />
           <span className="ml-6">{i18n.t('dop:participant')}：</span>
           <Popover overlayStyle={{ width: 280 }} overlayClassName="participant-popover" content={content}>
             <span className="participant flex justify-between items-center hover-active">
               {partnerIDs.slice(0, 4).map((p, index) => (
-                <Avatar key={`${String(index)}-${p}`} />
+                <UserInfo.RenderWithAvatar showName={false} id={p} key={`${String(index)}-${p}`} />
               ))}
               {partnerIDs.length > 4 ? <span className="count px-1 font-medium">+{partnerIDs.length - 4}</span> : null}
             </span>

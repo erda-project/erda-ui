@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import React from 'react';
-import { Dropdown, Menu, Popconfirm, Progress, Tooltip } from 'antd';
+import { Avatar, Dropdown, Menu, Popconfirm, Progress, Tooltip } from 'antd';
 import moment from 'moment';
-import { Avatar, Badge, Copy, ErdaIcon, TagsRow } from 'common';
+import { Badge, Copy, ErdaIcon, TagsRow } from 'common';
 import { filter, get, has, isArray, map, sortBy } from 'lodash';
 import { getAvatarChars } from 'app/common/utils';
 import { WithAuth } from 'user/common';

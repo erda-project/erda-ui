@@ -12,12 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip, Drawer } from 'antd';
+import { Avatar, Drawer, Tooltip } from 'antd';
 import moment from 'moment';
 import { map } from 'lodash';
-import { getDateDuration } from 'common/utils';
+import { getAvatarChars, getDateDuration } from 'common/utils';
 import { TimelineActivity } from 'project/common/components/activity';
-import { CompSwitcher, Avatar, Copy } from 'common';
+import { CompSwitcher, Copy } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import DeployLog from 'runtime/common/logs/components/deploy-log';
 import { useLoading } from 'core/stores/loading';
@@ -98,7 +98,9 @@ const Activity = () => {
     return (
       <div className="deployment-card">
         <div className=" flex justify-between items-center">
-          <Avatar size={32} name={operatorName} url={avatar || ''} className="self-start" />
+          <Avatar src={avatar || ''} className="self-start">
+            {getAvatarChars(operatorName)}
+          </Avatar>
           <div className="deployment-content ml-2 flex-1">
             <div className="info mb-2">
               <Tooltip title={name || ''}>

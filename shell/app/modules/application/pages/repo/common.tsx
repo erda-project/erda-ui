@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Tooltip } from 'antd';
-import { Copy, Avatar } from 'common';
+import { Avatar, Copy } from 'common';
 import { fromNow, replaceEmoji } from 'common/utils';
 import { renderAsLink } from './util';
 import i18n from 'i18n';
