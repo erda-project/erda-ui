@@ -11,13 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { MarkdownEditor } from 'common';
+import { ErdaIcon, MarkdownEditor } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { isEmpty } from 'lodash';
-import { Button, message } from 'antd';
+import { Button, Input } from 'antd';
 import React from 'react';
 import { WithAuth } from 'user/common';
 import i18n from 'i18n';
+import { useKey } from 'react-use';
 
 interface IProps {
   editAuth?: boolean;
@@ -32,10 +32,27 @@ export const IssueCommentBox = (props: IProps) => {
     content: '',
   });
 
+  const submit = () => {
+    onSave(stateMap.content);
+    updater.content('');
+    updater.visible(false);
+  };
+
+  useKey((event) => event.key === 'Enter' && event.metaKey, submit);
+
+  const disableSubmit = !stateMap.content.trim();
+
   return stateMap.visible ? (
-    <div>
+    <div
+      className="fixed bottom-1"
+      style={{
+        width: '80vw',
+        left: '20vw',
+      }}
+    >
       <div className="comment-box-markdown">
         <MarkdownEditor
+          value={stateMap.content}
           onChange={(val: any) => {
             updater.content(val);
           }}
@@ -44,19 +61,7 @@ export const IssueCommentBox = (props: IProps) => {
         />
       </div>
       <div className="mt-3 btn-line-rtl">
-        <Button
-          type="primary"
-          className="ml-3"
-          onClick={() => {
-            if (isEmpty(stateMap.content.trim())) {
-              message.warning(i18n.t('dop:this item cannot be empty'));
-              return;
-            }
-            onSave(stateMap.content);
-            updater.content('');
-            updater.visible(false);
-          }}
-        >
+        <Button type="primary" className="ml-3" disabled={disableSubmit} onClick={() => submit()}>
           {i18n.t('ok')}
         </Button>
         <Button type="link" onClick={() => updater.visible(false)}>
@@ -66,7 +71,34 @@ export const IssueCommentBox = (props: IProps) => {
     </div>
   ) : (
     <WithAuth pass={editAuth}>
-      <Button onClick={() => updater.visible(true)}>{i18n.t('dop:add remark')}</Button>
+      <div className="absolute bottom-0 w-full flex px-4 py-3" style={{ background: '#f7f7f7' }}>
+        <Input.TextArea
+          value={stateMap.content}
+          onChange={(e) => updater.content(e.target.value)}
+          placeholder={i18n.t('dop:Comment (⌘ + Enter to send)')}
+          autoSize={{ maxRows: 8 }}
+          className="bg-default-06 border-none"
+        />
+        <div className="flex items-center absolute right-4 bottom-3 mb-0.5 mr-0.5">
+          <ErdaIcon
+            className="text-desc hover-active"
+            onClick={() => updater.visible(true)}
+            type="expand-text-input"
+            size={16}
+          />
+          {disableSubmit ? (
+            <ErdaIcon className="ml-3 cursor-not-allowed rounded-sm bg-desc p-1" type="fasong" fill="white" size={20} />
+          ) : (
+            <ErdaIcon
+              className="ml-3 cursor-pointer rounded-sm bg-default p-1"
+              type="fasong"
+              fill="white"
+              size={20}
+              onClick={() => submit()}
+            />
+          )}
+        </div>
+      </div>
     </WithAuth>
   );
 };
