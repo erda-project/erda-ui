@@ -150,7 +150,7 @@ const IssueMetaFields = React.forwardRef(
         const { propertyName, displayName = '', required, propertyType, enumeratedValues } = filedData;
 
         return {
-          className: `mb-5`,
+          className: `mb-4`,
           name: propertyName,
           label: displayName,
           required,
@@ -177,6 +177,7 @@ const IssueMetaFields = React.forwardRef(
                 onChange={(val) => onSave(val as string)}
                 value={value}
                 allowClear={!required}
+                selectSelfInOption
               />
             ) : propertyType === 'Number' ? (
               <NumberFieldInput
@@ -216,7 +217,7 @@ const IssueMetaFields = React.forwardRef(
       ...insertWhen(isEditMode, [
         {
           icon: 'zhuangtai',
-          className: 'mb-5',
+          className: 'mb-4',
           name: 'state',
           label: i18n.t('dop:state'),
           type: 'select',
@@ -232,7 +233,7 @@ const IssueMetaFields = React.forwardRef(
       ]),
       {
         icon: 'chuliren',
-        className: 'mb-5 w-full',
+        className: 'mb-4 w-full',
         name: 'assignee',
         label: i18n.t('dop:assignee'),
         type: 'custom',
@@ -247,7 +248,7 @@ const IssueMetaFields = React.forwardRef(
               onChange={(val) => onSave(val as string)}
               value={value}
               allowClear={false}
-              showSelfChosen
+              selectSelfInOption
             />
           );
         },
@@ -255,7 +256,7 @@ const IssueMetaFields = React.forwardRef(
       ...insertWhen(issueType === ISSUE_TYPE.BUG && isEditMode, [
         {
           icon: 'zerenren',
-          className: 'mb-5 w-full',
+          className: 'mb-4 w-full',
           type: 'custom',
           name: 'owner',
           label: i18n.t('dop:responsible person'),
@@ -273,6 +274,7 @@ const IssueMetaFields = React.forwardRef(
                 onChange={(val) => onSave(val as string)}
                 value={value}
                 allowClear={false}
+                selectSelfInOption
               />
             );
           },
@@ -281,7 +283,7 @@ const IssueMetaFields = React.forwardRef(
       ...insertWhen(issueType !== ISSUE_TYPE.TICKET && issueType !== ISSUE_TYPE.EPIC, [
         {
           icon: 'diedai',
-          className: 'mb-5 w-full',
+          className: 'mb-4 w-full',
           name: 'iterationID',
           label: i18n.t('dop:owned iteration'),
           type: 'custom',
@@ -306,7 +308,7 @@ const IssueMetaFields = React.forwardRef(
       ...insertWhen(issueType === ISSUE_TYPE.TICKET && !isMonitorTicket, [
         {
           icon: 'laiyuan',
-          className: 'mb-5',
+          className: 'mb-4',
           name: 'source',
           label: i18n.t('dop:source'),
           itemProps: {
@@ -323,7 +325,7 @@ const IssueMetaFields = React.forwardRef(
       {
         icon: 'youxianji',
         name: 'priority',
-        className: 'mb-5',
+        className: 'mb-4',
         label: i18n.t('dop:priority'),
         type: 'select',
         itemProps: { options: priorityOptions, allowClear: false },
@@ -331,7 +333,7 @@ const IssueMetaFields = React.forwardRef(
       ...insertWhen(issueType === ISSUE_TYPE.TICKET || issueType === ISSUE_TYPE.BUG, [
         {
           icon: 'yanzhongchengdu',
-          className: 'mb-5',
+          className: 'mb-4',
           name: 'severity',
           label: i18n.t('dop:severity'),
           type: 'select',
@@ -345,7 +347,7 @@ const IssueMetaFields = React.forwardRef(
       ...insertWhen(issueType !== ISSUE_TYPE.TICKET, [
         {
           icon: 'fuzadu',
-          className: 'mb-5',
+          className: 'mb-4',
           name: 'complexity',
           label: i18n.t('dop:complexity'),
           type: 'select',
@@ -358,7 +360,7 @@ const IssueMetaFields = React.forwardRef(
       ]),
       {
         icon: 'jihuashijian',
-        className: 'mb-5 w-full',
+        className: 'mb-4 w-full',
         name: 'planStartedAt',
         label: i18n.t('common:start at'),
         type: 'datePicker',
@@ -369,7 +371,7 @@ const IssueMetaFields = React.forwardRef(
       },
       {
         icon: 'jihuashijian',
-        className: 'mb-5 w-full',
+        className: 'mb-4 w-full',
         name: 'planFinishedAt',
         label: i18n.t('deadline'),
         type: 'datePicker',
@@ -382,7 +384,7 @@ const IssueMetaFields = React.forwardRef(
       ...insertWhen(![ISSUE_TYPE.TICKET, ISSUE_TYPE.EPIC].includes(issueType), [
         {
           icon: 'yugushijian',
-          className: 'mb-5',
+          className: 'mb-4',
           name: ['issueManHour', 'estimateTime'],
           label: i18n.t('dop:EstimateTime'),
           type: 'custom',
@@ -412,7 +414,7 @@ const IssueMetaFields = React.forwardRef(
         ...insertWhen(!isEpic && isEditMode, [
           {
             icon: 'lishijilu',
-            className: 'mb-5',
+            className: 'mb-4',
             name: 'issueManHour',
             label: i18n.t('dop:Time tracking'),
             type: 'custom',
@@ -433,7 +435,7 @@ const IssueMetaFields = React.forwardRef(
       ]),
       {
         icon: 'biaoqian',
-        className: 'mb-5 w-full',
+        className: 'mb-4 w-full',
         name: 'labels',
         label: i18n.t('label'),
         type: 'select', // 需要新建不存在的tag，用 tagName 作为值传递，不要用 LabelSelect
@@ -488,7 +490,7 @@ const IssueMetaFields = React.forwardRef(
       ...insertWhen(issueType === ISSUE_TYPE.TASK, [
         {
           icon: 'renwuleixing',
-          className: `mb-5 w-full`,
+          className: `mb-4 w-full`,
           name: 'taskType',
           label: i18n.t('task type'),
           type: 'select',
@@ -499,7 +501,7 @@ const IssueMetaFields = React.forwardRef(
       ...insertWhen(issueType === ISSUE_TYPE.BUG, [
         {
           icon: 'yinruyuan',
-          className: `mb-5 w-full`,
+          className: `mb-4 w-full`,
           type: 'select',
           name: 'bugStage',
           label: i18n.t('dop:import source'),
@@ -569,7 +571,7 @@ const IssueMetaFields = React.forwardRef(
     }, [width]);
 
     return (
-      <div className={`issue-meta-fields mt-6`}>
+      <div className={`issue-meta-fields mt-8`}>
         {widthHolder}
         <Row>
           {editFieldList.map((fieldProps) => {
