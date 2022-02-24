@@ -138,11 +138,11 @@ class TimeFormatter extends AryFormatter {
       power = power > 0 ? power : 0;
       let count = value / ary ** power;
       let unit = aryTower[power];
-      if (count >= 60) {
+      if (count >= 60 && unit === 's') {
         unit = 'min';
         count = count / 60;
       }
-      if (count >= 60) {
+      if (count >= 60 && unit === 'min') {
         unit = 'h';
         count = count / 60;
       }
