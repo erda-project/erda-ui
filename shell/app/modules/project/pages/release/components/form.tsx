@@ -108,6 +108,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
 
   const getReleases = React.useCallback(
     async (_pageNo: number, applicationId?: string | number) => {
+      setPageNo(_pageNo);
       const res = await getReleaseList({
         projectId,
         applicationId: applicationId !== 0 ? applicationId : undefined,
@@ -139,10 +140,9 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   const selectApp = React.useCallback(
     (item: RELEASE.ApplicationDetail) => {
       setAppId(item.id);
-      setPageNo(1);
       getReleases(1, item.id);
     },
-    [setAppId, setPageNo, getReleases],
+    [setAppId, getReleases],
   );
 
   const searchApp = (q: string) => {
@@ -217,15 +217,14 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
               current: pageNo,
               pageSize: PAGINATION.pageSize,
               onChange: (_pageNo: number) => {
-                setPageNo(_pageNo);
                 getReleases(_pageNo, appId);
               },
             },
-            // rightSlot: (
-            //   <Checkbox checked={isLatest} onChange={(e: CheckboxChangeEvent) => setIsLatest(e.target.checked)}>
-            //     <span className="text-white">{i18n.t('dop:aggregate by branch')}</span>
-            //   </Checkbox>
-            // ),
+            rightSlot: (
+              <Checkbox checked={isLatest} onChange={(e: CheckboxChangeEvent) => setIsLatest(e.target.checked)}>
+                <span className="text-white">{i18n.t('dop:aggregate by branch')}</span>
+              </Checkbox>
+            ),
           },
           readOnlyRender: (value: { active: boolean; list: RELEASE.ReleaseDetail[] }) => {
             return (
