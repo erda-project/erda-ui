@@ -16,11 +16,11 @@ import React from 'react';
 import projectMemberStore from 'common/stores/project-member';
 import orgMemberStore from 'common/stores/org-member';
 import appMemberStore from 'common/stores/application-member';
-import { map, debounce, isEmpty, get, isArray, isString, difference, compact } from 'lodash';
-import { getUsers, getMembers, getUsersNew, getPlatformUserList, searchPlatformUserList } from 'common/services';
+import { compact, debounce, difference, get, isArray, isEmpty, isString, map } from 'lodash';
+import { getMembers, getPlatformUserList, getUsers, getUsersNew, searchPlatformUserList } from 'common/services';
 import { MemberScope } from 'common/stores/member-scope';
 import { LoadMoreSelector } from 'common';
-import { Tag, Select, Avatar } from 'antd';
+import { Avatar, Select, Tag } from 'antd';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
 import { ILoadMoreSelectorProps } from '../load-more-selector';
@@ -238,7 +238,7 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
   const selectSelf = selectSelfInOption ? (
     <a
       onClick={() => !rest.disabled && selectSelfOp()}
-      className={`${rest.disabled ? 'not-allowed' : 'text-primary cursor-pointer'}`}
+      className={`${rest.disabled ? 'not-allowed' : 'text-purple-deep cursor-pointer'}`}
     >
       {i18n.t('choose self')}
     </a>
@@ -251,7 +251,7 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
   const selectNone = selectNoneInOption ? (
     <a
       onClick={() => !rest.disabled && selectNoneOp()}
-      className={`${rest.disabled ? 'not-allowed' : 'text-primary cursor-pointer'}`}
+      className={`${rest.disabled ? 'not-allowed' : 'text-purple-deep cursor-pointer'}`}
     >
       {i18n.t('unspecified')}
     </a>
@@ -304,7 +304,7 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
       {showSelfChosen ? (
         <a
           onClick={() => !rest.disabled && selectSelfOp()}
-          className={`${rest.disabled ? 'not-allowed' : 'text-primary cursor-pointer'} ml-2`}
+          className={`${rest.disabled ? 'not-allowed' : 'text-purple-deep cursor-pointer'} ml-2`}
         >
           {i18n.t('choose self')}
         </a>

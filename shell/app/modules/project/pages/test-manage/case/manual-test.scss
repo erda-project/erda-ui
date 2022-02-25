@@ -2,3 +2,17 @@
   display: flex;
   padding-top: 12px;
 }
+
+.filter-group-drawer {
+  .member-selector {
+    background: $white;
+
+    .results {
+      border-color: $color-border;
+      &:hover {
+        border-color: $color-primary;
+        box-shadow: none;
+      }
+    }
+  }
+}
