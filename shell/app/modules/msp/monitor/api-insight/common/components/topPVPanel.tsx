@@ -12,11 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
 import { get } from 'lodash';
 import { Copy } from 'common';
+import ErdaTable from 'common/components/table';
 
-export const topPVPanel = ({ data }: { data: object }) => {
+export const topPVPanel = ({ data, reload }: { data: object; reload: Function }) => {
   const list = get(data, 'list');
   const columns = [
     {
@@ -35,6 +36,6 @@ export const topPVPanel = ({ data }: { data: object }) => {
       width: 180,
     },
   ];
-
-  return <Table columns={columns} dataSource={list} scroll={{ x: '100%' }} />;
+  // only show 10 pieces of data，not need pagination
+  return <ErdaTable columns={columns} dataSource={list} pagination={false} onReload={reload} />;
 };

@@ -106,13 +106,14 @@ declare namespace GATEWAY {
 
   interface GetPackageDetailApiList {
     packageId: string;
-    apiPath: string;
-    method: string;
-    sortField: string;
-    sortType: string;
-    diceApp: string;
-    diceService: string;
+    apiPath?: string;
+    method?: string;
+    sortField?: string;
+    sortType?: string;
+    diceApp?: string;
+    diceService?: string;
     pageNo: number;
+    pageSize: number;
   }
 
   interface PackageDetailApiListItem {
