@@ -33,7 +33,7 @@ export const SubscribersSelector = (props: IProps) => {
   const { subscribers: subscribersProps, issueID, issueType, projectId, setData, data } = props;
   const { id: loginUserId, ...loginUser } = userStore.getState((s) => s.loginUser);
   const { subscribe, unsubscribe, getIssueDetail, getIssueStreams, batchSubscribe } = issueStore.effects;
-  const memberRef = React.useRef<{ [p: string]: Function }>(null);
+  const memberRef = React.useRef<{ show: (vis: boolean) => void }>(null);
   const [subscribers, setSubscribers] = React.useState<Array<string | number>>([]);
   const [usersMap, setUsersMap] = React.useState({});
 
@@ -44,7 +44,7 @@ export const SubscribersSelector = (props: IProps) => {
     const _userMap: object = { ...userMap };
     _userMap[loginUserId] || (_userMap[loginUserId] = { ...loginUser, userId: loginUserId });
     setUsersMap({ ..._userMap });
-  }, [userMap]);
+  }, [userMap, loginUserId, loginUser]);
 
   React.useEffect(() => {
     setSubscribers(subscribersProps || []);
@@ -54,7 +54,7 @@ export const SubscribersSelector = (props: IProps) => {
     if (!issueID) {
       setSubscribers([loginUserId]);
     }
-  }, [issueID]);
+  }, [issueID, loginUserId]);
 
   const updateIssueDrawer = () => {
     getIssueDetail({ id: issueID as number, type: issueType });
@@ -202,7 +202,7 @@ export const SubscribersSelector = (props: IProps) => {
         overlay={menu}
         trigger={['click']}
         overlayClassName="attention-dropdown"
-        onVisibleChange={(visible) => {
+        onVisibleChange={(visible: boolean) => {
           if (!visible) {
             setData({ ...data, subscribers });
           }
