@@ -341,7 +341,7 @@ const renderSelectedItem = (item: RELEASE.ReleaseDetail, isDark: boolean) => {
         >
           {item.version}
         </div>
-        <div className="text-xs flex mt-1">
+        <div className="text-xs flex my-1">
           <div className={isDark ? 'text-white-6' : 'text-default-6'}>{i18n.t('dop:owned application')}</div>
           <div className="ml-2 flex-1 min-w-0 truncate" title={item.applicationName}>
             {item.applicationName}
