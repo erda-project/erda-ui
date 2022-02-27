@@ -480,7 +480,7 @@ export const addPolicy = ({
   category: string;
 }): { policyId: string } => {
   return agent
-    .post(`/api/gateway/policies/${category}`)
+    .put(`/api/gateway/policies/${category}`)
     .send({ ...data, category })
     .then((response: any) => response.body);
 };

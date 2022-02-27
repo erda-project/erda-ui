@@ -127,6 +127,6 @@ export const MSIconMap = {
 
 export const getMspBreadcrumb =
   (key: MS_INDEX.IMenuKey) =>
-  ({ infoMap }: { infoMap: Obj; route: any; params: Obj<string>; query: Obj<string> }) => {
+  ({ infoMap }: { infoMap: Obj; route: RouteConfigItem; params: Obj<string>; query: Obj<string> }) => {
     return infoMap.mspBreadcrumb[key];
   };

@@ -15,7 +15,12 @@ declare namespace ConfigCenter {
   interface GetAppList {
     pageNo: number;
     tenantId: string;
-    keyword: string;
+    keyword?: string;
+  }
+
+  interface getAppListQuery {
+    pageNo: number;
+    searchKey: string;
   }
 
   interface RespAppList {
@@ -37,5 +42,12 @@ declare namespace ConfigCenter {
     tenantId: string;
     configs: object[];
     operationType?: string;
+  }
+
+  interface ConfigItem {
+    name: string;
+    key: string;
+    value: string;
+    source: string;
   }
 }
