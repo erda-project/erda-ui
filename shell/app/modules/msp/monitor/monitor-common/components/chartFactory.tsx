@@ -14,7 +14,7 @@
 import React from 'react';
 import { get, has, isEqual } from 'lodash';
 import { useEffectOnce } from 'react-use';
-import { MonitorChartNew, PieChart, MapChart, HollowPieChart } from 'charts';
+import { HollowPieChart, MapChart, MonitorChartNew, PieChart } from 'charts';
 import { CardContainer } from 'common';
 import monitorChartStore from 'app/modules/msp/monitor/monitor-common/stores/monitorChart';
 import routeInfoStore from 'core/stores/route';
@@ -31,6 +31,7 @@ interface ILoadObj {
 
 interface IChartProps {
   [pro: string]: any;
+
   titleText: string | boolean;
   viewType: string;
   viewRender: any;
@@ -197,6 +198,12 @@ const ChartBaseFactory = {
               _moduleName={moduleName} // TODO: use a inner named prop to prevent effect, only used in slow-tract-panel, need to refactor
               timeSpan={timeSpan}
               data={shouldLoad ? data : { loading: false }}
+              reload={() => {
+                loadChart({
+                  ...curQuery,
+                  dataHandler,
+                });
+              }}
               groupId={groupId}
               {...viewProps}
             />
