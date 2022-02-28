@@ -384,7 +384,7 @@ function ListSelectOverlay<T extends object = any>({
             trigger={['click']}
             getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
             overlay={
-              <div className="erda-list-select-menus p-2 bg-default">
+              <div className="erda-list-select-menus p-2 bg-default max-h-80">
                 <div onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => e.stopPropagation()}>
                   <Input
                     prefix={<ErdaIcon type="search" color="currentColor" />}
