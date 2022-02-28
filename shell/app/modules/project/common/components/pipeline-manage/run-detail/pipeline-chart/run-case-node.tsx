@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { map, isEmpty, get, find } from 'lodash';
-import { Popover, Dropdown, Menu, Tooltip } from 'antd';
+import { find, get, isEmpty, map } from 'lodash';
+import { Dropdown, Menu, Popover, Tooltip } from 'antd';
 import { Icon as CustomIcon } from 'common';
 import { ciNodeStatusSet, ciStatusMap } from 'project/common/components/pipeline-manage/run-detail/config';
 import { scopeMap } from 'project/common/components/pipeline-manage/config';
@@ -22,6 +22,7 @@ import './run-case-node.scss';
 
 export interface IProps {
   data: Obj;
+  container: HTMLElement;
   onClickNode: (data: any, arg?: any) => void;
 }
 
@@ -190,6 +191,7 @@ export const RunCaseNode = (props: IProps) => {
               wordBreak: 'break-all',
             }
           : null,
+        getPopupContainer: () => props.container,
         placement: 'right',
       };
     }
