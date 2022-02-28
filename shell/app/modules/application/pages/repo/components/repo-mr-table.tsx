@@ -26,7 +26,7 @@ import repoStore from 'application/stores/repo';
 import UserInfo from 'common/components/user-info';
 
 interface IProps {
-  type: REPOSITORY.MrType;
+  type: REPOSITORY.MrState;
 }
 
 interface IState {

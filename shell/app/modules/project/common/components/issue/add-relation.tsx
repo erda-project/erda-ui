@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { MemberSelector } from 'common';
+import { ContractiveFilter, ErdaIcon, Table as ErdaTable, MemberSelector, BatchOperation } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Button, Select } from 'antd';
+import { Button, Dropdown, Input, Select } from 'antd';
 import React from 'react';
 import i18n from 'i18n';
 import { getJoinedApps } from 'app/user/services/user';
@@ -22,6 +22,8 @@ import projectStore from 'project/stores/project';
 import { useMount } from 'react-use';
 import { getAppMR } from 'application/services/repo';
 import { WithAuth } from 'user/common';
+import { ColumnProps } from 'antd/lib/table';
+import moment from 'moment';
 
 import './add-relation.scss';
 
@@ -32,139 +34,195 @@ interface IProps {
 
 const initState = {
   visible: false,
-  appList: [],
-  selectApp: null,
-  mrList: [],
-  selectMr: null,
-  selectedCreator: undefined,
+  filterData: {
+    query: undefined,
+    appID: undefined,
+    authorId: undefined,
+    state: undefined,
+  },
 };
-export const AddRelation = ({ onSave, editAuth }: IProps) => {
+export const AddMrRelation = ({ onSave, editAuth }: IProps) => {
   const { projectId } = routeInfoStore.getState((s) => s.params);
   const { name: projectName } = projectStore.getState((s) => s.info);
+  const [appList, setAppList] = React.useState([] as IApplication[]);
 
-  const [{ visible, appList, selectApp, selectedCreator, mrList, selectMr }, updater, update] = useUpdate(initState);
+  const [{ visible, filterData }, updater] = useUpdate<{
+    visible: boolean;
+    filterData: {
+      query?: string;
+      appID?: number;
+      authorId?: number;
+      state?: REPOSITORY.MrState;
+    };
+  }>(initState);
+  const [mrListPaging, loadingMr] = getAppMR.useState();
+  const mrList = mrListPaging?.list || [];
 
-  const getMyProjectApps = (extra = {}) => {
-    update({
-      mrList: [],
-      selectApp: null,
-      selectMr: null,
-    });
-    getJoinedApps({ projectID: +projectId, pageSize: 50, pageNo: 1, ...extra }).then((res: any) => {
-      if (res.success) {
-        res.data.list && updater.appList(res.data.list);
-      }
-    });
-  };
-
-  useMount(() => {
-    getMyProjectApps();
-  });
-
-  const getAppMr = React.useCallback(
-    (query?: string) => {
-      if (selectApp) {
-        update({
-          mrList: [],
-          selectMr: null,
-        });
-        getAppMR({ projectName, appName: selectApp.name, query, authorId: selectedCreator }).then((res: any) => {
-          if (res.success) {
-            res.data.list && updater.mrList(res.data.list);
-          } else {
-            updater.mrList([]);
-          }
-        });
+  const search = React.useCallback(
+    (data: typeof filterData) => {
+      const { query, appID, authorId, state } = data;
+      const curApp = appList.find((app) => app.id === appID);
+      if (projectName && curApp) {
+        getAppMR.fetch({ projectName, query, appName: curApp.name, authorId, state });
       }
     },
-    [projectName, selectApp, selectedCreator, update, updater],
+    [appList, projectName],
   );
 
   React.useEffect(() => {
-    getAppMr();
-  }, [getAppMr, selectApp, selectedCreator]);
+    search(filterData);
+  }, [filterData, search]);
 
-  const onClose = () => {
-    update({ ...initState, appList });
-  };
+  useMount(() => {
+    getJoinedApps.fetch({ projectID: +projectId, pageSize: 200, pageNo: 1 }).then((res) => {
+      if (res?.data?.list) {
+        setAppList(res.data.list);
+        updater.filterData({ appID: res.data.list[0]?.id });
+      }
+    });
+  });
 
-  if (!visible) {
-    return (
-      <WithAuth pass={editAuth}>
-        <Button className="ml-3" onClick={() => updater.visible(true)}>
-          {i18n.t('dop:relate to mr')}
-        </Button>
-      </WithAuth>
-    );
-  }
+  const columns: Array<ColumnProps<REPOSITORY.MRItem>> = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      width: 64,
+    },
+    {
+      title: i18n.t('title'),
+      dataIndex: 'title',
+      width: 240,
+    },
+    {
+      title: i18n.t('creator'),
+      dataIndex: ['authorUser', 'nickName'],
+      // render: (item: string) => <Tooltip title={item}>{item}</Tooltip>,
+    },
+    {
+      title: i18n.t('createdAt'),
+      dataIndex: 'createdAt',
+      render: (item: string) => moment(item).format('YYYY/MM/DD HH:mm:ss'),
+    },
+  ];
+
+  const overlay = (
+    <div className="w-[800px]">
+      <div className="flex items-center justify-between px-4 py-3 bg-default-02">
+        <span>选择 MR</span>
+        <ErdaIcon type="close" className="hover-active" onClick={() => updater.visible(false)} />
+      </div>
+      <ErdaTable
+        rowKey="id"
+        hideReload
+        hideColumnConfig
+        loading={loadingMr}
+        rowSelection={{
+          type: 'radio',
+          // preserveSelectedRowKeys: true,
+          actions: [
+            {
+              key: 'batchSelect',
+              name: '选择',
+              onClick: (keys) => {
+                if (keys.length) {
+                  const firstKey = keys[0];
+                  const selectedMr = mrList.find((mr) => mr.id === firstKey);
+                  onSave({
+                    content: '',
+                    type: 'RelateMR',
+                    mrInfo: {
+                      appID: filterData.appID,
+                      mrID: selectedMr?.id,
+                      mrTitle: selectedMr.title,
+                    },
+                  });
+                  onClose();
+                }
+              },
+              isVisible: (keys) => keys.length > 0,
+            },
+          ],
+        }}
+        slot={
+          <ContractiveFilter
+            values={filterData}
+            conditions={[
+              {
+                key: 'query',
+                type: 'input',
+                label: i18n.t('title'),
+                emptyText: i18n.t('dop:all'),
+                fixed: true,
+                showIndex: 1,
+                placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+              },
+              {
+                label: i18n.t('application'),
+                type: 'select',
+                key: 'appID',
+                options: appList.map((a) => ({ label: a.name, value: a.id })),
+                haveFilter: true,
+                fixed: true,
+                emptyText: i18n.t('dop:all'),
+                showIndex: 2,
+                placeholder: i18n.t('dop:search by application name'),
+                customProps: {
+                  mode: 'single',
+                },
+              },
+              {
+                label: i18n.t('state'),
+                type: 'select',
+                key: 'state',
+                options: ['all', 'open', 'closed', 'merged'].map((a) => ({ label: i18n.t(`mr:${a}`), value: a })),
+                fixed: true,
+                emptyText: i18n.t('dop:all'),
+                showIndex: 3,
+                customProps: {
+                  mode: 'single',
+                },
+              },
+              {
+                key: 'authorId',
+                type: 'memberSelector',
+                label: i18n.t('dop:creator'),
+                emptyText: i18n.t('dop:all'),
+                fixed: true,
+                showIndex: 5,
+                customProps: {
+                  mode: 'single',
+                  scopeType: 'project',
+                },
+              },
+            ]}
+            onChange={(v) => {
+              updater.filterData(v);
+            }}
+            delay={1000}
+          />
+        }
+        dataSource={mrList || []}
+        columns={columns}
+      />
+    </div>
+  );
 
   return (
     <div className="issue-comment-box flex justify-between items-center mt-3">
-      <div className="flex justify-between items-center flex-1">
-        <Select
-          className="filter-select"
-          onSearch={(q) => getMyProjectApps({ q })}
-          onSelect={(v) => updater.selectApp(appList.find((a) => a.id === v))}
-          showSearch
-          value={selectApp ? selectApp.id : undefined}
-          filterOption={false}
-          placeholder={i18n.t('dop:search by application name')}
-        >
-          {appList.map(({ id, name }) => (
-            <Select.Option key={id} value={id}>
-              {name}
-            </Select.Option>
-          ))}
-        </Select>
-        <MemberSelector
-          className="filter-select"
-          scopeType="app"
-          scopeId={selectApp && selectApp.id}
-          onChange={(val: any) => updater.selectedCreator(val)}
-          value={selectedCreator}
-          placeholder={i18n.t('dop:filter by creator')}
-          extraQuery={{ scopeId: selectApp && selectApp.id }}
-        />
-        <Select
-          className="filter-select"
-          onSearch={(q) => getAppMr(q)}
-          onSelect={(v) => updater.selectMr(mrList.find((a) => a.id === v))}
-          showSearch
-          value={selectMr ? selectMr.id : undefined}
-          filterOption={false}
-          placeholder={i18n.t('dop:search by id or title')}
-        >
-          {mrList.map(({ id, title }) => (
-            <Select.Option key={id} value={id}>
-              {title}
-            </Select.Option>
-          ))}
-        </Select>
+      <div className="flex-h-center text-default-6 mb-2">
+        <ErdaIcon className="mr-1" type="hebing" />
+        <span>{i18n.t('dop:relate to mr')}</span>
+        <span className="w-px h-3 bg-default-1 mx-4" />
+
+        <Dropdown overlay={overlay} visible={visible} trigger={['click']}>
+          <WithAuth pass={editAuth}>
+            <Button size="small" className="flex-h-center  font-medium" onClick={() => updater.visible(true)}>
+              <ErdaIcon type={'xuanze-43le7k0l'} className="mr-1" />
+              <span>{i18n.t('common:select')}</span>
+            </Button>
+          </WithAuth>
+        </Dropdown>
       </div>
-      <Button
-        type="primary"
-        className="ml-3"
-        disabled={!(selectApp && selectMr)}
-        onClick={() => {
-          if (selectApp && selectMr) {
-            onSave({
-              content: '',
-              type: 'RelateMR',
-              mrInfo: {
-                appID: selectApp.id,
-                mrID: selectMr.mergeId,
-                mrTitle: selectMr.title,
-              },
-            });
-            onClose();
-          }
-        }}
-      >
-        {i18n.t('ok')}
-      </Button>
-      <Button type="link" onClick={onClose}>
-        {i18n.t('cancel')}
-      </Button>
     </div>
   );
 };

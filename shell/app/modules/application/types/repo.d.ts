@@ -157,16 +157,16 @@ declare namespace REPOSITORY {
   interface MRItem {
     appId: number;
     assigneeId: string;
-    assigneeUser: MrUser;
+    assigneeUser: MrUser | null;
     authorId: string;
-    authorUser: MrUser;
+    authorUser: MrUser | null;
     checkRuns: {
       checkrun: null | Obj;
       mergable: boolean;
       result: string;
     };
-    closeAt: string;
-    closeUser: MrUser;
+    closeAt: string | null;
+    closeUser: MrUser | null;
     closeUserId: string;
     createdAt: string;
     defaultCommitMessage: string;
@@ -177,7 +177,7 @@ declare namespace REPOSITORY {
     link: string;
     mergeAt: null | string;
     mergeId: number;
-    mergeUser: null | MrUser;
+    mergeUser: MrUser | null;
     mergeUserId: string;
     rebaseBranch: string;
     removeSourceBranch: boolean;
@@ -186,7 +186,7 @@ declare namespace REPOSITORY {
     scoreNum: number;
     sourceBranch: string;
     sourceSha: string;
-    state: string;
+    state: MrState;
     targetBranch: string;
     targetBranchRule: null | Obj;
     targetSha: string;
@@ -287,7 +287,7 @@ declare namespace REPOSITORY {
 
   type MrStats = Pick<Mr, 'sourceBranch' | 'targetBranch'>;
 
-  type MrType = 'all' | 'open' | 'merged' | 'closed';
+  type MrState = 'all' | 'open' | 'merged' | 'closed';
 
   interface QueryRepoTree {
     force: boolean;
@@ -296,7 +296,7 @@ declare namespace REPOSITORY {
   interface QueryMrs {
     projectName: string;
     appName: string;
-    state?: REPOSITORY.MrType;
+    state?: MrState;
     assigneeId?: number;
     authorId?: number;
     pageNo?: number;

@@ -60,7 +60,7 @@ const VersionFormModal = ({ visible, onCancel, artifacts, afterSubmit = () => {}
       },
       getComp: () => {
         const getData = (q: any) => {
-          return getJoinedApps({ ...q, mode: type }).then((res: any) => res.data);
+          return getJoinedApps({ ...q, mode: type }).then((res) => res.data);
         };
         return (
           <LoadMoreSelector

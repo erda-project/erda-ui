@@ -16,7 +16,7 @@ import { apiCreator } from 'core/service';
 
 const apis = {
   getAppMR: {
-    api: '/api/repo/:projectName:/:appName:/merge-requests',
+    api: '/api/repo/:projectName/:appName/merge-requests',
   },
 };
 
