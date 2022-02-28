@@ -28,8 +28,8 @@ import './index.scss';
     onChange // 翻页或者pageSize选择时触发，第一个参数为current，第二个参数为pageSize
  */
 export interface IPaginationProps {
-  total: number;
-  current: number;
+  total?: number;
+  current?: number;
   pageSize?: number;
   theme?: 'light' | 'dark';
   onChange: (page: number, pageSize: number) => void;
