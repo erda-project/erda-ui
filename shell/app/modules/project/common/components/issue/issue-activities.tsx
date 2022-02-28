@@ -90,8 +90,8 @@ export const IssueActivities = (props: IProps) => {
       const user = userMap[activity.operator] || {};
       const { appID, mrID, mrTitle } = activity.mrInfo as ISSUE.IssueStreamMrInfo;
       return (
-        <div key={activity.id} className="relative mt-4 flex issue-activity-item">
-          <UserInfo.RenderWithAvatar id={user.id} />
+        <div key={activity.id} className="relative mt-4 flex issue-activity-item items-start">
+          <UserInfo.RenderWithAvatar id={user.id} showName={false} />
           <div className="flex-1 ml-1 issue-activity-content">
             <div className="flex">
               <span className="ml-1">{user.nick || user.name}</span>
