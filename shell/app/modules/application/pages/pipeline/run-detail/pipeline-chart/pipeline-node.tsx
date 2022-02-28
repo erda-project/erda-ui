@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { isEmpty, get, isNumber, debounce } from 'lodash';
+import { debounce, get, isEmpty, isNumber } from 'lodash';
 import { Popover, Tooltip } from 'antd';
 import { Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
@@ -30,6 +30,7 @@ import './pipeline-node.scss';
 
 interface IProps {
   data: Obj;
+  container: HTMLElement;
   className?: string;
   onClickNode: (data: any, arg?: any) => void;
 }
@@ -179,6 +180,7 @@ const PipelineNode = (props: IProps) => {
               wordBreak: 'break-all',
             }
           : null,
+        getPopupContainer: () => props.container,
         placement: 'right',
       };
     }

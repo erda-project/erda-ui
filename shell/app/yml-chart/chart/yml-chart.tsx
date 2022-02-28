@@ -14,7 +14,7 @@
 import React from 'react';
 // @ts-ignore
 import Snap from 'snapsvg-cjs';
-import { externalKey, CHART_CONFIG, CHART_NODE_SIZE } from './config';
+import { CHART_CONFIG, CHART_NODE_SIZE, externalKey } from './config';
 import { renderSvgChart } from './yml-chart-utils';
 import { get } from 'lodash';
 import bgImage from 'app/images/editor-background.png';
@@ -120,6 +120,7 @@ export const YmlChart = (props: IProps) => {
 
   React.useEffect(() => {
     const { chartHeight, chartWidth } = renderSvgChart(data || [], svgRef.current, svgGroupRef.current, chartConfig, {
+      container: boxRef.current,
       chartId: id,
       editing,
       ...rest,
