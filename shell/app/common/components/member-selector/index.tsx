@@ -87,12 +87,12 @@ const valueItemRender =
     const displayName = value === USER_NONE ? i18n.t('unspecified') : nick || label || value || i18n.t('common:none');
     const cls = {
       normal: {
-        size: 20,
+        size: 24,
         name: 'ml-2 text-sm member-selector-value-item',
         tag: 'py-1 px-2',
       },
       small: {
-        size: 14,
+        size: 16,
         name: 'ml-2 member-selector-value-item',
         tag: 'py-0.5 px-1 member-value-small',
       },
