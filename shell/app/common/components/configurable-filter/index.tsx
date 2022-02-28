@@ -102,7 +102,7 @@ interface FieldItem extends IFormItem {
 }
 
 const defaultProcessField = (item: FieldItem) => {
-  const { type, itemProps, defaultValue, placeholder, disabled, mode } = item;
+  const { type, itemProps, defaultValue, placeholder, disabled, mode, required } = item;
   const field: IFormItem = { ...item };
 
   field.name = item.key;
@@ -111,7 +111,7 @@ const defaultProcessField = (item: FieldItem) => {
       mode: mode !== 'single' ? 'multiple' : false,
       ...itemProps,
       showArrow: true,
-      allowClear: true,
+      allowClear: !required,
       suffixIcon: <ErdaIcon type="caret-down" color="currentColor" className="text-white-4" />,
       clearIcon: <span className="p-1">{i18n.t('common:clear')}</span>,
       getPopupContainer: () => document.body,
