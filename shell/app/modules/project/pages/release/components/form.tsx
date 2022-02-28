@@ -107,11 +107,11 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   }, [releaseDetail]);
 
   const getReleases = React.useCallback(
-    async (_pageNo: number, applicationId?: string | number) => {
+    async (_pageNo: number) => {
       setPageNo(_pageNo);
       const res = await getReleaseList({
         projectId,
-        applicationId: applicationId !== 0 ? applicationId : undefined,
+        applicationId: appId !== 0 ? appId : undefined,
         pageNo: _pageNo,
         isProjectRelease: false,
         pageSize: PAGINATION.pageSize,
@@ -126,7 +126,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         setReleaseTotal(total);
       }
     },
-    [projectId, query, isLatest],
+    [projectId, query, isLatest, appId],
   );
 
   React.useEffect(() => {
@@ -140,9 +140,8 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   const selectApp = React.useCallback(
     (item: RELEASE.ApplicationDetail) => {
       setAppId(item.id);
-      getReleases(1, item.id);
     },
-    [setAppId, getReleases],
+    [setAppId],
   );
 
   const searchApp = (q: string) => {
@@ -217,7 +216,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
               current: pageNo,
               pageSize: PAGINATION.pageSize,
               onChange: (_pageNo: number) => {
-                getReleases(_pageNo, appId);
+                getReleases(_pageNo);
               },
             },
             rightSlot: (
