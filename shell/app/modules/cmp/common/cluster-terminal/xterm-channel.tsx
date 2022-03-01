@@ -94,7 +94,7 @@ function runTerminal(term: ITerminal, socket: WebSocket, initData?: Obj) {
   }, pingTime * 1000);
   term.fit();
   const { cols, rows } = term;
-  sendData(term, SetSize, JSON.stringify({ Width: cols * 9, Height: rows * 17 }));
+  sendData(term, SetSize, JSON.stringify({ Width: cols, Height: rows }));
 }
 
 interface IWSParams {
@@ -126,7 +126,7 @@ export function createTerm(container: HTMLDivElement, params: IWSParams) {
 
   term.on('resize', (size) => {
     const { cols, rows } = size;
-    sendData(term, SetSize, JSON.stringify({ Width: cols * 9, Height: rows * 17 }));
+    sendData(term, SetSize, JSON.stringify({ Width: cols, Height: rows }));
     term.resize(cols, rows);
     term.fit();
   });
