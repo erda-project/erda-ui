@@ -43,6 +43,22 @@ export const chartConfig = {
     },
     // noAreaColor: 'true',
   },
+  CPU: {
+    opt: {
+      tooltip: {
+        confine: false,
+        position: ([x, _y], _params, _dom, _rect, _size) => [x, _size.viewSize[1] - _size.contentSize[1]],
+      },
+    },
+  },
+  内存: {
+    opt: {
+      tooltip: {
+        confine: false,
+        position: ([x, _y], _params, _dom, _rect, _size) => [x, _size.viewSize[1] - _size.contentSize[1]],
+      },
+    },
+  },
 };
 
 export const titleCnMap = {
