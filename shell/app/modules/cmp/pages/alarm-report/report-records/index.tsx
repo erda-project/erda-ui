@@ -59,7 +59,7 @@ const ReportRecords = () => {
         }
         if (['chart:line', 'chart:bar', 'chart:area'].includes(chartType)) {
           const { time, results } = staticData;
-          if (results[0].data.length > 1) {
+          if (results[0].data?.length > 1) {
             set(_item, 'view.staticData', {
               time,
               metricData: map(results[0].data, (itemData) => values(itemData)[0]),
@@ -67,7 +67,7 @@ const ReportRecords = () => {
           } else {
             set(_item, 'view.staticData', {
               time,
-              metricData: results[0].data[0],
+              metricData: results[0].data?.[0],
             });
           }
         }
