@@ -99,6 +99,7 @@ export { default as Tags } from './components/tags';
 export { default as BoardGrid } from './components/board-grid';
 export { default as BackToTop } from './components/back-to-top';
 export { default as TableActions } from './components/table-actions';
+export { default as BatchOperation } from './components/batch-operation';
 export { default as UserInfo } from './components/user-info';
 export { default as DetailsPanel } from './components/details-panel';
 export { default as MultiInput } from './components/multi-input';
