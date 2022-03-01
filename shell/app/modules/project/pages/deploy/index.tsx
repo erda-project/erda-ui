@@ -50,11 +50,11 @@ interface IState {
   deployDetail: PROJECT_DEPLOY.DeployDetail | undefined;
   selectedOrder: string;
   selectedRelease: { id: string; releaseId: string; name: string; hasFail: boolean } | undefined;
-  urlQuery: Obj<{ [key: string]: string }>;
+  urlQuery: { [key: string]: string };
 }
 
 const DeployContainer = () => {
-  const { workspace: routeEnv, projectId } = routeInfoStore.useStore((s) => s.params);
+  const { workspace: routeEnv, projectId, appId } = routeInfoStore.useStore((s) => s.params);
   const env = routeEnv?.toUpperCase();
   const [runtimeCount, setRuntimeCount] = React.useState({
     DEV: 0,
@@ -62,11 +62,14 @@ const DeployContainer = () => {
     STAGING: 0,
     TEST: 0,
   });
+
+  const isAppDeploy = !!appId;
+
   React.useEffect(() => {
-    getProjectRuntimeCount.fetch({ projectId }).then((res) => {
+    getProjectRuntimeCount.fetch({ projectId, appId }).then((res) => {
       res?.data && setRuntimeCount(res.data);
     });
-  }, []);
+  }, [projectId, appId]);
 
   const options = map(ENV_MAP, (v, k) => ({ label: `${v}(${runtimeCount[k] || 0})`, value: k }));
 
@@ -76,12 +79,18 @@ const DeployContainer = () => {
         <RadioTabs
           key={env}
           value={env}
-          onChange={(v) => goTo(goTo.pages.projectDeployEnv, { projectId, workspace: `${v}`?.toLowerCase() })}
+          onChange={(v) =>
+            isAppDeploy
+              ? goTo(goTo.pages.appDeployEnv, { projectId, workspace: `${v}`?.toLowerCase(), appId })
+              : goTo(goTo.pages.projectDeployEnv, { projectId, workspace: `${v}`?.toLowerCase() })
+          }
           options={options}
         />
       </div>
       <DeployContent
         key={env}
+        appId={appId}
+        isAppDeploy={isAppDeploy}
         projectId={projectId}
         env={env}
         onCountChange={(count: number) => setRuntimeCount((prev) => ({ ...prev, [env]: count }))}
@@ -92,11 +101,15 @@ const DeployContainer = () => {
 
 const DeployContent = ({
   projectId,
+  appId,
   env: propsEnv,
   onCountChange,
+  isAppDeploy,
 }: {
   projectId: string;
+  appId: string;
   env: string;
+  isAppDeploy: boolean;
   onCountChange: (count: number) => void;
 }) => {
   const [query] = routeInfoStore.useStore((s) => [s.query]);
@@ -168,7 +181,9 @@ const DeployContent = ({
             projectID: projectId,
             workspace: env,
           })
-          .then(() => (isAutoLoaing.current = false));
+          .then(() => {
+            isAutoLoaing.current = false;
+          });
       }, 1000 * 30);
     },
     [projectId, env, searchValue],
@@ -188,19 +203,23 @@ const DeployContent = ({
     debounceChange.current({ q: searchValue });
   }, [searchValue]);
 
-  const getDeployDetailFunc = React.useCallback((deploymentOrderId: string) => {
-    getDeployOrderDetail.fetch({ deploymentOrderId }).then((res) => {
-      if (res.data) {
-        update({
-          deployDetail: res.data,
-          detailDrawerVisible: true,
-        });
-      }
-    });
-  }, []);
+  const getDeployDetailFunc = React.useCallback(
+    (deploymentOrderId: string) => {
+      getDeployOrderDetail.fetch({ deploymentOrderId }).then((res) => {
+        if (res.data) {
+          update({
+            deployDetail: res.data,
+            detailDrawerVisible: true,
+          });
+        }
+      });
+    },
+    [update],
+  );
 
   const inParams = {
     projectId,
+    appId,
     // deployId: selectedOrder,
     env,
     ...urlQuery,
@@ -353,67 +372,69 @@ const DeployContent = ({
             }}
           />
         </div>
-        <div className="bg-white flex">
-          <div className="w-[320px] bg-default-02 rounded-sm flex flex-col">
-            <div className="px-4 flex justify-between items-center mt-2">
-              <span className="text-default-8 font-medium">{i18n.t('dop:deployment records')}</span>
-              <Button
-                size="small"
-                className="text-default-4 hover:text-default-8 flex items-center"
-                onClick={() => updater.addDrawerVisible(true)}
-              >
-                <ErdaIcon type="tj1" />
-              </Button>
-            </div>
-            <div className="mt-2 px-4">
-              <Input
-                size="small"
-                className="bg-black-06 border-none"
-                value={searchValue}
-                prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
-                onChange={(e) => {
-                  const { value } = e.target;
-                  updater.searchValue(value);
-                }}
-                placeholder={i18n.t('dop:search by ID, person or product information')}
-              />
-            </div>
-            <div className="mt-2 flex-1 h-0">
-              <Spin
-                spinning={!isAutoLoaing.current && loading}
-                wrapperClassName="full-spin-height overflow-hidden project-deploy-orders"
-              >
-                {cards.length ? (
-                  <Timeline className="mt-2">
-                    {cards.map((card) => {
-                      const { operator, ...cardRest } = card;
-                      return (
-                        <Timeline.Item
-                          key={card.id}
-                          dot={<div className="ml-0.5 mt-1 bg-default-3 w-[8px] h-[8px] rounded-full" />}
-                        >
-                          <div className="text-sm text-default-6 mb-1">
-                            <span className="mr-2">{operator}</span>
-                            <span>{moment(card.time).format('YYYY-MM-DD HH:mm:ss')}</span>
-                          </div>
-                          <CardItem
-                            className={'bg-white'}
-                            card={cardRest}
-                            onClick={() => {
-                              getDeployDetailFunc(card.id);
-                            }}
-                          />
-                        </Timeline.Item>
-                      );
-                    })}
-                  </Timeline>
-                ) : (
-                  <EmptyHolder relative />
-                )}
-              </Spin>
+        {isAppDeploy ? null : (
+          <div className="bg-white flex">
+            <div className="w-[320px] bg-default-02 rounded-sm flex flex-col">
+              <div className="px-4 flex justify-between items-center mt-2">
+                <span className="text-default-8 font-medium">{i18n.t('dop:deployment records')}</span>
+                <Button
+                  size="small"
+                  className="text-default-4 hover:text-default-8 flex items-center"
+                  onClick={() => updater.addDrawerVisible(true)}
+                >
+                  <ErdaIcon type="tj1" />
+                </Button>
+              </div>
+              <div className="mt-2 px-4">
+                <Input
+                  size="small"
+                  className="bg-black-06 border-none"
+                  value={searchValue}
+                  prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
+                  onChange={(e) => {
+                    const { value } = e.target;
+                    updater.searchValue(value);
+                  }}
+                  placeholder={i18n.t('dop:search by ID, person or product information')}
+                />
+              </div>
+              <div className="mt-2 flex-1 h-0">
+                <Spin
+                  spinning={!isAutoLoaing.current && loading}
+                  wrapperClassName="full-spin-height overflow-hidden project-deploy-orders"
+                >
+                  {cards.length ? (
+                    <Timeline className="mt-2">
+                      {cards.map((card) => {
+                        const { operator, ...cardRest } = card;
+                        return (
+                          <Timeline.Item
+                            key={card.id}
+                            dot={<div className="ml-0.5 mt-1 bg-default-3 w-[8px] h-[8px] rounded-full" />}
+                          >
+                            <div className="text-sm text-default-6 mb-1">
+                              <span className="mr-2">{operator}</span>
+                              <span>{moment(card.time).format('YYYY-MM-DD HH:mm:ss')}</span>
+                            </div>
+                            <CardItem
+                              className={'bg-white'}
+                              card={cardRest}
+                              onClick={() => {
+                                getDeployDetailFunc(card.id);
+                              }}
+                            />
+                          </Timeline.Item>
+                        );
+                      })}
+                    </Timeline>
+                  ) : (
+                    <EmptyHolder relative />
+                  )}
+                </Spin>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
       <Drawer
         width={'80%'}

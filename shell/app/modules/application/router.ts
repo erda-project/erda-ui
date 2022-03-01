@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { APP_TABS } from './tabs';
+import { APP_TABS, DEPLOY_RUNTIME_TABS } from './tabs';
 
 function getAppRouter(): RouteConfigItem {
   return {
@@ -185,6 +185,36 @@ function getAppRouter(): RouteConfigItem {
         ignoreTabQuery: true,
         getComp: (cb) => cb(import('application/pages/quality/entry')),
         layout: { noWrapper: true },
+      },
+      {
+        path: 'deploy',
+        routes: [
+          {
+            path: 'list/:workspace',
+            mark: 'appDeployEnv',
+            tabs: APP_TABS,
+            ignoreTabQuery: true,
+            alwaysShowTabKey: 'deploy',
+            routes: [
+              {
+                backToUp: 'projectAppList',
+                layout: { noWrapper: true },
+                getComp: (cb) => cb(import('project/pages/deploy')),
+              },
+              {
+                path: 'runtime/:runtimeId',
+                tabs: DEPLOY_RUNTIME_TABS,
+                backToUp: 'appDeployEnv',
+                mark: 'appDeployRuntime',
+                pageName: i18n.t('deploy'),
+                getComp: (cb) => cb(import('app/modules/runtime/pages/overview')),
+                layout: {
+                  noWrapper: true,
+                },
+              },
+            ],
+          },
+        ],
       },
       {
         path: 'apiDesign',
