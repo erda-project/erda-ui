@@ -126,11 +126,7 @@ const ServiceListAnomaly = () => {
         </div>
       </div>
       <div className="overflow-auto flex-1">
-        <ServiceListDashboard
-          dashboardId="exception_analysis"
-          extraGlobalVariable={{ sort, limit, exceptionType }}
-          serviceId={serviceId}
-        />
+        <ServiceListDashboard dashboardId="exception_analysis" extraGlobalVariable={{ sort, limit, exceptionType }} />
       </div>
     </div>
   );

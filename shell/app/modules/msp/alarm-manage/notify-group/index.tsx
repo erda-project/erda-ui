@@ -23,7 +23,7 @@ const NotifyGroups = () => {
     <div className="msp-notify-group">
       <NotifyGroup
         memberStore={memberStore}
-        commonPayload={{ scopeType: 'msp_env', scopeId: terminusKey, projectId }}
+        commonPayload={{ scopeType: 'msp_env', scopeId: terminusKey, projectId: Number(projectId) }}
       />
     </div>
   );

@@ -27,7 +27,7 @@ import EmptyHolder from 'common/components/empty-holder';
 import DiceConfigPage from 'config-page';
 import './index.scss';
 
-const MONITOR_TYPE: { value: IState['monitorType']; label: string }[] = [
+const MONITOR_TYPE: Array<{ value: IState['monitorType']; label: string }> = [
   {
     value: 'runtime',
     label: i18n.t('msp:runtime monitor'),

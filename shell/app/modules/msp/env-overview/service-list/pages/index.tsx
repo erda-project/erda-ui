@@ -393,7 +393,7 @@ const MicroServiceOverview = () => {
               return (
                 <div className="p-2 w-full bg-default-01">
                   <div className="w-full flex">
-                    {chartItems.map((chartItem) => {
+                    {chartItems.map((chartItem: { key: string; name: string; tips: string }) => {
                       const { count, unit } = dataConvert[key](get(rest, chartItem.key));
                       return (
                         <div className="w-1/2">
@@ -523,12 +523,7 @@ const MicroServiceOverview = () => {
         }
       />
       <div className="flex flex-1 flex-col bg-white pb-2">
-        <Pagination
-          {...pagination}
-          onChange={onPageChange}
-          className="flex justify-end mr-4 mb-2"
-          total={data?.total ?? 0}
-        />
+        <Pagination {...pagination} onChange={onPageChange} total={data?.total ?? 0} />
       </div>
     </div>
   );

@@ -32,12 +32,6 @@ import './index.scss';
 
 const { confirm } = Modal;
 
-enum ScopeType {
-  ORG = 'org',
-  PROJECT = 'project',
-  MSP = 'msp',
-}
-
 const alarmStrategyStoreMap = {
   [ScopeType.ORG]: cmpAlarmStrategyStore,
   [ScopeType.MSP]: mspAlarmStrategyStore,
@@ -49,7 +43,7 @@ const memberStoreMap = {
 };
 
 interface IProps {
-  scopeType: ScopeType.ORG | ScopeType.MSP;
+  scopeType: COMMON_STRATEGY_NOTIFY.ScopeType.MSP | COMMON_STRATEGY_NOTIFY.ScopeType.ORG;
   scopeId: string;
   commonPayload?: Obj;
 }

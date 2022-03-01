@@ -42,7 +42,7 @@ interface IProps {
   nodeExtent?: NodeExtent;
   data: { nodes: TOPOLOGY.INode[] };
   clockNode?: (data: TOPOLOGY.TopoNode['metaData']) => void;
-  topologyRef: React.Ref<ITopologyRef>;
+  topologyRef?: React.Ref<ITopologyRef>;
 }
 
 const genEle = (nodes: TOPOLOGY.INode[], filterKey: INodeKey) => {
@@ -106,7 +106,7 @@ const calculateLayout = (
       temp.targetPosition = Position.Left;
       temp.sourcePosition = Position.Right;
       const x = (nodeWithPosition.x + Math.random() / 1000) * 0.75;
-      const y = nodeWithPosition.y;
+      const { y } = nodeWithPosition;
       width = width < x ? x : width;
       height = height < y ? y : height;
       minX = minX < x ? minX : x;

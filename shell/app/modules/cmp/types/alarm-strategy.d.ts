@@ -114,6 +114,12 @@ declare namespace COMMON_STRATEGY_NOTIFY {
     rules: IDataExpression[];
   }
 
+  enum ScopeType {
+    ORG = 'org',
+    PROJECT = 'project',
+    MSP = 'msp',
+  }
+
   interface ISlience {
     value: number;
     unit: {

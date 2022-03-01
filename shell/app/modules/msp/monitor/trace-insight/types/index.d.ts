@@ -52,7 +52,7 @@ declare namespace MONITOR_TRACE {
   }
 
   interface ITrace {
-    spans: Array<ITraceSpan>;
+    spans: ITraceSpan[];
     duration: number;
     serviceCount: number;
     depth: number;
@@ -70,6 +70,7 @@ declare namespace MONITOR_TRACE {
     duration: number;
     selfDuration: number;
     tags: ITag;
+    annotations: Array<{ value: string; timestamp: number; message: string }>;
   }
 
   interface ITag {
@@ -192,20 +193,20 @@ declare namespace MONITOR_TRACE {
   type IFixedConditionType = 'sort' | 'limit' | 'traceStatus';
 
   type IFixedCondition = {
-    [k in IFixedConditionType]: {
+    [k in IFixedConditionType]: Array<{
       key: string;
       value: string;
       displayName: string;
-    }[];
+    }>;
   };
 
   interface TraceConditions extends IFixedCondition {
-    others: {
+    others: Array<{
       key: string;
       value: string;
       displayName: string;
       type: string;
       paramKey: string;
-    }[];
+    }>;
   }
 }
