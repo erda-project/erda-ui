@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import { goTo } from 'common/utils';
-import { getSubSiderInfoMap, getAppCenterAppList } from 'app/menus';
+import { getAppCenterAppList, getSubSiderInfoMap } from 'app/menus';
 import layoutStore from 'layout/stores/layout';
 import { orgPerm } from 'user/stores/_perm-org';
 import { createStore } from 'core/cube';
 import userStore from 'app/user/stores';
-import { getOrgByDomain, getJoinedOrgs, updateOrg, getPublicOrgs } from '../services/org';
+import { getJoinedOrgs, getOrgByDomain, getPublicOrgs, updateOrg } from '../services/org';
 import { getResourcePermissions } from 'user/services/user';
 import permStore from 'user/stores/permission';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
@@ -93,7 +93,7 @@ const org = createStore({
     async updateOrg({ call, update }, payload: Merge<Partial<ORG.IOrg>, { id: number }>) {
       const currentOrg = await call(updateOrg, payload);
       breadcrumbStore.reducers.setInfo('curOrgName', payload.displayName);
-      await org.effects.getJoinedOrgs(true);
+      await org.effects.getJoinedOrgs({ force: true });
       update({ currentOrg });
     },
     async getOrgByDomain({ call, update, select }, payload: { orgName: string }) {
@@ -184,10 +184,11 @@ const org = createStore({
         }
       }
     },
-    async getJoinedOrgs({ call, select, update }, force?: boolean) {
+    async getJoinedOrgs({ call, select, update }, payload?: { force?: boolean; q?: string }) {
       const orgs = select((state) => state.orgs);
+      const { force, ...rest } = payload || {};
       if (!orgs.length || force) {
-        const { list } = await call(getJoinedOrgs);
+        const { list } = await call(getJoinedOrgs, rest);
         update({ orgs: list });
       }
     },

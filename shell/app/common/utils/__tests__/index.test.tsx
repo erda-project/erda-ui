@@ -13,33 +13,34 @@
 
 import React from 'react';
 import {
-  isPromise,
-  isImage,
-  removeProtocol,
-  ossImg,
-  uuid,
-  isValidJsonStr,
-  insertWhen,
-  reorder,
-  encodeHtmlTag,
+  batchExecute,
+  colorToRgb,
   convertToFormData,
-  getFileSuffix,
-  filterOption,
-  regRules,
-  isClassComponent,
   countPagination,
-  notify,
+  encodeHtmlTag,
   equalByKeys,
+  extractPathParams,
+  filterOption,
+  generatePath,
+  getFileSuffix,
+  getOrgFromPath,
+  getTimeRanges,
+  insertWhen,
+  interpolationComp,
+  isClassComponent,
+  isImage,
+  isPromise,
+  isValidJsonStr,
+  notify,
+  ossImg,
+  pickRandomlyFromArray,
+  regRules,
+  removeProtocol,
+  reorder,
   setApiWithOrg,
   sleep,
-  extractPathParams,
-  generatePath,
-  batchExecute,
+  uuid,
   validators,
-  getTimeRanges,
-  interpolationComp,
-  colorToRgb,
-  pickRandomlyFromArray,
 } from 'common/utils';
 
 class ClassComp extends React.Component {
@@ -219,5 +220,11 @@ describe('utils', () => {
     expect(pickRandomlyFromArray(arr, 0)).toEqual([]);
     expect(pickRandomlyFromArray(arr, 4)).toHaveLength(4);
     expect(pickRandomlyFromArray(arr, 7)).toEqual(arr);
+  });
+  it('getOrgFromPath should work well', () => {
+    window.location.pathname = '/';
+    expect(getOrgFromPath()).toBe('org');
+    window.location.pathname = process.env.mock_pathname!;
+    expect(getOrgFromPath()).toBe(process.env.mock_pathname?.split('/')[1]);
   });
 });
