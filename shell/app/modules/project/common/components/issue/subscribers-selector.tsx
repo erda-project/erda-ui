@@ -31,7 +31,8 @@ interface IProps {
 
 export const SubscribersSelector = (props: IProps) => {
   const { subscribers: subscribersProps, issueID, issueType, projectId, setData, data } = props;
-  const { id: loginUserId, ...loginUser } = userStore.getState((s) => s.loginUser);
+  const loginUser = userStore.getState((s) => s.loginUser);
+  const { id: loginUserId } = loginUser;
   const { subscribe, unsubscribe, getIssueDetail, getIssueStreams, batchSubscribe } = issueStore.effects;
   const memberRef = React.useRef<{ show: (vis: boolean) => void }>(null);
   const [subscribers, setSubscribers] = React.useState<Array<string | number>>([]);
