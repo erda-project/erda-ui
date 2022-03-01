@@ -16,23 +16,27 @@ import orgStore from 'app/org-home/stores/org';
 import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 import React from 'react';
+import { debounce } from 'lodash';
 import { useClickAway } from 'react-use';
 import { erdaEnv } from 'common/constants';
 import UserMenu from 'layout/pages/page-container/components/navigation/user-menu';
 import './index.scss';
 
 const LandPage = () => {
-  const orgs = orgStore.useStore((s) => s.orgs);
+  const filteredList = orgStore.useStore((s) => s.orgs);
+  const { getJoinedOrgs } = orgStore.effects;
   const [activeOrg, setActiveOrg] = React.useState<any>(null);
   const [showOptions, setShowOptions] = React.useState(false);
   const [filterKey, setFilterKey] = React.useState('');
-
+  const debouncedChange = React.useRef(debounce(getJoinedOrgs, 1000));
   const ref = React.useRef(null);
   useClickAway(ref, () => {
     setShowOptions(false);
   });
 
-  const filteredList = orgs.filter((org) => org.displayName?.toLowerCase().includes(filterKey.toLowerCase()));
+  React.useEffect(() => {
+    debouncedChange.current({ q: filterKey, force: true });
+  }, [filterKey]);
 
   return (
     <div className="land-page flex items-center justify-center h-full">
