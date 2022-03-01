@@ -51,7 +51,7 @@ export const chartConfig = {
       },
     },
   },
-  内存: {
+  [i18n.t('memory')]: {
     opt: {
       tooltip: {
         confine: false,
