@@ -37,7 +37,7 @@ interface IProps {
   type: ISSUE_TYPE | ISSUE_PRIORITY;
   iconMap?: 'TYPE' | 'PRIORITY';
   withName?: boolean;
-  size?: string;
+  size?: string | number;
 }
 
 const { Option } = Select;

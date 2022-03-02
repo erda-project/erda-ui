@@ -90,34 +90,31 @@ declare namespace ISSUE {
     workContent: string;
     isModifiedRemainingTime: boolean; // 是否保存过剩余工时
   }
+  type IssueState = 'OPEN' | 'RESOLVED' | 'REOPEN' | 'WONTFIX' | 'DUP' | 'CLOSED' | 'WORKING' | 'TESTING' | 'DONE';
 
   type RequirementState = 'OPEN' | 'WORKING' | 'TESTING' | 'DONE';
 
   type TaskState = 'OPEN' | 'WORKING' | 'DONE';
 
+  type BugState = 'OPEN' | 'RESOLVED' | 'REOPEN' | 'WONTFIX' | 'DUP' | 'CLOSED';
+
+  type TicketState = 'OPEN' | 'RESOLVED' | 'REOPEN' | 'WONTFIX' | 'DUP' | 'CLOSED';
+
   interface Requirement extends Issue {
-    state: RequirementState;
+    state: number;
   }
 
   interface Task extends Issue {
     requirementTitle: string;
-    state: TaskState;
     taskType: string;
   }
-  interface Epic extends Issue {
-    state: RequirementState;
-  }
+  type Epic = Issue;
   interface Bug extends Issue {
-    state: 'OPEN' | 'RESOLVED' | 'REOPEN' | 'WONTFIX' | 'DUP' | 'CLOSED';
     owner: string;
     bugStage: 'demandDesign' | 'architectureDesign' | 'codeDevelopment';
   }
 
-  interface Ticket extends Issue {
-    state: 'OPEN' | 'RESOLVED' | 'REOPEN' | 'WONTFIX' | 'DUP' | 'CLOSED';
-  }
-
-  type IssueState = 'OPEN' | 'RESOLVED' | 'REOPEN' | 'WONTFIX' | 'DUP' | 'CLOSED' | 'WORKING' | 'TESTING' | 'DONE';
+  type Ticket = Issue;
 
   type IssueType = Requirement | Task | Bug | Ticket | Epic;
 
@@ -147,6 +144,7 @@ declare namespace ISSUE {
     iterationID?: number;
     label?: number[];
     title?: string;
+    notIncluded: boolean;
   }
   interface IssueStreamListQuery {
     pageSize?: number;
@@ -194,7 +192,7 @@ declare namespace ISSUE {
     type: string;
     title: string;
     content?: string;
-    priority: 'URGENT' | 'HIGH' | 'NORMAL' | 'LOW';
+    priority?: 'URGENT' | 'HIGH' | 'NORMAL' | 'LOW';
     assignee?: string;
     iterationID?: number;
     projectID?: number;

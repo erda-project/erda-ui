@@ -15,7 +15,7 @@ import React from 'react';
 import { Button, Tabs, message, Spin, Dropdown, Menu, Popconfirm } from 'antd';
 import { IssueIcon, getIssueTypeOption } from 'project/common/components/issue/issue-icon';
 import { map, has, cloneDeep, includes, isEmpty, merge, find } from 'lodash';
-import { EditField, ErdaIcon, Icon as CustomIcon, IF } from 'common';
+import { EditField, ErdaIcon, Icon as CustomIcon, IF, RadioTabs } from 'common';
 import {
   ISSUE_TYPE,
   ISSUE_TYPE_MAP,
@@ -30,30 +30,27 @@ import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 import { IssueDrawer } from 'project/common/components/issue/issue-drawer';
 import { IssueCommentBox } from 'project/common/components/issue/comment-box';
-import { AddRelation } from 'project/common/components/issue/add-relation';
+import { AddMrRelation } from 'project/common/components/issue/add-mr-relation';
 import { IssueActivities } from 'project/common/components/issue/issue-activities';
 import { updateSearch } from 'common/utils/query-string';
 import iterationStore from 'app/modules/project/stores/iteration';
 import labelStore from 'project/stores/label';
 import userStore from 'app/user/stores';
 import { usePerm, WithAuth, getAuth, isAssignee, isCreator } from 'user/common';
-import { IssueRelation } from '../issue-relation';
 import { IssueTestCaseRelation } from '../issue-testCase-relation';
-import IssueInclusion from './issue-inclusion';
 import { FIELD_WITH_OPTION } from 'org/common/config';
 import { produce } from 'immer';
 import issueFieldStore from 'org/stores/issue-field';
 import orgStore from 'app/org-home/stores/org';
 import { templateMap } from 'project/common/issue-config';
 import IssueMetaFields from './meta-fields';
+import { IssueRelation, RelationType } from '../issue-relation';
 
 export const ColorIcon = ({ icon }: { icon: string }) => {
   return (
     <CustomIcon type={icon} className="mr-2" color style={{ height: '20px', width: '20px', verticalAlign: 'sub' }} />
   );
 };
-
-const { TabPane } = Tabs;
 
 export interface CloseDrawerParam {
   hasEdited: boolean;
@@ -692,7 +689,8 @@ export const EditIssueDrawer = (props: IProps) => {
                   dropdownMatchSelectWidth: false,
                   allowClear: false,
                   showArrow: true,
-                  className: 'switch-type-selector',
+                  size: 'small',
+                  className: 'switch-type-selector bg-default-06',
                   style: { width: 60 },
                   getPopupContainer: () => document.body,
                 }}
@@ -714,9 +712,9 @@ export const EditIssueDrawer = (props: IProps) => {
           onChangeCb={setFieldCb}
           data={formData}
           disabled={!editAuth}
-          className="flex-1"
+          className="flex-1 ml-[-4px] mr-[-4px]"
           itemProps={{
-            className: 'text-xl text-normal',
+            className: 'text-xl text-normal px-1',
             maxLength: 255,
             placeholder: specialProps.titlePlaceHolder,
           }}
@@ -756,39 +754,53 @@ export const EditIssueDrawer = (props: IProps) => {
           data={formData}
         />
       </div>
-      <IF check={isEditMode}>
-        <>
-          {issueType === ISSUE_TYPE.REQUIREMENT ? (
-            <IssueInclusion issueDetail={issueDetail} iterationID={iterationID} setHasEdited={setHasEdited} />
-          ) : null}
-        </>
-
-        {/* <Tabs className="issue-drawer-tabs" defaultActiveKey="streams">
-          <TabPane tab={i18n.t('dop:activity log')} key="streams">
-            <IssueCommentBox onSave={(content) => addIssueStream(issueDetail, { content })} editAuth={editAuth} />
-            {issueType !== ISSUE_TYPE.TICKET ? (
-              <AddRelation onSave={(data) => addIssueStream(issueDetail, data)} editAuth={editAuth} />
-            ) : null}
-            <IssueActivities type={issueType} />
-          </TabPane>
-          <TabPane tab={i18n.t('relate to issue')} key="issue">
+      <If condition={isEditMode}>
+        <div className="space-y-4">
+          <If condition={issueType === ISSUE_TYPE.REQUIREMENT}>
             <IssueRelation
-              ref={ref}
-              type="connection"
+              type={RelationType.Inclusion}
               issueDetail={issueDetail}
               iterationID={iterationID}
+              // activeAdd={activeAdd}
               onRelationChange={() => {
                 setHasEdited(true);
               }}
             />
-          </TabPane>
-          {issueType === ISSUE_TYPE.BUG ? (
-            <TabPane tab={i18n.t('dop:relate to test case')} key="testCase">
+          </If>
+          <IssueRelation
+            type={RelationType.RelatedTo}
+            issueDetail={issueDetail}
+            iterationID={iterationID}
+            onRelationChange={() => {
+              setHasEdited(true);
+            }}
+          />
+          <IssueRelation
+            type={RelationType.RelatedBy}
+            issueDetail={issueDetail}
+            iterationID={iterationID}
+            onRelationChange={() => {
+              setHasEdited(true);
+            }}
+          />
+
+          <If condition={issueType === ISSUE_TYPE.BUG}>
+            <div className="mt-4">
+              {i18n.t('dop:relate to test case')}
               <IssueTestCaseRelation list={testPlanCaseRels || []} />
-            </TabPane>
-          ) : null}
-        </Tabs> */}
-      </IF>
+            </div>
+          </If>
+          <If condition={issueType !== ISSUE_TYPE.TICKET}>
+            <AddMrRelation onSave={(data) => addIssueStream(issueDetail, data)} editAuth={editAuth} />
+          </If>
+        </div>
+        <IssueActivities
+          type={issueType}
+          bottomSlot={
+            <IssueCommentBox onSave={(content) => addIssueStream(issueDetail, { content })} editAuth={editAuth} />
+          }
+        />
+      </If>
     </IssueDrawer>
   );
 };
