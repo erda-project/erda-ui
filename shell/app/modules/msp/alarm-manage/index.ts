@@ -95,6 +95,7 @@ const alarmManageRouters = [
     alwaysShowTabKey: 'events',
     routes: [
       {
+        layout: { noWrapper: true },
         getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/alert-list/events')),
       },
       {
