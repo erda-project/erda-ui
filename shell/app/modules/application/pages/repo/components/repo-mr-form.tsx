@@ -27,7 +27,7 @@ import repoStore from 'application/stores/repo';
 import { useUserMap } from 'core/stores/userMap';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import { ISSUE_TYPE, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
-import { AddIssueRelation } from 'project/common/components/issue/issue-relation';
+import { AddIssueRelation, RelationType } from 'project/common/components/issue/issue-relation';
 import './repo-mr-form.scss';
 import routeInfoStore from 'core/stores/route';
 import IssueState from 'project/common/components/issue/issue-state';
@@ -593,7 +593,13 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
     <div className="mb-3 repo-mr-issue-relation">
       <div className="section-title mt-3">{i18n.t('relate to issue')}</div>
 
-      <AddIssueRelation editAuth onSave={addRelation} projectId={projectId} hideCancelButton />
+      <AddIssueRelation
+        editAuth
+        onSave={addRelation}
+        projectId={projectId}
+        hideCancelButton
+        relationType={RelationType.RelatedTo}
+      />
 
       <Table
         wrapperClassName="mt-2"

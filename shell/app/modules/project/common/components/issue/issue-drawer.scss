@@ -4,8 +4,11 @@
   }
 
   .ant-drawer-body {
+    display: flex;
+    flex-direction: column;
     height: 100%;
     padding: 0;
+    background-color: $color-default-02;
   }
 
   .ant-spin-nested-loading {
@@ -16,6 +19,14 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+  }
+
+  .issue-drawer-right {
+    border-left: 1px solid $color-default-04;
+  }
+
+  .md-content {
+    background-color: $color-default-02;
   }
 }
 
