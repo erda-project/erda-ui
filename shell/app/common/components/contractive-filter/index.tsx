@@ -24,28 +24,37 @@ import { transformDuration } from 'common/components/duration';
 interface Option {
   label: string;
   value: string | number;
-  icon: string;
+  icon?: string;
   children?: Option[];
 }
 
-type ConditionType = 'select' | 'input' | 'dateRange';
+type ConditionType = 'select' | 'input' | 'dateRange' | 'rangePicker' | 'memberSelector' | 'timespanRange';
 const { RangePicker } = DatePicker;
 
-export interface ICondition {
+interface IBaseCondition<T> {
   key: string;
   label: string;
-  tips?: string;
-  type: ConditionType;
+  type: T;
   disabled?: boolean;
-  emptyText?: string;
-  required?: boolean;
-  firstShowLength?: number;
   split?: boolean;
   value?: string | number | string[] | number[] | Obj;
   fixed?: boolean;
   showIndex?: number; // 0： 隐藏、其他显示
-  haveFilter?: boolean;
   placeholder?: string;
+}
+
+interface ISelectCondition<T> extends IBaseCondition<T> {
+  options: Option[];
+  tips?: string;
+  firstShowLength?: number;
+  haveFilter?: boolean;
+  required?: boolean;
+  emptyText?: string;
+  customProps?: Obj;
+  quickSelect?: {
+    label: string;
+    operationKey: string;
+  };
   quickAdd?: {
     operationKey: string;
     show: boolean;
@@ -54,17 +63,49 @@ export interface ICondition {
   quickDelete?: {
     operationKey: string;
   };
-  quickSelect?: {
-    label: string;
-    operationKey: string;
-  };
-  getComp?: (props: Obj) => React.ReactNode;
-  options?: Option[];
-  customProps: Obj;
 }
 
-interface IFilterItemProps {
-  itemData: ICondition;
+type IInputCondition<T> = IBaseCondition<T>;
+
+interface IDateRangeCondition<T> extends IBaseCondition<T> {
+  tips?: string;
+  required?: boolean;
+  customProps?: Obj;
+}
+interface IRangePickerCondition<T> extends IBaseCondition<T> {
+  tips?: string;
+  customProps?: Obj;
+}
+interface ITimespanRangeCondition<T> extends IBaseCondition<T> {
+  tips?: string;
+}
+interface IMemberSelectorCondition<T> extends IBaseCondition<T> {
+  tips?: string;
+  emptyText?: string;
+  haveFilter?: boolean;
+  required?: boolean;
+  customProps?: Obj;
+}
+interface ICustomCondition<T extends any> extends IBaseCondition<T> {
+  getComp?: (props: Obj) => React.ReactNode;
+}
+
+export type ICondition<T> = T extends 'select'
+  ? ISelectCondition<T>
+  : T extends 'input'
+  ? IInputCondition<T>
+  : T extends 'dateRange'
+  ? IDateRangeCondition<T>
+  : T extends 'rangePicker'
+  ? IRangePickerCondition<T>
+  : T extends 'timespanRange'
+  ? ITimespanRangeCondition<T>
+  : T extends 'memberSelector'
+  ? IMemberSelectorCondition<T>
+  : ICustomCondition<T>;
+
+interface IFilterItemProps<T> {
+  itemData: ICondition<T>;
   value: any;
   active: boolean;
 
@@ -138,78 +179,18 @@ const OptionItem = (props: IOptionItemProps) => {
   );
 };
 
-const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuickOperation }: IFilterItemProps) => {
-  const {
-    key,
-    label,
-    tips,
-    haveFilter,
-    type,
-    firstShowLength = 200,
-    placeholder,
-    quickSelect,
-    disabled,
-    quickDelete,
-    quickAdd,
-    options,
-    required,
-    customProps,
-    emptyText = i18n.t('dop:all'),
-    getComp,
-  } = itemData;
-  const [filterMap, setFilterMap] = React.useState({});
-  const memberSelectorRef = React.useRef(null as any);
-  const durationRef = React.useRef(false);
-  const [inputVal, setInputVal] = React.useState(value);
-  const [duration, setDuration] = React.useState(value);
-  const [hasMore, setHasMore] = React.useState(firstShowLength ? (options?.length || 0) > firstShowLength : false);
-  // const inputRef = React.useRef(null);
-
-  const debouncedChange = React.useRef(debounce(onChange, 1000));
-
-  useUpdateEffect(() => {
-    setInputVal(value);
-    if (durationRef.current) {
-      setDuration(value);
-    }
-  }, [value]);
-
-  useUpdateEffect(() => {
-    if (inputVal !== value) {
-      debouncedChange?.current({ key, value: inputVal }, { forceChange: true });
-    }
-  }, [inputVal]);
-
-  React.useEffect(() => {
-    if (memberSelectorRef?.current?.show && active) {
-      memberSelectorRef.current.show(active);
-    }
-  }, [active]);
+const FilterItem = <T extends ConditionType>(props: IFilterItemProps<T>) => {
+  const { itemData, value, active, onVisibleChange, onChange, onQuickOperation } = props;
+  const { key, label, type } = itemData;
   if (type === 'input') {
-    return (
-      <Input
-        // autoFocus // 默认全部展示，不需要自动获取焦点
-        value={inputVal}
-        disabled={disabled}
-        size="small"
-        style={{ width: 180 }}
-        allowClear
-        className="bg-black-06"
-        // ref={inputRef}
-        prefix={<ErdaIcon fill="default-3" size="16" type="search" />}
-        placeholder={placeholder || i18n.t('press enter to search')}
-        // onPressEnter={() => inputRef.current?.blur()}
-        onChange={(e) => setInputVal(e.target.value)}
-        // onPressEnter={() => onChange({ key, value: inputVal })}
-      />
-    );
+    return <InputFilterItem {...(props as IFilterItemProps<'input'>)} />;
   }
 
   const labels = (
     <span className="text-desc mr-0.5 flex-all-center">
       {label}
-      {tips ? (
-        <Tooltip title={tips}>
+      {itemData.tips ? (
+        <Tooltip title={itemData.tips}>
           <ErdaIcon type="help" className="ml-1" />
         </Tooltip>
       ) : null}
@@ -217,382 +198,26 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   );
 
   if (type === 'select') {
-    const _value = value ? (isString(value) || isNumber(value) ? [value] : value) : [];
-    const _options = options || [];
-    const { mode = 'multiple' } = customProps || {};
-    const isSingleMode = mode === 'single';
-    const valueText =
-      _options
-        .reduce((_optArr: Option[], _curOpt: Option) => _optArr.concat(_curOpt.children ?? _curOpt), [])
-        .filter((a) => _value.includes(a.value))
-        .map((a) => a.label)
-        .join(',') || emptyText;
-
-    const filterOptions = getSelectOptions(_options, filterMap[key]);
-    const useOptions = hasMore ? filterOptions?.slice(0, firstShowLength) : filterOptions;
-    const ops = (
-      <Menu>
-        {haveFilter && [
-          <Menu.Item key="search-item options-item">
-            <Input
-              autoFocus
-              size="small"
-              placeholder={i18n.t('search')}
-              prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
-              value={filterMap[key]}
-              onChange={(e) => {
-                const v = e.target.value;
-                setFilterMap((prev) => {
-                  return {
-                    ...prev,
-                    [key]: v.toLowerCase(),
-                  };
-                });
-              }}
-            />
-          </Menu.Item>,
-          <Menu.Divider key="divider1" />,
-        ]}
-        {!isSingleMode && [
-          // 单选模式下不展示已选择n项
-          <Menu.Item key="select-info" className="flex justify-between items-center not-select px6 py-0 options-item">
-            <span>
-              {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
-            </span>
-            {!required ? (
-              <span className="fake-link ml-2" onClick={() => onChange({ key, value: undefined })}>
-                {i18n.t('common:clear selected')}
-              </span>
-            ) : null}
-          </Menu.Item>,
-          <Menu.Divider key="divider2" />,
-        ]}
-        {quickSelect && !isEmpty(quickSelect)
-          ? [
-              <Menu.Item key="quick-select-menu-item options-item">
-                <span
-                  className="fake-link flex justify-between items-center"
-                  onClick={() => onQuickOperation({ key: quickSelect.operationKey, value: itemData })}
-                >
-                  {quickSelect.label}
-                </span>
-              </Menu.Item>,
-              <Menu.Divider key="divider3" />,
-            ]
-          : null}
-        {quickAdd?.operationKey && quickAdd.show !== false
-          ? [
-              <Menu.Item key="quick-select-menu-item options-item">
-                <QuickSave
-                  onSave={(v) => onQuickOperation({ key: quickAdd.operationKey, value: v })}
-                  quickAdd={quickAdd}
-                  options={options}
-                />
-              </Menu.Item>,
-              <Menu.Divider key="divider4" />,
-            ]
-          : null}
-        <Menu.Item key="options" className="p-0 options-container options-item block">
-          {useOptions.map((op) => {
-            if (has(op, 'children') && !op.children?.length) {
-              return null;
-            }
-            const isGroup = op.children?.length;
-            const onClickOptItem = (_curOpt: Option) => {
-              if (isSingleMode) {
-                if (required && _value.includes(_curOpt.value)) return;
-                onChange({
-                  key,
-                  value: _value.includes(_curOpt.value) ? undefined : _curOpt.value,
-                });
-                onVisibleChange(false);
-              } else {
-                const newVal = _value.includes(_curOpt.value)
-                  ? _value.filter((v: string | number) => v !== _curOpt.value)
-                  : _value.concat(_curOpt.value);
-                if (required && !newVal.length) return;
-                onChange({
-                  key,
-                  value: newVal,
-                });
-              }
-            };
-            const onDelete = quickDelete?.operationKey
-              ? (optItem: Option) => {
-                  onQuickOperation({ key: quickDelete.operationKey, value: optItem.value });
-                }
-              : undefined;
-
-            if (isGroup) {
-              return (
-                <GroupOpt
-                  key={op.value || op.label}
-                  value={_value}
-                  firstShowLength={firstShowLength}
-                  onDelete={onDelete}
-                  onClickOptItem={onClickOptItem}
-                  option={op}
-                />
-              );
-            } else {
-              return (
-                <OptionItem
-                  onDelete={onDelete}
-                  key={op.value}
-                  value={_value}
-                  option={op}
-                  onClick={() => onClickOptItem(op)}
-                />
-              );
-            }
-          })}
-          {hasMore ? (
-            <div className="fake-link hover-active py-1 pl-3  load-more" onClick={() => setHasMore(false)}>
-              {`${i18n.t('load more')}...`}
-            </div>
-          ) : null}
-        </Menu.Item>
-      </Menu>
-    );
-    return (
-      <Dropdown
-        trigger={['click']}
-        visible={active}
-        onVisibleChange={onVisibleChange}
-        overlay={ops}
-        disabled={disabled}
-        overlayClassName="contractive-filter-item-dropdown"
-        placement="bottomLeft"
-      >
-        <span className="contractive-filter-item">
-          {labels}
-          <span className="contractive-filter-item-value nowrap">{valueText}</span>
-          <ErdaIcon type="caret-down" className="hover" size="16" />
-        </span>
-      </Dropdown>
-    );
+    return <SelectFilterItem {...(props as IFilterItemProps<'select'>)} labels={labels} />;
   }
 
   if (type === 'dateRange') {
-    const [_startDate, _endDate] = value || [];
-    const startDate = typeof _startDate === 'string' ? +_startDate : _startDate;
-    const endDate = typeof _endDate === 'string' ? +_endDate : _endDate;
-    const { borderTime } = customProps || {};
-
-    const disabledDate = (isStart: boolean) => (current: Moment | undefined) => {
-      return (
-        !!current &&
-        (isStart
-          ? endDate
-            ? (borderTime ? current.startOf('dates') : current) > moment(endDate)
-            : false
-          : startDate
-          ? (borderTime ? current.endOf('dates') : current) < moment(startDate)
-          : false)
-      );
-    };
-
-    const getTimeValue = (v: any[]) => {
-      if (borderTime) {
-        const startVal = v[0]
-          ? moment(isString(v[0]) ? +v[0] : v[0])
-              .startOf('dates')
-              .valueOf()
-          : v[0];
-        const endVal = v[1]
-          ? moment(isString(v[1]) ? +v[1] : v[1])
-              .endOf('dates')
-              .valueOf()
-          : v[1];
-        return [startVal, endVal];
-      }
-      return v;
-    };
-
-    return (
-      <span className="contractive-filter-item contractive-filter-date-picker">
-        {labels}
-        <DatePicker
-          size="small"
-          bordered={false}
-          disabled={disabled}
-          value={startDate ? moment(startDate) : undefined}
-          disabledDate={disabledDate(true)}
-          format={'YYYY/MM/DD'}
-          allowClear={!required}
-          onChange={(v) => onChange({ key, value: getTimeValue([v?.valueOf(), endDate]) })}
-          placeholder={i18n.t('common:startDate')}
-        />
-        <span className="text-desc">{i18n.t('common:to')}</span>
-        <DatePicker
-          size="small"
-          bordered={false}
-          disabled={disabled}
-          allowClear={!required}
-          value={endDate ? moment(endDate) : undefined}
-          disabledDate={disabledDate(false)}
-          format={'YYYY/MM/DD'}
-          placeholder={i18n.t('common:endDate')}
-          onChange={(v) => onChange({ key, value: getTimeValue([startDate, v?.valueOf()]) })}
-        />
-      </span>
-    );
+    return <DateRangeFilterItem {...(props as IFilterItemProps<'dateRange'>)} labels={labels} />;
   }
 
   if (type === 'rangePicker') {
-    const { ranges, borderTime, selectableTime, ...customRest } = customProps;
-    const valueConvert = (val: number[] | Moment[]) => {
-      const convertItem = (v: number | Moment) => {
-        if (moment.isMoment(v)) {
-          return moment(v).valueOf();
-        } else {
-          return v && moment(v);
-        }
-      };
-      return Array.isArray(val) ? val.map((vItem) => convertItem(vItem)) : convertItem(val);
-    };
-
-    /**
-     * support object type for i18n
-     * {
-        LastWeek: {
-          label: '近一周' | 'Last Week',
-          range: []
-        }
-      }
-     * @param _ranges
-     * @returns
-     */
-    const rangeConvert = (_ranges?: Obj<number[]> | Obj<{ label: string; range: number[] }>) => {
-      const reRanges = {};
-      map(_ranges, (v, k) => {
-        let _k = k;
-        let _v = v;
-        if (!Array.isArray(v)) {
-          _k = v.label;
-          _v = v.range;
-        }
-        reRanges[_k] = valueConvert(_v as number[]);
-      });
-      return reRanges;
-    };
-    const disabledDate = (_current: Moment) => {
-      return (
-        _current &&
-        !(
-          (selectableTime[0] ? _current > moment(selectableTime[0]) : true) &&
-          (selectableTime[1] ? _current < moment(selectableTime[1]) : true)
-        )
-      );
-    };
-    return (
-      <span className="contractive-filter-item contractive-filter-date-picker">
-        {labels}
-        <RangePicker
-          value={valueConvert(value)}
-          ranges={rangeConvert(ranges)}
-          size="small"
-          disabled={disabled}
-          bordered={false}
-          disabledDate={selectableTime ? disabledDate : undefined}
-          onChange={(v) => {
-            const val =
-              borderTime && Array.isArray(v)
-                ? v.map((vItem, idx) => {
-                    if (idx === 0 && vItem) {
-                      return vItem.startOf('dates');
-                    } else if (idx === 1 && vItem) {
-                      return vItem.endOf('dates');
-                    }
-                    return vItem;
-                  })
-                : v;
-            onChange({ key, value: valueConvert(val) });
-          }}
-          {...customRest}
-        />
-      </span>
-    );
+    return <RangePickerFilterItem {...(props as IFilterItemProps<'rangePicker'>)} labels={labels} />;
   }
 
   if (type === 'memberSelector') {
-    const memberResultsRender = (displayValue: any[]) => {
-      const usersText = map(displayValue, (d) => d.label || d.value).join(',');
-      return (
-        <span
-          className="contractive-filter-item-value nowrap member-value"
-          onClick={(e) => {
-            e.stopPropagation();
-            onVisibleChange(true);
-          }}
-        >
-          {usersText}
-        </span>
-      );
-    };
-    return (
-      <span
-        className="contractive-filter-item"
-        onClick={() => {
-          onVisibleChange(true);
-        }}
-      >
-        {labels}
-        <MemberSelector
-          {...((customProps || {}) as any)}
-          onChange={(v) => {
-            onChange({ key, value: v });
-          }}
-          allowClear={!required}
-          value={value}
-          dropdownMatchSelectWidth={false}
-          onDropdownVisible={(vis: boolean) => onVisibleChange(vis)}
-          ref={memberSelectorRef}
-          resultsRender={memberResultsRender}
-          placeholder={' '}
-          className="contractive-member-selector"
-          showSearch={haveFilter}
-        />
-        {value?.length ? null : <span>{emptyText}</span>}
-        <ErdaIcon type="caret-down" className="hover" size="16" />
-      </span>
-    );
+    return <MemberSelectorFilterItem {...(props as IFilterItemProps<'memberSelector'>)} labels={labels} />;
   }
 
   if (type === 'timespanRange') {
-    const _value = isArray(duration) ? duration : [];
-    return (
-      <span className="contractive-filter-item">
-        {labels}
-        <Duration
-          value={_value}
-          onChange={(v) => {
-            const durationMin = transformDuration(v?.[0]);
-            const durationMax = transformDuration(v?.[1]);
-            if (isNumber(durationMin) && isNumber(durationMax)) {
-              if (durationMin <= durationMax) {
-                durationRef.current = true;
-                onChange({ key, value: v });
-              } else {
-                durationRef.current = false;
-                setDuration(v);
-                message.error(i18n.t('msp:wrong duration'));
-              }
-            } else if (!isNumber(durationMin) && !isNumber(durationMax)) {
-              durationRef.current = false;
-              setDuration(v);
-              onChange({ key, value: [] });
-            } else {
-              durationRef.current = false;
-              setDuration(v);
-            }
-          }}
-        />
-      </span>
-    );
+    return <TimeSpanFilterItem {...(props as IFilterItemProps<'timespanRange'>)} labels={labels} />;
   }
-  if (getComp) {
-    const comp = getComp({
+  if (itemData.getComp) {
+    const comp = itemData.getComp({
       onChange: (v) => {
         onChange({ key, value: v });
       },
@@ -607,6 +232,509 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   return null;
 };
 
+const InputFilterItem = ({
+  itemData,
+  value,
+  active,
+  onVisibleChange,
+  onChange,
+  onQuickOperation,
+}: IFilterItemProps<'input'>) => {
+  const { key, placeholder, disabled } = itemData;
+  const [inputVal, setInputVal] = React.useState(value);
+  const debouncedChange = React.useRef(debounce(onChange, 1000));
+
+  useUpdateEffect(() => {
+    setInputVal(value);
+  }, [value]);
+
+  useUpdateEffect(() => {
+    if (inputVal !== value) {
+      debouncedChange?.current({ key, value: inputVal }, { forceChange: true });
+    }
+  }, [inputVal]);
+
+  return (
+    <Input
+      // autoFocus // 默认全部展示，不需要自动获取焦点
+      value={inputVal}
+      disabled={disabled}
+      size="small"
+      style={{ width: 180 }}
+      allowClear
+      className="bg-black-06"
+      // ref={inputRef}
+      prefix={<ErdaIcon fill="default-3" size="16" type="search" />}
+      placeholder={placeholder || i18n.t('press enter to search')}
+      // onPressEnter={() => inputRef.current?.blur()}
+      onChange={(e) => setInputVal(e.target.value)}
+      // onPressEnter={() => onChange({ key, value: inputVal })}
+    />
+  );
+};
+
+const SelectFilterItem = ({
+  itemData,
+  value,
+  active,
+  onVisibleChange,
+  onChange,
+  onQuickOperation,
+  labels,
+}: Merge<IFilterItemProps<'select'>, { labels: JSX.Element }>) => {
+  const {
+    key,
+    haveFilter,
+    firstShowLength = 200,
+    placeholder,
+    quickSelect,
+    disabled,
+    quickDelete,
+    quickAdd,
+    options,
+    required,
+    customProps,
+    emptyText = i18n.t('dop:all'),
+  } = itemData;
+  const [filterMap, setFilterMap] = React.useState({});
+  const [hasMore, setHasMore] = React.useState(
+    itemData.firstShowLength ? (options?.length || 0) > firstShowLength : false,
+  );
+  const _value = value ? (isString(value) || isNumber(value) ? [value] : value) : [];
+  const _options = options || [];
+  const { mode = 'multiple' } = customProps || {};
+  const isSingleMode = mode === 'single';
+  const valueText =
+    _options
+      .reduce((_optArr: Option[], _curOpt: Option) => _optArr.concat(_curOpt.children ?? _curOpt), [])
+      .filter((a) => _value.includes(a.value))
+      .map((a) => a.label)
+      .join(',') || emptyText;
+
+  const filterOptions = getSelectOptions(_options, filterMap[key]);
+  const useOptions = hasMore ? filterOptions?.slice(0, firstShowLength) : filterOptions;
+  const ops = (
+    <Menu>
+      {haveFilter && [
+        <Menu.Item key="search-item options-item">
+          <Input
+            autoFocus
+            size="small"
+            placeholder={placeholder || i18n.t('search')}
+            prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
+            value={filterMap[key]}
+            onChange={(e) => {
+              const v = e.target.value;
+              setFilterMap((prev) => {
+                return {
+                  ...prev,
+                  [key]: v.toLowerCase(),
+                };
+              });
+            }}
+          />
+        </Menu.Item>,
+        <Menu.Divider key="divider1" />,
+      ]}
+      {!isSingleMode && [
+        // 单选模式下不展示已选择n项
+        <Menu.Item key="select-info" className="flex justify-between items-center not-select px6 py-0 options-item">
+          <span>
+            {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
+          </span>
+          {!required ? (
+            <span className="fake-link ml-2" onClick={() => onChange({ key, value: undefined })}>
+              {i18n.t('common:clear selected')}
+            </span>
+          ) : null}
+        </Menu.Item>,
+        <Menu.Divider key="divider2" />,
+      ]}
+      {quickSelect && !isEmpty(quickSelect)
+        ? [
+            <Menu.Item key="quick-select-menu-item options-item">
+              <span
+                className="fake-link flex justify-between items-center"
+                onClick={() => onQuickOperation({ key: quickSelect.operationKey, value: itemData })}
+              >
+                {quickSelect.label}
+              </span>
+            </Menu.Item>,
+            <Menu.Divider key="divider3" />,
+          ]
+        : null}
+      {quickAdd?.operationKey && quickAdd.show !== false
+        ? [
+            <Menu.Item key="quick-select-menu-item options-item">
+              <QuickSave
+                onSave={(v) => onQuickOperation({ key: quickAdd.operationKey, value: v })}
+                quickAdd={quickAdd}
+                options={options}
+              />
+            </Menu.Item>,
+            <Menu.Divider key="divider4" />,
+          ]
+        : null}
+      <Menu.Item key="options" className="p-0 options-container options-item block">
+        {useOptions.map((op) => {
+          if (has(op, 'children') && !op.children?.length) {
+            return null;
+          }
+          const isGroup = op.children?.length;
+          const onClickOptItem = (_curOpt: Option) => {
+            if (isSingleMode) {
+              if (required && _value.includes(_curOpt.value)) return;
+              onChange({
+                key,
+                value: _value.includes(_curOpt.value) ? undefined : _curOpt.value,
+              });
+              onVisibleChange(false);
+            } else {
+              const newVal = _value.includes(_curOpt.value)
+                ? _value.filter((v: string | number) => v !== _curOpt.value)
+                : _value.concat(_curOpt.value);
+              if (required && !newVal.length) return;
+              onChange({
+                key,
+                value: newVal,
+              });
+            }
+          };
+          const onDelete = quickDelete?.operationKey
+            ? (optItem: Option) => {
+                onQuickOperation({ key: quickDelete.operationKey, value: optItem.value });
+              }
+            : undefined;
+
+          if (isGroup) {
+            return (
+              <GroupOpt
+                key={op.value || op.label}
+                value={_value}
+                firstShowLength={firstShowLength}
+                onDelete={onDelete}
+                onClickOptItem={onClickOptItem}
+                option={op}
+              />
+            );
+          } else {
+            return (
+              <OptionItem
+                onDelete={onDelete}
+                key={op.value}
+                value={_value}
+                option={op}
+                onClick={() => onClickOptItem(op)}
+              />
+            );
+          }
+        })}
+        {hasMore ? (
+          <div className="fake-link hover-active py-1 pl-3  load-more" onClick={() => setHasMore(false)}>
+            {`${i18n.t('load more')}...`}
+          </div>
+        ) : null}
+      </Menu.Item>
+    </Menu>
+  );
+  return (
+    <Dropdown
+      trigger={['click']}
+      visible={active}
+      onVisibleChange={onVisibleChange}
+      overlay={ops}
+      disabled={disabled}
+      overlayClassName="contractive-filter-item-dropdown"
+      placement="bottomLeft"
+    >
+      <span className="contractive-filter-item">
+        {labels}
+        <span className="contractive-filter-item-value nowrap">{valueText}</span>
+        <ErdaIcon type="caret-down" className="hover" size="16" />
+      </span>
+    </Dropdown>
+  );
+};
+
+const DateRangeFilterItem = ({
+  itemData,
+  value,
+  active,
+  onVisibleChange,
+  onChange,
+  onQuickOperation,
+  labels,
+}: Merge<IFilterItemProps<'dateRange'>, { labels: JSX.Element }>) => {
+  const { key, label, type, placeholder, disabled, required, customProps } = itemData;
+  const [_startDate, _endDate] = value || [];
+  const startDate = typeof _startDate === 'string' ? +_startDate : _startDate;
+  const endDate = typeof _endDate === 'string' ? +_endDate : _endDate;
+  const { borderTime } = customProps || {};
+
+  const disabledDate = (isStart: boolean) => (current: Moment | undefined) => {
+    return (
+      !!current &&
+      (isStart
+        ? endDate
+          ? (borderTime ? current.startOf('dates') : current) > moment(endDate)
+          : false
+        : startDate
+        ? (borderTime ? current.endOf('dates') : current) < moment(startDate)
+        : false)
+    );
+  };
+
+  const getTimeValue = (v: any[]) => {
+    if (borderTime) {
+      const startVal = v[0]
+        ? moment(isString(v[0]) ? +v[0] : v[0])
+            .startOf('dates')
+            .valueOf()
+        : v[0];
+      const endVal = v[1]
+        ? moment(isString(v[1]) ? +v[1] : v[1])
+            .endOf('dates')
+            .valueOf()
+        : v[1];
+      return [startVal, endVal];
+    }
+    return v;
+  };
+
+  return (
+    <span className="contractive-filter-item contractive-filter-date-picker">
+      {labels}
+      <DatePicker
+        size="small"
+        bordered={false}
+        disabled={disabled}
+        value={startDate ? moment(startDate) : undefined}
+        disabledDate={disabledDate(true)}
+        format={'YYYY/MM/DD'}
+        allowClear={!required}
+        onChange={(v) => onChange({ key, value: getTimeValue([v?.valueOf(), endDate]) })}
+        placeholder={i18n.t('common:startDate')}
+      />
+      <span className="text-desc">{i18n.t('common:to')}</span>
+      <DatePicker
+        size="small"
+        bordered={false}
+        disabled={disabled}
+        allowClear={!required}
+        value={endDate ? moment(endDate) : undefined}
+        disabledDate={disabledDate(false)}
+        format={'YYYY/MM/DD'}
+        placeholder={i18n.t('common:endDate')}
+        onChange={(v) => onChange({ key, value: getTimeValue([startDate, v?.valueOf()]) })}
+      />
+    </span>
+  );
+};
+
+const RangePickerFilterItem = ({
+  itemData,
+  value,
+  active,
+  onVisibleChange,
+  onChange,
+  onQuickOperation,
+  labels,
+}: Merge<IFilterItemProps<'rangePicker'>, { labels: JSX.Element }>) => {
+  const { key, label, type, placeholder, disabled, customProps } = itemData;
+  const { ranges, borderTime, selectableTime, ...customRest } = customProps;
+  const valueConvert = (val: number[] | Moment[]) => {
+    const convertItem = (v: number | Moment) => {
+      if (moment.isMoment(v)) {
+        return moment(v).valueOf();
+      } else {
+        return v && moment(v);
+      }
+    };
+    return Array.isArray(val) ? val.map((vItem) => convertItem(vItem)) : convertItem(val);
+  };
+
+  /**
+   * support object type for i18n
+   * {
+      LastWeek: {
+      label: '近一周' | 'Last Week',
+    range: []
+      }
+    }
+    * @param _ranges
+    * @returns
+    */
+  const rangeConvert = (_ranges?: Obj<number[]> | Obj<{ label: string; range: number[] }>) => {
+    const reRanges = {};
+    map(_ranges, (v, k) => {
+      let _k = k;
+      let _v = v;
+      if (!Array.isArray(v)) {
+        _k = v.label;
+        _v = v.range;
+      }
+      reRanges[_k] = valueConvert(_v as number[]);
+    });
+    return reRanges;
+  };
+  const disabledDate = (_current: Moment) => {
+    return (
+      _current &&
+      !(
+        (selectableTime[0] ? _current > moment(selectableTime[0]) : true) &&
+        (selectableTime[1] ? _current < moment(selectableTime[1]) : true)
+      )
+    );
+  };
+  return (
+    <span className="contractive-filter-item contractive-filter-date-picker">
+      {labels}
+      <RangePicker
+        value={valueConvert(value)}
+        ranges={rangeConvert(ranges)}
+        size="small"
+        disabled={disabled}
+        bordered={false}
+        disabledDate={selectableTime ? disabledDate : undefined}
+        onChange={(v) => {
+          const val =
+            borderTime && Array.isArray(v)
+              ? v.map((vItem, idx) => {
+                  if (idx === 0 && vItem) {
+                    return vItem.startOf('dates');
+                  } else if (idx === 1 && vItem) {
+                    return vItem.endOf('dates');
+                  }
+                  return vItem;
+                })
+              : v;
+          onChange({ key, value: valueConvert(val) });
+        }}
+        {...customRest}
+      />
+    </span>
+  );
+};
+
+const MemberSelectorFilterItem = ({
+  itemData,
+  value,
+  active,
+  onVisibleChange,
+  onChange,
+  onQuickOperation,
+  labels,
+}: Merge<IFilterItemProps<'memberSelector'>, { labels: JSX.Element }>) => {
+  const {
+    key,
+    label,
+    haveFilter,
+    placeholder,
+    disabled,
+    required,
+    customProps,
+    emptyText = i18n.t('dop:all'),
+  } = itemData;
+  const memberSelectorRef = React.useRef(null as any);
+
+  React.useEffect(() => {
+    if (memberSelectorRef?.current?.show && active) {
+      memberSelectorRef.current.show(active);
+    }
+  }, [active]);
+  const memberResultsRender = (displayValue: any[]) => {
+    const usersText = map(displayValue, (d) => d.label || d.value).join(',');
+    return (
+      <span
+        className="contractive-filter-item-value nowrap member-value"
+        onClick={(e) => {
+          e.stopPropagation();
+          onVisibleChange(true);
+        }}
+      >
+        {usersText}
+      </span>
+    );
+  };
+  return (
+    <span
+      className="contractive-filter-item"
+      onClick={() => {
+        onVisibleChange(true);
+      }}
+    >
+      {labels}
+      <MemberSelector
+        {...((customProps || {}) as any)}
+        onChange={(v) => {
+          onChange({ key, value: v });
+        }}
+        allowClear={!required}
+        value={value}
+        dropdownMatchSelectWidth={false}
+        onDropdownVisible={(vis: boolean) => onVisibleChange(vis)}
+        ref={memberSelectorRef}
+        resultsRender={memberResultsRender}
+        placeholder={' '}
+        className="contractive-member-selector"
+        showSearch={haveFilter}
+      />
+      {value?.length ? null : <span>{emptyText}</span>}
+      <ErdaIcon type="caret-down" className="hover" size="16" />
+    </span>
+  );
+};
+
+const TimeSpanFilterItem = ({
+  itemData,
+  value,
+  active,
+  onVisibleChange,
+  onChange,
+  onQuickOperation,
+  labels,
+}: Merge<IFilterItemProps<'timespanRange'>, { labels: JSX.Element }>) => {
+  const { key, label, placeholder, disabled } = itemData;
+
+  const [duration, setDuration] = React.useState(value);
+  const durationRef = React.useRef(false);
+
+  useUpdateEffect(() => {
+    if (durationRef.current) {
+      setDuration(value);
+    }
+  }, [value]);
+  const _value = isArray(duration) ? duration : [];
+  return (
+    <span className="contractive-filter-item">
+      {labels}
+      <Duration
+        value={_value}
+        onChange={(v) => {
+          const durationMin = transformDuration(v?.[0]);
+          const durationMax = transformDuration(v?.[1]);
+          if (isNumber(durationMin) && isNumber(durationMax)) {
+            if (durationMin <= durationMax) {
+              durationRef.current = true;
+              onChange({ key, value: v });
+            } else {
+              durationRef.current = false;
+              setDuration(v);
+              message.error(i18n.t('msp:wrong duration'));
+            }
+          } else if (!isNumber(durationMin) && !isNumber(durationMax)) {
+            durationRef.current = false;
+            setDuration(v);
+            onChange({ key, value: [] });
+          } else {
+            durationRef.current = false;
+            setDuration(v);
+          }
+        }}
+      />
+    </span>
+  );
+};
 interface IQuickSaveProps {
   onSave: (val: string) => void;
   options?: Option[];
@@ -699,18 +827,23 @@ const GroupOpt = (props: IGroupOptProps) => {
 };
 const noop = () => {};
 
-interface ContractiveFilterProps {
+interface ContractiveFilterProps<T extends ConditionType> {
   initValue?: Obj; // 初始化
   values?: Obj; // 完全受控
-  conditions: ICondition[];
+  conditions: Array<ICondition<T>>;
   delay: number;
   fullWidth?: boolean;
-  onConditionsChange?: (data: ICondition[]) => void;
+  className?: string;
+  onConditionsChange?: (data: Array<ICondition<T>>) => void;
   onChange: (valueMap: Obj, key?: string) => void;
   onQuickOperation?: (data: { key: string; value: any }) => void;
 }
 
-const setConditionShowIndex = (conditions: ICondition[], key: string, show: boolean) => {
+const setConditionShowIndex = <T extends ConditionType>(
+  conditions: Array<ICondition<T>>,
+  key: string,
+  show: boolean,
+) => {
   const showIndexArr = map(conditions, 'showIndex');
   const maxShowIndex = max(showIndexArr) as number;
   return map(conditions, (item) => {
@@ -721,7 +854,7 @@ const setConditionShowIndex = (conditions: ICondition[], key: string, show: bool
   });
 };
 
-const getInitConditions = (conditions: ICondition[], valueMap: Obj) => {
+const getInitConditions = <T extends ConditionType>(conditions: Array<ICondition<T>>, valueMap: Obj) => {
   const showIndexArr = map(conditions, 'showIndex');
   const maxShowIndex = max(showIndexArr) as number;
   let curMax = maxShowIndex;
@@ -737,7 +870,7 @@ const getInitConditions = (conditions: ICondition[], valueMap: Obj) => {
   return reConditions;
 };
 
-const ContractiveFilter = ({
+const ContractiveFilter = <T extends ConditionType>({
   initValue,
   values,
   conditions: propsConditions,
@@ -747,7 +880,7 @@ const ContractiveFilter = ({
   onConditionsChange = noop,
   fullWidth = false,
   className,
-}: ContractiveFilterProps) => {
+}: ContractiveFilterProps<T>) => {
   const [conditions, setConditions] = React.useState(
     getInitConditions(propsConditions || [], values || initValue || {}),
   );
