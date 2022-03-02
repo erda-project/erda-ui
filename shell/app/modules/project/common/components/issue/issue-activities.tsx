@@ -72,13 +72,13 @@ export const IssueActivities = (props: IProps) => {
           return (
             <div key={comment.id} className="flex items-start pl-4 mt-4 space-x-1">
               <div className="flex-1 px-4 py-4 rounded-sm my-comment issue-comment-content">{comment.content}</div>
-              <UserInfo.RenderWithAvatar id={user.id} />
+              <UserInfo.RenderWithAvatar id={user.id} showName={false} />
             </div>
           );
         }
         return (
           <div key={comment.id} className="flex items-start pr-4 mt-4 space-x-1">
-            <UserInfo.RenderWithAvatar id={user.id} />
+            <UserInfo.RenderWithAvatar id={user.id} showName={false} />
             <div className="flex-1 px-4 py-4 rounded-sm other-comment issue-comment-content">{comment.content}</div>
           </div>
         );
@@ -118,7 +118,7 @@ export const IssueActivities = (props: IProps) => {
 
   return (
     <Spin spinning={loading}>
-      <div className="flex flex-col overflow-auto p-4">
+      <div className="flex flex-col overflow-auto p-4 pb-16">
         <RadioTabs value={tab} options={tabs} onChange={(k) => setTab(k)} />
         <div className="overflow-auto">
           <Holder when={!issueStreamList.length && !loading}>
