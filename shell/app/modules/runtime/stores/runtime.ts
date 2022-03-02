@@ -65,12 +65,12 @@ const runtime = createFlatStore({
   subscriptions({ listenRoute, registerWSHandler }: IStoreSubs) {
     listenRoute(({ isEntering, isLeaving, params }) => {
       const { runtimeId, appId } = params;
-      if (isEntering('projectDeployRuntime')) {
+      if (isEntering('projectDeployRuntime') || isEntering('appDeployRuntime')) {
         runtime.getRuntimeDetail({ runtimeId });
-      } else if (isLeaving('projectDeployRuntime')) {
+      } else if (isLeaving('projectDeployRuntime') || isLeaving('appDeployRuntime')) {
         runtime.clearRuntimeDetail();
       }
-      if (isEntering('projectDeployRuntime')) {
+      if (isEntering('projectDeployRuntime') || isEntering('appDeployRuntime')) {
         permStore.effects.checkRouteAuth({
           type: 'app',
           id: appId,

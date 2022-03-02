@@ -87,6 +87,14 @@ export const APP_TABS = () => {
     key: 'dataTask',
     name: `${i18n.t('dop:data task')}`,
   };
+
+  const deploy = {
+    show: perm.runtime.read.pass,
+    key: 'deploy/list/dev',
+    isActive: (activeKey: string) => activeKey.split('/')[0] === 'deploy',
+    name: i18n.t('deploy'),
+  };
+
   const dataModel = {
     show: perm.dataModel.read.pass,
     key: 'dataModel',
@@ -117,12 +125,12 @@ export const APP_TABS = () => {
 
   const extraRepoTabs = isExternalRepo ? [] : [commit, branch, mr];
   const modeMap = {
-    [appMode.SERVICE]: [repo, ...extraRepoTabs, pipeline, apiDesign, quality, setting],
+    [appMode.SERVICE]: [repo, ...extraRepoTabs, pipeline, deploy, apiDesign, quality, setting],
     [appMode.PROJECT_SERVICE]: [repo, ...extraRepoTabs, pipeline, quality, setting],
-    [appMode.MOBILE]: [repo, ...extraRepoTabs, pipeline, apiDesign, quality, setting],
-    [appMode.LIBRARY]: [repo, ...extraRepoTabs, pipeline, apiDesign, quality, setting],
+    [appMode.MOBILE]: [repo, ...extraRepoTabs, pipeline, deploy, apiDesign, quality, setting],
+    [appMode.LIBRARY]: [repo, ...extraRepoTabs, pipeline, deploy, apiDesign, quality, setting],
     [appMode.BIGDATA]: [repo, ...extraRepoTabs, dataTask, dataModel, dataMarket, setting],
-    [appMode.ABILITY]: [quality, setting],
+    [appMode.ABILITY]: [deploy, quality, setting],
   };
 
   const tabs = filter(modeMap[mode], (item: ITab) => item.show !== false) as ROUTE_TABS[];
@@ -136,4 +144,16 @@ export const APP_TABS = () => {
     }
   }, [currentRoute, tabs]);
   return [appSwitch, ...tabs] as ROUTE_TABS[];
+};
+
+export const DEPLOY_RUNTIME_TABS = (params: Obj) => {
+  const { breadcrumbInfoMap } = params;
+  const { appName, runtimeName } = breadcrumbInfoMap;
+  return [
+    {
+      key: '_',
+      readonly: true,
+      name: appName === runtimeName ? runtimeName : `${appName}/${runtimeName}`,
+    },
+  ];
 };
