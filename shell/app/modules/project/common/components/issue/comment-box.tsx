@@ -17,7 +17,9 @@ import { Button, Input } from 'antd';
 import React from 'react';
 import { WithAuth } from 'user/common';
 import i18n from 'i18n';
-import { useKey } from 'react-use';
+import { getBrowserInfo } from 'app/common/utils';
+
+const { isWin } = getBrowserInfo();
 
 interface IProps {
   editAuth?: boolean;
@@ -38,13 +40,11 @@ export const IssueCommentBox = (props: IProps) => {
     updater.visible(false);
   };
 
-  useKey((event) => event.key === 'Enter' && event.metaKey, submit);
-
   const disableSubmit = !stateMap.content.trim();
 
   return stateMap.visible ? (
     <div
-      className="fixed bottom-1"
+      className="fixed z-10 shadow-card-lg bg-white bottom-0"
       style={{
         width: '80vw',
         left: '20vw',
@@ -56,7 +56,7 @@ export const IssueCommentBox = (props: IProps) => {
           onChange={(val: any) => {
             updater.content(val);
           }}
-          style={{ height: '200px' }}
+          style={{ height: '300px' }}
           maxLength={3000}
         />
       </div>
@@ -75,8 +75,13 @@ export const IssueCommentBox = (props: IProps) => {
         <Input.TextArea
           value={stateMap.content}
           onChange={(e) => updater.content(e.target.value)}
-          placeholder={i18n.t('dop:Comment (⌘ + Enter to send)')}
+          placeholder={i18n.t('dop:Comment ({meta} + Enter to send)', { meta: isWin ? 'Shift' : 'Cmd' })}
           autoSize={{ maxRows: 8 }}
+          onPressEnter={(e) => {
+            if (isWin ? e.shiftKey : e.metaKey) {
+              submit();
+            }
+          }}
           className="bg-default-06 border-none"
         />
         <div className="flex items-center absolute right-4 bottom-3 mb-0.5 mr-0.5">
