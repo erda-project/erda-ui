@@ -44,28 +44,32 @@ export const IssueCommentBox = (props: IProps) => {
 
   return stateMap.visible ? (
     <div
-      className="fixed z-10 shadow-card-lg bg-white bottom-0"
+      className="fixed z-10 rounded-sm p-4 pb-2 shadow-card-lg bg-white bottom-0"
       style={{
-        width: '80vw',
-        left: '20vw',
+        width: '40vw',
+        right: '0',
       }}
     >
-      <div className="comment-box-markdown">
-        <MarkdownEditor
-          value={stateMap.content}
-          onChange={(val: any) => {
-            updater.content(val);
-          }}
-          style={{ height: '300px' }}
-          maxLength={3000}
-        />
-      </div>
+      <Input.TextArea
+        value={stateMap.content}
+        autoFocus
+        bordered={false}
+        onChange={(e) => updater.content(e.target.value)}
+        placeholder={i18n.t('dop:Comment ({meta} + Enter to send)', { meta: isWin ? 'Shift' : 'Cmd' })}
+        autoSize={{ minRows: 12, maxRows: 12 }}
+        onPressEnter={(e) => {
+          if (isWin ? e.shiftKey : e.metaKey) {
+            submit();
+          }
+        }}
+        className="bg-default-06 border-none"
+      />
       <div className="mt-3 btn-line-rtl">
-        <Button type="primary" className="ml-3" disabled={disableSubmit} onClick={() => submit()}>
-          {i18n.t('ok')}
+        <Button type="primary" disabled={disableSubmit} onClick={() => submit()}>
+          {i18n.t('dop:Send')}
         </Button>
-        <Button type="link" onClick={() => updater.visible(false)}>
-          {i18n.t('cancel')}
+        <Button className="ml-3" onClick={() => updater.visible(false)}>
+          {i18n.t('dop:Collapse')}
         </Button>
       </div>
     </div>
