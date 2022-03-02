@@ -25,6 +25,7 @@ import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import UserInfo from 'common/components/user-info';
 import userStore from 'user/stores';
 import './issue-activities.scss';
+import { useScroll } from 'react-use';
 
 interface IProps {
   type: ISSUE_TYPE;
@@ -116,11 +117,19 @@ export const IssueActivities = (props: IProps) => {
     });
   };
 
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  const { y } = useScroll(scrollRef);
+
   return (
     <Spin spinning={loading}>
-      <div className="flex flex-col overflow-auto p-4 pb-16">
-        <RadioTabs value={tab} options={tabs} onChange={(k) => setTab(k)} />
-        <div className="overflow-auto">
+      <div className="flex flex-col overflow-auto pt-4 pb-14">
+        <RadioTabs
+          className={`px-4 pb-2 ${y > 2 ? 'shadow-card' : ''}`}
+          value={tab}
+          options={tabs}
+          onChange={(k) => setTab(k)}
+        />
+        <div className={`overflow-auto px-4 `} ref={scrollRef}>
           <Holder when={!issueStreamList.length && !loading}>
             <div className={tab === tabs[0].value ? '' : 'hidden'}>{commentsRender()}</div>
             <div className={tab === tabs[1].value ? '' : 'hidden'}>{activityListRender(activityList)}</div>
