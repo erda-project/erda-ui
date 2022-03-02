@@ -239,7 +239,7 @@ export const TimeTrace = React.forwardRef(
               remain={editData.remainingTime ?? defaultRemaining}
               estimate={value.estimateTime}
             />
-            <div className="my-4">
+            <div className="mb-4 ml-3">
               {i18n.t('dop:The original estimated time for this event is')} {transToStr(value.estimateTime)}
             </div>
             <Form formRef={form} fields={fields} onChange={setEditData} />
