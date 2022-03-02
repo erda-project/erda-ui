@@ -72,7 +72,6 @@ const colors = {
   'log-font': '#c2c1d0',
   'log-bg': '#3c444f',
   'light-border': 'rgba(222,222,222,0.5)', // 标准化后的颜色
-  'table-head-bg': '#fbfbfb',
 
   default: '#302647',
   'default-1': 'rgba(48, 38, 71, 0.1)',

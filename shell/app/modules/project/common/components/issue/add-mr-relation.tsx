@@ -104,7 +104,7 @@ export const AddMrRelation = ({ onSave, editAuth }: IProps) => {
 
   const overlay = (
     <div className="w-[800px] shadow-card-lg bg-white">
-      <div className="flex items-center justify-between px-4 py-3 bg-table-head-bg font-medium">
+      <div className="flex items-center justify-between px-4 py-3 font-medium">
         <span>{i18n.t('dop:choose MR')}</span>
         <ErdaIcon type="guanbi" size={20} className="hover-active" onClick={() => updater.visible(false)} />
       </div>

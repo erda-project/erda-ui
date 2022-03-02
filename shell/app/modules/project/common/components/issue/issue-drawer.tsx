@@ -273,7 +273,7 @@ export const IssueDrawer = (props: IProps) => {
               </If>
             </div>
             <If condition={commentField !== IssueDrawer.Empty}>
-              <div className="w-[390px] overflow-y-auto issue-drawer-right">{commentField}</div>
+              <div className="w-[390px] overflow-y-auto issue-drawer-right bg-default-02">{commentField}</div>
             </If>
           </div>
           <If condition={footer !== IssueDrawer.Empty}>
