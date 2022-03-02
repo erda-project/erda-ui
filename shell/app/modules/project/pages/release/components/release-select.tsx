@@ -223,7 +223,7 @@ function ReleaseSelect<T extends { applicationId: string; title: string }>(props
             </Collapse>
           </Timeline.Item>
         ))}
-        {!readOnly && groupList.length < 5 ? (
+        {!readOnly ? (
           <Timeline.Item
             dot={
               <div className="leading-4">
