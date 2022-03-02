@@ -1,10 +1,13 @@
 .backlog-issue-item {
   display: flex;
   align-items: center;
-  height: 48px;
-  padding: 0 8px;
+  height: 40px;
   border-bottom: 1px solid $color-border;
   cursor: pointer;
+
+  &:last-child {
+    border-bottom: none;
+  }
 
   &.draggable {
     cursor: grab;
@@ -49,42 +52,5 @@
     &:hover {
       background-color: $platinum;
     }
-  }
-}
-
-.backlog-issue-form {
-  .backlog-issue-form-box {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    width: 0;
-    overflow: auto;
-  }
-
-  .backlog-issue-add {
-    display: flex;
-    align-items: baseline;
-    width: 100%;
-
-    &-type {
-      width: 100px;
-    }
-
-    &-title-box {
-      flex: 1;
-      min-width: 300px;
-
-      .ant-form-item-control-wrapper {
-        width: 100%;
-      }
-    }
-
-    &-assignee {
-      width: 100px;
-    }
-  }
-
-  .backlog-issue-add-type .ant-select-selection-item {
-    text-overflow: clip;
   }
 }
