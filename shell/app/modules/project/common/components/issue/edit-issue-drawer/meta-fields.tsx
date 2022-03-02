@@ -128,7 +128,6 @@ const IssueMetaFields = React.forwardRef(
     }, [ref, customFieldDetail]);
 
     useMount(() => {
-      getLabels({ type: 'issue', projectID: Number(projectId) });
       issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'BUG' });
       issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'TASK' });
       if (!iterationList.length && !isBacklog) {
@@ -546,6 +545,11 @@ const IssueMetaFields = React.forwardRef(
               return;
             }
             setOptionList(match);
+          },
+          onDropdownVisibleChange: (visible: boolean) => {
+            if (visible) {
+              getLabels({ type: 'issue', projectID: Number(projectId) });
+            }
           },
         },
       },
