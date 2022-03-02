@@ -433,60 +433,6 @@ const IssueMetaFields = React.forwardRef(
           },
         ]),
       ]),
-      {
-        icon: 'biaoqian',
-        className: 'mb-4 w-full',
-        name: 'labels',
-        label: i18n.t('label'),
-        type: 'select', // 需要新建不存在的tag，用 tagName 作为值传递，不要用 LabelSelect
-        itemProps: {
-          options: map(optionList, ({ id: labelId, name, isNewLabel }) => {
-            if (isNewLabel) {
-              return (
-                <Option key={labelId} value={name} title={name}>
-                  {i18n.t('does not exist')}
-                  {name}
-                </Option>
-              );
-            } else {
-              return (
-                <Option key={labelId} value={name} title={name}>
-                  {name}
-                </Option>
-              );
-            }
-          }),
-          mode: 'tags',
-          optionLabelProp: 'title', // 给select组件添加 optionLabelProp 属性，改变回填到选择框的 Option 的属性值
-          dropdownRender: (menu: React.ReactNode) => (
-            <div>
-              {menu}
-              <Divider className="my-1" />
-              <Link
-                to={goTo.resolve.projectLabel()}
-                onClick={(e) => {
-                  e.preventDefault();
-                  goTo(goTo.resolve.projectLabel(), { jumpOut: true });
-                }}
-              >
-                <div className="mx-3">{i18n.t('dop:edit label')}</div>
-              </Link>
-            </div>
-          ),
-          onSearch: (value: string) => {
-            if (!value) {
-              setOptionList(labels);
-              return;
-            }
-            const match = labels.filter((item) => item.name.toLowerCase().includes(value.toLowerCase()));
-            if (!match.length) {
-              setOptionList([]);
-              return;
-            }
-            setOptionList(match);
-          },
-        },
-      },
       ...insertWhen(issueType === ISSUE_TYPE.TASK, [
         {
           icon: 'renwuleixing',
@@ -547,6 +493,62 @@ const IssueMetaFields = React.forwardRef(
       //     },
       //   },
       // ]),
+      // keep labels as last field for full width
+      {
+        icon: 'biaoqian',
+        className: 'mb-4 w-full',
+        name: 'labels',
+        label: i18n.t('label'),
+        span: 24,
+        type: 'select', // 需要新建不存在的tag，用 tagName 作为值传递，不要用 LabelSelect
+        itemProps: {
+          options: map(optionList, ({ id: labelId, name, isNewLabel }) => {
+            if (isNewLabel) {
+              return (
+                <Option key={labelId} value={name} title={name}>
+                  {i18n.t('does not exist')}
+                  {name}
+                </Option>
+              );
+            } else {
+              return (
+                <Option key={labelId} value={name} title={name}>
+                  {name}
+                </Option>
+              );
+            }
+          }),
+          mode: 'tags',
+          optionLabelProp: 'title', // 给select组件添加 optionLabelProp 属性，改变回填到选择框的 Option 的属性值
+          dropdownRender: (menu: React.ReactNode) => (
+            <div>
+              {menu}
+              <Divider className="my-1" />
+              <Link
+                to={goTo.resolve.projectLabel()}
+                onClick={(e) => {
+                  e.preventDefault();
+                  goTo(goTo.resolve.projectLabel(), { jumpOut: true });
+                }}
+              >
+                <div className="mx-3">{i18n.t('dop:edit label')}</div>
+              </Link>
+            </div>
+          ),
+          onSearch: (value: string) => {
+            if (!value) {
+              setOptionList(labels);
+              return;
+            }
+            const match = labels.filter((item) => item.name.toLowerCase().includes(value.toLowerCase()));
+            if (!match.length) {
+              setOptionList([]);
+              return;
+            }
+            setOptionList(match);
+          },
+        },
+      },
     ];
 
     editFieldList = editFieldList.map((fieldProps) => ({
@@ -576,7 +578,7 @@ const IssueMetaFields = React.forwardRef(
         <Row>
           {editFieldList.map((fieldProps) => {
             return (
-              <Col key={fieldProps.label} span={colSpan}>
+              <Col key={fieldProps.label} span={fieldProps.span || colSpan}>
                 <EditField
                   ref={(r) => {
                     const _refMap = ref?.current?.refMap;
