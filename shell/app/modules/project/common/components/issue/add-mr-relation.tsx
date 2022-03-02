@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { ContractiveFilter, ErdaIcon, Table as ErdaTable, MemberSelector, BatchOperation } from 'common';
+import { ContractiveFilter, ErdaIcon, Table as ErdaTable, MemberSelector, BatchOperation, UserInfo } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Button, Dropdown, Input, Select } from 'antd';
 import React from 'react';
@@ -25,11 +25,11 @@ import { WithAuth } from 'user/common';
 import { ColumnProps } from 'antd/lib/table';
 import moment from 'moment';
 
-import './add-relation.scss';
+import './add-mr-relation.scss';
 
 interface IProps {
   editAuth: boolean;
-  onSave: (v: ISSUE.IssueStreamBody) => void;
+  onSave: (v: ISSUE.IssueStreamBody) => Promise<void>;
 }
 
 const initState = {
@@ -58,29 +58,26 @@ export const AddMrRelation = ({ onSave, editAuth }: IProps) => {
   const [mrListPaging, loadingMr] = getAppMR.useState();
   const mrList = mrListPaging?.list || [];
 
-  const search = React.useCallback(
-    (data: typeof filterData) => {
-      const { query, appID, authorId, state } = data;
-      const curApp = appList.find((app) => app.id === appID);
-      if (projectName && curApp) {
-        getAppMR.fetch({ projectName, query, appName: curApp.name, authorId, state });
-      }
-    },
-    [appList, projectName],
-  );
+  React.useEffect(() => {
+    const { query, appID, authorId, state } = filterData;
+    const curApp = appList.find((app) => app.id === appID);
+    if (projectName && curApp) {
+      getAppMR.fetch({ projectName, query, appName: curApp.name, authorId, state, pageSize: 7 });
+    }
+  }, [appList, filterData, projectName]);
 
   React.useEffect(() => {
-    search(filterData);
-  }, [filterData, search]);
-
-  useMount(() => {
-    getJoinedApps.fetch({ projectID: +projectId, pageSize: 200, pageNo: 1 }).then((res) => {
-      if (res?.data?.list) {
-        setAppList(res.data.list);
-        updater.filterData({ appID: res.data.list[0]?.id });
+    if (visible) {
+      if (!appList.length) {
+        getJoinedApps.fetch({ projectID: +projectId, pageSize: 200, pageNo: 1 }).then((res) => {
+          if (res?.data?.list) {
+            setAppList(res.data.list);
+            updater.filterData({ appID: res.data.list[0]?.id });
+          }
+        });
       }
-    });
-  });
+    }
+  }, [appList.length, projectId, updater, visible]);
 
   const columns: Array<ColumnProps<REPOSITORY.MRItem>> = [
     {
@@ -95,38 +92,92 @@ export const AddMrRelation = ({ onSave, editAuth }: IProps) => {
     },
     {
       title: i18n.t('creator'),
-      dataIndex: ['authorUser', 'nickName'],
-      // render: (item: string) => <Tooltip title={item}>{item}</Tooltip>,
+      dataIndex: ['authorUser', 'id'],
+      render: (id: string) => <UserInfo.RenderWithAvatar id={id} />,
     },
     {
-      title: i18n.t('createdAt'),
+      title: i18n.t('created at'),
       dataIndex: 'createdAt',
       render: (item: string) => moment(item).format('YYYY/MM/DD HH:mm:ss'),
     },
   ];
 
   const overlay = (
-    <div className="w-[800px]">
-      <div className="flex items-center justify-between px-4 py-3 bg-default-02">
-        <span>选择 MR</span>
-        <ErdaIcon type="close" className="hover-active" onClick={() => updater.visible(false)} />
+    <div className="w-[800px] shadow-card-lg bg-white">
+      <div className="flex items-center justify-between px-4 py-3 bg-table-head-bg font-medium">
+        <span>{i18n.t('dop:choose MR')}</span>
+        <ErdaIcon type="guanbi" size={20} className="hover-active" onClick={() => updater.visible(false)} />
       </div>
+      <ContractiveFilter
+        values={filterData}
+        className="px-4 py-2"
+        conditions={[
+          {
+            key: 'query',
+            type: 'input',
+            label: i18n.t('title'),
+            fixed: true,
+            showIndex: 1,
+            placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+          },
+          {
+            label: i18n.t('application'),
+            type: 'select',
+            key: 'appID',
+            options: appList.map((a) => ({ label: a.name, value: a.id })),
+            haveFilter: true,
+            fixed: true,
+            emptyText: i18n.t('dop:all'),
+            showIndex: 2,
+            placeholder: i18n.t('dop:search by application name'),
+            customProps: {
+              mode: 'single',
+            },
+          },
+          {
+            label: i18n.t('state'),
+            type: 'select',
+            key: 'state',
+            options: ['all', 'open', 'closed', 'merged'].map((a) => ({ label: i18n.t(`mr:${a}`), value: a })),
+            fixed: true,
+            emptyText: i18n.t('dop:all'),
+            showIndex: 3,
+            customProps: {
+              mode: 'single',
+            },
+          },
+          {
+            key: 'authorId',
+            type: 'memberSelector',
+            label: i18n.t('dop:creator'),
+            emptyText: i18n.t('dop:all'),
+            fixed: true,
+            showIndex: 5,
+            customProps: {
+              mode: 'single',
+              scopeType: 'project',
+            },
+          },
+        ]}
+        onChange={(v) => {
+          updater.filterData(v);
+        }}
+        delay={1000}
+      />
       <ErdaTable
         rowKey="id"
-        hideReload
-        hideColumnConfig
+        hideHeader
         loading={loadingMr}
         rowSelection={{
           type: 'radio',
-          // preserveSelectedRowKeys: true,
           actions: [
             {
               key: 'batchSelect',
-              name: '选择',
+              name: i18n.t('choose'),
               onClick: (keys) => {
                 if (keys.length) {
                   const firstKey = keys[0];
-                  const selectedMr = mrList.find((mr) => mr.id === firstKey);
+                  const selectedMr = mrList.find((mr) => mr.id === firstKey) as REPOSITORY.MRItem;
                   onSave({
                     content: '',
                     type: 'RelateMR',
@@ -135,72 +186,13 @@ export const AddMrRelation = ({ onSave, editAuth }: IProps) => {
                       mrID: selectedMr?.id,
                       mrTitle: selectedMr.title,
                     },
-                  });
-                  onClose();
+                  }).then(() => updater.visible(false));
                 }
               },
               isVisible: (keys) => keys.length > 0,
             },
           ],
         }}
-        slot={
-          <ContractiveFilter
-            values={filterData}
-            conditions={[
-              {
-                key: 'query',
-                type: 'input',
-                label: i18n.t('title'),
-                emptyText: i18n.t('dop:all'),
-                fixed: true,
-                showIndex: 1,
-                placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
-              },
-              {
-                label: i18n.t('application'),
-                type: 'select',
-                key: 'appID',
-                options: appList.map((a) => ({ label: a.name, value: a.id })),
-                haveFilter: true,
-                fixed: true,
-                emptyText: i18n.t('dop:all'),
-                showIndex: 2,
-                placeholder: i18n.t('dop:search by application name'),
-                customProps: {
-                  mode: 'single',
-                },
-              },
-              {
-                label: i18n.t('state'),
-                type: 'select',
-                key: 'state',
-                options: ['all', 'open', 'closed', 'merged'].map((a) => ({ label: i18n.t(`mr:${a}`), value: a })),
-                fixed: true,
-                emptyText: i18n.t('dop:all'),
-                showIndex: 3,
-                customProps: {
-                  mode: 'single',
-                },
-              },
-              {
-                key: 'authorId',
-                type: 'memberSelector',
-                label: i18n.t('dop:creator'),
-                emptyText: i18n.t('dop:all'),
-                fixed: true,
-                showIndex: 5,
-                customProps: {
-                  mode: 'single',
-                  scopeType: 'project',
-                },
-              },
-            ]}
-            onChange={(v) => {
-              updater.filterData(v);
-            }}
-            delay={1000}
-          />
-        }
         dataSource={mrList || []}
         columns={columns}
       />
@@ -211,7 +203,7 @@ export const AddMrRelation = ({ onSave, editAuth }: IProps) => {
     <div className="issue-comment-box flex justify-between items-center mt-3">
       <div className="flex-h-center text-default-6 mb-2">
         <ErdaIcon className="mr-1" type="hebing" />
-        <span>{i18n.t('dop:relate to mr')}</span>
+        <span>{i18n.t('dop:related mr')}</span>
         <span className="w-px h-3 bg-default-1 mx-4" />
 
         <Dropdown overlay={overlay} visible={visible} trigger={['click']}>
