@@ -79,7 +79,7 @@ export const SubscribersSelector = (props: IProps) => {
               }
             }}
           >
-            <ErdaIcon className="mr-1" type="preview-close-one" size="14" />
+            <ErdaIcon className="mr-1" type="weiguanzhu" size="14" />
             {i18n.t('dop:unfollow')}
           </div>
         ) : (
@@ -94,7 +94,7 @@ export const SubscribersSelector = (props: IProps) => {
               }
             }}
           >
-            <ErdaIcon type="preview-open" className="mr-1" size="14" />
+            <ErdaIcon type="yiguanzhu" className="mr-1" size="14" />
             {i18n.t('dop:follow')}
           </div>
         )}
