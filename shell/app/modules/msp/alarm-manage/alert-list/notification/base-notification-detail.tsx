@@ -16,6 +16,7 @@ import DiceConfigPage from 'config-page';
 import AlarmDetailTitle from '../component/alarm-detail-title';
 import { goTo } from 'common/utils';
 import mspStore from 'msp/stores/micro-service';
+import routeInfoStore from 'core/stores/route';
 
 interface IProps {
   scope: 'micro_service' | 'org';
@@ -24,8 +25,40 @@ interface IProps {
 }
 
 const BaseNotificationDetail: React.FC<IProps> = ({ scope, scopeId, id }) => {
+  const box = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    const eventProxy = (e: MouseEvent) => {
+      const { tagName } = e.target as Element;
+      const wrapper = Array.from(document.querySelectorAll('.cp-markdown-preview'));
+      const isMarkdown = wrapper.some((wrap) => wrap.contains(e.target));
+      if (tagName.toUpperCase() === 'A' && isMarkdown) {
+        e.preventDefault();
+        let { href } = e.target as HTMLAnchorElement;
+        const reg =
+          /^\S+?\/workBench\/projects\/(?<projectId>\d+)\/apps\/(?<appId>\d+)\/deploy\/runtimes\/(?<runtimeId>\d+)\/overview$/;
+        const match = href.match(reg);
+        if (match && match.groups) {
+          const { projectId, appId, runtimeId } = match.groups;
+          href = goTo.resolve.projectDeployRuntime({
+            projectId,
+            appId,
+            runtimeId,
+            workspace: routeInfoStore.getState((s) => s.params.env).toLowerCase(),
+          });
+        }
+        if (href) {
+          goTo(href, { jumpOut: true });
+        }
+      }
+    };
+    box.current?.addEventListener('click', eventProxy);
+    return () => {
+      box.current?.removeEventListener('click', eventProxy);
+    };
+  }, []);
+
   return (
-    <div>
+    <div ref={box}>
       <DiceConfigPage
         scenarioKey="msp-notify-detail"
         scenarioType="msp-notify-detail"
