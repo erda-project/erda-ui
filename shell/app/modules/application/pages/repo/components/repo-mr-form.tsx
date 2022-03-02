@@ -32,7 +32,7 @@ import './repo-mr-form.scss';
 import routeInfoStore from 'core/stores/route';
 import IssueState from 'project/common/components/issue/issue-state';
 import layoutStore from 'layout/stores/layout';
-import { batchCreatCommentStream } from 'project/services/issue';
+import { batchCreateCommentStream } from 'project/services/issue';
 import userStore from 'app/user/stores';
 import moment from 'moment';
 import { ColumnProps } from 'antd/lib/table';
@@ -434,7 +434,7 @@ const RepoMRForm = (props: IProps) => {
           const curChosenIssue = issueRef.current?.getChosenIssues() || [];
 
           if (curChosenIssue.length) {
-            batchCreatCommentStream
+            batchCreateCommentStream
               .fetch({
                 issueStreams: curChosenIssue.map((item) => ({
                   issueID: item.id,

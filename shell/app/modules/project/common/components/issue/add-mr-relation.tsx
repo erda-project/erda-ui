@@ -11,25 +11,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { ContractiveFilter, ErdaIcon, Table as ErdaTable, MemberSelector, BatchOperation, UserInfo } from 'common';
+import { ContractiveFilter, ErdaIcon, Table as ErdaTable, UserInfo } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Button, Dropdown, Input, Select } from 'antd';
+import { Button, Dropdown } from 'antd';
 import React from 'react';
 import i18n from 'i18n';
 import { getJoinedApps } from 'app/user/services/user';
 import routeInfoStore from 'core/stores/route';
 import projectStore from 'project/stores/project';
-import { useMount } from 'react-use';
 import { getAppMR } from 'application/services/repo';
 import { WithAuth } from 'user/common';
 import { ColumnProps } from 'antd/lib/table';
 import moment from 'moment';
+import { batchCreateCommentStream } from 'project/services/issue';
+import userStore from 'user/stores';
 
 import './add-mr-relation.scss';
 
 interface IProps {
   editAuth: boolean;
-  onSave: (v: ISSUE.IssueStreamBody) => Promise<void>;
+  afterAdd: () => Promise<void>;
+  issueDetail: ISSUE.IssueType;
 }
 
 const initState = {
@@ -41,10 +43,11 @@ const initState = {
     state: undefined,
   },
 };
-export const AddMrRelation = ({ onSave, editAuth }: IProps) => {
+export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
   const { projectId } = routeInfoStore.getState((s) => s.params);
   const { name: projectName } = projectStore.getState((s) => s.info);
   const [appList, setAppList] = React.useState([] as IApplication[]);
+  const loginUser = userStore.useStore((s) => s.loginUser);
 
   const [{ visible, filterData }, updater] = useUpdate<{
     visible: boolean;
@@ -169,24 +172,36 @@ export const AddMrRelation = ({ onSave, editAuth }: IProps) => {
         hideHeader
         loading={loadingMr}
         rowSelection={{
-          type: 'radio',
           actions: [
             {
               key: 'batchSelect',
               name: i18n.t('choose'),
               onClick: (keys) => {
                 if (keys.length) {
-                  const firstKey = keys[0];
-                  const selectedMr = mrList.find((mr) => mr.id === firstKey) as REPOSITORY.MRItem;
-                  onSave({
-                    content: '',
-                    type: 'RelateMR',
-                    mrInfo: {
-                      appID: filterData.appID,
-                      mrID: selectedMr?.id,
-                      mrTitle: selectedMr.title,
-                    },
-                  }).then(() => updater.visible(false));
+                  const idMap = {};
+                  mrList.forEach((mr) => {
+                    idMap[mr.id] = mr;
+                  });
+                  batchCreateCommentStream({
+                    issueStreams: (keys as number[]).map((id) => ({
+                      issueID: issueDetail.id,
+                      userID: loginUser.id,
+                      content: '',
+                      type: 'RelateMR',
+                      mrInfo: {
+                        appID: filterData.appID as number,
+                        mrID: id,
+                        mrTitle: idMap[id].title,
+                      },
+                    })),
+                  }).then(() => {
+                    updater.filterData({
+                      query: undefined,
+                      state: undefined,
+                    });
+                    updater.visible(false);
+                    afterAdd();
+                  });
                 }
               },
               isVisible: (keys) => keys.length > 0,

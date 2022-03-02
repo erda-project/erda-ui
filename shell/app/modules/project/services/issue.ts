@@ -22,7 +22,7 @@ const apis = {
   issueDownload: {
     api: '/api/issues/actions/export-excel',
   },
-  batchCreatCommentStream: {
+  batchCreateCommentStream: {
     api: 'post@/api/issues/actions/batch-create-comment-stream',
   },
   getIssues: {
@@ -34,8 +34,8 @@ export const getFieldsByIssue = apiCreator<(params: ISSUE.IFiledQuery) => ISSUE.
   apis.getFieldsByIssue,
 );
 
-export const batchCreatCommentStream = apiCreator<(params: ISSUE.BatchCreateCommentStream) => void>(
-  apis.batchCreatCommentStream,
+export const batchCreateCommentStream = apiCreator<(params: ISSUE.BatchCreateCommentStream) => void>(
+  apis.batchCreateCommentStream,
 );
 
 export const issueDownload = apiCreator<(params: ISSUE.IssueListQuery) => void>(apis.issueDownload);

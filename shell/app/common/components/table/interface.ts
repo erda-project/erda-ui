@@ -50,7 +50,7 @@ export interface IRowActions {
   key: string;
   name: string;
   disabled?: boolean;
-  onClick: (selectedKeys: React.Key[]) => void;
+  onClick: (selectedKeys: React.Key[]) => any;
   isVisible: (selectedKeys: React.Key[]) => boolean;
 }
 

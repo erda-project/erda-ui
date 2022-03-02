@@ -197,7 +197,7 @@ export const EditIssueDrawer = (props: IProps) => {
     if (visible) {
       if (id) {
         getIssueDetail({ type: issueType, id });
-        getIssueStreams({ type: issueType, id, pageNo: 1, pageSize: 50 });
+        getIssueStreams({ type: issueType, id, pageNo: 1, pageSize: 100 });
         getCustomFields();
       }
       getCustomFieldsByProject({
@@ -426,7 +426,7 @@ export const EditIssueDrawer = (props: IProps) => {
         if (!customFieldValues?.hasOwnProperty(customFieldKey)) {
           savingRef.current = true;
           promise = updateIssue({ ...params, customUrl }).then(() => {
-            getIssueStreams({ type: issueType, id: id as number, pageNo: 1, pageSize: 50 });
+            getIssueStreams({ type: issueType, id: id as number, pageNo: 1, pageSize: 100 });
             getIssueDetail({ type: issueType, id: id as number }).then(() => {
               savingRef.current = false;
             });
@@ -791,7 +791,11 @@ export const EditIssueDrawer = (props: IProps) => {
             </div>
           </If>
           <If condition={issueType !== ISSUE_TYPE.TICKET}>
-            <AddMrRelation onSave={(data) => addIssueStream(issueDetail, data)} editAuth={editAuth} />
+            <AddMrRelation
+              issueDetail={issueDetail}
+              afterAdd={() => getIssueStreams({ type: issueType, id: id as number, pageNo: 1, pageSize: 100 })}
+              editAuth={editAuth}
+            />
           </If>
         </div>
         <IssueActivities

@@ -15,6 +15,7 @@ import { Button, Checkbox, Dropdown, Menu } from 'antd';
 import { GetRowKey } from 'antd/lib/table/interface';
 import { useUpdate } from 'app/common/use-hooks';
 import { ErdaIcon } from 'common';
+import { isPromise } from 'configForm/form/utils';
 import i18n from 'i18n';
 import { uniq, difference, intersection, map } from 'lodash';
 import React from 'react';
@@ -24,14 +25,14 @@ interface IBatchProps<T> {
   rowKey?: string | GetRowKey<T>;
   dataSource: T[];
   selectedKeys?: React.Key[];
-  operations?: Array<IRowActions<T>>;
-  operationRender?: (op: IRowActions<T>) => JSX.Element;
+  operations?: IRowActions[];
+  operationRender?: (op: IRowActions) => JSX.Element;
   onSelectChange: (keys: React.Key[]) => void;
 }
 
 const emptyKeys: any[] = [];
 const BatchOperation = <T extends Obj>(props: IBatchProps<T>) => {
-  const defaultOperationRender = (op: IRowActions<T>) => {
+  const defaultOperationRender = (op: IRowActions) => {
     return <div>{op.name}</div>;
   };
   const {
@@ -71,7 +72,20 @@ const BatchOperation = <T extends Obj>(props: IBatchProps<T>) => {
     typeof op.isVisible === 'function' ? op.isVisible(selectedKeys) : true,
   );
   const dropdownMenu = (
-    <Menu theme="dark" onSelect={({ key }) => visibleOperations.find((a) => a.key === key)?.onClick(selectedKeys)}>
+    <Menu
+      theme="dark"
+      onSelect={({ key }) => {
+        const op = visibleOperations.find((a) => a.key === key);
+        if (op) {
+          const result = op.onClick(selectedKeys);
+          if (isPromise(result)) {
+            result.then(() => onSelectChange([]));
+          } else {
+            onSelectChange([]);
+          }
+        }
+      }}
+    >
       {map(visibleOperations, (opItem) => {
         return (
           <Menu.Item key={opItem.key} disabled={opItem.disabled}>
@@ -104,7 +118,14 @@ const BatchOperation = <T extends Obj>(props: IBatchProps<T>) => {
       ) : visibleOperations.length === 1 ? (
         <Button
           className="flex items-center bg-default-06 border-transparent text-default-8"
-          onClick={() => visibleOperations[0].onClick(selectedKeys)}
+          onClick={() => {
+            const result = visibleOperations[0].onClick(selectedKeys);
+            if (isPromise(result)) {
+              result.then(() => onSelectChange([]));
+            } else {
+              onSelectChange([]);
+            }
+          }}
         >
           {visibleOperations[0].name}
         </Button>
