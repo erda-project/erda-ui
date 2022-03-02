@@ -301,6 +301,8 @@ const ConfigurableFilter = React.forwardRef(
       </div>
     );
 
+    const insideFields = fieldsList?.filter((item) => !item.outside);
+
     const content = (
       <div className="flex-1">
         <div className="h-full flex flex-col overflow-hidden">
@@ -333,18 +335,16 @@ const ConfigurableFilter = React.forwardRef(
             <div className={'erda-configurable-filter-body ml-4 pr-2 overflow-auto flex-1'}>
               <Form form={form} layout="vertical" onValuesChange={onValuesChange}>
                 <Row>
-                  {fieldsList
-                    ?.filter((item) => !item.outside)
-                    ?.map((item, index: number) => {
-                      return (
-                        <Col span={12} key={item.key} className={index % 2 === 1 ? 'pl-2' : 'pr-2'}>
-                          <RenderFormItem
-                            required={false}
-                            {...defaultProcessField(processField ? processField(item) : item)}
-                          />
-                        </Col>
-                      );
-                    })}
+                  {insideFields?.map((item, index: number) => {
+                    return (
+                      <Col span={12} key={item.key} className={index % 2 === 1 ? 'pl-2' : 'pr-2'}>
+                        <RenderFormItem
+                          required={false}
+                          {...defaultProcessField(processField ? processField(item) : item)}
+                        />
+                      </Col>
+                    );
+                  })}
                 </Row>
               </Form>
             </div>
@@ -400,45 +400,46 @@ const ConfigurableFilter = React.forwardRef(
 
     return (
       <div className={'flex items-center'}>
-        <div className="flex-h-center bg-default-06 rounded-sm">
-          <Popover
-            content={content}
-            visible={visible}
-            forceRender
-            trigger={['click']}
-            overlayClassName={`erda-configurable-filter ${hideSave ? 'w-[720px]' : 'w-[960px]'}`}
-            placement="bottomLeft"
-            onVisibleChange={(v: boolean) => {
-              setVisible(v);
-              !v && onClose?.();
-            }}
-          >
-            <div
-              className={`flex-h-center erda-configurable-filter-btn py-1 px-2 rounded-sm leading-none cursor-pointer`}
-              onClick={() => setVisible(true)}
-            >
-              <Badge dot={isAllOpen}>
-                <div className="flex-h-center">
-                  <ErdaIcon type="futaishaixuan" className="filter-icon" size={14} />
-                  <span className="mx-1 filter-text">{getFilterName()}</span>
-                </div>
-              </Badge>
-              <ErdaIcon type="caret-down" />
-            </div>
-          </Popover>
-          {isAllOpen ? (
-            <div
-              className="erda-configurable-filter-clear-btn p-1 rounded-sm leading-none cursor-pointer"
-              onClick={() => {
-                setAllOpen();
-                onFilter();
+        {insideFields.length ? (
+          <div className="flex-h-center bg-default-06 rounded-sm mr-2">
+            <Popover
+              content={content}
+              visible={visible}
+              forceRender
+              trigger={['click']}
+              overlayClassName={`erda-configurable-filter ${hideSave ? 'w-[720px]' : 'w-[960px]'}`}
+              placement="bottomLeft"
+              onVisibleChange={(v: boolean) => {
+                setVisible(v);
+                !v && onClose?.();
               }}
             >
-              <ErdaIcon type="zhongzhi" color="currentColor" size={20} className="relative top-px" />
-            </div>
-          ) : null}
-        </div>
-
+              <div
+                className={`flex-h-center erda-configurable-filter-btn py-1 px-2 rounded-sm leading-none cursor-pointer`}
+                onClick={() => setVisible(true)}
+              >
+                <Badge dot={isAllOpen}>
+                  <div className="flex-h-center">
+                    <ErdaIcon type="futaishaixuan" className="filter-icon" size={14} />
+                    <span className="mx-1 filter-text">{getFilterName()}</span>
+                  </div>
+                </Badge>
+                <ErdaIcon type="caret-down" />
+              </div>
+            </Popover>
+            {isAllOpen ? (
+              <div
+                className="erda-configurable-filter-clear-btn p-1 rounded-sm leading-none cursor-pointer"
+                onClick={() => {
+                  setAllOpen();
+                  onFilter();
+                }}
+              >
+                <ErdaIcon type="zhongzhi" color="currentColor" size={20} className="relative top-px" />
+              </div>
+            ) : null}
+          </div>
+        ) : null}
         <div className="flex-h-center">
           {externalField?.map((item) => {
             return (
@@ -449,7 +450,6 @@ const ConfigurableFilter = React.forwardRef(
                   setExternalValue((prev) => ({ ...prev, [item.key]: v }));
                 }}
                 key={item.key}
-                className="ml-2"
               />
             );
           })}
