@@ -561,7 +561,7 @@ const IssueMetaFields = React.forwardRef(
         case width < 400:
           _span = 24;
           break;
-        case width < 600:
+        case width < 720:
           _span = 12;
           break;
         default:
