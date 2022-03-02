@@ -89,7 +89,10 @@ export const IssueDrawer = (props: IProps) => {
     commentField = IssueDrawer.Empty,
   ] = React.Children.toArray(children);
   const customFieldDetail = issueStore.useStore((s) => s.customFieldDetail);
-  const isImagePreviewOpen = layoutStore.useStore((s) => s.isImagePreviewOpen);
+  const [isImagePreviewOpen, issueCommentBoxVisible] = layoutStore.useStore((s) => [
+    s.isImagePreviewOpen,
+    s.issueCommentBoxVisible,
+  ]);
   const [copyTitle, setCopyTitle] = React.useState('');
   const [isChanged, setIsChanged] = React.useState(false);
   const [showCopy, setShowCopy] = React.useState(false);
@@ -98,6 +101,9 @@ export const IssueDrawer = (props: IProps) => {
 
   const escClose = React.useCallback(
     (e) => {
+      if (issueCommentBoxVisible) {
+        return;
+      }
       if (e.keyCode === 27) {
         if (isImagePreviewOpen) {
           return;
@@ -114,7 +120,7 @@ export const IssueDrawer = (props: IProps) => {
         }
       }
     },
-    [isChanged, confirmCloseTip, isImagePreviewOpen, onClose],
+    [issueCommentBoxVisible, isImagePreviewOpen, isChanged, confirmCloseTip, onClose],
   );
 
   useEvent('keydown', escClose);

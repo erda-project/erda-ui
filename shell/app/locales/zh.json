@@ -813,6 +813,7 @@
     "Code scanning configuration is mainly divided into rule configuration and code quality access control configuration. When the access control rules are met, it means that the code quality threshold cannot be passed.": "代码扫描配置主要分为规则配置和代码质量门禁配置，其中门禁规则满足的情况下，代表代码质量门槛不能通过",
     "Collapse": "收起",
     "Comment ({meta} + Enter to send)": "评论 ({meta} + Enter 发送)",
+    "Comment ({meta} + Enter to send, Esc to collapse)": "评论 ({meta} + Enter 发送, Esc 收起)",
     "Config content": "配置内容",
     "Config import": "配置导入",
     "Create a new issue, and you can drag it to the iteration on the right and set its priority.": "创建新事项，并可以通过拖拽至右侧迭代，安排事项的优先级",

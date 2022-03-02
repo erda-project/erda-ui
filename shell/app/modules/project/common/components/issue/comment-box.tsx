@@ -18,6 +18,8 @@ import React from 'react';
 import { WithAuth } from 'user/common';
 import i18n from 'i18n';
 import { getBrowserInfo } from 'app/common/utils';
+import { useKey } from 'react-use';
+import layoutStore from 'layout/stores/layout';
 
 const { isWin } = getBrowserInfo();
 
@@ -34,11 +36,18 @@ export const IssueCommentBox = (props: IProps) => {
     content: '',
   });
 
+  const close = () => {
+    updater.visible(false);
+    layoutStore.reducers.setIssueCommentBoxVisible(false);
+  };
+
   const submit = () => {
     onSave(stateMap.content);
     updater.content('');
-    updater.visible(false);
+    close();
   };
+
+  useKey('Escape', close);
 
   const disableSubmit = !stateMap.content.trim();
 
@@ -55,7 +64,7 @@ export const IssueCommentBox = (props: IProps) => {
         autoFocus
         bordered={false}
         onChange={(e) => updater.content(e.target.value)}
-        placeholder={i18n.t('dop:Comment ({meta} + Enter to send)', { meta: isWin ? 'Shift' : 'Cmd' })}
+        placeholder={i18n.t('dop:Comment ({meta} + Enter to send, Esc to collapse)', { meta: isWin ? 'Shift' : 'Cmd' })}
         autoSize={{ minRows: 12, maxRows: 12 }}
         onPressEnter={(e) => {
           if (isWin ? e.shiftKey : e.metaKey) {
@@ -68,7 +77,7 @@ export const IssueCommentBox = (props: IProps) => {
         <Button type="primary" disabled={disableSubmit} onClick={() => submit()}>
           {i18n.t('dop:Send')}
         </Button>
-        <Button className="ml-3" onClick={() => updater.visible(false)}>
+        <Button className="ml-3" onClick={() => close()}>
           {i18n.t('dop:Collapse')}
         </Button>
       </div>
@@ -91,7 +100,10 @@ export const IssueCommentBox = (props: IProps) => {
         <div className="flex items-center absolute right-4 bottom-3 mb-0.5 mr-0.5">
           <ErdaIcon
             className="text-desc hover-active"
-            onClick={() => updater.visible(true)}
+            onClick={() => {
+              updater.visible(true);
+              layoutStore.reducers.setIssueCommentBoxVisible(true);
+            }}
             type="expand-text-input"
             size={16}
           />

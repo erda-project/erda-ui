@@ -813,6 +813,7 @@
     "Code scanning configuration is mainly divided into rule configuration and code quality access control configuration. When the access control rules are met, it means that the code quality threshold cannot be passed.": "code scanning configuration is mainly divided into rule configuration and code quality access control configuration, where access control rules meet the situation, on behalf of the code quality threshold cannot pass",
     "Collapse": "Collapse",
     "Comment ({meta} + Enter to send)": "Comment ({meta} + Enter to send)",
+    "Comment ({meta} + Enter to send, Esc to collapse)": "Comment ({meta} + Enter to send, Esc to collapse)",
     "Config content": "Config content",
     "Config import": "Config import",
     "Create a new issue, and you can drag it to the iteration on the right and set its priority.": "to create new items and arrange the priority of items by dragging to the right to iterate",
