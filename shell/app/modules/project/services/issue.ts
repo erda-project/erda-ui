@@ -25,6 +25,9 @@ const apis = {
   batchCreatCommentStream: {
     api: 'post@/api/issues/actions/batch-create-comment-stream',
   },
+  getIssues: {
+    api: '/api/issues',
+  },
 };
 
 export const getFieldsByIssue = apiCreator<(params: ISSUE.IFiledQuery) => ISSUE.IFieldInstanceBody>(
@@ -37,12 +40,7 @@ export const batchCreatCommentStream = apiCreator<(params: ISSUE.BatchCreateComm
 
 export const issueDownload = apiCreator<(params: ISSUE.IssueListQuery) => void>(apis.issueDownload);
 
-export const getIssues = (query: ISSUE.IssueListQuery): Promise<IPagingResp<ISSUE.IssueType>> => {
-  return agent
-    .get('/api/issues')
-    .query(query)
-    .then((response: any) => response.body);
-};
+export const getIssues = apiCreator<(params: ISSUE.IssueListQuery) => IPagingResp<ISSUE.IssueType>>(apis.getIssues);
 
 export const getIssueDetail = ({ id }: ISSUE.IssueDetailQuery): Promise<ISSUE.IssueType> => {
   return agent.get(`/api/issues/${id}`).then((response: any) => response.body);
