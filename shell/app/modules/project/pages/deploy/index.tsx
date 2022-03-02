@@ -343,10 +343,12 @@ const DeployContent = ({
                 },
               },
               list: {
-                props: {
-                  whiteHead: true,
-                  whiteFooter: true,
-                },
+                props: isAppDeploy
+                  ? {}
+                  : {
+                      whiteHead: true,
+                      whiteFooter: true,
+                    },
                 op: {
                   onStateChange: (data: { total: number }) => {
                     onCountChange(data?.total);
