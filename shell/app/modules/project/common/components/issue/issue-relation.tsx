@@ -11,34 +11,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { MemberSelector, Title, ErdaIcon, Table as ErdaTable, ContractiveFilter, UserInfo } from 'common';
-import { useUpdate } from 'common/use-hooks';
-import { Button, Select, Popconfirm, Tooltip, Empty, Dropdown } from 'antd';
-import React, { useImperativeHandle } from 'react';
-import i18n from 'i18n';
-import routeInfoStore from 'core/stores/route';
-import issueStore from 'project/stores/issues';
-import { useMount, useUpdateEffect } from 'react-use';
-import { goTo } from 'common/utils';
-import { debounce, map, filter, find } from 'lodash';
-import iterationStore from 'project/stores/iteration';
-import { Link } from 'react-router-dom';
-import { getIssues as getIssuesService } from 'project/services/issue';
-import { getIssueTypeOption, IssueIcon } from 'project/common/components/issue/issue-icon';
-import {
-  ISSUE_OPTION,
-  ISSUE_TYPE,
-  ISSUE_PRIORITY_MAP,
-  ISSUE_TYPE_MAP,
-} from 'project/common/components/issue/issue-config';
-import { WithAuth, usePerm, getAuth, isAssignee, isCreator } from 'user/common';
-import moment from 'moment';
-import { IssueItem, IssueForm, BACKLOG_ISSUE_TYPE } from 'project/pages/backlog/issue-item';
-import './issue-relation.scss';
-import IterationSelect from './iteration-select';
-import IssueState from 'project/common/components/issue/issue-state';
+import { Button, Dropdown, Empty, Popconfirm, Select, Tooltip } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
+import { ContractiveFilter, ErdaIcon, MemberSelector, Table as ErdaTable, UserInfo } from 'common';
+import { useUpdate } from 'common/use-hooks';
+import { goTo } from 'common/utils';
+import routeInfoStore from 'core/stores/route';
+import i18n from 'i18n';
+import { find, map } from 'lodash';
+import moment from 'moment';
+import { ISSUE_OPTION, ISSUE_TYPE, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
+import { IssueIcon } from 'project/common/components/issue/issue-icon';
+import IssueState from 'project/common/components/issue/issue-state';
+import { BACKLOG_ISSUE_TYPE, IssueForm, IssueItem } from 'project/pages/backlog/issue-item';
+import { getIssues as getIssuesService } from 'project/services/issue';
 import { getProjectIterations } from 'project/services/project-iteration';
+import issueStore from 'project/stores/issues';
+import iterationStore from 'project/stores/iteration';
+import React, { useImperativeHandle } from 'react';
+import { Link } from 'react-router-dom';
+import { getAuth, isAssignee, isCreator, usePerm, WithAuth } from 'user/common';
+import './issue-relation.scss';
 
 export enum RelationType {
   Inclusion = 'inclusion',
@@ -467,7 +460,7 @@ export const AddIssueRelation = React.forwardRef(
 
     const overlay = (
       <div className="w-[800px] shadow-card-lg bg-white">
-        <div className="flex items-center justify-between px-4 py-3 bg-default-02 font-medium">
+        <div className="flex items-center justify-between px-4 py-3 font-medium">
           <span>{i18n.t('dop:choose issues')}</span>
           <ErdaIcon type="guanbi" size={20} className="hover-active" onClick={() => updater.visible(false)} />
         </div>
