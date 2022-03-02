@@ -66,6 +66,6 @@ export const createDeploy = apiCreator<
   (params: { releaseId: string; workspace: string; id: string }) => PROJECT_DEPLOY.DeployOrder
 >(apis.createDeploy);
 
-export const getProjectRuntimeCount = apiCreator<(params: { projectId: string }) => PROJECT_DEPLOY.ProjectRuntimeCount>(
-  apis.getProjectRuntimeCount,
-);
+export const getProjectRuntimeCount = apiCreator<
+  (params: { projectId: string; appId?: string }) => PROJECT_DEPLOY.ProjectRuntimeCount
+>(apis.getProjectRuntimeCount);

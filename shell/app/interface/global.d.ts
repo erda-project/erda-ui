@@ -311,6 +311,7 @@ type ROUTE_MARK =
   | 'project'
   | 'projectAppList'
   | 'projectDeployEnv'
+  | 'appDeployEnv'
   | 'projectIteration'
   | 'issues'
   | 'iterationDetail'
@@ -350,7 +351,8 @@ type ROUTE_MARK =
   | 'api'
   | 'old-policies'
   | 'api-monitor'
-  | 'projectDeployRuntime';
+  | 'projectDeployRuntime'
+  | 'appDeployRuntime';
 
 type ROUTE_TO_MARK = 'orgIndex' | 'mspDetail';
 interface ROUTE_TABS {

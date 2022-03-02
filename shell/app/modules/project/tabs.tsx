@@ -13,7 +13,6 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Icon as CustomIcon } from 'common';
 import permStore from 'user/stores/permission';
 import { Tooltip } from 'antd';
 import { firstCharToUpper } from 'app/common/utils';
