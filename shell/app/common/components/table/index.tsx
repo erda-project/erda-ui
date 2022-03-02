@@ -354,8 +354,8 @@ function WrappedTable<T extends object = any>({
             ? {
                 ...rowSelection,
                 selectedRowKeys,
-                onSelect(record, selected, selectedRows, nativeEvent) {
-                  rowSelection?.onSelect?.(record, selected, selectedRows, nativeEvent);
+                onChange(selectedRowKeyList, selectedRows) {
+                  rowSelection?.onChange?.(selectedRowKeyList, selectedRows);
                   setSelectedRowKeys(() => selectedRows.map((r) => getKey(r)));
                 },
               }
