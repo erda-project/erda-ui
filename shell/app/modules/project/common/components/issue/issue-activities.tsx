@@ -43,11 +43,7 @@ export const IssueActivities = (props: IProps) => {
   const commentList: Array<Merge<ISSUE.IssueStream, { timestamp: number }>> = [];
   const activityList: ISSUE.IssueStream[] = [];
   const transferList: ISSUE.IssueStream[] = [];
-  // const daySplit = {};
   issueStreamList.forEach((item) => {
-    // const day = moment(item.updatedAt).format('YYYY/MM/DD');
-    // daySplit[day] = daySplit[day] || [];
-    // daySplit[day].push(item);
     if (item.streamType === 'Comment') {
       commentList.push({ ...item, timestamp: moment(item.createdAt).valueOf() });
     } else if (['TransferState', 'ChangeAssignee'].includes(item.streamType)) {
@@ -98,7 +94,7 @@ export const IssueActivities = (props: IProps) => {
               <span className="ml-1">{user.nick || user.name}</span>
               {activity.streamType === 'RelateMR' ? (
                 <>
-                  <span className="mx-2">{i18n.t('dop:add relation to MR')}:</span>
+                  <span className="mx-2">{i18n.t('dop:add relation to MR')}</span>
                   <a
                     className="text-purple-deep"
                     onClick={() => goTo(goTo.pages.appMr, { projectId, appId: appID, mrId: mrID, jumpOut: true })}
@@ -107,7 +103,7 @@ export const IssueActivities = (props: IProps) => {
                   </a>
                 </>
               ) : (
-                <span className="mx-2">{activity.content}:</span>
+                <span className="mx-2">{activity.content}</span>
               )}
             </div>
             <div className="text-xs text-sub">{moment(activity.createdAt).format('YYYY/MM/DD HH:mm:ss')}</div>
