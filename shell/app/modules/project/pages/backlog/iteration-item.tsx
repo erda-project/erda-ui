@@ -124,15 +124,17 @@ export const IterationItem = (props: IProps) => {
           {isEmpty(list) ? (
             <EmptyHolder relative />
           ) : (
-            map(list, (item) => (
-              <IssueItem
-                key={item.id}
-                data={item}
-                issueType={BACKLOG_ISSUE_TYPE.iterationIssue}
-                onDragDelete={getIssues}
-                onClickIssue={onClickIssue}
-              />
-            ))
+            <div className="mt-2 p-2 bg-default-02">
+              {map(list, (item) => (
+                <IssueItem
+                  key={item.id}
+                  data={item}
+                  issueType={BACKLOG_ISSUE_TYPE.iterationIssue}
+                  onDragDelete={getIssues}
+                  onClickIssue={onClickIssue}
+                />
+              ))}
+            </div>
           )}
         </Spin>
         <div>

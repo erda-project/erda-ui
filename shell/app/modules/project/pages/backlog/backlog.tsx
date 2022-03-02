@@ -338,7 +338,7 @@ const Backlog = () => {
           {isEmpty(backlogIssues) && !isAdding && <EmptyBacklog addAuth={addAuth} onAdd={onAdd} />}
           <div className="list-container">
             {
-              <div className="backlog-issues-list" ref={listRef}>
+              <div className="backlog-issues-list p-2 bg-default-02" ref={listRef}>
                 {isAdding ? (
                   <IssueForm
                     key="add"
