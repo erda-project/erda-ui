@@ -349,6 +349,7 @@ const DeployContent = ({
                 op: {
                   onStateChange: (data: { total: number }) => {
                     onCountChange(data?.total);
+                    urlQueryChange(data);
                   },
                   clickItem: (op: { serverData?: { logId: string; appId: string } }, extra: { action: string }) => {
                     const { logId, appId } = op.serverData || {};
