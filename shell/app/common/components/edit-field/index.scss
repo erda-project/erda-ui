@@ -59,9 +59,14 @@
     }
   }
 
+  .ant-input-suffix {
+    opacity: 0;
+  }
+
   &:hover {
     .ant-select-arrow,
-    .anticon-calendar {
+    .anticon-calendar,
+    .ant-input-suffix {
       opacity: 1;
     }
   }

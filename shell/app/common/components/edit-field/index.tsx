@@ -91,7 +91,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       onChange={onChange}
       onBlur={(_v: string) => onSave(_v, 'markdown')}
       defaultMode="md"
-      defaultHeight={maxHeight}
+      defaultHeight={maxHeight + 300}
       operationBtns={operationBtns}
     />
   ) : (
@@ -120,18 +120,16 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
           </div>
         </div>
         <div
-          className={`absolute -bottom-10 z-10 left-0 right-0 mx-auto rounded-full ${
+          className={`absolute left-0 right-0 bottom-2 z-10 mx-auto ${
             isZh() ? 'w-28' : 'w-44'
-          } px-2 py-1 border text-primary shadow cursor-pointer flex items-center justify-center truncate bg-white ${
-            expandBtnVisible ? '' : 'hidden'
-          }`}
+          } text-purple-deep cursor-pointer flex-all-center ${expandBtnVisible ? '' : 'hidden'}`}
           onClick={(e) => {
             e.stopPropagation();
             updater.expanded(!expanded);
           }}
         >
           <ErdaIcon type={`${expanded ? 'double-up' : 'double-down'}`} />
-          <div className="ml-1">{expanded ? i18n.t('collapse description') : i18n.t('expand description')}</div>
+          <div className="ml-1">{expanded ? i18n.t('click to collapse') : i18n.t('click to view more')}</div>
         </div>
       </div>
     </Tooltip>
@@ -261,11 +259,11 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     //   break;
     case 'markdown': {
       // 创建时不需要提交、取消按钮
-      const maxMarkdownHeight = (document.documentElement.clientHeight - 86) * 0.7;
+      const maxMarkdownHeight = 230;
       Comp = !itemProps.isEditMode ? (
         <MarkdownEditor
           {...itemProps}
-          defaultHeight={400}
+          defaultHeight={200}
           value={editValue}
           onChange={(v) => onChangeCb?.({ [name]: v })}
         />
@@ -273,7 +271,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
         <EditMd
           {...itemProps}
           maxHeight={maxMarkdownHeight}
-          defaultHeight={400}
+          defaultHeight={200}
           value={editValue}
           onChange={updater.editValue}
           onSave={(v, fieldType) => onChangeCb?.({ [name]: v }, fieldType)}
