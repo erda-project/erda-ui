@@ -319,13 +319,14 @@ const DeployContent = ({
       selectedRelease: undefined,
     });
   };
+  const scenarioKey = isAppDeploy ? 'app-runtime' : 'project-runtime';
   return (
     <>
       <div className="flex flex-1 mt-2 overflow-hidden">
         <div className="bg-white flex-1 overflow-hidden">
           <DiceConfigPage
-            scenarioKey="project-runtime"
-            scenarioType="project-runtime"
+            scenarioKey={scenarioKey}
+            scenarioType={scenarioKey}
             // useMock={useMock}
             // forceMock
             ref={reloadRef}
