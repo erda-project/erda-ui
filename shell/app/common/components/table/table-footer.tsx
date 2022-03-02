@@ -11,57 +11,45 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
-import { Dropdown, Button, Menu } from 'antd';
+import { GetRowKey } from 'antd/lib/table/interface';
+import { BatchOperation } from 'common';
 import Pagination from 'common/components/pagination';
-import { ErdaIcon } from 'common';
-import i18n from 'i18n';
-import { IRowSelection, IRowActions, TablePaginationConfig } from './interface';
+import React from 'react';
+import { IRowSelection, TablePaginationConfig } from './interface';
 
-interface IProps {
-  rowSelection?: IRowSelection;
+interface IProps<T> {
+  rowKey?: string | GetRowKey<T>;
+  dataSource: T[];
   pagination: TablePaginationConfig;
   hidePagination: boolean;
   onTableChange: ([key]: any) => void;
+  rowSelection?: IRowSelection<T>;
   whiteFooter?: boolean;
+  onSelectChange: (selectedRowKeys: Array<string | number>) => void;
 }
 
-const TableFooter = ({ rowSelection, pagination, hidePagination, onTableChange, whiteFooter }: IProps) => {
-  const batchMenu = () => {
-    return (
-      <Menu>
-        {(rowSelection?.actions || []).map((item: IRowActions) => {
-          return (
-            <Menu.Item key={item.key} onClick={() => item.onClick()} disabled={item.disabled}>
-              {item.name}
-            </Menu.Item>
-          );
-        })}
-      </Menu>
-    );
-  };
+const TableFooter = <T extends Obj>({
+  rowSelection,
+  pagination,
+  hidePagination,
+  onTableChange,
+  whiteFooter,
+  rowKey,
+  dataSource,
+  onSelectChange,
+}: IProps<T>) => {
+  const { actions, selectedRowKeys } = rowSelection ?? {};
 
   return (
     <div className={`erda-table-footer flex justify-between ${whiteFooter ? 'bg-white' : 'bg-default-02'}`}>
-      {rowSelection?.actions ? (
-        <div className="erda-table-batch-ops flex items-center">
-          <Dropdown
-            overlay={batchMenu}
-            trigger={['click']}
-            disabled={rowSelection.selectedRowKeys?.length === 0}
-            getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-          >
-            <Button type="default">
-              {i18n.t('dop:batch processing')}
-              <ErdaIcon
-                type="caret-down"
-                className="ml-0.5 relative top-0.5"
-                fill={rowSelection.selectedRowKeys?.length === 0 ? 'disabled' : 'normal'}
-                size="14"
-              />
-            </Button>
-          </Dropdown>
-        </div>
+      {actions ? (
+        <BatchOperation
+          rowKey={rowKey}
+          dataSource={dataSource}
+          selectedKeys={selectedRowKeys}
+          onSelectChange={onSelectChange}
+          operations={actions}
+        />
       ) : (
         <div />
       )}

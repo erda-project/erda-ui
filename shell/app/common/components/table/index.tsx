@@ -86,6 +86,7 @@ function WrappedTable<T extends object = any>({
   const dataSource = React.useMemo<T[]>(() => (ds as T[]) || [], [ds]);
   const [columns, setColumns] = React.useState<Array<ColumnProps<T>>>(allColumns);
   const [sort, setSort] = React.useState<SorterResult<T>>({});
+  const [selectedRowKeys, setSelectedRowKeys] = React.useState(rowSelection?.selectedRowKeys || []);
   const sortCompareRef = React.useRef<((a: T, b: T) => number) | null>(null);
   const preDataSourceRef = React.useRef<T[]>([]);
   const [defaultPagination, setDefaultPagination] = React.useState<TablePaginationConfig>({
@@ -104,21 +105,22 @@ function WrappedTable<T extends object = any>({
   const { current = 1, pageSize = PAGINATION.pageSize } = pagination;
 
   const containerRef = React.useRef<HTMLElement>(document.body);
+  const getKey = React.useCallback(
+    (item: T) => (typeof rowKey === 'function' ? rowKey(item) : item?.[rowKey || 'id']),
+    [rowKey],
+  );
 
   React.useEffect(() => {
     if (isFrontendPaging) {
-      const newRowKeys =
-        dataSource.map((item) => item[typeof rowKey === 'function' ? rowKey(item) : rowKey || 'id']) || [];
-      const preRowKeys =
-        preDataSourceRef.current.map((item) => item[typeof rowKey === 'function' ? rowKey(item) : rowKey || 'id']) ||
-        [];
+      const newRowKeys = dataSource.map(getKey) || [];
+      const preRowKeys = preDataSourceRef.current.map(getKey) || [];
       if (newRowKeys.join(',') !== preRowKeys.join(',')) {
         setDefaultPagination((before) => ({ ...before, current: 1, total: dataSource.length || 0 }));
       }
 
       preDataSourceRef.current = [...dataSource];
     }
-  }, [dataSource, rowKey, isFrontendPaging]);
+  }, [dataSource, rowKey, isFrontendPaging, getKey]);
 
   const onTableChange = React.useCallback(
     ({ pageNo, pageSize: size, sorter: currentSorter }) => {
@@ -347,7 +349,18 @@ function WrappedTable<T extends object = any>({
         onChange={onChange}
         dataSource={data}
         onRow={onRow}
-        rowSelection={rowSelection}
+        rowSelection={
+          rowSelection
+            ? {
+                ...rowSelection,
+                selectedRowKeys,
+                onSelect(record, selected, selectedRows, nativeEvent) {
+                  rowSelection?.onSelect?.(record, selected, selectedRows, nativeEvent);
+                  setSelectedRowKeys(() => selectedRows.map((r) => getKey(r)));
+                },
+              }
+            : undefined
+        }
         {...props}
         className={`flex-1 overflow-y-auto ${className}`}
         tableLayout="auto"
@@ -364,7 +377,13 @@ function WrappedTable<T extends object = any>({
         }}
       />
       <TableFooter
-        rowSelection={rowSelection}
+        rowKey={rowKey}
+        dataSource={data}
+        onSelectChange={setSelectedRowKeys}
+        rowSelection={{
+          ...rowSelection,
+          selectedRowKeys,
+        }}
         pagination={pagination}
         hidePagination={paginationProps === false}
         onTableChange={onTableChange}

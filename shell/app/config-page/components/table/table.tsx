@@ -239,6 +239,7 @@ interface IBatchProps {
   selectedRowKeys?: string[];
 }
 
+// TODO: use BatchOperation in common
 const BatchOperation = (props: IBatchProps) => {
   const {
     rowKey,
