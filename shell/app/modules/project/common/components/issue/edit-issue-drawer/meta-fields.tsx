@@ -128,8 +128,9 @@ const IssueMetaFields = React.forwardRef(
     }, [ref, customFieldDetail]);
 
     useMount(() => {
-      issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'BUG' });
-      issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'TASK' });
+      if (issueType === 'BUG' || issueType === 'TASK') {
+        issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType });
+      }
       if (!iterationList.length && !isBacklog) {
         iterationStore.effects.getIterations({
           pageNo: 1,
