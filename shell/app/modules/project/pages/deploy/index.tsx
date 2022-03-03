@@ -319,13 +319,14 @@ const DeployContent = ({
       selectedRelease: undefined,
     });
   };
+  const scenarioKey = isAppDeploy ? 'app-runtime' : 'project-runtime';
   return (
     <>
       <div className="flex flex-1 mt-2 overflow-hidden">
         <div className="bg-white flex-1 overflow-hidden">
           <DiceConfigPage
-            scenarioKey="project-runtime"
-            scenarioType="project-runtime"
+            scenarioKey={scenarioKey}
+            scenarioType={scenarioKey}
             // useMock={useMock}
             // forceMock
             ref={reloadRef}
@@ -342,23 +343,25 @@ const DeployContent = ({
                 },
               },
               list: {
-                props: {
-                  whiteHead: true,
-                  whiteFooter: true,
-                },
+                props: isAppDeploy
+                  ? {}
+                  : {
+                      whiteHead: true,
+                      whiteFooter: true,
+                    },
                 op: {
                   onStateChange: (data: { total: number }) => {
                     onCountChange(data?.total);
                     urlQueryChange(data);
                   },
                   clickItem: (op: { serverData?: { logId: string; appId: string } }, extra: { action: string }) => {
-                    const { logId, appId } = op.serverData || {};
-                    if (extra.action === 'clickTitleState' && logId && appId) {
+                    const { logId, appId: _appId } = op.serverData || {};
+                    if (extra.action === 'clickTitleState' && logId && _appId) {
                       update({
                         logVisible: true,
                         logData: {
                           detailLogId: logId,
-                          applicationId: appId,
+                          applicationId: _appId,
                         },
                       });
                     }

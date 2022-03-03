@@ -155,6 +155,7 @@ const BuildDetail = (props: IProps) => {
       clearPipelineDetail();
       clearExecuteRecords();
       window.removeEventListener('click', onClickOutsideHandler);
+      timer.current && clearTimeout(timer.current);
     };
   });
 

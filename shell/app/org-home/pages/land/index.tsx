@@ -13,23 +13,31 @@
 
 import springBg from 'app/images/land-spring.jpg';
 import orgStore from 'app/org-home/stores/org';
-import { ErdaIcon } from 'common';
+import { ErdaIcon, FormModal, ImageUpload } from 'common';
+import { WrappedFormUtils } from 'core/common/interface';
 import i18n from 'i18n';
 import React from 'react';
 import { debounce } from 'lodash';
 import { useClickAway } from 'react-use';
 import { erdaEnv } from 'common/constants';
+import { message } from 'antd';
+import { addOrg } from 'app/org-home/services/org';
+import userStore from 'app/user/stores';
+import pinyin from 'tiny-pinyin';
 import UserMenu from 'layout/pages/page-container/components/navigation/user-menu';
 import './index.scss';
 
 const LandPage = () => {
   const filteredList = orgStore.useStore((s) => s.orgs);
+  const loginUser = userStore.useStore((s) => s.loginUser);
   const { getJoinedOrgs } = orgStore.effects;
   const [activeOrg, setActiveOrg] = React.useState<any>(null);
   const [showOptions, setShowOptions] = React.useState(false);
   const [filterKey, setFilterKey] = React.useState('');
+  const [modalVisible, setModalVisible] = React.useState(false);
   const debouncedChange = React.useRef(debounce(getJoinedOrgs, 1000));
   const ref = React.useRef(null);
+
   useClickAway(ref, () => {
     setShowOptions(false);
   });
@@ -37,6 +45,66 @@ const LandPage = () => {
   React.useEffect(() => {
     debouncedChange.current({ q: filterKey, force: true });
   }, [filterKey]);
+
+  const getFieldsList = (form: WrappedFormUtils) => {
+    const fieldsList = [
+      {
+        label: i18n.t('layout:org name'),
+        name: 'displayName',
+        itemProps: {
+          onInput: (e: any) => {
+            let v = e.target.value.trim();
+            if (pinyin.isSupported()) {
+              v = pinyin.convertToPinyin(v, '', true);
+            }
+            form.setFieldsValue({
+              name: v.split(' ').join('-').toLowerCase(),
+            });
+            form.validateFields(['name']);
+          },
+        },
+      },
+      {
+        label: i18n.t('layout:org identify'),
+        name: 'name',
+        itemProps: {
+          maxLength: 50,
+        },
+        rules: [
+          { required: true, message: i18n.t('please enter {name}', { name: i18n.t('layout:org identify') }) },
+          {
+            pattern: /^[a-z0-9-]*$/,
+            message: i18n.t('layout:only allowed to consist of lower case characters, numbers and -'),
+          },
+        ],
+      },
+      {
+        label: i18n.t('layout:org logo'),
+        name: 'logo',
+        required: false,
+        getComp: () => <ImageUpload id="logo" form={form} showHint />,
+      },
+      {
+        label: i18n.t('layout:org description'),
+        name: 'desc',
+        itemProps: {
+          type: 'textarea',
+          maxLength: 500,
+        },
+      },
+    ];
+    return fieldsList;
+  };
+
+  const onSaveOrg = (org: Partial<ORG.IOrg>) => {
+    addOrg.fetch({ ...org, admins: [loginUser.id] }).then(() => {
+      hideAddOrgModal();
+      debouncedChange.current({ q: filterKey, force: true });
+      message.success(i18n.t('layout:created successfully, please check in your org space'));
+    });
+  };
+
+  const hideAddOrgModal = () => setModalVisible(false);
 
   return (
     <div className="land-page flex items-center justify-center h-full">
@@ -118,7 +186,26 @@ const LandPage = () => {
             {i18n.t('layout:Apply for new organization')}
           </a>
         )}
+        {process.env.FOR_COMMUNITY && (
+          <span
+            className="inline-block mt-6 px-3 leading-8 text-white bg-white-2 rounded-sm cursor-pointer hover:bg-white-4"
+            onClick={() => setModalVisible(true)}
+          >
+            {i18n.t('layout:Create new organization')}
+          </span>
+        )}
       </div>
+      <FormModal
+        width={600}
+        name={i18n.t('org')}
+        fieldsList={getFieldsList}
+        modalProps={{
+          destroyOnClose: true,
+        }}
+        visible={modalVisible}
+        onOk={onSaveOrg}
+        onCancel={hideAddOrgModal}
+      />
     </div>
   );
 };

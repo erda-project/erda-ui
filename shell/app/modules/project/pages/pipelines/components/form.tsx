@@ -134,8 +134,11 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
     };
     if (app.value) {
       initialTree();
+      setTreeValue('');
+      setSourceErrorMessage('');
+      form.resetFields(['tree']);
     }
-  }, [app.value, projectId, getTree]);
+  }, [app.value, projectId, getTree, form]);
 
   const submit = () => {
     form.validateFields().then(async (value) => {
