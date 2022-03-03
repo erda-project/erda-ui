@@ -159,6 +159,7 @@ interface IProps {
   itemProps?: any;
   data?: any;
   disabled?: boolean;
+  noPadding?: boolean;
   getComp?: any;
   suffix?: any;
   showRequiredMark?: boolean;
@@ -176,6 +177,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     labelStyle,
     itemProps,
     disabled = false,
+    noPadding = false,
     onChangeCb,
     data,
     icon,
@@ -315,7 +317,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
       Comp = <div className="nowrap">{valueRender ? valueRender(editValue) : editValue}</div>;
       break;
     case 'dateReadonly':
-      Comp = <div className="prewrap cursor-pointer pl-3">{moment(editValue).format('YYYY-MM-DD')}</div>;
+      Comp = <div className="prewrap cursor-pointer pl-3">{moment(editValue).format('YYYY/MM/DD')}</div>;
       break;
     default:
       Comp = (
@@ -335,7 +337,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
   }
 
   return (
-    <div className={`relative common-edit-field flex-h-center ${className} pr-4`}>
+    <div className={`relative common-edit-field flex-h-center ${noPadding ? '' : 'pr-4'} ${className}`}>
       <If condition={showRequiredMark}>
         <div data-required="* " className="mr-1 before:required absolute -left-2" />
       </If>

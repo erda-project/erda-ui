@@ -45,6 +45,7 @@ import orgStore from 'app/org-home/stores/org';
 import { templateMap } from 'project/common/issue-config';
 import IssueMetaFields from './meta-fields';
 import { FullIssueRelation } from '../issue-relation';
+import { getIssueRelation } from 'project/services/issue';
 
 export const ColorIcon = ({ icon }: { icon: string }) => {
   return (
@@ -651,6 +652,7 @@ export const EditIssueDrawer = (props: IProps) => {
   }
 
   footer = typeof footer === 'function' ? footer : footer.length ? <>{footer}</> : undefined;
+  const relationData = getIssueRelation.useData();
 
   return (
     <IssueDrawer
@@ -675,13 +677,14 @@ export const EditIssueDrawer = (props: IProps) => {
       //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
       // }
     >
-      <div className="flex justify-between items-center">
+      <div className="flex items-center">
         <IF check={isEditMode}>
           {[ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK, ISSUE_TYPE.BUG].includes(issueType) ? (
             <WithAuth pass={switchTypeAuth}>
               <EditField
                 name="type"
                 type="select"
+                noPadding
                 data={formData}
                 itemProps={{
                   options: getIssueTypeOption(issueType),
@@ -705,6 +708,15 @@ export const EditIssueDrawer = (props: IProps) => {
           <IF.ELSE />
           <IssueIcon type={issueType} withName />
         </IF>
+        {relationData?.beIncluded?.[0] && (
+          <>
+            <ErdaIcon className="mx-2 text-sub" type="right" size="16px" />
+            <div className="inline-flex items-center bg-default-06 rounded-sm px-2">
+              <ErdaIcon className="mr-1" type="xuqiu" size="20px" />
+              {relationData?.beIncluded?.[0].title}
+            </div>
+          </>
+        )}
       </div>
       <div className="mt-4">
         <EditField
