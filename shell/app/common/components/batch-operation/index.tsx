@@ -54,7 +54,7 @@ const BatchOperation = <T extends Obj>(props: IBatchProps<T>) => {
     const allKeys: React.Key[] = map(dataSource, getKey);
     const curChosenKeys = intersection(allKeys, selectedKeys);
     update({
-      checkAll: curChosenKeys.length === allKeys.length,
+      checkAll: curChosenKeys.length === allKeys.length && allKeys.length > 0,
       indeterminate: curChosenKeys.length !== 0 && curChosenKeys.length < allKeys.length,
     });
   }, [update, dataSource, rowKey, selectedKeys, getKey]);
