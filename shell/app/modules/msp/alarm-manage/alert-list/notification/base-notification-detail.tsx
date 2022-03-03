@@ -35,7 +35,7 @@ const BaseNotificationDetail: React.FC<IProps> = ({ scope, scopeId, id }) => {
         e.preventDefault();
         let { href } = e.target as HTMLAnchorElement;
         const reg =
-          /^\S+?\/workBench\/projects\/(?<projectId>\d+)\/apps\/(?<appId>\d+)\/deploy\/runtimes\/(?<runtimeId>\d+)\/overview$/;
+          /^\S+?\/projects\/(?<projectId>\d+)\/apps\/(?<appId>\d+)\/deploy\/runtimes\/(?<runtimeId>\d+)\/overview$/;
         const match = href.match(reg);
         if (match && match.groups) {
           const { projectId, appId, runtimeId } = match.groups;
