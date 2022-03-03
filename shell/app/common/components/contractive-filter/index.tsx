@@ -256,19 +256,15 @@ const InputFilterItem = ({
 
   return (
     <Input
-      // autoFocus // 默认全部展示，不需要自动获取焦点
       value={inputVal}
       disabled={disabled}
       size="small"
       style={{ width: 180 }}
       allowClear
       className="bg-black-06"
-      // ref={inputRef}
       prefix={<ErdaIcon fill="default-3" size="16" type="search" />}
-      placeholder={placeholder || i18n.t('press enter to search')}
-      // onPressEnter={() => inputRef.current?.blur()}
+      placeholder={placeholder}
       onChange={(e) => setInputVal(e.target.value)}
-      // onPressEnter={() => onChange({ key, value: inputVal })}
     />
   );
 };
