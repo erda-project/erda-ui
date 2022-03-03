@@ -13,7 +13,7 @@
 import React from 'react';
 import { Avatar, Dropdown, Menu, Popconfirm, Progress, Tooltip } from 'antd';
 import moment from 'moment';
-import { Badge, Copy, ErdaIcon, TagsRow } from 'common';
+import { Badge, Copy, ErdaIcon, TagsRow, Ellipsis } from 'common';
 import { filter, get, has, isArray, map, sortBy } from 'lodash';
 import { getAvatarChars } from 'app/common/utils';
 import { WithAuth } from 'user/common';
@@ -228,10 +228,12 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
 
         if (tip) {
           value = (
-            <Tooltip overlayClassName="whitespace-pre" title={tip}>
+            <Tooltip overlayClassName="whitespace-pre" title={tip} className="truncate w-full inline-block">
               {value}
             </Tooltip>
           );
+        } else {
+          value = <Ellipsis title={value} />;
         }
 
         Comp = enableCopy ? (
