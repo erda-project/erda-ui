@@ -160,7 +160,6 @@ const IssueRelation = (props: IProps) => {
                 iterationID={curIterationID}
                 currentIssue={issueDetail}
                 defaultIssueType={defaultIssueType}
-                typeDisabled={relationType === RelationType.Inclusion}
                 relationType={relationType}
               />
             </If>
@@ -323,7 +322,6 @@ interface IAddProps {
   iterationID?: number | undefined;
   defaultIssueType?: IDefaultIssueType;
   onSave: (v: number[], issues: ISSUE.IssueType[]) => void;
-  typeDisabled?: boolean;
   relationType: RelationType;
 }
 
@@ -340,7 +338,6 @@ export const AddIssueRelation = ({
   iterationID,
   currentIssue,
   defaultIssueType = 'TASK',
-  typeDisabled = false,
   relationType,
 }: IAddProps) => {
   const [{ filterData, visible }, updater, update] = useUpdate({
@@ -376,15 +373,6 @@ export const AddIssueRelation = ({
       });
     }
   }, [iterationPaging?.list.length, projectId, visible]);
-
-  // const onClose = () => {
-  //   update({
-  //     type: defaultIssueType,
-  //     iterationID: undefined,
-  //     issueList: [],
-  //   });
-  //   onCancel();
-  // };
 
   React.useEffect(() => {
     getIssueList();
