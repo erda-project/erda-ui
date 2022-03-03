@@ -63,6 +63,7 @@ export const iconMap = {
   branch: 'daimafenzhi',
   private: 'siyou',
   public: 'gongyou',
+  mr: 'mr',
 };
 
 interface IErdaIcon {
