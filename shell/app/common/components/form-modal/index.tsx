@@ -52,13 +52,6 @@ interface IState {
   confirmLoading: boolean;
 }
 class FormModalComp extends React.Component<IProps, IState> {
-  state = {
-    confirmLoading: false,
-  };
-
-  /** 是否是添加模式 */
-  private isAddMode: boolean;
-
   shouldComponentUpdate(newProps: IProps) {
     const { visible, form, formData, fieldsList, formRef } = newProps;
     if ((visible && !this.props.visible) || formData !== this.props.formData) {
@@ -91,62 +84,6 @@ class FormModalComp extends React.Component<IProps, IState> {
 
     return true;
   }
-
-  submit = (onOk: Function, checkedValues: object, _: any, resolve: Function) => {
-    const submitResult = onOk(checkedValues, this.isAddMode);
-
-    if (submitResult && isPromise(submitResult)) {
-      this.setState({ confirmLoading: true });
-      submitResult
-        .then(() => {
-          this.setState({ confirmLoading: false });
-          resolve();
-        })
-        .catch(() => {
-          this.setState({ confirmLoading: false });
-        });
-    } else {
-      resolve();
-    }
-  };
-
-  handleOk = () => {
-    const { form, onOk, beforeSubmit, keepValue = false } = this.props;
-    return new Promise((resolve, reject) => {
-      form
-        .validateFields()
-        .then((values: any) => {
-          let submitValue = values;
-          if (beforeSubmit) {
-            submitValue = beforeSubmit(values, form);
-            if (isPromise(submitValue)) {
-              // 当需要在提交前做后端检查且不能清除表单域的情况下，可以在beforeSubmit返回promise，通过then结果判定是否真实提交
-              return submitValue.then((checkedValues: any) => {
-                if (checkedValues === null) {
-                  return resolve();
-                }
-                onOk && this.submit(onOk, checkedValues, form, resolve);
-              });
-            } else if (submitValue === null) {
-              return resolve();
-            }
-          }
-          onOk && this.submit(onOk, submitValue, form, resolve);
-        })
-        .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
-          errorFields?.[0] && form.scrollToField(errorFields[0].name);
-          return reject(errorFields);
-        });
-    }).then(() => !keepValue && form.resetFields());
-  };
-
-  handleCancel = () => {
-    this.props.onCancel?.();
-    // 当点击取消时，modal还未完全关闭时就已经被重置成初始值，加入setTimeout异步重置
-    setTimeout(() => {
-      this.props.form.resetFields();
-    });
-  };
 
   render() {
     const {
@@ -217,6 +154,68 @@ class FormModalComp extends React.Component<IProps, IState> {
       </Modal>
     );
   }
+  state = {
+    confirmLoading: false,
+  };
+
+  /** 是否是添加模式 */
+  private isAddMode: boolean;
+
+  submit = (onOk: Function, checkedValues: object, _: any, resolve: Function) => {
+    const submitResult = onOk(checkedValues, this.isAddMode);
+
+    if (submitResult && isPromise(submitResult)) {
+      this.setState({ confirmLoading: true });
+      submitResult
+        .then(() => {
+          this.setState({ confirmLoading: false });
+          resolve();
+        })
+        .catch(() => {
+          this.setState({ confirmLoading: false });
+        });
+    } else {
+      resolve();
+    }
+  };
+
+  handleOk = () => {
+    const { form, onOk, beforeSubmit, keepValue = false } = this.props;
+    return new Promise((resolve, reject) => {
+      form
+        .validateFields()
+        .then((values: any) => {
+          let submitValue = values;
+          if (beforeSubmit) {
+            submitValue = beforeSubmit(values, form);
+            if (isPromise(submitValue)) {
+              // 当需要在提交前做后端检查且不能清除表单域的情况下，可以在beforeSubmit返回promise，通过then结果判定是否真实提交
+              return submitValue.then((checkedValues: any) => {
+                if (checkedValues === null) {
+                  return resolve();
+                }
+                onOk && this.submit(onOk, checkedValues, form, resolve);
+              });
+            } else if (submitValue === null) {
+              return resolve();
+            }
+          }
+          onOk && this.submit(onOk, submitValue, form, resolve);
+        })
+        .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+          errorFields?.[0] && form.scrollToField(errorFields[0].name);
+          return reject(errorFields);
+        });
+    }).then(() => !keepValue && form.resetFields());
+  };
+
+  handleCancel = () => {
+    this.props.onCancel?.();
+    // 当点击取消时，modal还未完全关闭时就已经被重置成初始值，加入setTimeout异步重置
+    setTimeout(() => {
+      this.props.form.resetFields();
+    });
+  };
 }
 
 const PureFormModalFun = (options: Obj) =>
@@ -250,12 +249,13 @@ const PureFormModalFun = (options: Obj) =>
  * 内部组件可从 mode 属性获得当前模式: 'add' | 'edit'
  * 可通过beforeSubmit方法进行提交前的数据调整或检查，若返回null则不会提交
  */
-const FormModal = forwardRef((props: IProps, ref) => {
+const FormModal = forwardRef((props: Merge<Omit<IProps, 'form'>, { form?: FormInstance }>, ref) => {
   const formRef = React.useRef(null);
 
   // 将formRef传递至组件内部，为的是当使用PureForm的时候，可以得到fieldsStore来setFieldsValues，故使用FormModal时，要注意ref得到的和预期的不一样
   const FormModalCompRef = React.useRef(PureFormModalFun(props?.formOption || {}));
-  return <FormModalCompRef.current {...props} ref={ref} formRef={formRef.current} />;
+  const CurFormModalComp = FormModalCompRef.current;
+  return <CurFormModalComp {...props} ref={ref} formRef={formRef.current} />;
 });
 
 export default FormModal;

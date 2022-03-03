@@ -19,7 +19,7 @@ import errorHandler from '../../error-handler';
 import { getGlobal } from 'core/global-space';
 
 const isExcludeOrgHeaderApi = (url: string) => {
-  const excludeApis = ['/api/files', '/api/uc'];
+  const excludeApis = ['/api/files', '/api/uc', '/api/-/orgs'];
   return some(excludeApis, (api) => url.startsWith(api));
 };
 
