@@ -20,7 +20,7 @@ import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import NoServicesHolder from 'msp/env-overview/service-list/pages/no-services-holder';
 import DiceConfigPage from 'config-page';
 import routeInfoStore from 'core/stores/route';
-import { transformRange } from 'common/components/time-select/common';
+import { transformRange } from 'common/components/time-select/utils';
 import moment from 'moment';
 import { useUpdate } from 'common/use-hooks';
 import './transaction.scss';

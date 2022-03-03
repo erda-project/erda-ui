@@ -11,13 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { map, forEach, isFunction } from 'lodash';
-import { getTimeSpan, getDefaultPaging, qs } from 'common/utils';
+import { forEach, isFunction, map } from 'lodash';
+import { getDefaultPaging, getTimeSpan, qs } from 'common/utils';
 import { getApps } from 'common/services';
 import { createStore } from 'core/cube';
 import { getModules } from '../services/monitorCommon';
 import i18n from 'i18n';
-import { ITimeRange, transformRange } from 'common/components/time-select/common';
+import { ITimeRange, transformRange } from 'common/components/time-select/utils';
 import moment from 'moment';
 
 const defaultHandler = (data: any) => {

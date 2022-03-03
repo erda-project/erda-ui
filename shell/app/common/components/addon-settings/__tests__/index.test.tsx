@@ -14,7 +14,10 @@
 import React from 'react';
 import AddonSettings from '..';
 import routeInfoStore from 'core/stores/route';
-import { render } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import * as GoTo from 'common/utils/go-to';
+
 import agent from 'agent';
 
 const { PureAddonSettings } = AddonSettings;
@@ -35,6 +38,7 @@ jest.mock('agent');
 describe('addon-settings', () => {
   const fn = jest.fn();
   beforeAll(() => {
+    jest.mock('common/utils/go-to');
     routeInfoStore.getState = (fn) => {
       return fn(routerData);
     };
@@ -60,41 +64,41 @@ describe('addon-settings', () => {
   afterAll(() => {
     jest.clearAllMocks();
   });
-  describe.only('AddonSettings', () => {
+  describe('AddonSettings', () => {
     it('should render well', async () => {
-      const wrapper = render(<AddonSettings />);
-      expect(wrapper.container).toMatchSnapshot();
-      // expect(wrapper.find('PureAddonSettings').prop('addonConfig')).toStrictEqual(data);
-      // expect(wrapper.find('PureAddonSettings').prop('insId')).toBe(insId);
+      const result = render(<AddonSettings />);
+      await waitFor(() => expect(result.baseElement.querySelector('.addon-settings-panel')).toBeInTheDocument());
     });
   });
   describe('PureAddonSettings', () => {
+    const goTo = jest.fn();
+    goTo.pages = {};
+    Object.defineProperty(GoTo, 'goTo', {
+      value: goTo,
+    });
     const config = {
       name: 'erda',
       org: 'erda.cloud',
     };
     it('should render well', async () => {
-      const wrapper = mount(<PureAddonSettings insId={insId} />);
-      expect(wrapper).toBeEmptyRender();
-      wrapper.setProps({
-        addonConfig: {
-          config,
-          canDel: false,
-        },
-      });
-      wrapper.update();
-      expect(wrapper.find('.param-k')).toHaveLength(2);
-      expect(wrapper.find('.settings-delete')).not.toExist();
-      wrapper.setProps({
-        addonConfig: {
-          config,
-          canDel: true,
-        },
-      });
-      wrapper.update();
-      expect(wrapper.find('.settings-delete')).toExist();
-      await wrapper.find('[deleteItem="service"]').prop('onConfirm')();
-      expect(fn).toHaveBeenCalledTimes(1);
+      const result = render(<PureAddonSettings insId={insId} />);
+      expect(result.container.firstChild).toBeNull();
+      result.rerender(<PureAddonSettings insId={insId} addonConfig={{ config, canDel: false }} />);
+      expect(result.container).isExit('.param-k', 2);
+      expect(result.container).isExit('.settings-delete', 0);
+      result.rerender(
+        <PureAddonSettings
+          insId={insId}
+          addonConfig={{ addonName: 'mysql', config: { ...config, MYSQL_HOST: 'MYSQL_HOST' }, canDel: true }}
+        />,
+      );
+      expect(result.container).isExit('.param-k', 1);
+      expect(result.container).isExit('.settings-delete', 1);
+      fireEvent.click(result.getByText('delete current service'));
+      await waitFor(() => expect(result.baseElement.querySelector('.ant-modal')).toBeInTheDocument());
+      fireEvent.click(screen.getByText('ok'));
+      await waitFor(() => expect(fn).toHaveBeenCalledTimes(1));
+      expect(goTo).toHaveBeenCalled();
     });
   });
 });

@@ -12,20 +12,35 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CompactSelect } from 'common';
-import { shallow } from 'enzyme';
+import Tags from '..';
+import { render } from '@testing-library/react';
 
-describe('CompactSelect', () => {
+//group?: string;
+//   color?: string;
+//   checked?: boolean;
+const labels = [
+  {
+    label: 'tag1',
+  },
+  {
+    label: 'tag2',
+  },
+  {
+    label: 'tag3',
+  },
+  {
+    label: 'tag4',
+    group: 'tagGroup',
+  },
+  {
+    label: 'tag5',
+    group: 'tagGroup',
+  },
+];
+
+describe('Tags', () => {
   it('should ', () => {
-    const wrapper = shallow(
-      <CompactSelect title="org-select-title" className="org-select">
-        <select name="org">
-          <option value="erda">erda</option>
-        </select>
-      </CompactSelect>,
-    );
-    expect(wrapper.find('.select-addon-before').text()).toBe('org-select-title');
-    expect(wrapper.find('select')).toHaveClassName('org-select');
-    expect(wrapper.find('select').prop('name')).toBe('org');
+    const result = render(<Tags labels={labels} maxShowCount={10} />);
+    expect(result.container).toMatchSnapshot();
   });
 });

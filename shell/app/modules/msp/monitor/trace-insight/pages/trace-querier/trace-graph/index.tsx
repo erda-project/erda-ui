@@ -13,8 +13,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tree, Tooltip, Row, Col, Tabs, Radio, RadioChangeEvent, Spin } from 'antd';
-import { TimeSelect, KeyValueList, Icon as CustomIcon, EmptyHolder, Ellipsis } from 'common';
+import { Col, Radio, RadioChangeEvent, Row, Spin, Tabs, Tooltip, Tree } from 'antd';
+import { Ellipsis, EmptyHolder, Icon as CustomIcon, KeyValueList, TimeSelect } from 'common';
 import ErdaTable from 'common/components/table';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
 import { getSpanAnalysis, getSpanEvents } from 'msp/services';
@@ -22,7 +22,7 @@ import './index.scss';
 import i18n from 'i18n';
 import moment from 'moment';
 import ServiceListDashboard from 'msp/env-overview/service-list/pages/service-list-dashboard';
-import { ITimeRange, translateRelativeTime } from 'common/components/time-select/common';
+import { ITimeRange, translateRelativeTime } from 'common/components/time-select/utils';
 import { listToTree, useSmartTooltip } from './utils';
 import ErdaIcon from 'common/components/erda-icon';
 import { SpanTitleInfo } from './span-title-info';

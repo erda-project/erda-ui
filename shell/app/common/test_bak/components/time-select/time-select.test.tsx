@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import React from 'react';
 import TimeSelect, { IProps, TimeRange } from 'common/components/time-select/time-select';
-import { relativeTimeRange } from 'common/components/time-select/common';
+import { relativeTimeRange } from 'common/components/time-select/utils';
 import { mount, ReactWrapper } from 'enzyme';
 import moment from 'moment';
 import { act } from 'react-dom/test-utils';

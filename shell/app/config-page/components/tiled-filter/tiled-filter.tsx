@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { TiledFilter } from 'common';
+import TiledFilter from './tiled-filter-comp';
 
 const FiledFilter = (props: CP_TILED_FILTER.Props) => {
   const { execOperation, operations, props: configProps, state } = props;

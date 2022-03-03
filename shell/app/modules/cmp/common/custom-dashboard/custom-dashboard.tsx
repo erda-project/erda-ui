@@ -14,13 +14,12 @@
 import React from 'react';
 import i18n from 'i18n';
 import { Input, message } from 'antd';
-import { map, merge, reduce, isString, get } from 'lodash';
-import { IF, BoardGrid, TimeSelect } from 'common';
+import { get, isString, map, merge, reduce } from 'lodash';
+import { BoardGrid, IF, TimeSelect } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { registDiceDataConfigProps, createLoadDataFn } from '@erda-ui/dashboard-configurator';
-import { goTo, getTimeSpan } from 'common/utils';
+import { createLoadDataFn, registDiceDataConfigProps } from '@erda-ui/dashboard-configurator';
+import { getTimeSpan, goTo } from 'common/utils';
 import moment, { Moment } from 'moment';
-import { useMount } from 'react-use';
 import routeInfoStore from 'core/stores/route';
 import orgMonitorMetaDataStore from 'cmp/stores/query-monitor-metadata';
 import mspMonitorMetaDataStore from 'msp/query-analysis/custom-dashboard/stores/query-monitor-metadata';
@@ -29,7 +28,7 @@ import mspCustomDashboardStore from 'msp/query-analysis/custom-dashboard/stores/
 import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dashboard';
 import { getVariableStr } from '../utils';
 import { createLoadDataFn as createOldLoadDataFn } from './data-loader';
-import { ITimeRange } from 'common/components/time-select/common';
+import { ITimeRange } from 'common/components/time-select/utils';
 
 const storeMap = {
   [CustomDashboardScope.ORG]: orgCustomDashboardStore,

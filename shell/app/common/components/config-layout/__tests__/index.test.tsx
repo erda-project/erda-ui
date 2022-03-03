@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { ConfigLayout } from 'common';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
+import ConfigLayout from '..';
 
 interface ISection {
   title?: string | React.ReactNode;
@@ -25,27 +25,30 @@ interface ISection {
   titleProps?: object;
   descProps?: object;
 }
+
 const sectionList: ISection[] = [
   {
     title: 'sectionList1-title',
-    titleExtra: <div>sectionList1-titleExtra</div>,
-    titleOperate: <div>sectionList1-titleOperate</div>,
+    titleExtra: <div className="titleExtra-1">titleExtra</div>,
+    titleOperate: <div className="titleOperate-1">titleOperate</div>,
     desc: 'sectionList1-description',
-    children: <div>sectionList1-children</div>,
-    highlight: 'sectionList1-highlight',
+    children: <div>children1</div>,
+    highlight: 'red',
     titleProps: { name: 'sectionList1-titleProps' },
     descProps: { name: 'sectionList1-descProps' },
   },
   {
     title: 'sectionList2-title',
     desc: 'sectionList2-description',
-    children: <div>sectionList2-children</div>,
+    children: <div>children2</div>,
   },
 ];
 
 describe('ConfigLayout', () => {
   it('should render successfully', () => {
-    const wrapper = mount(<ConfigLayout sectionList={sectionList} />);
-    expect(wrapper.find('ConfigSection')).toHaveLength(sectionList.length);
+    const result = render(<ConfigLayout sectionList={sectionList} />);
+    expect(result.getAllByText(/sectionList\d-title/)).toHaveLength(2);
+    expect(result.getByText('children1')).not.toBeNull();
+    expect(result.container).isExit('.highlight-red', 2);
   });
 });

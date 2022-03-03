@@ -12,19 +12,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CircleProgress } from 'common';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import SimplePanel from '..';
 
-describe('CircleProgress', () => {
-  it('render', () => {
-    const wrapper = mount(<CircleProgress left={0} right={0} autoFontSize={false} />);
-    expect(wrapper.find('Progress.circle-progress').find('Progress.circle-progress').prop('percent')).toBe(0);
-    expect(wrapper.find('Progress.circle-progress')).not.toHaveClassName('small-font');
-    wrapper.setProps({
-      right: 100,
-      left: 90.95,
-      autoFontSize: true,
-    });
-    expect(wrapper.find('Progress.circle-progress')).toHaveClassName('small-font');
+describe('SimplePanel', () => {
+  it('should render well', () => {
+    const result = render(
+      <SimplePanel style={{ height: 100 }} className="erda_panel" title="panel title">
+        <div className="panel-child">panel-child</div>
+      </SimplePanel>,
+    );
+    expect(result.container.firstChild).toHaveClass('erda_panel');
+    expect(result.container.firstChild).toHaveStyle({ height: '100px' });
+    expect(result.getByText('panel title')).toBeTruthy();
+    expect(result.getByText('panel-child')).toBeTruthy();
   });
 });

@@ -21,7 +21,7 @@ import TimeSelect from 'common/components/time-select';
 import DiceConfigPage from 'config-page';
 import { Drawer } from 'antd';
 import monitorCommonStore from 'common/stores/monitorCommon';
-import { ITimeRange, transformRange } from 'common/components/time-select/common';
+import { ITimeRange, transformRange } from 'common/components/time-select/utils';
 import moment, { Moment } from 'moment';
 import { useUpdate } from 'common/use-hooks';
 import TraceSearchDetail from 'trace-insight/pages/trace-querier/trace-search-detail';
