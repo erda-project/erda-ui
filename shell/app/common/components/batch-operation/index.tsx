@@ -118,6 +118,7 @@ const BatchOperation = <T extends Obj>(props: IBatchProps<T>) => {
       ) : visibleOperations.length === 1 ? (
         <Button
           className="flex items-center bg-default-06 border-transparent text-default-8"
+          disabled={visibleOperations[0].disabled}
           onClick={() => {
             const result = visibleOperations[0].onClick(selectedKeys);
             if (isPromise(result)) {
