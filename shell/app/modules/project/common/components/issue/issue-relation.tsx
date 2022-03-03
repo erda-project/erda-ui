@@ -11,26 +11,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Dropdown, Empty, Popconfirm, Select, Tooltip } from 'antd';
+import { Button, Dropdown, Empty } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
-import { ContractiveFilter, ErdaIcon, MemberSelector, Table as ErdaTable, UserInfo } from 'common';
+import { ContractiveFilter, ErdaIcon, Table as ErdaTable, UserInfo } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
-import { find, map } from 'lodash';
+import { map } from 'lodash';
 import moment from 'moment';
 import { ISSUE_OPTION, ISSUE_TYPE, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
-import { IssueIcon } from 'project/common/components/issue/issue-icon';
-import IssueState from 'project/common/components/issue/issue-state';
 import { BACKLOG_ISSUE_TYPE, IssueForm, IssueItem } from 'project/pages/backlog/issue-item';
 import { getIssueRelation, getIssues } from 'project/services/issue';
 import { getProjectIterations } from 'project/services/project-iteration';
 import issueStore from 'project/stores/issues';
 import iterationStore from 'project/stores/iteration';
-import React, { useImperativeHandle } from 'react';
-import { Link } from 'react-router-dom';
-import { getAuth, isAssignee, isCreator, usePerm, WithAuth } from 'user/common';
+import React from 'react';
+import { usePerm, WithAuth } from 'user/common';
 import './issue-relation.scss';
 
 export enum RelationType {
