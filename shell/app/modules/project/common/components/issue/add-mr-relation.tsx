@@ -151,7 +151,12 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
             label: i18n.t('state'),
             type: 'select',
             key: 'state',
-            options: ['all', 'open', 'closed', 'merged'].map((a) => ({ label: i18n.t(`mr:${a}`), value: a })),
+            options: [
+              { label: i18n.t('dop:all'), value: 'all' },
+              { label: i18n.t('dop:open'), value: 'open' },
+              { label: i18n.t('dop:closed'), value: 'closed' },
+              { label: i18n.t('dop:merged'), value: 'merged' },
+            ],
             fixed: true,
             emptyText: i18n.t('dop:all'),
             showIndex: 3,
@@ -243,6 +248,7 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
       {relateMrList?.map((stream) => {
         return (
           <div
+            key={stream.id}
             className={'backlog-issue-item px-2 hover:bg-default-04 cursor-pointer'}
             // onClick={() => goTo(goTo.pages.appMr, { projectId, appId: stream.mrInfo?.appID, mrId: stream.mrInfo?.mrID, jumpOut: true})}
           >
