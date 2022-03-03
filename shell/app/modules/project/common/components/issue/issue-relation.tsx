@@ -84,7 +84,6 @@ const IssueRelation = (props: IProps) => {
   const { list, issueDetail, iterationID, onRelationChange, type: relationType } = props;
 
   const [activeButtonType, setActiveButtonType] = React.useState('');
-  const addIssueRelationRef = React.useRef({});
 
   const [{ projectId }, { type: routeIssueType }] = routeInfoStore.getState((s) => [s.params, s.query]);
   const issueType = issueDetail?.type || (Array.isArray(routeIssueType) ? routeIssueType[0] : routeIssueType);
@@ -112,17 +111,15 @@ const IssueRelation = (props: IProps) => {
       type: relationType === RelationType.Inclusion ? RelationType.Inclusion : 'connection',
     }).then(() => {
       onRelationChange && onRelationChange();
-      addIssueRelationRef.current.getIssueList?.();
     });
   };
 
   const onDelete = (val: ISSUE.IssueType, beRelated = false) => {
     const payload = beRelated
-      ? { id: val.id, relatedIssueID: issueDetail.id, type: relationType }
-      : { id: issueDetail.id, relatedIssueID: val.id, type: relationType };
+      ? { id: val.id, relatedIssueID: issueDetail.id, type: 'connection' }
+      : { id: issueDetail.id, relatedIssueID: val.id, type: 'connection' };
     deleteIssueRelation(payload).then(() => {
       onRelationChange && onRelationChange();
-      addIssueRelationRef.current.getIssueList?.();
     });
   };
   const createAuth: boolean = usePerm((s) => s.project[issueType?.toLowerCase()]?.create.pass);
