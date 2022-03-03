@@ -18,7 +18,7 @@ import { some } from 'lodash';
 import errorHandler from './error-handler';
 
 const isExcludeOrgHeaderApi = (url) => {
-  const excludeApis = ['/api/files', '/api/uc'];
+  const excludeApis = ['/api/files', '/api/uc', '/api/-/orgs'];
   return some(excludeApis, (api) => url.startsWith(api));
 };
 
