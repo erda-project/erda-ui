@@ -261,18 +261,17 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     //   break;
     case 'markdown': {
       // 创建时不需要提交、取消按钮
-      const maxMarkdownHeight = 230;
       Comp = !itemProps.isEditMode ? (
         <MarkdownEditor
           {...itemProps}
-          defaultHeight={200}
+          defaultHeight={400}
           value={editValue}
           onChange={(v) => onChangeCb?.({ [name]: v })}
         />
       ) : (
         <EditMd
           {...itemProps}
-          maxHeight={maxMarkdownHeight}
+          maxHeight={230}
           defaultHeight={200}
           value={editValue}
           onChange={updater.editValue}
