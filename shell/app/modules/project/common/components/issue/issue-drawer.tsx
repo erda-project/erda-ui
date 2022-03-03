@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Copy, IF, ErdaIcon } from 'common';
+import { Copy, ErdaIcon } from 'common';
 import i18n from 'i18n';
 import React from 'react';
 import useEvent from 'react-use/lib/useEvent';
@@ -22,6 +22,7 @@ import { Drawer, Spin, Popconfirm, Input, message, Popover, Button, Modal } from
 import { SubscribersSelector } from './subscribers-selector';
 import layoutStore from 'layout/stores/layout';
 import './issue-drawer.scss';
+import { useScroll } from 'react-use';
 
 type ElementChild = React.ElementType | JSX.Element | string;
 
@@ -34,7 +35,6 @@ interface IProps {
   canDelete?: boolean;
   canCreate?: boolean;
   shareLink?: string;
-  subDrawer?: JSX.Element | null;
   confirmCloseTip?: string;
   maskClosable?: boolean;
   data: CreateDrawerData;
@@ -64,7 +64,6 @@ export const IssueDrawer = (props: IProps) => {
     className = '',
     canCreate = false,
     canDelete = false,
-    subDrawer = null,
     children,
     editMode,
     shareLink,
@@ -82,10 +81,18 @@ export const IssueDrawer = (props: IProps) => {
     footer = IssueDrawer.Empty,
     ...rest
   } = props;
-  const [title = IssueDrawer.Empty, main = IssueDrawer.Empty, tabs = IssueDrawer.Empty, meta = IssueDrawer.Empty] =
-    React.Children.toArray(children);
+  const [
+    title = IssueDrawer.Empty,
+    formField = IssueDrawer.Empty,
+    detailField = IssueDrawer.Empty,
+    listField = IssueDrawer.Empty,
+    commentField = IssueDrawer.Empty,
+  ] = React.Children.toArray(children);
   const customFieldDetail = issueStore.useStore((s) => s.customFieldDetail);
-  const isImagePreviewOpen = layoutStore.useStore((s) => s.isImagePreviewOpen);
+  const [isImagePreviewOpen, issueCommentBoxVisible] = layoutStore.useStore((s) => [
+    s.isImagePreviewOpen,
+    s.issueCommentBoxVisible,
+  ]);
   const [copyTitle, setCopyTitle] = React.useState('');
   const [isChanged, setIsChanged] = React.useState(false);
   const [showCopy, setShowCopy] = React.useState(false);
@@ -94,6 +101,9 @@ export const IssueDrawer = (props: IProps) => {
 
   const escClose = React.useCallback(
     (e) => {
+      if (issueCommentBoxVisible) {
+        return;
+      }
       if (e.keyCode === 27) {
         if (isImagePreviewOpen) {
           return;
@@ -110,7 +120,7 @@ export const IssueDrawer = (props: IProps) => {
         }
       }
     },
-    [isChanged, confirmCloseTip, isImagePreviewOpen, onClose],
+    [issueCommentBoxVisible, isImagePreviewOpen, isChanged, confirmCloseTip, onClose],
   );
 
   useEvent('keydown', escClose);
@@ -144,10 +154,13 @@ export const IssueDrawer = (props: IProps) => {
     isIssueDrawerChanged(preData, data);
   }, [customFieldDetail?.property, data, preData]);
 
+  const mainEle = React.useRef<HTMLDivElement>(null);
+  const { y } = useScroll(mainEle);
+
   return (
     <Drawer
       className={`task-drawer ${className}`}
-      width="70vw"
+      width="80vw"
       placement="right"
       closable={false}
       visible={visible}
@@ -157,114 +170,125 @@ export const IssueDrawer = (props: IProps) => {
       {...rest}
     >
       <Spin spinning={loading}>
-        <IF check={title !== IssueDrawer.Empty}>
-          <div className="task-drawer-header">
-            <div className="flex justify-between items-center">
-              <div className="flex-1 nowrap">{title}</div>
-              <div className="task-drawer-op flex items-center">
-                <SubscribersSelector
-                  subscribers={data.subscribers}
-                  issueID={customFieldDetail?.issueID}
-                  issueType={issueType}
-                  projectId={projectId}
-                  setData={setData}
-                  data={data}
-                />
-                <IF check={editMode && shareLink}>
-                  <Copy selector=".copy-share-link" tipName={i18n.t('dop:share link')} />
-                  <ErdaIcon
-                    type="share-one"
-                    className="cursor-copy copy-share-link mr-1 ml-3"
-                    size="16"
-                    data-clipboard-text={shareLink}
+        <div className="flex flex-col h-full">
+          <If condition={title !== IssueDrawer.Empty}>
+            <div className={`task-drawer-header ${y > 2 ? 'shadow-card' : ''}`}>
+              <div className="flex justify-between items-center">
+                <div className="flex-1 nowrap">{title}</div>
+                <div className="task-drawer-op flex items-center">
+                  <SubscribersSelector
+                    subscribers={data.subscribers}
+                    issueID={customFieldDetail?.issueID}
+                    issueType={issueType}
+                    projectId={projectId}
+                    setData={setData}
+                    data={data}
                   />
-                </IF>
-                <IF check={editMode}>
-                  <WithAuth pass={canCreate}>
-                    <Popover
-                      title={i18n.t('dop:copy issue')}
-                      visible={showCopy}
-                      onVisibleChange={(v) => setShowCopy(v)}
-                      content={
-                        <>
-                          <Input
-                            placeholder={i18n.t('dop:Please enter the issue title')}
-                            style={{ width: 400 }}
-                            value={copyTitle}
-                            onChange={(e) => setCopyTitle(e.target.value)}
-                          />
-                          <div className="flex items-center flex-wrap justify-end mt-2">
-                            <Button
-                              className="mr-2"
-                              onClick={() => {
-                                setCopyTitle('');
-                                setShowCopy(false);
-                              }}
-                            >
-                              {i18n.t('cancel')}
-                            </Button>
-                            <Button
-                              onClick={() => {
-                                if (copyTitle === '') {
-                                  message.error(i18n.t('dop:The title can not be empty'));
-                                  return;
-                                }
-                                handleCopy && handleCopy(true, copyTitle);
-                                setCopyTitle('');
-                                setShowCopy(false);
-                              }}
-                              type="primary"
-                            >
-                              {i18n.t('copy')}
-                            </Button>
-                          </div>
-                        </>
-                      }
-                      placement="leftTop"
-                      trigger="click"
-                    >
-                      <ErdaIcon type="copy" className="hover-active ml-3" size="16px" />
-                    </Popover>
-                  </WithAuth>
-                </IF>
-                {onDelete ? (
-                  <WithAuth pass={canDelete}>
-                    <Popconfirm
-                      title={`${i18n.t('common:confirm deletion')}?`}
-                      placement="bottomRight"
-                      onConfirm={onDelete}
-                    >
-                      <ErdaIcon type="delete1" className="hover-active ml-3" size="16" />
+                  <If condition={editMode && shareLink}>
+                    <Copy selector=".copy-share-link" tipName={i18n.t('dop:share link')} />
+                    <ErdaIcon
+                      type="lianjie"
+                      className="cursor-copy hover-active copy-share-link ml-4 text-default-4"
+                      size="20"
+                      data-clipboard-text={shareLink}
+                    />
+                  </If>
+                  <If condition={editMode}>
+                    <WithAuth pass={canCreate}>
+                      <Popover
+                        title={i18n.t('dop:copy issue')}
+                        visible={showCopy}
+                        onVisibleChange={(v) => setShowCopy(v)}
+                        content={
+                          <>
+                            <Input
+                              placeholder={i18n.t('dop:Please enter the issue title')}
+                              style={{ width: 400 }}
+                              value={copyTitle}
+                              onChange={(e) => setCopyTitle(e.target.value)}
+                            />
+                            <div className="flex items-center flex-wrap justify-end mt-2">
+                              <Button
+                                className="mr-2"
+                                onClick={() => {
+                                  setCopyTitle('');
+                                  setShowCopy(false);
+                                }}
+                              >
+                                {i18n.t('cancel')}
+                              </Button>
+                              <Button
+                                onClick={() => {
+                                  if (copyTitle === '') {
+                                    message.error(i18n.t('dop:The title can not be empty'));
+                                    return;
+                                  }
+                                  handleCopy && handleCopy(true, copyTitle);
+                                  setCopyTitle('');
+                                  setShowCopy(false);
+                                }}
+                                type="primary"
+                              >
+                                {i18n.t('copy')}
+                              </Button>
+                            </div>
+                          </>
+                        }
+                        placement="leftTop"
+                        trigger="click"
+                      >
+                        <ErdaIcon type="fuzhi" className="hover-active ml-4 text-default-4" size="20" />
+                      </Popover>
+                    </WithAuth>
+                  </If>
+                  {onDelete ? (
+                    <WithAuth pass={canDelete}>
+                      <Popconfirm
+                        title={`${i18n.t('common:confirm deletion')}?`}
+                        placement="bottomRight"
+                        onConfirm={onDelete}
+                      >
+                        <ErdaIcon type="shanchu-4d7l02mb" className="hover-active ml-4 text-default-4" size="20" />
+                      </Popconfirm>
+                    </WithAuth>
+                  ) : null}
+                  {isChanged && confirmCloseTip ? (
+                    <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
+                      <ErdaIcon type="close" className="ml-4 cursor-pointer text-default-4" size="20" />
                     </Popconfirm>
-                  </WithAuth>
-                ) : null}
-                {isChanged && confirmCloseTip ? (
-                  <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
-                    <ErdaIcon type="close" className="ml-3 cursor-pointer" size="16" />
-                  </Popconfirm>
-                ) : (
-                  <ErdaIcon type="close" className="ml-3 cursor-pointer" size="16" onClick={onClose} />
-                )}
+                  ) : (
+                    <ErdaIcon type="close" className="ml-4 cursor-pointer text-default-4" size="20" onClick={onClose} />
+                  )}
+                </div>
               </div>
             </div>
+          </If>
+          <div
+            className="flex-1 flex pl-4 overflow-y-auto"
+            style={footer !== IssueDrawer.Empty ? { paddingBottom: '60px' } : {}}
+          >
+            <div className="flex-1 overflow-y-auto" ref={mainEle}>
+              <If condition={formField !== IssueDrawer.Empty}>
+                <div className="mb-4">{formField}</div>
+              </If>
+              <If condition={detailField !== IssueDrawer.Empty}>
+                <div className="mb-4">{detailField}</div>
+              </If>
+              <If condition={listField !== IssueDrawer.Empty}>
+                <div className="mb-4">{listField}</div>
+              </If>
+            </div>
+            <If condition={commentField !== IssueDrawer.Empty}>
+              <div className="w-[390px] overflow-y-auto issue-drawer-right bg-default-02">{commentField}</div>
+            </If>
           </div>
-        </IF>
-        {subDrawer}
-        <div className="task-drawer-body" style={footer !== IssueDrawer.Empty ? { paddingBottom: '60px' } : {}}>
-          <div className="task-drawer-main">
-            <div className="task-drawer-content">{main}</div>
-            <div className="task-drawer-tabs">{tabs}</div>
-          </div>
-          <IF check={meta !== IssueDrawer.Empty}>
-            <div className="task-drawer-meta">{meta}</div>
-          </IF>
+          <If condition={footer !== IssueDrawer.Empty}>
+            <div className="task-drawer-footer">
+              {typeof footer === 'function' ? footer(isChanged, confirmCloseTip) : footer}
+            </div>
+          </If>
         </div>
       </Spin>
-      <IF check={footer !== IssueDrawer.Empty}>
-        <div className="task-drawer-footer">
-          {typeof footer === 'function' ? footer(isChanged, confirmCloseTip) : footer}
-        </div>
-      </IF>
     </Drawer>
   );
 };

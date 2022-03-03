@@ -141,28 +141,31 @@ export const TimeInput = React.forwardRef(
 
     return (
       <Tooltip placement="topLeft" title={tooltip}>
-        <Input
-          allowClear
-          className={showTip ? 'with-error' : ''}
-          placeholder={i18n.t('dop:please input time')}
-          onFocus={() => setShowBtn(true)}
-          {...rest}
-          ref={ref}
-          value={transToStr(_value)}
-          onChange={(e) => onInputChange(e.target.value)}
-          onBlur={() => setTimeout(onBlur, 200)}
-        />
-        {showTip ? <span className="text-xs text-red">{checkMsg}</span> : null}
-        {triggerChangeOnButton && showBtn ? (
-          <div className="issue-part-save-group">
-            <span className="issue-part-save" onClick={onSave}>
-              <CustomIcon className="mr-0" type="duigou" />
-            </span>
-            <span className="issue-part-cancel" onClick={onCancel}>
-              <CustomIcon className="mr-0" type="gb" />
-            </span>
-          </div>
-        ) : null}
+        <div className="w-full">
+          <Input
+            allowClear
+            bordered={false}
+            className={`hover:bg-default-06 ${showTip ? 'with-error' : ''}`}
+            placeholder={i18n.t('dop:please input time')}
+            onFocus={() => setShowBtn(true)}
+            {...rest}
+            ref={ref}
+            value={transToStr(_value)}
+            onChange={(e) => onInputChange(e.target.value)}
+            onBlur={() => setTimeout(onBlur, 200)}
+          />
+          {showTip ? <span className="text-xs text-red">{checkMsg}</span> : null}
+          {triggerChangeOnButton && showBtn ? (
+            <div className="issue-part-save-group">
+              <span className="issue-part-save" onClick={onSave}>
+                <CustomIcon className="mr-0" type="duigou" />
+              </span>
+              <span className="issue-part-cancel" onClick={onCancel}>
+                <CustomIcon className="mr-0" type="gb" />
+              </span>
+            </div>
+          ) : null}
+        </div>
       </Tooltip>
     );
   },

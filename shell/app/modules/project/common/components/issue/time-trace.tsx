@@ -59,19 +59,7 @@ const TimeTraceBar = React.forwardRef(
     const [blue, yellow] = calculatePercent(_logged, _spent, _remain, _estimate);
     return (
       <div className={`time-trace ${active ? 'active-hover' : ''}`} onClick={onClick} ref={ref}>
-        <Progress strokeColor="#f47201" showInfo={false} successPercent={blue} percent={blue + yellow} size="small" />
-        <div className="text-sub flex justify-between items-center text-xs">
-          <span>
-            {_logged + _spent
-              ? `${i18n.t('dop:logged')} ${transToStr(_logged + _spent)}`
-              : i18n.t('dop:no time logged')}
-          </span>
-          {_remain ? (
-            <span>
-              {i18n.t('dop:Remaining')} {transToStr(_remain)}
-            </span>
-          ) : null}
-        </div>
+        <Progress strokeColor="#f47201" showInfo={false} successPercent={blue} percent={blue + yellow} />
       </div>
     );
   },
@@ -220,7 +208,7 @@ export const TimeTrace = React.forwardRef(
     };
 
     return (
-      <div>
+      <>
         <TimeTraceBar
           active={!disabled}
           logged={value.elapsedTime}
@@ -251,13 +239,13 @@ export const TimeTrace = React.forwardRef(
               remain={editData.remainingTime ?? defaultRemaining}
               estimate={value.estimateTime}
             />
-            <div className="my-4">
+            <div className="mb-4 ml-3">
               {i18n.t('dop:The original estimated time for this event is')} {transToStr(value.estimateTime)}
             </div>
             <Form formRef={form} fields={fields} onChange={setEditData} />
           </Modal>
         )}
-      </div>
+      </>
     );
   },
 );

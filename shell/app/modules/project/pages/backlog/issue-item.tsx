@@ -12,34 +12,36 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
-import { ISSUE_OPTION, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
+import { Button, Dropdown, Input, Menu, Modal, Select } from 'antd';
+import { useUpdate } from 'app/common/use-hooks';
+import orgStore from 'app/org-home/stores/org';
 import { Ellipsis, Icon as CustomIcon, MemberSelector } from 'common';
+import UserInfo from 'common/components/user-info';
+import { getBrowserInfo, isPromise } from 'common/utils';
+import routeInfoStore from 'core/stores/route';
+import i18n from 'i18n';
+import { map } from 'lodash';
+import moment from 'moment';
+import issueFieldStore from 'org/stores/issue-field';
+import { ISSUE_OPTION } from 'project/common/components/issue/issue-config';
+import { getIssueTypeOption, IssueIcon } from 'project/common/components/issue/issue-icon';
+import IssueState from 'project/common/components/issue/issue-state';
+import { ISSUE_TYPE, templateMap } from 'project/common/issue-config';
+import { getFieldsByIssue } from 'project/services/issue';
+import issueWorkflowStore from 'project/stores/issue-workflow';
+import issueStore from 'project/stores/issues';
+import React from 'react';
 import { useDrag } from 'react-dnd';
 import { getAuth, isAssignee, isCreator, usePerm, WithAuth } from 'user/common';
-import { isPromise } from 'common/utils';
-import { map } from 'lodash';
-import i18n from 'i18n';
-import { getIssueTypeOption, IssueIcon } from 'project/common/components/issue/issue-icon';
-import { Dropdown, Menu, message, Modal } from 'antd';
-import { Form } from 'dop/pages/form-editor/index';
+import userStore from 'user/stores';
 import './issue-item.scss';
-import routeInfoStore from 'core/stores/route';
-import userStore from 'app/user/stores';
-import { useMount } from 'react-use';
-import issueStore from 'project/stores/issues';
-import issueFieldStore from 'org/stores/issue-field';
-import IssueState from 'project/common/components/issue/issue-state';
-import orgStore from 'app/org-home/stores/org';
-import { getFieldsByIssue } from 'project/services/issue';
-import { templateMap } from 'project/common/issue-config';
-import issueWorkflowStore from 'project/stores/issue-workflow';
-import UserInfo from 'common/components/user-info';
 
 export enum BACKLOG_ISSUE_TYPE {
   iterationIssue = 'iterationIssue',
   undoneIssue = 'undoneIssue',
 }
+
+const { isWin } = getBrowserInfo();
 
 interface IIssueProps {
   data: ISSUE.Issue;
@@ -68,7 +70,6 @@ export const IssueItem = (props: IIssueProps) => {
   } = props;
   const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
   const { title, type, priority, creator, assignee, id } = data;
-  const curPriority = ISSUE_PRIORITY_MAP[priority] || {};
   const projectPerm = usePerm((s) => s.project);
   const permObj =
     type === ISSUE_OPTION.REQUIREMENT
@@ -113,44 +114,48 @@ export const IssueItem = (props: IIssueProps) => {
   const state = showStatus ? workflowStateList.find((item) => item.stateID === data.state) : null;
   return (
     <div
-      className={`backlog-issue-item hover-active-bg cursor-pointer ${
+      className={`backlog-issue-item px-2 hover:bg-default-04 cursor-pointer ${
         !undraggable && editAuth ? 'draggable' : 'cursor-default'
       }`}
       ref={drag}
       onClick={() => onClickIssue(data)}
     >
       <div className="issue-info h-full">
-        <div className="backlog-item-content">
-          <div className="w-20">{id}</div>
-          <IssueIcon type={type as ISSUE_OPTION} />
+        <div className="backlog-item-content mr-6">
+          <IssueIcon type={type as ISSUE_TYPE} size={28} />
+          <span className="mr-1">#{id}-</span>
           <Ellipsis title={name} />
         </div>
-        <div className="backlog-item-info text-sub flex items-center flex-wrap justify-end">
-          <div className="backlog-item-priority mw-60">{curPriority.iconLabel}</div>
+        <div className="text-sub flex items-center flex-wrap justify-end">
           {state ? (
-            <div className="mr-4">
+            <div className="mr-6 w-16">
               <IssueState stateID={state.stateID} />
             </div>
           ) : null}
-          <UserInfo.RenderWithAvatar id={data.assignee} className="w80 mr-2" />
-          {onDelete ? (
-            <div>
+          <UserInfo.RenderWithAvatar id={data.assignee} className="w-24 mr-6" />
+          <span className="mr-6 w-20 truncate">
+            {data.planFinishedAt ? moment(data.planFinishedAt).format('YYYY/MM/DD') : i18n.t('dop:unspecified')}
+          </span>
+          <span className="w-6" onClick={(e) => e.stopPropagation()}>
+            <If condition={!!onDelete}>
               <Dropdown
                 trigger={['click']}
                 overlayClassName="contractive-filter-item-dropdown"
                 overlay={
-                  <Menu>
-                    <WithAuth pass={deleteAuth}>
-                      <Menu.Item
-                        className="text-danger"
-                        onClick={(e) => {
-                          e.domEvent.stopPropagation();
-                          confirmDelete(data);
-                        }}
-                      >
-                        {deleteText || i18n.t('delete')}
-                      </Menu.Item>
-                    </WithAuth>
+                  <Menu
+                    onClick={({ key }) => {
+                      if (key === 'delete') {
+                        confirmDelete(data);
+                      }
+                    }}
+                  >
+                    <Menu.Item
+                      key="delete"
+                      disabled={!deleteAuth}
+                      className={`text-danger ${deleteAuth ? '' : 'disabled'}`}
+                    >
+                      {deleteText || i18n.t('delete')}
+                    </Menu.Item>
                   </Menu>
                 }
                 placement="bottomLeft"
@@ -159,8 +164,8 @@ export const IssueItem = (props: IIssueProps) => {
                   <CustomIcon className="hover-active" type="gd" />
                 </span>
               </Dropdown>
-            </div>
-          ) : null}
+            </If>
+          </span>
         </div>
       </div>
     </div>
@@ -171,163 +176,111 @@ interface IIssueFormProps {
   className?: string;
   defaultIssueType?: 'TASK' | 'REQUIREMENT' | 'BUG';
   onCancel: () => void;
-  onOk: (data: ISSUE.BacklogIssueCreateBody) => Promise<any>;
+  onOk: (data: ISSUE.BacklogIssueCreateBody) => Promise<number>;
   typeDisabled?: boolean;
 }
 
 const placeholderMap = {
-  REQUIREMENT: i18n.t('{name} title', { name: i18n.t('requirement') }),
-  TASK: i18n.t('{name} title', { name: i18n.t('task') }),
-  BUG: i18n.t('{name} title', { name: i18n.t('bug') }),
+  REQUIREMENT: i18n.t('input {name} title', { name: i18n.t('requirement') }),
+  TASK: i18n.t('input {name} title', { name: i18n.t('task') }),
+  BUG: i18n.t('input {name} title', { name: i18n.t('bug') }),
 };
 
 export const IssueForm = (props: IIssueFormProps) => {
-  const { onCancel = noop, onOk = noop, className = '', defaultIssueType, typeDisabled } = props;
-  const [chosenType, setChosenType] = React.useState(defaultIssueType || ISSUE_OPTION.REQUIREMENT);
-  const formRef = React.useRef(null as any);
+  const { onCancel = noop, onOk, className = '', defaultIssueType, typeDisabled } = props;
   const { projectId } = routeInfoStore.getState((s) => s.params);
-  const [shouldAutoFocus, setShouldAutoFocus] = React.useState(true);
   const { addFieldsToIssue } = issueStore.effects;
   const [bugStageList, taskTypeList] = issueFieldStore.useStore((s) => [s.bugStageList, s.taskTypeList]);
   const orgID = orgStore.useStore((s) => s.currentOrg.id);
+  const loginUser = userStore.getState((s) => s.loginUser);
 
-  useMount(() => {
-    setShouldAutoFocus(false);
+  const [formData, updater] = useUpdate({
+    title: '',
+    type: defaultIssueType || ISSUE_OPTION.REQUIREMENT,
+    assignee: loginUser.id,
   });
 
-  const onAdd = () => {
-    const curForm = formRef && formRef.current;
-    if (curForm) {
-      curForm.onSubmit((val: ISSUE.BacklogIssueCreateBody) => {
-        if (val.title) {
-          const data = {
-            ...val,
-            content: templateMap[val.type] || '',
-            // some special fields for different type
-            taskType: taskTypeList?.length ? taskTypeList[0].value : '',
-            bugStage: bugStageList?.length ? bugStageList[0].value : '',
-            owner: '',
-          };
-          onOk(data).then((newIssueID) => {
-            curForm.reset('title');
-            getFieldsByIssue({
-              issueID: newIssueID,
-              orgID,
-              propertyIssueType: data.type as ISSUE_FIELD.IIssueType,
-            }).then((res) => {
-              const fieldList = res.data?.property;
-              if (fieldList) {
-                const property = map(fieldList, (item) => {
-                  if (item && item.required) {
-                    if (['Select', 'MultiSelect'].includes(item.propertyType)) {
-                      return {
-                        ...item,
-                        values: [item.enumeratedValues?.[0].id as number],
-                      };
-                    }
-                  }
-                  return { ...item };
-                });
-                addFieldsToIssue({ property, issueID: newIssueID, orgID, projectID: +projectId });
+  const onAdd = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const continueAdd = isWin ? e.shiftKey : e.metaKey;
+    const data = {
+      ...formData,
+      content: templateMap[formData.type] || '',
+      // some special fields for different type
+      taskType: taskTypeList?.length ? taskTypeList[0].value : '',
+      bugStage: bugStageList?.length ? bugStageList[0].value : '',
+      owner: '',
+    };
+    onOk?.(data).then((newIssueID) => {
+      getFieldsByIssue({
+        issueID: newIssueID,
+        orgID,
+        propertyIssueType: data.type as ISSUE_FIELD.IIssueType,
+      }).then((res) => {
+        const fieldList = res.data?.property;
+        if (fieldList) {
+          const property = map(fieldList, (item) => {
+            if (item && item.required) {
+              if (['Select', 'MultiSelect'].includes(item.propertyType)) {
+                return {
+                  ...item,
+                  values: [item.enumeratedValues?.[0].id as number],
+                };
               }
-            });
+            }
+            return { ...item };
           });
-        } else {
-          message.warn(i18n.t('please enter {name}', { name: i18n.t('title') }));
+          addFieldsToIssue({ property, issueID: newIssueID, orgID, projectID: +projectId });
         }
       });
-    }
+      if (continueAdd) {
+        updater.title('');
+      } else {
+        onCancel();
+      }
+    });
   };
 
-  const fields = [
-    {
-      label: '',
-      component: 'select',
-      key: 'type',
-      required: true,
-      disabled: typeDisabled,
-      initialValue: chosenType,
-      componentProps: {
-        size: 'small',
-        className: 'backlog-issue-add-type align-bottom',
-        optionLabelProp: 'data-icon',
-        dropdownMatchSelectWidth: false,
-        style: { width: 50 },
-        onChange: (val: ISSUE_OPTION) => {
-          setChosenType(val);
-        },
-      },
-      dataSource: {
-        type: 'static',
-        static: () => getIssueTypeOption(),
-      },
-      type: 'select',
-    },
-    {
-      label: '',
-      component: 'input',
-      key: 'title',
-      wrapperProps: {
-        className: 'backlog-issue-add-title-box',
-      },
-      componentProps: {
-        placeholder: `${placeholderMap[chosenType]}, ${i18n.t('enter key to save quickly')}`,
-        maxLength: 255,
-        size: 'small',
-        autoFocus: shouldAutoFocus,
-        className: 'backlog-issue-add-title',
-        onPressEnter: onAdd,
-      },
-      type: 'input',
-      requiredCheck: (v: string) => [v !== undefined && v !== '', ''],
-    },
-    {
-      label: '',
-      name: 'assignee',
-      key: 'assignee',
-      type: 'custom',
-      componentProps: {
-        size: 'small',
-        className: 'mt-1 backlog-issue-add-assignee',
-      },
-      initialValue: userStore.getState((s) => s.loginUser.id),
-      getComp: () => {
-        return (
-          <MemberSelector
-            dropdownMatchSelectWidth={false}
-            scopeType="project"
-            scopeId={String(projectId)}
-            allowClear={false}
-            size="small"
-          />
-        );
-      },
-    },
-  ];
-
-  React.useEffect(() => {
-    const curForm = formRef && formRef.current;
-    if (curForm) {
-      curForm.setFields(fields);
-    }
-  }, [chosenType, shouldAutoFocus]);
-
   return (
-    <div className={`${className} backlog-issue-form flex justify-between items-center`}>
-      <div className={'backlog-issue-form-box h-full'}>
-        <Form
-          fields={fields}
-          formRef={formRef}
-          formProps={{ layout: 'inline', className: 'backlog-issue-add items-center' }}
+    <div className={`${className} relative flex justify-between items-center`}>
+      <Input
+        value={formData.title}
+        placeholder={`${placeholderMap[formData.type]}, ${i18n.t(
+          'Enter to save quickly, Enter + {meta} to save and continue',
+          { meta: isWin ? 'Shift' : 'Cmd' },
+        )}`}
+        maxLength={255}
+        onPressEnter={onAdd}
+        autoFocus
+        onChange={(e) => updater.title(e.target.value)}
+        style={{ textIndent: '80px' }}
+      />
+      <Select
+        disabled={typeDisabled}
+        value={formData.type as ISSUE_OPTION}
+        bordered={false}
+        onChange={(v: ISSUE_OPTION) => updater.type(v)}
+        className="absolute"
+        optionLabelProp="data-icon"
+        dropdownMatchSelectWidth={false}
+      >
+        {getIssueTypeOption(formData.type)}
+      </Select>
+      <div className="absolute right-2 flex items-center space-x-2">
+        <MemberSelector
+          dropdownMatchSelectWidth={false}
+          scopeType="project"
+          scopeId={String(projectId)}
+          allowClear={false}
+          bordered={false}
+          value={loginUser.id}
+          onChange={(v) => updater.assignee(v)}
         />
-      </div>
-      <div className="table-operations ml-2">
-        <span className="table-operations-btn" onClick={onAdd}>
+        <Button type="primary" size="small" onClick={onAdd} className="h-6 leading-4" disabled={!formData.title}>
           {i18n.t('save')}
-        </span>
-        <span className="table-operations-btn" onClick={onCancel}>
+        </Button>
+        <Button size="small" onClick={onCancel} className="h-6 leading-4">
           {i18n.t('cancel')}
-        </span>
+        </Button>
       </div>
     </div>
   );

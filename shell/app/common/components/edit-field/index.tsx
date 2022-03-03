@@ -13,7 +13,6 @@
 
 import { DatePicker, Input, Select, Tooltip } from 'antd';
 import layoutStore from 'layout/stores/layout';
-import classnames from 'classnames';
 import { ErdaIcon, MarkdownEditor, MarkdownRender } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { getTimeRanges } from 'common/utils';
@@ -92,7 +91,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       onChange={onChange}
       onBlur={(_v: string) => onSave(_v, 'markdown')}
       defaultMode="md"
-      defaultHeight={maxHeight}
+      defaultHeight={maxHeight + 300}
       operationBtns={operationBtns}
     />
   ) : (
@@ -106,7 +105,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       arrowPointAtCenter
     >
       <div
-        className="relative hover:bg-black-06 cursor-pointer rounded"
+        className="relative w-full hover:bg-black-06 cursor-pointer rounded"
         onClick={() => updater.isEditing(true)}
         style={{ maxHeight: expanded ? '' : maxHeight }}
       >
@@ -121,18 +120,16 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
           </div>
         </div>
         <div
-          className={`absolute -bottom-10 z-10 left-0 right-0 mx-auto rounded-full ${
+          className={`absolute left-0 right-0 bottom-2 z-10 mx-auto ${
             isZh() ? 'w-28' : 'w-44'
-          } px-2 py-1 border text-primary shadow cursor-pointer flex items-center justify-center truncate bg-white ${
-            expandBtnVisible ? '' : 'hidden'
-          }`}
+          } text-purple-deep cursor-pointer flex-all-center ${expandBtnVisible ? '' : 'hidden'}`}
           onClick={(e) => {
             e.stopPropagation();
             updater.expanded(!expanded);
           }}
         >
           <ErdaIcon type={`${expanded ? 'double-up' : 'double-down'}`} />
-          <div className="ml-1">{expanded ? i18n.t('collapse description') : i18n.t('expand description')}</div>
+          <div className="ml-1">{expanded ? i18n.t('click to collapse') : i18n.t('click to view more')}</div>
         </div>
       </div>
     </Tooltip>
@@ -142,6 +139,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
 interface IProps {
   name: string;
   label?: string;
+  icon?: string;
   labelStyle?: 'normal' | 'desc';
   type?:
     | 'input'
@@ -161,6 +159,7 @@ interface IProps {
   itemProps?: any;
   data?: any;
   disabled?: boolean;
+  noPadding?: boolean;
   getComp?: any;
   suffix?: any;
   showRequiredMark?: boolean;
@@ -178,8 +177,10 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     labelStyle,
     itemProps,
     disabled = false,
+    noPadding = false,
     onChangeCb,
     data,
+    icon,
     suffix = null,
     showRequiredMark = false,
     valueRender,
@@ -238,15 +239,16 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
       Comp = (
         <Select
           ref={compRef}
-          showArrow={false}
+          bordered={false}
           allowClear
-          className="w-full"
           value={editValue}
           onChange={onSelectChange}
           onBlur={() => onBlur()}
           placeholder={placeHolder || (label && `${i18n.t('dop:please set ')}${label}`)}
           disabled={disabled}
           {...rest}
+          className={`w-full hover:bg-default-06 ${rest?.className || ''}`}
+          suffixIcon={<ErdaIcon type="caret-down" className="text-default-3" />}
         >
           {isFunction(options) ? options() : options}
         </Select>
@@ -259,7 +261,6 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     //   break;
     case 'markdown': {
       // 创建时不需要提交、取消按钮
-      const maxMarkdownHeight = (document.documentElement.clientHeight - 86) * 0.7;
       Comp = !itemProps.isEditMode ? (
         <MarkdownEditor
           {...itemProps}
@@ -270,8 +271,8 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
       ) : (
         <EditMd
           {...itemProps}
-          maxHeight={maxMarkdownHeight}
-          defaultHeight={400}
+          maxHeight={230}
+          defaultHeight={200}
           value={editValue}
           onChange={updater.editValue}
           onSave={(v, fieldType) => onChangeCb?.({ [name]: v }, fieldType)}
@@ -284,7 +285,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     case 'datePicker':
       Comp = (
         <DatePicker
-          className="w-full"
+          bordered={false}
           allowClear={false}
           value={editValue ? moment(editValue) : undefined}
           onChange={(m: moment.Moment) =>
@@ -296,6 +297,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
           disabled={disabled}
           ranges={getTimeRanges()}
           {...itemProps}
+          className={`w-full hover:bg-default-06 ${itemProps.className || ''}`}
         />
       );
       break;
@@ -314,17 +316,18 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
       Comp = <div className="nowrap">{valueRender ? valueRender(editValue) : editValue}</div>;
       break;
     case 'dateReadonly':
-      Comp = <div className="prewrap cursor-pointer pl-3">{moment(editValue).format('YYYY-MM-DD')}</div>;
+      Comp = <div className="prewrap cursor-pointer pl-3">{moment(editValue).format('YYYY/MM/DD')}</div>;
       break;
     default:
       Comp = (
         <Input
           ref={compRef}
           disabled={disabled}
-          className={itemProps.className}
+          bordered={false}
           value={editValue}
           onBlur={() => onBlur()}
           {...itemProps}
+          className={`hover:bg-default-06 ${itemProps.className}`}
           onChange={onInputChange}
           allowClear={false}
         />
@@ -333,21 +336,13 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
   }
 
   return (
-    <div className={`common-edit-field ${className}`}>
-      {label && (
-        <div
-          data-required={showRequiredMark ? '* ' : ''}
-          className={classnames(
-            labelStyle === 'desc' ? 'text-sub' : 'text-normal',
-            'mb-1',
-            showRequiredMark ? 'before:required' : '',
-          )}
-          style={{ paddingLeft: '10px' }}
-        >
-          {label}
-        </div>
-      )}
-      <div>
+    <div className={`relative common-edit-field flex-h-center ${noPadding ? '' : 'pr-4'} ${className}`}>
+      <If condition={showRequiredMark}>
+        <div data-required="* " className="mr-1 before:required absolute -left-2" />
+      </If>
+      {icon ? <ErdaIcon type={icon} className="text-default-6 mr-1" size={16} /> : null}
+      {label && <div className={'text-default-6 w-[64px]'}>{label}</div>}
+      <div className="flex-1 flex-h-center">
         {Comp}
         {suffix}
       </div>

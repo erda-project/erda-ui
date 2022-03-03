@@ -1,0 +1,35 @@
+.issue-meta-fields {
+  .issue-field-member {
+    &.member-selector {
+      flex: 1;
+      width: 0;
+      overflow: hidden;
+      .results {
+        border: 1px solid transparent;
+
+        .values {
+          width: 100%;
+          .value-item {
+            width: 100%;
+            display: flex;
+          }
+          .member-selector-value-item {
+            flex: 1;
+            width: 0;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+        }
+
+        &:hover {
+          box-shadow: none;
+        }
+      }
+      &:hover {
+        .results {
+          background-color: $color-default-06;
+        }
+      }
+    }
+  }
+}

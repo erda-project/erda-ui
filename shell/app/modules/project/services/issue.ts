@@ -22,8 +22,14 @@ const apis = {
   issueDownload: {
     api: '/api/issues/actions/export-excel',
   },
-  batchCreatCommentStream: {
+  batchCreateCommentStream: {
     api: 'post@/api/issues/actions/batch-create-comment-stream',
+  },
+  getIssues: {
+    api: '/api/issues',
+  },
+  getIssueRelation: {
+    api: '/api/issues/:issueId/relations',
   },
 };
 
@@ -31,18 +37,17 @@ export const getFieldsByIssue = apiCreator<(params: ISSUE.IFiledQuery) => ISSUE.
   apis.getFieldsByIssue,
 );
 
-export const batchCreatCommentStream = apiCreator<(params: ISSUE.BatchCreateCommentStream) => void>(
-  apis.batchCreatCommentStream,
+export const batchCreateCommentStream = apiCreator<(params: ISSUE.BatchCreateCommentStream) => void>(
+  apis.batchCreateCommentStream,
 );
 
 export const issueDownload = apiCreator<(params: ISSUE.IssueListQuery) => void>(apis.issueDownload);
 
-export const getIssues = (query: ISSUE.IssueListQuery): Promise<IPagingResp<ISSUE.IssueType>> => {
-  return agent
-    .get('/api/issues')
-    .query(query)
-    .then((response: any) => response.body);
-};
+export const getIssues = apiCreator<(params: ISSUE.IssueListQuery) => IPagingResp<ISSUE.IssueType>>(apis.getIssues);
+
+export const getIssueRelation = apiCreator<
+  (params: { issueId: number; type?: ISSUE.RelationType }) => ISSUE.RelationIssue
+>(apis.getIssueRelation);
 
 export const getIssueDetail = ({ id }: ISSUE.IssueDetailQuery): Promise<ISSUE.IssueType> => {
   return agent.get(`/api/issues/${id}`).then((response: any) => response.body);
@@ -97,9 +102,9 @@ export const batchUpdateIssue = (body: ISSUE.BatchUpdateBody) => {
     .then((response: any) => response.body);
 };
 
-export const getIssueRelation = ({ id, type }: { id: number; type: string }): ISSUE.RelationIssue => {
-  return agent.get(`/api/issues/${id}/relations${type ? `?type=${type}` : ''}`).then((response: any) => response.body);
-};
+// export const getIssueRelation = ({ id, type }: { id: number; type: string }): ISSUE.RelationIssue => {
+//   return agent.get(`/api/issues/${id}/relations${type ? `?type=${type}` : ''}`).then((response: any) => response.body);
+// };
 
 export const addIssueRelation = (payload: ISSUE.ICreateRelationBody) => {
   const { id, ...rest } = payload;

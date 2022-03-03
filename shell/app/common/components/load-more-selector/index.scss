@@ -19,7 +19,7 @@
     width: 100%;
     min-height: 32px;
     max-height: 96px;
-    padding: 4px 6px 4px 12px;
+    padding: 0 6px 0 12px;
     overflow: auto;
     border: 1px solid $color-border;
     border-radius: $radius;
@@ -39,12 +39,16 @@
       }
     }
 
+    &.border-none {
+      box-shadow: none;
+    }
+
     .placeholder {
       color: $color-dark-3;
     }
 
     .values {
-      line-height: 20px;
+      line-height: 100%;
 
       .value-item {
         display: inline-block;
@@ -189,7 +193,7 @@
         align-items: center;
         // justify-content: space-between;
         margin: 0 8px;
-        padding: 9px 10px;
+        padding: 8px;
 
         .ant-checkbox {
           top: 0;

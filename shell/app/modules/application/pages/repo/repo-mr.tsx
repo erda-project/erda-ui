@@ -72,7 +72,7 @@ const PureRepoMR = () => {
         <If condition={info.isLocked}>
           <ErdaAlert message={i18n.t('lock-repository-tip')} type="error" />
         </If>
-        <RepoMrTable key={mrType} type={mrType as REPOSITORY.MrType} />
+        <RepoMrTable key={mrType} type={mrType as REPOSITORY.MrState} />
       </Card>
     </div>
   );

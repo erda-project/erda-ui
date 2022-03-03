@@ -11,35 +11,31 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import projectLabelStore from './label';
+import { PAGINATION } from 'app/constants';
+import { getDefaultPaging } from 'common/utils';
 import { createStore } from 'core/cube';
-import orgStore from 'app/org-home/stores/org';
-import { getDefaultPaging, convertToFormData } from 'common/utils';
+import i18n from 'i18n';
+import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import {
-  getIssues,
-  getIssueDetail,
-  createIssue,
-  updateIssue,
-  updateType,
-  getIssueStreams,
-  addIssueStream,
-  deleteIssue,
-  batchUpdateIssue,
-  getIssueRelation,
-  addIssueRelation,
-  deleteIssueRelation,
-  getMilestone,
-  getFieldsByIssue,
   addFieldsToIssue,
+  addIssueRelation,
+  addIssueStream,
+  batchSubscribe,
+  batchUpdateIssue,
+  createIssue,
+  deleteIssue,
+  deleteIssueRelation,
+  getFieldsByIssue,
+  getIssueDetail,
+  getIssues,
+  getIssueStreams,
+  getMilestone,
   importFileInIssues,
   subscribe,
   unsubscribe,
-  batchSubscribe,
+  updateIssue,
+  updateType,
 } from '../services/issue';
-import i18n from 'i18n';
-import { PAGINATION } from 'app/constants';
-import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
-import issueFieldStore from 'org/stores/issue-field';
 
 interface IState {
   issueList: ISSUE.Issue[];
@@ -247,10 +243,6 @@ const issueStore = createStore({
     },
     async batchUpdateIssue({ call }, payload: ISSUE.BatchUpdateBody) {
       await call(batchUpdateIssue, payload);
-    },
-    async getIssueRelation({ call }, payload: { id: number; type: string }) {
-      const { RelatingIssues, RelatedIssues } = await call(getIssueRelation, payload);
-      return [RelatingIssues, RelatedIssues];
     },
     async addIssueRelation({ call }, payload: ISSUE.ICreateRelationBody) {
       const res = await call(addIssueRelation, payload, { successMsg: i18n.t('dop:relation added successfully') });

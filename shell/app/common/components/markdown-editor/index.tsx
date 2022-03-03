@@ -28,6 +28,7 @@ interface BtnProps extends BaseButtonProps {
 interface IProps {
   value?: string | null;
   placeholder?: string;
+  className?: string;
   maxLength?: number;
   defaultMode?: 'md' | 'html';
   extraRight?: ReactElement | ReactElement[];
@@ -67,6 +68,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
     autoFocus,
     value,
     maxLength,
+    className = '',
     operationBtns,
     showMenu = true,
     defaultHeight,
@@ -147,7 +149,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
 
   return (
     <div
-      className="markdown-editor relative"
+      className={`markdown-editor relative ${className}`}
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === 'Escape') {

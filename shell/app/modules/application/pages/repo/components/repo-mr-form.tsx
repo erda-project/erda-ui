@@ -27,12 +27,12 @@ import repoStore from 'application/stores/repo';
 import { useUserMap } from 'core/stores/userMap';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import { ISSUE_TYPE, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
-import { AddIssueRelation } from 'project/common/components/issue/issue-relation';
+import { AddIssueRelation, RelationType } from 'project/common/components/issue/issue-relation';
 import './repo-mr-form.scss';
 import routeInfoStore from 'core/stores/route';
 import IssueState from 'project/common/components/issue/issue-state';
 import layoutStore from 'layout/stores/layout';
-import { batchCreatCommentStream } from 'project/services/issue';
+import { batchCreateCommentStream } from 'project/services/issue';
 import userStore from 'app/user/stores';
 import moment from 'moment';
 import { ColumnProps } from 'antd/lib/table';
@@ -434,7 +434,7 @@ const RepoMRForm = (props: IProps) => {
           const curChosenIssue = issueRef.current?.getChosenIssues() || [];
 
           if (curChosenIssue.length) {
-            batchCreatCommentStream
+            batchCreateCommentStream
               .fetch({
                 issueStreams: curChosenIssue.map((item) => ({
                   issueID: item.id,
@@ -500,10 +500,14 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
   const [chosenIssues, setChosenIssues] = React.useState<ISSUE.IssueType[]>([]);
   const projectId = routeInfoStore.useStore((s) => s.params.projectId);
   const userMap = useUserMap();
-  const addRelation = (issueId: number, issue: ISSUE.IssueType) => {
-    if (!chosenIssues.find((item) => item.id === issueId)) {
-      setChosenIssues((prev) => prev.concat(issue));
-    }
+  const addRelation = (issueIds: number[], issues: ISSUE.IssueType[]) => {
+    setChosenIssues((prev) => {
+      const merged = {};
+      [...prev, ...issues].forEach((issue) => {
+        merged[issue.id] = issue;
+      });
+      return Object.values(merged);
+    });
   };
 
   React.useEffect(() => {
@@ -593,7 +597,7 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
     <div className="mb-3 repo-mr-issue-relation">
       <div className="section-title mt-3">{i18n.t('relate to issue')}</div>
 
-      <AddIssueRelation editAuth onSave={addRelation} projectId={projectId} hideCancelButton />
+      <AddIssueRelation editAuth onSave={addRelation} projectId={projectId} relationType={RelationType.RelatedTo} />
 
       <Table
         wrapperClassName="mt-2"

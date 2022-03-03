@@ -87,13 +87,13 @@ const valueItemRender =
     const displayName = value === USER_NONE ? i18n.t('unspecified') : nick || label || value || i18n.t('common:none');
     const cls = {
       normal: {
-        size: 20,
-        name: 'ml-2 text-sm',
+        size: 24,
+        name: 'ml-2 text-sm member-selector-value-item',
         tag: 'py-1 px-2',
       },
       small: {
-        size: 14,
-        name: 'ml-2',
+        size: 16,
+        name: 'ml-2 member-selector-value-item',
         tag: 'py-0.5 px-1 member-value-small',
       },
     };
@@ -238,7 +238,7 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
   const selectSelf = selectSelfInOption ? (
     <a
       onClick={() => !rest.disabled && selectSelfOp()}
-      className={`${rest.disabled ? 'not-allowed' : 'text-purple-deep cursor-pointer'}`}
+      className={`${rest.disabled ? 'not-allowed' : 'text-white cursor-pointer'}`}
     >
       {i18n.t('choose self')}
     </a>
@@ -251,7 +251,7 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
   const selectNone = selectNoneInOption ? (
     <a
       onClick={() => !rest.disabled && selectNoneOp()}
-      className={`${rest.disabled ? 'not-allowed' : 'text-purple-deep cursor-pointer'}`}
+      className={`${rest.disabled ? 'not-allowed' : 'text-white cursor-pointer'}`}
     >
       {i18n.t('unspecified')}
     </a>

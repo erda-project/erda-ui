@@ -4,8 +4,11 @@
   }
 
   .ant-drawer-body {
+    display: flex;
+    flex-direction: column;
     height: 100%;
     padding: 0;
+    background-color: $color-default-02;
   }
 
   .ant-spin-nested-loading {
@@ -17,14 +20,21 @@
     flex-direction: column;
     height: 100%;
   }
+
+  .issue-drawer-right {
+    border-left: 1px solid $color-default-04;
+  }
+
+  .md-content {
+    background-color: $color-default-02;
+  }
 }
 
 .task-drawer-header {
   z-index: 1;
-  padding: 14px 20px;
+  padding: 10px 16px;
   color: $color-text;
   line-height: 28px;
-  @extend %shallow-shadow;
 
   .task-drawer-op {
     margin-left: 20px;
@@ -130,54 +140,6 @@
   .ant-checkbox-inner {
     display: inline-block;
   }
-}
-
-.task-drawer-body {
-  position: relative;
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-
-  &::after {
-    position: absolute;
-    right: 200px;
-    display: block;
-    width: 1px;
-    height: 100%;
-    background-color: $color-border;
-    content: '';
-  }
-}
-
-.task-drawer-main {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  height: 100%;
-  overflow: auto;
-
-  .task-drawer-content {
-    padding: 20px;
-  }
-
-  .task-drawer-tabs {
-    flex: 1;
-
-    .ant-tabs-bar {
-      margin: 0;
-      padding: 0 20px;
-    }
-
-    .ant-tabs-tabpane {
-      padding: 20px;
-    }
-  }
-}
-
-.task-drawer-meta {
-  width: 200px;
-  padding: 20px;
-  overflow: auto;
 }
 
 .task-drawer-footer {

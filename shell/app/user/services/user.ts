@@ -12,7 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
-import { RES_BODY } from 'core/service';
+import { apiCreator, RES_BODY } from 'core/service';
+
+const apis = {
+  getJoinedApps: {
+    api: '/api/applications/actions/list-my-applications',
+  },
+};
+interface IGetJoinedAppsQuery {
+  pageSize: number;
+  pageNo: number;
+  q?: string;
+  projectID?: number;
+  mode?: string;
+}
+export const getJoinedApps = apiCreator<(p: IGetJoinedAppsQuery) => IPagingResp<IApplication>>(apis.getJoinedApps);
 
 export const login = () => {
   return agent.get('/api/openapi/login').then((response: any) => response.body);
@@ -43,25 +57,6 @@ export const getJoinedProjects = ({
   return agent
     .get('/api/projects/actions/list-my-projects')
     .query({ pageSize, pageNo, q: q || searchKey })
-    .then((response: any) => response.body);
-};
-
-export const getJoinedApps = ({
-  pageSize,
-  pageNo,
-  q,
-  projectID,
-  ...rest
-}: {
-  pageSize: number;
-  pageNo: number;
-  q?: string;
-  projectID?: number;
-  mode?: string;
-}): IPagingResp<IApplication> => {
-  return agent
-    .get('/api/applications/actions/list-my-applications')
-    .query({ ...rest, pageSize, pageNo, q, projectId: projectID })
     .then((response: any) => response.body);
 };
 

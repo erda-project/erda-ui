@@ -86,7 +86,7 @@ export const AppSelector = (props: IProps) => {
   const getData = (_q: Obj = {}) => {
     if (!projectId) return;
     return joined
-      ? getJoinedApps({ projectID: +projectId, ..._q } as any).then((res: any) => res.data)
+      ? getJoinedApps({ projectID: +projectId, ..._q } as any).then((res) => res.data)
       : getApps({ projectId, ..._q } as any).then((res: any) => res.data);
   };
 

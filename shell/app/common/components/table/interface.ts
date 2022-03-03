@@ -42,7 +42,7 @@ export interface ColumnProps<T> extends AntdColumnProps<T> {
   sortTitle?: React.ReactNode;
 }
 
-export interface IRowSelection<T extends object = any> extends TableRowSelection<T> {
+export interface IRowSelection<T extends Obj> extends TableRowSelection<T> {
   actions?: IRowActions[];
 }
 
@@ -50,7 +50,8 @@ export interface IRowActions {
   key: string;
   name: string;
   disabled?: boolean;
-  onClick: () => void;
+  onClick: (selectedKeys: React.Key[]) => any;
+  isVisible: (selectedKeys: React.Key[]) => boolean;
 }
 
 interface IAction {

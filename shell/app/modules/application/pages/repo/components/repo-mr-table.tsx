@@ -26,7 +26,7 @@ import repoStore from 'application/stores/repo';
 import UserInfo from 'common/components/user-info';
 
 interface IProps {
-  type: REPOSITORY.MrType;
+  type: REPOSITORY.MrState;
 }
 
 interface IState {
@@ -108,7 +108,7 @@ const RepoMrTable = ({ type }: IProps) => {
       <Spin spinning={isFetching}>
         <Holder>
           <ul className="repo-mr-list">
-            {mrList.map((item: any) => {
+            {mrList.map((item) => {
               const actorMap = {
                 open: 'authorId',
                 closed: 'closeUserId',

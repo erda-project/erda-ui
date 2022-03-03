@@ -21,6 +21,8 @@ export function getBrowserInfo() {
     isFirefox: /firefox/.test(userAgent),
     isIE: /msie/.test(userAgent),
     isOpera: /opera/.test(userAgent),
+    isWin: navigator.platform.includes('Win'),
+    isMac: navigator.platform.includes('Mac'),
   };
 }
 

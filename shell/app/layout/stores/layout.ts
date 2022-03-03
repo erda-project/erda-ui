@@ -51,6 +51,7 @@ interface IState {
   };
   isImagePreviewOpen: boolean;
   scalableImgSrc: string;
+  issueCommentBoxVisible: boolean;
 }
 
 const emptyApp = {
@@ -74,6 +75,7 @@ const initState: IState = {
   },
   isImagePreviewOpen: false,
   scalableImgSrc: '',
+  issueCommentBoxVisible: false,
 };
 
 const layout = createStore({
@@ -235,6 +237,9 @@ const layout = createStore({
     },
     toggleSideFold(state, payload: boolean) {
       state.sideFold = payload;
+    },
+    setIssueCommentBoxVisible(state, payload: boolean) {
+      state.issueCommentBoxVisible = payload;
     },
   },
 });

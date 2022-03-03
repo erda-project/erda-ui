@@ -15,43 +15,38 @@ import { Radio, Menu, Tooltip, Dropdown } from 'antd';
 import React from 'react';
 import { ErdaIcon } from 'common';
 import { isArray } from 'lodash';
-import { useUpdate } from 'common/use-hooks';
 import './index.scss';
 
-export interface RadioTabsProps {
-  defaultValue?: Value;
+export interface RadioTabsProps<T> {
+  defaultValue?: T;
   disabled?: boolean;
   className?: string;
-  options: IOption[];
-  value?: Value;
-  onChange?: (v: Value, o: IOption) => void;
+  options: Array<IOption<T>>;
+  value?: T;
+  onChange?: (v: T, o: IOption<T>) => void;
 }
 
-type Value = string | number;
-
-interface IOption {
+interface IOption<T> {
   label: string | React.ReactElement;
-  value: string | number;
+  value: T;
   disabled?: boolean;
   icon?: string;
   tip?: string;
-  children?: IOption[];
+  children?: Array<IOption<T>>;
 }
 
-const RadioTabs = (props: RadioTabsProps) => {
+const RadioTabs = <T extends string | number>(props: RadioTabsProps<T>) => {
   const { options, value: propsValue, defaultValue, onChange, className = '', ...rest } = props;
   const RadioItem = Radio.Button;
 
-  const [{ value, subValues }, updater, update] = useUpdate({
-    value: propsValue || defaultValue,
-    subValues: {},
-  });
+  const [value, setValue] = React.useState(propsValue || defaultValue);
+  const [subValues, setSubValues] = React.useState<Obj<T>>({});
 
   React.useEffect(() => {
-    propsValue && updater.value((prev: string) => (prev !== propsValue ? propsValue : prev));
-  }, [propsValue, updater]);
+    propsValue && setValue((prev) => (prev !== propsValue ? propsValue : prev));
+  }, [propsValue]);
 
-  const convertValue = (val?: Value) => {
+  const convertValue = (val?: T) => {
     if (val === undefined) return val;
     if (options.find((o) => o.value === val)) {
       return val;
@@ -66,9 +61,9 @@ const RadioTabs = (props: RadioTabsProps) => {
     }
   };
 
-  const valueHandle = (v: Value): [Value, IOption] => {
+  const valueHandle = (v: T): [T, IOption<T>] => {
     let curVal = v;
-    const curOption = options.find((o) => o.value === curVal) as IOption;
+    const curOption = options.find((o) => o.value === curVal) as IOption<T>;
     if (curOption?.children?.length) {
       curVal = subValues[curOption.value];
     }
@@ -83,7 +78,7 @@ const RadioTabs = (props: RadioTabsProps) => {
       value={convertValue(value)}
       onChange={(e) => {
         const [curVal, curOption] = valueHandle(e.target.value);
-        updater.value(curVal);
+        setValue(curVal);
         onChange?.(curVal, curOption);
       }}
     >
@@ -92,16 +87,14 @@ const RadioTabs = (props: RadioTabsProps) => {
 
         if (isArray(children) && children.length) {
           const sv = subValues[itemValue] || children[0].value;
-          const child = children.find((c) => c.value === sv);
+          const child = children.find((c) => c.value === sv) as IOption<T>;
           const getMenu = () => {
             return (
               <Menu
                 onClick={(e) => {
-                  update({
-                    value: e.key,
-                    subValues: { ...subValues, [itemValue]: e.key },
-                  });
-                  onChange?.(e.key, child);
+                  setValue(e.key as T);
+                  setSubValues((prev) => ({ ...prev, [itemValue]: e.key } as Obj<T>));
+                  onChange?.(e.key as T, child);
                 }}
               >
                 {children.map((g) => {

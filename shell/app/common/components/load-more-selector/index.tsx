@@ -55,6 +55,7 @@ interface IProps {
   size?: 'small' | 'normal';
   valueChangeTrigger?: 'onChange' | 'onClose';
   quickSelect?: React.ReactNode | React.ReactNode[];
+  bordered?: boolean;
   resultsRender?: (
     displayName: IOption[],
     deleteValue: (item: IOption) => void,
@@ -156,6 +157,7 @@ const PureLoadMoreSelector = (props: IProps) => {
     forwardedRef,
     resultsRender,
     size = '',
+    bordered = true,
     q: propsQ,
   } = props;
   const isMultiple = mode === 'multiple';
@@ -399,7 +401,7 @@ const PureLoadMoreSelector = (props: IProps) => {
         onVisibleChange={(visible) => onVisibleChange?.(visible, innerValue)}
       >
         <div
-          className={`results cursor-pointer ${disabled ? 'not-allowed' : ''} ${size}`}
+          className={`results cursor-pointer ${disabled ? 'not-allowed' : ''} ${size} ${bordered ? '' : 'border-none'}`}
           onClick={() => {
             !disabled && !visible && setVisible(true);
           }}

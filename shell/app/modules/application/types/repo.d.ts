@@ -146,28 +146,52 @@ declare namespace REPOSITORY {
     [prop: string]: any;
   }
 
-  interface MRItem {
+  interface MrUser {
+    email: string;
     id: number;
-    mergeId: number;
+    nickName: string;
+    phone: string;
+    username: string;
+  }
+
+  interface MRItem {
     appId: number;
-    repoId: number;
-    title: string;
-    authorId: string;
-    description: string;
     assigneeId: string;
-    mergeUserId: string;
+    assigneeUser: MrUser | null;
+    authorId: string;
+    authorUser: MrUser | null;
+    checkRuns: {
+      checkrun: null | Obj;
+      mergable: boolean;
+      result: string;
+    };
+    closeAt: string | null;
+    closeUser: MrUser | null;
     closeUserId: string;
-    sourceBranch: string;
-    targetBranch: string;
-    sourceSha: string;
-    targetSha: string;
-    removeSourceBranch: true;
-    state: string;
-    defaultCommitMessage: string;
     createdAt: string;
+    defaultCommitMessage: string;
+    description: string;
+    eventName: string;
+    id: number;
+    isCheckRunValid: boolean;
+    link: string;
+    mergeAt: null | string;
+    mergeId: number;
+    mergeUser: MrUser | null;
+    mergeUserId: string;
+    rebaseBranch: string;
+    removeSourceBranch: boolean;
+    repoId: number;
+    score: number;
+    scoreNum: number;
+    sourceBranch: string;
+    sourceSha: string;
+    state: MrState;
+    targetBranch: string;
+    targetBranchRule: null | Obj;
+    targetSha: string;
+    title: string;
     updatedAt: string;
-    closeAt: string;
-    mergeAt: string;
   }
 
   interface IBranch {
@@ -219,7 +243,7 @@ declare namespace REPOSITORY {
     tag: any[];
     commit: any[];
     mr: Obj;
-    mrList: any[];
+    mrList: MRItem[];
     mrStats: Obj;
     mrDetail: Obj;
     comments: any[];
@@ -263,17 +287,21 @@ declare namespace REPOSITORY {
 
   type MrStats = Pick<Mr, 'sourceBranch' | 'targetBranch'>;
 
-  type MrType = 'all' | 'open' | 'merged' | 'closed';
+  type MrState = 'all' | 'open' | 'merged' | 'closed';
 
   interface QueryRepoTree {
     force: boolean;
   }
 
   interface QueryMrs {
-    state: REPOSITORY.MrType;
+    projectName: string;
+    appName: string;
+    state?: MrState;
     assigneeId?: number;
     authorId?: number;
     pageNo?: number;
+    pageSize?: number;
+    query?: string;
   }
 
   interface QueryBuildId {
