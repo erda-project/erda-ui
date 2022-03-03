@@ -24,9 +24,10 @@ import ErdaList from 'app/common/components/base-list';
 
 const emptyArr = [] as CP_BASE_LIST.ListItem[];
 const List = (props: CP_BASE_LIST.Props) => {
-  const { customOp, operations, execOperation, props: configProps, data, filter } = props;
+  const { customOp, operations, execOperation, props: configProps, data, filter, state: propsState } = props;
   const { list = emptyArr, total, pageNo, pageSize } = data || {};
   const [state, updater, update] = useUpdate({
+    ...propsState,
     total: total || 0,
     pageNo: pageNo || 1,
     pageSize: pageSize || PAGINATION.pageSize,
@@ -42,6 +43,10 @@ const List = (props: CP_BASE_LIST.Props) => {
     wrapperClassName = '',
     ...restProps
   } = configProps || {};
+
+  React.useEffect(() => {
+    update((prev) => ({ ...prev, ...propsState }));
+  }, [propsState, update]);
 
   const currentList = React.useMemo(
     () =>
