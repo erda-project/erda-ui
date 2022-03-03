@@ -68,7 +68,13 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
   const [mrListPaging, loadingMr] = getAppMR.useState();
   const mrList = mrListPaging?.list || [];
   React.useEffect(() => {
-    updater.relateMrList(issueStreamList?.filter((item) => item.streamType === 'RelateMR'));
+    const mrMap = {};
+    issueStreamList
+      ?.filter((item) => item.streamType === 'RelateMR')
+      .forEach((item) => {
+        mrMap[item.mrInfo?.mrID as number] = item;
+      });
+    updater.relateMrList(Object.values(mrMap));
   }, [issueStreamList, updater]);
 
   React.useEffect(() => {
@@ -205,7 +211,7 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
                       type: 'RelateMR',
                       mrInfo: {
                         appID: filterData.appID as number,
-                        mrID: id,
+                        mrID: idMap[id].mergeId,
                         mrTitle: idMap[id].title,
                       },
                     })),
