@@ -12,7 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
-import { RES_BODY } from 'core/service';
+import { RES_BODY, apiCreator } from 'core/service';
+
+const apis = {
+  addOrg: {
+    api: 'post@/api/-/orgs',
+  },
+};
+
+export const addOrg = apiCreator<(p: Merge<Partial<ORG.IOrg>, { admins: string[] }>) => void>(apis.addOrg);
 
 export const getOrgByDomain = (payload: ORG.IOrgReq): ORG.IOrg => {
   return agent
