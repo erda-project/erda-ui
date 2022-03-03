@@ -355,13 +355,13 @@ const DeployContent = ({
                     urlQueryChange(data);
                   },
                   clickItem: (op: { serverData?: { logId: string; appId: string } }, extra: { action: string }) => {
-                    const { logId, appId } = op.serverData || {};
-                    if (extra.action === 'clickTitleState' && logId && appId) {
+                    const { logId, appId: _appId } = op.serverData || {};
+                    if (extra.action === 'clickTitleState' && logId && _appId) {
                       update({
                         logVisible: true,
                         logData: {
                           detailLogId: logId,
-                          applicationId: appId,
+                          applicationId: _appId,
                         },
                       });
                     }
