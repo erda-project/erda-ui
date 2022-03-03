@@ -322,11 +322,9 @@ interface IAddProps {
   currentIssue?: ISSUE.IssueType;
   iterationID?: number | undefined;
   defaultIssueType?: IDefaultIssueType;
-  onSave: (v: number[]) => void;
-  onCancel: () => void;
+  onSave: (v: number[], issues: ISSUE.IssueType[]) => void;
   typeDisabled?: boolean;
   relationType: RelationType;
-  hideCancelButton?: boolean;
 }
 
 const initState = {
@@ -341,10 +339,8 @@ export const AddIssueRelation = ({
   projectId,
   iterationID,
   currentIssue,
-  onCancel,
   defaultIssueType = 'TASK',
   typeDisabled = false,
-  hideCancelButton = false,
   relationType,
 }: IAddProps) => {
   const [{ filterData, visible }, updater, update] = useUpdate({
@@ -413,9 +409,11 @@ export const AddIssueRelation = ({
     {
       title: i18n.t('dop:planFinishedAt'),
       dataIndex: 'planFinishedAt',
-      render: (item: string) => moment(item).format('YYYY/MM/DD') || i18n.t('unspecified'),
+      render: (item: string) => (item ? moment(item).format('YYYY/MM/DD') : i18n.t('unspecified')),
     },
   ];
+
+  const dataSource = issueList.filter((item) => item.id !== currentIssue?.id) || [];
 
   const overlay = (
     <div className="w-[800px] shadow-card-lg bg-white">
@@ -477,14 +475,17 @@ export const AddIssueRelation = ({
               key: 'batchSelect',
               name: i18n.t('choose'),
               onClick: (keys) => {
-                onSave(keys as number[]);
+                onSave(
+                  keys as number[],
+                  dataSource.filter((item) => keys.includes(item.id)),
+                );
                 updater.visible(false);
               },
               isVisible: (keys) => keys.length > 0,
             },
           ],
         }}
-        dataSource={issueList.filter((item) => item.id !== currentIssue?.id) || []}
+        dataSource={dataSource}
         columns={columns}
         pagination={{
           pageSize: 7,

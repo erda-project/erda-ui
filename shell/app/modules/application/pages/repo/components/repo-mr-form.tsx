@@ -500,10 +500,14 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
   const [chosenIssues, setChosenIssues] = React.useState<ISSUE.IssueType[]>([]);
   const projectId = routeInfoStore.useStore((s) => s.params.projectId);
   const userMap = useUserMap();
-  const addRelation = (issueId: number, issue: ISSUE.IssueType) => {
-    if (!chosenIssues.find((item) => item.id === issueId)) {
-      setChosenIssues((prev) => prev.concat(issue));
-    }
+  const addRelation = (issueIds: number[], issues: ISSUE.IssueType[]) => {
+    setChosenIssues((prev) => {
+      const merged = {};
+      [...prev, ...issues].forEach((issue) => {
+        merged[issue.id] = issue;
+      });
+      return Object.values(merged);
+    });
   };
 
   React.useEffect(() => {
@@ -593,13 +597,7 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
     <div className="mb-3 repo-mr-issue-relation">
       <div className="section-title mt-3">{i18n.t('relate to issue')}</div>
 
-      <AddIssueRelation
-        editAuth
-        onSave={addRelation}
-        projectId={projectId}
-        hideCancelButton
-        relationType={RelationType.RelatedTo}
-      />
+      <AddIssueRelation editAuth onSave={addRelation} projectId={projectId} relationType={RelationType.RelatedTo} />
 
       <Table
         wrapperClassName="mt-2"
