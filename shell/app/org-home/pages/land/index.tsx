@@ -97,7 +97,7 @@ const LandPage = () => {
   };
 
   const onSaveOrg = (org: Partial<ORG.IOrg>) => {
-    addOrg.fetch({ ...org, admins: [loginUser.id] }).then(() => {
+    addOrg.fetch({ ...org, type: 'FREE', admins: [loginUser.id] }).then(() => {
       hideAddOrgModal();
       debouncedChange.current({ q: filterKey, force: true });
       message.success(i18n.t('layout:created successfully, please check in your org space'));
