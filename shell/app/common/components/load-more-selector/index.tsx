@@ -14,13 +14,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Dropdown, Input, Menu, Checkbox, Tag, Empty, Spin } from 'antd';
-import { map, isEmpty, isNumber, filter, find, isArray, get, isEqual } from 'lodash';
-import { useEffectOnce, useDebounce, useDeepCompareEffect } from 'react-use';
-import { ErdaIcon, Ellipsis } from 'common';
+import { Checkbox, Dropdown, Empty, Input, Menu, Spin, Tag } from 'antd';
+import { filter, find, get, isArray, isEmpty, isEqual, isNumber, map } from 'lodash';
+import { useDebounce, useDeepCompareEffect, useEffectOnce } from 'react-use';
+import { Ellipsis, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { uuid } from 'common/utils';
-import { isPromise } from 'common/utils';
+import { isPromise, uuid } from 'common/utils';
 import i18n from 'i18n';
 
 import './index.scss';
@@ -32,6 +31,7 @@ export const SelectType = {
   Category: 'Category',
   Normal: 'Normal',
 };
+
 interface IProps {
   q?: string;
   className?: string;
@@ -79,6 +79,7 @@ interface IProps {
 export interface IOption {
   label: string;
   value: string | number;
+
   [pro: string]: any;
 }
 
@@ -342,7 +343,7 @@ const PureLoadMoreSelector = (props: IProps) => {
                     ref={searchRef}
                     size="small"
                     className="search"
-                    prefix={<ErdaIcon type="search" size={'16'} fill="white-3" />}
+                    prefix={<ErdaIcon type="search" size={'16'} fill="default-3" />}
                     placeholder={i18n.t('search by keywords')}
                     value={q}
                     onChange={(e) => setQ(e.target.value)}
@@ -354,15 +355,17 @@ const PureLoadMoreSelector = (props: IProps) => {
         {isMultiple
           ? [
               <MenuItem className="chosen-info" key="_chosen-info-item">
-                <div className="w-full flex justify-between my-1">
+                <div className="w-full flex my-1">
                   <div>
                     {i18n.t('common:selected')}
                     <span className="mx-0.5">{chosenItem.length}</span>
                     {i18n.t('common:item')}
                   </div>
-                  <span className="fake-link ml-2 text-purple-deep" onClick={clearValue}>
-                    {i18n.t('common:clear selected')}
-                  </span>
+                  {chosenItem.length ? (
+                    <span className="fake-link ml-4 text-purple-deep" onClick={clearValue}>
+                      {i18n.t('common:clear selected')}
+                    </span>
+                  ) : null}
                 </div>
               </MenuItem>,
               <Menu.Divider key="_chosen-info-divider" />,
@@ -699,10 +702,10 @@ export default LoadMoreSelector;
  * LoadMoreSelector @usage
  * 1、在formModal中使用：
  * ```
-    const fieldList = [{
-        label: i18n.t('dop:choose certificate'),
-        name: 'certificateId',
-        getComp: () => {
+ const fieldList = [{
+ label: i18n.t('dop:choose certificate'),
+ name: 'certificateId',
+ getComp: () => {
           const getData = (q: any) => {
             const { q: searchKey, ...qRest } = q;
             return getCertificateList({ ...qRest, name: searchKey, appId }).then((res: any) => res.data);
@@ -713,20 +716,20 @@ export default LoadMoreSelector;
             />
           );
         },
-      }],
-  ```
+ }],
+ ```
  * 注意：
-1、展开后开始第一次请求
-2、dataFormatter: ({list,total}) => ({list,total})，转换后的list需要包含label和value，默认转换id => value，name => label
-3、chosenItemConvert: 选中展示的值（避免编辑的时候，展示id），接收普通值或promise，具体使用参考member-selector
-4、条件查询：若展开后的查询有前置条件，比如前一个表单选中后，则在getData方法里根据条件返回undefined或promise，见 app-version-push
-      ```
-      const getData = (q:any)=>{
+ 1、展开后开始第一次请求
+ 2、dataFormatter: ({list,total}) => ({list,total})，转换后的list需要包含label和value，默认转换id => value，name => label
+ 3、chosenItemConvert: 选中展示的值（避免编辑的时候，展示id），接收普通值或promise，具体使用参考member-selector
+ 4、条件查询：若展开后的查询有前置条件，比如前一个表单选中后，则在getData方法里根据条件返回undefined或promise，见 app-version-push
+ ```
+ const getData = (q:any)=>{
         if(!chosenApp) return;
         return getJoinedApps({...q,appId: chosenApp})
           .then(res=>res.data)
       }
-      ```
-5、若需要监听4中的条件查询会变化，需传入extraQuery={{appId: chosenApp}}
+ ```
+ 5、若需要监听4中的条件查询会变化，需传入extraQuery={{appId: chosenApp}}
 
  * */
