@@ -42,9 +42,11 @@ export const IssueCommentBox = (props: IProps) => {
   };
 
   const submit = () => {
-    onSave(stateMap.content);
-    updater.content('');
-    close();
+    if (stateMap.content.trim().length) {
+      onSave(stateMap.content);
+      updater.content('');
+      close();
+    }
   };
 
   useKey('Escape', close);
