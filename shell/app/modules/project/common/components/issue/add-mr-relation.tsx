@@ -250,7 +250,14 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
           <div
             key={stream.id}
             className={'backlog-issue-item px-2 hover:bg-default-04 cursor-pointer'}
-            // onClick={() => goTo(goTo.pages.appMr, { projectId, appId: stream.mrInfo?.appID, mrId: stream.mrInfo?.mrID, jumpOut: true})}
+            onClick={() =>
+              goTo(goTo.pages.appMr, {
+                projectId,
+                appId: stream.mrInfo?.appID,
+                mrId: stream.mrInfo?.mrID,
+                jumpOut: true,
+              })
+            }
           >
             <div className="issue-info h-full">
               <div className="backlog-item-content mr-6">
