@@ -14,7 +14,7 @@
 import React from 'react';
 import { Popover, Row, Col, Form, Button, Badge, Input, FormInstance } from 'antd';
 import { ErdaIcon, RenderFormItem, IFormItem } from 'common';
-import { isEmpty, has } from 'lodash';
+import { isEmpty, has, isEqual } from 'lodash';
 import ExternalItem from './external-item';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
@@ -210,8 +210,16 @@ const ConfigurableFilter = React.forwardRef(
     }, [formValue, form]);
 
     useUpdateEffect(() => {
-      onFilter();
+      if (!isEqual(_externalValue, externalValue)) {
+        onFilter();
+      }
     }, [externalValue]);
+
+    useUpdateEffect(() => {
+      if (!isEqual(_externalValue, externalValue)) {
+        setExternalValue(_externalValue);
+      }
+    }, [_externalValue]);
 
     const onConfigChange = (config: ConfigData) => {
       setCurrentConfig(config.id);
