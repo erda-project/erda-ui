@@ -81,7 +81,7 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
           const { component, operationData, operation } = event || {};
           if (component === 'pipelineTable') {
             const id = get(operationData, 'clientData.dataRef.id');
-            if (['run', 'cancelRun'].includes(id)) {
+            if (['run', 'cancelRun', 'batchRun'].includes(id)) {
               getApps();
             }
           } else if (component === 'customFilter') {
