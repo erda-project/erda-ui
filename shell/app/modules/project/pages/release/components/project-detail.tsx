@@ -65,7 +65,7 @@ const ReleaseProjectDetail = () => {
           </Button>
         ) : null}
 
-        <Button className="bg-default-06 border-default-06" onClick={() => goTo(goTo.pages.projectReleaseList)}>
+        <Button className="bg-default-06 border-default-06" onClick={() => goTo(goTo.pages.projectReleaseListProject)}>
           {i18n.t('return to previous page')}
         </Button>
       </div>
