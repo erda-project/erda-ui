@@ -578,10 +578,10 @@ const IssueMetaFields = React.forwardRef(
     const colSpan = React.useMemo(() => {
       let _span = 1;
       switch (true) {
-        case width < 400:
+        case width < 420:
           _span = 24;
           break;
-        case width < 720:
+        case width < 760:
           _span = 12;
           break;
         default:

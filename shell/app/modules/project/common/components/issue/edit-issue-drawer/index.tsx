@@ -729,6 +729,7 @@ export const EditIssueDrawer = (props: IProps) => {
           itemProps={{
             className: 'text-xl text-normal px-1',
             maxLength: 255,
+            autoFocus: true,
             placeholder: specialProps.titlePlaceHolder,
           }}
         />
@@ -777,10 +778,7 @@ export const EditIssueDrawer = (props: IProps) => {
           />
 
           <If condition={issueType === ISSUE_TYPE.BUG}>
-            <div className="mt-4">
-              {i18n.t('dop:relate to test case')}
-              <IssueTestCaseRelation list={testPlanCaseRels || []} />
-            </div>
+            <IssueTestCaseRelation list={testPlanCaseRels || []} />
           </If>
           <If condition={issueType !== ISSUE_TYPE.TICKET}>
             <AddMrRelation

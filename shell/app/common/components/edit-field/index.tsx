@@ -342,7 +342,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
       </If>
       {icon ? <ErdaIcon type={icon} className="text-default-6 mr-1" size={16} /> : null}
       {label && <div className={'text-default-6 w-[64px]'}>{label}</div>}
-      <div className="flex-1 flex-h-center">
+      <div className="flex-1 flex-h-center truncate">
         {Comp}
         {suffix}
       </div>
