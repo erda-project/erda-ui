@@ -353,17 +353,22 @@ export const AddIssueRelation = ({
   const [issuePaging, loadingIssueList] = getIssues.useState();
   const iterationPaging = getProjectIterations.useData();
   const issueList = issuePaging?.list || [];
-  const getIssueList = React.useCallback(() => {
-    if (visible && projectId) {
-      getIssues.fetch({
-        ...filterData,
-        projectID: +projectId,
-        pageSize: 50,
-        pageNo: 1,
-        notIncluded: relationType === RelationType.Inclusion,
-      });
-    }
-  }, [filterData, projectId, relationType, visible]);
+  // const { pageNo, pageSize, total } = issuePaging?.paging || {};
+  const getIssueList = React.useCallback(
+    (extra?: Obj) => {
+      if (visible && projectId) {
+        getIssues.fetch({
+          pageNo: 1,
+          pageSize: 7,
+          ...filterData,
+          ...extra,
+          projectID: +projectId,
+          notIncluded: relationType === RelationType.Inclusion,
+        });
+      }
+    },
+    [filterData, projectId, relationType, visible],
+  );
 
   React.useEffect(() => {
     if (visible && !iterationPaging?.list.length) {
@@ -456,7 +461,7 @@ export const AddIssueRelation = ({
       <ErdaTable
         rowKey="id"
         hideHeader
-        // loading={loadingIssueList}
+        loading={loadingIssueList}
         rowSelection={{
           actions: [
             {
@@ -476,7 +481,12 @@ export const AddIssueRelation = ({
         dataSource={dataSource}
         columns={columns}
         pagination={{
-          pageSize: 7,
+          current: issuePaging?.paging?.pageNo || 1,
+          pageSize: issuePaging?.paging?.pageSize || 7,
+          total: issuePaging?.paging?.total || 0,
+          onChange: (no: number, size?: number) => {
+            getIssueList({ pageNo: no, pageSize: size });
+          },
         }}
       />
     </div>
