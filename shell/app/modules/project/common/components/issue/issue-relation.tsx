@@ -350,10 +350,9 @@ export const AddIssueRelation = ({
     },
   });
 
-  const [issuePaging, loadingIssueList] = getIssues.useState();
+  const issuePaging = getIssues.useData();
   const iterationPaging = getProjectIterations.useData();
   const issueList = issuePaging?.list || [];
-  // const { pageNo, pageSize, total } = issuePaging?.paging || {};
   const getIssueList = React.useCallback(
     (extra?: Obj) => {
       if (visible && projectId) {
@@ -461,7 +460,6 @@ export const AddIssueRelation = ({
       <ErdaTable
         rowKey="id"
         hideHeader
-        loading={loadingIssueList}
         rowSelection={{
           actions: [
             {
