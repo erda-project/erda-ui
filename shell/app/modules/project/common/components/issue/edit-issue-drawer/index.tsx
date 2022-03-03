@@ -481,7 +481,6 @@ export const EditIssueDrawer = (props: IProps) => {
     closeDrawer({ hasEdited, isCreate, isDelete });
     setTempDescContent('');
     setIssueType(propsIssueType);
-    setDisableSubmit(false);
     setHasEdited(false);
     setIsLoading(false);
     updateSearch({
@@ -524,9 +523,10 @@ export const EditIssueDrawer = (props: IProps) => {
             { ...customFormData, issueID: res, projectID: params.projectID },
             { customMsg: i18n.t('copied successfully') },
           );
+          onClose(true);
         })
         .finally(() => {
-          onClose(true);
+          setDisableSubmit(false);
         });
       return;
     }
@@ -536,7 +536,7 @@ export const EditIssueDrawer = (props: IProps) => {
         ...formData,
         issueManHour: { ...formData.issueManHour, elapsedTime: undefined },
         customUrl,
-      }).finally(() => {
+      }).then(() => {
         onClose();
       });
     } else {
@@ -547,9 +547,10 @@ export const EditIssueDrawer = (props: IProps) => {
             { ...customFormData, issueID: res, projectID: params.projectID },
             { customMsg: i18n.t('created successfully') },
           );
+          onClose(true);
         })
         .finally(() => {
-          onClose(true);
+          setDisableSubmit(false);
         });
     }
   };
