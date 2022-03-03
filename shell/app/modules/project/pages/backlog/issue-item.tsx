@@ -136,24 +136,26 @@ export const IssueItem = (props: IIssueProps) => {
           <span className="mr-6 w-20 truncate">
             {data.planFinishedAt ? moment(data.planFinishedAt).format('YYYY/MM/DD') : i18n.t('dop:unspecified')}
           </span>
-          <span className="w-6">
+          <span className="w-6" onClick={(e) => e.stopPropagation()}>
             <If condition={!!onDelete}>
               <Dropdown
                 trigger={['click']}
                 overlayClassName="contractive-filter-item-dropdown"
                 overlay={
-                  <Menu>
-                    <WithAuth pass={deleteAuth}>
-                      <Menu.Item
-                        className="text-danger"
-                        onClick={(e) => {
-                          e.domEvent.stopPropagation();
-                          confirmDelete(data);
-                        }}
-                      >
-                        {deleteText || i18n.t('delete')}
-                      </Menu.Item>
-                    </WithAuth>
+                  <Menu
+                    onClick={({ key }) => {
+                      if (key === 'delete') {
+                        confirmDelete(data);
+                      }
+                    }}
+                  >
+                    <Menu.Item
+                      key="delete"
+                      disabled={!deleteAuth}
+                      className={`text-danger ${deleteAuth ? '' : 'disabled'}`}
+                    >
+                      {deleteText || i18n.t('delete')}
+                    </Menu.Item>
                   </Menu>
                 }
                 placement="bottomLeft"
