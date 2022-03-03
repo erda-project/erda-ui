@@ -1673,7 +1673,7 @@
     "reference certificate": "引用证书",
     "refresh every {time}, click to refresh now": "每{time}刷新，点击立即刷新",
     "registration center": "注册中心",
-    "relate to test case": "关联测试用例",
+    "related test case": "关联的测试用例",
     "related issue type": "关联事项类型",
     "related mr": "关联的合并请求",
     "related task": "关联任务",

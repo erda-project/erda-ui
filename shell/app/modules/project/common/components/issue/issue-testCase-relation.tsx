@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table } from 'antd';
+import { Button, Table } from 'antd';
 import { Link } from 'react-router-dom';
 import routeInfoStore from 'core/stores/route';
 import moment from 'moment';
@@ -20,6 +20,10 @@ import { get } from 'lodash';
 import { caseStateMap } from 'project/pages/plan-detail/status-toggle';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
+import { iconMap } from 'app/common/components/erda-icon';
+import { ErdaIcon } from 'common';
+import { WithAuth } from 'user/common';
+import { RelationType } from './issue-relation';
 
 interface IProps {
   list: ISSUE.IRelativeTestCase[];
@@ -63,5 +67,13 @@ export const IssueTestCaseRelation = ({ list }: IProps) => {
       render: (v: string) => moment(v).format('YYYY-MM-DD HH:mm:ss'),
     },
   ];
-  return <Table columns={columns} dataSource={list} rowKey="id" pagination={false} scroll={{ x: '100%' }} />;
+  return (
+    <div>
+      <div className="flex-h-center text-default-6 mb-2">
+        <ErdaIcon className="mr-1" type="guanlianqita" />
+        <span>{i18n.t('dop:related test case')}</span>
+      </div>
+      <Table columns={columns} dataSource={list} rowKey="id" pagination={false} scroll={{ x: '100%' }} />
+    </div>
+  );
 };
