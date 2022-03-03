@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Tabs, message, Spin, Dropdown, Menu, Popconfirm } from 'antd';
+import { Button, message, Spin, Dropdown, Menu, Popconfirm } from 'antd';
 import { IssueIcon, getIssueTypeOption } from 'project/common/components/issue/issue-icon';
 import { map, has, cloneDeep, includes, isEmpty, merge, find } from 'lodash';
-import { EditField, ErdaIcon, Icon as CustomIcon, IF, RadioTabs } from 'common';
+import { EditField, ErdaIcon, Icon as CustomIcon, IF } from 'common';
 import {
   ISSUE_TYPE,
   ISSUE_TYPE_MAP,
@@ -44,7 +44,7 @@ import issueFieldStore from 'org/stores/issue-field';
 import orgStore from 'app/org-home/stores/org';
 import { templateMap } from 'project/common/issue-config';
 import IssueMetaFields from './meta-fields';
-import { IssueRelation, RelationType } from '../issue-relation';
+import { FullIssueRelation } from '../issue-relation';
 
 export const ColorIcon = ({ icon }: { icon: string }) => {
   return (
@@ -755,33 +755,12 @@ export const EditIssueDrawer = (props: IProps) => {
         />
       </div>
       <If condition={isEditMode}>
-        <div className="space-y-4">
-          <If condition={issueType === ISSUE_TYPE.REQUIREMENT}>
-            <IssueRelation
-              type={RelationType.Inclusion}
-              issueDetail={issueDetail}
-              iterationID={iterationID}
-              // activeAdd={activeAdd}
-              onRelationChange={() => {
-                setHasEdited(true);
-              }}
-            />
-          </If>
-          <IssueRelation
-            type={RelationType.RelatedTo}
+        <div className="space-y-4 pr-4">
+          <FullIssueRelation
+            issueType={issueType}
             issueDetail={issueDetail}
             iterationID={iterationID}
-            onRelationChange={() => {
-              setHasEdited(true);
-            }}
-          />
-          <IssueRelation
-            type={RelationType.RelatedBy}
-            issueDetail={issueDetail}
-            iterationID={iterationID}
-            onRelationChange={() => {
-              setHasEdited(true);
-            }}
+            setHasEdited={setHasEdited}
           />
 
           <If condition={issueType === ISSUE_TYPE.BUG}>

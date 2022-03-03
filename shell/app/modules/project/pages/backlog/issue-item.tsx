@@ -192,7 +192,7 @@ export const IssueForm = (props: IIssueFormProps) => {
   const orgID = orgStore.useStore((s) => s.currentOrg.id);
   const loginUser = userStore.getState((s) => s.loginUser);
 
-  const [formData, updater, update] = useUpdate({
+  const [formData, updater] = useUpdate({
     title: '',
     type: defaultIssueType || ISSUE_OPTION.REQUIREMENT,
     assignee: loginUser.id,
@@ -228,13 +228,13 @@ export const IssueForm = (props: IIssueFormProps) => {
             return { ...item };
           });
           addFieldsToIssue({ property, issueID: newIssueID, orgID, projectID: +projectId });
-          if (continueAdd) {
-            updater.title('');
-          } else {
-            onCancel();
-          }
         }
       });
+      if (continueAdd) {
+        updater.title('');
+      } else {
+        onCancel();
+      }
     });
   };
 

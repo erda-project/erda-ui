@@ -27,6 +27,8 @@ import { batchCreateCommentStream } from 'project/services/issue';
 import userStore from 'user/stores';
 
 import './add-mr-relation.scss';
+import issueStore from 'project/stores/issues';
+import { goTo } from 'app/common/utils';
 
 interface IProps {
   editAuth: boolean;
@@ -36,6 +38,7 @@ interface IProps {
 
 const initState = {
   visible: false,
+  relateMrList: [],
   filterData: {
     query: undefined,
     appID: undefined,
@@ -48,9 +51,13 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
   const { name: projectName } = projectStore.getState((s) => s.info);
   const [appList, setAppList] = React.useState([] as IApplication[]);
   const loginUser = userStore.useStore((s) => s.loginUser);
+  const issueStreamList: ISSUE.IssueStream[] = issueStore.useStore(
+    (s) => s[`${issueDetail?.type.toLowerCase()}StreamList`],
+  );
 
-  const [{ visible, filterData }, updater] = useUpdate<{
+  const [{ visible, relateMrList, filterData }, updater] = useUpdate<{
     visible: boolean;
+    relateMrList: ISSUE.IssueStream[];
     filterData: {
       query?: string;
       appID?: number;
@@ -60,6 +67,9 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
   }>(initState);
   const [mrListPaging, loadingMr] = getAppMR.useState();
   const mrList = mrListPaging?.list || [];
+  React.useEffect(() => {
+    updater.relateMrList(issueStreamList?.filter((item) => item.streamType === 'RelateMR'));
+  }, [issueStreamList, updater]);
 
   React.useEffect(() => {
     const { query, appID, authorId, state } = filterData;
@@ -215,7 +225,7 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
   );
 
   return (
-    <div className="issue-comment-box flex justify-between items-center mt-3">
+    <div className="mt-3">
       <div className="flex-h-center text-default-6 mb-2">
         <ErdaIcon className="mr-1" type="hebing" />
         <span>{i18n.t('dop:related mr')}</span>
@@ -230,6 +240,25 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
           </WithAuth>
         </Dropdown>
       </div>
+      {relateMrList?.map((stream) => {
+        return (
+          <div
+            className={'backlog-issue-item px-2 hover:bg-default-04 cursor-pointer'}
+            // onClick={() => goTo(goTo.pages.appMr, { projectId, appId: stream.mrInfo?.appID, mrId: stream.mrInfo?.mrID, jumpOut: true})}
+          >
+            <div className="issue-info h-full">
+              <div className="backlog-item-content mr-6">
+                <span className="mr-1">
+                  #{stream.mrInfo?.mrID}-{stream.mrInfo?.mrTitle}
+                </span>
+              </div>
+              <div className="text-sub flex items-center flex-wrap justify-end">
+                <UserInfo.RenderWithAvatar id={stream.operator} className="w-24 mr-6" />
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

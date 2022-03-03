@@ -24,7 +24,7 @@ import { transformDuration } from 'common/components/duration';
 interface Option {
   label: string;
   value: string | number;
-  icon?: string;
+  icon?: string | JSX.Element;
   children?: Option[];
 }
 

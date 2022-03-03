@@ -210,15 +210,17 @@ declare namespace ISSUE {
 
   interface ICreateRelationBody {
     id: number;
-    relatedIssues: number;
+    relatedIssues: number[];
     projectId: number;
     comment?: string;
     type: string;
   }
 
   interface RelationIssue {
-    RelatingIssues?: ISSUE.IssueType[];
-    RelatedIssues?: ISSUE.IssueType[];
+    beIncluded?: ISSUE.IssueType[];
+    include?: ISSUE.IssueType[];
+    relatedTo?: ISSUE.IssueType[];
+    relatedBy?: ISSUE.IssueType[];
   }
 
   interface IssueMilestoneEpic {

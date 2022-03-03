@@ -52,6 +52,13 @@ export const IterationItem = (props: IProps) => {
     pageNo: 1,
   });
 
+  const getIssues = () => {
+    updater.loading(true);
+    getIterationsIssues({ iterationId: data.id, pageNo }).finally(() => {
+      updater.loading(false);
+    });
+  };
+
   React.useEffect(() => {
     if (isOpen) {
       getIssues();
@@ -75,13 +82,6 @@ export const IterationItem = (props: IProps) => {
       isOver: monitor.isOver(),
     }),
   });
-
-  const getIssues = () => {
-    updater.loading(true);
-    getIterationsIssues({ iterationId: data.id, pageNo }).finally(() => {
-      updater.loading(false);
-    });
-  };
 
   const onClickIssue = (val: ISSUE.Issue) => {
     update({
