@@ -18,7 +18,7 @@ import layoutStore from 'layout/stores/layout';
 import appStore from './stores/application';
 import routeInfoStore from 'core/stores/route';
 import { appMode } from './common/config';
-import { filter } from 'lodash';
+import { filter, min } from 'lodash';
 import { HeadAppSelector } from './common/app-selector';
 import { goTo } from 'app/common/utils';
 import repoStore from './stores/repo';
@@ -125,15 +125,26 @@ export const APP_TABS = () => {
 
   const extraRepoTabs = isExternalRepo ? [] : [commit, branch, mr];
   const modeMap = {
-    [appMode.SERVICE]: [repo, ...extraRepoTabs, pipeline, deploy, apiDesign, quality, setting],
-    [appMode.PROJECT_SERVICE]: [repo, ...extraRepoTabs, pipeline, quality, setting],
-    [appMode.MOBILE]: [repo, ...extraRepoTabs, pipeline, deploy, apiDesign, quality, setting],
-    [appMode.LIBRARY]: [repo, ...extraRepoTabs, pipeline, deploy, apiDesign, quality, setting],
+    [appMode.SERVICE]: [repo, ...extraRepoTabs, apiDesign, quality, setting, pipeline, deploy],
+    [appMode.PROJECT_SERVICE]: [repo, ...extraRepoTabs, quality, setting, pipeline],
+    [appMode.MOBILE]: [repo, ...extraRepoTabs, apiDesign, quality, setting, pipeline, deploy],
+    [appMode.LIBRARY]: [repo, ...extraRepoTabs, apiDesign, quality, setting, pipeline, deploy],
     [appMode.BIGDATA]: [repo, ...extraRepoTabs, dataTask, dataModel, dataMarket, setting],
-    [appMode.ABILITY]: [deploy, quality, setting],
+    [appMode.ABILITY]: [quality, setting, { ...deploy, split: true }],
   };
 
-  const tabs = filter(modeMap[mode], (item: ITab) => item.show !== false) as ROUTE_TABS[];
+  let tabs = filter(modeMap[mode], (item: ITab) => item.show !== false) as ROUTE_TABS[];
+  const deployIndex = tabs.findIndex((item) => item.key === pipeline.key);
+  const pipelineIndex = tabs.findIndex((item) => item.key === deploy.key);
+  const splitIndex = min([deployIndex, pipelineIndex].filter((item) => item > -1));
+  if (splitIndex) {
+    tabs = tabs.map((item, idx) => {
+      if (idx === splitIndex) return { ...item, split: true };
+      if (idx === splitIndex - 1) return { ...item, className: 'mr-4' };
+      return item;
+    });
+  }
+
   const currentRoute = routeInfoStore.useStore((s) => s.currentRoute);
   React.useEffect(() => {
     if (currentRoute.mark === 'application') {
