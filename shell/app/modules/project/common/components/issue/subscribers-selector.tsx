@@ -84,7 +84,7 @@ export const SubscribersSelector = (props: IProps) => {
           </div>
         ) : (
           <div
-            className="px-3 flex items-center"
+            className="px-4 py-1 h-8 flex items-center"
             onClick={async () => {
               if (issueID) {
                 await subscribe({ id: issueID });
