@@ -112,15 +112,18 @@ const IssueRelation = (props: IProps) => {
     });
   };
 
-  const onDelete = (val: ISSUE.IssueType, beRelated = false) => {
-    const payload = beRelated
-      ? { id: val.id, relatedIssueID: issueDetail.id, type: 'connection' }
-      : { id: issueDetail.id, relatedIssueID: val.id, type: 'connection' };
+  const onDelete = (val: ISSUE.IssueType, type: RelationType) => {
+    const payload =
+      type === RelationType.Inclusion
+        ? { id: issueDetail.id, relatedIssueID: val.id, type }
+        : type === RelationType.RelatedBy
+        ? { id: val.id, relatedIssueID: issueDetail.id, type: 'connection' }
+        : { id: issueDetail.id, relatedIssueID: val.id, type: 'connection' };
     deleteIssueRelation(payload).then(() => {
       onRelationChange && onRelationChange();
     });
   };
-  const createAuth: boolean = usePerm((s) => s.project[issueType?.toLowerCase()]?.create.pass);
+  const createAuth = usePerm((s) => s.project[issueType?.toLowerCase()]?.create.pass as boolean);
   if (!issueDetail) return null;
   const iconMap = {
     [RelationType.Inclusion]: 'baohan',
@@ -195,7 +198,7 @@ const IssueRelation = (props: IProps) => {
                     jumpOut: true,
                   });
                 }}
-                onDelete={(val) => onDelete(val)}
+                onDelete={(val) => onDelete(val, RelationType.Inclusion)}
                 deleteConfirmText={(name: string) => i18n.t('dop:Are you sure to disinclude {name}', { name })}
                 deleteText={i18n.t('dop:release relationship')}
                 issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
@@ -221,8 +224,7 @@ const IssueRelation = (props: IProps) => {
                     jumpOut: true,
                   });
                 }}
-                onDelete={(val) => onDelete(val)}
-                // TODO:
+                onDelete={(val) => onDelete(val, RelationType.RelatedTo)}
                 deleteConfirmText={(name: string) =>
                   i18n.t('dop:Are you sure to release relationship with {name}', { name })
                 }
@@ -249,7 +251,7 @@ const IssueRelation = (props: IProps) => {
                     jumpOut: true,
                   });
                 }}
-                onDelete={(val) => onDelete(val, true)}
+                onDelete={(val) => onDelete(val, RelationType.RelatedBy)}
                 deleteConfirmText={(name: string) =>
                   i18n.t('dop:Are you sure to release relationship with {name}', { name })
                 }
@@ -266,9 +268,19 @@ const IssueRelation = (props: IProps) => {
   );
 };
 
-export const FullIssueRelation = ({ issueType, issueDetail, iterationID, setHasEdited }) => {
+export const FullIssueRelation = ({
+  issueType,
+  issueDetail,
+  iterationID,
+  setHasEdited,
+}: {
+  issueType: ISSUE_TYPE;
+  issueDetail: ISSUE.IssueType;
+  iterationID?: number;
+  setHasEdited: (val: boolean) => void;
+}) => {
   const data = getIssueRelation.useData();
-
+  const _iterationID = iterationID === -1 ? undefined : iterationID; // 如果当前事项是待规划的，待规划不在迭代列表里，默认“全部”时其实还是会带上 -1 作为 id，所以为-1 时就传 undefined
   React.useEffect(() => {
     issueDetail?.id &&
       getIssueRelation.fetch({
@@ -283,7 +295,7 @@ export const FullIssueRelation = ({ issueType, issueDetail, iterationID, setHasE
           type={RelationType.Inclusion}
           list={data?.include}
           issueDetail={issueDetail}
-          iterationID={iterationID}
+          iterationID={_iterationID}
           // activeAdd={activeAdd}
           onRelationChange={() => {
             setHasEdited(true);
@@ -297,7 +309,7 @@ export const FullIssueRelation = ({ issueType, issueDetail, iterationID, setHasE
         type={RelationType.RelatedTo}
         list={data?.relatedTo}
         issueDetail={issueDetail}
-        iterationID={iterationID}
+        iterationID={_iterationID}
         onRelationChange={() => {
           setHasEdited(true);
           getIssueRelation.fetch({
@@ -309,7 +321,7 @@ export const FullIssueRelation = ({ issueType, issueDetail, iterationID, setHasE
         type={RelationType.RelatedBy}
         list={data?.relatedBy}
         issueDetail={issueDetail}
-        iterationID={iterationID}
+        iterationID={_iterationID}
         onRelationChange={() => {
           setHasEdited(true);
           getIssueRelation.fetch({
