@@ -423,26 +423,38 @@ function getProjectRouter(): RouteConfigItem[] {
               path: 'project',
               tabs: RELEASE_TABS,
               ignoreTabQuery: true,
-              getComp: (cb) => cb(import('project/pages/release/project')),
-              layout: { noWrapper: true },
+              mark: 'projectRelease',
+              routes: [
+                {
+                  layout: { noWrapper: true },
+                  getComp: (cb) => cb(import('project/pages/release/project')),
+                },
+                {
+                  path: ':releaseID',
+                  pageName: `${i18n.t('Artifact')}${i18n.t('detail')}`,
+                  backToUp: 'projectRelease',
+                  getComp: (cb) => cb(import('project/pages/release/components/project-detail')),
+                },
+              ],
             },
             {
               path: 'application',
               tabs: RELEASE_TABS,
+              mark: 'applicationRelease',
               ignoreTabQuery: true,
-              getComp: (cb) => cb(import('project/pages/release/application')),
-              layout: { noWrapper: true },
-            },
-            {
-              path: 'project/:releaseID',
-              pageName: `${i18n.t('Artifact')}${i18n.t('detail')}`,
-              getComp: (cb) => cb(import('project/pages/release/components/project-detail')),
-            },
-            {
-              path: 'application/:releaseID',
-              pageName: `${i18n.t('Artifact')}${i18n.t('detail')}`,
-              getComp: (cb) => cb(import('project/pages/release/components/application-detail')),
-              layout: { fullHeight: true },
+              routes: [
+                {
+                  layout: { noWrapper: true },
+                  getComp: (cb) => cb(import('project/pages/release/application')),
+                },
+                {
+                  path: ':releaseID',
+                  pageName: `${i18n.t('Artifact')}${i18n.t('detail')}`,
+                  backToUp: 'applicationRelease',
+                  getComp: (cb) => cb(import('project/pages/release/components/application-detail')),
+                  layout: { fullHeight: true },
+                },
+              ],
             },
             {
               path: 'createRelease/:type',
