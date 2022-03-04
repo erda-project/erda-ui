@@ -17,6 +17,7 @@ import i18n from 'i18n';
 import { ErdaIcon, RenderFormItem, ErdaAlert } from 'common';
 import routeInfoStore from 'core/stores/route';
 import { getFileTree, createPipeline, getAppList, checkName, checkSource } from 'project/services/pipeline';
+import { decode } from 'js-base64';
 
 import './form.scss';
 
@@ -143,7 +144,7 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
   const submit = () => {
     form.validateFields().then(async (value) => {
       const node = tree.find((item) => item.id === value.tree) || ({} as TreeNode);
-      const path = atob(decodeURI(node.pId));
+      const path = decode(node.pId);
       const appId = path.split('/')[1];
       const branch = path.split('tree/')[1].split('/.dice')[0].split('/.erda')[0];
       const ymlPath = (path.split(branch)[1] || '').substr(1);
@@ -188,7 +189,7 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
   const sourceCheck = async (value: string) => {
     const node = tree.find((item) => item.id === value);
     if (node?.isLeaf) {
-      const path = atob(decodeURI(node.pId));
+      const path = decode(node.pId);
       const appID = path.split('/')[1];
       const ref = path.split('tree/')[1].split('/.dice')[0].split('/.erda')[0];
       const payload = {
