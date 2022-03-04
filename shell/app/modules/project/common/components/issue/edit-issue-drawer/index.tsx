@@ -32,7 +32,7 @@ import { IssueDrawer } from 'project/common/components/issue/issue-drawer';
 import { IssueCommentBox } from 'project/common/components/issue/comment-box';
 import { AddMrRelation } from 'project/common/components/issue/add-mr-relation';
 import { IssueActivities } from 'project/common/components/issue/issue-activities';
-import { updateSearch } from 'common/utils/query-string';
+import { mergeSearch, updateSearch } from 'common/utils/query-string';
 import iterationStore from 'app/modules/project/stores/iteration';
 import labelStore from 'project/stores/label';
 import userStore from 'app/user/stores';
@@ -713,10 +713,19 @@ export const EditIssueDrawer = (props: IProps) => {
         {relationData?.beIncluded?.[0] && (
           <>
             <ErdaIcon className="mx-2 text-sub" type="right" size="16px" />
-            <div className="inline-flex items-center bg-default-06 rounded-sm px-2">
+            <a
+              href={`${location.href.split('?')[0]}?${mergeSearch(
+                { id: relationData.beIncluded[0].id, issueType: relationData.beIncluded[0].type },
+                true,
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center bg-default-06 rounded-sm px-2 hover:text-purple-deep overflow-hidden cursor-pointer"
+              style={{ maxWidth: '50%' }}
+            >
               <ErdaIcon className="mr-1" type="xuqiu" size="20px" />
-              {relationData?.beIncluded?.[0].title}
-            </div>
+              <span className="flex-1 truncate">{relationData?.beIncluded?.[0].title}</span>
+            </a>
           </>
         )}
       </div>
