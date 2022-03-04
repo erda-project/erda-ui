@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { useMount, useUpdateEffect } from 'react-use';
-import { isEmpty, get, set, isEqual, forEach, has } from 'lodash';
+import { isEmpty, get, set, isEqual, forEach } from 'lodash';
 import { produce } from 'immer';
 import { Spin } from 'antd';
 import { notify } from 'common/utils';
@@ -148,15 +148,18 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
 
   React.useEffect(() => {
     pageConfigRef.current = pageConfig;
-    if (pageConfig?.protocol?.options?.syncIntervalSecond) {
+    const curGlobalOptions = pageConfig?.protocol?.options;
+    // handle syncIntervalSecond
+    if (curGlobalOptions?.syncIntervalSecond) {
       timerRef.current = setInterval(() => {
         execOperation('', {
           key: globalOperation.__Sync__,
           async: true,
           reload: true,
         });
-      }, pageConfig?.protocol?.options?.syncIntervalSecond * 1000);
+      }, curGlobalOptions.syncIntervalSecond * 1000);
     }
+
     return () => {
       clearInterval(timerRef.current);
     };

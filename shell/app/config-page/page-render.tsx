@@ -17,6 +17,7 @@ import { message } from 'antd';
 import { EmptyHolder } from 'common';
 import { containerMap as fullContainerMap } from './components';
 import { goTo } from 'common/utils';
+import { useMount, useUpdateEffect } from 'react-use';
 import routeInfoStore from 'core/stores/route';
 
 interface IProps extends IExtraProps {
@@ -39,7 +40,7 @@ interface IExtraProps {
 const emptyObj = {};
 const ConfigPageRender = (props: IProps) => {
   const { pageConfig, customProps, forceUpdateCustom, execOperation, changeScenario, updateState } = props;
-  const { hierarchy, components = emptyObj } = pageConfig || {};
+  const { hierarchy, components = emptyObj, options } = pageConfig || {};
   const [componentsKey, setComponentsKey] = React.useState([] as string[]);
   const routeParams = routeInfoStore.useStore((s) => s.params);
   const containerMapRef = React.useRef(null as any);
@@ -144,6 +145,7 @@ const ConfigPageRender = (props: IProps) => {
       const { op, props: customComponentProps, ...restCustomConfig } = customProps?.[cId] || {};
       const { operations: dataOp, ...restData } = configComponent.data || {};
       const enhanceProps = {
+        globalOptions: options,
         ...restCustomConfig,
         ...configComponent,
         data: restData,
@@ -202,7 +204,7 @@ const ConfigPageRender = (props: IProps) => {
 export default ConfigPageRender;
 
 // 根据配置中的container，获取到当前的所有的组件map
-const getContainerMap = (container: Obj<CONFIG_PAGE.BaseSpec>, customProps: Obj) => {
+const getContainerMap = (container: Obj<CONFIG_PAGE.BaseSpec>, customProps?: Obj) => {
   const conMap = {};
   map(container, (config, cId) => {
     if (config.type === 'Custom') {
@@ -217,16 +219,43 @@ const getContainerMap = (container: Obj<CONFIG_PAGE.BaseSpec>, customProps: Obj)
 
 const EnhanceCompProps = (
   props: Merge<
-    CONFIG_PAGE.BaseSpec,
-    { children: React.ReactElement; options: CONFIG_PAGE.CompOptions; Wrapper: React.ElementType }
+    CONFIG_PAGE.ICommonProps,
+    {
+      cId: string;
+      children: React.ReactElement;
+      options: CONFIG_PAGE.CompOptions;
+      Wrapper: React.ElementType;
+      globalOptions: CONFIG_PAGE.PageConfigGlobalOptions;
+    }
   >,
 ) => {
-  const { children, props: configProps, data: pData, Wrapper, options, ...rest } = props;
+  const { children, props: configProps, data: pData, Wrapper, options, globalOptions, ...rest } = props;
 
   const [comProps, setCompProps] = React.useState(configProps);
   const [data, setData] = React.useState(pData);
 
   const ignoreData = comProps?.requestIgnore?.includes('data');
+
+  useMount(() => {
+    handleParallelLoad();
+  });
+
+  useUpdateEffect(() => {
+    handleParallelLoad();
+  }, [globalOptions]);
+
+  const handleParallelLoad = () => {
+    const curCompOp = globalOptions?.parallelContinueRenders?.[props.cId];
+    const { opKey, ..._rest } = curCompOp || {};
+    const curOp = opKey ? rest.operations?.[opKey] : undefined;
+    if (curOp) {
+      // prevent render request is loading
+      setTimeout(() => {
+        rest.execOperation({ key: opKey, ...curOp, ..._rest });
+      }, 0);
+    }
+  };
+
   React.useEffect(() => {
     if (configProps !== null && configProps !== undefined) {
       setCompProps(configProps);
