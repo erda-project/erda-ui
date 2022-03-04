@@ -16,7 +16,6 @@ import { Popover, Avatar, PopoverProps } from 'antd';
 import { getAvatarChars, insertWhen, ossImg } from 'app/common/utils';
 import { erdaEnv, UC_USER_SETTINGS } from 'app/common/constants';
 import { ErdaIcon } from 'common';
-import { useMount } from 'react-use';
 import i18n from 'i18n';
 import userStore from 'user/stores';
 import './user-menu.scss';
@@ -28,29 +27,7 @@ const UserMenu = ({
   ...rest
 }: Merge<PopoverProps, { size?: number; className?: string }>) => {
   const loginUser = userStore.useStore((s) => s.loginUser);
-  const imgRef = React.useRef<HTMLImageElement>(null);
-
   const avatar = loginUser.avatar ? ossImg(loginUser.avatar, { w: 32 }) : undefined;
-
-  const [userImg, setUserImg] = React.useState(avatar);
-
-  useMount(() => {
-    const imgLoad = (img: HTMLImageElement, timeoutCallback: () => void) => {
-      // set user img '' after 200ms
-      const timer = setTimeout(() => {
-        clearTimeout(timer);
-        if (!img.complete) {
-          img.src = '';
-          timeoutCallback();
-        }
-      }, 200);
-    };
-
-    imgRef.current &&
-      imgLoad(imgRef.current, () => {
-        setUserImg('');
-      });
-  });
 
   const operations = [
     ...insertWhen(!!loginUser.isSysAdmin, [
@@ -115,10 +92,9 @@ const UserMenu = ({
         </div>
       }
     >
-      <Avatar className="cursor-pointer" src={userImg} size={size || 28}>
+      <Avatar className="cursor-pointer" src={avatar} size={size || 28}>
         {nick}
       </Avatar>
-      <img ref={imgRef} src={avatar} className="hidden" />
     </Popover>
   );
 };

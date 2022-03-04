@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const overwriteMap = {
+  avatar: true,
   table: true,
   select: true,
   tag: true,
@@ -19,6 +20,7 @@ const overwriteMap = {
 };
 
 const overwriteCssMap = {
+  avatar: 'antd/es/avatar/style',
   table: 'antd/es/table/style',
   select: 'antd/es/select/style',
   tag: false,
@@ -40,7 +42,11 @@ module.exports = (api) => {
   // You can use isTest to determine what presets and plugins to use.
   if (isTest) {
     return {
-      presets: [['@babel/preset-env', { targets: { node: 'current' } }], '@babel/preset-react','@babel/preset-typescript'],
+      presets: [
+        ['@babel/preset-env', { targets: { node: 'current' } }],
+        '@babel/preset-react',
+        '@babel/preset-typescript',
+      ],
     };
   } else {
     return {

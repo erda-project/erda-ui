@@ -28,6 +28,7 @@ module.exports = [
       './org/pages/safety': './app/modules/org/pages/safety',
       './user/store': './app/user/stores/index.ts',
       './org-home/stores/org': './app/org-home/stores/org.tsx',
+      './antd/avatar': './app/antd-overwrite/avatar/index.tsx',
       './antd/select': './app/antd-overwrite/select/index.tsx',
       './antd/table': './app/antd-overwrite/table/index.tsx',
       './antd/tag': './app/antd-overwrite/tag/index.tsx',
