@@ -131,8 +131,16 @@ const IssueRelation = (props: IProps) => {
     <div className="issue-relation">
       <If condition={issueDetail.type !== ISSUE_TYPE.TICKET}>
         {/* <TransformToIssue issue={issue as ISSUE.Ticket} onSaveRelation={addRelation} /> */}
-        <div className="flex items-center justify-between">
-          <div className="flex-h-center text-default-6 mb-2">
+        <div className="relative flex items-center h-7 mb-2">
+          <If condition={!!list?.length}>
+            <span
+              className="absolute left-[-20px] flex h-7 rounded-sm cursor-pointer text-desc hover:text-default hover:bg-default-06"
+              onClick={() => setExpand((prev) => !prev)}
+            >
+              <ErdaIcon size={20} color={undefined} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
+            </span>
+          </If>
+          <div className="flex-h-center text-default-6">
             <ErdaIcon size={16} className="mr-1" type={iconMap[relationType]} />
             <span>{getAddTextMap(relationType, issueType)}</span>
             <span className="bg-default-06 leading-4 rounded-lg px-1 ml-1">{list?.length}</span>
@@ -160,15 +168,6 @@ const IssueRelation = (props: IProps) => {
               />
             </If>
           </div>
-          <If condition={!!list?.length}>
-            <span
-              className="flex-h-center cursor-pointer hover:text-default"
-              onClick={() => setExpand((prev) => !prev)}
-            >
-              <span className="mr-1">{expand ? i18n.t('Collapse') : i18n.t('Expand')}</span>
-              <ErdaIcon color={undefined} type={`${expand ? 'double-up' : 'double-down'}`} />
-            </span>
-          </If>
         </div>
         <If condition={activeButtonType === 'create'}>
           <AddNewIssue
@@ -180,7 +179,7 @@ const IssueRelation = (props: IProps) => {
           />
         </If>
       </If>
-      <If condition={expand}>
+      <If condition={expand && !!list?.length}>
         <If condition={relationType === RelationType.Inclusion && issueType === 'REQUIREMENT'}>
           <div className="mt-2 p-2 bg-default-02">
             {list?.map((item) => (

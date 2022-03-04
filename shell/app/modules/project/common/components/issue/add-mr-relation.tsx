@@ -38,6 +38,7 @@ interface IProps {
 
 const initState = {
   visible: false,
+  expand: true,
   relateMrList: [],
   filterData: {
     query: undefined,
@@ -55,8 +56,9 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
     (s) => s[`${issueDetail?.type.toLowerCase()}StreamList`],
   );
 
-  const [{ visible, relateMrList, filterData }, updater] = useUpdate<{
+  const [{ visible, expand, relateMrList, filterData }, updater] = useUpdate<{
     visible: boolean;
+    expand: boolean;
     relateMrList: ISSUE.IssueStream[];
     filterData: {
       query?: string;
@@ -237,7 +239,15 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
 
   return (
     <div className="mt-3">
-      <div className="flex-h-center text-default-6 mb-2">
+      <div className="relative flex-h-center text-default-6 mb-2">
+        <If condition={!!relateMrList?.length}>
+          <span
+            className="absolute left-[-20px] flex h-7 rounded-sm cursor-pointer text-desc hover:text-default hover:bg-default-06"
+            onClick={() => updater.expand((prev) => !prev)}
+          >
+            <ErdaIcon size={20} color={undefined} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
+          </span>
+        </If>
         <ErdaIcon size={16} className="mr-1" type="hebing" />
         <span>{i18n.t('dop:related mr')}</span>
         <span className="w-px h-3 bg-default-1 mx-4" />
@@ -251,33 +261,35 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
           </WithAuth>
         </Dropdown>
       </div>
-      {relateMrList?.map((stream) => {
-        return (
-          <div
-            key={stream.id}
-            className={'backlog-issue-item px-2 hover:bg-default-04 cursor-pointer'}
-            onClick={() =>
-              goTo(goTo.pages.appMr, {
-                projectId,
-                appId: stream.mrInfo?.appID,
-                mrId: stream.mrInfo?.mrID,
-                jumpOut: true,
-              })
-            }
-          >
-            <div className="issue-info h-full">
-              <div className="backlog-item-content mr-6">
-                <span className="mr-1">
-                  #{stream.mrInfo?.mrID}-{stream.mrInfo?.mrTitle}
-                </span>
-              </div>
-              <div className="text-sub flex items-center flex-wrap justify-end">
-                <UserInfo.RenderWithAvatar id={stream.operator} className="w-24 mr-6" />
+      <If condition={expand}>
+        {relateMrList?.map((stream) => {
+          return (
+            <div
+              key={stream.id}
+              className={'backlog-issue-item px-2 hover:bg-default-04 cursor-pointer'}
+              onClick={() =>
+                goTo(goTo.pages.appMr, {
+                  projectId,
+                  appId: stream.mrInfo?.appID,
+                  mrId: stream.mrInfo?.mrID,
+                  jumpOut: true,
+                })
+              }
+            >
+              <div className="issue-info h-full">
+                <div className="backlog-item-content mr-6">
+                  <span className="mr-1">
+                    #{stream.mrInfo?.mrID}-{stream.mrInfo?.mrTitle}
+                  </span>
+                </div>
+                <div className="text-sub flex items-center flex-wrap justify-end">
+                  <UserInfo.RenderWithAvatar id={stream.operator} className="w-24 mr-6" />
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </If>
     </div>
   );
 };

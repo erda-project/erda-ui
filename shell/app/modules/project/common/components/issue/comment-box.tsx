@@ -86,7 +86,7 @@ export const IssueCommentBox = (props: IProps) => {
     </div>
   ) : (
     <WithAuth pass={editAuth}>
-      <div className="absolute bottom-0 w-full flex px-4 py-3" style={{ background: '#f7f7f7' }}>
+      <div className="absolute bottom-0 w-full flex px-6 py-3" style={{ background: '#f7f7f7' }}>
         <Input.TextArea
           value={stateMap.content}
           onChange={(e) => updater.content(e.target.value)}

@@ -120,12 +120,12 @@ export const IssueActivities = (props: IProps) => {
     <Spin spinning={loading}>
       <div className="flex flex-col overflow-auto pt-4 pb-14">
         <RadioTabs
-          className={`px-4 pb-2 ${y > 2 ? 'shadow-card' : ''}`}
+          className={`px-6 pb-2 ${y > 2 ? 'shadow-card' : ''}`}
           value={tab}
           options={tabs}
           onChange={(k) => setTab(k)}
         />
-        <div className={`overflow-auto px-4 `} ref={scrollRef}>
+        <div className={`overflow-auto px-6 `} ref={scrollRef}>
           <Holder when={!issueStreamList.length && !loading}>
             <div className={tab === tabs[0].value ? '' : 'hidden'}>{commentsRender()}</div>
             <div className={tab === tabs[1].value ? '' : 'hidden'}>{activityListRender(activityList)}</div>
