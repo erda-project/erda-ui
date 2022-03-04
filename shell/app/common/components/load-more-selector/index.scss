@@ -72,22 +72,28 @@
 }
 
 .load-more-selector-dropdown {
-  padding-bottom: 0;
   @extend %shallow-shadow;
 
   .load-more-dropdown-menu {
+    .ant-dropdown-menu-item-divider {
+      background-color: $color-white-3;
+    }
     .search {
       padding: 0 4px;
       margin-top: 5px;
-
+      border-color: transparent !important;
+      background-color: rgba($white, 0.08) !important;
       .ant-input {
+        color: $white;
         background-color: transparent !important;
+        &::placeholder {
+          color: rgba($white, 0.3);
+        }
       }
     }
-
     &.ant-dropdown-menu {
-      padding-bottom: 0;
-      color: $color-default;
+      background-color: $color-default;
+      color: $white;
       height: 100%;
     }
 
@@ -106,7 +112,6 @@
     }
 
     .options {
-      margin-top: -4px;
       padding: 0;
     }
   }
@@ -115,14 +120,19 @@
 .load-more-selector-container {
   .ant-dropdown-menu-submenu-title,
   .ant-spin-container {
-    color: $color-default !important;
+    color: $white !important;
   }
-
+  .ant-menu {
+    background-color: $color-default;
+    color: $white;
+  }
   .content {
     display: flex;
     min-height: 150px;
     max-height: 240px;
-    background-color: $color-default-02;
+    margin-top: 12px;
+    border: 1px solid $color-white-3;
+    border-radius: $radius;
 
     &.normal {
       border: unset;
@@ -132,35 +142,13 @@
       overflow: hidden;
       overflow-y: auto;
       text-overflow: ellipsis;
-      margin: 4px 0;
+      border-right: 1px solid $color-white-3;
 
       .menu-item {
         height: 36px;
         margin-top: 0;
         margin-bottom: 0;
-        background-color: $color-default-04 !important;
-
-        &.ant-menu-item:active {
-          background-color: $color-default-04 !important;
-        }
-
-        &.ant-menu-item-selected {
-          background-color: $white !important;
-          position: relative;
-          color: $color-purple-600;
-
-          &:before {
-            display: block;
-            position: absolute;
-            content: '';
-            width: 3px;
-            height: 100%;
-            background-color: $color-purple-600;
-            top: 0;
-            bottom: 0;
-            right: 0;
-          }
-        }
+        color: $white !important;
       }
 
       .ant-empty-image {
@@ -177,8 +165,6 @@
       flex: 1;
       flex-direction: column;
       overflow: auto;
-      background-color: $white;
-      border-left: 1px solid $color-border;
 
       .ant-empty-image {
         margin-top: 16px;
@@ -190,6 +176,7 @@
         // justify-content: space-between;
         margin: 0 8px;
         padding: 9px 10px;
+        color: $color-white-6;
 
         .ant-checkbox {
           top: 0;
@@ -197,8 +184,8 @@
 
         &:hover,
         &.checked {
-          color: $color-default;
-          background-color: $color-default-04;
+          color: $white;
+          background-color: rgba($white, 0.08);
         }
       }
     }
