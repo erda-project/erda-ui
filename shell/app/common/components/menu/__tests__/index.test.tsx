@@ -11,41 +11,36 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Menu } from 'common';
 import React from 'react';
-import { mount } from 'enzyme';
+import { fireEvent, render, waitFor } from '@testing-library/react';
+import { Menu } from 'common';
 import * as utils from 'common/utils/go-to';
-
-const menus = [
-  { key: 'create', name: 'CREATE' },
-  { key: 'delete', name: 'DELETE' },
-  { key: 'update', name: 'UPDATE' },
-  { key: 'query', name: 'QUERY' },
-];
 
 describe('Menu', () => {
   it('Menu should render empty', () => {
-    const wrapper = mount(<Menu activeKey={'activeKey'} />);
-    expect(wrapper.find('PureMenu')).toBeEmptyRender();
+    const result = render(<Menu activeKey={'activeKey'} />);
+    expect(result.container.firstChild).toBeNull();
   });
-  it('should ', async () => {
+  it('should work well', async () => {
+    const menus = [
+      { key: 'create', name: 'CREATE' },
+      { key: 'delete', name: 'DELETE' },
+      { key: 'update', name: 'UPDATE' },
+      { key: 'query', name: 'QUERY' },
+    ];
     const goToSpy = jest.spyOn(utils, 'goTo').mockImplementation();
     const beforeTabChangeFn = jest.fn().mockResolvedValue(true);
-    const wrapper = mount(
+    const result = render(
       <Menu activeKey={'delete'} menus={menus} beforeTabChange={beforeTabChangeFn} ignoreTabQuery />,
     );
-    expect(wrapper.find('.tab-menu-item')).toHaveLength(menus.length);
-    await wrapper.find('.tab-menu-item').at(1).simulate('click');
+    expect(result.container).isExit('.tab-menu-item', menus.length);
+    fireEvent.click(result.getByText(menus[1].name));
     expect(goToSpy).not.toHaveBeenCalled();
-    await wrapper.find('.tab-menu-item').at(0).simulate('click');
+    fireEvent.click(result.getByText(menus[0].name));
+    await waitFor(() => expect(beforeTabChangeFn).toHaveBeenCalled());
     expect(goToSpy).toHaveBeenLastCalledWith('/erda/dop/apps/create');
-    wrapper.setProps({
-      beforeTabChange: undefined,
-      ignoreTabQuery: undefined,
-      keepTabQuery: 'id',
-    });
-    wrapper.find('.tab-menu-item').at(0).simulate('click');
+    result.rerender(<Menu activeKey={'delete'} menus={menus} keepTabQuery={['id']} />);
+    fireEvent.click(result.getByText(menus[0].name));
     expect(goToSpy).toHaveBeenLastCalledWith('/erda/dop/apps/create?id=1');
-    goToSpy.mockReset();
   });
 });

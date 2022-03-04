@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MembersTable MembersTable should work well 1`] = `
-<body
-  lang="en"
->
+<body>
   <script />
   <div>
     <div

@@ -17,7 +17,7 @@ import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 import { debounce, map, max } from 'lodash';
 import { useMount, useUpdateEffect } from 'react-use';
-import './index.scss';
+import './tiled-filter.scss';
 
 export interface IOption {
   value: string;

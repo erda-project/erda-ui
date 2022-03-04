@@ -47,6 +47,27 @@ module.exports = (api) => {
         '@babel/preset-react',
         '@babel/preset-typescript',
       ],
+      plugins: [
+        [
+          'import',
+          {
+            libraryName: 'common',
+            customName(name, file) {
+              return specialNameComponents[name] || `common/components/${name}`;
+            },
+            style: false,
+          },
+          'common',
+        ],
+        '@babel/transform-runtime',
+        [
+          'babel-plugin-tsconfig-paths',
+          {
+            rootDir: __dirname,
+            tsconfig: './tsconfig-jest.json',
+          },
+        ],
+      ],
     };
   } else {
     return {

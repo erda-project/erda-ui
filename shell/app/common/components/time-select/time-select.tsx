@@ -31,7 +31,7 @@ import {
   relativeTimeRange,
   transformRange,
   translateAutoRefreshDuration,
-} from './common';
+} from './utils';
 import { ErdaIcon } from 'common';
 
 type IRefreshStrategy = 'off' | IRefreshDuration;
