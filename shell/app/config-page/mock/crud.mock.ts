@@ -13,6 +13,7 @@
 
 export const enhanceMock = (data: any, payload: any) => {
   console.log('------', payload);
+
   if (payload?.event?.operation === 'ssa') {
     return data;
   }
