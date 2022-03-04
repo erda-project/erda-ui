@@ -25,8 +25,10 @@ const UserMenu = ({
   size,
   className = '',
   ...rest
-}: Merge<PopoverProps, { size: number; className: string }>) => {
+}: Merge<PopoverProps, { size?: number; className?: string }>) => {
   const loginUser = userStore.useStore((s) => s.loginUser);
+  const avatar = loginUser.avatar ? ossImg(loginUser.avatar, { w: 32 }) : undefined;
+
   const operations = [
     ...insertWhen(!!loginUser.isSysAdmin, [
       {
@@ -57,10 +59,9 @@ const UserMenu = ({
     },
   ];
 
-  const avatar = loginUser.avatar ? ossImg(loginUser.avatar, { w: 32 }) : undefined;
-
   const nickOrName = loginUser.nick || loginUser.name;
   const nick = getAvatarChars(nickOrName);
+
   return (
     <Popover
       {...rest}
