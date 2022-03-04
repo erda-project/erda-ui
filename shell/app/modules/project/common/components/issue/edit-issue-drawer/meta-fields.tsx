@@ -593,7 +593,7 @@ const IssueMetaFields = React.forwardRef(
     return (
       <div className={`issue-meta-fields mt-4`}>
         {widthHolder}
-        <Row>
+        <Row gutter={16}>
           {editFieldList.map((fieldProps) => {
             return (
               <Col key={fieldProps.label} span={fieldProps.span || colSpan}>
