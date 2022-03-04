@@ -150,14 +150,12 @@ const IssueRelation = (props: IProps) => {
             <If condition={relationType !== RelationType.RelatedBy}>
               <span className="w-[1px] h-[12px] bg-default-1 mx-4" />
               <WithAuth pass={createAuth}>
-                <Button
-                  size="small"
-                  className="flex-h-center mr-2 font-medium"
+                <div
+                  className="h-7 mr-1 p-1 rounded-sm text-desc hover:text-default hover:bg-default-04 cursor-pointer"
                   onClick={() => setActiveButtonType('create')}
                 >
-                  <ErdaIcon type={'plus'} className="mr-1" />
-                  <span>{i18n.t('create')}</span>
-                </Button>
+                  <ErdaIcon type="plus" color={undefined} size={20} />
+                </div>
               </WithAuth>
               <AddIssueRelation
                 editAuth={authObj.edit.pass}
@@ -512,10 +510,12 @@ export const AddIssueRelation = ({
   return (
     <Dropdown overlay={overlay} visible={visible} trigger={['click']}>
       <WithAuth pass={editAuth}>
-        <Button size="small" className="flex-h-center font-medium" onClick={() => updater.visible(true)}>
-          <ErdaIcon type={'xuanze-43le7k0l'} className="mr-1" />
-          <span>{i18n.t('common:select')}</span>
-        </Button>
+        <div
+          className="h-7 mr-1 p-1 rounded-sm text-desc hover:text-default hover:bg-default-04 cursor-pointer"
+          onClick={() => updater.visible(true)}
+        >
+          <ErdaIcon type="xuanze-43le7k0l" color={undefined} size={20} />
+        </div>
       </WithAuth>
     </Dropdown>
   );
