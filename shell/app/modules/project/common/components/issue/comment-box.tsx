@@ -97,9 +97,9 @@ export const IssueCommentBox = (props: IProps) => {
               submit();
             }
           }}
-          className="bg-default-06 border-none"
+          className="bg-default-06"
         />
-        <div className="flex items-center absolute right-4 bottom-3 mb-0.5 mr-0.5">
+        <div className="flex items-center absolute right-6 bottom-3 mb-0.5 mr-0.5">
           <ErdaIcon
             className="text-desc hover-active"
             onClick={() => {

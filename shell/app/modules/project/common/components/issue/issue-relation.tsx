@@ -125,11 +125,6 @@ const IssueRelation = (props: IProps) => {
   };
   const createAuth = usePerm((s) => s.project[issueType?.toLowerCase()]?.create.pass as boolean);
   if (!issueDetail) return null;
-  const iconMap = {
-    [RelationType.Inclusion]: 'baohan',
-    [RelationType.RelatedTo]: 'guanlianqita',
-    [RelationType.RelatedBy]: 'beiqitaguanlian',
-  };
   return (
     <div className="issue-relation">
       <If condition={issueDetail.type !== ISSUE_TYPE.TICKET}>
@@ -143,10 +138,9 @@ const IssueRelation = (props: IProps) => {
               <ErdaIcon size={20} color={undefined} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
             </span>
           </If>
-          <div className="flex-h-center text-default-6">
-            <ErdaIcon size={16} className="mr-1" type={iconMap[relationType]} />
+          <div className="flex-h-center text-primary font-medium">
             <span>{getAddTextMap(relationType, issueType)}</span>
-            <span className="bg-default-06 leading-4 rounded-lg px-1 ml-1">{list?.length}</span>
+            <span className="bg-default-06 leading-4 rounded-lg px-1 ml-1">{list?.length || 0}</span>
             <If condition={relationType !== RelationType.RelatedBy}>
               <span className="w-[1px] h-[12px] bg-default-1 mx-4" />
               <WithAuth pass={createAuth}>

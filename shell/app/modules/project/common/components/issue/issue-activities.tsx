@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { goTo } from 'common/utils';
-import { Holder, RadioTabs } from 'common';
+import { Holder, SimpleTabs } from 'common';
 import { useLoading } from 'core/stores/loading';
 import moment from 'moment';
 import { Spin } from 'antd';
@@ -25,7 +25,6 @@ import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import UserInfo from 'common/components/user-info';
 import userStore from 'user/stores';
 import './issue-activities.scss';
-import { useScroll } from 'react-use';
 
 interface IProps {
   type: ISSUE_TYPE;
@@ -91,7 +90,7 @@ export const IssueActivities = (props: IProps) => {
           <UserInfo.RenderWithAvatar id={user.id} showName={false} />
           <div className="flex-1 ml-2 issue-activity-content">
             <div className="flex">
-              {user.nick || user.name}
+              {user.nick || user.name}&nbsp;&nbsp;
               {activity.streamType === 'RelateMR' ? (
                 <>
                   <span className="mx-2">{i18n.t('dop:add relation to MR')}</span>
@@ -113,19 +112,16 @@ export const IssueActivities = (props: IProps) => {
     });
   };
 
-  const scrollRef = React.useRef<HTMLDivElement>(null);
-  const { y } = useScroll(scrollRef);
-
   return (
     <Spin spinning={loading}>
       <div className="flex flex-col overflow-auto pt-4 pb-14">
-        <RadioTabs
-          className={`px-6 pb-2 ${y > 2 ? 'shadow-card' : ''}`}
+        <SimpleTabs
           value={tab}
-          options={tabs}
-          onChange={(k) => setTab(k)}
+          className="px-6 pb-2"
+          tabs={tabs.map((item) => ({ key: item.value, text: item.label }))}
+          onSelect={setTab}
         />
-        <div className={`overflow-auto px-6 `} ref={scrollRef}>
+        <div className="overflow-auto px-6">
           <Holder when={!issueStreamList.length && !loading}>
             <div className={tab === tabs[0].value ? '' : 'hidden'}>{commentsRender()}</div>
             <div className={tab === tabs[1].value ? '' : 'hidden'}>{activityListRender(activityList)}</div>
