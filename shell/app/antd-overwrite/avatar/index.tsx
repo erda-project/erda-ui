@@ -13,7 +13,7 @@
 
 import React from 'react';
 import Avatar, { AvatarProps } from 'antd/es/avatar';
-import { useMount } from 'react-use';
+import { useEffectOnce } from 'react-use';
 
 interface Props extends AvatarProps {
   timeout?: number;
@@ -24,10 +24,11 @@ const WapperAvatar = (props: Props) => {
   const ref = React.useRef<HTMLDivElement>(null);
   const [img, setImg] = React.useState(src);
 
-  useMount(() => {
+  useEffectOnce(() => {
+    let timer: NodeJS.Timeout;
     const imgLoad = (_img: HTMLImageElement, timeoutCallback: () => void) => {
       // set user img empty after timeout
-      const timer = setTimeout(() => {
+      timer = setTimeout(() => {
         clearTimeout(timer);
         if (!_img.complete) {
           timeoutCallback();
@@ -40,6 +41,9 @@ const WapperAvatar = (props: Props) => {
       const imgEle = ref.current.querySelector('img');
       imgEle && imgLoad(imgEle, () => setImg(''));
     }
+    return () => {
+      clearTimeout(timer);
+    };
   });
 
   return (
