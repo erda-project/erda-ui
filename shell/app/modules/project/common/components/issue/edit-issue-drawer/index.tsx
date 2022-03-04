@@ -719,15 +719,15 @@ export const EditIssueDrawer = (props: IProps) => {
           </>
         )}
       </div>
-      <div className="mt-4">
+      <div className="mt-1">
         <EditField
           name="title"
           onChangeCb={setFieldCb}
           data={formData}
           disabled={!editAuth}
-          className="flex-1 ml-[-4px] mr-[-4px]"
+          className="flex-1 ml-[-8px] mr-[-8px]"
           itemProps={{
-            className: 'text-xl text-normal px-1',
+            className: 'text-xl text-normal px-2',
             maxLength: 255,
             autoFocus: true,
             placeholder: specialProps.titlePlaceHolder,

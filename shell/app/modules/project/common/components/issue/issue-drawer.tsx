@@ -264,22 +264,24 @@ export const IssueDrawer = (props: IProps) => {
             </div>
           </If>
           <div
-            className="flex-1 flex pl-4 overflow-y-auto"
+            className="flex-1 flex pl-2 overflow-x-hidden overflow-y-auto"
             style={footer !== IssueDrawer.Empty ? { paddingBottom: '60px' } : {}}
           >
-            <div className="flex-1 overflow-y-auto" ref={mainEle}>
+            <div className="flex-1 overflow-x-hidden overflow-y-auto" ref={mainEle}>
               <If condition={formField !== IssueDrawer.Empty}>
-                <div className="mb-4">{formField}</div>
+                <div className="mb-4 pl-2">{formField}</div>
               </If>
               <If condition={detailField !== IssueDrawer.Empty}>
-                <div className="mb-4">{detailField}</div>
+                <div className="mb-4 pl-2">{detailField}</div>
               </If>
               <If condition={listField !== IssueDrawer.Empty}>
-                <div className="mb-4">{listField}</div>
+                <div className="mb-4 pl-2">{listField}</div>
               </If>
             </div>
             <If condition={commentField !== IssueDrawer.Empty}>
-              <div className="w-[390px] overflow-y-auto issue-drawer-right bg-default-02">{commentField}</div>
+              <div className="w-[390px] overflow-x-hidden overflow-y-auto issue-drawer-right bg-default-02">
+                {commentField}
+              </div>
             </If>
           </div>
           <If condition={footer !== IssueDrawer.Empty}>
