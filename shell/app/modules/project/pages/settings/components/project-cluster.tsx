@@ -118,13 +118,14 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
   const clusterList = clusterStore.useStore((s) => s.list);
   const { getClusterList } = clusterStore.effects;
   const info = projectStore.useStore((s) => s.info);
-  const { updateProject } = projectStore.effects;
+  const { updateProject, getProjectInfo } = projectStore.effects;
   const [loading] = useLoading(clusterStore, ['getClusterList']);
+  const [projectInfoLoading] = useLoading(projectStore, ['getProjectInfo']);
 
   React.useEffect(() => {
     hasEditAuth && getClusterList();
   }, [getClusterList, hasEditAuth]);
-  const { resourceConfig } = info;
+  const { resourceConfig, id } = info;
 
   const options: object[] = [];
   clusterList.forEach((item) => {
@@ -149,10 +150,13 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
 
   const readonlyForm = (
     <ErdaTable
-      loading={loading}
+      loading={loading || projectInfoLoading}
       rowKey="workspace"
       dataSource={tableData}
-      onChange={() => getClusterList()}
+      onChange={() => {
+        getProjectInfo(id);
+        hasEditAuth && getClusterList();
+      }}
       columns={[
         {
           key: 'workspace',
