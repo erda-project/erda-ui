@@ -114,17 +114,12 @@ export const IssueIcon = ({ type, iconMap = 'TYPE', withName = false, ...rest }:
   return withName ? iconLabel : React.cloneElement(icon || <></>, rest);
 };
 
-export const getIssueTypeOption = (currentIssueType?: string) =>
+export const getIssueTypeOption = () =>
   map(ISSUE_OPTION, (item) => {
     const iconObj = ISSUE_TYPE_MAP[item];
     const { value } = iconObj;
     return (
-      <Option
-        key={value}
-        value={value}
-        data-icon={<div className="flex items-center h-full">{iconObj.iconLabel}</div>}
-        disabled={value === currentIssueType}
-      >
+      <Option key={value} value={value} data-icon={<div className="flex items-center h-full">{iconObj.iconLabel}</div>}>
         <IssueIcon type={item} withName />
       </Option>
     );

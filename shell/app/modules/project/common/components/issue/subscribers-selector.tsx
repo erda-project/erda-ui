@@ -67,7 +67,7 @@ export const SubscribersSelector = (props: IProps) => {
       <Menu.Item>
         {isFollowed ? (
           <div
-            className="px-3 py-1 flex items-center"
+            className="px-4 py-1 h-8 flex items-center"
             onClick={async () => {
               if (issueID) {
                 await unsubscribe({ id: issueID });
@@ -79,7 +79,7 @@ export const SubscribersSelector = (props: IProps) => {
               }
             }}
           >
-            <ErdaIcon className="mr-1" type="weiguanzhu" size="14" />
+            <ErdaIcon className="mr-1" type="weiguanzhu" size="20" />
             {i18n.t('dop:unfollow')}
           </div>
         ) : (
@@ -94,7 +94,7 @@ export const SubscribersSelector = (props: IProps) => {
               }
             }}
           >
-            <ErdaIcon type="yiguanzhu" className="mr-1" size="14" />
+            <ErdaIcon type="yiguanzhu" className="mr-1" size="20" />
             {i18n.t('dop:follow')}
           </div>
         )}
@@ -129,13 +129,13 @@ export const SubscribersSelector = (props: IProps) => {
           }}
           resultsRender={() => (
             <span
-              className="flex items-center"
+              className="flex items-center px-4"
               onClick={(e) => {
                 e.stopPropagation();
                 memberRef.current?.show(true);
               }}
             >
-              <ErdaIcon type="plus" size="14" className="mr-1" />
+              <ErdaIcon type="plus" size="20" className="mr-1" />
               {i18n.t('dop:Add Followers')}
               <ErdaIcon type="right" size="14" className="add-follower-btn" />
             </span>
@@ -145,12 +145,12 @@ export const SubscribersSelector = (props: IProps) => {
       <Menu.Divider />
       <Menu.Item>
         <div onClick={(e) => e.stopPropagation()}>
-          <div className="followers-num px-3">
+          <div className="followers-num px-4">
             {subscribers.length !== 0
               ? i18n.t('dop:{num} members are following', { num: subscribers.length })
               : i18n.t('dop:no member is concerned about it')}
           </div>
-          <div className="followers px-3">
+          <div className="followers px-4">
             {subscribers.map((item) => {
               const user = usersMap[item] || {};
               return (

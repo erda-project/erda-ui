@@ -466,6 +466,7 @@ export const AddIssueRelation = ({
       <ErdaTable
         rowKey="id"
         hideHeader
+        className="mx-1"
         rowSelection={{
           actions: [
             {

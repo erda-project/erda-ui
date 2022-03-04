@@ -688,7 +688,7 @@ export const EditIssueDrawer = (props: IProps) => {
                 noPadding
                 data={formData}
                 itemProps={{
-                  options: getIssueTypeOption(issueType),
+                  options: getIssueTypeOption(),
                   optionLabelProp: 'data-icon',
                   dropdownMatchSelectWidth: false,
                   allowClear: false,
@@ -699,7 +699,9 @@ export const EditIssueDrawer = (props: IProps) => {
                   getPopupContainer: () => document.body,
                 }}
                 onChangeCb={(field: any) => {
-                  switchType(field.type);
+                  if (field.type !== issueType) {
+                    switchType(field.type);
+                  }
                 }}
               />
             </WithAuth>
@@ -727,7 +729,7 @@ export const EditIssueDrawer = (props: IProps) => {
           disabled={!editAuth}
           className="flex-1 ml-[-8px] mr-[-8px]"
           itemProps={{
-            className: 'text-xl text-normal px-2',
+            className: 'text-xl text-normal px-2 font-medium',
             maxLength: 255,
             autoFocus: true,
             placeholder: specialProps.titlePlaceHolder,
@@ -745,9 +747,6 @@ export const EditIssueDrawer = (props: IProps) => {
           formData={formData}
           setFieldCb={setFieldCb}
         />
-      </div>
-
-      <div className="flex flex-col h-full">
         <div className="mb-2 flex-h-center">
           <ErdaIcon size={16} type="xiangqingneirong" className="text-default-6 mr-1" />
           <span className="text-default-6">{i18n.t('detail')}</span>
@@ -768,6 +767,7 @@ export const EditIssueDrawer = (props: IProps) => {
           data={formData}
         />
       </div>
+
       <If condition={isEditMode}>
         <div className="space-y-4 pr-6">
           <FullIssueRelation

@@ -591,7 +591,7 @@ const IssueMetaFields = React.forwardRef(
     }, [width]);
 
     return (
-      <div className={`issue-meta-fields mt-8`}>
+      <div className={`issue-meta-fields mt-4`}>
         {widthHolder}
         <Row>
           {editFieldList.map((fieldProps) => {
