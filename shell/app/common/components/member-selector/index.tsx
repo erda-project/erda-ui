@@ -238,7 +238,7 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
   const selectSelf = selectSelfInOption ? (
     <a
       onClick={() => !rest.disabled && selectSelfOp()}
-      className={`${rest.disabled ? 'not-allowed' : 'cursor-pointer'}`}
+      className={`${rest.disabled ? 'not-allowed' : 'text-white cursor-pointer'}`}
     >
       {i18n.t('choose self')}
     </a>
@@ -251,7 +251,7 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
   const selectNone = selectNoneInOption ? (
     <a
       onClick={() => !rest.disabled && selectNoneOp()}
-      className={`${rest.disabled ? 'not-allowed' : 'cursor-pointer'}`}
+      className={`${rest.disabled ? 'not-allowed' : 'text-white cursor-pointer'}`}
     >
       {i18n.t('unspecified')}
     </a>
