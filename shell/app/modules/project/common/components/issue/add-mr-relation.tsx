@@ -238,7 +238,7 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
   return (
     <div className="mt-3">
       <div className="flex-h-center text-default-6 mb-2">
-        <ErdaIcon className="mr-1" type="hebing" />
+        <ErdaIcon size={16} className="mr-1" type="hebing" />
         <span>{i18n.t('dop:related mr')}</span>
         <span className="w-px h-3 bg-default-1 mx-4" />
 

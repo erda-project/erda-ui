@@ -749,7 +749,7 @@ export const EditIssueDrawer = (props: IProps) => {
 
       <div className="flex flex-col h-full">
         <div className="mb-2 flex-h-center">
-          <ErdaIcon type="xiangqingneirong" className="text-default-6 mr-1" />
+          <ErdaIcon size={16} type="xiangqingneirong" className="text-default-6 mr-1" />
           <span className="text-default-6">{i18n.t('detail')}</span>
         </div>
         <EditField

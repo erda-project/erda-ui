@@ -254,10 +254,15 @@ export const IssueDrawer = (props: IProps) => {
                   ) : null}
                   {isChanged && confirmCloseTip ? (
                     <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
-                      <ErdaIcon type="close" className="ml-4 cursor-pointer text-default-4" size="20" />
+                      <ErdaIcon type="guanbi" className="ml-4 cursor-pointer text-default-4" size="20" />
                     </Popconfirm>
                   ) : (
-                    <ErdaIcon type="close" className="ml-4 cursor-pointer text-default-4" size="20" onClick={onClose} />
+                    <ErdaIcon
+                      type="guanbi"
+                      className="ml-4 cursor-pointer text-default-4"
+                      size="20"
+                      onClick={onClose}
+                    />
                   )}
                 </div>
               </div>
