@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { getBrowserInfo, getCookies, getLS, setLS, removeLS, clearLS, LSObserver } from 'common/utils';
+import { clearLS, getBrowserInfo, getCookies, getLS, LSObserver, removeLS, setLS } from 'common/utils';
 
 describe('browser', () => {
   afterEach(() => {
@@ -25,6 +25,8 @@ describe('browser', () => {
       isOpera: false,
       isSafari: false,
       version: '90.0.4430.85',
+      isMac: true,
+      isWin: false,
     });
   });
   it('getCookies', () => {

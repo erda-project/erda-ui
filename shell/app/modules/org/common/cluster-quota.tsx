@@ -12,11 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Input, Form, Row, Col, FormInstance } from 'antd';
+import { Col, Form, FormInstance, Input, Row, Select } from 'antd';
 import i18n from 'i18n';
-import { CompactSelect, Icon as CustomIcon, ErdaAlert } from 'common';
+import { ErdaAlert, Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import projectStore from 'app/modules/project/stores/project';
+import CompactSelect from 'org/common/compact-select';
 
 const { Option } = Select;
 

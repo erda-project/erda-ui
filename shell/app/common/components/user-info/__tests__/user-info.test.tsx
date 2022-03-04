@@ -15,6 +15,9 @@ import React from 'react';
 import UserInfo from '..';
 import { render } from '@testing-library/react';
 import userStore from 'core/stores/userMap';
+import '@testing-library/jest-dom';
+
+const avatar = 'https://erda.cloud/static/img/header.png';
 
 describe('user-info', () => {
   beforeAll(() => {
@@ -24,9 +27,11 @@ describe('user-info', () => {
         1: {
           name: 'name-dice',
           nick: 'nick-dice',
+          avatar,
         },
         2: {
           name: 'name-dice',
+          avatar,
         },
         3: {
           nick: 'nick-dice',
@@ -64,5 +69,13 @@ describe('user-info', () => {
   it('noData', () => {
     const wrapper = render(<UserInfo id={4} />);
     expect(wrapper.container.textContent).toEqual('4');
+  });
+  it('UserInfo.RenderWithAvatar should work well', () => {
+    const result = render(<UserInfo.RenderWithAvatar id={4} />);
+    expect(result.container).isExit('.truncate', 1);
+    result.rerender(<UserInfo.RenderWithAvatar id={2} />);
+    expect(result.getByRole('img')).toHaveAttribute('src', avatar);
+    result.rerender(<UserInfo.RenderWithAvatar id={2} showName={false} />);
+    expect(result.container).isExit('.truncate', 0);
   });
 });

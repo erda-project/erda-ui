@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Moment } from 'moment';
-import { ITimeRange } from 'common/components/time-select/common';
+import { ITimeRange } from 'common/components/time-select/utils';
 import TimeSelect, { IProps } from 'common/components/time-select/time-select';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { getTimeSpan } from 'common/utils';

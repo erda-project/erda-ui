@@ -10,13 +10,9 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
-import {
-  defaultFormat,
-  transformRange,
-  translateAutoRefreshDuration,
-  translateRelativeTime,
-} from 'common/components/time-select/utils';
+import { defaultFormat, transformRange, translateAutoRefreshDuration, translateRelativeTime } from '../utils';
 import moment from 'moment';
+import MockDate from 'mockdate';
 
 describe('time-select-common', () => {
   it('transformRange should work well', () => {
@@ -47,6 +43,7 @@ describe('time-select-common', () => {
     expect(translateAutoRefreshDuration(1, 'days')).toBe(86400000);
   });
   it('translateRelativeTime should work well', () => {
+    MockDate.set('2222-03-02 00:00:00');
     const start = moment();
     const end = moment();
     const minutes = translateRelativeTime('minutes', 10);
@@ -68,5 +65,6 @@ describe('time-select-common', () => {
     expect(currentMonth[0].isSame(start.clone().startOf('month'))).toBeTruthy();
     const defaultDate = translateRelativeTime('day');
     expect(defaultDate[0].isSame(start.clone().startOf('day'))).toBeTruthy();
+    MockDate.reset();
   });
 });

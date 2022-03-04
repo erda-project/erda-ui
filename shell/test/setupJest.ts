@@ -20,7 +20,7 @@ replaceAllInserter.shim();
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: jest.fn().mockImplementation(query => ({
+  value: jest.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -85,6 +85,9 @@ Object.defineProperty(window, 'location', {
 Object.defineProperty(navigator, 'userAgent', {
   value:
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36',
+});
+Object.defineProperty(navigator, 'platform', {
+  value: 'MacIntel',
 });
 document.body.innerHTML = '<script></script>';
 

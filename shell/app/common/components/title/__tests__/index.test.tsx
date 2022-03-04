@@ -12,19 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { SimplePanel } from 'common';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
+import Title from '..';
 
-describe('SimplePanel', () => {
-  it('should render', () => {
-    const wrapper = mount(
-      <SimplePanel style={{ height: 100 }} className="erda_panel" title="panel title">
-        <div className="panel-child">panel-child</div>
-      </SimplePanel>,
-    );
-    expect(wrapper).toHaveClassName('erda_panel');
-    expect(wrapper).toHaveStyle('height', 100);
-    expect(wrapper.find('.ec-simple-panel-title').text()).toBe('panel title');
-    expect(wrapper.find('.ec-simple-panel-body').children()).toHaveHTML('<div class="panel-child">panel-child</div>');
+describe('', () => {
+  it('should ', () => {
+    const result = render(<Title title="erda title" />);
+    expect(result.container).toMatchSnapshot();
   });
 });
