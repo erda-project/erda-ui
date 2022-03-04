@@ -38,7 +38,7 @@ interface IProps {
 
 const initState = {
   visible: false,
-  expand: true,
+  expand: false,
   relateMrList: [],
   filterData: {
     query: undefined,

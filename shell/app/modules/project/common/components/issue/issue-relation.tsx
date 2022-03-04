@@ -81,7 +81,7 @@ const IssueRelation = (props: IProps) => {
   const { list, issueDetail, iterationID, onRelationChange, type: relationType } = props;
 
   const [activeButtonType, setActiveButtonType] = React.useState('');
-  const [expand, setExpand] = React.useState(true);
+  const [expand, setExpand] = React.useState(false);
 
   const [{ projectId }, { type: routeIssueType }] = routeInfoStore.getState((s) => [s.params, s.query]);
   const issueType = issueDetail?.type || (Array.isArray(routeIssueType) ? routeIssueType[0] : routeIssueType);
