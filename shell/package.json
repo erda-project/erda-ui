@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "test": "jest",
-    "test:coverage": "jest",
+    "test:coverage": "jest --coverage",
     "test:watch": "jest --verbose --watch",
     "auto-test": "npx playwright test --config=auto_test/playwright.config.ts --project=all",
     "debug-test": "PWDEBUG=1 npx playwright test --config=auto_test/playwright.config.ts --project=all",

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip, Popconfirm } from 'antd';
+import { Popconfirm, Tooltip } from 'antd';
 import { Ellipsis, ErdaIcon, Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 import './index.scss';
@@ -23,6 +23,7 @@ interface Label {
   color?: string;
   checked?: boolean;
 }
+
 export interface IProps extends Omit<IItemProps, 'label'> {
   labels: Label[] | Label;
   maxShowCount?: number;
@@ -155,13 +156,7 @@ const Tags = ({
         >
           <ErdaIcon className={`twt-tag-ellipsis ${size}`} type="more" />
         </Tooltip>
-      ) : (
-        labels
-          .slice(maxShowCount)
-          .map((l) => (
-            <TagItem colorMap={colorMap} key={l.label} label={l} maxWidth={160} onDelete={onDelete} size={size} />
-          ))
-      )}
+      ) : null}
     </React.Fragment>
   );
 

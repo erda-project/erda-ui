@@ -19,7 +19,6 @@ module.exports = {
   moduleDirectories: ['node_modules', 'app'],
   coverageDirectory: 'coverage',
   moduleFileExtensions: ['tsx', 'ts', 'jsx', 'js', 'mjs'],
-  collectCoverage: true,
   collectCoverageFrom: [
     'app/common/**/*.{js,jsx,ts,tsx}',
     '!app/common/**/*.d.ts',
@@ -83,7 +82,5 @@ module.exports = {
     'user/stores/(,*)': '<rootDir>/app/user/stores/$1',
     'test/utils': '<rootDir>/test/utils.ts',
   },
-  transformIgnorePatterns: [
-    '!shell/app/common/components/*', // dashboardRealPath,
-  ],
+  transformIgnorePatterns: [],
 };
