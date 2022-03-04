@@ -27,7 +27,7 @@ stages:
           params:
             branch: ((gittar.branch))
             depth: 1
-            uri: https://erda.cloud/erda/dop/erda-project/erda-ui-enterprise-mirror
+            uri: https://erda.cloud/erda/dop/erda-project/erda-ui-enterprise
   - stage:
       - extract-repo-version:
           alias: ui-version
