@@ -167,7 +167,6 @@ interface IProps {
   itemProps?: any;
   data?: any;
   disabled?: boolean;
-  noPadding?: boolean;
   getComp?: any;
   suffix?: any;
   showRequiredMark?: boolean;
@@ -185,7 +184,6 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     labelStyle,
     itemProps,
     disabled = false,
-    noPadding = false,
     onChangeCb,
     data,
     icon,
@@ -343,7 +341,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
   }
 
   return (
-    <div className={`relative common-edit-field flex-h-center ${noPadding ? '' : 'pr-4'} ${className}`}>
+    <div className={`relative common-edit-field flex-h-center ${className}`}>
       <If condition={showRequiredMark}>
         <div data-required="* " className="mr-1 before:required absolute -left-2" />
       </If>

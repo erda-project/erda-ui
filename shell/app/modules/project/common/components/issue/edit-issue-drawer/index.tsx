@@ -685,7 +685,6 @@ export const EditIssueDrawer = (props: IProps) => {
               <EditField
                 name="type"
                 type="select"
-                noPadding
                 data={formData}
                 itemProps={{
                   options: getIssueTypeOption(),
