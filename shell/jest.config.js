@@ -32,9 +32,7 @@ module.exports = {
   testMatch: ['**/__tests__/**/*.test.+(tsx|ts)'],
 
   transform: {
-    mjs$: 'babel-jest', // 'common/index.ts': 'babel-jest',
-    // common$: 'babel-jest',
-    // i18n$: 'babel-jest'
+    mjs$: 'babel-jest',
   },
   globals: {
     'ts-jest': {
@@ -60,6 +58,7 @@ module.exports = {
     'app/user/stores$': '<rootDir>/app/user/stores/index.ts',
     'cmp/pages/cluster-manage/config': '<rootDir>/app/modules/cmp/pages/cluster-manage/config.tsx',
     'common/constants': '<rootDir>/app/common/constants.ts',
+    'common/use-hooks$': '<rootDir>/app/common/use-hooks.tsx',
     '(core/agent|agent$)': '<rootDir>/../core/src/agent.ts',
     'core/cube': '<rootDir>/../core/src/cube.ts',
     'core/config': '<rootDir>/../core/src/config.ts',

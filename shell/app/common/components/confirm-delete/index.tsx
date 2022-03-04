@@ -51,7 +51,6 @@ const ConfirmDelete = (props: IProps) => {
 
   const onOk = () => {
     setIsVisible(false);
-    console.log('onConfirm');
     onConfirm();
   };
 
