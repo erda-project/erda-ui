@@ -27,6 +27,7 @@ import PipelineBasic from './basic';
 import PipelineRunDetail from 'application/pages/pipeline/run-detail';
 import appStore from 'application/stores/application';
 import { getAllBranch } from 'project/services/pipeline';
+import { decode } from 'js-base64';
 
 interface IProps {
   application: { ID: number; name?: string };
@@ -112,7 +113,7 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
                 const serverData = get(operations, 'click.serverData');
                 const { pipelineID: pipelineId, inode, appName } = serverData;
                 if (inode) {
-                  let path = atob(decodeURI(inode)).split('/');
+                  const path = decode(inode).split('/');
                   path.pop();
                   const appId = path[1];
                   const branchName = path.join('/').split('tree/')[1].split('/.dice')[0].split('/.erda')[0]; // such as '1/12/tree/feature/0.17.x-treeOrder/.dice', take the 'feature/0.17.x-treeOrder' of it
