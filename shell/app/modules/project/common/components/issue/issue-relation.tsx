@@ -463,6 +463,7 @@ export const AddIssueRelation = ({
             fixed: true,
             emptyText: i18n.t('dop:all'),
             showIndex: 3,
+            disabled: relationType === RelationType.Inclusion,
             customProps: {
               mode: 'single',
             },
