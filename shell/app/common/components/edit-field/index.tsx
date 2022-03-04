@@ -46,7 +46,12 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
   const [isImagePreviewOpen] = layoutStore.useStore((s) => [s.isImagePreviewOpen]);
 
   const checkContentHeight = React.useCallback(() => {
-    if (value?.length && !isEditing && mdContentRef.current) {
+    if (
+      value?.length &&
+      !isEditing &&
+      mdContentRef.current &&
+      mdContentRef.current.getBoundingClientRect().height > 160
+    ) {
       updater.expandBtnVisible(mdContentRef.current.getBoundingClientRect().height > maxHeight);
     } else {
       updater.expandBtnVisible(false);
@@ -119,18 +124,21 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
             />
           </div>
         </div>
-        <div
-          className={`absolute left-0 right-0 bottom-2 z-10 mx-auto ${
-            isZh() ? 'w-28' : 'w-44'
-          } text-purple-deep cursor-pointer flex-all-center ${expandBtnVisible ? '' : 'hidden'}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            updater.expanded(!expanded);
-          }}
-        >
-          <ErdaIcon type={`${expanded ? 'double-up' : 'double-down'}`} />
-          <div className="ml-1">{expanded ? i18n.t('click to collapse') : i18n.t('click to view more')}</div>
-        </div>
+        <If condition={expandBtnVisible}>
+          <span
+            className={`absolute shadow-card bottom-2 z-10 h-7 px-3 rounded-full mx-auto text-blue-deep cursor-pointer flex-all-center ${
+              expandBtnVisible ? '' : 'hidden'
+            }`}
+            style={{ left: '50%', transform: 'translateX(-50%)' }}
+            onClick={(e) => {
+              e.stopPropagation();
+              updater.expanded(!expanded);
+            }}
+          >
+            <span className="mr-1">{expanded ? i18n.t('Collapse') : i18n.t('Expand')}</span>
+            <ErdaIcon type={`${expanded ? 'double-up' : 'double-down'}`} />
+          </span>
+        </If>
       </div>
     </Tooltip>
   );
@@ -323,11 +331,10 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
         <Input
           ref={compRef}
           disabled={disabled}
-          bordered={false}
           value={editValue}
           onBlur={() => onBlur()}
           {...itemProps}
-          className={`hover:bg-default-06 ${itemProps.className}`}
+          className={`bg-transparent hover:bg-default-06 focus:bg-default-06 ${itemProps.className}`}
           onChange={onInputChange}
           allowClear={false}
         />
@@ -340,9 +347,9 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
       <If condition={showRequiredMark}>
         <div data-required="* " className="mr-1 before:required absolute -left-2" />
       </If>
-      {icon ? <ErdaIcon type={icon} className="text-default-6 mr-1" size={16} /> : null}
+      {icon ? <ErdaIcon type={icon} className="text-default-4 mr-1" size={16} /> : null}
       {label && <div className={'text-default-6 w-[64px]'}>{label}</div>}
-      <div className="flex-1 flex-h-center truncate">
+      <div className="flex-1 flex-h-center">
         {Comp}
         {suffix}
       </div>

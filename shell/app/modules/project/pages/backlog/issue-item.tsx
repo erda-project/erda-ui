@@ -263,7 +263,7 @@ export const IssueForm = (props: IIssueFormProps) => {
         optionLabelProp="data-icon"
         dropdownMatchSelectWidth={false}
       >
-        {getIssueTypeOption(formData.type)}
+        {getIssueTypeOption()}
       </Select>
       <div className="absolute right-2 flex items-center space-x-2">
         <MemberSelector

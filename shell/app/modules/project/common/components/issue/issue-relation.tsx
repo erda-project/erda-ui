@@ -81,6 +81,7 @@ const IssueRelation = (props: IProps) => {
   const { list, issueDetail, iterationID, onRelationChange, type: relationType } = props;
 
   const [activeButtonType, setActiveButtonType] = React.useState('');
+  const [expand, setExpand] = React.useState(true);
 
   const [{ projectId }, { type: routeIssueType }] = routeInfoStore.getState((s) => [s.params, s.query]);
   const issueType = issueDetail?.type || (Array.isArray(routeIssueType) ? routeIssueType[0] : routeIssueType);
@@ -111,15 +112,18 @@ const IssueRelation = (props: IProps) => {
     });
   };
 
-  const onDelete = (val: ISSUE.IssueType, beRelated = false) => {
-    const payload = beRelated
-      ? { id: val.id, relatedIssueID: issueDetail.id, type: 'connection' }
-      : { id: issueDetail.id, relatedIssueID: val.id, type: 'connection' };
+  const onDelete = (val: ISSUE.IssueType, type: RelationType) => {
+    const payload =
+      type === RelationType.Inclusion
+        ? { id: issueDetail.id, relatedIssueID: val.id, type }
+        : type === RelationType.RelatedBy
+        ? { id: val.id, relatedIssueID: issueDetail.id, type: 'connection' }
+        : { id: issueDetail.id, relatedIssueID: val.id, type: 'connection' };
     deleteIssueRelation(payload).then(() => {
       onRelationChange && onRelationChange();
     });
   };
-  const createAuth: boolean = usePerm((s) => s.project[issueType?.toLowerCase()]?.create.pass);
+  const createAuth = usePerm((s) => s.project[issueType?.toLowerCase()]?.create.pass as boolean);
   if (!issueDetail) return null;
   const iconMap = {
     [RelationType.Inclusion]: 'baohan',
@@ -130,10 +134,19 @@ const IssueRelation = (props: IProps) => {
     <div className="issue-relation">
       <If condition={issueDetail.type !== ISSUE_TYPE.TICKET}>
         {/* <TransformToIssue issue={issue as ISSUE.Ticket} onSaveRelation={addRelation} /> */}
-        <div>
-          <div className="flex-h-center text-default-6 mb-2">
-            <ErdaIcon className="mr-1" type={iconMap[relationType]} />
+        <div className="relative flex items-center h-7 mb-2">
+          <If condition={!!list?.length}>
+            <span
+              className="absolute left-[-20px] flex h-7 rounded-sm cursor-pointer text-desc hover:text-default hover:bg-default-06"
+              onClick={() => setExpand((prev) => !prev)}
+            >
+              <ErdaIcon size={20} color={undefined} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
+            </span>
+          </If>
+          <div className="flex-h-center text-default-6">
+            <ErdaIcon size={16} className="mr-1" type={iconMap[relationType]} />
             <span>{getAddTextMap(relationType, issueType)}</span>
+            <span className="bg-default-06 leading-4 rounded-lg px-1 ml-1">{list?.length}</span>
             <If condition={relationType !== RelationType.RelatedBy}>
               <span className="w-[1px] h-[12px] bg-default-1 mx-4" />
               <WithAuth pass={createAuth}>
@@ -169,94 +182,105 @@ const IssueRelation = (props: IProps) => {
           />
         </If>
       </If>
-      <If condition={relationType === RelationType.Inclusion && issueType === 'REQUIREMENT'}>
-        <div className="mt-2 p-2 bg-default-02">
-          {list?.map((item) => (
-            <IssueItem
-              data={item}
-              key={item.id}
-              onClickIssue={(record) => {
-                goTo(goTo.pages.issueDetail, {
-                  projectId,
-                  issueType: record.type.toLowerCase(),
-                  issueId: record.id,
-                  iterationId: record.iterationID,
-                  jumpOut: true,
-                });
-              }}
-              onDelete={(val) => onDelete(val)}
-              deleteConfirmText={(name: string) => i18n.t('dop:Are you sure to disinclude {name}', { name })}
-              deleteText={i18n.t('dop:release relationship')}
-              issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
-              showStatus
-              undraggable
-            />
-          )) || <Empty />}
-        </div>
-      </If>
+      <If condition={expand && !!list?.length}>
+        <If condition={relationType === RelationType.Inclusion && issueType === 'REQUIREMENT'}>
+          <div className="mt-2 p-2 bg-default-02">
+            {list?.map((item) => (
+              <IssueItem
+                data={item}
+                key={item.id}
+                onClickIssue={(record) => {
+                  goTo(goTo.pages.issueDetail, {
+                    projectId,
+                    issueType: record.type.toLowerCase(),
+                    issueId: record.id,
+                    iterationId: record.iterationID,
+                    jumpOut: true,
+                  });
+                }}
+                onDelete={(val) => onDelete(val, RelationType.Inclusion)}
+                deleteConfirmText={(name: string) => i18n.t('dop:Are you sure to disinclude {name}', { name })}
+                deleteText={i18n.t('dop:release relationship')}
+                issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
+                showStatus
+                undraggable
+              />
+            ))}
+          </div>
+        </If>
 
-      <If condition={relationType === RelationType.RelatedTo}>
-        <div className="p-2 bg-default-02">
-          {list?.map((item) => (
-            <IssueItem
-              data={item}
-              key={item.id}
-              onClickIssue={(record) => {
-                goTo(goTo.pages.issueDetail, {
-                  projectId,
-                  issueType: record.type.toLowerCase(),
-                  issueId: record.id,
-                  iterationId: record.iterationID,
-                  jumpOut: true,
-                });
-              }}
-              onDelete={(val) => onDelete(val)}
-              // TODO:
-              deleteConfirmText={(name: string) =>
-                i18n.t('dop:Are you sure to release relationship with {name}', { name })
-              }
-              deleteText={i18n.t('dop:release relationship')}
-              issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
-              showStatus
-              undraggable
-            />
-          )) || <Empty />}
-        </div>
-      </If>
-      <If condition={relationType === RelationType.RelatedBy}>
-        <div className="p-2 bg-default-02">
-          {list?.map((item) => (
-            <IssueItem
-              data={item}
-              key={item.id}
-              onClickIssue={(record) => {
-                goTo(goTo.pages.issueDetail, {
-                  projectId,
-                  issueType: record.type.toLowerCase(),
-                  issueId: record.id,
-                  iterationId: record.iterationID,
-                  jumpOut: true,
-                });
-              }}
-              onDelete={(val) => onDelete(val, true)}
-              deleteConfirmText={(name: string) =>
-                i18n.t('dop:Are you sure to release relationship with {name}', { name })
-              }
-              deleteText={i18n.t('dop:release relationship')}
-              issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
-              showStatus
-              undraggable
-            />
-          )) || <Empty />}
-        </div>
+        <If condition={relationType === RelationType.RelatedTo}>
+          <div className="p-2 bg-default-02">
+            {list?.map((item) => (
+              <IssueItem
+                data={item}
+                key={item.id}
+                onClickIssue={(record) => {
+                  goTo(goTo.pages.issueDetail, {
+                    projectId,
+                    issueType: record.type.toLowerCase(),
+                    issueId: record.id,
+                    iterationId: record.iterationID,
+                    jumpOut: true,
+                  });
+                }}
+                onDelete={(val) => onDelete(val, RelationType.RelatedTo)}
+                deleteConfirmText={(name: string) =>
+                  i18n.t('dop:Are you sure to release relationship with {name}', { name })
+                }
+                deleteText={i18n.t('dop:release relationship')}
+                issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
+                showStatus
+                undraggable
+              />
+            ))}
+          </div>
+        </If>
+        <If condition={relationType === RelationType.RelatedBy}>
+          <div className="p-2 bg-default-02">
+            {list?.map((item) => (
+              <IssueItem
+                data={item}
+                key={item.id}
+                onClickIssue={(record) => {
+                  goTo(goTo.pages.issueDetail, {
+                    projectId,
+                    issueType: record.type.toLowerCase(),
+                    issueId: record.id,
+                    iterationId: record.iterationID,
+                    jumpOut: true,
+                  });
+                }}
+                onDelete={(val) => onDelete(val, RelationType.RelatedBy)}
+                deleteConfirmText={(name: string) =>
+                  i18n.t('dop:Are you sure to release relationship with {name}', { name })
+                }
+                deleteText={i18n.t('dop:release relationship')}
+                issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
+                showStatus
+                undraggable
+              />
+            ))}
+          </div>
+        </If>
       </If>
     </div>
   );
 };
 
-export const FullIssueRelation = ({ issueType, issueDetail, iterationID, setHasEdited }) => {
+export const FullIssueRelation = ({
+  issueType,
+  issueDetail,
+  iterationID,
+  setHasEdited,
+}: {
+  issueType: ISSUE_TYPE;
+  issueDetail: ISSUE.IssueType;
+  iterationID?: number;
+  setHasEdited: (val: boolean) => void;
+}) => {
   const data = getIssueRelation.useData();
-
+  const _iterationID = iterationID === -1 ? undefined : iterationID; // 如果当前事项是待规划的，待规划不在迭代列表里，默认“全部”时其实还是会带上 -1 作为 id，所以为-1 时就传 undefined
   React.useEffect(() => {
     issueDetail?.id &&
       getIssueRelation.fetch({
@@ -271,7 +295,7 @@ export const FullIssueRelation = ({ issueType, issueDetail, iterationID, setHasE
           type={RelationType.Inclusion}
           list={data?.include}
           issueDetail={issueDetail}
-          iterationID={iterationID}
+          iterationID={_iterationID}
           // activeAdd={activeAdd}
           onRelationChange={() => {
             setHasEdited(true);
@@ -285,7 +309,7 @@ export const FullIssueRelation = ({ issueType, issueDetail, iterationID, setHasE
         type={RelationType.RelatedTo}
         list={data?.relatedTo}
         issueDetail={issueDetail}
-        iterationID={iterationID}
+        iterationID={_iterationID}
         onRelationChange={() => {
           setHasEdited(true);
           getIssueRelation.fetch({
@@ -297,7 +321,7 @@ export const FullIssueRelation = ({ issueType, issueDetail, iterationID, setHasE
         type={RelationType.RelatedBy}
         list={data?.relatedBy}
         issueDetail={issueDetail}
-        iterationID={iterationID}
+        iterationID={_iterationID}
         onRelationChange={() => {
           setHasEdited(true);
           getIssueRelation.fetch({
@@ -454,6 +478,7 @@ export const AddIssueRelation = ({
       <ErdaTable
         rowKey="id"
         hideHeader
+        className="mx-1"
         rowSelection={{
           actions: [
             {

@@ -154,6 +154,9 @@ export const getLessTheme = () => {
     '@height-sm': '28px',
     '@border-radius-base': '2px;',
     '@font-family': '"Roboto-Regular", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif',
+    '@outline-color': '#a051ff',
+    '@select-item-selected-bg': '#f7f7f8',
+    '@select-item-selected-color': '#a051ff',
   };
 };
 

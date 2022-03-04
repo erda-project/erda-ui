@@ -67,14 +67,14 @@ export const IssueActivities = (props: IProps) => {
         const isSelf = loginUser.id === comment.operator;
         if (isSelf) {
           return (
-            <div key={comment.id} className="flex items-start pl-4 mt-4 space-x-1">
+            <div key={comment.id} className="flex items-start pl-4 mt-4 space-x-2">
               <div className="flex-1 px-4 py-4 rounded-sm my-comment issue-comment-content">{comment.content}</div>
               <UserInfo.RenderWithAvatar id={user.id} showName={false} />
             </div>
           );
         }
         return (
-          <div key={comment.id} className="flex items-start pr-4 mt-4 space-x-1">
+          <div key={comment.id} className="flex items-start pr-4 mt-4 space-x-2">
             <UserInfo.RenderWithAvatar id={user.id} showName={false} />
             <div className="flex-1 px-4 py-4 rounded-sm other-comment issue-comment-content">{comment.content}</div>
           </div>
@@ -89,9 +89,9 @@ export const IssueActivities = (props: IProps) => {
       return (
         <div key={activity.id} className="relative mt-4 flex issue-activity-item items-start">
           <UserInfo.RenderWithAvatar id={user.id} showName={false} />
-          <div className="flex-1 ml-1 issue-activity-content">
+          <div className="flex-1 ml-2 issue-activity-content">
             <div className="flex">
-              <span className="ml-1">{user.nick || user.name}</span>
+              {user.nick || user.name}
               {activity.streamType === 'RelateMR' ? (
                 <>
                   <span className="mx-2">{i18n.t('dop:add relation to MR')}</span>
@@ -103,7 +103,7 @@ export const IssueActivities = (props: IProps) => {
                   </a>
                 </>
               ) : (
-                <span className="mx-2">{activity.content}</span>
+                activity.content
               )}
             </div>
             <div className="text-xs text-sub">{moment(activity.createdAt).format('YYYY/MM/DD HH:mm:ss')}</div>
@@ -120,12 +120,12 @@ export const IssueActivities = (props: IProps) => {
     <Spin spinning={loading}>
       <div className="flex flex-col overflow-auto pt-4 pb-14">
         <RadioTabs
-          className={`px-4 pb-2 ${y > 2 ? 'shadow-card' : ''}`}
+          className={`px-6 pb-2 ${y > 2 ? 'shadow-card' : ''}`}
           value={tab}
           options={tabs}
           onChange={(k) => setTab(k)}
         />
-        <div className={`overflow-auto px-4 `} ref={scrollRef}>
+        <div className={`overflow-auto px-6 `} ref={scrollRef}>
           <Holder when={!issueStreamList.length && !loading}>
             <div className={tab === tabs[0].value ? '' : 'hidden'}>{commentsRender()}</div>
             <div className={tab === tabs[1].value ? '' : 'hidden'}>{activityListRender(activityList)}</div>

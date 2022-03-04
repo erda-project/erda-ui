@@ -4,22 +4,21 @@
   &::after {
     content: '';
     position: absolute;
-    top: 12px;
+    top: 8px;
     border: 4px solid transparent;
   }
   &.other-comment {
-    background-color: $color-default-02;
+    background-color: $color-default-04;
     &::before {
       left: -8px;
-      border-right-color: $white;
+      border-right-color: $color-default-04;
     }
   }
   &.my-comment {
     background-color: rgba($color-blue-600, 0.1);
     &::after {
-      top: 12px;
       right: -8px;
-      border-left-color: $white;
+      border-left-color: rgba($color-blue-600, 0.1);
     }
   }
 }

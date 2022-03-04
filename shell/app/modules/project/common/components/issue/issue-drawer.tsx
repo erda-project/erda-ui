@@ -84,7 +84,6 @@ export const IssueDrawer = (props: IProps) => {
   const [
     title = IssueDrawer.Empty,
     formField = IssueDrawer.Empty,
-    detailField = IssueDrawer.Empty,
     listField = IssueDrawer.Empty,
     commentField = IssueDrawer.Empty,
   ] = React.Children.toArray(children);
@@ -254,32 +253,36 @@ export const IssueDrawer = (props: IProps) => {
                   ) : null}
                   {isChanged && confirmCloseTip ? (
                     <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
-                      <ErdaIcon type="close" className="ml-4 cursor-pointer text-default-4" size="20" />
+                      <ErdaIcon type="guanbi" className="ml-4 cursor-pointer text-default-4" size="20" />
                     </Popconfirm>
                   ) : (
-                    <ErdaIcon type="close" className="ml-4 cursor-pointer text-default-4" size="20" onClick={onClose} />
+                    <ErdaIcon
+                      type="guanbi"
+                      className="ml-4 cursor-pointer text-default-4"
+                      size="20"
+                      onClick={onClose}
+                    />
                   )}
                 </div>
               </div>
             </div>
           </If>
           <div
-            className="flex-1 flex pl-4 overflow-y-auto"
+            className="flex-1 flex pl-2 overflow-x-hidden overflow-y-auto"
             style={footer !== IssueDrawer.Empty ? { paddingBottom: '60px' } : {}}
           >
-            <div className="flex-1 overflow-y-auto" ref={mainEle}>
+            <div className="flex-1 overflow-x-hidden overflow-y-auto" ref={mainEle}>
               <If condition={formField !== IssueDrawer.Empty}>
-                <div className="mb-4">{formField}</div>
-              </If>
-              <If condition={detailField !== IssueDrawer.Empty}>
-                <div className="mb-4">{detailField}</div>
+                <div className="mb-4 pl-6">{formField}</div>
               </If>
               <If condition={listField !== IssueDrawer.Empty}>
-                <div className="mb-4">{listField}</div>
+                <div className="mb-4 pl-6">{listField}</div>
               </If>
             </div>
             <If condition={commentField !== IssueDrawer.Empty}>
-              <div className="w-[390px] overflow-y-auto issue-drawer-right bg-default-02">{commentField}</div>
+              <div className="w-[390px] overflow-x-hidden overflow-y-auto issue-drawer-right bg-default-02">
+                {commentField}
+              </div>
             </If>
           </div>
           <If condition={footer !== IssueDrawer.Empty}>

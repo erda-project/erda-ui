@@ -3,12 +3,8 @@
   .ant-input-affix-wrapper,
   .ant-picker,
   .ant-select:not(.ant-select-customize-input) .ant-select-selector {
-    border-color: transparent;
-    transition: none;
-
-    &:hover,
-    &:focus {
-      border-color: $color-active;
+    &:not(:focus) {
+      border-color: transparent;
     }
   }
 
