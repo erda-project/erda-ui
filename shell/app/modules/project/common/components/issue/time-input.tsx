@@ -70,22 +70,12 @@ interface IProps {
   disabled?: boolean;
   showErrTip?: boolean;
   passAndTrigger?: boolean;
-  triggerChangeOnButton?: boolean;
   tooltip?: React.ReactElement;
   onChange?: (v: number | string) => void;
 }
 export const TimeInput = React.forwardRef(
   (
-    {
-      value,
-      originalValue,
-      onChange = () => {},
-      showErrTip = false,
-      passAndTrigger = false,
-      triggerChangeOnButton = false,
-      tooltip,
-      ...rest
-    }: IProps,
+    { value, originalValue, onChange = () => {}, showErrTip = false, passAndTrigger = false, tooltip, ...rest }: IProps,
     ref,
   ) => {
     const [showTip, setShowTip] = React.useState(false);
@@ -112,9 +102,6 @@ export const TimeInput = React.forwardRef(
       const pass = _v && _v.length ? checkReg.test(`${_v} `) : true;
       showErrTip && setShowTip(!pass);
       setValue(_v);
-      if (!triggerChangeOnButton) {
-        triggerSave(_v, pass);
-      }
     };
 
     const onBlur = () => {
@@ -126,25 +113,10 @@ export const TimeInput = React.forwardRef(
       clickBtn.current = false;
     };
 
-    const onSave = () => {
-      clickBtn.current = true;
-      const pass = typeof _value !== 'number' && _value !== '' ? checkReg.test(`${_value} `) : true;
-      triggerSave(_value, pass);
-      setShowBtn(false);
-    };
-
-    const onCancel = () => {
-      clickBtn.current = true;
-      setShowBtn(false);
-      setValue(originalValue); // 原始值
-    };
-
     return (
       <Tooltip placement="topLeft" title={tooltip}>
-        <div className="w-full">
+        <div className="w-full relative">
           <Input
-            allowClear
-            bordered={false}
             className={`hover:bg-default-06 ${showTip ? 'with-error' : ''}`}
             placeholder={i18n.t('dop:please input time')}
             onFocus={() => setShowBtn(true)}
@@ -154,17 +126,7 @@ export const TimeInput = React.forwardRef(
             onChange={(e) => onInputChange(e.target.value)}
             onBlur={() => setTimeout(onBlur, 200)}
           />
-          {showTip ? <span className="text-xs text-red">{checkMsg}</span> : null}
-          {triggerChangeOnButton && showBtn ? (
-            <div className="issue-part-save-group">
-              <span className="issue-part-save" onClick={onSave}>
-                <CustomIcon className="mr-0" type="duigou" />
-              </span>
-              <span className="issue-part-cancel" onClick={onCancel}>
-                <CustomIcon className="mr-0" type="gb" />
-              </span>
-            </div>
-          ) : null}
+          {showTip ? <span className="absolute text-xs text-red left-0 bottom-[-16px]">{checkMsg}</span> : null}
         </div>
       </Tooltip>
     );

@@ -100,7 +100,7 @@ export const TextFieldInput = React.forwardRef(
     };
 
     return (
-      <>
+      <div className="relative">
         <Input
           allowClear
           bordered={false}
@@ -113,7 +113,7 @@ export const TextFieldInput = React.forwardRef(
           onChange={(e) => onInputChange(e.target.value)}
           onBlur={onBlur}
         />
-        {showTip ? <span className="text-xs text-red">{checkMsg}</span> : null}
+        {showTip ? <span className="absolute text-xs text-red left-0 bottom-[-16px]">{checkMsg}</span> : null}
         {triggerChangeOnButton && showBtn ? (
           <div className="issue-part-save-group">
             <span className="issue-part-save" onClick={onSave}>
@@ -124,7 +124,7 @@ export const TextFieldInput = React.forwardRef(
             </span>
           </div>
         ) : null}
-      </>
+      </div>
     );
   },
 );

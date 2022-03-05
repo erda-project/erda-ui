@@ -443,7 +443,7 @@ const SelectFilterItem = ({
       overlayClassName="contractive-filter-item-dropdown"
       placement="bottomLeft"
     >
-      <span className="contractive-filter-item">
+      <span className={`contractive-filter-item ${disabled ? 'not-allowed' : ''}`}>
         {labels}
         <span className="contractive-filter-item-value nowrap">{valueText}</span>
         <ErdaIcon type="caret-down" className="hover" size="16" />

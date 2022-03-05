@@ -157,7 +157,7 @@ export const IterationItem = (props: IProps) => {
           iterationID={data.id}
           id={curIssueDetail.id}
           shareLink={`${location.href.split('?')[0]}?${mergeSearch(
-            { id: curIssueDetail.id, issueType: curIssueDetail.type },
+            { id: curIssueDetail.id, type: curIssueDetail.type },
             true,
           )}`}
           issueType={curIssueDetail.type}

@@ -2,11 +2,12 @@
   &.tabs-button {
     .common-simple-tabs-item {
       margin-right: 8px;
-      color: $color-default;
-      padding: 4px 8px;
+      color: $color-default-8;
+      padding: 4px 12px;
       border-radius: $border-radius;
       &:hover,
       &.selected {
+        color: $color-default;
         &:not(.not-allowed) {
           font-weight: 500;
           background-color: $color-default-06;

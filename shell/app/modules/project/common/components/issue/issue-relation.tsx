@@ -81,7 +81,7 @@ const IssueRelation = (props: IProps) => {
   const { list, issueDetail, iterationID, onRelationChange, type: relationType } = props;
 
   const [activeButtonType, setActiveButtonType] = React.useState('');
-  const [expand, setExpand] = React.useState(true);
+  const [expand, setExpand] = React.useState(false);
 
   const [{ projectId }, { type: routeIssueType }] = routeInfoStore.getState((s) => [s.params, s.query]);
   const issueType = issueDetail?.type || (Array.isArray(routeIssueType) ? routeIssueType[0] : routeIssueType);
@@ -125,11 +125,6 @@ const IssueRelation = (props: IProps) => {
   };
   const createAuth = usePerm((s) => s.project[issueType?.toLowerCase()]?.create.pass as boolean);
   if (!issueDetail) return null;
-  const iconMap = {
-    [RelationType.Inclusion]: 'baohan',
-    [RelationType.RelatedTo]: 'guanlianqita',
-    [RelationType.RelatedBy]: 'beiqitaguanlian',
-  };
   return (
     <div className="issue-relation">
       <If condition={issueDetail.type !== ISSUE_TYPE.TICKET}>
@@ -140,24 +135,21 @@ const IssueRelation = (props: IProps) => {
               className="absolute left-[-20px] flex h-7 rounded-sm cursor-pointer text-desc hover:text-default hover:bg-default-06"
               onClick={() => setExpand((prev) => !prev)}
             >
-              <ErdaIcon size={20} color={undefined} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
+              <ErdaIcon size={20} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
             </span>
           </If>
-          <div className="flex-h-center text-default-6">
-            <ErdaIcon size={16} className="mr-1" type={iconMap[relationType]} />
+          <div className="flex-h-center text-primary font-medium">
             <span>{getAddTextMap(relationType, issueType)}</span>
-            <span className="bg-default-06 leading-4 rounded-lg px-1 ml-1">{list?.length}</span>
+            <span className="bg-default-06 leading-4 rounded-lg px-1 ml-1">{list?.length || 0}</span>
             <If condition={relationType !== RelationType.RelatedBy}>
               <span className="w-[1px] h-[12px] bg-default-1 mx-4" />
               <WithAuth pass={createAuth}>
-                <Button
-                  size="small"
-                  className="flex-h-center mr-2 font-medium"
+                <div
+                  className="h-7 mr-1 p-1 rounded-sm text-desc hover:text-default hover:bg-default-04 cursor-pointer"
                   onClick={() => setActiveButtonType('create')}
                 >
-                  <ErdaIcon type={'plus'} className="mr-1" />
-                  <span>{i18n.t('create')}</span>
-                </Button>
+                  <ErdaIcon type="plus" size={20} />
+                </div>
               </WithAuth>
               <AddIssueRelation
                 editAuth={authObj.edit.pass}
@@ -465,6 +457,7 @@ export const AddIssueRelation = ({
             fixed: true,
             emptyText: i18n.t('dop:all'),
             showIndex: 3,
+            disabled: relationType === RelationType.Inclusion,
             customProps: {
               mode: 'single',
             },
@@ -512,10 +505,12 @@ export const AddIssueRelation = ({
   return (
     <Dropdown overlay={overlay} visible={visible} trigger={['click']}>
       <WithAuth pass={editAuth}>
-        <Button size="small" className="flex-h-center font-medium" onClick={() => updater.visible(true)}>
-          <ErdaIcon type={'xuanze-43le7k0l'} className="mr-1" />
-          <span>{i18n.t('common:select')}</span>
-        </Button>
+        <div
+          className="h-7 mr-1 p-1 rounded-sm text-desc hover:text-default hover:bg-default-04 cursor-pointer"
+          onClick={() => updater.visible(true)}
+        >
+          <ErdaIcon type="xuanze-43le7k0l" size={20} />
+        </div>
       </WithAuth>
     </Dropdown>
   );

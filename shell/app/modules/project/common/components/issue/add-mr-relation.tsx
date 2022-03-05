@@ -38,7 +38,7 @@ interface IProps {
 
 const initState = {
   visible: false,
-  expand: true,
+  expand: false,
   relateMrList: [],
   filterData: {
     query: undefined,
@@ -239,25 +239,27 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
 
   return (
     <div className="mt-3">
-      <div className="relative flex-h-center text-default-6 mb-2">
+      <div className="relative flex-h-center text-primary font-medium mb-2">
         <If condition={!!relateMrList?.length}>
           <span
             className="absolute left-[-20px] flex h-7 rounded-sm cursor-pointer text-desc hover:text-default hover:bg-default-06"
             onClick={() => updater.expand((prev) => !prev)}
           >
-            <ErdaIcon size={20} color={undefined} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
+            <ErdaIcon size={20} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
           </span>
         </If>
-        <ErdaIcon size={16} className="mr-1" type="hebing" />
         <span>{i18n.t('dop:related mr')}</span>
+        <span className="bg-default-06 leading-4 rounded-lg px-1 ml-1">{relateMrList?.length || 0}</span>
         <span className="w-px h-3 bg-default-1 mx-4" />
 
         <Dropdown overlay={overlay} visible={visible} trigger={['click']}>
           <WithAuth pass={editAuth}>
-            <Button size="small" className="flex-h-center  font-medium" onClick={() => updater.visible(true)}>
-              <ErdaIcon type={'xuanze-43le7k0l'} className="mr-1" />
-              <span>{i18n.t('common:select')}</span>
-            </Button>
+            <div
+              className="h-7 mr-1 p-1 rounded-sm text-desc hover:text-default hover:bg-default-04 cursor-pointer"
+              onClick={() => updater.visible(true)}
+            >
+              <ErdaIcon type="xuanze-43le7k0l" size={20} />
+            </div>
           </WithAuth>
         </Dropdown>
       </div>
