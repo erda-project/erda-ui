@@ -245,7 +245,7 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
             className="absolute left-[-20px] flex h-7 rounded-sm cursor-pointer text-desc hover:text-default hover:bg-default-06"
             onClick={() => updater.expand((prev) => !prev)}
           >
-            <ErdaIcon size={20} color={undefined} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
+            <ErdaIcon size={20} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
           </span>
         </If>
         <span>{i18n.t('dop:related mr')}</span>
@@ -258,7 +258,7 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
               className="h-7 mr-1 p-1 rounded-sm text-desc hover:text-default hover:bg-default-04 cursor-pointer"
               onClick={() => updater.visible(true)}
             >
-              <ErdaIcon type="xuanze-43le7k0l" color={undefined} size={20} />
+              <ErdaIcon type="xuanze-43le7k0l" size={20} />
             </div>
           </WithAuth>
         </Dropdown>
