@@ -109,6 +109,7 @@ const IssueRelation = (props: IProps) => {
       type: relationType === RelationType.Inclusion ? RelationType.Inclusion : 'connection',
     }).then(() => {
       onRelationChange && onRelationChange();
+      setExpand(true);
     });
   };
 
