@@ -12,8 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input } from 'antd';
-import ProtocolSelector from '../protocol-selector';
+import { Input, Select } from 'antd';
 
 const HTTP_PREFIX = 'http://';
 const HTTPS_PREFIX = 'https://';
@@ -22,6 +21,7 @@ interface IInputProps {
   initProtocol?: string;
   value?: string;
   onChange?: (params: string) => void;
+
   [prop: string]: any;
 }
 
@@ -38,7 +38,12 @@ const ProtocolInput = ({ value = '', onChange, ...rest }: IInputProps) => {
 
   return (
     <Input
-      addonBefore={<ProtocolSelector value={protocol} onChange={(v) => onChange && onChange(`${v}${inputValue}`)} />}
+      addonBefore={
+        <Select value={protocol} onChange={(v) => onChange && onChange(`${v}${inputValue}`)} style={{ width: 94 }}>
+          <Select.Option value={HTTP_PREFIX}>http://</Select.Option>
+          <Select.Option value={HTTPS_PREFIX}>https://</Select.Option>
+        </Select>
+      }
       maxLength={100}
       value={inputValue}
       onChange={(e) => onChange && onChange(`${protocol}${e.target.value.trim()}`)}

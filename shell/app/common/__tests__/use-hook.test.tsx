@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { act, renderHook } from '@testing-library/react-hooks';
-import { useSwitch } from '../../use-hooks';
+import { useSwitch } from '../use-hooks';
 
 describe('use-hooks', () => {
   describe('useSwitch', () => {

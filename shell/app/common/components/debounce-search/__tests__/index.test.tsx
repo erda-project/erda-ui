@@ -12,18 +12,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { DebounceSearch } from 'common';
-import { mount } from 'enzyme';
-import { act } from 'react-dom/test-utils';
+import { fireEvent, render } from '@testing-library/react';
+import DebounceSearch from '..';
 
 describe('DebounceSearch', () => {
   it('should render well', () => {
     const fn = jest.fn();
     jest.useFakeTimers();
-    const wrapper = mount(<DebounceSearch onChange={fn} />);
-    act(() => {
-      wrapper.find('Search').prop('onChange')({ target: { value: 'erda' } });
-    });
+    const result = render(<DebounceSearch onChange={fn} />);
+    const input = result.getByRole('textbox') as HTMLInputElement;
+    fireEvent.change(input, { target: { value: 'erda' } });
     jest.runAllTimers();
     expect(fn).toHaveBeenLastCalledWith('erda');
   });

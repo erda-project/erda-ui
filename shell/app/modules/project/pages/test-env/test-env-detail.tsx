@@ -11,15 +11,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { isPlainObject, map, forEach, isEmpty, filter, debounce } from 'lodash';
+import { debounce, filter, forEach, isEmpty, isPlainObject, map } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
 import { isValidJsonStr } from 'common/utils';
-import { Input, Select, Table, Radio, FormInstance, RadioChangeEvent } from 'antd';
-import { KVPair, ProtocolInput, FormModal, InputSelect, FileEditor } from 'common';
+import { FormInstance, Input, Radio, RadioChangeEvent, Select, Table } from 'antd';
+import { FileEditor, FormModal, InputSelect, KVPair } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import testEnvStore from 'project/stores/test-env';
 import { scopeMap } from 'project/common/components/pipeline-manage/config';
+import ProtocolInput from './protocol-input';
 
 const { Option } = Select;
 
