@@ -335,12 +335,6 @@ interface IAddProps {
   relationType: RelationType;
 }
 
-const initState = {
-  issueList: [],
-  type: undefined as undefined | string,
-  chosenIterationID: undefined as undefined | number | 'ALL',
-};
-
 export const AddIssueRelation = ({
   onSave,
   editAuth,
@@ -350,43 +344,51 @@ export const AddIssueRelation = ({
   defaultIssueType = 'TASK',
   relationType,
 }: IAddProps) => {
-  const [{ filterData, visible }, updater, update] = useUpdate({
-    ...initState,
+  const [{ filterData, total, visible, issueList, iterationList }, updater, update] = useUpdate({
     visible: false,
+    issueList: [],
+    total: 0,
     filterData: {
       title: '',
       iterationID,
       type: defaultIssueType,
+      pageNo: 1,
+      pageSize: 7,
     },
+    iterationList: [] as ITERATION.Detail[],
   });
 
-  const issuePaging = getIssues.useData();
-  const iterationPaging = getProjectIterations.useData();
-  const issueList = issuePaging?.list || [];
   const getIssueList = React.useCallback(
     (extra?: Obj) => {
       if (visible && projectId) {
-        getIssues.fetch({
-          pageNo: 1,
-          pageSize: 7,
+        getIssues({
           ...filterData,
           ...extra,
           projectID: +projectId,
           notIncluded: relationType === RelationType.Inclusion,
+        }).then((res) => {
+          if (res.data) {
+            updater.issueList(res.data?.list || []);
+            updater.total(res.data?.total || 0);
+          }
         });
       }
     },
-    [filterData, projectId, relationType, visible],
+    [filterData, projectId, relationType, updater, visible],
   );
 
   React.useEffect(() => {
-    if (visible && !iterationPaging?.list.length) {
-      getProjectIterations.fetch({
+    if (visible && !iterationList.length) {
+      getProjectIterations({
         projectID: +projectId,
         pageSize: 50,
+      }).then((res) => {
+        if (res.data) {
+          updater.iterationList(res.data.list || []);
+        }
       });
     }
-  }, [iterationPaging?.list.length, projectId, visible]);
+  }, [iterationList.length, projectId, updater, visible]);
 
   React.useEffect(() => {
     getIssueList();
@@ -442,7 +444,7 @@ export const AddIssueRelation = ({
             haveFilter: true,
             fixed: true,
             emptyText: i18n.t('dop:all'),
-            options: iterationPaging?.list.map((item) => ({ label: item.title, value: item.id })) || [],
+            options: iterationList.map((item) => ({ label: item.title, value: item.id })) || [],
             showIndex: 2,
             placeholder: i18n.t('dop:owned iteration'),
             customProps: {
@@ -491,10 +493,11 @@ export const AddIssueRelation = ({
         dataSource={dataSource}
         columns={columns}
         pagination={{
-          current: issuePaging?.paging?.pageNo || 1,
-          pageSize: issuePaging?.paging?.pageSize || 7,
-          total: issuePaging?.paging?.total || 0,
+          current: filterData.pageNo || 1,
+          pageSize: filterData.pageSize || 7,
+          total,
           onChange: (no: number, size?: number) => {
+            updater.filterData((prev: any) => ({ ...prev, pageNo: no, pageSize: size || prev.pageSize }));
             getIssueList({ pageNo: no, pageSize: size });
           },
         }}
