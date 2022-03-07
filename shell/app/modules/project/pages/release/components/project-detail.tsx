@@ -64,10 +64,6 @@ const ReleaseProjectDetail = () => {
             {i18n.t('dop:be formal')}
           </Button>
         ) : null}
-
-        <Button className="bg-default-06 border-default-06" onClick={() => goTo(goTo.pages.projectReleaseList)}>
-          {i18n.t('return to previous page')}
-        </Button>
       </div>
     </div>
   );

@@ -320,9 +320,6 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
           <Button className="mr-3" type="primary" onClick={submit}>
             {i18n.t('submit')}
           </Button>
-          <Button onClick={() => goTo(goTo.pages.projectReleaseListProject)}>
-            {i18n.t('return to previous page')}
-          </Button>
         </div>
       ) : null}
     </div>

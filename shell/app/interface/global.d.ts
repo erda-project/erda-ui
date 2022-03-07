@@ -352,7 +352,12 @@ type ROUTE_MARK =
   | 'old-policies'
   | 'api-monitor'
   | 'projectDeployRuntime'
-  | 'appDeployRuntime';
+  | 'appDeployRuntime'
+  | 'release'
+  | 'projectRelease'
+  | 'applicationRelease'
+  | 'testCase'
+  | 'testPlan';
 
 type ROUTE_TO_MARK = 'orgIndex' | 'mspDetail';
 interface ROUTE_TABS {
