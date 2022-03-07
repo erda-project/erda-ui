@@ -112,10 +112,9 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
               customOp: {
                 operations: {
                   referencedReleases: (operation: { meta: { appReleaseIDs: string } }) => {
-                    const IDs = get(operation, 'meta.appReleaseIDs');
                     goTo(
                       goTo.resolve.projectReleaseList({
-                        releaseFilter__urlQuery: btoa(decodeURI(JSON.stringify({ releaseID: IDs }))),
+                        releaseFilter__urlQuery: btoa(decodeURI(JSON.stringify({ ...(operation.meta || {}) }))),
                       }),
                     );
                   },
