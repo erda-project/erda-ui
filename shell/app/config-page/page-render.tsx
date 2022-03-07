@@ -249,10 +249,7 @@ const EnhanceCompProps = (
     const { opKey, ..._rest } = curCompOp || {};
     const curOp = opKey ? rest.operations?.[opKey] : undefined;
     if (curOp) {
-      // prevent render request is loading
-      setTimeout(() => {
-        rest.execOperation({ key: opKey, ...curOp, ..._rest });
-      }, 0);
+      rest.execOperation({ key: opKey, ...curOp, ..._rest });
     }
   };
 

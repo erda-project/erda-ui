@@ -129,13 +129,11 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       });
       if (asyncComponents.length) {
         // wait for first fetch promise finally finished, which set fetching to false
-        setTimeout(() => {
-          execOperation('', {
-            key: globalOperation.__AsyncAtInit__,
-            reload: true,
-            components: asyncComponents,
-          });
-        }, 0);
+        execOperation('', {
+          key: globalOperation.__AsyncAtInit__,
+          reload: true,
+          components: asyncComponents,
+        });
       }
     });
   });
@@ -198,6 +196,11 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     }
   }, [inParamsStr]);
 
+  const finishFetching = () => {
+    updater.fetching(false);
+    fetchingRef.current = false;
+  };
+
   const queryPageConfig = (p?: CONFIG_PAGE.RenderConfig, op?: CP_COMMON.Operation, callBack?: Function) => {
     if (fetchingRef.current || forbiddenRequest) return; // forbidden request when fetching
     // 此处用state，为了兼容useMock的情况
@@ -209,6 +212,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     const reqConfig = { ...curConfig, inParams: { ...inParamsRef.current, ...p?.inParams } };
     ((useMockMark && _useMock) || getRenderPageLayout)(reqConfig)
       .then((res: CONFIG_PAGE.RenderConfig) => {
+        finishFetching();
         const _curConfig = pageConfigRef.current;
         const newConfig = produce(_curConfig, (draft) => {
           draft.inParams = undefined;
@@ -230,11 +234,8 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
         if (op?.successMsg) notify('success', op.successMsg);
       })
       .catch(() => {
+        finishFetching();
         if (op?.errorMsg) notify('error', op.errorMsg);
-      })
-      .finally(() => {
-        updater.fetching(false);
-        fetchingRef.current = false;
       });
   };
 
