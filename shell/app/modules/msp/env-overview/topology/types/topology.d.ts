@@ -182,7 +182,7 @@ declare namespace TOPOLOGY {
     links: ILink[];
     nodeMap: object;
     boxHeight?: number;
-    groupDeepth?: any;
+    groupDeepth?: number;
   }
 
   interface ICircuitBreakerBase {

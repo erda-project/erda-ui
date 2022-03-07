@@ -2470,6 +2470,7 @@
     "service monitor": "ServiceMonitor",
     "service name": "service name",
     "service request overview": "service request overview",
+    "service registration list": "service registration list",
     "service routing prefix": "service routing prefix",
     "service topology": "service topology",
     "set datum point": "set datum point",
