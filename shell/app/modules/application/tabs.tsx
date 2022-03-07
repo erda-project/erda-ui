@@ -125,25 +125,15 @@ export const APP_TABS = () => {
 
   const extraRepoTabs = isExternalRepo ? [] : [commit, branch, mr];
   const modeMap = {
-    [appMode.SERVICE]: [repo, ...extraRepoTabs, apiDesign, quality, setting, pipeline, deploy],
-    [appMode.PROJECT_SERVICE]: [repo, ...extraRepoTabs, quality, setting, pipeline],
-    [appMode.MOBILE]: [repo, ...extraRepoTabs, apiDesign, quality, setting, pipeline, deploy],
-    [appMode.LIBRARY]: [repo, ...extraRepoTabs, apiDesign, quality, setting, pipeline, deploy],
+    [appMode.SERVICE]: [repo, ...extraRepoTabs, apiDesign, quality, pipeline, deploy, setting],
+    [appMode.PROJECT_SERVICE]: [repo, ...extraRepoTabs, quality, pipeline, setting],
+    [appMode.MOBILE]: [repo, ...extraRepoTabs, apiDesign, quality, pipeline, deploy, setting],
+    [appMode.LIBRARY]: [repo, ...extraRepoTabs, apiDesign, quality, pipeline, deploy, setting],
     [appMode.BIGDATA]: [repo, ...extraRepoTabs, dataTask, dataModel, dataMarket, setting],
-    [appMode.ABILITY]: [quality, setting, { ...deploy, split: true }],
+    [appMode.ABILITY]: [deploy, quality, setting],
   };
 
-  let tabs = filter(modeMap[mode], (item: ITab) => item.show !== false) as ROUTE_TABS[];
-  const deployIndex = tabs.findIndex((item) => item.key === pipeline.key);
-  const pipelineIndex = tabs.findIndex((item) => item.key === deploy.key);
-  const splitIndex = min([deployIndex, pipelineIndex].filter((item) => item > -1));
-  if (splitIndex) {
-    tabs = tabs.map((item, idx) => {
-      if (idx === splitIndex) return { ...item, split: true };
-      if (idx === splitIndex - 1) return { ...item, className: 'mr-4' };
-      return item;
-    });
-  }
+  const tabs = filter(modeMap[mode], (item: ITab) => item.show !== false) as ROUTE_TABS[];
 
   const currentRoute = routeInfoStore.useStore((s) => s.currentRoute);
   React.useEffect(() => {
