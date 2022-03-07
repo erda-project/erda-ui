@@ -56,8 +56,8 @@ export default async ({
       {
         type: 'input',
         name: 'backendUrl',
-        message: 'Backend Url(API server):',
-        default: 'https://openapi.erda.io',
+        message: 'Online ui url:',
+        default: 'https://erda.io',
       },
     ]);
     newConfig.BACKEND_URL = backendUrl;
