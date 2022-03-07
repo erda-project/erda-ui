@@ -777,7 +777,7 @@ export const EditIssueDrawer = (props: IProps) => {
       </div>
 
       <If condition={isEditMode}>
-        <div className="space-y-4 pr-6">
+        <div className="space-y-4">
           <FullIssueRelation
             issueType={issueType}
             issueDetail={issueDetail}
