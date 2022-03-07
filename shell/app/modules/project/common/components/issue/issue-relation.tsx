@@ -133,7 +133,7 @@ const IssueRelation = (props: IProps) => {
         <div className="relative flex items-center h-7 mb-2">
           <If condition={!!list?.length}>
             <span
-              className="absolute left-[-20px] flex h-7 rounded-sm cursor-pointer text-desc hover:text-default hover:bg-default-06"
+              className="absolute left-[-20px] flex h-7 rounded-sm cursor-pointer text-sub hover:text-default hover:bg-default-06"
               onClick={() => setExpand((prev) => !prev)}
             >
               <ErdaIcon size={20} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
@@ -146,7 +146,7 @@ const IssueRelation = (props: IProps) => {
               <span className="w-[1px] h-[12px] bg-default-1 mx-4" />
               <WithAuth pass={createAuth}>
                 <div
-                  className="h-7 mr-1 p-1 rounded-sm text-desc hover:text-default hover:bg-default-04 cursor-pointer"
+                  className="h-7 mr-1 p-1 rounded-sm text-sub hover:text-default hover:bg-default-04 cursor-pointer"
                   onClick={() => setActiveButtonType('create')}
                 >
                   <ErdaIcon type="plus" size={20} />
@@ -510,7 +510,7 @@ export const AddIssueRelation = ({
     <Dropdown overlay={overlay} visible={visible} trigger={['click']}>
       <WithAuth pass={editAuth}>
         <div
-          className="h-7 mr-1 p-1 rounded-sm text-desc hover:text-default hover:bg-default-04 cursor-pointer"
+          className="h-7 mr-1 p-1 rounded-sm text-sub hover:text-default hover:bg-default-04 cursor-pointer"
           onClick={() => updater.visible(true)}
         >
           <ErdaIcon type="xuanze-43le7k0l" size={20} />

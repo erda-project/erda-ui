@@ -187,7 +187,7 @@ export const IssueDrawer = (props: IProps) => {
                     <Copy selector=".copy-share-link" tipName={i18n.t('dop:share link')} />
                     <ErdaIcon
                       type="lianjie"
-                      className="cursor-copy hover-active copy-share-link ml-4 text-default-4"
+                      className="cursor-copy hover-active copy-share-link ml-4 text-default-6"
                       size="20"
                       data-clipboard-text={shareLink}
                     />
@@ -236,7 +236,7 @@ export const IssueDrawer = (props: IProps) => {
                         placement="leftTop"
                         trigger="click"
                       >
-                        <ErdaIcon type="fuzhi" className="hover-active ml-4 text-default-4" size="20" />
+                        <ErdaIcon type="fuzhi" className="hover-active ml-4 text-default-6" size="20" />
                       </Popover>
                     </WithAuth>
                   </If>
@@ -247,16 +247,16 @@ export const IssueDrawer = (props: IProps) => {
                         placement="bottomRight"
                         onConfirm={onDelete}
                       >
-                        <ErdaIcon type="shanchu-4d7l02mb" className="hover-active ml-4 text-default-4" size="20" />
+                        <ErdaIcon type="shanchu-4d7l02mb" className="hover-active ml-4 text-default-6" size="20" />
                       </Popconfirm>
                     </WithAuth>
                   ) : null}
                   {isChanged && confirmCloseTip ? (
                     <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
-                      <ErdaIcon type="guanbi" className="ml-4 hover-active text-default-4" size="20" />
+                      <ErdaIcon type="guanbi" className="ml-4 hover-active text-default-6" size="20" />
                     </Popconfirm>
                   ) : (
-                    <ErdaIcon type="guanbi" className="ml-4 hover-active text-default-4" size="20" onClick={onClose} />
+                    <ErdaIcon type="guanbi" className="ml-4 hover-active text-default-6" size="20" onClick={onClose} />
                   )}
                 </div>
               </div>
