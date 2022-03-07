@@ -13,7 +13,7 @@
 
 import { createStore } from 'core/cube';
 import i18n from 'i18n';
-import { login, logout, newUCLogout, getJoinedProjects, getJoinedApps, pinApp, unpinApp } from '../services/user';
+import { login, logout, newUCLogout, getJoinedProjects, pinApp, unpinApp } from '../services/user';
 import { UC_USER_LOGIN } from 'common/constants';
 import { goTo, setLS } from 'common/utils';
 import layoutStore from 'app/layout/stores/layout';
@@ -138,19 +138,6 @@ const userStore = createStore({
       }
       update({ projectList });
       return { list: projectList, total };
-    },
-    async getJoinedApps({ call, update, select }, payload) {
-      const { pageNo = 1, pageSize = PAGINATION.pageSize, q, loadMore, ...rest } = payload;
-      const params = { pageNo, pageSize, q };
-      const { list, total } = await call(getJoinedApps, { ...params, ...rest }, { paging: { key: 'appPaging' } });
-      let appList = select((state) => state.appList);
-      if (loadMore) {
-        appList = appList.concat(list);
-      } else {
-        appList = list;
-      }
-      update({ appList });
-      return { list: appList, total };
     },
     async pinApp({ call }, appId: number) {
       await call(pinApp, appId, { successMsg: i18n.t('dop:pinned successfully') });

@@ -23,7 +23,7 @@ interface IGetJoinedAppsQuery {
   pageSize: number;
   pageNo: number;
   q?: string;
-  projectID?: number;
+  projectId?: number;
   mode?: string;
 }
 export const getJoinedApps = apiCreator<(p: IGetJoinedAppsQuery) => IPagingResp<IApplication>>(apis.getJoinedApps);

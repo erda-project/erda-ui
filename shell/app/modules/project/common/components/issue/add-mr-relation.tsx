@@ -90,7 +90,7 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
   React.useEffect(() => {
     if (visible) {
       if (!appList.length) {
-        getJoinedApps.fetch({ projectID: +projectId, pageSize: 200, pageNo: 1 }).then((res) => {
+        getJoinedApps.fetch({ projectId: +projectId, pageSize: 200, pageNo: 1 }).then((res) => {
           if (res?.data?.list) {
             setAppList(res.data.list);
             updater.filterData({ appID: res.data.list[0]?.id });

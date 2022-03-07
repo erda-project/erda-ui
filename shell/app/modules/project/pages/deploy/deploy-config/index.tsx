@@ -49,7 +49,7 @@ const ConfigContainer = () => {
       className="project-app-selector"
       value={selectedApp?.id || ''}
       getData={(_q: { pageNo: number; pageSize: number }) => {
-        return getJoinedApps({ projectID: +projectId, ..._q }).then((res) => res.data);
+        return getJoinedApps({ projectId: +projectId, ..._q }).then((res) => res.data);
       }}
       disabled={editing}
       onClickItem={(app) => setSelectedApp(app)}
