@@ -423,10 +423,10 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'release',
-          breadcrumbName: i18n.t('Artifact'),
           routes: [
             {
               path: 'project',
+              breadcrumbName: i18n.t('Artifact'),
               tabs: RELEASE_TABS,
               ignoreTabQuery: true,
               mark: 'projectRelease',
@@ -459,6 +459,7 @@ function getProjectRouter(): RouteConfigItem[] {
             },
             {
               path: 'application',
+              breadcrumbName: i18n.t('Artifact'),
               tabs: RELEASE_TABS,
               mark: 'applicationRelease',
               ignoreTabQuery: true,
