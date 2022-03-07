@@ -259,6 +259,7 @@ function getProjectRouter(): RouteConfigItem[] {
               tabs: MANUAL_TEST_TABS,
               ignoreTabQuery: true,
               breadcrumbName: i18n.t('dop:manual test'),
+              mark: 'testPlan',
               routes: [
                 {
                   getComp: (cb) => cb(import('project/pages/test-plan/test-plan')),
@@ -271,6 +272,7 @@ function getProjectRouter(): RouteConfigItem[] {
                   mark: 'testPlanDetail',
                   layout: { fullHeight: true },
                   breadcrumbName: i18n.t('dop:plan details'),
+                  backToUp: 'testPlan',
                   getComp: (cb) => cb(import('project/pages/plan-detail')),
                 },
               ],
@@ -300,6 +302,7 @@ function getProjectRouter(): RouteConfigItem[] {
               tabs: AUTO_TEST_TABS,
               ignoreTabQuery: true,
               breadcrumbName: i18n.t('dop:auto test'),
+              mark: 'testCase',
               routes: [
                 {
                   getComp: (cb) => cb(import('project/pages/auto-test/index')),
@@ -311,6 +314,7 @@ function getProjectRouter(): RouteConfigItem[] {
                   routes: [
                     {
                       layout: { fullHeight: true },
+                      backToUp: 'testCase',
                       getComp: (cb) => cb(import('project/pages/auto-test/scenes')),
                     },
                   ],
@@ -330,6 +334,7 @@ function getProjectRouter(): RouteConfigItem[] {
               tabs: AUTO_TEST_TABS,
               ignoreTabQuery: true,
               breadcrumbName: i18n.t('dop:auto test'),
+              mark: 'testPlan',
               routes: [
                 {
                   getComp: (cb) => cb(import('project/pages/test-plan/test-plan-protocol')),
@@ -339,6 +344,7 @@ function getProjectRouter(): RouteConfigItem[] {
                   mark: 'testPlanDetail',
                   layout: { fullHeight: true },
                   breadcrumbName: i18n.t('dop:plan details'),
+                  backToUp: 'testPlan',
                   getComp: (cb) => cb(import('project/pages/test-plan/auto-test-plan-detail')),
                 },
               ],
@@ -435,6 +441,20 @@ function getProjectRouter(): RouteConfigItem[] {
                   backToUp: 'projectRelease',
                   getComp: (cb) => cb(import('project/pages/release/components/project-detail')),
                 },
+                {
+                  path: 'createRelease/:type',
+                  pageName: i18n.t('create {name}', { name: i18n.t('Artifact') }),
+                  backToUp: 'projectRelease',
+                  getComp: (cb) => cb(import('project/pages/release/components/form')),
+                  layout: { fullHeight: true },
+                },
+                {
+                  path: 'updateRelease/:releaseID',
+                  pageName: i18n.t('edit {name}', { name: i18n.t('Artifact') }),
+                  backToUp: 'projectRelease',
+                  getComp: (cb) => cb(import('project/pages/release/components/update')),
+                  layout: { fullHeight: true },
+                },
               ],
             },
             {
@@ -454,19 +474,14 @@ function getProjectRouter(): RouteConfigItem[] {
                   getComp: (cb) => cb(import('project/pages/release/components/application-detail')),
                   layout: { fullHeight: true },
                 },
+                {
+                  path: 'updateRelease/:releaseID',
+                  pageName: i18n.t('edit {name}', { name: i18n.t('Artifact') }),
+                  backToUp: 'applicationRelease',
+                  getComp: (cb) => cb(import('project/pages/release/components/update')),
+                  layout: { fullHeight: true },
+                },
               ],
-            },
-            {
-              path: 'createRelease/:type',
-              pageName: i18n.t('create {name}', { name: i18n.t('Artifact') }),
-              getComp: (cb) => cb(import('project/pages/release/components/form')),
-              layout: { fullHeight: true },
-            },
-            {
-              path: 'updateRelease/:releaseID',
-              pageName: i18n.t('edit {name}', { name: i18n.t('Artifact') }),
-              getComp: (cb) => cb(import('project/pages/release/components/update')),
-              layout: { fullHeight: true },
             },
           ],
         },
