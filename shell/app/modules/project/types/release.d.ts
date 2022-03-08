@@ -32,6 +32,13 @@ declare namespace RELEASE {
     images: string[];
     diceyml: string;
     isProjectRelease?: boolean;
+    addons?: Addon[];
+    addonYaml?: string;
+  }
+
+  interface Addon extends IAddon {
+    logoURL: string;
+    displayName: string;
   }
 
   interface ApplicationDetail {
