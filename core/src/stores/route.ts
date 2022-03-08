@@ -28,6 +28,9 @@ interface IRouteInfo {
   routeMarks: string[];
   routePatterns: string[];
   routeMap: Record<string, SHELL.Route>;
+  urlFullRecord: string[];
+  urlPathRecord: string[];
+  urlState: 'back' | 'new' | 'forward';
   parsed: any;
   prevRouteInfo: IRouteInfo;
   isIn: (mark: string) => boolean;
@@ -45,6 +48,9 @@ const initRouteInfo: IRouteInfo = {
   routePatterns: [],
   routeMap: {},
   parsed: {},
+  urlPathRecord: [],
+  urlFullRecord: [],
+  urlState: 'new',
   isIn: () => false,
   isMatch: () => false,
   isEntering: () => false,
@@ -71,12 +77,20 @@ const routeInfoStore = createStore({
   name: 'routeInfo',
   state: initRouteInfo,
   reducers: {
-    $_updateRouteInfo(state, location: { pathname: string; search: string }, extraData?: any) {
-      const { pathname, search } = location;
+    $_updateRouteInfo(
+      state,
+      location: { pathname: string; search: string; key: string },
+      extraData?: any,
+      extraPayload?: { force?: boolean },
+    ) {
+      const { pathname, search, key: urlKey } = location;
+      const { force = false } = extraPayload || {};
       const prevRouteInfo = state;
-      if (prevPath === pathname && search === prevSearch) {
+      if (!force && prevPath === pathname && search === prevSearch) {
         return prevRouteInfo;
       }
+      prevPath = pathname;
+      prevSearch = search;
       const query = { ...parse(search, { arrayFormat: 'bracket' }) }; // parse出来的对象prototype为null，fast-deep-equal判断时报错
       let routes: IRouteInfo[] = [];
       const params: Obj = {};
@@ -131,12 +145,33 @@ const routeInfoStore = createStore({
           break;
         }
       }
+
+      const curUrlPaths = [...state.urlPathRecord];
+      const curUrlFull = [...state.urlFullRecord];
+      let urlState = 'new';
+      if (curUrlFull.includes(urlKey) && curUrlPaths.length > 1) {
+        if (curUrlPaths.includes(urlKey)) {
+          urlState = 'back';
+          curUrlPaths.pop();
+        } else {
+          urlState = 'forward';
+          curUrlPaths.push(urlKey);
+        }
+      } else if (curUrlPaths[curUrlPaths.length - 1] !== urlKey) {
+        curUrlPaths.push(urlKey);
+      }
+
+      if (curUrlFull[curUrlFull.length - 1] !== urlKey) curUrlFull.push(urlKey);
+
       const routeInfo = {
         prevRouteInfo,
         params,
         query,
         routes,
         currentRoute,
+        urlFullRecord: curUrlFull,
+        urlPathRecord: curUrlPaths,
+        urlState,
         routePatterns,
         routeMap,
         parsed,

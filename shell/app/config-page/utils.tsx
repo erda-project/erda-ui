@@ -106,11 +106,18 @@ export const OperationAction = (props: IOperationAction) => {
   }
 };
 
-// TODO: 3.21版本中，协议上还未定义一个参数取关联url查询参数，现在是放在各自组件的state中，用cId__urlQuery来标识，后续这里要改成协议最外层的一个固定key；
-export const getUrlQuery = (val: Obj) => {
+export const getConfigPageUrlQuery = (val: CONFIG_PAGE.RenderConfig) => {
+  let _urlQuery = {};
+  map(val?.protocol?.components, (item) => {
+    _urlQuery = { ..._urlQuery, ...pickUrlQuery(item.state) };
+  });
+  return _urlQuery;
+};
+
+export const pickUrlQuery = (obj: Obj) => {
   const _urlQuery = {};
-  map(val, (v, k) => {
-    if (k.includes('__urlQuery')) {
+  map(obj, (v, k) => {
+    if (k.endsWith('__urlQuery')) {
       _urlQuery[k] = v;
     }
   });

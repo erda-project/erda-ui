@@ -17,7 +17,8 @@ import { isEmpty, get, set, isEqual, forEach, has } from 'lodash';
 import { produce } from 'immer';
 import { Spin } from 'antd';
 import { notify } from 'common/utils';
-import { useUpdate } from 'common/use-hooks';
+import { getConfigPageUrlQuery, pickUrlQuery } from 'config-page/utils';
+import { useUpdate, useUpdateSearch } from 'common/use-hooks';
 import { useMock } from './mock/index';
 import ConfigPageRender from './page-render';
 import commonStore from 'common/stores/common';
@@ -81,6 +82,8 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     updateConfig,
     operationCallBack,
   } = props;
+
+  // const [routeQuery, urlState] = routeInfoStore.useStore((s) => [s.query, s.urlState]);
   const [{ pageConfig, fetching }, updater] = useUpdate({
     pageConfig:
       debugConfig ||
@@ -116,6 +119,35 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   const fetchingRef = React.useRef(false);
   // 此处需要使用store，因为接口中有userInfo需要被解析
   const { getRenderPageLayout } = commonStore.effects;
+
+  const reloadPage = (extra?: Obj) => {
+    const { inParams: reInParams, ...extraRest } = extra || {};
+    queryPageConfig({
+      scenario: {
+        scenarioType,
+        scenarioKey,
+      },
+      inParams: { ...inParamsRef.current, ...reInParams },
+      ...extraRest,
+    });
+  };
+
+  const [urlQuery, setUrlQuery] = useUpdateSearch({
+    convertQuery: pickUrlQuery,
+    reload: (_q?: Obj) => {
+      urlQueryRef.current = _q || {};
+      reloadPage();
+    },
+  });
+  const urlQueryRef = React.useRef<Obj>(urlQuery);
+
+  React.useEffect(() => {
+    urlQueryRef.current = urlQuery;
+  }, [urlQuery]);
+
+  React.useEffect(() => {
+    setUrlQuery(getConfigPageUrlQuery(pageConfig));
+  }, [pageConfig, setUrlQuery]);
 
   useMount(() => {
     queryPageConfig(undefined, undefined, (config: CONFIG_PAGE.RenderConfig) => {
@@ -168,20 +200,11 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       inParamsRef.current = inParams;
     }
   }, [inParams]);
+
   React.useEffect(() => {
     if (ref) {
       ref.current = {
-        reload: (extra: Obj) => {
-          const { inParams: reInParams, ...extraRest } = extra || {};
-          queryPageConfig({
-            scenario: {
-              scenarioType,
-              scenarioKey,
-            },
-            inParams: { ...inParamsRef.current, ...reInParams },
-            ...extraRest,
-          });
-        },
+        reload: reloadPage,
         getPageConfig: () => pageConfigRef.current,
       };
     }
@@ -203,7 +226,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       fetchingRef.current = true;
     }
     const curConfig = p || pageConfig;
-    const reqConfig = { ...curConfig, inParams: { ...inParamsRef.current, ...p?.inParams } };
+    const reqConfig = { ...curConfig, inParams: { ...urlQueryRef.current, ...inParamsRef.current, ...p?.inParams } };
     ((useMockMark && _useMock) || getRenderPageLayout)(reqConfig)
       .then((res: CONFIG_PAGE.RenderConfig) => {
         const _curConfig = pageConfigRef.current;

@@ -14,8 +14,7 @@
 import React from 'react';
 import DiceConfigPage, { useMock } from 'app/config-page';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
-import { getUrlQuery } from 'config-page/utils';
-import { getAvatarChars, updateSearch, mergeSearch } from 'common/utils';
+import { getAvatarChars, mergeSearch } from 'common/utils';
 import { Badge, Ellipsis } from 'common';
 import { useUserMap } from 'core/stores/userMap';
 import ImportExport from '../import-export';
@@ -133,16 +132,15 @@ const TreeNodeRender = (props: ITreeNodeProps) => {
 
 const IssuePlan = () => {
   const [{ projectId, iterationId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const { id: queryId, pId: queryParentId, iterationID: queryIterationID, type: _queryType, ...restQuery } = query;
+  const { id: queryId, pId: queryParentId, iterationID: queryIterationID, type: _queryType } = query;
   const queryType = _queryType && _queryType.toUpperCase();
   const [drawerVisible, openDrawer, closeDrawer] = useSwitch(false);
   const [
-    { urlQuery, filterObj, chosenIssueType, chosenIteration, chosenIssueId, chosenParentId, isFullScreen },
+    { filterObj, chosenIssueType, chosenIteration, chosenIssueId, chosenParentId, isFullScreen },
     updater,
     update,
   ] = useUpdate({
     filterObj: {},
-    urlQuery: restQuery,
     chosenParentId: queryParentId ? Number(queryParentId) : 0,
     chosenIssueId: queryId,
     chosenIteration: queryIterationID || 0,
@@ -172,19 +170,13 @@ const IssuePlan = () => {
   });
 
   React.useEffect(() => {
-    updateSearch({ ...urlQuery });
-  }, [urlQuery]);
-
-  React.useEffect(() => {
     const buttonEle = document.getElementsByClassName('top-button-group');
     if (buttonEle.length > 0) {
       buttonEle[0].style.display = isFullScreen ? 'none' : 'flex';
     }
   }, [isFullScreen]);
 
-  const inParams = { projectId, fixedIteration: iterationId, ...urlQuery };
-
-  const urlQueryChange = (val: Obj) => updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+  const inParams = { projectId, fixedIteration: iterationId };
 
   const onCreate = (val: any) => {
     const filterIterationIDs = filterObj?.iterationIDs || [];
@@ -369,7 +361,6 @@ const IssuePlan = () => {
             op: {
               onFilterChange: (val: Obj) => {
                 updater.filterObj(val);
-                urlQueryChange(val);
               },
             },
             Wrapper: FilterWrapper,

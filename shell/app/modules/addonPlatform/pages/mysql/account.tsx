@@ -13,40 +13,15 @@
 
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
-import { getUrlQuery } from 'config-page/utils';
-import { updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 
 const Account = () => {
-  const [{ projectId, insId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const [urlQuery, setUrlQuery] = React.useState(query);
+  const [{ projectId, insId }] = routeInfoStore.useStore((s) => [s.params]);
 
-  React.useEffect(() => {
-    updateSearch(urlQuery);
-  }, [urlQuery]);
-
-  const inParams = { projectId, instanceId: insId, ...urlQuery };
-
-  const urlQueryChange = (val: Obj) => setUrlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+  const inParams = { projectId, instanceId: insId };
 
   return (
-    <DiceConfigPage
-      scenarioType={'addon-mysql-account'}
-      scenarioKey={'addon-mysql-account'}
-      inParams={inParams}
-      customProps={{
-        filter: {
-          op: {
-            onFilterChange: urlQueryChange,
-          },
-        },
-        accountTable: {
-          op: {
-            onStateChange: urlQueryChange,
-          },
-        },
-      }}
-    />
+    <DiceConfigPage scenarioType={'addon-mysql-account'} scenarioKey={'addon-mysql-account'} inParams={inParams} />
   );
 };
 

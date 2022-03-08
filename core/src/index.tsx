@@ -128,7 +128,9 @@ export const registerModule = ({ key, stores, routers, locales, Root, NotFound }
   }
   if (routers) {
     const routeData = registRouters(key, routers, { Root, NotFound });
-    const latestRouteInfo = routeInfoStore.reducers.$_updateRouteInfo(browserHistory.location, routeData);
+    const latestRouteInfo = routeInfoStore.reducers.$_updateRouteInfo(browserHistory.location, routeData, {
+      force: true,
+    });
     emit('@routeChange', latestRouteInfo);
   }
 

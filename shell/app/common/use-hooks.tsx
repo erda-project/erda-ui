@@ -18,7 +18,7 @@ import { DragSourceMonitor, DropTargetMonitor, useDrag, useDrop, XYCoord } from 
 import FormModal from './components/form-modal';
 import { Pagination } from 'antd';
 import { FilterBarHandle } from 'common/components/filter-group';
-import { setSearch } from './utils';
+import { setSearch, updateSearch } from './utils';
 import { debounce, every, forIn, get, isEmpty, isEqual, isFunction, mapValues, omit, set, some, sortBy } from 'lodash';
 import moment, { Moment } from 'moment';
 import routeInfoStore from 'core/stores/route';
@@ -948,38 +948,100 @@ export const useInViewport: IUseInViewPort = (target, options) => {
   const [state, setState] = React.useState<boolean>();
   const [ratio, setRatio] = React.useState<number>();
 
-  React.useEffect(
-    () => {
-      const el = getTargetElement(target);
-      if (!el) {
-        return;
-      }
+  React.useEffect(() => {
+    const el = getTargetElement(target);
+    if (!el) {
+      return;
+    }
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            setRatio(entry.intersectionRatio);
-            if (entry.isIntersecting) {
-              setState(true);
-            } else {
-              setState(false);
-            }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          setRatio(entry.intersectionRatio);
+          if (entry.isIntersecting) {
+            setState(true);
+          } else {
+            setState(false);
           }
-        },
-        {
-          ...options,
-          root: getTargetElement(options?.root),
-        },
-      );
+        }
+      },
+      {
+        ...options,
+        root: getTargetElement(options?.root),
+      },
+    );
 
-      observer.observe(el);
+    observer.observe(el);
 
-      return () => {
-        observer.disconnect();
-      };
-    },
-    []
-  );
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return [state, ratio];
+};
+
+/*
+功能说明：
+1、return setQuery方法用于监听页面上的某些state用于更新url query（如filterState）
+2、传入reload方法，在浏览器前进后退的时候调用reload方法
+
+const [urlQuery, setUrlQuery] = useUpdateSearch({reload})
+const [filterState, setFilterState] = React.useState({});
+
+React.useEffect(()=> {
+  setUrlQuery(filterState);
+},[filterState])
+
+  params: 
+    convertQuery: 路由query转换方法
+    reload: 路由变化后重新调用数据方法
+
+  return:
+    query: 当前路由上参数
+    setUrlQuery: 设置数据到路由search上
+
+*/
+interface IUseUpdateSearchProps {
+  convertQuery?: (q: Obj) => Obj;
+  reload?: (q?: Obj) => void;
+}
+const defaultConvert = (a: Obj) => a;
+export const useUpdateSearch = (props?: IUseUpdateSearchProps): [query: Obj, setQuery: (q: Obj) => void] => {
+  const { convertQuery = defaultConvert, reload } = props || {};
+  const [routeQuery, urlState] = routeInfoStore.useStore((s) => [s.query, s.urlState]);
+  const [query, setQuery] = React.useState(convertQuery(routeQuery));
+
+  const urlStateRef = React.useRef(urlState);
+  const [isReload, setIsReload] = React.useState(false);
+
+  React.useEffect(() => {
+    urlStateRef.current = urlState;
+  }, [urlState]);
+
+  useUpdateEffect(() => {
+    if (urlState === 'back' || urlState === 'forward') {
+      const curUrlQuery = convertQuery(routeQuery);
+      if (!isEmpty(curUrlQuery)) {
+        setQuery(curUrlQuery);
+        setIsReload(true);
+        reload?.(curUrlQuery);
+      }
+    }
+  }, [urlState, routeQuery]);
+
+  useUpdateEffect(() => {
+    if (!isReload) {
+      updateSearch({ ...query });
+    }
+  }, [query]);
+
+  const _setQuery = React.useCallback((q: Obj) => {
+    if (urlStateRef.current === 'new') {
+      setIsReload(false);
+      setQuery(q);
+    }
+  }, []);
+
+  return [query, _setQuery];
 };

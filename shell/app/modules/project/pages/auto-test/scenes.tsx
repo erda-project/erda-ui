@@ -17,8 +17,6 @@ import DiceConfigPage from 'app/config-page';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { Drawer } from 'antd';
-import { getUrlQuery } from 'config-page/utils';
-import { updateSearch } from 'common/utils';
 import { get, set, find, map, indexOf, isEmpty, sortBy } from 'lodash';
 import { BuildLog } from 'application/pages/build-detail/build-log';
 import InfoPreview from 'config-page/components/info-preview/info-preview';
@@ -26,29 +24,21 @@ import ImportFile from './import-file';
 import ImportRecord from './scenes-import-record';
 
 const AutoTestScenes = () => {
-  const [{ projectId, spaceId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [{ projectId, spaceId }] = routeInfoStore.useStore((s) => [s.params]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { pipelineId, nodeId, ...restQuery } = query || {};
-  const [{ logVisible, logProps, urlQuery, resultVis, previewData, importVis, recordVis }, updater, update] = useUpdate(
-    {
-      logVisible: false,
-      logProps: {},
-      urlQuery: restQuery,
-      resultVis: false,
-      previewData: {} as CP_INFO_PREVIEW.Props,
-      importVis: false,
-      recordVis: false,
-    },
-  );
+
+  const [{ logVisible, logProps, resultVis, previewData, importVis, recordVis }, updater, update] = useUpdate({
+    logVisible: false,
+    logProps: {},
+    resultVis: false,
+    previewData: {} as CP_INFO_PREVIEW.Props,
+    importVis: false,
+    recordVis: false,
+  });
   const inParams = {
     projectId: +projectId,
     spaceId: +spaceId,
-    ...(urlQuery || {}),
   };
-
-  React.useEffect(() => {
-    updateSearch({ ...(urlQuery || {}) });
-  }, [urlQuery]);
 
   const hideLog = () => {
     update({
@@ -117,14 +107,6 @@ const AutoTestScenes = () => {
               },
               record: () => {
                 updater.recordVis(true);
-              },
-            },
-          },
-          fileTree: {
-            op: {
-              // 改变url
-              onStateChange: (val: Obj) => {
-                updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
               },
             },
           },

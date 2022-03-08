@@ -14,9 +14,8 @@
 import React from 'react';
 import { ISSUE_TYPE, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
 import DiceConfigPage, { useMock } from 'app/config-page';
-import { getUrlQuery } from 'config-page/utils';
 import { useSwitch, useUpdate } from 'common/use-hooks';
-import { mergeSearch, updateSearch, insertWhen } from 'common/utils';
+import { mergeSearch, insertWhen } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
 import { Badge, ErdaIcon } from 'common';
@@ -25,40 +24,26 @@ import { Button, Dropdown, Menu } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import issueFieldStore from 'org/stores/issue-field';
 import ImportExport from './import-export';
-import { useMount, useUpdateEffect } from 'react-use';
+import { useMount } from 'react-use';
 import i18n from 'i18n';
 
 interface IProps {
   issueType: ISSUE_TYPE;
 }
 
-const compareObject = (sourceObj: object, targetObj: object) => {
-  if (Object.keys(sourceObj).length === Object.keys(targetObj).length) {
-    return Object.keys(sourceObj).filter((key) => sourceObj[key] !== targetObj[key]).length === 0;
-  } else {
-    return false;
-  }
-};
-
 const IssueProtocol = ({ issueType }: IProps) => {
   const [{ projectId, iterationId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const { id: queryId, iterationID: queryItertationID, type: _queryType, ...restQuery } = query;
+  const { id: queryId, iterationID: queryItertationID, type: _queryType } = query;
   const orgID = orgStore.getState((s) => s.currentOrg.id);
   const queryType = _queryType && _queryType.toUpperCase();
-  const [
-    { filterObj, chosenIssueType, chosenIssueId, chosenIteration, urlQuery, urlQueryChangeByQuery },
-    updater,
-    update,
-  ] = useUpdate({
+  const [{ filterObj, chosenIssueType, chosenIssueId, chosenIteration }, updater, update] = useUpdate({
     filterObj: {},
     chosenIssueId: queryId,
     chosenIteration: queryItertationID || 0,
-    urlQuery: restQuery,
     chosenIssueType: queryType as undefined | ISSUE_TYPE,
     pageNo: 1,
     viewType: '',
     viewGroup: '',
-    urlQueryChangeByQuery: restQuery, // Only used to listen for changes to update the page after url change
   });
   const { getFieldsByIssue: getCustomFieldsByProject } = issueFieldStore.effects;
   useMount(() => {
@@ -73,15 +58,12 @@ const IssueProtocol = ({ issueType }: IProps) => {
   const reloadRef = React.useRef(null as any);
   const filterObjRef = React.useRef(null as any);
 
-  const queryRef = React.useRef(restQuery);
-
   const [drawerVisible, openDrawer, closeDrawer] = useSwitch(queryId || false);
 
   const inParams = {
     fixedIteration: iterationId,
     fixedIssueType: issueType,
     projectId,
-    ...(urlQuery || {}),
   };
 
   const reloadData = () => {
@@ -93,32 +75,6 @@ const IssueProtocol = ({ issueType }: IProps) => {
   React.useEffect(() => {
     filterObjRef.current = filterObj;
   }, [filterObj]);
-
-  useUpdateEffect(() => {
-    const { id: _id, iterationID: _iterationID, type: _type, ..._restQuery } = query;
-    queryRef.current = _restQuery;
-  }, [query]);
-
-  useUpdateEffect(() => {
-    if (!compareObject(urlQuery, queryRef.current)) {
-      queryRef.current = urlQuery;
-      updateSearch({ ...(urlQuery || {}) });
-    }
-  }, [urlQuery]);
-
-  useUpdateEffect(() => {
-    if (!compareObject(urlQuery, queryRef.current)) {
-      // Execute only after url change such as page go back
-      update({
-        urlQuery: queryRef.current,
-        urlQueryChangeByQuery: queryRef.current, // Only used to listen for changes to update the page
-      });
-    }
-  }, [queryRef.current]);
-
-  useUpdateEffect(() => {
-    reloadData();
-  }, [urlQueryChangeByQuery]);
 
   const onChosenIssue = (val: ISSUE.Issue) => {
     update({
@@ -224,7 +180,6 @@ const IssueProtocol = ({ issueType }: IProps) => {
               // filter: 改变url
               onFilterChange: (val: Obj) => {
                 updater.filterObj(val);
-                updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
               },
             },
             props: {
@@ -258,11 +213,6 @@ const IssueProtocol = ({ issueType }: IProps) => {
               ),
             },
             op: {
-              // 表格视图： pageNo改变url，点击item打开滑窗详情
-              onStateChange: (val: Obj) => {
-                updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
-                // updater.pageNo(val?.pageNo || 1);
-              },
               clickTableItem: (_data: ISSUE.Issue) => {
                 onChosenIssue(_data);
               },

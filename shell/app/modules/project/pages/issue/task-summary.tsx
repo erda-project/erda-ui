@@ -13,21 +13,12 @@
 
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
-import { getUrlQuery } from 'config-page/utils';
-import { updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 
 const TaskSummary = () => {
-  const [{ projectId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const [urlQuery, setUrlQuery] = React.useState(query);
+  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
 
-  React.useEffect(() => {
-    updateSearch({ ...urlQuery });
-  }, [urlQuery]);
-
-  const inParams = { projectId, ...urlQuery };
-
-  const urlQueryChange = (val: Obj) => setUrlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+  const inParams = { projectId };
 
   return (
     <div>
@@ -37,9 +28,6 @@ const TaskSummary = () => {
         inParams={inParams}
         customProps={{
           topFilter: {
-            op: {
-              onFilterChange: urlQueryChange,
-            },
             props: {
               className: 'flex justify-end',
             },
