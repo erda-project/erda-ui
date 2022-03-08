@@ -867,6 +867,7 @@
     "Please fill in the json expression of obtained target key to determine if the key exists.": "Please fill in the json expression of obtained target key to determine if the key exists.",
     "Project homepage": "Project homepage",
     "Projects": "Projects",
+    "Rendering multi-layer nested structures is not supported at this time, please go to text mode.": "Rendering multi-layer nested structures is not supported at this time, please go to text mode.",
     "Scenes": "Scenes",
     "Search for the test plan I am involved in/responsible for.": "Search for the test plan I am involved in/responsible for.",
     "Send": "Send",

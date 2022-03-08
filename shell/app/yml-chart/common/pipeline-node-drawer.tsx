@@ -481,6 +481,16 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormProps) => {
       const curItem = realData[index] || item;
       const nameKey = get(property.struct, '[0].name');
       const headName = curItem[nameKey] || (typeof curItem[keys[0]] === 'string' ? curItem[keys[0]] : 'module');
+      if (typeof headName === 'object') {
+        return (
+          <div className="p-2 text-black-4">
+            {i18n.t(
+              'dop:Rendering multi-layer nested structures is not supported at this time, please go to text mode.',
+            )}
+          </div>
+        );
+      }
+
       const header = (
         <div className="flex items-center justify-between">
           <span className="truncate" title={headName}>
