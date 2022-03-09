@@ -40,6 +40,8 @@ interface IProps {
   data: CreateDrawerData;
   issueType: string;
   projectId: string;
+  issueTitle?: JSX.Element;
+  extraHeaderOp?: JSX.Element | React.ElementType | null;
   onClose: (e: any) => void;
   onDelete?: () => void;
   handleCopy?: (isCopy: boolean, copyTitle: string) => void;
@@ -79,14 +81,17 @@ export const IssueDrawer = (props: IProps) => {
     projectId,
     setData,
     footer = IssueDrawer.Empty,
+    issueTitle = null,
+    extraHeaderOp = null,
     ...rest
   } = props;
   const [
     title = IssueDrawer.Empty,
     formField = IssueDrawer.Empty,
-    listField = IssueDrawer.Empty,
-    commentField = IssueDrawer.Empty,
+    relationField = IssueDrawer.Empty,
+    logField = IssueDrawer.Empty,
   ] = React.Children.toArray(children);
+
   const customFieldDetail = issueStore.useStore((s) => s.customFieldDetail);
   const [isImagePreviewOpen, issueCommentBoxVisible] = layoutStore.useStore((s) => [
     s.isImagePreviewOpen,
@@ -175,6 +180,7 @@ export const IssueDrawer = (props: IProps) => {
               <div className="flex justify-between items-center">
                 <div className="flex-1 nowrap">{title}</div>
                 <div className="task-drawer-op flex items-center">
+                  {extraHeaderOp}
                   <SubscribersSelector
                     subscribers={data.subscribers}
                     issueID={customFieldDetail?.issueID}
@@ -260,24 +266,22 @@ export const IssueDrawer = (props: IProps) => {
                   )}
                 </div>
               </div>
+              {issueTitle}
             </div>
           </If>
           <div
-            className="flex-1 flex pl-2 overflow-x-hidden overflow-y-auto"
+            ref={mainEle}
+            className="flex-1 px-8 overflow-x-hidden overflow-y-auto"
             style={footer !== IssueDrawer.Empty ? { paddingBottom: '60px' } : {}}
           >
-            <div className="flex-1 overflow-x-hidden overflow-y-auto" ref={mainEle}>
-              <If condition={formField !== IssueDrawer.Empty}>
-                <div className="mb-4 px-6">{formField}</div>
-              </If>
-              <If condition={listField !== IssueDrawer.Empty}>
-                <div className="mb-4 px-6">{listField}</div>
-              </If>
-            </div>
-            <If condition={commentField !== IssueDrawer.Empty}>
-              <div className="w-[390px] overflow-x-hidden overflow-y-auto issue-drawer-right bg-default-02">
-                {commentField}
-              </div>
+            <If condition={formField !== IssueDrawer.Empty}>{formField}</If>
+            <If condition={relationField !== IssueDrawer.Empty}>
+              <div className="h-[1px] bg-default-08 my-4" />
+              {relationField}
+            </If>
+            <If condition={logField !== IssueDrawer.Empty}>
+              <div className="h-[1px] bg-default-08 my-4" />
+              {logField}
             </If>
           </div>
           <If condition={footer !== IssueDrawer.Empty}>

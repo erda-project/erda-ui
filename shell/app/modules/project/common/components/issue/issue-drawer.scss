@@ -20,14 +20,6 @@
     flex-direction: column;
     height: 100%;
   }
-
-  .issue-drawer-right {
-    border-left: 1px solid $color-default-04;
-  }
-
-  .md-content {
-    background-color: $color-default-02;
-  }
 }
 
 .task-drawer-header {
@@ -35,6 +27,7 @@
   padding: 10px 24px;
   color: $color-text;
   line-height: 28px;
+  border-bottom: 1px solid $color-default-08;
 
   .task-drawer-op {
     margin-left: 20px;
@@ -143,26 +136,5 @@
 }
 
 .task-drawer-footer {
-  position: absolute;
-  bottom: 0;
-  z-index: 99;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 59px;
-  padding: 0 16px;
-  line-height: 59px;
   background: $white;
-  border-top: 1px solid $color-border;
-  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.1);
-
-  button {
-    margin-left: 12px;
-  }
-
-  .ant-btn-group {
-    display: inline-flex;
-    align-items: center;
-  }
 }

@@ -42,7 +42,6 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
         {
           text: i18n.t('commit'),
           type: 'primary' as const,
-          className: 'bg-default text-white h-7 flex justify-center items-center relative -top-0.5',
           onClick: (_v: string) => {
             onSave(_v);
             updater.isEditing(false);
@@ -50,7 +49,6 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
         },
         {
           text: i18n.t('cancel'),
-          className: 'text-default-8 bg-default-06 h-7 flex justify-center items-center relative -top-0.5',
           onClick: () => {
             update({ v: originalValue, isEditing: false });
           },
@@ -77,7 +75,7 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
             className={'markdown-edit-button flex-all-center h-8 w-8 fixed bg-white rounded-2xl shadow-card'}
             onClick={() => updater.isEditing(true)}
           >
-            <ErdaIcon type="edit" size={16} className="text-default-4 hover:text-default-8" />
+            <ErdaIcon type="edit" size={16} className="text-blue-deep" />
           </div>
         </Tooltip>
       </div>
