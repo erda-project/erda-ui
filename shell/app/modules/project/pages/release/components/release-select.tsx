@@ -450,15 +450,15 @@ const ListSelectOverlay = ({ selectedList, select, remove, onOk, clear, onCancel
             </div>
           ) : null}
         </div>
-        <div className="py-3 px-2">
-          <Button className="mr-2" type="primary" onClick={onOk}>
-            {i18n.t('ok')}
+        <div className="py-3 px-2 float-right">
+          <Button className="mr-2" onClick={onCancel}>
+            {i18n.t('cancel')}
           </Button>
           <Button className="mr-2" onClick={clear}>
             {i18n.t('one click to clear')}
           </Button>
-          <Button className="mr-2" onClick={onCancel}>
-            {i18n.t('cancel')}
+          <Button className="mr-2" type="primary" onClick={onOk}>
+            {i18n.t('ok')}
           </Button>
         </div>
       </Col>
