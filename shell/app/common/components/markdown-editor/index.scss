@@ -55,6 +55,7 @@
         font-weight: 500;
         color: $color-default;
         &:after {
+          top: 3px;
           background-color: $color-purple-deep;
         }
       }
