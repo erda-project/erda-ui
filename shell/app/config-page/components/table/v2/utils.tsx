@@ -13,7 +13,7 @@
 import React from 'react';
 import { Avatar, Dropdown, Menu, Popconfirm, Progress, Tooltip } from 'antd';
 import moment from 'moment';
-import { Badge, Copy, ErdaIcon, TagsRow, Ellipsis } from 'common';
+import { Badge, Copy, Ellipsis, ErdaIcon, TagsRow } from 'common';
 import { filter, get, has, isArray, map, sortBy } from 'lodash';
 import { getAvatarChars } from 'app/common/utils';
 import { WithAuth } from 'user/common';
@@ -237,13 +237,19 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
         }
 
         Comp = enableCopy ? (
-          <span className="flex group" title={value}>
-            <Copy copyText={value} className="ant-table-cell-ellipsis group-hover:text-purple-deep">
-              {value || i18n.t('copy')}
-            </Copy>
-            <span className="text-desc opacity-0 group-hover:text-purple-deep group-hover:opacity-100">
-              <ErdaIcon type="fz1" size={12} className="ml-1" />
+          <span className="flex group">
+            <span className="ant-table-cell-ellipsis group-hover:text-purple-deep" title={text}>
+              {text}
             </span>
+            <Copy>
+              <ErdaIcon
+                type="fz1"
+                size={12}
+                data-clipboard-text={text}
+                onClick={(e) => e.stopPropagation()}
+                className="ml-1 cursor-copy text-desc opacity-0 group-hover:text-purple-deep group-hover:opacity-100"
+              />
+            </Copy>
           </span>
         ) : (
           value
