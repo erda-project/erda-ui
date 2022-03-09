@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { LazyRender } from 'common';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
+import LazyRender from '..';
 
 describe('LazyRender', () => {
   const windowIntersectionObserver = window.IntersectionObserver;
@@ -28,19 +28,16 @@ describe('LazyRender', () => {
     window.IntersectionObserver = windowIntersectionObserver;
   });
   it('should work well', () => {
-    // const mockEntry = { isIntersecting: false };
-    const wrapper = mount(
+    const result = render(
       <LazyRender minHeight="100px">
         <div className="lazy-render-1" />
       </LazyRender>,
     );
-    expect(wrapper.find('.lazy-render-1')).not.toExist();
+    expect(result.container).isExit('.lazy-render-1', 0);
     const observerCallback = window.IntersectionObserver.mock.calls[0][0];
     observerCallback([{ isIntersecting: false }]);
-    expect(wrapper.find('.lazy-render-1')).not.toExist();
+    expect(result.container).isExit('.lazy-render-1', 0);
     observerCallback([{ isIntersecting: true }]);
-    wrapper.update();
-    expect(wrapper.find('.lazy-render-1')).toExist();
-    wrapper.unmount();
+    expect(result.container).isExit('.lazy-render-1', 1);
   });
 });
