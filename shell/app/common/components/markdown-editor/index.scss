@@ -5,33 +5,23 @@
     display: block;
     .rc-md-editor {
       border-radius: $radius;
-
-      .navigation-nav.left {
-        min-width: 120px;
-      }
+      border-color: $color-default-2;
 
       .editor-container {
         padding: $p8;
-        > .section > .section-container {
-          padding: $p4;
-          padding-top: 0;
-        }
         .sec-md {
           .input {
             padding: $p8;
-            background-color: $whitesmoke;
-
-            &:focus {
-              border-color: $color-active-border;
-              box-shadow: rgb(106 84 158 / 30%) 0 0 0 3px;
-              background-color: $white;
-            }
           }
         }
 
         .sec-html {
-          border-bottom: 1px solid $color-border;
+          border-bottom: 1px solid $color-default-2;
         }
+      }
+
+      .section-container {
+        padding: $p8;
       }
 
       .tool-bar {
@@ -41,7 +31,7 @@
 
     &.show-btn {
       .rc-md-editor {
-        padding-bottom: 42px;
+        padding-bottom: 52px;
       }
 
       .full-screen-btn {
@@ -51,6 +41,27 @@
 
     .md-content {
       padding: 0;
+    }
+  }
+
+  .rc-md-navigation {
+    background-color: $white;
+
+    .button-wrap {
+      .mode-button {
+        width: auto;
+      }
+      .active-button {
+        font-weight: 500;
+        color: $color-default;
+        &:after {
+          background-color: $color-purple-deep;
+        }
+      }
+    }
+
+    .left .button-wrap .button {
+      margin: 0 8px;
     }
   }
 

@@ -80,7 +80,6 @@
 
   .markdown-editor .markdown-editor-content .rc-md-editor .editor-container .sec-md .input {
     background: transparent;
-    box-shadow: 0 2px 1px 0 rgba($color-default, 0.08);
 
     &:focus {
       background: $white;
@@ -96,13 +95,5 @@
     background: $color-purple-highlight;
     border-radius: 1.5px;
     left: 10px;
-  }
-
-  .markdown-editor-content {
-    &.show-btn {
-      .rc-md-editor {
-        padding-bottom: 48px;
-      }
-    }
   }
 }

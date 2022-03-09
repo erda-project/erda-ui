@@ -40,6 +40,7 @@ export const ISSUE_ICON = {
     TASK: <ErdaIcon type="renwu" size="20px" />,
     BUG: <ErdaIcon type="quexian" size="20px" />,
     EPIC: <ErdaIcon type="lichengbei" size="20px" />,
+    TICKET: <ErdaIcon type="gongdan" size="20px" />,
   },
   severity: {
     // 严重程度icon（bug）
@@ -198,7 +199,12 @@ export const ISSUE_TYPE_MAP = {
     value: 'TICKET',
     label: i18n.t('dop:ticket'),
     icon: null,
-    iconLabel: <div className="flex items-center">{i18n.t('dop:ticket')}</div>,
+    iconLabel: (
+      <div className="flex items-center">
+        {ISSUE_ICON.issue.TICKET}
+        {i18n.t('dop:ticket')}
+      </div>
+    ),
   },
   EPIC: {
     value: 'EPIC',
