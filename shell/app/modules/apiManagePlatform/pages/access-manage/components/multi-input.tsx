@@ -15,8 +15,8 @@ import React from 'react';
 import { isEmpty, map, remove, set } from 'lodash';
 import { Input } from 'antd';
 import i18n from 'i18n';
-import './index.scss';
 import { ErdaIcon } from 'common';
+import './multi-input.scss';
 
 const MultiInput = (props: any) => {
   const { value, placeholder } = props;
