@@ -346,10 +346,18 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
     }
   };
 
+  const draggableFun = (node: CP_FILE_TREE.INode) => {
+    return node.draggable;
+  };
+
   let dragProps = {};
   if (draggable) {
     dragProps = {
       onDrop,
+      draggable: draggableFun,
+      allowDrop: ({ dropNode, dropPosition }: { dropNode: CP_FILE_TREE.INode; dropPosition: number }) => {
+        return (dropNode.dropPosition || []).includes(dropPosition);
+      },
     };
   }
 
@@ -369,7 +377,6 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
       <Tree
         {...rest}
         {...dragProps}
-        draggable={draggable}
         treeData={useData}
         onExpand={onExpand}
         onSelect={onClickNode}
