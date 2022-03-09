@@ -34,11 +34,13 @@ export const IssueCommentBox = (props: IProps) => {
   const { onSave = () => {}, editAuth } = props;
   const loginUser = userStore.useStore((s) => s.loginUser);
 
-  const [stateMap, updater] = useUpdate({
+  const [state, updater] = useUpdate({
     visible: false,
-    content: '',
     focus: true,
+    disableSave: true,
   });
+
+  const valueRef = React.useRef('');
 
   const close = () => {
     updater.visible(false);
@@ -46,9 +48,10 @@ export const IssueCommentBox = (props: IProps) => {
   };
 
   const submit = () => {
-    if (stateMap.content.trim().length) {
-      onSave(stateMap.content);
-      updater.content('');
+    const saveVal = valueRef.current.trim();
+    if (saveVal.length) {
+      onSave(saveVal);
+      valueRef.current = '';
       updater.focus(false);
       close();
     }
@@ -56,13 +59,12 @@ export const IssueCommentBox = (props: IProps) => {
 
   useKey('Escape', close);
 
+  // fn in useKey will not get newest state, so we need to use ref
   useKey('Enter', (e) => {
-    if (stateMap.focus && (isWin ? e.shiftKey : e.metaKey)) {
+    if (state.focus && (isWin ? e.shiftKey : e.metaKey)) {
       submit();
     }
   });
-
-  const disableSubmit = !stateMap.content.trim();
 
   return (
     <div
@@ -70,10 +72,10 @@ export const IssueCommentBox = (props: IProps) => {
       style={{ left: '16px', width: `calc(100% - 32px)` }}
     >
       <UserInfo.RenderWithAvatar avatarSize="default" id={loginUser.id} showName={false} className="mr-3" />
-      {stateMap.visible ? (
+      {state.visible ? (
         <div className="flex-1">
           <MarkdownEditor
-            value={stateMap.content}
+            value={valueRef.current}
             placeholder={i18n.t('dop:Comment ({meta} + Enter to send, Esc to collapse)', {
               meta: isWin ? 'Shift' : 'Cmd',
             })}
@@ -81,15 +83,16 @@ export const IssueCommentBox = (props: IProps) => {
             onBlur={() => updater.focus(false)}
             autoFocus
             className="w-full issue-md-arrow"
-            onChange={(val: any) => {
-              updater.content(val);
+            onChange={(val: string) => {
+              valueRef.current = val;
+              updater.disableSave(!val.trim().length);
             }}
             style={{ height: '200px' }}
             maxLength={3000}
           />
 
           <div className="mt-2">
-            <Button className="mr-3" type="primary" disabled={disableSubmit} onClick={() => submit()}>
+            <Button className="mr-3" type="primary" disabled={state.disableSave} onClick={() => submit()}>
               {i18n.t('dop:Post')}
             </Button>
             <Button onClick={() => close()}>{i18n.t('dop:Collapse')}</Button>
