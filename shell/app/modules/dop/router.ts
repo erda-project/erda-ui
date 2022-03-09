@@ -93,13 +93,6 @@ export default function getDopRouter(): RouteConfigItem[] {
             },
           ],
         },
-        // TODO: remove
-        {
-          path: 'apps',
-          breadcrumbName: i18n.t('joined apps'),
-          layout: { fullHeight: true },
-          getComp: (cb) => cb(import('application/common/app-list-protocol'), 'MyAppList'),
-        },
         {
           path: 'projects',
           breadcrumbName: i18n.t('dop:projects'),
