@@ -130,7 +130,7 @@ describe('BatchOperation', () => {
     fireEvent.click(result.getByRole('checkbox'));
     expect(selectFn).toHaveBeenCalledWith([]);
   });
-  it('should work well when there is only an operations', async () => {
+  it('should work well when there is only one operation', async () => {
     const selectFn = jest.fn();
     const operationFn = jest.fn();
     const asyncOperationFn = jest.fn().mockResolvedValue(true);
