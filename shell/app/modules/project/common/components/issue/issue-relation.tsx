@@ -580,7 +580,7 @@ export const AddIssueRelation = ({
           className="h-7 mr-1 p-1 rounded-sm text-sub hover:text-default hover:bg-default-04 cursor-pointer"
           onClick={() => updater.visible(true)}
         >
-          <ErdaIcon type="xuanze-43le7k0l" size={20} />
+          <ErdaIcon type="xuanze-4gcjhec0" size={20} />
         </div>
       </WithAuth>
     </Dropdown>

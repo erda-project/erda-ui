@@ -78,7 +78,7 @@ export const IssueActivities = (props: IProps) => {
               <div className="flex items-center mt-2 text-xs text-sub space-x-6">
                 <span>{user.nick || user.name}</span>
                 <span className="inline-flex items-center">
-                  <ErdaIcon type="yugushijian" className="mr-1" />
+                  <ErdaIcon type="shijian-2" className="mr-1" size={16} />
                   <span>{moment(activity.createdAt).format('YYYY/MM/DD HH:mm:ss')}</span>
                 </span>
               </div>
