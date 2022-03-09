@@ -25,6 +25,8 @@ declare namespace CP_FILE_TREE {
     isColorIcon?: boolean;
     children?: INode[];
     selectable?: boolean;
+    draggable?: boolean;
+    dropPosition?: number[];
     clickToExpand?: boolean;
     isLeaf?: boolean;
     operations?: Obj;
