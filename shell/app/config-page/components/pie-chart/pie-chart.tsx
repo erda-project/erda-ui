@@ -27,7 +27,7 @@ const getOption = (data: CP_PIE_CHART.IList[], _option: Obj, configProps: Obj, l
   const { total, centerLabel, value } = data?.[0] || {};
   let reData = data;
   if (data?.length === 1 && total !== undefined && total >= value) {
-    reData = [...data, { name: '', value: total - value, color: bgColor }];
+    reData = [...data, { name: '', value: total ? total - value : 1, color: bgColor }];
   }
   const color = map(reData || [], (item) => item.color && (colorMap[item.color] || item.color));
   const reLabel = label || centerLabel;
@@ -61,7 +61,6 @@ const getOption = (data: CP_PIE_CHART.IList[], _option: Obj, configProps: Obj, l
     ],
   };
   const isEmpty = !data?.length;
-
   return {
     option: merge({}, _option, option),
     isEmpty,
@@ -128,8 +127,7 @@ const ChartItem = (props: CP_PIE_CHART.Props) => {
     <EChart onEvents={onEvents} option={{ color: reColor, ...reOption }} notMerge style={reChartStyle} {...rest} />
   );
 
-  const total = data?.[0].total || sumBy(data, 'value');
-
+  const total = data?.[0].total || sumBy(data, 'value') || 1;
   const Comp = (
     <div className={`flex ${cls}`}>
       {ChartComp}
@@ -144,6 +142,7 @@ const ChartItem = (props: CP_PIE_CHART.Props) => {
               </div>
             );
           }
+
           return (
             <TextBlockInfo
               size="small"
