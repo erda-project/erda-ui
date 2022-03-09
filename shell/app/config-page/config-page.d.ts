@@ -43,9 +43,12 @@ declare namespace CONFIG_PAGE {
       };
     };
     components: Obj<Merge<Comps, { options: CompOptions }>>;
-    options?: {
-      syncIntervalSecond: number; // 同步轮询间隔
-    };
+    options?: PageConfigGlobalOptions;
+  }
+
+  interface PageConfigGlobalOptions {
+    syncIntervalSecond?: number; // 同步轮询间隔
+    parallelContinueRenders?: Obj<{ opKey: string }>;
   }
 
   type Comps =
