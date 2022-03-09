@@ -36,11 +36,11 @@ export const IssueCommentBox = (props: IProps) => {
 
   const [state, updater] = useUpdate({
     visible: false,
-    focus: true,
     disableSave: true,
   });
 
   const valueRef = React.useRef('');
+  const focusRef = React.useRef(true);
 
   const close = () => {
     updater.visible(false);
@@ -52,7 +52,7 @@ export const IssueCommentBox = (props: IProps) => {
     if (saveVal.length) {
       onSave(saveVal);
       valueRef.current = '';
-      updater.focus(false);
+      focusRef.current = false;
       close();
     }
   };
@@ -61,7 +61,7 @@ export const IssueCommentBox = (props: IProps) => {
 
   // fn in useKey will not get newest state, so we need to use ref
   useKey('Enter', (e) => {
-    if (state.focus && (isWin ? e.shiftKey : e.metaKey)) {
+    if (focusRef.current && (isWin ? e.shiftKey : e.metaKey)) {
       submit();
     }
   });
@@ -79,8 +79,12 @@ export const IssueCommentBox = (props: IProps) => {
             placeholder={i18n.t('dop:Comment ({meta} + Enter to send, Esc to collapse)', {
               meta: isWin ? 'Shift' : 'Cmd',
             })}
-            onFocus={() => updater.focus(true)}
-            onBlur={() => updater.focus(false)}
+            onFocus={() => {
+              focusRef.current = true;
+            }}
+            onBlur={() => {
+              focusRef.current = false;
+            }}
             autoFocus
             className="w-full issue-md-arrow"
             onChange={(val: string) => {
