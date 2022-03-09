@@ -69,9 +69,9 @@ export const IssueActivities = (props: IProps) => {
               avatarSize="default"
               id={user.id}
               showName={false}
-              className="absolute left-[-14px]"
+              className="absolute left-[-12px]"
             />
-            <div className="flex-1 ml-4 p-4 rounded-sm issue-activity-content issue-comment-content">
+            <div className="flex-1 ml-5 p-4 rounded-sm issue-activity-content issue-comment-content">
               <div>
                 <MarkdownRender value={activity.content} />
               </div>
