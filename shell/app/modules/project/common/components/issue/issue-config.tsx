@@ -36,11 +36,11 @@ export const ISSUE_ICON = {
   },
   issue: {
     // 时间类型icon
-    REQUIREMENT: <ErdaIcon type="xuqiu" size="20px" />,
-    TASK: <ErdaIcon type="renwu" size="20px" />,
-    BUG: <ErdaIcon type="quexian" size="20px" />,
-    EPIC: <ErdaIcon type="lichengbei" size="20px" />,
-    TICKET: <ErdaIcon type="gongdan" size="20px" />,
+    REQUIREMENT: <ErdaIcon type="xuqiu" size="28px" />,
+    TASK: <ErdaIcon type="renwu" size="28px" />,
+    BUG: <ErdaIcon type="quexian" size="28px" />,
+    EPIC: <ErdaIcon type="lichengbei" size="28px" />,
+    TICKET: <ErdaIcon type="gongdan" size="28px" />,
   },
   severity: {
     // 严重程度icon（bug）

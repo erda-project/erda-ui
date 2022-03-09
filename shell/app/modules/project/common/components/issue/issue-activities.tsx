@@ -69,16 +69,16 @@ export const IssueActivities = (props: IProps) => {
               avatarSize="default"
               id={user.id}
               showName={false}
-              className="absolute left-[-14px]"
+              className="absolute left-[-12px]"
             />
-            <div className="flex-1 ml-4 p-4 rounded-sm issue-activity-content issue-comment-content">
+            <div className="flex-1 ml-5 p-4 rounded-sm issue-activity-content issue-comment-content">
               <div>
                 <MarkdownRender value={activity.content} />
               </div>
               <div className="flex items-center mt-2 text-xs text-sub space-x-6">
                 <span>{user.nick || user.name}</span>
                 <span className="inline-flex items-center">
-                  <ErdaIcon type="yugushijian" className="mr-1" />
+                  <ErdaIcon type="shijian-2" className="mr-1" size={16} />
                   <span>{moment(activity.createdAt).format('YYYY/MM/DD HH:mm:ss')}</span>
                 </span>
               </div>
@@ -130,7 +130,7 @@ export const IssueActivities = (props: IProps) => {
   const activeTab = tabs.find((t) => t.key === activeTabKey) as typeof tabs[0];
   return (
     <Spin spinning={loading}>
-      <div className="flex flex-col">
+      <div className="flex flex-col pb-16">
         <div className="flex-h-center text-primary font-medium">
           <span className="text-base">{i18n.t('Log')}</span>
           <span className="w-[1px] h-[12px] bg-default-1 mx-4" />
