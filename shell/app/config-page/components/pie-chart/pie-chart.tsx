@@ -27,7 +27,7 @@ const getOption = (data: CP_PIE_CHART.IList[], _option: Obj, configProps: Obj, l
   const { total, centerLabel, value } = data?.[0] || {};
   let reData = data;
   if (data?.length === 1 && total !== undefined && total >= value) {
-    reData = [...data, { name: '', value: total - value || 1, color: bgColor }];
+    reData = [...data, { name: '', value: total ? total - value : 1, color: bgColor }];
   }
   const color = map(reData || [], (item) => item.color && (colorMap[item.color] || item.color));
   const reLabel = label || centerLabel;
