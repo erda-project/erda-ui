@@ -100,6 +100,7 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
         scenarioType="release-manage"
         showLoading
         inParams={inParams}
+        key={isFormal}
         ref={reloadRef}
         customProps={{
           releaseTable: {
