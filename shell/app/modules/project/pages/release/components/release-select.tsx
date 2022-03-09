@@ -12,66 +12,52 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Dropdown, Row, Col, Button, Input, Timeline, Collapse, Modal, message } from 'antd';
+import { Row, Col, Button, Timeline, Collapse, Modal, message } from 'antd';
+import moment from 'moment';
 import i18n from 'i18n';
-import { ErdaIcon, Pagination } from 'common';
-import { IPaginationProps } from 'common/components/pagination';
-import { useUpdateEffect } from 'react-use';
+import { goTo } from 'common/utils';
+import { ErdaIcon, Pagination, ConfigurableFilter } from 'common';
+import { PAGINATION } from 'app/constants';
+import routeInfoStore from 'core/stores/route';
+import memberStore from 'common/stores/application-member';
+import releaseStore from 'project/stores/release';
+import { MemberScope } from 'common/stores/member-scope';
+import { getReleaseList } from 'project/services/release';
 import empty from 'app/images/empty.svg';
 
 import './release-select.scss';
 
 const { Panel } = Collapse;
 
-/**
- * list select
- * @param label The title used to display in buttons and popovers
- * @param value External value of the component
- * @param onChange A callback function when a component value changes
- * @param rowKey The ID of list
- * @param parentKey The ID of the menu item that the list corresponds to
- * @param menuRowKey The ID of menu
- * @param onMenuChange A callback function when the value of menu changes
- * @param onMenuFilter A callback function when menu filter
- * @param onListFilter A callback function when list filter
- * @param listPagination pagination of list
- * @param renderSelectedItem A function used to render the selected list
- * @param renderItem A function used to render the list
- */
-
-interface IProps<T extends Obj> {
-  value?: Array<{ active: boolean; list: T[] }>;
-  rowKey?: string;
-  parentKey?: string;
-  menuRowKey?: string;
+interface IProps {
+  value: Array<{ active: boolean; list: Item[] }>;
   readOnly?: boolean;
-  onChange?: (values: Array<{ active: boolean; list: T[] }>) => void;
-  renderSelectedItem?: (item: T) => React.ReactNode;
+  onChange?: (values: Array<{ active: boolean; list: Item[] }>) => void;
 }
 
-function ReleaseSelect<T extends { applicationId: string; title: string }>(props: IProps<T>) {
-  const {
-    renderSelectedItem = defaultRenderItem,
-    onChange,
-    rowKey = 'id',
-    parentKey = 'pId',
-    menuRowKey = 'id',
-    value,
-    readOnly,
-  } = props;
-  const [selectedList, setSelectedList] = React.useState<T[]>([]);
-  const [groupList, setGroupList] = React.useState<Array<{ active: boolean; list: T[] }>>([{ active: true, list: [] }]);
+interface Item {
+  id: string;
+  pId: string;
+  applicationName: string;
+  version: string;
+  createdAt: string;
+}
+
+const ReleaseSelect = ({ value, readOnly = false, onChange }: IProps) => {
   const [releaseVisible, setReleaseVisible] = React.useState<boolean>(false);
+  const [groupList, setGroupList] = React.useState<Array<{ active: boolean; list: Item[] }>>([
+    { active: true, list: [] },
+  ]);
   const [currentGroup, setCurrentGroup] = React.useState<number>(0);
-  const select = (selectItem: T, checked: boolean) => {
-    const groupIndex = groupList.findIndex((group) =>
-      group.list.find((item) => item.applicationId === selectItem.applicationId),
-    );
+  const [selectedList, setSelectedList] = React.useState<Item[]>([]);
+
+  const select = (selectItem: Item, checked: boolean) => {
+    const groupIndex = groupList.findIndex((group) => group.list.find((item) => item.pId === selectItem.pId));
     if (groupIndex === -1 || groupIndex === currentGroup) {
       setSelectedList((prev) =>
         checked
-          ? [...prev.filter((item) => item[parentKey] !== selectItem[parentKey]), selectItem]
-          : prev.filter((item) => item[rowKey] !== selectItem[rowKey]),
+          ? [...prev.filter((item) => item.pId !== selectItem.pId), selectItem]
+          : prev.filter((item) => item.id !== selectItem.id),
       );
     } else {
       message.error(
@@ -83,17 +69,11 @@ function ReleaseSelect<T extends { applicationId: string; title: string }>(props
   };
 
   const remove = (id: string) => {
-    setSelectedList((prev) => prev.filter((item) => item[rowKey] !== id));
+    setSelectedList((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const removeResult = (i: number, id: string) => {
-    const { list } = groupList[i];
-    const currentList = [...list];
-    const index = list.findIndex((item) => item[rowKey] === id);
-    currentList.splice(index, 1);
-    groupList[i].list = currentList;
-    setGroupList([...groupList]);
-    onChange?.(groupList);
+  const clear = () => {
+    setSelectedList([]);
   };
 
   const removeGroup = (index: number, e: React.MouseEvent<HTMLElement>) => {
@@ -103,8 +83,14 @@ function ReleaseSelect<T extends { applicationId: string; title: string }>(props
     onChange?.(_groupList);
   };
 
-  const clear = () => {
-    setSelectedList([]);
+  const removeResult = (i: number, id: string) => {
+    const { list: _list } = groupList[i];
+    const currentList = [..._list];
+    const index = _list.findIndex((item) => item.id === id);
+    currentList.splice(index, 1);
+    groupList[i].list = currentList;
+    setGroupList([...groupList]);
+    onChange?.(groupList);
   };
 
   const onOk = () => {
@@ -173,7 +159,7 @@ function ReleaseSelect<T extends { applicationId: string; title: string }>(props
                         className={`erda-list-select-selected-item flex items-center p-2 rounded-sm ${
                           !readOnly ? 'hover:bg-default-04' : ''
                         }`}
-                        key={item[rowKey]}
+                        key={item.id}
                       >
                         <div className="flex-1 pr-2 overflow-auto">{renderSelectedItem(item)}</div>
                         {!readOnly ? (
@@ -181,7 +167,7 @@ function ReleaseSelect<T extends { applicationId: string; title: string }>(props
                             type="close-small"
                             size={24}
                             className="erda-list-select-selected-item-delete cursor-pointer text-default-4"
-                            onClick={() => removeResult(index, item[rowKey])}
+                            onClick={() => removeResult(index, item.id)}
                           />
                         ) : null}
                       </div>
@@ -223,6 +209,7 @@ function ReleaseSelect<T extends { applicationId: string; title: string }>(props
             </Collapse>
           </Timeline.Item>
         ))}
+
         {!readOnly ? (
           <Timeline.Item
             dot={
@@ -254,92 +241,187 @@ function ReleaseSelect<T extends { applicationId: string; title: string }>(props
         footer={null}
       >
         <ListSelectOverlay
-          {...props}
           selectedList={selectedList}
           select={select}
           remove={remove}
           onOk={onOk}
           onCancel={() => setReleaseVisible(false)}
           clear={clear}
-          rowKey={rowKey}
-          menuRowKey={menuRowKey}
-          parentKey={parentKey}
         />
       </Modal>
     </div>
   );
-}
-
-interface ListSelectOverlayProps<T> {
-  label: React.ReactNode;
-  multiple?: boolean;
-  menus: Array<{ title: string }>;
-  menusTotal?: number;
-  list: T[];
-  onMenuChange?: (item?: { title: string }) => void;
-  onMenuFilter?: (q: string) => void;
-  onListFilter?: (q: string) => void;
-  onOk?: () => void;
-  onCancel?: () => void;
-  onMenuLoadMore?: (page: number, pageSize?: number) => void;
-  listPagination?: IPaginationProps;
-  renderSelectedItem?: (item: T, isDark?: boolean) => React.ReactNode;
-  renderItem?: (item: T) => React.ReactNode;
-  select: (item: T, checked: boolean) => void;
-  remove: (id: string) => void;
-  clear: () => void;
-  selectedList: T[];
-  rowKey: string;
-  menuRowKey: string;
-  parentKey: string;
-  rightSlot?: React.ReactNode;
-}
-
-const defaultRenderItem = (item: { title: string }) => {
-  return item.title || '-';
 };
 
-function ListSelectOverlay<T extends object = any>({
-  label,
-  multiple = true,
-  menus: _menus,
-  menusTotal = 0,
-  list,
-  onMenuChange,
-  onMenuFilter,
-  onListFilter,
-  onOk,
-  onCancel,
-  onMenuLoadMore,
-  listPagination,
-  renderSelectedItem = defaultRenderItem,
-  renderItem = defaultRenderItem,
-  select,
-  remove,
-  clear,
-  selectedList,
-  rowKey,
-  menuRowKey,
-  parentKey,
-  rightSlot,
-}: ListSelectOverlayProps<T>) {
-  const defaultSelectMenu = React.useMemo(
-    () => ({ [menuRowKey]: 0, title: i18n.t('dop:all {name}', { name: i18n.t('App') }) }),
-    [menuRowKey],
-  );
-  const menus = React.useMemo(() => [defaultSelectMenu, ..._menus], [_menus, defaultSelectMenu]);
-  const [selectedMenu, setSelectedMenu] = React.useState<{ title: string }>(defaultSelectMenu);
-  const [menusPageNo, setMenusPageNo] = React.useState<number>(1);
+interface OverlayProps {
+  selectedList: Item[];
+  select: (selectItem: Item, checked: boolean) => void;
+  remove: (id: string) => void;
+  onOk: () => void;
+  clear: () => void;
+  onCancel: () => void;
+}
 
-  useUpdateEffect(() => {
-    onMenuChange && onMenuChange(selectedMenu);
-  }, [selectedMenu, menus, menuRowKey]);
+interface FilterData {
+  applicationId?: string;
+  branchName?: string;
+  commitId?: string;
+  releaseId?: string;
+  userId?: string;
+  latest?: string;
+  1?: string;
+}
+
+const ListSelectOverlay = ({ selectedList, select, remove, onOk, clear, onCancel }: OverlayProps) => {
+  const { params } = routeInfoStore.getState((s) => s);
+  const { projectId } = params;
+  const { appList } = releaseStore.getState((s) => s);
+  const { getAppList } = releaseStore.effects;
+
+  const [memberList] = memberStore.useStore((s) => [s.list]);
+  const { getMemberList } = memberStore.effects;
+  const [filterData, setFilterData] = React.useState<FilterData>({ latest: 'true' });
+  const [releaseList, setReleaseList] = React.useState<RELEASE.ReleaseDetail[]>([] as RELEASE.ReleaseDetail[]);
+  const [releaseTotal, setReleaseTotal] = React.useState(0);
+  const [pageNo, setPageNo] = React.useState(1);
+  const listPagination = {
+    total: releaseTotal,
+    current: pageNo,
+    pageSize: PAGINATION.pageSize,
+    onChange: (_pageNo: number) => {
+      getReleases(_pageNo);
+    },
+  };
+
+  const getReleases = React.useCallback(
+    async (_pageNo: number) => {
+      setPageNo(_pageNo);
+      const res = await getReleaseList({
+        projectId,
+        pageNo: _pageNo,
+        isProjectRelease: false,
+        pageSize: PAGINATION.pageSize,
+        isStable: true,
+        ...filterData,
+      });
+      const { data } = res;
+      if (data) {
+        const { list, total } = data;
+        setReleaseList(list.map((item) => ({ ...item, id: item.releaseId, pId: item.applicationId })));
+        setReleaseTotal(total);
+      }
+    },
+    [projectId, filterData],
+  );
+
+  React.useEffect(() => {
+    getAppList({ projectId });
+    getMemberList({ scope: { id: projectId, type: MemberScope.PROJECT }, pageNo: 1, pageSize: 10000 });
+  }, [projectId, getAppList, getMemberList]);
+
+  React.useEffect(() => {
+    getReleases(1);
+  }, [getReleases]);
+
+  const fieldsList = [
+    {
+      key: 'applicationId',
+      type: 'select',
+      label: i18n.t('App'),
+      mode: 'single',
+      options: appList.map((item) => ({ label: item.displayName, value: item.id })),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('App') }),
+    },
+    {
+      key: 'branchName',
+      type: 'input',
+      label: i18n.t('dop:branch'),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:branch') }),
+    },
+    {
+      key: 'commitId',
+      type: 'input',
+      label: 'commitID',
+      placeholder: i18n.t('filter by {name}', { name: 'commitID' }),
+    },
+    {
+      key: 'releaseId',
+      type: 'input',
+      label: `${i18n.t('Artifact')}ID`,
+      placeholder: i18n.t('filter by {name}', { name: `${i18n.t('Artifact')}ID` }),
+    },
+    {
+      key: 'userId',
+      type: 'select',
+      label: i18n.t('creator'),
+      mode: 'single',
+      options: memberList.map((item) => ({ label: item.nick, value: item.userId })),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('creator') }),
+    },
+    {
+      key: 'latest',
+      type: 'select',
+      label: i18n.t('dop:only the latest version is displayed'),
+      mode: 'single',
+      options: [{ label: '是', value: 'true' }],
+    },
+    {
+      key: 'q',
+      outside: true,
+      label: 'title',
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+      type: 'input',
+    },
+  ];
 
   return (
-    <Row className="erda-list-select-overlay text-white rounded">
+    <Row className="erda-list-select-overlay text-default-9 rounded">
+      <Col span={12} className="px-2 h-full bg-default-02">
+        <div className="erda-list-select-right-content flex">
+          <div className="flex-1 pl-2 min-w-0">
+            <div className="py-3 px-2 mb-2">
+              <ConfigurableFilter
+                hideSave
+                value={filterData}
+                fieldsList={fieldsList}
+                onFilter={(values) => setFilterData(values)}
+                onClear={() => {}}
+              />
+            </div>
+            <div className="erda-list-select-list flex-1 flex flex-col justify-between">
+              <div className="flex-1 overflow-y-auto">
+                {releaseList?.map?.((item) => {
+                  const checked = !!selectedList.find((listItem) => listItem.id === item.id);
+                  return (
+                    <div
+                      className="px-2 py-3 rounded-sm cursor-pointer hover:bg-default-04 flex items-center"
+                      onClick={() => select(item as Item, !checked)}
+                      key={item.id}
+                    >
+                      <Radio multiple checked={checked} />
+                      <div className="pl-3 flex-1 min-w-0 truncate">{renderItem(item as Item)}</div>
+                    </div>
+                  );
+                })}
+
+                {!releaseList.length ? (
+                  <div className="h-full flex items-center justify-center flex-col">
+                    <img src={empty} />
+                    <div className="text-white-6 mt-2">
+                      {i18n.t('dop:no {name}', { name: i18n.t('dop:app release') })}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+
+              {listPagination ? <Pagination hidePageSizeChange {...listPagination} /> : null}
+            </div>
+          </div>
+        </div>
+      </Col>
       <Col span={12} className="px-2 h-full">
         <div className="py-3 px-2">
-          {i18n.t('selected {name}', { name: label })}
+          {i18n.t('common:selected')}
           {selectedList.length && selectedList.length !== 0 ? (
             <span className="selected-num ml-2 rounded-full">{selectedList.length}</span>
           ) : null}
@@ -347,22 +429,24 @@ function ListSelectOverlay<T extends object = any>({
         <div className="erda-list-select-selected-list overflow-y-auto">
           {selectedList.map((item) => (
             <div
-              className="erda-list-select-selected-item flex items-center p-2 hover:bg-white-06 rounded-sm"
-              key={item[rowKey]}
+              className="erda-list-select-selected-item flex items-center p-2 hover:bg-default-04 rounded-sm"
+              key={item.id}
             >
-              <div className="flex-1 pr-2 min-w-0 truncate">{renderSelectedItem(item, true)}</div>
+              <div className="flex-1 pr-2 min-w-0 truncate">{renderSelectedItem(item, false)}</div>
               <ErdaIcon
                 type="close-small"
                 size={24}
-                className="erda-list-select-selected-item-delete cursor-pointer text-white-4"
-                onClick={() => remove(item[rowKey])}
+                className="erda-list-select-selected-item-delete cursor-pointer text-default-6"
+                onClick={() => remove(item.id)}
               />
             </div>
           ))}
           {!selectedList.length ? (
             <div className="h-full flex items-center justify-center flex-col">
               <img src={empty} />
-              <div className="text-white-6 mt-2">{i18n.t('dop:no choice {name}', { name: label })}</div>
+              <div className="text-white-6 mt-2">
+                {i18n.t('dop:no choice {name}', { name: i18n.t('dop:app release') })}
+              </div>
             </div>
           ) : null}
         </div>
@@ -378,107 +462,53 @@ function ListSelectOverlay<T extends object = any>({
           </Button>
         </div>
       </Col>
-      <Col span={12} className="px-2 h-full bg-white-08">
-        <div className="py-3 px-2 flex items-center">
-          <Dropdown
-            trigger={['click']}
-            getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-            overlay={
-              <div className="erda-list-select-menus p-2 bg-default max-h-80">
-                <div onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => e.stopPropagation()}>
-                  <Input
-                    prefix={<ErdaIcon type="search" color="currentColor" />}
-                    className="bg-white-06 border-none mb-2"
-                    placeholder={i18n.t('search {name}', { name: i18n.t('dop:app name') })}
-                    onPressEnter={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                      onMenuFilter?.(e.target.value);
-                      setSelectedMenu(defaultSelectMenu);
-                    }}
-                  />
-                </div>
-
-                {menus.map((item) => {
-                  const selectNum = selectedList.filter((i) => i[parentKey] === item[menuRowKey]).length;
-                  return (
-                    <div
-                      className={`erda-list-select-menu-item flex items-center hover:bg-white-06 ${
-                        selectedMenu[menuRowKey] === item[menuRowKey] ? 'active' : ''
-                      }`}
-                      onClick={() => setSelectedMenu(item)}
-                      key={item[menuRowKey]}
-                    >
-                      <span className="truncate" title={item.title}>
-                        {item.title}
-                      </span>
-                      {selectNum !== 0 ? (
-                        <span className="selected-num bg-purple-deep ml-2 rounded-full text-xs">{selectNum}</span>
-                      ) : null}
-                    </div>
-                  );
-                })}
-                {menus.length < menusTotal && onMenuLoadMore ? (
-                  <div
-                    className="erda-list-select-menu-item hover:bg-white-06"
-                    onClick={() => {
-                      setMenusPageNo(menusPageNo + 1);
-                      onMenuLoadMore(menusPageNo + 1);
-                    }}
-                  >
-                    <ErdaIcon type="loading" className="align-middle mr-2" spin />
-                    {i18n.t('load more')}
-                  </div>
-                ) : null}
-              </div>
-            }
-          >
-            <div className="pl-2 flex-h-center cursor-pointer">
-              {selectedMenu.title} <ErdaIcon size={16} type="caret-down" className="ml-1 text-white-3" />
-            </div>
-          </Dropdown>
-          <div className="pl-4">{rightSlot}</div>
-        </div>
-        <div className="erda-list-select-right-content flex">
-          <div className="flex-1 pl-2 min-w-0">
-            <div className="px-2 mb-2">
-              <Input
-                prefix={<ErdaIcon type="search" />}
-                className="bg-white-06 border-none"
-                placeholder={i18n.t('search {name}', { name: label })}
-                onPressEnter={(e: React.KeyboardEvent<HTMLInputElement>) => onListFilter?.(e.target.value)}
-              />
-            </div>
-            <div className="erda-list-select-list flex-1 flex flex-col justify-between">
-              <div className="flex-1 overflow-y-auto">
-                {list?.map?.((item) => {
-                  const checked = !!selectedList.find((listItem) => listItem[rowKey] === item[rowKey]);
-                  return (
-                    <div
-                      className="px-2 py-3 rounded-sm cursor-pointer hover:bg-white-06 flex items-center"
-                      onClick={() => select(item, !checked)}
-                      key={item[rowKey]}
-                    >
-                      <Radio multiple={multiple} checked={checked} />
-                      <div className="pl-3 flex-1 min-w-0 truncate">{renderItem(item)}</div>
-                    </div>
-                  );
-                })}
-
-                {!list.length ? (
-                  <div className="h-full flex items-center justify-center flex-col">
-                    <img src={empty} />
-                    <div className="text-white-6 mt-2">{i18n.t('dop:no {name}', { name: label })}</div>
-                  </div>
-                ) : null}
-              </div>
-
-              {listPagination ? <Pagination hidePageSizeChange {...listPagination} /> : null}
-            </div>
-          </div>
-        </div>
-      </Col>
     </Row>
   );
-}
+};
+
+const renderSelectedItem = (item: Item, isDark?: boolean) => {
+  return (
+    <div className="flex justify-between items-center">
+      <div className="flex-1 min-w-0">
+        <div
+          className="text-purple-deep truncate cursor-pointer"
+          title={item.version}
+          onClick={() => goTo(goTo.resolve.applicationReleaseDetail({ releaseId: item.id }), { jumpOut: true })}
+        >
+          {item.version}
+        </div>
+        <div className="text-xs flex my-1">
+          <div className={isDark ? 'text-white-6' : 'text-default-6'}>{i18n.t('dop:owned application')}</div>
+          <div className="ml-2 flex-1 min-w-0 truncate" title={item.applicationName}>
+            {item.applicationName}
+          </div>
+        </div>
+      </div>
+      <div className={isDark ? 'text-white-6' : 'text-default-6'}>
+        {item.createdAt ? moment(item.createdAt).format('YYYY/MM/DD HH:mm:ss') : null}
+      </div>
+    </div>
+  );
+};
+
+const renderItem = (item: Item) => {
+  return (
+    <div className="flex justify-between items-center">
+      <div className="flex-1 min-w-0">
+        <div className="truncate" title={item.version}>
+          {item.version}
+        </div>
+        <div className="text-xs flex">
+          <div className="text-default-6">{i18n.t('dop:owned application')}</div>
+          <div className="ml-2 truncate" title={item.applicationName}>
+            {item.applicationName}
+          </div>
+        </div>
+      </div>
+      <span className="text-xs text-default-6">{moment(item.createdAt).format('YYYY/MM/DD HH:mm:ss')}</span>
+    </div>
+  );
+};
 
 interface RadioProps {
   checked?: boolean;
@@ -488,7 +518,7 @@ interface RadioProps {
 const Radio = ({ checked, multiple = false }: RadioProps) => {
   return multiple ? (
     <div
-      className={`w-6 h-6 inline-block rounded-full border border-solid border-white-3 flex p-1 ${
+      className={`w-6 h-6 inline-block rounded-full border border-solid border-default-3 flex p-1 text-white ${
         checked ? 'bg-purple-deep border-purple-deep' : ''
       }`}
     >
@@ -496,7 +526,7 @@ const Radio = ({ checked, multiple = false }: RadioProps) => {
     </div>
   ) : (
     <div
-      className={`w-6 h-6 inline-block rounded-full border border-solid border-white-3 flex p-1 ${
+      className={`w-6 h-6 inline-block rounded-full border border-solid border-default-3 flex p-1 text-white ${
         checked ? 'border-purple-deep' : ''
       }`}
     >
