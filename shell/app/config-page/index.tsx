@@ -83,7 +83,6 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     operationCallBack,
   } = props;
 
-  // const [routeQuery, urlState] = routeInfoStore.useStore((s) => [s.query, s.urlState]);
   const [{ pageConfig, fetching }, updater] = useUpdate({
     pageConfig:
       debugConfig ||
