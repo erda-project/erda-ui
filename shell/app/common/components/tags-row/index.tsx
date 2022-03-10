@@ -171,7 +171,7 @@ const TagsRow = ({
       {onAdd ? (
         <ErdaIcon
           className={`tags-add ${size} ml-2 text-xs leading-6 cursor-pointer`}
-          type="tj1"
+          type="plus"
           color="currentColor"
           onClick={onAdd}
         />

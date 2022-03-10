@@ -30,7 +30,7 @@ export const iconMap = {
   'double-right': 'double-right',
   'application-menu': 'application-menu',
   help: 'help',
-  plus: 'tj1',
+  plus: 'plus',
   moreOne: 'more-one',
   CPU: 'CPU',
   GPU: 'GPU',

@@ -67,7 +67,7 @@ describe('TagsRow', () => {
   it('should add well', () => {
     const addFn = jest.fn();
     const result = render(<TagsRow labels={[{ label: 'tagITem' }]} onAdd={addFn} />);
-    fireEvent.click(result.container.querySelector('[name="tj1"]')!);
+    fireEvent.click(result.container.querySelector('[name="plus"]')!);
     expect(addFn).toHaveBeenCalledTimes(1);
   });
 });

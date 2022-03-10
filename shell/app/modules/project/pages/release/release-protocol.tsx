@@ -58,7 +58,7 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
     <Menu className="bg-default">
       <Menu.Item onClick={() => onCreate('app')} key={'app'} className="bg-default hover:bg-white-08">
         <div className="flex-h-center text-white-9">
-          <ErdaIcon type="tj1" size={16} className="mr-1" />
+          <ErdaIcon type="plus" size={16} className="mr-1" />
           {i18n.t('dop:select apps create')}
         </div>
       </Menu.Item>
