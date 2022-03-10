@@ -19,6 +19,7 @@ import routeInfoStore from 'core/stores/route';
 import { find, merge } from 'lodash';
 import orgStore from 'app/org-home/stores/org';
 import { getGlobal } from 'core/global-space';
+import { on } from 'core/event-hub';
 
 const sendMsgUtilWsReady = async (targetWs: any, msg: { command: '__detach' | '__attach' }) => {
   while (targetWs.readyState !== 1 || targetWs.isReady !== true) {
@@ -52,6 +53,7 @@ interface IState {
   isImagePreviewOpen: boolean;
   scalableImgSrc: string;
   issueCommentBoxVisible: boolean;
+  isMdEditorFullScreen: boolean;
 }
 
 const emptyApp = {
@@ -76,6 +78,7 @@ const initState: IState = {
   isImagePreviewOpen: false,
   scalableImgSrc: '',
   issueCommentBoxVisible: false,
+  isMdEditorFullScreen: false,
 };
 
 const layout = createStore({
@@ -135,6 +138,10 @@ const layout = createStore({
     });
     window.addEventListener('resize', () => {
       layout.reducers.setClient();
+    });
+
+    on('common:mdEditorFullScreen', (v: boolean) => {
+      layout.reducers.setMdEditorFullScreen(v);
     });
   },
   effects: {
@@ -240,6 +247,9 @@ const layout = createStore({
     },
     setIssueCommentBoxVisible(state, payload: boolean) {
       state.issueCommentBoxVisible = payload;
+    },
+    setMdEditorFullScreen(state, payload: boolean) {
+      state.isMdEditorFullScreen = payload;
     },
   },
 });

@@ -20,6 +20,7 @@ import { map } from 'lodash';
 import { useMount } from 'react-use';
 import { BaseButtonProps } from 'antd/es/button/button';
 import './index.scss';
+import { emit } from 'core/event-hub';
 
 interface BtnProps extends BaseButtonProps {
   text: string;
@@ -94,6 +95,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
   React.useEffect(() => {
     mdEditorRef.current?.on('fullscreen', (isFullScreen: boolean) => {
       updater.fullscreen(isFullScreen);
+      emit('common:mdEditorFullScreen', isFullScreen);
     });
   }, []);
 

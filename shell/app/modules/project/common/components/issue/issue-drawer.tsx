@@ -94,9 +94,10 @@ export const IssueDrawer = (props: IProps) => {
   ] = React.Children.toArray(children);
 
   const customFieldDetail = issueStore.useStore((s) => s.customFieldDetail);
-  const [isImagePreviewOpen, issueCommentBoxVisible] = layoutStore.useStore((s) => [
+  const [isImagePreviewOpen, issueCommentBoxVisible, isMdEditorFullScreen] = layoutStore.useStore((s) => [
     s.isImagePreviewOpen,
     s.issueCommentBoxVisible,
+    s.isMdEditorFullScreen,
   ]);
   const [copyTitle, setCopyTitle] = React.useState('');
   const [isChanged, setIsChanged] = React.useState(false);
@@ -110,8 +111,8 @@ export const IssueDrawer = (props: IProps) => {
       if (issueCommentBoxVisible) {
         return;
       }
-      if (e.keyCode === 27) {
-        if (isImagePreviewOpen) {
+      if (e.key === 'Escape') {
+        if (isImagePreviewOpen || isMdEditorFullScreen) {
           return;
         }
         if (isChanged && confirmCloseTip) {
@@ -126,7 +127,7 @@ export const IssueDrawer = (props: IProps) => {
         }
       }
     },
-    [issueCommentBoxVisible, isImagePreviewOpen, isChanged, confirmCloseTip, onClose],
+    [issueCommentBoxVisible, isImagePreviewOpen, isMdEditorFullScreen, isChanged, confirmCloseTip, onClose],
   );
 
   useEvent('keydown', escClose);
