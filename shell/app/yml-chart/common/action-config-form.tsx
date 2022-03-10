@@ -26,12 +26,14 @@ interface IProps {
 
 const ActionConfigForm = (props: IProps) => {
   const { chosenActionName } = props;
-  const { projectId } = routeInfoStore.useStore((s) => s.params);
+  const [{ projectId }, { applicationId }] = routeInfoStore.useStore((s) => [s.params, s.query]);
 
   const inParams = {
     actionData: props.nodeData,
     projectId,
+    appId: applicationId,
   };
+
   return (
     <DiceConfigPage
       inParams={inParams}
