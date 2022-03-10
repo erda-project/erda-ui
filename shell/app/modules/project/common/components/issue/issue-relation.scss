@@ -3,3 +3,10 @@
     width: 0;
   }
 }
+.section-operate-title {
+  &:hover {
+    .op-icon {
+      background-color: $color-default-06;
+    }
+  }
+}

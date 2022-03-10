@@ -530,7 +530,6 @@
     "item {index} should be lowercase letters, numbers, dot, -, *": "item {index} should be lowercase letters, numbers, dot, -, *",
     "join org": "join org",
     "join {orgName}": "join {orgName}",
-    "joined apps": "joined apps",
     "joined organization successfully": "joined organization successfully",
     "jump server": "jump server",
     "key": "key",

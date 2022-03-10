@@ -30,7 +30,6 @@ import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 import { IssueDrawer } from 'project/common/components/issue/issue-drawer';
 import { IssueCommentBox } from 'project/common/components/issue/comment-box';
-import { AddMrRelation } from 'project/common/components/issue/add-mr-relation';
 import { IssueActivities } from 'project/common/components/issue/issue-activities';
 import { mergeSearch, updateSearch } from 'common/utils/query-string';
 import iterationStore from 'app/modules/project/stores/iteration';
@@ -46,6 +45,7 @@ import { templateMap } from 'project/common/issue-config';
 import IssueMetaFields from './meta-fields';
 import { IssueInclusion, IssueConnection } from '../issue-relation';
 import { getIssueRelation } from 'project/services/issue';
+import { emit } from 'core/event-hub';
 
 export const ColorIcon = ({ icon }: { icon: string }) => {
   return (
@@ -653,7 +653,15 @@ export const EditIssueDrawer = (props: IProps) => {
       </Spin>
     );
   } else {
-    footer = <IssueCommentBox onSave={(content) => addIssueStream(issueDetail, { content })} editAuth={editAuth} />;
+    footer = issueDetail ? (
+      <IssueCommentBox
+        onSave={(content) => {
+          addIssueStream(issueDetail, { content });
+          emit('issue:scrollToLatestComment');
+        }}
+        editAuth={editAuth}
+      />
+    ) : null;
   }
 
   const relationData = getIssueRelation.useData();
@@ -677,21 +685,6 @@ export const EditIssueDrawer = (props: IProps) => {
       setData={setFormData}
       footer={footer}
       extraHeaderOp={extraHeaderOp}
-      issueTitle={
-        <EditField
-          name="title"
-          onChangeCb={setFieldCb}
-          data={formData}
-          disabled={!editAuth}
-          className="flex-1 mt-2"
-          itemProps={{
-            className: 'text-xl text-normal px-2 font-medium',
-            maxLength: 255,
-            autoFocus: true,
-            placeholder: specialProps.titlePlaceHolder,
-          }}
-        />
-      }
       // loading={
       //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
       // }
@@ -748,6 +741,19 @@ export const EditIssueDrawer = (props: IProps) => {
         )}
       </div>
       <div className="mt-1">
+        <EditField
+          name="title"
+          onChangeCb={setFieldCb}
+          data={formData}
+          disabled={!editAuth}
+          className="flex-1 mt-2 ml-[-8px] mr-[-8px]"
+          itemProps={{
+            autoFocus: !isEditMode,
+            className: 'text-xl text-normal px-2 font-medium',
+            maxLength: 255,
+            placeholder: specialProps.titlePlaceHolder,
+          }}
+        />
         <IssueMetaFields
           ref={metaFieldsRef}
           projectId={projectId}
@@ -760,41 +766,40 @@ export const EditIssueDrawer = (props: IProps) => {
           formData={formData}
           setFieldCb={setFieldCb}
         />
-        <div className="h-[1px] bg-default-08 my-4" />
-        <EditField
-          name="content"
-          disabled={!editAuth}
-          type="markdown"
-          onChangeCb={setFieldCb}
-          itemProps={{
-            placeHolder: i18n.t('dop:no content yet'),
-            className: 'w-full',
-            hasEdited,
-            isEditMode,
-            maxLength: 3000,
-            defaultMode: isEditMode ? 'html' : 'md',
-          }} // 编辑时默认显示预览
-          data={formData}
-        />
       </div>
+      <EditField
+        name="content"
+        disabled={!editAuth}
+        type="markdown"
+        onChangeCb={setFieldCb}
+        itemProps={{
+          placeHolder: i18n.t('dop:no content yet'),
+          className: 'w-full',
+          hasEdited,
+          isEditMode,
+          maxLength: 3000,
+          defaultMode: isEditMode ? 'html' : 'md',
+        }} // 编辑时默认显示预览
+        data={formData}
+      />
 
-      <If condition={isEditMode}>
-        <div className="space-y-4">
-          <IssueInclusion
-            issueType={issueType}
-            issueDetail={issueDetail}
-            iterationID={iterationID}
-            setHasEdited={setHasEdited}
-          />
-          <If condition={!!issueDetail}>
-            <IssueConnection
-              editAuth={editAuth}
-              issueDetail={issueDetail}
-              iterationID={iterationID}
-              setHasEdited={setHasEdited}
-            />
-          </If>
-        </div>
+      <If condition={isEditMode && !!issueDetail}>
+        <IssueInclusion
+          issueType={issueType}
+          issueDetail={issueDetail}
+          iterationID={iterationID}
+          setHasEdited={setHasEdited}
+        />
+      </If>
+      <If condition={isEditMode && !!issueDetail}>
+        <IssueConnection
+          editAuth={editAuth}
+          issueDetail={issueDetail}
+          iterationID={iterationID}
+          setHasEdited={setHasEdited}
+        />
+      </If>
+      <If condition={isEditMode && !!issueDetail}>
         <IssueActivities type={issueType} />
       </If>
     </IssueDrawer>

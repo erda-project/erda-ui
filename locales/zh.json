@@ -530,7 +530,6 @@
     "item {index} should be lowercase letters, numbers, dot, -, *": "第{index}项请输入小写字母、数字、-、*、.",
     "join org": "加入组织",
     "join {orgName}": "加入 {orgName}",
-    "joined apps": "加入的应用",
     "joined organization successfully": "加入组织成功",
     "jump server": "跳板机",
     "key": "标示",

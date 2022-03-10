@@ -509,10 +509,9 @@ const IssueMetaFields = React.forwardRef(
       // keep labels as last field for full width
       {
         icon: 'biaoqian',
-        className: 'mb-4 w-full',
+        className: 'mb-4',
         name: 'labels',
         label: i18n.t('label'),
-        span: 24,
         type: 'select', // 需要新建不存在的tag，用 tagName 作为值传递，不要用 LabelSelect
         itemProps: {
           options: map(optionList, ({ id: labelId, name, isNewLabel }) => {
@@ -575,31 +574,13 @@ const IssueMetaFields = React.forwardRef(
       ...fieldProps,
     }));
 
-    const colSpan = React.useMemo(() => {
-      let _span = 1;
-      switch (true) {
-        case width < 420:
-          _span = 24;
-          break;
-        case width < 760:
-          _span = 12;
-          break;
-        case width < 1200:
-          _span = 8;
-          break;
-        default:
-          _span = 6;
-      }
-      return _span;
-    }, [width]);
-
     return (
       <div className={`issue-meta-fields mt-4`}>
         {widthHolder}
         <Row gutter={16}>
           {editFieldList.map((fieldProps) => {
             return (
-              <Col key={fieldProps.label} span={fieldProps.span || colSpan}>
+              <Col key={fieldProps.label} span={24}>
                 <EditField
                   ref={(r) => {
                     const _refMap = ref?.current?.refMap;

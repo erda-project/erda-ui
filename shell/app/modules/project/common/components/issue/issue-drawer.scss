@@ -1,3 +1,31 @@
+.issue-drawer-modal {
+  .ant-modal-body {
+    padding: 0;
+    height: calc(100vh - 160px);
+    overflow: hidden;
+  }
+
+  .ant-affix {
+    left: calc(50vw + 480px - 120px + 16px);
+    width: 100px !important;
+    .ant-anchor-ink:before {
+      width: 1px;
+    }
+    .ant-anchor-link {
+      padding-left: 8px;
+    }
+    .ant-anchor-ink-ball {
+      border-color: $color-blue-600;
+    }
+    .ant-anchor-link-title-active {
+      color: $color-blue-600;
+    }
+    .ant-anchor {
+      font-size: 12px;
+    }
+  }
+}
+
 .task-drawer {
   .ant-drawer-header {
     padding: 0;

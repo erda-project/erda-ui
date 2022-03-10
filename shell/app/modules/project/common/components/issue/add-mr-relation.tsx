@@ -246,7 +246,7 @@ export const useAddMrRelation = ({
     <Dropdown overlay={overlay} visible={visible} trigger={['click']}>
       <WithAuth pass={editAuth}>
         <span
-          className="h-7 mr-1 p-1 rounded-sm text-sub hover:text-default hover:bg-default-04 cursor-pointer"
+          className="h-7 mr-2 p-1 rounded-sm text-sub hover:text-default hover:bg-default-04 cursor-pointer"
           onClick={() => updater.visible(true)}
         >
           <ErdaIcon type="xuanze-4gcjhec0" size={20} />

@@ -33,7 +33,7 @@
 
   .issue-comment-content {
     position: relative;
-    background-color: $color-default-04;
+    background-color: $color-default-02;
     border: 1px solid $color-default-04;
     &::before {
       content: '';
@@ -43,7 +43,7 @@
       width: 10px;
       left: -6px;
       transform: rotate(45deg);
-      background-color: rgb(243, 242, 244);
+      background-color: rgb(251, 251, 251);
       border-bottom: 1px solid $color-default-04;
       border-left: 1px solid $color-default-04;
     }
