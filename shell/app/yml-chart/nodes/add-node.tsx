@@ -29,7 +29,7 @@ export const AddNode = (props: IProps) => {
   };
   return (
     <div className="yml-chart-node add-node" onClick={onClick}>
-      <CustomIcon type="tj1" className="add-icon mb-3" />
+      <CustomIcon type="plus" className="add-icon mb-3" />
       <span className="add-node-txt">{i18n.t('add {name}', { name: i18n.t('node') })}</span>
     </div>
   );

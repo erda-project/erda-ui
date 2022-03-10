@@ -386,7 +386,7 @@ const DeployContent = ({
                   className="text-default-4 hover:text-default-8 flex items-center"
                   onClick={() => updater.addDrawerVisible(true)}
                 >
-                  <ErdaIcon type="tj1" />
+                  <ErdaIcon type="plus" />
                 </Button>
               </div>
               <div className="mt-2 px-4">
