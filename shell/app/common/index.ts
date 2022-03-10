@@ -38,7 +38,6 @@ export { default as LoadMore } from './components/load-more';
 export { default as Responsive } from './components/responsive';
 export { default as Copy } from './components/copy';
 export { default as JsonChecker } from './components/json-checker';
-export { default as PagingTable } from './components/paging-table';
 export { default as LoadMoreSelector } from './components/load-more-selector';
 export { default as MemberSelector } from './components/member-selector';
 export { default as ErrorBoundary } from './components/error-boundary';
