@@ -20,6 +20,7 @@ declare namespace RELEASE {
   interface ReleaseDetail {
     applicationReleaseList: Array<{ releaseID: string }>;
     releaseId?: string;
+    applicationId?: string;
     releaseID?: string;
     applicationName: string;
     releaseName: string;
@@ -34,6 +35,8 @@ declare namespace RELEASE {
     isProjectRelease?: boolean;
     addons?: Addon[];
     addonYaml?: string;
+    id?: string;
+    pId?: string;
   }
 
   interface Addon extends IAddon {

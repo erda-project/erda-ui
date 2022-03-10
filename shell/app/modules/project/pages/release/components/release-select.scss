@@ -97,26 +97,15 @@
 .erda-list-select-overlay {
   width: 1120px;
   height: 400px;
-  background-color: $color-default;
+  background-color: $white;
 
   .selected-num {
     padding: 1px 6px;
-    background-color: rgba($white, 0.08);
-    color: $color-white-8;
+    background-color: $color-default-06;
   }
 
   .erda-list-select-selected-list {
     height: calc(100% - 100px);
-    color: rgba($white, 9);
-
-    &::-webkit-scrollbar {
-      width: 10px;
-      background-color: $color-default;
-    }
-    &::-webkit-scrollbar-thumb {
-      border-radius: 5px;
-      background-color: $color-white-1;
-    }
   }
 
   .erda-list-select-selected-item-delete {
@@ -134,26 +123,15 @@
   }
 
   .erda-list-select-right-content {
-    height: calc(100% - 66px);
+    height: calc(100% - 20px);
   }
 
   .erda-list-select-menus {
     overflow-y: auto;
     flex-shrink: 0;
 
-    &::-webkit-scrollbar {
-      width: 10px;
-      background-color: $color-default;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      border-radius: 5px;
-      background-color: $color-white-1;
-    }
-
     .erda-list-select-menu-item {
       padding: 5px 8px;
-      color: rgba($white, 0.9);
       border-radius: 2px;
       cursor: pointer;
     }
@@ -165,61 +143,5 @@
 
   .erda-list-select-list {
     height: calc(100% - 40px);
-
-    & > div {
-      &::-webkit-scrollbar {
-        width: 10px;
-        background-color: $color-default;
-      }
-      &::-webkit-scrollbar-thumb {
-        border-radius: 5px;
-        background-color: $color-white-1;
-      }
-    }
-  }
-
-  .erda-pagination {
-    color: $color-white-6;
-
-    .bg-hover:hover {
-      color: $white;
-    }
-
-    .pagination-pre,
-    .pagination-next {
-      &.disabled {
-        color: $color-white-2 !important;
-      }
-    }
-  }
-
-  .ant-btn {
-    background-color: $color-white-2 !important;
-    border: none;
-    color: $white !important;
-
-    &.ant-btn-primary {
-      background-color: $color-purple-highlight !important;
-      border-color: $color-purple-highlight !important;
-    }
-  }
-
-  .ant-input-prefix {
-    color: $color-white-3;
-  }
-
-  input {
-    background-color: transparent;
-    color: $color-white-6;
-
-    &::-webkit-input-placeholder {
-      /* WebKit browsers */
-      color: $color-white-3;
-    }
-
-    &::-moz-placeholder {
-      /* Mozilla Firefox 19+ */
-      color: $color-white-3;
-    }
   }
 }
