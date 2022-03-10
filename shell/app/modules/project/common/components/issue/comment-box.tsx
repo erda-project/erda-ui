@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { ErdaIcon, MarkdownEditor } from 'common';
+import { ErdaIcon, MarkdownEditor, UserInfo } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Button, Input } from 'antd';
 import React from 'react';
@@ -20,6 +20,8 @@ import i18n from 'i18n';
 import { getBrowserInfo } from 'app/common/utils';
 import { useKey } from 'react-use';
 import layoutStore from 'layout/stores/layout';
+import userStore from 'user/stores';
+import './comment-box.scss';
 
 const { isWin } = getBrowserInfo();
 
@@ -30,11 +32,15 @@ interface IProps {
 
 export const IssueCommentBox = (props: IProps) => {
   const { onSave = () => {}, editAuth } = props;
+  const loginUser = userStore.useStore((s) => s.loginUser);
 
-  const [stateMap, updater] = useUpdate({
+  const [state, updater] = useUpdate({
     visible: false,
-    content: '',
+    disableSave: true,
   });
+
+  const valueRef = React.useRef('');
+  const focusRef = React.useRef(true);
 
   const close = () => {
     updater.visible(false);
@@ -42,86 +48,71 @@ export const IssueCommentBox = (props: IProps) => {
   };
 
   const submit = () => {
-    if (stateMap.content.trim().length) {
-      onSave(stateMap.content);
-      updater.content('');
+    const saveVal = valueRef.current.trim();
+    if (saveVal.length) {
+      onSave(saveVal);
+      valueRef.current = '';
+      focusRef.current = false;
       close();
     }
   };
 
   useKey('Escape', close);
 
-  const disableSubmit = !stateMap.content.trim();
+  // fn in useKey will not get newest state, so we need to use ref
+  useKey('Enter', (e) => {
+    if (focusRef.current && (isWin ? e.shiftKey : e.metaKey)) {
+      submit();
+    }
+  });
 
-  return stateMap.visible ? (
+  return (
     <div
-      className="fixed z-10 rounded-sm p-4 pb-2 shadow-card-lg bg-white bottom-0"
-      style={{
-        width: '40vw',
-        right: '0',
-      }}
+      className="absolute flex items-start z-10 rounded-sm p-3 shadow-card-lg bg-white bottom-0"
+      style={{ left: '16px', width: `calc(100% - 32px)` }}
     >
-      <Input.TextArea
-        value={stateMap.content}
-        autoFocus
-        bordered={false}
-        onChange={(e) => updater.content(e.target.value)}
-        placeholder={i18n.t('dop:Comment ({meta} + Enter to send, Esc to collapse)', { meta: isWin ? 'Shift' : 'Cmd' })}
-        autoSize={{ minRows: 12, maxRows: 12 }}
-        onPressEnter={(e) => {
-          if (isWin ? e.shiftKey : e.metaKey) {
-            submit();
-          }
-        }}
-        className="bg-default-06 border-none"
-      />
-      <div className="mt-3 btn-line-rtl">
-        <Button type="primary" disabled={disableSubmit} onClick={() => submit()}>
-          {i18n.t('dop:Send')}
-        </Button>
-        <Button className="ml-3" onClick={() => close()}>
-          {i18n.t('dop:Collapse')}
-        </Button>
-      </div>
-    </div>
-  ) : (
-    <WithAuth pass={editAuth}>
-      <div className="absolute bottom-0 w-full flex px-6 py-3" style={{ background: '#f7f7f7' }}>
-        <Input.TextArea
-          value={stateMap.content}
-          onChange={(e) => updater.content(e.target.value)}
-          placeholder={i18n.t('dop:Comment ({meta} + Enter to send)', { meta: isWin ? 'Shift' : 'Cmd' })}
-          autoSize={{ maxRows: 8 }}
-          onPressEnter={(e) => {
-            if (isWin ? e.shiftKey : e.metaKey) {
-              submit();
-            }
-          }}
-          className="bg-default-06"
-        />
-        <div className="flex items-center absolute right-6 bottom-3 mb-0.5 mr-0.5">
-          <ErdaIcon
-            className="text-desc hover-active"
-            onClick={() => {
-              updater.visible(true);
-              layoutStore.reducers.setIssueCommentBoxVisible(true);
+      <UserInfo.RenderWithAvatar avatarSize="default" id={loginUser.id} showName={false} className="mr-3" />
+      {state.visible ? (
+        <div className="flex-1">
+          <MarkdownEditor
+            value={valueRef.current}
+            placeholder={i18n.t('dop:Comment ({meta} + Enter to send, Esc to collapse)', {
+              meta: isWin ? 'Shift' : 'Cmd',
+            })}
+            onFocus={() => {
+              focusRef.current = true;
             }}
-            type="expand-text-input"
-            size={16}
+            onBlur={() => {
+              focusRef.current = false;
+            }}
+            autoFocus
+            className="w-full issue-md-arrow"
+            onChange={(val: string) => {
+              valueRef.current = val;
+              updater.disableSave(!val.trim().length);
+            }}
+            style={{ height: '200px' }}
+            maxLength={3000}
           />
-          {disableSubmit ? (
-            <ErdaIcon className="ml-3 cursor-not-allowed rounded-sm bg-desc p-1" type="fasong" fill="white" size={20} />
-          ) : (
-            <ErdaIcon
-              className="ml-3 cursor-pointer rounded-sm bg-default p-1"
-              type="fasong"
-              fill="white"
-              size={20}
-              onClick={() => submit()}
-            />
-          )}
+
+          <div className="mt-2">
+            <Button className="mr-3" type="primary" disabled={state.disableSave} onClick={() => submit()}>
+              {i18n.t('dop:Post')}
+            </Button>
+            <Button onClick={() => close()}>{i18n.t('dop:Collapse')}</Button>
+          </div>
         </div>
-      </div>
-    </WithAuth>
+      ) : (
+        <div
+          className="issue-comment-arrow h-8 leading-8 bg-default-06 rounded-sm cursor-pointer px-3 flex-1 hover:text-purple-deep"
+          onClick={() => {
+            updater.visible(true);
+            layoutStore.reducers.setIssueCommentBoxVisible(true);
+          }}
+        >
+          {i18n.t('dop:Click here to comment')}
+        </div>
+      )}
+    </div>
   );
 };

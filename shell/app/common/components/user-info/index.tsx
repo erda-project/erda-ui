@@ -18,6 +18,7 @@ import i18n from 'i18n';
 import { Avatar } from 'antd';
 import { getAvatarChars } from 'common/utils';
 import Ellipsis from 'common/components/ellipsis';
+import { AvatarSize } from 'antd/lib/avatar/SizeContext';
 
 interface IPlatformUser {
   avatar: string;
@@ -50,10 +51,12 @@ UserInfo.RenderWithAvatar = ({
   id,
   showName = true,
   className = '',
+  avatarSize,
 }: {
   id: IProps['id'];
   showName?: boolean;
   className?: string;
+  avatarSize?: AvatarSize;
 }) => {
   return (
     <UserInfo
@@ -61,7 +64,7 @@ UserInfo.RenderWithAvatar = ({
       render={(data) => {
         return (
           <div className={`flex items-center ${className}`}>
-            <Avatar size="small" src={data.avatar}>
+            <Avatar size={avatarSize || 'small'} src={data.avatar}>
               {data.nick || data.name ? getAvatarChars(data.nick || data.name) : i18n.t('none')}
             </Avatar>
             {showName ? (

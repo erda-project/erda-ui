@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, message, Spin, Dropdown, Menu, Popconfirm } from 'antd';
+import { Button, message, Spin, Dropdown, Menu, Popconfirm, Anchor } from 'antd';
 import { IssueIcon, getIssueTypeOption } from 'project/common/components/issue/issue-icon';
 import { map, has, cloneDeep, includes, isEmpty, merge, find } from 'lodash';
 import { EditField, ErdaIcon, Icon as CustomIcon, IF } from 'common';
@@ -44,7 +44,7 @@ import issueFieldStore from 'org/stores/issue-field';
 import orgStore from 'app/org-home/stores/org';
 import { templateMap } from 'project/common/issue-config';
 import IssueMetaFields from './meta-fields';
-import { FullIssueRelation } from '../issue-relation';
+import { IssueInclusion, IssueConnection } from '../issue-relation';
 import { getIssueRelation } from 'project/services/issue';
 
 export const ColorIcon = ({ icon }: { icon: string }) => {
@@ -66,7 +66,6 @@ interface IProps {
   projectId?: string;
   ticketType?: 'monitor'; // 区分监控工单
   shareLink?: string;
-  subDrawer?: JSX.Element | null;
   customUrl?: string; // 监控特殊 url 用来增改工单
   closeDrawer: (params: CloseDrawerParam) => void;
 }
@@ -80,7 +79,6 @@ export const EditIssueDrawer = (props: IProps) => {
     iterationID,
     projectId,
     shareLink,
-    subDrawer,
     ticketType,
     customUrl,
   } = props;
@@ -584,7 +582,7 @@ export const EditIssueDrawer = (props: IProps) => {
 
   const addRelation = (val: number) => {
     addIssueRelation({
-      relatedIssues: val,
+      relatedIssues: [val],
       id: issueDetail.id,
       projectId: +addRelatedMattersProjectId,
       type: 'connection',
@@ -599,10 +597,10 @@ export const EditIssueDrawer = (props: IProps) => {
 
   const addQuickIssueAuth = usePerm((s) => s.project.requirement.create.pass); // 目前迭代、任务、缺陷添加权限都一致
 
-  let footer: any = [];
+  let extraHeaderOp: JSX.Element | React.ElementType | null = null;
   if (isEditMode && issueType === ISSUE_TYPE.TICKET) {
     if (addQuickIssueAuth) {
-      footer = [
+      extraHeaderOp = (
         <Dropdown
           key="quick-add"
           overlay={
@@ -619,23 +617,31 @@ export const EditIssueDrawer = (props: IProps) => {
             </Menu>
           }
         >
-          <Button className="mr-2">{i18n.t('dop:one click to backlog')}</Button>
-        </Dropdown>,
-      ];
+          <Button size="small" className="mr-2 shadow-none">
+            {i18n.t('dop:one click to backlog')}
+          </Button>
+        </Dropdown>
+      );
     } else {
-      footer = [
+      extraHeaderOp = (
         <WithAuth key="create" pass={addQuickIssueAuth}>
-          <Button className="mr-2">{i18n.t('dop:one click to backlog')}</Button>
-        </WithAuth>,
-      ];
+          <Button size="small" className="mr-2 shadow-none">
+            {i18n.t('dop:one click to backlog')}
+          </Button>
+        </WithAuth>
+      );
     }
   }
 
+  let footer;
   if (!isEditMode) {
-    footer = (isChanged: boolean, confirmCloseTip: string | undefined) => [
-      <div key="holder" />,
+    footer = (isChanged: boolean, confirmCloseTip: string | undefined) => (
       <Spin key="submit" spinning={updateIssueLoading}>
-        <div>
+        <div className="pl-8 py-2 space-x-2 border-solid border-transparent border-top">
+          <Button disabled={disableSubmit} onClick={() => handleSubmit()} type="primary">
+            {i18n.t('ok')}
+          </Button>
+
           {isChanged && confirmCloseTip ? (
             <Popconfirm title={confirmCloseTip} placement="topLeft" onConfirm={() => onClose()}>
               <Button>{i18n.t('cancel')}</Button>
@@ -643,16 +649,13 @@ export const EditIssueDrawer = (props: IProps) => {
           ) : (
             <Button onClick={() => onClose()}>{i18n.t('cancel')}</Button>
           )}
-
-          <Button disabled={disableSubmit} onClick={() => handleSubmit()} type="primary">
-            {i18n.t('ok')}
-          </Button>
         </div>
-      </Spin>,
-    ];
+      </Spin>
+    );
+  } else {
+    footer = <IssueCommentBox onSave={(content) => addIssueStream(issueDetail, { content })} editAuth={editAuth} />;
   }
 
-  footer = typeof footer === 'function' ? footer : footer.length ? <>{footer}</> : undefined;
   const relationData = getIssueRelation.useData();
 
   return (
@@ -663,7 +666,6 @@ export const EditIssueDrawer = (props: IProps) => {
       onClose={() => onClose()}
       onDelete={isEditMode ? onDelete : undefined}
       shareLink={shareLink}
-      subDrawer={subDrawer}
       canDelete={deleteAuth && !isMonitorTicket}
       canCreate={createAuth}
       confirmCloseTip={isEditMode ? undefined : i18n.t('dop:The new data will be lost if closed. Continue?')}
@@ -674,6 +676,22 @@ export const EditIssueDrawer = (props: IProps) => {
       issueType={issueType}
       setData={setFormData}
       footer={footer}
+      extraHeaderOp={extraHeaderOp}
+      issueTitle={
+        <EditField
+          name="title"
+          onChangeCb={setFieldCb}
+          data={formData}
+          disabled={!editAuth}
+          className="flex-1 mt-2"
+          itemProps={{
+            className: 'text-xl text-normal px-2 font-medium',
+            maxLength: 255,
+            autoFocus: true,
+            placeholder: specialProps.titlePlaceHolder,
+          }}
+        />
+      }
       // loading={
       //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
       // }
@@ -730,19 +748,6 @@ export const EditIssueDrawer = (props: IProps) => {
         )}
       </div>
       <div className="mt-1">
-        <EditField
-          name="title"
-          onChangeCb={setFieldCb}
-          data={formData}
-          disabled={!editAuth}
-          className="flex-1 ml-[-8px] mr-[-8px]"
-          itemProps={{
-            className: 'text-xl text-normal px-2 font-medium',
-            maxLength: 255,
-            autoFocus: true,
-            placeholder: specialProps.titlePlaceHolder,
-          }}
-        />
         <IssueMetaFields
           ref={metaFieldsRef}
           projectId={projectId}
@@ -755,17 +760,14 @@ export const EditIssueDrawer = (props: IProps) => {
           formData={formData}
           setFieldCb={setFieldCb}
         />
-        <div className="mb-2 flex-h-center">
-          <ErdaIcon size={16} type="xiangqingneirong" className="text-default-4 mr-1" />
-          <span className="text-default-6">{i18n.t('detail')}</span>
-        </div>
+        <div className="h-[1px] bg-default-08 my-4" />
         <EditField
           name="content"
           disabled={!editAuth}
-          placeHolder={i18n.t('dop:no content yet')}
           type="markdown"
           onChangeCb={setFieldCb}
           itemProps={{
+            placeHolder: i18n.t('dop:no content yet'),
             className: 'w-full',
             hasEdited,
             isEditMode,
@@ -777,31 +779,23 @@ export const EditIssueDrawer = (props: IProps) => {
       </div>
 
       <If condition={isEditMode}>
-        <div className="space-y-4 pr-6">
-          <FullIssueRelation
+        <div className="space-y-4">
+          <IssueInclusion
             issueType={issueType}
             issueDetail={issueDetail}
             iterationID={iterationID}
             setHasEdited={setHasEdited}
           />
-
-          <If condition={issueType === ISSUE_TYPE.BUG}>
-            <IssueTestCaseRelation list={testPlanCaseRels || []} />
-          </If>
-          <If condition={issueType !== ISSUE_TYPE.TICKET}>
-            <AddMrRelation
-              issueDetail={issueDetail}
-              afterAdd={() => getIssueStreams({ type: issueType, id: id as number, pageNo: 1, pageSize: 100 })}
+          <If condition={!!issueDetail}>
+            <IssueConnection
               editAuth={editAuth}
+              issueDetail={issueDetail}
+              iterationID={iterationID}
+              setHasEdited={setHasEdited}
             />
           </If>
         </div>
-        <IssueActivities
-          type={issueType}
-          bottomSlot={
-            <IssueCommentBox onSave={(content) => addIssueStream(issueDetail, { content })} editAuth={editAuth} />
-          }
-        />
+        <IssueActivities type={issueType} />
       </If>
     </IssueDrawer>
   );

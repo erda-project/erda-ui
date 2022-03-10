@@ -46,7 +46,7 @@ const storeMap = {
 
 const defaultTime = 7 * 24; // hour
 
-const convertChartData = (data: any) => {
+const convertChartData = (data: ALARM_REPORT.AlarmTimesChart) => {
   if (isEmpty(data)) return {};
 
   const { time = [], results = [], title } = data || {};

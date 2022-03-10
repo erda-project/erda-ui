@@ -10,7 +10,7 @@
       .twt-text {
         display: flex;
         flex-grow: 1;
-        width: 0;
+        overflow: hidden;
         line-height: 25px;
       }
     }

@@ -16,7 +16,6 @@ import { Row, Col } from 'antd';
 import MonitorPanel from 'monitor-overview/common/components/monitor-panel';
 import BIOverviewChartMap from 'browser-insight/pages/overview/config/chartMap';
 import BIAjaxChartMap from 'browser-insight/pages/ajax/config/chartMap';
-import AIWebChartMap from 'application-insight/pages/web/config/chartMap';
 import Summary from './summary';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';

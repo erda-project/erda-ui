@@ -60,4 +60,10 @@ declare namespace ALARM_REPORT {
     displayUrl: string;
     isSilence: boolean;
   }
+
+  interface AlarmTimesChart extends IChartResult {
+    title: string;
+    total: number;
+    interval: number;
+  }
 }

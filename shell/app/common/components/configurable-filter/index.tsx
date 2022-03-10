@@ -34,12 +34,12 @@ export interface IProps {
   processField?: (field: Field) => IFormItem;
   hideSave?: boolean;
   onClear: () => void;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 export interface Option {
   label: string;
-  value: string;
+  value: string | number;
   children?: Option[];
 }
 
@@ -58,6 +58,7 @@ export interface Field {
   emptyText?: string;
   getComp?: (props: Obj) => React.ReactNode;
   customProps?: Obj;
+  initialValue?: number | string;
 }
 
 export interface ConfigData {
@@ -102,7 +103,7 @@ interface FieldItem extends IFormItem {
 }
 
 const defaultProcessField = (item: FieldItem) => {
-  const { type, itemProps, defaultValue, placeholder, disabled, mode, required } = item;
+  const { type, itemProps, placeholder, disabled, mode, required } = item;
   const field: IFormItem = { ...item };
 
   field.name = item.key;
@@ -130,7 +131,6 @@ const defaultProcessField = (item: FieldItem) => {
   }
 
   field.itemProps = {
-    defaultValue,
     placeholder,
     disabled,
     ...field.itemProps,
@@ -146,7 +146,12 @@ const convertValue = (value: Obj, fieldList: Field[]) => {
     if (item.outside) {
       externalValue[item.key] = value?.[item.key];
     } else {
-      formValue[item.key] = value?.[item.key];
+      const itemValue = value?.[item.key];
+      if (itemValue) {
+        formValue[item.key] = itemValue;
+      } else {
+        formValue[item.key] = item.required && (item.initialValue || item.options?.[0]?.value);
+      }
     }
   });
   return { formValue, externalValue };
@@ -243,8 +248,17 @@ const ConfigurableFilter = React.forwardRef(
       onSaveFilter?.(label, form.getFieldsValue());
     };
 
+    const formClear = () => {
+      const emptyObj = {};
+      fieldsList.forEach((item) => {
+        emptyObj[item.key] = undefined;
+      });
+
+      form.setFieldsValue(emptyObj);
+    };
+
     const setAllOpen = () => {
-      form.resetFields();
+      formClear();
       const config = getItemByValues(form.getFieldsValue(), configList, fieldsList);
       setCurrentConfig(config?.id);
       setIsNew(false);

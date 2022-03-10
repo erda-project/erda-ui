@@ -252,7 +252,7 @@ export const IssueForm = (props: IIssueFormProps) => {
         onPressEnter={onAdd}
         autoFocus
         onChange={(e) => updater.title(e.target.value)}
-        style={{ textIndent: '80px' }}
+        style={{ height: '38px', paddingRight: '180px', paddingLeft: '90px' }}
       />
       <Select
         disabled={typeDisabled}

@@ -1,0 +1,11 @@
+.addon-item {
+  min-width: 260px;
+  height: 86px;
+  background: $white;
+  border-radius: $radius;
+  @extend %shallow-shadow;
+
+  &:hover {
+    @extend %hover-shadow;
+  }
+}

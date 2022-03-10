@@ -254,7 +254,7 @@ const AppRelease = (props: IReleaseProps) => {
           dropdownClassName="project-add-release-app"
           value={selectedApp?.id || ''}
           getData={(_q: { pageNo: number; pageSize: number }) => {
-            return getJoinedApps({ projectID: +projectId, ..._q }).then((res) => res.data);
+            return getJoinedApps({ projectId: +projectId, ..._q }).then((res) => res.data);
           }}
           onClickItem={(app) => setSelectedApp(app)}
           resultsRender={() => {

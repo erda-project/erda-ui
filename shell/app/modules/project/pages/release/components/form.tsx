@@ -12,25 +12,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Upload, Spin, Progress, Checkbox } from 'antd';
-import moment from 'moment';
+import { Button, Upload, Progress } from 'antd';
 import { RenderForm, MarkdownEditor, ErdaIcon } from 'common';
 import i18n from 'i18n';
-import { PAGINATION } from 'app/constants';
 import { goTo, insertWhen } from 'common/utils';
 import { getUploadProps } from 'common/utils/upload-props';
-import releaseStore from 'project/stores/release';
 import routeInfoStore from 'core/stores/route';
-import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import orgStore from 'app/org-home/stores/org';
 import userStore from 'user/stores';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { useLoading } from 'core/stores/loading';
 import { FormInstance, UploadProps, UploadFile } from 'app/interface/common';
 import ReleaseSelect from './release-select';
 import {
-  getReleaseList,
   getReleaseDetail,
   addRelease,
   updateRelease,
@@ -70,16 +64,6 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   const { projectId, releaseID, type = 'app' } = params;
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const loginUser = userStore.useStore((s) => s.loginUser);
-  const { appList } = releaseStore.getState((s) => s);
-  const { getAppList } = releaseStore.effects;
-  const [pageNo, setPageNo] = React.useState(1);
-  const [appId, setAppId] = React.useState<number | undefined>();
-  const [query, setQuery] = React.useState<string>('');
-  const [isLatest, setIsLatest] = React.useState(false);
-  const [loading] = useLoading(releaseStore, ['getAppList']);
-
-  const [releaseList, setReleaseList] = React.useState<RELEASE.ReleaseDetail[]>([] as RELEASE.ReleaseDetail[]);
-  const [releaseTotal, setReleaseTotal] = React.useState(0);
 
   const _releaseDetail = getReleaseDetail.useData();
   const releaseDetail = React.useMemo(() => {
@@ -87,7 +71,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
       ..._releaseDetail,
       applicationReleaseList: _releaseDetail?.applicationReleaseList?.map?.((group, index) => ({
         active: index === 0,
-        list: [...group.map((item) => ({ ...item, releaseId: item.releaseID, applicationId: item.applicationID }))],
+        list: [...group.map((item) => ({ ...item, id: item.releaseID, pId: item.applicationID }))],
       })),
     };
   }, [_releaseDetail]);
@@ -105,52 +89,6 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   React.useEffect(() => {
     formRef.current?.setFieldsValue(releaseDetail);
   }, [releaseDetail]);
-
-  const getReleases = React.useCallback(
-    async (_pageNo: number) => {
-      setPageNo(_pageNo);
-      const res = await getReleaseList({
-        projectId,
-        applicationId: appId !== 0 ? appId : undefined,
-        pageNo: _pageNo,
-        isProjectRelease: false,
-        pageSize: PAGINATION.pageSize,
-        isStable: true,
-        q: query,
-        latest: isLatest,
-      });
-      const { data } = res;
-      if (data) {
-        const { list, total } = data;
-        setReleaseList(list);
-        setReleaseTotal(total);
-      }
-    },
-    [projectId, query, isLatest, appId],
-  );
-
-  React.useEffect(() => {
-    getAppList({ projectId });
-  }, [projectId, getAppList]);
-
-  React.useEffect(() => {
-    getReleases(1);
-  }, [getReleases]);
-
-  const selectApp = React.useCallback(
-    (item: RELEASE.ApplicationDetail) => {
-      setAppId(item.id);
-    },
-    [setAppId],
-  );
-
-  const searchApp = (q: string) => {
-    getAppList({ projectId, q });
-  };
-
-  const searchRelease = (q: string) => {
-    setQuery(q);
-  };
 
   const check = React.useCallback(
     promiseDebounce(async (version: string) => {
@@ -200,41 +138,21 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
           name: 'applicationReleaseList',
           type: 'custom',
           className: 'flex-nowrap',
-          getComp: () => <ReleaseSelect label={i18n.t('dop:app release')} />,
-          itemProps: {
-            renderSelectedItem,
-            renderItem,
-            rowKey: 'releaseId',
-            parentKey: 'applicationId',
-            menus: appList,
-            list: releaseList,
-            onMenuChange: selectApp,
-            onMenuFilter: searchApp,
-            onListFilter: searchRelease,
-            listPagination: {
-              total: releaseTotal,
-              current: pageNo,
-              pageSize: PAGINATION.pageSize,
-              onChange: (_pageNo: number) => {
-                getReleases(_pageNo);
+          getComp: () => <ReleaseSelect />,
+          readOnlyRender: (value: { active: boolean; list: RELEASE.ReleaseDetail[] }) => {
+            return <ReleaseSelect value={value} readOnly />;
+          },
+          rules: [
+            {
+              validator: (_, value: Array<{ list: RELEASE.ReleaseDetail[] }>) => {
+                if (value && value.length !== 0 && !value.find((item) => item.list.length !== 0)) {
+                  return Promise.reject(new Error(i18n.t('please enter {name}', { name: i18n.t('dop:app release') })));
+                }
+
+                return Promise.resolve();
               },
             },
-            rightSlot: (
-              <Checkbox checked={isLatest} onChange={(e: CheckboxChangeEvent) => setIsLatest(e.target.checked)}>
-                <span className="text-white">{i18n.t('dop:aggregate by branch')}</span>
-              </Checkbox>
-            ),
-          },
-          readOnlyRender: (value: { active: boolean; list: RELEASE.ReleaseDetail[] }) => {
-            return (
-              <ReleaseSelect
-                label={i18n.t('dop:app release')}
-                value={value}
-                readOnly
-                renderSelectedItem={renderSelectedItem}
-              />
-            );
-          },
+          ],
         }
       : {
           label: i18n.t('dop:upload files'),
@@ -281,10 +199,8 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         payload = {
           ...payload,
           applicationReleaseList: applicationReleaseList
-            .filter((group: { list: Array<{ releaseId: string }> }) => group.list?.length)
-            .map((group: { list: Array<{ releaseId: string }> }) =>
-              group.list.map((item: { releaseId: string }) => item.releaseId),
-            ),
+            .filter((group: { list: Array<{ id: string }> }) => group.list?.length)
+            .map((group: { list: Array<{ id: string }> }) => group.list.map((item: { id: string }) => item.id)),
           isStable: true,
           isFormal: false,
           isProjectRelease: true,
@@ -310,9 +226,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   return (
     <div className="release-form h-full flex flex-col">
       <div className="flex-1">
-        <Spin spinning={loading}>
-          <RenderForm ref={formRef} layout="vertical" list={list} readOnly={readyOnly} />
-        </Spin>
+        <RenderForm ref={formRef} layout="vertical" list={list} readOnly={readyOnly} />
       </div>
 
       {!readyOnly ? (
@@ -320,55 +234,8 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
           <Button className="mr-3" type="primary" onClick={submit}>
             {i18n.t('submit')}
           </Button>
-          <Button onClick={() => goTo(goTo.pages.projectReleaseListProject)}>
-            {i18n.t('return to previous page')}
-          </Button>
         </div>
       ) : null}
-    </div>
-  );
-};
-
-const renderSelectedItem = (item: RELEASE.ReleaseDetail, isDark: boolean) => {
-  return (
-    <div className="flex justify-between items-center">
-      <div className="flex-1 min-w-0">
-        <div
-          className="text-purple-deep truncate cursor-pointer"
-          title={item.version}
-          onClick={() => window.open(goTo.resolve.applicationReleaseDetail({ releaseId: item.releaseId }))}
-        >
-          {item.version}
-        </div>
-        <div className="text-xs flex my-1">
-          <div className={isDark ? 'text-white-6' : 'text-default-6'}>{i18n.t('dop:owned application')}</div>
-          <div className="ml-2 flex-1 min-w-0 truncate" title={item.applicationName}>
-            {item.applicationName}
-          </div>
-        </div>
-      </div>
-      <div className={isDark ? 'text-white-6' : 'text-default-6'}>
-        {item.createdAt ? moment(item.createdAt).format('YYYY/MM/DD HH:mm:ss') : null}
-      </div>
-    </div>
-  );
-};
-
-const renderItem = (item: RELEASE.ReleaseDetail) => {
-  return (
-    <div className="flex justify-between items-center">
-      <div className="flex-1 min-w-0">
-        <div className="truncate" title={item.version}>
-          {item.version}
-        </div>
-        <div className="text-xs flex">
-          <div className="text-white-6">{i18n.t('dop:owned application')}</div>
-          <div className="ml-2 truncate" title={item.applicationName}>
-            {item.applicationName}
-          </div>
-        </div>
-      </div>
-      <span className="text-xs text-white-6">{moment(item.createdAt).format('YYYY/MM/DD HH:mm:ss')}</span>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 .tags-container {
   position: relative;
   overflow: auto;
+  min-width: 40px;
 
   .tags-box {
     white-space: nowrap;

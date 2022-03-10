@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { get } from 'lodash';
 import DiceConfigPage from 'app/config-page';
 import { RadioTabs, ErdaIcon } from 'common';
 import { usePerm, WithAuth } from 'user/common';
@@ -97,7 +96,9 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
         scenarioKey="release-manage"
         scenarioType="release-manage"
         showLoading
+        fullHeight={false}
         inParams={inParams}
+        key={isFormal}
         ref={reloadRef}
         customProps={{
           releaseTable: {
@@ -110,10 +111,9 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
               customOp: {
                 operations: {
                   referencedReleases: (operation: { meta: { appReleaseIDs: string } }) => {
-                    const IDs = get(operation, 'meta.appReleaseIDs');
                     goTo(
                       goTo.resolve.projectReleaseList({
-                        releaseFilter__urlQuery: btoa(decodeURI(JSON.stringify({ releaseID: IDs }))),
+                        releaseFilter__urlQuery: btoa(decodeURI(JSON.stringify({ ...(operation.meta || {}) }))),
                       }),
                     );
                   },

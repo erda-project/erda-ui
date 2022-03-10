@@ -12,32 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Modal, message } from 'antd';
+import { Button, Modal, Tabs } from 'antd';
 import ReleaseForm from './form';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import { getReleaseDetail, formalRelease } from 'project/services/release';
+import AddonInfo from './addon';
+
+const { TabPane } = Tabs;
 
 const ReleaseProjectDetail = () => {
   const { params } = routeInfoStore.getState((s) => s);
   const { releaseID } = params;
-  const [isFormal, setIsFormal] = React.useState(false);
-  const [releaseName, setReleaseName] = React.useState('');
-  const getDetail = React.useCallback(async () => {
-    if (releaseID) {
-      const res = await getReleaseDetail.fetch({ releaseID });
-      if (res.data) {
-        const { data } = res;
-        setIsFormal(data.isFormal);
-        setReleaseName(data.version);
-      }
-    }
-  }, [releaseID]);
-
-  React.useEffect(() => {
-    getDetail();
-  }, [getDetail]);
+  const releaseDetail = getReleaseDetail.useData();
+  const { isFormal, version: releaseName, addons, addonYaml } = releaseDetail || {};
 
   const submit = () => {
     Modal.confirm({
@@ -50,24 +39,30 @@ const ReleaseProjectDetail = () => {
           releaseID,
           $options: { successMsg: i18n.t('{action} successfully', { action: i18n.t('dop:be formal') }) },
         });
-        getDetail();
+        getReleaseDetail.fetch({ releaseID });
       },
     });
   };
 
   return (
     <div>
-      <ReleaseForm readyOnly />
+      <Tabs defaultActiveKey="1" className="h-full">
+        <TabPane tab={i18n.t('dop:basic information')} key="1">
+          <ReleaseForm readyOnly />
+        </TabPane>
+
+        {addons || addonYaml ? (
+          <TabPane tab="Addons" key="2">
+            <AddonInfo addons={addons} addonYaml={addonYaml} />
+          </TabPane>
+        ) : null}
+      </Tabs>
       <div className="mb-2">
         {!isFormal ? (
           <Button className="mr-3 bg-default" type="primary" onClick={submit}>
             {i18n.t('dop:be formal')}
           </Button>
         ) : null}
-
-        <Button className="bg-default-06 border-default-06" onClick={() => goTo(goTo.pages.projectReleaseList)}>
-          {i18n.t('return to previous page')}
-        </Button>
       </div>
     </div>
   );

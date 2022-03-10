@@ -13,7 +13,7 @@
 
 import { ContractiveFilter, ErdaIcon, Table as ErdaTable, UserInfo } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Button, Dropdown } from 'antd';
+import { Dropdown } from 'antd';
 import React from 'react';
 import i18n from 'i18n';
 import { getJoinedApps } from 'app/user/services/user';
@@ -31,14 +31,15 @@ import issueStore from 'project/stores/issues';
 import { goTo } from 'app/common/utils';
 
 interface IProps {
+  expand: boolean;
   editAuth: boolean;
-  afterAdd: () => Promise<void>;
   issueDetail: ISSUE.IssueType;
+  afterAdd: () => Promise<void>;
+  setMrCount?: (v: number) => void;
 }
 
 const initState = {
   visible: false,
-  expand: false,
   relateMrList: [],
   filterData: {
     query: undefined,
@@ -47,7 +48,12 @@ const initState = {
     state: undefined,
   },
 };
-export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
+export const useAddMrRelation = ({
+  expand,
+  issueDetail,
+  editAuth,
+  afterAdd,
+}: IProps): [JSX.Element, JSX.Element, ISSUE.IssueStream[]] => {
   const { projectId } = routeInfoStore.getState((s) => s.params);
   const { name: projectName } = projectStore.getState((s) => s.info);
   const [appList, setAppList] = React.useState([] as IApplication[]);
@@ -56,9 +62,8 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
     (s) => s[`${issueDetail?.type.toLowerCase()}StreamList`],
   );
 
-  const [{ visible, expand, relateMrList, filterData }, updater] = useUpdate<{
+  const [{ visible, relateMrList, filterData }, updater] = useUpdate<{
     visible: boolean;
-    expand: boolean;
     relateMrList: ISSUE.IssueStream[];
     filterData: {
       query?: string;
@@ -90,7 +95,7 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
   React.useEffect(() => {
     if (visible) {
       if (!appList.length) {
-        getJoinedApps.fetch({ projectID: +projectId, pageSize: 200, pageNo: 1 }).then((res) => {
+        getJoinedApps.fetch({ projectId: +projectId, pageSize: 200, pageNo: 1 }).then((res) => {
           if (res?.data?.list) {
             setAppList(res.data.list);
             updater.filterData({ appID: res.data.list[0]?.id });
@@ -237,61 +242,48 @@ export const AddMrRelation = ({ issueDetail, editAuth, afterAdd }: IProps) => {
     </div>
   );
 
-  return (
-    <div className="mt-3">
-      <div className="relative flex-h-center text-primary font-medium mb-2">
-        <If condition={!!relateMrList?.length}>
-          <span
-            className="absolute left-[-20px] flex h-7 rounded-sm cursor-pointer text-desc hover:text-default hover:bg-default-06"
-            onClick={() => updater.expand((prev) => !prev)}
-          >
-            <ErdaIcon size={20} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
-          </span>
-        </If>
-        <span>{i18n.t('dop:related mr')}</span>
-        <span className="bg-default-06 leading-4 rounded-lg px-1 ml-1">{relateMrList?.length || 0}</span>
-        <span className="w-px h-3 bg-default-1 mx-4" />
+  return [
+    <Dropdown overlay={overlay} visible={visible} trigger={['click']}>
+      <WithAuth pass={editAuth}>
+        <span
+          className="h-7 mr-1 p-1 rounded-sm text-sub hover:text-default hover:bg-default-04 cursor-pointer"
+          onClick={() => updater.visible(true)}
+        >
+          <ErdaIcon type="xuanze-4gcjhec0" size={20} />
+        </span>
+      </WithAuth>
+    </Dropdown>,
 
-        <Dropdown overlay={overlay} visible={visible} trigger={['click']}>
-          <WithAuth pass={editAuth}>
-            <div
-              className="h-7 mr-1 p-1 rounded-sm text-desc hover:text-default hover:bg-default-04 cursor-pointer"
-              onClick={() => updater.visible(true)}
-            >
-              <ErdaIcon type="xuanze-43le7k0l" size={20} />
-            </div>
-          </WithAuth>
-        </Dropdown>
-      </div>
-      <If condition={expand}>
-        {relateMrList?.map((stream) => {
-          return (
-            <div
-              key={stream.id}
-              className={'backlog-issue-item px-2 hover:bg-default-04 cursor-pointer'}
-              onClick={() =>
-                goTo(goTo.pages.appMr, {
-                  projectId,
-                  appId: stream.mrInfo?.appID,
-                  mrId: stream.mrInfo?.mrID,
-                  jumpOut: true,
-                })
-              }
-            >
-              <div className="issue-info h-full">
-                <div className="backlog-item-content mr-6">
-                  <span className="mr-1">
-                    #{stream.mrInfo?.mrID}-{stream.mrInfo?.mrTitle}
-                  </span>
-                </div>
-                <div className="text-sub flex items-center flex-wrap justify-end">
-                  <UserInfo.RenderWithAvatar id={stream.operator} className="w-24 mr-6" />
-                </div>
+    <If condition={expand}>
+      {relateMrList?.map((stream) => {
+        return (
+          <div
+            key={stream.id}
+            className={'backlog-issue-item px-2 hover:bg-default-04 cursor-pointer'}
+            onClick={() =>
+              goTo(goTo.pages.appMr, {
+                projectId,
+                appId: stream.mrInfo?.appID,
+                mrId: stream.mrInfo?.mrID,
+                jumpOut: true,
+              })
+            }
+          >
+            <div className="issue-info h-full">
+              <div className="backlog-item-content mr-6">
+                <span className="mr-1">
+                  #{stream.mrInfo?.mrID}-{stream.mrInfo?.mrTitle}
+                </span>
+              </div>
+              <div className="text-sub flex items-center flex-wrap justify-end">
+                <UserInfo.RenderWithAvatar id={stream.operator} className="w-24 mr-6" />
               </div>
             </div>
-          );
-        })}
-      </If>
-    </div>
-  );
+          </div>
+        );
+      })}
+    </If>,
+
+    relateMrList,
+  ];
 };

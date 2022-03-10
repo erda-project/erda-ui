@@ -176,7 +176,7 @@ export enum pages {
   projectDeployConfigEnv = '/{orgName}/dop/projects/{projectId}/deploy/config/{workspace}',
   projectDeployRuntime = '/{orgName}/dop/projects/{projectId}/deploy/list/{workspace}/{appId}/runtime/{runtimeId}?serviceName={serviceName}&jumpFrom={jumpFrom}',
   projectAddon = '/{orgName}/dop/projects/{projectId}/deploy/addon',
-  projectReleaseCreate = '/{orgName}/dop/projects/{projectId}/release/createRelease/{type}',
+  projectReleaseCreate = '/{orgName}/dop/projects/{projectId}/release/project/createRelease/{type}',
   projectReleaseDetail = '/{orgName}/dop/projects/{projectId}/release/project/{releaseId}',
   applicationReleaseList = '/{orgName}/dop/projects/{projectId}/release/application',
   applicationReleaseDetail = '/{orgName}/dop/projects/{projectId}/release/application/{releaseId}',

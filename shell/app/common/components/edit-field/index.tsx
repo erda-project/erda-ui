@@ -73,6 +73,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
   const operationBtns = !disabled
     ? [
         {
+          size: 'small' as const,
           text: i18n.t('save'),
           type: 'primary' as const,
           onClick: (_v: string) => {
@@ -81,6 +82,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
           },
         },
         {
+          size: 'small' as const,
           text: i18n.t('cancel'),
           onClick: () => {
             update({ v: originalValue, isEditing: false });
@@ -103,44 +105,39 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
     // drawer z-index is 1000, tooltip default z-index is 1070. Tooltip is alway insert before drawer
     // so if set two components with same z-index, drawer will override tooltip
     // solution: when open img, set tooltip z-index to 999, otherwise set to 1001
-    <Tooltip
-      placement="left"
-      title={i18n.t('dop:click to edit')}
-      zIndex={isImagePreviewOpen ? 999 : 1001}
-      arrowPointAtCenter
-    >
-      <div
-        className="relative w-full hover:bg-black-06 cursor-pointer rounded"
+    <div className="relative w-full" style={{ maxHeight: expanded ? '' : maxHeight }}>
+      <ErdaIcon
+        type="edit"
+        size={20}
+        className="absolute z-10 w-8 h-8 right-4 top-4 rounded-full cursor-pointer shadow-card bg-white hover:shadow-card-lg text-blue-deep"
         onClick={() => updater.isEditing(true)}
-        style={{ maxHeight: expanded ? '' : maxHeight }}
-      >
-        <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
-          <div ref={mdContentRef} className="md-content">
-            <MarkdownRender noWrapper value={value || i18n.t('no description yet')} />
-            <div
-              className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-t from-white flex justify-center items-center ${
-                !expandBtnVisible || expanded ? 'hidden' : ''
-              }`}
-            />
-          </div>
-        </div>
-        <If condition={expandBtnVisible}>
-          <span
-            className={`absolute bg-white shadow-card bottom-2 z-10 h-7 px-3 rounded-full mx-auto text-blue-deep cursor-pointer flex-all-center ${
-              expandBtnVisible ? '' : 'hidden'
+      />
+      <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
+        <div ref={mdContentRef} className="md-content">
+          <MarkdownRender noWrapper value={value || i18n.t('no description yet')} />
+          <div
+            className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-t from-white flex justify-center items-center ${
+              !expandBtnVisible || expanded ? 'hidden' : ''
             }`}
-            style={{ left: '50%', transform: 'translateX(-50%)' }}
-            onClick={(e) => {
-              e.stopPropagation();
-              updater.expanded(!expanded);
-            }}
-          >
-            <span className="mr-1">{expanded ? i18n.t('Collapse') : i18n.t('Expand')}</span>
-            <ErdaIcon type={`${expanded ? 'double-up' : 'double-down'}`} />
-          </span>
-        </If>
+          />
+        </div>
       </div>
-    </Tooltip>
+      <If condition={expandBtnVisible}>
+        <span
+          className={`absolute bg-white shadow-card bottom-2 z-10 h-7 px-3 rounded-full mx-auto text-blue-deep cursor-pointer flex-all-center hover:shadow-card-lg ${
+            expandBtnVisible ? '' : 'hidden'
+          }`}
+          style={{ left: '50%', transform: 'translateX(-50%)' }}
+          onClick={(e) => {
+            e.stopPropagation();
+            updater.expanded(!expanded);
+          }}
+        >
+          <span className="mr-1">{expanded ? i18n.t('Collapse') : i18n.t('Expand')}</span>
+          <ErdaIcon type={`${expanded ? 'double-up' : 'double-down'}`} />
+        </span>
+      </If>
+    </div>
   );
 };
 

@@ -19,7 +19,6 @@ import httpStore from './stores/http';
 import infoStore from './stores/info';
 import logStore from './stores/log-analytics';
 import mspStore from './stores/micro-service';
-import projectReportStore from './stores/project-report';
 import topologyStore from './stores/topology-service-analyze';
 import traceStore from './stores/trace';
 import zkproxyStore from './stores/zkproxy';
@@ -35,7 +34,6 @@ const entry = (registerModule) => {
       httpStore,
       infoStore,
       mspStore,
-      projectReportStore,
       topologyStore,
       traceStore,
       zkproxyStore,

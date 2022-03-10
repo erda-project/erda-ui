@@ -241,9 +241,6 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
             {i18n.t('dop:be formal')}
           </Button>
         ) : null}
-        <Button className="bg-default-06 border-default-06" onClick={() => goTo(goTo.pages.applicationReleaseList)}>
-          {i18n.t('return to previous page')}
-        </Button>
       </div>
     </div>
   );

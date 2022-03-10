@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Dropdown, Empty } from 'antd';
+import { Dropdown } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
-import { ContractiveFilter, ErdaIcon, Table as ErdaTable, UserInfo } from 'common';
+import { ContractiveFilter, ErdaIcon, SimpleTabs, Table as ErdaTable, UserInfo } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { goTo } from 'common/utils';
+import { goTo, insertWhen } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import { map } from 'lodash';
@@ -28,24 +28,20 @@ import issueStore from 'project/stores/issues';
 import iterationStore from 'project/stores/iteration';
 import React from 'react';
 import { usePerm, WithAuth } from 'user/common';
+import { useAddMrRelation } from './add-mr-relation';
 import './issue-relation.scss';
+import { IssueTestCaseRelation } from './issue-testCase-relation';
 
 export enum RelationType {
   Inclusion = 'inclusion',
-  RelatedTo = 'related to',
-  RelatedBy = 'related by',
+  Connection = 'connection',
 }
 type IDefaultIssueType = 'BUG' | 'TASK' | 'REQUIREMENT';
 
 // 打开任务详情时，关联事项默认选中bug，打开缺陷详情或者需求详情时，关联事项默认选中task
 // 如果是包含关系时，需求默认选中任务，任务默认选中需求
 const initTypeMap = {
-  [RelationType.RelatedTo]: {
-    TASK: 'BUG',
-    REQUIREMENT: 'TASK',
-    BUG: 'TASK',
-  },
-  [RelationType.RelatedBy]: {
+  [RelationType.Connection]: {
     TASK: 'BUG',
     REQUIREMENT: 'TASK',
     BUG: 'TASK',
@@ -56,32 +52,19 @@ const initTypeMap = {
   },
 };
 
-const getAddTextMap = (relationType: RelationType, issueType: string) => {
-  if (relationType === RelationType.RelatedTo) {
-    return i18n.t('dop:related to these issues');
-  } else if (relationType === RelationType.RelatedBy) {
-    return i18n.t('dop:be related by these issues');
-  } else if (relationType === RelationType.Inclusion) {
-    if (issueType === ISSUE_TYPE.REQUIREMENT) {
-      return i18n.t('dop:included tasks');
-    }
-  }
-  return null;
-};
-
 interface IProps {
   list?: ISSUE.IssueType[];
   issueDetail: ISSUE.IssueType;
   iterationID: number | undefined;
   type: RelationType;
+  setExpand: (open: boolean) => void;
   onRelationChange?: () => void;
 }
 
-const IssueRelation = (props: IProps) => {
-  const { list, issueDetail, iterationID, onRelationChange, type: relationType } = props;
+const useIssueRelation = (props: IProps) => {
+  const { setExpand, list, issueDetail, iterationID, onRelationChange, type: relationType } = props;
 
   const [activeButtonType, setActiveButtonType] = React.useState('');
-  const [expand, setExpand] = React.useState(false);
 
   const [{ projectId }, { type: routeIssueType }] = routeInfoStore.getState((s) => [s.params, s.query]);
   const issueType = issueDetail?.type || (Array.isArray(routeIssueType) ? routeIssueType[0] : routeIssueType);
@@ -94,173 +77,186 @@ const IssueRelation = (props: IProps) => {
 
   const authObj = usePerm((s) => s.project.task);
 
-  const updateRecord = (record: ISSUE.Task, key: string, val: any) => {
-    issueStore.effects.updateIssue({ ...record, [key]: val }).finally(() => {
-      getIssueRelation({ id: issueDetail.id, type: relationType });
-    });
-  };
-
   const addRelation = (idList: number[]) => {
     addIssueRelation({
       relatedIssues: idList,
       id: issueDetail.id,
       projectId: +projectId,
       // relatedTo and relatedBy is both 'connection'
-      type: relationType === RelationType.Inclusion ? RelationType.Inclusion : 'connection',
+      type: relationType,
     }).then(() => {
       onRelationChange && onRelationChange();
+      setExpand(true);
     });
   };
 
-  const onDelete = (val: ISSUE.IssueType, type: RelationType) => {
-    const payload =
-      type === RelationType.Inclusion
-        ? { id: issueDetail.id, relatedIssueID: val.id, type }
-        : type === RelationType.RelatedBy
-        ? { id: val.id, relatedIssueID: issueDetail.id, type: 'connection' }
-        : { id: issueDetail.id, relatedIssueID: val.id, type: 'connection' };
+  const onDelete = (val: Merge<ISSUE.IssueType, { isRelatedBy?: boolean }>, type: RelationType) => {
+    const payload = val.isRelatedBy
+      ? { id: val.id, relatedIssueID: issueDetail.id, type }
+      : { id: issueDetail.id, relatedIssueID: val.id, type };
     deleteIssueRelation(payload).then(() => {
       onRelationChange && onRelationChange();
     });
   };
   const createAuth = usePerm((s) => s.project[issueType?.toLowerCase()]?.create.pass as boolean);
-  if (!issueDetail) return null;
-  return (
-    <div className="issue-relation">
+  if (!issueDetail) return [null, null];
+  return [
+    <>
       <If condition={issueDetail.type !== ISSUE_TYPE.TICKET}>
         {/* <TransformToIssue issue={issue as ISSUE.Ticket} onSaveRelation={addRelation} /> */}
-        <div className="relative flex items-center h-7 mb-2">
-          <If condition={!!list?.length}>
-            <span
-              className="absolute left-[-20px] flex h-7 rounded-sm cursor-pointer text-desc hover:text-default hover:bg-default-06"
-              onClick={() => setExpand((prev) => !prev)}
-            >
-              <ErdaIcon size={20} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
-            </span>
-          </If>
-          <div className="flex-h-center text-primary font-medium">
-            <span>{getAddTextMap(relationType, issueType)}</span>
-            <span className="bg-default-06 leading-4 rounded-lg px-1 ml-1">{list?.length || 0}</span>
-            <If condition={relationType !== RelationType.RelatedBy}>
-              <span className="w-[1px] h-[12px] bg-default-1 mx-4" />
-              <WithAuth pass={createAuth}>
-                <div
-                  className="h-7 mr-1 p-1 rounded-sm text-desc hover:text-default hover:bg-default-04 cursor-pointer"
-                  onClick={() => setActiveButtonType('create')}
-                >
-                  <ErdaIcon type="plus" size={20} />
-                </div>
-              </WithAuth>
-              <AddIssueRelation
-                editAuth={authObj.edit.pass}
-                onSave={addRelation}
-                onCancel={() => setActiveButtonType('')}
-                projectId={projectId}
-                iterationID={curIterationID}
-                currentIssue={issueDetail}
-                defaultIssueType={defaultIssueType}
-                relationType={relationType}
-              />
-            </If>
-          </div>
-        </div>
-        <If condition={activeButtonType === 'create'}>
-          <AddNewIssue
-            onSaveRelation={addRelation}
-            onCancel={() => setActiveButtonType('')}
-            iterationID={curIterationID}
-            defaultIssueType={defaultIssueType}
-            typeDisabled={relationType === RelationType.Inclusion}
-          />
-        </If>
-      </If>
-      <If condition={expand && !!list?.length}>
-        <If condition={relationType === RelationType.Inclusion && issueType === 'REQUIREMENT'}>
-          <div className="mt-2 p-2 bg-default-02">
-            {list?.map((item) => (
-              <IssueItem
-                data={item}
-                key={item.id}
-                onClickIssue={(record) => {
-                  goTo(goTo.pages.issueDetail, {
-                    projectId,
-                    issueType: record.type.toLowerCase(),
-                    issueId: record.id,
-                    iterationId: record.iterationID,
-                    jumpOut: true,
-                  });
-                }}
-                onDelete={(val) => onDelete(val, RelationType.Inclusion)}
-                deleteConfirmText={(name: string) => i18n.t('dop:Are you sure to disinclude {name}', { name })}
-                deleteText={i18n.t('dop:release relationship')}
-                issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
-                showStatus
-                undraggable
-              />
-            ))}
-          </div>
-        </If>
 
-        <If condition={relationType === RelationType.RelatedTo}>
-          <div className="p-2 bg-default-02">
-            {list?.map((item) => (
-              <IssueItem
-                data={item}
-                key={item.id}
-                onClickIssue={(record) => {
-                  goTo(goTo.pages.issueDetail, {
-                    projectId,
-                    issueType: record.type.toLowerCase(),
-                    issueId: record.id,
-                    iterationId: record.iterationID,
-                    jumpOut: true,
-                  });
-                }}
-                onDelete={(val) => onDelete(val, RelationType.RelatedTo)}
-                deleteConfirmText={(name: string) =>
-                  i18n.t('dop:Are you sure to release relationship with {name}', { name })
-                }
-                deleteText={i18n.t('dop:release relationship')}
-                issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
-                showStatus
-                undraggable
-              />
-            ))}
+        <WithAuth pass={createAuth}>
+          <div
+            className="h-7 mr-1 p-1 rounded-sm text-sub hover:text-default hover:bg-default-04 cursor-pointer"
+            onClick={() => {
+              setActiveButtonType('create');
+              setExpand(true);
+            }}
+          >
+            <ErdaIcon type="plus" size={20} />
           </div>
-        </If>
-        <If condition={relationType === RelationType.RelatedBy}>
-          <div className="p-2 bg-default-02">
-            {list?.map((item) => (
-              <IssueItem
-                data={item}
-                key={item.id}
-                onClickIssue={(record) => {
-                  goTo(goTo.pages.issueDetail, {
-                    projectId,
-                    issueType: record.type.toLowerCase(),
-                    issueId: record.id,
-                    iterationId: record.iterationID,
-                    jumpOut: true,
-                  });
-                }}
-                onDelete={(val) => onDelete(val, RelationType.RelatedBy)}
-                deleteConfirmText={(name: string) =>
-                  i18n.t('dop:Are you sure to release relationship with {name}', { name })
-                }
-                deleteText={i18n.t('dop:release relationship')}
-                issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
-                showStatus
-                undraggable
-              />
-            ))}
-          </div>
-        </If>
+        </WithAuth>
+        <AddIssueRelation
+          editAuth={authObj.edit.pass}
+          onSave={addRelation}
+          projectId={projectId}
+          iterationID={curIterationID}
+          currentIssue={issueDetail}
+          defaultIssueType={defaultIssueType}
+          relationType={relationType}
+        />
       </If>
+    </>,
+    <>
+      <If condition={activeButtonType === 'create'}>
+        <AddNewIssue
+          onSaveRelation={addRelation}
+          onCancel={() => setActiveButtonType('')}
+          iterationID={curIterationID}
+          defaultIssueType={defaultIssueType}
+          typeDisabled={relationType === RelationType.Inclusion}
+        />
+      </If>
+      <If condition={relationType === RelationType.Inclusion && issueType === 'REQUIREMENT'}>
+        <div className="p-2 bg-default-02">
+          {list?.map((item) => (
+            <IssueItem
+              data={item}
+              key={item.id}
+              onClickIssue={(record) => {
+                goTo(goTo.pages.issueDetail, {
+                  projectId,
+                  issueType: record.type.toLowerCase(),
+                  issueId: record.id,
+                  iterationId: record.iterationID,
+                  jumpOut: true,
+                });
+              }}
+              onDelete={(val) => onDelete(val, RelationType.Inclusion)}
+              deleteConfirmText={(name: string) => i18n.t('dop:Are you sure to disinclude {name}', { name })}
+              deleteText={i18n.t('dop:release relationship')}
+              issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
+              showStatus
+              undraggable
+            />
+          ))}
+        </div>
+      </If>
+
+      <If condition={relationType === RelationType.Connection}>
+        <div className="p-2 bg-default-02">
+          {list?.map((item) => (
+            <IssueItem
+              data={item}
+              key={item.id}
+              onClickIssue={(record) => {
+                goTo(goTo.pages.issueDetail, {
+                  projectId,
+                  issueType: record.type.toLowerCase(),
+                  issueId: record.id,
+                  iterationId: record.iterationID,
+                  jumpOut: true,
+                });
+              }}
+              onDelete={(val) => onDelete(val, RelationType.Connection)}
+              deleteConfirmText={(name: string) =>
+                i18n.t('dop:Are you sure to release relationship with {name}', { name })
+              }
+              deleteText={i18n.t('dop:release relationship')}
+              issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
+              showStatus
+              undraggable
+            />
+          ))}
+        </div>
+      </If>
+    </>,
+  ];
+};
+
+interface IIssueSectionProps {
+  title: string;
+  expand: boolean;
+  data?: any[];
+  activeTabKey?: string;
+  tabs?: Array<{
+    text: string;
+    key: string;
+    [k: string]: any;
+  }>;
+  onSelectTab?: (key: string) => void;
+  operations: JSX.Element | null;
+  content: JSX.Element | null;
+  setExpand: (current: boolean) => void;
+}
+const IssueSection = ({
+  title,
+  expand,
+  setExpand,
+  activeTabKey,
+  tabs,
+  onSelectTab,
+  data,
+  operations,
+  content,
+}: IIssueSectionProps) => {
+  return (
+    <div>
+      <div className="relative h-12 flex-h-center text-primary font-medium">
+        <If condition={!!data?.length}>
+          <span
+            className="absolute left-[-20px] flex rounded-sm cursor-pointer text-sub hover:text-default hover:bg-default-06"
+            onClick={() => setExpand(!expand)}
+          >
+            <ErdaIcon size={20} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
+          </span>
+        </If>
+        <span className="text-base">{title}</span>
+        <span className="bg-default-06 leading-4 rounded-lg px-1 ml-1">{data?.length || 0}</span>
+        {tabs && onSelectTab && (
+          <>
+            <span className="w-[1px] h-[12px] bg-default-1 mx-4" />
+            <SimpleTabs
+              value={activeTabKey || ''}
+              tabs={tabs}
+              onSelect={(key) => {
+                onSelectTab(key);
+                setExpand(true);
+              }}
+            />
+          </>
+        )}
+        <If condition={!!(operations && operations?.props?.children)}>
+          <span className="w-[1px] h-[12px] bg-default-1 mx-4" />
+          {operations}
+        </If>
+      </div>
+      <If condition={expand}>{content}</If>
     </div>
   );
 };
 
-export const FullIssueRelation = ({
+export const IssueInclusion = ({
   issueType,
   issueDetail,
   iterationID,
@@ -271,6 +267,7 @@ export const FullIssueRelation = ({
   iterationID?: number;
   setHasEdited: (val: boolean) => void;
 }) => {
+  const [expand, setExpand] = React.useState(false);
   const data = getIssueRelation.useData();
   const _iterationID = iterationID === -1 ? undefined : iterationID; // 如果当前事项是待规划的，待规划不在迭代列表里，默认“全部”时其实还是会带上 -1 作为 id，所以为-1 时就传 undefined
   React.useEffect(() => {
@@ -280,48 +277,119 @@ export const FullIssueRelation = ({
       });
   }, [issueDetail?.id]);
 
+  const [operations, content] = useIssueRelation({
+    setExpand,
+    type: RelationType.Inclusion,
+    list: data?.include,
+    issueDetail,
+    iterationID: _iterationID,
+    onRelationChange: () => {
+      setHasEdited(true);
+      getIssueRelation.fetch({
+        issueId: issueDetail.id,
+      });
+    },
+  });
+
+  if (issueType !== ISSUE_TYPE.REQUIREMENT) return null;
+
   return (
     <>
-      <If condition={issueType === ISSUE_TYPE.REQUIREMENT}>
-        <IssueRelation
-          type={RelationType.Inclusion}
-          list={data?.include}
-          issueDetail={issueDetail}
-          iterationID={_iterationID}
-          // activeAdd={activeAdd}
-          onRelationChange={() => {
-            setHasEdited(true);
-            getIssueRelation.fetch({
-              issueId: issueDetail.id,
-            });
-          }}
-        />
-      </If>
-      <IssueRelation
-        type={RelationType.RelatedTo}
-        list={data?.relatedTo}
-        issueDetail={issueDetail}
-        iterationID={_iterationID}
-        onRelationChange={() => {
-          setHasEdited(true);
-          getIssueRelation.fetch({
-            issueId: issueDetail.id,
-          });
-        }}
+      <IssueSection
+        title={i18n.t('dop:Include')}
+        expand={expand}
+        setExpand={setExpand}
+        data={data?.include}
+        content={content}
+        operations={operations}
       />
-      <IssueRelation
-        type={RelationType.RelatedBy}
-        list={data?.relatedBy}
-        issueDetail={issueDetail}
-        iterationID={_iterationID}
-        onRelationChange={() => {
-          setHasEdited(true);
-          getIssueRelation.fetch({
-            issueId: issueDetail.id,
-          });
-        }}
-      />
+      <div className="h-[1px] bg-default-08 my-4" />
     </>
+  );
+};
+
+interface IConnectionProps {
+  issueDetail: ISSUE.IssueType;
+  iterationID?: number;
+  editAuth: boolean;
+  setHasEdited: (val: boolean) => void;
+}
+export const IssueConnection = ({ issueDetail, iterationID, editAuth, setHasEdited }: IConnectionProps) => {
+  const [expand, setExpand] = React.useState(false);
+  const issueType = issueDetail?.type;
+  const data = getIssueRelation.useData();
+  const _iterationID = iterationID === -1 ? undefined : iterationID; // 如果当前事项是待规划的，待规划不在迭代列表里，默认“全部”时其实还是会带上 -1 作为 id，所以为-1 时就传 undefined
+  const issueConnectionList = (data?.relatedTo || [])?.concat(
+    (data?.relatedBy || []).map((item) => ({ ...item, isRelatedBy: true })),
+  );
+  const showCaseRelation = issueType === ISSUE_TYPE.BUG;
+  const showMrRelation = issueType !== ISSUE_TYPE.TICKET;
+
+  const [relateMrOperation, relateMrContent, relateMrList] = useAddMrRelation({
+    expand,
+    issueDetail,
+    afterAdd: () => getIssueStreams({ type: issueType, id: issueDetail?.id, pageNo: 1, pageSize: 100 }),
+    editAuth,
+  });
+
+  const [relateIssueOperation, relateIssueList] = useIssueRelation({
+    setExpand,
+    type: RelationType.Connection,
+    list: issueConnectionList,
+    issueDetail,
+    iterationID: _iterationID,
+    onRelationChange: () => {
+      setHasEdited(true);
+      getIssueRelation.fetch({
+        issueId: issueDetail?.id,
+      });
+    },
+  });
+
+  const tabs = [
+    {
+      key: 'issue',
+      text: `${i18n.t('dop:Issue')}(${issueConnectionList.length})`,
+      data: issueConnectionList,
+      operations: relateIssueOperation,
+      content: relateIssueList,
+    },
+    ...insertWhen(showCaseRelation, [
+      {
+        key: 'testcase',
+        text: `${i18n.t('dop:Testcase')}(${issueDetail?.testPlanCaseRels?.length})`,
+        data: issueDetail?.testPlanCaseRels,
+        operations: null,
+        content: <IssueTestCaseRelation list={issueDetail?.testPlanCaseRels || []} />,
+      },
+    ]),
+    ...insertWhen(showMrRelation, [
+      {
+        key: 'mr',
+        text: `MR(${relateMrList.length})`,
+        data: relateMrList,
+        operations: relateMrOperation,
+        content: relateMrContent,
+      },
+    ]),
+  ];
+  const [activeTabKey, setActiveTabKey] = React.useState(tabs[0].key);
+  const { getIssueStreams } = issueStore.effects;
+  if (!issueDetail) return null;
+  const curTab = tabs.find((t) => t.key === activeTabKey) as typeof tabs[0];
+
+  return (
+    <IssueSection
+      title={i18n.t('dop:Reference')}
+      expand={expand}
+      setExpand={setExpand}
+      activeTabKey={activeTabKey}
+      tabs={tabs}
+      onSelectTab={setActiveTabKey}
+      data={curTab.data}
+      content={curTab.content}
+      operations={curTab.operations}
+    />
   );
 };
 
@@ -335,12 +403,6 @@ interface IAddProps {
   relationType: RelationType;
 }
 
-const initState = {
-  issueList: [],
-  type: undefined as undefined | string,
-  chosenIterationID: undefined as undefined | number | 'ALL',
-};
-
 export const AddIssueRelation = ({
   onSave,
   editAuth,
@@ -350,43 +412,51 @@ export const AddIssueRelation = ({
   defaultIssueType = 'TASK',
   relationType,
 }: IAddProps) => {
-  const [{ filterData, visible }, updater, update] = useUpdate({
-    ...initState,
+  const [{ filterData, total, visible, issueList, iterationList }, updater, update] = useUpdate({
     visible: false,
+    issueList: [],
+    total: 0,
     filterData: {
       title: '',
       iterationID,
       type: defaultIssueType,
+      pageNo: 1,
+      pageSize: 7,
     },
+    iterationList: [] as ITERATION.Detail[],
   });
 
-  const issuePaging = getIssues.useData();
-  const iterationPaging = getProjectIterations.useData();
-  const issueList = issuePaging?.list || [];
   const getIssueList = React.useCallback(
     (extra?: Obj) => {
       if (visible && projectId) {
-        getIssues.fetch({
-          pageNo: 1,
-          pageSize: 7,
+        getIssues({
           ...filterData,
           ...extra,
           projectID: +projectId,
           notIncluded: relationType === RelationType.Inclusion,
+        }).then((res) => {
+          if (res.data) {
+            updater.issueList(res.data?.list || []);
+            updater.total(res.data?.total || 0);
+          }
         });
       }
     },
-    [filterData, projectId, relationType, visible],
+    [filterData, projectId, relationType, updater, visible],
   );
 
   React.useEffect(() => {
-    if (visible && !iterationPaging?.list.length) {
-      getProjectIterations.fetch({
+    if (visible && !iterationList.length) {
+      getProjectIterations({
         projectID: +projectId,
         pageSize: 50,
+      }).then((res) => {
+        if (res.data) {
+          updater.iterationList(res.data.list || []);
+        }
       });
     }
-  }, [iterationPaging?.list.length, projectId, visible]);
+  }, [iterationList.length, projectId, updater, visible]);
 
   React.useEffect(() => {
     getIssueList();
@@ -442,7 +512,7 @@ export const AddIssueRelation = ({
             haveFilter: true,
             fixed: true,
             emptyText: i18n.t('dop:all'),
-            options: iterationPaging?.list.map((item) => ({ label: item.title, value: item.id })) || [],
+            options: iterationList.map((item) => ({ label: item.title, value: item.id })) || [],
             showIndex: 2,
             placeholder: i18n.t('dop:owned iteration'),
             customProps: {
@@ -491,10 +561,11 @@ export const AddIssueRelation = ({
         dataSource={dataSource}
         columns={columns}
         pagination={{
-          current: issuePaging?.paging?.pageNo || 1,
-          pageSize: issuePaging?.paging?.pageSize || 7,
-          total: issuePaging?.paging?.total || 0,
+          current: filterData.pageNo || 1,
+          pageSize: filterData.pageSize || 7,
+          total,
           onChange: (no: number, size?: number) => {
+            updater.filterData((prev: any) => ({ ...prev, pageNo: no, pageSize: size || prev.pageSize }));
             getIssueList({ pageNo: no, pageSize: size });
           },
         }}
@@ -506,10 +577,10 @@ export const AddIssueRelation = ({
     <Dropdown overlay={overlay} visible={visible} trigger={['click']}>
       <WithAuth pass={editAuth}>
         <div
-          className="h-7 mr-1 p-1 rounded-sm text-desc hover:text-default hover:bg-default-04 cursor-pointer"
+          className="h-7 mr-1 p-1 rounded-sm text-sub hover:text-default hover:bg-default-04 cursor-pointer"
           onClick={() => updater.visible(true)}
         >
-          <ErdaIcon type="xuanze-43le7k0l" size={20} />
+          <ErdaIcon type="xuanze-4gcjhec0" size={20} />
         </div>
       </WithAuth>
     </Dropdown>

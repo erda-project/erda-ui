@@ -15,6 +15,7 @@ import React from 'react';
 import Tags, { TagItem } from '..';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
 
 const labels = [
   {
@@ -47,6 +48,7 @@ describe('Tags', () => {
     expect(result.getAllByText(/tag\d/)).toHaveLength(2);
     userEvent.hover(result.container.querySelector('[name="more"]')!);
     await waitFor(() => expect(screen.getByRole('tooltip')).toBeTruthy());
+    fireEvent.click(screen.queryByText('tag3')!);
     expect(screen.getAllByText(/tag[345]/)).toHaveLength(3);
   });
   it('should toggle check', () => {
@@ -60,10 +62,18 @@ describe('Tags', () => {
     expect(result.container).isExit('[name="check"]', 0);
   });
 
-  it('should delete well', () => {
-    const deleteFu = jest.fn();
-    const result = render(<Tags labels={labels} maxShowCount={5} onDelete={deleteFu} />);
-    userEvent.hover(result.container.querySelector('[name="close"]')!);
-    // todo
+  it('should delete well', async () => {
+    const deleteFn = jest.fn();
+    const result = render(<Tags labels={labels} maxShowCount={5} onDelete={deleteFn} />);
+    fireEvent.click(result.container.querySelector('[name="close"]')!);
+    await waitFor(() => expect(screen.getByRole('tooltip')).toBeTruthy());
+    fireEvent.click(screen.getByText('Cancel'));
+    expect(result.baseElement.querySelector('.ant-popover')).toHaveClass('ant-popover-hidden');
+    fireEvent.click(result.container.querySelector('[name="close"]')!);
+    fireEvent.click(screen.getByText('OK'));
+    expect(deleteFn).toHaveBeenCalledTimes(1);
+    result.rerender(<TagItem label={{ label: 'checked' }} onDelete={deleteFn} deleteConfirm={false} />);
+    fireEvent.click(result.container.querySelector('[name="close"]')!);
+    expect(deleteFn).toHaveBeenCalledTimes(2);
   });
 });

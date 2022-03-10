@@ -179,16 +179,21 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
           onChange={onChangeContent}
           onBlur={() => onBlur?.(content)}
         />
-        <div className={`${btnCls} left-2 flex bottom-2 space-x-2`}>
-          {map(operationBtns, (operationBtn, i) => {
-            const { text, type, className = '', onClick } = operationBtn;
-            return (
-              <Button key={i} type={type} onClick={() => onClick(content)} className={className}>
-                {text}
-              </Button>
-            );
-          })}
-        </div>
+        <If condition={!!operationBtns?.length}>
+          <div
+            className={`${btnCls} w-full left-0 bottom-0 pl-4 py-3 space-x-2`}
+            style={{ borderTop: '1px solid rgba(48, 38, 71, 0.2)' }}
+          >
+            {map(operationBtns, (operationBtn, i) => {
+              const { text, type, size, className: btnItemCls = '', onClick } = operationBtn;
+              return (
+                <Button size={size} key={i} type={type} onClick={() => onClick(content)} className={btnItemCls}>
+                  {text}
+                </Button>
+              );
+            })}
+          </div>
+        </If>
       </div>
     </div>
   );

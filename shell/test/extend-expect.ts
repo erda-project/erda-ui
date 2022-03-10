@@ -30,4 +30,22 @@ expect.extend({
       },
     };
   },
+  isExitClass(received, selector, expect) {
+    let classList = [];
+    if (received) {
+      const ele = received.querySelector(selector);
+      classList = Array.from(ele?.classList || []);
+    }
+    const pass = classList.includes(expect);
+    return {
+      pass,
+      message: () => {
+        return [
+          this.utils.matcherHint(`${this.isNot ? '.not' : ''}.isExit`, selector, expect.toString()),
+          `Expected: ${this.utils.EXPECTED_COLOR(expect)}`,
+          `Received: ${this.utils.RECEIVED_COLOR(classList.join(', '))}`,
+        ].join('\n');
+      },
+    };
+  },
 });

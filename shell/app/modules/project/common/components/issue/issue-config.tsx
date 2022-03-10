@@ -36,10 +36,11 @@ export const ISSUE_ICON = {
   },
   issue: {
     // 时间类型icon
-    REQUIREMENT: <ErdaIcon type="xuqiu" size="20px" />,
-    TASK: <ErdaIcon type="renwu" size="20px" />,
-    BUG: <ErdaIcon type="quexian" size="20px" />,
-    EPIC: <ErdaIcon type="lichengbei" size="20px" />,
+    REQUIREMENT: <ErdaIcon type="xuqiu" size="28px" />,
+    TASK: <ErdaIcon type="renwu" size="28px" />,
+    BUG: <ErdaIcon type="quexian" size="28px" />,
+    EPIC: <ErdaIcon type="lichengbei" size="28px" />,
+    TICKET: <ErdaIcon type="gongdan" size="28px" />,
   },
   severity: {
     // 严重程度icon（bug）
@@ -198,7 +199,12 @@ export const ISSUE_TYPE_MAP = {
     value: 'TICKET',
     label: i18n.t('dop:ticket'),
     icon: null,
-    iconLabel: <div className="flex items-center">{i18n.t('dop:ticket')}</div>,
+    iconLabel: (
+      <div className="flex items-center">
+        {ISSUE_ICON.issue.TICKET}
+        {i18n.t('dop:ticket')}
+      </div>
+    ),
   },
   EPIC: {
     value: 'EPIC',

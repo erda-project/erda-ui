@@ -17,7 +17,7 @@ import { useUpdate } from 'app/common/use-hooks';
 import { ErdaIcon } from 'common';
 import { isPromise } from 'configForm/form/utils';
 import i18n from 'i18n';
-import { uniq, difference, intersection, map } from 'lodash';
+import { difference, intersection, map, uniq } from 'lodash';
 import React from 'react';
 import { IRowActions } from '../table/interface';
 
@@ -74,6 +74,7 @@ const BatchOperation = <T extends Obj>(props: IBatchProps<T>) => {
   const dropdownMenu = (
     <Menu
       theme="dark"
+      selectable
       onSelect={({ key }) => {
         const op = visibleOperations.find((a) => a.key === key);
         if (op) {

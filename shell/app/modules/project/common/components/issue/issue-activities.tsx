@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { goTo } from 'common/utils';
-import { Holder, SimpleTabs } from 'common';
+import { ErdaIcon, Holder, MarkdownRender, SimpleTabs } from 'common';
 import { useLoading } from 'core/stores/loading';
 import moment from 'moment';
 import { Spin } from 'antd';
@@ -28,14 +28,13 @@ import './issue-activities.scss';
 
 interface IProps {
   type: ISSUE_TYPE;
-  bottomSlot: React.ReactElement;
 }
 
 export const IssueActivities = (props: IProps) => {
-  const { type, bottomSlot } = props;
+  const { type } = props;
   const userMap = useUserMap();
-  const loginUser = userStore.useStore((s) => s.loginUser);
   const { projectId } = routeInfoStore.getState((s) => s.params);
+  const [openMap, setOpenMap] = React.useState<Obj<boolean>>({});
 
   const issueStreamList: ISSUE.IssueStream[] = issueStore.useStore((s) => s[`${type.toLowerCase()}StreamList`]);
   const [loading] = useLoading(issueStore, ['getIssueStreams']);
@@ -52,48 +51,53 @@ export const IssueActivities = (props: IProps) => {
     }
   });
   const tabs = [
-    { value: 'comments', label: `${i18n.t('dop:comments')}(${commentList.length})` },
-    { value: 'activity', label: `${i18n.t('dop:activity')}(${activityList.length})` },
-    { value: 'transfer', label: `${i18n.t('dop:transfer')}(${transferList.length})` },
+    { key: 'all', text: `${i18n.t('dop:all')}(${issueStreamList.length})`, data: issueStreamList },
+    { key: 'comments', text: `${i18n.t('dop:comments')}(${commentList.length})`, data: commentList },
+    { key: 'activity', text: `${i18n.t('dop:activity')}(${activityList.length})`, data: activityList },
+    { key: 'transfer', text: `${i18n.t('dop:transfer')}(${transferList.length})`, data: transferList },
   ];
-  const [tab, setTab] = React.useState(tabs[1].value);
-
-  const commentsRender = () => {
-    return commentList
-      .sort((a, b) => a.timestamp - b.timestamp)
-      .map((comment) => {
-        const user = userMap[comment.operator] || {};
-        const isSelf = loginUser.id === comment.operator;
-        if (isSelf) {
-          return (
-            <div key={comment.id} className="flex items-start pl-4 mt-4 space-x-2">
-              <div className="flex-1 px-4 py-4 rounded-sm my-comment issue-comment-content">{comment.content}</div>
-              <UserInfo.RenderWithAvatar id={user.id} showName={false} />
-            </div>
-          );
-        }
-        return (
-          <div key={comment.id} className="flex items-start pr-4 mt-4 space-x-2">
-            <UserInfo.RenderWithAvatar id={user.id} showName={false} />
-            <div className="flex-1 px-4 py-4 rounded-sm other-comment issue-comment-content">{comment.content}</div>
-          </div>
-        );
-      });
-  };
+  const [activeTabKey, setActiveTabKey] = React.useState(tabs[0].key);
 
   const activityListRender = (list: ISSUE.IssueStream[]) => {
     return list.map((activity) => {
       const user = userMap[activity.operator] || {};
       const { appID, mrID, mrTitle } = activity.mrInfo as ISSUE.IssueStreamMrInfo;
+      if (activity.streamType === 'Comment') {
+        return (
+          <div key={activity.id} className="relative mt-4 flex issue-activity-item items-start">
+            <UserInfo.RenderWithAvatar
+              avatarSize="default"
+              id={user.id}
+              showName={false}
+              className="absolute left-[-12px]"
+            />
+            <div className="flex-1 ml-5 p-4 rounded-sm issue-activity-content issue-comment-content">
+              <div>
+                <MarkdownRender value={activity.content} />
+              </div>
+              <div className="flex items-center mt-2 text-xs text-sub space-x-6">
+                <span>{user.nick || user.name}</span>
+                <span className="inline-flex items-center">
+                  <ErdaIcon type="shijian-2" className="mr-1" size={16} />
+                  <span>{moment(activity.createdAt).format('YYYY/MM/DD HH:mm:ss')}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        );
+      }
+      const simpleContent = {
+        ChangeTitle: i18n.t('dop:Updated the title'),
+        ChangeManHour: i18n.t('dop:Updated the working hours'),
+      };
       return (
         <div key={activity.id} className="relative mt-4 flex issue-activity-item items-start">
-          <UserInfo.RenderWithAvatar id={user.id} showName={false} />
           <div className="flex-1 ml-2 issue-activity-content">
-            <div className="flex">
-              {user.nick || user.name}&nbsp;&nbsp;
+            <div className="flex items-center space-x-2">
+              <span>{user.nick || user.name}</span>
               {activity.streamType === 'RelateMR' ? (
                 <>
-                  <span className="mx-2">{i18n.t('dop:add relation to MR')}</span>
+                  <span className="text-default">{i18n.t('dop:add relation to MR')}</span>
                   <a
                     className="text-purple-deep"
                     onClick={() => goTo(goTo.pages.appMr, { projectId, appId: appID, mrId: mrID, jumpOut: true })}
@@ -102,34 +106,40 @@ export const IssueActivities = (props: IProps) => {
                   </a>
                 </>
               ) : (
-                activity.content
+                <span className="text-default">{simpleContent[activity.streamType] || activity.content}</span>
               )}
+              <span className="ml-2 text-xs text-sub">{moment(activity.createdAt).format('YYYY/MM/DD HH:mm:ss')}</span>
+              <If condition={simpleContent[activity.streamType]}>
+                <ErdaIcon
+                  size={16}
+                  className="ml-2 text-sub hover:bg-default-04 cursor-pointer"
+                  type={openMap[activity.id] ? 'up-4ffff0hh' : 'down-4ffff0f4'}
+                  onClick={() => setOpenMap((prev) => ({ ...prev, [activity.id]: !prev[activity.id] }))}
+                />
+              </If>
             </div>
-            <div className="text-xs text-sub">{moment(activity.createdAt).format('YYYY/MM/DD HH:mm:ss')}</div>
+            <If condition={!!openMap[activity.id]}>
+              <div className="ml-4 mt-2 text-xs">{activity.content}</div>
+            </If>
           </div>
         </div>
       );
     });
   };
 
+  const activeTab = tabs.find((t) => t.key === activeTabKey) as typeof tabs[0];
   return (
     <Spin spinning={loading}>
-      <div className="flex flex-col overflow-auto pt-4 pb-14">
-        <SimpleTabs
-          value={tab}
-          className="px-6 pb-2"
-          tabs={tabs.map((item) => ({ key: item.value, text: item.label }))}
-          onSelect={setTab}
-        />
-        <div className="overflow-auto px-6">
-          <Holder when={!issueStreamList.length && !loading}>
-            <div className={tab === tabs[0].value ? '' : 'hidden'}>{commentsRender()}</div>
-            <div className={tab === tabs[1].value ? '' : 'hidden'}>{activityListRender(activityList)}</div>
-            <div className={tab === tabs[2].value ? '' : 'hidden'}>{activityListRender(transferList)}</div>
-          </Holder>
+      <div className="flex flex-col pb-16">
+        <div className="flex-h-center text-primary font-medium">
+          <span className="text-base">{i18n.t('Log')}</span>
+          <span className="w-[1px] h-[12px] bg-default-1 mx-4" />
+          <SimpleTabs value={activeTabKey} tabs={tabs} onSelect={setActiveTabKey} />
         </div>
+        <Holder when={!issueStreamList.length && !loading}>
+          <div className="ml-3">{activityListRender(activeTab.data)}</div>
+        </Holder>
       </div>
-      {bottomSlot}
     </Spin>
   );
 };
