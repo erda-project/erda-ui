@@ -114,7 +114,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       />
       <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
         <div ref={mdContentRef} className="md-content">
-          <MarkdownRender noWrapper value={value || i18n.t('no description yet')} />
+          <MarkdownRender noWrapper value={v || i18n.t('no description yet')} />
           <div
             className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-t from-white flex justify-center items-center ${
               !expandBtnVisible || expanded ? 'hidden' : ''
