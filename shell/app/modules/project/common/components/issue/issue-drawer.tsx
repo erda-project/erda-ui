@@ -307,19 +307,19 @@ export const IssueDrawer = (props: IProps) => {
               <div id="field">{formField}</div>
             </If>
             <If condition={descField !== IssueDrawer.Empty}>
-              <div id="desc" className="h-[1px] bg-default-08 my-4" />
+              <div id="desc" className="h-px bg-default-08 my-4" />
               {descField}
             </If>
             <If condition={inclusionField !== IssueDrawer.Empty}>
-              <div id="inclusion" className="h-[1px] bg-default-08 my-4" />
+              <div id="inclusion" className="h-px bg-default-08 my-4" />
               {inclusionField}
             </If>
             <If condition={relationField !== IssueDrawer.Empty}>
-              <div id="relation" className="h-[1px] bg-default-08 my-4" />
+              <div id="relation" className="h-px bg-default-08 my-4" />
               {relationField}
             </If>
             <If condition={logField !== IssueDrawer.Empty}>
-              <div id="log" className="h-[1px] bg-default-08 my-4" />
+              <div id="log" className="h-px bg-default-08 my-4" />
               {logField}
             </If>
           </div>
