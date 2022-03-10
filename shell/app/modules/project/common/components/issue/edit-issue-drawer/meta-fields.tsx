@@ -318,6 +318,29 @@ const IssueMetaFields = React.forwardRef(
           ),
         },
       ]),
+      {
+        icon: 'jihuashijian',
+        className: 'mb-4 w-full',
+        name: 'planStartedAt',
+        label: i18n.t('common:start at'),
+        type: 'datePicker',
+        showRequiredMark: ISSUE_TYPE.EPIC === issueType,
+        itemProps: {
+          allowClear: true,
+        },
+      },
+      {
+        icon: 'jihuashijian',
+        className: 'mb-4 w-full',
+        name: 'planFinishedAt',
+        label: i18n.t('deadline'),
+        type: 'datePicker',
+        showRequiredMark: ISSUE_TYPE.EPIC === issueType,
+        itemProps: {
+          allowClear: true,
+          endDay: true,
+        },
+      },
       ...insertWhen(issueType === ISSUE_TYPE.TICKET && !isMonitorTicket, [
         {
           icon: 'laiyuan',
@@ -371,29 +394,6 @@ const IssueMetaFields = React.forwardRef(
           },
         },
       ]),
-      {
-        icon: 'jihuashijian',
-        className: 'mb-4 w-full',
-        name: 'planStartedAt',
-        label: i18n.t('common:start at'),
-        type: 'datePicker',
-        showRequiredMark: ISSUE_TYPE.EPIC === issueType,
-        itemProps: {
-          allowClear: true,
-        },
-      },
-      {
-        icon: 'jihuashijian',
-        className: 'mb-4 w-full',
-        name: 'planFinishedAt',
-        label: i18n.t('deadline'),
-        type: 'datePicker',
-        showRequiredMark: ISSUE_TYPE.EPIC === issueType,
-        itemProps: {
-          allowClear: true,
-          endDay: true,
-        },
-      },
       ...insertWhen(![ISSUE_TYPE.TICKET, ISSUE_TYPE.EPIC].includes(issueType), [
         {
           icon: 'yugushijian',
@@ -482,31 +482,6 @@ const IssueMetaFields = React.forwardRef(
       //     },
       //   },
       // ]),
-      ...customFieldList,
-      // ...insertWhen(isEditMode, [
-      //   {
-      //     name: 'creator',
-      //     label: '',
-      //     type: 'readonly',
-      //     valueRender: (value: string) => {
-      //       let user = projectMembers.find((item: IMember) => String(item.userId) === String(value)) as IMember;
-      //       if (!user) {
-      //         user = userMap[value] || {};
-      //       }
-
-      //       return (
-      //         <>
-      //           <Divider className="mb-6 mt-0.5" />
-      //           <div className="text-desc text-xs prewrap">
-      //             {user.nick || user.name}&nbsp;{i18n.t('created at')}&nbsp;
-      //             {moment(formData.createdAt).format('YYYY/MM/DD')}
-      //           </div>
-      //         </>
-      //       );
-      //     },
-      //   },
-      // ]),
-      // keep labels as last field for full width
       {
         icon: 'biaoqian',
         className: 'mb-4',
@@ -566,6 +541,31 @@ const IssueMetaFields = React.forwardRef(
           },
         },
       },
+      ...customFieldList,
+      // ...insertWhen(isEditMode, [
+      //   {
+      //     name: 'creator',
+      //     label: '',
+      //     type: 'readonly',
+      //     valueRender: (value: string) => {
+      //       let user = projectMembers.find((item: IMember) => String(item.userId) === String(value)) as IMember;
+      //       if (!user) {
+      //         user = userMap[value] || {};
+      //       }
+
+      //       return (
+      //         <>
+      //           <Divider className="mb-6 mt-0.5" />
+      //           <div className="text-desc text-xs prewrap">
+      //             {user.nick || user.name}&nbsp;{i18n.t('created at')}&nbsp;
+      //             {moment(formData.createdAt).format('YYYY/MM/DD')}
+      //           </div>
+      //         </>
+      //       );
+      //     },
+      //   },
+      // ]),
+      // keep labels as last field for full width
     ];
 
     editFieldList = editFieldList.map((fieldProps) => ({
