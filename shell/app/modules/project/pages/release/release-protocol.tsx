@@ -99,6 +99,7 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
         scenarioKey="release-manage"
         scenarioType="release-manage"
         showLoading
+        fullHeight={false}
         inParams={inParams}
         key={isFormal}
         ref={reloadRef}
