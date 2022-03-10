@@ -11,11 +11,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-/// <reference types="jest" />
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
+import DebounceSearch from '..';
 
-declare namespace jest {
-  interface Matchers<R, T> {
-    isExit: (selector: string, expected?: number) => jest.CustomMatcherResult;
-    isExitClass: (selector: string, expected: string) => jest.CustomMatcherResult;
-  }
-}
+describe('DebounceSearch', () => {
+  it('should render well', () => {
+    const fn = jest.fn();
+    jest.useFakeTimers();
+    const result = render(<DebounceSearch onChange={fn} />);
+    const input = result.getByRole('textbox') as HTMLInputElement;
+    fireEvent.change(input, { target: { value: 'erda' } });
+    jest.runAllTimers();
+    expect(fn).toHaveBeenLastCalledWith('erda');
+  });
+});

@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip, Popconfirm } from 'antd';
+import { Popconfirm, Tooltip } from 'antd';
 import { Ellipsis, ErdaIcon } from 'common';
-import { some, has, groupBy, map, max } from 'lodash';
+import { groupBy, has, map, max, some } from 'lodash';
 import { colorToRgb } from 'common/utils';
 import i18n from 'i18n';
 import './index.scss';
@@ -73,11 +73,7 @@ export const TagItem = (props: IItemProps) => {
             }}
             onCancel={(e) => e && e.stopPropagation()}
           >
-            <ErdaIcon
-              type="qingchu"
-              size="14"
-              className="tag-close cursor-pointer text-holder"
-            />
+            <ErdaIcon type="qingchu" size="14" className="tag-close cursor-pointer text-holder" />
           </Popconfirm>
         ) : (
           <ErdaIcon
@@ -111,7 +107,7 @@ const TagsRow = ({
   const labels = propsLabels ? (Array.isArray(propsLabels) ? propsLabels : [propsLabels]) : [];
   const showMore = labels.length > showCount;
   const showGroup = some(labels, (l) => has(l, 'group'));
-  
+
   const [labelWidth, setLabelWidth] = React.useState<string | number>('auto');
 
   const countLabelWidth = () => {
@@ -162,13 +158,7 @@ const TagsRow = ({
         >
           <ErdaIcon className={`twt-tag-ellipsis ${size}`} type="more" color="currentColor" />
         </Tooltip>
-      ) : (
-        labels
-          .slice(showCount)
-          .map((l) => (
-            <TagItem colorMap={colorMap} key={l.label} label={l} maxWidth={120} onDelete={onDelete} size={size} />
-          ))
-      )}
+      ) : null}
     </React.Fragment>
   );
 

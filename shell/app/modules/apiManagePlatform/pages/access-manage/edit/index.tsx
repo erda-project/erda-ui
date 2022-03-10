@@ -12,18 +12,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Button, FormInstance } from 'antd';
-import { RenderForm, MultiInput, ErdaAlert } from 'common';
+import { Button, FormInstance, Spin } from 'antd';
+import { ErdaAlert, RenderForm } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
-import { map, groupBy, find, get, isEmpty } from 'lodash';
+import { find, get, groupBy, isEmpty, map } from 'lodash';
 import {
+  addonStatusMap,
   authenticationMap,
   authorizationMap,
   envMap,
-  addonStatusMap,
 } from 'apiManagePlatform/pages/access-manage/components/config';
+import MultiInput from 'apiManagePlatform/pages/access-manage/components/multi-input';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import { goTo } from 'common/utils';
