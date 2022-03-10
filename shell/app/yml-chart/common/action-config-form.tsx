@@ -33,7 +33,6 @@ const ActionConfigForm = (props: IProps) => {
     projectId,
     appId: applicationId,
   };
-
   return (
     <DiceConfigPage
       inParams={inParams}
