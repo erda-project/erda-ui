@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { get } from 'lodash';
 import DiceConfigPage from 'app/config-page';
 import { getUrlQuery } from 'config-page/utils';
 import { RadioTabs, ErdaIcon } from 'common';
@@ -99,6 +98,7 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
         scenarioKey="release-manage"
         scenarioType="release-manage"
         showLoading
+        fullHeight={false}
         inParams={inParams}
         key={isFormal}
         ref={reloadRef}
