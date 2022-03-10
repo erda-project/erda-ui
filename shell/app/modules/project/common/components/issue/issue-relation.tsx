@@ -261,12 +261,10 @@ const IssueSection = ({
 };
 
 export const IssueInclusion = ({
-  issueType,
   issueDetail,
   iterationID,
   setHasEdited,
 }: {
-  issueType: ISSUE_TYPE;
   issueDetail: ISSUE.IssueType;
   iterationID?: number;
   setHasEdited: (val: boolean) => void;
@@ -294,8 +292,6 @@ export const IssueInclusion = ({
       });
     },
   });
-
-  if (issueType !== ISSUE_TYPE.REQUIREMENT) return null;
 
   return (
     <IssueSection

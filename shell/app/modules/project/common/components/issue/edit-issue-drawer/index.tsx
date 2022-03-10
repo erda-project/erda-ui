@@ -783,13 +783,8 @@ export const EditIssueDrawer = (props: IProps) => {
         data={formData}
       />
 
-      <If condition={isEditMode && !!issueDetail}>
-        <IssueInclusion
-          issueType={issueType}
-          issueDetail={issueDetail}
-          iterationID={iterationID}
-          setHasEdited={setHasEdited}
-        />
+      <If condition={isEditMode && !!issueDetail && issueType === ISSUE_TYPE.REQUIREMENT}>
+        <IssueInclusion issueDetail={issueDetail} iterationID={iterationID} setHasEdited={setHasEdited} />
       </If>
       <If condition={isEditMode && !!issueDetail}>
         <IssueConnection
