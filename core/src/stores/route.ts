@@ -28,8 +28,8 @@ interface IRouteInfo {
   routeMarks: string[];
   routePatterns: string[];
   routeMap: Record<string, SHELL.Route>;
-  urlFullRecord: string[];
-  urlPathRecord: string[];
+  urlFullRecord: Set<string>;
+  urlPathRecord: Set<string>;
   urlState: 'back' | 'new' | 'forward';
   parsed: any;
   prevRouteInfo: IRouteInfo;
@@ -48,8 +48,8 @@ const initRouteInfo: IRouteInfo = {
   routePatterns: [],
   routeMap: {},
   parsed: {},
-  urlPathRecord: [],
-  urlFullRecord: [],
+  urlPathRecord: new Set([]),
+  urlFullRecord: new Set([]),
   urlState: 'new',
   isIn: () => false,
   isMatch: () => false,
@@ -146,22 +146,22 @@ const routeInfoStore = createStore({
         }
       }
 
-      const curUrlPaths = [...state.urlPathRecord];
-      const curUrlFull = [...state.urlFullRecord];
+      const curUrlPaths = new Set(state.urlPathRecord);
+      const curUrlFull = new Set(state.urlFullRecord);
       let urlState = 'new';
-      if (curUrlFull.includes(urlKey) && curUrlPaths.length > 1) {
-        if (curUrlPaths.includes(urlKey)) {
+      if (curUrlFull.has(urlKey) && curUrlPaths.size > 1) {
+        if (curUrlPaths.has(urlKey)) {
           urlState = 'back';
-          curUrlPaths.pop();
+          curUrlPaths.delete(urlKey);
         } else {
           urlState = 'forward';
-          curUrlPaths.push(urlKey);
+          curUrlPaths.add(urlKey);
         }
-      } else if (curUrlPaths[curUrlPaths.length - 1] !== urlKey) {
-        curUrlPaths.push(urlKey);
+      } else {
+        curUrlPaths.add(urlKey);
       }
 
-      if (curUrlFull[curUrlFull.length - 1] !== urlKey) curUrlFull.push(urlKey);
+      curUrlFull.add(urlKey);
 
       const routeInfo = {
         prevRouteInfo,
