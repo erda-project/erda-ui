@@ -758,6 +758,7 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
   const changeResourceType = (val: string) => {
     updater.chosenActionName(val || '');
   };
+  // test
 
   const curNodeData = chosenActionName === propsNodeData?.type ? propsNodeData : undefined;
   return (
