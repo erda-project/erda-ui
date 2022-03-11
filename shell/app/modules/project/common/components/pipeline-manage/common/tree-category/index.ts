@@ -11,16 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { regLog } from 'common/components/pure-log-roller/log-util';
+import TreeCategory from './tree';
 
-describe('regLog', () => {
-  it('regLog.LOGSTART should work well', () => {
-    const str = '2021-06-29T11:05:45.713Z INFO - [content]';
-    expect(regLog.LOGSTART.test(str)).toBeTruthy();
-    const result = regLog.LOGSTART.exec(str) || [];
-    const [, time, level, params] = result;
-    expect(time).toBe('2021-06-29T11:05:45.713Z');
-    expect(level).toBe('INFO');
-    expect(params).toBe('content');
-  });
-});
+export default TreeCategory;

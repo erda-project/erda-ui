@@ -11,16 +11,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import Enzyme from 'enzyme';
-import ReactSixteenAdapter from 'enzyme-adapter-react-16';
+import { regLog } from '../log-util';
 
-Enzyme.configure({ adapter: new ReactSixteenAdapter() });
-Object.assign(Enzyme.ReactWrapper.prototype, {
-  findObserver() {
-    return this.find('ResizeObserver');
-  },
-  triggerResize() {
-    const ob = this.findObserver();
-    ob.instance().onResize([{ target: ob.getDOMNode() }]);
-  },
+describe('log-util', () => {
+  it('regLog.LOGSTART should work well', () => {
+    const str = '2021-06-29T11:05:45.713Z INFO - [content]';
+    expect(regLog.LOGSTART.test(str)).toBeTruthy();
+    const result = regLog.LOGSTART.exec(str) || [];
+    const [, time, level, params] = result;
+    expect(time).toBe('2021-06-29T11:05:45.713Z');
+    expect(level).toBe('INFO');
+    expect(params).toBe('content');
+  });
 });

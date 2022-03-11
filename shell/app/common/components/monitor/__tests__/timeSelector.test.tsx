@@ -12,24 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Terminal } from 'common';
-import { mount } from 'enzyme';
-import * as xterm from 'common/utils/xterm';
+import { render } from '@testing-library/react';
+import routeInfoStore from 'core/stores/route';
+import TimeSelectorContainer from '../timeSelector';
 
-describe('Terminal', () => {
+describe('TimeSelectorContainer', () => {
   beforeAll(() => {
-    jest.spyOn(xterm, 'createTerm').mockImplementation(() => ({
-      fit: () => {},
-    }));
-    jest.spyOn(xterm, 'destroyTerm').mockImplementation(() => {});
+    routeInfoStore.reducers.$_updateRouteInfo({
+      pathname: process.env.mock_pathname,
+      search: process.env.mock_search,
+    });
   });
-  it('should ', () => {
-    jest.useFakeTimers();
-    const wrapper = mount(<Terminal />);
-    jest.runAllTimers();
-    expect(wrapper.find('span').text()).toBe('full screen');
-    wrapper.find('Button.resize-button').simulate('click');
-    expect(wrapper.find('span').text()).toBe('exit full screen');
-    wrapper.unmount();
+  it('render TimeSelector', () => {
+    const result = render(<TimeSelectorContainer />);
+    expect(result.container).isExit('.monitor-time-selector', 1);
+    result.rerender(<TimeSelectorContainer rangeMode={false} />);
+    expect(result.container).isExit('.time-range-selector', 1);
   });
 });

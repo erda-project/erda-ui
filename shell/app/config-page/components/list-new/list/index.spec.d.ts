@@ -29,7 +29,7 @@ declare namespace ERDA_LIST {
   }
 
   interface IProps {
-    dataSource: IListData;
+    dataSource: IListData[];
     size?: ISize;
     isLoadMore?: boolean;
     onLoadMore: () => void;

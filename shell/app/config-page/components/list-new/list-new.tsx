@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { isNumber, filter, map, sortBy } from 'lodash';
+import { filter, isNumber, map, sortBy } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import { OperationAction } from 'config-page/utils';
 import { containerMap } from '../../components';
-import ErdaList from 'common/components/list';
+import ErdaList from './list';
 
 import './list-new.scss';
 
