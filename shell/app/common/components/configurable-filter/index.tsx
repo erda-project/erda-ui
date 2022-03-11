@@ -33,8 +33,9 @@ export interface IProps {
   onConfigChange?: (config: ConfigData) => void;
   processField?: (field: Field) => IFormItem;
   hideSave?: boolean;
-  onClear: () => void;
+  onClear?: () => void;
   onClose?: () => void;
+  zIndex?: number;
 }
 
 export interface Option {
@@ -59,6 +60,7 @@ export interface Field {
   getComp?: (props: Obj) => React.ReactNode;
   customProps?: Obj;
   initialValue?: number | string;
+  disabled?: boolean;
 }
 
 export interface ConfigData {
@@ -102,7 +104,7 @@ interface FieldItem extends IFormItem {
   placeholder?: string;
 }
 
-const defaultProcessField = (item: FieldItem) => {
+const defaultProcessField = (item: FieldItem, zIndex?: number) => {
   const { type, itemProps, placeholder, disabled, mode, required } = item;
   const field: IFormItem = { ...item };
 
@@ -135,6 +137,10 @@ const defaultProcessField = (item: FieldItem) => {
     disabled,
     ...field.itemProps,
   };
+
+  if (zIndex) {
+    field.itemProps.dropdownStyle = { ...field.itemProps.dropdownStyle, zIndex: zIndex + 10 };
+  }
 
   return field;
 };
@@ -173,6 +179,7 @@ const ConfigurableFilter = React.forwardRef(
       hideSave,
       onClear,
       onClose,
+      zIndex,
     }: IProps,
     ref: React.Ref<{ form: FormInstance }>,
   ) => {
@@ -362,7 +369,7 @@ const ConfigurableFilter = React.forwardRef(
                       <Col span={12} key={item.key} className={index % 2 === 1 ? 'pl-2' : 'pr-2'}>
                         <RenderFormItem
                           required={false}
-                          {...defaultProcessField(processField ? processField(item) : item)}
+                          {...defaultProcessField(processField ? processField(item) : item, zIndex)}
                         />
                       </Col>
                     );
@@ -417,7 +424,9 @@ const ConfigurableFilter = React.forwardRef(
     const isAllOpen = !!(
       formValue &&
       !isEmpty(formValue) &&
-      Object.keys(formValue).find((key) => formValue[key] && !isEmpty(formValue[key]))
+      Object.keys(formValue).find(
+        (key) => formValue[key] && (typeof formValue[key] === 'number' || !isEmpty(formValue[key])),
+      )
     );
 
     return (
@@ -435,6 +444,7 @@ const ConfigurableFilter = React.forwardRef(
                 setVisible(v);
                 !v && onClose?.();
               }}
+              zIndex={zIndex}
             >
               <div
                 className={`flex-h-center erda-configurable-filter-btn py-1 px-2 rounded-sm leading-none cursor-pointer`}

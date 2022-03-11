@@ -13,7 +13,7 @@
 
 import { Dropdown } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
-import { ContractiveFilter, ErdaIcon, SimpleTabs, Table as ErdaTable, UserInfo } from 'common';
+import { ErdaIcon, SimpleTabs, Table as ErdaTable, UserInfo, ConfigurableFilter } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo, insertWhen } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
@@ -493,51 +493,47 @@ export const AddIssueRelation = ({
         <span>{i18n.t('dop:choose issues')}</span>
         <ErdaIcon type="guanbi" size={20} className="hover-active" onClick={() => updater.visible(false)} />
       </div>
-      <ContractiveFilter
-        values={filterData}
-        className="px-4 py-2"
-        conditions={[
-          {
-            key: 'title',
-            type: 'input',
-            label: i18n.t('title'),
-            fixed: true,
-            showIndex: 1,
-            placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
-          },
-          {
-            label: i18n.t('dop:owned iteration'),
-            type: 'select',
-            key: 'iterationID',
-            haveFilter: true,
-            fixed: true,
-            emptyText: i18n.t('dop:all'),
-            options: iterationList.map((item) => ({ label: item.title, value: item.id })) || [],
-            showIndex: 2,
-            placeholder: i18n.t('dop:owned iteration'),
-            customProps: {
+      <div className="px-4 pb-2">
+        <ConfigurableFilter
+          hideSave
+          value={filterData}
+          fieldsList={[
+            {
+              key: 'title',
+              type: 'input',
+              label: i18n.t('title'),
+              outside: true,
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+            },
+            {
+              label: i18n.t('dop:owned iteration'),
+              type: 'select',
+              key: 'iterationID',
+              haveFilter: true,
+              emptyText: i18n.t('dop:all'),
+              options:
+                [{ title: i18n.t('dop:backlog'), id: -1 }, ...iterationList].map((item) => ({
+                  label: item.title,
+                  value: item.id,
+                })) || [],
+              placeholder: i18n.t('dop:owned iteration'),
               mode: 'single',
             },
-          },
-          {
-            label: i18n.t('dop:issue type'),
-            type: 'select',
-            key: 'type',
-            options: map(ISSUE_OPTION, (item) => ISSUE_TYPE_MAP[item]),
-            fixed: true,
-            emptyText: i18n.t('dop:all'),
-            showIndex: 3,
-            disabled: relationType === RelationType.Inclusion,
-            customProps: {
+            {
+              label: i18n.t('dop:issue type'),
+              type: 'select',
+              key: 'type',
+              options: map(ISSUE_OPTION, (item) => ISSUE_TYPE_MAP[item]),
+              emptyText: i18n.t('dop:all'),
+              disabled: relationType === RelationType.Inclusion,
               mode: 'single',
             },
-          },
-        ]}
-        onChange={(v) => {
-          updater.filterData(v);
-        }}
-        delay={1000}
-      />
+          ]}
+          onFilter={(v) => updater.filterData(v)}
+          zIndex={1060}
+        />
+      </div>
+
       <ErdaTable
         rowKey="id"
         hideHeader
