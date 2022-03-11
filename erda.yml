@@ -52,5 +52,3 @@ services:
         mode: "container"
     deployments:
       replicas: ${replicas:1}
-    expose:
-    - 80
