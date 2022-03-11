@@ -256,33 +256,35 @@ export const useAddMrRelation = ({
     </Dropdown>,
 
     <If condition={expand}>
-      {relateMrList?.map((stream) => {
-        return (
-          <div
-            key={stream.id}
-            className={'backlog-issue-item px-2 hover:bg-default-04 cursor-pointer'}
-            onClick={() =>
-              goTo(goTo.pages.appMr, {
-                projectId,
-                appId: stream.mrInfo?.appID,
-                mrId: stream.mrInfo?.mrID,
-                jumpOut: true,
-              })
-            }
-          >
-            <div className="issue-info h-full">
-              <div className="backlog-item-content mr-6">
-                <span className="mr-1">
-                  #{stream.mrInfo?.mrID}-{stream.mrInfo?.mrTitle}
-                </span>
-              </div>
-              <div className="text-sub flex items-center flex-wrap justify-end">
-                <UserInfo.RenderWithAvatar id={stream.operator} className="w-24 mr-6" />
+      <div className="p-2 bg-default-02">
+        {relateMrList?.map((stream) => {
+          return (
+            <div
+              key={stream.id}
+              className={'backlog-issue-item px-2 hover:bg-default-04 cursor-pointer'}
+              onClick={() =>
+                goTo(goTo.pages.appMr, {
+                  projectId,
+                  appId: stream.mrInfo?.appID,
+                  mrId: stream.mrInfo?.mrID,
+                  jumpOut: true,
+                })
+              }
+            >
+              <div className="issue-info h-full">
+                <div className="backlog-item-content mr-6">
+                  <span className="mr-1">
+                    #{stream.mrInfo?.mrID}-{stream.mrInfo?.mrTitle}
+                  </span>
+                </div>
+                <div className="text-sub flex items-center flex-wrap justify-end">
+                  <UserInfo.RenderWithAvatar id={stream.operator} className="w-24 mr-6" />
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </If>,
 
     relateMrList,

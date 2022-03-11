@@ -65,7 +65,7 @@ export const IssueTestCaseRelation = ({ list }: IProps) => {
   ];
   return (
     <If condition={!!list.length}>
-      <Table columns={columns} dataSource={list} rowKey="id" pagination={false} scroll={{ x: '100%' }} />
+      <Table size="small" columns={columns} dataSource={list} rowKey="id" pagination={false} scroll={{ x: '100%' }} />
     </If>
   );
 };
