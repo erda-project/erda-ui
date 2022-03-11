@@ -10,6 +10,10 @@
     }
   }
 
+  .ant-select-multiple .ant-select-selector {
+    padding-left: 11px;
+  }
+
   .ant-picker {
     &:hover {
       background-color: $color-default-06 !important;

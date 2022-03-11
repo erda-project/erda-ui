@@ -46,6 +46,8 @@
 
   .rc-md-navigation {
     background-color: $white;
+    border-bottom: none;
+    border-radius: 2px;
 
     .button-wrap {
       .mode-button {

@@ -68,8 +68,8 @@ export const IssueCommentBox = (props: IProps) => {
 
   return (
     <div
-      className="absolute flex items-start z-10 rounded-sm p-3 shadow-card-lg bg-white bottom-0"
-      style={{ left: '16px', width: `calc(100% - 32px)` }}
+      className="absolute flex items-start z-10 rounded-sm p-4 shadow-card-lg bg-white bottom-0"
+      style={{ left: '103px', right: '103px' }}
     >
       <UserInfo.RenderWithAvatar avatarSize="default" id={loginUser.id} showName={false} className="mr-3" />
       {state.visible ? (
@@ -104,7 +104,7 @@ export const IssueCommentBox = (props: IProps) => {
         </div>
       ) : (
         <div
-          className="issue-comment-arrow h-8 leading-8 bg-default-06 rounded-sm cursor-pointer px-3 flex-1 hover:text-purple-deep"
+          className="issue-comment-arrow h-8 leading-8 bg-default-04 rounded-sm cursor-pointer px-3 flex-1 hover:text-purple-deep"
           onClick={() => {
             updater.visible(true);
             layoutStore.reducers.setIssueCommentBoxVisible(true);

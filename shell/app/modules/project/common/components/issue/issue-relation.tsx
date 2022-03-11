@@ -107,7 +107,7 @@ const useIssueRelation = (props: IProps) => {
 
         <WithAuth pass={createAuth}>
           <div
-            className="h-7 mr-1 p-1 rounded-sm text-sub hover:text-default hover:bg-default-04 cursor-pointer"
+            className="h-7 mr-2 p-1 rounded-sm text-sub hover:text-default hover:bg-default-04 cursor-pointer"
             onClick={() => {
               setActiveButtonType('create');
               setExpand(true);
@@ -223,16 +223,20 @@ const IssueSection = ({
   return (
     <div>
       <div className="relative h-12 flex-h-center text-primary font-medium">
-        <If condition={!!data?.length}>
-          <span
-            className="absolute left-[-20px] flex rounded-sm cursor-pointer text-sub hover:text-default hover:bg-default-06"
-            onClick={() => setExpand(!expand)}
-          >
-            <ErdaIcon size={20} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
-          </span>
+        <span
+          className="section-operate-title flex-h-center cursor-pointer hover:text-default"
+          onClick={() => setExpand(!expand)}
+        >
+          <If condition={!!data?.length}>
+            <span className="absolute left-[-20px] flex rounded-sm text-sub op-icon">
+              <ErdaIcon size={20} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
+            </span>
+          </If>
+          <span className="text-base">{title}</span>
+        </span>
+        <If condition={!tabs}>
+          <span className="bg-default-06 leading-4 rounded-lg px-1 ml-1">{data?.length || 0}</span>
         </If>
-        <span className="text-base">{title}</span>
-        <span className="bg-default-06 leading-4 rounded-lg px-1 ml-1">{data?.length || 0}</span>
         {tabs && onSelectTab && (
           <>
             <span className="w-[1px] h-[12px] bg-default-1 mx-4" />
@@ -257,12 +261,10 @@ const IssueSection = ({
 };
 
 export const IssueInclusion = ({
-  issueType,
   issueDetail,
   iterationID,
   setHasEdited,
 }: {
-  issueType: ISSUE_TYPE;
   issueDetail: ISSUE.IssueType;
   iterationID?: number;
   setHasEdited: (val: boolean) => void;
@@ -291,20 +293,15 @@ export const IssueInclusion = ({
     },
   });
 
-  if (issueType !== ISSUE_TYPE.REQUIREMENT) return null;
-
   return (
-    <>
-      <IssueSection
-        title={i18n.t('dop:Include')}
-        expand={expand}
-        setExpand={setExpand}
-        data={data?.include}
-        content={content}
-        operations={operations}
-      />
-      <div className="h-[1px] bg-default-08 my-4" />
-    </>
+    <IssueSection
+      title={i18n.t('dop:Include')}
+      expand={expand}
+      setExpand={setExpand}
+      data={data?.include}
+      content={content}
+      operations={operations}
+    />
   );
 };
 

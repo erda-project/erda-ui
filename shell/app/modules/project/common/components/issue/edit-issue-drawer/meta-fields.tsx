@@ -318,6 +318,29 @@ const IssueMetaFields = React.forwardRef(
           ),
         },
       ]),
+      {
+        icon: 'jihuashijian',
+        className: 'mb-4 w-full',
+        name: 'planStartedAt',
+        label: i18n.t('common:start at'),
+        type: 'datePicker',
+        showRequiredMark: ISSUE_TYPE.EPIC === issueType,
+        itemProps: {
+          allowClear: true,
+        },
+      },
+      {
+        icon: 'jihuashijian',
+        className: 'mb-4 w-full',
+        name: 'planFinishedAt',
+        label: i18n.t('deadline'),
+        type: 'datePicker',
+        showRequiredMark: ISSUE_TYPE.EPIC === issueType,
+        itemProps: {
+          allowClear: true,
+          endDay: true,
+        },
+      },
       ...insertWhen(issueType === ISSUE_TYPE.TICKET && !isMonitorTicket, [
         {
           icon: 'laiyuan',
@@ -371,29 +394,6 @@ const IssueMetaFields = React.forwardRef(
           },
         },
       ]),
-      {
-        icon: 'jihuashijian',
-        className: 'mb-4 w-full',
-        name: 'planStartedAt',
-        label: i18n.t('common:start at'),
-        type: 'datePicker',
-        showRequiredMark: ISSUE_TYPE.EPIC === issueType,
-        itemProps: {
-          allowClear: true,
-        },
-      },
-      {
-        icon: 'jihuashijian',
-        className: 'mb-4 w-full',
-        name: 'planFinishedAt',
-        label: i18n.t('deadline'),
-        type: 'datePicker',
-        showRequiredMark: ISSUE_TYPE.EPIC === issueType,
-        itemProps: {
-          allowClear: true,
-          endDay: true,
-        },
-      },
       ...insertWhen(![ISSUE_TYPE.TICKET, ISSUE_TYPE.EPIC].includes(issueType), [
         {
           icon: 'yugushijian',
@@ -482,37 +482,11 @@ const IssueMetaFields = React.forwardRef(
       //     },
       //   },
       // ]),
-      ...customFieldList,
-      // ...insertWhen(isEditMode, [
-      //   {
-      //     name: 'creator',
-      //     label: '',
-      //     type: 'readonly',
-      //     valueRender: (value: string) => {
-      //       let user = projectMembers.find((item: IMember) => String(item.userId) === String(value)) as IMember;
-      //       if (!user) {
-      //         user = userMap[value] || {};
-      //       }
-
-      //       return (
-      //         <>
-      //           <Divider className="mb-6 mt-0.5" />
-      //           <div className="text-desc text-xs prewrap">
-      //             {user.nick || user.name}&nbsp;{i18n.t('created at')}&nbsp;
-      //             {moment(formData.createdAt).format('YYYY/MM/DD')}
-      //           </div>
-      //         </>
-      //       );
-      //     },
-      //   },
-      // ]),
-      // keep labels as last field for full width
       {
         icon: 'biaoqian',
-        className: 'mb-4 w-full',
+        className: 'mb-4',
         name: 'labels',
         label: i18n.t('label'),
-        span: 24,
         type: 'select', // 需要新建不存在的tag，用 tagName 作为值传递，不要用 LabelSelect
         itemProps: {
           options: map(optionList, ({ id: labelId, name, isNewLabel }) => {
@@ -567,6 +541,31 @@ const IssueMetaFields = React.forwardRef(
           },
         },
       },
+      ...customFieldList,
+      // ...insertWhen(isEditMode, [
+      //   {
+      //     name: 'creator',
+      //     label: '',
+      //     type: 'readonly',
+      //     valueRender: (value: string) => {
+      //       let user = projectMembers.find((item: IMember) => String(item.userId) === String(value)) as IMember;
+      //       if (!user) {
+      //         user = userMap[value] || {};
+      //       }
+
+      //       return (
+      //         <>
+      //           <Divider className="mb-6 mt-0.5" />
+      //           <div className="text-desc text-xs prewrap">
+      //             {user.nick || user.name}&nbsp;{i18n.t('created at')}&nbsp;
+      //             {moment(formData.createdAt).format('YYYY/MM/DD')}
+      //           </div>
+      //         </>
+      //       );
+      //     },
+      //   },
+      // ]),
+      // keep labels as last field for full width
     ];
 
     editFieldList = editFieldList.map((fieldProps) => ({
@@ -575,31 +574,13 @@ const IssueMetaFields = React.forwardRef(
       ...fieldProps,
     }));
 
-    const colSpan = React.useMemo(() => {
-      let _span = 1;
-      switch (true) {
-        case width < 420:
-          _span = 24;
-          break;
-        case width < 760:
-          _span = 12;
-          break;
-        case width < 1200:
-          _span = 8;
-          break;
-        default:
-          _span = 6;
-      }
-      return _span;
-    }, [width]);
-
     return (
       <div className={`issue-meta-fields mt-4`}>
         {widthHolder}
         <Row gutter={16}>
           {editFieldList.map((fieldProps) => {
             return (
-              <Col key={fieldProps.label} span={fieldProps.span || colSpan}>
+              <Col key={fieldProps.label} span={24}>
                 <EditField
                   ref={(r) => {
                     const _refMap = ref?.current?.refMap;

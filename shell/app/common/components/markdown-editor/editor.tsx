@@ -85,8 +85,8 @@ const Editor = React.forwardRef((props: IProps, ref) => {
         'clear',
         'logger',
         'mode-toggle',
-        'full-screen',
         'upload',
+        'full-screen',
       ]}
       config={config}
       htmlClass="md-content"

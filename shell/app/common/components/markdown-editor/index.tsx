@@ -20,6 +20,7 @@ import { map } from 'lodash';
 import { useMount } from 'react-use';
 import { BaseButtonProps } from 'antd/es/button/button';
 import './index.scss';
+import { emit } from 'core/event-hub';
 
 interface BtnProps extends BaseButtonProps {
   text: string;
@@ -94,8 +95,9 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
   React.useEffect(() => {
     mdEditorRef.current?.on('fullscreen', (isFullScreen: boolean) => {
       updater.fullscreen(isFullScreen);
+      emit('common:mdEditorFullScreen', isFullScreen);
     });
-  }, []);
+  }, [updater]);
 
   useMount(() => {
     setTimeout(() => {
@@ -181,7 +183,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
         />
         <If condition={!!operationBtns?.length}>
           <div
-            className={`${btnCls} w-full left-0 bottom-0 pl-4 py-3 space-x-2`}
+            className={`${btnCls} w-full left-0 bottom-0 pl-4 py-3 space-x-3`}
             style={{ borderTop: '1px solid rgba(48, 38, 71, 0.2)' }}
           >
             {map(operationBtns, (operationBtn, i) => {

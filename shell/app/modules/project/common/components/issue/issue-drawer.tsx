@@ -18,7 +18,7 @@ import useEvent from 'react-use/lib/useEvent';
 import { WithAuth } from 'user/common';
 import issueStore from 'project/stores/issues';
 import { isEqual, find } from 'lodash';
-import { Drawer, Spin, Popconfirm, Input, message, Popover, Button, Modal } from 'antd';
+import { Drawer, Spin, Popconfirm, Input, message, Popover, Button, Modal, Anchor } from 'antd';
 import { SubscribersSelector } from './subscribers-selector';
 import layoutStore from 'layout/stores/layout';
 import './issue-drawer.scss';
@@ -40,8 +40,8 @@ interface IProps {
   data: CreateDrawerData;
   issueType: string;
   projectId: string;
-  issueTitle?: JSX.Element;
   extraHeaderOp?: JSX.Element | React.ElementType | null;
+  anchors?: Array<{ href: string; title: string }>;
   onClose: (e: any) => void;
   onDelete?: () => void;
   handleCopy?: (isCopy: boolean, copyTitle: string) => void;
@@ -81,25 +81,28 @@ export const IssueDrawer = (props: IProps) => {
     projectId,
     setData,
     footer = IssueDrawer.Empty,
-    issueTitle = null,
     extraHeaderOp = null,
     ...rest
   } = props;
   const [
-    title = IssueDrawer.Empty,
+    header = IssueDrawer.Empty,
     formField = IssueDrawer.Empty,
+    descField = IssueDrawer.Empty,
+    inclusionField = IssueDrawer.Empty,
     relationField = IssueDrawer.Empty,
     logField = IssueDrawer.Empty,
   ] = React.Children.toArray(children);
 
   const customFieldDetail = issueStore.useStore((s) => s.customFieldDetail);
-  const [isImagePreviewOpen, issueCommentBoxVisible] = layoutStore.useStore((s) => [
+  const [isImagePreviewOpen, issueCommentBoxVisible, isMdEditorFullScreen] = layoutStore.useStore((s) => [
     s.isImagePreviewOpen,
     s.issueCommentBoxVisible,
+    s.isMdEditorFullScreen,
   ]);
   const [copyTitle, setCopyTitle] = React.useState('');
   const [isChanged, setIsChanged] = React.useState(false);
   const [showCopy, setShowCopy] = React.useState(false);
+  const [showAnchor, setShowAnchor] = React.useState(false);
   const preDataRef = React.useRef(data);
   const preData = preDataRef.current;
 
@@ -108,8 +111,8 @@ export const IssueDrawer = (props: IProps) => {
       if (issueCommentBoxVisible) {
         return;
       }
-      if (e.keyCode === 27) {
-        if (isImagePreviewOpen) {
+      if (e.key === 'Escape') {
+        if (isImagePreviewOpen || isMdEditorFullScreen) {
           return;
         }
         if (isChanged && confirmCloseTip) {
@@ -124,7 +127,7 @@ export const IssueDrawer = (props: IProps) => {
         }
       }
     },
-    [issueCommentBoxVisible, isImagePreviewOpen, isChanged, confirmCloseTip, onClose],
+    [issueCommentBoxVisible, isImagePreviewOpen, isMdEditorFullScreen, isChanged, confirmCloseTip, onClose],
   );
 
   useEvent('keydown', escClose);
@@ -161,24 +164,36 @@ export const IssueDrawer = (props: IProps) => {
   const mainEle = React.useRef<HTMLDivElement>(null);
   const { y } = useScroll(mainEle);
 
+  React.useLayoutEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (mainEle.current) {
+      // wait for layout stable
+      timer = setTimeout(() => {
+        setShowAnchor(true);
+      }, 1000);
+    }
+    return () => timer && clearTimeout(timer);
+  }, []);
+
   return (
-    <Drawer
+    <Modal
+      wrapClassName="issue-drawer-modal"
       className={`task-drawer ${className}`}
-      width="80vw"
-      placement="right"
+      width={960}
       closable={false}
       visible={visible}
       onClose={onClose}
+      footer={null}
       maskClosable={maskClosable || !isChanged}
       keyboard={false}
       {...rest}
     >
       <Spin spinning={loading}>
         <div className="flex flex-col h-full">
-          <If condition={title !== IssueDrawer.Empty}>
+          <If condition={header !== IssueDrawer.Empty}>
             <div className={`task-drawer-header ${y > 2 ? 'shadow-card' : ''}`}>
               <div className="flex justify-between items-center">
-                <div className="flex-1 nowrap">{title}</div>
+                <div className="flex-1 nowrap">{header}</div>
                 <div className="task-drawer-op flex items-center">
                   {extraHeaderOp}
                   <SubscribersSelector
@@ -266,21 +281,45 @@ export const IssueDrawer = (props: IProps) => {
                   )}
                 </div>
               </div>
-              {issueTitle}
             </div>
           </If>
           <div
             ref={mainEle}
-            className="flex-1 px-8 overflow-x-hidden overflow-y-auto"
-            style={footer !== IssueDrawer.Empty ? { paddingBottom: '60px' } : {}}
+            className="relative flex-1 overflow-x-hidden overflow-y-auto"
+            style={footer !== IssueDrawer.Empty ? { padding: '0 120px 60px' } : { padding: '0 120px' }}
           >
-            <If condition={formField !== IssueDrawer.Empty}>{formField}</If>
+            <If condition={editMode && showAnchor}>
+              <div className="absolute">
+                <Anchor offsetTop={16} getContainer={() => mainEle.current || document.body}>
+                  {formField !== IssueDrawer.Empty && <Anchor.Link href="#field" title={i18n.t('dop:Basic')} />}
+                  {descField !== IssueDrawer.Empty && <Anchor.Link href="#desc" title={i18n.t('dop:Content')} />}
+                  {inclusionField !== IssueDrawer.Empty && (
+                    <Anchor.Link href="#inclusion" title={i18n.t('dop:Inclusion')} />
+                  )}
+                  {relationField !== IssueDrawer.Empty && (
+                    <Anchor.Link href="#relation" title={i18n.t('dop:Reference')} />
+                  )}
+                  {logField !== IssueDrawer.Empty && <Anchor.Link href="#log" title={i18n.t('dop:Log')} />}
+                </Anchor>
+              </div>
+            </If>
+            <If condition={formField !== IssueDrawer.Empty}>
+              <div id="field">{formField}</div>
+            </If>
+            <If condition={descField !== IssueDrawer.Empty}>
+              <div id="desc" className="h-px bg-default-08 my-4" />
+              {descField}
+            </If>
+            <If condition={inclusionField !== IssueDrawer.Empty}>
+              <div id="inclusion" className="h-px bg-default-08 my-4" />
+              {inclusionField}
+            </If>
             <If condition={relationField !== IssueDrawer.Empty}>
-              <div className="h-[1px] bg-default-08 my-4" />
+              <div id="relation" className="h-px bg-default-08 my-4" />
               {relationField}
             </If>
             <If condition={logField !== IssueDrawer.Empty}>
-              <div className="h-[1px] bg-default-08 my-4" />
+              <div id="log" className="h-px bg-default-08 my-4" />
               {logField}
             </If>
           </div>
@@ -291,7 +330,7 @@ export const IssueDrawer = (props: IProps) => {
           </If>
         </div>
       </Spin>
-    </Drawer>
+    </Modal>
   );
 };
 

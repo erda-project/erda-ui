@@ -23,7 +23,7 @@ import routeInfoStore from 'core/stores/route';
 import i18n from 'app/i18n';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import UserInfo from 'common/components/user-info';
-import userStore from 'user/stores';
+import { on, off } from 'core/event-hub';
 import './issue-activities.scss';
 
 interface IProps {
@@ -35,6 +35,7 @@ export const IssueActivities = (props: IProps) => {
   const userMap = useUserMap();
   const { projectId } = routeInfoStore.getState((s) => s.params);
   const [openMap, setOpenMap] = React.useState<Obj<boolean>>({});
+  const listDomRef = React.useRef<HTMLDivElement>(null);
 
   const issueStreamList: ISSUE.IssueStream[] = issueStore.useStore((s) => s[`${type.toLowerCase()}StreamList`]);
   const [loading] = useLoading(issueStore, ['getIssueStreams']);
@@ -57,6 +58,15 @@ export const IssueActivities = (props: IProps) => {
     { key: 'transfer', text: `${i18n.t('dop:transfer')}(${transferList.length})`, data: transferList },
   ];
   const [activeTabKey, setActiveTabKey] = React.useState(tabs[0].key);
+  React.useEffect(() => {
+    const listener = on('issue:scrollToLatestComment', () => {
+      setActiveTabKey('comments');
+      if (listDomRef.current) {
+        listDomRef.current.scrollIntoView();
+      }
+    });
+    return () => off('issue:scrollToLatestComment', listener);
+  }, []);
 
   const activityListRender = (list: ISSUE.IssueStream[]) => {
     return list.map((activity) => {
@@ -130,14 +140,16 @@ export const IssueActivities = (props: IProps) => {
   const activeTab = tabs.find((t) => t.key === activeTabKey) as typeof tabs[0];
   return (
     <Spin spinning={loading}>
-      <div className="flex flex-col pb-16">
+      <div className="flex flex-col pb-20">
         <div className="flex-h-center text-primary font-medium">
           <span className="text-base">{i18n.t('Log')}</span>
           <span className="w-[1px] h-[12px] bg-default-1 mx-4" />
           <SimpleTabs value={activeTabKey} tabs={tabs} onSelect={setActiveTabKey} />
         </div>
         <Holder when={!issueStreamList.length && !loading}>
-          <div className="ml-3">{activityListRender(activeTab.data)}</div>
+          <div ref={listDomRef} className="ml-3">
+            {activityListRender(activeTab.data)}
+          </div>
         </Holder>
       </div>
     </Spin>
