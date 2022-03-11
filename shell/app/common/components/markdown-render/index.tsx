@@ -48,16 +48,14 @@ const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement
     closePreview();
   });
 
-  const closePreview = React.useCallback((e?: MouseEvent) => {
-    e?.stopPropagation();
-    document.body.removeEventListener('click', closePreview);
-  }, []);
+  const closePreview = () => {
+    layoutStore.reducers.setScalableImgSrc('');
+  };
 
   const openPreview = (e: React.MouseEvent) => {
     e.stopPropagation();
     enterEsc();
     layoutStore.reducers.setScalableImgSrc(src || '');
-    document.body.addEventListener('click', closePreview);
   };
 
   const onLoad = () => {
@@ -77,11 +75,13 @@ const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement
       <span
         className={`${
           escStack.includes('scale-image') && src === scalableImgSrc
-            ? 'fixed top-0 right-0 left-0 bottom-0 z-50 flex items-center justify-center overflow-auto bg-desc'
+            ? 'fixed top-0 right-0 left-0 bottom-0 z-50 flex-all-center overflow-auto bg-desc'
             : 'hidden'
         }`}
+        style={{ cursor: 'zoom-out' }}
+        onClick={closePreview}
       >
-        <img style={{ cursor: 'zoom-out', margin: 'auto' }} src={src} alt={alt || 'preview-image'} {...rest} />
+        <img style={{ margin: 'auto' }} src={src} alt={alt || 'preview-image'} {...rest} />
       </span>
     </span>
   );
