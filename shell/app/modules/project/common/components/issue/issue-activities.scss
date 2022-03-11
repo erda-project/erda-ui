@@ -33,8 +33,7 @@
 
   .issue-comment-content {
     position: relative;
-    background-color: $color-default-02;
-    border: 1px solid $color-default-04;
+    border: 1px solid $color-default-1;
     &::before {
       content: '';
       position: absolute;
@@ -43,9 +42,9 @@
       width: 10px;
       left: -6px;
       transform: rotate(45deg);
-      background-color: rgb(251, 251, 251);
-      border-bottom: 1px solid $color-default-04;
-      border-left: 1px solid $color-default-04;
+      background-color: $white;
+      border-bottom: 1px solid $color-default-1;
+      border-left: 1px solid $color-default-1;
     }
   }
 

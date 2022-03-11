@@ -11,13 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { DatePicker, Input, Select, Tooltip } from 'antd';
-import layoutStore from 'layout/stores/layout';
+import { DatePicker, Input, Select } from 'antd';
 import { ErdaIcon, MarkdownEditor, MarkdownRender } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { getTimeRanges } from 'common/utils';
 import { off, on } from 'core/event-hub';
-import { isZh } from 'core/i18n';
 import i18n from 'i18n';
 import { get, isFunction, set } from 'lodash';
 import moment from 'moment';
@@ -43,7 +41,6 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
   });
 
   const mdContentRef = React.useRef<HTMLDivElement>(null);
-  const [isImagePreviewOpen] = layoutStore.useStore((s) => [s.isImagePreviewOpen]);
 
   const checkContentHeight = React.useCallback(() => {
     if (
@@ -69,7 +66,6 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
   React.useEffect(() => {
     updater.v(value);
   }, [updater, value]);
-
   const operationBtns = !disabled
     ? [
         {
@@ -339,11 +335,15 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
 
   return (
     <div className={`relative common-edit-field flex-h-center ${className}`}>
-      <If condition={showRequiredMark}>
-        <div data-required="* " className="mr-1 before:required absolute -left-2" />
-      </If>
       {icon ? <ErdaIcon type={icon} className="text-default-4 mr-1" size={16} /> : null}
-      {label && <div className={'text-default-6 w-[64px]'}>{label}</div>}
+      {label && (
+        <div className={'text-default-6 w-[100px]'}>
+          {label}
+          <If condition={showRequiredMark}>
+            <span data-required="* " className="ml-1 before:required" />
+          </If>
+        </div>
+      )}
       <div className="flex-1 flex-h-center">
         {Comp}
         {suffix}

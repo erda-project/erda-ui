@@ -1,12 +1,15 @@
 .issue-drawer-modal {
+  .ant-modal {
+    padding-bottom: 0;
+  }
   .ant-modal-body {
     padding: 0;
-    height: calc(100vh - 160px);
+    height: calc(100vh - 80px);
     overflow: hidden;
   }
 
   .ant-affix {
-    left: calc(50vw + 480px - 120px + 16px);
+    left: calc((100% - 80px) * 0.88 + 56px);
     width: 100px !important;
     .ant-anchor-ink:before {
       width: 1px;
