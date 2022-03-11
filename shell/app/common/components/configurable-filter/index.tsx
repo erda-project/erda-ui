@@ -150,7 +150,7 @@ const convertValue = (value: Obj, fieldList: Field[]) => {
       if (itemValue) {
         formValue[item.key] = itemValue;
       } else {
-        formValue[item.key] = item.required && (item.initialValue || item.options?.[0]?.value);
+        item.required && (formValue[item.key] = item.initialValue || item.options?.[0]?.value);
       }
     }
   });
