@@ -642,6 +642,7 @@
     "Cannot contain spaces, length is {min}~{max}": "不能包含空格，长度为{min}~{max}",
     "DEFAULT": "默认",
     "DEV": "开发",
+    "Filter": "筛选器",
     "Filter conditions": "筛选过滤条件",
     "PROD": "生产",
     "Please select the file to be uploaded": "请选择上传的文件",

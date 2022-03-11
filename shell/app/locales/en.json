@@ -642,6 +642,7 @@
     "Cannot contain spaces, length is {min}~{max}": "Cannot contain spaces, length is {min}~{max}",
     "DEFAULT": "DEFAULT",
     "DEV": "DEV",
+    "Filter": "Filter",
     "Filter conditions": "Filter conditions",
     "PROD": "PROD",
     "Please select the file to be uploaded": "Please select the file to be uploaded",

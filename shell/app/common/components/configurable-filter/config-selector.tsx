@@ -83,16 +83,16 @@ const ConfigSelector = ({ className = '', list, defaultValue, value, onChange, o
   const currentConfig = list.find((item) => item.id === value);
   const changedId = isNew && (value || 'all');
   const renderConfigList = (configList: ConfigData[], showOp: boolean) =>
-    configList.map((item) => (
+    configList.map((item, index) => (
       <div
         key={item.id}
-        className={`filter-config-selector-item mb-0.5 flex-h-center cursor-pointer px-2 py-1  hover:text-white hover:bg-white-08 rounded-sm ${
-          item.id === currentConfig?.id ? 'text-white bg-white-08' : 'text-white-8'
+        className={`filter-config-selector-item mb-0.5 flex-h-center cursor-pointer px-2 py-1  hover:text-default hover:bg-default-04 rounded-sm ${
+          item.id === currentConfig?.id ? 'text-default bg-default-04' : 'text-default-8'
         }`}
         onClick={() => onConfigChange(item)}
       >
         <div className="flex-h-center flex-1 overflow-hidden">
-          <Ellipsis title={item.label} />
+          <Ellipsis title={item.label} className={index === 0 ? 'font-medium' : ''} />
           {item.id === defaultValue ? (
             <span className="leading-5 text-xs px-2 border border-solid border-white-1 rounded-sm  ml-2 whitespace-nowrap">
               {i18n.t('default')}
@@ -110,12 +110,15 @@ const ConfigSelector = ({ className = '', list, defaultValue, value, onChange, o
     ));
 
   return (
-    <div className={`flex flex-col rounded-sm bg-white-04 py-3 pl-2 w-[230px] ${className}`} ref={configSelectorRef}>
+    <div
+      className={`flex flex-col rounded-sm border-r border-default-08 border-solid border-l-0 border-t-0 border-b-0 pb-3 w-[230px] ${className}`}
+      ref={configSelectorRef}
+    >
       <div className="flex-1 overflow-auto">
         <div className="pr-2">{renderConfigList(defaultData, false)}</div>
-        <div className="my-2 bg-white-1 h-[1px] mr-2" />
+        <div className="my-2 bg-default-08 h-[1px] mr-2" />
         <div className="pr-2">
-          <div className="my-2 px-2 text-xs text-white-6">{i18n.t('dop:custom filter')}</div>
+          <div className="my-2 px-2 text-xs text-default-6">{i18n.t('dop:custom filter')}</div>
           {renderConfigList(customData, true)}
         </div>
       </div>
