@@ -98,7 +98,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       onChange={onChange}
       onBlur={(_v: string) => onSave(_v, 'markdown')}
       defaultMode="md"
-      defaultHeight={maxHeight + 300}
+      defaultHeight={maxHeight + 200}
       operationBtns={operationBtns}
     />
   ) : (
