@@ -155,6 +155,7 @@ export const useAddMrRelation = ({
             fixed: true,
             emptyText: i18n.t('dop:all'),
             showIndex: 2,
+            required: true,
             placeholder: i18n.t('dop:search by application name'),
             customProps: {
               mode: 'single',

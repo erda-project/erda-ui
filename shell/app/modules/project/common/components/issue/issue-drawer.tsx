@@ -23,6 +23,7 @@ import { SubscribersSelector } from './subscribers-selector';
 import layoutStore, { useEscScope } from 'layout/stores/layout';
 import './issue-drawer.scss';
 import { useScroll } from 'react-use';
+import { emit } from 'core/event-hub';
 
 type ElementChild = React.ElementType | JSX.Element | string;
 
@@ -155,7 +156,14 @@ export const IssueDrawer = (props: IProps) => {
   }, [customFieldDetail?.property, data, preData]);
 
   const mainEle = React.useRef<HTMLDivElement>(null);
+  const scrollYRef = React.useRef(0);
   const { y } = useScroll(mainEle);
+  if (y - scrollYRef.current > 3) {
+    emit('issue-drawer:scroll', 'down');
+  } else if (y - scrollYRef.current < -3) {
+    emit('issue-drawer:scroll', 'up');
+  }
+  scrollYRef.current = y;
 
   React.useLayoutEffect(() => {
     let timer: NodeJS.Timeout;
@@ -172,10 +180,10 @@ export const IssueDrawer = (props: IProps) => {
     <Modal
       wrapClassName="issue-drawer-modal"
       className={`task-drawer ${className}`}
-      width={1200}
+      width="calc(100% - 80px)"
       closable={false}
       visible={visible}
-      onClose={onClose}
+      onCancel={onClose}
       footer={null}
       maskClosable={maskClosable || !isChanged}
       keyboard={false}
@@ -279,7 +287,7 @@ export const IssueDrawer = (props: IProps) => {
           <div
             ref={mainEle}
             className="relative flex-1 overflow-x-hidden overflow-y-auto"
-            style={footer !== IssueDrawer.Empty ? { padding: '0 120px 60px' } : { padding: '0 120px' }}
+            style={footer !== IssueDrawer.Empty ? { padding: '0 12% 60px' } : { padding: '0 12%' }}
           >
             <If condition={editMode && showAnchor}>
               <div className="absolute">

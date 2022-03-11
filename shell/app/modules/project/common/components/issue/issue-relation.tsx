@@ -137,7 +137,7 @@ const useIssueRelation = (props: IProps) => {
           typeDisabled={relationType === RelationType.Inclusion}
         />
       </If>
-      <If condition={relationType === RelationType.Inclusion && issueType === 'REQUIREMENT'}>
+      <If condition={relationType === RelationType.Inclusion && issueType === 'REQUIREMENT' && !!list?.length}>
         <div className="p-2 bg-default-02">
           {list?.map((item) => (
             <IssueItem
@@ -163,7 +163,7 @@ const useIssueRelation = (props: IProps) => {
         </div>
       </If>
 
-      <If condition={relationType === RelationType.Connection}>
+      <If condition={relationType === RelationType.Connection && !!list?.length}>
         <div className="p-2 bg-default-02">
           {list?.map((item) => (
             <IssueItem
