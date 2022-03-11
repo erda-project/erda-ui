@@ -113,10 +113,10 @@ const defaultProcessField = (item: FieldItem) => {
       ...itemProps,
       showArrow: true,
       allowClear: !required,
-      suffixIcon: <ErdaIcon type="caret-down" color="currentColor" className="text-white-4" />,
+      suffixIcon: <ErdaIcon type="caret-down" color="currentColor" className="text-default-3" />,
       clearIcon: <span className="p-1">{i18n.t('common:clear')}</span>,
       getPopupContainer: () => document.body,
-      dropdownClassName: `${itemProps?.dropdownClassName || ''} theme-dark`,
+      dropdownClassName: itemProps?.dropdownClassName || '',
     };
 
     if (type === 'select') {
@@ -288,16 +288,25 @@ const ConfigurableFilter = React.forwardRef(
       <div>
         <Form form={addForm} layout="vertical" className="p-4">
           <Form.Item
-            label={i18n.t('dop:filter name')}
+            label={<span className="text-default-3">{i18n.t('dop:filter name')}</span>}
             name="label"
             rules={[
               { required: true, message: i18n.t('please enter {name}', { name: i18n.t('dop:filter name') }) },
               { max: 10, message: i18n.t('dop:within {num} characters', { num: 10 }) },
             ]}
           >
-            <Input placeholder={i18n.t('dop:please enter, within {num} characters', { num: 10 })} />
+            <Input className="w-52" placeholder={i18n.t('dop:please enter, within {num} characters', { num: 10 })} />
           </Form.Item>
-          <div className="mt-3">
+          <div className="mt-3 flex-h-center justify-end">
+            <Button
+              className="mr-3"
+              onClick={() => {
+                addForm.resetFields();
+                setAddVisible(false);
+              }}
+            >
+              {i18n.t('cancel')}
+            </Button>
             <Button
               type="primary"
               onClick={() => {
@@ -309,15 +318,6 @@ const ConfigurableFilter = React.forwardRef(
             >
               {i18n.t('ok')}
             </Button>
-            <span
-              className="text-white ml-3 cursor-pointer"
-              onClick={() => {
-                addForm.resetFields();
-                setAddVisible(false);
-              }}
-            >
-              {i18n.t('cancel')}
-            </span>
           </div>
         </Form>
       </div>
@@ -328,16 +328,14 @@ const ConfigurableFilter = React.forwardRef(
     const content = (
       <div className="flex-1">
         <div className="h-full flex flex-col overflow-hidden">
-          <div className=" h-[48px] flex-h-center justify-between">
-            <div className="flex-h-center">
-              <span>{i18n.t('common:filter')}</span>
+          <div className=" h-[48px] flex-h-center justify-between px-2 mb-2">
+            <div className="flex-h-center font-medium text-base">
+              <span>{i18n.t('common:Filter')}</span>
             </div>
             <ErdaIcon
               type="guanbi"
-              fill="white"
-              color="white"
               size={20}
-              className="text-white cursor-pointer"
+              className="text-default-6 cursor-pointer"
               onClick={() => setVisible(false)}
             />
           </div>
@@ -373,6 +371,15 @@ const ConfigurableFilter = React.forwardRef(
           </div>
 
           <div className="erda-configurable-filter-footer flex justify-end mt-3">
+            <Button
+              className="mx-1"
+              onClick={() => {
+                setVisible(false);
+                onClose?.();
+              }}
+            >
+              {i18n.t('cancel')}
+            </Button>
             {hideSave ? (
               <Button className="mx-1" onClick={setAllOpen}>
                 {i18n.t('clear')}
@@ -390,20 +397,11 @@ const ConfigurableFilter = React.forwardRef(
                   className="mx-1 cursor-pointer rounded-sm px-2 py-1 flex-h-center"
                   onClick={() => setAddVisible(true)}
                 >
-                  <ErdaIcon size={16} fill="white" type="baocun" className="mr-1" /> {i18n.t('dop:new filter')}
+                  <ErdaIcon size={16} type="baocun" className="mr-1 text-default-8" /> {i18n.t('dop:new filter')}
                 </Button>
               </Popover>
             ) : null}
-            <Button
-              className="mx-1"
-              onClick={() => {
-                setVisible(false);
-                onClose?.();
-              }}
-            >
-              {i18n.t('cancel')}
-            </Button>
-            <Button type="primary" className="ml-1 mr-2 bg-purple-deep border-purple-deep" onClick={onFilter}>
+            <Button type="primary" className="ml-1 mr-2" onClick={onFilter}>
               {i18n.t('common:filter')}
             </Button>
           </div>

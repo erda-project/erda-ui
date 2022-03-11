@@ -23,15 +23,11 @@
 .erda-configurable-filter {
   padding-top: 0;
 
-  .ant-popover-inner {
-    background-color: $color-default;
-  }
-
   .ant-popover-inner-content {
     display: flex;
-    color: $white;
+    color: $color-default;
     max-height: 70vh;
-    padding: 0 16px 12px;
+    padding: 0 8px 12px;
   }
 
   .ant-popover-arrow {
@@ -39,11 +35,11 @@
   }
 
   .ant-select-selection-placeholder {
-    color: rgba($white, 0.3);
+    color: $color-default-3;
   }
 
   .ant-form-item-label label {
-    color: rgba($white, 0.6) !important;
+    color: $color-default-6 !important;
   }
 
   .ant-select-dropdown {
@@ -76,7 +72,7 @@
     padding-left: 0;
     padding-right: 0;
     margin-right: 0;
-    color: rgba($white, 0.6);
+    color: $color-default;
     border: none;
     background-color: transparent;
 
@@ -118,7 +114,7 @@
 
   .ant-input {
     color: rgba($white, 0.6);
-    background-color: rgba($white, 0.08) !important;
+    background-color: $color-default-06 !important;
     border: none;
   }
 
@@ -187,7 +183,7 @@
       padding-bottom: 0;
       margin: 0;
       border-color: transparent !important;
-      background-color: rgba($white, 0.08) !important;
+      background-color: $color-default-06 !important;
 
       .ant-select-selection-search {
         margin-left: 0;
@@ -199,7 +195,7 @@
       align-items: center;
       border: 1px solid transparent;
       border-radius: 3px;
-      background-color: rgba($white, 0.08) !important;
+      background-color: $color-default-06 !important;
 
       &.erda-form-date-range-open {
         border: 1px solid $color-purple-highlight !important;
@@ -219,7 +215,7 @@
         flex: 1;
 
         .ant-picker-suffix {
-          color: rgba($white, 0.4);
+          color: $color-default-3;
         }
 
         &:first-child {
@@ -229,17 +225,16 @@
         }
 
         .ant-picker-clear {
-          background-color: $color-default;
-          color: rgba($white, 0.4);
+          color: $color-default-3;
 
           & > span {
-            background-color: rgba($white, 0.08);
+            background-color: $color-default-08;
           }
         }
       }
 
       .divider {
-        color: rgba($white, 0.3);
+        color: $color-default-04;
       }
 
       &:focus {
@@ -249,29 +244,29 @@
   }
 
   .erda-badge-status-default {
-    color: $white;
-    background-color: $color-white-1;
+    color: $color-default-1;
+    background-color: $color-default-1;
   }
 
   &-footer {
     .ant-btn:not(.ant-btn-primary) {
       border: none;
-      color: $white;
-      background-color: rgba($white, 0.2);
+      color: $color-default;
+      background-color: $color-default-06;
     }
   }
 
   input {
-    color: rgba($white, 0.6);
+    color: $color-default;
 
     &::-webkit-input-placeholder {
       /* WebKit browsers */
-      color: rgba($white, 0.3);
+      color: $color-default-3;
     }
 
     &::-moz-placeholder {
       /* Mozilla Firefox 19+ */
-      color: rgba($white, 0.3);
+      color: $color-default-3;
     }
   }
 }
