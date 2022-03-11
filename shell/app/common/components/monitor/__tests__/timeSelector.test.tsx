@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import TimeSelectorContainer from 'common/components/monitor/timeSelector';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import routeInfoStore from 'core/stores/route';
+import TimeSelectorContainer from '../timeSelector';
 
 describe('TimeSelectorContainer', () => {
   beforeAll(() => {
@@ -24,11 +24,9 @@ describe('TimeSelectorContainer', () => {
     });
   });
   it('render TimeSelector', () => {
-    const wrapper = mount(<TimeSelectorContainer />);
-    expect(wrapper.find('RangePicker')).toExist();
-    wrapper.setProps({
-      rangeMode: false,
-    });
-    expect(wrapper.find('RangePicker')).not.toExist();
+    const result = render(<TimeSelectorContainer />);
+    expect(result.container).isExit('.monitor-time-selector', 1);
+    result.rerender(<TimeSelectorContainer rangeMode={false} />);
+    expect(result.container).isExit('.time-range-selector', 1);
   });
 });
