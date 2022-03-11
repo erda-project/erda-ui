@@ -100,7 +100,7 @@ export const AppSelector = (props: IProps) => {
         list: map(list, (item) => ({ ...item, label: item.displayName || item.name, value: item.id })),
       })}
       optionRender={AppItem}
-      dropdownStyle={{ width: 400, height: 300 }}
+      dropdownStyle={{ width: 400, height: 340 }}
       chosenItemConvert={(v: IChosenItem[] | IChosenItem) => chosenItemConvert(v)}
       {...rest}
     />
