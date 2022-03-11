@@ -23,7 +23,7 @@ import memberStore from 'common/stores/application-member';
 import releaseStore from 'project/stores/release';
 import { MemberScope } from 'common/stores/member-scope';
 import { getReleaseList } from 'project/services/release';
-import empty from 'app/images/empty.svg';
+import empty from 'app/images/empty-white-bg.svg';
 
 import './release-select.scss';
 
@@ -407,7 +407,7 @@ const ListSelectOverlay = ({ selectedList, select, remove, onOk, clear, onCancel
                 {!releaseList.length ? (
                   <div className="h-full flex items-center justify-center flex-col">
                     <img src={empty} />
-                    <div className="text-white-6 mt-2">
+                    <div className="text-default-6 mt-2">
                       {i18n.t('dop:no {name}', { name: i18n.t('dop:app release') })}
                     </div>
                   </div>
@@ -444,7 +444,7 @@ const ListSelectOverlay = ({ selectedList, select, remove, onOk, clear, onCancel
           {!selectedList.length ? (
             <div className="h-full flex items-center justify-center flex-col">
               <img src={empty} />
-              <div className="text-white-6 mt-2">
+              <div className="text-default-6 mt-2">
                 {i18n.t('dop:no choice {name}', { name: i18n.t('dop:app release') })}
               </div>
             </div>
