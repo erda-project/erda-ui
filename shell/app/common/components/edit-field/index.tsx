@@ -337,7 +337,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     <div className={`relative common-edit-field flex-h-center ${className}`}>
       {icon ? <ErdaIcon type={icon} className="text-default-4 mr-1" size={16} /> : null}
       {label && (
-        <div className={'text-default-6 w-[90px]'}>
+        <div className={'text-default-6 w-[100px]'}>
           {label}
           <If condition={showRequiredMark}>
             <span data-required="* " className="ml-1 before:required" />
