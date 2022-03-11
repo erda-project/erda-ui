@@ -19,8 +19,8 @@ import { useUpdate } from 'app/common/use-hooks';
 import { map } from 'lodash';
 import { useMount } from 'react-use';
 import { BaseButtonProps } from 'antd/es/button/button';
+import { useEscScope } from 'layout/stores/layout';
 import './index.scss';
-import { emit } from 'core/event-hub';
 
 interface BtnProps extends BaseButtonProps {
   text: string;
@@ -92,12 +92,18 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
     fullscreen: false,
   });
 
+  const enterEsc = useEscScope('markdown-editor', () => {
+    mdEditorRef.current?.fullScreen(false);
+    updater.fullscreen(false);
+  });
   React.useEffect(() => {
     mdEditorRef.current?.on('fullscreen', (isFullScreen: boolean) => {
-      updater.fullscreen(isFullScreen);
-      emit('common:mdEditorFullScreen', isFullScreen);
+      if (isFullScreen) {
+        updater.fullscreen(isFullScreen);
+        enterEsc();
+      }
     });
-  }, [updater]);
+  }, [enterEsc, updater]);
 
   useMount(() => {
     setTimeout(() => {
@@ -150,15 +156,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
   const btnCls = fullscreen ? 'fixed full-screen-btn' : 'absolute';
 
   return (
-    <div
-      className={`markdown-editor relative ${className}`}
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Escape') {
-          mdEditorRef.current?.fullScreen(false);
-        }
-      }}
-    >
+    <div className={`markdown-editor relative ${className}`} tabIndex={0}>
       <div
         className={`markdown-editor-content flex flex-col ${disableEdit ? 'disable-edit' : ''} ${
           readOnly ? 'read-only' : ''

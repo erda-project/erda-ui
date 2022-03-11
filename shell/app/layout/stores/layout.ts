@@ -19,7 +19,8 @@ import routeInfoStore from 'core/stores/route';
 import { find, merge } from 'lodash';
 import orgStore from 'app/org-home/stores/org';
 import { getGlobal } from 'core/global-space';
-import { on } from 'core/event-hub';
+import { on, emit } from 'core/event-hub';
+import React from 'react';
 
 const sendMsgUtilWsReady = async (targetWs: any, msg: { command: '__detach' | '__attach' }) => {
   while (targetWs.readyState !== 1 || targetWs.isReady !== true) {
@@ -50,10 +51,8 @@ interface IState {
     height: number;
     width: number;
   };
-  isImagePreviewOpen: boolean;
   scalableImgSrc: string;
-  issueCommentBoxVisible: boolean;
-  isMdEditorFullScreen: boolean;
+  escStack: string[];
 }
 
 const emptyApp = {
@@ -75,10 +74,8 @@ const initState: IState = {
     height: 0,
     width: 0,
   },
-  isImagePreviewOpen: false,
   scalableImgSrc: '',
-  issueCommentBoxVisible: false,
-  isMdEditorFullScreen: false,
+  escStack: [],
 };
 
 const layout = createStore({
@@ -139,9 +136,10 @@ const layout = createStore({
     window.addEventListener('resize', () => {
       layout.reducers.setClient();
     });
-
-    on('common:mdEditorFullScreen', (v: boolean) => {
-      layout.reducers.setMdEditorFullScreen(v);
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        emit('pressEsc', { event: e, stack: layout.getState((s) => s.escStack) });
+      }
     });
   },
   effects: {
@@ -227,9 +225,6 @@ const layout = createStore({
     switchMessageCenter(state, payload) {
       state.showMessage = typeof payload === 'boolean' ? payload : !state.showMessage;
     },
-    setImagePreviewOpen(state, status: boolean) {
-      state.isImagePreviewOpen = status;
-    },
     setScalableImgSrc(state, src: string) {
       state.scalableImgSrc = src;
     },
@@ -245,13 +240,36 @@ const layout = createStore({
     toggleSideFold(state, payload: boolean) {
       state.sideFold = payload;
     },
-    setIssueCommentBoxVisible(state, payload: boolean) {
-      state.issueCommentBoxVisible = payload;
+    unshiftEscStack(state, target: string) {
+      if (!state.escStack.includes(target)) {
+        state.escStack.unshift(target);
+      }
     },
-    setMdEditorFullScreen(state, payload: boolean) {
-      state.isMdEditorFullScreen = payload;
+    shiftEscStack(state) {
+      state.escStack.shift();
     },
   },
 });
+
+/**
+ * @param key escScope
+ * @param onPressEscape execute when press esc and match the first item of escStack
+ * @returns enterEscScope function, should be called when enlarge your target
+ */
+export const useEscScope = (key: string, onPressEscape: (e: React.KeyboardEvent) => void) => {
+  const onPressEscapeRef = React.useRef(onPressEscape);
+
+  React.useEffect(() => {
+    const clearFn = on('pressEsc', (data: { event: React.KeyboardEvent; stack: string[] }) => {
+      if (data.stack[0] === key) {
+        onPressEscapeRef.current?.(data.event);
+        layout.reducers.shiftEscStack();
+      }
+    });
+    return clearFn;
+  }, [key]);
+
+  return () => layout.reducers.unshiftEscStack(key);
+};
 
 export default layout;

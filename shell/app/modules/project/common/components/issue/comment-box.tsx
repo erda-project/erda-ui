@@ -11,15 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { ErdaIcon, MarkdownEditor, UserInfo } from 'common';
-import { useUpdate } from 'common/use-hooks';
-import { Button, Input } from 'antd';
-import React from 'react';
-import { WithAuth } from 'user/common';
-import i18n from 'i18n';
+import { Button } from 'antd';
 import { getBrowserInfo } from 'app/common/utils';
+import { MarkdownEditor, UserInfo } from 'common';
+import { useUpdate } from 'common/use-hooks';
+import i18n from 'i18n';
+import { useEscScope } from 'layout/stores/layout';
+import React from 'react';
 import { useKey } from 'react-use';
-import layoutStore from 'layout/stores/layout';
 import userStore from 'user/stores';
 import './comment-box.scss';
 
@@ -31,6 +30,7 @@ interface IProps {
 }
 
 export const IssueCommentBox = (props: IProps) => {
+  const ESC_TARGET = 'issue-comment-box';
   const { onSave = () => {}, editAuth } = props;
   const loginUser = userStore.useStore((s) => s.loginUser);
 
@@ -42,22 +42,19 @@ export const IssueCommentBox = (props: IProps) => {
   const valueRef = React.useRef('');
   const focusRef = React.useRef(true);
 
-  const close = () => {
-    updater.visible(false);
-    layoutStore.reducers.setIssueCommentBoxVisible(false);
-  };
-
   const submit = () => {
     const saveVal = valueRef.current.trim();
     if (saveVal.length) {
       onSave(saveVal);
       valueRef.current = '';
       focusRef.current = false;
-      close();
+      updater.visible(false);
     }
   };
 
-  useKey('Escape', close);
+  const enterEsc = useEscScope(ESC_TARGET, () => {
+    updater.visible(false);
+  });
 
   // fn in useKey will not get newest state, so we need to use ref
   useKey('Enter', (e) => {
@@ -107,7 +104,7 @@ export const IssueCommentBox = (props: IProps) => {
           className="issue-comment-arrow h-8 leading-8 bg-default-04 rounded-sm cursor-pointer px-3 flex-1 hover:text-purple-deep"
           onClick={() => {
             updater.visible(true);
-            layoutStore.reducers.setIssueCommentBoxVisible(true);
+            enterEsc();
           }}
         >
           {i18n.t('dop:Click here to comment')}

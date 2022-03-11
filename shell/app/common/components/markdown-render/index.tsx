@@ -12,11 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { emit } from 'core/event-hub';
-import layoutStore from 'layout/stores/layout';
+import layoutStore, { useEscScope } from 'layout/stores/layout';
 import React, { ImgHTMLAttributes, LinkHTMLAttributes } from 'react';
 import { micromark } from 'micromark';
 import ReactMarkdown from 'react-markdown';
-import { useEvent, useUnmount } from 'react-use';
 import { gfm, gfmHtml } from 'micromark-extension-gfm';
 import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
@@ -43,17 +42,20 @@ SyntaxHighlighter.registerLanguage('sql', sql);
 SyntaxHighlighter.registerLanguage('bash', bash);
 
 const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) => {
-  const [isImagePreviewOpen, scalableImgSrc] = layoutStore.useStore((s) => [s.isImagePreviewOpen, s.scalableImgSrc]);
+  const [escStack, scalableImgSrc] = layoutStore.useStore((s) => [s.escStack, s.scalableImgSrc]);
+
+  const enterEsc = useEscScope('scale-image', () => {
+    closePreview();
+  });
 
   const closePreview = React.useCallback((e?: MouseEvent) => {
     e?.stopPropagation();
-    layoutStore.reducers.setImagePreviewOpen(false);
     document.body.removeEventListener('click', closePreview);
   }, []);
 
   const openPreview = (e: React.MouseEvent) => {
     e.stopPropagation();
-    layoutStore.reducers.setImagePreviewOpen(true);
+    enterEsc();
     layoutStore.reducers.setScalableImgSrc(src || '');
     document.body.addEventListener('click', closePreview);
   };
@@ -62,20 +64,6 @@ const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement
     emit('md-img-loaded');
   };
 
-  useUnmount(() => {
-    closePreview();
-  });
-
-  const escClose = React.useCallback(
-    (e) => {
-      if (e.keyCode === 27 && isImagePreviewOpen) {
-        closePreview(e);
-      }
-    },
-    [isImagePreviewOpen, closePreview],
-  );
-
-  useEvent('keydown', escClose);
   return (
     <span>
       <img
@@ -88,7 +76,7 @@ const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement
       />
       <span
         className={`${
-          isImagePreviewOpen && src === scalableImgSrc
+          escStack.includes('scale-image') && src === scalableImgSrc
             ? 'fixed top-0 right-0 left-0 bottom-0 z-50 flex items-center justify-center overflow-auto bg-desc'
             : 'hidden'
         }`}

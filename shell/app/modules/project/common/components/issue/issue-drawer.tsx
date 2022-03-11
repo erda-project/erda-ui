@@ -20,7 +20,7 @@ import issueStore from 'project/stores/issues';
 import { isEqual, find } from 'lodash';
 import { Drawer, Spin, Popconfirm, Input, message, Popover, Button, Modal, Anchor } from 'antd';
 import { SubscribersSelector } from './subscribers-selector';
-import layoutStore from 'layout/stores/layout';
+import layoutStore, { useEscScope } from 'layout/stores/layout';
 import './issue-drawer.scss';
 import { useScroll } from 'react-use';
 
@@ -94,11 +94,7 @@ export const IssueDrawer = (props: IProps) => {
   ] = React.Children.toArray(children);
 
   const customFieldDetail = issueStore.useStore((s) => s.customFieldDetail);
-  const [isImagePreviewOpen, issueCommentBoxVisible, isMdEditorFullScreen] = layoutStore.useStore((s) => [
-    s.isImagePreviewOpen,
-    s.issueCommentBoxVisible,
-    s.isMdEditorFullScreen,
-  ]);
+  const escStack = layoutStore.useStore((s) => s.escStack);
   const [copyTitle, setCopyTitle] = React.useState('');
   const [isChanged, setIsChanged] = React.useState(false);
   const [showCopy, setShowCopy] = React.useState(false);
@@ -108,11 +104,8 @@ export const IssueDrawer = (props: IProps) => {
 
   const escClose = React.useCallback(
     (e) => {
-      if (issueCommentBoxVisible) {
-        return;
-      }
       if (e.key === 'Escape') {
-        if (isImagePreviewOpen || isMdEditorFullScreen) {
+        if (escStack.length) {
           return;
         }
         if (isChanged && confirmCloseTip) {
@@ -127,7 +120,7 @@ export const IssueDrawer = (props: IProps) => {
         }
       }
     },
-    [issueCommentBoxVisible, isImagePreviewOpen, isMdEditorFullScreen, isChanged, confirmCloseTip, onClose],
+    [confirmCloseTip, escStack, isChanged, onClose],
   );
 
   useEvent('keydown', escClose);
