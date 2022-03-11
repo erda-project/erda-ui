@@ -15,7 +15,7 @@ import React from 'react';
 import Pagination from 'common/components/pagination';
 import { EmptyHolder as DefaultEmptyHolder } from 'common';
 import i18n from 'i18n';
-import ListItem from 'app/common/components/base-list/list-item';
+import ListItem from './list-item';
 import './index.scss';
 
 const List = (props: ERDA_LIST.Props) => {

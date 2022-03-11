@@ -11,16 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import Enzyme from 'enzyme';
-import ReactSixteenAdapter from 'enzyme-adapter-react-16';
+import React from 'react';
 
-Enzyme.configure({ adapter: new ReactSixteenAdapter() });
-Object.assign(Enzyme.ReactWrapper.prototype, {
-  findObserver() {
-    return this.find('ResizeObserver');
-  },
-  triggerResize() {
-    const ob = this.findObserver();
-    ob.instance().onResize([{ target: ob.getDOMNode() }]);
-  },
-});
+export const If: React.FC<{ condition: boolean }> = ({ condition, children }) => {
+  if (condition) {
+    return children;
+  } else {
+    return null;
+  }
+};

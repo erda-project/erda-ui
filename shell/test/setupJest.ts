@@ -15,6 +15,7 @@
 import { GlobalWithFetchMock } from 'jest-fetch-mock';
 import { TextDecoder, TextEncoder } from 'util';
 import replaceAllInserter from 'string.prototype.replaceall';
+import { If } from './jsx-control-statements';
 
 replaceAllInserter.shim();
 
@@ -90,7 +91,8 @@ Object.defineProperty(navigator, 'platform', {
   value: 'MacIntel',
 });
 document.body.innerHTML = '<script></script>';
-
+// @ts-ignore
+global.If = If;
 const customGlobal: GlobalWithFetchMock = global as unknown as GlobalWithFetchMock;
 customGlobal.TextDecoder = TextDecoder;
 customGlobal.TextEncoder = TextEncoder;
