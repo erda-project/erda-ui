@@ -172,7 +172,7 @@ export const IssueDrawer = (props: IProps) => {
     <Modal
       wrapClassName="issue-drawer-modal"
       className={`task-drawer ${className}`}
-      width={960}
+      width={1200}
       closable={false}
       visible={visible}
       onClose={onClose}

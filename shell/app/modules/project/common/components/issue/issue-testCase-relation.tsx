@@ -60,17 +60,12 @@ export const IssueTestCaseRelation = ({ list }: IProps) => {
       title: i18n.t('create time'),
       dataIndex: 'createdAt',
       width: 180,
-      render: (v: string) => moment(v).format('YYYY-MM-DD HH:mm:ss'),
+      render: (v: string) => moment(v).format('YYYY/MM/DD HH:mm:ss'),
     },
   ];
   return (
-    <div>
-      <div className="flex-h-center text-primary font-medium mb-2">
-        <span>{i18n.t('dop:related test case')}</span>
-      </div>
-      <If condition={!!list.length}>
-        <Table columns={columns} dataSource={list} rowKey="id" pagination={false} scroll={{ x: '100%' }} />
-      </If>
-    </div>
+    <If condition={!!list.length}>
+      <Table columns={columns} dataSource={list} rowKey="id" pagination={false} scroll={{ x: '100%' }} />
+    </If>
   );
 };

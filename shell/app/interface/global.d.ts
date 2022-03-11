@@ -356,6 +356,7 @@ type ROUTE_MARK =
   | 'release'
   | 'projectRelease'
   | 'applicationRelease'
+  | 'ecp'
   | 'testCase'
   | 'testPlan';
 

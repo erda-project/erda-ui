@@ -273,10 +273,11 @@ export const IssueInclusion = ({
   const data = getIssueRelation.useData();
   const _iterationID = iterationID === -1 ? undefined : iterationID; // 如果当前事项是待规划的，待规划不在迭代列表里，默认“全部”时其实还是会带上 -1 作为 id，所以为-1 时就传 undefined
   React.useEffect(() => {
-    issueDetail?.id &&
+    if (issueDetail?.id) {
       getIssueRelation.fetch({
         issueId: issueDetail.id,
       });
+    }
   }, [issueDetail?.id]);
 
   const [operations, content] = useIssueRelation({
@@ -322,10 +323,18 @@ export const IssueConnection = ({ issueDetail, iterationID, editAuth, setHasEdit
   const showCaseRelation = issueType === ISSUE_TYPE.BUG;
   const showMrRelation = issueType !== ISSUE_TYPE.TICKET;
 
+  React.useEffect(() => {
+    if (issueDetail.id) {
+      getIssueRelation.fetch({
+        issueId: issueDetail.id,
+      });
+    }
+  }, [issueDetail.id]);
+
   const [relateMrOperation, relateMrContent, relateMrList] = useAddMrRelation({
     expand,
     issueDetail,
-    afterAdd: () => getIssueStreams({ type: issueType, id: issueDetail?.id, pageNo: 1, pageSize: 100 }),
+    afterAdd: () => getIssueStreams({ type: issueType, id: issueDetail.id, pageNo: 1, pageSize: 100 }),
     editAuth,
   });
 
@@ -338,7 +347,7 @@ export const IssueConnection = ({ issueDetail, iterationID, editAuth, setHasEdit
     onRelationChange: () => {
       setHasEdited(true);
       getIssueRelation.fetch({
-        issueId: issueDetail?.id,
+        issueId: issueDetail.id,
       });
     },
   });
