@@ -33,6 +33,7 @@ interface IProps {
   value: Array<{ active: boolean; list: Item[] }>;
   readOnly?: boolean;
   onChange?: (values: Array<{ active: boolean; list: Item[] }>) => void;
+  renderSelectedItem?: (item: Item) => React.ReactNode;
 }
 
 interface Item {
@@ -43,7 +44,12 @@ interface Item {
   createdAt: string;
 }
 
-const ReleaseSelect = ({ value, readOnly = false, onChange }: IProps) => {
+const ReleaseSelect = ({
+  value,
+  readOnly = false,
+  onChange,
+  renderSelectedItem = defaultRenderSelectedItem,
+}: IProps) => {
   const [releaseVisible, setReleaseVisible] = React.useState<boolean>(false);
   const [groupList, setGroupList] = React.useState<Array<{ active: boolean; list: Item[] }>>([
     { active: true, list: [] },
@@ -247,6 +253,7 @@ const ReleaseSelect = ({ value, readOnly = false, onChange }: IProps) => {
           onOk={onOk}
           onCancel={() => setReleaseVisible(false)}
           clear={clear}
+          renderSelectedItem={renderSelectedItem}
         />
       </Modal>
     </div>
@@ -260,6 +267,7 @@ interface OverlayProps {
   onOk: () => void;
   clear: () => void;
   onCancel: () => void;
+  renderSelectedItem: (item: Item) => React.ReactNode;
 }
 
 interface FilterData {
@@ -272,7 +280,15 @@ interface FilterData {
   1?: string;
 }
 
-const ListSelectOverlay = ({ selectedList, select, remove, onOk, clear, onCancel }: OverlayProps) => {
+const ListSelectOverlay = ({
+  selectedList,
+  select,
+  remove,
+  onOk,
+  clear,
+  onCancel,
+  renderSelectedItem,
+}: OverlayProps) => {
   const { params } = routeInfoStore.getState((s) => s);
   const { projectId } = params;
   const { appList } = releaseStore.getState((s) => s);
@@ -466,7 +482,7 @@ const ListSelectOverlay = ({ selectedList, select, remove, onOk, clear, onCancel
   );
 };
 
-const renderSelectedItem = (item: Item, isDark?: boolean) => {
+const defaultRenderSelectedItem = (item: Item, isDark?: boolean) => {
   return (
     <div className="flex justify-between items-center">
       <div className="flex-1 min-w-0">
