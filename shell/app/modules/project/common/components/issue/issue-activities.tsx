@@ -102,7 +102,7 @@ export const IssueActivities = (props: IProps) => {
       };
       return (
         <div key={activity.id} className="relative mt-4 flex issue-activity-item items-start">
-          <div className="flex-1 ml-4 issue-activity-content">
+          <div className="flex-1 ml-5 issue-activity-content">
             <div className="flex items-center space-x-2">
               <span>{user.nick || user.name}</span>
               {activity.streamType === 'RelateMR' ? (
