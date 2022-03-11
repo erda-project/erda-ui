@@ -12,11 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { TreeCategory, EmptyHolder } from 'common';
+import { EmptyHolder } from 'common';
+import TreeCategory from './common/tree-category';
 import { useUnmount } from 'react-use';
 import i18n from 'i18n';
 import { get, isEmpty } from 'lodash';
-import { updateSearch, insertWhen } from 'common/utils';
+import { insertWhen, updateSearch } from 'common/utils';
 import fileTreeStore from 'common/stores/file-tree';
 import { TreeNode } from 'common/components/tree-category/tree';
 import routeInfoStore from 'core/stores/route';
