@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LogContent should render well 1`] = `
+<div>
+  <div
+    class="log-list-box"
+  >
+    <div
+      class="log-item"
+    >
+      <span
+        class="log-item-logtime"
+      >
+        2021-06-29 16:09:15
+      </span>
+      <pre
+        class="log-item-content"
+      >
+        2021-06-29T11:05:45.713Z INFO - [erda-log-content]
+      </pre>
+      <div
+        class="log-suffix"
+      >
+        [ERDA-LOG]
+      </div>
+    </div>
+    <div
+      class="log-item"
+    >
+      <span
+        class="log-item-logtime"
+      >
+        1970-01-01 08:27:04
+      </span>
+      <pre
+        class="log-item-content"
+      >
+        2021-06-29T11:05:45.713Z INFO - [erda-log-content]
+      </pre>
+      <div
+        class="log-suffix"
+      >
+        [ERDA-LOG]
+      </div>
+    </div>
+    <div
+      class="log-item"
+    >
+      <span
+        class="log-item-logtime"
+      >
+        2021-06-29 16:09:15
+      </span>
+      <pre
+        class="log-item-content"
+      >
+        2021-06-29T11:05:45.713Z INFO - [erda-log-content]
+      </pre>
+      <div
+        class="log-suffix"
+      >
+        [ERDA-LOG]
+      </div>
+    </div>
+  </div>
+</div>
+`;
