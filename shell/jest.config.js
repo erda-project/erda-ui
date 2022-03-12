@@ -22,6 +22,7 @@ module.exports = {
   collectCoverageFrom: [
     'app/common/**/*.{js,jsx,ts,tsx}',
     '!app/common/**/*.d.ts',
+    '!app/common/components/custom-filter/index.tsx', // deprecated component
     '!app/common/stores/*.{js,jsx,ts,tsx}',
     '!app/common/test_bak/**/*.{js,jsx,ts,tsx}',
     '!app/common/services/*.{js,jsx,ts,tsx}',
