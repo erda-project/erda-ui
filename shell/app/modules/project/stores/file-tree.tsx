@@ -11,27 +11,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { convertNodeType, sortCategory } from 'common/components/tree-category/utils';
+import { convertNodeType, sortCategory } from '../common/components/pipeline-manage/common/tree-category/utils';
 import { createFlatStore } from 'core/cube';
 import { map } from 'lodash';
 import {
-  getCategoryById,
+  copyTreeNode,
   createRootTreeNode,
   createTreeNode,
-  updateTreeNode,
+  createTreeNodeNew,
   deleteTreeNode,
-  moveTreeNode,
-  copyTreeNode,
-  getAncestors,
+  deleteTreeNodeNew,
   fuzzySearch,
+  fuzzySearchNew,
+  getAncestors,
+  getAncestorsNew,
+  getCategoryById,
   getCategoryByIdNew,
   getTreeNodeDetailNew,
-  fuzzySearchNew,
-  createTreeNodeNew,
-  deleteTreeNodeNew,
-  getAncestorsNew,
-} from '../services/file-tree';
-import { TreeNode } from 'common/components/tree-category/tree';
+  moveTreeNode,
+  updateTreeNode,
+} from 'project/services/file-tree';
+import { TreeNode } from '../common/components/pipeline-manage/common/tree-category/tree';
 
 interface IState {
   curNodeDetail: TREE.NODE;

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import BuildDetail from './build-detail';
-import fileTreeStore from 'common/stores/file-tree';
+import fileTreeStore from 'project/stores/file-tree';
 import { EmptyHolder } from 'common';
 import { getBranchPath } from 'application/pages/pipeline/config';
 import routeInfoStore from 'core/stores/route';

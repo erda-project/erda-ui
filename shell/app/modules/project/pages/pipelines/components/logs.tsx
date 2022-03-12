@@ -16,7 +16,7 @@ import { Drawer } from 'antd';
 import { updateSearch } from 'common/utils';
 import DiceConfigPage from 'app/config-page';
 import PipelineRunDetail from 'application/pages/pipeline/run-detail';
-import fileTreeStore from 'common/stores/file-tree';
+import fileTreeStore from 'project/stores/file-tree';
 import routeInfoStore from 'core/stores/route';
 import { getINodeByPipelineId, getPipelineDetail } from 'application/services/build';
 

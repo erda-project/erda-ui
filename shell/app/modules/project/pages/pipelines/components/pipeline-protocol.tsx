@@ -12,14 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Tabs, message } from 'antd';
+import { Drawer, Tabs } from 'antd';
 import { get, isEmpty } from 'lodash';
 import i18n from 'i18n';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import projectStore from 'project/stores/project';
 import { updateSearch } from 'common/utils';
-import fileTreeStore from 'common/stores/file-tree';
+import fileTreeStore from 'project/stores/file-tree';
 import { EmptyHolder } from 'common';
 import { getINodeByPipelineId } from 'application/services/build';
 import PipelineForm from './form';

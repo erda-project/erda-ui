@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { TreeSelect, Button, Select } from 'antd';
-import { get, map, isEmpty, debounce, filter } from 'lodash';
+import { Button, Select, TreeSelect } from 'antd';
+import { debounce, filter, get, isEmpty, map } from 'lodash';
 import { getSnippetNodeDetail } from 'project/services/auto-test-case';
-import { getTreeNodeDetailNew, getCategoryByIdNew, fuzzySearchNew } from 'common/services/file-tree';
+import { fuzzySearchNew, getCategoryByIdNew, getTreeNodeDetailNew } from 'project/services/file-tree';
 import { notify } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
 import routeInfoStore from 'core/stores/route';
