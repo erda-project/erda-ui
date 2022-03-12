@@ -61,7 +61,6 @@ describe('LogContent', () => {
       };
     };
     const result = render(<LogContent logs={logs} transformContent={transformContentFn} />);
-    expect(result.container).toMatchSnapshot();
     expect(result.container).isExit('.log-item', logs.length);
     expect(result.container).isExit('.log-suffix', logs.length);
     expect(result.container.querySelectorAll('.log-item-logtime')[0].innerHTML).toBe(
