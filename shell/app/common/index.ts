@@ -32,7 +32,6 @@ export { default as KeyValueTable } from './components/key-value-table';
 export { default as KeyValueTextArea } from './components/key-value-textarea';
 export { default as KeyValueEditor } from './components/key-value-editor';
 export { default as KeyValueList } from './components/key-value-list';
-export { default as FilterSelect } from './components/filter-select';
 export { default as MembersTable } from './components/members-table';
 export { default as LoadMore } from './components/load-more';
 export { default as Responsive } from './components/responsive';
