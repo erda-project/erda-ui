@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Row, Col, Radio, Select, Table, Tooltip } from 'antd';
+import { Row, Col, Radio, Select, Tooltip } from 'antd';
 import { map, get } from 'lodash';
-import { Icon as CustomIcon, BoardGrid, TimeSelector } from 'common';
+import { Icon as CustomIcon, BoardGrid, TimeSelector, Table } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import moment from 'moment';
 import errorReportStore from 'app/modules/publisher/stores/error-report';
@@ -163,7 +163,8 @@ const ErrorList = ({
   const { getErrorList } = errorReportStore.effects;
   const { clearErrorList } = errorReportStore.reducers;
   const [loading] = useLoading(errorReportStore, ['getErrorList']);
-  React.useEffect(() => {
+
+  const getList = React.useCallback(() => {
     getErrorList({
       artifactsId,
       start: timeSpan.startTimeMs,
@@ -171,8 +172,13 @@ const ErrorList = ({
       filter_av: version,
       ...monitorKey,
     });
+  }, [getErrorList, artifactsId, timeSpan, version, monitorKey]);
+
+  React.useEffect(() => {
+    getList();
     return clearErrorList;
-  }, [artifactsId, clearErrorList, getErrorList, monitorKey, timeSpan, version]);
+  }, [clearErrorList, getList]);
+
   const { startTimeMs, endTimeMs } = timeSpan;
   const link = `./error?start=${startTimeMs}&end=${endTimeMs}&ak=${monitorKey.ak}&ai=${monitorKey.ai}`;
 
@@ -251,7 +257,7 @@ const ErrorList = ({
         loading={loading}
         dataSource={errorList.map((item, i) => ({ ...item, key: i }))}
         pagination={false}
-        scroll={{ x: '100%' }}
+        onReload={() => getList()}
       />
     </>
   );
