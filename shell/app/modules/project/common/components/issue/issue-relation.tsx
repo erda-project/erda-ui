@@ -13,19 +13,27 @@
 
 import { Dropdown } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
-import { ContractiveFilter, ErdaIcon, SimpleTabs, Table as ErdaTable, UserInfo } from 'common';
+import { ErdaIcon, SimpleTabs, Table as ErdaTable, UserInfo, ConfigurableFilter, MemberSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo, insertWhen } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
+import issueWorkflowStore from 'project/stores/issue-workflow';
 import i18n from 'i18n';
 import { map } from 'lodash';
 import moment from 'moment';
-import { ISSUE_OPTION, ISSUE_TYPE, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
+import {
+  ISSUE_OPTION,
+  ISSUE_TYPE,
+  ISSUE_TYPE_MAP,
+  ISSUE_PRIORITY_LIST,
+  ISSUE_COMPLEXITY_MAP,
+} from 'project/common/components/issue/issue-config';
 import { BACKLOG_ISSUE_TYPE, IssueForm, IssueItem } from 'project/pages/backlog/issue-item';
 import { getIssueRelation, getIssues } from 'project/services/issue';
 import { getProjectIterations } from 'project/services/project-iteration';
 import issueStore from 'project/stores/issues';
 import iterationStore from 'project/stores/iteration';
+import labelStore from 'project/stores/label';
 import React from 'react';
 import { usePerm, WithAuth } from 'user/common';
 import { useAddMrRelation } from './add-mr-relation';
@@ -124,6 +132,7 @@ const useIssueRelation = (props: IProps) => {
           currentIssue={issueDetail}
           defaultIssueType={defaultIssueType}
           relationType={relationType}
+          issueType={issueType}
         />
       </If>
     </>,
@@ -407,7 +416,14 @@ interface IAddProps {
   defaultIssueType?: IDefaultIssueType;
   onSave: (v: number[], issues: ISSUE.IssueType[]) => void;
   relationType: RelationType;
+  issueType: IDefaultIssueType;
 }
+
+const typeList = [
+  { label: i18n.t('requirement'), value: 'REQUIREMENT' },
+  { label: i18n.t('task'), value: 'TASK' },
+  { label: i18n.t('bug'), value: 'BUG' },
+];
 
 export const AddIssueRelation = ({
   onSave,
@@ -417,6 +433,7 @@ export const AddIssueRelation = ({
   currentIssue,
   defaultIssueType = 'TASK',
   relationType,
+  issueType,
 }: IAddProps) => {
   const [{ filterData, total, visible, issueList, iterationList }, updater, update] = useUpdate({
     visible: false,
@@ -428,9 +445,38 @@ export const AddIssueRelation = ({
       type: defaultIssueType,
       pageNo: 1,
       pageSize: 7,
+      startFinishedAt: '',
+      endFinishedAt: '',
+      startCreatedAt: '',
+      endCreatedAt: '',
     },
     iterationList: [] as ITERATION.Detail[],
   });
+
+  const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
+  const stateList = React.useMemo(() => {
+    if (relationType === RelationType.Inclusion) {
+      return workflowStateList
+        .filter((item) => item.issueType === { REQUIREMENT: 'TASK', TASK: 'BUG' }[issueType])
+        .map((state) => ({ label: state.stateName, value: state.stateID }));
+    } else {
+      return typeList.map((item) => ({
+        ...item,
+        children: workflowStateList
+          .filter((state) => state.issueType === item.value)
+          .map((state) => ({ label: state.stateName, value: state.stateID })),
+      }));
+    }
+  }, [workflowStateList, relationType, issueType]);
+
+  const labelList = labelStore.useStore((s) => s.list);
+  const { getLabels } = labelStore.effects;
+
+  React.useEffect(() => {
+    if (!labelList?.length) {
+      getLabels({ type: 'issue' });
+    }
+  }, [labelList, getLabels, projectId]);
 
   const getIssueList = React.useCallback(
     (extra?: Obj) => {
@@ -493,57 +539,125 @@ export const AddIssueRelation = ({
 
   const dataSource = issueList.filter((item) => item.id !== currentIssue?.id) || [];
 
+  const filterValue = React.useMemo(() => {
+    const { startFinishedAt, endFinishedAt, startCreatedAt, endCreatedAt } = filterData;
+    const finishedAt = startFinishedAt && endFinishedAt ? [startFinishedAt, endFinishedAt] : [];
+    const createdAt = startCreatedAt && endCreatedAt ? [startCreatedAt, endCreatedAt] : [];
+    return {
+      ...filterData,
+      finishedAt,
+      createdAt,
+    };
+  }, [filterData]);
+
   const overlay = (
     <div className="w-[800px] shadow-card-lg bg-white">
       <div className="flex items-center justify-between px-4 py-3 font-medium">
         <span>{i18n.t('dop:choose issues')}</span>
         <ErdaIcon type="guanbi" size={20} className="hover-active" onClick={() => updater.visible(false)} />
       </div>
-      <ContractiveFilter
-        values={filterData}
-        className="px-4 py-2"
-        conditions={[
-          {
-            key: 'title',
-            type: 'input',
-            label: i18n.t('title'),
-            fixed: true,
-            showIndex: 1,
-            placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
-          },
-          {
-            label: i18n.t('dop:owned iteration'),
-            type: 'select',
-            key: 'iterationID',
-            haveFilter: true,
-            fixed: true,
-            emptyText: i18n.t('dop:all'),
-            options: iterationList.map((item) => ({ label: item.title, value: item.id })) || [],
-            showIndex: 2,
-            placeholder: i18n.t('dop:owned iteration'),
-            customProps: {
+      <div className="px-4 pb-2">
+        <ConfigurableFilter
+          hideSave
+          value={filterValue}
+          fieldsList={[
+            {
+              key: 'title',
+              type: 'input',
+              label: i18n.t('title'),
+              outside: true,
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+            },
+            {
+              label: i18n.t('dop:issue type'),
+              type: 'select',
+              key: 'type',
+              options: map(ISSUE_OPTION, (item) => ISSUE_TYPE_MAP[item]),
+              disabled: relationType === RelationType.Inclusion,
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:issue type') }),
+            },
+            {
+              label: i18n.t('dop:owned iteration'),
+              type: 'select',
+              key: 'iterationID',
+              options:
+                [{ title: i18n.t('dop:backlog'), id: -1 }, ...iterationList].map((item) => ({
+                  label: item.title,
+                  value: item.id,
+                })) || [],
+              placeholder: i18n.t('dop:owned iteration'),
               mode: 'single',
             },
-          },
-          {
-            label: i18n.t('dop:issue type'),
-            type: 'select',
-            key: 'type',
-            options: map(ISSUE_OPTION, (item) => ISSUE_TYPE_MAP[item]),
-            fixed: true,
-            emptyText: i18n.t('dop:all'),
-            showIndex: 3,
-            disabled: relationType === RelationType.Inclusion,
-            customProps: {
-              mode: 'single',
+            {
+              label: i18n.t('state'),
+              type: 'select',
+              key: 'state',
+              options: stateList,
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('state') }),
             },
-          },
-        ]}
-        onChange={(v) => {
-          updater.filterData(v);
-        }}
-        delay={1000}
-      />
+            {
+              label: i18n.t('label'),
+              type: 'tagsSelect',
+              key: 'label',
+              options: labelList.map((item) => ({ color: item.color, label: item.name, value: item.id })),
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('label') }),
+            },
+            {
+              label: i18n.t('dop:priority'),
+              type: 'select',
+              key: 'priority',
+              options: ISSUE_PRIORITY_LIST.map((item) => ({ label: item.iconLabel, value: item.value })),
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:priority') }),
+            },
+            {
+              label: i18n.t('dop:complexity'),
+              type: 'select',
+              key: 'complexity',
+              options: map(ISSUE_COMPLEXITY_MAP, (item) => ({ label: item.iconLabel, value: item.value })),
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:complexity') }),
+            },
+            {
+              label: i18n.t('creator'),
+              type: 'custom',
+              key: 'creator',
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('creator') }),
+              getComp: () => <MemberSelector scopeType="project" scopeId={projectId} size="small" />,
+            },
+            {
+              label: i18n.t('dop:assignee'),
+              type: 'custom',
+              key: 'assignee',
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:assignee') }),
+              getComp: () => <MemberSelector scopeType="project" scopeId={projectId} size="small" />,
+            },
+            {
+              label: i18n.t('deadline'),
+              type: 'dateRange',
+              key: 'finishedAt',
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('deadline') }),
+            },
+            {
+              label: i18n.t('dop:creation date'),
+              type: 'dateRange',
+              key: 'createdAt',
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:creation date') }),
+            },
+          ]}
+          onFilter={(v) => {
+            const { finishedAt, createdAt, ...value } = v;
+            updater.filterData({
+              ...filterData,
+              ...value,
+              startFinishedAt: finishedAt?.[0],
+              endFinishedAt: finishedAt?.[1],
+              startCreatedAt: createdAt?.[0],
+              endCreatedAt: createdAt?.[0],
+            });
+          }}
+          zIndex={1060}
+        />
+      </div>
+
       <ErdaTable
         rowKey="id"
         hideHeader
