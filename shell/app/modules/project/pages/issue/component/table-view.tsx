@@ -21,7 +21,13 @@ import i18n from 'i18n';
 
 import './table-view.scss';
 
-export const memberSelectorValueItem = (user: any) => {
+export const memberSelectorValueItem = (user: {
+  avatar: string;
+  nick: string;
+  name: string;
+  label: string;
+  value: string;
+}) => {
   const { avatar, nick, name, label, value } = user;
   const displayName = nick || label || value || i18n.t('common:none');
   return (
@@ -39,7 +45,7 @@ export const memberSelectorValueItem = (user: any) => {
 
 interface IFieldProps {
   hasAuth: boolean;
-  options: any[];
+  options: Array<{ value: string; iconLabel: string; disabled?: boolean }>;
   value: string;
   record: ISSUE.Issue;
   field: string;
@@ -53,7 +59,10 @@ export const FieldSelector = (props: IFieldProps) => {
     'iconLabel',
   );
   const ValueRender = (
-    <div className="flex items-center hover-active issue-field-selector" onClick={(e: any) => e.stopPropagation()}>
+    <div
+      className="flex items-center hover-active issue-field-selector"
+      onClick={(e: React.MouseEvent<HTMLElement>) => e.stopPropagation()}
+    >
       {chosenVal}
       <CustomIcon type="di" className="arrow-icon" />
     </div>

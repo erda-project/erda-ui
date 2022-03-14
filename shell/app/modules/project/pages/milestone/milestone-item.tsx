@@ -23,7 +23,7 @@ import i18n from 'i18n';
 
 interface IProps {
   item: ISSUE.Epic;
-  onClickItem: (task: ISSUE.Epic) => any;
+  onClickItem: (task: ISSUE.Epic) => void;
 }
 
 export default ({ item, onClickItem }: IProps) => {

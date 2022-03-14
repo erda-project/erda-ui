@@ -55,8 +55,8 @@ const IssueProtocol = ({ issueType }: IProps) => {
 
   const issuePerm = usePerm((s) => s.project.requirement);
 
-  const reloadRef = React.useRef(null as any);
-  const filterObjRef = React.useRef(null as any);
+  const reloadRef = React.useRef<{ reload: () => void }>(null);
+  const filterObjRef = React.useRef<Obj>(null);
 
   const [drawerVisible, openDrawer, closeDrawer] = useSwitch(queryId || false);
 

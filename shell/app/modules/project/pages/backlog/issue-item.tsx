@@ -98,7 +98,7 @@ export const IssueItem = (props: IIssueProps) => {
   });
   const name = `${title}`;
 
-  const confirmDelete = (currentData: any) => {
+  const confirmDelete = (currentData: ISSUE.Issue) => {
     Modal.confirm({
       title: deleteConfirmText
         ? typeof deleteConfirmText === 'function'

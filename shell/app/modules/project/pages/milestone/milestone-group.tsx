@@ -56,7 +56,7 @@ export default ({ ele, onClickItem, reload }: IProps) => {
       <Timeline.Item key={date} color={timePoint}>
         <h3>{date}</h3>
         <div className={`milestone-module ${isOver ? 'milestone-drag-over' : ''}`}>
-          {list.map((item: any) => {
+          {list.map((item: ISSUE.Epic) => {
             return <MilestoneItem key={item.id} item={item} onClickItem={onClickItem} />;
           })}
         </div>

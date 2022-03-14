@@ -163,7 +163,7 @@ const IssuePlan = () => {
     }
   };
 
-  const reloadRef = React.useRef(null as any);
+  const reloadRef = React.useRef<{ reload: () => void; getPageConfig: () => void }>(null);
 
   useMount(() => {
     queryId ? openDrawer() : closeDrawer();

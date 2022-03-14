@@ -256,8 +256,8 @@ interface IOtherProps {
   className?: string;
   fullConfigData: PIPELINE_CONFIG.ConfigItem[];
   configData: PIPELINE_CONFIG.ConfigItem[];
-  addConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<any>;
-  deleteConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<any>;
+  addConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<null>;
+  deleteConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<null>;
 }
 const OtherConfig = (props: IOtherProps) => {
   const { configData, deleteConfig, addConfig, className = '', fullConfigData } = props;
@@ -361,9 +361,9 @@ interface ITextProps {
   className?: string;
   configData: PIPELINE_CONFIG.ConfigItem[];
   fullConfigData: PIPELINE_CONFIG.ConfigItem[];
-  addConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<any>;
-  updateConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<any>;
-  deleteConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<any>;
+  addConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<null>;
+  updateConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<null>;
+  deleteConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<null>;
   onEditChange?: (isEdit: boolean) => void;
 }
 

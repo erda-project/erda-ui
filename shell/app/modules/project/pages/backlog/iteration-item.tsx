@@ -15,7 +15,7 @@
 import React from 'react';
 import { Icon as CustomIcon, EmptyHolder, Pagination } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Spin, Tooltip } from 'antd';
+import { Spin, Tooltip, FormInstance } from 'antd';
 import { useDrop } from 'react-dnd';
 import moment from 'moment';
 import iterationStore from 'project/stores/iteration';
@@ -173,9 +173,17 @@ interface IIterationFormProps {
   onOk: (data: ITERATION.CreateBody) => void;
 }
 
+interface FormData {
+  title: string;
+  content: string;
+  progress?: string;
+  state: string;
+  time: number[];
+}
+
 export const IterarionForm = (props: IIterationFormProps) => {
   const { onCancel = noop, onOk = noop } = props;
-  const formRef = React.useRef(null as any);
+  const formRef = React.useRef<FormInstance>(null);
   const fields = [
     {
       label: '',
@@ -210,7 +218,7 @@ export const IterarionForm = (props: IIterationFormProps) => {
   const onAdd = () => {
     const curForm = formRef && formRef.current;
     if (curForm) {
-      curForm.onSubmit((val: any) => {
+      curForm.onSubmit((val: FormData) => {
         const { time, ...rest } = val;
         onOk({
           startedAt: moment(time[0]).startOf('day').format(),

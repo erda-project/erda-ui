@@ -27,7 +27,7 @@ import { usePerm, WithAuth } from 'user/common';
 import labelStore from 'project/stores/label';
 import './index.scss';
 import MilestoneTable from './milestone-table';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
 
 export const Milestone = () => {
@@ -150,7 +150,7 @@ export const Milestone = () => {
     updater.filterState(val);
   };
 
-  const rangeFilter = (y: any) => {
+  const rangeFilter = (y: Moment) => {
     updater.searchTime(y);
     const time = { startFinishedAt: y.startOf('year').valueOf(), endFinishedAt: y.endOf('year').valueOf() };
     updateSearch({ ...time });
