@@ -1,0 +1,249 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DropdownSelect should work well in basic usage 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <script />
+    <div>
+      <div
+        class="ant-dropdown-trigger inline-flex items-center cursor-pointer erda-dropdown-select-content  ant-dropdown-open erda-dropdown-select"
+      >
+        <div>
+          please select
+        </div>
+      </div>
+    </div>
+    <div
+      style="position: absolute; top: 0px; left: 0px; width: 100%;"
+    >
+      <div>
+        <div
+          class="ant-dropdown"
+          style="opacity: 0; pointer-events: none;"
+        >
+          <ul
+            class="ant-dropdown-menu ant-dropdown-menu-root ant-dropdown-menu-vertical ant-dropdown-menu-light erda-dropdown-select-menu"
+            data-menu-list="true"
+            role="menu"
+            tabindex="0"
+          >
+            <li
+              class="ant-dropdown-menu-item erda-dropdown-option-content block"
+              data-menu-id="rc-menu-uuid-test-option"
+              role="menuitem"
+              tabindex="-1"
+            >
+              <span
+                class="ant-dropdown-menu-title-content"
+              >
+                <div
+                  class=" middle cursor-pointer erda-dropdown-select-option-item flex w-full"
+                >
+                  <div
+                    class="flex items-center flex-1 overflow-hidden"
+                  >
+                    <div
+                      class="flex-1 overflow-hidden"
+                    >
+                      <div
+                        class="flex items-center"
+                      >
+                        <div
+                          class="truncate option-label"
+                        >
+                          menu-1
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    class="flex"
+                  />
+                </div>
+                <div
+                  class="erda-dropdown-select-option-group w-full"
+                >
+                  <div
+                    class="erda-dropdown-select-option-group-label flex items-center justify-between"
+                  >
+                    <div
+                      class="flex items-center text-xs p-1"
+                    >
+                      menu-2
+                    </div>
+                  </div>
+                  <div
+                    class="erda-dropdown-select-option-group-content"
+                  >
+                    <div
+                      class=" middle cursor-pointer erda-dropdown-select-option-item flex w-full"
+                    >
+                      <div
+                        class="flex items-center flex-1 overflow-hidden"
+                      >
+                        <div
+                          class="flex-1 overflow-hidden"
+                        >
+                          <div
+                            class="flex items-center"
+                          >
+                            <div
+                              class="truncate option-label"
+                            >
+                              menu-2-1
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <span
+                        class="flex"
+                      />
+                    </div>
+                    <div
+                      class=" middle cursor-pointer erda-dropdown-select-option-item flex w-full"
+                    >
+                      <div
+                        class="flex items-center flex-1 overflow-hidden"
+                      >
+                        <div
+                          class="flex-1 overflow-hidden"
+                        >
+                          <div
+                            class="flex items-center"
+                          >
+                            <div
+                              class="truncate option-label"
+                            >
+                              menu-2-2
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <span
+                        class="flex"
+                      />
+                    </div>
+                    <div
+                      class=" middle cursor-pointer erda-dropdown-select-option-item flex w-full"
+                    >
+                      <div
+                        class="flex items-center flex-1 overflow-hidden"
+                      >
+                        <div
+                          class="flex-1 overflow-hidden"
+                        >
+                          <div
+                            class="flex items-center"
+                          >
+                            <div
+                              class="truncate option-label"
+                            >
+                              menu-2-3
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <span
+                        class="flex"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class=" middle cursor-pointer erda-dropdown-select-option-item flex w-full"
+                >
+                  <div
+                    class="flex items-center flex-1 overflow-hidden"
+                  >
+                    <div
+                      class="flex-1 overflow-hidden"
+                    >
+                      <div
+                        class="flex items-center"
+                      >
+                        <div
+                          class="truncate option-label"
+                        >
+                          menu-3
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    class="flex"
+                  />
+                </div>
+              </span>
+            </li>
+          </ul>
+          <div
+            aria-hidden="true"
+            style="display: none;"
+          />
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="ant-dropdown-trigger inline-flex items-center cursor-pointer erda-dropdown-select-content  ant-dropdown-open erda-dropdown-select"
+    >
+      <div>
+        please select
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

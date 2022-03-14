@@ -118,7 +118,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
             placeholder={i18n.t('search')}
             prefix={<ErdaIcon type="search1" size="16" />}
             value={filterValue}
-            onChange={(e) => setFilterValue(e.target.value)}
+            onChange={(e) => setFilterValue(e.target.value.toLowerCase())}
           />
         </Menu.Item>
       ) : null}
@@ -145,10 +145,9 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
     </Menu>
   );
 
-  const allOption = options.reduce(
-    (_optArr: Option[], _curOpt: Option) => _optArr.concat(_curOpt.children ?? _curOpt),
-    [],
-  );
+  const allOption = options
+    .reduce((_optArr: Option[], _curOpt: Option) => _optArr.concat(_curOpt.children ?? _curOpt), [])
+    .filter((opt) => String(opt.key).toLowerCase().includes(filterValue));
 
   const chosenItem = allOption?.find((item) => item.key === value);
   return (
@@ -173,9 +172,9 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
             {chosenItem ? (
               <Item
                 option={{ ...chosenItem }}
-                size={size}
+                size={size} // FIXME: should use optionSize?
                 onlyIcon={mode === 'simple'}
-                className={`p-0 seleted-item ${className}`}
+                className={`p-0 selected-item ${className}`}
                 switcher={
                   <span
                     className="whitespace-nowrap rounded-sm bg-default-06 text-default-8 px-2 py-0.5 ml-1 hover:bg-purple-deep hover:text-white"
@@ -186,7 +185,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
                 }
               />
             ) : (
-              <div>{i18n.t('please select')}</div>
+              <div onClick={() => !disabled && setActive(!active)}>{i18n.t('please select')}</div>
             )}
             {mode === 'simple' ? <ErdaIcon type="caret-down" className="icon" size="14" /> : null}
           </>
@@ -208,7 +207,7 @@ interface ItemProps extends Omit<DropdownSelectNewProps, 'options' | 'onClickIte
 
 const Item = (props: ItemProps) => {
   const { option, size = 'middle', className = '', onlyIcon, value, onClickItem, switcher = null } = props;
-  const { icon, imgURL, label, key, desc } = option;
+  const { icon, imgURL, label, key, desc, disabled } = option;
   const iconSizeMap = {
     small: 16,
     middle: 24,
@@ -217,7 +216,7 @@ const Item = (props: ItemProps) => {
   return (
     <div
       className={`${className} ${size} cursor-pointer erda-dropdown-select-option-item flex w-full`}
-      onClick={() => onClickItem?.(option)}
+      onClick={() => !disabled && onClickItem?.(option)}
     >
       <div className="flex items-center flex-1 overflow-hidden">
         {icon ? (
@@ -254,7 +253,7 @@ const GroupOpt = (props: IGroupOptProps) => {
   const useOption = option.children;
 
   return (
-    <div className={'erda-dropdown-select-option-group  w-full'}>
+    <div className={'erda-dropdown-select-option-group w-full'}>
       <div
         className="erda-dropdown-select-option-group-label flex items-center justify-between"
         // onClick={() => setExpand(!expand)}
