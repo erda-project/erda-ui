@@ -21,12 +21,12 @@ import { map, isEmpty } from 'lodash';
 
 import { useMount } from 'react-use';
 import IssueState from 'project/common/components/issue/issue-state';
-import { Filter, MemberSelector } from 'common';
+import { Filter, MemberSelector, ConfigurableFilter } from 'common';
 import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { mergeSearch, updateSearch, getTimeRanges } from 'common/utils';
 import { ColumnProps } from 'antd/lib/table';
-import { Input, Button, Select, DatePicker, Tooltip } from 'antd';
+import { Button, Tooltip } from 'antd';
 import { useLoading } from 'core/stores/loading';
 import { usePerm, WithAuth, getAuth, isCreator, isAssignee } from 'app/user/common';
 import i18n from 'i18n';
@@ -34,9 +34,19 @@ import { FieldSelector, memberSelectorValueItem } from 'project/pages/issue/comp
 import moment from 'moment';
 import issueWorkflowStore from 'project/stores/issue-workflow';
 
-const { Option } = Select;
+const formatFormData = (query: Obj = {}) => {
+  const _q = { ...query };
+  if (!isEmpty(_q.createdAt)) {
+    const [start, end] = _q.createdAt;
+    _q.startCreatedAt = start;
+    _q.endCreatedAt = end;
+  }
+  return _q;
+};
+
 const Ticket = () => {
-  const [{ projectId }, { id: queryId }] = routeInfoStore.getState((s) => [s.params, s.query]);
+  const [{ projectId }, query] = routeInfoStore.getState((s) => [s.params, s.query]);
+  const { id: queryId } = query;
   const [loading] = useLoading(issueStore, ['getIssues']);
   const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
   const ticketStateList = React.useMemo(() => {
@@ -67,12 +77,13 @@ const Ticket = () => {
       });
     }
     getLabels({ type: 'issue', projectID: Number(projectId) });
+    getList({ pageNo: paging.pageNo });
   });
 
   const [{ drawerVisible, detailId, filterData }, updater, update] = useUpdate({
     drawerVisible: false,
     detailId: undefined as undefined | number,
-    filterData: {} as Obj,
+    filterData: formatFormData(query) || ({} as Obj),
   });
 
   const closeDrawer = ({ hasEdited, isCreate, isDelete }: CloseDrawerParam) => {
@@ -88,119 +99,69 @@ const Ticket = () => {
   const filterField = React.useMemo(
     () => [
       {
-        type: Input,
-        name: 'title',
-        customProps: {
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
-        },
+        type: 'input',
+        key: 'title',
+        label: i18n.t('title'),
+        outside: true,
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
       },
       {
-        type: Input,
-        name: 'source',
-        customProps: {
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:source') }),
-        },
+        type: 'input',
+        key: 'source',
+        label: i18n.t('dop:source'),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:source') }),
       },
       {
-        type: Select,
-        name: 'state',
-        customProps: {
-          mode: 'multiple',
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('status') }),
-          allowClear: true,
-          children: map(ticketStateList, ({ stateID }) => {
-            return (
-              <Option key={stateID} value={stateID}>
-                <IssueState stateID={stateID} />
-              </Option>
-            );
-          }),
-        },
+        type: 'select',
+        key: 'state',
+        label: i18n.t('status'),
+        options: ticketStateList.map(({ stateID }) => ({ label: <IssueState stateID={stateID} />, value: stateID })),
+        mode: 'multiple',
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('status') }),
       },
       {
-        type: Select,
-        name: 'priority',
-        customProps: {
-          mode: 'multiple',
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:priority') }),
-          allowClear: true,
-          children: map(ISSUE_PRIORITY_MAP, (item) => {
-            const { value, iconLabel } = item;
-            return (
-              <Option key={value} value={value}>
-                {iconLabel}
-              </Option>
-            );
-          }),
-        },
+        type: 'select',
+        key: 'priority',
+        mode: 'multiple',
+        label: i18n.t('dop:priority'),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:priority') }),
+        options: map(ISSUE_PRIORITY_MAP, (item) => ({ label: item.iconLabel, value: item.value })),
       },
       {
-        type: Select,
-        name: 'severity',
-        customProps: {
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:severity') }),
-          allowClear: true,
-          children: map(BUG_SEVERITY_MAP, (item) => {
-            const { value, iconLabel } = item;
-            return (
-              <Option key={value} value={value}>
-                {iconLabel}
-              </Option>
-            );
-          }),
-        },
+        type: 'select',
+        key: 'severity',
+        label: i18n.t('dop:severity'),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:severity') }),
+        options: map(BUG_SEVERITY_MAP, (item) => ({ label: item.iconLabel, value: item.value })),
       },
       {
-        type: MemberSelector,
-        name: 'creator',
-        customProps: {
-          mode: 'multiple',
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('submitter') }),
-          scopeType: 'project',
-          size: 'small',
-          scopeId: projectId,
-          allowClear: true,
-        },
+        type: 'custom',
+        key: 'creator',
+        label: i18n.t('submitter'),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('submitter') }),
+        getComp: () => <MemberSelector mode={'multiple'} scopeType={'project'} size={'small'} scopeId={projectId} />,
       },
       {
-        type: MemberSelector,
-        name: 'assignee',
-        customProps: {
-          mode: 'multiple',
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:assignee') }),
-          scopeType: 'project',
-          size: 'small',
-          scopeId: projectId,
-          allowClear: true,
-        },
+        type: 'custom',
+        key: 'assignee',
+        label: i18n.t('dop:assignee'),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:assignee') }),
+        getComp: () => <MemberSelector mode={'multiple'} scopeType={'project'} size={'small'} scopeId={projectId} />,
       },
       {
-        type: DatePicker.RangePicker,
-        name: 'createdAt',
-        valueType: 'range',
+        type: 'dateRange',
+        key: 'createdAt',
+        label: i18n.t('date'),
         customProps: {
-          borderTime: true,
-          allowClear: true,
-          style: { width: 'auto' },
           ranges: getTimeRanges(),
         },
       },
       {
-        type: Select,
-        name: 'label',
-        customProps: {
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('label') }),
-          allowClear: true,
-          mode: 'multiple',
-          children: map(labelList, (item) => {
-            const { name: label, id } = item;
-            return (
-              <Option key={id} value={String(id)}>
-                {label}
-              </Option>
-            );
-          }),
-        },
+        type: 'select',
+        key: 'label',
+        label: i18n.t('label'),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('label') }),
+        options: labelList.map((item) => ({ label: item.name, value: item.id })),
       },
     ],
     [ticketStateList, labelList, projectId],
@@ -371,15 +332,6 @@ const Ticket = () => {
     onChange: (no: number, size: number) => getList({ pageNo: no, pageSize: size }),
   };
 
-  const formatFormData = (query: Obj = {}) => {
-    const _q = { ...query };
-    if (!isEmpty(_q.createdAt)) {
-      const [start, end] = _q.createdAt;
-      _q.createdAt = [moment(+start), moment(+end)];
-    }
-    return _q;
-  };
-
   const onFilter = ({ createdAt, ...query }: Obj = {}) => {
     const _q = { ...query };
     if (!isEmpty(createdAt)) {
@@ -396,7 +348,8 @@ const Ticket = () => {
       _q.startCreatedAt = undefined;
       _q.endCreatedAt = undefined;
     }
-    updater.filterData(_q);
+
+    updater.filterData({ createdAt, ...query });
     getList({ pageNo: 1, ..._q });
   };
 
@@ -411,9 +364,9 @@ const Ticket = () => {
     updateSearch(_q, { replace: true });
   }, []);
 
-  const urlExtra = React.useMemo(() => {
-    return { pageNo: paging.pageNo };
-  }, [paging.pageNo]);
+  React.useEffect(() => {
+    handleUpdateSearch(filterData);
+  }, [filterData, handleUpdateSearch]);
 
   return (
     <div className="project-ticket">
@@ -431,16 +384,7 @@ const Ticket = () => {
         rowKey="id"
         size="small"
         pagination={pagination}
-        slot={
-          <Filter
-            config={filterField}
-            onFilter={onFilter}
-            connectUrlSearch
-            urlExtra={urlExtra}
-            formatFormData={formatFormData}
-            updateSearch={handleUpdateSearch}
-          />
-        }
+        slot={<ConfigurableFilter value={filterData} hideSave fieldsList={filterField} onFilter={onFilter} />}
       />
       <EditIssueDrawer
         id={detailId}
