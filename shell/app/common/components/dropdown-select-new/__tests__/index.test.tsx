@@ -62,7 +62,6 @@ describe('DropdownSelect', () => {
     expect(result.container).isExit('.erda-dropdown-select', 1);
     fireEvent.click(result.getByText('please select'));
     await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument());
-    expect(result).toMatchSnapshot();
     expect(result.baseElement).isExit('.erda-dropdown-select-option-group', 1);
 
     expect(result.baseElement).isExit(itemSelector, 5);
