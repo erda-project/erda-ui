@@ -13,23 +13,23 @@
 
 import React from 'react';
 import {
-  map,
-  isEmpty,
-  isNull,
+  cloneDeep,
   every,
-  forEach,
-  uniqueId,
+  fill,
   filter,
   find,
   findIndex,
-  fill,
-  cloneDeep,
+  forEach,
   isArray,
+  isEmpty,
+  isNull,
+  map,
+  uniqueId,
 } from 'lodash';
 import { useMount, useUnmount } from 'react-use';
-import { Modal, Button, Switch, Select, Input, InputNumber, Popover, Tooltip, Form, FormInstance } from 'antd';
+import { Button, Form, FormInstance, Input, InputNumber, Modal, Popover, Select, Switch, Tooltip } from 'antd';
 import { IActions } from 'app/common/components/table/interface';
-import { RenderForm, ErdaIcon } from 'common';
+import { ErdaIcon, RenderForm } from 'common';
 import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
@@ -41,8 +41,8 @@ import projectMemberStore from 'common/stores/project-member';
 import cmpAlarmStrategyStore from 'app/modules/cmp/stores/alarm-strategy';
 import mspAlarmStrategyStore from 'app/modules/msp/alarm-manage/alarm-strategy/stores/alarm-strategy';
 import {
-  notifyChannelOptionsMap,
   getFinalNotifyChannelOptions,
+  notifyChannelOptionsMap,
 } from 'application/pages/settings/components/app-notify/common-notify-group';
 import { usePerm } from 'user/common';
 import { getNotifyChannelMethods } from 'org/services/notice-channel';
@@ -431,8 +431,8 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
             updater.editingRules(rules);
           }}
         >
-          {map(allRules, ({ alertIndex, id }) => (
-            <Select.Option key={id} value={alertIndex}>
+          {map(allRules, ({ alertIndex }) => (
+            <Select.Option key={alertIndex} value={alertIndex}>
               {allRuleMap[alertIndex]}
             </Select.Option>
           ))}
