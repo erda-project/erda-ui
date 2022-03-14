@@ -13,9 +13,9 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { Icon as CustomIcon, EmptyHolder } from 'common';
+import { Icon as CustomIcon, EmptyHolder, Pagination } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Spin, Tooltip, Pagination } from 'antd';
+import { Spin, Tooltip } from 'antd';
 import { useDrop } from 'react-dnd';
 import moment from 'moment';
 import iterationStore from 'project/stores/iteration';
@@ -140,11 +140,10 @@ export const IterationItem = (props: IProps) => {
         <div>
           {total ? (
             <Pagination
-              className="flex items-center flex-wrap justify-end pt-2"
-              simple
-              defaultCurrent={1}
               total={total}
               pageSize={20}
+              hidePageSizeChange
+              current={pageNo}
               onChange={(_page: number) => {
                 update({ pageNo: _page });
               }}
