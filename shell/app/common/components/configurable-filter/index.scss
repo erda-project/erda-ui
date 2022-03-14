@@ -48,11 +48,6 @@
 
     .ant-select-item {
       padding: 5px 8px;
-      color: $white;
-    }
-
-    div.ant-select-item-option-active {
-      background-color: rgba($white, 0.08);
     }
 
     .ant-select-item-option-selected {
@@ -113,7 +108,6 @@
   }
 
   .ant-input {
-    color: rgba($white, 0.6);
     background-color: $color-default-06 !important;
     border: none;
   }
@@ -124,9 +118,6 @@
   }
 
   &-body {
-    div.ant-form-item-label label {
-      color: $color-white-6;
-    }
     .ant-form-vertical .ant-form-item-label {
       padding-bottom: 4px;
     }
@@ -157,7 +148,6 @@
       }
 
       .ant-select-item-group {
-        color: rgba($white, 0.6);
         font-weight: bold;
       }
     }
