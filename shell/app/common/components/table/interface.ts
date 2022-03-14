@@ -58,6 +58,7 @@ interface IAction {
   title: string;
   onClick: () => void;
   show?: boolean;
+  disabled?: boolean;
 }
 
 export interface TableConfigProps<T> {

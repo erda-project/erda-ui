@@ -15,6 +15,7 @@ import React from 'react';
 import { Dropdown, Menu } from 'antd';
 import Table from 'antd/es/table';
 import { ErdaIcon, Ellipsis } from 'common';
+import { WithAuth } from 'user/common';
 import i18n from 'i18n';
 import { PAGINATION } from 'app/constants';
 import TableConfig from './table-config';
@@ -407,11 +408,17 @@ function renderActions<T extends object = any>(actions?: IActions<T> | null): Ar
 
           const menu = (
             <Menu theme="dark">
-              {list.map((item) => (
-                <Menu.Item key={item.title} onClick={item.onClick}>
-                  <span className="fake-link mr-1">{item.title}</span>
-                </Menu.Item>
-              ))}
+              {list.map((item) => {
+                const { title, onClick, disabled = false } = item;
+
+                return (
+                  <Menu.Item key={title} onClick={disabled ? undefined : onClick}>
+                    <WithAuth pass={!disabled}>
+                      <span className="fake-link mr-1">{title}</span>
+                    </WithAuth>
+                  </Menu.Item>
+                );
+              })}
             </Menu>
           );
 
