@@ -13,7 +13,7 @@
 
 import React from 'react';
 import CaseInfo from './case-info';
-import fileTreeStore from 'common/stores/file-tree';
+import fileTreeStore from 'project/stores/file-tree';
 import CasePipelineEditor from './pipeline-editor';
 // import RecordList from './record-list';
 import { useUpdate } from 'common/use-hooks';

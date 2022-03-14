@@ -11,6 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import TreeCategory from './tree';
+import SimpleLog from '..';
 
-export default TreeCategory;
+describe('SimpleLog', () => {
+  it('should be defined', () => {
+    expect(SimpleLog).toBeDefined();
+  });
+});

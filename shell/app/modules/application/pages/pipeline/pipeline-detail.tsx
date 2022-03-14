@@ -12,19 +12,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tabs, Button, Tooltip } from 'antd';
+import { Button, Tabs, Tooltip } from 'antd';
 import PipelineConfigDetail from './config-detail';
 import PipelineRunDetail from './run-detail';
 import routeInfoStore from 'core/stores/route';
 import buildStore from 'application/stores/build';
-import fileTreeStore from 'common/stores/file-tree';
+import fileTreeStore from 'project/stores/file-tree';
 import yaml from 'js-yaml';
 import { useUpdate } from 'common/use-hooks';
 import { updateSearch } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import { useMount } from 'react-use';
-import { get, isEmpty, find } from 'lodash';
-import { WithAuth, usePerm } from 'user/common';
+import { find, get, isEmpty } from 'lodash';
+import { usePerm, WithAuth } from 'user/common';
 import appStore from 'application/stores/application';
 import { useLoading } from 'core/stores/loading';
 import commonStore from 'common/stores/common';
