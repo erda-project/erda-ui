@@ -130,7 +130,7 @@ export const Iteration = () => {
       title: i18n.t('dop:progress'),
       width: 120,
       dataIndex: 'issueSummary',
-      render: (_k: any, record: ITERATION.Detail) => {
+      render: (_k, record: ITERATION.Detail) => {
         const doneTotal = sumBy(map(record.issueSummary || {}), 'done') || 0;
         const totalCount = (sumBy(map(record.issueSummary || {}), 'undone') || 0) + doneTotal;
         const percent = ((totalCount ? doneTotal / totalCount : 0) * 100).toFixed(1);

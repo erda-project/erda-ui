@@ -26,9 +26,9 @@ interface IProps {
   slot: React.ReactElement;
   configData: PIPELINE_CONFIG.ConfigItem[];
   fullConfigData: PIPELINE_CONFIG.ConfigItem[];
-  addConfig: (data: ListData) => Promise<any>;
-  updateConfig: (data: ListData | ListData[]) => Promise<any>;
-  deleteConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<any>;
+  addConfig: (data: ListData) => Promise<null>;
+  updateConfig: (data: ListData | ListData[]) => Promise<null>;
+  deleteConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<null>;
   onEditChange?: (isEdit: boolean) => void;
 }
 
@@ -301,7 +301,7 @@ const EditableCell = ({
                 ),
               },
               {
-                validator: async (_rule: any, value: any) => {
+                validator: async (_rule, value: string) => {
                   const existConfig = fullConfigData?.find((item) => item.key === value);
 
                   if (value && value !== record.key && existConfig) {
@@ -323,7 +323,7 @@ const EditableCell = ({
             style={{ margin: 0 }}
             rules={[
               {
-                validator: async (_rule: any, value: any) => {
+                validator: async (_rule, value: string) => {
                   const encrypt = form.getFieldValue('encrypt');
                   if (!encrypt && !value) {
                     throw new Error(i18n.t('please enter {name}', { name: 'Value' }));

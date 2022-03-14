@@ -70,11 +70,11 @@ const TestPlanDetail = () => {
   const [enhanceFilterVisible, setEnhanceFilterVisible] = React.useState(false);
   const [loadingRecords, setLoadingRecords] = React.useState(false);
   const [firstRecord, setFirstRecord] = React.useState({} as TEST_PLAN.Pipeline);
-  const caseRef = React.useRef(null as any);
+  const caseRef = React.useRef<{ removeMenu: (ids: string[]) => void }>(null);
 
   // TODO: ws推送推不过来，先用轮询处理，ws可用后就不需要了
   const loop = React.useCallback(
-    (clearTimer?: any) => {
+    (clearTimer?: () => void) => {
       // 执行后记录翻到第一页并更新状态
       getExecuteRecords({ pageNo: 1, pageSize: 15 }).then((res: any) => {
         if (res.total) {

@@ -33,8 +33,8 @@ export default function DataSourceManagement() {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
   const addonSpecList = customAddonStore
     .useStore((s) => s.addonList)
-    .filter((item: any) => displayName.includes(item.displayName));
-  const timer = React.useRef<any>(0);
+    .filter((item: CUSTOM_ADDON.Item) => displayName.includes(item.displayName));
+  const timer = React.useRef<number>(0);
   const [loadingAddons] = useLoading(dopStore, ['getDataSourceAddons']);
   const [state, updater, update, reset] = useUpdate({
     modalVisible: false,
@@ -73,7 +73,7 @@ export default function DataSourceManagement() {
     }, 5000);
   };
 
-  const handleOk = (values: any) => {
+  const handleOk = (values: CUSTOM_ADDON.AddBody) => {
     const after = () => {
       getDataSourceAddons({ displayName });
       closeModal();

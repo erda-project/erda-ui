@@ -14,8 +14,8 @@
 import React from 'react';
 import { indexOf, isEmpty, map, sortBy, unset } from 'lodash';
 import { useDrop } from 'react-dnd';
-import { Button, Spin, Tooltip } from 'antd';
-import { ContractiveFilter, ErdaIcon, Icon as CustomIcon, Pagination } from 'common';
+import { Button, Pagination, Spin, Tooltip } from 'antd';
+import { ContractiveFilter, ErdaIcon, Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import { usePerm, WithAuth } from 'user/common';
@@ -286,7 +286,7 @@ const Backlog = () => {
     });
   };
 
-  const listRef = React.useRef(null as any);
+  const listRef = React.useRef<{ scrollTop: number }>(null);
   const isHide = !!listRef.current && listRef.current.scrollTop;
 
   const tabs = [

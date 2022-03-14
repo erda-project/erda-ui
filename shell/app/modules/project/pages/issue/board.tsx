@@ -108,8 +108,8 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
       });
   }, [issueType]);
 
-  const reloadRef = React.useRef(null as any);
-  const filterObjRef = React.useRef(null as any);
+  const reloadRef = React.useRef<{ reload: () => void }>(null);
+  const filterObjRef = React.useRef<Obj>(null);
 
   const [drawerVisible, openDrawer, closeDrawer] = useSwitch(queryId || false);
 

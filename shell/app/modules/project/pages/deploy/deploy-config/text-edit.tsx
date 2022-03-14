@@ -24,7 +24,7 @@ interface IProps {
   slot?: React.ReactElement;
   configData: PIPELINE_CONFIG.ConfigItem[];
   fullConfigData: PIPELINE_CONFIG.ConfigItem[];
-  updateConfig: (data: PIPELINE_CONFIG.ConfigItem[]) => Promise<any>;
+  updateConfig: (data: PIPELINE_CONFIG.ConfigItem[]) => Promise<null>;
   onChange?: (val: string) => void;
   onEditChange?: (isEdit: boolean) => void;
 }
