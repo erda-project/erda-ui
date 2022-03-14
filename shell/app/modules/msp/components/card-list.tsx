@@ -24,10 +24,10 @@ import { useInViewport } from 'common/use-hooks';
 interface CardColumnsProps<T> {
   dataIndex: keyof T | string[];
   colProps?: ColProps;
-  render?: (text: any, record: T, index: number) => React.ReactNode;
+  render?: (text: React.ReactNode | string, record: T, index: number) => React.ReactNode;
   children?: {
     rowProps?: RowProps;
-    columns: CardColumnsProps<T>[];
+    columns: Array<CardColumnsProps<T>>;
   };
 }
 
@@ -40,14 +40,14 @@ interface IProps<T = Record<string, any>> {
   dataSource: T[];
   slot?: React.ReactNode;
   rowClassName?: string;
-  columns: CardColumnsProps<T>[];
+  columns: Array<CardColumnsProps<T>>;
   emptyHolder?: React.ReactNode;
   onViewChange?: (data: T, flag?: boolean) => void;
 }
 
-const renderChild = <T extends unknown>(record: T, columns: CardColumnsProps<T>[], index: number) => {
+const renderChild = <T extends unknown>(record: T, columns: Array<CardColumnsProps<T>>, index: number) => {
   return columns.map((column) => {
-    let nodes: React.ReactNode = get(record, column.dataIndex);
+    let nodes: React.ReactNode | string = get(record, column.dataIndex);
     if (column.render) {
       nodes = column.render(nodes, record, index);
     }
@@ -69,18 +69,18 @@ const renderChild = <T extends unknown>(record: T, columns: CardColumnsProps<T>[
 interface IRowProps<T> {
   rowClass?: string;
   rowClick: () => void;
-  columns: CardColumnsProps<T>[];
+  columns: Array<CardColumnsProps<T>>;
   record: T;
   index: number;
   onViewChange?: (data: T, flag?: boolean) => void;
 }
 
 const RowItem = <T extends unknown>({ rowClick, rowClass, record, columns, index, onViewChange }: IRowProps<T>) => {
-  const rowRef = React.useRef();
+  const rowRef = React.useRef<HTMLDivElement>(null);
   const [isInView] = useInViewport(rowRef);
   React.useEffect(() => {
     onViewChange?.(record, isInView);
-  }, [isInView, record]);
+  }, [isInView, onViewChange, record]);
   return (
     <Row ref={rowRef} onClick={rowClick} className={rowClass}>
       {renderChild<T>(record, columns, index)}

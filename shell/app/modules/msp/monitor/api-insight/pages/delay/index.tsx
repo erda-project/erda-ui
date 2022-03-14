@@ -16,7 +16,7 @@ import { Row, Col } from 'antd';
 import FilterNav from 'app/modules/msp/monitor/api-insight/common/components/filterNav';
 import routeInfoStore from 'core/stores/route';
 import apiMonitorFilterStore from '../../stores/filter';
-import DelayMap from './config/chartMap';
+import { RequestDelayChart, RequestDelayTopChart, BackendDelayChart, BackendDelayTopChart } from './config/chartMap';
 import gatewayStore from 'msp/stores/gateway';
 
 const APIDelay = () => {
@@ -39,15 +39,15 @@ const APIDelay = () => {
     projectId,
   };
 
-  const [fields, setFields] = React.useState(searchFields);
+  const [fields, setFields] = React.useState(searchFields as MS_MONITOR.FilterFields);
 
   const resetFields = () => {
     resetSearchFields();
-    setFields({});
+    setFields({} as MS_MONITOR.FilterFields);
   };
 
   const updateFields = () => {
-    getSearchFields().then((filterFields: any) => {
+    getSearchFields().then((filterFields: MS_MONITOR.FilterFields) => {
       setFields(filterFields);
     });
   };
@@ -61,7 +61,7 @@ const APIDelay = () => {
       <FilterNav updateFields={updateFields} resetFields={resetFields} />
       <Row gutter={20}>
         <Col span={12}>
-          <DelayMap.requestDelay
+          <RequestDelayChart
             shouldLoad={shouldLoad}
             query={{
               ...commonFilter,
@@ -70,7 +70,7 @@ const APIDelay = () => {
           />
         </Col>
         <Col span={12}>
-          <DelayMap.requestDelayTop
+          <RequestDelayTopChart
             shouldLoad={shouldLoad}
             query={{
               ...commonFilter,
@@ -81,7 +81,7 @@ const APIDelay = () => {
       </Row>
       <Row gutter={20}>
         <Col span={12}>
-          <DelayMap.backendDelay
+          <BackendDelayChart
             shouldLoad={shouldLoad}
             query={{
               ...commonFilter,
@@ -90,7 +90,7 @@ const APIDelay = () => {
           />
         </Col>
         <Col span={12}>
-          <DelayMap.backendDelayTop
+          <BackendDelayTopChart
             shouldLoad={shouldLoad}
             query={{
               ...commonFilter,

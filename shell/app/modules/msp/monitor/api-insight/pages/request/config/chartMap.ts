@@ -46,8 +46,6 @@ const chartMap = merge(
   ApiMap,
 );
 
-export default {
-  qps: chartRender(chartMap.qps) as any,
-  pv: chartRender(chartMap.pv) as any,
-  connect: chartRender(chartMap.connect) as any,
-};
+export const QPSRequestChart = chartRender(chartMap.qps) as any;
+export const PVRequestChart = chartRender(chartMap.pv) as any;
+export const ConnectRequestChart = chartRender(chartMap.connect) as any;

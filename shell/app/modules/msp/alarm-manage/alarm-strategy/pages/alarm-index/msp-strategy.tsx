@@ -22,7 +22,7 @@ const StrategyForm = () => {
 
   return (
     <CmpStrategyForm
-      scopeType={COMMON_STRATEGY_NOTIFY.ScopeType.MSP}
+      scopeType="msp"
       scopeId={projectId}
       commonPayload={{ scopeType: `msp_env`, scopeId: terminusKey, projectType: type }}
     />
