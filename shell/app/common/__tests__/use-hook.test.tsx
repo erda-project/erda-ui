@@ -12,7 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { act, renderHook } from '@testing-library/react-hooks';
-import { useSwitch } from '../use-hooks';
+import { useSwitch, useUpdateSearch } from '../use-hooks';
+import { createBrowserHistory } from 'history';
+import { setConfig } from 'core/config';
 
 describe('use-hooks', () => {
   describe('useSwitch', () => {
@@ -36,6 +38,24 @@ describe('use-hooks', () => {
         toggle();
       });
       expect(result.current[0]).toEqual(false);
+    });
+  });
+
+  describe('useUpdateSearch', () => {
+    it('should work well', () => {
+      const reload = jest.fn();
+      const browserHistory = createBrowserHistory();
+      setConfig('history', browserHistory);
+
+      const setUp = (reloadFun: (_q?: Obj) => void) => renderHook(() => useUpdateSearch({ reload: reloadFun }));
+      const setUpObj = setUp(reload);
+      const { result } = setUpObj;
+      const [curQuery, setQuery] = result.current;
+      expect(curQuery).toEqual({});
+      act(() => setQuery({ name: 'a' }));
+      expect(result.current[0]).toEqual({ name: 'a' });
+
+      setConfig('history', undefined);
     });
   });
 });

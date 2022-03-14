@@ -13,36 +13,14 @@
 
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
-import { getUrlQuery } from 'config-page/utils';
-import { updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 
 const IssueDashboard = () => {
-  const [{ projectId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const [urlQuery, setUrlQuery] = React.useState(query);
+  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
 
-  React.useEffect(() => {
-    updateSearch({ ...urlQuery });
-  }, [urlQuery]);
+  const inParams = { projectId };
 
-  const inParams = { projectId, ...urlQuery };
-
-  const urlQueryChange = (val: Obj) => setUrlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
-
-  return (
-    <DiceConfigPage
-      scenarioType={'issue-dashboard'}
-      scenarioKey={'issue-dashboard'}
-      inParams={inParams}
-      customProps={{
-        filter: {
-          op: {
-            onFilterChange: urlQueryChange,
-          },
-        },
-      }}
-    />
-  );
+  return <DiceConfigPage scenarioType={'issue-dashboard'} scenarioKey={'issue-dashboard'} inParams={inParams} />;
 };
 
 export default IssueDashboard;

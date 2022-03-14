@@ -14,8 +14,6 @@
 import React from 'react';
 import routeInfoStore from 'core/stores/route';
 import DiceConfigPage from 'app/config-page';
-import { getUrlQuery } from 'config-page/utils';
-import { updateSearch } from 'common/utils';
 import { Spin } from 'antd';
 import Download from './download';
 import i18n from 'i18n';
@@ -24,21 +22,13 @@ interface IMeta {
   meta: { reportId: string };
 }
 const TestReport = () => {
-  const [{ projectId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const [urlQuery, setUrlQuery] = React.useState(query);
+  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const [downloadId, setDownloadId] = React.useState('');
   const [downloading, setDownloading] = React.useState(false);
 
-  React.useEffect(() => {
-    updateSearch({ ...urlQuery });
-  }, [urlQuery]);
-
   const inParams = {
     projectId: +projectId,
-    ...urlQuery,
   };
-
-  const urlQueryChange = (val: Obj) => setUrlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 
   const download = (opMeta: { reportId: string }) => {
     setDownloadId(opMeta.reportId);
@@ -57,11 +47,6 @@ const TestReport = () => {
         scenarioKey="test-report"
         inParams={inParams}
         customProps={{
-          filter: {
-            op: {
-              onFilterChange: urlQueryChange,
-            },
-          },
           table: {
             op: {
               operations: {

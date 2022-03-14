@@ -13,13 +13,12 @@
 
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
-import { getUrlQuery } from 'config-page/utils';
 import { RadioTabs, ErdaIcon } from 'common';
 import { usePerm, WithAuth } from 'user/common';
 import { Button, Dropdown, Menu } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
-import { goTo, updateSearch } from 'common/utils';
+import { goTo } from 'common/utils';
 
 interface IProps {
   isProjectRelease: boolean;
@@ -27,7 +26,7 @@ interface IProps {
 }
 
 const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
-  const [{ projectId }, { releaseFilter__urlQuery }] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const [canCreateRelease] = usePerm((s) => [s.project.release.create.pass]);
   const [isFormal, setIsFormal] = React.useState<string | number>();
   const inParams = {
@@ -35,7 +34,6 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
     isFormal: isFormal && isFormal === 'formal',
     projectID: +projectId,
     applicationID,
-    releaseFilter__urlQuery,
   };
 
   const reloadRef = React.useRef<{ reload: () => void }>(null);
@@ -120,13 +118,6 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
                     );
                   },
                 },
-              },
-            },
-          },
-          releaseFilter: {
-            op: {
-              onFilterChange: (val: { releaseFilter__urlQuery: string }) => {
-                updateSearch(getUrlQuery(val));
               },
             },
           },

@@ -42,7 +42,7 @@ declare namespace CONFIG_PAGE {
         [pro: string]: string[] | { [pro: string]: string | string[] };
       };
     };
-    components: Obj<Merge<Comps, { options: CompOptions }>>;
+    components: Obj<Merge<Comps, { options: CompOptions; state: Obj }>>;
     options?: PageConfigGlobalOptions;
   }
 

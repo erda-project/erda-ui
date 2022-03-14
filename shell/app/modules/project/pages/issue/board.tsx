@@ -14,7 +14,6 @@
 import React from 'react';
 import { ISSUE_TYPE, ISSUE_PRIORITY_MAP, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
 import DiceConfigPage, { useMock } from 'app/config-page';
-import { getUrlQuery } from 'config-page/utils';
 import { useSwitch, useUpdate } from 'common/use-hooks';
 import { mergeSearch, updateSearch, ossImg, getAvatarChars } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
@@ -22,7 +21,6 @@ import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/iss
 import { usePerm } from 'app/user/common';
 import routeInfoStore from 'core/stores/route';
 import issueFieldStore from 'org/stores/issue-field';
-import { useUpdateEffect } from 'react-use';
 import { Avatar, Button } from 'antd';
 import IssueState from 'project/common/components/issue/issue-state';
 import { ErdaIcon, RadioTabs } from 'common';
@@ -84,33 +82,19 @@ const CardRender = (props: { data: Obj }) => {
   );
 };
 
-const compareObject = (sourceObj: object, targetObj: object) => {
-  if (Object.keys(sourceObj).length === Object.keys(targetObj).length) {
-    return Object.keys(sourceObj).filter((key) => sourceObj[key] !== targetObj[key]).length === 0;
-  } else {
-    return false;
-  }
-};
-
 const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => {
   const [{ projectId, iterationId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const { id: queryId, iterationID: queryItertationID, type, ...restQuery } = query;
+  const { id: queryId, iterationID: queryItertationID } = query;
   const orgID = orgStore.getState((s) => s.currentOrg.id);
-  const [
-    { filterObj, chosenIssueType, chosenIssueId, chosenIteration, urlQuery, urlQueryChangeByQuery, issueType },
-    updater,
-    update,
-  ] = useUpdate({
+  const [{ filterObj, chosenIssueType, chosenIssueId, chosenIteration, issueType }, updater, update] = useUpdate({
     filterObj: {},
     chosenIssueId: queryId,
     chosenIteration: queryItertationID || 0,
-    urlQuery: restQuery,
     chosenIssueType: propsIssueType as undefined | ISSUE_TYPE,
     pageNo: 1,
     viewType: '',
     viewGroup: '',
     issueType: propsIssueType || ISSUE_TYPE.REQUIREMENT,
-    urlQueryChangeByQuery: restQuery, // Only used to listen for changes to update the page after url change
   });
 
   const issuePerm = usePerm((s) => s.project.requirement);
@@ -127,15 +111,12 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
   const reloadRef = React.useRef(null as any);
   const filterObjRef = React.useRef(null as any);
 
-  const queryRef = React.useRef(restQuery);
-
   const [drawerVisible, openDrawer, closeDrawer] = useSwitch(queryId || false);
 
   const inParams = {
     fixedIteration: iterationId,
     projectId,
     fixedIssueType: issueType,
-    ...(urlQuery || {}),
   };
 
   const reloadData = () => {
@@ -147,32 +128,6 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
   React.useEffect(() => {
     filterObjRef.current = filterObj;
   }, [filterObj]);
-
-  useUpdateEffect(() => {
-    const { id: _id, iterationID: _iterationID, type: _type, ..._restQuery } = query;
-    queryRef.current = _restQuery;
-  }, [query]);
-
-  useUpdateEffect(() => {
-    if (!compareObject(urlQuery, queryRef.current)) {
-      queryRef.current = urlQuery;
-      updateSearch({ ...(urlQuery || {}) });
-    }
-  }, [urlQuery]);
-
-  useUpdateEffect(() => {
-    if (!compareObject(urlQuery, queryRef.current)) {
-      // Execute only after url change such as page go back
-      update({
-        urlQuery: queryRef.current,
-        urlQueryChangeByQuery: queryRef.current, // Only used to listen for changes to update the page
-      });
-    }
-  }, [queryRef.current]);
-
-  useUpdateEffect(() => {
-    reloadData();
-  }, [urlQueryChangeByQuery]);
 
   const onChosenIssue = (val: Obj) => {
     update({
@@ -207,8 +162,7 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
   };
 
   const onFilterChange = (val: Obj) => {
-    updater.filterObj((prev) => ({ ...prev, ...val }));
-    updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+    updater.filterObj((prev: Obj) => ({ ...prev, ...val }));
   };
 
   const RefreshComp = () => (

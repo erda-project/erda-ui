@@ -14,11 +14,9 @@
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
-import { getUrlQuery } from 'config-page/utils';
 import { Drawer } from 'antd';
 import { useUpdate } from 'common/use-hooks';
 import { PureClusterNodeDetail } from './cluster-nodes-detail';
-import { updateSearch } from 'common/utils';
 import { K8sClusterTerminalButton } from './cluster-terminal';
 import { ClusterContainer } from './index';
 
@@ -29,24 +27,17 @@ interface IDetailData {
 interface IState {
   visible: boolean;
   detailData: null | IDetailData;
-  urlQuery: Obj;
 }
 
 const ClusterNodes = () => {
-  const [{ clusterName }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const [{ visible, detailData, urlQuery }, updater, update] = useUpdate<IState>({
+  const [{ clusterName }] = routeInfoStore.useStore((s) => [s.params, s.query]);
+
+  const [{ visible, detailData }, updater, update] = useUpdate<IState>({
     visible: false,
     detailData: null,
-    urlQuery: query,
   });
 
-  React.useEffect(() => {
-    updateSearch({ ...urlQuery });
-  }, [urlQuery]);
-
-  const inParams = { clusterName, ...urlQuery };
-
-  const urlQueryChange = (val: Obj) => updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+  const inParams = { clusterName };
 
   const openDetail = (record: Obj, op: Obj) => {
     if (op.key === 'gotoNodeDetail') {
@@ -86,20 +77,9 @@ const ClusterNodes = () => {
           podChart: {
             props: chartProps,
           },
-          filter: {
-            op: {
-              onFilterChange: urlQueryChange,
-            },
-          },
           table: {
             op: {
-              onStateChange: urlQueryChange,
               clickTableItem: openDetail,
-            },
-          },
-          tabs: {
-            op: {
-              onStateChange: urlQueryChange,
             },
           },
         }}
