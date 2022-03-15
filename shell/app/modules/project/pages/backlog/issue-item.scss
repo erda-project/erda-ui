@@ -1,7 +1,9 @@
 .backlog-issue-item {
   display: flex;
   align-items: center;
-  height: 40px;
+  height: 44px;
+  padding-left: 10px;
+  padding-right: 8px;
   border-bottom: 1px solid $color-border;
   cursor: pointer;
 

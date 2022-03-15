@@ -38,17 +38,10 @@ export const IssueCommentBox = (props: IProps) => {
   const [state, updater] = useUpdate({
     visible: false,
     disableSave: true,
-    show: false,
   });
 
   const valueRef = React.useRef('');
   const focusRef = React.useRef(true);
-
-  React.useEffect(() => {
-    on('issue-drawer:scroll', (direction: 'up' | 'down') => {
-      updater.show(direction === 'down');
-    });
-  }, [updater]);
 
   const submit = () => {
     const saveVal = valueRef.current.trim();
@@ -73,9 +66,7 @@ export const IssueCommentBox = (props: IProps) => {
 
   return (
     <div
-      className={`issue-comment-box absolute flex items-start z-10 rounded-sm p-4 shadow-card-lg bg-white bottom-0 ${
-        state.show ? '' : state.visible ? '' : 'slide-down'
-      }`}
+      className={`absolute flex items-start z-10 rounded-sm p-4 shadow-card-lg bg-white bottom-0`}
       style={{ left: 'calc(12% - 16px)', right: 'calc(12% - 16px)' }}
     >
       <UserInfo.RenderWithAvatar avatarSize="default" id={loginUser.id} showName={false} className="mr-3" />
@@ -106,7 +97,7 @@ export const IssueCommentBox = (props: IProps) => {
             <Button className="mr-3" type="primary" disabled={state.disableSave} onClick={() => submit()}>
               {i18n.t('dop:Post')}
             </Button>
-            <Button onClick={() => close()}>{i18n.t('dop:Collapse')}</Button>
+            <Button onClick={() => updater.visible(false)}>{i18n.t('dop:Collapse')}</Button>
           </div>
         </div>
       ) : (
