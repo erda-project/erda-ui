@@ -57,7 +57,7 @@ const TimeSelector = (props: IProps) => {
       <Select
         key="select"
         className="time-range-selector"
-        defaultValue={timeSelectorPlan[defaultTime || hours]}
+        defaultValue={(defaultTime || hours) && `${defaultTime || hours}`}
         onChange={handleChangeTime}
       >
         {map(timeSelectorPlan, (value, key) => {

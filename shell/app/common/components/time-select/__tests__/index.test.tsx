@@ -11,24 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import MockDate from 'mockdate';
-import { act } from 'react-dom/test-utils';
+import TimeSelect from '..';
 
-export function setMockDate(dateString = '2021-04-25T02:40:04.668Z') {
-  MockDate.set(dateString);
-  return Date.now();
-}
-
-export function resetMockDate() {
-  MockDate.reset();
-}
-
-const globalTimeout = global.setTimeout;
-
-export const sleep = async (timeout = 0) => {
-  await act(async () => {
-    await new Promise((resolve) => globalTimeout(resolve, timeout));
+describe('TimeSelect', () => {
+  it('should be defined', () => {
+    expect(TimeSelect).toBeDefined();
   });
-};
-
-export const flushPromises = () => new Promise(process.nextTick);
+});

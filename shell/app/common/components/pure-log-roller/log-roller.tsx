@@ -19,7 +19,7 @@ import i18n from 'i18n';
 import { ErdaIcon } from 'common';
 import './log-roller.scss';
 
-interface IProps {
+export interface IProps {
   content: string | object[];
   rolling: boolean;
   backwardLoading: boolean;
