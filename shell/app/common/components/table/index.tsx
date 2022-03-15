@@ -86,6 +86,7 @@ function WrappedTable<T extends object = any>({
 }: IProps<T>) {
   const dataSource = React.useMemo<T[]>(() => (ds as T[]) || [], [ds]);
   const [columns, setColumns] = React.useState<Array<ColumnProps<T>>>(allColumns);
+  const columnsConfig = React.useRef({});
   const [sort, setSort] = React.useState<SorterResult<T>>({});
   const [selectedRowKeys, setSelectedRowKeys] = React.useState(rowSelection?.selectedRowKeys || []);
   const sortCompareRef = React.useRef<((a: T, b: T) => number) | null>(null);
@@ -221,8 +222,12 @@ function WrappedTable<T extends object = any>({
   );
 
   React.useEffect(() => {
-    setColumns(
-      allColumns.map(({ width = 300, sorter, title, render, icon, align, show, ...args }: ColumnProps<T>) => {
+    const _columnsConfig = {};
+    const _columns = allColumns.map(
+      ({ width = 300, sorter, title, render, icon, align, show, dataIndex, ...args }: ColumnProps<T>) => {
+        const _columnConfig = columnsConfig.current[dataIndex] || { dataIndex, hidden: show === false };
+        _columnsConfig[dataIndex] = _columnConfig;
+
         const { subTitle } = args;
         let sortTitle;
         if (sorter) {
@@ -291,11 +296,15 @@ function WrappedTable<T extends object = any>({
           ellipsis: true,
           onCell: () => ({ style: { maxWidth: width }, className: align === 'right' && sorter ? 'pr-8' : '' }),
           render: columnRender,
-          hidden: show === false, // TODO: change to false after all show has been replaced
+          dataIndex,
           ...args,
+          hidden: _columnConfig.hidden,
         };
-      }),
+      },
     );
+
+    columnsConfig.current = _columnsConfig;
+    setColumns(_columns);
   }, [allColumns, sorterMenu, sort, onRow]);
 
   const onReload = () => {
@@ -331,7 +340,12 @@ function WrappedTable<T extends object = any>({
           hideReload={hideReload}
           columns={columns}
           sortColumn={sort}
-          setColumns={(val) => setColumns(val)}
+          setColumns={(val) => {
+            val.forEach((item) => {
+              columnsConfig.current[item.dataIndex].hidden = item.hidden;
+            });
+            setColumns(val);
+          }}
           onReload={onReload}
           whiteHead={whiteHead}
         />
