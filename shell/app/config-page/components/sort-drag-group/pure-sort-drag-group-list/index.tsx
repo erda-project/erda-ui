@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Icon as CustomIcon, ErdaIcon, Ellipsis, Copy, TagsRow } from 'common';
-import { map, groupBy, uniq } from 'lodash';
+import { Copy, Ellipsis, ErdaIcon, Icon as CustomIcon, TagsRow } from 'common';
+import { groupBy, map, uniq } from 'lodash';
 import { useDrag, useDrop } from 'react-dnd';
 import { useUpdateEffect } from 'react-use';
 import React from 'react';
-import { Tooltip, Popconfirm, Switch, Menu, Dropdown } from 'antd';
+import { Dropdown, Menu, Popconfirm, Switch, Tooltip } from 'antd';
 import './index.scss';
 
 interface IBeginDragData<T> {
@@ -417,7 +417,7 @@ interface IProps {
   onClickItem?: (data: SortItemData['data']) => void;
 }
 const noop = () => {};
-const SortDragGroupList: React.FC<IProps> = ({
+const PureSortDragGroupList: React.FC<IProps> = ({
   value,
   disableDropInItem,
   disableDropInGroup,
@@ -513,4 +513,4 @@ const SortDragGroupList: React.FC<IProps> = ({
   );
 };
 
-export default SortDragGroupList;
+export default PureSortDragGroupList;

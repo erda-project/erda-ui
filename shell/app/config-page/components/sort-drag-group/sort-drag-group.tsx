@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { SortDragGroupList as PureSortDragGroupList } from 'common';
+import PureSortDragGroupList from './pure-sort-drag-group-list';
 import { map } from 'lodash';
 
 const empty = [] as any[];

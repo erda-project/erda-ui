@@ -97,7 +97,6 @@ export { default as UserInfo } from './components/user-info';
 export { default as DetailsPanel } from './components/details-panel';
 export { default as EditList } from './components/edit-list';
 export { default as InputSelect } from './components/input-select';
-export { default as SortDragGroupList } from './components/sort-drag-group-list';
 export { default as LogRoller } from './components/log-roller';
 export { default as MetricsMonitor } from './components/metrics-monitor';
 export { default as MonitorChart } from './components/monitor-chart';
