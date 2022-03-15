@@ -117,8 +117,18 @@ export interface IModule {
 
 let storeList: any[] = [];
 
-const getStores = () => {
-  return storeList;
+const getStores = () => storeList;
+const addStore = (stores: any[]) => {
+  storeList = [...storeList, ...stores];
+  const storeNames = storeList.map((s) => s.name);
+  storeNames.some((item, idx) => {
+    const isDuplicate = storeNames.indexOf(item) !== idx;
+    if (isDuplicate) {
+      // eslint-disable-next-line no-console
+      console.warn(`detected duplicate store name: ${item}`);
+    }
+    return isDuplicate;
+  });
 };
 
 export const registerModule = (
@@ -134,7 +144,7 @@ export const registerModule = (
   }
   if (stores) {
     stores.forEach(registStore);
-    storeList = [...storeList, ...stores];
+    addStore(stores);
   }
   if (routers) {
     const routeData = registRouters(key, routers, { Root, NotFound });
@@ -145,6 +155,7 @@ export const registerModule = (
   }
   const history = getConfig('history');
   setTimeout(() => {
+    // process cb in next micro task, to ensure all stores are collected
     typeof cb === 'function' && cb({ stores: getStores(), history });
   });
 };
