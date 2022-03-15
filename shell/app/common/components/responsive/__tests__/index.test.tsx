@@ -42,7 +42,7 @@ describe('Responsive', () => {
     jest.resetAllMocks();
   });
   data.forEach((item: Item, index) => {
-    it(`should work well ${item.width}`, () => {
+    it(`should work well when screen's width is ${item.width}`, () => {
       const { width, span, extraPadding, gutter } = item;
       Object.defineProperty(hooks, 'useMediaGt', {
         writable: true,
@@ -50,14 +50,22 @@ describe('Responsive', () => {
           return width - extraPadding - gutter === num;
         },
       });
-      const children = index === 0 ? null : <div className={`child-${index}`}>{index}</div>;
+      const children =
+        index === 0 ? (
+          <div>child</div>
+        ) : (
+          new Array(index + 1).fill(index).map((t, i) => (
+            <div className={`child-${index}`} key={`${index}-${i}`}>
+              {t}
+            </div>
+          ))
+        );
       const result = render(
         <Responsive itemWidth={100} percent={1} gutter={gutter}>
           {children}
         </Responsive>,
       );
-      expect(result.container).toMatchSnapshot();
-      expect(result.container).isExit(`.ant-col-${span}`, 1);
+      expect(result.container).isExit(`.ant-col-${span}`, index + 1);
     });
   });
 });
