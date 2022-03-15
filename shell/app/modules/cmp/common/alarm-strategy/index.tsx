@@ -49,7 +49,7 @@ const memberStoreMap = {
 };
 
 interface IProps {
-  scopeType: ScopeType.MSP | ScopeType.ORG;
+  scopeType: ScopeType.ORG | ScopeType.MSP;
   scopeId: string;
   commonPayload?: Obj;
 }

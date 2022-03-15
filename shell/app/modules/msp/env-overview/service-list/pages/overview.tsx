@@ -170,7 +170,7 @@ const OverView = () => {
           <div className="h-12 flex justify-between items-center px-4 bg-white-02 text-white font-medium">
             {i18n.t('msp:service topology')}
             <Tooltip
-              getPopupContainer={(e) => e?.parentNode as HTMLElement}
+              getPopupContainer={(e) => e.parentNode as HTMLElement}
               placement={isFullScreen ? 'bottomRight' : undefined}
               title={isFullScreen ? i18n.t('exit full screen') : i18n.t('full screen')}
             >
