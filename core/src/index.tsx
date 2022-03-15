@@ -154,10 +154,11 @@ export const registerModule = (
     emit('@routeChange', latestRouteInfo);
   }
   const history = getConfig('history');
-  setTimeout(() => {
-    // process cb in next micro task, to ensure all stores are collected
-    typeof cb === 'function' && cb({ stores: getStores(), history });
-  });
+  if (typeof cb === 'function') {
+    // getStores will pass all stores registered synchronously for remote mf module
+    // if sync module need take this feature may cause store not found issue
+    cb({ stores: getStores(), history });
+  }
 };
 
 export const registerModules = (modules: IModule[]) => {
