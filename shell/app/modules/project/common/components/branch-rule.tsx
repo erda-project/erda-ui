@@ -46,6 +46,7 @@ interface IProps {
   operationAuth: boolean;
   scopeId: number;
   scopeType: string;
+  tableKey?: string;
 }
 
 const extraFieldsMap = {
@@ -161,7 +162,7 @@ const extraColumnsMap = {
 };
 
 const BranchRule = (props: IProps) => {
-  const { operationAuth, scopeId, scopeType } = props;
+  const { operationAuth, scopeId, scopeType, tableKey } = props;
   const branchRules = branchRuleStore.useStore((s) => s.branchRules);
   const { addBranchRule, getBranchRules, deleteBranchRule, updateBranchRule, clearBranchRule } = branchRuleStore;
   const [loading] = useLoading(branchRuleStore, ['getBranchRules']);
@@ -323,6 +324,7 @@ const BranchRule = (props: IProps) => {
         </WithAuth>
       </div>
       <ErdaTable
+        tableKey={tableKey}
         loading={loading}
         rowKey="id"
         dataSource={branchRules}

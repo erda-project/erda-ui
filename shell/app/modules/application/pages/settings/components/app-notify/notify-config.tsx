@@ -42,9 +42,10 @@ interface IProps {
     module: string;
   };
   memberStore: any;
+  tableKey?: string;
 }
 
-export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
+export const NotifyConfig = ({ commonPayload, memberStore, tableKey }: IProps) => {
   const roleMap = memberStore.useStore((s) => s.roleMap);
   const { getRoleMap } = memberStore.effects;
   const [notifyConfigs, notifyItems] = appNotifyStore.useStore((s) => [s.notifyConfigs, s.notifyItems]);
@@ -293,6 +294,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
       />
       <Spin spinning={getNotifyConfigsLoading}>
         <ErdaTable
+          tableKey={tableKey}
           columns={columns}
           dataSource={notifyConfigs}
           actions={actions}

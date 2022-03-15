@@ -378,6 +378,7 @@ const Ticket = () => {
         </WithAuth>
       </div>
       <ErdaTable
+        tableKey="project-ticket"
         loading={loading}
         columns={columns}
         dataSource={list}

@@ -168,6 +168,7 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
         showIcon
       />
       <ErdaTable
+        tableKey={testType === 'manual' ? 'manual-test-env' : 'auto-test-env'}
         rowKey={testType === 'manual' ? 'id' : 'ns'}
         columns={columns}
         dataSource={testType === 'manual' ? envList : autoEnvList}

@@ -27,6 +27,13 @@ const AutoTestPlanList = () => {
         scenarioKey="auto-test-plan-list"
         scenarioType="auto-test-plan-list"
         inParams={inParams}
+        customProps={{
+          table: {
+            props: {
+              tableKey: 'auto-test-plan',
+            },
+          },
+        }}
       />
     </div>
   );

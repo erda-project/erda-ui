@@ -140,6 +140,7 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
                 whiteFooter: true,
                 styleNames: 'h-full',
                 wrapperClassName: 'flex-1',
+                tableKey: 'project-pipeline',
               },
               columnsRender: {
                 source: (_val: string, _record: string, map: { [key: string]: React.ReactNode }) => {

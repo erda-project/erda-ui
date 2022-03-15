@@ -215,6 +215,7 @@ export const Iteration = () => {
         className="mb-2"
       />
       <ErdaTable
+        tableKey="issue-iteration"
         rowKey="id"
         dataSource={list}
         columns={columns}

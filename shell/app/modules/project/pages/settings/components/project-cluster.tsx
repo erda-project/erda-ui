@@ -150,6 +150,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
 
   const readonlyForm = (
     <ErdaTable
+      tableKey="project-setting-quota"
       loading={loading || projectInfoLoading}
       rowKey="workspace"
       dataSource={tableData}
