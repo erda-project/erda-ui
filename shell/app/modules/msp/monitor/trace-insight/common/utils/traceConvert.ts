@@ -29,7 +29,7 @@ interface Trace {
   totalSpans: number;
   timeMarkers: timeMarkers[];
   timeMarkersBackup: timeMarkers[];
-  spans: Array<MONITOR_TRACE.ISpan>;
+  spans: MONITOR_TRACE.ISpan[];
 }
 
 interface Entry {
@@ -126,7 +126,7 @@ const compareSpan = (s1: MONITOR_TRACE.ITraceSpan, s2: MONITOR_TRACE.ITraceSpan)
 
 const childrenToList = (entry: Entry) => {
   const fpSort = (fn: ((a: Entry, b: Entry) => number) | undefined) => (list: Entry[]) => list.sort(fn);
-  const deepChildren: Entry['span'][] = fp.flow(
+  const deepChildren: Array<Entry['span']> = fp.flow(
     fpSort((e1: Entry, e2: Entry) => compareSpan(e1.span, e2.span)),
     fp.flatMap(childrenToList),
   )(entry.children || []);

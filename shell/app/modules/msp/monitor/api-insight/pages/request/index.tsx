@@ -13,7 +13,7 @@
 
 import React, { useState } from 'react';
 import { Row, Col } from 'antd';
-import RequestMap from './config/chartMap';
+import { QPSRequestChart, PVRequestChart } from './config/chartMap';
 import FilterNav from 'app/modules/msp/monitor/api-insight/common/components/filterNav';
 import routeInfoStore from 'core/stores/route';
 import apiMonitorFilterStore from '../../stores/filter';
@@ -38,15 +38,15 @@ const APIRequest = () => {
     projectId,
   };
 
-  const [fields, setFields] = useState(searchFields);
+  const [fields, setFields] = useState(searchFields as MS_MONITOR.FilterFields);
 
   const resetFields = () => {
     resetSearchFields();
-    setFields({});
+    setFields({} as MS_MONITOR.FilterFields);
   };
 
   const updateFields = () => {
-    getSearchFields().then((filterFields: any) => {
+    getSearchFields().then((filterFields: MS_MONITOR.FilterFields) => {
       setFields(filterFields);
     });
   };
@@ -56,7 +56,7 @@ const APIRequest = () => {
       <FilterNav updateFields={updateFields} resetFields={resetFields} />
       <Row gutter={20}>
         <Col span={12}>
-          <RequestMap.qps
+          <QPSRequestChart
             shouldLoad={shouldLoad}
             query={{
               ...commonFilter,
@@ -65,7 +65,7 @@ const APIRequest = () => {
           />
         </Col>
         <Col span={12}>
-          <RequestMap.pv
+          <PVRequestChart
             shouldLoad={shouldLoad}
             query={{
               ...commonFilter,

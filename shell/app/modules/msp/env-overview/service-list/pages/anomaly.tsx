@@ -86,7 +86,7 @@ const ServiceListAnomaly = () => {
             placeholder={i18n.t('msp:select sorting method')}
             allowClear
             style={{ width: '180px' }}
-            onChange={(v: any) => updater.sort(v)}
+            onChange={(v: string) => updater.sort(v)}
           >
             {sortList.map(({ name, value }) => (
               <Select.Option key={value} value={value}>
@@ -99,7 +99,7 @@ const ServiceListAnomaly = () => {
             placeholder={i18n.t('msp:maximum number of queries')}
             allowClear
             style={{ width: '180px' }}
-            onChange={(v: any) => updater.limit(v)}
+            onChange={(v: number) => updater.limit(v)}
           >
             {limits.map((item) => (
               <Select.Option key={item} value={item}>
@@ -112,7 +112,7 @@ const ServiceListAnomaly = () => {
             placeholder={i18n.t('msp:exception type')}
             allowClear
             style={{ width: '180px' }}
-            onChange={(v: any) => updater.exceptionType(v)}
+            onChange={(v: string) => updater.exceptionType(v)}
           >
             {(exceptionTypes || []).map((item) => (
               <Select.Option key={item} value={item}>
@@ -126,11 +126,7 @@ const ServiceListAnomaly = () => {
         </div>
       </div>
       <div className="overflow-auto flex-1">
-        <ServiceListDashboard
-          dashboardId="exception_analysis"
-          extraGlobalVariable={{ sort, limit, exceptionType }}
-          serviceId={serviceId}
-        />
+        <ServiceListDashboard dashboardId="exception_analysis" extraGlobalVariable={{ sort, limit, exceptionType }} />
       </div>
     </div>
   );

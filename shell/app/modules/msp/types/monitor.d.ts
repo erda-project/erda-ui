@@ -52,4 +52,13 @@ declare namespace MS_MONITOR {
     services: string[];
     startTime: number;
   }
+
+  interface FilterFields {
+    filter_api: undefined | string;
+    filter_mthd: undefined | string;
+    filter_hts: undefined | string;
+    filter_upfs: undefined | string;
+    filter_dsrv: undefined | string;
+    filter_dapp: undefined | string;
+  }
 }

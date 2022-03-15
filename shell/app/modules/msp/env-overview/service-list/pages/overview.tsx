@@ -164,15 +164,13 @@ const OverView = () => {
       </div>
       <Spin spinning={isLoading}>
         <div
-          className={`service-overview-topology flex flex-col overflow-hidden ${
-            isFullScreen ? '' : 'fixed-height'
-          }`}
+          className={`service-overview-topology flex flex-col overflow-hidden ${isFullScreen ? '' : 'fixed-height'}`}
           ref={serviceTopologyRef}
         >
           <div className="h-12 flex justify-between items-center px-4 bg-white-02 text-white font-medium">
             {i18n.t('msp:service topology')}
             <Tooltip
-              getTooltipContainer={(e) => e.parentNode}
+              getPopupContainer={(e) => e.parentNode as HTMLElement}
               placement={isFullScreen ? 'bottomRight' : undefined}
               title={isFullScreen ? i18n.t('exit full screen') : i18n.t('full screen')}
             >

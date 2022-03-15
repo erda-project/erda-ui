@@ -611,7 +611,7 @@ const gatewayStore = createStore({
       );
       gatewayStore.reducers.updateAPISuccess(newAPI);
     },
-    async deleteAPI({ select, call }, { apiId }: GATEWAY.ApiListItem) {
+    async deleteAPI({ select, call }, { apiId }: GATEWAY.ApiDeletePayload) {
       await call(deleteAPI, apiId, { successMsg: i18n.t('deleted successfully') });
       return select((s: IState) => s);
     },
@@ -691,14 +691,8 @@ const gatewayStore = createStore({
     async addPolicy({ call, getParams }, payload: { data: GATEWAY.UpdatePolicy; category: string }) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
       const { env, projectId } = getParams();
-      // eslint-disable-next-line no-param-reassign
-      payload.data = {
-        ...payload.data,
-        projectId,
-        orgId,
-        env,
-      };
-      await call(addPolicy, payload, { successMsg: i18n.t('added successfully') });
+      const newPayload = Object.assign({ ...payload }, { data: payload.data, projectId, orgId, env });
+      await call(addPolicy, newPayload, { successMsg: i18n.t('added successfully') });
       gatewayStore.effects.getPolicyList({ category: 'trafficControl' });
     },
     async updatePolicy({ call, getParams }, payload: { data: GATEWAY.UpdatePolicy; category: string }) {

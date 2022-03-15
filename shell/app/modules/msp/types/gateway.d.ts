@@ -43,6 +43,13 @@ declare namespace GATEWAY {
     consumers: string[];
   }
 
+  interface Police {
+    policyId: string;
+    apiId: string;
+    consumerId: string;
+    category: string;
+  }
+
   interface RuntimeEntryData {
     diceApp: string;
     services: {
@@ -236,7 +243,7 @@ declare namespace GATEWAY {
       displayName: string;
     };
     createAt: string;
-    policies: null | string[];
+    policies: Police[];
     swagger: {
       [key: string]: any;
     };
@@ -578,7 +585,7 @@ declare namespace GATEWAY {
   interface SavePoliciesApi {
     list: Array<{
       consumerApiId: string;
-      policies: any;
+      policies: Police[];
     }>;
   }
 
@@ -590,5 +597,43 @@ declare namespace GATEWAY {
     app: string;
     service: string;
     runtimeId: string;
+  }
+
+  interface ChartQueryBase {
+    filter_cluster_name: string;
+    filter_denv: string;
+    filter_dpid: string;
+    filter_pack: string | undefined;
+  }
+
+  interface ChartQuery extends ChartQueryBase {
+    fetchMetricKey: string;
+    start: number;
+    end: number;
+    sum: string;
+    points: number;
+    group: string;
+    filter_csmr: string;
+    align: boolean;
+    projectId: string;
+    sumCps: string[];
+  }
+
+  interface ApiParams {
+    env: string;
+    orgName: string;
+    projectId: string;
+    tenantGroup: string;
+  }
+
+  interface ApiQuery {
+    appId: number;
+    runtimeId: number;
+  }
+
+  interface ApiDeletePayload {
+    apiId: string;
+    diceApp?: string;
+    diceService?: string;
   }
 }

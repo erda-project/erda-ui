@@ -53,9 +53,7 @@ const chartMap = merge(
   ApiMap,
 );
 
-export default {
-  requestDelay: chartRender(chartMap.requestDelay) as any,
-  requestDelayTop: chartRender(chartMap.requestDelayTop) as any,
-  backendDelay: chartRender(chartMap.backendDelay) as any,
-  backendDelayTop: chartRender(chartMap.backendDelayTop) as any,
-};
+export const RequestDelayChart = chartRender(chartMap.requestDelay) as any;
+export const RequestDelayTopChart = chartRender(chartMap.requestDelayTop) as any;
+export const BackendDelayChart = chartRender(chartMap.backendDelay) as any;
+export const BackendDelayTopChart = chartRender(chartMap.backendDelayTop) as any;

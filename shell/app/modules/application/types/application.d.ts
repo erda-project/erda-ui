@@ -52,12 +52,13 @@ declare namespace APPLICATION {
 
   interface GetAppList {
     pageSize: number;
-    pageNo: number;
+    pageNo?: number;
     projectId: number | string;
     q?: string;
     searchKey?: string;
     loadMore?: boolean;
     memberID?: string;
+    mode?: string;
   }
 
   interface IBranchInfo {
