@@ -40,8 +40,12 @@ export function off(type: string, cb: Function) {
 }
 
 export function once(type: string, cb: Function) {
-  const off = on(type, (data?: any) => {
-    off();
+  if (Array.isArray(hub[type])) {
+    // prevent duplicate register
+    return;
+  }
+  const offThis = on(type, (data?: any) => {
+    offThis();
     cb(data);
   });
 }
