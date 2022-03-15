@@ -245,7 +245,7 @@ export const IssueForm = (props: IIssueFormProps) => {
       <Input
         value={formData.title}
         placeholder={`${placeholderMap[formData.type]}, ${i18n.t(
-          'Enter to save quickly, Enter + {meta} to save and continue',
+          'Enter to save quickly, {meta} + Enter to save and continue',
           { meta: isWin ? 'Shift' : 'Cmd' },
         )}`}
         maxLength={255}

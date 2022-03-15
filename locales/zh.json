@@ -48,7 +48,7 @@
     "DingTalk address": "钉钉地址",
     "Dubai": "迪拜",
     "East China {num}": "华东{num}",
-    "Enter to save quickly, Enter + {meta} to save and continue": "Enter 快速创建，Enter + {meta} 保存并继续创建",
+    "Enter to save quickly, {meta} + Enter to save and continue": "Enter 快速创建，{meta} + Enter 保存并继续创建",
     "Europe & America": "欧洲与美洲",
     "Expand": "展开",
     "Fast data": "快数据平台",

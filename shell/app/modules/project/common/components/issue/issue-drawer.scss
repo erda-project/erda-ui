@@ -4,7 +4,7 @@
   }
   .ant-modal-body {
     padding: 0;
-    height: calc(100vh - 80px);
+    // height: calc(100vh - 80px);
     overflow: hidden;
   }
 
@@ -40,16 +40,6 @@
     height: 100%;
     padding: 0;
     background-color: $color-default-02;
-  }
-
-  .ant-spin-nested-loading {
-    height: 100%;
-  }
-
-  .ant-spin-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
   }
 }
 

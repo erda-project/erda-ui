@@ -140,7 +140,7 @@ export const IssueActivities = (props: IProps) => {
   const activeTab = tabs.find((t) => t.key === activeTabKey) as typeof tabs[0];
   return (
     <Spin spinning={loading}>
-      <div className="flex flex-col pb-20">
+      <div className="flex flex-col pb-4">
         <div className="flex-h-center text-primary font-medium">
           <span className="text-base">{i18n.t('Log')}</span>
           <span className="w-[1px] h-[12px] bg-default-1 mx-4" />
