@@ -118,7 +118,7 @@ export const IssueActivities = (props: IProps) => {
               ) : (
                 <span className="text-default">{simpleContent[activity.streamType] || activity.content}</span>
               )}
-              <span className="ml-2 text-xs text-sub">{moment(activity.createdAt).format('YYYY/MM/DD HH:mm:ss')}</span>
+              <span className="ml-2 text-sub">{moment(activity.createdAt).format('YYYY/MM/DD HH:mm:ss')}</span>
               <If condition={simpleContent[activity.streamType]}>
                 <ErdaIcon
                   size={16}
