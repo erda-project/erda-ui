@@ -27,10 +27,3 @@
     border-left: 1px solid rgba(48, 38, 71, 0.2);
   }
 }
-
-.issue-comment-box {
-  transition: transform 0.3s ease;
-  &.slide-down {
-    transform: translateY(64px);
-  }
-}
