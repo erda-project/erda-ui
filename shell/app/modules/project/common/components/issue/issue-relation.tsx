@@ -147,7 +147,7 @@ const useIssueRelation = (props: IProps) => {
         />
       </If>
       <If condition={relationType === RelationType.Inclusion && issueType === 'REQUIREMENT' && !!list?.length}>
-        <div className="p-2 bg-default-02">
+        <div className="rounded-sm border-solid border-default-1">
           {list?.map((item) => (
             <IssueItem
               data={item}
@@ -173,7 +173,7 @@ const useIssueRelation = (props: IProps) => {
       </If>
 
       <If condition={relationType === RelationType.Connection && !!list?.length}>
-        <div className="p-2 bg-default-02">
+        <div className="rounded-sm border-solid border-default-1">
           {list?.map((item) => (
             <IssueItem
               data={item}
@@ -722,7 +722,7 @@ const AddNewIssue = ({ onSaveRelation, iterationID, onCancel, defaultIssueType, 
   return (
     <IssueForm
       key="add"
-      className="mt-3"
+      className="mt-3 mb-2"
       onCancel={onCancel}
       defaultIssueType={defaultIssueType}
       onOk={(val: ISSUE.BacklogIssueCreateBody) => {

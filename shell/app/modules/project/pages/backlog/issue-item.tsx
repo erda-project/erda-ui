@@ -114,7 +114,7 @@ export const IssueItem = (props: IIssueProps) => {
   const state = showStatus ? workflowStateList.find((item) => item.stateID === data.state) : null;
   return (
     <div
-      className={`backlog-issue-item px-2 hover:bg-default-04 cursor-pointer ${
+      className={`backlog-issue-item hover:bg-default-04 cursor-pointer ${
         !undraggable && editAuth ? 'draggable' : 'cursor-default'
       }`}
       ref={drag}
@@ -245,14 +245,14 @@ export const IssueForm = (props: IIssueFormProps) => {
       <Input
         value={formData.title}
         placeholder={`${placeholderMap[formData.type]}, ${i18n.t(
-          'Enter to save quickly, Enter + {meta} to save and continue',
+          'Enter to save quickly, {meta} + Enter to save and continue',
           { meta: isWin ? 'Shift' : 'Cmd' },
         )}`}
         maxLength={255}
         onPressEnter={onAdd}
         autoFocus
         onChange={(e) => updater.title(e.target.value)}
-        style={{ height: '38px', paddingRight: '180px', paddingLeft: '90px' }}
+        style={{ height: '42px', paddingRight: '180px', paddingLeft: '90px' }}
       />
       <Select
         disabled={typeDisabled}

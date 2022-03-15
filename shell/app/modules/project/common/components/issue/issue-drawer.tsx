@@ -156,14 +156,7 @@ export const IssueDrawer = (props: IProps) => {
   }, [customFieldDetail?.property, data, preData]);
 
   const mainEle = React.useRef<HTMLDivElement>(null);
-  const scrollYRef = React.useRef(0);
   const { y } = useScroll(mainEle);
-  if (y - scrollYRef.current > 3) {
-    emit('issue-drawer:scroll', 'down');
-  } else if (y - scrollYRef.current < -3) {
-    emit('issue-drawer:scroll', 'up');
-  }
-  scrollYRef.current = y;
 
   React.useLayoutEffect(() => {
     let timer: NodeJS.Timeout;
@@ -187,10 +180,11 @@ export const IssueDrawer = (props: IProps) => {
       footer={null}
       maskClosable={maskClosable || !isChanged}
       keyboard={false}
+      forceRender // useScroll will not take effect if mainRel is lazy mounted
       {...rest}
     >
       <Spin spinning={loading}>
-        <div className="flex flex-col h-full">
+        <div className="relative flex flex-col" style={{ height: 'calc(100vh - 80px)' }}>
           <If condition={header !== IssueDrawer.Empty}>
             <div className={`task-drawer-header ${y > 2 ? 'shadow-card' : ''}`}>
               <div className="flex justify-between items-center">
@@ -312,16 +306,19 @@ export const IssueDrawer = (props: IProps) => {
               {descField}
             </If>
             <If condition={inclusionField !== IssueDrawer.Empty}>
-              <div id="inclusion" className="h-px bg-default-08 my-4" />
-              {inclusionField}
+              <div id="inclusion" className="mt-6">
+                {inclusionField}
+              </div>
             </If>
             <If condition={relationField !== IssueDrawer.Empty}>
-              <div id="relation" className="h-px bg-default-08 my-4" />
-              {relationField}
+              <div id="relation" className="mt-6">
+                {relationField}
+              </div>
             </If>
             <If condition={logField !== IssueDrawer.Empty}>
-              <div id="log" className="h-px bg-default-08 my-4" />
-              {logField}
+              <div id="log" className="mt-6">
+                {logField}
+              </div>
             </If>
           </div>
           <If condition={footer !== IssueDrawer.Empty}>

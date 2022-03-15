@@ -102,22 +102,30 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
     // so if set two components with same z-index, drawer will override tooltip
     // solution: when open img, set tooltip z-index to 999, otherwise set to 1001
     <div className="relative w-full" style={{ maxHeight: expanded ? '' : maxHeight }}>
-      <ErdaIcon
-        type="edit"
-        size={20}
-        className="absolute z-10 w-8 h-8 right-4 top-4 rounded-full cursor-pointer shadow-card bg-white hover:shadow-card-lg text-blue-deep"
-        onClick={() => updater.isEditing(true)}
-      />
-      <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
-        <div ref={mdContentRef} className="md-content">
-          <MarkdownRender noWrapper value={v || i18n.t('no description yet')} />
-          <div
-            className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-t from-white flex justify-center items-center ${
-              !expandBtnVisible || expanded ? 'hidden' : ''
-            }`}
+      {v ? (
+        <>
+          <ErdaIcon
+            type="edit"
+            size={20}
+            className="absolute z-10 w-8 h-8 right-0 top-0 rounded-full cursor-pointer shadow-card text-blue-deep bg-white hover:text-white hover:bg-blue-deep"
+            onClick={() => updater.isEditing(true)}
           />
+          <div className="overflow-hidden" style={{ maxHeight: 'inherit', minHeight: '120px' }}>
+            <div ref={mdContentRef} className="md-content">
+              <MarkdownRender noWrapper value={v} />
+              <div
+                className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-t from-white flex justify-center items-center ${
+                  !expandBtnVisible || expanded ? 'hidden' : ''
+                }`}
+              />
+            </div>
+          </div>
+        </>
+      ) : (
+        <div ref={mdContentRef} className="h-[120px] cursor-text" onClick={() => updater.isEditing(true)}>
+          {i18n.t('click to edit description')}
         </div>
-      </div>
+      )}
       <If condition={expandBtnVisible}>
         <span
           className={`absolute bg-white shadow-card bottom-2 z-10 h-7 px-3 rounded-full mx-auto text-blue-deep cursor-pointer flex-all-center hover:shadow-card-lg ${
