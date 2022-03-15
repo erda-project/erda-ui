@@ -7,7 +7,7 @@ Erda-ui 是 Erda 平台的前端工程，包括平台所有的界面功能代码
 
 ## 技术栈
 基础框架：React
-微服务框架：[模块联邦](https://github.com/module-federation) + [qiankun](https://github.com/umijs/qiankun)（旧）
+微服务框架：[模块联邦](https://github.com/module-federation)
 组件库：[Antd 4.x](https://github.com/ant-design/ant-design)
 状态管理：[cube-state](https://github.com/daskyrk/cube-state)
 CSS 框架：[tailwindcss](https://github.com/tailwindlabs/tailwindcss)

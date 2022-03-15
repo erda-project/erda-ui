@@ -23,7 +23,6 @@ import { getGitShortSha, getBranch } from './util/git-commands';
 const currentDir = process.cwd();
 
 const dirCollection: { [k: string]: string } = {
-  fdp: `${currentDir}/fdp`,
   admin: `${currentDir}/admin`,
 };
 
@@ -111,7 +110,7 @@ const releaseImage = async (registry?: string) => {
 };
 
 const getBuildList = async () => {
-  let rebuildList = ['fdp', 'admin'];
+  let rebuildList = ['admin'];
   const answer = await inquirer.prompt([
     {
       type: 'checkbox',

@@ -37,7 +37,6 @@ export default ({ command, mode }) => {
     'core/cube': path.resolve(__dirname, '../core/src/cube'),
     'core/service': path.resolve(__dirname, '../core/src/service'),
     'admin/entry': path.resolve(__dirname, '../../erda-ui-enterprise/admin/src'),
-    'fdp/entry': path.resolve(__dirname, '../../erda-ui-enterprise/fdp/src'),
     'core/agent': path.resolve(__dirname, '../core/src/agent'),
     'core/stores/route': path.resolve(__dirname, '../core/src/stores/route'),
     'core/stores/userMap': path.resolve(__dirname, '../core/src/stores/user-map'),
