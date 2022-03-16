@@ -57,6 +57,9 @@ const apis = {
   getAllBranch: {
     api: 'get@/api/cicds/actions/app-all-valid-branch-workspaces',
   },
+  editPipelineName: {
+    api: 'put@/api/project-pipeline/definitions/:id',
+  },
 };
 
 export const getAppList = apiCreator<(payload: { projectID: string; name?: string }) => AppDetail[]>(apis.getAppList);
@@ -89,4 +92,8 @@ export const checkSource = apiCreator<
 
 export const getAllBranch = apiCreator<(payload: { appID: number }) => RAW_RESPONSE<Array<{ name: string }>>>(
   apis.getAllBranch,
+);
+
+export const editPipelineName = apiCreator<(payload: { id: string; name: string; projectID: string }) => RAW_RESPONSE>(
+  apis.editPipelineName,
 );
