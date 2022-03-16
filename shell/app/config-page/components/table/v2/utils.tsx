@@ -311,12 +311,17 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
                     e && e.stopPropagation();
                     extra?.execOperation({
                       key: 'click',
+                      ...click,
                       clientData: {
                         dataRef: op,
                         parentDataRef: record,
                       },
                       serverData,
                     });
+                    const customFunc = get(extra, `customOp.operations.${key}`);
+                    if (customFunc) {
+                      customFunc(op, record);
+                    }
                   }}
                   key={key}
                   onCancel={(e: any) => e && e.stopPropagation()}
@@ -343,6 +348,7 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
                     e.stopPropagation();
                     extra?.execOperation({
                       key: 'click',
+                      ...click,
                       clientData: {
                         dataRef: op,
                         parentDataRef: record,
@@ -351,7 +357,7 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
                     });
                     const customFunc = get(extra, `customOp.operations.${key}`);
                     if (customFunc) {
-                      customFunc(op);
+                      customFunc(op, record);
                     }
                   }}
                 >

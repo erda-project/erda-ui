@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Tabs } from 'antd';
+import { Drawer, Tabs, Modal, Form, message } from 'antd';
 import { get, isEmpty } from 'lodash';
 import i18n from 'i18n';
 import DiceConfigPage from 'app/config-page';
@@ -20,13 +20,13 @@ import routeInfoStore from 'core/stores/route';
 import projectStore from 'project/stores/project';
 import { updateSearch } from 'common/utils';
 import fileTreeStore from 'project/stores/file-tree';
-import { EmptyHolder } from 'common';
+import { EmptyHolder, RenderFormItem, ErdaAlert } from 'common';
 import { getINodeByPipelineId } from 'application/services/build';
 import PipelineForm from './form';
 import PipelineBasic from './basic';
 import PipelineRunDetail from 'application/pages/pipeline/run-detail';
 import appStore from 'application/stores/application';
-import { getAllBranch } from 'project/services/pipeline';
+import { getAllBranch, editPipelineName } from 'project/services/pipeline';
 import { decode } from 'js-base64';
 
 interface IProps {
@@ -38,6 +38,7 @@ interface IProps {
 const { TabPane } = Tabs;
 
 const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
+  const [form] = Form.useForm();
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const { name: projectName } = projectStore.useStore((s) => s.info);
   const { updateTreeNodeDetail } = fileTreeStore;
@@ -50,6 +51,9 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
 
   const [visible, setVisible] = React.useState(false);
   const [detailVisible, setDetailVisible] = React.useState(false);
+  const [editVisible, setEditVisible] = React.useState(false);
+  const [editData, setEditData] = React.useState<{ id: string; name: string }>({});
+
   const [detail, setDetail] = React.useState<
     Partial<{ id: string; appId: string; pipelineId: string; branchExist: boolean }>
   >({});
@@ -133,6 +137,22 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
                   }
                 }
               },
+              operations: {
+                updateName: (
+                  _op,
+                  record: {
+                    id: string;
+                    pipeline: { data: { pipelineName: { data: { text: string } } } };
+                  },
+                ) => {
+                  const { id, pipeline } = record || {};
+                  const { data } = pipeline || {};
+                  const { pipelineName } = data || {};
+                  setEditData({ id, name: pipelineName.data.text });
+                  form.setFieldsValue({ name: pipelineName.data.text });
+                  setEditVisible(true);
+                },
+              },
             },
             props: {
               tableProps: {
@@ -207,6 +227,39 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
         </Tabs>
         {!detail.branchExist && !detail.pipelineId ? <EmptyHolder /> : null}
       </Drawer>
+      <Modal
+        title={i18n.t('edit {name}', { name: i18n.t('pipeline') })}
+        visible={editVisible}
+        onCancel={() => setEditVisible(false)}
+        onOk={() => {
+          form.validateFields().then(async (value) => {
+            const { id } = editData;
+            editPipelineName.fetch({ id, projectID: projectId, ...value }).then(() => {
+              message.success(i18n.t('edited successfully'));
+              reloadRef.current?.reload();
+              setEditVisible(false);
+            });
+          });
+        }}
+      >
+        <Form form={form}>
+          <RenderFormItem
+            name={'name'}
+            type={'input'}
+            rules={[
+              { required: true, message: i18n.t('please enter {name}', { name: i18n.t('pipeline') }) },
+              { max: 30, message: i18n.t('dop:no more than 30 characters') },
+              {
+                pattern: /^[\u4e00-\u9fa5A-Za-z0-9._-]+$/,
+                message: i18n.t('dop:Must be composed of Chinese, letters, numbers, underscores, hyphens and dots.'),
+              },
+            ]}
+            itemProps={{
+              placeholder: i18n.t('please enter {name}', { name: i18n.t('name') }),
+            }}
+          />
+        </Form>
+      </Modal>
     </>
   );
 };
