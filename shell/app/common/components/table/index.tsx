@@ -123,6 +123,10 @@ function WrappedTable<T extends object = any>({
     }
   }, [dataSource, rowKey, isFrontendPaging, getKey]);
 
+  React.useEffect(() => {
+    setSelectedRowKeys(rowSelection?.selectedRowKeys || []);
+  }, [rowSelection?.selectedRowKeys]);
+
   const onTableChange = React.useCallback(
     ({ pageNo, pageSize: size, sorter: currentSorter }) => {
       const { onChange: onPageChange } = pagination as TablePaginationConfig;
