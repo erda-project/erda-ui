@@ -402,4 +402,30 @@ declare namespace API_MARKET {
     serviceAddr: string[];
     serviceExpose: string[];
   }
+
+  interface ExportApi {
+    protocolType: string;
+    versionID: number;
+  }
+  interface QueryExportRecord {
+    orderBy?: string;
+    pageNo: number;
+    pageSize?: number;
+  }
+
+  interface ExportRecord {
+    id: string;
+    createdAt: string;
+    updatedAt: string;
+    creatorID: string;
+    updaterID: string;
+    assetID: string;
+    assetName: string;
+    versionID: number;
+    swaggerVersion: string;
+    major: number;
+    minor: number;
+    patch: number;
+    protocolType: string;
+  }
 }

@@ -15,15 +15,16 @@ import React from 'react';
 import { useDebounce, useUnmount } from 'react-use';
 import { CustomFilter, UserInfo } from 'common';
 import { useUpdate } from 'common/use-hooks';
-
+import ExportRecord from 'apiManagePlatform/pages/api-market/components/export-record';
 import ErdaTable from 'common/components/table';
 import apiMarketStore from 'app/modules/apiManagePlatform/stores/api-market';
 import { useLoading } from 'core/stores/loading';
-import { Input, Button, Tooltip, PaginationProps } from 'antd';
+import { Button, Input, PaginationProps, Tooltip } from 'antd';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import AssetModal, { IMode, IScope } from 'app/modules/apiManagePlatform/pages/api-market/components/asset-modal';
 import ApplyModal from 'apiManagePlatform/pages/api-market/components/apply-modal';
+import { exportApi } from 'apiManagePlatform/services/api-export';
 import routeInfoStore from 'core/stores/route';
 import moment from 'moment';
 import { ColumnProps } from 'antd/lib/table';
@@ -47,6 +48,7 @@ interface IState {
   scope: IScope;
   mode: IMode;
   assetDetail: API_MARKET.Asset;
+  showExportModal: boolean;
 }
 
 const commonQuery: API_MARKET.CommonQueryAssets = {
@@ -64,6 +66,7 @@ const ApiMarketList = () => {
     mode: 'add',
     assetDetail: {},
     showApplyModal: false,
+    showExportModal: false,
   });
   const [assetList, assetListPaging] = apiMarketStore.useStore((s) => [s.assetList, s.assetListPaging]);
   const { scope } = routeInfoStore.useStore((s) => s.params) as { scope: API_MARKET.AssetScope };
@@ -150,6 +153,10 @@ const ApiMarketList = () => {
     });
   };
 
+  const toggleExportModal = () => {
+    updater.showExportModal((prev: boolean) => !prev);
+  };
+
   const columns: Array<ColumnProps<API_MARKET.AssetListItem>> = [
     {
       title: i18n.t('API name'),
@@ -177,8 +184,7 @@ const ApiMarketList = () => {
       width: 160,
       render: (text) => (
         <Tooltip title={<UserInfo id={text} />}>
-          <UserInfo id={text} />
-          <></>
+          <UserInfo.RenderWithAvatar id={text} />
         </Tooltip>
       ),
     },
@@ -189,6 +195,19 @@ const ApiMarketList = () => {
       const { permission, asset } = record;
       const { manage, addVersion, hasAccess } = permission;
       return [
+        {
+          title: i18n.t('export'),
+          onClick: () => {
+            exportApi
+              .fetch({
+                versionID: record.latestVersion.id,
+                protocolType: 'csv',
+              })
+              .then(() => {
+                toggleExportModal();
+              });
+          },
+        },
         {
           title: i18n.t('manage'),
           onClick: (e) => handleManage(e, asset),
@@ -211,6 +230,7 @@ const ApiMarketList = () => {
   return (
     <div className="api-market-list">
       <div className="top-button-group">
+        <Button onClick={toggleExportModal}>导出/记录</Button>
         <Button
           type="primary"
           onClick={() => {
@@ -253,6 +273,7 @@ const ApiMarketList = () => {
         onCancel={closeModal}
         dataSource={state.assetDetail as API_MARKET.Asset}
       />
+      <ExportRecord visible={state.showExportModal} onCancel={toggleExportModal} />
     </div>
   );
 };

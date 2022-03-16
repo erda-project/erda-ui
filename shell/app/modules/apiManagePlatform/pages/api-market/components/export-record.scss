@@ -1,0 +1,16 @@
+.export-record-modal {
+  .ant-modal-close {
+    .ant-modal-close-x {
+      height: 48px;
+      width: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .ant-modal-header {
+    padding: 12px 16px;
+    background-color: $color-default-02;
+  }
+}
