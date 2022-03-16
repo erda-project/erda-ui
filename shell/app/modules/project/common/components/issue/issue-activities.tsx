@@ -59,13 +59,13 @@ export const IssueActivities = (props: IProps) => {
   ];
   const [activeTabKey, setActiveTabKey] = React.useState(tabs[0].key);
   React.useEffect(() => {
-    const listener = on('issue:scrollToLatestComment', () => {
+    const offListener = on('issue:scrollToLatestComment', () => {
       setActiveTabKey('comments');
       if (listDomRef.current) {
         listDomRef.current.scrollIntoView();
       }
     });
-    return () => off('issue:scrollToLatestComment', listener);
+    return offListener;
   }, []);
 
   const activityListRender = (list: ISSUE.IssueStream[]) => {
