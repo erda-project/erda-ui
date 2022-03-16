@@ -234,7 +234,7 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
         onOk={() => {
           form.validateFields().then(async (value) => {
             const { id } = editData;
-            editPipelineName.fetch({ id, projectID: projectId, ...value }).then(() => {
+            editPipelineName({ id, projectID: projectId, ...value }).then(() => {
               message.success(i18n.t('edited successfully'));
               reloadRef.current?.reload();
               setEditVisible(false);
