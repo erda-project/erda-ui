@@ -684,62 +684,70 @@ export const EditIssueDrawer = (props: IProps) => {
       issueType={issueType}
       setData={setFormData}
       footer={footer}
+      header={(scrollY) => (
+        <div className="flex items-center">
+          <IF check={isEditMode}>
+            {[ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK, ISSUE_TYPE.BUG].includes(issueType) ? (
+              <WithAuth pass={switchTypeAuth}>
+                <EditField
+                  name="type"
+                  type="select"
+                  data={formData}
+                  itemProps={{
+                    options: getIssueTypeOption(),
+                    optionLabelProp: 'data-icon',
+                    dropdownMatchSelectWidth: false,
+                    allowClear: false,
+                    showArrow: true,
+                    size: 'small',
+                    className: 'switch-type-selector bg-default-06',
+                    style: { width: 60 },
+                    getPopupContainer: () => document.body,
+                  }}
+                  onChangeCb={(field: any) => {
+                    if (field.type !== issueType) {
+                      switchType(field.type);
+                    }
+                  }}
+                />
+              </WithAuth>
+            ) : (
+              <span className="mr-2 flex items-center h-full">{ISSUE_TYPE_MAP[issueType]?.icon}</span>
+            )}
+            <IF.ELSE />
+            <IssueIcon type={issueType} withName />
+          </IF>
+          <div className={`ml-2 issue-header-title-wrap ${scrollY > 20 ? 'slide-up' : ''}`}>
+            <div className="issue-header-title">
+              <div className="flex items-center h-7">
+                {relationData?.beIncluded?.[0] && (
+                  <>
+                    <ErdaIcon className="mx-2 text-sub" type="right" size="16px" />
+                    <a
+                      href={`${location.href.split('?')[0]}?${mergeSearch(
+                        { id: relationData.beIncluded[0].id, issueType: relationData.beIncluded[0].type },
+                        true,
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center bg-default-06 rounded-sm px-2 hover:text-purple-deep overflow-hidden cursor-pointer"
+                      style={{ maxWidth: '320px' }}
+                    >
+                      <ErdaIcon className="mr-1" type="xuqiu" size="20px" />
+                      <span className="flex-1 truncate">{relationData?.beIncluded?.[0].title}</span>
+                    </a>
+                  </>
+                )}
+              </div>
+              <div className="truncate text-base font-medium leading-7" style={{ maxWidth: '480px' }}>
+                {issueDetail?.title}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       extraHeaderOp={extraHeaderOp}
-      // loading={
-      //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
-      // }
     >
-      <div className="flex items-center">
-        <IF check={isEditMode}>
-          {[ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK, ISSUE_TYPE.BUG].includes(issueType) ? (
-            <WithAuth pass={switchTypeAuth}>
-              <EditField
-                name="type"
-                type="select"
-                data={formData}
-                itemProps={{
-                  options: getIssueTypeOption(),
-                  optionLabelProp: 'data-icon',
-                  dropdownMatchSelectWidth: false,
-                  allowClear: false,
-                  showArrow: true,
-                  size: 'small',
-                  className: 'switch-type-selector bg-default-06',
-                  style: { width: 60 },
-                  getPopupContainer: () => document.body,
-                }}
-                onChangeCb={(field: any) => {
-                  if (field.type !== issueType) {
-                    switchType(field.type);
-                  }
-                }}
-              />
-            </WithAuth>
-          ) : (
-            <span className="mr-2 flex items-center h-full">{ISSUE_TYPE_MAP[issueType]?.icon}</span>
-          )}
-          <IF.ELSE />
-          <IssueIcon type={issueType} withName />
-        </IF>
-        {relationData?.beIncluded?.[0] && (
-          <>
-            <ErdaIcon className="mx-2 text-sub" type="right" size="16px" />
-            <a
-              href={`${location.href.split('?')[0]}?${mergeSearch(
-                { id: relationData.beIncluded[0].id, issueType: relationData.beIncluded[0].type },
-                true,
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center bg-default-06 rounded-sm px-2 hover:text-purple-deep overflow-hidden cursor-pointer"
-              style={{ maxWidth: '50%' }}
-            >
-              <ErdaIcon className="mr-1" type="xuqiu" size="20px" />
-              <span className="flex-1 truncate">{relationData?.beIncluded?.[0].title}</span>
-            </a>
-          </>
-        )}
-      </div>
       <div className="mt-1">
         <EditField
           name="title"
@@ -783,20 +791,29 @@ export const EditIssueDrawer = (props: IProps) => {
         data={formData}
       />
 
-      <If condition={isEditMode && !!issueDetail && issueType === ISSUE_TYPE.REQUIREMENT}>
-        <IssueInclusion issueDetail={issueDetail} iterationID={iterationID} setHasEdited={setHasEdited} />
-      </If>
-      <If condition={isEditMode && !!issueDetail}>
-        <IssueConnection
-          editAuth={editAuth}
-          issueDetail={issueDetail}
-          iterationID={iterationID}
-          setHasEdited={setHasEdited}
-        />
-      </If>
-      <If condition={isEditMode && !!issueDetail}>
-        <IssueActivities type={issueType} />
-      </If>
+      <Choose>
+        <When condition={isEditMode && !!issueDetail && issueType === ISSUE_TYPE.REQUIREMENT}>
+          <IssueInclusion issueDetail={issueDetail} iterationID={iterationID} setHasEdited={setHasEdited} />
+        </When>
+        <Otherwise>{IssueDrawer.Empty}</Otherwise>
+      </Choose>
+      <Choose>
+        <When condition={isEditMode && !!issueDetail}>
+          <IssueConnection
+            editAuth={editAuth}
+            issueDetail={issueDetail}
+            iterationID={iterationID}
+            setHasEdited={setHasEdited}
+          />
+        </When>
+        <Otherwise>{IssueDrawer.Empty}</Otherwise>
+      </Choose>
+      <Choose>
+        <When condition={isEditMode && !!issueDetail}>
+          <IssueActivities type={issueType} />
+        </When>
+        <Otherwise>{IssueDrawer.Empty}</Otherwise>
+      </Choose>
     </IssueDrawer>
   );
 };

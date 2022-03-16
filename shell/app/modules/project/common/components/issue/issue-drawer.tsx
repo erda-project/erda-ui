@@ -25,7 +25,7 @@ import './issue-drawer.scss';
 import { useScroll } from 'react-use';
 import { emit } from 'core/event-hub';
 
-type ElementChild = React.ElementType | JSX.Element | string;
+type ElementChild = React.ElementType | JSX.Element;
 
 interface IProps {
   children: ElementChild[] | undefined[];
@@ -42,12 +42,12 @@ interface IProps {
   issueType: string;
   projectId: string;
   extraHeaderOp?: JSX.Element | React.ElementType | null;
-  anchors?: Array<{ href: string; title: string }>;
+  header: ElementChild[] | ((scrollY: number) => ElementChild[]);
+  footer: ElementChild[] | ((isChanged: boolean, confirmCloseTip: string | undefined) => ElementChild[]);
   onClose: (e: any) => void;
   onDelete?: () => void;
   handleCopy?: (isCopy: boolean, copyTitle: string) => void;
   setData: (data: object) => void;
-  footer: ElementChild[] | ((isChanged: boolean, confirmCloseTip: string | undefined) => ElementChild[]);
 }
 
 /**
@@ -81,12 +81,13 @@ export const IssueDrawer = (props: IProps) => {
     issueType,
     projectId,
     setData,
+    header = IssueDrawer.Empty,
     footer = IssueDrawer.Empty,
     extraHeaderOp = null,
+    detailTitle,
     ...rest
   } = props;
   const [
-    header = IssueDrawer.Empty,
     formField = IssueDrawer.Empty,
     descField = IssueDrawer.Empty,
     inclusionField = IssueDrawer.Empty,
@@ -188,7 +189,7 @@ export const IssueDrawer = (props: IProps) => {
           <If condition={header !== IssueDrawer.Empty}>
             <div className={`task-drawer-header ${y > 2 ? 'shadow-card' : ''}`}>
               <div className="flex justify-between items-center">
-                <div className="flex-1 nowrap">{header}</div>
+                <div className="flex-1 nowrap">{typeof header === 'function' ? header(y) : header}</div>
                 <div className="task-drawer-op flex items-center">
                   {extraHeaderOp}
                   <SubscribersSelector

@@ -198,7 +198,7 @@ export const ISSUE_TYPE_MAP = {
   TICKET: {
     value: 'TICKET',
     label: i18n.t('dop:ticket'),
-    icon: null,
+    icon: ISSUE_ICON.issue.TICKET,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.issue.TICKET}
