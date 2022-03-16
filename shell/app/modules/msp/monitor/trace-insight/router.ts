@@ -60,12 +60,6 @@ function monitorTraceRouter(): RouteConfigItem {
         getComp: (cb) => cb(import('trace-insight/pages/trace-querier/trace-search')),
       },
       {
-        breadcrumbName: i18n.t('msp:tracing details'),
-        path: ':traceId',
-        layout: { noWrapper: true },
-        getComp: (cb) => cb(import('trace-insight/pages/trace-querier/trace-detail')),
-      },
-      {
         layout: { noWrapper: true },
         getComp: (cb) => cb(import('trace-insight/pages/trace-querier/trace-search')),
       },
