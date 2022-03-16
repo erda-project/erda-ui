@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { map, find, reject, uniqueId, isEqual } from 'lodash';
+import { find, isEqual, map, reject, uniqueId } from 'lodash';
 import React from 'react';
-import { Form, Table, Input, Popconfirm, Button, FormInstance } from 'antd';
+import { Button, Form, FormInstance, Input, Popconfirm, Table } from 'antd';
 import { regRules } from 'common/utils';
 import classNames from 'classnames';
 import i18n from 'i18n';
@@ -43,6 +43,7 @@ interface IInputItem {
   validate?: (rule: any, value: any, callback: Function) => void;
   maxLength?: number;
 }
+
 const InputItem = ({
   nameId,
   name,
@@ -103,8 +104,10 @@ const InputItem = ({
 
 interface IItemData {
   uniKey: string;
+
   [prop: string]: string;
 }
+
 const convertToColumnData = (data?: object): IItemData[] => {
   return map(data, (v, k) => {
     return { [ROW_KEY]: String(k).trim(), [ROW_VALUE]: String(v).trim(), uniKey: uniqueId() };
@@ -147,7 +150,9 @@ interface IProps {
 interface IState {
   dataSource: IItemData[];
   preData: object | null;
+  pagination: any;
 }
+
 class KeyValueTable extends React.Component<IProps, IState> {
   // 供外部处理数据
   static dealTableData(data: object, as?: string) {
@@ -177,13 +182,12 @@ class KeyValueTable extends React.Component<IProps, IState> {
     return null;
   }
 
-  table: any;
-
   constructor(props: IProps) {
     super(props);
     this.state = {
       dataSource: Array.isArray(props.data) ? props.data : convertToColumnData(props.data),
       preData: null,
+      pagination: props.pagination || { pageSize: 5, hideOnSinglePage: true, current: 1 },
     };
   }
 
@@ -192,19 +196,14 @@ class KeyValueTable extends React.Component<IProps, IState> {
   }
 
   handleAdd = () => {
-    const { dataSource } = this.state;
+    const { dataSource, pagination } = this.state;
     const {
       form: { validateFields },
     } = this.props;
-
-    // 回到分页的第一页
-    if (this.table) {
-      this.table.setState({
-        pagination: {
-          current: 1,
-        },
-      });
-    }
+    this.handleTableChange({
+      ...pagination,
+      current: 1,
+    });
 
     return validateFields().then(() => {
       // 分页非第一页时，判断下第一个值不为空后添加新行
@@ -238,12 +237,15 @@ class KeyValueTable extends React.Component<IProps, IState> {
     );
   };
 
+  handleTableChange = (pagination) => {
+    this.setState({ pagination });
+  };
+
   render() {
-    const { dataSource } = this.state;
+    const { dataSource, pagination } = this.state;
     const {
       form,
       title = '',
-      pagination = { pageSize: 5, hideOnSinglePage: true },
       className = '',
       addBtnText = i18n.t('common:add'),
       disableAdd = false,
@@ -343,10 +345,8 @@ class KeyValueTable extends React.Component<IProps, IState> {
           rowKey="uniKey"
           pagination={showPagination ? pagination : false}
           className={`key-value-table ${className}`}
-          ref={(ref) => {
-            this.table = ref;
-          }}
           scroll={undefined}
+          onChange={this.handleTableChange}
         />
       </div>
     );
