@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CardsLayout } from 'common';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import * as hooks from 'common/use-hooks';
+import CardsLayout from '..';
 
 const widths = [
   { width: 2000, className: 'card-list-container-g6' },
@@ -35,7 +35,7 @@ const contentRender = (item) => {
 
 describe('CardsLayout', () => {
   beforeAll(() => {
-    jest.mock('common/components/use-hooks');
+    jest.mock('common/use-hooks');
   });
   afterAll(() => {
     jest.resetAllMocks();
@@ -48,10 +48,9 @@ describe('CardsLayout', () => {
           return [<div className={`holder-${width}`} />, width];
         },
       });
-      const wrapper = mount(<CardsLayout dataList={dataList} contentRender={contentRender} />);
-      expect(wrapper.find(`.${className}`)).toExist();
-      expect(wrapper.find(`.holder-${width}`)).toExist();
-      expect(wrapper.find('.data_item')).toHaveLength(dataList.length);
+      const result = render(<CardsLayout key={width} dataList={dataList} contentRender={contentRender} />);
+      expect(result.container).isExit(`.${className}`, 1);
+      expect(result.container).isExit(`.data_item`, dataList.length);
     });
   });
 });
