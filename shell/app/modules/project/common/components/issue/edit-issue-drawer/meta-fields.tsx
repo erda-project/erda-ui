@@ -39,6 +39,7 @@ import orgStore from 'app/org-home/stores/org';
 import labelStore from 'project/stores/label';
 import { useComponentWidth } from 'common/use-hooks';
 import './meta-fields.scss';
+import { TagItem } from 'app/common/components/tags';
 
 const { Option } = Select;
 
@@ -410,7 +411,6 @@ const IssueMetaFields = React.forwardRef(
                 const _refMap = ref?.current?.refMap;
                 _refMap && (_refMap['issueManHour.estimateTime'] = r);
               }}
-              triggerChangeOnButton
               originalValue={originalValue}
               onChange={(v: number) => {
                 if (isEditMode && formData?.issueManHour?.isModifiedRemainingTime !== false) {
@@ -487,26 +487,43 @@ const IssueMetaFields = React.forwardRef(
         className: 'mb-3',
         name: 'labels',
         label: i18n.t('label'),
+        fullWidth: true,
         type: 'select', // 需要新建不存在的tag，用 tagName 作为值传递，不要用 LabelSelect
         itemProps: {
-          options: map(optionList, ({ id: labelId, name, isNewLabel }) => {
+          options: map(optionList, ({ id: labelId, name, isNewLabel, color }) => {
             if (isNewLabel) {
               return (
-                <Option key={labelId} value={name} title={name}>
+                <Option key={labelId} value={name} data-title={name}>
                   {i18n.t('does not exist')}
                   {name}
                 </Option>
               );
             } else {
+              const opItem = <TagItem label={{ label: name, color }} readOnly />;
               return (
-                <Option key={labelId} value={name} title={name}>
-                  {name}
+                <Option key={labelId} value={name} color={color}>
+                  {opItem}
                 </Option>
               );
             }
           }),
           mode: 'tags',
-          optionLabelProp: 'title', // 给select组件添加 optionLabelProp 属性，改变回填到选择框的 Option 的属性值
+          tagRender: (props: { label: JSX.Element; onClose: () => void }) => {
+            const { label, onClose } = props;
+            return (
+              <span
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+              >
+                {React.cloneElement(label, {
+                  onDelete: () => onClose(),
+                  deleteConfirm: false,
+                })}
+              </span>
+            );
+          },
           dropdownRender: (menu: React.ReactNode) => (
             <div>
               {menu}
@@ -575,22 +592,25 @@ const IssueMetaFields = React.forwardRef(
     }));
 
     return (
-      <div className={`issue-meta-fields mt-4 w-1/2`}>
+      <div className={`issue-meta-fields mt-4`}>
         {widthHolder}
         <Row gutter={16}>
           {editFieldList.map((fieldProps) => {
+            const fieldContent = (
+              <EditField
+                ref={(r) => {
+                  const _refMap = ref?.current?.refMap;
+                  _refMap && (_refMap[fieldProps.name] = r);
+                }}
+                refMap={ref?.current?.refMap}
+                key={typeof fieldProps.name === 'string' ? fieldProps.name : fieldProps.name.join(',')}
+                {...fieldProps}
+                disabled={!editAuth}
+              />
+            );
             return (
               <Col key={fieldProps.label} span={24}>
-                <EditField
-                  ref={(r) => {
-                    const _refMap = ref?.current?.refMap;
-                    _refMap && (_refMap[fieldProps.name] = r);
-                  }}
-                  refMap={ref?.current?.refMap}
-                  key={typeof fieldProps.name === 'string' ? fieldProps.name : fieldProps.name.join(',')}
-                  {...fieldProps}
-                  disabled={!editAuth}
-                />
+                {fieldProps.fullWidth ? fieldContent : <div className="w-1/2">{fieldContent}</div>}
               </Col>
             );
           })}

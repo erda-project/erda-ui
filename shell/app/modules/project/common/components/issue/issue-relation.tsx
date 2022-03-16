@@ -147,7 +147,7 @@ const useIssueRelation = (props: IProps) => {
         />
       </If>
       <If condition={relationType === RelationType.Inclusion && issueType === 'REQUIREMENT' && !!list?.length}>
-        <div className="rounded-sm border-solid border-default-1">
+        <div className="rounded-sm border border-solid border-default-1">
           {list?.map((item) => (
             <IssueItem
               data={item}
@@ -173,7 +173,7 @@ const useIssueRelation = (props: IProps) => {
       </If>
 
       <If condition={relationType === RelationType.Connection && !!list?.length}>
-        <div className="rounded-sm border-solid border-default-1">
+        <div className="rounded-sm border border-solid border-default-1">
           {list?.map((item) => (
             <IssueItem
               data={item}

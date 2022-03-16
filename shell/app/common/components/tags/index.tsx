@@ -96,7 +96,10 @@ export const TagItem = (props: IItemProps) => {
               size="16"
               className="cursor-pointer text-default-2 ml-0.5"
               type="close"
-              onClick={() => onDelete(_label)}
+              onClick={(e) => {
+                e?.stopPropagation();
+                onDelete(_label);
+              }}
             />
           )
         ) : null}

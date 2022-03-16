@@ -50,6 +50,19 @@
   line-height: 28px;
   border-bottom: 1px solid $color-default-08;
 
+  .issue-header-title-wrap {
+    height: 28px;
+    overflow: hidden;
+
+    .issue-header-title {
+      transition: transform 0.2s ease;
+    }
+
+    &.slide-up .issue-header-title {
+      transform: translateY(-50%);
+    }
+  }
+
   .task-drawer-op {
     margin-left: 20px;
 

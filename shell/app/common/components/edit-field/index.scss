@@ -14,6 +14,10 @@
     padding-left: 11px;
   }
 
+  .ant-select-multiple .ant-select-selection-search {
+    margin-inline-start: 0;
+  }
+
   .ant-picker {
     &:hover {
       background-color: $color-default-06 !important;
