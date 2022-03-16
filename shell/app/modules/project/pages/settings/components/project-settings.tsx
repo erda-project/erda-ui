@@ -71,7 +71,14 @@ const ProjectSettings = () => {
                       </Link>
                     </div>
                   ),
-                  children: <MembersTable scopeKey={MemberScope.PROJECT} showAuthorize hasConfigAppAuth />,
+                  children: (
+                    <MembersTable
+                      tableKey="project-setting-member"
+                      scopeKey={MemberScope.PROJECT}
+                      showAuthorize
+                      hasConfigAppAuth
+                    />
+                  ),
                 },
               ]}
             />
@@ -94,6 +101,7 @@ const ProjectSettings = () => {
                   desc: i18n.t('dop:branch-config-tip'),
                   children: (
                     <BranchRule
+                      tableKey="project-setting-branch-rule"
                       operationAuth={permMap.setting.branchRule.operation.pass}
                       scopeId={+projectId}
                       scopeType="project"
@@ -120,6 +128,7 @@ const ProjectSettings = () => {
                       operationAuth={permMap.setting.scanRule.operation.pass}
                       scopeId={projectId}
                       scopeType="project"
+                      tableKey="project-setting-scan"
                     />
                   ),
                 },
@@ -183,6 +192,7 @@ const ProjectSettings = () => {
                     <NotifyConfig
                       memberStore={memberStore}
                       commonPayload={{ scopeType: 'project', scopeId: projectId, module: 'workbench' }}
+                      tableKey="project-setting-notify"
                     />
                   ),
                 },
@@ -202,6 +212,7 @@ const ProjectSettings = () => {
                     <NotifyGroup
                       memberStore={memberStore}
                       commonPayload={{ scopeType: 'project', scopeId: String(projectId) }}
+                      tableKey="project-setting-notify-group"
                     />
                   ),
                 },

@@ -293,6 +293,7 @@ const TestPlan = () => {
       </div>
       <Spin spinning={isFetching}>
         <ErdaTable
+          tableKey="manual-test-plan"
           className="test-plan-list"
           rowKey="id"
           columns={columns}

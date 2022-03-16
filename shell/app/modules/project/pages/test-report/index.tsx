@@ -48,6 +48,9 @@ const TestReport = () => {
         inParams={inParams}
         customProps={{
           table: {
+            props: {
+              tableKey: 'project-test-report',
+            },
             op: {
               operations: {
                 download: (op: IMeta) => {

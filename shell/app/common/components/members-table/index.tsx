@@ -71,6 +71,7 @@ interface IProps {
     showAuthorize?: boolean;
   };
   roleFilter?(data: Obj): Obj;
+  tableKey?: string;
 }
 
 const MembersTable = ({
@@ -84,6 +85,7 @@ const MembersTable = ({
   buttonInCard = false,
   topContent = null,
   roleFilter,
+  tableKey,
 }: IProps) => {
   const memberLabels = memberLabelStore.useStore((s) => s.memberLabels);
   const { getMemberLabels } = memberLabelStore.effects;
@@ -559,6 +561,7 @@ const MembersTable = ({
     };
     return (
       <ErdaTable
+        tableKey={tableKey}
         slot={<FilterGroup list={filterList} onChange={debounce(onSearchMembers, 1000)} />}
         rowKey={'userId'}
         rowSelection={

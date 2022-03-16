@@ -15,7 +15,7 @@ import React from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
 import { cloneDeep, debounce, forEach, head, isEmpty, map, take } from 'lodash';
-import { Avatar,Button, FormInstance, Input, message, Modal, Select, Spin, Tooltip } from 'antd';
+import { Avatar, Button, FormInstance, Input, message, Modal, Select, Spin, Tooltip } from 'antd';
 import { ColumnProps, IActions } from 'app/common/components/table/interface';
 import { ErdaIcon, FormModal, MemberSelector } from 'common';
 import ErdaTable from 'common/components/table';
@@ -103,6 +103,7 @@ interface IProps {
     projectId?: number;
   };
   memberStore: any;
+  tableKey?: string;
 }
 
 export const ListTargets = ({
@@ -181,7 +182,7 @@ export const ListTargets = ({
   return targetsEle;
 };
 
-const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
+const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
   const [notifyGroups, notifyGroupsPaging] = notifyGroupStore.useStore((s) => [s.notifyGroups, s.notifyGroupsPaging]);
   const { pageNo, pageSize, total } = notifyGroupsPaging;
   const userMap = useUserMap();
@@ -547,6 +548,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       />
       <Spin spinning={loading}>
         <ErdaTable
+          tableKey={tableKey}
           rowKey="id"
           pagination={{ pageSize, current: pageNo, total }}
           dataSource={notifyGroups}

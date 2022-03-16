@@ -208,6 +208,7 @@ const IssueProtocol = ({ issueType }: IProps) => {
           },
           issueTable: {
             props: {
+              tableKey: 'issue-table',
               menuItemRender: (item: { text: string; status: string }) => (
                 <Badge text={item.text} status={item.status} showDot={false} />
               ),

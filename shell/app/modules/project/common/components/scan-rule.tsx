@@ -27,6 +27,7 @@ interface IProps {
   operationAuth: boolean;
   scopeId: string;
   scopeType: string;
+  tableKey?: string;
 }
 
 const valueTypeMap = {
@@ -48,7 +49,7 @@ const valueRateMap = {
 const { Option } = Select;
 
 export default function ScanRule(props: IProps) {
-  const { operationAuth, scopeId, scopeType } = props;
+  const { operationAuth, scopeId, scopeType, tableKey } = props;
   const [
     { isEdit, visible, currentId, metricValue, appendedRowKeys, optionalRowKeys, loading, operationOptionalRules },
     updater,
@@ -395,6 +396,7 @@ export default function ScanRule(props: IProps) {
         )}
       </div>
       <ErdaTable
+        tableKey={tableKey}
         loading={tableLoading}
         columns={appendedColumns}
         dataSource={appendedScanRules}

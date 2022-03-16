@@ -103,6 +103,7 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
         customProps={{
           releaseTable: {
             props: {
+              tableKey: 'project-release',
               onRow: (record: RELEASE.ApplicationDetail) => ({
                 onClick: () => {
                   record.id && goTo(`${record.id}`);

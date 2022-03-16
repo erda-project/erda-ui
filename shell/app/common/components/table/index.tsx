@@ -49,6 +49,14 @@ export interface IProps<T extends object = any> extends TableProps<T> {
   hideColumnConfig?: boolean;
   whiteFooter?: boolean;
   whiteHead?: boolean;
+  tableKey?: string;
+}
+
+interface ColumnsConfig {
+  [key: string]: {
+    dataIndex: string;
+    hidden: boolean;
+  };
 }
 
 const sortIcon = {
@@ -60,6 +68,15 @@ const alignMap = {
   center: 'justify-center',
   left: 'justify-start',
   right: 'justify-end',
+};
+
+const saveColumnsConfig = (key: string, config: ColumnsConfig) => {
+  localStorage.setItem(`table-key-${key}`, JSON.stringify(config));
+};
+
+const getColumnsConfig = (key: string) => {
+  const str = localStorage.getItem(`table-key-${key}`);
+  return str ? JSON.parse(str) : {};
 };
 
 function WrappedTable<T extends object = any>({
@@ -82,10 +99,12 @@ function WrappedTable<T extends object = any>({
   wrapperClassName = '',
   whiteFooter = false,
   whiteHead = false,
+  tableKey,
   ...props
 }: IProps<T>) {
   const dataSource = React.useMemo<T[]>(() => (ds as T[]) || [], [ds]);
   const [columns, setColumns] = React.useState<Array<ColumnProps<T>>>(allColumns);
+  const columnsConfig = React.useRef(tableKey ? getColumnsConfig(tableKey) : {});
   const [sort, setSort] = React.useState<SorterResult<T>>({});
   const [selectedRowKeys, setSelectedRowKeys] = React.useState(rowSelection?.selectedRowKeys || []);
   const sortCompareRef = React.useRef<((a: T, b: T) => number) | null>(null);
@@ -221,8 +240,23 @@ function WrappedTable<T extends object = any>({
   );
 
   React.useEffect(() => {
-    setColumns(
-      allColumns.map(({ width = 300, sorter, title, render, icon, align, show, ...args }: ColumnProps<T>) => {
+    const _columnsConfig = {};
+    const _columns = allColumns.map(
+      ({
+        width = 300,
+        sorter,
+        title,
+        render,
+        icon,
+        align,
+        show,
+        dataIndex,
+        hidden = false,
+        ...args
+      }: ColumnProps<T>) => {
+        const _columnConfig = columnsConfig.current[dataIndex] || { dataIndex, hidden: show === false || hidden };
+        _columnsConfig[dataIndex] = _columnConfig;
+
         const { subTitle } = args;
         let sortTitle;
         if (sorter) {
@@ -291,12 +325,17 @@ function WrappedTable<T extends object = any>({
           ellipsis: true,
           onCell: () => ({ style: { maxWidth: width }, className: align === 'right' && sorter ? 'pr-8' : '' }),
           render: columnRender,
-          hidden: show === false, // TODO: change to false after all show has been replaced
+          dataIndex,
           ...args,
+          hidden: _columnConfig.hidden,
         };
-      }),
+      },
     );
-  }, [allColumns, sorterMenu, sort, onRow]);
+
+    columnsConfig.current = _columnsConfig;
+    setColumns(_columns);
+    tableKey && saveColumnsConfig(tableKey, _columnsConfig);
+  }, [allColumns, sorterMenu, sort, onRow, tableKey]);
 
   const onReload = () => {
     if (onReloadProps) {
@@ -331,7 +370,14 @@ function WrappedTable<T extends object = any>({
           hideReload={hideReload}
           columns={columns}
           sortColumn={sort}
-          setColumns={(val) => setColumns(val)}
+          setColumns={(val) => {
+            val.forEach((item) => {
+              columnsConfig.current[item.dataIndex].hidden = item.hidden;
+            });
+
+            tableKey && saveColumnsConfig(tableKey, columnsConfig.current);
+            setColumns(val);
+          }}
           onReload={onReload}
           whiteHead={whiteHead}
         />
