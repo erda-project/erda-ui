@@ -517,10 +517,12 @@ const IssueMetaFields = React.forwardRef(
                   e.stopPropagation();
                 }}
               >
-                {React.cloneElement(label, {
-                  onDelete: () => onClose(),
-                  deleteConfirm: false,
-                })}
+                {typeof label === 'string'
+                  ? null
+                  : React.cloneElement(label, {
+                      onDelete: () => onClose(),
+                      deleteConfirm: false,
+                    })}
               </span>
             );
           },
