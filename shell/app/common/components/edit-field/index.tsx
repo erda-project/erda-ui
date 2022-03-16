@@ -122,7 +122,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
           </div>
         </>
       ) : (
-        <div ref={mdContentRef} className="h-[120px] cursor-text" onClick={() => updater.isEditing(true)}>
+        <div ref={mdContentRef} className="h-[120px] cursor-text text-desc" onClick={() => updater.isEditing(true)}>
           {i18n.t('click to edit description')}
         </div>
       )}
