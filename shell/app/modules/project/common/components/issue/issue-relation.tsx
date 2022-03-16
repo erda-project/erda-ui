@@ -109,7 +109,7 @@ const useIssueRelation = (props: IProps) => {
   const createAuth = usePerm((s) => s.project[issueType?.toLowerCase()]?.create.pass as boolean);
   if (!issueDetail) return [null, null];
   return [
-    <>
+    <React.Fragment key="1">
       <If condition={issueDetail.type !== ISSUE_TYPE.TICKET}>
         {/* <TransformToIssue issue={issue as ISSUE.Ticket} onSaveRelation={addRelation} /> */}
 
@@ -135,8 +135,8 @@ const useIssueRelation = (props: IProps) => {
           issueType={issueType}
         />
       </If>
-    </>,
-    <>
+    </React.Fragment>,
+    <React.Fragment key="2">
       <If condition={activeButtonType === 'create'}>
         <AddNewIssue
           onSaveRelation={addRelation}
@@ -199,7 +199,7 @@ const useIssueRelation = (props: IProps) => {
           ))}
         </div>
       </If>
-    </>,
+    </React.Fragment>,
   ];
 };
 

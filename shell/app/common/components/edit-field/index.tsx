@@ -47,13 +47,21 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       value?.length &&
       !isEditing &&
       mdContentRef.current &&
-      mdContentRef.current.getBoundingClientRect().height > 160
+      mdContentRef.current.getBoundingClientRect().height > maxHeight
     ) {
-      updater.expandBtnVisible(mdContentRef.current.getBoundingClientRect().height > maxHeight);
+      updater.expandBtnVisible(true);
     } else {
       updater.expandBtnVisible(false);
     }
   }, [isEditing, maxHeight, updater, value]);
+
+  React.useEffect(() => {
+    // wait for MarkdownRender render finished
+    const timer = setTimeout(() => {
+      checkContentHeight();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [checkContentHeight]);
 
   React.useEffect(() => {
     on('md-img-loaded', checkContentHeight);
@@ -122,7 +130,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
           </div>
         </>
       ) : (
-        <div ref={mdContentRef} className="h-[120px] cursor-text text-desc" onClick={() => updater.isEditing(true)}>
+        <div className="h-[120px] cursor-text text-desc" onClick={() => updater.isEditing(true)}>
           {i18n.t('click to edit description')}
         </div>
       )}
