@@ -1,0 +1,183 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KeyValueList should render well 1`] = `
+<div>
+  <div
+    class="key-value-list depth-1  "
+  >
+    <div
+      class="k-v-row"
+    >
+      <span
+        class="key"
+      >
+        name
+      </span>
+      <span
+        class="value"
+      >
+         
+        erda-development
+         
+      </span>
+    </div>
+    <div
+      class="k-v-row"
+    >
+      <span
+        class="key"
+      >
+        envs
+      </span>
+      <span
+        class="value"
+      >
+         
+        test , dev , staging , pros
+         
+      </span>
+    </div>
+    <div
+      class="k-v-row"
+    >
+      <span
+        class="key"
+      >
+        activeTime
+      </span>
+      <span
+        class="value"
+      >
+         
+        2022-03-16 16:05:30
+         
+      </span>
+    </div>
+    <div
+      class="k-v-row"
+    >
+      <span
+        class="key"
+      >
+        readme
+      </span>
+      <span
+        class="w-7/10 overflow-auto max-h-72"
+      >
+        <div
+          class="mock-markdown-render"
+        >
+          ### this is markdown
+        </div>
+      </span>
+    </div>
+    <div
+      class="key-value-list depth-2 sub "
+    >
+      <div
+        class="title"
+      >
+        project
+      </div>
+      <div
+        class="k-v-row"
+      >
+        <span
+          class="key"
+        >
+          name
+        </span>
+        <span
+          class="value"
+        >
+           
+          erda
+           
+        </span>
+      </div>
+      <div
+        class="key-value-list depth-3 sub "
+      >
+        <div
+          class="title"
+        >
+          env
+        </div>
+        <div
+          class="k-v-row"
+        >
+          <span
+            class="key"
+          >
+            envName
+          </span>
+          <span
+            class="value"
+          >
+             
+            test
+             
+          </span>
+        </div>
+        <div
+          class="k-v-row"
+        >
+          <span
+            class="key"
+          >
+            envName
+          </span>
+          <span
+            class="value"
+          >
+             
+            develop
+             
+          </span>
+        </div>
+      </div>
+      <div
+        class="key-value-list depth-3 sub "
+      >
+        <div
+          class="title"
+        >
+          application
+        </div>
+        <div
+          class="k-v-row"
+        >
+          <span
+            class="key"
+          >
+            name
+          </span>
+          <span
+            class="value"
+          >
+             
+            app1
+             
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="k-v-row"
+    >
+      <span
+        class="key"
+      >
+        description
+      </span>
+      <span
+        class="value"
+      >
+         
+        this is description
+         
+      </span>
+    </div>
+  </div>
+</div>
+`;
