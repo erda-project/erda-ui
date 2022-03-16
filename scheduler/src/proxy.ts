@@ -67,12 +67,25 @@ export const createProxyService = (app: INestApplication) => {
   app.use(
     createProxyMiddleware(
       (pathname: string) => {
-        return !!pathname.match('^/static/(admin|fdp)');
+        return !!pathname.match('^/static/admin');
       },
       {
         target: ENTERPRISE_UI_URL,
         changeOrigin: !isProd,
         secure: false,
+      },
+    ),
+  );
+  app.use(
+    createProxyMiddleware(
+      (pathname: string) => {
+        return !!pathname.match('^/static/fdp');
+      },
+      {
+        target: FDP_URL,
+        changeOrigin: !isProd,
+        secure: false,
+        pathRewrite: { '^/static/fdp': '' },
       },
     ),
   );
@@ -113,25 +126,6 @@ export const createProxyService = (app: INestApplication) => {
         },
       },
     ),
-  );
-  if ((!process.env.FOR_COMMUNITY || process.env.FOR_COMMUNITY === 'false') && !FDP_URL) {
-    logger.warn('FDP_URL is not set, will cause error in EE');
-  }
-  let dataServiceUIAddr = FDP_URL || API_URL;
-  dataServiceUIAddr = getHttpUrl(dataServiceUIAddr);
-  app.use(
-    '/fdp-app/',
-    createProxyMiddleware({
-      target: `${dataServiceUIAddr}/`,
-      changeOrigin: !isProd,
-      pathRewrite: (p: string, req: Request) => {
-        if (p === `/fdp-app/static/menu.json`) {
-          const lang = req.headers.lang || 'zh-CN';
-          return `/fdp-app/static/menu-${lang === 'zh-CN' ? 'zh' : 'en'}.json`;
-        }
-        return p;
-      },
-    }),
   );
   app.use(
     createProxyMiddleware(

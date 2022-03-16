@@ -433,7 +433,6 @@ importers:
       postcss-loader: ^6.1.0
       prettier-stylelint: ^0.4.2
       process: ^0.11.10
-      qiankun: ^2.3.5
       query-string: ^6.4.2
       rc-resize-observer: ^1.0.1
       react: 16.14.0
@@ -516,7 +515,6 @@ importers:
       openapi-types: 9.1.0
       path-browserify: 1.0.1
       path-to-regexp: 6.2.0
-      qiankun: 2.4.2
       query-string: 6.14.1
       rc-resize-observer: 1.0.1_react-dom@16.14.0+react@16.14.0
       react: 16.14.0
@@ -16530,12 +16528,6 @@ packages:
     dependencies:
       resolve-from: 5.0.0
 
-  /import-html-entry/1.11.1:
-    resolution: {integrity: sha512-O7mCUTwKdYU49/LH6nq1adWPnUlZQpKeGWIEcDq07KTcqP/v0jBLEIVc0oE0Mtlw3CEe0eeKGMyhl6LwfXCV7A==}
-    dependencies:
-      '@babel/runtime': 7.16.3
-    dev: false
-
   /import-lazy/2.1.0:
     resolution: {integrity: sha1-BWmOPUXIjo1+nZLLBYTnfwlvPkM=}
     engines: {node: '>=4'}
@@ -23227,16 +23219,6 @@ packages:
     resolution: {integrity: sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=}
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
 
-  /qiankun/2.4.2:
-    resolution: {integrity: sha512-TWkeybGnuqEcyc2abMkfO6IOrsDuO16/ojVaQ/uDper1/uMyxn+aYl/cJkgw/JGJBLM+zFZtcwrB2Yz0PaRqOg==}
-    dependencies:
-      '@babel/runtime': 7.14.0
-      import-html-entry: 1.11.1
-      lodash: 4.17.21
-      single-spa: 5.9.3
-      tslib: 1.14.1
-    dev: false
-
   /qr.js/0.0.0:
     resolution: {integrity: sha1-ys6GOG9ZoNuAUPqQ2baw6IoeNk8=}
     dev: false
@@ -25727,10 +25709,6 @@ packages:
     resolution: {integrity: sha1-pNprY1/8zMoz9w0Xy5JZLeleVXo=}
     dependencies:
       is-arrayish: 0.3.2
-
-  /single-spa/5.9.3:
-    resolution: {integrity: sha512-qMGraRzIBsodV6569Fob4cQ4/yQNrcZ5Achh3SAQDljmqUtjAZ7BAA7GAyO/l5eizb7GtTmVq9Di7ORyKw82CQ==}
-    dev: false
 
   /sirv/1.0.12:
     resolution: {integrity: sha512-+jQoCxndz7L2tqQL4ZyzfDhky0W/4ZJip3XoOuxyQWnAwMxindLl3Xv1qT4x1YX/re0leShvTm8Uk0kQspGhBg==}

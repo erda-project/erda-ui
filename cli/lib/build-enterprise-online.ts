@@ -18,7 +18,6 @@ import { clearPublic, killPidTree, isCwdInRoot } from './util/env';
 const currentDir = process.cwd();
 
 const dirCollection: { [k: string]: string } = {
-  fdp: `${currentDir}/fdp`,
   admin: `${currentDir}/admin`,
 };
 

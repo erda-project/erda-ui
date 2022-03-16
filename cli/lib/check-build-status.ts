@@ -19,9 +19,9 @@ import { logInfo, logSuccess, logWarn, logError } from './util/log';
 import generateVersion from './util/gen-version';
 import { getGitDiffFiles, getGitShortSha } from './util/git-commands';
 
-const externalModules = ['fdp', 'admin'];
+const externalModules = ['admin'];
 const subModules = ['market', 'uc'];
-const allModules = ['shell', 'core', 'admin', 'fdp', 'market', 'uc'];
+const allModules = ['shell', 'core', 'admin', 'market', 'uc'];
 
 const checkBuildStatus = async () => {
   const cwd = process.cwd();

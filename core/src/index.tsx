@@ -22,7 +22,7 @@ import i18n, { initI18n } from './i18n';
 import routeInfoStore from './stores/route';
 import { emit } from './utils/event-hub';
 import browserHistory from './history';
-import { setConfig } from './config';
+import { getConfig, setConfig } from './config';
 import { setGlobal, GLOBAL_KEY } from './utils/global-space';
 import { initModuleFederationModule, useDynamicScript } from './utils/mf-helper';
 
@@ -115,7 +115,26 @@ export interface IModule {
   NotFound?: React.ComponentType;
 }
 
-export const registerModule = ({ key, stores, routers, locales, Root, NotFound }: IModule, cb?: () => void) => {
+let storeList: any[] = [];
+
+const getStores = () => storeList;
+const addStore = (stores: any[]) => {
+  storeList = [...storeList, ...stores];
+  const storeNames = storeList.map((s) => s.name);
+  storeNames.some((item, idx) => {
+    const isDuplicate = storeNames.indexOf(item) !== idx;
+    if (isDuplicate) {
+      // eslint-disable-next-line no-console
+      console.warn(`detected duplicate store name: ${item}`);
+    }
+    return isDuplicate;
+  });
+};
+
+export const registerModule = (
+  { key, stores, routers, locales, Root, NotFound }: IModule,
+  cb?: (params: { stores?: any[]; history: any }) => void,
+) => {
   if (locales && locales.zh && locales.en) {
     const namespaces = Object.keys(locales.zh);
     namespaces.forEach((ns) => {
@@ -125,6 +144,7 @@ export const registerModule = ({ key, stores, routers, locales, Root, NotFound }
   }
   if (stores) {
     stores.forEach(registStore);
+    addStore(stores);
   }
   if (routers) {
     const routeData = registRouters(key, routers, { Root, NotFound });
@@ -133,8 +153,12 @@ export const registerModule = ({ key, stores, routers, locales, Root, NotFound }
     });
     emit('@routeChange', latestRouteInfo);
   }
-
-  typeof cb === 'function' && cb();
+  const history = getConfig('history');
+  if (typeof cb === 'function') {
+    // getStores will pass all stores registered synchronously for remote mf module
+    // if sync module need take this feature may cause store not found issue
+    cb({ stores: getStores(), history });
+  }
 };
 
 export const registerModules = (modules: IModule[]) => {

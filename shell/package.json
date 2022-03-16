@@ -75,7 +75,6 @@
     "openapi-types": "^9.1.0",
     "path-browserify": "^1.0.1",
     "path-to-regexp": "^6.2.0",
-    "qiankun": "^2.3.5",
     "query-string": "^6.4.2",
     "rc-resize-observer": "^1.0.1",
     "react": "16.14.0",

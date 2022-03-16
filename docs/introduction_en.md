@@ -7,7 +7,7 @@ Erda-ui is the front-end project of the Erda platform, including all the interfa
 
 ## Technology Stack
 Basic framework: React
-Microservice framework: [Module Federation](https://github.com/module-federation) + [qiankun](https://github.com/umijs/qiankun) (old)
+Microservice framework: [Module Federation](https://github.com/module-federation)
 Component library: [Antd 4.x](https://github.com/ant-design/ant-design)
 State management: [cube-state](https://github.com/daskyrk/cube-state)
 CSS framework: [tailwindcss](https://github.com/tailwindlabs/tailwindcss)

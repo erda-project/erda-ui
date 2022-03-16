@@ -13,7 +13,7 @@
 
 import path from 'path';
 
-export const externalModules = ['admin', 'fdp', 'uc'];
+export const externalModules = ['admin', 'uc'];
 
 export const internalModules = ['shell'];
 
@@ -31,7 +31,6 @@ export const internalLocalePathMap: Obj = {
 };
 
 export const externalLocalePathMap: Obj = {
-  fdp: resolveEnterprise('fdp', 'src', 'locales'),
   admin: resolveEnterprise('admin', 'src', 'locales'),
   uc: resolveUI('modules', 'uc', 'src', 'locales'),
 };
@@ -44,14 +43,12 @@ export const internalSrcDirMap: Obj<string[]> = {
 export const excludeSrcDirs = [resolveUI('shell', 'app', 'modules', 'extra')];
 
 export const externalSrcDirMap: Obj<string[]> = {
-  fdp: [resolveEnterprise('fdp', 'src')],
   admin: [resolveEnterprise('admin', 'src')],
   uc: [resolveUI('modules', 'uc', 'src')],
 };
 
 // external modules only has one namespace
 export const externalModuleNamespace: Obj = {
-  fdp: 'fdp',
   admin: 'admin',
   uc: 'default',
 };
