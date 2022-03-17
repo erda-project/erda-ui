@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Table, Spin, FormInstance } from 'antd';
+import { Button, Spin, FormInstance } from 'antd';
 import FormModal from '../form-modal';
 import CustomFilter from '../custom-filter';
 import IF from '../if';
-import { IFormItem } from 'common';
+import { IFormItem, Table } from 'common';
 import { useUpdate, useFilter } from 'common/use-hooks';
 import { isEmpty, reduce } from 'lodash';
 import { isPromise } from 'common/utils';

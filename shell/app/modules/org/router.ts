@@ -28,17 +28,6 @@ const projectSettingTabs = () => [
   },
 ];
 
-const approvalTabs = [
-  {
-    key: 'undone',
-    name: i18n.t('cmp:pending approval'),
-  },
-  {
-    key: 'done',
-    name: i18n.t('cmp:approved'),
-  },
-];
-
 const marketTabs = () => {
   const orgPerm = permStore.useStore((s) => s.org);
   return [
@@ -159,11 +148,11 @@ function getOrgCenterRouter(): RouteConfigItem[] {
           getComp: (cb) => cb(import('app/modules/org/pages/safety')),
         },
         {
-          path: 'approval/:approvalType',
+          path: 'approval',
           breadcrumbName: i18n.t('cmp:approval'),
-          tabs: approvalTabs,
           ignoreTabQuery: true,
           getComp: (cb) => cb(import('app/modules/org/pages/approval')),
+          layout: { noWrapper: true },
         },
         {
           path: 'setting',

@@ -357,7 +357,6 @@ export enum pages {
   orgCenterPublisherSetting = '/{orgName}/orgCenter/market/publisher/setting',
   orgCenterCertificate = '/{orgName}/orgCenter/market/publisher/certificate',
   orgCenterApproval = '/{orgName}/orgCenter/approval',
-  orgCenterApprovalUndone = '/{orgName}/orgCenter/approval/undone',
   orgCenterAnnouncement = '/{orgName}/orgCenter/setting/detail?tabKey=announcement',
   orgCenterSafety = '/{orgName}/orgCenter/safety',
 

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Select, Tooltip } from 'antd';
-import { CRUDTable } from 'common';
+import { ConfigurableFilter, CRUDTable, RadioTabs } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { map, get, isEmpty } from 'lodash';
 import { insertWhen } from 'common/utils';
@@ -31,11 +31,11 @@ const { Option } = Select;
 const undoneStatusMap = {
   approved: {
     value: 'approved',
-    name: i18n.t('passed'),
+    label: i18n.t('passed'),
   },
   denied: {
     value: 'denied',
-    name: i18n.t('rejected'),
+    label: i18n.t('rejected'),
   },
 };
 
@@ -60,17 +60,29 @@ enum statusMap {
   approved = 'approved',
 }
 
-const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
+const Approval = () => {
+  const tabs = [
+    {
+      value: 'undone',
+      label: i18n.t('cmp:pending approval'),
+    },
+    {
+      value: 'done',
+      label: i18n.t('cmp:approved'),
+    },
+  ];
+
+  const [{ type, status, chosenDetail }, updater] = useUpdate({
+    type: tabs[0].value as APPROVAL.ApprovalType,
+    status: undefined as string | undefined,
+    chosenDetail: {} as { type: string; iosInfo: any; androidInfo: any },
+  });
+  const { getApprovalList, updateApproval } = approvalStore.effects;
+  const { clearApprovalList } = approvalStore.reducers;
   const userMap = useUserMap();
   const [loading] = useLoading(approvalStore, ['getApprovalList']);
   const [list, paging] = approvalStore.useStore((s) => {
     return type === 'done' ? [s.doneList, s.donePaging] : [s.undoneList, s.undonePaging];
-  });
-  const { getApprovalList, updateApproval } = approvalStore.effects;
-  const { clearApprovalList } = approvalStore.reducers;
-  const [{ status, chosenDetail }, updater] = useUpdate({
-    status: undefined as string | undefined,
-    chosenDetail: {} as { type: string; iosInfo: any; androidInfo: any },
   });
 
   const getColumns = ({ reloadList }: { reloadList: () => void }) => {
@@ -186,7 +198,7 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
             title: i18n.t('cmp:approval result'),
             dataIndex: 'status',
             width: 100,
-            render: (val: string) => get(undoneStatusMap, `${val}.name`),
+            render: (val: string) => get(undoneStatusMap, `${val}.label`),
           },
         ],
       );
@@ -194,36 +206,24 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
     return columns;
   };
 
-  const filterConfig = React.useMemo(
-    () => [
-      ...insertWhen(type === 'done', [
-        {
-          type: Select,
-          name: 'status',
-          customProps: {
-            placeholder: i18n.t('filter by status'),
-            options: map(undoneStatusMap, ({ name, value }) => (
-              <Option key={name} value={value}>
-                {name}
-              </Option>
-            )),
-            className: 'w-52',
-            allowClear: true,
-            onChange: (val: any) => updater.status(val),
-          },
-        },
-      ]),
-    ],
-    [type, updater],
-  );
-
   const extraQuery = React.useMemo(() => {
     const typeStatus = type === 'undone' ? statusMap.pending : '';
     return { type, status: status || typeStatus };
   }, [status, type]);
 
+  const fieldsList = [
+    {
+      key: 'status',
+      type: 'select',
+      label: i18n.t('status'),
+      mode: 'single',
+      options: Object.values(undoneStatusMap),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('status') }),
+    },
+  ];
   return (
     <>
+      <RadioTabs value={type} options={tabs} className="mb-2" onChange={(v) => updater.type(v)} />
       <CRUDTable<APPROVAL.Item>
         key={type}
         isFetching={loading}
@@ -232,17 +232,23 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
         list={list}
         paging={paging}
         getColumns={getColumns}
-        filterConfig={filterConfig}
         extraQuery={extraQuery}
+        tableProps={{
+          onReload: (pageNo: number, pageSize: number) => getApprovalList({ ...extraQuery, type, pageNo, pageSize }),
+          slot:
+            type === 'done' ? (
+              <ConfigurableFilter
+                hideSave
+                value={{ status }}
+                fieldsList={fieldsList}
+                onFilter={(values) => updater.status(values.status)}
+              />
+            ) : null,
+        }}
       />
       <DetailModal detail={chosenDetail} onClose={() => updater.chosenDetail({})} />
     </>
   );
-};
-
-const Approval = () => {
-  const type = routeInfoStore.getState((s) => s.params.approvalType) as APPROVAL.ApprovalType;
-  return type ? <PureApproval type={type} key={type} /> : null;
 };
 
 export default Approval;

@@ -12,12 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDTable, Copy, ErdaIcon } from 'common';
+import { CRUDTable, Copy, ErdaIcon, ConfigurableFilter } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Link } from 'react-router-dom';
 import networksStore from 'cmp/stores/networks';
 import { useLoading } from 'core/stores/loading';
-import { Select, Button, Tooltip, Dropdown, Menu } from 'antd';
+import { Button, Tooltip, Dropdown, Menu } from 'antd';
 import { cloudVendor } from '../common/config';
 import VpcFormModal from './vpc-form-modal';
 import { map } from 'lodash';
@@ -33,22 +33,22 @@ import {
 import { SetTagForm } from 'cmp/common/components/set-tag-form';
 import './index.scss';
 
-const { Option } = Select;
-
 const VPS = () => {
   const vpcList = networksStore.useStore((s) => s.vpcList);
   const { getVpcList } = networksStore.effects;
   const [loading] = useLoading(networksStore, ['getVpcList']);
   const cloudAccountExist = cloudCommonStore.useStore((s) => s.cloudAccountExist);
 
-  const [{ formVis, tagFormVis, items, ifSelected, stateChangeKey, tagFormData }, updater, update] = useUpdate({
-    formVis: false,
-    tagFormVis: false,
-    tagFormData: null,
-    items: [] as CLOUD.TagItem[],
-    ifSelected: false,
-    stateChangeKey: 1,
-  });
+  const [{ formVis, tagFormVis, items, ifSelected, stateChangeKey, tagFormData, filterData }, updater, update] =
+    useUpdate({
+      formVis: false,
+      tagFormVis: false,
+      tagFormData: null,
+      items: [] as CLOUD.TagItem[],
+      ifSelected: false,
+      stateChangeKey: 1,
+      filterData: {},
+    });
 
   const getColumns = () => {
     const columns = [
@@ -110,25 +110,16 @@ const VPS = () => {
     return columns;
   };
 
-  const filterConfig = React.useMemo(
-    () => [
-      {
-        type: Select,
-        name: 'vendor',
-        customProps: {
-          className: 'w-52',
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('cloud vendor') }),
-          options: map(cloudVendor, (item) => (
-            <Option key={item.name} value={item.value}>
-              {item.name}
-            </Option>
-          )),
-          allowClear: true,
-        },
-      },
-    ],
-    [],
-  );
+  const fieldsList = [
+    {
+      key: 'vendor',
+      type: 'select',
+      label: i18n.t('cmp:vendor'),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('cloud vendor') }),
+      options: map(cloudVendor, (item) => ({ value: item.value, label: item.name })),
+      mode: 'single',
+    },
+  ];
 
   const operationButtons = [
     {
@@ -215,11 +206,19 @@ const VPS = () => {
         list={vpcList}
         rowKey="vpcID"
         getColumns={getColumns}
-        filterConfig={filterConfig}
         tableProps={{
           rowSelection: {
             onChange: handleSelect,
           },
+          onReload: (pageNo: number, pageSize: number) => getVpcList({ ...filterData, pageNo, pageSize }),
+          slot: (
+            <ConfigurableFilter
+              hideSave
+              value={filterData}
+              fieldsList={fieldsList}
+              onFilter={(values) => updater.filterData(values)}
+            />
+          ),
         }}
       />
       <VpcFormModal visible={formVis} onCancel={handleCancel} onOk={handleOK} />

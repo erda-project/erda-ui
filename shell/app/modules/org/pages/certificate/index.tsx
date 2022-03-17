@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDTable, DeleteConfirm, Icon as CustomIcon, ErdaIcon } from 'common';
+import { CRUDTable, DeleteConfirm, Icon as CustomIcon, ErdaIcon, ConfigurableFilter } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import certificateStore from '../../stores/certificate';
@@ -106,7 +106,8 @@ const getUploadFieldProps = ({ form, onChangeFile, fileNameKey, fileAccept }: IU
 };
 
 const Certificate = () => {
-  const [{ chosenType, manualCreate, chosenRowId }, updater, update] = useUpdate({
+  const [{ chosenType, manualCreate, chosenRowId, searchQ }, updater, update] = useUpdate({
+    searchQ: '',
     chosenType: '',
     manualCreate: 'true',
     detailVis: false,
@@ -558,19 +559,6 @@ const Certificate = () => {
     return fieldsList;
   };
 
-  const filterConfig = React.useMemo(
-    () => [
-      {
-        type: Input,
-        name: 'q',
-        customProps: {
-          placeholder: i18n.t('search by name'),
-        },
-      },
-    ],
-    [],
-  );
-
   const handleFormSubmit = (data: Certificate.Detail, { addItem }: { addItem: (arg: any) => Promise<any> }) => {
     const reData = { ...data, orgId };
     if (reData.androidInfo) {
@@ -579,6 +567,15 @@ const Certificate = () => {
     return addItem(reData);
   };
 
+  const fieldsList = [
+    {
+      key: 'q',
+      outside: true,
+      label: 'title',
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+      type: 'input',
+    },
+  ];
   return (
     <>
       <CRUDTable.StoreTable<Certificate.Detail>
@@ -588,12 +585,24 @@ const Certificate = () => {
         getFieldsList={getFieldsList}
         store={certificateStore}
         handleFormSubmit={handleFormSubmit}
-        filterConfig={filterConfig}
         onModalClose={() => {
           update({
             chosenType: '',
             manualCreate: 'true',
           });
+        }}
+        extraQuery={{ q: searchQ }}
+        tableProps={{
+          onReload: (pageNo: number, pageSize: number) =>
+            certificateStore.effects.getList({ pageNo, pageSize, q: searchQ }),
+          slot: (
+            <ConfigurableFilter
+              hideSave
+              value={{ q: searchQ }}
+              fieldsList={fieldsList}
+              onFilter={(values) => updater.searchQ(values.q)}
+            />
+          ),
         }}
       />
       <DetailModal id={chosenRowId} onClose={() => updater.chosenRowId('')} />

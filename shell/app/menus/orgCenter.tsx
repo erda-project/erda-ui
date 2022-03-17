@@ -44,11 +44,10 @@ export const getOrgCenterMenu = () => {
         },
         {
           key: 'orgApproval',
-          href: goTo.resolve.orgCenterApprovalUndone(), // '/orgCenter/approval/undone',
+          href: goTo.resolve.orgCenterApproval(),
           icon: <ErdaIcon type="shenpi" />,
           text: i18n.t('layout:approval'),
           subtitle: i18n.t('Approve'),
-          prefix: `${goTo.resolve.orgCenterApproval()}/`,
           show: orgPerm.orgCenter.viewApproval.pass,
         },
         {
