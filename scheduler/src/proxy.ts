@@ -29,6 +29,7 @@ const getHttpUrl = (url: string) => {
 const API_URL = getHttpUrl(BACKEND_URL);
 const UC_API_URL = getHttpUrl(UC_BACKEND_URL);
 const ENTERPRISE_UI_URL = getHttpUrl(ENTERPRISE_URL);
+const FDP_UI_URL = getHttpUrl(FDP_URL);
 
 let gittarUrl = isProd ? GITTAR_ADDR : BACKEND_URL;
 gittarUrl = getHttpUrl(gittarUrl);
@@ -82,7 +83,7 @@ export const createProxyService = (app: INestApplication) => {
         return !!pathname.match('^/static/fdp');
       },
       {
-        target: FDP_URL,
+        target: FDP_UI_URL,
         changeOrigin: !isProd,
         secure: false,
         pathRewrite: { '^/static/fdp': '' },
