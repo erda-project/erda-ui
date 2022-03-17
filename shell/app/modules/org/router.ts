@@ -139,6 +139,7 @@ function getOrgCenterRouter(): RouteConfigItem[] {
               ignoreTabQuery: true,
               breadcrumbName: i18n.t('layout:mobile development management'),
               getComp: (cb) => cb(import('app/modules/org/pages/certificate')),
+              layout: { noWrapper: true },
             },
           ],
         },
