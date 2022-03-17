@@ -33,21 +33,20 @@ interface IProps {
 
 const IssueProtocol = ({ issueType }: IProps) => {
   const [{ projectId, iterationId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const { id: queryId, iterationID: queryItertationID, type: _queryType } = query;
+  const { id: queryId, iterationID: queryIterationID, type: _queryType } = query;
   const orgID = orgStore.getState((s) => s.currentOrg.id);
   const queryType = _queryType && _queryType.toUpperCase();
   const [{ filterObj, chosenIssueType, chosenIssueId, chosenIteration }, updater, update] = useUpdate({
     filterObj: {},
     chosenIssueId: queryId,
-    chosenIteration: queryItertationID || 0,
+    chosenIteration: +queryIterationID || 0,
     chosenIssueType: queryType as undefined | ISSUE_TYPE,
     pageNo: 1,
     viewType: '',
     viewGroup: '',
   });
-  const { getFieldsByIssue: getCustomFieldsByProject } = issueFieldStore.effects;
   useMount(() => {
-    getCustomFieldsByProject({
+    issueFieldStore.effects.getFieldsByIssue({
       propertyIssueType: issueType,
       orgID,
     });
@@ -58,7 +57,7 @@ const IssueProtocol = ({ issueType }: IProps) => {
   const reloadRef = React.useRef<{ reload: () => void }>(null);
   const filterObjRef = React.useRef<Obj>(null);
 
-  const [drawerVisible, openDrawer, closeDrawer] = useSwitch(queryId || false);
+  const [drawerVisible, openDrawer, closeDrawer] = useSwitch(!!queryId || false);
 
   const inParams = {
     fixedIteration: iterationId,
@@ -103,7 +102,6 @@ const IssueProtocol = ({ issueType }: IProps) => {
     // 当前选中唯一迭代，创建的时候默认为这个迭代，否则，迭代为0
     update({
       chosenIteration: iterationId || (filterIterationIDs.length === 1 ? filterIterationIDs[0] : 0),
-      chosenIssueType: curType || issueType,
     });
     openDrawer();
   };
@@ -230,7 +228,7 @@ const IssueProtocol = ({ issueType }: IProps) => {
           id={chosenIssueId}
           issueType={chosenIssueType as ISSUE_TYPE}
           shareLink={`${location.href.split('?')[0]}?${mergeSearch(
-            { id: chosenIssueId, iterationID: chosenIteration, type: chosenIssueType },
+            { id: chosenIssueId, iterationID: chosenIteration, type: queryType },
             true,
           )}`}
           visible={drawerVisible}
