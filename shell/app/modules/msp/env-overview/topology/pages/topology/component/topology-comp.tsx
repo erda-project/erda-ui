@@ -43,6 +43,7 @@ interface IProps {
   data: { nodes: TOPOLOGY.INode[] };
   clockNode?: (data: TOPOLOGY.TopoNode['metaData']) => void;
   topologyRef?: React.Ref<ITopologyRef>;
+  jumpService?: boolean;
 }
 
 const genEle = (nodes: TOPOLOGY.INode[], filterKey: INodeKey) => {
@@ -154,6 +155,7 @@ const TopologyComp = ({
   defaultZoom = 0.8,
   nodeExtent,
   topologyRef,
+  jumpService = false,
 }: IProps) => {
   const topologyData = React.useRef(genEle(data.nodes, filterKey));
   const layoutData = React.useRef<Elements>([]);
@@ -262,6 +264,7 @@ const TopologyComp = ({
         clockNode(metaData);
       }
     },
+    jumpService,
   );
 
   return (

@@ -42,9 +42,28 @@ $exhale-shadow: 0 0 20px rgba($color-error, 0.9);
     bottom: -40px;
   }
 
+  .service-node-tips {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    right: -6px;
+    top: -6px;
+    z-index: 100;
+    transform: translateX(50%) translateY(-50%);
+
+    .info-icon {
+      cursor: pointer;
+      display: none;
+    }
+  }
+
   &:hover {
     .service-name {
       background-color: #5c6bcc;
+    }
+
+    .info-icon {
+      display: block;
     }
   }
 

@@ -19,13 +19,13 @@ import AddonNode from './addon-node';
 import { NodeProps } from 'react-flow-renderer';
 import { IProps } from './common-node';
 
-const customerNode = (onMouseMoving: IProps['onMouseMoving'], onClick: IProps['onClick']) => {
+const customerNode = (onMouseMoving: IProps['onMouseMoving'], onClick: IProps['onClick'], jumpService: boolean) => {
   return {
     apigateway: (props: NodeProps<TOPOLOGY.TopoNode>) => {
       return <ApiGatewayNode {...props} onMouseMoving={onMouseMoving} onClick={onClick} />;
     },
     service: (props: NodeProps<TOPOLOGY.TopoNode>) => {
-      return <ServicesNode {...props} onMouseMoving={onMouseMoving} onClick={onClick} />;
+      return <ServicesNode {...props} onMouseMoving={onMouseMoving} onClick={onClick} jumpService={jumpService} />;
     },
     externalservice: (props: NodeProps<TOPOLOGY.TopoNode>) => {
       return <ExternalServiceNode {...props} onMouseMoving={onMouseMoving} onClick={onClick} />;

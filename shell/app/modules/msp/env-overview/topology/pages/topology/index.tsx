@@ -106,7 +106,7 @@ const Topology = () => {
             <TimeSelectWithStore className="ml-3" theme="dark" />
           </div>
           <div className="flex-1 flex min-h-0">
-            <TopologyOverview data={topologyData} onClick={handleSelectNodeType} />
+            <TopologyOverview data={topologyData} onClick={handleSelectNodeType} jumpService />
             <div className="flex-1 topology-container relative min-w-0">
               {topologyData?.nodes.length ? (
                 <TopologyComp
@@ -116,6 +116,7 @@ const Topology = () => {
                   filterKey={nodeType}
                   clockNode={handleClickNode}
                   defaultZoom={0.6}
+                  jumpService
                 />
               ) : null}
             </div>
