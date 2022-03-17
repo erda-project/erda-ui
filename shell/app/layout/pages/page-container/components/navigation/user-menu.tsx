@@ -30,7 +30,7 @@ const UserMenu = ({
   const avatar = loginUser.avatar ? ossImg(loginUser.avatar, { w: 32 }) : undefined;
 
   const operations = [
-    ...insertWhen(!!loginUser.isSysAdmin, [
+    ...insertWhen(!process.env.FOR_COMMUNITY && !!loginUser.isSysAdmin, [
       {
         icon: <ErdaIcon className="mr-1" type="yunying" size="16" />,
         title: i18n.t('operation manage platform'),
