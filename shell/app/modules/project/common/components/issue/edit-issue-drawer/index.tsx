@@ -195,7 +195,7 @@ export const EditIssueDrawer = (props: IProps) => {
   React.useEffect(() => {
     if (visible) {
       if (id) {
-        getIssueDetail({ type: issueType, id });
+        getIssueDetail({ id });
         getIssueStreams({ type: issueType, id, pageNo: 1, pageSize: 100 });
         getCustomFields();
       }
@@ -426,7 +426,7 @@ export const EditIssueDrawer = (props: IProps) => {
           savingRef.current = true;
           promise = updateIssue({ ...params, customUrl }).then(() => {
             getIssueStreams({ type: issueType, id: id as number, pageNo: 1, pageSize: 100 });
-            getIssueDetail({ type: issueType, id: id as number }).then(() => {
+            getIssueDetail({ id: id as number }).then(() => {
               savingRef.current = false;
             });
             // setHasEdited(false); // 更新后置为false

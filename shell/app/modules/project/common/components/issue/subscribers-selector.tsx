@@ -58,7 +58,7 @@ export const SubscribersSelector = (props: IProps) => {
   }, [issueID, loginUserId]);
 
   const updateIssueDrawer = () => {
-    getIssueDetail({ id: issueID as number, type: issueType });
+    getIssueDetail({ id: issueID as number });
     getIssueStreams({ type: issueType, id: issueID as number, pageNo: 1, pageSize: 50 });
   };
 

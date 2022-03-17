@@ -196,9 +196,9 @@ const issueStore = createStore({
       update({ [listKey]: newList });
       return list;
     },
-    async getIssueDetail({ call, update }, { type, id }: Merge<ISSUE.IssueDetailQuery, { type: string }>) {
+    async getIssueDetail({ call, update }, { id }: ISSUE.IssueDetailQuery) {
       const detail = await call(getIssueDetail, { id });
-      const detailKey = DETAIL_KEY_MAP[type];
+      const detailKey = DETAIL_KEY_MAP[detail.type];
       update({ [detailKey]: detail });
     },
     async getIssueStreams({ call, update }, { type, ...rest }: Merge<ISSUE.IssueStreamListQuery, { type: string }>) {

@@ -22,7 +22,7 @@ import issueWorkflowStore from 'project/stores/issue-workflow';
 
 const { Option } = Select;
 interface IWorkflowFormProps {
-  issueType: ISSUE_WORKFLOW.IIssueType;
+  issueType: ISSUE_WORKFLOW.ISSUE_TYPE;
   onOk: () => void;
   onCancel: () => void;
 }
