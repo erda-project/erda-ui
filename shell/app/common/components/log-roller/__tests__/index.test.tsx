@@ -134,6 +134,7 @@ describe('WrappedLogRoller', () => {
     jest.useRealTimers();
   });
   it('should work well query', async () => {
+    jest.useFakeTimers('legacy');
     const { fetchLog } = mockFn();
     const result = render(
       <WrappedLogRoller logKey={logKey} query={{ requestId: 1, end: true }} filter={{ name: 'erda-ui' }} />,
@@ -145,5 +146,6 @@ describe('WrappedLogRoller', () => {
     expect(fetchLog).toHaveBeenCalledTimes(1);
     result.rerender(<WrappedLogRoller logKey={logKey} query={{ requestId: 1 }} pause />);
     fireEvent.click(result.getByText('start'));
+    jest.useRealTimers();
   });
 });
