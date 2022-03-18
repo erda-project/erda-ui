@@ -155,7 +155,10 @@ export const IterationItem = (props: IProps) => {
         <EditIssueDrawer
           iterationID={data.id}
           id={curIssueDetail.id}
-          shareLink={`${location.href.split('?')[0]}?${mergeSearch({ id: curIssueDetail.id }, true)}`}
+          shareLink={`${location.href.split('?')[0]}?${mergeSearch(
+            { id: curIssueDetail.id, type: curIssueDetail.type },
+            true,
+          )}`}
           issueType={curIssueDetail.type}
           visible={drawerVisible}
           closeDrawer={closeDrawer}
