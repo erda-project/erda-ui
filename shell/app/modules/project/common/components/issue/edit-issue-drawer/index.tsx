@@ -553,8 +553,6 @@ export const EditIssueDrawer = (props: IProps) => {
     }
   };
 
-  const ref = React.useRef(null);
-
   const switchType = (currentType: string) => {
     setIsLoading(true);
     updateType({ id: formData.id, type: currentType }).then(() => {
@@ -588,10 +586,9 @@ export const EditIssueDrawer = (props: IProps) => {
       type: 'connection',
     }).then(() => {
       setHasEdited(true);
-      const refObj = ref.current as any;
-      if (ref && refObj) {
-        refObj.getList();
-      }
+      getIssueRelation.fetch({
+        issueId: issueDetail.id,
+      });
     });
   };
 
@@ -725,7 +722,11 @@ export const EditIssueDrawer = (props: IProps) => {
                     <ErdaIcon className="mx-2 text-sub" type="right" size="16px" />
                     <a
                       href={`${location.href.split('?')[0]}?${mergeSearch(
-                        { id: relationData.beIncluded[0].id, issueType: relationData.beIncluded[0].type },
+                        {
+                          id: relationData.beIncluded[0].id,
+                          type: relationData.beIncluded[0].type,
+                          tab: relationData.beIncluded[0].type,
+                        },
                         true,
                       )}`}
                       target="_blank"

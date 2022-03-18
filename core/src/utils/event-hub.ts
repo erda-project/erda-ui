@@ -40,11 +40,6 @@ export function off(type: string, cb: Function) {
 }
 
 export function once(type: string, cb: Function) {
-  // if (Array.isArray(hub[type])) {
-  //   // prevent duplicate register
-  //   return;
-  // }
-
   const offThis = on(type, (data?: any) => {
     offThis();
     cb(data);

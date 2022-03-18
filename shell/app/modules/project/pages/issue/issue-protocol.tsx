@@ -33,7 +33,7 @@ interface IProps {
 
 const IssueProtocol = ({ issueType }: IProps) => {
   const [{ projectId, iterationId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const { id: queryId, iterationID: queryIterationID, type: _queryType } = query;
+  const { id: queryId, iterationID: queryIterationID, type: _queryType, tab } = query;
   const orgID = orgStore.getState((s) => s.currentOrg.id);
   const queryType = _queryType && _queryType.toUpperCase();
   const [{ filterObj, chosenIssueType, chosenIssueId, chosenIteration }, updater, update] = useUpdate({
@@ -223,13 +223,13 @@ const IssueProtocol = ({ issueType }: IProps) => {
         }}
       />
 
-      {[ISSUE_TYPE.BUG, ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK].includes(chosenIssueType) ? (
+      {chosenIssueType ? (
         <EditIssueDrawer
           iterationID={chosenIteration}
           id={chosenIssueId}
           issueType={chosenIssueType as ISSUE_TYPE}
           shareLink={`${location.href.split('?')[0]}?${mergeSearch(
-            { id: chosenIssueId, iterationID: chosenIteration, type: chosenIssueType },
+            { id: chosenIssueId, iterationID: chosenIteration, tab, type: chosenIssueType },
             true,
           )}`}
           visible={drawerVisible}
