@@ -397,9 +397,7 @@ interface SelectCompProps {
 
 const SelectComp = ({ value, onChange, options, size, optionRender, ...restItemProps }: SelectCompProps) => {
   const fixOptions = (typeof options === 'function' ? options() : options)?.filter?.((item: IOption) => item.fix) || [];
-  const _options = typeof options === 'function' ? options() : options;
-  const firstOption = _options?.[0];
-  const optionType = typeof (firstOption?.children ? firstOption.children[0].value : firstOption?.value);
+  const optionType = typeof (typeof options === 'function' ? options() : options)?.[0]?.value;
   const firstValue = Array.isArray(value) ? value[0] : value;
   const valueType = typeof firstValue;
   if (optionType !== 'undefined' && valueType !== 'undefined' && firstValue !== null && optionType !== valueType) {
