@@ -359,7 +359,7 @@ const ConfigurableFilter = React.forwardRef(
                 onSaveFilter={saveFilter}
               />
             ) : null}
-            <div className={'erda-configurable-filter-body ml-4 pr-2 overflow-auto flex-1'}>
+            <div className={'erda-configurable-filter-body ml-2 pl-2 pr-2 overflow-auto flex-1'}>
               <Form form={form} layout="vertical" onValuesChange={onValuesChange}>
                 <Row>
                   {insideFields?.map((item, index: number) => {
