@@ -191,6 +191,10 @@ const TransactionDetail: React.FC<IProps> = ({
                   label: i18n.t('msp:slow call'),
                   value: `${transactionType}-slow`,
                 },
+                {
+                  label: i18n.t('msp:error call'),
+                  value: `${transactionType}-error`,
+                },
               ]}
               onChange={handleChangeType}
             />
@@ -226,7 +230,14 @@ const TransactionDetail: React.FC<IProps> = ({
                     clickRow: openTrace,
                   },
                 },
-                ...['rps', 'avgDuration', 'slowCount', 'errorCount', 'slowReqDistribution'].reduce(
+                ...[
+                  'rps',
+                  'avgDuration',
+                  'slowCount',
+                  'errorCount',
+                  'slowReqDistribution',
+                  'errorReqDistribution',
+                ].reduce(
                   (previousValue, currentValue) => ({
                     ...previousValue,
                     [currentValue]: {

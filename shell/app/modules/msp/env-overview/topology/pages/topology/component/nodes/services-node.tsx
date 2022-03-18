@@ -13,20 +13,45 @@
 
 import React from 'react';
 import CommonNode, { IProps } from './common-node';
+import { ErdaIcon } from 'common';
+import { goTo } from 'common/utils';
 import Circular from '../progress/circular';
 import { formatNumber } from '../../utils';
 import { NodeProps } from 'react-flow-renderer';
 import './index.scss';
 
 const ServicesNode: React.FC<
-  NodeProps<TOPOLOGY.TopoNode> & { onMouseMoving: IProps['onMouseMoving']; onClick: IProps['onClick'] }
-> = (props) => {
+  NodeProps<TOPOLOGY.TopoNode> & {
+    onMouseMoving: IProps['onMouseMoving'];
+    onClick: IProps['onClick'];
+    jumpService?: boolean;
+  }
+> = ({ jumpService, ...restProps }) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>, data: TOPOLOGY.TopoNode['metaData']) => {
+    e.stopPropagation();
+    goTo(goTo.pages.mspServiceMonitor, {
+      applicationId: data.applicationId || '-',
+      serviceId: encodeURIComponent(data.serviceId),
+      serviceName: data.serviceName,
+    });
+  };
   return (
-    <CommonNode {...props}>
+    <CommonNode {...restProps}>
       {(data: TOPOLOGY.TopoNode['metaData']) => {
         const { error_rate, rps } = data.metric;
         return (
           <div className={`service-node ${error_rate > 50 ? 'error' : ''} ${error_rate > 0 ? 'has-error' : ''}`}>
+            {jumpService ? (
+              <div
+                className="service-node-tips"
+                onClick={(e) => {
+                  handleClick(e, data);
+                }}
+                onMouseUp={(e) => e.stopPropagation()}
+              >
+                <ErdaIcon type="info" size={20} className="info-icon text-white-6 hover:text-white" />
+              </div>
+            ) : null}
             <Circular stroke={['#798CF1', '#D84B65']} width={60} strokeWidth={4} percent={error_rate}>
               <div className="h-full flex justify-center items-center flex-col">
                 <div className="text-white">{formatNumber(rps)}</div>
