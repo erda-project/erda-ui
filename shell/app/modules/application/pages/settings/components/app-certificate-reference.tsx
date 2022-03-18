@@ -326,6 +326,9 @@ const AppCertificateReference = () => {
             return addItem(data);
           }
         }}
+        tableProps={{
+          onReload: (pageNo: number, pageSize: number) => certificateStore.effects.getList({ pageNo, pageSize, appId }),
+        }}
       />
     </>
   );

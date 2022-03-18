@@ -12,14 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Input, Tooltip, Dropdown, Menu, Button } from 'antd';
+import { Tooltip, Dropdown, Menu, Button } from 'antd';
 import { useMount, useEffectOnce } from 'react-use';
 import { map, keys, get } from 'lodash';
 import { insertWhen } from 'common/utils';
 import cloudECSStore from 'app/modules/cmp/stores/computing';
 import clusterStore from 'cmp/stores/cluster';
 import { SetTagForm } from 'cmp/common/components/set-tag-form';
-import { CRUDTable, TagsRow, ErdaIcon, ErdaAlert } from 'common';
+import { CRUDTable, TagsRow, ErdaIcon, ErdaAlert, ConfigurableFilter } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { EcsCloudOperationForm } from './ecsCloud-operation-form';
 import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
@@ -32,8 +32,6 @@ import {
   getCloudResourceChargeTypeCol,
   getCloudResourceRegionCol,
 } from 'cmp/common/components/table-col';
-
-const { Option } = Select;
 
 const opHint = (operation: string, selectedList: CLOUD.TagItem[]) => {
   const menu = (
@@ -82,6 +80,7 @@ const ComputingEcs = () => {
       ifSelectedAllRunning,
       ifSelectedAllPrePaid,
       showRenewalTime,
+      filterData,
     },
     updater,
     update,
@@ -95,6 +94,7 @@ const ComputingEcs = () => {
     ifSelectedAllRunning: false,
     ifSelectedAllPrePaid: false,
     showRenewalTime: false,
+    filterData: {},
   });
 
   useMount(() => {
@@ -201,54 +201,39 @@ const ComputingEcs = () => {
     checkSelect(selectedRows);
   };
 
-  const filterConfig = React.useMemo(
-    () => [
-      {
-        type: Input,
-        name: 'innerIpAddress',
-        customProps: {
-          placeholder: i18n.t('cmp:please enter IP'),
-          allowClear: true,
-        },
-      },
-      {
-        type: Select,
-        name: 'region',
-        customProps: {
-          placeholder: i18n.t('cmp:please choose region'),
-          options: map(regions, ({ regionID, localName }) => (
-            <Option key={regionID} value={regionID}>{`${localName} (${regionID})`}</Option>
-          )),
-        },
-      },
-      {
-        type: Select,
-        name: 'vendor',
-        customProps: {
-          placeholder: i18n.t('cmp:please choose vendor'),
-          options: [
-            <Option key="aliyun" value="aliyun">
-              {i18n.t('Alibaba Cloud')}
-            </Option>,
-          ],
-        },
-      },
-      {
-        type: Select,
-        name: 'cluster',
-        customProps: {
-          placeholder: i18n.t('please select labels'),
-          allowClear: true,
-          options: () => {
-            return map(clusterList, (item) => (
-              <Option key={item.name} value={item.name}>{`dice-cluster/${item.name}`}</Option>
-            ));
-          },
-        },
-      },
-    ],
-    [clusterList, regions],
-  );
+  const fieldsList = [
+    {
+      key: 'region',
+      type: 'select',
+      label: i18n.t('cmp:region'),
+      mode: 'single',
+      options: map(regions, ({ regionID, localName }) => ({ value: regionID, label: `${localName} (${regionID})` })),
+      placeholder: i18n.t('cmp:please choose region'),
+    },
+    {
+      key: 'vendor',
+      type: 'select',
+      label: i18n.t('cmp:vendor'),
+      placeholder: i18n.t('cmp:please choose vendor'),
+      options: [{ value: 'aliyun', label: 'Alibaba Cloud' }],
+      mode: 'single',
+    },
+    {
+      key: 'cluster',
+      type: 'select',
+      label: i18n.t('dop:priority'),
+      options: map(clusterList, (item) => ({ value: item.name, label: `dice-cluster/${item.name}` })),
+      placeholder: i18n.t('please select labels'),
+      mode: 'single',
+    },
+    {
+      key: 'innerIpAddress',
+      outside: true,
+      label: 'IP',
+      placeholder: i18n.t('filter by {name}', { name: 'IP' }),
+      type: 'input',
+    },
+  ];
 
   const operationButtons = [
     {
@@ -456,13 +441,22 @@ const ComputingEcs = () => {
       <CRUDTable.StoreTable<COMPUTING.ECS>
         key={stateChangeKey}
         rowKey="id"
-        filterConfig={filterConfig}
         getColumns={getColumns}
         store={cloudECSStore}
         tableProps={{
           rowSelection: {
             onChange: handleSelect,
           },
+          slot: (
+            <ConfigurableFilter
+              hideSave
+              value={filterData}
+              fieldsList={fieldsList}
+              onFilter={(values) => updater.filterData(values)}
+            />
+          ),
+          onReload: (pageNo: number, pageSize: number) =>
+            cloudECSStore.effects.getList({ ...filterData, pageNo, pageSize }),
         }}
       />
       <EcsCloudOperationForm

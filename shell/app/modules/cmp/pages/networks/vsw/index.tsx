@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDTable, Copy, ErdaIcon } from 'common';
+import { CRUDTable, Copy, ErdaIcon, ConfigurableFilter } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import networksStore from 'cmp/stores/networks';
 import { useLoading } from 'core/stores/loading';
-import { Select, Menu, Dropdown, Button, FormInstance } from 'antd';
+import { Menu, Dropdown, Button, FormInstance } from 'antd';
 import { VswCIDRField } from '../common/components/cidr-input';
 import { getSubnetCount } from '../common/util';
 import { cloudVendor, formConfig } from '../common/config';
@@ -34,8 +34,6 @@ import {
 } from 'cmp/common/components/table-col';
 import { SetTagForm } from 'cmp/common/components/set-tag-form';
 
-const { Option } = Select;
-
 const VSW = () => {
   const [vswList, vpcList] = networksStore.useStore((s) => [s.vswList, s.vpcList]);
   const vpcID = routeInfoStore.useStore((s) => s.params.vpcID);
@@ -48,7 +46,7 @@ const VSW = () => {
   });
 
   const [
-    { chosenVpc, zones, subnetCount, tagFormVis, tagFormData, items, ifSelected, stateChangeKey },
+    { chosenVpc, zones, subnetCount, tagFormVis, tagFormData, items, ifSelected, stateChangeKey, filterData },
     updater,
     update,
   ] = useUpdate({
@@ -61,6 +59,7 @@ const VSW = () => {
     items: [] as CLOUD.TagItem[],
     ifSelected: false,
     stateChangeKey: 1,
+    filterData: {},
   });
 
   React.useEffect(() => {
@@ -120,25 +119,16 @@ const VSW = () => {
     return columns;
   };
 
-  const filterConfig = React.useMemo(
-    () => [
-      {
-        type: Select,
-        name: 'vendor',
-        customProps: {
-          className: 'w-52',
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('cloud vendor') }),
-          options: map(cloudVendor, (item) => (
-            <Option key={item.name} value={item.value}>
-              {item.name}
-            </Option>
-          )),
-          allowClear: true,
-        },
-      },
-    ],
-    [],
-  );
+  const filterFieldsList = [
+    {
+      key: 'vendor',
+      type: 'select',
+      label: i18n.t('cmp:vendor'),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('cloud vendor') }),
+      options: map(cloudVendor, (item) => ({ value: item.value, label: item.name })),
+      mode: 'single',
+    },
+  ];
 
   const getFieldsList = (form: FormInstance) => {
     const fieldsList = [
@@ -291,11 +281,19 @@ const VSW = () => {
         getColumns={getColumns}
         handleFormSubmit={handleFormSubmit}
         getFieldsList={getFieldsList}
-        filterConfig={filterConfig}
         tableProps={{
           rowSelection: {
             onChange: handleSelect,
           },
+          onReload: (pageNo: number, pageSize: number) => getVpcList({ ...filterData, pageNo, pageSize }),
+          slot: (
+            <ConfigurableFilter
+              hideSave
+              value={filterData}
+              fieldsList={filterFieldsList}
+              onFilter={(values) => updater.filterData(values)}
+            />
+          ),
         }}
       />
       <Copy selector=".cursor-copy" />

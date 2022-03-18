@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDTable, ErdaIcon } from 'common';
+import { ConfigurableFilter, CRUDTable, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Input, Select, Menu, Dropdown, Button } from 'antd';
+import { Menu, Dropdown, Button } from 'antd';
 import { map } from 'lodash';
 import { useMount } from 'react-use';
 import cloudOSSStore from 'app/modules/cmp/stores/storage';
@@ -27,8 +27,6 @@ import {
   getCloudResourceTimeCol,
   getCloudResourceRegionCol,
 } from 'cmp/common/components/table-col';
-
-const { Option } = Select;
 
 const ACL_CONST = [
   {
@@ -50,11 +48,12 @@ const StorageOss = () => {
   const [regions, cloudAccountExist] = cloudCommonStore.useStore((s) => [s.regions, s.cloudAccountExist]);
   const { addItem } = cloudOSSStore.effects;
 
-  const [{ tagFormVis, items, ifSelected, stateChangeKey }, updater, update] = useUpdate({
+  const [{ tagFormVis, items, ifSelected, stateChangeKey, filterData }, updater, update] = useUpdate({
     tagFormVis: false,
     items: [] as CLOUD.TagItem[],
     ifSelected: false,
     stateChangeKey: 1,
+    filterData: {},
   });
 
   useMount(() => {
@@ -131,31 +130,23 @@ const StorageOss = () => {
     resetTable();
   };
 
-  const filterConfig = React.useMemo(
-    () => [
-      {
-        type: Input,
-        name: 'name',
-        customProps: {
-          placeholder: i18n.t('cmp:please enter bucket name'),
-          allowClear: true,
-        },
-      },
-      {
-        type: Select,
-        name: 'vendor',
-        customProps: {
-          placeholder: i18n.t('cmp:please choose vendor'),
-          options: [
-            <Option key="aliyun" value="aliyun">
-              {i18n.t('Alibaba Cloud')}
-            </Option>,
-          ],
-        },
-      },
-    ],
-    [],
-  );
+  const fieldsList = [
+    {
+      key: 'vendor',
+      type: 'select',
+      label: i18n.t('cmp:vendor'),
+      placeholder: i18n.t('cmp:please choose vendor'),
+      options: [{ value: 'aliyun', label: 'Alibaba Cloud' }],
+      mode: 'single',
+    },
+    {
+      key: 'name',
+      outside: true,
+      label: i18n.t('name'),
+      placeholder: i18n.t('cmp:please enter bucket name'),
+      type: 'input',
+    },
+  ];
 
   const handleFormSubmit = (data: STORAGE.OSS) => {
     const { name, acl, ...rest } = data;
@@ -206,11 +197,20 @@ const StorageOss = () => {
         addAuthTooltipTitle={addAuthTooltipTitle}
         handleFormSubmit={handleFormSubmit}
         getFieldsList={getFieldsList}
-        filterConfig={filterConfig}
         tableProps={{
           rowSelection: {
             onChange: handleSelect,
           },
+          onReload: (pageNo: number, pageSize: number) =>
+            cloudOSSStore.effects.getList({ ...filterData, pageNo, pageSize }),
+          slot: (
+            <ConfigurableFilter
+              hideSave
+              value={filterData}
+              fieldsList={fieldsList}
+              onFilter={(values) => updater.filterData(values)}
+            />
+          ),
         }}
       />
       <SetTagForm

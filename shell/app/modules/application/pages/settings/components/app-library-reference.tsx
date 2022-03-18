@@ -187,6 +187,9 @@ const AppLibraryReference = () => {
         }}
         extraQuery={{ appID }}
         store={libraryRefStore}
+        tableProps={{
+          onReload: (pageNo: number, pageSize: number) => libraryRefStore.effects.getList({ pageNo, pageSize, appID }),
+        }}
       />
       <Modal
         title={i18n.t('dop:refer-to-market')}

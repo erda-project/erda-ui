@@ -348,11 +348,13 @@ function getCmpRouter(): RouteConfigItem[] {
               path: 'accounts',
               breadcrumbName: i18n.t('cloud accounts'),
               getComp: (cb) => cb(import('app/modules/cmp/pages/cloud-accounts')),
+              layout: { noWrapper: true },
             },
             {
               path: 'ecs',
               breadcrumbName: 'ECS',
               getComp: (cb) => cb(import('app/modules/cmp/pages/computing/ecs')),
+              layout: { noWrapper: true },
             },
             {
               path: 'vpc',
@@ -360,6 +362,7 @@ function getCmpRouter(): RouteConfigItem[] {
               routes: [
                 {
                   getComp: (cb) => cb(import('app/modules/cmp/pages/networks/vpc')),
+                  layout: { noWrapper: true },
                 },
                 {
                   path: ':vpcID',
@@ -368,6 +371,7 @@ function getCmpRouter(): RouteConfigItem[] {
                       path: 'vsw',
                       breadcrumbName: 'vsw({params.vpcID})',
                       getComp: (cb) => cb(import('app/modules/cmp/pages/networks/vsw')),
+                      layout: { noWrapper: true },
                     },
                   ],
                 },
@@ -377,6 +381,7 @@ function getCmpRouter(): RouteConfigItem[] {
               path: 'oss',
               breadcrumbName: 'OSS',
               getComp: (cb) => cb(import('app/modules/cmp/pages/storage/oss')),
+              layout: { noWrapper: true },
             },
             {
               path: 'mq',

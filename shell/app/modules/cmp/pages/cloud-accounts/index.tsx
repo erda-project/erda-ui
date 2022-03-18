@@ -85,6 +85,9 @@ const CloudAccounts = () => {
         showTopAdd
         getFieldsList={getFieldsList}
         handleFormSubmit={handleFormSubmit}
+        tableProps={{
+          onReload: (pageNo: number, pageSize: number) => cloudAccountStore.effects.getList({ pageNo, pageSize }),
+        }}
       />
     </>
   );
