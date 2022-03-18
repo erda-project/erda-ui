@@ -211,7 +211,7 @@ interface IState {
 }
 
 export interface IProps {
-  theme: 'dark' | 'light';
+  theme?: 'dark' | 'light';
   placement?: DropDownProps['placement'];
   className?: string;
   triggerChangeOnMounted?: boolean;

@@ -50,7 +50,7 @@ const urlMap = {
   [CustomDashboardScope.MICRO_SERVICE]: goTo.pages.microServiceCustomDashboard,
 };
 
-export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: string }) => {
+const CustomDashboard = ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: string }) => {
   registDiceDataConfigProps({
     dataConfigMetaDataStore: dataConfigMetaDataStoreMap[scope],
     scope,
@@ -249,3 +249,5 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
     </div>
   );
 };
+
+export default CustomDashboard;
