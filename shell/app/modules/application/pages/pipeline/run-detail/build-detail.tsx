@@ -307,8 +307,12 @@ const BuildDetail = (props: IProps) => {
         break;
       case 'release-link': {
         const target = node.findInMeta((item: BUILD.MetaData) => item.name === 'releaseID');
+        const linkMap = {
+          'project-artifacts': goTo.pages.projectReleaseDetail,
+          'release-ui': goTo.pages.applicationReleaseDetail,
+        };
         if (target) {
-          goTo(goTo.pages.applicationReleaseDetail, {
+          goTo(linkMap[node.name] || goTo.pages.applicationReleaseDetail, {
             ...params,
             releaseId: target.value,
             jumpOut: true,
