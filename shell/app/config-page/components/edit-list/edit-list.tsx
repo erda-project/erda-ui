@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { EditList } from 'common';
-import { map, last } from 'lodash';
+import EditList from './pure-edit-list';
+import { last, map } from 'lodash';
 import { useUpdateEffect } from 'react-use';
 
 const empty = [] as any[];

@@ -19,13 +19,18 @@ import SimplePanel from '..';
 describe('SimplePanel', () => {
   it('should render well', () => {
     const result = render(
+      <SimplePanel style={{ height: 100 }} title="panel title">
+        <div className="panel-child">panel-child</div>
+      </SimplePanel>,
+    );
+    expect(result.container.firstChild).toHaveStyle({ height: '100px' });
+    expect(result.getByText('panel title')).toBeTruthy();
+    expect(result.getByText('panel-child')).toBeTruthy();
+    result.rerender(
       <SimplePanel style={{ height: 100 }} className="erda_panel" title="panel title">
         <div className="panel-child">panel-child</div>
       </SimplePanel>,
     );
     expect(result.container.firstChild).toHaveClass('erda_panel');
-    expect(result.container.firstChild).toHaveStyle({ height: '100px' });
-    expect(result.getByText('panel title')).toBeTruthy();
-    expect(result.getByText('panel-child')).toBeTruthy();
   });
 });

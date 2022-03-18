@@ -12,15 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Input, Select, Tooltip, Switch } from 'antd';
+import { Button, Input, Select, Switch, Tooltip } from 'antd';
 import { useUpdate } from 'common/use-hooks';
-import { InputSelect, Icon as CustomIcon, ErdaIcon } from 'common';
+import { ErdaIcon, Icon as CustomIcon, InputSelect } from 'common';
 import { produce } from 'immer';
 import i18n from 'i18n';
 import { useUpdateEffect } from 'react-use';
 import { getCheckListFromRule } from 'configForm/form/form';
-import { get, isEmpty, map, isEqual, isArray, isPlainObject, set, compact, includes, filter, debounce } from 'lodash';
-import './index.scss';
+import { compact, debounce, filter, get, includes, isArray, isEmpty, isEqual, isPlainObject, map, set } from 'lodash';
+import './pure-edit-list.scss';
 
 interface IData {
   [k: string]: any;

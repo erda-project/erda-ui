@@ -13,24 +13,24 @@
 
 import { cutStr, qs } from 'common/utils';
 import classnames from 'classnames';
-import { Copy, EditList, EmptyListHolder, FileEditor, Title, ErdaIcon } from 'common';
-import { validateValue } from 'common/components/edit-list';
-import { isArray, isEmpty, isString, map, reduce, set, cloneDeep, find, reject, last, get } from 'lodash';
+import { Copy, EmptyListHolder, ErdaIcon, FileEditor, Title } from 'common';
+import EditList, { validateValue } from 'config-page/components/edit-list/pure-edit-list';
+import { cloneDeep, find, get, isArray, isEmpty, isString, last, map, reduce, reject, set } from 'lodash';
 import {
   Badge,
   Button,
+  Dropdown,
   Input,
+  Menu,
+  message,
+  Modal,
   Popconfirm,
   Popover,
   Radio,
   Select,
+  Spin,
   Table,
   Tabs,
-  Spin,
-  Modal,
-  message,
-  Dropdown,
-  Menu,
   Tooltip,
 } from 'antd';
 import { Form as ConfigForm } from 'dop/pages/form-editor/index';
