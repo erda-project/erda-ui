@@ -553,8 +553,6 @@ export const EditIssueDrawer = (props: IProps) => {
     }
   };
 
-  const ref = React.useRef(null);
-
   const switchType = (currentType: string) => {
     setIsLoading(true);
     updateType({ id: formData.id, type: currentType }).then(() => {
@@ -588,10 +586,9 @@ export const EditIssueDrawer = (props: IProps) => {
       type: 'connection',
     }).then(() => {
       setHasEdited(true);
-      const refObj = ref.current as any;
-      if (ref && refObj) {
-        refObj.getList();
-      }
+      getIssueRelation.fetch({
+        issueId: issueDetail.id,
+      });
     });
   };
 
