@@ -229,7 +229,7 @@ const IssueProtocol = ({ issueType }: IProps) => {
           id={chosenIssueId}
           issueType={chosenIssueType as ISSUE_TYPE}
           shareLink={`${location.href.split('?')[0]}?${mergeSearch(
-            { id: chosenIssueId, iterationID: chosenIteration, type: queryType },
+            { id: chosenIssueId, iterationID: chosenIteration, type: chosenIssueType },
             true,
           )}`}
           visible={drawerVisible}
