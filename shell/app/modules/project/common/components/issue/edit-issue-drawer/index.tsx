@@ -725,7 +725,11 @@ export const EditIssueDrawer = (props: IProps) => {
                     <ErdaIcon className="mx-2 text-sub" type="right" size="16px" />
                     <a
                       href={`${location.href.split('?')[0]}?${mergeSearch(
-                        { id: relationData.beIncluded[0].id, issueType: relationData.beIncluded[0].type },
+                        {
+                          id: relationData.beIncluded[0].id,
+                          type: relationData.beIncluded[0].type,
+                          tab: relationData.beIncluded[0].type,
+                        },
                         true,
                       )}`}
                       target="_blank"
