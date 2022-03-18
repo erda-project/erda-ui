@@ -20,8 +20,8 @@ import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 
 const AllIssue = () => {
-  const { type: rIssueType } = routeInfoStore.useStore((s) => s.query);
-  const [issueType, setIssueType] = React.useState(rIssueType || ISSUE_TYPE.ALL);
+  const { tab } = routeInfoStore.useStore((s) => s.query);
+  const [issueType, setIssueType] = React.useState((tab as ISSUE_TYPE) || ISSUE_TYPE.ALL);
   const options = [
     { value: ISSUE_TYPE.ALL, label: i18n.t('dop:all issues') },
     { value: ISSUE_TYPE.REQUIREMENT, label: i18n.t('requirement') },
@@ -35,7 +35,7 @@ const AllIssue = () => {
         options={options}
         value={issueType}
         onChange={(v: string) => {
-          updateSearch({ type: v }, { ignoreOrigin: true });
+          updateSearch({ tab: v }, { ignoreOrigin: true });
           setIssueType(v);
         }}
         className="mb-2"

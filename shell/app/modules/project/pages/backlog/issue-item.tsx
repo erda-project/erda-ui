@@ -232,9 +232,8 @@ export const IssueForm = (props: IIssueFormProps) => {
           addFieldsToIssue({ property, issueID: newIssueID, orgID, projectID: +projectId });
         }
       });
-      if (continueAdd) {
-        updater.title('');
-      } else {
+      updater.title('');
+      if (!continueAdd) {
         onCancel();
       }
     });
@@ -243,6 +242,7 @@ export const IssueForm = (props: IIssueFormProps) => {
   return (
     <div className={`${className} relative flex justify-between items-center`}>
       <Input
+        key={className} // for keep autoFocus
         value={formData.title}
         placeholder={`${placeholderMap[formData.type]}, ${i18n.t(
           'Enter to save quickly, {meta} + Enter to save and continue',

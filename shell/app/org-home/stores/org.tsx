@@ -69,17 +69,17 @@ const org = createStore({
       if (isLeaving('orgIndex')) {
         org.reducers.clearOrg();
       }
+    });
 
-      once('layout/mount', () => {
-        const loginUser = userStore.getState((s) => s.loginUser);
-        const orgId = org.getState((s) => s.currentOrg.id);
-        // 非系统管理员
-        if (!loginUser.isSysAdmin && orgId) {
-          announcementStore.effects.getAllNoticeListByStatus('published').then((list) => {
-            layoutStore.reducers.setAnnouncementList(list);
-          });
-        }
-      });
+    once('layout/mount', () => {
+      const loginUser = userStore.getState((s) => s.loginUser);
+      const orgId = org.getState((s) => s.currentOrg.id);
+      // 非系统管理员
+      if (!loginUser.isSysAdmin && orgId) {
+        announcementStore.effects.getAllNoticeListByStatus('published').then((list) => {
+          layoutStore.reducers.setAnnouncementList(list);
+        });
+      }
     });
 
     const orgId = org.getState((s) => s.currentOrg.id);
