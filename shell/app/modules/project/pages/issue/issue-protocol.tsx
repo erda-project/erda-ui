@@ -13,9 +13,9 @@
 
 import React from 'react';
 import { ISSUE_TYPE, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
-import DiceConfigPage, { useMock } from 'app/config-page';
+import DiceConfigPage from 'app/config-page';
 import { useSwitch, useUpdate } from 'common/use-hooks';
-import { mergeSearch, insertWhen } from 'common/utils';
+import { insertWhen, mergeSearch } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
 import { Badge, ErdaIcon } from 'common';
@@ -97,11 +97,12 @@ const IssueProtocol = ({ issueType }: IProps) => {
     }
   };
 
-  const onCreate = (curType?: string) => {
+  const onCreate = (curType?: ISSUE_TYPE) => {
     const filterIterationIDs = filterObj?.values?.iterationIDs || [];
     // 当前选中唯一迭代，创建的时候默认为这个迭代，否则，迭代为0
     update({
       chosenIteration: iterationId || (filterIterationIDs.length === 1 ? filterIterationIDs[0] : 0),
+      chosenIssueType: curType || issueType,
     });
     openDrawer();
   };
