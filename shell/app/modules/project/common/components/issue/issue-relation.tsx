@@ -137,15 +137,14 @@ const useIssueRelation = (props: IProps) => {
       </If>
     </React.Fragment>,
     <React.Fragment key="2">
-      <If condition={activeButtonType === 'create'}>
-        <AddNewIssue
-          onSaveRelation={addRelation}
-          onCancel={() => setActiveButtonType('')}
-          iterationID={curIterationID}
-          defaultIssueType={defaultIssueType}
-          typeDisabled={relationType === RelationType.Inclusion}
-        />
-      </If>
+      <AddNewIssue
+        className={activeButtonType === 'create' ? '' : 'hidden'}
+        onSaveRelation={addRelation}
+        onCancel={() => setActiveButtonType('')}
+        iterationID={curIterationID}
+        defaultIssueType={defaultIssueType}
+        typeDisabled={relationType === RelationType.Inclusion}
+      />
       <If condition={relationType === RelationType.Inclusion && issueType === 'REQUIREMENT' && !!list?.length}>
         <div className="rounded-sm border border-solid border-default-1">
           {list?.map((item) => (
@@ -713,16 +712,24 @@ interface IAddNewIssueProps {
   onSaveRelation: (v: number[]) => void;
   onCancel: () => void;
   typeDisabled?: boolean;
+  className?: string;
 }
 
-const AddNewIssue = ({ onSaveRelation, iterationID, onCancel, defaultIssueType, typeDisabled }: IAddNewIssueProps) => {
+const AddNewIssue = ({
+  onSaveRelation,
+  iterationID,
+  onCancel,
+  defaultIssueType,
+  typeDisabled,
+  className = '',
+}: IAddNewIssueProps) => {
   const { createIssue } = iterationStore.effects;
   const { projectId } = routeInfoStore.getState((s) => s.params);
 
   return (
     <IssueForm
       key="add"
-      className="mt-3 mb-2"
+      className={`mt-3 mb-2 ${className}`}
       onCancel={onCancel}
       defaultIssueType={defaultIssueType}
       onOk={(val: ISSUE.BacklogIssueCreateBody) => {
