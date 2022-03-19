@@ -85,6 +85,8 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
   const data = propsData?.treeData || emptyData;
   const expandOpRef = React.useRef(null as any);
 
+  const [dragging, setDragging] = React.useState(false);
+
   // 重置数据：处理icon、title，以及根据searchKey过滤（此处为静态过滤）
   const handleData = (_data: CP_FILE_TREE.INode[], curSearchKey?: string) => {
     const staticSearch = operations?.search ? '' : curSearchKey; // 当有动态请求的时候，不用searchKey去过滤数据
@@ -197,6 +199,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
           execOperation(d.operations?.click, { selectedKeys: state.selectedKeys, expandedKeys: state.expandedKeys });
         } else {
           updater.expandedKeys((prev: string[]) => [...prev, k]);
+          updateState({ expandedKeys: [...expandedKeys, k] });
         }
       },
     };
@@ -255,7 +258,8 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
   };
 
   const onExpand = (_expandedKeys: Array<string | number>, expandObj: any) => {
-    const curKey = get(expandObj, 'node.props.eventKey');
+    if (dragging) return;
+    const curKey = get(expandObj, 'node.key');
     const curData = find(data, { key: curKey }) || ({} as Obj);
     const curDataChildren = get(curData, 'children');
     const shouldClickToExpand =
@@ -267,9 +271,8 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
         expandedKeys: state.expandedKeys,
       });
     } else {
-      update({
-        expandedKeys: _expandedKeys,
-      });
+      update({ expandedKeys: _expandedKeys });
+      updateState({ expandedKeys: _expandedKeys });
     }
   };
 
@@ -319,6 +322,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
     const { dragNode, dropPosition, dropToGap } = info;
     let { node: dropNode } = info;
     // 落在自己、或落在叶子节点上无效
+    setDragging(false);
     if (dragNode.key === dropNode.key || (dropNode.isLeaf && !dropToGap)) return;
     if (operations?.drag) {
       let position = dropNode.__position === dropPosition ? 0 : dropNode.__position > dropPosition ? -1 : 1;
@@ -349,12 +353,14 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
   const draggableFun = (node: CP_FILE_TREE.INode) => {
     return node.draggable;
   };
-
   let dragProps = {};
   if (draggable) {
     dragProps = {
       onDrop,
       draggable: draggableFun,
+      onDragStart: () => {
+        setDragging(true);
+      },
       allowDrop: ({ dropNode, dropPosition }: { dropNode: CP_FILE_TREE.INode; dropPosition: number }) => {
         return (dropNode.dropPosition || []).includes(dropPosition);
       },
