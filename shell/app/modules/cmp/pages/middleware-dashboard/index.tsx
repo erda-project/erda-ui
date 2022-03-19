@@ -235,7 +235,9 @@ const MiddlewareDashboard = () => {
             ))
           }
         </Row> */}
-          <AddonUsageChart />
+          <div className="bg-white px-2 py-3">
+            <AddonUsageChart />
+          </div>
         </div>
       </div>
       <ErdaTable
