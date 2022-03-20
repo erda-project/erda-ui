@@ -43,6 +43,9 @@ console.log( code.code )
   `;
   const jsonStr = '{"name":"erda-fe","org":"erda"}';
   it('should work well', () => {
+    afterAll(() => {
+      jest.resetAllMocks();
+    });
     const createObjectURL = jest.fn();
     const revokeObjectURL = jest.fn();
     const changeFn = jest.fn();
