@@ -60,7 +60,7 @@ const Pagination = (pagination: IPaginationProps) => {
       {!hideTotal ? <div className="erda-pagination-total mr-2">{i18n.t('total {total} items', { total })}</div> : null}
       <div className="erda-pagination-content inline-flex">
         <div
-          className={`bg-hover p-2 leading-none hover:bg-default-06 pagination-pre ${
+          className={`bg-hover flex-all-center leading-none hover:bg-default-06 pagination-pre ${
             current === 1 ? 'disabled' : 'cursor-pointer'
           }`}
           onClick={() => current > 1 && onChange?.(current - 1, pageSize)}
@@ -86,7 +86,7 @@ const Pagination = (pagination: IPaginationProps) => {
         </Popover>
 
         <div
-          className={`bg-hover p-2 leading-none hover:bg-default-06 pagination-next ${
+          className={`bg-hover flex-all-center leading-none hover:bg-default-06 pagination-next ${
             current === Math.ceil(total / pageSize) || total === 0 ? 'disabled' : 'cursor-pointer'
           }`}
           onClick={() => total && current < Math.ceil(total / pageSize) && onChange?.(current + 1, pageSize)}
