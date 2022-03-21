@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import alarmRecordRouter from 'msp/alarm-manage/alarm-record';
 import i18n from 'i18n';
 import AlarmRouter from 'msp/alarm-manage/alarm-strategy';
 import { getMspBreadcrumb } from 'msp/config';
@@ -45,7 +44,6 @@ const alarmListTabs = [
 ];
 
 const alarmManageRouters = [
-  alarmRecordRouter(),
   {
     path: 'alarm-overview',
     breadcrumbName: getMspBreadcrumb('AlertOverview'),

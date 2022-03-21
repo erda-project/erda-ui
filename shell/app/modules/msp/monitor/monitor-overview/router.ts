@@ -17,18 +17,12 @@ import monitorTraceRouter from 'msp/monitor/trace-insight/router';
 import monitorErrorRouter from 'msp/monitor/error-insight/router';
 import monitorStatusRouter from 'msp/monitor/status-insight/router';
 import { serviceAnalysisRouter } from 'msp/env-overview/service-list/router';
-import { getMspBreadcrumb } from 'msp/config';
 
 function getMonitorRouter(): RouteConfigItem {
   return {
     path: ':terminusKey',
     mark: 'monitor',
     routes: [
-      {
-        path: 'overview',
-        breadcrumbName: getMspBreadcrumb('MonitorCenter'),
-        getComp: (cb) => cb(import('msp/monitor/monitor-overview/pages/overview/overview')),
-      },
       getBIRouter(),
       getApiInsightRouter(),
       monitorTraceRouter(),

@@ -14,7 +14,6 @@
 import serviceListRouter from 'msp/env-overview/service-list/router';
 import i18n from 'i18n';
 import getGatewayIngressMonitorRouter from 'gateway-ingress/router';
-import getEIRouter from 'external-insight/router';
 import { getMspBreadcrumb } from 'msp/config';
 
 const tabs = [
@@ -44,7 +43,6 @@ const getEnvOverViewRouter = (): RouteConfigItem => {
             getComp: (cb) => cb(import('msp/env-overview/topology/pages/topology')),
           },
           getGatewayIngressMonitorRouter(),
-          getEIRouter(),
         ],
       },
       serviceListRouter(tabs),
