@@ -13,7 +13,7 @@
 import React from 'react';
 import { map } from 'lodash';
 import { ErdaIcon } from 'common';
-import { Select, Input, message } from 'antd';
+import { Input, message, Select } from 'antd';
 import i18n from 'i18n';
 
 const { Option } = Select;
@@ -112,6 +112,7 @@ export const TriggerConditionSelect = ({
         />
       ) : (
         <Select
+          showSearch
           value={type === 'single' ? current?.values : current?.values?.split(',')}
           disabled={current?.valueOptions?.length === 0}
           className="flex-grow-0"
