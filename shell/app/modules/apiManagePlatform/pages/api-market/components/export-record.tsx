@@ -129,7 +129,7 @@ const ExportRecordModal = ({ visible, onCancel }: IProps) => {
       onCancel={onCancel}
     >
       <ErdaTable
-        wrapperClassName="h-full w-full"
+        wrapperClassName="w-full"
         rowKey="id"
         loading={loading}
         columns={columns}
