@@ -178,7 +178,7 @@ const useIssueRelation = (props: IProps) => {
               data={item}
               key={item.id}
               onClickIssue={(record) => {
-                goTo(goTo.pages.issueDetail, {
+                goTo(record.type === 'TICKET' ? goTo.pages.ticketDetail : goTo.pages.issueDetail, {
                   projectId,
                   issueType: record.type.toLowerCase(),
                   issueId: record.id,
@@ -680,6 +680,7 @@ export const AddIssueRelation = ({
         dataSource={dataSource}
         columns={columns}
         pagination={{
+          hidePageSizeChange: true,
           current: filterData.pageNo || 1,
           pageSize: filterData.pageSize || 7,
           total,
