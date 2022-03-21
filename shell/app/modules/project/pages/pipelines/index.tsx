@@ -17,20 +17,20 @@ import { Input, Tooltip, Spin, Divider } from 'antd';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import { Badge, ErdaIcon, Ellipsis } from 'common';
-import { getAppList } from 'project/services/pipeline';
+import { getPipelineTypesList } from 'project/services/pipeline';
 import PipelineProtocol from './components/pipeline-protocol';
 
 import './index.scss';
 
 const Pipeline = () => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
-  const [application, setApplication] = React.useState({ ID: 0 });
-  const { ID: applicationId } = application;
+  const [type, setType] = React.useState({ key: '', rules: [] });
+  const { key: typeKey } = type;
   const [searchValue, setSearchValue] = React.useState('');
-  const [list, loading] = getAppList.useState();
+  const [list, loading] = getPipelineTypesList.useState();
 
   const getList = React.useCallback(() => {
-    getAppList.fetch({ projectID: projectId });
+    getPipelineTypesList.fetch({ projectID: projectId });
   }, [projectId]);
 
   React.useEffect(() => {
@@ -39,14 +39,14 @@ const Pipeline = () => {
 
   const search = debounce((value: string) => {
     setSearchValue(value);
-    setApplication({ ID: 0 });
+    setType({ key: '' });
   }, 1000);
 
   return (
     <div className="project-pipeline flex-1 flex bg-white min-h-0 mb-4 h-full">
       <div className="app-list bg-default-02 overflow-auto h-full flex-shrink-0">
         <div className="flex flex-col">
-          <div className="p-4 leading-4 font-medium">{i18n.t('dop:my involved applications')}</div>
+          <div className="p-4 leading-4 font-medium">{i18n.t('dop:pipeline type')}</div>
           <Input
             size="small"
             className="bg-default-06 border-transparent mb-2 mx-4"
@@ -59,50 +59,57 @@ const Pipeline = () => {
             <Spin spinning={loading}>
               <div
                 className={`application-item px-4 leading-5 cursor-pointer rounded-sm flex-h-center ${
-                  applicationId ? 'hover:bg-white' : 'text-purple-deep active'
+                  typeKey ? 'hover:bg-white' : 'text-purple-deep active'
                 }`}
-                onClick={() => setApplication({ ID: 0 })}
+                onClick={() => setType({ key: '' })}
               >
                 {i18n.t('dop:all')}
               </div>
 
               <div>
                 {list
-                  ?.filter((item) => (searchValue ? item.displayName.includes(searchValue) : true))
+                  ?.filter((item) => (searchValue ? item.category.includes(searchValue) : true))
                   ?.map((item) => (
                     <div
-                      className={`application-item px-4 leading-5 cursor-pointer rounded-sm flex-h-center ${
-                        applicationId === item.ID ? 'text-purple-deep active' : 'hover:bg-white'
+                      className={`application-item px-4 py-2 cursor-pointer rounded-sm flex flex-col ${
+                        typeKey === item.key ? 'text-purple-deep active' : 'hover:bg-white'
                       }`}
-                      onClick={() => setApplication(item)}
+                      onClick={() => setType(item)}
                     >
-                      <div className="flex-1 min-w-0">
-                        <Ellipsis title={item.displayName} />
-                      </div>
-                      <div className="bg-default-04 text-default-9 rounded-2xl px-3 py-0.5 text-xs flex-h-center">
-                        {item.runningNum ? (
-                          <Tooltip title={i18n.t('running')}>
-                            <div className="flex-h-center mr-0.5">
-                              <Badge onlyDot breathing status={'success'} className="mr-0.5" />
-                              <div>{item.runningNum}</div>
-                            </div>
+                      <div className="flex-h-center leading-5 flex-1">
+                        <div className="flex-1 min-w-0">
+                          <Ellipsis title={item.category} />
+                        </div>
+                        <div className="bg-default-04 text-default-9 rounded-2xl px-3 py-0.5 text-xs flex-h-center">
+                          {item.runningNum ? (
+                            <Tooltip title={i18n.t('running')}>
+                              <div className="flex-h-center mr-0.5">
+                                <Badge onlyDot breathing status={'success'} className="mr-0.5" />
+                                <div>{item.runningNum}</div>
+                              </div>
+                            </Tooltip>
+                          ) : null}
+                          {item.failedNum ? (
+                            <Tooltip title={i18n.t('dop:number of failures in a day')}>
+                              <div className="flex-h-center">
+                                <Badge onlyDot breathing status={'error'} className="mr-0.5" />
+                                <div>{item.failedNum}</div>
+                              </div>
+                            </Tooltip>
+                          ) : null}
+                          {(item.runningNum || item.failedNum) && item.totalNum ? (
+                            <Divider type="vertical" className="top-0" />
+                          ) : null}
+                          <Tooltip title={i18n.t('dop:total number of pipelines')}>
+                            <div>{item.totalNum || 0}</div>
                           </Tooltip>
-                        ) : null}
-                        {item.failedNum ? (
-                          <Tooltip title={i18n.t('dop:number of failures in a day')}>
-                            <div className="flex-h-center">
-                              <Badge onlyDot breathing status={'error'} className="mr-0.5" />
-                              <div>{item.failedNum}</div>
-                            </div>
-                          </Tooltip>
-                        ) : null}
-                        {(item.runningNum || item.failedNum) && item.totalNum ? (
-                          <Divider type="vertical" className="top-0" />
-                        ) : null}
-                        <Tooltip title={i18n.t('dop:total number of pipelines')}>
-                          <div>{item.totalNum || 0}</div>
-                        </Tooltip>
+                        </div>
                       </div>
+                      {item.rules?.length ? (
+                        <div className="whitespace-nowrap text-default-6 text-xs">
+                          <Ellipsis title={item.rules.join(', ')} />
+                        </div>
+                      ) : null}
                     </div>
                   ))}
               </div>
@@ -112,7 +119,7 @@ const Pipeline = () => {
       </div>
 
       <div className="pipeline-right flex-1 pt-2 h-full min-w-0">
-        <PipelineProtocol application={application} getApps={getList} setApp={setApplication} />
+        <PipelineProtocol type={type} getTypes={getList} />
       </div>
     </div>
   );

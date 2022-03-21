@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Form, Button, TreeSelect } from 'antd';
+import { Form, Button, TreeSelect, Tooltip } from 'antd';
 import i18n from 'i18n';
 import { ErdaIcon, RenderFormItem, ErdaAlert } from 'common';
 import routeInfoStore from 'core/stores/route';
@@ -24,7 +24,10 @@ import './form.scss';
 interface IProps {
   onOk: () => void;
   onCancel: () => void;
-  application?: { ID: string; name?: string };
+  type: {
+    key: string;
+    rules: string[];
+  };
 }
 
 interface TreeNode extends Node {
@@ -65,12 +68,12 @@ const promiseDebounce = (func: Function, delay = 1000) => {
   };
 };
 
-const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
-  const { ID: id, name } = application || {};
+const PipelineForm = ({ onCancel, type, onOk }: IProps) => {
+  const { key: id, rules } = type || {};
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const [form] = Form.useForm();
   const [appList, setAppList] = React.useState<App[]>([]);
-  const [app, setApp] = React.useState<App>({ value: id, label: name } as App);
+  const [app, setApp] = React.useState<App>({});
   const [tree, setTree] = React.useState<TreeNode[]>([]);
   const [treeVisible, setTreeVisible] = React.useState(false);
   const [treeValue, setTreeValue] = React.useState('');
@@ -96,6 +99,7 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
         scopeID: projectId,
         scope: 'project-app',
         pinode,
+        pipelineCategoryKey: id,
       });
 
       if (res.success) {
@@ -104,7 +108,7 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
         return [];
       }
     },
-    [projectId],
+    [projectId, id],
   );
 
   const loadTree = async (node: TreeNode) => {
@@ -123,10 +127,8 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
   }, [projectId]);
 
   React.useEffect(() => {
-    if (!id) {
-      getApps();
-    }
-  }, [id, getApps]);
+    getApps();
+  }, [getApps]);
 
   React.useEffect(() => {
     const initialTree = async () => {
@@ -216,18 +218,8 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
       <div className="header py-2.5 pl-4 bg-default-02 flex-h-center">
         <span className="text-base text-default">{i18n.t('create {name}', { name: i18n.t('pipeline') })}</span>
         <ErdaIcon type="zhedie" className="ml-1" />
-        {name ? (
-          <div className="flex-1 flex">
-            <div className="flex-h-center ml-2 bg-default-08 px-2 py-1">
-              <ErdaIcon type="wodeyingyong" className="mr-0.5" size={18} />
-              {name}
-            </div>
-          </div>
-        ) : (
-          <div className="flex-1" />
-        )}
 
-        <div className="flex-h-center cursor-pointer mx-2 px-2 py-1">
+        <div className="flex-h-center cursor-pointer mx-2 px-2 py-1 flex-1 justify-end">
           <ErdaIcon type="guanbi" size="20" onClick={() => onCancel()} />
         </div>
       </div>
@@ -264,26 +256,24 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
           </div>
           <div>
             <div className="text-default mb-3">{i18n.t('Config')}</div>
-            {!id ? (
-              <div className="flex-h-center">
-                <div className="mb-3 w-32 text-default-6 flex-h-center">
-                  <ErdaIcon type="yingyongmingcheng" size={20} className="text-default-4 mr-1" />
-                  {i18n.t('App')}
-                </div>
-                <div className="flex-1">
-                  <RenderFormItem
-                    name="app"
-                    type="select"
-                    options={appList}
-                    rules={[{ required: true, message: i18n.t('please choose {name}', { name: i18n.t('App') }) }]}
-                    itemProps={{
-                      className: 'project-release-select',
-                      onChange: (v: string, _app: App) => setApp(_app),
-                    }}
-                  />
-                </div>
+            <div className="flex-h-center">
+              <div className="mb-3 w-32 text-default-6 flex-h-center">
+                <ErdaIcon type="yingyongmingcheng" size={20} className="text-default-4 mr-1" />
+                {i18n.t('App')}
               </div>
-            ) : null}
+              <div className="flex-1 pr-6">
+                <RenderFormItem
+                  name="app"
+                  type="select"
+                  options={appList}
+                  rules={[{ required: true, message: i18n.t('please choose {name}', { name: i18n.t('App') }) }]}
+                  itemProps={{
+                    className: 'project-release-select',
+                    onChange: (v: string, _app: App) => setApp(_app),
+                  }}
+                />
+              </div>
+            </div>
             <div className="flex">
               <div className="w-32 text-default-6">
                 <div className="flex-h-center mt-1.5">
@@ -309,40 +299,48 @@ const PipelineForm = ({ onCancel, application, onOk }: IProps) => {
                     },
                   ]}
                   getComp={() => (
-                    <TreeSelect
-                      treeDataSimpleMode
-                      treeData={tree}
-                      open={treeVisible}
-                      onDropdownVisibleChange={(visible) => {
-                        if (canTreeSelectClose.current) {
-                          setTreeVisible(visible);
-                        } else {
-                          canTreeSelectClose.current = true;
-                        }
-                      }}
-                      value={treeValue}
-                      onSelect={(value, node) => {
-                        if (node.isLeaf === false) {
-                          canTreeSelectClose.current = false;
-                          if (treeExpandedKeys.includes(value)) {
-                            setTreeExpandedKeys((pre) => pre.filter((item) => item !== value));
+                    <div className="flex">
+                      <TreeSelect
+                        className="project-release-select"
+                        treeDataSimpleMode
+                        treeData={tree}
+                        open={treeVisible}
+                        onDropdownVisibleChange={(visible) => {
+                          if (canTreeSelectClose.current) {
+                            setTreeVisible(visible);
                           } else {
-                            setTreeExpandedKeys((pre) => [...pre, value]);
+                            canTreeSelectClose.current = true;
                           }
-                        } else {
-                          setTreeValue(value);
-                        }
-                      }}
-                      treeExpandedKeys={treeExpandedKeys}
-                      onTreeExpand={(expandedKeys: Array<string | number>) => {
-                        setTreeExpandedKeys(expandedKeys);
-                      }}
-                      loadData={loadTree}
-                    />
+                        }}
+                        value={treeValue}
+                        onSelect={(value, node) => {
+                          if (node.isLeaf === false) {
+                            canTreeSelectClose.current = false;
+                            if (treeExpandedKeys.includes(value)) {
+                              setTreeExpandedKeys((pre) => pre.filter((item) => item !== value));
+                            } else {
+                              setTreeExpandedKeys((pre) => [...pre, value]);
+                            }
+                          } else {
+                            setTreeValue(value);
+                            form.setFieldsValue({ tree: value });
+                          }
+                        }}
+                        treeExpandedKeys={treeExpandedKeys}
+                        onTreeExpand={(expandedKeys: Array<string | number>) => {
+                          setTreeExpandedKeys(expandedKeys);
+                        }}
+                        loadData={loadTree}
+                      />
+                      {rules ? (
+                        <Tooltip title={rules?.join(', ')}>
+                          <ErdaIcon type="help" className="text-default-6 ml-2" size="16" />
+                        </Tooltip>
+                      ) : (
+                        <div className="w-6" />
+                      )}
+                    </div>
                   )}
-                  itemProps={{
-                    className: 'project-release-select',
-                  }}
                 />
               </div>
             </div>

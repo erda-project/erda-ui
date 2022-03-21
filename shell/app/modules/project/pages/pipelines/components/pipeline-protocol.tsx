@@ -30,29 +30,28 @@ import { getAllBranch, editPipelineName } from 'project/services/pipeline';
 import { decode } from 'js-base64';
 
 interface IProps {
-  application: { ID: number; name?: string };
-  getApps: () => void;
-  setApp: ({ ID }: { ID: number }) => void;
+  type: { key: string; rules: string[] };
+  getTypes: () => void;
 }
 
 const { TabPane } = Tabs;
 
-const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
+const PipelineProtocol = ({ type, getTypes }: IProps) => {
   const [form] = Form.useForm();
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const { name: projectName } = projectStore.useStore((s) => s.info);
   const { updateTreeNodeDetail } = fileTreeStore;
   const { updateAppDetail } = appStore.reducers;
-  const { ID: applicationID } = application;
+  const { key: typeKey } = type;
   const inParams = {
     projectId,
-    appId: `${applicationID}`,
+    pipelineCategoryKey: `${typeKey}`,
   };
 
   const [visible, setVisible] = React.useState(false);
   const [detailVisible, setDetailVisible] = React.useState(false);
   const [editVisible, setEditVisible] = React.useState(false);
-  const [editData, setEditData] = React.useState<{ id: string; name: string }>({});
+  const [editData, setEditData] = React.useState<{ id: string; name: string }>({} as { id: string; name: string });
 
   const [detail, setDetail] = React.useState<
     Partial<{ id: string; appId: string; pipelineId: string; branchExist: boolean }>
@@ -62,7 +61,7 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
 
   React.useEffect(() => {
     reloadRef.current?.reload();
-  }, [applicationID]);
+  }, [typeKey]);
 
   const onClose = React.useCallback(() => {
     setVisible(false);
@@ -87,12 +86,7 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
           if (component === 'pipelineTable') {
             const id = get(operationData, 'clientData.dataRef.id');
             if (['run', 'cancelRun', 'batchRun'].includes(id)) {
-              getApps();
-            }
-          } else if (component === 'customFilter') {
-            const app = get(operationData, 'clientData.values.app');
-            if (operation === 'filter' && applicationID !== 0 && isEmpty(app)) {
-              setApp({ ID: 0 });
+              getTypes();
             }
           }
         }}
@@ -204,11 +198,11 @@ const PipelineProtocol = ({ application, getApps, setApp }: IProps) => {
       >
         <PipelineForm
           onCancel={onClose}
-          application={application}
+          type={type}
           onOk={() => {
             onClose();
             reloadRef.current?.reload();
-            getApps();
+            getTypes();
           }}
         />
       </Drawer>
