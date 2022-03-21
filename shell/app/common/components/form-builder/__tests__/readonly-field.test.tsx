@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import ReadonlyField from '../readonly-field';
 import { render } from '@testing-library/react';
+import ReadonlyField from '../readonly-field';
 
 describe('ReadonlyField', () => {
   it('should render well with renderData', () => {

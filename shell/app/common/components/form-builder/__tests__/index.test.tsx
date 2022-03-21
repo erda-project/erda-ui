@@ -17,7 +17,6 @@ describe('RealFormBuilder', () => {
   it('should be defined', () => {
     expect(RealFormBuilder).toBeDefined();
     expect(RealFormBuilder.PureFormBuilder).toBeDefined();
-    expect(RealFormBuilder.SearchForm).toBeDefined();
     expect(RealFormBuilder.Fields).toBeDefined();
   });
 });
