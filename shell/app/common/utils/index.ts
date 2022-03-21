@@ -516,7 +516,7 @@ export const downloadFileAxios = (response: AxiosResponse<any>) => {
   const anchor = document.createElement('a');
   anchor.href = fileUrl;
   anchor.target = '_blank';
-  anchor.download = decodeURIComponent(fileName);
+  anchor.download = decodeURIComponent(fileName).replace(/^"|"$/g, '');
   anchor.style.display = 'none';
   document.body.appendChild(anchor);
   anchor.click();

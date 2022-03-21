@@ -12,16 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Input, Modal, PaginationProps } from 'antd';
+import { Modal, PaginationProps, Spin } from 'antd';
 import i18n from 'i18n';
 import apiClientStore from 'apiManagePlatform/stores/api-client';
-import { Copy, CustomFilter, ErdaAlert } from 'common';
+import { ConfigurableFilter, Copy, ErdaAlert } from 'common';
 import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import { isEmpty } from 'lodash';
 import { goTo } from 'common/utils';
-import { ColumnProps } from 'antd/lib/table';
+import { ColumnProps } from 'common/components/table/interface';
+import { Field } from 'common/components/configurable-filter';
 
 interface IState {
   keyword: string;
@@ -58,12 +59,14 @@ const ClientList = () => {
   };
 
   const filterConfig = React.useMemo(
-    (): FilterItemConfig[] => [
+    (): Field[] => [
       {
-        type: Input,
-        name: 'keyword',
+        label: '',
+        type: 'input',
+        key: 'keyword',
+        outside: true,
+        placeholder: i18n.t('default:search by keywords'),
         customProps: {
-          placeholder: i18n.t('default:search by keywords'),
           autoComplete: 'off',
         },
       },
@@ -144,7 +147,7 @@ const ClientList = () => {
             },
           };
         }}
-        slot={<CustomFilter config={filterConfig} onSubmit={handleSearch} />}
+        slot={<ConfigurableFilter fieldsList={filterConfig} onFilter={handleSearch} />}
         actions={actions}
       />
       <Modal

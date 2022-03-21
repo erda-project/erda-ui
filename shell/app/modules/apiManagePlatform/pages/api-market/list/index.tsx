@@ -13,20 +13,22 @@
 
 import React from 'react';
 import { useDebounce, useUnmount } from 'react-use';
-import { CustomFilter, UserInfo } from 'common';
+import { ConfigurableFilter, UserInfo } from 'common';
 import { useUpdate } from 'common/use-hooks';
-
+import ExportRecord, { specProtocol } from 'apiManagePlatform/pages/api-market/components/export-record';
 import ErdaTable from 'common/components/table';
 import apiMarketStore from 'app/modules/apiManagePlatform/stores/api-market';
 import { useLoading } from 'core/stores/loading';
-import { Input, Button, Tooltip, PaginationProps } from 'antd';
+import { Button, PaginationProps, Tooltip } from 'antd';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import AssetModal, { IMode, IScope } from 'app/modules/apiManagePlatform/pages/api-market/components/asset-modal';
 import ApplyModal from 'apiManagePlatform/pages/api-market/components/apply-modal';
+import { exportApi } from 'apiManagePlatform/services/api-export';
 import routeInfoStore from 'core/stores/route';
 import moment from 'moment';
-import { ColumnProps } from 'antd/lib/table';
+import { ColumnProps, IActions } from 'common/components/table/interface';
+import { Field } from 'common/components/configurable-filter';
 import './index.scss';
 
 export const assetTabs: Array<{ key: API_MARKET.AssetScope; name: string }> = [
@@ -46,7 +48,8 @@ interface IState {
   showApplyModal: boolean;
   scope: IScope;
   mode: IMode;
-  assetDetail: API_MARKET.Asset;
+  assetDetail: Partial<API_MARKET.Asset>;
+  showExportModal: boolean;
 }
 
 const commonQuery: API_MARKET.CommonQueryAssets = {
@@ -64,6 +67,7 @@ const ApiMarketList = () => {
     mode: 'add',
     assetDetail: {},
     showApplyModal: false,
+    showExportModal: false,
   });
   const [assetList, assetListPaging] = apiMarketStore.useStore((s) => [s.assetList, s.assetListPaging]);
   const { scope } = routeInfoStore.useStore((s) => s.params) as { scope: API_MARKET.AssetScope };
@@ -73,7 +77,7 @@ const ApiMarketList = () => {
   useUnmount(() => {
     resetAssetList();
   });
-  const getList = (params) => {
+  const getList = (params: Pick<API_MARKET.QueryAssets, 'keyword' | 'pageNo' | 'scope' | 'pageSize'>) => {
     getAssetList({
       ...commonQuery,
       ...params,
@@ -92,12 +96,14 @@ const ApiMarketList = () => {
   };
 
   const filterConfig = React.useMemo(
-    (): FilterItemConfig[] => [
+    (): Field[] => [
       {
-        type: Input,
-        name: 'keyword',
+        label: '',
+        type: 'input',
+        outside: true,
+        key: 'keyword',
+        placeholder: i18n.t('default:search by keywords'),
         customProps: {
-          placeholder: i18n.t('default:search by keywords'),
           autoComplete: 'off',
         },
       },
@@ -113,7 +119,7 @@ const ApiMarketList = () => {
     getList({ keyword, pageNo: current, pageSize, scope });
   };
 
-  const handleManage = (e: React.MouseEvent<HTMLSpanElement>, { assetID }: API_MARKET.Asset) => {
+  const handleManage = ({ assetID }: API_MARKET.Asset) => {
     goTo(goTo.pages.apiManageAssetVersions, { scope, assetID });
   };
 
@@ -121,7 +127,7 @@ const ApiMarketList = () => {
     goTo(goTo.pages.apiManageAssetDetail, { assetID: asset.assetID, scope, versionID: latestVersion.id });
   };
 
-  const handleApply = (e: React.MouseEvent<HTMLSpanElement>, record: API_MARKET.Asset) => {
+  const handleApply = (record: API_MARKET.Asset) => {
     update({
       showApplyModal: true,
       assetDetail: record || {},
@@ -136,18 +142,17 @@ const ApiMarketList = () => {
     });
   };
 
-  const showAssetModal = (
-    assetScope: IScope,
-    mode: IMode,
-    e?: React.MouseEvent<HTMLElement>,
-    record?: API_MARKET.Asset,
-  ) => {
+  const showAssetModal = (assetScope: IScope, mode: IMode, record?: API_MARKET.Asset) => {
     update({
       scope: assetScope,
       mode,
       visible: true,
       assetDetail: record || {},
     });
+  };
+
+  const toggleExportModal = () => {
+    updater.showExportModal((prev: boolean) => !prev);
   };
 
   const columns: Array<ColumnProps<API_MARKET.AssetListItem>> = [
@@ -177,31 +182,49 @@ const ApiMarketList = () => {
       width: 160,
       render: (text) => (
         <Tooltip title={<UserInfo id={text} />}>
-          <UserInfo id={text} />
-          <></>
+          <UserInfo.RenderWithAvatar id={text} />
         </Tooltip>
       ),
     },
   ];
 
-  const actions = {
-    render: (record: API_MARKET.AssetListItem) => {
+  const actions: IActions<API_MARKET.AssetListItem> = {
+    render: (record) => {
       const { permission, asset } = record;
       const { manage, addVersion, hasAccess } = permission;
       return [
         {
+          title: i18n.t('export'),
+          onClick: () => {
+            exportApi
+              .fetch({
+                versionID: record.latestVersion.id,
+                specProtocol,
+              })
+              .then(() => {
+                toggleExportModal();
+              });
+          },
+        },
+        {
           title: i18n.t('manage'),
-          onClick: (e) => handleManage(e, asset),
+          onClick: () => {
+            handleManage(asset);
+          },
           show: manage,
         },
         {
           title: i18n.t('add {name}', { name: i18n.t('version') }),
-          onClick: (e) => showAssetModal('version', 'add', e, asset),
-          show: addVersion,
+          onClick: () => {
+            showAssetModal('version', 'add', asset);
+          },
+          show: !!addVersion,
         },
         {
           title: i18n.t('apply to call'),
-          onClick: (e) => handleApply(e, asset),
+          onClick: () => {
+            handleApply(asset);
+          },
           show: hasAccess,
         },
       ];
@@ -211,6 +234,7 @@ const ApiMarketList = () => {
   return (
     <div className="api-market-list">
       <div className="top-button-group">
+        <Button onClick={toggleExportModal}>{i18n.t('export record')}</Button>
         <Button
           type="primary"
           onClick={() => {
@@ -238,7 +262,7 @@ const ApiMarketList = () => {
         onChange={handleTableChange}
         loading={isFetchList}
         actions={actions}
-        slot={<CustomFilter config={filterConfig} onSubmit={handleSearch} />}
+        slot={<ConfigurableFilter fieldsList={filterConfig} onFilter={handleSearch} />}
       />
       <AssetModal
         visible={state.visible}
@@ -253,6 +277,7 @@ const ApiMarketList = () => {
         onCancel={closeModal}
         dataSource={state.assetDetail as API_MARKET.Asset}
       />
+      <ExportRecord visible={state.showExportModal} onCancel={toggleExportModal} />
     </div>
   );
 };
