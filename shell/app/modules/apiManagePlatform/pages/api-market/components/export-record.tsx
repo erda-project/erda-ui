@@ -14,12 +14,11 @@
 import React from 'react';
 import { Modal } from 'antd';
 import ErdaTable, { IProps as ITableProps } from 'common/components/table';
-import { exportRecord } from 'apiManagePlatform/services/api-export';
+import { downloadApi, exportRecord } from 'apiManagePlatform/services/api-export';
 import { UserInfo } from 'common';
 import i18n from 'i18n';
 import { ColumnProps, IActions } from 'common/components/table/interface';
 import { useUpdate } from 'common/use-hooks';
-import { setApiWithOrg } from 'common/utils';
 import { PAGINATION } from 'app/constants';
 import moment from 'moment';
 import './export-record.scss';
@@ -91,11 +90,14 @@ const ExportRecordModal = ({ visible, onCancel }: IProps) => {
         {
           title: i18n.t('download'),
           onClick: () => {
-            window.open(
-              setApiWithOrg(
-                `/api/api-assets/${record.assetID}/versions/${record.versionID}/export?specProtocol=${specProtocol}`,
-              ),
-            );
+            downloadApi.fetch({
+              specProtocol,
+              versionID: record.versionID,
+              assetID: record.assetID,
+              $options: {
+                isDownload: true,
+              },
+            });
           },
         },
       ];
