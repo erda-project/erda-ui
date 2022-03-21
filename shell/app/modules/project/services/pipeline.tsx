@@ -32,9 +32,21 @@ interface AppDetail {
   projectName?: string;
 }
 
+interface Category {
+  key: string;
+  category: string;
+  rules: string[];
+  runningNum: number;
+  failedNum: number;
+  totalNum: number;
+}
+
 const apis = {
   getAppList: {
     api: 'get@/api/project-pipeline/actions/get-my-apps',
+  },
+  getPipelineTypesList: {
+    api: 'get@/api/project-pipeline/actions/list-category',
   },
   getFileTree: {
     api: 'get@/api/project-pipeline/filetree',
@@ -64,11 +76,16 @@ const apis = {
 
 export const getAppList = apiCreator<(payload: { projectID: string; name?: string }) => AppDetail[]>(apis.getAppList);
 
+export const getPipelineTypesList = apiCreator<(payload: { projectID: string; name?: string }) => Category[]>(
+  apis.getPipelineTypesList,
+);
+
 export const getFileTree = apiCreator<
   (payload: {
     pinode: string;
     scope: string;
     scopeID: string;
+    pipelineCategoryKey: string;
   }) => Array<{ inode: string; name: string; pinode: string; type: string }>
 >(apis.getFileTree);
 
