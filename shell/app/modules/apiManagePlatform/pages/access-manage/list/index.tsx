@@ -12,16 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Popconfirm, Spin, Button, Input, Modal } from 'antd';
+import { Button, Modal, Spin } from 'antd';
 import i18n from 'i18n';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import moment from 'moment';
-import { CustomFilter, TableActions } from 'common';
+import { ConfigurableFilter } from 'common';
 import { goTo } from 'common/utils';
 import ErdaTable from 'common/components/table';
 import { ColumnProps } from 'common/components/table/interface';
 import { useLoading } from 'core/stores/loading';
 import { PAGINATION } from 'app/constants';
+import { Field } from 'common/components/configurable-filter';
 
 const formatData = (data: API_ACCESS.AccessListItem[]): API_ACCESS.ITableData[] => {
   return data.map(({ children, ...rest }) => {
@@ -59,12 +60,14 @@ const AccessList = () => {
     });
   };
   const filterConfig = React.useMemo(
-    (): FilterItemConfig[] => [
+    (): Field[] => [
       {
-        type: Input,
-        name: 'keyword',
+        label: '',
+        type: 'input',
+        outside: true,
+        key: 'keyword',
+        placeholder: i18n.t('default:search by keywords'),
         customProps: {
-          placeholder: i18n.t('default:search by keywords'),
           autoComplete: 'off',
         },
       },
@@ -100,7 +103,7 @@ const AccessList = () => {
     },
   ];
 
-  const subAcions = {
+  const subActions = {
     render: (record: API_ACCESS.ITableSubAccess) => {
       const { edit, delete: canDelete } = record;
       return [
@@ -133,7 +136,7 @@ const AccessList = () => {
         columns={subColumns}
         dataSource={record.subData}
         pagination={false}
-        actions={subAcions}
+        actions={subActions}
         onRow={(data: API_ACCESS.ITableSubAccess) => {
           return {
             onClick: () => {
@@ -165,7 +168,7 @@ const AccessList = () => {
         columns={columns}
         dataSource={dataSource}
         expandedRowRender={expandedRowRender}
-        slot={<CustomFilter config={filterConfig} onSubmit={handleSearch} />}
+        slot={<ConfigurableFilter fieldsList={filterConfig} onFilter={handleSearch} />}
         pagination={{
           current,
           pageSize,

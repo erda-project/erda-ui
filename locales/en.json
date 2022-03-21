@@ -468,6 +468,7 @@
     "export": "export",
     "export configuration": "export configuration",
     "export format": "export format",
+    "export record": "export record",
     "export {type}": "export {type}",
     "exported successfully": "exported successfully",
     "external": "external",

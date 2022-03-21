@@ -407,6 +407,7 @@ declare namespace API_MARKET {
     protocolType: string;
     versionID: number;
   }
+
   interface QueryExportRecord {
     orderBy?: string;
     pageNo: number;
@@ -427,5 +428,11 @@ declare namespace API_MARKET {
     minor: number;
     patch: number;
     protocolType: string;
+  }
+
+  interface DownloadApi {
+    specProtocol: string;
+    assetID: string;
+    versionID: number;
   }
 }

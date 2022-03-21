@@ -24,6 +24,11 @@ const apis = {
   },
 };
 
+interface IRecords {
+  list: API_MARKET.ExportRecord[];
+  total: number;
+}
+
 export const exportApi = apiCreator<(payload: API_MARKET.ExportApi) => API_MARKET.ExportRecord>(apis.exportApi);
-export const exportRecord = apiCreator<(payload: API_MARKET.QueryExportRecord) => void>(apis.exportRecord);
-export const downloadApi = apiCreator(apis.downloadApi);
+export const exportRecord = apiCreator<(payload: API_MARKET.QueryExportRecord) => IRecords>(apis.exportRecord);
+export const downloadApi = apiCreator<(payload: API_MARKET.DownloadApi) => void>(apis.downloadApi);

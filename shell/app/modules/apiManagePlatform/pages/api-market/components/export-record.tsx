@@ -13,10 +13,15 @@
 
 import React from 'react';
 import { Modal } from 'antd';
-import ErdaTable, { IProps as ITablePRops } from 'common/components/table';
+import ErdaTable, { IProps as ITableProps } from 'common/components/table';
 import { exportRecord } from 'apiManagePlatform/services/api-export';
+import { UserInfo } from 'common';
 import i18n from 'i18n';
 import { ColumnProps, IActions } from 'common/components/table/interface';
+import { useUpdate } from 'common/use-hooks';
+import { setApiWithOrg } from 'common/utils';
+import { PAGINATION } from 'app/constants';
+import moment from 'moment';
 import './export-record.scss';
 
 interface IProps {
@@ -24,14 +29,27 @@ interface IProps {
   onCancel: () => void;
 }
 
+export const specProtocol = 'csv';
+
 const ExportRecordModal = ({ visible, onCancel }: IProps) => {
   const [data, loading] = exportRecord.useState();
+  const [{ pageSize, pageNo }, _updater, update] = useUpdate({
+    pageSize: PAGINATION.pageSize,
+    pageNo: 1,
+  });
   React.useEffect(() => {
     if (visible) {
       exportRecord.fetch({
         pageNo: 1,
+        pageSize: PAGINATION.pageSize,
       });
     }
+    return () => {
+      update({
+        pageSize: 10,
+        pageNo: 1,
+      });
+    };
   }, [visible]);
   const columns: ColumnProps<API_MARKET.ExportRecord>[] = [
     {
@@ -55,35 +73,47 @@ const ExportRecordModal = ({ visible, onCancel }: IProps) => {
     },
     {
       title: i18n.t('operator'),
-      dataIndex: 'operator',
+      dataIndex: 'creatorID',
+      render: (value) => {
+        return <UserInfo.RenderWithAvatar id={value} />;
+      },
     },
     {
       title: i18n.t('time'),
-      dataIndex: 'time',
+      dataIndex: 'createdAt',
       sorter: true,
+      render: (value) => (value ? moment(value).format('YYYY/MM/DD HH:mm:ss') : '-'),
     },
   ];
-  const tableAction: IActions<any> = {
+  const tableAction: IActions<API_MARKET.ExportRecord> = {
     render: (record) => {
       return [
         {
           title: i18n.t('download'),
           onClick: () => {
-            onCancel();
+            window.open(
+              setApiWithOrg(
+                `/api/api-assets/${record.assetID}/versions/${record.versionID}/export?specProtocol=${specProtocol}`,
+              ),
+            );
           },
         },
       ];
     },
   };
 
-  const handleTableChange: ITablePRops['onChange'] = ({ current = 1, pageSize }, _filters, sorter, extra) => {
+  const handleTableChange: ITableProps['onChange'] = ({ current = 1, pageSize: size }, _filters, sorter, extra) => {
     let orderBy;
     if (extra.action === 'sort' && !Array.isArray(sorter)) {
       orderBy = `${sorter.order === 'descend' ? '-' : ''}${sorter.field}`;
     }
+    update({
+      pageNo: current,
+      pageSize: size,
+    });
     exportRecord.fetch({
       pageNo: current,
-      pageSize,
+      pageSize: size,
       orderBy,
     });
   };
@@ -91,7 +121,7 @@ const ExportRecordModal = ({ visible, onCancel }: IProps) => {
   return (
     <Modal
       width={700}
-      title={<span className="text-base">{i18n.d('导出记录')}</span>}
+      title={<span className="text-base">{i18n.t('export record')}</span>}
       wrapClassName="export-record-modal"
       visible={visible}
       footer={null}
@@ -99,10 +129,17 @@ const ExportRecordModal = ({ visible, onCancel }: IProps) => {
       onCancel={onCancel}
     >
       <ErdaTable
+        wrapperClassName="h-full w-full"
+        rowKey="id"
         loading={loading}
         columns={columns}
         actions={tableAction}
-        dataSource={data}
+        dataSource={data?.list ?? []}
+        pagination={{
+          total: data?.total,
+          pageSize,
+          current: pageNo,
+        }}
         onChange={handleTableChange}
       />
     </Modal>
