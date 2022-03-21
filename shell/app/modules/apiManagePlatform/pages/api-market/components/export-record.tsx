@@ -45,7 +45,7 @@ const ExportRecordModal = ({ visible, onCancel }: IProps) => {
     }
     return () => {
       update({
-        pageSize: 10,
+        pageSize: PAGINATION.pageSize,
         pageNo: 1,
       });
     };
