@@ -17,7 +17,7 @@ import routeInfoStore from 'core/stores/route';
 import projectLabelStore from 'project/stores/label';
 import issueStore from 'project/stores/issues';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
-import { map, isEmpty } from 'lodash';
+import { map, isEmpty, omit } from 'lodash';
 
 import { useMount } from 'react-use';
 import IssueState from 'project/common/components/issue/issue-state';
@@ -168,7 +168,7 @@ const Ticket = () => {
   );
 
   const getList = (query: Obj = {}) => {
-    getIssues({ type: ISSUE_TYPE.TICKET, ...filterData, ...query });
+    getIssues({ type: ISSUE_TYPE.TICKET, ...omit(filterData, 'createdAt'), ...query });
   };
 
   const clickTicket = (val: ISSUE.Issue) => {
@@ -332,24 +332,27 @@ const Ticket = () => {
     onChange: (no: number, size: number) => getList({ pageNo: no, pageSize: size }),
   };
 
-  const onFilter = ({ createdAt, ...query }: Obj = {}) => {
-    const _q = { ...query };
-    if (!isEmpty(createdAt)) {
-      const [start, end] = createdAt;
+  const onFilter = ({ createdAt, ...rest }: Obj = {}) => {
+    const _q = { ...rest };
+    const [start, end] = createdAt || [];
+    if (start) {
       const startCreatedAt = moment(+start)
         .startOf('day')
         .valueOf();
+      _q.startCreatedAt = startCreatedAt;
+    } else {
+      _q.startCreatedAt = undefined;
+    }
+    if (end) {
       const endCreatedAt = moment(+end)
         .endOf('day')
         .valueOf();
-      _q.startCreatedAt = startCreatedAt;
       _q.endCreatedAt = endCreatedAt;
     } else {
-      _q.startCreatedAt = undefined;
       _q.endCreatedAt = undefined;
     }
 
-    updater.filterData({ createdAt, ...query });
+    updater.filterData({ createdAt, ...rest });
     getList({ pageNo: 1, ..._q });
   };
 
@@ -357,8 +360,8 @@ const Ticket = () => {
     const _q = { ...query };
     if (!isEmpty(_q.createdAt)) {
       const [start, end] = _q.createdAt;
-      const startCreatedAt = start.valueOf();
-      const endCreatedAt = end.valueOf();
+      const startCreatedAt = start?.valueOf();
+      const endCreatedAt = end?.valueOf();
       _q.createdAt = [startCreatedAt, endCreatedAt];
     }
     updateSearch(_q, { replace: true });
