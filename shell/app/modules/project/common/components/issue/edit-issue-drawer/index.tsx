@@ -725,7 +725,7 @@ export const EditIssueDrawer = (props: IProps) => {
                         {
                           id: relationData.beIncluded[0].id,
                           type: relationData.beIncluded[0].type,
-                          tab: relationData.beIncluded[0].type,
+                          tab: 'ALL',
                         },
                         true,
                       )}`}
