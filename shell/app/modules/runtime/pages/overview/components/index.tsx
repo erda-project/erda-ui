@@ -35,17 +35,22 @@ const RuntimeOverView = () => {
   const [runtimeDetail, addons] = runtimeStore.useStore((s) => [s.runtimeDetail, s.addons]);
   const services = {};
   const endpoints = {};
-  let isServiceType = true;
+  const [runtimeType, setRunTimeType] = React.useState('service');
   map(runtimeDetail.services, (item, name) => {
     if (item.expose === null || item.expose?.length === 0) {
       services[name] = item;
     } else {
       endpoints[name] = item;
-      if (item?.type && item.type === 'job') {
-        isServiceType = false;
-      }
     }
   });
+
+  React.useEffect(() => {
+    map(runtimeDetail.services, (item) => {
+      if (item?.type === 'job') {
+        return setRunTimeType('job');
+      }
+    });
+  }, [runtimeDetail]);
 
   const getAddonCardProps = (addon: ADDON.Instance) => {
     const {
@@ -196,7 +201,9 @@ const RuntimeOverView = () => {
           <ErrorBoundary>
             <IF check={!isEmpty(endpoints)}>
               <div className="overview-body-block">
-                <div className="overview-body-title">{isServiceType ? i18n.t('runtime:endpoint') : i18n.t('task')}</div>
+                <div className="overview-body-title">
+                  {runtimeType === 'job' ? i18n.t('task') : i18n.t('runtime:endpoint')}
+                </div>
                 {map(endpoints, (service, key) => {
                   return (
                     <ServiceCard
@@ -205,7 +212,6 @@ const RuntimeOverView = () => {
                       name={key}
                       key={key}
                       params={params}
-                      isServiceType={isServiceType}
                       isEndpoint
                     />
                   );
@@ -214,7 +220,9 @@ const RuntimeOverView = () => {
             </IF>
             <IF check={!isEmpty(services)}>
               <div className="overview-body-block">
-                <div className="overview-body-title">{i18n.t('microService')}</div>
+                <div className="overview-body-title">
+                  {runtimeType === 'job' ? i18n.t('task') : i18n.t('microService')}
+                </div>
                 {map(services, (service, key) => {
                   return (
                     <ServiceCard runtimeDetail={runtimeDetail} service={service} name={key} key={key} params={params} />

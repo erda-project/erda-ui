@@ -53,7 +53,6 @@ interface IProps {
   runtimeDetail: typeof runtimeStore.stateType.runtimeDetail;
   service: RUNTIME_SERVICE.Detail;
   isEndpoint?: boolean;
-  isServiceType?: boolean;
 }
 
 const ServiceCard = (props: IProps) => {
@@ -63,8 +62,8 @@ const ServiceCard = (props: IProps) => {
     params: { appId, runtimeId },
     service,
     isEndpoint = false,
-    isServiceType = true,
   } = props;
+
   const [serviceInsMap] = runtimeServiceStore.useStore((s) => [s.serviceInsMap]);
   const domainMap = runtimeDomainStore.useStore((s) => s.domainMap);
   const permMap = usePerm((s) => s.app);
@@ -237,10 +236,12 @@ const ServiceCard = (props: IProps) => {
     status,
     deployments: { replicas },
     errors,
+    type,
   } = service as RUNTIME_SERVICE.Detail;
+
   const { cpu, mem } = resources;
   const expose = map(domainMap[name], 'domain').filter((domain) => !!domain);
-
+  const isServiceType = type !== 'job';
   const resourceInfo = (
     <span className="resources nowrap">{`${
       isServiceType ? `${i18n.t('instance')} ${replicas} /` : ''
@@ -428,12 +429,7 @@ const ServiceCard = (props: IProps) => {
               tab={isServiceType ? i18n.t('runtime:service details') : i18n.t('runtime:task details')}
               key="service-details"
             >
-              <InstanceTable
-                isFetching={isFetching}
-                instances={instances}
-                opsCol={opsCol}
-                isServiceType={isServiceType}
-              />
+              <InstanceTable isFetching={isFetching} instances={instances} opsCol={opsCol} />
             </TabPane>
             <TabPane tab={i18n.t('pod detail')} key="pod-detail">
               <PodTable runtimeID={runtimeId} service={name} />
