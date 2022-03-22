@@ -12,15 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Tabs, Modal, Form, message } from 'antd';
-import { get, isEmpty } from 'lodash';
+import { Drawer, Tabs, Modal, Form, message, FormInstance } from 'antd';
+import { get } from 'lodash';
 import i18n from 'i18n';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import projectStore from 'project/stores/project';
 import { updateSearch } from 'common/utils';
 import fileTreeStore from 'project/stores/file-tree';
-import { EmptyHolder, RenderFormItem, ErdaAlert } from 'common';
+import { EmptyHolder, RenderFormItem } from 'common';
 import { getINodeByPipelineId } from 'application/services/build';
 import PipelineForm from './form';
 import PipelineBasic from './basic';
@@ -32,11 +32,14 @@ import { decode } from 'js-base64';
 interface IProps {
   type: { key: string; rules: string[] };
   getTypes: () => void;
+  appID: number | null;
+  setAppID: (appID: number | null) => void;
+  getGuides: () => void;
 }
 
 const { TabPane } = Tabs;
 
-const PipelineProtocol = ({ type, getTypes }: IProps) => {
+const PipelineProtocol = ({ type, getTypes, appID, setAppID, getGuides }: IProps) => {
   const [form] = Form.useForm();
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const { name: projectName } = projectStore.useStore((s) => s.info);
@@ -63,9 +66,16 @@ const PipelineProtocol = ({ type, getTypes }: IProps) => {
     reloadRef.current?.reload();
   }, [typeKey]);
 
+  React.useEffect(() => {
+    if (appID) {
+      setVisible(true);
+    }
+  }, [appID]);
+
   const onClose = React.useCallback(() => {
     setVisible(false);
-  }, []);
+    setAppID(null);
+  }, [setAppID]);
 
   const onDetailClose = React.useCallback(() => {
     setDetailVisible(false);
@@ -197,12 +207,14 @@ const PipelineProtocol = ({ type, getTypes }: IProps) => {
         closable={false}
       >
         <PipelineForm
+          appID={appID}
           onCancel={onClose}
           type={type}
           onOk={() => {
             onClose();
             reloadRef.current?.reload();
             getTypes();
+            getGuides();
           }}
         />
       </Drawer>
