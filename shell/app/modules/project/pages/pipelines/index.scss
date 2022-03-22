@@ -30,3 +30,8 @@
     }
   }
 }
+
+div.alert-blue {
+  border-color: $blue;
+  background-color: rgba($blue, 0.1);
+}

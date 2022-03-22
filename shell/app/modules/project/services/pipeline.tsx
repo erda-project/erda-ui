@@ -41,6 +41,13 @@ interface Category {
   totalNum: number;
 }
 
+interface Guide {
+  appID: number;
+  branch: string;
+  appName: string;
+  timeCreated: string;
+}
+
 const apis = {
   getAppList: {
     api: 'get@/api/project-pipeline/actions/get-my-apps',
@@ -71,6 +78,9 @@ const apis = {
   },
   editPipelineName: {
     api: 'put@/api/project-pipeline/definitions/:id',
+  },
+  getGuidesList: {
+    api: 'get@/api/guide',
   },
 };
 
@@ -114,3 +124,5 @@ export const getAllBranch = apiCreator<(payload: { appID: number }) => RAW_RESPO
 export const editPipelineName = apiCreator<(payload: { id: string; name: string; projectID: string }) => RAW_RESPONSE>(
   apis.editPipelineName,
 );
+
+export const getGuidesList = apiCreator<(payload: { kind: string; projectID: string }) => Guide[]>(apis.getGuidesList);

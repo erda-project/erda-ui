@@ -12,15 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Tabs, Modal, Form, message } from 'antd';
-import { get, isEmpty } from 'lodash';
+import { Drawer, Tabs, Modal, Form, message, FormInstance } from 'antd';
+import { get } from 'lodash';
 import i18n from 'i18n';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import projectStore from 'project/stores/project';
 import { updateSearch } from 'common/utils';
 import fileTreeStore from 'project/stores/file-tree';
-import { EmptyHolder, RenderFormItem, ErdaAlert } from 'common';
+import { EmptyHolder, RenderFormItem } from 'common';
 import { getINodeByPipelineId } from 'application/services/build';
 import PipelineForm from './form';
 import PipelineBasic from './basic';
@@ -32,11 +32,14 @@ import { decode } from 'js-base64';
 interface IProps {
   type: { key: string; rules: string[] };
   getTypes: () => void;
+  appID: number | null;
+  setAppID: (appID: number | null) => void;
+  getGuides: () => void;
 }
 
 const { TabPane } = Tabs;
 
-const PipelineProtocol = ({ type, getTypes }: IProps) => {
+const PipelineProtocol = ({ type, getTypes, appID, setAppID, getGuides }: IProps) => {
   const [form] = Form.useForm();
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const { name: projectName } = projectStore.useStore((s) => s.info);
@@ -52,6 +55,7 @@ const PipelineProtocol = ({ type, getTypes }: IProps) => {
   const [detailVisible, setDetailVisible] = React.useState(false);
   const [editVisible, setEditVisible] = React.useState(false);
   const [editData, setEditData] = React.useState<{ id: string; name: string }>({} as { id: string; name: string });
+  const formRef = React.useRef<FormInstance>({} as FormInstance);
 
   const [detail, setDetail] = React.useState<
     Partial<{ id: string; appId: string; pipelineId: string; branchExist: boolean }>
@@ -62,6 +66,21 @@ const PipelineProtocol = ({ type, getTypes }: IProps) => {
   React.useEffect(() => {
     reloadRef.current?.reload();
   }, [typeKey]);
+
+  React.useEffect(() => {
+    if (appID) {
+      setVisible(true);
+    }
+  }, [appID]);
+
+  React.useEffect(() => {
+    if (visible && appID) {
+      setAppID(null);
+      formRef.current.form?.setFieldsValue?.({ app: appID });
+      formRef.current.setApp?.({ value: appID });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible]);
 
   const onClose = React.useCallback(() => {
     setVisible(false);
@@ -197,12 +216,14 @@ const PipelineProtocol = ({ type, getTypes }: IProps) => {
         closable={false}
       >
         <PipelineForm
+          ref={formRef}
           onCancel={onClose}
           type={type}
           onOk={() => {
             onClose();
             reloadRef.current?.reload();
             getTypes();
+            getGuides();
           }}
         />
       </Drawer>

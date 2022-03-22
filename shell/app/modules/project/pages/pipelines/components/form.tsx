@@ -68,12 +68,12 @@ const promiseDebounce = (func: Function, delay = 1000) => {
   };
 };
 
-const PipelineForm = ({ onCancel, type, onOk }: IProps) => {
+const PipelineForm = React.forwardRef(({ onCancel, type, onOk }: IProps, ref) => {
   const { key: id, rules } = type || {};
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const [form] = Form.useForm();
   const [appList, setAppList] = React.useState<App[]>([]);
-  const [app, setApp] = React.useState<App>({});
+  const [app, setApp] = React.useState<App>({} as App);
   const [tree, setTree] = React.useState<TreeNode[]>([]);
   const [treeVisible, setTreeVisible] = React.useState(false);
   const [treeValue, setTreeValue] = React.useState('');
@@ -81,6 +81,11 @@ const PipelineForm = ({ onCancel, type, onOk }: IProps) => {
   const canTreeSelectClose = React.useRef(true);
   const [nameRepeatMessage, setNameRepeatMessage] = React.useState('');
   const [sourceErrorMessage, setSourceErrorMessage] = React.useState('');
+
+  React.useImperativeHandle(ref, () => ({
+    form,
+    setApp,
+  }));
 
   const convertTreeData = (data: Node[]) => {
     return data.map((item) => ({
@@ -361,7 +366,7 @@ const PipelineForm = ({ onCancel, type, onOk }: IProps) => {
       </div>
     </div>
   );
-};
+});
 
 const CodeResource = () => {
   const list = [
