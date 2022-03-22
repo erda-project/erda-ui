@@ -53,6 +53,7 @@ interface IProps {
   runtimeDetail: typeof runtimeStore.stateType.runtimeDetail;
   service: RUNTIME_SERVICE.Detail;
   isEndpoint?: boolean;
+  runtimeType?: string;
 }
 
 const ServiceCard = (props: IProps) => {
@@ -62,7 +63,9 @@ const ServiceCard = (props: IProps) => {
     params: { appId, runtimeId },
     service,
     isEndpoint = false,
+    runtimeType = 'service',
   } = props;
+
   const [serviceInsMap] = runtimeServiceStore.useStore((s) => [s.serviceInsMap]);
   const domainMap = runtimeDomainStore.useStore((s) => s.domainMap);
   const permMap = usePerm((s) => s.app);
@@ -236,13 +239,14 @@ const ServiceCard = (props: IProps) => {
     deployments: { replicas },
     errors,
   } = service as RUNTIME_SERVICE.Detail;
+
   const { cpu, mem } = resources;
   const expose = map(domainMap[name], 'domain').filter((domain) => !!domain);
-
+  const isServiceType = runtimeType !== 'job';
   const resourceInfo = (
-    <span className="resources nowrap">{`${i18n.t('instance')} ${replicas} / CPU ${cpu} / ${i18n.t(
-      'memory',
-    )} ${mem}MB`}</span>
+    <span className="resources nowrap">{`${
+      isServiceType ? `${i18n.t('instance')} ${replicas} /` : ''
+    } CPU ${cpu} / ${i18n.t('memory')} ${mem}MB`}</span>
   );
 
   const serviceClass = classNames({
@@ -348,7 +352,6 @@ const ServiceCard = (props: IProps) => {
               <span className="table-operations-btn" onClick={() => openSlidePanel('terminal', { ...record })}>
                 {i18n.t('console')}
               </span>
-
               <IF.ELSE />
 
               <NoAuthTip>
@@ -356,9 +359,11 @@ const ServiceCard = (props: IProps) => {
               </NoAuthTip>
             </IF>
           </IF>
-          <span className="table-operations-btn" onClick={() => openSlidePanel('monitor', { ...record })}>
-            {i18n.t('container monitor')}
-          </span>
+          <IF check={isServiceType}>
+            <span className="table-operations-btn" onClick={() => openSlidePanel('monitor', { ...record })}>
+              {i18n.t('container monitor')}
+            </span>
+          </IF>
           <span className="table-operations-btn" onClick={() => openSlidePanel('log', { ...record })}>
             {i18n.t('log')}
           </span>
@@ -408,14 +413,19 @@ const ServiceCard = (props: IProps) => {
             </div>
             <div className="error-msg text-xs nowrap">{errorMsg}</div>
           </div>
-          <div className="service-card-operation" onClick={(e) => e.stopPropagation()}>
-            {getOperation()}
-          </div>
+          {isServiceType && (
+            <div className="service-card-operation" onClick={(e) => e.stopPropagation()}>
+              {getOperation()}
+            </div>
+          )}
         </div>
         <div className="inner-content">
           <Tabs defaultActiveKey="service-details">
-            <TabPane tab={i18n.t('runtime:service details')} key="service-details">
-              <InstanceTable isFetching={isFetching} instances={instances} opsCol={opsCol} />
+            <TabPane
+              tab={isServiceType ? i18n.t('runtime:service details') : i18n.t('runtime:task details')}
+              key="service-details"
+            >
+              <InstanceTable isFetching={isFetching} instances={instances} opsCol={opsCol} runtimeType={runtimeType} />
             </TabPane>
             <TabPane tab={i18n.t('pod detail')} key="pod-detail">
               <PodTable runtimeID={runtimeId} service={name} />

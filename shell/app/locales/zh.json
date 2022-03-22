@@ -2751,6 +2751,7 @@
     "start deleting runtime": "开始删除runtime",
     "start redeploying the runtime": "开始重新部署runtime",
     "start rolling back runtime": "开始回滚runtime",
+    "task details": "任务详情",
     "the current runtime has been deleted, back to the pipeline?": "当前Runtime已被删除，是否回到流水线？",
     "time consuming": "耗时",
     "to be published": "待发布",
