@@ -104,9 +104,9 @@ const Editor = (props: IProps) => {
         <ErdaAlert
           message={
             <div>
-              当前流水线编辑内容已变更，需要手动切换查看{' '}
+              {`${i18n.t('dop:pipeline-changed-tip1')} `}
               <span className="text-purple-deep cursor-pointer" onClick={checkExecute}>
-                最新执行状态
+                {i18n.t('dop:the latest execution status')}
               </span>
             </div>
           }

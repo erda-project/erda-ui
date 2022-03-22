@@ -1,4 +1,17 @@
-import * as React from 'react';
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+import React from 'react';
 import fileTreeStore from 'project/stores/file-tree';
 import buildStore from 'application/stores/build';
 import { useUnmount, useUpdateEffect } from 'react-use';
@@ -11,6 +24,7 @@ import repoStore from 'application/stores/repo';
 import { EmptyHolder, ErdaIcon } from 'common';
 import { goTo } from 'app/common/utils';
 import { encode } from 'js-base64';
+import i18n from 'i18n';
 
 interface IProps {
   appId: string;
@@ -126,7 +140,7 @@ const Pipeline = (props: IProps) => {
   };
 
   const extraTitle = (
-    <Tooltip title="查看历史执行记录">
+    <Tooltip title={i18n.t('dop:check execution history')}>
       <ErdaIcon
         onClick={() => {
           goTo(goTo.pages.projectPipelineRecords, {
