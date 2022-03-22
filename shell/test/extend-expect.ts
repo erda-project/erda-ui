@@ -55,7 +55,16 @@ expect.extend({
     const callTimes = received.mock.calls.length;
     let pass = false;
     if (!callTimes) {
-      pass = false;
+      return {
+        pass,
+        message: () => {
+          return [
+            this.utils.matcherHint(matcherName, undefined, undefined, options),
+            `Expected: ${this.utils.EXPECTED_COLOR('number of calls: >= 1')}`,
+            `Received: ${this.utils.RECEIVED_COLOR('number of calls:    0')}`,
+          ].join('\n');
+        },
+      };
     }
     const lastCalled = received.mock.calls[callTimes - 1];
     const params = lastCalled[nthParams];
