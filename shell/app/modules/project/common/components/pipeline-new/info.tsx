@@ -80,7 +80,7 @@ const Info = (props: IProps) => {
   return (
     <div className={`${className}`}>
       <div className="flex-h-center justify-between">
-        <div className="font-medium mb-2">{'基本信息'}</div>
+        <div className="font-medium mb-2">{i18n.t('dop:basic information')}</div>
         <div>{operations}</div>
       </div>
       <Panel fields={fields} data={info} />
