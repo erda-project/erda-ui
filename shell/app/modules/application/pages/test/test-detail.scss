@@ -72,25 +72,21 @@ $hover-color: #e1e7fe;
     }
 
     .status-point {
-      display: inline-block;
+      display: inline-flex;
       width: 8px;
       height: 8px;
-      margin-right: 4px;
       border-radius: 100%;
 
       &.skipped {
         background-color: $yellow;
       }
 
-      &.failed {
-        background-color: #f56b6b;
-      }
-
       &.passed {
         background-color: $green;
       }
 
-      &.error {
+      &.error,
+      &.failed {
         background-color: $red;
       }
 
@@ -110,7 +106,7 @@ $hover-color: #e1e7fe;
         justify-content: space-between;
         align-items: center;
         height: 48px;
-        padding: 12px;
+        padding: 12px 4px;
         color: $color-text;
         border-bottom: 1px solid #e8e8e873;
         cursor: pointer;
