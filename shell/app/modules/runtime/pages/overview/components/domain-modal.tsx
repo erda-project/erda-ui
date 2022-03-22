@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { map, findLast, isEqual, cloneDeep, filter } from 'lodash';
+import { map, findLast, isEqual, cloneDeep, filter, uniqueId, find } from 'lodash';
 import React from 'react';
 import { useUpdate } from 'common/use-hooks';
 import { ErdaIcon } from 'common';
@@ -33,6 +33,8 @@ interface IProps {
   onCancel: () => void;
 }
 
+type IDomain = Merge<RUNTIME_DOMAIN.Item, { id: string }>;
+
 const DomainModal = (props: IProps) => {
   const [form] = Form.useForm();
   const { visible, serviceName, onCancel } = props;
@@ -47,12 +49,12 @@ const DomainModal = (props: IProps) => {
 
   const initDomains = cloneDeep(domainMap[serviceName]);
   const [{ domains }, updater] = useUpdate({
-    domains: initDomains,
+    domains: initDomains.map((x) => ({ ...x, id: uniqueId() })),
   });
 
   React.useEffect(() => {
     if (visible) {
-      updater.domains(cloneDeep(domainMap[serviceName]));
+      updater.domains(cloneDeep(domainMap[serviceName].map((x) => ({ ...x, id: uniqueId() }))) as IDomain[]);
     }
   }, [domainMap, serviceName, updater, visible]);
 
@@ -64,8 +66,8 @@ const DomainModal = (props: IProps) => {
     };
     form.validateFields().then((values: any) => {
       map(values, (realValue, keyStr) => {
-        const [domainType, name, index] = keyStr.split('@');
-        const target = index ? domains[index] : findLast(domains, domainType);
+        const [domainType, name, id] = keyStr.split('@');
+        const target = id ? find(domains, (x) => x.id === id) : findLast(domains, domainType);
         name && (target[name] = realValue);
       });
       if (!isEqual(domainMap[serviceName], domains)) {
@@ -113,6 +115,7 @@ const DomainModal = (props: IProps) => {
           customDomain: '',
           rootDomain: '',
           useHttps: true,
+          id: uniqueId(),
         },
       ]);
     }
@@ -169,14 +172,14 @@ const DomainModal = (props: IProps) => {
               ) : null}
             </span>
           </div>
-          {map(domains, ({ domainType, customDomain, rootDomain, domain }, index) => {
+          {map(domains, ({ domainType, customDomain, rootDomain, domain, id }, index) => {
             return domainType === 'DEFAULT' ? (
-              <div key={domainType} className="default-area">
+              <div key={id} className="default-area">
                 <Row>
                   <Col span={22}>
                     <FormItem
                       label={i18n.t('runtime:domain name')}
-                      name={`${domainType}@customDomain@${index}`}
+                      name={`${domainType}@customDomain@${id}`}
                       initialValue={customDomain}
                       rules={[
                         // { required: true, message: i18n.t('runtime:please fill in the domain name') },
@@ -210,13 +213,14 @@ const DomainModal = (props: IProps) => {
                 </div>
               </div>
             ) : (
-              <Row key={domainType + index} type="flex" align="middle">
+              <Row key={id} align="middle">
                 <Col span={22}>
-                  <FormItem className="hidden" name={`${domainType}@@${index}`} initialValue={serviceName}>
+                  <FormItem className="hidden" name={`${domainType}@@${id}`} initialValue={serviceName}>
                     <Input />
                   </FormItem>
+                  {id}
                   <FormItem
-                    name={`${domainType}@domain@${index}`}
+                    name={`${domainType}@domain@${id}`}
                     initialValue={domain}
                     rules={[
                       { required: true, message: i18n.t('runtime:please fill in the custom domain name') },
