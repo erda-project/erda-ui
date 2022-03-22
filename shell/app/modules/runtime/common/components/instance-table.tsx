@@ -30,10 +30,18 @@ interface IProps {
   instances: IServiceIns;
   isFetching?: boolean;
   withHeader?: boolean;
+  isServiceType?: boolean;
   opsCol?: ColumnProps<{ [prop: string]: any }>;
 }
 
-const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...tableProps }: IProps) => {
+const InstanceTable = ({
+  instances,
+  isFetching,
+  isServiceType = true,
+  withHeader = true,
+  opsCol,
+  ...tableProps
+}: IProps) => {
   const typeMap = {
     running: 'running',
     stopped: 'stopped',
@@ -132,7 +140,9 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
   return (
     <div className="instance-table">
       <div className={`header ${withHeader ? '' : 'hidden'}`}>
-        <span className="font-medium">{i18n.t('runtime:service details')}</span>
+        <span className="font-medium">
+          {isServiceType ? i18n.t('runtime:service details') : i18n.t('runtime:task details')}
+        </span>
         <Select
           key={defaultValue}
           defaultValue={defaultValue}

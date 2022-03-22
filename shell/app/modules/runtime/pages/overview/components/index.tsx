@@ -35,11 +35,15 @@ const RuntimeOverView = () => {
   const [runtimeDetail, addons] = runtimeStore.useStore((s) => [s.runtimeDetail, s.addons]);
   const services = {};
   const endpoints = {};
+  let isServiceType = true;
   map(runtimeDetail.services, (item, name) => {
     if (item.expose === null || item.expose?.length === 0) {
       services[name] = item;
     } else {
       endpoints[name] = item;
+      if (item?.type && item.type === 'job') {
+        isServiceType = false;
+      }
     }
   });
 
@@ -192,7 +196,7 @@ const RuntimeOverView = () => {
           <ErrorBoundary>
             <IF check={!isEmpty(endpoints)}>
               <div className="overview-body-block">
-                <div className="overview-body-title">{i18n.t('runtime:endpoint')}</div>
+                <div className="overview-body-title">{isServiceType ? i18n.t('runtime:endpoint') : i18n.t('task')}</div>
                 {map(endpoints, (service, key) => {
                   return (
                     <ServiceCard
@@ -201,6 +205,7 @@ const RuntimeOverView = () => {
                       name={key}
                       key={key}
                       params={params}
+                      isServiceType={isServiceType}
                       isEndpoint
                     />
                   );
