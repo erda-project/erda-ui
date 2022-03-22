@@ -82,6 +82,7 @@ declare namespace BUILD {
     pipelineCron: { [key: string]: any; id: number };
     pipelineStages: IStage[];
     pipelineTaskActionDetails: Obj<ITaskActionDetail>;
+    ymlContent: string;
   }
 
   interface ITaskActionDetail {

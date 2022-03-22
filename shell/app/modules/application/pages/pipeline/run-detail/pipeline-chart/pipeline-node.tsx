@@ -36,6 +36,11 @@ interface IProps {
 }
 
 const { executeStatus } = ciNodeStatusSet;
+
+export const NodeSize = {
+  WIDTH: 280,
+  HEIGHT: 74,
+};
 const PipelineNode = (props: IProps) => {
   const { data, onClickNode, className = '' } = props;
   const appDetail = appStore.useStore((s) => s.detail);
@@ -305,15 +310,15 @@ const PipelineNode = (props: IProps) => {
   let titleContent = null;
 
   const status = ciStatusMap[data.status];
-  const itemStatus = ciStatusMap[data.status].color;
+  const itemStatus = ciStatusMap[data.status]?.color;
   const statusContent = (
     <span className="flex-1">
-      <span className="yaml-editor-item-status" style={{ background: itemStatus.toLowerCase() }} />
-      <span className="inline-flex justify-between items-center">{status ? status.text : '-'}</span>
+      <span className="yaml-editor-item-status" style={{ background: itemStatus?.toLowerCase() }} />
+      <span className="inline-flex justify-between items-center">{status ? status.text : ''}</span>
     </span>
   );
-  if (data.name || data.displayName) {
-    const titleText = data.displayName ? `${data.displayName}: ${data.name}` : data.name;
+  if (data.name || data.displayName || data.alias) {
+    const titleText = data.displayName ? `${data.displayName}: ${data.name || data.alias}` : data.name || data.alias;
     titleContent = (
       <div className="app-pipeline-chart-node-title nowrap">
         <Tooltip title={titleText}>{titleText}</Tooltip>

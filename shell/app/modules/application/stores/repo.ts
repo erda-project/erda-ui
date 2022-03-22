@@ -556,13 +556,18 @@ const repoStore = createStore({
       });
       update({ compareDetail });
     },
-    async commit({ call }, payload: Merge<REPOSITORY.Commit, { isDelete?: boolean }>) {
-      const appDetail = await getAppDetail();
-      const { isDelete, ...rest } = payload;
+    async commit({ call }, payload: Merge<REPOSITORY.Commit, { isDelete?: boolean; repoPrefix?: string }>) {
+      const { isDelete, repoPrefix, ...rest } = payload;
+      let curRepoPrefix = repoPrefix;
+      if (!curRepoPrefix) {
+        const appDetail = await getAppDetail();
+        curRepoPrefix = appDetail.gitRepoAbbrev;
+      }
+
       const commitResult = await call(
         commit,
         {
-          repoPrefix: appDetail.gitRepoAbbrev,
+          repoPrefix: curRepoPrefix,
           data: rest,
         },
         { fullResult: true },

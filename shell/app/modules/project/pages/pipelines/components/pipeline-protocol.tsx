@@ -12,21 +12,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Tabs, Modal, Form, message } from 'antd';
-import { get, isEmpty } from 'lodash';
+import { Drawer, Modal, Form, message } from 'antd';
+import { get } from 'lodash';
 import i18n from 'i18n';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import projectStore from 'project/stores/project';
-import { updateSearch } from 'common/utils';
-import fileTreeStore from 'project/stores/file-tree';
-import { EmptyHolder, RenderFormItem, ErdaAlert } from 'common';
-import { getINodeByPipelineId } from 'application/services/build';
+import { RenderFormItem } from 'common';
 import PipelineForm from './form';
-import PipelineBasic from './basic';
-import PipelineRunDetail from 'application/pages/pipeline/run-detail';
-import appStore from 'application/stores/application';
 import { getAllBranch, editPipelineName } from 'project/services/pipeline';
+import PipelineDetail from 'project/common/components/pipeline-new';
 import { decode } from 'js-base64';
 
 interface IProps {
@@ -34,14 +29,21 @@ interface IProps {
   getTypes: () => void;
 }
 
-const { TabPane } = Tabs;
+interface Detail {
+  nodeId: string;
+  projectId: string;
+  appId: string;
+  pipelineId: string;
+  branchExist: boolean;
+  pipelineName: string;
+  projectName: string;
+  appName: string;
+}
 
 const PipelineProtocol = ({ type, getTypes }: IProps) => {
   const [form] = Form.useForm();
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const { name: projectName } = projectStore.useStore((s) => s.info);
-  const { updateTreeNodeDetail } = fileTreeStore;
-  const { updateAppDetail } = appStore.reducers;
   const { key: typeKey } = type;
   const inParams = {
     projectId,
@@ -52,10 +54,7 @@ const PipelineProtocol = ({ type, getTypes }: IProps) => {
   const [detailVisible, setDetailVisible] = React.useState(false);
   const [editVisible, setEditVisible] = React.useState(false);
   const [editData, setEditData] = React.useState<{ id: string; name: string }>({} as { id: string; name: string });
-
-  const [detail, setDetail] = React.useState<
-    Partial<{ id: string; appId: string; pipelineId: string; branchExist: boolean }>
-  >({});
+  const [detail, setDetail] = React.useState<Detail | null>(null);
 
   const reloadRef = React.useRef<{ reload: () => void }>(null);
 
@@ -69,7 +68,7 @@ const PipelineProtocol = ({ type, getTypes }: IProps) => {
 
   const onDetailClose = React.useCallback(() => {
     setDetailVisible(false);
-    setDetail({});
+    setDetail(null);
   }, []);
 
   return (
@@ -109,7 +108,7 @@ const PipelineProtocol = ({ type, getTypes }: IProps) => {
                 setDetailVisible(true);
                 const { operations } = record;
                 const serverData = get(operations, 'click.serverData');
-                const { pipelineID: pipelineId, inode, appName } = serverData;
+                const { pipelineID: pipelineId, inode, appName, pipelineName } = serverData;
                 if (inode) {
                   const path = decode(inode).split('/');
                   path.pop();
@@ -121,14 +120,16 @@ const PipelineProtocol = ({ type, getTypes }: IProps) => {
                     const branch = res.data.find((item: { name: string }) => item.name === branchName);
                     branch && (branchExist = true);
                   }
-                  updateSearch({ nodeId: inode, applicationId: appId, pipelineID: pipelineId });
-                  setDetail({ id: inode, appId, pipelineId, branchExist });
-                  updateAppDetail({ id: appId, gitRepoAbbrev: `${projectName}/${appName}` });
-
-                  if (pipelineId && branchExist) {
-                    const res = await getINodeByPipelineId({ pipelineId });
-                    updateTreeNodeDetail(res.data);
-                  }
+                  setDetail({
+                    nodeId: inode,
+                    appId,
+                    pipelineId,
+                    branchExist,
+                    pipelineName,
+                    projectId,
+                    projectName,
+                    appName,
+                  });
                 }
               },
               operations: {
@@ -206,21 +207,9 @@ const PipelineProtocol = ({ type, getTypes }: IProps) => {
           }}
         />
       </Drawer>
-      <Drawer onClose={onDetailClose} visible={detailVisible} width="80%" destroyOnClose>
-        <Tabs defaultActiveKey="basic">
-          {detail.branchExist ? (
-            <TabPane tab={i18n.t('basic information')} key="basic">
-              <PipelineBasic nodeId={detail.id} appId={detail.appId} />
-            </TabPane>
-          ) : null}
 
-          {detail.pipelineId ? (
-            <TabPane tab={i18n.t('execute detail')} key="2">
-              <PipelineRunDetail deployAuth={{ hasAuth: false }} isMobileInit={false} />
-            </TabPane>
-          ) : null}
-        </Tabs>
-        {!detail.branchExist && !detail.pipelineId ? <EmptyHolder /> : null}
+      <Drawer title={'流水线详情'} onClose={onDetailClose} visible={detailVisible} width="80%" destroyOnClose>
+        {detail ? <PipelineDetail {...detail} /> : null}
       </Drawer>
       <Modal
         title={i18n.t('edit {name}', { name: i18n.t('pipeline') })}

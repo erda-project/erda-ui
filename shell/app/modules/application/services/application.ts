@@ -12,6 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { apiCreator } from 'core/service';
+
+const apis = {
+  getAppInfo: {
+    api: '/api/applications/:appId',
+  },
+};
+
+export const getAppInfo = apiCreator<(p: { appId: string }) => IApplication>(apis.getAppInfo);
 
 export const getApps = ({
   pageSize,

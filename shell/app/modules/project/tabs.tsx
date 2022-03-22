@@ -205,7 +205,7 @@ export const PIPELINE_TABS = [
     name: i18n.t('pipeline'),
   },
   {
-    key: 'logs',
+    key: 'records',
     name: i18n.t('dop:execute records'),
   },
 ];

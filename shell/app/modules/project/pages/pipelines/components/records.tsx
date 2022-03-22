@@ -20,7 +20,7 @@ import fileTreeStore from 'project/stores/file-tree';
 import routeInfoStore from 'core/stores/route';
 import { getINodeByPipelineId, getPipelineDetail } from 'application/services/build';
 
-const PipelineLogs = () => {
+const PipelineRecords = () => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const { updateTreeNodeDetail } = fileTreeStore;
   const [visible, setVisible] = React.useState(false);
@@ -64,4 +64,4 @@ const PipelineLogs = () => {
   );
 };
 
-export default PipelineLogs;
+export default PipelineRecords;

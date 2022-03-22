@@ -1,0 +1,37 @@
+.node-click-confirm {
+  .ant-confirm-body {
+    .ant-confirm-title {
+      line-height: 18px;
+    }
+  }
+}
+
+.pipeline-execute {
+  .build-detail-err-msg {
+    padding: 12px;
+    background-color: rgba(245, 235, 210, 0.4);
+    border: 1px solid #f5ebd2;
+    border-radius: 0.3125rem;
+
+    pre {
+      margin: 0;
+      font-family: inherit;
+    }
+
+    .build-err-header {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .build-err-icon {
+      margin-right: 0.3125rem;
+      color: $color-warning;
+      font-weight: bold;
+    }
+
+    .build-err-stack {
+      margin-top: 0.5rem;
+      padding-left: 1rem;
+    }
+  }
+}
