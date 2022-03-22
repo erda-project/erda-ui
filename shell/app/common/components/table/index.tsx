@@ -14,7 +14,7 @@
 import React from 'react';
 import { Dropdown, Menu } from 'antd';
 import Table from 'antd/es/table';
-import { ErdaIcon, Ellipsis } from 'common';
+import { Ellipsis, ErdaIcon } from 'common';
 import { WithAuth } from 'user/common';
 import i18n from 'i18n';
 import { PAGINATION } from 'app/constants';
@@ -24,13 +24,13 @@ import TableFooter from './table-footer';
 import './index.scss';
 
 import {
-  TableProps,
   ColumnProps,
   IActions,
   IRowSelection,
   SorterResult,
-  TablePaginationConfig,
   TableAction,
+  TablePaginationConfig,
+  TableProps,
 } from './interface';
 
 const { Column, ColumnGroup, Summary } = Table;
@@ -267,7 +267,7 @@ function WrappedTable<T extends object = any>({
           sortTitle = (
             <Dropdown
               trigger={['click']}
-              overlay={sorterMenu({ ...args, title, sorter })}
+              overlay={sorterMenu({ ...args, title, sorter, dataIndex })}
               align={{ offset: [0, 5] }}
               overlayClassName="erda-table-sorter-overlay"
               placement={align === 'right' ? 'bottomRight' : 'bottomLeft'}

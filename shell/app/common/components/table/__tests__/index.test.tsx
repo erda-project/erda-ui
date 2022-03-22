@@ -249,10 +249,28 @@ describe('ErdaTable', () => {
     await waitFor(() => expect(result.getByRole('menu')));
     fireEvent.click(result.getByText('ascend').closest('li')!);
     expect(tableChangeFn).toHaveBeenCalledTimes(1);
+    expect(tableChangeFn).toHaveBeenLastCalledWithNth(2, {
+      column: { title: 'count', sorter: true, dataIndex: 'count' },
+      columnKey: 'count',
+      field: 'count',
+      order: 'ascend',
+    });
     fireEvent.click(result.getByText('descend').closest('li')!);
     expect(tableChangeFn).toHaveBeenCalledTimes(2);
+    expect(tableChangeFn).toHaveBeenLastCalledWithNth(2, {
+      column: { title: 'count', sorter: true, dataIndex: 'count' },
+      columnKey: 'count',
+      field: 'count',
+      order: 'descend',
+    });
     fireEvent.click(result.getByText('cancel order').closest('li')!);
     expect(tableChangeFn).toHaveBeenCalledTimes(3);
+    expect(tableChangeFn).toHaveBeenLastCalledWithNth(2, {
+      column: { title: 'count', sorter: true, dataIndex: 'count' },
+      columnKey: 'count',
+      field: 'count',
+      order: undefined,
+    });
   });
   it('should work well with pagination', () => {
     const tableChangeFn = jest.fn();
