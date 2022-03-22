@@ -208,7 +208,7 @@ const PipelineProtocol = ({ type, getTypes }: IProps) => {
         />
       </Drawer>
 
-      <Drawer title={'流水线详情'} onClose={onDetailClose} visible={detailVisible} width="80%" destroyOnClose>
+      <Drawer title={i18n.t('pipeline')} onClose={onDetailClose} visible={detailVisible} width="80%" destroyOnClose>
         {detail ? <PipelineDetail {...detail} /> : null}
       </Drawer>
       <Modal
