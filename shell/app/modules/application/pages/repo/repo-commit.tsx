@@ -103,7 +103,7 @@ const RepoCommit = () => {
   };
   const load = () => {
     const { after } = getSplitPathBy('commits');
-    return getCommitList({ branch: after || info.defaultBranch, pageNo: commitPaging.pageNo + 1 });
+    return getCommitList({ branch: after.replace('/', '') || info.defaultBranch, pageNo: commitPaging.pageNo + 1 });
   };
 
   const daySplit = {};
@@ -152,7 +152,7 @@ const RepoCommit = () => {
           onPressEnter={() => {
             getCommitList({
               search: searchValue || undefined,
-              branch: getSplitPathBy('commits').after || info.defaultBranch,
+              branch: getSplitPathBy('commits').after.replace('/', '') || info.defaultBranch,
               pageNo: 1,
             });
           }}
@@ -174,7 +174,7 @@ const RepoCommit = () => {
           </Timeline>
         </Holder>
       </Spin>
-      <LoadMore key={branch || ''} load={load} hasMore={commitPaging.hasMore} isLoading={isFetching} />
+      <LoadMore key={branch || ''} threshold={500} load={load} hasMore={commitPaging.hasMore} isLoading={isFetching} />
     </div>
   );
 };
