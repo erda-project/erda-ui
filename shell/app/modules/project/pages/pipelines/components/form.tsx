@@ -28,6 +28,7 @@ interface IProps {
     key: string;
     rules: string[];
   };
+  appID: number | null;
 }
 
 interface TreeNode extends Node {
@@ -45,8 +46,8 @@ interface Node {
 }
 
 interface App {
-  value: string;
-  label: string;
+  value: string | number;
+  label?: string;
   projectName?: string;
 }
 
@@ -68,7 +69,7 @@ const promiseDebounce = (func: Function, delay = 1000) => {
   };
 };
 
-const PipelineForm = React.forwardRef(({ onCancel, type, onOk }: IProps, ref) => {
+const PipelineForm = React.forwardRef(({ onCancel, type, onOk, appID }: IProps, ref) => {
   const { key: id, rules } = type || {};
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const [form] = Form.useForm();
@@ -81,11 +82,6 @@ const PipelineForm = React.forwardRef(({ onCancel, type, onOk }: IProps, ref) =>
   const canTreeSelectClose = React.useRef(true);
   const [nameRepeatMessage, setNameRepeatMessage] = React.useState('');
   const [sourceErrorMessage, setSourceErrorMessage] = React.useState('');
-
-  React.useImperativeHandle(ref, () => ({
-    form,
-    setApp,
-  }));
 
   const convertTreeData = (data: Node[]) => {
     return data.map((item) => ({
@@ -147,6 +143,13 @@ const PipelineForm = React.forwardRef(({ onCancel, type, onOk }: IProps, ref) =>
       form.resetFields(['tree']);
     }
   }, [app.value, projectId, getTree, form]);
+
+  React.useEffect(() => {
+    if (appID) {
+      form.setFieldsValue?.({ app: appID });
+      setApp({ value: appID });
+    }
+  }, [appID, form]);
 
   const submit = () => {
     form.validateFields().then(async (value) => {
