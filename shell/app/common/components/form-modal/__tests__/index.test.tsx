@@ -223,6 +223,5 @@ describe('FormModal', () => {
     rerender({ PureForm, fieldsList: undefined, formData });
     jest.advanceTimersByTime(1000);
     expect(result.getByText('PureForm')).toBeTruthy();
-    expect(result.baseElement).toMatchSnapshot();
   });
 });
