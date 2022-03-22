@@ -203,9 +203,7 @@ const RuntimeOverView = () => {
           <ErrorBoundary>
             <IF check={!isEmpty(endpoints)}>
               <div className="overview-body-block">
-                <div className="overview-body-title">
-                  {runtimeType === 'job' ? i18n.t('task') : i18n.t('runtime:endpoint')}
-                </div>
+                <div className="overview-body-title">{i18n.t('runtime:endpoint')}</div>
                 {map(endpoints, (service, key) => {
                   return (
                     <ServiceCard
@@ -215,7 +213,6 @@ const RuntimeOverView = () => {
                       key={key}
                       params={params}
                       isEndpoint
-                      runtimeType={runtimeType}
                     />
                   );
                 })}
