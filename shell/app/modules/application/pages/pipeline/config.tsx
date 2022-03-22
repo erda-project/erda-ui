@@ -49,7 +49,7 @@ export const scopeMap = {
 };
 
 // 根据inode的得到branch、path
-export const getBranchPath = (node: TREE.NODE, appId?: string) => {
+export const getBranchPath = (node?: TREE.NODE, appId?: string) => {
   if (!node || isEmpty(node)) return { branch: '', pagingYmlNames: [], env: '' };
   const gittarYmlPath = get(node, 'meta.snippetAction.snippet_config.labels.gittarYmlPath');
   const snippetConfigName = get(node, 'meta.snippetAction.snippet_config.name') || '';

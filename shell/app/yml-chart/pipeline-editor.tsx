@@ -19,6 +19,7 @@ import { notify, isPromise, insertWhen } from 'common/utils';
 import { Spin, Button, message, Radio, Modal } from 'antd';
 import { FileEditor, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
+import { useUpdateEffect } from 'react-use';
 import FileContainer from 'application/common/components/file-container';
 import { NodeType } from './config';
 import { externalKey } from './chart';
@@ -41,8 +42,12 @@ interface IPipelineEditorProps {
   editable: boolean;
   loading?: boolean;
   onChangeViewType?: (arg: string) => void;
+  onEditingChange?: (editing: boolean) => void;
   onSubmit?: (arg: string) => any;
+  onCancel?: () => void;
   chartProps?: IChartProps;
+  initEditing?: boolean;
+  extraOps?: React.ReactNode;
 }
 
 const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) => {
@@ -50,11 +55,15 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
     ymlStr: propsYmlStr,
     onChangeViewType,
     onSubmit,
+    onCancel: propsOnCancel,
     title,
     loading = false,
     YmlGraphicEditor = PipelineGraphicEditor,
+    onEditingChange,
     editable = true,
+    initEditing = false,
     addDrawerProps,
+    extraOps = null,
     ...rest
   } = props;
   const editorRef = React.useRef(null as any);
@@ -65,7 +74,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
       ymlStr: '',
       originYmlValid: true,
       errorMsg: '',
-      editing: false,
+      editing: initEditing,
       originYmlObj: {} as PIPELINE.IPipelineYmlStructure,
       originYmlStr: propsYmlStr,
     });
@@ -82,6 +91,10 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
       ref.current = editorRef.current;
     }
   }, [ref, ymlObj, ymlStr]);
+
+  useUpdateEffect(() => {
+    onEditingChange?.(editing);
+  }, [editing]);
 
   React.useEffect(() => {
     if (originYmlStr) {
@@ -283,6 +296,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
   const onCancel = () => {
     resetToOrigin();
     updater.editing(false);
+    propsOnCancel?.();
   };
 
   const editOps = (
@@ -301,9 +315,12 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
         </Radio.Button>
       </Radio.Group>
       {!editing ? (
-        <Button disabled={!editable} onClick={() => updater.editing(true)} className="ml-2" size="small">
-          {i18n.t('edit')}
-        </Button>
+        <>
+          <Button disabled={!editable} onClick={() => updater.editing(true)} className="ml-2" size="small">
+            {i18n.t('edit')}
+          </Button>
+          {extraOps}
+        </>
       ) : (
         <div className="px-3 py-2">
           <Button onClick={onCancel} size="small">

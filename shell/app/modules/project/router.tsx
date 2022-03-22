@@ -226,13 +226,15 @@ function getProjectRouter(): RouteConfigItem[] {
             {
               path: 'list',
               tabs: PIPELINE_TABS,
+              ignoreTabQuery: true,
               getComp: (cb) => cb(import('project/pages/pipelines')),
               layout: { fullHeight: true, noWrapper: true },
             },
             {
-              path: 'logs',
+              path: 'records',
               tabs: PIPELINE_TABS,
-              getComp: (cb) => cb(import('project/pages/pipelines/components/logs')),
+              ignoreTabQuery: true,
+              getComp: (cb) => cb(import('project/pages/pipelines/components/records')),
               layout: { fullHeight: true, noWrapper: true },
             },
           ],

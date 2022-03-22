@@ -106,6 +106,7 @@ const Pipeline = () => {
                     ?.filter((item) => (searchValue ? item.category.includes(searchValue) : true))
                     ?.map((item) => (
                       <div
+                        key={item.key}
                         className={`application-item px-4 py-2 cursor-pointer rounded-sm flex flex-col ${
                           typeKey === item.key ? 'text-purple-deep active' : 'hover:bg-white'
                         }`}

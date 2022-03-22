@@ -21,6 +21,8 @@ declare namespace TREE {
     name: string;
     desc?: string;
     meta?: { [p: string]: any };
+    updaterID: string;
+    updatedAt: string;
   }
 
   interface GetSubTreeParams {

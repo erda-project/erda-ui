@@ -149,7 +149,7 @@ const build = createStore({
       const { appId } = getParams();
       const detail = await call(
         addPipeline,
-        { ...payload, appId },
+        { appId, ...payload },
         { successMsg: i18n.t('dop:build created successfully') },
       );
       return detail;

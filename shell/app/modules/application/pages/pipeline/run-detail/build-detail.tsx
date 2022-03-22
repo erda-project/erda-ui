@@ -44,7 +44,7 @@ interface IProps {
   branch: string;
   source: string;
   ymlName: string;
-  pagingYmlNames: string[];
+  pagingYmlNames?: string[];
   deployAuth: { hasAuth: boolean; authTip?: string };
   isMobileInit?: boolean;
 }
