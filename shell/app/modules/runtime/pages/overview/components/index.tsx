@@ -45,12 +45,9 @@ const RuntimeOverView = () => {
   });
 
   React.useEffect(() => {
-    for (const item of Object.values(runtimeDetail.services)) {
-      // Either all job type or all service type
-      if (item?.type === 'job') {
-        setRunTimeType('job');
-        return;
-      }
+    // Either all job type or all service type
+    if (Object.values(runtimeDetail.services)[0]?.type === 'job') {
+      setRunTimeType('job');
     }
   }, [runtimeDetail]);
 
