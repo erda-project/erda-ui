@@ -70,7 +70,7 @@ const Pipeline = () => {
               </span>
               <div className="flex-1 text-right">
                 <Button type="primary" onClick={() => setAppID(item.appID)}>
-                  新建
+                  {i18n.t('add')}
                 </Button>
               </div>
             </div>

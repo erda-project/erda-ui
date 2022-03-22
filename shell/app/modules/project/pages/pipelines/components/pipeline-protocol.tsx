@@ -55,7 +55,9 @@ const PipelineProtocol = ({ type, getTypes, appID, setAppID, getGuides }: IProps
   const [detailVisible, setDetailVisible] = React.useState(false);
   const [editVisible, setEditVisible] = React.useState(false);
   const [editData, setEditData] = React.useState<{ id: string; name: string }>({} as { id: string; name: string });
-  const formRef = React.useRef<FormInstance>({} as FormInstance);
+  const formRef = React.useRef<{ form: FormInstance; setApp: (app: { value: number }) => void }>(
+    {} as { form: FormInstance; setApp: (app: { value: number }) => void },
+  );
 
   const [detail, setDetail] = React.useState<
     Partial<{ id: string; appId: string; pipelineId: string; branchExist: boolean }>
@@ -75,16 +77,15 @@ const PipelineProtocol = ({ type, getTypes, appID, setAppID, getGuides }: IProps
 
   React.useEffect(() => {
     if (visible && appID) {
-      setAppID(null);
       formRef.current.form?.setFieldsValue?.({ app: appID });
       formRef.current.setApp?.({ value: appID });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible]);
+  }, [visible, appID, setAppID]);
 
   const onClose = React.useCallback(() => {
     setVisible(false);
-  }, []);
+    setAppID(null);
+  }, [setAppID]);
 
   const onDetailClose = React.useCallback(() => {
     setDetailVisible(false);
