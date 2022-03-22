@@ -11,6 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import { isEqual } from 'lodash';
+
 expect.extend({
   isExit(received, selector, expect) {
     let pass = false;
@@ -41,11 +43,48 @@ expect.extend({
       pass,
       message: () => {
         return [
-          this.utils.matcherHint(`${this.isNot ? '.not' : ''}.isExit`, selector, expect.toString()),
+          this.utils.matcherHint(`${this.isNot ? '.not' : ''}.isExitClass`, selector, expect.toString()),
           `Expected: ${this.utils.EXPECTED_COLOR(expect)}`,
           `Received: ${this.utils.RECEIVED_COLOR(classList.join(', '))}`,
         ].join('\n');
       },
+    };
+  },
+  toHaveBeenLastCalledWithNth(received: jest.Mock, nthParams, expectParams) {
+    const matcherName = 'toHaveBeenLastCalledWithNth';
+    const callTimes = received.mock.calls.length;
+    let pass = false;
+    if (!callTimes) {
+      pass = false;
+    }
+    const lastCalled = received.mock.calls[callTimes - 1];
+    const params = lastCalled[nthParams];
+    const isExpand = (expand?: boolean): boolean => expand !== false;
+    if (typeof params === 'object') {
+      pass = isEqual(params, expectParams);
+    } else {
+      pass = params === expectParams;
+    }
+    const options = {
+      comment: 'deep equality',
+      isNot: this.isNot,
+      promise: this.promise,
+    };
+    const message = pass
+      ? () =>
+          this.utils.matcherHint(matcherName, undefined, undefined, options) +
+          '\n\n' +
+          `Expected: not ${this.utils.printExpected(expectParams)}\n` +
+          (this.utils.stringify(expectParams) !== this.utils.stringify(params)
+            ? `Received:     ${this.utils.printReceived(params)}`
+            : '')
+      : () =>
+          this.utils.matcherHint(matcherName, undefined, undefined, options) +
+          '\n\n' +
+          this.utils.printDiffOrStringify(expectParams, params, 'Expected', 'Received', isExpand(this.expand));
+    return {
+      pass,
+      message,
     };
   },
 });
