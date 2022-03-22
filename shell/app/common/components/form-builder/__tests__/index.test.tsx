@@ -11,21 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormBuilder, IFormExtendType, PureFormBuilder } from './form-builder';
-import { Fields, IFieldType } from './fields';
+import RealFormBuilder from '..';
 
-type IFormBuilder = typeof FormBuilder;
-
-interface IRealFormInterface extends IFormBuilder {
-  Fields: typeof Fields;
-  PureFormBuilder: typeof PureFormBuilder;
-}
-
-const RealFormBuilder = FormBuilder as IRealFormInterface;
-
-RealFormBuilder.PureFormBuilder = PureFormBuilder;
-RealFormBuilder.Fields = Fields;
-
-export default RealFormBuilder;
-
-export type { IFormExtendType, IFieldType };
+describe('RealFormBuilder', () => {
+  it('should be defined', () => {
+    expect(RealFormBuilder).toBeDefined();
+    expect(RealFormBuilder.PureFormBuilder).toBeDefined();
+    expect(RealFormBuilder.Fields).toBeDefined();
+  });
+});
