@@ -213,6 +213,7 @@ const RuntimeOverView = () => {
                       key={key}
                       params={params}
                       isEndpoint
+                      runtimeType={runtimeType}
                     />
                   );
                 })}
@@ -225,7 +226,14 @@ const RuntimeOverView = () => {
                 </div>
                 {map(services, (service, key) => {
                   return (
-                    <ServiceCard runtimeDetail={runtimeDetail} service={service} name={key} key={key} params={params} />
+                    <ServiceCard
+                      runtimeDetail={runtimeDetail}
+                      service={service}
+                      name={key}
+                      key={key}
+                      params={params}
+                      runtimeType={runtimeType}
+                    />
                   );
                 })}
               </div>

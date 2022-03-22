@@ -53,6 +53,7 @@ interface IProps {
   runtimeDetail: typeof runtimeStore.stateType.runtimeDetail;
   service: RUNTIME_SERVICE.Detail;
   isEndpoint?: boolean;
+  runtimeType?: string;
 }
 
 const ServiceCard = (props: IProps) => {
@@ -62,6 +63,7 @@ const ServiceCard = (props: IProps) => {
     params: { appId, runtimeId },
     service,
     isEndpoint = false,
+    runtimeType = 'service',
   } = props;
 
   const [serviceInsMap] = runtimeServiceStore.useStore((s) => [s.serviceInsMap]);
@@ -236,12 +238,11 @@ const ServiceCard = (props: IProps) => {
     status,
     deployments: { replicas },
     errors,
-    type,
   } = service as RUNTIME_SERVICE.Detail;
 
   const { cpu, mem } = resources;
   const expose = map(domainMap[name], 'domain').filter((domain) => !!domain);
-  const isServiceType = type !== 'job';
+  const isServiceType = runtimeType !== 'job';
   const resourceInfo = (
     <span className="resources nowrap">{`${
       isServiceType ? `${i18n.t('instance')} ${replicas} /` : ''
@@ -347,19 +348,14 @@ const ServiceCard = (props: IProps) => {
       return (
         <div className="service-ops table-operations">
           <IF check={isRunning}>
-            <IF
-              check={
-                (permMap.runtime[`${runtimeDetail.extra.workspace.toLowerCase()}Console`] || {}).pass && isServiceType
-              }
-            >
+            <IF check={(permMap.runtime[`${runtimeDetail.extra.workspace.toLowerCase()}Console`] || {}).pass}>
               <span className="table-operations-btn" onClick={() => openSlidePanel('terminal', { ...record })}>
                 {i18n.t('console')}
               </span>
-
               <IF.ELSE />
 
               <NoAuthTip>
-                {isServiceType && <span className="table-operations-btn">{i18n.t('console')}</span>}
+                <span className="table-operations-btn">{i18n.t('console')}</span>
               </NoAuthTip>
             </IF>
           </IF>
@@ -429,7 +425,7 @@ const ServiceCard = (props: IProps) => {
               tab={isServiceType ? i18n.t('runtime:service details') : i18n.t('runtime:task details')}
               key="service-details"
             >
-              <InstanceTable isFetching={isFetching} instances={instances} opsCol={opsCol} />
+              <InstanceTable isFetching={isFetching} instances={instances} opsCol={opsCol} runtimeType={runtimeType} />
             </TabPane>
             <TabPane tab={i18n.t('pod detail')} key="pod-detail">
               <PodTable runtimeID={runtimeId} service={name} />

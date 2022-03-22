@@ -31,10 +31,17 @@ interface IProps {
   isFetching?: boolean;
   withHeader?: boolean;
   opsCol?: ColumnProps<{ [prop: string]: any }>;
-  isServiceType?: boolean;
+  runtimeType?: string;
 }
 
-const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, isServiceType, ...tableProps }: IProps) => {
+const InstanceTable = ({
+  instances,
+  isFetching,
+  withHeader = true,
+  opsCol,
+  runtimeType = 'service',
+  ...tableProps
+}: IProps) => {
   const typeMap = {
     running: 'running',
     stopped: 'stopped',
@@ -54,6 +61,7 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, isSer
   const [dataSource, setDataSource] = React.useState([] as IInstance[]);
   const [defaultValue, setDefaultValue] = React.useState(typeMap.running);
   const [pagingType, setPagingType] = React.useState('unLimited');
+  const isServiceType = runtimeType !== 'job';
   React.useEffect(() => {
     const { runs = [], completedRuns = [] } = instances;
     if (!withHeader) {
