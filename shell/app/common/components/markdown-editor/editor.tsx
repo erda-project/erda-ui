@@ -80,7 +80,7 @@ const Editor = React.forwardRef((props: IProps, ref) => {
         'block-code-inline',
         'block-code-block',
         'table',
-        'image',
+        // 'image',
         'link',
         'clear',
         'logger',
@@ -92,6 +92,7 @@ const Editor = React.forwardRef((props: IProps, ref) => {
       htmlClass="md-content"
       renderHTML={(text: string) => <MarkdownRender value={text} />}
       onImageUpload={onImageUpload}
+      imageAccept=".jpg, .jpeg, .png, .gif"
     />
   );
 });

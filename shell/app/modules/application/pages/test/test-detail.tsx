@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Row, Col, Select, Table, Input } from 'antd';
+import { Row, Col, Select, Table, Input, Tooltip } from 'antd';
 import { Holder, CardContainer } from 'common';
 import classNames from 'classnames';
 import { secondsToTime } from 'common/utils';
@@ -155,15 +155,15 @@ class TestDetail extends React.Component<IProps, IState> {
                   const seconds = floor(parseInt(duration, 10) / 10 ** 9, 2); // duration为纳秒
                   return (
                     <li
-                      className={`test-item ${key === checkedCaseKey ? 'active' : ''} ${status}`}
+                      className={`test-item flex items-center ${key === checkedCaseKey ? 'active' : ''} ${status}`}
                       key={key}
                       onClick={(e) => this.showTestInfo(key, e)}
                     >
-                      <span className="name">
-                        <span className={`status-point ${status}`} />
-                        {name}
-                      </span>
-                      <span className="time">
+                      <span className={`status-point ${status}`} />
+                      <Tooltip placement="right" title={name} overlayInnerStyle={{ width: '500px', fontSize: '12px' }}>
+                        <span className="flex-1 mx-2 truncate">{name.slice(0, 100)}</span>
+                      </Tooltip>
+                      <span className="time nowrap">
                         {duration !== 0 && seconds === 0
                           ? `${duration / 1000000}${i18n.t('dop:millisecond(s)')}`
                           : secondsToTime(seconds, true)}
