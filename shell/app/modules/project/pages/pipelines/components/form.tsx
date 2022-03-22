@@ -69,7 +69,7 @@ const promiseDebounce = (func: Function, delay = 1000) => {
   };
 };
 
-const PipelineForm = React.forwardRef(({ onCancel, type, onOk, appID }: IProps, ref) => {
+const PipelineForm = ({ onCancel, type, onOk, appID }: IProps) => {
   const { key: id, rules } = type || {};
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const [form] = Form.useForm();
@@ -369,7 +369,7 @@ const PipelineForm = React.forwardRef(({ onCancel, type, onOk, appID }: IProps, 
       </div>
     </div>
   );
-});
+};
 
 const CodeResource = () => {
   const list = [
