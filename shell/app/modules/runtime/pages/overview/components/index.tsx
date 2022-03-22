@@ -45,11 +45,13 @@ const RuntimeOverView = () => {
   });
 
   React.useEffect(() => {
-    map(runtimeDetail.services, (item) => {
+    for (const item of Object.values(runtimeDetail.services)) {
+      // Either all job type or all service type
       if (item?.type === 'job') {
-        return setRunTimeType('job');
+        setRunTimeType('job');
+        return;
       }
-    });
+    }
   }, [runtimeDetail]);
 
   const getAddonCardProps = (addon: ADDON.Instance) => {
