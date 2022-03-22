@@ -2756,6 +2756,7 @@
     "start deleting runtime": "start deleting runtime",
     "start redeploying the runtime": "start redeploying the runtime",
     "start rolling back runtime": "start rolling back runtime",
+    "task details": "task details",
     "the current runtime has been deleted, back to the pipeline?": "the current runtime has been deleted, back to the pipeline?",
     "time consuming": "time consuming",
     "to be published": "to be published",

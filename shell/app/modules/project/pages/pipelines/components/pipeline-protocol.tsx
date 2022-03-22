@@ -27,6 +27,9 @@ import { decode } from 'js-base64';
 interface IProps {
   type: { key: string; rules: string[] };
   getTypes: () => void;
+  appID: number | null;
+  setAppID: (appID: number | null) => void;
+  getGuides: () => void;
 }
 
 interface Detail {
@@ -40,7 +43,7 @@ interface Detail {
   appName: string;
 }
 
-const PipelineProtocol = ({ type, getTypes }: IProps) => {
+const PipelineProtocol = ({ type, getTypes, appID, setAppID, getGuides }: IProps) => {
   const [form] = Form.useForm();
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const { name: projectName } = projectStore.useStore((s) => s.info);
@@ -62,9 +65,16 @@ const PipelineProtocol = ({ type, getTypes }: IProps) => {
     reloadRef.current?.reload();
   }, [typeKey]);
 
+  React.useEffect(() => {
+    if (appID) {
+      setVisible(true);
+    }
+  }, [appID]);
+
   const onClose = React.useCallback(() => {
     setVisible(false);
-  }, []);
+    setAppID(null);
+  }, [setAppID]);
 
   const onDetailClose = React.useCallback(() => {
     setDetailVisible(false);
@@ -198,12 +208,14 @@ const PipelineProtocol = ({ type, getTypes }: IProps) => {
         closable={false}
       >
         <PipelineForm
+          appID={appID}
           onCancel={onClose}
           type={type}
           onOk={() => {
             onClose();
             reloadRef.current?.reload();
             getTypes();
+            getGuides();
           }}
         />
       </Drawer>

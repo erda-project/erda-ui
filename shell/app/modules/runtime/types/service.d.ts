@@ -28,6 +28,7 @@ declare namespace RUNTIME_SERVICE {
     addrs: string[];
     expose: string[];
     errors: null | Err[];
+    type?: string;
   }
 
   interface Instance {

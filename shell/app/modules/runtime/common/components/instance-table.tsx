@@ -31,9 +31,17 @@ interface IProps {
   isFetching?: boolean;
   withHeader?: boolean;
   opsCol?: ColumnProps<{ [prop: string]: any }>;
+  runtimeType?: string;
 }
 
-const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...tableProps }: IProps) => {
+const InstanceTable = ({
+  instances,
+  isFetching,
+  withHeader = true,
+  opsCol,
+  runtimeType = 'service',
+  ...tableProps
+}: IProps) => {
   const typeMap = {
     running: 'running',
     stopped: 'stopped',
@@ -53,7 +61,7 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
   const [dataSource, setDataSource] = React.useState([] as IInstance[]);
   const [defaultValue, setDefaultValue] = React.useState(typeMap.running);
   const [pagingType, setPagingType] = React.useState('unLimited');
-
+  const isServiceType = runtimeType !== 'job';
   React.useEffect(() => {
     const { runs = [], completedRuns = [] } = instances;
     if (!withHeader) {
@@ -132,7 +140,9 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
   return (
     <div className="instance-table">
       <div className={`header ${withHeader ? '' : 'hidden'}`}>
-        <span className="font-medium">{i18n.t('runtime:service details')}</span>
+        <span className="font-medium">
+          {isServiceType ? i18n.t('runtime:service details') : i18n.t('runtime:task details')}
+        </span>
         <Select
           key={defaultValue}
           defaultValue={defaultValue}

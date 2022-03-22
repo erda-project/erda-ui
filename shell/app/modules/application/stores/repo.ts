@@ -155,7 +155,7 @@ const initState = {
   sonarMessage: {},
   commitPaging: {
     pageNo: 1,
-    pageSize: PAGINATION.pageSize,
+    pageSize: 20, // use larger pageSize for loadmore list
     hasMore: true,
   },
   mode: {
@@ -794,7 +794,7 @@ const repoStore = createStore({
         commit: [],
         commitPaging: {
           pageNo: 1,
-          pageSize: PAGINATION.pageSize,
+          pageSize: 20,
           hasMore: true,
         },
       };

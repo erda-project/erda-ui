@@ -35,6 +35,7 @@ const RuntimeOverView = () => {
   const [runtimeDetail, addons] = runtimeStore.useStore((s) => [s.runtimeDetail, s.addons]);
   const services = {};
   const endpoints = {};
+  const [runtimeType, setRunTimeType] = React.useState('service');
   map(runtimeDetail.services, (item, name) => {
     if (item.expose === null || item.expose?.length === 0) {
       services[name] = item;
@@ -42,6 +43,13 @@ const RuntimeOverView = () => {
       endpoints[name] = item;
     }
   });
+
+  React.useEffect(() => {
+    // Either all job type or all service type
+    if (Object.values(runtimeDetail.services)[0]?.type === 'job') {
+      setRunTimeType('job');
+    }
+  }, [runtimeDetail]);
 
   const getAddonCardProps = (addon: ADDON.Instance) => {
     const {
@@ -209,10 +217,19 @@ const RuntimeOverView = () => {
             </IF>
             <IF check={!isEmpty(services)}>
               <div className="overview-body-block">
-                <div className="overview-body-title">{i18n.t('microService')}</div>
+                <div className="overview-body-title">
+                  {runtimeType === 'job' ? i18n.t('task') : i18n.t('microService')}
+                </div>
                 {map(services, (service, key) => {
                   return (
-                    <ServiceCard runtimeDetail={runtimeDetail} service={service} name={key} key={key} params={params} />
+                    <ServiceCard
+                      runtimeDetail={runtimeDetail}
+                      service={service}
+                      name={key}
+                      key={key}
+                      params={params}
+                      runtimeType={runtimeType}
+                    />
                   );
                 })}
               </div>
