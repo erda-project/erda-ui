@@ -150,12 +150,13 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
 
 const CaseYmlGraphicEditor = (props: any) => {
   const { addDrawerProps, scope } = props;
-  return (
-    <PipelineGraphicEditor
-      {...props}
-      PipelineNodeDrawer={(p: any) => <CaseNodeDrawer {...p} addDrawerProps={addDrawerProps} scope={scope} />}
-    />
+
+  const PipelineNodeDrawer = React.useCallback(
+    (p: any) => <CaseNodeDrawer {...p} addDrawerProps={addDrawerProps} scope={scope} />,
+    [addDrawerProps, scope],
   );
+
+  return <PipelineGraphicEditor {...props} PipelineNodeDrawer={PipelineNodeDrawer} />;
 };
 
 export default CaseYmlGraphicEditor;

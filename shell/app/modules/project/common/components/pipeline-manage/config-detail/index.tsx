@@ -28,7 +28,7 @@ interface IProps {
   onCaseChange: (bool: boolean) => void;
 }
 const PipelineConfigDetail = (props: IProps) => {
-  const { caseId, addDrawerProps = {}, scope, onCaseChange } = props;
+  const { caseId, addDrawerProps, scope, onCaseChange } = props;
   const [caseDetail] = autoTestStore.useStore((s) => [s.caseDetail]);
   const { getCaseDetail, updateCasePipeline } = autoTestStore;
 
