@@ -49,12 +49,12 @@ const DomainModal = (props: IProps) => {
 
   const initDomains = cloneDeep(domainMap[serviceName]);
   const [{ domains }, updater] = useUpdate({
-    domains: initDomains.map((x) => ({ ...x, id: uniqueId() })),
+    domains: map(initDomains, (x) => ({ ...x, id: uniqueId() })),
   });
 
   React.useEffect(() => {
     if (visible) {
-      updater.domains(cloneDeep(domainMap[serviceName].map((x) => ({ ...x, id: uniqueId() }))) as IDomain[]);
+      updater.domains(cloneDeep(map(domainMap[serviceName], (x) => ({ ...x, id: uniqueId() }))) as IDomain[]);
     }
   }, [domainMap, serviceName, updater, visible]);
 
@@ -131,8 +131,8 @@ const DomainModal = (props: IProps) => {
     let tenantGroup = '';
     let packageId = '';
     if (Array.isArray(domains)) {
-      packageId = domains[0].packageId;
-      tenantGroup = domains[0].tenantGroup;
+      packageId = domains[0]?.packageId;
+      tenantGroup = domains[0]?.tenantGroup;
     }
     return {
       tenantGroup,
