@@ -41,6 +41,10 @@ const CasePipelineEditor = (props: IProps) => {
     [scope, addDrawerProps],
   );
 
+  const _addDrawerProps = React.useMemo(() => {
+    return { ...addDrawerProps, scope, showInParams: true, showOutParams: true };
+  }, [addDrawerProps, scope]);
+
   return (
     <div>
       <PipelineEditor
@@ -50,7 +54,7 @@ const CasePipelineEditor = (props: IProps) => {
         YmlGraphicEditor={ymlEditorRender}
         onSubmit={onUpdateYml}
         loading={loading}
-        addDrawerProps={{ ...addDrawerProps, scope, showInParams: true, showOutParams: true }}
+        addDrawerProps={_addDrawerProps}
         chartProps={{
           chartSize: { pipeline: nodeSize },
           nodeEleMap: { pipeline: CaseNode },
