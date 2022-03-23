@@ -45,12 +45,14 @@ interface Detail {
 
 const PipelineProtocol = ({ type, getTypes, appID, setAppID, getGuides }: IProps) => {
   const [form] = Form.useForm();
-  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
+  const [{ projectId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const { customFilter__urlQuery } = query;
   const { name: projectName } = projectStore.useStore((s) => s.info);
   const { key: typeKey } = type;
   const inParams = {
     projectId,
     pipelineCategoryKey: `${typeKey}`,
+    customFilter__urlQuery,
   };
 
   const [visible, setVisible] = React.useState(false);
