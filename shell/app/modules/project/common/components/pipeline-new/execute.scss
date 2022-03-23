@@ -9,9 +9,9 @@
 .pipeline-execute {
   .build-detail-err-msg {
     padding: 12px;
-    background-color: rgba(245, 235, 210, 0.4);
-    border: 1px solid #f5ebd2;
-    border-radius: 0.3125rem;
+    background-color: $color-warning-bg;
+    border: 1px solid rgba($color-warning, 0.3);
+    border-radius: $radius;
 
     pre {
       margin: 0;
@@ -24,14 +24,18 @@
     }
 
     .build-err-icon {
-      margin-right: 0.3125rem;
+      margin-right: 6px;
       color: $color-warning;
       font-weight: bold;
     }
 
     .build-err-stack {
-      margin-top: 0.5rem;
-      padding-left: 1rem;
+      margin-top: 8px;
+      padding-left: 16px;
     }
+  }
+
+  .yml-svg-container-box {
+    border: 0 !important;
   }
 }

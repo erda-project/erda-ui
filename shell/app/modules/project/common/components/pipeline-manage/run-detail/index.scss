@@ -23,8 +23,8 @@
 
   .auto-test-detail-err-msg {
     padding: 12px;
-    background-color: rgba(245, 235, 210, 0.4);
-    border: 1px solid #f5ebd2;
+    background-color: $color-warning-bg;
+    border: 1px solid rgba($color-warning, 0.3);
     border-radius: 0.3125rem;
 
     pre {

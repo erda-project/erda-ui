@@ -121,8 +121,9 @@ const Pipeline = (props: IProps) => {
     const fileYmlContent = nodeDetail?.meta?.pipelineYml;
     const pipelineYmlContent = pipelineDetail?.ymlContent;
 
-    if (fileYmlContent) {
+    if (fileYmlContent && pipelineYmlContent) {
       setFileChanged(fileYmlContent !== pipelineYmlContent);
+      if (fileYmlContent === pipelineYmlContent) setMode(DetailMode.execute);
     }
   }, [pipelineDetail, nodeDetail, branchExist, isMobileInit, initPipeline]);
 
@@ -146,6 +147,7 @@ const Pipeline = (props: IProps) => {
           goTo(goTo.pages.projectPipelineRecords, {
             projectId,
             query: { customFilter__urlQuery: encode(`{"title":"${pipelineName}"}`) },
+            jumpOut: true,
           });
         }}
         fill="black-4"
