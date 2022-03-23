@@ -220,7 +220,13 @@ const PipelineProtocol = ({ type, getTypes, appID, setAppID, getGuides }: IProps
         />
       </Drawer>
 
-      <Drawer title={i18n.t('pipeline')} onClose={onDetailClose} visible={detailVisible} width="80%" destroyOnClose>
+      <Drawer
+        title={`${i18n.t('pipeline')} ${detail?.pipelineName || ''}`}
+        onClose={onDetailClose}
+        visible={detailVisible}
+        width="80%"
+        destroyOnClose
+      >
         {detail ? <PipelineDetail {...detail} /> : null}
       </Drawer>
       <Modal
