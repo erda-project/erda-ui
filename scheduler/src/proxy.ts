@@ -42,6 +42,14 @@ const wsPathRegex = [
 ];
 
 export const createProxyService = (app: INestApplication) => {
+  const onError = (err, req, res, target) => {
+    res.writeHead(500, {
+      'Content-Type': 'text/plain',
+    });
+    const errMsg = `Error occurred while proxying request ${req.url} to ${target}: ${err.message}`;
+    res.end(errMsg);
+    logger.warn(errMsg, err);
+  };
   const wsProxy = createProxyMiddleware(
     (pathname: string, req: Request) => {
       return req.headers.upgrade === 'websocket' && wsPathRegex.some((regex) => regex.test(pathname));
@@ -56,13 +64,13 @@ export const createProxyService = (app: INestApplication) => {
       onProxyReqWs: (proxyReq, req: Request, socket) => {
         if (isProd) {
           const { query } = qs.parseUrl(req.url);
-          logger.info(`get ws org: ${query?.wsOrg}`);
           proxyReq.setHeader('org', query?.wsOrg);
         }
         socket.on('error', (error) => {
           logger.warn('Websocket error:', error); // add error handler to prevent server crash https://github.com/chimurai/http-proxy-middleware/issues/463#issuecomment-676630189
         });
       },
+      onError,
     },
   );
   app.use(
@@ -87,6 +95,7 @@ export const createProxyService = (app: INestApplication) => {
         changeOrigin: !isProd,
         secure: false,
         pathRewrite: { '^/static/fdp': '' },
+        onError,
       },
     ),
   );
@@ -101,6 +110,7 @@ export const createProxyService = (app: INestApplication) => {
         changeOrigin: true,
         secure: false,
         pathRewrite: (api) => (isProd ? api.replace('/api/uc', '') : api),
+        onError,
       },
     ),
   );
@@ -115,6 +125,9 @@ export const createProxyService = (app: INestApplication) => {
         xfwd: true,
         secure: false,
         pathRewrite: replaceApiOrgPath,
+        headers: {
+          Connection: 'keep-alive', // try fix error: write after end
+        },
         onProxyReq: (proxyReq, req: Request) => {
           if (!isProd) {
             proxyReq.setHeader('referer', API_URL);
@@ -125,6 +138,7 @@ export const createProxyService = (app: INestApplication) => {
             }
           }
         },
+        onError,
       },
     ),
   );
@@ -144,6 +158,7 @@ export const createProxyService = (app: INestApplication) => {
       {
         target: gittarUrl,
         changeOrigin: !isProd,
+        onError,
       },
     ),
   );
@@ -152,6 +167,7 @@ export const createProxyService = (app: INestApplication) => {
     createProxyMiddleware({
       target: API_URL,
       changeOrigin: !isProd,
+      onError,
     }),
   );
   return wsProxy;
