@@ -17,6 +17,11 @@ import { logger } from '../util';
 const METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'];
 
 export function guardMiddleware(req: Request, res: Response, next: NextFunction) {
+  const orgSubDomain = /^(\S+)-org\.(.+)/.exec(req.headers.host);
+  if (orgSubDomain) {
+    // redirect xx-org.erda.io/xx to erda.io/xx
+    return res.redirect(301, `${req.protocol}://${orgSubDomain[2]}${req.url}`);
+  }
   // guard unexpected http method
   if (!METHODS.includes(req.method.toUpperCase())) {
     res.type('application/json');
