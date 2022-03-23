@@ -154,21 +154,25 @@ class TestDetail extends React.Component<IProps, IState> {
                   const { name, status, duration, key } = item;
                   const seconds = floor(parseInt(duration, 10) / 10 ** 9, 2); // duration为纳秒
                   return (
-                    <li
-                      className={`test-item flex items-center ${key === checkedCaseKey ? 'active' : ''} ${status}`}
+                    <Tooltip
                       key={key}
-                      onClick={(e) => this.showTestInfo(key, e)}
+                      placement="right"
+                      title={name.length > 50 ? name : undefined}
+                      overlayInnerStyle={{ width: '500px', fontSize: '12px' }}
                     >
-                      <span className={`status-point ${status}`} />
-                      <Tooltip placement="right" title={name} overlayInnerStyle={{ width: '500px', fontSize: '12px' }}>
+                      <li
+                        className={`test-item flex items-center ${key === checkedCaseKey ? 'active' : ''} ${status}`}
+                        onClick={(e) => this.showTestInfo(key, e)}
+                      >
+                        <span className={`status-point ${status}`} />
                         <span className="flex-1 mx-2 truncate">{name.slice(0, 100)}</span>
-                      </Tooltip>
-                      <span className="time nowrap">
-                        {duration !== 0 && seconds === 0
-                          ? `${duration / 1000000}${i18n.t('dop:millisecond(s)')}`
-                          : secondsToTime(seconds, true)}
-                      </span>
-                    </li>
+                        <span className="time nowrap">
+                          {duration !== 0 && seconds === 0
+                            ? `${duration / 1000000}${i18n.t('dop:millisecond(s)')}`
+                            : secondsToTime(seconds, true)}
+                        </span>
+                      </li>
+                    </Tooltip>
                   );
                 })}
                 {filterList.length === 0 && <li className="test-item-nodata">{i18n.t('dop:no matching data')}</li>}
