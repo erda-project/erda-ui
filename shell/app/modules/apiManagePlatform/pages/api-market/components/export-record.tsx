@@ -22,6 +22,7 @@ import { useUpdate } from 'common/use-hooks';
 import { PAGINATION } from 'app/constants';
 import moment from 'moment';
 import './export-record.scss';
+import { isEmpty } from 'lodash';
 
 interface IProps {
   visible: boolean;
@@ -106,7 +107,7 @@ const ExportRecordModal = ({ visible, onCancel }: IProps) => {
 
   const handleTableChange: ITableProps['onChange'] = ({ current = 1, pageSize: size }, _filters, sorter, extra) => {
     let orderBy;
-    if (extra.action === 'sort' && !Array.isArray(sorter)) {
+    if (!isEmpty(sorter) && !Array.isArray(sorter)) {
       orderBy = `${sorter.order === 'descend' ? '-' : ''}${sorter.field}`;
     }
     update({
