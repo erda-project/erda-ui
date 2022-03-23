@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import BatchAuthorizeMemberModal from 'common/components/batch-authorize-member-modal';
+import { fireEvent, render } from '@testing-library/react';
 import appMemberStore from 'common/stores/application-member';
 import * as Services from 'common/services';
-import { mount, shallow } from 'enzyme';
+import BatchAuthorizeMemberModal from '..';
 
 const roleMap = {
   dev: 'DEV',
@@ -46,7 +46,7 @@ describe('BatchAuthorizeMemberModal', () => {
   afterAll(() => {
     jest.resetAllMocks();
   });
-  it('BatchAuthorizeMemberModal should work well', () => {
+  it('should work well', () => {
     const getApps = jest.fn().mockResolvedValue({
       success: true,
       data,
@@ -56,19 +56,9 @@ describe('BatchAuthorizeMemberModal', () => {
     });
     const getRoleMapFn = jest.fn();
     appMemberStore.effects.getRoleMap = getRoleMapFn;
-    const wrapper = mount(<BatchAuthorizeMemberModal projectId="1" />);
+    const result = render(<BatchAuthorizeMemberModal projectId="1" visible />);
     expect(getRoleMapFn).toHaveBeenCalledTimes(1);
-    const [loadMoreSelector] = wrapper.find({ title: 'batch authorize application' }).at(0).prop('fieldsList');
-    const loadMoreSelectorWrapper = shallow(<div>{loadMoreSelector.getComp()}</div>);
-    loadMoreSelectorWrapper.find('LoadMoreSelector').prop('getData')();
-    expect(getApps).toHaveBeenCalledTimes(1);
-    expect(loadMoreSelectorWrapper.find('LoadMoreSelector').prop('dataFormatter')(data)).toStrictEqual({
-      ...data,
-      list: data.list.map((item) => ({
-        ...item,
-        label: item.name,
-        value: item.id,
-      })),
-    });
+    fireEvent.click(result.baseElement.querySelector('.results')!);
+    expect(getApps).toHaveBeenCalled();
   });
 });
