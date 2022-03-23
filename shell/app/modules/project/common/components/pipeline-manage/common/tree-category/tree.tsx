@@ -800,8 +800,8 @@ const TreeCategory = ({
                 {nodeData.title}
                 {!execNode.disableAction && (
                   <Popover
-                    content={getActions(nodeData).map((item) => (
-                      <div className="action-btn" onClick={() => item.func?.(nodeData.key, nodeData)}>
+                    content={getActions(nodeData).map((item, idx) => (
+                      <div className="action-btn" key={`${idx}`} onClick={() => item.func?.(nodeData.key, nodeData)}>
                         {item.node}
                       </div>
                     ))}
