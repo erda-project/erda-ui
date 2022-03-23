@@ -121,7 +121,7 @@ const Pipeline = (props: IProps) => {
     const fileYmlContent = nodeDetail?.meta?.pipelineYml;
     const pipelineYmlContent = pipelineDetail?.ymlContent;
 
-    if (fileYmlContent) {
+    if (fileYmlContent && pipelineYmlContent) {
       setFileChanged(fileYmlContent !== pipelineYmlContent);
     }
   }, [pipelineDetail, nodeDetail, branchExist, isMobileInit, initPipeline]);
