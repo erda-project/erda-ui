@@ -27,7 +27,7 @@ const ServicesNode: React.FC<
     jumpService?: boolean;
   }
 > = ({ jumpService, ...restProps }) => {
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>, data: TOPOLOGY.TopoNode['metaData']) => {
+  const handleClick = (e: React.MouseEvent<Element>, data: TOPOLOGY.TopoNode['metaData']) => {
     e.stopPropagation();
     goTo(goTo.pages.mspServiceMonitor, {
       applicationId: data.applicationId || '-',
@@ -42,14 +42,16 @@ const ServicesNode: React.FC<
         return (
           <div className={`service-node ${error_rate > 50 ? 'error' : ''} ${error_rate > 0 ? 'has-error' : ''}`}>
             {jumpService ? (
-              <div
-                className="service-node-tips"
-                onClick={(e) => {
-                  handleClick(e, data);
-                }}
-                onMouseUp={(e) => e.stopPropagation()}
-              >
-                <ErdaIcon type="info" size={20} className="info-icon text-white-6 hover:text-white" />
+              <div className="service-node-tips">
+                <ErdaIcon
+                  type="info"
+                  size={20}
+                  className="info-icon text-white-6 hover:text-white"
+                  onMouseUp={(e: React.MouseEvent<Element>) => e.stopPropagation()}
+                  onClick={(e) => {
+                    handleClick(e, data);
+                  }}
+                />
               </div>
             ) : null}
             <Circular stroke={['#798CF1', '#D84B65']} width={60} strokeWidth={4} percent={error_rate}>

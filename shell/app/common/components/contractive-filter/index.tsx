@@ -15,7 +15,7 @@ import React from 'react';
 import { Checkbox, DatePicker, Dropdown, Input, Menu, message, Tooltip } from 'antd';
 import { Duration, ErdaIcon, Icon as CustomIcon, MemberSelector } from 'common';
 import moment, { Moment } from 'moment';
-import { useUpdateEffect } from 'react-use';
+import { useEffectOnce, useUpdateEffect } from 'react-use';
 import { debounce, has, isArray, isEmpty, isNumber, isString, map, max, sortBy } from 'lodash';
 import i18n from 'i18n';
 import './index.scss';
@@ -690,41 +690,28 @@ const TimeSpanFilterItem = ({
   onQuickOperation,
   labels,
 }: Merge<IFilterItemProps<'timespanRange'>, { labels: JSX.Element }>) => {
+  const [duration, setDuration] = React.useState();
+  useEffectOnce(() => {
+    setDuration(value);
+  });
+
   const { key, label, placeholder, disabled } = itemData;
-
-  const [duration, setDuration] = React.useState(value);
-  const durationRef = React.useRef(false);
-
-  useUpdateEffect(() => {
-    if (durationRef.current) {
-      setDuration(value);
-    }
-  }, [value]);
-  const _value = isArray(duration) ? duration : [];
   return (
     <span className="contractive-filter-item">
       {labels}
       <Duration
-        value={_value}
+        value={duration}
         onChange={(v) => {
           const durationMin = transformDuration(v?.[0]);
           const durationMax = transformDuration(v?.[1]);
           if (isNumber(durationMin) && isNumber(durationMax)) {
             if (durationMin <= durationMax) {
-              durationRef.current = true;
               onChange({ key, value: v });
             } else {
-              durationRef.current = false;
-              setDuration(v);
               message.error(i18n.t('msp:wrong duration'));
             }
           } else if (!isNumber(durationMin) && !isNumber(durationMax)) {
-            durationRef.current = false;
-            setDuration(v);
             onChange({ key, value: [] });
-          } else {
-            durationRef.current = false;
-            setDuration(v);
           }
         }}
       />
