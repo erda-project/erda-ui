@@ -218,7 +218,6 @@ const DomainModal = (props: IProps) => {
                   <FormItem className="hidden" name={`${domainType}@@${id}`} initialValue={serviceName}>
                     <Input />
                   </FormItem>
-                  {id}
                   <FormItem
                     name={`${domainType}@domain@${id}`}
                     initialValue={domain}
