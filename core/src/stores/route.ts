@@ -32,6 +32,7 @@ interface IRouteInfo {
   urlPathRecord: Set<string>;
   urlState: 'back' | 'new' | 'forward';
   parsed: any;
+  markedRoutePreview: Obj<string>;
   prevRouteInfo: IRouteInfo;
   isIn: (mark: string) => boolean;
   isMatch: (pattern?: string | RegExp) => boolean;
@@ -49,6 +50,7 @@ const initRouteInfo: IRouteInfo = {
   routeMap: {},
   parsed: {},
   urlPathRecord: new Set([]),
+  markedRoutePreview: {},
   urlFullRecord: new Set([]),
   urlState: 'new',
   isIn: () => false,
@@ -163,12 +165,17 @@ const routeInfoStore = createStore({
 
       curUrlFull.add(urlKey);
 
+      const markedRoutePreview = {
+        ...state.markedRoutePreview,
+        ...(currentRoute.searchMark ? { [currentRoute.searchMark]: search } : {}),
+      };
       const routeInfo = {
         prevRouteInfo,
         params,
         query,
         routes,
         currentRoute,
+        markedRoutePreview,
         urlFullRecord: curUrlFull,
         urlPathRecord: curUrlPaths,
         urlState,
@@ -181,6 +188,7 @@ const routeInfoStore = createStore({
         isEntering: (level: string) => routeMarks.includes(level) && !prevRouteInfo.routeMarks.includes(level),
         isLeaving: (level: string) => !routeMarks.includes(level) && prevRouteInfo.routeMarks.includes(level),
       };
+
       return routeInfo;
     },
   },
