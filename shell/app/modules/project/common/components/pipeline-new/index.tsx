@@ -147,6 +147,7 @@ const Pipeline = (props: IProps) => {
           goTo(goTo.pages.projectPipelineRecords, {
             projectId,
             query: { customFilter__urlQuery: encode(`{"title":"${pipelineName}"}`) },
+            jumpOut: true,
           });
         }}
         fill="black-4"
