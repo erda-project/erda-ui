@@ -21,7 +21,7 @@ import { Button, Tooltip, Spin } from 'antd';
 import Info from './info';
 import { getBranchPath } from 'application/pages/pipeline/config';
 import { DetailMode } from './index';
-import PipelineNode, { NodeSize } from 'application/pages/pipeline/run-detail/pipeline-chart/pipeline-node';
+import PipelineNode, { NodeSize } from './pipeline-node';
 import buildStore from 'application/stores/build';
 import i18n from 'i18n';
 
