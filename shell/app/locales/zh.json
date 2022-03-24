@@ -1564,6 +1564,7 @@
     "pinned successfully": "置顶成功",
     "pipeline ID": "流水线ID",
     "pipeline configuration": "流水线配置",
+    "pipeline files were discovered in the {branch} branch of the {app} application today": "{app} 应用的 {branch} 分支下，本日新发现了流水线文件",
     "pipeline type": "流水线分类",
     "pipeline-changed-tip1": "当前流水线内容已变更，需要手动切换查看",
     "pipeline-changed-tip2": "当前流水线内容已变更，详情可以",

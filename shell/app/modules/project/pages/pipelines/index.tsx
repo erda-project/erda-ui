@@ -78,14 +78,14 @@ const Pipeline = () => {
                 />
                 <ErdaIcon type="daimafenzhi" size="20" className="text-blue mr-1" />
                 <span className="font-medium mr-5">
-                  {i18n.t('dop:branch {branch} has been found in the code repository of {app} applications', {
+                  {i18n.t('dop:pipeline files were discovered in the {branch} branch of the {app} application today', {
                     branch: guidesFirst.branch || '-',
                     app: guidesFirst.appName || '-',
                     interpolation: { escapeValue: false },
                   })}
                 </span>
                 <span className="mr-1">
-                  {i18n.t('created at')} {fromNow(guidesFirst.timeCreated)}
+                  {i18n.t('at')} {fromNow(guidesFirst.timeCreated)}
                 </span>
                 <div className="flex-1 text-right">
                   <Button type="primary" onClick={() => setAppID(guidesFirst.appID)}>
@@ -102,14 +102,17 @@ const Pipeline = () => {
                   >
                     <ErdaIcon type="daimafenzhi" size="20" className="text-blue mr-1" />
                     <span className="font-medium mr-5">
-                      {i18n.t('dop:branch {branch} has been found in the code repository of {app} applications', {
-                        branch: item.branch || '-',
-                        app: item.appName || '-',
-                        interpolation: { escapeValue: false },
-                      })}
+                      {i18n.t(
+                        'dop:pipeline files were discovered in the {branch} branch of the {app} application today',
+                        {
+                          branch: item.branch || '-',
+                          app: item.appName || '-',
+                          interpolation: { escapeValue: false },
+                        },
+                      )}
                     </span>
                     <span className="mr-1">
-                      {i18n.t('created at')} {fromNow(item.timeCreated)}
+                      {i18n.t('at')} {fromNow(item.timeCreated)}
                     </span>
                     <div className="flex-1 text-right">
                       <Button type="primary" onClick={() => setAppID(item.appID)}>

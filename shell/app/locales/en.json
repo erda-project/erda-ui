@@ -1564,6 +1564,7 @@
     "pinned successfully": "pinned successfully",
     "pipeline ID": "pipeline ID",
     "pipeline configuration": "pipeline configuration",
+    "pipeline files were discovered in the {branch} branch of the {app} application today": "pipeline files were discovered in the {branch} branch of the {app} application today",
     "pipeline type": "pipeline type",
     "pipeline-changed-tip1": "the content of the current pipeline has been changed and needs to be manually switched to view",
     "pipeline-changed-tip2": "the content of the current pipeline has been changed, the details can be",
