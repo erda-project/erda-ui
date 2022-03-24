@@ -15,9 +15,10 @@ import React from 'react';
 import { debounce } from 'lodash';
 import { Input, Tooltip, Spin, Divider, Alert, Button } from 'antd';
 import i18n from 'i18n';
+import { encode } from 'js-base64';
 import routeInfoStore from 'core/stores/route';
 import { Badge, ErdaIcon, Ellipsis } from 'common';
-import { fromNow } from 'common/utils';
+import { fromNow, updateSearch } from 'common/utils';
 import { getPipelineTypesList, getGuidesList } from 'project/services/pipeline';
 import PipelineProtocol from './components/pipeline-protocol';
 
@@ -25,7 +26,7 @@ import './index.scss';
 
 const Pipeline = () => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
-  const [type, setType] = React.useState({ key: '', rules: [] });
+  const [type, setType] = React.useState<{ key: string; rules?: string[] }>({ key: '', rules: [] });
   const { key: typeKey } = type;
   const [searchValue, setSearchValue] = React.useState('');
   const [list, loading] = getPipelineTypesList.useState();
@@ -158,7 +159,12 @@ const Pipeline = () => {
                         className={`application-item px-4 py-2 cursor-pointer rounded-sm flex flex-col ${
                           typeKey === item.key ? 'text-purple-deep active' : 'hover:bg-white'
                         }`}
-                        onClick={() => setType(item)}
+                        onClick={() => {
+                          if (item.key !== type.key) {
+                            updateSearch({ customFilter__urlQuery: encode('{}') });
+                            setType(item);
+                          }
+                        }}
                       >
                         <div className="flex-h-center leading-5 flex-1">
                           <div className="flex-1 min-w-0">
