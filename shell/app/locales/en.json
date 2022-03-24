@@ -1041,6 +1041,7 @@
     "branch name": "branch name",
     "branch rule": "branch rule",
     "branch to commit": "branch to commit",
+    "branch {branch} has been found in the code repository of {app} applications": "branch {branch} has been found in the code repository of {app} applications",
     "branch-config-tip": "The platform has strict relationship between branches and the environment. While the system has built-in best practice configuration, it supports users to customize the configuration",
     "branches": "branches",
     "bug description": "bug description",
