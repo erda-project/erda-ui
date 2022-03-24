@@ -31,6 +31,7 @@ const Pipeline = () => {
   const [list, loading] = getPipelineTypesList.useState();
   const [guidesList] = getGuidesList.useState();
   const [appID, setAppID] = React.useState<number | null>(null);
+  const [expanded, setExpanded] = React.useState(false);
 
   const getList = React.useCallback(() => {
     getPipelineTypesList.fetch({ projectID: projectId });
@@ -53,30 +54,74 @@ const Pipeline = () => {
     setType({ key: '', rules: [] });
   }, 1000);
 
+  const guidesFirst = guidesList?.[0];
+
   return (
     <div className="h-full flex flex-col">
-      {guidesList?.map((item) => (
+      {guidesFirst ? (
         <Alert
           type="info"
-          className="alert-blue mb-2"
+          className="alert-blue mb-2 py-0"
           message={
-            <div className="flex-h-center">
-              <ErdaIcon type="daimafenzhi" size="20" className="text-blue mr-1" />
-              <span className="font-medium mr-5">
-                {item.appName || '-'}:{item.branch || '-'}
-              </span>
-              <span className="mr-1">
-                {i18n.t('created at')} {fromNow(item.timeCreated)}
-              </span>
-              <div className="flex-1 text-right">
-                <Button type="primary" onClick={() => setAppID(item.appID)}>
-                  {i18n.t('add')}
-                </Button>
+            <div className="overflow-hidden">
+              <div
+                className={`flex-h-center py-2 ${
+                  expanded ? 'border-default-1 border-b border-t-0 border-l-0 border-r-0 border-solid' : ''
+                }`}
+              >
+                <ErdaIcon
+                  type="caret-down"
+                  size="20"
+                  className={`text-default-6 mr-1 cursor-pointer ${expanded ? '' : '-rotate-90'}`}
+                  onClick={() => setExpanded((prev) => !prev)}
+                />
+                <ErdaIcon type="daimafenzhi" size="20" className="text-blue mr-1" />
+                <span className="font-medium mr-5">
+                  {i18n.t('dop:branch {branch} has been found in the code repository of {app} applications', {
+                    branch: guidesFirst.branch || '-',
+                    app: guidesFirst.appName || '-',
+                    interpolation: { escapeValue: false },
+                  })}
+                </span>
+                <span className="mr-1">
+                  {i18n.t('created at')} {fromNow(guidesFirst.timeCreated)}
+                </span>
+                <div className="flex-1 text-right">
+                  <Button type="primary" onClick={() => setAppID(guidesFirst.appID)}>
+                    {i18n.t('add')}
+                  </Button>
+                </div>
+              </div>
+              <div className="pl-5" style={expanded ? {} : { display: 'none' }}>
+                {guidesList?.slice(1).map((item, index) => (
+                  <div
+                    className={`flex-h-center py-2 pl-2 ${
+                      index !== 0 ? 'border-default-1 border-t border-b-0 border-l-0 border-r-0 border-solid' : ''
+                    }`}
+                  >
+                    <ErdaIcon type="daimafenzhi" size="20" className="text-blue mr-1" />
+                    <span className="font-medium mr-5">
+                      {i18n.t('dop:branch {branch} has been found in the code repository of {app} applications', {
+                        branch: item.branch || '-',
+                        app: item.appName || '-',
+                        interpolation: { escapeValue: false },
+                      })}
+                    </span>
+                    <span className="mr-1">
+                      {i18n.t('created at')} {fromNow(item.timeCreated)}
+                    </span>
+                    <div className="flex-1 text-right">
+                      <Button type="primary" onClick={() => setAppID(item.appID)}>
+                        {i18n.t('add')}
+                      </Button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           }
         />
-      ))}
+      ) : null}
 
       <div className="project-pipeline flex-1 flex bg-white min-h-0 mb-4">
         <div className="app-list bg-default-02 overflow-auto h-full flex-shrink-0">
@@ -87,7 +132,7 @@ const Pipeline = () => {
               className="bg-default-06 border-transparent mb-2 mx-4"
               style={{ width: 'auto' }}
               prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
-              placeholder={i18n.t('search {name}', { name: i18n.t('dop:app name') })}
+              placeholder={i18n.t('search {name}', { name: i18n.t('dop:pipeline type') })}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => search(e.target.value)}
             />
             <div className="flex-1">

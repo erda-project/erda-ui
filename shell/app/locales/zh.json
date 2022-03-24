@@ -1041,6 +1041,7 @@
     "branch name": "分支名",
     "branch rule": "分支规则",
     "branch to commit": "提交分支",
+    "branch {branch} has been found in the code repository of {app} applications": "{app} 应用的代码仓库中，本日新发现了分支 {branch}",
     "branch-config-tip": "平台对于分支与环境有严格关系管理，系统内置最佳实践配置的同时，支持用户进行自定义编辑配置",
     "branches": "分支",
     "bug description": "缺陷描述",
