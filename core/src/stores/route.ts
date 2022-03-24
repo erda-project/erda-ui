@@ -167,7 +167,7 @@ const routeInfoStore = createStore({
 
       const markedRoutePreview = {
         ...state.markedRoutePreview,
-        ...(currentRoute.searchMark ? { [currentRoute.searchMark]: search } : {}),
+        ...(currentRoute?.searchMark ? { [currentRoute.searchMark]: search } : {}),
       };
       const routeInfo = {
         prevRouteInfo,
