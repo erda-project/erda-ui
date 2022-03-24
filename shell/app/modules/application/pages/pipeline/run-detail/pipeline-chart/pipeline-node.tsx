@@ -45,7 +45,8 @@ const PipelineNode = (props: IProps) => {
   const { data, onClickNode, className = '' } = props;
   const appDetail = appStore.useStore((s) => s.detail);
   const curUserId = userStore.useStore((s) => s.loginUser.id);
-
+  const [placement, setPlacement] = React.useState('right');
+  const boxRef = React.useRef<HTMLDivElement>(null);
   const intervalRef = React.useRef(null as any);
 
   const [{ time }, updater] = useUpdate({
@@ -163,7 +164,7 @@ const PipelineNode = (props: IProps) => {
       //     </pre>
       //   );
       // }
-
+      const maxWidth = 420;
       return {
         title: null,
         content: (
@@ -176,7 +177,7 @@ const PipelineNode = (props: IProps) => {
         overlayStyle: result
           ? {
               width: 'auto',
-              maxWidth: '420px',
+              maxWidth: `${maxWidth}px`,
               height: 'auto',
               maxHeight: '520px',
               minWidth: '200px',
@@ -185,8 +186,14 @@ const PipelineNode = (props: IProps) => {
               wordBreak: 'break-all',
             }
           : null,
-        getPopupContainer: () => props.container,
-        placement: 'right',
+        placement,
+        onVisibleChange: (vis: boolean) => {
+          if (vis) {
+            const boxPos = boxRef.current?.getBoundingClientRect();
+            const offsetLeft = boxPos?.right || 0;
+            setPlacement(offsetLeft + maxWidth > document.body.clientWidth ? 'left' : 'right');
+          }
+        },
       };
     }
 
@@ -350,7 +357,7 @@ const PipelineNode = (props: IProps) => {
   const Container = isEmptyExtraInfo() ? Popover : React.Fragment;
   return (
     <Container {...renderTooltipTitle()}>
-      <div onClick={() => onClickNode && onClickNode(data, 'node')} className={mergedClassNames}>
+      <div onClick={() => onClickNode && onClickNode(data, 'node')} className={mergedClassNames} ref={boxRef}>
         <div className="flex justify-between items-center p-3">
           {icon}
           <div className="yaml-editor-item-content py-0 px-1">
