@@ -36,7 +36,8 @@ export const RunCaseNode = (props: IProps) => {
 
   const curNodeScope = get(data, 'snippet_config.labels.snippet_scope');
   const scopeObj = curNodeScope ? find(map(scopeMap), { scope: curNodeScope }) : {};
-
+  const [placement, setPlacement] = React.useState('right');
+  const boxRef = React.useRef<HTMLDivElement>(null);
   // const content = ' ';
   let name = ' ';
   let IconComp = data.logoUrl ? (
@@ -169,7 +170,7 @@ export const RunCaseNode = (props: IProps) => {
           )),
         );
       }
-
+      const maxWidth = 420;
       return {
         title: null,
         content: (
@@ -182,7 +183,7 @@ export const RunCaseNode = (props: IProps) => {
         overlayStyle: result
           ? {
               width: 'auto',
-              maxWidth: '420px',
+              maxWidth: `${maxWidth}px`,
               height: 'auto',
               maxHeight: '520px',
               minWidth: '200px',
@@ -191,8 +192,14 @@ export const RunCaseNode = (props: IProps) => {
               wordBreak: 'break-all',
             }
           : null,
-        getPopupContainer: () => props.container,
-        placement: 'right',
+        placement,
+        onVisibleChange: (vis: boolean) => {
+          if (vis) {
+            const boxPos = boxRef.current?.getBoundingClientRect();
+            const offsetLeft = boxPos?.right || 0;
+            setPlacement(offsetLeft + maxWidth > document.body.clientWidth ? 'left' : 'right');
+          }
+        },
       };
     }
     return null;
@@ -223,6 +230,7 @@ export const RunCaseNode = (props: IProps) => {
         className={`yml-chart-node test-case-result-node flex flex-col justify-center ${
           data.status === 'Disabled' ? 'disabled-item' : ''
         }`}
+        ref={boxRef}
       >
         <div className={'case-title'}>
           <div className="title-icon mr-3">{IconComp}</div>
