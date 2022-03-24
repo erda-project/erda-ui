@@ -23,13 +23,12 @@ export interface IFilterProps {
   config: FilterItemConfig[];
   onSubmit?: (value: Object) => void;
   onReset?: (value: Object) => void;
-  onFieldChange?: Function;
   actions?: React.ReactNode[] | null;
   style?: React.CSSProperties;
 }
 
 export interface FilterItemConfig extends IFieldType {
-  format?: (props: React.ComponentProps<any>, value: { [name: string]: any }) => { [name: string]: any };
+  format?: (props: React.ComponentProps<any>, value: any) => { [name: string]: any };
   name: string;
 }
 
@@ -40,10 +39,7 @@ const searchInput = (props: InputProps) => {
 };
 
 const Filter = React.forwardRef(
-  (
-    { config, onSubmit, onFieldChange, className }: IFilterProps,
-    ref: React.Ref<{ form: FormInstance; search: () => void }>,
-  ) => {
+  ({ config, onSubmit, className }: IFilterProps, ref: React.Ref<{ form: FormInstance; search: () => void }>) => {
     const formRef = React.useRef<FormInstance>({} as FormInstance);
 
     React.useImperativeHandle(ref, () => ({
@@ -104,7 +100,6 @@ const Filter = React.forwardRef(
         ...itemConfig,
         type: type === Input ? searchInput : type,
         required,
-        onFieldChange,
         onFieldEnter: search,
         customProps,
       };
