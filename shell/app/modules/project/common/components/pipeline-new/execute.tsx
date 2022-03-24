@@ -209,9 +209,13 @@ const Execute = (props: IProps) => {
         // goTo(`./quality/${pipelineDetail.commitId}`);
         break;
       case 'release-link': {
+        const linkMap = {
+          'project-artifacts': goTo.pages.projectReleaseDetail,
+          'release-ui': goTo.pages.applicationReleaseDetail,
+        };
         const target = node.findInMeta((item: BUILD.MetaData) => item.name === 'releaseID');
         if (target) {
-          goTo(goTo.pages.applicationReleaseDetail, {
+          goTo(linkMap[node.name] || goTo.pages.applicationReleaseDetail, {
             projectId,
             releaseId: target.value,
             jumpOut: true,
