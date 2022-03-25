@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import BaseFilter, { IFilterProps, FilterItemConfig } from './base-filter';
-import { get, map, has, set, isEmpty, debounce } from 'lodash';
+import BaseFilter, { FilterItemConfig, IFilterProps } from './base-filter';
+import { debounce, get, has, isEmpty, map, set } from 'lodash';
 import routeInfoStore from 'core/stores/route';
 import { useMount } from 'react-use';
 import { updateSearch as _updateSearch } from 'common/utils';
@@ -24,6 +24,7 @@ enum FILTER_TIRGGER {
 }
 
 const noop = () => {};
+
 interface IPureFilterProps extends Omit<IFilterProps, 'config'> {
   config: FilterItemConfig[];
   filterTirgger?: FILTER_TIRGGER;
@@ -96,15 +97,8 @@ const PureFilter = (props: IPureFilterProps) => {
     }
   };
 
-  const onFieldChange = (_: string, params: any) => {
-    if (filterTirgger === 'onChange') {
-      changeFilterData(params.formData);
-    }
-  };
-
   const filterProps = {
     onChange: {
-      onFieldChange,
       actions: [],
     },
     onSubmit: {},
@@ -124,6 +118,7 @@ const PureFilter = (props: IPureFilterProps) => {
 interface IDiceFilterProps extends Omit<IPureFilterProps, 'query' | 'updateSearch'> {
   updateSearch?: (arg: Obj) => void;
 }
+
 const Filter = (props: IDiceFilterProps) => {
   const query = routeInfoStore.getState((s) => s.query);
   const updateSearch = React.useCallback((searchObj = {}) => _updateSearch(searchObj, { replace: true }), []);

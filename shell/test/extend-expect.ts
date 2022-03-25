@@ -54,6 +54,11 @@ expect.extend({
     const matcherName = 'toHaveBeenLastCalledWithNth';
     const callTimes = received.mock.calls.length;
     let pass = false;
+    const options = {
+      comment: 'deep equality',
+      isNot: this.isNot,
+      promise: this.promise,
+    };
     if (!callTimes) {
       return {
         pass,
@@ -74,11 +79,6 @@ expect.extend({
     } else {
       pass = params === expectParams;
     }
-    const options = {
-      comment: 'deep equality',
-      isNot: this.isNot,
-      promise: this.promise,
-    };
     const message = pass
       ? () =>
           this.utils.matcherHint(matcherName, undefined, undefined, options) +
