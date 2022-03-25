@@ -53,16 +53,8 @@ const ExportRecordModal = ({ visible, onCancel }: IProps) => {
   }, [visible]);
   const columns: ColumnProps<API_MARKET.ExportRecord>[] = [
     {
-      title: 'API ID',
-      dataIndex: 'assetID',
-    },
-    {
       title: i18n.t('API name'),
       dataIndex: 'assetName',
-    },
-    {
-      title: i18n.t('version name'),
-      dataIndex: 'swaggerVersion',
     },
     {
       title: i18n.t('version'),
@@ -123,7 +115,7 @@ const ExportRecordModal = ({ visible, onCancel }: IProps) => {
 
   return (
     <Modal
-      width={700}
+      width={960}
       title={<span className="text-base">{i18n.t('export record')}</span>}
       wrapClassName="export-record-modal"
       visible={visible}
