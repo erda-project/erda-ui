@@ -459,11 +459,11 @@ function renderActions<T extends object = any>(actions?: IActions<T> | null): Ar
           const menu = (
             <Menu theme="dark">
               {list.map((item) => {
-                const { title, onClick, disabled = false, disableTip } = item;
+                const { title, onClick, disabled = false, disableAuthTip } = item;
 
                 return (
                   <Menu.Item key={title} onClick={disabled ? undefined : onClick}>
-                    <WithAuth pass={!disabled} noAuthTip={disableTip}>
+                    <WithAuth pass={!disabled} noAuthTip={disableAuthTip}>
                       <span className="fake-link mr-1">{title}</span>
                     </WithAuth>
                   </Menu.Item>
