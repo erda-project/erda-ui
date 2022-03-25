@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import { parse } from 'query-string';
 import { Tab } from 'layout/pages/tab/tab';
 import layoutStore from 'layout/stores/layout';
 import routeInfoStore from 'core/stores/route';
@@ -24,11 +25,12 @@ import './header.scss';
 
 const Header = () => {
   const [currentApp] = layoutStore.useStore((s) => [s.currentApp]);
-  const routes: IRoute[] = routeInfoStore.useStore((s) => s.routes);
+  const [routes, markedRoutePreview] = routeInfoStore.useStore((s) => [s.routes, s.markedRoutePreview]);
   const [pageName, setPageName] = React.useState<string>();
   const [backToUp, setBackToUp] = React.useState(0);
   const infoMap = breadcrumbStore.useStore((s) => s.infoMap);
   const [query] = routeInfoStore.useStore((s) => [s.query]);
+  const [backToUpKey, setBackToUpKey] = React.useState('');
 
   const [allRoutes, setAllRoutes] = React.useState<IRoute[]>([]);
   const [params, setParams] = React.useState<Obj<string>>({});
@@ -113,6 +115,7 @@ const Header = () => {
           backToUpLevel = location.pathname.split('/').length - targetRoute.path.split('/').length;
         }
       }
+      setBackToUpKey(currentRoute.backToUp);
       setBackToUp(backToUpLevel);
     }
     const filteredRoutes = routes.filter((route) => {
@@ -136,10 +139,12 @@ const Header = () => {
       return <Comp />;
     }
     if (backToUp) {
+      const search = markedRoutePreview[backToUpKey];
+      const _query = search ? { ...parse(search, { arrayFormat: 'bracket' }) } : undefined;
       return (
         <div
           className="text-xl truncate inline-flex items-center cursor-pointer"
-          onClick={() => goTo('../'.repeat(backToUp))}
+          onClick={() => goTo('../'.repeat(backToUp), { query: _query })}
         >
           <ErdaIcon type="arrow-left" className="mr-1" />
           {pageName}

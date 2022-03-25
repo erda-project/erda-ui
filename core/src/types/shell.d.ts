@@ -40,6 +40,7 @@ declare namespace SHELL {
   interface ParsedRoute extends Route {
     key?: string;
     _parent?: Route;
+    searchMark?: string;
     relativePath?: string;
     NotFound?: any;
     component?: any;

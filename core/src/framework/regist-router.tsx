@@ -76,6 +76,9 @@ const parseRoutes = (rootRoute: SHELL.ParsedRoute) => {
         route.component = EmptyContainer;
       }
 
+      const curMark = route.mark || (route.path === route._parent.path ? route._parent.mark : '');
+      route.searchMark = curMark; // set searchMark to record path search
+
       routeMap[route.path] = {
         key: route.key,
         route,
