@@ -90,6 +90,8 @@ const ExportRecordModal = ({ visible, onCancel }: IProps) => {
       return [
         {
           title: i18n.t('download'),
+          disabled: !record.valid,
+          disableTip: i18n.t('source file does not exist'),
           onClick: () => {
             downloadApi.fetch({
               specProtocol,
