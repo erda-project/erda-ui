@@ -428,6 +428,7 @@ declare namespace API_MARKET {
     minor: number;
     patch: number;
     protocolType: string;
+    valid: boolean;
   }
 
   interface DownloadApi {

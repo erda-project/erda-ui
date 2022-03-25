@@ -60,6 +60,7 @@ interface IAction {
   onClick: () => void;
   show?: boolean;
   disabled?: boolean;
+  disableAuthTip?: string;
 }
 
 export interface TableConfigProps<T> {
