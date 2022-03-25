@@ -25,8 +25,8 @@ import PipelineProtocol from './components/pipeline-protocol';
 import './index.scss';
 
 const Pipeline = () => {
-  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
-  const [type, setType] = React.useState<{ key: string; rules?: string[] }>({ key: '', rules: [] });
+  const [{ projectId }, { typeKey: urlTypeKey }] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [type, setType] = React.useState<{ key: string; rules?: string[] }>({} as { key: string; rules?: string[] });
   const { key: typeKey } = type;
   const [searchValue, setSearchValue] = React.useState('');
   const [list, loading] = getPipelineTypesList.useState();
@@ -34,9 +34,24 @@ const Pipeline = () => {
   const [appID, setAppID] = React.useState<number | null>(null);
   const [expanded, setExpanded] = React.useState(false);
 
-  const getList = React.useCallback(() => {
-    getPipelineTypesList.fetch({ projectID: projectId });
-  }, [projectId]);
+  const getList = React.useCallback(async () => {
+    const res = await getPipelineTypesList.fetch({ projectID: projectId });
+    const { data } = res;
+    if (typeKey === undefined) {
+      if (urlTypeKey) {
+        const _type = data?.find((item) => item.key === urlTypeKey);
+        setType(_type || { key: '', rules: [] });
+      } else {
+        setType(data?.[0] || { key: '', rules: [] });
+      }
+    }
+  }, [projectId, typeKey, setType, urlTypeKey]);
+
+  React.useEffect(() => {
+    if (type.key) {
+      updateSearch({ typeKey: type.key });
+    }
+  }, [type.key]);
 
   React.useEffect(() => {
     getList();
