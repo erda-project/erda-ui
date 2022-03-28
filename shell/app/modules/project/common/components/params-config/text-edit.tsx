@@ -15,7 +15,7 @@ import React from 'react';
 import { FileEditor } from 'common';
 import { Button } from 'antd';
 import { uniq, intersection } from 'lodash';
-import { ConfigTypeMap } from '../config';
+import { ConfigTypeMap } from './config';
 import { isValidJsonStr } from 'common/utils';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
@@ -24,7 +24,7 @@ interface IProps {
   slot?: React.ReactElement;
   configData: PIPELINE_CONFIG.ConfigItem[];
   fullConfigData: PIPELINE_CONFIG.ConfigItem[];
-  updateConfig: (data: PIPELINE_CONFIG.ConfigItem[]) => Promise<null>;
+  updateConfig: (data: PIPELINE_CONFIG.ConfigItem[]) => void;
   onChange?: (val: string) => void;
   onEditChange?: (isEdit: boolean) => void;
 }
@@ -40,7 +40,7 @@ const convertData = (data: PIPELINE_CONFIG.ConfigItem[]) => {
 
 const validateSameKey = (val: string, fullConfigData: PIPELINE_CONFIG.ConfigItem[] = []) => {
   if (!val) return i18n.t('can not be empty');
-  const valData = JSON.parse(val);
+  const valData: PIPELINE_CONFIG.ConfigItem[] = JSON.parse(val);
   const keys = valData.map((item) => item.key);
   const otherKeys = fullConfigData.filter((item) => item.type !== ConfigTypeMap.kv.key).map((item) => item.key);
   if (uniq(keys).length !== keys.length) {

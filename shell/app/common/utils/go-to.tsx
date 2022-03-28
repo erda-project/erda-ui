@@ -184,6 +184,7 @@ export enum pages {
   projectPipeline = '/{orgName}/dop/projects/{projectId}/pipelines',
   projectPipelineList = '/{orgName}/dop/projects/{projectId}/pipelines/list',
   projectPipelineRecords = '/{orgName}/dop/projects/{projectId}/pipelines/records',
+  projectPipelineConfigEnv = '/{orgName}/dop/projects/{projectId}/pipelines/config/{workspace}',
 
   // app
   app = '/{orgName}/dop/projects/{projectId}/apps/{appId}',

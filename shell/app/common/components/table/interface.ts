@@ -56,8 +56,8 @@ export interface IRowActions {
 }
 
 interface IAction {
-  title: string;
-  onClick: () => void;
+  title: string | JSX.Element;
+  onClick?: () => void;
   show?: boolean;
   disabled?: boolean;
   disableAuthTip?: string;
