@@ -11,17 +11,29 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { forwardRef, useImperativeHandle } from 'react';
-import { Form } from 'antd';
-import RenderPureForm from '../render-pure-form';
+import React from 'react';
+import { render } from '@testing-library/react';
+import RenderForm from '..';
 
-type IProps = Omit<RenderPureForm['props'], 'form'>;
-
-const RenderForm = forwardRef((props: IProps, ref) => {
-  const [form] = Form.useForm();
-
-  useImperativeHandle(ref, () => form);
-  return <RenderPureForm form={form} {...props} />;
+describe('RenderForm', () => {
+  it('should be defined', () => {
+    expect(RenderForm).toBeDefined();
+  });
+  it('should work well', () => {
+    const list = [
+      {
+        type: 'input',
+        label: 'NAME',
+        name: 'name',
+      },
+    ];
+    let formRef;
+    const Comp = () => {
+      const form = React.useRef(null);
+      formRef = form;
+      return <RenderForm list={list} ref={form} />;
+    };
+    render(<Comp />);
+    expect(formRef).not.toBeNull();
+  });
 });
-
-export default RenderForm;
