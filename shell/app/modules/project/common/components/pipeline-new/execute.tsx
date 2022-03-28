@@ -319,6 +319,12 @@ const Execute = (props: IProps) => {
     updater.logVisible(false);
   };
 
+  const pipelineRunning = pipelineDetail && ciBuildStatusSet.executeStatus.includes(pipelineDetail.status);
+
+  const refreshPipeline = () => {
+    getPipelineDetail({ pipelineID: +state.chosenPipelineId });
+  };
+
   const updateEnv = (info: Omit<BUILD.ITaskUpdatePayload, 'pipelineID'>) => {
     updateTaskEnv({ ...info, pipelineID: pipelineDetail.id }).then(() => {
       getPipelineDetail({ pipelineID: +pipelineID });
@@ -470,7 +476,23 @@ const Execute = (props: IProps) => {
       <Info
         info={pipelineFileDetail}
         className="mb-2"
-        operations={extraTitle}
+        operations={
+          <div>
+            {pipelineRunning ? (
+              <Tooltip title={i18n.t('refresh')}>
+                <ErdaIcon
+                  type="shuaxin"
+                  size={20}
+                  fill="black-4"
+                  className="cursor-pointer mr-1"
+                  onClick={refreshPipeline}
+                />
+              </Tooltip>
+            ) : null}
+            {extraTitle}
+          </div>
+        }
+
         // TODO: execute in editor, need new api;
         // operations={renderRunBtn()}
       />
