@@ -27,7 +27,7 @@ stages:
           params:
             build_cmd:
               - cd ${{ dirs.erda-ui }}
-              - npm i @erda-ui/cli@1.5.x -g
+              - npm i @erda-ui/cli@2.0.x -g
               - erda-ui init --online
               - erda-ui build --online
               - cp -r ${{ dirs.erda-ui }}/{public,scheduler} $WORKDIR
