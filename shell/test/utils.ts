@@ -12,11 +12,35 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import MockDate from 'mockdate';
+import moment from 'moment';
 import { act } from 'react-dom/test-utils';
 
-export function setMockDate(dateString = '2021-04-25T02:40:04.668Z') {
+interface IMockDate {
+  moment: moment.Moment;
+  timestamp: {
+    current: number;
+    startOfDay: number;
+    endOfDay: number;
+  };
+}
+
+export function setMockDate(dateString = '2021-04-25T02:40:04.668Z'): IMockDate {
   MockDate.set(dateString);
-  return Date.now();
+  const current = moment();
+  const data = {
+    moment: current.clone(),
+    timestamp: {
+      current: current.clone().valueOf(),
+      startOfDay: current.clone().startOf('day').valueOf(),
+      endOfDay: current.clone().endOf('day').valueOf(),
+    },
+  };
+  Object.defineProperty(data, 'moment', {
+    get() {
+      return current.clone();
+    },
+  });
+  return data;
 }
 
 export function resetMockDate() {

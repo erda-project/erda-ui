@@ -116,7 +116,7 @@ interface IFilterItemProps<T> {
 
 const filterMatch = (v: string, f: string) => v.toLowerCase().includes(f.toLowerCase());
 
-const getSelectOptions = (options: Option[], filterKey: string) => {
+export const getSelectOptions = (options: Option[], filterKey: string) => {
   if (!filterKey) return options;
   const useableOptions: Option[] = [];
 
