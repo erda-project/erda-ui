@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { getEnv, logger } from './util';
 import { INestApplication } from '@nestjs/common';
 import qs from 'query-string';
@@ -42,13 +42,22 @@ const wsPathRegex = [
 ];
 
 export const createProxyService = (app: INestApplication) => {
-  const onError = (err, req, res, target) => {
-    res.writeHead(500, {
-      'Content-Type': 'text/plain',
-    });
-    const errMsg = `Error occurred while proxying request ${req.url} to ${target}: ${err.message}`;
-    res.end(errMsg);
-    logger.warn(errMsg, err);
+  const onError = (err, req, res: Response, target) => {
+    const reqMsg = `${req.url} to ${target}`;
+    try {
+      if (!res.writableEnded) {
+        res.writeHead(500, {
+          'Content-Type': 'text/plain',
+        });
+        const errMsg = `Error occurred while proxying request ${reqMsg}: ${err.message}`;
+        res.end(errMsg);
+        logger.warn(errMsg, err);
+      } else {
+        logger.warn(`Response is ended before error handler while proxying request ${reqMsg}`);
+      }
+    } catch (e) {
+      logger.error(`Error happens while handling proxy exception for request ${reqMsg}: ${e}`);
+    }
   };
   const wsProxy = createProxyMiddleware(
     (pathname: string, req: Request) => {
