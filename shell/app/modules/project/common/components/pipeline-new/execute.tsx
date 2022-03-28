@@ -528,6 +528,7 @@ const Execute = (props: IProps) => {
             <FileContainer
               className={''}
               name={`${i18n.t('pipeline')} (${i18n.t('dop:the latest execution status')})`}
+              showLoading={false}
               ops={
                 <Button onClick={editPipeline} size="small">
                   {i18n.t('edit')}
