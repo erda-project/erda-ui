@@ -69,7 +69,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   const releaseDetail = React.useMemo(() => {
     return {
       ..._releaseDetail,
-      applicationReleaseList: _releaseDetail?.applicationReleaseList?.map?.((group, index) => ({
+      applicationReleaseList: _releaseDetail?.modes?.default?.applicationReleaseList?.map?.((group, index) => ({
         active: index === 0,
         list: [...group.map((item) => ({ ...item, id: item.releaseID, pId: item.applicationID }))],
       })),
@@ -195,12 +195,18 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
       };
 
       if (type === 'app') {
-        const { applicationReleaseList = [] } = values;
+        const { applicationReleaseList = [], ..._payload } = payload;
         payload = {
-          ...payload,
-          applicationReleaseList: applicationReleaseList
-            .filter((group: { list: Array<{ id: string }> }) => group.list?.length)
-            .map((group: { list: Array<{ id: string }> }) => group.list.map((item: { id: string }) => item.id)),
+          ..._payload,
+          modes: {
+            default: {
+              dependOn: [],
+              expose: true,
+              applicationReleaseList: applicationReleaseList
+                .filter((group: { list: Array<{ id: string }> }) => group.list?.length)
+                .map((group: { list: Array<{ id: string }> }) => group.list.map((item: { id: string }) => item.id)),
+            },
+          },
           isStable: true,
           isFormal: false,
           isProjectRelease: true,
