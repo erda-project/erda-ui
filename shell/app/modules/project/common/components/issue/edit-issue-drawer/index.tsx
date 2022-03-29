@@ -135,6 +135,7 @@ export const EditIssueDrawer = (props: IProps) => {
     };
   }, [bugStageList, defaultCustomFormData, isEditMode, issueType, iterationID, taskTypeList]);
   const [formData, setFormData] = React.useState(defaultFormData as any);
+  const drawerVisibleRef = React.useRef(visible);
   const issueDetail: ISSUE.IssueType = issueStore.useStore((s) => s[`${type}Detail`]);
 
   // 监听bugDetail、taskDetail、requirementDetail的变化，切换类型后触发刷新
@@ -191,6 +192,10 @@ export const EditIssueDrawer = (props: IProps) => {
   React.useEffect(() => {
     setIssueType(propsIssueType);
   }, [propsIssueType]);
+
+  React.useEffect(() => {
+    drawerVisibleRef.current = visible;
+  }, [visible]);
 
   React.useEffect(() => {
     if (visible) {
@@ -456,6 +461,10 @@ export const EditIssueDrawer = (props: IProps) => {
   };
 
   const setFieldCb = (value: Obj<any>, fieldType?: string) => {
+    if (!drawerVisibleRef.current) {
+      return;
+    }
+
     if (fieldType && fieldType === 'markdown') {
       setTempDescContent(value?.content);
       return;
@@ -475,6 +484,7 @@ export const EditIssueDrawer = (props: IProps) => {
 
   const onClose = (isCreate = false, isDelete = false) => {
     if (savingRef.current) return;
+    drawerVisibleRef.current = false;
     setFormData(defaultFormData);
     closeDrawer({ hasEdited, isCreate, isDelete });
     setTempDescContent('');
