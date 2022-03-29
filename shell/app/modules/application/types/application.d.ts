@@ -20,6 +20,7 @@ declare namespace APPLICATION {
     logo: string;
     projectId: number;
     repoConfig?: GitRepoConfig;
+    sonarConfig?: SonarConfig;
     isExternalRepo: boolean;
   }
 
@@ -110,6 +111,13 @@ interface IApplication {
   unBlockEnd: string;
   blockStatus: PROJECT.BlockStatus;
   isProjectLevel: boolean;
+  sonarConfig: null | SonarConfig;
+}
+
+interface SonarConfig {
+  host: string;
+  projectKey: string;
+  token: string;
 }
 
 interface IAppWorkspace {

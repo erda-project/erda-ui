@@ -29,9 +29,10 @@ import { Link } from 'react-router-dom';
 import { MemberScope } from 'common/stores/member-scope';
 import BranchRule from 'project/common/components/branch-rule';
 import { usePerm } from 'app/user/common';
-import { goTo } from 'common/utils';
+import { goTo, insertWhen } from 'common/utils';
 import './app-settings.scss';
 import appStore from 'application/stores/application';
+import SonarConfig from './components/sonar-config';
 import routeInfoStore from 'core/stores/route';
 
 const showMap = {
@@ -157,6 +158,23 @@ export const PureAppSettings = () => {
             />
           ),
         },
+        ...insertWhen(appDetail.mode === appMode.SERVICE, [
+          {
+            tabTitle: i18n.t('dop:sonar setting'),
+            tabKey: 'sonarConfig',
+            content: (
+              <ConfigLayout
+                sectionList={[
+                  {
+                    title: i18n.t('dop:sonar setting'),
+                    desc: i18n.t('dop:sonar-setting-tip'),
+                    children: <SonarConfig />,
+                  },
+                ]}
+              />
+            ),
+          },
+        ]),
       ],
     },
     {
