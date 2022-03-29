@@ -25,6 +25,9 @@ const SonarConfig = () => {
       label: i18n.t('dop:sonar service host'),
       name: 'host',
       rules: [{ ...regRules.http }],
+      itemProps: {
+        maxLength: 100,
+      },
     },
     {
       label: i18n.t('dop:sonar token'),
@@ -44,6 +47,9 @@ const SonarConfig = () => {
         },
       ],
       required: false,
+      itemProps: {
+        maxLength: 100,
+      },
     },
   ];
 
