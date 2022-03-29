@@ -14,6 +14,7 @@
 /* eslint-disable no-param-reassign */
 import { createFlatStore } from 'core/cube';
 import i18n from 'i18n';
+import { HIDDEN_MILESTONE } from 'common/constants';
 import {
   getIssueList,
   getStatesByIssue,
@@ -38,7 +39,7 @@ const issueWorkflowStore = createFlatStore({
   effects: {
     async getIssueList({ call, update }, payload: { projectID: number }) {
       const issueList = await call(getIssueList, payload);
-      update({ issueList });
+      update({ issueList: issueList.filter((issue) => !HIDDEN_MILESTONE || issue.issueType !== 'EPIC') });
     },
     async getStatesByIssue({ call, update }, payload: ISSUE_WORKFLOW.IStateQuery) {
       const workflowStateList = await call(getStatesByIssue, payload);

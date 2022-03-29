@@ -13,6 +13,7 @@
 
 import i18n from 'i18n';
 import { regRules } from 'common/utils';
+import { HIDDEN_MILESTONE } from 'common/constants';
 
 export enum ISSUE_FIELD_TYPES {
   Text = 'Text',
@@ -39,10 +40,14 @@ export const ISSUE_LIST_MAP = {
     type: 'BUG',
     name: i18n.t('bug'),
   },
-  epic: {
-    type: 'EPIC',
-    name: i18n.t('dop:milestone'),
-  },
+  ...(HIDDEN_MILESTONE
+    ? {}
+    : {
+        epic: {
+          type: 'EPIC',
+          name: i18n.t('dop:milestone'),
+        },
+      }),
 };
 
 export const FIELD_TYPE_ICON_MAP = {
