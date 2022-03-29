@@ -13,21 +13,21 @@
 
 import React from 'react';
 import {
+  Cascader,
+  Checkbox,
+  DatePicker,
+  Divider,
   Form,
   Input,
-  Select,
   InputNumber,
-  Switch,
   Radio,
-  Checkbox,
-  Cascader,
-  DatePicker,
+  Select,
+  Switch,
   Tooltip,
-  Divider,
 } from 'antd';
 import { FormInstance } from 'app/interface/common';
 import classnames from 'classnames';
-import { ErdaIcon, Icon as CustomIcon, Badge } from 'common';
+import { Badge, ErdaIcon, Icon as CustomIcon } from 'common';
 import { TagItem } from 'common/components/tags';
 import i18n from 'i18n';
 import { isString } from 'lodash';
@@ -49,6 +49,7 @@ class ClassWrapper extends React.PureComponent<IProps> {
     // child component onChange method
     children?.props?.onChange?.(...args);
   };
+
   render() {
     const { children, value, ...rest } = this.props;
     if (!children || typeof children !== 'object') {
@@ -95,6 +96,7 @@ const defalutTailFormItemLayout = {
     },
   },
 };
+
 export interface IFormItem {
   form?: FormInstance;
   label?: string;
@@ -266,11 +268,13 @@ const RenderFormItem = ({
       action = i18n.t('common:select');
       break;
     case 'checkbox':
-      specialConfig.valuePropName = 'checked';
-      specialConfig.valuePropType = 'boolean';
       if (itemProps.options) {
+        specialConfig.valuePropName = 'value';
+        specialConfig.valuePropType = 'array';
         ItemComp = <Checkbox.Group {...itemProps} />;
       } else {
+        specialConfig.valuePropName = 'checked';
+        specialConfig.valuePropType = 'boolean';
         const { text = '', ...checkboxProps } = itemProps;
         ItemComp = <Checkbox {...checkboxProps}>{text}</Checkbox>;
       }
