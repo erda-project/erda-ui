@@ -144,11 +144,14 @@ declare namespace PROJECT_DEPLOY {
     updatedAt: string;
     userId: string;
     version: string;
+    modes?: string;
   }
 
   interface ReleaseRenderDetailReq {
     releaseID: string;
     workspace: string;
+    mode?: string;
+    id?: string;
   }
 
   interface ReleaseRenderDetail {

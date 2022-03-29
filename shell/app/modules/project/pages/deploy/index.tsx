@@ -49,6 +49,7 @@ interface IState {
   deployDetail: PROJECT_DEPLOY.DeployDetail | undefined;
   selectedOrder: string;
   selectedRelease: { id: string; releaseId: string; name: string; hasFail: boolean } | undefined;
+  modes: string[];
 }
 
 const DeployContainer = () => {
@@ -120,6 +121,7 @@ const DeployContent = ({
       deployDetail,
       selectedOrder,
       selectedRelease,
+      modes,
     },
     updater,
     update,
@@ -131,6 +133,7 @@ const DeployContent = ({
     searchValue: '',
     deployDetail: undefined,
     selectedRelease: undefined,
+    modes: [],
     selectedOrder: '',
   });
   const env = propsEnv?.toUpperCase();
@@ -305,6 +308,7 @@ const DeployContent = ({
     update({
       addDrawerVisible: false,
       selectedRelease: undefined,
+      modes: [],
     });
   };
   const scenarioKey = isAppDeploy ? 'app-runtime' : 'project-runtime';
@@ -461,7 +465,7 @@ const DeployContent = ({
               onClick={() => {
                 selectedRelease &&
                   createDeploy
-                    .fetch({ workspace: env, id: selectedRelease.id, releaseId: selectedRelease.releaseId })
+                    .fetch({ workspace: env, id: selectedRelease.id, releaseId: selectedRelease.releaseId, modes })
                     .then(() => {
                       getDeployOrdersFunc();
                       closeAddDrawer();
@@ -475,9 +479,13 @@ const DeployContent = ({
         }
       >
         <AddDeploy
+          id={selectedRelease?.id}
           onSelect={(v: { id: string; releaseId: string; name: string; hasFail: boolean }) =>
             updater.selectedRelease(v)
           }
+          onModesSelect={(v: string[]) => {
+            updater.modes(v);
+          }}
         />
       </Drawer>
 

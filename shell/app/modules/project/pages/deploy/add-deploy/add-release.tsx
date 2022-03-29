@@ -38,7 +38,7 @@ const AddRelease = ({
   onSelect,
   detail,
 }: {
-  onSelect: (v: string) => void;
+  onSelect: (v: PROJECT_DEPLOY.Release) => void;
   detail: PROJECT_DEPLOY.ReleaseRenderDetail | null;
 }) => {
   const projectId = routeInfoStore.useStore((s) => s.params.projectId);
@@ -104,7 +104,8 @@ const AddRelease = ({
               className="theme-dark ml-3"
               disabled={!selectedRelease}
               onClick={() => {
-                onSelect(selectedRelease);
+                const release = list.find((item) => item.releaseId === selectedRelease) as PROJECT_DEPLOY.Release;
+                onSelect(release);
                 setVisible(false);
               }}
             >

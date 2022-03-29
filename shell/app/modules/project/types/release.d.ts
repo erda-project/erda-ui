@@ -18,7 +18,7 @@ declare namespace RELEASE {
   }
 
   interface ReleaseDetail {
-    applicationReleaseList: Array<{ releaseID: string }>;
+    modes: { default: { applicationReleaseList: Array<{ releaseID: string }> } };
     releaseId?: string;
     applicationId?: string;
     releaseID?: string;

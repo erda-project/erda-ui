@@ -20,39 +20,60 @@ import { getReleaseRenderDetail } from 'project/services/deploy';
 import routeInfoStore from 'core/stores/route';
 import { goTo } from 'common/utils';
 import AddRelease from './add-release';
-import { Tooltip } from 'antd';
+import { Tooltip, Checkbox, Spin } from 'antd';
 import moment from 'moment';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import { flatten } from 'lodash';
 
+interface Mode {
+  expose?: boolean;
+  applicationReleaseList: string[];
+  key: string;
+}
+
 const AddDeploy = ({
+  id,
   onSelect: propsOnSelect,
+  onModesSelect,
 }: {
+  id?: string;
   onSelect: (v: { id: string; releaseId: string; name: string; hasFail: boolean }) => void;
+  onModesSelect: (v: string[]) => void;
 }) => {
   const { workspace: routeEnv, projectId } = routeInfoStore.useStore((s) => s.params);
   const env = routeEnv?.toUpperCase();
   const [selectedRelease, setSelectedRelease] = React.useState('');
+  const [modesList, setModeList] = React.useState<Mode[]>([]);
+  const [mode, setMode] = React.useState<string[]>([]);
 
   const userMap = useUserMap();
 
-  const [detail] = getReleaseRenderDetail.useState();
+  const [detail, loading] = getReleaseRenderDetail.useState();
 
   useUpdateEffect(() => {
     selectedRelease &&
-      getReleaseRenderDetail.fetch({ releaseID: selectedRelease, workspace: env }).then((res) => {
-        res.data?.id &&
-          propsOnSelect({
-            name: res.data.name,
-            releaseId: selectedRelease,
-            id: res.data?.id,
-            hasFail: !!flatten(res.data?.applicationsInfo)?.filter((item) => !item?.preCheckResult.success).length,
-          });
-      });
-  }, [selectedRelease, env]);
+      getReleaseRenderDetail
+        .fetch({ releaseID: selectedRelease, workspace: env, mode: mode.join(',') || undefined, id })
+        .then((res) => {
+          res.data?.id &&
+            propsOnSelect({
+              name: res.data.name,
+              releaseId: selectedRelease,
+              id: res.data?.id,
+              hasFail: !!flatten(res.data?.applicationsInfo)?.filter((item) => !item?.preCheckResult.success).length,
+            });
+        });
+  }, [selectedRelease, env, mode]);
 
-  const onSelect = (r: string) => setSelectedRelease(r);
+  const onSelect = (r: PROJECT_DEPLOY.Release) => {
+    setSelectedRelease(r.releaseId);
+
+    if (r.modes) {
+      const _modes = (JSON.parse(r.modes) || {}) as Mode;
+      setModeList(Object.keys(_modes).map((key) => ({ ..._modes[key], key })));
+    }
+  };
 
   const fields = [
     {
@@ -114,6 +135,7 @@ const AddDeploy = ({
     },
   ];
   const appList = flatten(detail?.applicationsInfo) || [];
+
   return (
     <div>
       <div className="flex-h-center ">
@@ -125,58 +147,74 @@ const AddDeploy = ({
         <div className={`mt-2 p-2`}>
           <div className="pb-2 text-default font-medium">{i18n.t('dop:basic information')}</div>
           <Panel fields={fields} data={detail} columnNum={4} />
-          <div className="pb-2 pt-4  flex-h-center">
-            <span className="text-default font-medium">{i18n.t('application')}</span>
-            <span className="bg-default-1 text-default-8 px-2 ml-1 text-xs rounded-lg">{appList?.length || 0}</span>
-          </div>
-          <div>
-            <ErdaTable
-              rowKey="id"
-              columns={[
-                { dataIndex: 'name' },
-                {
-                  dataIndex: ['preCheckResult', 'success'],
-                  render: (val: boolean) => {
-                    return <ErdaIcon type={val ? 'tongguo' : 'butongguo'} disableCurrent size={18} />;
-                  },
-                },
-                {
-                  dataIndex: ['preCheckResult', 'failReasons'],
-                  render: (val: string[]) => {
-                    return val?.length ? (
-                      <Tooltip
-                        overlayStyle={{ maxWidth: 480 }}
-                        placement="right"
-                        title={
-                          <div className="flex flex-col px-3 py-2">
-                            <div className="flex-h-center">
-                              <span>{i18n.t('failed reason')}</span>
-                              <span className="ml-1 bg-white-1 px-2 text-white-8 text-xs rounded-lg">{val.length}</span>
-                            </div>
-                            <div className="text-white-8 flex flex-col">
-                              {val?.map((item, idx) => (
-                                <span className="mb-0.5" key={idx}>
-                                  {`${idx + 1}、${item}`}
-                                </span>
-                              )) || '-'}
-                            </div>
-                          </div>
-                        }
-                      >
-                        <span className="hover:text-purple-deep">{i18n.t('dop:check failed reason')}</span>
-                      </Tooltip>
-                    ) : (
-                      '-'
-                    );
-                  },
-                },
-              ]}
-              dataSource={appList}
-              hideHeader
-              showHeader={false}
-              pagination={{ hideTotal: true, hidePageSizeChange: true }}
+          <Spin spinning={loading}>
+            <div className="pb-2 pt-4  flex-h-center">
+              <span className="text-default font-medium">{i18n.t('mode')}</span>
+              <span className="bg-default-1 text-default-8 px-2 ml-1 text-xs rounded-lg">{modesList?.length || 0}</span>
+            </div>
+            <Checkbox.Group
+              options={modesList.map((item) => ({ label: item.key, value: item.key }))}
+              value={mode}
+              onChange={(v: string[]) => {
+                setMode(v);
+                onModesSelect(v);
+              }}
             />
-          </div>
+            <div className="pb-2 pt-4  flex-h-center">
+              <span className="text-default font-medium">{i18n.t('application')}</span>
+              <span className="bg-default-1 text-default-8 px-2 ml-1 text-xs rounded-lg">{appList?.length || 0}</span>
+            </div>
+            <div>
+              <ErdaTable
+                rowKey="id"
+                columns={[
+                  { dataIndex: 'name' },
+                  {
+                    dataIndex: ['preCheckResult', 'success'],
+                    render: (val: boolean) => {
+                      return <ErdaIcon type={val ? 'tongguo' : 'butongguo'} disableCurrent size={18} />;
+                    },
+                  },
+                  {
+                    dataIndex: ['preCheckResult', 'failReasons'],
+                    render: (val: string[]) => {
+                      return val?.length ? (
+                        <Tooltip
+                          overlayStyle={{ maxWidth: 480 }}
+                          placement="right"
+                          title={
+                            <div className="flex flex-col px-3 py-2">
+                              <div className="flex-h-center">
+                                <span>{i18n.t('failed reason')}</span>
+                                <span className="ml-1 bg-white-1 px-2 text-white-8 text-xs rounded-lg">
+                                  {val.length}
+                                </span>
+                              </div>
+                              <div className="text-white-8 flex flex-col">
+                                {val?.map((item, idx) => (
+                                  <span className="mb-0.5" key={idx}>
+                                    {`${idx + 1}、${item}`}
+                                  </span>
+                                )) || '-'}
+                              </div>
+                            </div>
+                          }
+                        >
+                          <span className="hover:text-purple-deep">{i18n.t('dop:check failed reason')}</span>
+                        </Tooltip>
+                      ) : (
+                        '-'
+                      );
+                    },
+                  },
+                ]}
+                dataSource={appList}
+                hideHeader
+                showHeader={false}
+                pagination={{ hideTotal: true, hidePageSizeChange: true }}
+              />
+            </div>
+          </Spin>
         </div>
       ) : null}
     </div>
