@@ -102,9 +102,8 @@ const pipelineConfig = createFlatStore({
       const { appId: appID } = getParams();
       const { query, configs, batch } = payload;
       const curAppId = payload.query.appID || appID;
-      // cicds don't have update API, remove when there is a update API
       await call(
-        apiPrefix === 'configmanage' ? updateConfigs : addConfigs,
+        updateConfigs,
         { configs, batch, query: { ...query, appID: curAppId }, apiPrefix },
         { successMsg: i18n.t('dop:modified successfully') },
       );
@@ -141,9 +140,10 @@ const pipelineConfig = createFlatStore({
       );
       pipelineConfig.getConfigs({ namespace: [{ namespace_name, decrypt: false }], appID: curAppId }, apiPrefix);
     },
-    async getConfigNameSpaces({ call, getParams }) {
+    async getConfigNameSpaces({ call, getParams }, payload?: { appId: string }) {
       const { appId: appID } = getParams();
-      const { namespaces } = await call(getConfigNameSpaces, appID);
+      const curAppId = payload?.appId || appID;
+      const { namespaces } = await call(getConfigNameSpaces, curAppId);
       return namespaces;
     },
     async importConfigs({ call }, payload: any, apiPrefix?: string) {

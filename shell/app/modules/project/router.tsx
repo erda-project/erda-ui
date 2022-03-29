@@ -237,6 +237,13 @@ function getProjectRouter(): RouteConfigItem[] {
               getComp: (cb) => cb(import('project/pages/pipelines/components/records')),
               layout: { fullHeight: true, noWrapper: true },
             },
+            {
+              path: 'config/:workspace',
+              layout: { noWrapper: true },
+              alwaysShowTabKey: 'config',
+              tabs: PIPELINE_TABS,
+              getComp: (cb) => cb(import('project/pages/pipelines/pipeline-config')),
+            },
           ],
         },
         {

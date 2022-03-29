@@ -15,7 +15,7 @@ import React from 'react';
 import ParmasConfig, { ParamsScope } from 'project/common/components/params-config';
 
 const PipelineConfig = () => {
-  return <ParmasConfig scope={ParamsScope.deploy} />;
+  return <ParmasConfig scope={ParamsScope.pipeline} />;
 };
 
 export default PipelineConfig;

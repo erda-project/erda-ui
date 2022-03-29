@@ -18,22 +18,21 @@ import ErdaTable from 'common/components/table';
 import { uuid } from 'common/utils';
 import { useUpdateEffect } from 'react-use';
 import { useUpdate } from 'common/use-hooks';
-import { ConfigTypeMap } from '../config';
-import { VariableConfigForm } from 'application/pages/settings/components/variable-config-form';
+import { ConfigTypeMap } from './config';
 import i18n from 'i18n';
 
 interface IProps {
   slot: React.ReactElement;
   configData: PIPELINE_CONFIG.ConfigItem[];
   fullConfigData: PIPELINE_CONFIG.ConfigItem[];
-  addConfig: (data: ListData) => Promise<null>;
-  updateConfig: (data: ListData | ListData[]) => Promise<null>;
-  deleteConfig: (data: PIPELINE_CONFIG.ConfigItem) => Promise<null>;
+  updateConfig: (data: PIPELINE_CONFIG.ConfigItem | PIPELINE_CONFIG.ConfigItem[]) => void;
+  deleteConfig: (data: PIPELINE_CONFIG.ConfigItem) => void;
   onEditChange?: (isEdit: boolean) => void;
 }
 
 const convertData = (data: PIPELINE_CONFIG.ConfigItem[]) => {
   return data.map((item) => ({
+    ...item,
     key: item.key,
     encrypt: item.encrypt,
     comment: item.comment,
@@ -42,22 +41,14 @@ const convertData = (data: PIPELINE_CONFIG.ConfigItem[]) => {
   }));
 };
 
-interface ListData {
-  key: string;
-  encrypt: boolean;
-  comment: string;
-  value: string;
-  uuid?: string;
-}
-
 interface IState {
-  value: ListData[];
+  value: PIPELINE_CONFIG.ConfigItem[];
   searchValue: string;
-  editData: null | ListData;
+  editData: null | PIPELINE_CONFIG.ConfigItem;
 }
 
 const ListEditConfig = (props: IProps) => {
-  const { configData, slot, addConfig, updateConfig, deleteConfig, onEditChange, fullConfigData } = props;
+  const { configData, slot, updateConfig, deleteConfig, onEditChange, fullConfigData } = props;
   const [form] = Form.useForm();
   const [{ value, searchValue, editData }, updater, update] = useUpdate<IState>({
     value: convertData(configData),
@@ -82,7 +73,7 @@ const ListEditConfig = (props: IProps) => {
 
   const save = async () => {
     try {
-      const row = (await form.validateFields()) as ListData;
+      const row = (await form.validateFields()) as PIPELINE_CONFIG.ConfigItem;
 
       const newData = [...value];
       const index = newData.findIndex((item) => editData?.uuid === item.uuid);
@@ -98,6 +89,7 @@ const ListEditConfig = (props: IProps) => {
       update({ value: newData, editData: null });
       updateConfig(
         newData.map((item) => ({
+          ...item,
           key: item.key,
           encrypt: item.encrypt,
           comment: item.comment,
@@ -106,6 +98,7 @@ const ListEditConfig = (props: IProps) => {
         })),
       );
     } catch (errInfo) {
+      // eslint-disable-next-line no-console
       console.error('------', `Validate Failed: ${JSON.stringify(errInfo)}`);
     }
   };
@@ -115,7 +108,7 @@ const ListEditConfig = (props: IProps) => {
       message.error(i18n.t('common:please save first'));
       return;
     }
-    const newData = { key: '', value: '', comment: '', encrypt: false };
+    const newData = { key: '', value: '', comment: '', encrypt: false } as PIPELINE_CONFIG.ConfigItem;
     form.setFieldsValue(newData);
     update({
       value: value.concat(newData),
@@ -145,7 +138,7 @@ const ListEditConfig = (props: IProps) => {
     {
       dataIndex: 'op',
       title: i18n.t('operate'),
-      render: (_, record: ListData) => {
+      render: (_: Obj, record: PIPELINE_CONFIG.ConfigItem) => {
         return (
           <div className="operate-list" onClick={(e) => e.stopPropagation()}>
             <Dropdown
@@ -182,7 +175,7 @@ const ListEditConfig = (props: IProps) => {
   const mergedColumns = columns.map((col) => {
     return {
       ...col,
-      onCell: (record: ListData) => ({
+      onCell: (record: PIPELINE_CONFIG.ConfigItem) => ({
         record,
         dataIndex: col.dataIndex,
         save,
@@ -254,14 +247,14 @@ const ListEditConfig = (props: IProps) => {
 
 interface EditCellProps {
   dataIndex: string;
-  record: ListData;
+  record: PIPELINE_CONFIG.ConfigItem;
   form: FormInstance;
   title: string;
   inputType: string;
   index: number;
   editing: boolean;
   fullConfigData: PIPELINE_CONFIG.ConfigItem[];
-  list: ListData[];
+  list: PIPELINE_CONFIG.ConfigItem[];
   children: React.ReactElement;
   cancel: () => void;
   save: () => void;

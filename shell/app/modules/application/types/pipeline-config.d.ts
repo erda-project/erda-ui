@@ -26,6 +26,7 @@ declare namespace PIPELINE_CONFIG {
   type ConfigType = 'kv' | 'dice-file';
 
   interface ConfigItem {
+    uuid?: string;
     key: string;
     value: string;
     comment: string;

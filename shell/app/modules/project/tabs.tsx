@@ -15,6 +15,7 @@ import React from 'react';
 import i18n from 'i18n';
 import permStore from 'user/stores/permission';
 import { Tooltip } from 'antd';
+
 import { firstCharToUpper } from 'app/common/utils';
 import { HIDDEN_MILESTONE } from 'common/constants';
 
@@ -212,5 +213,10 @@ export const PIPELINE_TABS = [
   {
     key: 'records',
     name: i18n.t('dop:execute records'),
+  },
+  {
+    key: 'config/default',
+    name: firstCharToUpper(i18n.t('config')),
+    isActive: (activeKey: string) => activeKey.split('/')[0] === 'config',
   },
 ];
