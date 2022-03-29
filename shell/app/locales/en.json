@@ -1207,6 +1207,7 @@
     "deletions": "deletions",
     "demand design": "demand design",
     "denied": "denied",
+    "dependence": "dependence",
     "deploy global variables": "deploy global variables",
     "deploy succeeded applications count / applications count": "deploy succeeded applications count / applications count",
     "deploy-upload-file-tip": "The file is stored in the /init-data directory of the container. The file name is the configured Key value. The content of the file is the uploaded file",
