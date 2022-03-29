@@ -29,9 +29,10 @@ import { Link } from 'react-router-dom';
 import { MemberScope } from 'common/stores/member-scope';
 import BranchRule from 'project/common/components/branch-rule';
 import { usePerm } from 'app/user/common';
-import { goTo } from 'common/utils';
+import { goTo, insertWhen } from 'common/utils';
 import './app-settings.scss';
 import appStore from 'application/stores/application';
+import SonarConfig from './components/sonar-config';
 import routeInfoStore from 'core/stores/route';
 
 const showMap = {
@@ -157,6 +158,23 @@ export const PureAppSettings = () => {
             />
           ),
         },
+        ...insertWhen(appDetail.mode === appMode.SERVICE, [
+          {
+            tabTitle: 'sonar设置',
+            tabKey: 'sonarConfig',
+            content: (
+              <ConfigLayout
+                sectionList={[
+                  {
+                    title: 'sonar设置',
+                    desc: '设置sonarQube服务配置信息，用于流水线执行sonar节点生成代码质量报告',
+                    children: <SonarConfig />,
+                  },
+                ]}
+              />
+            ),
+          },
+        ]),
       ],
     },
     {
