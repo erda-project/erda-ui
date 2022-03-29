@@ -160,14 +160,14 @@ export const PureAppSettings = () => {
         },
         ...insertWhen(appDetail.mode === appMode.SERVICE, [
           {
-            tabTitle: 'sonar设置',
+            tabTitle: i18n.t('dop:sonar setting'),
             tabKey: 'sonarConfig',
             content: (
               <ConfigLayout
                 sectionList={[
                   {
-                    title: 'sonar设置',
-                    desc: '设置sonarQube服务配置信息，用于流水线执行sonar节点生成代码质量报告',
+                    title: i18n.t('dop:sonar setting'),
+                    desc: i18n.t('dop:sonar-setting-tip'),
                     children: <SonarConfig />,
                   },
                 ]}

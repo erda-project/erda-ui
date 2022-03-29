@@ -22,12 +22,12 @@ const SonarConfig = () => {
   const { updateAppDetail } = appStore.effects;
   const fieldsList = [
     {
-      label: 'sonar服务地址',
+      label: i18n.t('dop:sonar service host'),
       name: 'host',
       rules: [{ ...regRules.http }],
     },
     {
-      label: 'sonar密钥',
+      label: i18n.t('dop:sonar token'),
       name: 'token',
       itemProps: {
         type: 'password',
@@ -35,7 +35,7 @@ const SonarConfig = () => {
       },
     },
     {
-      label: 'sonar项目名称',
+      label: i18n.t('dop:sonar project key'),
       name: 'projectKey',
       rules: [
         {
