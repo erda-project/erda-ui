@@ -17,8 +17,7 @@ import ReleaseForm from './form';
 import ReleaseApplicationDetail from './application-detail';
 
 const ReleaseUpdate = () => {
-  const { currentRoute } = routeInfoStore.getState((s) => s);
-  const { backToUp } = currentRoute;
+  const { backToUp } = routeInfoStore.getState((s) => s.currentRoute);
   const isProjectRelease = backToUp === 'projectRelease';
 
   return <div>{isProjectRelease ? <ReleaseForm /> : <ReleaseApplicationDetail isEdit />}</div>;
