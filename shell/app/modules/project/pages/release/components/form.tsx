@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Upload, Progress } from 'antd';
+import { Button, Upload, Progress, Collapse } from 'antd';
 import { RenderForm, MarkdownEditor, ErdaIcon } from 'common';
 import i18n from 'i18n';
 import { goTo, insertWhen } from 'common/utils';
@@ -36,6 +36,8 @@ import {
 import './form.scss';
 
 import EmptySVG from 'app/images/upload_empty.svg';
+
+const { Panel } = Collapse;
 
 const promiseDebounce = (func: Function, delay = 1000) => {
   let timer: NodeJS.Timeout | undefined;
@@ -64,6 +66,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   const { projectId, releaseID, type = 'app' } = params;
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const loginUser = userStore.useStore((s) => s.loginUser);
+  const [active, setActive] = React.useState(['1']);
 
   const _releaseDetail = getReleaseDetail.useData();
   const releaseDetail = React.useMemo(() => {
@@ -139,8 +142,42 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
           type: 'custom',
           className: 'flex-nowrap',
           getComp: () => <ReleaseSelect />,
-          readOnlyRender: (value: { active: boolean; list: RELEASE.ReleaseDetail[] }) => {
-            return <ReleaseSelect value={value} readOnly />;
+          readOnlyRender: (value: Array<{ active: boolean; list: RELEASE.ReleaseDetail[] }>) => {
+            const { dependOn } = releaseDetail?.modes?.default || {};
+            return (
+              <div className="erda-list-select flex">
+                <div className="mr-3">
+                  <div className="leading-5">
+                    <i
+                      className={`inline-block rounded-full border-primary border-solid w-2 h-2 ${
+                        active.length ? 'bg-primary' : ''
+                      }`}
+                      style={{ borderWidth: 1 }}
+                    />
+                  </div>
+                </div>
+
+                <Collapse activeKey={active} ghost className="time-line-collapse" onChange={setActive}>
+                  <Panel
+                    header={
+                      <span className={`time-line-collapse-header ${active ? 'active' : ''}`}>
+                        <span className="group-title">default</span>
+                        {value?.length ? (
+                          <span className="bg-default-1 rounded-full px-2 py-0.5 text-xs ml-1">{value.length}</span>
+                        ) : (
+                          ''
+                        )}
+                      </span>
+                    }
+                    key="1"
+                  >
+                    <div className="text-black-4 mb-2">{i18n.t('dop:dependence')}</div>
+                    <div className="mb-4">{dependOn?.length ? dependOn.join(',') : i18n.t('none')}</div>
+                    <ReleaseSelect value={value} readOnly />
+                  </Panel>
+                </Collapse>
+              </div>
+            );
           },
           rules: [
             {

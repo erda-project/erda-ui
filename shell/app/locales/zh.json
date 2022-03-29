@@ -1207,6 +1207,7 @@
     "deletions": "处删除",
     "demand design": "需求设计",
     "denied": "拒绝",
+    "dependence": "依赖",
     "deploy global variables": "部署全局变量",
     "deploy succeeded applications count / applications count": "部署成功应用数 / 应用总数",
     "deploy-upload-file-tip": "文件位于容器的 /init-data 目录下，文件名为配置的 Key 值，文件内容即上传的文件，可进入容器控制台查看",
