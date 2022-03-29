@@ -16,6 +16,7 @@ import i18n from 'i18n';
 import permStore from 'user/stores/permission';
 import { Tooltip } from 'antd';
 import { firstCharToUpper } from 'app/common/utils';
+import { HIDDEN_MILESTONE } from 'common/constants';
 
 export const ITERATION_DETAIL_TABS = (params: Obj) => {
   const { breadcrumbInfoMap } = params;
@@ -93,11 +94,15 @@ export const COLLABORATE_TABS = () => {
   const projectPerm = permStore.useStore((s) => s.project);
 
   return [
-    // {
-    //   key: 'milestone',
-    //   name: i18n.t('dop:milestone'),
-    //   show: projectPerm.epic.read.pass,
-    // },
+    ...(HIDDEN_MILESTONE
+      ? []
+      : [
+          {
+            key: 'milestone',
+            name: i18n.t('dop:milestone'),
+            show: projectPerm.epic.read.pass,
+          },
+        ]),
     {
       key: 'backlog',
       name: i18n.t('dop:backlog'),

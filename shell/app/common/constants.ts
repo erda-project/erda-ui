@@ -54,3 +54,6 @@ export const ALIYUN_APPLICATION_SMS =
 
 export const ALIYUN_APPLICATION_VMS =
   'https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fdyvms.console.aliyun.com%2Fcall%2Fnotify%2Faddt2v';
+
+// Whether to hide parts related to milestones
+export const HIDDEN_MILESTONE = true;
