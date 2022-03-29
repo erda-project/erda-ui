@@ -71,7 +71,7 @@ const SonarConfig = () => {
   );
 
   const onUpdate = (v: { host: string; token: string; projectKey: string }) => {
-    updateAppDetail({ ...appDetail, sonarConfig: v });
+    updateAppDetail({ id: appDetail.id, sonarConfig: v });
   };
 
   return (

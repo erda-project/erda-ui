@@ -14,14 +14,15 @@
 declare namespace APPLICATION {
   type Workspace = 'DEV' | 'TEST' | 'STAGING' | 'PROD';
   interface createBody {
-    mode: string;
-    name: string;
-    desc: string;
-    logo: string;
-    projectId: number;
+    id?: number;
+    mode?: string;
+    name?: string;
+    desc?: string;
+    logo?: string;
+    projectId?: number;
     repoConfig?: GitRepoConfig;
     sonarConfig?: SonarConfig;
-    isExternalRepo: boolean;
+    isExternalRepo?: boolean;
   }
 
   interface GitRepoConfig {
