@@ -150,7 +150,10 @@ const useIssueRelation = (props: IProps) => {
           {list?.map((item) => (
             <IssueItem
               data={item}
+              editable
               key={item.id}
+              showIteration
+              afterUpdate={() => onRelationChange?.()}
               onClickIssue={(record) => {
                 goTo(goTo.pages.issueDetail, {
                   projectId,
@@ -177,6 +180,9 @@ const useIssueRelation = (props: IProps) => {
             <IssueItem
               data={item}
               key={item.id}
+              editable
+              showIteration
+              afterUpdate={() => onRelationChange?.()}
               onClickIssue={(record) => {
                 goTo(record.type === 'TICKET' ? goTo.pages.ticketDetail : goTo.pages.issueDetail, {
                   projectId,

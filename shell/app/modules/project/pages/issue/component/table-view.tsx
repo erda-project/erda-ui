@@ -45,22 +45,23 @@ export const memberSelectorValueItem = (user: {
 
 interface IFieldProps {
   hasAuth: boolean;
-  options: Array<{ value: string; iconLabel: string; disabled?: boolean }>;
+  options: Array<{ value: string; iconLabel: string | JSX.Element; disabled?: boolean }>;
   value: string;
   record: ISSUE.Issue;
   field: string;
+  className?: string;
   updateRecord: (val: string, field: string, record: ISSUE.Issue) => void;
 }
 
 export const FieldSelector = (props: IFieldProps) => {
-  const { hasAuth, options, value, updateRecord, record, field } = props;
+  const { hasAuth, options, value, updateRecord, record, field, className = '' } = props;
   const chosenVal = get(
     find(options, (op) => op.value === value),
     'iconLabel',
   );
   const ValueRender = (
     <div
-      className="flex items-center hover-active issue-field-selector"
+      className={`flex items-center hover-active issue-field-selector ${className}`}
       onClick={(e: React.MouseEvent<HTMLElement>) => e.stopPropagation()}
     >
       {chosenVal}
