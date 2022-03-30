@@ -31,9 +31,10 @@ declare namespace Custom_Dashboard {
     name: string;
     scope: string;
     scopeId?: string;
-    viewConfig: any;
+    viewConfig?: any;
     createdAt?: number;
     updatedAt?: number;
     version?: string;
+    updateType?: string;
   }
 }

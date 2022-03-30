@@ -69,31 +69,34 @@ const CustomDashboard = ({ scope, scopeId }: { scope: CustomDashboardScope; scop
 
   const store = storeMap[scope];
   const timeSpan = store.useStore((s) => s.globalTimeSelectSpan.range);
-  const globalTimeSelectSpan = store.getState((s) => s.globalTimeSelectSpan);
+  const [globalTimeSelectSpan, customDashboardInfo] = store.getState((s) => [
+    s.globalTimeSelectSpan,
+    s.customDashboardInfo,
+  ]);
   const { createCustomDashboard, updateCustomDashboard, getCustomDashboardDetail, updateState } = store;
   const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { dashboardId } = params;
   const isDashboardDetail = !!dashboardId;
   const isFromMsp = scope === CustomDashboardScope.MICRO_SERVICE;
-
-  const [{ curLayout, isEditMode, dashboardName, isNewVersionDC, dashboardDesc, editorToggleStatus }, updater] =
-    useUpdate({
-      curLayout: [],
-      isEditMode: false,
-      dashboardName: '',
-      dashboardDesc: '',
-      isNewVersionDC: !isDashboardDetail,
-      editorToggleStatus: false,
-    });
+  const { name: dashboardName, desc: dashboardDesc } = customDashboardInfo;
+  console.log({ customDashboardInfo });
+  const [{ curLayout, isEditMode, isNewVersionDC, editorToggleStatus }, updater] = useUpdate({
+    curLayout: [],
+    isEditMode: false,
+    // dashboardName: '',
+    // dashboardDesc: '',
+    isNewVersionDC: !isDashboardDetail,
+    editorToggleStatus: false,
+  });
 
   const _getCustomDashboardDetail = React.useCallback(
     (id: string) => {
       getCustomDashboardDetail({ id, scopeId }).then((customDashboardDetail: any) => {
         const { name, desc, version: _version } = customDashboardDetail;
         const _isNewVersionDC = _version === 'v2';
-        updater.dashboardName(name);
+        // updater.dashboardName(name);
         updater.isNewVersionDC(_isNewVersionDC);
-        updater.dashboardDesc(desc || '');
+        // updater.dashboardDesc(desc || '');
 
         const { startTimeMs, endTimeMs } = timeSpan;
         const layout = map(customDashboardDetail.viewConfig, (viewItem) => {
@@ -146,13 +149,13 @@ const CustomDashboard = ({ scope, scopeId }: { scope: CustomDashboardScope; scop
     isDashboardDetail && _getCustomDashboardDetail(dashboardId);
   }, [_getCustomDashboardDetail, dashboardId, isDashboardDetail]);
 
-  const beforeHandleSave = () => {
-    if (!dashboardName) {
-      message.warning(i18n.t('cmp:Please enter the dashboard name'));
-      return false;
-    }
-    return true;
-  };
+  // const beforeHandleSave = () => {
+  //   if (!dashboardName) {
+  //     message.warning(i18n.t('cmp:please input dashboard name'));
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   const handleChange = (data: ITimeRange, range: Moment[]) => {
     const triggerTime = Date.now();
@@ -192,6 +195,11 @@ const CustomDashboard = ({ scope, scopeId }: { scope: CustomDashboardScope; scop
     }
   };
 
+  const slot = (
+    <div className="flex justify-end">
+      <TimeSelect defaultValue={globalTimeSelectSpan.data} onChange={handleChange} />
+    </div>
+  );
   return (
     <div className="custom-dashboard flex flex-col h-full">
       <IF check={!editorToggleStatus}>
@@ -199,12 +207,12 @@ const CustomDashboard = ({ scope, scopeId }: { scope: CustomDashboardScope; scop
           {/* <Select placeholder="自动刷新间隔" style={{ width: 200 }} allowClear>
             {map(AUTO_RELOAD_OPTIONS, ({ value, name }) => <Select.Option key={value} value={value}>{name}</Select.Option>)}
           </Select> */}
-          <IF check={!isEditMode}>
+          {/* <IF check={!isEditMode}>
             <div className="flex justify-end">
               <TimeSelect defaultValue={globalTimeSelectSpan.data} onChange={handleChange} />
             </div>
-          </IF>
-          <IF check={isEditMode}>
+          </IF> */}
+          {/* <IF check={isEditMode}>
             <div className="dashboard-info-editor">
               <Input
                 maxLength={50}
@@ -224,7 +232,7 @@ const CustomDashboard = ({ scope, scopeId }: { scope: CustomDashboardScope; scop
                 onChange={(e: any) => updater.dashboardDesc(e.target.value)}
               />
             </div>
-          </IF>
+          </IF> */}
         </div>
       </IF>
       <div className="flex-1 pb-3">
@@ -234,15 +242,16 @@ const CustomDashboard = ({ scope, scopeId }: { scope: CustomDashboardScope; scop
               timeSpan={timeSpan}
               name={dashboardName}
               layout={curLayout}
+              slot={!isEditMode ? slot : null}
               onEdit={() => updater.isEditMode(true)}
-              beforeOnSave={beforeHandleSave}
+              // beforeOnSave={beforeHandleSave}
               onSave={(viewConfig: any) => handleSave(viewConfig)}
               onCancel={() => updater.isEditMode(false)}
               onEditorToggle={(status: boolean) => updater.editorToggleStatus(status)}
             />
           </When>
           <Otherwise>
-            <BoardGrid.Pure name={dashboardName} layout={curLayout} />
+            <BoardGrid.Pure name={dashboardName} layout={curLayout} slot={!isEditMode ? slot : null} />
           </Otherwise>
         </Choose>
       </div>
