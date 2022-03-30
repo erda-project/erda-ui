@@ -20,7 +20,7 @@ import UserInfo from 'common/components/user-info';
 import { getBrowserInfo, isPromise } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
-import { map } from 'lodash';
+import { map, compact } from 'lodash';
 import moment from 'moment';
 import issueFieldStore from 'org/stores/issue-field';
 import { ISSUE_OPTION } from 'project/common/components/issue/issue-config';
@@ -34,6 +34,8 @@ import React from 'react';
 import { useDrag } from 'react-dnd';
 import { getAuth, isAssignee, isCreator, usePerm, WithAuth } from 'user/common';
 import userStore from 'user/stores';
+import { FieldSelector, memberSelectorValueItem } from 'project/pages/issue/component/table-view';
+import iterationStore from 'app/modules/project/stores/iteration';
 import './issue-item.scss';
 
 export enum BACKLOG_ISSUE_TYPE {
@@ -45,6 +47,7 @@ const { isWin } = getBrowserInfo();
 
 interface IIssueProps {
   data: ISSUE.Issue;
+  editable?: boolean;
   issueType: BACKLOG_ISSUE_TYPE;
   onClickIssue?: (data: ISSUE.Issue) => void;
   onDragDelete?: () => void;
@@ -53,6 +56,8 @@ interface IIssueProps {
   deleteText: string | React.ReactNode;
   undraggable?: boolean;
   showStatus?: boolean;
+  showIteration?: boolean;
+  afterUpdate?: () => void;
 }
 
 const noop = () => Promise.resolve();
@@ -60,6 +65,7 @@ export const IssueItem = (props: IIssueProps) => {
   const {
     data,
     onDelete,
+    afterUpdate,
     onDragDelete,
     issueType,
     onClickIssue = noop,
@@ -67,10 +73,14 @@ export const IssueItem = (props: IIssueProps) => {
     deleteConfirmText,
     undraggable = false,
     showStatus = false,
+    showIteration = false,
+    editable = false,
   } = props;
   const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
-  const { title, type, priority, creator, assignee, id } = data;
+  const { title, type, priority, creator, assignee, id, iterationID, issueButton } = data;
+  const iterationList = iterationStore.useStore((s) => s.iterationList);
   const projectPerm = usePerm((s) => s.project);
+  const { projectId } = routeInfoStore.getState((s) => s.params);
   const permObj =
     type === ISSUE_OPTION.REQUIREMENT
       ? projectPerm.requirement
@@ -80,6 +90,14 @@ export const IssueItem = (props: IIssueProps) => {
   const checkRole = [isCreator(creator), isAssignee(assignee)];
   const deleteAuth = getAuth(permObj.delete, checkRole);
   const editAuth = getAuth(permObj.edit, checkRole);
+
+  const { updateIssue } = issueStore.effects;
+
+  const updateIssueRecord = (val: ISSUE.Ticket) => {
+    updateIssue(val).then(() => {
+      afterUpdate?.();
+    });
+  };
 
   const [_, drag] = useDrag({
     item: { type: issueType, data },
@@ -111,62 +129,128 @@ export const IssueItem = (props: IIssueProps) => {
     });
   };
 
-  const state = showStatus ? workflowStateList.find((item) => item.stateID === data.state) : null;
+  const state = workflowStateList.find((item) => item.stateID === data.state);
+
+  const statusOptions: Array<{ value: string; iconLabel: JSX.Element; disabled: boolean }> = [];
+  map(issueButton, (item) => {
+    statusOptions.push({
+      disabled: !item.permission,
+      value: `${item.stateID}`,
+      iconLabel: <IssueState stateID={item.stateID} />,
+    });
+  });
+
+  const fieldsMap = {
+    iteration: {
+      Comp: (
+        <div className="w-20 mr-2 truncate">
+          {iterationID === -1 ? i18n.t('dop:backlog') : iterationList?.find((item) => item.id === iterationID)?.title}
+        </div>
+      ),
+      show: showIteration,
+    },
+    status: {
+      Comp: state ? (
+        editable ? (
+          <FieldSelector
+            field="state"
+            className="w-16 mr-6"
+            hasAuth={editAuth}
+            value={`${state.stateID}`}
+            record={data}
+            updateRecord={(_val: string) => {
+              updateIssueRecord({ ...data, state: +_val });
+            }}
+            options={statusOptions}
+          />
+        ) : (
+          <div key="state" className="mr-6 w-16">
+            <IssueState stateID={state.stateID} />
+          </div>
+        )
+      ) : null,
+      show: showStatus,
+    },
+    assignee: {
+      Comp: editable ? (
+        <WithAuth pass={editAuth}>
+          <MemberSelector
+            scopeType="project"
+            scopeId={projectId}
+            dropdownMatchSelectWidth={false}
+            valueItemRender={memberSelectorValueItem}
+            className="issue-member-selector w-24 mr-6"
+            allowClear={false}
+            disabled={!editAuth}
+            value={assignee}
+            onChange={(val) => {
+              updateIssueRecord({ ...data, assignee: val as string });
+            }}
+          />
+        </WithAuth>
+      ) : (
+        <UserInfo.RenderWithAvatar key="assignee" id={data.assignee} className="w-24 mr-6" />
+      ),
+      show: true,
+    },
+    planFinishedAt: {
+      Comp: (
+        <span key="planFinishedAt" className="mr-6 w-20 truncate">
+          {data.planFinishedAt ? moment(data.planFinishedAt).format('YYYY/MM/DD') : i18n.t('dop:unspecified')}
+        </span>
+      ),
+      show: true,
+    },
+    operation: {
+      Comp: onDelete ? (
+        <span key="operation" className="w-6" onClick={(e) => e.stopPropagation()}>
+          <Dropdown
+            trigger={['click']}
+            overlayClassName="contractive-filter-item-dropdown"
+            overlay={
+              <Menu
+                onClick={({ key }) => {
+                  if (key === 'delete') {
+                    confirmDelete(data);
+                  }
+                }}
+              >
+                <Menu.Item
+                  key="delete"
+                  disabled={!deleteAuth}
+                  className={`text-danger ${deleteAuth ? '' : 'disabled'}`}
+                >
+                  {deleteText || i18n.t('delete')}
+                </Menu.Item>
+              </Menu>
+            }
+            placement="bottomLeft"
+          >
+            <span className="op-icon" onClick={(e) => e.stopPropagation()}>
+              <CustomIcon className="hover-active" type="gd" />
+            </span>
+          </Dropdown>
+        </span>
+      ) : null,
+      show: true,
+    },
+  };
+
+  const fields = compact(map(fieldsMap, (item) => (item.show ? item.Comp : null)));
   return (
     <div
       className={`backlog-issue-item hover:bg-default-04 cursor-pointer ${
         !undraggable && editAuth ? 'draggable' : 'cursor-default'
       }`}
       ref={drag}
-      onClick={() => onClickIssue(data)}
     >
       <div className="issue-info h-full">
-        <div className="backlog-item-content mr-6">
+        <div className="backlog-item-content mr-6" onClick={() => onClickIssue(data)}>
           <IssueIcon type={type as ISSUE_TYPE} size={28} />
           <span className="mr-1">#{id}-</span>
           <Ellipsis title={name} />
         </div>
-        <div className="text-sub flex items-center flex-wrap justify-end">
-          {state ? (
-            <div className="mr-6 w-16">
-              <IssueState stateID={state.stateID} />
-            </div>
-          ) : null}
-          <UserInfo.RenderWithAvatar id={data.assignee} className="w-24 mr-6" />
-          <span className="mr-6 w-20 truncate">
-            {data.planFinishedAt ? moment(data.planFinishedAt).format('YYYY/MM/DD') : i18n.t('dop:unspecified')}
-          </span>
-          <span className="w-6" onClick={(e) => e.stopPropagation()}>
-            <If condition={!!onDelete}>
-              <Dropdown
-                trigger={['click']}
-                overlayClassName="contractive-filter-item-dropdown"
-                overlay={
-                  <Menu
-                    onClick={({ key }) => {
-                      if (key === 'delete') {
-                        confirmDelete(data);
-                      }
-                    }}
-                  >
-                    <Menu.Item
-                      key="delete"
-                      disabled={!deleteAuth}
-                      className={`text-danger ${deleteAuth ? '' : 'disabled'}`}
-                    >
-                      {deleteText || i18n.t('delete')}
-                    </Menu.Item>
-                  </Menu>
-                }
-                placement="bottomLeft"
-              >
-                <span className="op-icon" onClick={(e) => e.stopPropagation()}>
-                  <CustomIcon className="hover-active" type="gd" />
-                </span>
-              </Dropdown>
-            </If>
-          </span>
-        </div>
+        <div className="text-sub flex items-center flex-wrap justify-end">{fields}</div>
       </div>
     </div>
   );
