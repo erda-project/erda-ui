@@ -1,0 +1,17 @@
+.iteration-selector.load-more-selector {
+  .results {
+    border: 1px solid transparent;
+
+    .icon {
+      color: $color-default-3;
+    }
+
+    &:hover {
+      box-shadow: unset;
+
+      .icon {
+        color: $color-default;
+      }
+    }
+  }
+}

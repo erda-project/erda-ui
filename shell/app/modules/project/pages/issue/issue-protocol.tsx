@@ -168,6 +168,7 @@ const IssueProtocol = ({ issueType }: IProps) => {
         scenarioType="issue-manage"
         showLoading
         inParams={inParams}
+        forceUpdateKey={['inParams']}
         fullHeight={false}
         ref={reloadRef}
         customProps={{
