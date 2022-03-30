@@ -1887,6 +1887,7 @@
     "timing canceled": "定时已取消",
     "tips of publish api 1": "发布版本需要按照语义化版本规范给出，参考以下链接",
     "tips of publish api 2": "当文档版本发生变化时，需要递增发布版本的主版本号",
+    "tips of branch {branch} under application {application}": "应用{application}下分支{branch}的提示",
     "title required": "标题必填",
     "to configure": "进行配置",
     "total": "总量",

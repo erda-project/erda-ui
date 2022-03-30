@@ -34,4 +34,20 @@
 div.alert-blue {
   border-color: $blue;
   background-color: rgba($blue, 0.1);
+
+  .alert-list-item {
+    .remove-btn {
+      display: none;
+      color: $color-default;
+      cursor: pointer;
+
+      &:hover {
+        color: $red;
+      }
+    }
+
+    &:hover .remove-btn {
+      display: block;
+    }
+  }
 }

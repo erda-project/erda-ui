@@ -42,6 +42,7 @@ interface Category {
 }
 
 interface Guide {
+  id: string;
   appID: number;
   branch: string;
   appName: string;
@@ -81,6 +82,9 @@ const apis = {
   },
   getGuidesList: {
     api: 'get@/api/guide',
+  },
+  cancelGuide: {
+    api: 'post@/api/guide/:id/actions/cancel',
   },
 };
 
@@ -126,3 +130,5 @@ export const editPipelineName = apiCreator<(payload: { id: string; name: string;
 );
 
 export const getGuidesList = apiCreator<(payload: { kind: string; projectID: string }) => Guide[]>(apis.getGuidesList);
+
+export const cancelGuide = apiCreator<(payload: { id: string }) => RAW_RESPONSE>(apis.cancelGuide);

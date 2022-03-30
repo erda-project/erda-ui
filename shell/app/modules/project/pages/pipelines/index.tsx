@@ -13,16 +13,24 @@
 
 import React from 'react';
 import { debounce } from 'lodash';
-import { Input, Tooltip, Spin, Divider, Alert, Button } from 'antd';
+import { Input, Tooltip, Spin, Divider, Alert, Button, Modal } from 'antd';
 import i18n from 'i18n';
 import { encode } from 'js-base64';
 import routeInfoStore from 'core/stores/route';
 import { Badge, ErdaIcon, Ellipsis } from 'common';
 import { fromNow, updateSearch } from 'common/utils';
-import { getPipelineTypesList, getGuidesList } from 'project/services/pipeline';
+import { getPipelineTypesList, getGuidesList, cancelGuide } from 'project/services/pipeline';
 import PipelineProtocol from './components/pipeline-protocol';
 
 import './index.scss';
+
+interface Guide {
+  id: string;
+  appID: number;
+  branch: string;
+  appName: string;
+  timeCreated: string;
+}
 
 const Pipeline = () => {
   const [{ projectId }, { typeKey: urlTypeKey }] = routeInfoStore.useStore((s) => [s.params, s.query]);
@@ -72,6 +80,26 @@ const Pipeline = () => {
 
   const guidesFirst = guidesList?.[0];
 
+  const removeAlert = (guide: Guide) => {
+    const { appName, branch, id } = guide;
+    Modal.confirm({
+      title: i18n.t('is it confirmed {action}?', {
+        action: `${i18n.t('remove')}${i18n.t('dop:tips of branch {branch} under application {application}', {
+          branch,
+          application: appName,
+          interpolation: { escapeValue: false },
+        })}`,
+        interpolation: { escapeValue: false },
+      }),
+      onOk: () => {
+        cancelGuide({ id }).then(() => {
+          getGuides();
+        });
+      },
+      onCancel() {},
+    });
+  };
+
   return (
     <div className="h-full flex flex-col">
       {guidesFirst ? (
@@ -81,16 +109,19 @@ const Pipeline = () => {
           message={
             <div className="overflow-hidden">
               <div
-                className={`flex-h-center py-2 ${
+                className={`flex-h-center py-2 alert-list-item ${
                   expanded ? 'border-default-1 border-b border-t-0 border-l-0 border-r-0 border-solid' : ''
                 }`}
               >
-                <ErdaIcon
-                  type="caret-down"
-                  size="20"
-                  className={`text-default-6 mr-1 cursor-pointer ${expanded ? '' : '-rotate-90'}`}
-                  onClick={() => setExpanded((prev) => !prev)}
-                />
+                {guidesList?.length !== 1 ? (
+                  <ErdaIcon
+                    type="caret-down"
+                    size="20"
+                    className={`text-default-6 mr-1 cursor-pointer ${expanded ? '' : '-rotate-90'}`}
+                    onClick={() => setExpanded((prev) => !prev)}
+                  />
+                ) : null}
+
                 <ErdaIcon type="daimafenzhi" size="20" className="text-blue mr-1" />
                 <span className="font-medium mr-5">
                   {i18n.t('dop:pipeline files were discovered in the {branch} branch of the {app} application today', {
@@ -102,7 +133,11 @@ const Pipeline = () => {
                 <span className="mr-1">
                   {i18n.t('at')} {fromNow(guidesFirst.timeCreated)}
                 </span>
-                <div className="flex-1 text-right">
+                <div className="flex-1 justify-end flex-h-center">
+                  <div className="mr-4 remove-btn" onClick={() => removeAlert(guidesFirst)}>
+                    {i18n.t('remove')}
+                    {i18n.t('tip')}
+                  </div>
                   <Button type="primary" onClick={() => setAppID(guidesFirst.appID)}>
                     {i18n.t('add')}
                   </Button>
@@ -111,7 +146,7 @@ const Pipeline = () => {
               <div className="pl-5" style={expanded ? {} : { display: 'none' }}>
                 {guidesList?.slice(1).map((item, index) => (
                   <div
-                    className={`flex-h-center py-2 pl-2 ${
+                    className={`flex-h-center py-2 pl-2 alert-list-item ${
                       index !== 0 ? 'border-default-1 border-t border-b-0 border-l-0 border-r-0 border-solid' : ''
                     }`}
                   >
@@ -129,7 +164,11 @@ const Pipeline = () => {
                     <span className="mr-1">
                       {i18n.t('at')} {fromNow(item.timeCreated)}
                     </span>
-                    <div className="flex-1 text-right">
+                    <div className="flex-1 justify-end flex-h-center">
+                      <div className="mr-4 remove-btn" onClick={() => removeAlert(item)}>
+                        {i18n.t('remove')}
+                        {i18n.t('tip')}
+                      </div>
                       <Button type="primary" onClick={() => setAppID(item.appID)}>
                         {i18n.t('add')}
                       </Button>
