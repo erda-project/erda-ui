@@ -176,7 +176,7 @@ const Pipeline = () => {
                         }`}
                         onClick={() => {
                           if (item.key !== type.key) {
-                            updateSearch({ customFilter__urlQuery: encode('{}') });
+                            updateSearch({ customFilter__urlQuery: undefined });
                             setType(item);
                           }
                         }}
