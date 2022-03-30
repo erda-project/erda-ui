@@ -146,7 +146,10 @@ const Pipeline = (props: IProps) => {
         onClick={() => {
           goTo(goTo.pages.projectPipelineRecords, {
             projectId,
-            query: { customFilter__urlQuery: encode(`{"title":"${pipelineName}"}`) },
+            query: {
+              // fix with base64 RFC 4648
+              customFilter__urlQuery: encode(`{"title":"${pipelineName}"}`).replaceAll('/', '_').replaceAll('+', '-'),
+            },
             jumpOut: true,
           });
         }}
