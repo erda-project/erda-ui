@@ -38,7 +38,7 @@ const AddDeploy = ({
   onModesSelect,
 }: {
   id?: string;
-  onSelect: (v: { id: string; releaseId: string; name: string; hasFail: boolean }) => void;
+  onSelect: (v: { id: string; releaseId: string; name: string; hasFail: boolean; type?: string }) => void;
   onModesSelect: (v: string[]) => void;
 }) => {
   const { workspace: routeEnv, projectId } = routeInfoStore.useStore((s) => s.params);
@@ -62,6 +62,7 @@ const AddDeploy = ({
               releaseId: selectedRelease,
               id: res.data?.id,
               hasFail: !!flatten(res.data?.applicationsInfo)?.filter((item) => !item?.preCheckResult.success).length,
+              type: res.data.type,
             });
         });
   }, [selectedRelease, env, mode]);
@@ -72,6 +73,10 @@ const AddDeploy = ({
     if (r.modes) {
       const _modes = (JSON.parse(r.modes) || {}) as Mode;
       setModeList(Object.keys(_modes).map((key) => ({ ..._modes[key], key })));
+      const _mode = Object.keys(_modes)[0];
+      setMode(_mode ? [_mode] : []);
+    } else {
+      setModeList([]);
     }
   };
 
