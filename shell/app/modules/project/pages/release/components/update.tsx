@@ -13,31 +13,14 @@
 
 import React from 'react';
 import routeInfoStore from 'core/stores/route';
-import { getReleaseDetail } from 'project/services/release';
 import ReleaseForm from './form';
 import ReleaseApplicationDetail from './application-detail';
 
 const ReleaseUpdate = () => {
-  const { params } = routeInfoStore.getState((s) => s);
-  const { releaseID } = params;
-  const [releaseDetail, setReleaseDetail] = React.useState<RELEASE.ReleaseDetail>({} as RELEASE.ReleaseDetail);
-  const { isProjectRelease } = releaseDetail;
+  const { backToUp } = routeInfoStore.getState((s) => s.currentRoute);
+  const isProjectRelease = backToUp === 'projectRelease';
 
-  const getDetail = React.useCallback(async () => {
-    if (releaseID) {
-      const res = await getReleaseDetail({ releaseID });
-      const { data } = res;
-      if (data) {
-        setReleaseDetail(data);
-      }
-    }
-  }, [releaseID, setReleaseDetail]);
-
-  React.useEffect(() => {
-    getDetail();
-  }, [getDetail]);
-
-  return <div>{isProjectRelease ? <ReleaseForm /> : <ReleaseApplicationDetail isEdit={true} />}</div>;
+  return <div>{isProjectRelease ? <ReleaseForm /> : <ReleaseApplicationDetail isEdit />}</div>;
 };
 
 export default ReleaseUpdate;
