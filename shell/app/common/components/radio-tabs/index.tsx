@@ -78,7 +78,7 @@ const RadioTabs = <T extends string | number>(props: RadioTabsProps<T>) => {
       value={convertValue(value)}
       onChange={(e) => {
         const [curVal, curOption] = valueHandle(e.target.value);
-        setValue(curVal);
+        propsValue === undefined && setValue(curVal);
         onChange?.(curVal, curOption);
       }}
     >
@@ -92,7 +92,7 @@ const RadioTabs = <T extends string | number>(props: RadioTabsProps<T>) => {
             return (
               <Menu
                 onClick={(e) => {
-                  setValue(e.key as T);
+                  propsValue === undefined && setValue(e.key as T);
                   setSubValues((prev) => ({ ...prev, [itemValue]: e.key } as Obj<T>));
                   onChange?.(e.key as T, child);
                 }}
