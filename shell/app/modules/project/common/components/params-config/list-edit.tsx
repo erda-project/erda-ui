@@ -224,8 +224,12 @@ const ListEditConfig = (props: IProps) => {
             rowKey="key"
             onRow={(record) => ({
               onClick: () => {
-                form.setFieldsValue(record);
-                updater.editData(record);
+                if (editData && !editData.key) {
+                  message.error(i18n.t('common:please save first'));
+                } else {
+                  form.setFieldsValue(record);
+                  updater.editData(record);
+                }
               },
             })}
             components={{
