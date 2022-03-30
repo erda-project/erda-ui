@@ -25,7 +25,7 @@ import PipelineDetail from 'project/common/components/pipeline-new';
 import { decode } from 'js-base64';
 
 interface IProps {
-  type: { key: string; rules: string[] };
+  type: { key: string; rules?: string[] };
   getTypes: () => void;
   appID: number | null;
   setAppID: (appID: number | null) => void;

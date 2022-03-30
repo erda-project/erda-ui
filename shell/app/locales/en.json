@@ -1887,6 +1887,7 @@
     "timing canceled": "timing canceled",
     "tips of publish api 1": "the release version needs to be given in accordance with the semantic version specification referring to the following link",
     "tips of publish api 2": "when the document version changes, the major version number of the released version needs to be incremented",
+    "tips of branch {branch} under application {application}": "tips of branch {branch} under application {application}",
     "title required": "title required",
     "to configure": "to configure",
     "total": "total",
