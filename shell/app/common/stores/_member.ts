@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'core/cube';
-import { getMembers, updateMembers, removeMember, getRoleMap, genOrgInviteCode } from '../services';
+import { genOrgInviteCode, getMembers, getRoleMap, removeMember, updateMembers } from '../services';
 import userStore from 'app/user/stores';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'app/i18n';

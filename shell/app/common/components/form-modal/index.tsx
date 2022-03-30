@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { isEmpty, isFunction, get, set } from 'lodash';
+import { get, isEmpty, isFunction, set } from 'lodash';
 import i18n from 'i18n';
 import React, { forwardRef, useImperativeHandle } from 'react';
-import { Modal, Form, Button, Spin, FormInstance } from 'antd';
-import { RenderPureForm, ErdaAlert } from 'common';
+import { Button, Form, FormInstance, Modal, Spin } from 'antd';
+import { ErdaAlert, RenderPureForm } from 'common';
 import { isPromise } from 'common/utils';
 import { IFormItem } from '../render-form-item';
 import moment from 'moment';
