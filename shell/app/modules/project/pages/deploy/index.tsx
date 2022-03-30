@@ -15,7 +15,7 @@ import * as React from 'react';
 import { RadioTabs, ErdaIcon, EmptyHolder, Badge } from 'common';
 import { ENV_MAP } from 'project/common/config';
 import { map, debounce } from 'lodash';
-import { Drawer, Button, Input, Timeline, Spin } from 'antd';
+import { Drawer, Button, Input, Timeline, Spin, message } from 'antd';
 import { goTo } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
 import routeInfoStore from 'core/stores/route';
@@ -48,7 +48,7 @@ interface IState {
   logVisible: boolean;
   deployDetail: PROJECT_DEPLOY.DeployDetail | undefined;
   selectedOrder: string;
-  selectedRelease: { id: string; releaseId: string; name: string; hasFail: boolean } | undefined;
+  selectedRelease: { id: string; releaseId: string; name: string; hasFail: boolean; type?: string } | undefined;
   modes: string[];
 }
 
@@ -463,6 +463,11 @@ const DeployContent = ({
               className="mr-2"
               disabled={!selectedRelease || selectedRelease.hasFail}
               onClick={() => {
+                if (selectedRelease?.type === 'PROJECT_RELEASE') {
+                  !modes.length && message.error(i18n.t('please choose {name}', { name: i18n.t('mode') }));
+                  return;
+                }
+
                 selectedRelease &&
                   createDeploy
                     .fetch({ workspace: env, id: selectedRelease.id, releaseId: selectedRelease.releaseId, modes })
@@ -480,7 +485,7 @@ const DeployContent = ({
       >
         <AddDeploy
           id={selectedRelease?.id}
-          onSelect={(v: { id: string; releaseId: string; name: string; hasFail: boolean }) =>
+          onSelect={(v: { id: string; releaseId: string; name: string; hasFail: boolean; type?: string }) =>
             updater.selectedRelease(v)
           }
           onModesSelect={(v: string[]) => {
