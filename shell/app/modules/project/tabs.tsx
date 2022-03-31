@@ -14,10 +14,9 @@
 import React from 'react';
 import i18n from 'i18n';
 import permStore from 'user/stores/permission';
-import { Tooltip } from 'antd';
-
 import { firstCharToUpper } from 'app/common/utils';
 import { HIDDEN_MILESTONE } from 'common/constants';
+import IterationSelector from 'project/common/components/iteration-selector';
 
 export const ITERATION_DETAIL_TABS = (params: Obj) => {
   const { breadcrumbInfoMap } = params;
@@ -26,19 +25,7 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
   return [
     {
       key: '_',
-      name: (
-        <>
-          {iterationName ? (
-            iterationName.length > 16 ? (
-              <Tooltip title={iterationName} placement="topLeft">
-                ({iterationName.slice(0, 16)}...)
-              </Tooltip>
-            ) : (
-              iterationName
-            )
-          ) : null}
-        </>
-      ),
+      name: <IterationSelector iterationName={iterationName} />,
       readonly: true,
       className: 'cursor-default',
     },
