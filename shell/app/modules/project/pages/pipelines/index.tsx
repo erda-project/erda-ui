@@ -137,14 +137,15 @@ const Pipeline = () => {
                     {i18n.t('remove')}
                     {i18n.t('tip')}
                   </div>
-                  <Button type="primary" onClick={() => setAppID(guidesFirst.appID)}>
+                  <span className="cursor-pointer hover:text-purple-deep" onClick={() => setAppID(guidesFirst.appID)}>
                     {i18n.t('add')}
-                  </Button>
+                  </span>
                 </div>
               </div>
               <div className="pl-5" style={expanded ? {} : { display: 'none' }}>
                 {guidesList?.slice(1).map((item, index) => (
                   <div
+                    key={item.id}
                     className={`flex-h-center py-2 pl-2 alert-list-item ${
                       index !== 0 ? 'border-default-1 border-t border-b-0 border-l-0 border-r-0 border-solid' : ''
                     }`}
@@ -168,9 +169,9 @@ const Pipeline = () => {
                         {i18n.t('remove')}
                         {i18n.t('tip')}
                       </div>
-                      <Button type="primary" onClick={() => setAppID(item.appID)}>
+                      <span className="cursor-pointer hover:text-purple-deep" onClick={() => setAppID(item.appID)}>
                         {i18n.t('add')}
-                      </Button>
+                      </span>
                     </div>
                   </div>
                 ))}
