@@ -120,24 +120,29 @@ const ListEditConfig = (props: IProps) => {
     {
       dataIndex: 'key',
       title: 'Key',
+      width: 200,
     },
     {
       dataIndex: 'value',
       title: 'Value',
+      width: 200,
       render: (v: string, record: PROJECT_DEPLOY.IAppParams) => (record.encrypt ? '******' : v),
     },
     {
       dataIndex: 'encrypt',
       title: i18n.t('dop:encrypt'),
+      width: 100,
       render: (v: boolean) => (v ? i18n.t('common:yes') : i18n.t('common:no')),
     },
     {
       dataIndex: 'comment',
       title: i18n.t('dop:remark'),
+      width: 200,
     },
     {
       dataIndex: 'op',
       title: i18n.t('operate'),
+      width: 100,
       render: (_: Obj, record: PIPELINE_CONFIG.ConfigItem) => {
         return (
           <div className="operate-list" onClick={(e) => e.stopPropagation()}>
@@ -184,6 +189,7 @@ const ListEditConfig = (props: IProps) => {
         fullConfigData,
         list: value,
         title: col.title,
+        width: col.width,
         editing: editData?.uuid === record.uuid,
       }),
     };
@@ -260,6 +266,8 @@ interface EditCellProps {
   fullConfigData: PIPELINE_CONFIG.ConfigItem[];
   list: PIPELINE_CONFIG.ConfigItem[];
   children: React.ReactElement;
+  width?: number;
+  style?: Obj;
   cancel: () => void;
   save: () => void;
 }
@@ -276,6 +284,8 @@ const EditableCell = ({
   record,
   index,
   children,
+  width,
+  style = {},
   ...restProps
 }: EditCellProps) => {
   const getComp = () => {
@@ -370,7 +380,7 @@ const EditableCell = ({
   };
 
   return (
-    <td onClick={(e) => editing && e.stopPropagation()} {...restProps}>
+    <td onClick={(e) => editing && e.stopPropagation()} style={{ ...style, maxWidth: width }} {...restProps}>
       {editing ? getComp() : children}
     </td>
   );
