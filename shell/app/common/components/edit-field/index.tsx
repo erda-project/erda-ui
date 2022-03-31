@@ -118,7 +118,10 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
               size={20}
               className="float-right w-8 h-8 top-0 rounded-full cursor-pointer shadow-card text-blue-deep bg-white hover:text-white hover:bg-blue-deep"
               style={{ position: 'sticky' }}
-              onClick={() => updater.isEditing(true)}
+              onClick={() => {
+                mdContentRef.current?.scrollIntoView();
+                updater.isEditing(true);
+              }}
             />
           </div>
           <div className="overflow-hidden" style={{ maxHeight: 'inherit', minHeight: '120px' }}>
