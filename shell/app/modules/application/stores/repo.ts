@@ -488,7 +488,7 @@ const repoStore = createStore({
     async getMrList({ call, select, update }, payload: REPOSITORY.QueryMrs) {
       const appDetail = await getAppDetail();
       const { pageNo = 1 } = payload;
-      const [originalList, mrPaging] = select((state) => [state.mrList, state.mrPaging]);
+      const [originalList, mrPaging, info] = select((state) => [state.mrList, state.mrPaging, state.info]);
       try {
         const { list, total } = await call(
           getMRs,
@@ -496,7 +496,7 @@ const repoStore = createStore({
           { paging: { key: 'mrPaging' } },
         );
         const mrList = pageNo === 1 ? list : [...originalList, ...list];
-        update({ mrList });
+        update({ mrList, info: {...info, mergeRequestCount: total} });
         return { list: mrList, total };
       } catch (e) {
         update({ mrPaging: { ...mrPaging, hasMore: false } });
