@@ -154,7 +154,7 @@ export const IssueItem = (props: IIssueProps) => {
         editable ? (
           <FieldSelector
             field="state"
-            className="w-16 mr-6"
+            className="w-24 mr-6"
             hasAuth={editAuth}
             value={`${state.stateID}`}
             record={data}
@@ -164,7 +164,7 @@ export const IssueItem = (props: IIssueProps) => {
             options={statusOptions}
           />
         ) : (
-          <div key="state" className="mr-6 w-16">
+          <div key="state" className="mr-6 w-24">
             <IssueState stateID={state.stateID} />
           </div>
         )
