@@ -179,7 +179,7 @@ export const IssueItem = (props: IIssueProps) => {
             scopeId={projectId}
             dropdownMatchSelectWidth={false}
             valueItemRender={memberSelectorValueItem}
-            className="issue-member-selector w-24 mr-6"
+            className="issue-item-member-selector w-28 mr-6"
             allowClear={false}
             disabled={!editAuth}
             value={assignee}
@@ -189,7 +189,7 @@ export const IssueItem = (props: IIssueProps) => {
           />
         </WithAuth>
       ) : (
-        <UserInfo.RenderWithAvatar key="assignee" id={data.assignee} className="w-24 mr-6" />
+        <UserInfo.RenderWithAvatar key="assignee" id={data.assignee} className="w-28 mr-6" />
       ),
       show: true,
     },

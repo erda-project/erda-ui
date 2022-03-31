@@ -56,3 +56,19 @@
     }
   }
 }
+
+.issue-item-member-selector {
+  .results {
+    padding: 4px 0;
+    border: 0;
+
+    &:hover {
+      border: 0;
+      box-shadow: unset;
+    }
+    .values,
+    .value-item {
+      width: 100%;
+    }
+  }
+}

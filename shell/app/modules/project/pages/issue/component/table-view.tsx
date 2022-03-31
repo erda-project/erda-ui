@@ -35,7 +35,7 @@ export const memberSelectorValueItem = (user: {
       <Avatar src={avatar} size="small">
         {nick ? getAvatarChars(nick) : i18n.t('none')}
       </Avatar>
-      <span className={'ml-2 text-sm'} title={name}>
+      <span className={'ml-2 text-sm flex-1 truncate'} title={name}>
         {displayName}
       </span>
       <CustomIcon className="arrow-icon" type="di" />
