@@ -463,8 +463,8 @@ const DeployContent = ({
               className="mr-2"
               disabled={!selectedRelease || selectedRelease.hasFail}
               onClick={() => {
-                if (selectedRelease?.type === 'PROJECT_RELEASE') {
-                  !modes.length && message.error(i18n.t('please choose {name}', { name: i18n.t('mode') }));
+                if (selectedRelease?.type === 'PROJECT_RELEASE' && !modes.length) {
+                  message.error(i18n.t('please choose {name}', { name: i18n.t('mode') }));
                   return;
                 }
 

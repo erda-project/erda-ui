@@ -75,6 +75,7 @@ const AddDeploy = ({
       setModeList(Object.keys(_modes).map((key) => ({ ..._modes[key], key })));
       const _mode = Object.keys(_modes)[0];
       setMode(_mode ? [_mode] : []);
+      onModesSelect(_mode ? [_mode] : []);
     } else {
       setModeList([]);
     }
