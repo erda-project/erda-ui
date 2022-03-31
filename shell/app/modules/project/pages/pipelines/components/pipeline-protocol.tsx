@@ -16,6 +16,7 @@ import { Drawer, Modal, Form, message } from 'antd';
 import { get } from 'lodash';
 import i18n from 'i18n';
 import DiceConfigPage from 'app/config-page';
+import { updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import projectStore from 'project/stores/project';
 import { RenderFormItem } from 'common';
@@ -131,6 +132,8 @@ const PipelineProtocol = ({ type, getTypes, appID, setAppID, getGuides }: IProps
                     const branch = res.data.find((item: { name: string }) => item.name === branchName);
                     branch && (branchExist = true);
                   }
+                  // url search 'applicationId' use for action-config-form some action with member-selector
+                  updateSearch({ applicationId: appId });
                   setDetail({
                     nodeId: inode,
                     appId,
