@@ -112,12 +112,15 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
     <div className="relative w-full" style={{ maxHeight: expanded ? '' : maxHeight }}>
       {v ? (
         <>
-          <ErdaIcon
-            type="edit"
-            size={20}
-            className="absolute z-10 w-8 h-8 right-0 top-0 rounded-full cursor-pointer shadow-card text-blue-deep bg-white hover:text-white hover:bg-blue-deep"
-            onClick={() => updater.isEditing(true)}
-          />
+          <div className="absolute z-10 right-0 top-0 bottom-0" style={{ width: 0 }}>
+            <ErdaIcon
+              type="edit"
+              size={20}
+              className="float-right w-8 h-8 top-0 rounded-full cursor-pointer shadow-card text-blue-deep bg-white hover:text-white hover:bg-blue-deep"
+              style={{ position: 'sticky' }}
+              onClick={() => updater.isEditing(true)}
+            />
+          </div>
           <div className="overflow-hidden" style={{ maxHeight: 'inherit', minHeight: '120px' }}>
             <div ref={mdContentRef} className="md-content">
               <MarkdownRender noWrapper value={v} />
