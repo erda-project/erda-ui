@@ -15,7 +15,6 @@ import React from 'react';
 import { debounce } from 'lodash';
 import { Input, Tooltip, Spin, Divider, Alert, Button, Modal } from 'antd';
 import i18n from 'i18n';
-import { encode } from 'js-base64';
 import routeInfoStore from 'core/stores/route';
 import { Badge, ErdaIcon, Ellipsis } from 'common';
 import { fromNow, updateSearch } from 'common/utils';
@@ -215,7 +214,6 @@ const Pipeline = () => {
                         }`}
                         onClick={() => {
                           if (item.key !== type.key) {
-                            updateSearch({ customFilter__urlQuery: undefined });
                             setType(item);
                           }
                         }}
