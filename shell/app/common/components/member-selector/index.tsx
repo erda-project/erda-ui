@@ -174,8 +174,8 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const isUCMember = scopeType === 'uc';
   const scopeIdMap = {
-    app: appId || routeQuery.applicationId,
-    project: projectId || routeQuery.projectId,
+    app: appId || routeQuery?.applicationId,
+    project: projectId || routeQuery?.projectId,
     org: orgId,
   };
   let scopeId = _scopeId;
