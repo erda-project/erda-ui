@@ -17,7 +17,7 @@ coverage:
     project:
       default:
         # basic
-        target: 20%
+        target: 80%
         threshold: 0%
         base: auto
         if_ci_failed: error
@@ -26,7 +26,7 @@ coverage:
     patch:
       default:
         # basic
-        target: 20%
+        target: auto
         threshold: 0%
         base: auto
         if_ci_failed: error
