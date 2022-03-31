@@ -53,18 +53,16 @@ const AddDeploy = ({
 
   useUpdateEffect(() => {
     selectedRelease &&
-      getReleaseRenderDetail
-        .fetch({ releaseID: selectedRelease, workspace: env, mode: mode.join(',') || undefined, id })
-        .then((res) => {
-          res.data?.id &&
-            propsOnSelect({
-              name: res.data.name,
-              releaseId: selectedRelease,
-              id: res.data?.id,
-              hasFail: !!flatten(res.data?.applicationsInfo)?.filter((item) => !item?.preCheckResult.success).length,
-              type: res.data.type,
-            });
-        });
+      getReleaseRenderDetail.fetch({ releaseID: selectedRelease, workspace: env, mode, id }).then((res) => {
+        res.data?.id &&
+          propsOnSelect({
+            name: res.data.name,
+            releaseId: selectedRelease,
+            id: res.data?.id,
+            hasFail: !!flatten(res.data?.applicationsInfo)?.filter((item) => !item?.preCheckResult.success).length,
+            type: res.data.type,
+          });
+      });
   }, [selectedRelease, env, mode]);
 
   const onSelect = (r: PROJECT_DEPLOY.Release) => {
