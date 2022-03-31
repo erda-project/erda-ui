@@ -169,13 +169,13 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
     onChange: _onChange,
     ...rest
   } = props;
-  const { projectId, appId } = routeInfoStore.useStore((s) => s.params);
+  const [{ projectId, appId }, routeQuery] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { id: loginUserId } = userStore.getState((s) => s.loginUser);
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const isUCMember = scopeType === 'uc';
   const scopeIdMap = {
-    app: appId,
-    project: projectId,
+    app: appId || routeQuery.applicationId,
+    project: projectId || routeQuery.projectId,
     org: orgId,
   };
   let scopeId = _scopeId;

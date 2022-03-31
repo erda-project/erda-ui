@@ -145,6 +145,7 @@ const Pipeline = () => {
               <div className="pl-5" style={expanded ? {} : { display: 'none' }}>
                 {guidesList?.slice(1).map((item, index) => (
                   <div
+                    key={item.id}
                     className={`flex-h-center py-2 pl-2 alert-list-item ${
                       index !== 0 ? 'border-default-1 border-t border-b-0 border-l-0 border-r-0 border-solid' : ''
                     }`}
