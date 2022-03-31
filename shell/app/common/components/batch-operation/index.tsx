@@ -75,7 +75,7 @@ const BatchOperation = <T extends Obj>(props: IBatchProps<T>) => {
     <Menu
       theme="dark"
       selectable
-      onSelect={({ key }) => {
+      onClick={({ key }) => {
         const op = visibleOperations.find((a) => a.key === key);
         if (op) {
           const result = op.onClick(selectedKeys);

@@ -109,6 +109,9 @@ export default ({ command, mode }) => {
     },
     server: {
       host: envConfig.SCHEDULER_URL.replace('https://', ''),
+      watch: {
+        ignored: ['**/__tests__/**'],
+      },
       proxy: {
         // string shorthand
         // '/foo': 'http://localhost:4567',
