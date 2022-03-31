@@ -346,6 +346,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
           disabled={disabled}
           value={editValue}
           onBlur={() => onBlur()}
+          onPressEnter={() => compRef.current?.blur()}
           {...itemProps}
           className={`bg-transparent hover:bg-default-06 focus:bg-default-06 ${itemProps.className}`}
           onChange={onInputChange}
