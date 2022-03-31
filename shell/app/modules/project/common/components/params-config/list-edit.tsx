@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Input, Dropdown, Menu, Switch, Form, Button, message, Modal, FormInstance } from 'antd';
-import { ErdaIcon } from 'common';
+import { ErdaIcon, Ellipsis } from 'common';
 import ErdaTable from 'common/components/table';
 import { uuid } from 'common/utils';
 import { useUpdateEffect } from 'react-use';
@@ -381,7 +381,7 @@ const EditableCell = ({
 
   return (
     <td onClick={(e) => editing && e.stopPropagation()} style={{ ...style, maxWidth: width }} {...restProps}>
-      {editing ? getComp() : children}
+      {editing ? getComp() : <Ellipsis title={children} />}
     </td>
   );
 };
