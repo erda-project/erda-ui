@@ -137,9 +137,9 @@ const Pipeline = () => {
                     {i18n.t('remove')}
                     {i18n.t('tip')}
                   </div>
-                  <Button type="primary" onClick={() => setAppID(guidesFirst.appID)}>
+                  <span className="cursor-pointer hover:text-purple-deep" onClick={() => setAppID(guidesFirst.appID)}>
                     {i18n.t('add')}
-                  </Button>
+                  </span>
                 </div>
               </div>
               <div className="pl-5" style={expanded ? {} : { display: 'none' }}>
@@ -169,9 +169,9 @@ const Pipeline = () => {
                         {i18n.t('remove')}
                         {i18n.t('tip')}
                       </div>
-                      <Button type="primary" onClick={() => setAppID(item.appID)}>
+                      <span className="cursor-pointer hover:text-purple-deep" onClick={() => setAppID(item.appID)}>
                         {i18n.t('add')}
-                      </Button>
+                      </span>
                     </div>
                   </div>
                 ))}
