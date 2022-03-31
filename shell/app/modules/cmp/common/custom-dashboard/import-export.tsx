@@ -12,39 +12,48 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Modal, Spin, Radio, Space, Upload, message, Avatar, Select } from 'antd';
+import { Button, Modal, Spin, Radio, Space, Upload, message, Avatar, Select, Tooltip } from 'antd';
 import { SimpleTabs, ErdaIcon, Badge } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { getUploadProps } from 'common/utils/upload-props';
 import EmptySVG from 'app/images/upload_empty.svg';
-import { useMount } from 'react-use';
+import { useMount, useInterval } from 'react-use';
 import ErdaTable from 'common/components/table';
-import { getDefaultPaging, setApiWithOrg, getAvatarChars, getOrgFromPath } from 'common/utils';
-import { importExportFileRecord } from 'org/services/project-list';
-import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
+import { getAvatarChars, getOrgFromPath, convertToFormData } from 'common/utils';
+import { find, map } from 'lodash';
+import mspStore from 'msp/stores/micro-service';
+import {
+  getDashboardOperationRecord,
+  downloadApi,
+  importCustomDashboard,
+  exportCustomDashboard,
+} from 'app/modules/cmp/services/_common-custom-dashboard';
+import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dashboard';
 import i18n from 'i18n';
 import { useUserMap } from 'core/stores/userMap';
 import moment from 'moment';
-import issueStore from 'project/stores/issues';
-import { issueDownload } from 'project/services/issue';
+import routeInfoStore from 'core/stores/route';
 import './import-export.scss';
 
 interface IProps {
-  issueType: string;
-  projectId: string;
-  queryObj: ISSUE.IssueListQuery;
+  queryObj: Custom_Dashboard.CustomLIstQuery;
+  scopeId: string;
+  scope: string;
+  visible: boolean;
   title?: string;
   tabs?: Array<{ key: string; text: string; disabled?: boolean }>;
-  extraQuery?: { iterationID?: number };
+  setVisible: (visible: boolean) => void;
+  getCustomDashboard: (pageNo: number) => void;
 }
 
 const { Option } = Select;
-const getRealIssueType = (issueType: string) => {
-  if (issueType === ISSUE_TYPE.ALL) return [ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK, ISSUE_TYPE.BUG];
-  return issueType;
-};
 
 const defaultTabs = [
+  {
+    key: 'record',
+    text: i18n.t('record'),
+    disabled: false,
+  },
   {
     key: 'export',
     text: i18n.t('export'),
@@ -55,62 +64,80 @@ const defaultTabs = [
     text: i18n.t('import'),
     disabled: false,
   },
-  {
-    key: 'record',
-    text: i18n.t('record'),
-    disabled: false,
-  },
 ];
+
+const workSpaceMap = {
+  All: {
+    label: i18n.t('cmp:All files'),
+    value: 'FILE',
+  },
+  DEV: {
+    label: i18n.t('dev environment'),
+    value: 'DEV',
+  },
+  TEST: {
+    label: i18n.t('test environment'),
+    value: 'TEST',
+  },
+  STAGING: {
+    label: i18n.t('staging environment'),
+    value: 'STAGING',
+  },
+  PROD: {
+    label: i18n.t('prod environment'),
+    value: 'PROD',
+  },
+};
 
 const ImportExport = (props: IProps) => {
   const {
-    issueType,
-    projectId,
     queryObj,
-    title = i18n.t('dop:export/import'),
-    extraQuery = {},
+    scope,
+    scopeId,
+    title = i18n.t('cmp:Export/Import'),
     tabs = defaultTabs,
+    visible,
+    setVisible,
+    getCustomDashboard,
   } = props;
-  const getDefaultTabs = () => tabs.find((item) => !item.disabled)?.key || 'record';
 
-  const [{ modalVis, tabValue }, updater, update] = useUpdate({
-    modalVis: false,
+  const getDefaultTabs = () => tabs.find((item) => !item.disabled)?.key || 'record';
+  const [{ tabValue }, updater, update] = useUpdate({
     tabValue: getDefaultTabs(),
   });
 
   const closeModal = () => {
+    setVisible(false);
     update({
-      modalVis: false,
       tabValue: getDefaultTabs(),
     });
   };
   const toRecord = () => update({ tabValue: 'record' });
 
   const CompMap = {
-    export: (
-      <Export
-        extraQuery={extraQuery}
-        issueType={issueType}
-        projectId={projectId}
-        queryObj={queryObj}
+    export: <Export scope={scope} scopeId={scopeId} queryObj={queryObj} onClose={closeModal} toRecord={toRecord} />,
+    import: (
+      <Import
+        scopeId={scopeId}
+        scope={scope}
         onClose={closeModal}
         toRecord={toRecord}
+        getCustomDashboard={getCustomDashboard}
       />
     ),
-    import: <Import issueType={issueType} projectId={projectId} onClose={closeModal} toRecord={toRecord} />,
-    record: <Record projectId={projectId} />,
+    record: <Record scope={scope} scopeId={scopeId} />,
   };
 
   return (
     <>
-      <Button onClick={() => updater.modalVis(true)}>{title}</Button>
+      <Button onClick={() => setVisible(true)}>{title}</Button>
       <Modal
         onCancel={closeModal}
         width={1000}
         destroyOnClose
         maskClosable={false}
         wrapClassName={'import-export-modal'}
-        visible={modalVis}
+        visible={visible}
         footer={null}
         title={
           <div className="flex-h-center py-3 px-4 bg-default-02">
@@ -133,64 +160,65 @@ const ImportExport = (props: IProps) => {
 };
 
 interface ExportProps {
-  issueType: string;
-  projectId: string;
-  extraQuery: { iterationID?: number };
-  queryObj: ISSUE.IssueListQuery;
+  queryObj: Custom_Dashboard.CustomLIstQuery;
+  scope: string;
+  scopeId: string;
   onClose: () => void;
   toRecord: () => void;
 }
 
 const Export = (props: ExportProps) => {
-  const { projectId, issueType, onClose, toRecord, queryObj, extraQuery } = props;
+  const { onClose, toRecord, queryObj, scope, scopeId } = props;
   const [exportType, setExportType] = React.useState('condition');
-  const [exportMode, setExportMode] = React.useState('all');
+  const [exportMode, setExportMode] = React.useState('FILE');
+  const currentProject = mspStore.getState((s) => s.currentProject);
+  const { relationship } = currentProject;
+  const params = routeInfoStore.getState((s) => s.params);
+  const { env } = params;
+  const curProjectRelationships = relationship?.filter((item) => item.workspace !== env);
+  const envOptions = map(curProjectRelationships, (item) => ({
+    label: workSpaceMap[item.workspace].label,
+    value: item.tenantId,
+  }));
+
+  const exportEnvOptions = [{ label: i18n.t('cmp:All files'), value: 'FILE' }, ...envOptions];
+
   const exportOption = [
     {
       key: 'condition',
-      text: i18n.t('dop:export by filter condition'),
-      desc: i18n.t('dop:export the data of the filter conditions'),
+      text: i18n.t('cmp:Export by filter condition'),
+      desc: i18n.t('cmp:Export the data of the filter conditions'),
     },
     {
       key: 'all',
-      text: i18n.t('dop:export all'),
-      desc: i18n.t('dop:export all data'),
-    },
-  ];
-
-  const exportModeOptions = [
-    {
-      label: '全部文件',
-      value: 'all',
-    },
-    {
-      label: '开发环境',
-      value: 'dev',
-    },
-    {
-      label: '测试环境',
-      value: 'test',
-    },
-    {
-      label: '预发环境',
-      value: 'staging',
+      text: i18n.t('cmp:Export all'),
+      desc: i18n.t('cmp:Export all data'),
     },
   ];
 
   const onExport = () => {
     let query = {
       pageNo: 1,
-      projectID: +projectId,
-      type: getRealIssueType(issueType),
-      IsDownload: false,
-      ...extraQuery,
-    };
+      scope,
+      scopeId,
+    } as Custom_Dashboard.ExportParams;
+
     if (exportType === 'condition') {
-      query = { ...queryObj, ...query };
+      const { createdAt, ...rest } = queryObj || {};
+      const [startTime, endTime] = createdAt || [];
+      if (createdAt) {
+        query = { ...rest, startTime, endTime, ...query };
+      } else {
+        query = { ...rest, ...query };
+      }
     }
 
-    issueDownload.fetch(query).then(() => {
-      message.success(i18n.t('dop:start exporting, please view detail in records'));
+    if (exportMode !== 'FILE') {
+      query = { ...query, targetScope: scope, targetScopeId: exportMode };
+    }
+
+    exportCustomDashboard.fetch(query).then(() => {
+      message.success(i18n.t('cmp:Start exporting, please view detail in records'));
       toRecord();
     });
   };
@@ -202,7 +230,7 @@ const Export = (props: ExportProps) => {
         onChange={(e) => {
           const v = e.target.value;
           setExportType(v);
-          setExportMode('all');
+          setExportMode('FILE');
         }}
         value={exportType}
       >
@@ -220,24 +248,26 @@ const Export = (props: ExportProps) => {
                   <span className="font-medium">{item.text}</span>
                   <span className="text-default-6 text-xs">{item.desc}</span>
                 </div>
-                <Select
-                  style={{ minWidth: 200 }}
-                  className="absolute right-8"
-                  value={exportType === item.key ? exportMode : 'all'}
-                  mode="multiple"
-                  onChange={(value) => {
-                    setExportMode(value);
-                  }}
-                  disabled={exportType !== item.key}
-                  onClick={(e) => {
-                    // e.stopPropagation();
-                    e.preventDefault();
-                  }}
-                >
-                  {exportModeOptions.map((item) => (
-                    <Option value={item.value}>{item.label}</Option>
-                  ))}
-                </Select>
+                {scope === CustomDashboardScope.MICRO_SERVICE && (
+                  <Select
+                    style={{ minWidth: 200 }}
+                    className="absolute right-8"
+                    value={exportType === item.key ? exportMode : 'FILE'}
+                    onChange={(value) => {
+                      setExportMode(value);
+                    }}
+                    disabled={exportType !== item.key}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    {exportEnvOptions.map((option) => (
+                      <Option value={option.value} key={option.value}>
+                        {option.label}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
               </div>
             </Radio>
           ))}
@@ -254,47 +284,51 @@ const Export = (props: ExportProps) => {
 };
 
 interface ImportProps {
-  issueType: string;
-  projectId: string;
+  scopeId: string;
+  scope: string;
   onClose: () => void;
   toRecord: () => void;
+  getCustomDashboard: (pageNo: number) => void;
 }
 
 const Import = (props: ImportProps) => {
-  const { issueType, projectId, onClose, toRecord } = props;
-  const [fileId, setFileId] = React.useState('');
+  const { scopeId, scope, onClose, toRecord, getCustomDashboard } = props;
   const [fileStatus, setFileStatus] = React.useState('init');
-  const { importIssueFile } = issueStore.effects;
+  const [fileData, setFileData] = React.useState(null as unknown as Custom_Dashboard.FileData);
 
-  const templateUrl = setApiWithOrg(
-    `/api/issues/actions/export-excel?IsDownload=true&type=${getRealIssueType(issueType)}&projectID=${projectId}`,
-  );
+  const showUploadList = {
+    showRemoveIcon: true,
+    removeIcon: (
+      <ErdaIcon
+        type="remove"
+        onClick={() => {
+          setFileStatus('init');
+          setFileData(null as unknown as Custom_Dashboard.FileData);
+        }}
+      />
+    ),
+  };
 
   const uploadProps = getUploadProps({
     accept: '.json',
-    showUploadList: {
-      showRemoveIcon: false,
-    },
+    showUploadList,
     beforeUpload: (file: File) => {
       const isLt20M = file.size / 1024 / 1024 < 20;
       if (!isLt20M) {
-        message.error(i18n.t('dop:file must be smaller than 20 MB'));
+        message.error(i18n.t('cmp:File must be smaller than 20 MB'));
       }
       return isLt20M;
     },
-    action: `/api/${getOrgFromPath()}/projects/template/actions/parse`,
-    onChange: (fileObj) => {
-      console.log(3333, fileObj.file);
-      if (fileObj.file?.status === 'uploading') {
-        console.log(222);
+    action: `/api/${getOrgFromPath()}/dashboard/blocks/parse`,
+    onChange: ({ file }: any) => {
+      setFileData(file);
+      if (file.status === 'uploading') {
         setFileStatus('uploading');
       }
-      if (fileObj.file?.status === 'done') {
+      if (file.status === 'done') {
         setFileStatus('done');
-        console.log(1111);
-        setFileId(fileObj.file.response?.data?.uuid);
       }
-      if (fileObj.file?.status === 'error') {
+      if (file.status === 'error') {
         setFileStatus('error');
       }
     },
@@ -304,31 +338,39 @@ const Import = (props: ImportProps) => {
         <ErdaIcon type="shenjirizhi" />
       </div>
     ),
-    className: 'issue-import-upload',
+    className: 'custom-dashboard-import-upload',
     itemRender: (originNode: React.ReactElement) => {
       return <div className="hover:bg-default-08">{originNode}</div>;
     },
   });
 
   const importFile = () => {
-    fileId &&
-      importIssueFile({ fileID: fileId, issueType, projectID: projectId }).then(() => {
-        message.success(i18n.t('dop:start importing, please view detail in records'));
-        toRecord();
+    fileData &&
+      importCustomDashboard({
+        file: convertToFormData({ file: fileData.originFileObj, scope, scopeId }),
+        $options: { uploadFileKey: 'file' },
+      }).then((res) => {
+        if (res?.success) {
+          onClose();
+          message.success(i18n.t('cmp:Start importing, please view detail in records'));
+          getCustomDashboard(1);
+        } else {
+          toRecord();
+        }
       });
   };
 
   return (
     <div className="h-full flex flex-col">
       <div className="flex-1 overflow-auto">
-        <div className="bg-default-04 py-10 rounded-sm px-2 flex-all-center">
+        <div className="bg-default-04 py-10 rounded-sm px-2 flex-v-center">
           <Upload {...uploadProps}>
             {fileStatus === 'init' && (
               <div className="flex-all-center cursor-pointer w-full">
                 <img src={EmptySVG} style={{ height: 80 }} />
                 <div className="flex flex-col ml-2">
-                  <span className="text-base font-medium text-default ">{i18n.t('dop:upload files')}</span>
-                  <span className="text-xs text-default-6">{i18n.t('dop:click this area to browse and upload')}</span>
+                  <span className="text-base font-medium text-default ">{i18n.t('cmp:Upload File')}</span>
+                  <span className="text-xs text-default-6">{i18n.t('cmp:Click this area to browse and upload')}</span>
                 </div>
               </div>
             )}
@@ -346,12 +388,6 @@ const Import = (props: ImportProps) => {
                   <ErdaIcon type="check" size={12} />
                   <span className="ml-1">{i18n.t('parsing succeeded')}</span>
                 </div>
-                <div className="flex-h-center">
-                  <span className="text-default-9 mr-1">{i18n.t('dop:applications')} </span>
-                  <div className="bg-default-04 px-1 py-0.5 rounded-lg">
-                    {/* {fileData?.response.data.applications?.length || 0} */}
-                  </div>
-                </div>
               </div>
             )}
             {fileStatus === 'error' && (
@@ -365,31 +401,22 @@ const Import = (props: ImportProps) => {
                       e.stopPropagation();
                       Modal.error({
                         title: i18n.t('error reason'),
-                        // content: fileData?.response.err.msg,
+                        content: fileData?.response.err.msg,
                       });
                     }}
                   >
                     {i18n.t('error reason')}
                   </span>
                 </div>
-                <div className="flex-h-center">
-                  <span className="text-default-9 mr-1">{i18n.t('dop:applications')}:</span>
-                  <div className="bg-default-04 px-1 py-0.5 rounded-lg">0</div>
-                </div>
               </div>
             )}
           </div>
-        </div>
-        <div className="flex mt-2">
-          <span onClick={() => window.open(templateUrl)} className="text-purple-deep cursor-pointer">
-            {i18n.t('dop:download template')}
-          </span>
         </div>
       </div>
 
       <div className="flex-h-center justify-end mt-4">
         <Button onClick={onClose}>{i18n.t('cancel')}</Button>
-        <Button onClick={importFile} disabled={!fileId} className="ml-2" type="primary">
+        <Button onClick={importFile} disabled={fileStatus !== 'done'} className="ml-2" type="primary">
           {i18n.t('ok')}
         </Button>
       </div>
@@ -397,21 +424,46 @@ const Import = (props: ImportProps) => {
   );
 };
 
-const Record = ({ projectId }: { projectId: string }) => {
-  const [data, loading] = importExportFileRecord.useState();
+const Record = ({ scope, scopeId }: { scope: string; scopeId: string }) => {
+  const [data, loading] = getDashboardOperationRecord.useState();
+  const [hasError, setHasError] = React.useState(false);
+  const [isFinished, setIsFinished] = React.useState(false);
+  const [paging, setPaging] = React.useState({ pageNo: 1, pageSize: 10 });
   const userMap = useUserMap();
-  const list = data?.list || [];
+  const currentProject = mspStore.getState((s) => s.currentProject);
+  const { relationship } = currentProject;
 
-  const paging = data?.paging || getDefaultPaging();
+  const list = data?.histories || [];
+  const total = data?.total;
 
-  const getList = (q: { pageSize?: number; pageNo: number }) => {
-    importExportFileRecord.fetch({
-      pageSize: paging?.pageSize,
-      projectId,
-      ...q,
-      types: ['issueImport', 'issueExport'],
-    });
-  };
+  const getList = React.useCallback(
+    (q?: { pageSize?: number; pageNo: number }) => {
+      const { pageSize, pageNo } = q || {};
+      getDashboardOperationRecord
+        .fetch({
+          scope,
+          scopeId,
+          pageSize: pageSize || paging.pageSize,
+          pageNo: pageNo || paging.pageNo,
+        })
+        .then((res) => {
+          if (res.data?.histories.every((item) => ['Success', 'Failure'].includes(item.status))) {
+            setIsFinished(true);
+          }
+        })
+        .catch(() => {
+          setHasError(true);
+        });
+    },
+    [paging?.pageSize, scope, scopeId],
+  );
+
+  useInterval(
+    () => {
+      getList();
+    },
+    isFinished || hasError ? null : 5000,
+  );
 
   useMount(() => {
     getList({ pageNo: 1 });
@@ -421,23 +473,45 @@ const Record = ({ projectId }: { projectId: string }) => {
     {
       dataIndex: 'id',
       title: 'ID',
+      render: (val: string) => <Tooltip title={val}>{val.slice(0, 8)}</Tooltip>,
     },
     {
       dataIndex: 'type',
       title: i18n.t('type'),
-      render: (val: string) => {
-        const typeMap = {
-          issueImport: i18n.t('import'),
-          issueExport: i18n.t('export'),
+      render: (val: string, record: Custom_Dashboard.OperationHistory) => {
+        const CMPTypeMap = {
+          Import: i18n.t('import'),
+          Export: i18n.t('export'),
         };
-        return typeMap[val] || '-';
+
+        const MSPTypeMap = {
+          Export: i18n.t('cmp:Export file'),
+          Import: i18n.t('import'),
+        };
+
+        if (scope === CustomDashboardScope.ORG) {
+          return CMPTypeMap[val];
+        }
+        if (scope === CustomDashboardScope.MICRO_SERVICE) {
+          const workspace = find(relationship, (item) => item.tenantId === record.targetScopeId)?.workspace;
+          if (record.targetScopeId && workspace) {
+            const exportEnv = workSpaceMap[workspace].label;
+            return `${i18n.t('cmp:Export to')}${exportEnv}`;
+          }
+
+          return MSPTypeMap[val];
+        }
+        return '-';
       },
     },
     {
-      dataIndex: 'operatorID',
+      dataIndex: 'operatorId',
       title: i18n.t('operator'),
       render: (val: string) => {
-        const cU = userMap[val];
+        const cU = userMap[Number(val)];
+        if (!val) {
+          return '-';
+        }
         return (
           <span>
             <Avatar size="small" src={cU?.avatar}>
@@ -456,24 +530,20 @@ const Record = ({ projectId }: { projectId: string }) => {
       render: (val: string) => (val ? moment(val).format('YYYY/MM/DD HH:mm:ss') : '-'),
     },
     {
-      dataIndex: 'state',
+      dataIndex: 'status',
       title: i18n.t('status'),
       render: (val: string, record: IMPORT_EXPORT_FILE_LIST.FileRecord) => {
         const statusMap = {
-          fail: {
+          Failure: {
             text: i18n.t('failed'),
             status: 'error',
             tip: record.errorInfo,
           },
-          success: {
+          Success: {
             text: i18n.t('succeed'),
             status: 'success',
           },
-          pending: {
-            text: i18n.t('waiting'),
-            status: 'warning',
-          },
-          processing: {
+          Processing: {
             text: i18n.t('processing'),
             status: 'processing',
           },
@@ -481,27 +551,55 @@ const Record = ({ projectId }: { projectId: string }) => {
         return statusMap[val] ? <Badge {...statusMap[val]} showDot={false} /> : '-';
       },
     },
-    {
-      title: i18n.t('description'),
-      dataIndex: 'description',
-      key: 'description',
-    },
   ];
 
   const actions = {
-    render: (record: IMPORT_EXPORT_FILE_LIST.FileRecord) => {
-      return record.apiFileUUID
-        ? [
-            {
-              title: i18n.t('download'),
-              onClick: () => {
-                window.open(`/api/files/${record.apiFileUUID}`);
+    render: (record: Custom_Dashboard.OperationHistory) => {
+      const { download, viewResult } = {
+        download: {
+          title: i18n.t('download'),
+          onClick: () => {
+            downloadApi.fetch({
+              uuid: record.fileUuid,
+              $options: {
+                isDownload: true,
               },
-            },
-          ]
-        : [];
+            });
+          },
+        },
+        viewResult: {
+          title: i18n.t('view results'),
+          onClick: () => {
+            if (record.status === 'Success') {
+              Modal.success({
+                title: i18n.t('view results'),
+                content: (
+                  <span className="font-medium text-base text-default text-success">
+                    {record.type === 'Import' ? i18n.t('imported successfully') : i18n.t('exported successfully')}!
+                  </span>
+                ),
+              });
+            }
+            if (record.status === 'Failure') {
+              Modal.error({
+                title: i18n.t('view results'),
+                content: <span className="font-medium text-base text-default">{record.errorMessage}</span>,
+              });
+            }
+            if (record.status === 'Processing') {
+              Modal.info({
+                title: i18n.t('view results'),
+                content: i18n.t('no results yet'),
+              });
+            }
+          },
+        },
+      };
+
+      return record.fileUuid ? [download, viewResult] : [viewResult];
     },
   };
+
   return (
     <ErdaTable
       rowKey="id"
@@ -510,8 +608,9 @@ const Record = ({ projectId }: { projectId: string }) => {
       wrapperClassName="h-full"
       actions={actions}
       dataSource={list}
-      pagination={{ ...paging, current: paging.pageNo }}
+      pagination={{ ...paging, current: paging.pageNo || 1, total }}
       onChange={(pageInfo) => {
+        setPaging({ ...pageInfo, pageNo: pageInfo.current });
         getList({ pageNo: pageInfo.current || 1, pageSize: pageInfo.pageSize });
       }}
     />

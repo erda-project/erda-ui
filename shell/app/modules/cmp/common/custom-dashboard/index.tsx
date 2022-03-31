@@ -16,6 +16,7 @@ import { Button, Modal, FormInstance } from 'antd';
 import { formatTime, fromNow, goTo } from 'common/utils';
 import { useUserMap } from 'core/stores/userMap';
 import { useMount } from 'react-use';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import ErdaTable from 'common/components/table';
 import routeInfoStore from 'core/stores/route';
@@ -24,6 +25,8 @@ import orgCustomDashboardStore from 'app/modules/cmp/stores/custom-dashboard';
 import mspCustomDashboardStore from 'msp/query-analysis/custom-dashboard/stores/custom-dashboard';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dashboard';
+import { getCustomDashboardCreators, exportCustomDashboard } from 'app/modules/cmp/services/_common-custom-dashboard';
+import { map } from 'lodash';
 import { ColumnProps, IActions } from 'common/components/table/interface';
 import { UserInfo, ConfigurableFilter, FormModal } from 'common';
 import ImportExport from 'cmp/common/custom-dashboard/import-export';
@@ -45,9 +48,15 @@ const urlMap = {
 };
 const CustomDashboardList = ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: string }) => {
   const params = routeInfoStore.useStore((s) => s.params);
-  const [formData, setFormData] = React.useState(null);
+  const [{ formData, filterData, recordModalVisible }, updater, update] = useUpdate({
+    formData: null,
+    filterData: { creator: [], createdAt: '', title: undefined } as Custom_Dashboard.CustomLIstQuery,
+    recordModalVisible: false,
+  });
+
   const isEditing = formData !== null;
   const formRef = React.useRef<FormInstance>(null);
+  const creatorsData = getCustomDashboardCreators.useData();
   const userMap = useUserMap();
   const store = storeMap[scope];
   const [customDashboardList, customDashboardPaging, modalVisible] = store.useStore((s) => [
@@ -55,24 +64,35 @@ const CustomDashboardList = ({ scope, scopeId }: { scope: CustomDashboardScope; 
     s.customDashboardPaging,
     s.modalVisible,
   ]);
+  const { creators } = creatorsData || {};
+  const creatorOptions = map(creators, (item) => ({ label: userMap[item]?.nick || userMap[item]?.name, value: item }));
 
   const {
     getCustomDashboard,
     deleteCustomDashboard,
     updateModalVisible,
     updateCustomDashboardInfo,
+    createCustomDashboard,
     updateCustomDashboard,
   } = store;
   const { pageNo, total, pageSize } = customDashboardPaging;
   const [loading] = useLoading(store, ['getCustomDashboard']);
+
   const _getCustomDashboard = React.useCallback(
-    (no: number, pageSize?: number) =>
+    (no: number, size?: number, queryObj?: Custom_Dashboard.CustomLIstQuery) => {
+      const { createdAt, ...rest } = queryObj || {};
+      let query = queryObj;
+      if (createdAt) {
+        query = { ...rest, startTime: createdAt[0], endTime: createdAt[1] };
+      }
       getCustomDashboard({
         scope,
         scopeId,
-        pageSize,
+        pageSize: size,
         pageNo: no,
-      }),
+        ...query,
+      });
+    },
     [getCustomDashboard, scope, scopeId],
   );
 
@@ -81,8 +101,14 @@ const CustomDashboardList = ({ scope, scopeId }: { scope: CustomDashboardScope; 
   });
 
   React.useEffect(() => {
+    getCustomDashboardCreators.fetch({ scope, scopeId });
+  }, [scope, scopeId]);
 
-  }, [userMap]);
+  React.useEffect(() => {}, [userMap]);
+
+  React.useEffect(() => {
+    _getCustomDashboard(1, pageSize, filterData);
+  }, [_getCustomDashboard, filterData, pageSize]);
 
   const handleDelete = (id: string) => {
     Modal.confirm({
@@ -94,9 +120,9 @@ const CustomDashboardList = ({ scope, scopeId }: { scope: CustomDashboardScope; 
     });
   };
 
-  const handleEdit = (record) => {
+  const handleEdit = (record: { name: string; desc?: string }) => {
     updateModalVisible(true);
-    setFormData(record);
+    updater.formData(record);
   };
 
   const columns: Array<ColumnProps<Custom_Dashboard.DashboardItem>> = [
@@ -128,23 +154,22 @@ const CustomDashboardList = ({ scope, scopeId }: { scope: CustomDashboardScope; 
 
   const filterList = [
     {
-      key: 'creatorIDs',
+      key: 'creatorId',
       type: 'select',
       label: i18n.t('creator'),
+      options: creatorOptions,
       placeholder: i18n.t('filter by {name}', { name: i18n.t('submitter') }),
-      // placeholder: i18n.t('filter by {name}', { name: i18n.t('App') }),
     },
     {
       key: 'createdAt',
       type: 'dateRange',
       label: i18n.t('create time'),
-      // placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:branch') }),
     },
     {
       label: '',
       type: 'input',
       outside: true,
-      key: 'keyword',
+      key: 'name',
       placeholder: i18n.t('default:search by keywords'),
       customProps: {
         autoComplete: 'off',
@@ -155,7 +180,7 @@ const CustomDashboardList = ({ scope, scopeId }: { scope: CustomDashboardScope; 
   const fieldsList = [
     {
       name: 'name',
-      label: i18n.d('大盘名称'),
+      label: i18n.t('cmp:Name'),
       required: true,
       itemProps: {
         maxLength: 50,
@@ -164,7 +189,7 @@ const CustomDashboardList = ({ scope, scopeId }: { scope: CustomDashboardScope; 
     },
     {
       name: 'desc',
-      label: i18n.d('大盘描述'),
+      label: i18n.t('cmp:Description'),
       required: false,
       itemProps: {
         maxLength: 200,
@@ -183,28 +208,46 @@ const CustomDashboardList = ({ scope, scopeId }: { scope: CustomDashboardScope; 
   const tableActions: IActions<Custom_Dashboard.DashboardItem> = {
     render: (record) => [
       {
-        title: i18n.d('编辑大盘名称'),
-        onClick: () => {
-          handleEdit(record);
-        },
-      },
-      {
         title: i18n.t('delete'),
         onClick: () => {
           handleDelete(record.id as string);
         },
       },
+      {
+        title: i18n.t('cmp:Export File'),
+        onClick: () => {
+          exportCustomDashboard({ scope, scopeId, viewIds: [String(record.id)] });
+          updater.recordModalVisible(true);
+        },
+      },
+      {
+        title: i18n.t('cmp:Edit Name'),
+        onClick: () => {
+          handleEdit(record);
+        },
+      },
     ],
   };
 
-  const slot = <ConfigurableFilter hideSave fieldsList={filterList} onFilter={() => {}} />;
+  const slot = (
+    <ConfigurableFilter
+      hideSave
+      value={filterData}
+      fieldsList={filterList}
+      onFilter={(values) => {
+        updater.filterData(values);
+      }}
+    />
+  );
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: Custom_Dashboard.BasicInfo) => {
     updateModalVisible(false);
     if (!isEditing) {
       breadcrumbStore.reducers.setInfo('dashboardName', values.name);
+      createCustomDashboard({ name: values.name, desc: values.desc, scope, scopeId, version: 'v2' }).then((res) => {
+        updateCustomDashboardInfo({ name: values.name, desc: values.desc, id: res.id });
+      });
       goTo(urlMap[scope].add);
-      updateCustomDashboardInfo({ name: values.name, desc: values.desc });
     } else {
       updateCustomDashboardInfo(values);
       updateCustomDashboard({
@@ -215,20 +258,27 @@ const CustomDashboardList = ({ scope, scopeId }: { scope: CustomDashboardScope; 
         id: values.id,
         updateType: 'MetaType',
       }).then(() => {
-        setFormData(null);
+        updater.formData(null);
         _getCustomDashboard(pageNo);
       });
     }
   };
+
   return (
     <>
       <div className="top-button-group">
-        <ImportExport />
+        <ImportExport
+          scope={scope}
+          scopeId={scopeId}
+          queryObj={filterData as Custom_Dashboard.CustomLIstQuery}
+          visible={recordModalVisible}
+          setVisible={updater.recordModalVisible}
+          getCustomDashboard={_getCustomDashboard}
+        />
         <Button
           type="primary"
           onClick={() => {
             updateModalVisible(true);
-            // goTo(urlMap[scope].add)
           }}
         >
           {i18n.t('cmp:Add-custom-dashboard')}
@@ -252,8 +302,8 @@ const CustomDashboardList = ({ scope, scopeId }: { scope: CustomDashboardScope; 
           total,
           pageSize,
         }}
-        onChange={({ current, pageSize }) => {
-          _getCustomDashboard(current, pageSize);
+        onChange={({ current = 1, pageSize: size }) => {
+          _getCustomDashboard(current, size);
         }}
         scroll={{ x: '100%' }}
         slot={slot}
@@ -261,7 +311,7 @@ const CustomDashboardList = ({ scope, scopeId }: { scope: CustomDashboardScope; 
       <FormModal
         width={800}
         ref={formRef}
-        title={`${isEditing ? i18n.d('编辑大盘名称') : i18n.d('新增大盘名称')}`}
+        title={`${isEditing ? i18n.t('cmp:Edit Name') : i18n.t('cmp:Add Dashboard')}`}
         visible={modalVisible}
         fieldsList={fieldsList}
         formData={formData}
@@ -270,7 +320,7 @@ const CustomDashboardList = ({ scope, scopeId }: { scope: CustomDashboardScope; 
         }}
         onCancel={() => {
           updateModalVisible(false);
-          setFormData(null);
+          updater.formData(null);
         }}
         modalProps={{ destroyOnClose: true }}
       />

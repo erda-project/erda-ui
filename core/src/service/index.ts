@@ -101,6 +101,7 @@ export const genRequest = function <T extends FN>(apiConfig: APIConfig<T>) {
     const { bodyOrQuery, pathParams } = extractPathParams(path, rest);
     const { isDownload, uploadFileKey } = $options || {};
     let getParams = bodyOrQuery;
+
     if ('pageNo' in bodyOrQuery && !('pageSize' in bodyOrQuery)) {
       bodyOrQuery.pageSize = DEFAULT_PAGESIZE;
     }
