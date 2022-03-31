@@ -87,14 +87,23 @@ const layout = createStore({
     if (currentOrg.id) {
       const diceWs = DiceWebSocket.connect(setApiWithOrg('/api/websocket'));
       listenRoute(({ isEntering, isLeaving }) => {
-        if (isEntering('pipeline') || isEntering('dataTask') || isEntering('deploy') || isEntering('testPlanDetail')) {
+        if (
+          isEntering('pipeline') ||
+          isEntering('dataTask') ||
+          isEntering('deploy') ||
+          isEntering('testPlanDetail') ||
+          isEntering('appDeployRuntime') ||
+          isEntering('projectDeployRuntime')
+        ) {
           // call ws when enter page
           sendMsgUtilWsReady(diceWs, { command: '__attach' });
         } else if (
           isLeaving('pipeline') ||
           isLeaving('dataTask') ||
           isLeaving('deploy') ||
-          isLeaving('testPlanDetail')
+          isLeaving('testPlanDetail') ||
+          isLeaving('appDeployRuntime') ||
+          isLeaving('projectDeployRuntime')
         ) {
           sendMsgUtilWsReady(diceWs, { command: '__detach' });
         }
