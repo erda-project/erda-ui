@@ -67,7 +67,7 @@ const AddonInfo = ({ addons = [], addonYaml = '' }: IProps) => {
           <div>
             {categoryList.map((category) => {
               return (
-                <div>
+                <div className="mt-4">
                   <div className="mb-2 text-base font-medium">{CATEGORY_NAME[category]}</div>
                   <div className="flex">
                     {addons
