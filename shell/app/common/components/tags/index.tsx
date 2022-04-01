@@ -39,6 +39,7 @@ interface IItemProps {
   readOnly?: boolean;
   deleteConfirm?: boolean;
   onDelete?: (p: Label) => void;
+  style?: { [key: string]: string | number };
 }
 
 export const TagItem = (props: IItemProps) => {
@@ -51,6 +52,7 @@ export const TagItem = (props: IItemProps) => {
     colorMap,
     checked,
     readOnly,
+    style: styleProps,
   } = props;
   const { label, color = 'blue' } = _label;
   const [isChecked, setIsChecked] = React.useState(checked);
@@ -58,6 +60,7 @@ export const TagItem = (props: IItemProps) => {
   const curColor = color === 'gray' ? 'blue' : color;
   const style = {
     maxWidth,
+    ...styleProps,
   };
 
   React.useEffect(() => {

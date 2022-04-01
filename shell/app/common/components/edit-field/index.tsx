@@ -116,7 +116,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
             <ErdaIcon
               type="edit"
               size={20}
-              className="float-right w-8 h-8 top-0 rounded-full cursor-pointer shadow-card text-blue-deep bg-white hover:text-white hover:bg-blue-deep"
+              className="float-right w-10 h-10 top-4 rounded-full cursor-pointer shadow-card text-blue-deep bg-white hover:text-white hover:bg-blue-deep"
               style={{ position: 'sticky' }}
               onClick={() => {
                 mdContentRef.current?.scrollIntoView();
