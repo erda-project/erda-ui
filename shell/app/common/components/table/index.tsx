@@ -277,8 +277,8 @@ function WrappedTable<T extends object = any>({
                 className={`cursor-pointer erda-table-sorter flex items-center ${(align && alignMap[align]) || ''}`}
               >
                 {typeof title === 'function' ? title({ sortColumn: sort?.column, sortOrder: sort?.order }) : title}
-                <span className={`sorter-icon pl-1 ${(sort.columnKey === args.dataIndex && sort.order) || ''}`}>
-                  {sort.order && sort.columnKey === args.dataIndex ? (
+                <span className={`sorter-icon pl-1 ${(sort.columnKey === dataIndex && sort.order) || ''}`}>
+                  {sort.order && sort.columnKey === dataIndex ? (
                     sortIcon[sort.order]
                   ) : (
                     <ErdaIcon type="caret-down" fill="log-font" size={20} className="relative top-0.5" />
