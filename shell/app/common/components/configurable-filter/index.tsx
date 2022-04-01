@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Popover, Row, Col, Form, Button, Badge, Input, FormInstance } from 'antd';
-import { ErdaIcon, RenderFormItem, IFormItem } from 'common';
-import { isEmpty, has, isEqual } from 'lodash';
+import { Badge, Button, Col, Form, FormInstance, Input, Popover, Row } from 'antd';
+import { ErdaIcon, IFormItem, RenderFormItem } from 'common';
+import { has, isEmpty, isEqual } from 'lodash';
 import ExternalItem from './external-item';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
@@ -202,18 +202,11 @@ const ConfigurableFilter = React.forwardRef(
     }));
 
     React.useEffect(() => {
-      if (formValue) {
-        const config = getItemByValues(formValue, configList, fieldsList);
-        config?.id && setCurrentConfig(config?.id);
-        setIsNew(!config);
-      } else if (configList && configList.length !== 0) {
-        const configData: ConfigData = configList?.find((item) => item.id === defaultConfig) || ({} as ConfigData);
-        if (configData.values) {
-          configData.values && form.setFieldsValue(configData.values);
-          onFilterProps?.(configData.values);
-        }
-      }
-    }, [configList, defaultConfig, form, formValue, onFilterProps, fieldsList]);
+      // remove code in else due to formValue always exist
+      const config = getItemByValues(formValue, configList, fieldsList);
+      config?.id && setCurrentConfig(config?.id);
+      setIsNew(!config);
+    }, [configList, formValue, fieldsList]);
 
     React.useEffect(() => {
       if (formValue) {
@@ -343,7 +336,10 @@ const ConfigurableFilter = React.forwardRef(
               type="guanbi"
               size={20}
               className="text-default-6 cursor-pointer"
-              onClick={() => setVisible(false)}
+              onClick={() => {
+                setVisible(false);
+                onClose?.();
+              }}
             />
           </div>
           <div className="flex justify-start flex-1 overflow-hidden">
