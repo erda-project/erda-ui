@@ -522,6 +522,7 @@ const IssueMetaFields = React.forwardRef(
                   : React.cloneElement(label, {
                       onDelete: () => onClose(),
                       deleteConfirm: false,
+                      style: { marginLeft: 0, marginRight: 8 },
                     })}
               </span>
             );
