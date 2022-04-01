@@ -29,6 +29,7 @@ module.exports = {
     '!app/common/utils/style-constants.ts',
     '!app/common/constants.ts',
     '!app/common/utils/axios-config.ts',
+    '!app/common/utils/create-scroll-component.tsx',
   ],
   testMatch: ['**/__tests__/**/*.test.+(tsx|ts)'],
 
