@@ -30,5 +30,6 @@ declare namespace DOMAIN_MANAGE {
       workspace: IWorkspace;
       tenantGroup: string;
     };
+    access: boolean;
   }
 }
