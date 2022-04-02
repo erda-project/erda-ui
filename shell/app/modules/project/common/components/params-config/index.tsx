@@ -90,7 +90,7 @@ const ConfigContainer = (props: IProps) => {
         }
       }
     }
-  }, [selectedApp]);
+  }, [selectedApp, env]);
 
   useUpdateEffect(() => {
     if (scope === ParamsScope.pipeline) {
@@ -177,7 +177,7 @@ const ConfigContainer = (props: IProps) => {
         options={map(CONFIG_ENV_MAP, (v, k) => ({ label: v, value: k }))}
       />
       <Config
-        key={`${env}-${selectedApp?.id}`}
+        key={`${namespace}`}
         slot={AppSelectorSlot}
         namespace={namespace}
         apiPrefix={configMap.apiPrefix}
