@@ -269,7 +269,8 @@ const CustomUpload = ({ form, onChange }: { form: { form: FormInstance }; onChan
     fileList,
     accept: '.zip',
     beforeUpload: (file) => {
-      if (file.type !== fileType) {
+      const reg = new RegExp(/^.*\.zip$/);
+      if (!reg.test(file.name)) {
         onChange('type-error');
         return false;
       }
