@@ -197,7 +197,7 @@ const DomainManage = () => {
 
   const actions = {
     render: (record: DOMAIN_MANAGE.IDomain) => {
-      const { domain, type, workspace: env, link } = record;
+      const { domain, type, workspace: env, link, access = true } = record;
       if (!link) {
         return [];
       }
@@ -214,6 +214,7 @@ const DomainManage = () => {
         ? [
             {
               title: i18n.t('manage'),
+              disabled: !access,
               onClick: () => {
                 if (type === 'service') {
                   if (serviceName && projectId && appId && runtimeId) {
