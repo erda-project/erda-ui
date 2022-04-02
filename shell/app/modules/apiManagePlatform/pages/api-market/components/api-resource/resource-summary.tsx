@@ -70,7 +70,7 @@ const TagSelect = React.forwardRef((tagProps: ITagSelect) => {
     <div className="api-tag-select">
       {disabled ? (
         <Input
-          placeholder={i18n.t('dop:please select or enter the tag')}
+          placeholder={i18n.t('dop:Please select or enter the tag')}
           value={value}
           maxLength={INPUT_MAX_LENGTH}
           disabled={disabled}
@@ -79,7 +79,7 @@ const TagSelect = React.forwardRef((tagProps: ITagSelect) => {
         <Dropdown overlay={content} trigger={['click']}>
           <Input
             maxLength={INPUT_MAX_LENGTH}
-            placeholder={i18n.t('dop:please select or enter the tag')}
+            placeholder={i18n.t('dop:Please select or enter the tag')}
             value={value}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               onInput(e.target.value);
@@ -189,7 +189,7 @@ const ResourceSummary = React.memo((props: IProps) => {
     () => [
       {
         type: Input,
-        label: i18n.t('name'),
+        label: i18n.t('Name'),
         name: 'operationId',
         colSpan: 24,
         required: false,
@@ -201,7 +201,7 @@ const ResourceSummary = React.memo((props: IProps) => {
           {
             validator: (_rule: any, value: string, callback: (msg?: string) => void) => {
               if (operationIdList.includes(value)) {
-                callback(i18n.t('the same {key} exists', { key: i18n.t('name') }));
+                callback(i18n.t('the same {key} exists', { key: i18n.t('Name') }));
               } else {
                 setField('operationId', value);
                 callback();
@@ -212,7 +212,7 @@ const ResourceSummary = React.memo((props: IProps) => {
       },
       {
         name: 'tags',
-        label: i18n.t('dop:grouping'),
+        label: i18n.t('dop:Group'),
         colSpan: 24,
         type: TagSelect,
         customProps: {
@@ -230,7 +230,7 @@ const ResourceSummary = React.memo((props: IProps) => {
       },
       {
         type: MarkdownEditor,
-        label: i18n.t('description'),
+        label: i18n.t('Description'),
         name: 'description',
         colSpan: 24,
         required: false,

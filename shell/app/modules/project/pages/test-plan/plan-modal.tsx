@@ -84,19 +84,19 @@ const TestPlanModal = (props: IProps) => {
       rules: [{ required: true, message: i18n.t('dop:please fill in the test plan name') }],
       initialValue: planItem.name,
       itemProps: {
-        placeholder: i18n.t('dop:add test plan name'),
+        placeholder: i18n.t('dop:Enter the test plan name'),
         maxLength: 50,
       },
     },
     {
-      label: i18n.t('dop:principal'),
+      label: i18n.t('dop:Principal'),
       name: 'ownerID',
       rules: [{ required: true, message: i18n.t('dop:please add a test leader') }],
       initialValue: planItem.ownerID,
       getComp: () => <MemberSelector allowClear={false} scopeType="project" scopeId={params.projectId} />,
     },
     {
-      label: i18n.t('dop:participant'),
+      label: i18n.t('dop:Participant'),
       name: 'partnerIDs',
       rules: [
         { required: true, message: i18n.t('dop:please add test participants') },
@@ -117,7 +117,7 @@ const TestPlanModal = (props: IProps) => {
       getComp: () => <MemberSelector mode="multiple" scopeId={params.projectId} scopeType="project" />,
     },
     {
-      label: i18n.t('dop:owned iteration'),
+      label: i18n.t('dop:Iteration'),
       name: 'iterationID',
       type: 'select',
       options: iterationList.map((iteration) => ({ name: iteration.title, value: String(iteration.id) })),
@@ -134,7 +134,7 @@ const TestPlanModal = (props: IProps) => {
           ? i18n.t('dop:copy and create a new plan')
           : testPlanId
           ? i18n.t('dop:edit test plan')
-          : i18n.t('dop:new test plan')
+          : i18n.t('dop:Add test plan')
       }
       visible={visible}
       onOk={handleOk}

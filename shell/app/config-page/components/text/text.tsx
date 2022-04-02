@@ -75,7 +75,7 @@ const Text = (props: CP_TEXT.Props) => {
         const { text, copyText } = (value || {}) as CP_TEXT.ICopyText;
         TextComp = (
           <Copy copyText={copyText} className={`${textClassNames}`} style={styleObj}>
-            {text || i18n.t('copy')}
+            {text || i18n.t('Copy')}
           </Copy>
         );
       }

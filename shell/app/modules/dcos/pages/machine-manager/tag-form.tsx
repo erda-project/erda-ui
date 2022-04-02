@@ -77,7 +77,7 @@ const TagForm = ({ visible, machine, onCancel }: IProps) => {
       ),
     },
     {
-      label: i18n.t('custom labels'),
+      label: i18n.t('Custom label'),
       name: 'customLabels',
       required: false,
       getComp: () => <CustomLabel />,

@@ -145,16 +145,16 @@ const EditStage = (props: IEditStageProps & FormProps) => {
       rules={[
         {
           required: true,
-          message: `${i18n.t('dop:please choose')}Task Type`,
+          message: `${i18n.t('dop:Please select')}Task Type`,
         },
       ]}
     >
       <ActionSelect
         disabled={!editing}
-        label={i18n.t('task type')}
+        label={i18n.t('Task type')}
         actions={actions}
         onChange={changeResourceType}
-        placeholder={`${i18n.t('dop:please choose task type')}`}
+        placeholder={`${i18n.t('dop:Please choose the task type')}`}
       />
     </Item>
   );
@@ -167,7 +167,7 @@ const EditStage = (props: IEditStageProps & FormProps) => {
       rules={[
         {
           required: true,
-          message: `${i18n.t('dop:please choose')}Task Version`,
+          message: `${i18n.t('dop:Please select')}Task Version`,
         },
       ]}
     >
@@ -530,7 +530,7 @@ const EditStage = (props: IEditStageProps & FormProps) => {
         {renderTaskTypeStructure()}
         {editing ? (
           <Button type="primary" ghost onClick={onSubmit}>
-            {i18n.t('save')}
+            {i18n.t('Save')}
           </Button>
         ) : null}
       </Form>

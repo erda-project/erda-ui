@@ -77,7 +77,7 @@ const GrayFormModal = (props: IProps) => {
       name: 'versionStates',
       type: 'radioGroup',
       options: [
-        { name: i18n.t('publisher:release version'), value: 'release' },
+        { name: i18n.t('publisher:Release version'), value: 'release' },
         { name: i18n.t('publisher:preview version'), value: 'beta' },
       ],
       itemProps: {

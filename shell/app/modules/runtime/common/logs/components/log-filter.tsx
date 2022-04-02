@@ -37,7 +37,7 @@ const LogFilter = (props: IProps) => {
   const fieldsList = [
     {
       name: 'timeSpan',
-      label: i18n.t('dop:duration'),
+      label: i18n.t('dop:Duration'),
       initialValue: [current.clone().subtract(10, 'minutes'), current],
       config: {
         valuePropType: 'array',
@@ -47,7 +47,7 @@ const LogFilter = (props: IProps) => {
           <DatePicker.RangePicker
             disabledDate={disabledDate}
             allowClear={false}
-            placeholder={[i18n.t('common:start at'), i18n.t('common:end at')]}
+            placeholder={[i18n.t('common:start at'), i18n.t('common:End time')]}
             className="w-full"
             showTime
           />
@@ -80,10 +80,10 @@ const LogFilter = (props: IProps) => {
           setVisible(true);
         }}
       >
-        {i18n.t('advanced search')}
+        {i18n.t('Advanced Search')}
       </Button>
       <FormModal
-        title={i18n.t('advanced search')}
+        title={i18n.t('Advanced Search')}
         modalProps={{ destroyOnClose: true }}
         visible={visible}
         fieldsList={fieldsList}

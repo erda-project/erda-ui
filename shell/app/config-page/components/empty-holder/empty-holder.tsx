@@ -22,7 +22,7 @@ export const EmptyHolder = (props: CP_EMPTY_HOLDER.Props) => {
   const {
     visible = true,
     icon = 'empty',
-    tip = i18n.t('common:no data'),
+    tip = i18n.t('common:No data'),
     relative = false,
     style = {},
     action = null,

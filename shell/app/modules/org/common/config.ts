@@ -38,14 +38,14 @@ export const ISSUE_LIST_MAP = {
   },
   bug: {
     type: 'BUG',
-    name: i18n.t('bug'),
+    name: i18n.t('Bug'),
   },
   ...(HIDDEN_MILESTONE
     ? {}
     : {
         epic: {
           type: 'EPIC',
-          name: i18n.t('dop:milestone'),
+          name: i18n.t('dop:Milestone'),
         },
       }),
 };
@@ -114,7 +114,7 @@ export const FIELD_TYPE_ICON_MAP = {
     icon: 'bb1',
     color: 'primary',
     value: 'EPIC',
-    name: i18n.t('dop:milestone'),
+    name: i18n.t('dop:Milestone'),
   },
   REQUIREMENT: {
     icon: 'xq1',
@@ -131,7 +131,7 @@ export const FIELD_TYPE_ICON_MAP = {
   BUG: {
     icon: 'bug',
     color: 'red',
-    name: i18n.t('bug'),
+    name: i18n.t('Bug'),
     value: 'BUG',
   },
 };
@@ -149,7 +149,7 @@ export const COMMON_FIELDS = [
   },
   {
     propertyName: 'priority',
-    displayName: i18n.t('dop:priority'),
+    displayName: i18n.t('dop:Priority'),
     propertyType: 'Select',
   },
   {
@@ -159,7 +159,7 @@ export const COMMON_FIELDS = [
   },
   {
     propertyName: 'planFinishedAt',
-    displayName: i18n.t('deadline'),
+    displayName: i18n.t('End date'),
     propertyType: 'Date',
   },
   {
@@ -173,22 +173,22 @@ const TASK_FIELDS = [
   ...COMMON_FIELDS,
   {
     propertyName: 'iterationID',
-    displayName: i18n.t('dop:owned iteration'),
+    displayName: i18n.t('dop:Iteration'),
     propertyType: 'Select',
   },
   {
     propertyName: 'complexity',
-    displayName: i18n.t('dop:complexity'),
+    displayName: i18n.t('dop:Complexity'),
     propertyType: 'Select',
   },
   {
     propertyName: 'taskType',
-    displayName: i18n.t('task type'),
+    displayName: i18n.t('Task type'),
     propertyType: 'Select',
   },
   {
     propertyName: 'estimateTime',
-    displayName: i18n.t('dop:EstimateTime'),
+    displayName: i18n.t('dop:Estimated time'),
     propertyType: 'Text',
   },
   {
@@ -204,12 +204,12 @@ export const DEFAULT_ISSUE_FIELDS_MAP = {
     ...COMMON_FIELDS,
     {
       propertyName: 'iterationID',
-      displayName: i18n.t('dop:owned iteration'),
+      displayName: i18n.t('dop:Iteration'),
       propertyType: 'Select',
     },
     {
       propertyName: 'severity',
-      displayName: i18n.t('dop:severity'),
+      displayName: i18n.t('dop:Severity'),
       propertyType: 'Select',
     },
     {
@@ -219,12 +219,12 @@ export const DEFAULT_ISSUE_FIELDS_MAP = {
     },
     {
       propertyName: 'bugStage',
-      displayName: i18n.t('dop:import source'),
+      displayName: i18n.t('dop:Import source'),
       propertyType: 'Select',
     },
     {
       propertyName: 'estimateTime',
-      displayName: i18n.t('dop:EstimateTime'),
+      displayName: i18n.t('dop:Estimated time'),
       propertyType: 'Text',
     },
     {
@@ -237,17 +237,17 @@ export const DEFAULT_ISSUE_FIELDS_MAP = {
     ...COMMON_FIELDS,
     {
       propertyName: 'iterationID',
-      displayName: i18n.t('dop:owned iteration'),
+      displayName: i18n.t('dop:Iteration'),
       propertyType: 'Select',
     },
     {
       propertyName: 'complexity',
-      displayName: i18n.t('dop:complexity'),
+      displayName: i18n.t('dop:Complexity'),
       propertyType: 'Select',
     },
     {
       propertyName: 'estimateTime',
-      displayName: i18n.t('dop:EstimateTime'),
+      displayName: i18n.t('dop:Estimated time'),
       propertyType: 'Text',
     },
     {
@@ -260,15 +260,15 @@ export const DEFAULT_ISSUE_FIELDS_MAP = {
     ...COMMON_FIELDS,
     {
       propertyName: 'complexity',
-      displayName: i18n.t('dop:complexity'),
+      displayName: i18n.t('dop:Complexity'),
       propertyType: 'Select',
     },
   ],
 };
 
 export const TASK_SP_FIELD = {
-  displayName: i18n.t('task type'),
-  propertyName: i18n.t('task type'),
+  displayName: i18n.t('Task type'),
+  propertyName: i18n.t('Task type'),
   required: true,
   propertyType: 'Select',
   relatedIssue: [i18n.t('task')],
@@ -277,11 +277,11 @@ export const TASK_SP_FIELD = {
 };
 
 export const BUG_SP_FIELD = {
-  displayName: i18n.t('dop:import source'),
-  propertyName: i18n.t('dop:import source'),
+  displayName: i18n.t('dop:Import source'),
+  propertyName: i18n.t('dop:Import source'),
   required: true,
   propertyType: 'Select',
-  relatedIssue: [i18n.t('bug')],
+  relatedIssue: [i18n.t('Bug')],
   isSpecialField: true,
   propertyIssueType: 'BUG',
 };

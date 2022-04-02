@@ -284,7 +284,7 @@ const AccessEdit = () => {
       },
     },
     {
-      label: i18n.t('resource version'),
+      label: i18n.t('Resource version'),
       type: 'select',
       name: 'minor',
       initialValue: access.minor,
@@ -297,7 +297,7 @@ const AccessEdit = () => {
       },
     },
     {
-      label: i18n.t('related project name'),
+      label: i18n.t('Related project name'),
       type: 'select',
       name: 'projectID',
       initialValue: access.projectID,
@@ -351,7 +351,7 @@ const AccessEdit = () => {
       },
     },
     {
-      label: i18n.t('authentication method'),
+      label: i18n.t('Authentication method'),
       name: 'authentication',
       type: 'select',
       initialValue: access.authentication,
@@ -361,7 +361,7 @@ const AccessEdit = () => {
       },
     },
     {
-      label: i18n.t('authorization method'),
+      label: i18n.t('Authorization method'),
       name: 'authorization',
       type: 'select',
       initialValue: access.authorization,
@@ -390,7 +390,7 @@ const AccessEdit = () => {
             {i18n.t('ok')}
           </Button>
           <Button className="ml-3" onClick={() => window.history.back()}>
-            {i18n.t('cancel')}
+            {i18n.t('Cancel')}
           </Button>
         </div>
       ),

@@ -89,13 +89,13 @@ const AuditList = ({ sys }: { sys: boolean }) => {
 
   const columns = [
     {
-      title: i18n.t('cmp:operation time'),
+      title: i18n.t('cmp:Operation time'),
       dataIndex: 'startTime',
       width: 180,
       render: (val: string) => moment(val).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      title: i18n.t('cmp:audit-operator'),
+      title: i18n.t('cmp:Operator'),
       dataIndex: 'userId',
       width: 150,
       render: (v: string) => {
@@ -160,7 +160,7 @@ const AuditList = ({ sys }: { sys: boolean }) => {
               mode: 'multiple',
               size: 'small',
               valueChangeTrigger: 'onClose',
-              placeholder: i18n.t('search by user name'),
+              placeholder: i18n.t('Search by username'),
             },
       },
       {
@@ -211,7 +211,7 @@ const AuditList = ({ sys }: { sys: boolean }) => {
       <div className="top-button-group">
         {query.testTpl && <TestModal onOk={setExtraTpls} />}
         <Button type="primary" onClick={onExport}>
-          {i18n.t('export')}
+          {i18n.t('Export')}
         </Button>
       </div>
       <CustomFilter onSubmit={onSubmit} config={filterConfig} isConnectQuery />

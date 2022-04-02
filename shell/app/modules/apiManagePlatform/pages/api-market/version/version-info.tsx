@@ -228,7 +228,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
       render: (text) => protocolMap[text].fullName,
     },
     {
-      title: i18n.t('creator'),
+      title: i18n.t('Creator'),
       dataIndex: ['version', 'creatorID'],
       width: 120,
       render: (text) => <Avatar showName name={<UserInfo id={text} />} />,
@@ -251,7 +251,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
               handleExport(version, e);
             }}
           >
-            {i18n.t('export')}
+            {i18n.t('Export')}
           </span>
           <UnityAuthWrap wrap={false} userID={creatorID} path={['apiMarket', 'deleteVersion']}>
             <span
@@ -304,12 +304,12 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
         <div className="flex justify-between items-center">
           <div className="title text-normal font-medium text-base my-3">{i18n.t('related instance')}</div>
           <UnityAuthWrap userID={creatorID} path={['apiMarket', 'relatedInstance']}>
-            <Button onClick={handleRelation}>{i18n.t('edit')}</Button>
+            <Button onClick={handleRelation}>{i18n.t('Edit')}</Button>
           </UnityAuthWrap>
         </div>
         {instance.type === 'dice' ? (
           <>
-            <div className="text-desc instance-label">{i18n.t('service name')}</div>
+            <div className="text-desc instance-label">{i18n.t('Service name')}</div>
             <div className="text-sub font-medium instance-name mb-3">{get(instance, 'serviceName', '-')}</div>
             <div className="text-desc instance-label">{i18n.t('msp:deployment branch')}</div>
             <div className="text-sub font-medium instance-name mb-3">{get(instance, 'runtimeName', '-')}</div>

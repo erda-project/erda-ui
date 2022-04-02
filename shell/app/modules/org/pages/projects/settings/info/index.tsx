@@ -123,7 +123,7 @@ const Info = () => {
       },
     },
     {
-      label: i18n.t('project name'),
+      label: i18n.t('Project name'),
       name: 'displayName',
     },
     ...insertWhen(notMSP, [
@@ -133,25 +133,25 @@ const Info = () => {
         type: 'radioGroup',
         options: [
           {
-            name: i18n.t('public project'),
+            name: i18n.t('Public'),
             value: 'true',
           },
           {
-            name: i18n.t('dop:private project'),
+            name: i18n.t('dop:Private'),
             value: 'false',
           },
         ],
       },
     ]),
     {
-      label: i18n.t('project icon'),
+      label: i18n.t('Project logo'),
       name: 'logo',
       required: false,
       getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
       viewType: 'image',
     },
     {
-      label: i18n.t('project description'),
+      label: i18n.t('Project description'),
       name: 'desc',
       type: 'textArea',
       required: false,
@@ -248,10 +248,10 @@ const Info = () => {
               fields={[
                 {
                   label: <Ellipsis title={info.name} />,
-                  value: i18n.t('project identifier'),
+                  value: i18n.t('Project identifier'),
                 },
                 {
-                  label: info.isPublic ? i18n.t('public project') : i18n.t('dop:private project'),
+                  label: info.isPublic ? i18n.t('Public') : i18n.t('dop:Private'),
                   value: i18n.t('whether to put {name} in public', { name: i18n.t('project') }),
                 },
               ]}
@@ -300,11 +300,11 @@ const Info = () => {
                               },
                               {
                                 label: `${+(+resource.cpuRequest).toFixed(3)} core`,
-                                value: i18n.t('used'),
+                                value: i18n.t('Used'),
                               },
                               {
                                 label: `${+(+resource.cpuRequestRate).toFixed(3)} %`,
-                                value: i18n.t('cmp:usage rate'),
+                                value: i18n.t('cmp:Usage'),
                               },
                             ]}
                           />
@@ -326,11 +326,11 @@ const Info = () => {
                               },
                               {
                                 label: `${+(+resource.memRequest).toFixed(3)} GiB`,
-                                value: i18n.t('used'),
+                                value: i18n.t('Used'),
                               },
                               {
                                 label: `${+(+resource.memRequestRate).toFixed(3)} %`,
-                                value: i18n.t('cmp:usage rate'),
+                                value: i18n.t('cmp:Usage'),
                               },
                             ]}
                           />
@@ -376,7 +376,7 @@ const Info = () => {
       >
         {notMSP ? (
           <>
-            <div className="label">{i18n.t('dop:rollback setting')}</div>
+            <div className="label">{i18n.t('dop:Rollback settings')}</div>
             <Row className="erda-panel-list">
               {Object.keys(info.rollbackConfig || {}).map((key: string) => (
                 <Col span={6} className="flex">
@@ -388,7 +388,7 @@ const Info = () => {
                 </Col>
               ))}
             </Row>
-            <div className="label">{i18n.t('other settings')}</div>
+            <div className="label">{i18n.t('Other settings')}</div>
           </>
         ) : null}
         <Row>
@@ -407,7 +407,7 @@ const Info = () => {
                 secondTitle={i18n.t('common:exit-sub-tip {name}', { name: i18n.t('project') })}
                 onConfirm={exitProject}
               >
-                <Button danger>{i18n.t('exit')}</Button>
+                <Button danger>{i18n.t('Exit')}</Button>
               </ConfirmDelete>
             </div>
           </Col>
@@ -441,7 +441,7 @@ const Info = () => {
                 modalChildren={
                   <Input
                     value={confirmProjectName}
-                    placeholder={i18n.t('please enter {name}', { name: i18n.t('project name') })}
+                    placeholder={i18n.t('please enter {name}', { name: i18n.t('Project name') })}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.confirmProjectName(e.target.value)}
                   />
                 }
@@ -464,7 +464,7 @@ const Info = () => {
           updater.projectInfoEditVisible(false);
           updater.projectInfoSaveDisabled(true);
         }}
-        name={i18n.t('dop:project info')}
+        name={i18n.t('dop:Project Information')}
         visible={projectInfoEditVisible}
         fieldsList={fieldsListInfo}
         formData={projectInfoFormData}

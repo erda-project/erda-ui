@@ -147,13 +147,13 @@ const PipelineDetail = (props: IProps) => {
           isMobileInit ? null : canRunTest ? (
             <WithAuth pass={deployAuthObj.hasAuth} noAuthTip={deployAuthObj.authTip}>
               <Button type="primary" onClick={addNewPipeline}>
-                {i18n.t('dop:add pipeline')}
+                {i18n.t('dop:Add')}
               </Button>
             </WithAuth>
           ) : (
             <Tooltip title={i18n.t('dop:pipeline-run-tip')}>
               <Button type="primary" disabled>
-                {i18n.t('dop:add pipeline')}
+                {i18n.t('dop:Add')}
               </Button>
             </Tooltip>
           )
@@ -174,7 +174,7 @@ const PipelineDetail = (props: IProps) => {
             />
           </Tabs.TabPane>
         ) : null}
-        <Tabs.TabPane tab={i18n.t('execute detail')} key={'runDetail'} disabled={loading}>
+        <Tabs.TabPane tab={i18n.t('Execution Details')} key={'runDetail'} disabled={loading}>
           <PipelineRunDetail key={runKey} deployAuth={deployAuthObj} isMobileInit={isMobileInit} />
         </Tabs.TabPane>
       </Tabs>

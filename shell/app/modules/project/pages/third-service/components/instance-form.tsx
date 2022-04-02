@@ -43,7 +43,7 @@ const MODE_MAP = {
 };
 
 const defaultInstance: CUSTOM_ADDON.GatewayInstance = {
-  name: i18n.t('default:add') + i18n.t('default:instance'),
+  name: i18n.t('default:Add') + i18n.t('default:instance'),
   instanceID: '-1',
 };
 

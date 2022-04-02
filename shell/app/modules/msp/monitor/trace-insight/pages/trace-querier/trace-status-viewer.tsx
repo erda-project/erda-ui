@@ -48,7 +48,7 @@ const TraceStatusViewer = ({
       <span className="request-status-text flex">
         <ErdaIcon className="mr-2" type="loading" size="16" /> {statusName}
       </span>
-      <Tooltip title={i18n.t('cancel')}>
+      <Tooltip title={i18n.t('Cancel')}>
         <span
           className="request-status-btn"
           onClick={(e) => {

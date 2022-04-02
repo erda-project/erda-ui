@@ -15,14 +15,14 @@ import i18n from 'i18n';
 
 const commonFields = [
   {
-    label: i18n.t('field'),
+    label: i18n.t('Field'),
     key: 'key',
     type: 'input',
     component: 'input',
     disabled: true,
   },
   {
-    label: i18n.t('component'),
+    label: i18n.t('Component'),
     key: 'component',
     type: 'input',
     component: 'input',
@@ -37,7 +37,7 @@ const commonFields = [
   //   disabled: true,
   // },
   {
-    label: i18n.t('label tip'),
+    label: i18n.t('Label tip'),
     key: 'labelTip',
     type: 'input',
     component: 'input',
@@ -46,19 +46,19 @@ const commonFields = [
     },
   },
   {
-    label: i18n.t('is it required'),
+    label: i18n.t('Required'),
     key: 'required',
     type: 'switch',
     component: 'switch',
     defaultValue: true,
   },
   {
-    label: i18n.t('default value'),
+    label: i18n.t('Default value'),
     key: 'defaultValue',
     type: 'input',
     component: 'input',
     componentProps: {
-      placeholder: i18n.t('common:default value only takes effect in the generated form'),
+      placeholder: i18n.t('common:The default value only takes effect in the generated form'),
     },
   },
 ];
@@ -71,7 +71,7 @@ export const componentFormConfig = {
     fieldConfig: {
       basic: {
         key: 'basic',
-        name: i18n.t('basic configuration'),
+        name: i18n.t('Basic Configuration'),
         fields: commonFields,
       },
     },
@@ -83,19 +83,19 @@ export const componentFormConfig = {
     fieldConfig: {
       basic: {
         key: 'basic',
-        name: i18n.t('basic configuration'),
+        name: i18n.t('Basic Configuration'),
         fields: commonFields,
       },
     },
   },
   switch: {
-    name: i18n.t('switch'),
+    name: i18n.t('Switch'),
     value: 'switch',
     dataType: 'boolean',
     fieldConfig: {
       basic: {
         key: 'basic',
-        name: i18n.t('basic configuration'),
+        name: i18n.t('Basic Configuration'),
         fields: commonFields,
       },
     },

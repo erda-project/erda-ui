@@ -102,7 +102,7 @@ const ConfigEnvSelector = (props: IProps) => {
           type: 'select',
           dataSource: {
             type: 'static',
-            static: map([{ ns: '0', displayName: i18n.t('none') }, ...configEnvs], (item) => ({
+            static: map([{ ns: '0', displayName: i18n.t('None') }, ...configEnvs], (item) => ({
               name: item.displayName,
               value: item.ns,
             })),
@@ -113,7 +113,7 @@ const ConfigEnvSelector = (props: IProps) => {
         {
           component: 'custom',
           getComp: () => {
-            return <div className="font-medium border-bottom">{i18n.t('dop:inputs')}</div>;
+            return <div className="font-medium border-bottom">{i18n.t('dop:Inputs')}</div>;
           },
         },
         ..._inParamsForm,
@@ -247,7 +247,7 @@ const ConfigEnvSelector = (props: IProps) => {
       </Tooltip>
 
       <FormModal
-        title={i18n.t('execute')}
+        title={i18n.t('Execute')}
         onCancel={() => updater.formVis(false)}
         onOk={(val: any) => {
           const { configManageNamespaces, ...rest } = val;

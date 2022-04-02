@@ -414,7 +414,7 @@ const BatchOperation = <T extends unknown>(props: IBatchProps<T>) => {
       })}`}</span>
       <Dropdown overlay={dropdownMenu} zIndex={1000}>
         <Button className="flex items-center">
-          {i18n.t('batch operate')}
+          {i18n.t('Batch Operation')}
           <ErdaIcon size="18" type="caret-down" className="ml-1 text-default-4" />
         </Button>
       </Dropdown>

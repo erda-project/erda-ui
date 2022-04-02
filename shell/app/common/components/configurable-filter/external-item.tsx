@@ -66,7 +66,7 @@ const ExternalItem = ({ itemData, value, onChange, className = '' }: IProps) => 
     placeholder,
     options,
     required,
-    emptyText = i18n.t('dop:all'),
+    emptyText = i18n.t('dop:All'),
     getComp,
     customProps = {},
   } = itemData;
@@ -139,11 +139,11 @@ const ExternalItem = ({ itemData, value, onChange, className = '' }: IProps) => 
           // 单选模式下不展示已选择n项
           <Menu.Item key="select-info" className="flex justify-between items-center not-select px6 py-0 options-item">
             <span>
-              {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
+              {i18n.t('common:Selected')} {_value.length} {i18n.t('common:items')}
             </span>
             {!required ? (
               <span className="fake-link ml-2" onClick={() => setCurValue()}>
-                {i18n.t('common:clear selected')}
+                {i18n.t('common:Clear selected')}
               </span>
             ) : null}
           </Menu.Item>,

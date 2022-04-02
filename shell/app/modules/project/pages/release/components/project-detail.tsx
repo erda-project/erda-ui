@@ -37,7 +37,7 @@ const ReleaseProjectDetail = () => {
       onOk: async () => {
         await formalRelease({
           releaseID,
-          $options: { successMsg: i18n.t('{action} successfully', { action: i18n.t('dop:be formal') }) },
+          $options: { successMsg: i18n.t('{action} successfully', { action: i18n.t('dop:To Formal') }) },
         });
         getReleaseDetail.fetch({ releaseID });
       },
@@ -60,7 +60,7 @@ const ReleaseProjectDetail = () => {
       <div className="mb-2">
         {!isFormal ? (
           <Button className="mr-3 bg-default" type="primary" onClick={submit}>
-            {i18n.t('dop:be formal')}
+            {i18n.t('dop:To Formal')}
           </Button>
         ) : null}
       </div>

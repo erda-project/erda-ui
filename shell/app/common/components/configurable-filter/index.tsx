@@ -116,7 +116,7 @@ const defaultProcessField = (item: FieldItem, zIndex?: number) => {
       showArrow: true,
       allowClear: !required,
       suffixIcon: <ErdaIcon type="caret-down" color="currentColor" className="text-default-3" />,
-      clearIcon: <span className="p-1">{i18n.t('common:clear')}</span>,
+      clearIcon: <span className="p-1">{i18n.t('common:Clear')}</span>,
       getPopupContainer: () => document.body,
       dropdownClassName: itemProps?.dropdownClassName || '',
     };
@@ -305,7 +305,7 @@ const ConfigurableFilter = React.forwardRef(
                 setAddVisible(false);
               }}
             >
-              {i18n.t('cancel')}
+              {i18n.t('Cancel')}
             </Button>
             <Button
               type="primary"
@@ -381,11 +381,11 @@ const ConfigurableFilter = React.forwardRef(
                 onClose?.();
               }}
             >
-              {i18n.t('cancel')}
+              {i18n.t('Cancel')}
             </Button>
             {hideSave ? (
               <Button className="mx-1" onClick={setAllOpen}>
-                {i18n.t('clear')}
+                {i18n.t('Clear')}
               </Button>
             ) : isNew && currentConfig ? (
               <Popover
@@ -405,14 +405,14 @@ const ConfigurableFilter = React.forwardRef(
               </Popover>
             ) : null}
             <Button type="primary" className="ml-1 mr-2" onClick={onFilter}>
-              {i18n.t('common:filter')}
+              {i18n.t('common:Filter')}
             </Button>
           </div>
         </div>
       </div>
     );
     const getFilterName = () => {
-      return getItemByValues(formValue, configList, fieldsList)?.label || i18n.t('common:filter');
+      return getItemByValues(formValue, configList, fieldsList)?.label || i18n.t('common:Filter');
     };
 
     const isAllOpen = !!(

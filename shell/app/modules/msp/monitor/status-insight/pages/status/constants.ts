@@ -18,9 +18,9 @@ export default {
   OPERATORS: {
     '=': i18n.t('dop:equal to'),
     '>': i18n.t('greater than'),
-    '>=': i18n.t('dop:greater than or equal to'),
-    '<=': i18n.t('dop:less than or equal to'),
-    '<': i18n.t('less than'),
+    '>=': i18n.t('dop:Greater than or equal to'),
+    '<=': i18n.t('dop:Less than or equal to'),
+    '<': i18n.t('Less than'),
   },
   CONTAINS: {
     contains: i18n.t('dop:contains'),

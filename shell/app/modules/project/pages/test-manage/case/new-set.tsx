@@ -52,7 +52,7 @@ const NewSet = ({ afterCreate }: IProps) => {
     <div className="flex justify-between items-center">
       <Input
         autoFocus
-        placeholder={i18n.t('dop:enter test set name')}
+        placeholder={i18n.t('dop:Enter the test set name')}
         value={value}
         maxLength={50}
         onChange={(e) => setValue(e.target.value)}
@@ -73,7 +73,7 @@ const NewSet = ({ afterCreate }: IProps) => {
       align={{ offset: [10, 0] }}
       onVisibleChange={(v) => (v ? setVisible(v) : handleHide())}
     >
-      <Button type="primary">{i18n.t('dop:add test set')}</Button>
+      <Button type="primary">{i18n.t('dop:Add')}</Button>
     </Popover>
   );
 };

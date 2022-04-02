@@ -30,7 +30,7 @@ const chartMap = merge(
       chartName: 'sortList',
     },
     rspTopN: {
-      titleText: `${i18n.t('response time')} TOP5`,
+      titleText: `${i18n.t('Response time')} TOP5`,
       ...commonAttr,
       chartName: 'rspTopN',
       viewProps: {
@@ -38,7 +38,7 @@ const chartMap = merge(
       },
     },
     cpmTopN: {
-      titleText: `${i18n.t('msp:throughput')} TOP5`,
+      titleText: `${i18n.t('msp:Throughput')} TOP5`,
       ...commonAttr,
       chartName: 'cpmTopN',
       viewProps: {
@@ -46,7 +46,7 @@ const chartMap = merge(
       },
     },
     postTopN: {
-      titleText: i18n.t('msp:send data'),
+      titleText: i18n.t('msp:Send data'),
       ...commonAttr,
       chartName: 'postTopN',
       viewProps: {
@@ -54,7 +54,7 @@ const chartMap = merge(
       },
     },
     receiveTopN: {
-      titleText: i18n.t('msp:receive data'),
+      titleText: i18n.t('msp:Receive data'),
       ...commonAttr,
       chartName: 'receiveTopN',
       viewProps: {

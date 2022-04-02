@@ -146,7 +146,7 @@ export const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
   return (
     <div className="flex h-full items-stretch">
       <div className="w-56 h-full px-3">
-        <p className="pt-3 font-medium text-white-9">{i18n.t('absolute time range')}</p>
+        <p className="pt-3 font-medium text-white-9">{i18n.t('Absolute time range')}</p>
         <p className="mt-3 mb-1 text-white-6">{i18n.t('common:start at')}</p>
         <DatePicker
           format={format}
@@ -162,7 +162,7 @@ export const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
             handleChangeDate('start', ...arg);
           }}
         />
-        <p className="mt-3 mb-1 text-white-6">{i18n.t('common:end at')}</p>
+        <p className="mt-3 mb-1 text-white-6">{i18n.t('common:End time')}</p>
         <DatePicker
           format={format}
           disabledDate={disabledEnd}
@@ -179,7 +179,7 @@ export const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
         />
       </div>
       <div className="w-44 h-full border-left flex flex-col">
-        <p className="px-3 pt-3 font-medium text-white-9">{i18n.t('relative time range')}</p>
+        <p className="px-3 pt-3 font-medium text-white-9">{i18n.t('Relative time range')}</p>
         <ul className="time-quick-select overflow-y-auto flex-1 mt-3 scroll-bar-dark">
           {map(relativeTimeRange, (label, range: IRelativeTime) => {
             return (

@@ -130,7 +130,7 @@ export default function DataSourceManagement() {
       {addonList ? (
         <AddonCardList
           isFetching={loadingAddons}
-          searchPlaceHolder={i18n.t('dop:filter by data source name')}
+          searchPlaceHolder={i18n.t('dop:Filter by data source name')}
           searchProps={['name']}
           hideSearch
           showDataSourceSearch
@@ -151,7 +151,7 @@ export default function DataSourceManagement() {
           }
           placement="left"
         >
-          <Button type="primary">{i18n.t('dop:add data source')}</Button>
+          <Button type="primary">{i18n.t('dop:Add')}</Button>
         </Tooltip>
       </div>
       <AddonModal

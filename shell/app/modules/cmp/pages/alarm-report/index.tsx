@@ -38,8 +38,8 @@ import { ColumnProps } from 'antd/lib/table';
 const { confirm } = Modal;
 
 const ReportTypeMap = {
-  daily: i18n.t('cmp:daily report'),
-  weekly: i18n.t('cmp:weekly report'),
+  daily: i18n.t('cmp:Daily'),
+  weekly: i18n.t('cmp:Weekly'),
   monthly: i18n.t('cmp:monthly report'),
 };
 
@@ -104,7 +104,7 @@ const AlarmReport = () => {
         },
       },
       {
-        label: i18n.t('cmp:report type'),
+        label: i18n.t('cmp:Type'),
         name: 'type',
         type: 'radioGroup',
         itemProps: { disabled: !isEmpty(editingTask) },
@@ -112,7 +112,7 @@ const AlarmReport = () => {
         initialValue: 'daily',
       },
       {
-        label: i18n.t('cmp:report template'),
+        label: i18n.t('cmp:Report template'),
         name: 'dashboardId',
         type: 'select',
         options: map(systemDashboards, ({ name, id }) => ({ name, value: id })),
@@ -144,7 +144,7 @@ const AlarmReport = () => {
                         goTo(goTo.pages.cmpNotifyGroup);
                       }}
                     >
-                      {i18n.t('cmp:add more notification groups')}
+                      {i18n.t('cmp:Add More Notification Groups')}
                     </span>
                   </WithAuth>
                 </div>
@@ -160,7 +160,7 @@ const AlarmReport = () => {
         ),
       },
       {
-        label: i18n.t('notification method'),
+        label: i18n.t('Notification method'),
         name: ['notifyTarget', 'groupType'],
         type: 'select',
         initialValue: get(editingTask, 'notifyTarget.groupType'),
@@ -223,13 +223,13 @@ const AlarmReport = () => {
       dataIndex: 'name',
     },
     {
-      title: i18n.t('cmp:report type'),
+      title: i18n.t('cmp:Type'),
       dataIndex: 'type',
       width: 100,
       render: (text) => ReportTypeMap[text],
     },
     {
-      title: i18n.t('default:notification target'),
+      title: i18n.t('default:Notification target'),
       dataIndex: 'notifyTarget',
       className: 'notify-info',
       render: (notifyTarget) => {
@@ -260,7 +260,7 @@ const AlarmReport = () => {
     render: (record: COMMON_ALARM_REPORT.ReportTask) => {
       return [
         {
-          title: i18n.t('edit'),
+          title: i18n.t('Edit'),
           onClick: () => {
             handleEdit(record);
           },
@@ -272,7 +272,7 @@ const AlarmReport = () => {
           },
         },
         {
-          title: record.enable ? i18n.t('close') : i18n.t('open'),
+          title: record.enable ? i18n.t('close') : i18n.t('Enable'),
           onClick: () => {
             switchReportTask({
               id: record.id,
@@ -293,7 +293,7 @@ const AlarmReport = () => {
             openModal();
           }}
         >
-          {i18n.t('cmp:new report task')}
+          {i18n.t('cmp:Add')}
         </Button>
         <FormModal
           visible={modalVisible}

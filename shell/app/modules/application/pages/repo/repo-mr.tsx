@@ -28,13 +28,13 @@ const PureRepoMR = () => {
   const options = [
     {
       value: 'all',
-      label: i18n.t('all'),
+      label: i18n.t('All'),
     },
     {
       value: 'open',
       label: (
         <span>
-          {i18n.t('dop:committed')}
+          {i18n.t('dop:Open')}
           <span className="ml-1">({info ? info.mergeRequestCount : 0})</span>
         </span>
       ),
@@ -45,7 +45,7 @@ const PureRepoMR = () => {
     },
     {
       value: 'closed',
-      label: i18n.t('closed'),
+      label: i18n.t('Closed'),
     },
   ];
   return (
@@ -57,7 +57,7 @@ const PureRepoMR = () => {
             type="primary"
             onClick={() => goTo('./createMR', { forbidRepeat: true })}
           >
-            {i18n.t('dop:new merge request')}
+            {i18n.t('dop:Add')}
           </Button>
         </WithAuth>
       </div>

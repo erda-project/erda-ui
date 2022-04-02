@@ -77,7 +77,7 @@ const UpgradeModal = ({ formData, visible, onCancel, afterSubmit, dataSource }: 
       <Form form={form}>
         <Row gutter={[80, 0]}>
           <Col span={12}>
-            <FormItem label={i18n.t('default:name')} required name={name} initialValue={formData.name}>
+            <FormItem label={i18n.t('default:Name')} required name={name} initialValue={formData.name}>
               <Input disabled />
             </FormItem>
           </Col>

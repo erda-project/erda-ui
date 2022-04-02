@@ -166,7 +166,7 @@ const testSetStore = createStore({
       const newSet = await call(
         createTestSet,
         { ...payload, projectID: +projectId },
-        { successMsg: i18n.t('dop:completed') },
+        { successMsg: i18n.t('dop:Completed') },
       );
       return newSet;
     },

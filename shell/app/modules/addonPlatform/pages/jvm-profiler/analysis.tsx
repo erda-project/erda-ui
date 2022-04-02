@@ -144,10 +144,10 @@ const Analysis = () => {
           return (
             {
               [ProfileStateMap.PENDING]: i18n.t('dop:attaching to process'),
-              [ProfileStateMap.RUNNING]: i18n.t('processing'),
-              [ProfileStateMap.COMPLETED]: i18n.t('dop:completed'),
+              [ProfileStateMap.RUNNING]: i18n.t('In Progress'),
+              [ProfileStateMap.COMPLETED]: i18n.t('dop:Completed'),
               [ProfileStateMap.FAILED]: i18n.t('failed'),
-              [ProfileStateMap.TERMINATING]: i18n.t('dop:terminate'),
+              [ProfileStateMap.TERMINATING]: i18n.t('dop:Terminated'),
             }[v] || null
           );
         },
@@ -161,7 +161,7 @@ const Analysis = () => {
       },
       isHistory
         ? {
-            title: i18n.t('common:end at'),
+            title: i18n.t('common:End time'),
             dataIndex: 'finishTime',
             key: 'finishTime',
             width: 180,

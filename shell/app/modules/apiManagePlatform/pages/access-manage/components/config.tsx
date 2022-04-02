@@ -46,7 +46,7 @@ export const contractStatueMap: {
     name: i18n.t('passed'),
     actions: [
       {
-        name: i18n.t('revoke'),
+        name: i18n.t('Revoke'),
         action: 'revoke',
         value: 'unproved',
       },
@@ -77,7 +77,7 @@ export const contractStatueMap: {
   // 已拒绝
   disproved: {
     value: 'disproved',
-    name: i18n.t('rejected'),
+    name: i18n.t('Rejected'),
     actions: [
       {
         name: i18n.t('delete'),
@@ -134,7 +134,7 @@ export const addonStatusMap: { [k in API_ACCESS.AddonStatus]: { status: k; name:
   },
   ATTACHED: {
     status: 'ATTACHED',
-    name: i18n.t('running'),
+    name: i18n.t('Running'),
   },
   ATTACHFAILED: {
     status: 'ATTACHFAILED',

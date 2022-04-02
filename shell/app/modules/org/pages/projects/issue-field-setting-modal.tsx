@@ -132,19 +132,19 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
                       onDelete(propertyID);
                     }}
                   >
-                    <span className="table-operations-btn">{i18n.t('remove')}</span>
+                    <span className="table-operations-btn">{i18n.t('Remove')}</span>
                   </Popconfirm>
                   <span
                     className={`table-operations-btn ${isFirst ? 'disabled' : ''}`}
                     onClick={() => !isFirst && changePos(index, -1)}
                   >
-                    {i18n.t('move up')}
+                    {i18n.t('Move up')}
                   </span>
                   <span
                     className={`table-operations-btn ${isLast ? 'disabled' : ''}`}
                     onClick={() => !isLast && changePos(index, 1)}
                   >
-                    {i18n.t('move down')}
+                    {i18n.t('Move down')}
                   </span>
                 </div>
               </div>
@@ -157,7 +157,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
 
   return (
     <Modal
-      title={i18n.t('edit') + FIELD_TYPE_ICON_MAP[issueType]?.name + i18n.t('field')}
+      title={i18n.t('Edit') + FIELD_TYPE_ICON_MAP[issueType]?.name + i18n.t('Field')}
       visible={visible}
       onOk={onCloseModal}
       width="660px"

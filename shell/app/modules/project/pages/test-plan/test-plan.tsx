@@ -34,13 +34,13 @@ const iconMap = {
   DISCARD: <CustomIcon type="wtg" className="rounded-full bg-red text-white" />,
 };
 const statusMap = [
-  { label: i18n.t('processing'), value: 'DOING' },
+  { label: i18n.t('In Progress'), value: 'DOING' },
   { label: i18n.t('pause'), value: 'PAUSE' },
-  { label: i18n.t('dop:completed'), value: 'DONE' },
+  { label: i18n.t('dop:Completed'), value: 'DONE' },
 ];
 const archiveStatusMap = [
-  { label: i18n.t('processing'), value: 'false' },
-  { label: i18n.t('archived'), value: 'true' },
+  { label: i18n.t('In Progress'), value: 'false' },
+  { label: i18n.t('Archived'), value: 'true' },
 ];
 
 const TestPlan = () => {
@@ -90,7 +90,7 @@ const TestPlan = () => {
 
   const columns: Array<ColumnProps<TEST_PLAN.Plan>> = [
     {
-      title: i18n.t('dop:plan ID'),
+      title: i18n.t('dop:ID'),
       dataIndex: 'id',
       width: 80,
     },
@@ -107,18 +107,18 @@ const TestPlan = () => {
       },
     },
     {
-      title: i18n.t('dop:owned iteration'),
+      title: i18n.t('dop:Iteration'),
       dataIndex: 'iterationName',
       width: 100,
     },
     {
-      title: i18n.t('dop:principal'),
+      title: i18n.t('dop:Principal'),
       dataIndex: 'ownerID',
       width: 120,
       render: (text) => <UserInfo id={text} render={(data) => data.nick || data.name} />,
     },
     {
-      title: i18n.t('dop:participant'),
+      title: i18n.t('dop:Participant'),
       dataIndex: 'partnerIDs',
       width: 180,
       render: (text) => {
@@ -141,7 +141,7 @@ const TestPlan = () => {
       },
     },
     {
-      title: i18n.t('dop:passing rate'),
+      title: i18n.t('dop:Pass rate'),
       dataIndex: 'useCasePassedCount',
       className: 'passing-rate',
       width: 120,
@@ -157,7 +157,7 @@ const TestPlan = () => {
       },
     },
     {
-      title: i18n.t('dop:executive rate'),
+      title: i18n.t('dop:Execution rate'),
       dataIndex: 'executionRate',
       className: 'passing-rate',
       width: 120,
@@ -179,16 +179,16 @@ const TestPlan = () => {
       const { id } = record;
       return [
         {
-          title: i18n.t('edit'),
+          title: i18n.t('Edit'),
           onClick: () => updateModalProp({ visible: true, mode: 'edit', testPlanId: id }),
           show: !record.isArchived,
         },
         {
-          title: i18n.t('dop:copy and create'),
+          title: i18n.t('dop:Copy and Add'),
           onClick: () => updateModalProp({ visible: true, mode: 'copy', testPlanId: id }),
         },
         {
-          title: record.isArchived ? i18n.t('dop:unarchive') : i18n.t('archive'),
+          title: record.isArchived ? i18n.t('dop:unarchive') : i18n.t('Archive'),
           onClick: async () => {
             await toggleArchived({ id, isArchived: !record.isArchived });
             // When has isArchived filter, this operation will delete the row from table
@@ -226,7 +226,7 @@ const TestPlan = () => {
             </Option>
           )),
           allowClear: true,
-          placeholder: i18n.t('dop:select status'),
+          placeholder: i18n.t('dop:Select the status'),
           mode: 'multiple',
         },
       },
@@ -240,7 +240,7 @@ const TestPlan = () => {
             </Option>
           )),
           allowClear: true,
-          placeholder: i18n.t('dop:owned iteration'),
+          placeholder: i18n.t('dop:Iteration'),
           mode: 'multiple',
         },
       },
@@ -248,7 +248,7 @@ const TestPlan = () => {
         type: Input,
         name: 'name',
         customProps: {
-          placeholder: i18n.t('default:search by name'),
+          placeholder: i18n.t('default:Search by name'),
           autoComplete: 'off',
           size: 'normal',
         },
@@ -257,7 +257,7 @@ const TestPlan = () => {
         type: MemberSelector,
         name: 'ownerID',
         customProps: {
-          placeholder: i18n.t('please select {name}', { name: i18n.t('dop:principal') }),
+          placeholder: i18n.t('please select {name}', { name: i18n.t('dop:Principal') }),
           scopeType: 'project',
           mode: 'multiple',
         },
@@ -266,7 +266,7 @@ const TestPlan = () => {
         type: MemberSelector,
         name: 'partnerID',
         customProps: {
-          placeholder: i18n.t('please select {name}', { name: i18n.t('dop:participant') }),
+          placeholder: i18n.t('please select {name}', { name: i18n.t('dop:Participant') }),
           scopeType: 'project',
           mode: 'multiple',
         },
@@ -279,7 +279,7 @@ const TestPlan = () => {
     <div>
       <div className="top-button-group">
         <Button type="primary" onClick={() => updateModalProp({ visible: true, mode: 'add', testPlanId: undefined })}>
-          {i18n.t('dop:new plan')}
+          {i18n.t('dop:Add')}
         </Button>
         <PlanModal
           {...modalProp}

@@ -52,35 +52,37 @@ interface IProps {
 const extraFieldsMap = {
   app: [
     {
-      label: i18n.t('dop:continuous integration'),
+      label: i18n.t('dop:Continuous integration'),
       component: 'switch',
       key: 'isTriggerPipeline',
       defaultValue: false,
       componentProps: {
-        checkedChildren: i18n.t('common:yes'),
-        unCheckedChildren: i18n.t('common:no'),
+        checkedChildren: i18n.t('common:Yes'),
+        unCheckedChildren: i18n.t('common:No'),
       },
       required: true,
       labelTip: i18n.t('dop:code-trigger-CI'),
       type: 'switch',
     },
     {
-      label: i18n.t('dop:protected branch'),
+      label: i18n.t('dop:Branch protection'),
       component: 'switch',
       defaultValue: false,
       key: 'isProtect',
       componentProps: {
-        checkedChildren: i18n.t('common:yes'),
-        unCheckedChildren: i18n.t('common:no'),
+        checkedChildren: i18n.t('common:Yes'),
+        unCheckedChildren: i18n.t('common:No'),
       },
       required: true,
-      labelTip: i18n.t('dop:protected-branch-form-tip'),
+      labelTip: i18n.t(
+        'dop:When enabled, only the app owner and leader can perform operations, and other members can only submit code through MR.',
+      ),
       type: 'switch',
     },
   ],
   project: [
     {
-      label: i18n.t('dop:deployment environment'),
+      label: i18n.t('dop:Deployment environment'),
       component: 'select',
       key: 'workspace',
       labelTip: i18n.t(
@@ -94,7 +96,7 @@ const extraFieldsMap = {
       type: 'select',
     },
     {
-      label: i18n.t('dop:artifact deployment environment'),
+      label: i18n.t('dop:Artifact deployment environment'),
       component: 'select',
       key: 'artifactWorkspace',
       labelTip: i18n.t(
@@ -116,8 +118,8 @@ const extraFieldsMap = {
       defaultValue: false,
       key: 'needApproval',
       componentProps: {
-        checkedChildren: i18n.t('common:yes'),
-        unCheckedChildren: i18n.t('common:no'),
+        checkedChildren: i18n.t('common:Yes'),
+        unCheckedChildren: i18n.t('common:No'),
       },
       required: true,
       visible: false,
@@ -132,31 +134,31 @@ const extraFieldsMap = {
 const extraColumnsMap = {
   app: [
     {
-      title: i18n.t('dop:continuous integration'),
+      title: i18n.t('dop:Continuous integration'),
       dataIndex: 'isTriggerPipeline',
-      render: (val: boolean) => (val ? i18n.t('common:yes') : i18n.t('common:no')),
+      render: (val: boolean) => (val ? i18n.t('common:Yes') : i18n.t('common:No')),
     },
     {
-      title: i18n.t('dop:protected branch'),
+      title: i18n.t('dop:Branch protection'),
       dataIndex: 'isProtect',
-      render: (val: boolean) => (val ? i18n.t('common:yes') : i18n.t('common:no')),
+      render: (val: boolean) => (val ? i18n.t('common:Yes') : i18n.t('common:No')),
     },
   ],
   project: [
     {
-      title: i18n.t('dop:deployment environment'),
+      title: i18n.t('dop:Deployment environment'),
       dataIndex: 'workspace',
       width: 196,
     },
     {
-      title: i18n.t('dop:artifact deployment environment'),
+      title: i18n.t('dop:Artifact deployment environment'),
       dataIndex: 'artifactWorkspace',
       width: 244,
     },
     // {
     //   title: i18n.t('dop:app release confirmation'),
     //   dataIndex: 'needApproval',
-    //   render: (val: boolean) => (val ? i18n.t('common:yes') : i18n.t('common:no')),
+    //   render: (val: boolean) => (val ? i18n.t('common:Yes') : i18n.t('common:No')),
     // },
   ],
 };
@@ -183,7 +185,7 @@ const BranchRule = (props: IProps) => {
 
   const fields = [
     {
-      label: i18n.t('dop:branch name'),
+      label: i18n.t('dop:Rule name'),
       component: 'input',
       key: 'rule',
       rules: [
@@ -215,7 +217,7 @@ const BranchRule = (props: IProps) => {
     },
     ...(extraFieldsMap[scopeType] || []),
     {
-      label: i18n.t('description'),
+      label: i18n.t('Description'),
       component: 'textarea',
       key: 'desc',
       rules: [
@@ -239,7 +241,7 @@ const BranchRule = (props: IProps) => {
     },
     ...(extraColumnsMap[scopeType] || []),
     {
-      title: i18n.t('description'),
+      title: i18n.t('Description'),
       dataIndex: 'desc',
     },
   ];
@@ -250,7 +252,7 @@ const BranchRule = (props: IProps) => {
         {
           title: (
             <WithAuth pass={operationAuth}>
-              <span>{i18n.t('edit')}</span>
+              <span>{i18n.t('Edit')}</span>
             </WithAuth>
           ),
           onClick: () =>
@@ -319,7 +321,7 @@ const BranchRule = (props: IProps) => {
       <div className="mb-3">
         <WithAuth pass={operationAuth}>
           <Button ghost type="primary" onClick={() => updater.modalVis(true)}>
-            {i18n.t('dop:new branch rule')}
+            {i18n.t('dop:Add')}
           </Button>
         </WithAuth>
       </div>
@@ -333,7 +335,7 @@ const BranchRule = (props: IProps) => {
         onChange={() => getBranchRulesData()}
       />
       <FormModal
-        name={i18n.t('dop:branch rule')}
+        name={i18n.t('dop:Branch Rule')}
         onCancel={onCancel}
         onOk={onFinish}
         visible={modalVis}

@@ -87,7 +87,7 @@ const MachineFormModal = ({ visible, formData, cluster, onCancel, onSubmit = () 
       getComp: () => <LabelSelector />,
     },
     {
-      label: i18n.t('custom labels'),
+      label: i18n.t('Custom label'),
       name: 'customLabels',
       required: false,
       initialValue: defaultOrgTag,
@@ -95,27 +95,27 @@ const MachineFormModal = ({ visible, formData, cluster, onCancel, onSubmit = () 
       rules: [{ validator: checkCustomLabels }],
     },
     {
-      label: i18n.t('cmp:port'),
+      label: i18n.t('cmp:Port'),
       name: 'port',
       type: 'inputNumber',
       itemProps: {
-        placeholder: i18n.t('cmp:ssh port'),
+        placeholder: i18n.t('cmp:SSH port'),
         max: 999999,
       },
     },
     {
-      label: i18n.t('username'),
+      label: i18n.t('Username'),
       name: 'user',
       itemProps: {
-        placeholder: i18n.t('cmp:ssh user'),
+        placeholder: i18n.t('cmp:SSH username'),
         maxLength: 32,
       },
     },
     {
-      label: i18n.t('password'),
+      label: i18n.t('Password'),
       name: 'password',
       itemProps: {
-        placeholder: i18n.t('cmp:ssh password'),
+        placeholder: i18n.t('cmp:SSH password'),
         maxLength: 32,
         type: state.passwordVisible ? 'text' : 'password',
         addonAfter: (
@@ -128,7 +128,7 @@ const MachineFormModal = ({ visible, formData, cluster, onCancel, onSubmit = () 
       },
     },
     {
-      label: i18n.t('cmp:data disk device'),
+      label: i18n.t('cmp:Data disk device'),
       name: 'dataDiskDevice',
       required: false,
       itemProps: {
@@ -139,7 +139,7 @@ const MachineFormModal = ({ visible, formData, cluster, onCancel, onSubmit = () 
   return (
     <FormModal
       width={620}
-      title={cluster ? `${i18n.t('cmp:add machine to cluster')}：${cluster.name}` : i18n.t('cmp:add machine')}
+      title={cluster ? `${i18n.t('cmp:Add machine to cluster')}：${cluster.name}` : i18n.t('cmp:add machine')}
       fieldsList={fieldsList}
       visible={visible}
       formData={formData}

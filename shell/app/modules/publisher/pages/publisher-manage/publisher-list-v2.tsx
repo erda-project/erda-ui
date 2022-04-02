@@ -113,7 +113,7 @@ export const PurePublisherList = ({
       width: 240,
     },
     {
-      title: i18n.t('description'),
+      title: i18n.t('Description'),
       dataIndex: 'desc',
     },
     ...insertWhen<ColumnProps<PUBLISHER.IPublisher>>(mode === 'LIBRARY', [

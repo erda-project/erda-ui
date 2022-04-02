@@ -346,7 +346,7 @@ const PureLoadMoreSelector = (props: IProps) => {
                     size="small"
                     className="search"
                     prefix={<ErdaIcon type="search" size={'16'} fill="default-3" />}
-                    placeholder={i18n.t('search by keywords')}
+                    placeholder={i18n.t('Search by keyword')}
                     value={q}
                     onChange={(e) => setQ(e.target.value)}
                   />
@@ -359,13 +359,13 @@ const PureLoadMoreSelector = (props: IProps) => {
               <MenuItem className="chosen-info" key="_chosen-info-item">
                 <div className="w-full flex my-1">
                   <div>
-                    {i18n.t('common:selected')}
+                    {i18n.t('common:Selected')}
                     <span className="mx-0.5">{chosenItem.length}</span>
                     {i18n.t('common:item')}
                   </div>
                   {chosenItem.length ? (
                     <span className="fake-link ml-4 text-purple-deep" onClick={clearValue}>
-                      {i18n.t('common:clear selected')}
+                      {i18n.t('common:Clear selected')}
                     </span>
                   ) : null}
                 </div>
@@ -381,7 +381,7 @@ const PureLoadMoreSelector = (props: IProps) => {
           {/* {
             isMultiple && (
               <div className={`chosen-info ${type === SelectType.Normal ? 'border-top' : ''}`}>
-                {i18n.t('common:selected')}
+                {i18n.t('common:Selected')}
                 <span>{chosenItem.length}</span>
                 {i18n.t('common:item')}
               </div>

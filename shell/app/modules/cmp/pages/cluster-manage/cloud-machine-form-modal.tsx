@@ -36,7 +36,7 @@ const BasicForm = ({ form }: { form: FormInstance }) => {
 
   const fieldsList = [
     {
-      label: i18n.t('machines'),
+      label: i18n.t('Machines'),
       name: 'instanceNum',
       type: 'inputNumber',
       initialValue: 1,
@@ -50,12 +50,12 @@ const BasicForm = ({ form }: { form: FormInstance }) => {
       },
     },
     {
-      label: i18n.t('cmp:machine label'),
+      label: i18n.t('cmp:Machine label'),
       name: 'labels',
       getComp: () => <LabelSelector />,
     },
     {
-      label: i18n.t('custom labels'),
+      label: i18n.t('Custom label'),
       name: 'customLabels',
       required: false,
       initialValue: defaultOrgTag,
@@ -87,7 +87,7 @@ const BasicForm = ({ form }: { form: FormInstance }) => {
 const MoreForm = ({ form }: { form: FormInstance }) => {
   const fieldsList = [
     {
-      label: i18n.t('cmp:disk size'),
+      label: i18n.t('cmp:Disk size'),
       name: 'diskSize',
       type: 'inputNumber',
       initialValue: 200,
@@ -103,7 +103,7 @@ const MoreForm = ({ form }: { form: FormInstance }) => {
       },
     },
     {
-      label: i18n.t('cmp:disk type'),
+      label: i18n.t('cmp:Disk type'),
       name: 'diskType',
       type: 'select',
       initialValue: diskTypeMap.cloud_ssd.value,
@@ -169,7 +169,7 @@ const CloudMachineFormModal = (props: IProps) => {
   return (
     <FormModal
       width={800}
-      title={i18n.t('cmp:add alibaba cloud machine')}
+      title={i18n.t('cmp:Add Alibaba Cloud machine')}
       visible={visible}
       onOk={handelSubmit}
       onCancel={onCancel}

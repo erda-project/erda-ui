@@ -25,14 +25,14 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
         key: 'cmpOverview',
         href: goTo.resolve.cmpRoot(),
         icon: <ErdaIcon type="jiqunzonglan" />,
-        text: i18n.t('cluster overview'),
+        text: i18n.t('Cluster Overview'),
         subtitle: i18n.t('Overview'),
       },
       {
         key: 'cmpResources',
         icon: <ErdaIcon type="jiqunziyuan" />,
         href: goTo.resolve.cmpClusters(),
-        text: i18n.t('cluster resource'),
+        text: i18n.t('Cluster Resource'),
         subtitle: i18n.t('Resource'),
         subMenu: [
           {
@@ -43,13 +43,13 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
           {
             key: 'cmpResourceRank',
             href: goTo.resolve.cmpResourceProjectRank(),
-            text: i18n.t('resource rank'),
+            text: i18n.t('Resource Ranking'),
             prefix: `${goTo.resolve.cmpResourceRank()}/`,
           },
           {
             key: 'cmpCloudSource',
             href: goTo.resolve.cloudSource(),
-            text: i18n.t('cloud source'),
+            text: i18n.t('Cloud Service'),
           },
         ],
       },
@@ -57,13 +57,13 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
         key: 'containerResource',
         icon: <ErdaIcon type="rongqiziyuan" />,
         href: goTo.resolve.cmpClustersContainer({ clusterName: chosenCluster }),
-        text: i18n.t('container resource'),
-        subtitle: i18n.t('container'),
+        text: i18n.t('Container Resource'),
+        subtitle: i18n.t('Container'),
         subMenu: [
           {
             key: 'clusterNodes',
             href: goTo.resolve.cmpClustersNodes({ clusterName: chosenCluster }),
-            text: i18n.t('node'),
+            text: i18n.t('Node'),
           },
           {
             key: 'clusterPod',
@@ -86,7 +86,7 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
         key: 'cmpServices',
         icon: <ErdaIcon type="yingyongziyuan" />,
         href: goTo.resolve.cmpDomain(),
-        text: i18n.t('application resource'),
+        text: i18n.t('App Resource'),
         subtitle: i18n.t('App'),
         subMenu: [
           {
@@ -105,7 +105,7 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
           ...insertWhen(!process.env.FOR_COMMUNITY, [
             {
               href: goTo.resolve.cmpAddon(), // '/cmp/addon',
-              text: i18n.t('addon service'),
+              text: i18n.t('Addon'),
             },
           ]),
         ],
@@ -114,26 +114,26 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
         key: 'cmpReport',
         href: goTo.resolve.cmpReport(), // '/cmp/report',
         icon: <ErdaIcon type="yunweibaogao" />,
-        text: i18n.t('O & M report'),
+        text: i18n.t('O&M Report'),
         subtitle: i18n.t('Report'),
       },
       {
         key: 'cmpAlarm',
         href: goTo.resolve.cmpAlarm(), // '/cmp/alarm',
         icon: <ErdaIcon type="gaojing" />,
-        text: i18n.t('O & M alarm'),
+        text: i18n.t('O&M Alert'),
         subtitle: i18n.t('Alarm'),
         subMenu: [
           {
-            text: i18n.t('alarm overview'),
+            text: i18n.t('Overview'),
             href: goTo.resolve.cmpAlarmOverview(), // '/cmp/alarm/overview',
           },
           {
-            text: i18n.t('alarm record'),
+            text: i18n.t('History'),
             href: goTo.resolve.cmpAlarmRecord(), // '/cmp/alarm/record',
           },
           {
-            text: i18n.t('alarm config'),
+            text: i18n.t('Configuration'),
             href: goTo.resolve.cmpAlarmConfig(), // '/cmp/alarm/strategy',
           },
         ],
@@ -142,7 +142,7 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
         key: 'cmpDashboard',
         href: goTo.resolve.orgCustomDashboard(), // '/cmp/customDashboard',
         icon: <ErdaIcon type="zidingyi" />,
-        text: i18n.t('custom dashboard'),
+        text: i18n.t('Custom Dashboard'),
         subtitle: i18n.t('Dashboard'),
       },
       // {
@@ -152,7 +152,7 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
       //   text: i18n.t('log analysis'),
       //   subMenu: [
       //     {
-      //       text: i18n.t('log query'),
+      //       text: i18n.t('Log Query'),
       //       href: goTo.resolve.cmpLogQuery(), // '/cmp/log/query',
       //     },
       //     {

@@ -101,7 +101,7 @@ export const AddMemberModal = ({
 
   const fieldList = [
     {
-      label: i18n.t('member'),
+      label: i18n.t('Member'),
       name: 'userIds',
       required: true,
       getComp: () => {
@@ -109,12 +109,12 @@ export const AddMemberModal = ({
       },
     },
     {
-      label: i18n.t('role'),
+      label: i18n.t('Role'),
       name: 'roles',
       type: 'select',
       itemProps: {
         mode: 'multiple',
-        placeholder: i18n.t('please select role for member'),
+        placeholder: i18n.t('Please select the role'),
       },
       options: map(roleMap, (v: string, k: string) => ({ name: v, value: k })),
     },
@@ -126,7 +126,7 @@ export const AddMemberModal = ({
         required: false,
         itemProps: {
           mode: 'multiple',
-          placeholder: i18n.t('select member label'),
+          placeholder: i18n.t('Please select the member label'),
         },
         options: map(memberLabels, (item) => ({ name: item.name, value: item.label })),
       },
@@ -150,7 +150,7 @@ export const AddMemberModal = ({
           <LoadMoreSelector
             getData={_getApps}
             mode="multiple"
-            placeholder={i18n.t('dop:please select application')}
+            placeholder={i18n.t('dop:Please select the app')}
             extraQuery={{ projectId: scope.id }}
             dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
               total,
@@ -167,7 +167,7 @@ export const AddMemberModal = ({
         ),
       },
       {
-        label: i18n.t('application role'),
+        label: i18n.t('App role'),
         name: 'app_roles',
         type: 'select',
         required: false,
@@ -182,7 +182,7 @@ export const AddMemberModal = ({
 
   return (
     <FormModal
-      title={i18n.t('add member')}
+      title={i18n.t('Add')}
       fieldsList={fieldList}
       visible={visible}
       beforeSubmit={checkData}

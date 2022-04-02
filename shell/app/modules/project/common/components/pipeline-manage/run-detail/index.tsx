@@ -193,7 +193,7 @@ const RunDetail = (props: IProps) => {
       title: i18n.t('ok'),
       className: 'node-click-confirm',
       content: i18n.t('dop:whether {action} task {name}', {
-        action: disabled ? i18n.t('open') : i18n.t('close'),
+        action: disabled ? i18n.t('Enable') : i18n.t('close'),
         name: node.name,
       }),
       onOk: () => updateEnv({ id: node.id, disabled: !disabled }),
@@ -334,7 +334,7 @@ const RunDetail = (props: IProps) => {
       <Spin spinning={isFetching}>
         <div className="info-header mb-2">
           <div>
-            <span className="font-medium title">{i18n.t('dop:build detail')}</span>
+            <span className="font-medium title">{i18n.t('dop:Build details')}</span>
           </div>
           <div className="info-header-right">
             {renderRunBtn()}

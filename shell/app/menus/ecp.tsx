@@ -34,7 +34,7 @@ export const getEcpMenu = () => {
     {
       href: goTo.resolve.ecpSetting(),
       icon: <ErdaIcon type="shezhi-menu" />,
-      text: i18n.t('ecp:configuration'),
+      text: i18n.t('ecp:Configuration'),
       subtitle: i18n.t('Config'),
     },
   ];

@@ -39,7 +39,7 @@ export const getAccountsFieldsList = (selectOptions: ISelectOption[], initialSel
     },
     {
       name: 'description',
-      label: i18n.t('description'),
+      label: i18n.t('Description'),
       type: 'textArea',
       required: false,
     },
@@ -50,7 +50,7 @@ export const addAuthTooltipTitle = (
   <span>
     {i18n.t('cmp:please add ')}&nbsp;
     <span onClick={() => goTo(goTo.pages.cloudAccounts)} className="text-purple-deep cursor-pointer">
-      {i18n.t('cmp:cloud account')}
+      {i18n.t('cmp:Cloud account')}
     </span>
   </span>
 );

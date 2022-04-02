@@ -53,7 +53,7 @@ const DeleteConfirm = (props: IProps) => {
       onShow();
     }
     let _countDown = countDown;
-    const _okText = okText || i18n.t('common:yes');
+    const _okText = okText || i18n.t('common:Yes');
     const modalRef = confirm({
       title: title || `${i18n.t('common:confirm deletion')}？`,
       content: secondTitle || `${i18n.t('common:confirm this action')}？`,
@@ -65,7 +65,7 @@ const DeleteConfirm = (props: IProps) => {
         onCancel();
       },
       okText: _countDown > 0 ? `${_okText}(${_countDown})` : _okText,
-      cancelText: cancelText || i18n.t('common:no'),
+      cancelText: cancelText || i18n.t('common:No'),
       okButtonProps: {
         disabled: _countDown > 0,
       },

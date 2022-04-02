@@ -34,17 +34,17 @@ const PastIncidents = ({ pastIncidents, fetchData }: { pastIncidents: any[]; fet
     {
       key: 'createAt',
       dataIndex: 'createAt',
-      title: i18n.t('msp:downtime'),
+      title: i18n.t('msp:Downtime'),
     },
     {
       dataIndex: 'durationFormat',
       align: 'left',
-      title: i18n.t('msp:duration'),
+      title: i18n.t('msp:Duration'),
     },
     {
       dataIndex: 'requestId',
       align: 'left',
-      title: i18n.t('msp:latest news'),
+      title: i18n.t('msp:Latest news'),
       render: (requestId: string, record: IData) => {
         if (record.lastUpdate) {
           return <span>{record.lastUpdate}</span>;

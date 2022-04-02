@@ -47,7 +47,7 @@ export default class extends PureComponent<IPropertyViewProps, any> {
     const envKeys = Object.keys(envs || {});
     const envContent = envKeys.length ? (
       <span className="envs-column w-full">
-        {i18n.t('dop:environment variable')}: <PropertyView dataSource={envs} />
+        {i18n.t('dop:Environment Variable')}: <PropertyView dataSource={envs} />
       </span>
     ) : null;
     return (
@@ -61,11 +61,11 @@ export default class extends PureComponent<IPropertyViewProps, any> {
           <span>{(resources && resources.mem) || '-'}</span>
         </span>
         <span className="dice-service-detail-column">
-          <span>{i18n.t('number of instance')}：</span>
+          <span>{i18n.t('Number of instances')}：</span>
           <span>{(deployments && deployments.replicas) || '-'}</span>
         </span>
         <span className="dice-service-detail-column">
-          <span>{i18n.t('port')}：</span>
+          <span>{i18n.t('Port')}：</span>
           <span>
             {Array.isArray(ports)
               ? ports.map((p) => (typeof p === 'object' ? `${p.protocol || ''}:${p.port}` : p)).join('/')

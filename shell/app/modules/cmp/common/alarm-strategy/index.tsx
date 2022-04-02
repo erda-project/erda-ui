@@ -140,7 +140,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
               }}
             >
               <Menu.Item key="enable">
-                <Badge text={i18n.t('enable')} status="success" />
+                <Badge text={i18n.t('Enable')} status="success" />
               </Menu.Item>
               <Menu.Item key="unable">
                 <Badge text={i18n.t('unable')} status="default" />
@@ -152,18 +152,18 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
             onClick={(e) => e.stopPropagation()}
             className="group flex items-center justify-between px-2 cursor-pointer absolute top-0 left-0 bottom-0 right-0 hover:bg-default-04"
           >
-            <Badge text={enable ? i18n.t('enable') : i18n.t('unable')} status={enable ? 'success' : 'default'} />
+            <Badge text={enable ? i18n.t('Enable') : i18n.t('unable')} status={enable ? 'success' : 'default'} />
             <ErdaIcon type="caret-down" size={20} fill="black-3" className="opacity-0 group-hover:opacity-100" />
           </div>
         </Dropdown>
       ),
     },
     {
-      title: i18n.t('rule'),
+      title: i18n.t('Rule'),
       dataIndex: 'ruleCount',
     },
     {
-      title: i18n.t('default:notification target'),
+      title: i18n.t('default:Notification target'),
       dataIndex: 'notifies',
       className: 'notify-info',
       ellipsis: true,
@@ -184,7 +184,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
       },
     },
     {
-      title: i18n.t('creator'),
+      title: i18n.t('Creator'),
       dataIndex: 'creator',
       render: (text: string) => <UserInfo id={text} />,
     },
@@ -202,7 +202,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
   const renderMenu = (record: COMMON_STRATEGY_NOTIFY.IAlert) => {
     const { editStrategy, deleteStrategy } = {
       editStrategy: {
-        title: i18n.t('edit'),
+        title: i18n.t('Edit'),
         onClick: () => {
           goTo(`./edit-strategy/${record.id}`);
         },
@@ -234,7 +234,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
             goTo('./add-strategy');
           }}
         >
-          {i18n.t('cmp:new strategy')}
+          {i18n.t('cmp:Add')}
         </Button>
       </div>
       <Spin spinning={getAlertsLoading || toggleAlertLoading}>
@@ -257,7 +257,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
               onChange={(e) => {
                 handleChange(e.target.value);
               }}
-              placeholder={i18n.t('search {name}', { name: i18n.t('name') })}
+              placeholder={i18n.t('search {name}', { name: i18n.t('Name') })}
             />
           }
           onChange={handlePageChange}

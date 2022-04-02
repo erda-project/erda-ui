@@ -20,7 +20,7 @@ import './app-merge-description.scss';
 const { TextArea } = Input;
 
 export const MergeDes = () => {
-  const placeholder = `### MR ${i18n.t('type')}
+  const placeholder = `### MR ${i18n.t('Type')}
   - Bugfix (non-breaking change)
   - New feature (non-breaking change, ${i18n.t('dop:just add new features')})
   - Breaking change (${i18n.t('dop:Modified or added features affect the original function.')})
@@ -37,16 +37,16 @@ export const MergeDes = () => {
   > 1. ${i18n.t('dop:If it is a bugfix, please add a test case proving that the bug is fixed.')}
   > 2. ${i18n.t('dop:local execution results of dev ut')}
 
-  ### ${i18n.t('dop:integration testing')}
+  ### ${i18n.t('dop:Integration Testing')}
 
   ### ${i18n.t('dop:modification of dice.yml')}
   > ${i18n.t('dop:update-dice-yml-env')}`;
 
   return (
     <div className="merge-des">
-      <Button disabled>{i18n.t('edit')}</Button>
+      <Button disabled>{i18n.t('Edit')}</Button>
       <div className="des-template">
-        <div className="title">{i18n.t('dop:description template')}</div>
+        <div className="title">{i18n.t('dop:Description template')}</div>
         <TextArea disabled placeholder={placeholder} autoSize />
       </div>
     </div>

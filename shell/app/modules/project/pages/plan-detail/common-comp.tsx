@@ -27,7 +27,7 @@ const noEnv = [
   {
     id: 0,
     name: i18n.t('dop:no environment'),
-    domain: i18n.t('none'),
+    domain: i18n.t('None'),
     header: {},
     global: {},
   },
@@ -83,7 +83,7 @@ export const BaseInfo = () => {
   const createTime = planItemDetail.createdAt ? moment(planItemDetail.createdAt).format('YYYY-MM-DD HH:mm:ss') : '';
   const content = (
     <div>
-      <span className="text-normal font-medium mb-2">{i18n.t('dop:participant')}</span>
+      <span className="text-normal font-medium mb-2">{i18n.t('dop:Participant')}</span>
       <div className="flex flex-wrap items-center participant-items justify-start">
         {partnerIDs.map((value, index) => {
           return (
@@ -102,9 +102,9 @@ export const BaseInfo = () => {
           {planItemDetail.id} - {planItemDetail.name}
         </div>
         <div className="sub member">
-          <span className="ml-1">{i18n.t('dop:principal')}：</span>
+          <span className="ml-1">{i18n.t('dop:Principal')}：</span>
           <UserInfo.RenderWithAvatar id={planItemDetail.ownerID} />
-          <span className="ml-6">{i18n.t('dop:participant')}：</span>
+          <span className="ml-6">{i18n.t('dop:Participant')}：</span>
           <Popover overlayStyle={{ width: 280 }} overlayClassName="participant-popover" content={content}>
             <span className="participant flex justify-between items-center hover-active">
               {partnerIDs.slice(0, 4).map((p, index) => (
@@ -119,7 +119,7 @@ export const BaseInfo = () => {
       <div>
         <div className="text-normal">
           <Progress strokeWidth={12} style={{ width: '230px' }} percent={percent} showInfo={false} />{' '}
-          {i18n.t('dop:passing rate')} {percent}%
+          {i18n.t('dop:Pass rate')} {percent}%
         </div>
         <div className="sub float-right">
           {<UserInfo id={planItemDetail.creatorID} />} {i18n.t('dop:built in')} {createTime}

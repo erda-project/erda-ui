@@ -132,13 +132,13 @@ const apiDesignStore = createFlatStore({
     },
     async createTreeNode({ call }, payload: { pinode: string; name: string }) {
       const data = await call(createTreeNode, payload, {
-        successMsg: i18n.t('{action} successfully', { action: i18n.t('add') }),
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('Add') }),
       });
       return data;
     },
     async renameTreeNode({ call }, payload: { name: string; inode: string }) {
       const data = await call(renameTreeNode, payload, {
-        successMsg: i18n.t('{action} successfully', { action: i18n.t('dop:rename') }),
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('dop:Rename') }),
       });
       return data;
     },
@@ -193,7 +193,7 @@ const apiDesignStore = createFlatStore({
     },
     async publishApi({ call }, payload: API_SETTING.IPublishAPi) {
       const data = await call(publishApi, payload, {
-        successMsg: i18n.t('{action} successfully', { action: i18n.t('publisher:release') }),
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('publisher:Release') }),
       });
       return data;
     },

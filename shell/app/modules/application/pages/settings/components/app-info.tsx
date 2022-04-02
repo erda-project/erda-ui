@@ -59,7 +59,7 @@ const PureAppInfo = (): JSX.Element => {
     //   name: 'displayName',
     // },
     {
-      label: i18n.t('dop:app types'),
+      label: i18n.t('dop:App type'),
       name: 'mode',
       type: 'radioGroup',
       options: filter(modeOptions, (item) => item.value !== 'ABILITY'),
@@ -68,7 +68,7 @@ const PureAppInfo = (): JSX.Element => {
       },
     },
     {
-      label: i18n.t('dop:app repository address'),
+      label: i18n.t('dop:App repository address'),
       name: 'gitRepo',
       itemProps: {
         disabled: true,
@@ -80,17 +80,17 @@ const PureAppInfo = (): JSX.Element => {
       type: 'radioGroup',
       options: [
         {
-          name: i18n.t('dop:public application'),
+          name: i18n.t('dop:Public'),
           value: 'true',
         },
         {
-          name: i18n.t('dop:private application'),
+          name: i18n.t('dop:Private'),
           value: 'false',
         },
       ],
     },
     {
-      label: i18n.t('dop:application description'),
+      label: i18n.t('dop:App description'),
       name: 'desc',
       type: 'textArea',
       required: false,
@@ -137,7 +137,7 @@ const PureAppInfo = (): JSX.Element => {
 
   if (permMap.deleteApp.pass) {
     extraSectionList.push({
-      title: i18n.t('dop:delete application'),
+      title: i18n.t('dop:Delete app'),
       children: (
         <ConfirmDelete
           deleteItem={i18n.t('application')}

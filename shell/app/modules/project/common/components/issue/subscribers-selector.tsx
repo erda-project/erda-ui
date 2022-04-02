@@ -80,7 +80,7 @@ export const SubscribersSelector = (props: IProps) => {
             }}
           >
             <ErdaIcon className="mr-1" type="weiguanzhu" size="20" />
-            {i18n.t('dop:unfollow')}
+            {i18n.t('dop:Unfollow')}
           </div>
         ) : (
           <div
@@ -95,7 +95,7 @@ export const SubscribersSelector = (props: IProps) => {
             }}
           >
             <ErdaIcon type="yiguanzhu" className="mr-1" size="20" />
-            {i18n.t('dop:follow')}
+            {i18n.t('dop:Follow')}
           </div>
         )}
       </Menu.Item>
@@ -136,7 +136,7 @@ export const SubscribersSelector = (props: IProps) => {
               }}
             >
               <ErdaIcon type="plus" size="20" className="mr-1" />
-              {i18n.t('dop:Add Followers')}
+              {i18n.t('dop:Add followers')}
               <ErdaIcon type="right" size="14" className="add-follower-btn" />
             </span>
           )}
@@ -156,7 +156,7 @@ export const SubscribersSelector = (props: IProps) => {
               return (
                 <div key={user.userId || user.id}>
                   <Avatar src={user.avatar} size="small">
-                    {user.nick ? getAvatarChars(user.nick) : i18n.t('none')}
+                    {user.nick ? getAvatarChars(user.nick) : i18n.t('None')}
                   </Avatar>
                   <span className="ml-1">{user.nick ?? ''}</span>
                 </div>
@@ -216,7 +216,7 @@ export const SubscribersSelector = (props: IProps) => {
           <span className="text-default-8 text-sm">
             {subscribers.length !== 0
               ? i18n.t('dop:{num} people followed', { num: subscribers.length })
-              : i18n.t('dop:no attention')}
+              : i18n.t('dop:No followers')}
           </span>
           <ErdaIcon type="caret-down" className="ml-0.5 mr-0" />
         </span>

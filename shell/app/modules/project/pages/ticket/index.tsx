@@ -101,15 +101,15 @@ const Ticket = () => {
       {
         type: 'input',
         key: 'title',
-        label: i18n.t('title'),
+        label: i18n.t('Title'),
         outside: true,
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('Title') }),
       },
       {
         type: 'input',
         key: 'source',
-        label: i18n.t('dop:source'),
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:source') }),
+        label: i18n.t('dop:Source'),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:Source') }),
       },
       {
         type: 'select',
@@ -123,22 +123,22 @@ const Ticket = () => {
         type: 'select',
         key: 'priority',
         mode: 'multiple',
-        label: i18n.t('dop:priority'),
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:priority') }),
+        label: i18n.t('dop:Priority'),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:Priority') }),
         options: map(ISSUE_PRIORITY_MAP, (item) => ({ label: item.iconLabel, value: item.value })),
       },
       {
         type: 'select',
         key: 'severity',
-        label: i18n.t('dop:severity'),
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:severity') }),
+        label: i18n.t('dop:Severity'),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:Severity') }),
         options: map(BUG_SEVERITY_MAP, (item) => ({ label: item.iconLabel, value: item.value })),
       },
       {
         type: 'custom',
         key: 'creator',
-        label: i18n.t('submitter'),
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('submitter') }),
+        label: i18n.t('Submitter'),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('Submitter') }),
         getComp: () => <MemberSelector mode={'multiple'} scopeType={'project'} size={'small'} scopeId={projectId} />,
       },
       {
@@ -151,7 +151,7 @@ const Ticket = () => {
       {
         type: 'dateRange',
         key: 'createdAt',
-        label: i18n.t('date'),
+        label: i18n.t('Date'),
         customProps: {
           ranges: getTimeRanges(),
         },
@@ -185,7 +185,7 @@ const Ticket = () => {
 
   const columns: Array<ColumnProps<ISSUE.Issue>> = [
     {
-      title: i18n.t('dop:ticket title'),
+      title: i18n.t('dop:Title'),
       dataIndex: 'title',
       render: (val: string, record: ISSUE.Issue) => {
         return (
@@ -198,7 +198,7 @@ const Ticket = () => {
       },
     },
     // {
-    //   title: i18n.t('dop:source'),
+    //   title: i18n.t('dop:Source'),
     //   dataIndex: 'source',
     // },
     // {
@@ -213,7 +213,7 @@ const Ticket = () => {
     //   ),
     // },
     // {
-    //   title: i18n.t('submitter'),
+    //   title: i18n.t('Submitter'),
     //   dataIndex: 'creator',
     //   width: 120,
     //   render: (v: string) => {
@@ -253,7 +253,7 @@ const Ticket = () => {
       },
     },
     {
-      title: i18n.t('dop:priority'),
+      title: i18n.t('dop:Priority'),
       dataIndex: 'priority',
       width: 120,
       render: (val: string, record: ISSUE.Ticket) => {
@@ -272,7 +272,7 @@ const Ticket = () => {
       },
     },
     {
-      title: i18n.t('dop:severity'),
+      title: i18n.t('dop:Severity'),
       dataIndex: 'severity',
       width: 120,
       render: (val: string, record: ISSUE.Issue) => {
@@ -317,7 +317,7 @@ const Ticket = () => {
       },
     },
     {
-      title: i18n.t('dop:createdAt'),
+      title: i18n.t('dop:Creation time'),
       dataIndex: 'createdAt',
       width: 180,
       render: (v: string) => moment(v).format('YYYY-MM-DD HH:mm:ss'),
@@ -376,7 +376,7 @@ const Ticket = () => {
       <div className="top-button-group">
         <WithAuth pass={ticketPerm.create.pass} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={() => updater.drawerVisible(true)}>
-            {i18n.t('dop:add ticket')}
+            {i18n.t('dop:Add')}
           </Button>
         </WithAuth>
       </div>

@@ -132,7 +132,7 @@ import { IYmlEditorProps } from './index';
 // //             // @ts-ignore
 // //             group.push({
 // //               icon: 'wfw',
-// //               title: i18n.t('microService'),
+// //               title: i18n.t('Microservice'),
 // //               data: currentItem,
 // //               name: service.name,
 // //               lineTo: service.depends_on,
@@ -298,10 +298,10 @@ const DiceEditor = (props: IYmlEditorProps) => {
   //         />
   //         <div className="p-4">
   //           <Button type="primary" className="mr-3" onClick={checkForm}>
-  //             {i18n.t('save')}
+  //             {i18n.t('Save')}
   //           </Button>
   //           <Button onClick={cancelEditing}>
-  //             {i18n.t('cancel')}
+  //             {i18n.t('Cancel')}
   //           </Button>
   //         </div>
   //       </>
@@ -321,7 +321,7 @@ const DiceEditor = (props: IYmlEditorProps) => {
 
   //   return (
   //     <div>
-  //       <FileContainer className="new-yml-editor flex flex-col justify-center full-spin-height" name={editing ? `${i18n.t('edit')} ${fileName}` : fileName} ops={ops}>
+  //       <FileContainer className="new-yml-editor flex flex-col justify-center full-spin-height" name={editing ? `${i18n.t('Edit')} ${fileName}` : fileName} ops={ops}>
   //         <Spin spinning={loading.commit}>
   //           <YmlChart
   //             data={displayData}

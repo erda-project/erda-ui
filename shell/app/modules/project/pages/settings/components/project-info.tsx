@@ -101,7 +101,7 @@ const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps)
       },
     },
     {
-      label: i18n.t('project name'),
+      label: i18n.t('Project name'),
       name: 'displayName',
     },
     ...insertWhen(notMSP, [
@@ -111,25 +111,25 @@ const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps)
         type: 'radioGroup',
         options: [
           {
-            name: i18n.t('public project'),
+            name: i18n.t('Public'),
             value: 'true',
           },
           {
-            name: i18n.t('dop:private project'),
+            name: i18n.t('dop:Private'),
             value: 'false',
           },
         ],
       },
     ]),
     {
-      label: i18n.t('project icon'),
+      label: i18n.t('Project logo'),
       name: 'logo',
       required: false,
       getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
       viewType: 'image',
     },
     {
-      label: i18n.t('project description'),
+      label: i18n.t('Project description'),
       name: 'desc',
       type: 'textArea',
       required: false,
@@ -144,7 +144,7 @@ const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps)
               disabled={ifConfigClusterDisable}
               onChange={() => setIfConfigCluster(!ifConfigCluster)}
             >
-              {i18n.t('cmp:need to configure project cluster resources')}
+              {i18n.t('cmp:Need to configure project cluster resources')}
             </Checkbox>
           ) : (
             ''
@@ -200,7 +200,7 @@ const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps)
   ];
   if (canDelete) {
     extraSectionList.push({
-      title: i18n.t('dop:delete project'),
+      title: i18n.t('dop:Delete project'),
       children: (
         <ConfirmDelete
           deleteItem={i18n.t('project')}
@@ -213,7 +213,7 @@ const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps)
           modalChildren={
             <Input
               value={confirmProjectName}
-              placeholder={i18n.t('please enter {name}', { name: i18n.t('project name') })}
+              placeholder={i18n.t('please enter {name}', { name: i18n.t('Project name') })}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmProjectName(e.target.value)}
             />
           }
@@ -222,7 +222,7 @@ const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps)
     });
   }
 
-  const formName = i18n.t('dop:project info');
+  const formName = i18n.t('dop:Project Information');
   return (
     <SectionInfoEdit
       hasAuth={canEdit}

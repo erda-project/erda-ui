@@ -17,11 +17,11 @@ import { getMspBreadcrumb } from 'msp/config';
 const traceTabs = [
   {
     key: 'search',
-    name: i18n.t('msp:tracing query'),
+    name: i18n.t('msp:Tracing Query'),
   },
   {
     key: 'debug',
-    name: i18n.t('msp:tracing debug'),
+    name: i18n.t('msp:Tracing Debugging'),
   },
 ];
 

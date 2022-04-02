@@ -163,7 +163,7 @@ const AlarmRecordDetail = ({ scope, tenantGroup }: { scope: string; tenantGroup?
       render: (timestamp: number) => moment(timestamp).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      title: i18n.t('cmp:alarm status'),
+      title: i18n.t('cmp:Status'),
       dataIndex: 'alertState',
       render: (alertState: string) => <AlarmState state={alertState} />,
     },

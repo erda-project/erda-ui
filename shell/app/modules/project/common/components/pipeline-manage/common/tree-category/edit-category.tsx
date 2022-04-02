@@ -115,7 +115,7 @@ export const EditCategory = (props: IProps) => {
       {createButton || (
         <Button type="primary" className="flex items-center" onClick={() => value && onSubmit({ name: value })}>
           <ErdaIcon type="cir-add" className="mr-4" size="16" fill="white" />
-          {i18n.t('add')}
+          {i18n.t('Add')}
         </Button>
       )}
     </Popover>

@@ -83,7 +83,7 @@ const ClusterBasicForm = ({
       ],
     },
     {
-      label: i18n.t('cluster name'),
+      label: i18n.t('Cluster name'),
       name: 'displayName',
       pattern: /^.{1,50}$/,
       required: false,
@@ -92,7 +92,7 @@ const ClusterBasicForm = ({
       },
     },
     {
-      label: i18n.t('cmp:extensive domain'),
+      label: i18n.t('cmp:Extensive domain'),
       name: 'wildcardDomain',
       pattern: /^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/,
       config: {
@@ -104,7 +104,7 @@ const ClusterBasicForm = ({
       },
     },
     {
-      label: i18n.t('description'),
+      label: i18n.t('Description'),
       name: 'description',
       type: 'textArea',
       itemProps: { autoSize: { minRows: 3, maxRows: 6 } },
@@ -122,11 +122,11 @@ const ClusterBasicForm = ({
       { label: 'AS', name: ['scheduler', 'accessSecret'] },
       { label: i18n.t('cmp:cluster ID'), name: ['scheduler', 'clusterID'] },
       { label: 'Region ID', name: ['scheduler', 'regionID'] },
-      { label: i18n.t('cmp:namespace'), name: ['scheduler', 'logicalRegionID'] },
+      { label: i18n.t('cmp:Namespace'), name: ['scheduler', 'logicalRegionID'] },
     ]),
     ...insertWhen(clusterType === 'k8s' || clusterType === 'edas', [
       {
-        label: i18n.t('cmp:verification method'),
+        label: i18n.t('cmp:Authentication method'),
         name: 'credentialType',
         type: 'radioGroup',
         options: [
@@ -232,7 +232,7 @@ const ClusterSchedulerForm = ({ form, clusterType }: { form: FormInstance; clust
   const fieldListMap = {
     k8s: [
       {
-        label: i18n.t('cmp:oversold ratio'),
+        label: i18n.t('cmp:Oversold ratio'),
         name: ['scheduler', 'cpuSubscribeRatio'],
         type: 'inputNumber',
         extraProps: {
@@ -347,7 +347,7 @@ export const AddClusterModal = (props: IProps) => {
       title={
         clusterType === 'k8s'
           ? formData
-            ? i18n.t('dop:edit cluster configuration')
+            ? i18n.t('dop:Edit cluster configuration')
             : i18n.t('cmp:import an existing Erda {type} cluster', { type: 'Kubernetes' })
           : undefined
       }

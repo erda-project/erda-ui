@@ -109,7 +109,7 @@ const ApiAssetDetail = () => {
       render: (text) => protocolMap[text].fullName,
     },
     {
-      title: i18n.t('creator'),
+      title: i18n.t('Creator'),
       dataIndex: ['version', 'creatorID'],
       width: 200,
       render: (text) => <Avatar showName name={<UserInfo id={text} />} />,

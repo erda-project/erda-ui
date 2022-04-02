@@ -31,8 +31,8 @@ export const getOrgProjectTabs = () => [
 ];
 
 const middlewareTabs = [
-  { key: 'monitor', name: i18n.t('monitor detail') },
-  { key: 'resource', name: i18n.t('resource detail') },
+  { key: 'monitor', name: i18n.t('Monitoring Details') },
+  { key: 'resource', name: i18n.t('Resource Details') },
   { key: 'detail', name: i18n.t('basic information') },
 ];
 
@@ -43,7 +43,7 @@ const alarmConfigTab = [
   },
   {
     key: 'custom',
-    name: i18n.t('custom alarm'),
+    name: i18n.t('Custom Alert'),
   },
 ];
 
@@ -67,18 +67,18 @@ const kubernetesTabs = [
 ];
 
 const resourceRankTabs = [
-  { key: 'project', name: i18n.t('cmp:by project') },
-  { key: 'owner', name: i18n.t('cmp:by owner') },
+  { key: 'project', name: i18n.t('cmp:By Project') },
+  { key: 'owner', name: i18n.t('cmp:By Owner') },
 ];
 
 const alarmListTabs = [
   {
     key: 'events',
-    name: i18n.t('msp:events'),
+    name: i18n.t('msp:Event'),
   },
   {
     key: 'notification',
-    name: i18n.t('notification'),
+    name: i18n.t('Notification'),
   },
 ];
 
@@ -90,7 +90,7 @@ const alarmConfigRouters = [
   {
     path: 'add-strategy',
     pageNameInfo: AddStrategyPageName,
-    breadcrumbName: i18n.t('cmp:new alarm strategy'),
+    breadcrumbName: i18n.t('cmp:New alert strategy'),
     getComp: (cb: RouterGetComp) => cb(import('app/modules/cmp/pages/alarm-strategy/cmp-stratege')),
   },
   {
@@ -124,7 +124,7 @@ function getCmpRouter(): RouteConfigItem[] {
             },
             {
               path: 'history',
-              pageName: i18n.t('cmp:operation history'),
+              pageName: i18n.t('cmp:History'),
               getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/operation-history'), 'OperationHistory'),
             },
             {
@@ -172,7 +172,7 @@ function getCmpRouter(): RouteConfigItem[] {
             {
               path: 'nodes',
               pageNameInfo: ClusterSelector,
-              breadcrumbName: `${i18n.t('node')}({params.clusterName})`,
+              breadcrumbName: `${i18n.t('Node')}({params.clusterName})`,
               routes: [
                 {
                   layout: { noWrapper: true },
@@ -196,7 +196,7 @@ function getCmpRouter(): RouteConfigItem[] {
                 },
                 {
                   path: ':podId/detail',
-                  breadcrumbName: i18n.t('cmp:pod detail'),
+                  breadcrumbName: i18n.t('cmp:Pod Details'),
                   getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-container/cluster-pod-detail')),
                 },
               ],
@@ -236,7 +236,7 @@ function getCmpRouter(): RouteConfigItem[] {
           routes: [
             {
               path: ':rankType',
-              breadcrumbName: i18n.t('resource rank'),
+              breadcrumbName: i18n.t('Resource Ranking'),
               tabs: resourceRankTabs,
               layout: { noWrapper: true },
               ignoreTabQuery: true,
@@ -262,7 +262,7 @@ function getCmpRouter(): RouteConfigItem[] {
         },
         {
           path: 'report',
-          breadcrumbName: i18n.t('O & M report'),
+          breadcrumbName: i18n.t('O&M Report'),
           routes: [
             {
               path: ':taskId',
@@ -278,7 +278,7 @@ function getCmpRouter(): RouteConfigItem[] {
         },
         {
           path: 'customDashboard',
-          breadcrumbName: i18n.t('custom dashboard'),
+          breadcrumbName: i18n.t('Custom Dashboard'),
           routes: [
             {
               path: 'add',
@@ -302,7 +302,7 @@ function getCmpRouter(): RouteConfigItem[] {
           path: 'addon',
           routes: [
             {
-              breadcrumbName: i18n.t('addon service'),
+              breadcrumbName: i18n.t('Addon'),
               getComp: (cb) => cb(import('app/modules/cmp/pages/middleware-dashboard')),
               layout: {
                 noWrapper: true,
@@ -310,7 +310,7 @@ function getCmpRouter(): RouteConfigItem[] {
             },
             {
               path: ':instanceId',
-              breadcrumbName: i18n.t('addon detail'),
+              breadcrumbName: i18n.t('Addon details'),
               routes: [
                 {
                   path: 'monitor',
@@ -336,7 +336,7 @@ function getCmpRouter(): RouteConfigItem[] {
         },
         {
           path: 'cloudSource',
-          breadcrumbName: i18n.t('cloud source'),
+          breadcrumbName: i18n.t('Cloud Service'),
           routes: [
             {
               getComp: (cb) => cb(import('app/modules/cmp/pages/cloud-source')),
@@ -435,13 +435,13 @@ function getCmpRouter(): RouteConfigItem[] {
           routes: [
             {
               path: 'overview',
-              breadcrumbName: i18n.t('alarm overview'),
+              breadcrumbName: i18n.t('Overview'),
               layout: { noWrapper: true },
               getComp: (cb: RouterGetComp) => cb(import('cmp/pages/alarm-overview')),
             },
             {
               path: 'record',
-              breadcrumbName: i18n.t('alarm record'),
+              breadcrumbName: i18n.t('History'),
               tabs: alarmListTabs,
               alwaysShowTabKey: 'events',
               routes: [
@@ -450,7 +450,7 @@ function getCmpRouter(): RouteConfigItem[] {
                 },
                 {
                   path: 'events',
-                  breadcrumbName: i18n.t('alarm record'),
+                  breadcrumbName: i18n.t('History'),
                   tabs: alarmListTabs,
                   alwaysShowTabKey: 'events',
                   routes: [
@@ -460,7 +460,7 @@ function getCmpRouter(): RouteConfigItem[] {
                     },
                     {
                       path: ':eventId',
-                      breadcrumbName: i18n.t('alarm record'),
+                      breadcrumbName: i18n.t('History'),
                       pageNameInfo: EventDetailTitle,
                       layout: { noWrapper: true },
                       getComp: (cb: RouterGetComp) => cb(import('cmp/pages/alarm-record/events/detail')),
@@ -478,7 +478,7 @@ function getCmpRouter(): RouteConfigItem[] {
                     },
                     {
                       path: ':notificationId',
-                      breadcrumbName: i18n.t('alarm record'),
+                      breadcrumbName: i18n.t('History'),
                       pageNameInfo: NotificationTitle,
                       layout: { noWrapper: true },
                       getComp: (cb: RouterGetComp) => cb(import('cmp/pages/alarm-record/notification/detail')),
@@ -527,7 +527,7 @@ function getCmpRouter(): RouteConfigItem[] {
                 {
                   path: 'add-strategy',
                   pageNameInfo: AddStrategyPageName,
-                  breadcrumbName: i18n.t('cmp:new alarm strategy'),
+                  breadcrumbName: i18n.t('cmp:New alert strategy'),
                   getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-strategy/cmp-stratege')),
                 },
                 {
@@ -540,7 +540,7 @@ function getCmpRouter(): RouteConfigItem[] {
             },
             {
               path: 'config',
-              breadcrumbName: i18n.t('alarm config'),
+              breadcrumbName: i18n.t('Configuration'),
               tabs: alarmConfigTab,
               alwaysShowTabKey: 'strategy',
               routes: [
@@ -570,7 +570,7 @@ function getCmpRouter(): RouteConfigItem[] {
             },
             {
               path: 'pod',
-              breadcrumbName: i18n.t('pod detail'),
+              breadcrumbName: i18n.t('Pod Details'),
               getComp: (cb) => cb(import('app/modules/cmp/pages/pod-detail')),
             },
             {

@@ -191,7 +191,7 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
         curUsers.push(userMap[data.id] || {});
       }
       if (data.showIcon === false) {
-        Comp = map(curUsers, (item) => item.nick || item.name || item.id || i18n.t('common:none')).join(', ');
+        Comp = map(curUsers, (item) => item.nick || item.name || item.id || i18n.t('common:None')).join(', ');
       } else {
         Comp = (
           <div>
@@ -200,11 +200,11 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
                 <span key={idx}>
                   {data.showIcon === false ? null : (
                     <Avatar src={cU.avatar} size="small">
-                      {cU.nick ? getAvatarChars(cU.nick) : i18n.t('none')}
+                      {cU.nick ? getAvatarChars(cU.nick) : i18n.t('None')}
                     </Avatar>
                   )}
                   <span className="ml-0.5 mr-1" title={cU.name}>
-                    {cU.nick || cU.name || data.value || i18n.t('common:none')}
+                    {cU.nick || cU.name || data.value || i18n.t('common:None')}
                   </span>
                 </span>
               );

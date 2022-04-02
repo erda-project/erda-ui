@@ -537,7 +537,7 @@ const DateRange = ({
           }`}
           onClick={() => onChange([])}
         >
-          {i18n.t('common:clear')}
+          {i18n.t('common:Clear')}
         </div>
       ) : null}
     </div>

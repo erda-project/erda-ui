@@ -44,13 +44,13 @@ const ExecuteResult = ({ totals }: { totals: { tests: number; statuses: TEST.Sta
         {i18n.t('failed')}: {failed}
       </div>
       <div>
-        {i18n.t('error')}: {error}
+        {i18n.t('Error')}: {error}
       </div>
       <div>
         {i18n.t('dop:pass')}: {passed}
       </div>
       <div>
-        {i18n.t('dop:jump over')}: {skipped}
+        {i18n.t('dop:Skipped')}: {skipped}
       </div>
     </div>
   );
@@ -68,7 +68,7 @@ const ExecuteResult = ({ totals }: { totals: { tests: number; statuses: TEST.Sta
 
 const columns: Array<ColumnProps<TEST.RunTestItem>> = [
   {
-    title: i18n.t('default:name'),
+    title: i18n.t('default:Name'),
     dataIndex: 'name',
     width: 176,
     render: (text) => <span>{cutStr(text, 30, { showTip: true })}</span>,
@@ -78,7 +78,7 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
     dataIndex: 'branch',
   },
   {
-    title: i18n.t('default:creator'),
+    title: i18n.t('default:Creator'),
     dataIndex: 'operatorName',
     width: 120,
   },
@@ -89,12 +89,12 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
     render: (text) => fromNow(text),
   },
   {
-    title: i18n.t('default:type'),
+    title: i18n.t('default:Type'),
     dataIndex: 'type',
     width: 120,
   },
   {
-    title: i18n.t('dop:time consuming'),
+    title: i18n.t('dop:Time'),
     dataIndex: ['totals', 'duration'],
     width: 160,
     render: (text) => getTestDuration(text),

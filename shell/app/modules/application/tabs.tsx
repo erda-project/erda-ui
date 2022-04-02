@@ -49,7 +49,7 @@ export const APP_TABS = () => {
     show: perm.repo.read.pass,
     key: 'repo', // keep as root path, prevent no branch error when switch to an empty repo
     split: true,
-    name: i18n.t('dop:code'),
+    name: i18n.t('dop:Code'),
     isActive: (activeKey: string) => {
       return activeKey === 'repo' || activeKey.startsWith('repo/tree');
     },
@@ -92,7 +92,7 @@ export const APP_TABS = () => {
     show: perm.runtime.read.pass,
     key: 'deploy/list/dev',
     isActive: (activeKey: string) => activeKey.split('/')[0] === 'deploy',
-    name: i18n.t('deploy'),
+    name: i18n.t('Deployment'),
   };
 
   const dataModel = {
@@ -108,7 +108,7 @@ export const APP_TABS = () => {
   const quality = {
     show: perm.codeQuality.read.pass,
     key: 'quality',
-    name: i18n.t('dop:code quality'),
+    name: i18n.t('dop:Code Quality'),
   };
 
   const apiDesign = {
@@ -120,7 +120,7 @@ export const APP_TABS = () => {
   const setting = {
     show: perm.setting.read.pass,
     key: 'setting',
-    name: i18n.t('dop:setting'),
+    name: i18n.t('dop:Settings'),
   };
 
   const extraRepoTabs = isExternalRepo ? [] : [commit, branch, mr];

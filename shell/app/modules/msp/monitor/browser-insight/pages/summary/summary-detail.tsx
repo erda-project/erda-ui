@@ -75,7 +75,7 @@ const SummaryDetail = ({ data }: { data: object }) => {
         percent: (drt / plt) * 100,
       },
       {
-        name: i18n.t('msp:first paint time'),
+        name: i18n.t('msp:First Paint Time'),
         value: wst,
         percent: (wst / plt) * 100,
       },

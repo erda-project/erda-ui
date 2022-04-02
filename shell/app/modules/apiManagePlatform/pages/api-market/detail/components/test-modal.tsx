@@ -203,7 +203,7 @@ const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
       <span className="ml-3 hover-active" onClick={handleScreenControl}>
         <Tooltip
           placement="right"
-          title={fullscreen ? i18n.t('exit full screen') : i18n.t('full screen')}
+          title={fullscreen ? i18n.t('exit full screen') : i18n.t('Full screen')}
           getPopupContainer={(el) => el?.parentNode as HTMLElement}
         >
           <CustomIcon type={fullscreen ? 'shink' : 'grow'} />
@@ -245,7 +245,7 @@ const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
           </Input.Group>
         </div>
         <Button className="ml-2" type="primary" loading={isRunning} onClick={handleRunTest}>
-          {i18n.t('execute')}
+          {i18n.t('Execute')}
         </Button>
       </div>
       <Tabs className="mb-4">

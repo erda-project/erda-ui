@@ -262,7 +262,7 @@ const BuildDetail = (props: IProps) => {
       title: i18n.t('ok'),
       className: 'node-click-confirm',
       content: i18n.t('dop:whether {action} task {name}', {
-        action: disabled ? i18n.t('open') : i18n.t('close'),
+        action: disabled ? i18n.t('Enable') : i18n.t('close'),
         name: node.name,
       }),
       onOk: () => updateEnv({ taskID: node.id, taskAlias: node.name, disabled: !disabled }),
@@ -428,7 +428,7 @@ const BuildDetail = (props: IProps) => {
     const { canStartCron, canStopCron } = pipelineButton;
     return showCorn && (canStartCron || canStopCron)
       ? renderCronRunBtn()
-      : renderOnceRunBtn({ execTitle: i18n.t('execute') });
+      : renderOnceRunBtn({ execTitle: i18n.t('Execute') });
   };
 
   const renderCronRunBtn = () => {
@@ -605,11 +605,11 @@ const BuildDetail = (props: IProps) => {
 
   const renderBuildHistory = () => {
     if (isEmpty(executeRecords)) {
-      return <p>{i18n.t('common:no data')}</p>;
+      return <p>{i18n.t('common:No data')}</p>;
     }
     const columns: Array<ColumnProps<any>> = [
       {
-        title: i18n.t('version'),
+        title: i18n.t('Version'),
         dataIndex: 'runIndex',
         width: 80,
         align: 'center',
@@ -646,13 +646,13 @@ const BuildDetail = (props: IProps) => {
         ),
       },
       {
-        title: i18n.t('dop:executor'),
+        title: i18n.t('dop:Executor'),
         dataIndex: ['extra', 'runUser', 'name'],
         width: 120,
         align: 'center',
       },
       {
-        title: i18n.t('trigger time'),
+        title: i18n.t('Trigger time'),
         dataIndex: 'timeCreated',
         width: 200,
         render: (timeCreated: number) => moment(new Date(timeCreated)).format('YYYY-MM-DD HH:mm:ss'),
@@ -719,7 +719,7 @@ const BuildDetail = (props: IProps) => {
         <div className="info">
           <div className="info-header">
             <div>
-              <span className="font-medium title">{i18n.t('dop:build detail')}</span>
+              <span className="font-medium title">{i18n.t('dop:Build details')}</span>
               <span className={`${isHistoryBuild ? 'visible' : 'invisible'} his-build-icon`}>
                 {i18n.t('historical build')}
               </span>
@@ -728,7 +728,7 @@ const BuildDetail = (props: IProps) => {
               <div className="info-header-right">
                 <Popover
                   placement="bottomRight"
-                  title={i18n.t('dop:execute records')}
+                  title={i18n.t('dop:Execution Records')}
                   content={renderBuildHistory()}
                   arrowPointAtCenter
                 >
@@ -751,7 +751,7 @@ const BuildDetail = (props: IProps) => {
             <div className={style} ref={toggleContainer}>
               <Row className="mb-4">
                 <Col span={12}>
-                  <div className="info-label">{i18n.t('submitter')}：</div>
+                  <div className="info-label">{i18n.t('Submitter')}：</div>
                   <Avatar name={commitDetail.author} showName size={20} />
                 </Col>
                 <Col span={12}>
@@ -773,7 +773,7 @@ const BuildDetail = (props: IProps) => {
               </Row>
               <Row className="mb-4">
                 <Col span={12}>
-                  <div className="info-label">{i18n.t('duration')}：</div>
+                  <div className="info-label">{i18n.t('Duration')}：</div>
                   {costTimeSec !== -1 ? `${i18n.t('dop:time cost')} ${secondsToTime(+costTimeSec)}` : ''}
                 </Col>
                 <Col span={12}>

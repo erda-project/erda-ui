@@ -17,10 +17,10 @@ import { goTo } from 'common/utils';
 import { ErdaIcon } from 'common';
 
 export const envMap = {
-  DEV: i18n.t('common:DEV'),
+  DEV: i18n.t('common:Development'),
   TEST: i18n.t('common:TEST'),
   STAGING: i18n.t('common:STAGING'),
-  PROD: i18n.t('common:PROD'),
+  PROD: i18n.t('common:Production'),
   DEFAULT: i18n.t('common:DEFAULT'),
 };
 

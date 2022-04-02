@@ -294,7 +294,7 @@ const NotifyChannel = () => {
   const fieldsList = [
     {
       name: 'name',
-      label: i18n.t('channel name'),
+      label: i18n.t('Channel name'),
       required: true,
       rules: [
         {
@@ -305,12 +305,12 @@ const NotifyChannel = () => {
       ],
       itemProps: {
         maxLength: 50,
-        placeholder: `${i18n.t('please input channel name')}`,
+        placeholder: `${i18n.t('Please enter the channel name')}`,
       },
     },
     {
       name: 'type',
-      label: i18n.t('channel type'),
+      label: i18n.t('Channel type'),
       initialValue: channelType,
       required: true,
       itemProps: {
@@ -340,7 +340,7 @@ const NotifyChannel = () => {
     },
     {
       name: 'channelProviderType',
-      label: i18n.t('service provider'),
+      label: i18n.t('Service provider'),
       required: true,
       initialValue: channelProvider,
       getComp: ({ form }: { form: FormInstance }) => {
@@ -587,7 +587,7 @@ const NotifyChannel = () => {
             form.setFieldsValue({ config: { ...form.getFieldValue('config'), smtpIsSSL: e.target.checked } });
           }}
         >
-          {i18n.t('use SSL')}
+          {i18n.t('Use SSL')}
         </Checkbox>
       ),
     },
@@ -649,7 +649,7 @@ const NotifyChannel = () => {
   };
   const columns: Array<ColumnProps<NOTIFY_CHANNEL.NotifyChannel>> = [
     {
-      title: i18n.t('channel name'),
+      title: i18n.t('Channel name'),
       dataIndex: 'name',
       width: 200,
     },
@@ -658,11 +658,11 @@ const NotifyChannel = () => {
       dataIndex: 'enable',
       width: 80,
       render: (enable) => (
-        <Badge status={enable ? 'success' : 'default'} text={enable ? i18n.t('enable') : i18n.t('unable')} />
+        <Badge status={enable ? 'success' : 'default'} text={enable ? i18n.t('Enable') : i18n.t('unable')} />
       ),
     },
     {
-      title: i18n.t('channel type'),
+      title: i18n.t('Channel type'),
       width: 160,
       dataIndex: 'type',
       className: 'notify-info',
@@ -671,13 +671,13 @@ const NotifyChannel = () => {
       render: (type) => type.displayName,
     },
     {
-      title: i18n.t('service provider'),
+      title: i18n.t('Service provider'),
       dataIndex: 'channelProviderType',
       width: 200,
       render: (provider) => provider.displayName,
     },
     {
-      title: i18n.t('default:creator'),
+      title: i18n.t('default:Creator'),
       dataIndex: 'creatorName',
       width: 160,
     },
@@ -697,7 +697,7 @@ const NotifyChannel = () => {
   const renderMenu = (record: NOTIFY_CHANNEL.NotifyChannel) => {
     const { editChannel, deleteChannel, enableChannel } = {
       editChannel: {
-        title: i18n.t('edit'),
+        title: i18n.t('Edit'),
         onClick: () => {
           handleEdit(record.id);
           updater.passwordVisible(false);
@@ -710,7 +710,7 @@ const NotifyChannel = () => {
         },
       },
       enableChannel: {
-        title: record?.enable ? i18n.t('unable') : i18n.t('enable'),
+        title: record?.enable ? i18n.t('unable') : i18n.t('Enable'),
         onClick: () => {
           if (!record?.enable) {
             getNotifyChannelEnableStatus.fetch({ id: record.id, type: record.type.name }).then((res) => {
@@ -739,7 +739,7 @@ const NotifyChannel = () => {
 
   return (
     <div className="relative notice-channel">
-      <Tooltip title={i18n.t('new notification channel')}>
+      <Tooltip title={i18n.t('Add')}>
         <div
           className="absolute right-3 hover-active add-channel-button"
           onClick={() => {
@@ -747,12 +747,12 @@ const NotifyChannel = () => {
             updater.passwordVisible(true);
           }}
         >
-          <Button type="primary">{i18n.t('new notification channel')}</Button>
+          <Button type="primary">{i18n.t('Add')}</Button>
         </div>
       </Tooltip>
       <FormModal
         width={800}
-        title={`${isEditing ? i18n.t('edit notification channel') : i18n.t('new notification channel')}`}
+        title={`${isEditing ? i18n.t('edit notification channel') : i18n.t('Add')}`}
         visible={visible}
         fieldsList={resultFieldsList()}
         formData={activeData}
@@ -770,10 +770,10 @@ const NotifyChannel = () => {
             updater.paging({ pageSize: 10, current: 1 });
           }}
         >
-          <TabPane key="email" tab={i18n.t('common:email')} />
-          <TabPane key="dingtalk_work_notice" tab={i18n.t('dingding work notice')} />
+          <TabPane key="email" tab={i18n.t('common:Email')} />
+          <TabPane key="dingtalk_work_notice" tab={i18n.t('DingTalk')} />
           <TabPane key="sms" tab={i18n.t('SMS')} />
-          <TabPane key="vms" tab={i18n.t('phone')} />
+          <TabPane key="vms" tab={i18n.t('Phone')} />
         </Tabs>
         <ErdaTable
           rowKey="id"

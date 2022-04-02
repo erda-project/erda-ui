@@ -21,7 +21,7 @@ const getApiManagePlatformRouter = (): RouteConfigItem[] => [
     routes: [
       {
         path: 'api-market/:scope',
-        breadcrumbName: i18n.t('API market'),
+        breadcrumbName: i18n.t('API Market'),
         tabs: assetTabs,
         routes: [
           {
@@ -62,7 +62,7 @@ const getApiManagePlatformRouter = (): RouteConfigItem[] => [
       },
       {
         path: 'access-manage',
-        breadcrumbName: i18n.t('access management'),
+        breadcrumbName: i18n.t('Access Management'),
         routes: [
           {
             getComp: (cb) => cb(import('apiManagePlatform/pages/access-manage/list')),
@@ -93,7 +93,7 @@ const getApiManagePlatformRouter = (): RouteConfigItem[] => [
       },
       {
         path: 'client',
-        breadcrumbName: i18n.t('my visit'),
+        breadcrumbName: i18n.t('My Access'),
         routes: [
           {
             getComp: (cb) => cb(import('apiManagePlatform/pages/client/list')),

@@ -35,7 +35,7 @@ interface IInfoProps {
   textItem?: Array<{ label: string; key: string; type?: string }>;
 }
 
-const defaultInfoItem = [{ label: i18n.t('password'), key: 'password', type: 'password' }];
+const defaultInfoItem = [{ label: i18n.t('Password'), key: 'password', type: 'password' }];
 
 const getFileRender = (
   fileInfo: { fileName: string; uuid: string },
@@ -46,7 +46,7 @@ const getFileRender = (
   return (
     <>
       <div className="table-operations mb-2">
-        <Tooltip title={i18n.t('download')}>
+        <Tooltip title={i18n.t('Download')}>
           <a className="table-operations-btn" download={uuid} href={`/api/files/${uuid}`}>
             {fileName || uuid}
           </a>
@@ -147,20 +147,20 @@ const DetailModal = ({ id, onClose, detail: originDetail }: IProps) => {
   const getDetailComp = () => {
     if (isEmpty(detail)) return null;
     const { type } = detail;
-    const renderData = [{ title: i18n.t('type'), value: type }] as any;
+    const renderData = [{ title: i18n.t('Type'), value: type }] as any;
     if (type === typeMap.IOS.value) {
       renderData.push(
         ...[
           {
-            title: `Keychain-p12 ${i18n.t('file')}`,
+            title: `Keychain-p12 ${i18n.t('File')}`,
             value: get(detail, keyPrefix.iosKeyChainP12),
           },
           {
-            title: `Debug-mobileprovision ${i18n.t('file')}`,
+            title: `Debug-mobileprovision ${i18n.t('File')}`,
             value: get(detail, keyPrefix.iosDebug),
           },
           {
-            title: `Release-mobileprovision ${i18n.t('file')}`,
+            title: `Release-mobileprovision ${i18n.t('File')}`,
             value: get(detail, keyPrefix.iosRelease),
           },
         ],
@@ -169,19 +169,19 @@ const DetailModal = ({ id, onClose, detail: originDetail }: IProps) => {
       renderData.push(
         ...[
           {
-            title: `Debug-key/store ${i18n.t('file')}`,
+            title: `Debug-key/store ${i18n.t('File')}`,
             value: get(detail, keyPrefix.adrManualDebug),
             textItem: [
-              { label: i18n.t('cmp:alias'), key: 'alias' },
+              { label: i18n.t('cmp:Alias'), key: 'alias' },
               { label: 'Key password', key: 'keyPassword', type: 'password' },
               { label: 'Store password', key: 'storePassword', type: 'password' },
             ],
           },
           {
-            title: `Release-key/store ${i18n.t('file')}`,
+            title: `Release-key/store ${i18n.t('File')}`,
             value: get(detail, keyPrefix.adrManualRelease),
             textItem: [
-              { label: i18n.t('cmp:alias'), key: 'alias' },
+              { label: i18n.t('cmp:Alias'), key: 'alias' },
               { label: 'Key password', key: 'keyPassword', type: 'password' },
               { label: 'Store password', key: 'storePassword', type: 'password' },
             ],
@@ -195,10 +195,10 @@ const DetailModal = ({ id, onClose, detail: originDetail }: IProps) => {
   return (
     <Modal
       visible={detailVis}
-      title={detail.name || i18n.t('download')}
+      title={detail.name || i18n.t('Download')}
       footer={[
         <Button key="cancel" onClick={closeDetail}>
-          {i18n.t('cancel')}
+          {i18n.t('Cancel')}
         </Button>,
       ]}
       onCancel={closeDetail}

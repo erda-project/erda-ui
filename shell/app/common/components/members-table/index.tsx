@@ -173,7 +173,7 @@ const MembersTable = ({
       name: (
         <span className="flex">
           <ErdaIcon type="edit" className="mr-1" />
-          {i18n.t('edit')}
+          {i18n.t('Edit')}
         </span>
       ),
       disabled: !memberAuth.edit,
@@ -191,7 +191,7 @@ const MembersTable = ({
       name: (
         <span className="flex">
           <ErdaIcon type="delete" className="mr-1" />
-          {i18n.t('remove')}
+          {i18n.t('Remove')}
         </span>
       ),
       disabled: !memberAuth.delete || isEmpty(filter(state.selectedKeys, (item) => item !== currentUserId)),
@@ -303,7 +303,7 @@ const MembersTable = ({
   const fieldsList = React.useMemo(() => {
     return [
       {
-        label: i18n.t('role'),
+        label: i18n.t('Role'),
         name: 'roles',
         type: 'select',
         itemProps: {
@@ -325,7 +325,7 @@ const MembersTable = ({
           required: false,
           itemProps: {
             mode: 'multiple',
-            placeholder: i18n.t('select member label'),
+            placeholder: i18n.t('Please select the member label'),
           },
           options: map(memberLabels, (item) => ({ name: item.name, value: item.label })),
         },
@@ -348,7 +348,7 @@ const MembersTable = ({
         const [prev, after] = title.split('{name}');
         title = (
           <span>
-            {prev} <b>{`${user.nick} (${user.name || i18n.t('common:none')})`}</b> {after}
+            {prev} <b>{`${user.nick} (${user.name || i18n.t('common:None')})`}</b> {after}
           </span>
         );
         userIds = [user.userId];
@@ -397,20 +397,20 @@ const MembersTable = ({
               <div
                 className="member-username nowrap"
                 title={`${nick} ${(currentUserId === userId && i18n.t('current user')) || ''} ${
-                  (removed && i18n.t('exit the organization')) || ''
+                  (removed && i18n.t('Exit organization')) || ''
                 }`}
               >
                 <span>
                   <Avatar src={record.avatar} size="small" className="mr-1">
-                    {getAvatarChars(nick || i18n.t('none'))}
+                    {getAvatarChars(nick || i18n.t('None'))}
                   </Avatar>
-                  {nick || i18n.t('common:none')}
+                  {nick || i18n.t('common:None')}
                 </span>
                 <IF check={currentUserId === userId}>
                   <span className="member-username-info"> [{i18n.t('current user')}]</span>
                 </IF>
                 <IF check={removed}>
-                  <span className="member-username-info"> [{i18n.t('exit the organization')}]</span>
+                  <span className="member-username-info"> [{i18n.t('Exit organization')}]</span>
                 </IF>
               </div>
             );
@@ -421,8 +421,8 @@ const MembersTable = ({
           dataIndex: 'name',
           render: (name: string) => {
             return (
-              <div className="member-username nowrap" title={name || i18n.t('common:none')}>
-                <span>{name || i18n.t('common:none')}</span>
+              <div className="member-username nowrap" title={name || i18n.t('common:None')}>
+                <span>{name || i18n.t('common:None')}</span>
               </div>
             );
           },
@@ -434,7 +434,7 @@ const MembersTable = ({
           render: (value: string) => (
             <Tooltip title={value}>
               <span className="cursor-copy" data-clipboard-tip="Email" data-clipboard-text={value}>
-                {value || i18n.t('common:none')}
+                {value || i18n.t('common:None')}
               </span>
             </Tooltip>
           ),
@@ -449,10 +449,10 @@ const MembersTable = ({
           ),
         },
         {
-          title: i18n.t('role'),
+          title: i18n.t('Role'),
           dataIndex: 'roles',
           render: (roles: string[]) => {
-            const rolesStr = map(roles, (role) => roleMap[role] || i18n.t('common:other')).join(',');
+            const rolesStr = map(roles, (role) => roleMap[role] || i18n.t('common:Others')).join(',');
             return rolesStr ? (
               <div className="members-list-role-operate nowrap">
                 <Tooltip title={rolesStr}>
@@ -504,7 +504,7 @@ const MembersTable = ({
 
       if (!!updateMembers && !removed) {
         ops.push({
-          title: i18n.t('edit'),
+          title: i18n.t('Edit'),
           onClick: () => updater.editMember({ ...record, labels: labels || [] }),
         });
       }
@@ -518,7 +518,7 @@ const MembersTable = ({
 
       if (isCurrentUser || memberAuth.delete || isAdminManager) {
         ops.push({
-          title: isCurrentUser ? i18n.t('exit') : i18n.t('remove'),
+          title: isCurrentUser ? i18n.t('Exit') : i18n.t('Remove'),
           onClick: () => confirmDelete(record, isCurrentUser),
         });
       }
@@ -531,13 +531,13 @@ const MembersTable = ({
     () => [
       {
         name: 'query',
-        placeholder: i18n.t('search by nickname, username, email or mobile number'),
+        placeholder: i18n.t('Search by nickname, username, email or phone number'),
         style: { width: '260px' },
       },
       {
         type: 'select',
         name: 'queryRole',
-        placeholder: i18n.t('select role'),
+        placeholder: i18n.t('Select role'),
         allowClear: true,
         options: map(roleMap, (name, value) => ({ name, value })),
       },
@@ -545,7 +545,7 @@ const MembersTable = ({
         {
           name: 'label',
           type: 'select',
-          placeholder: i18n.t('select member label'),
+          placeholder: i18n.t('Please select the member label'),
           allowClear: true,
           mode: 'multiple',
           options: map(memberLabels, (item) => ({ name: item.name, value: item.label })),
@@ -589,12 +589,12 @@ const MembersTable = ({
         <div>
           {(memberAuth.add || isAdminManager) && !readOnly ? (
             <Button type="primary" onClick={() => updater.addModalVisible(true)}>
-              {i18n.t('add member')}
+              {i18n.t('Add')}
             </Button>
           ) : null}
           {memberAuth.invite && !readOnly ? (
             <Button loading={getInviteLoading} onClick={handleGenOrgInviteCode}>
-              {i18n.t('invite')}
+              {i18n.t('Invite')}
             </Button>
           ) : null}
         </div>

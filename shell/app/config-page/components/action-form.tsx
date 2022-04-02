@@ -150,7 +150,7 @@ export const ActionForm = (props: IProps) => {
       <PureForm fields={useableFields || []} formRef={formRef} value={formData} />
       {editing ? (
         <Button type="primary" ghost onClick={onSave}>
-          {i18n.t('save')}
+          {i18n.t('Save')}
         </Button>
       ) : null}
     </>

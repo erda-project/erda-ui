@@ -130,13 +130,13 @@ const ListEditConfig = (props: IProps) => {
     },
     {
       dataIndex: 'encrypt',
-      title: i18n.t('dop:encrypt'),
+      title: i18n.t('dop:Encrypt'),
       width: 100,
-      render: (v: boolean) => (v ? i18n.t('common:yes') : i18n.t('common:no')),
+      render: (v: boolean) => (v ? i18n.t('common:Yes') : i18n.t('common:No')),
     },
     {
       dataIndex: 'comment',
-      title: i18n.t('dop:remark'),
+      title: i18n.t('dop:Remark'),
       width: 200,
     },
     {
@@ -248,7 +248,7 @@ const ListEditConfig = (props: IProps) => {
       </div>
       <div className="py-2 bg-default-02">
         <Button className="ml-2" onClick={onAdd}>
-          {i18n.t('common:add')}
+          {i18n.t('common:Add')}
         </Button>
       </div>
     </>
@@ -312,7 +312,7 @@ const EditableCell = ({
                   const existConfig = fullConfigData?.find((item) => item.key === value);
 
                   if (value && value !== record.key && existConfig) {
-                    const place = ConfigTypeMap[existConfig.type].type || i18n.t('common:other type');
+                    const place = ConfigTypeMap[existConfig.type].type || i18n.t('common:Other Type');
                     throw new Error(i18n.t('{name} already exists in {place}', { name: value, place }));
                   }
                 },
@@ -346,7 +346,7 @@ const EditableCell = ({
       case 'comment':
         Comp = (
           <Form.Item name={dataIndex} style={{ margin: 0 }}>
-            <Input placeholder={i18n.t('please enter {name}', { name: i18n.t('dop:remark') })} maxLength={200} />
+            <Input placeholder={i18n.t('please enter {name}', { name: i18n.t('dop:Remark') })} maxLength={200} />
           </Form.Item>
         );
         break;
@@ -365,10 +365,10 @@ const EditableCell = ({
         Comp = (
           <div className="flex-h-center">
             <span className="mr-2 fake-link text-purple-deep" onClick={save}>
-              {i18n.t('save')}
+              {i18n.t('Save')}
             </span>
             <span className="fake-link" onClick={cancel}>
-              {i18n.t('cancel')}
+              {i18n.t('Cancel')}
             </span>
           </div>
         );

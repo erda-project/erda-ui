@@ -42,8 +42,8 @@ const titleMap: { [key in IScope]: { [type in IMode]: string } } = {
     edit: i18n.t('edit {name}', { name: i18n.t('dop:resources') }),
   },
   version: {
-    add: i18n.t('add {name}', { name: i18n.t('version') }),
-    edit: i18n.t('edit {name}', { name: i18n.t('version') }),
+    add: i18n.t('add {name}', { name: i18n.t('Version') }),
+    edit: i18n.t('edit {name}', { name: i18n.t('Version') }),
   },
 };
 
@@ -163,7 +163,7 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
     ]),
     ...insertWhen(showVersionField, [
       {
-        label: i18n.t('default:resource version'),
+        label: i18n.t('default:Resource version'),
         type: 'input',
         name: 'version',
         required: false,
@@ -217,7 +217,7 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
             <div className="upload-container">
               <Upload accept={suffix} {...uploadProps}>
                 <Button className="flex items-center">
-                  <ErdaIcon type="upload" className="mr-1" size="14" /> {i18n.t('upload')}
+                  <ErdaIcon type="upload" className="mr-1" size="14" /> {i18n.t('Upload')}
                 </Button>
               </Upload>
               <span className="text-desc ml-2">
@@ -256,7 +256,7 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
   const footer = (
     <>
       <Button key="back" onClick={onCancel}>
-        {i18n.t('cancel')}
+        {i18n.t('Cancel')}
       </Button>
       <Button key="submit" type="primary" disabled={loading} onClick={handleOk}>
         {i18n.t('ok')}

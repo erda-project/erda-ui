@@ -270,7 +270,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
   ];
   const creteAppFieldsList: IFormItem[] = [
     {
-      label: i18n.t('client name'),
+      label: i18n.t('Client name'),
       name: 'displayName',
       itemProps: {
         placeholder: i18n.t('please enter'),
@@ -280,7 +280,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
       },
     },
     {
-      label: i18n.t('client identifier'),
+      label: i18n.t('Client identifier'),
       name: 'name',
       pattern: identifierReg,
       itemProps: {
@@ -290,7 +290,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
       },
     },
     {
-      label: i18n.t('description'),
+      label: i18n.t('Description'),
       type: 'textArea',
       name: 'desc',
       itemProps: {
@@ -336,7 +336,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
             }}
             className="text-link"
           >
-            {i18n.t('my visit')}
+            {i18n.t('My Access')}
           </span>
           {i18n.t('check whether your request is approved')}
         </p>

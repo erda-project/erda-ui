@@ -35,7 +35,7 @@ const undoneStatusMap = {
   },
   denied: {
     value: 'denied',
-    label: i18n.t('rejected'),
+    label: i18n.t('Rejected'),
   },
 };
 
@@ -68,7 +68,7 @@ const Approval = () => {
     },
     {
       value: 'done',
-      label: i18n.t('cmp:approved'),
+      label: i18n.t('cmp:Approved'),
     },
   ];
 
@@ -88,25 +88,25 @@ const Approval = () => {
   const getColumns = ({ reloadList }: { reloadList: () => void }) => {
     const columns: Array<ColumnProps<APPROVAL.Item>> = [
       {
-        title: i18n.t('name'),
+        title: i18n.t('Name'),
         dataIndex: 'title',
         render: (v: string) => {
           return <Tooltip title={v}>{v}</Tooltip>;
         },
       },
       {
-        title: i18n.t('cmp:apply for'),
+        title: i18n.t('cmp:Application content'),
         width: 140,
         dataIndex: 'desc',
       },
       {
-        title: i18n.t('type'),
+        title: i18n.t('Type'),
         dataIndex: 'type',
         width: 100,
         render: (val: APPROVAL.ApprovalItemType) => get(typeMap, `${val}.name`),
       },
       {
-        title: i18n.t('cmp:submitter'),
+        title: i18n.t('cmp:Submitter'),
         dataIndex: 'submitter',
         width: 120,
         render: (val: string) => {
@@ -115,7 +115,7 @@ const Approval = () => {
         },
       },
       {
-        title: i18n.t('cmp:submit time'),
+        title: i18n.t('cmp:Submit time'),
         dataIndex: 'createdAt',
         width: 140,
         render: (val: string) => moment(val).format('YYYY-MM-DD HH:mm:ss'),
@@ -143,7 +143,7 @@ const Approval = () => {
             <div className="table-operations">
               {approvalType === 'certificate' && !isEmpty(detail) && (
                 <span className="table-operations-btn" onClick={() => updater.chosenDetail(detail)}>
-                  {i18n.t('download')}
+                  {i18n.t('Download')}
                 </span>
               )}
               {approvalStatus === statusMap.pending ? (
@@ -156,7 +156,7 @@ const Approval = () => {
                       });
                     }}
                   >
-                    {i18n.t('dop:approved')}
+                    {i18n.t('dop:Approved')}
                   </span>
                   <span
                     className="table-operations-btn"
@@ -181,7 +181,7 @@ const Approval = () => {
         0,
         ...[
           {
-            title: i18n.t('cmp:approver'),
+            title: i18n.t('cmp:Approver'),
             dataIndex: 'approver',
             render: (val: string) => {
               const curUser = userMap[val];
@@ -189,13 +189,13 @@ const Approval = () => {
             },
           },
           {
-            title: i18n.t('cmp:approval time'),
+            title: i18n.t('cmp:Approval time'),
             dataIndex: 'approvalTime',
             width: 180,
             render: (val: string) => moment(val).format('YYYY-MM-DD HH:mm:ss'),
           },
           {
-            title: i18n.t('cmp:approval result'),
+            title: i18n.t('cmp:Approve result'),
             dataIndex: 'status',
             width: 100,
             render: (val: string) => get(undoneStatusMap, `${val}.label`),

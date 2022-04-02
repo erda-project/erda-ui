@@ -14,14 +14,14 @@ import i18n from 'i18n';
 
 // 通过权限配置页面导出角色数据覆盖，勿手动修改
 export const projectRoleMap = {
-  Owner: { name: i18n.t('user:Project Owner'), value: 'Owner' },
-  Lead: { name: i18n.t('user:Project Leader'), value: 'Lead' },
-  PM: { name: i18n.t('user:Project Manager'), value: 'PM' },
-  PD: { name: i18n.t('user:Product Designer'), value: 'PD' },
-  Dev: { name: i18n.t('user:Developer'), value: 'Dev' },
-  QA: { name: i18n.t('user:Tester'), value: 'QA' },
+  Owner: { name: i18n.t('user:Project owner'), value: 'Owner' },
+  Lead: { name: i18n.t('user:Project leader'), value: 'Lead' },
+  PM: { name: i18n.t('user:Project manager'), value: 'PM' },
+  PD: { name: i18n.t('user:Product manager'), value: 'PD' },
+  Dev: { name: i18n.t('user:Development engineer'), value: 'Dev' },
+  QA: { name: i18n.t('user:Test engineer'), value: 'QA' },
   Support: { name: i18n.t('user:Q&A'), value: 'Support', isBuildIn: true },
-  Ops: { name: i18n.t('cmp:operator'), value: 'Ops', isBuildIn: true },
+  Ops: { name: i18n.t('cmp:Operator'), value: 'Ops', isBuildIn: true },
   Reporter: { name: i18n.t('user:Reporter'), value: 'Reporter' },
   Creator: { name: i18n.t('user:Creator'), value: 'Creator', isCustomRole: true },
   Assignee: { name: i18n.t('user:Assignee'), value: 'Assignee', isCustomRole: true },
@@ -33,7 +33,7 @@ export const projectPerm = {
   name: i18n.t('project'),
   addApp: {
     pass: false,
-    name: i18n.t('add application'),
+    name: i18n.t('Add'),
     role: ['Owner', 'Lead'],
   },
   editProject: {
@@ -43,7 +43,7 @@ export const projectPerm = {
   },
   deleteProject: {
     pass: false,
-    name: i18n.t('dop:delete project'),
+    name: i18n.t('dop:Delete project'),
     role: ['Owner', 'Lead'],
   },
   service: {
@@ -86,17 +86,17 @@ export const projectPerm = {
     },
     batchOperation: {
       pass: false,
-      name: i18n.t('batch operate'),
+      name: i18n.t('Batch Operation'),
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
     },
     create: {
       pass: false,
-      name: i18n.t('add'),
+      name: i18n.t('Add'),
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
     },
     edit: {
       pass: false,
-      name: i18n.t('edit'),
+      name: i18n.t('Edit'),
       role: ['Owner', 'PM', 'PD', 'Creator', 'Assignee', 'Lead', 'Dev', 'QA'],
     },
     delete: {
@@ -111,7 +111,7 @@ export const projectPerm = {
     },
     export: {
       pass: false,
-      name: i18n.t('export'),
+      name: i18n.t('Export'),
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
     },
     switchType: {
@@ -122,11 +122,11 @@ export const projectPerm = {
     import: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
-      name: i18n.t('import'),
+      name: i18n.t('Import'),
     },
   },
   epic: {
-    name: i18n.t('dop:milestone'),
+    name: i18n.t('dop:Milestone'),
     read: {
       pass: false,
       name: i18n.t('dop:view'),
@@ -134,12 +134,12 @@ export const projectPerm = {
     },
     create: {
       pass: false,
-      name: i18n.t('add'),
+      name: i18n.t('Add'),
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
     },
     edit: {
       pass: false,
-      name: i18n.t('edit'),
+      name: i18n.t('Edit'),
       role: ['Owner', 'PM', 'PD', 'Creator', 'Assignee', 'Lead', 'Dev', 'QA'],
     },
     delete: {
@@ -154,7 +154,7 @@ export const projectPerm = {
     },
     export: {
       pass: false,
-      name: i18n.t('export'),
+      name: i18n.t('Export'),
       role: ['Owner', 'Lead', 'PM', 'PD'],
     },
   },
@@ -167,17 +167,17 @@ export const projectPerm = {
     },
     batchOperation: {
       pass: false,
-      name: i18n.t('batch operate'),
+      name: i18n.t('Batch Operation'),
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
     },
     create: {
       pass: false,
-      name: i18n.t('add'),
+      name: i18n.t('Add'),
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
     },
     edit: {
       pass: false,
-      name: i18n.t('edit'),
+      name: i18n.t('Edit'),
       role: ['Owner', 'Lead', 'QA', 'Creator', 'Assignee', 'PM', 'PD', 'Dev'],
     },
     delete: {
@@ -192,7 +192,7 @@ export const projectPerm = {
     },
     export: {
       pass: false,
-      name: i18n.t('export'),
+      name: i18n.t('Export'),
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
     },
     switchType: {
@@ -203,11 +203,11 @@ export const projectPerm = {
     import: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
-      name: i18n.t('import'),
+      name: i18n.t('Import'),
     },
   },
   bug: {
-    name: i18n.t('bug'),
+    name: i18n.t('Bug'),
     read: {
       pass: false,
       name: i18n.t('dop:view'),
@@ -220,12 +220,12 @@ export const projectPerm = {
     },
     export: {
       pass: false,
-      name: i18n.t('export'),
+      name: i18n.t('Export'),
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
     },
     batchOperation: {
       pass: false,
-      name: i18n.t('batch operate'),
+      name: i18n.t('Batch Operation'),
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
     },
     create: {
@@ -235,7 +235,7 @@ export const projectPerm = {
     },
     edit: {
       pass: false,
-      name: i18n.t('edit'),
+      name: i18n.t('Edit'),
       role: ['Owner', 'PM', 'QA', 'Creator', 'Assignee', 'Lead', 'PD', 'Dev'],
     },
     updateStatus: {
@@ -256,19 +256,19 @@ export const projectPerm = {
     import: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
-      name: i18n.t('import'),
+      name: i18n.t('Import'),
     },
   },
   member: {
-    name: i18n.t('user:project member management'),
+    name: i18n.t('user:Project member management'),
     addProjectMember: {
       pass: false,
-      name: i18n.t('common:add'),
+      name: i18n.t('common:Add'),
       role: ['Owner', 'Lead', 'PM'],
     },
     editProjectMember: {
       pass: false,
-      name: i18n.t('edit'),
+      name: i18n.t('Edit'),
       role: ['Owner', 'Lead', 'PM'],
     },
     removeProjectMember: {
@@ -283,9 +283,9 @@ export const projectPerm = {
     },
   },
   setting: {
-    name: i18n.t('project setting'),
+    name: i18n.t('Project settings'),
     branchRule: {
-      name: i18n.t('dop:branch rule'),
+      name: i18n.t('dop:Branch Rule'),
       operation: {
         pass: false,
         name: i18n.t('user:operation (add, delete, modify)'),
@@ -309,7 +309,7 @@ export const projectPerm = {
       },
     },
     blockNetwork: {
-      name: i18n.t('cmp:block network'),
+      name: i18n.t('cmp:Network Bolcking'),
       applyUnblock: {
         pass: false,
         name: i18n.t('user:apply for unblocking'),
@@ -337,7 +337,7 @@ export const projectPerm = {
     edit: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee', 'Guest'],
-      name: i18n.t('edit'),
+      name: i18n.t('Edit'),
     },
     updateStatus: {
       pass: false,
@@ -351,9 +351,9 @@ export const projectPerm = {
     },
   },
   apiManage: {
-    name: i18n.t('API'),
+    name: i18n.t('API Management'),
     apiMarket: {
-      name: i18n.t('API market'),
+      name: i18n.t('API Market'),
       read: {
         pass: false,
         name: i18n.t('dop:view'),
@@ -396,7 +396,7 @@ export const projectPerm = {
       },
     },
     accessManage: {
-      name: i18n.t('access management'),
+      name: i18n.t('Access Management'),
       read: {
         pass: false,
         name: i18n.t('dop:view'),
@@ -404,7 +404,7 @@ export const projectPerm = {
       },
       edit: {
         pass: false,
-        name: i18n.t('edit'),
+        name: i18n.t('Edit'),
         role: ['Owner', 'Lead', 'PM'],
       },
       delete: {
@@ -452,7 +452,7 @@ export const projectPerm = {
     },
   },
   resource: {
-    name: i18n.t('Resource summary'),
+    name: i18n.t('Resource Summary'),
     viewResource: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
@@ -470,7 +470,7 @@ export const projectPerm = {
   dataBank: {
     name: i18n.t('dop:data bank'),
     dataSource: {
-      name: i18n.t('dop:data sources'),
+      name: i18n.t('dop:Data Source'),
       view: {
         pass: false,
         role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Ops'],
@@ -495,7 +495,7 @@ export const projectPerm = {
     },
   },
   milestone: {
-    name: i18n.t('dop:milestone'),
+    name: i18n.t('dop:Milestone'),
     view: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Ops', 'Support'],
@@ -503,21 +503,21 @@ export const projectPerm = {
     },
   },
   microService: {
-    name: i18n.t('msp'),
+    name: i18n.t('Microservice Platform'),
     member: {
       name: i18n.t('cmp:member management'),
       addProjectMember: {
-        name: i18n.t('add member'),
+        name: i18n.t('Add'),
         pass: false,
         role: ['Owner', 'Lead'],
       },
       editProjectMember: {
-        name: i18n.t('edit {name}', { name: i18n.t('member') }),
+        name: i18n.t('edit {name}', { name: i18n.t('Member') }),
         pass: false,
         role: ['Owner', 'Lead'],
       },
       removeProjectMember: {
-        name: i18n.t('delete {name}', { name: i18n.t('member') }),
+        name: i18n.t('delete {name}', { name: i18n.t('Member') }),
         pass: false,
         role: ['Owner', 'Lead'],
       },
@@ -542,9 +542,9 @@ export const projectPerm = {
     },
   },
   release: {
-    name: i18n.t('Artifact'),
+    name: i18n.t('Artifacts'),
     create: {
-      name: i18n.t('create {name}', { name: i18n.t('Artifact') }),
+      name: i18n.t('create {name}', { name: i18n.t('Artifacts') }),
       pass: false,
       role: ['Owner', 'Lead', 'PM'],
     },

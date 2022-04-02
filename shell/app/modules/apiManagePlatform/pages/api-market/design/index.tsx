@@ -85,11 +85,11 @@ const ErrorEmptyHolder = ({
     Comp = (
       <EmptyHolder
         tip={i18n.t('dop:please download from the code repository')}
-        action={<Link to={apiBranchLink}>{i18n.t('dop:new branch')}</Link>}
+        action={<Link to={apiBranchLink}>{i18n.t('dop:Add Branch')}</Link>}
       />
     );
   } else if (isEmpty(validBranches)) {
-    Comp = <EmptyHolder tip={i18n.t('common:expand branch directory selection document or create a new document')} />;
+    Comp = <EmptyHolder tip={i18n.t('common:Expand the branch directory to select a document or create a new one')} />;
   } else {
     Comp = <EmptyHolder relative />;
   }
@@ -617,7 +617,7 @@ const ApiDesign = () => {
     <div className="api-design">
       <div className="top-button-group">
         <Button type="primary" onClick={() => updater.treeModalVisible(true)}>
-          {i18n.t('dop:new document')}
+          {i18n.t('dop:New Document')}
         </Button>
       </div>
       <div className="api-design-wrap">
@@ -642,17 +642,17 @@ const ApiDesign = () => {
               {!apiWs || isDocLocked ? (
                 <WithAuth pass={!isApiReadOnly && docValidData.valid}>
                   <Button type="ghost" onClick={onEditDocHandle}>
-                    {i18n.t('edit')}
+                    {i18n.t('Edit')}
                   </Button>
                 </WithAuth>
               ) : (
                 <Button type="ghost" disabled={formErrorNum > 0} onClick={() => commitSaveApi()}>
-                  {i18n.t('save')}
+                  {i18n.t('Save')}
                 </Button>
               )}
               <WithAuth pass={inodeQuery && docValidData.valid}>
                 <Button type="primary" className="ml-2" onClick={onConfirmPublish}>
-                  {i18n.t('publisher:release')}
+                  {i18n.t('publisher:Release')}
                 </Button>
               </WithAuth>
             </div>
@@ -665,7 +665,7 @@ const ApiDesign = () => {
             <div className="api-design-content">
               <div className="api-design-content-list flex flex-col justify-start">
                 <Input
-                  placeholder={i18n.t('search by keyword')}
+                  placeholder={i18n.t('Search by keyword')}
                   className="mx-2 my-3 api-filter-input"
                   prefix={<ErdaIcon type="search1" size="14" className="mr-0.5 mt-0.5" />}
                   onInput={(e: React.ChangeEvent<HTMLInputElement>) => updater.filterKey(e.target.value)}

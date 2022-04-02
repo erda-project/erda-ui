@@ -77,7 +77,7 @@ export const NotifyStrategySelect = ({
             <div className="text-xs px-2 py-1 text-desc" onMouseDown={(e) => e.preventDefault()}>
               <WithAuth pass={addNotificationGroupAuth}>
                 <span className="hover-active" onClick={goToNotifyGroup}>
-                  {i18n.t('cmp:add more notification groups')}
+                  {i18n.t('cmp:Add More Notification Groups')}
                 </span>
               </WithAuth>
             </div>
@@ -94,7 +94,7 @@ export const NotifyStrategySelect = ({
       <Select
         className="mr-8"
         style={{ width: 280 }}
-        placeholder={i18n.t('cmp:select level')}
+        placeholder={i18n.t('cmp:Select the level')}
         value={current?.level}
         onChange={(value) => handleEditNotifyStrategy(id, { key: 'level', value })}
         mode="multiple"
@@ -108,7 +108,7 @@ export const NotifyStrategySelect = ({
         })}
       </Select>
       <Select
-        placeholder={i18n.t('cmp:select notify method')}
+        placeholder={i18n.t('cmp:Select the notification method')}
         style={{ width: 280 }}
         value={current?.groupType}
         onChange={(value) => handleEditNotifyStrategy(id, { key: 'groupType', value })}

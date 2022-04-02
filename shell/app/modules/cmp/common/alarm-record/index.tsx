@@ -73,20 +73,20 @@ const AlarmRecord = ({ scope }: { scope: string }) => {
 
   const columns: Array<ColumnProps<ALARM_REPORT.RecordListItem>> = [
     {
-      title: i18n.t('title'),
+      title: i18n.t('Title'),
       dataIndex: 'title',
     },
     {
-      title: i18n.t('cmp:alarm status'),
+      title: i18n.t('cmp:Status'),
       dataIndex: 'alertState',
       render: (alertState: string) => <AlarmState state={alertState} />,
     },
     {
-      title: i18n.t('alarm type'),
+      title: i18n.t('Type'),
       dataIndex: 'alertType',
     },
     {
-      title: i18n.t('cmp:alarm time'),
+      title: i18n.t('cmp:Time'),
       dataIndex: 'alertTime',
       render: (alertTime: number) => moment(alertTime).format('YYYY-MM-DD HH:mm:ss'),
     },
@@ -99,7 +99,7 @@ const AlarmRecord = ({ scope }: { scope: string }) => {
         name: 'alertState',
         customProps: {
           mode: 'multiple',
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('cmp:alarm status') }),
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('cmp:Status') }),
           options: map(alarmAttrs.alertState, ({ key, display }) => (
             <Select.Option key={key} value={key}>
               {display}

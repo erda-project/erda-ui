@@ -55,7 +55,7 @@ const GroupTabs = ({ machineList, onActiveMachine, activedGroup }: IProps) => {
 
   return (
     <Tabs activeKey={activeKey} onChange={setActiveKey}>
-      <TabPane tab={`${i18n.t('cmp:machines')}`} key="machine">
+      <TabPane tab={`${i18n.t('cmp:Machines')}`} key="machine">
         <MachineList
           machineList={machineList}
           onClickMachine={onActiveMachine}
@@ -64,7 +64,7 @@ const GroupTabs = ({ machineList, onActiveMachine, activedGroup }: IProps) => {
           }}
         />
       </TabPane>
-      <TabPane tab={`${i18n.t('cmp:machine alarm')}`} key="alarm">
+      <TabPane tab={`${i18n.t('cmp:Machine Alert')}`} key="alarm">
         <AlarmRecord clusters={clusters} />
       </TabPane>
       {/* TODO: keep it until completely done. */}

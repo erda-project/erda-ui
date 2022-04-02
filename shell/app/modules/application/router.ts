@@ -79,7 +79,7 @@ function getAppRouter(): RouteConfigItem {
               {
                 path: ':commitId',
                 backToUp: 'repo',
-                breadcrumbName: i18n.t('dop:code'),
+                breadcrumbName: i18n.t('dop:Code'),
                 ignoreTabQuery: true,
                 getComp: (cb) => cb(import('application/pages/repo/commit-detail')),
               },
@@ -206,7 +206,7 @@ function getAppRouter(): RouteConfigItem {
                 tabs: DEPLOY_RUNTIME_TABS,
                 backToUp: 'appDeployEnv',
                 mark: 'appDeployRuntime',
-                pageName: i18n.t('deploy'),
+                pageName: i18n.t('Deployment'),
                 getComp: (cb) => cb(import('app/modules/runtime/pages/overview')),
                 layout: {
                   noWrapper: true,

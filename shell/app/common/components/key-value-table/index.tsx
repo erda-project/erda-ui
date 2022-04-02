@@ -247,7 +247,7 @@ class KeyValueTable extends React.Component<IProps, IState> {
       form,
       title = '',
       className = '',
-      addBtnText = i18n.t('common:add'),
+      addBtnText = i18n.t('common:Add'),
       disableAdd = false,
       disableDelete = false,
       editDisabled,

@@ -78,21 +78,21 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
 
   const columns: Array<ColumnProps<Custom_Dashboard.DashboardItem>> = [
     {
-      title: i18n.t('name'),
+      title: i18n.t('Name'),
       dataIndex: 'name',
     },
     {
-      title: i18n.t('description'),
+      title: i18n.t('Description'),
       dataIndex: 'desc',
       render: (desc: string) => desc || '--',
     },
     {
-      title: i18n.t('update time'),
+      title: i18n.t('Update time'),
       dataIndex: 'updatedAt',
       render: (timestamp: number) => fromNow(timestamp),
     },
     {
-      title: i18n.t('creator'),
+      title: i18n.t('Creator'),
       dataIndex: 'creator',
       render: (text: string) => <UserInfo id={text} />,
     },
@@ -118,7 +118,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
     <>
       <div className="top-button-group">
         <Button type="primary" onClick={() => goTo(urlMap[scope].add)}>
-          {i18n.t('cmp:new custom dashboard')}
+          {i18n.t('cmp:Add')}
         </Button>
       </div>
       <ErdaTable

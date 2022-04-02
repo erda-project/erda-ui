@@ -93,7 +93,7 @@ const SlaEditor = ({ visible, onCancel, mode, dataSource, afterEdit }: IProps) =
       },
     },
     {
-      label: i18n.t('authorization method'),
+      label: i18n.t('Authorization method'),
       labelTip: i18n.t('there can only be one automatically authorized SLA'),
       name: 'approval',
       type: 'select',
@@ -104,7 +104,7 @@ const SlaEditor = ({ visible, onCancel, mode, dataSource, afterEdit }: IProps) =
       },
     },
     {
-      label: i18n.t('request limit'),
+      label: i18n.t('Request Limit'),
       name: 'limits',
       initialValue: dataSource?.limits || [],
       config: {
@@ -131,7 +131,7 @@ const SlaEditor = ({ visible, onCancel, mode, dataSource, afterEdit }: IProps) =
   const footer = (
     <>
       <Button key="back" onClick={onCancel}>
-        {i18n.t('cancel')}
+        {i18n.t('Cancel')}
       </Button>
       <Button key="submit" type="primary" loading={loading.some((t) => t)} onClick={handleOk}>
         {i18n.t('ok')}

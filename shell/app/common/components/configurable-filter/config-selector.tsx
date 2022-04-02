@@ -118,7 +118,7 @@ const ConfigSelector = ({ className = '', list, defaultValue, value, onChange, o
         <div className="pr-2">{renderConfigList(defaultData, false)}</div>
         <div className="my-2 bg-default-08 h-[1px] mr-2" />
         <div className="pr-2">
-          <div className="my-2 px-2 text-xs text-default-6">{i18n.t('dop:custom filter')}</div>
+          <div className="my-2 px-2 text-xs text-default-6">{i18n.t('dop:Custom filter')}</div>
           {renderConfigList(customData, true)}
         </div>
       </div>
