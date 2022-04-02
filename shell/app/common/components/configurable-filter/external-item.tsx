@@ -13,8 +13,8 @@
 
 import * as React from 'react';
 import { Field, Option } from './index';
-import { debounce, isString, isNumber, has, map } from 'lodash';
-import { Input, Dropdown, Menu, DatePicker } from 'antd';
+import { debounce, has, isNumber, isString, map } from 'lodash';
+import { DatePicker, Dropdown, Input, Menu } from 'antd';
 import { ErdaIcon } from 'common';
 import moment, { Moment } from 'moment';
 import { useUpdateEffect } from 'react-use';
@@ -33,7 +33,7 @@ const { RangePicker } = DatePicker;
 
 const filterMatch = (v: string, f: string) => v.toLowerCase().includes(f.toLowerCase());
 
-const getSelectOptions = (options: Option[], filterKey: string) => {
+export const getSelectOptions = (options: Option[], filterKey: string) => {
   if (!filterKey) return options;
   const useableOptions: Option[] = [];
 
@@ -369,11 +369,10 @@ interface IGroupOptProps {
   option: Option;
   firstShowLength?: number;
   onClickOptItem: (option: Option) => void;
-  onDelete?: (option: Option) => void;
 }
 
 const GroupOpt = (props: IGroupOptProps) => {
-  const { option, onClickOptItem, value, onDelete, firstShowLength } = props;
+  const { option, onClickOptItem, value, firstShowLength } = props;
   const [expand, setExpand] = React.useState(true);
   const [hasMore, setHasMore] = React.useState(
     firstShowLength ? (option.children?.length || 0) > firstShowLength : false,
@@ -389,15 +388,7 @@ const GroupOpt = (props: IGroupOptProps) => {
       </div>
       <div className={`option-group-content ${expand ? '' : 'no-expand'}`}>
         {useOption?.map((cItem) => {
-          return (
-            <OptionItem
-              onDelete={onDelete}
-              key={cItem.value}
-              value={value}
-              option={cItem}
-              onClick={() => onClickOptItem(cItem)}
-            />
-          );
+          return <OptionItem key={cItem.value} value={value} option={cItem} onClick={() => onClickOptItem(cItem)} />;
         })}
         {hasMore ? (
           <div className="fake-link hover-active py-1 pl-8  load-more" onClick={() => setHasMore(false)}>
@@ -413,11 +404,10 @@ interface IOptionItemProps {
   value: Array<string | number>;
   option: Option;
   onClick: (option: Option) => void;
-  onDelete?: (option: Option) => void;
 }
 
 const OptionItem = (props: IOptionItemProps) => {
-  const { value, option, onClick, onDelete } = props;
+  const { value, option, onClick } = props;
   return (
     <div
       className={`relative option-item ${(value || []).includes(option.value) ? 'checked-item' : ''}`}
@@ -430,19 +420,6 @@ const OptionItem = (props: IOptionItemProps) => {
           {value.includes(option.value) ? <ErdaIcon type="check" size="14" color="green" className="ml-2" /> : null}
         </span>
       </div>
-      {onDelete ? (
-        <div
-          className="absolute option-item-delete"
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete(option);
-          }}
-        >
-          <div className="option-item-delete-box pl-2">
-            <ErdaIcon type="shanchu" className="mr-1" size="14" />
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 };
