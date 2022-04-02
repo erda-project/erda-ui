@@ -32,6 +32,7 @@ interface IMdProps {
   onChange: (v: string) => void;
   onSave: (v?: string, fieldType?: string) => void;
 }
+
 export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHeight, ...rest }: IMdProps) => {
   const [{ v, expanded, expandBtnVisible, isEditing }, updater, update] = useUpdate({
     v: value,
@@ -182,7 +183,13 @@ interface IProps {
   itemProps?: any;
   data?: any;
   disabled?: boolean;
-  getComp?: any;
+  getComp?: (data: {
+    onChange: Function;
+    onSave: Function;
+    value: string;
+    disabled: boolean;
+    originalValue: string;
+  }) => React.ReactNode;
   suffix?: any;
   showRequiredMark?: boolean;
   refMap?: Obj<React.RefObject<unknown>>;
@@ -228,7 +235,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     updater.editValue(originalValue);
   }, [originalValue, updater]);
 
-  let Comp = <div />;
+  let Comp: React.ReactNode = <div />;
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // 如果有，调用原来的onChange
@@ -296,7 +303,10 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
           defaultHeight={200}
           value={editValue}
           onChange={updater.editValue}
-          onSave={(v, fieldType) => onChangeCb?.({ [name]: v }, fieldType)}
+          onSave={(v, fieldType) => {
+            console.log(v, fieldType);
+            onChangeCb?.({ [name]: v }, fieldType);
+          }}
           originalValue={originalValue}
           disabled={disabled}
         />
@@ -318,13 +328,13 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
           disabled={disabled}
           ranges={getTimeRanges()}
           {...itemProps}
-          className={`w-full hover:bg-default-06 ${itemProps.className || ''}`}
+          className={`w-full hover:bg-default-06 ${itemProps?.className || ''}`}
         />
       );
       break;
     case 'custom': {
       // onChange用于改变内部状态，确保组件不重渲染，避免输入框重渲染后光标位置重置。onSave用于保存，比如在onBlur时才保存
-      Comp = getComp({
+      Comp = getComp?.({
         onChange: updater.editValue,
         onSave: onSelectChange,
         value: editValue,
@@ -348,7 +358,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
           onBlur={() => onBlur()}
           onPressEnter={() => compRef.current?.blur()}
           {...itemProps}
-          className={`bg-transparent hover:bg-default-06 focus:bg-default-06 ${itemProps.className}`}
+          className={`bg-transparent hover:bg-default-06 focus:bg-default-06 ${itemProps?.className}`}
           onChange={onInputChange}
           allowClear={false}
         />
