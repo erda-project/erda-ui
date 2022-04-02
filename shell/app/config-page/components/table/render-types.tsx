@@ -190,12 +190,13 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       break;
     case 'progress':
       {
-        const { value: _val, tip, status, renderType, ...rest } = val || {};
+        const { value: _val, tip, status, renderType, hiddenText, ...rest } = val || {};
         let value = +(_val ?? 0);
         value = +(`${value}`.indexOf('.') ? value.toFixed(2) : value);
         Comp = !isNaN(+_val) ? (
           <Tooltip title={tip}>
             <Progress
+              className="mr-2"
               percent={value}
               {...rest}
               type="circle"
@@ -204,7 +205,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
               format={(v) => null}
               strokeColor={statusColorMap[status]}
             />
-            <span className="text-black-8  ml-2">{`${value.toFixed(1)}%`}</span>
+            {!hiddenText ? <span className="text-black-8">{`${value.toFixed(1)}%`}</span> : null}
           </Tooltip>
         ) : (
           _val
