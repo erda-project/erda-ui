@@ -16,9 +16,9 @@ import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 
 const TaskSummary = () => {
-  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
+  const [{ projectId, iterationId }] = routeInfoStore.useStore((s) => [s.params]);
 
-  const inParams = { projectId };
+  const inParams = { projectId, fixedIteration: iterationId };
 
   return (
     <div>
