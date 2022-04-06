@@ -68,11 +68,11 @@ const ReleaseProjectDetail = () => {
     {
       label: i18n.t('version'),
       content: releaseName,
-      width: '50%',
+      style: { width: '50%' },
     },
     {
       label: i18n.t('dop:deployment mode'),
-      width: '50%',
+      style: { width: '50%' },
       noWrapper: true,
       content: <ModesList value={modes} />,
     },
@@ -88,12 +88,9 @@ const ReleaseProjectDetail = () => {
         <TabPane tab={i18n.t('dop:basic information')} key="1">
           <div>
             {fieldsList.map((item) => (
-              <div className="mb-4">
+              <div className="mb-4" key={item.label}>
                 <div className="font-medium mb-1.5">{item.label}</div>
-                <div
-                  className={item.noWrapper ? '' : 'px-2.5 py-1.5 rounded-sm bg-default-04'}
-                  style={{ width: item.width }}
-                >
+                <div className={item.noWrapper ? '' : 'px-2.5 py-1.5 rounded-sm bg-default-04'} style={item.style}>
                   {item.content}
                 </div>
               </div>
@@ -122,39 +119,47 @@ const MarkdownReadOnlyRender = ({ value }: { value: string }) => {
   return <ReactMarkdown remarkPlugins={[remarkGfm]}>{value || i18n.t('no description yet')}</ReactMarkdown>;
 };
 
+const onExpand = (key: string | number, list: Array<string | number>) => {
+  const _list = [...list];
+  const index = _list.findIndex((item) => item === key);
+  if (index !== -1) {
+    _list.splice(index, 1);
+  } else {
+    _list.push(key);
+  }
+  return _list;
+};
+
 const ModesList = ({ value }: { value?: { [keys: string]: Mode } }) => {
-  const [expandKey, setExpandKey] = React.useState<string[]>([]);
+  const [expandedKeys, setExpandedKeys] = React.useState<Array<string | number>>([]);
 
   React.useEffect(() => {
-    setExpandKey([Object.keys(value || {})[0]]);
+    setExpandedKeys([Object.keys(value || {})[0]]);
   }, [value]);
 
-  const expand = (key: string) => {
-    const index = expandKey.findIndex((item) => item === key);
-    if (index !== -1) {
-      expandKey.splice(index, 1);
-    } else {
-      expandKey.push(key);
-    }
-    setExpandKey([...expandKey]);
-  };
+  const expand = React.useCallback(
+    (key: string) => {
+      setExpandedKeys(onExpand(key, expandedKeys));
+    },
+    [expandedKeys, setExpandedKeys],
+  );
 
   return (
     <div>
       {Object.keys(value || {}).map((key: string) => {
         const mode = value?.[key] || ({} as Mode);
         return (
-          <div className="bg-default-04 mb-2 text-default">
+          <div className="bg-default-04 mb-2 text-default" key={key}>
             <div className="px-2 py-3 flex-h-center cursor-pointer" onClick={() => expand(key)}>
               <ErdaIcon
                 type="right-4ffff0i4"
                 size="20"
-                className={`${expandKey.includes(key) ? 'text-default-6 rotate-90' : 'text-default-3'} duration-300`}
+                className={`${expandedKeys.includes(key) ? 'text-default-6 rotate-90' : 'text-default-3'} duration-300`}
               />
               {key}
             </div>
 
-            <div className={`overflow-hidden ${expandKey.includes(key) ? '' : 'h-0'}`}>
+            <div className={`overflow-hidden ${expandedKeys.includes(key) ? '' : 'h-0'}`}>
               <div className="px-6 pb-6">
                 {mode.dependOn?.length ? (
                   <>
@@ -182,17 +187,14 @@ const ModesList = ({ value }: { value?: { [keys: string]: Mode } }) => {
 };
 
 const GroupsList = ({ value }: { value: Application[][] }) => {
-  const [expandKey, setExpandKey] = React.useState<number[]>([0]);
+  const [expandedKeys, setExpandedKeys] = React.useState<Array<string | number>>([0]);
 
-  const expand = (key: number) => {
-    const index = expandKey.findIndex((item) => item === key);
-    if (index !== -1) {
-      expandKey.splice(index, 1);
-    } else {
-      expandKey.push(key);
-    }
-    setExpandKey([...expandKey]);
-  };
+  const expand = React.useCallback(
+    (key: number) => {
+      setExpandedKeys(onExpand(key, expandedKeys));
+    },
+    [expandedKeys, setExpandedKeys],
+  );
 
   return (
     <div>
@@ -202,15 +204,15 @@ const GroupsList = ({ value }: { value: Application[][] }) => {
             <ErdaIcon
               type="right-4ffff0i4"
               size="20"
-              className={`${expandKey.includes(index) ? 'text-default-6 rotate-90' : 'text-default-3'} duration-300`}
+              className={`${expandedKeys.includes(index) ? 'text-default-6 rotate-90' : 'text-default-3'} duration-300`}
             />
             {i18n.t('dop:group {index}', { index: index + 1 })}
             <div className="bg-default-1 rounded-full px-2 py-0.5 text-xs ml-1">{item.length}</div>
           </div>
-          <div className={`overflow-hidden ${expandKey.includes(index) ? '' : 'h-0'}`}>
+          <div className={`overflow-hidden ${expandedKeys.includes(index) ? '' : 'h-0'}`}>
             <div className="px-7 pb-4">
               {item.map((app) => (
-                <div className="hover:bg-default-06 px-4 py-2">
+                <div className="hover:bg-default-06 px-4 py-2" key={app.releaseID}>
                   <div
                     className="mb-1 hover:text-purple-deep truncate cursor-pointer"
                     onClick={() =>
