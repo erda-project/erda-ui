@@ -21,9 +21,9 @@ interface Tabs {
 }
 
 const tabs = [
-  { key: 'overview', name: i18n.t('overview') },
-  { key: 'transaction', name: i18n.t('msp:call monitor') },
-  { key: 'trace', name: i18n.t('msp:tracing query') },
+  { key: 'overview', name: i18n.t('Overview') },
+  { key: 'transaction', name: i18n.t('msp:Call Monitoring') },
+  { key: 'trace', name: i18n.t('msp:Tracing Query') },
   // { key: 'anomaly', name: i18n.t('msp:exception') }, // hide temporarily
   { key: 'process', name: i18n.t('cmp:resource monitor') },
 ];

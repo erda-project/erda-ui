@@ -44,14 +44,14 @@ enum TargetType {
 export const notifyChannelOptionsMap = {
   [TargetType.DINGDING]: [{ name: i18n.t('DingTalk'), value: 'dingding' }],
   [TargetType.USER]: [
-    { name: i18n.t('site message'), value: 'mbox' },
-    { name: i18n.t('common:email'), value: 'email' },
+    { name: i18n.t('Site message'), value: 'mbox' },
+    { name: i18n.t('common:Email'), value: 'email' },
   ],
-  [TargetType.EXTERNAL_USER]: [{ name: i18n.t('common:email'), value: 'email' }],
+  [TargetType.EXTERNAL_USER]: [{ name: i18n.t('common:Email'), value: 'email' }],
   [TargetType.WEBHOOK]: [{ name: i18n.t('dop:webhook'), value: 'webhook' }],
   [TargetType.ROLE]: [
-    { name: i18n.t('site message'), value: 'mbox' },
-    { name: i18n.t('common:email'), value: 'email' },
+    { name: i18n.t('Site message'), value: 'mbox' },
+    { name: i18n.t('common:Email'), value: 'email' },
   ],
 };
 
@@ -60,9 +60,9 @@ const hasChannelMethod = (channelMethods: typeof notifyChannelOptionsMap, method
 };
 
 export const getFinalNotifyChannelOptions = (channels: Obj<string>, isMonitor: boolean) => {
-  const VMSChannel = { name: i18n.t('phone'), value: 'vms' };
+  const VMSChannel = { name: i18n.t('Phone'), value: 'vms' };
   const SMSChannel = { name: i18n.t('SMS'), value: 'sms' };
-  const dingdingWorkChannel = { name: i18n.t('dingding work notice'), value: 'dingtalk_work_notice' };
+  const dingdingWorkChannel = { name: i18n.t('DingTalk'), value: 'dingtalk_work_notice' };
   const channelMethods = cloneDeep(notifyChannelOptionsMap);
   forEach(channels, (_, key) => {
     if (key === 'vms' && !hasChannelMethod(channelMethods, 'vms')) {
@@ -83,18 +83,18 @@ export const getFinalNotifyChannelOptions = (channels: Obj<string>, isMonitor: b
 };
 
 const groupTargetMap = {
-  user: i18n.t('member'),
+  user: i18n.t('Member'),
   dingding: i18n.t('DingTalk address'),
   webhook: i18n.t('dop:external api'),
-  external_user: i18n.t('dop:external user'),
-  role: i18n.t('member role'),
+  external_user: i18n.t('dop:External user'),
+  role: i18n.t('Member role'),
 };
 
 // const notifyRoleMap = {
 //   Manager: i18n.t('administrator'),
 //   Developer: i18n.t('developer'),
-//   Tester: i18n.t('tester'),
-//   Operator: i18n.t('cmp:operator'),
+//   Tester: i18n.t('Testing'),
+//   Operator: i18n.t('cmp:Operator'),
 // };
 
 interface IProps {
@@ -337,7 +337,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
   const fieldsList = [
     {
       name: 'name',
-      label: i18n.t('cmp:group name'),
+      label: i18n.t('cmp:Group name'),
       required: true,
       itemProps: {
         disabled: isEditing,
@@ -346,7 +346,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
     },
     {
       name: 'targetType',
-      label: i18n.t('dop:notified to'),
+      label: i18n.t('dop:Notify'),
       required: true,
       getComp: ({ form }: { form: FormInstance }) => {
         return (
@@ -415,7 +415,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
       };
       extraFields.push({
         name: ['targets', 'secret'],
-        label: i18n.t('dop:signature'),
+        label: i18n.t('dop:Signature'),
         type: 'textArea',
         required: true,
         itemProps: {
@@ -423,7 +423,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
         },
         suffix: (
           <span className="notify-test-dingtalk" onClick={() => testDingTalk()}>
-            {i18n.t('common:send test notification')}
+            {i18n.t('common:Send Test Notification')}
           </span>
         ),
       });
@@ -472,7 +472,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
       dataIndex: 'name',
     },
     {
-      title: i18n.t('default:notification target'),
+      title: i18n.t('default:Notification target'),
       dataIndex: 'targets',
       className: 'notify-info',
       ellipsis: true,
@@ -483,7 +483,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
       ),
     },
     {
-      title: i18n.t('default:creator'),
+      title: i18n.t('default:Creator'),
       dataIndex: 'creator',
       render: (text: string) => userMap[text]?.nick,
     },
@@ -501,7 +501,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
   const renderMenu = (record: COMMON_NOTIFY.INotifyGroup) => {
     const { editNotifyGroup, deleteNotifyGroup } = {
       editNotifyGroup: {
-        title: i18n.t('edit'),
+        title: i18n.t('Edit'),
         onClick: () => handleEdit(record),
       },
       deleteNotifyGroup: {
@@ -523,20 +523,20 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
 
   return (
     <div className="notify-group-manage">
-      <Tooltip title={i18n.t('dop:new notification group')}>
+      <Tooltip title={i18n.t('dop:Add-notification-group')}>
         <div
           className="notify-group-action hover-active"
           onClick={() => {
             openModal();
           }}
         >
-          <Button type="primary">{i18n.t('dop:new notification group')}</Button>
+          <Button type="primary">{i18n.t('dop:Add-notification-group')}</Button>
         </div>
       </Tooltip>
       <FormModal
         width={800}
         ref={formRef}
-        title={`${isEditing ? i18n.t('dop:edit group') : i18n.t('dop:new Group')}`}
+        title={`${isEditing ? i18n.t('dop:edit group') : i18n.t('dop:Add group')}`}
         visible={modalVisible}
         fieldsList={fieldsList}
         formData={activedData}
@@ -563,7 +563,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
               onChange={(e) => {
                 handleChange(e.target.value);
               }}
-              placeholder={i18n.t('search {name}', { name: i18n.t('name') })}
+              placeholder={i18n.t('search {name}', { name: i18n.t('Name') })}
             />
           }
           onChange={handlePageChange}

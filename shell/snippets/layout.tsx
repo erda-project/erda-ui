@@ -16,5 +16,5 @@
 
 
 <div className="top-button-group">
-  <Button type="primary" onClick={() => updater.${1:modalVisible}(true)}>${2:{i18n.t('add')}}</Button>
+  <Button type="primary" onClick={() => updater.${1:modalVisible}(true)}>${2:{i18n.t('Add')}}</Button>
 </div>

@@ -88,7 +88,7 @@ const BatchProcessing = ({ recycled }: IProps) => {
       <DropdownSelect
         menuList={recycled ? menuItemsMap.recycled : menuItemsMap.normal}
         onClickMenu={onClick}
-        buttonText={i18n.t('dop:batch processing')}
+        buttonText={i18n.t('dop:Batch Operation')}
         btnProps={{
           type: 'primary',
           ghost: true,
@@ -109,11 +109,11 @@ const menuItemsMap = {
     { key: TestOperation.delete, name: i18n.t('delete') },
     {
       key: TestOperation.priority,
-      name: i18n.t('dop:update priority'), // children: priorityList.map(v => ({ key: v, name: v })),
+      name: i18n.t('dop:Update Priority'), // children: priorityList.map(v => ({ key: v, name: v })),
     },
-    { key: TestOperation.copy, name: i18n.t('dop:copy to') },
-    { key: TestOperation.move, name: i18n.t('dop:move to') },
-    { key: TestOperation.plan, name: i18n.t('dop:add to test plan') },
+    { key: TestOperation.copy, name: i18n.t('dop:Copy to') },
+    { key: TestOperation.move, name: i18n.t('dop:Move to') },
+    { key: TestOperation.plan, name: i18n.t('dop:Add to Test Plan') },
   ],
   recycled: [
     { key: TestOperation.recover, name: i18n.t('dop:recover to') },

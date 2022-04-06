@@ -93,8 +93,8 @@ export const ImportProjectTemplate = ({ form }: { form: FormInstance }) => {
           <div className="flex-all-center cursor-pointer">
             <img src={EmptySVG} style={{ height: 80 }} />
             <div className="flex-h-center flex-col ml-2">
-              <span className="text-base font-medium text-default ">{i18n.t('upload project template file')}</span>
-              <span className="text-xs text-default-6">{i18n.t('dop:click this area to browse and upload')}</span>
+              <span className="text-base font-medium text-default ">{i18n.t('Upload Project Template File')}</span>
+              <span className="text-xs text-default-6">{i18n.t('dop:Click to browse and upload')}</span>
             </div>
           </div>
         )}

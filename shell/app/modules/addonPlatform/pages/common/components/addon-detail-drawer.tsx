@@ -39,13 +39,13 @@ const AddonDetailDrawer = (props: IProps) => {
 
   const instanceData = [
     { key: i18n.t('addon'), value: addonName },
-    { key: i18n.t('running environment'), value: ENV_NAME[workspace] },
-    { key: i18n.t('version'), value: version },
+    { key: i18n.t('Running environment'), value: ENV_NAME[workspace] },
+    { key: i18n.t('Version'), value: version },
     { key: i18n.t('specification'), value: PLAN_NAME[plan] },
     { key: i18n.t('project'), value: projectName },
     { key: i18n.t('cmp:reference counts'), value: reference },
     { key: i18n.t('cmp:run cluster'), value: cluster },
-    { key: i18n.t('created at'), value: moment(createdAt).format('YYYY-MM-DD HH:mm:ss') },
+    { key: i18n.t('Creation time'), value: moment(createdAt).format('YYYY-MM-DD HH:mm:ss') },
     // { key: '控制台', value: <a href={consoleUrl} target="_blank" rel="noopener noreferrer">Dubbo Admin</a>, hasValue: !!consoleUrl },
   ];
 
@@ -59,13 +59,13 @@ const AddonDetailDrawer = (props: IProps) => {
       width: 220,
     },
     {
-      title: i18n.t('application instance'),
+      title: i18n.t('App instance'),
       dataIndex: 'runtimeName',
       key: 'runtimeName',
       width: 220,
     },
     {
-      title: i18n.t('dop:deployment details'),
+      title: i18n.t('dop:Deployment details'),
       dataIndex: 'applicationId',
       key: 'applicationId',
       align: 'center' as const,
@@ -106,7 +106,7 @@ const AddonDetailDrawer = (props: IProps) => {
             </div>
           </div>
           <div className="ref">
-            <span className="title font-medium">{i18n.t('cmp:reference detail')}</span>
+            <span className="title font-medium">{i18n.t('cmp:Reference details')}</span>
             <Table
               scroll={{ x: '100%' }}
               columns={refTableList}
@@ -117,10 +117,10 @@ const AddonDetailDrawer = (props: IProps) => {
           </div>
           <div className="config">
             <div className="flex justify-between items-center">
-              <span className="title font-medium">{i18n.t('cmp:service basic parameters')}</span>
+              <span className="title font-medium">{i18n.t('cmp:Basic parameters')}</span>
               {!isEmpty(config) && (
                 <span className="copy-all cursor-pointer cursor-copy">
-                  {i18n.t('copy all')}
+                  {i18n.t('Copy All')}
                   <Copy selector=".cursor-copy" opts={{ text: () => jsonStr }} />
                 </span>
               )}

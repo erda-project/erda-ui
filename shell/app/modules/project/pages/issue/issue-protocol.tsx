@@ -126,21 +126,21 @@ const IssueProtocol = ({ issueType }: IProps) => {
   const tabs = [
     {
       key: 'export',
-      text: i18n.t('export'),
+      text: i18n.t('Export'),
       disabled: !issuePerm.export.pass,
       tip: issuePerm.export.pass ? '' : i18n.t('common:no permission to operate'),
     },
     ...insertWhen(issueType !== ISSUE_TYPE.ALL, [
       {
         key: 'import',
-        text: i18n.t('import'),
+        text: i18n.t('Import'),
         disabled: !issuePerm.import.pass,
         tip: issuePerm.import.pass ? '' : i18n.t('common:no permission to operate'),
       },
     ]),
     {
       key: 'record',
-      text: i18n.t('record'),
+      text: i18n.t('Records'),
       disabled: false,
     },
   ];

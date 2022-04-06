@@ -140,9 +140,9 @@ const ClusterManage = () => {
         <ClusterList ref={listRef} onEdit={handleShowAddClusterModal} />
       </Spin>
       <div className="top-button-group">
-        <Button onClick={() => goTo('./history')}>{i18n.t('cmp:operation history')}</Button>
+        <Button onClick={() => goTo('./history')}>{i18n.t('cmp:History')}</Button>
         <Button type="primary" onClick={() => updater.typeSelectorVis(true)}>
-          {i18n.t('cmp:add cluster')}
+          {i18n.t('cmp:Add Cluster')}
         </Button>
       </div>
       <ClusterTypeModal visible={typeSelectorVis} toggleModal={toggleTypeModalVis} onSubmit={handleSelectType} />

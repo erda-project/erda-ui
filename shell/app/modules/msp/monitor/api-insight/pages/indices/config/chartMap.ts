@@ -38,13 +38,13 @@ const chartMap = merge(
     },
     disk: {
       ...commonAttr,
-      titleText: i18n.t('disk'),
+      titleText: i18n.t('Disk'),
       chartName: 'disk',
       viewRender: ConnectChart,
     },
     network: {
       ...commonAttr,
-      titleText: i18n.t('network'),
+      titleText: i18n.t('Network'),
       chartName: 'network',
       viewRender: ConnectChart,
     },

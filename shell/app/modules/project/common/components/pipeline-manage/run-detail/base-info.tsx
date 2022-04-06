@@ -50,7 +50,7 @@ const BaseInfo = (props: IProps) => {
       },
     },
     {
-      label: i18n.t('duration'),
+      label: i18n.t('Duration'),
       valueKey: 'costTimeSec',
       valueItem: ({ value: val }: any) => {
         return val && val !== -1 ? `${i18n.t('dop:time cost')} ${secondsToTime(+val)}` : '-';
@@ -62,7 +62,7 @@ const BaseInfo = (props: IProps) => {
       valueItem: ({ value: val }: any) => (val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '-'),
     },
     {
-      label: i18n.t('common:end at'),
+      label: i18n.t('common:End time'),
       valueKey: 'timeEnd',
       valueItem: ({ value: val }: any) => (val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '-'),
     },

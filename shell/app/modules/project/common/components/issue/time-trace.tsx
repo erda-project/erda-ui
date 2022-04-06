@@ -226,7 +226,7 @@ export const TimeTrace = React.forwardRef(
             destroyOnClose
             footer={[
               <Button key="back" onClick={handleCancel}>
-                {i18n.t('cancel')}
+                {i18n.t('Cancel')}
               </Button>,
               <Button key="submit" type="primary" onClick={handleOk}>
                 {i18n.t('ok')}

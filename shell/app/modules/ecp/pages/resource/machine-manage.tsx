@@ -92,7 +92,7 @@ const MachineManage = () => {
       dataIndex: 'ip',
     },
     {
-      title: i18n.t('number of instance'),
+      title: i18n.t('Number of instances'),
       dataIndex: 'tasks',
       width: 176,
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.tasks) - Number(b.tasks),
@@ -138,7 +138,7 @@ const MachineManage = () => {
       },
     },
     {
-      title: <span className="main-title">{i18n.t('tags')} </span>,
+      title: <span className="main-title">{i18n.t('Label')} </span>,
       dataIndex: 'labels',
       className: 'machine-labels',
       render: (value: string) => {
@@ -162,10 +162,10 @@ const MachineManage = () => {
         return (
           <TableActions>
             <span className="table-operations-btn" onClick={() => showMonitor(record)}>
-              {i18n.t('machine overview')}
+              {i18n.t('Machine Overview')}
             </span>
             <PopConfirm title={`${i18n.t('confirm to go offline')}?`} onConfirm={() => offlineHandle(record)}>
-              <span className="table-operations-btn">{i18n.t('msp:offline')}</span>
+              <span className="table-operations-btn">{i18n.t('msp:Offline')}</span>
             </PopConfirm>
           </TableActions>
         );
@@ -201,7 +201,7 @@ const MachineManage = () => {
       <Drawer
         width="80%"
         visible={drawerVisible}
-        title={i18n.t('machine overview')}
+        title={i18n.t('Machine Overview')}
         destroyOnClose
         onClose={onCloseDrawer}
       >

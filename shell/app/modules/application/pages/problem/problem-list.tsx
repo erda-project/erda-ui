@@ -34,7 +34,7 @@ const updateKeyMap = {
 
 export const getUserInfo = (userMap: Obj<IUserInfo>, userId: string) => {
   const user = userMap[userId];
-  return user ? user.nick || user.name || user.email || user.phone || user.id : i18n.t('dop:system');
+  return user ? user.nick || user.name || user.email || user.phone || user.id : i18n.t('dop:System');
 };
 
 export const ProblemList = () => {
@@ -107,7 +107,7 @@ export const ProblemList = () => {
       options: [
         {
           value: 'all',
-          label: i18n.t('all'),
+          label: i18n.t('All'),
         },
         {
           value: 'open',
@@ -115,7 +115,7 @@ export const ProblemList = () => {
         },
         {
           value: 'closed',
-          label: i18n.t('closed'),
+          label: i18n.t('Closed'),
         },
       ],
       placeholder: i18n.t('filter by {name}', { name: i18n.t('status') }),
@@ -123,24 +123,24 @@ export const ProblemList = () => {
     {
       key: 'type',
       type: 'select',
-      label: i18n.t('type'),
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('type') }),
+      label: i18n.t('Type'),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('Type') }),
       options: ProblemTypeOptions.map((a) => ({ label: a.name, value: a.value })),
       mode: 'single',
     },
     {
       key: 'priority',
       type: 'select',
-      label: i18n.t('dop:priority'),
+      label: i18n.t('dop:Priority'),
       options: ProblemPriority.map((a) => ({ label: a.name, value: a.value })),
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:priority') }),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:Priority') }),
       mode: 'single',
     },
     {
       key: 'q',
       outside: true,
       label: 'title',
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('Title') }),
       type: 'input',
     },
   ];
@@ -153,11 +153,11 @@ export const ProblemList = () => {
       render: (text: string) => `#${text}`,
     },
     {
-      title: i18n.t('title'),
+      title: i18n.t('Title'),
       dataIndex: 'title',
     },
     {
-      title: i18n.t('type'),
+      title: i18n.t('Type'),
       dataIndex: 'type',
       width: 120,
       render: (text: string) => {
@@ -166,7 +166,7 @@ export const ProblemList = () => {
       },
     },
     {
-      title: i18n.t('dop:priority'),
+      title: i18n.t('dop:Priority'),
       dataIndex: 'priority',
       width: 96,
       render: (text: string) => {
@@ -175,7 +175,7 @@ export const ProblemList = () => {
       },
     },
     {
-      title: i18n.t('creator'),
+      title: i18n.t('Creator'),
       dataIndex: 'creator',
       width: 120,
       render: (userId: string) => getUserInfo(userMap, userId),
@@ -242,7 +242,7 @@ export const ProblemList = () => {
       </Spin>
       <div className="top-button-group">
         <Button type="primary" onClick={() => openModal()}>
-          {i18n.t('dop:add issue')}
+          {i18n.t('dop:Add-issue')}
         </Button>
         <ProblemForm visible={visible} onOk={onOk} onCancel={closeModal} />
         <TicketDetail

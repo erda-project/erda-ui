@@ -78,7 +78,7 @@ const Artifacts = () => {
       <div className="top-button-group">
         <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={openFormModal}>
-            {i18n.t('edit')}
+            {i18n.t('Edit')}
           </Button>
         </WithAuth>
         {artifactsDetail && artifactsDetail.public ? (
@@ -100,7 +100,7 @@ const Artifacts = () => {
             <Popconfirm title={i18n.t('is it confirmed?')} placement="bottomRight" onConfirm={() => setPublic(true)}>
               <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
                 <Button type="primary" ghost>
-                  {i18n.t('publisher:release')}
+                  {i18n.t('publisher:Release')}
                 </Button>
               </WithAuth>
             </Popconfirm>
@@ -122,7 +122,7 @@ const Artifacts = () => {
               window.open(goTo.resolve.market({ publishItemId: id }));
             }}
           >
-            {i18n.t('preview')}
+            {i18n.t('Preview')}
           </Button>
         )}
       </div>

@@ -54,7 +54,7 @@ export const RunCaseNode = (props: IProps) => {
     //   break;
     // }
     case 'snippet':
-      name = `${get(scopeObj, 'name') || i18n.t('dop:node reference')}: ${data.name}`;
+      name = `${get(scopeObj, 'name') || i18n.t('dop:Reference Node')}: ${data.name}`;
       IconComp = (
         <CustomIcon
           type={scopeMap[curNodeScope] ? scopeMap[curNodeScope].icon : 'jiedian'}
@@ -146,7 +146,7 @@ export const RunCaseNode = (props: IProps) => {
         }
       }
       if (!isEmpty(files)) {
-        detailInfo.push(<h4 className="mt-2">{i18n.t('download')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('Download')}</h4>);
         detailInfo.push(
           files.map((item, idx) =>
             item.value ? (
@@ -160,7 +160,7 @@ export const RunCaseNode = (props: IProps) => {
         );
       }
       if (!isEmpty(errors)) {
-        detailInfo.push(<h4 className="mt-2">{i18n.t('error')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('Error')}</h4>);
         detailInfo.push(
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="test-case-node-msg">

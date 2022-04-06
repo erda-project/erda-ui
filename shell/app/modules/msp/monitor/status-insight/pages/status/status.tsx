@@ -97,35 +97,35 @@ const Status = () => {
 
   const typeMap = {
     All: {
-      text: i18n.t('msp:all'),
+      text: i18n.t('msp:All'),
       status: 'success',
       color: 'green',
     },
     Operational: {
-      text: i18n.t('msp:normal'),
+      text: i18n.t('msp:Normal'),
       status: 'success',
       color: 'green',
     },
     'Major Outage': {
-      text: i18n.t('msp:downtime'),
+      text: i18n.t('msp:Downtime'),
       status: 'error',
       color: 'red',
     },
     Miss: {
-      text: i18n.t('msp:no data'),
+      text: i18n.t('msp:No data'),
       status: 'default',
       color: 'grey',
     },
   };
 
   const defaultMap = {
-    text: i18n.t('msp:no data'),
+    text: i18n.t('msp:No data'),
     color: 'grey',
   };
 
   const columns = [
     {
-      title: i18n.t('msp:index'),
+      title: i18n.t('msp:Index'),
       dataIndex: 'name',
     },
     {
@@ -138,11 +138,11 @@ const Status = () => {
       ),
     },
     {
-      title: i18n.t('msp:online rate'),
+      title: i18n.t('msp:Online rate'),
       dataIndex: 'uptime',
     },
     {
-      title: `${i18n.t('msp:downtime')}(${i18n.t('msp:nearly 1 hour')})`,
+      title: `${i18n.t('msp:Downtime')}(${i18n.t('msp:nearly 1 hour')})`,
       dataIndex: 'downDuration',
     },
     {
@@ -151,7 +151,7 @@ const Status = () => {
       render: (text: string) => text && floor(+text, 2),
     },
     {
-      title: i18n.t('msp:average response time'),
+      title: i18n.t('msp:Average response time'),
       dataIndex: 'latency',
       render: (text: string) => <span>{text} ms</span>,
     },
@@ -181,7 +181,7 @@ const Status = () => {
       },
     },
     {
-      title: i18n.t('msp:root cause analysis'),
+      title: i18n.t('msp:Root cause analysis'),
       dataIndex: 'requestId',
       width: 90,
       hidden: true,
@@ -206,7 +206,7 @@ const Status = () => {
   const renderMenu = (record: MONITOR_STATUS.IMetricsBody) => {
     const { editMonitor, deleteMonitor } = {
       editMonitor: {
-        title: i18n.t('edit'),
+        title: i18n.t('Edit'),
         onClick: () => handleEdit(record),
       },
       deleteMonitor: {
@@ -232,7 +232,7 @@ const Status = () => {
     <div className="project-status-page">
       <div className="top-button-group">
         <Button className="add-button" type="primary" onClick={() => toggleModal()}>
-          {i18n.t('msp:add monitoring')}
+          {i18n.t('msp:Add Monitoring')}
         </Button>
       </div>
       <ErdaAlert className="erda-alert mb-2" message={hasDown.text} type={hasDown.type} closeable={false} />

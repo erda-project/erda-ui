@@ -27,7 +27,7 @@ interface IProps {
 const emptyFun = () => {};
 const emptyArr = [] as string[];
 export const CustomLabel = React.forwardRef(
-  ({ value = emptyArr, onChange = emptyFun, labelName = i18n.t('dop:add label') }: IProps, ref) => {
+  ({ value = emptyArr, onChange = emptyFun, labelName = i18n.t('dop:Add-label') }: IProps, ref) => {
     const [labels, setLabels] = React.useState([] as string[]);
     const [showInput, setShowInput] = React.useState(false);
     const [inputVal, setInputVal] = React.useState(undefined);

@@ -95,7 +95,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
       onOk: async () => {
         await formalRelease({
           releaseID,
-          $options: { successMsg: i18n.t('{action} successfully', { action: i18n.t('dop:be formal') }) },
+          $options: { successMsg: i18n.t('{action} successfully', { action: i18n.t('dop:To Formal') }) },
         });
         getDetail();
       },
@@ -129,7 +129,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
         const res = await checkVersion(payload);
         const { data } = res;
         if (data && !data.isUnique) {
-          throw new Error(i18n.t('{name} already exists', { name: i18n.t('version') }));
+          throw new Error(i18n.t('{name} already exists', { name: i18n.t('Version') }));
         }
       }
     }),
@@ -145,11 +145,11 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
               {isEdit ? (
                 <div className="w-2/5">
                   <RenderFormItem
-                    label={i18n.t('version')}
+                    label={i18n.t('Version')}
                     name="version"
                     type="input"
                     rules={[
-                      { required: true, message: i18n.t('please enter {name}', { name: i18n.t('version') }) },
+                      { required: true, message: i18n.t('please enter {name}', { name: i18n.t('Version') }) },
                       { max: 30, message: i18n.t('dop:no more than 30 characters') },
                       {
                         pattern: /^[A-Za-z0-9._+-]+$/,
@@ -164,14 +164,14 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                   />
                 </div>
               ) : (
-                renderItems([{ label: i18n.t('version'), value: version }])
+                renderItems([{ label: i18n.t('Version'), value: version }])
               )}
               {renderItems([
                 { label: i18n.t('dop:app name'), value: applicationName },
-                { label: i18n.t('cluster name'), value: clusterName },
-                { label: i18n.t('creator'), value: userId ? <UserInfo id={userId} /> : '-' },
+                { label: i18n.t('Cluster name'), value: clusterName },
+                { label: i18n.t('Creator'), value: userId ? <UserInfo id={userId} /> : '-' },
                 { label: i18n.t('create time'), value: createdAt && moment(createdAt).format('YYYY/MM/DD HH:mm:ss') },
-                { label: i18n.t('dop:code branch'), value: labels.gitBranch },
+                { label: i18n.t('dop:Code branch'), value: labels.gitBranch },
                 { label: 'commitId', value: labels.gitCommitId },
                 { label: `GitRepo ${i18n.t('dop:address')}`, value: labels.gitRepo },
               ])}
@@ -184,18 +184,18 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                   <div className="text-black-4 mb-2">{i18n.t('content')}</div>
                   <div>
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {changelog || i18n.t('dop:no content yet')}
+                      {changelog || i18n.t('dop:No content')}
                     </ReactMarkdown>
                   </div>
                 </div>
               )}
             </div>
           </TabPane>
-          <TabPane tab={i18n.t('dop:images list')} key="2">
+          <TabPane tab={i18n.t('dop:Image List')} key="2">
             <ErdaTable
               columns={[
-                { title: i18n.t('service name'), dataIndex: 'name' },
-                { title: i18n.t('dop:image name'), dataIndex: 'image' },
+                { title: i18n.t('Service name'), dataIndex: 'name' },
+                { title: i18n.t('dop:Image name'), dataIndex: 'image' },
               ]}
               dataSource={serviceImages}
               onChange={() => getReleaseDetail({ releaseID })}
@@ -238,7 +238,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
         ) : null}
         {!isFormal ? (
           <Button className="mr-3 bg-default" type="primary" onClick={formal}>
-            {i18n.t('dop:be formal')}
+            {i18n.t('dop:To Formal')}
           </Button>
         ) : null}
       </div>

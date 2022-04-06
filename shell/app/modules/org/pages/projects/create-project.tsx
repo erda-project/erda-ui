@@ -190,14 +190,14 @@ const templateArr: ICardProps[] = [
     disabled: false,
   },
   {
-    name: i18n.t('cmp:Monitor Project'),
+    name: i18n.t('cmp:Monitoring Project'),
     val: 'MSP',
     icon: 'fuwujiankong',
-    description: i18n.t('cmp:microservice governance desc'),
+    description: i18n.t('cmp:Provides one-stop service system observation, including service monitoring, tracing analysis, dashboards, and alerts.'),
     disabled: false,
   },
   {
-    name: i18n.t('cmp:code hosting project'),
+    name: i18n.t('cmp:Code Hosting Project'),
     val: 'codeHostingProject',
     icon: 'code',
     description: i18n.t(
@@ -206,10 +206,10 @@ const templateArr: ICardProps[] = [
     disabled: true,
   },
   {
-    name: i18n.t('cmp:agile project'),
+    name: i18n.t('cmp:Agile Project'),
     val: 'agileProject',
     icon: 'scrum',
-    description: i18n.t('cmp:support-agile-management'),
+    description: i18n.t('cmp:Supports agile management of Scrum and traditional project management, including requirements, tasks and bugs.'),
     disabled: true,
   },
 ];
@@ -304,7 +304,7 @@ const CreationForm = ({ createType }: { createType: string }) => {
       },
     ]),
     {
-      label: i18n.t('project name'),
+      label: i18n.t('Project name'),
       name: 'displayName',
       getComp: ({ form }: { form: FormInstance }) => (
         <Input
@@ -326,7 +326,7 @@ const CreationForm = ({ createType }: { createType: string }) => {
       },
     },
     {
-      label: i18n.t('project identifier'),
+      label: i18n.t('Project identifier'),
       name: 'name',
       rules: [
         { max: 30, message: i18n.t('cannot exceed {max} characters', { max: 30 }) },
@@ -350,7 +350,7 @@ const CreationForm = ({ createType }: { createType: string }) => {
     },
     ...insertWhen(createType === 'importProject', [
       {
-        label: i18n.t('project template'),
+        label: i18n.t('Project template'),
         name: 'projectTemplate',
         labelTip: i18n.t('please upload the zip file'),
         getComp: ({ form }: { form: FormInstance }) => <ImportProjectTemplate form={form} />,
@@ -360,20 +360,20 @@ const CreationForm = ({ createType }: { createType: string }) => {
       {
         getComp: () => (
           <Checkbox defaultChecked={ifConfigCluster} onChange={() => setIfConfigCluster(!ifConfigCluster)}>
-            {i18n.t('cmp:need to configure project cluster resources')}
+            {i18n.t('cmp:Need to configure project cluster resources')}
           </Checkbox>
         ),
       },
     ]),
     ...insertWhen(template !== 'MSP' && ifConfigCluster, quotaFields),
     {
-      label: i18n.t('project icon'),
+      label: i18n.t('Project logo'),
       name: 'logo',
       required: false,
       getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
     },
     {
-      label: i18n.t('project description'),
+      label: i18n.t('Project description'),
       name: 'desc',
       type: 'textArea',
       required: false,
@@ -384,10 +384,10 @@ const CreationForm = ({ createType }: { createType: string }) => {
       getComp: ({ form }: { form: FormInstance }) => (
         <React.Fragment>
           <Button className="btn-save" type="primary" onClick={() => handleSubmit(form)}>
-            {i18n.t('save')}
+            {i18n.t('Save')}
           </Button>
           <Button className="ml-3" onClick={() => window.history.back()}>
-            {i18n.t('cancel')}
+            {i18n.t('Cancel')}
           </Button>
         </React.Fragment>
       ),

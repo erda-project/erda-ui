@@ -53,7 +53,7 @@ const opHint = (operation: string, selectedList: CLOUD.TagItem[]) => {
       </Dropdown>
       <span>
         {i18n.t('cmp:will execute {operation} operation', { operation })}，
-        {i18n.t('is it confirmed {action}?', { action: i18n.t('execute') })}
+        {i18n.t('is it confirmed {action}?', { action: i18n.t('Execute') })}
       </span>
     </div>
   );
@@ -140,7 +140,7 @@ const ComputingEcs = () => {
         render: (value: string) => (value === 'aliyun' ? i18n.t('Alibaba Cloud') : value),
       },
       {
-        title: i18n.t('cmp:operating system'),
+        title: i18n.t('cmp:Operating system'),
         dataIndex: 'osName',
         width: 140,
         render: (_v: string) => <Tooltip title={_v}>{_v}</Tooltip>,
@@ -205,10 +205,10 @@ const ComputingEcs = () => {
     {
       key: 'region',
       type: 'select',
-      label: i18n.t('cmp:region'),
+      label: i18n.t('cmp:Region'),
       mode: 'single',
       options: map(regions, ({ regionID, localName }) => ({ value: regionID, label: `${localName} (${regionID})` })),
-      placeholder: i18n.t('cmp:please choose region'),
+      placeholder: i18n.t('cmp:Please select the region'),
     },
     {
       key: 'vendor',
@@ -221,7 +221,7 @@ const ComputingEcs = () => {
     {
       key: 'cluster',
       type: 'select',
-      label: i18n.t('dop:priority'),
+      label: i18n.t('dop:Priority'),
       options: map(clusterList, (item) => ({ value: item.name, label: `dice-cluster/${item.name}` })),
       placeholder: i18n.t('please select labels'),
       mode: 'single',

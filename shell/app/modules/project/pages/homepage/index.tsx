@@ -80,7 +80,7 @@ const LinkRow = (props: LinkRowProps) => {
           </Tooltip>
         </div>
         <div className={`${isHovering ? 'homepage-link-operation' : 'hidden'} flex justify-between items-center`}>
-          <Tooltip title={i18n.t('edit')}>
+          <Tooltip title={i18n.t('Edit')}>
             <ErdaIcon
               type="correction"
               className={'w-4 mx-2 self-center text-default-4 hover:text-default-8'}
@@ -172,7 +172,7 @@ export const ProjectHomepage = () => {
       ],
     },
     {
-      label: i18n.t('name'),
+      label: i18n.t('Name'),
       required: false,
       name: 'name',
       itemProps: {
@@ -233,7 +233,7 @@ export const ProjectHomepage = () => {
                           onClick={() => goTo(goTo.pages.projectSetting, { projectId })}
                           className="text-purple-deep mx-1 cursor-pointer"
                         >
-                          {i18n.t('project setting')}
+                          {i18n.t('Project settings')}
                         </span>
                         {i18n.t('dop:to configure')}
                       </span>
@@ -250,7 +250,7 @@ export const ProjectHomepage = () => {
                       >
                         <ErdaIcon type="lianjie" {...iconStyle} />
                         <div className={'ml-2 w-64 px-2 py-1 flex justify-between items-center text-default-3'}>
-                          {i18n.t('dop:click to add URL path')}
+                          {i18n.t('dop:Click to add a URL')}
                         </div>
                       </div>
                     )}
@@ -259,7 +259,7 @@ export const ProjectHomepage = () => {
                     <ErdaIcon type="zerenren" {...iconStyle} />
                     <span className="ml-4">
                       <Avatar size={24} src={projectOwner?.avatar || undefined}>
-                        {projectOwner?.nick ? getAvatarChars(projectOwner?.nick) : i18n.t('none')}
+                        {projectOwner?.nick ? getAvatarChars(projectOwner?.nick) : i18n.t('None')}
                       </Avatar>
                       {projectOwner?.name && (
                         <span className="text-default-8 ml-1">{projectOwner?.nick || projectOwner?.name || '-'}</span>

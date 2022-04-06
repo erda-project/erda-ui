@@ -58,7 +58,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       required: true,
     },
     {
-      label: i18n.t('cluster name'),
+      label: i18n.t('Cluster name'),
       component: 'input',
       key: 'displayName',
       rules: [
@@ -71,7 +71,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       ],
     },
     {
-      label: i18n.t('cmp:extensive domain'),
+      label: i18n.t('cmp:Extensive domain'),
       component: 'input',
       key: 'rootDomain',
       rules: [
@@ -83,7 +83,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       required: true,
     },
     {
-      label: i18n.t('cmp:cluster specifications'),
+      label: i18n.t('cmp:Cluster specification'),
       component: 'radio',
       key: 'clusterSize',
       componentProps: {
@@ -123,14 +123,14 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       required: true,
     },
     {
-      label: i18n.t('password'),
+      label: i18n.t('Password'),
       component: 'input',
       key: 'password',
       required: true,
       isPassword: true,
     },
     {
-      label: i18n.t('port'),
+      label: i18n.t('Port'),
       component: 'input',
       key: 'port',
       required: true,
@@ -138,7 +138,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       rules: [
         {
           pattern: String(/^\d+$/),
-          msg: i18n.t('msp:please key in numbers'),
+          msg: i18n.t('msp:Please enter the number'),
         },
       ],
     },
@@ -146,7 +146,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
 
   const storageFields = [
     {
-      label: i18n.t('cmp:shared storage'),
+      label: i18n.t('cmp:Shared storage'),
       component: 'select',
       key: 'storage',
       required: true,
@@ -193,7 +193,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
 
   const networkFields = [
     {
-      label: i18n.t('cmp:container segment'),
+      label: i18n.t('cmp:Container segment'),
       component: 'input',
       key: 'dockerCIDR',
       rules: [
@@ -232,11 +232,11 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
 
   const serverFields = [
     {
-      label: i18n.t('cmp:domain name server address list'),
+      label: i18n.t('cmp:Domain name server address'),
       component: 'input',
       key: 'nameservers',
       componentProps: {
-        placeholder: i18n.t('cmp:separate by comma'),
+        placeholder: i18n.t('cmp:Separate by comma'),
       },
       required: true,
       rules: [
@@ -255,7 +255,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       key: 'hostIps',
       required: true,
       componentProps: {
-        placeholder: i18n.t('cmp:separate by comma'),
+        placeholder: i18n.t('cmp:Separate by comma'),
       },
       rules: [
         {
@@ -265,7 +265,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       ],
     },
     {
-      label: i18n.t('cmp:data disk device'),
+      label: i18n.t('cmp:Data disk device'),
       component: 'input',
       key: 'device',
       componentProps: {
@@ -318,7 +318,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
   return (
     <>
       <Modal
-        title={i18n.t('cmp:add existing resources to build a cluster')}
+        title={i18n.t('cmp:Add existing resources to build a cluster')}
         visible={visible}
         onCancel={onClose}
         onOk={onOk}
@@ -340,15 +340,15 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
               <>
                 <div className="font-bold mb-1">{i18n.t('cmp:cluster configuration')}</div>
                 <RenderFields form={form} fields={bFields} />
-                <div className="font-bold mb-1">{i18n.t('cmp:jump server configuration')}</div>
+                <div className="font-bold mb-1">{i18n.t('cmp:Jump server configuration')}</div>
                 <RenderFields form={form} fields={sFields} />
-                <div className="font-bold mb-1">{i18n.t('cmp:shared storage')}</div>
+                <div className="font-bold mb-1">{i18n.t('cmp:Shared storage')}</div>
                 <RenderFields form={form} fields={stFields} />
-                <div className="font-bold mb-1">{i18n.t('cmp:network configuration')}</div>
+                <div className="font-bold mb-1">{i18n.t('cmp:Network configuration')}</div>
                 <RenderFields form={form} fields={dFields} />
-                <div className="font-bold mb-1">{i18n.t('cmp:domain name server')}</div>
+                <div className="font-bold mb-1">{i18n.t('cmp:Domain name server')}</div>
                 <RenderFields form={form} fields={seFields} />
-                <div className="font-bold mb-1">{i18n.t('cmp:machine information configuration')}</div>
+                <div className="font-bold mb-1">{i18n.t('cmp:Machine information configuration')}</div>
                 <RenderFields form={form} fields={mFields} />
               </>
             );

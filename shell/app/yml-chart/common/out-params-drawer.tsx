@@ -111,7 +111,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
                   disabled={!editing}
                   value={_data.name}
                   onChange={(e: any) => updateItem({ name: e.target.value })}
-                  placeholder={i18n.t('please enter {name}', { name: i18n.t('dop:parameter name') })}
+                  placeholder={i18n.t('please enter {name}', { name: i18n.t('dop:Parameter name') })}
                 />
                 <Select
                   key="ref"
@@ -146,9 +146,9 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
                   if (!tip) {
                     tip =
                       nameItem.length > 50
-                        ? `${i18n.t('dop:parameter name')} ${i18n.t('length is {min}~{max}', { min: 1, max: 50 })}`
+                        ? `${i18n.t('dop:Parameter name')} ${i18n.t('length is {min}~{max}', { min: 1, max: 50 })}`
                         : !reg.test(nameItem)
-                        ? `${i18n.t('dop:parameter name')} ${i18n.t('includes letters, numbers and underscores')}`
+                        ? `${i18n.t('dop:Parameter name')} ${i18n.t('includes letters, numbers and underscores')}`
                         : '';
                   }
                 });
@@ -207,7 +207,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
       {editing ? (
         <div className="pipeline-out-params-drawer-footer">
           <Button onClick={closeDrawer} className="mr-2">
-            {i18n.t('cancel')}
+            {i18n.t('Cancel')}
           </Button>
           <Button onClick={onSubmit} type="primary">
             {i18n.t('ok')}

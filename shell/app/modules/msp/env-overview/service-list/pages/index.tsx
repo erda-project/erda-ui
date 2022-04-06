@@ -94,32 +94,32 @@ const CHART_MAP: {
   RPS: [
     {
       key: 'aggregateMetric.avgRps',
-      name: i18n.t('msp:average request volume'),
-      tips: i18n.t('msp:definition of average rps'),
+      name: i18n.t('msp:Average request volume'),
+      tips: i18n.t('msp:The average number of requests processed per second by the service in the last hour'),
     },
     {
       key: 'aggregateMetric.maxRps',
-      name: i18n.t('msp:maximum request volume'),
-      tips: i18n.t('msp:definition of maximum rps'),
+      name: i18n.t('msp:Maximum request volume'),
+      tips: i18n.t('msp:The maximum number of requests processed per second by the service in the last hour'),
     },
   ],
   AvgDuration: [
     {
       key: 'aggregateMetric.avgDuration',
-      name: i18n.t('msp:average delay'),
-      tips: i18n.t('msp:definition of average delay'),
+      name: i18n.t('msp:Average delay'),
+      tips: i18n.t('msp:The average response time for service requests in the last hour'),
     },
     {
       key: 'aggregateMetric.maxDuration',
-      name: i18n.t('msp:maximum delay'),
-      tips: i18n.t('msp:definition of maximum delay'),
+      name: i18n.t('msp:Maximum delay'),
+      tips: i18n.t('msp:The maximum response time for service requests in the last hour'),
     },
   ],
   ErrorRate: [
     {
       key: 'aggregateMetric.errorRate',
-      name: i18n.t('msp:error rate'),
-      tips: i18n.t('msp:definition of error rate'),
+      name: i18n.t('msp:Error rate'),
+      tips: i18n.t('msp:The ratio of the number of incorrect requests to the total number of requests in the last hour'),
     },
   ],
 };
@@ -188,7 +188,7 @@ const listDetail = (serviceId: string, serviceName: string) => {
 
 const tabs: Array<{ label: string; value: ServiceStatus; countKey: keyof MSP_SERVICES.ServiceCount }> = [
   {
-    label: i18n.t('msp:all service'),
+    label: i18n.t('msp:All-service'),
     value: 'allService',
     countKey: 'totalCount',
   },
@@ -198,7 +198,7 @@ const tabs: Array<{ label: string; value: ServiceStatus; countKey: keyof MSP_SER
     countKey: 'hasErrorCount',
   },
   {
-    label: i18n.t('msp:no traffic service'),
+    label: i18n.t('msp:No Traffic'),
     value: 'withoutRequest',
     countKey: 'withoutRequestCount',
   },
@@ -335,7 +335,7 @@ const MicroServiceOverview = () => {
             <div>
               <p className="mb-0.5 font-medium text-xl leading-8">{name}</p>
               <Tag color="#59516C" className="mb-0.5 text-xs leading-5 border-0">
-                {i18n.t('msp:last active time')}: {lastHeartbeat}
+                {i18n.t('msp:Last active time')}: {lastHeartbeat}
               </Tag>
             </div>
           </>
@@ -514,7 +514,7 @@ const MicroServiceOverview = () => {
             prefix={<ErdaIcon type="search1" />}
             bordered={false}
             allowClear
-            placeholder={i18n.t('msp:search by service name')}
+            placeholder={i18n.t('msp:Search by service name')}
             className="bg-black-06 w-72"
             onChange={(e) => {
               handleChange(e.target.value);

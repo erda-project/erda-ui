@@ -45,7 +45,7 @@ const UserMenu = ({
     ...insertWhen(loginUser.isNewUser || !!erdaEnv.UC_PUBLIC_URL, [
       {
         icon: <ErdaIcon className="mr-1" type="shezhi" size="16" />,
-        title: i18n.t('layout:account settings'),
+        title: i18n.t('layout:Account Settings'),
         onClick: () => {
           window.open(loginUser.isNewUser ? UC_USER_SETTINGS : erdaEnv.UC_PUBLIC_URL);
         },
@@ -53,7 +53,7 @@ const UserMenu = ({
     ]),
     {
       icon: <ErdaIcon className="mr-1" type="tuichu" size="16" />,
-      title: i18n.t('layout:logout'),
+      title: i18n.t('layout:Logout'),
       onClick: () => userStore.effects.logout(),
       danger: true,
     },

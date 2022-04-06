@@ -207,7 +207,7 @@ const ErrorList = ({
       },
     },
     {
-      title: i18n.t('version'),
+      title: i18n.t('Version'),
       dataIndex: 'appVersion',
       width: 80,
       ellipsis: true,
@@ -398,7 +398,7 @@ const ErrorReport = (props: IProps) => {
       </div>
       <div className="mt-4 block-container">
         <div className="title flex justify-between items-center">
-          <span className="font-bold text-base">{i18n.t('publisher:error statistics')}</span>
+          <span className="font-bold text-base">{i18n.t('publisher:Error statistics')}</span>
         </div>
         <div>
           <FilterTab className="m-2" value={lineChartType} onChange={updater.lineChartType} />

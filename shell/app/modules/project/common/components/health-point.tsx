@@ -60,11 +60,11 @@ export const statusMap = {
   },
   task: {
     Killed: {
-      text: i18n.t('stopped'),
+      text: i18n.t('Stopped'),
       state: 'error',
     },
     Stopped: {
-      text: i18n.t('stopped'),
+      text: i18n.t('Stopped'),
       state: 'error',
     },
     Failed: {
@@ -96,17 +96,17 @@ export const statusMap = {
       state: 'warning',
     },
     Running: {
-      text: i18n.t('running'),
+      text: i18n.t('Running'),
       state: 'success',
     },
     Dead: {
-      text: i18n.t('stopped'),
+      text: i18n.t('Stopped'),
       state: 'error',
     },
   },
   machine: {
     fatal: {
-      text: i18n.t('error'),
+      text: i18n.t('Error'),
       state: 'error',
     },
     warning: {

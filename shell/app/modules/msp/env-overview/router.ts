@@ -19,11 +19,11 @@ import { getMspBreadcrumb } from 'msp/config';
 const tabs = [
   {
     key: 'service-list',
-    name: i18n.t('msp:service list'),
+    name: i18n.t('msp:Service List'),
   },
   {
     key: 'topology',
-    name: i18n.t('msp:topology'),
+    name: i18n.t('msp:Topology'),
   },
 ];
 const getEnvOverViewRouter = (): RouteConfigItem => {

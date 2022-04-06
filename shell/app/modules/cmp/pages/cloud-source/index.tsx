@@ -188,7 +188,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('cmp:ECS status distribution'),
+          title: i18n.t('cmp:ECS status'),
           chartType: 'chart:pie',
           hideReload: true,
           staticData: statusData.total ? statusData : [],
@@ -242,7 +242,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('cmp:VPC Label'),
+          title: i18n.t('cmp:VPC label'),
           chartType: 'chart:pie',
           hideReload: true,
           staticData: labelData.total ? labelData : [],
@@ -265,7 +265,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('cmp:resource expire soon'),
+          title: i18n.t('cmp:Resources expire soon'),
           hideReload: true,
           chartType: 'chart:bar',
           customRender: !expireData.total
@@ -316,7 +316,7 @@ const CloudSource = () => {
               ],
               yAxis: [
                 {
-                  name: i18n.t('cmp:number'),
+                  name: i18n.t('cmp:Number'),
                   nameLocation: 'end',
                   nameGap: 15,
                   minInterval: 1,
@@ -338,7 +338,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('cmp:OSS Overview'),
+          title: i18n.t('cmp:OSS overview'),
           hideReload: true,
           customRender: () => {
             const bucket = get(overviewData, 'STORAGE.resourceTypeData.OSS_BUCKET') || {};
@@ -390,7 +390,7 @@ const CloudSource = () => {
                   }}
                 >
                   <div className="count">{accountsCount || 0}</div>
-                  <div className="name">{i18n.t('cmp:number of account')}</div>
+                  <div className="name">{i18n.t('cmp:Number of accounts')}</div>
                 </div>
               </div>
             );
@@ -406,7 +406,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('cmp:cloud resource overview'),
+          title: i18n.t('cmp:Cloud service overview'),
           chartType: 'chart:bar',
           hideReload: true,
           staticData: parseStatusData(),
@@ -443,7 +443,7 @@ const CloudSource = () => {
               ],
               yAxis: [
                 {
-                  name: i18n.t('cmp:number'),
+                  name: i18n.t('cmp:Number'),
                   nameLocation: 'end',
                   nameGap: 15,
                   minInterval: 1,
@@ -465,7 +465,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('cmp:ecs add trending'),
+          title: i18n.t('cmp:ECS add trending'),
           chartType: 'chart:area',
           hideReload: true,
           staticData: getECSTrendingData(ecsTrendingData),
@@ -478,7 +478,7 @@ const CloudSource = () => {
             option: {
               yAxis: [
                 {
-                  name: i18n.t('cmp:number'),
+                  name: i18n.t('cmp:Number'),
                   nameLocation: 'end',
                   nameGap: 15,
                   minInterval: 1,

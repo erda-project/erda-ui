@@ -317,24 +317,24 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
       {!editing ? (
         <>
           <Button disabled={!editable} onClick={() => updater.editing(true)} className="ml-2" size="small">
-            {i18n.t('edit')}
+            {i18n.t('Edit')}
           </Button>
           {extraOps}
         </>
       ) : (
         <div className="px-3 py-2">
           <Button onClick={onCancel} size="small">
-            {i18n.t('cancel')}
+            {i18n.t('Cancel')}
           </Button>
           <Button onClick={handleSubmit} type="primary" className="ml-2" size="small">
-            {i18n.t('save')}
+            {i18n.t('Save')}
           </Button>
         </div>
       )}
     </>
   );
 
-  const name = title ? (editing ? `${i18n.t('edit')} ${title}` : title) : '';
+  const name = title ? (editing ? `${i18n.t('Edit')} ${title}` : title) : '';
 
   return (
     <div>
@@ -376,7 +376,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
         title={
           <div>
             <ErdaIcon size="16" type="guanbi-fill" fill="danger" />
-            {i18n.t('error')}
+            {i18n.t('Error')}
           </div>
         }
         maskClosable={false}
@@ -387,7 +387,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
               updater.errorMsg('');
             }}
           >
-            {i18n.t('cancel')}
+            {i18n.t('Cancel')}
           </Button>,
           ...insertWhen(originYmlValid, [
             <Button key="ok" type="primary" onClick={() => resetAndChangeViewType()}>

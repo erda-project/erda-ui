@@ -31,17 +31,17 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
     },
     {
       key: 'all',
-      name: i18n.t('dop:issue list'),
+      name: i18n.t('dop:Issue-list'),
       split: true,
       show: [projectPerm.requirement.read.pass, projectPerm.task.read.pass, projectPerm.bug.read.pass].some((k) => k),
     },
     {
       key: 'gantt',
-      name: i18n.t('dop:gantt chart'),
+      name: i18n.t('dop:Gantt Chart'),
     },
     {
       key: 'board',
-      name: i18n.t('dop:board'),
+      name: i18n.t('dop:Board'),
     },
   ];
 };
@@ -50,7 +50,7 @@ export const DEPLOY_TABS = (params: Obj) => {
   return [
     {
       key: 'list/dev',
-      name: firstCharToUpper(i18n.t('deploy')),
+      name: firstCharToUpper(i18n.t('Deployment')),
       isActive: (activeKey: string) => activeKey.split('/')[0] === 'list',
     },
     {
@@ -87,13 +87,13 @@ export const COLLABORATE_TABS = () => {
       : [
           {
             key: 'milestone',
-            name: i18n.t('dop:milestone'),
+            name: i18n.t('dop:Milestone'),
             show: projectPerm.epic.read.pass,
           },
         ]),
     {
       key: 'backlog',
-      name: i18n.t('dop:backlog'),
+      name: i18n.t('dop:Backlog'),
       show: projectPerm.backLog.viewBackLog.pass,
     },
 
@@ -104,17 +104,17 @@ export const COLLABORATE_TABS = () => {
     },
     {
       key: 'all',
-      name: i18n.t('dop:issue list'),
+      name: i18n.t('dop:Issue-list'),
       show: [projectPerm.requirement.read.pass, projectPerm.task.read.pass, projectPerm.bug.read.pass].some((k) => k),
     },
     {
       key: 'gantt',
-      name: i18n.t('dop:gantt chart'),
+      name: i18n.t('dop:Gantt Chart'),
       show: projectPerm.requirement.read.pass,
     },
     {
       key: 'board',
-      name: i18n.t('dop:board'),
+      name: i18n.t('dop:Board'),
       show: projectPerm.requirement.read.pass,
     },
   ];
@@ -123,11 +123,11 @@ export const COLLABORATE_TABS = () => {
 export const MEASURE_TABS = [
   {
     key: 'task',
-    name: i18n.t('requirement & task'),
+    name: i18n.t('Requirement & Task'),
   },
   {
     key: 'bug',
-    name: i18n.t('bug'),
+    name: i18n.t('Bug'),
   },
 ];
 
@@ -138,11 +138,11 @@ export const MANUAL_TEST_TABS = [
   },
   {
     key: 'testPlan',
-    name: i18n.t('dop:test plan'),
+    name: i18n.t('dop:Plan'),
   },
   {
     key: 'testEnv',
-    name: i18n.t('dop:parameter configuration'),
+    name: i18n.t('dop:Parameter Configuration'),
   },
 ];
 
@@ -153,7 +153,7 @@ export const TEST_STATISTICS_TABS = [
   },
   {
     key: 'code-coverage',
-    name: i18n.t('dop:code coverage statistics'),
+    name: i18n.t('dop:Code Coverage Statistics'),
   },
 ];
 
@@ -168,16 +168,16 @@ export const AUTO_TEST_TABS = [
   },
   {
     key: 'testPlan',
-    name: i18n.t('dop:test plan'),
+    name: i18n.t('dop:Plan'),
   },
   {
     key: 'data-source',
-    name: i18n.t('dop:data sources'),
+    name: i18n.t('dop:Data Source'),
   },
 
   {
     key: 'testEnv',
-    name: i18n.t('dop:parameter configuration'),
+    name: i18n.t('dop:Parameter Configuration'),
   },
 ];
 
@@ -188,7 +188,7 @@ export const RELEASE_TABS = [
   },
   {
     key: 'project',
-    name: i18n.t('dop:project release'),
+    name: i18n.t('dop:Project Artifacts'),
   },
 ];
 
@@ -199,7 +199,7 @@ export const PIPELINE_TABS = [
   },
   {
     key: 'records',
-    name: i18n.t('dop:execute records'),
+    name: i18n.t('dop:Execution Records'),
   },
   {
     key: 'config/default',

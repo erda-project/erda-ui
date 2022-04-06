@@ -22,7 +22,7 @@ function AlarmRouter() {
     },
     {
       path: 'add-strategy',
-      breadcrumbName: i18n.t('cmp:new alarm strategy'),
+      breadcrumbName: i18n.t('cmp:New alert strategy'),
       pageNameInfo: AddStrategyPageName,
       getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index/msp-strategy')),
     },

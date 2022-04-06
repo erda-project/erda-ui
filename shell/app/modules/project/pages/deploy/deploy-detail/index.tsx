@@ -97,7 +97,7 @@ const DeployDetail = (props: IProps) => {
 
   const fields = [
     {
-      label: i18n.t('dop:artifact version'),
+      label: i18n.t('dop:Version'),
       valueKey: 'releaseInfo',
       valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
         const curText = value?.version || value?.id || '-';
@@ -122,7 +122,7 @@ const DeployDetail = (props: IProps) => {
       },
     },
     {
-      label: i18n.t('dop:artifact type'),
+      label: i18n.t('dop:Type-artifact'),
       valueKey: 'releaseInfo',
       valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
         const type = value?.type;
@@ -139,11 +139,11 @@ const DeployDetail = (props: IProps) => {
       valueItem: ({ value }: { value: string }) => CONFIG_ENV_MAP[value] || value || '-',
     },
     {
-      label: i18n.t('dop:executor'),
+      label: i18n.t('dop:Executor'),
       valueKey: 'operator',
       valueItem: ({ value }: { value: string }) => {
         const { nick, name } = userMap[value] || {};
-        return nick || name || i18n.t('common:none');
+        return nick || name || i18n.t('common:None');
       },
     },
     {
@@ -154,15 +154,15 @@ const DeployDetail = (props: IProps) => {
       },
     },
     {
-      label: i18n.t('dop:artifact creator'),
+      label: i18n.t('dop:Creator-artifact'),
       valueKey: 'releaseInfo',
       valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
         const { nick, name } = userMap[value?.creator] || {};
-        return nick || name || i18n.t('common:none');
+        return nick || name || i18n.t('common:None');
       },
     },
     {
-      label: i18n.t('dop:artifact created at'),
+      label: i18n.t('dop:Creation time-artifact'),
       valueKey: 'releaseInfo',
       valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
         return value?.createdAt ? moment(value.createdAt).format('YYYY/MM/DD HH:mm:ss') : '-';
@@ -179,7 +179,7 @@ const DeployDetail = (props: IProps) => {
     },
     // log: {
     //   key: 'log',
-    //   ...(!selectedApp?.deploymentId ? { disabled: true, tip: i18n.t('common:no data') } : {}),
+    //   ...(!selectedApp?.deploymentId ? { disabled: true, tip: i18n.t('common:No data') } : {}),
     //   text: i18n.t('dop:system log'),
     //   Comp: <Log data={selectedApp} />,
     // },
@@ -237,7 +237,7 @@ const BaseInfo = ({ data }: ISubProps) => {
   const fields = [
     {
       icon: 'version',
-      title: i18n.t('dop:artifact version'),
+      title: i18n.t('dop:Version'),
       valueKey: 'releaseVersion',
       render: (val: string, record?: PROJECT_DEPLOY.DeployDetailApp) => {
         const curText = record?.releaseVersion || record?.releaseId || '-';
@@ -260,7 +260,7 @@ const BaseInfo = ({ data }: ISubProps) => {
     },
     {
       icon: 'daimafenzhi',
-      title: i18n.t('dop:code branch'),
+      title: i18n.t('dop:Code branch'),
       valueKey: 'branch',
     },
     {
@@ -305,13 +305,13 @@ const Params = ({ data, slot }: ISubProps) => {
       title: 'Value',
       render: (v: string, record: PROJECT_DEPLOY.IAppParams) => (record.encrypt ? '******' : v),
     },
-    { dataIndex: 'type', title: i18n.t('type'), render: (v: string) => ConfigTypeMap[v]?.text },
+    { dataIndex: 'type', title: i18n.t('Type'), render: (v: string) => ConfigTypeMap[v]?.text },
     {
       dataIndex: 'encrypt',
-      title: i18n.t('dop:encrypt'),
-      render: (v: boolean) => (v ? i18n.t('common:yes') : i18n.t('common:no')),
+      title: i18n.t('dop:Encrypt'),
+      render: (v: boolean) => (v ? i18n.t('common:Yes') : i18n.t('common:No')),
     },
-    { dataIndex: 'comment', title: i18n.t('remark') },
+    { dataIndex: 'comment', title: i18n.t('Remark') },
   ];
 
   const actions = {
@@ -324,7 +324,7 @@ const Params = ({ data, slot }: ISubProps) => {
                 <>
                   {encrypt ? (
                     <Tooltip title={i18n.t('dop:encrypted files cannot be downloaded')}>
-                      <a className="disabled">{i18n.t('download')}</a>
+                      <a className="disabled">{i18n.t('Download')}</a>
                     </Tooltip>
                   ) : (
                     <a
@@ -332,7 +332,7 @@ const Params = ({ data, slot }: ISubProps) => {
                       download={record.value}
                       href={`/api/files/${record.value}`}
                     >
-                      {i18n.t('download')}
+                      {i18n.t('Download')}
                     </a>
                   )}
                 </>

@@ -13,8 +13,8 @@
 
 import i18n from 'i18n';
 
-export const RUNNING_STATUS_LIST = [i18n.t('running'), i18n.t('cmp:will expire soon')]; // 被判断为正在运行的状态的列表
-export const STOP_STATUS_LIST = [i18n.t('stopped'), i18n.t('stop'), i18n.t('cmp:expired')];
+export const RUNNING_STATUS_LIST = [i18n.t('Running'), i18n.t('cmp:will expire soon')]; // 被判断为正在运行的状态的列表
+export const STOP_STATUS_LIST = [i18n.t('Stopped'), i18n.t('stop'), i18n.t('cmp:Expired')];
 
 const serviceStatusMap = {
   Running: { status: 'success' },

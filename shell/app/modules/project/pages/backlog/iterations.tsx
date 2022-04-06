@@ -75,7 +75,7 @@ const Iterations = () => {
     <div className="backlog-iterations flex flex-col justify-center h-full">
       <div className="backlog-iterations-title  flex justify-between items-center mb-2">
         <div>
-          <span className="font-bold text-base mr-2">{i18n.t('dop:unfinished iteration')}</span>
+          <span className="font-bold text-base mr-2">{i18n.t('dop:Unfinished iteration')}</span>
           <span className="text-desc">
             {i18n.t('{num} {type}', { num: undoneIterations.length, type: i18n.t('dop:iteration') })}
           </span>
@@ -109,7 +109,7 @@ const Iterations = () => {
 const EmptyIteration = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolean }) => (
   <div className="backlog-iterations-empty-holder">
     <img src={backlog_dd_svg} className="mb-3" />
-    <div className="text-2xl font-bold my-2">{i18n.t('dop:unfinished iteration')}</div>
+    <div className="text-2xl font-bold my-2">{i18n.t('dop:Unfinished iteration')}</div>
     <div className="desc">
       {i18n.t('dop:add-iteration-tip1')}
       <WithAuth pass={addAuth}>

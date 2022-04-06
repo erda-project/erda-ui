@@ -30,7 +30,7 @@ const { Option } = Select;
 const SERVER_TYPES = {
   service: i18n.t('service'),
   gateway: i18n.t('API gateway'),
-  other: i18n.t('common:other'),
+  other: i18n.t('common:Others'),
 };
 
 const ENV_DIC = {
@@ -103,7 +103,7 @@ const DomainManage = () => {
               {name}
             </Option>
           )),
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('cluster name') }),
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('Cluster name') }),
           allowClear: true,
         },
       },
@@ -116,7 +116,7 @@ const DomainManage = () => {
               {SERVER_TYPES[value]}
             </Option>
           )),
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('attribution type') }),
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('Attribution type') }),
           allowClear: true,
         },
       },
@@ -124,7 +124,7 @@ const DomainManage = () => {
         type: LoadMoreSelector,
         name: 'projectID',
         customProps: {
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('project name') }),
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('Project name') }),
           allowClear: true,
           getData: getProjectListData,
           chosenItemConvert,
@@ -164,7 +164,7 @@ const DomainManage = () => {
 
   const columns: any[] = [
     {
-      title: i18n.t('cluster name'),
+      title: i18n.t('Cluster name'),
       dataIndex: 'clusterName',
       render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },
@@ -174,17 +174,17 @@ const DomainManage = () => {
       render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },
     {
-      title: i18n.t('attribution type'),
+      title: i18n.t('Attribution type'),
       dataIndex: 'type',
       render: (type: string) => <Tooltip title={SERVER_TYPES[type]}>{SERVER_TYPES[type]}</Tooltip>,
     },
     {
-      title: i18n.t('project name'),
+      title: i18n.t('Project name'),
       dataIndex: 'projectName',
       render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },
     {
-      title: i18n.t('msp:application name'),
+      title: i18n.t('msp:App name'),
       dataIndex: 'appName',
       render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },

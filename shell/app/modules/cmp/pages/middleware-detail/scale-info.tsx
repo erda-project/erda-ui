@@ -35,7 +35,7 @@ const ScaleInfo = ({ data }: IProps) => {
 
   const items = [
     {
-      title: i18n.t('default:name'),
+      title: i18n.t('default:Name'),
       dataIndex: 'name',
       render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
@@ -65,7 +65,7 @@ const ScaleInfo = ({ data }: IProps) => {
               setVisible(true);
             }}
           >
-            {i18n.t('default:edit')}
+            {i18n.t('default:Edit')}
           </Button>
         </div>
         <Row>

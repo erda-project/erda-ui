@@ -191,7 +191,7 @@ export const IterarionForm = (props: IIterationFormProps) => {
       key: 'title',
       required: true,
       componentProps: {
-        placeholder: i18n.t('dop:please enter a name'),
+        placeholder: i18n.t('dop:Please enter the name'),
         maxLength: 255,
         size: 'small',
         className: 'backlog-iteration-form-title',
@@ -206,7 +206,7 @@ export const IterarionForm = (props: IIterationFormProps) => {
       required: true,
       componentProps: {
         dateType: 'range',
-        placeholder: [i18n.t('common:start at'), i18n.t('common:end at')],
+        placeholder: [i18n.t('common:start at'), i18n.t('common:End time')],
         format: 'YYYY-MM-DD',
         size: 'small',
         className: 'backlog-iteration-form-datepicker',
@@ -237,10 +237,10 @@ export const IterarionForm = (props: IIterationFormProps) => {
       </div>
       <div className="table-operations ml-2">
         <span className="table-operations-btn" onClick={onAdd}>
-          {i18n.t('save')}
+          {i18n.t('Save')}
         </span>
         <span className="table-operations-btn" onClick={onCancel}>
-          {i18n.t('cancel')}
+          {i18n.t('Cancel')}
         </span>
       </div>
     </div>

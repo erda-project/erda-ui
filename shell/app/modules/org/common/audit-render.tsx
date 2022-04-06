@@ -64,7 +64,7 @@ const render = (record: AUDIT.Item, extraTemplates = {}) => {
       switch (key) {
         case 'scopeType': {
           const replaceMap = {
-            sys: i18n.t('platform'),
+            sys: i18n.t('Platform'),
             org: `${i18n.t('org')} [@orgName]`,
             project: `${i18n.t('project')} [@projectName](project) `,
             app: `${i18n.t('application')} [@projectName](project) / [@appName](app) `,
@@ -74,10 +74,10 @@ const render = (record: AUDIT.Item, extraTemplates = {}) => {
         }
         case 'issueType': {
           const replaceMap = {
-            epic: i18n.t('dop:milestone'),
+            epic: i18n.t('dop:Milestone'),
             requirement: i18n.t('requirement'),
             task: i18n.t('task'),
-            bug: i18n.t('bug'),
+            bug: i18n.t('Bug'),
             ticket: i18n.t('dop:ticket'),
           };
           // 如果是需求池里的需求，把链接替换一下

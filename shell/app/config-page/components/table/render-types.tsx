@@ -248,7 +248,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
           curUsers.push(get(extra, `userMap.${val.value}`) || {});
         }
         if (val.showIcon === false) {
-          Comp = map(curUsers, (item) => item.nick || item.name || item.id || i18n.t('common:none')).join(', ');
+          Comp = map(curUsers, (item) => item.nick || item.name || item.id || i18n.t('common:None')).join(', ');
         } else {
           Comp = (
             <div>
@@ -257,11 +257,11 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
                   <span key={idx}>
                     {val.showIcon === false ? null : (
                       <Avatar src={cU.avatar} size="small">
-                        {cU.nick ? getAvatarChars(cU.nick) : i18n.t('none')}
+                        {cU.nick ? getAvatarChars(cU.nick) : i18n.t('None')}
                       </Avatar>
                     )}
                     <span className="ml-0.5 mr-1" title={cU.name}>
-                      {cU.nick || cU.name || val.value || i18n.t('common:none')}
+                      {cU.nick || cU.name || val.value || i18n.t('common:None')}
                     </span>
                   </span>
                 );
@@ -290,10 +290,10 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
                     return (
                       <div key={id}>
                         <Avatar src={avatar} size="small">
-                          {nick ? getAvatarChars(nick) : i18n.t('none')}
+                          {nick ? getAvatarChars(nick) : i18n.t('None')}
                         </Avatar>
                         <span className="ml-2" title={name}>
-                          {nick || i18n.t('common:none')}
+                          {nick || i18n.t('common:None')}
                         </span>
                       </div>
                     );
@@ -535,11 +535,11 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
 
 const memberSelectorValueItem = (user: any) => {
   const { avatar, nick, name, label, value } = user;
-  const displayName = nick || label || value || i18n.t('common:none');
+  const displayName = nick || label || value || i18n.t('common:None');
   return (
     <div className="flex items-center dice-config-table-member-field-selector">
       <Avatar src={avatar || undefined} size="small" className="flex-shrink-0">
-        {nick ? getAvatarChars(nick) : i18n.t('none')}
+        {nick ? getAvatarChars(nick) : i18n.t('None')}
       </Avatar>
       <span className={'ml-1 text-sm nowrap'} title={name}>
         {displayName}
@@ -763,7 +763,7 @@ interface IGantteTitle {
 }
 const GantteTitle = ({ dateRange }: IGantteTitle) => {
   if (isEmpty(dateRange)) {
-    return <div style={{ height: '40px', lineHeight: '40px', textAlign: 'center' }}>{i18n.t('default:date')}</div>;
+    return <div style={{ height: '40px', lineHeight: '40px', textAlign: 'center' }}>{i18n.t('default:Date')}</div>;
   }
   return (
     <div className="gantt-date-title">

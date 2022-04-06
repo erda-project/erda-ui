@@ -79,7 +79,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
     ? [
         {
           size: 'small' as const,
-          text: i18n.t('save'),
+          text: i18n.t('Save'),
           type: 'primary' as const,
           onClick: (_v: string) => {
             onSave(_v);
@@ -88,7 +88,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
         },
         {
           size: 'small' as const,
-          text: i18n.t('cancel'),
+          text: i18n.t('Cancel'),
           onClick: () => {
             update({ v: originalValue, isEditing: false });
           },
@@ -138,7 +138,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
         </>
       ) : (
         <div className="h-[120px] cursor-text text-desc" onClick={() => updater.isEditing(true)}>
-          {i18n.t('click to edit description')}
+          {i18n.t('Click to edit the description')}
         </div>
       )}
       <If condition={expandBtnVisible}>

@@ -116,9 +116,9 @@ interface IParseOas3 {
 }
 
 const columns = [
-  { title: i18n.t('name'), dataIndex: 'name' },
+  { title: i18n.t('Name'), dataIndex: 'name' },
   {
-    title: i18n.t('type'),
+    title: i18n.t('Type'),
     width: 120,
     dataIndex: 'type',
     render: ({ value, enum: enumData }: { value: IDataType; enum: string[] }) => {
@@ -131,7 +131,7 @@ const columns = [
       );
     },
   },
-  { title: i18n.t('description'), dataIndex: 'description' },
+  { title: i18n.t('Description'), dataIndex: 'description' },
   { title: i18n.t('required'), dataIndex: 'required', width: 80 },
 ];
 
@@ -199,7 +199,7 @@ const transformBody = (data: IRequestBodyContent['schema']): any[] => {
       let item: IItem = {
         key: `${parent}-${key}`,
         name: key,
-        required: required.includes(key) ? i18n.t('common:yes') : i18n.t('common:no'),
+        required: required.includes(key) ? i18n.t('common:Yes') : i18n.t('common:No'),
         type: complexType,
         description,
       };
@@ -259,7 +259,7 @@ export const parseOpenApi3 = (dataSource: IDataSource): IParseOas3 => {
         } = schema || { type: 'string' };
         info[paramsName].push({
           name,
-          required: required ? i18n.t('common:yes') : i18n.t('common:no'),
+          required: required ? i18n.t('common:Yes') : i18n.t('common:No'),
           type: { value: type, enum: paramsEnum },
           description: desc || paramsDesc,
           defaultValue: example,
@@ -314,7 +314,7 @@ const ApiPreviewV3 = ({ dataSource, extra }: IProps) => {
             props: {
               title: i18n.t('request header'),
               rowKey: 'name',
-              columns: [...columns, { title: i18n.t('default value'), dataIndex: 'default' }],
+              columns: [...columns, { title: i18n.t('Default value'), dataIndex: 'default' }],
             },
           },
         ]),
@@ -325,7 +325,7 @@ const ApiPreviewV3 = ({ dataSource, extra }: IProps) => {
             props: {
               title: i18n.t('URL parameters'),
               rowKey: 'name',
-              columns: [...columns, { title: i18n.t('default value'), dataIndex: 'default' }],
+              columns: [...columns, { title: i18n.t('Default value'), dataIndex: 'default' }],
             },
           },
         ]),
@@ -336,7 +336,7 @@ const ApiPreviewV3 = ({ dataSource, extra }: IProps) => {
             props: {
               title: i18n.t('path parameters'),
               rowKey: 'name',
-              columns: [...columns, { title: i18n.t('default value'), dataIndex: 'default' }],
+              columns: [...columns, { title: i18n.t('Default value'), dataIndex: 'default' }],
             },
           },
         ]),
@@ -358,14 +358,14 @@ const ApiPreviewV3 = ({ dataSource, extra }: IProps) => {
                 type: 'Table',
                 dataIndex: 'responsesBody.data',
                 props: {
-                  title: `${i18n.t('response body')}: ${info.responsesBody.type}`,
+                  title: `${i18n.t('Response body')}: ${info.responsesBody.type}`,
                   columns,
                 },
               }
             : {
                 type: 'Title',
                 props: {
-                  title: `${i18n.t('response body')}: ${info.responsesBody?.type || i18n.t('none')} `,
+                  title: `${i18n.t('Response body')}: ${info.responsesBody?.type || i18n.t('None')} `,
                   level: 2,
                 },
               },
@@ -378,7 +378,7 @@ const ApiPreviewV3 = ({ dataSource, extra }: IProps) => {
               title: i18n.t('response code'),
               columns: [
                 { title: i18n.t('response code'), dataIndex: 'code', width: 128 },
-                { title: i18n.t('description'), dataIndex: 'description' },
+                { title: i18n.t('Description'), dataIndex: 'description' },
               ],
             },
           },

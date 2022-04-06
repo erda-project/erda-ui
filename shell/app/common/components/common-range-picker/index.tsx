@@ -47,7 +47,7 @@ const CommonRangePicker = ({ defaultTime, disabledDate, onOk, ...rest }: IProps)
       style={{ width: 370 }}
       format="YYYY-MM-DD HH:mm:ss"
       allowClear={false}
-      placeholder={[i18n.t('common:start at'), i18n.t('common:end at')]}
+      placeholder={[i18n.t('common:start at'), i18n.t('common:End time')]}
       onChange={(v: any) => {
         updater.value(v);
         onOk(getTimeSpan(v));

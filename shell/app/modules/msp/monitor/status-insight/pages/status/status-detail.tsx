@@ -87,7 +87,7 @@ const StatusDetail = () => {
     },
   ];
 
-  const emptyText = (value: any) => (value === undefined ? i18n.t('msp:no data') : value);
+  const emptyText = (value: any) => (value === undefined ? i18n.t('msp:No data') : value);
 
   const colorMap = {
     Operational: 'green',
@@ -112,7 +112,7 @@ const StatusDetail = () => {
               // ) : null
             }
             <Button type="primary" ghost onClick={toggleModal}>
-              {i18n.t('edit')}
+              {i18n.t('Edit')}
             </Button>
           </div>
           <AddModal
@@ -125,7 +125,7 @@ const StatusDetail = () => {
         <div className="row-space" />
 
         <div className="title-bar">
-          <span className="title">{i18n.t('msp:availability and performance')}</span>
+          <span className="title">{i18n.t('msp:Availability and performance')}</span>
           <ul className="time-range">
             {timeRange.map((t) => {
               return (
@@ -140,13 +140,13 @@ const StatusDetail = () => {
         <Row gutter={16} className="summary-bar">
           <Col span={6}>
             <div className="summary-card nowrap">
-              <span className="name">{i18n.t('msp:availability')}</span>
+              <span className="name">{i18n.t('msp:Availability')}</span>
               <span className="value">{emptyText(data.uptime)}</span>
             </div>
           </Col>
           <Col span={6}>
             <div className="summary-card nowrap">
-              <span className="name">{i18n.t('msp:downtime')}</span>
+              <span className="name">{i18n.t('msp:Downtime')}</span>
               <span className="value">
                 <Tooltip title={emptyText(data.downtime)}>{data.downDuration}</Tooltip>
                 <ErdaIcon type="tishi" size="16" className="info-icon" />
@@ -155,13 +155,13 @@ const StatusDetail = () => {
           </Col>
           <Col span={6}>
             <div className="summary-card nowrap">
-              <span className="name">{i18n.t('msp:user experience index')}</span>
+              <span className="name">{i18n.t('msp:User experience index')}</span>
               <span className="value">{emptyText(data.apdex ? data.apdex.toFixed(2) : data.apdex)}</span>
             </div>
           </Col>
           <Col span={6}>
             <div className="summary-card nowrap">
-              <span className="name">{i18n.t('msp:average response time')}</span>
+              <span className="name">{i18n.t('msp:Average response time')}</span>
               <span className="value">{emptyText(data.latency)} ms</span>
             </div>
           </Col>
@@ -173,26 +173,26 @@ const StatusDetail = () => {
             <div>
               <span className="left-item">
                 <span className="status-point chart" />
-                {i18n.t('response time')}
+                {i18n.t('Response time')}
               </span>
               <span className="left-item">
                 <span className="status-point success" />
-                {i18n.t('msp:available')}
+                {i18n.t('msp:Available')}
               </span>
               <span className="left-item">
                 <span className="status-point danger" />
-                {i18n.t('msp:downtime')}
+                {i18n.t('msp:Downtime')}
               </span>
             </div>
             <div>
               <span className="right-item">
-                {i18n.t('msp:maximum value')}: <span className="blod">{max} ms</span>
+                {i18n.t('msp:Maximum')}: <span className="blod">{max} ms</span>
               </span>
               <span className="right-item">
-                {i18n.t('msp:minimum')}: <span className="blod">{min} ms</span>
+                {i18n.t('msp:Minimum')}: <span className="blod">{min} ms</span>
               </span>
               <span className="right-item">
-                {i18n.t('msp:average value')}: <span className="blod">{avg} ms</span>
+                {i18n.t('msp:Average')}: <span className="blod">{avg} ms</span>
               </span>
             </div>
           </div>
@@ -218,7 +218,7 @@ const StatusDetail = () => {
       </div>
       <MonthUptime />
       <div className="title-bar past-incident">
-        <span className="title">{i18n.t('msp:the past 3 months')}</span>
+        <span className="title">{i18n.t('msp:Last 3 months')}</span>
       </div>
       <PastIncidents pastIncidents={pastIncidents} fetchData={getPastIncidents}/>
     </div>

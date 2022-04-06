@@ -39,10 +39,10 @@ const genEle = (nodes: TOPOLOGY.INode[]) => {
 
 const structure: { title: string; content: { key: INodeKey; name: string }[] }[] = [
   {
-    title: i18n.t('msp:topology overview'),
+    title: i18n.t('msp:Topology overview'),
     content: [
       {
-        name: i18n.t('node'),
+        name: i18n.t('Node'),
         key: 'node',
       },
       {
@@ -50,28 +50,28 @@ const structure: { title: string; content: { key: INodeKey; name: string }[] }[]
         key: 'service',
       },
       {
-        name: i18n.t('common:middleware'),
+        name: i18n.t('common:Middleware'),
         key: 'addon',
       },
       {
-        name: i18n.t('msp:external interface'),
+        name: i18n.t('msp:External interface'),
         key: 'externalService',
       },
     ],
   },
   {
-    title: i18n.t('msp:topology analysis'),
+    title: i18n.t('msp:Topology analysis'),
     content: [
       {
         name: i18n.t('msp:unhealthy service'),
         key: 'unhealthyService',
       },
       {
-        name: i18n.t('msp:free service'),
+        name: i18n.t('msp:Outlier service'),
         key: 'freeService',
       },
       {
-        name: i18n.t('msp:circular dependency'),
+        name: i18n.t('msp:Circular dependency'),
         key: 'circularDependencies',
       },
     ],

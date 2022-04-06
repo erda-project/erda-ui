@@ -227,7 +227,7 @@ export const CaseAPI = (props: IProps) => {
   };
 
   if (!apiList.length) {
-    return <span className="text-holder">{i18n.t('dop:no content yet')}</span>;
+    return <span className="text-holder">{i18n.t('dop:No content')}</span>;
   }
 
   return (
@@ -495,7 +495,7 @@ const ApiItem = ({
           </span>
           <Input
             className="flex-1"
-            placeholder={i18n.t('dop:input interface name')}
+            placeholder={i18n.t('dop:Input the interface name')}
             value={api.name}
             onChange={(e) => updateApi(index, 'name', e.target.value)}
             maxLength={50}
@@ -528,7 +528,7 @@ const ApiItem = ({
                   style={{ width: 110 }}
                   value={api.method}
                   onChange={(val: string) => updateApi(index, 'method', val, true)}
-                  placeholder={i18n.t('dop:please choose')}
+                  placeholder={i18n.t('dop:Please select')}
                 >
                   {map(HTTP_METHOD_LIST, (method) => (
                     <Option value={method} key={method}>
@@ -605,7 +605,7 @@ const ApiTabComps = {
           itemMap={{
             key: {
               props: {
-                placeholder: i18n.t('dop:parameter name'),
+                placeholder: i18n.t('dop:Parameter name'),
               },
             },
             value: {
@@ -615,7 +615,7 @@ const ApiTabComps = {
             },
             desc: {
               props: {
-                placeholder: i18n.t('description'),
+                placeholder: i18n.t('Description'),
               },
             },
           }}
@@ -639,7 +639,7 @@ const ApiTabComps = {
           itemMap={{
             key: {
               props: {
-                placeholder: i18n.t('dop:parameter name'),
+                placeholder: i18n.t('dop:Parameter name'),
               },
             },
             value: {
@@ -649,7 +649,7 @@ const ApiTabComps = {
             },
             desc: {
               props: {
-                placeholder: i18n.t('description'),
+                placeholder: i18n.t('Description'),
               },
             },
           }}
@@ -717,7 +717,7 @@ const ApiTabComps = {
                       <Select
                         value={value || undefined} // 没有值时显示placeholder
                         className={`${className} case-api-test-select`}
-                        placeholder={i18n.t('dop:source')}
+                        placeholder={i18n.t('dop:Source')}
                         onChange={(val: string) => {
                           onCurChange(val, true);
                         }}
@@ -773,7 +773,7 @@ const ApiTabComps = {
                       <Select
                         value={value || undefined} // 没有值时显示placeholder
                         className={`${className} case-api-test-select`}
-                        placeholder={i18n.t('dop:parameter name')}
+                        placeholder={i18n.t('dop:Parameter name')}
                         onChange={(v: string) => onCurChange(v, true)}
                       >
                         {data.outParams.map((option: any) => {
@@ -794,14 +794,14 @@ const ApiTabComps = {
                       <Select
                         value={value || undefined} // 没有值时显示placeholder
                         className={`${className} case-api-test-select`}
-                        placeholder={i18n.t('dop:compare')}
+                        placeholder={i18n.t('dop:Compare')}
                         onChange={(v: string) => onCurChange(v, true)}
                       >
                         <Option value=">">{i18n.t('dop:more than the')}</Option>
-                        <Option value=">=">{i18n.t('dop:greater than or equal to')}</Option>
+                        <Option value=">=">{i18n.t('dop:Greater than or equal to')}</Option>
                         <Option value="=">{i18n.t('dop:equal to')}</Option>
-                        <Option value="<=">{i18n.t('dop:less than or equal to')}</Option>
-                        <Option value="<">{i18n.t('less than')}</Option>
+                        <Option value="<=">{i18n.t('dop:Less than or equal to')}</Option>
+                        <Option value="<">{i18n.t('Less than')}</Option>
                         <Option value="!=">{i18n.t('dop:not equal to')}</Option>
                         <Option value="contains">{i18n.t('dop:contains')}</Option>
                         <Option value="not_contains">{i18n.t('dop:does not contain')}</Option>
@@ -817,7 +817,7 @@ const ApiTabComps = {
                 },
                 value: {
                   props: {
-                    placeholder: i18n.t('value'),
+                    placeholder: i18n.t('Value'),
                   },
                 },
               }}
@@ -863,7 +863,7 @@ const TestJsonEditor = (props: any) => {
 
 const BasicForm = 'application/x-www-form-urlencoded';
 const ValMap = {
-  none: () => <div className="body-val-none">{i18n.t('dop:the current request has no body')}</div>,
+  none: () => <div className="body-val-none">{i18n.t('dop:No body in the current request')}</div>,
   [BasicForm]: (props: any) => {
     const { data, updateBody }: any = props;
     return (
@@ -882,7 +882,7 @@ const ValMap = {
         itemMap={{
           key: {
             props: {
-              placeholder: i18n.t('dop:parameter name'),
+              placeholder: i18n.t('dop:Parameter name'),
             },
           },
           value: {
@@ -892,7 +892,7 @@ const ValMap = {
           },
           desc: {
             props: {
-              placeholder: i18n.t('description'),
+              placeholder: i18n.t('Description'),
             },
           },
         }}

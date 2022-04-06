@@ -179,21 +179,21 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
   const tabs = [
     {
       key: 'export',
-      text: i18n.t('export'),
+      text: i18n.t('Export'),
       disabled: !issuePerm.export.pass,
       tip: issuePerm.export.pass ? '' : i18n.t('common:no permission to operate'),
     },
 
     {
       key: 'import',
-      text: i18n.t('import'),
+      text: i18n.t('Import'),
       disabled: !issuePerm.import.pass,
       tip: issuePerm.import.pass ? '' : i18n.t('common:no permission to operate'),
     },
 
     {
       key: 'record',
-      text: i18n.t('record'),
+      text: i18n.t('Records'),
       disabled: false,
     },
   ];
@@ -311,7 +311,7 @@ const Board = () => {
   const issueTabs = [
     { value: ISSUE_TYPE.REQUIREMENT, label: i18n.t('requirement') },
     { value: ISSUE_TYPE.TASK, label: i18n.t('task') },
-    { value: ISSUE_TYPE.BUG, label: i18n.t('bug') },
+    { value: ISSUE_TYPE.BUG, label: i18n.t('Bug') },
   ];
   const query = routeInfoStore.useStore((s) => s.query);
   const { type } = query;

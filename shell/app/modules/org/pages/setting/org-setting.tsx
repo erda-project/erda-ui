@@ -38,16 +38,16 @@ export const OrgSetting = () => {
 
   const dataSource = [
     {
-      groupTitle: i18n.t('dop:general settings'),
+      groupTitle: i18n.t('dop:General Settings'),
       groupKey: 'common',
       tabGroup: [
         {
-          tabTitle: i18n.t('cmp:org info'),
+          tabTitle: i18n.t('cmp:Organization Information'),
           tabKey: 'orgInfo',
           content: <OrgInfo />,
         },
         {
-          tabTitle: i18n.t('cmp:org member'),
+          tabTitle: i18n.t('cmp:Organization Member'),
           tabKey: 'orgMember',
           content: (
             <ConfigLayout
@@ -75,7 +75,7 @@ export const OrgSetting = () => {
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('cmp:organization member label'),
+                  title: i18n.t('cmp:Organization member label'),
                   children: <MemberLabels />,
                 },
               ]}
@@ -84,7 +84,7 @@ export const OrgSetting = () => {
         },
         ...insertWhen(orgPerm.orgCenter.viewAnnouncement.pass, [
           {
-            tabTitle: i18n.t('cmp:announcement management'),
+            tabTitle: i18n.t('cmp:Announcement Management'),
             tabKey: 'announcement',
             content: <Announcement />,
           },
@@ -96,30 +96,30 @@ export const OrgSetting = () => {
       groupKey: 'project',
       tabGroup: [
         {
-          tabTitle: i18n.t('dop:joint issue type'),
+          tabTitle: i18n.t('dop:Issue Type'),
           tabKey: 'issueType',
           content: <IssueTypeManage />,
         },
         {
-          tabTitle: i18n.t('dop:issue custom fields'),
+          tabTitle: i18n.t('dop:Custom Issue Field'),
           tabKey: 'issueField',
           content: <IssueFieldManage />,
         },
       ],
     },
     {
-      groupTitle: i18n.t('deploy'),
+      groupTitle: i18n.t('Deployment'),
       groupKey: 'deploy',
       tabGroup: [
         {
-          tabTitle: i18n.t('cmp:block network'),
+          tabTitle: i18n.t('cmp:Network Bolcking'),
           tabKey: 'block-network',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('cmp:block network'),
-                  desc: i18n.t('cmp:precautions after network closure'),
+                  title: i18n.t('cmp:Network Bolcking'),
+                  desc: i18n.t('cmp:Once the network blocking is enabled for an environment, all apps in this environment require the approval of the organization admin for deployment and release.'),
                   children: <BlockNetwork />,
                 },
               ]}
@@ -133,14 +133,14 @@ export const OrgSetting = () => {
       groupKey: 'log',
       tabGroup: [
         {
-          tabTitle: i18n.t('cmp:audit log'),
+          tabTitle: i18n.t('cmp:Audit Log'),
           tabKey: 'operation log',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('cmp:audit log'),
-                  desc: i18n.t('cmp:Clean up at 3am every day'),
+                  title: i18n.t('cmp:Audit Log'),
+                  desc: i18n.t('cmp:Clean up at 3:00 a.m. every day'),
                   children: <OperationLogSetting />,
                 },
               ]}
@@ -150,17 +150,17 @@ export const OrgSetting = () => {
       ],
     },
     {
-      groupTitle: i18n.t('dop:notification management'),
+      groupTitle: i18n.t('dop:Notification Management'),
       groupKey: 'notification',
       tabGroup: [
         {
-          tabTitle: i18n.t('dop:notification group'),
+          tabTitle: i18n.t('dop:Notification Group'),
           tabKey: 'notifyGroup',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('dop:organize notification groups to set up notifications'),
+                  title: i18n.t('dop:Set notification groups for notifications'),
                   children: (
                     <NotifyGroup memberStore={memberStore} commonPayload={{ scopeType: 'org', scopeId: `${orgId}` }} />
                   ),
@@ -177,7 +177,7 @@ export const OrgSetting = () => {
               sectionList={[
                 {
                   title: i18n.t('Set up a notification channel to set a notification mode'),
-                  desc: <div className="w-2/3 h-10">{i18n.t('notice-channel-desc')}</div>,
+                  desc: <div className="w-2/3 h-10">{i18n.t('Only one channel of the same type can be enabled. Enabled channels will be used to send notification messages of the corresponding type.')}</div>,
                   children: <NotifyChannel />,
                 },
               ]}

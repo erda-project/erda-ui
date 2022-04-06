@@ -35,11 +35,11 @@ const ProjectSettings = () => {
 
   const dataSource = [
     {
-      groupTitle: i18n.t('dop:general settings'),
+      groupTitle: i18n.t('dop:General Settings'),
       groupKey: 'common',
       tabGroup: [
         {
-          tabTitle: i18n.t('dop:project info'),
+          tabTitle: i18n.t('dop:Project Information'),
           tabKey: 'projectInfo',
           content: (
             <ProjectInfo
@@ -56,7 +56,7 @@ const ProjectSettings = () => {
           content: <ProjectCluster hasEditAuth={false} />,
         },
         {
-          tabTitle: i18n.t('dop:project member'),
+          tabTitle: i18n.t('dop:Project Member'),
           tabKey: 'projectMember',
           content: (
             <ConfigLayout
@@ -91,13 +91,13 @@ const ProjectSettings = () => {
       groupKey: 'repository',
       tabGroup: [
         {
-          tabTitle: i18n.t('dop:branch rule'),
+          tabTitle: i18n.t('dop:Branch Rule'),
           tabKey: 'branchRule',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('dop:branch rule'),
+                  title: i18n.t('dop:Branch Rule'),
                   desc: i18n.t('dop:branch-config-tip'),
                   children: (
                     <BranchRule
@@ -113,13 +113,13 @@ const ProjectSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('dop:code quality access control'),
+          tabTitle: i18n.t('dop:Quality Access Control'),
           tabKey: 'scanRule',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('dop:code quality access control'),
+                  title: i18n.t('dop:Quality Access Control'),
                   desc: i18n.t(
                     'dop:Code scanning configuration is mainly divided into rule configuration and code quality access control configuration. When the access control rules are met, it means that the code quality threshold cannot be passed.',
                   ),
@@ -143,14 +143,14 @@ const ProjectSettings = () => {
       groupKey: 'collaboration',
       tabGroup: [
         {
-          tabTitle: i18n.t('dop:issue workflow'),
+          tabTitle: i18n.t('dop:Issue Workflow'),
           tabKey: 'issueManage',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('dop:issue workflow'),
-                  desc: i18n.t('dop:issue-workflow-config-tip'),
+                  title: i18n.t('dop:Issue Workflow'),
+                  desc: i18n.t('dop:Project issues include milestones, requirements, bugs and tasks, and you can set the workflow as needed.'),
                   children: <IssueWorkflow />,
                 },
               ]}
@@ -158,13 +158,13 @@ const ProjectSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('dop:label setting'),
+          tabTitle: i18n.t('dop:Label Settings'),
           tabKey: 'projectLabel',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('dop:manage all project labels'),
+                  title: i18n.t('dop:Manage all project labels'),
                   desc: i18n.t(
                     'dop:Tags can be used for issue and test management, to quickly locate and filter relevant content.',
                   ),
@@ -177,17 +177,17 @@ const ProjectSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('dop:notification management'),
+      groupTitle: i18n.t('dop:Notification Management'),
       groupKey: 'notification',
       tabGroup: [
         {
-          tabTitle: i18n.t('notification'),
+          tabTitle: i18n.t('Notification'),
           tabKey: 'notifyConfig',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('dop:help you better organize your notifications'),
+                  title: i18n.t('dop:Help you better manage your notifications'),
                   children: (
                     <NotifyConfig
                       memberStore={memberStore}
@@ -201,13 +201,13 @@ const ProjectSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('dop:notification group'),
+          tabTitle: i18n.t('dop:Notification Group'),
           tabKey: 'notifyGroup',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('dop:organize notification groups to set up notifications'),
+                  title: i18n.t('dop:Set notification groups for notifications'),
                   children: (
                     <NotifyGroup
                       memberStore={memberStore}
@@ -226,7 +226,7 @@ const ProjectSettings = () => {
 
   // if (permMap.setting.paramSetting.pass) {
   //   dataSource.splice(6, 0, {
-  //     tabTitle: i18n.t('parameter setting'),
+  //     tabTitle: i18n.t('Parameter Settings'),
   //     tabKey: 'projectConfig',
   //     content: (
   //       <ConfigLayout

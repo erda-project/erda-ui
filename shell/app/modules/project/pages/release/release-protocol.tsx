@@ -47,9 +47,9 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
   };
 
   const options = [
-    { label: i18n.t('dop:all') },
-    { value: 'informal', label: i18n.t('dop:informal') },
-    { value: 'formal', label: i18n.t('dop:formal') },
+    { label: i18n.t('dop:All') },
+    { value: 'informal', label: i18n.t('dop:Informal') },
+    { value: 'formal', label: i18n.t('dop:Formal') },
   ];
 
   const addDropdownMenu = (
@@ -57,13 +57,13 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
       <Menu.Item onClick={() => onCreate('app')} key={'app'} className="bg-default hover:bg-white-08">
         <div className="flex-h-center text-white-9">
           <ErdaIcon type="plus" size={16} className="mr-1" />
-          {i18n.t('dop:select apps create')}
+          {i18n.t('dop:Select App Artifact')}
         </div>
       </Menu.Item>
       <Menu.Item onClick={() => onCreate('file')} key={'file'} className="bg-default hover:bg-white-08">
         <div className="flex-h-center text-white-9">
           <ErdaIcon type="upload" size={16} className="mr-1" />
-          {i18n.t('dop:select file create')}
+          {i18n.t('dop:Upload File')}
         </div>
       </Menu.Item>
     </Menu>
@@ -76,7 +76,7 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
           <WithAuth pass={canCreateRelease}>
             <Dropdown overlay={addDropdownMenu} placement="bottomRight" trigger={['click']}>
               <Button type={'primary'} className="flex-h-center">
-                {i18n.t('new {name}', { name: i18n.t('Artifact') })}
+                {i18n.t('new {name}', { name: i18n.t('Artifacts') })}
                 <ErdaIcon type="caret-down" size="18" color="currentColor" className="ml-1 text-white-4" />
               </Button>
             </Dropdown>

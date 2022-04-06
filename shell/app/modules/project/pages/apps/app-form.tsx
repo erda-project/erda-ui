@@ -42,7 +42,7 @@ const fieldExtraProps = {
 const CreationForm = () => {
   const { params } = routeInfoStore.getState((s) => s);
   const [mode, setMode] = React.useState(appMode.SERVICE);
-  const [template, setTemplate] = React.useState([{ name: i18n.t('default:none'), value: '-1' }]);
+  const [template, setTemplate] = React.useState([{ name: i18n.t('default:None'), value: '-1' }]);
   const [tempSelected, setTempSelected] = React.useState('-1');
   const [repoType, setRepoType] = React.useState(RepositoryMode.Internal);
   const { ENABLE_BIGDATA } = erdaEnv;
@@ -135,7 +135,7 @@ const CreationForm = () => {
       extraProps: fieldExtraProps,
     },
     {
-      label: i18n.t('dop:app types'),
+      label: i18n.t('dop:App type'),
       name: 'mode',
       type: 'radioGroup',
       options: useOption,
@@ -160,7 +160,7 @@ const CreationForm = () => {
       },
     },
     {
-      label: i18n.t('dop:application name'),
+      label: i18n.t('dop:App name'),
       name: 'name',
       itemProps: {
         placeholder: i18n.t('project-app-name-tip'),
@@ -197,7 +197,7 @@ const CreationForm = () => {
             initialValue: '-1',
             options: map(template, (item) => item),
             itemProps: {
-              placeholder: i18n.t('dop:please choose'),
+              placeholder: i18n.t('dop:Please select'),
               onChange: (v) => {
                 const form = formRef.current;
                 // 选择模板后，只能使用内置仓库
@@ -247,7 +247,7 @@ const CreationForm = () => {
         ]
       : []),
     {
-      label: i18n.t('dop:application description'),
+      label: i18n.t('dop:App description'),
       name: 'desc',
       type: 'textArea',
       required: false,
@@ -262,11 +262,11 @@ const CreationForm = () => {
     ...insertWhen(mode !== appMode.PROJECT_SERVICE, [
       {
         label: '',
-        getComp: () => <div>{i18n.t('dop:repository information')}</div>,
+        getComp: () => <div>{i18n.t('dop:Repository information')}</div>,
         extraProps: fieldExtraProps,
       },
       {
-        label: i18n.t('repository'),
+        label: i18n.t('Repository'),
         name: ['repoConfig', 'type'],
         type: 'select',
         initialValue: RepositoryMode.Internal,
@@ -322,7 +322,7 @@ const CreationForm = () => {
             },
           },
           {
-            label: i18n.t('default:password'),
+            label: i18n.t('default:Password'),
             name: ['repoConfig', 'password'],
             type: 'custom',
             getComp: () => <Input.Password />,
@@ -342,10 +342,10 @@ const CreationForm = () => {
       getComp: ({ form }: { form: FormInstance }) => (
         <div className="mt-5">
           <Button type="primary" onClick={() => handleSubmit(form)}>
-            {i18n.t('save')}
+            {i18n.t('Save')}
           </Button>
           <Button className="ml-3" onClick={() => window.history.back()}>
-            {i18n.t('cancel')}
+            {i18n.t('Cancel')}
           </Button>
         </div>
       ),

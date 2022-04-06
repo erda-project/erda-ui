@@ -184,15 +184,15 @@ const TransactionDetail: React.FC<IProps> = ({
               defaultValue={defaultScenarioName ?? scenarioName}
               options={[
                 {
-                  label: i18n.t('msp:overview'),
+                  label: i18n.t('msp:Overview'),
                   value: `${transactionType}-detail`,
                 },
                 {
-                  label: i18n.t('msp:slow call'),
+                  label: i18n.t('msp:Slow Call'),
                   value: `${transactionType}-slow`,
                 },
                 {
-                  label: i18n.t('msp:error call'),
+                  label: i18n.t('msp:Error Call'),
                   value: `${transactionType}-error`,
                 },
               ]}

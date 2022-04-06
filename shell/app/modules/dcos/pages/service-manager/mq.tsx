@@ -67,7 +67,7 @@ const MQ = () => {
         }
       }),
       {
-        title: i18n.t('type'),
+        title: i18n.t('Type'),
         dataIndex: 'instanceType',
         width: 100,
       },
@@ -81,7 +81,7 @@ const MQ = () => {
   const getFieldsList = () => {
     const fieldsList = [
       {
-        label: i18n.t('region'),
+        label: i18n.t('Region'),
         name: 'region',
         type: 'select',
         options: map(regions, ({ regionID, localName }) => ({ value: regionID, name: `${localName} (${regionID})` })),
@@ -96,7 +96,7 @@ const MQ = () => {
         rules: [regRules.commonStr],
       },
       {
-        label: i18n.t('description'),
+        label: i18n.t('Description'),
         name: 'remark',
         type: 'textArea',
       },

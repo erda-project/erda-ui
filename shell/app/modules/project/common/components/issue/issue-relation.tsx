@@ -427,7 +427,7 @@ interface IAddProps {
 const typeList = [
   { label: i18n.t('requirement'), value: 'REQUIREMENT' },
   { label: i18n.t('task'), value: 'TASK' },
-  { label: i18n.t('bug'), value: 'BUG' },
+  { label: i18n.t('Bug'), value: 'BUG' },
 ];
 
 export const AddIssueRelation = ({
@@ -526,7 +526,7 @@ export const AddIssueRelation = ({
       width: 64,
     },
     {
-      title: i18n.t('title'),
+      title: i18n.t('Title'),
       dataIndex: 'title',
       width: 240,
     },
@@ -536,7 +536,7 @@ export const AddIssueRelation = ({
       render: (id: string) => <UserInfo.RenderWithAvatar id={id} />,
     },
     {
-      title: i18n.t('dop:planFinishedAt'),
+      title: i18n.t('dop:End date'),
       dataIndex: 'planFinishedAt',
       render: (item: string) => (item ? moment(item).format('YYYY/MM/DD') : i18n.t('unspecified')),
     },
@@ -558,7 +558,7 @@ export const AddIssueRelation = ({
   const overlay = (
     <div className="w-[800px] shadow-card-lg bg-white">
       <div className="flex items-center justify-between px-4 py-3 font-medium">
-        <span>{i18n.t('dop:choose issues')}</span>
+        <span>{i18n.t('dop:Choose issue')}</span>
         <ErdaIcon type="guanbi" size={20} className="hover-active" onClick={() => updater.visible(false)} />
       </div>
       <div className="px-4 pb-2">
@@ -569,28 +569,28 @@ export const AddIssueRelation = ({
             {
               key: 'title',
               type: 'input',
-              label: i18n.t('title'),
+              label: i18n.t('Title'),
               outside: true,
-              placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('Title') }),
             },
             {
-              label: i18n.t('dop:issue type'),
+              label: i18n.t('dop:Type-issue'),
               type: 'select',
               key: 'type',
               options: map(ISSUE_OPTION, (item) => ISSUE_TYPE_MAP[item]),
               disabled: relationType === RelationType.Inclusion,
-              placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:issue type') }),
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:Type-issue') }),
             },
             {
-              label: i18n.t('dop:owned iteration'),
+              label: i18n.t('dop:Iteration'),
               type: 'select',
               key: 'iterationID',
               options:
-                [{ title: i18n.t('dop:backlog'), id: -1 }, ...iterationList].map((item) => ({
+                [{ title: i18n.t('dop:Backlog'), id: -1 }, ...iterationList].map((item) => ({
                   label: item.title,
                   value: item.id,
                 })) || [],
-              placeholder: i18n.t('dop:owned iteration'),
+              placeholder: i18n.t('dop:Iteration'),
               mode: 'single',
             },
             {
@@ -608,24 +608,24 @@ export const AddIssueRelation = ({
               placeholder: i18n.t('filter by {name}', { name: i18n.t('label') }),
             },
             {
-              label: i18n.t('dop:priority'),
+              label: i18n.t('dop:Priority'),
               type: 'select',
               key: 'priority',
               options: ISSUE_PRIORITY_LIST.map((item) => ({ label: item.iconLabel, value: item.value })),
-              placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:priority') }),
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:Priority') }),
             },
             {
-              label: i18n.t('dop:complexity'),
+              label: i18n.t('dop:Complexity'),
               type: 'select',
               key: 'complexity',
               options: map(ISSUE_COMPLEXITY_MAP, (item) => ({ label: item.iconLabel, value: item.value })),
-              placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:complexity') }),
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:Complexity') }),
             },
             {
-              label: i18n.t('creator'),
+              label: i18n.t('Creator'),
               type: 'custom',
               key: 'creator',
-              placeholder: i18n.t('filter by {name}', { name: i18n.t('creator') }),
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('Creator') }),
               getComp: () => <MemberSelector scopeType="project" scopeId={projectId} size="small" />,
             },
             {
@@ -636,10 +636,10 @@ export const AddIssueRelation = ({
               getComp: () => <MemberSelector scopeType="project" scopeId={projectId} size="small" />,
             },
             {
-              label: i18n.t('deadline'),
+              label: i18n.t('End date'),
               type: 'dateRange',
               key: 'finishedAt',
-              placeholder: i18n.t('filter by {name}', { name: i18n.t('deadline') }),
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('End date') }),
             },
             {
               label: i18n.t('dop:creation date'),

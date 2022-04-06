@@ -41,9 +41,9 @@ const { TabPane } = Tabs;
 const FORBIDDEN_STATUS_LIST = ['WAITING', 'DEPLOYING', 'CANCELING'];
 
 const titleMap = {
-  monitor: i18n.t('container monitor'),
+  monitor: i18n.t('Container Monitoring'),
   log: i18n.t('runtime:container log'),
-  terminal: i18n.t('console'),
+  terminal: i18n.t('Console'),
   record: i18n.t('runtime:history'),
 };
 
@@ -350,18 +350,18 @@ const ServiceCard = (props: IProps) => {
           <IF check={isRunning}>
             <IF check={(permMap.runtime[`${runtimeDetail.extra.workspace.toLowerCase()}Console`] || {}).pass}>
               <span className="table-operations-btn" onClick={() => openSlidePanel('terminal', { ...record })}>
-                {i18n.t('console')}
+                {i18n.t('Console')}
               </span>
               <IF.ELSE />
 
               <NoAuthTip>
-                <span className="table-operations-btn">{i18n.t('console')}</span>
+                <span className="table-operations-btn">{i18n.t('Console')}</span>
               </NoAuthTip>
             </IF>
           </IF>
           <IF check={isServiceType}>
             <span className="table-operations-btn" onClick={() => openSlidePanel('monitor', { ...record })}>
-              {i18n.t('container monitor')}
+              {i18n.t('Container Monitoring')}
             </span>
           </IF>
           <span className="table-operations-btn" onClick={() => openSlidePanel('log', { ...record })}>
@@ -427,7 +427,7 @@ const ServiceCard = (props: IProps) => {
             >
               <InstanceTable isFetching={isFetching} instances={instances} opsCol={opsCol} runtimeType={runtimeType} />
             </TabPane>
-            <TabPane tab={i18n.t('pod detail')} key="pod-detail">
+            <TabPane tab={i18n.t('Pod Details')} key="pod-detail">
               <PodTable runtimeID={runtimeId} service={name} />
             </TabPane>
           </Tabs>

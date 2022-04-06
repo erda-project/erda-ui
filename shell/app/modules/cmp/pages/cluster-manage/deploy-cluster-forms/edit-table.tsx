@@ -95,7 +95,7 @@ export const EditableTable = (props: IEditableTableProps) => {
   return (
     <div>
       <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
-        {i18n.t('add')}
+        {i18n.t('Add')}
       </Button>
       <ErdaTable
         hideHeader

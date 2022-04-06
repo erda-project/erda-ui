@@ -33,7 +33,7 @@ import UploadModal from './upload-modal';
 const { Item: TimelineItem } = Timeline;
 
 const versionTypeDic = {
-  release: i18n.t('publisher:release version'),
+  release: i18n.t('publisher:Release version'),
   beta: i18n.t('publisher:preview version'),
 };
 interface IProps {
@@ -375,7 +375,7 @@ const VersionList = (props: IProps) => {
                               return (
                                 <WithAuth pass={publishOperationAuth}>
                                   <Button disabled={disableVersionConf(record)} onClick={() => window.open(item.url)}>
-                                    {i18n.t('download')}
+                                    {i18n.t('Download')}
                                   </Button>
                                 </WithAuth>
                               );

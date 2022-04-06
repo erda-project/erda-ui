@@ -33,7 +33,7 @@ interface IProps {
 const CaseMeta = ({ onBlurCapture, onChange, dataSource }: IProps) => {
   return (
     <div onBlurCapture={onBlurCapture}>
-      <p className="text-desc my-0">{i18n.t('dop:priority')}</p>
+      <p className="text-desc my-0">{i18n.t('dop:Priority')}</p>
       <div className="mt-2 mb-5">
         <Select
           style={{ width: '100%' }}
@@ -47,7 +47,7 @@ const CaseMeta = ({ onBlurCapture, onChange, dataSource }: IProps) => {
           ))}
         </Select>
       </div>
-      <p className="text-desc my-0">{i18n.t('creator')}</p>
+      <p className="text-desc my-0">{i18n.t('Creator')}</p>
       <p className="mt-2 mb-5">
         <UserInfo.RenderWithAvatar id={dataSource.creatorID} />
       </p>

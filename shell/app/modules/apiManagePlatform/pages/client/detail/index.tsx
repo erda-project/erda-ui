@@ -132,15 +132,15 @@ const ClientDetail = () => {
   };
   const fields = [
     {
-      label: i18n.t('client name'),
+      label: i18n.t('Client name'),
       value: get(clientDetail, ['client', 'displayName']) || get(clientDetail, ['client', 'name']),
     },
     {
-      label: i18n.t('client identifier'),
+      label: i18n.t('Client identifier'),
       value: get(clientDetail, ['client', 'name']),
     },
     {
-      label: i18n.t('description'),
+      label: i18n.t('Description'),
       value: get(clientDetail, ['client', 'desc']),
     },
     {
@@ -203,7 +203,7 @@ const ClientDetail = () => {
         },
       },
       {
-        title: i18n.t('version'),
+        title: i18n.t('Version'),
         dataIndex: 'swaggerVersion',
         width: 160,
       },
@@ -253,7 +253,7 @@ const ClientDetail = () => {
       />
       <Copy selector=".cursor-copy" />
       <div className="p-4 api-list">
-        <div className="title text-base text-normal font-medium">{i18n.t('authorized API')}</div>
+        <div className="title text-base text-normal font-medium">{i18n.t('Authorized API')}</div>
         <Tabs
           defaultActiveKey="proved"
           onChange={(v: string) => {

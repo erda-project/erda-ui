@@ -38,7 +38,7 @@ const ChangeResult = () => {
 
   return (
     <>
-      <Button onClick={onClick}>{i18n.t('dop:change execution result')}</Button>
+      <Button onClick={onClick}>{i18n.t('dop:Change Execution Result')}</Button>
       <MetaModal />
     </>
   );

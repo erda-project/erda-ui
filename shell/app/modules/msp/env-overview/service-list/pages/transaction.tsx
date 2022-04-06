@@ -30,23 +30,23 @@ import TransactionDetail from 'msp/env-overview/service-list/pages/transaction-d
 const dashboardIdMap = [
   {
     value: 'transaction-http',
-    label: i18n.t('msp:HTTP call'),
+    label: i18n.t('msp:HTTP Call'),
   },
   {
     value: 'transaction-rpc',
-    label: i18n.t('msp:RPC call'),
+    label: i18n.t('msp:RPC Call'),
   },
   {
     value: 'transaction-cache',
-    label: i18n.t('msp:Cache call'),
+    label: i18n.t('msp:Cache Call'),
   },
   {
     value: 'transaction-db',
-    label: i18n.t('msp:Database call'),
+    label: i18n.t('msp:Database Call'),
   },
   {
     value: 'transaction-mq',
-    label: i18n.t('msp:MQ call'),
+    label: i18n.t('msp:MQ Call'),
   },
 ];
 

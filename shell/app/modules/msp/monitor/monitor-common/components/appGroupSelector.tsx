@@ -113,7 +113,7 @@ const AppGroupSelector = ({ api, type, dataHandler, viewProps }: IProps) => {
       expandTrigger="hover"
       className="condition-selector"
       onChange={onChangeChosenAppGroup}
-      placeholder={i18n.t('msp:please choose')}
+      placeholder={i18n.t('msp:Please select')}
       {...viewProps}
     />
   );

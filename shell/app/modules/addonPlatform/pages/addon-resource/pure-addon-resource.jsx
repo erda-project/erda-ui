@@ -26,11 +26,11 @@ const AddonResource = (props) => {
 
   const { createdAt, reference, workspace, addonName, plan, cluster, version } = resourceInfo;
   const instanceData = [
-    { key: i18n.t('common:middleware'), value: addonName },
-    { key: i18n.t('version'), value: version },
-    { key: i18n.t('common:running cluster'), value: cluster },
-    { key: i18n.t('running environment'), value: ENV_NAME[workspace] },
-    { key: i18n.t('common:specifications'), value: PLAN_NAME[plan] },
+    { key: i18n.t('common:Middleware'), value: addonName },
+    { key: i18n.t('Version'), value: version },
+    { key: i18n.t('common:Running cluster'), value: cluster },
+    { key: i18n.t('Running environment'), value: ENV_NAME[workspace] },
+    { key: i18n.t('common:Specification'), value: PLAN_NAME[plan] },
     { key: i18n.t('common:reference times'), value: reference },
     { key: i18n.t('create time'), value: moment(createdAt).format('YYYY-MM-DD HH:mm:ss') },
   ];

@@ -20,7 +20,7 @@ import { Button, message, Spin, Upload, FormInstance } from 'antd';
 import React from 'react';
 
 export const ENV_I18N = {
-  default: i18n.t('common:default config'),
+  default: i18n.t('common:Default configuration'),
   dev: i18n.t('dev environment'),
   test: i18n.t('test environment'),
   staging: i18n.t('staging environment'),
@@ -83,9 +83,9 @@ export const VariableConfigForm = ({
             if (value && value !== formData?.key && existConfig) {
               const place =
                 {
-                  kv: i18n.t('common:text type'),
+                  kv: i18n.t('common:Text Type'),
                   'dice-file': i18n.t('common:file type'),
-                }[existConfig.type] || i18n.t('common:other type');
+                }[existConfig.type] || i18n.t('common:Other Type');
               throw new Error(i18n.t('{name} already exists in {place}', { name: value, place }));
             }
           },
@@ -94,12 +94,12 @@ export const VariableConfigForm = ({
     },
     ...insertWhen(!addType, [
       {
-        label: i18n.t('type'),
+        label: i18n.t('Type'),
         name: 'type',
         type: 'select',
         options: [
-          { name: i18n.t('value'), value: typeMap.kv },
-          { name: i18n.t('file'), value: typeMap.file },
+          { name: i18n.t('Value'), value: typeMap.kv },
+          { name: i18n.t('File'), value: typeMap.file },
         ],
         initialValue: typeMap.kv,
         itemProps: {
@@ -115,7 +115,7 @@ export const VariableConfigForm = ({
     ...(type === typeMap.kv
       ? [
           {
-            label: i18n.t('dop:encrypt'),
+            label: i18n.t('dop:Encrypt'),
             name: 'encrypt',
             type: 'switch',
             initialValue: false,
@@ -134,7 +134,7 @@ export const VariableConfigForm = ({
         ]
       : [
           {
-            label: i18n.t('dop:encrypt'),
+            label: i18n.t('dop:Encrypt'),
             name: 'encrypt',
             type: 'switch',
             initialValue: false,
@@ -147,7 +147,7 @@ export const VariableConfigForm = ({
             },
           },
           {
-            label: i18n.t('file'),
+            label: i18n.t('File'),
             name: 'value',
             type: 'custom',
             rules: [{ required: true, message: i18n.t('common:Please select the file to be uploaded') }],
@@ -190,7 +190,7 @@ export const VariableConfigForm = ({
                   <Spin spinning={uploading} tip={i18n.t('uploading, please wait a moment')}>
                     <Upload {...uploadProps}>
                       <Button className="flex items-center">
-                        <ErdaIcon className="mr-1 align-center" type="upload" /> {i18n.t('upload')}
+                        <ErdaIcon className="mr-1 align-center" type="upload" /> {i18n.t('Upload')}
                       </Button>
                     </Upload>
                     <span className="text-desc ml-2">
@@ -204,7 +204,7 @@ export const VariableConfigForm = ({
           },
         ]),
     {
-      label: i18n.t('dop:remark'),
+      label: i18n.t('dop:Remark'),
       name: 'comment',
       required: false,
       itemProps: {

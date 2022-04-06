@@ -97,7 +97,7 @@ const Redis = () => {
         ),
       },
       {
-        title: i18n.t('version'),
+        title: i18n.t('Version'),
         dataIndex: 'version',
         width: 80,
       },
@@ -109,7 +109,7 @@ const Redis = () => {
   const getFieldsList = (form: FormInstance) => {
     const fieldsList = [
       {
-        label: i18n.t('region'),
+        label: i18n.t('Region'),
         name: 'region',
         type: 'select',
         options: map(regions, ({ regionID, localName }) => ({ value: regionID, name: `${localName} (${regionID})` })),

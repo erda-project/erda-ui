@@ -232,7 +232,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
       } else {
         const confirmTitle = isConnectedWs
           ? `${i18n.t('dop:whether to save and jump to the newly created document')}?`
-          : `${i18n.t('dop:whether to jump to the newly created document')}?`;
+          : `${i18n.t('dop:Go to the newly created document?')}?`;
         Modal.confirm({
           title: confirmTitle,
           onOk: () => {
@@ -358,7 +358,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
 
   return (
     <Popover
-      title={i18n.t('dop:please select a document under the branch')}
+      title={i18n.t('dop:Please select a document under the branch')}
       overlayClassName="branch-doc-select-popover"
       trigger="hover"
       placement="bottomLeft"

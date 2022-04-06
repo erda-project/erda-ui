@@ -56,7 +56,7 @@ const UploadModal = (props: IProps) => {
   };
   const fieldsList: IFormItem[] = [
     {
-      label: i18n.t('file'),
+      label: i18n.t('File'),
       name: 'file',
       required: true,
       rules: [{ required: true, message: i18n.t('common:Please select the file to be uploaded') }],
@@ -81,7 +81,7 @@ const UploadModal = (props: IProps) => {
           <div className="upload-container">
             <Upload accept=".apk, .ipa" {...uploadProps}>
               <Button className="flex items-center">
-                <ErdaIcon className="mr-1" type="upload" size="14" /> {i18n.t('upload')}
+                <ErdaIcon className="mr-1" type="upload" size="14" /> {i18n.t('Upload')}
               </Button>
             </Upload>
             <span className="text-desc ml-2">
@@ -93,7 +93,7 @@ const UploadModal = (props: IProps) => {
     },
     // 暂时隐藏描述
     // {
-    //   label: i18n.t('description'),
+    //   label: i18n.t('Description'),
     //   name: 'desc',
     //   required: false,
     //   type: 'textArea',

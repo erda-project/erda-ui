@@ -45,7 +45,7 @@ export default ({ downloadId, projectId, onFinish }: { downloadId: string; proje
               {({ exportPdf }) => (
                 <span className="text-sm cursor-pointer text-primary" ref={exportRef} onClick={() => exportPdf()}>
                   <ErdaIcon type="upload" className="align-middle mr-1" />
-                  {i18n.t('dop:export report')}
+                  {i18n.t('dop:Export Report')}
                 </span>
               )}
             </ExportPdf>
@@ -75,7 +75,7 @@ const Preview = (props: { data: PROJECT.ITestReportBody; onMount: Function }) =>
           <Form.Item label={i18n.t('dop:iteration')}>
             <IterationSelect value={data.iterationID} bordered={false} suffixIcon={null} />
           </Form.Item>
-          <Form.Item label={i18n.t('dop:test summary')}>
+          <Form.Item label={i18n.t('dop:Test summary')}>
             <MarkdownRender className="border-all rounded p-2" value={data.summary} />
           </Form.Item>
         </Form>

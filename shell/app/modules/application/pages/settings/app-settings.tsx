@@ -63,16 +63,16 @@ export const PureAppSettings = () => {
 
   const settingSource = [
     {
-      groupTitle: i18n.t('dop:general settings'),
+      groupTitle: i18n.t('dop:General Settings'),
       groupKey: 'common',
       tabGroup: [
         {
-          tabTitle: i18n.t('dop:application information'),
+          tabTitle: i18n.t('dop:App Information'),
           tabKey: 'appInfo',
           content: <AppInfo />,
         },
         {
-          tabTitle: i18n.t('dop:app member'),
+          tabTitle: i18n.t('dop:App Member'),
           tabKey: 'appMember',
           content: (
             <ConfigLayout
@@ -81,7 +81,7 @@ export const PureAppSettings = () => {
                   children: <MembersTable topContent={memberTopContent} buttonInCard scopeKey={MemberScope.APP} />,
                 },
                 {
-                  title: i18n.t('dop:view the project member'),
+                  title: i18n.t('dop:View project members'),
                   children: <MembersTable readOnly hideBatchOps hideRowSelect scopeKey={MemberScope.PROJECT} />,
                 },
               ]}
@@ -91,17 +91,17 @@ export const PureAppSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('dop:repository'),
+      groupTitle: i18n.t('dop:Repository'),
       groupKey: 'repository',
       tabGroup: [
         {
-          tabTitle: i18n.t('dop:merge description'),
+          tabTitle: i18n.t('dop:Merge Description'),
           tabKey: 'mrDesc',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('dop:set the default merge request description template'),
+                  title: i18n.t('dop:Set the default merge request description template'),
                   children: <MergeDes />,
                 },
               ]}
@@ -109,14 +109,14 @@ export const PureAppSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('dop:branch rule'),
+          tabTitle: i18n.t('dop:Branch Rule'),
           tabKey: 'branchRule',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('dop:application branch rule'),
-                  desc: i18n.t('dop:application-branch-rule-desc'),
+                  title: i18n.t('dop:App branch rule'),
+                  desc: i18n.t('dop:The app branch rule is mainly to protect the app code branch and set switches for continuous integration. Please configure it as needed.'),
                   children: <BranchRule operationAuth={branchRuleOperation} scopeId={+params.appId} scopeType="app" />,
                 },
               ]}
@@ -142,13 +142,13 @@ export const PureAppSettings = () => {
       groupKey: 'pipeline',
       tabGroup: [
         {
-          tabTitle: i18n.t('dop:variable configuration'),
+          tabTitle: i18n.t('dop:Variable Configuration'),
           tabKey: 'privateConfig',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('dop:variable configuration'),
+                  title: i18n.t('dop:Variable Configuration'),
                   desc: i18n.t(
                     'dop:The same code can generate different artifacts by pipeline in different environments. Configure the environment here.',
                   ),
@@ -182,7 +182,7 @@ export const PureAppSettings = () => {
       groupKey: 'deploy',
       tabGroup: [
         {
-          tabTitle: `${i18n.t('parameter setting')}`,
+          tabTitle: `${i18n.t('Parameter Settings')}`,
           tabKey: 'appConfig',
           content: (
             <ConfigLayout
@@ -199,17 +199,17 @@ export const PureAppSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('dop:notification management'),
+      groupTitle: i18n.t('dop:Notification Management'),
       groupKey: 'notification',
       tabGroup: [
         {
-          tabTitle: i18n.t('notification'),
+          tabTitle: i18n.t('Notification'),
           tabKey: 'notifyConfig',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('dop:help you better organize your notifications'),
+                  title: i18n.t('dop:Help you better manage your notifications'),
                   children: (
                     <NotifyConfig
                       memberStore={memberStore}
@@ -222,13 +222,13 @@ export const PureAppSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('dop:notification group'),
+          tabTitle: i18n.t('dop:Notification Group'),
           tabKey: 'notifyGroup',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('dop:organize notification groups to set up notifications'),
+                  title: i18n.t('dop:Set notification groups for notifications'),
                   children: (
                     <NotifyGroup
                       memberStore={memberStore}
@@ -248,13 +248,13 @@ export const PureAppSettings = () => {
       tabGroup: (() => {
         const list = [
           {
-            tabTitle: i18n.t('dop:variable configuration'),
+            tabTitle: i18n.t('dop:Variable Configuration'),
             tabKey: 'variableConfig',
             content: (
               <ConfigLayout
                 sectionList={[
                   {
-                    title: i18n.t('dop:variable configuration'),
+                    title: i18n.t('dop:Variable Configuration'),
                     desc: i18n.t(
                       'dop:The same code can generate different artifacts by pipeline in different environments. Configure the environment here.',
                     ),

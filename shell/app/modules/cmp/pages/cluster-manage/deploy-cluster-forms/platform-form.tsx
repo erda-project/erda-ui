@@ -63,7 +63,7 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
       ],
     },
     {
-      label: i18n.t('cmp:extensive domain'),
+      label: i18n.t('cmp:Extensive domain'),
       name: `${formPrefix}.wildcardDomain`,
       rules: [{ ...regRulesMap.wildcardDomain }],
     },

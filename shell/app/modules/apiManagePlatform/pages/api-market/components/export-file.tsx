@@ -47,7 +47,7 @@ const ExportFile = ({ visible, onCancel, versionID, assetID, specProtocol: curPr
   };
   return (
     <FormModal
-      title={i18n.t('export')}
+      title={i18n.t('Export')}
       visible={visible}
       fieldsList={fieldsList}
       onOk={handleExport}

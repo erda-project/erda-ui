@@ -48,7 +48,7 @@ export interface CalendarProps {
 
 const Days = [i18n.t('Sun'), i18n.t('Mon'), i18n.t('Tue'), i18n.t('Wed'), i18n.t('Thu'), i18n.t('Fri'), i18n.t('Sat')];
 const Months = [
-  i18n.t('January'),
+  i18n.t('1 Month'),
   i18n.t('February'),
   i18n.t('March'),
   i18n.t('April'),

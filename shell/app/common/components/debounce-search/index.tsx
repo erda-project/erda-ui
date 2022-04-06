@@ -25,7 +25,7 @@ interface IProps {
   [pro: string]: any;
 }
 const DebounceSearch = (props: IProps) => {
-  const { onChange, value: pValue, className = '', placeholder = i18n.t('search by keywords'), ...rest } = props;
+  const { onChange, value: pValue, className = '', placeholder = i18n.t('Search by keyword-char'), ...rest } = props;
   const [value, setValue] = React.useState(undefined as string | undefined);
 
   React.useEffect(() => {

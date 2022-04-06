@@ -24,8 +24,8 @@ const chartMap = merge(
       type: 'sortTab',
       tabList: [
         { name: i18n.t('msp:access domain'), key: 'host' },
-        { name: i18n.t('msp:access page'), key: 'url' },
-        { name: i18n.t('msp:system'), key: 'os' },
+        { name: i18n.t('msp:Access Page'), key: 'url' },
+        { name: i18n.t('msp:System'), key: 'os' },
         { name: i18n.t('msp:browser'), key: 'browser' },
         { name: i18n.t('msp:device'), key: 'device' },
       ],

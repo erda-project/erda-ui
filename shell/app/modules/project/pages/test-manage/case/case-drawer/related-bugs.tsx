@@ -107,7 +107,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
 
   const relatedBugsColumns: Array<ColumnProps<TEST_CASE.RelatedBug>> = [
     {
-      title: i18n.t('default:title'),
+      title: i18n.t('default:Title'),
       dataIndex: 'title',
       render: (text: string, record) => {
         return (
@@ -135,7 +135,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
       },
     },
     {
-      title: i18n.t('dop:priority'),
+      title: i18n.t('dop:Priority'),
       dataIndex: 'priority',
       width: 96,
       render: (text: string) =>
@@ -208,14 +208,14 @@ const RelatedBugs = ({ relationID }: IProps) => {
               className="filter-select"
               scopeType="project"
               scopeId={projectId}
-              placeholder={i18n.t('please select {name}', { name: i18n.t('creator') })}
+              placeholder={i18n.t('please select {name}', { name: i18n.t('Creator') })}
               onChange={handleSelectCreator}
               allowClear
             />
             <Select
               className="filter-select"
               onChange={handleSelectPriority}
-              placeholder={i18n.t('dop:priority')}
+              placeholder={i18n.t('dop:Priority')}
               allowClear
             >
               {map(ISSUE_PRIORITY_MAP, (item) => {
@@ -234,7 +234,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
               onSearch={(q) => updater.title(q)}
               showSearch
               filterOption={false}
-              placeholder={i18n.t('name')}
+              placeholder={i18n.t('Name')}
             >
               {map(bugList, (item) => {
                 return (
@@ -257,7 +257,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
               updater.showFilterBug(false);
             }}
           >
-            {i18n.t('default:cancel')}
+            {i18n.t('default:Cancel')}
           </Button>
         </div>
       ) : null}

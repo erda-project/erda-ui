@@ -62,7 +62,7 @@ class LogSearchForm extends React.Component {
             htmlType="submit"
             icon={<ErdaIcon type="search1" />}
           >
-            {i18n.t('common:search for')}
+            {i18n.t('common:Search')}
           </Button>
         </Form>
       </div>

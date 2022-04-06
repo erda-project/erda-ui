@@ -26,7 +26,7 @@ export const ClusterFPSForm = ({ form, isReadonly, data, curRef }: IFormProps) =
       rules: [{ ...regRulesMap.ip }],
     },
     {
-      label: i18n.t('port'),
+      label: i18n.t('Port'),
       name: `${formPrefix}.port`,
       initialValue: 17621,
       rules: [{ ...regRulesMap.port }],

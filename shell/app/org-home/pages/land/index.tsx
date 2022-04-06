@@ -49,7 +49,7 @@ const LandPage = () => {
   const getFieldsList = (form: WrappedFormUtils) => {
     const fieldsList = [
       {
-        label: i18n.t('layout:org name'),
+        label: i18n.t('layout:Organization name'),
         name: 'displayName',
         itemProps: {
           onInput: (e: any) => {
@@ -65,13 +65,13 @@ const LandPage = () => {
         },
       },
       {
-        label: i18n.t('layout:org identify'),
+        label: i18n.t('layout:Organization identifier'),
         name: 'name',
         itemProps: {
           maxLength: 50,
         },
         rules: [
-          { required: true, message: i18n.t('please enter {name}', { name: i18n.t('layout:org identify') }) },
+          { required: true, message: i18n.t('please enter {name}', { name: i18n.t('layout:Organization identifier') }) },
           {
             pattern: /^[a-z0-9-]*$/,
             message: i18n.t('layout:only allowed to consist of lower case characters, numbers and -'),
@@ -85,7 +85,7 @@ const LandPage = () => {
         getComp: () => <ImageUpload id="logo" form={form} showHint />,
       },
       {
-        label: i18n.t('layout:org description'),
+        label: i18n.t('layout:Organization description'),
         name: 'desc',
         itemProps: {
           type: 'textarea',

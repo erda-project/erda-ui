@@ -29,7 +29,7 @@ const TablePanel = ({ isPage, data }: { isPage: boolean; data: object }) => {
   const list = get(data, 'list') || [];
   const columns = [
     {
-      title: isPage ? i18n.t('msp:access domain') : i18n.t('msp:access page'),
+      title: isPage ? i18n.t('msp:access domain') : i18n.t('msp:Access Page'),
       dataIndex: 'name',
       key: 'name',
       width: 320,
@@ -37,7 +37,7 @@ const TablePanel = ({ isPage, data }: { isPage: boolean; data: object }) => {
         value.length > 30 ? <Tooltip title={value}>{`${value.substr(0, 30)}...`}</Tooltip> : value,
     },
     {
-      title: i18n.t('time'),
+      title: i18n.t('Time'),
       dataIndex: 'time',
       key: 'time',
       width: 280,
