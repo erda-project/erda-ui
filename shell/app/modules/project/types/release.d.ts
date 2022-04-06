@@ -18,7 +18,7 @@ declare namespace RELEASE {
   }
 
   interface ReleaseDetail {
-    modes: { default: { applicationReleaseList: Array<{ releaseID: string }> } };
+    modes: { [key: string]: Mode };
     releaseId?: string;
     applicationId?: string;
     releaseID?: string;
@@ -37,6 +37,19 @@ declare namespace RELEASE {
     addonYaml?: string;
     id?: string;
     pId?: string;
+  }
+
+  interface Mode {
+    dependOn?: string[];
+    applicationReleaseList: Application[][];
+  }
+
+  interface Application {
+    applicationName: string;
+    releaseName: string;
+    version: string;
+    createdAt: string;
+    releaseID: string;
   }
 
   interface Addon extends IAddon {
