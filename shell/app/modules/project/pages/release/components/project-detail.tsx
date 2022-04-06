@@ -166,7 +166,7 @@ const ModesList = ({ value }: { value?: { [keys: string]: Mode } }) => {
                     <div className="text-xs text-default-6 mb-1">{i18n.t('dop:dependence')}</div>
                     <Ellipsis
                       className="hover:text-purple-deep hover:underline mb-4"
-                      title={(mode.dependOn || []).map((item: string) => `${item} `)}
+                      title={(mode.dependOn || []).join(' ')}
                     />
                   </>
                 ) : null}
