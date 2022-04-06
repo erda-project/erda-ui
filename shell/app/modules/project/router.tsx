@@ -176,6 +176,16 @@ function getProjectRouter(): RouteConfigItem[] {
                         noWrapper: true,
                       },
                     },
+                    {
+                      path: 'statistics',
+                      tabs: ITERATION_DETAIL_TABS,
+                      backToUp: 'projectIteration',
+                      ignoreTabQuery: true,
+                      getComp: (cb) => cb(import('project/pages/issue/statistics')),
+                      layout: {
+                        noWrapper: true,
+                      },
+                    },
                   ],
                 },
               ],
