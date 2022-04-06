@@ -471,13 +471,13 @@ export const EditIssueDrawer = (props: IProps) => {
     if (value.labels) {
       const labelName = cloneDeep(value.labels).pop();
       if (isEmpty(value.labels) || includes(labelNames, labelName)) {
-        setField(value);
+        return setField(value);
       } else {
         message.info(i18n.t('dop:the label does not exist, please select again'));
-        setField({ ...value, labels: value.labels.slice(0, -1) }); // remove the last label, which is not exist
+        return setField({ ...value, labels: value.labels.slice(0, -1) }); // remove the last label, which is not exist
       }
     } else {
-      setField(value);
+      return setField(value);
     }
   };
 

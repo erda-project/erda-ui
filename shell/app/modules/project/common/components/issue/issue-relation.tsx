@@ -573,14 +573,16 @@ export const AddIssueRelation = ({
               outside: true,
               placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
             },
-            {
-              label: i18n.t('dop:issue type'),
-              type: 'select',
-              key: 'type',
-              options: map(ISSUE_OPTION, (item) => ISSUE_TYPE_MAP[item]),
-              disabled: relationType === RelationType.Inclusion,
-              placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:issue type') }),
-            },
+            ...insertWhen(relationType !== RelationType.Inclusion, [
+              {
+                label: i18n.t('dop:issue type'),
+                type: 'select',
+                key: 'type',
+                options: map(ISSUE_OPTION, (item) => ISSUE_TYPE_MAP[item]),
+                disabled: relationType === RelationType.Inclusion,
+                placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:issue type') }),
+              },
+            ]),
             {
               label: i18n.t('dop:owned iteration'),
               type: 'select',
@@ -653,6 +655,7 @@ export const AddIssueRelation = ({
             updater.filterData({
               ...filterData,
               ...value,
+              type: relationType === RelationType.Inclusion ? ['TASK'] : v.type,
               startFinishedAt: finishedAt?.[0],
               endFinishedAt: finishedAt?.[1],
               startCreatedAt: createdAt?.[0],

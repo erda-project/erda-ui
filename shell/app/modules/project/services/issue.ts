@@ -32,7 +32,7 @@ const apis = {
     api: '/api/issues/:issueId/relations',
   },
   updateIncludeIssue: {
-    api: 'post@/api/issues/:issueId/actions/sync-update-fields-to-children',
+    api: 'post@/api/issue-items/:issueId/actions/sync-update-fields-to-children',
   },
 };
 
@@ -59,13 +59,13 @@ export const getIssueDetail = ({ id }: ISSUE.IssueDetailQuery): Promise<ISSUE.Is
 export const updateIncludeIssue = apiCreator<
   (params: {
     issueId: string;
-    updateFields?: {
+    updateFields?: Array<{
       updateType: string;
       field: string;
       value:
         | { content: string | string[] | number | number[] }
-        | { addition: string[] | number[]; deletion: string[] | number[] };
-    };
+        | { addition: Array<string | number>; deletion: Array<string | number> };
+    }>;
   }) => void
 >(apis.updateIncludeIssue);
 

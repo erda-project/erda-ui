@@ -17,7 +17,7 @@ import { map, difference } from 'lodash';
 import { EditField, MemberSelector, ErdaIcon } from 'common';
 import { Link } from 'react-router-dom';
 import { getIssueRelation, updateIncludeIssue } from 'project/services/issue';
-import { goTo, insertWhen } from 'common/utils';
+import { goTo, insertWhen, isPromise } from 'common/utils';
 import {
   ISSUE_TYPE,
   ISSUE_PRIORITY_LIST,
@@ -463,7 +463,26 @@ const IssueMetaFields = React.forwardRef(
               force: withChildrenIteration,
               visible: true,
             });
-            setFieldCb({ ...v, withChildrenIteration });
+
+            const res = setFieldCb({ ...v });
+            if (isPromise(res)) {
+              res.then(() => {
+                if (withChildrenIteration) {
+                  updateIncludeIssue({
+                    issueId: formData.id,
+                    updateFields: [
+                      {
+                        updateType: 'REPLACE',
+                        field: 'iterationID',
+                        value: { content: +v.iterationID },
+                      },
+                    ],
+                  }).then(() => {
+                    getIssueRelation.fetch({ issueId: formData.id });
+                  });
+                }
+              });
+            }
           },
           valueRender: (value: string) => {
             const match = iterationList.find((item) => String(item.id) === String(value));
@@ -489,11 +508,15 @@ const IssueMetaFields = React.forwardRef(
               onOk={() => {
                 updateIncludeIssue({
                   issueId: formData.id,
-                  updateFields: {
-                    updateType: 'REPLACE',
-                    field: 'iterationID',
-                    value: { content: iterationUpdate.id },
-                  },
+                  updateFields: [
+                    {
+                      updateType: 'REPLACE',
+                      field: 'iterationID',
+                      value: { content: +iterationUpdate.id },
+                    },
+                  ],
+                }).then(() => {
+                  getIssueRelation.fetch({ issueId: formData.id });
                 });
                 setIterationUpdate((prev) => ({ ...prev, visible: false }));
               }}
@@ -761,14 +784,16 @@ const IssueMetaFields = React.forwardRef(
               const add = difference(labelUpdate?.current, labelUpdate?.prev || []);
               updateIncludeIssue({
                 issueId: formData.id,
-                updateFields: {
-                  updateType: 'MERGE',
-                  field: 'labels',
-                  value: {
-                    addition: add,
-                    deletion: del,
+                updateFields: [
+                  {
+                    updateType: 'MERGE',
+                    field: 'labels',
+                    value: {
+                      addition: add.map((item) => optionList.find((opItem) => opItem.name === item)?.id || item),
+                      deletion: del.map((item) => optionList.find((opItem) => opItem.name === item)?.id || item),
+                    },
                   },
-                },
+                ],
               });
               setLabelUpdate({ prev: curLabel, current: curLabel });
             }}
