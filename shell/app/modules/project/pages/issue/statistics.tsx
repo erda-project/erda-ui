@@ -18,9 +18,11 @@ import { MEASURE_TABS } from 'project/tabs';
 import TaskSummary from './task-summary';
 import IssueDashboard from './issue-dashboard';
 
+const options = MEASURE_TABS.map((item) => ({ value: item.key, label: item.name }));
+
 const Statistics = () => {
   const [type, setType] = React.useState<string>('task');
-  const options = React.useMemo(() => MEASURE_TABS.map((item) => ({ value: item.key, label: item.name })), []);
+
   return (
     <div>
       <RadioTabs
