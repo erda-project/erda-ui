@@ -36,7 +36,6 @@ import iterationStore from 'app/modules/project/stores/iteration';
 import labelStore from 'project/stores/label';
 import userStore from 'app/user/stores';
 import { usePerm, WithAuth, getAuth, isAssignee, isCreator } from 'user/common';
-import { IssueTestCaseRelation } from '../issue-testCase-relation';
 import { FIELD_WITH_OPTION } from 'org/common/config';
 import { produce } from 'immer';
 import issueFieldStore from 'org/stores/issue-field';

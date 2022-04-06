@@ -31,6 +31,9 @@ const apis = {
   getIssueRelation: {
     api: '/api/issues/:issueId/relations',
   },
+  updateIncludeIssue: {
+    api: 'post@/api/issues/:issueId/actions/sync-update-fields-to-children',
+  },
 };
 
 export const getFieldsByIssue = apiCreator<(params: ISSUE.IFiledQuery) => ISSUE.IFieldInstanceBody>(
@@ -52,6 +55,19 @@ export const getIssueRelation = apiCreator<
 export const getIssueDetail = ({ id }: ISSUE.IssueDetailQuery): Promise<ISSUE.IssueType> => {
   return agent.get(`/api/issues/${id}`).then((response: any) => response.body);
 };
+
+export const updateIncludeIssue = apiCreator<
+  (params: {
+    issueId: string;
+    updateFields?: {
+      updateType: string;
+      field: string;
+      value:
+        | { content: string | string[] | number | number[] }
+        | { addition: string[] | number[]; deletion: string[] | number[] };
+    };
+  }) => void
+>(apis.updateIncludeIssue);
 
 export const getIssueStreams = ({ id, ...rest }: ISSUE.IssueStreamListQuery): IPagingResp<ISSUE.IssueStream> => {
   return agent

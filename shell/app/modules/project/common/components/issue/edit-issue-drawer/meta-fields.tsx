@@ -12,10 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Divider, Row, Col } from 'antd';
-import { map } from 'lodash';
+import { Select, Divider, Row, Col, Button } from 'antd';
+import { map, difference } from 'lodash';
 import { EditField, MemberSelector, ErdaIcon } from 'common';
 import { Link } from 'react-router-dom';
+import { getIssueRelation, updateIncludeIssue } from 'project/services/issue';
 import { goTo, insertWhen } from 'common/utils';
 import {
   ISSUE_TYPE,
@@ -38,6 +39,7 @@ import issueFieldStore from 'org/stores/issue-field';
 import orgStore from 'app/org-home/stores/org';
 import labelStore from 'project/stores/label';
 import { useComponentWidth } from 'common/use-hooks';
+import moment from 'moment';
 import './meta-fields.scss';
 import { TagItem } from 'app/common/components/tags';
 
@@ -67,6 +69,11 @@ const severityOptions = map(BUG_SEVERITY_MAP, ({ iconLabel, value }) => (
   </Option>
 ));
 
+const compareTime = (t1?: string, t2?: string) => {
+  if (!t1 || !t2) return false; // change to backlog, need confirm;
+  return moment(t1).isBefore(t2);
+};
+
 interface IProps {
   labels: LABEL.Item[];
   isEditMode: boolean;
@@ -86,12 +93,157 @@ interface GetCompProps {
   onSave: (v: string | number) => void;
 }
 
+interface IterationExtraProps {
+  force: boolean;
+  visible: boolean;
+  onCancel: () => void;
+  onOk: () => void;
+}
+
+const IterationFiedExtra = (props: IterationExtraProps) => {
+  const { force, visible, onCancel, onOk } = props;
+  const data = getIssueRelation.useData();
+  if (!data?.include?.length) {
+    return null;
+  }
+  const [title, btn] = force
+    ? [
+        i18n.t('dop:issue-iteration-update-tip'),
+        <Button size="small" type="primary" onClick={onCancel}>
+          {i18n.t('dop:i know')}
+        </Button>,
+      ]
+    : [
+        i18n.t('dop:issue-iteration-update-tip-2'),
+        <div className="flex-h-center">
+          <Button type="primary" ghost size="small" onClick={onCancel}>
+            {i18n.t('cancel')}
+          </Button>
+          <Button size="small" className="ml-2" type="primary" onClick={onOk}>
+            {i18n.t('dop:synchronize')}
+          </Button>
+        </div>,
+      ];
+  return visible ? (
+    <div className="bg-default-04 rounded border border-solid border-default-1 p-3 flex-h-center justify-between relative issue-extra-field">
+      <div className="font-bold mr-3">{title}</div>
+      {btn}
+    </div>
+  ) : null;
+};
+
+interface LabelExtraProps {
+  optionList: LABEL.Item[];
+  labelUpdate: { prev: string[]; current: string[] };
+  onCancel: () => void;
+  onOk: () => void;
+}
+const LabelFiedExtra = (props: LabelExtraProps) => {
+  const { labelUpdate, optionList, onCancel, onOk } = props;
+  const { prev, current } = labelUpdate;
+  const [expand, setExpand] = React.useState(true);
+  const data = getIssueRelation.useData();
+  if (!data?.include?.length) {
+    return null;
+  }
+  if (prev.join(',') === current.join(',')) {
+    return null;
+  } else {
+    const del = difference(prev, current);
+    const add = difference(current, prev);
+    return (
+      <div className="bg-default-04 rounded border border-solid border-default-1 p-3 issue-labels-extra max-w-[600px] issue-extra-field relative">
+        <div className="flex-h-center justify-between">
+          <div className="font-bold mr-3 flex-h-center">
+            <ErdaIcon
+              type="caret-down"
+              className={`mr-1 cursor-pointer expand-icon ${expand ? '' : 'un-expand'}`}
+              size={'18'}
+              onClick={() => setExpand((_expand) => !_expand)}
+            />
+            {i18n.t('dop:issue-labels-update-tip')}
+          </div>
+          <div className="flex-h-center">
+            <Button type="primary" ghost size="small" onClick={onCancel}>
+              {i18n.t('cancel')}
+            </Button>
+            <Button size="small" className="ml-2" type="primary" onClick={onOk}>
+              {i18n.t('dop:synchronize')}
+            </Button>
+          </div>
+        </div>
+        {expand ? (
+          <div className="mx-6 issue-label-diff">
+            {add.length ? (
+              <div className="flex py-2">
+                <span className="mr-2 text-success">{`${i18n.t('dop:add')}: `}</span>
+                <div className="flex-1">
+                  {add.map((item) => {
+                    const curLabel = optionList.find((opt) => opt.name === item);
+                    return curLabel ? (
+                      <TagItem
+                        style={{ marginBottom: 2 }}
+                        key={item}
+                        label={{ label: item, color: curLabel.color }}
+                        readOnly
+                      />
+                    ) : null;
+                  })}
+                </div>
+              </div>
+            ) : null}
+            {del.length ? (
+              <div className="flex  py-2">
+                <span className="mr-2 text-danger">{`${i18n.t('delete')}: `}</span>
+                <div className="flex-1">
+                  {del.map((item) => {
+                    const curLabel = optionList.find((opt) => opt.name === item);
+                    return curLabel ? (
+                      <TagItem
+                        style={{ marginBottom: 2 }}
+                        key={item}
+                        label={{ label: item, color: curLabel.color }}
+                        readOnly
+                      />
+                    ) : null;
+                  })}
+                </div>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+      </div>
+    );
+  }
+};
+
 const IssueMetaFields = React.forwardRef(
   (
     { labels, isEditMode, isBacklog, editAuth, issueType, formData, setFieldCb, projectId, ticketType }: IProps,
     ref,
   ) => {
     const [widthHolder, width] = useComponentWidth();
+    const [labelUpdate, setLabelUpdate] = React.useState<null | { prev: string[]; current: string[] }>(
+      formData?.labels
+        ? {
+            current: formData?.labels || [],
+            prev: formData?.labels || [],
+          }
+        : null,
+    );
+    const [iterationUpdate, setIterationUpdate] = React.useState<{
+      name: string;
+      id: string;
+      visible: boolean;
+      force: boolean;
+    }>({ name: '', visible: false, force: false, id: '' });
+
+    React.useEffect(() => {
+      !labelUpdate &&
+        formData.labels &&
+        setLabelUpdate({ current: formData?.labels || [], prev: formData?.labels || [] });
+    }, [formData?.labels, setLabelUpdate, labelUpdate]);
+
     const { getLabels } = labelStore.effects;
     const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
     const urlParams = routeInfoStore.useStore((s) => s.params);
@@ -301,6 +453,18 @@ const IssueMetaFields = React.forwardRef(
           name: 'iterationID',
           label: i18n.t('dop:owned iteration'),
           type: 'custom',
+          onChangeCb: (v: { iterationID: string }) => {
+            const curIteration = iterationList.find((item) => `${item.id}` === `${v.iterationID}`);
+            const preIteration = iterationList.find((item) => `${item.id}` === `${formData?.iterationID}`);
+            const withChildrenIteration = compareTime(curIteration?.finishedAt, preIteration?.finishedAt);
+            setIterationUpdate({
+              id: `${v.iterationID}`,
+              name: `${v.iterationID}` === '-1' ? i18n.t('dop:backlog') : curIteration?.title || '',
+              force: withChildrenIteration,
+              visible: true,
+            });
+            setFieldCb({ ...v, withChildrenIteration });
+          },
           valueRender: (value: string) => {
             const match = iterationList.find((item) => String(item.id) === String(value));
             return match ? match.title : value;
@@ -315,6 +479,25 @@ const IssueMetaFields = React.forwardRef(
               onChange={onSave}
               disabled={!editAuth}
               placeholder={i18n.t('please choose {name}', { name: i18n.t('dop:owned iteration') })}
+            />
+          ),
+          extraContent: (
+            <IterationFiedExtra
+              onCancel={() => {
+                setIterationUpdate((prev) => ({ ...prev, visible: false }));
+              }}
+              onOk={() => {
+                updateIncludeIssue({
+                  issueId: formData.id,
+                  updateFields: {
+                    updateType: 'REPLACE',
+                    field: 'iterationID',
+                    value: { content: iterationUpdate.id },
+                  },
+                });
+                setIterationUpdate((prev) => ({ ...prev, visible: false }));
+              }}
+              {...iterationUpdate}
             />
           ),
         },
@@ -560,6 +743,37 @@ const IssueMetaFields = React.forwardRef(
             }
           },
         },
+        onChangeCb: (v: { labels: string[] }) => {
+          setFieldCb(v);
+          setLabelUpdate((d) => ({ prev: d?.prev || [], current: v.labels }));
+        },
+        extraContent: (
+          <LabelFiedExtra
+            optionList={optionList}
+            labelUpdate={labelUpdate || { prev: [], current: [] }}
+            onCancel={() => {
+              const curLabel = formData.labels;
+              setLabelUpdate({ prev: curLabel, current: curLabel });
+            }}
+            onOk={() => {
+              const curLabel = formData.labels;
+              const del = difference(labelUpdate?.prev, labelUpdate?.current || []);
+              const add = difference(labelUpdate?.current, labelUpdate?.prev || []);
+              updateIncludeIssue({
+                issueId: formData.id,
+                updateFields: {
+                  updateType: 'MERGE',
+                  field: 'labels',
+                  value: {
+                    addition: add,
+                    deletion: del,
+                  },
+                },
+              });
+              setLabelUpdate({ prev: curLabel, current: curLabel });
+            }}
+          />
+        ),
       },
       ...customFieldList,
       // ...insertWhen(isEditMode, [
