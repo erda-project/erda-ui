@@ -19,7 +19,7 @@ stages:
           params:
             branch: ((gittar.branch))
             depth: 1
-            uri: https://erda.cloud/erda/dop/erda-project/erda-ui-mirror
+            uri: https://erda.cloud/erda/dop/erda-project/erda-ui
       - git-checkout:
           alias: erda-ui-enterprise
           description: 代码仓库克隆
