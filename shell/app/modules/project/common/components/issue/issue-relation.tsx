@@ -29,6 +29,7 @@ import {
   ISSUE_COMPLEXITY_MAP,
 } from 'project/common/components/issue/issue-config';
 import { BACKLOG_ISSUE_TYPE, IssueForm, IssueItem } from 'project/pages/backlog/issue-item';
+import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import { getIssueRelation, getIssues } from 'project/services/issue';
 import { getProjectIterations } from 'project/services/project-iteration';
 import issueStore from 'project/stores/issues';
@@ -529,6 +530,14 @@ export const AddIssueRelation = ({
       title: i18n.t('title'),
       dataIndex: 'title',
       width: 240,
+      render: (title: string, record: ISSUE.Issue) => {
+        return (
+          <div className="flex-h-center">
+            <IssueIcon size={'20'} type={record.type} className="mr-1" />
+            {title}
+          </div>
+        );
+      },
     },
     {
       title: i18n.t('assignee'),
