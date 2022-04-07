@@ -143,10 +143,10 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
       )}
       <If condition={expandBtnVisible}>
         <span
-          className={`absolute bg-white shadow-card bottom-2 z-10 h-7 px-3 rounded-full mx-auto text-blue-deep cursor-pointer flex-all-center hover:shadow-card-lg ${
+          className={`absolute bg-white shadow-card  z-10 h-7 px-3 rounded-full mx-auto text-blue-deep cursor-pointer flex-all-center hover:shadow-card-lg ${
             expandBtnVisible ? '' : 'hidden'
           }`}
-          style={{ left: '50%', transform: 'translateX(-50%)' }}
+          style={{ left: '50%', bottom: -14, transform: 'translateX(-50%)' }}
           onClick={(e) => {
             e.stopPropagation();
             updater.expanded(!expanded);
