@@ -254,6 +254,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
     {
       title: i18n.t('status'),
       dataIndex: 'enable',
+      onCell: () => ({ style: { minWidth: 100, maxWidth: 300 } }),
       render: (enable: boolean, record) => (
         <Dropdown
           trigger={['click']}
