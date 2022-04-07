@@ -19,7 +19,6 @@ import { Button, Dropdown, Input, Menu, Modal, Spin, Tooltip } from 'antd';
 import { Badge, ErdaIcon, UserInfo } from 'common';
 import ErdaTable, { IProps as TableProps } from 'common/components/table';
 import { goTo } from 'common/utils';
-import { ColumnProps } from 'app/interface/common';
 import i18n from 'i18n';
 import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from 'application/stores/notify-group';
@@ -27,7 +26,7 @@ import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import cmpAlarmStrategyStore from 'app/modules/cmp/stores/alarm-strategy';
 import mspAlarmStrategyStore from 'app/modules/msp/alarm-manage/alarm-strategy/stores/alarm-strategy';
-import { IActions } from 'app/common/components/table/interface';
+import { ColumnProps, IActions } from 'app/common/components/table/interface';
 import './index.scss';
 
 const { confirm } = Modal;
@@ -130,6 +129,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('status'),
       dataIndex: 'enable',
+      onCell: () => ({ style: { minWidth: 100, maxWidth: 300 } }),
       render: (enable, record) => (
         <Dropdown
           trigger={['click']}
