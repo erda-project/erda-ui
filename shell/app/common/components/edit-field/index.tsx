@@ -191,6 +191,7 @@ interface IProps {
     originalValue: string;
   }) => React.ReactNode;
   suffix?: any;
+  extraContent?: React.ReactNode;
   showRequiredMark?: boolean;
   refMap?: Obj<React.RefObject<unknown>>;
   valueRender?: (value: any) => React.ReactNode;
@@ -210,6 +211,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     data,
     icon,
     suffix = null,
+    extraContent = null,
     showRequiredMark = false,
     valueRender,
     getComp,
@@ -365,22 +367,26 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
       );
       break;
   }
-
   return (
-    <div className={`relative common-edit-field flex-h-center ${className}`}>
-      {icon ? <ErdaIcon type={icon} className="text-default-4 mr-1" size={16} /> : null}
-      {label && (
-        <div className={'text-default-6 w-[100px]'}>
-          {label}
-          <If condition={showRequiredMark}>
-            <span data-required="* " className="ml-1 before:required" />
-          </If>
+    <div className={`relative common-edit-field ${className}`}>
+      <div className={'flex-h-center'}>
+        {icon ? <ErdaIcon type={icon} className="text-default-4 mr-1" size={16} /> : null}
+        {label && (
+          <div className={'text-default-6 w-[100px]'}>
+            {label}
+            <If condition={showRequiredMark}>
+              <span data-required="* " className="ml-1 before:required" />
+            </If>
+          </div>
+        )}
+        <div className="flex-1">
+          <div className="flex-h-center">
+            {Comp}
+            {suffix}
+          </div>
         </div>
-      )}
-      <div className="flex-1 flex-h-center">
-        {Comp}
-        {suffix}
       </div>
+      {extraContent ? <div className="mt-1">{extraContent}</div> : null}
     </div>
   );
 });
