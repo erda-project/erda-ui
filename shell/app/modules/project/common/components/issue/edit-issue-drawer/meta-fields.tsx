@@ -109,8 +109,8 @@ const IterationFiedExtra = (props: IterationExtraProps) => {
   const [title, btn] = force
     ? [
         i18n.t('dop:issue-iteration-update-tip'),
-        <Button size="small" type="primary" onClick={onCancel}>
-          {i18n.t('dop:i know')}
+        <Button size="small" ghost type="primary" onClick={onCancel}>
+          {i18n.t('close')}
         </Button>,
       ]
     : [
@@ -126,7 +126,7 @@ const IterationFiedExtra = (props: IterationExtraProps) => {
       ];
   return visible ? (
     <div className="bg-default-04 rounded border border-solid border-default-1 p-3 flex-h-center justify-between relative issue-extra-field">
-      <div className="font-bold mr-3">{title}</div>
+      <div className="font-medium mr-3">{title}</div>
       {btn}
     </div>
   ) : null;
@@ -154,7 +154,7 @@ const LabelFiedExtra = (props: LabelExtraProps) => {
     return (
       <div className="bg-default-04 rounded border border-solid border-default-1 p-3 issue-labels-extra max-w-[600px] issue-extra-field relative">
         <div className="flex-h-center justify-between">
-          <div className="font-bold mr-3 flex-h-center">
+          <div className="font-medium mr-3 flex-h-center">
             <ErdaIcon
               type="caret-down"
               className={`mr-1 cursor-pointer expand-icon ${expand ? '' : 'un-expand'}`}
