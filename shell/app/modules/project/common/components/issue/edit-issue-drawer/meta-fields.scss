@@ -32,4 +32,58 @@
       }
     }
   }
+
+  .issue-extra-field {
+    &:before {
+      box-sizing: content-box;
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: -16px;
+      left: 30px;
+      padding: 0;
+      border-bottom: 8px solid $color-light-bg-04;
+      border-top: 8px solid transparent;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      display: block;
+      content: '';
+      z-index: 12;
+    }
+    &:after {
+      box-sizing: content-box;
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: -20px;
+      left: 28px;
+      padding: 0;
+      border-bottom: 10px solid $color-default-1;
+      border-top: 10px solid transparent;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      display: block;
+      content: '';
+      z-index: 10;
+    }
+  }
+
+  .issue-labels-extra {
+    .expand-icon {
+      transform: rotate(0deg);
+      transition: all 0.3s ease-in-out;
+      &.un-expand {
+        transform: rotate(-90deg);
+      }
+    }
+    .issue-label-diff {
+      > * {
+        border-bottom: 1px solid $color-default-1;
+
+        &:last-child {
+          border-bottom: 0;
+        }
+      }
+    }
+  }
 }
