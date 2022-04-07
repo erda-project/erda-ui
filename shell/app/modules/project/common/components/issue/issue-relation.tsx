@@ -331,6 +331,7 @@ export const IssueConnection = ({ issueDetail, iterationID, editAuth, setHasEdit
   const [expand, setExpand] = React.useState(false);
   const issueType = issueDetail?.type;
   const data = getIssueRelation.useData();
+
   const _iterationID = iterationID === -1 ? undefined : iterationID; // 如果当前事项是待规划的，待规划不在迭代列表里，默认“全部”时其实还是会带上 -1 作为 id，所以为-1 时就传 undefined
   const issueConnectionList = (data?.relatedTo || [])?.concat(
     (data?.relatedBy || []).map((item) => ({ ...item, isRelatedBy: true })),
@@ -349,7 +350,10 @@ export const IssueConnection = ({ issueDetail, iterationID, editAuth, setHasEdit
   const [relateMrOperation, relateMrContent, relateMrList] = useAddMrRelation({
     expand,
     issueDetail,
-    afterAdd: () => getIssueStreams({ type: issueType, id: issueDetail.id, pageNo: 1, pageSize: 100 }),
+    afterAdd: () => {
+      getIssueDetail({ id: issueDetail.id });
+      return getIssueStreams({ type: issueType, id: issueDetail.id, pageNo: 1, pageSize: 100 });
+    },
     editAuth,
   });
 
@@ -395,7 +399,7 @@ export const IssueConnection = ({ issueDetail, iterationID, editAuth, setHasEdit
     ]),
   ];
   const [activeTabKey, setActiveTabKey] = React.useState(tabs[0].key);
-  const { getIssueStreams } = issueStore.effects;
+  const { getIssueStreams, getIssueDetail } = issueStore.effects;
   if (!issueDetail) return null;
   const curTab = tabs.find((t) => t.key === activeTabKey) as typeof tabs[0];
 
