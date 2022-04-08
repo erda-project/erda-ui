@@ -42,7 +42,7 @@ interface IProps {
   relationship?: Custom_Dashboard.Relationship[];
   title?: string;
   tabs?: Array<{ key: string; text: string; disabled?: boolean }>;
-  setVisible: (visible: boolean) => void;
+  onVisibleChange: (visible: boolean) => void;
   getCustomDashboard: (pageNo: number) => void;
 }
 
@@ -98,7 +98,7 @@ const ImportExport = (props: IProps) => {
     tabs = defaultTabs,
     visible,
     relationship,
-    setVisible,
+    onVisibleChange,
     getCustomDashboard,
   } = props;
 
@@ -108,7 +108,7 @@ const ImportExport = (props: IProps) => {
   });
 
   const closeModal = () => {
-    setVisible(false);
+    onVisibleChange(false);
     update({
       tabValue: getDefaultTabs(),
     });
@@ -116,7 +116,16 @@ const ImportExport = (props: IProps) => {
   const toRecord = () => update({ tabValue: 'record' });
 
   const CompMap = {
-    export: <Export scope={scope} scopeId={scopeId} queryObj={queryObj} onClose={closeModal} toRecord={toRecord} relationship={relationship}/>,
+    export: (
+      <Export
+        scope={scope}
+        scopeId={scopeId}
+        queryObj={queryObj}
+        onClose={closeModal}
+        toRecord={toRecord}
+        relationship={relationship}
+      />
+    ),
     import: (
       <Import
         scopeId={scopeId}
@@ -126,12 +135,12 @@ const ImportExport = (props: IProps) => {
         getCustomDashboard={getCustomDashboard}
       />
     ),
-    record: <Record scope={scope} scopeId={scopeId} relationship={relationship}/>,
+    record: <Record scope={scope} scopeId={scopeId} relationship={relationship} />,
   };
 
   return (
     <>
-      <Button onClick={() => setVisible(true)}>{title}</Button>
+      <Button onClick={() => onVisibleChange(true)}>{title}</Button>
       <Modal
         onCancel={closeModal}
         width={1000}
@@ -148,7 +157,7 @@ const ImportExport = (props: IProps) => {
               mode="underline"
               className="text-sm font-normal"
               tabs={tabs}
-              onSelect={(v) => updater.tabValue(v)}
+              onSelect={updater.tabValue}
               value={tabValue}
             />
           </div>
@@ -425,7 +434,15 @@ const Import = (props: ImportProps) => {
   );
 };
 
-const Record = ({ scope, scopeId, relationship }: { scope: string; scopeId: string,relationship?:Custom_Dashboard.Relationship[] }) => {
+const Record = ({
+  scope,
+  scopeId,
+  relationship,
+}: {
+  scope: string;
+  scopeId: string;
+  relationship?: Custom_Dashboard.Relationship[];
+}) => {
   const [data, loading] = getDashboardOperationRecord.useState();
   const [hasError, setHasError] = React.useState(false);
   const [isFinished, setIsFinished] = React.useState(false);

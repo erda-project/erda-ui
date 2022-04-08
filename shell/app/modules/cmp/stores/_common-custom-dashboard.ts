@@ -26,7 +26,6 @@ export enum CustomDashboardScope {
 }
 
 export interface IState {
-  modalVisible: boolean;
   customDashboardInfo: {
     name: string;
     desc?: string;
@@ -63,7 +62,6 @@ export const createCustomDashboardStore = (scope: CustomDashboardScope) => {
     [CustomDashboardScope.MICRO_SERVICE]: mspCustomDashboardService,
   };
   const initState: IState = {
-    modalVisible: false,
     customDashboardInfo: { name: '', desc: '' },
     customDashboardList: [],
     customDashboardPaging: getDefaultPaging(),
@@ -118,9 +116,6 @@ export const createCustomDashboardStore = (scope: CustomDashboardScope) => {
       },
       updateState(state, payload) {
         return { ...state, ...payload };
-      },
-      updateModalVisible(state, payload) {
-        return { ...state, modalVisible: payload };
       },
       updateCustomDashboardInfo(state, payload) {
         return { ...state, customDashboardInfo: payload };

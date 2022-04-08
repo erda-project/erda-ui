@@ -56,10 +56,11 @@ const CustomDashboardList = ({
   relationship?: Custom_Dashboard.Relationship[];
 }) => {
   const params = routeInfoStore.useStore((s) => s.params);
-  const [{ formData, filterData, recordModalVisible }, updater, update] = useUpdate({
+  const [{ formData, filterData, recordModalVisible, formModalVisible }, updater, update] = useUpdate({
     formData: null,
     filterData: { creator: [], createdAt: '', title: undefined } as Custom_Dashboard.CustomLIstQuery,
     recordModalVisible: false,
+    formModalVisible: false,
   });
 
   const isEditing = formData !== null;
@@ -67,10 +68,9 @@ const CustomDashboardList = ({
   const creatorsData = getCustomDashboardCreators.useData();
   const userMap = useUserMap();
   const store = storeMap[scope];
-  const [customDashboardList, customDashboardPaging, modalVisible] = store.useStore((s) => [
+  const [customDashboardList, customDashboardPaging] = store.useStore((s) => [
     s.customDashboardList,
     s.customDashboardPaging,
-    s.modalVisible,
   ]);
   const { creators } = creatorsData || {};
   const creatorOptions = map(creators, (item) => ({ label: userMap[item]?.nick || userMap[item]?.name, value: item }));
@@ -78,7 +78,6 @@ const CustomDashboardList = ({
   const {
     getCustomDashboard,
     deleteCustomDashboard,
-    updateModalVisible,
     updateCustomDashboardInfo,
     createCustomDashboard,
     updateCustomDashboard,
@@ -112,8 +111,6 @@ const CustomDashboardList = ({
     getCustomDashboardCreators.fetch({ scope, scopeId });
   }, [scope, scopeId]);
 
-  React.useEffect(() => {}, [userMap]);
-
   React.useEffect(() => {
     _getCustomDashboard(1, pageSize, filterData);
   }, [_getCustomDashboard, filterData, pageSize]);
@@ -129,7 +126,7 @@ const CustomDashboardList = ({
   };
 
   const handleEdit = (record: { name: string; desc?: string }) => {
-    updateModalVisible(true);
+    updater.formModalVisible(true);
     updater.formData(record);
   };
 
@@ -249,7 +246,7 @@ const CustomDashboardList = ({
   );
 
   const onSubmit = (values: Custom_Dashboard.BasicInfo) => {
-    updateModalVisible(false);
+    updater.formModalVisible(false);
     if (!isEditing) {
       breadcrumbStore.reducers.setInfo('dashboardName', values.name);
       createCustomDashboard({ name: values.name, desc: values.desc, scope, scopeId, version: 'v2' }).then((res) => {
@@ -280,14 +277,14 @@ const CustomDashboardList = ({
           scopeId={scopeId}
           queryObj={filterData as Custom_Dashboard.CustomLIstQuery}
           visible={recordModalVisible}
-          setVisible={updater.recordModalVisible}
+          onVisibleChange={updater.recordModalVisible}
           getCustomDashboard={_getCustomDashboard}
           relationship={relationship}
         />
         <Button
           type="primary"
           onClick={() => {
-            updateModalVisible(true);
+            updater.formModalVisible(true);
           }}
         >
           {i18n.t('cmp:Add-custom-dashboard')}
@@ -321,14 +318,14 @@ const CustomDashboardList = ({
         width={800}
         ref={formRef}
         title={`${isEditing ? i18n.t('cmp:Edit Name') : i18n.t('cmp:Add Dashboard')}`}
-        visible={modalVisible}
+        visible={formModalVisible}
         fieldsList={fieldsList}
         formData={formData}
         onOk={(values: any) => {
           onSubmit(values);
         }}
         onCancel={() => {
-          updateModalVisible(false);
+          updater.formModalVisible(false);
           updater.formData(null);
         }}
         modalProps={{ destroyOnClose: true }}
