@@ -25,7 +25,7 @@ planDetailColumns.splice(
   4,
   0,
   {
-    title: i18n.t('dop:interface pass rate'),
+    title: i18n.t('dop:Interface pass rate'),
     dataIndex: 'apiPassedCount',
     key: 'apiPass',
     width: 140,
@@ -42,7 +42,7 @@ planDetailColumns.splice(
     },
   },
   {
-    title: i18n.t('dop:executor'),
+    title: i18n.t('dop:Executor'),
     dataIndex: 'executorID',
     key: 'executorID',
     width: 100,

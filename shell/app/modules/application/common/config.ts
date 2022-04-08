@@ -32,15 +32,18 @@ export const appMode = {
 
 export const modeOptions = [
   {
-    name: i18n.t('dop:business app'),
+    name: i18n.t('dop:Business app'),
     value: appMode.SERVICE,
     src: ywyy_svg,
-    desc: i18n.t('dop:Business-app-intro', { keySeparator: '>' }),
+    desc: i18n.t(
+      'dop:Business apps mainly refer to a combination of microservices that handle certain types of business processes, such as member management apps.',
+      { keySeparator: '>' },
+    ),
     groupIndex: 1,
     disabled: false,
   },
   {
-    name: i18n.t('dop:mobile app'),
+    name: i18n.t('dop:Mobile app'),
     value: appMode.MOBILE,
     src: android_svg,
     desc: i18n.t(
@@ -51,7 +54,7 @@ export const modeOptions = [
     disabled: false,
   },
   {
-    name: i18n.t('dop:library/module'),
+    name: i18n.t('dop:Library/Module'),
     value: appMode.LIBRARY,
     src: kyy_svg,
     desc: i18n.t('dop:Library-app-intro', { keySeparator: '>' }),
@@ -75,10 +78,12 @@ export const modeOptions = [
     disabled: false,
   },
   {
-    name: i18n.t('dop:project level app'),
+    name: i18n.t('dop:Project-level app'),
     value: appMode.PROJECT_SERVICE,
     src: xmjyy_svg,
-    desc: i18n.t('dop:project-level-app-form-tip'),
+    desc: i18n.t(
+      'dop:Once set as a project-level app, the pipeline of this app can directly call the pipeline of other apps in the project.',
+    ),
     groupIndex: 1,
     disabled: false,
   },
@@ -86,9 +91,9 @@ export const modeOptions = [
 
 export const approvalStatus = {
   pending: i18n.t('dop:approval pending'),
-  approved: i18n.t('dop:approved'),
+  approved: i18n.t('dop:Approved'),
   denied: i18n.t('dop:denied'),
-  cancel: i18n.t('cancel'),
+  cancel: i18n.t('Cancel'),
 };
 
 export enum RepositoryMode {

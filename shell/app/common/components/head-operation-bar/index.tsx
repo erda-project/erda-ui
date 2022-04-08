@@ -58,7 +58,7 @@ const HeadOperationBar = (props: HeadOperationBarProps) => {
               onSearch(value);
               setSearchValue(value);
             }}
-            placeholder={searchPlaceholder || i18n.t('search by keyword')}
+            placeholder={searchPlaceholder || i18n.t('Search by keyword')}
           />
         ) : null}
         {leftSolt}

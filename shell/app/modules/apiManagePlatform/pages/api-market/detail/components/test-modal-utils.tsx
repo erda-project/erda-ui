@@ -37,7 +37,7 @@ export const APITabs = [
             {
               type: 'key',
               props: {
-                placeholder: i18n.t('dop:parameter name'),
+                placeholder: i18n.t('dop:Parameter name'),
               },
               getProps: ({ editKey }: { editKey: boolean }) => {
                 return {
@@ -60,7 +60,7 @@ export const APITabs = [
             {
               type: 'desc',
               props: {
-                placeholder: i18n.t('description'),
+                placeholder: i18n.t('Description'),
               },
             },
           ]}
@@ -85,7 +85,7 @@ export const APITabs = [
             {
               type: 'key',
               props: {
-                placeholder: i18n.t('dop:parameter name'),
+                placeholder: i18n.t('dop:Parameter name'),
               },
               getProps: ({ editKey }: { editKey: boolean }) => {
                 return {
@@ -108,7 +108,7 @@ export const APITabs = [
             {
               type: 'desc',
               props: {
-                placeholder: i18n.t('description'),
+                placeholder: i18n.t('Description'),
               },
             },
           ]}
@@ -134,7 +134,7 @@ export const APITabs = [
             {
               type: 'key',
               props: {
-                placeholder: i18n.t('dop:parameter name'),
+                placeholder: i18n.t('dop:Parameter name'),
                 disabled: true,
               },
             },
@@ -153,7 +153,7 @@ export const APITabs = [
             {
               type: 'desc',
               props: {
-                placeholder: i18n.t('description'),
+                placeholder: i18n.t('Description'),
               },
             },
           ]}

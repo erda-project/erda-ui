@@ -30,21 +30,21 @@ interface IProps {
 
 const metric = [
   {
-    name: i18n.t('msp:average throughput'),
+    name: i18n.t('msp:Average throughput'),
     key: 'rps',
     util: 'reqs/s',
   },
   {
-    name: i18n.t('msp:average response time'),
+    name: i18n.t('msp:Average response time'),
     key: 'rt',
     unit: 'ms',
   },
   {
-    name: i18n.t('msp:error call times'),
+    name: i18n.t('msp:Number of error calls'),
     key: 'http_error',
   },
   {
-    name: i18n.t('msp:error rate'),
+    name: i18n.t('msp:Error rate'),
     key: 'error_rate',
     unit: '%',
   },
@@ -52,15 +52,15 @@ const metric = [
 
 const chartConfig = [
   {
-    title: i18n.t('msp:throughput'),
+    title: i18n.t('msp:Throughput'),
     key: 'rps_chart',
   },
   {
-    title: `${i18n.t('msp:average response time')}(ms)`,
+    title: `${i18n.t('msp:Average response time')}(ms)`,
     key: 'avg_duration_chart',
   },
   {
-    title: i18n.t('msp:error rate'),
+    title: i18n.t('msp:Error rate'),
     key: 'error_rate_chart',
   },
   {
@@ -126,7 +126,7 @@ const TopologyDetail: React.FC<IProps> = ({ className, data, onCancel, showRunti
               </p>
             ) : null}
             <p className="mb-2 px-4">
-              <span className="text-white-6 mr-2">{i18n.t('type')}:</span>
+              <span className="text-white-6 mr-2">{i18n.t('Type')}:</span>
               <Tag color="#27C99A" className="border-0 bg-green-1">
                 {data.typeDisplay}
               </Tag>

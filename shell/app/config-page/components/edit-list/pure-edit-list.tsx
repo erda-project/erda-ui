@@ -241,11 +241,11 @@ const EditList = (props: IELProps) => {
       <div className="edit-list-bottom mt-1">
         {disabled ? (
           <Button className="not-allowed" size="small">
-            {i18n.t('common:add')}
+            {i18n.t('common:Add')}
           </Button>
         ) : (
           <Button className="" size="small" onClick={addItem}>
-            {i18n.t('common:add')}
+            {i18n.t('common:Add')}
           </Button>
         )}
         {

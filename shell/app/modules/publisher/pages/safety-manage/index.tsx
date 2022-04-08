@@ -87,7 +87,7 @@ const BlackList = ({ artifactId }: IListProps) => {
                   });
                 }}
               >
-                {i18n.t('remove')}
+                {i18n.t('Remove')}
               </span>
             </WithAuth>
           </div>

@@ -64,7 +64,7 @@ describe('DownloadLogModal', () => {
     await flushPromises();
     expect(spyOpen).toHaveBeenCalledTimes(1);
     expect(cancelFn).toHaveBeenCalledTimes(1);
-    fireEvent.click(result.getByText('cancel'));
+    fireEvent.click(result.getByText('Cancel'));
     expect(cancelFn).toHaveBeenCalledTimes(2);
     spyOpen.mockRestore();
   });

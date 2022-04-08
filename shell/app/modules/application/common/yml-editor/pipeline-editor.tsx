@@ -231,7 +231,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
         <RenderForm ref={formRef} className="commit-file-form" list={getFieldsList()} />
         <div className="p-4">
           <Button type="primary" className="mr-3" onClick={checkForm}>
-            {i18n.t('save')}
+            {i18n.t('Save')}
           </Button>
           <Button
             onClick={() => {
@@ -239,7 +239,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
               onCancel();
             }}
           >
-            {i18n.t('cancel')}
+            {i18n.t('Cancel')}
           </Button>
         </div>
       </>
@@ -347,7 +347,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
         className={`new-yml-editor app-repo-pipeline flex flex-col justify-center full-spin-height ${
           viewType === ViewType.graphic ? 'graphic' : ''
         }`}
-        name={editing ? `${i18n.t('edit')} ${fileName}` : fileName}
+        name={editing ? `${i18n.t('Edit')} ${fileName}` : fileName}
         ops={editing ? editOps : ops}
       >
         <Spin spinning={loading}>
@@ -385,7 +385,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
         title={
           <div>
             <CustomIcon type="guanbi-fill" className="text-danger" />
-            {i18n.t('error')}
+            {i18n.t('Error')}
           </div>
         }
         maskClosable={false}
@@ -396,7 +396,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
               updater.errorMsg('');
             }}
           >
-            {i18n.t('cancel')}
+            {i18n.t('Cancel')}
           </Button>,
           ...insertWhen(originYmlValid, [
             <Button key="ok" type="primary" onClick={() => resetAndChangeViewType()}>

@@ -21,7 +21,7 @@ import './machine-detail.scss';
 
 const itemConfigs = [
   {
-    title: i18n.t('host name'),
+    title: i18n.t('Host name'),
     value: 'hostname',
   },
   {
@@ -29,7 +29,7 @@ const itemConfigs = [
     value: 'clusterName',
   },
   {
-    title: i18n.t('tags'),
+    title: i18n.t('Label'),
     render: ({ labels }: any) => map((labels || '').split(','), (label) => <Tag key={label}>{label}</Tag>),
   },
   {
@@ -43,12 +43,12 @@ const itemConfigs = [
     render: (memory: number) => `${getFormatter('STORAGE').format(memory)}`,
   },
   {
-    title: i18n.t('disk'),
+    title: i18n.t('Disk'),
     value: 'diskTotal',
     render: (disk: number) => `${getFormatter('STORAGE').format(disk)}`,
   },
   {
-    title: i18n.t('system version'),
+    title: i18n.t('System version'),
     render: ({ os, kernelVersion }: any) => `${os} ${kernelVersion}`,
   },
 ];

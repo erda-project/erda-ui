@@ -28,7 +28,7 @@ describe('HeadOperationBar', () => {
     expect(result.container).isExit('[name="search"]', 1);
     const input = result.getByRole('textbox') as HTMLInputElement;
     expect(input.value).toBe('');
-    expect(input.placeholder).toBe('search by keyword');
+    expect(input.placeholder).toBe('Search by keyword');
     fireEvent.change(input, { target: { value: 'erda' } });
     expect(searchFn).toHaveBeenCalledWith('erda');
   });

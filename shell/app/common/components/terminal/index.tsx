@@ -69,7 +69,7 @@ class Terminal extends React.Component<IProps, IState> {
       >
         <div className="terminal-control btn-line-rtl">
           <Button className="resize-button" onClick={this.changeSize} type="ghost">
-            {max ? i18n.t('default:exit full screen') : i18n.t('default:full screen')}
+            {max ? i18n.t('default:exit full screen') : i18n.t('default:Full screen')}
           </Button>
         </div>
       </div>

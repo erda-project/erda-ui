@@ -19,9 +19,9 @@ import i18n from 'i18n';
 import testPlanStore from 'project/stores/test-plan';
 
 const nameMaps = {
-  init: i18n.t('dop:not performed'),
-  block: i18n.t('dop:blocking'),
-  fail: i18n.t('dop:not passed'),
+  init: i18n.t('dop:Not executed'),
+  block: i18n.t('dop:Blocked'),
+  fail: i18n.t('dop:Not passed'),
   succ: i18n.t('dop:pass'),
 };
 
@@ -65,7 +65,7 @@ const ChartsResult = () => {
         moved: false,
         static: false,
         view: {
-          name: i18n.t('dop:use case execution result distribution'),
+          name: i18n.t('dop:Result distribution of use case execution'),
           chartType: 'chart:pie',
           // hideHeader: true,
           staticData,

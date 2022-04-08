@@ -41,7 +41,7 @@ function getMspRouter(): RouteConfigItem[] {
             noWrapper: true,
             hideSidebar: true,
           },
-          breadcrumbName: i18n.t('overview'),
+          breadcrumbName: i18n.t('Overview'),
           getComp: (cb) => cb(import('msp/pages/micro-service/overview')),
         },
         injectWrapper({

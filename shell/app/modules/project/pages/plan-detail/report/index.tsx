@@ -45,31 +45,31 @@ const DetailIntro = () => {
   return (
     <div id="report-page" className="report-page">
       <div className="section-title">
-        <span>{i18n.t('dop:test report details')}</span>
+        <span>{i18n.t('dop:Test report details')}</span>
         <ExportPdf domId="report-page" tip={i18n.t('dop:test report')}>
           {({ exportPdf }) => (
             <span className="text-sm cursor-pointer text-primary flex" onClick={() => exportPdf()}>
               <ErdaIcon className="mr-1" type="upload" size="14" />
-              {i18n.t('dop:export report')}
+              {i18n.t('dop:Export Report')}
             </span>
           )}
         </ExportPdf>
       </div>
       <div className="sub-section-title">{i18n.t('dop:basic information')}</div>
       <BasicInfo />
-      <div className="sub-section-title">{i18n.t('overview')}</div>
+      <div className="sub-section-title">{i18n.t('Overview')}</div>
       <NumberInfo />
-      <div className="sub-section-title">{i18n.t('dop:test summary')}</div>
+      <div className="sub-section-title">{i18n.t('dop:Test summary')}</div>
       <MarkdownEditor
         value={get(planReport, 'testPlan.summary', '')}
         onBlur={handleSummary}
         maxLength={2000}
-        placeholder={i18n.t('dop:no content yet')}
+        placeholder={i18n.t('dop:No content')}
       />
       {/* <EditReport projectId={projectId} testPlanId={testPlanId} /> */}
-      <div className="sub-section-title">{i18n.t('dop:use case execution result distribution')}</div>
+      <div className="sub-section-title">{i18n.t('dop:Result distribution of use case execution')}</div>
       <ChartsResult />
-      <div className="sub-section-title">{i18n.t('dop:summary of individual use case execution')}</div>
+      <div className="sub-section-title">{i18n.t('dop:Summary of individual use case execution')}</div>
       <PersonalUseCase />
       {/* <div className="sub-section-title">未关闭缺陷列表</div> */}
       {/* <DefectTable

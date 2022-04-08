@@ -83,7 +83,7 @@ export const ProjectList = () => {
       {
         title: () => (
           <span className="flex items-center">
-            <span className="mr-1">{i18n.t('cmp:application/Member Statistics')}</span>
+            <span className="mr-1">{i18n.t('cmp:App/Member statistics')}</span>
             <Tooltip title={i18n.t('update data every day at 0')}>
               <ErdaIcon className="font-bold" type="attention" size="14" />
             </Tooltip>
@@ -112,12 +112,12 @@ export const ProjectList = () => {
         render: (text: string) => `${(+text || 0).toFixed(2)} GiB`,
       },
       {
-        title: i18n.t('latest active'),
+        title: i18n.t('Last active time'),
         dataIndex: 'activeTime',
         key: 'activeTime',
         sorter: true,
         sortOrder: getColumnOrder('activeTime'),
-        render: (text) => (text ? fromNow(text) : i18n.t('none')),
+        render: (text) => (text ? fromNow(text) : i18n.t('None')),
       },
     ];
     return columns;
@@ -128,7 +128,7 @@ export const ProjectList = () => {
     render: (record: PROJECT.Detail) => {
       const { exportProject, goToEfficiencyMeasure } = {
         exportProject: {
-          title: i18n.t('export'),
+          title: i18n.t('Export'),
           onClick: () => {
             exportProjectTemplate.fetch({ orgID, projectID: record.id }).then(() => {
               message
@@ -147,7 +147,7 @@ export const ProjectList = () => {
           },
         },
         goToEfficiencyMeasure: {
-          title: i18n.t('dop:efficiency measure'),
+          title: i18n.t('dop:Efficiency'),
           onClick: () => {
             goTo(`./${record.id}/measure/task`);
           },
@@ -188,13 +188,13 @@ export const ProjectList = () => {
       <Menu.Item onClick={() => goTo('./createProject')} key={'app'} className="bg-default hover:bg-white-08">
         <div className="flex-h-center text-white-9">
           <ErdaIcon type="plus" size={16} className="mr-1" />
-          {i18n.t('add')}
+          {i18n.t('Add')}
         </div>
       </Menu.Item>
       <Menu.Item onClick={() => goTo('./importProject')} key={'file'} className="bg-default hover:bg-white-08">
         <div className="flex-h-center text-white-9">
           <ErdaIcon type="upload" size={16} className="mr-1" />
-          {i18n.t('import')}
+          {i18n.t('Import')}
         </div>
       </Menu.Item>
     </Menu>
@@ -210,7 +210,7 @@ export const ProjectList = () => {
               setVisible(true);
             }}
           >
-            {i18n.t('import and export records')}
+            {i18n.t('Import/Export Records')}
           </Button>
           <Dropdown overlay={addDropdownMenu} trigger={['click']}>
             <Button type={'primary'} className="bg-default flex-h-center">
@@ -238,7 +238,7 @@ export const ProjectList = () => {
                   type: Input,
                   name: 'projectName',
                   customProps: {
-                    placeholder: i18n.t('search by project name'),
+                    placeholder: i18n.t('Search by project name'),
                     style: { width: 200 },
                   },
                 },

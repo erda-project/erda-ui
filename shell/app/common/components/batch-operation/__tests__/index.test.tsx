@@ -110,7 +110,7 @@ describe('BatchOperation', () => {
     });
     expect(isVisibleFnReturnTrue).toHaveBeenCalledWith(selectedKeys);
     expect(isVisibleFnReturnFalse).toHaveBeenCalledWith(selectedKeys);
-    userEvent.hover(result.getByText('batch operate'));
+    userEvent.hover(result.getByText('Batch Operation'));
     await waitFor(() => expect(screen.getByRole('menu')).toBeTruthy());
     expect(result.getAllByText(/action/)).toHaveLength(4);
     expect(screen.getByText('action disabled').closest('li')).toHaveAttribute('aria-disabled', 'true');

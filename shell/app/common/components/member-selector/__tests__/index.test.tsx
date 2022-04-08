@@ -352,7 +352,7 @@ describe('MemberSelector', () => {
     });
     await flushPromises();
     expect(getRoleMap).toHaveBeenLastCalledWith({ scopeId: params.projectId, scopeType: 'project' });
-    fireEvent.click(result.getByText('choose self'));
+    fireEvent.click(result.getByText('Choose yourself'));
     expect(changeFn).toHaveBeenCalled();
     changeFn.mockReset();
     fireEvent.click(result.baseElement.querySelector('.results')!);
@@ -360,7 +360,7 @@ describe('MemberSelector', () => {
     expect(getMembers).toHaveBeenCalled();
     fireEvent.click(result.getByText(/erda-api-exec/i).closest('.load-more-list-item')!);
     expect(changeFn).toHaveBeenLastCalledWithNth(0, '23456');
-    fireEvent.click(result.getAllByText('choose self')[1]);
+    fireEvent.click(result.getAllByText('Choose yourself')[1]);
     expect(changeFn).toHaveBeenLastCalledWithNth(0, '12345');
     fireEvent.click(result.getByText('unspecified'));
     expect(changeFn).toHaveBeenLastCalledWithNth(0, 'unassigned');

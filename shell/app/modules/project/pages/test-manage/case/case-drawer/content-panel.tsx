@@ -44,19 +44,19 @@ const ContentPanel = ({
     edit: (
       <span onClick={onClick} onMouseDown={(e) => e.preventDefault()} className="flex text-desc hover-active">
         <ErdaIcon type="edit1" className="mr-1" />
-        {i18n.t('edit')}
+        {i18n.t('Edit')}
       </span>
     ),
     add: (
       <span onClick={onClick} onMouseDown={(e) => e.preventDefault()} className="flex text-desc hover-active">
         <ErdaIcon type="plus" className="mr-1" />
-        {i18n.t('common:add')}
+        {i18n.t('common:Add')}
       </span>
     ),
     upload: (
       <span onClick={onClick} onMouseDown={(e) => e.preventDefault()} className="flex text-desc hover-active">
         <ErdaIcon type="upload" className="mr-1" />
-        {i18n.t('upload')}
+        {i18n.t('Upload')}
       </span>
     ),
   };

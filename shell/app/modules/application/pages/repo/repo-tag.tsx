@@ -128,7 +128,7 @@ const RepoTag = () => {
 
   const fieldsList = [
     {
-      label: i18n.t('dop:source type'),
+      label: i18n.t('dop:Source type'),
       name: 'refType',
       type: 'radioGroup',
       initialValue: 'branch',
@@ -143,7 +143,7 @@ const RepoTag = () => {
       },
     },
     {
-      label: i18n.t('dop:based on source'),
+      label: i18n.t('dop:Based on source'),
       name: 'ref',
       type: 'custom',
       getComp: ({ form }: any) => <RefComp form={form} />,
@@ -167,7 +167,7 @@ const RepoTag = () => {
       ],
     },
     {
-      label: i18n.t('description'),
+      label: i18n.t('Description'),
       name: 'message',
       required: false,
       type: 'textArea',
@@ -184,7 +184,7 @@ const RepoTag = () => {
       <div className="top-button-group">
         <WithAuth pass={repoBranchAuth.addTag.pass} tipProps={{ placement: 'bottom' }}>
           <Button disabled={isLocked} type="primary" onClick={() => setVisible(true)}>
-            {i18n.t('dop:add label')}
+            {i18n.t('dop:Add-label')}
           </Button>
         </WithAuth>
         <FormModal

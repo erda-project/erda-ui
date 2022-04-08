@@ -48,7 +48,7 @@ const validateSameKey = (val: string, fullConfigData: PIPELINE_CONFIG.ConfigItem
   } else if (intersection(keys, otherKeys).length) {
     return i18n.t('{name} already exists in {place}', {
       name: intersection(keys, otherKeys).join(','),
-      place: i18n.t('common:other type'),
+      place: i18n.t('common:Other Type'),
     });
   }
   return '';
@@ -105,14 +105,14 @@ const TextEditConfig = (props: IProps) => {
               updateConfig(JSON.parse(value));
             }}
           >
-            {i18n.t('save')}
+            {i18n.t('Save')}
           </Button>
           <Button
             onClick={() => {
               setValue(JSON.stringify(convertData(configData), null, 2));
             }}
           >
-            {i18n.t('revoke')}
+            {i18n.t('Revoke')}
           </Button>
         </div>
       </div>

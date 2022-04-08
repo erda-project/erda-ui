@@ -30,17 +30,17 @@ interface IMenuMeta {
 const getMenuMap = (type: TestSetMenuType, editMode: editModeEnum): IMenuMeta[] => {
   const menuItemsMap = {
     [TestSetMenuType.root]: [
-      { key: TestOperation.add, name: i18n.t('dop:new sub testset') },
-      { key: TestOperation.paste, name: i18n.t('dop:paste'), disabled: editMode === '' },
+      { key: TestOperation.add, name: i18n.t('dop:Add Sub-Test Set') },
+      { key: TestOperation.paste, name: i18n.t('dop:Paste'), disabled: editMode === '' },
     ],
     [TestSetMenuType.normal]: [
-      { key: TestOperation.add, name: i18n.t('dop:new sub testset') },
-      { key: TestOperation.rename, name: i18n.t('dop:rename') },
-      { key: TestOperation.copy, name: i18n.t('copy') },
-      { key: TestOperation.clip, name: i18n.t('dop:cut') },
-      { key: TestOperation.paste, name: i18n.t('dop:paste'), disabled: editMode === '' },
+      { key: TestOperation.add, name: i18n.t('dop:Add Sub-Test Set') },
+      { key: TestOperation.rename, name: i18n.t('dop:Rename') },
+      { key: TestOperation.copy, name: i18n.t('Copy') },
+      { key: TestOperation.clip, name: i18n.t('dop:Cut') },
+      { key: TestOperation.paste, name: i18n.t('dop:Paste'), disabled: editMode === '' },
       { key: TestOperation.delete, name: i18n.t('delete') },
-      { key: TestOperation.plan, name: i18n.t('dop:add to test plan') },
+      { key: TestOperation.plan, name: i18n.t('dop:Add to Test Plan') },
     ],
     [TestSetMenuType.recycled]: [
       { key: TestOperation.recover, name: i18n.t('dop:recover to') },
@@ -276,7 +276,7 @@ const Title = ({
           size="small"
           defaultValue={value}
           maxLength={50}
-          placeholder={i18n.t('dop:enter test set name')}
+          placeholder={i18n.t('dop:Enter the test set name')}
           ref={inputRef}
           onKeyUp={handlePressEntry}
         />

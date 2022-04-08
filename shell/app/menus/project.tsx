@@ -54,7 +54,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
         },
         {
           href: goTo.resolve.projectMeasureTask(),
-          text: i18n.t('dop:efficiency measure'),
+          text: i18n.t('dop:Efficiency'),
           show: projectPerm.dashboard.viewDashboard.pass,
           prefix: goTo.resolve.projectMeasure(),
         },
@@ -69,17 +69,17 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       subMenu: [
         {
           href: goTo.resolve.projectAutoTestCase(),
-          text: i18n.t('dop:auto test'),
+          text: i18n.t('dop:Automated Testing'),
           prefix: `${goTo.resolve.projectAutoTestRoot()}/`,
         },
         {
           href: goTo.resolve.projectManualTestCase(),
-          text: i18n.t('dop:manual test'),
+          text: i18n.t('dop:Manual Testing'),
           prefix: `${goTo.resolve.projectManualTestRoot()}/`,
         },
         {
           href: goTo.resolve.projectTestDashboard(),
-          text: i18n.t('dop:statistics'),
+          text: i18n.t('dop:Statistics'),
           prefix: goTo.resolve.projectTestStatisticsRoot(),
         },
         {
@@ -103,7 +103,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
         },
         {
           href: goTo.resolve.projectReleaseList(),
-          text: i18n.t('Artifact'),
+          text: i18n.t('Artifacts'),
           prefix: `${goTo.resolve.projectRelease()}/`,
         },
         {
@@ -120,7 +120,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       ],
     },
     {
-      text: i18n.t('Resource summary'),
+      text: i18n.t('Resource Summary'),
       subtitle: i18n.t('Resource'),
       icon: <ErdaIcon type="yingyongyunwei" />,
       href: goTo.resolve.projectResource(),

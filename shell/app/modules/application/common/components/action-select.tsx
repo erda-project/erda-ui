@@ -94,7 +94,7 @@ export default class extends PureComponent<IProps, any> {
           onChange={this.searchInputChange}
           value={searchValue}
           className="actions-input"
-          placeholder={placeholder || `${i18n.t('dop:please choose')} Add-on`}
+          placeholder={placeholder || `${i18n.t('dop:Please select')} Add-on`}
         />
         {this.renderSelectContent()}
       </React.Fragment>

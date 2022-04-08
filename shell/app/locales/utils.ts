@@ -16,19 +16,19 @@ import { keys, map } from 'lodash';
 
 const addonNameMap = {
   应用监控: i18n.t('dop:appMonitor'),
-  配置中心: i18n.t('dop:configCenter'),
+  配置中心: i18n.t('dop:Configuration Center'),
   搜索中心: i18n.t('dop:searchCenter'),
   对象存储: i18n.t('dop:objectStorage'),
   日志分析: i18n.t('dop:logAnalysis'),
   API网关: i18n.t('dop:apiGateway'),
   服务网格: i18n.t('dop:serviceMesh'),
-  注册中心: i18n.t('dop:registration center'),
+  注册中心: i18n.t('dop:Registration Center'),
   通知中心: i18n.t('dop:notification center'),
   日志服务: i18n.t('dop:logService'),
 };
 
 export const monthMap = {
-  '1月': i18n.t('January'),
+  '1月': i18n.t('1 Month'),
   '2月': i18n.t('February'),
   '3月': i18n.t('March'),
   '4月': i18n.t('April'),

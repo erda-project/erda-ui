@@ -218,7 +218,7 @@ const RuntimeOverView = () => {
             <IF check={!isEmpty(services)}>
               <div className="overview-body-block">
                 <div className="overview-body-title">
-                  {runtimeType === 'job' ? i18n.t('task') : i18n.t('microService')}
+                  {runtimeType === 'job' ? i18n.t('task') : i18n.t('Microservice')}
                 </div>
                 {map(services, (service, key) => {
                   return (

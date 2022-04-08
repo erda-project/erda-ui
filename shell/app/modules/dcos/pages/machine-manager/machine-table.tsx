@@ -192,9 +192,9 @@ class Operation extends React.PureComponent<IOperation> {
     return (
       <React.Fragment>
         <span className="table-operations-btn" onClick={() => this.openModal(content)}>
-          {i18n.t('console')}
+          {i18n.t('Console')}
         </span>
-        <Drawer title={i18n.t('console')} visible={visible} onClose={this.closeSlidePanel} width="80%" destroyOnClose>
+        <Drawer title={i18n.t('Console')} visible={visible} onClose={this.closeSlidePanel} width="80%" destroyOnClose>
           <Terminal host={record.ip} user={user} port={port} clusterName={record.clusterName} />
         </Drawer>
       </React.Fragment>
@@ -246,7 +246,7 @@ const FilterDropdownNumber = (props: IFilterDropdownProps) => {
         <span className="unit">%</span>
       </div>
       <div className="row">
-        <span className="label">{i18n.t('less than')}</span>
+        <span className="label">{i18n.t('Less than')}</span>
         <InputNumber
           size="small"
           value={less}
@@ -462,7 +462,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
   const getNumberTitle = (key: string, defaultTitle: string) => {
     const [more, less] = (get(filterMap, `${key}`) || [[]])[0];
     const moreTip = more ? `${i18n.t('greater than')}${more}%` : '';
-    const lessTip = less ? `${i18n.t('less than')}${less}%` : '';
+    const lessTip = less ? `${i18n.t('Less than')}${less}%` : '';
     if (moreTip || lessTip) {
       return (
         <div className="title-with-search">
@@ -510,7 +510,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       },
     },
     {
-      title: i18n.t('number of instance'),
+      title: i18n.t('Number of instances'),
       dataIndex: 'tasks',
       width: 176,
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.tasks) - Number(b.tasks),
@@ -588,13 +588,13 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       },
     },
     {
-      title: i18n.t('load'),
+      title: i18n.t('Load'),
       dataIndex: 'load5',
       width: 96,
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.load5) - Number(b.load5),
     },
     {
-      title: <span className="main-title">{i18n.t('tags')} </span>,
+      title: <span className="main-title">{i18n.t('Label')} </span>,
       dataIndex: 'labels',
       className: 'machine-labels',
       render: (labels: string) => {
@@ -620,7 +620,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
                 setmachineOffLineVis(true);
               }}
             >
-              {i18n.t('cmp:offline')}
+              {i18n.t('cmp:Offline')}
             </span>
           </TableActions>
         );

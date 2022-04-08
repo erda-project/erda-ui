@@ -48,7 +48,7 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
   }, [clearOperationRecord, client.id, contract.id, getOperationRecord, visible]);
   const fields = [
     {
-      label: i18n.t('creator'),
+      label: i18n.t('Creator'),
       value: <UserInfo id={get(client, 'creatorID')} />,
     },
     {

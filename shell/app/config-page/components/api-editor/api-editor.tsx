@@ -186,7 +186,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
         errMsg = i18n.t('{name} can not empty', { name: i18n.t('interface name') });
       }
       if (!method && !errMsg) {
-        errMsg = i18n.t('{name} can not empty', { name: i18n.t('request method') });
+        errMsg = i18n.t('{name} can not empty', { name: i18n.t('Request method') });
       }
       if (!url && !errMsg) {
         errMsg = i18n.t('{name} can not empty', { name: i18n.t('interface path') });
@@ -557,7 +557,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                   style={{ width: 110 }}
                   value={api.method}
                   onChange={(val) => updateApi('method', val, false)}
-                  placeholder={i18n.t('dop:please choose')}
+                  placeholder={i18n.t('dop:Please select')}
                 >
                   {map(methodList, (method) => (
                     <Option value={method} key={method}>
@@ -607,7 +607,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
           {resultTabs}
         </div>
         <div className="api-editor-footer">
-          <Button onClick={handleClose}>{i18n.t('cancel')}</Button>
+          <Button onClick={handleClose}>{i18n.t('Cancel')}</Button>
           {showSave ? (
             <Button
               className="ml-3"
@@ -616,7 +616,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                 handleSave();
               }}
             >
-              {i18n.t('save')}
+              {i18n.t('Save')}
             </Button>
           ) : null}
           {apiExecuteButton}
@@ -787,7 +787,7 @@ const ApiTabComps = {
                       <Select
                         value={value || undefined} // 没有值时显示placeholder
                         className={`${className} case-api-test-select`}
-                        placeholder={i18n.t('dop:source')}
+                        placeholder={i18n.t('dop:Source')}
                         onChange={(val) => {
                           onCurChange(val, false);
                         }}
@@ -839,7 +839,7 @@ const ApiTabComps = {
                       <Select
                         value={value || undefined} // 没有值时显示placeholder
                         className={`${className} case-api-test-select`}
-                        placeholder={i18n.t('dop:parameter name')}
+                        placeholder={i18n.t('dop:Parameter name')}
                         onChange={(v) => onCurChange(v, false)}
                       >
                         {data.out_params?.map((option: any) => {
@@ -860,7 +860,7 @@ const ApiTabComps = {
                       <Select
                         value={value || undefined} // 没有值时显示placeholder
                         className={`${className} case-api-test-select`}
-                        placeholder={i18n.t('dop:compare')}
+                        placeholder={i18n.t('dop:Compare')}
                         onChange={(v) => onCurChange(v, false)}
                       >
                         {map(comparisonOperators || [], (item) => {
@@ -872,7 +872,7 @@ const ApiTabComps = {
                 },
                 value: {
                   props: {
-                    placeholder: i18n.t('value'),
+                    placeholder: i18n.t('Value'),
                   },
                 },
               }}
@@ -918,7 +918,7 @@ const TestJsonEditor = (props: any) => {
 
 const BasicForm = 'application/x-www-form-urlencoded';
 const ValMap = {
-  none: () => <div className="body-val-none">{i18n.t('dop:the current request has no body')}</div>,
+  none: () => <div className="body-val-none">{i18n.t('dop:No body in the current request')}</div>,
   [BasicForm]: (props: any) => {
     const { data, updateBody, renderProps, processDataTemp }: any = props;
     const { temp, ...rest } = renderProps.form || {};

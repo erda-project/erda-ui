@@ -56,12 +56,12 @@ export const orgPerm = {
   },
   entryMsp: {
     pass: false,
-    name: i18n.t('msp'),
+    name: i18n.t('Microservice Platform'),
     role: ['Manager', 'Dev', 'Support', 'DataManager'],
   },
   entryFastData: {
     pass: false,
-    name: i18n.t('Fast data'),
+    name: i18n.t('Fast Data Platform'),
     role: ['Manager', 'DataManager', 'DataEngineer', 'Support'],
   },
   entryOrgCenter: {
@@ -82,7 +82,7 @@ export const orgPerm = {
       name: i18n.t('user:application menu display'),
     },
     alarms: {
-      name: i18n.t('O & M alarm'),
+      name: i18n.t('O&M Alert'),
       addNotificationGroup: {
         pass: false,
         role: ['Manager', 'Support'],
@@ -112,7 +112,7 @@ export const orgPerm = {
     },
   },
   orgCenter: {
-    name: i18n.t('orgCenter'),
+    name: i18n.t('Admin Center'),
     viewAuditLog: {
       pass: false,
       role: ['Manager', 'Auditor', 'Support'],

@@ -220,10 +220,10 @@ const ListItem = (props: ERDA_LIST.ItemProps) => {
                       return (
                         <div key={item} className="truncate">
                           <Avatar src={curUser?.avatar} size="small">
-                            {curUser?.nick ? getAvatarChars(curUser.nick) : i18n.t('none')}
+                            {curUser?.nick ? getAvatarChars(curUser.nick) : i18n.t('None')}
                           </Avatar>
                           <span className="ml-1" title={curUser?.name || item}>
-                            {curUser?.nick || curUser?.name || i18n.t('common:none')}
+                            {curUser?.nick || curUser?.name || i18n.t('common:None')}
                           </span>
                         </div>
                       );

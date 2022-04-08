@@ -24,22 +24,22 @@ const alarmConfigTab = [
   },
   {
     key: 'rule',
-    name: i18n.t('rule management'),
+    name: i18n.t('Rule Management'),
   },
   {
     key: 'notify-group',
-    name: i18n.t('notification group management'),
+    name: i18n.t('Notification Group Management'),
   },
 ];
 
 const alarmListTabs = [
   {
     key: 'events',
-    name: i18n.t('msp:events'),
+    name: i18n.t('msp:Event'),
   },
   {
     key: 'notification',
-    name: i18n.t('notification'),
+    name: i18n.t('Notification'),
   },
 ];
 

@@ -34,12 +34,12 @@ const chartMap = merge(
     },
     performanceInterval: {
       ...commonAttr,
-      titleText: i18n.t('performance interval'),
+      titleText: i18n.t('Performance range'),
       chartName: 'performanceInterval',
       viewProps: { unitType: 'TIME' },
     },
     timeTopN: {
-      titleText: i18n.t('msp:average time'),
+      titleText: i18n.t('msp:Average Time'),
       ...commonAttr,
       chartName: 'timeTopN',
       viewProps: {
@@ -47,7 +47,7 @@ const chartMap = merge(
       },
     },
     cpmTopN: {
-      titleText: i18n.t('msp:throughput'),
+      titleText: i18n.t('msp:Throughput'),
       ...commonAttr,
       chartName: 'cpmTopN',
       viewProps: {

@@ -32,14 +32,14 @@ const CaseEditForm = (props: IProps) => {
   const { visible, onOk, onClose, editData, scope = '' } = props;
   const fieldList = [
     {
-      label: i18n.t('name'),
+      label: i18n.t('Name'),
       name: 'name',
       itemProps: {
         maxLength: 50,
       },
     },
     {
-      label: i18n.t('description'),
+      label: i18n.t('Description'),
       name: 'desc',
       type: 'textArea',
       required: false,

@@ -28,7 +28,7 @@ import { VariableConfigForm } from './variable-config-form';
 const { Panel } = Collapse;
 
 export const ENV_I18N = {
-  default: i18n.t('common:default config'),
+  default: i18n.t('common:Default configuration'),
   dev: i18n.t('dev environment'),
   test: i18n.t('test environment'),
   staging: i18n.t('staging environment'),
@@ -249,13 +249,13 @@ const VariableConfig = ({
       },
     },
     {
-      title: i18n.t('type'),
+      title: i18n.t('Type'),
       dataIndex: 'type',
       width: 96,
-      render: (text: string) => (text === typeMap.kv ? i18n.t('value') : i18n.t('file')),
+      render: (text: string) => (text === typeMap.kv ? i18n.t('Value') : i18n.t('File')),
     },
     {
-      title: i18n.t('dop:remark'),
+      title: i18n.t('dop:Remark'),
       dataIndex: 'comment',
       render: (text: string) => (text ? <Tooltip title={text}>{text.slice(0, 30)}</Tooltip> : '-'),
     },
@@ -272,17 +272,17 @@ const VariableConfig = ({
             <IF check={canDownload}>
               {encrypt ? (
                 <Tooltip title={i18n.t('dop:encrypted files cannot be downloaded')}>
-                  <a className="table-operations-btn disabled">{i18n.t('download')}</a>
+                  <a className="table-operations-btn disabled">{i18n.t('Download')}</a>
                 </Tooltip>
               ) : (
                 <a className="table-operations-btn" download={record.value} href={`/api/files/${record.value}`}>
-                  {i18n.t('download')}
+                  {i18n.t('Download')}
                 </a>
               )}
             </IF>
             <IF check={canEdit}>
               <span className="table-operations-btn" onClick={() => openModal(record, _env)}>
-                {i18n.t('edit')}
+                {i18n.t('Edit')}
               </span>
             </IF>
             <IF check={canDelete && !record.isFromDefault}>
@@ -367,7 +367,7 @@ const VariableConfig = ({
             return (
               <Panel header={ENV_I18N[env]} key={env}>
                 <Button type="primary" className="mb-3" ghost onClick={() => openModal(null, env)}>
-                  {i18n.t('dop:add variable')}
+                  {i18n.t('dop:Add Variable')}
                 </Button>
                 {configType === configTypeMap.deploy && (
                   <>
@@ -379,10 +379,10 @@ const VariableConfig = ({
                         openExportModal(env);
                       }}
                     >
-                      {i18n.t('export')}
+                      {i18n.t('Export')}
                     </Button>
                     <Button type="primary" ghost className="mr-2 float-right" onClick={() => openImportModal(env)}>
-                      {i18n.t('import')}
+                      {i18n.t('Import')}
                     </Button>
                   </>
                 )}

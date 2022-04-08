@@ -123,7 +123,7 @@ const PermExport = (props: IProps) => {
 
   const CancelBtn = (
     <Button key="cancel" onClick={onCancel}>
-      {i18n.t('cancel')}
+      {i18n.t('Cancel')}
     </Button>
   );
   const OkBtn = (
@@ -143,7 +143,7 @@ const PermExport = (props: IProps) => {
 
   const taskFieldsList = [
     {
-      label: i18n.t('title'),
+      label: i18n.t('Title'),
       name: 'title',
       initialValue: `${get(data, `${tabKey}.name`)}权限修改`,
       itemProps: {
@@ -166,7 +166,7 @@ const PermExport = (props: IProps) => {
         ),
     },
     {
-      label: i18n.t('description'),
+      label: i18n.t('Description'),
       name: 'content',
       type: 'textArea',
       required: false,
@@ -221,7 +221,7 @@ ${_ymlStr}
   return (
     <div className="dice-perm-export flex justify-between items-center">
       <Button className="mr-2" size="small" onClick={() => setVisible(true)}>
-        {i18n.t('export')}
+        {i18n.t('Export')}
       </Button>
       <Button value="task" className="mr-2" size="small" onClick={() => setTaskVisible(true)}>
         {i18n.t('add {name}', { name: i18n.t('task') })}

@@ -60,7 +60,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
   const handleSubmit = async (values: IFieldForm) => {
     const { enumeratedValues, propertyName } = values;
     if (specialFieldNameList.includes(propertyName) && isEmpty(formData)) {
-      message.warning(i18n.t('the same {key} exists', { key: i18n.t('dop:field name') }));
+      message.warning(i18n.t('the same {key} exists', { key: i18n.t('dop:Field name') }));
       return;
     }
     const enumeratedList = isEmpty(enumeratedValues) ? [] : enumeratedValues.slice(0, enumeratedValues.length - 1);
@@ -102,21 +102,21 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
       },
     },
     {
-      label: i18n.t('dop:field name'),
+      label: i18n.t('dop:Field name'),
       name: 'propertyName',
       itemProps: {
         disabled: formData?.isSpecialField,
-        placeholder: i18n.t('please enter {name}', { name: i18n.t('dop:field name') }),
+        placeholder: i18n.t('please enter {name}', { name: i18n.t('dop:Field name') }),
       },
     },
     {
-      label: i18n.t('is it required'),
+      label: i18n.t('Required'),
       name: 'required',
       type: 'radioGroup',
       initialValue: 'false',
       options: [
-        { name: i18n.t('common:yes'), value: 'true' },
-        { name: i18n.t('common:no'), value: 'false' },
+        { name: i18n.t('common:Yes'), value: 'true' },
+        { name: i18n.t('common:No'), value: 'false' },
       ],
       itemProps: {
         disabled: formData?.isSpecialField,
@@ -126,13 +126,13 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
       },
     },
     {
-      label: i18n.t('type'),
+      label: i18n.t('Type'),
       name: 'propertyType',
       type: 'select',
       options: getFieldTypeOption,
       itemProps: {
         disabled: formData?.isSpecialField,
-        placeholder: i18n.t('please select {name}', { name: i18n.t('type') }),
+        placeholder: i18n.t('please select {name}', { name: i18n.t('Type') }),
         onChange: (e: ISSUE_FIELD.IPropertyType) => {
           if (FIELD_WITH_OPTION[e]) {
             update({
@@ -146,7 +146,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
     },
     ...insertWhen(optionListVisible, [
       {
-        label: i18n.t('dop:enumerated value'),
+        label: i18n.t('dop:Enumerated value'),
         name: 'enumeratedValues',
         required: true,
         type: 'custom',
@@ -189,7 +189,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
 
   return (
     <FormModal
-      name={i18n.t('dop:issue field')}
+      name={i18n.t('dop:Issue field')}
       fieldsList={fieldList}
       visible={visible}
       onOk={handleSubmit}

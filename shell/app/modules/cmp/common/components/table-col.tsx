@@ -71,7 +71,7 @@ export const getCloudResourceTagsCol = (config?: Obj) => {
 export const getCloudResourceIDNameCol = (dataIndex = 'id', nameKey = 'name', click?: any) => {
   const linkStyle = click ? 'fake-link' : '';
   return {
-    title: `ID/${i18n.t('name')}`,
+    title: `ID/${i18n.t('Name')}`,
     dataIndex,
     render: (val: string, record: any) => {
       return (
@@ -79,7 +79,7 @@ export const getCloudResourceIDNameCol = (dataIndex = 'id', nameKey = 'name', cl
           <div>
             <Tooltip title={val}>
               <div className="cursor-copy nowrap" data-clipboard-tip="ID" data-clipboard-text={val}>
-                {val || i18n.t('common:none')}
+                {val || i18n.t('common:None')}
               </div>
             </Tooltip>
           </div>
@@ -164,7 +164,7 @@ export const getCloudResourceChargeTypeCol = (
 
 export const getCloudResourceRegionCol = (dataIndex = 'regionID', msg?: any) => {
   return {
-    title: i18n.t('region'),
+    title: i18n.t('Region'),
     dataIndex,
     render: (value: string, record: any) => {
       let reMsg = msg;
@@ -179,7 +179,7 @@ export const getCloudResourceRegionCol = (dataIndex = 'regionID', msg?: any) => 
 
 export const getRemarkCol = (dataIndex = 'remark') => {
   return {
-    title: i18n.t('dop:remark'),
+    title: i18n.t('dop:Remark'),
     dataIndex,
     ellipsis: {
       showTitle: false,

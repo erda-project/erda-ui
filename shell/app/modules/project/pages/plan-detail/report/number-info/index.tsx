@@ -31,27 +31,27 @@ const NumberInfo = () => {
   const numInfo = [
     {
       num: data.days,
-      label: i18n.t('dop:test days'),
+      label: i18n.t('dop:Number of test days'),
     },
     {
       num: data.testCaseCount,
-      label: i18n.t('dop:total number of use cases'),
+      label: i18n.t('dop:Total number of use cases'),
     },
     {
       num: `${Math.round((data.testCasePassCount / data.testCaseCount) * 100 || 0)}%`,
-      label: i18n.t('dop:test passing rate'),
+      label: i18n.t('dop:Test pass rate'),
     },
     {
       num: data.apiTotalCount,
-      label: i18n.t('dop:total number of interfaces'),
+      label: i18n.t('dop:Total number of interfaces'),
     },
     {
       num: data.apiPassedCount || 0,
-      label: i18n.t('dop:number of interface passing'),
+      label: i18n.t('dop:Number of passed interfaces'),
     },
     {
       num: `${Math.round((data.apiPassedCount / data.apiTotalCount) * 100 || 0)}%`,
-      label: i18n.t('dop:interface pass rate'),
+      label: i18n.t('dop:Interface pass rate'),
     },
   ];
 

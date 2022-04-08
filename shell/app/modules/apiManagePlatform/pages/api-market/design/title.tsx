@@ -24,7 +24,7 @@ import routeInfoStore from 'core/stores/route';
 const NODE_OPERATIONS = [
   {
     key: 'rename',
-    label: i18n.t('dop:rename'),
+    label: i18n.t('dop:Rename'),
   },
   {
     key: 'delete',

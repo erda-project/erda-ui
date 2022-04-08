@@ -50,7 +50,7 @@ const columns: Column[] = [
     width: 72,
   },
   {
-    title: i18n.t('cmp:announcement content'),
+    title: i18n.t('cmp:Content'),
     dataIndex: 'content',
   },
   {
@@ -62,7 +62,7 @@ const columns: Column[] = [
     },
   },
   {
-    title: i18n.t('cmp:notice status'),
+    title: i18n.t('cmp:Status'),
     dataIndex: 'status',
     width: 100,
     render(value) {
@@ -145,7 +145,7 @@ const NoticeManage = () => {
 
   const fieldList = [
     {
-      label: i18n.t('cmp:announcement content'),
+      label: i18n.t('cmp:Content'),
       name: 'content',
       required: true,
       type: 'textArea',
@@ -221,7 +221,7 @@ const NoticeManage = () => {
               editNotice(undefined, undefined);
             }}
           >
-            {i18n.t('cmp:create announcement')}
+            {i18n.t('cmp:Add-announcement')}
           </Button>
         </div>
         <div className="notice-filter">
@@ -229,7 +229,7 @@ const NoticeManage = () => {
             className="data-select"
             value={searchKey}
             onChange={onSearchKeyChange}
-            placeholder={i18n.t('cmp:search by content')}
+            placeholder={i18n.t('cmp:Search by content')}
           />
         </div>
         <Table
@@ -241,7 +241,7 @@ const NoticeManage = () => {
         />
         <FormModal
           formData={formData}
-          name={i18n.t('cmp:announcement management')}
+          name={i18n.t('cmp:Announcement Management')}
           fieldsList={fieldList}
           visible={showModal}
           onCancel={useCallback(() => {

@@ -66,12 +66,12 @@ const metric: {
   },
   {
     dataIndex: 'last24hAlertCount',
-    name: i18n.t('msp:last 1 day alarm'),
+    name: i18n.t('msp:Alerts of the last 24h'),
     renderData: (data) => data.last24hAlertCount ?? 0,
   },
   {
     dataIndex: 'lastActiveTime',
-    name: i18n.t('msp:last active time'),
+    name: i18n.t('msp:Last active time'),
     renderData: (data) => (data.lastActiveTime ? fromNow(data.lastActiveTime) : '-'),
   },
 ];
@@ -82,7 +82,7 @@ const Overview = () => {
   const [filterKey, setFilterKey] = React.useState('');
 
   React.useEffect(() => {
-    document.title = `${i18n.t('msp')} · Erda`;
+    document.title = `${i18n.t('Microservice Platform')} · Erda`;
     getMspProjectList.fetch({ withStats: false });
   }, []);
 
@@ -127,7 +127,7 @@ const Overview = () => {
           logoURL: logo,
           icon: logo ? undefined : icon,
           title: displayName,
-          description: desc || i18n.t('no description yet'),
+          description: desc || i18n.t('No description'),
           titleState: [titleState],
           kvInfos: metric.map((t) => {
             return {
@@ -158,7 +158,7 @@ const Overview = () => {
         <img src={bgLarge} className="absolute bg-large" />
         <img src={bgMiddle} className="absolute bg-middle" />
         <img src={bgSmall} className="absolute bg-small" />
-        <p className="mb-0 text-xl leading-8 font-medium">{i18n.t('msp')}</p>
+        <p className="mb-0 text-xl leading-8 font-medium">{i18n.t('Microservice Platform')}</p>
         <p className="mb-0 text-xs leading-5 flex">
           {i18n.t(
             'msp:Provides one-stop service system observation, including service monitoring, tracing, dashboard, and alarm.',
@@ -183,7 +183,7 @@ const Overview = () => {
             prefix={<ErdaIcon type="search1" />}
             bordered={false}
             allowClear
-            placeholder={i18n.t('msp:search by project name')}
+            placeholder={i18n.t('msp:Search by project name')}
             className="bg-black-06 w-72"
             onChange={(e) => {
               handleSearch(e.target.value);

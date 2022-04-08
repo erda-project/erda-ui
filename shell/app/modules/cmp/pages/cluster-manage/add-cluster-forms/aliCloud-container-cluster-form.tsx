@@ -132,7 +132,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'basic',
     },
     {
-      label: i18n.t('cluster name'),
+      label: i18n.t('Cluster name'),
       component: 'input',
       key: 'displayName',
       rules: [
@@ -146,7 +146,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'basic',
     },
     {
-      label: i18n.t('cmp:extensive domain'),
+      label: i18n.t('cmp:Extensive domain'),
       component: 'input',
       key: 'rootDomain',
       rules: [
@@ -159,7 +159,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'basic',
     },
     {
-      label: i18n.t('region'),
+      label: i18n.t('Region'),
       component: 'select',
       key: 'region',
       disabled: false,
@@ -182,7 +182,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'basic',
     },
     {
-      label: i18n.t('cmp:cluster specifications'),
+      label: i18n.t('cmp:Cluster specification'),
       component: 'radio',
       key: 'clusterSpec',
       componentProps: {
@@ -264,7 +264,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
         type: 'static',
         static: [
           {
-            name: i18n.t('add'),
+            name: i18n.t('Add'),
             value: 'new',
           },
           {
@@ -471,7 +471,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
             const region = getFormData('region');
             return (
               <>
-                <div className="font-bold">{i18n.t('basic settings')}</div>
+                <div className="font-bold">{i18n.t('Basic settings')}</div>
                 <RenderFields form={form} fields={basicFields} />
                 {region ? (
                   <>

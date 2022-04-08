@@ -25,12 +25,12 @@ import i18n from 'i18n';
 import './detail.scss';
 
 const addonStatusMap = {
-  Progressing: <Badge status="processing" text={i18n.t('processing')} />,
+  Progressing: <Badge status="processing" text={i18n.t('In Progress')} />,
   Healthy: <Badge status="success" text={i18n.t('healthy')} />,
   UnHealthy: <Badge status="warning" text={i18n.t('unhealthy')} />,
   Failed: <Badge status="error" text={i18n.t('failed')} />,
   Unknown: <Badge status="default" text={i18n.t('unknown')} />,
-  Stopped: <Badge status="error" text={i18n.t('stopped')} />,
+  Stopped: <Badge status="error" text={i18n.t('Stopped')} />,
 };
 
 export const PureBaseAddonInfo = ({
@@ -46,34 +46,34 @@ export const PureBaseAddonInfo = ({
 }) => {
   const itemConfigs = [
     {
-      title: i18n.t('cmp:middleware'),
+      title: i18n.t('cmp:Middleware'),
       value: 'addonName',
     },
     {
-      title: i18n.t('version'),
+      title: i18n.t('Version'),
       value: 'version',
     },
     {
-      title: i18n.t('type'),
+      title: i18n.t('Type'),
       value: 'category',
       render: (category: string) => CATEGORY_NAME[category],
     },
     {
-      title: i18n.t('cmp:running cluster'),
+      title: i18n.t('cmp:Running cluster'),
       value: 'cluster',
     },
     {
-      title: i18n.t('running environment'),
+      title: i18n.t('Running environment'),
       value: 'workspace',
       render: (workspace: string) => ENV_NAME[workspace],
     },
     {
-      title: i18n.t('cmp:specifications'),
+      title: i18n.t('cmp:Specification'),
       value: 'plan',
       render: (plan: string) => PLAN_NAME[plan],
     },
     {
-      title: i18n.t('cmp:number of references'),
+      title: i18n.t('cmp:Number of references'),
       value: 'referenceInfos',
       render: (referenceInfos: any[] = []) => referenceInfos.length,
     },
@@ -101,12 +101,12 @@ export const PureBaseAddonInfo = ({
       key: 'applicationName',
     },
     {
-      title: i18n.t('application instance'),
+      title: i18n.t('App instance'),
       dataIndex: 'runtimeName',
       key: 'runtimeName',
     },
     {
-      title: i18n.t('cmp:deployment details'),
+      title: i18n.t('cmp:Deployment details'),
       dataIndex: 'applicationId',
       key: 'applicationId',
       align: 'center' as const,
@@ -146,7 +146,7 @@ export const PureBaseAddonInfo = ({
         </div>
         {extra}
         <div className="ref mb-8">
-          <span className="title font-medium">{i18n.t('cmp:reference detail')}</span>
+          <span className="title font-medium">{i18n.t('cmp:Reference details')}</span>
           <ErdaTable
             columns={refTableList}
             onReload={onReload}
@@ -161,7 +161,7 @@ export const PureBaseAddonInfo = ({
             <span className="title font-medium">{i18n.t('cmp:basic parameters')}</span>
             {!isEmpty(addonDetail.config) && (
               <span className="copy-all cursor-pointer cursor-copy">
-                {i18n.t('copy all')}
+                {i18n.t('Copy All')}
                 <Copy selector=".cursor-copy" opts={{ text: () => jsonStr }} />
               </span>
             )}

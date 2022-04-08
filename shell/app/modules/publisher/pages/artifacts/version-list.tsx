@@ -33,7 +33,7 @@ import UploadModal from './upload-modal';
 const { Item: TimelineItem } = Timeline;
 
 const versionTypeDic = {
-  release: i18n.t('publisher:release version'),
+  release: i18n.t('publisher:Release version'),
   beta: i18n.t('publisher:preview version'),
 };
 interface IProps {
@@ -240,12 +240,7 @@ const VersionList = (props: IProps) => {
               >
                 <Radio.Button value="h5">
                   H5{curPackageName ? `(${curPackageName})` : null}{' '}
-                  <ErdaIcon
-                    type="caret-down"
-                    className="align-middle"
-                    style={{ lineHeight: 1 }}
-                    size="18"
-                  />
+                  <ErdaIcon type="caret-down" className="align-middle" style={{ lineHeight: 1 }} size="18" />
                 </Radio.Button>
               </Dropdown>
             ) : (
@@ -334,7 +329,8 @@ const VersionList = (props: IProps) => {
                                 }
                               >
                                 <span className="text">
-                                  <ErdaIcon type="apple" className="align-middle mr-0.5" size="16" /> {_targetMobiles.ios?.length || 0}个版本
+                                  <ErdaIcon type="apple" className="align-middle mr-0.5" size="16" />{' '}
+                                  {_targetMobiles.ios?.length || 0}个版本
                                 </span>
                               </Popover>
                               <Popover
@@ -351,7 +347,8 @@ const VersionList = (props: IProps) => {
                                 }
                               >
                                 <span className="text">
-                                  <ErdaIcon className="align-middle mr-0.5" type="android" size="16" /> {_targetMobiles.android?.length || 0}个版本
+                                  <ErdaIcon className="align-middle mr-0.5" type="android" size="16" />{' '}
+                                  {_targetMobiles.android?.length || 0}个版本
                                 </span>
                               </Popover>
                             </>
@@ -375,7 +372,7 @@ const VersionList = (props: IProps) => {
                               return (
                                 <WithAuth pass={publishOperationAuth}>
                                   <Button disabled={disableVersionConf(record)} onClick={() => window.open(item.url)}>
-                                    {i18n.t('download')}
+                                    {i18n.t('Download')}
                                   </Button>
                                 </WithAuth>
                               );

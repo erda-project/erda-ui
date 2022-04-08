@@ -165,7 +165,7 @@ export const NodesForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
               <div className="set-buttons">
                 <Button onClick={clearSet}>{i18n.t('reset')}</Button>
                 <Button onClick={onSet} type="primary">
-                  {i18n.t('setting')}
+                  {i18n.t('Settings')}
                 </Button>
               </div>
             </div>

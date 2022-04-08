@@ -101,18 +101,18 @@ class TestDetail extends React.Component<IProps, IState> {
       },
     ];
     const statusFilter = [
-      { name: i18n.t('dop:all'), value: 'all', color: 'all' },
+      { name: i18n.t('dop:All'), value: 'all', color: 'all' },
       { name: i18n.t('dop:pass'), value: 'passed', color: 'passed' },
-      { name: i18n.t('dop:jump over'), value: 'skipped', color: 'skipped' },
+      { name: i18n.t('dop:Skipped'), value: 'skipped', color: 'skipped' },
       { name: i18n.t('failed'), value: 'failed', color: 'failed' },
-      { name: i18n.t('error'), value: 'error', color: 'error' },
+      { name: i18n.t('Error'), value: 'error', color: 'error' },
     ];
     return (
       <div className="application-test-detail">
         <div className="row-space" />
         <Row>
           <Col span={12} className="test-chart-container">
-            <ChartContainer title={i18n.t('dop:use case statistics')}>
+            <ChartContainer title={i18n.t('dop:Use case statistics')}>
               <TestPieChart data={pieChartData} />
             </ChartContainer>
           </Col>
@@ -180,7 +180,7 @@ class TestDetail extends React.Component<IProps, IState> {
             </ChartContainer>
           </Col>
           <Col span={16} className="test-output-container">
-            <ChartContainer title={i18n.t('dop:test output')}>
+            <ChartContainer title={i18n.t('dop:Test output')}>
               {this.renderTestInfo(checkedTestCase as ITest)}
             </ChartContainer>
           </Col>

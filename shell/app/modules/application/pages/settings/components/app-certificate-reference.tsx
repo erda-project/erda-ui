@@ -39,13 +39,13 @@ const CertMap = {
     value: 'Android',
     pushConfigField: [
       {
-        label: `Debug keystore ${i18n.t('file')} ${i18n.t('variable name')}`,
+        label: `Debug keystore ${i18n.t('File')} ${i18n.t('variable name')}`,
         name: ['androidKey', 'debugKeyStoreFile'],
         initialValue: 'Debug-keystore',
         rules,
       },
       {
-        label: `Debug keystore ${i18n.t('cmp:alias')}`,
+        label: `Debug keystore ${i18n.t('cmp:Alias')}`,
         name: ['androidKey', 'debugKeyStoreAlias'],
         initialValue: 'Debug-keystore-alias',
         rules,
@@ -63,13 +63,13 @@ const CertMap = {
         rules,
       },
       {
-        label: `Release keystore ${i18n.t('file')} ${i18n.t('variable name')}`,
+        label: `Release keystore ${i18n.t('File')} ${i18n.t('variable name')}`,
         name: ['androidKey', 'releaseKeyStoreFile'],
         initialValue: 'Release-keystore',
         rules,
       },
       {
-        label: `Release keystore ${i18n.t('cmp:alias')}`,
+        label: `Release keystore ${i18n.t('cmp:Alias')}`,
         name: ['androidKey', 'releaseKeyStoreAlias'],
         initialValue: 'Release-keystore-alias',
         rules,
@@ -93,25 +93,25 @@ const CertMap = {
     value: 'IOS',
     pushConfigField: [
       {
-        label: `Keychain-p12 ${i18n.t('file')} ${i18n.t('variable name')}`,
+        label: `Keychain-p12 ${i18n.t('File')} ${i18n.t('variable name')}`,
         name: ['iosKey', 'keyChainP12File'],
         initialValue: 'Keychain-p12',
         rules,
       },
       {
-        label: `Keychain-p12 ${i18n.t('password')} ${i18n.t('variable name')}`,
+        label: `Keychain-p12 ${i18n.t('Password')} ${i18n.t('variable name')}`,
         name: ['iosKey', 'keyChainP12Password'],
         initialValue: 'Keychain-p12-password',
         rules,
       },
       {
-        label: `Debug-mobileprovision ${i18n.t('file')} ${i18n.t('variable name')}`,
+        label: `Debug-mobileprovision ${i18n.t('File')} ${i18n.t('variable name')}`,
         name: ['iosKey', 'debugMobileProvision'],
         initialValue: 'Debug-mobileprovision',
         rules,
       },
       {
-        label: `Release-mobileprovision ${i18n.t('file')} ${i18n.t('variable name')}`,
+        label: `Release-mobileprovision ${i18n.t('File')} ${i18n.t('variable name')}`,
         name: ['iosKey', 'releaseMobileProvision'],
         initialValue: 'Release-mobileprovision',
         rules,
@@ -119,7 +119,7 @@ const CertMap = {
     ],
   },
   Message: {
-    name: i18n.t('message'),
+    name: i18n.t('Message'),
     value: 'Message',
     pushConfigField: [
       {
@@ -202,7 +202,7 @@ const AppCertificateReference = () => {
                     })
                   }
                 >
-                  <span className="table-operations-btn">{i18n.t('remove')}</span>
+                  <span className="table-operations-btn">{i18n.t('Remove')}</span>
                 </Popconfirm>
               )}
             </div>
@@ -234,7 +234,7 @@ const AppCertificateReference = () => {
           return (
             <LoadMoreSelector
               getData={getData}
-              placeholder={i18n.t('please choose {name}', { name: i18n.t('certificate') })}
+              placeholder={i18n.t('please choose {name}', { name: i18n.t('Certificate') })}
             />
           );
         },

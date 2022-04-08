@@ -25,7 +25,7 @@ export function getFields(): TEST_CASE.Field[] {
   return [
     {
       uniqueName: TestOperation.priority,
-      showName: i18n.t('dop:priority'),
+      showName: i18n.t('dop:Priority'),
       dataType: 'STRING',
       module: 'TEST',
       defaultValue: 'P3',
@@ -75,7 +75,7 @@ export function getFields(): TEST_CASE.Field[] {
       enums: [
         {
           fieldUniqueName: TestOperation.testPlanTestCasesExecutionResult,
-          showName: i18n.t('dop:not performed'),
+          showName: i18n.t('dop:Not executed'),
           value: 'INIT',
           icon: null,
           order: null,
@@ -89,14 +89,14 @@ export function getFields(): TEST_CASE.Field[] {
         },
         {
           fieldUniqueName: TestOperation.testPlanTestCasesExecutionResult,
-          showName: i18n.t('dop:not passed'),
+          showName: i18n.t('dop:Not passed'),
           value: 'FAIL',
           icon: null,
           order: null,
         },
         {
           fieldUniqueName: TestOperation.testPlanTestCasesExecutionResult,
-          showName: i18n.t('dop:blocking'),
+          showName: i18n.t('dop:Blocked'),
           value: 'BLOCK',
           icon: null,
           order: null,
@@ -121,7 +121,7 @@ export function getFields(): TEST_CASE.Field[] {
       enums: [
         {
           fieldUniqueName: TestOperation.testPlanStatus,
-          showName: i18n.t('processing'),
+          showName: i18n.t('In Progress'),
           value: 'DOING',
           icon: null,
           order: null,
@@ -142,7 +142,7 @@ export function getFields(): TEST_CASE.Field[] {
         },
         {
           fieldUniqueName: TestOperation.testPlanStatus,
-          showName: i18n.t('dop:completed'),
+          showName: i18n.t('dop:Completed'),
           value: 'DONE',
           icon: null,
           order: null,

@@ -240,7 +240,7 @@ const PureSelect = (props: SelectorProps) => {
         <div className="p-1">
           <Input
             size="small"
-            placeholder={i18n.t('filter')}
+            placeholder={i18n.t('Filter')}
             value={searchValue}
             onFocus={(e) => e.stopPropagation()}
             onChange={onChangeSearch}
@@ -380,7 +380,7 @@ const OptionGroup = (props: IOptionGroupProps) => {
           <Input
             size="small"
             value={searchValue}
-            placeholder={i18n.t('filter')}
+            placeholder={i18n.t('Filter')}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               updater.searchValue(e.target.value);
             }}

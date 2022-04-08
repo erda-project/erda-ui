@@ -58,7 +58,7 @@ const dopStore = createFlatStore({
               key: 'console',
               href: `${rootPath}/${addonName}`,
               icon: 'rqrz',
-              text: i18n.t('console'),
+              text: i18n.t('Console'),
             });
           } else if (addonName === 'jvm-profiler') {
             menu.splice(1, 0, {

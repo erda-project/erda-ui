@@ -77,8 +77,8 @@ const IssueTypeManage = () => {
                   <IssueIcon type={item.type} withName />
                 </div>
                 <div className="sub">
-                  <span>{i18n.t('update time')}：</span>
-                  <span>{item.updatedTime || i18n.t('dop:not modified')}</span>
+                  <span>{i18n.t('Update time')}：</span>
+                  <span>{item.updatedTime || i18n.t('dop:Not modified')}</span>
                 </div>
               </div>
             </div>
@@ -96,7 +96,7 @@ const IssueTypeManage = () => {
       readonlyForm={readonlyForm}
       fieldsList={fieldsList}
       updateInfo={getIssueTime}
-      name={i18n.t('dop:custom config of issue type')}
+      name={i18n.t('dop:Custom configuration of issue type')}
       desc={i18n.t(
         'dop:mainly manage the custom configuration of issue field attributes and saved as the issue template configuration of the entire organization-level project.',
       )}

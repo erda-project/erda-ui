@@ -416,7 +416,7 @@ export const ToolBarWithFilter: any = React.forwardRef((props: IToolBarWithFilte
             onSearch(newData);
           }}
         >
-          {i18n.t('clear')}
+          {i18n.t('Clear')}
         </div>,
       );
     }
@@ -513,10 +513,10 @@ export const FilterGroupDrawer = ({
                     onClose();
                   }}
                 >
-                  {i18n.t('cancel')}
+                  {i18n.t('Cancel')}
                 </Button>
                 <Button type="primary" ghost onClick={search}>
-                  {i18n.t('filter')}
+                  {i18n.t('Filter')}
                 </Button>
               </div>
             </div>

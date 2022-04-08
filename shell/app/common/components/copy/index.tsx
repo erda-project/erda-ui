@@ -63,7 +63,7 @@ class Copy extends React.PureComponent<IProps> {
           onSuccess(e);
         }
         message.success(
-          `${i18n.t('copy')} ${e.trigger.getAttribute('data-clipboard-tip') || tipName} ${i18n.t('succeed')}`,
+          `${i18n.t('Copy')} ${e.trigger.getAttribute('data-clipboard-tip') || tipName} ${i18n.t('succeed')}`,
           1,
         );
         e.clearSelection();
@@ -73,7 +73,7 @@ class Copy extends React.PureComponent<IProps> {
           onError(e);
         }
         message.error(
-          `${i18n.t('copy')} ${e.trigger.getAttribute('data-clipboard-tip') || tipName} ${i18n.t('failed')}`,
+          `${i18n.t('Copy')} ${e.trigger.getAttribute('data-clipboard-tip') || tipName} ${i18n.t('failed')}`,
           1,
         );
       });

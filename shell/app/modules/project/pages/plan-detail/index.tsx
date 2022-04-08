@@ -195,7 +195,7 @@ const TestPlanDetail = () => {
         ) : (
           <EnvSelect execute={handleExecute}>
             <Button loading={loadingRecords} className="items-center flex">
-              {i18n.t('dop:start interface test')} <ErdaIcon type="down" size="16" />
+              {i18n.t('dop:Start Interface Test')} <ErdaIcon type="down" size="16" />
             </Button>
           </EnvSelect>
         )}
@@ -210,10 +210,10 @@ const TestPlanDetail = () => {
             })
           }
         >
-          {i18n.t('edit')}
+          {i18n.t('Edit')}
         </Button>
         <Button type="primary" onClick={() => updateModalProp({ visible: true, mode: 'copy' })}>
-          {i18n.t('copy')}
+          {i18n.t('Copy')}
         </Button>
         <PlanModal
           testPlanId={params.testPlanId}
@@ -249,7 +249,7 @@ const TestPlanDetail = () => {
                       { name: i18n.t('dop:new'), key: 'add' },
                       { name: i18n.t('dop:reference'), key: 'import' },
                     ]}
-                    buttonText={i18n.t('dop:add use case')}
+                    buttonText={i18n.t('dop:Add Use Case')}
                     btnProps={{
                       type: 'primary',
                       ghost: true,
@@ -264,7 +264,7 @@ const TestPlanDetail = () => {
                 <div className="mr-3-group">
                   <Input
                     style={{ width: '160px' }}
-                    placeholder={i18n.t('dop:search for')}
+                    placeholder={i18n.t('dop:Search')}
                     onChange={(e) => debouncedSearch({ query: e.target.value })}
                     prefix={<ErdaIcon type="search1" className="mr-1 mt-0.5" size="14" />}
                   />
@@ -310,7 +310,7 @@ const TestPlanDetail = () => {
         <TabPane tab={i18n.t('dop:test report')} key="report">
           <Report key={reportKey} />
         </TabPane>
-        <TabPane tab={i18n.t('dop:interface test record')} key="pipeline">
+        <TabPane tab={i18n.t('dop:Interface Test Records')} key="pipeline">
           <div className="tab-content">
             <TestRecords />
           </div>

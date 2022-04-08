@@ -61,7 +61,7 @@ const AddRelease = ({
   const tabs = {
     project: {
       key: 'project',
-      text: i18n.t('dop:project release'),
+      text: i18n.t('dop:Project Artifacts'),
       Comp: <ProjectRelease {...paging} list={list} getList={getList} onSelect={(v) => setSelectedRelease(v)} />,
     },
     app: {
@@ -97,7 +97,7 @@ const AddRelease = ({
                 setVisible(false);
               }}
             >
-              {i18n.t('cancel')}
+              {i18n.t('Cancel')}
             </Button>
             <Button
               type="primary"
@@ -137,7 +137,7 @@ const AddRelease = ({
         ) : (
           <>
             <ErdaIcon type={'xuanze'} className="mr-1" />
-            <span>{i18n.t('select {name}', { name: i18n.t('Artifact') })}</span>
+            <span>{i18n.t('select {name}', { name: i18n.t('Artifacts') })}</span>
           </>
         )}
       </div>

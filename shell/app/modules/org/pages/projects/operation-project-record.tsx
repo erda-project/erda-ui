@@ -48,9 +48,9 @@ const handleFileTypeMap = {
 };
 
 const options = [
-  { value: 'all', label: `${i18n.t('common:all')}` },
-  { value: 'import', label: `${i18n.t('import')}` },
-  { value: 'export', label: `${i18n.t('export')}` },
+  { value: 'all', label: `${i18n.t('common:All')}` },
+  { value: 'import', label: `${i18n.t('Import')}` },
+  { value: 'export', label: `${i18n.t('Export')}` },
 ];
 
 const stateMap = {
@@ -59,7 +59,7 @@ const stateMap = {
     state: 'processing',
   },
   processing: {
-    text: i18n.t('processing'),
+    text: i18n.t('In Progress'),
     state: 'processing',
   },
   success: {
@@ -152,20 +152,20 @@ export const OperationProjectRecords = ({ visible, setVisible, isClickExport, se
       render: (state: string) => <Badge status={stateMap[state].state} text={stateMap[state].text} />,
     },
     {
-      title: i18n.t('type'),
+      title: i18n.t('Type'),
       dataIndex: 'type',
       ellipsis: {
         showTitle: false,
       },
       render: (type: string) => {
         if (type === handleFileTypeMap.import) {
-          return i18n.t('import');
+          return i18n.t('Import');
         }
-        return i18n.t('export');
+        return i18n.t('Export');
       },
     },
     {
-      title: i18n.t('operator'),
+      title: i18n.t('Operator'),
       dataIndex: 'operatorID',
       ellipsis: {
         showTitle: false,
@@ -175,7 +175,7 @@ export const OperationProjectRecords = ({ visible, setVisible, isClickExport, se
         return (
           <>
             <Avatar src={avatar || undefined} size="small" className="flex-shrink-0">
-              {nick ? getAvatarChars(nick) : i18n.t('none')}
+              {nick ? getAvatarChars(nick) : i18n.t('None')}
             </Avatar>
             <span> {nick}</span>
           </>
@@ -222,11 +222,11 @@ export const OperationProjectRecords = ({ visible, setVisible, isClickExport, se
     render: (record: IMPORT_EXPORT_FILE_LIST.FileRecord) => {
       const { viewResult, exportProject } = {
         viewResult: {
-          title: i18n.t('view results'),
+          title: i18n.t('View Results'),
           onClick: () => {
             if (record.state === 'success') {
               Modal.success({
-                title: i18n.t('view results'),
+                title: i18n.t('View Results'),
                 content: (
                   <span className="font-medium text-base text-default text-success">
                     {record.type === 'projectTemplateImport'
@@ -239,20 +239,20 @@ export const OperationProjectRecords = ({ visible, setVisible, isClickExport, se
             }
             if (record.state === 'fail') {
               Modal.error({
-                title: i18n.t('view results'),
+                title: i18n.t('View Results'),
                 content: <ErrorContent record={record} />,
               });
             }
             if (record.state === 'pending' || record.state === 'processing') {
               Modal.info({
-                title: i18n.t('view results'),
+                title: i18n.t('View Results'),
                 content: i18n.t('no results yet'),
               });
             }
           },
         },
         exportProject: {
-          title: i18n.t('download'),
+          title: i18n.t('Download'),
           onClick: () => window.open(`/api/files/${record.apiFileUUID}`),
         },
       };
@@ -286,7 +286,7 @@ export const OperationProjectRecords = ({ visible, setVisible, isClickExport, se
         }}
         visible={visible}
         destroyOnClose
-        title={i18n.t('import and export records')}
+        title={i18n.t('Import/Export Records')}
         className="dice-drawer"
       >
         <RadioTabs
@@ -311,7 +311,7 @@ export const OperationProjectRecords = ({ visible, setVisible, isClickExport, se
                     type: Input,
                     name: 'projectName',
                     customProps: {
-                      placeholder: i18n.t('search by project name'),
+                      placeholder: i18n.t('Search by project name'),
                       style: { width: 200 },
                     },
                   },

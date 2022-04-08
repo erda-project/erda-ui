@@ -99,7 +99,7 @@ const ProjectLabel = () => {
       },
     },
     {
-      label: i18n.t('dop:label name'),
+      label: i18n.t('dop:Label name'),
       name: 'name',
       rules: [
         {
@@ -114,7 +114,7 @@ const ProjectLabel = () => {
       },
     },
     {
-      label: i18n.t('dop:label color'),
+      label: i18n.t('dop:Label color'),
       name: 'color',
       type: 'custom',
       initialValue: colors[0],
@@ -145,7 +145,7 @@ const ProjectLabel = () => {
       <div className="flex items-center flex-wrap">
         <span className="flex items-center label-item create" onClick={() => updater.modalVisible(true)}>
           <ErdaIcon type="plus" className="mr-1" size="14px" />
-          {i18n.t('dop:add label')}
+          {i18n.t('dop:Add-label')}
         </span>
         {list.map((label) => {
           const color = label.color === 'gray' ? 'water-blue' : label.color;

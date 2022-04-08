@@ -97,7 +97,7 @@ describe('ImageUpload', () => {
     );
     expect(result.getByAltText('upload')).toHaveAttribute('src', imgUrlWithoutProtocol);
     expect(result.container).isExit('[name="shanchu"]', 1);
-    fireEvent.click(result.getByText('remove'));
+    fireEvent.click(result.getByText('Remove'));
     expect(setFieldsValue).toHaveBeenCalledWith({ singleUpload: undefined });
     expect(afterUploadFn).toHaveBeenLastCalledWith(undefined);
   });
@@ -122,7 +122,7 @@ describe('ImageUpload', () => {
       />,
     );
     expect(result.container).isExit('[name="shanchu"]', 1);
-    fireEvent.click(result.getByText('remove'));
+    fireEvent.click(result.getByText('Remove'));
     expect(setFieldsValue).toHaveBeenCalledWith({ multiUpload: [] });
     expect(afterUploadFn).toHaveBeenLastCalledWith([]);
   });

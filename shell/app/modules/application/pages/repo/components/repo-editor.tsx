@@ -145,10 +145,10 @@ const RepoEditor = ({
         getComp: ({ form }: { form: FormInstance }) => (
           <div>
             <Button type="primary" onClick={() => handleSubmit(form)}>
-              {i18n.t('save')}
+              {i18n.t('Save')}
             </Button>
             <Button className="ml-3" onClick={() => changeMode({ editFile: false, addFile: false })}>
-              {i18n.t('cancel')}
+              {i18n.t('Cancel')}
             </Button>
           </div>
         ),
@@ -160,7 +160,7 @@ const RepoEditor = ({
     ? [
         <Input
           name="name"
-          placeholder={i18n.t('dop:file name')}
+          placeholder={i18n.t('dop:File name')}
           autoFocus
           maxLength={255}
           onChange={(e) => {

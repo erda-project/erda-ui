@@ -34,7 +34,7 @@ export const clusterTypeMap = [
     },
     {
       type: 'erdc', // existing-resource-deploy-cluster
-      name: i18n.t('cmp:self-built cluster'),
+      name: i18n.t('cmp:Self-Built Cluster'),
       icon: clusterImgMap.erdc,
       description: i18n.t('cmp:based on existing resources, build an Erda managed cluster'),
     },
@@ -88,7 +88,7 @@ export const ClusterTypeModal = (props: any) => {
 
   return (
     <Modal
-      title={i18n.t('cmp:select the cluster type')}
+      title={i18n.t('cmp:Select the cluster type')}
       visible={visible}
       onOk={handleSubmit}
       onCancel={toggleModal}

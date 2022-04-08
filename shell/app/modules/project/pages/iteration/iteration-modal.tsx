@@ -47,14 +47,14 @@ export default ({ visible, data, onClose }: IProps) => {
   const fieldsList = [
     {
       name: 'title',
-      label: i18n.t('name'),
+      label: i18n.t('Name'),
       itemProps: {
         maxLength: 255,
       },
     },
     {
       name: 'timeRange',
-      label: i18n.t('time'),
+      label: i18n.t('Time'),
       required: true,
       getComp: ({ form }: { form: FormInstance }) => {
         return (

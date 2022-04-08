@@ -68,7 +68,7 @@ const IssueFieldManage = () => {
   const fieldsList: object[] = React.useMemo(
     () => [
       {
-        label: i18n.t('dop:field name'),
+        label: i18n.t('dop:Field name'),
         name: 'propertyName',
       },
     ],
@@ -96,26 +96,26 @@ const IssueFieldManage = () => {
     () => [
       {
         key: 'propertyName',
-        title: i18n.t('dop:field name'),
+        title: i18n.t('dop:Field name'),
         width: '200',
         dataIndex: 'propertyName',
       },
       {
         key: 'required',
-        title: i18n.t('is it required'),
+        title: i18n.t('Required'),
         dataIndex: 'required',
-        render: (value: boolean) => (String(value) === 'true' ? i18n.t('common:yes') : i18n.t('common:no')),
+        render: (value: boolean) => (String(value) === 'true' ? i18n.t('common:Yes') : i18n.t('common:No')),
       },
       {
         key: 'propertyType',
-        title: i18n.t('type'),
+        title: i18n.t('Type'),
         width: '200',
         dataIndex: 'propertyType',
         render: (t: string) => <IssueIcon type={t} withName />,
       },
       {
         key: 'relatedIssue',
-        title: i18n.t('dop:related issue type'),
+        title: i18n.t('dop:Related issue type'),
         width: '250',
         dataIndex: 'relatedIssue',
         render: (types: string[]) => {
@@ -157,7 +157,7 @@ const IssueFieldManage = () => {
                   });
                 }}
               >
-                {i18n.t('edit')}
+                {i18n.t('Edit')}
               </span>
               <WithAuth pass={!record?.isSpecialField}>
                 <Popconfirm
@@ -182,7 +182,7 @@ const IssueFieldManage = () => {
       type: Input,
       name: 'propertyName',
       customProps: {
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:field name') }),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:Field name') }),
       },
     },
   ];
@@ -216,7 +216,7 @@ const IssueFieldManage = () => {
               updater.modalVisible(true);
             }}
           >
-            {i18n.t('add')}
+            {i18n.t('Add')}
           </Button>
         </WithAuth>
         <Filter config={filterField} onFilter={onFilter} connectUrlSearch />
@@ -240,8 +240,8 @@ const IssueFieldManage = () => {
       readonlyForm={readonlyForm}
       fieldsList={fieldsList}
       updateInfo={getFieldsByIssue}
-      name={i18n.t('dop:issue field')}
-      desc={i18n.t('dop:Custom fields common to the whole organization to meet needs of more scenarios.')}
+      name={i18n.t('dop:Issue field')}
+      desc={i18n.t('dop:Custom fields for the organization, to meet the needs of more scenarios')}
     />
   );
 };

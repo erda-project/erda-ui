@@ -46,7 +46,7 @@ export const IssueTestCaseRelation = ({ list }: IProps) => {
       },
     },
     {
-      title: i18n.t('dop:priority'),
+      title: i18n.t('dop:Priority'),
       dataIndex: 'priority',
     },
     {

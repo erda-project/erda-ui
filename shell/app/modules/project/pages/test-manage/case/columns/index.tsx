@@ -33,13 +33,13 @@ export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
     sorter: true,
   },
   {
-    title: i18n.t('dop:use case title'),
+    title: i18n.t('dop:Use case title'),
     dataIndex: 'name',
     key: 'name',
     render: (value: string, record: any) => renderContent((value) => value, value, record),
   },
   {
-    title: i18n.t('dop:priority'),
+    title: i18n.t('dop:Priority'),
     dataIndex: 'priority',
     key: 'priority',
     width: 96,
@@ -47,7 +47,7 @@ export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
     render: (value: string, record: any) => renderContent((value) => value, value, record),
   },
   {
-    title: i18n.t('dop:updater'),
+    title: i18n.t('dop:Updated by'),
     dataIndex: 'updaterID',
     key: 'updaterID',
     width: 96,

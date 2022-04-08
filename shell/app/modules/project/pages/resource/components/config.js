@@ -34,7 +34,7 @@ export const chartConfig = {
   disk: {
     unitType: 'TRAFFIC',
     rightUnitType: 'TRAFFIC',
-    titleText: i18n.t('disk'),
+    titleText: i18n.t('Disk'),
     isTwoYAxis: true,
     decimal: 2,
     name: 'disk',

@@ -32,7 +32,7 @@ const menuFilterMap = {
   appCenter: {
     // 应用中心
     cmp: (item: IMenuItem) => {
-      const name = i18n.t('Cloud management');
+      const name = i18n.t('Cloud Management Platform');
       return { ...item, name, breadcrumbName: name };
     },
   },
@@ -50,7 +50,7 @@ const menuFilterMap = {
   cmp: {
     // 云管平台
     cmpOverview: (item: IMenuItem) => {
-      const text = i18n.t('cluster overview');
+      const text = i18n.t('Cluster Overview');
       return { ...item, text };
     },
   },

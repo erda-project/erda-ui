@@ -44,8 +44,8 @@ const ReleaseSelector = (props: IProps) => {
           <Space direction="vertical">
             {list.map((item) => {
               const [status, statusText] = item.isFormal
-                ? ['success', i18n.t('dop:formal')]
-                : ['error', i18n.t('dop:informal')];
+                ? ['success', i18n.t('dop:Formal')]
+                : ['error', i18n.t('dop:Informal')];
               return (
                 <Radio
                   value={item.releaseId}

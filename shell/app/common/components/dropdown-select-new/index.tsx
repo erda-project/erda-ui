@@ -180,7 +180,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
                     className="whitespace-nowrap rounded-sm bg-default-06 text-default-8 px-2 py-0.5 ml-1 hover:bg-purple-deep hover:text-white"
                     onClick={() => !disabled && setActive(!active)}
                   >
-                    {i18n.t('common:switch')}
+                    {i18n.t('common:Switch')}
                   </span>
                 }
               />

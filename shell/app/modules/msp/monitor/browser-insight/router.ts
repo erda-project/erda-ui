@@ -16,12 +16,12 @@ import i18n, { isZh } from 'i18n';
 import { getMspBreadcrumb } from 'msp/config';
 
 const tabs = [
-  { key: 'bi', name: i18n.t('overview') },
+  { key: 'bi', name: i18n.t('Overview') },
   { key: 'bi/domain', name: i18n.t('msp:access domain') },
-  { key: 'bi/page', name: i18n.t('msp:access page') },
-  { key: 'bi/ajax', name: i18n.t('msp:ajax interface') },
-  { key: 'bi/script', name: i18n.t('msp:script error') },
-  { key: 'bi/browser', name: i18n.t('msp:browser performance') },
+  { key: 'bi/page', name: i18n.t('msp:Access Page') },
+  { key: 'bi/ajax', name: i18n.t('msp:Ajax Interface') },
+  { key: 'bi/script', name: i18n.t('msp:Script Error') },
+  { key: 'bi/browser', name: i18n.t('msp:Browser Performance') },
 ];
 const getBIRouter = (): RouteConfigItem => ({
   path: 'bi',

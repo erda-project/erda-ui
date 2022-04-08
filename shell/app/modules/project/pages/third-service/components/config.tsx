@@ -99,7 +99,7 @@ export const MysqlFieldsConfig = {
         ],
       },
       {
-        label: i18n.t('resource:specifications'),
+        label: i18n.t('resource:Specification'),
         name: 'spec',
         type: 'select',
         options: () =>
@@ -214,7 +214,7 @@ export const useOnsFields = () => {
       ],
     },
     {
-      label: i18n.t('description'),
+      label: i18n.t('Description'),
       name: 'remark',
       required: false,
     },
@@ -255,7 +255,7 @@ export const RedisFieldConfig = {
   }) => {
     return [
       {
-        label: i18n.t('resource:version'),
+        label: i18n.t('resource:Version'),
         name: 'version',
         type: 'select',
         options: [
@@ -265,7 +265,7 @@ export const RedisFieldConfig = {
         ],
       },
       {
-        label: i18n.t('resource:specifications'),
+        label: i18n.t('resource:Specification'),
         name: 'spec',
         type: 'select',
         options: () =>
@@ -456,7 +456,7 @@ export const useBucketField = () => {
       name: ['buckets', 0, 'acl'],
       type: 'select',
       options: [
-        { name: i18n.t('private'), value: 'private' },
+        { name: i18n.t('Private'), value: 'private' },
         { name: i18n.t('resource:public reading'), value: 'public-read' },
         { name: i18n.t('resource:public reading and writing'), value: 'public-read-write' },
       ],
@@ -545,14 +545,14 @@ export const SlbFields = (data: CUSTOM_ADDON.GatewayInstance[], form: FormInstan
             ],
           },
           {
-            label: i18n.t('resource:specifications'),
+            label: i18n.t('resource:Specification'),
             name: ['slb', 'spec'],
             type: 'select',
             options: [
               { name: i18n.t('resource:performance shared instance'), value: '-1' },
               { name: `${i18n.t('resource:simple')}I(slb.s1.small)`, value: 'slb.s1.small' },
-              { name: `${i18n.t('resource:standard')}I(slb.s2.small)`, value: 'slb.s2.small' },
-              { name: `${i18n.t('resource:standard')}II(slb.s2.medium)`, value: 'slb.s2.medium' },
+              { name: `${i18n.t('resource:Standard')}I(slb.s2.small)`, value: 'slb.s2.small' },
+              { name: `${i18n.t('resource:Standard')}II(slb.s2.medium)`, value: 'slb.s2.medium' },
               { name: `${i18n.t('resource:high level')}Ⅰ(slb.s3.small)`, value: 'slb.s3.small' },
               { name: `${i18n.t('resource:high level')}II(slb.s3.medium)`, value: 'slb.s3.medium' },
               { name: `${i18n.t('resource:super advanced')}Ⅰ(slb.s3.large)`, value: 'slb.s3.large' },
@@ -614,7 +614,7 @@ export const ApiFields = (data: CUSTOM_ADDON.GatewayInstance[], form: FormInstan
             ],
           },
           {
-            label: i18n.t('resource:specifications'),
+            label: i18n.t('resource:Specification'),
             name: 'spec',
             type: 'select',
             options: [
@@ -624,7 +624,7 @@ export const ApiFields = (data: CUSTOM_ADDON.GatewayInstance[], form: FormInstan
             ],
           },
           {
-            label: i18n.t('msp:security strategy'),
+            label: i18n.t('msp:Security Strategy'),
             type: 'select',
             name: 'httpsPolicy',
             options: [

@@ -18,10 +18,10 @@ const autoTestConfig = {
   scope: scopeMap.autoTest.scope,
   text: {
     // 文案
-    fileTreeTitle: i18n.t('dop:test set'), // 文件树title、
-    addFolder: i18n.t('dop:new sub testset'), // 添加文件夹
+    fileTreeTitle: i18n.t('dop:Test set'), // 文件树title、
+    addFolder: i18n.t('dop:Add Sub-Test Set'), // 添加文件夹
     addFile: i18n.t('common:new use case'), // 添加文件
-    searchFolder: i18n.t('dop:test set'), // 搜索文件夹
+    searchFolder: i18n.t('dop:Test set'), // 搜索文件夹
     searchFile: i18n.t('common:test case'), // 搜索文件
     executeButton: i18n.t('test'), // 执行按钮
   },
@@ -39,7 +39,7 @@ const projectPipelineConfig = {
     addFile: i18n.t('add {name}', { name: i18n.t('pipeline') }), // 添加文件
     searchFolder: i18n.t('directory'), // 搜索文件夹
     searchFile: i18n.t('pipeline'), // 搜索文件
-    executeButton: i18n.t('execute'), // 执行按钮
+    executeButton: i18n.t('Execute'), // 执行按钮
   },
   runPipelineSource: 'project-pipeline',
   executeEnvChosen: false, // 执行时是否需要选择环境: 测试用例、测试计划需要
@@ -55,7 +55,7 @@ const configSheetConfig = {
     addFile: i18n.t('add {name}', { name: i18n.t('config sheet') }), // 添加文件
     searchFolder: i18n.t('directory'), // 搜索文件夹
     searchFile: i18n.t('config sheet'), // 搜索文件
-    executeButton: i18n.t('execute'), // 执行按钮
+    executeButton: i18n.t('Execute'), // 执行按钮
   },
   runPipelineSource: 'config-sheet',
   executeEnvChosen: false, // 执行时是否需要选择环境: 测试用例、测试计划需要
@@ -71,7 +71,7 @@ const appPipelineConfig = {
     addFile: i18n.t('add {name}', { name: i18n.t('pipeline') }), // 添加文件
     searchFolder: i18n.t('directory'), // 搜索文件夹
     searchFile: i18n.t('pipeline'), // 搜索文件
-    executeButton: i18n.t('execute'), // 执行按钮
+    executeButton: i18n.t('Execute'), // 执行按钮
   },
   runPipelineSource: 'project-pipeline',
   executeEnvChosen: false, // 执行时是否需要选择环境: 测试用例、测试计划需要

@@ -24,6 +24,6 @@ export const contractStatueMap: { [k in API_CLIENT.ContractStatue]: { value: k; 
   },
   disproved: {
     value: 'disproved',
-    name: i18n.t('rejected'),
+    name: i18n.t('Rejected'),
   },
 };

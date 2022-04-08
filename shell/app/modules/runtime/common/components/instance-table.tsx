@@ -151,10 +151,10 @@ const InstanceTable = ({
           onChange={(value: string) => onFilterChange(value)}
         >
           <Option key={typeMap.running} value={typeMap.running}>
-            {i18n.t('running')}
+            {i18n.t('Running')}
           </Option>
           <Option key={typeMap.stopped} value={typeMap.stopped}>
-            {i18n.t('stopped')}
+            {i18n.t('Stopped')}
           </Option>
         </Select>
       </div>

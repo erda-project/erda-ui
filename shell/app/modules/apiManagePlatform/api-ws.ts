@@ -69,7 +69,7 @@ export const initApiWs = (payload: IInitApiWs) => {
 
       if (data.type === 'commit_response') {
         timer = setTimeout(() => {
-          message.success(i18n.t('{action} successfully', { action: i18n.t('save') }));
+          message.success(i18n.t('{action} successfully', { action: i18n.t('Save') }));
           setDocChangedState(false);
           setSavedState(true);
         }, 1000);

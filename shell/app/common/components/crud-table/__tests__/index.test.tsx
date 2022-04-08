@@ -142,7 +142,7 @@ describe('CRUDTable', () => {
     fireEvent.click(result.getByText('editItem'));
     await waitFor(() => expect(result.getByRole('dialog')).toBeInTheDocument());
     // close add/edit modal
-    fireEvent.click(result.getByText('cancel'));
+    fireEvent.click(result.getByText('Cancel'));
     expect(onModalCloseFn).toHaveBeenCalled();
     // open add modal
     fireEvent.click(result.getByText('add project'));
