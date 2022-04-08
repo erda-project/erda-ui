@@ -15,23 +15,23 @@ import i18n from 'i18n';
 import { ENV_MAP } from 'project/common/config';
 
 export const ConfigTabs = {
-  text: { key: 'text', text: i18n.t('common:text type') },
-  other: { key: 'other', text: i18n.t('common:other type') },
+  text: { key: 'text', text: i18n.t('common:Text Type') },
+  other: { key: 'other', text: i18n.t('common:Other Type') },
 };
 
 export const CONFIG_ENV_MAP = {
-  DEFAULT: i18n.t('global'),
+  DEFAULT: i18n.t('Global'),
   ...ENV_MAP,
 };
 
 export const ConfigTypeMap = {
-  kv: { key: 'kv', text: i18n.t('value'), type: i18n.t('common:text type') },
-  'dice-file': { key: 'dice-file', text: i18n.t('file'), type: i18n.t('common:file type') },
+  kv: { key: 'kv', text: i18n.t('Value'), type: i18n.t('common:Text Type') },
+  'dice-file': { key: 'dice-file', text: i18n.t('File'), type: i18n.t('common:file type') },
 };
 
 export const deployOrderStatusMap = {
   WAITDEPLOY: { text: i18n.t('runtime:waiting for deployment'), status: 'default', op: 'start' },
-  DEPLOYING: { text: i18n.t('running'), status: 'processing', op: 'cancel' },
+  DEPLOYING: { text: i18n.t('Running'), status: 'processing', op: 'cancel' },
   OK: { text: i18n.t('succeed'), status: 'success', op: '' },
   FAILED: { text: i18n.t('failed'), status: 'error', op: 'restart' },
   CANCELED: { text: i18n.t('canceled'), status: 'warning', op: 'restart' },

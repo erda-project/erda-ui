@@ -51,7 +51,7 @@ describe('InputSelect', () => {
     fireEvent.focus(inp!);
     await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument());
     expect(result.baseElement).isExit('.option-item', optionArr.length);
-    const searchInp = result.baseElement.querySelector('[placeholder="filter"]');
+    const searchInp = result.baseElement.querySelector('[placeholder="Filter"]');
     fireEvent.focus(searchInp!);
     fireEvent.click(searchInp!);
     fireEvent.change(searchInp!, { target: { value: optionArr[0] } });

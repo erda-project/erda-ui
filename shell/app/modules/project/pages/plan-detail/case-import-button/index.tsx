@@ -139,7 +139,7 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
     <Modal
       closable={false}
       visible={visible}
-      title={i18n.t('dop:import use case')}
+      title={i18n.t('dop:Import use case')}
       width={1000}
       onOk={onOk}
       onCancel={handleCancel}
@@ -153,7 +153,7 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
         <div className="right">
           <Select
             style={{ width: 240 }}
-            placeholder={i18n.t('dop:filter by priority')}
+            placeholder={i18n.t('dop:Filter by priority')}
             mode="multiple"
             value={priorityFilter}
             onChange={handleFilter}

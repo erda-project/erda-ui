@@ -43,7 +43,7 @@ export const getPublisherFieldsList = (isEdit?: boolean) => {
       getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
     },
     {
-      label: i18n.t('description'),
+      label: i18n.t('Description'),
       name: 'desc',
       required: false,
       type: 'textArea',

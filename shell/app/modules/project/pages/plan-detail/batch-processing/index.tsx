@@ -46,7 +46,7 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
       switch (key) {
         case 'delete':
           Modal.confirm({
-            title: i18n.t('remove'),
+            title: i18n.t('Remove'),
             content: i18n.t('dop:plan-remove-case-confirm'),
             onOk: () => deleteRelations({ type: 'multi', relationIDs: [] }).then(afterDeleteRef.current),
           });
@@ -81,7 +81,7 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
           <span>{i18n.t('delete')}</span>
         </Menu.Item>
         <Menu.Item key="actor">
-          <span>{i18n.t('dop:change executor')}</span>
+          <span>{i18n.t('dop:Change Executor')}</span>
         </Menu.Item>
         {/* <Menu.Item key="remark">
           <span>添加备注</span>
@@ -105,16 +105,16 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
 
   const fieldsList = [
     {
-      label: i18n.t('dop:executor'),
+      label: i18n.t('dop:Executor'),
       name: 'executorID',
       getComp: () => <MemberSelector scopeType="project" scopeId={params.projectId} />,
     },
   ];
   return (
     <>
-      <DropdownSelect overlay={menus} buttonText={i18n.t('dop:batch processing')} />
+      <DropdownSelect overlay={menus} buttonText={i18n.t('dop:Batch Operation')} />
       <FormModal
-        title={i18n.t('dop:change executor')}
+        title={i18n.t('dop:Change Executor')}
         visible={visible}
         onOk={handleOk}
         onCancel={onCancel}

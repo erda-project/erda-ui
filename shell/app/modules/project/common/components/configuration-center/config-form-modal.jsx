@@ -93,12 +93,12 @@ class ConfigFormModal extends React.PureComponent {
     ];
     return (
       <Modal
-        title={title || i18n.t('common:new configuration')}
+        title={title || i18n.t('common:New configuration')}
         width={800}
         visible={modalVisible}
         onOk={this.onSubmit}
         onCancel={this.onCancel}
-        okText={i18n.t('save')}
+        okText={i18n.t('Save')}
         maskClosable={false}
         destroyOnClose
       >

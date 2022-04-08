@@ -65,7 +65,7 @@ const AddRole = (props: IProps) => {
 
   const fields = [
     {
-      label: i18n.t('role'),
+      label: i18n.t('Role'),
       component: 'arrayObj',
       key: 'roles',
       required: true,
@@ -90,14 +90,14 @@ const AddRole = (props: IProps) => {
             />,
             <div key="isCustomRole" className="flex justify-between items-center">
               <span className="text-desc nowrap">
-                {i18n.t('customize')} {i18n.t('role')}
+                {i18n.t('customize')} {i18n.t('Role')}
               </span>
               <Switch
                 key="isCustomRole"
                 checked={!!_data.isCustomRole}
                 onChange={(v) => updateItem({ isCustomRole: v })}
-                checkedChildren={i18n.t('common:yes')}
-                unCheckedChildren={i18n.t('common:no')}
+                checkedChildren={i18n.t('common:Yes')}
+                unCheckedChildren={i18n.t('common:No')}
               />
             </div>,
           ];
@@ -112,7 +112,7 @@ const AddRole = (props: IProps) => {
             if (compact(valueArr).length !== val.length || compact(nameArr).length !== val.length) {
               tip = i18n.t('dop:this item cannot be empty');
             } else if (uniq(nameArr).length !== val.length) {
-              tip = i18n.t('{name} already exists', { name: i18n.t('name') });
+              tip = i18n.t('{name} already exists', { name: i18n.t('Name') });
             } else if (uniq(valueArr).length !== val.length) {
               tip = i18n.t('{name} already exists', { name: 'key' });
             }
@@ -134,12 +134,12 @@ const AddRole = (props: IProps) => {
   return (
     <div className="flex justify-between items-center">
       <Button size="small" onClick={onOpen}>
-        {i18n.t('edit {name}', { name: i18n.t('role') })}
+        {i18n.t('edit {name}', { name: i18n.t('Role') })}
       </Button>
       <FormModal
         width={650}
         visible={visible}
-        title={i18n.t('edit {name}', { name: i18n.t('role') })}
+        title={i18n.t('edit {name}', { name: i18n.t('Role') })}
         onOk={onOk}
         onCancel={onCancel}
         fieldList={fields}

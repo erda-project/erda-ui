@@ -61,7 +61,7 @@ const ApiSummary = () => {
   const basicFields = [
     {
       type: Input,
-      label: i18n.t('name'),
+      label: i18n.t('Name'),
       name: 'title',
       colSpan: 12,
       customProps: {
@@ -80,7 +80,7 @@ const ApiSummary = () => {
     },
     {
       type: Input,
-      label: i18n.t('version'),
+      label: i18n.t('Version'),
       name: 'version',
       colSpan: 12,
       customProps: {
@@ -99,7 +99,7 @@ const ApiSummary = () => {
     },
     {
       type: MarkdownEditor,
-      label: i18n.t('description'),
+      label: i18n.t('Description'),
       name: 'description',
       required: false,
       colSpan: 24,

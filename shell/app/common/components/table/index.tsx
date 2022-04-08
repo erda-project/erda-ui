@@ -223,7 +223,7 @@ function WrappedTable<T extends object = any>({
       return (
         <Menu>
           <Menu.Item key={'0'} onClick={() => onSort()}>
-            <span className="fake-link mr-1">{i18n.t('cancel order')}</span>
+            <span className="fake-link mr-1">{i18n.t('Unsort')}</span>
           </Menu.Item>
           <Menu.Item key={'ascend'} onClick={() => onSort('ascend')}>
             <span className="fake-link mr-1">

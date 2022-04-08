@@ -316,25 +316,25 @@ describe('MembersTable', () => {
     });
     expect(getMembers).toHaveBeenLastCalledWith({ pageNo: 2, pageSize: 10, scope: { id: '27', type: 'org' } });
     // add member
-    fireEvent.click(result.getByText('add member'));
+    fireEvent.click(result.getByText('Add-member'));
     expect(result.container).isExit('.mock-add-member-modal', 1);
     fireEvent.click(result.getByText('toggleModal'));
     expect(result.container).isExit('.mock-add-member-modal', 0);
     genOrgInviteCode.mockResolvedValue({ verifyCode: 'verifyCode' });
     // invite member
     await act(async () => {
-      fireEvent.click(result.getByText('invite'));
+      fireEvent.click(result.getByText('Invite'));
       await flushPromises();
     });
     expect(result.container).isExit('.mock-url-invite-modal', 1);
     fireEvent.click(result.getByText('onCancel'));
     expect(result.container).isExit('.mock-url-invite-modal', 0);
     genOrgInviteCode.mockResolvedValue({ verifyCode: undefined });
-    fireEvent.click(result.getByText('invite'));
+    fireEvent.click(result.getByText('Invite'));
     await flushPromises();
     expect(spyError).toHaveBeenLastCalledWith('cannot generate invitation code temporarily');
     // search
-    fireEvent.change(result.getByPlaceholderText('search by nickname, username, email or mobile number'), {
+    fireEvent.change(result.getByPlaceholderText('Search by nickname, username, email or phone number'), {
       target: { value: 'erda' },
     });
     expect(getMembers).toHaveBeenLastCalledWith({
@@ -348,7 +348,7 @@ describe('MembersTable', () => {
     // operation
     fireEvent.click(result.container.querySelector('[name="more"]')!);
     await waitFor(() => expect(result.getByRole('menu')).toBeInTheDocument());
-    fireEvent.click(result.getByText('exit').closest('li')!);
+    fireEvent.click(result.getByText('Exit').closest('li')!);
     await waitFor(() => expect(result.getByRole('dialog')).toBeInTheDocument());
     fireEvent.click(result.getByText('OK'));
     await flushPromises();
@@ -357,7 +357,7 @@ describe('MembersTable', () => {
     expect(result.container).isExit('.mock-authorize-member-modal', 1);
     fireEvent.click(result.getByText('closeModal'));
     expect(result.container).isExit('.mock-authorize-member-modal', 0);
-    fireEvent.click(result.getByText('edit').closest('li')!);
+    fireEvent.click(result.getByText('Edit').closest('li')!);
     await act(async () => {
       jest.runAllTimers();
       fireEvent.click(result.getByText('ok'));
@@ -371,7 +371,7 @@ describe('MembersTable', () => {
   });
   it('should batch operations work well', async () => {
     const { result, updateMembers, removeMember } = await setUp();
-    userEvent.hover(result.getByText('batch operate'));
+    userEvent.hover(result.getByText('Batch Operation'));
     await waitFor(() => expect(result.container).isExit('.dice-cp-table-batch-operations', 1));
     const selectAll = () => {
       const selectAllCheckbox = result.container.querySelector('.ant-table-selection [type="checkbox"]')!;
@@ -379,7 +379,7 @@ describe('MembersTable', () => {
       fireEvent.change(selectAllCheckbox, { target: { checked: true } });
     };
     selectAll();
-    fireEvent.click(result.getByText('edit').closest('li')!);
+    fireEvent.click(result.getByText('Edit').closest('li')!);
     fireEvent.click(result.getByText('authorize').closest('li')!);
     expect(result.container).isExit('.mock-batch-authorize-member-modal', 1);
     fireEvent.click(result.getByText('onOk'));
@@ -391,7 +391,7 @@ describe('MembersTable', () => {
     fireEvent.click(result.getByText('onCancel'));
     expect(result.container).isExit('.mock-batch-authorize-member-modal', 0);
     selectAll();
-    fireEvent.click(result.getByText('remove').closest('li')!);
+    fireEvent.click(result.getByText('Remove').closest('li')!);
     await waitFor(() => expect(result.getAllByRole('dialog')).toHaveLength(2));
     fireEvent.click(result.getByText('OK'));
     await flushPromises();
@@ -420,7 +420,7 @@ describe('MembersTable', () => {
       const { result, removeMember } = await setUp({ scopeKey: scope });
       fireEvent.click(result.container.querySelector('[name="more"]')!);
       await waitFor(() => expect(result.getByRole('menu')).toBeInTheDocument());
-      fireEvent.click(result.getByText('exit').closest('li')!);
+      fireEvent.click(result.getByText('Exit').closest('li')!);
       await waitFor(() => expect(result.getAllByRole('dialog')).toHaveLength(1));
       fireEvent.click(result.getByText('OK'));
       await flushPromises();

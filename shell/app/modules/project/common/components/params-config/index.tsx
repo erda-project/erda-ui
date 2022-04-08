@@ -360,13 +360,13 @@ const OtherConfig = (props: IOtherProps) => {
   const columns = [
     { title: 'Key', dataIndex: 'key' },
     {
-      title: i18n.t('type'),
+      title: i18n.t('Type'),
       dataIndex: 'type',
       render: (val: string) => {
         return ConfigTypeMap[val]?.text || '-';
       },
     },
-    { title: i18n.t('dop:remark'), dataIndex: 'comment' },
+    { title: i18n.t('dop:Remark'), dataIndex: 'comment' },
   ];
   const actions = {
     render: (record: PIPELINE_CONFIG.ConfigItem) => {
@@ -378,7 +378,7 @@ const OtherConfig = (props: IOtherProps) => {
             <IF check={canDownload}>
               {encrypt ? (
                 <Tooltip title={i18n.t('dop:encrypted files cannot be downloaded')}>
-                  <a className="disabled">{i18n.t('download')}</a>
+                  <a className="disabled">{i18n.t('Download')}</a>
                 </Tooltip>
               ) : (
                 <a
@@ -386,7 +386,7 @@ const OtherConfig = (props: IOtherProps) => {
                   download={record.value}
                   href={`/api/files/${record.value}`}
                 >
-                  {i18n.t('download')}
+                  {i18n.t('Download')}
                 </a>
               )}
             </IF>
@@ -431,7 +431,7 @@ const OtherConfig = (props: IOtherProps) => {
           actions={actions}
         />
         <Button className="absolute bottom-3 ml-2" onClick={() => setAddVisible(true)}>
-          {i18n.t('common:add')}
+          {i18n.t('common:Add')}
         </Button>
       </div>
       <VariableConfigForm

@@ -48,10 +48,10 @@ const commonQuery = {
 const CHART_CONFIG_MAP = {
   processTopCPU: {
     ...commonAttr,
-    titleText: `CPU ${i18n.t('cmp:usage rate')} TOP10`,
+    titleText: `CPU ${i18n.t('cmp:Usage')} TOP10`,
     chartName: 'processTopCPU',
     viewRender: topTable,
-    viewProps: { valueTitle: i18n.t('cmp:usage rate'), unitType: 'PERCENT' },
+    viewProps: { valueTitle: i18n.t('cmp:Usage'), unitType: 'PERCENT' },
     query: {
       ...commonQuery,
       sort: 'max_cpu_usage',

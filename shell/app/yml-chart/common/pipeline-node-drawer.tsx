@@ -50,11 +50,11 @@ const { Panel } = Collapse;
 const { Option } = Select;
 
 export const i18nMap = {
-  version: i18n.t('version'),
+  version: i18n.t('Version'),
   params: i18n.t('dop:task params'),
   resources: i18n.t('dop:running resources'),
   commands: i18n.t('dop:task commands'),
-  image: i18n.t('image'),
+  image: i18n.t('Image'),
 };
 
 export interface IEditStageProps {
@@ -199,7 +199,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormProps) => {
       rules={[
         {
           required: true,
-          message: `${i18n.t('dop:please choose')}Task Type`,
+          message: `${i18n.t('dop:Please select')}Task Type`,
         },
       ]}
     >
@@ -219,7 +219,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormProps) => {
       rules={[
         {
           required: true,
-          message: `${i18n.t('dop:please choose')}Task Version`,
+          message: `${i18n.t('dop:Please select')}Task Version`,
         },
       ]}
     >
@@ -640,7 +640,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormProps) => {
       {renderTaskTypeStructure()}
       {editing ? (
         <Button type="primary" ghost onClick={onSubmit}>
-          {i18n.t('save')}
+          {i18n.t('Save')}
         </Button>
       ) : null}
     </Form>
@@ -657,9 +657,9 @@ const PipelineNodeDrawer = (props: IPipelineNodeDrawerProps) => {
   const { nodeData: propsNodeData, editing, closeDrawer, visible, isCreate } = props;
   let title = '';
   if (isCreate) {
-    title = i18n.t('dop:new node');
+    title = i18n.t('dop:New node');
   } else {
-    title = `${editing ? i18n.t('edit') : i18n.t('common:view')} ${get(propsNodeData, 'alias') || ''}`;
+    title = `${editing ? i18n.t('Edit') : i18n.t('common:view')} ${get(propsNodeData, 'alias') || ''}`;
   }
   const [key, setKey] = React.useState(1);
 
@@ -764,11 +764,11 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
     <Spin spinning={loading}>
       <ActionSelect
         disabled={!editing}
-        label={i18n.t('task type')}
+        label={i18n.t('Task type')}
         originActions={originActions}
         onChange={changeResourceType}
         value={chosenActionName}
-        placeholder={`${i18n.t('dop:please choose task type')}`}
+        placeholder={`${i18n.t('dop:Please choose the task type')}`}
       />
       <IF check={!isEmpty(chosenAction)}>
         <IF check={!!useProtocol}>

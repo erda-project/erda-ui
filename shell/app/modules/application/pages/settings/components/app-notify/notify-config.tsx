@@ -166,7 +166,7 @@ export const NotifyConfig = ({ commonPayload, memberStore, tableKey }: IProps) =
     },
     {
       name: 'notifyItemIds',
-      label: i18n.t('dop:trigger timing'),
+      label: i18n.t('dop:Trigger timing'),
       required: true,
       type: 'select',
       options: map(notifyItems, ({ id, displayName }) => ({ name: displayName, value: id })),
@@ -203,7 +203,7 @@ export const NotifyConfig = ({ commonPayload, memberStore, tableKey }: IProps) =
       ...fieldsList,
       {
         name: 'channels',
-        label: i18n.t('notification method'),
+        label: i18n.t('Notification method'),
         required: true,
         type: 'select',
         options: (activedGroup && allChannelMethods[activedGroup.targets[0].type]) || [],
@@ -220,7 +220,7 @@ export const NotifyConfig = ({ commonPayload, memberStore, tableKey }: IProps) =
       dataIndex: 'name',
     },
     {
-      title: i18n.t('default:notification target'),
+      title: i18n.t('default:Notification target'),
       dataIndex: ['notifyGroup', 'targets'],
       ellipsis: true,
       className: 'notify-info',
@@ -232,7 +232,7 @@ export const NotifyConfig = ({ commonPayload, memberStore, tableKey }: IProps) =
       ),
     },
     {
-      title: i18n.t('default:creator'),
+      title: i18n.t('default:Creator'),
       dataIndex: 'creator',
       width: 160,
       render: (text) => userMap[text]?.nick,
@@ -249,7 +249,7 @@ export const NotifyConfig = ({ commonPayload, memberStore, tableKey }: IProps) =
     render: (record: APP_NOTIFY.INotify) => {
       return [
         {
-          title: i18n.t('edit'),
+          title: i18n.t('Edit'),
           onClick: () => handleEdit(record),
         },
         {
@@ -257,7 +257,7 @@ export const NotifyConfig = ({ commonPayload, memberStore, tableKey }: IProps) =
           onClick: () => handleDele(record.id),
         },
         {
-          title: record.enabled ? i18n.t('close') : i18n.t('open'),
+          title: record.enabled ? i18n.t('close') : i18n.t('Enable-open'),
           onClick: () => {
             toggleNotifyConfigs({
               id: record.id,
@@ -273,18 +273,18 @@ export const NotifyConfig = ({ commonPayload, memberStore, tableKey }: IProps) =
 
   return (
     <div className="notify-group-manage">
-      <Tooltip title={i18n.t('dop:new notification')}>
+      <Tooltip title={i18n.t('dop:add-notification')}>
         <div
           className="notify-group-action hover-active"
           onClick={() => {
             openModal();
           }}
         >
-          <Button type="primary">{i18n.t('dop:new notification')}</Button>
+          <Button type="primary">{i18n.t('dop:dd-notification')}</Button>
         </div>
       </Tooltip>
       <FormModal
-        title={`${isEditing ? i18n.t('dop:edit notification') : i18n.t('dop:new notification')}`}
+        title={`${isEditing ? i18n.t('dop:edit notification') : i18n.t('dop:Add-notification')}`}
         visible={modalVisible}
         fieldsList={fieldsList}
         formData={activedData}

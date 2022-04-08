@@ -38,7 +38,7 @@ export const BuildHistory = ({ activeItem, onClickRow }: IProps) => {
 
   const columns: Array<ColumnProps<TableRecord>> = [
     {
-      title: i18n.t('version'),
+      title: i18n.t('Version'),
       dataIndex: 'runIndex',
       width: 80,
       align: 'center',
@@ -66,7 +66,7 @@ export const BuildHistory = ({ activeItem, onClickRow }: IProps) => {
       ),
     },
     {
-      title: i18n.t('trigger time'),
+      title: i18n.t('Trigger time'),
       dataIndex: 'timeCreated',
       width: 180,
       render: (timeCreated: number) => <span>{moment(new Date(timeCreated)).format('YYYY-MM-DD HH:mm:ss')}</span>,

@@ -38,7 +38,7 @@ interface IProps {
 }
 
 const defaultRender = (data: IPlatformUser, id: string | number) => {
-  return data.nick || data.name || id || i18n.t('none');
+  return data.nick || data.name || id || i18n.t('None');
 };
 
 const UserInfo = ({ id, render = defaultRender }: IProps) => {
@@ -65,10 +65,10 @@ UserInfo.RenderWithAvatar = ({
         return (
           <div className={`flex items-center ${className}`}>
             <Avatar size={avatarSize || 'small'} src={data.avatar}>
-              {data.nick || data.name ? getAvatarChars(data.nick || data.name) : i18n.t('none')}
+              {data.nick || data.name ? getAvatarChars(data.nick || data.name) : i18n.t('None')}
             </Avatar>
             {showName ? (
-              <Ellipsis className={`ml-0.5 flex-1 leading-6`} title={data.nick || data.name || i18n.t('none')} />
+              <Ellipsis className={`ml-0.5 flex-1 leading-6`} title={data.nick || data.name || i18n.t('None')} />
             ) : null}
           </div>
         );

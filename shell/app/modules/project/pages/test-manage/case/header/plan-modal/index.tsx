@@ -64,7 +64,7 @@ const PlanModal = () => {
 
   const fieldsList = [
     {
-      label: i18n.t('dop:test plan'),
+      label: i18n.t('dop:Plan'),
       name: 'testPlanId',
       type: 'select',
       options: map(relatedPlans, ({ id: value, name: planName }) => ({ value, name: planName })),
@@ -81,7 +81,7 @@ const PlanModal = () => {
   return (
     <FormModal
       visible={visible}
-      title={i18n.t('dop:add to test plan')}
+      title={i18n.t('dop:Add to Test Plan')}
       fieldsList={fieldsList}
       onCancel={closePlanModal}
       onOk={onOk}

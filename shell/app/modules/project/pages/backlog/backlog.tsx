@@ -195,21 +195,21 @@ const Backlog = () => {
       {
         type: 'select',
         key: 'type',
-        label: i18n.t('type'),
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('type') }),
+        label: i18n.t('Type'),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('Type') }),
         fixed: false,
-        emptyText: i18n.t('dop:all'),
+        emptyText: i18n.t('dop:All'),
         showIndex: 1,
         options: [ISSUE_TYPE_MAP.REQUIREMENT, ISSUE_TYPE_MAP.TASK, ISSUE_TYPE_MAP.BUG],
       },
       {
         key: 'priority',
-        label: i18n.t('dop:priority'),
-        emptyText: i18n.t('dop:all'),
+        label: i18n.t('dop:Priority'),
+        emptyText: i18n.t('dop:All'),
         fixed: false,
         showIndex: 2,
         type: 'select' as const,
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:priority') }),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:Priority') }),
         options: map(ISSUE_PRIORITY_MAP),
       },
       {
@@ -224,7 +224,7 @@ const Backlog = () => {
       {
         key: 'label',
         label: i18n.t('label'),
-        emptyText: i18n.t('dop:all'),
+        emptyText: i18n.t('dop:All'),
         fixed: false,
         haveFilter: true,
         type: 'select' as const,
@@ -242,7 +242,7 @@ const Backlog = () => {
       },
       {
         key: 'creator',
-        label: i18n.t('creator'),
+        label: i18n.t('Creator'),
         fixed: false,
         type: 'memberSelector',
         customProps: {
@@ -251,7 +251,7 @@ const Backlog = () => {
       },
       {
         key: 'finishedAtStartEnd',
-        label: i18n.t('deadline'),
+        label: i18n.t('End date'),
         fixed: false,
         type: 'dateRange',
       },
@@ -263,7 +263,7 @@ const Backlog = () => {
       },
       {
         key: 'title',
-        emptyText: i18n.t('dop:all'),
+        emptyText: i18n.t('dop:All'),
         fixed: true,
         placeholder: i18n.t('dop:please enter title or ID'),
         type: 'input' as const,
@@ -292,21 +292,21 @@ const Backlog = () => {
   const tabs = [
     {
       key: 'export',
-      text: i18n.t('export'),
+      text: i18n.t('Export'),
     },
     {
       key: 'record',
-      text: i18n.t('record'),
+      text: i18n.t('Records'),
     },
   ];
   return (
     <div className="backlog-issues flex flex-col justify-center h-full" ref={drop}>
       <div className="backlog-issues-title flex justify-between items-center mb-2">
         <div className="flex items-center">
-          <span className="font-bold text-base mr-2">{i18n.t('dop:backlog')}</span>
+          <span className="font-bold text-base mr-2">{i18n.t('dop:Backlog')}</span>
           <Tooltip
             placement="right"
-            title={i18n.t('dop:this is mainly for items that have not been scheduled for a specific iteration')}
+            title={i18n.t('dop:For issues that have not been scheduled for a specific iteration')}
           >
             <ErdaIcon type="help" className="cursor-pointer mr-2" />
           </Tooltip>
@@ -315,7 +315,7 @@ const Backlog = () => {
         <div>
           <ImportExport
             tabs={tabs}
-            title={i18n.t('export')}
+            title={i18n.t('Export')}
             extraQuery={{ iterationID: -1 }}
             queryObj={{ ...filterState, projectID: +projectId }}
             issueType={curType}
@@ -398,7 +398,7 @@ const Backlog = () => {
 const EmptyBacklog = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolean }) => (
   <div className="backlog-issues-empty-holder">
     <img src={backlog_db_svg} className="mb-3" />
-    <div className="text-2xl font-bold my-2">{i18n.t('dop:backlog')}</div>
+    <div className="text-2xl font-bold my-2">{i18n.t('dop:Backlog')}</div>
     <div className="desc">
       {i18n.t('dop:add-todo-issue-tip1')}
       <WithAuth pass={addAuth}>

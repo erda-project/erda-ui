@@ -35,7 +35,7 @@ const getClusterTasksCols = (userMap: object) => {
       render: (env: string) => WORKSPACE_MAP[env],
     },
     {
-      title: i18n.t('cluster name'),
+      title: i18n.t('Cluster name'),
       dataIndex: 'clusterName',
       key: 'clusterName',
     },
@@ -50,7 +50,7 @@ const getClusterTasksCols = (userMap: object) => {
       key: 'applicationName',
     },
     {
-      title: i18n.t('creator'),
+      title: i18n.t('Creator'),
       dataIndex: 'userID',
       key: 'userID',
       render: (id: string) => {
@@ -58,7 +58,7 @@ const getClusterTasksCols = (userMap: object) => {
       },
     },
     {
-      title: i18n.t('created at'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createdAt',
       key: 'createdAt',
       width: 200,

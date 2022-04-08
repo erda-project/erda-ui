@@ -50,7 +50,7 @@ const VpcForm = React.forwardRef((props: IFormProps, ref: any) => {
       getComp: () => <div>{i18n.t('cmp:VPC')}</div>,
     },
     {
-      label: i18n.t('name'),
+      label: i18n.t('Name'),
       name: 'vpcName',
       rules: [formConfig.rule.name],
       itemProps: {
@@ -65,7 +65,7 @@ const VpcForm = React.forwardRef((props: IFormProps, ref: any) => {
       },
     },
     {
-      label: i18n.t('region'),
+      label: i18n.t('Region'),
       name: 'region',
       type: 'select',
       options: map(regions, ({ regionID, localName }) => ({ value: regionID, name: `${localName} (${regionID})` })),
@@ -83,7 +83,7 @@ const VpcForm = React.forwardRef((props: IFormProps, ref: any) => {
       },
     },
     {
-      label: i18n.t('description'),
+      label: i18n.t('Description'),
       name: 'description',
       required: false,
       type: 'textArea',
@@ -143,7 +143,7 @@ const VswForm = React.forwardRef((props: IVswFormProps, ref: any) => {
       },
     },
     {
-      label: i18n.t('name'),
+      label: i18n.t('Name'),
       name: 'vswName',
       rules: [formConfig.rule.name],
       itemProps: {
@@ -174,7 +174,7 @@ const VswForm = React.forwardRef((props: IVswFormProps, ref: any) => {
       getComp: () => `${subnetCount || 0}`,
     },
     {
-      label: i18n.t('description'),
+      label: i18n.t('Description'),
       name: 'vswDescription',
       required: false,
       type: 'textArea',
@@ -265,15 +265,15 @@ const VpcFormModal = (props: IProps) => {
   const formFootMap = {
     vpc: [
       <Button key="back" onClick={onCancel}>
-        {i18n.t('cancel')}
+        {i18n.t('Cancel')}
       </Button>,
       <Button key="next" type="primary" onClick={() => handleStepChange('vsw')}>
-        {i18n.t('msp:next')}
+        {i18n.t('msp:Next')}
       </Button>,
     ],
     vsw: [
       <Button key="back" onClick={onCancel}>
-        {i18n.t('cancel')}
+        {i18n.t('Cancel')}
       </Button>,
       <Button key="prev" type="primary" onClick={() => handleStepChange('vpc')}>
         {i18n.t('msp:prev')}

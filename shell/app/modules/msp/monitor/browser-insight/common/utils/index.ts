@@ -40,18 +40,18 @@ export const sortCreator = (moduleName: string, chartName: string, payload?: obj
     sortTab: {
       type: 'sortTab',
       tabList: [
-        { name: i18n.t('msp:average time'), key: 'time' },
-        { name: i18n.t('msp:time percentage'), key: 'percent' },
-        { name: i18n.t('msp:throughput'), key: 'cpm' },
+        { name: i18n.t('msp:Average Time'), key: 'time' },
+        { name: i18n.t('msp:Time Percentage'), key: 'percent' },
+        { name: i18n.t('msp:Throughput'), key: 'cpm' },
       ],
     },
     subTab: {
       type: 'subTab',
       tabList: [
-        { name: i18n.t('first paint time'), key: 'wst' },
-        { name: i18n.t('first contentful paint time'), key: 'fst' },
+        { name: i18n.t('First Paint Time'), key: 'wst' },
+        { name: i18n.t('First Contentful Paint Time'), key: 'fst' },
         { name: i18n.t('page loading completed'), key: 'pct' },
-        { name: i18n.t('msp:resource loading completed'), key: 'rct' },
+        { name: i18n.t('msp:Resource Loading Completed'), key: 'rct' },
       ],
     },
     sortList: {

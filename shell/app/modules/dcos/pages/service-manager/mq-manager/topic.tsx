@@ -63,7 +63,7 @@ const Topic = () => {
     },
     getCloudResourceTagsCol(),
     {
-      title: i18n.t('type'),
+      title: i18n.t('Type'),
       dataIndex: 'messageType',
       ellipsis: {
         showTitle: false,
@@ -168,12 +168,12 @@ const Topic = () => {
       ],
     },
     {
-      label: i18n.t('dop:remark'),
+      label: i18n.t('dop:Remark'),
       name: 'remark',
       type: 'textArea',
       required: false,
       itemProps: {
-        placeholder: i18n.t('please enter a description'),
+        placeholder: i18n.t('Please enter the description'),
         maxLength: 128,
         rows: 2,
       },

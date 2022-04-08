@@ -49,9 +49,9 @@ export const checkNeedEmptyChoosenIds = (oldQuery: object, newQuery: object) =>
 
 export const colorMap = {
   [i18n.t('dop:pass')]: '#25ca64',
-  [i18n.t('dop:not passed')]: '#ff4946',
-  [i18n.t('dop:not performed')]: '#bbbbbb',
-  [i18n.t('dop:blocking')]: '#ffc11f',
+  [i18n.t('dop:Not passed')]: '#ff4946',
+  [i18n.t('dop:Not executed')]: '#bbbbbb',
+  [i18n.t('dop:Blocked')]: '#ffc11f',
 };
 
 export const caseIDMap: { [k in TEST_CASE.PageScope]: string } = {

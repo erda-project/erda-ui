@@ -101,7 +101,7 @@ const AccessDetail = () => {
   const fields = {
     base: [
       {
-        label: i18n.t('reference API'),
+        label: i18n.t('Reference API'),
         value: (
           <a href={apiAssetUrl} target="_blank" rel="noreferrer noopener">
             {get(accessDetail, ['access', 'assetName'])}
@@ -109,29 +109,29 @@ const AccessDetail = () => {
         ),
       },
       {
-        label: i18n.t('resource version'),
+        label: i18n.t('Resource version'),
         value: isEmpty(accessDetail.access)
           ? ''
           : `V${get(accessDetail, ['access', 'major'])}.${get(accessDetail, ['access', 'minor'])}.*`,
       },
       {
-        label: i18n.t('entry domain'),
+        label: i18n.t('Entry domain'),
         value: domains,
       },
       {
-        label: i18n.t('authentication method'),
+        label: i18n.t('Authentication method'),
         value: authenticationMap[get(accessDetail, ['access', 'authentication'])]?.name,
       },
       {
-        label: i18n.t('authorization method'),
+        label: i18n.t('Authorization method'),
         value: authorizationMap[get(accessDetail, ['access', 'authorization'])]?.name,
       },
       {
-        label: i18n.t('related project'),
+        label: i18n.t('Related project'),
         value: get(accessDetail, ['access', 'projectName']),
       },
       {
-        label: i18n.t('related environment'),
+        label: i18n.t('Related environment'),
         value: envMap[get(accessDetail, ['access', 'workspace'])],
       },
     ],
@@ -140,7 +140,7 @@ const AccessDetail = () => {
         label: i18n.t('API strategy'),
         value: apiStrategy ? (
           <a href={apiStrategy} target="_blank" rel="noopener noreferrer">
-            {i18n.t('update strategy')}
+            {i18n.t('Update strategy')}
           </a>
         ) : null,
       },
@@ -157,7 +157,7 @@ const AccessDetail = () => {
           </WithAuth>
           <WithAuth pass={permission.edit || false}>
             <Button type="primary" onClick={gotoDetail}>
-              {i18n.t('edit')}
+              {i18n.t('Edit')}
             </Button>
           </WithAuth>
         </div>
@@ -172,7 +172,7 @@ const AccessDetail = () => {
             {
               key: 'client',
               linkProps: {
-                title: i18n.t('client'),
+                title: i18n.t('Client'),
                 icon: <CustomIcon type="shouquanyonghu" color />,
               },
               getComp: () => (

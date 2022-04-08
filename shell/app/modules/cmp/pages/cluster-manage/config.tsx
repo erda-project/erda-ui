@@ -99,7 +99,7 @@ export const regionMap = {
 export const clusterSpecMap = {
   'alicloud-ecs': {
     Standard: {
-      name: i18n.t('standard'),
+      name: i18n.t('Standard'),
       value: 'Standard',
       tip: (
         <>
@@ -116,10 +116,10 @@ export const clusterSpecMap = {
     Test: { name: i18n.t('demo'), value: 'Test', tip: i18n.t('cmp:masters, LB and platform share 1 node') },
   },
   'alicloud-cs': {
-    Standard: { name: i18n.t('standard'), value: 'Standard', tip: i18n.t('cmp:3 machines') },
+    Standard: { name: i18n.t('Standard'), value: 'Standard', tip: i18n.t('cmp:3 machines') },
   },
   'alicloud-cs-managed': {
-    Standard: { name: i18n.t('standard'), value: 'Standard', tip: i18n.t('cmp:2 machines') },
+    Standard: { name: i18n.t('Standard'), value: 'Standard', tip: i18n.t('cmp:2 machines') },
   },
   erdc: {
     test: { name: i18n.t('test'), value: 'test' },
@@ -146,7 +146,7 @@ export const chargePeriodMap = [
 
 export const diskTypeMap = {
   cloud_ssd: { name: i18n.t('cmp:SSD cloud'), value: 'cloud_ssd' },
-  cloud_efficiency: { name: i18n.t('cmp:efficiency cloud'), value: 'cloud_efficiency' },
+  cloud_efficiency: { name: i18n.t('cmp:Efficient cloud'), value: 'cloud_efficiency' },
 };
 
 export const groupOptions = (list: any[], optionRender?: (arg: any) => React.ReactChild) => {

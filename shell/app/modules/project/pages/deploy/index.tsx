@@ -231,7 +231,7 @@ const DeployContent = ({
             });
           }}
         >
-          {i18n.t('dop:start deploy')}
+          {i18n.t('dop:Start Deployment')}
         </Button>
       ),
       restart: (deploymentOrderID: string) => (
@@ -289,12 +289,12 @@ const DeployContent = ({
             subTip: i18n.t('dop:deploy succeeded applications count / applications count'),
           },
 
-          { mainText: item.releaseInfo?.version || item.releaseInfo?.id, subText: i18n.t('Artifact') },
+          { mainText: item.releaseInfo?.version || item.releaseInfo?.id, subText: i18n.t('Artifacts') },
         ],
         icon: (
           <ErdaIcon type="id" size="20" disableCurrent />
           // <Avatar src={curUser?.avatar} size="small" className="mr-1">
-          //   {curUser?.nick ? getAvatarChars(curUser.nick) : i18n.t('none')}
+          //   {curUser?.nick ? getAvatarChars(curUser.nick) : i18n.t('None')}
           // </Avatar>
         ),
         buttonOperation: item.type !== 'PIPELINE' ? deployOrderOpMap[curStatus.op]?.(item.id) : undefined,
@@ -361,7 +361,7 @@ const DeployContent = ({
           <div className="bg-white flex">
             <div className="w-[320px] bg-default-02 rounded-sm flex flex-col">
               <div className="px-4 flex justify-between items-center mt-2">
-                <span className="text-default-8 font-medium">{i18n.t('dop:deployment records')}</span>
+                <span className="text-default-8 font-medium">{i18n.t('dop:Deployment records')}</span>
                 <Button
                   size="small"
                   className="text-default-4 hover:text-default-8 flex items-center"
@@ -443,7 +443,7 @@ const DeployContent = ({
       <Drawer
         title={
           <div className="flex-h-center">
-            <span className="mr-2">{i18n.t('dop:create deployment')}</span>
+            <span className="mr-2">{i18n.t('dop:Create deployment')}</span>
             {selectedRelease ? (
               <>
                 <ErdaIcon size={20} type="id" disableCurrent className="mr-1" />
@@ -479,7 +479,7 @@ const DeployContent = ({
             >
               {i18n.t('create')}
             </Button>
-            <Button onClick={closeAddDrawer}>{i18n.t('cancel')}</Button>
+            <Button onClick={closeAddDrawer}>{i18n.t('Cancel')}</Button>
           </div>
         }
       >

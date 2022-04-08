@@ -157,11 +157,11 @@ class KeyValueEditor extends React.Component<IProps, IState> {
     return (
       <div>
         <div className="flex justify-between items-center mb-3">
-          <span className="key-value-title">{title || i18n.t('default:information configuration')}</span>
+          <span className="key-value-title">{title || i18n.t('default:Information configuration')}</span>
           {isNeedTextArea ? (
             <Radio.Group size="small" value={tableMode ? 'key-value' : 'text'} onChange={this.toggleEditMode}>
-              <Radio.Button value="text">{i18n.t('default:text mode')}</Radio.Button>
-              <Radio.Button value="key-value">{i18n.t('default:entry mode')}</Radio.Button>
+              <Radio.Button value="text">{i18n.t('default:Text Mode')}</Radio.Button>
+              <Radio.Button value="key-value">{i18n.t('default:Entry Mode')}</Radio.Button>
             </Radio.Group>
           ) : null}
         </div>

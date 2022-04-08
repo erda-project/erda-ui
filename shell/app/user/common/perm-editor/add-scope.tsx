@@ -63,7 +63,7 @@ const AddScope = (props: IProps) => {
       ],
     },
     {
-      label: i18n.t('name'),
+      label: i18n.t('Name'),
       required: true,
       component: 'input',
       key: 'name',
@@ -71,7 +71,7 @@ const AddScope = (props: IProps) => {
         {
           validator: (val: string) => {
             let tip = '';
-            if (currentScopeName.includes(val)) tip = i18n.t('{name} already exists', { name: i18n.t('name') });
+            if (currentScopeName.includes(val)) tip = i18n.t('{name} already exists', { name: i18n.t('Name') });
             return [!tip, tip];
           },
         },

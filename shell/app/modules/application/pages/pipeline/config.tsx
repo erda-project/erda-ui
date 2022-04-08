@@ -27,7 +27,7 @@ export const scopeMap = {
     icon: 'test-case-secondary',
   },
   autoTestPlan: {
-    name: i18n.t('dop:test plan'),
+    name: i18n.t('dop:Plan'),
     scope: SCOPE_AUTOTEST_PLAN,
     icon: 'imagevector',
   },

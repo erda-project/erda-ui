@@ -36,7 +36,7 @@ const confirmTips: { [key in KeyAuth]: {} } = {
     content: i18n.t('All members of the organization can view'),
   },
   private: {
-    title: i18n.t('confirm to {action}', { action: i18n.t('set as {type}', { type: i18n.t('private') }) }),
+    title: i18n.t('confirm to {action}', { action: i18n.t('set as {type}', { type: i18n.t('Private') }) }),
     content: i18n.t('Members under the project/application associated with the current API can view it.'),
   },
 };
@@ -158,11 +158,11 @@ const ApiVersions = () => {
           value: <Ellipsis title={get(asset, 'desc', '-')} />,
         },
         {
-          label: i18n.t('update time'),
+          label: i18n.t('Update time'),
           value: updatedAt && moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
         },
         {
-          label: i18n.t('creator'),
+          label: i18n.t('Creator'),
           value: <UserInfo id={get(asset, 'creatorID')} />,
         },
         {
@@ -176,7 +176,7 @@ const ApiVersions = () => {
       ],
       relation: [
         {
-          label: i18n.t('project name'),
+          label: i18n.t('Project name'),
           value: get(asset, 'projectName'),
         },
         {
@@ -189,7 +189,7 @@ const ApiVersions = () => {
   const menu = (
     <Menu onClick={toggleAssetPublic}>
       <Menu.Item key="public">{i18n.t('public')}</Menu.Item>
-      <Menu.Item key="private">{i18n.t('private')}</Menu.Item>
+      <Menu.Item key="private">{i18n.t('Private')}</Menu.Item>
     </Menu>
   );
   return (
@@ -205,7 +205,7 @@ const ApiVersions = () => {
             <Dropdown overlay={menu}>
               <Button>
                 <div className="flex items-center">
-                  {asset.public ? i18n.t('public') : i18n.t('private')}
+                  {asset.public ? i18n.t('public') : i18n.t('Private')}
                   <ErdaIcon type="caret-down" size="18px" />
                 </div>
               </Button>
@@ -218,7 +218,7 @@ const ApiVersions = () => {
                 showAssetModal('asset', 'edit');
               }}
             >
-              {i18n.t('default:edit')}
+              {i18n.t('default:Edit')}
             </Button>
           </UnityAuthWrap>
         </div>
@@ -246,7 +246,7 @@ const ApiVersions = () => {
                             showRelation('asset');
                           }}
                         >
-                          {i18n.t('edit')}
+                          {i18n.t('Edit')}
                         </Button>
                       </UnityAuthWrap>
                     ),
@@ -273,7 +273,7 @@ const ApiVersions = () => {
                             showAssetModal('version', 'add');
                           }}
                         >
-                          {i18n.t('add {name}', { name: i18n.t('version') })}
+                          {i18n.t('add {name}', { name: i18n.t('Version') })}
                         </Button>
                       </UnityAuthWrap>
                     ),

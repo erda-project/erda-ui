@@ -139,12 +139,12 @@ const KVPairTable = (props: any) => {
   const { value, disabled } = props;
   const columns = [
     {
-      title: i18n.t('name'),
+      title: i18n.t('Name'),
       dataIndex: 'Key',
       width: 200,
     },
     {
-      title: i18n.t('dop:parameter content'),
+      title: i18n.t('dop:Parameter content'),
       dataIndex: 'Value',
     },
     {
@@ -171,14 +171,14 @@ const KVPairTable = (props: any) => {
 
   if (props.KeyDescComp) {
     columns.splice(2, 0, {
-      title: i18n.t('description'),
+      title: i18n.t('Description'),
       dataIndex: 'KeyDescComp',
       width: 150,
     });
   }
   if (props.DescComp) {
     columns.splice(1, 0, {
-      title: i18n.t('dop:paramType'),
+      title: i18n.t('dop:Parameter type'),
       dataIndex: 'Desc',
       width: 150,
     });
@@ -263,7 +263,7 @@ export const TestEnvDetail = (props: IProps) => {
     const fieldMap = {
       auto: [
         {
-          label: i18n.t('name'),
+          label: i18n.t('Name'),
           name: 'displayName',
           itemProps: {
             maxLength: 191,
@@ -271,7 +271,7 @@ export const TestEnvDetail = (props: IProps) => {
           },
         },
         {
-          label: i18n.t('description'),
+          label: i18n.t('Description'),
           name: 'desc',
           type: 'textArea',
           itemProps: {
@@ -282,7 +282,7 @@ export const TestEnvDetail = (props: IProps) => {
       ],
       manual: [
         {
-          label: i18n.t('dop:environment name'),
+          label: i18n.t('dop:Environment name'),
           name: 'name',
           itemProps: {
             maxLength: 50,
@@ -295,7 +295,7 @@ export const TestEnvDetail = (props: IProps) => {
     return [
       ...fieldMap[_type],
       {
-        label: i18n.t('dop:environmental domain name'),
+        label: i18n.t('dop:Environmental domain name'),
         name: 'domain',
         getComp: () => <ProtocolInput disabled={disabled} />,
         required: false,
@@ -343,7 +343,7 @@ export const TestEnvDetail = (props: IProps) => {
               <Radio.Button disabled={!headerJsonValid} value="form">
                 {disabled ? i18n.t('common:form') : i18n.t('common:form edit')}
               </Radio.Button>
-              <Radio.Button value="code">{disabled ? i18n.t('common:text') : i18n.t('common:text edit')}</Radio.Button>
+              <Radio.Button value="code">{disabled ? i18n.t('common:text') : i18n.t('common:Text Edit')}</Radio.Button>
             </Radio.Group>
           </div>
         ),
@@ -405,7 +405,7 @@ export const TestEnvDetail = (props: IProps) => {
               <Radio.Button disabled={!globalJsonValid} value="form">
                 {disabled ? i18n.t('common:form') : i18n.t('common:form edit')}
               </Radio.Button>
-              <Radio.Button value="code">{disabled ? i18n.t('common:text') : i18n.t('common:text edit')}</Radio.Button>
+              <Radio.Button value="code">{disabled ? i18n.t('common:text') : i18n.t('common:Text Edit')}</Radio.Button>
             </Radio.Group>
           </div>
         ),
@@ -528,7 +528,7 @@ export const TestEnvDetail = (props: IProps) => {
 
   return (
     <FormModal
-      name={i18n.t('dop:parameter configuration')}
+      name={i18n.t('dop:Parameter Configuration')}
       visible={visible}
       width={900}
       modalProps={{

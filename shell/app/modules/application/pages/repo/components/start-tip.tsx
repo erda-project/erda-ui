@@ -35,14 +35,14 @@ const repoIntro = ({ name: repoName, showCreateFile, gitRepoNew }: IProps) => {
     <div className="repo-start-tip">
       <div>
         <div className="section-title mt-0">
-          {i18n.t('dop:new application')}
+          {i18n.t('dop:New app')}
           {showCreateFile ? (
-            <Tooltip title={i18n.t('dop:create new file')}>
+            <Tooltip title={i18n.t('dop:Add File')}>
               <CustomIcon type="xjym" onClick={() => changeMode({ addFile: true })} />
             </Tooltip>
           ) : null}
         </div>
-        <div className="sub-title">1. {i18n.t('dop:clone application')}</div>
+        <div className="sub-title">1. {i18n.t('dop:Clone app')}</div>
         <FileContainer name="clone.sh">
           <FileEditor fileExtension="sh" value={`git clone ${repo}`} readOnly />
         </FileContainer>
@@ -60,7 +60,7 @@ git push -u origin master`}
         </FileContainer>
       </div>
       <div>
-        <div className="section-title mt-8">{i18n.t('dop:existing application')}</div>
+        <div className="section-title mt-8">{i18n.t('dop:Existing app')}</div>
         <FileContainer name="existing.sh">
           <FileEditor
             fileExtension="sh"

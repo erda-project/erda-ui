@@ -51,7 +51,7 @@ export const ciStatusMap = {
     status: 'processing',
   },
   Running: {
-    text: i18n.t('running'),
+    text: i18n.t('Running'),
     icon: 'puse-circle',
     color: 'blue',
     status: 'processing',
@@ -79,7 +79,7 @@ export const ciStatusMap = {
     status: 'warning',
   },
   Error: {
-    text: i18n.t('error'),
+    text: i18n.t('Error'),
     color: 'red',
     status: 'error',
   },
@@ -149,7 +149,7 @@ export const ciStatusMap = {
     status: 'default',
   },
   Accept: {
-    text: i18n.t('approval passed'),
+    text: i18n.t('Approved'),
     color: 'green',
     status: 'success',
   },

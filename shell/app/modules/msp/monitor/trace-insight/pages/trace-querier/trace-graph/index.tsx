@@ -102,12 +102,12 @@ export function TraceGraph(props: IProps) {
 
   const columns = [
     {
-      title: i18n.t('time'),
+      title: i18n.t('Time'),
       dataIndex: 'timestamp',
       render: (time: number) => moment(time / 1000 / 1000).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      title: i18n.t('msp:events'),
+      title: i18n.t('msp:Event'),
       dataIndex: 'events',
       ellipsis: true,
       render: (events: object) => (
@@ -333,7 +333,7 @@ export function TraceGraph(props: IProps) {
         <RadioButton value="waterfall">
           <span className="flex items-center">
             <ErdaIcon className="mr-1" type="pubutu" color="currentColor" />
-            {i18n.t('msp:Waterfall Plot')}
+            {i18n.t('msp:Waterfall Chart')}
           </span>
         </RadioButton>
         <RadioButton value="flame">
@@ -407,15 +407,15 @@ export function TraceGraph(props: IProps) {
               {(serviceAnalysis || proportion[0] === 14) && (
                 <div className="px-3 trace-detail-chart" style={{ height: window.innerHeight - 200 }}>
                   <Tabs>
-                    <TabPane tab={i18n.t('msp:attributes')} key={1}>
+                    <TabPane tab={i18n.t('msp:Attributes')} key={1}>
                       <KeyValueList data={tags} />
                     </TabPane>
-                    <TabPane tab={i18n.t('msp:events')} key={2}>
+                    <TabPane tab={i18n.t('msp:Event')} key={2}>
                       <Spin spinning={spanDataLoading}>
                         <ErdaTable columns={columns} dataSource={spanDataSource} onChange={handleTableChange} />
                       </Spin>
                     </TabPane>
-                    <TabPane tab={i18n.t('msp:associated services')} key={3}>
+                    <TabPane tab={i18n.t('msp:Related Services')} key={3}>
                       {!serviceAnalysis?.dashboardId && <EmptyHolder relative />}
                       {serviceAnalysis?.dashboardId && (
                         <ServiceListDashboard

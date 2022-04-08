@@ -23,24 +23,24 @@ export enum ISSUE_TYPE {
 }
 
 export const ISSUE_COMPLEXITY_MAP = {
-  HARD: { value: 'HARD', label: i18n.t('dop:complex'), icon: 'fz3' },
-  NORMAL: { value: 'NORMAL', label: i18n.t('medium'), icon: 'fz5' },
-  EASY: { value: 'EASY', label: i18n.t('dop:easy'), icon: 'fz2' },
+  HARD: { value: 'HARD', label: i18n.t('dop:Complex'), icon: 'fz3' },
+  NORMAL: { value: 'NORMAL', label: i18n.t('Medium'), icon: 'fz5' },
+  EASY: { value: 'EASY', label: i18n.t('dop:Easy'), icon: 'fz2' },
 };
 
 export const BUG_SEVERITY_MAP = {
-  FATAL: { value: 'FATAL', label: `P0 ${i18n.t('dop:severity-fatal')}`, icon: 'yz5' },
+  FATAL: { value: 'FATAL', label: `P0 ${i18n.t('dop:Fatal')}`, icon: 'yz5' },
   SERIOUS: { value: 'SERIOUS', label: `P1 ${i18n.t('dop:serious')}`, icon: 'yz4' },
-  NORMAL: { value: 'NORMAL', label: `P2 ${i18n.t('dop:normal')}`, icon: 'yz3' },
-  SLIGHT: { value: 'SLIGHT', label: `P3 ${i18n.t('dop:slight')}`, icon: 'yz2' },
-  SUGGEST: { value: 'SUGGEST', label: `P4 ${i18n.t('dop:suggest')}`, icon: 'yz1' },
+  NORMAL: { value: 'NORMAL', label: `P2 ${i18n.t('dop:Normal')}`, icon: 'yz3' },
+  SLIGHT: { value: 'SLIGHT', label: `P3 ${i18n.t('dop:Slight')}`, icon: 'yz2' },
+  SUGGEST: { value: 'SUGGEST', label: `P4 ${i18n.t('dop:Suggestion')}`, icon: 'yz1' },
 };
 
 export const ISSUE_PRIORITY_MAP = {
   URGENT: { value: 'URGENT', label: i18n.t('dop:urgent'), icon: 'yx4' },
-  HIGH: { value: 'HIGH', label: i18n.t('high'), icon: 'yx3' },
-  NORMAL: { value: 'NORMAL', label: i18n.t('medium'), icon: 'yx2' },
-  LOW: { value: 'LOW', label: i18n.t('low'), icon: 'yx1' },
+  HIGH: { value: 'HIGH', label: i18n.t('High'), icon: 'yx3' },
+  NORMAL: { value: 'NORMAL', label: i18n.t('Medium'), icon: 'yx2' },
+  LOW: { value: 'LOW', label: i18n.t('Low'), icon: 'yx1' },
 };
 export const ISSUE_PRIORITY_ICON_STYLE = { height: '20px', width: '20px', verticalAlign: 'sub' };
 export const ISSUE_PRIORITY_LIST = Object.values(ISSUE_PRIORITY_MAP);
@@ -59,15 +59,15 @@ export const TASK_PANEL_ICON = {
 };
 
 export const ISSUE_BUTTON_STATE = {
-  canOpen: { label: i18n.t('dop:open'), state: 'OPEN' },
+  canOpen: { label: i18n.t('dop:Enable'), state: 'OPEN' },
   canDup: { label: i18n.t('dop:duplicated'), state: 'DUP' },
   canReOpen: { label: i18n.t('dop:reopen'), state: 'REOPEN' },
   canResolved: { label: i18n.t('dop:resolved'), state: 'RESOLVED' },
   canTesting: { label: i18n.t('dop:testing'), state: 'TESTING' },
   canWontfix: { label: i18n.t("dop:won't fix"), state: 'WONTFIX' },
-  canWorking: { label: i18n.t('processing'), state: 'WORKING' },
+  canWorking: { label: i18n.t('In Progress'), state: 'WORKING' },
   canClosed: { label: i18n.t('close'), state: 'CLOSED' },
-  canDone: { label: i18n.t('dop:completed'), state: 'DONE' },
+  canDone: { label: i18n.t('dop:Completed'), state: 'DONE' },
 };
 
 export const EDIT_PROPS = {
@@ -81,10 +81,10 @@ export const EDIT_PROPS = {
   },
   [ISSUE_TYPE.BUG]: {
     titlePlaceHolder: i18n.t('dop:input bug name'),
-    contentLabel: i18n.t('dop:bug description'),
+    contentLabel: i18n.t('dop:Description'),
   },
   [ISSUE_TYPE.TICKET]: {
-    titlePlaceHolder: i18n.t('dop:input ticket name'),
+    titlePlaceHolder: i18n.t('dop:Please enter the ticket name'),
     contentLabel: i18n.t('dop:ticket description'),
     panelTitle: i18n.t('dop:related task'),
   },

@@ -28,8 +28,8 @@ const chartMap = merge(
       moduleName: 'BIScript',
       type: 'sortTab',
       tabList: [
-        { name: i18n.t('msp:error message'), key: 'error' },
-        { name: i18n.t('msp:error page'), key: 'url' },
+        { name: i18n.t('msp:Error Message'), key: 'error' },
+        { name: i18n.t('msp:Error Page'), key: 'url' },
       ],
     },
     sortList: {
@@ -41,12 +41,12 @@ const chartMap = merge(
       },
     },
     errorTopN: {
-      titleText: i18n.t('msp:JavaScript error times'),
+      titleText: i18n.t('msp:Number of JavaScript errors'),
       ...commonAttr,
       chartName: 'errorTopN',
     },
     browsersTopN: {
-      titleText: i18n.t('msp:browser error times'),
+      titleText: i18n.t('msp:Number of browser errors'),
       ...commonAttr,
       chartName: 'browsersTopN',
     },

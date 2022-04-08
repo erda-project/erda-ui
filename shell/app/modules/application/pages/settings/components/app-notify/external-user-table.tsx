@@ -93,7 +93,7 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
       ),
     },
     {
-      title: i18n.t('dop:email'),
+      title: i18n.t('dop:Email'),
       dataIndex: 'email',
       render: (value: string, { uniKey }: COMMON_NOTIFY.ExternalUserInfo) => (
         <Input
@@ -140,7 +140,7 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
   return (
     <>
       <Button className="mb-2" type="primary" ghost onClick={handleAddExternalUser}>
-        {i18n.t('cmp:add external user')}
+        {i18n.t('cmp:Add External User')}
       </Button>
       <Table bordered rowKey="uniKey" dataSource={editingExternalUsers} columns={columns} scroll={{ x: '100%' }} />
     </>

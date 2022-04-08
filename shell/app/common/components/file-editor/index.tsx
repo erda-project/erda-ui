@@ -197,7 +197,7 @@ const FileEditor = ({
       <div>
         {i18n.t('common:the current data volume exceeds 500kb, please click')}&nbsp;
         <span className="fake-link" onClick={downloadValue}>
-          {i18n.t('download')}
+          {i18n.t('Download')}
         </span>
         &nbsp;
         {i18n.t('check detail')}
@@ -207,7 +207,7 @@ const FileEditor = ({
 
   const curActions = compact([
     actions.copy ? (
-      <Tooltip title={i18n.t('copy')} key="copy">
+      <Tooltip title={i18n.t('Copy')} key="copy">
         <CustomIcon type="fz1" className="text-lg hover-active cursor-copy" data-clipboard-text={value} />
       </Tooltip>
     ) : null,

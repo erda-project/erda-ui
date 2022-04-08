@@ -25,7 +25,7 @@ const scriptDetail = ({ data }: { data: object }) => {
       <div className="no-data-list">
         <div className="no-data-content">
           <ErdaIcon type="attention" size="16px" />
-          {i18n.t('msp:no data')}
+          {i18n.t('msp:No data')}
         </div>
       </div>
     );
@@ -51,7 +51,7 @@ const scriptDetail = ({ data }: { data: object }) => {
           >
             <Row gutter={36}>
               <Col span={8}>
-                <span className="title-secondly">{i18n.t('msp:time of occurrence')}</span>
+                <span className="title-secondly">{i18n.t('msp:Time of occurrence')}</span>
                 {moment(value.time).format('YYYY-MM-DD HH:mm:ss')}
               </Col>
               <Col span={10}>
@@ -59,7 +59,7 @@ const scriptDetail = ({ data }: { data: object }) => {
                 {value.device}
               </Col>
               <Col span={6}>
-                <span className="title-secondly">{i18n.t('msp:operating system')}</span>
+                <span className="title-secondly">{i18n.t('msp:Operating system')}</span>
                 {value.os}
               </Col>
             </Row>
@@ -69,13 +69,13 @@ const scriptDetail = ({ data }: { data: object }) => {
                 {value.browser}
               </Col>
               <Col span={8}>
-                <span className="title-secondly">{i18n.t('version')}</span>
+                <span className="title-secondly">{i18n.t('Version')}</span>
                 {value.browser_version}
               </Col>
             </Row>
             <Row gutter={36}>
               <Col>
-                <div className="title">{i18n.t('msp:error message')}</div>
+                <div className="title">{i18n.t('msp:Error Message')}</div>
                 {value.error}
                 <div>
                   <span className="title-secondly">{i18n.t('msp:error source')}</span>
@@ -86,7 +86,7 @@ const scriptDetail = ({ data }: { data: object }) => {
             <Row gutter={24}>
               <Col>
                 <div className="title">{i18n.t('msp:stack information')}</div>
-                {value.stack_trace ? <pre>{value.stack_trace}</pre> : i18n.t('none')}
+                {value.stack_trace ? <pre>{value.stack_trace}</pre> : i18n.t('None')}
               </Col>
             </Row>
           </CardContainer.ChartContainer>

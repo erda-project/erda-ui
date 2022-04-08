@@ -36,7 +36,7 @@ const nusiNotification = (msg: string, viewMsg: Function) => {
   notification.open({
     duration: 3,
     key,
-    message: i18n.t('default:notification'),
+    message: i18n.t('default:Notification'),
     description: msg,
     icon: <img src={logo} style={{ width: '24px' }} />,
     btn: (
@@ -55,7 +55,7 @@ const nusiNotification = (msg: string, viewMsg: Function) => {
 };
 
 const chromeNotification = (msg: string, viewMsg: Function) => {
-  const noticeInstance = new Notification(i18n.t('default:notification'), {
+  const noticeInstance = new Notification(i18n.t('default:Notification'), {
     body: msg,
     icon: logo,
   });
@@ -189,7 +189,7 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
     <div className="message-center" ref={boxRef as React.RefObject<HTMLDivElement>}>
       <div className="header">
         <CustomIcon type="arrow-left" onClick={() => layoutStore.reducers.switchMessageCenter(null)} />
-        {i18n.t('site message')}
+        {i18n.t('Site message')}
       </div>
       <div className="content">
         <div className="summary flex justify-between">

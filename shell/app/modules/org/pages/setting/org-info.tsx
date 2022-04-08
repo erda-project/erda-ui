@@ -48,12 +48,12 @@ export const OrgInfo = () => {
       ],
     },
     {
-      label: i18n.t('cmp:org name'),
+      label: i18n.t('cmp:Organization name'),
       name: 'displayName',
     },
     ...insertWhen(!currentOrg.publisherId && isEnterprise, [
       {
-        label: i18n.t('cmp:become a publisher'),
+        label: i18n.t('cmp:Be a publisher'),
         required: false,
         type: 'switch',
         itemProps: {
@@ -71,7 +71,7 @@ export const OrgInfo = () => {
       },
     ]),
     {
-      label: i18n.t('cmp:notice language'),
+      label: i18n.t('cmp:Notification language'),
       name: 'locale',
       type: 'select',
       itemProps: {
@@ -90,7 +90,7 @@ export const OrgInfo = () => {
       viewType: 'image',
     },
     {
-      label: i18n.t('cmp:org description'),
+      label: i18n.t('cmp:Organization description'),
       name: 'desc',
       itemProps: {
         type: 'textarea',
@@ -200,7 +200,7 @@ export const OrgInfo = () => {
         },
       ]}
       updateInfo={updateInfo}
-      name={i18n.t('cmp:org info')}
+      name={i18n.t('cmp:Organization Information')}
     />
   );
 };

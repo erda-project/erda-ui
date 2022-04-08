@@ -252,7 +252,7 @@ export const EditIssueDrawer = (props: IProps) => {
     if (ISSUE_TYPE.TASK === issueType) {
       // 创建时任务必填预估工时, 任务类型
       if (!isEditMode && !_data.taskType && issueType === ISSUE_TYPE.TASK) {
-        message.warn(i18n.t('task type'));
+        message.warn(i18n.t('Task type'));
         return false;
       }
       // if (!isEditMode && !_data.issueManHour?.estimateTime) {
@@ -270,7 +270,7 @@ export const EditIssueDrawer = (props: IProps) => {
     }
 
     // if (!_data.iterationID) {
-    //   message.warn(i18n.t('please choose {name}', { name: i18n.t('dop:owned iteration') }));
+    //   message.warn(i18n.t('please choose {name}', { name: i18n.t('dop:Iteration') }));
     //   return false;
     // }
 
@@ -361,7 +361,7 @@ export const EditIssueDrawer = (props: IProps) => {
           warnMessage.push({ msg: i18n.t('dop:missing task type'), key: 'taskType' });
         }
         if (!params.issueManHour.estimateTime) {
-          warnMessage.push({ msg: i18n.t('dop:EstimateTime'), key: 'issueManHour.estimateTime' });
+          warnMessage.push({ msg: i18n.t('dop:Estimated time'), key: 'issueManHour.estimateTime' });
         }
         if (params.issueManHour.elapsedTime === 0 && params.issueManHour.thisElapsedTime === 0) {
           // filter out the working
@@ -624,7 +624,7 @@ export const EditIssueDrawer = (props: IProps) => {
           }
         >
           <Button size="small" className="mr-2 shadow-none">
-            {i18n.t('dop:one click to backlog')}
+            {i18n.t('dop:One Click to Backlog')}
           </Button>
         </Dropdown>
       );
@@ -632,7 +632,7 @@ export const EditIssueDrawer = (props: IProps) => {
       extraHeaderOp = (
         <WithAuth key="create" pass={addQuickIssueAuth}>
           <Button size="small" className="mr-2 shadow-none">
-            {i18n.t('dop:one click to backlog')}
+            {i18n.t('dop:One Click to Backlog')}
           </Button>
         </WithAuth>
       );
@@ -650,10 +650,10 @@ export const EditIssueDrawer = (props: IProps) => {
 
           {isChanged && confirmCloseTip ? (
             <Popconfirm title={confirmCloseTip} placement="topLeft" onConfirm={() => onClose()}>
-              <Button>{i18n.t('cancel')}</Button>
+              <Button>{i18n.t('Cancel')}</Button>
             </Popconfirm>
           ) : (
-            <Button onClick={() => onClose()}>{i18n.t('cancel')}</Button>
+            <Button onClick={() => onClose()}>{i18n.t('Cancel')}</Button>
           )}
         </div>
       </Spin>
@@ -791,7 +791,7 @@ export const EditIssueDrawer = (props: IProps) => {
         type="markdown"
         onChangeCb={setFieldCb}
         itemProps={{
-          placeHolder: i18n.t('dop:no content yet'),
+          placeHolder: i18n.t('dop:No content'),
           className: 'w-full',
           hasEdited,
           isEditMode,

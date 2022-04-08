@@ -22,7 +22,7 @@ import routeInfoStore from 'core/stores/route';
 
 const setup = {
   type: 'dataTask',
-  addTitle: i18n.t('dop:new task'),
+  addTitle: i18n.t('dop:Add-task'),
   categoryTitle: i18n.t('dop:all tasks'),
   iconType: 'rw',
 };

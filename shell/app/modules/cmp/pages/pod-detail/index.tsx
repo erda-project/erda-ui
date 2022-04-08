@@ -28,12 +28,12 @@ import { IInstances } from '../../services/pod-detail';
 import './index.scss';
 
 const SUMMARY_KEY_MAP = {
-  podName: i18n.t('cmp:pod instance'),
+  podName: i18n.t('cmp:Pod instance'),
   clusterName: i18n.t('cluster'),
-  nodeName: i18n.t('node'),
-  namespace: i18n.t('cmp:namespace'),
+  nodeName: i18n.t('Node'),
+  namespace: i18n.t('cmp:Namespace'),
   hostIP: i18n.t('runtime:Host IP'),
-  restartTotal: i18n.t('cmp:restart times'),
+  restartTotal: i18n.t('cmp:Number of restarts'),
   stateCode: i18n.t('cmp:state code'),
   terminatedReason: i18n.t('cmp:exit reasons'),
 };
@@ -81,7 +81,7 @@ const PodDetail = () => {
       width: 110,
     },
     {
-      title: i18n.t('start time'),
+      title: i18n.t('Start time'),
       dataIndex: 'startedAt',
     },
     {
@@ -117,7 +117,7 @@ const PodDetail = () => {
             </div>
           </div>
           <div className="instance mb-8">
-            <span className="title font-medium">{i18n.t('cmp:instance list')} TOP10</span>
+            <span className="title font-medium">{i18n.t('cmp:Instance')} TOP10</span>
             <ErdaTable
               rowKey="containerId"
               pagination={false}

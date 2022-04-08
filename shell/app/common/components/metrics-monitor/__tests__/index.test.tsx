@@ -71,7 +71,7 @@ describe('MonitorChartPanel', () => {
     expect(metricsMonitorStore.effects.listMetricByResourceType).toHaveBeenLastCalledWith({
       resourceType: baseProps.resourceType,
     });
-    expect(result.getByText('no data')).toBeTruthy();
+    expect(result.getByText('No data')).toBeTruthy();
     act(() => {
       metricsMonitorStore.reducers.listMetricByResourceTypeSuccess(resultData);
       jest.runAllTimers();

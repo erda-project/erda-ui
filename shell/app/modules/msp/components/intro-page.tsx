@@ -27,11 +27,11 @@ const introMap = {
     docUrl: DOC_MSP_API_GATEWAY,
   },
   RegisterCenter: {
-    name: i18n.t('dop:registration center'),
+    name: i18n.t('dop:Registration Center'),
     docUrl: DOC_MSP_REGISTER,
   },
   ConfigCenter: {
-    name: i18n.t('dop:configCenter'),
+    name: i18n.t('dop:Configuration Center'),
     docUrl: DOC_MSP_CONFIG_CENTER,
   },
 };

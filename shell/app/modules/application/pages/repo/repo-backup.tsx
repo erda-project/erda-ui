@@ -74,7 +74,7 @@ export default function BackupManagement() {
         return (
           <div className="table-operations">
             <span className="table-operations-btn" onClick={() => download(record.uuid)}>
-              {i18n.t('download')}
+              {i18n.t('Download')}
             </span>
             <WithAuth pass={deleteBackupAuth}>
               <Popconfirm
@@ -97,7 +97,7 @@ export default function BackupManagement() {
 
   const fieldsList = [
     {
-      label: i18n.t('dop:choose branch'),
+      label: i18n.t('dop:Choose branch'),
       name: 'branchRef',
       type: 'custom',
       getComp: ({ form }: any) => (

@@ -56,13 +56,8 @@ class LogSearchForm extends React.Component {
           >
             <Input placeholder={`${i18n.t('please enter')}request id${i18n.t('search')}`} />
           </FormItem>
-          <Button
-            className="log-search-btn"
-            type="primary"
-            htmlType="submit"
-            icon={<ErdaIcon type="search1" />}
-          >
-            {i18n.t('common:search for')}
+          <Button className="log-search-btn" type="primary" htmlType="submit" icon={<ErdaIcon type="search1" />}>
+            {i18n.t('common:Search')}
           </Button>
         </Form>
       </div>

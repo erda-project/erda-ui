@@ -24,7 +24,7 @@ interface IProps {
 }
 export const ClusterSelector = ({ clusterList, onChange }: IProps) => {
   const [selected, setSelected] = React.useState('');
-  const list = [{ name: '', displayName: i18n.t('all clusters') }, ...clusterList];
+  const list = [{ name: '', displayName: i18n.t('All clusters') }, ...clusterList];
   const changeCluster = (val: string) => {
     setSelected(val);
     onChange(val);

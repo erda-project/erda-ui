@@ -33,22 +33,22 @@ const MachineTabs = ({ activeMachine, activeMachineTab }: IProps) => {
 
   return (
     <Tabs activeKey={activeKey} onChange={setActiveKey}>
-      <TabPane tab={i18n.t('machine overview')} key="overview">
+      <TabPane tab={i18n.t('Machine Overview')} key="overview">
         <MachineDetail type="insight" machineDetail={activeMachine} />
       </TabPane>
-      <TabPane tab={i18n.t('cmp:machine alarm')} key="alarm">
+      <TabPane tab={i18n.t('cmp:Machine Alert')} key="alarm">
         <AlarmRecord clusters={clusters.current} />
       </TabPane>
-      <TabPane tab={i18n.t('cmp:instance list')} key="instance">
+      <TabPane tab={i18n.t('cmp:Instance')} key="instance">
         <InstanceList instanceType="all" clusters={clusters.current} />
       </TabPane>
       <TabPane tab={i18n.t('services')} key="service">
         <InstanceList instanceType="service" clusters={clusters.current} />
       </TabPane>
-      <TabPane tab={i18n.t('task list')} key="job">
+      <TabPane tab={i18n.t('Task')} key="job">
         <InstanceList instanceType="job" clusters={clusters.current} />
       </TabPane>
-      <TabPane tab={i18n.t('cmp:machine detail')} key="info">
+      <TabPane tab={i18n.t('cmp:Machine Details')} key="info">
         <MachineDetail type="info" machineDetail={activeMachine} />
       </TabPane>
     </Tabs>

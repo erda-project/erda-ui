@@ -69,7 +69,7 @@ const RepoMrTable = ({ type }: IProps) => {
         type: MemberSelector,
         name: 'authorId',
         customProps: {
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('default:submitter') }),
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('default:Submitter') }),
           scopeType: 'app',
         },
       },
@@ -117,7 +117,7 @@ const RepoMrTable = ({ type }: IProps) => {
               const actionMap = {
                 open: i18n.t('submit'),
                 closed: i18n.t('close'),
-                merged: i18n.t('dop:merged'),
+                merged: i18n.t('dop:Merged'),
               };
               const updateKeyMap = {
                 open: 'createdAt',
@@ -137,7 +137,7 @@ const RepoMrTable = ({ type }: IProps) => {
                     </span>
                   </div>
                   <div className="desc">
-                    {i18n.t('dop:assigned user')}：<Tooltip title={assigneeUser.name}>{assigneeUser.nick}</Tooltip>
+                    {i18n.t('dop:Assigned user')}：<Tooltip title={assigneeUser.name}>{assigneeUser.nick}</Tooltip>
                   </div>
                   <div className="sub-title flex items-center flex-wrap justify-start">
                     <span className="mr-1">#{item.mergeId}</span>
@@ -151,7 +151,7 @@ const RepoMrTable = ({ type }: IProps) => {
                       <UserInfo.RenderWithAvatar id={authorUser.id} />
                     </Tooltip>
                     <span>
-                      {i18n.t('created at')} {fromNow(item.createdAt)}
+                      {i18n.t('Creation time')} {fromNow(item.createdAt)}
                     </span>
                   </div>
                 </li>

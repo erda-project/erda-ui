@@ -102,7 +102,7 @@ const HttpComp = (props: IProps) => {
   return (
     <div>
       <div>
-        <span className="edit-service-label">{i18n.t('port')}: </span>
+        <span className="edit-service-label">{i18n.t('Port')}: </span>
         <span>
           <InputNumber
             disabled={disabled}
@@ -126,7 +126,7 @@ const HttpComp = (props: IProps) => {
         </span>
       </div>
       <div>
-        <span className="edit-service-label">{i18n.t('dop:duration')}: </span>
+        <span className="edit-service-label">{i18n.t('dop:Duration')}: </span>
         <span>
           <InputNumber
             disabled={disabled}
@@ -165,7 +165,7 @@ const CommandComp = (props: ICommandProps) => {
         </span>
       </div>
       <div>
-        <span className="edit-service-label">{i18n.t('dop:duration')}: </span>
+        <span className="edit-service-label">{i18n.t('dop:Duration')}: </span>
         <span>
           <InputNumber
             disabled={disabled}

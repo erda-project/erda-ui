@@ -324,7 +324,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
           {
             validator: (_rule: any, value: string, callback: (msg?: string) => void) => {
               if (existApiPathNames.includes(value)) {
-                callback(i18n.t('the same {key} exists', { key: i18n.t('name') }));
+                callback(i18n.t('the same {key} exists', { key: i18n.t('Name') }));
               } else if (!value) {
                 callback(i18n.t('can not be empty'));
               } else if (!value.startsWith('/')) {
@@ -530,7 +530,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
         {apiData?.apiMethod && (
           <div className="flex items-center flex-wrap justify-end">
             <Button type="primary" onClick={onSaveApiData}>
-              {i18n.t('save')}
+              {i18n.t('Save')}
             </Button>
           </div>
         )}

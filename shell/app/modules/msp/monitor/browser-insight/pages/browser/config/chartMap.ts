@@ -31,7 +31,7 @@ const chartMap = merge(
       chartName: 'sortList',
     },
     timeTopN: {
-      titleText: i18n.t('msp:average load time - browser type'),
+      titleText: i18n.t('msp:Average loading time - browser type'),
       ...commonAttr,
       chartName: 'timeTopN',
       viewProps: {
@@ -39,7 +39,7 @@ const chartMap = merge(
       },
     },
     cpmTopN: {
-      titleText: i18n.t('msp:throughput - browser type'),
+      titleText: i18n.t('msp:Throughput - browser type'),
       ...commonAttr,
       chartName: 'cpmTopN',
       viewProps: {
@@ -60,7 +60,7 @@ const chartMap = merge(
       },
     },
     singleCpmTopN: {
-      titleText: i18n.t('msp:throughput'),
+      titleText: i18n.t('msp:Throughput'),
       ...commonAttr,
       chartName: 'singleCpmTopN',
       viewProps: {

@@ -109,7 +109,7 @@ describe('FormModal', () => {
       await waitFor(() => expect(result.getByRole('dialog')).not.toHaveStyle({ display: 'none' }));
     };
     const closeModal = async () => {
-      fireEvent.click(result.getByText('cancel'));
+      fireEvent.click(result.getByText('Cancel'));
     };
     return {
       result,

@@ -47,7 +47,7 @@ export const ISSUE_TYPE_ICON_MAP = {
     icon: 'bb1',
     color: 'primary',
     value: 'EPIC',
-    name: i18n.t('dop:milestone'),
+    name: i18n.t('dop:Milestone'),
   },
   ITERATION: {
     icon: 'bb1',
@@ -70,7 +70,7 @@ export const ISSUE_TYPE_ICON_MAP = {
   BUG: {
     icon: ISSUE_TYPE_MAP.BUG.icon,
     color: 'red',
-    name: i18n.t('bug'),
+    name: i18n.t('Bug'),
     value: 'BUG',
   },
 };
@@ -86,18 +86,18 @@ export const ISSUE_PRIORITY_ICON_MAP = {
     icon: ISSUE_PRIORITY_MAP.HIGH.icon,
     color: 'yellow',
     value: 'HIGH',
-    name: i18n.t('dop:high'),
+    name: i18n.t('dop:High'),
   },
   NORMAL: {
     icon: ISSUE_PRIORITY_MAP.NORMAL.icon,
     color: 'blue',
-    name: i18n.t('medium'),
+    name: i18n.t('Medium'),
     value: 'NORMAL',
   },
   LOW: {
     icon: ISSUE_PRIORITY_MAP.LOW.icon,
     color: 'palegreen',
-    name: i18n.t('low'),
+    name: i18n.t('Low'),
     value: 'LOW',
   },
 };

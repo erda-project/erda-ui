@@ -41,15 +41,15 @@ const AppLibraryReference = () => {
   const getColumns = ({ deleteItem }: any) => {
     const columns = [
       {
-        title: i18n.t('name'),
+        title: i18n.t('Name'),
         dataIndex: 'libName',
       },
       {
-        title: i18n.t('description'),
+        title: i18n.t('Description'),
         dataIndex: 'libDesc',
       },
       {
-        title: i18n.t('time'),
+        title: i18n.t('Time'),
         dataIndex: 'createdAt',
         width: 240,
         render: (text: string) => formatTime(text, 'YYYY-MM-DD HH:mm:ss'),
@@ -77,14 +77,14 @@ const AppLibraryReference = () => {
                     showApplyModal(record);
                   }}
                 >
-                  {i18n.t('dop:apply')}
+                  {i18n.t('dop:Usage')}
                 </span>
               </WithAuth>
               <Popconfirm
                 title={`${i18n.t('common:confirm to delete')}?`}
                 onConfirm={() => deleteItem(record.id).then(() => libraryRefStore.effects.getList({ appID }))}
               >
-                <span className="table-operations-btn">{i18n.t('remove')}</span>
+                <span className="table-operations-btn">{i18n.t('Remove')}</span>
               </Popconfirm>
             </div>
           );

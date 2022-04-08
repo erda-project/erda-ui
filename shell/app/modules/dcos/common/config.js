@@ -547,22 +547,22 @@ export const rdsConfig = [
 
 export const fieldsTranslationMap = {
   resourceType: i18n.t('cmp:resource type'),
-  clusterName: i18n.t('cluster name'),
+  clusterName: i18n.t('Cluster name'),
   // vpcCidr: '专有网络cidr',
   accessKeyId: 'AccessKeyId',
   accessKeySecret: 'AccessKeySecret',
   PrePaid: i18n.t('cmp:Subscription'),
   PostPaid: i18n.t('cmp:Pay-As-You-Go'),
-  regionId: i18n.t('region'),
+  regionId: i18n.t('Region'),
   zoneId: i18n.t('cmp:availability zone'),
   periodUnit: i18n.t('time unit'),
   period: i18n.t('cmp:duration period'),
   Week: i18n.t('week'),
   Month: i18n.t('month'),
-  password: i18n.t('password'),
-  port: i18n.t('cmp:port'),
-  type: i18n.t('type'),
-  username: i18n.t('username'),
+  password: i18n.t('Password'),
+  port: i18n.t('cmp:Port'),
+  type: i18n.t('Type'),
+  username: i18n.t('Username'),
   tag: i18n.t('label'),
   connectionstring: i18n.t('cmp:connection address'),
 
@@ -579,23 +579,23 @@ export const fieldsTranslationMap = {
   Performance: i18n.t('capacity type'),
 
   rdsSettings: i18n.t('cmp:cloud database configuration'),
-  dbInstanceClass: i18n.t('cmp:specifications'),
+  dbInstanceClass: i18n.t('cmp:Specification'),
   payType: i18n.t('cmp:billing method'),
   Postpaid: i18n.t('cmp:Pay-As-You-Go'),
   Prepaid: i18n.t('cmp:Subscription'),
-  engineVersion: i18n.t('version'),
+  engineVersion: i18n.t('Version'),
   dbInstanceStorage: i18n.t('storage disk capacity'),
   accountName: i18n.t('account name'),
   dbName: i18n.t('cmp:database name'),
-  Password: i18n.t('password'),
+  Password: i18n.t('Password'),
   character_set_server: i18n.t('cmp:database encoding'),
 
-  redisSettings: `${i18n.t('cmp:cloud')}redis${i18n.t('cmp:configuration')}`,
-  instanceClass: i18n.t('cmp:specifications'),
+  redisSettings: `${i18n.t('cmp:cloud')}redis${i18n.t('cmp:Configuration')}`,
+  instanceClass: i18n.t('cmp:Specification'),
   chargeType: i18n.t('cmp:billing method'),
 
   loadBalancerSetting: i18n.t('cmp:load balancing configuration'),
-  loadBalancerSpec: i18n.t('cmp:specifications'),
+  loadBalancerSpec: i18n.t('cmp:Specification'),
   loadBalancePayType: i18n.t('cmp:billing method'),
   PayOnDemand: i18n.t('cmp:pay as you go'),
   loadBalancerInternetChargeType: i18n.t('by flow'),
@@ -679,7 +679,7 @@ export const checkPassword = (_rule, value, callback) => {
     return callback(i18n.t('uppercase letter'));
   }
   if (!/\d+/.test(value)) {
-    return callback(i18n.t('number'));
+    return callback(i18n.t('Number'));
   }
   callback();
 };
@@ -693,7 +693,7 @@ export const CLUSTER_INFOS = [
 
 export const CLUSTER_RESOURCES_PROPORTION_MAP = {
   host: {
-    yAxisName: i18n.t('cmp:assignment'),
+    yAxisName: i18n.t('cmp:Allocation'),
     totalValue: 'totalHosts',
     totalName: i18n.t('cmp:total number of hosts'),
     valueName: i18n.t('cmp:number of assigned hosts'),
@@ -704,10 +704,10 @@ export const CLUSTER_RESOURCES_PROPORTION_MAP = {
     unit: '台',
   },
   cpu: {
-    yAxisName: i18n.t('cmp:assignment'),
+    yAxisName: i18n.t('cmp:Allocation'),
     totalValue: 'totalCpu',
     totalName: `${i18n.t('total')} CPU`,
-    valueName: `${i18n.t('cmp:assignment')} CPU`,
+    valueName: `${i18n.t('cmp:Allocation')} CPU`,
     value: 'usedCpu',
     schedulableName: i18n.t('cmp:schedulable'),
     schedulableKey: 'schedulerCPU',
@@ -715,7 +715,7 @@ export const CLUSTER_RESOURCES_PROPORTION_MAP = {
     unit: i18n.t('core'),
   },
   mem: {
-    yAxisName: i18n.t('cmp:assignment'),
+    yAxisName: i18n.t('cmp:Allocation'),
     totalValue: 'totalMemory',
     totalName: i18n.t('cmp:total memory'),
     valueName: i18n.t('cmp:allocate memory'),
@@ -729,7 +729,7 @@ export const CLUSTER_RESOURCES_PROPORTION_MAP = {
 
 // 着色分组
 export const COLOUR_MAP = {
-  load: i18n.t('cmp:system load'),
+  load: i18n.t('cmp:System load'),
   cpu: i18n.t('cmp:CPU usage'),
   mem: i18n.t('cmp:Memory usage'),
   disk: i18n.t('cmp:Disk usage'),
@@ -739,13 +739,13 @@ export const COLOUR_MAP = {
 
 export const ALARM_REPORT_CHART_MAP = {
   load: {
-    cnName: i18n.t('cmp:system load'),
+    cnName: i18n.t('cmp:System load'),
     chartType: 'system',
     extraQuery: { avg: ['load1', 'load5', 'load15'] },
     handler: multipleDataHandler(['avg.load1', 'avg.load5', 'avg.load15']),
   },
   cpu: {
-    cnName: i18n.t('cmp:CPU usage rate'),
+    cnName: i18n.t('cmp:CPU usage-rate'),
     chartType: 'cpu',
     extraQuery: { avg: 'cpu_usage_active' },
     handler: multipleDataHandler(['avg.cpu_usage_active']),
@@ -757,13 +757,13 @@ export const ALARM_REPORT_CHART_MAP = {
     handler: multipleDataHandler(['max.pct_util']),
   },
   disk: {
-    cnName: i18n.t('cmp:Disk usage rate'),
+    cnName: i18n.t('cmp:Disk usage-rate'),
     chartType: 'disk',
     extraQuery: { max: 'used_percent', group: 'device' },
     handler: groupHandler('max.used_percent'),
   },
   crash: {
-    cnName: i18n.t('cmp:system load'),
+    cnName: i18n.t('cmp:System load'),
     chartType: 'system',
     extraQuery: { avg: ['load1', 'load5', 'load15'] },
     handler: multipleDataHandler(['avg.load1', 'avg.load5', 'avg.load15']),

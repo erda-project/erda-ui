@@ -215,7 +215,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormProps, any> {
           onChange={this.searchInputChange}
           value={searchValue}
           className="add-on-input"
-          placeholder={`${i18n.t('dop:please choose')} Add-on`}
+          placeholder={`${i18n.t('dop:Please select')} Add-on`}
         />
       </React.Fragment>
     );
@@ -308,23 +308,23 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormProps, any> {
     const name = (
       <Item
         name="alias"
-        label={i18n.t('name')}
+        label={i18n.t('Name')}
         initialValue={nameValue}
         rules={[
           {
             required: true,
-            message: i18n.t('dop:please enter a name'),
+            message: i18n.t('dop:Please enter the name'),
           },
         ]}
       >
-        <Input autoFocus disabled={this.isEditing()} placeholder={i18n.t('dop:please enter a name')} />
+        <Input autoFocus disabled={this.isEditing()} placeholder={i18n.t('dop:Please enter the name')} />
       </Item>
     );
 
     const version = (
       <Item
         name="version"
-        label={i18n.t('version')}
+        label={i18n.t('Version')}
         initialValue={versionValue}
         rules={[
           {
@@ -369,7 +369,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormProps, any> {
     const plan = (
       <Item
         name="plan"
-        label={i18n.t('dop:configuration')}
+        label={i18n.t('dop:Configuration')}
         initialValue={convertAddonPlan(planValue)}
         rules={[
           {
@@ -396,10 +396,10 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormProps, any> {
         {editing ? (
           <Item className="add-on-form-btn-group">
             <Button className="mr-2" onClick={cancel}>
-              {i18n.t('cancel')}
+              {i18n.t('Cancel')}
             </Button>
             <Button type="primary" onClick={this.submitAddon}>
-              {i18n.t('save')}
+              {i18n.t('Save')}
             </Button>
           </Item>
         ) : null}

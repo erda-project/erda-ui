@@ -109,7 +109,7 @@ const AppsSelector = () => {
   const switchList = (
     <div className="app-selector-switcher w-full">
       <div className="input-wrap" onClick={(e) => e.stopPropagation()}>
-        <Input placeholder={i18n.t('msp:search for')} onChange={filterList} value={searchKey} />
+        <Input placeholder={i18n.t('msp:Search')} onChange={filterList} value={searchKey} />
       </div>
       <ul>
         {projectApps &&

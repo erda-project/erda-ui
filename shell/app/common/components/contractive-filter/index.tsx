@@ -290,7 +290,7 @@ const SelectFilterItem = ({
     options,
     required,
     customProps,
-    emptyText = i18n.t('dop:all'),
+    emptyText = i18n.t('dop:All'),
   } = itemData;
   const [filterMap, setFilterMap] = React.useState({});
   const [hasMore, setHasMore] = React.useState(
@@ -336,11 +336,11 @@ const SelectFilterItem = ({
         // 单选模式下不展示已选择n项
         <Menu.Item key="select-info" className="flex justify-between items-center not-select px6 py-0 options-item">
           <span>
-            {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
+            {i18n.t('common:Selected')} {_value.length} {i18n.t('common:items')}
           </span>
           {!required ? (
             <span className="fake-link ml-2" onClick={() => onChange({ key, value: undefined })}>
-              {i18n.t('common:clear selected')}
+              {i18n.t('common:Clear selected')}
             </span>
           ) : null}
         </Menu.Item>,
@@ -629,7 +629,7 @@ const MemberSelectorFilterItem = ({
     disabled,
     required,
     customProps,
-    emptyText = i18n.t('dop:all'),
+    emptyText = i18n.t('dop:All'),
   } = itemData;
   const memberSelectorRef = React.useRef(null as any);
 
@@ -734,7 +734,7 @@ const QuickSave = (props: IQuickSaveProps) => {
     if (!v) {
       setTip(i18n.t('can not be empty'));
     } else if (labels.includes(v)) {
-      setTip(`${i18n.t('{name} already exists', { name: i18n.t('name') })}`);
+      setTip(`${i18n.t('{name} already exists', { name: i18n.t('Name') })}`);
     } else {
       setTip('');
     }
@@ -754,7 +754,7 @@ const QuickSave = (props: IQuickSaveProps) => {
       />
       <Tooltip title={tip}>
         <span className={`ml-2 ${!tip ? 'fake-link' : 'not-allowed'}`} onClick={save}>
-          {i18n.t('save')}
+          {i18n.t('Save')}
         </span>
       </Tooltip>
     </div>
@@ -1057,11 +1057,11 @@ const ContractiveFilter = <T extends ConditionType>({
                 <Menu.Item className="not-select px6 py-0">
                   <div className="flex justify-between items-center">
                     <span>
-                      {i18n.t('common:selected')} {showList.filter((a) => a.fixed !== true).length}{' '}
+                      {i18n.t('common:Selected')} {showList.filter((a) => a.fixed !== true).length}{' '}
                       {i18n.t('common:items')}
                     </span>
                     <span className="fake-link" onClick={handleClearSelected}>
-                      {i18n.t('common:clear selected')}
+                      {i18n.t('common:Clear selected')}
                     </span>
                   </div>
                 </Menu.Item>
@@ -1095,7 +1095,7 @@ const ContractiveFilter = <T extends ConditionType>({
           >
             <span className="contractive-filter-item more-conditions">
               <ErdaIcon color="black-8" type="plus" className="mr-0.5 color-text" />
-              <span>{i18n.t('filter')}</span>
+              <span>{i18n.t('Filter')}</span>
               <ErdaIcon type="caret-down" className="hover" size="16" />
             </span>
           </Dropdown>

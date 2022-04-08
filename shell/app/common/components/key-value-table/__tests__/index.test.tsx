@@ -75,7 +75,7 @@ describe('KeyValueTable', () => {
     expect(tableRef.current?.getTableData()).toStrictEqual(data);
     rerender();
     expect(result.container).isExit('.ant-table-row ', Object.keys(data).length);
-    fireEvent.click(result.getByText('add'));
+    fireEvent.click(result.getByText('Add'));
     await flushPromises();
     expect(result.container).isExit('.ant-table-row ', Object.keys(data).length + 1);
     fireEvent.click(result.getAllByText('delete')[0]);
@@ -83,7 +83,7 @@ describe('KeyValueTable', () => {
     fireEvent.click(result.getByText('OK'));
     expect(result.container).isExit('.ant-table-row ', Object.keys(data).length);
     rerender({ existKeys: ['max_age'], isTextArea: true });
-    fireEvent.click(result.getByText('add'));
+    fireEvent.click(result.getByText('Add'));
     await flushPromises();
     fireEvent.change(result.container.querySelector('input')!, { target: { value: 'max_age' } });
     fireEvent.blur(result.container.querySelector('input')!, { target: { value: 'max_age' } });

@@ -14,12 +14,12 @@ import i18n from 'i18n';
 
 // 通过权限配置页面导出角色数据覆盖，勿手动修改
 export const appRoleMap = {
-  Owner: { name: i18n.t('user:application owner'), value: 'Owner' },
-  Lead: { name: i18n.t('user:application Supervisor'), value: 'Lead' },
-  Dev: { name: i18n.t('user:Developer'), value: 'Dev' },
-  QA: { name: i18n.t('user:Tester'), value: 'QA' },
+  Owner: { name: i18n.t('user:App owner'), value: 'Owner' },
+  Lead: { name: i18n.t('user:App leader'), value: 'Lead' },
+  Dev: { name: i18n.t('user:Development engineer'), value: 'Dev' },
+  QA: { name: i18n.t('user:Test engineer'), value: 'QA' },
   Support: { name: i18n.t('user:Q&A'), value: 'Support', isBuildIn: true },
-  Ops: { name: i18n.t('cmp:operator'), value: 'Ops' },
+  Ops: { name: i18n.t('cmp:Operator'), value: 'Ops' },
   Creator: { name: i18n.t('user:Creator'), value: 'Creator', isCustomRole: true },
   Assignee: { name: i18n.t('user:Assignee'), value: 'Assignee', isCustomRole: true },
   Guest: { name: i18n.t('user:Guest'), value: 'Guest' },
@@ -32,12 +32,12 @@ export const appPerm = {
     name: i18n.t('user:external code repository'),
     edit: {
       pass: false,
-      name: i18n.t('edit'),
+      name: i18n.t('Edit'),
       role: ['Owner', 'Lead'],
     },
   },
   repo: {
-    name: i18n.t('dop:repository'),
+    name: i18n.t('dop:Repository'),
     read: {
       pass: false,
       name: i18n.t('dop:view'),
@@ -63,7 +63,7 @@ export const appPerm = {
       addTag: {
         pass: false,
         role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
-        name: i18n.t('dop:add label'),
+        name: i18n.t('dop:Add-label'),
       },
       deleteTag: {
         pass: false,
@@ -75,12 +75,12 @@ export const appPerm = {
       name: i18n.t('dop:merge requests'),
       create: {
         pass: false,
-        name: i18n.t('add'),
+        name: i18n.t('Add'),
         role: ['Owner', 'Lead', 'Dev', 'QA'],
       },
       edit: {
         pass: false,
-        name: i18n.t('edit'),
+        name: i18n.t('Edit'),
         role: ['Owner', 'Lead', 'Creator'],
       },
       close: {
@@ -202,7 +202,7 @@ export const appPerm = {
       role: ['Owner', 'Lead'],
     },
     branchRule: {
-      name: i18n.t('dop:branch rule'),
+      name: i18n.t('dop:Branch Rule'),
       operation: {
         pass: false,
         name: i18n.t('user:operation (add, delete, modify)'),
@@ -242,9 +242,9 @@ export const appPerm = {
     },
   },
   apiManage: {
-    name: i18n.t('API'),
+    name: i18n.t('API Management'),
     apiMarket: {
-      name: i18n.t('API market'),
+      name: i18n.t('API Market'),
       read: {
         pass: false,
         name: i18n.t('dop:view'),
@@ -287,10 +287,10 @@ export const appPerm = {
       },
     },
     accessManage: {
-      name: i18n.t('access management'),
+      name: i18n.t('Access Management'),
       edit: {
         pass: false,
-        name: i18n.t('edit'),
+        name: i18n.t('Edit'),
         role: ['Owner', 'Lead'],
       },
       delete: {
@@ -338,7 +338,7 @@ export const appPerm = {
     },
   },
   codeQuality: {
-    name: i18n.t('dop:code quality'),
+    name: i18n.t('dop:Code Quality'),
     read: {
       pass: false,
       role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
@@ -357,7 +357,7 @@ export const appPerm = {
       edit: {
         pass: false,
         role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
-        name: i18n.t('edit'),
+        name: i18n.t('Edit'),
       },
     },
   },

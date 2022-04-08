@@ -66,7 +66,7 @@ const SLASelect = ({ dataSource, onChange, defaultSelectKey }: IProps) => {
                   {i18n.t('SLA name')}: {item.name}
                 </Col>
                 <Col span={12}>
-                  {i18n.t('authorization method')}: {slaAuthorizationMap[item.approval]?.name}
+                  {i18n.t('Authorization method')}: {slaAuthorizationMap[item.approval]?.name}
                 </Col>
               </Row>
             );

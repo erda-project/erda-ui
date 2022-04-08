@@ -100,7 +100,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
   };
   const columns: Array<ColumnProps<API_ACCESS.Client>> = [
     {
-      title: i18n.t('client name'),
+      title: i18n.t('Client name'),
       dataIndex: ['client', 'displayName'],
       width: 120,
       render: (text, record) => {
@@ -126,7 +126,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
       },
     },
     {
-      title: i18n.t('client identifier'),
+      title: i18n.t('Client identifier'),
       dataIndex: ['client', 'name'],
       width: 120,
     },

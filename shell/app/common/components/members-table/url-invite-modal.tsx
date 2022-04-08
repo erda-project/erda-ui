@@ -44,10 +44,10 @@ const UrlInviteModal = ({ url, visible, code, tip, linkPrefixTip, modalProps = {
               className="cursor-copy"
               data-clipboard-tip={code ? i18n.t('invitation link and verification code') : i18n.t('invitation link')}
               data-clipboard-text={`${linkPrefixTip || ''}\n${url}\n${
-                code ? `${i18n.t('verification code')}: ${code}` : ''
+                code ? `${i18n.t('Verification code')}: ${code}` : ''
               }`}
             >
-              <Button type="primary">{i18n.t('copy')}</Button>
+              <Button type="primary">{i18n.t('Copy')}</Button>
             </span>
             <Copy selector=".cursor-copy" />
           </>
@@ -57,13 +57,13 @@ const UrlInviteModal = ({ url, visible, code, tip, linkPrefixTip, modalProps = {
         {tip ? <ErdaAlert className="mb-5" message={tip} type="info" showOnceKey="invite-member-modal" /> : null}
         <div className="content">
           <div className="item mb-4">
-            <p className="label mb-2">{i18n.t('url address')}</p>
+            <p className="label mb-2">{i18n.t('URL address')}</p>
             <Input readOnly value={url} />
           </div>
           {code && (
             <div className="item mb-4">
               <p className="label mb-2">
-                {i18n.t('verification code')}{' '}
+                {i18n.t('Verification code')}{' '}
                 <span className="text-sub">({i18n.t('valid until 1:00 am the next day', { nsSeparator: '|' })})</span>
               </p>
               <Input readOnly value={code} />

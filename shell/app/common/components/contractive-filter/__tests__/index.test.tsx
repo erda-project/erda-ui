@@ -239,7 +239,7 @@ describe('ContractiveFilter', () => {
         ],
       },
     });
-    expect(result.getByText('filter')).toBeTruthy();
+    expect(result.getByText('Filter')).toBeTruthy();
     expect(result.container).isExit('.contractive-filter-item-wrap', 9);
     result.unmount();
   });
@@ -255,7 +255,7 @@ describe('ContractiveFilter', () => {
         },
       ],
     });
-    fireEvent.click(result.getByText('filter'));
+    fireEvent.click(result.getByText('Filter'));
     await waitFor(() => expect(result.getByRole('menu')).toBeTruthy());
     fireEvent.click(result.getByPlaceholderText('Filter conditions'));
     fireEvent.change(result.getByPlaceholderText('Filter conditions'), { target: { value: 'addr' } });
@@ -264,9 +264,9 @@ describe('ContractiveFilter', () => {
     expect(result.container).isExit('.contractive-filter-item-wrap', 10);
     fireEvent.change(result.getByPlaceholderText('filter by addr'), { target: { value: 'erda' } });
     expect(changeFn).toHaveBeenLastCalledWith({ addr: 'erda' }, 'addr');
-    fireEvent.click(result.getByText('filter'));
+    fireEvent.click(result.getByText('Filter'));
     await waitFor(() => expect(result.getByRole('menu')).toBeTruthy());
-    fireEvent.click(result.getByText('clear selected'));
+    fireEvent.click(result.getByText('Clear selected'));
     expect(result.container).isExit('.contractive-filter-item-wrap', 9);
     expect(changeFn).toHaveBeenLastCalledWith({ addr: undefined }, undefined);
     rerender({
@@ -314,14 +314,14 @@ describe('ContractiveFilter', () => {
     fireEvent.change(result.getByPlaceholderText('search'), { target: { value: 'dop' } });
     fireEvent.click(result.getByText('dop').closest('.option-item')!);
     expect(changeFn).toHaveBeenLastCalledWith({ platform: ['dop'] }, 'platform');
-    fireEvent.click(result.getByText('clear selected'));
+    fireEvent.click(result.getByText('Clear selected'));
     expect(changeFn).toHaveBeenLastCalledWith({ platform: undefined }, 'platform');
     rerender({
       conditions: conditionsFilter.map((item) =>
         item.key === 'platform' ? { ...item, haveFilter: true, required: true } : item,
       ),
     });
-    expect(result.queryByText('clear selected')).toBeNull();
+    expect(result.queryByText('Clear selected')).toBeNull();
   });
   it('should work well with select single mode', async () => {
     const { result, changeFn } = setUp({
@@ -335,7 +335,7 @@ describe('ContractiveFilter', () => {
     await waitFor(() => expect(result.getByRole('menu')).toBeTruthy());
     fireEvent.click(result.getByText('dop').closest('.option-item')!);
     expect(changeFn).toHaveBeenLastCalledWith({ platform: 'dop' }, 'platform');
-    expect(result.queryByText('clear selected')).toBeNull();
+    expect(result.queryByText('Clear selected')).toBeNull();
   });
   it('should work well with select quickSelect', async () => {
     const quickOperationFn = jest.fn();
@@ -378,14 +378,14 @@ describe('ContractiveFilter', () => {
     });
     fireEvent.click(result.getByText('PLATFORM'));
     await waitFor(() => expect(result.getByRole('menu')).toBeTruthy());
-    expect(result.getByText('save')).toHaveClass('not-allowed');
-    fireEvent.click(result.getByText('save'));
+    expect(result.getByText('Save')).toHaveClass('not-allowed');
+    fireEvent.click(result.getByText('Save'));
     expect(quickOperationFn).not.toHaveBeenCalled();
     fireEvent.change(result.getByPlaceholderText('please enter'), { target: { value: 'dop' } });
-    fireEvent.click(result.getByText('save'));
+    fireEvent.click(result.getByText('Save'));
     expect(quickOperationFn).not.toHaveBeenCalled();
     fireEvent.change(result.getByPlaceholderText('please enter'), { target: { value: 'erda' } });
-    fireEvent.click(result.getByText('save'));
+    fireEvent.click(result.getByText('Save'));
     expect(quickOperationFn).toHaveBeenLastCalledWith({ key: 'quickAdd key', value: 'erda' });
   });
   it('should work well with select quickDelete', async () => {

@@ -111,12 +111,12 @@ describe('WrappedLogRoller', () => {
       });
     result.rerender(<WrappedLogRoller logKey={logKey} />);
     setDomBounding(1000, 200, 700);
-    fireEvent.click(result.getByText('back to top'));
+    fireEvent.click(result.getByText('Back to Top'));
     expect(fetchLog).toHaveBeenCalledTimes(4);
     // multiple clicks trigger only once
-    fireEvent.click(result.getByText('back to top'));
+    fireEvent.click(result.getByText('Back to Top'));
     expect(fetchLog).toHaveBeenCalledTimes(4);
-    fireEvent.click(result.getByText('download log'));
+    fireEvent.click(result.getByText('Download Log'));
     await waitFor(() => expect(result.queryByText('log download')).not.toBeNull());
     result.unmount();
     expect(clearLog).toHaveBeenLastCalledWith(logKey);

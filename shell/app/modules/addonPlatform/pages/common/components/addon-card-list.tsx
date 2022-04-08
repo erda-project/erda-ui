@@ -25,7 +25,7 @@ const { Option } = Select;
 const { Search } = Input;
 
 const envOptions = [
-  { cnName: i18n.t('all'), enName: 'ALL' },
+  { cnName: i18n.t('All'), enName: 'ALL' },
   { cnName: i18n.t('develop'), enName: 'DEV' },
   { cnName: i18n.t('test'), enName: 'TEST' },
   { cnName: i18n.t('staging'), enName: 'STAGING' },
@@ -37,7 +37,7 @@ const envOptions = [
 ));
 
 const dataSourceTypeOptions = [
-  { cnName: i18n.t('all'), enName: 'ALL' },
+  { cnName: i18n.t('All'), enName: 'ALL' },
   { cnName: 'Redis', enName: 'redis' },
   { cnName: 'MySQL', enName: 'mysql' },
   { cnName: 'Custom', enName: 'custom' },

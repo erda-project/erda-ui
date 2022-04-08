@@ -15,9 +15,9 @@ import { projectPerm } from './_perm-project';
 import i18n from 'i18n';
 
 export const mspRoleMap = {
-  Owner: { name: i18n.t('user:Project Owner'), value: 'Owner' },
-  Lead: { name: i18n.t('user:Project Leader'), value: 'Lead' },
-  Dev: { name: i18n.t('user:Developer'), value: 'Dev' },
+  Owner: { name: i18n.t('user:Project owner'), value: 'Owner' },
+  Lead: { name: i18n.t('user:Project leader'), value: 'Lead' },
+  Dev: { name: i18n.t('user:Development engineer'), value: 'Dev' },
 };
 
 export const mspPerm = {

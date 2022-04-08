@@ -167,10 +167,10 @@ class AddonModal extends React.PureComponent<IProps, IState> {
     if (editData) {
       return [
         <Button key="cancel" onClick={() => this.handleCancel()}>
-          {i18n.t('cancel')}
+          {i18n.t('Cancel')}
         </Button>,
         <Button key="confirm" type="primary" onClick={() => this.handleOk()}>
-          {i18n.t('dop:confirm')}
+          {i18n.t('dop:OK')}
         </Button>,
       ];
     }
@@ -178,7 +178,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
       const currentAddon = this.getCurAddon();
       return [
         <Button key="cancel" onClick={() => this.handleCancel()}>
-          {i18n.t('cancel')}
+          {i18n.t('Cancel')}
         </Button>,
         // API 网关只有基础信息，不需要下一步
         currentAddon.vars === null || this.state.onlyOneStep ? (
@@ -188,24 +188,24 @@ class AddonModal extends React.PureComponent<IProps, IState> {
             loading={this.state.submitLoading}
             onClick={() => this.handleSaveDiceAddons()}
           >
-            {i18n.t('dop:confirm')}
+            {i18n.t('dop:OK')}
           </Button>
         ) : (
           <Button key="next" type="primary" onClick={() => this.toStep(STEP.SECOND)}>
-            {i18n.t('dop:next')}
+            {i18n.t('dop:Next')}
           </Button>
         ),
       ];
     }
     return [
       <Button key="cancel" onClick={() => this.handleCancel()}>
-        {i18n.t('cancel')}
+        {i18n.t('Cancel')}
       </Button>,
       <Button key="prev" onClick={() => this.toStep(STEP.FIRST)}>
         {i18n.t('dop:previous')}
       </Button>,
       <Button key="confirm" type="primary" loading={this.state.submitLoading} onClick={() => this.handleOk()}>
-        {i18n.t('dop:confirm')}
+        {i18n.t('dop:OK')}
       </Button>,
     ];
   };
@@ -268,7 +268,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
             ? this.props.category === 'DATA_SOURCE'
               ? i18n.t('dop:edit custom data source')
               : i18n.t('dop:edit service instance')
-            : i18n.t('dop:add service instance')
+            : i18n.t('dop:Add service instance')
         }
         width={800}
         visible={visible}

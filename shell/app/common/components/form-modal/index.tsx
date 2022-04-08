@@ -192,7 +192,7 @@ class FormModalComp extends React.Component<IProps, IState> {
         footer={[
           onCancel ? (
             <Button key="back" onClick={this.handleCancel}>
-              {i18n.t('cancel')}
+              {i18n.t('Cancel')}
             </Button>
           ) : null,
           onOk ? (

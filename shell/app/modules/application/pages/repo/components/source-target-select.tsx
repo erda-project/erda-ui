@@ -194,7 +194,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
         <div className="repo-source-target-select">
           <div className="branch-select-row">
             <BranchSelect {...{ branches: [], hideTagList: true, current: sourceBranch || '' }} disabled>
-              <span>{i18n.t('compare')}:</span>
+              <span>{i18n.t('Compare')}:</span>
               <span className="branch-name font-bold nowrap">{sourceBranch || null}</span>
               <IF check={sourceBranch}>
                 <ErdaIcon type="caret-down" size="20" />
@@ -204,7 +204,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
               <CustomIcon type="arrow-right" />
             </div>
             <BranchSelect {...{ branches: [], hideTagList: true, current: targetBranch || '' }} disabled>
-              <span>{i18n.t('based on')}:</span>
+              <span>{i18n.t('Based on')}:</span>
               <span className="branch-name font-bold nowrap">{targetBranch || null}</span>
               <IF check={targetBranch}>
                 <ErdaIcon type="caret-down" size="20" />
@@ -229,7 +229,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
             onChange={this.handleChange('targetBranch')}
             disabled={disableTargetBranch}
           >
-            <span>{i18n.t('based on')}:</span>
+            <span>{i18n.t('Based on')}:</span>
             <span className="branch-name font-bold nowrap">{targetBranch || null}</span>
             <IF check={targetBranch}>
               <ErdaIcon type="caret-down" size="20" />
@@ -244,7 +244,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
             onChange={this.handleChange('sourceBranch')}
             disabled={disableSourceBranch}
           >
-            <span>{i18n.t('compare')}:</span>
+            <span>{i18n.t('Compare')}:</span>
             <span className="branch-name font-bold nowrap">{sourceBranch || null}</span>
             <IF check={sourceBranch}>
               <ErdaIcon type="caret-down" size="20" />
@@ -257,11 +257,11 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
         {renderErrorBlock(mrStats)}
         {disableRemoveSource ? (
           <Checkbox className="delete-after-merge" disabled checked={false}>
-            {i18n.t('dop:delete source branch after merge')}({i18n.t('dop:The default branch cannot be deleted.')})
+            {i18n.t('dop:Delete source branch after merge')}({i18n.t('dop:The default branch cannot be deleted.')})
           </Checkbox>
         ) : (
           <Checkbox className="delete-after-merge" onChange={this.handleCheck} checked={removeSourceBranch}>
-            {i18n.t('dop:delete source branch after merge')}
+            {i18n.t('dop:Delete source branch after merge')}
           </Checkbox>
         )}
         <span className={`show-diff-btn ${couldShowDiff ? '' : 'invisible'}`}>
