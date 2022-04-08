@@ -168,7 +168,7 @@ describe('use-hooks', () => {
           total: 100,
           [listKey]: new Array(pageSiz).fill(1),
         },
-        err: success ? undefined : { msg: 'error' },
+        err: success ? undefined : { msg: 'Error' },
       };
     };
 
