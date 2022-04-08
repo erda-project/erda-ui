@@ -12,14 +12,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import qs from 'query-string';
 import { ErdaIcon } from 'common';
 import { Tooltip } from 'antd';
-import classnames from 'classnames';
+import { goTo } from 'common/utils';
 import './index.scss';
 
 export interface TextBlockInfoProps {
   size?: 'small' | 'normal';
   main: string;
+  mainLink?: { target: string; params?: { [key: string]: string } };
   sub?: string;
   subTip?: string;
   desc?: string;
@@ -36,6 +38,7 @@ const TextBlockInfo = (props: TextBlockInfoProps) => {
     align = 'left',
     className = '',
     main,
+    mainLink,
     size = 'normal',
     sub,
     subTip,
@@ -65,7 +68,20 @@ const TextBlockInfo = (props: TextBlockInfoProps) => {
       style={style}
       {...rest}
     >
-      <div className={'main-text truncate'}>{main}</div>
+      <div
+        className={`main-text truncate ${mainLink ? 'cursor-pointer' : ''}`}
+        onClick={() => {
+          if (mainLink) {
+            const targetLink = goTo.resolve[mainLink.target]();
+            targetLink &&
+              goTo(`${targetLink}${mainLink.params ? `?${qs.stringify(mainLink.params)}` : ''}`, {
+                jumpOut: true,
+              });
+          }
+        }}
+      >
+        {main}
+      </div>
       {sub ? (
         <div className={`sub-text w-full flex items-center ${alignClsMap.desc[align]}`}>
           <span className="truncate">{sub}</span>
