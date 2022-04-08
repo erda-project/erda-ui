@@ -91,7 +91,7 @@ const Editor = (props: IProps) => {
     <div className="flex-h-center">
       {propsExtraTitle}
       <WithAuth pass={deployAuth}>
-        <Tooltip title={i18n.t('execute')}>
+        <Tooltip title={i18n.t('Execute')}>
           <ErdaIcon
             size="20"
             className="ml-2 cursor-pointer"

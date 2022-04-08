@@ -43,7 +43,7 @@ const Guide = React.forwardRef((props: IProps, ref: React.Ref<{ reload: () => vo
     const { appName, branch, id } = guide;
     Modal.confirm({
       title: i18n.t('is it confirmed {action}?', {
-        action: `${i18n.t('remove')}${i18n.t('dop:tips of branch {branch} under application {application}', {
+        action: `${i18n.t('Remove')}${i18n.t('dop:tips of branch {branch} under application {application}', {
           branch,
           application: appName,
           interpolation: { escapeValue: false },
@@ -92,7 +92,7 @@ const Guide = React.forwardRef((props: IProps, ref: React.Ref<{ reload: () => vo
             </span>
             <div className="flex-1 justify-end flex-h-center">
               <div className="mr-4 remove-btn" onClick={() => removeAlert(guidesFirst)}>
-                {i18n.t('remove')}
+                {i18n.t('Remove')}
               </div>
               <span
                 className="cursor-pointer hover:text-purple-deep"
@@ -100,7 +100,7 @@ const Guide = React.forwardRef((props: IProps, ref: React.Ref<{ reload: () => vo
                   onAddPipeline(guidesFirst.appID);
                 }}
               >
-                {i18n.t('add')}
+                {i18n.t('Add')}
               </span>
             </div>
           </div>
@@ -125,7 +125,7 @@ const Guide = React.forwardRef((props: IProps, ref: React.Ref<{ reload: () => vo
                 </span>
                 <div className="flex-1 justify-end flex-h-center">
                   <div className="mr-4 remove-btn" onClick={() => removeAlert(item)}>
-                    {i18n.t('remove')}
+                    {i18n.t('Remove')}
                   </div>
                   <span
                     className="cursor-pointer hover:text-purple-deep"
@@ -133,7 +133,7 @@ const Guide = React.forwardRef((props: IProps, ref: React.Ref<{ reload: () => vo
                       onAddPipeline(item.appID);
                     }}
                   >
-                    {i18n.t('add')}
+                    {i18n.t('Add')}
                   </span>
                 </div>
               </div>

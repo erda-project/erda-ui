@@ -264,7 +264,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, appID, fixedApp }: IPr
             <ErdaAlert message={nameRepeatMessage} type="error" closeable={false} className="py-1.5" />
           ) : null}
           <div>
-            <div className="text-default">{i18n.t('dop:code source')}</div>
+            <div className="text-default">{i18n.t('dop:Code source')}</div>
             <CodeResource />
           </div>
           <div>
@@ -295,7 +295,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, appID, fixedApp }: IPr
               <div className="w-32 text-default-6">
                 <div className="flex-h-center mt-1.5">
                   <ErdaIcon type="pipeline" size={20} className="text-default-4 mr-1" />
-                  pipeline {i18n.t('file')}
+                  pipeline {i18n.t('File')}
                 </div>
               </div>
               <div className="flex-1">
@@ -373,7 +373,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, appID, fixedApp }: IPr
           {i18n.t('establish')}
         </Button>
         <Button className="bg-default-06 border-default-06 text-default-8" onClick={() => onCancel()}>
-          {i18n.t('cancel')}
+          {i18n.t('Cancel')}
         </Button>
       </div>
     </div>
