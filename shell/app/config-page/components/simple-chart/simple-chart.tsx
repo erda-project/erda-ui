@@ -12,8 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import EChart from 'charts/components/echarts';
+import qs from 'query-string';
 import { newColorMap } from 'config-page/utils';
 import { TextBlockInfo } from 'common';
+import { goTo } from 'common/utils';
 import echarts from 'echarts/lib/echarts';
 import React from 'react';
 import './simple-chart.scss';
@@ -91,7 +93,7 @@ const getOption = (chart: CP_SIMPLE_CHART.IData['chart']) => {
 
 const SimpleChart = (props: CP_SIMPLE_CHART.Props) => {
   const { execOperation, data, props: configProps, operations } = props;
-  const { main, sub, compareText, compareValue, chart } = data || {};
+  const { main, mainLink, sub, compareText, compareValue, compareValueLink, chart } = data || {};
   const { style } = configProps || {};
 
   return (
@@ -99,11 +101,25 @@ const SimpleChart = (props: CP_SIMPLE_CHART.Props) => {
       <TextBlockInfo
         className="flex justify-center"
         main={main}
+        mainLink={mainLink}
         sub={sub}
         desc={
           <div>
             <span className="color-primary font-bold mr-1">{compareText}</span>
-            <span className={`color-sub ${+(compareValue || 0) >= 0 ? 'text-success' : 'text-error'}`}>
+            <span
+              className={`color-sub ${+(compareValue || 0) >= 0 ? 'text-success' : 'text-error'} ${
+                compareValueLink ? 'cursor-pointer' : ''
+              }`}
+              onClick={() => {
+                if (compareValueLink) {
+                  const targetLink = goTo.resolve[compareValueLink.target]();
+                  targetLink &&
+                    goTo(`${targetLink}${compareValueLink.params ? `?${qs.stringify(compareValueLink.params)}` : ''}`, {
+                      jumpOut: true,
+                    });
+                }
+              }}
+            >
               {compareValue}
             </span>
           </div>

@@ -24,13 +24,20 @@ declare namespace CP_SIMPLE_CHART {
 
   interface IData {
     main: string;
+    mainLink?: Link;
     sub?: string;
     compareText?: string;
     compareValue?: string;
+    compareValueLink?: Link;
     chart: {
       xAxis: Array<number | string>;
       series: serie[];
     };
+  }
+
+  interface Link {
+    target: string;
+    params?: { [key: string]: string };
   }
 
   type Props = MakeProps<Spec>;
