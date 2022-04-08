@@ -1,0 +1,20 @@
+.pipeline-guide-blue {
+  border-color: $blue;
+  background-color: rgba($blue, 0.1);
+
+  .pipeline-guide-item {
+    .remove-btn {
+      display: none;
+      color: $color-default;
+      cursor: pointer;
+
+      &:hover {
+        color: $red;
+      }
+    }
+
+    &:hover .remove-btn {
+      display: block;
+    }
+  }
+}

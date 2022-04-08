@@ -26,6 +26,7 @@ import buildStore from 'application/stores/build';
 import FileContainer from 'application/common/components/file-container';
 import { useUpdateEffect, useEffectOnce } from 'react-use';
 import { useLoading } from 'core/stores/loading';
+import { rerunFailedPipeline, runPipeline, rerunPipeline, cancelPipeline } from 'project/services/pipeline';
 import Info from './info';
 import deployStore from 'application/stores/deploy';
 import './execute.scss';
@@ -40,41 +41,51 @@ interface IProps {
   appId: string;
   projectId: string;
   pipelineId: string;
+  pipelineDefinitionID: string;
   fileChanged: boolean;
   deployAuth: { hasAuth: boolean; authTip?: string };
   pipelineFileDetail?: TREE.NODE;
   extraTitle: React.ReactNode;
   pipelineDetail?: BUILD.IPipelineDetail;
+  setPipelineId: (v: string) => void;
   editPipeline: () => void;
 }
 
 const Execute = (props: IProps) => {
-  const { appId, projectId, pipelineId, deployAuth, pipelineFileDetail, editPipeline, fileChanged, extraTitle } = props;
+  const {
+    appId,
+    projectId,
+    pipelineId,
+    deployAuth,
+    pipelineFileDetail,
+    editPipeline,
+    pipelineDefinitionID,
+    fileChanged,
+    extraTitle,
+    setPipelineId,
+  } = props;
 
   const [state, updater] = useUpdate({
     startStatus: 'unstart', // unstart-未开始，ready-准备开始，start-已开始,end:执行完成或取消
+    rerunStartStatus: 'unstart',
     logVisible: false,
     logProps: {},
     chosenPipelineId: pipelineId || ('' as string | number),
     recordTableKey: 1,
   });
-  const { startStatus, logProps, logVisible } = state;
+  const { startStatus, rerunStartStatus, logProps, logVisible } = state;
 
   const [pipelineDetail, changeType] = buildStore.useStore((s) => [s.pipelineDetail, s.changeType]);
 
   const rejectContentRef = React.useRef('');
 
-  const {
-    cancelBuild: cancelBuildCall,
-    runBuild: runBuildCall,
-    reRunFailed,
-    reRunEntire,
-    getBuildRuntimeDetail,
-    updateTaskEnv,
-    getPipelineDetail,
-  } = buildStore.effects;
+  const { getBuildRuntimeDetail, updateTaskEnv, getPipelineDetail } = buildStore.effects;
 
   const { updateApproval } = deployStore.effects;
+
+  React.useEffect(() => {
+    updater.chosenPipelineId(pipelineId);
+  }, [pipelineId, updater]);
 
   const [getPipelineDetailLoading, addPipelineLoading] = useLoading(buildStore, ['getPipelineDetail', 'addPipeline']);
 
@@ -99,7 +110,7 @@ const Execute = (props: IProps) => {
   const curStatus = (pipelineDetail && pipelineDetail.status) || '';
   useUpdateEffect(() => {
     if (curStatus) {
-      updater.startStatus(ciBuildStatusSet.beforeRunningStatus.includes(curStatus) ? 'unstart' : 'start');
+      updater.startStatus(ciBuildStatusSet.executeStatus.includes(curStatus) ? 'start' : 'unstart');
     }
   }, [curStatus]);
 
@@ -115,47 +126,37 @@ const Execute = (props: IProps) => {
 
   const { id: pipelineID, env, branch, pipelineButton, extra, needApproval } = pipelineDetail;
 
-  const initBuildDetail = (id: number, detailType?: BUILD.IActiveItem) => {
-    if (+id !== +state.chosenPipelineId) {
-      updater.chosenPipelineId(id);
-    } else {
-      getPipelineDetail({ pipelineID: id });
-    }
-  };
-
   const runBuild = () => {
     updater.startStatus('ready');
-    runBuildCall({ pipelineID })
-      .then((result) => {
-        if (result.success) {
+    runPipeline
+      .fetch({ pipelineDefinitionID, projectID: +projectId })
+      .then((res) => {
+        if (res.success) {
           updater.startStatus('start');
         } else {
           updater.startStatus('unstart');
         }
       })
-      .catch(() => updater.startStatus('unstart'));
+      .catch(() => {
+        updater.startStatus('unstart');
+      });
   };
 
   const reRunPipeline = (isEntire: boolean) => {
-    updater.startStatus('padding');
-    const reRunFunc = !isEntire ? reRunFailed : reRunEntire;
-    reRunFunc({ pipelineID })
+    updater.rerunStartStatus('padding');
+    const reRunFunc = !isEntire ? rerunFailedPipeline : rerunPipeline;
+    reRunFunc
+      .fetch({ pipelineDefinitionID, projectID: +projectId })
       .then((result) => {
-        const _detail = {
-          source: result.source,
-          branch: result.branch,
-          ymlName: result.ymlName,
-          workspace: result.extra.diceWorkspace,
-        };
-        initBuildDetail(result.id, _detail);
-        updater.startStatus('start');
+        result?.data?.pipeline?.id && setPipelineId(result.data.pipeline.id);
+        updater.rerunStartStatus('start');
       })
-      .catch(() => updater.startStatus('unstart'));
+      .catch(() => updater.rerunStartStatus('unstart'));
   };
 
   const cancelBuild = () => {
-    cancelBuildCall({ pipelineID }).then(() => {
-      initBuildDetail(pipelineID);
+    cancelPipeline.fetch({ pipelineDefinitionID, projectID: +projectId }).then(() => {
+      getPipelineDetail({ pipelineID });
     });
   };
 
@@ -364,95 +365,92 @@ const Execute = (props: IProps) => {
   };
 
   const renderOnceRunBtn = ({ execTitle }: { execTitle: string }) => {
-    const { canCancel, canManualRun, canRerun, canRerunFailed } = pipelineButton;
+    const { canCancel, canRerun, canRerunFailed } = pipelineButton;
     const paddingEle = (
-      <div className="mx-0">
-        <Tooltip title={i18n.t('preparing')}>
-          <ErdaIcon
-            type="loading"
-            className="mx-0.5"
-            color="black-4"
-            size="20px"
-            style={{ transform: 'translateY(0)' }}
-            spin
-          />
-        </Tooltip>
-      </div>
+      <Tooltip title={i18n.t('preparing')}>
+        <ErdaIcon
+          type="loading"
+          className="ml-2"
+          color="black-4"
+          size="20px"
+          style={{ transform: 'translateY(0)' }}
+          spin
+        />
+      </Tooltip>
     );
-
     return (
-      <IF check={canManualRun}>
-        <IF check={startStatus !== 'unstart'}>
-          {paddingEle}
-          <ELSE />
-          <div>
-            <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
-              <Tooltip title={execTitle}>
-                <ErdaIcon
-                  size="20"
-                  className="mr-2 cursor-pointer"
-                  fill="black-4"
-                  onClick={() => {
-                    runBuild();
-                  }}
-                  type="play1"
-                />
-              </Tooltip>
-            </WithAuth>
-          </div>
-        </IF>
-        <ELSE />
-        <IF check={canCancel}>
-          <div>
-            <DeleteConfirm
-              title={`${i18n.t('dop:confirm to cancel the current build')}?`}
-              secondTitle=""
-              onConfirm={() => {
-                cancelBuild();
-              }}
-            >
+      <>
+        <If condition={startStatus !== 'start'}>
+          <Choose>
+            <When condition={startStatus !== 'unstart'}>{paddingEle}</When>
+            <Otherwise>
               <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
-                <Tooltip title={i18n.t('dop:cancel build')}>
-                  <ErdaIcon className="cursor-pointer" fill="black-4" size="20" type="pause" />
+                <Tooltip title={execTitle}>
+                  <ErdaIcon
+                    size="20"
+                    className="ml-2 cursor-pointer"
+                    fill="black-4"
+                    onClick={() => {
+                      runBuild();
+                    }}
+                    type="play1"
+                  />
                 </Tooltip>
               </WithAuth>
-            </DeleteConfirm>
-          </div>
-        </IF>
-        <ELSE />
-        <div>
-          {/* 现需求为“从失败处重试+全部重试” or “全部重试”，分别对应 Dropdown 和 icon 来操作 */}
-          <IF check={startStatus === 'padding'}>
-            {paddingEle}
-            <ELSE />
-            <IF check={canRerunFailed}>
-              {deployAuth.hasAuth ? (
-                <Dropdown overlay={renderReRunMenu()} placement="bottomCenter">
-                  <ErdaIcon size="21" fill="black-4" type="redo" className="mr-1.5 cursor-pointer" />
-                </Dropdown>
-              ) : (
-                <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
-                  <CustomIcon type="refresh" />
-                </WithAuth>
-              )}
-              <ELSE />
-              <IF check={canRerun}>
-                <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
-                  <Tooltip title={`${i18n.t('dop:rerun whole pipeline')}(commit ${i18n.t('unchanged')})`}>
-                    <CustomIcon
-                      onClick={() => {
-                        reRunPipeline(true);
-                      }}
-                      type="refresh"
-                      className="cursor-pointer"
-                    />
-                  </Tooltip>
-                </WithAuth>
-              </IF>
-            </IF>
-          </IF>
-        </div>
-      </IF>
+            </Otherwise>
+          </Choose>
+        </If>
+
+        <If condition={canCancel}>
+          <DeleteConfirm
+            title={`${i18n.t('dop:confirm to cancel the current build')}?`}
+            secondTitle=""
+            onConfirm={() => {
+              cancelBuild();
+            }}
+          >
+            <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
+              <Tooltip title={i18n.t('dop:cancel build')}>
+                <ErdaIcon className="ml-2 cursor-pointer" fill="black-4" size="20" type="pause" />
+              </Tooltip>
+            </WithAuth>
+          </DeleteConfirm>
+        </If>
+        {/* 现需求为“从失败处重试+全部重试” or “全部重试”，分别对应 Dropdown 和 icon 来操作 */}
+        <Choose>
+          <When condition={rerunStartStatus === 'padding'}>{paddingEle}</When>
+          <Otherwise>
+            <Choose>
+              <When condition={canRerunFailed}>
+                {deployAuth.hasAuth ? (
+                  <Dropdown overlay={renderReRunMenu()} placement="bottomCenter">
+                    <ErdaIcon size="20" fill="black-4" type="redo" className="ml-2 cursor-pointer" />
+                  </Dropdown>
+                ) : (
+                  <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
+                    <ErdaIcon size="20" fill="black-4" type="redo" className="ml-2" />
+                  </WithAuth>
+                )}
+              </When>
+              <Otherwise>
+                <If condition={canRerun}>
+                  <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
+                    <Tooltip title={`${i18n.t('dop:rerun whole pipeline')}(commit ${i18n.t('unchanged')})`}>
+                      <CustomIcon
+                        onClick={() => {
+                          reRunPipeline(true);
+                        }}
+                        type="refresh"
+                        className="cursor-pointer ml-2"
+                      />
+                    </Tooltip>
+                  </WithAuth>
+                </If>
+              </Otherwise>
+            </Choose>
+          </Otherwise>
+        </Choose>
+      </>
     );
   };
 
@@ -477,19 +475,9 @@ const Execute = (props: IProps) => {
         info={pipelineFileDetail}
         className="mb-2"
         operations={
-          <div>
-            {pipelineRunning ? (
-              <Tooltip title={i18n.t('refresh')}>
-                <ErdaIcon
-                  type="shuaxin"
-                  size={20}
-                  fill="black-4"
-                  className="cursor-pointer mr-1"
-                  onClick={refreshPipeline}
-                />
-              </Tooltip>
-            ) : null}
+          <div className="flex-h-center">
             {extraTitle}
+            {renderRunBtn()}
           </div>
         }
 
@@ -530,9 +518,16 @@ const Execute = (props: IProps) => {
               name={`${i18n.t('pipeline')} (${i18n.t('dop:the latest execution status')})`}
               showLoading={false}
               ops={
-                <Button onClick={editPipeline} size="small">
-                  {i18n.t('edit')}
-                </Button>
+                <div>
+                  {!pipelineRunning ? (
+                    <Button onClick={refreshPipeline} size="small" className="mr-1">
+                      {i18n.t('refresh')}
+                    </Button>
+                  ) : null}
+                  <Button onClick={editPipeline} size="small">
+                    {i18n.t('edit')}
+                  </Button>
+                </div>
               }
             >
               <PipelineChart

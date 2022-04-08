@@ -1,0 +1,20 @@
+.pipeline-category {
+  &-item {
+    height: 52px;
+
+    &.active {
+      position: relative;
+      background: $white;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 3px;
+        background-color: $color-purple-highlight;
+      }
+    }
+  }
+}

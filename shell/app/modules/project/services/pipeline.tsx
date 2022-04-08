@@ -86,13 +86,41 @@ const apis = {
   cancelGuide: {
     api: 'post@/api/guide/:id/actions/cancel',
   },
+  runPipeline: {
+    api: 'post@/api/project-pipeline/definitions/:pipelineDefinitionID/actions/run',
+  },
+  rerunPipeline: {
+    api: 'post@/api/project-pipeline/definitions/:pipelineDefinitionID/actions/rerun',
+  },
+  rerunFailedPipeline: {
+    api: 'post@/api/project-pipeline/definitions/:pipelineDefinitionID/actions/rerun-failed',
+  },
+  cancelPipeline: {
+    api: 'post@/api/project-pipeline/definitions/:pipelineDefinitionID/actions/cancel',
+  },
 };
+
+export const runPipeline = apiCreator<
+  (payload: { pipelineDefinitionID: string; projectID: number }) => { pipeline: { id: string } }
+>(apis.runPipeline);
+
+export const rerunPipeline = apiCreator<
+  (payload: { pipelineDefinitionID: string; projectID: number }) => { pipeline: { id: string } }
+>(apis.rerunPipeline);
+
+export const rerunFailedPipeline = apiCreator<
+  (payload: { pipelineDefinitionID: string; projectID: number }) => { pipeline: { id: string } }
+>(apis.rerunFailedPipeline);
+
+export const cancelPipeline = apiCreator<(payload: { pipelineDefinitionID: string; projectID: number }) => void>(
+  apis.cancelPipeline,
+);
 
 export const getAppList = apiCreator<(payload: { projectID: string; name?: string }) => AppDetail[]>(apis.getAppList);
 
-export const getPipelineTypesList = apiCreator<(payload: { projectID: string; name?: string }) => Category[]>(
-  apis.getPipelineTypesList,
-);
+export const getPipelineTypesList = apiCreator<
+  (payload: { projectID: string; appID?: string; name?: string }) => Category[]
+>(apis.getPipelineTypesList);
 
 export const getFileTree = apiCreator<
   (payload: {
@@ -129,6 +157,8 @@ export const editPipelineName = apiCreator<(payload: { id: string; name: string;
   apis.editPipelineName,
 );
 
-export const getGuidesList = apiCreator<(payload: { kind: string; projectID: string }) => Guide[]>(apis.getGuidesList);
+export const getGuidesList = apiCreator<(payload: { kind: string; projectID: string; appID?: string }) => Guide[]>(
+  apis.getGuidesList,
+);
 
 export const cancelGuide = apiCreator<(payload: { id: string }) => RAW_RESPONSE>(apis.cancelGuide);
