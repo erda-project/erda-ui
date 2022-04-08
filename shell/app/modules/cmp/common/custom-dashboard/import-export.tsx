@@ -51,17 +51,17 @@ const { Option } = Select;
 const defaultTabs = [
   {
     key: 'record',
-    text: i18n.t('record'),
+    text: i18n.t('Records'),
     disabled: false,
   },
   {
     key: 'export',
-    text: i18n.t('export'),
+    text: i18n.t('Export'),
     disabled: false,
   },
   {
     key: 'import',
-    text: i18n.t('import'),
+    text: i18n.t('Import'),
     disabled: false,
   },
 ];
@@ -275,9 +275,9 @@ const Export = (props: ExportProps) => {
         </Space>
       </Radio.Group>
       <div className="flex-h-center justify-end mt-4">
-        <Button onClick={onClose}>{i18n.t('cancel')}</Button>
+        <Button onClick={onClose}>{i18n.t('Cancel')}</Button>
         <Button onClick={onExport} className="ml-2" type="primary">
-          {i18n.t('ok')}
+          {i18n.t('OK')}
         </Button>
       </div>
     </div>
@@ -416,9 +416,9 @@ const Import = (props: ImportProps) => {
       </div>
 
       <div className="flex-h-center justify-end mt-4">
-        <Button onClick={onClose}>{i18n.t('cancel')}</Button>
+        <Button onClick={onClose}>{i18n.t('Cancel')}</Button>
         <Button onClick={importFile} disabled={fileStatus !== 'done'} className="ml-2" type="primary">
-          {i18n.t('ok')}
+          {i18n.t('OK')}
         </Button>
       </div>
     </div>
@@ -476,16 +476,16 @@ const Record = ({ scope, scopeId, relationship }: { scope: string; scopeId: stri
     },
     {
       dataIndex: 'type',
-      title: i18n.t('type'),
+      title: i18n.t('Type'),
       render: (val: string, record: Custom_Dashboard.OperationHistory) => {
         const CMPTypeMap = {
-          Import: i18n.t('import'),
-          Export: i18n.t('export'),
+          Import: i18n.t('Import'),
+          Export: i18n.t('Export'),
         };
 
         const MSPTypeMap = {
           Export: i18n.t('cmp:Export file'),
-          Import: i18n.t('import'),
+          Import: i18n.t('Import'),
         };
 
         if (scope === CustomDashboardScope.ORG) {
@@ -505,7 +505,7 @@ const Record = ({ scope, scopeId, relationship }: { scope: string; scopeId: stri
     },
     {
       dataIndex: 'operatorId',
-      title: i18n.t('operator'),
+      title: i18n.t('Operator'),
       render: (val: string) => {
         const cU = userMap[Number(val)];
         if (!val) {
@@ -514,10 +514,10 @@ const Record = ({ scope, scopeId, relationship }: { scope: string; scopeId: stri
         return (
           <span>
             <Avatar size="small" src={cU?.avatar}>
-              {cU.nick ? getAvatarChars(cU.nick) : i18n.t('none')}
+              {cU.nick ? getAvatarChars(cU.nick) : i18n.t('None')}
             </Avatar>
             <span className="ml-0.5 mr-1" title={cU.name}>
-              {cU.nick || cU.name || val || i18n.t('common:none')}
+              {cU.nick || cU.name || val || i18n.t('None')}
             </span>
           </span>
         );
@@ -525,12 +525,12 @@ const Record = ({ scope, scopeId, relationship }: { scope: string; scopeId: stri
     },
     {
       dataIndex: 'createdAt',
-      title: i18n.t('time'),
+      title: i18n.t('Time'),
       render: (val: string) => (val ? moment(val).format('YYYY/MM/DD HH:mm:ss') : '-'),
     },
     {
       dataIndex: 'status',
-      title: i18n.t('status'),
+      title: i18n.t('cmp:Status'),
       render: (val: string, record: IMPORT_EXPORT_FILE_LIST.FileRecord) => {
         const statusMap = {
           Failure: {
@@ -556,7 +556,7 @@ const Record = ({ scope, scopeId, relationship }: { scope: string; scopeId: stri
     render: (record: Custom_Dashboard.OperationHistory) => {
       const { download, viewResult } = {
         download: {
-          title: i18n.t('download'),
+          title: i18n.t('Download'),
           onClick: () => {
             downloadApi.fetch({
               uuid: record.fileUuid,
@@ -567,11 +567,11 @@ const Record = ({ scope, scopeId, relationship }: { scope: string; scopeId: stri
           },
         },
         viewResult: {
-          title: i18n.t('view results'),
+          title: i18n.t('View Results'),
           onClick: () => {
             if (record.status === 'Success') {
               Modal.success({
-                title: i18n.t('view results'),
+                title: i18n.t('View Results'),
                 content: (
                   <span className="font-medium text-base text-default text-success">
                     {record.type === 'Import' ? i18n.t('imported successfully') : i18n.t('exported successfully')}!
@@ -581,13 +581,13 @@ const Record = ({ scope, scopeId, relationship }: { scope: string; scopeId: stri
             }
             if (record.status === 'Failure') {
               Modal.error({
-                title: i18n.t('view results'),
+                title: i18n.t('View Results'),
                 content: <span className="font-medium text-base text-default">{record.errorMessage}</span>,
               });
             }
             if (record.status === 'Processing') {
               Modal.info({
-                title: i18n.t('view results'),
+                title: i18n.t('View Results'),
                 content: i18n.t('no results yet'),
               });
             }

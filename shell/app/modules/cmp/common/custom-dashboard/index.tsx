@@ -164,9 +164,9 @@ const CustomDashboardList = ({
     {
       key: 'creatorId',
       type: 'select',
-      label: i18n.t('creator'),
+      label: i18n.t('Creator'),
       options: creatorOptions,
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('submitter') }),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('Submitter') }),
     },
     {
       key: 'createdAt',
@@ -178,7 +178,7 @@ const CustomDashboardList = ({
       type: 'input',
       outside: true,
       key: 'name',
-      placeholder: i18n.t('default:search by keywords'),
+      placeholder: i18n.t('default:Search by keyword'),
       customProps: {
         autoComplete: 'off',
       },
