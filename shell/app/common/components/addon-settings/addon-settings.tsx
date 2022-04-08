@@ -59,7 +59,7 @@ const PureAddonSettings = ({ insId, addonConfig, isFetching }: IProps) => {
       <Spin spinning={isFetching}>
         <div className="settings-detail">
           <div className="settings-params-header">
-            <span>{i18n.t('common:service basic parameters')}</span>
+            <span>{i18n.t('common:Basic parameters')}</span>
           </div>
           <div className="settings-params-content">
             {map(reConfig, (v, k) => (

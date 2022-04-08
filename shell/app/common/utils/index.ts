@@ -85,7 +85,7 @@ export function countPagination({ pageNo, pageSize, total, minus }: ICountPagina
 export function notify(type: string, desc: string | React.ReactNode, dur = 3) {
   const messageName = {
     success: i18n.t('succeed'),
-    error: i18n.t('error'),
+    error: i18n.t('Error'),
     info: i18n.t('tip'),
     warning: i18n.t('warning'),
   };

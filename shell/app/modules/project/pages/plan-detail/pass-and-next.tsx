@@ -29,7 +29,7 @@ export const PassAndNext = ({ hasNext, current, onClick }: IProps) => {
     <div className="pass-and-next">
       <Button onClick={() => onClick(CaseStatus.INIT)} disabled={current === CaseStatus.INIT}>
         <CustomIcon className="rounded-full bg-icon text-white" type="wh" />
-        {i18n.t('dop:not performed')}
+        {i18n.t('dop:Not executed')}
       </Button>
       <Button
         className="border-green"
@@ -45,11 +45,11 @@ export const PassAndNext = ({ hasNext, current, onClick }: IProps) => {
         disabled={current === CaseStatus.BLOCK}
       >
         <CustomIcon className="rounded-full bg-yellow text-white" type="zs" />
-        {i18n.t('dop:blocking')}
+        {i18n.t('dop:Blocked')}
       </Button>
       <Button className="border-red" onClick={() => onClick(CaseStatus.FAIL)} disabled={current === CaseStatus.FAIL}>
         <CustomIcon className="rounded-full bg-red text-white" type="wtg" />
-        {i18n.t('dop:not passed')}
+        {i18n.t('dop:Not passed')}
       </Button>
       {hasNext ? <span className="ml-1">{i18n.t('dop:and next')}</span> : null}
     </div>

@@ -34,7 +34,7 @@ export const getDopMenu = () => {
         {
           icon: <ErdaIcon type="apisheji" />,
           key: 'apiManage',
-          text: i18n.t('API'),
+          text: i18n.t('API Management'),
           subtitle: 'API',
           href: goTo.resolve.apiManageMarket(),
           show: orgPerm.dop.apiManage.read.pass,
@@ -42,18 +42,18 @@ export const getDopMenu = () => {
             {
               href: goTo.resolve.apiManageRoot(),
               // icon: 'apijs',
-              text: i18n.t('default:API market'),
+              text: i18n.t('default:API Market'),
               prefix: `${goTo.resolve.apiManageMarket()}/`,
             },
             {
               href: goTo.resolve.apiAccessManage(),
               // icon: 'bianliang',
-              text: i18n.t('access management'),
+              text: i18n.t('Access Management'),
             },
             {
               href: goTo.resolve.apiMyVisit(),
               // icon: 'renyuan',
-              text: i18n.t('my visit'),
+              text: i18n.t('My Access'),
             },
           ],
         },
@@ -61,7 +61,7 @@ export const getDopMenu = () => {
           key: 'approval',
           href: goTo.resolve.dopApprove(), // '/dop/approval/my-approve',
           icon: <ErdaIcon type="shenpi" />,
-          text: i18n.t('dop:approval request'),
+          text: i18n.t('dop:Approval Request'),
           subtitle: i18n.t('Approve'),
           subMenu: [
             {
@@ -70,7 +70,7 @@ export const getDopMenu = () => {
               prefix: `${goTo.resolve.dopApprove()}/`,
             },
             {
-              text: i18n.t('dop:initiated'),
+              text: i18n.t('dop:Initiated by me'),
               href: goTo.resolve.dopMyInitiateWait(), // '/dop/approval/my-initiate/WaitApprove',
               prefix: `${goTo.resolve.dopMyInitiate()}/`,
             },

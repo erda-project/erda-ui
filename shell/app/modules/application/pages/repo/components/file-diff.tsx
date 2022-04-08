@@ -440,7 +440,7 @@ export const FileDiff = ({
                                         }),
                                     },
                                     {
-                                      text: i18n.t('cancel'),
+                                      text: i18n.t('Cancel'),
                                       onClick: () => {
                                         toggleLeftCommentEdit(lineKey, false);
                                         toggleRightCommentEdit(lineKey, false);
@@ -515,7 +515,7 @@ export const FileDiff = ({
                                       }).then(() => toggleLeftCommentEdit(lineKey, false)),
                                   },
                                   {
-                                    text: i18n.t('cancel'),
+                                    text: i18n.t('Cancel'),
                                     onClick: () => toggleLeftCommentEdit(lineKey, false),
                                   },
                                 ]}
@@ -545,7 +545,7 @@ export const FileDiff = ({
                                       }).then(() => toggleRightCommentEdit(lineKey, false)),
                                   },
                                   {
-                                    text: i18n.t('cancel'),
+                                    text: i18n.t('Cancel'),
                                     onClick: () => toggleRightCommentEdit(lineKey, false),
                                   },
                                 ]}

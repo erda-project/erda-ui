@@ -79,7 +79,7 @@ const apiAccess = createStore({
     },
     async createAccess({ call }, payload: API_ACCESS.CreateAccess) {
       const res = await call(createAccess, payload, {
-        successMsg: i18n.t('{action} successfully', { action: i18n.t('add') }),
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('Add') }),
       });
       return res;
     },
@@ -147,7 +147,7 @@ const apiAccess = createStore({
     },
     async addSla({ call }, payload: API_ACCESS.AddSla) {
       const res = await call(addSla, payload, {
-        successMsg: i18n.t('{action} successfully', { action: i18n.t('add') }),
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('Add') }),
       });
       return res;
     },

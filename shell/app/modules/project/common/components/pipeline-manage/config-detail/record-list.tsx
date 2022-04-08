@@ -63,18 +63,18 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
   const renderRecordList = () => {
     const userMap = useUserMap();
     if (isEmpty(configDetailRecordList)) {
-      return <p>{i18n.t('common:no data')}</p>;
+      return <p>{i18n.t('common:No data')}</p>;
     }
     const columns: Array<ColumnProps<any>> = [
       {
-        title: i18n.t('version'),
+        title: i18n.t('Version'),
         dataIndex: 'runIndex',
         width: 80,
         align: 'center',
         render: (runIndex: any) => <span className="run-index">{runIndex}</span>,
       },
       {
-        title: i18n.t('dop:updater'),
+        title: i18n.t('dop:Updated by'),
         dataIndex: 'updaterID',
         width: 100,
         align: 'center',
@@ -84,7 +84,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
         },
       },
       {
-        title: i18n.t('default:update time'),
+        title: i18n.t('default:Update time'),
         dataIndex: 'updatedAt',
         width: 200,
         render: (updatedAt: number) => moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
@@ -126,11 +126,11 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
   return (
     <Popover
       placement="bottomRight"
-      title={i18n.t('dop:modify record')}
+      title={i18n.t('dop:Modify Record')}
       content={renderRecordList()}
       arrowPointAtCenter
     >
-      <Button>{i18n.t('dop:modify record')}</Button>
+      <Button>{i18n.t('dop:Modify Record')}</Button>
     </Popover>
   );
 });

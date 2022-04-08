@@ -71,7 +71,7 @@ export const sortByLineType = (list: any[]) => {
 let count = 0;
 export const getItemName = () => {
   count += 1;
-  return `${i18n.t('dop:new node')}${count}`;
+  return `${i18n.t('dop:New node')}${count}`;
 };
 
 export const randomId = () => {

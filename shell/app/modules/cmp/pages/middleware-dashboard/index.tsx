@@ -31,7 +31,7 @@ const { Option } = Select;
 const { Search } = Input;
 
 const envOptions = [
-  { cnName: i18n.t('all'), enName: 'ALL' },
+  { cnName: i18n.t('All'), enName: 'ALL' },
   { cnName: i18n.t('develop'), enName: 'DEV' },
   { cnName: i18n.t('test'), enName: 'TEST' },
   { cnName: i18n.t('staging'), enName: 'STAGING' },
@@ -101,7 +101,7 @@ const MiddlewareDashboard = () => {
   // const overviewItemNameMap = {
   //   cpu: 'CPU',
   //   mem: i18n.t('memory'),
-  //   nodes: i18n.t('node'),
+  //   nodes: i18n.t('Node'),
   // };
 
   const handleTableChange = (pagination: any) => {
@@ -151,7 +151,7 @@ const MiddlewareDashboard = () => {
       sorter: (a: MIDDLEWARE_DASHBOARD.IMiddlewareDetail, b: MIDDLEWARE_DASHBOARD.IMiddlewareDetail) => a.mem - b.mem,
     },
     {
-      title: i18n.t('node'),
+      title: i18n.t('Node'),
       dataIndex: 'nodes',
       key: 'nodes',
       width: 80,
@@ -159,7 +159,7 @@ const MiddlewareDashboard = () => {
         a.nodes - b.nodes,
     },
     {
-      title: i18n.t('cmp:number of references'),
+      title: i18n.t('cmp:Number of references'),
       dataIndex: 'attachCount',
       key: 'attachCount',
       width: 200,
@@ -188,7 +188,7 @@ const MiddlewareDashboard = () => {
                   className="filter-item-content"
                   allowClear
                   value={projectId}
-                  placeholder={i18n.t('search by keyword')}
+                  placeholder={i18n.t('Search by keyword')}
                   notFoundContent={
                     <IF check={getProjectsLoading}>
                       <Spin size="small" />

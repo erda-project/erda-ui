@@ -38,7 +38,7 @@ interface IProps {
 const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps) => {
   const fieldsList: IFormItem[] = [
     {
-      label: i18n.t('default:project name'),
+      label: i18n.t('default:Project name'),
       initialValue: metaData.projectName,
       name: 'targetName',
       itemProps: {
@@ -56,7 +56,7 @@ const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps)
       name: 'dataRange',
       getComp: () => (
         <RangePicker
-          placeholder={[i18n.t('common:start at'), i18n.t('common:end at')]}
+          placeholder={[i18n.t('common:start at'), i18n.t('common:End time')]}
           showTime={{ format: 'HH:mm' }}
           format="YYYY-MM-DD HH:mm"
           disabledDate={(time) => !!time && time.valueOf() < moment().subtract(1, 'd').valueOf()}

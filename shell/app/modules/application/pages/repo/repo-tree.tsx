@@ -332,7 +332,7 @@ const RepoTreePage = () => {
     const { type, current } = repoNavRef.current?.target || {};
     const fieldsList = [
       {
-        label: i18n.t('dop:source type'),
+        label: i18n.t('dop:Source type'),
         name: 'refType',
         type: 'radioGroup',
         initialValue: type,
@@ -348,7 +348,7 @@ const RepoTreePage = () => {
         ],
       },
       {
-        label: i18n.t('dop:based on source'),
+        label: i18n.t('dop:Based on source'),
         name: 'refValue',
         type: 'custom',
         initialValue: current,
@@ -428,7 +428,7 @@ const RepoTreePage = () => {
         },
       },
       {
-        label: i18n.t('default:password'),
+        label: i18n.t('default:Password'),
         name: ['repoConfig', 'password'],
         type: 'custom',
         getComp: () => <Input.Password />,
@@ -457,7 +457,7 @@ const RepoTreePage = () => {
                 setShowEdit(true);
               }}
             >
-              {i18n.t('default:edit')}
+              {i18n.t('default:Edit')}
             </Button>
           </WithAuth>
         </div>
@@ -480,7 +480,7 @@ const RepoTreePage = () => {
         <FormModal
           visible={showEdit}
           formData={{ repoConfig: rest }}
-          name={i18n.t('dop:repository information')}
+          name={i18n.t('dop:Repository information')}
           fieldsList={repoConfigFieldsList}
           onOk={updateApplication}
           onCancel={() => setShowEdit(false)}
@@ -509,11 +509,11 @@ const RepoTreePage = () => {
       </IF>
       <RepoNav ref={repoNavRef} info={info} tree={tree} isFetchingInfo={isFetchingInfo} appId={appDetail.id} />
       <div className="top-button-group">
-        <Tooltip title={i18n.t('dop:how to start')}>
+        <Tooltip title={i18n.t('dop:How to start')}>
           <CustomIcon className="text-desc hover-active" type="help" onClick={() => toggleTip(true)} />
         </Tooltip>
         <Modal
-          title={i18n.t('dop:how to start')}
+          title={i18n.t('dop:How to start')}
           visible={tipVisible}
           footer={null}
           onCancel={() => toggleTip(false)}
@@ -531,7 +531,7 @@ const RepoTreePage = () => {
               setVisible(true);
             }}
           >
-            {i18n.t('dop:new branch')}
+            {i18n.t('dop:Add Branch')}
           </Button>
         </WithAuth>
       </div>

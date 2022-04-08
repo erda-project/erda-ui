@@ -65,9 +65,9 @@ const getResponseBody = (dataSource: OpenAPI.Operation) => {
 };
 
 const columns = [
-  { title: i18n.t('name'), dataIndex: 'name' },
+  { title: i18n.t('Name'), dataIndex: 'name' },
   {
-    title: i18n.t('type'),
+    title: i18n.t('Type'),
     dataIndex: 'type',
     render: (val: { value: string; tooltip: string[] }) => {
       const { value, tooltip } = val || {};
@@ -80,11 +80,11 @@ const columns = [
       );
     },
   },
-  { title: i18n.t('description'), dataIndex: 'description' },
+  { title: i18n.t('Description'), dataIndex: 'description' },
   {
     title: i18n.t('required'),
     dataIndex: 'required',
-    render: (val: boolean) => (val ? i18n.t('common:yes') : i18n.t('common:no')),
+    render: (val: boolean) => (val ? i18n.t('common:Yes') : i18n.t('common:No')),
     width: 64,
   },
 ];
@@ -124,7 +124,7 @@ const ApiPreviewV2 = (props: IProps) => {
             props: {
               title: i18n.t('URL parameters'),
               rowKey: 'name',
-              columns: [...columns, { title: i18n.t('default value'), dataIndex: 'default' }],
+              columns: [...columns, { title: i18n.t('Default value'), dataIndex: 'default' }],
             },
           },
         ]),
@@ -135,7 +135,7 @@ const ApiPreviewV2 = (props: IProps) => {
             props: {
               title: i18n.t('path parameters'),
               rowKey: 'name',
-              columns: [...columns, { title: i18n.t('default value'), dataIndex: 'default' }],
+              columns: [...columns, { title: i18n.t('Default value'), dataIndex: 'default' }],
             },
           },
         ]),
@@ -173,7 +173,7 @@ const ApiPreviewV2 = (props: IProps) => {
             props: {
               title: i18n.t('request header'),
               rowKey: 'name',
-              columns: [...columns, { title: i18n.t('default value'), dataIndex: 'default' }],
+              columns: [...columns, { title: i18n.t('Default value'), dataIndex: 'default' }],
             },
           },
         ]),
@@ -181,13 +181,13 @@ const ApiPreviewV2 = (props: IProps) => {
         isEmpty(responseData)
           ? {
               type: 'Title',
-              props: { title: `${i18n.t('response body')}: ${responseSchemaType || i18n.t('none')} `, level: 2 },
+              props: { title: `${i18n.t('Response body')}: ${responseSchemaType || i18n.t('None')} `, level: 2 },
             }
           : {
               type: 'Table',
               dataIndex: 'responseData',
               props: {
-                title: `${i18n.t('response body')}${responseSchemaType ? `: ${responseSchemaType}` : ''} `,
+                title: `${i18n.t('Response body')}${responseSchemaType ? `: ${responseSchemaType}` : ''} `,
                 rowKey: 'key',
                 columns,
               },
@@ -195,7 +195,7 @@ const ApiPreviewV2 = (props: IProps) => {
         isEmpty(responseCode)
           ? {
               type: 'Title',
-              props: { title: `${i18n.t('response code')}: ${i18n.t('none')}`, level: 2 },
+              props: { title: `${i18n.t('response code')}: ${i18n.t('None')}`, level: 2 },
             }
           : {
               type: 'Table',
@@ -205,7 +205,7 @@ const ApiPreviewV2 = (props: IProps) => {
                 rowKey: 'code',
                 columns: [
                   { title: i18n.t('response code'), dataIndex: 'code' },
-                  { title: i18n.t('description'), dataIndex: 'desc' },
+                  { title: i18n.t('Description'), dataIndex: 'desc' },
                 ],
               },
             },

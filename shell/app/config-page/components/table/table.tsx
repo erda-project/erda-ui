@@ -324,7 +324,7 @@ const BatchOperation = (props: IBatchProps) => {
         getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
       >
         <Button className="flex items-center bg-default-06 border-transparent text-default-8">
-          {i18n.t('batch operate')}
+          {i18n.t('Batch Operation')}
           <ErdaIcon size="18" type="caret-down" className="ml-1 text-default-4" />
         </Button>
       </Dropdown>

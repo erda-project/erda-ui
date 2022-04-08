@@ -65,7 +65,7 @@ const ClientList = () => {
         type: 'input',
         key: 'keyword',
         outside: true,
-        placeholder: i18n.t('default:search by keywords'),
+        placeholder: i18n.t('default:Search by keyword'),
         customProps: {
           autoComplete: 'off',
         },
@@ -75,18 +75,18 @@ const ClientList = () => {
   );
   const columns: Array<ColumnProps<API_CLIENT.ClientItem>> = [
     {
-      title: i18n.t('client name'),
+      title: i18n.t('Client name'),
       dataIndex: ['client', 'displayName'],
       width: 200,
       render: (text: string, record: API_CLIENT.ClientItem) => text || record.client.name,
     },
     {
-      title: i18n.t('client identifier'),
+      title: i18n.t('Client identifier'),
       dataIndex: ['client', 'name'],
       width: 200,
     },
     {
-      title: i18n.t('description'),
+      title: i18n.t('Description'),
       dataIndex: ['client', 'desc'],
     },
   ];

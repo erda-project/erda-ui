@@ -65,7 +65,7 @@ export const stepList = [
   },
   {
     key: 'COMPLETED',
-    name: i18n.t('dop:completed'),
+    name: i18n.t('dop:Completed'),
   },
 ];
 

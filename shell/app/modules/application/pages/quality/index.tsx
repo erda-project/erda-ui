@@ -48,19 +48,19 @@ interface ISonarInfo {
 const QUALITY_DATAS = [
   {
     key: 'bugs',
-    name: i18n.t('dop:code defect'),
+    name: i18n.t('dop:Code Bug'),
     query: 'bug',
     icon: 'bug',
   },
   {
     key: 'vulnerabilities',
-    name: i18n.t('dop:code vulnerability'),
+    name: i18n.t('dop:Code Vulnerability'),
     query: 'vulnerability',
     icon: 'Vulnerabilities',
   },
   {
     key: 'codeSmells',
-    name: i18n.t('dop:code smell'),
+    name: i18n.t('dop:Code Smell'),
     query: 'codeSmell',
     icon: 'codesmells',
   },
@@ -154,13 +154,13 @@ const CodeQuality = () => {
     const data = { coverage, duplications }[type];
     const SONAR_MAP = {
       coverage: {
-        percentCNName: i18n.t('dop: coverage'),
+        percentCNName: i18n.t('dop:Coverage'),
         percentName: 'coverage',
-        lineCNName: i18n.t('dop:number of lines not covered'),
+        lineCNName: i18n.t('dop:Number of lines not covered'),
         linesName: 'uncovered_lines',
       },
       duplications: {
-        percentCNName: i18n.t('dop:repeat rate'),
+        percentCNName: i18n.t('dop:Repetition Rate'),
         percentName: 'duplicated_lines_density',
         lineCNName: i18n.t('dop:repeat number of lines'),
         linesName: 'duplicated_lines',
@@ -169,7 +169,7 @@ const CodeQuality = () => {
 
     const columns: Array<ColumnProps<QA.Item>> = [
       {
-        title: i18n.t('dop:file name'),
+        title: i18n.t('dop:File name'),
         width: 240,
         key: 'name',
         render: ({ name }) => (
@@ -180,7 +180,7 @@ const CodeQuality = () => {
         ),
       },
       {
-        title: i18n.t('dop:file path'),
+        title: i18n.t('dop:File path'),
         key: 'path',
         render: ({ path }) => <Tooltip title={path}>{path}</Tooltip>,
       },
@@ -289,11 +289,11 @@ const CodeQuality = () => {
         {!isEmpty(headerInfo) && (
           <Row className="quality-info mb-5" gutter={24}>
             <Col span={8}>
-              <div className="label mb-2 ">{i18n.t('dop:recent detection time')}</div>
+              <div className="label mb-2 ">{i18n.t('dop:Last detection time')}</div>
               <span className="value">{moment(headerInfo.time).format('YYYY-MM-DD HH:mm:ss')}</span>
             </Col>
             <Col span={8}>
-              <div className="label mb-2">{i18n.t('dop:detection branch')}</div>
+              <div className="label mb-2">{i18n.t('dop:Detection branch')}</div>
               <span className="value">
                 <CustomIcon type="hb" />
                 {headerInfo.branch}
@@ -319,10 +319,10 @@ const CodeQuality = () => {
           <div className="quality-data-panel mb-5">{renderDataPanel()}</div>
           <div className="quality-data-detail">
             <Tabs defaultActiveKey="coverage" onTabClick={closeDetail} onChange={handleChangeActiveKey}>
-              <TabPane key="coverage" tab={`${i18n.t('dop: coverage')} ${sonarStatistics.coverage}%`}>
+              <TabPane key="coverage" tab={`${i18n.t('dop:Coverage')} ${sonarStatistics.coverage}%`}>
                 {visible ? renderSonarDetail('coverage') : renderSonarResultsTable('coverage')}
               </TabPane>
-              <TabPane key="duplications" tab={`${i18n.t('dop:repeat rate')} ${sonarStatistics.duplications}%`}>
+              <TabPane key="duplications" tab={`${i18n.t('dop:Repetition Rate')} ${sonarStatistics.duplications}%`}>
                 {visible ? renderSonarDetail('duplications') : renderSonarResultsTable('duplications')}
               </TabPane>
             </Tabs>

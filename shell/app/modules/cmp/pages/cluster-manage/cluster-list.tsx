@@ -38,8 +38,8 @@ interface IProps {
 }
 
 export const statusMap = {
-  online: ['green', i18n.t('cmp:online')],
-  offline: ['red', i18n.t('cmp:offline')],
+  online: ['green', i18n.t('cmp:Online')],
+  offline: ['red', i18n.t('cmp:Offline')],
   initializing: ['yellow', i18n.t('runtime:initializing')],
   'initialize error': ['red', i18n.t('cmp:initialization failed')],
   pending: ['gray', i18n.t('dop:pending')],
@@ -49,7 +49,7 @@ export const statusMap = {
 export const manageTypeMap = {
   agent: i18n.t('cmp:agent registration'),
   create: i18n.t('establish'),
-  import: i18n.t('import'),
+  import: i18n.t('Import'),
 };
 
 const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps> = ({ onEdit }: IProps, ref) => {
@@ -209,7 +209,7 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
       <ClusterLog recordID={state.afterAdd && state.afterAdd.recordID} onClose={() => updater.afterAdd(null)} />
       {state.deleteModalVis && (
         <ConfirmDelete
-          title={i18n.t('cmp:Please enter the cluster identity to confirm to go offline.')}
+          title={i18n.t('cmp:Please enter the cluster identifier to get the cluster offline')}
           onConfirm={() => submitDelete({ clusterName: state.deleteClusterName })}
           secondTitle={i18n.t('cmp:Please enter {name}, to confirm the cluster to go offline', {
             name: state.curDeleteCluster?.name,
@@ -219,7 +219,7 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
           modalChildren={
             <Input
               value={state.deleteClusterName}
-              placeholder={i18n.t('please enter {name}', { name: i18n.t('cmp:cluster identity') })}
+              placeholder={i18n.t('please enter {name}', { name: i18n.t('cmp:Cluster identifier') })}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.deleteClusterName(e.target.value)}
             />
           }

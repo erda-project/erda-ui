@@ -107,7 +107,7 @@ class TimeSelector extends React.Component<IProps, IState> {
           style={{ width: 370 }}
           format="YYYY-MM-DD HH:mm:ss"
           allowClear={false}
-          placeholder={[i18n.t('common:start at'), i18n.t('common:end at')]}
+          placeholder={[i18n.t('common:start at'), i18n.t('common:End time')]}
           onChange={this.onChangeTime}
           value={value}
           disabledDate={this.disabledDate}

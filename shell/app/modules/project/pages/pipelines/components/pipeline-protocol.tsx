@@ -261,7 +261,7 @@ const PipelineProtocol = ({ type, getTypes, appID, setAppID, getGuides }: IProps
               },
             ]}
             itemProps={{
-              placeholder: i18n.t('please enter {name}', { name: i18n.t('name') }),
+              placeholder: i18n.t('please enter {name}', { name: i18n.t('Name') }),
             }}
           />
         </Form>

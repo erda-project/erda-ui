@@ -77,7 +77,7 @@ export const K8sPodTerminalConsole = (props: IPodTerminalProps) => {
   };
 
   return (
-    <Drawer visible={visible} destroyOnClose onClose={onClose} title={`Pod ${i18n.t('console')}`} width={'80%'}>
+    <Drawer visible={visible} destroyOnClose onClose={onClose} title={`Pod ${i18n.t('Console')}`} width={'80%'}>
       <div className="k8s-cluster-terminal-container">
         <ClusterTerminal params={params} />
       </div>
@@ -160,7 +160,7 @@ export const K8sPodTerminalLog = (
             params={params}
             extraOptions={[
               <Button key="download" onClick={() => setDownloadVis(true)} type="ghost">
-                {i18n.t('download')}
+                {i18n.t('Download')}
               </Button>,
             ]}
           />

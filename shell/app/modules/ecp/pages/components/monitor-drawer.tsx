@@ -43,7 +43,7 @@ export const MonitorDrawer = (props: IMonitorDrawer) => {
     switch (type) {
       case OPERATION.TERMINAL: {
         update({
-          slideTitle: i18n.t('console'),
+          slideTitle: i18n.t('Console'),
           content: (
             <Terminal
               containerId={instance.containerId}
@@ -65,7 +65,7 @@ export const MonitorDrawer = (props: IMonitorDrawer) => {
       }
       case OPERATION.LOG: {
         update({
-          slideTitle: i18n.t('cmp:container log'),
+          slideTitle: i18n.t('cmp:Container log'),
           content: <ContainerLog {...record} instance={{ ...instance }} />,
         });
         break;

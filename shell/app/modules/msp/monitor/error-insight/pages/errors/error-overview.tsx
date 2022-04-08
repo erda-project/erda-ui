@@ -35,7 +35,7 @@ const errorChartConfig = {
   query: { sum: 'count' },
   dataHandler: groupHandler('sum.count'),
   moduleName: 'monitorErrors',
-  titleText: i18n.t('msp:error statistics'),
+  titleText: i18n.t('msp:Error statistics'),
   chartName: 'error_count',
 };
 
@@ -76,7 +76,7 @@ const ErrorOverview = () => {
       <Spin spinning={loading}>
         <ErrorFilters />
         <ErrorChart {...query} />
-        <div className="page-total">{`${i18n.t('msp:total number of errors')}：${total}`}</div>
+        <div className="page-total">{`${i18n.t('msp:Total number of errors')}：${total}`}</div>
         {map(currentPageList, (err, i) => (
           <ErrorCard key={i} data={err} />
         ))}

@@ -51,14 +51,14 @@ const FieldOptionsSetting = (props: IProps) => {
 
   const columns = [
     {
-      title: i18n.t('name'),
+      title: i18n.t('Name'),
       width: '200',
       dataIndex: 'name',
       render: (_value: string, _record: any, index: number) => {
         return (
           <Input
             value={_value}
-            placeholder={i18n.t('please enter {name}', { name: i18n.t('name') })}
+            placeholder={i18n.t('please enter {name}', { name: i18n.t('Name') })}
             onChange={(e: any) => {
               onInputChangeHandle(e.target.value, index);
             }}

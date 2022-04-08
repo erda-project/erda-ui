@@ -95,7 +95,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
         },
       },
       {
-        label: i18n.t('type'),
+        label: i18n.t('Type'),
         name: 'type',
         type: 'select',
         initialValue: state.type,
@@ -106,7 +106,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
         options: map(ArtifactsTypeMap, ({ name, value }) => ({ name, value })),
       },
       {
-        label: i18n.t('description'),
+        label: i18n.t('Description'),
         name: 'desc',
         required: false,
         type: 'textArea',

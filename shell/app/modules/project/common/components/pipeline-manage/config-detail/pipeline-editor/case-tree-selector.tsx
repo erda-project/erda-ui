@@ -171,7 +171,7 @@ export const CaseTreeSelector = (props: IProps) => {
               rules: [
                 {
                   validator: (v: string) => {
-                    return [!otherTaskAlias.includes(v), i18n.t('{name} already exists', { name: i18n.t('name') })];
+                    return [!otherTaskAlias.includes(v), i18n.t('{name} already exists', { name: i18n.t('Name') })];
                   },
                 },
               ],
@@ -334,7 +334,7 @@ export const CaseTreeSelector = (props: IProps) => {
     <div className="h-full auto-test-tree-selector">
       {isEmpty(useableScope) ? null : (
         <>
-          <div className="pb-2 text-desc">{i18n.t('please select {name}', { name: i18n.t('type') })}</div>
+          <div className="pb-2 text-desc">{i18n.t('please select {name}', { name: i18n.t('Type') })}</div>
           <Select value={chosenType} onChange={changeType} className="w-full">
             {map(useableScope, (item) => (
               <Option key={item.scope} value={item.scope}>
@@ -344,7 +344,7 @@ export const CaseTreeSelector = (props: IProps) => {
           </Select>
         </>
       )}
-      <div className="py-2 text-desc">{i18n.t('please select {name}', { name: i18n.t('node') })}</div>
+      <div className="py-2 text-desc">{i18n.t('please select {name}', { name: i18n.t('Node') })}</div>
       <TreeSelect
         searchValue={searchValue}
         showSearch
@@ -373,10 +373,10 @@ export const CaseTreeSelector = (props: IProps) => {
       {editing ? (
         <div className="footer">
           <Button onClick={closeDrawer} className="mr-2">
-            {i18n.t('cancel')}
+            {i18n.t('Cancel')}
           </Button>
           <Button type="primary" disabled={isEmpty(chosenCase)} onClick={() => onSubmit()}>
-            {i18n.t('save')}
+            {i18n.t('Save')}
           </Button>
         </div>
       ) : null}

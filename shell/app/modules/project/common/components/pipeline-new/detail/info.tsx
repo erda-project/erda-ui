@@ -38,7 +38,7 @@ const Info = (props: IProps) => {
 
   const fields = [
     {
-      label: i18n.t('name'),
+      label: i18n.t('Name'),
       valueKey: 'name',
       valueItem: ({ value: val }: any) => {
         return (
@@ -61,7 +61,7 @@ const Info = (props: IProps) => {
     },
 
     {
-      label: i18n.t('dop:updater'),
+      label: i18n.t('dop:Updated by'),
       valueKey: 'updaterID',
       valueItem: ({ value: val }: any) => {
         const curUser = userMap[val];
@@ -69,7 +69,7 @@ const Info = (props: IProps) => {
       },
     },
     {
-      label: i18n.t('update time'),
+      label: i18n.t('Update time'),
       valueKey: 'updatedAt',
       valueItem: ({ value: val }: any) => {
         return val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '-';

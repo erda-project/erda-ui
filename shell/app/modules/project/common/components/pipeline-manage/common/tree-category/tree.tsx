@@ -736,7 +736,7 @@ const TreeCategory = ({
 
   const generateSearchOptions = () => {
     const { fileGroup, folderGroup } = filterOptions;
-    const { file, folder } = searchGroup || { file: i18n.t('file'), folder: i18n.t('common:folder') };
+    const { file, folder } = searchGroup || { file: i18n.t('File'), folder: i18n.t('common:folder') };
     const options = [];
     if (folderGroup.length > 0) {
       options.push(
@@ -769,7 +769,7 @@ const TreeCategory = ({
       {fuzzySearch ? (
         <Select
           showSearch
-          placeholder={i18n.t('common:please enter keyword to search')}
+          placeholder={i18n.t('common:Please enter the keyword to search')}
           showArrow={false}
           filterOption
           optionFilterProp={'children'}

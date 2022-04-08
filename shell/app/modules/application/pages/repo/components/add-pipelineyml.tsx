@@ -191,10 +191,10 @@ const AddPipelineYml = () => {
         getComp: ({ form }: { form: FormInstance }) => (
           <div>
             <Button type="primary" onClick={() => handleSubmit(form)}>
-              {i18n.t('save')}
+              {i18n.t('Save')}
             </Button>
             <Button className="ml-3" onClick={cancelEdit}>
-              {i18n.t('cancel')}
+              {i18n.t('Cancel')}
             </Button>
           </div>
         ),
@@ -333,7 +333,7 @@ const AddPipelineYml = () => {
         title={
           <div>
             <CustomIcon type="guanbi-fill" className="text-danger" />
-            {i18n.t('error')}
+            {i18n.t('Error')}
           </div>
         }
         maskClosable={false}
@@ -344,7 +344,7 @@ const AddPipelineYml = () => {
               updater.errorMsg('');
             }}
           >
-            {i18n.t('cancel')}
+            {i18n.t('Cancel')}
           </Button>,
           <Button key="ok" type="primary" onClick={() => resetAndChangeViewType()}>
             {i18n.t('dop:reset and switch')}
@@ -443,7 +443,7 @@ const FileNameInput = ({ value, onChange, disabled, ...rest }: IFileNameProps) =
     <Input
       style={{ width: 200 }}
       value={value}
-      placeholder={i18n.t('please enter {name}', { name: i18n.t('dop:file name') })}
+      placeholder={i18n.t('please enter {name}', { name: i18n.t('dop:File name') })}
       disabled={disabled}
       onChange={(e: any) => {
         onChange(e.target.value.trim());

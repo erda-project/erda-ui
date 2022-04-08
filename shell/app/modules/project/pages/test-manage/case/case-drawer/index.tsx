@@ -317,7 +317,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
         >
           <>
             <ErdaIcon fill="black-4" type="play" size="16" />
-            {i18n.t('execute')}
+            {i18n.t('Execute')}
             <span className="text-xs">
               ({i18n.t('dop:When you click directly, it will execute cases without environment.')})
             </span>
@@ -387,18 +387,18 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
         <div className="case-drawer-body flex justify-between">
           <div className="case-drawer-body-left flex-1 px-5 py-4">
             <div onBlurCapture={handleAnyBlur}>
-              <ContentPanel title={i18n.t('dop:preconditions')}>
+              <ContentPanel title={i18n.t('dop:Preconditions')}>
                 <MarkdownEditor
                   value={fullData.preCondition}
                   onBlur={(v: string) => {
                     editMode && handleSave(false, { ...fullData, preCondition: v });
                     updateFullData('preCondition', v);
                   }}
-                  placeholder={i18n.t('dop:no content yet')}
+                  placeholder={i18n.t('dop:No content')}
                 />
               </ContentPanel>
               <ContentPanel
-                title={i18n.t('dop:steps and results')}
+                title={i18n.t('dop:Steps and results')}
                 mode="add"
                 onClick={() => {
                   handleAddInTitle('stepAndResults');
@@ -410,7 +410,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                 />
               </ContentPanel>
               <ContentPanel
-                title={i18n.t('dop:interface')}
+                title={i18n.t('dop:Interface')}
                 mode="add"
                 onClick={() => {
                   handleAddInTitle('apisFormat');
@@ -425,14 +425,14 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                   executeApi={executeApi}
                 />
               </ContentPanel>
-              <ContentPanel title={i18n.t('description')}>
+              <ContentPanel title={i18n.t('Description')}>
                 <MarkdownEditor
                   value={fullData.desc}
                   onBlur={(v: string) => {
                     editMode && handleSave(false, { ...fullData, desc: v });
                     updateFullData('desc', v);
                   }}
-                  placeholder={i18n.t('dop:supplemental description')}
+                  placeholder={i18n.t('dop:Additional description')}
                 />
               </ContentPanel>
             </div>

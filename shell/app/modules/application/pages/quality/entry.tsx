@@ -23,9 +23,9 @@ import { updateSearch } from 'app/common/utils';
 const AppQuality = () => {
   const { tabKey } = routeInfoStore.useStore((s) => s.query);
   const tabs = [
-    { value: 'quality', label: i18n.t('dop:quality reports') },
-    { value: 'issues', label: i18n.t('dop:app-issues') },
-    { value: 'test', label: i18n.t('dop:lists') },
+    { value: 'quality', label: i18n.t('dop:Reports') },
+    { value: 'issues', label: i18n.t('dop:Issues') },
+    { value: 'test', label: i18n.t('dop:Runs') },
   ];
   const [tab, setTab] = React.useState(tabs[0].value);
 

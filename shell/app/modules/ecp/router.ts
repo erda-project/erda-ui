@@ -65,7 +65,7 @@ const getEcpRouter = () => [
       },
       {
         path: 'setting',
-        breadcrumbName: i18n.t('ecp:configuration'),
+        breadcrumbName: i18n.t('ecp:Configuration'),
         routes: [
           {
             layout: { fullHeight: true, noWrapper: true },

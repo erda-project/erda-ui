@@ -93,7 +93,7 @@ export const getSubList = (info: Obj, { projectId, appId }: { projectId: string;
 
   return [
     {
-      text: i18n.t('dop:code'),
+      text: i18n.t('dop:Code'),
       tabKey: currentBranch ? `repo/tree/${currentBranch}` : 'repo',
       href: getHref(currentBranch ? `/tree/${currentBranch}` : ''),
       isActive: (key: string) =>
@@ -496,7 +496,7 @@ const repoStore = createStore({
           { paging: { key: 'mrPaging' } },
         );
         const mrList = pageNo === 1 ? list : [...originalList, ...list];
-        update({ mrList, info: {...info, mergeRequestCount: total} });
+        update({ mrList, info: { ...info, mergeRequestCount: total } });
         return { list: mrList, total };
       } catch (e) {
         update({ mrPaging: { ...mrPaging, hasMore: false } });

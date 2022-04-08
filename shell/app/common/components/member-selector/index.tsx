@@ -66,13 +66,13 @@ const optionRender = (user: IMember, roleMap?: object, _type?: string, showRole?
   return (
     <>
       <Avatar src={avatar || undefined} size="small" className={'bg-light-pop-bg'}>
-        {nick ? getAvatarChars(nick) : i18n.t('none')}
+        {nick ? getAvatarChars(nick) : i18n.t('None')}
       </Avatar>
       {
         <span className="ml-2" title={name}>
-          {nick || i18n.t('common:none')}
+          {nick || i18n.t('common:None')}
           {_type === 'normal' && roleMap && showRole
-            ? `(${map(roles, (role) => roleMap[role] || i18n.t('common:none')).join(',')})`
+            ? `(${map(roles, (role) => roleMap[role] || i18n.t('common:None')).join(',')})`
             : ''}
         </span>
       }
@@ -84,7 +84,7 @@ const valueItemRender =
   (size = 'normal') =>
   (user: any, deleteValue: (item: any) => void, isMultiple?: boolean) => {
     const { avatar, nick, name, label, value } = user;
-    const displayName = value === USER_NONE ? i18n.t('unspecified') : nick || label || value || i18n.t('common:none');
+    const displayName = value === USER_NONE ? i18n.t('unspecified') : nick || label || value || i18n.t('common:None');
     const cls = {
       normal: {
         size: 24,
@@ -101,7 +101,7 @@ const valueItemRender =
     const item = (
       <>
         <Avatar size={curCls.size} src={avatar || undefined}>
-          {nick ? getAvatarChars(nick) : i18n.t('none')}
+          {nick ? getAvatarChars(nick) : i18n.t('None')}
         </Avatar>
         <span className={curCls.name} title={name}>
           {displayName}
@@ -240,7 +240,7 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
       onClick={() => !rest.disabled && selectSelfOp()}
       className={`${rest.disabled ? 'not-allowed' : 'text-default cursor-pointer'}`}
     >
-      {i18n.t('choose self')}
+      {i18n.t('Choose yourself')}
     </a>
   ) : null;
 
@@ -306,7 +306,7 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
           onClick={() => !rest.disabled && selectSelfOp()}
           className={`${rest.disabled ? 'not-allowed' : 'text-purple-deep cursor-pointer'} ml-2`}
         >
-          {i18n.t('choose self')}
+          {i18n.t('Choose yourself')}
         </a>
       ) : null}
     </>
@@ -358,10 +358,10 @@ export const UserSelector = (props: any) => {
     return (
       <Option key={id} value={id}>
         <Avatar src={avatar} size="small">
-          {nick ? getAvatarChars(nick) : i18n.t('none')}
+          {nick ? getAvatarChars(nick) : i18n.t('None')}
         </Avatar>
         <span className="ml-2" title={name}>
-          {nick || i18n.t('common:none')}
+          {nick || i18n.t('common:None')}
         </span>
       </Option>
     );
@@ -374,7 +374,7 @@ export const UserSelector = (props: any) => {
       showArrow={false}
       filterOption={false}
       defaultActiveFirstOption={false}
-      placeholder={i18n.t('Please enter nickname, name, email or mobile phone number to search.')}
+      placeholder={i18n.t('Please enter the member name to search')}
       onSearch={debounce(handleSearch, 800)}
       {...props}
     >

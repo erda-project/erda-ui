@@ -43,19 +43,19 @@ const sortTabList = [
     query: { range: 'plt', split: 10, rangeSize: 1000, source: true },
   },
   {
-    name: i18n.t('first paint time'),
+    name: i18n.t('First Paint Time'),
     key: 'wst',
     fetchApi: 'ta_wst_grade/range',
     query: { range: 'wst', split: 10, rangeSize: 200, source: true },
   },
   {
-    name: i18n.t('first contentful paint time'),
+    name: i18n.t('First Contentful Paint Time'),
     key: 'fst',
     fetchApi: 'ta_fst_grade/range',
     query: { range: 'fst', split: 10, rangeSize: 400, source: true },
   },
   {
-    name: i18n.t('msp:resource loading completed'),
+    name: i18n.t('msp:Resource Loading Completed'),
     key: 'rct',
     fetchApi: 'ta_rct_grade/range',
     query: { range: 'rct', split: 10, rangeSize: 800, source: true },
@@ -113,7 +113,7 @@ class Position extends React.Component<IProps, IState> {
           <Col span={12}>
             {
               <PositionMap.dimension
-                titleText={i18n.t('msp:operating system')}
+                titleText={i18n.t('msp:Operating system')}
                 fetchApi="ta_percent_os"
                 query={{ group: 'os' }}
                 chartName="os"

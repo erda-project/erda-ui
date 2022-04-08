@@ -106,7 +106,7 @@ const AddAccountForm = (props: IProps) => {
     //   }],
     // },
     {
-      label: i18n.t('password'),
+      label: i18n.t('Password'),
       name: 'password',
       itemProps: {
         placeholder: i18n.t('cmp:6 to 32 digits, must contain letters in uppercase and lowercase and numbers'),
@@ -149,7 +149,7 @@ const AddAccountForm = (props: IProps) => {
       ],
     },
     {
-      label: i18n.t('description'),
+      label: i18n.t('Description'),
       name: 'description',
       type: 'textArea',
       required: false,

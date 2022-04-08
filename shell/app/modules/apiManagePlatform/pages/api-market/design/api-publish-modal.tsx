@@ -106,7 +106,7 @@ const ApiPublishModal = (props: IProps) => {
     {
       label: (
         <span>
-          {i18n.t('dop:release version')}
+          {i18n.t('dop:Release version')}
           <Tooltip title={VERSION_TIP}>
             <CustomIcon type="tishi" />
           </Tooltip>
@@ -155,7 +155,7 @@ const ApiPublishModal = (props: IProps) => {
 
   return (
     <FormModal
-      title={i18n.t('dop:publish documents')}
+      title={i18n.t('dop:Release document')}
       fieldsList={apiFieldList}
       visible={visible}
       ref={formRef}

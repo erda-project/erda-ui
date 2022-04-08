@@ -33,20 +33,20 @@ interface IProps {
 export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp, onReload }: IProps) => {
   const resourceCols: Array<ColumnProps<IResource>> = [
     {
-      title: i18n.t('container IP'),
+      title: i18n.t('Container IP'),
       dataIndex: 'containerIP',
       key: 'containerIP',
       width: 160,
       fixed: 'left',
     },
     {
-      title: i18n.t('host IP'),
+      title: i18n.t('Host IP'),
       dataIndex: 'hostIP',
       key: 'hostIP',
       width: 160,
     },
     {
-      title: i18n.t('cpu limit'),
+      title: i18n.t('CPU limit'),
       dataIndex: 'cpuLimit',
       key: 'cpuLimit',
       width: 120,
@@ -60,7 +60,7 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp, 
       sorter: (a: IResource, b: IResource) => a.cpuRequest - b.cpuRequest,
     },
     {
-      title: i18n.t('memory limit'),
+      title: i18n.t('Memory limit'),
       dataIndex: 'memLimit',
       key: 'memLimit',
       width: 120,
@@ -76,19 +76,19 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp, 
       sorter: (a: IResource, b: IResource) => a.memRequest - b.memRequest,
     },
     {
-      title: i18n.t('image'),
+      title: i18n.t('Image'),
       dataIndex: 'image',
       key: 'image',
       render: (image: string) => (
         <Tooltip title={image}>
-          <Copy className="cursor-copy" data-clipboard-tip={i18n.t('image')} data-clipboard-text={image}>
+          <Copy className="cursor-copy" data-clipboard-tip={i18n.t('Image')} data-clipboard-text={image}>
             {image}
           </Copy>
         </Tooltip>
       ),
     },
     {
-      title: i18n.t('start time'),
+      title: i18n.t('Start time'),
       dataIndex: 'startedAt',
       key: 'startedAt',
       width: 200,
@@ -108,12 +108,12 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp, 
         ) : v === 'UnHealthy' ? (
           <>
             <Badge status="warning" />
-            {i18n.t('abnormal')}
+            {i18n.t('Abnormal')}
           </>
         ) : (
           <>
             <Badge status="default" />
-            {i18n.t('stopped')}
+            {i18n.t('Stopped')}
           </>
         ),
     },

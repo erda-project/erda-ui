@@ -28,7 +28,7 @@ const { Option } = Select;
 export const typeMap = {
   IOS: { value: 'IOS', label: 'IOS' },
   Android: { value: 'Android', label: 'Android' },
-  // Message: { value: 'Message', label: i18n.t('message') },
+  // Message: { value: 'Message', label: i18n.t('Message') },
 };
 
 interface IFileChangeArg {
@@ -68,7 +68,7 @@ const UploadComp = ({ form, onChangeFile, fileNameKey, fileAccept }: IUploadProp
     <div className="upload-container">
       <Upload {...uploadProps}>
         <Button className="flex items-center">
-          <ErdaIcon type="upload" size="16" className="mr-1" /> {i18n.t('upload')}
+          <ErdaIcon type="upload" size="16" className="mr-1" /> {i18n.t('Upload')}
         </Button>
       </Upload>
       {fileName && (
@@ -119,16 +119,16 @@ const Certificate = () => {
     const { deleteItem } = effects;
     const columns = [
       {
-        title: i18n.t('name'),
+        title: i18n.t('Name'),
         dataIndex: 'name',
         width: 200,
       },
       {
-        title: i18n.t('description'),
+        title: i18n.t('Description'),
         dataIndex: 'desc',
       },
       {
-        title: i18n.t('type'),
+        title: i18n.t('Type'),
         dataIndex: 'type',
         width: 140,
         render: (text: string) => typeMap[text] && typeMap[text].label,
@@ -152,14 +152,14 @@ const Certificate = () => {
                   download={get(record, 'messageInfo.uuid')}
                   href={`/api/files/${get(record, 'messageInfo.uuid')}`}
                 >
-                  {i18n.t('download')}
+                  {i18n.t('Download')}
                 </a>
               ) : (
                 <span className="table-operations-btn" onClick={() => updater.chosenRowId(record.id)}>
-                  {i18n.t('download')}
+                  {i18n.t('Download')}
                 </span>
               )}
-              {/* <span className="table-operations-btn" onClick={() => onEdit(record)}>{i18n.t('edit')}</span> */}
+              {/* <span className="table-operations-btn" onClick={() => onEdit(record)}>{i18n.t('Edit')}</span> */}
               <DeleteConfirm
                 title={i18n.t('delete certificate')}
                 secondTitle={i18n.t('cmp:confirm-delete-certificate')}
@@ -183,7 +183,7 @@ const Certificate = () => {
         },
       },
       {
-        label: i18n.t('name'),
+        label: i18n.t('Name'),
         name: 'name',
         itemProps: {
           maxLength: 100,
@@ -191,7 +191,7 @@ const Certificate = () => {
         },
       },
       {
-        label: i18n.t('description'),
+        label: i18n.t('Description'),
         name: 'desc',
         required: false,
         itemProps: {
@@ -199,7 +199,7 @@ const Certificate = () => {
         },
       },
       {
-        label: i18n.t('type'),
+        label: i18n.t('Type'),
         name: 'type',
         type: 'custom',
         itemProps: {
@@ -237,7 +237,7 @@ const Certificate = () => {
     const typeFieldsMap = {
       IOS: [
         {
-          label: `Keychain-p12 ${i18n.t('file')}`,
+          label: `Keychain-p12 ${i18n.t('File')}`,
           name: keyPrefix.iosKeyChainP12.concat(['uuid']),
           type: 'custom',
           ...getUploadFieldProps({
@@ -256,7 +256,7 @@ const Certificate = () => {
           }),
         },
         {
-          label: `Keychain-p12 ${i18n.t('password')}`,
+          label: `Keychain-p12 ${i18n.t('Password')}`,
           name: keyPrefix.iosKeyChainP12.concat(['password']),
           type: 'custom',
           required: false,
@@ -273,7 +273,7 @@ const Certificate = () => {
           },
         },
         {
-          label: `Debug-mobileprovision ${i18n.t('file')}`,
+          label: `Debug-mobileprovision ${i18n.t('File')}`,
           name: keyPrefix.iosDebug.concat(['uuid']),
           type: 'custom',
           ...getUploadFieldProps({
@@ -297,7 +297,7 @@ const Certificate = () => {
           },
         },
         {
-          label: `Release-mobileprovision ${i18n.t('file')}`,
+          label: `Release-mobileprovision ${i18n.t('File')}`,
           name: keyPrefix.iosRelease.concat(['uuid']),
           type: 'custom',
           ...getUploadFieldProps({
@@ -346,7 +346,7 @@ const Certificate = () => {
           },
         },
         {
-          label: i18n.t('file'),
+          label: i18n.t('File'),
           name: ['messageInfo', 'uuid'],
           type: 'custom',
           ...getUploadFieldProps({
@@ -368,7 +368,7 @@ const Certificate = () => {
     const createFieldsMap = {
       manual: [
         {
-          label: `Debug-key/store ${i18n.t('file')}`,
+          label: `Debug-key/store ${i18n.t('File')}`,
           name: keyPrefix.adrManualDebug.concat(['uuid']),
           type: 'custom',
           ...getUploadFieldProps({
@@ -389,12 +389,12 @@ const Certificate = () => {
           }),
         },
         {
-          label: `Debug-key ${i18n.t('cmp:alias')}`,
+          label: `Debug-key ${i18n.t('cmp:Alias')}`,
           name: keyPrefix.adrManualDebug.concat(['alias']),
           rules: [noSpaceRule],
         },
         {
-          label: `Debug-key ${i18n.t('password')}`,
+          label: `Debug-key ${i18n.t('Password')}`,
           name: keyPrefix.adrManualDebug.concat(['keyPassword']),
           type: 'custom',
           rules: [pwdRule],
@@ -404,7 +404,7 @@ const Certificate = () => {
           getComp: () => <Input.Password />,
         },
         {
-          label: `Debug-store ${i18n.t('password')}`,
+          label: `Debug-store ${i18n.t('Password')}`,
           name: keyPrefix.adrManualDebug.concat(['storePassword']),
           type: 'custom',
           rules: [pwdRule],
@@ -420,7 +420,7 @@ const Certificate = () => {
           },
         },
         {
-          label: `Release-key/store ${i18n.t('file')}`,
+          label: `Release-key/store ${i18n.t('File')}`,
           name: keyPrefix.adrManualRelease.concat(['uuid']),
           type: 'custom',
           ...getUploadFieldProps({
@@ -441,12 +441,12 @@ const Certificate = () => {
           }),
         },
         {
-          label: `Release-key ${i18n.t('cmp:alias')}`,
+          label: `Release-key ${i18n.t('cmp:Alias')}`,
           name: keyPrefix.adrManualRelease.concat(['alias']),
           rules: [noSpaceRule],
         },
         {
-          label: `Release-key ${i18n.t('password')}`,
+          label: `Release-key ${i18n.t('Password')}`,
           name: keyPrefix.adrManualRelease.concat(['keyPassword']),
           type: 'custom',
           rules: [pwdRule],
@@ -456,7 +456,7 @@ const Certificate = () => {
           getComp: () => <Input.Password />,
         },
         {
-          label: `Release-store ${i18n.t('password')}`,
+          label: `Release-store ${i18n.t('Password')}`,
           name: keyPrefix.adrManualRelease.concat(['storePassword']),
           type: 'custom',
           rules: [pwdRule],
@@ -474,12 +474,12 @@ const Certificate = () => {
       ],
       auto: [
         {
-          label: `Debug-key ${i18n.t('cmp:alias')}`,
+          label: `Debug-key ${i18n.t('cmp:Alias')}`,
           name: keyPrefix.adrAuto.concat(['debugKeyStore', 'alias']),
           rules: [noSpaceRule],
         },
         {
-          label: `Debug-key ${i18n.t('password')}`,
+          label: `Debug-key ${i18n.t('Password')}`,
           name: keyPrefix.adrAuto.concat(['debugKeyStore', 'keyPassword']),
           rules: [pwdRule],
           itemProps: {
@@ -488,7 +488,7 @@ const Certificate = () => {
           getComp: () => <Input.Password />,
         },
         {
-          label: `Debug-store ${i18n.t('password')}`,
+          label: `Debug-store ${i18n.t('Password')}`,
           name: keyPrefix.adrAuto.concat(['debugKeyStore', 'storePassword']),
           rules: [pwdRule],
           itemProps: {
@@ -497,12 +497,12 @@ const Certificate = () => {
           getComp: () => <Input.Password />,
         },
         {
-          label: `Release-key ${i18n.t('cmp:alias')}`,
+          label: `Release-key ${i18n.t('cmp:Alias')}`,
           name: keyPrefix.adrAuto.concat(['releaseKeyStore', 'alias']),
           rules: [noSpaceRule],
         },
         {
-          label: `Release-key ${i18n.t('password')}`,
+          label: `Release-key ${i18n.t('Password')}`,
           name: keyPrefix.adrAuto.concat(['releaseKeyStore', 'keyPassword']),
           rules: [pwdRule],
           itemProps: {
@@ -511,7 +511,7 @@ const Certificate = () => {
           getComp: () => <Input.Password />,
         },
         {
-          label: `Release-store ${i18n.t('password')}`,
+          label: `Release-store ${i18n.t('Password')}`,
           name: keyPrefix.adrAuto.concat(['releaseKeyStore', 'storePassword']),
           rules: [pwdRule],
           itemProps: {
@@ -572,14 +572,14 @@ const Certificate = () => {
       key: 'q',
       outside: true,
       label: 'title',
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('Title') }),
       type: 'input',
     },
   ];
   return (
     <>
       <CRUDTable.StoreTable<Certificate.Detail>
-        name={i18n.t('certificate')}
+        name={i18n.t('Certificate')}
         showTopAdd
         getColumns={getColumns}
         getFieldsList={getFieldsList}

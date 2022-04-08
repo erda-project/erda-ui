@@ -39,7 +39,7 @@ describe('DeleteConfirm', () => {
     );
     fireEvent.click(result.getByText('delete-button'));
     await waitFor(() => expect(result.baseElement.querySelector('.ant-modal-confirm-confirm')).toBeInTheDocument());
-    fireEvent.click(screen.getByText('no'));
+    fireEvent.click(screen.getByText('No'));
     expect(onCancelFn).toHaveBeenCalled();
     result.rerender(
       <DeleteConfirm onShow={onShowFn} onConfirm={onConfirmFn} countDown={3}>
@@ -50,7 +50,7 @@ describe('DeleteConfirm', () => {
     expect(onShowFn).toHaveBeenCalled();
     await waitFor(() => expect(result.baseElement.querySelector('.ant-modal-confirm-confirm')).toBeInTheDocument());
     jest.advanceTimersByTime(4000);
-    fireEvent.click(screen.getByText('yes'));
+    fireEvent.click(screen.getByText('Yes'));
     expect(onConfirmFn).toHaveBeenCalled();
   });
 });

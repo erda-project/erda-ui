@@ -66,8 +66,8 @@ enum SilencePeriodType {
 }
 
 const SILENCE_PERIOD_POLICY_MAP = {
-  [SilencePeriodType.FIXED]: i18n.t('cmp:fixed'),
-  [SilencePeriodType.DOUBLED]: i18n.t('cmp:doubled'),
+  [SilencePeriodType.FIXED]: i18n.t('cmp:Fixed'),
+  [SilencePeriodType.DOUBLED]: i18n.t('cmp:Double'),
 };
 
 const alarmStrategyStoreMap = {
@@ -127,17 +127,17 @@ const conditionOperatorOptions = [
   },
   {
     key: 'match',
-    display: i18n.t('msp:match'),
+    display: i18n.t('msp:Match'),
     type: 'input',
   },
   {
     key: 'notMatch',
-    display: i18n.t('msp:not match'),
+    display: i18n.t('msp:Not match'),
     type: 'input',
   },
   {
     key: 'all',
-    display: i18n.t('msp:all'),
+    display: i18n.t('msp:All'),
     type: 'none',
   },
 ];
@@ -440,7 +440,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       ),
     },
     {
-      title: `${i18n.t('cmp:duration')}(min)`,
+      title: `${i18n.t('cmp:Duration')}(min)`,
       dataIndex: 'window',
       render: (value: number, { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <Select
@@ -458,11 +458,11 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       ),
     },
     {
-      title: i18n.t('cmp:aggregation rules'),
+      title: i18n.t('cmp:Aggregation rule'),
       dataIndex: 'functions',
       render: (functions: any[], { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <div className="function-list">
-          {functions?.length === 0 && <Input placeholder={i18n.t('cmp:please enter here')} />}
+          {functions?.length === 0 && <Input placeholder={i18n.t('cmp:Please enter here')} />}
           {map(functions, (item, index) => (
             <div className="function-item flex-div flex items-center" key={item.field}>
               <Tooltip title={allRuleFieldMap[item.field]}>
@@ -497,7 +497,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       ),
     },
     {
-      title: i18n.t('cmp:alarm level'),
+      title: i18n.t('cmp:Level'),
       dataIndex: 'level',
       render: (value: string, { key }) => (
         <Select
@@ -517,7 +517,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       ),
     },
     {
-      title: i18n.t('cmp:trigger recover'),
+      title: i18n.t('cmp:Trigger recovery'),
       dataIndex: 'isRecover',
       render: (isRecover: boolean, { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <>
@@ -546,21 +546,21 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       label: i18n.t('cmp:alarm name'),
       name: 'name',
       itemProps: {
-        placeholder: i18n.t('cmp:please enter here'),
+        placeholder: i18n.t('cmp:Please enter here'),
         disabled: !isEmpty(state.editingFormRule),
         maxLength: 50,
         style: { width: 480 },
       },
     },
     {
-      label: i18n.t('cmp:filter rule'),
+      label: i18n.t('cmp:Filter rule'),
       name: 'triggerCondition',
       required: false,
       getComp: () => (
         <>
           <Button className="flex items-center mb-2" type="primary" ghost onClick={handleAddTriggerConditions}>
             <ErdaIcon type="plus" size="16" />
-            <span>{i18n.t('cmp:add rule')}</span>
+            <span>{i18n.t('cmp:Add-rule')}</span>
           </Button>
           {state.triggerCondition?.length > 0 && (
             <div className="p-2 bg-cultured w-min">
@@ -582,7 +582,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       ),
     },
     {
-      label: i18n.t('cmp:alarm rule'),
+      label: i18n.t('cmp:Alert rule'),
       name: 'expressions',
       required: false,
       getComp: () => (
@@ -609,12 +609,12 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
             >
               <Button className="mr-2 flex items-center" ghost type="primary">
                 <ErdaIcon type="page-template" className="mr-1" size="14" />
-                <span>{i18n.t('cmp:type template')}</span>
+                <span>{i18n.t('cmp:Type Template')}</span>
               </Button>
             </Popover>
             <Button type="primary" className="flex items-center" ghost onClick={handleAddEditingRule}>
               <ErdaIcon type="plus" size="16" />
-              <span>{i18n.t('cmp:add rule')}</span>
+              <span>{i18n.t('cmp:Add')}</span>
             </Button>
           </div>
           <ErdaTable
@@ -629,7 +629,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       ),
     },
     {
-      label: i18n.t('cmp:silence period'),
+      label: i18n.t('cmp:Silence period'),
       name: 'silence',
       itemProps: {
         style: { width: 480 },
@@ -638,7 +638,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       options: map(silenceMap, ({ display }, value) => ({ name: `${value.split('-')[0]}${display}`, value })),
     },
     {
-      label: i18n.t('silence period policy'),
+      label: i18n.t('Silence period policy'),
       name: 'silencePolicy',
       initialValue: state.editingFormRule.notifies
         ? `${state.editingFormRule.notifies[0].silence.policy}`
@@ -647,14 +647,14 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       options: map(SILENCE_PERIOD_POLICY_MAP, (name, value) => ({ name, value })),
     },
     {
-      label: i18n.t('dop:notified to'),
+      label: i18n.t('dop:Notify'),
       required: false,
       name: 'notifies',
       getComp: () => (
         <>
           <Button type="primary" ghost className="flex items-center mb-2" onClick={handleAddNotifyStrategy}>
             <ErdaIcon type="plus" size="16" />
-            <span>{i18n.t('cmp:add notification object')}</span>
+            <span>{i18n.t('cmp:Add Notification Target')}</span>
           </Button>
           {state.notifies?.length > 0 && (
             <div className="p-2 bg-cultured w-min">
@@ -687,10 +687,10 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
         return (
           <div className="text-right bg-white">
             <Button className="btn-save" type="primary" onClick={() => handleSave(form)}>
-              {i18n.t('save')}
+              {i18n.t('Save')}
             </Button>
             <Button className="ml-3" onClick={() => window.history.back()}>
-              {i18n.t('cancel')}
+              {i18n.t('Cancel')}
             </Button>
           </div>
         );
@@ -974,7 +974,7 @@ export function AddStrategyPageName() {
         onClick={() => window.history.back()}
       />
       <ErdaIcon type="remind" size="18" className="text-white bg-primary p-2 text-bold rounded-sm mr-2" />
-      <span className="font-bold text-lg">{i18n.t('cmp:new alarm strategy')}</span>
+      <span className="font-bold text-lg">{i18n.t('cmp:New alert strategy')}</span>
     </div>
   );
 }

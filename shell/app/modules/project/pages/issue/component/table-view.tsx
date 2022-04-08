@@ -29,11 +29,11 @@ export const memberSelectorValueItem = (user: {
   value: string;
 }) => {
   const { avatar, nick, name, label, value } = user;
-  const displayName = nick || label || value || i18n.t('common:none');
+  const displayName = nick || label || value || i18n.t('common:None');
   return (
     <div className="flex items-center hover-active issue-field-selector">
       <Avatar src={avatar} size="small">
-        {nick ? getAvatarChars(nick) : i18n.t('none')}
+        {nick ? getAvatarChars(nick) : i18n.t('None')}
       </Avatar>
       <span className={'ml-2 text-sm flex-1 truncate'} title={name}>
         {displayName}

@@ -20,11 +20,11 @@ const publisherTabs = () => {
   return [
     {
       key: 'MOBILE',
-      name: i18n.t('dop:mobile app'),
+      name: i18n.t('dop:Mobile app'),
     },
     {
       key: 'LIBRARY',
-      name: i18n.t('dop:library/module'),
+      name: i18n.t('dop:Library/Module'),
     },
   ];
 };
@@ -36,7 +36,7 @@ const approvalTabs = [
   },
   {
     key: 'approved',
-    name: i18n.t('cmp:approved'),
+    name: i18n.t('cmp:Approved'),
   },
 ];
 
@@ -47,11 +47,11 @@ const initiateTabs = [
   },
   {
     key: 'Accept',
-    name: i18n.t('approval passed'),
+    name: i18n.t('Approved'),
   },
   {
     key: 'Reject',
-    name: i18n.t('approval denied'),
+    name: i18n.t('Rejected-approval'),
   },
 ];
 
@@ -83,7 +83,7 @@ export default function getDopRouter(): RouteConfigItem[] {
             },
             {
               path: 'my-initiate/:initiateType',
-              breadcrumbName: i18n.t('dop:initiated'),
+              breadcrumbName: i18n.t('dop:Initiated by me'),
               tabs: initiateTabs,
               ignoreTabQuery: true,
               getComp: (cb) => cb(import('application/pages/deploy-list/initiate')),
@@ -155,14 +155,14 @@ export default function getDopRouter(): RouteConfigItem[] {
                 },
                 // {
                 //   path: 'log-analytics',
-                //   breadcrumbName: i18n.t('console'),
+                //   breadcrumbName: i18n.t('Console'),
                 //   getComp: cb => cb(import('msp/pages/log-analytics')),
                 // },
                 {
                   path: 'jvm-profiler',
                   routes: [
                     {
-                      breadcrumbName: i18n.t('console'),
+                      breadcrumbName: i18n.t('Console'),
                       getComp: (cb) => cb(import('addonPlatform/pages/jvm-profiler/analysis')),
                     },
                     {

@@ -80,7 +80,7 @@ const CaseSteps = ({ value, onChange }: IProps) => {
   );
 
   if (!steps.length) {
-    return <span className="text-holder">{i18n.t('none')}</span>;
+    return <span className="text-holder">{i18n.t('None')}</span>;
   }
 
   return (
@@ -111,7 +111,7 @@ const StepItem = ({ step, index, updateStep, handleDelete, onMove }: any) => {
         <TextArea
           autoSize
           className="flex-1"
-          placeholder={i18n.t('dop:input step')}
+          placeholder={i18n.t('dop:Input the step')}
           value={step.step}
           onChange={(e) => updateStep(index, 'step', e.target.value)}
         />
@@ -120,7 +120,7 @@ const StepItem = ({ step, index, updateStep, handleDelete, onMove }: any) => {
       <div className="flex justify-between items-center result-detail">
         <TextArea
           autoSize
-          placeholder={i18n.t('dop:input expected result')}
+          placeholder={i18n.t('dop:Input the expected result')}
           value={step.result}
           onChange={(e) => updateStep(index, 'result', e.target.value)}
         />

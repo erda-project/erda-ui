@@ -23,10 +23,10 @@ const AllIssue = () => {
   const { tab } = routeInfoStore.useStore((s) => s.query);
   const [issueType, setIssueType] = React.useState((tab as ISSUE_TYPE) || ISSUE_TYPE.ALL);
   const options = [
-    { value: ISSUE_TYPE.ALL, label: i18n.t('dop:all issues') },
+    { value: ISSUE_TYPE.ALL, label: i18n.t('dop:All-issues') },
     { value: ISSUE_TYPE.REQUIREMENT, label: i18n.t('requirement') },
     { value: ISSUE_TYPE.TASK, label: i18n.t('task') },
-    { value: ISSUE_TYPE.BUG, label: i18n.t('bug') },
+    { value: ISSUE_TYPE.BUG, label: i18n.t('Bug') },
   ];
 
   return (

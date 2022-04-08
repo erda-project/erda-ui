@@ -118,7 +118,7 @@ export const TimeInput = React.forwardRef(
         <div className="w-full relative">
           <Input
             className={`hover:bg-default-06 ${showTip ? 'with-error' : ''}`}
-            placeholder={i18n.t('dop:please input time')}
+            placeholder={i18n.t('dop:Please input the time')}
             onFocus={() => setShowBtn(true)}
             {...rest}
             ref={ref}

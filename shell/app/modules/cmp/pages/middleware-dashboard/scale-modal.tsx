@@ -136,7 +136,7 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit }: IProps) => {
 
   const fieldsList: IFormItem[] = [
     {
-      label: i18n.t('default:name'),
+      label: i18n.t('default:Name'),
       required: true,
       name: 'name',
       initialValue: formData.name,

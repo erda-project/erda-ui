@@ -24,12 +24,12 @@ const chartMap = merge(
   {
     performanceInterval: {
       ...commonAttr,
-      titleText: i18n.t('performance interval'),
+      titleText: i18n.t('Performance range'),
       chartName: 'performanceInterval',
       viewProps: { unitType: 'TIME' },
     },
     scriptError: {
-      titleText: i18n.t('msp:script error'),
+      titleText: i18n.t('msp:Script Error'),
       ...commonAttr,
       chartName: 'scriptError',
     },

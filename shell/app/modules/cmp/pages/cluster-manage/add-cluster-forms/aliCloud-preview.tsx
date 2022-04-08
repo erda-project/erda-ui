@@ -86,7 +86,7 @@ const AliCloudPreview = ({
       visible={visible}
       footer={[
         <Button key="cancel" onClick={cancelConfirm}>
-          {i18n.t('cancel')}
+          {i18n.t('Cancel')}
         </Button>,
         <Button key="submit" type="primary" disabled={!checkedRead} onClick={handleConfirm}>
           {i18n.t('ok')}

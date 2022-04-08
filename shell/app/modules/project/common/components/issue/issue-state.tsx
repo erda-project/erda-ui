@@ -28,37 +28,37 @@ interface IProps {
 export const issueMainStateMap = {
   EPIC: {
     OPEN: { stateName: i18n.t('dop:pending'), status: BadgeStatus.warning },
-    WORKING: { stateName: i18n.t('processing'), status: BadgeStatus.processing },
-    DONE: { stateName: i18n.t('dop:completed'), status: BadgeStatus.success },
+    WORKING: { stateName: i18n.t('In Progress'), status: BadgeStatus.processing },
+    DONE: { stateName: i18n.t('dop:Completed'), status: BadgeStatus.success },
   },
   TASK: {
     OPEN: { stateName: i18n.t('dop:pending'), status: BadgeStatus.warning },
-    WORKING: { stateName: i18n.t('processing'), status: BadgeStatus.processing },
-    DONE: { stateName: i18n.t('dop:completed'), status: BadgeStatus.success },
+    WORKING: { stateName: i18n.t('In Progress'), status: BadgeStatus.processing },
+    DONE: { stateName: i18n.t('dop:Completed'), status: BadgeStatus.success },
   },
   REQUIREMENT: {
     OPEN: { stateName: i18n.t('dop:pending'), status: BadgeStatus.warning },
-    WORKING: { stateName: i18n.t('processing'), status: BadgeStatus.processing },
-    DONE: { stateName: i18n.t('dop:completed'), status: BadgeStatus.success },
+    WORKING: { stateName: i18n.t('In Progress'), status: BadgeStatus.processing },
+    DONE: { stateName: i18n.t('dop:Completed'), status: BadgeStatus.success },
   },
   BUG: {
     OPEN: { stateName: i18n.t('dop:pending'), status: BadgeStatus.warning },
-    WORKING: { stateName: i18n.t('processing'), status: BadgeStatus.processing },
+    WORKING: { stateName: i18n.t('In Progress'), status: BadgeStatus.processing },
     WONTFIX: { stateName: i18n.t("dop:won't fix"), status: BadgeStatus.default },
     REOPEN: { stateName: i18n.t('dop:reopen'), status: BadgeStatus.error },
     RESOLVED: { stateName: i18n.t('dop:resolved'), status: BadgeStatus.success },
-    CLOSED: { stateName: i18n.t('closed'), status: BadgeStatus.success },
+    CLOSED: { stateName: i18n.t('Closed'), status: BadgeStatus.success },
   },
 };
 
 export const ticketMainStateMap = {
   TICKET: {
     OPEN: { stateName: i18n.t('dop:pending'), status: BadgeStatus.warning },
-    WORKING: { stateName: i18n.t('processing'), status: BadgeStatus.processing },
+    WORKING: { stateName: i18n.t('In Progress'), status: BadgeStatus.processing },
     WONTFIX: { stateName: i18n.t("dop:won't fix"), status: BadgeStatus.default },
     REOPEN: { stateName: i18n.t('dop:reopen'), status: BadgeStatus.error },
     RESOLVED: { stateName: i18n.t('dop:resolved'), status: BadgeStatus.success },
-    CLOSED: { stateName: i18n.t('closed'), status: BadgeStatus.success },
+    CLOSED: { stateName: i18n.t('Closed'), status: BadgeStatus.success },
   },
 };
 

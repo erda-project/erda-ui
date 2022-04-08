@@ -30,15 +30,15 @@ import './index.scss';
 const MONITOR_TYPE: Array<{ value: IState['monitorType']; label: string }> = [
   {
     value: 'runtime',
-    label: i18n.t('msp:runtime monitor'),
+    label: i18n.t('msp:Runtime Monitoring'),
   },
   {
     value: 'container',
-    label: i18n.t('msp:container monitor'),
+    label: i18n.t('msp:Container Monitoring'),
   },
   {
     value: 'host',
-    label: i18n.t('msp:host monitor'),
+    label: i18n.t('msp:Host Monitoring'),
   },
 ];
 

@@ -31,7 +31,7 @@ import moment from 'moment';
 const name = {
   sort: i18n.t('msp:sort method'),
   limit: i18n.t('msp:number of queries'),
-  traceStatus: i18n.t('msp:tracking status'),
+  traceStatus: i18n.t('msp:Tracing status'),
 };
 
 interface IState {
@@ -118,11 +118,11 @@ const TraceSearch: React.FC<IProps> = ({ scope = 'trace' }) => {
     return [
       [
         {
-          label: i18n.t('msp:duration'),
+          label: i18n.t('msp:Duration'),
           key: 'duration',
           showIndex: 1,
           fixed: true,
-          tips: i18n.t('msp:the minimum and maximum values need to be filled in at the same time'),
+          tips: i18n.t('msp:The minimum and maximum values are both required'),
           getComp: (props) => {
             return <Duration {...props} />;
           },

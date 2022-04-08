@@ -177,7 +177,7 @@ export const AddonCategory = () => {
       <div className="top-button-group">
         <WithAuth pass={permMap.addProjectService.pass} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={() => updater.modalVisible(true)}>
-            {i18n.t('dop:add addon')}
+            {i18n.t('dop:Add-service')}
           </Button>
         </WithAuth>
       </div>

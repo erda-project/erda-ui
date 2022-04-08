@@ -136,7 +136,7 @@ const PureFormSelect = (props: any) => {
                     {i18n.t('dop:select all')}
                   </span>
                   <span className="ml-2 text-link" onClick={selectAllCancel} onMouseDown={(e) => e.preventDefault()}>
-                    {i18n.t('clear')}
+                    {i18n.t('Clear')}
                   </span>
                   <Divider style={{ margin: '8px 0' }} />
                 </div>

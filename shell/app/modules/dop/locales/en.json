@@ -2,12 +2,12 @@
   "addon info": "addon info",
   "addon setting": "addon setting",
   "number of application": "number of application",
-  "approval request": "approval request",
-  "console": "console",
+  "Approval Request": "Approval Request",
+  "Console": "Console",
   "deployment request": "deployment request",
   "JVM analysis": "JVM analysis",
-  "approved": "approved",
-  "initiated": "initiated",
+  "Approved": "Approved",
+  "Initiated by me": "Initiated by me",
   "search by owned project": "search by owned project",
-  "search by project name": "search by project name"
+  "Search by project name": "Search by project name"
 }

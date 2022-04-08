@@ -54,7 +54,7 @@ const RepoBranchCompare = () => {
   return (
     <div className="repo-branch-compare" key={window.location.pathname}>
       <BranchSelect {...{ branches, tags, current: encodeURIComponent(state.from) }} onChange={onChange('from')}>
-        <span>{i18n.t('dop:based on source')}:</span>
+        <span>{i18n.t('dop:Based on source')}:</span>
         <span className="branch-name font-bold nowrap">{state.from || null}</span>
         {state.from ? <ErdaIcon type="caret-down" size="20" /> : null}
       </BranchSelect>
@@ -62,12 +62,12 @@ const RepoBranchCompare = () => {
         <ErdaIcon type="switch" />
       </span>
       <BranchSelect {...{ branches, tags, current: state.to }} onChange={onChange('to')}>
-        <span>{i18n.t('compare')}:</span>
+        <span>{i18n.t('Compare')}:</span>
         <span className="branch-name font-bold nowrap">{state.to || null}</span>
         {state.to ? <ErdaIcon type="caret-down" size="20" /> : null}
       </BranchSelect>
       <Button className="compare-button" type="primary" onClick={goToCompare} disabled={!state.from || !state.to}>
-        {i18n.t('compare')}
+        {i18n.t('Compare')}
       </Button>
     </div>
   );

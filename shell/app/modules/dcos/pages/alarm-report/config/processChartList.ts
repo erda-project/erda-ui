@@ -30,7 +30,7 @@ const commonQuery = {
 const CHART_CONFIG_MAP = {
   processCPU: {
     ...commonAttr,
-    titleText: `${i18n.t('cmp:process')} CPU ${i18n.t('cmp:usage rate')}`,
+    titleText: `${i18n.t('cmp:process')} CPU ${i18n.t('cmp:Usage')}`,
     chartName: 'processCPU',
     query: {
       ...commonQuery,

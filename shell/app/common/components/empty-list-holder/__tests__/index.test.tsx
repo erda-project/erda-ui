@@ -20,7 +20,7 @@ describe('EmptyListHolder', () => {
     const action = <div>action</div>;
     const wrapper = render(<EmptyListHolder action={action} />);
     expect(wrapper.getAllByText(`action`).length).toBe(1);
-    expect(wrapper.getAllByText(`no data`).length).toBe(1);
+    expect(wrapper.getAllByText(`No data`).length).toBe(1);
     wrapper.rerender(<EmptyListHolder tip="this is a tip" />);
     expect(wrapper.getAllByText(`this is a tip`).length).toBe(1);
   });

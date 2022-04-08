@@ -41,7 +41,7 @@ const chartMap = merge(
         yAxisNames: [i18n.t('msp:request times')],
         opt: {
           grid: { top: 30, bottom: 0, right: 35, left: 25 },
-          xAxies: [{ name: `${i18n.t('time')}(ms)`, nameGap: -20 }],
+          xAxies: [{ name: `${i18n.t('Time')}(ms)`, nameGap: -20 }],
         },
       },
     },

@@ -275,7 +275,7 @@ class RepoFile extends React.PureComponent<IProps, IState> {
         <div className="flex flex-wrap justify-center items-center raw-file-container">
           <a className="flex" href={fileSrc} target="_blank" rel="noopener noreferrer">
             <ErdaIcon className="mr-1" type="download" />
-            <div className="mt-1"> {i18n.t('download')} </div>
+            <div className="mt-1"> {i18n.t('Download')} </div>
           </a>
         </div>
       </FileContainer>

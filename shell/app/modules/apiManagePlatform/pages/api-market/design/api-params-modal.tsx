@@ -79,7 +79,7 @@ const ApiParamsModal = (props: IProps) => {
       dataIndex: API_FORM_KEY,
     },
     {
-      title: i18n.t('type'),
+      title: i18n.t('Type'),
       dataIndex: 'type',
     },
   ];

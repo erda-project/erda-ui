@@ -43,12 +43,12 @@ export const JumpBoardForm = ({ form, curRef, data, isReadonly }: IFormProps) =>
       },
     },
     {
-      label: i18n.t('host IP'),
+      label: i18n.t('Host IP'),
       name: `${formPrefix}.host`,
       rules: [{ ...regRulesMap.ip }],
     },
     {
-      label: i18n.t('port'),
+      label: i18n.t('Port'),
       name: `${formPrefix}.port`,
       initialValue: 22,
       rules: [{ ...regRulesMap.port }],
@@ -61,7 +61,7 @@ export const JumpBoardForm = ({ form, curRef, data, isReadonly }: IFormProps) =>
     {
       getComp: () => (
         <Switch
-          checkedChildren={i18n.t('password')}
+          checkedChildren={i18n.t('Password')}
           unCheckedChildren={i18n.t('privateKey')}
           checked={isPassword}
           onClick={() => setIsPassword(!isPassword)}
@@ -70,7 +70,7 @@ export const JumpBoardForm = ({ form, curRef, data, isReadonly }: IFormProps) =>
     },
     isPassword
       ? {
-          label: i18n.t('password'),
+          label: i18n.t('Password'),
           name: `${formPrefix}.password`,
         }
       : {

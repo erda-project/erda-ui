@@ -202,8 +202,8 @@ class RuntimeContainerLog extends React.Component {
     const extraButton = (
       <>
         <Switch
-          checkedChildren={i18n.t('error')}
-          unCheckedChildren={i18n.t('standard')}
+          checkedChildren={i18n.t('Error')}
+          unCheckedChildren={i18n.t('Standard')}
           checked={logName === 'stderr'}
           onChange={() => this.toggleLogName(reId)}
         />

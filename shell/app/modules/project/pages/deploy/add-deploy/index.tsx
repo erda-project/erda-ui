@@ -81,7 +81,7 @@ const AddDeploy = ({
 
   const fields = [
     {
-      label: i18n.t('dop:artifact version'),
+      label: i18n.t('dop:Version'),
       valueKey: 'releaseInfo',
       valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
         const curText = value?.version || value?.id || '-';
@@ -106,7 +106,7 @@ const AddDeploy = ({
       },
     },
     {
-      label: i18n.t('dop:artifact type'),
+      label: i18n.t('dop:Type-artifact'),
       valueKey: 'releaseInfo',
       valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
         const typeMap = {
@@ -123,15 +123,15 @@ const AddDeploy = ({
     },
 
     {
-      label: i18n.t('dop:artifact creator'),
+      label: i18n.t('dop:Creator-artifact'),
       valueKey: 'releaseInfo',
       valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
         const { nick, name } = userMap[value?.creator] || {};
-        return nick || name || i18n.t('common:none');
+        return nick || name || i18n.t('common:None');
       },
     },
     {
-      label: i18n.t('dop:artifact created at'),
+      label: i18n.t('dop:Creation time-artifact'),
       valueKey: 'releaseInfo',
       valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
         return value?.createdAt ? moment(value.createdAt).format('YYYY/MM/DD HH:mm:ss') : '-';
@@ -143,7 +143,7 @@ const AddDeploy = ({
   return (
     <div>
       <div className="flex-h-center ">
-        <span className="font-medium">{i18n.t('select {name}', { name: i18n.t('Artifact') })}</span>
+        <span className="font-medium">{i18n.t('select {name}', { name: i18n.t('Artifacts') })}</span>
         <div className="w-px h-3 bg-default-1 mx-4" />
         <AddRelease onSelect={onSelect} detail={detail} />
       </div>

@@ -109,8 +109,8 @@ const IterationFiedExtra = (props: IterationExtraProps) => {
   const [title, btn] = force
     ? [
         i18n.t('dop:issue-iteration-update-tip'),
-        <Button size="small" type="primary" onClick={onCancel}>
-          {i18n.t('dop:i know')}
+        <Button size="small" ghost type="primary" onClick={onCancel}>
+          {i18n.t('close')}
         </Button>,
       ]
     : [
@@ -126,7 +126,7 @@ const IterationFiedExtra = (props: IterationExtraProps) => {
       ];
   return visible ? (
     <div className="bg-default-04 rounded border border-solid border-default-1 p-3 flex-h-center justify-between relative issue-extra-field">
-      <div className="font-bold mr-3">{title}</div>
+      <div className="font-medium mr-3">{title}</div>
       {btn}
     </div>
   ) : null;
@@ -154,7 +154,7 @@ const LabelFiedExtra = (props: LabelExtraProps) => {
     return (
       <div className="bg-default-04 rounded border border-solid border-default-1 p-3 issue-labels-extra max-w-[600px] issue-extra-field relative">
         <div className="flex-h-center justify-between">
-          <div className="font-bold mr-3 flex-h-center">
+          <div className="font-medium mr-3 flex-h-center">
             <ErdaIcon
               type="caret-down"
               className={`mr-1 cursor-pointer expand-icon ${expand ? '' : 'un-expand'}`}
@@ -451,7 +451,7 @@ const IssueMetaFields = React.forwardRef(
           icon: 'diedai',
           className: 'mb-3 w-full',
           name: 'iterationID',
-          label: i18n.t('dop:owned iteration'),
+          label: i18n.t('dop:Iteration'),
           type: 'custom',
           onChangeCb: (v: { iterationID: string }) => {
             const curIteration = iterationList.find((item) => `${item.id}` === `${v.iterationID}`);
@@ -497,7 +497,30 @@ const IssueMetaFields = React.forwardRef(
               value={value as number}
               onChange={onSave}
               disabled={!editAuth}
-              placeholder={i18n.t('please choose {name}', { name: i18n.t('dop:owned iteration') })}
+              placeholder={i18n.t('please choose {name}', { name: i18n.t('dop:Iteration') })}
+            />
+          ),
+          extraContent: (
+            <IterationFiedExtra
+              onCancel={() => {
+                setIterationUpdate((prev) => ({ ...prev, visible: false }));
+              }}
+              onOk={() => {
+                updateIncludeIssue({
+                  issueId: formData.id,
+                  updateFields: [
+                    {
+                      updateType: 'REPLACE',
+                      field: 'iterationID',
+                      value: { content: +iterationUpdate.id },
+                    },
+                  ],
+                }).then(() => {
+                  getIssueRelation.fetch({ issueId: formData.id });
+                });
+                setIterationUpdate((prev) => ({ ...prev, visible: false }));
+              }}
+              {...iterationUpdate}
             />
           ),
           extraContent: (
@@ -540,7 +563,7 @@ const IssueMetaFields = React.forwardRef(
         icon: 'jihuashijian',
         className: 'mb-3 w-full',
         name: 'planFinishedAt',
-        label: i18n.t('deadline'),
+        label: i18n.t('End date'),
         type: 'datePicker',
         showRequiredMark: ISSUE_TYPE.EPIC === issueType,
         itemProps: {
@@ -553,7 +576,7 @@ const IssueMetaFields = React.forwardRef(
           icon: 'laiyuan',
           className: 'mb-3',
           name: 'source',
-          label: i18n.t('dop:source'),
+          label: i18n.t('dop:Source'),
           itemProps: {
             placeholder: i18n.t('please enter'),
             maxLength: 200,
@@ -569,7 +592,7 @@ const IssueMetaFields = React.forwardRef(
         icon: 'youxianji',
         name: 'priority',
         className: 'mb-3',
-        label: i18n.t('dop:priority'),
+        label: i18n.t('dop:Priority'),
         type: 'select',
         itemProps: { options: priorityOptions, allowClear: false },
       },
@@ -578,12 +601,12 @@ const IssueMetaFields = React.forwardRef(
           icon: 'yanzhongchengdu',
           className: 'mb-3',
           name: 'severity',
-          label: i18n.t('dop:severity'),
+          label: i18n.t('dop:Severity'),
           type: 'select',
           itemProps: {
             options: severityOptions,
             allowClear: false,
-            placeholder: i18n.t('please choose {name}', { name: i18n.t('dop:severity') }),
+            placeholder: i18n.t('please choose {name}', { name: i18n.t('dop:Severity') }),
           },
         },
       ]),
@@ -592,12 +615,12 @@ const IssueMetaFields = React.forwardRef(
           icon: 'fuzadu',
           className: 'mb-3',
           name: 'complexity',
-          label: i18n.t('dop:complexity'),
+          label: i18n.t('dop:Complexity'),
           type: 'select',
           itemProps: {
             options: complexityOptions,
             allowClear: false,
-            placeholder: i18n.t('please choose {name}', { name: i18n.t('dop:complexity') }),
+            placeholder: i18n.t('please choose {name}', { name: i18n.t('dop:Complexity') }),
           },
         },
       ]),
@@ -606,7 +629,7 @@ const IssueMetaFields = React.forwardRef(
           icon: 'yugushijian',
           className: 'mb-3',
           name: ['issueManHour', 'estimateTime'],
-          label: i18n.t('dop:EstimateTime'),
+          label: i18n.t('dop:Estimated time'),
           type: 'custom',
           getComp: ({ value, disabled, originalValue }: Pick<GetCompProps, 'value' | 'originalValue' | 'disabled'>) => (
             <TimeInput
@@ -657,7 +680,7 @@ const IssueMetaFields = React.forwardRef(
           icon: 'renwuleixing',
           className: `mb-3 w-full`,
           name: 'taskType',
-          label: i18n.t('task type'),
+          label: i18n.t('Task type'),
           type: 'select',
           showRequiredMark: true,
           itemProps: { options: taskTypeOptions, allowClear: false },
@@ -669,7 +692,7 @@ const IssueMetaFields = React.forwardRef(
           className: `mb-3 w-full`,
           type: 'select',
           name: 'bugStage',
-          label: i18n.t('dop:import source'),
+          label: i18n.t('dop:Import source'),
           showRequiredMark: true,
           itemProps: { options: stageOptions, allowClear: false },
         },
@@ -682,7 +705,7 @@ const IssueMetaFields = React.forwardRef(
       //     valueRender: () => {
       //       return (
       //         <Divider className="mb-6 mt-0.5 text-xs text-desc" plain>
-      //           {i18n.t('common:custom')}
+      //           {i18n.t('common:Custom')}
       //         </Divider>
       //       );
       //     },
@@ -816,7 +839,7 @@ const IssueMetaFields = React.forwardRef(
       //         <>
       //           <Divider className="mb-6 mt-0.5" />
       //           <div className="text-desc text-xs prewrap">
-      //             {user.nick || user.name}&nbsp;{i18n.t('created at')}&nbsp;
+      //             {user.nick || user.name}&nbsp;{i18n.t('Creation time')}&nbsp;
       //             {moment(formData.createdAt).format('YYYY/MM/DD')}
       //           </div>
       //         </>

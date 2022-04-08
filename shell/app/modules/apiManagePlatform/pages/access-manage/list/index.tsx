@@ -66,7 +66,7 @@ const AccessList = () => {
         type: 'input',
         outside: true,
         key: 'keyword',
-        placeholder: i18n.t('default:search by keywords'),
+        placeholder: i18n.t('default:Search by keyword'),
         customProps: {
           autoComplete: 'off',
         },
@@ -80,14 +80,14 @@ const AccessList = () => {
       dataIndex: 'assetName',
     },
     {
-      title: i18n.t('number of versions'),
+      title: i18n.t('Number of versions'),
       dataIndex: 'totalChildren',
       width: 160,
     },
   ];
   const subColumns: Array<ColumnProps<API_ACCESS.ITableSubAccess>> = [
     {
-      title: i18n.t('version'),
+      title: i18n.t('Version'),
       dataIndex: 'swaggerVersion',
     },
     {
@@ -108,7 +108,7 @@ const AccessList = () => {
       const { edit, delete: canDelete } = record;
       return [
         {
-          title: i18n.t('edit'),
+          title: i18n.t('Edit'),
           onClick: () => handleEdit(record),
           show: edit,
         },

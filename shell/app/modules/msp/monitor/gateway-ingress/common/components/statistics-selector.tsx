@@ -24,7 +24,7 @@ interface IProps {
 const { Option } = Select;
 
 export const STATISTICS = {
-  avg: { name: i18n.t('msp:average value'), value: 'avg' },
+  avg: { name: i18n.t('msp:Average'), value: 'avg' },
   max: { name: i18n.t('msp:peak'), value: 'max' },
 };
 

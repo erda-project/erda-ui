@@ -166,7 +166,7 @@ const Execute = (props: IProps) => {
       title: i18n.t('ok'),
       className: 'node-click-confirm',
       content: i18n.t('dop:whether {action} task {name}', {
-        action: disabled ? i18n.t('open') : i18n.t('close'),
+        action: disabled ? i18n.t('Enable-open') : i18n.t('close'),
         name: node.name,
       }),
       onOk: () => updateEnv({ taskID: node.id, taskAlias: node.name, disabled: !disabled }),
@@ -333,7 +333,7 @@ const Execute = (props: IProps) => {
   };
 
   const renderRunBtn = () => {
-    return renderOnceRunBtn({ execTitle: i18n.t('execute') });
+    return renderOnceRunBtn({ execTitle: i18n.t('Execute') });
   };
 
   const renderReRunMenu = () => {
@@ -525,7 +525,7 @@ const Execute = (props: IProps) => {
                     </Button>
                   ) : null}
                   <Button onClick={editPipeline} size="small">
-                    {i18n.t('edit')}
+                    {i18n.t('Edit')}
                   </Button>
                 </div>
               }

@@ -199,7 +199,7 @@ const SubMachineGroup = ({
             <Holder when={!subMachines?.length}>
               <p className="group-info">
                 <span>
-                  {i18n.t('machines')}：{subMetric.machines}
+                  {i18n.t('Machines')}：{subMetric.machines}
                 </span>
               </p>
               <div
@@ -499,14 +499,14 @@ const ClusterDashboard = () => {
         </IF>
         <p className="group-info">
           <span>
-            {i18n.t('machines')}：{machineNum}
+            {i18n.t('Machines')}：{machineNum}
           </span>
           <span>CPU：{round((cpuUsage / cpuAllocatable) * 100, 2)}%</span>
           <span>
             {i18n.t('memory')}：{round((memUsage / memAllocatable) * 100, 2)}%
           </span>
           <span>
-            {i18n.t('disk')}：{round((diskUsage / diskTotal) * 100, 2)}%
+            {i18n.t('Disk')}：{round((diskUsage / diskTotal) * 100, 2)}%
           </span>
         </p>
         <IF check={!isEmpty(groups)}>
@@ -669,7 +669,7 @@ const ClusterDashboard = () => {
                   </Select>
                 </Col>
                 <Col span={8} className="filter-item flex justify-between items-center">
-                  <div className="filter-item-label">{i18n.t('filter')}</div>
+                  <div className="filter-item-label">{i18n.t('Filter')}</div>
                   <TreeSelect
                     className="filter-item-content"
                     style={{ width: '100%' }}
@@ -695,7 +695,7 @@ const ClusterDashboard = () => {
                   </TreeSelect>
                 </Col>
                 <Col span={8} className="filter-item flex justify-between items-center">
-                  <div className="filter-item-label">{i18n.t('colour')}</div>
+                  <div className="filter-item-label">{i18n.t('Colour')}</div>
                   <Select
                     className="filter-item-content"
                     style={{ width: '100%' }}
