@@ -56,7 +56,7 @@ const InParamsDrawer = (props: IInPramasDrawerProps) => {
 
   const drawerProps = editing
     ? {
-        title: i18n.t('dop:inputs configuration'),
+        title: i18n.t('dop:Input configuration'),
         width: '80%',
         maskClosable: false,
       }
@@ -79,7 +79,7 @@ const InParamsDrawer = (props: IInPramasDrawerProps) => {
           <FormEditor fields={fields} ref={formEditorRef} />
           <div className="pipeline-in-params-drawer-footer">
             <Button onClick={closeDrawer} className="mr-2">
-              {i18n.t('cancel')}
+              {i18n.t('Cancel')}
             </Button>
             <Button onClick={onSubmit} type="primary">
               {i18n.t('ok')}

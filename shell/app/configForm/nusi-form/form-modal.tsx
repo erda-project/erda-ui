@@ -111,7 +111,7 @@ export const FormModal = (props: IProps) => {
       footer={[
         onCancel ? (
           <Button key="back" onClick={handleCancel}>
-            {i18n.t('cancel')}
+            {i18n.t('Cancel')}
           </Button>
         ) : null,
         onOk ? (

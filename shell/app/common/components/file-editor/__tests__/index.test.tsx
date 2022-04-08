@@ -57,8 +57,8 @@ console.log( code.code )
     result.rerender(<FileEditor value={''} readOnly />);
     expect(result.container.querySelector('pre')?.innerHTML).toBe('');
     result.rerender(<FileEditor value={value.repeat(5000)} readOnly />);
-    expect(result.getByText('download')).toBeTruthy();
-    fireEvent.click(result.getByText('download'));
+    expect(result.getByText('Download')).toBeTruthy();
+    fireEvent.click(result.getByText('Download'));
     expect(createObjectURL).toHaveBeenCalled();
     expect(revokeObjectURL).toHaveBeenCalled();
     result.rerender(<FileEditor value={value} actions={{ copy: true, format: true }} onChange={changeFn} />);

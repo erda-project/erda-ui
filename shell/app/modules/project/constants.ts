@@ -17,7 +17,7 @@ import i18n from 'i18n';
 export const DEFAULT_FIELDS = [
   {
     uniqueName: 'title',
-    showName: i18n.t('title'),
+    showName: i18n.t('Title'),
     fieldTypeCode: 'STRING',
     module: 'ISSUE',
     defaultValue: null,
@@ -32,7 +32,7 @@ export const DEFAULT_FIELDS = [
   },
   {
     uniqueName: 'preCondition',
-    showName: i18n.t('dop:preconditions'),
+    showName: i18n.t('dop:Preconditions'),
     fieldTypeCode: 'richText',
     module: 'ISSUE',
     defaultValue: null,
@@ -47,7 +47,7 @@ export const DEFAULT_FIELDS = [
   },
   {
     uniqueName: 'stepAndResult',
-    showName: i18n.t('dop:steps and results'),
+    showName: i18n.t('dop:Steps and results'),
     fieldTypeCode: 'STRING',
     module: 'ISSUE',
     defaultValue: null,
@@ -62,7 +62,7 @@ export const DEFAULT_FIELDS = [
   },
   {
     uniqueName: 'desc',
-    showName: i18n.t('description'),
+    showName: i18n.t('Description'),
     fieldTypeCode: 'richText',
     module: 'ISSUE',
     defaultValue: null,
@@ -77,7 +77,7 @@ export const DEFAULT_FIELDS = [
   },
   {
     uniqueName: 'priority',
-    showName: i18n.t('dop:priority'),
+    showName: i18n.t('dop:Priority'),
     fieldTypeCode: 'select',
     module: 'ISSUE',
     defaultValue: '2',

@@ -52,7 +52,7 @@ export const StorageForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
   ];
   const glusterFields = [
     {
-      label: i18n.t('version'),
+      label: i18n.t('Version'),
       name: `${formPrefix}.gluster.version`,
       type: 'radioGroup',
       initialValue: '4.1',

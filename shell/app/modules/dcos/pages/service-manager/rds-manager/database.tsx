@@ -166,7 +166,7 @@ const DataBase = () => {
       },
     ]),
     {
-      label: i18n.t('dop:remark'),
+      label: i18n.t('dop:Remark'),
       name: 'description',
       type: 'textArea',
       required: false,

@@ -74,7 +74,7 @@ export const ClusterTerminal = (props: IProps) => {
       {initLoading ? <span className="text-white">{i18n.t('connecting')}...</span> : null}
       <div className="cluster-terminal-control btn-line-rtl">
         <Button className="resize-button" onClick={changeSize} type="ghost">
-          {max ? i18n.t('exit full screen') : i18n.t('full screen')}
+          {max ? i18n.t('exit full screen') : i18n.t('Full screen')}
         </Button>
         {extraOptions}
       </div>

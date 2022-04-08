@@ -34,7 +34,7 @@ const SlowTrack = ({ data }: { data: object }) => {
       key: 'name',
     },
     {
-      title: i18n.t('time'),
+      title: i18n.t('Time'),
       dataIndex: 'time',
       key: 'time',
       width: 280,

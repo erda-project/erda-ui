@@ -200,7 +200,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
         headerAction: (
           <React.Fragment>
             <WithAuth pass={editAuth} tipProps={{ placement: 'bottom' }}>
-              <Button onClick={() => this.toggleEditMode(true)}>{i18n.t('edit')}</Button>
+              <Button onClick={() => this.toggleEditMode(true)}>{i18n.t('Edit')}</Button>
             </WithAuth>
             <WithAuth pass={closeAuth} tipProps={{ placement: 'bottom' }}>
               <Button type="primary" ghost onClick={() => this.handleAction('close')}>
@@ -218,7 +218,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
           <React.Fragment>
             <Avatar className="mr-1 mb-1" name={authorUser.nick} />
             <Tooltip title={authorUser.name}>{authorUser.nick}</Tooltip>
-            {i18n.t('created at')}&nbsp;{fromNow(createdAt)}
+            {i18n.t('Creation time')}&nbsp;{fromNow(createdAt)}
           </React.Fragment>,
         ],
       };
@@ -230,7 +230,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
         // headerAction: (
         //   <React.Fragment>
         //     <WithAuth pass={repoPerm.mr.create.pass}  tipProps={{ placement: 'bottom' }}>
-        //       <Button type='primary' onClick={() => this.handleAction('revert')}>{i18n.t('dop:rollback')}</Button>
+        //       <Button type='primary' onClick={() => this.handleAction('revert')}>{i18n.t('dop:Rollback')}</Button>
         //     </WithAuth>
         //   </React.Fragment>
         // ),
@@ -304,7 +304,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
     } = this.props;
     return (
       <span className={`mr-${state}-icon`}>
-        {state === 'merged' ? i18n.t('dop:have merged') : state === 'open' ? i18n.t('dop:committed') : i18n.t('closed')}
+        {state === 'merged' ? i18n.t('dop:have merged') : state === 'open' ? i18n.t('dop:Open') : i18n.t('Closed')}
       </span>
     );
   };

@@ -247,7 +247,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
 
   const columns: Array<ColumnProps<COMMON_CUSTOM_ALARM.CustomAlarms>> = [
     {
-      title: i18n.t('name'),
+      title: i18n.t('Name'),
       dataIndex: 'name',
       key: 'name',
     },
@@ -265,7 +265,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
               }}
             >
               <Menu.Item key="enable">
-                <Badge text={i18n.t('enable')} status="success" />
+                <Badge text={i18n.t('Enable')} status="success" />
               </Menu.Item>
               <Menu.Item key="unable">
                 <Badge text={i18n.t('unable')} status="default" />
@@ -277,31 +277,31 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
             onClick={(e) => e.stopPropagation()}
             className="group flex items-center justify-between px-2 cursor-pointer absolute top-0 left-0 bottom-0 right-0 hover:bg-default-04"
           >
-            <Badge text={enable ? i18n.t('enable') : i18n.t('unable')} status={enable ? 'success' : 'default'} />
+            <Badge text={enable ? i18n.t('Enable') : i18n.t('unable')} status={enable ? 'success' : 'default'} />
             <ErdaIcon type="caret-down" size={20} fill="black-3" className="opacity-0 group-hover:opacity-100" />
           </div>
         </Dropdown>
       ),
     },
     {
-      title: i18n.t('indicator'),
+      title: i18n.t('Indicator'),
       dataIndex: 'metric',
       key: 'metric',
     },
     {
-      title: i18n.t('period'),
+      title: i18n.t('Period'),
       dataIndex: 'window',
       key: 'window',
       render: (value: number) => `${value} ${i18n.t('min')}`,
     },
     {
-      title: i18n.t('notification method'),
+      title: i18n.t('Notification method'),
       dataIndex: 'notifyTargets',
       key: 'notifyTargets',
       render: (value: string[]) => `${value.join('、')}`,
     },
     {
-      title: i18n.t('creator'),
+      title: i18n.t('Creator'),
       dataIndex: 'creator',
       render: (text: string) => <UserInfo id={text} />,
     },
@@ -352,7 +352,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
       ),
     },
     {
-      title: i18n.t('cmp:expected value'),
+      title: i18n.t('cmp:Expected value'),
       dataIndex: 'value',
       render: (value: any, { uniKey }: COMMON_CUSTOM_ALARM.Filter) => {
         let expectedValEle = (
@@ -403,7 +403,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
 
   const getFieldColumns = (form: FormInstance) => [
     {
-      title: i18n.t('field'),
+      title: i18n.t('Field'),
       dataIndex: 'field',
       render: (value: string, { uniKey }: COMMON_CUSTOM_ALARM.Field) => (
         <Select
@@ -427,7 +427,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
       ),
     },
     {
-      title: i18n.t('cmp:alias'),
+      title: i18n.t('cmp:Alias'),
       dataIndex: 'alias',
       render: (value: string, { uniKey }: COMMON_CUSTOM_ALARM.Field) => (
         <Input
@@ -439,7 +439,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
       ),
     },
     {
-      title: i18n.t('cmp:aggregator'),
+      title: i18n.t('cmp:Aggregation'),
       dataIndex: 'aggregator',
       render: (value: string, { uniKey, aggregations }: COMMON_CUSTOM_ALARM.Field) => (
         <Select
@@ -480,7 +480,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
       ),
     },
     {
-      title: i18n.t('cmp:default threshold'),
+      title: i18n.t('cmp:Default threshold'),
       dataIndex: 'value',
       fixed: 'right',
       render: (value: any, { uniKey, aggregatorType }: COMMON_CUSTOM_ALARM.Field) => {
@@ -591,7 +591,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
 
   const handleShowNotifySample = () => {
     Modal.info({
-      title: i18n.t('cmp:template sample'),
+      title: i18n.t('cmp:Template Sample'),
       content: <span className="prewrap">{customMetricMap.notifySample}</span>,
     });
   };
@@ -684,7 +684,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
   const BasicForm = ({ form }: { form: FormInstance }) => {
     const fieldsList = [
       {
-        label: i18n.t('name'),
+        label: i18n.t('Name'),
         name: 'name',
         itemProps: {
           maxLength: 50,
@@ -697,7 +697,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
   const RuleForm = ({ form }: { form: FormInstance }) => {
     let fieldsList = [
       {
-        label: `${i18n.t('period')} (${i18n.t('min')})`,
+        label: `${i18n.t('Period')} (${i18n.t('min')})`,
         name: ['rule', 'window'],
         type: 'inputNumber',
         itemProps: {
@@ -707,14 +707,14 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
         },
       },
       {
-        label: i18n.t('indicator'),
+        label: i18n.t('Indicator'),
         name: ['rule', 'activedMetricGroups'],
         type: 'cascader',
         options: metaGroups,
         itemProps: {
           className: 'w-full',
           showSearch: true,
-          placeholder: i18n.t('cmp:please select index group'),
+          placeholder: i18n.t('cmp:Please select the index group'),
           onChange: (v: any) => {
             getMetaData({ groupId: v[v.length - 1] }).then(() => {
               form.setFieldsValue({
@@ -736,7 +736,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
       fieldsList = concat(
         fieldsList,
         {
-          label: i18n.t('cmp:filter rule'),
+          label: i18n.t('cmp:Filter rule'),
           name: ['rule', 'filters'],
           required: false,
           getComp: () => (
@@ -748,7 +748,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
                 disabled={someValueEmpty(editingFilters, 'value')}
                 onClick={handleAddEditingFilters}
               >
-                {i18n.t('cmp:add filter rules')}
+                {i18n.t('cmp:Add-filter-rules')}
               </Button>
               <ErdaTable
                 hideHeader
@@ -763,7 +763,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
           ),
         },
         {
-          label: i18n.t('cmp:grouping rules'),
+          label: i18n.t('cmp:Grouping rule'),
           name: ['rule', 'group'],
           required: true,
           type: 'select',
@@ -775,7 +775,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
           },
         },
         {
-          label: i18n.t('cmp:field rule'),
+          label: i18n.t('cmp:Field rule'),
           name: ['rule', 'functions'],
           required: false,
           getComp: () => (
@@ -787,7 +787,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
                 disabled={someValueEmpty(editingFields, 'value')}
                 onClick={handleAddEditingFields}
               >
-                {i18n.t('cmp:add field rules')}
+                {i18n.t('cmp:Add-field-rules')}
               </Button>
               <ErdaTable
                 hideHeader
@@ -816,7 +816,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
           disabled={isEmpty(customMetricMap.notifySample)}
           onClick={handleShowNotifySample}
         >
-          {i18n.t('cmp:template sample')}
+          {i18n.t('cmp:Template Sample')}
         </Button>
         <MarkdownEditor
           value={form.getFieldValue(['notify', 'content'])}
@@ -828,7 +828,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
               },
             });
           }}
-          placeholder={i18n.t('cmp:refer to template sample to input')}
+          placeholder={i18n.t('cmp:Refer to the sample to input content')}
           maxLength={512}
         />
       </>
@@ -836,7 +836,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
 
     const fieldsList = [
       {
-        label: i18n.t('cmp:optional notification methods'),
+        label: i18n.t('cmp:Notification method'),
         name: ['notify', 'targets'],
         type: 'select',
         required: false,
@@ -851,7 +851,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
         },
       },
       {
-        label: i18n.t('cmp:message title rules'),
+        label: i18n.t('cmp:Message title'),
         name: ['notify', 'title'],
         itemProps: {
           maxLength: 128,
@@ -859,7 +859,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
         },
       },
       {
-        label: i18n.t('cmp:message content rules'),
+        label: i18n.t('cmp:Message content'),
         name: ['notify', 'content'],
         getComp: () => <Comp />,
       },
@@ -872,9 +872,9 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
     return (
       <div className="custom-alarm-form">
         <BasicForm form={form} />
-        <div className="title font-bold text-base">{i18n.t('cmp:trigger rules')}</div>
+        <div className="title font-bold text-base">{i18n.t('cmp:Trigger rule')}</div>
         <RuleForm form={form} />
-        <div className="title font-bold text-base">{i18n.t('cmp:message template')}</div>
+        <div className="title font-bold text-base">{i18n.t('cmp:Message template')}</div>
         <NotifyForm form={form} />
       </div>
     );
@@ -900,7 +900,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
   const renderMenu = (record: COMMON_CUSTOM_ALARM.CustomAlarms) => {
     const { editAlarmRule, deleteAlarmRule } = {
       editAlarmRule: {
-        title: i18n.t('edit'),
+        title: i18n.t('Edit'),
         onClick: () => openModal(record.id),
       },
       deleteAlarmRule: {
@@ -936,7 +936,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
             onChange={(e) => {
               handleChange(e.target.value);
             }}
-            placeholder={i18n.t('search {name}', { name: i18n.t('name') })}
+            placeholder={i18n.t('search {name}', { name: i18n.t('Name') })}
           />
         }
         loading={getCustomAlarmsLoading || switchCustomAlarmLoading}

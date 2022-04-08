@@ -23,7 +23,7 @@ import { componentFormConfig } from './form-editor-config';
 const FormPreview = React.forwardRef((props: any, ref: any) => {
   const nameField = {
     index: 0,
-    label: i18n.t('field'),
+    label: i18n.t('Field'),
     key: 'key',
     type: 'input',
     component: 'input',

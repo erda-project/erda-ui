@@ -185,7 +185,7 @@ const TicketDetail = ({ id, onClose, onCloseIssue }: { id: number; onClose: () =
       <div className="h-full">
         <div className="mb-5">
           <span className="mr-5">
-            <span className="detail-property">{i18n.t('type')}: </span>
+            <span className="detail-property">{i18n.t('Type')}: </span>
             <span className="detail-value">{type ? type.name : '-'}</span>
           </span>
         </div>
@@ -247,7 +247,7 @@ const TicketDetail = ({ id, onClose, onCloseIssue }: { id: number; onClose: () =
                 ]}
               />
             </TabPane>
-            <TabPane tab={i18n.t('relate to issue')} key="relate">
+            <TabPane tab={i18n.t('Relate to issue')} key="relate">
               <div className="flex justify-between items-center">
                 <div className="flex items-center justify-start flex-1">
                   <LoadMoreSelector
@@ -279,7 +279,7 @@ const TicketDetail = ({ id, onClose, onCloseIssue }: { id: number; onClose: () =
                     getData={getIterations}
                     extraQuery={{ projectID: activeProject }}
                     showSearch={false}
-                    placeholder={i18n.t('dop:please select iteration')}
+                    placeholder={i18n.t('dop:Please select the iteration')}
                     onChange={(val) => {
                       update({
                         activeIteration: val as any,
@@ -313,7 +313,7 @@ const TicketDetail = ({ id, onClose, onCloseIssue }: { id: number; onClose: () =
                     }}
                   >
                     <Option value="TASK">{i18n.t('task')}</Option>
-                    <Option value="BUG">{i18n.t('bug')}</Option>
+                    <Option value="BUG">{i18n.t('Bug')}</Option>
                   </Select>
                   <LoadMoreSelector
                     className="selector-item"
@@ -355,7 +355,7 @@ const TicketDetail = ({ id, onClose, onCloseIssue }: { id: number; onClose: () =
         {detail.status === 'open' && (
           <div className="absolute bottom-0 right-0 left-0 py-3 px-4 bg-white ">
             <Button type="primary" onClick={() => closeTicket({ ticketId: detail.id }).then(() => onCloseIssue())}>
-              {i18n.t('dop:close issue')}
+              {i18n.t('dop:Close Issue')}
             </Button>
           </div>
         )}

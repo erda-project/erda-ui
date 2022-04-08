@@ -262,11 +262,11 @@ describe('EditField', () => {
     act(() => {
       jest.advanceTimersByTime(1000);
     });
-    expect(result.queryByText('click to edit description')).toBeTruthy();
-    fireEvent.click(result.getByText('click to edit description'));
+    expect(result.queryByText('Click to edit the description')).toBeTruthy();
+    fireEvent.click(result.getByText('Click to edit the description'));
     expect(result.container).isExit('.mock-markdown-editor', 1);
-    fireEvent.click(result.getByText('cancel'));
-    expect(result.queryByText('click to edit description')).toBeTruthy();
+    fireEvent.click(result.getByText('Cancel'));
+    expect(result.queryByText('Click to edit the description')).toBeTruthy();
     setDOMRect(1000, 1000);
     rerender({
       data: {
@@ -281,7 +281,7 @@ describe('EditField', () => {
     fireEvent.blur(result.baseElement.querySelector('#mock-markdown-editor')!, { target: { value: 'erda cloud' } });
     expect(changeFn).toHaveBeenLastCalledWith({ doc: 'erda cloud' }, 'markdown');
     changeFn.mockReset();
-    fireEvent.click(result.getByText('save'));
+    fireEvent.click(result.getByText('Save'));
     expect(changeFn).toHaveBeenLastCalledWith({ doc: 'erda cloud' }, undefined);
     expect(result.container).isExit('[name="double-down"]', 1);
     fireEvent.click(result.getByText('Expand').parentNode!);

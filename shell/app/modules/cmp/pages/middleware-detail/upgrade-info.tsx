@@ -101,7 +101,7 @@ const UpgradeInfo = ({ data }: IProps) => {
                 setVisible(true);
               }}
             >
-              {i18n.t('default:edit')}
+              {i18n.t('default:Edit')}
             </Button>
             <Radio.Group
               value={mode}
@@ -110,7 +110,7 @@ const UpgradeInfo = ({ data }: IProps) => {
               }}
             >
               <Radio.Button value="key-value">{i18n.t('default:configuration mode')}</Radio.Button>
-              <Radio.Button value="text">{i18n.t('default:text mode')}</Radio.Button>
+              <Radio.Button value="text">{i18n.t('default:Text Mode')}</Radio.Button>
             </Radio.Group>
           </div>
         </div>

@@ -102,7 +102,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         const res = await checkVersion.fetch(payload);
         const { data } = res;
         if (data && !data.isUnique) {
-          throw new Error(i18n.t('{name} already exists', { name: i18n.t('version') }));
+          throw new Error(i18n.t('{name} already exists', { name: i18n.t('Version') }));
         }
       }
     }),
@@ -111,15 +111,15 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
 
   const list = [
     {
-      label: i18n.t('version'),
+      label: i18n.t('Version'),
       name: 'version',
       type: 'input',
       itemProps: {
-        placeholder: i18n.t('please enter {name}', { name: i18n.t('version') }),
+        placeholder: i18n.t('please enter {name}', { name: i18n.t('Version') }),
         disabled: type === 'file',
       },
       rules: [
-        { required: true, message: i18n.t('please enter {name}', { name: i18n.t('version') }) },
+        { required: true, message: i18n.t('please enter {name}', { name: i18n.t('Version') }) },
         { max: 30, message: i18n.t('dop:no more than 30 characters') },
         {
           pattern: /^[A-Za-z0-9._+-]+$/,
@@ -251,7 +251,7 @@ const EditMd = ({ value, onChange, ...itemProps }: { value: string; onChange: (v
 };
 
 const MarkdownReadOnlyRender = ({ value }: { value: string }) => {
-  return <ReactMarkdown remarkPlugins={[remarkGfm]}>{value || i18n.t('no description yet')}</ReactMarkdown>;
+  return <ReactMarkdown remarkPlugins={[remarkGfm]}>{value || i18n.t('No description')}</ReactMarkdown>;
 };
 
 const progressStatusMap = {
@@ -305,8 +305,8 @@ const CustomUpload = ({ form, onChange }: { form: { form: FormInstance }; onChan
         <div className="flex-all-center py-1">
           <img src={EmptySVG} style={{ height: 80 }} />
           <div className="ml-2.5">
-            <div className="text-left text-default text-base">{i18n.t('dop:upload zip file')}</div>
-            <div className="text-xs text-default-6 leading-5">{i18n.t('dop:click this area to browse and upload')}</div>
+            <div className="text-left text-default text-base">{i18n.t('dop:Upload ZIP file')}</div>
+            <div className="text-xs text-default-6 leading-5">{i18n.t('dop:Click to browse and upload')}</div>
           </div>
         </div>
       </Dragger>

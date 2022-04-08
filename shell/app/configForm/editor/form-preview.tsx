@@ -54,10 +54,10 @@ export const defaultPreviewField =
                 <Component key={f.key} fieldConfig={f} form={form} />
               </div>
               <div className="form-operation">
-                <span onClick={() => changePos(index, -1)}>{i18n.t('move up')}</span>
-                <span onClick={() => changePos(index, 1)}>{i18n.t('move down')}</span>
-                <span onClick={() => onCopy(f)}>{i18n.t('copy')}</span>
-                <span onClick={() => onEdit(f)}>{i18n.t('edit')}</span>
+                <span onClick={() => changePos(index, -1)}>{i18n.t('Move up')}</span>
+                <span onClick={() => changePos(index, 1)}>{i18n.t('Move down')}</span>
+                <span onClick={() => onCopy(f)}>{i18n.t('Copy')}</span>
+                <span onClick={() => onEdit(f)}>{i18n.t('Edit')}</span>
                 <span onClick={() => onDelete(f)}>{i18n.t('delete')}</span>
               </div>
             </div>
@@ -242,7 +242,7 @@ export const FormPreview = React.forwardRef((props: IProps, ref: any) => {
   const addFields = [
     nameField || {
       index: 0,
-      label: i18n.t('field'),
+      label: i18n.t('Field'),
       key: 'key',
       type: 'input',
       component: 'input',
@@ -266,7 +266,7 @@ export const FormPreview = React.forwardRef((props: IProps, ref: any) => {
     },
     {
       index: 1,
-      label: i18n.t('component'),
+      label: i18n.t('Component'),
       key: 'component',
       type: 'select',
       component: 'select',
@@ -288,7 +288,7 @@ export const FormPreview = React.forwardRef((props: IProps, ref: any) => {
     () => [
       nameField || {
         index: 0,
-        label: i18n.t('field'),
+        label: i18n.t('Field'),
         key: 'key',
         type: 'input',
         component: 'input',
@@ -313,7 +313,7 @@ export const FormPreview = React.forwardRef((props: IProps, ref: any) => {
       },
       {
         index: 1,
-        label: i18n.t('component'),
+        label: i18n.t('Component'),
         key: 'component',
         type: 'select',
         component: 'select',
@@ -349,7 +349,7 @@ export const FormPreview = React.forwardRef((props: IProps, ref: any) => {
 
   return (
     <div className="dice-form-preview">
-      <h4>{i18n.t('common:form preview')}</h4>
+      <h4>{i18n.t('common:Form preview')}</h4>
       <Form fields={fields} formRef={form} onChange={onFieldChange} renderField={renderF} />
       <div className="mt-4">
         <button className="dice-form-editor-button mr-4" onClick={() => setModalVis(true)}>
@@ -362,13 +362,13 @@ export const FormPreview = React.forwardRef((props: IProps, ref: any) => {
             </button>
 
             <button className="dice-form-editor-button" onClick={doPreview}>
-              {i18n.t('common:form preview')}
+              {i18n.t('common:Form preview')}
             </button>
           </>
         ) : null}
       </div>
       <Modal
-        title={i18n.t('common:add form item')}
+        title={i18n.t('common:Add form')}
         visible={modalVis}
         onOk={onOk}
         onCancel={() => {
@@ -417,7 +417,7 @@ const PreviewForm = (props: any) => {
   };
 
   return (
-    <NusiModal visible={visible} title={i18n.t('common:form preview')} footer={null} onCancel={onClose}>
+    <NusiModal visible={visible} title={i18n.t('common:Form preview')} footer={null} onCancel={onClose}>
       {visible ? (
         <DiceForm fields={formConfig} formRef={formRef} onFinish={onFinish}>
           <DiceForm.Submit Button={Button} type="primary" />

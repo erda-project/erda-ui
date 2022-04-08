@@ -85,7 +85,7 @@ const Sla = () => {
       dataIndex: 'name',
     },
     {
-      title: i18n.t('request limit'),
+      title: i18n.t('Request Limit'),
       dataIndex: 'limits',
       width: 160,
       render: (limits: API_ACCESS.SlaLimit[]) => {
@@ -96,13 +96,13 @@ const Sla = () => {
       },
     },
     {
-      title: i18n.t('number of client'),
+      title: i18n.t('Number of clients'),
       dataIndex: 'clientCount',
       width: 160,
       render: (count) => count || 0,
     },
     {
-      title: i18n.t('authorization method'),
+      title: i18n.t('Authorization method'),
       dataIndex: 'approval',
       width: 200,
       render: (approval) => slaAuthorizationMap[approval]?.name,
@@ -123,7 +123,7 @@ const Sla = () => {
                 handleEditSla(record);
               }}
             >
-              {i18n.t('edit')}
+              {i18n.t('Edit')}
             </span>
             <Popconfirm
               title={i18n.t('confirm to {action}', { action: i18n.t('delete') })}

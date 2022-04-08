@@ -144,7 +144,7 @@ const Configuration = () => {
         ),
     },
     {
-      title: i18n.t('creator'),
+      title: i18n.t('Creator'),
       dataIndex: 'creator',
       render: (text: string) => <UserInfo id={text} />,
     },
@@ -266,7 +266,7 @@ const Configuration = () => {
           <div className="flex items-center text-primary">
             <ErdaIcon size="14" type="copy" className="mr-1" />
             <Copy selector=".container-key" copyText={`${detail}`}>
-              {i18n.t('copy')}
+              {i18n.t('Copy')}
             </Copy>
           </div>
         </Modal>

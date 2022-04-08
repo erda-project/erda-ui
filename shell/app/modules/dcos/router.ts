@@ -17,7 +17,7 @@ function getDcosRouter(): RouteConfigItem[] {
   return [
     {
       path: 'overview',
-      breadcrumbName: i18n.t('cluster overview'),
+      breadcrumbName: i18n.t('Cluster Overview'),
       routes: [
         {
           getComp: (cb) => cb(import('dcos/pages/cluster-dashboard')),

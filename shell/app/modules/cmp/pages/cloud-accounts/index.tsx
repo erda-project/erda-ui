@@ -48,7 +48,7 @@ const CloudAccounts = () => {
         dataIndex: 'vendor',
       },
       {
-        title: i18n.t('description'),
+        title: i18n.t('Description'),
         dataIndex: 'description',
       },
       {

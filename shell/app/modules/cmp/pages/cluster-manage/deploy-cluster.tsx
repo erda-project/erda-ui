@@ -82,7 +82,7 @@ const DeployCluster = () => {
 
       <Drawer
         destroyOnClose
-        title={i18n.t('deployment log')}
+        title={i18n.t('Deployment log')}
         width="80%"
         visible={logVisible}
         onClose={() => setLogVisible(false)}

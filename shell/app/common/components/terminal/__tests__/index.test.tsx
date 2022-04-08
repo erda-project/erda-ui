@@ -30,7 +30,7 @@ describe('Terminal', () => {
     jest.runAllTimers();
     expect(spyOnCreateTerm).toHaveBeenCalled();
     expect(spyOnCreateTerm.mock.calls[0][1]).toStrictEqual(params);
-    fireEvent.click(result.getByText('full screen'));
+    fireEvent.click(result.getByText('Full screen'));
     expect(result.getByText('exit full screen')).toBeTruthy();
     expect(fitFn).toHaveBeenCalled();
     result.unmount();

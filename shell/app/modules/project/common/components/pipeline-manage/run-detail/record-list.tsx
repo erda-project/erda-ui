@@ -92,11 +92,11 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
 
   const renderRecordList = () => {
     if (isEmpty(pipelineRecordList)) {
-      return <p>{i18n.t('common:no data')}</p>;
+      return <p>{i18n.t('common:No data')}</p>;
     }
     const columns: Array<ColumnProps<any>> = [
       {
-        title: i18n.t('version'),
+        title: i18n.t('Version'),
         dataIndex: 'runIndex',
         width: 80,
         align: 'center',
@@ -125,13 +125,13 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
         ),
       },
       {
-        title: i18n.t('dop:executor'),
+        title: i18n.t('dop:Executor'),
         dataIndex: ['extra', 'runUser', 'name'],
         width: 100,
         align: 'center',
       },
       {
-        title: i18n.t('trigger time'),
+        title: i18n.t('Trigger time'),
         dataIndex: 'timeCreated',
         width: 200,
         render: (timeCreated: number) => moment(new Date(timeCreated)).format('YYYY-MM-DD HH:mm:ss'),
@@ -195,7 +195,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
 
   const reportColumns = [
     {
-      title: i18n.t('dop:total number of interfaces'),
+      title: i18n.t('dop:Total number of interfaces'),
       dataIndex: 'autoTestNum',
       align: 'center',
       render: (_: any, record: any) => get(record, 'meta.autoTestNum', '-'),
@@ -217,7 +217,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
       },
     },
     {
-      title: i18n.t('dop:interface pass rate'),
+      title: i18n.t('dop:Interface pass rate'),
       dataIndex: 'apiPassRate',
       align: 'center',
       render: (_: any, record: any) => {
@@ -232,14 +232,14 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
     <>
       <Popover
         placement="bottomRight"
-        title={i18n.t('dop:execute records')}
+        title={i18n.t('dop:Execution Records')}
         content={renderRecordList()}
         trigger="hover"
         visible={isPopoverVisible}
         onVisibleChange={handlePopoverVisible}
         arrowPointAtCenter
       >
-        <Button>{i18n.t('dop:execute records')}</Button>
+        <Button>{i18n.t('dop:Execution Records')}</Button>
       </Popover>
       <Drawer
         width="50%"

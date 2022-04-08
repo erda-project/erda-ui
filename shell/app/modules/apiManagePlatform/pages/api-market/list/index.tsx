@@ -34,11 +34,11 @@ import './index.scss';
 export const assetTabs: Array<{ key: API_MARKET.AssetScope; name: string }> = [
   {
     key: 'mine',
-    name: i18n.t('my responsibility'),
+    name: i18n.t('My APIs'),
   },
   {
     key: 'all',
-    name: i18n.t('all'),
+    name: i18n.t('All'),
   },
 ];
 
@@ -102,7 +102,7 @@ const ApiMarketList = () => {
         type: 'input',
         outside: true,
         key: 'keyword',
-        placeholder: i18n.t('default:search by keywords'),
+        placeholder: i18n.t('default:Search by keyword'),
         customProps: {
           autoComplete: 'off',
         },
@@ -171,13 +171,13 @@ const ApiMarketList = () => {
       width: 200,
     },
     {
-      title: i18n.t('update time'),
+      title: i18n.t('Update time'),
       dataIndex: ['asset', 'updatedAt'],
       width: 200,
       render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      title: i18n.t('creator'),
+      title: i18n.t('Creator'),
       dataIndex: ['asset', 'creatorID'],
       width: 160,
       render: (text) => (
@@ -194,7 +194,7 @@ const ApiMarketList = () => {
       const { manage, addVersion, hasAccess } = permission;
       return [
         {
-          title: i18n.t('export'),
+          title: i18n.t('Export'),
           onClick: () => {
             exportApi
               .fetch({
@@ -214,7 +214,7 @@ const ApiMarketList = () => {
           show: manage,
         },
         {
-          title: i18n.t('add {name}', { name: i18n.t('version') }),
+          title: i18n.t('add {name}', { name: i18n.t('Version') }),
           onClick: () => {
             showAssetModal('version', 'add', asset);
           },
@@ -234,14 +234,14 @@ const ApiMarketList = () => {
   return (
     <div className="api-market-list">
       <div className="top-button-group">
-        <Button onClick={toggleExportModal}>{i18n.t('export record')}</Button>
+        <Button onClick={toggleExportModal}>{i18n.t('Export Records')}</Button>
         <Button
           type="primary"
           onClick={() => {
             showAssetModal('asset', 'add');
           }}
         >
-          {i18n.t('default:create resource')}
+          {i18n.t('default:Add Resource')}
         </Button>
       </div>
       <ErdaTable

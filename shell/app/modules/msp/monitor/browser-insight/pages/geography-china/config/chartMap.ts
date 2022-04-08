@@ -33,7 +33,7 @@ const chartMap = merge(
     },
     performanceInterval: {
       ...commonAttr,
-      titleText: i18n.t('performance interval'),
+      titleText: i18n.t('Performance range'),
       chartName: 'performanceInterval',
     },
     pagePerformanceTrends: {
@@ -52,8 +52,8 @@ const chartMap = merge(
           const data = params.data || {};
           if (!data) return `${data.name}`;
           if (!data.name) return null;
-          const tps = data.tps ? `${floor(data.tps, 3)} cpm` : i18n.t('msp:no data');
-          const time = data.value ? `${floor(data.value, 3)} s` : i18n.t('msp:no data');
+          const tps = data.tps ? `${floor(data.tps, 3)} cpm` : i18n.t('msp:No data');
+          const time = data.value ? `${floor(data.value, 3)} s` : i18n.t('msp:No data');
           return `${data.name} <br /> 吞吐量: ${tps} <br /> ${i18n.t('msp:average load time')}: ${time}`;
         },
       },

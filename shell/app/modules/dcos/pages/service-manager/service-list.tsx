@@ -25,15 +25,15 @@ import './service-list.scss';
 const statusConfig = {
   Unknown: { text: i18n.t('unknown'), state: 'warning' },
   CONTAINER: {
-    Stopped: { text: i18n.t('ready'), state: 'error' },
+    Stopped: { text: i18n.t('Ready'), state: 'error' },
     Killed: { text: 'Killed', state: 'error' },
     Failed: { text: i18n.t('startup failed'), state: 'error' },
     Starting: { text: i18n.t('executing'), state: 'processing' },
     Unknown: { text: i18n.t('failed'), state: 'warning' },
-    UnHealthy: { text: i18n.t('error'), state: 'warning' },
+    UnHealthy: { text: i18n.t('Error'), state: 'warning' },
     Healthy: { text: i18n.t('cmp:health'), state: 'success' },
     Finished: { text: i18n.t('unknown'), state: 'default' },
-    Running: { text: i18n.t('running'), state: 'processing' },
+    Running: { text: i18n.t('Running'), state: 'processing' },
     OOM: { text: 'OOM', state: 'warning' },
   },
   RUNTIME: {
@@ -90,7 +90,7 @@ const ProgressItem = (percent: number, used: number, total: number, unit: string
         <div className="table-tooltip">
           {`${i18n.t('cmp:usage amount')}：`}
           <span className={color}>{_used}</span> <br />
-          {`${i18n.t('cmp:assignment')}：${_total}`}
+          {`${i18n.t('cmp:Allocation')}：${_total}`}
         </div>
       );
     }}
@@ -165,8 +165,8 @@ function ServiceList({
       '': '',
       PROJECT: i18n.t('project'),
       APPLICATION: i18n.t('application'),
-      RUNTIME: i18n.t('application instance'),
-      SERVICE: i18n.t('microService'),
+      RUNTIME: i18n.t('App instance'),
+      SERVICE: i18n.t('Microservice'),
       CONTAINER: 'CONTAINER',
     };
     const iconMap = ['', 'project', 'wenjianjia', 'fengchao', 'atom'];
@@ -185,7 +185,7 @@ function ServiceList({
         ),
       },
       {
-        title: i18n.t('number of instance'),
+        title: i18n.t('Number of instances'),
         dataIndex: 'instance',
         key: 'instance',
         width: 176,
@@ -228,7 +228,7 @@ function ServiceList({
         },
       },
       {
-        title: i18n.t('disk'),
+        title: i18n.t('Disk'),
         dataIndex: 'disk',
         key: 'disk',
         width: 125,
@@ -277,14 +277,14 @@ function ServiceList({
       },
       haveHost
         ? {
-            title: i18n.t('cmp:host address'),
+            title: i18n.t('cmp:Host address'),
             key: 'host_private_addr',
             width: 120,
             render: (record: any) => record.host_private_addr || record.host || i18n.t('cmp:no host address'),
           }
         : null,
       {
-        title: i18n.t('image'),
+        title: i18n.t('Image'),
         key: 'image',
         // width: 400,
         className: 'item-image',
@@ -297,7 +297,7 @@ function ServiceList({
             <Tooltip title={`${i18n.t('click to copy')}:${text}`} overlayClassName="tooltip-word-break">
               <span
                 className="image-name for-copy-image"
-                data-clipboard-tip={i18n.t('image name')}
+                data-clipboard-tip={i18n.t('Image name')}
                 data-clipboard-text={text}
               >
                 {getImageText(text)}
@@ -344,7 +344,7 @@ function ServiceList({
         },
       },
       {
-        title: i18n.t('disk'),
+        title: i18n.t('Disk'),
         dataIndex: 'disk',
         key: 'disk',
         width: 120,
@@ -378,7 +378,7 @@ function ServiceList({
     ];
     if (depth === 3) {
       cols.splice(2, {
-        title: i18n.t('number of instance'),
+        title: i18n.t('Number of instances'),
         dataIndex: 'instance',
         key: 'instance',
       } as any);

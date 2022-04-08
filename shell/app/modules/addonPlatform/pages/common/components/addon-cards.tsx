@@ -271,7 +271,7 @@ export const AddonCards = (props: IProps) => {
                     onEitAddon && category === 'custom' && customAddonType !== 'cloud' && permMap.addProjectService.pass
                   }
                 >
-                  <Tooltip title={i18n.t('edit')}>
+                  <Tooltip title={i18n.t('Edit')}>
                     <span
                       className="mr-3"
                       onClick={(e) => {

@@ -135,14 +135,14 @@ export const EnumRef = React.forwardRef(
       <div className="flex items-center justify-start">
         {disabled ? (
           <div>
-            <span className="mr-2">{i18n.t('dop:enumerated value')}: </span>
+            <span className="mr-2">{i18n.t('dop:Enumerated value')}: </span>
             {isEnumExist && map(enumProps?.value, (item) => <span className="tag-default">{item}</span>)}
           </div>
         ) : (
           <>
             {!restProps?.hideCheckBox && (
               <Checkbox disabled={disabled} checked={enumVisible} onChange={onCheckHandle}>
-                {i18n.t('dop:enumerated value')}{' '}
+                {i18n.t('dop:Enumerated value')}{' '}
               </Checkbox>
             )}
             {showAddBtn && (
@@ -172,7 +172,7 @@ export const ApiFileEditor = React.forwardRef((fileEditorProps: { value: any }) 
 // boolean default value
 export const booleanDefaultValueField = {
   type: RadioGroup,
-  label: i18n.t('default value'),
+  label: i18n.t('Default value'),
   name: 'default',
   colSpan: 6,
   required: false,
@@ -184,7 +184,7 @@ export const booleanDefaultValueField = {
 // boolean example
 export const booleanExampleField = {
   type: RadioGroup,
-  label: i18n.t('dop:example'),
+  label: i18n.t('dop:Example'),
   name: 'example',
   colSpan: 6,
   required: false,
@@ -198,7 +198,7 @@ export const booleanExampleField = {
 // string rules
 export const stringPatternField = {
   type: Input,
-  label: i18n.t('dop:validation rules'),
+  label: i18n.t('dop:Validation rule'),
   name: 'pattern',
   required: false,
   colSpan: 8,
@@ -211,7 +211,7 @@ export const stringPatternField = {
 export const stringMinLengthField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
-    label: i18n.t('dop:minimum length'),
+    label: i18n.t('dop:Minimum length'),
     name: 'minLength',
     colSpan: 8,
     required: false,
@@ -238,7 +238,7 @@ export const stringMinLengthField = (dataTempStorage: Obj) => {
 export const stringMaxLengthField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
-    label: i18n.t('dop:the maximum length'),
+    label: i18n.t('dop:Maximum length'),
     name: 'maxLength',
     colSpan: 8,
     required: false,
@@ -265,7 +265,7 @@ export const stringMaxLengthField = (dataTempStorage: Obj) => {
 // string default value
 export const stringDefaultValueField = {
   type: Input,
-  label: i18n.t('default value'),
+  label: i18n.t('Default value'),
   name: 'default',
   required: false,
   colSpan: 24,
@@ -278,7 +278,7 @@ export const stringDefaultValueField = {
 // string example
 export const stringExampleField = {
   type: Input,
-  label: i18n.t('dop:example'),
+  label: i18n.t('dop:Example'),
   name: 'example',
   colSpan: 24,
   required: false,
@@ -306,7 +306,7 @@ export const numberFormatField = {
 export const numberMinimumField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
-    label: i18n.t('msp:minimum'),
+    label: i18n.t('msp:Minimum'),
     name: 'minimum',
     colSpan: 8,
     required: false,
@@ -333,7 +333,7 @@ export const numberMinimumField = (dataTempStorage: Obj) => {
 export const numberMaximumField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
-    label: i18n.t('msp:maximum value'),
+    label: i18n.t('msp:Maximum'),
     name: 'maximum',
     colSpan: 8,
     required: false,
@@ -359,7 +359,7 @@ export const numberMaximumField = (dataTempStorage: Obj) => {
 // number defaule value
 export const numberDefaultValueField = {
   type: InputNumber,
-  label: i18n.t('default value'),
+  label: i18n.t('Default value'),
   name: 'default',
   required: false,
   colSpan: 24,
@@ -369,7 +369,7 @@ export const numberDefaultValueField = {
 // number example
 export const numberExampleField = {
   type: InputNumber,
-  label: i18n.t('dop:example'),
+  label: i18n.t('dop:Example'),
   name: 'example',
   colSpan: 24,
   required: false,
@@ -394,7 +394,7 @@ export const integerFormatField = {
 // object example configuration items
 export const objectExampleField = {
   type: ApiFileEditor,
-  label: i18n.t('dop:example'),
+  label: i18n.t('dop:Example'),
   name: 'example',
   colSpan: 24,
   required: false,
@@ -408,7 +408,7 @@ export const objectExampleField = {
 // description field
 export const descriptionField = {
   type: Input.TextArea,
-  label: i18n.t('description'),
+  label: i18n.t('Description'),
   name: 'description',
   colSpan: 24,
   required: false,
@@ -447,7 +447,7 @@ export const mediaTypeField = {
 
 export const propertyTypeSelectorField = {
   type: Select,
-  label: i18n.t('type'),
+  label: i18n.t('Type'),
   name: 'type',
   colSpan: 12,
   initialValue: 'object',
@@ -527,7 +527,7 @@ export const getPropertyFormSelector = (props: {
     return [
       {
         type: Input,
-        label: i18n.t('backup:parameter name'),
+        label: i18n.t('backup:Parameter name'),
         name: API_FORM_KEY,
         colSpan: 10,
         customProps: {
@@ -555,7 +555,7 @@ export const getPropertyFormSelector = (props: {
       },
       {
         type: RadioGroup,
-        label: i18n.t('is it required'),
+        label: i18n.t('Required'),
         name: API_PROPERTY_REQUIRED,
         colSpan: 2.5,
         initialValue: true,
@@ -583,7 +583,7 @@ export const getPropertyFormSelector = (props: {
     return [
       {
         type: Input,
-        label: i18n.t('backup:parameter name'),
+        label: i18n.t('backup:Parameter name'),
         name: API_FORM_KEY,
         colSpan: 12,
         customProps: {
@@ -594,7 +594,7 @@ export const getPropertyFormSelector = (props: {
             validator: (_rule: any, value: string, callback: (msg?: string) => void) => {
               const { pattern, message } = regRules.specialLetter;
               if (AllDataTypes.includes(value)) {
-                callback(i18n.t('the same {key} exists', { key: i18n.t('name') }));
+                callback(i18n.t('the same {key} exists', { key: i18n.t('Name') }));
               } else if (pattern.test(value)) {
                 callback(message);
               } else if (value.toLocaleLowerCase() in BASE_DATA_TYPE) {

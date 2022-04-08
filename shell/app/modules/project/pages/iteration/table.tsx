@@ -27,8 +27,8 @@ import { WithAuth, usePerm } from 'user/common';
 import routeInfoStore from 'core/stores/route';
 
 const options = [
-  { value: 'unarchive', label: i18n.t('processing') },
-  { value: 'archived', label: i18n.t('archived') },
+  { value: 'unarchive', label: i18n.t('In Progress') },
+  { value: 'archived', label: i18n.t('Archived') },
 ];
 
 export const Iteration = () => {
@@ -105,7 +105,7 @@ export const Iteration = () => {
 
   const columns = [
     {
-      title: i18n.t('dop:iteration name'),
+      title: i18n.t('dop:Name'),
       dataIndex: 'title',
       width: 200,
       render: (val: string) => (
@@ -120,14 +120,14 @@ export const Iteration = () => {
       // width: 300,
     },
     {
-      title: i18n.t('period'),
+      title: i18n.t('Period'),
       width: 230,
       dataIndex: 'startedAt',
       render: (startedAt: string, record: ITERATION.Detail) =>
         `${moment(startedAt).format('YYYY/MM/DD')} - ${moment(record.finishedAt).format('YYYY/MM/DD')}`,
     },
     {
-      title: i18n.t('dop:progress'),
+      title: i18n.t('dop:Progress'),
       width: 120,
       dataIndex: 'issueSummary',
       render: (_k, record: ITERATION.Detail) => {
@@ -162,7 +162,7 @@ export const Iteration = () => {
         {
           title: (
             <WithAuth pass={operationAuth}>
-              <span>{i18n.t('edit')}</span>
+              <span>{i18n.t('Edit')}</span>
             </WithAuth>
           ),
           onClick: () => onEdit(record),
@@ -170,7 +170,7 @@ export const Iteration = () => {
         {
           title: (
             <WithAuth pass={handleFiledAuth}>
-              <span>{i18n.t('archive')}</span>
+              <span>{i18n.t('Archive')}</span>
             </WithAuth>
           ),
           onClick: () => onFiled(record, 'FILED'),
@@ -202,7 +202,7 @@ export const Iteration = () => {
       <div className="top-button-group">
         <WithAuth pass={addAuth} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={onCreate}>
-            {i18n.t('dop:new iteration')}
+            {i18n.t('dop:Add-iteration')}
           </Button>
         </WithAuth>
       </div>

@@ -21,12 +21,12 @@ export const ClusterConfigForm = ({ form, isReadonly, data, curRef }: IFormProps
   const formPrefix = 'config.cluster';
   const fieldsList = [
     {
-      label: i18n.t('cluster name'),
+      label: i18n.t('Cluster name'),
       name: `${formPrefix}.name`,
       rules: [{ ...regRulesMap.clusterName }],
     },
     {
-      label: i18n.t('type'),
+      label: i18n.t('Type'),
       name: `${formPrefix}.type`,
       type: 'radioGroup',
       initialValue: 'k8s',
@@ -60,7 +60,7 @@ export const ClusterConfigForm = ({ form, isReadonly, data, curRef }: IFormProps
       ],
     },
     {
-      label: i18n.t('cmp:container segment'),
+      label: i18n.t('cmp:Container segment'),
       name: `${formPrefix}.containerSubnet`,
       initialValue: '9.0.0.0/8',
       rules: [{ ...regRulesMap.subnet }],

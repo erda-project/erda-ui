@@ -25,7 +25,7 @@ const ErrorReportDetail = () => {
   const [publisherItemId, query] = routeInfoStore.useStore((s) => [s.params.publisherItemId, s.query]);
   const detail = errorReportStore.useStore((s) => s.errorDetail);
   let tags: Obj = {};
-  let log = i18n.t('publisher:no data');
+  let log = i18n.t('publisher:No data');
   if (detail) {
     tags = detail.tags;
     tags.timestamp = detail['@timestamp'];
@@ -52,11 +52,11 @@ const ErrorReportDetail = () => {
 
   const fields = [
     [i18n.t('publisher:device model'), 'md'],
-    [i18n.t('system version'), 'osv'],
+    [i18n.t('System version'), 'osv'],
     [i18n.t('publisher:app package name'), 'dh'],
     [i18n.t('publisher:app version'), 'av'],
     [i18n.t('publisher:cpu architecture'), 'cpu'],
-    [i18n.t('publisher:mem'), 'mem'],
+    [i18n.t('publisher:Memory'), 'mem'],
     [i18n.t('publisher:storage space'), 'rom'],
     [i18n.t('publisher:client ID'), 'cid'],
     [i18n.t('publisher:whether to jailbreak'), 'jb'],
@@ -87,7 +87,7 @@ const ErrorReportDetail = () => {
         <>
           <Copy selector=".cursor-copy" />
           <Button className="cursor-copy" data-clipboard-text={log} type="primary" ghost>
-            {i18n.t('copy')}
+            {i18n.t('Copy')}
           </Button>
         </>
       ),

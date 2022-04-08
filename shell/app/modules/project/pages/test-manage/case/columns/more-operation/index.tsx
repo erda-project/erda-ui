@@ -117,14 +117,14 @@ export default MoreOperation;
 
 const referenceMenus = [
   { key: TestOperation.delete, name: i18n.t('delete') },
-  { key: TestOperation.copy, name: i18n.t('dop:copy to') },
-  { key: TestOperation.move, name: i18n.t('dop:move to') },
+  { key: TestOperation.copy, name: i18n.t('dop:Copy to') },
+  { key: TestOperation.move, name: i18n.t('dop:Move to') },
 ];
 
 const menuItemsMap = {
   normal: [
     ...referenceMenus,
-    { key: TestOperation.plan, name: i18n.t('dop:add to test plan') },
+    { key: TestOperation.plan, name: i18n.t('dop:Add to Test Plan') },
     { key: TestOperation.env, name: i18n.t('runtime:environment variable configs') },
   ],
   reference: referenceMenus,

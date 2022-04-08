@@ -83,7 +83,7 @@ const Pipeline = () => {
     const { appName, branch, id } = guide;
     Modal.confirm({
       title: i18n.t('is it confirmed {action}?', {
-        action: `${i18n.t('remove')}${i18n.t('dop:tips of branch {branch} under application {application}', {
+        action: `${i18n.t('Remove')}${i18n.t('dop:tips of branch {branch} under application {application}', {
           branch,
           application: appName,
           interpolation: { escapeValue: false },
@@ -134,11 +134,11 @@ const Pipeline = () => {
                 </span>
                 <div className="flex-1 justify-end flex-h-center">
                   <div className="mr-4 remove-btn" onClick={() => removeAlert(guidesFirst)}>
-                    {i18n.t('remove')}
+                    {i18n.t('Remove')}
                     {i18n.t('tip')}
                   </div>
                   <span className="cursor-pointer hover:text-purple-deep" onClick={() => setAppID(guidesFirst.appID)}>
-                    {i18n.t('add')}
+                    {i18n.t('Add')}
                   </span>
                 </div>
               </div>
@@ -166,11 +166,11 @@ const Pipeline = () => {
                     </span>
                     <div className="flex-1 justify-end flex-h-center">
                       <div className="mr-4 remove-btn" onClick={() => removeAlert(item)}>
-                        {i18n.t('remove')}
+                        {i18n.t('Remove')}
                         {i18n.t('tip')}
                       </div>
                       <span className="cursor-pointer hover:text-purple-deep" onClick={() => setAppID(item.appID)}>
-                        {i18n.t('add')}
+                        {i18n.t('Add')}
                       </span>
                     </div>
                   </div>
@@ -184,13 +184,13 @@ const Pipeline = () => {
       <div className="project-pipeline flex-1 flex bg-white min-h-0 mb-4">
         <div className="app-list bg-default-02 overflow-auto h-full flex-shrink-0">
           <div className="flex flex-col">
-            <div className="p-4 leading-4 font-medium">{i18n.t('dop:pipeline type')}</div>
+            <div className="p-4 leading-4 font-medium">{i18n.t('dop:Pipeline type')}</div>
             <Input
               size="small"
               className="bg-default-06 border-transparent mb-2 mx-4"
               style={{ width: 'auto' }}
               prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
-              placeholder={i18n.t('search {name}', { name: i18n.t('dop:pipeline type') })}
+              placeholder={i18n.t('search {name}', { name: i18n.t('dop:Pipeline type') })}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => search(e.target.value)}
             />
             <div className="flex-1">
@@ -201,7 +201,7 @@ const Pipeline = () => {
                   }`}
                   onClick={() => setType({ key: '', rules: [] })}
                 >
-                  {i18n.t('dop:all')}
+                  {i18n.t('dop:All')}
                 </div>
 
                 <div>
@@ -225,7 +225,7 @@ const Pipeline = () => {
                           </div>
                           <div className="bg-default-04 text-default-9 rounded-2xl px-3 py-0.5 text-xs flex-h-center">
                             {item.runningNum ? (
-                              <Tooltip title={i18n.t('running')}>
+                              <Tooltip title={i18n.t('Running')}>
                                 <div className="flex-h-center mr-0.5">
                                   <Badge onlyDot breathing status={'success'} className="mr-0.5" />
                                   <div>{item.runningNum}</div>

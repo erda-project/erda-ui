@@ -86,7 +86,7 @@ const CreateTestReport = () => {
     <div>
       <div className="top-button-group">
         <Button type="primary" onClick={onClick} loading={saving}>
-          {i18n.t('dop:create test report')}
+          {i18n.t('dop:Generate Test Report')}
         </Button>
       </div>
       <div className="bg-white rounded p-2">
@@ -97,7 +97,7 @@ const CreateTestReport = () => {
           <Form.Item label={i18n.t('dop:iteration')} name="iterationID" rules={[{ required: true }]}>
             <IterationSelect onChange={changeIteration} autoSelectFirst disabledBacklog />
           </Form.Item>
-          <Form.Item label={i18n.t('dop:test summary')} name="summary" rules={[{ required: true }]}>
+          <Form.Item label={i18n.t('dop:Test summary')} name="summary" rules={[{ required: true }]}>
             <MarkdownEditor />
           </Form.Item>
         </Form>

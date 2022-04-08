@@ -144,9 +144,9 @@ describe('FilterGroup', () => {
     });
     fireEvent.click(result.baseElement.querySelector('.anticon-close ')!);
     expect(searchFn).toHaveBeenLastCalledWith({});
-    fireEvent.click(result.getByText('clear'));
+    fireEvent.click(result.getByText('Clear'));
     expect(searchFn).toHaveBeenLastCalledWith({});
-    fireEvent.click(result.getByText('cancel'));
+    fireEvent.click(result.getByText('Cancel'));
     result.rerender(
       <ToolBarWithFilter
         list={list.map((item) => {
@@ -163,7 +163,7 @@ describe('FilterGroup', () => {
     fireEvent.mouseDown(result.baseElement.querySelector('.ant-select-selector')!);
     await waitFor(() => expect(result.baseElement).isExit('.ant-select-dropdown', 1));
     fireEvent.click(result.getByText('Tom'));
-    fireEvent.click(result.getByText('filter'));
+    fireEvent.click(result.getByText('Filter'));
     expect(searchFn).toHaveBeenLastCalledWith({
       _Q_: 'name[erda]||nickName[Tom]',
       name: undefined,
@@ -171,7 +171,7 @@ describe('FilterGroup', () => {
     });
     userEvent.hover(result.baseElement.querySelector('.ant-select-selector')!);
     fireEvent.mouseDown(result.baseElement.querySelector('.ant-select-clear')!);
-    fireEvent.click(result.getByText('filter'));
+    fireEvent.click(result.getByText('Filter'));
     expect(searchFn).toHaveBeenLastCalledWith({
       _Q_: 'name[erda]',
       name: undefined,

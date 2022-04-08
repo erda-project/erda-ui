@@ -145,7 +145,7 @@ class ImageUpload extends Component<IProps, IState> {
         >
           <div className="mt-5">
             <ErdaIcon fill="black-8" size="30" key="icon" type="shanchu" />
-            <div key="text">{i18n.t('remove')}</div>
+            <div key="text">{i18n.t('Remove')}</div>
           </div>
         </div>
       </div>

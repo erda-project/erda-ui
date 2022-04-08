@@ -140,10 +140,10 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
       maskClosable={false}
       footer={[
         <Button key="cancel" onClick={onCancel}>
-          {i18n.t('cancel')}
+          {i18n.t('Cancel')}
         </Button>,
         <Button key="submit" type="primary" onClick={onSubmit} disabled={!isChanged}>
-          {i18n.t('save')}
+          {i18n.t('Save')}
         </Button>,
       ]}
     >
@@ -172,7 +172,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                     }}
                   >
                     <CustomIcon type="cir-add" className="mr-1" />
-                    {i18n.t('add')}
+                    {i18n.t('Add')}
                   </Button>
                 </WithAuth>
               </IF>
@@ -221,7 +221,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
           </div>
           <IF check={!isEmpty(dataList)}>
             <Divider className="my-2" orientation="left">
-              {i18n.t('dop:state setting')}
+              {i18n.t('dop:Status settings')}
             </Divider>
             <div className="flex justify-between items-center">
               <div className="form-content-left">
@@ -258,7 +258,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
               </div>
             </div>
             <Divider className="my-2" orientation="left">
-              {i18n.t('dop:circulation setting')}
+              {i18n.t('dop:Transfer settings')}
             </Divider>
             {map(dataList, ({ relations, stateName, stateID }, stateDataIndex) => {
               return (
@@ -268,7 +268,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                       <Tooltip title={stateName}>
                         <span className="font-medium nowrap state-transfer-name">{stateName}</span>
                       </Tooltip>
-                      <span className="ml-2 text-desc">{i18n.t('dop:can circulate to')}</span>
+                      <span className="ml-2 text-desc">{i18n.t('dop:can transfer to')}</span>
                     </div>
                   </div>
                   <div className="form-content-right flex justify-between items-center">

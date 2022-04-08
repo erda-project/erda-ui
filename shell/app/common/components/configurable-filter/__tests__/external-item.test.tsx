@@ -176,7 +176,7 @@ describe('ExternalItem', () => {
     expect(changeFn).toHaveBeenLastCalledWith(['dop']);
     fireEvent.click(result.getByText('msp').closest('.option-item')!);
     expect(changeFn).toHaveBeenLastCalledWith(['dop', 'msp']);
-    fireEvent.click(result.getByText('clear selected'));
+    fireEvent.click(result.getByText('Clear selected'));
     expect(changeFn).toHaveBeenLastCalledWith(undefined);
     rerender({
       itemData: {
@@ -184,7 +184,7 @@ describe('ExternalItem', () => {
         required: true,
       },
     });
-    expect(result.queryByText('clear selected')).toBeNull();
+    expect(result.queryByText('Clear selected')).toBeNull();
   });
   it('should work well with select single mode', async () => {
     const itemData = {

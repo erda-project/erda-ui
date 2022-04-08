@@ -30,7 +30,7 @@ import {
 
 const ACL_CONST = [
   {
-    name: i18n.t('private'),
+    name: i18n.t('Private'),
     value: 'private',
   },
   {
@@ -63,7 +63,7 @@ const StorageOss = () => {
   const getColumns = () => {
     return [
       {
-        title: `Bucket ${i18n.t('name')}`,
+        title: `Bucket ${i18n.t('Name')}`,
         dataIndex: 'name',
       },
       getCloudResourceRegionCol('location'),
@@ -76,7 +76,7 @@ const StorageOss = () => {
     return [
       {
         name: 'name',
-        label: `Bucket ${i18n.t('name')}`,
+        label: `Bucket ${i18n.t('Name')}`,
       },
       {
         name: 'acl',
@@ -86,7 +86,7 @@ const StorageOss = () => {
       },
       {
         name: 'region',
-        label: i18n.t('region'),
+        label: i18n.t('Region'),
         type: 'select',
         options: map(regions, ({ regionID, localName }) => ({ value: regionID, name: `${localName} (${regionID})` })),
       },
@@ -142,7 +142,7 @@ const StorageOss = () => {
     {
       key: 'name',
       outside: true,
-      label: i18n.t('name'),
+      label: i18n.t('Name'),
       placeholder: i18n.t('cmp:please enter bucket name'),
       type: 'input',
     },

@@ -294,7 +294,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
     ]),
     ...insertWhen(mode === 'asset' || (mode === 'instance' && state.instanceType === 'dice'), [
       {
-        label: i18n.t('project name'),
+        label: i18n.t('Project name'),
         name: 'projectID',
         required: false,
         initialValue: defaultProjectID,
@@ -359,7 +359,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
       ...(state.instanceType === 'dice'
         ? [
             {
-              label: i18n.t('service name'),
+              label: i18n.t('Service name'),
               required: false,
               type: 'select',
               initialValue: get(instance, 'serviceName'),

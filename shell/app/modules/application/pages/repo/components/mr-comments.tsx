@@ -49,7 +49,7 @@ export const CommentEditBox = ({ value, onChange, onSubmit, onCancel }: IEditBox
         </Button>
         {onCancel && (
           <Button className="ml-2" onClick={() => onCancel()}>
-            {i18n.t('cancel')}
+            {i18n.t('Cancel')}
           </Button>
         )}
       </div>

@@ -81,7 +81,7 @@ const VersionFormModal = ({ visible, onCancel, artifacts, afterSubmit = () => {}
       },
     },
     {
-      label: i18n.t('version'),
+      label: i18n.t('Version'),
       name: 'releaseId',
       itemProps: {
         onChange: (v: string, opt: any) => {
@@ -116,7 +116,7 @@ const VersionFormModal = ({ visible, onCancel, artifacts, afterSubmit = () => {}
 
   return (
     <FormModal
-      name={i18n.t('version')}
+      name={i18n.t('Version')}
       fieldsList={fieldsList}
       visible={visible}
       onOk={handelSubmit}

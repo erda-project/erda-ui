@@ -150,7 +150,7 @@ const StatisticList = ({ artifactsId, monitorKey }: { artifactsId: string; monit
 
   const columns: Array<ColumnProps<PUBLISHER.VersionStatistic>> = [
     {
-      title: i18n.t('version'),
+      title: i18n.t('Version'),
       dataIndex: 'versionOrChannel',
       width: 140,
     },
@@ -188,7 +188,7 @@ const StatisticList = ({ artifactsId, monitorKey }: { artifactsId: string; monit
       <FilterTab
         tabs={[
           { label: i18n.t('publisher:today'), value: TODAY },
-          { label: i18n.t('publisher:yesterday'), value: YESTERDAY },
+          { label: i18n.t('publisher:Yesterday'), value: YESTERDAY },
         ]}
         onChange={(val: string) => updater.endAt(val)}
         defaultValue={TODAY}

@@ -260,12 +260,12 @@ const RepoMRForm = (props: IProps) => {
           })
         ) : (
           <Menu.Item key="empty" disabled>
-            {i18n.t('no template')}
+            {i18n.t('No Template')}
           </Menu.Item>
         )}
         <Menu.Divider />
         <Menu.Item key="clear" onClick={() => handleTplChange({ tplContent: '', tplName: '' })}>
-          {i18n.t('clear content')}
+          {i18n.t('Clear Content')}
         </Menu.Item>
         {/* <Menu.Item key="save" disabled={!this.state.tplContent} onClick={() => this.toggleTplModel(true)}>
           保存为模板
@@ -280,7 +280,7 @@ const RepoMRForm = (props: IProps) => {
             })
           }
         >
-          {i18n.t('recover template')}
+          {i18n.t('Recover Template')}
         </Menu.Item>
       </Menu>
     );
@@ -305,7 +305,7 @@ const RepoMRForm = (props: IProps) => {
     const fieldsList = [
       {
         label: '',
-        getComp: () => <div className="section-title">{i18n.t('dop:choose branch')}</div>,
+        getComp: () => <div className="section-title">{i18n.t('dop:Choose branch')}</div>,
         extraProps: fieldExtraProps,
       },
       {
@@ -349,7 +349,7 @@ const RepoMRForm = (props: IProps) => {
         },
       },
       {
-        label: i18n.t('title'),
+        label: i18n.t('Title'),
         name: 'title',
         initialValue: title || '',
         itemProps: {
@@ -358,7 +358,7 @@ const RepoMRForm = (props: IProps) => {
         extraProps: fieldExtraProps,
       },
       {
-        label: i18n.t('description'),
+        label: i18n.t('Description'),
         name: 'description',
         initialValue: description || tplContent || '',
         getComp: () => (
@@ -489,7 +489,7 @@ const RepoMRForm = (props: IProps) => {
           </Button>
         </Tooltip>
         <Button className="ml-3" onClick={onCancel}>
-          {i18n.t('cancel')}
+          {i18n.t('Cancel')}
         </Button>
       </div>
     </div>
@@ -554,7 +554,7 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
       },
     },
     {
-      title: i18n.t('dop:priority'),
+      title: i18n.t('dop:Priority'),
       dataIndex: 'priority',
       render: (v: string) => (v ? ISSUE_PRIORITY_MAP[v]?.iconLabel : null),
     },
@@ -566,7 +566,7 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
         return (
           <div>
             <Avatar src={curUser?.avatar || undefined} size="small" className="flex-shrink-0">
-              {curUser?.nick ? getAvatarChars(curUser.nick) : i18n.t('none')}
+              {curUser?.nick ? getAvatarChars(curUser.nick) : i18n.t('None')}
             </Avatar>
             <span> {curUser?.nick || curUser?.name || userId}</span>
           </div>
@@ -595,7 +595,7 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
 
   return (
     <div className="mb-3 repo-mr-issue-relation">
-      <div className="section-title mt-3">{i18n.t('relate to issue')}</div>
+      <div className="section-title mt-3">{i18n.t('Relate to issue')}</div>
 
       <AddIssueRelation editAuth onSave={addRelation} projectId={projectId} relationType={RelationType.RelatedTo} />
 

@@ -17,7 +17,7 @@ import { Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 
 // TODO: merge with EmptyHolder
-const EmptyListHolder = ({ icon = 'empty-s', tip = i18n.t('common:no data'), style = {}, action = null }) => {
+const EmptyListHolder = ({ icon = 'empty-s', tip = i18n.t('common:No data'), style = {}, action = null }) => {
   const cls = classnames({
     'empty-holder': true,
     'multi-line': true,

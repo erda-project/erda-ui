@@ -263,7 +263,7 @@ describe('ErdaTable', () => {
       field: 'count',
       order: 'descend',
     });
-    fireEvent.click(result.getByText('cancel order').closest('li')!);
+    fireEvent.click(result.getByText('Unsort').closest('li')!);
     expect(tableChangeFn).toHaveBeenCalledTimes(3);
     expect(tableChangeFn).toHaveBeenLastCalledWithNth(2, {
       column: { title: 'count', sorter: true, dataIndex: 'count' },

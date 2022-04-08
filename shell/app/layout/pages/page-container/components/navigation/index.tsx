@@ -82,14 +82,14 @@ const Navigation = () => {
   const bottomItems = [
     {
       icon: <ErdaIcon type="bangzhuwendang" className="text-normal" size={20} />,
-      label: i18n.t('layout:view doc'),
+      label: i18n.t('layout:Docs'),
       onClick: () => {
         window.open(DOC_HELP_HOME);
       },
     },
     {
       icon: <ErdaIcon type={current === 'zh' ? 'zhongwen' : 'yingwen'} className="text-normal" size={20} />,
-      label: i18n.t('default:switch language'),
+      label: i18n.t('default:Language'),
       onClick: () => {
         const next = current === 'zh' ? 'en' : 'zh';
         window.localStorage.setItem('locale', next);
@@ -108,7 +108,7 @@ const Navigation = () => {
           <ErdaIcon type="xiaoxi" className="text-normal" size={20} />
         </Badge>
       ),
-      label: i18n.t('default:message center'),
+      label: i18n.t('default:Message'),
       onClick: () => {
         switchMessageCenter(null);
       },

@@ -159,7 +159,7 @@ describe('AddMemberModal', () => {
       await waitFor(() => expect(result.getByRole('dialog')).not.toHaveStyle({ display: 'none' }));
     };
     const closeModal = () => {
-      fireEvent.click(result.getByText('cancel'));
+      fireEvent.click(result.getByText('Cancel'));
     };
     const submit = () => {
       fireEvent.click(result.getByText('ok'));

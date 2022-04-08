@@ -133,7 +133,7 @@ const VSW = () => {
   const getFieldsList = (form: FormInstance) => {
     const fieldsList = [
       {
-        label: i18n.t('name'),
+        label: i18n.t('Name'),
         name: 'vswName',
         rules: [formConfig.rule.name],
         itemProps: {
@@ -177,7 +177,7 @@ const VSW = () => {
         getComp: () => `${subnetCount || 0}`,
       },
       {
-        label: i18n.t('description'),
+        label: i18n.t('Description'),
         name: 'description',
         required: false,
         type: 'textArea',

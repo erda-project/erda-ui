@@ -328,7 +328,7 @@ const Statistics = (props: IProps) => {
               show: false,
             },
             tooltip: {
-              formatter: `{a} <br/>${i18n.t('version')}{b}: {c}({d}%)`,
+              formatter: `{a} <br/>${i18n.t('Version')}{b}: {c}({d}%)`,
             },
             grid: { left: 45, right: 45 },
           },

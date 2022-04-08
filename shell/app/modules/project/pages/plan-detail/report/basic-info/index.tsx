@@ -34,7 +34,7 @@ const BasicInfo = () => {
   }, [testPlan, userMap]);
   const basicInfo = [
     {
-      label: i18n.t('dop:test leader'),
+      label: i18n.t('dop:Principal-test'),
       text: data.ownerName,
     },
     {
@@ -43,7 +43,7 @@ const BasicInfo = () => {
       dateKey: 'timestampSecStartedAt',
     },
     {
-      label: i18n.t('dop:test participant'),
+      label: i18n.t('dop:Participant-test'),
       text: data.partnerNameStr,
     },
     {
@@ -83,7 +83,7 @@ const BasicInfo = () => {
                 onChange={(date, dateString) => setDate(info.dateKey, dateString, date as Moment)}
               />
             ) : (
-              info.text || i18n.t('none')
+              info.text || i18n.t('None')
             )}
           </div>
         </Col>

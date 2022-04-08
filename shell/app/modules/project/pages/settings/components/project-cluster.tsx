@@ -95,13 +95,13 @@ const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
         </Tooltip>
         <Tooltip
           title={`
-              ${i18n.t('msp:available')}
+              ${i18n.t('msp:Available')}
               ${+(quota - request).toFixed(3)}${unit}
               (${+(100 - requestRate).toFixed(3)})%
             `}
         >
           <div className="nowrap" style={{ width: `${100 - requestRate}%` }}>
-            {i18n.t('msp:available')}
+            {i18n.t('msp:Available')}
           </div>
         </Tooltip>
       </div>
@@ -161,13 +161,13 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
       columns={[
         {
           key: 'workspace',
-          title: i18n.t('dop:environments'),
+          title: i18n.t('dop:Environment'),
           width: 120,
           dataIndex: 'workspace',
           render: (val: string) => workSpaceMap[val] || val,
         },
         {
-          title: i18n.t('dop:using clusters'),
+          title: i18n.t('dop:Cluster'),
           dataIndex: 'clusterName',
           align: 'left',
           width: 180,

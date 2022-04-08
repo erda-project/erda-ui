@@ -169,7 +169,7 @@ const TraceInsightQuerier = () => {
     return (
       <div className="meta-viewer">
         {!url ? (
-          <p>{i18n.t('msp:currently no request')}</p>
+          <p>{i18n.t('msp:Currently no requests')}</p>
         ) : (
           <p className="meta-viewer-copy">
             <Copy>{url}</Copy>
@@ -316,7 +316,7 @@ const TraceInsightQuerier = () => {
             <div className="flex">
               <h3 className="trace-common-panel-title font-medium mr-2">{i18n.t('msp:tracing information')}</h3>
               {traceStatusDetail?.status === 1 && (
-                <Tooltip title={i18n.t('full screen')}>
+                <Tooltip title={i18n.t('Full screen')}>
                   <ErdaIcon
                     type="full-screen-one"
                     size="14"
@@ -351,7 +351,7 @@ const TraceInsightQuerier = () => {
     <div>
       <Row className="trace-querier" gutter={20}>
         <Col span={6}>
-          <CommonPanel title={i18n.t('msp:query records')} className="history-status-list-ct">
+          <CommonPanel title={i18n.t('msp:Query records')} className="history-status-list-ct">
             <TraceHistoryList
               dataSource={traceHistoryList}
               isFetching={isTraceHistoryFetching}

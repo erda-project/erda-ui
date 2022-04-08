@@ -68,11 +68,11 @@ const Topology = () => {
       {
         type: 'select',
         key: 'service',
-        label: i18n.t('service name'),
+        label: i18n.t('Service name'),
         fixed: true,
         showIndex: 0,
         haveFilter: true,
-        emptyText: i18n.t('dop:all'),
+        emptyText: i18n.t('dop:All'),
         customProps: {
           mode: 'single',
         },

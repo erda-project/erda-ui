@@ -197,7 +197,7 @@ const ReleaseSelect = ({
                   <div className="bg-default-02 py-4 flex-all-center">
                     <img src={empty} className="mr-2" />
                     <div>
-                      <div className="text-lg leading-6">{i18n.t('dop:no releases have been selected yet')}</div>
+                      <div className="text-lg leading-6">{i18n.t('dop:No artifacts selected')}</div>
                       <div
                         className="text-xs text-purple-deep cursor-pointer leading-5"
                         onClick={() => {
@@ -206,7 +206,7 @@ const ReleaseSelect = ({
                           setSelectedList([]);
                         }}
                       >
-                        {i18n.t('dop:click to add application release')}
+                        {i18n.t('dop:Click to add app artifacts')}
                       </div>
                     </div>
                   </div>
@@ -363,16 +363,16 @@ const ListSelectOverlay = ({
     {
       key: 'releaseId',
       type: 'input',
-      label: `${i18n.t('Artifact')}ID`,
-      placeholder: i18n.t('filter by {name}', { name: `${i18n.t('Artifact')}ID` }),
+      label: `${i18n.t('Artifacts')}ID`,
+      placeholder: i18n.t('filter by {name}', { name: `${i18n.t('Artifacts')}ID` }),
     },
     {
       key: 'userId',
       type: 'select',
-      label: i18n.t('creator'),
+      label: i18n.t('Creator'),
       mode: 'single',
       options: memberList.map((item) => ({ label: item.nick, value: item.userId })),
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('creator') }),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('Creator') }),
     },
     {
       key: 'latest',
@@ -385,7 +385,7 @@ const ListSelectOverlay = ({
       key: 'q',
       outside: true,
       label: 'title',
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('Title') }),
       type: 'input',
     },
   ];
@@ -437,7 +437,7 @@ const ListSelectOverlay = ({
       </Col>
       <Col span={12} className="px-2 h-full">
         <div className="py-3 px-2">
-          {i18n.t('common:selected')}
+          {i18n.t('common:Selected')}
           {selectedList.length && selectedList.length !== 0 ? (
             <span className="selected-num ml-2 rounded-full">{selectedList.length}</span>
           ) : null}
@@ -468,10 +468,10 @@ const ListSelectOverlay = ({
         </div>
         <div className="py-3 px-2 float-right">
           <Button className="mr-2" onClick={onCancel}>
-            {i18n.t('cancel')}
+            {i18n.t('Cancel')}
           </Button>
           <Button className="mr-2" onClick={clear}>
-            {i18n.t('one click to clear')}
+            {i18n.t('Clear with One Click')}
           </Button>
           <Button className="mr-2" type="primary" onClick={onOk}>
             {i18n.t('ok')}

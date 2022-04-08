@@ -65,7 +65,7 @@ const OrgSelector = (props: IProps) => {
 
   return (
     <DropdownSelectNew
-      title={i18n.t('dop:switch organization')}
+      title={i18n.t('dop:Switch organization')}
       value={orgName}
       options={options}
       onChange={changeOrg}

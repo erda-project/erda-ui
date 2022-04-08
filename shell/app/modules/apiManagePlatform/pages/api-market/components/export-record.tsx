@@ -57,21 +57,21 @@ const ExportRecordModal = ({ visible, onCancel }: IProps) => {
       dataIndex: 'assetName',
     },
     {
-      title: i18n.t('version'),
+      title: i18n.t('Version'),
       dataIndex: 'major',
       render: (value: number, record) => {
         return `${value}.${record.minor}.${record.patch}`;
       },
     },
     {
-      title: i18n.t('operator'),
+      title: i18n.t('Operator'),
       dataIndex: 'creatorID',
       render: (value) => {
         return <UserInfo.RenderWithAvatar id={value} />;
       },
     },
     {
-      title: i18n.t('time'),
+      title: i18n.t('Time'),
       dataIndex: 'createdAt',
       sorter: true,
       render: (value) => (value ? moment(value).format('YYYY/MM/DD HH:mm:ss') : '-'),
@@ -81,7 +81,7 @@ const ExportRecordModal = ({ visible, onCancel }: IProps) => {
     render: (record) => {
       return [
         {
-          title: i18n.t('download'),
+          title: i18n.t('Download'),
           disabled: !record.valid,
           disableAuthTip: i18n.t('source file does not exist'),
           onClick: () => {
@@ -118,7 +118,7 @@ const ExportRecordModal = ({ visible, onCancel }: IProps) => {
   return (
     <Modal
       width={960}
-      title={<span className="text-base">{i18n.t('export record')}</span>}
+      title={<span className="text-base">{i18n.t('Export Records')}</span>}
       wrapClassName="export-record-modal"
       visible={visible}
       footer={null}
