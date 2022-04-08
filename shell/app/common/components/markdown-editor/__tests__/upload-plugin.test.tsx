@@ -93,8 +93,8 @@ describe('UploadPlugin', () => {
       />,
     );
     userEvent.hover(result.getByLabelText('icon: fujian'));
-    await waitFor(() => expect(result.queryByText('add annex')).not.toBeNull());
-    const imageUpload = result.getByText('image upload').previousElementSibling as HTMLElement;
+    await waitFor(() => expect(result.queryByText('Add Attachment')).not.toBeNull());
+    const imageUpload = result.getByText('Upload Image').previousElementSibling as HTMLElement;
     imageUpload.style.pointerEvents = 'auto';
     await act(async () => {
       userEvent.upload(imageUpload, images);
