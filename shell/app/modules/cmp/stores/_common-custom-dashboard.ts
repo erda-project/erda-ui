@@ -15,7 +15,6 @@ import i18n from 'i18n';
 import { createFlatStore } from 'core/cube';
 import { getDefaultPaging, getTimeSpan, qs } from 'common/utils';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
-
 import * as orgCustomDashboardService from 'cmp/services/custom-dashboard';
 import * as mspCustomDashboardService from 'msp/query-analysis/custom-dashboard/services/custom-dashboard';
 import { ITimeRange, transformRange } from 'common/components/time-select/utils';
@@ -27,6 +26,11 @@ export enum CustomDashboardScope {
 }
 
 export interface IState {
+  customDashboardInfo: {
+    name: string;
+    desc?: string;
+    id?: string;
+  };
   customDashboardList: Custom_Dashboard.DashboardItem[];
   customDashboardPaging: IPaging;
   timeSpan: any;
@@ -58,6 +62,7 @@ export const createCustomDashboardStore = (scope: CustomDashboardScope) => {
     [CustomDashboardScope.MICRO_SERVICE]: mspCustomDashboardService,
   };
   const initState: IState = {
+    customDashboardInfo: { name: '', desc: '' },
     customDashboardList: [],
     customDashboardPaging: getDefaultPaging(),
     timeSpan: getTimeSpan(),
@@ -82,7 +87,9 @@ export const createCustomDashboardStore = (scope: CustomDashboardScope) => {
     state: initState,
     effects: {
       async createCustomDashboard({ call }, payload: Custom_Dashboard.DashboardItem) {
-        await call(createCustomDashboard, payload, { successMsg: i18n.t('cmp:O&M dashboard added successfully') });
+        return await call(createCustomDashboard, payload, {
+          successMsg: i18n.t('cmp:O&M dashboard added successfully'),
+        });
       },
       async updateCustomDashboard({ call }, payload: Custom_Dashboard.DashboardItem) {
         await call(updateCustomDashboard, payload, { successMsg: i18n.t('cmp:O&M dashboard updated successfully') });
@@ -109,6 +116,9 @@ export const createCustomDashboardStore = (scope: CustomDashboardScope) => {
       },
       updateState(state, payload) {
         return { ...state, ...payload };
+      },
+      updateCustomDashboardInfo(state, payload) {
+        return { ...state, customDashboardInfo: payload };
       },
     },
   });

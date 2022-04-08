@@ -19,7 +19,7 @@ const CustomDashBoard = () => ({
   routes: [
     {
       path: 'add',
-      breadcrumbName: getMspBreadcrumb('Dashboard'),
+      breadcrumbName: '{dashboardName}',
       layout: { fullHeight: true },
       getComp: (cb: RouterGetComp) => cb(import('msp/query-analysis/custom-dashboard/pages/custom-dashboard')),
     },

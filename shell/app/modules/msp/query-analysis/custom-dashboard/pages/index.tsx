@@ -13,12 +13,16 @@
 
 import React from 'react';
 import routeInfoStore from 'core/stores/route';
+import mspStore from 'msp/stores/micro-service';
 import { CustomDashboardScope } from 'cmp/stores/_common-custom-dashboard';
 import CmpCustomDashboardList from 'cmp/common/custom-dashboard';
 
 const CustomDashboardList = () => {
   const { terminusKey } = routeInfoStore.useStore((s) => s.params);
-  return <CmpCustomDashboardList scope={CustomDashboardScope.MICRO_SERVICE} scopeId={terminusKey} />;
+  const currentProject = mspStore.getState((s) => s.currentProject);
+  const { relationship } = currentProject;
+
+  return <CmpCustomDashboardList scope={CustomDashboardScope.MICRO_SERVICE} scopeId={terminusKey} relationship={relationship}/>;
 };
 
 export default CustomDashboardList;

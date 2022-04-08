@@ -23,6 +23,10 @@ declare namespace Custom_Dashboard {
     scopeId: string;
     pageNo?: number;
     pageSize?: number;
+    title?: string;
+    creator?: string[];
+    startTime?: string;
+    endTime?: string;
   }
 
   interface DashboardItem {
@@ -31,9 +35,80 @@ declare namespace Custom_Dashboard {
     name: string;
     scope: string;
     scopeId?: string;
-    viewConfig: any;
+    viewConfig?: any;
     createdAt?: number;
     updatedAt?: number;
     version?: string;
+    updateType?: string;
+  }
+
+  interface CommonParams {
+    scope: string;
+    scopeId: string;
+  }
+
+  interface ExportParams extends CommonParams {
+    viewIds?: string[];
+    creator?: string[];
+    title?: string;
+    startTime?: string;
+    endTime?: string;
+    targetScope?: string;
+    targetScopeId?: string;
+  }
+
+  interface ImportParams {
+    file: { file: string; scope: string; scopeId: string };
+  }
+
+  interface CustomLIstQuery {
+    creator?: string[];
+    createdAt?: string;
+    title?: string;
+    startTime?: string;
+    endTime?: string;
+  }
+
+  interface BasicInfo {
+    name: string;
+    id: string;
+    desc: string;
+  }
+
+  interface FileData {
+    size: number;
+    status: string;
+    originFileObj: object;
+    response: ResponseFileData;
+  }
+
+  interface ResponseFileData {
+    data: {
+      applications: object[];
+    };
+    err: {
+      msg: string;
+    };
+  }
+
+  interface OperationDashboardRecord {
+    histories: OperationHistory[];
+    total: number;
+  }
+
+  interface OperationHistory {
+    status: string;
+    fileUuid: string;
+    errorMessage: string;
+    type: string;
+    targetScopeId: string;
+  }
+
+  type IMspProjectEnv = WORKSPACE | 'DEFAULT';
+  
+  interface Relationship {
+    workspace: IMspProjectEnv;
+    tenantId: string;
+    displayWorkspace: string;
   }
 }
