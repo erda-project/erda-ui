@@ -169,7 +169,7 @@ const Pipeline = (props: IProps) => {
         fill="black-4"
         size="18"
         type="jsjl"
-        className="cursor-pointer"
+        className="cursor-pointer ml-2"
       />
     </Tooltip>
   );

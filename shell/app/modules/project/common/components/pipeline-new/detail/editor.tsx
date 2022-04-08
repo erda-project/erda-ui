@@ -89,7 +89,6 @@ const Editor = (props: IProps) => {
 
   const extraTitle = (
     <div className="flex-h-center">
-      {propsExtraTitle}
       <WithAuth pass={deployAuth}>
         <Tooltip title={i18n.t('Execute')}>
           <ErdaIcon
@@ -103,6 +102,7 @@ const Editor = (props: IProps) => {
           />
         </Tooltip>
       </WithAuth>
+      {propsExtraTitle}
     </div>
   );
 
@@ -121,31 +121,7 @@ const Editor = (props: IProps) => {
           closeable={false}
         />
       ) : null}
-      <Info
-        info={pipelineFileDetail}
-        className="mb-2"
-        operations={mode === 'file' ? extraTitle : null}
-        // TODO: execute in editor, need new api;
-        // operations={
-        //   mode === 'file' ? (
-        //     <WithAuth pass={deployAuth}>
-        //       <Tooltip title={'执行'}>
-        //         <ErdaIcon
-        //           size="20"
-        //           className="mr-2"
-        //           fill="black-4"
-        //           onClick={() => {
-        //             runBuild();
-        //           }}
-        //           type="play1"
-        //         />
-        //       </Tooltip>
-        //     </WithAuth>
-        //   ) : (
-        //     <></>
-        //   )
-        // }
-      />
+      <Info info={pipelineFileDetail} className="mb-2" operations={mode === 'file' ? extraTitle : null} />
       <PipelineEditor
         ymlStr={ymlStr}
         editable={editAuth}

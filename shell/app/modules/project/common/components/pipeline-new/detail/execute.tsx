@@ -44,6 +44,7 @@ interface IProps {
   pipelineDefinitionID: string;
   fileChanged: boolean;
   deployAuth: { hasAuth: boolean; authTip?: string };
+
   pipelineFileDetail?: TREE.NODE;
   extraTitle: React.ReactNode;
   pipelineDetail?: BUILD.IPipelineDetail;
@@ -127,12 +128,13 @@ const Execute = (props: IProps) => {
   const { id: pipelineID, env, branch, pipelineButton, extra, needApproval } = pipelineDetail;
 
   const runBuild = () => {
-    updater.startStatus('ready');
+    updater.startStatus('pending');
     runPipeline
       .fetch({ pipelineDefinitionID, projectID: +projectId })
       .then((res) => {
         if (res.success) {
           updater.startStatus('start');
+          res.data?.pipeline?.id && setPipelineId(res.data.pipeline.id);
         } else {
           updater.startStatus('unstart');
         }
@@ -143,7 +145,7 @@ const Execute = (props: IProps) => {
   };
 
   const reRunPipeline = (isEntire: boolean) => {
-    updater.rerunStartStatus('padding');
+    updater.rerunStartStatus('pending');
     const reRunFunc = !isEntire ? rerunFailedPipeline : rerunPipeline;
     reRunFunc
       .fetch({ pipelineDefinitionID, projectID: +projectId })
@@ -157,6 +159,7 @@ const Execute = (props: IProps) => {
   const cancelBuild = () => {
     cancelPipeline.fetch({ pipelineDefinitionID, projectID: +projectId }).then(() => {
       getPipelineDetail({ pipelineID });
+      setPipelineId(`${pipelineID}`);
     });
   };
 
@@ -380,7 +383,7 @@ const Execute = (props: IProps) => {
     );
     return (
       <>
-        <If condition={startStatus !== 'start'}>
+        <If condition={startStatus !== 'start' && rerunStartStatus !== 'pending'}>
           <Choose>
             <When condition={startStatus !== 'unstart'}>{paddingEle}</When>
             <Otherwise>
@@ -417,39 +420,41 @@ const Execute = (props: IProps) => {
           </DeleteConfirm>
         </If>
         {/* 现需求为“从失败处重试+全部重试” or “全部重试”，分别对应 Dropdown 和 icon 来操作 */}
-        <Choose>
-          <When condition={rerunStartStatus === 'padding'}>{paddingEle}</When>
-          <Otherwise>
-            <Choose>
-              <When condition={canRerunFailed}>
-                {deployAuth.hasAuth ? (
-                  <Dropdown overlay={renderReRunMenu()} placement="bottomCenter">
-                    <ErdaIcon size="20" fill="black-4" type="redo" className="ml-2 cursor-pointer" />
-                  </Dropdown>
-                ) : (
-                  <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
-                    <ErdaIcon size="20" fill="black-4" type="redo" className="ml-2" />
-                  </WithAuth>
-                )}
-              </When>
-              <Otherwise>
-                <If condition={canRerun}>
-                  <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
-                    <Tooltip title={`${i18n.t('dop:rerun whole pipeline')}(commit ${i18n.t('unchanged')})`}>
-                      <CustomIcon
-                        onClick={() => {
-                          reRunPipeline(true);
-                        }}
-                        type="refresh"
-                        className="cursor-pointer ml-2"
-                      />
-                    </Tooltip>
-                  </WithAuth>
-                </If>
-              </Otherwise>
-            </Choose>
-          </Otherwise>
-        </Choose>
+        <If condition={startStatus !== 'pending'}>
+          <Choose>
+            <When condition={rerunStartStatus === 'pending'}>{paddingEle}</When>
+            <Otherwise>
+              <Choose>
+                <When condition={canRerunFailed}>
+                  {deployAuth.hasAuth ? (
+                    <Dropdown overlay={renderReRunMenu()} placement="bottomCenter">
+                      <ErdaIcon size="20" fill="black-4" type="redo" className="ml-2 cursor-pointer" />
+                    </Dropdown>
+                  ) : (
+                    <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
+                      <ErdaIcon size="20" fill="black-4" type="redo" className="ml-2" />
+                    </WithAuth>
+                  )}
+                </When>
+                <Otherwise>
+                  <If condition={canRerun}>
+                    <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
+                      <Tooltip title={`${i18n.t('dop:rerun whole pipeline')}(commit ${i18n.t('unchanged')})`}>
+                        <CustomIcon
+                          onClick={() => {
+                            reRunPipeline(true);
+                          }}
+                          type="refresh"
+                          className="cursor-pointer ml-2"
+                        />
+                      </Tooltip>
+                    </WithAuth>
+                  </If>
+                </Otherwise>
+              </Choose>
+            </Otherwise>
+          </Choose>
+        </If>
       </>
     );
   };
@@ -476,13 +481,10 @@ const Execute = (props: IProps) => {
         className="mb-2"
         operations={
           <div className="flex-h-center">
-            {extraTitle}
             {renderRunBtn()}
+            {extraTitle}
           </div>
         }
-
-        // TODO: execute in editor, need new api;
-        // operations={renderRunBtn()}
       />
       <Spin spinning={getPipelineDetailLoading || addPipelineLoading}>
         <div>
