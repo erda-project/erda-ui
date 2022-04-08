@@ -12,42 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
-import { apiCreator } from 'core/service';
 
-const apis = {
-  getCustomDashboardCreators: {
-    api: '/api/dashboard/blocks/creators',
-  },
-  exportCustomDashboard: {
-    api: 'post@/api/dashboard/blocks/export',
-  },
-  importCustomDashboard: {
-    api: 'post@/api/dashboard/blocks/import',
-  },
-  getCustomDashboardOperationRecord: {
-    api: '/api/dashboard/blocks/operate/history',
-  },
-  parseCustomDashboardFile: {
-    api: 'post@/api/dashboard/blocks/parse',
-  },
-};
-
-export const getCustomDashboardCreators = apiCreator<(p: Custom_Dashboard.CommonParams) => { creators: string[] }>(
-  apis.getCustomDashboardCreators,
-);
-
-export const exportCustomDashboard = apiCreator<(p: Custom_Dashboard.ExportParams) => void>(
-  apis.getCustomDashboardCreators,
-);
-
-export const importCustomDashboard = apiCreator<(p: Custom_Dashboard.ImportParams) => void>(
-  apis.getCustomDashboardCreators,
-);
-
-// TODO: 返回类型再改改
-export const getDashboardOperationRecord = apiCreator<(p: Custom_Dashboard.GetDashboardPayload) => void>(
-  apis.getCustomDashboardOperationRecord,
-);
 
 export const createCustomDashboard = (payload: Custom_Dashboard.DashboardItem) => {
   return agent

@@ -260,7 +260,7 @@ const CreationForm = ({ createType }: { createType: string }) => {
               });
               return;
             }
-            console.log({ projectTemplate });
+
             if (createType === 'importProject') {
               createTenantProject({
                 id: `${res.data}`,
