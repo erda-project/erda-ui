@@ -103,4 +103,12 @@ declare namespace Custom_Dashboard {
     type: string;
     targetScopeId: string;
   }
+
+  type IMspProjectEnv = WORKSPACE | 'DEFAULT';
+  
+  interface Relationship {
+    workspace: IMspProjectEnv;
+    tenantId: string;
+    displayWorkspace: string;
+  }
 }

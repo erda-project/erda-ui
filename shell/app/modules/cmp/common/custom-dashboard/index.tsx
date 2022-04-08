@@ -46,7 +46,15 @@ const urlMap = {
     detail: goTo.pages.microServiceCustomDashboardDetail,
   },
 };
-const CustomDashboardList = ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: string }) => {
+const CustomDashboardList = ({
+  scope,
+  scopeId,
+  relationship,
+}: {
+  scope: CustomDashboardScope;
+  scopeId: string;
+  relationship?: Custom_Dashboard.Relationship[];
+}) => {
   const params = routeInfoStore.useStore((s) => s.params);
   const [{ formData, filterData, recordModalVisible }, updater, update] = useUpdate({
     formData: null,
@@ -274,6 +282,7 @@ const CustomDashboardList = ({ scope, scopeId }: { scope: CustomDashboardScope; 
           visible={recordModalVisible}
           setVisible={updater.recordModalVisible}
           getCustomDashboard={_getCustomDashboard}
+          relationship={relationship}
         />
         <Button
           type="primary"

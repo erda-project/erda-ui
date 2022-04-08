@@ -21,7 +21,6 @@ import { useMount, useInterval } from 'react-use';
 import ErdaTable from 'common/components/table';
 import { getAvatarChars, getOrgFromPath, convertToFormData } from 'common/utils';
 import { find, map } from 'lodash';
-import mspStore from 'msp/stores/micro-service';
 import {
   getDashboardOperationRecord,
   downloadApi,
@@ -40,6 +39,7 @@ interface IProps {
   scopeId: string;
   scope: string;
   visible: boolean;
+  relationship?: Custom_Dashboard.Relationship[];
   title?: string;
   tabs?: Array<{ key: string; text: string; disabled?: boolean }>;
   setVisible: (visible: boolean) => void;
@@ -97,6 +97,7 @@ const ImportExport = (props: IProps) => {
     title = i18n.t('cmp:Export/Import'),
     tabs = defaultTabs,
     visible,
+    relationship,
     setVisible,
     getCustomDashboard,
   } = props;
@@ -115,7 +116,7 @@ const ImportExport = (props: IProps) => {
   const toRecord = () => update({ tabValue: 'record' });
 
   const CompMap = {
-    export: <Export scope={scope} scopeId={scopeId} queryObj={queryObj} onClose={closeModal} toRecord={toRecord} />,
+    export: <Export scope={scope} scopeId={scopeId} queryObj={queryObj} onClose={closeModal} toRecord={toRecord} relationship={relationship}/>,
     import: (
       <Import
         scopeId={scopeId}
@@ -125,7 +126,7 @@ const ImportExport = (props: IProps) => {
         getCustomDashboard={getCustomDashboard}
       />
     ),
-    record: <Record scope={scope} scopeId={scopeId} />,
+    record: <Record scope={scope} scopeId={scopeId} relationship={relationship}/>,
   };
 
   return (
@@ -163,19 +164,19 @@ interface ExportProps {
   queryObj: Custom_Dashboard.CustomLIstQuery;
   scope: string;
   scopeId: string;
+  relationship?: Custom_Dashboard.Relationship[];
   onClose: () => void;
   toRecord: () => void;
 }
 
 const Export = (props: ExportProps) => {
-  const { onClose, toRecord, queryObj, scope, scopeId } = props;
+  const { onClose, toRecord, queryObj, scope, scopeId, relationship } = props;
   const [exportType, setExportType] = React.useState('condition');
   const [exportMode, setExportMode] = React.useState('FILE');
-  const currentProject = mspStore.getState((s) => s.currentProject);
-  const { relationship } = currentProject;
   const params = routeInfoStore.getState((s) => s.params);
   const { env } = params;
   const curProjectRelationships = relationship?.filter((item) => item.workspace !== env);
+
   const envOptions = map(curProjectRelationships, (item) => ({
     label: workSpaceMap[item.workspace].label,
     value: item.tenantId,
@@ -424,14 +425,12 @@ const Import = (props: ImportProps) => {
   );
 };
 
-const Record = ({ scope, scopeId }: { scope: string; scopeId: string }) => {
+const Record = ({ scope, scopeId, relationship }: { scope: string; scopeId: string,relationship?:Custom_Dashboard.Relationship[] }) => {
   const [data, loading] = getDashboardOperationRecord.useState();
   const [hasError, setHasError] = React.useState(false);
   const [isFinished, setIsFinished] = React.useState(false);
   const [paging, setPaging] = React.useState({ pageNo: 1, pageSize: 10 });
   const userMap = useUserMap();
-  const currentProject = mspStore.getState((s) => s.currentProject);
-  const { relationship } = currentProject;
 
   const list = data?.histories || [];
   const total = data?.total;
