@@ -47,6 +47,10 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
       key: 'statistics',
       name: i18n.t('dop:statistics'),
     },
+    {
+      key: 'statistics',
+      name: i18n.t('dop:statistics'),
+    },
   ];
 };
 

@@ -523,6 +523,29 @@ const IssueMetaFields = React.forwardRef(
               {...iterationUpdate}
             />
           ),
+          extraContent: (
+            <IterationFiedExtra
+              onCancel={() => {
+                setIterationUpdate((prev) => ({ ...prev, visible: false }));
+              }}
+              onOk={() => {
+                updateIncludeIssue({
+                  issueId: formData.id,
+                  updateFields: [
+                    {
+                      updateType: 'REPLACE',
+                      field: 'iterationID',
+                      value: { content: +iterationUpdate.id },
+                    },
+                  ],
+                }).then(() => {
+                  getIssueRelation.fetch({ issueId: formData.id });
+                });
+                setIterationUpdate((prev) => ({ ...prev, visible: false }));
+              }}
+              {...iterationUpdate}
+            />
+          ),
         },
       ]),
       {
