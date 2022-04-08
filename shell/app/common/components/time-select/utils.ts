@@ -43,11 +43,11 @@ export const relativeTimeRange = {
   'months:3': i18n.t('last {amount} {unit}', { amount: 3, unit: i18n.t('months') }),
   'months:6': i18n.t('last {amount} {unit}', { amount: 6, unit: i18n.t('months') }),
   today: i18n.t('today'),
-  yesterday: i18n.t('yesterday'),
-  currentWeek: i18n.t('current week'),
-  lastWeek: i18n.t('last week'),
-  currentMonth: i18n.t('current month'),
-  lastMonth: i18n.t('last month'),
+  yesterday: i18n.t('Yesterday'),
+  currentWeek: i18n.t('This week'),
+  lastWeek: i18n.t('Last week'),
+  currentMonth: i18n.t('This month'),
+  lastMonth: i18n.t('Last month'),
 };
 
 export const autoRefreshDuration = {

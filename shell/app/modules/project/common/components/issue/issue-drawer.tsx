@@ -212,7 +212,7 @@ export const IssueDrawer = (props: IProps) => {
                   <If condition={editMode}>
                     <WithAuth pass={canCreate}>
                       <Popover
-                        title={i18n.t('dop:copy issue')}
+                        title={i18n.t('dop:Copy issue')}
                         visible={showCopy}
                         onVisibleChange={(v) => setShowCopy(v)}
                         content={
@@ -231,7 +231,7 @@ export const IssueDrawer = (props: IProps) => {
                                   setShowCopy(false);
                                 }}
                               >
-                                {i18n.t('cancel')}
+                                {i18n.t('Cancel')}
                               </Button>
                               <Button
                                 onClick={() => {
@@ -245,7 +245,7 @@ export const IssueDrawer = (props: IProps) => {
                                 }}
                                 type="primary"
                               >
-                                {i18n.t('copy')}
+                                {i18n.t('Copy')}
                               </Button>
                             </div>
                           </>
@@ -290,7 +290,7 @@ export const IssueDrawer = (props: IProps) => {
                   {formField !== IssueDrawer.Empty && <Anchor.Link href="#field" title={i18n.t('dop:Basic')} />}
                   {descField !== IssueDrawer.Empty && <Anchor.Link href="#desc" title={i18n.t('dop:Content')} />}
                   {inclusionField !== IssueDrawer.Empty && (
-                    <Anchor.Link href="#inclusion" title={i18n.t('dop:Inclusion')} />
+                    <Anchor.Link href="#inclusion" title={i18n.t('dop:Contain')} />
                   )}
                   {relationField !== IssueDrawer.Empty && (
                     <Anchor.Link href="#relation" title={i18n.t('dop:Reference')} />

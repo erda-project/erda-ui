@@ -21,8 +21,8 @@ import { CaseTree } from '../../components';
 import { TestOperation } from '../../constants';
 
 const titleMap = {
-  [TestOperation.copy]: i18n.t('dop:copy to'),
-  [TestOperation.move]: i18n.t('dop:move to'),
+  [TestOperation.copy]: i18n.t('dop:Copy to'),
+  [TestOperation.move]: i18n.t('dop:Move to'),
   [TestOperation.recover]: i18n.t('dop:recover to'),
 };
 

@@ -108,17 +108,17 @@ export default function ScanRule(props: IProps) {
       width: 200,
     },
     {
-      title: i18n.t('description'),
+      title: i18n.t('Description'),
       dataIndex: 'metricKeyDesc',
     },
     {
-      title: i18n.t('comparison operator'),
+      title: i18n.t('Comparison operator'),
       dataIndex: 'operational',
       align: 'center',
       width: 176,
     },
     {
-      title: i18n.t('dop:access control value'),
+      title: i18n.t('dop:Access control value'),
       dataIndex: 'metricValue',
       align: 'center',
       width: 160,
@@ -158,17 +158,17 @@ export default function ScanRule(props: IProps) {
       width: 200,
     },
     {
-      title: i18n.t('description'),
+      title: i18n.t('Description'),
       dataIndex: 'metricKeyDesc',
     },
     {
-      title: i18n.t('comparison operator'),
+      title: i18n.t('Comparison operator'),
       dataIndex: 'operational',
       align: 'center',
       width: 176,
     },
     {
-      title: i18n.t('dop:access control value'),
+      title: i18n.t('dop:Access control value'),
       dataIndex: 'metricValue',
       width: 160,
       render: (item: string, record: SCAN_RULE.AppendedItem) => {
@@ -201,11 +201,11 @@ export default function ScanRule(props: IProps) {
       if (isEdit && record.id === currentId) {
         return [
           {
-            title: i18n.t('cancel'),
+            title: i18n.t('Cancel'),
             onClick: () => updater.isEdit(!isEdit),
           },
           {
-            title: i18n.t('save'),
+            title: i18n.t('Save'),
             onClick: async () => {
               const { id, description, valueType, decimalScale } = record;
               const isIllegal = checkRule([{ valueType, metricValue, decimalScale }]);
@@ -234,7 +234,7 @@ export default function ScanRule(props: IProps) {
                 noAuthTip={i18n.t('dop:Platform default rules. Please add custom rules if necessary.')}
                 pass={operationAuth && isHandle}
               >
-                <span>{i18n.t('edit')}</span>
+                <span>{i18n.t('Edit')}</span>
               </WithAuth>
             ),
             onClick: () => update({ isEdit: isHandle, currentId: record.id }),
@@ -384,7 +384,7 @@ export default function ScanRule(props: IProps) {
               updater.loading(false);
             }}
           >
-            {i18n.t('dop:add access control rules')}
+            {i18n.t('dop:Add Access Control Rule')}
           </Button>
         </WithAuth>
         {appendedRowKeys.length > 0 && (
@@ -409,7 +409,7 @@ export default function ScanRule(props: IProps) {
         width={800}
         visible={visible}
         destroyOnClose
-        title={i18n.t('dop:add access control rules')}
+        title={i18n.t('dop:Add Access Control Rule')}
         closable={false}
         afterClose={() => updater.visible(false)}
         okButtonProps={{ disabled: optionalRowKeys.length === 0 }}

@@ -61,7 +61,7 @@ const RdsAccount = () => {
       render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
     {
-      title: i18n.t('type'),
+      title: i18n.t('Type'),
       dataIndex: 'accountType',
       ellipsis: {
         showTitle: false,

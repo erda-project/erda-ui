@@ -31,25 +31,25 @@ export const getSubSiderInfoMap = () => {
     orgCenter: {
       menu: getOrgCenterMenu(),
       detail: {
-        displayName: i18n.t('orgCenter'),
+        displayName: i18n.t('Admin Center'),
       },
     },
     cmp: {
       menu: getCmpMenu(),
       detail: {
-        displayName: i18n.t('Cloud management'),
+        displayName: i18n.t('Cloud Management Platform'),
       },
     },
     dop: {
       menu: getDopMenu(),
       detail: {
-        displayName: i18n.t('dop'),
+        displayName: i18n.t('DevOps Platform'),
       },
     },
     msp: {
       menu: getMspMenu(),
       detail: {
-        displayName: i18n.t('msp'),
+        displayName: i18n.t('Microservice Platform'),
       },
     },
     ecp: {

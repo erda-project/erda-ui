@@ -80,7 +80,7 @@ const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
       dataIndex: 'name',
     },
     {
-      title: i18n.t('role'),
+      title: i18n.t('Role'),
       dataIndex: 'memberRoles',
       render: (text: string, record: IApplication) => {
         return (

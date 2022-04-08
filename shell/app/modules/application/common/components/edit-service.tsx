@@ -78,7 +78,7 @@ class EditService extends PureComponent<IEditServiceProps & FormProps, IFormComp
 
     const nameField = (
       <Item
-        label={i18n.t('service name')}
+        label={i18n.t('Service name')}
         name="name"
         initialValue={name}
         rules={[
@@ -183,7 +183,7 @@ class EditService extends PureComponent<IEditServiceProps & FormProps, IFormComp
       >
         <ObjectInput
           disabled={!editing}
-          label={i18n.t('dop:environment variable')}
+          label={i18n.t('dop:Environment Variable')}
           errorMessage={i18n.t('dop:environment variables cannot be empty')}
         />
       </Item>
@@ -235,7 +235,7 @@ class EditService extends PureComponent<IEditServiceProps & FormProps, IFormComp
     // })(<VolumesField required={false} label="持久化目录" placeholder="请输入文件目录" />);
 
     let imageField = (
-      <Item label={i18n.t('dop:image name')} name="image" initialValue={image}>
+      <Item label={i18n.t('dop:Image name')} name="image" initialValue={image}>
         <Input disabled={!editing} placeholder={i18n.t('dop:please enter the image name')} />
       </Item>
     );
@@ -257,7 +257,7 @@ class EditService extends PureComponent<IEditServiceProps & FormProps, IFormComp
         {imageField || editing ? imageField : null}
         {editing ? (
           <Button type="primary" ghost onClick={this.onSubmit}>
-            {i18n.t('save')}
+            {i18n.t('Save')}
           </Button>
         ) : null}
       </Form>

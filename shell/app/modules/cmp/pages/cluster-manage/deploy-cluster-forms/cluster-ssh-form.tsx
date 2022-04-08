@@ -21,7 +21,7 @@ export const ClusterSSHForm = ({ form, isReadonly, data, curRef }: IFormProps) =
   const formPrefix = 'config.ssh';
   const fieldsList = [
     {
-      label: i18n.t('port'),
+      label: i18n.t('Port'),
       name: `${formPrefix}.port`,
       initialValue: 22,
       rules: [{ ...regRulesMap.port }],
@@ -32,7 +32,7 @@ export const ClusterSSHForm = ({ form, isReadonly, data, curRef }: IFormProps) =
       initialValue: 'root',
     },
     {
-      label: i18n.t('password'),
+      label: i18n.t('Password'),
       name: `${formPrefix}.password`,
       itemProps: { placeholder: i18n.t('cmp:leave blank if a trust relationship has been established') },
       required: false,

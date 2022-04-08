@@ -32,11 +32,11 @@ import './index.scss';
 
 const chartConfig = [
   {
-    title: i18n.t('msp:throughput'),
+    title: i18n.t('msp:Throughput'),
     key: 'rps_chart',
   },
   {
-    title: i18n.t('response time'),
+    title: i18n.t('Response time'),
     key: 'avg_duration_chart',
   },
   {
@@ -44,7 +44,7 @@ const chartConfig = [
     key: 'http_code_chart',
   },
   {
-    title: i18n.t('msp:request error rate'),
+    title: i18n.t('msp:Request error rate'),
     key: 'error_rate_chart',
   },
 ];
@@ -125,25 +125,25 @@ const OverView = () => {
     return [
       {
         key: 'rps',
-        label: i18n.t('msp:average throughput'),
+        label: i18n.t('msp:Average throughput'),
         value: metric?.rps,
         unit: 'reqs/s',
       },
       {
         key: 'rt',
-        label: i18n.t('msp:average response time'),
+        label: i18n.t('msp:Average response time'),
         value: metric?.rt,
         unit: 'ms',
       },
       {
         key: 'error_rate',
-        label: i18n.t('msp:request error rate'),
+        label: i18n.t('msp:Request error rate'),
         value: metric?.error_rate,
         unit: '%',
       },
       {
         key: 'running',
-        label: i18n.t('msp:service instance'),
+        label: i18n.t('msp:Service instance'),
         value: metric?.running,
       },
     ];
@@ -168,11 +168,11 @@ const OverView = () => {
           ref={serviceTopologyRef}
         >
           <div className="h-12 flex justify-between items-center px-4 bg-white-02 text-white font-medium">
-            {i18n.t('msp:service topology')}
+            {i18n.t('msp:Service topology')}
             <Tooltip
               getPopupContainer={(e) => e.parentNode as HTMLElement}
               placement={isFullScreen ? 'bottomRight' : undefined}
-              title={isFullScreen ? i18n.t('exit full screen') : i18n.t('full screen')}
+              title={isFullScreen ? i18n.t('exit full screen') : i18n.t('Full screen')}
             >
               <ErdaIcon
                 onClick={handleScreen}
@@ -197,7 +197,7 @@ const OverView = () => {
       </Spin>
       <div className="bg-white">
         <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium mt-2">
-          {i18n.t('msp:service request overview')}
+          {i18n.t('msp:Service request overview')}
         </div>
         <div className="px-4 pt-1 pb-3">
           <Row gutter={8}>
@@ -229,7 +229,7 @@ const OverView = () => {
 
       <div className="bg-white">
         <div className="h-12 flex justify-start items-center px-4 bg-lotion text-default font-medium  mt-2 mb-1">
-          {i18n.t('msp:service invocation analysis')}
+          {i18n.t('msp:Service call analysis')}
         </div>
         {serviceId && tenantId ? (
           <DiceConfigPage

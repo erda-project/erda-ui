@@ -45,9 +45,9 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
     scope,
   } = props;
 
-  let title = i18n.t('dop:new node');
+  let title = i18n.t('dop:New node');
   if (!isCreate) {
-    title = `${editing ? i18n.t('edit') : i18n.t('common:view')} ${get(propsNodeData, 'alias') || ''}`;
+    title = `${editing ? i18n.t('Edit') : i18n.t('common:view')} ${get(propsNodeData, 'alias') || ''}`;
   }
   const [key, setKey] = React.useState(1);
   const [chosenKey, setChosenKey] = React.useState('addNode');
@@ -106,7 +106,7 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
             />
           </Tabs.TabPane>
           <Tabs.TabPane
-            tab={i18n.t('dop:node reference')}
+            tab={i18n.t('dop:Reference Node')}
             key="addCaseRef"
             disabled={!isCreate && chosenKey === 'addNode'}
           >

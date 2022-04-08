@@ -19,32 +19,32 @@ import i18n from 'i18n';
 export const ProblemTypeOptions = [
   {
     value: 'bug',
-    name: i18n.t('dop:code defect'),
+    name: i18n.t('dop:Code Bug'),
   },
   {
     value: 'vulnerability',
-    name: i18n.t('dop:code vulnerability'),
+    name: i18n.t('dop:Code Vulnerability'),
   },
   {
     value: 'codeSmell',
-    name: i18n.t('dop:code smell'),
+    name: i18n.t('dop:Code Smell'),
   },
 ];
 
 export const ProblemPriority = [
   {
     value: 'low',
-    name: i18n.t('dop:low'),
+    name: i18n.t('dop:Low'),
     color: 'tag-info',
   },
   {
     value: 'medium',
-    name: i18n.t('dop:medium'),
+    name: i18n.t('dop:Medium'),
     color: 'tag-warning',
   },
   {
     value: 'high',
-    name: i18n.t('dop:high'),
+    name: i18n.t('dop:High'),
     color: 'tag-danger',
   },
 ];
@@ -60,22 +60,22 @@ export const ProblemForm = ({
 }) => {
   const fieldsList = [
     {
-      label: i18n.t('dop:issue title'),
+      label: i18n.t('dop:Title-issue'),
       name: 'title',
     },
     {
-      label: i18n.t('dop:issue content'),
+      label: i18n.t('dop:Content-issue'),
       name: 'content',
       getComp: () => <MarkdownEditor />,
     },
     {
-      label: i18n.t('dop:issue type'),
+      label: i18n.t('dop:Type-issue'),
       name: 'type',
       type: 'select',
       options: ProblemTypeOptions,
     },
     {
-      label: i18n.t('dop:priority'),
+      label: i18n.t('dop:Priority'),
       name: 'priority',
       type: 'radioGroup',
       options: ProblemPriority,

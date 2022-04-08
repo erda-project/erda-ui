@@ -42,23 +42,23 @@ interface IProps {
 const defaultTabs = [
   {
     key: 'export',
-    text: i18n.t('export'),
+    text: i18n.t('Export'),
     disabled: false,
   },
   {
     key: 'import',
-    text: i18n.t('import'),
+    text: i18n.t('Import'),
     disabled: false,
   },
   {
     key: 'record',
-    text: i18n.t('record'),
+    text: i18n.t('Records'),
     disabled: false,
   },
 ];
 
 const ImportExport = (props: IProps) => {
-  const { testSetId, setShowRefresh, title = i18n.t('dop:export/import'), tabs = defaultTabs } = props;
+  const { testSetId, setShowRefresh, title = i18n.t('dop:Export/Import'), tabs = defaultTabs } = props;
   const getDefaultTabs = () => tabs.find((item) => !item.disabled)?.key || 'record';
 
   const [{ modalVis, tabValue }, updater, update] = useUpdate({
@@ -168,7 +168,7 @@ const Export = (props: ExportProps) => {
         </Space>
       </Radio.Group>
       <div className="flex-h-center justify-end mt-4">
-        <Button onClick={onClose}>{i18n.t('cancel')}</Button>
+        <Button onClick={onClose}>{i18n.t('Cancel')}</Button>
         <Button onClick={onExport} className="ml-2" type="primary">
           {i18n.t('ok')}
         </Button>
@@ -225,13 +225,13 @@ const Import = (props: ImportProps) => {
               <img src={EmptySVG} style={{ height: 80 }} />
               <div className="flex flex-col ml-2">
                 <span className="text-base font-medium text-default ">{i18n.t('dop:upload files')}</span>
-                <span className="text-xs text-default-6">{i18n.t('dop:click this area to browse and upload')}</span>
+                <span className="text-xs text-default-6">{i18n.t('dop:Click to browse and upload')}</span>
               </div>
             </div>
           </Upload>
         </div>
         <div className="flex flex-col mt-2">
-          1.{i18n.t('dop:currently supports importing Xmind and Excel files')}
+          1.{i18n.t('dop:Currently XMind and Excel files are supported')}
           <p className="my-3">
             &nbsp;&nbsp;{i18n.t('dop:if you need to import with Excel, please')}
             <a href={`/static/usecase_model_${locale}.xlsx`} className="text-purple-deep">
@@ -246,12 +246,12 @@ const Import = (props: ImportProps) => {
             </a>
             。
           </p>
-          <div className="">2.{i18n.t('dop:xmind-import-tip')}</div>
+          <div className="">2.{i18n.t('dop:The file will be imported based on the currently selected test set.')}</div>
         </div>
       </div>
 
       <div className="flex-h-center justify-end mt-4">
-        <Button onClick={onClose}>{i18n.t('cancel')}</Button>
+        <Button onClick={onClose}>{i18n.t('Cancel')}</Button>
         <Button onClick={importFile} disabled={!chosenFile} className="ml-2" type="primary">
           {i18n.t('ok')}
         </Button>
@@ -355,27 +355,27 @@ const Record = ({ testSetId, setShowRefresh }: { testSetId: number; setShowRefre
     },
     {
       dataIndex: 'type',
-      title: i18n.t('type'),
+      title: i18n.t('Type'),
       render: (val: string) => {
         const typeMap = {
-          import: i18n.t('import'),
-          export: i18n.t('export'),
+          import: i18n.t('Import'),
+          export: i18n.t('Export'),
         };
         return typeMap[val] || '-';
       },
     },
     {
       dataIndex: 'operatorID',
-      title: i18n.t('operator'),
+      title: i18n.t('Operator'),
       render: (val: string) => {
         const cU = userMap[val];
         return (
           <span>
             <Avatar size="small" src={cU?.avatar}>
-              {cU.nick ? getAvatarChars(cU.nick) : i18n.t('none')}
+              {cU.nick ? getAvatarChars(cU.nick) : i18n.t('None')}
             </Avatar>
             <span className="ml-0.5 mr-1" title={cU.name}>
-              {cU.nick || cU.name || val || i18n.t('common:none')}
+              {cU.nick || cU.name || val || i18n.t('common:None')}
             </span>
           </span>
         );
@@ -383,7 +383,7 @@ const Record = ({ testSetId, setShowRefresh }: { testSetId: number; setShowRefre
     },
     {
       dataIndex: 'createdAt',
-      title: i18n.t('time'),
+      title: i18n.t('Time'),
       render: (val: string) => (val ? moment(val).format('YYYY/MM/DD HH:mm:ss') : '-'),
     },
     {
@@ -404,7 +404,7 @@ const Record = ({ testSetId, setShowRefresh }: { testSetId: number; setShowRefre
             status: 'warning',
           },
           processing: {
-            text: i18n.t('processing'),
+            text: i18n.t('In Progress'),
             status: 'processing',
           },
         };
@@ -412,7 +412,7 @@ const Record = ({ testSetId, setShowRefresh }: { testSetId: number; setShowRefre
       },
     },
     {
-      title: i18n.t('description'),
+      title: i18n.t('Description'),
       dataIndex: 'description',
       key: 'description',
     },
@@ -423,7 +423,7 @@ const Record = ({ testSetId, setShowRefresh }: { testSetId: number; setShowRefre
       return record.apiFileUUID && ['success', 'fail'].includes(record.state)
         ? [
             {
-              title: i18n.t('download'),
+              title: i18n.t('Download'),
               onClick: () => {
                 window.open(`/api/files/${record.apiFileUUID}`);
               },

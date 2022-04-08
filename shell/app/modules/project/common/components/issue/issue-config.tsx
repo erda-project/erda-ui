@@ -73,31 +73,31 @@ export const ISSUE_ICON = {
 export const ISSUE_COMPLEXITY_MAP = {
   HARD: {
     value: 'HARD',
-    label: i18n.t('dop:complex'),
+    label: i18n.t('dop:Complex'),
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.complexity.HARD}
-        {i18n.t('dop:complex')}
+        {i18n.t('dop:Complex')}
       </div>
     ),
   },
   NORMAL: {
     value: 'NORMAL',
-    label: i18n.t('medium'),
+    label: i18n.t('Medium'),
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.complexity.NORMAL}
-        {i18n.t('medium')}
+        {i18n.t('Medium')}
       </div>
     ),
   },
   EASY: {
     value: 'EASY',
-    label: i18n.t('dop:easy'),
+    label: i18n.t('dop:Easy'),
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.complexity.EASY}
-        {i18n.t('dop:easy')}
+        {i18n.t('dop:Easy')}
       </div>
     ),
   },
@@ -106,12 +106,12 @@ export const ISSUE_COMPLEXITY_MAP = {
 export const BUG_SEVERITY_MAP = {
   FATAL: {
     value: 'FATAL',
-    label: `P0 ${i18n.t('dop:severity-fatal')}`,
+    label: `P0 ${i18n.t('dop:Fatal')}`,
     icon: ISSUE_ICON.severity.FATAL,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.severity.FATAL}
-        {i18n.t('dop:severity-fatal')}
+        {i18n.t('dop:Fatal')}
       </div>
     ),
   },
@@ -128,34 +128,34 @@ export const BUG_SEVERITY_MAP = {
   },
   NORMAL: {
     value: 'NORMAL',
-    label: `P2 ${i18n.t('dop:normal')}`,
+    label: `P2 ${i18n.t('dop:Normal')}`,
     icon: ISSUE_ICON.severity.NORMAL,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.severity.NORMAL}
-        {i18n.t('dop:normal')}
+        {i18n.t('dop:Normal')}
       </div>
     ),
   },
   SLIGHT: {
     value: 'SLIGHT',
-    label: `P3 ${i18n.t('dop:slight')}`,
+    label: `P3 ${i18n.t('dop:Slight')}`,
     icon: ISSUE_ICON.severity.SLIGHT,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.severity.SLIGHT}
-        {i18n.t('dop:slight')}
+        {i18n.t('dop:Slight')}
       </div>
     ),
   },
   SUGGEST: {
     value: 'SUGGEST',
-    label: `P4 ${i18n.t('dop:suggest')}`,
+    label: `P4 ${i18n.t('dop:Suggestion')}`,
     icon: ISSUE_ICON.severity.SUGGEST,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.severity.SUGGEST}
-        {i18n.t('dop:suggest')}
+        {i18n.t('dop:Suggestion')}
       </div>
     ),
   },
@@ -186,12 +186,12 @@ export const ISSUE_TYPE_MAP = {
   },
   BUG: {
     value: 'BUG',
-    label: i18n.t('bug'),
+    label: i18n.t('Bug'),
     icon: ISSUE_ICON.issue.BUG,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.issue.BUG}
-        {i18n.t('bug')}
+        {i18n.t('Bug')}
       </div>
     ),
   },
@@ -208,12 +208,12 @@ export const ISSUE_TYPE_MAP = {
   },
   EPIC: {
     value: 'EPIC',
-    label: i18n.t('dop:milestone'),
+    label: i18n.t('dop:Milestone'),
     icon: ISSUE_ICON.issue.EPIC,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.issue.EPIC}
-        {i18n.t('dop:milestone')}
+        {i18n.t('dop:Milestone')}
       </div>
     ),
   },
@@ -233,34 +233,34 @@ export const ISSUE_PRIORITY_MAP = {
   },
   HIGH: {
     value: 'HIGH',
-    label: i18n.t('high'),
+    label: i18n.t('High'),
     icon: ISSUE_ICON.priority.HIGH,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.priority.HIGH}
-        {i18n.t('high')}
+        {i18n.t('High')}
       </div>
     ),
   },
   NORMAL: {
     value: 'NORMAL',
-    label: i18n.t('medium'),
+    label: i18n.t('Medium'),
     icon: ISSUE_ICON.priority.NORMAL,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.priority.NORMAL}
-        {i18n.t('medium')}
+        {i18n.t('Medium')}
       </div>
     ),
   },
   LOW: {
     value: 'LOW',
-    label: i18n.t('low'),
+    label: i18n.t('Low'),
     icon: ISSUE_ICON.priority.LOW,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.priority.LOW}
-        {i18n.t('low')}
+        {i18n.t('Low')}
       </div>
     ),
   },
@@ -282,15 +282,15 @@ export const TASK_PANEL_ICON = {
 };
 
 export const ISSUE_BUTTON_STATE = {
-  canOpen: { label: i18n.t('dop:open'), state: 'OPEN' },
+  canOpen: { label: i18n.t('dop:Enable'), state: 'OPEN' },
   canDup: { label: i18n.t('dop:duplicated'), state: 'DUP' },
   canReOpen: { label: i18n.t('dop:reopen'), state: 'REOPEN' },
   canResolved: { label: i18n.t('dop:resolved'), state: 'RESOLVED' },
   canTesting: { label: i18n.t('dop:testing'), state: 'TESTING' },
   canWontfix: { label: i18n.t("dop:won't fix"), state: 'WONTFIX' },
-  canWorking: { label: i18n.t('processing'), state: 'WORKING' },
+  canWorking: { label: i18n.t('In Progress'), state: 'WORKING' },
   canClosed: { label: i18n.t('close'), state: 'CLOSED' },
-  canDone: { label: i18n.t('dop:completed'), state: 'DONE' },
+  canDone: { label: i18n.t('dop:Completed'), state: 'DONE' },
 };
 
 export const EDIT_PROPS = {
@@ -304,10 +304,10 @@ export const EDIT_PROPS = {
   },
   [ISSUE_TYPE.BUG]: {
     titlePlaceHolder: i18n.t('dop:input bug name'),
-    contentLabel: i18n.t('dop:bug description'),
+    contentLabel: i18n.t('dop:Description'),
   },
   [ISSUE_TYPE.TICKET]: {
-    titlePlaceHolder: i18n.t('dop:input ticket name'),
+    titlePlaceHolder: i18n.t('dop:Please enter the ticket name'),
     contentLabel: i18n.t('dop:ticket description'),
     panelTitle: i18n.t('dop:related task'),
   },
@@ -356,11 +356,11 @@ export const TASK_TYPE_OPTION = [
     value: 'implement',
   },
   {
-    name: i18n.t('deploy'),
+    name: i18n.t('Deployment'),
     value: 'deploy',
   },
   {
-    name: i18n.t('cmp:operator'),
+    name: i18n.t('cmp:Operator'),
     value: 'operator',
   },
 ];

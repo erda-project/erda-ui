@@ -51,7 +51,7 @@ const MachineOffLineModal = ({ visible, formData, onCancel, onSubmit = () => {} 
       name: 'ip',
     },
     {
-      label: i18n.t('password'),
+      label: i18n.t('Password'),
       name: 'password',
       itemProps: { type: 'password' },
     },

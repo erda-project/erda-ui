@@ -53,7 +53,7 @@ describe('ConfirmDelete', () => {
     expect(onConfirmFn).toHaveBeenCalled();
     fireEvent.click(wrapper.container.querySelector('.confirm-children')!);
     await waitFor(() => expect(wrapper.queryByText(title)).toBeInTheDocument());
-    fireEvent.click(screen.getByText('cancel'));
+    fireEvent.click(screen.getByText('Cancel'));
     expect(onCancelFn).toHaveBeenCalled();
   });
 });

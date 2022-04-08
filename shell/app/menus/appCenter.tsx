@@ -21,8 +21,8 @@ export const appList: () => LAYOUT.IApp[] = () =>
       {
         key: 'dop',
         icon: 'DevOps-entry',
-        name: i18n.t('dop'),
-        breadcrumbName: i18n.t('dop'),
+        name: i18n.t('DevOps Platform'),
+        breadcrumbName: i18n.t('DevOps Platform'),
         path: (params: any, routes: any[]): string => {
           // in order to show xxx list when click 工作台 in none apps pages
           let path;
@@ -46,23 +46,23 @@ export const appList: () => LAYOUT.IApp[] = () =>
       {
         key: 'msp',
         icon: 'MSP-entry',
-        name: i18n.t('msp'),
-        breadcrumbName: i18n.t('msp'),
+        name: i18n.t('Microservice Platform'),
+        breadcrumbName: i18n.t('Microservice Platform'),
         href: goTo.resolve.mspRootOverview(),
       },
       {
         key: 'cmp',
         icon: 'CMP-entry',
-        name: i18n.t('Cloud management'),
-        breadcrumbName: i18n.t('Cloud management'),
+        name: i18n.t('Cloud Management Platform'),
+        breadcrumbName: i18n.t('Cloud Management Platform'),
         href: goTo.resolve.cmpRoot(),
       },
       ...insertWhen(!process.env.FOR_COMMUNITY, [
         {
           key: 'fdp',
           icon: 'FDP-entry',
-          name: i18n.t('Fast data'),
-          breadcrumbName: i18n.t('Fast data'),
+          name: i18n.t('Fast Data Platform'),
+          breadcrumbName: i18n.t('Fast Data Platform'),
           href: goTo.resolve.dataAppEntry(),
         },
       ]),
@@ -76,8 +76,8 @@ export const appList: () => LAYOUT.IApp[] = () =>
       {
         key: 'orgCenter',
         icon: 'control-entry',
-        name: i18n.t('orgCenter'),
-        breadcrumbName: i18n.t('orgCenter'),
+        name: i18n.t('Admin Center'),
+        breadcrumbName: i18n.t('Admin Center'),
         href: goTo.resolve.orgCenterRoot(),
       },
     ],

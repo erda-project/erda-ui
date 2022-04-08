@@ -77,7 +77,7 @@ const RepoBranch = () => {
                 <div className="branch-item-left">
                   <div className="font-medium flex items-center text-base mb-3">
                     {isProtect ? (
-                      <Tooltip title={i18n.t('protected branch')}>
+                      <Tooltip title={i18n.t('Branch protection')}>
                         <ErdaIcon size="22" type="baohu" />
                       </Tooltip>
                     ) : (
@@ -108,7 +108,7 @@ const RepoBranch = () => {
                 </div>
                 <div className="branch-item-right flex">
                   <Button className="mr-3" disabled={info.isLocked} onClick={() => goToCompare(name)}>
-                    {i18n.t('compare')}
+                    {i18n.t('Compare')}
                   </Button>
                   <DeleteConfirm
                     title={i18n.t('common:confirm to delete {name} ?', {
@@ -139,7 +139,7 @@ const RepoBranch = () => {
                         }}
                       >
                         <Menu.Item key="setDefault" disabled={!curAuth || info.isLocked || isDefault}>
-                          {i18n.t('dop:set as default')}
+                          {i18n.t('dop:Set as default')}
                         </Menu.Item>
                       </Menu>
                     }
@@ -163,7 +163,7 @@ const RepoBranch = () => {
 const BranchTagEntry = () => {
   const tabs = [
     { value: 'branches', label: i18n.t('dop:branches'), Comp: RepoBranch },
-    { value: 'tags', label: i18n.t('dop:tags'), Comp: RepoTag },
+    { value: 'tags', label: i18n.t('dop:Label'), Comp: RepoTag },
   ];
   const [tab, setTab] = React.useState(tabs[0]);
   const Content = tab.Comp;

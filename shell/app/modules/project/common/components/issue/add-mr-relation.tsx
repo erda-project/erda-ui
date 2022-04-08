@@ -112,17 +112,17 @@ export const useAddMrRelation = ({
       width: 64,
     },
     {
-      title: i18n.t('title'),
+      title: i18n.t('Title'),
       dataIndex: 'title',
       width: 240,
     },
     {
-      title: i18n.t('creator'),
+      title: i18n.t('Creator'),
       dataIndex: ['authorUser', 'id'],
       render: (id: string) => <UserInfo.RenderWithAvatar id={id} />,
     },
     {
-      title: i18n.t('created at'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createdAt',
       render: (item: string) => moment(item).format('YYYY/MM/DD HH:mm:ss'),
     },
@@ -141,10 +141,10 @@ export const useAddMrRelation = ({
           {
             key: 'query',
             type: 'input',
-            label: i18n.t('title'),
+            label: i18n.t('Title'),
             fixed: true,
             showIndex: 1,
-            placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+            placeholder: i18n.t('filter by {name}', { name: i18n.t('Title') }),
           },
           {
             label: i18n.t('application'),
@@ -153,7 +153,7 @@ export const useAddMrRelation = ({
             options: appList.map((a) => ({ label: a.name, value: a.id })),
             haveFilter: true,
             fixed: true,
-            emptyText: i18n.t('dop:all'),
+            emptyText: i18n.t('dop:All'),
             showIndex: 2,
             required: true,
             placeholder: i18n.t('dop:search by application name'),
@@ -166,13 +166,13 @@ export const useAddMrRelation = ({
             type: 'select',
             key: 'state',
             options: [
-              { label: i18n.t('dop:all'), value: 'all' },
-              { label: i18n.t('dop:open'), value: 'open' },
-              { label: i18n.t('dop:closed'), value: 'closed' },
-              { label: i18n.t('dop:merged'), value: 'merged' },
+              { label: i18n.t('dop:All'), value: 'all' },
+              { label: i18n.t('dop:Enable'), value: 'open' },
+              { label: i18n.t('dop:Closed'), value: 'closed' },
+              { label: i18n.t('dop:Merged'), value: 'merged' },
             ],
             fixed: true,
-            emptyText: i18n.t('dop:all'),
+            emptyText: i18n.t('dop:All'),
             showIndex: 3,
             customProps: {
               mode: 'single',
@@ -181,8 +181,8 @@ export const useAddMrRelation = ({
           {
             key: 'authorId',
             type: 'memberSelector',
-            label: i18n.t('dop:creator'),
-            emptyText: i18n.t('dop:all'),
+            label: i18n.t('dop:Creator'),
+            emptyText: i18n.t('dop:All'),
             fixed: true,
             showIndex: 5,
             customProps: {

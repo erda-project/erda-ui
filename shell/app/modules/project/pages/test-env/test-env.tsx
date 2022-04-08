@@ -84,24 +84,24 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
       [
         ...insertWhen(testType === 'manual', [
           {
-            title: i18n.t('dop:environment name'),
+            title: i18n.t('dop:Environment name'),
             dataIndex: 'name',
             width: 300,
           },
           {
-            title: i18n.t('dop:environmental domain name'),
+            title: i18n.t('dop:Environmental domain name'),
             dataIndex: 'domain',
             render: (text: string) => text || '--',
           },
         ]),
         ...insertWhen(testType === 'auto', [
           {
-            title: i18n.t('name'),
+            title: i18n.t('Name'),
             dataIndex: 'displayName',
             width: 300,
           },
           {
-            title: i18n.t('description'),
+            title: i18n.t('Description'),
             dataIndex: 'desc',
           },
         ]),
@@ -113,7 +113,7 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
     render: (record: TEST_ENV.Item) => {
       return [
         {
-          title: i18n.t('edit'),
+          title: i18n.t('Edit'),
           onClick: () => handleOpenDetail(record, true),
         },
         {

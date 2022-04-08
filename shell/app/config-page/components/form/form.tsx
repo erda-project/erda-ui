@@ -93,7 +93,7 @@ export const Form = (props: CP_FORM.Props) => {
               )}
               {operations?.cancel && (
                 <Button className="ml-2" onClick={onCancel}>
-                  {i18n.t('cancel')}
+                  {i18n.t('Cancel')}
                 </Button>
               )}
             </div>
@@ -108,7 +108,7 @@ export const Form = (props: CP_FORM.Props) => {
           )}
           {operations?.cancel && (
             <OperationAction onClick={onCancel} operation={operations.cancel}>
-              <Button className="ml-2">{i18n.t('cancel')}</Button>
+              <Button className="ml-2">{i18n.t('Cancel')}</Button>
             </OperationAction>
           )}
         </div>

@@ -64,7 +64,7 @@ const PipelineDetail = (props: IProps) => {
             addDrawerProps={addDrawerProps}
           />
         </Tabs.TabPane>
-        <Tabs.TabPane tab={i18n.t('execute detail')} key={'runDetail'}>
+        <Tabs.TabPane tab={i18n.t('Execution Details')} key={'runDetail'}>
           <PipelineRunDetail scope={scope} key={caseId} runKey={runKey} />
         </Tabs.TabPane>
       </Tabs>

@@ -34,7 +34,7 @@ export default ({ visible, onSearch, onClose }: IProps) => {
   const filterList: any[] = [
     {
       type: 'select',
-      label: i18n.t('dop:priority'),
+      label: i18n.t('dop:Priority'),
       name: 'priority',
       value: query.priority,
       options: priorityList.map((v) => ({ name: v, value: v })),
@@ -51,7 +51,7 @@ export default ({ visible, onSearch, onClose }: IProps) => {
     {
       type: 'custom',
       name: 'updaterID',
-      label: i18n.t('dop:updater'),
+      label: i18n.t('dop:Updated by'),
       value: query.updaterID,
       Comp: (
         <MemberSelector
@@ -66,7 +66,7 @@ export default ({ visible, onSearch, onClose }: IProps) => {
     {
       type: 'custom',
       name: 'updateTime',
-      label: i18n.t('update time'),
+      label: i18n.t('Update time'),
       value: query.timestampSecUpdatedAtBegin
         ? [moment(query.timestampSecUpdatedAtBegin * 1000), moment(query.timestampSecUpdatedAtEnd * 1000)]
         : [],
@@ -80,7 +80,7 @@ export default ({ visible, onSearch, onClose }: IProps) => {
       {
         type: 'custom',
         name: 'executorID',
-        label: i18n.t('dop:executor'),
+        label: i18n.t('dop:Executor'),
         value: query.executorID,
         Comp: (
           <MemberSelector
@@ -99,10 +99,10 @@ export default ({ visible, onSearch, onClose }: IProps) => {
         placeholder: i18n.t('dop:unlimited'),
         mode: 'multiple',
         options: [
-          { value: CaseStatus.INIT, name: i18n.t('dop:not performed') },
+          { value: CaseStatus.INIT, name: i18n.t('dop:Not executed') },
           { value: CaseStatus.PASSED, name: i18n.t('passed') },
-          { value: CaseStatus.FAIL, name: i18n.t('dop:not passed') },
-          { value: CaseStatus.BLOCK, name: i18n.t('dop:blocking') },
+          { value: CaseStatus.FAIL, name: i18n.t('dop:Not passed') },
+          { value: CaseStatus.BLOCK, name: i18n.t('dop:Blocked') },
         ],
         value: query.execStatus,
       },

@@ -81,7 +81,7 @@ const CaseFooter = ({ scope, caseList, editMode, onClose, onOk }: IProps) => {
   }
   return (
     <>
-      <Button onClick={onClose}>{i18n.t('cancel')}</Button>
+      <Button onClick={onClose}>{i18n.t('Cancel')}</Button>
       <Button
         className="ml-3"
         type="primary"
@@ -90,7 +90,7 @@ const CaseFooter = ({ scope, caseList, editMode, onClose, onOk }: IProps) => {
           onOk(false);
         }}
       >
-        {i18n.t('dop:save and continue adding')}
+        {i18n.t('dop:Save and Add')}
       </Button>
       <Button
         className="ml-3"
@@ -99,7 +99,7 @@ const CaseFooter = ({ scope, caseList, editMode, onClose, onOk }: IProps) => {
           onOk(true);
         }}
       >
-        {i18n.t('save')}
+        {i18n.t('Save')}
       </Button>
     </>
   );

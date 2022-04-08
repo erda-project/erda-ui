@@ -144,7 +144,7 @@ export const IssueItem = (props: IIssueProps) => {
     iteration: {
       Comp: (
         <div className="w-20 mr-2 truncate">
-          {iterationID === -1 ? i18n.t('dop:backlog') : iterationList?.find((item) => item.id === iterationID)?.title}
+          {iterationID === -1 ? i18n.t('dop:Backlog') : iterationList?.find((item) => item.id === iterationID)?.title}
         </div>
       ),
       show: showIteration,
@@ -267,7 +267,7 @@ interface IIssueFormProps {
 const placeholderMap = {
   REQUIREMENT: i18n.t('input {name} title', { name: i18n.t('requirement') }),
   TASK: i18n.t('input {name} title', { name: i18n.t('task') }),
-  BUG: i18n.t('input {name} title', { name: i18n.t('bug') }),
+  BUG: i18n.t('input {name} title', { name: i18n.t('Bug') }),
 };
 
 export const IssueForm = (props: IIssueFormProps) => {
@@ -360,10 +360,10 @@ export const IssueForm = (props: IIssueFormProps) => {
           onChange={(v) => updater.assignee(v)}
         />
         <Button type="primary" size="small" onClick={onAdd} className="h-6 leading-4" disabled={!formData.title}>
-          {i18n.t('save')}
+          {i18n.t('Save')}
         </Button>
         <Button size="small" onClick={onCancel} className="h-6 leading-4">
-          {i18n.t('cancel')}
+          {i18n.t('Cancel')}
         </Button>
       </div>
     </div>

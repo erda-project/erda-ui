@@ -97,10 +97,10 @@ const WorkflowStateForm = React.forwardRef(({ issueType, onOk, onCancel }: IWork
       </div>
       <div className="table-operations ml-2 mt-2">
         <span className="table-operations-btn" onClick={onAdd}>
-          {i18n.t('save')}
+          {i18n.t('Save')}
         </span>
         <span className="table-operations-btn" onClick={onCancel}>
-          {i18n.t('cancel')}
+          {i18n.t('Cancel')}
         </span>
       </div>
     </div>

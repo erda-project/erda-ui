@@ -45,13 +45,13 @@ export const getInfoBlock = (fieldsList: IInfoBlockField[], data: any) => {
               <div className="nowrap">
                 {item.viewType === 'image' ? (
                   <Avatar shape="square" src={val} size={100}>
-                    {i18n.t('none')}
+                    {i18n.t('None')}
                   </Avatar>
                 ) : item.viewType === 'images' ? (
                   map(val, (url) => (
                     <span key={url} className="mr-2">
                       <Avatar shape="square" src={url} size={100}>
-                        {i18n.t('none')}
+                        {i18n.t('None')}
                       </Avatar>
                     </span>
                   ))
@@ -81,12 +81,12 @@ export const ArtifactsInfo = ({ data }: { data: PUBLISHER.IArtifacts }) => {
       name: 'displayName',
     },
     {
-      label: i18n.t('type'),
+      label: i18n.t('Type'),
       name: 'type',
       render: (val: string) => get(ArtifactsTypeMap, `${val}.name`),
     },
     {
-      label: i18n.t('description'),
+      label: i18n.t('Description'),
       name: 'desc',
     },
     {
@@ -117,12 +117,12 @@ export const ArtifactsInfo = ({ data }: { data: PUBLISHER.IArtifacts }) => {
     {
       label: i18n.t('publisher:jail break control'),
       name: 'noJailbreak',
-      render: (val: boolean) => (val ? i18n.t('enable') : i18n.t('disable')),
+      render: (val: boolean) => (val ? i18n.t('Enable') : i18n.t('disable')),
     },
     {
       label: i18n.t('publisher:geographical fence control'),
       name: 'isGeofence',
-      render: (val: boolean) => (val ? i18n.t('enable') : i18n.t('disable')),
+      render: (val: boolean) => (val ? i18n.t('Enable') : i18n.t('disable')),
     },
   ];
 

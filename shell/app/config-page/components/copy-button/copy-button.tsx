@@ -25,7 +25,7 @@ const CopyButton: React.FC<CP_COPY_BUTTON.Props> = (props) => {
 
   const children =
     renderType === 'button' ? (
-      <Button type="primary">{buttonText || i18n.t('copy')}</Button>
+      <Button type="primary">{buttonText || i18n.t('Copy')}</Button>
     ) : renderType === 'icon' ? (
       <ErdaIcon type="copy" className="hover:text-primary" size={16} />
     ) : (

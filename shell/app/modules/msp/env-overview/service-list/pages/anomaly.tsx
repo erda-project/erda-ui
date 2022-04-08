@@ -25,7 +25,7 @@ import NoServicesHolder from 'msp/env-overview/service-list/pages/no-services-ho
 
 const sortList = [
   {
-    name: i18n.t('msp:last trigger time'),
+    name: i18n.t('msp:Last trigger time'),
     value: 'time',
   },
   {

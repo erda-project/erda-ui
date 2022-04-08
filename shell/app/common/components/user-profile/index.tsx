@@ -37,7 +37,7 @@ const UserProfile = ({ data, className = '' }: UserProfileProps) => {
   const loginUser = userStore.useStore((s) => s.loginUser);
   const { name, avatar, id, email, phone, lastLoginTime } = data;
   const infoList = [
-    ['youxiang', i18n.t('email'), email],
+    ['youxiang', i18n.t('Email'), email],
     ['shouji', i18n.t('cellphone'), phone],
     ['shijian-2', i18n.t('last login time'), lastLoginTime && moment(lastLoginTime).format('YYYY-MM-DD HH:mm:hh')],
   ];
@@ -57,7 +57,7 @@ const UserProfile = ({ data, className = '' }: UserProfileProps) => {
         onClick={() => window.open(loginUser.isNewUser ? UC_USER_SETTINGS : erdaEnv.UC_PUBLIC_URL)}
       >
         <Avatar src={avatar} size={64} alt="user-avatar">
-          {name ? getAvatarChars(name) : i18n.t('none')}
+          {name ? getAvatarChars(name) : i18n.t('None')}
         </Avatar>
         <div className="truncate mt-2 font-medium text-lg">{name}</div>
         <div className="truncate text-xs text-desc">{id}</div>

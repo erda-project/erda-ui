@@ -197,7 +197,7 @@ const CaseTable = ({
     if (nameColumn) {
       Object.assign(nameColumn, {
         // title: <ChooseTitle mode={mode} />,
-        title: <span>{i18n.t('dop:use case title')}</span>,
+        title: <span>{i18n.t('dop:Use case title')}</span>,
         render: (name: string, record: any) => {
           const obj = {
             children: <Ellipsis className="font-bold" title={name} />,

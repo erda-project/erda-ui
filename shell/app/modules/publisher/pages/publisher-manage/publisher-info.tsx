@@ -49,7 +49,7 @@ export const PublisherInfo = ({
       title: i18n.t('basic information'),
       titleOperate: (
         <Button type="primary" ghost onClick={openFormModal}>
-          {i18n.t('edit')}
+          {i18n.t('Edit')}
         </Button>
       ),
       children: <ReadonlyForm fieldsList={getPublisherFieldsList()} data={data} />,

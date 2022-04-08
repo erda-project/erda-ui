@@ -165,7 +165,7 @@ const RepoFileContainerComp = (props: IProps) => {
 
     if (editFile) {
       return (
-        <Tooltip title={i18n.t('cancel')}>
+        <Tooltip title={i18n.t('Cancel')}>
           <ErdaIcon
             className="cursor-pointer"
             width="20"
@@ -206,7 +206,7 @@ const RepoFileContainerComp = (props: IProps) => {
             </Button>
           </ButtonGroup>
           <IF check={!binary}>
-            <Tooltip title={info.isLocked ? i18n.t('dop:lock-operation-tip') : i18n.t('edit')}>
+            <Tooltip title={info.isLocked ? i18n.t('dop:lock-operation-tip') : i18n.t('Edit')}>
               <div className="mt-1 mr-3">
                 <ErdaIcon
                   fill="black-4"

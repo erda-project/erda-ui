@@ -118,19 +118,19 @@ IProps) => {
   const instanceTypeColMap = {
     job: [
       {
-        title: i18n.t('task ID'),
+        title: i18n.t('ID'),
         dataIndex: 'jobId',
         render: (id: string) => <Tooltip title={id}>{id || '--'}</Tooltip>,
       },
     ],
     service: [
       {
-        title: i18n.t('service name'),
+        title: i18n.t('Service name'),
         dataIndex: 'serviceName',
         render: (name: string) => <Tooltip title={name}>{name || '--'}</Tooltip>,
       },
       {
-        title: i18n.t('service position'),
+        title: i18n.t('Position'),
         dataIndex: 'projectName',
         render: (_: any, { projectName, applicationName, runtimeName }: any) => (
           <Tooltip
@@ -145,7 +145,7 @@ IProps) => {
     ],
     all: [
       {
-        title: i18n.t('image'),
+        title: i18n.t('Image'),
         key: 'image',
         dataIndex: 'image',
         width: 400,
@@ -157,7 +157,7 @@ IProps) => {
             <Tooltip title={`${i18n.t('click to copy')}：${image}`} overlayClassName="tooltip-word-break">
               <span
                 className="image-name for-copy-image"
-                data-clipboard-tip={i18n.t('image name')}
+                data-clipboard-tip={i18n.t('Image name')}
                 data-clipboard-text={image}
               >
                 {getImageText(image)}
@@ -171,7 +171,7 @@ IProps) => {
 
   const cols = [
     // {
-    //   title: i18n.t('host IP'),
+    //   title: i18n.t('Host IP'),
     //   dataIndex: 'hostIP',
     //   render: (ip: string, record: any) => (ip ? <span className="hover-text" onClick={() => { onClickMachine({ ip, clusterName: record.clusterName }); }}>{ ip }</span> : '--'),
     // },

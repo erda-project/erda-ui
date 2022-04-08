@@ -20,7 +20,7 @@ describe('EmptyHolder', () => {
     const action = <div>action</div>;
     const wrapper = render(<EmptyHolder action={action} />);
     expect(wrapper.getAllByText(`action`).length).toBe(1);
-    expect(wrapper.getAllByText(`no data`).length).toBe(1);
+    expect(wrapper.getAllByText(`No data`).length).toBe(1);
     wrapper.rerender(<EmptyHolder icon={<div className="icon-wrapper" />} />);
     expect(wrapper.container.querySelectorAll(`.icon-wrapper`).length).toBe(1);
   });

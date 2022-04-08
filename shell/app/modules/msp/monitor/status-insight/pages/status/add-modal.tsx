@@ -319,7 +319,7 @@ const AddModal = (props: IProps) => {
       },
     },
     {
-      label: i18n.t('msp:checking method'),
+      label: i18n.t('msp:Checking method'),
       name: 'mode',
       type: 'radioGroup',
       options: [
@@ -331,7 +331,7 @@ const AddModal = (props: IProps) => {
       initialValue: 'http',
     },
     {
-      label: i18n.t('name'),
+      label: i18n.t('Name'),
       name: 'name',
     },
     {
@@ -449,7 +449,7 @@ const AddModal = (props: IProps) => {
                   <Radio value={'raw'}>raw</Radio>
                 </Radio.Group>
                 {bodyType === noneType ? (
-                  <div className="p-6 text-center">{i18n.t('dop:the current request has no body')}</div>
+                  <div className="p-6 text-center">{i18n.t('dop:No body in the current request')}</div>
                 ) : null}
                 {bodyType === formType ? (
                   <div className="mt-4">
@@ -539,8 +539,12 @@ const AddModal = (props: IProps) => {
             </span>
             <div className={`p-2.5 mt-2 h-full ${showMore ? '' : 'hidden'}`}>
               <div className="flex">
-                <h4 className="mb-2">{i18n.t('msp:anomaly check')}</h4>
-                <Tooltip title={i18n.t('msp:exception check prompt')}>
+                <h4 className="mb-2">{i18n.t('msp:Exception check')}</h4>
+                <Tooltip
+                  title={i18n.t(
+                    'msp:If the condition is met, it is an exception, and there is an OR relationship between multiple conditions.',
+                  )}
+                >
                   <ErdaIcon type="help" size="14" className="ml-1 mb-2" />
                 </Tooltip>
               </div>
@@ -570,7 +574,7 @@ const AddModal = (props: IProps) => {
                             className="mr-2"
                           >
                             <Option value="http_code">{i18n.t('cmp:state code')}</Option>
-                            <Option value="body">{i18n.t('response body')}</Option>
+                            <Option value="body">{i18n.t('Response body')}</Option>
                           </Select>
                           {item.key === 'http_code' ? (
                             <>
@@ -579,7 +583,7 @@ const AddModal = (props: IProps) => {
                                 style={{ width: 150 }}
                                 value={item?.operate}
                                 className="mr-2"
-                                placeholder={i18n.t('dop:compare')}
+                                placeholder={i18n.t('dop:Compare')}
                               >
                                 {map(OPERATORS, (value, key) => (
                                   <Option value={key}>{value}</Option>
@@ -598,7 +602,7 @@ const AddModal = (props: IProps) => {
                                 style={{ width: 150 }}
                                 value={item?.operate}
                                 className="mr-2"
-                                placeholder={i18n.t('dop:compare')}
+                                placeholder={i18n.t('dop:Compare')}
                               >
                                 {map(CONTAINS, (val, key) => (
                                   <Option value={key}>{val}</Option>
@@ -623,9 +627,9 @@ const AddModal = (props: IProps) => {
               </div>
 
               <Button ghost className="mt-4" size="small" type="primary" onClick={addItem}>
-                {i18n.t('common:add')}
+                {i18n.t('common:Add')}
               </Button>
-              <h4 className="mt-4 mb-3 text-sm">{i18n.t('msp:number of retries')}</h4>
+              <h4 className="mt-4 mb-3 text-sm">{i18n.t('msp:Number of retries')}</h4>
               <InputNumber
                 precision={0}
                 value={retry}
@@ -634,7 +638,7 @@ const AddModal = (props: IProps) => {
                 defaultValue={2}
                 onChange={(v) => updater.retry(v)}
               />
-              <h4 className="mt-5 mb-3 text-sm">{i18n.t('msp:monitoring frequency')}</h4>
+              <h4 className="mt-5 mb-3 text-sm">{i18n.t('msp:Monitoring frequency')}</h4>
               <Select
                 style={{ width: 100 }}
                 onChange={(v) => {
@@ -661,7 +665,7 @@ const AddModal = (props: IProps) => {
       ref={formRef}
       className="h-4/5"
       width={620}
-      title={formData ? i18n.t('msp:edit monitoring') : i18n.t('msp:add monitoring')}
+      title={formData ? i18n.t('msp:edit monitoring') : i18n.t('msp:Add Monitoring')}
       fieldsList={fieldsList}
       visible={modalVisible}
       formData={formData}

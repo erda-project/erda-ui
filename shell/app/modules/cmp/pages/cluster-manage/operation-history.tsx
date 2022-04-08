@@ -85,12 +85,12 @@ export const OperationHistory = () => {
       width: 96,
     },
     {
-      title: i18n.t('cluster name'),
+      title: i18n.t('Cluster name'),
       dataIndex: 'clusterName',
       width: 120,
     },
     {
-      title: `${i18n.t('operation')}${i18n.t('name')}`,
+      title: `${i18n.t('operation')}${i18n.t('Name')}`,
       dataIndex: 'recordType',
       width: 160,
       render: (val: string) => {
@@ -111,7 +111,7 @@ export const OperationHistory = () => {
       },
     },
     {
-      title: i18n.t('time'),
+      title: i18n.t('Time'),
       dataIndex: 'createTime',
       width: 200,
       render: (createTime: string) => {
@@ -170,7 +170,7 @@ export const OperationHistory = () => {
               {
                 name: 'clusterName',
                 type: 'select',
-                placeholder: i18n.t('cmp:please select cluster'),
+                placeholder: i18n.t('cmp:Please select the cluster'),
                 options: map(clusterList, (c) => ({ name: c.name, value: c.name })),
                 style: { width: '260px' },
                 mode: 'multiple',
@@ -179,7 +179,7 @@ export const OperationHistory = () => {
               {
                 name: 'recordType',
                 type: 'select',
-                placeholder: i18n.t('cmp:please select operation type'),
+                placeholder: i18n.t('cmp:Please select the operation type'),
                 allowClear: true,
                 mode: 'multiple',
                 options: map(operationTypes, (o) => ({ name: o.recordType, value: o.rawRecordType })),
@@ -221,8 +221,8 @@ export const OperationLog = ({
 
   const switchLog = (
     <Switch
-      checkedChildren={i18n.t('error')}
-      unCheckedChildren={i18n.t('standard')}
+      checkedChildren={i18n.t('Error')}
+      unCheckedChildren={i18n.t('Standard')}
       checked={state.isStdErr}
       onChange={updater.isStdErr}
     />

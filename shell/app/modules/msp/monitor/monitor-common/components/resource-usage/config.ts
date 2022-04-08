@@ -38,7 +38,7 @@ const chartConfig = (api?: string) => {
         if (limit) {
           finalData.lines = [
             {
-              name: i18n.t('msp:memory usage limit'),
+              name: i18n.t('msp:Memory usage limit'),
               value: find(limit.data, (num) => num !== 0) || 0,
             },
           ];
@@ -67,7 +67,7 @@ const chartConfig = (api?: string) => {
       dataHandler: multipleDataHandler(['diffps.blk_read_bytes', 'diffps.blk_write_bytes']),
       moduleName: 'machineUnit',
       groupId: 'machineUnitChart',
-      titleText: i18n.t('disk'),
+      titleText: i18n.t('Disk'),
       chartName: 'container_io',
       viewProps: { unitType: 'TRAFFIC', rightUnitType: 'TRAFFIC', isTwoYAxis: true },
     },
@@ -77,7 +77,7 @@ const chartConfig = (api?: string) => {
       dataHandler: multipleDataHandler(['diffps.rx_bytes', 'diffps.tx_bytes']),
       moduleName: 'machineUnit',
       groupId: 'machineUnitChart',
-      titleText: i18n.t('network'),
+      titleText: i18n.t('Network'),
       chartName: 'container_net',
       viewProps: { unitType: 'TRAFFIC', rightUnitType: 'TRAFFIC', isTwoYAxis: true },
     },

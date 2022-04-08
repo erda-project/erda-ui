@@ -111,7 +111,7 @@ const Kanban = (props: CP_KANBAN.Props) => {
               />
               <div className="flex justify-between items-center">
                 <Button onClick={hideAdd} className="mr-2">
-                  {i18n.t('cancel')}
+                  {i18n.t('Cancel')}
                 </Button>
                 <Button onClick={doAdd} type="primary">
                   {i18n.t('ok')}

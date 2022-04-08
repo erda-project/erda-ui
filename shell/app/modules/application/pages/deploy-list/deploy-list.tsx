@@ -46,7 +46,7 @@ export enum APPROVE_TYPE {
 export const approvalStatusMap = {
   WaitApprove: { name: i18n.t('pending approval'), value: 'WaitApprove' },
   Accept: { name: i18n.t('passed'), value: 'Accept' },
-  Reject: { name: i18n.t('rejected'), value: 'Reject' },
+  Reject: { name: i18n.t('Rejected'), value: 'Reject' },
 };
 
 const fields = [
@@ -92,7 +92,7 @@ const PureDeployList = (props: IProps) => {
       width: 64,
     },
     {
-      title: i18n.t('project/application/branch'),
+      title: i18n.t('Project/App/Branch'),
       dataIndex: 'projectName',
       width: 240,
       render: (projectName: string, record: DEPLOY.IDeploy) => {
@@ -101,7 +101,7 @@ const PureDeployList = (props: IProps) => {
       },
     },
     {
-      title: i18n.t('approval content'),
+      title: i18n.t('Approval content'),
       dataIndex: 'approvalContent',
       render: (item: string) => <Tooltip title={item}>{item}</Tooltip>,
     },
@@ -121,7 +121,7 @@ const PureDeployList = (props: IProps) => {
     },
     ...(insertWhen(type === APPROVE_TYPE.approve, [
       {
-        title: i18n.t('applicant'),
+        title: i18n.t('Applicant'),
         dataIndex: 'operator',
         width: 120,
         render: (val: string) => {
@@ -132,7 +132,7 @@ const PureDeployList = (props: IProps) => {
     ]) as Array<ColumnProps<DEPLOY.IDeploy>>),
     ...(insertWhen(type === APPROVE_TYPE.initiate && status === 'WaitApprove', [
       {
-        title: i18n.t('approver'),
+        title: i18n.t('Approver'),
         dataIndex: 'approver',
         render: (val: string[]) => {
           const approver = (val || []).map((item) => {
@@ -153,7 +153,7 @@ const PureDeployList = (props: IProps) => {
   const actionMap = {
     approve: {
       approved: {
-        title: i18n.t('cmp:approval result'),
+        title: i18n.t('cmp:Approve result'),
         dataIndex: 'approvalStatus',
         width: 160,
         render: (val: string) => (approvalStatusMap[val] || {}).name,
@@ -221,7 +221,7 @@ const PureDeployList = (props: IProps) => {
           type: MemberSelector,
           name: 'operator',
           customProps: {
-            placeholder: i18n.t('filter by {name}', { name: i18n.t('applicant') }),
+            placeholder: i18n.t('filter by {name}', { name: i18n.t('Applicant') }),
             scopeType: 'org',
             size: 'small',
           },
@@ -231,7 +231,7 @@ const PureDeployList = (props: IProps) => {
         type: LoadMoreSelector,
         name: 'projectId',
         customProps: {
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('project name') }),
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('Project name') }),
           allowClear: true,
           getData: getProjectListData,
         },

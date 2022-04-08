@@ -68,7 +68,7 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
             onClick={() => this.props.popSlideComp()}
           />
           &nbsp;
-          {i18n.t('deployment log')}
+          {i18n.t('Deployment log')}
         </span>
       ),
     });
@@ -129,8 +129,8 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
     const { isStdErr } = this.state;
     const switchLog = (
       <Switch
-        checkedChildren={i18n.t('error')}
-        unCheckedChildren={i18n.t('standard')}
+        checkedChildren={i18n.t('Error')}
+        unCheckedChildren={i18n.t('Standard')}
         checked={isStdErr}
         onChange={this.toggleLogName}
       />

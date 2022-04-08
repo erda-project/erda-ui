@@ -19,12 +19,12 @@ const projectSettingTabs = () => [
   {
     key: 'info',
     breadcrumbName: '{projectName}',
-    name: i18n.t('dop:project info'),
+    name: i18n.t('dop:Project Information'),
   },
   {
     key: 'member',
     breadcrumbName: '{projectName}',
-    name: i18n.t('dop:project member'),
+    name: i18n.t('dop:Project Member'),
   },
 ];
 
@@ -38,7 +38,7 @@ const marketTabs = () => {
     },
     {
       key: 'certificate',
-      name: i18n.t('layout:certificate'),
+      name: i18n.t('layout:Certificate'),
       show: orgPerm.orgCenter.viewCertificate.pass,
     },
   ];
@@ -79,7 +79,7 @@ function getOrgCenterRouter(): RouteConfigItem[] {
                 // },
                 {
                   path: 'measure',
-                  breadcrumbName: i18n.t('dop:efficiency measure'),
+                  breadcrumbName: i18n.t('dop:Efficiency'),
                   routes: [
                     {
                       path: 'bug',
@@ -145,12 +145,12 @@ function getOrgCenterRouter(): RouteConfigItem[] {
         },
         {
           path: 'safety',
-          breadcrumbName: i18n.t('cmp:audit log'),
+          breadcrumbName: i18n.t('cmp:Audit Log'),
           getComp: (cb) => cb(import('app/modules/org/pages/safety')),
         },
         {
           path: 'approval',
-          breadcrumbName: i18n.t('cmp:approval'),
+          breadcrumbName: i18n.t('cmp:Approval'),
           ignoreTabQuery: true,
           getComp: (cb) => cb(import('app/modules/org/pages/approval')),
           layout: { noWrapper: true },
@@ -162,7 +162,7 @@ function getOrgCenterRouter(): RouteConfigItem[] {
             {
               path: 'detail',
               layout: { fullHeight: true },
-              breadcrumbName: i18n.t('org setting'),
+              breadcrumbName: i18n.t('Settings-org'),
               getComp: (cb) => cb(import('app/modules/org/pages/setting/org-setting'), 'OrgSetting'),
             },
           ],

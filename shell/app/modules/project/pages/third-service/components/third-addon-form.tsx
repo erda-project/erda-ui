@@ -55,7 +55,7 @@ const ThirdAddonForm = (props: IProps) => {
 
   const getFields = () => {
     const typeField = {
-      label: i18n.t('dop:third service'),
+      label: i18n.t('dop:Third service'),
       name: 'addonName',
       type: 'select',
       initialValue: editData ? editData.addonName : query.addon || null,
@@ -74,7 +74,7 @@ const ThirdAddonForm = (props: IProps) => {
         )),
     };
     const nameField = {
-      label: i18n.t('name'),
+      label: i18n.t('Name'),
       name: 'name',
       initialValue: editData ? editData.name || '' : null,
       itemProps: { disabled: editData !== null },
@@ -118,7 +118,7 @@ const ThirdAddonForm = (props: IProps) => {
     };
     const appendField = [
       {
-        label: i18n.t('dop:environments'),
+        label: i18n.t('dop:Environment'),
         name: 'workspace',
         itemProps: {
           disabled: editData !== null || query.addon === AddonType.APIGateway,

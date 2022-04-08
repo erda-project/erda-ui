@@ -91,7 +91,7 @@ export function ServiceNameSelect() {
 
   return (
     <div className="flex items-center service-name-select">
-      <div className="font-bold text-lg">{i18n.t('msp:service monitor')}</div>
+      <div className="font-bold text-lg">{i18n.t('msp:Service Monitoring')}</div>
       <span className="bg-black-2 mx-4 w-px h-3" />
       <div className="max-w-48">
         <LoadMoreSelector

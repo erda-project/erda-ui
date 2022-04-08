@@ -47,7 +47,7 @@ const ApiDocAddModal = (props: IProps) => {
       options: map(validBranchList, (branch: API_SETTING.IFileTree) => ({ name: branch.name, value: branch.inode })),
     },
     {
-      label: i18n.t('name'),
+      label: i18n.t('Name'),
       name: 'name',
       required: true,
       itemProps: {
@@ -61,7 +61,7 @@ const ApiDocAddModal = (props: IProps) => {
 
   return (
     <FormModal
-      title={i18n.t('dop:create document')}
+      title={i18n.t('dop:Create document')}
       fieldsList={treeFieldList}
       visible={visible}
       onOk={onSubmit}

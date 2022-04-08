@@ -98,25 +98,25 @@ const FileTree = (props: IProps) => {
     },
     ...insertWhen(node.key === rootNode?.key, [
       {
-        node: i18n.t('dop:paste'),
+        node: i18n.t('dop:Paste'),
         preset: 'paste',
       },
     ]),
     ...insertWhen(node.key !== rootNode?.key, [
       {
-        node: i18n.t('dop:rename'),
+        node: i18n.t('dop:Rename'),
         preset: 'renameFolder',
       },
       {
-        node: i18n.t('copy'),
+        node: i18n.t('Copy'),
         preset: 'copy',
       },
       {
-        node: i18n.t('dop:cut'),
+        node: i18n.t('dop:Cut'),
         preset: 'cut',
       },
       {
-        node: i18n.t('dop:paste'),
+        node: i18n.t('dop:Paste'),
         preset: 'paste',
       },
       {
@@ -124,7 +124,7 @@ const FileTree = (props: IProps) => {
         preset: 'delete',
       },
       // {
-      //   node: i18n.t('dop:add to test plan'),
+      //   node: i18n.t('dop:Add to Test Plan'),
       //   func: () => {},
       // },
     ]),
@@ -132,7 +132,7 @@ const FileTree = (props: IProps) => {
 
   const fileActions = [
     {
-      node: i18n.t('edit'),
+      node: i18n.t('Edit'),
       preset: 'customEdit',
       func: async (nodeKey: string, node: any, hook: any) => {
         showFormModal(node);
@@ -143,11 +143,11 @@ const FileTree = (props: IProps) => {
       },
     },
     {
-      node: i18n.t('copy'),
+      node: i18n.t('Copy'),
       preset: 'copy',
     },
     {
-      node: i18n.t('dop:cut'),
+      node: i18n.t('dop:Cut'),
       preset: 'cut',
     },
     {

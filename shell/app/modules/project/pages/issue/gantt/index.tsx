@@ -239,14 +239,14 @@ const IssuePlan = () => {
       const tabs = [
         {
           key: 'export',
-          text: i18n.t('export'),
+          text: i18n.t('Export'),
           disabled: !issuePerm.export.pass,
           tip: issuePerm.export.pass ? '' : i18n.t('common:no permission to operate'),
         },
 
         {
           key: 'record',
-          text: i18n.t('record'),
+          text: i18n.t('Records'),
           disabled: false,
         },
       ];
@@ -338,7 +338,7 @@ const IssuePlan = () => {
                     },
                   },
                   prefixIcon: 'ISSUE_ICON.issue.BUG',
-                  text: i18n.t('bug'),
+                  text: i18n.t('Bug'),
                 },
               ],
               operations: {
@@ -348,7 +348,7 @@ const IssuePlan = () => {
                 },
               },
               suffixIcon: 'di',
-              text: i18n.t('dop:create issue'),
+              text: i18n.t('dop:Add-item'),
               type: 'primary',
             },
             op: {

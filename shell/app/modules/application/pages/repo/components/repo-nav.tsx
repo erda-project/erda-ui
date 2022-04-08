@@ -44,7 +44,7 @@ const PureRepoNavOperation = () => {
     const initialBranch = getInfoFromRefName(info.refName).branch;
     const fieldsList = [
       {
-        label: i18n.t('dop:file directory'),
+        label: i18n.t('dop:File directory'),
         name: 'dirName',
         rules: [{ max: 255, message: i18n.t('dop:Up to 255 characters for directory name') }],
       },
@@ -127,10 +127,10 @@ const PureRepoNavOperation = () => {
       }}
     >
       <Menu.Item disabled={isLocked} key="file">
-        {i18n.t('dop:create new file')}
+        {i18n.t('dop:Add File')}
       </Menu.Item>
       <Menu.Item disabled={isLocked} key="folder">
-        {i18n.t('dop:create folder')}
+        {i18n.t('dop:Add Folder')}
       </Menu.Item>
     </Menu>
   );
@@ -140,7 +140,7 @@ const PureRepoNavOperation = () => {
       <IF check={isBranchTree && branchAuth}>
         <IF check={isInDiceDirectory(tree.path)}>
           <Button onClick={() => changeMode({ addFile: true, addFileName: 'pipelineYml' })}>
-            {i18n.t('dop:add pipeline')}
+            {i18n.t('dop:Add-pipeline')}
           </Button>
         </IF>
         <IF check={isRootPath}>
@@ -159,25 +159,25 @@ const PureRepoNavOperation = () => {
             </Button>
           ) : (
             <Button disabled={isLocked} onClick={() => changeMode({ addFile: true, addFileName: 'pipelineYml' })}>
-              {i18n.t('dop:add pipeline')}
+              {i18n.t('dop:Add-pipeline')}
             </Button>
           )}
         </IF>
         <Dropdown overlay={addMenu}>
           <Button className="ml-2 flex items-center">
-            {i18n.t('add')}
+            {i18n.t('Add')}
             <ErdaIcon type="caret-down" size="18" className="ml-1 hover" color="black-4" />
           </Button>
         </Dropdown>
         <IF.ELSE />
         <IF check={isRootPath && !hasPipeline}>
           <Tooltip title={disabledTips[0]}>
-            <Button disabled>{i18n.t('dop:add pipeline')}</Button>
+            <Button disabled>{i18n.t('dop:Add-pipeline')}</Button>
           </Tooltip>
         </IF>
         <Tooltip title={disabledTips[0]}>
           <Button className="ml-2 flex items-center" disabled>
-            {i18n.t('add')}
+            {i18n.t('Add')}
             <ErdaIcon type="caret-down" size="18" className="ml-1 hover" color="black-4" />
           </Button>
         </Tooltip>
@@ -185,7 +185,7 @@ const PureRepoNavOperation = () => {
 
       <FormModal
         width={620}
-        title={i18n.t('dop:create new folder')}
+        title={i18n.t('dop:Create folder')}
         fieldsList={getFieldsList()}
         visible={modalVisible}
         onOk={handleAdd}

@@ -23,8 +23,8 @@ export enum BASE_DATA_TYPE {
 }
 
 export const REQUIRED_OPTIONS = [
-  { name: i18n.t('common:yes'), value: true },
-  { name: i18n.t('common:no'), value: false },
+  { name: i18n.t('common:Yes'), value: true },
+  { name: i18n.t('common:No'), value: false },
 ];
 
 export const RADIO_OPTIONS = [
@@ -83,7 +83,7 @@ export enum API_WS_MSG_TYPE {
 
 export const LIST_TITLE_MAP = {
   RESOURCE: i18n.t('dop:API list'),
-  DATATYPE: i18n.t('dop:DATA TYPES'),
+  DATATYPE: i18n.t('dop:Data type'),
 };
 
 export const DEFAULT_TAG = 'other';

@@ -210,7 +210,7 @@ export const ResourceTrend = React.memo(
         label: i18n.t('project'),
         haveFilter: true,
         fixed: true,
-        emptyText: i18n.t('dop:all'),
+        emptyText: i18n.t('dop:All'),
         showIndex: 1,
         options: (projectList?.list || []).map((prj) => ({ label: prj.displayName || prj.name, value: prj.id })),
         customProps: {

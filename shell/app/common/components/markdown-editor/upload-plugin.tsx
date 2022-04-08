@@ -58,14 +58,14 @@ const UploadPlugin = (props: any) => {
   return (
     <Popover
       key="yf"
-      title={i18n.t('common:add annex')}
+      title={i18n.t('common:Add Attachment')}
       content={
         <div className="upload-plugin-menu">
           <Upload accept=".jpg, .jpeg, .png, .gif" {...getUploadProps(true)}>
-            <div className="upload-item hover-active-bg">{i18n.t('common:image upload')}</div>
+            <div className="upload-item hover-active-bg">{i18n.t('common:Upload Image')}</div>
           </Upload>
           <Upload {...getUploadProps()}>
-            <div className="upload-item hover-active-bg">{i18n.t('common:file upload')}</div>
+            <div className="upload-item hover-active-bg">{i18n.t('common:Upload File')}</div>
           </Upload>
         </div>
       }

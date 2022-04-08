@@ -131,22 +131,22 @@ export class LogRoller extends React.Component<IProps, IState> {
         <div className={`log-control log-top-controls ${extraButton ? '' : 'no-switch'}`}>
           {extraButton || null}
           {hasLogs && (
-            <Tooltip title={i18n.t('common:download log')}>
+            <Tooltip title={i18n.t('common:Download Log')}>
               <Button onClick={onShowDownloadModal} type="ghost">
-                {i18n.t('common:download log')}
+                {i18n.t('common:Download Log')}
               </Button>
             </Tooltip>
           )}
           <Button onClick={this.changeSize} type="ghost">
-            {fullScreen ? i18n.t('default:exit full screen') : i18n.t('default:full screen')}
+            {fullScreen ? i18n.t('default:exit full screen') : i18n.t('default:Full screen')}
           </Button>
         </div>
         <div className="log-control btn-line-rtl">
           <Button onClick={() => onGoToBottom()} type="ghost">
-            {i18n.t('back to bottom')}
+            {i18n.t('Back to Bottom')}
           </Button>
           <Button onClick={() => onGoToTop()} type="ghost">
-            {i18n.t('back to top')}
+            {i18n.t('Back to Top')}
           </Button>
           {!searchOnce && (
             <Button onClick={this.toggleRolling} type="ghost">

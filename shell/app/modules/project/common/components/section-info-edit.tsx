@@ -139,7 +139,7 @@ class SectionInfoEdit extends React.Component<IProps, IState> {
         desc,
         titleOperate: hasAuth ? (
           <Button type="primary" ghost onClick={this.toggleModal}>
-            {i18n.t('edit')}
+            {i18n.t('Edit')}
           </Button>
         ) : null,
         children: readonlyForm || this.getReadonlyInfo(),

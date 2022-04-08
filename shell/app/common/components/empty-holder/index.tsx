@@ -31,7 +31,7 @@ interface IEmptyProps {
 }
 export const EmptyHolder = ({
   icon = 'empty',
-  tip = i18n.t('common:no data'),
+  tip = i18n.t('common:No data'),
   desc,
   direction = 'col',
   relative = false,

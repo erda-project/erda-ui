@@ -27,9 +27,9 @@ import i18n from 'i18n';
 export const targetList = [
   { name: i18n.t('msp:user experience apdex'), key: 'apdex' },
   { name: i18n.t('msp:the whole page is loaded'), key: 'plt' },
-  { name: i18n.t('first paint time'), key: 'wst' },
-  { name: i18n.t('first contentful paint time'), key: 'fst' },
-  { name: i18n.t('msp:resource loading completed'), key: 'rct' },
+  { name: i18n.t('First Paint Time'), key: 'wst' },
+  { name: i18n.t('First Contentful Paint Time'), key: 'fst' },
+  { name: i18n.t('msp:Resource Loading Completed'), key: 'rct' },
   { name: i18n.t('page loading completed'), key: 'pct' },
 ];
 
@@ -38,7 +38,7 @@ export const featureList = [
   { name: i18n.t('msp:city'), key: 'city' },
   { name: i18n.t('msp:domain name'), key: 'host' },
   { name: i18n.t('msp:web transaction'), key: 'doc_path' },
-  { name: i18n.t('msp:system'), key: 'os' },
+  { name: i18n.t('msp:System'), key: 'os' },
   { name: i18n.t('msp:device'), key: 'device' },
   { name: i18n.t('msp:browser'), key: 'browser' },
 ];
@@ -116,7 +116,7 @@ const BIComparative = () => {
         <div className="selector-wrapper">
           <span>{i18n.t('msp:selector')}</span>
           <div className="analysis-selector">
-            <span>{i18n.t('msp:index')}</span>
+            <span>{i18n.t('msp:Index')}</span>
             <Select
               key="select-one"
               className="time-range-selector one"
@@ -175,7 +175,7 @@ const BIComparative = () => {
                               },
                               xAxis: [
                                 {
-                                  name: `${i18n.t('time')}(ms)`,
+                                  name: `${i18n.t('Time')}(ms)`,
                                   nameGap: -20,
                                 },
                               ],

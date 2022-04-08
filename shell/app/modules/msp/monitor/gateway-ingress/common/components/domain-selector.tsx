@@ -39,7 +39,7 @@ const DomainSelector = () => {
       value={chosenDomain}
       dropdownMatchSelectWidth={false}
       onChange={onChange}
-      placeholder={i18n.t('msp:please select a domain')}
+      placeholder={i18n.t('msp:Please choose the domain name')}
     >
       {map(domainList, (domain) => (
         <Option value={domain} key={domain}>

@@ -156,7 +156,7 @@ describe('ConfigurableFilter', () => {
   it('should work well with insideFields', async () => {
     const { result, rerender, filterFn, closeFn, openFilter, clearFn } = setUp({ zIndex: 10, hideSave: true });
     await openFilter();
-    fireEvent.click(result.getByText('cancel'));
+    fireEvent.click(result.getByText('Cancel'));
     await waitFor(() => expect(result.baseElement).isExitClass('.erda-configurable-filter', 'ant-popover-hidden'));
     expect(closeFn).toHaveBeenCalledTimes(1);
     await openFilter();
@@ -168,7 +168,7 @@ describe('ConfigurableFilter', () => {
     await waitFor(() => expect(result.baseElement).isExit('.ant-select-dropdown', 1));
     fireEvent.click(result.getByText('iteration-1.1'));
     await act(async () => {
-      fireEvent.click(result.getByText('filter', { selector: 'button span' }));
+      fireEvent.click(result.getByText('Filter', { selector: 'button span' }));
       await flushPromises();
     });
     expect(filterFn).toHaveBeenLastCalledWith({
@@ -244,7 +244,7 @@ describe('ConfigurableFilter', () => {
     fireEvent.change(result.getByPlaceholderText('search by keywords'), { target: { value: 'erda' } });
     fireEvent.click(result.getByText('new filter'));
     await waitFor(() => expect(result.baseElement).isExit('.erda-configurable-filter-add', 1));
-    fireEvent.click(result.getByText('cancel', { selector: '.erda-configurable-filter-add button span' }));
+    fireEvent.click(result.getByText('Cancel', { selector: '.erda-configurable-filter-add button span' }));
     expect(result.baseElement).isExitClass('.erda-configurable-filter-add', 'ant-popover-hidden');
     fireEvent.click(result.getByText('new filter'));
     expect(result.baseElement).not.isExitClass('.erda-configurable-filter-add', 'ant-popover-hidden');

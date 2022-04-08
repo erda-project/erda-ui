@@ -130,7 +130,7 @@ const JvmOverview = () => {
                 </p>
               ) : (
                 <p className="info-item">
-                  <span className="label">{`${i18n.t('common:end at')}: `}</span>
+                  <span className="label">{`${i18n.t('common:End time')}: `}</span>
                   <span className="value">{formatTime(finishTime, 'YYYY-MM-DD HH:mm:ss')}</span>
                 </p>
               )}

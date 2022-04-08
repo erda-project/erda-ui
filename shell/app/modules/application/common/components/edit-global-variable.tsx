@@ -91,7 +91,7 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormPr
         <div className="mt-3">
           {editing ? (
             <Button type="primary" ghost onClick={this.onSubmit}>
-              {i18n.t('save')}
+              {i18n.t('Save')}
             </Button>
           ) : null}
         </div>

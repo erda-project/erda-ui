@@ -258,7 +258,7 @@ export const getPreviewData = (d: {
       type: 'custom',
       dataIndex: '_fileDownLoad',
       props: {
-        title: i18n.t('download'),
+        title: i18n.t('Download'),
       },
     });
   }

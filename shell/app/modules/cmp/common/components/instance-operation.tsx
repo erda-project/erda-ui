@@ -72,7 +72,7 @@ export function useInstanceOperation<T extends Instance>({
       case OPERATION.CONSOLE: {
         update({
           visible: true,
-          slideTitle: i18n.t('console'),
+          slideTitle: i18n.t('Console'),
           content: (
             <Terminal
               containerId={record.containerId}
@@ -102,7 +102,7 @@ export function useInstanceOperation<T extends Instance>({
       case OPERATION.LOG: {
         update({
           visible: true,
-          slideTitle: i18n.t('cmp:container log'),
+          slideTitle: i18n.t('cmp:Container log'),
           content: <ContainerLog instance={{ ...record }} {...props} />,
         });
         break;
@@ -116,12 +116,12 @@ export function useInstanceOperation<T extends Instance>({
       <div className="table-operations">
         <IF check={_console}>
           <span className="table-operations-btn" onClick={() => openSlidePanel(OPERATION.CONSOLE, { ...record })}>
-            {i18n.t('console')}
+            {i18n.t('Console')}
           </span>
         </IF>
         <IF check={monitor}>
           <span className="table-operations-btn" onClick={() => openSlidePanel(OPERATION.MONITOR, { ...record })}>
-            {i18n.t('container monitor')}
+            {i18n.t('Container Monitoring')}
           </span>
         </IF>
         <IF check={log}>
