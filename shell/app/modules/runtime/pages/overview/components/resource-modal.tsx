@@ -106,7 +106,7 @@ const ResourceModal = ({ visible, service, editDisabled, onOk, onCancel }: IProp
   return (
     <FormModal
       width={800}
-      title={i18n.t('runtime:resource adjust')}
+      title={i18n.t('runtime:Adjust resources')}
       visible={visible}
       fieldsList={resourceFields}
       onOk={onSubmit}

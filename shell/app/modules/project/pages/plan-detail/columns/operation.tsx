@@ -54,7 +54,7 @@ const Operation = ({ record, afterDelete }: IProps) => {
           openEnvVariable({ envID: record.testCaseID, envType: 'case' });
         }}
       >
-        {i18n.t('runtime:environment variable configs')}
+        {i18n.t('runtime:Environment Variable Settings')}
       </span>
     </TableActions>
   );

@@ -125,7 +125,7 @@ const menuItemsMap = {
   normal: [
     ...referenceMenus,
     { key: TestOperation.plan, name: i18n.t('dop:Add to Test Plan') },
-    { key: TestOperation.env, name: i18n.t('runtime:environment variable configs') },
+    { key: TestOperation.env, name: i18n.t('runtime:Environment Variable Settings') },
   ],
   reference: referenceMenus,
   recycled: [

@@ -98,7 +98,7 @@ const IssueTypeManage = () => {
       updateInfo={getIssueTime}
       name={i18n.t('dop:Custom configuration of issue type')}
       desc={i18n.t(
-        'dop:mainly manage the custom configuration of issue field attributes and saved as the issue template configuration of the entire organization-level project.',
+        'dop:Mainly manages the configuration of issue attributes, saved as the issue template configuration for the entire organization-level project.',
       )}
     />
   );

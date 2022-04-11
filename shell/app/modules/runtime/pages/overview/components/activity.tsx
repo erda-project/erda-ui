@@ -106,7 +106,7 @@ const Activity = () => {
               <Tooltip title={name || ''}>
                 <span className="name text-base font-medium mr-2">{operatorName}</span>
               </Tooltip>
-              <Tooltip title={`${i18n.t('runtime:deployment time')}：${deployTime}`}>
+              <Tooltip title={`${i18n.t('runtime:Deployment time')}：${deployTime}`}>
                 <span className="start-time">{`${i18n.t('runtime:beginning to deploy')} ${fromNow}`}</span>
               </Tooltip>
             </div>
@@ -119,7 +119,7 @@ const Activity = () => {
         </div>
         <div className="status mt-2">
           {deployStatusCnMap[status]}
-          <span className="ml-2">{`${i18n.t('runtime:time consuming')} ${timeCost}`}</span>
+          <span className="ml-2">{`${i18n.t('runtime:Time')} ${timeCost}`}</span>
           <Tooltip title={activity.releaseId}>
             <span
               className="ml-2 cursor-pointer hover:text-purple-deep"

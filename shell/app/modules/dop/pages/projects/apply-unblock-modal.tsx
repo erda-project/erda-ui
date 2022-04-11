@@ -52,7 +52,7 @@ const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps)
       getComp: () => <AppSelector projectId={`${metaData.projectId}`} mode="multiple" />,
     },
     {
-      label: i18n.t('runtime:deployment time'),
+      label: i18n.t('runtime:Deployment time'),
       name: 'dataRange',
       getComp: () => (
         <RangePicker

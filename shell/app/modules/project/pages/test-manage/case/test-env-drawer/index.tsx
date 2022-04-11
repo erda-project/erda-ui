@@ -26,7 +26,7 @@ const TestEnvDrawer = (props: IProps) => {
   return (
     <Drawer
       destroyOnClose
-      title={`${i18n.t('runtime:environment variable configs')}（#${envID}）`}
+      title={`${i18n.t('runtime:Environment Variable Settings')}（#${envID}）`}
       width="50%"
       visible={!!envID}
       onClose={testEnvStore.closeEnvVariable}
