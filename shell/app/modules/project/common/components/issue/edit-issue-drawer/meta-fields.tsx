@@ -117,7 +117,7 @@ const IterationFiedExtra = (props: IterationExtraProps) => {
         i18n.t('dop:issue-iteration-update-tip-2'),
         <div className="flex-h-center">
           <Button type="primary" ghost size="small" onClick={onCancel}>
-            {i18n.t('cancel')}
+            {i18n.t('Cancel')}
           </Button>
           <Button size="small" className="ml-2" type="primary" onClick={onOk}>
             {i18n.t('dop:synchronize')}
