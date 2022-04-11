@@ -399,6 +399,7 @@ interface RouteConfigItem {
     use?: string;
     noWrapper?: boolean;
     hideSidebar?: boolean;
+    foldSidebar?: boolean;
     fullHeight?: boolean;
     hideHeader?: boolean;
   };
