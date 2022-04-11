@@ -127,7 +127,7 @@ const Activity = () => {
                 goTo(goTo.pages.applicationReleaseDetail, { projectId, releaseId: activity.releaseId, jumpOut: true })
               }
             >
-              releaseId: {activity.releaseId.substr(0, 6)}
+              {`${i18n.t('Artifacts')} ID`}: {activity.releaseId.substr(0, 6)}
             </span>
           </Tooltip>
         </div>
