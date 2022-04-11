@@ -117,30 +117,30 @@ const ServiceDropdown = (props: IProps) => {
     const ops = [
       ...insertWhen(hasDeployAuth, [
         {
-          title: i18n.t('runtime:scale out'),
+          title: i18n.t('runtime:Scale out'),
           onClick: () => {
             isOpsForbidden ? notify('warning', warningMsg) : updater.resourceVisible(true);
           },
         },
       ]),
       {
-        title: i18n.t('runtime:history'),
+        title: i18n.t('runtime:History'),
         onClick: () => openSlidePanel('record'),
       },
       {
-        title: i18n.t('runtime:internal address'),
-        onClick: () => showModalInfo(i18n.t('runtime:internal address'), vipContent),
+        title: i18n.t('runtime:Internal Address'),
+        onClick: () => showModalInfo(i18n.t('runtime:Internal Address'), vipContent),
       },
     ];
     envs &&
       ops.push({
-        title: i18n.t('runtime:environment variable'),
-        onClick: () => showModalInfo(i18n.t('runtime:environment variable'), envContent),
+        title: i18n.t('runtime:Environment Variable'),
+        onClick: () => showModalInfo(i18n.t('runtime:Environment Variable'), envContent),
       });
     isEndpoint &&
       hasDeployAuth &&
       ops.push({
-        title: i18n.t('runtime:manage domain'),
+        title: i18n.t('runtime:Manage Domain'),
         onClick: () => {
           if (isOpsForbidden) {
             notify('warning', warningMsg);

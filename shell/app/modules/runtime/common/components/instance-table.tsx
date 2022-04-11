@@ -90,7 +90,7 @@ const InstanceTable = ({
 
   const columns: Array<ColumnProps<{ [prop: string]: any }>> = [
     {
-      title: i18n.t('runtime:instance ip'),
+      title: i18n.t('runtime:Instance IP'),
       dataIndex: 'ipAddress',
       width: 120,
       render: (text: string, record: { [prop: string]: any }) => {
@@ -108,7 +108,7 @@ const InstanceTable = ({
       },
     },
     {
-      title: i18n.t('runtime:host address'),
+      title: i18n.t('runtime:Host address'),
       width: 120,
       dataIndex: 'host',
     },
@@ -141,7 +141,7 @@ const InstanceTable = ({
     <div className="instance-table">
       <div className={`header ${withHeader ? '' : 'hidden'}`}>
         <span className="font-medium">
-          {isServiceType ? i18n.t('runtime:service details') : i18n.t('runtime:task details')}
+          {isServiceType ? i18n.t('runtime:service details') : i18n.t('runtime:Task Details')}
         </span>
         <Select
           key={defaultValue}

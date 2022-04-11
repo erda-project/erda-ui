@@ -101,7 +101,7 @@ const PodTable = (props: IProps) => {
       width: 120,
     },
     {
-      title: i18n.t('runtime:message content'),
+      title: i18n.t('runtime:Message'),
       dataIndex: 'message',
     },
     {

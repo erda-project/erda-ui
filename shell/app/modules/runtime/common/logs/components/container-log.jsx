@@ -85,7 +85,7 @@ const getLogItem =
 
 const SecondLevelLogDrawer = ({ onClose, visible, query, logKey, style, extraButton }) => {
   return (
-    <Drawer title={i18n.t('runtime:container log')} visible={visible} destroyOnClose width="80%" onClose={onClose}>
+    <Drawer title={i18n.t('runtime:Container log')} visible={visible} destroyOnClose width="80%" onClose={onClose}>
       <LogRoller
         query={{ ...query, size: 500 }}
         logKey={logKey}

@@ -56,7 +56,7 @@ export default ({ visible, onClose }: { visible: boolean; onClose: (e?: any) => 
     width: 70,
     render: (record: any) => {
       const { outdated, status: depStatus } = record;
-      let title = i18n.t('runtime:rollback');
+      let title = i18n.t('runtime:Rollback');
       let disabled = false;
 
       if (depStatus !== 'OK') {
@@ -81,7 +81,7 @@ export default ({ visible, onClose }: { visible: boolean; onClose: (e?: any) => 
   };
 
   return (
-    <Drawer title={i18n.t('runtime:rollback history')} visible={visible} onClose={onClose} width="80%">
+    <Drawer title={i18n.t('runtime:Rollback history')} visible={visible} onClose={onClose} width="80%">
       <DeploymentTable
         dataSource={deploymentRecords}
         paging={paging}

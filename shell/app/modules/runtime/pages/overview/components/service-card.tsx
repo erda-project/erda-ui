@@ -42,9 +42,9 @@ const FORBIDDEN_STATUS_LIST = ['WAITING', 'DEPLOYING', 'CANCELING'];
 
 const titleMap = {
   monitor: i18n.t('Container Monitoring'),
-  log: i18n.t('runtime:container log'),
+  log: i18n.t('runtime:Container log'),
   terminal: i18n.t('Console'),
-  record: i18n.t('runtime:history'),
+  record: i18n.t('runtime:History'),
 };
 
 interface IProps {
@@ -422,7 +422,7 @@ const ServiceCard = (props: IProps) => {
         <div className="inner-content">
           <Tabs defaultActiveKey="service-details">
             <TabPane
-              tab={isServiceType ? i18n.t('runtime:service details') : i18n.t('runtime:task details')}
+              tab={isServiceType ? i18n.t('runtime:service details') : i18n.t('runtime:Task Details')}
               key="service-details"
             >
               <InstanceTable isFetching={isFetching} instances={instances} opsCol={opsCol} runtimeType={runtimeType} />

@@ -81,7 +81,7 @@ const DeployInfo = () => {
         <div onClick={confirmRedeploy}>{i18n.t('runtime:restart')}</div>
       </MenuItem>
       <MenuItem>
-        <div onClick={showSlidePanel}>{i18n.t('runtime:rollback')}</div>
+        <div onClick={showSlidePanel}>{i18n.t('runtime:Rollback')}</div>
       </MenuItem>
     </Menu>
   );
@@ -141,14 +141,14 @@ const DeployInfo = () => {
           <IF check={hasAuth}>
             <Dropdown overlay={menu} trigger={['click']} disabled={showCancelBtn || isBlocked}>
               <Button type="primary" disabled={showCancelBtn || isBlocked}>
-                {i18n.t('runtime:deployment operation')}
+                {i18n.t('runtime:Operation')}
                 <ErdaIcon type="down" />
               </Button>
             </Dropdown>
             <ELSE />
             <NoAuthTip>
               <Button type="primary">
-                {i18n.t('runtime:deployment operation')}
+                {i18n.t('runtime:Operation')}
                 <ErdaIcon type="down" />
               </Button>
             </NoAuthTip>
