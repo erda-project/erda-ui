@@ -15,7 +15,7 @@ import React from 'react';
 import { Avatar, Drawer, Tooltip } from 'antd';
 import moment from 'moment';
 import { map } from 'lodash';
-import { getAvatarChars, getDateDuration } from 'common/utils';
+import { getAvatarChars, getDateDuration, goTo } from 'common/utils';
 import { TimelineActivity } from 'project/common/components/activity';
 import { CompSwitcher, Copy } from 'common';
 import { useUpdate } from 'common/use-hooks';
@@ -47,7 +47,7 @@ interface DeployCardProps {
 const Activity = () => {
   const [deploymentList, paging] = runtimeStore.useStore((s) => [s.deploymentList, s.deploymentListPaging]);
   const slidePanelComps = commonStore.useStore((s) => s.slidePanelComps);
-  const { appId, runtimeId } = routeInfoStore.useStore((s) => s.params);
+  const { appId, runtimeId, projectId } = routeInfoStore.useStore((s) => s.params);
   const userMap = useUserMap();
   const [loading] = useLoading(runtimeStore, ['getDeploymentList']);
   const [{ visible, detailLogId }, updater, update] = useUpdate({
@@ -121,7 +121,12 @@ const Activity = () => {
           {deployStatusCnMap[status]}
           <span className="ml-2">{`${i18n.t('runtime:time consuming')} ${timeCost}`}</span>
           <Tooltip title={activity.releaseId}>
-            <span data-clipboard-text={activity.releaseId} className="ml-2 cursor-copy">
+            <span
+              className="ml-2 cursor-pointer hover:text-purple-deep"
+              onClick={() =>
+                goTo(goTo.pages.applicationReleaseDetail, { projectId, releaseId: activity.releaseId, jumpOut: true })
+              }
+            >
               releaseId: {activity.releaseId.substr(0, 6)}
             </span>
           </Tooltip>
