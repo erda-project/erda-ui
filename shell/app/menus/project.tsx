@@ -69,12 +69,12 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       subMenu: [
         {
           href: goTo.resolve.projectAutoTestCase(),
-          text: i18n.t('dop:Automated Testing'),
+          text: i18n.t('dop:API Testing'),
           prefix: `${goTo.resolve.projectAutoTestRoot()}/`,
         },
         {
           href: goTo.resolve.projectManualTestCase(),
-          text: i18n.t('dop:Manual Testing'),
+          text: i18n.t('dop:Function Testing'),
           prefix: `${goTo.resolve.projectManualTestRoot()}/`,
         },
         {
