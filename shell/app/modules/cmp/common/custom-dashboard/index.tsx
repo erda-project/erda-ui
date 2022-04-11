@@ -189,7 +189,7 @@ const CustomDashboardList = ({
       required: true,
       itemProps: {
         maxLength: 50,
-        placeholder: i18n.t('cmp:please input dashboard name'),
+        placeholder: i18n.t('cmp:Please enter the dashboard name'),
       },
     },
     {
@@ -198,7 +198,7 @@ const CustomDashboardList = ({
       required: false,
       itemProps: {
         maxLength: 200,
-        placeholder: i18n.t('cmp:please input dashboard description'),
+        placeholder: i18n.t('cmp:Please enter the dashboard description'),
       },
     },
     {
@@ -309,7 +309,7 @@ const CustomDashboardList = ({
           pageSize,
         }}
         onChange={({ current = 1, pageSize: size }) => {
-          _getCustomDashboard(current, size);
+          _getCustomDashboard(current, size, filterData);
         }}
         scroll={{ x: '100%' }}
         slot={slot}

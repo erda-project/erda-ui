@@ -286,7 +286,7 @@ const Export = (props: ExportProps) => {
       <div className="flex-h-center justify-end mt-4">
         <Button onClick={onClose}>{i18n.t('Cancel')}</Button>
         <Button onClick={onExport} className="ml-2" type="primary">
-          {i18n.t('OK')}
+          {i18n.t('common:OK')}
         </Button>
       </div>
     </div>
@@ -427,7 +427,7 @@ const Import = (props: ImportProps) => {
       <div className="flex-h-center justify-end mt-4">
         <Button onClick={onClose}>{i18n.t('Cancel')}</Button>
         <Button onClick={importFile} disabled={fileStatus !== 'done'} className="ml-2" type="primary">
-          {i18n.t('OK')}
+          {i18n.t('common:OK')}
         </Button>
       </div>
     </div>
@@ -525,19 +525,20 @@ const Record = ({
       title: i18n.t('Operator'),
       render: (val: string) => {
         const cU = userMap[Number(val)];
-        if (!val) {
-          return '-';
-        }
-        return (
-          <span>
-            <Avatar size="small" src={cU?.avatar}>
-              {cU.nick ? getAvatarChars(cU.nick) : i18n.t('None')}
-            </Avatar>
-            <span className="ml-0.5 mr-1" title={cU.name}>
-              {cU.nick || cU.name || val || i18n.t('None')}
+        if (val && cU) {
+          return (
+            <span>
+              <Avatar size="small" src={cU.avatar}>
+                {cU.nick ? getAvatarChars(cU.nick) : i18n.t('None')}
+              </Avatar>
+              <span className="ml-0.5 mr-1" title={cU.name}>
+                {cU.nick || cU.name || val || i18n.t('None')}
+              </span>
             </span>
-          </span>
-        );
+          );
+        }
+
+        return '-';
       },
     },
     {
