@@ -519,7 +519,6 @@ const BuildDetail = (props: IProps) => {
         </Tooltip>
       </div>
     );
-
     return (
       <IF check={canManualRun}>
         <IF check={startStatus !== 'unstart'}>

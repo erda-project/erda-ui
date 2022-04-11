@@ -19,26 +19,24 @@ import { ErdaIcon, ErdaAlert } from 'common';
 import { WithAuth } from 'app/user/common';
 import { Button, Tooltip, Spin } from 'antd';
 import Info from './info';
-import { getBranchPath } from 'application/pages/pipeline/config';
 import { DetailMode } from './index';
 import PipelineNode, { NodeSize } from './pipeline-node';
-import buildStore from 'application/stores/build';
+import { runPipeline } from 'project/services/pipeline';
 import i18n from 'i18n';
 
 interface IProps {
   pipelineFileDetail?: TREE.NODE;
-  pipelineDetail?: BUILD.IPipelineDetail;
   onUpdate: (ymlStr: string) => void;
+  pipelineDefinitionID: string;
   editAuth: boolean;
   deployAuth: boolean;
   projectId: string;
   loading?: boolean;
   mode?: 'file' | 'edit';
   fileChanged: boolean;
-  checkExecute: () => void;
+  switchToExecute: () => void;
   setEditMode: (v: Partial<DetailMode>) => void;
   setPipelineId: (v: string) => void;
-  appId: string;
   extraTitle: React.ReactNode;
   onCancel?: () => void;
 }
@@ -54,49 +52,59 @@ const Editor = (props: IProps) => {
   const {
     loading,
     pipelineFileDetail,
-    pipelineDetail,
     projectId,
     editAuth,
     onUpdate,
     mode,
-    checkExecute,
+    switchToExecute,
     deployAuth,
     fileChanged,
     setEditMode,
-    extraTitle,
-    appId,
+    extraTitle: propsExtraTitle,
+    pipelineDefinitionID,
     setPipelineId,
     onCancel,
   } = props;
-  const { addPipeline, runBuild: runBuildCall } = buildStore.effects;
   const curPipelineYml = get(pipelineFileDetail, 'meta.pipelineYml') || defaultPipelineYml;
   const ymlStr = isEmpty(pipelineFileDetail) ? '' : curPipelineYml;
   const [running, setRunning] = React.useState(false);
 
-  const { branch, path } = getBranchPath(pipelineFileDetail);
-
   const checkNewExecute = (v: string) => {
     setPipelineId(v);
-    checkExecute();
+    switchToExecute();
   };
 
   const runBuild = () => {
     setRunning(true);
-    const postData = {
-      appId,
-      branch,
-      pipelineYmlName: path,
-      pipelineYmlSource: 'gittar',
-      source: 'dice',
-    };
-    // create and run;
-    addPipeline(postData).then((res) => {
-      runBuildCall({ pipelineID: res.id }).then(() => {
+
+    runPipeline
+      .fetch({ pipelineDefinitionID, projectID: +projectId })
+      .then((res) => {
+        res.data?.pipeline?.id && checkNewExecute(res.data.pipeline.id);
+      })
+      .finally(() => {
         setRunning(false);
-        checkNewExecute(res.id);
       });
-    });
   };
+
+  const extraTitle = (
+    <div className="flex-h-center">
+      <WithAuth pass={deployAuth}>
+        <Tooltip title={i18n.t('Execute')}>
+          <ErdaIcon
+            size="20"
+            className="ml-2 cursor-pointer"
+            fill="black-4"
+            onClick={() => {
+              runBuild();
+            }}
+            type="play1"
+          />
+        </Tooltip>
+      </WithAuth>
+      {propsExtraTitle}
+    </div>
+  );
 
   return (
     <Spin spinning={running}>
@@ -105,7 +113,7 @@ const Editor = (props: IProps) => {
           message={
             <div>
               {`${i18n.t('dop:pipeline-changed-tip1')} `}
-              <span className="text-purple-deep cursor-pointer" onClick={checkExecute}>
+              <span className="text-purple-deep cursor-pointer" onClick={switchToExecute}>
                 {i18n.t('dop:the latest execution status')}
               </span>
             </div>
@@ -113,31 +121,7 @@ const Editor = (props: IProps) => {
           closeable={false}
         />
       ) : null}
-      <Info
-        info={pipelineFileDetail}
-        className="mb-2"
-        operations={mode === 'file' ? extraTitle : null}
-        // TODO: execute in editor, need new api;
-        // operations={
-        //   mode === 'file' ? (
-        //     <WithAuth pass={deployAuth}>
-        //       <Tooltip title={'执行'}>
-        //         <ErdaIcon
-        //           size="20"
-        //           className="mr-2"
-        //           fill="black-4"
-        //           onClick={() => {
-        //             runBuild();
-        //           }}
-        //           type="play1"
-        //         />
-        //       </Tooltip>
-        //     </WithAuth>
-        //   ) : (
-        //     <></>
-        //   )
-        // }
-      />
+      <Info info={pipelineFileDetail} className="mb-2" operations={mode === 'file' ? extraTitle : null} />
       <PipelineEditor
         ymlStr={ymlStr}
         editable={editAuth}
