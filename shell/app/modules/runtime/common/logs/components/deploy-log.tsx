@@ -123,7 +123,7 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
                     onClick={() => popSlideComp()}
                   />
                   &nbsp;
-                  {i18n.t('runtime:container log')}
+                  {i18n.t('runtime:Container log')}
                 </span>
               ),
             });

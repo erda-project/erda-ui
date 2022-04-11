@@ -200,7 +200,7 @@ const RuntimeOverView = () => {
           <ErrorBoundary>
             <IF check={!isEmpty(endpoints)}>
               <div className="overview-body-block">
-                <div className="overview-body-title">{i18n.t('runtime:endpoint')}</div>
+                <div className="overview-body-title">{i18n.t('runtime:Endpoint')}</div>
                 {map(endpoints, (service, key) => {
                   return (
                     <ServiceCard
@@ -236,7 +236,7 @@ const RuntimeOverView = () => {
             </IF>
             <IF check={!isEmpty(addons)}>
               <div className="overview-body-block">
-                <div className="overview-body-title">{i18n.t('runtime:service plugin')}</div>
+                <div className="overview-body-title">{i18n.t('runtime:Addon')}</div>
                 <Responsive itemWidth={260} percent={proportion[0] === 24 ? 1 : 0.66}>
                   {
                     map(addons, (item) => {
@@ -258,7 +258,7 @@ const RuntimeOverView = () => {
         </Col>
         <Col span={proportion[1]} style={{ paddingRight: 'unset' }}>
           <div className="overview-body-title">
-            <span className="align-middle">{i18n.t('runtime:activity')}</span>
+            <span className="align-middle">{i18n.t('runtime:Activity')}</span>
             <Tooltip title={i18n.t('runtime:folding')}>
               <Button
                 size="small"

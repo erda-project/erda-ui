@@ -121,7 +121,7 @@ const ProjectSettings = () => {
                 {
                   title: i18n.t('dop:Quality Access Control'),
                   desc: i18n.t(
-                    'dop:Code scanning configuration is mainly divided into rule configuration and code quality access control configuration. When the access control rules are met, it means that the code quality threshold cannot be passed.',
+                    'dop:The code scanning configuration is mainly to set rules and quality access control. If the access control rules are met, it means that the code quality failed.',
                   ),
                   children: (
                     <ScanRule
@@ -168,7 +168,7 @@ const ProjectSettings = () => {
                 {
                   title: i18n.t('dop:Manage all project labels'),
                   desc: i18n.t(
-                    'dop:Tags can be used for issue and test management, to quickly locate and filter relevant content.',
+                    'dop:Labels can be used in issue management and test management, to quickly locate and filter related content.',
                   ),
                   children: <ProjectLabel />,
                 },

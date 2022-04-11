@@ -154,7 +154,7 @@ const DomainModal = (props: IProps) => {
 
   return (
     <Modal
-      title={i18n.t('runtime:domain settings')}
+      title={i18n.t('runtime:Domain settings')}
       visible={visible}
       destroyOnClose
       onOk={saveConfig}
@@ -201,7 +201,7 @@ const DomainModal = (props: IProps) => {
                   </Col>
                 </Row>
                 <div className="custom-domain" key="custom">
-                  <span>{i18n.t('runtime:custom domain name')}:</span>
+                  <span>{i18n.t('runtime:Custom domain')}:</span>
                   <span className="add-domain-icon">
                     <ErdaIcon
                       type="add-one"
