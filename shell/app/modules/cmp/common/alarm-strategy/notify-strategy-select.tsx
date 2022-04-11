@@ -23,6 +23,7 @@ const { Option } = Select;
 interface IProps {
   id: string;
   handleEditNotifyStrategy: (id: string, item: { key: string; value: string }) => void;
+  current: COMMON_STRATEGY_NOTIFY.INotifyGroupNotify;
   valueOptions: Array<{ key: string; display: string }>;
   addNotificationGroupAuth: boolean;
   goToNotifyGroup: () => void;

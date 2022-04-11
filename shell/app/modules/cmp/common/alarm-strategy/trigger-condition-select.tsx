@@ -13,6 +13,7 @@
 import React from 'react';
 import { map } from 'lodash';
 import { ErdaIcon } from 'common';
+import { OperatorType } from 'cmp/common/alarm-strategy/strategy-form';
 import { Input, message, Select } from 'antd';
 import i18n from 'i18n';
 
@@ -21,16 +22,10 @@ const { Option } = Select;
 interface IProps {
   keyOptions: COMMON_STRATEGY_NOTIFY.IAlertTriggerCondition[];
   id: string;
-  current: {
-    id: string;
-    condition: string;
-    operator: string;
-    values: string;
-    valueOptions: Array<{ key: string; display: string }>;
-  };
+  current: COMMON_STRATEGY_NOTIFY.IAlertTriggerCondition;
   handleEditTriggerConditions: (id: string, data: { key: string; value: string }) => void;
   handleRemoveTriggerConditions: (id: string) => void;
-  operatorOptions: Array<{ key: string; display: string; type: 'input' | 'none' | 'multiple' | 'single' }>;
+  operatorOptions: Array<{ key: string; display: string; type: OperatorType }>;
   valueOptionsList: COMMON_STRATEGY_NOTIFY.IAlertTriggerConditionContent[];
 }
 

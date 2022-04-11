@@ -60,8 +60,9 @@ declare namespace COMMON_STRATEGY_NOTIFY {
     type: 'notify_group';
     groupId: string;
     groupType: string;
-    notifyGroup?: INotifyGroup;
+    notifyGroup: INotifyGroup;
     dingdingUrl?: string;
+    level?: string;
   }
 
   interface INotifyTarget {
@@ -160,5 +161,13 @@ declare namespace COMMON_STRATEGY_NOTIFY {
     condition: string;
     filters: object;
     index: string;
+  }
+
+  interface IAlertTriggerCondition {
+    id: string;
+    condition: string;
+    operator: string;
+    values: string;
+    valueOptions: Array<{ key: string; display: string }>;
   }
 }

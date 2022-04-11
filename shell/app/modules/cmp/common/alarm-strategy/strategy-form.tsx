@@ -33,7 +33,7 @@ import { ErdaIcon, RenderForm } from 'common';
 import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
-import { ColumnProps } from 'app/interface/common';
+import { ColumnProps } from 'common/components/table/interface';
 import i18n from 'i18n';
 import notifyGroupStore from 'application/stores/notify-group';
 import orgMemberStore from 'common/stores/org-member';
@@ -63,6 +63,13 @@ enum ScopeType {
 enum SilencePeriodType {
   FIXED = 'fixed',
   DOUBLED = 'doubled',
+}
+
+export enum OperatorType {
+  INPUT = 'input',
+  NONE = 'none',
+  MULTIPLE = 'multiple',
+  SINGLE = 'single',
 }
 
 const SILENCE_PERIOD_POLICY_MAP = {
@@ -108,37 +115,37 @@ const conditionOperatorOptions = [
   {
     key: 'eq',
     display: i18n.t('msp:equal'),
-    type: 'single',
+    type: OperatorType.SINGLE,
   },
   {
     key: 'neq',
     display: i18n.t('msp:not equal'),
-    type: 'single',
+    type: OperatorType.SINGLE,
   },
   {
     key: 'in',
     display: i18n.t('in'),
-    type: 'multiple',
+    type: OperatorType.MULTIPLE,
   },
   {
     key: 'notIn',
     display: i18n.t('not in'),
-    type: 'multiple',
+    type: OperatorType.MULTIPLE,
   },
   {
     key: 'match',
     display: i18n.t('msp:Match'),
-    type: 'input',
+    type: OperatorType.INPUT,
   },
   {
     key: 'notMatch',
     display: i18n.t('msp:Not match'),
-    type: 'input',
+    type: OperatorType.INPUT,
   },
   {
     key: 'all',
     display: i18n.t('msp:All'),
-    type: 'none',
+    type: OperatorType.NONE,
   },
 ];
 
@@ -152,7 +159,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
   const memberStore = memberStoreMap[scopeType];
   const params = routeInfoStore.useStore((s) => s.params);
   const { id: strategyId, projectId = '', terminusKey = '', orgName = '' } = params;
-  const [form] = Form.useForm();
+  const [strategyForm] = Form.useForm();
   const { getRoleMap } = memberStore.effects;
   const alarmStrategyStore = alarmStrategyStoreMap[scopeType];
   const [alertTypes, alertTriggerConditions, alertTriggerConditionsContent] = alarmStrategyStore.useStore((s) => [
@@ -191,14 +198,14 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     editingFormRule: {},
     activeGroupId: undefined,
     triggerConditionValueOptions: [],
-    triggerCondition: [],
+    triggerCondition: [] as unknown as COMMON_STRATEGY_NOTIFY.IAlertTriggerCondition[],
     notifies: [],
     notifyLevel: null,
     allChannelMethods: notifyChannelOptionsMap,
   });
 
   useMount(() => {
-    let payload = { scopeType, scopeId };
+    let payload = { scopeType, scopeId } as COMMON_NOTIFY.IGetNotifyGroupQuery;
     if (scopeType === ScopeType.MSP) {
       payload = {
         scopeType: commonPayload?.scopeType,
@@ -214,7 +221,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     getNotifyChannelMethods.fetch();
   });
 
-  React.useEffect(() => {
+  useMount(() => {
     if (strategyId) {
       getAlertDetail(Number(strategyId)).then(
         ({ name, clusterNames, appIds, rules, notifies, triggerCondition }: any) => {
@@ -225,12 +232,10 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
             appId: appIds || [],
             notifies,
           });
-          form.setFieldsValue({
+          strategyForm.setFieldsValue({
             name,
-            silence: notifies
-              ? `${notifies[0].silence.value}-${state.editingFormRule.notifies[0].silence.unit}`
-              : undefined,
-            silencePolicy: notifies ? `${state.editingFormRule.notifies[0].silence.policy}` : SilencePeriodType.FIXED,
+            silence: notifies ? `${notifies?.[0].silence.value}-${notifies?.[0].silence.unit}` : undefined,
+            silencePolicy: notifies ? `${notifies?.[0].silence.policy}` : SilencePeriodType.FIXED,
           });
           updater.editingRules(
             map(rules, (rule) => ({
@@ -242,7 +247,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
           updater.activeGroupId(notifies[0].groupId);
 
           updater.triggerCondition(
-            (triggerCondition || []).map((x) => ({
+            (triggerCondition || []).map((x: COMMON_STRATEGY_NOTIFY.IAlertTriggerCondition) => ({
               id: uniqueId(),
               condition: x.condition,
               operator: x.operator,
@@ -258,16 +263,18 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
           );
 
           updater.notifies(
-            (notifies || []).map((x) => ({
+            (notifies || []).map((x: COMMON_STRATEGY_NOTIFY.INotifyGroupNotify) => ({
               id: uniqueId(),
               groupId: x.groupId,
               level: x.level ? x.level?.split(',') : undefined,
               groupType: x.groupType?.split(','),
               groupTypeOptions:
-                (state.allChannelMethods[x.notifyGroup.targets?.[0].type] || []).map((y) => ({
-                  key: y.value,
-                  display: y.name,
-                })) || [],
+                (state.allChannelMethods[x.notifyGroup.targets?.[0].type] || []).map(
+                  (y: { value: string; name: string }) => ({
+                    key: y.value,
+                    display: y.name,
+                  }),
+                ) || [],
             })),
           );
         },
@@ -293,7 +300,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
         },
       ]);
     }
-  }, [alertTriggerConditionsContent]);
+  });
 
   React.useEffect(() => {
     if (alertTriggerConditions?.length) {
@@ -569,7 +576,11 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
                   keyOptions={alertTriggerConditions}
                   key={item.id}
                   id={item.id}
-                  current={state.triggerCondition?.find((x) => x.id === item.id)}
+                  current={
+                    state.triggerCondition?.find(
+                      (x) => x.id === item.id,
+                    ) as COMMON_STRATEGY_NOTIFY.IAlertTriggerCondition
+                  }
                   handleEditTriggerConditions={handleEditTriggerConditions}
                   handleRemoveTriggerConditions={handleRemoveTriggerConditions}
                   operatorOptions={conditionOperatorOptions}
@@ -614,7 +625,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
             </Popover>
             <Button type="primary" className="flex items-center" ghost onClick={handleAddEditingRule}>
               <ErdaIcon type="plus" size="16" />
-              <span>{i18n.t('cmp:Add')}</span>
+              <span>{i18n.t('cmp:Add-rule')}</span>
             </Button>
           </div>
           <ErdaTable
@@ -959,7 +970,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
 
   return (
     <div>
-      <RenderForm layout="vertical" form={form} list={fieldsList} className="w-full" />
+      <RenderForm layout="vertical" form={strategyForm} list={fieldsList} className="w-full" />
     </div>
   );
 };
