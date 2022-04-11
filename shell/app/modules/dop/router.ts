@@ -96,7 +96,7 @@ export default function getDopRouter(): RouteConfigItem[] {
         {
           path: 'projects',
           breadcrumbName: i18n.t('dop:projects'),
-          layout: { noWrapper: true },
+          layout: { noWrapper: true, foldSidebar: true },
           getComp: (cb) => cb(import('dop/pages/projects/project-list-protocol')),
         },
         {
