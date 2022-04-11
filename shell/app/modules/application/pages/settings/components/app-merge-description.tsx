@@ -30,7 +30,7 @@ export const MergeDes = () => {
   > ${i18n.t('dop:describe this mr here')}
 
   ### ${i18n.t('dop:self-test situation')}
-  > ${i18n.t('dop:describe the situation of manual testing here')}
+  > ${i18n.t('dop:describe the situation of function testing here')}
   > ${i18n.t('dop:For example, what other components are depended on, and what circumstances are not covered, etc.')}
 
   ### ${i18n.t('dop:mr-tpl-unit-test')}

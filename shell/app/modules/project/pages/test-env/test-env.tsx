@@ -159,10 +159,8 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
         className="text-desc mb-2"
         message={
           testType === 'manual'
-            ? i18n.t('dop:This parameter is provided to the use case interface of test case in manual test')
-            : i18n.t(
-                'dop:This parameter is provided to the use case interface of test case in automated interface test',
-              )
+            ? i18n.t('dop:This parameter is provided to the use case interface of test case in function test')
+            : i18n.t('dop:This parameter is provided to the use case interface of test case in API test')
         }
         type="info"
         showIcon

@@ -263,21 +263,21 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'manual',
-          pageName: i18n.t('dop:Manual Testing'),
+          pageName: i18n.t('dop:Function Testing'),
           routes: [
             {
               path: 'testCase',
               tabs: MANUAL_TEST_TABS,
               layout: { fullHeight: true },
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('dop:Manual Testing'),
+              breadcrumbName: i18n.t('dop:Function Testing'),
               getComp: (cb) => cb(import('project/pages/test-manage/case/manual-test')),
             },
             {
               path: 'testPlan',
               tabs: MANUAL_TEST_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('dop:Manual Testing'),
+              breadcrumbName: i18n.t('dop:Function Testing'),
               mark: 'testPlan',
               routes: [
                 {
@@ -299,7 +299,7 @@ function getProjectRouter(): RouteConfigItem[] {
             {
               path: 'testEnv',
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('dop:Manual Testing'),
+              breadcrumbName: i18n.t('dop:Function Testing'),
               getComp: (cb) => cb(import('project/pages/test-env/test-env'), 'ManualTestEnv'),
               layout: {
                 noWrapper: true,
@@ -310,7 +310,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'auto',
-          pageName: i18n.t('dop:Automated Testing'),
+          pageName: i18n.t('dop:API Testing'),
           routes: [
             {
               ignoreTabQuery: true,
@@ -320,7 +320,7 @@ function getProjectRouter(): RouteConfigItem[] {
               path: 'testCase',
               tabs: AUTO_TEST_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('dop:Automated Testing'),
+              breadcrumbName: i18n.t('dop:API Testing'),
               mark: 'testCase',
               routes: [
                 {
@@ -344,7 +344,7 @@ function getProjectRouter(): RouteConfigItem[] {
               path: 'config-sheet',
               tabs: AUTO_TEST_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('dop:Automated Testing'),
+              breadcrumbName: i18n.t('dop:API Testing'),
               layout: { fullHeight: true },
               getComp: (cb) => cb(import('project/pages/config-sheet')),
             },
@@ -352,7 +352,7 @@ function getProjectRouter(): RouteConfigItem[] {
               path: 'testPlan',
               tabs: AUTO_TEST_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('dop:Automated Testing'),
+              breadcrumbName: i18n.t('dop:API Testing'),
               mark: 'testPlan',
               routes: [
                 {
@@ -373,13 +373,13 @@ function getProjectRouter(): RouteConfigItem[] {
               tabs: AUTO_TEST_TABS,
               layout: { fullHeight: true },
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('dop:Automated Testing'),
+              breadcrumbName: i18n.t('dop:API Testing'),
               getComp: (cb) => cb(import('project/pages/data-source')),
             },
             {
               path: 'testEnv',
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('dop:Automated Testing'),
+              breadcrumbName: i18n.t('dop:API Testing'),
               getComp: (cb) => cb(import('project/pages/test-env/test-env'), 'AutoTestEnv'),
               tabs: AUTO_TEST_TABS,
             },

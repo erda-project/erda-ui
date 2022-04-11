@@ -99,7 +99,6 @@ const routeInfoStore = createStore({
       const { routePatterns, routeMap, parsed } = extraData || prevRouteInfo;
       let currentRoute = null;
       let routeMarks: string[] = [];
-
       const findParent = (item: any) => {
         const { _parent, mark } = item;
         if (mark) {
