@@ -192,8 +192,6 @@ export enum pages {
   appMr = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/mr/open/{mrId}',
   appOpenMr = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/mr/open',
   pipelineRoot = '/{orgName}/dop/projects/{projectId}/apps/{appId}/pipeline',
-  appPipelineRecords = '/{orgName}/dop/projects/{projectId}/apps/{appId}/pipeline/records',
-  appPipelineDetail = '/{orgName}/dop/projects/{projectId}/apps/{appId}/pipeline-detail/{pipelineID}',
   appApiDesign = '/{orgName}/dop/projects/{projectId}/apps/{appId}/apiDesign',
   repoBackup = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/backup',
   commit = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/commit/{commitId}',
