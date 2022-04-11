@@ -428,13 +428,17 @@ export const EditIssueDrawer = (props: IProps) => {
         }
         if (!customFieldValues?.hasOwnProperty(customFieldKey)) {
           savingRef.current = true;
-          promise = updateIssue({ ...params, customUrl }).then(() => {
-            getIssueStreams({ type: issueType, id: id as number, pageNo: 1, pageSize: 100 });
-            getIssueDetail({ id: id as number }).then(() => {
+          promise = updateIssue({ ...params, customUrl })
+            .then(() => {
+              getIssueStreams({ type: issueType, id: id as number, pageNo: 1, pageSize: 100 });
+              getIssueDetail({ id: id as number }).then(() => {
+                savingRef.current = false;
+              });
+              // setHasEdited(false); // 更新后置为false
+            })
+            .catch(() => {
               savingRef.current = false;
             });
-            // setHasEdited(false); // 更新后置为false
-          });
         } else {
           addFieldsToIssue(
             { ...tempCustomFormData, orgID, projectID: +addRelatedMattersProjectId },
