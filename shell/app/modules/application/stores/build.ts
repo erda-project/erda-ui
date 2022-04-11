@@ -121,12 +121,12 @@ const build = createStore({
     },
     async getExecuteRecords(
       { call, update, getParams, getQuery },
-      payload: { branch: string; source: string; pageNo: number; pagingYmlNames: string[] },
+      payload: { branch: string; source: string; pageNo: number; pageSize: number; pagingYmlNames: string[] },
     ) {
       const { applicationId } = getQuery();
       const { appId: _appId } = getParams();
       const appId = _appId || applicationId;
-      const { branch, source, pageNo, pagingYmlNames } = payload;
+      const { branch, source, pageNo, pageSize, pagingYmlNames } = payload;
       const pagingYmlNamesStr = (pagingYmlNames || []).join(',');
       const params = {
         branches: branch,
@@ -134,7 +134,7 @@ const build = createStore({
         sources: source,
         ymlNames: pagingYmlNamesStr,
         pageNo,
-        pageSize: 10,
+        pageSize: pageSize || 10,
       };
       const { list: executeRecords } = await call(getExecuteRecords, params, {
         paging: { key: 'recordPaging', listKey: 'pipelines' },
