@@ -86,8 +86,8 @@ const CustomDashboardList = ({
   const [loading] = useLoading(store, ['getCustomDashboard']);
 
   const _getCustomDashboard = React.useCallback(
-    (no: number, size?: number, queryObj?: Custom_Dashboard.CustomLIstQuery) => {
-      const { createdAt, ...rest } = queryObj || {};
+    (no: number, size?: number, queryObj: Custom_Dashboard.CustomLIstQuery = filterData) => {
+      const { createdAt, ...rest } = queryObj;
       let query = queryObj;
       if (createdAt) {
         query = { ...rest, startTime: createdAt[0], endTime: createdAt[1] };
@@ -100,7 +100,7 @@ const CustomDashboardList = ({
         ...query,
       });
     },
-    [getCustomDashboard, scope, scopeId],
+    [getCustomDashboard, scope, scopeId, filterData],
   );
 
   useMount(() => {
@@ -120,7 +120,7 @@ const CustomDashboardList = ({
       title: `${i18n.t('common:confirm to delete')}?`,
       onOk: async () => {
         await deleteCustomDashboard({ id, scopeId });
-        _getCustomDashboard(total - 1 > (pageNo - 1) * pageSize ? pageNo : 1, pageSize);
+        _getCustomDashboard(total - 1 > (pageNo - 1) * pageSize ? pageNo : 1);
       },
     });
   };
@@ -309,7 +309,7 @@ const CustomDashboardList = ({
           pageSize,
         }}
         onChange={({ current = 1, pageSize: size }) => {
-          _getCustomDashboard(current, size, filterData);
+          _getCustomDashboard(current, size);
         }}
         scroll={{ x: '100%' }}
         slot={slot}

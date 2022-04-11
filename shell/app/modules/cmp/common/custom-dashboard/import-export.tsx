@@ -329,14 +329,18 @@ const Import = (props: ImportProps) => {
       }
       return isLt20M;
     },
-    action: `/api/${getOrgFromPath()}/dashboard/blocks/parse`,
+    action: `/api/${getOrgFromPath()}/dashboard/blocks/parse?scopeId=${scopeId}&scope=${scope}`,
     onChange: ({ file }: any) => {
       setFileData(file);
       if (file.status === 'uploading') {
         setFileStatus('uploading');
       }
       if (file.status === 'done') {
-        setFileStatus('done');
+        if (file.response?.success) {
+          setFileStatus('done');
+        } else {
+          setFileStatus('error');
+        }
       }
       if (file.status === 'error') {
         setFileStatus('error');
