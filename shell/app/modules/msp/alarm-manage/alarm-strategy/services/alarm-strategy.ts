@@ -30,7 +30,7 @@ export const getAlertDetail = ({
 }: {
   id: number;
   tenantGroup: string;
-}): COMMON_STRATEGY_NOTIFY.IAlertDetail => {
+}): COMMON_STRATEGY_NOTIFY.IAlertBody => {
   return agent
     .get(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/alerts/${id}`)
     .then((response: any) => response.body);
