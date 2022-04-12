@@ -14,7 +14,6 @@
 import React from 'react';
 import { Button, Modal, Spin, Radio, Space, Upload, message, Avatar, Select, Tooltip } from 'antd';
 import { SimpleTabs, ErdaIcon, Badge } from 'common';
-import { useUpdate } from 'common/use-hooks';
 import { getUploadProps } from 'common/utils/upload-props';
 import EmptySVG from 'app/images/upload_empty.svg';
 import { useMount, useInterval } from 'react-use';
@@ -39,9 +38,11 @@ interface IProps {
   scopeId: string;
   scope: string;
   visible: boolean;
+  tabValue: string;
   relationship?: Custom_Dashboard.Relationship[];
   title?: string;
   tabs?: Array<{ key: string; text: string; disabled?: boolean }>;
+  changeTabValue: (tabValue: string) => void;
   onVisibleChange: (visible: boolean) => void;
   getCustomDashboard: (pageNo: number) => void;
 }
@@ -98,22 +99,21 @@ const ImportExport = (props: IProps) => {
     tabs = defaultTabs,
     visible,
     relationship,
+    tabValue,
+    changeTabValue,
     onVisibleChange,
     getCustomDashboard,
   } = props;
 
   const getDefaultTabs = () => tabs.find((item) => !item.disabled)?.key || 'record';
-  const [{ tabValue }, updater, update] = useUpdate({
-    tabValue: getDefaultTabs(),
-  });
+
+  useMount(() => changeTabValue(getDefaultTabs()));
 
   const closeModal = () => {
     onVisibleChange(false);
-    update({
-      tabValue: getDefaultTabs(),
-    });
+    changeTabValue(getDefaultTabs());
   };
-  const toRecord = () => update({ tabValue: 'record' });
+  const toRecord = () => changeTabValue('record');
 
   const CompMap = {
     export: (
@@ -157,7 +157,7 @@ const ImportExport = (props: IProps) => {
               mode="underline"
               className="text-sm font-normal"
               tabs={tabs}
-              onSelect={updater.tabValue}
+              onSelect={changeTabValue}
               value={tabValue}
             />
           </div>
