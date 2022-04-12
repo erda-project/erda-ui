@@ -198,7 +198,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     editingFormRule: {},
     activeGroupId: undefined,
     triggerConditionValueOptions: [],
-    triggerCondition: [] as unknown as COMMON_STRATEGY_NOTIFY.IAlertTriggerCondition[],
+    triggerCondition: [] as COMMON_STRATEGY_NOTIFY.OperationTriggerCondition[],
     notifies: [],
     notifyLevel: null,
     allChannelMethods: notifyChannelOptionsMap,
@@ -224,7 +224,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
   useMount(() => {
     if (strategyId) {
       getAlertDetail(Number(strategyId)).then(
-        ({ name, clusterNames, appIds, rules, notifies, triggerCondition }: any) => {
+        ({ name, clusterNames, appIds, rules, notifies, triggerCondition }: COMMON_STRATEGY_NOTIFY.IAlertBody) => {
           updater.editingFormRule({
             id: strategyId,
             name,
@@ -247,7 +247,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
           updater.activeGroupId(notifies[0].groupId);
 
           updater.triggerCondition(
-            (triggerCondition || []).map((x: COMMON_STRATEGY_NOTIFY.IAlertTriggerCondition) => ({
+            (triggerCondition || []).map((x) => ({
               id: uniqueId(),
               condition: x.condition,
               operator: x.operator,
@@ -263,7 +263,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
           );
 
           updater.notifies(
-            (notifies || []).map((x: COMMON_STRATEGY_NOTIFY.INotifyGroupNotify) => ({
+            (notifies || []).map((x) => ({
               id: uniqueId(),
               groupId: x.groupId,
               level: x.level ? x.level?.split(',') : undefined,
@@ -576,11 +576,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
                   keyOptions={alertTriggerConditions}
                   key={item.id}
                   id={item.id}
-                  current={
-                    state.triggerCondition?.find(
-                      (x) => x.id === item.id,
-                    ) as COMMON_STRATEGY_NOTIFY.IAlertTriggerCondition
-                  }
+                  current={find(state.triggerCondition, (x) => x.id === item.id)}
                   handleEditTriggerConditions={handleEditTriggerConditions}
                   handleRemoveTriggerConditions={handleRemoveTriggerConditions}
                   operatorOptions={conditionOperatorOptions}
@@ -871,12 +867,13 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
   // 编辑单条触发条件
   const handleEditTriggerConditions = (id: string, item: { key: string; value: any }) => {
     const rules = cloneDeep(state.triggerCondition);
+
     const rule = find(rules, { id });
     const index = findIndex(rules, { id });
     if (item.key === 'operator' && item.value === 'all') {
       fill(
         rules,
-        { id, ...rule, values: state.triggerCondition.valueOptions?.map((x) => x?.key)?.join(',') },
+        { id, ...rule, values: state.triggerCondition[index].valueOptions?.map((x) => x?.key)?.join(',') },
         index,
         index + 1,
       );

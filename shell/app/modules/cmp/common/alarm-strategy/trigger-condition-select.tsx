@@ -22,7 +22,7 @@ const { Option } = Select;
 interface IProps {
   keyOptions: COMMON_STRATEGY_NOTIFY.IAlertTriggerCondition[];
   id: string;
-  current: COMMON_STRATEGY_NOTIFY.IAlertTriggerCondition;
+  current: COMMON_STRATEGY_NOTIFY.TriggerCondition;
   handleEditTriggerConditions: (id: string, data: { key: string; value: string }) => void;
   handleRemoveTriggerConditions: (id: string) => void;
   operatorOptions: Array<{ key: string; display: string; type: OperatorType }>;
