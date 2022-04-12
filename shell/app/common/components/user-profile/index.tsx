@@ -38,8 +38,8 @@ const UserProfile = ({ data, className = '' }: UserProfileProps) => {
   const { name, avatar, id, email, phone, lastLoginTime } = data;
   const infoList = [
     ['youxiang', i18n.t('Email'), email],
-    ['shouji', i18n.t('cellphone'), phone],
-    ['shijian-2', i18n.t('last login time'), lastLoginTime && moment(lastLoginTime).format('YYYY-MM-DD HH:mm:hh')],
+    ['shouji', i18n.t('Phone'), phone],
+    ['shijian-2', i18n.t('Last login time'), lastLoginTime && moment(lastLoginTime).format('YYYY-MM-DD HH:mm:hh')],
   ];
 
   return (

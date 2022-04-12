@@ -20,11 +20,11 @@ describe('Pagination', () => {
   it('should render well', () => {
     const changeFn = jest.fn();
     const result = render(<Pagination onChange={changeFn} />);
-    expect(result.getByText('total 0 items')).toBeTruthy();
+    expect(result.getByText('Totally 0 items')).toBeTruthy();
     expect(result.getByText('10 items / page')).toBeTruthy();
     result.rerender(<Pagination onChange={changeFn} total={99} current={2} pageSize={20} />);
     expect(result.getByText('20 items / page')).toBeTruthy();
-    expect(result.getByText('total 99 items')).toBeTruthy();
+    expect(result.getByText('Totally 99 items')).toBeTruthy();
     expect(result.container).isExit('[name="right"]', 1);
     expect(result.container).isExit('[name="left"]', 1);
     expect(result.getByText('2 / 5')).toBeTruthy();
@@ -32,7 +32,7 @@ describe('Pagination', () => {
       <Pagination onChange={changeFn} total={99} current={2} pageSize={20} hideTotal hidePageSizeChange />,
     );
     expect(result.queryByText('20 items / page')).toBeNull();
-    expect(result.queryByText('total 99 items')).toBeNull();
+    expect(result.queryByText('Totally 99 items')).toBeNull();
   });
   it('should work well', async () => {
     const changeFn = jest.fn();
