@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Modal, FormInstance } from 'antd';
-import { formatTime, fromNow, goTo } from 'common/utils';
+import { Button, Modal, FormInstance, Avatar } from 'antd';
+import { formatTime, fromNow, goTo, getAvatarChars } from 'common/utils';
 import { useUserMap } from 'core/stores/userMap';
 import { useMount } from 'react-use';
 import { useUpdate } from 'common/use-hooks';
@@ -28,7 +28,7 @@ import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dash
 import { getCustomDashboardCreators, exportCustomDashboard } from 'app/modules/cmp/services/_common-custom-dashboard';
 import { map } from 'lodash';
 import { ColumnProps, IActions } from 'common/components/table/interface';
-import { UserInfo, ConfigurableFilter, FormModal } from 'common';
+import { ConfigurableFilter, FormModal } from 'common';
 import ImportExport from 'cmp/common/custom-dashboard/import-export';
 
 const storeMap = {
@@ -148,7 +148,23 @@ const CustomDashboardList = ({
     {
       title: i18n.t('Creator'),
       dataIndex: 'creator',
-      render: (text: string) => <UserInfo id={text} />,
+      render: (text: string) => {
+        const cU = userMap[Number(text)];
+        if (text && cU) {
+          return (
+            <span>
+              <Avatar size="small" src={cU.avatar}>
+                {cU.nick ? getAvatarChars(cU.nick) : i18n.t('None')}
+              </Avatar>
+              <span className="ml-0.5 mr-1" title={cU.name}>
+                {cU.nick || cU.name || text || i18n.t('None')}
+              </span>
+            </span>
+          );
+        }
+
+        return '-';
+      },
     },
     {
       title: i18n.t('create time'),
@@ -164,6 +180,13 @@ const CustomDashboardList = ({
       label: i18n.t('Creator'),
       options: creatorOptions,
       placeholder: i18n.t('filter by {name}', { name: i18n.t('Submitter') }),
+    },
+    {
+      key: 'description',
+      type: 'input',
+      label: i18n.t('Description'),
+      options: creatorOptions,
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('Description') }),
     },
     {
       key: 'createdAt',
