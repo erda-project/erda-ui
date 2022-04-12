@@ -32,6 +32,8 @@ const CHART_NODE_SIZE = {
   },
 };
 
+const { startNode: StartNode, endNode: EndNode } = NodeEleMap;
+
 export const AppPipelineChart = (props: IProps) => {
   const { data, onClickNode, changeType } = props;
   const [{ displayData, stagesData, dataKey }, updater, update] = useUpdate({
@@ -84,6 +86,7 @@ export const AppPipelineChart = (props: IProps) => {
   const chartConfig = {
     NODE: CHART_NODE_SIZE,
   };
+
   return (
     <YmlChart
       chartId="app-pipeline"
@@ -95,8 +98,8 @@ export const AppPipelineChart = (props: IProps) => {
       external={{
         nodeEleMap: {
           pipeline: PipelineNode,
-          startNode: () => <NodeEleMap.startNode disabled />,
-          endNode: () => <NodeEleMap.endNode disabled />,
+          startNode: () => <StartNode disabled />,
+          endNode: () => <EndNode disabled />,
         },
       }}
     />

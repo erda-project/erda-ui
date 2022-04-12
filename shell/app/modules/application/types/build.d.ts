@@ -83,6 +83,7 @@ declare namespace BUILD {
     pipelineStages: IStage[];
     pipelineTaskActionDetails: Obj<ITaskActionDetail>;
     ymlContent: string;
+    runParams?: Array<{ name: string; value: string | number; type: string }>;
   }
 
   interface ITaskActionDetail {

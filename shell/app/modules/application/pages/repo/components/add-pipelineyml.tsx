@@ -44,6 +44,8 @@ enum ViewType {
   code = 'code',
 }
 
+const { startNode: StartNode, endNode: EndNode } = NodeEleMap;
+
 const pipelineTempQuery = { scopeID: '0', scopeType: 'dice' };
 
 const AddPipelineYml = () => {
@@ -308,8 +310,8 @@ const AddPipelineYml = () => {
                 onAddData={onAddData}
                 chartProps={{
                   nodeEleMap: {
-                    startNode: () => <NodeEleMap.startNode disabled />,
-                    endNode: () => <NodeEleMap.endNode disabled />,
+                    startNode: () => <StartNode disabled />,
+                    endNode: () => <EndNode disabled />,
                   },
                 }}
               />

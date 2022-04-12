@@ -19,9 +19,11 @@ import DiceConfigPage from 'app/config-page';
 import { updateSearch } from 'common/utils';
 import projectStore from 'project/stores/project';
 import { RenderFormItem } from 'common';
-import { getAllBranch, editPipelineName } from 'project/services/pipeline';
+import { getAllBranch, editPipelineName, runPipeline } from 'project/services/pipeline';
 import PipelineDetail from 'project/common/components/pipeline-new/detail';
 import { decode } from 'js-base64';
+import { getTreeNodeDetailNew } from 'project/services/file-tree';
+import InParamsForm from './detail/in-params-form';
 
 interface IProps {
   pipelineCategory: string;
@@ -61,8 +63,13 @@ const PipelineProtocol = React.forwardRef(
     const [newPipelineUsed, setNewPipelineUsed] = React.useState(false);
     const [editData, setEditData] = React.useState<{ id: string; name: string }>({} as { id: string; name: string });
     const [detail, setDetail] = React.useState<Detail | null>(null);
+    const [executeRecordId, setExecuteRecordId] = React.useState('');
 
     const reloadRef = React.useRef<{ reload: () => void }>(null);
+
+    const executeRef = React.useRef<{
+      execute: (_ymlStr: string, extra: { pipelineID?: string; pipelineDetail?: BUILD.IPipelineDetail }) => void;
+    }>(null);
 
     React.useEffect(() => {
       reloadRef.current?.reload();
@@ -73,6 +80,12 @@ const PipelineProtocol = React.forwardRef(
         reloadRef.current?.reload();
       },
     }));
+
+    const runBuild = (_v?: { runParams: Obj<string | number> }) => {
+      runPipeline.fetch({ pipelineDefinitionID: executeRecordId, projectID: +projectId, ..._v }).then(() => {
+        reloadRef.current?.reload();
+      });
+    };
 
     const onDetailClose = React.useCallback(() => {
       setDetailVisible(false);
@@ -150,7 +163,24 @@ const PipelineProtocol = React.forwardRef(
                   }
                 },
                 operations: {
-                  updateName: (
+                  updateName: async (
+                    op: {
+                      operations: { click: { serverData: { inode: string; pipelineID: string } } };
+                    },
+                    record: { id: string },
+                  ) => {
+                    setExecuteRecordId(record.id);
+                    const { inode, pipelineID } = op.operations?.click?.serverData || {};
+                    if (inode) {
+                      const path = decode(inode).split('/');
+                      path.pop();
+                      const _appId = path[1];
+                      const res = await getTreeNodeDetailNew({ id: inode, scopeID: _appId, scope: 'project-app' });
+                      const ymlStr = res?.data?.meta?.pipelineYml;
+                      executeRef?.current?.execute(ymlStr, { pipelineID });
+                    }
+                  },
+                  updateName1: (
                     _: Obj,
                     record: {
                       id: string;
@@ -249,6 +279,7 @@ const PipelineProtocol = React.forwardRef(
             />
           </Form>
         </Modal>
+        <InParamsForm ref={executeRef} onExecute={runBuild} />
       </>
     );
   },

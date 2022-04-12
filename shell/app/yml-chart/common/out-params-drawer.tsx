@@ -15,6 +15,7 @@ import React from 'react';
 import { Drawer, Input, Select, Button } from 'antd';
 import { Form } from 'dop/pages/form-editor/index';
 import i18n from 'i18n';
+import { Ellipsis } from 'common';
 import { uniq, map, compact, flatten, get, isEmpty } from 'lodash';
 import { getSnippetNodeDetail } from 'project/services/auto-test-case';
 import routeInfoStore from 'core/stores/route';
@@ -122,7 +123,9 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
                   placeholder={i18n.t('please choose {name}', { name: i18n.t('dop:parameter value') })}
                 >
                   {map(outputList, (item) => (
-                    <Select.Option key={item}>{item}</Select.Option>
+                    <Select.Option key={item} value={item}>
+                      <Ellipsis placement="left" title={item} />
+                    </Select.Option>
                   ))}
                 </Select>
               </div>

@@ -38,6 +38,7 @@ interface IPipelineYmlStructure {
   envs: object;
   needUpgrade: boolean;
   stages: IStageTask[][];
+  params: Array<{ name: string; default?: string | number; type: string; required: boolean }>;
   ymlContent?: string;
   version: string;
   description: string;

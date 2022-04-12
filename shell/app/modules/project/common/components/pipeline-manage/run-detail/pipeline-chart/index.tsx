@@ -23,7 +23,7 @@ interface IProps {
   scope: string;
   onClickNode: (node: PIPELINE.ITask, mark: string) => void;
 }
-
+const { startNode: StartNode, endNode: EndNode } = NodeEleMap;
 export const CasePipelineChart = (props: IProps) => {
   const { data, onClickNode } = props;
   const [{ displayData, stagesData, inParamsData, outParamsData, dataKey }, , update] = useUpdate({
@@ -79,8 +79,8 @@ export const CasePipelineChart = (props: IProps) => {
       external={{
         nodeEleMap: {
           pipeline: RunCaseNode,
-          startNode: () => <NodeEleMap.startNode disabled />,
-          endNode: () => <NodeEleMap.endNode disabled />,
+          startNode: () => <StartNode disabled />,
+          endNode: () => <EndNode disabled />,
         },
       }}
     />
