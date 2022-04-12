@@ -238,11 +238,15 @@ const ListEditConfig = (props: IProps) => {
                 }
               },
             })}
-            components={{
-              body: {
-                cell: EditableCell,
-              },
-            }}
+            components={
+              filterValue.length
+                ? {
+                    body: {
+                      cell: EditableCell,
+                    },
+                  }
+                : undefined
+            }
           />
         </Form>
       </div>
