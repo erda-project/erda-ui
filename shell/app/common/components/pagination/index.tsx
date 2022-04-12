@@ -57,7 +57,9 @@ const Pagination = (pagination: IPaginationProps) => {
 
   return (
     <div className={`erda-pagination flex justify-end items-center relative theme-${theme}`}>
-      {!hideTotal ? <div className="erda-pagination-total mr-2">{i18n.t('total {total} items', { total })}</div> : null}
+      {!hideTotal ? (
+        <div className="erda-pagination-total mr-2">{i18n.t('Totally {total} items', { total })}</div>
+      ) : null}
       <div className="erda-pagination-content inline-flex">
         <div
           className={`bg-hover flex-all-center leading-none hover:bg-default-06 pagination-pre ${
