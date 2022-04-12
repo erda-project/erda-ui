@@ -14,12 +14,14 @@
 import React from 'react';
 import { Button, Upload, Progress } from 'antd';
 import { RenderForm, MarkdownEditor, ErdaIcon } from 'common';
+import { TagItem } from 'app/common/components/tags';
 import i18n from 'i18n';
 import { goTo, insertWhen } from 'common/utils';
 import { getUploadProps } from 'common/utils/upload-props';
 import routeInfoStore from 'core/stores/route';
 import orgStore from 'app/org-home/stores/org';
 import userStore from 'user/stores';
+import projectLabel from 'project/stores/label';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { FormInstance, UploadProps, UploadFile } from 'app/interface/common';
@@ -64,11 +66,14 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   const { projectId, releaseID, type = 'app' } = params;
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const loginUser = userStore.useStore((s) => s.loginUser);
+  const labelsList = projectLabel.useStore((s) => s.list);
+  const { getLabels } = projectLabel.effects;
 
   const _releaseDetail = getReleaseDetail.useData();
   const releaseDetail = React.useMemo(() => {
     return {
       ..._releaseDetail,
+      tags: _releaseDetail?.tags?.map((tag) => tag.id),
       applicationReleaseList: _releaseDetail?.modes?.default?.applicationReleaseList?.map?.((group, index) => ({
         active: index === 0,
         list: [...group.map((item) => ({ ...item, id: item.releaseID, pId: item.applicationID }))],
@@ -85,6 +90,10 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
   React.useEffect(() => {
     getDetail();
   }, [getDetail]);
+
+  React.useEffect(() => {
+    getLabels({ type: 'release' });
+  }, [getLabels]);
 
   React.useEffect(() => {
     formRef.current?.setFieldsValue(releaseDetail);
@@ -131,6 +140,19 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
           },
         },
       ],
+    },
+    {
+      label: i18n.t('label'),
+      name: 'tags',
+      type: 'select',
+      required: false,
+      options: labelsList.map((item) => ({ ...item, value: item.id })),
+      itemProps: {
+        mode: 'multiple',
+        optionRender: ({ name, color }: { name: string; color: string }) => (
+          <TagItem label={{ label: name, color }} readOnly />
+        ),
+      },
     },
     type === 'app'
       ? {

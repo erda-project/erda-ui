@@ -17,8 +17,10 @@ import moment from 'moment';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import { FileEditor, MarkdownEditor, RenderFormItem, UserInfo } from 'common';
+import { TagItem } from 'app/common/components/tags';
 import ErdaTable from 'common/components/table';
 import routeInfoStore from 'core/stores/route';
+import projectLabel from 'project/stores/label';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import orgStore from 'app/org-home/stores/org';
@@ -53,6 +55,8 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
   const { releaseID, projectId } = params;
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const releaseDetail = getReleaseDetail.useData() || ({} as RELEASE.ReleaseDetail);
+  const labelsList = projectLabel.useStore((s) => s.list);
+  const { getLabels } = projectLabel.effects;
   const [form] = Form.useForm();
   const {
     version,
@@ -65,6 +69,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
     isFormal,
     clusterName,
     resources,
+    tags,
   } = releaseDetail;
 
   const getDetail = React.useCallback(async () => {
@@ -76,6 +81,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
           form.setFieldsValue({
             version: data.version,
             changelog: data.changelog,
+            tags: data.tags?.map((tag: { id: number }) => tag.id),
           });
         }
       }
@@ -85,6 +91,10 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
   React.useEffect(() => {
     getDetail();
   }, [getDetail]);
+
+  React.useEffect(() => {
+    getLabels({ type: 'release' });
+  }, [getLabels]);
 
   const formal = () => {
     Modal.confirm({
@@ -118,7 +128,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
   };
 
   const check = React.useCallback(
-    promiseDebounce(async (value) => {
+    promiseDebounce(async (value: string) => {
       if (value && value !== version) {
         const payload = {
           orgID: orgId,
@@ -156,7 +166,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                         message: i18n.t('dop:Must be composed of letters, numbers, underscores, hyphens and dots.'),
                       },
                       {
-                        validator: (_, value: string) => {
+                        validator: (_rule: unknown, value: string) => {
                           return check(value);
                         },
                       },
@@ -166,6 +176,30 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
               ) : (
                 renderItems([{ label: i18n.t('Version'), value: version }])
               )}
+              {isEdit ? (
+                <div className="w-2/5">
+                  <RenderFormItem
+                    label={i18n.t('label')}
+                    required={false}
+                    name="tags"
+                    type="select"
+                    options={labelsList.map((item) => ({ ...item, value: item.id }))}
+                    itemProps={{
+                      mode: 'multiple',
+                      optionRender: ({ name, color }: { name: string; color: string }) => (
+                        <TagItem label={{ label: name, color }} readOnly />
+                      ),
+                    }}
+                  />
+                </div>
+              ) : tags?.length ? (
+                renderItems([
+                  {
+                    label: i18n.t('label'),
+                    value: tags?.map((tag) => <TagItem label={{ label: tag.name, color: tag.color }} readOnly />),
+                  },
+                ])
+              ) : null}
               {renderItems([
                 { label: i18n.t('dop:app name'), value: applicationName },
                 { label: i18n.t('Cluster name'), value: clusterName },
@@ -248,7 +282,7 @@ const EditMd = ({ value, onChange, ...itemProps }: { value: string; onChange: (v
   return <MarkdownEditor value={value} onChange={onChange} {...itemProps} defaultHeight={400} />;
 };
 
-const renderItems = (list: Array<{ label: string; value: string }>) => {
+const renderItems = (list: Array<{ label: string; value: React.ReactNode }>) => {
   return list.map((item) => (
     <div className="mb-2">
       <div className="text-black-4 mb-2">{item.label}</div>

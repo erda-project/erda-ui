@@ -17,6 +17,7 @@ import moment from 'moment';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import { ErdaIcon, Ellipsis } from 'common';
+import { TagItem } from 'app/common/components/tags';
 import routeInfoStore from 'core/stores/route';
 import { getReleaseDetail, formalRelease } from 'project/services/release';
 import AddonInfo from './addon';
@@ -42,7 +43,7 @@ const ReleaseProjectDetail = () => {
   const { params } = routeInfoStore.getState((s) => s);
   const { releaseID } = params;
   const releaseDetail = getReleaseDetail.useData();
-  const { isFormal, version: releaseName, addons, addonYaml, changelog = '-', modes } = releaseDetail || {};
+  const { isFormal, version: releaseName, addons, addonYaml, changelog = '-', modes, tags } = releaseDetail || {};
 
   React.useEffect(() => {
     getReleaseDetail.fetch({ releaseID });
@@ -70,6 +71,15 @@ const ReleaseProjectDetail = () => {
       content: releaseName,
       style: { width: '50%' },
     },
+    ...(tags?.length
+      ? [
+          {
+            label: i18n.t('label'),
+            content: tags?.map((tag) => <TagItem label={{ label: tag.name, color: tag.color }} readOnly />),
+            style: { width: '50%' },
+          },
+        ]
+      : []),
     {
       label: i18n.t('dop:deployment mode'),
       style: { width: '50%' },

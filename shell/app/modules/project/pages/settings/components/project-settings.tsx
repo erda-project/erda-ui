@@ -139,6 +139,29 @@ const ProjectSettings = () => {
       ],
     },
     {
+      groupTitle: i18n.t('Artifacts'),
+      groupKey: 'collaboration',
+      tabGroup: [
+        {
+          tabTitle: i18n.t('dop:Artifacts Labels'),
+          tabKey: 'releaseLabel',
+          content: (
+            <ConfigLayout
+              sectionList={[
+                {
+                  title: i18n.t('dop:Manage all artifacts labels'),
+                  desc: i18n.t(
+                    'dop:Labels can be used in release management, to quickly locate and filter related content.',
+                  ),
+                  children: <ProjectLabel />,
+                },
+              ]}
+            />
+          ),
+        },
+      ],
+    },
+    {
       groupTitle: i18n.t('dop:project collaboration'),
       groupKey: 'collaboration',
       tabGroup: [
@@ -160,7 +183,7 @@ const ProjectSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('dop:Label Settings'),
+          tabTitle: i18n.t('dop:Issue labels'),
           tabKey: 'projectLabel',
           content: (
             <ConfigLayout
