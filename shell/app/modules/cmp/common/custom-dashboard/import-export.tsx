@@ -50,11 +50,6 @@ const { Option } = Select;
 
 const defaultTabs = [
   {
-    key: 'record',
-    text: i18n.t('Records'),
-    disabled: false,
-  },
-  {
     key: 'export',
     text: i18n.t('Export'),
     disabled: false,
@@ -62,6 +57,11 @@ const defaultTabs = [
   {
     key: 'import',
     text: i18n.t('Import'),
+    disabled: false,
+  },
+  {
+    key: 'record',
+    text: i18n.t('Records'),
     disabled: false,
   },
 ];
