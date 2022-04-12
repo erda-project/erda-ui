@@ -56,11 +56,12 @@ const CustomDashboardList = ({
   relationship?: Custom_Dashboard.Relationship[];
 }) => {
   const params = routeInfoStore.useStore((s) => s.params);
-  const [{ formData, filterData, recordModalVisible, formModalVisible }, updater, update] = useUpdate({
+  const [{ formData, filterData, recordModalVisible, formModalVisible, tabValue }, updater, update] = useUpdate({
     formData: null,
     filterData: { creator: [], createdAt: '', title: undefined } as Custom_Dashboard.CustomLIstQuery,
     recordModalVisible: false,
     formModalVisible: false,
+    tabValue: 'export',
   });
 
   const isEditing = formData !== null;
@@ -246,6 +247,7 @@ const CustomDashboardList = ({
         onClick: () => {
           exportCustomDashboard({ scope, scopeId, viewIds: [String(record.id)] });
           updater.recordModalVisible(true);
+          updater.tabValue('record');
         },
       },
       {
@@ -303,6 +305,8 @@ const CustomDashboardList = ({
           onVisibleChange={updater.recordModalVisible}
           getCustomDashboard={_getCustomDashboard}
           relationship={relationship}
+          changeTabValue={updater.tabValue}
+          tabValue={tabValue}
         />
         <Button
           type="primary"
