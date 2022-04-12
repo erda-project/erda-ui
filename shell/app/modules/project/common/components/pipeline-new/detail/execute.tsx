@@ -114,7 +114,6 @@ const Execute = (props: IProps) => {
 
   useUpdateEffect(() => {
     state.chosenPipelineId && getPipelineDetail({ pipelineID: +state.chosenPipelineId });
-    // updateSearch({ pipelineID: state.chosenPipelineId });
   }, [getPipelineDetail, state.chosenPipelineId]);
 
   const curStatus = (pipelineDetail && pipelineDetail.status) || '';
