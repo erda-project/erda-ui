@@ -37,6 +37,10 @@ declare namespace RELEASE {
     addonYaml?: string;
     id?: string;
     pId?: string;
+    tags?: Array<{ id: number; name: string; color: string }>;
+    resources?: Array<{ meta: { [key: string]: string }; name: string; type: string; url: string }>;
+    clusterName?: string;
+    serviceImages?: Array<{ name: string; image: string }>;
   }
 
   interface Mode {
@@ -65,5 +69,6 @@ declare namespace RELEASE {
   interface Labels {
     gitBranch: string;
     gitCommitId: string;
+    gitRepo: string;
   }
 }

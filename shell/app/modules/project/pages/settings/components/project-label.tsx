@@ -18,6 +18,7 @@ import { Modal, FormInstance } from 'antd';
 import projectLabel from 'project/stores/label';
 import React from 'react';
 import { useEffectOnce } from 'react-use';
+import routeInfoStore from 'core/stores/route';
 import './project-label.scss';
 import themeColor from 'app/theme-color.mjs';
 
@@ -34,8 +35,14 @@ const colorMap = {
   'yellow-green': themeColor['yellow-green-deep'],
 };
 
+const labelTypeMap = {
+  projectLabel: 'issue',
+  releaseLabel: 'release',
+};
+
 const colors = Object.keys(colorMap);
 const ProjectLabel = () => {
+  const { tabKey } = routeInfoStore.useStore((s) => s.query);
   const list = projectLabel.useStore((s) => s.list);
   const { getLabels, createLabel, updateLabel, deleteLabel } = projectLabel.effects;
   const { clearList } = projectLabel.reducers;
@@ -47,7 +54,7 @@ const ProjectLabel = () => {
   });
 
   useEffectOnce(() => {
-    getLabels({ type: 'issue' });
+    getLabels({ type: labelTypeMap[tabKey] });
     return clearList;
   });
 
@@ -65,7 +72,7 @@ const ProjectLabel = () => {
 
   const onOk = (data: any) => {
     const then = () => {
-      getLabels({ type: 'issue' });
+      getLabels({ type: labelTypeMap[tabKey] });
       onCancel();
     };
     if (data.id) {
@@ -93,7 +100,7 @@ const ProjectLabel = () => {
     },
     {
       name: 'type',
-      initialValue: 'issue',
+      initialValue: labelTypeMap[tabKey],
       itemProps: {
         type: 'hidden',
       },
