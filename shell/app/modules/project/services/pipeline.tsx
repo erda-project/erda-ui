@@ -149,9 +149,9 @@ export const getFileDetail = apiCreator<
 
 export const createPipeline = apiCreator<(payload: CreatePipelineParams) => RAW_RESPONSE>(apis.createPipeline);
 
-export const oneClickCreatePipeline = apiCreator<
-  (payload: OneClickCreatePipelineParams) => RAW_RESPONSE<{ errMsg: string }>
->(apis.oneClickCreatePipeline);
+export const oneClickCreatePipeline = apiCreator<(payload: OneClickCreatePipelineParams) => { errMsg: string }>(
+  apis.oneClickCreatePipeline,
+);
 
 export const getPipelineList = apiCreator<
   (payload: { appID: string; branch: string }) => { result: Array<{ ymlPath: string; ymlName: string }> }

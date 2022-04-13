@@ -71,10 +71,11 @@ const Pipeline = () => {
 
     setLoading(true);
 
-    oneClickCreatePipeline(params)
+    oneClickCreatePipeline
+      .fetch(params)
       .then((res) => {
         const { success, data } = res;
-        const { errMsg } = (data || {}) as { errMsg: string };
+        const { errMsg } = data || {};
         if (success) {
           categoryRef.current?.reload();
           listRef.current?.reload();
