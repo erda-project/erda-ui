@@ -59,15 +59,7 @@ const InParamsForm = React.forwardRef(
     };
 
     React.useEffect(() => {
-      updater.fields([
-        {
-          component: 'custom',
-          getComp: () => {
-            return <div className="font-medium border-bottom">{i18n.t('dop:Inputs')}</div>;
-          },
-        },
-        ...inParamsForm,
-      ]);
+      updater.fields([...inParamsForm]);
     }, [inParamsForm, updater]);
 
     const inFormProps = React.useMemo(() => {
@@ -128,7 +120,7 @@ const InParamsForm = React.forwardRef(
 
     return (
       <FormModal
-        title={i18n.t('Execute')}
+        title={i18n.t('dop:Execute Inputs')}
         onCancel={() => {
           afterExecute?.();
           update({ formVis: false, executing: false });
