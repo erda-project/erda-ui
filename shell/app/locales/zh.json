@@ -1711,6 +1711,7 @@
     "Related issue type": "关联事项类型",
     "related task": "关联任务",
     "relation added successfully": "添加关联成功",
+    "release associated label will be deleted, confirm to delete?": "将会删除制品中关联的标签，确认删除？",
     "release name": "制品名称",
     "release relationship": "解除关系",
     "Release version": "发布版本",
