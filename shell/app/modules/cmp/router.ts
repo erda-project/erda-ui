@@ -257,7 +257,7 @@ function getCmpRouter(): RouteConfigItem[] {
         },
         {
           path: 'jobs',
-          breadcrumbName: i18n.t('task'),
+          breadcrumbName: i18n.t('Task'),
           getComp: (cb) => cb(import('app/modules/cmp/pages/tasks/job')),
         },
         {
@@ -540,7 +540,7 @@ function getCmpRouter(): RouteConfigItem[] {
             },
             {
               path: 'config',
-              breadcrumbName: i18n.t('Configuration'),
+              breadcrumbName: i18n.t('Configuration-alarm'),
               tabs: alarmConfigTab,
               alwaysShowTabKey: 'strategy',
               routes: [

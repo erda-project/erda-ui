@@ -104,7 +104,7 @@ const CreateTestReport = () => {
       </div>
       {chosenIterationID ? (
         <div key={chosenIterationID}>
-          <Title title={i18n.t('dop:test statistics')} />
+          <Title title={i18n.t('dop:Test statistics')} />
           <DiceConfigPage
             scenarioType={'test-dashboard'}
             scenarioKey={'test-dashboard'}
@@ -116,7 +116,7 @@ const CreateTestReport = () => {
             inParams={inParams}
           />
 
-          <Title title={i18n.t('dop:test statistics')} />
+          <Title title={i18n.t('dop:Test statistics')} />
           <DiceConfigPage
             scenarioType={'issue-dashboard'}
             scenarioKey={'issue-dashboard'}

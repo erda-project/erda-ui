@@ -104,7 +104,7 @@ export const appPerm = {
     },
   },
   pipeline: {
-    name: i18n.t('pipeline'),
+    name: i18n.t('Pipeline'),
     read: {
       pass: false,
       name: i18n.t('dop:view'),

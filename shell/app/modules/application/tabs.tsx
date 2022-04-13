@@ -80,7 +80,7 @@ export const APP_TABS = () => {
   const pipeline = {
     show: perm.pipeline.read.pass,
     key: 'pipeline',
-    name: i18n.t('pipeline'),
+    name: i18n.t('Pipeline'),
   };
   const dataTask = {
     show: perm.dataTask.read.pass,

@@ -312,7 +312,7 @@ const TicketDetail = ({ id, onClose, onCloseIssue }: { id: number; onClose: () =
                       });
                     }}
                   >
-                    <Option value="TASK">{i18n.t('task')}</Option>
+                    <Option value="TASK">{i18n.t('Task')}</Option>
                     <Option value="BUG">{i18n.t('Bug')}</Option>
                   </Select>
                   <LoadMoreSelector

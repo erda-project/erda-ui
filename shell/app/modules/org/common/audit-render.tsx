@@ -75,8 +75,8 @@ const render = (record: AUDIT.Item, extraTemplates = {}) => {
         case 'issueType': {
           const replaceMap = {
             epic: i18n.t('dop:Milestone'),
-            requirement: i18n.t('requirement'),
-            task: i18n.t('task'),
+            requirement: i18n.t('Requirement'),
+            task: i18n.t('Task'),
             bug: i18n.t('Bug'),
             ticket: i18n.t('dop:ticket'),
           };

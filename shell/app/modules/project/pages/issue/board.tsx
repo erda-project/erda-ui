@@ -309,8 +309,8 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
 
 const Board = () => {
   const issueTabs = [
-    { value: ISSUE_TYPE.REQUIREMENT, label: i18n.t('requirement') },
-    { value: ISSUE_TYPE.TASK, label: i18n.t('task') },
+    { value: ISSUE_TYPE.REQUIREMENT, label: i18n.t('Requirement') },
+    { value: ISSUE_TYPE.TASK, label: i18n.t('Task') },
     { value: ISSUE_TYPE.BUG, label: i18n.t('Bug') },
   ];
   const query = routeInfoStore.useStore((s) => s.query);

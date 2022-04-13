@@ -28,7 +28,7 @@ export const getDopMenu = () => {
           key: 'projects',
           href: goTo.resolve.dopRoot(), // '/dop/projects',
           icon: <ErdaIcon type="xiangmuguanli" />,
-          text: i18n.t('dop:projects'),
+          text: i18n.t('dop:Projects'),
           subtitle: i18n.t('Project'),
         },
         {
@@ -65,12 +65,12 @@ export const getDopMenu = () => {
           subtitle: i18n.t('Approve'),
           subMenu: [
             {
-              text: i18n.t('dop:my approval'),
+              text: i18n.t('dop:Approved by Me'),
               href: goTo.resolve.dopApprovePending(), // '/dop/approval/my-approve/pending',
               prefix: `${goTo.resolve.dopApprove()}/`,
             },
             {
-              text: i18n.t('dop:Initiated by me'),
+              text: i18n.t('dop:Initiated by Me'),
               href: goTo.resolve.dopMyInitiateWait(), // '/dop/approval/my-initiate/WaitApprove',
               prefix: `${goTo.resolve.dopMyInitiate()}/`,
             },
@@ -80,7 +80,7 @@ export const getDopMenu = () => {
           key: 'dopPublisher',
           href: goTo.resolve.dopPublisher(), // '/dop/publisher',
           icon: <ErdaIcon type="shenpi-3n9l57j5" />,
-          text: i18n.t('publisher:my release'),
+          text: i18n.t('publisher:My Release'),
           subtitle: i18n.t('Release'),
           show: orgPerm.dop.publisher.read.pass,
         },

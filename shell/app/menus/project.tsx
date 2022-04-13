@@ -26,8 +26,8 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       href: goTo.resolve.project(), // `/dop/projects/${projectId}/issues/all`,
       withOpenKeys: [goTo.resolve.projectAllIssue()],
       icon: <ErdaIcon type="shouye" />,
-      text: i18n.t('dop:Project homepage'),
-      subtitle: i18n.t('dop:home page'),
+      text: i18n.t('dop:Homepage'),
+      subtitle: i18n.t('dop:Homepage'),
       show:
         projectPerm.backLog.viewBackLog.pass ||
         projectPerm.iteration.read.pass ||
@@ -38,7 +38,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       href: goTo.resolve.projectAllIssue(), // `/dop/projects/${projectId}/issues/all`,
       icon: <ErdaIcon type="xiangmuguanli" />,
-      text: i18n.t('dop:Projects'),
+      text: i18n.t('dop:Projects-manage'),
       subtitle: i18n.t('dop:Management'),
       show:
         projectPerm.backLog.viewBackLog.pass ||
@@ -49,7 +49,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       subMenu: [
         {
           href: goTo.resolve.projectAllIssue(),
-          text: i18n.t('dop:project collaboration'),
+          text: i18n.t('dop:Collaboration'),
           prefix: `${goTo.resolve.projectIssueRoot()}/`,
         },
         {
@@ -84,7 +84,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
         },
         {
           href: goTo.resolve.projectTestReport(),
-          text: i18n.t('dop:test report'),
+          text: i18n.t('dop:Test Reports'),
           prefix: `${goTo.resolve.projectTestReport()}`,
         },
       ],
@@ -98,7 +98,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       subMenu: [
         {
           href: goTo.resolve.projectApps(),
-          text: i18n.t('App'),
+          text: i18n.t('Apps'),
           prefix: `${goTo.resolve.projectApps()}`,
         },
         {
@@ -107,7 +107,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
           prefix: `${goTo.resolve.projectRelease()}/`,
         },
         {
-          text: i18n.t('pipeline'),
+          text: i18n.t('Pipelines'),
           href: goTo.resolve.projectPipelineList(),
           show: projectPerm.pipeline.view.pass,
           prefix: `${goTo.resolve.projectPipeline()}/`,

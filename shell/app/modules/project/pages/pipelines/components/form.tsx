@@ -224,7 +224,7 @@ const PipelineForm = ({ onCancel, type, onOk, appID }: IProps) => {
   return (
     <div className="project-pipeline-form flex flex-col h-full">
       <div className="header py-2.5 pl-4 bg-default-02 flex-h-center">
-        <span className="text-base text-default">{i18n.t('create {name}', { name: i18n.t('pipeline') })}</span>
+        <span className="text-base text-default">{i18n.t('create {name}', { name: i18n.t('Pipeline') })}</span>
         <ErdaIcon type="zhedie" className="ml-1" />
 
         <div className="flex-h-center cursor-pointer mx-2 px-2 py-1 flex-1 justify-end">
@@ -238,7 +238,7 @@ const PipelineForm = ({ onCancel, type, onOk, appID }: IProps) => {
             name={'name'}
             type={'input'}
             rules={[
-              { required: true, message: i18n.t('please enter {name}', { name: i18n.t('pipeline') }) },
+              { required: true, message: i18n.t('please enter {name}', { name: i18n.t('Pipeline') }) },
               { max: 30, message: i18n.t('dop:no more than 30 characters') },
               {
                 pattern: /^[\u4e00-\u9fa5A-Za-z0-9._-]+$/,
@@ -252,7 +252,7 @@ const PipelineForm = ({ onCancel, type, onOk, appID }: IProps) => {
             ]}
             itemProps={{
               className: 'border-transparent shadow-none pl-0 text-xl bg-transparent',
-              placeholder: i18n.t('please enter {name}', { name: i18n.t('pipeline') }),
+              placeholder: i18n.t('please enter {name}', { name: i18n.t('Pipeline') }),
             }}
           />
           {nameRepeatMessage ? (
@@ -298,7 +298,7 @@ const PipelineForm = ({ onCancel, type, onOk, appID }: IProps) => {
                       validator: (_, value: string) => {
                         if (!value) {
                           return Promise.reject(
-                            new Error(i18n.t('please choose {name}', { name: i18n.t('Pipeline') })),
+                            new Error(i18n.t('please choose {name}', { name: i18n.t('Pipelines') })),
                           );
                         }
 

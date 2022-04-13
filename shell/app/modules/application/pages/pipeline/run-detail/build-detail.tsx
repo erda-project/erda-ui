@@ -784,7 +784,7 @@ const BuildDetail = (props: IProps) => {
               </Row>
               <Row className="mb-4">
                 <Col span={12}>
-                  <div className="info-label">{i18n.t('pipeline')} ID：</div>
+                  <div className="info-label">{i18n.t('Pipeline')} ID：</div>
                   {pipelineID}
                 </Col>
                 {cronMsg && (

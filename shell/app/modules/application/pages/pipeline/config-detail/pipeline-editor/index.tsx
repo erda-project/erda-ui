@@ -38,7 +38,7 @@ const CasePipelineEditor = (props: IProps) => {
       <PipelineEditor
         ymlStr={ymlStr}
         editable={editable}
-        title={i18n.t('pipeline')}
+        title={i18n.t('Pipeline')}
         addDrawerProps={addDrawerProps}
         onSubmit={onUpdateYml}
         loading={loading}
