@@ -69,6 +69,7 @@ export const goTo = (pathStr: string, options?: IOptions) => {
     if (curPath === undefined) {
       return;
     }
+
     _path = isFunction(curPath) ? curPath(pathParams) : curPath;
   } else {
     _path = resolvePath(pathStr);
@@ -77,10 +78,14 @@ export const goTo = (pathStr: string, options?: IOptions) => {
     _path += `?${qs.stringify(query)}`;
   }
 
+  if (_path.endsWith('?')) _path = _path.replace('?', '');
+
   if (jumpOut) {
     window.open(_path);
     return;
   }
+  const curPath = `${location.pathname}${location.search}`;
+  if (curPath === _path) return;
 
   const action = replace ? 'replace' : 'push';
 
