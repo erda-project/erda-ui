@@ -22,7 +22,7 @@ export const getAlerts = (
     .then((response: any) => response.body);
 };
 
-export const getAlertDetail = (id: number): COMMON_STRATEGY_NOTIFY.IAlertDetail => {
+export const getAlertDetail = (id: number): COMMON_STRATEGY_NOTIFY.IAlertBody => {
   return agent.get(`/api/orgCenter/alerts/${id}`).then((response: any) => response.body);
 };
 

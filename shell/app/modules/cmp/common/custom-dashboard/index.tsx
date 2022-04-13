@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Modal, FormInstance } from 'antd';
-import { formatTime, fromNow, goTo } from 'common/utils';
+import { Button, Modal, FormInstance, Avatar } from 'antd';
+import { formatTime, fromNow, goTo, getAvatarChars } from 'common/utils';
 import { useUserMap } from 'core/stores/userMap';
 import { useMount } from 'react-use';
 import { useUpdate } from 'common/use-hooks';
@@ -28,7 +28,7 @@ import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dash
 import { getCustomDashboardCreators, exportCustomDashboard } from 'app/modules/cmp/services/_common-custom-dashboard';
 import { map } from 'lodash';
 import { ColumnProps, IActions } from 'common/components/table/interface';
-import { UserInfo, ConfigurableFilter, FormModal } from 'common';
+import { ConfigurableFilter, FormModal } from 'common';
 import ImportExport from 'cmp/common/custom-dashboard/import-export';
 
 const storeMap = {
@@ -56,11 +56,12 @@ const CustomDashboardList = ({
   relationship?: Custom_Dashboard.Relationship[];
 }) => {
   const params = routeInfoStore.useStore((s) => s.params);
-  const [{ formData, filterData, recordModalVisible, formModalVisible }, updater, update] = useUpdate({
+  const [{ formData, filterData, recordModalVisible, formModalVisible, tabValue }, updater, update] = useUpdate({
     formData: null,
     filterData: { creator: [], createdAt: '', title: undefined } as Custom_Dashboard.CustomLIstQuery,
     recordModalVisible: false,
     formModalVisible: false,
+    tabValue: 'export',
   });
 
   const isEditing = formData !== null;
@@ -86,8 +87,8 @@ const CustomDashboardList = ({
   const [loading] = useLoading(store, ['getCustomDashboard']);
 
   const _getCustomDashboard = React.useCallback(
-    (no: number, size?: number, queryObj?: Custom_Dashboard.CustomLIstQuery) => {
-      const { createdAt, ...rest } = queryObj || {};
+    (no: number, size?: number, queryObj: Custom_Dashboard.CustomLIstQuery = filterData) => {
+      const { createdAt, ...rest } = queryObj;
       let query = queryObj;
       if (createdAt) {
         query = { ...rest, startTime: createdAt[0], endTime: createdAt[1] };
@@ -100,7 +101,7 @@ const CustomDashboardList = ({
         ...query,
       });
     },
-    [getCustomDashboard, scope, scopeId],
+    [getCustomDashboard, scope, scopeId, filterData],
   );
 
   useMount(() => {
@@ -120,7 +121,7 @@ const CustomDashboardList = ({
       title: `${i18n.t('common:confirm to delete')}?`,
       onOk: async () => {
         await deleteCustomDashboard({ id, scopeId });
-        _getCustomDashboard(total - 1 > (pageNo - 1) * pageSize ? pageNo : 1, pageSize);
+        _getCustomDashboard(total - 1 > (pageNo - 1) * pageSize ? pageNo : 1);
       },
     });
   };
@@ -148,7 +149,23 @@ const CustomDashboardList = ({
     {
       title: i18n.t('Creator'),
       dataIndex: 'creator',
-      render: (text: string) => <UserInfo id={text} />,
+      render: (text: string) => {
+        const cU = userMap[Number(text)];
+        if (text && cU) {
+          return (
+            <span>
+              <Avatar size="small" src={cU.avatar}>
+                {cU.nick ? getAvatarChars(cU.nick) : i18n.t('None')}
+              </Avatar>
+              <span className="ml-0.5 mr-1" title={cU.name}>
+                {cU.nick || cU.name || text || i18n.t('None')}
+              </span>
+            </span>
+          );
+        }
+
+        return '-';
+      },
     },
     {
       title: i18n.t('create time'),
@@ -166,6 +183,13 @@ const CustomDashboardList = ({
       placeholder: i18n.t('filter by {name}', { name: i18n.t('Submitter') }),
     },
     {
+      key: 'description',
+      type: 'input',
+      label: i18n.t('Description'),
+      options: creatorOptions,
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('Description') }),
+    },
+    {
       key: 'createdAt',
       type: 'dateRange',
       label: i18n.t('create time'),
@@ -175,7 +199,7 @@ const CustomDashboardList = ({
       type: 'input',
       outside: true,
       key: 'name',
-      placeholder: i18n.t('default:Search by keyword'),
+      placeholder: i18n.t('Search by name'),
       customProps: {
         autoComplete: 'off',
       },
@@ -223,6 +247,7 @@ const CustomDashboardList = ({
         onClick: () => {
           exportCustomDashboard({ scope, scopeId, viewIds: [String(record.id)] });
           updater.recordModalVisible(true);
+          updater.tabValue('record');
         },
       },
       {
@@ -280,6 +305,8 @@ const CustomDashboardList = ({
           onVisibleChange={updater.recordModalVisible}
           getCustomDashboard={_getCustomDashboard}
           relationship={relationship}
+          changeTabValue={updater.tabValue}
+          tabValue={tabValue}
         />
         <Button
           type="primary"
@@ -309,7 +336,7 @@ const CustomDashboardList = ({
           pageSize,
         }}
         onChange={({ current = 1, pageSize: size }) => {
-          _getCustomDashboard(current, size, filterData);
+          _getCustomDashboard(current, size);
         }}
         scroll={{ x: '100%' }}
         slot={slot}

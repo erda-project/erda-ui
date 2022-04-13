@@ -465,7 +465,7 @@ const MicroServiceOverview = () => {
       <ErdaAlert
         showOnceKey="msp-service-list"
         message={i18n.t(
-          'msp:show all connected services in the current environment, as well as the key request indicators of the service in the last hour',
+          'msp:Shows all connected services in the current environment, as well as key request metrics of the service in the last hour',
         )}
       />
       {tenantId ? (

@@ -152,7 +152,7 @@ export const PureAppSettings = () => {
                 {
                   title: i18n.t('dop:Variable Configuration'),
                   desc: i18n.t(
-                    'dop:The same code can generate different artifacts by pipeline in different environments. Configure the environment here.',
+                    'dop:The same code can be compiled by pipeline to generate different artifacts for different environments, and you can set configurations for different environments here.',
                   ),
                   children: <PipelineConfig />,
                 },
@@ -258,7 +258,7 @@ export const PureAppSettings = () => {
                   {
                     title: i18n.t('dop:Variable Configuration'),
                     desc: i18n.t(
-                      'dop:The same code can generate different artifacts by pipeline in different environments. Configure the environment here.',
+                      'dop:The same code can be compiled by pipeline to generate different artifacts for different environments, and you can set configurations for different environments here.',
                     ),
                     children: <MobileConfig />,
                   },

@@ -95,7 +95,7 @@ const Authenticate = (props: IProps) => {
       ),
     },
     {
-      title: i18n.t('last login time'),
+      title: i18n.t('Last login time'),
       dataIndex: 'lastLoginTime',
       width: 200,
       render: (v: string) => (v ? moment(v).format('YYYY-MM-DD HH:mm:ss') : '-'),

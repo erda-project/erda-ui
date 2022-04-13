@@ -22,6 +22,7 @@ declare namespace COMMON_STRATEGY_NOTIFY {
       value: any;
     }>;
     isRecover: boolean;
+    level: string;
   }
 
   interface IPageParam {
@@ -60,8 +61,9 @@ declare namespace COMMON_STRATEGY_NOTIFY {
     type: 'notify_group';
     groupId: string;
     groupType: string;
-    notifyGroup?: INotifyGroup;
+    notifyGroup: INotifyGroup;
     dingdingUrl?: string;
+    level?: string;
   }
 
   interface INotifyTarget {
@@ -84,11 +86,11 @@ declare namespace COMMON_STRATEGY_NOTIFY {
         unit: string;
         policy: string;
       };
-      type: string;
       groupId: number;
       groupType: string;
       level: string;
     }>;
+    triggerCondition: TriggerCondition[];
   }
 
   interface IAlertDetail {
@@ -160,5 +162,16 @@ declare namespace COMMON_STRATEGY_NOTIFY {
     condition: string;
     filters: object;
     index: string;
+  }
+
+  interface TriggerCondition {
+    condition: string | undefined;
+    operator: string;
+    values: string | undefined;
+  }
+
+  interface OperationTriggerCondition extends TriggerCondition {
+    id: string;
+    valueOptions: Array<{ key: string; display: string }>;
   }
 }

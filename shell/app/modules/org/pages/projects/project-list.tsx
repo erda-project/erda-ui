@@ -222,7 +222,7 @@ export const ProjectList = () => {
         <ErdaAlert
           showOnceKey="project-list"
           message={i18n.t(
-            'support the creation and deletion of all projects in the organization, as well as the operation and management of project members and quotas.',
+            'Support project management such as creation and deletion, as well as project O&M of project members, quotas and more',
           )}
         />
         <ErdaTable

@@ -773,7 +773,7 @@ const NotifyChannel = () => {
           <TabPane key="email" tab={i18n.t('common:Email')} />
           <TabPane key="dingtalk_work_notice" tab={i18n.t('DingTalk-work-notice')} />
           <TabPane key="sms" tab={i18n.t('SMS')} />
-          <TabPane key="vms" tab={i18n.t('Phone')} />
+          <TabPane key="vms" tab={i18n.t('Phone-tel')} />
         </Tabs>
         <ErdaTable
           rowKey="id"

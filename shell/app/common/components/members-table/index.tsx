@@ -440,10 +440,10 @@ const MembersTable = ({
           ),
         },
         {
-          title: i18n.t('cellphone'),
+          title: i18n.t('Phone'),
           dataIndex: 'mobile',
           render: (value: string | number) => (
-            <span className="cursor-copy" data-clipboard-tip={i18n.t('cellphone')} data-clipboard-text={value}>
+            <span className="cursor-copy" data-clipboard-tip={i18n.t('Phone')} data-clipboard-text={value}>
               {value || '-'}
             </span>
           ),

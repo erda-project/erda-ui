@@ -81,7 +81,8 @@ const DomainModal = (props: IProps) => {
                 filter(
                   domains,
                   (domain) =>
-                    (domain.domainType === 'DEFAULT' && domain.customDomain) || domain.domainType !== 'DEFAULT',
+                    domain.domainType !== 'PACKAGE' &&
+                    ((domain.domainType === 'DEFAULT' && domain.customDomain) || domain.domainType !== 'DEFAULT'),
                 ),
                 (domain) => (domain.domainType === 'DEFAULT' ? domain.customDomain + domain.rootDomain : domain.domain),
               ),
@@ -152,9 +153,11 @@ const DomainModal = (props: IProps) => {
     });
   };
 
+  const packageDomain = domains.filter((item) => item.domainType === 'PACKAGE');
+
   return (
     <Modal
-      title={i18n.t('runtime:domain settings')}
+      title={i18n.t('runtime:Domain settings')}
       visible={visible}
       destroyOnClose
       onOk={saveConfig}
@@ -201,7 +204,7 @@ const DomainModal = (props: IProps) => {
                   </Col>
                 </Row>
                 <div className="custom-domain" key="custom">
-                  <span>{i18n.t('runtime:custom domain name')}:</span>
+                  <span>{i18n.t('runtime:Custom domain')}:</span>
                   <span className="add-domain-icon">
                     <ErdaIcon
                       type="add-one"
@@ -212,7 +215,7 @@ const DomainModal = (props: IProps) => {
                   </span>
                 </div>
               </div>
-            ) : (
+            ) : domainType === 'CUSTOM' ? (
               <Row key={id} align="middle">
                 <Col span={22}>
                   <FormItem className="hidden" name={`${domainType}@@${id}`} initialValue={serviceName}>
@@ -233,8 +236,18 @@ const DomainModal = (props: IProps) => {
                   </FormItem>
                 </Col>
               </Row>
-            );
+            ) : null;
           })}
+          {packageDomain?.length ? (
+            <div>
+              <div className="mb-2">{i18n.t('msp:Endpoint')}</div>
+              {packageDomain.map((item) => (
+                <div key={item.domain} className="mb-1">
+                  {item.domain}
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
       </Form>
     </Modal>

@@ -519,7 +519,6 @@ const BuildDetail = (props: IProps) => {
         </Tooltip>
       </div>
     );
-
     return (
       <IF check={canManualRun}>
         <IF check={startStatus !== 'unstart'}>
@@ -599,8 +598,8 @@ const BuildDetail = (props: IProps) => {
     return record.id !== selectedRowId ? 'build-history-tr' : 'selected-row font-medium';
   };
 
-  const handleRecordPageChange = (pageNo: number) => {
-    getRecordList({ pageNo });
+  const handleRecordPageChange = (pageNo: number, pageSize: number) => {
+    getRecordList({ pageNo, pageSize });
   };
 
   const renderBuildHistory = () => {
@@ -731,6 +730,7 @@ const BuildDetail = (props: IProps) => {
                   title={i18n.t('dop:Execution Records')}
                   content={renderBuildHistory()}
                   arrowPointAtCenter
+                  trigger="click"
                 >
                   <ErdaIcon fill="black-4" size="20" type="jsjl" className="mb-2 mr-1 cursor-pointer" />
                 </Popover>

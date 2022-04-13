@@ -91,14 +91,9 @@ const compareSameMenu = (sourceMenu: IMenu[], targetMenu: IMenu[]) => {
 
 const SideBar = () => {
   const [subSiderInfoMap, subList] = layoutStore.useStore((s) => [s.subSiderInfoMap, s.subList]);
-  const routeMarks = routeInfoStore.useStore((s) => s.routeMarks);
-  const [state, updater, update] = useUpdate({
-    float: localStorage.getItem('sidebarFixed') === 'false',
-    menus: [],
-    openKeys: [],
-    selectedKey: '',
-  });
+  const [routeMarks, currentRoute] = routeInfoStore.useStore((s) => [s.routeMarks, s.currentRoute]);
   let siderInfo: any = null;
+
   routeMarks
     .slice()
     .reverse()
@@ -112,6 +107,22 @@ const SideBar = () => {
       siderInfo.detail = siderInfo.getDetail();
     }
   }
+  const foldSidebar = currentRoute?.layout?.foldSidebar;
+
+  const [state, updater, update] = useUpdate({
+    float: foldSidebar || localStorage.getItem('sidebarFixed') === 'false',
+    menus: [],
+    openKeys: [],
+    selectedKey: '',
+  });
+
+  React.useEffect(() => {
+    if (foldSidebar) {
+      updater.float(true);
+    } else {
+      updater.float(localStorage.getItem('sidebarFixed') === 'false');
+    }
+  }, [foldSidebar, updater]);
 
   const organizeInfo = (menu: IMenu[]) => {
     let activeKeyList = [] as string[];

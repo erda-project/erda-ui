@@ -21,7 +21,7 @@ import { useUserMap } from 'core/stores/userMap';
 
 const typeMap = {
   BUILD: i18n.t('runtime:build'),
-  ROLLBACK: i18n.t('runtime:rollback'),
+  ROLLBACK: i18n.t('runtime:Rollback'),
   REDEPLOY: i18n.t('runtime:restart'),
   RELEASE: i18n.t('runtime:release deployment'),
 };
@@ -38,7 +38,7 @@ const DeploymentTable = ({ dataSource, paging, loading, onChange, opsCol }: IPro
   const userMap = useUserMap();
   const columns: Array<ColumnProps<{ [prop: string]: any }>> = [
     {
-      title: i18n.t('runtime:deployment id'),
+      title: i18n.t('runtime:Deployment ID'),
       dataIndex: 'id',
     },
     {
@@ -50,12 +50,12 @@ const DeploymentTable = ({ dataSource, paging, loading, onChange, opsCol }: IPro
       },
     },
     {
-      title: i18n.t('runtime:operation time'),
+      title: i18n.t('runtime:Operation time'),
       dataIndex: 'createdAt',
       render: (text: string) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      title: i18n.t('runtime:deployment type'),
+      title: i18n.t('runtime:Deployment type'),
       dataIndex: 'type',
       render: (text: string) => typeMap[text],
     },

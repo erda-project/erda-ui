@@ -23,7 +23,7 @@ export interface IBadgeProps {
   color?: string;
   tip?: string;
   status?: 'success' | 'error' | 'warning' | 'default' | 'processing';
-  text: string;
+  text?: string;
   size?: 'small' | 'default';
   breathing?: boolean;
   className?: string;

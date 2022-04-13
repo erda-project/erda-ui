@@ -185,7 +185,7 @@ const templateArr: ICardProps[] = [
     val: 'DevOps',
     icon: 'CombinedShape',
     description: i18n.t(
-      'cmp:provides functions such as project management, code hub, CI/CD, artifact library and a complete R&D process.',
+      'cmp:Provides features such as project management, code hosting, CI/CD and artifact repository with a complete R&D process.',
     ),
     disabled: false,
   },
@@ -203,7 +203,7 @@ const templateArr: ICardProps[] = [
     val: 'codeHostingProject',
     icon: 'code',
     description: i18n.t(
-      'cmp:used for code repositories, supports multiple repositories and choose to enable CI/CD and artifacts',
+      'cmp:Used to host code repositories, supports multiple repositories, with the option to enable CI/CD and artifacts.',
     ),
     disabled: true,
   },
