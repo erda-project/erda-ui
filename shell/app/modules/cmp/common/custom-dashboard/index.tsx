@@ -199,7 +199,7 @@ const CustomDashboardList = ({
       type: 'input',
       outside: true,
       key: 'name',
-      placeholder: i18n.t('default:Search by keyword'),
+      placeholder: i18n.t('Search by name'),
       customProps: {
         autoComplete: 'off',
       },
