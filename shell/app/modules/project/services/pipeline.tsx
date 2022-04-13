@@ -101,7 +101,9 @@ const apis = {
 };
 
 export const runPipeline = apiCreator<
-  (payload: { pipelineDefinitionID: string; projectID: number }) => { pipeline: { id: string } }
+  (payload: { pipelineDefinitionID: string; projectID: number; runPrams?: Obj<string | number> }) => {
+    pipeline: { id: string };
+  }
 >(apis.runPipeline);
 
 export const rerunPipeline = apiCreator<

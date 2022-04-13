@@ -16,7 +16,7 @@ import { isEmpty, get } from 'lodash';
 import { Spin, Modal, Tooltip, Menu, Dropdown, Input, Button } from 'antd';
 import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, ErdaIcon, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { goTo, updateSearch } from 'common/utils';
+import { goTo } from 'common/utils';
 import { BuildLog } from 'application/pages/pipeline/run-detail/build-log';
 import { defaultPipelineYml } from 'yml-chart/config';
 import PipelineChart from 'application/pages/pipeline/run-detail/pipeline-chart';
@@ -330,8 +330,6 @@ const Execute = (props: IProps) => {
   const hideLog = () => {
     updater.logVisible(false);
   };
-
-  const pipelineRunning = pipelineDetail && ciBuildStatusSet.executeStatus.includes(pipelineDetail.status);
 
   const refreshPipeline = () => {
     getPipelineDetail({ pipelineID: +state.chosenPipelineId });
