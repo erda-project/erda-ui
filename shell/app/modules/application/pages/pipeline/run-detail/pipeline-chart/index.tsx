@@ -12,11 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import { Popover } from 'antd';
 import { YmlChart } from 'yml-chart/chart';
 import { externalKey, NodeType, NodeEleMap } from 'yml-chart/config';
 import { map } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import PipelineNode from './pipeline-node';
+import i18n from 'i18n';
 
 interface IProps {
   changeType: string;
@@ -31,6 +33,8 @@ const CHART_NODE_SIZE = {
     HEIGHT: 74,
   },
 };
+
+const { startNode: StartNode, endNode: EndNode } = NodeEleMap;
 
 export const AppPipelineChart = (props: IProps) => {
   const { data, onClickNode, changeType } = props;
@@ -74,6 +78,18 @@ export const AppPipelineChart = (props: IProps) => {
     });
   }, [update, data, changeType]);
 
+  const getLastRunParams = () => {
+    const { runParams } = data || {};
+
+    const res: Obj = {};
+    if (runParams?.length) {
+      runParams.forEach((item) => {
+        res[item.name] = item.value;
+      });
+    }
+    return res;
+  };
+
   React.useEffect(() => {
     update((prev) => ({
       displayData: resetData({ stagesData }),
@@ -84,6 +100,7 @@ export const AppPipelineChart = (props: IProps) => {
   const chartConfig = {
     NODE: CHART_NODE_SIZE,
   };
+
   return (
     <YmlChart
       chartId="app-pipeline"
@@ -95,8 +112,31 @@ export const AppPipelineChart = (props: IProps) => {
       external={{
         nodeEleMap: {
           pipeline: PipelineNode,
-          startNode: () => <NodeEleMap.startNode disabled />,
-          endNode: () => <NodeEleMap.endNode disabled />,
+          startNode: () => {
+            const inParams = getLastRunParams();
+            const inKeys = Object.keys(inParams);
+            return (
+              <StartNode
+                text={
+                  <Popover
+                    placement="right"
+                    content={
+                      <div className="">
+                        <h4>{i18n.t('dop:Input')}</h4>
+                        {inKeys.map((item) => (
+                          <div key={item}>{`${item} = ${JSON.stringify(inParams[item])}`}</div>
+                        ))}
+                        {!inKeys.length ? <div>{i18n.t('None')}</div> : null}
+                      </div>
+                    }
+                  >
+                    <div className="w-full text-center">{i18n.t('dop:Input')}</div>
+                  </Popover>
+                }
+              />
+            );
+          },
+          endNode: () => <EndNode disabled />,
         },
       }}
     />

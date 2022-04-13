@@ -70,7 +70,6 @@ const Pipeline = (props: IProps) => {
   const [mode, setMode] = React.useState<DetailMode>(DetailMode.empty);
   const [initPipeline, setInitPipeline] = React.useState(false);
   const [fileChanged, setFileChanged] = React.useState(false);
-  const [lastMode, setLastMode] = React.useState(DetailMode.empty);
 
   // mobile_init is a special node, only allowed to run pipeline
   const isMobileInit = nodeId === 'mobile_init';
@@ -143,14 +142,9 @@ const Pipeline = (props: IProps) => {
   const editAuth = { hasAuth: true };
   const deployAuth = { hasAuth: true };
 
-  const onSetMode = (v: DetailMode) => {
-    setLastMode(mode);
-    setMode(v);
-  };
-
   if (!branchExist && !pipelineId) return <EmptyHolder />;
   const editPipeline = () => {
-    onSetMode(DetailMode.edit);
+    setMode(DetailMode.edit);
   };
 
   const extraTitle = (
@@ -179,8 +173,8 @@ const Pipeline = (props: IProps) => {
       mode={mode}
       projectId={projectId}
       loading={commitLoading}
-      switchToExecute={() => onSetMode(DetailMode.execute)}
-      setEditMode={(v) => onSetMode(v)}
+      switchToExecute={() => setMode(DetailMode.execute)}
+      setEditMode={(v) => setMode(v)}
       fileChanged={fileChanged}
       setPipelineId={(v) => {
         setPipelineId(v);
@@ -192,9 +186,6 @@ const Pipeline = (props: IProps) => {
       deployAuth={deployAuth.hasAuth}
       pipelineFileDetail={nodeDetail}
       onUpdate={onUpdate}
-      onCancel={() => {
-        lastMode === DetailMode.execute && onSetMode(DetailMode.execute);
-      }}
     />
   ) : pipelineId ? (
     <Execute
@@ -205,6 +196,7 @@ const Pipeline = (props: IProps) => {
       }}
       projectId={projectId}
       pipelineId={pipelineId}
+      switchToEditor={() => setMode(DetailMode.file)}
       pipelineDefinitionID={pipelineDefinitionID}
       extraTitle={extraTitle}
       fileChanged={fileChanged}

@@ -14,6 +14,7 @@
 import React from 'react';
 import { get, isEmpty } from 'lodash';
 import PipelineEditor from 'app/yml-chart/pipeline-editor';
+import { defaultPipelineYml } from 'yml-chart/config';
 import CaseYmlGraphicEditor from './case-yml-graphic-editor';
 import { CaseNode, nodeSize } from './case-node';
 import i18n from 'i18n';
@@ -26,10 +27,6 @@ interface IProps {
   editable: boolean;
   loading?: boolean;
 }
-
-const defaultPipelineYml = `version: 1.1
-stages: []
-`;
 
 const CasePipelineEditor = (props: IProps) => {
   const { caseDetail, onUpdateYml, addDrawerProps, scope, editable, loading } = props;

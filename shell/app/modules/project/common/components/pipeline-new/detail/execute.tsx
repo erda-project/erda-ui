@@ -14,10 +14,11 @@
 import React from 'react';
 import { isEmpty, get } from 'lodash';
 import { Spin, Modal, Tooltip, Menu, Dropdown, Input, Button } from 'antd';
-import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, IF, ErdaIcon, ErdaAlert, Badge } from 'common';
+import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, ErdaIcon, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { goTo, updateSearch } from 'common/utils';
+import { goTo } from 'common/utils';
 import { BuildLog } from 'application/pages/pipeline/run-detail/build-log';
+import { defaultPipelineYml } from 'yml-chart/config';
 import PipelineChart from 'application/pages/pipeline/run-detail/pipeline-chart';
 import { ciBuildStatusSet } from 'application/pages/pipeline/run-detail/config';
 import { WithAuth } from 'app/user/common';
@@ -29,10 +30,11 @@ import { useLoading } from 'core/stores/loading';
 import { rerunFailedPipeline, runPipeline, rerunPipeline, cancelPipeline } from 'project/services/pipeline';
 import Info from './info';
 import deployStore from 'application/stores/deploy';
+import InParamsForm from './in-params-form';
+
 import './execute.scss';
 
 const { TextArea } = Input;
-const { ELSE } = IF;
 const { confirm } = Modal;
 
 const noop = () => {};
@@ -49,6 +51,7 @@ interface IProps {
   extraTitle: React.ReactNode;
   pipelineDetail?: BUILD.IPipelineDetail;
   setPipelineId: (v: string) => void;
+  switchToEditor: () => void;
   editPipeline: () => void;
 }
 
@@ -60,6 +63,7 @@ const Execute = (props: IProps) => {
     deployAuth,
     pipelineFileDetail,
     editPipeline,
+    switchToEditor,
     pipelineDefinitionID,
     fileChanged,
     extraTitle,
@@ -74,6 +78,11 @@ const Execute = (props: IProps) => {
     chosenPipelineId: pipelineId || ('' as string | number),
     recordTableKey: 1,
   });
+
+  const executeRef = React.useRef<{
+    execute: (_ymlStr: string, extra: { pipelineId?: string; pipelineDetail?: BUILD.IPipelineDetail }) => void;
+  }>(null);
+
   const { startStatus, rerunStartStatus, logProps, logVisible } = state;
 
   const [pipelineDetail, changeType] = buildStore.useStore((s) => [s.pipelineDetail, s.changeType]);
@@ -105,7 +114,6 @@ const Execute = (props: IProps) => {
 
   useUpdateEffect(() => {
     state.chosenPipelineId && getPipelineDetail({ pipelineID: +state.chosenPipelineId });
-    updateSearch({ pipelineID: state.chosenPipelineId });
   }, [getPipelineDetail, state.chosenPipelineId]);
 
   const curStatus = (pipelineDetail && pipelineDetail.status) || '';
@@ -129,8 +137,7 @@ const Execute = (props: IProps) => {
 
   const runBuild = () => {
     updater.startStatus('pending');
-    runPipeline
-      .fetch({ pipelineDefinitionID, projectID: +projectId })
+    runPipeline({ pipelineDefinitionID, projectID: +projectId })
       .then((res) => {
         if (res.success) {
           updater.startStatus('start');
@@ -147,8 +154,7 @@ const Execute = (props: IProps) => {
   const reRunPipeline = (isEntire: boolean) => {
     updater.rerunStartStatus('pending');
     const reRunFunc = !isEntire ? rerunFailedPipeline : rerunPipeline;
-    reRunFunc
-      .fetch({ pipelineDefinitionID, projectID: +projectId })
+    reRunFunc({ pipelineDefinitionID, projectID: +projectId })
       .then((result) => {
         result?.data?.pipeline?.id && setPipelineId(result.data.pipeline.id);
         updater.rerunStartStatus('start');
@@ -157,7 +163,7 @@ const Execute = (props: IProps) => {
   };
 
   const cancelBuild = () => {
-    cancelPipeline.fetch({ pipelineDefinitionID, projectID: +projectId }).then(() => {
+    cancelPipeline({ pipelineDefinitionID, projectID: +projectId }).then(() => {
       getPipelineDetail({ pipelineID });
       setPipelineId(`${pipelineID}`);
     });
@@ -323,8 +329,6 @@ const Execute = (props: IProps) => {
     updater.logVisible(false);
   };
 
-  const pipelineRunning = pipelineDetail && ciBuildStatusSet.executeStatus.includes(pipelineDetail.status);
-
   const refreshPipeline = () => {
     getPipelineDetail({ pipelineID: +state.chosenPipelineId });
   };
@@ -394,7 +398,8 @@ const Execute = (props: IProps) => {
                     className="ml-2 cursor-pointer"
                     fill="black-4"
                     onClick={() => {
-                      runBuild();
+                      const ymlStr = pipelineFileDetail?.meta?.pipelineYml || defaultPipelineYml;
+                      executeRef?.current?.execute(ymlStr, { pipelineDetail });
                     }}
                     type="play1"
                   />
@@ -468,7 +473,7 @@ const Execute = (props: IProps) => {
           message={
             <div>
               {`${i18n.t('dop:pipeline-changed-tip2')} `}
-              <span className="text-purple-deep cursor-pointer" onClick={editPipeline}>
+              <span className="text-purple-deep cursor-pointer" onClick={switchToEditor}>
                 {i18n.t('dop:edit to check')}
               </span>
             </div>
@@ -521,11 +526,9 @@ const Execute = (props: IProps) => {
               showLoading={false}
               ops={
                 <div>
-                  {!pipelineRunning ? (
-                    <Button onClick={refreshPipeline} size="small" className="mr-1">
-                      {i18n.t('refresh')}
-                    </Button>
-                  ) : null}
+                  <Button onClick={refreshPipeline} size="small" className="mr-1">
+                    {i18n.t('refresh')}
+                  </Button>
                   <Button onClick={editPipeline} size="small">
                     {i18n.t('Edit')}
                   </Button>
@@ -541,6 +544,12 @@ const Execute = (props: IProps) => {
           </div>
         </div>
       </Spin>
+      <InParamsForm
+        ref={executeRef}
+        afterExecute={() => updater.startStatus('unstart')}
+        beforeExecute={() => updater.startStatus('pending')}
+        onExecute={runBuild}
+      />
       <BuildLog visible={logVisible} hideLog={hideLog} {...logProps} />
     </div>
   );

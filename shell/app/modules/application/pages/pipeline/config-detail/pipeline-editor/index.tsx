@@ -14,9 +14,10 @@
 import React from 'react';
 import { get, isEmpty } from 'lodash';
 import PipelineEditor from 'yml-chart/pipeline-editor';
-import { NodeEleMap } from 'yml-chart/config';
+import { NodeEleMap, defaultPipelineYml } from 'yml-chart/config';
 import i18n from 'i18n';
 
+const { startNode: StartNode, endNode: EndNode } = NodeEleMap;
 interface IProps {
   caseDetail: TREE.NODE;
   addDrawerProps: Obj;
@@ -24,10 +25,6 @@ interface IProps {
   editable: boolean;
   loading?: boolean;
 }
-
-const defaultPipelineYml = `version: 1.1
-stages: []
-`;
 
 const CasePipelineEditor = (props: IProps) => {
   const { caseDetail, onUpdateYml, loading, addDrawerProps, editable } = props;
@@ -44,8 +41,8 @@ const CasePipelineEditor = (props: IProps) => {
         loading={loading}
         chartProps={{
           nodeEleMap: {
-            startNode: () => <NodeEleMap.startNode disabled />,
-            endNode: () => <NodeEleMap.endNode disabled />,
+            startNode: () => <StartNode disabled />,
+            endNode: () => <EndNode disabled />,
           },
         }}
       />

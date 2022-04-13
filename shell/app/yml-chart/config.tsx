@@ -50,3 +50,7 @@ export const CHART_NODE_SIZE = {
     HEIGHT: 32,
   },
 };
+
+export const defaultPipelineYml = `version: 1.1
+stages: []
+`;

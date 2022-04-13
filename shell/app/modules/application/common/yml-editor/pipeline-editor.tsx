@@ -15,13 +15,12 @@ import React from 'react';
 import i18n from 'i18n';
 import yaml from 'js-yaml';
 import { get, omit, isEmpty } from 'lodash';
-import { notify, isPromise } from 'common/utils';
+import { notify, isPromise, insertWhen } from 'common/utils';
 import { Spin, Button, message, Radio, Tooltip, Modal, Popconfirm } from 'antd';
 import { RenderForm, FileEditor, Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import repoStore from 'application/stores/repo';
 import { getInfoFromRefName } from 'application/pages/repo/util';
-import { insertWhen } from 'common/utils';
 import FileContainer from 'application/common/components/file-container';
 import { produce } from 'immer';
 import { useLoading } from 'core/stores/loading';
@@ -38,6 +37,8 @@ enum ViewType {
   graphic = 'graphic',
   code = 'code',
 }
+
+const { startNode: StartNode, endNode: EndNode } = NodeEleMap;
 
 const noop = () => {};
 const PipelineEditor = (props: IYmlEditorProps) => {
@@ -360,8 +361,8 @@ const PipelineEditor = (props: IYmlEditorProps) => {
               onAddData={onAddData}
               chartProps={{
                 nodeEleMap: {
-                  startNode: () => <NodeEleMap.startNode disabled />,
-                  endNode: () => <NodeEleMap.endNode disabled />,
+                  startNode: () => <StartNode disabled />,
+                  endNode: () => <EndNode disabled />,
                 },
               }}
             />

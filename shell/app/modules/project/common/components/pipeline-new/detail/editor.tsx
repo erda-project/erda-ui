@@ -14,14 +14,15 @@
 import React from 'react';
 import { get, isEmpty } from 'lodash';
 import PipelineEditor from 'yml-chart/pipeline-editor';
-import { NodeEleMap } from 'yml-chart/config';
+import { defaultPipelineYml, NodeEleMap } from 'yml-chart/config';
 import { ErdaIcon, ErdaAlert } from 'common';
 import { WithAuth } from 'app/user/common';
-import { Button, Tooltip, Spin } from 'antd';
+import { Tooltip, Spin } from 'antd';
 import Info from './info';
 import { DetailMode } from './index';
 import PipelineNode, { NodeSize } from './pipeline-node';
 import { runPipeline } from 'project/services/pipeline';
+import InParamsForm from './in-params-form';
 import i18n from 'i18n';
 
 interface IProps {
@@ -31,6 +32,7 @@ interface IProps {
   editAuth: boolean;
   deployAuth: boolean;
   projectId: string;
+  pipelineDetail?: BUILD.IPipelineDetail;
   loading?: boolean;
   mode?: 'file' | 'edit';
   fileChanged: boolean;
@@ -38,15 +40,9 @@ interface IProps {
   setEditMode: (v: Partial<DetailMode>) => void;
   setPipelineId: (v: string) => void;
   extraTitle: React.ReactNode;
-  onCancel?: () => void;
 }
 
-const defaultPipelineYml = `version: 1.1
-stages: []
-`;
-
-const StartNode = NodeEleMap.startNode;
-const EndNode = NodeEleMap.endNode;
+const { endNode: EndNode } = NodeEleMap;
 
 const Editor = (props: IProps) => {
   const {
@@ -59,26 +55,27 @@ const Editor = (props: IProps) => {
     switchToExecute,
     deployAuth,
     fileChanged,
+    pipelineDetail,
     setEditMode,
     extraTitle: propsExtraTitle,
     pipelineDefinitionID,
     setPipelineId,
-    onCancel,
   } = props;
   const curPipelineYml = get(pipelineFileDetail, 'meta.pipelineYml') || defaultPipelineYml;
   const ymlStr = isEmpty(pipelineFileDetail) ? '' : curPipelineYml;
   const [running, setRunning] = React.useState(false);
+  const executeRef = React.useRef<{
+    execute: (_ymlStr: string, extra: { pipelineId?: string; pipelineDetail?: BUILD.IPipelineDetail }) => void;
+  }>(null);
 
   const checkNewExecute = (v: string) => {
     setPipelineId(v);
     switchToExecute();
   };
 
-  const runBuild = () => {
+  const runBuild = (_v?: { runParams: Obj<string | number> }) => {
     setRunning(true);
-
-    runPipeline
-      .fetch({ pipelineDefinitionID, projectID: +projectId })
+    runPipeline({ pipelineDefinitionID, projectID: +projectId, ..._v })
       .then((res) => {
         res.data?.pipeline?.id && checkNewExecute(res.data.pipeline.id);
       })
@@ -96,7 +93,7 @@ const Editor = (props: IProps) => {
             className="ml-2 cursor-pointer"
             fill="black-4"
             onClick={() => {
-              runBuild();
+              executeRef?.current?.execute(ymlStr, { pipelineDetail });
             }}
             type="play1"
           />
@@ -105,6 +102,10 @@ const Editor = (props: IProps) => {
       {propsExtraTitle}
     </div>
   );
+
+  const addDrawerProps = React.useMemo(() => {
+    return { showInParams: true, showOutParams: true };
+  }, []);
 
   return (
     <Spin spinning={running}>
@@ -124,11 +125,14 @@ const Editor = (props: IProps) => {
       <Info info={pipelineFileDetail} className="mb-2" operations={mode === 'file' ? extraTitle : null} />
       <PipelineEditor
         ymlStr={ymlStr}
+        addDrawerProps={addDrawerProps}
         editable={editAuth}
         initEditing={mode === 'edit'}
         title={`${i18n.t('dop:pipeline configuration')}`}
         onSubmit={onUpdate}
-        onCancel={onCancel}
+        onCancel={() => {
+          !fileChanged && switchToExecute();
+        }}
         onEditingChange={(editing: boolean) => {
           setEditMode(editing ? DetailMode.edit : DetailMode.file);
         }}
@@ -139,10 +143,15 @@ const Editor = (props: IProps) => {
           },
           nodeEleMap: {
             pipeline: PipelineNode,
-            startNode: () => <StartNode disabled />,
             endNode: () => <EndNode disabled />,
           },
         }}
+      />
+      <InParamsForm
+        ref={executeRef}
+        afterExecute={() => setRunning(false)}
+        beforeExecute={() => setRunning(true)}
+        onExecute={runBuild}
       />
     </Spin>
   );
