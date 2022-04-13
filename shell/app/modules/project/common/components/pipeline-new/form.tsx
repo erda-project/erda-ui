@@ -16,7 +16,7 @@ import { Form, Button, TreeSelect, Tooltip, Drawer } from 'antd';
 import i18n from 'i18n';
 import { ErdaIcon, RenderFormItem, ErdaAlert } from 'common';
 import routeInfoStore from 'core/stores/route';
-import { getFileTree, createPipeline, getAppList, checkName, checkSource } from 'project/services/pipeline';
+import { getFileTree, createPipeline, getAppList, checkSource } from 'project/services/pipeline';
 import appStore from 'application/stores/application';
 import { decode } from 'js-base64';
 
@@ -53,24 +53,6 @@ interface App {
   projectName?: string;
 }
 
-const promiseDebounce = (func: Function, delay = 1000) => {
-  let timer: NodeJS.Timeout | undefined;
-  return (...args: unknown[]) => {
-    timer && clearTimeout(timer);
-
-    return new Promise((resolve, reject) => {
-      timer = setTimeout(async () => {
-        try {
-          await func(...args);
-          resolve('');
-        } catch (e) {
-          reject(e);
-        }
-      }, delay);
-    });
-  };
-};
-
 const PipelineForm = ({ onCancel, pipelineCategory, onOk, appID, fixedApp }: IProps) => {
   const { key: pipelineCategoryKey, rules: pipelineCategoryRules } = pipelineCategory || {};
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
@@ -82,7 +64,6 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, appID, fixedApp }: IPr
   const [treeValue, setTreeValue] = React.useState('');
   const [treeExpandedKeys, setTreeExpandedKeys] = React.useState<Array<string | number>>([]);
   const canTreeSelectClose = React.useRef(true);
-  const [nameRepeatMessage, setNameRepeatMessage] = React.useState('');
   const [sourceErrorMessage, setSourceErrorMessage] = React.useState('');
   const appDetail = appStore.useStore((s) => s.detail);
 
@@ -180,27 +161,6 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, appID, fixedApp }: IPr
     });
   };
 
-  const nameCheck = React.useCallback(
-    promiseDebounce(async (value: string) => {
-      if (value) {
-        const payload = {
-          projectID: +projectId,
-          name: value,
-        };
-        const res = await checkName.fetch(payload);
-        const { data } = res;
-        if (data?.pass) {
-          setNameRepeatMessage('');
-        } else {
-          data?.message && setNameRepeatMessage(data.message);
-        }
-      }
-
-      return Promise.resolve();
-    }),
-    [projectId],
-  );
-
   const sourceCheck = async (value: string) => {
     const node = tree.find((item) => item.id === value);
     if (node?.isLeaf) {
@@ -249,20 +209,12 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, appID, fixedApp }: IPr
                 pattern: /^[\u4e00-\u9fa5A-Za-z0-9._-]+$/,
                 message: i18n.t('dop:Must be composed of Chinese, letters, numbers, underscores, hyphens and dots.'),
               },
-              {
-                validator: (_: string, value: string) => {
-                  return nameCheck(value);
-                },
-              },
             ]}
             itemProps={{
               className: 'border-transparent shadow-none pl-0 text-xl bg-transparent',
               placeholder: i18n.t('please enter {name}', { name: i18n.t('pipeline') }),
             }}
           />
-          {nameRepeatMessage ? (
-            <ErdaAlert message={nameRepeatMessage} type="error" closeable={false} className="py-1.5" />
-          ) : null}
           <div>
             <div className="text-default">{i18n.t('dop:Code source')}</div>
             <CodeResource />

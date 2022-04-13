@@ -439,6 +439,7 @@ const ConfigurableFilter = React.forwardRef(
                 !v && onClose?.();
               }}
               zIndex={zIndex}
+              getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
             >
               <div
                 className={`flex-h-center erda-configurable-filter-btn py-1 px-2 rounded-sm leading-none cursor-pointer`}

@@ -23,6 +23,14 @@ interface CreatePipelineParams {
   fileName: string;
 }
 
+interface OneClickCreatePipelineParams {
+  projectID: string;
+  appID: string;
+  sourceType: string;
+  ref: string;
+  pipelineYmls: string[];
+}
+
 interface AppDetail {
   ID: string;
   runningNum: number;
@@ -47,6 +55,7 @@ interface Guide {
   branch: string;
   appName: string;
   timeCreated: string;
+  content: string;
 }
 
 const apis = {
@@ -64,6 +73,9 @@ const apis = {
   },
   createPipeline: {
     api: 'post@/api/project-pipeline',
+  },
+  oneClickCreatePipeline: {
+    api: 'post@/api/project-pipeline/actions/one-click-create',
   },
   getPipelineList: {
     api: 'get@/api/project-pipeline/actions/get-pipeline-yml-list',
@@ -136,6 +148,10 @@ export const getFileDetail = apiCreator<
 >(apis.getFileDetail);
 
 export const createPipeline = apiCreator<(payload: CreatePipelineParams) => RAW_RESPONSE>(apis.createPipeline);
+
+export const oneClickCreatePipeline = apiCreator<
+  (payload: OneClickCreatePipelineParams) => RAW_RESPONSE<{ errMsg: string }>
+>(apis.oneClickCreatePipeline);
 
 export const getPipelineList = apiCreator<
   (payload: { appID: string; branch: string }) => { result: Array<{ ymlPath: string; ymlName: string }> }

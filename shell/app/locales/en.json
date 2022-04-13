@@ -946,6 +946,7 @@
     "Activity": "Activity",
     "actual value": "actual value",
     "Add": "Add",
+    "Add-create": "Add-create",
     "Add Access Control Rule": "Add Access Control Rule",
     "Add-service": "Add",
     "add at least one": "add at least one",
@@ -1584,7 +1585,6 @@
     "pinned successfully": "pinned successfully",
     "pipeline ID": "pipeline ID",
     "pipeline configuration": "pipeline configuration",
-    "pipeline files were discovered in the {branch} branch of the {app} application today": "pipeline files were discovered in the {branch} branch of the {app} application today",
     "Pipeline type": "Pipeline type",
     "pipeline-changed-tip1": "the content of the current pipeline has been changed and needs to be manually switched to view",
     "pipeline-changed-tip2": "the content of the current pipeline has been changed, the details can be",
@@ -1975,6 +1975,7 @@
     "yml format error": "yml format error",
     "yml-addon-not-exist-tip": "the current instance does not exist, please switch to edit mode to add again",
     "your browser does not support WebSocket!": "your browser does not support WebSocket!",
+    "{app}: {branch}, gets new pipelines {time}": "{app}: {branch}, gets new pipelines {time}",
     "{num} members are following": "{num} members are following",
     "{num} people followed": "{num} people followed"
   },
