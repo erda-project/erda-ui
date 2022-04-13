@@ -12,12 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
+import { Spin, message } from 'antd';
 import { useUpdate } from 'common/use-hooks';
 import routeInfoStore from 'core/stores/route';
 import PiplelineGuide from './guide';
 import PiplelineCategory from './category';
 import PipelineList from './list';
 import PipelineFormDrawer from './form';
+import { oneClickCreatePipeline } from 'project/services/pipeline';
 
 import './index.scss';
 
@@ -32,6 +34,8 @@ interface ReloadRef {
 
 const Pipeline = () => {
   const [{ projectId, appId }, { pipelineCategory }] = routeInfoStore.useStore((s) => [s.params, s.query]);
+
+  const [loading, setLoading] = React.useState(false);
 
   const listRef = React.useRef<ReloadRef>(null);
   const guideRef = React.useRef<ReloadRef>(null);
@@ -56,9 +60,49 @@ const Pipeline = () => {
     updater.categoryAdd({ appID: 0, visible: false });
   }, [updater]);
 
+  const addPipeliningQuickly = (appID: string, branch: string, ymls: string[]) => {
+    const params = {
+      projectID: projectId,
+      appID,
+      sourceType: 'erda',
+      ref: branch,
+      pipelineYmls: ymls,
+    };
+
+    setLoading(true);
+
+    oneClickCreatePipeline
+      .fetch(params)
+      .then((res) => {
+        const { success, data } = res;
+        if (success) {
+          categoryRef.current?.reload();
+          listRef.current?.reload();
+          guideRef.current?.reload();
+        }
+
+        if (data?.errMsg) {
+          message.warn({
+            content: data.errMsg,
+            style: { whiteSpace: 'pre-wrap' },
+          });
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   return (
     <div className="h-full flex flex-col">
-      <PiplelineGuide onAddPipeline={onAddPipeline} projectId={projectId} appId={appId} ref={guideRef} />
+      <Spin spinning={loading}>
+        <PiplelineGuide
+          addPipeliningQuickly={addPipeliningQuickly}
+          projectId={projectId}
+          appId={appId}
+          ref={guideRef}
+        />
+      </Spin>
       <div className="common-pipeline flex-1 flex bg-white min-h-0 mb-4">
         <PiplelineCategory
           ref={categoryRef}
