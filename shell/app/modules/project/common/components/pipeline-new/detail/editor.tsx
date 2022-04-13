@@ -131,7 +131,7 @@ const Editor = (props: IProps) => {
         title={`${i18n.t('dop:pipeline configuration')}`}
         onSubmit={onUpdate}
         onCancel={() => {
-          !fileChanged && switchToExecute();
+          !fileChanged && pipelineDetail && switchToExecute();
         }}
         onEditingChange={(editing: boolean) => {
           setEditMode(editing ? DetailMode.edit : DetailMode.file);
