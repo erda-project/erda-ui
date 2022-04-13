@@ -137,8 +137,7 @@ const Execute = (props: IProps) => {
 
   const runBuild = () => {
     updater.startStatus('pending');
-    runPipeline
-      .fetch({ pipelineDefinitionID, projectID: +projectId })
+    runPipeline({ pipelineDefinitionID, projectID: +projectId })
       .then((res) => {
         if (res.success) {
           updater.startStatus('start');
@@ -155,8 +154,7 @@ const Execute = (props: IProps) => {
   const reRunPipeline = (isEntire: boolean) => {
     updater.rerunStartStatus('pending');
     const reRunFunc = !isEntire ? rerunFailedPipeline : rerunPipeline;
-    reRunFunc
-      .fetch({ pipelineDefinitionID, projectID: +projectId })
+    reRunFunc({ pipelineDefinitionID, projectID: +projectId })
       .then((result) => {
         result?.data?.pipeline?.id && setPipelineId(result.data.pipeline.id);
         updater.rerunStartStatus('start');
@@ -165,7 +163,7 @@ const Execute = (props: IProps) => {
   };
 
   const cancelBuild = () => {
-    cancelPipeline.fetch({ pipelineDefinitionID, projectID: +projectId }).then(() => {
+    cancelPipeline({ pipelineDefinitionID, projectID: +projectId }).then(() => {
       getPipelineDetail({ pipelineID });
       setPipelineId(`${pipelineID}`);
     });

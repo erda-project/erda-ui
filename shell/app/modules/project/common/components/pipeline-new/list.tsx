@@ -82,7 +82,7 @@ const PipelineProtocol = React.forwardRef(
     }));
 
     const runBuild = (_v?: { runParams: Obj<string | number> }) => {
-      runPipeline.fetch({ pipelineDefinitionID: executeRecordId, projectID: +projectId, ..._v }).then(() => {
+      runPipeline({ pipelineDefinitionID: executeRecordId, projectID: +projectId, ..._v }).then(() => {
         reloadRef.current?.reload();
       });
     };

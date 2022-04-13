@@ -75,8 +75,7 @@ const Editor = (props: IProps) => {
 
   const runBuild = (_v?: { runParams: Obj<string | number> }) => {
     setRunning(true);
-    runPipeline
-      .fetch({ pipelineDefinitionID, projectID: +projectId, ..._v })
+    runPipeline({ pipelineDefinitionID, projectID: +projectId, ..._v })
       .then((res) => {
         res.data?.pipeline?.id && checkNewExecute(res.data.pipeline.id);
       })
