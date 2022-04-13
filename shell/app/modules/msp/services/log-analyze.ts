@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { IUserInfo } from 'core/stores/userMap';
 
 export const getTagsTree =
   ({ scope, scopeID }: LOG_ANALYZE.Scope) =>
@@ -76,7 +77,12 @@ export const getRuleTemplate =
 
 export const getRules =
   ({ scope, scopeID }: LOG_ANALYZE.Scope) =>
-  (): LOG_ANALYZE.RuleListItem[] => {
+  (): {
+    logData: LOG_ANALYZE.RuleListItem[];
+    userInfo: {
+      users: IUserInfo[];
+    };
+  } => {
     return agent
       .get(`/api/${scope}/logs/rules`)
       .query({ scopeID })
