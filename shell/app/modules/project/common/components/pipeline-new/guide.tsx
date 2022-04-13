@@ -34,7 +34,7 @@ interface GuideItem {
   timeCreated: string;
 }
 
-const trigger = (_list: string[], id: string) => {
+const expanded = (_list: string[], id: string) => {
   const list = [..._list];
   const index = list.findIndex((key) => key === id);
   if (index === -1) {
@@ -109,7 +109,7 @@ const Guide = React.forwardRef((props: IProps, ref: React.Ref<{ reload: () => vo
                       type="caret-down"
                       size="20"
                       className={`text-default-6 mr-1 cursor-pointer ${expandedKeys.includes(id) ? '' : '-rotate-90'}`}
-                      onClick={() => setExpandedKeys((prev) => trigger(prev, id))}
+                      onClick={() => setExpandedKeys((prev) => expanded(prev, id))}
                     />
 
                     <ErdaIcon type="daimafenzhi" size="20" className="text-blue mr-1" />
