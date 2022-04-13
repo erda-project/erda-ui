@@ -81,7 +81,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
           form.setFieldsValue({
             version: data.version,
             changelog: data.changelog,
-            tags: data.tags?.map((tag: { id: number }) => tag.id),
+            tags: data.tags?.map((tag) => tag.id),
           });
         }
       }
