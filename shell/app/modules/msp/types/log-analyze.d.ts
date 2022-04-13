@@ -81,19 +81,6 @@ declare namespace LOG_ANALYZE {
     types: string;
   }
 
-  interface IUserInfo {
-    avatar: string;
-    email: string;
-    id: string;
-    lastLoginAt: string;
-    name: string;
-    nick: string;
-    phone: string;
-    pwdExpireAt: string;
-    source: string;
-    token: string;
-  }
-
   interface Processor {
     type: string;
     config: {

@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { IUserInfo } from 'core/stores/userMap';
 
 export const getTagsTree =
   ({ scope, scopeID }: LOG_ANALYZE.Scope) =>
@@ -79,7 +80,7 @@ export const getRules =
   (): {
     logData: LOG_ANALYZE.RuleListItem[];
     userInfo: {
-      users: LOG_ANALYZE.IUserInfo[];
+      users: IUserInfo[];
     };
   } => {
     return agent
