@@ -14,7 +14,7 @@
 import React from 'react';
 import { get, isEmpty } from 'lodash';
 import PipelineEditor from 'yml-chart/pipeline-editor';
-import { defaultPipelineYml } from 'yml-chart/config';
+import { defaultPipelineYml, NodeEleMap } from 'yml-chart/config';
 import { ErdaIcon, ErdaAlert } from 'common';
 import { WithAuth } from 'app/user/common';
 import { Tooltip, Spin } from 'antd';
@@ -41,6 +41,8 @@ interface IProps {
   setPipelineId: (v: string) => void;
   extraTitle: React.ReactNode;
 }
+
+const { endNode: EndNode } = NodeEleMap;
 
 const Editor = (props: IProps) => {
   const {
@@ -142,6 +144,7 @@ const Editor = (props: IProps) => {
           },
           nodeEleMap: {
             pipeline: PipelineNode,
+            endNode: () => <EndNode disabled />,
           },
         }}
       />

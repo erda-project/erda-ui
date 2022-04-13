@@ -163,7 +163,7 @@ const PipelineProtocol = React.forwardRef(
                   }
                 },
                 operations: {
-                  updateName: async (
+                  run: async (
                     op: {
                       operations: { click: { serverData: { inode: string; pipelineID: string } } };
                     },
@@ -180,7 +180,7 @@ const PipelineProtocol = React.forwardRef(
                       executeRef?.current?.execute(ymlStr, { pipelineID });
                     }
                   },
-                  updateName1: (
+                  updateName: (
                     _: Obj,
                     record: {
                       id: string;

@@ -18,6 +18,7 @@ import './start-node.scss';
 
 export interface IProps {
   data?: Obj;
+  text?: string | React.ReactNode;
   onClickNode?: (data: any, arg?: any) => void;
   disabled?: boolean;
 }
@@ -25,7 +26,7 @@ export interface IProps {
 const noop = () => {};
 
 export const StartNode = (props: IProps) => {
-  const { onClickNode = noop, data, disabled = false } = props;
+  const { onClickNode = noop, data, disabled = false, text } = props;
 
   const onClick = () => {
     !disabled && onClickNode(data);
@@ -37,10 +38,9 @@ export const StartNode = (props: IProps) => {
     'flex flex-wrap justify-center items-center': true,
     'hover-active': !disabled,
   });
-
   return (
     <div className={classes} onClick={onClick}>
-      {disabled ? '' : i18n.t('dop:Inputs')}
+      {text || (disabled ? '' : i18n.t('dop:Inputs'))}
     </div>
   );
 };

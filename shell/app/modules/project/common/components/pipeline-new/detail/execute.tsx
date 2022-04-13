@@ -530,11 +530,9 @@ const Execute = (props: IProps) => {
               showLoading={false}
               ops={
                 <div>
-                  {!pipelineRunning ? (
-                    <Button onClick={refreshPipeline} size="small" className="mr-1">
-                      {i18n.t('refresh')}
-                    </Button>
-                  ) : null}
+                  <Button onClick={refreshPipeline} size="small" className="mr-1">
+                    {i18n.t('refresh')}
+                  </Button>
                   <Button onClick={editPipeline} size="small">
                     {i18n.t('Edit')}
                   </Button>
