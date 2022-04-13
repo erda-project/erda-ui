@@ -312,7 +312,7 @@ const IssuePlan = () => {
                     },
                   },
                   prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
-                  text: i18n.t('requirement'),
+                  text: i18n.t('Requirement'),
                 },
                 {
                   disabled: false,
@@ -325,7 +325,7 @@ const IssuePlan = () => {
                     },
                   },
                   prefixIcon: 'ISSUE_ICON.issue.TASK',
-                  text: i18n.t('task'),
+                  text: i18n.t('Task'),
                 },
                 {
                   disabled: false,

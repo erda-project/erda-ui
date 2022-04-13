@@ -100,7 +100,7 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
           },
           {
             href: goTo.resolve.cmpJobs(), // '/cmp/jobs',
-            text: i18n.t('task'),
+            text: i18n.t('Task'),
           },
           ...insertWhen(!process.env.FOR_COMMUNITY, [
             {
@@ -133,7 +133,7 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
             href: goTo.resolve.cmpAlarmRecord(), // '/cmp/alarm/record',
           },
           {
-            text: i18n.t('Configuration'),
+            text: i18n.t('Configuration-alarm'),
             href: goTo.resolve.cmpAlarmConfig(), // '/cmp/alarm/strategy',
           },
         ],

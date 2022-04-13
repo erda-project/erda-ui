@@ -154,6 +154,7 @@ const ConfigPageRender = (props: IProps) => {
         key: cId,
         cId,
         customOp: op || emptyObj,
+
         updateState: reUpdateState(cId),
         execOperation: reExecOperation(cId),
       };

@@ -95,7 +95,7 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
           onChange={(aKey: string) => editing && setChosenKey(aKey)}
         >
           <Tabs.TabPane
-            tab={i18n.t('add {name}', { name: i18n.t('task') })}
+            tab={i18n.t('add {name}', { name: i18n.t('Task') })}
             key="addNode"
             disabled={!isCreate && chosenKey === 'addCaseRef'}
           >

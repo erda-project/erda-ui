@@ -451,7 +451,7 @@ const IssueMetaFields = React.forwardRef(
           icon: 'diedai',
           className: 'mb-3 w-full',
           name: 'iterationID',
-          label: i18n.t('dop:Iteration'),
+          label: i18n.t('dop:Iteration-owned'),
           type: 'custom',
           onChangeCb: (v: { iterationID: string }) => {
             const curIteration = iterationList.find((item) => `${item.id}` === `${v.iterationID}`);
@@ -497,7 +497,7 @@ const IssueMetaFields = React.forwardRef(
               value={value as number}
               onChange={onSave}
               disabled={!editAuth}
-              placeholder={i18n.t('please choose {name}', { name: i18n.t('dop:Iteration') })}
+              placeholder={i18n.t('please choose {name}', { name: i18n.t('dop:Iteration-owned') })}
             />
           ),
           extraContent: (

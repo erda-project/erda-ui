@@ -140,7 +140,7 @@ const ProjectSettings = () => {
     },
     {
       groupTitle: i18n.t('Artifacts'),
-      groupKey: 'collaboration',
+      groupKey: 'dop:Collaboration',
       tabGroup: [
         {
           tabTitle: i18n.t('dop:Artifacts Labels'),

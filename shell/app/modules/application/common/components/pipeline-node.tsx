@@ -122,7 +122,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     let approvalResult = null as any;
     if (approval_status === approvalStatusMap.WaitApprove.value) {
       approvalResult = {
-        text: i18n.t('pending approval'),
+        text: i18n.t('Pending'),
         color: 'orange',
       };
     } else if (approval_status === approvalStatusMap.Reject.value) {

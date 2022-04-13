@@ -424,7 +424,7 @@ const ListSelectOverlay = ({
                   <div className="h-full flex items-center justify-center flex-col">
                     <img src={empty} />
                     <div className="text-default-6 mt-2">
-                      {i18n.t('dop:no {name}', { name: i18n.t('dop:app release') })}
+                      {i18n.t('dop:no {name}', { name: i18n.t('dop:App artifact') })}
                     </div>
                   </div>
                 ) : null}
@@ -461,7 +461,7 @@ const ListSelectOverlay = ({
             <div className="h-full flex items-center justify-center flex-col">
               <img src={empty} />
               <div className="text-default-6 mt-2">
-                {i18n.t('dop:no choice {name}', { name: i18n.t('dop:app release') })}
+                {i18n.t('dop:no choice {name}', { name: i18n.t('dop:App artifact') })}
               </div>
             </div>
           ) : null}

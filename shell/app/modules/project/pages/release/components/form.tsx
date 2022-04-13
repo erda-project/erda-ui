@@ -156,7 +156,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
     },
     type === 'app'
       ? {
-          label: i18n.t('dop:app release'),
+          label: i18n.t('dop:App artifact'),
           name: 'applicationReleaseList',
           type: 'custom',
           className: 'flex-nowrap',
@@ -168,7 +168,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
             {
               validator: (_, value: Array<{ list: RELEASE.ReleaseDetail[] }>) => {
                 if (value && value.length !== 0 && !value.find((item) => item.list.length !== 0)) {
-                  return Promise.reject(new Error(i18n.t('please enter {name}', { name: i18n.t('dop:app release') })));
+                  return Promise.reject(new Error(i18n.t('please enter {name}', { name: i18n.t('dop:App artifact') })));
                 }
 
                 return Promise.resolve();

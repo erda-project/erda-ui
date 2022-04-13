@@ -194,7 +194,7 @@ const DeployDetail = (props: IProps) => {
         <span className="bg-default-1 text-default-8 px-2 ml-1 text-xs rounded-lg">{flattenAppList?.length || 0}</span>
       </div>
       <ReleaseSelect
-        label={i18n.t('dop:app release')}
+        label={i18n.t('dop:App artifact')}
         value={_appList}
         readOnly
         renderSelectedItem={renderSelectedItem}

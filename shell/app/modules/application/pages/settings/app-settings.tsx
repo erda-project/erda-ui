@@ -140,7 +140,7 @@ export const PureAppSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('pipeline'),
+      groupTitle: i18n.t('Pipeline'),
       groupKey: 'pipeline',
       tabGroup: [
         {

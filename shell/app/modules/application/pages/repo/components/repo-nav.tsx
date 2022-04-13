@@ -155,7 +155,7 @@ const PureRepoNavOperation = () => {
                 }
               }}
             >
-              {i18n.t('edit {name}', { name: i18n.t('pipeline') })}
+              {i18n.t('edit {name}', { name: i18n.t('Pipeline') })}
             </Button>
           ) : (
             <Button disabled={isLocked} onClick={() => changeMode({ addFile: true, addFileName: 'pipelineYml' })}>

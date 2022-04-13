@@ -263,7 +263,7 @@ const YmlEditor = (props: IProps) => {
           break;
         case WORK_FLOW_TYPE.PIPELINE:
           result = convertByPipelineYml({
-            title: i18n.t('pipeline'),
+            title: i18n.t('Pipeline'),
             actions,
             editConvertor: editPipelineConvertor(inputEditedYmlStructure || editedYmlStructure, convertDataByFileName),
             editGlobalVariable: (p) => editGlobalVariable?.current(inputEditedYmlStructure || inputJsonContent)(p),
@@ -789,7 +789,7 @@ const YmlEditor = (props: IProps) => {
         <Spin spinning={isFetching}>
           <React.Fragment>
             <div className="yml-editor-body">
-              <BlockContainer className="services-and-add-ons" title={i18n.t('pipeline')}>
+              <BlockContainer className="services-and-add-ons" title={i18n.t('Pipeline')}>
                 {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer?.current} /> : null}
                 <DiceYamlEditor
                   type={DiceFlowType.EDITOR}

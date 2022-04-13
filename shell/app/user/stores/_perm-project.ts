@@ -60,7 +60,7 @@ export const projectPerm = {
     },
   },
   iteration: {
-    name: i18n.t('dop:sprint'),
+    name: i18n.t('dop:Iteration'),
     read: {
       pass: false,
       name: i18n.t('dop:view'),
@@ -78,7 +78,7 @@ export const projectPerm = {
     },
   },
   requirement: {
-    name: i18n.t('requirement'),
+    name: i18n.t('Requirement'),
     read: {
       pass: false,
       name: i18n.t('dop:view'),
@@ -159,7 +159,7 @@ export const projectPerm = {
     },
   },
   task: {
-    name: i18n.t('task'),
+    name: i18n.t('Task'),
     read: {
       pass: false,
       name: i18n.t('dop:view'),
@@ -478,7 +478,7 @@ export const projectPerm = {
       },
     },
     configData: {
-      name: i18n.t('config sheet'),
+      name: i18n.t('Configuration Sheet'),
       view: {
         pass: false,
         role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Ops'],
@@ -487,7 +487,7 @@ export const projectPerm = {
     },
   },
   pipeline: {
-    name: i18n.t('pipeline'),
+    name: i18n.t('Pipeline'),
     view: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],

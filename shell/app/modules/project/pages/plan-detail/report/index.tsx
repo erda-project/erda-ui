@@ -46,7 +46,7 @@ const DetailIntro = () => {
     <div id="report-page" className="report-page">
       <div className="section-title">
         <span>{i18n.t('dop:Test report details')}</span>
-        <ExportPdf domId="report-page" tip={i18n.t('dop:test report')}>
+        <ExportPdf domId="report-page" tip={i18n.t('dop:Test Report')}>
           {({ exportPdf }) => (
             <span className="text-sm cursor-pointer text-primary flex" onClick={() => exportPdf()}>
               <ErdaIcon className="mr-1" type="upload" size="14" />

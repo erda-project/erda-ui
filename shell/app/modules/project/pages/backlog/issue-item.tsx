@@ -265,8 +265,8 @@ interface IIssueFormProps {
 }
 
 const placeholderMap = {
-  REQUIREMENT: i18n.t('input {name} title', { name: i18n.t('requirement') }),
-  TASK: i18n.t('input {name} title', { name: i18n.t('task') }),
+  REQUIREMENT: i18n.t('input {name} title', { name: i18n.t('Requirement') }),
+  TASK: i18n.t('input {name} title', { name: i18n.t('Task') }),
   BUG: i18n.t('input {name} title', { name: i18n.t('Bug') }),
 };
 

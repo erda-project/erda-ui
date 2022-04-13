@@ -190,7 +190,7 @@ const AppCertificateReference = () => {
                     })
                   }
                 >
-                  {i18n.t('config')}
+                  {i18n.t('Configuration')}
                 </span>
               )}
               {record.status !== 'pending' && (

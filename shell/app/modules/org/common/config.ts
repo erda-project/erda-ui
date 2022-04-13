@@ -34,7 +34,7 @@ export const ISSUE_LIST_MAP = {
   },
   task: {
     type: 'TASK',
-    name: i18n.t('task'),
+    name: i18n.t('Task'),
   },
   bug: {
     type: 'BUG',
@@ -119,13 +119,13 @@ export const FIELD_TYPE_ICON_MAP = {
   REQUIREMENT: {
     icon: 'xq1',
     color: 'palegreen',
-    name: i18n.t('requirement'),
+    name: i18n.t('Requirement'),
     value: 'REQUIREMENT',
   },
   TASK: {
     icon: 'rw1',
     color: 'darkcyan',
-    name: i18n.t('task'),
+    name: i18n.t('Task'),
     value: 'TASK',
   },
   BUG: {
@@ -173,7 +173,7 @@ const TASK_FIELDS = [
   ...COMMON_FIELDS,
   {
     propertyName: 'iterationID',
-    displayName: i18n.t('dop:Iteration'),
+    displayName: i18n.t('dop:Iteration-owned'),
     propertyType: 'Select',
   },
   {
@@ -204,7 +204,7 @@ export const DEFAULT_ISSUE_FIELDS_MAP = {
     ...COMMON_FIELDS,
     {
       propertyName: 'iterationID',
-      displayName: i18n.t('dop:Iteration'),
+      displayName: i18n.t('dop:Iteration-owned'),
       propertyType: 'Select',
     },
     {
@@ -237,7 +237,7 @@ export const DEFAULT_ISSUE_FIELDS_MAP = {
     ...COMMON_FIELDS,
     {
       propertyName: 'iterationID',
-      displayName: i18n.t('dop:Iteration'),
+      displayName: i18n.t('dop:Iteration-owned'),
       propertyType: 'Select',
     },
     {
@@ -271,7 +271,7 @@ export const TASK_SP_FIELD = {
   propertyName: i18n.t('Task type'),
   required: true,
   propertyType: 'Select',
-  relatedIssue: [i18n.t('task')],
+  relatedIssue: [i18n.t('Task')],
   isSpecialField: true,
   propertyIssueType: 'TASK',
 };

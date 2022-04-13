@@ -32,7 +32,7 @@ const publisherTabs = () => {
 const approvalTabs = [
   {
     key: 'pending',
-    name: i18n.t('cmp:pending approval'),
+    name: i18n.t('cmp:Pending'),
   },
   {
     key: 'approved',
@@ -43,7 +43,7 @@ const approvalTabs = [
 const initiateTabs = [
   {
     key: 'WaitApprove',
-    name: i18n.t('cmp:pending approval'),
+    name: i18n.t('cmp:Pending'),
   },
   {
     key: 'Accept',
@@ -69,7 +69,7 @@ export default function getDopRouter(): RouteConfigItem[] {
           routes: [
             {
               path: 'my-approve/:approvalType',
-              breadcrumbName: i18n.t('dop:my approval'),
+              breadcrumbName: i18n.t('dop:Approved by Me'),
               tabs: approvalTabs,
               ignoreTabQuery: true,
               routes: [
@@ -83,7 +83,7 @@ export default function getDopRouter(): RouteConfigItem[] {
             },
             {
               path: 'my-initiate/:initiateType',
-              breadcrumbName: i18n.t('dop:Initiated by me'),
+              breadcrumbName: i18n.t('dop:Initiated by Me'),
               tabs: initiateTabs,
               ignoreTabQuery: true,
               getComp: (cb) => cb(import('application/pages/deploy-list/initiate')),
@@ -95,13 +95,13 @@ export default function getDopRouter(): RouteConfigItem[] {
         },
         {
           path: 'projects',
-          breadcrumbName: i18n.t('dop:projects'),
+          breadcrumbName: i18n.t('dop:Projects'),
           layout: { noWrapper: true, foldSidebar: true },
           getComp: (cb) => cb(import('dop/pages/projects/project-list-protocol')),
         },
         {
           path: 'publisher',
-          breadcrumbName: i18n.t('publisher:my release'),
+          breadcrumbName: i18n.t('publisher:My Release'),
           routes: [
             {
               getComp: (cb) => cb(import('dop/pages/publisher'), 'RedirectTo'),
