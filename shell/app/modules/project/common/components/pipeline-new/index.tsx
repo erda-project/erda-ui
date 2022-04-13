@@ -75,16 +75,15 @@ const Pipeline = () => {
       .fetch(params)
       .then((res) => {
         const { success, data } = res;
-        const { errMsg } = data || {};
         if (success) {
           categoryRef.current?.reload();
           listRef.current?.reload();
           guideRef.current?.reload();
         }
 
-        if (errMsg) {
+        if (data?.errMsg) {
           message.warn({
-            content: errMsg,
+            content: data.errMsg,
             style: { whiteSpace: 'pre-wrap' },
           });
         }
