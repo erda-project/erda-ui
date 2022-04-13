@@ -76,7 +76,12 @@ export const getRuleTemplate =
 
 export const getRules =
   ({ scope, scopeID }: LOG_ANALYZE.Scope) =>
-  (): LOG_ANALYZE.RuleListItem[] => {
+  (): {
+    logData: LOG_ANALYZE.RuleListItem[];
+    userInfo: {
+      users: LOG_ANALYZE.IUserInfo[];
+    };
+  } => {
     return agent
       .get(`/api/${scope}/logs/rules`)
       .query({ scopeID })

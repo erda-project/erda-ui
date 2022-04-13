@@ -33,6 +33,7 @@ import {
   toggleRule,
 } from 'msp/services/log-analyze';
 import mspStore from 'msp/stores/micro-service';
+import { setUserMap } from 'core/stores/userMap';
 
 interface IState {
   tagsTree: LOG_ANALYZE.TagsTree[];
@@ -90,7 +91,15 @@ const LogAnalyze = createFlatStore({
     },
     async getRules({ call, update }) {
       const rules = await call(getRules(getScope(true)));
-      update({ rules });
+      const userInfo = rules.userInfo.users.reduce((previousValue, currentValue) => {
+        return {
+          ...previousValue,
+          [currentValue.id]: currentValue,
+        };
+      }, {});
+      // TODO temporary solution, removed after backEnd refactor
+      setUserMap(userInfo);
+      update({ rules: rules.logData });
     },
     async getRule({ call, update }, id: string) {
       const curRule = await call(getRule(getScope(true)), id);
