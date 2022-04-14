@@ -28,7 +28,7 @@ const BaseInfo = (props: IProps) => {
   const { data } = props;
   const fields = [
     {
-      label: `${i18n.t('pipeline')} ID`,
+      label: `${i18n.t('Pipeline')} ID`,
       valueKey: 'id',
     },
     {

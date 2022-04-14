@@ -22,7 +22,7 @@ const autoTestConfig = {
     addFolder: i18n.t('dop:Add Sub-Test Set'), // 添加文件夹
     addFile: i18n.t('common:new use case'), // 添加文件
     searchFolder: i18n.t('dop:Test set'), // 搜索文件夹
-    searchFile: i18n.t('common:test case'), // 搜索文件
+    searchFile: i18n.t('common:Test Case'), // 搜索文件
     executeButton: i18n.t('test'), // 执行按钮
   },
   runPipelineSource: 'autotest',
@@ -34,11 +34,11 @@ const projectPipelineConfig = {
   scope: scopeMap.projectPipeline.scope,
   text: {
     // 文案
-    fileTreeTitle: i18n.t('pipeline'), // 文件树title、
+    fileTreeTitle: i18n.t('Pipeline'), // 文件树title、
     addFolder: i18n.t('add {name}', { name: i18n.t('directory') }), // 添加文件夹
-    addFile: i18n.t('add {name}', { name: i18n.t('pipeline') }), // 添加文件
+    addFile: i18n.t('add {name}', { name: i18n.t('Pipeline') }), // 添加文件
     searchFolder: i18n.t('directory'), // 搜索文件夹
-    searchFile: i18n.t('pipeline'), // 搜索文件
+    searchFile: i18n.t('Pipeline'), // 搜索文件
     executeButton: i18n.t('Execute'), // 执行按钮
   },
   runPipelineSource: 'project-pipeline',
@@ -50,11 +50,11 @@ const configSheetConfig = {
   scope: scopeMap.configSheet.scope,
   text: {
     // 文案
-    fileTreeTitle: i18n.t('config sheet'), // 文件树title、
+    fileTreeTitle: i18n.t('Configuration Sheet'), // 文件树title、
     addFolder: i18n.t('add {name}', { name: i18n.t('directory') }), // 添加文件夹
-    addFile: i18n.t('add {name}', { name: i18n.t('config sheet') }), // 添加文件
+    addFile: i18n.t('add {name}', { name: i18n.t('Configuration Sheet') }), // 添加文件
     searchFolder: i18n.t('directory'), // 搜索文件夹
-    searchFile: i18n.t('config sheet'), // 搜索文件
+    searchFile: i18n.t('Configuration Sheet'), // 搜索文件
     executeButton: i18n.t('Execute'), // 执行按钮
   },
   runPipelineSource: 'config-sheet',

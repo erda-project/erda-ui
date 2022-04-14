@@ -202,7 +202,7 @@ export const Iteration = () => {
       <div className="top-button-group">
         <WithAuth pass={addAuth} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={onCreate}>
-            {i18n.t('dop:Add-iteration')}
+            {i18n.t('Add')}
           </Button>
         </WithAuth>
       </div>

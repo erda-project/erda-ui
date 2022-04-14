@@ -162,7 +162,7 @@ export const PurePublisherList = ({
         <div className="top-button-group">
           <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
             <Button type="primary" onClick={() => openFormModal()}>
-              {i18n.t('publisher:add content')}
+              {i18n.t('publisher:Add')}
             </Button>
           </WithAuth>
         </div>

@@ -153,13 +153,13 @@ const IssueProtocol = ({ issueType }: IProps) => {
         {issueType === ISSUE_TYPE.ALL ? (
           <Dropdown overlay={dropdownMenu}>
             <Button type="primary" className="flex-h-center">
-              {i18n.t('new {name}', { name: i18n.t('dop:issue') })}
+              {i18n.t('Add', { name: i18n.t('dop:issue') })}
               <ErdaIcon type="caret-down" size="18" className="ml-1" />
             </Button>
           </Dropdown>
         ) : (
           <Button type={'primary'} onClick={() => onCreate(issueType)}>
-            {i18n.t('new {name}', { name: ISSUE_TYPE_MAP[issueType]?.label })}
+            {i18n.t('Add')}
           </Button>
         )}
       </div>

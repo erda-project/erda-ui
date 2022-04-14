@@ -71,7 +71,7 @@ const ProjectList = () => {
                         goTo(goTo.pages.orgCenterRoot, { jumpOut: true });
                       }}
                     >
-                      {i18n.t('create {name}', { name: i18n.t('project') })}
+                      {i18n.t('Add')}
                     </Button>
                   ) : null}
                 </div>

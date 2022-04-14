@@ -59,7 +59,7 @@ export const DEPLOY_TABS = (params: Obj) => {
     },
     {
       key: 'config/default',
-      name: firstCharToUpper(i18n.t('config')),
+      name: firstCharToUpper(i18n.t('Configuration')),
       isActive: (activeKey: string) => activeKey.split('/')[0] === 'config',
     },
     {
@@ -103,7 +103,7 @@ export const COLLABORATE_TABS = () => {
 
     {
       key: 'iteration',
-      name: i18n.t('dop:sprint'),
+      name: i18n.t('dop:Iteration'),
       show: projectPerm.iteration.read.pass,
     },
     {
@@ -138,7 +138,7 @@ export const MEASURE_TABS = [
 export const MANUAL_TEST_TABS = [
   {
     key: 'testCase',
-    name: i18n.t('dop:test case'),
+    name: i18n.t('dop:Test Case'),
   },
   {
     key: 'testPlan',
@@ -153,7 +153,7 @@ export const MANUAL_TEST_TABS = [
 export const TEST_STATISTICS_TABS = [
   {
     key: 'test-dashboard',
-    name: i18n.t('dop:test statistics'),
+    name: i18n.t('dop:Test Statistics'),
   },
   {
     key: 'code-coverage',
@@ -164,11 +164,11 @@ export const TEST_STATISTICS_TABS = [
 export const AUTO_TEST_TABS = [
   {
     key: 'testCase',
-    name: i18n.t('dop:test case'),
+    name: i18n.t('dop:Test Case'),
   },
   {
     key: 'config-sheet',
-    name: i18n.t('dop:config data'),
+    name: i18n.t('Configuration Sheet'),
   },
   {
     key: 'testPlan',
@@ -188,7 +188,7 @@ export const AUTO_TEST_TABS = [
 export const RELEASE_TABS = [
   {
     key: 'application',
-    name: i18n.t('dop:app release'),
+    name: i18n.t('dop:App Artifacts'),
   },
   {
     key: 'project',
@@ -199,7 +199,7 @@ export const RELEASE_TABS = [
 export const PIPELINE_TABS = [
   {
     key: 'list',
-    name: i18n.t('pipeline'),
+    name: i18n.t('Pipelines'),
   },
   {
     key: 'records',
@@ -207,7 +207,7 @@ export const PIPELINE_TABS = [
   },
   {
     key: 'config/default',
-    name: firstCharToUpper(i18n.t('config')),
+    name: firstCharToUpper(i18n.t('Configuration')),
     isActive: (activeKey: string) => activeKey.split('/')[0] === 'config',
   },
 ];

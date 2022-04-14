@@ -144,7 +144,7 @@ export const ciStatusMap = {
     status: 'default',
   },
   WaitApprove: {
-    text: i18n.t('pending approval'),
+    text: i18n.t('Pending'),
     color: 'blue',
     status: 'default',
   },

@@ -79,7 +79,7 @@ export const renderErrorBlock = (mrStats: IMrStats, pipelineID?: string, result?
                 });
               }}
             >
-              {i18n.t('pipeline')}
+              {i18n.t('Pipeline')}
             </span>
           </span>,
           msgCheckrunTypeMap[resultType as string],

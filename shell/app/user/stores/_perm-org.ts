@@ -46,7 +46,7 @@ export const orgPerm = {
       },
     },
     publisher: {
-      name: i18n.t('publisher:my release'),
+      name: i18n.t('publisher:My Release'),
       read: {
         pass: false,
         role: ['Manager', 'Dev', 'Support', 'DataManager', 'Reporter', 'PublisherManager', 'Guest'],

@@ -58,13 +58,13 @@ export const ISSUE_TYPE_ICON_MAP = {
   REQUIREMENT: {
     icon: ISSUE_TYPE_MAP.REQUIREMENT.icon,
     color: 'palegreen',
-    name: i18n.t('requirement'),
+    name: i18n.t('Requirement'),
     value: 'REQUIREMENT',
   },
   TASK: {
     icon: ISSUE_TYPE_MAP.TASK.icon,
     color: 'darkcyan',
-    name: i18n.t('task'),
+    name: i18n.t('Task'),
     value: 'TASK',
   },
   BUG: {

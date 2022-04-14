@@ -202,7 +202,7 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
       <div className="top-button-group">
         <ImportExport tabs={tabs} queryObj={useableFilterObj} issueType={issueType} projectId={projectId} />
         <Button type={'primary'} onClick={onCreate}>
-          {i18n.t('new {name}', { name: ISSUE_TYPE_MAP[issueType].label })}
+          {i18n.t('Add')}
         </Button>
       </div>
       <DiceConfigPage
@@ -309,8 +309,8 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
 
 const Board = () => {
   const issueTabs = [
-    { value: ISSUE_TYPE.REQUIREMENT, label: i18n.t('requirement') },
-    { value: ISSUE_TYPE.TASK, label: i18n.t('task') },
+    { value: ISSUE_TYPE.REQUIREMENT, label: i18n.t('Requirement') },
+    { value: ISSUE_TYPE.TASK, label: i18n.t('Task') },
     { value: ISSUE_TYPE.BUG, label: i18n.t('Bug') },
   ];
   const query = routeInfoStore.useStore((s) => s.query);

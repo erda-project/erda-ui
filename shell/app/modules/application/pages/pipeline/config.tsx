@@ -22,7 +22,7 @@ export const SCOPE_APP_PIPELINE = 'project-app';
 
 export const scopeMap = {
   autoTest: {
-    name: i18n.t('dop:test case'),
+    name: i18n.t('dop:Test Case'),
     scope: SCOPE_AUTOTEST,
     icon: 'test-case-secondary',
   },
@@ -32,7 +32,7 @@ export const scopeMap = {
     icon: 'imagevector',
   },
   projectPipeline: {
-    name: i18n.t('pipeline'),
+    name: i18n.t('Pipeline'),
     scope: SCOPE_PROJECT,
     icon: 'liushuixianmoban',
   },
@@ -42,7 +42,7 @@ export const scopeMap = {
     icon: 'liushuixian2',
   },
   configSheet: {
-    name: i18n.t('config sheet'),
+    name: i18n.t('Configuration Sheet'),
     scope: SCOPE_CONFIG_SHEET,
     icon: 'tubiaozhizuomoban',
   },

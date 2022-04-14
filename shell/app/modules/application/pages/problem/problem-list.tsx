@@ -242,7 +242,7 @@ export const ProblemList = () => {
       </Spin>
       <div className="top-button-group">
         <Button type="primary" onClick={() => openModal()}>
-          {i18n.t('dop:Add-issue')}
+          {i18n.t('Add')}
         </Button>
         <ProblemForm visible={visible} onOk={onOk} onCancel={closeModal} />
         <TicketDetail

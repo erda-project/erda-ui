@@ -28,7 +28,7 @@ export const IssueTestCaseRelation = ({ list }: IProps) => {
   const projectId = routeInfoStore.useStore((s) => s.params.projectId);
   const columns = [
     {
-      title: i18n.t('dop:test case'),
+      title: i18n.t('dop:Test Case'),
       dataIndex: 'name',
       render: (v: string, record: ISSUE.IRelativeTestCase) => {
         const { id: caseId, testSetID, testPlanID } = record;

@@ -66,7 +66,7 @@ const AddRelease = ({
     },
     app: {
       key: 'app',
-      text: i18n.t('dop:app release'),
+      text: i18n.t('dop:App artifact'),
       Comp: (
         <AppRelease
           {...paging}

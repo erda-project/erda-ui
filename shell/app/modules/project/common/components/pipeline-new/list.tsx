@@ -238,7 +238,7 @@ const PipelineProtocol = React.forwardRef(
         />
 
         <Drawer
-          title={`${i18n.t('pipeline')} ${detail?.pipelineName || ''}`}
+          title={`${i18n.t('Pipeline')} ${detail?.pipelineName || ''}`}
           onClose={onDetailClose}
           visible={detailVisible}
           width="80%"
@@ -247,7 +247,7 @@ const PipelineProtocol = React.forwardRef(
           {detail ? <PipelineDetail {...detail} setNewPipelineUsed={setNewPipelineUsed} /> : null}
         </Drawer>
         <Modal
-          title={i18n.t('edit {name}', { name: i18n.t('pipeline') })}
+          title={i18n.t('edit {name}', { name: i18n.t('Pipeline') })}
           visible={editVisible}
           onCancel={() => setEditVisible(false)}
           onOk={() => {
@@ -266,7 +266,7 @@ const PipelineProtocol = React.forwardRef(
               name={'name'}
               type={'input'}
               rules={[
-                { required: true, message: i18n.t('please enter {name}', { name: i18n.t('pipeline') }) },
+                { required: true, message: i18n.t('please enter {name}', { name: i18n.t('Pipeline') }) },
                 { max: 30, message: i18n.t('dop:no more than 30 characters') },
                 {
                   pattern: /^[\u4e00-\u9fa5A-Za-z0-9._-]+$/,
