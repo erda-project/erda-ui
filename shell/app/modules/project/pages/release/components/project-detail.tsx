@@ -68,7 +68,7 @@ const ReleaseProjectDetail = () => {
 
   const fieldsList = [
     {
-      label: i18n.t('version'),
+      label: i18n.t('Version'),
       content: releaseName,
       style: { width: '50%' },
     },
@@ -127,7 +127,7 @@ const ReleaseProjectDetail = () => {
 };
 
 const MarkdownReadOnlyRender = ({ value }: { value: string }) => {
-  return <ReactMarkdown remarkPlugins={[remarkGfm]}>{value || i18n.t('no description yet')}</ReactMarkdown>;
+  return <ReactMarkdown remarkPlugins={[remarkGfm]}>{value || i18n.t('No description')}</ReactMarkdown>;
 };
 
 const onExpand = (key: string | number, list: Array<string | number>) => {

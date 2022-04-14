@@ -47,7 +47,7 @@ function getProjectRouter(): RouteConfigItem[] {
           routes: [
             {
               path: 'createApp',
-              breadcrumbName: i18n.t('Add-application'),
+              breadcrumbName: i18n.t('Add'),
               getComp: (cb) => cb(import('project/pages/apps/app-form')),
             },
             getAppRouter(),

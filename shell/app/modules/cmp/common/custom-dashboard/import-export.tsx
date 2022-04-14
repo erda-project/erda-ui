@@ -565,7 +565,7 @@ const Record = ({
             status: 'success',
           },
           Processing: {
-            text: i18n.t('processing'),
+            text: i18n.t('In Progress'),
             status: 'processing',
           },
         };

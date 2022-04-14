@@ -33,7 +33,7 @@ export const projectPerm = {
   name: i18n.t('project'),
   addApp: {
     pass: false,
-    name: i18n.t('Add-application'),
+    name: i18n.t('Add'),
     role: ['Owner', 'Lead'],
   },
   editProject: {

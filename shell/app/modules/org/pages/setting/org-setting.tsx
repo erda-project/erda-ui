@@ -142,7 +142,7 @@ export const OrgSetting = () => {
               sectionList={[
                 {
                   title: i18n.t('cmp:Audit Log'),
-                  desc: i18n.t('cmp:Clean up at 3:00 a.m. every day'),
+                  desc: i18n.t('cmp:Clean up at 3am every day'),
                   children: <OperationLogSetting />,
                 },
               ]}
