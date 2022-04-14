@@ -140,6 +140,11 @@ const getOption = (chartType: string, option: Obj, yAxisLabelLen?: number) => {
     case 'treemap':
       reOption = {
         ...reOption,
+        ...(reOption.tooltip
+          ? {
+              tooltip: reOption.tooltip.show ? { ...reOption.tooltip, trigger: 'item' } : reOption.tooltip,
+            }
+          : {}),
         series: reOption.series.map((item: Obj) => ({
           type: 'treemap',
           ...item,
