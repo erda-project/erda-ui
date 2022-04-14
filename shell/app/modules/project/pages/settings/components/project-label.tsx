@@ -40,6 +40,11 @@ const labelTypeMap = {
   releaseLabel: 'release',
 };
 
+const deleteString = {
+  projectLabel: i18n.t('dop:issues associated label will be deleted, confirm to delete?'),
+  releaseLabel: i18n.t('dop:release associated label will be deleted, confirm to delete?'),
+};
+
 const colors = Object.keys(colorMap);
 const ProjectLabel = () => {
   const { tabKey } = routeInfoStore.useStore((s) => s.query);
@@ -84,7 +89,7 @@ const ProjectLabel = () => {
 
   const handleDelete = (label: LABEL.Item) => {
     Modal.confirm({
-      title: i18n.t('dop:issues associated label will be deleted, confirm to delete?'),
+      title: deleteString[tabKey],
       onOk: () => {
         deleteLabel(label.id);
       },

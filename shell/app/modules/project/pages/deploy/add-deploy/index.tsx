@@ -157,7 +157,7 @@ const AddDeploy = ({
               <span className="bg-default-1 text-default-8 px-2 ml-1 text-xs rounded-lg">{modesList?.length || 0}</span>
             </div>
             <Checkbox.Group
-              options={modesList.map((item) => ({ label: item.key, value: item.key }))}
+              options={modesList.filter((item) => item.expose).map((item) => ({ label: item.key, value: item.key }))}
               value={mode}
               onChange={(v: string[]) => {
                 setMode(v);

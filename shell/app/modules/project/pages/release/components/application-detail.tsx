@@ -207,6 +207,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                 { label: i18n.t('create time'), value: createdAt && moment(createdAt).format('YYYY/MM/DD HH:mm:ss') },
                 { label: i18n.t('dop:Code branch'), value: labels.gitBranch },
                 { label: 'commitId', value: labels.gitCommitId },
+                { label: 'commit message', value: labels.gitCommitMessage },
                 { label: `GitRepo ${i18n.t('dop:address')}`, value: labels.gitRepo },
               ])}
               {isEdit ? (

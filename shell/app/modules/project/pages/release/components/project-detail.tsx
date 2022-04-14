@@ -27,6 +27,7 @@ import remarkGfm from 'remark-gfm';
 interface Mode {
   dependOn?: string[];
   applicationReleaseList: Application[][];
+  expose: boolean;
 }
 
 interface Application {
@@ -156,42 +157,46 @@ const ModesList = ({ value }: { value?: { [keys: string]: Mode } }) => {
 
   return (
     <div>
-      {Object.keys(value || {}).map((key: string) => {
-        const mode = value?.[key] || ({} as Mode);
-        return (
-          <div className="bg-default-04 mb-2 text-default" key={key}>
-            <div className="px-2 py-3 flex-h-center cursor-pointer" onClick={() => expand(key)}>
-              <ErdaIcon
-                type="right-4ffff0i4"
-                size="20"
-                className={`${expandedKeys.includes(key) ? 'text-default-6 rotate-90' : 'text-default-3'} duration-300`}
-              />
-              {key}
-            </div>
+      {Object.keys(value || {})
+        .filter((key) => value?.[key].expose)
+        .map((key: string) => {
+          const mode = value?.[key] || ({} as Mode);
+          return (
+            <div className="bg-default-04 mb-2 text-default" key={key}>
+              <div className="px-2 py-3 flex-h-center cursor-pointer" onClick={() => expand(key)}>
+                <ErdaIcon
+                  type="right-4ffff0i4"
+                  size="20"
+                  className={`${
+                    expandedKeys.includes(key) ? 'text-default-6 rotate-90' : 'text-default-3'
+                  } duration-300`}
+                />
+                {key}
+              </div>
 
-            <div className={`overflow-hidden ${expandedKeys.includes(key) ? '' : 'h-0'}`}>
-              <div className="px-6 pb-6">
-                {mode.dependOn?.length ? (
-                  <>
-                    <div className="text-xs text-default-6 mb-1">{i18n.t('dop:dependence')}</div>
-                    <Ellipsis
-                      className="hover:text-purple-deep hover:underline mb-4"
-                      title={(mode.dependOn || []).join(' ')}
-                    />
-                  </>
-                ) : null}
+              <div className={`overflow-hidden ${expandedKeys.includes(key) ? '' : 'h-0'}`}>
+                <div className="px-6 pb-6">
+                  {mode.dependOn?.length ? (
+                    <>
+                      <div className="text-xs text-default-6 mb-1">{i18n.t('dop:dependence')}</div>
+                      <Ellipsis
+                        className="hover:text-purple-deep hover:underline mb-4"
+                        title={(mode.dependOn || []).join(' ')}
+                      />
+                    </>
+                  ) : null}
 
-                <div>
-                  <div className="text-xs text-default-6 mb-2">{i18n.t('dop:app release')}</div>
                   <div>
-                    <GroupsList value={mode.applicationReleaseList || []} />
+                    <div className="text-xs text-default-6 mb-2">{i18n.t('dop:app release')}</div>
+                    <div>
+                      <GroupsList value={mode.applicationReleaseList || []} />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </div>
   );
 };

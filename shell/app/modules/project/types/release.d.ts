@@ -70,5 +70,6 @@ declare namespace RELEASE {
     gitBranch: string;
     gitCommitId: string;
     gitRepo: string;
+    gitCommitMessage: string;
   }
 }
