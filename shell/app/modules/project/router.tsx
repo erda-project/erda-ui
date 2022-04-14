@@ -201,7 +201,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'measure',
-          breadcrumbName: i18n.t('dop:Efficiency'),
+          breadcrumbName: i18n.t('dop:Statistics'),
           routes: [
             {
               path: 'bug',
@@ -410,7 +410,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'test-report',
-          breadcrumbName: i18n.t('dop:Test Reports'),
+          breadcrumbName: i18n.t('dop:Testing Reports'),
           routes: [
             {
               getComp: (cb) => cb(import('project/pages/test-report')),

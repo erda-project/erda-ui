@@ -341,6 +341,9 @@ const IssuePlan = () => {
                   text: i18n.t('Bug'),
                 },
               ],
+              dropdownProps: {
+                placement: 'bottomRight',
+              },
               operations: {
                 click: {
                   key: '',
