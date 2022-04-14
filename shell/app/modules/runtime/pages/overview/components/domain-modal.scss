@@ -40,4 +40,8 @@
     align-items: center;
     margin: 0 0 8px;
   }
+
+  div.ant-form-item .ant-form-item-label label {
+    color: $color-default;
+  }
 }
