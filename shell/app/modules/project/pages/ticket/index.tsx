@@ -23,8 +23,8 @@ import { useMount } from 'react-use';
 import IssueState from 'project/common/components/issue/issue-state';
 import { Filter, MemberSelector, ConfigurableFilter } from 'common';
 import ErdaTable from 'common/components/table';
-import { useUpdate } from 'common/use-hooks';
-import { mergeSearch, updateSearch, getTimeRanges } from 'common/utils';
+import { useUpdate, useUpdateSearch } from 'common/use-hooks';
+import { mergeSearch, getTimeRanges } from 'common/utils';
 import { ColumnProps } from 'antd/lib/table';
 import { Button, Tooltip } from 'antd';
 import { useLoading } from 'core/stores/loading';
@@ -356,20 +356,11 @@ const Ticket = () => {
     getList({ pageNo: 1, ..._q });
   };
 
-  const handleUpdateSearch = React.useCallback((query: Obj = {}) => {
-    const _q = { ...query };
-    if (!isEmpty(_q.createdAt)) {
-      const [start, end] = _q.createdAt;
-      const startCreatedAt = start?.valueOf();
-      const endCreatedAt = end?.valueOf();
-      _q.createdAt = [startCreatedAt, endCreatedAt];
-    }
-    updateSearch(_q, { replace: true });
-  }, []);
+  const [setUrlQuery] = useUpdateSearch({ reload: onFilter });
 
   React.useEffect(() => {
-    handleUpdateSearch(filterData);
-  }, [filterData, handleUpdateSearch]);
+    setUrlQuery(filterData);
+  }, [filterData, setUrlQuery]);
 
   return (
     <div className="project-ticket">

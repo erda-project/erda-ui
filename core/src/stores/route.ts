@@ -29,7 +29,7 @@ interface IRouteInfo {
   routePatterns: string[];
   routeMap: Record<string, SHELL.Route>;
   urlFullRecord: Set<string>;
-  urlPathRecord: Set<string>;
+  urlPathRecord: string[];
   urlState: 'back' | 'new' | 'forward';
   parsed: any;
   markedRoutePreview: Obj<string>;
@@ -49,7 +49,7 @@ const initRouteInfo: IRouteInfo = {
   routePatterns: [],
   routeMap: {},
   parsed: {},
-  urlPathRecord: new Set([]),
+  urlPathRecord: [],
   markedRoutePreview: {},
   urlFullRecord: new Set([]),
   urlState: 'new',
@@ -147,19 +147,21 @@ const routeInfoStore = createStore({
         }
       }
 
-      const curUrlPaths = new Set(state.urlPathRecord);
+      const curUrlPaths = [...state.urlPathRecord];
       const curUrlFull = new Set(state.urlFullRecord);
+
       let urlState = 'new';
-      if (curUrlFull.has(urlKey) && curUrlPaths.size > 1) {
-        if (curUrlPaths.has(urlKey)) {
+      if (curUrlFull.has(urlKey) && curUrlPaths.length > 1) {
+        if (curUrlPaths.includes(urlKey)) {
           urlState = 'back';
-          curUrlPaths.delete(urlKey);
+          curUrlPaths.pop();
         } else {
           urlState = 'forward';
-          curUrlPaths.add(urlKey);
+          curUrlPaths.push(urlKey);
         }
-      } else {
-        curUrlPaths.add(urlKey);
+      } else if (!(curUrlPaths.length === 1 && curUrlPaths.includes(urlKey))) {
+        // forbidden first time execute $_updateRouteInfo more than once;
+        curUrlPaths.push(urlKey);
       }
 
       curUrlFull.add(urlKey);
@@ -187,7 +189,6 @@ const routeInfoStore = createStore({
         isEntering: (level: string) => routeMarks.includes(level) && !prevRouteInfo.routeMarks.includes(level),
         isLeaving: (level: string) => !routeMarks.includes(level) && prevRouteInfo.routeMarks.includes(level),
       };
-
       return routeInfo;
     },
   },

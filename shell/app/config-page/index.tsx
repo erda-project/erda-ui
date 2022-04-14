@@ -131,7 +131,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     });
   };
 
-  const [urlQuery, setUrlQuery] = useUpdateSearch({
+  const [setUrlQuery, urlQuery] = useUpdateSearch({
     convertQuery: pickUrlQuery,
     reload: (_q?: Obj) => {
       urlQueryRef.current = _q || {};

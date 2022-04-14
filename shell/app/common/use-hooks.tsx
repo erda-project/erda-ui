@@ -986,7 +986,7 @@ export const useInViewport: IUseInViewPort = (target, options) => {
 1、return setQuery方法用于监听页面上的某些state用于更新url query（如filterState）
 2、传入reload方法，在浏览器前进后退的时候调用reload方法
 
-const [urlQuery, setUrlQuery] = useUpdateSearch({reload})
+const [setUrlQuery, urlQuery,] = useUpdateSearch({reload})
 const [filterState, setFilterState] = React.useState({});
 
 React.useEffect(()=> {
@@ -1007,26 +1007,24 @@ interface IUseUpdateSearchProps {
   reload?: (q?: Obj) => void;
 }
 const defaultConvert = (a: Obj) => a;
-export const useUpdateSearch = (props?: IUseUpdateSearchProps): [query: Obj, setQuery: (q: Obj) => void] => {
+export const useUpdateSearch = (props?: IUseUpdateSearchProps): [setQuery: (q: Obj) => void, query: Obj] => {
   const { convertQuery = defaultConvert, reload } = props || {};
   const [routeQuery, urlState] = routeInfoStore.useStore((s) => [s.query, s.urlState]);
   const [query, setQuery] = React.useState(convertQuery(routeQuery));
 
   const urlStateRef = React.useRef(urlState);
   const [isReload, setIsReload] = React.useState(false);
+  const reloadRef = React.useRef(isReload);
 
-  React.useEffect(() => {
-    urlStateRef.current = urlState;
-  }, [urlState]);
+  React.useImperativeHandle(reloadRef, () => isReload);
+  React.useImperativeHandle(urlStateRef, () => urlState);
 
   useUpdateEffect(() => {
     if (urlState === 'back' || urlState === 'forward') {
       const curUrlQuery = convertQuery(routeQuery);
-      if (!isEmpty(curUrlQuery)) {
-        setQuery(curUrlQuery);
-        setIsReload(true);
-        reload?.(curUrlQuery);
-      }
+      setQuery(curUrlQuery);
+      setIsReload(true);
+      reload?.(curUrlQuery);
     }
   }, [urlState, routeQuery]);
 
@@ -1037,11 +1035,12 @@ export const useUpdateSearch = (props?: IUseUpdateSearchProps): [query: Obj, set
   }, [query]);
 
   const _setQuery = React.useCallback((q: Obj) => {
-    if (urlStateRef.current === 'new') {
+    if (reloadRef.current) {
       setIsReload(false);
+    } else {
       setQuery(q);
     }
   }, []);
 
-  return [query, _setQuery];
+  return [_setQuery, query];
 };

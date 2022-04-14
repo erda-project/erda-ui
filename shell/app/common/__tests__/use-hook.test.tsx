@@ -233,10 +233,10 @@ describe('use-hooks', () => {
       const setUp = (reloadFun: (_q?: Obj) => void) => renderHook(() => useUpdateSearch({ reload: reloadFun }));
       const setUpObj = setUp(reload);
       const { result } = setUpObj;
-      const [curQuery, setQuery] = result.current;
+      const [setQuery, curQuery] = result.current;
       expect(curQuery).toEqual({});
       act(() => setQuery({ name: 'a' }));
-      expect(result.current[0]).toEqual({ name: 'a' });
+      expect(result.current[1]).toEqual({ name: 'a' });
 
       setConfig('history', undefined);
     });
