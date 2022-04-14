@@ -29,7 +29,7 @@ export const ProjectAppList = () => {
       <div className="top-button-group">
         <WithAuth pass={permMap.addApp} disableMode={false} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={() => goTo('./createApp')}>
-            {i18n.t('Add-application')}
+            {i18n.t('Add')}
           </Button>
         </WithAuth>
       </div>

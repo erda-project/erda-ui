@@ -80,7 +80,7 @@ const Preview = (props: { data: PROJECT.ITestReportBody; onMount: Function }) =>
           </Form.Item>
         </Form>
       </div>
-      <Title title={i18n.t('dop:test statistics')} />
+      <Title title={i18n.t('dop:Test statistics')} />
       <DiceConfigPage
         scenarioType={'test-dashboard'}
         scenarioKey={'test-dashboard'}
@@ -88,7 +88,7 @@ const Preview = (props: { data: PROJECT.ITestReportBody; onMount: Function }) =>
         fullHeight={false}
         debugConfig={data.reportData?.['test-dashboard']}
       />
-      <Title title={i18n.t('dop:test statistics')} />
+      <Title title={i18n.t('dop:Test statistics')} />
       <DiceConfigPage
         scenarioType={'issue-dashboard'}
         scenarioKey={'issue-dashboard'}

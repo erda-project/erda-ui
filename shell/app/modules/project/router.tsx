@@ -37,7 +37,7 @@ function getProjectRouter(): RouteConfigItem[] {
       mark: 'project',
       routes: [
         {
-          breadcrumbName: i18n.t('dop:Project homepage'),
+          breadcrumbName: i18n.t('dop:Homepage'),
           layout: { fullHeight: true, noWrapper: true, className: 'project-homepage-wrapper' },
           getComp: (cb) => cb(import('project/pages/homepage'), 'ProjectHomepage'),
         },
@@ -47,12 +47,12 @@ function getProjectRouter(): RouteConfigItem[] {
           routes: [
             {
               path: 'createApp',
-              breadcrumbName: i18n.t('Add-application'),
+              breadcrumbName: i18n.t('Add'),
               getComp: (cb) => cb(import('project/pages/apps/app-form')),
             },
             getAppRouter(),
             {
-              breadcrumbName: i18n.t('App'),
+              breadcrumbName: i18n.t('Apps'),
               layout: { noWrapper: true },
               getComp: (cb) => cb(import('project/pages/apps/app-list'), 'ProjectAppList'),
             },
@@ -61,7 +61,7 @@ function getProjectRouter(): RouteConfigItem[] {
         {
           path: 'issues',
           mark: 'issues',
-          breadcrumbName: i18n.t('dop:project collaboration'),
+          breadcrumbName: i18n.t('dop:Collaboration'),
           routes: [
             {
               path: 'gantt',
@@ -231,7 +231,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'pipelines',
-          breadcrumbName: i18n.t('pipeline'),
+          breadcrumbName: i18n.t('Pipelines'),
           routes: [
             {
               path: 'list',
@@ -258,7 +258,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'obsoleted-pipelines',
-          breadcrumbName: i18n.t('pipeline'),
+          breadcrumbName: i18n.t('Pipeline'),
           getComp: (cb) => cb(import('project/pages/pipelines/old-pipeline')),
         },
         {
@@ -410,7 +410,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'test-report',
-          breadcrumbName: i18n.t('dop:test report'),
+          breadcrumbName: i18n.t('dop:Test Reports'),
           routes: [
             {
               getComp: (cb) => cb(import('project/pages/test-report')),

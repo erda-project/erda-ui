@@ -430,8 +430,8 @@ interface IAddProps {
 }
 
 const typeList = [
-  { label: i18n.t('requirement'), value: 'REQUIREMENT' },
-  { label: i18n.t('task'), value: 'TASK' },
+  { label: i18n.t('Requirement'), value: 'REQUIREMENT' },
+  { label: i18n.t('Task'), value: 'TASK' },
   { label: i18n.t('Bug'), value: 'BUG' },
 ];
 
@@ -597,7 +597,7 @@ export const AddIssueRelation = ({
               },
             ]),
             {
-              label: i18n.t('dop:Iteration'),
+              label: i18n.t('dop:Iteration-owned'),
               type: 'select',
               key: 'iterationID',
               options:
@@ -605,7 +605,7 @@ export const AddIssueRelation = ({
                   label: item.title,
                   value: item.id,
                 })) || [],
-              placeholder: i18n.t('dop:Iteration'),
+              placeholder: i18n.t('dop:Iteration-owned'),
               mode: 'single',
             },
             {

@@ -25,7 +25,7 @@ const tabs = [
   { key: 'transaction', name: i18n.t('msp:Call Monitoring') },
   { key: 'trace', name: i18n.t('msp:Tracing Query') },
   // { key: 'anomaly', name: i18n.t('msp:exception') }, // hide temporarily
-  { key: 'process', name: i18n.t('cmp:resource monitor') },
+  { key: 'process', name: i18n.t('cmp:Resource Monitoring') },
 ];
 
 const serviceAnalysisRoutes = [

@@ -107,7 +107,7 @@ const TestPlan = () => {
       },
     },
     {
-      title: i18n.t('dop:Iteration'),
+      title: i18n.t('dop:Iteration-owned'),
       dataIndex: 'iterationName',
       width: 100,
     },
@@ -240,7 +240,7 @@ const TestPlan = () => {
             </Option>
           )),
           allowClear: true,
-          placeholder: i18n.t('dop:Iteration'),
+          placeholder: i18n.t('dop:Iteration-owned'),
           mode: 'multiple',
         },
       },

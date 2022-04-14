@@ -214,7 +214,7 @@ export const VariableConfigForm = ({
   ];
   return (
     <FormModal
-      name={i18n.t('config')}
+      name={i18n.t('Configuration')}
       fieldsList={fieldsList}
       ref={formRef}
       visible={visible}

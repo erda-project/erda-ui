@@ -64,7 +64,7 @@ const Approval = () => {
   const tabs = [
     {
       value: 'undone',
-      label: i18n.t('cmp:pending approval'),
+      label: i18n.t('cmp:Pending'),
     },
     {
       value: 'done',

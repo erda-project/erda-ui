@@ -117,7 +117,7 @@ const TestPlanModal = (props: IProps) => {
       getComp: () => <MemberSelector mode="multiple" scopeId={params.projectId} scopeType="project" />,
     },
     {
-      label: i18n.t('dop:Iteration'),
+      label: i18n.t('dop:Iteration-owned'),
       name: 'iterationID',
       type: 'select',
       options: iterationList.map((iteration) => ({ name: iteration.title, value: String(iteration.id) })),

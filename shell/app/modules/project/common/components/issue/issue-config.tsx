@@ -164,23 +164,23 @@ export const BUG_SEVERITY_MAP = {
 export const ISSUE_TYPE_MAP = {
   REQUIREMENT: {
     value: 'REQUIREMENT',
-    label: i18n.t('requirement'),
+    label: i18n.t('Requirement'),
     icon: ISSUE_ICON.issue.REQUIREMENT,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.issue.REQUIREMENT}
-        {i18n.t('requirement')}
+        {i18n.t('Requirement')}
       </div>
     ),
   },
   TASK: {
     value: 'TASK',
-    label: i18n.t('task'),
+    label: i18n.t('Task'),
     icon: ISSUE_ICON.issue.TASK,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.issue.TASK}
-        {i18n.t('task')}
+        {i18n.t('Task')}
       </div>
     ),
   },

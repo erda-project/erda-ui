@@ -165,7 +165,7 @@ const LabelFiedExtra = (props: LabelExtraProps) => {
           </div>
           <div className="flex-h-center">
             <Button type="primary" ghost size="small" onClick={onCancel}>
-              {i18n.t('cancel')}
+              {i18n.t('Cancel')}
             </Button>
             <Button size="small" className="ml-2" type="primary" onClick={onOk}>
               {i18n.t('dop:synchronize')}
@@ -176,7 +176,7 @@ const LabelFiedExtra = (props: LabelExtraProps) => {
           <div className="mx-6 issue-label-diff">
             {add.length ? (
               <div className="flex py-2">
-                <span className="mr-2 text-success">{`${i18n.t('dop:add')}: `}</span>
+                <span className="mr-2 text-success">{`${i18n.t('dop:Add')}: `}</span>
                 <div className="flex-1">
                   {add.map((item) => {
                     const curLabel = optionList.find((opt) => opt.name === item);
@@ -451,7 +451,7 @@ const IssueMetaFields = React.forwardRef(
           icon: 'diedai',
           className: 'mb-3 w-full',
           name: 'iterationID',
-          label: i18n.t('dop:Iteration'),
+          label: i18n.t('dop:Iteration-owned'),
           type: 'custom',
           onChangeCb: (v: { iterationID: string }) => {
             const curIteration = iterationList.find((item) => `${item.id}` === `${v.iterationID}`);
@@ -459,7 +459,7 @@ const IssueMetaFields = React.forwardRef(
             const withChildrenIteration = compareTime(curIteration?.finishedAt, preIteration?.finishedAt);
             setIterationUpdate({
               id: `${v.iterationID}`,
-              name: `${v.iterationID}` === '-1' ? i18n.t('dop:backlog') : curIteration?.title || '',
+              name: `${v.iterationID}` === '-1' ? i18n.t('dop:Backlog') : curIteration?.title || '',
               force: withChildrenIteration,
               visible: true,
             });
@@ -497,7 +497,7 @@ const IssueMetaFields = React.forwardRef(
               value={value as number}
               onChange={onSave}
               disabled={!editAuth}
-              placeholder={i18n.t('please choose {name}', { name: i18n.t('dop:Iteration') })}
+              placeholder={i18n.t('please choose {name}', { name: i18n.t('dop:Iteration-owned') })}
             />
           ),
           extraContent: (
