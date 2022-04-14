@@ -174,20 +174,21 @@ const ErdaBreadcrumb = () => {
 
   const paths: string[] = [];
 
+  const usefullBreadcrumb = allRoutes.filter((item) => {
+    if (!item.breadcrumbName) {
+      return false;
+    }
+    return !!getBreadcrumbTitle(item, true);
+  });
+
   return (
     <div className="flex items-center flex-shrink-0 h-9 text-xs">
-      {allRoutes.map((item, i) => {
-        const isLast = i === allRoutes.length - 1;
+      {usefullBreadcrumb.map((item, i) => {
+        const isLast = i === usefullBreadcrumb.length - 1;
         paths.push(getPath(item.path, params));
 
-        if (!item.breadcrumbName) {
-          return null;
-        }
-
         const _title = getBreadcrumbTitle(item, true);
-        if (!_title) {
-          return null;
-        }
+
         return (
           <div key={item.key}>
             <BreadcrumbItem paths={[...paths]} route={item} params={params} title={_title} isLast={isLast} />
