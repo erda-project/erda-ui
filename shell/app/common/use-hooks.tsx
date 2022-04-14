@@ -1016,13 +1016,8 @@ export const useUpdateSearch = (props?: IUseUpdateSearchProps): [setQuery: (q: O
   const [isReload, setIsReload] = React.useState(false);
   const reloadRef = React.useRef(isReload);
 
-  React.useEffect(() => {
-    reloadRef.current = isReload;
-  }, [isReload]);
-
-  React.useEffect(() => {
-    urlStateRef.current = urlState;
-  }, [urlState]);
+  React.useImperativeHandle(reloadRef, () => isReload);
+  React.useImperativeHandle(urlStateRef, () => urlState);
 
   useUpdateEffect(() => {
     if (urlState === 'back' || urlState === 'forward') {
