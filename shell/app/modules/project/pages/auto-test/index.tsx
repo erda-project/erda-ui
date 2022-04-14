@@ -43,6 +43,11 @@ const SpaceList = () => {
                 }
               },
             },
+            props: {
+              dropdownProps: {
+                placement: 'bottomRight',
+              },
+            },
           },
         }}
       />

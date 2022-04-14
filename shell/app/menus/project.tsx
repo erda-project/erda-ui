@@ -38,7 +38,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       href: goTo.resolve.projectAllIssue(), // `/dop/projects/${projectId}/issues/all`,
       icon: <ErdaIcon type="xiangmuguanli" />,
-      text: i18n.t('dop:Projects-manage'),
+      text: i18n.t('dop:Collaboration'),
       subtitle: i18n.t('dop:Management'),
       show:
         projectPerm.backLog.viewBackLog.pass ||
@@ -54,7 +54,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
         },
         {
           href: goTo.resolve.projectMeasureTask(),
-          text: i18n.t('dop:Efficiency'),
+          text: i18n.t('dop:Statistics'),
           show: projectPerm.dashboard.viewDashboard.pass,
           prefix: goTo.resolve.projectMeasure(),
         },
@@ -63,7 +63,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       href: goTo.resolve.projectTestStatisticsRoot(), // `/dop/projects/${projectId}`,
       icon: <ErdaIcon type="ceshiguanli" />,
-      text: i18n.t('Test Management'),
+      text: i18n.t('Testing'),
       subtitle: i18n.t('Test'),
       show: projectPerm.testManage.viewTest.pass,
       subMenu: [

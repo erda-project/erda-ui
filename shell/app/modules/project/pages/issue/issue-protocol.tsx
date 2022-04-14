@@ -151,9 +151,9 @@ const IssueProtocol = ({ issueType }: IProps) => {
         <ImportExport tabs={tabs} queryObj={useableFilterObj} issueType={issueType} projectId={projectId} />
 
         {issueType === ISSUE_TYPE.ALL ? (
-          <Dropdown overlay={dropdownMenu}>
+          <Dropdown overlay={dropdownMenu} placement="bottomRight">
             <Button type="primary" className="flex-h-center">
-              {i18n.t('Add', { name: i18n.t('dop:issue') })}
+              {i18n.t('Add')}
               <ErdaIcon type="caret-down" size="18" className="ml-1" />
             </Button>
           </Dropdown>

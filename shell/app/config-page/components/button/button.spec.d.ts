@@ -31,6 +31,7 @@ declare namespace CP_BUTTON {
     tooltip?: string;
     tipProps?: Obj;
     visible?: boolean;
+    dropdownProps?: Obj;
   }
   interface MenuItem {
     key: string;

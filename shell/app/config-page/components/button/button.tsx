@@ -41,6 +41,7 @@ const CP_Button = (props: CP_BUTTON.Props) => {
     visible = true,
     disabled: pDisabled,
     disabledTip: pDisabledTip,
+    dropdownProps,
     ...rest
   } = configProps || {};
 
@@ -137,7 +138,7 @@ const CP_Button = (props: CP_BUTTON.Props) => {
       </Menu>
     );
     return (
-      <Dropdown overlay={dropdownMenu}>
+      <Dropdown overlay={dropdownMenu} {...dropdownProps}>
         <Button {...rest}>{content}</Button>
       </Dropdown>
     );

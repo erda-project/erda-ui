@@ -14,10 +14,10 @@
 import i18n from 'i18n';
 
 export const ENV_MAP = {
-  DEV: i18n.t('Dev environment'),
-  TEST: i18n.t('Test environment'),
-  STAGING: i18n.t('Staging environment'),
-  PROD: i18n.t('Production environment'),
+  DEV: i18n.t('Development'),
+  TEST: i18n.t('Testing-env'),
+  STAGING: i18n.t('Staging-env'),
+  PROD: i18n.t('Production-env'),
 };
 
 export const logStatusMap = {

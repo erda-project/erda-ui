@@ -160,7 +160,7 @@ const AccessList = () => {
             goTo('./access/create');
           }}
         >
-          {i18n.t('establish')}
+          {i18n.t('Add')}
         </Button>
       </div>
       <ErdaTable
