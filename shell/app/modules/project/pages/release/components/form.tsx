@@ -127,6 +127,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
         placeholder: i18n.t('please enter {name}', { name: i18n.t('Version') }),
         disabled: type === 'file',
       },
+      className: 'w-1/2',
       rules: [
         { required: true, message: i18n.t('please enter {name}', { name: i18n.t('Version') }) },
         { max: 30, message: i18n.t('dop:no more than 30 characters') },
@@ -147,6 +148,7 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
       type: 'select',
       required: false,
       options: labelsList.map((item) => ({ ...item, value: item.id })),
+      className: 'w-1/2',
       itemProps: {
         mode: 'multiple',
         optionRender: ({ name, color }: { name: string; color: string }) => (
