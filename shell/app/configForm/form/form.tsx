@@ -697,7 +697,7 @@ export const Form = ({
     },
     scrollToField(key: string) {
       const unsuccessEle = document.getElementById(key) as any;
-      unsuccessEle && unsuccessEle.scrollIntoView();
+      unsuccessEle && unsuccessEle.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
     },
     validate() {
       const asyncKeys = [] as string[];

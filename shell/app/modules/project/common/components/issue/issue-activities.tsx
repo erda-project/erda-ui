@@ -62,7 +62,7 @@ export const IssueActivities = (props: IProps) => {
     const offListener = on('issue:scrollToLatestComment', () => {
       setActiveTabKey('comments');
       if (listDomRef.current) {
-        listDomRef.current.scrollIntoView();
+        listDomRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
       }
     });
     return offListener;

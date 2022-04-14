@@ -120,7 +120,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
               className="float-right w-10 h-10 top-4 rounded-full cursor-pointer shadow-card text-blue-deep bg-white hover:text-white hover:bg-blue-deep"
               style={{ position: 'sticky' }}
               onClick={() => {
-                mdContentRef.current?.scrollIntoView();
+                mdContentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
                 updater.isEditing(true);
               }}
             />

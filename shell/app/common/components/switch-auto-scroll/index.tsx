@@ -34,7 +34,7 @@ function SwitchAutoScroll(props: IProps) {
         const mainDom = document.querySelector('#main');
         mainDom && (mainDom.scrollTop = 0);
       } else if (positionRef.current) {
-        (positionRef.current as any).scrollIntoView();
+        (positionRef.current as any).scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
       }
     }
   }, [props.toPageTop, props.triggerBy]);

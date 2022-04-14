@@ -45,7 +45,7 @@ const SettingTabs = ({ dataSource, className = '' }: IProps) => {
     setTimeout(() => {
       // only need scroll into view once, setTimeout wait menu render completely
       const activeTabDom = document.querySelector('.group-tabs li.active');
-      activeTabDom && activeTabDom.scrollIntoView();
+      activeTabDom && activeTabDom.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
     }, 0);
   });
 

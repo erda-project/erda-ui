@@ -130,7 +130,7 @@ const DeployClusterForm = (props: IProps) => {
     if (categoryRefsMap && categoryRefsMap.current) {
       const cur = categoryRefsMap.current[activeKey] as any;
       if (cur && cur.current && !eleInView(cur)) {
-        cur.current.scrollIntoView();
+        cur.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
       }
     }
   }, [activeKey]);
@@ -139,7 +139,7 @@ const DeployClusterForm = (props: IProps) => {
     if (categoryRefsMap && categoryRefsMap.current) {
       const cur = categoryRefsMap.current[key] as any;
       if (cur && cur.current) {
-        cur.current.scrollIntoView();
+        cur.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
       }
     }
     setActiveKey(key);

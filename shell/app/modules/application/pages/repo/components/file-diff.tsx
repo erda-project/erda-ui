@@ -622,7 +622,7 @@ const FilesDiff = (props: IDiffProps) => {
   const navigateToFile = (fileName: string) => {
     const ref = diffFileRefs[fileName];
     if (ref.current) {
-      ref.current.scrollIntoView();
+      ref.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
     } else {
       const target = document.querySelector('#main');
       const frameFunc = () => {
@@ -630,7 +630,7 @@ const FilesDiff = (props: IDiffProps) => {
         if (!diffFileRefs[fileName].current) {
           window.requestAnimationFrame(frameFunc);
         } else {
-          diffFileRefs[fileName].current.scrollIntoView();
+          diffFileRefs[fileName].current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
         }
       };
       window.requestAnimationFrame(frameFunc);
