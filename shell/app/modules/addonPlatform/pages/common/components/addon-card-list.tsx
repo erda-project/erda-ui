@@ -109,7 +109,7 @@ const AddonCardList = (props: IProps) => {
     if (!targetCategoryDom) {
       return;
     }
-    targetCategoryDom.scrollIntoView();
+    targetCategoryDom.parentNode.scrollTop = targetCategoryDom.offsetTop - 20;
   };
 
   React.useEffect(() => {
