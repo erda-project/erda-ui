@@ -109,7 +109,6 @@ const AddonCardList = (props: IProps) => {
     if (!targetCategoryDom) {
       return;
     }
-    console.log('------', targetCategoryDom);
     targetCategoryDom.parentNode.scrollTop = targetCategoryDom.offsetTop - 20;
   };
 
