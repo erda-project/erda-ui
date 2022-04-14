@@ -204,11 +204,11 @@ const DomainModal = (props: IProps) => {
                   </Col>
                 </Row>
                 <div className="custom-domain" key="custom">
-                  <span>{i18n.t('runtime:Custom domain')}:</span>
+                  <span className="text-black-4">{i18n.t('runtime:Custom domain')}</span>
                   <span className="add-domain-icon">
                     <ErdaIcon
                       type="add-one"
-                      className="ml-3 hover-active cursor-pointer mt-1"
+                      className="ml-3 hover-active cursor-pointer mt-1 text-black-4"
                       onClick={() => addCustom()}
                       size="18"
                     />
@@ -240,7 +240,7 @@ const DomainModal = (props: IProps) => {
           })}
           {packageDomain?.length ? (
             <div>
-              <div className="mb-2">{i18n.t('msp:Endpoint')}</div>
+              <div className="mb-2 text-black-4">{i18n.t('msp:Endpoint')}</div>
               {packageDomain.map((item) => (
                 <div key={item.domain} className="mb-1">
                   {item.domain}
