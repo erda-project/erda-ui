@@ -187,7 +187,7 @@ const ModesList = ({ value }: { value?: { [keys: string]: Mode } }) => {
                   ) : null}
 
                   <div>
-                    <div className="text-xs text-default-6 mb-2">{i18n.t('dop:app release')}</div>
+                    <div className="text-xs text-default-6 mb-2">{i18n.t('dop:App artifact')}</div>
                     <div>
                       <GroupsList value={mode.applicationReleaseList || []} />
                     </div>

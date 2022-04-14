@@ -157,7 +157,11 @@ const DomainModal = (props: IProps) => {
 
   return (
     <Modal
-      title={i18n.t('runtime:Domain settings')}
+      title={
+        <span>
+          {serviceName} {i18n.t('runtime:Domain settings')}
+        </span>
+      }
       visible={visible}
       destroyOnClose
       onOk={saveConfig}
@@ -166,7 +170,6 @@ const DomainModal = (props: IProps) => {
       <Form layout="vertical" form={form}>
         <div className="config-item ml-3">
           <div className="flex justify-between items-center config-item-title font-medium text-base mb-2">
-            <span>{serviceName}</span>
             <span style={{ marginRight: '40px' }}>
               {hrefparams.packageId && hrefparams.tenantGroup ? (
                 <span className="text-xs fake-link" onClick={gotoGetwayDetail}>
@@ -204,15 +207,7 @@ const DomainModal = (props: IProps) => {
                   </Col>
                 </Row>
                 <div className="custom-domain" key="custom">
-                  <span className="text-black-4">{i18n.t('runtime:Custom domain')}</span>
-                  <span className="add-domain-icon">
-                    <ErdaIcon
-                      type="add-one"
-                      className="ml-3 hover-active cursor-pointer mt-1 text-black-4"
-                      onClick={() => addCustom()}
-                      size="18"
-                    />
-                  </span>
+                  <span className="text-default">{i18n.t('runtime:Custom domain')}</span>
                 </div>
               </div>
             ) : domainType === 'CUSTOM' ? (
@@ -238,9 +233,18 @@ const DomainModal = (props: IProps) => {
               </Row>
             ) : null;
           })}
+
+          <div className="add-domain-icon">
+            <ErdaIcon
+              type="add-one"
+              className="hover-active cursor-pointer mt-1 text-black-4"
+              onClick={() => addCustom()}
+              size="18"
+            />
+          </div>
           {packageDomain?.length ? (
             <div>
-              <div className="mb-2 text-black-4">{i18n.t('msp:Endpoint')}</div>
+              <div className="mb-2 text-default">{i18n.t('msp:Endpoint')}</div>
               {packageDomain.map((item) => (
                 <div key={item.domain} className="mb-1">
                   {item.domain}
