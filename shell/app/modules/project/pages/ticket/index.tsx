@@ -34,16 +34,6 @@ import { FieldSelector, memberSelectorValueItem } from 'project/pages/issue/comp
 import moment from 'moment';
 import issueWorkflowStore from 'project/stores/issue-workflow';
 
-const formatFormData = (query: Obj = {}) => {
-  const _q = { ...query };
-  if (!isEmpty(_q.createdAt)) {
-    const [start, end] = _q.createdAt;
-    _q.startCreatedAt = start;
-    _q.endCreatedAt = end;
-  }
-  return _q;
-};
-
 const Ticket = () => {
   const [{ projectId }, query] = routeInfoStore.getState((s) => [s.params, s.query]);
   const { id: queryId } = query;
@@ -83,7 +73,7 @@ const Ticket = () => {
   const [{ drawerVisible, detailId, filterData }, updater, update] = useUpdate({
     drawerVisible: false,
     detailId: undefined as undefined | number,
-    filterData: formatFormData(query) || ({} as Obj),
+    filterData: query || ({} as Obj),
   });
 
   const closeDrawer = ({ hasEdited, isCreate, isDelete }: CloseDrawerParam) => {
@@ -167,8 +157,28 @@ const Ticket = () => {
     [ticketStateList, labelList, projectId],
   );
 
-  const getList = (query: Obj = {}) => {
-    getIssues({ type: ISSUE_TYPE.TICKET, ...omit(filterData, 'createdAt'), ...query });
+  const getList = (_query: Obj = {}) => {
+    const { createdAt, ...rest } = { ...filterData, ..._query };
+    const _q = { ...rest };
+    const [start, end] = createdAt || [];
+    if (start) {
+      const startCreatedAt = moment(+start)
+        .startOf('day')
+        .valueOf();
+      _q.startCreatedAt = startCreatedAt;
+    } else {
+      _q.startCreatedAt = undefined;
+    }
+    if (end) {
+      const endCreatedAt = moment(+end)
+        .endOf('day')
+        .valueOf();
+      _q.endCreatedAt = endCreatedAt;
+    } else {
+      _q.endCreatedAt = undefined;
+    }
+
+    getIssues({ type: ISSUE_TYPE.TICKET, ..._q });
   };
 
   const clickTicket = (val: ISSUE.Issue) => {
@@ -332,28 +342,9 @@ const Ticket = () => {
     onChange: (no: number, size: number) => getList({ pageNo: no, pageSize: size }),
   };
 
-  const onFilter = ({ createdAt, ...rest }: Obj = {}) => {
-    const _q = { ...rest };
-    const [start, end] = createdAt || [];
-    if (start) {
-      const startCreatedAt = moment(+start)
-        .startOf('day')
-        .valueOf();
-      _q.startCreatedAt = startCreatedAt;
-    } else {
-      _q.startCreatedAt = undefined;
-    }
-    if (end) {
-      const endCreatedAt = moment(+end)
-        .endOf('day')
-        .valueOf();
-      _q.endCreatedAt = endCreatedAt;
-    } else {
-      _q.endCreatedAt = undefined;
-    }
-
-    updater.filterData({ createdAt, ...rest });
-    getList({ pageNo: 1, ..._q });
+  const onFilter = (v: Obj = {}) => {
+    updater.filterData(v);
+    getList({ pageNo: 1, ...v });
   };
 
   const [setUrlQuery] = useUpdateSearch({ reload: onFilter });
