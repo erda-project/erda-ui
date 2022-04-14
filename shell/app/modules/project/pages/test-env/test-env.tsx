@@ -144,13 +144,13 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
       {isSingle ? (
         isEmpty(envList) ? (
           <Button type="primary" ghost className="mb-3" onClick={() => handleOpenDetail({}, true)}>
-            {i18n.t('dop:add configuration')}
+            {i18n.t('Add')}
           </Button>
         ) : null
       ) : (
         <div className="top-button-group">
           <Button type="primary" onClick={() => handleOpenDetail({}, true)}>
-            {i18n.t('dop:add configuration')}
+            {i18n.t('Add')}
           </Button>
         </div>
       )}

@@ -224,7 +224,7 @@ ${_ymlStr}
         {i18n.t('Export')}
       </Button>
       <Button value="task" className="mr-2" size="small" onClick={() => setTaskVisible(true)}>
-        {i18n.t('add {name}', { name: i18n.t('Task') })}
+        {i18n.t('Add')}
       </Button>
       <Modal
         title={i18n.t('dop:permission configuration')}

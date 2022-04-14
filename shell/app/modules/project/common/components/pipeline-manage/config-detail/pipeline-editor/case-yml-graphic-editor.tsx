@@ -94,11 +94,7 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
           activeKey={chosenKey}
           onChange={(aKey: string) => editing && setChosenKey(aKey)}
         >
-          <Tabs.TabPane
-            tab={i18n.t('add {name}', { name: i18n.t('Task') })}
-            key="addNode"
-            disabled={!isCreate && chosenKey === 'addCaseRef'}
-          >
+          <Tabs.TabPane tab={i18n.t('Add')} key="addNode" disabled={!isCreate && chosenKey === 'addCaseRef'}>
             <PipelineNodeForm
               key={key}
               {...props}

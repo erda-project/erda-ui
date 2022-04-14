@@ -139,9 +139,7 @@ const PureRepoNavOperation = () => {
     <div className="repo-operation flex">
       <IF check={isBranchTree && branchAuth}>
         <IF check={isInDiceDirectory(tree.path)}>
-          <Button onClick={() => changeMode({ addFile: true, addFileName: 'pipelineYml' })}>
-            {i18n.t('dop:Add-pipeline')}
-          </Button>
+          <Button onClick={() => changeMode({ addFile: true, addFileName: 'pipelineYml' })}>{i18n.t('Add')}</Button>
         </IF>
         <IF check={isRootPath}>
           {hasPipeline ? (
@@ -159,7 +157,7 @@ const PureRepoNavOperation = () => {
             </Button>
           ) : (
             <Button disabled={isLocked} onClick={() => changeMode({ addFile: true, addFileName: 'pipelineYml' })}>
-              {i18n.t('dop:Add-pipeline')}
+              {i18n.t('Add')}
             </Button>
           )}
         </IF>
@@ -172,7 +170,7 @@ const PureRepoNavOperation = () => {
         <IF.ELSE />
         <IF check={isRootPath && !hasPipeline}>
           <Tooltip title={disabledTips[0]}>
-            <Button disabled>{i18n.t('dop:Add-pipeline')}</Button>
+            <Button disabled>{i18n.t('Add')}</Button>
           </Tooltip>
         </IF>
         <Tooltip title={disabledTips[0]}>

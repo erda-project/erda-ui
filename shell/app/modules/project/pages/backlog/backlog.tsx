@@ -325,7 +325,7 @@ const Backlog = () => {
           <WithAuth pass={addAuth}>
             <Button className="ml-2" type="primary" onClick={onAdd}>
               <CustomIcon type="cir-add" className="mr-1" />
-              {i18n.t('add {name}', { name: i18n.t('dop:issue') })}
+              {i18n.t('Add')}
             </Button>
           </WithAuth>
         </div>
@@ -404,7 +404,7 @@ const EmptyBacklog = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolean 
       <WithAuth pass={addAuth}>
         <Button className="px-2" size="small" type="primary" ghost onClick={onAdd}>
           <CustomIcon type="cir-add" className="mr-1" />
-          {i18n.t('add {name}', { name: i18n.t('dop:issue') })}
+          {i18n.t('Add')}
         </Button>
       </WithAuth>
       {i18n.t('dop:Create a new issue, and you can drag it to the iteration on the right and set its priority.')}

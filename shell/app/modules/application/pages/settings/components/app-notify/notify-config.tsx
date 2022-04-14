@@ -273,14 +273,14 @@ export const NotifyConfig = ({ commonPayload, memberStore, tableKey }: IProps) =
 
   return (
     <div className="notify-group-manage">
-      <Tooltip title={i18n.t('dop:add-notification')}>
+      <Tooltip title={i18n.t('dop:Add-notification')}>
         <div
           className="notify-group-action hover-active"
           onClick={() => {
             openModal();
           }}
         >
-          <Button type="primary">{i18n.t('dop:dd-notification')}</Button>
+          <Button type="primary">{i18n.t('dop:Add-notification')}</Button>
         </div>
       </Tooltip>
       <FormModal

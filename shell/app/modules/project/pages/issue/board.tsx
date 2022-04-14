@@ -202,7 +202,7 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
       <div className="top-button-group">
         <ImportExport tabs={tabs} queryObj={useableFilterObj} issueType={issueType} projectId={projectId} />
         <Button type={'primary'} onClick={onCreate}>
-          {i18n.t('new {name}', { name: ISSUE_TYPE_MAP[issueType].label })}
+          {i18n.t('Add')}
         </Button>
       </div>
       <DiceConfigPage

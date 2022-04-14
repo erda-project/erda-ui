@@ -348,7 +348,7 @@ const IssuePlan = () => {
                 },
               },
               suffixIcon: 'di',
-              text: i18n.t('dop:Add-item'),
+              text: i18n.t('Add'),
               type: 'primary',
             },
             op: {
