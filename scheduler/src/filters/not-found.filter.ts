@@ -20,6 +20,7 @@ import { getEnv, getHttpUrl, logger } from '../util';
 
 const { staticDir, envConfig } = getEnv();
 const { BACKEND_URL } = envConfig;
+const isLocal = BACKEND_URL.startsWith('https'); // online addr is openapi:9529, without protocol
 const API_URL = getHttpUrl(BACKEND_URL);
 
 const indexHtmlPath = path.join(staticDir, 'shell', 'index.html');
@@ -68,17 +69,18 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         if (request.headers.cookie) {
           headers.cookie = request.headers.cookie;
         }
-        console.log('call api', api.replace('\n', ''), {
+        console.log('call api', isLocal ? api.replace('/api', '/api/-') : api, {
           ...config,
           baseURL: API_URL,
           headers,
           validateStatus: () => true, // pass data and err to later check
         });
-        return axios(api.replace('\n', ''), {
+        // add {orgName} part only in local mode
+        return axios(isLocal ? api.replace('/api', '/api/-') : api, {
           ...config,
           baseURL: API_URL,
           headers,
-          validateStatus: () => true, // pass data and err to later check
+          validateStatus: () => true, // pass data and error to later check
         });
       };
       const initData: any = {};
@@ -86,12 +88,12 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
       const domain = request.hostname.replace('local.', '');
       try {
         const callList = [
-          callApi('/api/-/users/me'),
+          callApi('/api/users/me'),
           callApi('/api/orgs', { params: { pageNo: 1, pageSize: 100 } }),
-          callApi(`/api/-/permissions/actions/access`, { method: 'POST', data: { scope: { type: 'sys', id: '0' } } }),
+          callApi(`/api/permissions/actions/access`, { method: 'POST', data: { scope: { type: 'sys', id: '0' } } }),
         ];
         if (orgName && orgName !== '-') {
-          callList.push(callApi('/api/-/orgs/actions/get-by-domain', { params: { orgName, domain } }));
+          callList.push(callApi('/api/orgs/actions/get-by-domain', { params: { orgName, domain } }));
         }
         const respList = await Promise.allSettled(callList);
         console.log('result:', respList);
@@ -99,7 +101,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
           res.status === 'fulfilled' ? { ...res.value.data, status: res.value.status } : null,
         );
         if (userRes?.status === 401) {
-          const loginRes = await callApi('/api/-/openapi/login', { headers: { referer: API_URL } });
+          const loginRes = await callApi('/api/openapi/login', { headers: { referer: API_URL } });
           console.log('loginRes:', loginRes);
           if (loginRes?.data?.url) {
             response.redirect(loginRes.data.url);
@@ -125,7 +127,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         if (orgRes?.data) {
           initData.orgId = orgRes.data.id; // current org should be in org list, just send id as fewest data
           if (initData.orgId) {
-            const orgAccessRes: any = await callApi(`/api/-/permissions/actions/access`, {
+            const orgAccessRes: any = await callApi(`/api/permissions/actions/access`, {
               method: 'POST',
               data: { scope: { type: 'org', id: `${initData.orgId}` } },
             });
