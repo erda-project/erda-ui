@@ -79,7 +79,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
           callApi('/api/orgs', { params: { pageNo: 1, pageSize: 100 } }),
           callApi(`/api/-/permissions/actions/access`, { method: 'POST', data: { scope: { type: 'sys', id: '0' } } }),
         ];
-        if (orgName) {
+        if (orgName && orgName !== '-') {
           callList.push(callApi('/api/-/orgs/actions/get-by-domain', { params: { orgName, domain } }));
         }
         const respList = await Promise.allSettled(callList);
