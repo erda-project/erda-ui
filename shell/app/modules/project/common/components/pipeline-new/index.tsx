@@ -25,7 +25,7 @@ import './index.scss';
 
 interface IState {
   categoryAdd: {
-    data: { id?: string; name?: string; fileName?: string; app?: number; inode?: string };
+    data: { id: string; name: string; fileName: string; app: number; inode: string } | null;
     visible: boolean;
   };
   chosenCategory: undefined | { key: string; rules?: string[] };
@@ -46,7 +46,7 @@ const Pipeline = () => {
 
   const [{ categoryAdd, chosenCategory }, updater, update] = useUpdate<IState>({
     categoryAdd: {
-      data: {},
+      data: null,
       visible: false,
     },
     chosenCategory: undefined,
@@ -56,11 +56,11 @@ const Pipeline = () => {
     updater.chosenCategory(category);
   };
 
-  const onAddPipeline = (data = {}) => {
+  const onAddPipeline = (data = null) => {
     updater.categoryAdd({ data, visible: true });
   };
   const onAddCategaryClose = React.useCallback(() => {
-    updater.categoryAdd({ data: {}, visible: false });
+    updater.categoryAdd({ data: null, visible: false });
   }, [updater]);
 
   const addPipeliningQuickly = (appID: string, branch: string, ymls: string[]) => {

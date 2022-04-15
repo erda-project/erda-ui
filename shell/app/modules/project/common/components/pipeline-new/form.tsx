@@ -31,7 +31,7 @@ interface IProps {
     key: string;
     rules?: string[];
   };
-  data: { id?: string; name?: string; fileName?: string; app?: number; inode?: string };
+  data: { id: string; name: string; fileName: string; app: number; inode: string } | null;
 }
 
 interface TreeNode extends Node {
@@ -88,7 +88,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
   const [sourceErrorMessage, setSourceErrorMessage] = React.useState('');
   const appDetail = appStore.useStore((s) => s.detail);
 
-  const type = editData.id ? 'edit' : 'add';
+  const type = editData ? 'edit' : 'add';
 
   const convertTreeData = (data: Node[]) => {
     return data.map((item) => ({
@@ -164,11 +164,11 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
   }, [form, fixedApp]);
 
   useEffectOnce(() => {
-    const { id, name, app, fileName, inode } = editData;
-    if (id) {
+    if (editData) {
+      const { name, app, fileName, inode } = editData;
       form.setFieldsValue({ name, app, tree: inode });
-      setApp({ value: app as number });
-      setTreeValue(fileName as string);
+      setApp({ value: app });
+      setTreeValue(fileName);
     }
   });
 
@@ -188,7 +188,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
         ref: branch,
         path: ymlPath,
         fileName,
-        id: editData.id as string,
+        id: editData?.id as string,
       };
 
       const res = await interfaceMap[type].fetch({ ...params, $options: { successMsg: successMsgMap[type] } });
@@ -199,7 +199,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
   };
 
   const sourceCheck = async (value: string) => {
-    if (value === editData.inode) {
+    if (value === editData?.inode) {
       return Promise.resolve();
     }
     const node = tree.find((item) => item.id === value);
