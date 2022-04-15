@@ -63,13 +63,20 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const extension = path.extname(request.path);
     if (!extension || request.path.match(/^\/[\w-]+\/dop\/projects\/\d+\/apps\/\d+\/repo/)) {
-      const callApi = (api: string, config?: Record<string, any>) =>
-        axios(api, {
+      const callApi = (api: string, config?: Record<string, any>) => {
+        logger.info('call api', api, {
           ...config,
           baseURL: API_URL,
           headers: { cookie: request.headers.cookie, ...config?.headers },
           validateStatus: () => true, // pass data and err to later check
         });
+        return axios(api, {
+          ...config,
+          baseURL: API_URL,
+          headers: { cookie: request.headers.cookie, ...config?.headers },
+          validateStatus: () => true, // pass data and err to later check
+        });
+      };
       const initData: any = {};
       const orgName = request.path.split('/')[1];
       const domain = request.hostname.replace('local.', '');
@@ -83,10 +90,11 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
           callList.push(callApi('/api/-/orgs/actions/get-by-domain', { params: { orgName, domain } }));
         }
         const respList = await Promise.allSettled(callList);
+        logger.info('result:', respList);
         const [userRes, orgListRes, sysAccessRes, orgRes] = respList.map((res) =>
           res.status === 'fulfilled' ? { ...res.value.data, status: res.value.status } : null,
         );
-        if (userRes.status === 401) {
+        if (userRes?.status === 401) {
           const loginRes = await callApi('/api/-/openapi/login', { headers: { referer: API_URL } });
           if (loginRes?.data?.url) {
             response.redirect(loginRes.data.url);
