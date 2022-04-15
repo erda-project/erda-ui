@@ -188,7 +188,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
         ref: branch,
         path: ymlPath,
         fileName,
-        id: editData?.id as string,
+        id: editData?.id!,
       };
 
       const res = await interfaceMap[type].fetch({ ...params, $options: { successMsg: successMsgMap[type] } });
