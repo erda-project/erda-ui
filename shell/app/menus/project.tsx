@@ -38,7 +38,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       href: goTo.resolve.projectAllIssue(), // `/dop/projects/${projectId}/issues/all`,
       icon: <ErdaIcon type="xiangmuguanli" />,
-      text: i18n.t('dop:Collaboration'),
+      text: i18n.t('dop:Collaboration-project-manage'),
       subtitle: i18n.t('dop:Management'),
       show:
         projectPerm.backLog.viewBackLog.pass ||
