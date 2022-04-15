@@ -48,7 +48,17 @@ import {
   Tooltip,
 } from 'antd';
 import { IActions } from 'common/components/table/interface';
-import { Badge, BoardGrid, ErdaIcon, FormModal, IF, MarkdownEditor, RenderPureForm, UserInfo } from 'common';
+import {
+  Badge,
+  BoardGrid,
+  ErdaIcon,
+  FormModal,
+  IF,
+  MarkdownEditor,
+  RenderPureForm,
+  UserInfo,
+  TopButtonGroup,
+} from 'common';
 import ErdaTable, { IProps as TableProps } from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { useMount } from 'react-use';
@@ -921,11 +931,11 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
 
   return (
     <div className="custom-alarm">
-      <div className="top-button-group">
+      <TopButtonGroup>
         <Button type="primary" onClick={() => openModal()}>
           {i18n.t('cmp:create custom rule')}
         </Button>
-      </div>
+      </TopButtonGroup>
       <ErdaTable
         slot={
           <Input

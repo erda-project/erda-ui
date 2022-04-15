@@ -111,3 +111,4 @@ export { default as HeadOperationBar } from './components/head-operation-bar';
 export { default as SimpleTabs } from './components/simple-tabs';
 export { default as Duration } from './components/duration';
 export { default as Loading } from './components/loading';
+export { default as TopButtonGroup } from './components/top-button-group';

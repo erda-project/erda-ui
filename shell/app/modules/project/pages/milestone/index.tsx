@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { ContractiveFilter } from 'common';
+import { ContractiveFilter, TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
@@ -168,11 +168,14 @@ export const Milestone = () => {
           allowClear={false}
         />
         <ContractiveFilter delay={1000} conditions={conditionsFilter} initValue={filterState} onChange={onFilter} />
-        <WithAuth pass={epicAuth.create.pass} tipProps={{ placement: 'bottom' }}>
-          <Button className="top-button-group" type="primary" onClick={() => updater.modalVisible(true)}>
-            {i18n.t('dop:create milestone')}
-          </Button>
-        </WithAuth>
+
+        <TopButtonGroup>
+          <WithAuth pass={epicAuth.create.pass} tipProps={{ placement: 'bottom' }}>
+            <Button type="primary" onClick={() => updater.modalVisible(true)}>
+              {i18n.t('dop:create milestone')}
+            </Button>
+          </WithAuth>
+        </TopButtonGroup>
       </div>
       <Spin spinning={loading}>
         <MilestoneTable epic={epicList} onClickItem={expandDetail} paging={epicPaging} reload={loadData} />

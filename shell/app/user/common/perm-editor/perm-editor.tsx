@@ -15,7 +15,7 @@ import React from 'react';
 import { map, get, set, filter, uniq } from 'lodash';
 import { Tabs, Button } from 'antd';
 import { Prompt } from 'react-router-dom';
-import { DebounceSearch } from 'common';
+import { DebounceSearch, TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import routeInfoStore from 'core/stores/route';
 import { orgPerm, orgRoleMap } from 'user/stores/_perm-org';
@@ -162,12 +162,12 @@ export const PermEditor = (props: IProps) => {
   return (
     <div className="dice-perm-editor h-full">
       {isEdit ? (
-        <div className="top-button-group">
+        <TopButtonGroup>
           <AddScope onSubmit={addScope} currentData={data} />
           <Button type="primary" ghost onClick={reset}>
             {i18n.t('reset')}
           </Button>
-        </div>
+        </TopButtonGroup>
       ) : null}
       <Prompt when={isEdit} message={`${i18n.t('Are you sure to leave?')}?`} />
       <Tabs

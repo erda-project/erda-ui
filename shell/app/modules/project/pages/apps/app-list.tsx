@@ -17,7 +17,7 @@ import { Button } from 'antd';
 import { WithAuth, usePerm } from 'app/user/common';
 import i18n from 'i18n';
 import DiceConfigPage from 'config-page/index';
-import { ErdaIcon } from 'common';
+import { ErdaIcon, TopButtonGroup } from 'common';
 import routeInfoStore from 'core/stores/route';
 
 export const ProjectAppList = () => {
@@ -26,13 +26,13 @@ export const ProjectAppList = () => {
 
   return (
     <div>
-      <div className="top-button-group">
+      <TopButtonGroup>
         <WithAuth pass={permMap.addApp} disableMode={false} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={() => goTo('./createApp')}>
             {i18n.t('Add')}
           </Button>
         </WithAuth>
-      </div>
+      </TopButtonGroup>
       <DiceConfigPage
         fullHeight={false}
         scenarioType={'app-list-all'}

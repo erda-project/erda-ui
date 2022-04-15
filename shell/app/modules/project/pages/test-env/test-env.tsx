@@ -15,7 +15,7 @@ import { isEmpty } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
 import { Button, Alert, Spin, Modal } from 'antd';
-import { ErdaAlert } from 'common';
+import { ErdaAlert, TopButtonGroup } from 'common';
 import ErdaTable from 'common/components/table';
 import { useLoading } from 'core/stores/loading';
 import testEnvStore from 'project/stores/test-env';
@@ -148,11 +148,11 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
           </Button>
         ) : null
       ) : (
-        <div className="top-button-group">
+        <TopButtonGroup>
           <Button type="primary" onClick={() => handleOpenDetail({}, true)}>
             {i18n.t('Add')}
           </Button>
-        </div>
+        </TopButtonGroup>
       )}
       <ErdaAlert
         showOnceKey="manual-test-env"

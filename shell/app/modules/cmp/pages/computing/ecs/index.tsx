@@ -19,7 +19,7 @@ import { insertWhen } from 'common/utils';
 import cloudECSStore from 'app/modules/cmp/stores/computing';
 import clusterStore from 'cmp/stores/cluster';
 import { SetTagForm } from 'cmp/common/components/set-tag-form';
-import { CRUDTable, TagsRow, ErdaIcon, ErdaAlert, ConfigurableFilter } from 'common';
+import { CRUDTable, TagsRow, ErdaIcon, ErdaAlert, ConfigurableFilter, TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { EcsCloudOperationForm } from './ecsCloud-operation-form';
 import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
@@ -428,7 +428,7 @@ const ComputingEcs = () => {
 
   return (
     <>
-      <div className="top-button-group">
+      <TopButtonGroup>
         <Dropdown disabled={!ifSelected} overlay={menu}>
           <Button type="primary">
             <div className="flex">
@@ -437,7 +437,7 @@ const ComputingEcs = () => {
             </div>
           </Button>
         </Dropdown>
-      </div>
+      </TopButtonGroup>
       <CRUDTable.StoreTable<COMPUTING.ECS>
         key={stateChangeKey}
         rowKey="id"

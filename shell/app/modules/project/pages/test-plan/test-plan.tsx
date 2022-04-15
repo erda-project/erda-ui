@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Icon as CustomIcon, CustomFilter, UserInfo, MemberSelector } from 'common';
+import { Icon as CustomIcon, CustomFilter, UserInfo, MemberSelector, TopButtonGroup } from 'common';
 import ErdaTable from 'common/components/table';
 import { Button, Progress, Spin, Tooltip, Select, Input } from 'antd';
 import React, { useState } from 'react';
@@ -277,7 +277,7 @@ const TestPlan = () => {
 
   return (
     <div>
-      <div className="top-button-group">
+      <TopButtonGroup>
         <Button type="primary" onClick={() => updateModalProp({ visible: true, mode: 'add', testPlanId: undefined })}>
           {i18n.t('dop:Add-plan')}
         </Button>
@@ -290,7 +290,7 @@ const TestPlan = () => {
             updateModalProp({ visible: false });
           }}
         />
-      </div>
+      </TopButtonGroup>
       <Spin spinning={isFetching}>
         <ErdaTable
           tableKey="manual-test-plan"

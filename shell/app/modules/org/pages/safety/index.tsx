@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { useUserMap } from 'core/stores/userMap';
-import { CustomFilter, MemberSelector, FileEditor } from 'common';
+import { CustomFilter, MemberSelector, FileEditor, TopButtonGroup } from 'common';
 import { useFilter } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import i18n, { getCurrentLocale } from 'i18n';
@@ -208,12 +208,12 @@ const AuditList = ({ sys }: { sys: boolean }) => {
 
   return (
     <>
-      <div className="top-button-group">
+      <TopButtonGroup>
         {query.testTpl && <TestModal onOk={setExtraTpls} />}
         <Button type="primary" onClick={onExport}>
           {i18n.t('Export')}
         </Button>
-      </div>
+      </TopButtonGroup>
       <CustomFilter onSubmit={onSubmit} config={filterConfig} isConnectQuery />
       <Table
         rowKey="id"

@@ -16,7 +16,7 @@ import { Button, Modal, Spin } from 'antd';
 import i18n from 'i18n';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import moment from 'moment';
-import { ConfigurableFilter } from 'common';
+import { ConfigurableFilter, TopButtonGroup } from 'common';
 import { goTo } from 'common/utils';
 import ErdaTable from 'common/components/table';
 import { ColumnProps } from 'common/components/table/interface';
@@ -153,7 +153,7 @@ const AccessList = () => {
   const dataSource = formatData(accessList);
   return (
     <Spin spinning={isFetch || isDelete}>
-      <div className="top-button-group">
+      <TopButtonGroup>
         <Button
           type="primary"
           onClick={() => {
@@ -162,7 +162,7 @@ const AccessList = () => {
         >
           {i18n.t('Add')}
         </Button>
-      </div>
+      </TopButtonGroup>
       <ErdaTable
         rowKey="assetID"
         columns={columns}

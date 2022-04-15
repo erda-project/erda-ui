@@ -28,7 +28,7 @@ import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dash
 import { getCustomDashboardCreators, exportCustomDashboard } from 'app/modules/cmp/services/_common-custom-dashboard';
 import { map } from 'lodash';
 import { ColumnProps, IActions } from 'common/components/table/interface';
-import { ConfigurableFilter, FormModal } from 'common';
+import { ConfigurableFilter, FormModal, TopButtonGroup } from 'common';
 import ImportExport from 'cmp/common/custom-dashboard/import-export';
 
 const storeMap = {
@@ -296,7 +296,7 @@ const CustomDashboardList = ({
 
   return (
     <>
-      <div className="top-button-group">
+      <TopButtonGroup>
         <ImportExport
           scope={scope}
           scopeId={scopeId}
@@ -316,7 +316,7 @@ const CustomDashboardList = ({
         >
           {i18n.t('cmp:Add-custom-dashboard')}
         </Button>
-      </div>
+      </TopButtonGroup>
       <ErdaTable
         rowKey="id"
         columns={columns}

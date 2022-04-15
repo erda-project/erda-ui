@@ -13,14 +13,12 @@
 
 import React from 'react';
 import { Popconfirm, Button, Dropdown, Menu } from 'antd';
-import { IF, NoAuthTip, ErdaIcon } from 'common';
+import { IF, NoAuthTip, ErdaIcon, TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { goTo } from 'common/utils';
 import RollbackList from './rollback-list';
 import DeployStatus from './deploy-status';
 import { usePerm } from 'app/user/common';
 import orgStore from 'app/org-home/stores/org';
-import routeInfoStore from 'core/stores/route';
 import runtimeStore from 'runtime/stores/runtime';
 import { get } from 'lodash';
 import i18n from 'i18n';
@@ -92,7 +90,7 @@ const DeployInfo = () => {
   const hasAuth = (permMap.runtime[`${(env || '').toLowerCase()}DeployOperation`] || {}).pass;
   return (
     <React.Fragment>
-      <div className="runtime-operation-content top-button-group">
+      <TopButtonGroup className="runtime-operation-content">
         <div className="deploy-status">{showDeployStatus && <DeployStatus deployStatus={deployStatus} />}</div>
         <div className="operation">
           <IF check={showCancelBtn}>
@@ -154,7 +152,7 @@ const DeployInfo = () => {
             </NoAuthTip>
           </IF>
         </div>
-      </div>
+      </TopButtonGroup>
       <RollbackList visible={state.visible} onClose={onClose} />
     </React.Fragment>
   );

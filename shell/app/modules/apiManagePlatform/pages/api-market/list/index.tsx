@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { useDebounce, useUnmount } from 'react-use';
-import { ConfigurableFilter, UserInfo } from 'common';
+import { ConfigurableFilter, UserInfo, TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import ExportRecord, { specProtocol } from 'apiManagePlatform/pages/api-market/components/export-record';
 import ErdaTable from 'common/components/table';
@@ -233,7 +233,7 @@ const ApiMarketList = () => {
 
   return (
     <div className="api-market-list">
-      <div className="top-button-group">
+      <TopButtonGroup>
         <Button onClick={toggleExportModal}>{i18n.t('Export Records')}</Button>
         <Button
           type="primary"
@@ -243,7 +243,7 @@ const ApiMarketList = () => {
         >
           {i18n.t('default:Add Resource')}
         </Button>
-      </div>
+      </TopButtonGroup>
       <ErdaTable
         rowKey="asset.assetID"
         columns={columns}

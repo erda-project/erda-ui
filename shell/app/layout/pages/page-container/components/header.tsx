@@ -24,7 +24,7 @@ import { goTo } from 'app/common/utils';
 import './header.scss';
 
 const Header = () => {
-  const [currentApp] = layoutStore.useStore((s) => [s.currentApp]);
+  const [currentApp, topButtonsWidth] = layoutStore.useStore((s) => [s.currentApp, s.topButtonsWidth]);
   const [routes, markedRoutePreview] = routeInfoStore.useStore((s) => [s.routes, s.markedRoutePreview]);
   const [pageName, setPageName] = React.useState<string>();
   const [backToUp, setBackToUp] = React.useState(0);
@@ -153,8 +153,9 @@ const Header = () => {
     }
     return <div className="text-xl truncate">{pageName}</div>;
   };
+
   return (
-    <div className="erda-header">
+    <div className="erda-header" style={{ marginRight: topButtonsWidth }}>
       <div className="erda-header-title-con inline-flex">{pageName && displayPageName()}</div>
       <Tab />
     </div>

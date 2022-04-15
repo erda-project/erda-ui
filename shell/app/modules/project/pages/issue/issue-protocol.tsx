@@ -18,7 +18,7 @@ import { useSwitch, useUpdate } from 'common/use-hooks';
 import { insertWhen, mergeSearch } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
-import { Badge, ErdaIcon } from 'common';
+import { Badge, ErdaIcon, TopButtonGroup } from 'common';
 import { usePerm } from 'app/user/common';
 import { Button, Dropdown, Menu } from 'antd';
 import routeInfoStore from 'core/stores/route';
@@ -147,7 +147,7 @@ const IssueProtocol = ({ issueType }: IProps) => {
 
   return (
     <div className="pb-4">
-      <div className="top-button-group flex">
+      <TopButtonGroup className="flex">
         <ImportExport tabs={tabs} queryObj={useableFilterObj} issueType={issueType} projectId={projectId} />
 
         {issueType === ISSUE_TYPE.ALL ? (
@@ -162,7 +162,7 @@ const IssueProtocol = ({ issueType }: IProps) => {
             {i18n.t('Add')}
           </Button>
         )}
-      </div>
+      </TopButtonGroup>
       <DiceConfigPage
         scenarioKey="issue-manage"
         scenarioType="issue-manage"

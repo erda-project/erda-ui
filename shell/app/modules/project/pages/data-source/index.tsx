@@ -17,7 +17,7 @@ import addonStore from 'common/stores/addon';
 import customAddonStore from 'project/stores/custom-addon';
 import { Button, Tooltip } from 'antd';
 import AddonModal from '../third-service/components/addon-modal';
-import { EmptyHolder } from 'common';
+import { EmptyHolder, TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { useLoading } from 'core/stores/loading';
@@ -141,7 +141,7 @@ export default function DataSourceManagement() {
       ) : (
         <EmptyHolder relative />
       )}
-      <div className="top-button-group">
+      <TopButtonGroup>
         <Tooltip
           title={
             <div>
@@ -153,7 +153,7 @@ export default function DataSourceManagement() {
         >
           <Button type="primary">{i18n.t('dop:Add-data-source')}</Button>
         </Tooltip>
-      </div>
+      </TopButtonGroup>
       <AddonModal
         category="DATA_SOURCE"
         editData={state.editData as ADDON.Instance | null}

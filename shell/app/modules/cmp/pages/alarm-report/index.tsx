@@ -18,7 +18,7 @@ import ErdaTable from 'common/components/table';
 import i18n from 'i18n';
 import moment from 'moment';
 import { useMount } from 'react-use';
-import { FormModal } from 'common';
+import { FormModal, TopButtonGroup } from 'common';
 import { useSwitch, useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
 import {
@@ -286,7 +286,7 @@ const AlarmReport = () => {
 
   return (
     <>
-      <div className="top-button-group">
+      <TopButtonGroup>
         <Button
           type="primary"
           onClick={() => {
@@ -304,7 +304,7 @@ const AlarmReport = () => {
           modalProps={{ destroyOnClose: true }}
           onOk={handleSubmit}
         />
-      </div>
+      </TopButtonGroup>
       <Spin spinning={loading}>
         <ErdaTable
           rowKey="id"

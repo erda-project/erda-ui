@@ -16,7 +16,7 @@ import { get } from 'lodash';
 import { Button, Popconfirm, Select, Tooltip } from 'antd';
 import { WithAuth, usePerm } from 'user/common';
 import { fromNow, setApiWithOrg } from 'common/utils';
-import { Copy, FormModal, Table } from 'common';
+import { Copy, FormModal, Table, TopButtonGroup } from 'common';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
@@ -175,7 +175,7 @@ export default function BackupManagement() {
   return (
     <div>
       <Copy selector=".cursor-copy" />
-      <div className="top-button-group">
+      <TopButtonGroup>
         <WithAuth pass={newBackupAuth}>
           <Tooltip title={info.isLocked ? i18n.t('dop:lock-operation-tip') : i18n.t('dop:new backup')} placement="left">
             <Button type="primary" disabled={info.isLocked} onClick={() => setVisible(true)}>
@@ -190,7 +190,7 @@ export default function BackupManagement() {
           onOk={onAddBackup}
           onCancel={() => setVisible(false)}
         />
-      </div>
+      </TopButtonGroup>
       <Table
         columns={columns}
         rowKey="id"

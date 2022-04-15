@@ -13,6 +13,7 @@
 
 import React from 'react';
 import classnames from 'classnames';
+import { TopButtonGroup } from 'common';
 import './container.scss';
 
 export const Container = (props: CP_CONTAINER.Props) => {
@@ -41,7 +42,6 @@ export const Container = (props: CP_CONTAINER.Props) => {
     ...(direction ? { [direction]: true } : {}),
 
     ...(contentSetting ? { [contentSetting]: true } : {}),
-    'top-button-group': isTopHead,
     'mt-0': isTopHead,
     'bg-white': whiteBg,
     'start-align': startAlign,
@@ -56,7 +56,11 @@ export const Container = (props: CP_CONTAINER.Props) => {
   if (className) tempClass[className] = true;
   const containerClass = classnames(tempClass);
 
-  return (
+  return isTopHead ? (
+    <TopButtonGroup className={containerClass} {...(onClick ? { onClick } : {})}>
+      {children}
+    </TopButtonGroup>
+  ) : (
     <div className={containerClass} {...(onClick ? { onClick } : {})}>
       {children}
     </div>

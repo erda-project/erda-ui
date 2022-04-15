@@ -14,7 +14,7 @@
 import React from 'react';
 import { Button, Modal } from 'antd';
 import { goTo, resolvePath } from 'common/utils';
-import { Badge } from 'common';
+import { Badge, TopButtonGroup } from 'common';
 import Table from 'common/components/table';
 import RadioTabs from 'common/components/radio-tabs';
 import ErdaAlert from 'common/components/erda-alert';
@@ -230,11 +230,11 @@ const Status = () => {
 
   return (
     <div className="project-status-page">
-      <div className="top-button-group">
+      <TopButtonGroup>
         <Button className="add-button" type="primary" onClick={() => toggleModal()}>
           {i18n.t('msp:Add Monitoring')}
         </Button>
-      </div>
+      </TopButtonGroup>
       <ErdaAlert className="erda-alert mb-2" message={hasDown.text} type={hasDown.type} closeable={false} />
       <RadioTabs
         className="mb-2"
