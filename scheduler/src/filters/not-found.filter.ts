@@ -73,7 +73,6 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
       const initData: any = {};
       const orgName = request.path.split('/')[1];
       const domain = request.hostname.replace('local.', '');
-      const lang = request.headers.Lang || 'zh-CN';
       try {
         const callList = [
           callApi('/api/-/users/me'),
@@ -97,12 +96,12 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         if (userRes?.data) {
           initData.user = userRes.data;
         } else {
-          initData.err = '获取用户信息失败';
+          initData.err = '获取用户信息失败 (get user info failed)';
         }
         if (orgListRes?.data) {
           initData.orgs = orgListRes.data.list;
         } else {
-          initData.err = '获取组织列表失败';
+          initData.err = '获取组织列表失败 (get org list failed)';
         }
         if (sysAccessRes?.data) {
           const { access, roles } = sysAccessRes.data;
@@ -110,7 +109,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
           initData.user.adminRoles = roles;
         }
         if (orgRes?.data) {
-          initData.orgId = orgRes.data.id;
+          initData.orgId = orgRes.data.id; // current org should be in org list, just send id as fewest data
           if (initData.orgId) {
             const orgAccessRes: any = await callApi(`/api/-/permissions/actions/access`, {
               method: 'POST',
@@ -126,7 +125,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         }
       } catch (e) {
         logger.error(e);
-        initData.err = '服务暂时不可用';
+        initData.err = '服务暂时不可用 (service is unavailable)';
       }
       response.setHeader('cache-control', 'no-store');
       response.send(
@@ -134,7 +133,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
           '<!-- $data -->',
           `<script>${
             initData.err
-              ? `document.querySelector("#erda-skeleton").innerText="${initData.err}，请稍后再试"`
+              ? `document.querySelector("#erda-skeleton").innerText="${initData.err}"`
               : `window.initData=${JSON.stringify(initData)}`
           }</script>`,
         ),
