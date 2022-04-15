@@ -64,7 +64,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
     const extension = path.extname(request.path);
     if (!extension || request.path.match(/^\/[\w-]+\/dop\/projects\/\d+\/apps\/\d+\/repo/)) {
       const callApi = (api: string, config?: Record<string, any>) => {
-        const headers = config?.headers;
+        const headers = config?.headers || {};
         if (request.headers.cookie) {
           headers.cookie = request.headers.cookie;
         }
