@@ -69,12 +69,6 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         if (request.headers.cookie) {
           headers.cookie = request.headers.cookie;
         }
-        console.log('call api', isLocal ? api.replace('/api', '/api/-') : api, {
-          ...config,
-          baseURL: API_URL,
-          headers,
-          validateStatus: () => true, // pass data and err to later check
-        });
         // add {orgName} part only in local mode
         return axios(isLocal ? api.replace('/api', '/api/-') : api, {
           ...config,
@@ -96,13 +90,13 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
           callList.push(callApi('/api/orgs/actions/get-by-domain', { params: { orgName, domain } }));
         }
         const respList = await Promise.allSettled(callList);
-        console.log('result:', respList);
         const [userRes, orgListRes, sysAccessRes, orgRes] = respList.map((res) =>
           res.status === 'fulfilled' ? { ...res.value.data, status: res.value.status } : null,
         );
         if (userRes?.status === 401) {
-          const loginRes = await callApi('/api/openapi/login', { headers: { referer: API_URL } });
-          console.log('loginRes:', loginRes);
+          const loginRes = await callApi('/api/openapi/login', {
+            headers: { referer: `${request.protocol}://${request.hostname}` },
+          });
           if (loginRes?.data?.url) {
             response.redirect(loginRes.data.url);
             console.log('redirect:', loginRes.data.url);
