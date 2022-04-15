@@ -86,7 +86,8 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         const [userRes, orgListRes, sysAccessRes, orgRes] = respList.map((res) =>
           res.status === 'fulfilled' ? { ...res.value.data, status: res.value.status } : null,
         );
-        if (userRes.status === 401) {
+        console.log('result:', userRes, orgListRes, sysAccessRes, orgRes);
+        if (userRes?.status === 401) {
           const loginRes = await callApi('/api/-/openapi/login', { headers: { referer: API_URL } });
           if (loginRes?.data?.url) {
             response.redirect(loginRes.data.url);
