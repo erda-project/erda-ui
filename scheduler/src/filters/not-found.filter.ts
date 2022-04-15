@@ -64,7 +64,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
     const extension = path.extname(request.path);
     if (!extension || request.path.match(/^\/[\w-]+\/dop\/projects\/\d+\/apps\/\d+\/repo/)) {
       const callApi = (api: string, config?: Record<string, any>) => {
-        logger.info('call api', api, {
+        console.log('call api', api, {
           ...config,
           baseURL: API_URL,
           headers: { cookie: request.headers.cookie, ...config?.headers },
@@ -90,14 +90,16 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
           callList.push(callApi('/api/-/orgs/actions/get-by-domain', { params: { orgName, domain } }));
         }
         const respList = await Promise.allSettled(callList);
-        logger.info('result:', respList);
+        console.log('result:', respList);
         const [userRes, orgListRes, sysAccessRes, orgRes] = respList.map((res) =>
           res.status === 'fulfilled' ? { ...res.value.data, status: res.value.status } : null,
         );
         if (userRes?.status === 401) {
           const loginRes = await callApi('/api/-/openapi/login', { headers: { referer: API_URL } });
+          console.log('loginRes:', loginRes);
           if (loginRes?.data?.url) {
             response.redirect(loginRes.data.url);
+            console.log('redirect:', loginRes.data.url);
             return;
           }
         }
