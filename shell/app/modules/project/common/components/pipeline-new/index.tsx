@@ -24,7 +24,10 @@ import { oneClickCreatePipeline } from 'project/services/pipeline';
 import './index.scss';
 
 interface IState {
-  categoryAdd: { appID: number; visible: boolean };
+  categoryAdd: {
+    data: { id?: string; name?: string; fileName?: string; app?: number; inode?: string };
+    visible: boolean;
+  };
   chosenCategory: undefined | { key: string; rules?: string[] };
 }
 
@@ -43,7 +46,7 @@ const Pipeline = () => {
 
   const [{ categoryAdd, chosenCategory }, updater, update] = useUpdate<IState>({
     categoryAdd: {
-      appID: 0,
+      data: {},
       visible: false,
     },
     chosenCategory: undefined,
@@ -53,11 +56,11 @@ const Pipeline = () => {
     updater.chosenCategory(category);
   };
 
-  const onAddPipeline = (_appId = 0) => {
-    updater.categoryAdd({ appID: _appId, visible: true });
+  const onAddPipeline = (data = {}) => {
+    updater.categoryAdd({ data, visible: true });
   };
   const onAddCategaryClose = React.useCallback(() => {
-    updater.categoryAdd({ appID: 0, visible: false });
+    updater.categoryAdd({ data: {}, visible: false });
   }, [updater]);
 
   const addPipeliningQuickly = (appID: string, branch: string, ymls: string[]) => {

@@ -171,7 +171,7 @@ export const getAllBranch = apiCreator<(payload: { appID: number }) => RAW_RESPO
   apis.getAllBranch,
 );
 
-export const editPipelineName = apiCreator<(payload: { id: string; name: string; projectID: string }) => RAW_RESPONSE>(
+export const editPipelineName = apiCreator<(payload: { id: string; name: string; projectID: number }) => RAW_RESPONSE>(
   apis.editPipelineName,
 );
 

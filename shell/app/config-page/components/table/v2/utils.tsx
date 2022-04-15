@@ -397,6 +397,7 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
                 }
                 align={{ offset: [0, 5] }}
                 trigger={['click']}
+                overlayStyle={{ zIndex: 1040 }}
               >
                 <ErdaIcon
                   type="more"

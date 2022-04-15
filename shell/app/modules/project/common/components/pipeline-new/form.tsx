@@ -14,9 +14,10 @@
 import React from 'react';
 import { Form, Button, TreeSelect, Tooltip, Drawer } from 'antd';
 import i18n from 'i18n';
+import { useEffectOnce } from 'react-use';
 import { ErdaIcon, RenderFormItem, ErdaAlert } from 'common';
 import routeInfoStore from 'core/stores/route';
-import { getFileTree, createPipeline, getAppList, checkSource } from 'project/services/pipeline';
+import { getFileTree, createPipeline, getAppList, checkSource, editPipelineName } from 'project/services/pipeline';
 import appStore from 'application/stores/application';
 import { decode } from 'js-base64';
 
@@ -30,7 +31,7 @@ interface IProps {
     key: string;
     rules?: string[];
   };
-  appID: number | null;
+  data: { id?: string; name?: string; fileName?: string; app?: number; inode?: string };
 }
 
 interface TreeNode extends Node {
@@ -53,7 +54,27 @@ interface App {
   projectName?: string;
 }
 
-const PipelineForm = ({ onCancel, pipelineCategory, onOk, appID, fixedApp }: IProps) => {
+const interfaceMap = {
+  add: createPipeline,
+  edit: editPipelineName,
+};
+
+const titleMap = {
+  edit: i18n.t('edit {name}', { name: i18n.t('Pipeline') }),
+  add: i18n.t('create {name}', { name: i18n.t('Pipeline') }),
+};
+
+const btnMap = {
+  edit: i18n.t('Edit'),
+  add: i18n.t('dop:Add-create'),
+};
+
+const successMsgMap = {
+  edit: i18n.t('edited successfully'),
+  add: i18n.t('created successfully'),
+};
+
+const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedApp }: IProps) => {
   const { key: pipelineCategoryKey, rules: pipelineCategoryRules } = pipelineCategory || {};
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const [form] = Form.useForm();
@@ -66,6 +87,8 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, appID, fixedApp }: IPr
   const canTreeSelectClose = React.useRef(true);
   const [sourceErrorMessage, setSourceErrorMessage] = React.useState('');
   const appDetail = appStore.useStore((s) => s.detail);
+
+  const type = editData.id ? 'edit' : 'add';
 
   const convertTreeData = (data: Node[]) => {
     return data.map((item) => ({
@@ -124,26 +147,39 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, appID, fixedApp }: IPr
     };
     if (app.value || fixedApp) {
       initialTree();
-      setTreeValue('');
       setSourceErrorMessage('');
-      form.resetFields(['tree']);
+
+      if (tree.length !== 0) {
+        setTreeValue('');
+        form.resetFields(['tree']);
+      }
     }
   }, [app.value, projectId, getTree, form, fixedApp]);
 
   React.useEffect(() => {
-    if (appID || fixedApp) {
-      form.setFieldsValue?.({ app: appID || fixedApp });
-      setApp({ value: appID || fixedApp });
+    if (fixedApp) {
+      form.setFieldsValue?.({ app: fixedApp });
+      setApp({ value: fixedApp });
     }
-  }, [appID, form, fixedApp]);
+  }, [form, fixedApp]);
+
+  useEffectOnce(() => {
+    const { id, name, app, fileName, inode } = editData;
+    if (id) {
+      form.setFieldsValue({ name, app, tree: inode });
+      setApp({ value: app as number });
+      setTreeValue(fileName as string);
+    }
+  });
 
   const submit = () => {
     form.validateFields().then(async (value) => {
-      const node = tree.find((item) => item.id === value.tree) || ({} as TreeNode);
-      const path = decode(node.pId);
-      const appId = path.split('/')[1];
-      const branch = path.split('tree/')[1].split('/.dice')[0].split('/.erda')[0];
-      const ymlPath = (path.split(branch)[1] || '').substr(1);
+      const path = decode(value.tree).split('/');
+      const fileName = path[path.length - 1];
+      path.length--;
+      const appId = path[1];
+      const branch = path.join('/').split('tree/')[1].split('/.dice')[0].split('/.erda')[0];
+      const ymlPath = (path.join('/').split(branch)[1] || '').substr(1);
       const params = {
         sourceType: 'erda',
         projectID: +projectId,
@@ -151,10 +187,11 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, appID, fixedApp }: IPr
         appID: appId,
         ref: branch,
         path: ymlPath,
-        fileName: node.name,
+        fileName,
+        id: editData.id as string,
       };
 
-      const res = await createPipeline.fetch({ ...params, $options: { successMsg: i18n.t('created successfully') } });
+      const res = await interfaceMap[type].fetch({ ...params, $options: { successMsg: successMsgMap[type] } });
       if (res.success) {
         onOk();
       }
@@ -162,6 +199,9 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, appID, fixedApp }: IPr
   };
 
   const sourceCheck = async (value: string) => {
+    if (value === editData.inode) {
+      return Promise.resolve();
+    }
     const node = tree.find((item) => item.id === value);
     if (node?.isLeaf) {
       const path = decode(node.pId);
@@ -189,7 +229,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, appID, fixedApp }: IPr
   return (
     <div className="project-pipeline-form flex flex-col h-full">
       <div className="header py-2.5 pl-4 bg-default-02 flex-h-center">
-        <span className="text-base text-default">{i18n.t('create {name}', { name: i18n.t('Pipeline') })}</span>
+        <span className="text-base text-default">{titleMap[type]}</span>
         <ErdaIcon type="zhedie" className="ml-1" />
 
         <div className="flex-h-center cursor-pointer mx-2 px-2 py-1 flex-1 justify-end">
@@ -322,7 +362,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, appID, fixedApp }: IPr
 
       <div className="py-3 px-4">
         <Button type="primary" className="mr-2" onClick={submit}>
-          {i18n.t('establish')}
+          {btnMap[type]}
         </Button>
         <Button className="bg-default-06 border-default-06 text-default-8" onClick={() => onCancel()}>
           {i18n.t('Cancel')}
@@ -356,7 +396,15 @@ const CodeResource = () => {
 
 const PipelineFormDrawer = ({ onCancel, visible, ...rest }: Merge<IProps, { visible: boolean }>) => {
   return (
-    <Drawer onClose={onCancel} visible={visible} width="80%" bodyStyle={{ padding: 0 }} destroyOnClose closable={false}>
+    <Drawer
+      onClose={onCancel}
+      visible={visible}
+      width="80%"
+      bodyStyle={{ padding: 0 }}
+      destroyOnClose
+      closable={false}
+      zIndex={1045}
+    >
       <PipelineForm {...rest} onCancel={onCancel} />
     </Drawer>
   );
