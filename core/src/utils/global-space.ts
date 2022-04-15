@@ -29,10 +29,7 @@ export const globalSpace = {
     isLeaving: () => false,
   },
   history: null,
-  erdaInfo: {
-    currentOrgId: 0,
-    isSysAdmin: false,
-  },
+  initData: {},
 };
 
 export const getGlobal = (key: string) => get(globalSpace, key);

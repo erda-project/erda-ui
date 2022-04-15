@@ -26,16 +26,13 @@ import { startApp, registerModule } from 'core/index';
 import { setConfig, getConfig } from 'core/config';
 // common modules
 import { registChartControl } from 'charts/utils/regist';
-import { setGlobal } from 'core/global-space';
+import { getGlobal, setGlobal } from 'core/global-space';
 import { erdaEnv } from 'common/constants';
 import { EmptyListHolder } from 'common';
 import { setLS, notify, insertWhen } from 'common/utils';
 import { initAxios } from 'common/utils/axios-config';
-import { getResourcePermissions } from 'user/services/user';
 import userStore from './user/stores';
-import permStore from 'user/stores/permission';
-import { getJoinedOrgs } from 'app/org-home/services/org';
-import orgStore, { isAdminRoute } from 'app/org-home/stores/org';
+import orgStore from 'app/org-home/stores/org';
 import setAntdDefault from './antd-default-props';
 import './styles/antd-extension.scss';
 import './styles/app.scss';
@@ -47,10 +44,6 @@ setConfig('onAPIFail', notify);
 
 const history = getConfig('history');
 
-const momentLangMap = {
-  en: 'en',
-  zh: 'zh-cn',
-};
 setAntdDefault();
 
 const dynamicModules =
@@ -71,6 +64,10 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
   setLS('diceLoginState', true);
 
   const locale = window.localStorage.getItem('locale') || 'zh';
+  const momentLangMap = {
+    en: 'en',
+    zh: 'zh-cn',
+  };
   moment.locale(momentLangMap[locale]);
   orgStore.reducers.updateJoinedOrg(orgs);
   initAxios();
@@ -114,50 +111,22 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
     };
 
     ReactDOM.render(<Wrap />, document.getElementById('erda-content'));
-    delete window._userData;
+    // delete window._userData;
     registChartControl();
   });
 };
 
-const init = (userData: ILoginUser) => {
-  // step1: get user last path
+setGlobal('initData', window.initData);
+window.initData = undefined;
+const { user, orgs } = getGlobal('initData');
+
+if (user) {
   window.localStorage.removeItem(`lastPath`); // clear old lastPath
-  const lastPath = window.localStorage.getItem(`${userData.id}-lastPath`);
+  const lastPath = window.localStorage.getItem(`${user.id}-lastPath`);
   if (lastPath) {
-    window.localStorage.removeItem(`${userData.id}-lastPath`);
+    window.localStorage.removeItem(`${user.id}-lastPath`);
     history.replace(lastPath);
+  } else if (user) {
+    start(user, orgs);
   }
-
-  // step2: get user isSysAdmin
-  getResourcePermissions({ scope: 'sys', scopeID: '0' })
-    .then((result) => {
-      if (result.success) {
-        let data: ILoginUser = { ...userData };
-        if (result.data?.access) {
-          permStore.reducers.updatePerm('sys', result.data);
-          setGlobal('erdaInfo.isSysAdmin', true);
-          const { roles } = result.data;
-          data = { ...data, isSysAdmin: true, adminRoles: roles };
-        } else if (isAdminRoute()) {
-          history.replace('/');
-        }
-        return data;
-      } else {
-        return Promise.reject(Error('fetch sys permission failed'));
-      }
-    })
-    .then((perRes: ILoginUser) => {
-      // step3: get user joined orgs
-      // TODO check if admin has org permissions
-      getJoinedOrgs().then((orgResult) => {
-        const orgs = orgResult.data?.list || [];
-        start(perRes, orgs);
-      });
-    });
-};
-
-if (window._userData) {
-  init(window._userData);
-} else {
-  window.userCb = init;
 }

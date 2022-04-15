@@ -36,6 +36,10 @@ export const logger = winston.createLogger({
   ],
 });
 
+const getHttpUrl = (url: string) => {
+  return url?.startsWith('http') ? url : `http://${url}`;
+};
+
 const getDirectories = (source) =>
   fs
     .readdirSync(source, { withFileTypes: true })
@@ -90,4 +94,4 @@ export const getHttpsOptions = () => ({
   cert: fs.readFileSync(path.resolve(__dirname, '../..', `cert/dev/server.crt`), 'utf8'),
 });
 
-export { getDirectories, getEnv };
+export { getDirectories, getEnv, getHttpUrl };

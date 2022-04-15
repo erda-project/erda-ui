@@ -16,13 +16,14 @@ import layoutStore from 'layout/stores/layout';
 import { orgPerm } from 'user/stores/_perm-org';
 import { createStore } from 'core/cube';
 import userStore from 'app/user/stores';
-import { getJoinedOrgs, getOrgByDomain, getPublicOrgs, updateOrg } from '../services/org';
+import { getJoinedOrgs, getPublicOrgs, updateOrg } from '../services/org';
 import { getResourcePermissions } from 'user/services/user';
 import permStore from 'user/stores/permission';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { get, intersection, map } from 'lodash';
 import { once } from 'core/event-hub';
 import announcementStore from 'org/stores/announcement';
+import { getGlobal } from 'core/global-space';
 
 interface IState {
   currentOrg: ORG.IOrg;
@@ -106,9 +107,8 @@ const org = createStore({
         domain = domain.split('.').slice(1).join('.');
       }
       const { orgName } = payload;
-      // if orgName exist, check valid
-      const resOrg = await call(getOrgByDomain, { domain, orgName });
       const orgs = select((s) => s.orgs); // get joined orgs
+      const resOrg = orgs.find((orgItem) => orgItem.name === orgName);
 
       if (!orgName) return;
       const curPathname = location.pathname;
@@ -136,8 +136,11 @@ const org = createStore({
         }
         if (orgId) {
           const orgPermQuery = { scope: 'org', scopeID: `${orgId}` };
-          const orgPermRes = await getResourcePermissions(orgPermQuery);
+          let orgPermRes = getGlobal('initData')?.orgAccess;
 
+          if (!orgPermRes) {
+            orgPermRes = await getResourcePermissions(orgPermQuery);
+          }
           // user doesn't joined the public org, go to dop
           // temporary solution, it will removed until new solution is proposed by PD
           // except Support role

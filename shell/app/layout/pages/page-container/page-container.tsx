@@ -67,10 +67,6 @@ const PageContainer = ({ route }: IProps) => {
       content.classList.remove('hidden');
       setTimeout(() => {
         skeleton.remove();
-        const scriptDom = document.querySelector('#init-script');
-        if (scriptDom) {
-          scriptDom.remove();
-        }
       }, 500);
     }
     emit('layout/mount');

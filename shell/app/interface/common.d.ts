@@ -21,6 +21,7 @@ export interface Location extends history.Location {
 
 declare global {
   interface Window {
+    initData?: Obj;
     sysNotify(): any;
   }
 }
