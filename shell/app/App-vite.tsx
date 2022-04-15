@@ -50,16 +50,16 @@ setConfig('onAPIFail', notify);
 
 const history = getConfig('history');
 
-const momentLangMap = {
-  en: 'en',
-  zh: 'zh-cn',
-};
 setAntdDefault();
 
 const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
   setLS('diceLoginState', true);
 
   const locale = window.localStorage.getItem('locale') || 'zh';
+  const momentLangMap = {
+    en: 'en',
+    zh: 'zh-cn',
+  };
   moment.locale(momentLangMap[locale]);
   orgStore.reducers.updateJoinedOrg(orgs);
   initAxios();
@@ -122,9 +122,9 @@ const init = (userData: ILoginUser) => {
         let data: ILoginUser = { ...userData };
         if (result.data?.access) {
           permStore.reducers.updatePerm('sys', result.data);
-          setGlobal('erdaInfo.isSysAdmin', true);
           const { roles } = result.data;
           data = { ...data, isSysAdmin: true, adminRoles: roles };
+          setGlobal('initData', { user: data });
         } else if (isAdminRoute()) {
           history.replace('/');
         }
@@ -133,12 +133,12 @@ const init = (userData: ILoginUser) => {
         return Promise.reject(Error('fetch sys permission failed'));
       }
     })
-    .then((perRes: ILoginUser) => {
+    .then((user: ILoginUser) => {
       // step3: get user joined orgs
       // TODO check if admin has org permissions
       getJoinedOrgs().then((orgResult) => {
         const orgs = orgResult.data?.list || [];
-        start(perRes, orgs);
+        start(user, orgs);
       });
     });
 };

@@ -15,15 +15,18 @@ import { ExceptionFilter, Catch, NotFoundException, HttpException, ArgumentsHost
 import { Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
-import { getEnv } from '../util';
+import axios from 'axios';
+import { getEnv, getHttpUrl, logger } from '../util';
 
-const { staticDir } = getEnv();
+const { staticDir, envConfig } = getEnv();
+const { BACKEND_URL } = envConfig;
+const API_URL = getHttpUrl(BACKEND_URL);
+
 const indexHtmlPath = path.join(staticDir, 'shell', 'index.html');
 if (!fs.existsSync(indexHtmlPath)) {
   throw Error('You should build shell first before start scheduler');
 }
 const indexHtmlContent = fs.readFileSync(indexHtmlPath, { encoding: 'utf8' });
-const newIndexHtmlPath = path.join(staticDir, 'shell', 'index-new.html');
 
 const {
   UC_PUBLIC_URL = '',
@@ -50,24 +53,91 @@ $ta('start', { udata: { uid: 0 }, ak: "${TERMINUS_KEY}", url: "${TERMINUS_TA_COL
 `;
   newContent = newContent.replace('<!-- $ta -->', taContent);
 }
-fs.writeFileSync(newIndexHtmlPath, newContent, { encoding: 'utf8' });
 
 @Catch(NotFoundException)
 export class NotFoundExceptionFilter implements ExceptionFilter {
   // same action as nginx try_files
-  catch(_exception: HttpException, host: ArgumentsHost) {
+  async catch(_exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
     const extension = path.extname(request.path);
     if (!extension || request.path.match(/^\/[\w-]+\/dop\/projects\/\d+\/apps\/\d+\/repo/)) {
-      response.setHeader('cache-control', 'no-store');
-      if (process.env.DEV) {
-        if (!fs.existsSync(newIndexHtmlPath)) {
-          fs.writeFileSync(newIndexHtmlPath, newContent, { encoding: 'utf8' });
+      const callApi = (api: string, config?: Record<string, any>) =>
+        axios(api, {
+          ...config,
+          baseURL: API_URL,
+          headers: { cookie: request.headers.cookie, ...config?.headers },
+          validateStatus: () => true, // pass data and err to later check
+        });
+      const initData: any = {};
+      const orgName = request.path.split('/')[1];
+      const domain = request.hostname.replace('local.', '');
+      try {
+        const callList = [
+          callApi('/api/-/users/me'),
+          callApi('/api/orgs', { params: { pageNo: 1, pageSize: 100 } }),
+          callApi(`/api/-/permissions/actions/access`, { method: 'POST', data: { scope: { type: 'sys', id: '0' } } }),
+        ];
+        if (orgName && orgName !== '-') {
+          callList.push(callApi('/api/-/orgs/actions/get-by-domain', { params: { orgName, domain } }));
         }
+        const respList = await Promise.allSettled(callList);
+        const [userRes, orgListRes, sysAccessRes, orgRes] = respList.map((res) =>
+          res.status === 'fulfilled' ? { ...res.value.data, status: res.value.status } : null,
+        );
+        if (userRes.status === 401) {
+          const loginRes = await callApi('/api/-/openapi/login', { headers: { referer: API_URL } });
+          if (loginRes?.data?.url) {
+            response.redirect(loginRes.data.url);
+            return;
+          }
+        }
+        if (userRes?.data) {
+          initData.user = userRes.data;
+        } else {
+          initData.err = '获取用户信息失败 (get user info failed)';
+        }
+        if (orgListRes?.data) {
+          initData.orgs = orgListRes.data.list;
+        } else {
+          initData.err = '获取组织列表失败 (get org list failed)';
+        }
+        if (sysAccessRes?.data) {
+          const { access, roles } = sysAccessRes.data;
+          initData.user.isSysAdmin = access;
+          initData.user.adminRoles = roles;
+        }
+        if (orgRes?.data) {
+          initData.orgId = orgRes.data.id; // current org should be in org list, just send id as fewest data
+          if (initData.orgId) {
+            const orgAccessRes: any = await callApi(`/api/-/permissions/actions/access`, {
+              method: 'POST',
+              data: { scope: { type: 'org', id: `${initData.orgId}` } },
+            });
+            if (orgAccessRes?.data) {
+              let { permissionList, resourceRoleList } = orgAccessRes.data.data;
+              permissionList = permissionList.filter((p) => p.resource.startsWith('UI'));
+              resourceRoleList = resourceRoleList.filter((p) => p.resource.startsWith('UI'));
+              initData.orgAccess = { ...orgAccessRes.data, permissionList, resourceRoleList };
+            }
+          }
+        }
+      } catch (e) {
+        logger.error(e);
+        initData.err = '服务暂时不可用 (service is unavailable)';
       }
-      response.sendFile(newIndexHtmlPath);
+      response.setHeader('cache-control', 'no-store');
+      response.send(
+        newContent.replace(
+          '<!-- $data -->',
+          `<script>${
+            initData.err
+              ? `document.querySelector("#erda-skeleton").innerText="${initData.err}"`
+              : `window.initData=${JSON.stringify(initData)}`
+          }</script>`,
+        ),
+      );
     } else {
       response.statusCode = 404;
       response.end('Not Found');

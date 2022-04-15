@@ -18,9 +18,9 @@ import { enableIconfont, setApiWithOrg } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import { find, merge } from 'lodash';
 import orgStore from 'app/org-home/stores/org';
-import { getGlobal } from 'core/global-space';
 import { on, emit } from 'core/event-hub';
 import React from 'react';
+import { getGlobal } from 'core/global-space';
 
 const sendMsgUtilWsReady = async (targetWs: any, msg: { command: '__detach' | '__attach' }) => {
   while (targetWs.readyState !== 1 || targetWs.isReady !== true) {
@@ -83,7 +83,6 @@ const layout = createStore({
   state: initState,
   subscriptions: async ({ listenRoute }: IStoreSubs) => {
     const currentOrg = orgStore.getState((s) => s.currentOrg);
-    // if (getGlobal('erdaInfo.currentOrgId')) {
     if (currentOrg.id) {
       const diceWs = DiceWebSocket.connect(setApiWithOrg('/api/websocket'));
       listenRoute(({ isEntering, isLeaving }) => {
@@ -183,7 +182,8 @@ const layout = createStore({
         _payload = payload();
       }
       const { appList, currentApp, menusMap = {}, key } = (_payload as LAYOUT.IInitLayout) || {};
-      if (key === 'sysAdmin' && !getGlobal('erdaInfo.isSysAdmin')) return;
+      const { user } = getGlobal('initData');
+      if (key === 'sysAdmin' && !user.isSysAdmin) return;
       if (appList?.length) state.appList = appList;
       if (currentApp) state.currentApp = currentApp;
       state.subSiderInfoMap = merge(state.subSiderInfoMap, menusMap);

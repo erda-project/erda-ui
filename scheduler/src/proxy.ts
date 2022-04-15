@@ -13,7 +13,7 @@
 
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { Request, Response } from 'express';
-import { getEnv, logger } from './util';
+import { getEnv, logger, getHttpUrl } from './util';
 import { INestApplication } from '@nestjs/common';
 import qs from 'query-string';
 
@@ -22,17 +22,12 @@ const isProd = process.env.NODE_ENV === 'production';
 const { envConfig } = getEnv();
 const { BACKEND_URL, GITTAR_ADDR, UC_BACKEND_URL, ENTERPRISE_URL, FDP_URL } = envConfig;
 
-const getHttpUrl = (url: string) => {
-  return url?.startsWith('http') ? url : `http://${url}`;
-};
-
 const API_URL = getHttpUrl(BACKEND_URL);
 const UC_API_URL = getHttpUrl(UC_BACKEND_URL);
 const ENTERPRISE_UI_URL = getHttpUrl(ENTERPRISE_URL);
 const FDP_UI_URL = getHttpUrl(FDP_URL);
 
-let gittarUrl = isProd ? GITTAR_ADDR : BACKEND_URL;
-gittarUrl = getHttpUrl(gittarUrl);
+const GITTAR_URL = isProd ? getHttpUrl(GITTAR_ADDR) : API_URL;
 
 const wsPathRegex = [
   /^\/api\/[^/]*\/websocket/,
@@ -165,7 +160,7 @@ export const createProxyService = (app: INestApplication) => {
         return false;
       },
       {
-        target: gittarUrl,
+        target: GITTAR_URL,
         changeOrigin: !isProd,
         onError,
       },

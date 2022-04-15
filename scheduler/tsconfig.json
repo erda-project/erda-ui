@@ -6,7 +6,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2019",
+    "target": "esnext",
     "outDir": "./dist",
     "baseUrl": "./",
     "skipLibCheck": true,
