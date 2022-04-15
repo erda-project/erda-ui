@@ -64,16 +64,20 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
     const extension = path.extname(request.path);
     if (!extension || request.path.match(/^\/[\w-]+\/dop\/projects\/\d+\/apps\/\d+\/repo/)) {
       const callApi = (api: string, config?: Record<string, any>) => {
-        console.log('call api', api, {
+        const headers = config?.headers || {};
+        if (request.headers.cookie) {
+          headers.cookie = request.headers.cookie;
+        }
+        console.log('call api', api.replace('\n', ''), {
           ...config,
           baseURL: API_URL,
-          headers: { cookie: request.headers.cookie, ...config?.headers },
+          headers,
           validateStatus: () => true, // pass data and err to later check
         });
-        return axios(api, {
+        return axios(api.replace('\n', ''), {
           ...config,
           baseURL: API_URL,
-          headers: { cookie: request.headers.cookie, ...config?.headers },
+          headers,
           validateStatus: () => true, // pass data and err to later check
         });
       };
