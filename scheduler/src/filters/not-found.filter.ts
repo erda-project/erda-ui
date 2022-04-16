@@ -69,12 +69,6 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         if (request.headers.cookie) {
           headers.cookie = request.headers.cookie;
         }
-        console.log('call api', isLocal ? api.replace('/api', '/api/-') : api, {
-          ...config,
-          baseURL: API_URL,
-          headers,
-          validateStatus: () => true, // pass data and err to later check
-        });
         // add {orgName} part only in local mode
         return axios(isLocal ? api.replace('/api', '/api/-') : api, {
           ...config,
@@ -86,7 +80,9 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
       const initData: any = {};
       const orgName = request.path.split('/')[1];
       const domain = request.hostname.replace('local.', '');
+      const times = [];
       try {
+        times.push(Date.now());
         const callList = [
           callApi('/api/users/me'),
           callApi('/api/orgs', { params: { pageNo: 1, pageSize: 100 } }),
@@ -96,13 +92,14 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
           callList.push(callApi('/api/orgs/actions/get-by-domain', { params: { orgName, domain } }));
         }
         const respList = await Promise.allSettled(callList);
-        console.log('result:', respList);
+        times.push(Date.now());
         const [userRes, orgListRes, sysAccessRes, orgRes] = respList.map((res) =>
           res.status === 'fulfilled' ? { ...res.value.data, status: res.value.status } : null,
         );
         if (userRes?.status === 401) {
-          const loginRes = await callApi('/api/openapi/login', { headers: { referer: API_URL } });
-          console.log('loginRes:', loginRes);
+          const loginRes = await callApi('/api/openapi/login', {
+            headers: { referer: `${request.protocol}://${request.hostname}` },
+          });
           if (loginRes?.data?.url) {
             response.redirect(loginRes.data.url);
             console.log('redirect:', loginRes.data.url);
@@ -131,6 +128,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
               method: 'POST',
               data: { scope: { type: 'org', id: `${initData.orgId}` } },
             });
+            times.push(Date.now());
             if (orgAccessRes?.data) {
               let { permissionList, resourceRoleList } = orgAccessRes.data.data;
               permissionList = permissionList.filter((p) => p.resource.startsWith('UI'));
@@ -143,6 +141,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         logger.error(e);
         initData.err = '服务暂时不可用 (service is unavailable)';
       }
+      console.log('time cost:', times[times.length - 1] - times[0], times);
       response.setHeader('cache-control', 'no-store');
       response.send(
         newContent.replace(
