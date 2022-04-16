@@ -25,6 +25,18 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v2
 
+      - name: filter path
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            commonPath:
+              - 'shell/app/common/**'
+
+      - if: steps.filter.outputs.commonPath != 'true'
+        name: cancelling
+        uses: andymckay/cancel-action@0.2
+
       - name: Cache pnpm modules
         uses: actions/cache@v2
         env:
