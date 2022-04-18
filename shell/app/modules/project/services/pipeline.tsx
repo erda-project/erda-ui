@@ -171,9 +171,9 @@ export const getAllBranch = apiCreator<(payload: { appID: number }) => RAW_RESPO
   apis.getAllBranch,
 );
 
-export const editPipelineName = apiCreator<(payload: { id: string; name: string; projectID: number }) => RAW_RESPONSE>(
-  apis.editPipelineName,
-);
+export const editPipelineName = apiCreator<
+  (payload: { name: string; projectID: number; projectPipelineSource: { id: string } }) => RAW_RESPONSE
+>(apis.editPipelineName);
 
 export const getGuidesList = apiCreator<(payload: { kind: string; projectID: string; appID?: string }) => Guide[]>(
   apis.getGuidesList,

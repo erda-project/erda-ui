@@ -180,18 +180,32 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
       const appId = path[1];
       const branch = path.join('/').split('tree/')[1].split('/.dice')[0].split('/.erda')[0];
       const ymlPath = (path.join('/').split(branch)[1] || '').substr(1);
+
       const params = {
-        sourceType: 'erda',
-        projectID: +projectId,
-        name: value.name,
-        appID: appId,
-        ref: branch,
-        path: ymlPath,
-        fileName,
-        id: editData?.id!,
+        edit: {
+          projectID: +projectId,
+          name: value.name,
+          id: editData?.id,
+          projectPipelineSource: {
+            sourceType: 'erda',
+            appID: appId,
+            ref: branch,
+            path: ymlPath,
+            fileName,
+          },
+        },
+        add: {
+          projectID: +projectId,
+          name: value.name,
+          sourceType: 'erda',
+          appID: appId,
+          ref: branch,
+          path: ymlPath,
+          fileName,
+        },
       };
 
-      const res = await interfaceMap[type].fetch({ ...params, $options: { successMsg: successMsgMap[type] } });
+      const res = await interfaceMap[type].fetch({ ...params[type], $options: { successMsg: successMsgMap[type] } });
       if (res.success) {
         onOk();
       }
@@ -276,6 +290,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
                     options={appList}
                     rules={[{ required: true, message: i18n.t('please choose {name}', { name: i18n.t('App') }) }]}
                     itemProps={{
+                      disabled: type === 'edit',
                       className: 'project-release-select',
                       onChange: (_: string, _app: App) => setApp(_app),
                     }}
