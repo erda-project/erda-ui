@@ -19,7 +19,7 @@ import layoutStore from 'layout/stores/layout';
 import routeInfoStore from 'core/stores/route';
 import MenuHeader from './menu-head';
 import { isEmpty, isEqual, pickBy } from 'lodash';
-import { qs } from 'common/utils';
+import { qs, allWordsFirstLetterUpper } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
 import { ErdaIcon } from 'common';
 import './index.scss';
@@ -53,8 +53,6 @@ const removeEmptyQuery = (href: string) => {
   const queryString = stringify(pickBy(query, (v: any) => v !== ''));
   return `${url}${queryString ? `?${queryString}` : ''}`;
 };
-
-const firstLetterUpper = (str: string) => str.slice(0, 1).toUpperCase() + str.slice(1);
 
 const findActiveKey = (menu: IMenu[], curHref: string) => {
   const { pathname } = window.location;
@@ -128,7 +126,7 @@ const SideBar = () => {
     let activeKeyList = [] as string[];
     let selectedKey = '';
     const fullMenu: IMenu[] = menu.map((item: IMenu) => {
-      let { subMenu = [], href } = item;
+      let { subMenu = [], href, title } = item;
       href = href?.split('?')[0];
       if (isEmpty(subMenu) && item.key && subList[item.key]) {
         subMenu = removeQuery(subList[item.key]) as any;
@@ -141,14 +139,14 @@ const SideBar = () => {
             subMenuNextChildren = getAllSubMenu(sub.subMenu);
             return {
               ...sub,
-              title: firstLetterUpper(sub.text),
+              title: sub.title ?? allWordsFirstLetterUpper(sub.text),
               href: removeEmptyQuery(sub.href),
               children: subMenuNextChildren,
             };
           }
           return {
             ...sub,
-            title: firstLetterUpper(sub.text),
+            title: sub.title ?? allWordsFirstLetterUpper(sub.text),
             href: removeEmptyQuery(sub.href),
           };
         });
@@ -163,7 +161,7 @@ const SideBar = () => {
       const IconComp = () => item.icon as React.ReactElement;
       return {
         ...item,
-        title: firstLetterUpper(item.text),
+        title: title ?? allWordsFirstLetterUpper(item.text), // 如果存在title，则直接使用title（如Approved by Me），否则全部首字母大写
         icon: item.icon || item.customIcon || null,
         href,
         children: subMenu,

@@ -923,7 +923,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
     <div className="custom-alarm">
       <div className="top-button-group">
         <Button type="primary" onClick={() => openModal()}>
-          {i18n.t('cmp:create custom rule')}
+          {i18n.t('cmp:Add Custom Rule')}
         </Button>
       </div>
       <ErdaTable

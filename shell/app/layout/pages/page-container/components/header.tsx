@@ -20,7 +20,7 @@ import breadcrumbStore from 'layout/stores/breadcrumb';
 import { isEmpty, isFunction } from 'lodash';
 import { matchPath } from 'react-router-dom';
 import { ErdaIcon } from 'common';
-import { goTo } from 'app/common/utils';
+import { goTo, allWordsFirstLetterUpper } from 'app/common/utils';
 import './header.scss';
 
 const Header = () => {
@@ -147,11 +147,11 @@ const Header = () => {
           onClick={() => goTo('../'.repeat(backToUp), { query: _query })}
         >
           <ErdaIcon type="arrow-left" className="mr-1" />
-          {pageName}
+          {allWordsFirstLetterUpper(pageName as string)}
         </div>
       );
     }
-    return <div className="text-xl truncate">{pageName}</div>;
+    return <div className="text-xl truncate">{allWordsFirstLetterUpper(pageName as string)}</div>;
   };
   return (
     <div className="erda-header">

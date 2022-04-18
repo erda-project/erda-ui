@@ -16,6 +16,7 @@ const overwriteMap = {
   table: true,
   select: true,
   tag: true,
+  button: true,
   'range-picker': true,
 };
 
@@ -23,6 +24,7 @@ const overwriteCssMap = {
   avatar: 'antd/es/avatar/style',
   table: 'antd/es/table/style',
   select: 'antd/es/select/style',
+  button: 'antd/es/button/style',
   tag: false,
   'range-picker': false,
 };
@@ -112,6 +114,7 @@ module.exports = (api) => {
             libraryName: 'antd',
             customName(name, file) {
               if (overwriteMap[name]) {
+                console.log(name, `app/antd-overwrite/${name}`);
                 return `app/antd-overwrite/${name}`;
               }
               return `antd/es/${name}`;

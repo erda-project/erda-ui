@@ -39,7 +39,7 @@ const middlewareTabs = [
 const alarmConfigTab = [
   {
     key: 'strategy',
-    name: i18n.t('alarm strategy'),
+    name: i18n.t('alert strategy'),
   },
   {
     key: 'custom',
@@ -522,7 +522,7 @@ function getCmpRouter(): RouteConfigItem[] {
             },
             {
               path: 'strategy',
-              breadcrumbName: i18n.t('alarm strategy'),
+              breadcrumbName: i18n.t('alert strategy'),
               routes: [
                 {
                   layout: { noWrapper: true },

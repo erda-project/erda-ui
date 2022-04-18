@@ -215,7 +215,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
       initialValue: state.selectVersion,
       options: state.versions.map(({ swaggerVersion }) => ({ name: swaggerVersion, value: swaggerVersion })),
       itemProps: {
-        placeholder: i18n.t('please select'),
+        placeholder: i18n.t('Please Select'),
         onSelect: handleSelectVersion,
       },
     },
@@ -228,7 +228,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
         .map(({ client }) => ({ value: client.id, name: client.displayName || client.name }))
         .concat(createNewApp),
       itemProps: {
-        placeholder: i18n.t('please select'),
+        placeholder: i18n.t('Please Select'),
         onSelect: handleSelectApp,
         filterOption,
         showSearch: true,
@@ -240,7 +240,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
       initialValue: state.selectSla,
       required: !!state.slaList.length,
       itemProps: {
-        placeholder: i18n.t('please select'),
+        placeholder: i18n.t('Please Select'),
         onSelect: handleSelectSla,
         filterOption,
         showSearch: true,

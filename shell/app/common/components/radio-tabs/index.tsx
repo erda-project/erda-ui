@@ -14,6 +14,7 @@
 import { Radio, Menu, Tooltip, Dropdown } from 'antd';
 import React from 'react';
 import { ErdaIcon } from 'common';
+import { allWordsFirstLetterUpper } from 'common/utils';
 import { isArray } from 'lodash';
 import './index.scss';
 
@@ -126,7 +127,7 @@ const RadioTabs = <T extends string | number>(props: RadioTabsProps<T>) => {
               <RadioItem value={itemValue} key={itemValue} disabled={disabled}>
                 <div className="flex justify-between items-center">
                   {icon ? <ErdaIcon size={18} type={icon} className="mr-1" /> : null}
-                  {label}
+                  {allWordsFirstLetterUpper(label)}
                 </div>
               </RadioItem>
             </Tooltip>

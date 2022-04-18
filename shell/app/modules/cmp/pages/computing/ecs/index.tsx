@@ -387,7 +387,7 @@ const ComputingEcs = () => {
             type: 'select',
             required: showRenewalTime,
             itemProps: {
-              placeholder: i18n.t('cmp:{action} renewal time', { action: i18n.t('please select') }),
+              placeholder: i18n.t('cmp:{action} renewal time', { action: i18n.t('Please Select') }),
             },
             options: [1, 2, 3, 6, 12, 24, 36, 48, 60].map((_v: number) => {
               const time = _v;

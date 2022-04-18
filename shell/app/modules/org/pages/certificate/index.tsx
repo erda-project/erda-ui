@@ -212,7 +212,7 @@ const Certificate = () => {
           const curValue = form.getFieldValue('type');
           return (
             <Select
-              placeholder={i18n.t('please select')}
+              placeholder={i18n.t('Please Select')}
               onSelect={(e) => {
                 curValue !== e && form.resetFields(['filename', 'uuid']);
               }}

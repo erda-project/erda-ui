@@ -619,3 +619,15 @@ export const firstCharToUpper = (str: string) => {
   if (typeof str !== 'string') return str;
   return str.replace(/^\w/, (s) => s.toUpperCase());
 };
+
+export const firstLetterUpper = (str: string) => str.slice(0, 1).toUpperCase() + str.slice(1);
+export const allWordsFirstLetterUpper = (param: string | React.ReactElement) => {
+  if (typeof param === 'string') {
+    return param
+      .split(' ')
+      .map((letter) => firstLetterUpper(letter))
+      .join(' ');
+  } else {
+    return param;
+  }
+};

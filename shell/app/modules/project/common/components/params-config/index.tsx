@@ -138,7 +138,7 @@ const ConfigContainer = (props: IProps) => {
             {selectedApp ? (
               <Ellipsis className="font-bold text-default" title={selectedApp?.displayName || selectedApp?.name} />
             ) : (
-              <span className="text-default-3">{i18n.t('please select')}</span>
+              <span className="text-default-3">{i18n.t('Please Select')}</span>
             )}
             <ErdaIcon type="caret-down" className="ml-0.5" size="14" />
           </div>

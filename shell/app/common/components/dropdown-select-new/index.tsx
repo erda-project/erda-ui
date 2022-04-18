@@ -185,7 +185,7 @@ const DropdownSelect = (props: DropdownSelectNewProps) => {
                 }
               />
             ) : (
-              <div onClick={() => !disabled && setActive(!active)}>{i18n.t('please select')}</div>
+              <div onClick={() => !disabled && setActive(!active)}>{i18n.t('Please Select')}</div>
             )}
             {mode === 'simple' ? <ErdaIcon type="caret-down" className="icon" size="14" /> : null}
           </>

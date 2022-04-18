@@ -33,7 +33,7 @@ const marketTabs = () => {
   return [
     {
       key: 'setting',
-      name: i18n.t('cmp:publisher info'),
+      name: i18n.t('cmp:publisher'),
       show: orgPerm.orgCenter.viewMarket.pass,
     },
     {
