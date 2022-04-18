@@ -24,8 +24,8 @@ describe('IF', () => {
         <div className="else">else</div>
       </IF>,
     );
-    expect(result.container).isExit('.if', 0);
-    expect(result.container).isExit('.else', 1);
+    expect(result.container).isExist('.if', 0);
+    expect(result.container).isExist('.else', 1);
     result.rerender(
       <IF check>
         <div className="if">if</div>
@@ -33,8 +33,8 @@ describe('IF', () => {
         <div className="else">else</div>
       </IF>,
     );
-    expect(result.container).isExit('.if', 1);
-    expect(result.container).isExit('.else', 0);
+    expect(result.container).isExist('.if', 1);
+    expect(result.container).isExist('.else', 0);
   });
   it('check is function', () => {
     const result = render(
@@ -44,8 +44,8 @@ describe('IF', () => {
         <div className="else">else</div>
       </IF>,
     );
-    expect(result.container).isExit('.if', 0);
-    expect(result.container).isExit('.else', 1);
+    expect(result.container).isExist('.if', 0);
+    expect(result.container).isExist('.else', 1);
     result.rerender(
       <IF check={() => true}>
         <div className="if">if</div>
@@ -53,8 +53,8 @@ describe('IF', () => {
         <div className="else">else</div>
       </IF>,
     );
-    expect(result.container).isExit('.if', 1);
-    expect(result.container).isExit('.else', 0);
+    expect(result.container).isExist('.if', 1);
+    expect(result.container).isExist('.else', 0);
   });
   it('render only one child', () => {
     const result = render(
@@ -68,7 +68,7 @@ describe('IF', () => {
         <div className="if">if</div>
       </IF>,
     );
-    expect(result.container).isExit('.if', 1);
+    expect(result.container).isExist('.if', 1);
   });
   it('render only if', () => {
     const result = render(

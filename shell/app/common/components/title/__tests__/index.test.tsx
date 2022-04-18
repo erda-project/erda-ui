@@ -22,16 +22,16 @@ describe('Title', () => {
   const tips = 'erda title';
   it('should render well', async () => {
     const result = render(<Title title={title} />);
-    expect(result.container).isExit('.h-12', 1);
+    expect(result.container).isExist('.h-12', 1);
     expect(result.getByText(title)).toBeTruthy();
-    expect(result.container).isExit('[name="help"]', 0);
-    expect(result.container).isExit('.border-bottom', 1);
+    expect(result.container).isExist('[name="help"]', 0);
+    expect(result.container).isExist('.border-bottom', 1);
     result.rerender(<Title title={title} tip={tips} />);
-    expect(result.container).isExit('[name="help"]', 1);
+    expect(result.container).isExist('[name="help"]', 1);
     userEvent.hover(result.container.querySelector('[name="help"]')!);
     await waitFor(() => expect(screen.queryByText(tips)).toBeInTheDocument());
     result.rerender(<Title title={title} showDivider={false} />);
-    expect(result.container).isExit('.border-bottom', 0);
+    expect(result.container).isExist('.border-bottom', 0);
   });
   it('should render with operations', () => {
     const result = render(

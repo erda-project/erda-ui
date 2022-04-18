@@ -15,8 +15,8 @@
 
 declare namespace jest {
   interface Matchers<R, T> {
-    isExit: (selector: string, expected?: number) => jest.CustomMatcherResult;
-    isExitClass: (selector: string, expected: string) => jest.CustomMatcherResult;
+    isExist: (selector: string, expected?: number) => jest.CustomMatcherResult;
+    isExistClass: (selector: string, expected: string) => jest.CustomMatcherResult;
     toHaveBeenLastCalledWithNth: (nthParams: number, params: any) => jest.CustomMatcherResult;
   }
 }

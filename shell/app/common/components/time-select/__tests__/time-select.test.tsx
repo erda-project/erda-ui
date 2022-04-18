@@ -46,7 +46,7 @@ describe('TimeSelect', () => {
     const changeStrategyFn = jest.fn();
     const result = render(<TimeSelect onChange={changeFn} onRefreshStrategyChange={changeStrategyFn} />);
     fireEvent.mouseDown(result.getByText('OFF'));
-    await waitFor(() => expect(result.baseElement).isExit('.ant-select-dropdown', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-select-dropdown', 1));
     fireEvent.click(result.getByText(autoRefreshDuration['seconds:5']));
     expect(changeStrategyFn).toHaveBeenLastCalledWith('seconds:5');
     act(() => {
@@ -60,7 +60,7 @@ describe('TimeSelect', () => {
     const changeFn = jest.fn();
     const result = render(<TimeSelect onChange={changeFn} value={{}} />);
     fireEvent.click(result.container.querySelector('.time-range')!);
-    await waitFor(() => expect(result.baseElement).isExit('.time-range-dropdown', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.time-range-dropdown', 1));
     fireEvent.click(result.getByText(relativeTimeRange['days:3']));
     expect(changeFn).toHaveBeenCalledTimes(1);
     expect(changeFn.mock.calls[0][0]).toStrictEqual({
@@ -70,7 +70,7 @@ describe('TimeSelect', () => {
     });
     result.rerender(<TimeSelect onChange={changeFn} />);
     fireEvent.click(result.container.querySelector('.time-range')!);
-    await waitFor(() => expect(result.baseElement).isExit('.time-range-dropdown', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.time-range-dropdown', 1));
     fireEvent.click(result.getByText(relativeTimeRange['days:1']));
     expect(changeFn).toHaveBeenCalledTimes(2);
     expect(changeFn.mock.calls[1][0]).toStrictEqual({
@@ -85,14 +85,14 @@ describe('TimeSelect', () => {
     const changeFn = jest.fn();
     const result = render(<TimeSelect onChange={changeFn} value={{ mode: 'quick', quick: 'days:1' }} />);
     fireEvent.click(result.container.querySelector('.time-range')!);
-    await waitFor(() => expect(result.baseElement).isExit('.time-range-dropdown', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.time-range-dropdown', 1));
     const [startTime] = result.getAllByPlaceholderText('Select date');
     expect(result.getAllByPlaceholderText('Select date')).toHaveLength(2);
     fireEvent.mouseDown(startTime);
     fireEvent.focus(startTime);
-    await waitFor(() => expect(result.baseElement).isExit('.ant-picker-panel-container', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-picker-panel-container', 1));
     fireEvent.click(result.getByText('Now'));
-    await waitFor(() => expect(result.baseElement).isExit('.ant-picker-panel-container', 2));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-picker-panel-container', 2));
     fireEvent.click(result.getAllByText('Now')[1]);
     expect(changeFn).toHaveBeenCalledTimes(1);
     resetMockDate();

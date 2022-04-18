@@ -25,7 +25,7 @@ describe('CommonRangePicker', () => {
     const result = render(<CommonRangePicker onOk={okFn} defaultTime={[yesterday, today]} />);
     fireEvent.mouseDown(result.getByPlaceholderText('start at'));
     fireEvent.focus(result.getByPlaceholderText('start at'));
-    await waitFor(() => expect(result.baseElement).isExit('.ant-picker-range-wrapper', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-picker-range-wrapper', 1));
     fireEvent.click(result.getByText('7day'));
     expect(okFn).toHaveBeenCalled();
     resetMockDate();

@@ -121,11 +121,11 @@ describe('form-builder', () => {
     );
 
     expect(result.getByText('PureFormBuilder child')).toBeTruthy();
-    expect(result.container).isExit('.ant-col-24', 1);
+    expect(result.container).isExist('.ant-col-24', 1);
     sizeArr.forEach((item) => {
       fireEvent.click(result.container.querySelector('.mock-resize-observer')!, { target: { width: item.width } });
       jest.runAllTimers();
-      expect(result.container).isExit(`.ant-col-${item.col}`, 1);
+      expect(result.container).isExist(`.ant-col-${item.col}`, 1);
     });
     jest.useRealTimers();
   });

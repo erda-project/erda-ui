@@ -121,9 +121,9 @@ describe('LogRoller', () => {
     fireEvent.click(result.getByText('Download Log'));
     expect(showDownloadModalFn).toHaveBeenCalledTimes(1);
     rerender({ backwardLoading: true });
-    expect(result.container).isExit('[name="loading"]', 1);
+    expect(result.container).isExist('[name="loading"]', 1);
     rerender({ extraButton: <button className="extra-button">extraButton</button> });
-    expect(result.container).isExit('.extra-button', 1);
+    expect(result.container).isExist('.extra-button', 1);
   });
   it('should scroll well', () => {
     jest.useFakeTimers();

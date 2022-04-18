@@ -65,7 +65,7 @@ describe('Responsive', () => {
           {children}
         </Responsive>,
       );
-      expect(result.container).isExit(`.ant-col-${span}`, index + 1);
+      expect(result.container).isExist(`.ant-col-${span}`, index + 1);
     });
   });
 });

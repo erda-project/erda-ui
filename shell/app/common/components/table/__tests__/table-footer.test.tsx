@@ -27,9 +27,9 @@ describe('TableFooter', () => {
   };
   it('should render well without actions and pagination', () => {
     const result = render(<TableFooter {...baseProps} />);
-    expect(result.container).isExit('.erda-pagination', 0);
-    expect(result.container).isExitClass('.erda-table-footer', 'bg-white');
-    expect(result.container).not.isExitClass('.erda-table-footer', 'bg-default-02');
+    expect(result.container).isExist('.erda-pagination', 0);
+    expect(result.container).isExistClass('.erda-table-footer', 'bg-white');
+    expect(result.container).not.isExistClass('.erda-table-footer', 'bg-default-02');
     expect(result.queryByText('selected 0 items')).toBeNull();
   });
   it('should render well with actions', () => {
@@ -43,11 +43,11 @@ describe('TableFooter', () => {
     );
     fireEvent.click(result.container.querySelector('[name="right"]')!);
     expect(tableChangeFn).toHaveBeenLastCalledWith({ pageNo: 2, pageSize: 10 });
-    expect(result.container).isExit('.erda-pagination', 1);
+    expect(result.container).isExist('.erda-pagination', 1);
   });
   it('should render well without whiteFooter', () => {
     const result = render(<TableFooter {...baseProps} whiteFooter={false} />);
-    expect(result.container).not.isExitClass('.erda-table-footer', 'bg-white');
-    expect(result.container).isExitClass('.erda-table-footer', 'bg-default-02');
+    expect(result.container).not.isExistClass('.erda-table-footer', 'bg-white');
+    expect(result.container).isExistClass('.erda-table-footer', 'bg-default-02');
   });
 });

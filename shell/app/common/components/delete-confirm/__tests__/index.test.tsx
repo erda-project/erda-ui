@@ -31,7 +31,7 @@ describe('DeleteConfirm', () => {
       </DeleteConfirm>,
     );
     expect(spy).toHaveBeenCalled();
-    expect(result.container).isExit('.children', 3);
+    expect(result.container).isExist('.children', 3);
     result.rerender(
       <DeleteConfirm onCancel={onCancelFn}>
         <div className="delete-button">delete-button</div>

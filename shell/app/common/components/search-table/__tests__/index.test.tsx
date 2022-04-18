@@ -30,12 +30,12 @@ describe('SearchTable', () => {
     );
     expect(result.getByText('SearchTable children')).toBeTruthy();
     expect(result.getByText('SearchTable extraItems')).toBeTruthy();
-    expect(result.container).isExit('.extra-items-left', 1);
+    expect(result.container).isExist('.extra-items-left', 1);
     result.rerender(<SearchTable />);
-    expect(result.container).isExit('.search-input', 1);
-    expect(result.container).not.isExitClass('.search-input', 'w-full');
+    expect(result.container).isExist('.search-input', 1);
+    expect(result.container).not.isExistClass('.search-input', 'w-full');
     result.rerender(<SearchTable searchFullWidth />);
-    expect(result.container).isExitClass('.search-input', 'w-full');
+    expect(result.container).isExistClass('.search-input', 'w-full');
   });
   it('should work well', () => {
     jest.useFakeTimers();

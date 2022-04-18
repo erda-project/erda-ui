@@ -81,7 +81,7 @@ describe('ImageUpload', () => {
       />,
     );
     expect(result.getByText(hintText)).toBeTruthy();
-    expect(result.container).isExit('.pure-upload', 1);
+    expect(result.container).isExist('.pure-upload', 1);
     const inp = result.container.querySelector('[type="file"]')!;
     userEvent.upload(inp, file);
     await waitFor(() => expect(setFieldsValue).toHaveBeenCalledWith({ singleUpload: imgUrlWithoutProtocol }));
@@ -96,7 +96,7 @@ describe('ImageUpload', () => {
       />,
     );
     expect(result.getByAltText('upload')).toHaveAttribute('src', imgUrlWithoutProtocol);
-    expect(result.container).isExit('[name="shanchu"]', 1);
+    expect(result.container).isExist('[name="shanchu"]', 1);
     fireEvent.click(result.getByText('Remove'));
     expect(setFieldsValue).toHaveBeenCalledWith({ singleUpload: undefined });
     expect(afterUploadFn).toHaveBeenLastCalledWith(undefined);
@@ -121,7 +121,7 @@ describe('ImageUpload', () => {
         value={[imgUrlWithoutProtocol]}
       />,
     );
-    expect(result.container).isExit('[name="shanchu"]', 1);
+    expect(result.container).isExist('[name="shanchu"]', 1);
     fireEvent.click(result.getByText('Remove'));
     expect(setFieldsValue).toHaveBeenCalledWith({ multiUpload: [] });
     expect(afterUploadFn).toHaveBeenLastCalledWith([]);

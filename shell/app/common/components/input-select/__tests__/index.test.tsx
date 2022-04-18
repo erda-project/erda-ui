@@ -37,7 +37,7 @@ describe('InputSelect', () => {
   it('should render well with disabled', async () => {
     const onChangeFn = jest.fn();
     const result = render(<InputSelect value="erda" onChange={onChangeFn} className="input-select-inp" disabled />);
-    expect(result.container).isExitClass('.ant-input', 'ant-input-disabled');
+    expect(result.container).isExistClass('.ant-input', 'ant-input-disabled');
   });
   it('should work well with Select', async () => {
     jest.useFakeTimers();
@@ -50,22 +50,22 @@ describe('InputSelect', () => {
     fireEvent.keyDown(inp!);
     fireEvent.focus(inp!);
     await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument());
-    expect(result.baseElement).isExit('.option-item', optionArr.length);
+    expect(result.baseElement).isExist('.option-item', optionArr.length);
     const searchInp = result.baseElement.querySelector('[placeholder="Filter"]');
     fireEvent.focus(searchInp!);
     fireEvent.click(searchInp!);
     fireEvent.change(searchInp!, { target: { value: optionArr[0] } });
-    expect(result.baseElement).isExit('.option-item', 1);
+    expect(result.baseElement).isExist('.option-item', 1);
     fireEvent.change(searchInp!, { target: { value: '' } });
-    expect(result.baseElement).isExit('.option-item', optionArr.length);
+    expect(result.baseElement).isExist('.option-item', optionArr.length);
     fireEvent.blur(inp!);
     fireEvent.click(document.body);
-    await waitFor(() => expect(result.baseElement).isExitClass('.ant-dropdown', 'ant-dropdown-hidden'));
+    await waitFor(() => expect(result.baseElement).isExistClass('.ant-dropdown', 'ant-dropdown-hidden'));
     fireEvent.blur(inp!);
     fireEvent.change(inp!, { target: { value: 'erda' } });
     expect(changeFn).toHaveBeenLastCalledWith('erda');
     fireEvent.focus(inp!);
-    await waitFor(() => expect(result.baseElement).not.isExitClass('.ant-dropdown', 'ant-dropdown-hidden'));
+    await waitFor(() => expect(result.baseElement).not.isExistClass('.ant-dropdown', 'ant-dropdown-hidden'));
     act(() => {
       fireEvent.click(screen.getByText(optionArr[0]));
       jest.runAllTimers();
@@ -109,9 +109,9 @@ describe('InputSelect', () => {
     await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument());
     const searchInp = result.baseElement.querySelector('.option-group-search input');
     fireEvent.change(searchInp!, { target: { value: cascaderOptions[0].label } });
-    expect(result.baseElement).isExit('.option-item', 1);
+    expect(result.baseElement).isExist('.option-item', 1);
     fireEvent.change(searchInp!, { target: { value: '' } });
-    expect(result.baseElement).isExit('.option-item', cascaderOptions.length);
+    expect(result.baseElement).isExist('.option-item', cascaderOptions.length);
     act(() => {
       fireEvent.click(screen.getByText(cascaderOptions[0].label));
       jest.runAllTimers();
@@ -153,11 +153,11 @@ describe('InputSelect', () => {
       />,
     );
     fireEvent.focus(inp!);
-    await waitFor(() => expect(result.baseElement).not.isExitClass('.ant-dropdown', 'ant-dropdown-hidden'));
-    expect(result.baseElement).not.isExitClass('.option-group-search', 'shadow');
+    await waitFor(() => expect(result.baseElement).not.isExistClass('.ant-dropdown', 'ant-dropdown-hidden'));
+    expect(result.baseElement).not.isExistClass('.option-group-search', 'shadow');
     const optionBox = result.baseElement.querySelector('.option-group-box');
     fireEvent.scroll(optionBox!, { target: { scrollTop: 10 } });
-    expect(result.baseElement).isExitClass('.option-group-search', 'shadow');
+    expect(result.baseElement).isExistClass('.option-group-search', 'shadow');
     act(() => {
       fireEvent.click(screen.getByText(cascaderOptions[1].label));
       jest.runAllTimers();

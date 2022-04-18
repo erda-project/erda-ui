@@ -61,10 +61,10 @@ describe('Avatar', () => {
     const result = render(
       <Avatar className="avatar-comp" showName name={loginUser.name} wrapClassName={'wrapClassName'} />,
     );
-    expect(result.container).isExit('.wrapClassName', 1);
+    expect(result.container).isExist('.wrapClassName', 1);
     result.rerender(<Avatar className="avatar-comp" name={loginUser.name} wrapClassName={'wrapClassName'} />);
     // dice-avatar
-    expect(result.container).isExit('.dice-avatar', 1);
+    expect(result.container).isExist('.dice-avatar', 1);
   });
   it('should support size ', () => {
     const result = render(<Avatar className="avatar-comp" showName name={loginUser.name} />);

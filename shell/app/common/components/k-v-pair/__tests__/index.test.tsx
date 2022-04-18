@@ -75,7 +75,7 @@ describe('KVPair', () => {
         {renderChildren}
       </KVPair>,
     );
-    expect(result.container).isExit('.key-val-item', defaultValue.length);
+    expect(result.container).isExist('.key-val-item', defaultValue.length);
     result.rerender(
       <KVPair {...defaultProps} value={defaultValue} onChange={changeFn} autoAppend compProps={{ disabled: true }}>
         {renderChildren}

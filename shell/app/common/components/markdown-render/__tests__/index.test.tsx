@@ -103,30 +103,30 @@ describe('MarkdownRender', () => {
         <MarkdownRender value={markdownContent} />
       </div>,
     );
-    expect(result.container).isExit('.md-content', 1);
-    expect(result.container).isExit('h1', 1);
-    expect(result.container).isExit('h2', 1);
-    expect(result.container).isExit('h3', 1);
-    expect(result.container).isExit('h4', 1);
-    expect(result.container).isExit('h5', 1);
-    expect(result.container).isExit('img', 2);
+    expect(result.container).isExist('.md-content', 1);
+    expect(result.container).isExist('h1', 1);
+    expect(result.container).isExist('h2', 1);
+    expect(result.container).isExist('h3', 1);
+    expect(result.container).isExist('h4', 1);
+    expect(result.container).isExist('h5', 1);
+    expect(result.container).isExist('img', 2);
     fireEvent.load(result.container.querySelectorAll('img')[0]!);
     expect(imgLoadFn).toHaveBeenCalled();
     fireEvent.click(result.container.querySelector('a')!);
     expect(clickFn).not.toHaveBeenCalled();
-    expect(result.container).isExit('.bg-desc', 0);
+    expect(result.container).isExist('.bg-desc', 0);
     fireEvent.click(result.container.querySelectorAll('img')[0]);
-    expect(result.container).isExit('.bg-desc', 1);
+    expect(result.container).isExist('.bg-desc', 1);
     fireEvent.click(result.container.querySelectorAll('img')[1]);
-    expect(result.container).isExit('.bg-desc', 0);
+    expect(result.container).isExist('.bg-desc', 0);
     fireEvent.click(result.container.querySelectorAll('img')[0]);
-    expect(result.container).isExit('.bg-desc', 1);
+    expect(result.container).isExist('.bg-desc', 1);
     act(() => {
       window.dispatchEvent({ type: 'keydown', key: 'Escape', code: 'Escape' });
     });
-    expect(result.container).isExit('.bg-desc', 0);
+    expect(result.container).isExist('.bg-desc', 0);
     result.rerender(<MarkdownRender value={markdownContent} noWrapper />);
-    expect(result.container).isExit('.md-content', 0);
+    expect(result.container).isExist('.md-content', 0);
     off('md-img-loaded', imgLoadFn);
   });
   it('should MarkdownRender.toHtml work well', () => {

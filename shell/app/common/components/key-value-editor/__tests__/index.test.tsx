@@ -54,17 +54,17 @@ describe('KeyValueEditor', () => {
   it('should render well', async () => {
     const { result, editor, rerender } = setUp();
     expect(result.queryByText('Entry Mode')).not.toBeNull();
-    expect(result.container).isExit('.key-value-textarea-wrap', 0);
-    expect(result.container).isExit('.key-value-table-wrap', 1);
+    expect(result.container).isExist('.key-value-textarea-wrap', 0);
+    expect(result.container).isExist('.key-value-table-wrap', 1);
     fireEvent.click(result.getByText('Text Mode'));
     await flushPromises();
-    expect(result.container).isExit('.key-value-textarea-wrap', 1);
-    expect(result.container).isExit('.key-value-table-wrap', 0);
+    expect(result.container).isExist('.key-value-textarea-wrap', 1);
+    expect(result.container).isExist('.key-value-table-wrap', 0);
     expect(editor.current?.getEditData()).toStrictEqual(data);
     fireEvent.click(result.getByText('Entry Mode'));
     await flushPromises();
-    expect(result.container).isExit('.key-value-textarea-wrap', 0);
-    expect(result.container).isExit('.key-value-table-wrap', 1);
+    expect(result.container).isExist('.key-value-textarea-wrap', 0);
+    expect(result.container).isExist('.key-value-table-wrap', 1);
     expect(editor.current?.getEditData()).toStrictEqual(data);
     rerender({ isNeedTextArea: false });
     expect(result.queryByText('Entry Mode')).toBeNull();
@@ -72,11 +72,11 @@ describe('KeyValueEditor', () => {
   it('should work well with validateFields error', async () => {
     const validateFields = jest.fn().mockRejectedValue({});
     const { result } = setUp({ form: { validateFields } });
-    expect(result.container).isExit('.key-value-textarea-wrap', 0);
-    expect(result.container).isExit('.key-value-table-wrap', 1);
+    expect(result.container).isExist('.key-value-textarea-wrap', 0);
+    expect(result.container).isExist('.key-value-table-wrap', 1);
     fireEvent.click(result.getByText('Text Mode'));
     await flushPromises();
-    expect(result.container).isExit('.key-value-textarea-wrap', 0);
-    expect(result.container).isExit('.key-value-table-wrap', 1);
+    expect(result.container).isExist('.key-value-textarea-wrap', 0);
+    expect(result.container).isExist('.key-value-table-wrap', 1);
   });
 });

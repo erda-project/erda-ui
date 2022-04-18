@@ -63,8 +63,8 @@ describe('SettingTabs', () => {
     jest.runAllTimers();
     expect(scrollIntoView).toHaveBeenCalled();
     expect(screen.getByText('application member').closest('li')).toHaveClass('active');
-    expect(result.container).isExit('.group-title', 1);
-    expect(result.container).isExit('.tab-title', dataSource[0].tabGroup.length);
+    expect(result.container).isExist('.group-title', 1);
+    expect(result.container).isExist('.tab-title', dataSource[0].tabGroup.length);
     fireEvent.click(result.getByText(dataSource[0].tabGroup[1].tabTitle));
     expect(spy).toHaveBeenCalledWith({ tabKey: dataSource[0].tabGroup[1].tabKey });
   });
@@ -85,8 +85,8 @@ describe('SettingTabs', () => {
       return fn({ query: {} });
     };
     const result = render(<SettingTabs dataSource={dataSource} />);
-    expect(result.container).isExit('.tab-title', dataSource.length);
-    expect(result.container).isExit('.application-information', 1);
+    expect(result.container).isExist('.tab-title', dataSource.length);
+    expect(result.container).isExist('.application-information', 1);
     expect(screen.getByText('application information').closest('li')).toHaveClass('active');
   });
 });

@@ -61,9 +61,9 @@ describe('DetailsPanel', () => {
 
   it('should work well', () => {
     const result = render(<DetailsPanel {...props} />);
-    expect(result.container).isExit('.anchor-link-title-icon', props.linkList.length);
-    expect(result.container).isExit('.api-icon', 1);
-    expect(result.container).isExit('.custom-components', 1);
+    expect(result.container).isExist('.anchor-link-title-icon', props.linkList.length);
+    expect(result.container).isExist('.api-icon', 1);
+    expect(result.container).isExist('.custom-components', 1);
     expect(result.getByText(baseInfoConf.title)).toBeTruthy();
   });
 });

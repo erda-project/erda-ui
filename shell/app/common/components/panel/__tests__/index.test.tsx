@@ -118,15 +118,15 @@ describe('Panel', () => {
     ];
     setDOMRect(200);
     const result = render(<Panel {...props} isMultiColumn />);
-    expect(result.container).isExitClass('.erda-panel-item', 'ant-col-24');
+    expect(result.container).isExistClass('.erda-panel-item', 'ant-col-24');
     sizeArr.forEach((item) => {
       setDOMRect(item.width);
       fireEvent.click(result.container.querySelector('.mock-resize-observer')!, { target: { width: item.width } });
       jest.runAllTimers();
-      expect(result.container).isExitClass('.erda-panel-item', `ant-col-${item.col}`);
+      expect(result.container).isExistClass('.erda-panel-item', `ant-col-${item.col}`);
     });
     result.rerender(<Panel {...props} isMultiColumn columnNum={3} />);
-    expect(result.container).isExitClass('.erda-panel-item', 'ant-col-8');
+    expect(result.container).isExistClass('.erda-panel-item', 'ant-col-8');
     result.rerender(
       <Panel
         {...props}
@@ -143,7 +143,7 @@ describe('Panel', () => {
         columnNum={3}
       />,
     );
-    expect(result.container).isExitClass('.erda-panel-item', 'ant-col-16');
+    expect(result.container).isExistClass('.erda-panel-item', 'ant-col-16');
     jest.useRealTimers();
   });
 });
