@@ -135,25 +135,21 @@ const ServicesList = ({ taskType }: IProps) => {
   }
 
   return (
-    <>
-      <div className="mb-4">
-        <ClusterSelector clusterList={orgClusterList} onChange={handleClusterChange} />
-      </div>
-      <ErdaTable
-        rowKey="taskID"
-        loading={loading}
-        columns={getClusterTasksCols(userMap)}
-        dataSource={list}
-        pagination={{
-          pageSize,
-          current: pageNo,
-          total,
-          onChange: handlePageChange,
-        }}
-        scroll={{ x: 1200 }}
-        {...extraTableAttr}
-      />
-    </>
+    <ErdaTable
+      slot={<ClusterSelector clusterList={orgClusterList} onChange={handleClusterChange} />}
+      rowKey="taskID"
+      loading={loading}
+      columns={getClusterTasksCols(userMap)}
+      dataSource={list}
+      pagination={{
+        pageSize,
+        current: pageNo,
+        total,
+        onChange: handlePageChange,
+      }}
+      scroll={{ x: 1200 }}
+      {...extraTableAttr}
+    />
   );
 };
 

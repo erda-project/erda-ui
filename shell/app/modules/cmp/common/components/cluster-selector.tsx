@@ -30,7 +30,14 @@ export const ClusterSelector = ({ clusterList, onChange }: IProps) => {
     onChange(val);
   };
   return (
-    <Select onChange={changeCluster} value={selected} style={{ width: 200 }}>
+    <Select
+      className={'bg-black-06 rounded'}
+      onChange={changeCluster}
+      value={selected}
+      style={{ width: 200 }}
+      bordered={false}
+      size={'small'}
+    >
       {map(list, ({ name, displayName }) => (
         <Option key={name} value={name}>
           {displayName || name}
