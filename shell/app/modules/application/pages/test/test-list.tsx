@@ -13,9 +13,9 @@
 
 import React from 'react';
 import { floor } from 'lodash';
-import { Tooltip, Progress, Spin } from 'antd';
+import { Progress, Spin, Tooltip } from 'antd';
 import ErdaTable from 'common/components/table';
-import { goTo, cutStr, secondsToTime, fromNow } from 'common/utils';
+import { cutStr, fromNow, secondsToTime } from 'common/utils';
 import themeColor from 'app/theme-color.mjs';
 import i18n from 'i18n';
 import './test-list.scss';
@@ -58,7 +58,9 @@ const ExecuteResult = ({ totals }: { totals: { tests: number; statuses: TEST.Sta
     <Tooltip title={title} placement="right">
       <Progress
         percent={100}
-        successPercent={passedPercent}
+        success={{
+          percent: passedPercent,
+        }}
         strokeColor={themeColor['default-02']}
         format={(_percent: number, successPercent: number) => `${Math.floor(successPercent)}%`}
       />
