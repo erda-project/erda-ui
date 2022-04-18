@@ -25,8 +25,8 @@ describe('TimeSelectorContainer', () => {
   });
   it('render TimeSelector', () => {
     const result = render(<TimeSelectorContainer />);
-    expect(result.container).isExit('.monitor-time-selector', 1);
+    expect(result.container).isExist('.monitor-time-selector', 1);
     result.rerender(<TimeSelectorContainer rangeMode={false} />);
-    expect(result.container).isExit('.time-range-selector', 1);
+    expect(result.container).isExist('.time-range-selector', 1);
   });
 });

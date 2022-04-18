@@ -314,7 +314,7 @@ describe('MemberSelector', () => {
   });
   it('should work well with uc scope', async () => {
     const { result, getUsersNew, changeFn, rerender, getUsers } = setUp({ scopeType: 'uc' });
-    expect(result.container).isExit('.ant-select', 1);
+    expect(result.container).isExist('.ant-select', 1);
     rerender({ value: '12345', scopeType: 'uc' });
     expect(getUsers).toHaveBeenLastCalledWith({ userID: ['12345'] });
     await act(async () => {
@@ -332,9 +332,9 @@ describe('MemberSelector', () => {
     expect(getUsersNew).toHaveBeenLastCalledWith({ q: 'erda', pageNo: 1, pageSize: 15 });
     fireEvent.mouseDown(result.container.querySelector('.ant-select-selector')!);
     fireEvent.focus(result.getByRole('combobox'));
-    await waitFor(() => expect(result.baseElement).isExit('.ant-select-dropdown', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-select-dropdown', 1));
     await waitFor(() =>
-      expect(result.baseElement).not.isExitClass('.ant-select-dropdown', 'ant-select-dropdown-hidden'),
+      expect(result.baseElement).not.isExistClass('.ant-select-dropdown', 'ant-select-dropdown-hidden'),
     );
     fireEvent.click(result.getByText('erda-api-exec'));
     expect(changeFn).toHaveBeenLastCalledWithNth(0, '23456');
@@ -416,8 +416,8 @@ describe('MemberSelector', () => {
   });
   it('should MemberSelector.Add render well', () => {
     const { result, rerender } = setUp({ scopeType: 'org' }, 'add');
-    expect(result.container).isExit('.ant-select', 1);
+    expect(result.container).isExist('.ant-select', 1);
     rerender({ scopeType: 'app' });
-    expect(result.container).isExit('.load-more-selector', 1);
+    expect(result.container).isExist('.load-more-selector', 1);
   });
 });

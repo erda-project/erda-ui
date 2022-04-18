@@ -56,13 +56,13 @@ describe('Fields', () => {
       setFieldsInfo: jest.fn(),
     };
     const { result, rerender, field } = setUp({}, content);
-    expect(result.container).isExit('.ant-col-24', 1);
+    expect(result.container).isExist('.ant-col-24', 1);
     rerender({}, { ...content, parentIsMultiColumn: true });
-    expect(result.container).isExit('.ant-col-12', 1);
+    expect(result.container).isExist('.ant-col-12', 1);
     rerender({ columnNum: 3 }, { ...content, parentIsMultiColumn: true });
-    expect(result.container).isExit('.ant-col-8', 1);
+    expect(result.container).isExist('.ant-col-8', 1);
     rerender({}, { ...content, parentIsMultiColumn: true, parentColumnNum: 0, realColumnNum: 4 });
-    expect(result.container).isExit('.ant-col-6', 1);
+    expect(result.container).isExist('.ant-col-6', 1);
     rerender({}, { ...content, parentIsMultiColumn: true, parentColumnNum: 0, realColumnNum: 0 });
     expect(result.container.querySelector('.ant-form')?.firstChild).toBeNull();
     rerender({}, undefined);
@@ -85,7 +85,7 @@ describe('Fields', () => {
         isHoldLabel: false,
       },
     ]);
-    expect(result.container).isExit('.no-label', 1);
+    expect(result.container).isExist('.no-label', 1);
     rerender(
       {
         fields: [
@@ -102,21 +102,21 @@ describe('Fields', () => {
       },
       content,
     );
-    expect(result.container).isExit('.no-label', 0);
+    expect(result.container).isExist('.no-label', 0);
     rerender(
       { fields: [{ ...field, readonly: true, customProps: { className: 'read-only-Item', value: 'readOnlyItem' } }] },
       content,
     );
-    expect(result.container).isExit('.read-only-Item', 1);
+    expect(result.container).isExist('.read-only-Item', 1);
     rerender(
       { fields: [{ ...field, customProps: { className: 'read-only-Item', value: 'readOnlyItem' } }], readonly: true },
       content,
     );
-    expect(result.container).isExit('.read-only-Item', 1);
+    expect(result.container).isExist('.read-only-Item', 1);
     rerender(
       { fields: [{ ...field, customProps: { className: 'read-only-Item', value: 'readOnlyItem' } }] },
       { ...content, parentReadonly: <div>readOnlyItem</div> },
     );
-    expect(result.container).isExit('.read-only-Item', 1);
+    expect(result.container).isExist('.read-only-Item', 1);
   });
 });

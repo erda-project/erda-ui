@@ -49,6 +49,6 @@ describe('ConfigLayout', () => {
     const result = render(<ConfigLayout sectionList={sectionList} />);
     expect(result.getAllByText(/sectionList\d-title/)).toHaveLength(2);
     expect(result.getByText('children1')).not.toBeNull();
-    expect(result.container).isExit('.highlight-red', 2);
+    expect(result.container).isExist('.highlight-red', 2);
   });
 });

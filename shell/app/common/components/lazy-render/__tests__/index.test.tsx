@@ -33,11 +33,11 @@ describe('LazyRender', () => {
         <div className="lazy-render-1" />
       </LazyRender>,
     );
-    expect(result.container).isExit('.lazy-render-1', 0);
+    expect(result.container).isExist('.lazy-render-1', 0);
     const observerCallback = window.IntersectionObserver.mock.calls[0][0];
     observerCallback([{ isIntersecting: false }]);
-    expect(result.container).isExit('.lazy-render-1', 0);
+    expect(result.container).isExist('.lazy-render-1', 0);
     observerCallback([{ isIntersecting: true }]);
-    expect(result.container).isExit('.lazy-render-1', 1);
+    expect(result.container).isExist('.lazy-render-1', 1);
   });
 });

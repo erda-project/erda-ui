@@ -72,10 +72,10 @@ describe('user-info', () => {
   });
   it('UserInfo.RenderWithAvatar should work well', () => {
     const result = render(<UserInfo.RenderWithAvatar id={4} />);
-    expect(result.container).isExit('.truncate', 1);
+    expect(result.container).isExist('.truncate', 1);
     result.rerender(<UserInfo.RenderWithAvatar id={2} />);
     expect(result.getByRole('img')).toHaveAttribute('src', avatar);
     result.rerender(<UserInfo.RenderWithAvatar id={2} showName={false} />);
-    expect(result.container).isExit('.truncate', 0);
+    expect(result.container).isExist('.truncate', 0);
   });
 });

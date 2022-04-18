@@ -14,7 +14,7 @@
 import { isEqual } from 'lodash';
 
 expect.extend({
-  isExit(received, selector, expect) {
+  isExist(received, selector, expect) {
     let pass = false;
     let count = 0;
     if (received) {
@@ -25,14 +25,14 @@ expect.extend({
       pass,
       message: () => {
         return [
-          this.utils.matcherHint(`${this.isNot ? '.not' : ''}.isExit`, selector, expect.toString()),
+          this.utils.matcherHint(`${this.isNot ? '.not' : ''}.isExist`, selector, expect.toString()),
           `Expected: ${this.utils.EXPECTED_COLOR(expect)}`,
           `Received: ${this.utils.RECEIVED_COLOR(count)}`,
         ].join('\n');
       },
     };
   },
-  isExitClass(received, selector, expect) {
+  isExistClass(received, selector, expect) {
     let classList = [];
     if (received) {
       const ele = received.querySelector(selector);
@@ -43,7 +43,7 @@ expect.extend({
       pass,
       message: () => {
         return [
-          this.utils.matcherHint(`${this.isNot ? '.not' : ''}.isExitClass`, selector, expect.toString()),
+          this.utils.matcherHint(`${this.isNot ? '.not' : ''}.isExistClass`, selector, expect.toString()),
           `Expected: ${this.utils.EXPECTED_COLOR(expect)}`,
           `Received: ${this.utils.RECEIVED_COLOR(classList.join(', '))}`,
         ].join('\n');

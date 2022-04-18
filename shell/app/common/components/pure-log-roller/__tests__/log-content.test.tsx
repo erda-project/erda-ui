@@ -61,8 +61,8 @@ describe('LogContent', () => {
       };
     };
     const result = render(<LogContent logs={logs} transformContent={transformContentFn} />);
-    expect(result.container).isExit('.log-item', logs.length);
-    expect(result.container).isExit('.log-suffix', logs.length);
+    expect(result.container).isExist('.log-item', logs.length);
+    expect(result.container).isExist('.log-suffix', logs.length);
     expect(result.container.querySelectorAll('.log-item-logtime')[0].innerHTML).toBe(
       formatDate(logs[0].timestamp * 1000),
     );

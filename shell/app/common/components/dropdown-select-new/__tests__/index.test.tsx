@@ -59,12 +59,12 @@ describe('DropdownSelect', () => {
   it('should work well in basic usage', async () => {
     const clickMenuFn = jest.fn();
     const result = render(<DropdownSelect options={options} onClickItem={clickMenuFn} />);
-    expect(result.container).isExit('.erda-dropdown-select', 1);
+    expect(result.container).isExist('.erda-dropdown-select', 1);
     fireEvent.click(result.getByText('please select'));
     await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument());
-    expect(result.baseElement).isExit('.erda-dropdown-select-option-group', 1);
+    expect(result.baseElement).isExist('.erda-dropdown-select-option-group', 1);
 
-    expect(result.baseElement).isExit(itemSelector, 5);
+    expect(result.baseElement).isExist(itemSelector, 5);
     fireEvent.click(screen.getByText(options[0].label).closest(itemSelector)!);
     expect(clickMenuFn).toHaveBeenCalledTimes(1);
     expect(clickMenuFn.mock.calls[0]).toEqual([options[0].key, options[0]]);
@@ -92,24 +92,24 @@ describe('DropdownSelect', () => {
         <div id="trigger">please select</div>
       </DropdownSelect>,
     );
-    expect(result.container).isExit('#trigger', 1);
+    expect(result.container).isExist('#trigger', 1);
     fireEvent.click(result.container.querySelector('#trigger')!);
     await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument());
     expect(screen.getByText('list title')).toBeTruthy();
 
     // FIXME: chosen item not exist when pass custom children
-    // expect(result.baseElement).isExit('.selected-item', 1);
+    // expect(result.baseElement).isExist('.selected-item', 1);
 
     // TODO: add simple mode test
 
-    expect(result.baseElement).isExit('.small', 5);
+    expect(result.baseElement).isExist('.small', 5);
 
     const filterInput = result.baseElement.querySelector('input');
     expect(filterInput).toBeTruthy();
 
     fireEvent.change(filterInput!, { target: { value: 'menu-2' } });
-    expect(result.baseElement).isExit('.erda-dropdown-select-menu input', 1);
+    expect(result.baseElement).isExist('.erda-dropdown-select-menu input', 1);
     // TODO: how to trigger render?
-    // expect(result.baseElement).isExit(itemSelector, 3);
+    // expect(result.baseElement).isExist(itemSelector, 3);
   });
 });

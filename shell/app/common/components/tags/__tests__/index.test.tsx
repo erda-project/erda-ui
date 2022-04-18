@@ -53,13 +53,13 @@ describe('Tags', () => {
   });
   it('should toggle check', () => {
     const result = render(<TagItem label={{ label: 'checked' }} checked={false} />);
-    expect(result.container).isExit('[name="check"]', 0);
+    expect(result.container).isExist('[name="check"]', 0);
     result.rerender(<TagItem label={{ label: 'checked' }} readOnly checked />);
-    expect(result.container).isExit('.icon-tg', 1);
+    expect(result.container).isExist('.icon-tg', 1);
     result.rerender(<TagItem label={{ label: 'checked' }} checked />);
-    expect(result.container).isExit('[name="check"]', 1);
+    expect(result.container).isExist('[name="check"]', 1);
     fireEvent.click(result.container.querySelector('[name="check"]')!);
-    expect(result.container).isExit('[name="check"]', 0);
+    expect(result.container).isExist('[name="check"]', 0);
   });
 
   it('should delete well', async () => {
