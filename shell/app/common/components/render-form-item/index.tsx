@@ -113,7 +113,7 @@ export interface IFormItem {
   extraProps?: object;
   rules?: any[];
   config?: object;
-  options?: Array<{ name: string; value: string | number; disabled?: boolean }> | Function;
+  options?: Array<{ name?: string; label?: string; value: string | number; disabled?: boolean }> | Function;
   suffix?: string | null;
   formItemLayout?: object;
   className?: string;
