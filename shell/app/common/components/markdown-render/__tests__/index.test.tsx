@@ -41,6 +41,7 @@ describe('MarkdownRender', () => {
   link: [link](https://erda.cloud)
 
   image: ![alt text](https://erda.cloud/img.png)
+  image: ![empty src]()
 
   bold: **bold**
   italic: *italic*
