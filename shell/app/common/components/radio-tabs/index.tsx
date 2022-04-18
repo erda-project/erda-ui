@@ -101,7 +101,7 @@ const RadioTabs = <T extends string | number>(props: RadioTabsProps<T>) => {
                 {children.map((g) => {
                   return (
                     <Menu.Item className={`${sv === g.value ? 'text-primary bg-default-06' : ''}`} key={g.value}>
-                      {g.label}
+                      {allWordsFirstLetterUpper(g.label)}
                     </Menu.Item>
                   );
                 })}
@@ -114,7 +114,7 @@ const RadioTabs = <T extends string | number>(props: RadioTabsProps<T>) => {
                 <RadioItem value={itemValue} key={itemValue} disabled={disabled}>
                   <div className="inline-flex justify-between items-center">
                     {icon ? <ErdaIcon size={18} type={icon} className="mr-1" /> : null}
-                    <span className="nowrap">{child?.label}</span>
+                    <span className="nowrap">{allWordsFirstLetterUpper(child?.label)}</span>
                     <ErdaIcon size="18" type="caret-down" className="ml-1" />
                   </div>
                 </RadioItem>
