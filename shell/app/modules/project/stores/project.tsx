@@ -90,6 +90,11 @@ const project = createStore({
       }
       if (isIn('project')) {
         if (`${curProjectId}` !== projectId) {
+          // To update the projectID in the menus in a timely manner
+          layoutStore.reducers.setSubSiderInfoMap({
+            key: 'project',
+            menu: getProjectMenu(projectId, location.pathname),
+          });
           loadingInProject = true;
           issueWorkflowStore.getStatesByIssue({ projectID: +projectId });
           // 项目切换后才重新checkRouteAuth
