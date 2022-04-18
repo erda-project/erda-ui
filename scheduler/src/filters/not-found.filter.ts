@@ -54,6 +54,7 @@ $ta('start', { udata: { uid: 0 }, ak: "${TERMINUS_KEY}", url: "${TERMINUS_TA_COL
 `;
   newContent = newContent.replace('<!-- $ta -->', taContent);
 }
+const [before, after] = newContent.split('<!-- $data -->');
 
 @Catch(NotFoundException)
 export class NotFoundExceptionFilter implements ExceptionFilter {
@@ -80,19 +81,16 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
       const initData: any = {};
       const orgName = request.path.split('/')[1];
       const domain = request.hostname.replace('local.', '');
-      const times = [];
       try {
-        times.push(Date.now());
         const callList = [
           callApi('/api/users/me'),
-          callApi('/api/orgs', { params: { pageNo: 1, pageSize: 100 } }),
-          callApi(`/api/permissions/actions/access`, { method: 'POST', data: { scope: { type: 'sys', id: '0' } } }),
+          callApi('/api/orgs', { params: { pageNo: 1, pageSize: 100 }, headers: { org: 'org' } }), // pass header org={notEmpty} to get joined orgs for system admin user
+          callApi('/api/permissions/actions/access', { method: 'POST', data: { scope: { type: 'sys', id: '0' } } }),
         ];
         if (orgName && orgName !== '-') {
           callList.push(callApi('/api/orgs/actions/get-by-domain', { params: { orgName, domain } }));
         }
         const respList = await Promise.allSettled(callList);
-        times.push(Date.now());
         const [userRes, orgListRes, sysAccessRes, orgRes] = respList.map((res) =>
           res.status === 'fulfilled' ? { ...res.value.data, status: res.value.status } : null,
         );
@@ -102,7 +100,6 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
           });
           if (loginRes?.data?.url) {
             response.redirect(loginRes.data.url);
-            console.log('redirect:', loginRes.data.url);
             return;
           }
         }
@@ -124,11 +121,10 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         if (orgRes?.data) {
           initData.orgId = orgRes.data.id; // current org should be in org list, just send id as fewest data
           if (initData.orgId) {
-            const orgAccessRes: any = await callApi(`/api/permissions/actions/access`, {
+            const orgAccessRes = await callApi(`/api/permissions/actions/access`, {
               method: 'POST',
               data: { scope: { type: 'org', id: `${initData.orgId}` } },
             });
-            times.push(Date.now());
             if (orgAccessRes?.data) {
               let { permissionList, resourceRoleList } = orgAccessRes.data.data;
               permissionList = permissionList.filter((p) => p.resource.startsWith('UI'));
@@ -141,17 +137,17 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         logger.error(e);
         initData.err = '服务暂时不可用 (service is unavailable)';
       }
-      console.log('time cost:', times[times.length - 1] - times[0], times);
       response.setHeader('cache-control', 'no-store');
       response.send(
-        newContent.replace(
-          '<!-- $data -->',
+        [
+          before,
           `<script>${
             initData.err
               ? `document.querySelector("#erda-skeleton").innerText="${initData.err}"`
               : `window.initData=${JSON.stringify(initData)}`
           }</script>`,
-        ),
+          after,
+        ].join(''),
       );
     } else {
       response.statusCode = 404;
