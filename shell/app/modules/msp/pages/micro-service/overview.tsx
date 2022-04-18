@@ -133,7 +133,7 @@ const Overview = () => {
             return {
               key: t.name,
               value: t.renderData(item),
-              compWapper: (comp: JSX.Element) => <>{comp}</>,
+              compWapper: (comp: JSX.Element) => <React.Fragment key={t.name}>{comp}</React.Fragment>,
             };
           }),
           itemProps: {
