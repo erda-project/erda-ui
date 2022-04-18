@@ -180,6 +180,10 @@ export const getMRStats = ({
     .then((response: any) => response.body);
 };
 
+export const getAppMRStatsCount = ({ repoPrefix }: { repoPrefix: string }): REPOSITORY.MRStatsCount => {
+  return agent.get(`/api/repo/${repoPrefix}/merge-request-stats`).then((response: any) => response.body);
+};
+
 export const createMR = ({
   repoPrefix,
   ...data

@@ -39,6 +39,7 @@ import {
   getAvailableAddonList,
   createMR,
   getMRStats,
+  getAppMRStatsCount,
   getMRDetail,
   getAddonVersions,
   getAddonInstanceList,
@@ -148,6 +149,7 @@ const initState = {
   mr: {} as REPOSITORY.MRItem,
   mrList: [] as REPOSITORY.MRItem[],
   mrStats: {} as REPOSITORY.IMrStats,
+  mrStatsCount: {} as REPOSITORY.MRStatsCount,
   mrDetail: {},
   comments: [] as REPOSITORY.MrNote[],
   commitDetail: {} as REPOSITORY.CommitDetail,
@@ -582,6 +584,14 @@ const repoStore = createStore({
         ...payload,
       });
       update({ mrStats });
+    },
+    async getAppMRStatsCount({ call, update }) {
+      const appDetail = await getAppDetail();
+      const mrStatsCount = await call(getAppMRStatsCount, {
+        repoPrefix: appDetail.gitRepoAbbrev,
+      });
+
+      update({ mrStatsCount });
     },
     async createMR({ call }, payload: Omit<REPOSITORY.Mr, 'action'>) {
       const appDetail = await getAppDetail();
