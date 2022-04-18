@@ -147,11 +147,7 @@ const PureMenu = (props: IMenu) => {
   return (
     <div className={tabClass}>
       <ul className="tab-item-wraps flex w-full whitespace-nowrap">
-        <div>
-          {splitIndex
-            ? finalMenus.slice(0, splitIndex !== -1 ? splitIndex : 0).map((menu: IMenuItem) => renderMenu(menu))
-            : null}
-        </div>
+        <div>{finalMenus.slice(0, splitIndex !== -1 ? splitIndex : 0).map((menu: IMenuItem) => renderMenu(menu))}</div>
         <div className="flex-1 overflow-x-auto tab-scroll-container">
           {finalMenus.slice(splitIndex !== -1 ? splitIndex : undefined).map((menu: IMenuItem) => renderMenu(menu))}
         </div>

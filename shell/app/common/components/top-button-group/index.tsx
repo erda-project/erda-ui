@@ -18,16 +18,16 @@ interface IProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivEle
   children: React.ReactNode;
 }
 
-const TopButtonGroup = ({ children, ...props }: IProps) => {
+const TopButtonGroup = ({ children, className, ...props }: IProps) => {
   const { updateTopButtonsWidth } = layoutStore.reducers;
 
   React.useEffect(() => {
-    const width = document.getElementsByClassName('top-button-group')[0].clientWidth;
+    const width = document.getElementsByClassName('top-button-group')[0]?.clientWidth || 0;
     updateTopButtonsWidth(width + 16);
   }, []);
 
   return (
-    <div className="top-button-group" {...props}>
+    <div className={`top-button-group ${className || ''}`} {...props}>
       {children}
     </div>
   );
