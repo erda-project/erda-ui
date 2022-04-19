@@ -114,7 +114,6 @@ module.exports = (api) => {
             libraryName: 'antd',
             customName(name, file) {
               if (overwriteMap[name]) {
-                console.log(name, `app/antd-overwrite/${name}`);
                 return `app/antd-overwrite/${name}`;
               }
               return `antd/es/${name}`;

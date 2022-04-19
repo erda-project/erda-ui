@@ -17,9 +17,18 @@ import { allWordsFirstLetterUpper } from 'common/utils';
 
 const Button = React.forwardRef(({ children, ...props }: any, ref) => {
   if (typeof children === 'string') {
-    return <AntdButton {...props}>{allWordsFirstLetterUpper(children)}</AntdButton>;
+    return (
+      <AntdButton {...props} ref={ref}>
+        {allWordsFirstLetterUpper(children)}
+      </AntdButton>
+    );
   }
-  return <AntdButton {...props}>{children}</AntdButton>;
+  return (
+    <AntdButton {...props} ref={ref}>
+      {children}
+    </AntdButton>
+  );
 }) as unknown as typeof AntdButton;
 
+Button.Group = AntdButton.Group;
 export default Button;
