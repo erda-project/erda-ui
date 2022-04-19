@@ -39,6 +39,8 @@ describe('SimpleLog', () => {
     fireEvent.change(result.getByRole('textbox'), { target: { value: 'cloud' } });
     fireEvent.click(result.container.querySelector('.log-search-btn')!);
     await flushPromises();
-    expect(result.container.querySelector('.props-query')?.innerHTML).toBe(JSON.stringify({ requestId: 'cloud' }));
+    expect(result.container.querySelector('.props-query')?.innerHTML).toBe(
+      JSON.stringify({ ...query, requestId: 'cloud' }),
+    );
   });
 });
