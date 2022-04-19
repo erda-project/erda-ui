@@ -35,12 +35,13 @@ export const updaterMachineLabels = (payload: ORG_MACHINE.IMachineLabelBody): { 
 };
 
 export interface IOpHistoryQuery {
-  orgID: number;
-  clusterName: string;
-  pageNo: number;
+  orgID?: number;
+  clusterName?: string;
+  pageNo?: number;
   pageSize?: number;
   recordType?: string;
   scope?: string;
+  recordIDs?: number;
 }
 export const getClusterOperationHistory = (
   payload: IOpHistoryQuery,

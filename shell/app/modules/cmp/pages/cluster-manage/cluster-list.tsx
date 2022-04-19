@@ -148,44 +148,41 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
     }
   };
 
-  const submitDelete = ({ clusterName }: { clusterName: string }) => {
+  const reloadClusterOperations = (recordIDs: number) => {
     // 删除后根据recordID查看操作纪录接口中的详情作为提示
-    deleteCluster({ clusterName, preCheck: true }).then((deleteRes: any) => {
-      const { recordID: deleteRecordID } = deleteRes || {};
+    getClusterOperationHistory({ recordIDs }).then((listRes: IPagingResp<ORG_MACHINE.IClusterOperateRecord>) => {
+      const curRecord = get(listRes, 'data.list[0]') || ({} as ORG_MACHINE.IClusterOperateRecord);
+      if (curRecord && curRecord.status === 'failed') {
+        notify('error', curRecord.detail);
+      }
+    });
+
+    if (reloadRef.current && reloadRef.current.reload) {
+      reloadRef.current.reload();
+    }
+  };
+
+  const submitDelete = ({ clusterName }: { clusterName: string }) => {
+    deleteCluster({ clusterName, preCheck: true }).then((deleteRes: { recordID: number; preCheckHint: string }) => {
       if (deleteRes.preCheckHint) {
         updater.offlineErrorInfo(deleteRes.preCheckHint);
-        return;
-      }
-      deleteRecordID &&
-        getClusterOperationHistory({ recordIDs: deleteRecordID } as any).then((listRes: any) => {
-          const curRecord = get(listRes, 'data.list[0]') || ({} as any);
-          if (curRecord && curRecord.status === 'failed') {
-            notify('error', curRecord.detail);
-          }
+      } else {
+        deleteCluster({ clusterName }).then((deleteRes: any) => {
+          const { recordID } = deleteRes || {};
+          recordID && reloadClusterOperations(recordID);
+          toggleDeleteModal();
         });
-      if (reloadRef.current && reloadRef.current.reload) {
-        reloadRef.current.reload();
       }
-      toggleDeleteModal();
     });
   };
 
   const submitForceOffline = ({ clusterName }: { clusterName: string }) => {
-    deleteCluster({ clusterName, force: true }).then((deleteRes: any) => {
-      const { recordID: deleteRecordID } = deleteRes || {};
-      deleteRecordID &&
-        getClusterOperationHistory({ recordIDs: deleteRecordID } as any).then((listRes: any) => {
-          const curRecord = get(listRes, 'data.list[0]') || ({} as any);
-          if (curRecord && curRecord.status === 'failed') {
-            notify('error', curRecord.detail);
-          }
-        });
-      if (reloadRef.current && reloadRef.current.reload) {
-        reloadRef.current.reload();
-      }
+    deleteCluster({ clusterName, force: true }).then((deleteRes: { recordID: number }) => {
+      const { recordID } = deleteRes || {};
+      recordID && reloadClusterOperations(recordID);
+      updater.offlineErrorInfo('');
+      toggleDeleteModal();
     });
-    updater.offlineErrorInfo('');
-    toggleDeleteModal();
   };
 
   const showCommand = React.useCallback(
