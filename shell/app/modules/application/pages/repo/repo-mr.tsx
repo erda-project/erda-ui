@@ -17,18 +17,22 @@ import { find } from 'lodash';
 import { goTo } from 'common/utils';
 import { RepoMrTable } from './components/repo-mr-table';
 import i18n from 'i18n';
-import repoStore from 'application/stores/repo';
+import repoStore, { getAppDetail } from 'application/stores/repo';
+import { getAppMRStatsCount } from 'application/services/repo';
 import { WithAuth, usePerm } from 'user/common';
 import { ErdaAlert, RadioTabs } from 'common';
 
 const PureRepoMR = () => {
-  const [info, mrStatsCount] = repoStore.useStore((s) => [s.info, s.mrStatsCount]);
-  const { getAppMRStatsCount } = repoStore.effects;
+  const info = repoStore.useStore((s) => s.info);
+  const mrStatsCount = getAppMRStatsCount.useData();
   const permObj = usePerm((s) => s.app.repo.mr);
   const [mrType, setMrType] = React.useState('open');
 
   React.useEffect(() => {
-    getAppMRStatsCount();
+    getAppDetail().then((res) => {
+      const [projectName, appName] = res.gitRepoAbbrev.split('/');
+      getAppMRStatsCount.fetch({ projectName, appName });
+    });
   }, [mrType]);
 
   const getMrTypeCount = (type: string) => {
