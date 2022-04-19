@@ -72,6 +72,7 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
     curDeleteCluster: null as null | ORG_CLUSTER.ICluster,
     deleteClusterName: '',
     registerCommandVisible: false,
+    offlineErrorInfo: '',
   });
 
   const reloadRef = React.useRef<Obj | null>(null);
@@ -149,7 +150,28 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
 
   const submitDelete = ({ clusterName }: { clusterName: string }) => {
     // 删除后根据recordID查看操作纪录接口中的详情作为提示
-    deleteCluster({ clusterName }).then((deleteRes: any) => {
+    deleteCluster({ clusterName, preCheck: true }).then((deleteRes: any) => {
+      const { recordID: deleteRecordID } = deleteRes || {};
+      if (deleteRes.preCheckHint) {
+        updater.offlineErrorInfo(deleteRes.preCheckHint);
+        return;
+      }
+      deleteRecordID &&
+        getClusterOperationHistory({ recordIDs: deleteRecordID } as any).then((listRes: any) => {
+          const curRecord = get(listRes, 'data.list[0]') || ({} as any);
+          if (curRecord && curRecord.status === 'failed') {
+            notify('error', curRecord.detail);
+          }
+        });
+      if (reloadRef.current && reloadRef.current.reload) {
+        reloadRef.current.reload();
+      }
+      toggleDeleteModal();
+    });
+  };
+
+  const submitForceOffline = ({ clusterName }: { clusterName: string }) => {
+    deleteCluster({ clusterName, force: true }).then((deleteRes: any) => {
       const { recordID: deleteRecordID } = deleteRes || {};
       deleteRecordID &&
         getClusterOperationHistory({ recordIDs: deleteRecordID } as any).then((listRes: any) => {
@@ -162,6 +184,7 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
         reloadRef.current.reload();
       }
     });
+    updater.offlineErrorInfo('');
     toggleDeleteModal();
   };
 
@@ -223,6 +246,23 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.deleteClusterName(e.target.value)}
             />
           }
+          hasTriggerContent={false}
+        />
+      )}
+      {state.offlineErrorInfo && (
+        <ConfirmDelete
+          title={i18n.t('cmp:Whether to be forced offline')}
+          onConfirm={() => submitForceOffline({ clusterName: state.deleteClusterName })}
+          secondTitle={
+            <div>
+              <div className="mb-2">{i18n.t('cmp:Unable to go offline normally')} :</div>
+              <div>{state.offlineErrorInfo}</div>
+            </div>
+          }
+          onCancel={() => {
+            toggleDeleteModal();
+            updater.offlineErrorInfo('');
+          }}
           hasTriggerContent={false}
         />
       )}
