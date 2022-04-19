@@ -43,7 +43,7 @@
     margin-bottom: 4px;
     padding-right: 6px;
     padding-left: 6px;
-    color: $white;
+    color: $gray;
     font-size: 14px;
     line-height: 28px;
     border-radius: $radius;
@@ -76,7 +76,12 @@
   }
 }
 
-.tags-row-tooltip {
+// .body is used to add weight to the style
+body .tags-row-tooltip {
   min-width: 300px;
   max-width: 800px;
+
+  div.ant-tooltip-inner {
+    background-color: $white;
+  }
 }
