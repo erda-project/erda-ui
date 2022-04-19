@@ -13,39 +13,73 @@
 
 import { Button, Card } from 'antd';
 import React from 'react';
+import { find } from 'lodash';
 import { goTo } from 'common/utils';
 import { RepoMrTable } from './components/repo-mr-table';
 import i18n from 'i18n';
-import repoStore from 'application/stores/repo';
+import repoStore, { getAppDetail } from 'application/stores/repo';
+import { getAppMRStatsCount } from 'application/services/repo';
 import { WithAuth, usePerm } from 'user/common';
 import { ErdaAlert, RadioTabs } from 'common';
 
 const PureRepoMR = () => {
   const info = repoStore.useStore((s) => s.info);
+  const mrStatsCount = getAppMRStatsCount.useData();
   const permObj = usePerm((s) => s.app.repo.mr);
   const [mrType, setMrType] = React.useState('open');
+
+  React.useEffect(() => {
+    getAppDetail().then((res) => {
+      const [projectName, appName] = res.gitRepoAbbrev.split('/');
+      getAppMRStatsCount.fetch({ projectName, appName });
+    });
+  }, [mrType]);
+
+  const getMrTypeCount = (type: string) => {
+    return mrStatsCount ? find(mrStatsCount.stats, (item) => item.state === type)?.total : 0;
+  };
+
+  const openCount = Number(getMrTypeCount('open'));
+  const closedCount = Number(getMrTypeCount('closed'));
+  const mergedCount = Number(getMrTypeCount('merged'));
+  const allCount = openCount + closedCount + mergedCount;
 
   const options = [
     {
       value: 'all',
-      label: i18n.t('All'),
+      label: (
+        <span>
+          {i18n.t('All')}
+          <span className="ml-1">({allCount})</span>
+        </span>
+      ),
     },
     {
       value: 'open',
       label: (
         <span>
           {i18n.t('dop:Open')}
-          <span className="ml-1">({info ? info.mergeRequestCount : 0})</span>
+          <span className="ml-1">({openCount})</span>
         </span>
       ),
     },
     {
       value: 'merged',
-      label: i18n.t('dop:have merged'),
+      label: (
+        <span>
+          {i18n.t('dop:have merged')}
+          <span className="ml-1">({mergedCount})</span>
+        </span>
+      ),
     },
     {
       value: 'closed',
-      label: i18n.t('Closed'),
+      label: (
+        <span>
+          {i18n.t('Closed')}
+          <span className="ml-1">({closedCount})</span>
+        </span>
+      ),
     },
   ];
   return (

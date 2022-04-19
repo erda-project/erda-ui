@@ -120,7 +120,7 @@ export const getSubList = (info: Obj, { projectId, appId }: { projectId: string;
   ];
 };
 
-const getAppDetail: () => Promise<IApplication> = () =>
+export const getAppDetail: () => Promise<IApplication> = () =>
   new Promise((resolve) => {
     const [{ appId: appIdParams }, { applicationId: appIdQuery }] = routeInfoStore.getState((s) => [s.params, s.query]);
     let appDetail = appStore.getState((s) => s.detail);
