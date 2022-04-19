@@ -509,7 +509,7 @@ const DateRangeFilterItem = ({
         format={'YYYY/MM/DD'}
         allowClear={!required}
         onChange={(v) => onChange({ key, value: getTimeValue([v?.valueOf(), endDate]) })}
-        placeholder={i18n.t('common:startDate')}
+        placeholder={i18n.t('common:Start date')}
       />
       <span className="text-desc">{i18n.t('common:to')}</span>
       <DatePicker
@@ -520,7 +520,7 @@ const DateRangeFilterItem = ({
         value={endDate ? moment(endDate) : undefined}
         disabledDate={disabledDate(false)}
         format={'YYYY/MM/DD'}
-        placeholder={i18n.t('common:endDate')}
+        placeholder={i18n.t('common:End date')}
         onChange={(v) => onChange({ key, value: getTimeValue([startDate, v?.valueOf()]) })}
       />
     </span>

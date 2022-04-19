@@ -17,7 +17,7 @@ import { difference, map } from 'lodash';
 import { EditField, ErdaIcon, MemberSelector } from 'common';
 import { Link } from 'react-router-dom';
 import { getIssueRelation, updateIncludeIssue } from 'project/services/issue';
-import { goTo, insertWhen, isPromise } from 'common/utils';
+import { goTo, insertWhen, isPromise, firstCharToUpper } from 'common/utils';
 import {
   BUG_SEVERITY_MAP,
   ISSUE_COMPLEXITY_MAP,
@@ -320,6 +320,7 @@ const IssueMetaFields = React.forwardRef(
           name: propertyName,
           label: displayName,
           required,
+          isCustom: true,
           icon: 'zidingyi-form',
           type: FIELD_TYPE_ICON_MAP[propertyType]?.component,
           showRequiredMark: required,
@@ -425,7 +426,7 @@ const IssueMetaFields = React.forwardRef(
           className: 'mb-3 w-full',
           type: 'custom',
           name: 'owner',
-          label: i18n.t('dop:responsible person'),
+          label: i18n.t('dop:Principal'),
           getComp: ({ value, onSave }: Pick<GetCompProps, 'value' | 'onSave'>) => {
             return (
               <MemberSelector
@@ -529,7 +530,7 @@ const IssueMetaFields = React.forwardRef(
         icon: 'jihuashijian',
         className: 'mb-3 w-full',
         name: 'planStartedAt',
-        label: i18n.t('common:start at'),
+        label: i18n.t('common:start time'),
         type: 'datePicker',
         showRequiredMark: ISSUE_TYPE.EPIC === issueType,
         itemProps: {
@@ -540,7 +541,7 @@ const IssueMetaFields = React.forwardRef(
         icon: 'jihuashijian',
         className: 'mb-3 w-full',
         name: 'planFinishedAt',
-        label: i18n.t('End date'),
+        label: i18n.t('End time'),
         type: 'datePicker',
         showRequiredMark: ISSUE_TYPE.EPIC === issueType,
         itemProps: {
@@ -838,6 +839,9 @@ const IssueMetaFields = React.forwardRef(
         {widthHolder}
         <Row gutter={16}>
           {editFieldList.map((fieldProps) => {
+            if (!fieldProps.isCustom) {
+              fieldProps.label = firstCharToUpper(fieldProps.label);
+            }
             const fieldContent = (
               <EditField
                 ref={(r) => {

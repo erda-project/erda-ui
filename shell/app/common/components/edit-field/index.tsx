@@ -274,7 +274,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
           value={editValue}
           onChange={onSelectChange}
           onBlur={() => onBlur()}
-          placeholder={placeHolder || (label && `${i18n.t('dop:please set ')}${label}`)}
+          placeholder={placeHolder || (label && i18n.t('dop:Please set the label'))}
           disabled={disabled}
           {...rest}
           className={`w-full hover:bg-default-06 ${rest?.className || ''}`}

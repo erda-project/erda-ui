@@ -259,7 +259,7 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
         {i18n.t('Cancel')}
       </Button>
       <Button key="submit" type="primary" disabled={loading} onClick={handleOk}>
-        {i18n.t('ok')}
+        {i18n.t('Ok')}
       </Button>
     </>
   );

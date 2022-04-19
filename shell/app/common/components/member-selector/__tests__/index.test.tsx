@@ -362,7 +362,7 @@ describe('MemberSelector', () => {
     expect(changeFn).toHaveBeenLastCalledWithNth(0, '23456');
     fireEvent.click(result.getAllByText('Choose yourself')[1]);
     expect(changeFn).toHaveBeenLastCalledWithNth(0, '12345');
-    fireEvent.click(result.getByText('unspecified'));
+    fireEvent.click(result.getByText('Unspecified'));
     expect(changeFn).toHaveBeenLastCalledWithNth(0, 'unassigned');
   });
   it('should work well with sys scope', async () => {
@@ -389,7 +389,7 @@ describe('MemberSelector', () => {
     });
     fireEvent.click(result.getByLabelText('close'));
     expect(changeFn).toHaveBeenLastCalledWithNth(0, []);
-    fireEvent.click(result.getByText('unspecified'));
+    fireEvent.click(result.getByText('Unspecified'));
     rerender({
       scopeType: 'sys',
       mode: 'multiple',

@@ -615,7 +615,7 @@ export const getAvatarChars = (name: string) => {
   }
 };
 
-export const firstCharToUpper = (str: string) => {
+export const firstCharToUpper = (str?: string) => {
   if (typeof str !== 'string') return str;
   return str.replace(/^\w/, (s) => s.toUpperCase());
 };

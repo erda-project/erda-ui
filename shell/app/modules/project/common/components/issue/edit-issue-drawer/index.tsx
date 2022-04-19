@@ -31,6 +31,7 @@ import { useLoading } from 'core/stores/loading';
 import { IssueDrawer } from 'project/common/components/issue/issue-drawer';
 import { IssueCommentBox } from 'project/common/components/issue/comment-box';
 import { IssueActivities } from 'project/common/components/issue/issue-activities';
+import { firstCharToUpper } from 'common/utils';
 import { mergeSearch, updateSearch } from 'common/utils/query-string';
 import iterationStore from 'app/modules/project/stores/iteration';
 import labelStore from 'project/stores/label';
@@ -649,7 +650,7 @@ export const EditIssueDrawer = (props: IProps) => {
       <Spin key="submit" spinning={updateIssueLoading}>
         <div className="pl-8 py-2 space-x-2 border-solid border-transparent border-top">
           <Button disabled={disableSubmit} onClick={() => handleSubmit()} type="primary">
-            {i18n.t('ok')}
+            {i18n.t('Ok')}
           </Button>
 
           {isChanged && confirmCloseTip ? (
@@ -773,7 +774,7 @@ export const EditIssueDrawer = (props: IProps) => {
             autoFocus: !isEditMode,
             className: 'text-xl text-normal px-2 font-medium',
             maxLength: 255,
-            placeholder: specialProps.titlePlaceHolder,
+            placeholder: firstCharToUpper(specialProps.titlePlaceHolder),
           }}
         />
         <IssueMetaFields

@@ -172,7 +172,7 @@ const Execute = (props: IProps) => {
   const nodeClickConfirm = (node: BUILD.PipelineNode) => {
     const disabled = node.status === 'Disabled';
     confirm({
-      title: i18n.t('ok'),
+      title: i18n.t('Ok'),
       className: 'node-click-confirm',
       content: i18n.t('dop:whether {action} task {name}', {
         action: disabled ? i18n.t('Enable-open') : i18n.t('close'),

@@ -21,6 +21,7 @@ import routeInfoStore from 'core/stores/route';
 import moment from 'moment';
 import iterationStore from 'app/modules/project/stores/iteration';
 import i18n from 'i18n';
+import { firstCharToUpper } from 'common/utils';
 
 const { Option } = Select;
 
@@ -118,7 +119,7 @@ export default ({
           : undefined
       }
       onChange={onChange}
-      placeholder={placeholder}
+      placeholder={firstCharToUpper(placeholder)}
       allowClear={allowClear}
       mode={mode}
     >

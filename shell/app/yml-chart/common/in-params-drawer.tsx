@@ -82,7 +82,7 @@ const InParamsDrawer = (props: IInPramasDrawerProps) => {
               {i18n.t('Cancel')}
             </Button>
             <Button onClick={onSubmit} type="primary">
-              {i18n.t('ok')}
+              {i18n.t('Ok')}
             </Button>
           </div>
         </>

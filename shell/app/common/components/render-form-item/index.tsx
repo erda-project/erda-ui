@@ -512,7 +512,7 @@ const DateRange = ({
         format={'YYYY/MM/DD'}
         allowClear={!required}
         onChange={(v) => onChange(getTimeValue([v?.startOf?.('day').valueOf(), endDate]))}
-        placeholder={i18n.t('common:startDate')}
+        placeholder={i18n.t('common:Start date')}
         open={startOpen}
         onOpenChange={setStartOpen}
       />
@@ -525,7 +525,7 @@ const DateRange = ({
         value={endDate ? moment(endDate) : undefined}
         disabledDate={disabledDate(false)}
         format={'YYYY/MM/DD'}
-        placeholder={i18n.t('common:endDate')}
+        placeholder={i18n.t('common:End date')}
         onChange={(v) => onChange(getTimeValue([startDate, v?.endOf?.('day').valueOf()]))}
         open={endOpen}
         onOpenChange={setEndOpen}
