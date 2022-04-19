@@ -557,7 +557,6 @@ describe('ContractiveFilter', () => {
                 };
           }),
       });
-      expect(result.baseElement).toMatchSnapshot();
       fireEvent.mouseDown(result.getByPlaceholderText('Start date'));
       fireEvent.focus(result.getByPlaceholderText('Start date'));
       await waitFor(() => expect(result.baseElement).isExist('.ant-picker-range-wrapper', 1));
