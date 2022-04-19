@@ -360,7 +360,7 @@ describe('MembersTable', () => {
     fireEvent.click(result.getByText('Edit').closest('li')!);
     await act(async () => {
       jest.runAllTimers();
-      fireEvent.click(result.getByText('ok'));
+      fireEvent.click(result.getByText('Ok'));
       await flushPromises();
     });
     expect(updateMembers).toHaveBeenCalled();

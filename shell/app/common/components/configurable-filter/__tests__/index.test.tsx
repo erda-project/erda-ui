@@ -252,7 +252,7 @@ describe('ConfigurableFilter', () => {
       target: { value: 'ErdaFilter' },
     });
     await act(async () => {
-      fireEvent.click(result.getByText('ok'));
+      fireEvent.click(result.getByText('Ok'));
       await flushPromises();
     });
     expect(saveFilterFn).toHaveBeenLastCalledWith('ErdaFilter', {

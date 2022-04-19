@@ -303,12 +303,12 @@ describe('RenderFormItem', () => {
           },
         },
       });
-      fireEvent.mouseDown(result.getByPlaceholderText('startDate'));
-      fireEvent.focus(result.getByPlaceholderText('startDate'));
+      fireEvent.mouseDown(result.getByPlaceholderText('Start date'));
+      fireEvent.focus(result.getByPlaceholderText('Start date'));
       await waitFor(() => expect(result.baseElement).isExist('.ant-picker-dropdown', 1));
       fireEvent.click(result.baseElement.querySelector(`[title="${todayStr}"]`)!);
-      fireEvent.mouseDown(result.getByPlaceholderText('endDate'));
-      fireEvent.focus(result.getByPlaceholderText('endDate'));
+      fireEvent.mouseDown(result.getByPlaceholderText('End date'));
+      fireEvent.focus(result.getByPlaceholderText('End date'));
       await waitFor(() => expect(result.baseElement).isExist('.ant-picker-dropdown', 2));
       fireEvent.click(result.baseElement.querySelectorAll(`[title="${tomorrowStr}"]`)[1]!);
       expect(formRef?.getFieldValue('name')).toStrictEqual([

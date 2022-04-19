@@ -49,7 +49,7 @@ describe('ConfirmDelete', () => {
     expect(wrapper.container.querySelectorAll('.confirm-children').length).toBe(1);
     fireEvent.click(wrapper.container.querySelector('.confirm-children')!);
     await waitFor(() => expect(wrapper.queryByText(title)).toBeInTheDocument());
-    fireEvent.click(screen.getByText('ok'));
+    fireEvent.click(screen.getByText('Ok'));
     expect(onConfirmFn).toHaveBeenCalled();
     fireEvent.click(wrapper.container.querySelector('.confirm-children')!);
     await waitFor(() => expect(wrapper.queryByText(title)).toBeInTheDocument());
