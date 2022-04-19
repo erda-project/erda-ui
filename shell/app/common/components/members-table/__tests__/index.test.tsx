@@ -433,4 +433,14 @@ describe('MembersTable', () => {
       setConfig('history', undefined);
     },
   );
+  it('should work well without add', () => {
+    const result = render(
+      <MembersTable
+        showAuthorize
+        scopeKey={MemberScope.ORG}
+        overwriteAuth={{ showAuthorize: true, edit: true, delete: true, add: false }}
+      />,
+    );
+    expect(result.queryByText('Add')).toBeNull();
+  });
 });
