@@ -43,7 +43,7 @@
     margin-bottom: 4px;
     padding-right: 6px;
     padding-left: 6px;
-    color: $white;
+    color: $color-default-4;
     font-size: 14px;
     line-height: 28px;
     border-radius: $radius;
@@ -76,7 +76,11 @@
   }
 }
 
-.tags-row-tooltip {
+body .tags-row-tooltip {
   min-width: 300px;
   max-width: 800px;
+
+  div.ant-tooltip-inner {
+    background-color: $white;
+  }
 }
