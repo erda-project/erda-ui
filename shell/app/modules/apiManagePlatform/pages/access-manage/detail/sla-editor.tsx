@@ -100,7 +100,7 @@ const SlaEditor = ({ visible, onCancel, mode, dataSource, afterEdit }: IProps) =
       initialValue: dataSource?.approval,
       options: map(slaAuthorizationMap, ({ name, value }) => ({ name, value })),
       itemProps: {
-        placeholder: i18n.t('please select'),
+        placeholder: i18n.t('Please Select'),
       },
     },
     {

@@ -314,7 +314,7 @@ const CustomDashboardList = ({
             updater.formModalVisible(true);
           }}
         >
-          {i18n.t('cmp:Add-custom-dashboard')}
+          {i18n.t('Add')}
         </Button>
       </div>
       <ErdaTable

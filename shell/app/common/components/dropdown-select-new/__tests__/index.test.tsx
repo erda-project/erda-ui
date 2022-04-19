@@ -60,7 +60,7 @@ describe('DropdownSelect', () => {
     const clickMenuFn = jest.fn();
     const result = render(<DropdownSelect options={options} onClickItem={clickMenuFn} />);
     expect(result.container).isExist('.erda-dropdown-select', 1);
-    fireEvent.click(result.getByText('please select'));
+    fireEvent.click(result.getByText('Please Select'));
     await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument());
     expect(result.baseElement).isExist('.erda-dropdown-select-option-group', 1);
 
@@ -89,7 +89,7 @@ describe('DropdownSelect', () => {
         optionSize="small"
         showFilter
       >
-        <div id="trigger">please select</div>
+        <div id="trigger">Please Select</div>
       </DropdownSelect>,
     );
     expect(result.container).isExist('#trigger', 1);

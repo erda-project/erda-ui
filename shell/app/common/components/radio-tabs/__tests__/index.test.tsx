@@ -15,6 +15,7 @@ import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import RadioTabs, { RadioTabsProps } from '..';
+import { allWordsFirstLetterUpper } from 'common/utils';
 
 describe('RadioTabs', () => {
   const options: RadioTabsProps<string>['options'] = [
@@ -72,21 +73,21 @@ describe('RadioTabs', () => {
   it('should work well', async () => {
     const changeFn = jest.fn();
     const result = render(<RadioTabs options={options} defaultValue={options[1].value} onChange={changeFn} />);
-    expect(result.getAllByText(/tab\d/)).toHaveLength(options.length);
-    fireEvent.click(result.getByText(options[0].value));
+    expect(result.getAllByText(/tab\d/i)).toHaveLength(options.length);
+    fireEvent.click(result.getByText(allWordsFirstLetterUpper(options[0].label) as string));
     expect(changeFn).toHaveBeenLastCalledWith(options[0].value, options[0]);
     result.rerender(
       <RadioTabs options={options} defaultValue={options[1].value} value={options[0].value} onChange={changeFn} />,
     );
     const child: RadioTabsProps<string>['options'] = options[2].children!;
-    fireEvent.click(result.getByText(child[0].value));
+    fireEvent.click(result.getByText(allWordsFirstLetterUpper(child[0].label) as string));
     expect(changeFn).toHaveBeenCalledTimes(2);
     result.rerender(
       <RadioTabs options={options} defaultValue={options[1].value} value={child[0].value} onChange={changeFn} />,
     );
-    userEvent.hover(result.getByText(child[0].value));
+    userEvent.hover(result.getByText(allWordsFirstLetterUpper(child[0].label) as string));
     await waitFor(() => expect(screen.getByRole('menu')).toBeTruthy());
-    fireEvent.click(result.getByText(child[1].value));
+    fireEvent.click(result.getByText(allWordsFirstLetterUpper(child[1].label) as string));
     expect(changeFn).toHaveBeenCalledTimes(3);
   });
 });

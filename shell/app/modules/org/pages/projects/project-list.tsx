@@ -214,7 +214,7 @@ export const ProjectList = () => {
           </Button>
           <Dropdown overlay={addDropdownMenu} trigger={['click']}>
             <Button type={'primary'} className="bg-default flex-h-center">
-              {i18n.t('add project')}
+              {i18n.t('Add')}
               <ErdaIcon type="caret-down" size="18" color="currentColor" className="ml-1 text-white-400" />
             </Button>
           </Dropdown>

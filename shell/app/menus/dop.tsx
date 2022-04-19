@@ -65,11 +65,13 @@ export const getDopMenu = () => {
           subtitle: i18n.t('Approve'),
           subMenu: [
             {
+              title: i18n.t('dop:Approved by Me'),
               text: i18n.t('dop:Approved by Me'),
               href: goTo.resolve.dopApprovePending(), // '/dop/approval/my-approve/pending',
               prefix: `${goTo.resolve.dopApprove()}/`,
             },
             {
+              title: i18n.t('dop:Initiated by Me'),
               text: i18n.t('dop:Initiated by Me'),
               href: goTo.resolve.dopMyInitiateWait(), // '/dop/approval/my-initiate/WaitApprove',
               prefix: `${goTo.resolve.dopMyInitiate()}/`,

@@ -14,13 +14,14 @@
 import React from 'react';
 import classnames from 'classnames';
 import { pick, isEmpty } from 'lodash';
-import { isPromise, goTo as goToPath, qs } from 'common/utils';
+import { isPromise, goTo as goToPath, qs, allWordsFirstLetterUpper } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 
 interface IMenuItem {
   key: string;
   name: string;
+  title: string;
   disabled?: boolean;
   split?: boolean;
   readonly?: boolean;
@@ -118,6 +119,8 @@ const PureMenu = (props: IMenu) => {
       <ul className="tab-item-wraps">
         {finalMenus.map((menu: IMenuItem) => {
           const { disabled, key, name, split, readonly, isActive, className: itemClass = '' } = menu;
+          let { title } = menu;
+          title = title ?? allWordsFirstLetterUpper(name);
           const menuItemClass = classnames({
             'tab-menu-item': true,
             'tab-menu-disabled': disabled,
@@ -136,7 +139,7 @@ const PureMenu = (props: IMenu) => {
                 }
               }}
             >
-              {name}
+              {title}
             </li>
           );
         })}
