@@ -33,7 +33,7 @@ export const convertTableData = (
   props?: CP_TABLE2.IProps,
   extra?: Extra,
 ) => {
-  const { columnsMap: pColumnsMap, pageSizeOptions } = props || {};
+  const { columnsMap: pColumnsMap, pageSizeOptions, tableProps } = props || {};
   const { table } = data || {};
   const { columns: dataColumns, rows, pageNo, pageSize, total } = table || {};
   const { columnsMap, merges, orders } = dataColumns || {};
@@ -82,7 +82,16 @@ export const convertTableData = (
     };
   }
 
-  return { dataSource, columns, rowSelection, rowKey: 'id', total, pageNo, pageSize, pageSizeOptions };
+  return {
+    dataSource,
+    columns,
+    rowSelection,
+    rowKey: tableProps?.rowKey ?? 'id',
+    total,
+    pageNo,
+    pageSize,
+    pageSizeOptions,
+  };
 };
 
 const getTitleRender = (column?: CP_TABLE2.ColumnItem) => {

@@ -198,6 +198,13 @@ const TraceSearch: React.FC<IProps> = ({ scope = 'trace' }) => {
               },
             },
             table: {
+              props: {
+                tableProps: {
+                  rowKey: (record: ITableRow) => {
+                    return record.traceId.data.text;
+                  },
+                },
+              },
               op: {
                 clickRow: (data: ITableRow) => {
                   update({
