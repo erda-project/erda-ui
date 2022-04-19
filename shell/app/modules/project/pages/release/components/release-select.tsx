@@ -17,7 +17,6 @@ import moment from 'moment';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import { ErdaIcon, Pagination, ConfigurableFilter } from 'common';
-import { TagItem } from 'app/common/components/tags';
 import { PAGINATION } from 'app/constants';
 import routeInfoStore from 'core/stores/route';
 import memberStore from 'common/stores/application-member';
@@ -382,7 +381,7 @@ const ListSelectOverlay = ({
       type: 'select',
       label: i18n.t('dop:only the latest version is displayed'),
       mode: 'single',
-      options: [{ label: '是', value: 'true' }],
+      options: [{ label: i18n.t('common:Yes'), value: 'true' }],
     },
     {
       key: 'tags',
