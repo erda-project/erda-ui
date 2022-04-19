@@ -22,7 +22,7 @@ import i18n from 'i18n';
 import { set } from 'lodash';
 import { produce } from 'immer';
 import { goTo } from 'common/utils';
-import { MarkdownEditor, Title } from 'common';
+import { MarkdownEditor, Title, TopButtonGroup } from 'common';
 import { saveTestReport } from 'project/services/project';
 
 interface IState {
@@ -84,11 +84,11 @@ const CreateTestReport = () => {
 
   return (
     <div>
-      <div className="top-button-group">
+      <TopButtonGroup>
         <Button type="primary" onClick={onClick} loading={saving}>
           {i18n.t('dop:Generate Test Report')}
         </Button>
-      </div>
+      </TopButtonGroup>
       <div className="bg-white rounded p-2">
         <Form className="w-3/5" layout="vertical" form={form}>
           <Form.Item label={i18n.t('cmp:report name')} name="name" rules={[{ required: true }]}>

@@ -16,7 +16,7 @@ import { Button, Modal, Spin } from 'antd';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import { useEffectOnce } from 'react-use';
 import routeInfoStore from 'core/stores/route';
-import { DetailsPanel, Icon as CustomIcon, Ellipsis } from 'common';
+import { DetailsPanel, Icon as CustomIcon, Ellipsis, TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { get, isEmpty } from 'lodash';
@@ -149,7 +149,7 @@ const AccessDetail = () => {
   return (
     <Spin spinning={isFetch}>
       <div className="access-detail-page">
-        <div className="top-button-group">
+        <TopButtonGroup>
           <WithAuth pass={permission.delete || false} tipProps={{ placement: 'bottom' }}>
             <Button danger onClick={handleDelete}>
               {i18n.t('delete')}
@@ -160,7 +160,7 @@ const AccessDetail = () => {
               {i18n.t('Edit')}
             </Button>
           </WithAuth>
-        </div>
+        </TopButtonGroup>
         <DetailsPanel
           baseInfoConf={{
             title: i18n.t('basic information'),

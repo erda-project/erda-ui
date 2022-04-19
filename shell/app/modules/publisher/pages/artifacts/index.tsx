@@ -15,7 +15,7 @@ import React from 'react';
 import i18n from 'i18n';
 import { Button, Popconfirm } from 'antd';
 import { get } from 'lodash';
-import { EmptyHolder, IF } from 'common';
+import { EmptyHolder, IF, TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { WithAuth, usePerm } from 'user/common';
 import { useEffectOnce } from 'react-use';
@@ -75,7 +75,7 @@ const Artifacts = () => {
 
   return (
     <div className="artifacts-list-container">
-      <div className="top-button-group">
+      <TopButtonGroup>
         <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={openFormModal}>
             {i18n.t('Edit')}
@@ -125,7 +125,7 @@ const Artifacts = () => {
             {i18n.t('Preview')}
           </Button>
         )}
-      </div>
+      </TopButtonGroup>
       <div className="artifacts-detail-container">
         <IF check={artifactsDetail}>
           <ArtifactsDetail artifactsId={chosenArtifactsId} data={artifactsDetail as PUBLISHER.IArtifacts} />

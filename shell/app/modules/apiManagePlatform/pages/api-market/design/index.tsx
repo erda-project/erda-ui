@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon as CustomIcon, EmptyHolder, LazyRender, Ellipsis, ErdaIcon } from 'common';
+import { Icon as CustomIcon, EmptyHolder, LazyRender, Ellipsis, ErdaIcon, TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Input, Button, Collapse, Tooltip, Popconfirm, message, Spin, Modal, Popover } from 'antd';
 import i18n from 'i18n';
@@ -615,11 +615,11 @@ const ApiDesign = () => {
     <EmptyHolder relative />
   ) : (
     <div className="api-design">
-      <div className="top-button-group">
+      <TopButtonGroup>
         <Button type="primary" onClick={() => updater.treeModalVisible(true)}>
           {i18n.t('dop:New Document')}
         </Button>
-      </div>
+      </TopButtonGroup>
       <div className="api-design-wrap">
         <div className="search-wrap mb-4 flex items-center justify-start">
           <ApiDocTree

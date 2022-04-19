@@ -226,6 +226,10 @@
     background: transparent;
   }
 
+  .tab-scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+
   .ant-menu-item,
   .tab-menu-item {
     position: relative;

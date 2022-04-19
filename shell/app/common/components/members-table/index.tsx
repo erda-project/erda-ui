@@ -15,7 +15,7 @@ import { MemberScope } from 'common/stores/member-scope';
 import { usePerm } from 'app/user/common';
 import userStore from 'app/user/stores';
 import appMemberStore from 'common/stores/application-member';
-import { AddMemberModal, Copy, ErdaIcon, FilterGroup, FormModal, IF } from 'common';
+import { AddMemberModal, Copy, ErdaIcon, FilterGroup, FormModal, IF, TopButtonGroup } from 'common';
 import ErdaTable from 'common/components/table';
 import { ColumnProps, IActions } from 'common/components/table/interface';
 import { useLoading } from 'core/stores/loading';
@@ -582,23 +582,31 @@ const MembersTable = ({
     );
   };
 
+  const buttonGroup = (
+    <>
+      {topContent}
+      <div>
+        {(memberAuth.add || isAdminManager) && !readOnly ? (
+          <Button type="primary" onClick={() => updater.addModalVisible(true)}>
+            {i18n.t('Add-member')}
+          </Button>
+        ) : null}
+        {memberAuth.invite && !readOnly ? (
+          <Button loading={getInviteLoading} onClick={handleGenOrgInviteCode}>
+            {i18n.t('Invite')}
+          </Button>
+        ) : null}
+      </div>
+    </>
+  );
+
   return (
     <div className="member-table-manage">
-      <div className={buttonInCard ? 'flex justify-between mb-2 mr-2' : 'top-button-group'}>
-        {topContent}
-        <div>
-          {(memberAuth.add || isAdminManager) && !readOnly ? (
-            <Button type="primary" onClick={() => updater.addModalVisible(true)}>
-              {i18n.t('Add-member')}
-            </Button>
-          ) : null}
-          {memberAuth.invite && !readOnly ? (
-            <Button loading={getInviteLoading} onClick={handleGenOrgInviteCode}>
-              {i18n.t('Invite')}
-            </Button>
-          ) : null}
-        </div>
-      </div>
+      {buttonInCard ? (
+        <div className="flex justify-between mb-2 mr-2">{buttonGroup}</div>
+      ) : (
+        <TopButtonGroup>{buttonGroup}</TopButtonGroup>
+      )}
       <Spin spinning={getLoading || removeLoading || addLoading || updateLoading}>
         <div className="member-table-manage-list">
           <AddMemberModal

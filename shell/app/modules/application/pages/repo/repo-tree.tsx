@@ -29,7 +29,7 @@ import { goTo, cutStr, fromNow, replaceEmoji, setApiWithOrg } from 'common/utils
 import { groupBy, sortBy, get } from 'lodash';
 import React from 'react';
 import { useUnmount, useUpdateEffect } from 'react-use';
-import { Icon as CustomIcon, Copy, EmptyHolder, IF, FormModal, ErdaIcon, ErdaAlert } from 'common';
+import { Icon as CustomIcon, Copy, EmptyHolder, IF, FormModal, ErdaIcon, ErdaAlert, TopButtonGroup } from 'common';
 import RepoFileContainer from './components/repo-file-container';
 import RepoEditor from './components/repo-editor';
 import StartTip from './components/start-tip';
@@ -448,7 +448,7 @@ const RepoTreePage = () => {
     const repoTypeConfig = get(repositoriesTypes, repoType, {});
     return (
       <div className="git-repo-config">
-        <div className="top-button-group">
+        <TopButtonGroup>
           <WithAuth pass={hasAuth} tipProps={{ placement: 'bottom' }}>
             <Button
               type="primary"
@@ -460,7 +460,7 @@ const RepoTreePage = () => {
               {i18n.t('default:Edit')}
             </Button>
           </WithAuth>
-        </div>
+        </TopButtonGroup>
         <Form layout="vertical">
           <FormItem label={i18n.t('dop:repository source')}>
             <p>{repoTypeConfig.name}</p>
@@ -491,9 +491,9 @@ const RepoTreePage = () => {
   if (info.empty && !mode.addFile) {
     return (
       <div>
-        <div className="top-button-group">
+        <TopButtonGroup>
           <RepoDownload info={info} appDetail={appDetail} />
-        </div>
+        </TopButtonGroup>
         {info.empty && <StartTip showCreateFile={branchCreateAuth} />}
       </div>
     );
@@ -508,7 +508,7 @@ const RepoTreePage = () => {
         </div>
       </IF>
       <RepoNav ref={repoNavRef} info={info} tree={tree} isFetchingInfo={isFetchingInfo} appId={appDetail.id} />
-      <div className="top-button-group">
+      <TopButtonGroup>
         <Tooltip title={i18n.t('dop:How to start')}>
           <CustomIcon className="text-desc hover-active" type="help" onClick={() => toggleTip(true)} />
         </Tooltip>
@@ -534,7 +534,7 @@ const RepoTreePage = () => {
             {i18n.t('dop:Add Branch')}
           </Button>
         </WithAuth>
-      </div>
+      </TopButtonGroup>
       {mode.addFile ? (
         <RepoEditor />
       ) : (

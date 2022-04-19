@@ -15,6 +15,7 @@ import React from 'react';
 import { Button, message } from 'antd';
 import AddonModal from '../third-service/components/addon-modal';
 import { useUpdate } from 'common/use-hooks';
+import { TopButtonGroup } from 'common';
 import { AddonCardList } from 'addonPlatform/pages/common/components/addon-card-list';
 import i18n from 'i18n';
 import { usePerm, WithAuth } from 'app/user/common';
@@ -174,13 +175,13 @@ export const AddonCategory = () => {
         hideSearch
         onEitAddon={onEditAddon}
       />
-      <div className="top-button-group">
+      <TopButtonGroup>
         <WithAuth pass={permMap.addProjectService.pass} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={() => updater.modalVisible(true)}>
             {i18n.t('dop:Add-service')}
           </Button>
         </WithAuth>
-      </div>
+      </TopButtonGroup>
       <AddonModal
         editData={state.editData as ADDON.Instance | null}
         visible={state.modalVisible}

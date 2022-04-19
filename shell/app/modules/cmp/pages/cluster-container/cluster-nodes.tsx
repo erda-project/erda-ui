@@ -16,6 +16,7 @@ import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import { Drawer } from 'antd';
 import { useUpdate } from 'common/use-hooks';
+import { TopButtonGroup } from 'common';
 import { PureClusterNodeDetail } from './cluster-nodes-detail';
 import { K8sClusterTerminalButton } from './cluster-terminal';
 import { ClusterContainer } from './index';
@@ -60,9 +61,9 @@ const ClusterNodes = () => {
 
   return (
     <ClusterContainer>
-      <div className="top-button-group">
+      <TopButtonGroup>
         <K8sClusterTerminalButton clusterName={clusterName} />
-      </div>
+      </TopButtonGroup>
       <DiceConfigPage
         scenarioType={'cmp-dashboard-nodes'}
         scenarioKey={'cmp-dashboard-nodes'}

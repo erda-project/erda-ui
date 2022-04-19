@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDTable, Copy, ErdaIcon, ConfigurableFilter } from 'common';
+import { CRUDTable, Copy, ErdaIcon, ConfigurableFilter, TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Link } from 'react-router-dom';
 import networksStore from 'cmp/stores/networks';
@@ -178,7 +178,7 @@ const VPS = () => {
   );
   return (
     <>
-      <div className="top-button-group">
+      <TopButtonGroup>
         {cloudAccountExist ? (
           <Button type="primary" onClick={() => updater.formVis(true)}>
             {i18n.t('add {name}', { name: i18n.t('cmp:VPC') })}
@@ -198,7 +198,7 @@ const VPS = () => {
             </div>
           </Button>
         </Dropdown>
-      </div>
+      </TopButtonGroup>
       <CRUDTable<NETWORKS.ICloudVpc>
         key={stateChangeKey}
         isFetching={loading}

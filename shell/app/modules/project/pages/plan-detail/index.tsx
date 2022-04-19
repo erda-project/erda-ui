@@ -15,7 +15,7 @@ import { debounce, get } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
 import { Button, Tabs, Input, Spin } from 'antd';
-import { DropdownSelect, Icon as CustomIcon, ErdaIcon } from 'common';
+import { DropdownSelect, Icon as CustomIcon, ErdaIcon, TopButtonGroup } from 'common';
 import { SplitPage } from 'app/layout/common';
 import TestEnvDrawer from 'project/pages/test-manage/case/test-env-drawer';
 import { useLoading } from 'core/stores/loading';
@@ -182,7 +182,7 @@ const TestPlanDetail = () => {
 
   return (
     <div className="test-plan-detail">
-      <div className="top-button-group flex items-center">
+      <TopButtonGroup className="flex items-center">
         <StatusToggle
           isPlan
           state={planItemDetail.status}
@@ -223,7 +223,7 @@ const TestPlanDetail = () => {
             setReportKey(reportKey + 1);
           }}
         />
-      </div>
+      </TopButtonGroup>
       <Spin spinning={isFetching}>
         <BaseInfo />
       </Spin>

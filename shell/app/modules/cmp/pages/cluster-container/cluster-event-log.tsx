@@ -16,6 +16,7 @@ import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import { K8sClusterTerminalButton } from './cluster-terminal';
 import { ClusterContainer } from './index';
+import { TopButtonGroup } from 'common';
 
 const ClusterEnvLog = () => {
   const [{ clusterName }] = routeInfoStore.useStore((s) => [s.params]);
@@ -24,9 +25,9 @@ const ClusterEnvLog = () => {
 
   return (
     <ClusterContainer>
-      <div className="top-button-group">
+      <TopButtonGroup>
         <K8sClusterTerminalButton clusterName={clusterName} />
-      </div>
+      </TopButtonGroup>
       <DiceConfigPage
         scenarioType={'cmp-dashboard-events-list'}
         scenarioKey={'cmp-dashboard-events-list'}

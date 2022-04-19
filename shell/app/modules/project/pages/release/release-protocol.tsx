@@ -13,7 +13,7 @@
 
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
-import { RadioTabs, ErdaIcon } from 'common';
+import { RadioTabs, ErdaIcon, TopButtonGroup } from 'common';
 import { usePerm, WithAuth } from 'user/common';
 import { Button, Dropdown, Menu } from 'antd';
 import routeInfoStore from 'core/stores/route';
@@ -72,7 +72,7 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
   return (
     <>
       {isProjectRelease ? (
-        <div className="top-button-group">
+        <TopButtonGroup>
           <WithAuth pass={canCreateRelease}>
             <Dropdown overlay={addDropdownMenu} placement="bottomRight" trigger={['click']}>
               <Button type={'primary'} className="flex-h-center">
@@ -81,7 +81,7 @@ const ReleaseProtocol = ({ isProjectRelease, applicationID }: IProps) => {
               </Button>
             </Dropdown>
           </WithAuth>
-        </div>
+        </TopButtonGroup>
       ) : null}
 
       <RadioTabs

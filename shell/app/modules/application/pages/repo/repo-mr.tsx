@@ -20,7 +20,7 @@ import i18n from 'i18n';
 import repoStore, { getAppDetail } from 'application/stores/repo';
 import { getAppMRStatsCount } from 'application/services/repo';
 import { WithAuth, usePerm } from 'user/common';
-import { ErdaAlert, RadioTabs } from 'common';
+import { ErdaAlert, RadioTabs, TopButtonGroup } from 'common';
 
 const PureRepoMR = () => {
   const info = repoStore.useStore((s) => s.info);
@@ -84,7 +84,7 @@ const PureRepoMR = () => {
   ];
   return (
     <div>
-      <div className="top-button-group">
+      <TopButtonGroup>
         <WithAuth pass={permObj.create} tipProps={{ placement: 'bottom' }}>
           <Button
             disabled={info.empty || info.isLocked}
@@ -94,7 +94,7 @@ const PureRepoMR = () => {
             {i18n.t('dop:Add-merge-request')}
           </Button>
         </WithAuth>
-      </div>
+      </TopButtonGroup>
 
       <RadioTabs
         options={options}

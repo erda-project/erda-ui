@@ -15,7 +15,7 @@ import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import { Input, Form } from 'antd';
 import ExportPdf from 'project/pages/plan-detail/report/export-pdf';
-import { Title, ErdaIcon, MarkdownRender } from 'common';
+import { Title, ErdaIcon, MarkdownRender, TopButtonGroup } from 'common';
 import IterationSelect from 'project/common/components/issue/iteration-select';
 import { useMount } from 'react-use';
 import { getTestReportDetail } from 'project/services/project';
@@ -40,7 +40,7 @@ export default ({ downloadId, projectId, onFinish }: { downloadId: string; proje
     <div>
       {data ? (
         <div>
-          <div className="top-button-group hidden">
+          <TopButtonGroup className="hidden">
             <ExportPdf onFinish={onFinish} domId="test-report-page" tip={data?.name}>
               {({ exportPdf }) => (
                 <span className="text-sm cursor-pointer text-primary" ref={exportRef} onClick={() => exportPdf()}>
@@ -49,7 +49,7 @@ export default ({ downloadId, projectId, onFinish }: { downloadId: string; proje
                 </span>
               )}
             </ExportPdf>
-          </div>
+          </TopButtonGroup>
           <div id="test-report-page">
             <Preview onMount={onPreviewMount} data={data} />
           </div>

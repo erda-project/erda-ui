@@ -69,12 +69,15 @@ const PureMenu = (props: IMenu) => {
   } = props;
   const breadcrumbInfoMap = breadcrumbStore.useStore((s) => s.infoMap);
   const finalMenus = typeof menus === 'function' ? menus({ ...props, breadcrumbInfoMap }) : menus;
+
   if (!finalMenus || !finalMenus.length) {
     return null;
   }
   const tabClass = classnames({
     'tab-menu': true,
     'tab-split-line-before': true,
+    'flex-1': true,
+    'min-w-0': true,
     [className]: !!className,
   });
 
@@ -114,35 +117,43 @@ const PureMenu = (props: IMenu) => {
     const concatPath = `${newPath}${query}`.replace(/\/{2,}/, '/'); // 避免路由中多个连续的/
     goTo(concatPath);
   };
+
+  const splitIndex = finalMenus.findIndex((menu: IMenuItem) => menu.split);
+
+  const renderMenu = (menu: IMenuItem) => {
+    const { disabled, key, name, split, readonly, isActive, className: itemClass = '' } = menu;
+    let { title } = menu;
+    title = title ?? allWordsFirstLetterUpper(name);
+    const menuItemClass = classnames({
+      'tab-menu-item': true,
+      'tab-menu-disabled': disabled,
+      'tab-split-line-before': split,
+      active: isActive ? isActive(activeKey) : activeKey === key,
+      [itemClass]: !!itemClass,
+    });
+    return (
+      <li
+        key={key}
+        className={menuItemClass}
+        onClick={() => {
+          if (!readonly && !disabled && activeKey !== key) {
+            // click current not trigger
+            handleClick(activeKey, key);
+          }
+        }}
+      >
+        {title}
+      </li>
+    );
+  };
+
   return (
     <div className={tabClass}>
-      <ul className="tab-item-wraps">
-        {finalMenus.map((menu: IMenuItem) => {
-          const { disabled, key, name, split, readonly, isActive, className: itemClass = '' } = menu;
-          let { title } = menu;
-          title = title ?? allWordsFirstLetterUpper(name);
-          const menuItemClass = classnames({
-            'tab-menu-item': true,
-            'tab-menu-disabled': disabled,
-            'tab-split-line-before': split,
-            active: isActive ? isActive(activeKey) : activeKey === key,
-            [itemClass]: !!itemClass,
-          });
-          return (
-            <li
-              key={key}
-              className={menuItemClass}
-              onClick={() => {
-                if (!readonly && !disabled && activeKey !== key) {
-                  // click current not trigger
-                  handleClick(activeKey, key);
-                }
-              }}
-            >
-              {title}
-            </li>
-          );
-        })}
+      <ul className="tab-item-wraps flex w-full whitespace-nowrap">
+        <div>{finalMenus.slice(0, splitIndex !== -1 ? splitIndex : 0).map((menu: IMenuItem) => renderMenu(menu))}</div>
+        <div className="flex-1 overflow-x-auto tab-scroll-container">
+          {finalMenus.slice(splitIndex !== -1 ? splitIndex : undefined).map((menu: IMenuItem) => renderMenu(menu))}
+        </div>
       </ul>
       {TabRightComp ? (
         <div className="tab-menu-right">

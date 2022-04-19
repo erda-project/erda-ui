@@ -16,7 +16,7 @@ import { debounce, map } from 'lodash';
 import moment from 'moment';
 import { useMount, useUnmount, useUpdateEffect } from 'react-use';
 import { Button, Dropdown, Input, Menu, Modal, Spin, Tooltip } from 'antd';
-import { Badge, ErdaIcon, UserInfo } from 'common';
+import { Badge, ErdaIcon, UserInfo, TopButtonGroup } from 'common';
 import ErdaTable, { IProps as TableProps } from 'common/components/table';
 import { goTo } from 'common/utils';
 import i18n from 'i18n';
@@ -227,7 +227,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
 
   return (
     <div className="alarm-strategy">
-      <div className="top-button-group">
+      <TopButtonGroup>
         <Button
           type="primary"
           onClick={() => {
@@ -236,7 +236,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
         >
           {i18n.t('cmp:Add-strategy')}
         </Button>
-      </div>
+      </TopButtonGroup>
       <Spin spinning={getAlertsLoading || toggleAlertLoading}>
         <ErdaTable
           rowKey="id"
