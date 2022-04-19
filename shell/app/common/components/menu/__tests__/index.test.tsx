@@ -33,7 +33,7 @@ describe('Menu', () => {
     const result = render(
       <Menu activeKey={'delete'} menus={menus} beforeTabChange={beforeTabChangeFn} ignoreTabQuery />,
     );
-    expect(result.container.querySelector('.tab-scroll-container')).isExit('.tab-menu-item', menus.length);
+    expect(result.container.querySelector('.tab-scroll-container')).isExist('.tab-menu-item', menus.length);
     fireEvent.click(result.getByText(menus[1].name));
     expect(goToSpy).not.toHaveBeenCalled();
     fireEvent.click(result.getByText(menus[0].name));

@@ -109,12 +109,12 @@ describe('ExternalItem', () => {
       });
       fireEvent.mouseDown(result.getByPlaceholderText('startDate'));
       fireEvent.focus(result.getByPlaceholderText('startDate'));
-      await waitFor(() => expect(result.baseElement).isExit('.ant-picker-dropdown', 1));
+      await waitFor(() => expect(result.baseElement).isExist('.ant-picker-dropdown', 1));
       // select start date
       fireEvent.click(result.getAllByText('Today')[0]);
       fireEvent.mouseDown(result.getByPlaceholderText('endDate'));
       fireEvent.focus(result.getByPlaceholderText('endDate'));
-      await waitFor(() => expect(result.baseElement).isExit('.ant-picker-dropdown', 2));
+      await waitFor(() => expect(result.baseElement).isExist('.ant-picker-dropdown', 2));
       // select end date
       fireEvent.click(result.getAllByText('Today')[1]);
       const createAt = borderTime ? [timestamp.startOfDay, timestamp.endOfDay] : [timestamp.current, timestamp.current];
@@ -144,7 +144,7 @@ describe('ExternalItem', () => {
       });
       fireEvent.mouseDown(result.getByPlaceholderText('Start date'));
       fireEvent.focus(result.getByPlaceholderText('Start date'));
-      await waitFor(() => expect(result.baseElement).isExit('.ant-picker-range-wrapper', 1));
+      await waitFor(() => expect(result.baseElement).isExist('.ant-picker-range-wrapper', 1));
       fireEvent.click(result.baseElement.querySelector(`[title="${currentDay}"]`)!);
       fireEvent.click(result.baseElement.querySelector(`[title="${nextDayStr}"]`)!);
       const createAt = borderTime
@@ -170,7 +170,7 @@ describe('ExternalItem', () => {
     await waitFor(() => expect(result.getByRole('menu')).toBeTruthy());
     fireEvent.click(result.getByText(/load more/));
     fireEvent.change(result.getByPlaceholderText('search'), { target: { value: 'dop' } });
-    expect(result.baseElement).isExit('.option-item', 1);
+    expect(result.baseElement).isExist('.option-item', 1);
     fireEvent.change(result.getByPlaceholderText('search'), { target: { value: '' } });
     fireEvent.click(result.getByText('dop').closest('.option-item')!);
     expect(changeFn).toHaveBeenLastCalledWith(['dop']);
@@ -251,12 +251,12 @@ describe('ExternalItem', () => {
     });
     fireEvent.click(result.getByText(itemData.label));
     await waitFor(() => expect(result.getByRole('menu')).toBeTruthy());
-    expect(result.baseElement).not.isExitClass('.option-group-content', 'no-expand');
+    expect(result.baseElement).not.isExistClass('.option-group-content', 'no-expand');
     fireEvent.click(result.getByText(/load more/));
     fireEvent.click(result.getByText('project').closest('.option-item')!);
     expect(changeFn).toHaveBeenLastCalledWith(['project']);
     fireEvent.click(result.baseElement.querySelector('[name="down"]')!, { cancelBubble: true });
-    expect(result.baseElement).isExitClass('.option-group-content', 'no-expand');
+    expect(result.baseElement).isExistClass('.option-group-content', 'no-expand');
   });
   it('should getSelectOptions work well', () => {
     const options = [

@@ -142,7 +142,7 @@ const ClusterManage = () => {
       <TopButtonGroup>
         <Button onClick={() => goTo('./history')}>{i18n.t('cmp:History')}</Button>
         <Button type="primary" onClick={() => updater.typeSelectorVis(true)}>
-          {i18n.t('cmp:Add Cluster')}
+          {i18n.t('Add')}
         </Button>
       </TopButtonGroup>
       <ClusterTypeModal visible={typeSelectorVis} toggleModal={toggleTypeModalVis} onSubmit={handleSelectType} />

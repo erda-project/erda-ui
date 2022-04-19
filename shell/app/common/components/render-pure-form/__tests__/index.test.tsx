@@ -71,10 +71,10 @@ describe('RenderPureForm', () => {
   };
   it('should render well', () => {
     const result = render(<Comp list={list} />);
-    expect(result.container).isExit('.ant-form-item', 3);
-    expect(result.container).isExit('.custom-comp-wrap', 1);
-    expect(result.container).isExit('form', 1);
+    expect(result.container).isExist('.ant-form-item', 3);
+    expect(result.container).isExist('.custom-comp-wrap', 1);
+    expect(result.container).isExist('form', 1);
     result.rerender(<Comp list={list} onlyItems />);
-    expect(result.container).isExit('form', 0);
+    expect(result.container).isExist('form', 0);
   });
 });

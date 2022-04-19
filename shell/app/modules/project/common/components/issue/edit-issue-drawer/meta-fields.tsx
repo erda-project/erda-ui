@@ -12,17 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Divider, Row, Col, Button } from 'antd';
-import { map, difference } from 'lodash';
-import { EditField, MemberSelector, ErdaIcon } from 'common';
+import { Button, Col, Divider, Row, Select } from 'antd';
+import { difference, map } from 'lodash';
+import { EditField, ErdaIcon, MemberSelector } from 'common';
 import { Link } from 'react-router-dom';
 import { getIssueRelation, updateIncludeIssue } from 'project/services/issue';
 import { goTo, insertWhen, isPromise } from 'common/utils';
 import {
-  ISSUE_TYPE,
-  ISSUE_PRIORITY_LIST,
-  ISSUE_COMPLEXITY_MAP,
   BUG_SEVERITY_MAP,
+  ISSUE_COMPLEXITY_MAP,
+  ISSUE_PRIORITY_LIST,
+  ISSUE_TYPE,
 } from 'project/common/components/issue/issue-config';
 import i18n from 'i18n';
 import issueStore from 'project/stores/issues';
@@ -32,7 +32,7 @@ import IssueState from 'project/common/components/issue/issue-state';
 import { useMount } from 'react-use';
 import IterationSelect from '../iteration-select';
 import { TimeInput } from '../time-input';
-import { TextFieldInput, NumberFieldInput } from '../text-field-input';
+import { NumberFieldInput, TextFieldInput } from '../text-field-input';
 import { TimeTrace } from '../time-trace';
 import { FIELD_TYPE_ICON_MAP } from 'org/common/config';
 import issueFieldStore from 'org/stores/issue-field';
@@ -498,29 +498,6 @@ const IssueMetaFields = React.forwardRef(
               onChange={onSave}
               disabled={!editAuth}
               placeholder={i18n.t('please choose {name}', { name: i18n.t('dop:Iteration-owned') })}
-            />
-          ),
-          extraContent: (
-            <IterationFiedExtra
-              onCancel={() => {
-                setIterationUpdate((prev) => ({ ...prev, visible: false }));
-              }}
-              onOk={() => {
-                updateIncludeIssue({
-                  issueId: formData.id,
-                  updateFields: [
-                    {
-                      updateType: 'REPLACE',
-                      field: 'iterationID',
-                      value: { content: +iterationUpdate.id },
-                    },
-                  ],
-                }).then(() => {
-                  getIssueRelation.fetch({ issueId: formData.id });
-                });
-                setIterationUpdate((prev) => ({ ...prev, visible: false }));
-              }}
-              {...iterationUpdate}
             />
           ),
           extraContent: (

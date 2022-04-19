@@ -111,7 +111,7 @@ export const TriggerConditionSelect = ({
           value={type === 'single' ? current?.values : current?.values?.split(',')}
           disabled={current?.valueOptions?.length === 0}
           className="flex-grow-0"
-          placeholder={i18n.t('please select')}
+          placeholder={i18n.t('Please Select')}
           style={{ width: 420 }}
           mode={type === 'single' ? undefined : type}
           onChange={(value) =>

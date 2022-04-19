@@ -215,7 +215,7 @@ const DeployDetail = (props: IProps) => {
             width={160}
           >
             <div className="flex h-[28px] rounded-sm  items-center px-2 truncate w-[200px] text-default-3 hover:text-default-8 ">
-              <span className="truncate text-default font-bold">{selectedApp?.name || i18n.t('please select')}</span>
+              <span className="truncate text-default font-bold">{selectedApp?.name || i18n.t('Please Select')}</span>
               <ErdaIcon type="caret-down" className="ml-1" size="14" />
             </div>
           </DropdownSelectNew>

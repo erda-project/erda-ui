@@ -77,7 +77,7 @@ export const DataSourceSelector = (props: any) => {
         return option.props.children.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
       }}
       value={value}
-      placeholder={i18n.t('please select')}
+      placeholder={i18n.t('Please Select')}
       {...rest}
     >
       {options.map(dataSourceOptionRender)}

@@ -13,36 +13,44 @@
 
 import React from 'react';
 import { isEmpty } from 'lodash';
-import { Form, Input, Button } from 'antd';
+import { Button, Form, FormInstance, Input } from 'antd';
 import { ErdaIcon } from 'common';
 import './simple-log.scss';
 import i18n from 'i18n';
 
 const FormItem = Form.Item;
 
-class LogSearchForm extends React.Component {
-  formRef = React.createRef();
+interface IProps {
+  formData: {
+    requestId: string;
+    [key: string]: any;
+  };
+  setSearch: (data: IProps['formData']) => void;
+}
+
+class LogSearchForm extends React.Component<IProps, any> {
+  formRef = React.createRef<FormInstance>();
 
   componentDidMount = () => {
     this.setForm(this.props.formData);
   };
 
-  UNSAFE_componentWillReceiveProps({ formData }) {
+  UNSAFE_componentWillReceiveProps({ formData }: Readonly<IProps>) {
     if (formData !== this.props.formData) {
       this.setForm(formData);
     }
   }
 
-  setForm = (formData) => {
+  setForm = (formData: IProps['formData']) => {
     if (!isEmpty(formData)) {
-      this.formRef.current.setFieldsValue(formData);
+      this.formRef.current?.setFieldsValue(formData);
       // this.handleSubmit();
     }
   };
 
-  handleSubmit = (values) => {
-    const { setSearch } = this.props;
-    setSearch(this.formRef.current.getFieldsValue());
+  handleSubmit = () => {
+    const { setSearch, formData } = this.props;
+    setSearch({ ...formData, ...this.formRef.current?.getFieldsValue() });
   };
 
   render() {
@@ -64,4 +72,5 @@ class LogSearchForm extends React.Component {
     );
   }
 }
+
 export default LogSearchForm;

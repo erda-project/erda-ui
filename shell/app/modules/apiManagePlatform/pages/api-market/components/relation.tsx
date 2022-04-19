@@ -317,7 +317,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
         },
         itemProps: {
           allowClear: true,
-          placeholder: i18n.t('please select'),
+          placeholder: i18n.t('Please Select'),
           onChange: (v: number) => {
             handleChange('projectID', v, ['appID', 'serviceName', 'runtimeID', 'url']);
           },
@@ -348,7 +348,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
         },
         itemProps: {
           allowClear: true,
-          placeholder: i18n.t('please select'),
+          placeholder: i18n.t('Please Select'),
           onChange: (v) => {
             handleChange('appID', v, ['serviceName', 'runtimeID', 'url']);
           },
@@ -367,7 +367,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
               name: 'serviceName',
               itemProps: {
                 allowClear: true,
-                placeholder: i18n.t('please select'),
+                placeholder: i18n.t('Please Select'),
                 onChange: (v) => {
                   handleChange('serviceName', v, ['runtimeID', 'url']);
                 },
@@ -382,7 +382,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
               options: map(state.branchList, ({ runtimeID, runtimeName }) => ({ name: runtimeName, value: runtimeID })),
               itemProps: {
                 allowClear: true,
-                placeholder: i18n.t('please select'),
+                placeholder: i18n.t('Please Select'),
                 onChange: (v: number) => {
                   handleChange('runtimeID', v, ['url']);
                 },
@@ -398,7 +398,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
                 allowClear: true,
               },
               getComp: () => (
-                <Select placeholder={i18n.t('please select')}>
+                <Select placeholder={i18n.t('Please Select')}>
                   {state.instanceList.map(({ serviceAddr }) => {
                     return (serviceAddr || []).map((url) => (
                       <Select.Option key={url} value={url}>

@@ -74,14 +74,14 @@ describe('KeyValueTable', () => {
     const { result, tableRef, rerender, changeFn } = setUp({ isTextArea: true });
     expect(tableRef.current?.getTableData()).toStrictEqual(data);
     rerender();
-    expect(result.container).isExit('.ant-table-row ', Object.keys(data).length);
+    expect(result.container).isExist('.ant-table-row ', Object.keys(data).length);
     fireEvent.click(result.getByText('Add'));
     await flushPromises();
-    expect(result.container).isExit('.ant-table-row ', Object.keys(data).length + 1);
+    expect(result.container).isExist('.ant-table-row ', Object.keys(data).length + 1);
     fireEvent.click(result.getAllByText('delete')[0]);
     await waitFor(() => expect(result.getByRole('tooltip')).toBeInTheDocument());
     fireEvent.click(result.getByText('OK'));
-    expect(result.container).isExit('.ant-table-row ', Object.keys(data).length);
+    expect(result.container).isExist('.ant-table-row ', Object.keys(data).length);
     rerender({ existKeys: ['max_age'], isTextArea: true });
     fireEvent.click(result.getByText('Add'));
     await flushPromises();

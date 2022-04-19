@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Progress, Modal, Button } from 'antd';
+import { Button, Modal, Progress } from 'antd';
 import i18n from 'i18n';
 import React from 'react';
-import { TimeInput, transToStr, checkReg, checkMsg } from './time-input';
+import { checkMsg, checkReg, TimeInput, transToStr } from './time-input';
 import './time-trace.scss';
 import moment, { Moment } from 'moment';
 import { Form } from 'dop/pages/form-editor/index';
@@ -59,7 +59,7 @@ const TimeTraceBar = React.forwardRef(
     const [blue, yellow] = calculatePercent(_logged, _spent, _remain, _estimate);
     return (
       <div className={`time-trace ${active ? 'active-hover' : ''}`} onClick={onClick} ref={ref}>
-        <Progress strokeColor="#f47201" showInfo={false} successPercent={blue} percent={blue + yellow} />
+        <Progress strokeColor="#f47201" showInfo={false} success={{ percent: blue }} percent={blue + yellow} />
       </div>
     );
   },

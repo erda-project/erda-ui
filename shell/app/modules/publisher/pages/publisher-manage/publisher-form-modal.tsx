@@ -74,7 +74,7 @@ const PublisherFormModal = ({ visible, formData, onCancel, afterSubmit = () => {
   return (
     <FormModal
       width={620}
-      name={i18n.t('cmp:publisher info')}
+      name={i18n.t('cmp:publisher')}
       fieldsList={getPublisherFieldsList(isEdit)}
       visible={visible}
       formData={formData}

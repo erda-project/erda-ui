@@ -25,8 +25,8 @@ describe('Pagination', () => {
     result.rerender(<Pagination onChange={changeFn} total={99} current={2} pageSize={20} />);
     expect(result.getByText('20 items / page')).toBeTruthy();
     expect(result.getByText('Totally 99 items')).toBeTruthy();
-    expect(result.container).isExit('[name="right"]', 1);
-    expect(result.container).isExit('[name="left"]', 1);
+    expect(result.container).isExist('[name="right"]', 1);
+    expect(result.container).isExist('[name="left"]', 1);
     expect(result.getByText('2 / 5')).toBeTruthy();
     result.rerender(
       <Pagination onChange={changeFn} total={99} current={2} pageSize={20} hideTotal hidePageSizeChange />,

@@ -76,7 +76,7 @@ describe('MonitorChartPanel', () => {
       metricsMonitorStore.reducers.listMetricByResourceTypeSuccess(resultData);
       jest.runAllTimers();
     });
-    expect(result.container).isExit('.mock-monitor-chart-panel', 1);
+    expect(result.container).isExist('.mock-monitor-chart-panel', 1);
     result.unmount();
     expect(metricsMonitorStore.reducers.clearListMetrics).toHaveBeenCalled();
     jest.useRealTimers();

@@ -11,7 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Table, Tooltip, Badge } from 'antd';
+import { Tooltip, Badge } from 'antd';
+import ErdaTable from 'common/components/table';
 import i18n from 'i18n';
 import { Copy, Icon as CustomIcon, IF } from 'common';
 import { get, set, remove, round } from 'lodash';
@@ -104,12 +105,14 @@ interface IProps {
   serviceList: object[];
   depth: number;
   haveMetrics: boolean;
-  haveHost: boolean;
+  haveHost?: boolean;
   haveStatus?: boolean;
   extraQuery: {
     filter_cluster_name: string;
   };
   into: (data: { q: string; name: string }) => void;
+  slot?: React.ReactNode;
+  onReload: () => void;
 }
 
 interface IInstance {
@@ -126,8 +129,10 @@ function ServiceList({
   depth,
   into,
   haveMetrics,
+  onReload,
   haveHost = true,
   haveStatus = true,
+  slot,
   extraQuery,
 }: IProps) {
   const [renderOp, drawer] = useInstanceOperation<IInstance>({
@@ -243,7 +248,9 @@ function ServiceList({
         render: (num: number) => (
           <span>
             <IF check={!!num}>
-              <Badge status="error" /> {num}
+              <span>
+                <Badge status="error" /> {num}
+              </span>
               <IF.ELSE />
               <Badge status="success" />
             </IF>
@@ -296,7 +303,7 @@ function ServiceList({
           return (
             <Tooltip title={`${i18n.t('click to copy')}:${text}`} overlayClassName="tooltip-word-break">
               <span
-                className="image-name for-copy-image"
+                className="image-name for-copy-image w-[400px]"
                 data-clipboard-tip={i18n.t('Image name')}
                 data-clipboard-text={text}
               >
@@ -388,11 +395,13 @@ function ServiceList({
 
   return (
     <div className="service-table">
-      <Table
+      <ErdaTable
+        slot={slot}
         rowKey={(record: any, i: number) => `${i}${record.id}`}
         pagination={false}
         columns={cols as Array<ColumnProps<any>>}
         dataSource={list}
+        onReload={onReload}
         scroll={{ x: 1100 }}
       />
       <Copy selector=".for-copy-image" />

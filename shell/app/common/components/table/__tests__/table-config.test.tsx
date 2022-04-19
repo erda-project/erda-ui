@@ -48,10 +48,10 @@ describe('TableConfig', () => {
         hideColumnConfig
       />,
     );
-    expect(result.container).isExit('[name="refresh"]', 0);
-    expect(result.container).isExit('[name="config"]', 0);
-    expect(result.container).isExitClass('.erda-table-filter', 'bg-default-02');
-    expect(result.container).not.isExitClass('.erda-table-filter', 'bg-white');
+    expect(result.container).isExist('[name="refresh"]', 0);
+    expect(result.container).isExist('[name="config"]', 0);
+    expect(result.container).isExistClass('.erda-table-filter', 'bg-default-02');
+    expect(result.container).not.isExistClass('.erda-table-filter', 'bg-white');
     result.rerender(
       <TableConfig
         columns={columns}
@@ -63,8 +63,8 @@ describe('TableConfig', () => {
         hideColumnConfig
       />,
     );
-    expect(result.container).not.isExitClass('.erda-table-filter', 'bg-default-02');
-    expect(result.container).isExitClass('.erda-table-filter', 'bg-white');
+    expect(result.container).not.isExistClass('.erda-table-filter', 'bg-default-02');
+    expect(result.container).isExistClass('.erda-table-filter', 'bg-white');
     result.rerender(
       <TableConfig
         columns={columns}
@@ -74,8 +74,8 @@ describe('TableConfig', () => {
         slot={<div>slotEle</div>}
       />,
     );
-    expect(result.container).isExit('[name="refresh"]', 1);
-    expect(result.container).isExit('[name="config"]', 1);
+    expect(result.container).isExist('[name="refresh"]', 1);
+    expect(result.container).isExist('[name="config"]', 1);
     expect(result.getByText('slotEle')).toBeTruthy();
   });
   it('should work well', async () => {

@@ -14,18 +14,16 @@
 import React from 'react';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
-import { Spin, Input, Select, Tooltip } from 'antd';
+import { Spin, Tooltip } from 'antd';
 import { isEmpty, map } from 'lodash';
-import { Holder, LoadMoreSelector, Filter } from 'common';
+import { LoadMoreSelector, ConfigurableFilter } from 'common';
 import ErdaTable from 'common/components/table';
-import { useUpdate } from 'common/use-hooks';
+import { useUpdate, useUpdateSearch } from 'common/use-hooks';
 import { getClusterList, getDomainList } from 'cmp/services/domain-manage';
 import { getDefaultPaging, goTo } from 'common/utils';
 import { getProjectList } from 'project/services/project';
 import routeInfoStore from 'core/stores/route';
 import orgStore from 'app/org-home/stores/org';
-
-const { Option } = Select;
 
 const SERVER_TYPES = {
   service: i18n.t('service'),
@@ -40,19 +38,17 @@ const ENV_DIC = {
   PROD: i18n.t('production'),
 };
 
-const envOptions = Object.keys(ENV_DIC).map((key: string) => (
-  <Option key={key} value={key}>
-    {ENV_DIC[key]}
-  </Option>
-));
+interface IState {
+  filterData: Obj;
+}
 
 const DomainManage = () => {
-  const { projectName, projectID } = routeInfoStore.useStore((s) => s.query);
+  const { projectName, ...rest } = routeInfoStore.useStore((s) => s.query);
 
-  const [{ projectData, query }, updater] = useUpdate({
-    projectData: { value: projectID, label: projectName },
-    query: {} as Obj,
+  const [{ filterData }, updater] = useUpdate<IState>({
+    filterData: { ...rest },
   });
+  const projectNameRef = React.useRef<string | undefined>(projectName);
   const clusterList = getClusterList.useData();
   const [data, loadingList] = getDomainList.useState();
   const domainList = data?.list || [];
@@ -65,102 +61,92 @@ const DomainManage = () => {
   useMount(() => {
     const userOrgId = orgStore.getState((s) => s.currentOrg.id);
     getClusterList.fetch({ orgID: userOrgId });
+    getList(filterData);
   });
 
-  const chosenItemConvert = React.useCallback(
-    (selectItem: { value: number; label: string }) => {
-      if (isEmpty(selectItem)) {
-        return [];
-      }
+  const chosenItemConvert = React.useCallback((selectItem: { value: number; label: string }) => {
+    if (isEmpty(selectItem)) {
+      return [];
+    }
+    const { value, label } = selectItem;
+    if (label) {
+      return [{ value, label }];
+    } else {
+      return [{ value, label: projectNameRef.current || '' }];
+    }
+  }, []);
 
-      const { value, label } = selectItem;
-      if (label) {
-        return [{ value, label }];
-      } else if (!isEmpty(projectData)) {
-        return [{ value, label: projectData.label }];
-      } else {
-        return [{ value, label: '' }];
-      }
+  const filterList = [
+    {
+      key: 'domain',
+      type: 'input',
+      label: i18n.t('msp:domain name'),
+      outside: true,
+      placeholder: i18n.t('please enter {name}', { name: i18n.t('msp:domain name') }),
     },
-    [projectData],
-  );
+    {
+      key: 'clusterName',
+      type: 'select',
+      label: i18n.t('Cluster name'),
+      options: (clusterList || []).map((item) => ({ label: item.name, value: item.name })),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('Cluster name') }),
+      itemProps: { mode: 'single' },
+    },
+    {
+      key: 'type',
+      type: 'select',
+      label: i18n.t('Attribution type'),
+      options: map(Object.keys(SERVER_TYPES), (item) => ({ label: SERVER_TYPES[item], value: item })),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('Attribution type') }),
+      itemProps: { mode: 'single' },
+    },
+    {
+      key: 'projectID',
+      type: 'custom',
+      getComp: () => {
+        return (
+          <LoadMoreSelector
+            getData={getProjectListData}
+            placeholder={i18n.t('filter by {name}', { name: i18n.t('Project name') })}
+            chosenItemConvert={chosenItemConvert}
+            onChange={(id: string, record: { value: string; label: string }) => {
+              projectNameRef.current = record?.label;
+              // updater.projectData({ value: id, label: record?.label || undefined });
+            }}
+            dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
+              total,
+              list: map(list, (project) => {
+                const { name, id } = project;
+                return { label: name, value: id };
+              }),
+            })}
+          />
+        );
+      },
+      label: i18n.t('Project name'),
+    },
+    {
+      key: 'workspace',
+      type: 'select',
+      label: i18n.t('environment'),
+      options: map(Object.keys(ENV_DIC), (item) => ({ label: ENV_DIC[item], value: item })),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('environment') }),
+      itemProps: { mode: 'single' },
+    },
+  ];
 
-  const filterConfig = React.useMemo(
-    (): FilterItemConfig[] => [
-      {
-        type: Input,
-        name: 'domain',
-        customProps: {
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('msp:domain name') }),
-        },
-      },
-      {
-        type: Select,
-        name: 'clusterName',
-        customProps: {
-          children: map(clusterList, ({ name }) => (
-            <Option key={name} value={name}>
-              {name}
-            </Option>
-          )),
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('Cluster name') }),
-          allowClear: true,
-        },
-      },
-      {
-        type: Select,
-        name: 'type',
-        customProps: {
-          children: map(Object.keys(SERVER_TYPES), (value) => (
-            <Option key={value} value={value}>
-              {SERVER_TYPES[value]}
-            </Option>
-          )),
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('Attribution type') }),
-          allowClear: true,
-        },
-      },
-      {
-        type: LoadMoreSelector,
-        name: 'projectID',
-        customProps: {
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('Project name') }),
-          allowClear: true,
-          getData: getProjectListData,
-          chosenItemConvert,
-          onChange: (id: number, record: { value: number; label: string }) => {
-            updater.projectData({ value: id, label: record?.label || undefined });
-          },
-          dataFormatter: ({ list, total }: { list: any[]; total: number }) => ({
-            total,
-            list: map(list, (project) => {
-              const { name, id } = project;
-              return { label: name, value: id };
-            }),
-          }),
-        },
-      },
-      {
-        type: Select,
-        name: 'workspace',
-        customProps: {
-          allowClear: true,
-          children: envOptions,
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('environment') }),
-        },
-      },
-    ],
-    [chosenItemConvert, clusterList, updater],
-  );
-
-  const onFilter = (params: Obj) => {
-    updater.query(params);
-    getDomainList.fetch({ pageNo: 1, ...params, pageSize: domainPaging.pageSize });
+  const onFilter = (params: Obj = {}) => {
+    updater.filterData(params);
+    getList({ pageNo: 1, ...params });
   };
 
-  const urlExtra = React.useMemo(() => {
-    return { pageNo: domainPaging.pageNo, projectName: projectData.label };
-  }, [domainPaging.pageNo, projectData]);
+  const [setUrlQuery] = useUpdateSearch({
+    reload: onFilter,
+  });
+
+  React.useEffect(() => {
+    setUrlQuery({ ...filterData, projectName: projectNameRef.current });
+  }, [filterData, setUrlQuery]);
 
   const columns: any[] = [
     {
@@ -241,23 +227,38 @@ const DomainManage = () => {
     },
   };
 
+  const getList = (_q: Obj = {}) => {
+    return getDomainList.fetch(_q);
+  };
+
   const pagination = {
     total: domainPaging.total,
     current: domainPaging.pageNo,
     pageSize: domainPaging.pageSize,
     showSizeChanger: true,
-    onChange: (no: number, size: number) => getDomainList.fetch({ ...query, pageNo: no, pageSize: size }),
+    onChange: (no: number, size: number) => onFilter({ ...filterData, pageNo: no, pageSize: size }),
   };
+  const { pageNo, pageSize, ...filterValue } = filterData;
+  const slot = (
+    <ConfigurableFilter
+      hideSave
+      value={filterValue}
+      fieldsList={filterList}
+      onFilter={(v) => onFilter({ ...v, pageNo: 1, pageSize: domainPaging.pageSize })}
+    />
+  );
 
   return (
-    <>
-      <Filter config={filterConfig} onFilter={onFilter} connectUrlSearch urlExtra={urlExtra} />
-      <Spin spinning={loadingList}>
-        <Holder when={isEmpty(domainList)}>
-          <ErdaTable columns={columns} dataSource={domainList} pagination={pagination} actions={actions} rowKey="id" />
-        </Holder>
-      </Spin>
-    </>
+    <Spin spinning={loadingList}>
+      <ErdaTable
+        slot={slot}
+        columns={columns}
+        dataSource={domainList}
+        pagination={pagination}
+        actions={actions}
+        rowKey="id"
+      />
+    </Spin>
   );
 };
 

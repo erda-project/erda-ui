@@ -141,7 +141,7 @@ const PureLoadMoreSelector = (props: IProps) => {
     value,
     onChange = emptyFun,
     onClickItem = emptyFun,
-    placeholder = i18n.t('please select'),
+    placeholder = i18n.t('Please Select'),
     list = emptyArray,
     showSearch = true,
     allowClear = false,

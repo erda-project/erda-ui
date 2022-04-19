@@ -398,7 +398,7 @@ const MicroServiceOverview = () => {
                     {chartItems.map((chartItem: { key: string; name: string; tips: string }) => {
                       const { count, unit } = dataConvert[key](get(rest, chartItem.key));
                       return (
-                        <div className="w-1/2">
+                        <div className="w-1/2" key={`${rest.id}-${chartItem.key}`}>
                           <p className="mb-0 whitespace-nowrap font-number">
                             <span>{count}</span>
                             <span className="text-xs text-desc ml-1">{unit}</span>

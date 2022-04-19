@@ -429,7 +429,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
           getPopupContainer={() => tableRef.current as HTMLElement}
           showSearch
           optionFilterProp="children"
-          placeholder={i18n.t('please select')}
+          placeholder={i18n.t('Please Select')}
           onSelect={(alertIndex: any) => {
             const rules = cloneDeep(state.editingRules);
             const rule = find(allRules, { alertIndex });
@@ -452,7 +452,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       render: (value: number, { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <Select
           value={value}
-          placeholder={i18n.t('please select')}
+          placeholder={i18n.t('Please Select')}
           getPopupContainer={() => tableRef.current as HTMLElement}
           onSelect={(window: any) => handleEditEditingRule(key, { key: 'window', value: Number(window) })}
         >

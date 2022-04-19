@@ -356,7 +356,7 @@ export const CaseTreeSelector = (props: IProps) => {
         className="w-full mb-4"
         value={value}
         listHeight={500}
-        placeholder={i18n.t('please select')}
+        placeholder={i18n.t('Please Select')}
         disabled={!editing}
         onChange={onChange}
         loadData={onLoadData}

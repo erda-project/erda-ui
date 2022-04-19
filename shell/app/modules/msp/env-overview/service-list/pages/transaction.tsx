@@ -232,6 +232,13 @@ const Transaction = () => {
               {},
             ),
             table: {
+              props: {
+                tableProps: {
+                  rowKey: (record: Required<IState>['recordItem']) => {
+                    return record.transactionName.data.text;
+                  },
+                },
+              },
               op: {
                 clickRow: openDetail,
               },

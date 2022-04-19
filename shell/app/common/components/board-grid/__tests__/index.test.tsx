@@ -21,7 +21,7 @@ describe('BoardGrid', () => {
   it('should dcRegisterComp work well', () => {
     const { Comp } = dcRegisterComp.getComp<typeof WrappedTable, any>('table', {});
     const result = render(<Comp columns={[{ title: 'name', dataIndex: 'name' }]} />);
-    expect(result.container).isExit('.erda-table', 1);
+    expect(result.container).isExist('.erda-table', 1);
   });
   it('should BoardGrid work well', () => {
     render(<BoardGrid {...{}} />);

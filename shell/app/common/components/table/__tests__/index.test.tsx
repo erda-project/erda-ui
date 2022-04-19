@@ -95,9 +95,9 @@ describe('ErdaTable', () => {
     const tableChangeFn = jest.fn();
     const newPagination = { ...defaultPagination, current: 2, onChange: pageChangeFn };
     const result = render(<ErdaTable columns={columns} dataSource={[]} hideHeader />);
-    expect(result.container).isExit('.erda-table-filter', 0);
+    expect(result.container).isExist('.erda-table-filter', 0);
     result.rerender(<ErdaTable columns={columns} dataSource={[]} />);
-    expect(result.container).isExit('.erda-table-filter', 1);
+    expect(result.container).isExist('.erda-table-filter', 1);
     result.rerender(
       <ErdaTable columns={columns} dataSource={[]} pagination={newPagination} onChange={tableChangeFn} />,
     );
@@ -164,7 +164,7 @@ describe('ErdaTable', () => {
         actions={genTableActions(actionFn)}
       />,
     );
-    expect(result.container).isExit('[name="more"]', dataSource.length);
+    expect(result.container).isExist('[name="more"]', dataSource.length);
     fireEvent.click(result.container.querySelectorAll('[name="more"]')[0]);
     await waitFor(() => expect(result.getByRole('menu')).toBeInTheDocument());
     fireEvent.click(result.getByText('editAction').closest('li')!);
@@ -192,7 +192,7 @@ describe('ErdaTable', () => {
         onChange={tableChangeFn}
       />,
     );
-    expect(result.container).isExit('[name="caret-down"]', 1);
+    expect(result.container).isExist('[name="caret-down"]', 1);
     fireEvent.click(result.container.querySelector('[name="caret-down"]')!);
     await waitFor(() => expect(result.getByRole('menu')));
     fireEvent.click(result.getByText('ascend').closest('li')!);

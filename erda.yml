@@ -4,8 +4,8 @@ meta:
 values:
   production:
     replicas: 2
-    request_cpu: 0.2
-    request_mem: 256
+    request_cpu: 0.5
+    request_mem: 512
 envs:
   FDP_UI_ADDR: "fdp-ui:80"
   ENTERPRISE_UI_ADDR: "enterprise-ui:80"
@@ -25,10 +25,10 @@ services:
       COLLECTOR_PUBLIC_ADDR: "collector:7076"
       SCHEDULER_ADDR: "scheduler:9091"
     resources:
-      cpu: ${request_cpu:0.2}
-      max_cpu: 0.2
-      mem: ${request_mem:256}
-      max_mem: 256
+      cpu: ${request_cpu:0.5}
+      max_cpu: 0.5
+      mem: ${request_mem:512}
+      max_mem: 512
       network:
         mode: "container"
     deployments:

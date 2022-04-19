@@ -11,12 +11,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-/// <reference types="jest" />
+import React from 'react';
+import AntdButton from 'antd/lib/button';
+import { allWordsFirstLetterUpper } from 'common/utils';
 
-declare namespace jest {
-  interface Matchers<R, T> {
-    isExist: (selector: string, expected?: number) => jest.CustomMatcherResult;
-    isExistClass: (selector: string, expected: string) => jest.CustomMatcherResult;
-    toHaveBeenLastCalledWithNth: (nthParams: number, params: any) => jest.CustomMatcherResult;
+const Button = React.forwardRef(({ children, ...props }: any, ref) => {
+  if (typeof children === 'string') {
+    return (
+      <AntdButton {...props} ref={ref}>
+        {allWordsFirstLetterUpper(children)}
+      </AntdButton>
+    );
   }
-}
+  return (
+    <AntdButton {...props} ref={ref}>
+      {children}
+    </AntdButton>
+  );
+}) as unknown as typeof AntdButton;
+
+Button.Group = AntdButton.Group;
+export default Button;

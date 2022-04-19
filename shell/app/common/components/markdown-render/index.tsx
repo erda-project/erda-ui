@@ -62,7 +62,7 @@ const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement
     emit('md-img-loaded');
   };
 
-  return (
+  return src ? (
     <span>
       <img
         style={{ cursor: 'zoom-in' }}
@@ -84,7 +84,7 @@ const ScalableImage = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement
         <img style={{ margin: 'auto' }} src={src} alt={alt || 'preview-image'} {...rest} />
       </span>
     </span>
-  );
+  ) : null;
 };
 
 const Link = ({ href, children }: LinkHTMLAttributes<HTMLAnchorElement>) => {

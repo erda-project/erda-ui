@@ -57,7 +57,7 @@ describe('DropdownSelect', () => {
   it('should work well', async () => {
     const clickMenuFn = jest.fn();
     const result = render(<DropdownSelect menuList={menuList} onClickMenu={clickMenuFn} />);
-    expect(result.container).isExit('[name="caret-down"]', 1);
+    expect(result.container).isExist('[name="caret-down"]', 1);
     fireEvent.click(result.container.querySelector('[name="caret-down"]')!);
     await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument());
     fireEvent.click(screen.getByText('menu-1').closest('li')!);
