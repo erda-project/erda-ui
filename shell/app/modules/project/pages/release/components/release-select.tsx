@@ -21,6 +21,7 @@ import { PAGINATION } from 'app/constants';
 import routeInfoStore from 'core/stores/route';
 import memberStore from 'common/stores/application-member';
 import releaseStore from 'project/stores/release';
+import projectLabel from 'project/stores/label';
 import { MemberScope } from 'common/stores/member-scope';
 import { getReleaseList } from 'project/services/release';
 import empty from 'app/images/empty-white-bg.svg';
@@ -291,6 +292,7 @@ const ListSelectOverlay = ({
 }: OverlayProps) => {
   const { params } = routeInfoStore.getState((s) => s);
   const { projectId } = params;
+  const labelsList = projectLabel.useStore((s) => s.list);
   const { appList } = releaseStore.getState((s) => s);
   const { getAppList } = releaseStore.effects;
 
@@ -379,7 +381,13 @@ const ListSelectOverlay = ({
       type: 'select',
       label: i18n.t('dop:only the latest version is displayed'),
       mode: 'single',
-      options: [{ label: '是', value: 'true' }],
+      options: [{ label: i18n.t('common:Yes'), value: 'true' }],
+    },
+    {
+      key: 'tags',
+      type: 'tagsSelect',
+      label: i18n.t('label'),
+      options: labelsList.map((item) => ({ ...item, value: item.id })),
     },
     {
       key: 'q',
