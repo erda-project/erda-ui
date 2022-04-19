@@ -22,13 +22,11 @@ import routeInfoStore from 'core/stores/route';
 import monitorErrorStore from 'error-insight/stores/error';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
-import { Pagination, Spin } from 'antd';
-import { EmptyHolder } from 'common';
+import { Spin } from 'antd';
+import { EmptyHolder, Pagination } from 'common';
+import { PAGINATION } from 'app/constants';
 import i18n from 'i18n';
-
 import './error-overview.scss';
-
-const pageSize = 20;
 
 const errorChartConfig = {
   fetchApi: '/api/tmc/metrics/error_count/histogram',
@@ -48,23 +46,23 @@ const ErrorOverview = () => {
   const { getErrorsList } = monitorErrorStore.effects;
   const { clearMonitorErrors } = monitorErrorStore.reducers;
   const { projectId, terminusKey, env } = routeInfoStore.useStore((s) => s.params);
-  const [pageNo, setPageNo] = React.useState(1);
+  const [{ pageSize, pageNo }, setPagination] = React.useState({ pageNo: 1, pageSize: PAGINATION.pageSize });
 
   React.useEffect(() => {
     clearMonitorErrors();
     const { startTimeMs, endTimeMs } = timeSpan;
     getErrorsList({ startTime: startTimeMs, endTime: endTimeMs, scopeId: terminusKey });
-    setPageNo(1);
+    setPagination({ pageNo: 1, pageSize: PAGINATION.pageSize });
   }, [terminusKey, timeSpan]);
 
-  const handleChangePage = (page: number) => {
-    setPageNo(page || 1);
+  const handleChangePage = (page: number, size: number) => {
+    setPagination({ pageNo: page, pageSize: size });
   };
 
   const total = errors?.length || 0;
   const currentPageList = React.useMemo(() => {
     return (errors || []).slice((pageNo - 1) * pageSize, pageNo * pageSize);
-  }, [errors, pageNo]);
+  }, [errors, pageNo, pageSize]);
   // 当env为空时，不可查询
   // shell/app/modules/msp/monitor/monitor-common/components/chartFactory.tsx
   // 临时处理：上面引用的 chartFactory 有个循环渲染的 bug， 受影响的目前只有这一处：
