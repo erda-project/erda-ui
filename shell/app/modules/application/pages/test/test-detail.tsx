@@ -151,7 +151,7 @@ class TestDetail extends React.Component<IProps, IState> {
               </div>
               <ul className="unit-test-list">
                 {map(filterList, (item) => {
-                  const { name, status, duration, key } = item;
+                  const { name, status, duration, key, classname } = item;
                   const seconds = floor(parseInt(duration, 10) / 10 ** 9, 2); // duration为纳秒
                   return (
                     <Tooltip
@@ -165,7 +165,10 @@ class TestDetail extends React.Component<IProps, IState> {
                         onClick={(e) => this.showTestInfo(key, e)}
                       >
                         <span className={`status-point ${status}`} />
-                        <span className="flex-1 mx-2 truncate">{name.slice(0, 100)}</span>
+                        <div className="flex-1 mx-2 truncate">
+                          <div className="text-desc truncate">{classname}</div>
+                          <div className="truncate">{name.slice(0, 100)}</div>
+                        </div>
                         <span className="time nowrap">
                           {duration !== 0 && seconds === 0
                             ? `${duration / 1000000}${i18n.t('dop:millisecond(s)')}`
