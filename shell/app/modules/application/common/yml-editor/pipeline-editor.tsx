@@ -369,7 +369,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
           ) : (
             <FileEditor
               name={fileName}
-              fileExtension={'xml'}
+              fileExtension={'yml'}
               value={txtValue}
               key={`${editing}`}
               focus={editing ? true : undefined}

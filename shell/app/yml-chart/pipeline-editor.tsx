@@ -360,7 +360,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
           ) : (
             <FileEditor
               name={name}
-              fileExtension={'xml'}
+              fileExtension={'yml'}
               value={ymlStr}
               key={`${editing}`}
               focus={editing ? true : undefined}
