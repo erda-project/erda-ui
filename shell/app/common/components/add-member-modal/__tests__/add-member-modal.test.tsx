@@ -162,7 +162,7 @@ describe('AddMemberModal', () => {
       fireEvent.click(result.getByText('Cancel'));
     };
     const submit = () => {
-      fireEvent.click(result.getByText('Ok'));
+      fireEvent.click(result.getByText('OK'));
     };
     return {
       result,

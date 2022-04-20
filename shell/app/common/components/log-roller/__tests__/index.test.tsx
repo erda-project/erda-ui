@@ -117,7 +117,7 @@ describe('WrappedLogRoller', () => {
     fireEvent.click(result.getByText('Back to Top'));
     expect(fetchLog).toHaveBeenCalledTimes(4);
     fireEvent.click(result.getByText('Download Log'));
-    await waitFor(() => expect(result.queryByText('log download')).not.toBeNull());
+    await waitFor(() => expect(result.queryByText('Log download')).not.toBeNull());
     result.unmount();
     expect(clearLog).toHaveBeenLastCalledWith(logKey);
     jest.useRealTimers();

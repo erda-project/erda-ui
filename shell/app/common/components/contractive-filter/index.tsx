@@ -148,7 +148,6 @@ interface IOptionItemProps {
 
 const OptionItem = (props: IOptionItemProps) => {
   const { value, option, onClick, onDelete } = props;
-  console.log(option.label, '++');
 
   return (
     <div
@@ -1084,7 +1083,7 @@ const ContractiveFilter = <T extends ConditionType>({
                   };
                   return (
                     <Menu.Item key={key} className="option-item" onClick={handleClick}>
-                      <Checkbox checked={!!showList.find((a) => a.key === key)} className="mr-2" />{' '}
+                      <Checkbox checked={!!showList.find((a) => a.key === key)} className="mr-2" />
                       {firstCharToUpper(label)}
                     </Menu.Item>
                   );
