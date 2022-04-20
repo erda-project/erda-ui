@@ -129,7 +129,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
               let { permissionList, resourceRoleList } = orgAccessRes.data.data;
               permissionList = permissionList.filter((p) => p.resource.startsWith('UI'));
               resourceRoleList = resourceRoleList.filter((p) => p.resource.startsWith('UI'));
-              initData.orgAccess = { ...orgAccessRes.data, permissionList, resourceRoleList };
+              initData.orgAccess = { ...orgAccessRes.data.data, permissionList, resourceRoleList };
             }
           }
         }
