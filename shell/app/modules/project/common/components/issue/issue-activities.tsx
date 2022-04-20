@@ -53,7 +53,7 @@ export const IssueActivities = (props: IProps) => {
   });
   const tabs = [
     { key: 'all', text: `${i18n.t('dop:All')}(${issueStreamList.length})`, data: issueStreamList },
-    { key: 'comments', text: `${i18n.t('dop:comments')}(${commentList.length})`, data: commentList },
+    { key: 'comments', text: `${i18n.t('dop:Comment')}(${commentList.length})`, data: commentList },
     { key: 'activity', text: `${i18n.t('dop:Activity')}(${activityList.length})`, data: activityList },
     { key: 'transfer', text: `${i18n.t('dop:Transfer')}(${transferList.length})`, data: transferList },
   ];

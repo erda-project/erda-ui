@@ -22,6 +22,7 @@ interface IMenuItem {
   key: string;
   name: string;
   title: string;
+  isLetterUpper?: boolean;
   disabled?: boolean;
   split?: boolean;
   readonly?: boolean;
@@ -121,9 +122,9 @@ const PureMenu = (props: IMenu) => {
   const splitIndex = finalMenus.findIndex((menu: IMenuItem) => menu.split);
 
   const renderMenu = (menu: IMenuItem) => {
-    const { disabled, key, name, split, readonly, isActive, className: itemClass = '' } = menu;
+    const { disabled, key, name, isLetterUpper = true, split, readonly, isActive, className: itemClass = '' } = menu;
     let { title } = menu;
-    title = title ?? allWordsFirstLetterUpper(name);
+    title = title ?? (isLetterUpper ? allWordsFirstLetterUpper(name) : name);
     const menuItemClass = classnames({
       'tab-menu-item': true,
       'tab-menu-disabled': disabled,

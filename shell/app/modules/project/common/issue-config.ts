@@ -30,14 +30,14 @@ export const ISSUE_COMPLEXITY_MAP = {
 
 export const BUG_SEVERITY_MAP = {
   FATAL: { value: 'FATAL', label: `P0 ${i18n.t('dop:Fatal')}`, icon: 'yz5' },
-  SERIOUS: { value: 'SERIOUS', label: `P1 ${i18n.t('dop:serious')}`, icon: 'yz4' },
+  SERIOUS: { value: 'SERIOUS', label: `P1 ${i18n.t('dop:Serious')}`, icon: 'yz4' },
   NORMAL: { value: 'NORMAL', label: `P2 ${i18n.t('dop:Normal')}`, icon: 'yz3' },
   SLIGHT: { value: 'SLIGHT', label: `P3 ${i18n.t('dop:Slight')}`, icon: 'yz2' },
   SUGGEST: { value: 'SUGGEST', label: `P4 ${i18n.t('dop:Suggestion')}`, icon: 'yz1' },
 };
 
 export const ISSUE_PRIORITY_MAP = {
-  URGENT: { value: 'URGENT', label: i18n.t('dop:urgent'), icon: 'yx4' },
+  URGENT: { value: 'URGENT', label: i18n.t('dop:Urgent'), icon: 'yx4' },
   HIGH: { value: 'HIGH', label: i18n.t('High'), icon: 'yx3' },
   NORMAL: { value: 'NORMAL', label: i18n.t('Medium'), icon: 'yx2' },
   LOW: { value: 'LOW', label: i18n.t('Low'), icon: 'yx1' },

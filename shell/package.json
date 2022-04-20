@@ -43,7 +43,7 @@
   "license": "AGPL",
   "dependencies": {
     "@erda-ui/dashboard-configurator": "2.0.15",
-    "@erda-ui/react-markdown-editor-lite": "^1.4.7",
+    "@erda-ui/react-markdown-editor-lite": "^1.4.9",
     "ace-builds": "^1.4.7",
     "ansi_up": "^5.0.1",
     "antd": "^4.16.13",

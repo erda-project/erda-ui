@@ -78,6 +78,7 @@ export const DEPLOY_RUNTIME_TABS = (params: Obj) => {
       key: '_',
       readonly: true,
       name: appName === runtimeName ? runtimeName : `${appName}/${runtimeName}`,
+      isLetterUpper: false,
     },
   ];
 };

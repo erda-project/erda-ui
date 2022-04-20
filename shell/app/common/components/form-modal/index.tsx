@@ -203,7 +203,7 @@ class FormModalComp extends React.Component<IProps, IState> {
               loading={confirmLoading}
               onClick={this.handleOk}
             >
-              {i18n.t('ok')}
+              {i18n.t('Ok')}
             </Button>
           ) : null,
         ]}

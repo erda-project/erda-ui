@@ -107,13 +107,13 @@ describe('ExternalItem', () => {
         value: [],
         itemData,
       });
-      fireEvent.mouseDown(result.getByPlaceholderText('startDate'));
-      fireEvent.focus(result.getByPlaceholderText('startDate'));
+      fireEvent.mouseDown(result.getByPlaceholderText('Start date'));
+      fireEvent.focus(result.getByPlaceholderText('Start date'));
       await waitFor(() => expect(result.baseElement).isExist('.ant-picker-dropdown', 1));
       // select start date
       fireEvent.click(result.getAllByText('Today')[0]);
-      fireEvent.mouseDown(result.getByPlaceholderText('endDate'));
-      fireEvent.focus(result.getByPlaceholderText('endDate'));
+      fireEvent.mouseDown(result.getByPlaceholderText('End date'));
+      fireEvent.focus(result.getByPlaceholderText('End date'));
       await waitFor(() => expect(result.baseElement).isExist('.ant-picker-dropdown', 2));
       // select end date
       fireEvent.click(result.getAllByText('Today')[1]);

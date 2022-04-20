@@ -256,7 +256,7 @@ const ExternalItem = ({ itemData, value, onChange, className = '' }: IProps) => 
           format={'YYYY/MM/DD'}
           allowClear={!required}
           onChange={(v) => setCurValue(getTimeValue([v?.valueOf(), endDate]))}
-          placeholder={i18n.t('common:startDate')}
+          placeholder={i18n.t('common:Start date')}
         />
         <span className="text-desc">{i18n.t('common:to')}</span>
         <DatePicker
@@ -266,7 +266,7 @@ const ExternalItem = ({ itemData, value, onChange, className = '' }: IProps) => 
           value={endDate ? moment(endDate) : undefined}
           disabledDate={disabledDate(false)}
           format={'YYYY/MM/DD'}
-          placeholder={i18n.t('common:endDate')}
+          placeholder={i18n.t('common:End date')}
           onChange={(v) => setCurValue(getTimeValue([startDate, v?.valueOf()]))}
         />
       </span>

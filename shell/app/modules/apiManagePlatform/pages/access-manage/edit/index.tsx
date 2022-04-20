@@ -387,7 +387,7 @@ const AccessEdit = () => {
       getComp: ({ form }: { form: FormInstance }) => (
         <div className="mt-5">
           <Button type="primary" onClick={() => handleSubmit(form)}>
-            {i18n.t('ok')}
+            {i18n.t('Ok')}
           </Button>
           <Button className="ml-3" onClick={() => window.history.back()}>
             {i18n.t('Cancel')}

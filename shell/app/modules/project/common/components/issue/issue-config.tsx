@@ -117,12 +117,12 @@ export const BUG_SEVERITY_MAP = {
   },
   SERIOUS: {
     value: 'SERIOUS',
-    label: `P1 ${i18n.t('dop:serious')}`,
+    label: `P1 ${i18n.t('dop:Serious')}`,
     icon: ISSUE_ICON.severity.SERIOUS,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.severity.SERIOUS}
-        {i18n.t('dop:serious')}
+        {i18n.t('dop:Serious')}
       </div>
     ),
   },
@@ -222,12 +222,12 @@ export const ISSUE_TYPE_MAP = {
 export const ISSUE_PRIORITY_MAP = {
   URGENT: {
     value: 'URGENT',
-    label: i18n.t('dop:urgent'),
+    label: i18n.t('dop:Urgent'),
     icon: ISSUE_ICON.priority.URGENT,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.priority.URGENT}
-        {i18n.t('dop:urgent')}
+        {i18n.t('dop:Urgent')}
       </div>
     ),
   },

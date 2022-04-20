@@ -214,7 +214,7 @@ export const DEFAULT_ISSUE_FIELDS_MAP = {
     },
     {
       propertyName: 'owner',
-      displayName: i18n.t('dop:responsible person'),
+      displayName: i18n.t('dop:Principal'),
       propertyType: 'Person',
     },
     {

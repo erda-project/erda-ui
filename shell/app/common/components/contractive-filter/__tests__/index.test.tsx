@@ -496,29 +496,31 @@ describe('ContractiveFilter', () => {
     async ({ borderTime }) => {
       const { timestamp } = setMockDate();
       const { result, changeFn } = setUp({
-        conditions: conditionsFilter.map((item) => {
-          return item.type === 'dateRange'
-            ? {
-                ...item,
-                customProps: {
-                  ...item.customProps,
-                  borderTime,
-                },
-              }
-            : {
-                ...item,
-              };
-        }),
+        conditions: conditionsFilter
+          .filter((item) => item.type !== 'rangePicker')
+          .map((item) => {
+            return item.type === 'dateRange'
+              ? {
+                  ...item,
+                  customProps: {
+                    ...item.customProps,
+                    borderTime,
+                  },
+                }
+              : {
+                  ...item,
+                };
+          }),
       });
-      fireEvent.mouseDown(result.getByPlaceholderText('startDate'));
-      fireEvent.focus(result.getByPlaceholderText('startDate'));
+      fireEvent.mouseDown(result.getByPlaceholderText('Start date'));
+      fireEvent.focus(result.getByPlaceholderText('Start date'));
       await waitFor(() => expect(result.baseElement).isExist('.ant-picker-dropdown', 1));
       // select start date
       fireEvent.click(result.getAllByText('Today')[0]);
-      fireEvent.mouseDown(result.getByPlaceholderText('endDate'));
-      fireEvent.focus(result.getByPlaceholderText('endDate'));
+      fireEvent.mouseDown(result.getByPlaceholderText('End date'));
+      fireEvent.focus(result.getByPlaceholderText('End date'));
       await waitFor(() => expect(result.baseElement).isExist('.ant-picker-dropdown', 2));
-      // select end date
+      // select End date
       fireEvent.click(result.getAllByText('Today')[1]);
       const createAt = borderTime ? [timestamp.startOfDay, timestamp.endOfDay] : [timestamp.current, timestamp.current];
       expect(changeFn).toHaveBeenLastCalledWith({ createAt }, 'createAt');
@@ -533,23 +535,27 @@ describe('ContractiveFilter', () => {
       const nextDay = moment.clone().add(1, 'day');
       const nextDayStr = nextDay.format('YYYY-MM-DD');
       const { result, changeFn } = setUp({
-        conditions: conditionsFilter.map((item) => {
-          return item.type === 'rangePicker'
-            ? {
-                ...item,
-                customProps: {
-                  ...item.customProps,
-                  borderTime,
-                  ranges: [
-                    { 'last 1 month': { label: 'last 1 month', range: [moment.clone().subtract(30, 'days'), moment] } },
-                  ],
-                  selectableTime: [moment.clone().subtract(10, 'days'), moment.clone().add(10, 'days')],
-                },
-              }
-            : {
-                ...item,
-              };
-        }),
+        conditions: conditionsFilter
+          .filter((item) => item.type !== 'dateRange')
+          .map((item) => {
+            return item.type === 'rangePicker'
+              ? {
+                  ...item,
+                  customProps: {
+                    ...item.customProps,
+                    borderTime,
+                    ranges: [
+                      {
+                        'last 1 month': { label: 'last 1 month', range: [moment.clone().subtract(30, 'days'), moment] },
+                      },
+                    ],
+                    selectableTime: [moment.clone().subtract(10, 'days'), moment.clone().add(10, 'days')],
+                  },
+                }
+              : {
+                  ...item,
+                };
+          }),
       });
       fireEvent.mouseDown(result.getByPlaceholderText('Start date'));
       fireEvent.focus(result.getByPlaceholderText('Start date'));

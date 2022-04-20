@@ -112,7 +112,7 @@ class DataTaskCreation extends React.PureComponent<IProps, IState> {
                 {i18n.t('Cancel')}
               </Button>
               <Button className="ml-2" type="primary" onClick={this.onOk}>
-                {i18n.t('ok')}
+                {i18n.t('Ok')}
               </Button>
             </div>
           </section>

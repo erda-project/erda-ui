@@ -166,7 +166,7 @@ const useIssueRelation = (props: IProps) => {
               }}
               onDelete={(val) => onDelete(val, RelationType.Inclusion)}
               deleteConfirmText={(name: string) => i18n.t('dop:Are you sure to disinclude {name}', { name })}
-              deleteText={i18n.t('dop:release relationship')}
+              deleteText={i18n.t('dop:Release relationship')}
               issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
               showStatus
               undraggable
@@ -197,7 +197,7 @@ const useIssueRelation = (props: IProps) => {
               deleteConfirmText={(name: string) =>
                 i18n.t('dop:Are you sure to release relationship with {name}', { name })
               }
-              deleteText={i18n.t('dop:release relationship')}
+              deleteText={i18n.t('dop:Release relationship')}
               issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
               showStatus
               undraggable
@@ -311,7 +311,7 @@ export const IssueInclusion = ({
 
   return (
     <IssueSection
-      title={i18n.t('dop:Include')}
+      title={i18n.t('Todo List')}
       expand={expand}
       setExpand={setExpand}
       data={data?.include}
@@ -382,7 +382,7 @@ export const IssueConnection = ({ issueDetail, iterationID, editAuth, setHasEdit
     ...insertWhen(showCaseRelation, [
       {
         key: 'testcase',
-        text: `${i18n.t('dop:Testcase')}(${issueDetail?.testPlanCaseRels?.length})`,
+        text: `${i18n.t('dop:Test case')}(${issueDetail?.testPlanCaseRels?.length})`,
         data: issueDetail?.testPlanCaseRels,
         operations: null,
         content: <IssueTestCaseRelation list={issueDetail?.testPlanCaseRels || []} />,
@@ -551,7 +551,7 @@ export const AddIssueRelation = ({
     {
       title: i18n.t('dop:End date'),
       dataIndex: 'planFinishedAt',
-      render: (item: string) => (item ? moment(item).format('YYYY/MM/DD') : i18n.t('unspecified')),
+      render: (item: string) => (item ? moment(item).format('YYYY/MM/DD') : i18n.t('Unspecified')),
     },
   ];
 

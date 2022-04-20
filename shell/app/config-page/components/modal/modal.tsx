@@ -66,7 +66,7 @@ const CP_MODAL = (props: CP_MODAL.Props) => {
       destroyOnClose
       closable
       width={widthMap[size]}
-      okText={i18n.t('ok')}
+      okText={i18n.t('Ok')}
       cancelText={i18n.t('Cancel')}
       onCancel={onCancel}
       onOk={onOk}
