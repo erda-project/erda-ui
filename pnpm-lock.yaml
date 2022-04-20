@@ -334,7 +334,7 @@ importers:
       '@babel/preset-typescript': ^7.15.0
       '@babel/runtime': ^7.15.4
       '@babel/traverse': ^7.14.7
-      '@erda-ui/components': ^0.1.0
+      '@erda-ui/components': ^0.1.1
       '@erda-ui/dashboard-configurator': 2.0.15
       '@erda-ui/react-markdown-editor-lite': ^1.4.7
       '@module-federation/automatic-vendor-federation': ^1.2.1
@@ -483,7 +483,7 @@ importers:
       webpack-merge: ^5.7.3
       xterm: 3.12.0
     dependencies:
-      '@erda-ui/components': 0.1.0_cc95aa9b5f1d5f5230e9c2f983992491
+      '@erda-ui/components': 0.1.1_cc95aa9b5f1d5f5230e9c2f983992491
       '@erda-ui/dashboard-configurator': 2.0.15_react-dom@16.14.0+react@16.14.0
       '@erda-ui/react-markdown-editor-lite': 1.4.7_react@16.14.0
       ace-builds: 1.4.12
@@ -5680,8 +5680,8 @@ packages:
     engines: {node: '>=10.0.0'}
     dev: true
 
-  /@erda-ui/components/0.1.0_cc95aa9b5f1d5f5230e9c2f983992491:
-    resolution: {integrity: sha512-hi6egFyBucJZMoDAeM8+um/OGowSrWKGAy94s2O8kYqhV26Fz3uIlJ/iT7mV0TKcRzv0Df7bs00z6olN9xZPjg==}
+  /@erda-ui/components/0.1.1_cc95aa9b5f1d5f5230e9c2f983992491:
+    resolution: {integrity: sha512-4j4eEz1Cmxk5mc8QofPYUL7EwJV6kQuphNtnoSs+lfW1Mk/omxDAglDh3S4JQyRkryTRMC4/mPphV8sKdAK7rg==}
     peerDependencies:
       antd: '>=4.x'
       lodash: '>=4.x'
@@ -20454,7 +20454,7 @@ packages:
       prop-types: ^15.0.0
       react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@babel/runtime': 7.14.6
+      '@babel/runtime': 7.16.3
       prop-types: 15.7.2
       react: 16.14.0
       tiny-warning: 1.0.3
@@ -21753,7 +21753,7 @@ packages:
     resolution: {integrity: sha512-RXlj7zCYokReqWpOPH9oYivUzLYZ5vAPIfEmCTNViosC78F8F0H9y7T7gG2M39ymgutxF5gcFEsyZQSph9Bp3A==}
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.3.0
+      tslib: 2.3.1
 
   /parent-module/1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
@@ -23586,7 +23586,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.15.4
+      '@babel/runtime': 7.16.3
       classnames: 2.3.1
       dom-align: 1.12.2
       lodash: 4.17.21
@@ -23786,7 +23786,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.15.4
+      '@babel/runtime': 7.16.3
       classnames: 2.3.1
       rc-resize-observer: 1.0.1_react-dom@16.14.0+react@16.14.0
       rc-util: 5.14.0_react-dom@16.14.0+react@16.14.0
