@@ -286,7 +286,7 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
 
         const getIcon = (icon: { type?: string; url?: string }) => {
           if (icon.type) {
-            return <ErdaIcon type={icon.type} color="currentColor" className="mr-1" />;
+            return <ErdaIcon type={icon.type} color="currentColor" className="mr-1 text-white-6" />;
           }
           if (icon.url) {
             return <img src={icon.url} />;
@@ -337,7 +337,7 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
                   zIndex={1100}
                 >
                   <span
-                    className="table-operations-btn px-4 py-1 block flex-h-center"
+                    className="table-operations-btn px-4 py-1 block flex-h-center text-white-9"
                     onClick={(e: any) => e.stopPropagation()}
                   >
                     {icon ? getIcon(icon) : null}
@@ -351,7 +351,7 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
             return (
               <Menu.Item key={key} className="p-0">
                 <span
-                  className="table-operations-btn px-4 py-1 block flex-h-center"
+                  className="table-operations-btn px-4 py-1 block flex-h-center text-white-9"
                   key={key}
                   onClick={(e: any) => {
                     e.stopPropagation();

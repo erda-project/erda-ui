@@ -640,10 +640,10 @@ const getTableOperation = (val: any, record: any, extra: any) => {
             zIndex={1100}
           >
             <span
-              className="table-operations-btn px-4 py-1 block flex-h-center"
+              className="table-operations-btn px-4 py-1 block flex-h-center text-white-9"
               onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => e.stopPropagation()}
             >
-              {icon ? <ErdaIcon type={icon} color="currentColor" className="mr-1" /> : null}
+              {icon ? <ErdaIcon type={icon} color="currentColor" className="mr-1 text-white-6" /> : null}
               {text}
             </span>
           </Popconfirm>
@@ -654,7 +654,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
       return (
         <Menu.Item key={key} className="p-0">
           <span
-            className="table-operations-btn px-4 py-1 block flex-h-center"
+            className="table-operations-btn px-4 py-1 block flex-h-center text-white-9"
             key={key}
             onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
               e.stopPropagation();
@@ -665,7 +665,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
               }
             }}
           >
-            {icon ? <ErdaIcon type={icon} color="currentColor" size={16} className="mr-1" /> : null}
+            {icon ? <ErdaIcon type={icon} color="currentColor" size={16} className="mr-1 text-white-6" /> : null}
             {text}
           </span>
         </Menu.Item>
