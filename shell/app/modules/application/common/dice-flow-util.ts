@@ -340,7 +340,7 @@ const calculateLinePosition = (
   component: PointComponentAbstract<any, any>,
 ) => {
   const lines: INodeLine[] = [];
-  currentPoint.forEach((point: IEditorPoint) => {
+  currentPoint?.forEach((point: IEditorPoint) => {
     group.forEach((nextPoint: IEditorPoint[]) => {
       nextPoint.forEach((np: IEditorPoint) => {
         const item: any = {

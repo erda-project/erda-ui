@@ -86,7 +86,6 @@ export default class DiceYamlEditor extends Component<IDiceYamlEditorProps, any>
     const { selectedItem, points, onMouseDownItem, mouseDownPosition, maxWidth, maxHeight, scale } = this.state;
     const { type } = this.props;
     const className = classnames('yaml-editor-content', type === 'DATA_MARKET' ? 'data-market' : null);
-
     return (
       <div id="yaml-editor-content" className={className}>
         <IDiceYamlCanvas
@@ -196,10 +195,9 @@ export default class DiceYamlEditor extends Component<IDiceYamlEditorProps, any>
   };
 
   private onMouseUp = (e: any): boolean => {
-    const { getCreateView, updateConnect } = this.props;
+    const { getCreateView, updateConnect, nodeType } = this.props;
     const { points, onMouseDownItem, mouseDownPosition, selectedItem, connectSiblingNode }: any = this.state;
     const { info } = this.pointComponent;
-
     if (this.groupMouseEnterIndex) {
       // 连接某个组
       if (this.groupMouseEnterIndex - selectedItem.groupIndex !== 1) {
@@ -211,6 +209,7 @@ export default class DiceYamlEditor extends Component<IDiceYamlEditorProps, any>
       const newItem: any = {
         name,
         id: randomId(),
+        nodeType,
         title: name,
         status: 'new',
         groupIndex: this.groupMouseEnterIndex,

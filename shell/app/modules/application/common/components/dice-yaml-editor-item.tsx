@@ -66,6 +66,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
   render() {
     const { deleteItem, item, addLink, onMouseDown, style, editing, selectedItem } = this.props;
     const className = selectedItem ? 'selected-item' : null;
+    console.log('------', item);
     let titleContent = null;
     let nameContent = null;
     if (item.title) {
@@ -148,7 +149,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
           </span>
         );
       case 'bottom':
-        return (
+        return item.nodeType === 'job' ? null : (
           <span
             onMouseDown={(e) => addDepend && addDepend(item, e)}
             className={`item-point bottom-point ${activePointClass}`}
@@ -162,12 +163,14 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
             <span className={`item-point top-point ${activePointClass}`}>
               <CustomIcon type="caret-top" />
             </span>
-            <span
-              onMouseDown={(e) => addDepend && addDepend(item, e)}
-              className={`item-point bottom-point ${activePointClass}`}
-            >
-              <CustomIcon type="caret-top" />
-            </span>
+            {item.nodeType === 'job' ? null : (
+              <span
+                onMouseDown={(e) => addDepend && addDepend(item, e)}
+                className={`item-point bottom-point ${activePointClass}`}
+              >
+                <CustomIcon type="caret-top" />
+              </span>
+            )}
           </div>
         );
     }
