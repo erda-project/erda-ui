@@ -14,6 +14,7 @@
 import React from 'react';
 import { Checkbox, DatePicker, Dropdown, Input, Menu, message, Tooltip } from 'antd';
 import { Duration, ErdaIcon, Icon as CustomIcon, MemberSelector } from 'common';
+import { firstCharToUpper } from 'common/utils';
 import moment, { Moment } from 'moment';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import { debounce, has, isArray, isEmpty, isNumber, isString, map, max, sortBy } from 'lodash';
@@ -147,6 +148,8 @@ interface IOptionItemProps {
 
 const OptionItem = (props: IOptionItemProps) => {
   const { value, option, onClick, onDelete } = props;
+  console.log(option.label, '++');
+
   return (
     <div
       className={`relative option-item ${(value || []).includes(option.value) ? 'checked-item' : ''}`}
@@ -188,7 +191,7 @@ const FilterItem = <T extends ConditionType>(props: IFilterItemProps<T>) => {
 
   const labels = (
     <span className="text-desc mr-0.5 flex-all-center">
-      {label}
+      {firstCharToUpper(label)}
       {itemData.tips ? (
         <Tooltip title={itemData.tips}>
           <ErdaIcon type="help" className="ml-1" />
@@ -263,7 +266,7 @@ const InputFilterItem = ({
       allowClear
       className="bg-black-06"
       prefix={<ErdaIcon fill="default-3" size="16" type="search" />}
-      placeholder={placeholder}
+      placeholder={firstCharToUpper(placeholder)}
       onChange={(e) => setInputVal(e.target.value)}
     />
   );
@@ -316,7 +319,7 @@ const SelectFilterItem = ({
           <Input
             autoFocus
             size="small"
-            placeholder={placeholder || i18n.t('search')}
+            placeholder={firstCharToUpper(placeholder) || i18n.t('Search')}
             prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
             value={filterMap[key]}
             onChange={(e) => {
@@ -335,9 +338,7 @@ const SelectFilterItem = ({
       {!isSingleMode && [
         // 单选模式下不展示已选择n项
         <Menu.Item key="select-info" className="flex justify-between items-center not-select px6 py-0 options-item">
-          <span>
-            {i18n.t('common:Selected')} {_value.length} {i18n.t('common:items')}
-          </span>
+          <span>{i18n.t('{name} items selected', { name: _value.length })}</span>
           {!required ? (
             <span className="fake-link ml-2" onClick={() => onChange({ key, value: undefined })}>
               {i18n.t('common:Clear selected')}
@@ -748,7 +749,7 @@ const QuickSave = (props: IQuickSaveProps) => {
     <div className="flex justify-between items-center">
       <Input
         size="small"
-        placeholder={quickAdd?.placeholder || i18n.t('please enter')}
+        placeholder={firstCharToUpper(quickAdd?.placeholder) || i18n.t('Please enter')}
         value={v}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setV(e.target.value)}
       />
@@ -874,7 +875,6 @@ const ContractiveFilter = <T extends ConditionType>({
   const debouncedChange = React.useRef(debounce(onChange, delay));
 
   const valueMapRef = React.useRef<Obj>();
-
   const inputList = conditions.filter((a) => a.type === 'input' && a.fixed !== false);
   const mainList = conditions.filter((a) => a.split);
   const displayConditionsLen = conditions.filter(
@@ -1057,8 +1057,7 @@ const ContractiveFilter = <T extends ConditionType>({
                 <Menu.Item className="not-select px6 py-0">
                   <div className="flex justify-between items-center">
                     <span>
-                      {i18n.t('common:Selected')} {showList.filter((a) => a.fixed !== true).length}{' '}
-                      {i18n.t('common:items')}
+                      {i18n.t('{name} items selected', { name: showList.filter((a) => a.fixed !== true).length })}
                     </span>
                     <span className="fake-link" onClick={handleClearSelected}>
                       {i18n.t('common:Clear selected')}
@@ -1085,7 +1084,8 @@ const ContractiveFilter = <T extends ConditionType>({
                   };
                   return (
                     <Menu.Item key={key} className="option-item" onClick={handleClick}>
-                      <Checkbox checked={!!showList.find((a) => a.key === key)} className="mr-2" /> {label}
+                      <Checkbox checked={!!showList.find((a) => a.key === key)} className="mr-2" />{' '}
+                      {firstCharToUpper(label)}
                     </Menu.Item>
                   );
                 })}

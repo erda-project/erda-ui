@@ -30,11 +30,11 @@ describe('TableFooter', () => {
     expect(result.container).isExist('.erda-pagination', 0);
     expect(result.container).isExistClass('.erda-table-footer', 'bg-white');
     expect(result.container).not.isExistClass('.erda-table-footer', 'bg-default-02');
-    expect(result.queryByText('selected 0 items')).toBeNull();
+    expect(result.queryByText('0 items selected')).toBeNull();
   });
   it('should render well with actions', () => {
     const result = render(<TableFooter {...baseProps} rowSelection={{ actions: [] }} />);
-    expect(result.queryByText('selected 0 items')).not.toBeNull();
+    expect(result.queryByText('0 items selected')).not.toBeNull();
   });
   it('should render well with pagination', () => {
     const tableChangeFn = jest.fn();

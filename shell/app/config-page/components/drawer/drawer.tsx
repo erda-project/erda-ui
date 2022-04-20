@@ -59,7 +59,7 @@ export const Drawer = (props: CP_DRAWER.Props) => {
       {operations?.submit && (
         <div className="dice-cp-drawer-operation border-top">
           <NusiButton onClick={onSubmit} type="primary">
-            {operations.submit?.text || i18n.t('Ok')}
+            {operations.submit?.text || i18n.t('OK')}
           </NusiButton>
         </div>
       )}

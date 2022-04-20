@@ -114,7 +114,7 @@ const Kanban = (props: CP_KANBAN.Props) => {
                   {i18n.t('Cancel')}
                 </Button>
                 <Button onClick={doAdd} type="primary">
-                  {i18n.t('Ok')}
+                  {i18n.t('OK')}
                 </Button>
               </div>
             </div>
@@ -325,7 +325,7 @@ const PureKanban = (props: IKanbanProps) => {
                 onBlur={doUpdate}
               />
             ) : (
-              <Tooltip title={updateBoardOp.disabledTip || i18n.t('common:no permission to operate')}>
+              <Tooltip title={updateBoardOp.disabledTip || i18n.t('common:No permission to operate')}>
                 <Input className="text-base font-medium cp-kanban-label-input update-disabled" readOnly value={title} />
               </Tooltip>
             )

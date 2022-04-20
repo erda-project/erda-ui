@@ -101,8 +101,8 @@ const BatchOperation = <T extends Obj>(props: IBatchProps<T>) => {
     <div className="flex items-center">
       <Checkbox className="ml-0.5 mr-2" indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll} />
       <span className="mr-2">
-        {`${i18n.t('selected {name}', {
-          name: `${selectedKeys?.length || 0} ${i18n.t('common:items')}`,
+        {`${i18n.t('{name} items selected', {
+          name: selectedKeys?.length || 0,
         })}`}
       </span>
       {visibleOperations.length > 1 ? (

@@ -188,7 +188,7 @@ const TestPlan = () => {
           onClick: () => updateModalProp({ visible: true, mode: 'copy', testPlanId: id }),
         },
         {
-          title: record.isArchived ? i18n.t('dop:unarchive') : i18n.t('Archive'),
+          title: record.isArchived ? i18n.t('dop:Unarchive') : i18n.t('Archive'),
           onClick: async () => {
             await toggleArchived({ id, isArchived: !record.isArchived });
             // When has isArchived filter, this operation will delete the row from table

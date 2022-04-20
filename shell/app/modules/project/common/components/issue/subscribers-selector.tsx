@@ -147,7 +147,7 @@ export const SubscribersSelector = (props: IProps) => {
         <div onClick={(e) => e.stopPropagation()}>
           <div className="followers-num px-4">
             {subscribers.length !== 0
-              ? i18n.t('dop:{num} members are following', { num: subscribers.length })
+              ? i18n.t('dop:{num} followers-ing', { num: subscribers.length })
               : i18n.t('dop:no member is concerned about it')}
           </div>
           <div className="followers px-4">

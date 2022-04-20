@@ -18,6 +18,7 @@ const overwriteMap = {
   tag: true,
   button: true,
   'range-picker': true,
+  popconfirm: true,
 };
 
 const overwriteCssMap = {
@@ -27,6 +28,7 @@ const overwriteCssMap = {
   button: 'antd/es/button/style',
   tag: false,
   'range-picker': false,
+  popconfirm: 'antd/es/popconfirm/style',
 };
 
 // TODO: remove this

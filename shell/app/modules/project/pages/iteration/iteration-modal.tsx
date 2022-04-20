@@ -70,7 +70,7 @@ export default ({ visible, data, onClose }: IProps) => {
     },
     {
       name: 'content',
-      label: i18n.t('dop:iteration goal'),
+      label: i18n.t('dop:Goal'),
       type: 'textArea',
       required: false,
       itemProps: {

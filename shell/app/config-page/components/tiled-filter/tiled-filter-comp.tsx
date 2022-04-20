@@ -159,7 +159,7 @@ const TiledFilter = (props: IProps) => {
         <div className="flex items-center">
           {curValLength ? (
             <>
-              <span>{`${i18n.t('selected {name}', { name: `${curValLength}${i18n.t('common:items')}` })}`}</span>
+              <span>{`${i18n.t('{name} items selected', { name: curValLength })}`}</span>
               <span className="fake-link ml-2 mr-4" onClick={clearSelect}>
                 {i18n.t('common:Clear selected')}
               </span>

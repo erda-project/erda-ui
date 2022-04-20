@@ -109,7 +109,7 @@ const AddRelease = ({
                 setVisible(false);
               }}
             >
-              {i18n.t('Ok')}
+              {i18n.t('OK')}
             </Button>
           </div>
         </div>

@@ -20,7 +20,7 @@ import userStore from 'app/user/stores';
 import i18n from 'i18n';
 import { permState } from 'user/stores/_perm-state';
 
-const defaultTip = i18n.t('common:no permission to operate');
+const defaultTip = i18n.t('common:No permission to operate');
 
 /**
  * 权限校验，仅限于组件外或类组件使用，需手动依赖permStore变化

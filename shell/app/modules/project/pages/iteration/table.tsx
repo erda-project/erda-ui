@@ -115,7 +115,7 @@ export const Iteration = () => {
       ),
     },
     {
-      title: i18n.t('dop:iteration goal'),
+      title: i18n.t('dop:Goal'),
       dataIndex: 'content',
       // width: 300,
     },
@@ -178,7 +178,7 @@ export const Iteration = () => {
         {
           title: (
             <WithAuth pass={operationAuth}>
-              <span>{i18n.t('delete')}</span>
+              <span>{i18n.t('Delete')}</span>
             </WithAuth>
           ),
           onClick: () => {

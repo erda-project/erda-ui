@@ -482,7 +482,7 @@ const ListSelectOverlay = ({
             {i18n.t('Clear with One Click')}
           </Button>
           <Button className="mr-2" type="primary" onClick={onOk}>
-            {i18n.t('Ok')}
+            {i18n.t('OK')}
           </Button>
         </div>
       </Col>

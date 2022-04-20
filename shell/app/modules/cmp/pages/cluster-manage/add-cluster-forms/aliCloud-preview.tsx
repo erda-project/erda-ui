@@ -89,7 +89,7 @@ const AliCloudPreview = ({
           {i18n.t('Cancel')}
         </Button>,
         <Button key="submit" type="primary" disabled={!checkedRead} onClick={handleConfirm}>
-          {i18n.t('Ok')}
+          {i18n.t('OK')}
         </Button>,
       ]}
     >

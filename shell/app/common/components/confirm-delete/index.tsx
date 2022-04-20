@@ -88,7 +88,7 @@ const ConfirmDelete = (props: IProps) => {
             {i18n.t('Cancel')}
           </Button>,
           <Button key="submit" type="primary" onClick={onOk} disabled={disabledConfirm}>
-            {i18n.t('Ok')}
+            {i18n.t('OK')}
           </Button>,
         ]}
       >

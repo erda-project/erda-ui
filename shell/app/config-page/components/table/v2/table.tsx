@@ -250,8 +250,8 @@ const BatchOperation = <T extends unknown>(props: IBatchProps<T>) => {
   return (
     <div className="flex items-center">
       <Checkbox className="mx-2" indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll} />
-      <span className="mr-2">{`${i18n.t('selected {name}', {
-        name: `${selectedRowKeys?.length || 0} ${i18n.t('common:items')}`,
+      <span className="mr-2">{`${i18n.t('{name} items selected', {
+        name: selectedRowKeys?.length || 0,
       })}`}</span>
       <Dropdown
         overlay={dropdownMenu}

@@ -316,7 +316,7 @@ const ConfigurableFilter = React.forwardRef(
                 });
               }}
             >
-              {i18n.t('Ok')}
+              {i18n.t('OK')}
             </Button>
           </div>
         </Form>

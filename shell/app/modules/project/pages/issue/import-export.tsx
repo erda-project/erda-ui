@@ -205,7 +205,7 @@ const Export = (props: ExportProps) => {
       <div className="flex-h-center justify-end mt-4">
         <Button onClick={onClose}>{i18n.t('Cancel')}</Button>
         <Button onClick={onExport} className="ml-2" type="primary">
-          {i18n.t('Ok')}
+          {i18n.t('OK')}
         </Button>
       </div>
     </div>
@@ -290,7 +290,7 @@ const Import = (props: ImportProps) => {
       <div className="flex-h-center justify-end mt-4">
         <Button onClick={onClose}>{i18n.t('Cancel')}</Button>
         <Button onClick={importFile} disabled={!fileId} className="ml-2" type="primary">
-          {i18n.t('Ok')}
+          {i18n.t('OK')}
         </Button>
       </div>
     </div>

@@ -92,11 +92,11 @@ const LinkRow = (props: LinkRowProps) => {
           <Popconfirm
             placement="bottomLeft"
             overlayClassName="homepage-link-delete-confirm"
-            title={`${i18n.t('confirm deletion')}?`}
+            title={`${i18n.t('confirm to deletion')}?`}
             icon={null}
             onConfirm={() => handleDelete(item.id)}
           >
-            <Tooltip title={i18n.t('delete')}>
+            <Tooltip title={i18n.t('Delete')}>
               <ErdaIcon type="remove" size={16} className="text-default-4 hover:text-default-8" />
             </Tooltip>
           </Popconfirm>
@@ -226,14 +226,12 @@ export const ProjectHomepage = () => {
                   <div className="info-brief mb-4">
                     {desc || (
                       <span>
-                        {i18n.t(
-                          'dop:Tell about your project in one sentence, so that more people can quickly understand your project, go to',
-                        )}
+                        {i18n.t('dop:Briefly describe your project. Please go to')}
                         <span
                           onClick={() => goTo(goTo.pages.projectSetting, { projectId })}
                           className="text-purple-deep mx-1 cursor-pointer"
                         >
-                          {i18n.t('Project settings')}
+                          {i18n.t('Settings-project')}
                         </span>
                         {i18n.t('dop:to configure')}
                       </span>
