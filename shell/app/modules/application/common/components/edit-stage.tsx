@@ -18,7 +18,7 @@ import { cloneDeep, map, isEmpty, omit, pick, get, filter, head, transform, isEq
 import { Icon as CustomIcon, ErdaIcon, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Form, Button, Input, Popover, InputNumber, Collapse, Spin, Select, FormProps } from 'antd';
-import './edit-service.scss';
+import './dice-service-node.scss';
 import './task-resource-field.scss';
 import { mergeActionAndResource, getResource } from '../yml-flow-util';
 import ActionSelect from './action-select';

@@ -63,6 +63,7 @@ export interface IDiceYamlEditorProps {
    * 是否为编辑状态
    */
   editing: boolean;
+  nodeType: string;
   /**
    * 需要移动效果的点
    */

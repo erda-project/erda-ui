@@ -17,7 +17,7 @@ import DiceYamlEditor from 'application/common/components/dice-yaml-editor';
 import Drawer from 'application/common/components/dice-yaml-editor-drawer';
 import DiceYamlEditorItem, { IDiceYamlEditorItem } from 'application/common/components/dice-yaml-editor-item';
 import { DiceFlowType } from 'application/common/components/dice-yaml-editor-type';
-import EditService from 'application/common/components/edit-service';
+import { AddDiceYmlNode } from 'application/common/components/dice-service-node';
 import EditStage from 'application/common/components/edit-stage';
 import FileContainer from 'application/common/components/file-container';
 import convertByDiceYml from 'application/common/dice-yml-data-convert';
@@ -31,7 +31,7 @@ import {
 } from 'application/common/yml-flow-util';
 import { getInfoFromRefName } from 'application/pages/repo/util';
 import classnames from 'classnames';
-import { FormModal, RenderForm } from 'common';
+import { FormModal, RenderForm, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo, notify } from 'common/utils';
 import bgImage from 'app/images/editor-background.png';
@@ -161,6 +161,7 @@ const YmlEditor = (props: IProps) => {
   const editService = React.useRef(
     (service: any, inputJson: any, parentName?: string, _convertDataByFileName?: Function) => {
       const inputJsonCp = cloneDeep(inputJson);
+      const curConvertData = _convertDataByFileName || convertDataByFileName;
       if (inputJsonCp.services[service.name]) {
         // delete service.originName;
         inputJsonCp.services[service.name] = {
@@ -169,7 +170,7 @@ const YmlEditor = (props: IProps) => {
         };
 
         delete inputJsonCp.services[service.name].name;
-        _convertDataByFileName?.(inputJsonCp);
+        curConvertData?.(inputJsonCp);
       } else {
         if (parentName) {
           if (!inputJsonCp.services[parentName].depends_on) {
@@ -206,13 +207,42 @@ const YmlEditor = (props: IProps) => {
           inputJsonCp.services[service.originName] = service;
           delete inputJsonCp.services[service.originName].originName;
         }
-        _convertDataByFileName?.(inputJsonCp);
+        curConvertData?.(inputJsonCp);
       }
-
       message.success(i18n.t('dop:please click save to submit the configuration'));
       closedDrawer?.current();
     },
   );
+
+  const editJob = React.useRef((job: Obj, inputJson: Obj) => {
+    const inputJsonCp = { jobs: {}, ...cloneDeep(inputJson) };
+    if (inputJsonCp.jobs[job.name]) {
+      inputJsonCp.jobs[job.name] = {
+        ...inputJsonCp.jobs[job.name],
+        ...omit(job, ['originName']),
+      };
+      delete inputJsonCp.jobs[job.name].name;
+      convertDataByFileName(inputJsonCp);
+    } else {
+      if (job.originName && job.name) {
+        delete inputJsonCp.jobs[job.originName];
+        // eslint-disable-next-line no-param-reassign
+        delete job.originName;
+        inputJsonCp.jobs[job.name] = job;
+        delete inputJsonCp.jobs[job.name].name;
+      } else if (job.name) {
+        // eslint-disable-next-line no-param-reassign
+        delete job.originName;
+        inputJsonCp.jobs[job.name] = job;
+        delete inputJsonCp.jobs[job.name].name;
+        inputJsonCp.jobs[job.originName] && delete inputJsonCp.jobs[job.originName].originName;
+      }
+      convertDataByFileName(inputJsonCp);
+    }
+
+    message.success(i18n.t('dop:please click save to submit the configuration'));
+    closedDrawer?.current();
+  });
 
   const editPipelineConvertor = React.useCallback(
     (inputStructure, _convertDataByFileName) => (formTaskData: any) => {
@@ -252,12 +282,17 @@ const YmlEditor = (props: IProps) => {
       const _editServie = (_service: Obj, _inputJson: Obj, _parentName?: string) => {
         editService?.current(_service, _inputJson, _parentName, convertDataByFileName);
       };
+
+      const _editJob = (_job: Obj, _inputJson: Obj) => {
+        editJob?.current(_job, _inputJson);
+      };
       const newContent = cloneDeep(inputJsonContent);
       switch (fileType.current) {
         case WORK_FLOW_TYPE.DICE:
           result = convertByDiceYml({
             jsonContent: inputJsonContent,
             editService: _editServie,
+            editJob: _editJob,
             editGlobalVariable: (p) => editGlobalVariable?.current(inputEditedYmlStructure || inputJsonContent)(p),
           });
           break;
@@ -425,18 +460,22 @@ const YmlEditor = (props: IProps) => {
     );
   };
 
-  const deleteService = ({ name }: any) => {
-    delete jsonContent.services[name];
-
-    const findResult = filter(jsonContent.services, (item: any) => item.depends_on && item.depends_on.includes(name));
-    if (findResult) {
-      forEach(findResult, (findResultItem: any) => {
-        // @ts-ignore
-        const index = findIndex(findResultItem.depends_on, (i: string) => i === name);
-        if (index !== -1) {
-          findResultItem.depends_on.splice(index, 1);
-        }
-      });
+  const deleteService = (nodeItem: any) => {
+    const { name } = nodeItem;
+    if (nodeItem.nodeType === 'job') {
+      jsonContent.jobs?.[name] && delete jsonContent.jobs[name];
+    } else {
+      delete jsonContent.services[name];
+      const findResult = filter(jsonContent.services, (item: any) => item.depends_on && item.depends_on.includes(name));
+      if (findResult) {
+        forEach(findResult, (findResultItem: any) => {
+          // @ts-ignore
+          const index = findIndex(findResultItem.depends_on, (i: string) => i === name);
+          if (index !== -1) {
+            findResultItem.depends_on.splice(index, 1);
+          }
+        });
+      }
     }
 
     closedDrawer?.current();
@@ -490,21 +529,29 @@ const YmlEditor = (props: IProps) => {
     convertDataByFileName(null, editedYmlStructure);
   };
 
-  const renderCreateComponent = (service: any, parentName: string) => {
+  const renderCreateComponent = (service: any, parentName: string, nodeType: string) => {
     // eslint-disable-next-line no-param-reassign
     service.editView = (isEditing: boolean) => {
       return (
-        <EditService
+        <AddDiceYmlNode
+          nodeType={nodeType}
           editing={isEditing}
           service={service}
-          onSubmit={(newService: any) => editService?.current(newService, jsonContent, parentName)}
+          onSubmit={(newService: any) => {
+            const { nodeType: _nodeType, ..._rest } = newService;
+            if (_nodeType === 'service') {
+              editService?.current(_rest, jsonContent, parentName);
+            } else if (_nodeType === 'job') {
+              editJob?.current(_rest, jsonContent);
+            }
+          }}
         />
       );
     };
     selectedItemRef.current = service;
     // updater.selectedItem(service);
     updater.openDrawer(true);
-    updater.drawerTitle(i18n.t('Edit'));
+    updater.drawerTitle(i18n.t('common:Add'));
   };
 
   const renderCreatePipelineComponent = (stageTask: any) => {
@@ -740,41 +787,52 @@ const YmlEditor = (props: IProps) => {
       selectedAddon && selectedAddon.creatingAddon ? classnames(defaultClass, 'selected-item') : defaultClass;
 
     const title = editing ? `${i18n.t('Edit')} ${fileName}` : fileName;
+    const nodeType = editorData?.[1]?.[0]?.nodeType || 'none';
 
+    const diceYmlError =
+      Object.keys(jsonContent?.jobs || {}).length && Object.keys(jsonContent?.services || {}).length
+        ? i18n.t('dop:dice-file-error-tip')
+        : '';
     return (
-      <FileContainer className="yaml-editor-container" name={title} ops={ops}>
-        <Spin spinning={isFetching}>
-          <React.Fragment>
-            <div className="yml-editor-body services-and-add-ons">
-              <BlockContainer title={i18n.t('dop:service architecture')}>
-                {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer?.current} /> : null}
-                <DiceYamlEditor
-                  type={DiceFlowType.EDITOR}
-                  isSelectedItem={selectedItemRef.current !== null}
-                  editing={editing}
-                  dataSource={editorData}
-                  deleteItem={deleteService}
-                  getCreateView={renderCreateComponent}
-                  updateConnect={updateDiceYmlConnect}
-                  clickItem={openDrawerForEditor}
-                />
-              </BlockContainer>
-              <BlockContainer className="addons-container" title="Add On">
-                <div className="addons-content">
+      <>
+        {diceYmlError ? <ErdaAlert message={diceYmlError} type="error" /> : null}
+        <FileContainer className="yaml-editor-container" name={title} ops={ops}>
+          <Spin spinning={isFetching}>
+            <React.Fragment>
+              <div className="yml-editor-body services-and-add-ons">
+                <BlockContainer title={i18n.t('dop:service architecture')}>
                   {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer?.current} /> : null}
-                  {renderAddons()}
-                  {editing ? (
-                    <div className={className} onClick={showCreateAddonModal}>
-                      +
-                    </div>
-                  ) : null}
-                </div>
-              </BlockContainer>
-            </div>
-            {renderSaveBtn()}
-          </React.Fragment>
-        </Spin>
-      </FileContainer>
+                  <DiceYamlEditor
+                    type={DiceFlowType.EDITOR}
+                    isSelectedItem={selectedItemRef.current !== null}
+                    editing={editing}
+                    dataSource={editorData}
+                    nodeType={nodeType}
+                    deleteItem={deleteService}
+                    getCreateView={(s: Obj, _pName: string) => {
+                      renderCreateComponent(s, _pName, nodeType);
+                    }}
+                    updateConnect={updateDiceYmlConnect}
+                    clickItem={openDrawerForEditor}
+                  />
+                </BlockContainer>
+                <BlockContainer className="addons-container" title="Add On">
+                  <div className="addons-content">
+                    {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer?.current} /> : null}
+                    {renderAddons()}
+                    {editing ? (
+                      <div className={className} onClick={showCreateAddonModal}>
+                        +
+                      </div>
+                    ) : null}
+                  </div>
+                </BlockContainer>
+              </div>
+              {renderSaveBtn()}
+            </React.Fragment>
+          </Spin>
+        </FileContainer>
+      </>
     );
   };
 

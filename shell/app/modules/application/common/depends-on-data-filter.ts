@@ -101,7 +101,7 @@ const mergeTree = (index: number, tree: any[], target: any[]) => {
   }
 };
 
-export default (currentItem: any) => {
+const dependsOnDataFilter = (currentItem: any) => {
   matchedService = [];
   const originData = cloneDeep(currentItem);
 
@@ -168,3 +168,5 @@ export default (currentItem: any) => {
 
   return items.filter((i: any[]) => i.length);
 };
+
+export default dependsOnDataFilter;

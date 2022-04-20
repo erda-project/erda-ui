@@ -13,9 +13,10 @@
 
 import React from 'react';
 import EditGlobalVariable from 'application/common/components/edit-global-variable';
-import EditService from 'application/common/components/edit-service';
+
 import PropertyView from 'application/common/components/property-view';
-import DiceServiceView from 'application/common/components/dice-service-view';
+import { EditService, ServiceView } from 'application/common/components/dice-service-node';
+import { EditJob, JobView } from 'application/common/components/dice-job-node';
 import { IDiceYamlEditorItem } from 'application/common/components/dice-yaml-editor-item';
 import dependsOnDataFilter from 'application/common/depends-on-data-filter';
 import { forEach } from 'lodash';
@@ -43,21 +44,22 @@ interface IProps {
   jsonContent: any;
   editGlobalVariable: (globalVariable: any) => void;
   editService: (service: any) => void;
+  editJob: (job: Obj) => void;
 }
 
-export default ({ jsonContent, editGlobalVariable, editService }: IProps) => {
-  const result: any[] = [];
-  const addons: any[] = [];
-  const order = ['envs', 'services', 'addons'];
+const convertByDiceYml = ({ jsonContent, editGlobalVariable, editService, editJob }: IProps) => {
+  const result: Obj[] = [];
+  const addons: Obj[] = [];
+  const order = ['envs', 'services', 'jobs', 'addons'];
 
   if (jsonContent) {
     forEach(order, (key: string, index: number) => {
       const currentItem: any = getItemFromYamlJson(key, jsonContent);
       let item: IDiceYamlEditorItem | IDiceYamlEditorItem[];
-
       if (index === 0) {
-        // @ts-ignore
         item = {
+          id: -1,
+          name: '',
           icon: 'qj',
           title: i18n.t('dop:deploy global variables'),
           lineTo: ['all'],
@@ -81,6 +83,7 @@ export default ({ jsonContent, editGlobalVariable, editService }: IProps) => {
             group.push({
               icon: 'wfw',
               title: i18n.t('Microservice'),
+              nodeType: 'service',
               data: currentItem,
               name: service.name,
               lineTo: service.depends_on,
@@ -90,14 +93,37 @@ export default ({ jsonContent, editGlobalVariable, editService }: IProps) => {
                 );
               },
               content: () => {
-                return <DiceServiceView dataSource={service} />;
+                return <ServiceView dataSource={service} />;
               },
             });
           });
 
           result.push(group);
         });
-      } else if (index === 2) {
+      } else if (index === 2 && result.length === 1) {
+        const jobs: Obj[] = [];
+        forEach(currentItem, (value: any, k: string) => {
+          const job = {
+            id: `job-${k}`,
+            icon: 'wfw',
+            title: i18n.t('dop:Job'),
+            nodeType: 'job',
+            name: k,
+            data: { ...value, name: k },
+          };
+          jobs.push({
+            ...job,
+            editView: (editing: boolean) => {
+              return <EditJob jsonContent={jsonContent} editing={editing} job={job} onSubmit={editJob} />;
+            },
+            content: () => {
+              return <JobView dataSource={job} />;
+            },
+          });
+        });
+
+        jobs.length && result.push(jobs);
+      } else if (index === 3) {
         forEach(currentItem, (value: any, k: string) => {
           const addon = { ...value, name: k };
           addons.push({
@@ -129,3 +155,5 @@ export default ({ jsonContent, editGlobalVariable, editService }: IProps) => {
     editorData: result,
   };
 };
+
+export default convertByDiceYml;
