@@ -19,13 +19,16 @@ import SimpleLogSearch from '../simple-log-search';
 describe('SimpleLogSearch', () => {
   it('should work well', async () => {
     const setSearchFn = jest.fn();
-    const formData = { requestId: 'erda' };
+    const formData = { requestId: 'erda', applicationId: 123 };
     const result = render(<SimpleLogSearch setSearch={setSearchFn} />);
     fireEvent.change(result.getByRole('textbox'), { target: { value: formData.requestId } });
     fireEvent.click(result.container.querySelector('.log-search-btn')!);
     await flushPromises();
-    expect(setSearchFn).toHaveBeenLastCalledWith(formData);
+    expect(setSearchFn).toHaveBeenLastCalledWith({ requestId: formData.requestId });
     result.rerender(<SimpleLogSearch setSearch={setSearchFn} formData={formData} />);
     expect(result.getByRole('textbox').value).toBe(formData.requestId);
+    fireEvent.click(result.container.querySelector('.log-search-btn')!);
+    await flushPromises();
+    expect(setSearchFn).toHaveBeenLastCalledWith(formData);
   });
 });

@@ -77,7 +77,7 @@ describe('SimpleLogRoller', () => {
       );
       await flushPromises();
     });
-    expect(result!.container).isExit('.log-insight-item', 1);
+    expect(result!.container).isExist('.log-insight-item', 1);
     fireEvent.click(result!.getAllByText('Back to Top')[0]);
     result!.unmount();
     expect(clearLog).toHaveBeenCalled();

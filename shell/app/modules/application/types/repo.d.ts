@@ -194,6 +194,13 @@ declare namespace REPOSITORY {
     updatedAt: string;
   }
 
+  interface MRStatsCount {
+    stats: Array<{
+      state: MrState;
+      total: number;
+    }>;
+  }
+
   interface IBranch {
     id: string;
     name: string;

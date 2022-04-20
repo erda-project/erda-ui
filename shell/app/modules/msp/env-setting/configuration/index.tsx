@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { ColumnProps, IActions } from 'common/components/table/interface';
-import { Copy, EmptyHolder, ErdaIcon, UserInfo, MarkdownRender } from 'common';
+import { Copy, EmptyHolder, ErdaIcon, UserInfo, MarkdownRender, TopButtonGroup } from 'common';
 import Table from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import ErdaTable from 'common/components/table';
@@ -271,11 +271,13 @@ const Configuration = () => {
           </div>
         </Modal>
 
-        <WithAuth pass={accessPerm.createAccessKey.pass}>
-          <Button className="top-button-group font-bold m4 add-key" type="primary" onClick={createKey}>
-            {i18n.t('create {name}', { name: 'Token' })}
-          </Button>
-        </WithAuth>
+        <TopButtonGroup>
+          <WithAuth pass={accessPerm.createAccessKey.pass}>
+            <Button className="font-bold m4 add-key" type="primary" onClick={createKey}>
+              {i18n.t('create {name}', { name: 'Token' })}
+            </Button>
+          </WithAuth>
+        </TopButtonGroup>
         <ErdaTable
           className="mt-2 mb-4"
           columns={columns}

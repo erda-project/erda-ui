@@ -20,7 +20,7 @@ import { NotificationTitle } from 'msp/alarm-manage/alert-list/notification/deta
 const alarmConfigTab = [
   {
     key: 'strategy',
-    name: i18n.t('alarm strategy'),
+    name: i18n.t('alert strategy'),
   },
   {
     key: 'rule',

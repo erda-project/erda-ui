@@ -18,9 +18,16 @@ const apis = {
   getAppMR: {
     api: '/api/repo/:projectName/:appName/merge-requests',
   },
+  getAppMRStatsCount: {
+    api: '/api/repo/:projectName/:appName/merge-request-stats',
+  },
 };
 
 export const getAppMR = apiCreator<(p: REPOSITORY.QueryMrs) => IPagingResp<REPOSITORY.MRItem>>(apis.getAppMR);
+
+export const getAppMRStatsCount = apiCreator<(p: { projectName: string; appName: string }) => REPOSITORY.MRStatsCount>(
+  apis.getAppMRStatsCount,
+);
 
 export const getRepoInfo = ({ repoPrefix, branch }: REPOSITORY.GetInfo): REPOSITORY.IInfo => {
   const api = `/api/repo/${repoPrefix}/stats${branch ? `/${branch}` : ''}`;

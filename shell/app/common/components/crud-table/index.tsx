@@ -16,7 +16,7 @@ import { Button, Spin, FormInstance } from 'antd';
 import FormModal from '../form-modal';
 import CustomFilter from '../custom-filter';
 import IF from '../if';
-import { IFormItem, Table } from 'common';
+import { IFormItem, Table, TopButtonGroup } from 'common';
 import { useUpdate, useFilter } from 'common/use-hooks';
 import { isEmpty, reduce } from 'lodash';
 import { isPromise } from 'common/utils';
@@ -145,6 +145,20 @@ function CRUDTable<P>(props: ITableProps<P>) {
       />
     </Spin>
   );
+
+  const buttonGroup = (
+    <>
+      {typeof extraOperation === 'function' ? extraOperation() : extraOperation}
+      <IF check={hasForm}>
+        <WithAuth pass={hasAddAuth} noAuthTip={addAuthTooltipTitle} tipProps={{ placement: 'bottom' }}>
+          <Button type="primary" onClick={() => openModal()} className="mb-2">
+            {i18n.t('add {name}', { name })}
+          </Button>
+        </WithAuth>
+      </IF>
+    </>
+  );
+
   return (
     <div className="crud-table">
       {!isEmpty(filterConfig) ? (
@@ -156,16 +170,7 @@ function CRUDTable<P>(props: ITableProps<P>) {
           isConnectQuery
         />
       ) : null}
-      <div className={showTopAdd ? 'top-button-group' : ''}>
-        {typeof extraOperation === 'function' ? extraOperation() : extraOperation}
-        <IF check={hasForm}>
-          <WithAuth pass={hasAddAuth} noAuthTip={addAuthTooltipTitle} tipProps={{ placement: 'bottom' }}>
-            <Button type="primary" onClick={() => openModal()} className="mb-2">
-              {i18n.t('add {name}', { name })}
-            </Button>
-          </WithAuth>
-        </IF>
-      </div>
+      {showTopAdd ? <TopButtonGroup>{buttonGroup}</TopButtonGroup> : <div>{buttonGroup}</div>}
       {hasForm ? (
         <FormModal
           title={formTitle}

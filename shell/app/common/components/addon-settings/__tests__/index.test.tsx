@@ -84,19 +84,19 @@ describe('addon-settings', () => {
       const result = render(<PureAddonSettings insId={insId} />);
       expect(result.container.firstChild).toBeNull();
       result.rerender(<PureAddonSettings insId={insId} addonConfig={{ config, canDel: false }} />);
-      expect(result.container).isExit('.param-k', 2);
-      expect(result.container).isExit('.settings-delete', 0);
+      expect(result.container).isExist('.param-k', 2);
+      expect(result.container).isExist('.settings-delete', 0);
       result.rerender(
         <PureAddonSettings
           insId={insId}
           addonConfig={{ addonName: 'mysql', config: { ...config, MYSQL_HOST: 'MYSQL_HOST' }, canDel: true }}
         />,
       );
-      expect(result.container).isExit('.param-k', 1);
-      expect(result.container).isExit('.settings-delete', 1);
+      expect(result.container).isExist('.param-k', 1);
+      expect(result.container).isExist('.settings-delete', 1);
       fireEvent.click(result.getByText('delete current service'));
       await waitFor(() => expect(result.baseElement.querySelector('.ant-modal')).toBeInTheDocument());
-      fireEvent.click(screen.getByText('ok'));
+      fireEvent.click(screen.getByText('Ok'));
       await waitFor(() => expect(fn).toHaveBeenCalledTimes(1));
       expect(goTo).toHaveBeenCalled();
     });

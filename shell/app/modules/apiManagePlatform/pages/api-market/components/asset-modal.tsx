@@ -184,7 +184,7 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
         name: 'specProtocol',
         options: map(protocolMap, ({ fullName }, key) => ({ name: fullName, value: key })),
         itemProps: {
-          placeholder: i18n.t('please select'),
+          placeholder: i18n.t('Please Select'),
           onSelect: handleSelectProtocol,
         },
       },
@@ -259,7 +259,7 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
         {i18n.t('Cancel')}
       </Button>
       <Button key="submit" type="primary" disabled={loading} onClick={handleOk}>
-        {i18n.t('ok')}
+        {i18n.t('Ok')}
       </Button>
     </>
   );

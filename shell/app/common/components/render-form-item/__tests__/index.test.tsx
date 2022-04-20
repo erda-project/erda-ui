@@ -65,7 +65,7 @@ describe('RenderFormItem', () => {
         return <div className="read-only-render">{value}</div>;
       },
     });
-    expect(result.container).isExit('.read-only-render', 1);
+    expect(result.container).isExist('.read-only-render', 1);
   });
   it('should work well when type is textArea', () => {
     const { result } = setUp({
@@ -73,7 +73,7 @@ describe('RenderFormItem', () => {
       label: 'name',
       type: 'textArea',
     });
-    expect(result.container).isExit('textarea', 1);
+    expect(result.container).isExist('textarea', 1);
   });
   it('should work well when type is inputNumber', () => {
     const { result } = setUp({
@@ -81,7 +81,7 @@ describe('RenderFormItem', () => {
       label: 'name',
       type: 'inputNumber',
     });
-    expect(result.container).isExit('.ant-input-number', 1);
+    expect(result.container).isExist('.ant-input-number', 1);
   });
   it('should work well when type is switch', () => {
     const { result, formRef } = setUp({
@@ -133,7 +133,7 @@ describe('RenderFormItem', () => {
       label: 'name',
       type: 'datePicker',
     });
-    expect(result.container).isExit('.ant-picker', 1);
+    expect(result.container).isExist('.ant-picker', 1);
   });
   it('should work well when type is radioGroup', () => {
     const options = [
@@ -147,7 +147,7 @@ describe('RenderFormItem', () => {
       type: 'radioGroup',
       options: () => [],
     });
-    expect(result.container).isExit('.ant-radio-group', 1);
+    expect(result.container).isExist('.ant-radio-group', 1);
     rerender({
       name: 'name',
       label: 'name',
@@ -164,7 +164,7 @@ describe('RenderFormItem', () => {
       label: 'name',
       type: 'cascader',
     });
-    expect(result.container).isExit('.ant-cascader-picker', 1);
+    expect(result.container).isExist('.ant-cascader-picker', 1);
   });
   it('should work well when type is custom', () => {
     const changeFn = jest.fn();
@@ -197,7 +197,7 @@ describe('RenderFormItem', () => {
         return 'erda';
       },
     });
-    expect(result.container).isExit('.read-only-render', 1);
+    expect(result.container).isExist('.read-only-render', 1);
   });
   it('should work well when type is tagsSelect', async () => {
     const { result, rerender } = setUp({
@@ -209,7 +209,7 @@ describe('RenderFormItem', () => {
       },
       options: () => [],
     });
-    expect(result.container).isExit('.erda-tags-select', 1);
+    expect(result.container).isExist('.erda-tags-select', 1);
     const options = [
       { label: 'DOP', value: 'dop' },
       { label: 'MPS', value: 'msp' },
@@ -226,7 +226,7 @@ describe('RenderFormItem', () => {
     });
     fireEvent.mouseDown(result.container.querySelector('.ant-select-selector')!);
     fireEvent.focus(result.getByRole('combobox'));
-    await waitFor(() => expect(result.baseElement).isExit('.ant-select-dropdown', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-select-dropdown', 1));
     fireEvent.change(result.getByRole('combobox'), { target: { value: options[0].label } });
     expect(result.queryAllByRole('option')).toHaveLength(1);
   });
@@ -274,7 +274,7 @@ describe('RenderFormItem', () => {
     });
     fireEvent.mouseDown(result.container.querySelector('.ant-select-selector')!);
     fireEvent.focus(result.getByRole('combobox'));
-    await waitFor(() => expect(result.baseElement).isExit('.ant-select-dropdown', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-select-dropdown', 1));
     expect(result.getAllByText(/option-/)).toHaveLength(unFixOptionsLen);
     fireEvent.change(result.getByRole('combobox'), { target: { value: options[1].label } });
     expect(result.getAllByText(/option-/)).toHaveLength(1);
@@ -303,13 +303,13 @@ describe('RenderFormItem', () => {
           },
         },
       });
-      fireEvent.mouseDown(result.getByPlaceholderText('startDate'));
-      fireEvent.focus(result.getByPlaceholderText('startDate'));
-      await waitFor(() => expect(result.baseElement).isExit('.ant-picker-dropdown', 1));
+      fireEvent.mouseDown(result.getByPlaceholderText('Start date'));
+      fireEvent.focus(result.getByPlaceholderText('Start date'));
+      await waitFor(() => expect(result.baseElement).isExist('.ant-picker-dropdown', 1));
       fireEvent.click(result.baseElement.querySelector(`[title="${todayStr}"]`)!);
-      fireEvent.mouseDown(result.getByPlaceholderText('endDate'));
-      fireEvent.focus(result.getByPlaceholderText('endDate'));
-      await waitFor(() => expect(result.baseElement).isExit('.ant-picker-dropdown', 2));
+      fireEvent.mouseDown(result.getByPlaceholderText('End date'));
+      fireEvent.focus(result.getByPlaceholderText('End date'));
+      await waitFor(() => expect(result.baseElement).isExist('.ant-picker-dropdown', 2));
       fireEvent.click(result.baseElement.querySelectorAll(`[title="${tomorrowStr}"]`)[1]!);
       expect(formRef?.getFieldValue('name')).toStrictEqual([
         today.startOf('day').valueOf(),
@@ -336,7 +336,7 @@ describe('RenderFormItem', () => {
       labelTip: 'this is project name',
       type: 'input',
     });
-    expect(result.container).isExit('[name="help"]', 1);
+    expect(result.container).isExist('[name="help"]', 1);
     expect(await validateFields(formRef)).toStrictEqual({
       errorFields: [{ errors: ['pleaseinputname'], name: ['name'] }],
       outOfDate: false,
@@ -384,22 +384,22 @@ describe('RenderFormItem', () => {
       type: 'input',
     };
     const { result, rerender } = setUp(config);
-    expect(result.container).not.isExitClass('.ant-form-item-control', 'ant-col-md-18');
+    expect(result.container).not.isExistClass('.ant-form-item-control', 'ant-col-md-18');
     rerender({
       ...config,
       label: undefined,
     });
-    expect(result.container).not.isExitClass('.ant-form-item-control', 'ant-col-md-18');
+    expect(result.container).not.isExistClass('.ant-form-item-control', 'ant-col-md-18');
     rerender({
       ...config,
       isTailLayout: true,
     });
-    expect(result.container).isExitClass('.ant-form-item-control', 'ant-col-md-18');
+    expect(result.container).isExistClass('.ant-form-item-control', 'ant-col-md-18');
     rerender({
       ...config,
       formLayout: 'horizontal',
     });
-    expect(result.container).isExitClass('.ant-form-item-label', 'ant-col-md-6');
-    expect(result.container).isExitClass('.ant-form-item-control', 'ant-col-md-18');
+    expect(result.container).isExistClass('.ant-form-item-label', 'ant-col-md-6');
+    expect(result.container).isExistClass('.ant-form-item-control', 'ant-col-md-18');
   });
 });

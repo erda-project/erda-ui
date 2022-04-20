@@ -134,7 +134,7 @@ describe('FormModal', () => {
     await openModal();
     await act(async () => {
       fireEvent.change(result.baseElement.querySelector('#apiName')!, { target: { value: 'erda-ui' } });
-      fireEvent.click(result.getByText('ok'));
+      fireEvent.click(result.getByText('Ok'));
       await flushPromises();
       expect(okFn).toHaveBeenLastCalledWith(
         {
@@ -150,7 +150,7 @@ describe('FormModal', () => {
     await act(async () => {
       okFn.mockReset();
       fireEvent.change(result.baseElement.querySelector('#apiName')!, { target: { value: 'app-test' } });
-      fireEvent.click(result.getByText('ok'));
+      fireEvent.click(result.getByText('Ok'));
       await flushPromises();
       expect(okFn).not.toBeCalled();
     });
@@ -159,7 +159,7 @@ describe('FormModal', () => {
     await act(async () => {
       okFn.mockReset();
       fireEvent.change(result.baseElement.querySelector('#apiName')!, { target: { value: 'erda-ui' } });
-      fireEvent.click(result.getByText('ok'));
+      fireEvent.click(result.getByText('Ok'));
       await flushPromises();
       expect(okFn).not.toBeCalled();
     });
@@ -167,7 +167,7 @@ describe('FormModal', () => {
     await act(async () => {
       okFn.mockReset();
       fireEvent.change(result.baseElement.querySelector('#apiName')!, { target: { value: 'erda-ui' } });
-      fireEvent.click(result.getByText('ok'));
+      fireEvent.click(result.getByText('Ok'));
       await flushPromises();
       expect(okFn).toHaveBeenLastCalledWith(
         {
@@ -185,7 +185,7 @@ describe('FormModal', () => {
     // await act(async () => {
     //   okFn.mockReset();
     //   fireEvent.change(result.baseElement.querySelector('#apiName')!, { target: { value: undefined } });
-    //   fireEvent.click(result.getByText('ok'));
+    //   fireEvent.click(result.getByText('Ok'));
     //   await flushPromises();
     //   expect(okFn).not.toBeCalled();
     // });
@@ -194,7 +194,7 @@ describe('FormModal', () => {
     rerender({ onOk: newOkFn });
     await act(async () => {
       fireEvent.change(result.baseElement.querySelector('#apiName')!, { target: { value: 'erda-ui' } });
-      fireEvent.click(result.getByText('ok'));
+      fireEvent.click(result.getByText('Ok'));
       await flushPromises();
       expect(newOkFn).toHaveBeenLastCalledWith(
         {

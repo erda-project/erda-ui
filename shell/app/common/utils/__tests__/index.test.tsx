@@ -41,6 +41,8 @@ import {
   sleep,
   uuid,
   validators,
+  firstCharToUpper,
+  allWordsFirstLetterUpper,
 } from 'common/utils';
 
 class ClassComp extends React.Component {
@@ -226,5 +228,15 @@ describe('utils', () => {
     expect(getOrgFromPath()).toBe('org');
     window.location.pathname = process.env.mock_pathname!;
     expect(getOrgFromPath()).toBe(process.env.mock_pathname?.split('/')[1]);
+  });
+  it('firstCharToUpper should work well', () => {
+    expect(firstCharToUpper('hello world')).toEqual('Hello world');
+    expect(firstCharToUpper('word')).toEqual('Word');
+    expect(firstCharToUpper('123word')).toEqual('123word');
+    expect(firstCharToUpper('_word')).toEqual('_word');
+  });
+  it('allWordsFirstLetterUpper should work well', () => {
+    expect(allWordsFirstLetterUpper('hello world')).toEqual('Hello World');
+    expect(allWordsFirstLetterUpper('work well')).toEqual('Work Well');
   });
 });

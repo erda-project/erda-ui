@@ -28,13 +28,13 @@ describe('TextBlockInfo', () => {
     expect(result.getByText(mainText)).toBeTruthy();
     result.rerender(<TextBlockInfo main={mainText} desc={descText} tip={tips} />);
     expect(result.getByText(descText)).toBeTruthy();
-    expect(result.container).isExit('[name="help"]', 1);
+    expect(result.container).isExist('[name="help"]', 1);
     result.rerender(<TextBlockInfo main={mainText} desc={descText} tip={tips} sub={subText} subTip={subTip} />);
-    expect(result.container).isExit('[name="help"]', 2);
+    expect(result.container).isExist('[name="help"]', 2);
     result.rerender(<TextBlockInfo main={mainText} sub={subText} desc={descText} onClick={clickFn} />);
     fireEvent.click(result.container.firstChild!);
     expect(clickFn).toHaveBeenCalledTimes(1);
     result.rerender(<TextBlockInfo main={mainText} extra={<div className="extra-node">extra-node</div>} />);
-    expect(result.container).isExit('.extra-node', 1);
+    expect(result.container).isExist('.extra-node', 1);
   });
 });

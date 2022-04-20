@@ -13,7 +13,7 @@
 
 import { goTo } from 'common/utils';
 import iterationStore from 'app/modules/project/stores/iteration';
-import { Ellipsis, RadioTabs } from 'common';
+import { Ellipsis, RadioTabs, TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
@@ -199,13 +199,13 @@ export const Iteration = () => {
 
   return (
     <div className="iteration">
-      <div className="top-button-group">
+      <TopButtonGroup>
         <WithAuth pass={addAuth} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={onCreate}>
             {i18n.t('Add')}
           </Button>
         </WithAuth>
-      </div>
+      </TopButtonGroup>
       <RadioTabs
         options={options}
         value={status}

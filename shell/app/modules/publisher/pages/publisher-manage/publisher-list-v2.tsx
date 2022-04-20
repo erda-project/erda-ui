@@ -15,7 +15,7 @@ import React from 'react';
 import { Input, Spin, Button } from 'antd';
 import { useDebounce, useUnmount, useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
-import { CustomFilter } from 'common';
+import { CustomFilter, TopButtonGroup } from 'common';
 import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { connectCube, goTo, insertWhen } from 'common/utils';
@@ -159,13 +159,13 @@ export const PurePublisherList = ({
   return (
     <Spin spinning={isFetching}>
       <div className="publisher-list-section">
-        <div className="top-button-group">
+        <TopButtonGroup>
           <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
             <Button type="primary" onClick={() => openFormModal()}>
               {i18n.t('publisher:Add')}
             </Button>
           </WithAuth>
-        </div>
+        </TopButtonGroup>
         <ErdaTable
           rowKey="id"
           columns={column}

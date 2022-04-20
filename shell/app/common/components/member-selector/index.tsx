@@ -84,7 +84,7 @@ const valueItemRender =
   (size = 'normal') =>
   (user: any, deleteValue: (item: any) => void, isMultiple?: boolean) => {
     const { avatar, nick, name, label, value } = user;
-    const displayName = value === USER_NONE ? i18n.t('unspecified') : nick || label || value || i18n.t('common:None');
+    const displayName = value === USER_NONE ? i18n.t('Unspecified') : nick || label || value || i18n.t('common:None');
     const cls = {
       normal: {
         size: 24,
@@ -253,7 +253,7 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
       onClick={() => !rest.disabled && selectNoneOp()}
       className={`${rest.disabled ? 'not-allowed' : 'text-default cursor-pointer'}`}
     >
-      {i18n.t('unspecified')}
+      {i18n.t('Unspecified')}
     </a>
   ) : null;
 

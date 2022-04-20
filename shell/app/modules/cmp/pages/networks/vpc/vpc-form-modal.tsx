@@ -279,7 +279,7 @@ const VpcFormModal = (props: IProps) => {
         {i18n.t('msp:prev')}
       </Button>,
       <Button key="ok" type="primary" loading={addVpcLoading || addVswLoading} onClick={handelSubmit}>
-        {i18n.t('ok')}
+        {i18n.t('Ok')}
       </Button>,
     ],
   };

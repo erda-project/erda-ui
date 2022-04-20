@@ -130,7 +130,7 @@ describe('EditField', () => {
         return <div className="custom-value-render">{value}</div>;
       },
     });
-    expect(result.container).isExit('.custom-value-render', 1);
+    expect(result.container).isExist('.custom-value-render', 1);
   });
   it('should render well with dateReadonly', () => {
     const { moment, timestamp } = setMockDate();
@@ -145,7 +145,7 @@ describe('EditField', () => {
       },
       ref: refFn,
     });
-    expect(result.container).isExit('iconpark-icon', 1);
+    expect(result.container).isExist('iconpark-icon', 1);
     expect(result.container.querySelector('iconpark-icon')).toHaveAttribute('name', 'date');
     expect(result.queryByText(moment.format('YYYY/MM/DD'))).toBeTruthy();
     resetMockDate();
@@ -202,7 +202,7 @@ describe('EditField', () => {
       },
     });
     fireEvent.mouseDown(result.container.querySelector('.ant-select-selector')!);
-    await waitFor(() => expect(result.baseElement).isExit('.ant-select-dropdown', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-select-dropdown', 1));
     fireEvent.click(result.getByText('YES'));
     fireEvent.blur(result.getByRole('combobox'));
     expect(changeFn).toHaveBeenLastCalledWith({ app: 1 });
@@ -217,7 +217,7 @@ describe('EditField', () => {
       itemProps: {},
     });
     fireEvent.mouseDown(result.getByPlaceholderText('Select date'));
-    await waitFor(() => expect(result.baseElement).isExit('.ant-picker-dropdown', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-picker-dropdown', 1));
     fireEvent.click(result.baseElement.querySelector(`[title="${currentDay}"]`)!);
     fireEvent.blur(result.getByPlaceholderText('Select date'));
     expect(changeFn).toHaveBeenLastCalledWith({ createdAt: mockDate.moment.startOf('day').format() });
@@ -264,7 +264,7 @@ describe('EditField', () => {
     });
     expect(result.queryByText('Click to edit the description')).toBeTruthy();
     fireEvent.click(result.getByText('Click to edit the description'));
-    expect(result.container).isExit('.mock-markdown-editor', 1);
+    expect(result.container).isExist('.mock-markdown-editor', 1);
     fireEvent.click(result.getByText('Cancel'));
     expect(result.queryByText('Click to edit the description')).toBeTruthy();
     setDOMRect(1000, 1000);
@@ -277,16 +277,16 @@ describe('EditField', () => {
       jest.advanceTimersByTime(1000);
     });
     fireEvent.click(result.container.querySelector('[name="edit"]')!);
-    expect(result.container).isExit('.mock-markdown-editor', 1);
+    expect(result.container).isExist('.mock-markdown-editor', 1);
     fireEvent.blur(result.baseElement.querySelector('#mock-markdown-editor')!, { target: { value: 'erda cloud' } });
     expect(changeFn).toHaveBeenLastCalledWith({ doc: 'erda cloud' }, 'markdown');
     changeFn.mockReset();
     fireEvent.click(result.getByText('Save'));
     expect(changeFn).toHaveBeenLastCalledWith({ doc: 'erda cloud' }, undefined);
-    expect(result.container).isExit('[name="double-down"]', 1);
+    expect(result.container).isExist('[name="double-down"]', 1);
     fireEvent.click(result.getByText('Expand').parentNode!);
-    expect(result.container).isExit('[name="double-down"]', 0);
-    expect(result.container).isExit('[name="double-up"]', 1);
+    expect(result.container).isExist('[name="double-down"]', 0);
+    expect(result.container).isExist('[name="double-up"]', 1);
     jest.useRealTimers();
   });
 });

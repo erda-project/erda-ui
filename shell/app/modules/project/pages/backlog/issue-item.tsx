@@ -196,7 +196,7 @@ export const IssueItem = (props: IIssueProps) => {
     planFinishedAt: {
       Comp: (
         <span key="planFinishedAt" className="mr-6 w-20 truncate">
-          {data.planFinishedAt ? moment(data.planFinishedAt).format('YYYY/MM/DD') : i18n.t('dop:unspecified')}
+          {data.planFinishedAt ? moment(data.planFinishedAt).format('YYYY/MM/DD') : i18n.t('dop:Unspecified')}
         </span>
       ),
       show: true,

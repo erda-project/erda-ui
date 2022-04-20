@@ -20,11 +20,11 @@ import breadcrumbStore from 'layout/stores/breadcrumb';
 import { isEmpty, isFunction } from 'lodash';
 import { matchPath } from 'react-router-dom';
 import { ErdaIcon } from 'common';
-import { goTo } from 'app/common/utils';
+import { goTo, allWordsFirstLetterUpper } from 'app/common/utils';
 import './header.scss';
 
 const Header = () => {
-  const [currentApp] = layoutStore.useStore((s) => [s.currentApp]);
+  const [currentApp, topButtonsWidth] = layoutStore.useStore((s) => [s.currentApp, s.topButtonsWidth]);
   const [routes, markedRoutePreview] = routeInfoStore.useStore((s) => [s.routes, s.markedRoutePreview]);
   const [pageName, setPageName] = React.useState<string>();
   const [backToUp, setBackToUp] = React.useState(0);
@@ -147,14 +147,15 @@ const Header = () => {
           onClick={() => goTo('../'.repeat(backToUp), { query: _query })}
         >
           <ErdaIcon type="arrow-left" className="mr-1" />
-          {pageName}
+          {allWordsFirstLetterUpper(pageName as string)}
         </div>
       );
     }
-    return <div className="text-xl truncate">{pageName}</div>;
+    return <div className="text-xl truncate">{allWordsFirstLetterUpper(pageName as string)}</div>;
   };
+
   return (
-    <div className="erda-header">
+    <div className="erda-header" style={{ marginRight: topButtonsWidth }}>
       <div className="erda-header-title-con inline-flex">{pageName && displayPageName()}</div>
       <Tab />
     </div>

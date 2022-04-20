@@ -60,7 +60,7 @@ describe('DownloadLogModal', () => {
     const spyOpen = jest.spyOn(window, 'open').mockImplementation();
     const result = render(<DownloadLogModal onCancel={cancelFn} visible query={query} start={startTimestamp} />);
     fireEvent.click(result.getByText('NOW'));
-    fireEvent.click(result.getByText('ok'));
+    fireEvent.click(result.getByText('Ok'));
     await flushPromises();
     expect(spyOpen).toHaveBeenCalledTimes(1);
     expect(cancelFn).toHaveBeenCalledTimes(1);
@@ -83,7 +83,7 @@ describe('DownloadLogModal', () => {
     fireEvent.change(result.getByPlaceholderText('please enter any time from 1 to 60 minutes'), {
       target: { value: 10 },
     });
-    fireEvent.click(result.getByText('ok'));
+    fireEvent.click(result.getByText('Ok'));
     await flushPromises();
     expect(spyOpen).toHaveBeenCalledTimes(1);
     expect(cancelFn).toHaveBeenCalledTimes(1);

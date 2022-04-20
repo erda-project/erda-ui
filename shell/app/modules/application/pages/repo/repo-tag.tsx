@@ -12,7 +12,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Spin, Button, Select, Input, message, FormInstance } from 'antd';
-import { Icon as CustomIcon, EmptyHolder, Avatar, FormModal, IF, DeleteConfirm, ErdaAlert } from 'common';
+import {
+  Icon as CustomIcon,
+  EmptyHolder,
+  Avatar,
+  FormModal,
+  IF,
+  DeleteConfirm,
+  ErdaAlert,
+  TopButtonGroup,
+} from 'common';
 import React from 'react';
 import { fromNow, setApiWithOrg } from 'common/utils';
 import { mergeRepoPathWith } from './util';
@@ -181,7 +190,7 @@ const RepoTag = () => {
 
   return (
     <Spin spinning={isFetching}>
-      <div className="top-button-group">
+      <TopButtonGroup>
         <WithAuth pass={repoBranchAuth.addTag.pass} tipProps={{ placement: 'bottom' }}>
           <Button disabled={isLocked} type="primary" onClick={() => setVisible(true)}>
             {i18n.t('dop:Add-label')}
@@ -195,7 +204,7 @@ const RepoTag = () => {
           onCancel={() => setVisible(false)}
           beforeSubmit={beforeSubmit}
         />
-      </div>
+      </TopButtonGroup>
       <Search
         className="repo-tag-search-input mb-4"
         placeholder={i18n.t('common:search by {name}', { name: i18n.t('tag') })}

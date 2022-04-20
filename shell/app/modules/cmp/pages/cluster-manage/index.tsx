@@ -16,7 +16,7 @@ import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import { Spin, Button } from 'antd';
 import { isEmpty } from 'lodash';
-import { Holder } from 'common';
+import { TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo, setSearch } from 'common/utils';
 import ClusterList from './cluster-list';
@@ -139,12 +139,12 @@ const ClusterManage = () => {
       <Spin spinning={loading}>
         <ClusterList ref={listRef} onEdit={handleShowAddClusterModal} />
       </Spin>
-      <div className="top-button-group">
+      <TopButtonGroup>
         <Button onClick={() => goTo('./history')}>{i18n.t('cmp:History')}</Button>
         <Button type="primary" onClick={() => updater.typeSelectorVis(true)}>
-          {i18n.t('cmp:Add Cluster')}
+          {i18n.t('Add')}
         </Button>
-      </div>
+      </TopButtonGroup>
       <ClusterTypeModal visible={typeSelectorVis} toggleModal={toggleTypeModalVis} onSubmit={handleSelectType} />
       <AddClusterModal
         visible={addModalVis}

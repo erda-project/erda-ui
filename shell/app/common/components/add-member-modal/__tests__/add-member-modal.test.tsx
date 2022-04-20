@@ -162,7 +162,7 @@ describe('AddMemberModal', () => {
       fireEvent.click(result.getByText('Cancel'));
     };
     const submit = () => {
-      fireEvent.click(result.getByText('ok'));
+      fireEvent.click(result.getByText('Ok'));
     };
     return {
       result,
@@ -198,13 +198,13 @@ describe('AddMemberModal', () => {
     await openModal();
     expect(result.baseElement.querySelector('#userIds')).toHaveAttribute('mode', 'multiple');
     expect(result.baseElement.querySelector('#userIds')).toHaveAttribute('scopetype', MemberScope.PROJECT);
-    expect(result.baseElement).isExit('.ant-form-item', 5);
+    expect(result.baseElement).isExist('.ant-form-item', 5);
     fireEvent.click(result.baseElement.querySelector('.results')!);
     await waitFor(() => expect(result.getByRole('menu')).toBeInTheDocument());
     expect(getApps).toHaveBeenCalled();
     fireEvent.change(result.baseElement.querySelector('#userIds')!, { target: { value: 'erda' } });
     fireEvent.mouseDown(result.baseElement.querySelector('#roles')!.closest('.ant-select-selector')!);
-    await waitFor(() => expect(result.baseElement).isExit('.ant-select-dropdown', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-select-dropdown', 1));
     fireEvent.click(result.getByText('PM'));
     submit();
     await flushPromises();
@@ -212,7 +212,7 @@ describe('AddMemberModal', () => {
     await openModal();
     fireEvent.change(result.baseElement.querySelector('#userIds')!, { target: { value: 'erda' } });
     fireEvent.mouseDown(result.baseElement.querySelector('#roles')!.closest('.ant-select-selector')!);
-    await waitFor(() => expect(result.baseElement).isExit('.ant-select-dropdown', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-select-dropdown', 1));
     fireEvent.click(result.getByText('PM'));
     // select Application
     fireEvent.click(result.baseElement.querySelector('.results')!);
@@ -223,17 +223,17 @@ describe('AddMemberModal', () => {
     await flushPromises();
     expect(updateMembers).not.toBeCalled();
     fireEvent.mouseDown(result.baseElement.querySelector('#app_roles')!.closest('.ant-select-selector')!);
-    await waitFor(() => expect(result.baseElement).isExit('.ant-select-dropdown', 2));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-select-dropdown', 2));
     fireEvent.click(result.getByText('REPORTER'));
     submit();
     await flushPromises();
     expect(updateMembers).toBeCalled();
     await openModal();
     rerender({ scope: { ...scope, type: MemberScope.ORG } });
-    expect(result.baseElement).isExit('.ant-form-item', 3);
+    expect(result.baseElement).isExist('.ant-form-item', 3);
     expect(result.baseElement.querySelector('#userIds')).toHaveAttribute('scopetype', MemberScope.ORG);
     rerender({ scope: { ...scope, type: MemberScope.APP } });
-    expect(result.baseElement).isExit('.ant-form-item', 2);
+    expect(result.baseElement).isExist('.ant-form-item', 2);
     expect(result.baseElement.querySelector('#userIds')).toHaveAttribute('scopetype', MemberScope.APP);
     closeFn.mockReset();
     closeModal();

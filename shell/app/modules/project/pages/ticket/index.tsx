@@ -21,7 +21,7 @@ import { map, isEmpty, omit } from 'lodash';
 
 import { useMount } from 'react-use';
 import IssueState from 'project/common/components/issue/issue-state';
-import { Filter, MemberSelector, ConfigurableFilter } from 'common';
+import { Filter, MemberSelector, ConfigurableFilter, TopButtonGroup } from 'common';
 import ErdaTable from 'common/components/table';
 import { useUpdate, useUpdateSearch } from 'common/use-hooks';
 import { mergeSearch, getTimeRanges } from 'common/utils';
@@ -355,13 +355,13 @@ const Ticket = () => {
 
   return (
     <div className="project-ticket">
-      <div className="top-button-group">
+      <TopButtonGroup>
         <WithAuth pass={ticketPerm.create.pass} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={() => updater.drawerVisible(true)}>
             {i18n.t('dop:Add-ticket')}
           </Button>
         </WithAuth>
-      </div>
+      </TopButtonGroup>
       <ErdaTable
         tableKey="project-ticket"
         loading={loading}

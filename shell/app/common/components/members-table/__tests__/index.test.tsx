@@ -317,18 +317,18 @@ describe('MembersTable', () => {
     expect(getMembers).toHaveBeenLastCalledWith({ pageNo: 2, pageSize: 10, scope: { id: '27', type: 'org' } });
     // add member
     fireEvent.click(result.getByText('Add-member'));
-    expect(result.container).isExit('.mock-add-member-modal', 1);
+    expect(result.container).isExist('.mock-add-member-modal', 1);
     fireEvent.click(result.getByText('toggleModal'));
-    expect(result.container).isExit('.mock-add-member-modal', 0);
+    expect(result.container).isExist('.mock-add-member-modal', 0);
     genOrgInviteCode.mockResolvedValue({ verifyCode: 'verifyCode' });
     // invite member
     await act(async () => {
       fireEvent.click(result.getByText('Invite'));
       await flushPromises();
     });
-    expect(result.container).isExit('.mock-url-invite-modal', 1);
+    expect(result.container).isExist('.mock-url-invite-modal', 1);
     fireEvent.click(result.getByText('onCancel'));
-    expect(result.container).isExit('.mock-url-invite-modal', 0);
+    expect(result.container).isExist('.mock-url-invite-modal', 0);
     genOrgInviteCode.mockResolvedValue({ verifyCode: undefined });
     fireEvent.click(result.getByText('Invite'));
     await flushPromises();
@@ -354,13 +354,13 @@ describe('MembersTable', () => {
     await flushPromises();
     expect(removeMember).toHaveBeenCalled();
     fireEvent.click(result.getByText('authorize').closest('li')!);
-    expect(result.container).isExit('.mock-authorize-member-modal', 1);
+    expect(result.container).isExist('.mock-authorize-member-modal', 1);
     fireEvent.click(result.getByText('closeModal'));
-    expect(result.container).isExit('.mock-authorize-member-modal', 0);
+    expect(result.container).isExist('.mock-authorize-member-modal', 0);
     fireEvent.click(result.getByText('Edit').closest('li')!);
     await act(async () => {
       jest.runAllTimers();
-      fireEvent.click(result.getByText('ok'));
+      fireEvent.click(result.getByText('Ok'));
       await flushPromises();
     });
     expect(updateMembers).toHaveBeenCalled();
@@ -372,7 +372,7 @@ describe('MembersTable', () => {
   it('should batch operations work well', async () => {
     const { result, updateMembers, removeMember } = await setUp();
     userEvent.hover(result.getByText('Batch Operation'));
-    await waitFor(() => expect(result.container).isExit('.dice-cp-table-batch-operations', 1));
+    await waitFor(() => expect(result.container).isExist('.dice-cp-table-batch-operations', 1));
     const selectAll = () => {
       const selectAllCheckbox = result.container.querySelector('.ant-table-selection [type="checkbox"]')!;
       fireEvent.click(selectAllCheckbox);
@@ -381,15 +381,15 @@ describe('MembersTable', () => {
     selectAll();
     fireEvent.click(result.getByText('Edit').closest('li')!);
     fireEvent.click(result.getByText('authorize').closest('li')!);
-    expect(result.container).isExit('.mock-batch-authorize-member-modal', 1);
+    expect(result.container).isExist('.mock-batch-authorize-member-modal', 1);
     fireEvent.click(result.getByText('onOk'));
     expect(updateMembers).toHaveBeenCalled();
-    expect(result.container).isExit('.mock-batch-authorize-member-modal', 0);
+    expect(result.container).isExist('.mock-batch-authorize-member-modal', 0);
     selectAll();
     fireEvent.click(result.getByText('authorize').closest('li')!);
-    expect(result.container).isExit('.mock-batch-authorize-member-modal', 1);
+    expect(result.container).isExist('.mock-batch-authorize-member-modal', 1);
     fireEvent.click(result.getByText('onCancel'));
-    expect(result.container).isExit('.mock-batch-authorize-member-modal', 0);
+    expect(result.container).isExist('.mock-batch-authorize-member-modal', 0);
     selectAll();
     fireEvent.click(result.getByText('Remove').closest('li')!);
     await waitFor(() => expect(result.getAllByRole('dialog')).toHaveLength(2));
@@ -433,4 +433,14 @@ describe('MembersTable', () => {
       setConfig('history', undefined);
     },
   );
+  it('should work well without add', () => {
+    const result = render(
+      <MembersTable
+        showAuthorize
+        scopeKey={MemberScope.ORG}
+        overwriteAuth={{ showAuthorize: true, edit: true, delete: true, add: false }}
+      />,
+    );
+    expect(result.queryByText('Add')).toBeNull();
+  });
 });

@@ -22,7 +22,7 @@ import ApiView from 'app/modules/apiManagePlatform/pages/api-market/detail/compo
 import { OpenAPI } from 'openapi-types';
 import { goTo } from 'common/utils';
 import yaml from 'js-yaml';
-import { Avatar, UserInfo } from 'common';
+import { Avatar, UserInfo, TopButtonGroup } from 'common';
 import moment from 'moment';
 import { exportSwagger } from 'apiManagePlatform/services/api-market';
 import { map, pickBy } from 'lodash';
@@ -141,14 +141,14 @@ const ApiAssetDetail = () => {
 
   return (
     <div className="api-market-detail full-spin-height">
-      <div className="top-button-group">
+      <TopButtonGroup>
         <Button onClick={showVersionList}>{i18n.t('version list')}</Button>
         {hasAccess ? (
           <Button type="primary" onClick={handleApply}>
             {i18n.t('apply to call')}
           </Button>
         ) : null}
-      </div>
+      </TopButtonGroup>
       <Spin wrapperClassName="api-market-detail-loading" spinning={isLoading || isFetchVersionList}>
         <ApiView
           deprecated={version.deprecated}

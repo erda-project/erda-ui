@@ -29,12 +29,12 @@ describe('TagsRow', () => {
   ];
   it('should render with default props', async () => {
     const result = render(<TagsRow labels={labels} />);
-    expect(result.container).isExit('.tag-default', 2);
-    expect(result.container).isExit('[name="more"]', 1);
+    expect(result.container).isExist('.tag-default', 2);
+    expect(result.container).isExist('[name="more"]', 1);
     userEvent.hover(result.container.querySelector('[name="more"]')!);
     await waitFor(() => expect(screen.getByRole('tooltip')).toBeTruthy());
     fireEvent.click(screen.queryByText(labels[labels.length - 1].label)!);
-    expect(result.baseElement.querySelector('.tags-row-tooltip')).isExit('.tag-default', labels.length);
+    expect(result.baseElement.querySelector('.tags-row-tooltip')).isExist('.tag-default', labels.length);
   });
   it('should render with showGroup', async () => {
     const groupLabel = labels.map((item, index) => {
@@ -46,7 +46,7 @@ describe('TagsRow', () => {
     const result = render(<TagsRow labels={groupLabel} />);
     userEvent.hover(result.container.querySelector('[name="more"]')!);
     await waitFor(() => expect(screen.getByRole('tooltip')).toBeTruthy());
-    expect(result.baseElement).isExit('.tag-group-name', 2);
+    expect(result.baseElement).isExist('.tag-group-name', 2);
   });
   it('should delete well', async () => {
     const deleteFn = jest.fn();

@@ -72,6 +72,7 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
     curDeleteCluster: null as null | ORG_CLUSTER.ICluster,
     deleteClusterName: '',
     registerCommandVisible: false,
+    offlineErrorInfo: '',
   });
 
   const reloadRef = React.useRef<Obj | null>(null);
@@ -147,22 +148,41 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
     }
   };
 
-  const submitDelete = ({ clusterName }: { clusterName: string }) => {
+  const reloadClusterOperations = (recordIDs: number) => {
     // 删除后根据recordID查看操作纪录接口中的详情作为提示
-    deleteCluster({ clusterName }).then((deleteRes: any) => {
-      const { recordID: deleteRecordID } = deleteRes || {};
-      deleteRecordID &&
-        getClusterOperationHistory({ recordIDs: deleteRecordID } as any).then((listRes: any) => {
-          const curRecord = get(listRes, 'data.list[0]') || ({} as any);
-          if (curRecord && curRecord.status === 'failed') {
-            notify('error', curRecord.detail);
-          }
-        });
-      if (reloadRef.current && reloadRef.current.reload) {
-        reloadRef.current.reload();
+    getClusterOperationHistory({ recordIDs }).then((listRes: IPagingResp<ORG_MACHINE.IClusterOperateRecord>) => {
+      const curRecord = get(listRes, 'data.list[0]') || ({} as ORG_MACHINE.IClusterOperateRecord);
+      if (curRecord && curRecord.status === 'failed') {
+        notify('error', curRecord.detail);
       }
     });
-    toggleDeleteModal();
+
+    if (reloadRef.current && reloadRef.current.reload) {
+      reloadRef.current.reload();
+    }
+  };
+
+  const submitDelete = ({ clusterName }: { clusterName: string }) => {
+    deleteCluster({ clusterName, preCheck: true }).then((deleteRes: { recordID: number; preCheckHint: string }) => {
+      if (deleteRes.preCheckHint) {
+        updater.offlineErrorInfo(deleteRes.preCheckHint);
+      } else {
+        deleteCluster({ clusterName }).then((deleteRes: any) => {
+          const { recordID } = deleteRes || {};
+          recordID && reloadClusterOperations(recordID);
+          toggleDeleteModal();
+        });
+      }
+    });
+  };
+
+  const submitForceOffline = ({ clusterName }: { clusterName: string }) => {
+    deleteCluster({ clusterName, force: true }).then((deleteRes: { recordID: number }) => {
+      const { recordID } = deleteRes || {};
+      recordID && reloadClusterOperations(recordID);
+      updater.offlineErrorInfo('');
+      toggleDeleteModal();
+    });
   };
 
   const showCommand = React.useCallback(
@@ -223,6 +243,23 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.deleteClusterName(e.target.value)}
             />
           }
+          hasTriggerContent={false}
+        />
+      )}
+      {state.offlineErrorInfo && (
+        <ConfirmDelete
+          title={i18n.t('cmp:Whether to be forced offline')}
+          onConfirm={() => submitForceOffline({ clusterName: state.deleteClusterName })}
+          secondTitle={
+            <div>
+              <div className="mb-2">{i18n.t('cmp:Unable to go offline normally')} :</div>
+              <div>{state.offlineErrorInfo}</div>
+            </div>
+          }
+          onCancel={() => {
+            toggleDeleteModal();
+            updater.offlineErrorInfo('');
+          }}
           hasTriggerContent={false}
         />
       )}

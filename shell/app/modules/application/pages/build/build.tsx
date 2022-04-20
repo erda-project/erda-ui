@@ -16,7 +16,7 @@ import { Button, List, Select, Spin, Tooltip } from 'antd';
 import BuildDetail from 'application/pages/build-detail';
 import classnames from 'classnames';
 import { get, toNumber, isEmpty, pick, isEqual, isEqualWith } from 'lodash';
-import { Icon as CustomIcon, IF } from 'common';
+import { Icon as CustomIcon, IF, TopButtonGroup } from 'common';
 import { fromNow } from 'common/utils';
 import { SplitPage } from 'app/layout/common';
 import i18n from 'i18n';
@@ -389,11 +389,11 @@ export const Build = (props: IProps) => {
         {renderLeftSection()}
       </SplitPage.Left>
       <SplitPage.Right pl32>{renderRightSection()}</SplitPage.Right>
-      <div className="top-button-group">
+      <TopButtonGroup>
         <Button type="primary" onClick={showModal}>
           {addTitle}
         </Button>
-      </div>
+      </TopButtonGroup>
       {renderCreateModal()}
     </SplitPage>
   );

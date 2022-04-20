@@ -41,7 +41,7 @@ describe('MonitorChartPanel', () => {
       d: { name: 'd' },
     };
     const result = render(<MonitorChartPanel resourceType={resourceType} resourceId={resourceId} metrics={metrics} />);
-    expect(result.container).isExit('.mock-monitor-chart', 4);
+    expect(result.container).isExist('.mock-monitor-chart', 4);
     expect(result.queryByText('load more')).toBeNull();
   });
   it('render with metrics length greater than 4', () => {
@@ -57,9 +57,9 @@ describe('MonitorChartPanel', () => {
       i: { name: 'i' },
     };
     const result = render(<MonitorChartPanel resourceType="a" resourceId="a" metrics={metrics} />);
-    expect(result.container).isExit('.mock-monitor-chart', 4);
+    expect(result.container).isExist('.mock-monitor-chart', 4);
     expect(result.queryByText('load more')).not.toBeNull();
     fireEvent.click(result.getByText('load more'));
-    expect(result.container).isExit('.mock-monitor-chart', 8);
+    expect(result.container).isExist('.mock-monitor-chart', 8);
   });
 });

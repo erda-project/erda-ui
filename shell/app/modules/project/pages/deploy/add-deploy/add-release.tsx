@@ -109,7 +109,7 @@ const AddRelease = ({
                 setVisible(false);
               }}
             >
-              {i18n.t('ok')}
+              {i18n.t('Ok')}
             </Button>
           </div>
         </div>
@@ -264,7 +264,7 @@ const AppRelease = (props: IReleaseProps) => {
                 {selectedApp ? (
                   <Ellipsis className="font-bold text-white" title={selectedApp?.displayName || selectedApp?.name} />
                 ) : (
-                  <span className="text-white-3">{i18n.t('please select')}</span>
+                  <span className="text-white-3">{i18n.t('Please Select')}</span>
                 )}
                 <ErdaIcon type="caret-down" className="ml-0.5" size="14" />
               </div>

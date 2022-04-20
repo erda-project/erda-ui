@@ -262,7 +262,7 @@ const AccessEdit = () => {
       options: assetList.map((item) => ({ name: item.asset.assetName, value: item.asset.assetID })),
       initialValue: access.assetID,
       itemProps: {
-        placeholder: i18n.t('please select'),
+        placeholder: i18n.t('Please Select'),
         disabled: type === 'edit',
         onChange: (v: string) => {
           handleChange('assetID', v, ['projectID', 'major', 'minor', 'addonInstanceID']);
@@ -277,7 +277,7 @@ const AccessEdit = () => {
       options: map(assetVersions, (item) => ({ name: item.swaggerVersion, value: item.major })),
       itemProps: {
         disabled: type === 'edit',
-        placeholder: i18n.t('please select'),
+        placeholder: i18n.t('Please Select'),
         onChange: (v: string) => {
           handleChange('major', v, ['minor', 'projectID', 'addonInstanceID']);
         },
@@ -290,7 +290,7 @@ const AccessEdit = () => {
       initialValue: access.minor,
       options: map(state.resourceVersions, (item) => ({ name: `V${item.major}.${item.minor}.*`, value: item.minor })),
       itemProps: {
-        placeholder: i18n.t('please select'),
+        placeholder: i18n.t('Please Select'),
         onChange: (v: string) => {
           handleChange('minor', v, ['projectID', 'addonInstanceID']);
         },
@@ -304,7 +304,7 @@ const AccessEdit = () => {
       options: map(state.projectList, ({ projectID, projectName }) => ({ name: projectName, value: projectID })),
       itemProps: {
         disabled: true,
-        placeholder: i18n.t('please select'),
+        placeholder: i18n.t('Please Select'),
       },
     },
     {
@@ -343,7 +343,7 @@ const AccessEdit = () => {
         disabled: item.status !== 'ATTACHED',
       })),
       itemProps: {
-        placeholder: i18n.t('please select'),
+        placeholder: i18n.t('Please Select'),
         onFocus: () => {
           refreshApiGateway();
         },
@@ -357,7 +357,7 @@ const AccessEdit = () => {
       initialValue: access.authentication,
       options: map(authenticationMap, (item) => item),
       itemProps: {
-        placeholder: i18n.t('please select'),
+        placeholder: i18n.t('Please Select'),
       },
     },
     {
@@ -367,7 +367,7 @@ const AccessEdit = () => {
       initialValue: access.authorization,
       options: map(authorizationMap, (item) => item),
       itemProps: {
-        placeholder: i18n.t('please select'),
+        placeholder: i18n.t('Please Select'),
       },
     },
     {
@@ -387,7 +387,7 @@ const AccessEdit = () => {
       getComp: ({ form }: { form: FormInstance }) => (
         <div className="mt-5">
           <Button type="primary" onClick={() => handleSubmit(form)}>
-            {i18n.t('ok')}
+            {i18n.t('Ok')}
           </Button>
           <Button className="ml-3" onClick={() => window.history.back()}>
             {i18n.t('Cancel')}

@@ -53,6 +53,7 @@ interface IState {
   };
   scalableImgSrc: string;
   escStack: string[];
+  topButtonsWidth: number;
 }
 
 const emptyApp = {
@@ -76,6 +77,7 @@ const initState: IState = {
   },
   scalableImgSrc: '',
   escStack: [],
+  topButtonsWidth: 0,
 };
 
 const layout = createStore({
@@ -256,6 +258,9 @@ const layout = createStore({
     },
     shiftEscStack(state) {
       state.escStack.shift();
+    },
+    updateTopButtonsWidth(state, payload: number) {
+      state.topButtonsWidth = payload;
     },
   },
 });

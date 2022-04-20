@@ -84,10 +84,10 @@ describe('ListItem', () => {
         defaultBgImg={imgMap.frontImg_default_project_icon}
       />,
     );
-    expect(result.container).isExit('.erda-badge-status-success', 1);
-    expect(result.container).isExit('.tags-container', 1);
+    expect(result.container).isExist('.erda-badge-status-success', 1);
+    expect(result.container).isExist('.tags-container', 1);
     expect(result.getByText(data.columnsInfo.text?.[0].text!)).toBeTruthy();
-    expect(result.container).isExit('.item-prefix-img img', 1);
+    expect(result.container).isExist('.item-prefix-img img', 1);
     expect(result.getByRole('img')).toHaveAttribute('src', imgMap.frontImg_default_app_icon);
     expect(result.getByRole('img')).toHaveClass('prefix-img-circle');
     result.rerender(
@@ -113,8 +113,8 @@ describe('ListItem', () => {
         defaultBgImg={iconMap.cluster}
       />,
     );
-    expect(result.container).isExit(`[name="${iconMap['api-app']}"]`, 1);
-    expect(result.container).isExit(`[style="background-image: url(${iconMap.cluster});"]`, 1);
+    expect(result.container).isExist(`[name="${iconMap['api-app']}"]`, 1);
+    expect(result.container).isExist(`[style="background-image: url(${iconMap.cluster});"]`, 1);
     result.rerender(
       <ListItem
         key={data.id}
@@ -126,7 +126,7 @@ describe('ListItem', () => {
         defaultBgImg={iconMap.cluster}
       />,
     );
-    expect(result.container).isExitClass(`[name="${iconMap['api-app']}"]`, 'prefix-img-circle');
+    expect(result.container).isExistClass(`[name="${iconMap['api-app']}"]`, 'prefix-img-circle');
     result.rerender(
       <ListItem
         key={data.id}
@@ -154,7 +154,7 @@ describe('ListItem', () => {
         }}
       />,
     );
-    expect(result.container).isExit(`[src="${userMap.user_1.avatar}"]`, 1);
+    expect(result.container).isExist(`[src="${userMap.user_1.avatar}"]`, 1);
     expect(result.getByText(userMap.user_1.nick!)).toBeTruthy();
     expect(result.getByText(userMap.user_2.name!)).toBeTruthy();
     expect(result.getByText(userMap.user_3.nick!)).toBeTruthy();
@@ -198,9 +198,9 @@ describe('ListItem', () => {
         }}
       />,
     );
-    expect(result.container).isExit('.hoverIcons-compWapper', 1);
-    expect(result.container).isExit('[name="hoverIcons-error"]', 1);
-    expect(result.container).isExit('[name="hoverIcons-success"]', 1);
+    expect(result.container).isExist('.hoverIcons-compWapper', 1);
+    expect(result.container).isExist('[name="hoverIcons-error"]', 1);
+    expect(result.container).isExist('[name="hoverIcons-success"]', 1);
   });
   it('should work welll with operations', async () => {
     const clickFn = jest.fn();
@@ -235,7 +235,7 @@ describe('ListItem', () => {
         }}
       />,
     );
-    expect(result.container).isExit('.operations-compWapper', 1);
+    expect(result.container).isExist('.operations-compWapper', 1);
     fireEvent.click(result.container.querySelector('[name="view"]')!);
     expect(clickFn).toHaveBeenCalledTimes(1);
     fireEvent.click(result.container.querySelector('[name="delete"]')!);
@@ -269,8 +269,8 @@ describe('ListItem', () => {
         }}
       />,
     );
-    expect(result.container).isExit('.kvInfos-compWapper', 1);
-    expect(result.container).isExit(`[name="${kvInfos[0].icon}"]`, 1);
+    expect(result.container).isExist('.kvInfos-compWapper', 1);
+    expect(result.container).isExist(`[name="${kvInfos[0].icon}"]`, 1);
     userEvent.hover(result.getByText(kvInfos[1].value));
     await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
     expect(screen.getByText(kvInfos[1].tip!)).toBeTruthy();
@@ -310,7 +310,7 @@ describe('ListItem', () => {
         }}
       />,
     );
-    expect(result.container).isExit(`[name="${titleSuffixIcon}"]`, 1);
+    expect(result.container).isExist(`[name="${titleSuffixIcon}"]`, 1);
     userEvent.hover(result.container.querySelector(`[name="${titleSuffixIcon}"]`)!);
     await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
     expect(screen.getByText(titleSuffixIconTip)).toBeTruthy();
@@ -328,7 +328,7 @@ describe('ListItem', () => {
         }}
       />,
     );
-    expect(result.container).isExit(`[name="${titlePrefixIcon}"]`, 1);
+    expect(result.container).isExist(`[name="${titlePrefixIcon}"]`, 1);
   });
   it('should work well with onSelectChange', () => {
     const changeFn = jest.fn();
@@ -362,7 +362,7 @@ describe('ListItem', () => {
       />,
     );
     expect(result.getByRole('checkbox').parentNode).toHaveClass('ant-checkbox-disabled');
-    expect(result.container).isExit('[name="lock"]', 1);
+    expect(result.container).isExist('[name="lock"]', 1);
     fireEvent.click(result.container.querySelector('[name="lock"]')!);
     expect(clickFn).not.toHaveBeenCalled();
     fireEvent.click(result.container.querySelector('.erda-base-list-item')!);
@@ -371,7 +371,7 @@ describe('ListItem', () => {
   it('should render well with icon', () => {
     const icon = iconMap.cluster;
     const result = render(<ListItem key={data.id} data={{ ...data, icon }} />);
-    expect(result.container).isExit(`[name="${icon}"]`, 1);
+    expect(result.container).isExist(`[name="${icon}"]`, 1);
   });
   it('should render well with titleSummary', () => {
     const titleSummary = 'titleSummary';

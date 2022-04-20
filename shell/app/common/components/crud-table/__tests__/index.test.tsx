@@ -125,17 +125,17 @@ describe('CRUDTable', () => {
   it('should CRUDTable work well', async () => {
     const extraOperation = <div className="extraOperation">extraOperation</div>;
     const { result, rerender, clearListFn, onModalCloseFn, submitFn } = setUp({ showTopAdd: false });
-    expect(result.baseElement).isExit('.top-button-group', 0);
+    expect(result.baseElement).isExist('.top-button-group', 0);
     rerender({ extraOperation });
-    expect(result.baseElement).isExit('.top-button-group', 1);
-    expect(result.baseElement).isExit('.extraOperation', 1);
+    expect(result.baseElement).isExist('.top-button-group', 1);
+    expect(result.baseElement).isExist('.extraOperation', 1);
     expect(result.queryByText('add project')).toBeNull();
     rerender({
       extraOperation: () => {
         return <div className="fun-extraOperation">funExtraOperation</div>;
       },
     });
-    expect(result.baseElement).isExit('.fun-extraOperation', 1);
+    expect(result.baseElement).isExist('.fun-extraOperation', 1);
     rerender({ getFieldsList, list });
     expect(result.queryByText('add project')).not.toBeNull();
     // open edit modal
@@ -150,7 +150,7 @@ describe('CRUDTable', () => {
     fireEvent.change(result.getByRole('textbox'), { target: { value: 'erda' } });
     await flushPromises();
     await act(async () => {
-      fireEvent.click(result.getByText('ok'));
+      fireEvent.click(result.getByText('Ok'));
       await flushPromises();
     });
     expect(submitFn).toHaveBeenLastCalledWithNth(0, { name: 'erda' });
@@ -162,12 +162,12 @@ describe('CRUDTable', () => {
     fireEvent.change(result.getByRole('textbox'), { target: { value: 'erda' } });
     await flushPromises();
     await act(async () => {
-      fireEvent.click(result.getByText('ok'));
+      fireEvent.click(result.getByText('Ok'));
       await flushPromises();
     });
     expect(handleFormSubmitFn).toHaveBeenLastCalledWithNth(0, { name: 'erda' });
     rerender({ filterConfig });
-    expect(result.container).isExit('form', 1);
+    expect(result.container).isExist('form', 1);
     result.unmount();
     expect(clearListFn).toHaveBeenCalled();
   });
@@ -181,7 +181,7 @@ describe('CRUDTable', () => {
       fireEvent.change(result.getByRole('textbox'), { target: { value: 'erda' } });
       await flushPromises();
       await act(async () => {
-        fireEvent.click(result.getByText('ok'));
+        fireEvent.click(result.getByText('Ok'));
         await flushPromises();
       });
       expect(mockFn).toHaveBeenLastCalledWithNth(0, { name: 'erda' });

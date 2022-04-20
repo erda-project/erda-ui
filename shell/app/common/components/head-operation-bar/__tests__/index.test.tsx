@@ -25,7 +25,7 @@ describe('HeadOperationBar', () => {
   it('should render search', () => {
     const searchFn = jest.fn();
     const result = render(<HeadOperationBar onSearch={searchFn} />);
-    expect(result.container).isExit('[name="search"]', 1);
+    expect(result.container).isExist('[name="search"]', 1);
     const input = result.getByRole('textbox') as HTMLInputElement;
     expect(input.value).toBe('');
     expect(input.placeholder).toBe('Search by keyword');
@@ -40,7 +40,7 @@ describe('HeadOperationBar', () => {
   it('should render reload', () => {
     const reloadFn = jest.fn();
     const result = render(<HeadOperationBar onReload={reloadFn} />);
-    expect(result.container).isExit('[name="refresh"]', 1);
+    expect(result.container).isExist('[name="refresh"]', 1);
     fireEvent.click(result.container.querySelector('[name="refresh"]')!);
     expect(reloadFn).toHaveBeenCalled();
   });

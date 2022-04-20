@@ -240,7 +240,7 @@ describe('ContractiveFilter', () => {
       },
     });
     expect(result.getByText('Filter')).toBeTruthy();
-    expect(result.container).isExit('.contractive-filter-item-wrap', 9);
+    expect(result.container).isExist('.contractive-filter-item-wrap', 9);
     result.unmount();
   });
   it('should work well with more', async () => {
@@ -261,13 +261,13 @@ describe('ContractiveFilter', () => {
     fireEvent.change(result.getByPlaceholderText('Filter conditions'), { target: { value: 'addr' } });
     fireEvent.click(result.getByRole('checkbox'));
     fireEvent.change(result.getByRole('checkbox'), { target: { checked: true } });
-    expect(result.container).isExit('.contractive-filter-item-wrap', 10);
+    expect(result.container).isExist('.contractive-filter-item-wrap', 10);
     fireEvent.change(result.getByPlaceholderText('filter by addr'), { target: { value: 'erda' } });
     expect(changeFn).toHaveBeenLastCalledWith({ addr: 'erda' }, 'addr');
     fireEvent.click(result.getByText('Filter'));
     await waitFor(() => expect(result.getByRole('menu')).toBeTruthy());
     fireEvent.click(result.getByText('Clear selected'));
-    expect(result.container).isExit('.contractive-filter-item-wrap', 9);
+    expect(result.container).isExist('.contractive-filter-item-wrap', 9);
     expect(changeFn).toHaveBeenLastCalledWith({ addr: undefined }, undefined);
     rerender({
       values: {
@@ -287,9 +287,9 @@ describe('ContractiveFilter', () => {
     fireEvent.change(result.getByPlaceholderText('Filter conditions'), { target: { value: 'moreSelect' } });
     fireEvent.click(result.getByRole('checkbox'));
     fireEvent.change(result.getByRole('checkbox'), { target: { checked: true } });
-    expect(result.container).isExit('[name="guanbi-fill"]', 1);
+    expect(result.container).isExist('[name="guanbi-fill"]', 1);
     fireEvent.click(result.container.querySelector('[name="guanbi-fill"]')!);
-    expect(result.container).isExit('[name="guanbi-fill"]', 0);
+    expect(result.container).isExist('[name="guanbi-fill"]', 0);
     expect(changeFn).toHaveBeenLastCalledWith({ moreSelect: undefined }, 'moreSelect');
   });
   it('should getComp work well', () => {
@@ -452,12 +452,12 @@ describe('ContractiveFilter', () => {
     await waitFor(() => expect(result.getByRole('menu')).toBeTruthy());
     fireEvent.click(result.baseElement.querySelector('[name="shanchu"]')!);
     expect(quickOperationFn).toHaveBeenLastCalledWith({ key: 'quickDelete key', value: 'project' });
-    expect(result.baseElement).not.isExitClass('.option-group-content', 'no-expand');
-    expect(result.baseElement).isExit('.option-group-content .option-item', 2);
+    expect(result.baseElement).not.isExistClass('.option-group-content', 'no-expand');
+    expect(result.baseElement).isExist('.option-group-content .option-item', 2);
     fireEvent.click(result.baseElement.querySelector('.option-group-label')!);
-    expect(result.baseElement).isExitClass('.option-group-content', 'no-expand');
+    expect(result.baseElement).isExistClass('.option-group-content', 'no-expand');
     fireEvent.click(result.baseElement.querySelector('.option-group-content .load-more')!);
-    expect(result.baseElement).isExit('.option-group-content .option-item', 3);
+    expect(result.baseElement).isExist('.option-group-content .option-item', 3);
     fireEvent.click(result.getByText('project').closest('.option-item')!);
     expect(changeFn).toHaveBeenLastCalledWith({ platform: ['project'] }, 'platform');
   });
@@ -467,7 +467,7 @@ describe('ContractiveFilter', () => {
     const durationInps = result.container.querySelectorAll('.trace-duration .ant-input');
     const durationSelect = result.container.querySelectorAll('.trace-duration .ant-select-selector');
     fireEvent.mouseDown(durationSelect[1]);
-    await waitFor(() => expect(result.baseElement).isExit('.ant-select-dropdown', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-select-dropdown', 1));
     fireEvent.click(result.getAllByText('s')[1]);
     expect(changeFn).toHaveBeenLastCalledWith(
       {
@@ -496,29 +496,31 @@ describe('ContractiveFilter', () => {
     async ({ borderTime }) => {
       const { timestamp } = setMockDate();
       const { result, changeFn } = setUp({
-        conditions: conditionsFilter.map((item) => {
-          return item.type === 'dateRange'
-            ? {
-                ...item,
-                customProps: {
-                  ...item.customProps,
-                  borderTime,
-                },
-              }
-            : {
-                ...item,
-              };
-        }),
+        conditions: conditionsFilter
+          .filter((item) => item.type !== 'rangePicker')
+          .map((item) => {
+            return item.type === 'dateRange'
+              ? {
+                  ...item,
+                  customProps: {
+                    ...item.customProps,
+                    borderTime,
+                  },
+                }
+              : {
+                  ...item,
+                };
+          }),
       });
-      fireEvent.mouseDown(result.getByPlaceholderText('startDate'));
-      fireEvent.focus(result.getByPlaceholderText('startDate'));
-      await waitFor(() => expect(result.baseElement).isExit('.ant-picker-dropdown', 1));
+      fireEvent.mouseDown(result.getByPlaceholderText('Start date'));
+      fireEvent.focus(result.getByPlaceholderText('Start date'));
+      await waitFor(() => expect(result.baseElement).isExist('.ant-picker-dropdown', 1));
       // select start date
       fireEvent.click(result.getAllByText('Today')[0]);
-      fireEvent.mouseDown(result.getByPlaceholderText('endDate'));
-      fireEvent.focus(result.getByPlaceholderText('endDate'));
-      await waitFor(() => expect(result.baseElement).isExit('.ant-picker-dropdown', 2));
-      // select end date
+      fireEvent.mouseDown(result.getByPlaceholderText('End date'));
+      fireEvent.focus(result.getByPlaceholderText('End date'));
+      await waitFor(() => expect(result.baseElement).isExist('.ant-picker-dropdown', 2));
+      // select End date
       fireEvent.click(result.getAllByText('Today')[1]);
       const createAt = borderTime ? [timestamp.startOfDay, timestamp.endOfDay] : [timestamp.current, timestamp.current];
       expect(changeFn).toHaveBeenLastCalledWith({ createAt }, 'createAt');
@@ -533,27 +535,31 @@ describe('ContractiveFilter', () => {
       const nextDay = moment.clone().add(1, 'day');
       const nextDayStr = nextDay.format('YYYY-MM-DD');
       const { result, changeFn } = setUp({
-        conditions: conditionsFilter.map((item) => {
-          return item.type === 'rangePicker'
-            ? {
-                ...item,
-                customProps: {
-                  ...item.customProps,
-                  borderTime,
-                  ranges: [
-                    { 'last 1 month': { label: 'last 1 month', range: [moment.clone().subtract(30, 'days'), moment] } },
-                  ],
-                  selectableTime: [moment.clone().subtract(10, 'days'), moment.clone().add(10, 'days')],
-                },
-              }
-            : {
-                ...item,
-              };
-        }),
+        conditions: conditionsFilter
+          .filter((item) => item.type !== 'dateRange')
+          .map((item) => {
+            return item.type === 'rangePicker'
+              ? {
+                  ...item,
+                  customProps: {
+                    ...item.customProps,
+                    borderTime,
+                    ranges: [
+                      {
+                        'last 1 month': { label: 'last 1 month', range: [moment.clone().subtract(30, 'days'), moment] },
+                      },
+                    ],
+                    selectableTime: [moment.clone().subtract(10, 'days'), moment.clone().add(10, 'days')],
+                  },
+                }
+              : {
+                  ...item,
+                };
+          }),
       });
       fireEvent.mouseDown(result.getByPlaceholderText('Start date'));
       fireEvent.focus(result.getByPlaceholderText('Start date'));
-      await waitFor(() => expect(result.baseElement).isExit('.ant-picker-range-wrapper', 1));
+      await waitFor(() => expect(result.baseElement).isExist('.ant-picker-range-wrapper', 1));
       fireEvent.click(result.baseElement.querySelector(`[title="${currentDay}"]`)!);
       fireEvent.click(result.baseElement.querySelector(`[title="${nextDayStr}"]`)!);
       const updateAt = borderTime

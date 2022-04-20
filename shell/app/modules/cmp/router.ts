@@ -39,7 +39,7 @@ const middlewareTabs = [
 const alarmConfigTab = [
   {
     key: 'strategy',
-    name: i18n.t('alarm strategy'),
+    name: i18n.t('alert strategy'),
   },
   {
     key: 'custom',
@@ -125,6 +125,7 @@ function getCmpRouter(): RouteConfigItem[] {
             {
               path: 'history',
               pageName: i18n.t('cmp:History'),
+              layout: { noWrapper: true },
               getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/operation-history'), 'OperationHistory'),
             },
             {
@@ -248,6 +249,7 @@ function getCmpRouter(): RouteConfigItem[] {
         {
           path: 'domain',
           breadcrumbName: i18n.t('domain'),
+          layout: { noWrapper: true },
           getComp: (cb) => cb(import('app/modules/cmp/pages/domain-manage')),
         },
         {
@@ -258,6 +260,7 @@ function getCmpRouter(): RouteConfigItem[] {
         {
           path: 'jobs',
           breadcrumbName: i18n.t('Task'),
+          layout: { noWrapper: true },
           getComp: (cb) => cb(import('app/modules/cmp/pages/tasks/job')),
         },
         {
@@ -446,6 +449,7 @@ function getCmpRouter(): RouteConfigItem[] {
               alwaysShowTabKey: 'events',
               routes: [
                 {
+                  layout: { noWrapper: true },
                   getComp: (cb) => cb(import('cmp/pages/alarm-record/events')),
                 },
                 {
@@ -518,7 +522,7 @@ function getCmpRouter(): RouteConfigItem[] {
             },
             {
               path: 'strategy',
-              breadcrumbName: i18n.t('alarm strategy'),
+              breadcrumbName: i18n.t('alert strategy'),
               routes: [
                 {
                   layout: { noWrapper: true },

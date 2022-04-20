@@ -106,13 +106,13 @@ describe('FilterGroup', () => {
     const resetFn = jest.fn();
     const searchFn = jest.fn();
     const result = render(<FilterGroup list={simpleList} reversePosition onReset={resetFn} />);
-    expect(result.container).isExit('.filter-group-left', 1);
-    expect(result.container).isExit('.filter-group-right', 1);
-    expect(result.container).isExit('.filter-group-left .ant-btn', 1);
-    expect(result.container).isExit('.filter-group-right .ant-input', 1);
+    expect(result.container).isExist('.filter-group-left', 1);
+    expect(result.container).isExist('.filter-group-right', 1);
+    expect(result.container).isExist('.filter-group-left .ant-btn', 1);
+    expect(result.container).isExist('.filter-group-right .ant-input', 1);
     result.rerender(<FilterGroup list={simpleList} reversePosition={false} onSearch={searchFn} />);
-    expect(result.container).isExit('.filter-group-left .ant-input', 1);
-    expect(result.container).isExit('.filter-group-right .ant-btn', 1);
+    expect(result.container).isExist('.filter-group-left .ant-input', 1);
+    expect(result.container).isExist('.filter-group-right .ant-btn', 1);
   });
   it('should FilterBarHandle work well', () => {
     const queryStr = 'name[erda]||org[erda.cloud]';
@@ -130,7 +130,7 @@ describe('FilterGroup', () => {
       </ToolBarWithFilter>,
     );
     fireEvent.click(result.container.querySelector('.filter-btn')!);
-    await waitFor(() => expect(result.baseElement).isExit('.ant-drawer', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-drawer', 1));
     act(() => {
       ref.current?.onSearchWithFilterBar({});
     });
@@ -161,7 +161,7 @@ describe('FilterGroup', () => {
       </ToolBarWithFilter>,
     );
     fireEvent.mouseDown(result.baseElement.querySelector('.ant-select-selector')!);
-    await waitFor(() => expect(result.baseElement).isExit('.ant-select-dropdown', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-select-dropdown', 1));
     fireEvent.click(result.getByText('Tom'));
     fireEvent.click(result.getByText('Filter'));
     expect(searchFn).toHaveBeenLastCalledWith({
@@ -233,7 +233,7 @@ describe('FilterGroup', () => {
       id: 123,
     });
     fireEvent.mouseDown(result.container.querySelector('.ant-select-selector')!);
-    await waitFor(() => expect(result.baseElement).isExit('.ant-select-dropdown', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-select-dropdown', 1));
     fireEvent.click(result.getByText('Tom'));
     expect(changeFn).toHaveBeenLastCalledWith({
       ...initData,

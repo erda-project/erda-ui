@@ -18,7 +18,7 @@ import { Input, Tag, Tooltip } from 'antd';
 import Pagination from 'common/components/pagination';
 import { debounce, get, isNil, reduce } from 'lodash';
 import EChart from 'charts/components/echarts';
-import { ErdaAlert, ErdaIcon, RadioTabs } from 'common';
+import { ErdaAlert, ErdaIcon, RadioTabs, TopButtonGroup } from 'common';
 import { goTo } from 'common/utils';
 import { genLinearGradient, newColorMap } from 'app/charts/theme';
 import './service-list.scss';
@@ -398,7 +398,7 @@ const MicroServiceOverview = () => {
                     {chartItems.map((chartItem: { key: string; name: string; tips: string }) => {
                       const { count, unit } = dataConvert[key](get(rest, chartItem.key));
                       return (
-                        <div className="w-1/2">
+                        <div className="w-1/2" key={`${rest.id}-${chartItem.key}`}>
                           <p className="mb-0 whitespace-nowrap font-number">
                             <span>{count}</span>
                             <span className="text-xs text-desc ml-1">{unit}</span>
@@ -454,14 +454,14 @@ const MicroServiceOverview = () => {
 
   return (
     <div>
-      <div className="top-button-group">
+      <TopButtonGroup>
         <div
           className="cursor-pointer flex items-center h-8 w-8 justify-center bg-default-04 rounded-sm text-default-6 hover:bg-default-2 hover:text-default"
           onClick={handleRefresh}
         >
           <ErdaIcon type="refresh" onClick={handleRefresh} />
         </div>
-      </div>
+      </TopButtonGroup>
       <ErdaAlert
         showOnceKey="msp-service-list"
         message={i18n.t(

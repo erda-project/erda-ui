@@ -16,7 +16,7 @@ import { useSwitch, useUpdate } from 'app/common/use-hooks';
 import { ProblemForm, ProblemPriority, ProblemTypeOptions } from 'application/pages/problem/problem-form';
 import TicketDetail from './problem-detail';
 import { addTicket, getTicketList } from 'application/services/problem';
-import { ConfigurableFilter, Table } from 'common';
+import { ConfigurableFilter, Table, TopButtonGroup } from 'common';
 import { fromNow, getDefaultPaging, insertWhen } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import { IUserInfo, useUserMap } from 'core/stores/userMap';
@@ -240,7 +240,7 @@ export const ProblemList = () => {
           }
         />
       </Spin>
-      <div className="top-button-group">
+      <TopButtonGroup>
         <Button type="primary" onClick={() => openModal()}>
           {i18n.t('Add')}
         </Button>
@@ -253,7 +253,7 @@ export const ProblemList = () => {
             updater.detailVisibleId(0);
           }}
         />
-      </div>
+      </TopButtonGroup>
     </React.Fragment>
   );
 };

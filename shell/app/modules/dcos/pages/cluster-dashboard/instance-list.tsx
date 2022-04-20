@@ -15,6 +15,7 @@ import React, { useEffect } from 'react';
 import i18n from 'i18n';
 import { ceil, set } from 'lodash';
 import { Table, Tooltip } from 'antd';
+import ErdaTable from 'common/components/table';
 import { Copy } from 'common';
 import { getBrowserInfo } from 'common/utils';
 import { getFormatter } from 'charts/utils/formatter';
@@ -92,7 +93,7 @@ IProps) => {
     },
   });
 
-  useEffect(() => {
+  const getList = React.useCallback(() => {
     const payload: Merge<ORG_DASHBOARD.IInstanceListQuery, { isWithoutOrg: boolean }> = {
       clusters,
       instanceType,
@@ -108,6 +109,10 @@ IProps) => {
     }
     getInstanceList(payload);
   }, [instanceType, clusters, getInstanceList, orgName]);
+
+  useEffect(() => {
+    getList();
+  }, [getList]);
 
   const instanceMap = {
     service: serviceList,
@@ -156,7 +161,7 @@ IProps) => {
           return (
             <Tooltip title={`${i18n.t('click to copy')}：${image}`} overlayClassName="tooltip-word-break">
               <span
-                className="image-name for-copy-image"
+                className="image-name for-copy-image w-[400px]"
                 data-clipboard-tip={i18n.t('Image name')}
                 data-clipboard-text={image}
               >
@@ -236,7 +241,8 @@ IProps) => {
 
   return (
     <div className="table-wraper">
-      <Table
+      <ErdaTable
+        onReload={getList}
         rowKey={(record: any, i: number) => `${i}${record.hostIP}`}
         columns={[...instanceTypeColMap[instanceType], ...cols] as Array<ColumnProps<any>>}
         dataSource={instanceMap[instanceType]}

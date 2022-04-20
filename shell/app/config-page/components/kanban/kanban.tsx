@@ -114,7 +114,7 @@ const Kanban = (props: CP_KANBAN.Props) => {
                   {i18n.t('Cancel')}
                 </Button>
                 <Button onClick={doAdd} type="primary">
-                  {i18n.t('ok')}
+                  {i18n.t('Ok')}
                 </Button>
               </div>
             </div>

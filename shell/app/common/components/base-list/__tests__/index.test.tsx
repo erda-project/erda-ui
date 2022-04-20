@@ -67,7 +67,7 @@ describe('List', () => {
         EmptyHolder={EmptyHolder}
       />,
     );
-    expect(result.container).isExit('.erda-base-list-item', dataSource.length);
+    expect(result.container).isExist('.erda-base-list-item', dataSource.length);
     fireEvent.click(result.getByText('triggerSelectChange'));
     expect(selectChangeFn).not.toHaveBeenCalled();
     result.rerender(
@@ -112,7 +112,7 @@ describe('List', () => {
         EmptyHolder={EmptyHolder}
       />,
     );
-    expect(result.container).isExit('.pagination-wrap', 1);
+    expect(result.container).isExist('.pagination-wrap', 1);
     result.rerender(
       <List
         whiteFooter
@@ -127,7 +127,7 @@ describe('List', () => {
         EmptyHolder={EmptyHolder}
       />,
     );
-    expect(result.container).isExitClass('.pagination-wrap', 'bg-white');
+    expect(result.container).isExistClass('.pagination-wrap', 'bg-white');
     result.rerender(
       <List
         whiteFooter

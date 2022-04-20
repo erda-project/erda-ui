@@ -80,7 +80,7 @@ export const ISSUE_PRIORITY_ICON_MAP = {
     icon: ISSUE_PRIORITY_MAP.URGENT.icon,
     color: 'red',
     value: 'URGENT',
-    name: i18n.t('dop:urgent'),
+    name: i18n.t('dop:Urgent'),
   },
   HIGH: {
     icon: ISSUE_PRIORITY_MAP.HIGH.icon,

@@ -58,9 +58,9 @@ describe('KeyValueList', () => {
   it('should render well', () => {
     const result = render(<KeyValueList data={data} markdownTextFields={['readme']} />);
     expect(result.container).toMatchSnapshot();
-    expect(result.container).not.isExitClass('.key-value-list', 'shrink');
+    expect(result.container).not.isExistClass('.key-value-list', 'shrink');
     result.rerender(<KeyValueList data={data} markdownTextFields={['readme']} shrink />);
-    expect(result.container).isExitClass('.key-value-list', 'shrink');
+    expect(result.container).isExistClass('.key-value-list', 'shrink');
     result.rerender(
       <KeyValueList
         data={data}

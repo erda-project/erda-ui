@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'core/cube';
-import { getErrorsList, getEventIds, getEventDetail } from '../services/errors';
+import { getErrorsList, getEventDetail, getEventIds } from '../services/errors';
 
 interface IState {
   filters: Obj<string>;
@@ -39,7 +39,7 @@ const error = createStore({
     async getEventIds({ call, update, getParams }) {
       const { errorType, errorId, terminusKey } = getParams();
       const eventIds = await call(getEventIds, { id: errorId, errorType, terminusKey });
-      update({ eventIds });
+      update({ eventIds: eventIds ?? [] });
     },
     async getEventDetail({ call, update, getParams }, payload: { id: string }) {
       const { terminusKey } = getParams();

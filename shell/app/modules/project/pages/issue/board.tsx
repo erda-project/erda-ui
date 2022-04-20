@@ -23,7 +23,7 @@ import routeInfoStore from 'core/stores/route';
 import issueFieldStore from 'org/stores/issue-field';
 import { Avatar, Button } from 'antd';
 import IssueState from 'project/common/components/issue/issue-state';
-import { ErdaIcon, RadioTabs } from 'common';
+import { ErdaIcon, RadioTabs, TopButtonGroup } from 'common';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import { useUserMap } from 'core/stores/userMap';
 import ImportExport from './import-export';
@@ -199,12 +199,12 @@ const IssueProtocol = ({ issueType: propsIssueType }: { issueType: string }) => 
   ];
   return (
     <>
-      <div className="top-button-group">
+      <TopButtonGroup>
         <ImportExport tabs={tabs} queryObj={useableFilterObj} issueType={issueType} projectId={projectId} />
         <Button type={'primary'} onClick={onCreate}>
           {i18n.t('Add')}
         </Button>
-      </div>
+      </TopButtonGroup>
       <DiceConfigPage
         scenarioKey="issue-kanban"
         scenarioType="issue-kanban"

@@ -34,7 +34,7 @@ describe('TimeSelector', () => {
     const result = render(<TimeSelector onChangeTime={changeFn} timeSpan={{ hours: 3 }} inline />);
     expect(changeFn).toHaveBeenLastCalledWith(3);
     fireEvent.mouseDown(result.getByText('3changes in the hour'));
-    await waitFor(() => expect(result.baseElement).isExit('.ant-select-dropdown', 1));
+    await waitFor(() => expect(result.baseElement).isExist('.ant-select-dropdown', 1));
     fireEvent.click(result.getByText('3changes in the day'));
     expect(changeFn).toHaveBeenLastCalledWith('72');
   });

@@ -342,7 +342,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         //     allowClear={false}
         //     dropdownClassName={`dc-table-date-picker result-${val.textAlign || 'left'}`}
         //     value={val.value ? moment(val.value) : undefined}
-        //     placeholder={i18n.t('unspecified')}
+        //     placeholder={i18n.t('Unspecified')}
         //     onChange={(v) => extra.execOperation(val?.operations?.onChange, v)}
         //     format="YYYY-MM-DD"
         //     disabledDate={getDisabledDate(val)}
@@ -569,7 +569,7 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
     >
       <div className="flex items-center">
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
-        {value || <span className="text-desc">{i18n.t('unspecified')}</span>}
+        {value || <span className="text-desc">{i18n.t('Unspecified')}</span>}
       </div>
     </div>
   );

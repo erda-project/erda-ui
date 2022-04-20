@@ -17,7 +17,7 @@ import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 import { ossImg, goTo } from 'common/utils';
-import { UserInfo, Icon as CustomIcon, DetailsPanel, Ellipsis, ErdaIcon } from 'common';
+import { UserInfo, Icon as CustomIcon, DetailsPanel, Ellipsis, ErdaIcon, TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { UnityAuthWrap } from 'apiManagePlatform/components/auth-wrap';
 import AssetModal, { IScope, IMode } from 'apiManagePlatform/pages/api-market/components/asset-modal';
@@ -195,7 +195,7 @@ const ApiVersions = () => {
   return (
     <Spin spinning={isFetchList || isFetchDetail}>
       <div className="version-list">
-        <div className="top-button-group">
+        <TopButtonGroup>
           <UnityAuthWrap path={['apiMarket', 'delete']} userID={creatorID}>
             <Button danger onClick={handleDeleteAsset}>
               {i18n.t('delete')}
@@ -221,7 +221,7 @@ const ApiVersions = () => {
               {i18n.t('default:Edit')}
             </Button>
           </UnityAuthWrap>
-        </div>
+        </TopButtonGroup>
         <DetailsPanel
           baseInfoConf={{
             title: i18n.t('basic information'),

@@ -14,7 +14,16 @@
 import { Spin, Button, Tooltip, Rate } from 'antd';
 import { isEmpty, find, get } from 'lodash';
 import React from 'react';
-import { IF, FormModal, Avatar, Icon as CustomIcon, BackToTop, ErdaAlert, MarkdownRender } from 'common';
+import {
+  IF,
+  FormModal,
+  Avatar,
+  Icon as CustomIcon,
+  BackToTop,
+  ErdaAlert,
+  MarkdownRender,
+  TopButtonGroup,
+} from 'common';
 
 import { goTo, fromNow, replaceEmoji, getLS, removeLS, insertWhen, connectCube } from 'common/utils';
 import RepoMRForm from './components/repo-mr-form';
@@ -337,7 +346,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
       <Spin spinning={isFetching}>
         <div className="repo-mr-detail">
           <BackToTop />
-          <div className="top-button-group">{slots.headerAction}</div>
+          <TopButtonGroup>{slots.headerAction}</TopButtonGroup>
           {/*  由 mergable 区分 进行中 和 已完成， 进行中不可合并，已完成可合并。已完成又分为成功和失败。 进行中、失败和成功分别作不同表示 */}
           {mergable && renderErrorBlock(mrStats, get(checkrun, '0.pipelineId'), result)}
           {!mergable && renderErrorBlock(mrStats, get(checkrun, '0.pipelineId'), String(mergable))}

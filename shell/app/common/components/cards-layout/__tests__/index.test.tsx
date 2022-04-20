@@ -49,8 +49,8 @@ describe('CardsLayout', () => {
         },
       });
       const result = render(<CardsLayout key={width} dataList={dataList} contentRender={contentRender} />);
-      expect(result.container).isExit(`.${className}`, 1);
-      expect(result.container).isExit(`.data_item`, dataList.length);
+      expect(result.container).isExist(`.${className}`, 1);
+      expect(result.container).isExist(`.data_item`, dataList.length);
     });
   });
 });

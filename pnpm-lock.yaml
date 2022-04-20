@@ -335,7 +335,7 @@ importers:
       '@babel/runtime': ^7.15.4
       '@babel/traverse': ^7.14.7
       '@erda-ui/dashboard-configurator': 2.0.15
-      '@erda-ui/react-markdown-editor-lite': ^1.4.7
+      '@erda-ui/react-markdown-editor-lite': ^1.4.9
       '@module-federation/automatic-vendor-federation': ^1.2.1
       '@paiva/translation-google': ^1.0.9
       '@phenomnomnominal/tsquery': ^4.1.1
@@ -483,7 +483,7 @@ importers:
       xterm: 3.12.0
     dependencies:
       '@erda-ui/dashboard-configurator': 2.0.15_react-dom@16.14.0+react@16.14.0
-      '@erda-ui/react-markdown-editor-lite': 1.4.7_react@16.14.0
+      '@erda-ui/react-markdown-editor-lite': 1.4.9_react@16.14.0
       ace-builds: 1.4.12
       ansi_up: 5.0.1
       antd: 4.16.13_react-dom@16.14.0+react@16.14.0
@@ -5707,8 +5707,8 @@ packages:
       - prop-types
     dev: false
 
-  /@erda-ui/react-markdown-editor-lite/1.4.7_react@16.14.0:
-    resolution: {integrity: sha512-XDLJg6O6eGUf0Tb0CLqvuK1bEp6P2RpHeP72yti0b3IA5j3L9xCiRRAQoOeIVckZZgNxPL8ansSYaki+8Ch0mQ==}
+  /@erda-ui/react-markdown-editor-lite/1.4.9_react@16.14.0:
+    resolution: {integrity: sha512-d9O9fVlV/nLbNLM5cDIoL6nNOqC+9o3ujGwhtC57lIMsSQMxTWspGiYEWJKZWPzyArsKcv9xMO6yMzSB20qNVg==}
     peerDependencies:
       react: ^16.9.0
     dependencies:
@@ -25146,7 +25146,7 @@ packages:
   /resolve/1.20.0:
     resolution: {integrity: sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A==}
     dependencies:
-      is-core-module: 2.4.0
+      is-core-module: 2.8.0
       path-parse: 1.0.7
 
   /resolve/1.21.0:

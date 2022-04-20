@@ -13,6 +13,7 @@
 
 import React from 'react';
 import monitorCommon from 'common/stores/monitorCommon';
+import { TopButtonGroup } from 'common';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import DiceConfigPage from 'config-page';
 
@@ -34,9 +35,9 @@ const BaseOverview: React.FC<IProps> = ({ scope, scopeId }) => {
   const range = monitorCommon.useStore((s) => s.globalTimeSelectSpan.range);
   return (
     <div>
-      <div className="top-button-group z-10">
+      <TopButtonGroup>
         <TimeSelectWithStore placement="bottomRight" />
-      </div>
+      </TopButtonGroup>
       <DiceConfigPage
         scenarioKey="msp-alert-overview"
         scenarioType="msp-alert-overview"

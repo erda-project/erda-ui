@@ -15,7 +15,7 @@ import React, { useCallback, useEffect } from 'react';
 import { Button, Input, Popconfirm, Table, Spin } from 'antd';
 import moment from 'moment';
 import { get, throttle } from 'lodash';
-import { FormModal } from 'common';
+import { FormModal, TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { useLoading } from 'core/stores/loading';
@@ -214,7 +214,7 @@ const NoticeManage = () => {
   return (
     <div className="org-notice-manage">
       <Spin spinning={loading}>
-        <div className="top-button-group">
+        <TopButtonGroup>
           <Button
             type="primary"
             onClick={() => {
@@ -223,7 +223,7 @@ const NoticeManage = () => {
           >
             {i18n.t('cmp:Add-announcement')}
           </Button>
-        </div>
+        </TopButtonGroup>
         <div className="notice-filter">
           <Search
             className="data-select"

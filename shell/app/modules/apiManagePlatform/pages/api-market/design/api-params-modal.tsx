@@ -158,7 +158,7 @@ const ApiParamsModal = (props: IProps) => {
           ? [
               <Tooltip title={!isValidData ? disabledTip : undefined}>
                 <Button type="primary" disabled={!isValidData} onClick={onOk}>
-                  {i18n.t('ok')}
+                  {i18n.t('Ok')}
                 </Button>
               </Tooltip>,
             ]

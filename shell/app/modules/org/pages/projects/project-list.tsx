@@ -17,7 +17,7 @@ import { Spin, Button, Input, Tooltip, Menu, Dropdown, message } from 'antd';
 import ErdaTable from 'common/components/table';
 import { ColumnProps, IActions } from 'common/components/table/interface';
 import { goTo, fromNow } from 'common/utils';
-import { Filter, ErdaIcon, ErdaAlert } from 'common';
+import { Filter, ErdaIcon, ErdaAlert, TopButtonGroup } from 'common';
 import { useUnmount } from 'react-use';
 import { PAGINATION } from 'app/constants';
 import projectStore from 'project/stores/project';
@@ -203,7 +203,7 @@ export const ProjectList = () => {
   return (
     <div className="org-project-list">
       <Spin spinning={loadingList}>
-        <div className="top-button-group flex">
+        <TopButtonGroup className="flex">
           <Button
             className="text-default-8 bg-default-06 font-medium"
             onClick={() => {
@@ -214,11 +214,11 @@ export const ProjectList = () => {
           </Button>
           <Dropdown overlay={addDropdownMenu} trigger={['click']}>
             <Button type={'primary'} className="bg-default flex-h-center">
-              {i18n.t('add project')}
+              {i18n.t('Add')}
               <ErdaIcon type="caret-down" size="18" color="currentColor" className="ml-1 text-white-400" />
             </Button>
           </Dropdown>
-        </div>
+        </TopButtonGroup>
         <ErdaAlert
           showOnceKey="project-list"
           message={i18n.t(

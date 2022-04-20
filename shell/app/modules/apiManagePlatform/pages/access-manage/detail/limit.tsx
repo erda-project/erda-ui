@@ -80,7 +80,7 @@ const Limit = (props: IProps) => {
               }}
             />
             <Select
-              placeholder={i18n.t('please select')}
+              placeholder={i18n.t('Please Select')}
               style={{ width: '20%' }}
               value={unit}
               onChange={(v) => {

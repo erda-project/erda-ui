@@ -12,27 +12,26 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Select } from 'antd';
 import { goTo } from 'common/utils';
 import { map } from 'lodash';
-import { Avatar, CustomFilter, MemberSelector } from 'common';
+import { ConfigurableFilter } from 'common';
+import ErdaTable from 'common/components/table';
 import { useMount } from 'react-use';
 import moment from 'moment';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
-import { useUserMap } from 'core/stores/userMap';
 import alarmRecordStore from 'cmp/stores/alarm-record';
 import { AlarmState } from 'cmp/common/alarm-state';
 import { ColumnProps } from 'antd/lib/table';
 
-export default ({ clusters }: { clusters: any }) => {
+const AlarmRecord = ({ clusters }: { clusters: any }) => {
   const [recordList, paging, alarmAttrs] = alarmRecordStore.useStore((s) => [
     s.recordList,
     s.recordListPaging,
     s.alarmAttrs,
   ]);
   const { getMachineAlarmRecordList, getAlarmAttrs } = alarmRecordStore;
-  const userMap = useUserMap();
+  const [filterValue, setFilterValue] = React.useState<Obj<string>>({});
 
   const [loading] = useLoading(alarmRecordStore, ['getMachineAlarmRecordList']);
 
@@ -78,43 +77,46 @@ export default ({ clusters }: { clusters: any }) => {
     },
   ];
 
-  const filterConfig = React.useMemo(
-    () => [
-      {
-        type: Select,
-        name: 'alertState',
-        customProps: {
-          mode: 'multiple',
+  const slot = (
+    <ConfigurableFilter
+      hideSave
+      value={filterValue}
+      fieldsList={[
+        {
+          key: 'alertState',
+          type: 'select',
+          outside: true,
+          label: i18n.t('Cluster name'),
+          options: map(alarmAttrs.alertState, ({ key, display }) => ({ label: display, value: key })),
           placeholder: i18n.t('filter by {name}', { name: i18n.t('cmp:Status-alert') }),
-          options: map(alarmAttrs.alertState, ({ key, display }) => (
-            <Select.Option key={key} value={key}>
-              {display}
-            </Select.Option>
-          )),
         },
-      },
-    ],
-    [alarmAttrs.alertState],
+      ]}
+      onFilter={(v) => {
+        setFilterValue(v);
+        onSubmit(v);
+      }}
+    />
   );
 
   return (
-    <div className="bg-white p-5">
-      <CustomFilter onSubmit={onSubmit} config={filterConfig} isConnectQuery={false} />
-      <Table
-        rowKey="id"
-        dataSource={recordList}
-        loading={loading}
-        columns={columns}
-        pagination={{ ...paging }}
-        onRow={(record: ALARM_REPORT.RecordListItem) => {
-          return {
-            onClick: () => {
-              goTo(goTo.pages.orgAlarmRecordDetail, { id: record.groupId, jumpOut: true });
-            },
-          };
-        }}
-        scroll={{ x: '100%' }}
-      />
-    </div>
+    <ErdaTable
+      rowKey="id"
+      dataSource={recordList}
+      slot={slot}
+      loading={loading}
+      columns={columns}
+      onReload={() => onSubmit({ ...filterValue })}
+      pagination={{ ...paging }}
+      onRow={(record: ALARM_REPORT.RecordListItem) => {
+        return {
+          onClick: () => {
+            goTo(goTo.pages.orgAlarmRecordDetail, { id: record.groupId, jumpOut: true });
+          },
+        };
+      }}
+      scroll={{ x: '100%' }}
+    />
   );
 };
+
+export default AlarmRecord;

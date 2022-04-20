@@ -116,7 +116,7 @@ export const FormModal = (props: IProps) => {
         ) : null,
         onOk ? (
           <Button key="submit" type="primary" loading={submitLoading} onClick={handleOk}>
-            {i18n.t('ok')}
+            {i18n.t('Ok')}
           </Button>
         ) : null,
       ]}

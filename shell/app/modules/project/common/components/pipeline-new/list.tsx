@@ -12,14 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Modal, Form, message } from 'antd';
+import { Drawer } from 'antd';
 import { get } from 'lodash';
 import i18n from 'i18n';
 import DiceConfigPage from 'app/config-page';
 import { updateSearch } from 'common/utils';
 import projectStore from 'project/stores/project';
-import { RenderFormItem } from 'common';
-import { getAllBranch, editPipelineName, runPipeline } from 'project/services/pipeline';
+import { getAllBranch, runPipeline } from 'project/services/pipeline';
 import PipelineDetail from 'project/common/components/pipeline-new/detail';
 import { decode } from 'js-base64';
 import { getTreeNodeDetailNew } from 'project/services/file-tree';
@@ -27,7 +26,7 @@ import InParamsForm from './detail/in-params-form';
 
 interface IProps {
   pipelineCategory: string;
-  onAddPipeline: () => void;
+  onAddPipeline: (data?: { id: string; name: string; fileName: string; app: number; inode: string }) => void;
   updateCategory?: () => void;
   projectId: string;
   appId?: string;
@@ -50,7 +49,6 @@ const PipelineProtocol = React.forwardRef(
     { pipelineCategory, updateCategory, onAddPipeline, projectId, appId }: IProps,
     ref: React.Ref<{ reload: () => void }>,
   ) => {
-    const [form] = Form.useForm();
     const { name: projectName } = projectStore.useStore((s) => s.info);
     const inParams = {
       projectId,
@@ -59,9 +57,7 @@ const PipelineProtocol = React.forwardRef(
     };
 
     const [detailVisible, setDetailVisible] = React.useState(false);
-    const [editVisible, setEditVisible] = React.useState(false);
     const [newPipelineUsed, setNewPipelineUsed] = React.useState(false);
-    const [editData, setEditData] = React.useState<{ id: string; name: string }>({} as { id: string; name: string });
     const [detail, setDetail] = React.useState<Detail | null>(null);
     const [executeRecordId, setExecuteRecordId] = React.useState('');
 
@@ -180,19 +176,26 @@ const PipelineProtocol = React.forwardRef(
                       executeRef?.current?.execute(ymlStr, { pipelineID });
                     }
                   },
-                  updateName: (
-                    _: Obj,
+                  update: (
+                    op: Obj,
                     record: {
                       id: string;
-                      pipeline: { data: { pipelineName: { data: { text: string } } } };
+                      pipeline: {
+                        data: { pipelineName: { data: { text: string } }; sourceFile: { data: { text: string } } };
+                      };
                     },
                   ) => {
-                    const { id, pipeline } = record || {};
-                    const { data } = pipeline || {};
-                    const { pipelineName } = data || {};
-                    setEditData({ id, name: pipelineName.data.text });
-                    form.setFieldsValue({ name: pipelineName.data.text });
-                    setEditVisible(true);
+                    const { appID, inode } = op.operations.click.serverData;
+                    const { id, pipeline } = record;
+                    const { data } = pipeline;
+                    const { pipelineName, sourceFile } = data;
+                    onAddPipeline({
+                      id,
+                      name: pipelineName.data.text,
+                      fileName: sourceFile.data.text,
+                      app: appID,
+                      inode,
+                    });
                   },
                 },
               },
@@ -246,39 +249,6 @@ const PipelineProtocol = React.forwardRef(
         >
           {detail ? <PipelineDetail {...detail} setNewPipelineUsed={setNewPipelineUsed} /> : null}
         </Drawer>
-        <Modal
-          title={i18n.t('edit {name}', { name: i18n.t('Pipeline') })}
-          visible={editVisible}
-          onCancel={() => setEditVisible(false)}
-          onOk={() => {
-            form.validateFields().then(async (value) => {
-              const { id } = editData;
-              editPipelineName({ id, projectID: projectId, ...value }).then(() => {
-                message.success(i18n.t('edited successfully'));
-                reloadRef.current?.reload();
-                setEditVisible(false);
-              });
-            });
-          }}
-        >
-          <Form form={form}>
-            <RenderFormItem
-              name={'name'}
-              type={'input'}
-              rules={[
-                { required: true, message: i18n.t('please enter {name}', { name: i18n.t('Pipeline') }) },
-                { max: 30, message: i18n.t('dop:no more than 30 characters') },
-                {
-                  pattern: /^[\u4e00-\u9fa5A-Za-z0-9._-]+$/,
-                  message: i18n.t('dop:Must be composed of Chinese, letters, numbers, underscores, hyphens and dots.'),
-                },
-              ]}
-              itemProps={{
-                placeholder: i18n.t('please enter {name}', { name: i18n.t('Name') }),
-              }}
-            />
-          </Form>
-        </Modal>
         <InParamsForm ref={executeRef} onExecute={runBuild} />
       </>
     );
