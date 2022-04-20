@@ -131,7 +131,6 @@ if (user) {
   if (lastPath) {
     window.localStorage.removeItem(`${user.id}-lastPath`);
     history.replace(lastPath);
-  } else if (user) {
-    start(user, orgs);
   }
+  start(user, orgs);
 }
