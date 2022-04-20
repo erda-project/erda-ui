@@ -280,7 +280,7 @@ const RuntimeOverView = () => {
             <Button
               size="small"
               shape="circle"
-              icon={<ErdaIcon type="menu-unfold" size="14" />}
+              icon={<ErdaIcon type="menu-fold" size="14" />}
               onClick={() => toggleFold(false)}
             />
           </Tooltip>
