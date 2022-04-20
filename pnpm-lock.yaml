@@ -334,6 +334,7 @@ importers:
       '@babel/preset-typescript': ^7.15.0
       '@babel/runtime': ^7.15.4
       '@babel/traverse': ^7.14.7
+      '@erda-ui/components': ^0.1.0
       '@erda-ui/dashboard-configurator': 2.0.15
       '@erda-ui/react-markdown-editor-lite': ^1.4.7
       '@module-federation/automatic-vendor-federation': ^1.2.1
@@ -482,6 +483,7 @@ importers:
       webpack-merge: ^5.7.3
       xterm: 3.12.0
     dependencies:
+      '@erda-ui/components': 0.1.0_cc95aa9b5f1d5f5230e9c2f983992491
       '@erda-ui/dashboard-configurator': 2.0.15_react-dom@16.14.0+react@16.14.0
       '@erda-ui/react-markdown-editor-lite': 1.4.7_react@16.14.0
       ace-builds: 1.4.12
@@ -5678,6 +5680,32 @@ packages:
     engines: {node: '>=10.0.0'}
     dev: true
 
+  /@erda-ui/components/0.1.0_cc95aa9b5f1d5f5230e9c2f983992491:
+    resolution: {integrity: sha512-hi6egFyBucJZMoDAeM8+um/OGowSrWKGAy94s2O8kYqhV26Fz3uIlJ/iT7mV0TKcRzv0Df7bs00z6olN9xZPjg==}
+    peerDependencies:
+      antd: '>=4.x'
+      lodash: '>=4.x'
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+    dependencies:
+      '@formily/antd': 2.0.19_5c01f7540900e75934cc44520a4e749b
+      '@formily/core': 2.0.19
+      '@formily/react': 2.0.19_a2fa8268263e737f0dd723d9c60ab773
+      '@formily/reactive': 2.0.19
+      antd: 4.16.13_react-dom@16.14.0+react@16.14.0
+      classnames: 2.3.1
+      lodash: 4.17.21
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+    transitivePeerDependencies:
+      - '@ant-design/icons'
+      - '@types/react'
+      - '@types/react-dom'
+      - prop-types
+      - react-is
+      - typescript
+    dev: false
+
   /@erda-ui/dashboard-configurator/2.0.15_react-dom@16.14.0+react@16.14.0:
     resolution: {integrity: sha512-G5wyP8GIPVv9ivWaDDCgrzRYuhkGqnXvneNAa3khy0rt3tJsABeFlH+nB5/96xeEEivCWWd1VqiCowQ2oxvjxA==}
     peerDependencies:
@@ -5747,6 +5775,158 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@formily/antd/2.0.19_5c01f7540900e75934cc44520a4e749b:
+    resolution: {integrity: sha512-pxybyq2zWS4Ki56oY7227yjonVN7mnFiaIXSy/NVRD5wXxUBzOvrFA+4LiJuFGv0vzUkmSBbFCBkcDb/8TRZXQ==}
+    engines: {npm: '>=3.0.0'}
+    peerDependencies:
+      '@ant-design/icons': 4.x
+      '@types/react': '>=16.8.0 || >=17.0.0'
+      '@types/react-dom': '>=16.8.0 || >=17.0.0'
+      antd: 4.x
+      react: '>=16.8.0 || >=17.0.0'
+      react-dom: '>=16.8.0'
+      react-is: '>=16.8.0 || >=17.0.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@formily/core': 2.0.19
+      '@formily/grid': 2.0.19_typescript@4.3.2
+      '@formily/json-schema': 2.0.19_typescript@4.3.2
+      '@formily/react': 2.0.19_a2fa8268263e737f0dd723d9c60ab773
+      '@formily/reactive': 2.0.19
+      '@formily/reactive-react': 2.0.19_9228b787daf201f54b16ed14e5b4f7b8
+      '@formily/shared': 2.0.19
+      '@types/react': 16.14.7
+      '@types/react-dom': 16.9.13
+      antd: 4.16.13_react-dom@16.14.0+react@16.14.0
+      classnames: 2.3.1
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+      react-sortable-hoc: 1.11.0_react-dom@16.14.0+react@16.14.0
+      react-sticky-box: 0.9.3_react@16.14.0
+    transitivePeerDependencies:
+      - prop-types
+      - typescript
+    dev: false
+
+  /@formily/core/2.0.19:
+    resolution: {integrity: sha512-VsqWJKc2jhjzPgu4SKN5EVJeRrEwu+mAvsSo5bdDeKDTQ3b9+L9TTpUF8Q4t9NvZshK+gMAfvdCYNnb5hUqSnw==}
+    engines: {npm: '>=3.0.0'}
+    dependencies:
+      '@formily/reactive': 2.0.19
+      '@formily/shared': 2.0.19
+      '@formily/validator': 2.0.19
+    dev: false
+
+  /@formily/grid/2.0.19_typescript@4.3.2:
+    resolution: {integrity: sha512-x2s1EVAkiGx6rdFr333gsNJjpwS9yLHIECvvStqWcTfBHlszrFxtPyAa1rYf0RCvjBMWq0EE6p2o6VIVqKVOtw==}
+    engines: {npm: '>=3.0.0'}
+    peerDependencies:
+      typescript: ^4.1.0
+    dependencies:
+      '@formily/reactive': 2.0.19
+      '@juggle/resize-observer': 3.3.1
+      typescript: 4.3.2
+    dev: false
+
+  /@formily/json-schema/2.0.19_typescript@4.3.2:
+    resolution: {integrity: sha512-BTcEZwcGM/up6VKEVZ4wulD4hI5fYBb8n5SgRnaezSJbHECK23p8Yh13Qj4h1GFbQbnCWr6FVYFvqBSAc8tyOQ==}
+    engines: {npm: '>=3.0.0'}
+    peerDependencies:
+      typescript: ^4.1.5
+    dependencies:
+      '@formily/core': 2.0.19
+      '@formily/reactive': 2.0.19
+      '@formily/shared': 2.0.19
+      typescript: 4.3.2
+    dev: false
+
+  /@formily/path/2.0.19:
+    resolution: {integrity: sha512-uiNyq0Vrls7ie8/odP7ZVybNBOFgwJVQ68XXIzq4ZPrki0uSyoVAn5CrCkNP94PdqOjN8/gjP4sQo6eSXvPnvQ==}
+    engines: {npm: '>=3.0.0'}
+    dev: false
+
+  /@formily/react/2.0.19_a2fa8268263e737f0dd723d9c60ab773:
+    resolution: {integrity: sha512-R6FE/pX1u06nORiWX7hNgb8idMcZdd+ozvZu1iupgDqAespWz6axl24OOKWH56+JU/uXDRXG8dvGKds5rjctvQ==}
+    engines: {npm: '>=3.0.0'}
+    peerDependencies:
+      '@types/react': '>=16.8.0 || >=17.0.0'
+      '@types/react-dom': '>=16.8.0 || >=17.0.0'
+      react: '>=16.8.0 || >=17.0.0'
+      react-dom: '>=16.8.0 || >=17.0.0'
+      react-is: '>=16.8.0 || >=17.0.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@formily/core': 2.0.19
+      '@formily/json-schema': 2.0.19_typescript@4.3.2
+      '@formily/reactive': 2.0.19
+      '@formily/reactive-react': 2.0.19_9228b787daf201f54b16ed14e5b4f7b8
+      '@formily/shared': 2.0.19
+      '@formily/validator': 2.0.19
+      '@types/react': 16.14.7
+      '@types/react-dom': 16.9.13
+      hoist-non-react-statics: 3.3.2
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+    transitivePeerDependencies:
+      - typescript
+    dev: false
+
+  /@formily/reactive-react/2.0.19_9228b787daf201f54b16ed14e5b4f7b8:
+    resolution: {integrity: sha512-Laz3O/oSCIA4qKQ4fIMsyUQjS4XtD00nUvXSXIZhGdTkZW09Spq8zv7wd+0V6REEKIH6urTtC8htpBQN8W3fww==}
+    engines: {npm: '>=3.0.0'}
+    peerDependencies:
+      '@types/react': '>=16.8.0 || >=17.0.0'
+      '@types/react-dom': '>=16.8.0 || >=17.0.0'
+      react: '>=16.8.0 || >=17.0.0'
+      react-dom: '>=16.8.0 || >=17.0.0'
+      react-is: '>=16.8.0 || >=17.0.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@formily/reactive': 2.0.19
+      '@types/react': 16.14.7
+      '@types/react-dom': 16.9.13
+      hoist-non-react-statics: 3.3.2
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+    dev: false
+
+  /@formily/reactive/2.0.19:
+    resolution: {integrity: sha512-gEpiEITdrRHGc+cf/0lalw4gTcES+8axdAxC0mZRMHfJ8iSZnFs369AGxiWdElUK9NNVLfEmSuU60op6XCQhrg==}
+    engines: {npm: '>=3.0.0'}
+    dev: false
+
+  /@formily/shared/2.0.19:
+    resolution: {integrity: sha512-1zKNZLKoEEH31Y9+rBXdByHVsUModWyshkPj7fsZv0KkaObn/wV2WUCKLQW4c4Hn1y+yojPH//8SD2oOZ4wZXw==}
+    engines: {npm: '>=3.0.0'}
+    dependencies:
+      '@formily/path': 2.0.19
+      camel-case: 4.1.2
+      lower-case: 2.0.2
+      no-case: 3.0.4
+      param-case: 3.0.4
+      pascal-case: 3.1.2
+      upper-case: 2.0.2
+    dev: false
+
+  /@formily/validator/2.0.19:
+    resolution: {integrity: sha512-KS9g0WXKR77ET+3blKGxDL2w4e8gp0z5kkd5BDm7bIUmfNb67rTuSaacs+8MbOuckt09B7qU1nzOekXkskaRNw==}
+    engines: {npm: '>=3.0.0'}
+    dependencies:
+      '@formily/shared': 2.0.19
+    dev: false
 
   /@hapi/address/2.1.4:
     resolution: {integrity: sha512-QD1PhQk+s31P1ixsX0H0Suoupp3VMXzIVMSwobR3F3MSUO2YCV0B7xqLcUw/Bh8yuvd3LhpyqLQWTNcRmp6IdQ==}
@@ -6189,6 +6369,10 @@ packages:
 
   /@jsdevtools/ono/7.1.3:
     resolution: {integrity: sha512-4JQNk+3mVzK3xh2rqd6RB4J46qUR19azEHBneZyTZM+c456qOrbbM/5xcR8huNCCcbVt7+UmizG6GuUvPvKUYg==}
+    dev: false
+
+  /@juggle/resize-observer/3.3.1:
+    resolution: {integrity: sha512-zMM9Ds+SawiUkakS7y94Ymqx+S0ORzpG3frZirN3l+UlXUmSUR7hF4wxCVqW+ei94JzV5kt0uXBcoOEAuiydrw==}
     dev: false
 
   /@lerna/add/4.0.0:
@@ -13217,7 +13401,7 @@ packages:
     resolution: {integrity: sha512-Kv5nKlh6yRrdrGvxeJ2e5y2eRUpkUosIW4A2AS38zwSz27zu7ufDwQPi5Jhs3XAlGNetl3bmnGhQsMtkKJnj3w==}
     dependencies:
       no-case: 3.0.4
-      tslib: 2.3.0
+      tslib: 2.3.1
 
   /dot-prop/4.2.1:
     resolution: {integrity: sha512-l0p4+mIuJIua0mhxGoh4a+iNL9bmeK5DvnSVQa6T0OhrVmaEa1XScX5Etc673FePCJOArq/4Pa2cLGODUWTPOQ==}
@@ -16806,7 +16990,6 @@ packages:
     resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
     dependencies:
       loose-envify: 1.4.0
-    dev: true
 
   /ip-regex/2.1.0:
     resolution: {integrity: sha1-+ni/XS5pE8kRzp+BnuUUa7bYROk=}
@@ -19382,7 +19565,7 @@ packages:
   /lower-case/2.0.2:
     resolution: {integrity: sha512-7fm3l3NAF9WfN6W3JOmf5drwpVqX78JtoGJ3A6W0a6ZnldM41w2fV5D490psKFTpMds8TJse/eHLFFsNHHjHgg==}
     dependencies:
-      tslib: 2.3.0
+      tslib: 2.3.1
 
   /lowercase-keys/1.0.1:
     resolution: {integrity: sha512-G2Lj61tXDnVFFOi8VZds+SoQjtQC3dgokKdDG2mTm1tx4m50NUHBOZSBwQQHyy0V12A0JTG4icfZQH+xPyh8VA==}
@@ -20725,7 +20908,7 @@ packages:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
     dependencies:
       lower-case: 2.0.2
-      tslib: 2.3.0
+      tslib: 2.3.1
 
   /node-emoji/1.10.0:
     resolution: {integrity: sha512-Yt3384If5H6BYGVHiHwTL+99OzJKHhgp82S8/dktEK73T26BazdgZ4JZh92xSVtGNJvz9UbXdNAc5hcrXV42vw==}
@@ -21687,7 +21870,7 @@ packages:
     resolution: {integrity: sha512-uWlGT3YSnK9x3BQJaOdcZwrnV6hPpd8jFH1/ucpiLRPh/2zCVJKS19E4GvYHvaCcACn3foXZ0cLB9Wrx1KGe5g==}
     dependencies:
       no-case: 3.0.4
-      tslib: 2.3.0
+      tslib: 2.3.1
 
   /pascalcase/0.1.1:
     resolution: {integrity: sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ=}
@@ -24399,6 +24582,30 @@ packages:
       react-is: 17.0.2
     dev: false
     optional: true
+
+  /react-sortable-hoc/1.11.0_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha512-v1CDCvdfoR3zLGNp6qsBa4J1BWMEVH25+UKxF/RvQRh+mrB+emqtVHMgZ+WreUiKJoEaiwYoScaueIKhMVBHUg==}
+    peerDependencies:
+      react: ^0.14.0 || ^15.0.0 || ^16.0.0
+      react-dom: ^0.14.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      '@babel/runtime': 7.16.3
+      invariant: 2.2.4
+      prop-types: 15.7.2
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+    dev: false
+
+  /react-sticky-box/0.9.3_react@16.14.0:
+    resolution: {integrity: sha512-Y/qO7vTqAvXuRR6G6ZCW4fX2Bz0GZRwiiLTVeZN5CVz9wzs37ev0Xj3KSKF/PzF0jifwATivI4t24qXG8rSz4Q==}
+    peerDependencies:
+      prop-types: ^15.6.2
+      react: ^0.14.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      '@babel/runtime': 7.16.3
+      react: 16.14.0
+      resize-observer-polyfill: 1.5.1
+    dev: false
 
   /react-syntax-highlighter/15.4.5_react@16.14.0:
     resolution: {integrity: sha512-RC90KQTxZ/b7+9iE6s9nmiFLFjWswUcfULi4GwVzdFVKVMQySkJWBuOmJFfjwjMVCo0IUUuJrWebNKyviKpwLQ==}
@@ -28077,6 +28284,12 @@ packages:
       latest-version: 3.1.0
       semver-diff: 2.1.0
       xdg-basedir: 3.0.0
+
+  /upper-case/2.0.2:
+    resolution: {integrity: sha512-KgdgDGJt2TpuwBUIjgG6lzw2GWFRCW9Qkfkiv0DxqHHLYJHmtmdUIKcZd8rHgFSjopVTlw6ggzCm1b8MFQwikg==}
+    dependencies:
+      tslib: 2.3.1
+    dev: false
 
   /uri-js/4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
