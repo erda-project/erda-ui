@@ -33,6 +33,19 @@ describe('Pagination', () => {
     );
     expect(result.queryByText('20 items / page')).toBeNull();
     expect(result.queryByText('Totally 99 items')).toBeNull();
+    result.rerender(
+      <Pagination
+        onChange={changeFn}
+        total={99}
+        current={2}
+        pageSize={20}
+        hidePageSizeChange
+        totalRender={() => {
+          return <div className="custom-total">custom-total</div>;
+        }}
+      />,
+    );
+    expect(result.queryByText('custom-total')).not.toBeNull();
   });
   it('should work well', async () => {
     const changeFn = jest.fn();

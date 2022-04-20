@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Popover, Input, Button, Dropdown, Menu } from 'antd';
+import { Button, Dropdown, Input, Menu, Popover } from 'antd';
 import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 import { PAGINATION } from 'app/constants';
@@ -35,6 +35,7 @@ export interface IPaginationProps {
   onChange: (page: number, pageSize: number) => void;
   hidePageSizeChange?: boolean;
   hideTotal?: boolean;
+  totalRender?: () => React.ReactNode;
 }
 
 interface IPaginationJumpProps {
@@ -51,6 +52,7 @@ const Pagination = (pagination: IPaginationProps) => {
     hidePageSizeChange = false,
     hideTotal = false,
     theme = 'light',
+    totalRender,
   } = pagination;
 
   const [goToVisible, setGoToVisible] = React.useState(false);
@@ -58,7 +60,11 @@ const Pagination = (pagination: IPaginationProps) => {
   return (
     <div className={`erda-pagination flex justify-end items-center relative theme-${theme}`}>
       {!hideTotal ? (
-        <div className="erda-pagination-total mr-2">{i18n.t('Totally {total} items', { total })}</div>
+        totalRender ? (
+          totalRender()
+        ) : (
+          <div className="erda-pagination-total mr-2">{i18n.t('Totally {total} items', { total })}</div>
+        )
       ) : null}
       <div className="erda-pagination-content inline-flex">
         <div
