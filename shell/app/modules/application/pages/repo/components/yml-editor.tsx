@@ -791,7 +791,7 @@ const YmlEditor = (props: IProps) => {
 
     const diceYmlError =
       Object.keys(jsonContent?.jobs || {}).length && Object.keys(jsonContent?.services || {}).length
-        ? 'yml格式错误，不能同时配置jobs和services'
+        ? i18n.t('dop:dice-file-error-tip')
         : '';
     return (
       <>

@@ -66,7 +66,6 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
   render() {
     const { deleteItem, item, addLink, onMouseDown, style, editing, selectedItem } = this.props;
     const className = selectedItem ? 'selected-item' : null;
-    console.log('------', item);
     let titleContent = null;
     let nameContent = null;
     if (item.title) {

@@ -1492,6 +1492,7 @@
     "describe this mr here": "在这里描述这个 mr",
     "details": "详情信息",
     "detected circular dependencies": "检测到循环依赖",
+    "dice-file-error-tip": "yml 文件内容校验出错，内容只支持 Jobs 或者 Services 中的一种类型，不能同时存在，请确认",
     "disassociated successfully": "解除关联成功",
     "display on demand": "按需求显示",
     "displayed name": "显示名称",

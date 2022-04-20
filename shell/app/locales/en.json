@@ -1493,6 +1493,7 @@
     "describe this mr here": "describe this mr here",
     "details": "details",
     "detected circular dependencies": "detected circular dependencies",
+    "dice-file-error-tip": "YAML file content error. Only one of jobs or services is supported at the same time. Please check again.",
     "disassociated successfully": "disassociated successfully",
     "display on demand": "display on demand",
     "displayed name": "displayed name",
