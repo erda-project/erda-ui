@@ -136,30 +136,31 @@ const org = createStore({
         }
         if (orgId) {
           const orgPermQuery = { scope: 'org', scopeID: `${orgId}` };
-          let orgPermRes = getGlobal('initData')?.orgAccess;
+          let orgPermData = getGlobal('initData')?.orgAccess; // { access: boolean, roles: [], ... }
 
-          if (!orgPermRes) {
-            orgPermRes = await getResourcePermissions(orgPermQuery);
+          if (!orgPermData) {
+            const result = await getResourcePermissions(orgPermQuery);
+            orgPermData = result.data || {};
           }
+          const { access, roles } = orgPermData || {};
+
           // user doesn't joined the public org, go to dop
           // temporary solution, it will removed until new solution is proposed by PD
           // except Support role
-          if (!orgPermRes?.data?.roles.includes('Support') && curPathname?.split('/')[2] !== 'dop') {
+          if (!roles.includes('Support') && curPathname?.split('/')[2] !== 'dop') {
             if (!orgs?.find((x) => x.name === currentOrg.name) || orgs?.length === 0) {
               goTo(goTo.pages.dopRoot, { replace: true });
             }
           }
 
-          const orgAccess = get(orgPermRes, 'data.access');
           // 当前无该企业权限
-          if (!orgAccess) {
+          if (!access) {
             goTo(goTo.pages.landPage);
             update({ initFinish: true });
             return;
           }
           // redirect path by roles.
           // due to once orgAccess is false will redirect to land page forcedly, then no need to hasAuth param
-          const roles = get(orgPermRes, 'data.roles');
           setLocationByAuth({
             roles,
             ...payload,
@@ -169,7 +170,7 @@ const org = createStore({
           const appMap = {} as {
             [k: string]: LAYOUT.IApp;
           };
-          permStore.reducers.updatePerm(orgPermQuery.scope, orgPermRes.data);
+          permStore.reducers.updatePerm(orgPermQuery.scope, orgPermData);
           update({ currentOrg, curPathOrg: payload.orgName });
           const menusMap = getSubSiderInfoMap();
           const appCenterAppList = getAppCenterAppList();
