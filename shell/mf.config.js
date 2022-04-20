@@ -43,7 +43,7 @@ module.exports = [
     shared: {
       ...AutomaticVendorFederation({
         exclude: ['babel', 'plugin', 'preset', 'webpack', 'loader', 'serve'],
-        ignoreVersion: ['react-router-dom', 'antd/', 'react-router-config', 'history'],
+        ignoreVersion: ['react-router-dom', 'antd/', 'react-router-config', 'history', '@erda-ui/components'],
         packageJson,
         shareFrom: ['dependencies', 'peerDependencies'],
         ignorePatchVersion: true,
@@ -59,6 +59,10 @@ module.exports = [
       'antd/': {
         singleton: true,
         requiredVersion: packageJson.dependencies.antd,
+      },
+      '@erda-ui/components': {
+        singleton: true,
+        requiredVersion: packageJson.dependencies['@erda-ui/components'],
       },
     },
   },

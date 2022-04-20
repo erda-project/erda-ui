@@ -17,9 +17,12 @@ import ReactDOM from 'react-dom';
 import { get } from 'lodash';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import { message, ConfigProvider } from 'antd';
+import { message, ConfigProvider as AntConfigProvider } from 'antd';
+import { ConfigProvider } from '@erda-ui/components';
 import antd_zhCN from 'antd/es/locale-provider/zh_CN';
 import antd_enUS from 'antd/es/locale-provider/en_US';
+import zhCN from '@erda-ui/components/es/locale/zh_CN';
+import enUS from '@erda-ui/components/es/locale/en_US';
 // core modules
 import { isZh } from 'core/i18n';
 import { startApp, registerModule } from 'core/index';
@@ -100,13 +103,15 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
 
     const Wrap = () => {
       return (
-        <ConfigProvider
+        <AntConfigProvider
           autoInsertSpaceInButton={false}
           renderEmpty={EmptyListHolder}
           locale={isZh() ? antd_zhCN : antd_enUS}
         >
-          <App dynamicModules={dynamicModules} />
-        </ConfigProvider>
+          <ConfigProvider locale={isZh() ? zhCN : enUS}>
+            <App dynamicModules={dynamicModules} />
+          </ConfigProvider>
+        </AntConfigProvider>
       );
     };
 
