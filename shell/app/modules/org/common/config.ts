@@ -144,7 +144,7 @@ export const FIELD_WITH_OPTION = {
 export const COMMON_FIELDS = [
   {
     propertyName: 'state',
-    displayName: i18n.t('dop:state'),
+    displayName: i18n.t('Status'),
     propertyType: 'Select',
   },
   {

@@ -126,12 +126,12 @@ const Sla = () => {
               {i18n.t('Edit')}
             </span>
             <Popconfirm
-              title={i18n.t('confirm to {action}', { action: i18n.t('delete') })}
+              title={i18n.t('confirm to {action}', { action: i18n.t('Delete') })}
               onConfirm={() => {
                 handleDeleteSla(record);
               }}
             >
-              <span>{i18n.t('delete')}</span>
+              <span>{i18n.t('Delete')}</span>
             </Popconfirm>
           </TableActions>
         );

@@ -247,7 +247,7 @@ export const RepoNav = React.forwardRef(({ info, tree, isFetchingInfo, appId }: 
     <Spin spinning={isFetchingInfo}>
       <div className="nav-block">
         <BranchSelect {...{ branches, commitId: treeCommitId, tags, current: curBranch }} onChange={changeBranch}>
-          <span>{isTag ? i18n.t('tag') : treeCommitId ? i18n.t('commit') : i18n.t('dop:branch')}:</span>
+          <span>{isTag ? i18n.t('tag') : treeCommitId ? i18n.t('Commit') : i18n.t('dop:branch')}:</span>
           <span className="branch-name font-bold nowrap">{curBranch}</span>
           <ErdaIcon type="caret-down" className="mt-0.5" size="22" />
         </BranchSelect>

@@ -51,7 +51,7 @@ export const contractStatueMap: {
         value: 'unproved',
       },
       {
-        name: i18n.t('delete'),
+        name: i18n.t('Delete'),
         action: 'delete',
         value: 'delete',
       },
@@ -80,7 +80,7 @@ export const contractStatueMap: {
     name: i18n.t('Rejected'),
     actions: [
       {
-        name: i18n.t('delete'),
+        name: i18n.t('Delete'),
         action: 'delete',
         value: 'delete',
       },
@@ -97,7 +97,7 @@ export const contractStatueMap: {
         value: 'proved',
       },
       {
-        name: i18n.t('delete'),
+        name: i18n.t('Delete'),
         action: 'delete',
         value: 'delete',
       },

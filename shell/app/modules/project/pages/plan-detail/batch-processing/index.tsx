@@ -78,7 +78,7 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
     return (
       <Menu onClick={onClick}>
         <Menu.Item key="delete">
-          <span>{i18n.t('delete')}</span>
+          <span>{i18n.t('Delete')}</span>
         </Menu.Item>
         <Menu.Item key="actor">
           <span>{i18n.t('dop:Change Executor')}</span>
@@ -87,7 +87,7 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
           <span>添加备注</span>
         </Menu.Item> */}
         <Menu.Item key="excel">
-          <span>{i18n.t('dop:export Excel')}</span>
+          <span>{i18n.t('dop:Export Excel')}</span>
         </Menu.Item>
       </Menu>
     );

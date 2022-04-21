@@ -38,7 +38,7 @@ const MoreOperation = ({ record }: IProps) => {
     switch (key) {
       case TestOperation.delete:
         Modal.confirm({
-          title: i18n.t('delete'),
+          title: i18n.t('Delete'),
           content: i18n.t('dop:are you sure to delete the current use case?'),
           onOk: () => {
             toggleToRecycle({ testCaseIDs: [record.id], recycled: true, moveToTestSetID: rootId });
@@ -116,7 +116,7 @@ const MoreOperation = ({ record }: IProps) => {
 export default MoreOperation;
 
 const referenceMenus = [
-  { key: TestOperation.delete, name: i18n.t('delete') },
+  { key: TestOperation.delete, name: i18n.t('Delete') },
   { key: TestOperation.copy, name: i18n.t('dop:Copy to') },
   { key: TestOperation.move, name: i18n.t('dop:Move to') },
 ];

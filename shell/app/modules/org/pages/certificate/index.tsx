@@ -134,7 +134,7 @@ const Certificate = () => {
         render: (text: string) => typeMap[text] && typeMap[text].label,
       },
       {
-        title: i18n.t('create time'),
+        title: i18n.t('Creation time'),
         dataIndex: 'createdAt',
         width: 180,
         render: (text: string) => formatTime(text),
@@ -165,7 +165,7 @@ const Certificate = () => {
                 secondTitle={i18n.t('cmp:confirm-delete-certificate')}
                 onConfirm={() => deleteItem(record).then(() => reloadList())}
               >
-                <span className="table-operations-btn">{i18n.t('delete')}</span>
+                <span className="table-operations-btn">{i18n.t('Delete')}</span>
               </DeleteConfirm>
             </div>
           );

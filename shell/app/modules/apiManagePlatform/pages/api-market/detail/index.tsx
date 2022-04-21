@@ -115,7 +115,7 @@ const ApiAssetDetail = () => {
       render: (text) => <Avatar showName name={<UserInfo id={text} />} />,
     },
     {
-      title: i18n.t('create time'),
+      title: i18n.t('Creation time'),
       dataIndex: ['version', 'createdAt'],
       width: 200,
       render: (text) => (text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''),

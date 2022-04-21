@@ -58,7 +58,7 @@ const WorkflowStateForm = React.forwardRef(({ issueType, onOk, onCancel }: IWork
         required: true,
         componentProps: {
           style: { width: '320px' },
-          placeholder: i18n.t('please enter {name}', { name: i18n.t('dop:state display name') }),
+          placeholder: i18n.t('Pease enter {name}', { name: i18n.t('dop:state display name') }),
         },
         rules: [{ min: 1, max: 7, msg: i18n.t('length is {min}~{max}', { min: 1, max: 7 }) }],
       },

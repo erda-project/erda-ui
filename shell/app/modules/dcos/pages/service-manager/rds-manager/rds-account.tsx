@@ -69,7 +69,7 @@ const RdsAccount = () => {
       render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
       width: 100,
     },
-    getCloudResourceStatusCol('account', i18n.t('status'), 'accountStatus'),
+    getCloudResourceStatusCol('account', i18n.t('Status'), 'accountStatus'),
     {
       title: i18n.t('cmp:owned database'),
       dataIndex: 'databasePrivileges',

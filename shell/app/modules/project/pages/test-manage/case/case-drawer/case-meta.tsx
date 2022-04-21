@@ -51,7 +51,7 @@ const CaseMeta = ({ onBlurCapture, onChange, dataSource }: IProps) => {
       <p className="mt-2 mb-5">
         <UserInfo.RenderWithAvatar id={dataSource.creatorID} />
       </p>
-      <p className="text-desc my-0">{i18n.t('create time')}</p>
+      <p className="text-desc my-0">{i18n.t('Creation time')}</p>
       <p className="mt-2 mb-5">
         {dataSource.createdAt ? moment(dataSource.createdAt).format('YYYY-MM-DD HH:mm:ss') : ''}
       </p>

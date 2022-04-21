@@ -68,7 +68,7 @@ const StorageOss = () => {
       },
       getCloudResourceRegionCol('location'),
       getCloudResourceTagsCol(),
-      getCloudResourceTimeCol(i18n.t('create time'), 'createDate'),
+      getCloudResourceTimeCol(i18n.t('Creation time'), 'createDate'),
     ];
   };
 

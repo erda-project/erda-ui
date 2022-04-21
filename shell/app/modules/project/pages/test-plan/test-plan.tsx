@@ -248,7 +248,7 @@ const TestPlan = () => {
         type: Input,
         name: 'name',
         customProps: {
-          placeholder: i18n.t('default:Search by name'),
+          placeholder: i18n.t('Search by plan name'),
           autoComplete: 'off',
           size: 'normal',
         },
@@ -279,7 +279,7 @@ const TestPlan = () => {
     <div>
       <TopButtonGroup>
         <Button type="primary" onClick={() => updateModalProp({ visible: true, mode: 'add', testPlanId: undefined })}>
-          {i18n.t('dop:Add-plan')}
+          {i18n.t('Add')}
         </Button>
         <PlanModal
           {...modalProp}

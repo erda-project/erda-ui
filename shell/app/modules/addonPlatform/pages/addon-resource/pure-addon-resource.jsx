@@ -32,7 +32,7 @@ const AddonResource = (props) => {
     { key: i18n.t('Running environment'), value: ENV_NAME[workspace] },
     { key: i18n.t('common:Specification'), value: PLAN_NAME[plan] },
     { key: i18n.t('common:reference times'), value: reference },
-    { key: i18n.t('create time'), value: moment(createdAt).format('YYYY-MM-DD HH:mm:ss') },
+    { key: i18n.t('Creation time'), value: moment(createdAt).format('YYYY-MM-DD HH:mm:ss') },
   ];
 
   return (

@@ -148,7 +148,7 @@ const KVPairTable = (props: any) => {
       dataIndex: 'Value',
     },
     {
-      title: i18n.t('operation'),
+      title: i18n.t('Operations'),
       key: 'op',
       width: 80,
       render: (_: any, record: any) => (record.isLast ? null : record.Op),
@@ -341,7 +341,7 @@ export const TestEnvDetail = (props: IProps) => {
               }}
             >
               <Radio.Button disabled={!headerJsonValid} value="form">
-                {disabled ? i18n.t('common:form') : i18n.t('common:form edit')}
+                {disabled ? i18n.t('common:form') : i18n.t('common:Form Edit')}
               </Radio.Button>
               <Radio.Button value="code">{disabled ? i18n.t('common:text') : i18n.t('common:Text Edit')}</Radio.Button>
             </Radio.Group>
@@ -403,7 +403,7 @@ export const TestEnvDetail = (props: IProps) => {
               }}
             >
               <Radio.Button disabled={!globalJsonValid} value="form">
-                {disabled ? i18n.t('common:form') : i18n.t('common:form edit')}
+                {disabled ? i18n.t('common:form') : i18n.t('common:Form Edit')}
               </Radio.Button>
               <Radio.Button value="code">{disabled ? i18n.t('common:text') : i18n.t('common:Text Edit')}</Radio.Button>
             </Radio.Group>

@@ -107,7 +107,7 @@ const Artifacts = () => {
             <Popconfirm title={i18n.t('is it confirmed?')} placement="bottomRight" onConfirm={onDelete}>
               <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
                 <Button type="primary" danger ghost>
-                  {i18n.t('delete')}
+                  {i18n.t('Delete')}
                 </Button>
               </WithAuth>
             </Popconfirm>

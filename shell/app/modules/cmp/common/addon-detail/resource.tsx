@@ -95,7 +95,7 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp, 
       render: (v: string) => moment(v).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       dataIndex: 'status',
       key: 'status',
       width: 120,

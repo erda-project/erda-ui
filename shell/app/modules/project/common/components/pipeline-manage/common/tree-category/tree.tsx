@@ -532,7 +532,7 @@ const TreeCategory = ({
                   e.stopPropagation();
                 }}
               >
-                {i18n.t('delete')}
+                {i18n.t('Delete')}
               </div>
             </Popover>
           ),

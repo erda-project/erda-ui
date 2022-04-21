@@ -54,7 +54,7 @@ export const IssueActivities = (props: IProps) => {
   const tabs = [
     { key: 'all', text: `${i18n.t('dop:All')}(${issueStreamList.length})`, data: issueStreamList },
     { key: 'comments', text: `${i18n.t('dop:Comment')}(${commentList.length})`, data: commentList },
-    { key: 'activity', text: `${i18n.t('dop:Activity')}(${activityList.length})`, data: activityList },
+    { key: 'activity', text: `${i18n.t('dop:Change')}(${activityList.length})`, data: activityList },
     { key: 'transfer', text: `${i18n.t('dop:Transfer')}(${transferList.length})`, data: transferList },
   ];
   const [activeTabKey, setActiveTabKey] = React.useState(tabs[0].key);
@@ -142,7 +142,7 @@ export const IssueActivities = (props: IProps) => {
     <Spin spinning={loading}>
       <div className="flex flex-col pb-4">
         <div className="flex-h-center text-primary font-medium">
-          <span className="text-base">{i18n.t('Log')}</span>
+          <span className="text-base">{i18n.t('dop:Activity-log')}</span>
           <span className="w-[1px] h-[12px] bg-default-1 mx-4" />
           <SimpleTabs value={activeTabKey} tabs={tabs} onSelect={setActiveTabKey} />
         </div>

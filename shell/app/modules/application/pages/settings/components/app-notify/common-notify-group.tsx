@@ -505,7 +505,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
         onClick: () => handleEdit(record),
       },
       deleteNotifyGroup: {
-        title: i18n.t('delete'),
+        title: i18n.t('Delete'),
         onClick: () => handleDele(record.id),
       },
     };

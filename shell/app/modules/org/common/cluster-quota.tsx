@@ -170,7 +170,7 @@ const ClusterQuota = ({
                 name={['resourceConfig', workSpace, 'cpuQuota']}
                 className="my-4 pr-1"
                 rules={[
-                  { required: true, message: i18n.t('please enter {name}', { name: 'CPU' }) },
+                  { required: true, message: i18n.t('Pease enter {name}', { name: 'CPU' }) },
                   {
                     validator: async (_rule: any, value: any) => {
                       if (value && (isNaN(+value) || +value < 0 || `${value}`.split('.')[1]?.length > 3)) {
@@ -188,7 +188,7 @@ const ClusterQuota = ({
                 name={['resourceConfig', workSpace, 'memQuota']}
                 className="my-4 pl-1"
                 rules={[
-                  { required: true, message: i18n.t('please enter {name}', { name: i18n.t('memory') }) },
+                  { required: true, message: i18n.t('Pease enter {name}', { name: i18n.t('memory') }) },
                   {
                     validator: async (_rule: any, value: any) => {
                       if (value && (isNaN(+value) || +value < 0 || `${value}`.split('.')[1]?.length > 3)) {

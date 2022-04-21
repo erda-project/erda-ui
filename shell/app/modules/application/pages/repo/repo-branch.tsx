@@ -121,7 +121,7 @@ const RepoBranch = () => {
                   >
                     <WithAuth pass={curAuth}>
                       <Button disabled={info.isLocked || isDefault} className="mr-3" danger>
-                        {i18n.t('delete')}
+                        {i18n.t('Delete')}
                       </Button>
                     </WithAuth>
                   </DeleteConfirm>

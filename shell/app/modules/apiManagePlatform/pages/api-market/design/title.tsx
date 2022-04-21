@@ -28,7 +28,7 @@ const NODE_OPERATIONS = [
   },
   {
     key: 'delete',
-    label: i18n.t('delete'),
+    label: i18n.t('Delete'),
   },
 ];
 

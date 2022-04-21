@@ -39,7 +39,7 @@ const getMenuMap = (type: TestSetMenuType, editMode: editModeEnum): IMenuMeta[] 
       { key: TestOperation.copy, name: i18n.t('Copy') },
       { key: TestOperation.clip, name: i18n.t('dop:Cut') },
       { key: TestOperation.paste, name: i18n.t('dop:Paste'), disabled: editMode === '' },
-      { key: TestOperation.delete, name: i18n.t('delete') },
+      { key: TestOperation.delete, name: i18n.t('Delete') },
       { key: TestOperation.plan, name: i18n.t('dop:Add to Test Plan') },
     ],
     [TestSetMenuType.recycled]: [
@@ -119,7 +119,7 @@ const Title = ({
         break;
       case TestOperation.delete:
         Modal.confirm({
-          title: i18n.t('delete'),
+          title: i18n.t('Delete'),
           content:
             i18n.t('dop:Deleting will put the current test set and included test cases into the recycle bin.') +
             i18n.t('are you sure?'),
@@ -132,7 +132,7 @@ const Title = ({
         break;
       case TestOperation.deleteEntirely:
         Modal.confirm({
-          title: i18n.t('delete'),
+          title: i18n.t('Delete'),
           content: i18n.t('dop:It cannot be restored if completely deleted.') + i18n.t('is it confirmed?'),
           onOk: () => {
             deleteTestSetEntirely(id).then(() => {
@@ -224,7 +224,7 @@ const Title = ({
         domEvent.stopPropagation();
         if (key === 'delete') {
           Modal.confirm({
-            title: i18n.t('delete'),
+            title: i18n.t('Delete'),
             content: i18n.t('dop:It cannot be restored if completely deleted.') + i18n.t('is it confirmed?'),
             onOk: () => {
               customClickDic[key](id).then(() => {

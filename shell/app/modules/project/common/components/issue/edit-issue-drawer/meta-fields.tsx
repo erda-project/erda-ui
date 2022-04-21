@@ -194,7 +194,7 @@ const LabelFiedExtra = (props: LabelExtraProps) => {
             ) : null}
             {del.length ? (
               <div className="flex  py-2">
-                <span className="mr-2 text-danger">{`${i18n.t('delete')}: `}</span>
+                <span className="mr-2 text-danger">{`${i18n.t('Delete')}: `}</span>
                 <div className="flex-1">
                   {del.map((item) => {
                     const curLabel = optionList.find((opt) => opt.name === item);
@@ -386,7 +386,7 @@ const IssueMetaFields = React.forwardRef(
           icon: 'zhuangtai',
           className: 'mb-3',
           name: 'state',
-          label: i18n.t('dop:state'),
+          label: i18n.t('Status'),
           type: 'select',
           itemProps: {
             options: map(formData.issueButton, ({ stateID, permission: curAuth }) => (
@@ -498,7 +498,7 @@ const IssueMetaFields = React.forwardRef(
               value={value as number}
               onChange={onSave}
               disabled={!editAuth}
-              placeholder={i18n.t('please choose {name}', { name: i18n.t('dop:Iteration-owned') })}
+              placeholder={i18n.t('please choose the {name}', { name: i18n.t('dop:Iteration-owned') })}
             />
           ),
           extraContent: (
@@ -817,7 +817,7 @@ const IssueMetaFields = React.forwardRef(
       //         <>
       //           <Divider className="mb-6 mt-0.5" />
       //           <div className="text-desc text-xs prewrap">
-      //             {user.nick || user.name}&nbsp;{i18n.t('Creation time')}&nbsp;
+      //             {user.nick || user.name}&nbsp;{i18n.t('Creation time-at')}&nbsp;
       //             {moment(formData.createdAt).format('YYYY/MM/DD')}
       //           </div>
       //         </>

@@ -120,7 +120,7 @@ const JvmOverview = () => {
                 <span className="value">{profileId}</span>
               </p>
               <p className="info-item">
-                <span className="label">{`${i18n.t('create time')}: `}</span>
+                <span className="label">{`${i18n.t('Creation time')}: `}</span>
                 <span className="value">{formatTime(createTime, 'YYYY-MM-DD HH:mm:ss')}</span>
               </p>
               {isRunning ? (

@@ -262,7 +262,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
       key: 'name',
     },
     {
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       dataIndex: 'enable',
       onCell: () => ({ style: { minWidth: 100, maxWidth: 300 } }),
       render: (enable: boolean, record) => (
@@ -403,7 +403,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
   const filteredTableActions: IActions<COMMON_CUSTOM_ALARM.Filter> = {
     render: (record) => [
       {
-        title: i18n.t('delete'),
+        title: i18n.t('Delete'),
         onClick: () => {
           handleRemoveEditingFilter(record.uniKey);
         },
@@ -543,7 +543,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
   const fieldsTableActions: IActions<COMMON_CUSTOM_ALARM.Field> = {
     render: (record) => [
       {
-        title: i18n.t('delete'),
+        title: i18n.t('Delete'),
         onClick: () => {
           handleRemoveEditingField(record.uniKey);
         },
@@ -914,7 +914,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
         onClick: () => openModal(record.id),
       },
       deleteAlarmRule: {
-        title: i18n.t('delete'),
+        title: i18n.t('Delete'),
         onClick: () => handleDeleteAlarm(record.id),
       },
     };

@@ -55,7 +55,7 @@ export const BuildHistory = ({ activeItem, onClickRow }: IProps) => {
       align: 'center',
     },
     {
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       dataIndex: 'status',
       width: 110,
       render: (status: string) => (

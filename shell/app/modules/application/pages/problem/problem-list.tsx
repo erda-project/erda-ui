@@ -102,7 +102,7 @@ export const ProblemList = () => {
     {
       key: 'status',
       type: 'select',
-      label: i18n.t('status'),
+      label: i18n.t('Status'),
       mode: 'single',
       options: [
         {
@@ -118,7 +118,7 @@ export const ProblemList = () => {
           label: i18n.t('Closed'),
         },
       ],
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('status') }),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('Status') }),
     },
     {
       key: 'type',
@@ -181,7 +181,7 @@ export const ProblemList = () => {
       render: (userId: string) => getUserInfo(userMap, userId),
     },
     {
-      title: i18n.t('create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createdAt',
       width: 176,
       render: (text: string) => fromNow(text),

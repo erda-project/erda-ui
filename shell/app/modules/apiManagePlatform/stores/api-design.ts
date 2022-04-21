@@ -126,7 +126,7 @@ const apiDesignStore = createFlatStore({
     },
     async deleteTreeNode({ call }, payload: { inode: string }) {
       const data = await call(deleteTreeNode, payload, {
-        successMsg: i18n.t('{action} successfully', { action: i18n.t('delete') }),
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('Delete') }),
       });
       return data;
     },

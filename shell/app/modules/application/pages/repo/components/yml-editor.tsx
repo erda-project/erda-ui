@@ -939,7 +939,7 @@ const YmlEditor = (props: IProps) => {
       />
       <FormModal
         width={620}
-        title={`${i18n.t('delete')}${name}`}
+        title={`${i18n.t('Delete')}${name}`}
         fieldsList={getFieldsList()}
         visible={modalVisible}
         onOk={handleDelete}

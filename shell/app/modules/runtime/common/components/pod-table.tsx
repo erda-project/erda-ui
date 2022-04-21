@@ -85,7 +85,7 @@ const PodTable = (props: IProps) => {
       render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
     {
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       dataIndex: 'phase',
       width: 80,
     },
@@ -105,7 +105,7 @@ const PodTable = (props: IProps) => {
       dataIndex: 'message',
     },
     {
-      title: i18n.t('create time'),
+      title: i18n.t('Creation time'),
       width: 176,
       dataIndex: 'startedAt',
       className: 'th-time nowrap',

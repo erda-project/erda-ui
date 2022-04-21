@@ -291,7 +291,7 @@ const ConfigurableFilter = React.forwardRef(
             label={<span className="text-default-3">{i18n.t('dop:filter name')}</span>}
             name="label"
             rules={[
-              { required: true, message: i18n.t('please enter {name}', { name: i18n.t('dop:filter name') }) },
+              { required: true, message: i18n.t('Pease enter {name}', { name: i18n.t('dop:filter name') }) },
               { max: 10, message: i18n.t('dop:within {num} characters', { num: 10 }) },
             ]}
           >

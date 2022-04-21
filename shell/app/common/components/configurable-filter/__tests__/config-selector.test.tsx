@@ -74,7 +74,7 @@ describe('ConfigSelector', () => {
     fireEvent.click(result.container.querySelector('[name="gengduo"]')!);
     fireEvent.click(result.container.querySelector('[name="gengduo"]')?.parentNode!);
     await waitFor(() => expect(result.getByRole('tooltip')).toBeInTheDocument());
-    fireEvent.click(result.getByText('delete'));
+    fireEvent.click(result.getByText('Delete'));
     await waitFor(() => expect(result.getByRole('dialog')).toBeInTheDocument());
     fireEvent.click(result.getByText('OK'));
     expect(deleteFn).toHaveBeenLastCalledWith(configList[2]);

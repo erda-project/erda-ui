@@ -120,7 +120,7 @@ const FileTree = (props: IProps) => {
         preset: 'paste',
       },
       {
-        node: i18n.t('delete'),
+        node: i18n.t('Delete'),
         preset: 'delete',
       },
       // {
@@ -151,7 +151,7 @@ const FileTree = (props: IProps) => {
       preset: 'cut',
     },
     {
-      node: i18n.t('delete'),
+      node: i18n.t('Delete'),
       preset: 'delete',
     },
   ];

@@ -295,7 +295,7 @@ export const appPerm = {
       },
       delete: {
         pass: false,
-        name: i18n.t('delete'),
+        name: i18n.t('Delete'),
         role: ['Owner', 'Lead'],
       },
       approve: {

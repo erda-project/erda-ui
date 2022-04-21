@@ -96,7 +96,7 @@ const AccessList = () => {
       width: 200,
     },
     {
-      title: i18n.t('create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createdAt',
       width: 176,
       render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss'),
@@ -113,10 +113,10 @@ const AccessList = () => {
           show: edit,
         },
         {
-          title: i18n.t('delete'),
+          title: i18n.t('Delete'),
           onClick: () => {
             Modal.confirm({
-              title: i18n.t('confirm to {action}', { action: i18n.t('delete') }),
+              title: i18n.t('confirm to {action}', { action: i18n.t('Delete') }),
               onOk() {
                 handleDelete(record);
               },

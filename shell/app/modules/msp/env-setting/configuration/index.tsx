@@ -149,7 +149,7 @@ const Configuration = () => {
       render: (text: string) => <UserInfo id={text} />,
     },
     {
-      title: i18n.t('create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (createdAt: string) => moment(createdAt).format('YYYY-MM-DD HH:mm:ss'),
@@ -159,7 +159,7 @@ const Configuration = () => {
   const tableActions: IActions<CONFIGURATION.IAllTokenData> = {
     render: (record) => [
       {
-        title: i18n.t('delete'),
+        title: i18n.t('Delete'),
         onClick: () => {
           deleteKey(record.id);
         },

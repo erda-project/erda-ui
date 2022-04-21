@@ -263,21 +263,21 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'manual',
-          pageName: i18n.t('dop:Function Testing'),
+          pageName: i18n.t('dop:Functional Testing'),
           routes: [
             {
               path: 'testCase',
               tabs: MANUAL_TEST_TABS,
               layout: { fullHeight: true },
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('dop:Function Testing'),
+              breadcrumbName: i18n.t('dop:Functional Testing'),
               getComp: (cb) => cb(import('project/pages/test-manage/case/manual-test')),
             },
             {
               path: 'testPlan',
               tabs: MANUAL_TEST_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('dop:Function Testing'),
+              breadcrumbName: i18n.t('dop:Functional Testing'),
               mark: 'testPlan',
               routes: [
                 {
@@ -299,7 +299,7 @@ function getProjectRouter(): RouteConfigItem[] {
             {
               path: 'testEnv',
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('dop:Function Testing'),
+              breadcrumbName: i18n.t('dop:Functional Testing'),
               getComp: (cb) => cb(import('project/pages/test-env/test-env'), 'ManualTestEnv'),
               layout: {
                 noWrapper: true,

@@ -158,7 +158,7 @@ const AlarmRecordDetail = ({ scope, tenantGroup }: { scope: string; tenantGroup?
 
   const columns: Array<ColumnProps<ALARM_REPORT.AlarmHistory>> = [
     {
-      title: i18n.t('create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'timestamp',
       render: (timestamp: number) => moment(timestamp).format('YYYY-MM-DD HH:mm:ss'),
     },

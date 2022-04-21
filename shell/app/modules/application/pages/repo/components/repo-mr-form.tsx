@@ -546,7 +546,7 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
       },
     },
     {
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       dataIndex: 'state',
       render: (v: number, record: any) => {
         const currentState = find(record?.issueButton, (item) => item.stateID === v);
@@ -574,7 +574,7 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
       },
     },
     {
-      title: i18n.t('create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createdAt',
       render: (v: string) => moment(v).format('YYYY/MM/DD HH:mm:ss'),
     },
@@ -584,7 +584,7 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
     render: (record: ISSUE.IssueType) => {
       return [
         {
-          title: i18n.t('delete'),
+          title: i18n.t('Delete'),
           onClick: () => {
             setChosenIssues((prev) => prev.filter((item) => item.id !== record.id));
           },

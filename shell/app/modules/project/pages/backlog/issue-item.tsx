@@ -20,6 +20,7 @@ import UserInfo from 'common/components/user-info';
 import { getBrowserInfo, isPromise } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
+import { isZh } from 'core/i18n';
 import { map, compact } from 'lodash';
 import moment from 'moment';
 import issueFieldStore from 'org/stores/issue-field';
@@ -220,7 +221,7 @@ export const IssueItem = (props: IIssueProps) => {
                   disabled={!deleteAuth}
                   className={`text-danger ${deleteAuth ? '' : 'disabled'}`}
                 >
-                  {deleteText || i18n.t('delete')}
+                  {deleteText || i18n.t('Delete')}
                 </Menu.Item>
               </Menu>
             }
@@ -278,11 +279,18 @@ export const IssueForm = (props: IIssueFormProps) => {
   const orgID = orgStore.useStore((s) => s.currentOrg.id);
   const loginUser = userStore.getState((s) => s.loginUser);
 
+  const [typeSelectWidth, setTypeSelectWidth] = React.useState(0);
+
   const [formData, updater] = useUpdate({
     title: '',
     type: defaultIssueType || ISSUE_OPTION.REQUIREMENT,
     assignee: loginUser.id,
   });
+
+  React.useEffect(() => {
+    const _typeSelectWidth = document.getElementsByClassName('issue-type-select')[0]?.clientWidth || 0;
+    setTypeSelectWidth(typeSelectWidth ? _typeSelectWidth : _typeSelectWidth + 20);
+  }, [formData.type]);
 
   const onAdd = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const continueAdd = isWin ? e.shiftKey : e.metaKey;
@@ -336,14 +344,14 @@ export const IssueForm = (props: IIssueFormProps) => {
         onPressEnter={onAdd}
         autoFocus
         onChange={(e) => updater.title(e.target.value)}
-        style={{ height: '42px', paddingRight: '180px', paddingLeft: '90px' }}
+        style={{ height: '42px', paddingRight: '180px', paddingLeft: `${typeSelectWidth}px` }}
       />
       <Select
         disabled={typeDisabled}
         value={formData.type as ISSUE_OPTION}
         bordered={false}
         onChange={(v: ISSUE_OPTION) => updater.type(v)}
-        className="absolute"
+        className="absolute issue-type-select"
         optionLabelProp="data-icon"
         dropdownMatchSelectWidth={false}
       >

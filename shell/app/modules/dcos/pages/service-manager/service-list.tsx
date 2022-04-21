@@ -241,7 +241,7 @@ function ServiceList({
         render: (size: string) => getFormatter('STORAGE', 'MB').format(size),
       },
       {
-        title: i18n.t('status'),
+        title: i18n.t('Status'),
         dataIndex: 'unhealthy',
         width: 100,
         align: 'center',
@@ -361,7 +361,7 @@ function ServiceList({
       // TODO: 集群组件目前无状态，3.5暂时去除，后续提供后打开
       haveStatus
         ? {
-            title: i18n.t('status'),
+            title: i18n.t('Status'),
             dataIndex: 'status',
             key: 'status',
             width: 100,

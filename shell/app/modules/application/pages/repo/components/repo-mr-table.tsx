@@ -151,7 +151,7 @@ const RepoMrTable = ({ type }: IProps) => {
                       <UserInfo.RenderWithAvatar id={authorUser.id} />
                     </Tooltip>
                     <span>
-                      {i18n.t('Creation time')} {fromNow(item.createdAt)}
+                      {i18n.t('Creation time-at')} {fromNow(item.createdAt)}
                     </span>
                   </div>
                 </li>

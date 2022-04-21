@@ -615,12 +615,14 @@ export const getAvatarChars = (name: string) => {
   }
 };
 
-export const firstCharToUpper = (str?: string) => {
-  if (typeof str !== 'string') return str;
-  return str.replace(/^\w/, (s) => s.toUpperCase());
+export const firstCharToUpper = (param: string | any) => {
+  if (typeof param === 'string') {
+    return param.replace(/^\w/, (s) => s.toUpperCase());
+  }
+  return param;
 };
 
-export const allWordsFirstLetterUpper = (param: string | React.ReactElement) => {
+export const allWordsFirstLetterUpper = (param: string | any) => {
   if (typeof param === 'string') {
     return param
       .split(' ')

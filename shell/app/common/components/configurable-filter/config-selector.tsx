@@ -60,7 +60,7 @@ const ConfigSelector = ({ className = '', list, defaultValue, value, onChange, o
         {/* <div className="py-1 px-2 bg-hover">设为默认</div>
         <div className="py-1 px-2 bg-hover">重命名</div> */}
         <div className="py-1 px-2 cursor-pointer bg-hover text-red" onClick={() => deleteFilter(item)}>
-          {i18n.t('delete')}
+          {i18n.t('Delete')}
         </div>
       </div>
     );

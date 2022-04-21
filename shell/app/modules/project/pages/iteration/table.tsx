@@ -150,7 +150,7 @@ export const Iteration = () => {
           {
             title: (
               <WithAuth pass={handleFiledAuth}>
-                <span>{i18n.t('dop:unarchive')}</span>
+                <span>{i18n.t('dop:Unarchive')}</span>
               </WithAuth>
             ),
             onClick: () => onFiled(record, 'UNFILED'),

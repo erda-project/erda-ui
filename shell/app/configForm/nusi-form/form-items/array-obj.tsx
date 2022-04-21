@@ -134,7 +134,7 @@ const ArrayObjComp = (props: any) => {
                           <Input
                             key={key}
                             value={data[key]}
-                            placeholder={i18n.t('please enter {name}', { name: label || key })}
+                            placeholder={i18n.t('Pease enter {name}', { name: label || key })}
                             onChange={(e) => updateItem({ [key]: e.target.value })}
                             {...itemComponentProps}
                           />
@@ -170,7 +170,7 @@ const ArrayObjComp = (props: any) => {
                           <InputNumber
                             key={key}
                             value={data[key]}
-                            placeholder={i18n.t('please enter {name}', { name: label || key })}
+                            placeholder={i18n.t('Pease enter {name}', { name: label || key })}
                             onChange={(v) => updateItem({ [key]: v })}
                             {...itemComponentProps}
                           />
@@ -213,7 +213,7 @@ const ArrayObjComp = (props: any) => {
                                       <Input
                                         key={_k}
                                         value={curVal}
-                                        placeholder={i18n.t('please enter {name}', { name: _k })}
+                                        placeholder={i18n.t('Pease enter {name}', { name: _k })}
                                         onChange={(e) => updateItem({ [attrKey]: e.target.value })}
                                       />
                                     </FormItem>
@@ -224,7 +224,7 @@ const ArrayObjComp = (props: any) => {
                                       <InputNumber
                                         key={_k}
                                         value={curVal}
-                                        placeholder={i18n.t('please enter {name}', { name: _k })}
+                                        placeholder={i18n.t('Pease enter {name}', { name: _k })}
                                         onChange={(v) => updateItem({ [attrKey]: v })}
                                       />
                                     </FormItem>
@@ -391,7 +391,7 @@ export const formConfig = {
                       <Input
                         key={'key'}
                         value={_data.key}
-                        placeholder={i18n.t('please enter {name}', { name: '属性key' })}
+                        placeholder={i18n.t('Pease enter {name}', { name: '属性key' })}
                         onChange={(e) => updateItem({ key: e.target.value })}
                       />
                     </FormItem>
@@ -399,7 +399,7 @@ export const formConfig = {
                       <Input
                         key={'label'}
                         value={_data.label}
-                        placeholder={i18n.t('please enter {name}', { name: '属性标签' })}
+                        placeholder={i18n.t('Pease enter {name}', { name: '属性标签' })}
                         onChange={(e) => updateItem({ label: e.target.value })}
                       />
                     </FormItem>
@@ -407,7 +407,7 @@ export const formConfig = {
                       <Input
                         key={'labelTip'}
                         value={_data.labelTip}
-                        placeholder={i18n.t('please enter {name}', { name: '属性标签提示' })}
+                        placeholder={i18n.t('Pease enter {name}', { name: '属性标签提示' })}
                         onChange={(e) => updateItem({ labelTip: e.target.value })}
                       />
                     </FormItem>

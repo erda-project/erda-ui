@@ -54,7 +54,7 @@ export const FormInputNumber = ({
     };
 
     const { placeholder } = componentProps || {};
-    const _placeholder = placeholder || i18n.t('please enter {name}', { name: label });
+    const _placeholder = placeholder || i18n.t('Pease enter {name}', { name: label });
     return (
       <FormItem
         colon

@@ -226,16 +226,16 @@ function WrappedTable<T extends object = any>({
           <Menu.Item key={'0'} onClick={() => onSort()}>
             <span className="fake-link mr-1">{i18n.t('Unsort')}</span>
           </Menu.Item>
-          <Menu.Item key={'ascend'} onClick={() => onSort('ascend')}>
+          <Menu.Item key={'ascend'} onClick={() => onSort('Ascending')}>
             <span className="fake-link mr-1">
               <ErdaIcon type="ascend" className="relative top-0.5 mr-1" />
-              {i18n.t('ascend')}
+              {i18n.t('Ascending')}
             </span>
           </Menu.Item>
-          <Menu.Item key={'descend'} onClick={() => onSort('descend')}>
+          <Menu.Item key={'descend'} onClick={() => onSort('Descending')}>
             <span className="fake-link mr-1">
               <ErdaIcon type="descend" className="relative top-0.5 mr-1" />
-              {i18n.t('descend')}
+              {i18n.t('Descending')}
             </span>
           </Menu.Item>
         </Menu>
@@ -393,7 +393,9 @@ function WrappedTable<T extends object = any>({
         rowKey={rowKey}
         scroll={{ x: '100%' }}
         columns={[
-          ...columns.filter((item) => !item.hidden).map((item) => ({ ...item, title: item.sortTitle || item.title })),
+          ...columns
+            .filter((item) => !item.hidden)
+            .map((item) => ({ ...item, title: firstCharToUpper(item.sortTitle || item.title) })),
           ...renderActions(actions),
         ]}
         rowClassName={onRow ? `cursor-pointer ${rowClassName || ''}` : rowClassName}

@@ -626,13 +626,13 @@ const BuildDetail = (props: IProps) => {
         align: 'center',
       },
       {
-        title: `${i18n.t('commit')}ID`,
+        title: `${i18n.t('Commit')}ID`,
         dataIndex: 'commit',
         width: 96,
         render: (commitText: string) => <span> {(commitText || '').slice(0, 6)} </span>,
       },
       {
-        title: i18n.t('status'),
+        title: i18n.t('Status'),
         dataIndex: 'status',
         width: 120,
         render: (status: string) => (
@@ -676,7 +676,7 @@ const BuildDetail = (props: IProps) => {
           }}
         >
           <ErdaIcon className="hover" size="16" type="shuaxin" />
-          {i18n.t('fetch latest records')}
+          {i18n.t('Fetch latest records')}
         </div>
         <Table
           key={`${state.recordTableKey}`}
@@ -763,7 +763,7 @@ const BuildDetail = (props: IProps) => {
               </Row>
               <Row className="mb-4">
                 <Col span={12}>
-                  <div className="info-label">{i18n.t('commit')} ID：</div>
+                  <div className="info-label">{i18n.t('Commit')} ID：</div>
                   <div className="hover-py">{commit ? <GotoCommit length={6} commitId={commit} /> : null}</div>
                 </Col>
                 <Col span={12}>

@@ -163,7 +163,7 @@ const PipelineDetail = (props: IProps) => {
         renderTabBar={(p: any, DefaultTabBar) => <DefaultTabBar {...p} onKeyDown={(e: any) => e} />}
       >
         {!isMobileInit ? (
-          <Tabs.TabPane tab={i18n.t('configuration information')} key={'configDetail'}>
+          <Tabs.TabPane tab={i18n.t('Configuration Information')} key={'configDetail'}>
             <PipelineConfigDetail
               {...rest}
               onCaseChange={onCaseChange}

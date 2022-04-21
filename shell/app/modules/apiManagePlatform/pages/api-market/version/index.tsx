@@ -198,7 +198,7 @@ const ApiVersions = () => {
         <TopButtonGroup>
           <UnityAuthWrap path={['apiMarket', 'delete']} userID={creatorID}>
             <Button danger onClick={handleDeleteAsset}>
-              {i18n.t('delete')}
+              {i18n.t('Delete')}
             </Button>
           </UnityAuthWrap>
           <UnityAuthWrap path={['apiMarket', 'publicAsset']} userID={creatorID}>

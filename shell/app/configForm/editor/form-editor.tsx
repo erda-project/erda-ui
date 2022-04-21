@@ -50,7 +50,7 @@ export const FormEditor = React.forwardRef((props: IProps, ref: any) => {
 
   return (
     <div className="dice-form-editor">
-      <h4>{i18n.t('common:form edit')}</h4>
+      <h4>{i18n.t('common:Form Edit')}</h4>
       <div className="content">
         {isEmpty(field) ? (
           <div className="tip">

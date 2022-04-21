@@ -153,7 +153,7 @@ const ListEditConfig = (props: IProps) => {
                     <span
                       onClick={() => {
                         Modal.confirm({
-                          title: i18n.t('confirm to {action}', { action: i18n.t('delete') }),
+                          title: i18n.t('confirm to {action}', { action: i18n.t('Delete') }),
                           onOk() {
                             deleteConfig(record);
                           },
@@ -161,7 +161,7 @@ const ListEditConfig = (props: IProps) => {
                       }}
                       className="fake-link mr-1"
                     >
-                      {i18n.t('delete')}
+                      {i18n.t('Delete')}
                     </span>
                   </Menu.Item>
                 </Menu>
@@ -303,7 +303,7 @@ const EditableCell = ({
             rules={[
               {
                 required: true,
-                message: i18n.t('please enter {name}', { name: 'Key' }),
+                message: i18n.t('Pease enter {name}', { name: 'Key' }),
               },
               {
                 pattern: /^[a-zA-Z_]+[.a-zA-Z0-9_-]*$/,
@@ -323,7 +323,7 @@ const EditableCell = ({
               },
             ]}
           >
-            <Input placeholder={i18n.t('please enter {name}', { name: 'Key' })} maxLength={191} />
+            <Input placeholder={i18n.t('Pease enter {name}', { name: 'Key' })} maxLength={191} />
           </Form.Item>
         );
         break;
@@ -337,20 +337,20 @@ const EditableCell = ({
                 validator: async (_rule, value: string) => {
                   const encrypt = form.getFieldValue('encrypt');
                   if (!encrypt && !value) {
-                    throw new Error(i18n.t('please enter {name}', { name: 'Value' }));
+                    throw new Error(i18n.t('Pease enter {name}', { name: 'Value' }));
                   }
                 },
               },
             ]}
           >
-            <Input placeholder={i18n.t('please enter {name}', { name: 'Value' })} maxLength={4096} />
+            <Input placeholder={i18n.t('Pease enter {name}', { name: 'Value' })} maxLength={4096} />
           </Form.Item>
         );
         break;
       case 'comment':
         Comp = (
           <Form.Item name={dataIndex} style={{ margin: 0 }}>
-            <Input placeholder={i18n.t('please enter {name}', { name: i18n.t('dop:Remark') })} maxLength={200} />
+            <Input placeholder={i18n.t('Pease enter {name}', { name: i18n.t('dop:Remark') })} maxLength={200} />
           </Form.Item>
         );
         break;

@@ -78,7 +78,7 @@ describe('KeyValueTable', () => {
     fireEvent.click(result.getByText('Add'));
     await flushPromises();
     expect(result.container).isExist('.ant-table-row ', Object.keys(data).length + 1);
-    fireEvent.click(result.getAllByText('delete')[0]);
+    fireEvent.click(result.getAllByText('Delete')[0]);
     await waitFor(() => expect(result.getByRole('tooltip')).toBeInTheDocument());
     fireEvent.click(result.getByText('OK'));
     expect(result.container).isExist('.ant-table-row ', Object.keys(data).length);

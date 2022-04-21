@@ -58,14 +58,14 @@ const getClusterTasksCols = (userMap: object) => {
       },
     },
     {
-      title: i18n.t('Creation time'),
+      title: i18n.t('Creation time-at'),
       dataIndex: 'createdAt',
       key: 'createdAt',
       width: 200,
       render: (createdAt: string) => `${moment(createdAt).format('YYYY-MM-DD HH:mm:ss')}`,
     },
     {
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       dataIndex: 'status',
       key: 'status',
       width: 120,

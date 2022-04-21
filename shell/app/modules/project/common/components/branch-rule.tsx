@@ -267,7 +267,7 @@ const BranchRule = (props: IProps) => {
         {
           title: (
             <WithAuth pass={operationAuth}>
-              <span>{i18n.t('delete')}</span>
+              <span>{i18n.t('Delete')}</span>
             </WithAuth>
           ),
           onClick: () => {

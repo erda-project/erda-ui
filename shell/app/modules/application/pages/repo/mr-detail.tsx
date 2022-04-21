@@ -227,7 +227,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
           <React.Fragment>
             <Avatar className="mr-1 mb-1" name={authorUser.nick} />
             <Tooltip title={authorUser.name}>{authorUser.nick}</Tooltip>
-            {i18n.t('Creation time')}&nbsp;{fromNow(createdAt)}
+            {i18n.t('Creation time-at')}&nbsp;{fromNow(createdAt)}
           </React.Fragment>,
         ],
       };

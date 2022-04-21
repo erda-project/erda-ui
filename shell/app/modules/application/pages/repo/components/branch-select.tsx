@@ -105,7 +105,7 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
     const tagList = tags.filter((t) => t.includes(filterKey));
     const commitList = commitId ? (
       <React.Fragment>
-        <div className="title">{i18n.t('commit')}</div>
+        <div className="title">{i18n.t('Commit')}</div>
         <ul>
           <li className="branch-item flex items-center justify-between" onClick={() => onChange(commitId)}>
             <span>{commitId}</span>
