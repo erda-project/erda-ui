@@ -345,7 +345,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                 className={classnames('case-name text-lg font-medium text-normal', titleIsEmpty && 'error')}
                 size="large"
                 autoFocus
-                placeholder={i18n.t('dop:use case title (required)')}
+                placeholder={i18n.t('dop:Use case title (required)')}
                 autoComplete="off"
                 value={fullData.name}
                 onChange={(e) => {

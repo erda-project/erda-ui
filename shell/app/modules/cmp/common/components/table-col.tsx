@@ -92,7 +92,7 @@ export const getCloudResourceIDNameCol = (dataIndex = 'id', nameKey = 'name', cl
   };
 };
 
-export const getCloudResourceTimeCol = (title = i18n.t('create time'), dataIndex = 'createTime') => {
+export const getCloudResourceTimeCol = (title = i18n.t('Creation time'), dataIndex = 'createTime') => {
   return {
     title,
     dataIndex,
@@ -115,7 +115,7 @@ export const getCloudResourceTimeCol = (title = i18n.t('create time'), dataIndex
 type IResourceType = 'rds' | 'ecs' | 'vpc' | 'mq' | 'vsw' | 'oss' | 'redis' | 'account';
 export const getCloudResourceStatusCol = (
   resourceType: IResourceType,
-  title = i18n.t('status'),
+  title = i18n.t('Status'),
   dataIndex = 'status',
 ) => {
   return {
@@ -152,7 +152,7 @@ export const getCloudResourceChargeTypeCol = (
     render: (_v: string, record: any) => {
       let val: any = _v?.toLowerCase();
       if (val === chargeTypeMap.PostPaid.value.toLowerCase()) {
-        val = chooseShowTime('PostPaid', record[startTime], `${i18n.t('create time')}: `);
+        val = chooseShowTime('PostPaid', record[startTime], `${i18n.t('Creation time')}: `);
       } else if (val === chargeTypeMap.PrePaid.value.toLowerCase()) {
         val = chooseShowTime('PrePaid', record[expireTime], `${i18n.t('cmp:expire time')}: `);
       }

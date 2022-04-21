@@ -83,7 +83,7 @@ const AccessDetail = () => {
   }, [accessDetail.access]);
   const handleDelete = () => {
     Modal.confirm({
-      title: i18n.t('confirm to {action}', { action: i18n.t('delete') }),
+      title: i18n.t('confirm to {action}', { action: i18n.t('Delete') }),
       onOk: async () => {
         await deleteAccess({ accessID: accessDetail.access.id });
         goTo(goTo.pages.apiAccessManage);
@@ -152,7 +152,7 @@ const AccessDetail = () => {
         <TopButtonGroup>
           <WithAuth pass={permission.delete || false} tipProps={{ placement: 'bottom' }}>
             <Button danger onClick={handleDelete}>
-              {i18n.t('delete')}
+              {i18n.t('Delete')}
             </Button>
           </WithAuth>
           <WithAuth pass={permission.edit || false}>

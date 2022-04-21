@@ -148,7 +148,7 @@ export const SubscribersSelector = (props: IProps) => {
           <div className="followers-num px-4">
             {subscribers.length !== 0
               ? i18n.t('dop:{num} followers-ing', { num: subscribers.length })
-              : i18n.t('dop:no member is concerned about it')}
+              : i18n.t('dop:No followers-now')}
           </div>
           <div className="followers px-4">
             {subscribers.map((item) => {

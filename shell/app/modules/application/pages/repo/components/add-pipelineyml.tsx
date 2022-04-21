@@ -445,7 +445,7 @@ const FileNameInput = ({ value, onChange, disabled, ...rest }: IFileNameProps) =
     <Input
       style={{ width: 200 }}
       value={value}
-      placeholder={i18n.t('please enter {name}', { name: i18n.t('dop:File name') })}
+      placeholder={i18n.t('Pease enter {name}', { name: i18n.t('dop:File name') })}
       disabled={disabled}
       onChange={(e: any) => {
         onChange(e.target.value.trim());

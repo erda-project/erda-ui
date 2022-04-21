@@ -50,14 +50,14 @@ export const IssueTestCaseRelation = ({ list }: IProps) => {
       dataIndex: 'priority',
     },
     {
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       dataIndex: 'execStatus',
       render: (v: string) => {
         return get(caseStateMap, `${v}.name`) || '';
       },
     },
     {
-      title: i18n.t('create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createdAt',
       width: 180,
       render: (v: string) => moment(v).format('YYYY/MM/DD HH:mm:ss'),

@@ -84,8 +84,8 @@ export default function BackupManagement() {
                   deleteBackup({ uuid: record.uuid }).then(() => reloadBackupList({ pageNo: 1 }));
                 }}
               >
-                <Tooltip title={info.isLocked ? i18n.t('dop:lock-operation-tip') : i18n.t('delete')}>
-                  <span className={info.isLocked ? '' : 'table-operations-btn'}>{i18n.t('delete')}</span>
+                <Tooltip title={info.isLocked ? i18n.t('dop:lock-operation-tip') : i18n.t('Delete')}>
+                  <span className={info.isLocked ? '' : 'table-operations-btn'}>{i18n.t('Delete')}</span>
                 </Tooltip>
               </Popconfirm>
             </WithAuth>

@@ -153,7 +153,7 @@ const Analysis = () => {
         },
       },
       {
-        title: i18n.t('create time'),
+        title: i18n.t('Creation time'),
         dataIndex: 'createTime',
         key: 'createTime',
         width: 200,

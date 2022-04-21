@@ -168,7 +168,7 @@ const CustomDashboardList = ({
       },
     },
     {
-      title: i18n.t('create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createdAt',
       render: (timestamp: number) => formatTime(timestamp, 'YYYY-MM-DD HH:mm:ss'),
     },
@@ -192,7 +192,7 @@ const CustomDashboardList = ({
     {
       key: 'createdAt',
       type: 'dateRange',
-      label: i18n.t('create time'),
+      label: i18n.t('Creation time'),
     },
     {
       label: '',
@@ -237,7 +237,7 @@ const CustomDashboardList = ({
   const tableActions: IActions<Custom_Dashboard.DashboardItem> = {
     render: (record) => [
       {
-        title: i18n.t('delete'),
+        title: i18n.t('Delete'),
         onClick: () => {
           handleDelete(record.id as string);
         },

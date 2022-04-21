@@ -654,7 +654,7 @@ const NotifyChannel = () => {
       width: 200,
     },
     {
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       dataIndex: 'enable',
       width: 80,
       render: (enable) => (
@@ -704,7 +704,7 @@ const NotifyChannel = () => {
         },
       },
       deleteChannel: {
-        title: i18n.t('delete'),
+        title: i18n.t('Delete'),
         onClick: () => {
           handleDelete(record.id, record.enable);
         },

@@ -107,7 +107,7 @@ const TraceSearch: React.FC<IProps> = ({ scope = 'trace' }) => {
             type: 'input',
             showIndex: 0,
             fixed: false,
-            placeholder: i18n.t('please enter {name}', { name: displayName }),
+            placeholder: i18n.t('Pease enter {name}', { name: displayName }),
             key: paramKey,
             label: displayName,
             customProps: {},

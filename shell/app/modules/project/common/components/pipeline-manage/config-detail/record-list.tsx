@@ -103,7 +103,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
           }}
         >
           <CustomIcon type="shuaxin" />
-          {i18n.t('fetch latest records')}
+          {i18n.t('Fetch latest records')}
         </div>
         <Table
           rowKey="updatedAt"

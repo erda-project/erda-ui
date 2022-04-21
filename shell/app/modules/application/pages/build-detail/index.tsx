@@ -656,13 +656,13 @@ const BuildDetail = (props: IProps) => {
         align: 'center',
       },
       {
-        title: `${i18n.t('commit')}ID`,
+        title: `${i18n.t('Commit')}ID`,
         dataIndex: 'commit',
         width: 100,
         render: (commitText: string) => <span> {(commitText || '').slice(0, 6)} </span>,
       },
       {
-        title: i18n.t('status'),
+        title: i18n.t('Status'),
         dataIndex: 'status',
         width: 100,
         render: (status: string) => (
@@ -695,7 +695,7 @@ const BuildDetail = (props: IProps) => {
           }}
         >
           <CustomIcon type="shuaxin" />
-          {i18n.t('fetch latest records')}
+          {i18n.t('Fetch latest records')}
         </div>
         <Table
           rowKey="runIndex"
@@ -779,7 +779,7 @@ const BuildDetail = (props: IProps) => {
               </Row>
               <Row>
                 <Col span={12}>
-                  <div className="info-label">{i18n.t('commit')} ID：</div>
+                  <div className="info-label">{i18n.t('Commit')} ID：</div>
                   <div className="hover-py">
                     <GotoCommit length={6} commitId={commit} />
                   </div>

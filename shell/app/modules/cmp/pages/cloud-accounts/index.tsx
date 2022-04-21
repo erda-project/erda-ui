@@ -59,7 +59,7 @@ const CloudAccounts = () => {
           return (
             <div className="table-operations">
               <span className="table-operations-btn" onClick={() => showDeleteConfirm(record)}>
-                {i18n.t('delete')}
+                {i18n.t('Delete')}
               </span>
             </div>
           );

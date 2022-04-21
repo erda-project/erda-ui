@@ -540,7 +540,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
   const actions: IActions<COMMON_STRATEGY_NOTIFY.IFormRule> = {
     render: (record) => [
       {
-        title: i18n.t('delete'),
+        title: i18n.t('Delete'),
         onClick: () => {
           handleRemoveEditingRule(record.key);
         },

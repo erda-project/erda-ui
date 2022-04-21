@@ -78,7 +78,7 @@ export const PureBaseAddonInfo = ({
       render: (referenceInfos: any[] = []) => referenceInfos.length,
     },
     {
-      title: i18n.t('create time'),
+      title: i18n.t('Creation time'),
       value: 'createdAt',
       render: (createdAt: string) => moment(createdAt).format('YYYY-MM-DD HH:mm:ss'),
     },
@@ -86,7 +86,7 @@ export const PureBaseAddonInfo = ({
 
   if (addonDetail.isOperator) {
     itemConfigs.push({
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       value: 'addonStatus',
       render: (addonStatus = 'Unknown') => <>{addonStatusMap[addonStatus]}</>,
     });

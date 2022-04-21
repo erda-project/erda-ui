@@ -40,7 +40,7 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
   const operationBtns = !disabled
     ? [
         {
-          text: i18n.t('commit'),
+          text: i18n.t('Commit'),
           type: 'primary' as const,
           onClick: (_v: string) => {
             onSave(_v);

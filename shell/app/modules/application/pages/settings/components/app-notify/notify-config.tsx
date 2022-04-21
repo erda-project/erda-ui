@@ -253,7 +253,7 @@ export const NotifyConfig = ({ commonPayload, memberStore, tableKey }: IProps) =
           onClick: () => handleEdit(record),
         },
         {
-          title: i18n.t('delete'),
+          title: i18n.t('Delete'),
           onClick: () => handleDele(record.id),
         },
         {

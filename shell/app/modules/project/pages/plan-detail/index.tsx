@@ -238,7 +238,7 @@ const TestPlanDetail = () => {
                 needBreadcrumb
                 mode="testPlan"
                 testPlanID={+params.testPlanId}
-                customActions={[{ key: 'delete', name: i18n.t('delete'), onclick: deleteTestPlans }]}
+                customActions={[{ key: 'delete', name: i18n.t('Delete'), onclick: deleteTestPlans }]}
               />
             </SplitPage.Left>
             <SplitPage.Right>

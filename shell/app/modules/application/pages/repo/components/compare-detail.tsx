@@ -57,7 +57,7 @@ const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
           key="commit"
           tab={
             <span>
-              {i18n.t('commit')}
+              {i18n.t('Commit')}
               <span className="dice-badge">{commits.length}</span>{' '}
             </span>
           }

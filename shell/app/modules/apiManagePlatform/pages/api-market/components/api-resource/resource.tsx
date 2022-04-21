@@ -308,7 +308,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
           maxLength: INPUT_MAX_LENGTH,
           disabled: apiLockState,
           addonBefore: apiData?.apiMethod,
-          placeholder: i18n.t('please enter {name}', { name: i18n.t('API path') }),
+          placeholder: i18n.t('Pease enter {name}', { name: i18n.t('API path') }),
           onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
             const newApiName = e.target.value;
 

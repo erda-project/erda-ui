@@ -144,7 +144,7 @@ export const OperationProjectRecords = ({ visible, setVisible, isClickExport, se
       },
     },
     {
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       dataIndex: 'state',
       ellipsis: {
         showTitle: false,

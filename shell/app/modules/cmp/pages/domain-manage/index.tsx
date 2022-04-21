@@ -82,7 +82,7 @@ const DomainManage = () => {
       type: 'input',
       label: i18n.t('msp:domain name'),
       outside: true,
-      placeholder: i18n.t('please enter {name}', { name: i18n.t('msp:domain name') }),
+      placeholder: i18n.t('Pease enter {name}', { name: i18n.t('msp:domain name') }),
     },
     {
       key: 'clusterName',

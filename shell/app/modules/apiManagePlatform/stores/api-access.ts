@@ -94,7 +94,7 @@ const apiAccess = createStore({
     },
     async deleteAccess({ call }, payload: API_ACCESS.AccessID) {
       const res = await call(deleteAccess, payload, {
-        successMsg: i18n.t('{action} successfully', { action: i18n.t('delete') }),
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('Delete') }),
       });
       return res;
     },
@@ -120,7 +120,7 @@ const apiAccess = createStore({
     },
     async deleteContracts({ call }, payload: Omit<API_ACCESS.OperateContract, 'status'>) {
       const res = await call(deleteContracts, payload, {
-        successMsg: i18n.t('{action} successfully', { action: i18n.t('delete') }),
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('Delete') }),
       });
       return res;
     },
@@ -159,7 +159,7 @@ const apiAccess = createStore({
     },
     async deleteSla({ call }, payload: API_ACCESS.DeleteSla) {
       const res = await call(deleteSla, payload, {
-        successMsg: i18n.t('{action} successfully', { action: i18n.t('delete') }),
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('Delete') }),
       });
       return res;
     },

@@ -37,10 +37,10 @@ export const EditableTable = (props: IEditableTableProps) => {
     render: (record) => {
       return [
         {
-          title: i18n.t('delete'),
+          title: i18n.t('Delete'),
           onClick: () => {
             Modal.confirm({
-              title: i18n.t('confirm to {action}', { action: i18n.t('delete') }),
+              title: i18n.t('confirm to {action}', { action: i18n.t('Delete') }),
               onOk() {
                 handleDelete(record);
               },

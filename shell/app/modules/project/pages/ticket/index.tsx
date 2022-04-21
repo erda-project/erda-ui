@@ -104,10 +104,10 @@ const Ticket = () => {
       {
         type: 'select',
         key: 'state',
-        label: i18n.t('status'),
+        label: i18n.t('Status'),
         options: ticketStateList.map(({ stateID }) => ({ label: <IssueState stateID={stateID} />, value: stateID })),
         mode: 'multiple',
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('status') }),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('Status') }),
       },
       {
         type: 'select',
@@ -232,7 +232,7 @@ const Ticket = () => {
     //   },
     // },
     {
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       dataIndex: 'state',
       width: 120,
       render: (v: string, record: ISSUE.Ticket) => {

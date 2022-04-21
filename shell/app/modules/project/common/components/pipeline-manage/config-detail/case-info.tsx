@@ -58,7 +58,7 @@ const CaseInfo = (props: IProps) => {
       },
     },
     {
-      label: i18n.t('create time'),
+      label: i18n.t('Creation time'),
       valueKey: 'createdAt',
       valueItem: ({ value: val }: any) => {
         return val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '-';

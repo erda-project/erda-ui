@@ -85,7 +85,7 @@ const apiClient = createStore({
     },
     async deleteClient({ call }, payload: API_CLIENT.Common) {
       const res = await call(deleteClient, payload, {
-        successMsg: i18n.t('{action} successfully', { action: i18n.t('delete') }),
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('Delete') }),
       });
       return res;
     },

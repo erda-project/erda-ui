@@ -159,7 +159,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                     name="version"
                     type="input"
                     rules={[
-                      { required: true, message: i18n.t('please enter {name}', { name: i18n.t('Version') }) },
+                      { required: true, message: i18n.t('Pease enter {name}', { name: i18n.t('Version') }) },
                       { max: 30, message: i18n.t('dop:no more than 30 characters') },
                       {
                         pattern: /^[A-Za-z0-9._+-]+$/,
@@ -204,7 +204,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                 { label: i18n.t('dop:app name'), value: applicationName },
                 { label: i18n.t('Cluster name'), value: clusterName },
                 { label: i18n.t('Creator'), value: userId ? <UserInfo id={userId} /> : '-' },
-                { label: i18n.t('create time'), value: createdAt && moment(createdAt).format('YYYY/MM/DD HH:mm:ss') },
+                { label: i18n.t('Creation time'), value: createdAt && moment(createdAt).format('YYYY/MM/DD HH:mm:ss') },
                 { label: i18n.t('dop:Code branch'), value: labels.gitBranch },
                 { label: 'commitId', value: labels.gitCommitId },
                 { label: 'commit message', value: labels.gitCommitMessage },

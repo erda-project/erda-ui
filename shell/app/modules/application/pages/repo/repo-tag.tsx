@@ -252,7 +252,7 @@ const RepoTag = () => {
                   >
                     <WithAuth pass={repoBranchAuth.deleteTag.pass}>
                       <Button disabled={isLocked} className="ml-3" danger>
-                        {i18n.t('delete')}
+                        {i18n.t('Delete')}
                       </Button>
                     </WithAuth>
                   </DeleteConfirm>

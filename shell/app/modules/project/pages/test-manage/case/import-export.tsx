@@ -126,11 +126,11 @@ const Export = (props: ExportProps) => {
   const exportOption = [
     {
       key: 'excel',
-      text: i18n.t('dop:export Excel'),
+      text: i18n.t('dop:Export Excel'),
     },
     {
       key: 'xmind',
-      text: i18n.t('dop:export Xmind'),
+      text: i18n.t('dop:Export Xmind'),
     },
   ];
 
@@ -388,7 +388,7 @@ const Record = ({ testSetId, setShowRefresh }: { testSetId: number; setShowRefre
     },
     {
       dataIndex: 'state',
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       render: (val: string) => {
         const statusMap = {
           fail: {

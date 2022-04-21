@@ -609,11 +609,11 @@ export const AddIssueRelation = ({
               mode: 'single',
             },
             {
-              label: i18n.t('state'),
+              label: i18n.t('Status'),
               type: 'select',
               key: 'state',
               options: stateList,
-              placeholder: i18n.t('filter by {name}', { name: i18n.t('state') }),
+              placeholder: i18n.t('filter by {name}', { name: i18n.t('Status') }),
             },
             {
               label: i18n.t('label'),

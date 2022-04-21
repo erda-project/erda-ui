@@ -100,7 +100,7 @@ const Limit = (props: IProps) => {
                     <ErdaIcon type="add-one" onClick={handleAddOne} size="20" />
                   </Tooltip>
                   {index !== 0 ? (
-                    <Tooltip title={i18n.t('delete')}>
+                    <Tooltip title={i18n.t('Delete')}>
                       <ErdaIcon
                         type="reduce-one"
                         onClick={() => {

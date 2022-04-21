@@ -106,7 +106,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
       name: 'propertyName',
       itemProps: {
         disabled: formData?.isSpecialField,
-        placeholder: i18n.t('please enter {name}', { name: i18n.t('dop:Field name') }),
+        placeholder: i18n.t('Pease enter {name}', { name: i18n.t('dop:Field name') }),
       },
     },
     {

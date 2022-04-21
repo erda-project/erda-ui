@@ -58,7 +58,7 @@ export const defaultPreviewField =
                 <span onClick={() => changePos(index, 1)}>{i18n.t('Move down')}</span>
                 <span onClick={() => onCopy(f)}>{i18n.t('Copy')}</span>
                 <span onClick={() => onEdit(f)}>{i18n.t('Edit')}</span>
-                <span onClick={() => onDelete(f)}>{i18n.t('delete')}</span>
+                <span onClick={() => onDelete(f)}>{i18n.t('Delete')}</span>
               </div>
             </div>
           );

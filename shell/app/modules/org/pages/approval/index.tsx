@@ -215,10 +215,10 @@ const Approval = () => {
     {
       key: 'status',
       type: 'select',
-      label: i18n.t('status'),
+      label: i18n.t('Status'),
       mode: 'single',
       options: Object.values(undoneStatusMap),
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('status') }),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('Status') }),
     },
   ];
   return (

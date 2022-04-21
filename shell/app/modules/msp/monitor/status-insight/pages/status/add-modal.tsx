@@ -617,7 +617,7 @@ const AddModal = (props: IProps) => {
                           )}
                           <div className="ml-4 delete-row-btn table-operations">
                             <span onClick={() => deleteItem(index)} className="table-operations-btn">
-                              {i18n.t('delete')}
+                              {i18n.t('Delete')}
                             </span>
                           </div>
                         </div>

@@ -127,7 +127,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
       dataIndex: 'name',
     },
     {
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       dataIndex: 'enable',
       onCell: () => ({ style: { minWidth: 100, maxWidth: 300 } }),
       render: (enable, record) => (
@@ -208,7 +208,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
         },
       },
       deleteStrategy: {
-        title: i18n.t('delete'),
+        title: i18n.t('Delete'),
         onClick: () => {
           handleDeleteAlarm(record.id);
         },

@@ -62,7 +62,7 @@ export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
       ),
   },
   {
-    title: i18n.t('dop:updated'),
+    title: i18n.t('Update time'),
     dataIndex: 'updatedAt',
     key: 'updatedAt',
     width: 200,

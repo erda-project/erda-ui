@@ -117,7 +117,7 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
           onClick: () => handleOpenDetail(record, true),
         },
         {
-          title: i18n.t('delete'),
+          title: i18n.t('Delete'),
           onClick: () => {
             Modal.confirm({
               title: i18n.t('dop:confirm to delete?'),

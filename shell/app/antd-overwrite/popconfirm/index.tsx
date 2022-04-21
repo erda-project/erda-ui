@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import AntdPopConfirm from 'antd/lib/popconfirm';
+import AntdPopConfirm from 'antd/es/popconfirm';
 import { firstCharToUpper } from 'common/utils';
 
 const PopConfirm = React.forwardRef(({ children, cancelText, okText, title, ...props }: any, ref) => {

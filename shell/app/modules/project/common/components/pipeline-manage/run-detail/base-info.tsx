@@ -32,7 +32,7 @@ const BaseInfo = (props: IProps) => {
       valueKey: 'id',
     },
     {
-      label: i18n.t('status'),
+      label: i18n.t('Status'),
       valueKey: 'status',
       valueItem: ({ value: val }: any) => {
         const definedStatus = PipelineStatus.find((s) => s.status === val) || ({ colorClass: 'gray', msg: val } as any);
@@ -57,7 +57,7 @@ const BaseInfo = (props: IProps) => {
       },
     },
     {
-      label: i18n.t('common:start at'),
+      label: i18n.t('Start time'),
       valueKey: 'timeBegin',
       valueItem: ({ value: val }: any) => (val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '-'),
     },

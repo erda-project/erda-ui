@@ -129,7 +129,7 @@ const Status = () => {
       dataIndex: 'name',
     },
     {
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       dataIndex: 'status',
       render: (status: string) => (
         <>
@@ -210,7 +210,7 @@ const Status = () => {
         onClick: () => handleEdit(record),
       },
       deleteMonitor: {
-        title: i18n.t('delete'),
+        title: i18n.t('Delete'),
         onClick: () => handleDelete(record.id),
       },
     };

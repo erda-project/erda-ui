@@ -156,7 +156,7 @@ const AppCertificateReference = () => {
         render: (v: string) => CertMap[v] && CertMap[v].name,
       },
       {
-        title: i18n.t('create time'),
+        title: i18n.t('Creation time'),
         dataIndex: 'createdAt',
         width: 240,
         render: (text: string) => formatTime(text, 'YYYY-MM-DD HH:mm:ss'),

@@ -195,9 +195,9 @@ describe('ErdaTable', () => {
     expect(result.container).isExist('[name="caret-down"]', 1);
     fireEvent.click(result.container.querySelector('[name="caret-down"]')!);
     await waitFor(() => expect(result.getByRole('menu')));
-    fireEvent.click(result.getByText('ascend').closest('li')!);
+    fireEvent.click(result.getByText('Ascending').closest('li')!);
     expect(tableChangeFn).toHaveBeenCalledTimes(0);
-    fireEvent.click(result.getByText('descend').closest('li')!);
+    fireEvent.click(result.getByText('Descending').closest('li')!);
     expect(tableChangeFn).toHaveBeenCalledTimes(0);
   });
   it('should work well with sour is function', async () => {
@@ -221,9 +221,9 @@ describe('ErdaTable', () => {
     );
     fireEvent.click(result.container.querySelector('[name="caret-down"]')!);
     await waitFor(() => expect(result.getByRole('menu')));
-    fireEvent.click(result.getByText('ascend').closest('li')!);
+    fireEvent.click(result.getByText('Ascending').closest('li')!);
     expect(tableChangeFn).toHaveBeenCalledTimes(0);
-    fireEvent.click(result.getByText('descend').closest('li')!);
+    fireEvent.click(result.getByText('Descending').closest('li')!);
     expect(tableChangeFn).toHaveBeenCalledTimes(0);
   });
   it('should work well with sour is boolean', async () => {
@@ -247,7 +247,7 @@ describe('ErdaTable', () => {
     );
     fireEvent.click(result.container.querySelector('[name="caret-down"]')!);
     await waitFor(() => expect(result.getByRole('menu')));
-    fireEvent.click(result.getByText('ascend').closest('li')!);
+    fireEvent.click(result.getByText('Ascending').closest('li')!);
     expect(tableChangeFn).toHaveBeenCalledTimes(1);
     expect(tableChangeFn).toHaveBeenLastCalledWithNth(2, {
       column: { title: 'count', sorter: true, dataIndex: 'count' },
@@ -255,7 +255,7 @@ describe('ErdaTable', () => {
       field: 'count',
       order: 'ascend',
     });
-    fireEvent.click(result.getByText('descend').closest('li')!);
+    fireEvent.click(result.getByText('Descending').closest('li')!);
     expect(tableChangeFn).toHaveBeenCalledTimes(2);
     expect(tableChangeFn).toHaveBeenLastCalledWithNth(2, {
       column: { title: 'count', sorter: true, dataIndex: 'count' },

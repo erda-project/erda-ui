@@ -166,7 +166,7 @@ const IssueFieldManage = () => {
                     onDeleteField(record);
                   }}
                 >
-                  <span className="table-operations-btn">{i18n.t('delete')}</span>
+                  <span className="table-operations-btn">{i18n.t('Delete')}</span>
                 </Popconfirm>
               </WithAuth>
             </div>

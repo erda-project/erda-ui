@@ -135,7 +135,7 @@ const RepoCommit = () => {
               </>
             ) : (
               <>
-                <span>{i18n.t('commit')}:</span>
+                <span>{i18n.t('Commit')}:</span>
                 <span className="branch-name font-bold nowrap">{commitId}</span>
               </>
             )}

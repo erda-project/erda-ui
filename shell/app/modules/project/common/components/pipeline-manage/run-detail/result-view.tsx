@@ -27,7 +27,7 @@ const labelMap = {
   api_response: i18n.t('response detail'),
   api_assert_detail: i18n.t('dop:assertion detail'),
   api_assert_success: i18n.t('dop:assertion result'),
-  status: i18n.t('status'),
+  status: i18n.t('Status'),
   result: i18n.t('result'),
 };
 

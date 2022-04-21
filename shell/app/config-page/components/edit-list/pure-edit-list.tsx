@@ -230,7 +230,7 @@ const EditList = (props: IELProps) => {
                   className={`table-operations-btn ${disabled ? 'not-allowed' : ''}`}
                   onClick={() => !disabled && deleteItem(idx)}
                 >
-                  {i18n.t('delete')}
+                  {i18n.t('Delete')}
                 </span>
               </div>
             }

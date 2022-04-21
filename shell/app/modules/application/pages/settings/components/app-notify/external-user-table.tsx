@@ -129,7 +129,7 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
                 handleRemoveExternalUser(uniKey);
               }}
             >
-              {i18n.t('delete')}
+              {i18n.t('Delete')}
             </span>
           </div>
         );

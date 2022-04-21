@@ -245,7 +245,7 @@ export default function ScanRule(props: IProps) {
                 noAuthTip={i18n.t('dop:Platform default rules. Please add custom rules if necessary.')}
                 pass={operationAuth && isHandle}
               >
-                <span>{i18n.t('delete')}</span>
+                <span>{i18n.t('Delete')}</span>
               </WithAuth>
             ),
             onClick: () => {

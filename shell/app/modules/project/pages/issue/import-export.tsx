@@ -357,7 +357,7 @@ const Record = ({ projectId }: { projectId: string }) => {
     },
     {
       dataIndex: 'state',
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       render: (val: string, record: IMPORT_EXPORT_FILE_LIST.FileRecord) => {
         const statusMap = {
           fail: {

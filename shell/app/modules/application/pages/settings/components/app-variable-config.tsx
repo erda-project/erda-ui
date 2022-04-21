@@ -295,7 +295,7 @@ const VariableConfig = ({
                   })
                 }
               >
-                <span className="table-operations-btn">{i18n.t('delete')}</span>
+                <span className="table-operations-btn">{i18n.t('Delete')}</span>
               </Popconfirm>
             </IF>
           </div>

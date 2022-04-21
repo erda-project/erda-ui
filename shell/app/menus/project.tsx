@@ -74,7 +74,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
         },
         {
           href: goTo.resolve.projectManualTestCase(),
-          text: i18n.t('dop:Function Testing'),
+          text: i18n.t('dop:Functional Testing'),
           prefix: `${goTo.resolve.projectManualTestRoot()}/`,
         },
         {

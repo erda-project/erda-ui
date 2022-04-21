@@ -45,7 +45,7 @@ const AddonDetailDrawer = (props: IProps) => {
     { key: i18n.t('project'), value: projectName },
     { key: i18n.t('cmp:reference counts'), value: reference },
     { key: i18n.t('cmp:run cluster'), value: cluster },
-    { key: i18n.t('Creation time'), value: moment(createdAt).format('YYYY-MM-DD HH:mm:ss') },
+    { key: i18n.t('Creation time-at'), value: moment(createdAt).format('YYYY-MM-DD HH:mm:ss') },
     // { key: '控制台', value: <a href={consoleUrl} target="_blank" rel="noopener noreferrer">Dubbo Admin</a>, hasValue: !!consoleUrl },
   ];
 

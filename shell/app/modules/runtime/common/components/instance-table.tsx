@@ -113,7 +113,7 @@ const InstanceTable = ({
       dataIndex: 'host',
     },
     {
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       dataIndex: 'status',
       className: 'th-status',
       render: (text: string, record: any) => {
@@ -127,7 +127,7 @@ const InstanceTable = ({
       },
     },
     {
-      title: i18n.t('create time'),
+      title: i18n.t('Creation time'),
       width: 176,
       dataIndex: 'startedAt',
       className: 'th-time nowrap',

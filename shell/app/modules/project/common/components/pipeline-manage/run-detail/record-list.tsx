@@ -114,7 +114,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
         align: 'center',
       },
       {
-        title: i18n.t('status'),
+        title: i18n.t('Status'),
         dataIndex: 'status',
         width: 100,
         render: (status: string) => (
@@ -166,7 +166,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
           }}
         >
           <CustomIcon type="shuaxin" />
-          {i18n.t('fetch latest records')}
+          {i18n.t('Fetch latest records')}
         </div>
         <Table
           rowKey="runIndex"

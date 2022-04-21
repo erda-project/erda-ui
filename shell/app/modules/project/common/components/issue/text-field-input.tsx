@@ -105,7 +105,7 @@ export const TextFieldInput = React.forwardRef(
           allowClear
           bordered={false}
           className={`hover:bg-default-06 ${showTip ? 'with-error' : ''}`}
-          placeholder={i18n.t('please enter {name}', { name: displayName })}
+          placeholder={i18n.t('Pease enter {name}', { name: displayName })}
           onFocus={() => setShowBtn(true)}
           {...rest}
           ref={ref}

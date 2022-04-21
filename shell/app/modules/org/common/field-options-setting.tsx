@@ -58,7 +58,7 @@ const FieldOptionsSetting = (props: IProps) => {
         return (
           <Input
             value={_value}
-            placeholder={i18n.t('please enter {name}', { name: i18n.t('Name') })}
+            placeholder={i18n.t('Pease enter {name}', { name: i18n.t('Name') })}
             onChange={(e: any) => {
               onInputChangeHandle(e.target.value, index);
             }}

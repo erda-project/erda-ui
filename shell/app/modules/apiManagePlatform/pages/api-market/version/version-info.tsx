@@ -234,7 +234,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
       render: (text) => <Avatar showName name={<UserInfo id={text} />} />,
     },
     {
-      title: i18n.t('create time'),
+      title: i18n.t('Creation time'),
       dataIndex: ['version', 'createdAt'],
       width: 200,
       render: (text) => (text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''),
@@ -259,7 +259,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
                 handleDeleteVersion(version, e);
               }}
             >
-              {i18n.t('delete')}
+              {i18n.t('Delete')}
             </span>
           </UnityAuthWrap>
           <UnityAuthWrap wrap={false} userID={creatorID} path={['apiMarket', 'addVersion']}>

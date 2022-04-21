@@ -66,7 +66,7 @@ const BlackList = ({ artifactId }: IListProps) => {
       ),
     },
     {
-      title: i18n.t('create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createdAt',
       width: 200,
       render: (v: string) => (v ? moment(v).format('YYYY-MM-DD HH:mm:ss') : '-'),
@@ -150,12 +150,12 @@ const EraseList = ({ artifactId }: IListProps) => {
       ),
     },
     {
-      title: i18n.t('create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createdAt',
       render: (v: string) => (v ? moment(v).format('YYYY-MM-DD HH:mm:ss') : '-'),
     },
     {
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       dataIndex: 'eraseStatus',
       width: 120,
       render: (val: string) => EraseStatus[val],

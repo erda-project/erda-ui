@@ -266,7 +266,7 @@ const AlarmReport = () => {
           },
         },
         {
-          title: i18n.t('delete'),
+          title: i18n.t('Delete'),
           onClick: () => {
             handleDelete(record.id);
           },

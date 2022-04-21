@@ -98,7 +98,7 @@ export const OperationHistory = () => {
       },
     },
     {
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       dataIndex: 'status',
       width: 80,
       render: (status: string) => {

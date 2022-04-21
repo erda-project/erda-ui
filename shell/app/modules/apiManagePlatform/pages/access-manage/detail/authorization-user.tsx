@@ -139,7 +139,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
       dataIndex: ['contract', 'requestSLAName'],
     },
     {
-      title: i18n.t('status'),
+      title: i18n.t('Status'),
       dataIndex: ['contract', 'status'],
       width: 80,
       render: (text, { contract }) => {

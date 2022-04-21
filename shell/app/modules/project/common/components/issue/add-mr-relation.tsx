@@ -122,7 +122,7 @@ export const useAddMrRelation = ({
       render: (id: string) => <UserInfo.RenderWithAvatar id={id} />,
     },
     {
-      title: i18n.t('Creation time'),
+      title: i18n.t('Creation time-at'),
       dataIndex: 'createdAt',
       render: (item: string) => moment(item).format('YYYY/MM/DD HH:mm:ss'),
     },
@@ -162,7 +162,7 @@ export const useAddMrRelation = ({
             },
           },
           {
-            label: i18n.t('state'),
+            label: i18n.t('Status'),
             type: 'select',
             key: 'state',
             options: [
