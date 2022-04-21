@@ -94,6 +94,7 @@ interface GetCompProps {
 }
 
 interface IterationExtraProps {
+  iterationChanged: boolean;
   force: boolean;
   visible: boolean;
   onCancel: () => void;
@@ -101,9 +102,10 @@ interface IterationExtraProps {
 }
 
 const IterationFiedExtra = (props: IterationExtraProps) => {
-  const { force, visible, onCancel, onOk } = props;
+  const { force, visible, onCancel, onOk, iterationChanged } = props;
   const data = getIssueRelation.useData();
-  if (!data?.include?.length) {
+
+  if (!data?.include?.length || !iterationChanged) {
     return null;
   }
   const [title, btn] = force
@@ -231,6 +233,7 @@ const IssueMetaFields = React.forwardRef(
           }
         : null,
     );
+    const [iterationChanged, setIterationChanged] = React.useState(false);
     const [iterationUpdate, setIterationUpdate] = React.useState<{
       name: string;
       id: string;
@@ -466,8 +469,10 @@ const IssueMetaFields = React.forwardRef(
             });
 
             const res = setFieldCb({ ...v });
+            setIterationChanged(false);
             if (isPromise(res)) {
-              res.then(() => {
+              res.then((_suc) => {
+                setIterationChanged(_suc);
                 if (withChildrenIteration) {
                   updateIncludeIssue({
                     issueId: formData.id,
@@ -503,6 +508,7 @@ const IssueMetaFields = React.forwardRef(
           ),
           extraContent: (
             <IterationFiedExtra
+              iterationChanged={iterationChanged}
               onCancel={() => {
                 setIterationUpdate((prev) => ({ ...prev, visible: false }));
               }}
