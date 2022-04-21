@@ -18,7 +18,7 @@ const overwriteMap = {
   tag: true,
   button: true,
   'range-picker': true,
-  popconfirm: true,
+  popconfirm: false,
 };
 
 const overwriteCssMap = {
