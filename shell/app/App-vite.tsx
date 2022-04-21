@@ -99,7 +99,7 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
           locale={isZh() ? antd_zhCN : antd_enUS}
         >
           <ConfigProvider locale={isZh() ? zhCN : enUS}>
-            <App dynamicModules={dynamicModules} />
+            <App />
           </ConfigProvider>
         </AntConfigProvider>
       );
