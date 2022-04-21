@@ -229,7 +229,7 @@ export const TimeTrace = React.forwardRef(
                 {i18n.t('Cancel')}
               </Button>,
               <Button key="submit" type="primary" onClick={handleOk}>
-                {i18n.t('Ok')}
+                {i18n.t('OK')}
               </Button>,
             ]}
           >

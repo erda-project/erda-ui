@@ -360,7 +360,7 @@ describe('MembersTable', () => {
     fireEvent.click(result.getByText('Edit').closest('li')!);
     await act(async () => {
       jest.runAllTimers();
-      fireEvent.click(result.getByText('Ok'));
+      fireEvent.click(result.getByText('OK'));
       await flushPromises();
     });
     expect(updateMembers).toHaveBeenCalled();
@@ -393,7 +393,7 @@ describe('MembersTable', () => {
     selectAll();
     fireEvent.click(result.getByText('Remove').closest('li')!);
     await waitFor(() => expect(result.getAllByRole('dialog')).toHaveLength(2));
-    fireEvent.click(result.getByText('OK'));
+    fireEvent.click(result.getAllByText('OK')[1]);
     await flushPromises();
     expect(removeMember).toHaveBeenCalled();
   });

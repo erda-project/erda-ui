@@ -262,7 +262,7 @@ describe('ContractiveFilter', () => {
     fireEvent.click(result.getByRole('checkbox'));
     fireEvent.change(result.getByRole('checkbox'), { target: { checked: true } });
     expect(result.container).isExist('.contractive-filter-item-wrap', 10);
-    fireEvent.change(result.getByPlaceholderText('filter by addr'), { target: { value: 'erda' } });
+    fireEvent.change(result.getByPlaceholderText('Filter by addr'), { target: { value: 'erda' } });
     expect(changeFn).toHaveBeenLastCalledWith({ addr: 'erda' }, 'addr');
     fireEvent.click(result.getByText('Filter'));
     await waitFor(() => expect(result.getByRole('menu')).toBeTruthy());
@@ -299,7 +299,7 @@ describe('ContractiveFilter', () => {
   });
   it('should work well with input', async () => {
     const { result, changeFn } = setUp();
-    fireEvent.change(result.getByPlaceholderText('filter by name'), { target: { value: 'erda' } });
+    fireEvent.change(result.getByPlaceholderText('Filter by name'), { target: { value: 'erda' } });
     expect(changeFn).toHaveBeenLastCalledWith({ name: 'erda' }, 'name');
   });
   it('should work well with select ', async () => {
@@ -311,7 +311,7 @@ describe('ContractiveFilter', () => {
     fireEvent.click(result.getByText('PLATFORM'));
     await waitFor(() => expect(result.getByRole('menu')).toBeTruthy());
     fireEvent.click(result.getByText(/load more/));
-    fireEvent.change(result.getByPlaceholderText('search'), { target: { value: 'dop' } });
+    fireEvent.change(result.getByPlaceholderText('Search'), { target: { value: 'dop' } });
     fireEvent.click(result.getByText('dop').closest('.option-item')!);
     expect(changeFn).toHaveBeenLastCalledWith({ platform: ['dop'] }, 'platform');
     fireEvent.click(result.getByText('Clear selected'));
@@ -381,10 +381,10 @@ describe('ContractiveFilter', () => {
     expect(result.getByText('Save')).toHaveClass('not-allowed');
     fireEvent.click(result.getByText('Save'));
     expect(quickOperationFn).not.toHaveBeenCalled();
-    fireEvent.change(result.getByPlaceholderText('please enter'), { target: { value: 'dop' } });
+    fireEvent.change(result.getByPlaceholderText('Please enter'), { target: { value: 'dop' } });
     fireEvent.click(result.getByText('Save'));
     expect(quickOperationFn).not.toHaveBeenCalled();
-    fireEvent.change(result.getByPlaceholderText('please enter'), { target: { value: 'erda' } });
+    fireEvent.change(result.getByPlaceholderText('Please enter'), { target: { value: 'erda' } });
     fireEvent.click(result.getByText('Save'));
     expect(quickOperationFn).toHaveBeenLastCalledWith({ key: 'quickAdd key', value: 'erda' });
   });

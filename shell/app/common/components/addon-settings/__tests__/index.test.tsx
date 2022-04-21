@@ -96,7 +96,7 @@ describe('addon-settings', () => {
       expect(result.container).isExist('.settings-delete', 1);
       fireEvent.click(result.getByText('delete current service'));
       await waitFor(() => expect(result.baseElement.querySelector('.ant-modal')).toBeInTheDocument());
-      fireEvent.click(screen.getByText('Ok'));
+      fireEvent.click(screen.getByText('OK'));
       await waitFor(() => expect(fn).toHaveBeenCalledTimes(1));
       expect(goTo).toHaveBeenCalled();
     });

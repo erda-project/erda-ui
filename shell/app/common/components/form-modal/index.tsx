@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import React, { forwardRef, useImperativeHandle } from 'react';
 import { Button, Form, FormInstance, Modal, Spin } from 'antd';
 import { ErdaAlert, RenderPureForm } from 'common';
-import { isPromise } from 'common/utils';
+import { isPromise, firstCharToUpper } from 'common/utils';
 import { IFormItem } from '../render-form-item';
 import moment from 'moment';
 import './index.scss';
@@ -185,7 +185,7 @@ class FormModalComp extends React.Component<IProps, IState> {
     return (
       <Modal
         wrapClassName={wrapClassName}
-        title={modalTitle}
+        title={firstCharToUpper(modalTitle)}
         visible={visible}
         onOk={this.handleOk}
         onCancel={this.handleCancel}
@@ -203,7 +203,7 @@ class FormModalComp extends React.Component<IProps, IState> {
               loading={confirmLoading}
               onClick={this.handleOk}
             >
-              {i18n.t('Ok')}
+              {i18n.t('OK')}
             </Button>
           ) : null,
         ]}

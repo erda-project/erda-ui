@@ -241,7 +241,7 @@ const IssuePlan = () => {
           key: 'export',
           text: i18n.t('Export'),
           disabled: !issuePerm.export.pass,
-          tip: issuePerm.export.pass ? '' : i18n.t('common:no permission to operate'),
+          tip: issuePerm.export.pass ? '' : i18n.t('common:No permission to operate'),
         },
 
         {

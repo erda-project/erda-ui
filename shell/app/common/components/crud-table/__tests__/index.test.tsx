@@ -150,7 +150,7 @@ describe('CRUDTable', () => {
     fireEvent.change(result.getByRole('textbox'), { target: { value: 'erda' } });
     await flushPromises();
     await act(async () => {
-      fireEvent.click(result.getByText('Ok'));
+      fireEvent.click(result.getByText('OK'));
       await flushPromises();
     });
     expect(submitFn).toHaveBeenLastCalledWithNth(0, { name: 'erda' });
@@ -162,7 +162,7 @@ describe('CRUDTable', () => {
     fireEvent.change(result.getByRole('textbox'), { target: { value: 'erda' } });
     await flushPromises();
     await act(async () => {
-      fireEvent.click(result.getByText('Ok'));
+      fireEvent.click(result.getByText('OK'));
       await flushPromises();
     });
     expect(handleFormSubmitFn).toHaveBeenLastCalledWithNth(0, { name: 'erda' });
@@ -181,7 +181,7 @@ describe('CRUDTable', () => {
       fireEvent.change(result.getByRole('textbox'), { target: { value: 'erda' } });
       await flushPromises();
       await act(async () => {
-        fireEvent.click(result.getByText('Ok'));
+        fireEvent.click(result.getByText('OK'));
         await flushPromises();
       });
       expect(mockFn).toHaveBeenLastCalledWithNth(0, { name: 'erda' });

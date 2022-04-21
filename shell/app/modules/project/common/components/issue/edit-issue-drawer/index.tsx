@@ -650,7 +650,7 @@ export const EditIssueDrawer = (props: IProps) => {
       <Spin key="submit" spinning={updateIssueLoading}>
         <div className="pl-8 py-2 space-x-2 border-solid border-transparent border-top">
           <Button disabled={disableSubmit} onClick={() => handleSubmit()} type="primary">
-            {i18n.t('Ok')}
+            {i18n.t('OK')}
           </Button>
 
           {isChanged && confirmCloseTip ? (

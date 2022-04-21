@@ -128,7 +128,7 @@ const PermExport = (props: IProps) => {
   );
   const OkBtn = (
     <Button key="ok" onClick={onOk} type="primary">
-      {i18n.t('Ok')}
+      {i18n.t('OK')}
     </Button>
   );
   const modalProps =

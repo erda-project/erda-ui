@@ -135,32 +135,32 @@ export const templateMap = isZh()
 `,
     }
   : {
-      [ISSUE_TYPE.REQUIREMENT]: `### [User story/problem to solve] *
+      [ISSUE_TYPE.REQUIREMENT]: `### [User story/Problem to solve] *
 
 
 ### [Intended users] *
 
 
-### [User experience Goals] *
+### [User experience goals] *
 
 
 ### [Link/Reference]
 
 `,
       [ISSUE_TYPE.TASK]: ``,
-      [ISSUE_TYPE.BUG]: `### [Environment Information]
+      [ISSUE_TYPE.BUG]: `### [Environment]
 
 
-### [Defect Description] *
+### [Description] *
 
 
-### [Reoccurrence Procedure]
+### [Steps]
 
 
-### [Actual Result]
+### [Actual result]
 
 
-### [Expected Result] *
+### [Expected result] *
 
 
 ### [Repair suggestion]

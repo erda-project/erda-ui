@@ -213,7 +213,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
             {i18n.t('Cancel')}
           </Button>
           <Button onClick={onSubmit} type="primary">
-            {i18n.t('Ok')}
+            {i18n.t('OK')}
           </Button>
         </div>
       ) : null}

@@ -16,6 +16,7 @@ import { Dropdown, Menu } from 'antd';
 import Table from 'antd/es/table';
 import { Ellipsis, ErdaIcon } from 'common';
 import { WithAuth } from 'user/common';
+import { firstCharToUpper } from 'app/common/utils';
 import i18n from 'i18n';
 import { PAGINATION } from 'app/constants';
 import TableConfig from './table-config';
@@ -260,7 +261,6 @@ function WrappedTable<T extends object = any>({
       }: ColumnProps<T>) => {
         const _columnConfig = columnsConfig.current[dataIndex] || { dataIndex, hidden: show === false || hidden };
         _columnsConfig[dataIndex] = _columnConfig;
-
         const { subTitle } = args;
         let sortTitle;
         if (sorter) {
@@ -276,7 +276,9 @@ function WrappedTable<T extends object = any>({
               <span
                 className={`cursor-pointer erda-table-sorter flex items-center ${(align && alignMap[align]) || ''}`}
               >
-                {typeof title === 'function' ? title({ sortColumn: sort?.column, sortOrder: sort?.order }) : title}
+                {typeof title === 'function'
+                  ? title({ sortColumn: sort?.column, sortOrder: sort?.order })
+                  : firstCharToUpper(title)}
                 <span className={`sorter-icon pl-1 ${(sort.columnKey === dataIndex && sort.order) || ''}`}>
                   {sort.order && sort.columnKey === dataIndex ? (
                     sortIcon[sort.order]
@@ -449,7 +451,7 @@ function renderActions<T extends object = any>(actions?: IActions<T> | null): Ar
     const { render } = actions;
     return [
       {
-        title: i18n.t('operation'),
+        title: i18n.t('Operations'),
         width: 100,
         dataIndex: 'operation',
         fixed: 'right',
@@ -460,7 +462,6 @@ function renderActions<T extends object = any>(actions?: IActions<T> | null): Ar
             <Menu theme="dark">
               {list.map((item) => {
                 const { title, onClick, disabled = false, disableAuthTip } = item;
-
                 return (
                   <Menu.Item key={title} onClick={disabled ? undefined : onClick} className="text-white-9">
                     <WithAuth pass={!disabled} noAuthTip={disableAuthTip}>

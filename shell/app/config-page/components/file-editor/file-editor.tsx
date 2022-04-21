@@ -93,7 +93,7 @@ const FileEditor = (props: CP_FILE_EDITOR.Props) => {
       return (
         <div className="mt-2">
           <OperationAction onClick={() => onSubmit(operations.submit)} operation={operations.submit}>
-            <Button type="primary">{operations.submit?.text || i18n.t('Ok')}</Button>
+            <Button type="primary">{operations.submit?.text || i18n.t('OK')}</Button>
           </OperationAction>
         </div>
       );

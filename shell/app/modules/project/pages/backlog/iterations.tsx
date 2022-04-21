@@ -77,7 +77,7 @@ const Iterations = () => {
         <div>
           <span className="font-bold text-base mr-2">{i18n.t('dop:Unfinished iteration')}</span>
           <span className="text-desc">
-            {i18n.t('{num} {type}', { num: undoneIterations.length, type: i18n.t('dop:iteration') })}
+            {i18n.t('{num} {type}', { num: undoneIterations.length, type: i18n.t('dop:iterations') })}
           </span>
         </div>
         <div>
