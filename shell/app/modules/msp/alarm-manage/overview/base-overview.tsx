@@ -35,7 +35,7 @@ const BaseOverview: React.FC<IProps> = ({ scope, scopeId }) => {
   const range = monitorCommon.useStore((s) => s.globalTimeSelectSpan.range);
   return (
     <div>
-      <TopButtonGroup>
+      <TopButtonGroup className="z-10">
         <TimeSelectWithStore placement="bottomRight" />
       </TopButtonGroup>
       <DiceConfigPage
