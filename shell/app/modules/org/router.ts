@@ -145,6 +145,7 @@ function getOrgCenterRouter(): RouteConfigItem[] {
         },
         {
           path: 'safety',
+          layout: { noWrapper: true },
           breadcrumbName: i18n.t('cmp:Audit Log'),
           getComp: (cb) => cb(import('app/modules/org/pages/safety')),
         },
