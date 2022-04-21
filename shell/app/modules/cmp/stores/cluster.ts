@@ -74,7 +74,7 @@ const cluster = createStore({
   name: 'org-cluster',
   state: initState,
   subscriptions({ listenRoute }: IStoreSubs) {
-    listenRoute(({ params, isIn, isLeaving }) => {
+    listenRoute(({ params, isIn, isEntering, isLeaving }) => {
       const { clusterName } = params;
       const [curDetail, chosenCluster] = cluster.getState((s) => [s.detail, s.chosenCluster]);
       if (isIn('clusterDetail') && curDetail?.name !== clusterName) {
@@ -83,7 +83,7 @@ const cluster = createStore({
       if (isLeaving('clusterDetail')) {
         cluster.reducers.clearClusterDetail('');
       }
-      if (isIn('cmp')) {
+      if (isEntering('cmp')) {
         cluster.effects.getUseableK8sCluster().then((k8sClusters: IUseableK8sClusters) => {
           const curChosenCluster = cluster.getState((s) => s.chosenCluster);
           const firstCluster = k8sClusters?.ready?.[0];
