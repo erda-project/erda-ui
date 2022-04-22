@@ -112,7 +112,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
                   disabled={!editing}
                   value={_data.name}
                   onChange={(e: any) => updateItem({ name: e.target.value })}
-                  placeholder={i18n.t('Pease enter {name}', { name: i18n.t('dop:Parameter name') })}
+                  placeholder={i18n.t('Please enter {name}', { name: i18n.t('dop:Parameter name') })}
                 />
                 <Select
                   key="ref"

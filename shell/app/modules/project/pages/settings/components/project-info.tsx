@@ -213,7 +213,7 @@ const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps)
           modalChildren={
             <Input
               value={confirmProjectName}
-              placeholder={i18n.t('Pease enter {name}', { name: i18n.t('Project name') })}
+              placeholder={i18n.t('Please enter {name}', { name: i18n.t('Project name') })}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmProjectName(e.target.value)}
             />
           }

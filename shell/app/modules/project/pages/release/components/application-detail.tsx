@@ -159,7 +159,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                     name="version"
                     type="input"
                     rules={[
-                      { required: true, message: i18n.t('Pease enter {name}', { name: i18n.t('Version') }) },
+                      { required: true, message: i18n.t('Please enter {name}', { name: i18n.t('Version') }) },
                       { max: 30, message: i18n.t('dop:no more than 30 characters') },
                       {
                         pattern: /^[A-Za-z0-9._+-]+$/,
