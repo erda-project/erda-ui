@@ -168,7 +168,7 @@ const AppCertificateReference = () => {
         render: (text: string) => approvalStatus[text],
       },
       {
-        title: i18n.t('operation'),
+        title: i18n.t('Operations'),
         dataIndex: 'op',
         width: 140,
         render: (_v: any, record: APP_SETTING.CertRef) => {
@@ -234,7 +234,7 @@ const AppCertificateReference = () => {
           return (
             <LoadMoreSelector
               getData={getData}
-              placeholder={i18n.t('please choose {name}', { name: i18n.t('Certificate') })}
+              placeholder={i18n.t('please choose the {name}', { name: i18n.t('Certificate') })}
             />
           );
         },

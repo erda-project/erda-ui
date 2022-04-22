@@ -108,7 +108,7 @@ const Sla = () => {
       render: (approval) => slaAuthorizationMap[approval]?.name,
     },
     {
-      title: i18n.t('operation'),
+      title: i18n.t('Operations'),
       dataIndex: 'id',
       width: 160,
       fixed: 'right',

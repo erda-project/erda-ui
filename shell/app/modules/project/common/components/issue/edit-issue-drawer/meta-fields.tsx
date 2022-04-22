@@ -590,7 +590,7 @@ const IssueMetaFields = React.forwardRef(
           itemProps: {
             options: severityOptions,
             allowClear: false,
-            placeholder: i18n.t('please choose {name}', { name: i18n.t('dop:Severity') }),
+            placeholder: i18n.t('please choose the {name}', { name: i18n.t('dop:Severity') }),
           },
         },
       ]),
@@ -604,7 +604,7 @@ const IssueMetaFields = React.forwardRef(
           itemProps: {
             options: complexityOptions,
             allowClear: false,
-            placeholder: i18n.t('please choose {name}', { name: i18n.t('dop:Complexity') }),
+            placeholder: i18n.t('please choose the {name}', { name: i18n.t('dop:Complexity') }),
           },
         },
       ]),

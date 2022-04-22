@@ -75,10 +75,10 @@ const Authenticate = (props: IProps) => {
       ),
     },
     {
-      title: i18n.t('user name'),
+      title: i18n.t('Username'),
       dataIndex: 'userName',
       render: (val: string) => (
-        <span className="cursor-copy" data-clipboard-tip={i18n.t('user name')} data-clipboard-text={val}>
+        <span className="cursor-copy" data-clipboard-tip={i18n.t('Username')} data-clipboard-text={val}>
           {val}
         </span>
       ),

@@ -456,7 +456,7 @@ function getProjectRouter(): RouteConfigItem[] {
                 },
                 {
                   path: ':releaseID',
-                  pageName: `${i18n.t('Artifacts')}${i18n.t('detail')}`,
+                  pageName: `${i18n.t('Artifacts')} ${i18n.t('detail')}`,
                   backToUp: 'projectRelease',
                   getComp: (cb) => cb(import('project/pages/release/components/project-detail')),
                 },
@@ -489,7 +489,7 @@ function getProjectRouter(): RouteConfigItem[] {
                 },
                 {
                   path: ':releaseID',
-                  pageName: `${i18n.t('Artifacts')}${i18n.t('detail')}`,
+                  pageName: `${i18n.t('Artifacts')} ${i18n.t('detail')}`,
                   backToUp: 'applicationRelease',
                   getComp: (cb) => cb(import('project/pages/release/components/application-detail')),
                   layout: { fullHeight: true },

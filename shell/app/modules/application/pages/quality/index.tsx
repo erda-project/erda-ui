@@ -23,7 +23,7 @@ import { Row, Col, Tabs, Table, Tooltip, Spin } from 'antd';
 import { get, isEmpty } from 'lodash';
 import { Icon as CustomIcon, EmptyHolder, IF, FileEditor } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { goTo } from 'common/utils';
+import { firstCharToUpper, goTo } from 'common/utils';
 import { useEffectOnce } from 'react-use';
 import layoutStore from 'layout/stores/layout';
 import i18n from 'i18n';
@@ -300,7 +300,7 @@ const CodeQuality = () => {
               </span>
             </Col>
             <Col span={8}>
-              <div className="label mb-2">{i18n.t('submit')} ID</div>
+              <div className="label mb-2">{firstCharToUpper(i18n.t('submit'))} ID</div>
               <span
                 className="value commit-id hover-table-text"
                 onClick={() => {

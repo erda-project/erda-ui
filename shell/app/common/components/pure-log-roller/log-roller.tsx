@@ -18,6 +18,7 @@ import LogContent from './log-content';
 import i18n from 'i18n';
 import { ErdaIcon } from 'common';
 import './log-roller.scss';
+import { firstCharToUpper } from 'app/common/utils';
 
 export interface IProps {
   content: string | object[];
@@ -138,7 +139,7 @@ export class LogRoller extends React.Component<IProps, IState> {
             </Tooltip>
           )}
           <Button onClick={this.changeSize} type="ghost">
-            {fullScreen ? i18n.t('default:exit full screen') : i18n.t('default:Full screen')}
+            {fullScreen ? firstCharToUpper(i18n.t('default:exit full screen')) : i18n.t('default:Full screen')}
           </Button>
         </div>
         <div className="log-control btn-line-rtl">
@@ -150,7 +151,7 @@ export class LogRoller extends React.Component<IProps, IState> {
           </Button>
           {!searchOnce && (
             <Button onClick={this.toggleRolling} type="ghost">
-              {rolling ? i18n.t('default:pause') : i18n.t('default:start')}
+              {rolling ? firstCharToUpper(i18n.t('default:pause')) : firstCharToUpper(i18n.t('default:start'))}
             </Button>
           )}
         </div>

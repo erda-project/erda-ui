@@ -21,6 +21,7 @@ import { IInstance, IServiceIns } from '../../pages/overview/components/service-
 import i18n from 'i18n';
 
 import './instance-table.scss';
+import { allWordsFirstLetterUpper } from 'app/common/utils';
 
 const { Option } = Select;
 const insStatusMap = statusMap.task;
@@ -141,7 +142,7 @@ const InstanceTable = ({
     <div className="instance-table">
       <div className={`header ${withHeader ? '' : 'hidden'}`}>
         <span className="font-medium">
-          {isServiceType ? i18n.t('runtime:service details') : i18n.t('runtime:Task Details')}
+          {isServiceType ? allWordsFirstLetterUpper(i18n.t('runtime:service details')) : i18n.t('runtime:Task Details')}
         </span>
         <Select
           key={defaultValue}

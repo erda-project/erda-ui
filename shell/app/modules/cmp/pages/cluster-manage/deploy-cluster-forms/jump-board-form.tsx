@@ -54,7 +54,7 @@ export const JumpBoardForm = ({ form, curRef, data, isReadonly }: IFormProps) =>
       rules: [{ ...regRulesMap.port }],
     },
     {
-      label: i18n.t('user name'),
+      label: i18n.t('Username'),
       name: `${formPrefix}.user`,
       initialValue: 'root',
     },

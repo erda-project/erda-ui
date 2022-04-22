@@ -13,7 +13,7 @@
 
 import { Drawer, Select, Spin } from 'antd';
 import { Holder, IF } from 'common';
-import { connectCube } from 'common/utils';
+import { connectCube, firstCharToUpper } from 'common/utils';
 import { map, isEmpty, forEach } from 'lodash';
 import React from 'react';
 import TestDetail from './test-detail';
@@ -110,7 +110,7 @@ class TestDetailContainer extends React.Component<IProps, IState> {
 
             <IF check={testDetail && testDetail.uuid}>
               <span className="test-log hover-active" onClick={this.toggleLog}>
-                {i18n.t('log')}
+                {firstCharToUpper(i18n.t('log'))}
               </span>
             </IF>
           </div>

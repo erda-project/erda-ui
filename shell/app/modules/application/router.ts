@@ -18,7 +18,7 @@ function getAppRouter(): RouteConfigItem {
   return {
     path: ':appId',
     mark: 'application',
-    breadcrumbName: i18n.t('application'),
+    breadcrumbName: i18n.t('App'),
     tabs: APP_TABS,
     backToUp: 'projectAppList',
     routes: [

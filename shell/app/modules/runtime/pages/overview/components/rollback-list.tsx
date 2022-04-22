@@ -52,7 +52,7 @@ export default ({ visible, onClose }: { visible: boolean; onClose: (e?: any) => 
   };
 
   const opsCol = {
-    title: i18n.t('operate'),
+    title: i18n.t('Operations'),
     width: 70,
     render: (record: any) => {
       const { outdated, status: depStatus } = record;

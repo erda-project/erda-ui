@@ -16,6 +16,7 @@ import { Modal, Button } from 'antd';
 import { Form } from 'dop/pages/form-editor/index';
 import i18n from 'i18n';
 import './form-modal.scss';
+import { firstCharToUpper } from 'app/common/utils';
 
 export interface IProps {
   width?: number;
@@ -54,7 +55,7 @@ export const FormModal = (props: IProps) => {
     modalProps = {},
     marginStyle = 'normal',
   } = props;
-  const _title = title || (name ? i18n.t(!formData ? 'add {name}' : 'edit {name}', { name }) : '');
+  const _title = title || firstCharToUpper(name ? i18n.t(!formData ? 'add {name}' : 'edit {name}', { name }) : '');
 
   const form = React.useRef();
   const [submitLoading, setSubmitLoading] = React.useState(false);

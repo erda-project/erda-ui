@@ -231,7 +231,7 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
         <ConfirmDelete
           title={i18n.t('cmp:Please enter the cluster identifier to get the cluster offline')}
           onConfirm={() => submitDelete({ clusterName: state.deleteClusterName })}
-          secondTitle={i18n.t('cmp:Please enter {name}, to confirm the cluster to go offline', {
+          secondTitle={i18n.t('cmp:Please enter the {name}, to confirm the cluster to go offline', {
             name: state.curDeleteCluster?.name,
           })}
           onCancel={() => toggleDeleteModal()}
@@ -239,7 +239,7 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
           modalChildren={
             <Input
               value={state.deleteClusterName}
-              placeholder={i18n.t('Please enter {name}', { name: i18n.t('cmp:Cluster identifier') })}
+              placeholder={i18n.t('Please enter the {name}', { name: i18n.t('cmp:Cluster identifier') })}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.deleteClusterName(e.target.value)}
             />
           }

@@ -112,7 +112,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
                   disabled={!editing}
                   value={_data.name}
                   onChange={(e: any) => updateItem({ name: e.target.value })}
-                  placeholder={i18n.t('Please enter {name}', { name: i18n.t('dop:Parameter name') })}
+                  placeholder={i18n.t('Please enter the {name}', { name: i18n.t('dop:Parameter name') })}
                 />
                 <Select
                   key="ref"
@@ -120,7 +120,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
                   disabled={!editing}
                   value={_data.ref}
                   onChange={(val: any) => updateItem({ ref: val })}
-                  placeholder={i18n.t('please choose {name}', { name: i18n.t('dop:parameter value') })}
+                  placeholder={i18n.t('please choose the {name}', { name: i18n.t('dop:parameter value') })}
                 >
                   {map(outputList, (item) => (
                     <Select.Option key={item} value={item}>

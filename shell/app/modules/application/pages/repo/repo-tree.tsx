@@ -106,13 +106,13 @@ const RepoDownload = (props: IDownProp) => {
           </ButtonGroup>
           {token && (
             <>
-              <p className="label mb-2">username</p>
+              <p className="label mb-2">Username</p>
               <Input
                 className="w-full mb-4"
                 value={info.username}
                 addonAfter={renderAddonAfter(info.username, 'username')}
               />
-              <p className="label mb-2">token</p>
+              <p className="label mb-2">Token</p>
               <Input className="w-full mb-4" value={token} addonAfter={renderAddonAfter(token, 'token')} />
             </>
           )}
@@ -413,27 +413,27 @@ const RepoTreePage = () => {
   if (appDetail.isExternalRepo) {
     const repoConfigFieldsList = [
       {
-        label: i18n.t('dop:repository address'),
+        label: i18n.t('dop:repo address'),
         name: ['repoConfig', 'url'],
         itemProps: {
           disabled: true,
-          placeholder: i18n.t('default:please enter'),
+          placeholder: i18n.t('please enter'),
         },
       },
       {
-        label: i18n.t('default:user name'),
+        label: i18n.t('Username'),
         name: ['repoConfig', 'username'],
         itemProps: {
-          placeholder: i18n.t('default:please enter'),
+          placeholder: i18n.t('please enter'),
         },
       },
       {
-        label: i18n.t('default:Password'),
+        label: i18n.t('Password'),
         name: ['repoConfig', 'password'],
         type: 'custom',
         getComp: () => <Input.Password />,
         itemProps: {
-          placeholder: i18n.t('default:please enter'),
+          placeholder: i18n.t('please enter'),
         },
       },
       {
@@ -457,7 +457,7 @@ const RepoTreePage = () => {
                 setShowEdit(true);
               }}
             >
-              {i18n.t('default:Edit')}
+              {i18n.t('Edit')}
             </Button>
           </WithAuth>
         </TopButtonGroup>

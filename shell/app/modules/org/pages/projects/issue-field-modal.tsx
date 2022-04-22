@@ -106,7 +106,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
       name: 'propertyName',
       itemProps: {
         disabled: formData?.isSpecialField,
-        placeholder: i18n.t('Please enter {name}', { name: i18n.t('dop:Field name') }),
+        placeholder: i18n.t('Please enter the {name}', { name: i18n.t('dop:Field name') }),
       },
     },
     {
@@ -132,7 +132,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
       options: getFieldTypeOption,
       itemProps: {
         disabled: formData?.isSpecialField,
-        placeholder: i18n.t('please select {name}', { name: i18n.t('Type') }),
+        placeholder: i18n.t('please select the {name}', { name: i18n.t('Type') }),
         onChange: (e: ISSUE_FIELD.IPropertyType) => {
           if (FIELD_WITH_OPTION[e]) {
             update({

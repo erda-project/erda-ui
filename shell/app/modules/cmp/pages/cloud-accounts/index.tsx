@@ -52,7 +52,7 @@ const CloudAccounts = () => {
         dataIndex: 'description',
       },
       {
-        title: i18n.t('operation'),
+        title: i18n.t('Operations'),
         key: 'operation',
         width: 100,
         render: (_text: string, record: CLOUD_ACCOUNTS.Account) => {

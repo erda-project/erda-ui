@@ -30,7 +30,7 @@ const SlowTrackPanel = ({ data }: { data: object }) => {
   const list = get(data, 'list') || [];
   const columns: Array<ColumnProps<IData>> = [
     {
-      title: i18n.t('msp:domain name'),
+      title: i18n.t('domain'),
       dataIndex: 'name',
       key: 'name',
       width: 320,

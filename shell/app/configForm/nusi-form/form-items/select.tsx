@@ -95,7 +95,7 @@ const PureFormSelect = (props: any) => {
           </Option>
         ));
 
-  const _placeholder = placeholder || i18n.t('please select {name}', { name: label || key });
+  const _placeholder = placeholder || i18n.t('please select the {name}', { name: label || key });
 
   const selectAllHandle = () => {
     const allValues = map(customOptions, (item) => item.value);

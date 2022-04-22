@@ -183,7 +183,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
               <Select
                 className="flex-1 mr-2"
                 value={selectedField?.propertyID}
-                placeholder={i18n.t('please choose {name}', { name: i18n.t('dop:custom fields') })}
+                placeholder={i18n.t('please choose the {name}', { name: i18n.t('dop:custom fields') })}
                 onChange={(e: any) => {
                   const selectedFieldItem = find(filedOptions, (t) => t.propertyID === e) as ISSUE_FIELD.IFiledItem;
                   updater.selectedField(selectedFieldItem);

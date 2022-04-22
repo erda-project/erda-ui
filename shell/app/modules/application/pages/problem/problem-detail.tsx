@@ -20,7 +20,7 @@ import { closeTicket, createTicketComments, getTicketComments, getTicketDetail }
 import { Avatar, LoadMoreSelector, MarkdownRender, Ellipsis } from 'common';
 import MarkdownEditor from 'common/components/markdown-editor';
 import { useUpdate } from 'common/use-hooks';
-import { fromNow, goTo } from 'common/utils';
+import { firstCharToUpper, fromNow, goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import { useUserMap } from 'core/stores/userMap';
 import i18n from 'i18n';
@@ -234,13 +234,13 @@ const TicketDetail = ({ id, onClose, onCloseIssue }: { id: number; onClose: () =
             })}
           </div>
           <Tabs>
-            <TabPane tab={i18n.t('comment')} key="comment">
+            <TabPane tab={firstCharToUpper(i18n.t('comment'))} key="comment">
               <MarkdownEditor
                 ref={mdRef}
                 maxLength={5000}
                 operationBtns={[
                   {
-                    text: i18n.t('dop:submit comments'),
+                    text: i18n.t('dop:submit comment'),
                     type: 'primary',
                     onClick: (v) => handleSubmit(v),
                   },
@@ -254,7 +254,7 @@ const TicketDetail = ({ id, onClose, onCloseIssue }: { id: number; onClose: () =
                     className="selector-item"
                     value={activeProject}
                     getData={getProjects}
-                    placeholder={i18n.t('dop:please select project')}
+                    placeholder={firstCharToUpper(i18n.t('dop:please the select project'))}
                     dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
                       total,
                       list: map(list, (project) => {
@@ -302,7 +302,7 @@ const TicketDetail = ({ id, onClose, onCloseIssue }: { id: number; onClose: () =
                   />
                   <Select
                     className="selector-item"
-                    placeholder={i18n.t('dop:please select issue type')}
+                    placeholder={firstCharToUpper(i18n.t('dop:please select the issue type'))}
                     value={activeIssueType}
                     onSelect={(val) => {
                       update({
@@ -321,7 +321,7 @@ const TicketDetail = ({ id, onClose, onCloseIssue }: { id: number; onClose: () =
                     getData={getIssues}
                     extraQuery={{ projectID: activeProject, iterationID: activeIteration, type: activeIssueType }}
                     showSearch={false}
-                    placeholder={i18n.t('dop:please select issue')}
+                    placeholder={firstCharToUpper(i18n.t('dop:please select the issue'))}
                     dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
                       total,
                       list: map(list, (issue) => {

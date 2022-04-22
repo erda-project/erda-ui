@@ -15,7 +15,7 @@ import React from 'react';
 import i18n from 'i18n';
 import yaml from 'js-yaml';
 import { get, omit, isEmpty } from 'lodash';
-import { notify, isPromise, insertWhen } from 'common/utils';
+import { notify, isPromise, insertWhen, firstCharToUpper } from 'common/utils';
 import { Spin, Button, message, Radio, Tooltip, Modal, Popconfirm } from 'antd';
 import { RenderForm, FileEditor, Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
@@ -334,7 +334,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
           <CustomIcon type="html1" />
         </Radio.Button>
       </Radio.Group>
-      <Tooltip title={i18n.t('reset')}>
+      <Tooltip title={firstCharToUpper(i18n.t('reset'))}>
         <Popconfirm title={i18n.t('confirm to reset?')} onConfirm={reset} placement="bottom">
           <CustomIcon type="zhongzhi" className="ml-2 cursor-pointer" />
         </Popconfirm>

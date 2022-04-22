@@ -18,7 +18,7 @@ import ErdaTable from 'common/components/table';
 import { flatten, map } from 'lodash';
 import { useUserMap } from 'core/stores/userMap';
 import { ConfigTypeMap, CONFIG_ENV_MAP } from '../config';
-import { fromNow, goTo } from 'common/utils';
+import { firstCharToUpper, fromNow, goTo } from 'common/utils';
 import DeployLog from 'runtime/common/logs/components/deploy-log';
 import FileContainer from 'application/common/components/file-container';
 import routeInfoStore from 'core/stores/route';
@@ -127,14 +127,14 @@ const DeployDetail = (props: IProps) => {
       valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
         const type = value?.type;
         const typeMap = {
-          application: <Badge status="success" text={i18n.t('application')} showDot={false} />,
+          application: <Badge status="success" text={i18n.t('App')} showDot={false} />,
           project: <Badge status="processing" text={i18n.t('project')} showDot={false} />,
         };
         return typeMap[type] || '-';
       },
     },
     {
-      label: i18n.t('env'),
+      label: i18n.t('dop:Environment'),
       valueKey: 'workspace',
       valueItem: ({ value }: { value: string }) => CONFIG_ENV_MAP[value] || value || '-',
     },
@@ -187,10 +187,10 @@ const DeployDetail = (props: IProps) => {
 
   return (
     <div className="project-deploy-detail  flex flex-col">
-      <div className="pb-2 text-default font-medium">{i18n.t('dop:basic information')}</div>
+      <div className="pb-2 text-default font-medium">{firstCharToUpper(i18n.t('dop:basic information'))}</div>
       <Panel fields={fields} data={detail} columnNum={4} />
       <div className="pb-2 pt-4  flex-h-center">
-        <span className="text-default font-medium">{i18n.t('application')}</span>
+        <span className="text-default font-medium">{i18n.t('App')}</span>
         <span className="bg-default-1 text-default-8 px-2 ml-1 text-xs rounded-lg">{flattenAppList?.length || 0}</span>
       </div>
       <ReleaseSelect
@@ -200,7 +200,7 @@ const DeployDetail = (props: IProps) => {
         renderSelectedItem={renderSelectedItem}
       />
 
-      <div className="pb-2 pt-4 text-default font-medium ">{i18n.t('dop:config information')}</div>
+      <div className="pb-2 pt-4 text-default font-medium ">{firstCharToUpper(i18n.t('dop:config information'))}</div>
       {flattenAppList?.length ? (
         <div className="flex flex-col flex-1 h-0 overflow-hidden">
           <DropdownSelectNew
@@ -356,7 +356,7 @@ const Params = ({ data, slot }: ISubProps) => {
             const { value } = e.target;
             setSearchValue(value);
           }}
-          placeholder={i18n.t('search {name}', { name: 'Key' })}
+          placeholder={firstCharToUpper(i18n.t('search by {name}', { name: 'key' }))}
         />
       }
       rowKey="key"

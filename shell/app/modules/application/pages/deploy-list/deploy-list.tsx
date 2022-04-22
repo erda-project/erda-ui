@@ -231,7 +231,7 @@ const PureDeployList = (props: IProps) => {
         type: LoadMoreSelector,
         name: 'projectId',
         customProps: {
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('Project name') }),
+          placeholder: i18n.t('please choose the {name}', { name: i18n.t('Project name') }),
           allowClear: true,
           getData: getProjectListData,
         },

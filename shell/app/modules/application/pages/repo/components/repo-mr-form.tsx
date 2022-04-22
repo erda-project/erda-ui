@@ -14,7 +14,7 @@
 import { Button, Menu, Dropdown, message, Tooltip, Avatar, FormInstance } from 'antd';
 import React from 'react';
 import { RenderForm, FormModal, MemberSelector, ErdaIcon, MarkdownRender, Table } from 'common';
-import { connectCube, goTo, getAvatarChars } from 'common/utils';
+import { connectCube, goTo, getAvatarChars, firstCharToUpper } from 'common/utils';
 import MarkdownEditor from 'common/components/markdown-editor';
 import SourceTargetSelect from './source-target-select';
 import i18n from 'i18n';
@@ -287,7 +287,9 @@ const RepoMRForm = (props: IProps) => {
     return (
       <Dropdown overlay={menu}>
         <span className="inline-flex items-center text-xs mr-2 cursor-pointer">
-          {tplName ? `${i18n.t('selected template')}:${tplName.replace('.md', '')}` : i18n.t('select template')}{' '}
+          {tplName
+            ? `${i18n.t('selected template')}:${tplName.replace('.md', '')}`
+            : firstCharToUpper(i18n.t('select template'))}{' '}
           <ErdaIcon type="down" size="16" />
         </span>
       </Dropdown>
@@ -340,7 +342,7 @@ const RepoMRForm = (props: IProps) => {
       },
       {
         label: '',
-        getComp: () => <div className="section-title">{i18n.t('basic information')}</div>,
+        getComp: () => <div className="section-title">{firstCharToUpper(i18n.t('basic information'))}</div>,
         extraProps: {
           style: {
             marginTop: '32px',
@@ -367,7 +369,7 @@ const RepoMRForm = (props: IProps) => {
         extraProps: fieldExtraProps,
       },
       {
-        label: i18n.t('designated person'),
+        label: i18n.t('assignee'),
         name: 'assigneeId',
         initialValue: assigneeId,
         className: 'repo-mr-form-assignee',
@@ -520,7 +522,7 @@ const IssueRelation = React.forwardRef<{ getChosenIssues: () => ISSUE.IssueType 
 
   const getColumns = (): Array<ColumnProps<ISSUE.IssueType>> => [
     {
-      title: i18n.t('{name} title', { name: i18n.t('dop:issue') }),
+      title: i18n.t('title-issue'),
       dataIndex: 'title',
       render: (v: string, record: ISSUE.IssueType) => {
         const { type, id, iterationID: _iterationID } = record;

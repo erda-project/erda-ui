@@ -18,7 +18,7 @@ import { useUserMap } from 'core/stores/userMap';
 import { CONFIG_ENV_MAP } from '../config';
 import { getReleaseRenderDetail } from 'project/services/deploy';
 import routeInfoStore from 'core/stores/route';
-import { goTo } from 'common/utils';
+import { firstCharToUpper, goTo } from 'common/utils';
 import AddRelease from './add-release';
 import { Tooltip, Checkbox, Spin } from 'antd';
 import moment from 'moment';
@@ -117,7 +117,7 @@ const AddDeploy = ({
       },
     },
     {
-      label: i18n.t('env'),
+      label: i18n.t('dop:Environment'),
       valueKey: 'workspace',
       valueItem: ({ value }: { value: string }) => CONFIG_ENV_MAP[value] || value || '-',
     },
@@ -149,7 +149,7 @@ const AddDeploy = ({
       </div>
       {detail ? (
         <div className={`mt-2 p-2`}>
-          <div className="pb-2 text-default font-medium">{i18n.t('dop:basic information')}</div>
+          <div className="pb-2 text-default font-medium">{firstCharToUpper(i18n.t('dop:basic information'))}</div>
           <Panel fields={fields} data={detail} columnNum={4} />
           <Spin spinning={loading}>
             <div className="pb-2 pt-4  flex-h-center">

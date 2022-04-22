@@ -15,7 +15,7 @@ import React from 'react';
 import { Button, message, Radio, Modal, Tooltip, Input } from 'antd';
 import { RenderForm, Icon as CustomIcon, CardsLayout, IF, FileEditor, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { notify, isPromise } from 'common/utils';
+import { notify, isPromise, firstCharToUpper } from 'common/utils';
 import FileContainer from 'application/common/components/file-container';
 import { getInfoFromRefName } from '../util';
 import { isEmpty, find, get, omit } from 'lodash';
@@ -225,7 +225,7 @@ const AddPipelineYml = () => {
           <CustomIcon type="html1" />
         </Radio.Button>
       </Radio.Group>
-      <Tooltip title={i18n.t('reset')}>
+      <Tooltip title={firstCharToUpper(i18n.t('reset'))}>
         <CustomIcon type="zhongzhi" className="ml-2 cursor-pointer" onClick={reset} />
       </Tooltip>
     </>
@@ -445,7 +445,7 @@ const FileNameInput = ({ value, onChange, disabled, ...rest }: IFileNameProps) =
     <Input
       style={{ width: 200 }}
       value={value}
-      placeholder={i18n.t('Please enter {name}', { name: i18n.t('dop:File name') })}
+      placeholder={i18n.t('Please enter the {name}', { name: i18n.t('dop:File name') })}
       disabled={disabled}
       onChange={(e: any) => {
         onChange(e.target.value.trim());
