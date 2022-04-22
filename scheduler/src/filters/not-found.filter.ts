@@ -70,11 +70,16 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         if (request.headers.cookie) {
           headers.cookie = request.headers.cookie;
         }
+        if (request.headers.referer) {
+          headers.referer = request.headers.referer;
+        }
+
         // add {orgName} part only in local mode
+
         return axios(isLocal ? api.replace('/api', '/api/-') : api, {
           ...config,
           baseURL: API_URL,
-          headers: { ...request.headers, ...headers },
+          headers,
           validateStatus: () => true, // pass data and error to later check
         });
       };
@@ -108,6 +113,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         } else {
           initData.err = '获取用户信息失败 (get user info failed)';
         }
+
         if (orgListRes?.data) {
           initData.orgs = orgListRes.data.list;
         } else {
