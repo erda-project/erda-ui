@@ -436,9 +436,11 @@ export const EditIssueDrawer = (props: IProps) => {
                 savingRef.current = false;
               });
               // setHasEdited(false); // 更新后置为false
+              return true;
             })
             .catch(() => {
               savingRef.current = false;
+              return false;
             });
         } else {
           addFieldsToIssue(
