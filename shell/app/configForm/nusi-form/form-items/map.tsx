@@ -37,8 +37,8 @@ const MapObjComp = (props: any) => {
 
   const { objItems } = componentProps || {};
   const {
-    key: keyPlaceholder = i18n.t('Pease enter {name}', { name: 'key' }),
-    value: valuePlaceholder = i18n.t('Pease enter {name}', { name: 'value' }),
+    key: keyPlaceholder = i18n.t('Please enter {name}', { name: 'key' }),
+    value: valuePlaceholder = i18n.t('Please enter {name}', { name: 'value' }),
   } = componentProps?.placeholder || {};
 
   const Comp: any = React.useMemo(() => {
