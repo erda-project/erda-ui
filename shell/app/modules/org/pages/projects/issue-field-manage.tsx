@@ -12,20 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Popconfirm, Button, Input, Tooltip, message } from 'antd';
+import { Button, Input, message, Modal, Tooltip } from 'antd';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import i18n from 'i18n';
 import issueFieldStore from 'org/stores/issue-field';
 import { WithAuth } from 'app/user/common';
-import { Filter } from 'common';
+import { Filter, Table, TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { IssueFieldModal } from './issue-field-modal';
 import orgStore from 'app/org-home/stores/org';
 import { IssueIcon } from 'org/common/issue-field-icon';
 import { isEmpty, map } from 'lodash';
-import { useUnmount, useMount } from 'react-use';
+import { useMount, useUnmount } from 'react-use';
 import { useLoading } from 'core/stores/loading';
-import { TASK_SP_FIELD, BUG_SP_FIELD } from 'org/common/config';
+import { BUG_SP_FIELD, TASK_SP_FIELD } from 'org/common/config';
+import { IActions } from 'common/components/table/interface';
 
 const IssueFieldManage = () => {
   const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
@@ -132,50 +133,45 @@ const IssueFieldManage = () => {
           );
         },
       },
-      {
-        title: i18n.t('operation'),
-        width: 100,
-        dataIndex: 'operation',
-        className: 'operation',
-        render: (_text: any, record: ISSUE_FIELD.IFiledItem) => {
-          return (
-            <div className="table-operations">
-              <span
-                className="table-operations-btn"
-                onClick={() => {
-                  const { enumeratedValues = [] } = record;
-                  const optionList = enumeratedValues
-                    ? [...enumeratedValues, { name: '', index: enumeratedValues.length }]
-                    : [{ name: '', index: 0 }];
-                  updater.formData({
-                    ...record,
-                    required: record.required ? 'true' : 'false',
-                    enumeratedValues: optionList,
-                  });
-                  setTimeout(() => {
-                    updater.modalVisible(true);
-                  });
-                }}
-              >
-                {i18n.t('Edit')}
-              </span>
-              <WithAuth pass={!record?.isSpecialField}>
-                <Popconfirm
-                  title={`${i18n.t('common:confirm to delete')}?`}
-                  onConfirm={() => {
-                    onDeleteField(record);
-                  }}
-                >
-                  <span className="table-operations-btn">{i18n.t('Delete')}</span>
-                </Popconfirm>
-              </WithAuth>
-            </div>
-          );
-        },
-      },
     ],
-    [onDeleteField, updater],
+    [],
   );
+
+  const tableAction: IActions<ISSUE_FIELD.IFiledItem> = {
+    render: (record) => {
+      return [
+        {
+          title: i18n.t('Edit'),
+          onClick: () => {
+            const { enumeratedValues = [] } = record;
+            const optionList = enumeratedValues
+              ? [...enumeratedValues, { name: '', index: enumeratedValues.length }]
+              : [{ name: '', index: 0 }];
+            updater.formData({
+              ...record,
+              required: record.required ? 'true' : 'false',
+              enumeratedValues: optionList,
+            });
+            setTimeout(() => {
+              updater.modalVisible(true);
+            });
+          },
+        },
+        {
+          title: i18n.t('Delete'),
+          disabled: record?.isSpecialField,
+          onClick: () => {
+            Modal.confirm({
+              title: `${i18n.t('common:confirm to delete')}?`,
+              onOk: () => {
+                onDeleteField(record);
+              },
+            });
+          },
+        },
+      ];
+    },
+  };
 
   const filterField = [
     {
@@ -208,7 +204,7 @@ const IssueFieldManage = () => {
 
   const readonlyForm = (
     <div style={{ overflow: 'hidden' }}>
-      <div>
+      <TopButtonGroup>
         <WithAuth pass tipProps={{ placement: 'bottom' }}>
           <Button
             type="primary"
@@ -219,9 +215,10 @@ const IssueFieldManage = () => {
             {i18n.t('Add')}
           </Button>
         </WithAuth>
-        <Filter config={filterField} onFilter={onFilter} connectUrlSearch />
-      </div>
+      </TopButtonGroup>
       <Table
+        slot={<Filter config={filterField} onFilter={onFilter} connectUrlSearch />}
+        actions={tableAction}
         loading={isFetching}
         rowKey="propertyName"
         dataSource={tableList}

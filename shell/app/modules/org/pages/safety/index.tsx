@@ -12,12 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { useUserMap } from 'core/stores/userMap';
-import { CustomFilter, MemberSelector, FileEditor, TopButtonGroup } from 'common';
+import { CustomFilter, FileEditor, MemberSelector, Table, TopButtonGroup } from 'common';
 import { useFilter } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import i18n, { getCurrentLocale } from 'i18n';
 import moment from 'moment';
-import { DatePicker, Table, Button, Popover, Drawer } from 'antd';
+import { Button, DatePicker, Drawer, Popover } from 'antd';
 import auditStore from 'org/stores/audit';
 import auditTpl from 'org/common/audit-render';
 import { has, isPlainObject } from 'lodash';
@@ -25,6 +25,7 @@ import React from 'react';
 import { getTimeRanges, qs, setApiWithOrg } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import routeInfoStore from 'core/stores/route';
+import { IProps as TableProps } from 'common/components/table';
 
 const TestModal = ({ onOk }: { onOk: (d: Obj) => void }) => {
   const [value, setValue] = React.useState('');
@@ -190,6 +191,14 @@ const AuditList = ({ sys }: { sys: boolean }) => {
     },
   });
 
+  const handleTableChange: TableProps['onChange'] = ({ current, pageSize }, filters, sorter) => {
+    if (queryCondition.pageSize === pageSize && queryCondition.pageNo === current) {
+      auditStore.effects.getList(queryCondition);
+    } else {
+      onTableChange({ current, pageSize }, filters, sorter);
+    }
+  };
+
   const onExport = () => {
     const extra = sys ? { sys: true } : { orgId };
     window.open(
@@ -214,13 +223,13 @@ const AuditList = ({ sys }: { sys: boolean }) => {
           {i18n.t('Export')}
         </Button>
       </TopButtonGroup>
-      <CustomFilter onSubmit={onSubmit} config={filterConfig} isConnectQuery />
       <Table
+        slot={<CustomFilter onSubmit={onSubmit} config={filterConfig} isConnectQuery />}
         rowKey="id"
         columns={columns}
         dataSource={list}
         loading={loading}
-        onChange={onTableChange}
+        onChange={handleTableChange}
         pagination={{
           current: paging.pageNo,
           pageSize: +paging.pageSize,
