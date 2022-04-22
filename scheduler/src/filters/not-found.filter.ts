@@ -74,7 +74,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         return axios(isLocal ? api.replace('/api', '/api/-') : api, {
           ...config,
           baseURL: API_URL,
-          headers,
+          headers: { ...request.headers, ...headers },
           validateStatus: () => true, // pass data and error to later check
         });
       };
