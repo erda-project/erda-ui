@@ -150,7 +150,7 @@ const PureAppInfo = (): JSX.Element => {
           modalChildren={
             <Input
               value={confirmAppName}
-              placeholder={i18n.t('Pease enter {name}', { name: i18n.t('dop:app name') })}
+              placeholder={i18n.t('Please enter {name}', { name: i18n.t('dop:app name') })}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmAppName(e.target.value)}
             />
           }

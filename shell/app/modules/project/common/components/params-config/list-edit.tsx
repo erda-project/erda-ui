@@ -303,7 +303,7 @@ const EditableCell = ({
             rules={[
               {
                 required: true,
-                message: i18n.t('Pease enter {name}', { name: 'Key' }),
+                message: i18n.t('Please enter {name}', { name: 'Key' }),
               },
               {
                 pattern: /^[a-zA-Z_]+[.a-zA-Z0-9_-]*$/,
@@ -323,7 +323,7 @@ const EditableCell = ({
               },
             ]}
           >
-            <Input placeholder={i18n.t('Pease enter {name}', { name: 'Key' })} maxLength={191} />
+            <Input placeholder={i18n.t('Please enter {name}', { name: 'Key' })} maxLength={191} />
           </Form.Item>
         );
         break;
@@ -337,20 +337,20 @@ const EditableCell = ({
                 validator: async (_rule, value: string) => {
                   const encrypt = form.getFieldValue('encrypt');
                   if (!encrypt && !value) {
-                    throw new Error(i18n.t('Pease enter {name}', { name: 'Value' }));
+                    throw new Error(i18n.t('Please enter {name}', { name: 'Value' }));
                   }
                 },
               },
             ]}
           >
-            <Input placeholder={i18n.t('Pease enter {name}', { name: 'Value' })} maxLength={4096} />
+            <Input placeholder={i18n.t('Please enter {name}', { name: 'Value' })} maxLength={4096} />
           </Form.Item>
         );
         break;
       case 'comment':
         Comp = (
           <Form.Item name={dataIndex} style={{ margin: 0 }}>
-            <Input placeholder={i18n.t('Pease enter {name}', { name: i18n.t('dop:Remark') })} maxLength={200} />
+            <Input placeholder={i18n.t('Please enter {name}', { name: i18n.t('dop:Remark') })} maxLength={200} />
           </Form.Item>
         );
         break;

@@ -257,7 +257,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
             name={'name'}
             type={'input'}
             rules={[
-              { required: true, message: i18n.t('Pease enter {name}', { name: i18n.t('Pipeline') }) },
+              { required: true, message: i18n.t('Please enter {name}', { name: i18n.t('Pipeline') }) },
               { max: 30, message: i18n.t('dop:no more than 30 characters') },
               {
                 pattern: /^[\u4e00-\u9fa5A-Za-z0-9._-]+$/,
@@ -266,7 +266,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
             ]}
             itemProps={{
               className: 'border-transparent shadow-none pl-0 text-xl bg-transparent',
-              placeholder: i18n.t('Pease enter {name}', { name: i18n.t('Pipeline') }),
+              placeholder: i18n.t('Please enter {name}', { name: i18n.t('Pipeline') }),
             }}
           />
           <div>
