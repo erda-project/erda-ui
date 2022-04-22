@@ -222,6 +222,9 @@ const IssueFieldManage = () => {
         loading={isFetching}
         rowKey="propertyName"
         dataSource={tableList}
+        onReload={() => {
+          getFieldsByIssue({ ...filterData, propertyIssueType: 'COMMON', orgID });
+        }}
         columns={columns}
         pagination={false}
         scroll={{ x: '100%' }}
