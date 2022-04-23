@@ -136,7 +136,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
               data: { scope: { type: 'org', id: `${initData.orgId}` } },
             });
             if (orgAccessRes?.data) {
-              let { permissionList = [], resourceRoleList = [] } = orgAccessRes.data.data ?? {};
+              let { permissionList = [], resourceRoleList = [] } = orgAccessRes.data.data;
               permissionList = permissionList.filter((p) => p.resource.startsWith('UI'));
               resourceRoleList = resourceRoleList.filter((p) => p.resource.startsWith('UI'));
               initData.orgAccess = { ...orgAccessRes.data.data, permissionList, resourceRoleList };
