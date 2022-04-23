@@ -73,6 +73,10 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         if (request.headers.referer) {
           headers.referer = request.headers.referer;
         }
+        const token = getCookies(request.headers.cookie, 'OPENAPI-CSRF-TOKEN');
+        if (token) {
+          headers['OPENAPI-CSRF-TOKEN'] = token;
+        }
 
         // add {orgName} part only in local mode
 
@@ -125,7 +129,6 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
           initData.user.adminRoles = roles;
         }
         if (orgRes?.data) {
-          console.log('orgRes?.data: ', orgRes?.data.id);
           initData.orgId = orgRes.data.id; // current org should be in org list, just send id as fewest data
           if (initData.orgId) {
             const orgAccessRes = await callApi(`/api/permissions/actions/access`, {
@@ -133,9 +136,6 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
               data: { scope: { type: 'org', id: `${initData.orgId}` } },
             });
             if (orgAccessRes?.data) {
-              console.log('orgAccessRes?.data: ', orgAccessRes?.data);
-              console.log('orgAccessRes?.data: ', orgAccessRes.status, orgAccessRes.statusText);
-
               let { permissionList = [], resourceRoleList = [] } = orgAccessRes.data.data ?? {};
               permissionList = permissionList.filter((p) => p.resource.startsWith('UI'));
               resourceRoleList = resourceRoleList.filter((p) => p.resource.startsWith('UI'));
@@ -164,4 +164,13 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
       response.end('Not Found');
     }
   }
+}
+
+function getCookies(cookies: string, key: string) {
+  const _cookies = {};
+  cookies.split(';').forEach((item) => {
+    const [k, v] = item.split('=');
+    _cookies[k.trim()] = v && v.trim();
+  });
+  return _cookies[key];
 }
