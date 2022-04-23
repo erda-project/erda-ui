@@ -125,6 +125,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
           initData.user.adminRoles = roles;
         }
         if (orgRes?.data) {
+          console.log('orgRes?.data: ', orgRes?.data.id);
           initData.orgId = orgRes.data.id; // current org should be in org list, just send id as fewest data
           if (initData.orgId) {
             const orgAccessRes = await callApi(`/api/permissions/actions/access`, {
@@ -132,7 +133,10 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
               data: { scope: { type: 'org', id: `${initData.orgId}` } },
             });
             if (orgAccessRes?.data) {
-              let { permissionList, resourceRoleList } = orgAccessRes.data.data;
+              console.log('orgAccessRes?.data: ', orgAccessRes?.data);
+              console.log('orgAccessRes?.data: ', orgAccessRes.status, orgAccessRes.statusText);
+
+              let { permissionList = [], resourceRoleList = [] } = orgAccessRes.data.data ?? {};
               permissionList = permissionList.filter((p) => p.resource.startsWith('UI'));
               resourceRoleList = resourceRoleList.filter((p) => p.resource.startsWith('UI'));
               initData.orgAccess = { ...orgAccessRes.data.data, permissionList, resourceRoleList };
