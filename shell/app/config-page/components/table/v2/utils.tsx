@@ -18,13 +18,14 @@ import { filter, get, has, isArray, map, sortBy } from 'lodash';
 import { getAvatarChars } from 'app/common/utils';
 import { WithAuth } from 'user/common';
 import i18n from 'i18n';
-import { useUserMap } from 'core/stores/userMap';
+import { IUserInfo } from 'core/stores/userMap';
 import { statusColorMap } from 'app/config-page/utils';
 
 interface Extra {
   customOp?: Obj;
   execOperation: (operation: CP_COMMON.Operation) => void;
   props?: CP_TABLE2.IProps;
+  userMap: Obj<IUserInfo>;
 }
 
 export const convertTableData = (
@@ -116,6 +117,8 @@ const defaultMultiple = (val: Obj, record: Obj, CompMap: React.ReactNode[]) => {
 export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
   const { type, data, key } = val || {};
   let Comp: React.ReactNode = null;
+  const { userMap = {} } = extra || {};
+
   if (!data) {
     return '-';
   }
@@ -190,7 +193,6 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
       }
       break;
     case 'user':
-      const userMap = useUserMap();
       const curUsers = [];
       if (isArray(data.id)) {
         data.id.forEach((vItem: any) => {

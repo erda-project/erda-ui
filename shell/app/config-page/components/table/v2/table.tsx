@@ -19,6 +19,7 @@ import { ErdaIcon, Title } from 'common';
 import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
 import { useUpdateEffect } from 'react-use';
+import { useUserMap } from 'core/stores/userMap';
 import { execMultipleOperation, filterClickOperations, OperationAction } from 'app/config-page/utils';
 import i18n from 'i18n';
 import { convertTableData } from './utils';
@@ -43,11 +44,13 @@ const Table = (props: CP_TABLE2.Props) => {
   const { title } = data || {};
   const curTitle = title || pProps?.title;
   const selectable = !!batchRowsHandle;
+
+  const userMap = useUserMap();
   const { dataSource, columns, rowKey, rowSelection, pageNo, pageSize, total, pageSizeOptions } = convertTableData(
     data,
     !!batchRowsHandle,
     pProps,
-    { customOp, execOperation },
+    { customOp, execOperation, userMap },
   );
 
   const [state, updater, update] = useUpdate({
