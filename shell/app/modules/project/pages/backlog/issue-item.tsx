@@ -281,6 +281,8 @@ export const IssueForm = (props: IIssueFormProps) => {
 
   const [typeSelectWidth, setTypeSelectWidth] = React.useState(0);
 
+  const selectRef = React.useRef<HTMLDivElement>(null);
+
   const [formData, updater] = useUpdate({
     title: '',
     type: defaultIssueType || ISSUE_OPTION.REQUIREMENT,
@@ -288,9 +290,9 @@ export const IssueForm = (props: IIssueFormProps) => {
   });
 
   React.useEffect(() => {
-    const _typeSelectWidth = document.getElementsByClassName('issue-type-select')[0]?.clientWidth || 0;
+    const _typeSelectWidth = selectRef.current?.clientWidth || 0;
     setTypeSelectWidth(typeSelectWidth ? _typeSelectWidth : _typeSelectWidth + 20);
-  }, [formData.type]);
+  }, [formData.type, className]); // The reason for adding className is that it affects the width
 
   const onAdd = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const continueAdd = isWin ? e.shiftKey : e.metaKey;
@@ -346,17 +348,19 @@ export const IssueForm = (props: IIssueFormProps) => {
         onChange={(e) => updater.title(e.target.value)}
         style={{ height: '42px', paddingRight: '180px', paddingLeft: `${typeSelectWidth}px` }}
       />
-      <Select
-        disabled={typeDisabled}
-        value={formData.type as ISSUE_OPTION}
-        bordered={false}
-        onChange={(v: ISSUE_OPTION) => updater.type(v)}
-        className="absolute issue-type-select"
-        optionLabelProp="data-icon"
-        dropdownMatchSelectWidth={false}
-      >
-        {getIssueTypeOption()}
-      </Select>
+      <div className="absolute leading-none" ref={selectRef}>
+        <Select
+          disabled={typeDisabled}
+          value={formData.type as ISSUE_OPTION}
+          bordered={false}
+          onChange={(v: ISSUE_OPTION) => updater.type(v)}
+          optionLabelProp="data-icon"
+          dropdownMatchSelectWidth={false}
+        >
+          {getIssueTypeOption()}
+        </Select>
+      </div>
+
       <div className="absolute right-2 flex items-center space-x-2">
         <MemberSelector
           dropdownMatchSelectWidth={false}
