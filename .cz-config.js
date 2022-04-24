@@ -34,6 +34,7 @@ module.exports = {
     { name: 'admin' },
     { name: 'market' },
     { name: 'scheduler' },
+    { name: 'components' },
     { name: 'cli' },
   ],
 
