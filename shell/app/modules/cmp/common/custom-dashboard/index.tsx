@@ -144,7 +144,7 @@ const CustomDashboardList = ({
     {
       title: i18n.t('Update time'),
       dataIndex: 'updatedAt',
-      render: (timestamp: number) => fromNow(timestamp),
+      render: (timestamp: number) => fromNow(timestamp, { edgeNow: true }),
     },
     {
       title: i18n.t('Creator'),
