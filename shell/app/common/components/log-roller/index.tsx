@@ -19,7 +19,7 @@ import commonStore from '../../stores/common';
 
 const getCurTimeNs = () => new Date().getTime() * 1000000;
 
-interface IProps {
+export interface IProps {
   logKey: string;
   content: Array<{ timestamp: DOMHighResTimeStamp }>;
   style?: object;
@@ -54,7 +54,7 @@ interface IRequery {
   count?: number;
 }
 
-class LogRoller extends React.Component<IProps, IState> {
+export class LogRoller extends React.Component<IProps, IState> {
   private logRoller: PureLogRoller | null;
   private searchCount: number;
 

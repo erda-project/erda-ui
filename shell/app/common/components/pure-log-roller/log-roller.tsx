@@ -26,6 +26,7 @@ export interface IProps {
   hasLogs: boolean;
   searchOnce?: boolean;
   extraButton?: JSX.Element;
+  disabledDownload?: boolean;
   CustomLogContent?: typeof React.Component;
   onStartRolling: () => void;
   onGoToBottom: () => void;
@@ -99,6 +100,7 @@ export class LogRoller extends React.Component<IProps, IState> {
       transformContent,
       searchOnce,
       onShowDownloadModal,
+      disabledDownload,
     } = this.props;
     const { fullScreen } = this.state;
     let logContent = rolling ? (
@@ -130,7 +132,7 @@ export class LogRoller extends React.Component<IProps, IState> {
         {logContent}
         <div className={`log-control log-top-controls ${extraButton ? '' : 'no-switch'}`}>
           {extraButton || null}
-          {hasLogs && (
+          {hasLogs && !disabledDownload && (
             <Tooltip title={i18n.t('common:Download Log')}>
               <Button onClick={onShowDownloadModal} type="ghost">
                 {i18n.t('common:Download Log')}
