@@ -1,0 +1,77 @@
+@import '../../themes/default.less';
+@import (reference) '~antd/es/style/themes/index.less';
+
+@table-header-prefix: ~'@{erda-prefix}-table-header';
+
+.@{table-header-prefix} {
+  display: flex;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: 8px 1rem;
+  line-height: 50px;
+
+  // TODO: remove this after update global input style
+  .@{ant-prefix}-input-affix-wrapper,
+  input {
+    border: none;
+    border-radius: 2px;
+  }
+
+  .@{ant-prefix}-picker-range {
+    input {
+      background: none;
+    }
+  }
+
+  .@{table-header-prefix}-slot {
+    flex: 1;
+    display: flex;
+    align-items: center;
+
+    > div {
+      flex: 1;
+    }
+  }
+
+  .@{table-header-prefix}-columns-filter {
+    min-width: 200px;
+
+    .@{ant-prefix}-popover-content {
+      position: relative;
+      bottom: 10px;
+    }
+
+    .@{ant-prefix}-popover-arrow {
+      display: none;
+    }
+  }
+
+  .@{table-header-prefix}-ops {
+    display: flex;
+    align-items: center;
+  }
+
+  .@{table-header-prefix}-icon {
+    margin-left: 12px;
+    padding: 4px;
+    color: @default-4 !important;
+    cursor: pointer;
+    font-size: 20px;
+    &:hover {
+      background-color: @default-08 !important;
+      color: @default-8 !important;
+    }
+  }
+
+  .@{table-header-prefix}-checkbox {
+    white-space: nowrap;
+  }
+}
+
+.@{table-header-prefix}-white-bg {
+  background: @white;
+}
+
+.@{table-header-prefix}-default-bg-02 {
+  background: @default-02;
+}

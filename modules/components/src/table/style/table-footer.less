@@ -1,0 +1,21 @@
+@import '../../themes/default.less';
+@import (reference) '~antd/es/style/themes/index.less';
+
+@footer-prefix: ~'@{erda-prefix}-table-footer';
+
+.@{footer-prefix} {
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  background: @default-02;
+
+  &-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+
+.@{footer-prefix}-white {
+  background: @white;
+}

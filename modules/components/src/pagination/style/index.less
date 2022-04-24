@@ -1,0 +1,108 @@
+@import (reference) '~antd/es/style/themes/index.less';
+@import '../../themes/default.less';
+
+.@{erda-prefix}-pagination {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 12px 0.5rem;
+  line-height: 24px;
+  color: @color-table-color;
+
+  &-total {
+    margin-right: 8px;
+  }
+
+  &-content {
+    display: inline-flex;
+  }
+
+  .pointer {
+    cursor: pointer;
+  }
+
+  .disabled {
+    color: @light-gray;
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+
+  &-center,
+  &-pre,
+  &-next {
+    height: 32px;
+    line-height: 32px;
+    border-radius: 2px;
+  }
+
+  &-pre,
+  &-next {
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    &:hover {
+      &:not(.disabled) {
+        cursor: pointer;
+      }
+      background: @default-06;
+    }
+  }
+
+  &-center {
+    padding-left: 12px;
+    padding-right: 12px;
+    cursor: pointer;
+    &:hover {
+      background: @default-06;
+    }
+  }
+
+  &-link {
+    color: @default-8;
+    cursor: pointer;
+    margin-right: 4px;
+
+    &:hover {
+      color: @primary-color;
+    }
+  }
+
+  &-page-config {
+    padding: 4px 12px;
+    cursor: pointer;
+    &:hover {
+      background: @default-06;
+    }
+  }
+}
+
+.@{erda-prefix}-pagination-popover {
+  .@{ant-prefix}-popover-content {
+    position: relative;
+    top: 10px;
+  }
+
+  .@{ant-prefix}-popover-arrow {
+    display: none;
+  }
+}
+
+.@{erda-prefix}-pagination-jump {
+  width: 170px;
+  display: flex;
+  align-items: center;
+
+  .paging-input {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+
+  .@{ant-prefix}-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

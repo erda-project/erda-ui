@@ -22,6 +22,7 @@
     "types": ["webpack-env", "jest"],
     "baseUrl": ".",
     "paths": {
+      "@erda-ui/components": ["../modules/components/src"],
       "common": ["./app/common"],
       "common/*": ["../shell/app/common/*"],
       "configForm": ["./app/configForm"],
