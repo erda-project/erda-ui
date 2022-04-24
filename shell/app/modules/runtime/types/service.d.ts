@@ -33,6 +33,9 @@ declare namespace RUNTIME_SERVICE {
 
   interface Instance {
     id?: string;
+    podUid: string;
+    podName: string;
+    podNamespace: string;
     containerId: string; // k8s集群id为这个
     ipAddress: string;
     host: string;
