@@ -12,15 +12,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Row, Col } from 'antd';
+import { Col, Row } from 'antd';
 import TimeRangeSelector from 'common/components/monitor/components/timeRangeSelector';
 import ChartMap from './config';
 import './resource-usage-charts.scss';
+import { omit } from 'lodash';
+
+type ChartType = keyof ReturnType<typeof ChartMap>;
 
 interface IProps {
   extraQuery?: object;
   instance: {
     id?: string;
+    podUid?: string;
     containerId?: string;
     clusterName?: string;
   };
@@ -36,8 +40,26 @@ const ResourceUsageCharts = (props: IProps) => {
   const chartMapConfig = ChartMap(api);
 
   const PageMap = [
-    [chartMapConfig.containerMem, chartMapConfig.containerCpu],
-    [chartMapConfig.containerIo, chartMapConfig.containerNet],
+    [
+      {
+        Chart: chartMapConfig.containerMem,
+        key: 'containerMem',
+      },
+      {
+        Chart: chartMapConfig.containerCpu,
+        key: 'containerCpu',
+      },
+    ],
+    [
+      {
+        Chart: chartMapConfig.containerIo,
+        key: 'containerIo',
+      },
+      {
+        Chart: chartMapConfig.containerNet,
+        key: 'containerNet',
+      },
+    ],
   ];
   const [timeSpan, setTimeSpan] = React.useState({
     startTimeMs: Date.now() - 3600 * 1000,
@@ -53,6 +75,19 @@ const ResourceUsageCharts = (props: IProps) => {
     instance: { filter_instance_id: id, ...extraQuery, start: timeSpan.startTimeMs, end: timeSpan.endTimeMs },
   };
 
+  const queryConvert = React.useCallback(
+    (data: Obj, chartType: ChartType) => {
+      if (chartType === 'containerNet' && type === 'container' && instance.podUid) {
+        return {
+          ...omit(data, 'filter_container_id'),
+          filter_pod_uid: instance.podUid,
+        };
+      }
+      return data;
+    },
+    [instance, type],
+  );
+
   return (
     <div className="unit-detail">
       <TimeRangeSelector
@@ -61,11 +96,12 @@ const ResourceUsageCharts = (props: IProps) => {
       />
       {PageMap.map((cols, rIndex) => (
         <Row gutter={20} key={String(rIndex)}>
-          {cols.map((Chart: any, cIndex: number) => {
+          {cols.map(({ Chart, key }: any, cIndex: number) => {
             const spanWidth = 24 / cols.length;
+            const query = queryConvert(paramObj[type], key);
             return (
               <Col span={spanWidth} key={String(cIndex)}>
-                <Chart query={paramObj[type]} />
+                <Chart query={query} />
               </Col>
             );
           })}
