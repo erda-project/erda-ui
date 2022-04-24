@@ -54,7 +54,7 @@ describe('SimpleLogRoller', () => {
       result = render(<SimpleLogRoller query={query} logKey="erda-log" style={style} searchOnce={false} />);
       await flushPromises();
     });
-    fireEvent.click(result!.getAllByText('start')[0]);
+    fireEvent.click(result!.getAllByText('Start')[0]);
     expect(result!.container.querySelector('.log-viewer')).toHaveStyle(style);
     expect(fetchLog).toHaveBeenLastCalledWith({ ...query, logKey });
     await act(async () => {
