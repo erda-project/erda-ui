@@ -371,7 +371,7 @@ describe('MembersTable', () => {
   });
   it('should batch operations work well', async () => {
     const { result, updateMembers, removeMember } = await setUp();
-    userEvent.hover(result.getByText('Batch Operation'));
+    userEvent.hover(result.getByText('Batch Operations'));
     await waitFor(() => expect(result.container).isExist('.dice-cp-table-batch-operations', 1));
     const selectAll = () => {
       const selectAllCheckbox = result.container.querySelector('.ant-table-selection [type="checkbox"]')!;

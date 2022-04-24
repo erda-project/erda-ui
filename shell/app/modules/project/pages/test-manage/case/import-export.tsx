@@ -233,14 +233,14 @@ const Import = (props: ImportProps) => {
         <div className="flex flex-col mt-2">
           1.{i18n.t('dop:Currently XMind and Excel files are supported')}
           <p className="my-3">
-            &nbsp;&nbsp;{i18n.t('dop:if you need to import with Excel, please')}
+            &nbsp;&nbsp;{i18n.t('dop:To import with Excel, please')}
             <a href={`/static/usecase_model_${locale}.xlsx`} className="text-purple-deep">
               {i18n.t('dop:download template')}
             </a>
             ；
           </p>
           <p className="mb-3">
-            &nbsp;&nbsp;{i18n.t('dop:if you want to import with XMind, please')}
+            &nbsp;&nbsp;{i18n.t('dop:To import with XMind, please')}
             <a href={`/static/usecase_model_${locale}.xmind`} className="text-purple-deep">
               {i18n.t('dop:download template')}
             </a>

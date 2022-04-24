@@ -64,14 +64,14 @@ const ImportFile = ({ visible, onClose, type = 'testCase' }: IProps) => {
     <FormModal
       loading={loading}
       okButtonState={loading}
-      title={i18n.t('dop:upload files')}
+      title={i18n.t('dop:Upload File')}
       fieldsList={fieldList}
       visible={uploadVisible}
       onOk={handleOk}
       modalProps={{ getContainer: false }}
       onCancel={onClose}
     >
-      <div>{i18n.t('dop:currently supports importing Excel files')}</div>
+      <div>{i18n.t('dop:Currently Excel files are supported')}</div>
     </FormModal>
   );
 };

@@ -26,8 +26,8 @@ import moment from 'moment';
 const noEnv = [
   {
     id: 0,
-    name: i18n.t('dop:no environment'),
-    domain: i18n.t('None'),
+    name: i18n.t('dop:No environment'),
+    domain: i18n.t('none'),
     header: {},
     global: {},
   },

@@ -112,7 +112,7 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
   ];
   return (
     <>
-      <DropdownSelect overlay={menus} buttonText={i18n.t('dop:Batch Operation')} />
+      <DropdownSelect overlay={menus} buttonText={i18n.t('dop:Batch Operations')} />
       <FormModal
         title={i18n.t('dop:Change Executor')}
         visible={visible}

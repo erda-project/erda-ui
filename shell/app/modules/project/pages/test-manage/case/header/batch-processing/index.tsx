@@ -88,7 +88,7 @@ const BatchProcessing = ({ recycled }: IProps) => {
       <DropdownSelect
         menuList={recycled ? menuItemsMap.recycled : menuItemsMap.normal}
         onClickMenu={onClick}
-        buttonText={i18n.t('dop:Batch Operation')}
+        buttonText={i18n.t('dop:Batch Operations')}
         btnProps={{
           type: 'primary',
           ghost: true,

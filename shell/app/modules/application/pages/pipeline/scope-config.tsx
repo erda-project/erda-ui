@@ -35,7 +35,7 @@ const projectPipelineConfig = {
   text: {
     // 文案
     fileTreeTitle: i18n.t('Pipeline'), // 文件树title、
-    addFolder: i18n.t('add {name}', { name: i18n.t('directory') }), // 添加文件夹
+    addFolder: i18n.t('Add {name}', { name: i18n.t('Directory') }), // 添加文件夹
     addFile: i18n.t('add {name}', { name: i18n.t('Pipeline') }), // 添加文件
     searchFolder: i18n.t('directory'), // 搜索文件夹
     searchFile: i18n.t('Pipeline'), // 搜索文件
@@ -51,8 +51,8 @@ const configSheetConfig = {
   text: {
     // 文案
     fileTreeTitle: i18n.t('Configuration Sheet'), // 文件树title、
-    addFolder: i18n.t('add {name}', { name: i18n.t('directory') }), // 添加文件夹
-    addFile: i18n.t('add {name}', { name: i18n.t('Configuration Sheet') }), // 添加文件
+    addFolder: i18n.t('Add {name}', { name: i18n.t('Directory') }), // 添加文件夹
+    addFile: i18n.t('Add {name}', { name: i18n.t('Configuration Sheet') }), // 添加文件
     searchFolder: i18n.t('directory'), // 搜索文件夹
     searchFile: i18n.t('Configuration Sheet'), // 搜索文件
     executeButton: i18n.t('Execute'), // 执行按钮
@@ -67,7 +67,7 @@ const appPipelineConfig = {
   text: {
     // 文案
     fileTreeTitle: i18n.t('Pipeline'), // 文件树title、
-    addFolder: i18n.t('add {name}', { name: i18n.t('directory') }), // 添加文件夹
+    addFolder: i18n.t('Add {name}', { name: i18n.t('Directory') }), // 添加文件夹
     addFile: i18n.t('add {name}', { name: i18n.t('Pipeline') }), // 添加文件
     searchFolder: i18n.t('directory'), // 搜索文件夹
     searchFile: i18n.t('Pipeline'), // 搜索文件

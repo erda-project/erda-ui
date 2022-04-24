@@ -55,7 +55,7 @@ const DetailIntro = () => {
           )}
         </ExportPdf>
       </div>
-      <div className="sub-section-title">{i18n.t('dop:basic information')}</div>
+      <div className="sub-section-title">{i18n.t('dop:Basic information')}</div>
       <BasicInfo />
       <div className="sub-section-title">{i18n.t('Overview')}</div>
       <NumberInfo />
