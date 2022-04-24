@@ -200,7 +200,7 @@ const FileEditor = ({
           {i18n.t('Download')}
         </span>
         &nbsp;
-        {i18n.t('check detail')}
+        {i18n.t('View details')}
       </div>
     );
   }

@@ -77,7 +77,7 @@ export const RunCaseNode = (props: IProps) => {
 
     const logId = get(data, 'extra.uuid');
     if (data.type === 'snippet') {
-      operations.push({ key: 'log', name: i18n.t('check detail') });
+      operations.push({ key: 'log', name: i18n.t('View details') });
     } else if (logId) {
       // status === 'Running' || executeStatus.includes(status)) {
       operations.push({ key: 'log', name: i18n.t('check log') });

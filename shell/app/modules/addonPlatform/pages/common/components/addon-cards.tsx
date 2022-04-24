@@ -284,7 +284,7 @@ export const AddonCards = (props: IProps) => {
                     </span>
                   </Tooltip>
                 </IF>
-                <Tooltip title={i18n.t('check detail')}>
+                <Tooltip title={i18n.t('View details')}>
                   <span
                     onClick={(e) => {
                       e.stopPropagation();

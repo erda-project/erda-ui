@@ -35,7 +35,7 @@ const iconMap = {
 };
 const statusMap = [
   { label: i18n.t('In Progress'), value: 'DOING' },
-  { label: i18n.t('pause'), value: 'PAUSE' },
+  { label: i18n.t('Paused'), value: 'PAUSE' },
   { label: i18n.t('dop:Completed'), value: 'DONE' },
 ];
 const archiveStatusMap = [
@@ -257,7 +257,7 @@ const TestPlan = () => {
         type: MemberSelector,
         name: 'ownerID',
         customProps: {
-          placeholder: i18n.t('please select {name}', { name: i18n.t('dop:Principal') }),
+          placeholder: i18n.t('please select {name}', { name: i18n.t('dop:principal') }),
           scopeType: 'project',
           mode: 'multiple',
         },
@@ -266,7 +266,7 @@ const TestPlan = () => {
         type: MemberSelector,
         name: 'partnerID',
         customProps: {
-          placeholder: i18n.t('please select {name}', { name: i18n.t('dop:Participant') }),
+          placeholder: i18n.t('please select {name}', { name: i18n.t('dop:participant') }),
           scopeType: 'project',
           mode: 'multiple',
         },

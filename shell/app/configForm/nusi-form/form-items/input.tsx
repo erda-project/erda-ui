@@ -54,7 +54,7 @@ export const FormInput = ({
     };
     const Comp = isPassword ? Input.Password : Input;
     const { placeholder } = componentProps || {};
-    const _placeholder = placeholder || i18n.t('please enter {name}', { name: label });
+    const _placeholder = placeholder || i18n.t('Please enter the {name}', { name: label });
     return (
       <FormItem
         colon

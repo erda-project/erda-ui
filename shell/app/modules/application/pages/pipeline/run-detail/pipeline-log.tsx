@@ -126,7 +126,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
                       className="text-primary cursor-pointer ml-2"
                       onClick={() => update({ detailVis: true, detailLog: primevalLog })}
                     >
-                      {i18n.t('check detail')}
+                      {i18n.t('View details')}
                     </span>
                   </div>
                 </div>

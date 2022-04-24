@@ -528,7 +528,7 @@ export const TestEnvDetail = (props: IProps) => {
 
   return (
     <FormModal
-      name={i18n.t('dop:Parameter Configuration')}
+      name={i18n.t('dop:parameter configuration')}
       visible={visible}
       width={900}
       modalProps={{

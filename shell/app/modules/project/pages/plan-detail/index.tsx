@@ -246,8 +246,8 @@ const TestPlanDetail = () => {
                 <div className="ml-3-group">
                   <DropdownSelect
                     menuList={[
-                      { name: i18n.t('dop:new'), key: 'add' },
-                      { name: i18n.t('dop:reference'), key: 'import' },
+                      { name: i18n.t('Add'), key: 'add' },
+                      { name: i18n.t('dop:Reference'), key: 'import' },
                     ]}
                     buttonText={i18n.t('dop:Add Use Case')}
                     btnProps={{

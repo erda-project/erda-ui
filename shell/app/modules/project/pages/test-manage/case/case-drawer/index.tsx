@@ -318,9 +318,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
           <>
             <ErdaIcon fill="black-4" type="play" size="16" />
             {i18n.t('Execute')}
-            <span className="text-xs">
-              ({i18n.t('dop:When you click directly, it will execute cases without environment.')})
-            </span>
+            <span className="text-xs">({i18n.t('dop:Execute without environment')})</span>
           </>
         </SelectEnv>
       </span>

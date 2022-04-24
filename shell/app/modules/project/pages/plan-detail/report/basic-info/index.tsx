@@ -38,7 +38,7 @@ const BasicInfo = () => {
       text: data.ownerName,
     },
     {
-      label: i18n.t('dop:start date'),
+      label: i18n.t('common:Start date'),
       text: data.startDate,
       dateKey: 'timestampSecStartedAt',
     },
@@ -47,7 +47,7 @@ const BasicInfo = () => {
       text: data.partnerNameStr,
     },
     {
-      label: i18n.t('dop:end date'),
+      label: i18n.t('common:End date'),
       text: data.endDate,
       dateKey: 'timestampSecEndedAt',
     },

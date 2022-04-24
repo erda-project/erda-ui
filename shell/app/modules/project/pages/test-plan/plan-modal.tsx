@@ -122,7 +122,7 @@ const TestPlanModal = (props: IProps) => {
       type: 'select',
       options: iterationList.map((iteration) => ({ name: iteration.title, value: String(iteration.id) })),
       itemProps: {
-        placeholder: i18n.t('dop:select iteration'),
+        placeholder: i18n.t('dop:Choose the iteration'),
         allowClear: true,
       },
     },

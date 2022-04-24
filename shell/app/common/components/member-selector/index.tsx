@@ -277,7 +277,7 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
         key={`${scopeType}-${type}`}
         className={`member-selector ${className}`}
         notFoundContent={notFoundContentTip && query.q ? notFoundContentTip : undefined}
-        placeholder={placeholder || i18n.t('please choose {name}', { name: i18n.t('user') })}
+        placeholder={placeholder || i18n.t('please choose the {name}', { name: i18n.t('user') })}
         category={categories}
         dataFormatter={({ list, total }) => ({
           total,
