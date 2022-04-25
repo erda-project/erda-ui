@@ -108,11 +108,13 @@ const org = createStore({
       }
       const { orgName } = payload;
       const orgs = select((s) => s.orgs); // get joined orgs
-      const resOrg = orgs.find((orgItem) => orgItem.name === orgName);
+      const globalInitData = getGlobal('initData') || {};
+      const resOrg = globalInitData?.currentOrg || {};
 
       if (!orgName) return;
+      let orgPermData = globalInitData?.orgAccess; // { access: boolean, roles: [], ... }
       const curPathname = location.pathname;
-      if (!Object.keys(resOrg).length) {
+      if (!Object.keys(resOrg).length && !orgPermData?.access) {
         goTo(goTo.pages.landPage);
         update({ initFinish: true });
       } else {
@@ -136,7 +138,6 @@ const org = createStore({
         }
         if (orgId) {
           const orgPermQuery = { scope: 'org', scopeID: `${orgId}` };
-          let orgPermData = getGlobal('initData')?.orgAccess; // { access: boolean, roles: [], ... }
 
           if (!orgPermData) {
             const result = await getResourcePermissions(orgPermQuery);
