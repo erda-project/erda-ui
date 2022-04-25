@@ -131,7 +131,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         if (orgRes?.data) {
           // support user may not join currentOrg but have access to the currentOrg
           initData.currentOrg = orgRes.data;
-          if (initData.currentOrg.id) {
+          if (initData.currentOrg?.id) {
             const orgAccessRes = await callApi(`/api/permissions/actions/access`, {
               method: 'POST',
               data: { scope: { type: 'org', id: `${initData.currentOrg.id}` } },
