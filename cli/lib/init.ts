@@ -34,8 +34,8 @@ export default async ({
 
   logInfo('Start local environment initialization');
   if (!skipInstall) {
-    let spinner = ora('[1/2] Installing lerna, pnpm & commitizen globally...').start();
-    const { stdout: msg } = await execa('npm', ['i', '-g', '--force', 'pnpm', 'commitizen', 'lerna']);
+    let spinner = ora('[1/2] Installing pnpm & commitizen globally...').start();
+    const { stdout: msg } = await execa('npm', ['i', '-g', '--force', 'pnpm', 'commitizen']);
     logInfo(msg);
     logSuccess('Successfully installed pnpm, commitizen globally😁');
     spinner.stop();
