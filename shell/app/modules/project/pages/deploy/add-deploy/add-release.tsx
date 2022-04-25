@@ -166,10 +166,8 @@ const ProjectRelease = (props: IReleaseProps) => {
   const [selectedRelease, setSelectedRelease] = React.useState('');
   const [tags, setTags] = React.useState<number[]>([]);
 
-  const tagsRef = React.useRef(tags);
-
   const getReleaseList = (q?: IReleaseQuery) => {
-    getList({ isProjectRelease: true, version: searchValue, pageNo: 1, tags: tagsRef.current, ...q });
+    getList({ isProjectRelease: true, version: searchValue, pageNo: 1, ...q });
   };
 
   React.useEffect(() => {
@@ -189,13 +187,8 @@ const ProjectRelease = (props: IReleaseProps) => {
   const debouncedChange = React.useRef(debounce(getReleaseList, 1000));
 
   useUpdateEffect(() => {
-    debouncedChange.current({ version: searchValue, pageNo: 1 });
-  }, [searchValue]);
-
-  useUpdateEffect(() => {
-    tagsRef.current = tags;
-    getReleaseList({ pageNo: 1 });
-  }, [tags]);
+    debouncedChange.current({ version: searchValue, pageNo: 1, tags });
+  }, [searchValue, tags]);
 
   return (
     <div className="flex flex-col h-full">
@@ -255,20 +248,15 @@ const AppRelease = (props: IReleaseProps) => {
   const data = getJoinedApps.useData();
   const { list: appList } = data || {};
   const getReleaseList = (q?: IReleaseQuery) => {
-    selectedAppRef.current &&
-      getList({
-        isProjectRelease: false,
-        version: searchValue,
-        pageNo: 1,
-        applicationId: `${selectedAppRef.current}`,
-        tags: tagsRef.current,
-        ...q,
-      });
+    getList({
+      isProjectRelease: false,
+      version: searchValue,
+      pageNo: 1,
+      ...q,
+    });
   };
 
   const debouncedChange = React.useRef(debounce(getReleaseList, 1000));
-  const selectedAppRef = React.useRef(selectedApp);
-  const tagsRef = React.useRef(tags);
 
   React.useEffect(() => {
     getJoinedApps.fetch({ projectId: +projectId, pageSize: 200, pageNo: 1 });
@@ -289,15 +277,8 @@ const AppRelease = (props: IReleaseProps) => {
   }, [list, selectedRelease]);
 
   useUpdateEffect(() => {
-    tagsRef.current = tags;
-    selectedAppRef.current = selectedApp;
-    setSearchValue('');
-    getReleaseList({ pageNo: 1 });
-  }, [selectedApp, tags]);
-
-  useUpdateEffect(() => {
-    debouncedChange.current({ version: searchValue, pageNo: 1 });
-  }, [searchValue]);
+    debouncedChange.current({ version: searchValue, applicationId: `${selectedApp}`, tags, pageNo: 1 });
+  }, [searchValue, selectedApp, tags]);
 
   return (
     <div className="flex flex-col h-full">
