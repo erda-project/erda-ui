@@ -41,8 +41,8 @@ export interface IPaginationProps {
   pageSize?: number;
   theme?: 'light' | 'dark';
   onChange: (page: number, pageSize: number) => void;
-  hidePageSizeChanger?: boolean;
   hideTotal?: boolean;
+  showSizeChanger?: boolean;
 }
 
 interface IPaginationJumpProps {
@@ -56,9 +56,9 @@ const Pagination = (pagination: IPaginationProps) => {
     current = 1,
     pageSize = PAGINATION.pageSize,
     onChange,
-    hidePageSizeChanger: hidePageSizeChange = false,
     hideTotal = false,
     theme = 'light', // TODO
+    showSizeChanger = true,
   } = pagination;
 
   useErdaIcon();
@@ -103,7 +103,7 @@ const Pagination = (pagination: IPaginationProps) => {
           <ErdaIcon type="chevronright" size={16} />
         </div>
       </div>
-      {!hidePageSizeChange ? (
+      {showSizeChanger ? (
         <Dropdown
           trigger={['click']}
           overlay={

@@ -23,6 +23,7 @@
     "baseUrl": ".",
     "paths": {
       "@erda-ui/components": ["../modules/components/src"],
+      "@erda-ui/components/es/*": ["../modules/components/src/*"],
       "common": ["./app/common"],
       "common/*": ["../shell/app/common/*"],
       "configForm": ["./app/configForm"],

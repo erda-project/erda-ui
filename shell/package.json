@@ -1,6 +1,6 @@
 {
   "name": "@erda-ui/shell",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Frontend ui for Erda",
   "directories": {
     "test": "test"
@@ -196,7 +196,6 @@
     "thread-loader": "^3.0.1",
     "ts-node": "^10.1.0",
     "tsconfig-paths": "^3.10.1",
-    "vinyl-fs": "^3.0.3",
     "vite": "^2.6.13",
     "webpack": "^5.63.0",
     "webpack-build-notifier": "^2.1.1",

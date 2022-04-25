@@ -66,6 +66,7 @@ export default () => {
       rowKey="name"
       columns={columns}
       dataSource={data}
+      pagination={{ pageSize: 10, total: 99, showSizeChanger: false }}
       extraConfig={{ tableKey: 'basic', whiteHeader: true, onReload: reload }}
     />
   );

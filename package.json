@@ -1,6 +1,6 @@
 {
   "name": "erda-ui",
-  "version": "1.5.0",
+  "version": "2.1.0",
   "description": "Frontend ui for Erda",
   "private": true,
   "workspaces": [
@@ -15,7 +15,8 @@
     "f2elint-fix": "f2elint fix",
     "prepare": "husky install",
     "precommit": "lint-staged",
-    "install-cli": "node ./install-cli.js"
+    "install-cli": "node ./install-cli.js",
+    "update-version": "erda-ui set-pkg-version"
   },
   "repository": {
     "type": "git",
@@ -32,15 +33,16 @@
   "homepage": "https://github.com/erda-project/erda-ui#readme",
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
+    "@erda-ui/cli": "workspace:^2.0.0",
+    "@typescript-eslint/parser": "^5.9.0",
     "commitizen": "^4.2.4",
     "cz-customizable": "^6.3.0",
+    "eslint-plugin-deprecation": "^1.3.2",
     "f2elint": "^1.1.2",
     "husky": "6.0.0",
     "lint-staged": "^11.0.0",
     "prettier": "2.3.1",
-    "stylelint-config-ali": "^0.4.1",
-    "@typescript-eslint/parser": "^5.9.0",
-    "eslint-plugin-deprecation": "^1.3.2"
+    "stylelint-config-ali": "^0.4.1"
   },
   "lint-staged": {
     "shell/app/modules/extra/entry.js": "git checkout shell/app/modules/extra/entry.js",

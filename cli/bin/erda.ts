@@ -20,6 +20,7 @@ import buildEnterprise from '../lib/build-enterprise';
 import buildOnline from '../lib/build-online';
 import buildEnterpriseOnline from '../lib/build-enterprise-online';
 import addLicense from '../lib/add-license';
+import PkgVersionSetter from '../lib/pkg-version-setter';
 import checkLicense from '../lib/check-license';
 import init from '../lib/init';
 import initOnline from '../lib/init-online';
@@ -133,5 +134,9 @@ program
   .action(async () => {
     iconLocalize();
   });
+
+program.command('set-pkg-version').action(() => {
+  PkgVersionSetter();
+});
 
 program.parse(process.argv);
