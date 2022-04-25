@@ -3,8 +3,6 @@ import LocaleContext from '../locale-provider/context';
 import { Locale } from '../locale-provider';
 import defaultLocaleValues from '../locale/default';
 
-console.log(122222266623);
-
 interface IContext {
   clsPrefix: string;
 }
