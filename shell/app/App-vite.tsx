@@ -29,7 +29,7 @@ import { startApp, registerModule } from 'core/index';
 import { setConfig, getConfig } from 'core/config';
 // common modules
 import { registChartControl } from 'charts/utils/regist';
-import { setGlobal } from 'core/global-space';
+import { getGlobal, setGlobal } from 'core/global-space';
 import { erdaEnv } from 'common/constants';
 import { EmptyListHolder } from 'common';
 import { setLS, notify, insertWhen } from 'common/utils';
@@ -37,7 +37,7 @@ import { initAxios } from 'common/utils/axios-config';
 import { getResourcePermissions } from 'user/services/user';
 import userStore from './user/stores';
 import permStore from 'user/stores/permission';
-import { getJoinedOrgs } from 'app/org-home/services/org';
+import { getJoinedOrgs, getOrgByDomain } from 'app/org-home/services/org';
 import orgStore, { isAdminRoute } from 'app/org-home/stores/org';
 import setAntdDefault from './antd-default-props';
 import './styles/antd-extension.scss';
@@ -70,6 +70,17 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
     // get the organization info first, or will get org is undefined when need org info (like issueStore)
     const orgName = get(location.pathname.split('/'), '[1]');
     if (orgName) {
+      let domain = window.location.hostname;
+      if (domain.startsWith('local')) {
+        domain = domain.split('.').slice(1).join('.');
+      }
+      const res = await getOrgByDomain({ orgName, domain });
+
+      if (res?.data) {
+        const initData = getGlobal('initData');
+        setGlobal('initData', { ...initData, currentOrg: res.data });
+      }
+
       await orgStore.effects.getOrgByDomain({ orgName });
     }
     [
@@ -129,7 +140,7 @@ const init = (userData: ILoginUser) => {
           permStore.reducers.updatePerm('sys', result.data);
           const { roles } = result.data;
           data = { ...data, isSysAdmin: true, adminRoles: roles };
-          setGlobal('initData', { user: data });
+          setGlobal('initData', { user: data, orgAccess: result.data });
         } else if (isAdminRoute()) {
           history.replace('/');
         }
