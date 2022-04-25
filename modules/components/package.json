@@ -94,6 +94,7 @@
     "css-loader": "^6.5.1",
     "cz-customizable": "^6.3.0",
     "dumi": "^1.1.40",
+    "dumi-theme-default": "^1.1.21",
     "eslint": "^8.3.0",
     "eslint-plugin-markdown": "^2.2.1",
     "f2elint": "^2.2.1",
