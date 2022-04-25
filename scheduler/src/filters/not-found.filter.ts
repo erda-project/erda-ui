@@ -129,11 +129,12 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
           initData.user.adminRoles = roles;
         }
         if (orgRes?.data) {
-          initData.orgId = orgRes.data.id; // current org should be in org list, just send id as fewest data
-          if (initData.orgId) {
+          // support user may not join currentOrg but have access to the currentOrg
+          initData.currentOrg = orgRes.data;
+          if (initData.currentOrg.id) {
             const orgAccessRes = await callApi(`/api/permissions/actions/access`, {
               method: 'POST',
-              data: { scope: { type: 'org', id: `${initData.orgId}` } },
+              data: { scope: { type: 'org', id: `${initData.currentOrg.id}` } },
             });
             if (orgAccessRes?.data) {
               let { permissionList = [], resourceRoleList = [] } = orgAccessRes.data.data;
