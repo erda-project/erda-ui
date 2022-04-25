@@ -16,8 +16,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { get } from 'lodash';
 import moment from 'moment';
-import 'moment/locale/zh-cn';
-import { message, ConfigProvider as AntConfigProvider } from 'antd';
+import 'moment/dist/locale/zh-cn';
+import { ConfigProvider as AntConfigProvider, message } from 'antd';
 import { ConfigProvider } from '@erda-ui/components';
 import antd_zhCN from 'antd/es/locale-provider/zh_CN';
 import antd_enUS from 'antd/es/locale-provider/en_US';
@@ -25,14 +25,14 @@ import zhCN from '@erda-ui/components/es/locale/zh_CN';
 import enUS from '@erda-ui/components/es/locale/en_US';
 // core modules
 import { isZh } from 'core/i18n';
-import { startApp, registerModule } from 'core/index';
-import { setConfig, getConfig } from 'core/config';
+import { registerModule, startApp } from 'core/index';
+import { getConfig, setConfig } from 'core/config';
 // common modules
 import { registChartControl } from 'charts/utils/regist';
 import { getGlobal, setGlobal } from 'core/global-space';
 import { erdaEnv } from 'common/constants';
 import { EmptyListHolder } from 'common';
-import { setLS, notify, insertWhen } from 'common/utils';
+import { insertWhen, notify, setLS } from 'common/utils';
 import { initAxios } from 'common/utils/axios-config';
 import { getResourcePermissions } from 'user/services/user';
 import userStore from './user/stores';
