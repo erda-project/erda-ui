@@ -88,9 +88,9 @@ export const getReleaseDetail = apiCreator<(payload: { releaseID?: string }) => 
   apis.getReleaseDetail,
 );
 
-export const getAppList = apiCreator<(payload: { projectId: string; q?: string }) => { list: RELEASE.AppDetail[] }>(
-  apis.getAppList,
-);
+export const getAppList = apiCreator<
+  (payload: { projectId: string; q?: string; pageSize?: number }) => { list: RELEASE.AppDetail[] }
+>(apis.getAppList);
 
 export const getReleaseList = apiCreator<
   (payload: ReleaseListQuery) => { list: RELEASE.ReleaseDetail[]; total: number }

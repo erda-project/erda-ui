@@ -61,6 +61,7 @@ export interface Field {
   customProps?: Obj;
   initialValue?: number | string;
   disabled?: boolean;
+  itemProps?: Obj;
 }
 
 export interface ConfigData {

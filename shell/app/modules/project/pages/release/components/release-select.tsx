@@ -349,6 +349,9 @@ const ListSelectOverlay = ({
       mode: 'single',
       options: appList.map((item) => ({ label: item.displayName, value: item.id })),
       placeholder: i18n.t('filter by {name}', { name: i18n.t('App') }),
+      itemProps: {
+        showSearch: true,
+      },
     },
     {
       key: 'branchName',

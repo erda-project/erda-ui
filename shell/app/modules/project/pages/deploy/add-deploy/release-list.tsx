@@ -50,8 +50,8 @@ const ReleaseSelector = (props: IProps) => {
                 <Radio
                   value={item.releaseId}
                   key={item.releaseId}
-                  className={`theme-dark p-2 text-white-8 mr-0 w-full hover:text-white hover:bg-white-06 ${
-                    value === item.releaseId ? 'bg-white-06' : ''
+                  className={`p-2 text-default-8 mr-0 w-full hover:text-default hover:bg-default-06 ${
+                    value === item.releaseId ? 'bg-default-06' : ''
                   }`}
                 >
                   <div className="flex flex-h-center  justify-between w-[500px] ">
@@ -68,7 +68,7 @@ const ReleaseSelector = (props: IProps) => {
             })}
           </Space>
         ) : (
-          <EmptyHolder relative className={'w-[500px] text-white-6'} />
+          <EmptyHolder relative className={'w-[500px] text-default-6'} />
         )}
       </Radio.Group>
       {list.length ? (
