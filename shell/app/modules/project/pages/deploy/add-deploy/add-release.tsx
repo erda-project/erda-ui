@@ -255,14 +255,15 @@ const AppRelease = (props: IReleaseProps) => {
   const data = getJoinedApps.useData();
   const { list: appList } = data || {};
   const getReleaseList = (q?: IReleaseQuery) => {
-    getList({
-      isProjectRelease: false,
-      version: searchValue,
-      pageNo: 1,
-      applicationId: `${selectedAppRef.current}`,
-      tags: tagsRef.current,
-      ...q,
-    });
+    selectedAppRef.current &&
+      getList({
+        isProjectRelease: false,
+        version: searchValue,
+        pageNo: 1,
+        applicationId: `${selectedAppRef.current}`,
+        tags: tagsRef.current,
+        ...q,
+      });
   };
 
   const debouncedChange = React.useRef(debounce(getReleaseList, 1000));
@@ -288,12 +289,9 @@ const AppRelease = (props: IReleaseProps) => {
   }, [list, selectedRelease]);
 
   useUpdateEffect(() => {
-    setSearchValue('');
-  }, [selectedApp]);
-
-  useUpdateEffect(() => {
     tagsRef.current = tags;
     selectedAppRef.current = selectedApp;
+    setSearchValue('');
     getReleaseList({ pageNo: 1 });
   }, [selectedApp, tags]);
 
