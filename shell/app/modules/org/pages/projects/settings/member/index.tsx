@@ -41,7 +41,7 @@ const SettingsMember = () => {
         showOnceKey="project-member"
         message={
           <>
-            {i18n.t('For editing members, setting member roles and role permissions, please refer to')}
+            {i18n.t('Edit members and set member roles. See Role Permission Description for details.')}
             <Link to={goTo.resolve.perm({ scope: 'project' })} target="_blank">
               {i18n.t('role permissions description')}
             </Link>

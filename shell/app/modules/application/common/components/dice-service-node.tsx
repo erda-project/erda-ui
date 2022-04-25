@@ -45,7 +45,9 @@ export const AddDiceYmlNode = (props: AddNodeProps) => {
   return (
     <>
       <div className="mb-3">
-        <div className="mb-2 text-black-4">{i18n.t('please select the {name}', { name: i18n.t('Type') })}</div>
+        <div className="mb-2 text-black-4">
+          {i18n.t('please select the {name}', { name: i18n.t('Type').toLowerCase() })}
+        </div>
         <Radio.Group size="small" value={type} onChange={(e) => setType(e.target.value)}>
           <Radio.Button disabled={nodeType === 'job'} value="service">
             {i18n.t('Service')}

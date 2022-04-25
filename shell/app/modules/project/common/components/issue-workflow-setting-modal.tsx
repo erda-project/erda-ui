@@ -26,6 +26,7 @@ import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import './issue-workflow-setting-modal.scss';
 import { FIELD_TYPE_ICON_MAP } from 'org/common/config';
 import { WithAuth, usePerm } from 'user/common';
+import { firstCharToUpper } from 'app/common/utils';
 
 interface IProps {
   visible: boolean;
@@ -132,7 +133,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
   const fName = FIELD_TYPE_ICON_MAP[issueType]?.name;
   return (
     <Modal
-      title={i18n.t('edit {name}', { name: `${fName}${i18n.t('dop:workflow')}` })}
+      title={firstCharToUpper(i18n.t('edit {name}', { name: `${fName} ${i18n.t('dop:workflow')}`.toLowerCase() }))}
       visible={visible}
       width="1010px"
       onCancel={onCancel}

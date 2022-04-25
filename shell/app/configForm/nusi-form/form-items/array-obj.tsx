@@ -118,7 +118,6 @@ const ArrayObjComp = (props: any) => {
                       getComp,
                       componentProps: itemComponentProps = {},
                     } = isString(item) ? { key: item, label: item } : (item as Obj);
-
                     let valid: any =
                       required && (data[key] === undefined || data[key] === '')
                         ? ['error', i18n.t('{name} can not empty')]
@@ -152,7 +151,7 @@ const ArrayObjComp = (props: any) => {
                             <Select
                               key={key}
                               value={data[key]}
-                              placeholder={i18n.t('please select the {name}', { name: label || key })}
+                              placeholder={i18n.t('please select the {name}', { name: (label || key).toLowerCase() })}
                               onChange={(v: any) => updateItem({ [key]: v })}
                               {...itemComponentProps}
                             >

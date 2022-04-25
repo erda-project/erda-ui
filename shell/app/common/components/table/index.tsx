@@ -16,7 +16,7 @@ import { Dropdown, Menu } from 'antd';
 import Table from 'antd/es/table';
 import { Ellipsis, ErdaIcon } from 'common';
 import { WithAuth } from 'user/common';
-import { firstCharToUpper } from 'app/common/utils';
+import { allWordsFirstLetterUpper, firstCharToUpper } from 'app/common/utils';
 import i18n from 'i18n';
 import { PAGINATION } from 'app/constants';
 import TableConfig from './table-config';
@@ -467,7 +467,7 @@ function renderActions<T extends object = any>(actions?: IActions<T> | null): Ar
                 return (
                   <Menu.Item key={title} onClick={disabled ? undefined : onClick} className="text-white-9">
                     <WithAuth pass={!disabled} noAuthTip={disableAuthTip}>
-                      <span className="fake-link mr-1">{title}</span>
+                      <span className="fake-link mr-1">{allWordsFirstLetterUpper(title)}</span>
                     </WithAuth>
                   </Menu.Item>
                 );

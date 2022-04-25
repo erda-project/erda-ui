@@ -14,6 +14,7 @@
 import { Button, Checkbox, Dropdown, Menu } from 'antd';
 import { GetRowKey } from 'antd/lib/table/interface';
 import { useUpdate } from 'app/common/use-hooks';
+import { allWordsFirstLetterUpper } from 'app/common/utils';
 import { ErdaIcon } from 'common';
 import { isPromise } from 'configForm/form/utils';
 import i18n from 'i18n';
@@ -33,7 +34,7 @@ interface IBatchProps<T> {
 const emptyKeys: any[] = [];
 const BatchOperation = <T extends Obj>(props: IBatchProps<T>) => {
   const defaultOperationRender = (op: IRowActions) => {
-    return <div>{op.name}</div>;
+    return <div>{allWordsFirstLetterUpper(op.name)}</div>;
   };
   const {
     rowKey = 'id',
@@ -43,7 +44,6 @@ const BatchOperation = <T extends Obj>(props: IBatchProps<T>) => {
     selectedKeys = emptyKeys,
     operationRender = defaultOperationRender,
   } = props;
-
   const [{ checkAll, indeterminate }, updater, update] = useUpdate({
     checkAll: false,
     indeterminate: false,

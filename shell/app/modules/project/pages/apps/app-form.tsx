@@ -315,7 +315,7 @@ const CreationForm = () => {
             },
           },
           {
-            label: i18n.t('default:user name'),
+            label: i18n.t('default:Username'),
             name: ['repoConfig', 'username'],
             itemProps: {
               placeholder: i18n.t('default:please enter'),

@@ -22,6 +22,7 @@ import { FormModal } from 'app/configForm/nusi-form/form-modal';
 import branchRuleStore from 'project/stores/branch-rule';
 import { WithAuth } from 'user/common';
 import { useLoading } from 'core/stores/loading';
+import { firstCharToUpper } from 'app/common/utils';
 
 const envArr = {
   DEV: {
@@ -232,7 +233,6 @@ const BranchRule = (props: IProps) => {
       type: 'textarea',
     },
   ];
-
   const columns = [
     {
       title: i18n.t('dop:branch'),

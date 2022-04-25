@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { updateSearch } from 'common/utils';
+import { allWordsFirstLetterUpper, updateSearch } from 'common/utils';
 import { map } from 'lodash';
 import React from 'react';
 import { useMount } from 'react-use';
@@ -84,13 +84,13 @@ const SettingTabs = ({ dataSource, className = '' }: IProps) => {
               onClick={() => updateSearch({ tabKey: tab.tabKey })}
             >
               {tab.tabIcon || null}
-              <span className="tab-title">{tab.tabTitle}</span>
+              <span className="tab-title">{allWordsFirstLetterUpper(tab.tabTitle)}</span>
             </li>
           );
           if (groupTitle && tabGroup) {
             return (
               <ul className="group-tabs" key={index}>
-                <div className="group-title">{groupTitle}</div>
+                <div className="group-title">{allWordsFirstLetterUpper(groupTitle)}</div>
                 {map(tabGroup, renderTabItem)}
               </ul>
             );

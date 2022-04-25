@@ -18,6 +18,7 @@ import { getData } from '../utils';
 import { getLabel, noop } from './common';
 import { commonFields, checkWhen } from './common/config';
 import i18n from 'i18n';
+import { firstCharToUpper } from 'app/common/utils';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -95,7 +96,7 @@ const PureFormSelect = (props: any) => {
           </Option>
         ));
 
-  const _placeholder = placeholder || i18n.t('please select the {name}', { name: label || key });
+  const _placeholder = placeholder || i18n.t('please select the {name}', { name: (label || key).toLowerCase() });
 
   const selectAllHandle = () => {
     const allValues = map(customOptions, (item) => item.value);
@@ -121,7 +122,7 @@ const PureFormSelect = (props: any) => {
         getPopupContainer={() => document.body}
         {...rest}
         mode={mode}
-        placeholder={_placeholder}
+        placeholder={firstCharToUpper(_placeholder)}
         disabled={disabled}
         value={curFixIn(value)}
         onChange={handleChange}

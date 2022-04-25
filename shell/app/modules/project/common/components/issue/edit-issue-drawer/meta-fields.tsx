@@ -562,7 +562,7 @@ const IssueMetaFields = React.forwardRef(
           name: 'source',
           label: i18n.t('dop:Source'),
           itemProps: {
-            placeholder: i18n.t('please enter'),
+            placeholder: firstCharToUpper(i18n.t('please enter')),
             maxLength: 200,
           },
         },
