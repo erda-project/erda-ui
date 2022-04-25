@@ -167,6 +167,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
 }
 
 function getCookies(cookies: string, key: string) {
+  if (!cookies) return '';
   const _cookies = {};
   cookies.split(';').forEach((item) => {
     const [k, v] = item.split('=');
