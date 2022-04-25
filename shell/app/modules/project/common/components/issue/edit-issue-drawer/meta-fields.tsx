@@ -473,7 +473,7 @@ const IssueMetaFields = React.forwardRef(
             if (isPromise(res)) {
               res.then((_suc) => {
                 setIterationChanged(_suc);
-                if (withChildrenIteration) {
+                if (_suc && withChildrenIteration) {
                   updateIncludeIssue({
                     issueId: formData.id,
                     updateFields: [
