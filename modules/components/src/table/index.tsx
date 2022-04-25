@@ -29,6 +29,7 @@ import { useLocaleReceiver } from '../locale-provider';
 
 export interface ErdaColumnType<T> extends ColumnType<T> {
   hidden?: boolean;
+  sortTitle?: React.ReactNode;
 }
 
 export interface ErdaTableProps<T = unknown> extends TableProps<T> {
@@ -192,7 +193,7 @@ const ErdaTable = <T extends Obj>({
         rowKey={rowKey}
         scroll={{ x: '100%' }}
         columns={[
-          ...columns.filter((item) => !item.hidden).map((item) => ({ ...item, title: item.title })),
+          ...columns.filter((item) => !item.hidden).map((item) => ({ ...item, title: item.sortTitle ?? item.title })),
           ...renderActions(prefixCls, locale, actions),
         ]}
         rowClassName={cn({ 'cursor-pointer': onRow }, rowClassName)}

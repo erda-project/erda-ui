@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/McDaddy/erda-ui-components.git"
+    "url": "git+https://github.com/erda-project/erda-ui.git"
   },
   "homepage": "https://mcdaddy.github.io/erda-ui-components/",
   "main": "lib/index.js",
@@ -115,8 +115,8 @@
     "postcss-loader": "^6.2.1",
     "prettier": "^2.5.0",
     "pretty-quick": "^3.1.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "16.x",
+    "react-dom": "16.x",
     "rimraf": "^3.0.2",
     "stylelint-config-ali": "^0.4.2",
     "ts-jest": "^27.1.4",

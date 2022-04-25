@@ -37,17 +37,13 @@ export default defineConfig({
     null,
     {
       title: 'GitHub',
-      path: 'https://github.com/McDaddy/erda-ui-components',
+      path: 'https://github.com/erda-project/erda-ui/tree/master/modules/components',
     },
   ],
   extraBabelPlugins: [
     ['babel-plugin-import', { libraryName: 'antd', libraryDirectory: 'es', style: true }, 'antd'],
     ['babel-plugin-import', { libraryName: '@formily/antd', libraryDirectory: 'esm', style: true }, '@formily/antd'],
   ],
-  // theme: {
-  //   '@ant-prefix': 'ec',
-  // },
-  // webpack5: { lazyCompilation: {} },
   lessLoader: {
     javascriptEnabled: true,
     modifyVars: { '@primary-color': '#302647' },
