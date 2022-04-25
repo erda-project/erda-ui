@@ -8,6 +8,8 @@ const ts = require('gulp-typescript');
 const merge2 = require('merge2');
 const { compilerOptions } = require('./tsconfig.json');
 const changed = require('gulp-changed');
+const through2 = require('through2');
+const transformLess = require('./utils/transformLess');
 
 const tsConfig = {
   noUnusedParameters: true,
@@ -38,7 +40,39 @@ function buildTask(done) {
 }
 
 function compileEs() {
-  return merge2(gulp.src(source).pipe(changed(esDir)).pipe(ts(tsConfig))).pipe(gulp.dest(esDir));
+  // =============================== LESS ===============================
+  const less = gulp.src(['src/**/*.less']).pipe(
+    through2.obj(function (file, encoding, next) {
+      // Replace content
+      const cloneFile = file.clone();
+      const content = file.contents.toString().replace(/^\uFEFF/, '');
+
+      cloneFile.contents = Buffer.from(content);
+
+      // Clone for css here since `this.push` will modify file.path
+      const cloneCssFile = cloneFile.clone();
+
+      this.push(cloneFile);
+
+      // Transform less file
+      if (file.path.match(/(\/|\\)style(\/|\\)index\.less$/)) {
+        transformLess(cloneCssFile.contents.toString(), cloneCssFile.path)
+          .then((css) => {
+            cloneCssFile.contents = Buffer.from(css);
+            cloneCssFile.path = cloneCssFile.path.replace(/\.less$/, '.css');
+            this.push(cloneCssFile);
+            next();
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      } else {
+        next();
+      }
+    }),
+  );
+
+  return merge2([gulp.src(source).pipe(changed(esDir)).pipe(ts(tsConfig)), less]).pipe(gulp.dest(esDir));
 }
 
 exports.default = buildTask;
