@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import Tabs from 'antd/lib/tabs';
+import Tabs from 'antd/es/tabs';
 import { firstCharToUpper } from 'common/utils';
 const { TabPane } = Tabs;
 
