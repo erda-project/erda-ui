@@ -66,7 +66,7 @@ const titleMap = {
 
 const btnMap = {
   edit: i18n.t('Edit'),
-  add: i18n.t('dop:Add-create'),
+  add: i18n.t('dop:Create'),
 };
 
 const successMsgMap = {
@@ -302,7 +302,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
               <div className="w-32 text-default-6">
                 <div className="flex-h-center mt-1.5">
                   <ErdaIcon type="pipeline" size={20} className="text-default-4 mr-1" />
-                  pipeline {i18n.t('File')}
+                  {i18n.t('dop:Pipeline file')}
                 </div>
               </div>
               <div className="flex-1">
