@@ -19,7 +19,8 @@
     "update-version": "erda-ui set-pkg-version",
     "clear-dependencies": "erda-ui clear-dependencies",
     "init": "erda-ui init",
-    "build-online": "erda-ui build --online"
+    "build-online": "erda-ui build --online",
+    "i18n": "erda-ui i18n"
   },
   "repository": {
     "type": "git",
@@ -36,7 +37,7 @@
   "homepage": "https://github.com/erda-project/erda-ui#readme",
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
-    "@erda-ui/cli": "workspace:^2.0.0",
+    "@erda-ui/cli": "^2.0.0",
     "@typescript-eslint/parser": "^5.9.0",
     "commitizen": "^4.2.4",
     "cz-customizable": "^6.3.0",

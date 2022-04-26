@@ -35,6 +35,7 @@ export default async ({
   logInfo('Start local environment initialization');
   if (!skipInstall) {
     const spinner = ora('Installing commitizen globally...').start();
+    logInfo('If get permission denied error, please run add `sudo` before command.');
     const { stdout: msg } = await execa('npm', ['i', '-g', '--force', 'commitizen']);
     logInfo(msg);
     logSuccess('Successfully installed commitizen globally😁');

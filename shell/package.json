@@ -42,7 +42,7 @@
   "author": "Erda-FE",
   "license": "AGPL",
   "dependencies": {
-    "@erda-ui/components": "workspace:^0.1.2",
+    "@erda-ui/components": ">=0.1.0",
     "@erda-ui/dashboard-configurator": "2.0.15",
     "@erda-ui/react-markdown-editor-lite": "^1.4.9",
     "ace-builds": "^1.4.7",
@@ -197,7 +197,7 @@
     "ts-node": "^10.1.0",
     "tsconfig-paths": "^3.10.1",
     "vite": "^2.6.13",
-    "webpack": "^5.63.0",
+    "webpack": "^5.72.0",
     "webpack-build-notifier": "^2.1.1",
     "webpack-bundle-analyzer": "^4.3.0",
     "webpack-cli": "^4.9.1",
