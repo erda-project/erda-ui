@@ -25,6 +25,7 @@ import i18n from 'i18n';
 import { ErdaIcon } from 'common';
 import './status-detail.scss';
 import routeInfoStore from 'core/stores/route';
+import { firstCharToUpper } from 'app/common/utils';
 
 const StatusDetail = () => {
   const params = routeInfoStore.useStore((s) => s.params);
@@ -212,7 +213,7 @@ const StatusDetail = () => {
       <div className="row-space" />
       <div className="title-bar">
         <span className="title">
-          {i18n.t('msp:history available time')}
+          {firstCharToUpper(i18n.t('msp:history available time'))}
           <span className="sub">（{i18n.t('msp:historical downtime')}）</span>
         </span>
       </div>

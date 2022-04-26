@@ -15,7 +15,7 @@ import React from 'react';
 import { map, uniqueId } from 'lodash';
 import { FormModal, KeyValueTable, FileEditor, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { regRules, qs } from 'common/utils';
+import { regRules, qs, allWordsFirstLetterUpper, firstCharToUpper } from 'common/utils';
 import monitorStatusStore from 'status-insight/stores/status';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
@@ -325,7 +325,7 @@ const AddModal = (props: IProps) => {
       options: [
         {
           value: 'http',
-          name: 'http',
+          name: 'HTTP',
         },
       ],
       initialValue: 'http',
@@ -530,7 +530,7 @@ const AddModal = (props: IProps) => {
                 updater.showMore(!showMore);
               }}
             >
-              {i18n.t('advanced settings')}
+              {allWordsFirstLetterUpper(i18n.t('advanced settings'))}
               {showMore ? (
                 <ErdaIcon className="align-middle" type="up" size="16" />
               ) : (
@@ -573,7 +573,7 @@ const AddModal = (props: IProps) => {
                             style={{ width: 110 }}
                             className="mr-2"
                           >
-                            <Option value="http_code">{i18n.t('cmp:state code')}</Option>
+                            <Option value="http_code">{firstCharToUpper(i18n.t('cmp:state code'))}</Option>
                             <Option value="body">{i18n.t('Response body')}</Option>
                           </Select>
                           {item.key === 'http_code' ? (
@@ -649,7 +649,9 @@ const AddModal = (props: IProps) => {
               >
                 {map(TIME_LIMITS, (time) => (
                   <Radio className="pr-10" value={time} key={time}>
-                    {time < 60 ? `${time}${i18n.t('common:second(s)')}` : `${time / 60}${i18n.t('common:minutes')}`}
+                    {time < 60
+                      ? `${time}${i18n.t('common:second(s)')}`
+                      : i18n.t('common:minuteWithCount', { count: time / 60 })}
                   </Radio>
                 ))}
               </Select>

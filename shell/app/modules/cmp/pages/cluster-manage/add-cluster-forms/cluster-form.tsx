@@ -19,7 +19,7 @@ import { Popover, Button, FormInstance, RadioChangeEvent } from 'antd';
 import { find, get, debounce, flatten, isEmpty, every, set } from 'lodash';
 import { clusterTypeMap } from './cluster-type-modal';
 import clusterStore from '../../../stores/cluster';
-import { insertWhen, regRules } from 'common/utils';
+import { allWordsFirstLetterUpper, insertWhen, regRules } from 'common/utils';
 import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 import { DOC_CMP_CLUSTER_MANAGE } from 'common/constants';
 
@@ -275,7 +275,7 @@ const ClusterAddForm = (props: any) => {
       {clusterType === 'edas' ? null : (
         <div className="more">
           <a className="more-btn" onClick={() => setShowMore(!showMore)}>
-            {i18n.t('advanced settings')}
+            {allWordsFirstLetterUpper(i18n.t('advanced settings'))}
             {showMore ? (
               <ErdaIcon className="align-middle" type="up" size="16" />
             ) : (

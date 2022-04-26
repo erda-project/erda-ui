@@ -15,7 +15,7 @@ import React from 'react';
 import { map as _map, pickBy } from 'lodash';
 import { Row, Col, Input, Select, Button, Tabs, Form, Popconfirm, Tooltip } from 'antd';
 import { Copy, KeyValueEditor, IF, ErdaIcon } from 'common';
-import { regRules, notify, qs } from 'common/utils';
+import { regRules, notify, qs, firstCharToUpper } from 'common/utils';
 import CommonPanel from './trace-common-panel';
 import TraceHistoryList from './trace-history-list';
 import RequestStatusViewer from './trace-status-viewer';
@@ -314,7 +314,9 @@ const TraceInsightQuerier = () => {
         title={
           <div className="flex justify-between items-center">
             <div className="flex">
-              <h3 className="trace-common-panel-title font-medium mr-2">{i18n.t('msp:tracing information')}</h3>
+              <h3 className="trace-common-panel-title font-medium mr-2">
+                {firstCharToUpper(i18n.t('msp:tracing information'))}
+              </h3>
               {traceStatusDetail?.status === 1 && (
                 <Tooltip title={i18n.t('Full screen')}>
                   <ErdaIcon

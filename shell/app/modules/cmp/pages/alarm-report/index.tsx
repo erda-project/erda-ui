@@ -119,7 +119,7 @@ const AlarmReport = () => {
         initialValue: 'daily',
       },
       {
-        label: i18n.t('cmp:select group'),
+        label: i18n.t('cmp:select the group'),
         name: ['notifyTarget', 'groupId'],
         getComp: () => (
           <Select

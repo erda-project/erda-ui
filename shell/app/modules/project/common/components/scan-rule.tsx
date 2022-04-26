@@ -104,7 +104,7 @@ export default function ScanRule(props: IProps) {
   };
   const optionalColumns: Array<ColumnProps<object>> = [
     {
-      title: i18n.t('dop:rule name'),
+      title: i18n.t('cmp:rule-name'),
       dataIndex: 'metricKey',
       width: 200,
     },
@@ -154,7 +154,7 @@ export default function ScanRule(props: IProps) {
 
   const appendedColumns: Array<ColumnProps<SCAN_RULE.AppendedItem>> = [
     {
-      title: i18n.t('dop:rule name'),
+      title: i18n.t('cmp:rule-name'),
       dataIndex: 'metricKey',
       width: 200,
     },

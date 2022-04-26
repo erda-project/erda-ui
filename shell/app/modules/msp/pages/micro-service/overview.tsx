@@ -15,7 +15,7 @@ import React from 'react';
 import { Input, Spin } from 'antd';
 import { getMspProjectList, getProjectStatistics } from 'msp/services';
 import ErdaIcon from 'common/components/erda-icon';
-import { fromNow, goTo } from 'common/utils';
+import { firstCharToUpper, fromNow, goTo } from 'common/utils';
 import { debounce, last } from 'lodash';
 import { DOC_MSP_HOME_PAGE } from 'common/constants';
 import bgLarge from 'app/images/msp/header-bg-large.svg';
@@ -56,12 +56,12 @@ const metric: {
 }[] = [
   {
     dataIndex: 'relationship',
-    name: i18n.t('env'),
+    name: i18n.t('msp:Environment'),
     renderData: (data) => data.relationship.length,
   },
   {
     dataIndex: 'serviceCount',
-    name: i18n.t('service'),
+    name: firstCharToUpper(i18n.t('service')),
     renderData: (data) => data.serviceCount ?? 0,
   },
   {

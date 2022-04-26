@@ -14,6 +14,7 @@
 import { get, map } from 'lodash';
 import { chartLegendText } from 'charts/text-map.js';
 import i18n from 'i18n';
+import { allWordsFirstLetterUpper } from 'app/common/utils';
 
 interface IOriginData {
   results: Array<{
@@ -50,7 +51,7 @@ export const sortCreator = (moduleName: string, chartName: string, payload?: obj
       tabList: [
         { name: i18n.t('First Paint Time'), key: 'wst' },
         { name: i18n.t('First Contentful Paint Time'), key: 'fst' },
-        { name: i18n.t('page loading completed'), key: 'pct' },
+        { name: allWordsFirstLetterUpper(i18n.t('page loading completed')), key: 'pct' },
         { name: i18n.t('msp:Resource Loading Completed'), key: 'rct' },
       ],
     },

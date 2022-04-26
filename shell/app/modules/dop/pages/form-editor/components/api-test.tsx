@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { FileEditor, Icon as CustomIcon } from 'common';
-import { qs } from 'common/utils';
+import { firstCharToUpper, qs } from 'common/utils';
 import i18n from 'i18n';
 import produce from 'immer';
 import { cloneDeep, find, isArray, isEmpty, isString, map, reduce, reject, set } from 'lodash';
@@ -409,20 +409,20 @@ const ApiTabComps = {
                         onChange={onCurChange}
                         disabled={disabled}
                       >
-                        <Option value=">">{i18n.t('dop:more than the')}</Option>
+                        <Option value=">">{firstCharToUpper(i18n.t('dop:more than the'))}</Option>
                         <Option value=">=">{i18n.t('dop:Greater than or equal to')}</Option>
-                        <Option value="=">{i18n.t('dop:equal to')}</Option>
+                        <Option value="=">{firstCharToUpper(i18n.t('dop:equal to'))}</Option>
                         <Option value="<=">{i18n.t('dop:Less than or equal to')}</Option>
                         <Option value="<">{i18n.t('Less than')}</Option>
-                        <Option value="!=">{i18n.t('dop:not equal to')}</Option>
-                        <Option value="contains">{i18n.t('dop:contains')}</Option>
-                        <Option value="not_contains">{i18n.t('dop:does not contain')}</Option>
-                        <Option value="exist">{i18n.t('dop:existence')}</Option>
-                        <Option value="not_exist">{i18n.t('does not exist')}</Option>
-                        <Option value="empty">{i18n.t('dop:is empty')}</Option>
-                        <Option value="not_empty">{i18n.t('dop:not null')}</Option>
-                        <Option value="belong">{i18n.t('dop:belongs to')}</Option>
-                        <Option value="not_belong">{i18n.t('dop:does not belong to')}</Option>
+                        <Option value="!=">{firstCharToUpper(i18n.t('dop:not equal to'))}</Option>
+                        <Option value="contains">{firstCharToUpper(i18n.t('dop:contains'))}</Option>
+                        <Option value="not_contains">{firstCharToUpper(i18n.t('dop:does not contain'))}</Option>
+                        <Option value="exist">{firstCharToUpper(i18n.t('dop:existence'))}</Option>
+                        <Option value="not_exist">{firstCharToUpper(i18n.t('does not exist'))}</Option>
+                        <Option value="empty">{firstCharToUpper(i18n.t('dop:is empty'))}</Option>
+                        <Option value="not_empty">{firstCharToUpper(i18n.t('dop:not null'))}</Option>
+                        <Option value="belong">{firstCharToUpper(i18n.t('dop:belongs to'))}</Option>
+                        <Option value="not_belong">{firstCharToUpper(i18n.t('dop:does not belong to'))}</Option>
                       </Select>
                     );
                   },
