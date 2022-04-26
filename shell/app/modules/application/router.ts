@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
+import { ENV_MAP } from 'app/locales/utils';
 import { APP_TABS, DEPLOY_RUNTIME_TABS } from './tabs';
 
 function getAppRouter(): RouteConfigItem {
@@ -206,7 +207,10 @@ function getAppRouter(): RouteConfigItem {
                 tabs: DEPLOY_RUNTIME_TABS,
                 backToUp: 'appDeployEnv',
                 mark: 'appDeployRuntime',
-                pageName: i18n.t('Deployment'),
+                breadcrumbName: ({ params }) => {
+                  const { workspace } = params;
+                  return ENV_MAP[workspace];
+                },
                 getComp: (cb) => cb(import('app/modules/runtime/pages/overview')),
                 layout: {
                   noWrapper: true,

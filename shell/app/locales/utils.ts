@@ -42,6 +42,13 @@ export const monthMap = {
   '12月': i18n.t('December'),
 };
 
+export const ENV_MAP = {
+  dev: i18n.t('dev environment'),
+  test: i18n.t('test environment'),
+  staging: i18n.t('staging environment'),
+  prod: i18n.t('prod environment'),
+};
+
 export const getTranslateAddonList = (addonList: ADDON.Instance[], key: string) =>
   map(addonList, (item) => {
     const currentItem = { ...item };
