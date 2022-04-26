@@ -138,7 +138,7 @@ describe('ConfigurableFilter', () => {
     const { result, rerender, filterFn } = setUp({ fieldsList: externalFieldsList });
     expect(result.container).isExist('.erda-configurable-filter-btn', 0);
     await act(async () => {
-      fireEvent.change(result.getByPlaceholderText('search by keywords'), { target: { value: 'erda' } });
+      fireEvent.change(result.getByPlaceholderText('Search by keywords'), { target: { value: 'erda' } });
       await flushPromises();
     });
     expect(filterFn).toHaveBeenLastCalledWith({ keyword: 'erda' });
@@ -148,7 +148,7 @@ describe('ConfigurableFilter', () => {
       value: { keyword: 'erda cloud' },
     });
     await act(async () => {
-      fireEvent.change(result.getByPlaceholderText('search by keywords'), { target: { value: 'erda cloud' } });
+      fireEvent.change(result.getByPlaceholderText('Search by keywords'), { target: { value: 'erda cloud' } });
       await flushPromises();
     });
     expect(filterFn).not.toHaveBeenCalled();
@@ -248,7 +248,7 @@ describe('ConfigurableFilter', () => {
     expect(result.baseElement).isExistClass('.erda-configurable-filter-add', 'ant-popover-hidden');
     fireEvent.click(result.getByText('new filter'));
     expect(result.baseElement).not.isExistClass('.erda-configurable-filter-add', 'ant-popover-hidden');
-    fireEvent.change(result.getByPlaceholderText('please enter, within 10 characters'), {
+    fireEvent.change(result.getByPlaceholderText('Please enter, within 10 characters'), {
       target: { value: 'ErdaFilter' },
     });
     await act(async () => {

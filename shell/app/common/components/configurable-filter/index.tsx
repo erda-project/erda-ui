@@ -298,7 +298,7 @@ const ConfigurableFilter = React.forwardRef(
           >
             <Input
               className="w-52"
-              placeholder={firstCharToUpper(i18n.t('dop:please enter, within {num} characters'), { num: 10 })}
+              placeholder={firstCharToUpper(i18n.t('dop:please enter, within {num} characters', { num: 10 }))}
             />
           </Form.Item>
           <div className="mt-3 flex-h-center justify-end">

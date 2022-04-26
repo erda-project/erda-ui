@@ -167,7 +167,7 @@ describe('ErdaTable', () => {
     expect(result.container).isExist('[name="more"]', dataSource.length);
     fireEvent.click(result.container.querySelectorAll('[name="more"]')[0]);
     await waitFor(() => expect(result.getByRole('menu')).toBeInTheDocument());
-    fireEvent.click(result.getByText('editAction').closest('li')!);
+    fireEvent.click(result.getByText('EditAction').closest('li')!);
     expect(actionFn).toHaveBeenCalled();
   });
   it('should work well with sort is Object', async () => {

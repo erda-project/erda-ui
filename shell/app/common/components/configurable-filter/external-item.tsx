@@ -87,7 +87,6 @@ const ExternalItem = ({ itemData, value, onChange, className = '' }: IProps) => 
       debouncedChange?.current(curValue);
     }
   }, [curValue]);
-
   if (type === 'input') {
     return (
       <Input
