@@ -50,8 +50,8 @@ const common = createStore({
         return;
       }
       try {
-        const response = await call(fetchLog, query, { fullResult: true });
-        lines = response?.data?.lines || [];
+        const response = await call(fetchLog, query);
+        lines = response.lines || [];
       } catch (error) {
         const logFallback = select((s) => s.logFallback);
         if (!logFallback && extra?.isRunsContainerLog && `${error.response?.body?.err?.code}` === '500') {
