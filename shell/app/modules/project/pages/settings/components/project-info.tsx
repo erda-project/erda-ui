@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { Tooltip, Button, Input, Checkbox, FormInstance } from 'antd';
 import { theme } from 'app/themes';
 import { ImageUpload, Icon as CustomIcon, ConfirmDelete } from 'common';
-import { goTo, insertWhen } from 'common/utils';
+import { firstCharToUpper, goTo, insertWhen } from 'common/utils';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import projectStore from 'app/modules/project/stores/project';
 import { useQuotaFields } from 'org/pages/projects/create-project';
@@ -94,7 +94,7 @@ const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps)
   const notMSP = info.type !== 'MSP';
   const fieldsList = [
     {
-      label: i18n.t('{name} identifier', { name: i18n.t('project') }),
+      label: i18n.t('Project identifier'),
       name: 'name',
       itemProps: {
         disabled: true,
@@ -106,7 +106,7 @@ const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps)
     },
     ...insertWhen(notMSP, [
       {
-        label: i18n.t('whether to put {name} in public', { name: i18n.t('project') }),
+        label: i18n.t('Public or private'),
         name: 'isPublic',
         type: 'radioGroup',
         options: [
@@ -185,15 +185,15 @@ const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps)
 
   const extraSectionList = [
     {
-      title: i18n.t('exit {name}', { name: i18n.t('project') }),
+      title: firstCharToUpper(i18n.t('exit {name}', { name: i18n.t('project') })),
       children: (
         <ConfirmDelete
-          title={i18n.t('sure to exit the current {name}?', { name: i18n.t('project') })}
+          title={i18n.t('Confirm to exit the current {name}?', { name: i18n.t('project') })}
           confirmTip={i18n.t('common:exit-confirm-tip {name}', { name: i18n.t('project') })}
           secondTitle={i18n.t('common:exit-sub-tip {name}', { name: i18n.t('project') })}
           onConfirm={exitProject}
         >
-          <Button danger>{i18n.t('common:exit current {name}', { name: i18n.t('project') })}</Button>
+          <Button danger>{i18n.t('common:exit-project')}</Button>
         </ConfirmDelete>
       ),
     },
@@ -205,22 +205,21 @@ const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps)
         <ConfirmDelete
           deleteItem={i18n.t('project')}
           onConfirm={onDelete}
-          secondTitle={i18n.t(
-            'dop:The project cannot be restored after deletion. Please enter the {name} to confirm.',
-            {
-              name: info.displayName,
-            },
-          )}
+          secondTitle={i18n.t('common:Deleted projects cannot be recovered. Please enter the {name} to confirm.', {
+            name: info.displayName,
+          })}
           onCancel={() => setConfirmProjectName('')}
           disabledConfirm={confirmProjectName !== info.displayName}
           modalChildren={
             <Input
               value={confirmProjectName}
-              placeholder={i18n.t('Please enter the {name}', { name: i18n.t('Project name') })}
+              placeholder={i18n.t('Please enter the {name}', { name: i18n.t('Project name').toLowerCase() })}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmProjectName(e.target.value)}
             />
           }
-        />
+        >
+          <Button danger>{i18n.t('common:delete-project')}</Button>
+        </ConfirmDelete>
       ),
     });
   }
@@ -250,7 +249,7 @@ const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps)
           formName
         )
       }
-      formName={formName}
+      formName={formName.toLowerCase()}
     />
   );
 };

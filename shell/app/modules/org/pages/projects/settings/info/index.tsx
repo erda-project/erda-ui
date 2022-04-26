@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { Row, Col, Button, Input, Tooltip, FormInstance } from 'antd';
 import { theme } from 'app/themes';
 import { ImageUpload, ErdaIcon, ConfirmDelete, Panel, Ellipsis, Icon as CustomIcon, FormModal } from 'common';
-import { goTo, insertWhen } from 'common/utils';
+import { firstCharToUpper, goTo, insertWhen } from 'common/utils';
 import projectStore from 'app/modules/project/stores/project';
 import { useQuotaFields } from 'org/pages/projects/create-project';
 import layoutStore from 'layout/stores/layout';
@@ -116,7 +116,7 @@ const Info = () => {
   const notMSP = info.type !== 'MSP';
   const fieldsListInfo = [
     {
-      label: i18n.t('{name} identifier', { name: i18n.t('project') }),
+      label: firstCharToUpper(i18n.t('{name} identifier', { name: i18n.t('project') })),
       name: 'name',
       itemProps: {
         disabled: true,
@@ -128,7 +128,7 @@ const Info = () => {
     },
     ...insertWhen(notMSP, [
       {
-        label: i18n.t('whether to put {name} in public', { name: i18n.t('project') }),
+        label: i18n.t('Public or private'),
         name: 'isPublic',
         type: 'radioGroup',
         options: [
@@ -252,7 +252,7 @@ const Info = () => {
                 },
                 {
                   label: info.isPublic ? i18n.t('Public') : i18n.t('dop:Private-project'),
-                  value: i18n.t('whether to put {name} in public', { name: i18n.t('project') }),
+                  value: i18n.t('Public or private'),
                 },
               ]}
             />
@@ -397,13 +397,13 @@ const Info = () => {
               <div className="flex">
                 <ErdaIcon type="dev" size={40} className="mr-3" />
                 <div>
-                  <div className="label">{i18n.t('common:exit current {name}', { name: i18n.t('project') })}</div>
+                  <div className="label">{i18n.t('common:exit-project')}</div>
                   <div className="text-xs">{i18n.t('common:exit-confirm-tip {name}', { name: i18n.t('project') })}</div>
                 </div>
               </div>
               <ConfirmDelete
                 confirmTip={false}
-                title={i18n.t('sure to exit the current {name}?', { name: i18n.t('project') })}
+                title={i18n.t('Confirm to exit the current {name}?', { name: i18n.t('project') })}
                 secondTitle={i18n.t('common:exit-sub-tip {name}', { name: i18n.t('project') })}
                 onConfirm={exitProject}
               >
@@ -429,7 +429,7 @@ const Info = () => {
                 disabledConfirm={confirmProjectName !== info.displayName}
                 confirmTip={false}
                 secondTitle={i18n.t(
-                  'dop:The project cannot be restored after deletion. Please enter the {name} to confirm.',
+                  'common:Deleted projects cannot be recovered. Please enter the {name} to confirm.',
                   {
                     name: info.displayName,
                   },

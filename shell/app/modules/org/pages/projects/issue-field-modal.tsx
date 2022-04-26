@@ -132,7 +132,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
       options: getFieldTypeOption,
       itemProps: {
         disabled: formData?.isSpecialField,
-        placeholder: i18n.t('please select the {name}', { name: i18n.t('Type') }),
+        placeholder: i18n.t('please select the {name}', { name: i18n.t('Type').toLowerCase() }),
         onChange: (e: ISSUE_FIELD.IPropertyType) => {
           if (FIELD_WITH_OPTION[e]) {
             update({

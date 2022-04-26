@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { SettingTabs, ConfigLayout, MembersTable } from 'common';
-import { goTo } from 'common/utils';
+import { allWordsFirstLetterUpper, goTo } from 'common/utils';
 import ProjectInfo from './project-info';
 import ProjectCluster from './project-cluster';
 import ProjectLabel from './project-label';
@@ -62,10 +62,10 @@ const ProjectSettings = () => {
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('{name} member management', { name: i18n.t('project') }),
+                  title: allWordsFirstLetterUpper(i18n.t('{name} member management', { name: i18n.t('project') })),
                   desc: (
                     <div>
-                      {i18n.t('For editing members, setting member roles and role permissions, please refer to')}
+                      {i18n.t('Edit members and set member roles. See Role Permission Description for details.')}
                       <Link to={goTo.resolve.perm({ scope: 'project' })} target="_blank">
                         {i18n.t('role permissions description')}
                       </Link>
@@ -87,7 +87,7 @@ const ProjectSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('dop:files'),
+      groupTitle: i18n.t('dop:Repository'),
       groupKey: 'repository',
       tabGroup: [
         {

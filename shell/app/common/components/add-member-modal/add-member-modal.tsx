@@ -142,7 +142,7 @@ export const AddMemberModal = ({
         ),
       },
       {
-        label: i18n.t('application'),
+        label: i18n.t('App'),
         name: 'applications',
         type: 'custom',
         required: false,

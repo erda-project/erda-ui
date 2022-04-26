@@ -208,7 +208,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
               className="filter-select"
               scopeType="project"
               scopeId={projectId}
-              placeholder={i18n.t('please select the {name}', { name: i18n.t('Creator') })}
+              placeholder={i18n.t('please select the {name}', { name: i18n.t('Creator').toLowerCase() })}
               onChange={handleSelectCreator}
               allowClear
             />

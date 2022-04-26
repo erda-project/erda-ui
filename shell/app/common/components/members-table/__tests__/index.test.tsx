@@ -353,7 +353,7 @@ describe('MembersTable', () => {
     fireEvent.click(result.getByText('OK'));
     await flushPromises();
     expect(removeMember).toHaveBeenCalled();
-    fireEvent.click(result.getByText('authorize').closest('li')!);
+    fireEvent.click(result.getByText('Authorize').closest('li')!);
     expect(result.container).isExist('.mock-authorize-member-modal', 1);
     fireEvent.click(result.getByText('closeModal'));
     expect(result.container).isExist('.mock-authorize-member-modal', 0);
@@ -380,13 +380,13 @@ describe('MembersTable', () => {
     };
     selectAll();
     fireEvent.click(result.getByText('Edit').closest('li')!);
-    fireEvent.click(result.getByText('authorize').closest('li')!);
+    fireEvent.click(result.getByText('Authorize').closest('li')!);
     expect(result.container).isExist('.mock-batch-authorize-member-modal', 1);
     fireEvent.click(result.getByText('onOk'));
     expect(updateMembers).toHaveBeenCalled();
     expect(result.container).isExist('.mock-batch-authorize-member-modal', 0);
     selectAll();
-    fireEvent.click(result.getByText('authorize').closest('li')!);
+    fireEvent.click(result.getByText('Authorize').closest('li')!);
     expect(result.container).isExist('.mock-batch-authorize-member-modal', 1);
     fireEvent.click(result.getByText('onCancel'));
     expect(result.container).isExist('.mock-batch-authorize-member-modal', 0);

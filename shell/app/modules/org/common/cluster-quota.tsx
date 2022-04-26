@@ -18,6 +18,7 @@ import { ErdaAlert, Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import projectStore from 'app/modules/project/stores/project';
 import CompactSelect from 'org/common/compact-select';
+import { firstCharToUpper } from 'app/common/utils';
 
 const { Option } = Select;
 
@@ -149,10 +150,15 @@ const ClusterQuota = ({
     <>
       <Form.Item
         name={['resourceConfig', workSpace, 'clusterName']}
-        rules={[{ required: true, message: i18n.t('please choose the {name}', { name: i18n.t('cluster') }) }]}
+        rules={[
+          {
+            required: true,
+            message: firstCharToUpper(i18n.t('please choose the {name}', { name: i18n.t('cluster') })),
+          },
+        ]}
         className="mb-0"
       >
-        <CompactSelect title={i18n.t('cluster')}>
+        <CompactSelect title={firstCharToUpper(i18n.t('cluster'))}>
           <Select disabled={!canEdit}>
             {(clusterList || []).map((clusterItem: { clusterName: string }) => (
               <Option key={clusterItem.clusterName} value={clusterItem.clusterName}>

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { ImageUpload, ConfirmDelete } from 'common';
-import { firstCharToUpper, goTo } from 'common/utils';
+import { firstCharToUpper,allWordsFirstLetterUpper, goTo } from 'common/utils';
 import { Button, Input, FormInstance } from 'antd';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import { modeOptions } from 'application/common/config';
@@ -129,7 +129,7 @@ const PureAppInfo = (): JSX.Element => {
           secondTitle={i18n.t('common:exit-sub-tip app')}
           onConfirm={exitApp}
         >
-          <Button danger>{i18n.t('common:exit')}</Button>
+          <Button danger>{allWordsFirstLetterUpper(i18n.t('common:exit-app'))}</Button>
         </ConfirmDelete>
       ),
     },

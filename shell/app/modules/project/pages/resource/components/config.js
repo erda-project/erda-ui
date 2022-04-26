@@ -63,7 +63,7 @@ export const chartConfig = {
 
 export const titleCnMap = {
   PROJECT: i18n.t('project'),
-  APPLICATION: i18n.t('application'),
+  APPLICATION: i18n.t('App'),
   RUNTIME: 'RUNTIME',
   SERVICE: i18n.t('service'),
   CONTAINER: 'CONTAINER',

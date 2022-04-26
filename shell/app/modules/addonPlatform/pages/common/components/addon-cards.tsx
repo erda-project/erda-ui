@@ -17,7 +17,7 @@ import { Badge, Button, Tooltip } from 'antd';
 import { get, isEmpty } from 'lodash';
 import { CardsLayout, ErdaIcon, Holder, Icon as CustomIcon, IF } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { goTo, ossImg } from 'common/utils';
+import { allWordsFirstLetterUpper, goTo, ossImg } from 'common/utils';
 import { AddonDetailDrawer } from './addon-detail-drawer';
 import { ENV_NAME, PLAN_NAME } from '../configs';
 import { getMSFrontPathByKey } from 'app/modules/msp/config';
@@ -324,7 +324,7 @@ export const AddonCards = (props: IProps) => {
                 return (
                   <li className="addon-category-section" key={title} ref={liRef[title]}>
                     <span className="content-title font-medium">
-                      {title}
+                      {allWordsFirstLetterUpper(title)}
                       {extra}
                     </span>
                     <div className="addons-container">

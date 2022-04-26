@@ -257,7 +257,7 @@ const TestPlan = () => {
         type: MemberSelector,
         name: 'ownerID',
         customProps: {
-          placeholder: i18n.t('please select the {name}', { name: i18n.t('dop:Principal') }),
+          placeholder: i18n.t('please select the {name}', { name: i18n.t('dop:Principal').toLowerCase() }),
           scopeType: 'project',
           mode: 'multiple',
         },
@@ -266,7 +266,7 @@ const TestPlan = () => {
         type: MemberSelector,
         name: 'partnerID',
         customProps: {
-          placeholder: i18n.t('please select the {name}', { name: i18n.t('dop:Participant') }),
+          placeholder: i18n.t('please select the {name}', { name: i18n.t('dop:Participant').toLowerCase() }),
           scopeType: 'project',
           mode: 'multiple',
         },

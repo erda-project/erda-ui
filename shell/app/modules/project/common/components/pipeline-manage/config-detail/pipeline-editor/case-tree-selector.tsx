@@ -334,7 +334,9 @@ export const CaseTreeSelector = (props: IProps) => {
     <div className="h-full auto-test-tree-selector">
       {isEmpty(useableScope) ? null : (
         <>
-          <div className="pb-2 text-desc">{i18n.t('please select the {name}', { name: i18n.t('Type') })}</div>
+          <div className="pb-2 text-desc">
+            {i18n.t('please select the {name}', { name: i18n.t('Type').toLowerCase() })}
+          </div>
           <Select value={chosenType} onChange={changeType} className="w-full">
             {map(useableScope, (item) => (
               <Option key={item.scope} value={item.scope}>
@@ -344,7 +346,7 @@ export const CaseTreeSelector = (props: IProps) => {
           </Select>
         </>
       )}
-      <div className="py-2 text-desc">{i18n.t('please select the {name}', { name: i18n.t('Node') })}</div>
+      <div className="py-2 text-desc">{i18n.t('please select the {name}', { name: i18n.t('Node').toLowerCase() })}</div>
       <TreeSelect
         searchValue={searchValue}
         showSearch

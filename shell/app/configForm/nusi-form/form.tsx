@@ -84,7 +84,6 @@ export { registComponents };
 registComponents(components);
 export const Form = (props: any) => {
   const { formProps, ...rest } = props;
-
   const _renderField = React.useMemo(() => {
     return renderField(formProps);
   }, [formProps]);

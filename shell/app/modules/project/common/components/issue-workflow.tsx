@@ -81,7 +81,7 @@ const IssueWorkflow = () => {
                   </div>
                 </div>
                 <div className="sub default-workflow">
-                  <div className="default-workflow-title">{i18n.t('common:state')}：</div>
+                  <div className="default-workflow-title">{i18n.t('Status')}：</div>
                   <div className="default-workflow-content">
                     {map(item.state, (name: string, idx) => {
                       const curState = find(workflowStateList, { stateName: name }) || { stateName: name };
