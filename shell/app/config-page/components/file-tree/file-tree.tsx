@@ -396,8 +396,8 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
               {nodeData.title}
               {actions?.length ? (
                 <Popover
-                  content={actions.map((item) => (
-                    <div className="action-btn" onClick={() => item.func?.(nodeData.key, nodeData)}>
+                  content={actions.map((item, idx) => (
+                    <div key={`${idx}`} className="action-btn" onClick={() => item.func?.(nodeData.key, nodeData)}>
                       {item.node}
                     </div>
                   ))}
