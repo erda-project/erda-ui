@@ -151,6 +151,7 @@ export const ApiItem = ({ value, onChange, disabled }: IProps) => {
             <Select
               style={{ width: 110 }}
               value={api.method}
+              getPopupContainer={() => document.body}
               disabled={disabled}
               onChange={(val) => updateApi('method', val as string)}
               placeholder={i18n.t('dop:Please select')}
@@ -321,6 +322,7 @@ const ApiTabComps = {
                     const { value, onChange: onCurChange, className = '', disabled: propsDisabled } = p;
                     return (
                       <Select
+                        getPopupContainer={() => document.body}
                         value={value || undefined} // 没有值时显示placeholder
                         className={`${className} api-test-select`}
                         placeholder={i18n.t('dop:Source')}
@@ -379,6 +381,7 @@ const ApiTabComps = {
                       <Select
                         value={value || undefined} // 没有值时显示placeholder
                         className={`${className} api-test-select`}
+                        getPopupContainer={() => document.body}
                         placeholder={i18n.t('dop:Parameter name')}
                         onChange={onCurChange}
                         disabled={disabled}
@@ -401,6 +404,7 @@ const ApiTabComps = {
                       <Select
                         value={value || undefined} // 没有值时显示placeholder
                         className={`${className} api-test-select`}
+                        getPopupContainer={() => document.body}
                         placeholder={i18n.t('dop:Compare')}
                         onChange={onCurChange}
                         disabled={disabled}
@@ -601,6 +605,7 @@ const APIBody = (props: CompProps) => {
           <Select
             size="small"
             style={{ width: 160 }}
+            getPopupContainer={() => document.body}
             className="mt-2"
             onChange={(t) => changeType(t as string)}
             value={realType}
