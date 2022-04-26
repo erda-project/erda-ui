@@ -271,7 +271,7 @@ export const EditIssueDrawer = (props: IProps) => {
     }
 
     // if (!_data.iterationID) {
-    //   message.warn(i18n.t('please choose {name}', { name: i18n.t('dop:Iteration-owned') }));
+    //   message.warn(i18n.t('please choose the {name}', { name: i18n.t('dop:Iteration-owned') }));
     //   return false;
     // }
 

@@ -416,13 +416,9 @@ const Info = () => {
               <div className="flex">
                 <ErdaIcon type="dev" size={40} className="mr-3" />
                 <div>
-                  <div className="label">
-                    {i18n.t('common:delete current {deleteItem}', { deleteItem: i18n.t('project') })}
-                  </div>
+                  <div className="label">{i18n.t('common:delete')}</div>
                   <div className="text-xs">
-                    {i18n.t('Permanently delete {deleteItem}. Please pay special attention to it.', {
-                      deleteItem: i18n.t('project'),
-                    })}
+                    {i18n.t('Delete the {deleteItem} permanently. Please operate with caution.', i18n.t('app'))}
                   </div>
                 </div>
               </div>
@@ -433,7 +429,7 @@ const Info = () => {
                 disabledConfirm={confirmProjectName !== info.displayName}
                 confirmTip={false}
                 secondTitle={i18n.t(
-                  'dop:The project cannot be restored after deletion. Please enter {name} to confirm.',
+                  'dop:The project cannot be restored after deletion. Please enter the {name} to confirm.',
                   {
                     name: info.displayName,
                   },
@@ -441,7 +437,7 @@ const Info = () => {
                 modalChildren={
                   <Input
                     value={confirmProjectName}
-                    placeholder={i18n.t('Please enter {name}', { name: i18n.t('Project name') })}
+                    placeholder={i18n.t('Please enter the {name}', { name: i18n.t('Project name') })}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.confirmProjectName(e.target.value)}
                   />
                 }

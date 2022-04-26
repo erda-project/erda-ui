@@ -124,12 +124,12 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
       name: 'version',
       type: 'input',
       itemProps: {
-        placeholder: i18n.t('Please enter {name}', { name: i18n.t('Version') }),
+        placeholder: i18n.t('Please enter the {name}', { name: i18n.t('Version').toLowerCase() }),
         disabled: type === 'file',
       },
       className: 'w-1/2',
       rules: [
-        { required: true, message: i18n.t('Please enter {name}', { name: i18n.t('Version') }) },
+        { required: true, message: i18n.t('Please enter the {name}', { name: i18n.t('Version').toLowerCase() }) },
         { max: 30, message: i18n.t('dop:no more than 30 characters') },
         {
           pattern: /^[A-Za-z0-9._+-]+$/,
@@ -170,7 +170,9 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
             {
               validator: (_, value: Array<{ list: RELEASE.ReleaseDetail[] }>) => {
                 if (value && value.length !== 0 && !value.find((item) => item.list.length !== 0)) {
-                  return Promise.reject(new Error(i18n.t('Please enter {name}', { name: i18n.t('dop:App artifact') })));
+                  return Promise.reject(
+                    new Error(i18n.t('Please enter the {name}', { name: i18n.t('dop:App artifact') })),
+                  );
                 }
 
                 return Promise.resolve();

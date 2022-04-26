@@ -17,7 +17,7 @@ import { useUpdate } from 'common/use-hooks';
 import { NodeType, CHART_NODE_SIZE, NodeEleMap } from '../config';
 import { YmlChart, externalKey, CHART_CONFIG } from '../chart';
 import i18n from 'i18n';
-import { notify } from 'common/utils';
+import { firstCharToUpper, notify } from 'common/utils';
 import DefaultPipelineNodeDrawer, { IPipelineNodeDrawerProps } from './pipeline-node-drawer';
 import DefaultInParamsDrawer, { IInPramasDrawerProps } from './in-params-drawer';
 import DefaultOutParamsDrawer, { IOutParamsDrawerProps } from './out-params-drawer';
@@ -145,7 +145,7 @@ export const PipelineGraphicEditor = (props: IPipelineGraphicEditorProps) => {
     } else if (externalData.nodeType === NodeType.endNode) {
       const useable = !isEmpty(get(ymlObj, 'stages'));
       if (!useable) {
-        return notify('warning', i18n.t('dop:please add tasks first, and then configure outputs'));
+        return notify('warning', firstCharToUpper(i18n.t('dop:please add tasks first, and then configure outputs')));
       }
       update({
         outParamsNode: nodeData,

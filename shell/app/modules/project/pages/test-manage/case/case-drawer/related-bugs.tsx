@@ -156,7 +156,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
     },
     {
       title: null,
-      dataIndex: 'operate',
+      dataIndex: 'Operations',
       width: 120,
       fixed: 'right',
       render: (text, { issueRelationID }: TEST_CASE.RelatedBug) => {
@@ -208,7 +208,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
               className="filter-select"
               scopeType="project"
               scopeId={projectId}
-              placeholder={i18n.t('please select {name}', { name: i18n.t('Creator') })}
+              placeholder={i18n.t('please select the {name}', { name: i18n.t('Creator') })}
               onChange={handleSelectCreator}
               allowClear
             />

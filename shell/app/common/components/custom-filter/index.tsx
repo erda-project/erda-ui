@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Input, Select } from 'antd';
+import { firstCharToUpper } from 'app/common/utils';
 import classNames from 'classnames';
 import routeInfoStore from 'core/stores/route';
 import { debounce, isEmpty, isEqual, map } from 'lodash';
@@ -183,6 +184,9 @@ const CustomFilter = (props: IFilterProps) => {
   const realConfig = React.useMemo<FilterItemConfig[]>(() => {
     // const initFilterConfig = !skipInit ? initConfig(config) : config;
     return map(config, (item) => {
+      if (item.customProps?.placeholder) {
+        item.customProps.placeholder = firstCharToUpper(item.customProps?.placeholder);
+      }
       return transformConfig(item);
     });
   }, [config, transformConfig]);

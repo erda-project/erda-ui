@@ -21,6 +21,7 @@ import ContainerLog from 'runtime/common/logs/containers/container-log';
 import ResourceUsageCharts from 'monitor-common/components/resource-usage/resource-usage-charts';
 
 import './instance-operation.scss';
+import { firstCharToUpper } from 'app/common/utils';
 
 export enum OPERATION {
   CONSOLE = 'console',
@@ -126,7 +127,7 @@ export function useInstanceOperation<T extends Instance>({
         </IF>
         <IF check={log}>
           <span className="table-operations-btn" onClick={() => openSlidePanel(OPERATION.LOG, { ...record })}>
-            {i18n.t('log')}
+            {firstCharToUpper(i18n.t('log'))}
           </span>
         </IF>
       </div>

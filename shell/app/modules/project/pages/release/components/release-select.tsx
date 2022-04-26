@@ -15,7 +15,7 @@ import React from 'react';
 import { Row, Col, Button, Timeline, Collapse, Modal, message } from 'antd';
 import moment from 'moment';
 import i18n from 'i18n';
-import { goTo } from 'common/utils';
+import { allWordsFirstLetterUpper, firstCharToUpper, goTo } from 'common/utils';
 import { ErdaIcon, Pagination, ConfigurableFilter } from 'common';
 import { PAGINATION } from 'app/constants';
 import routeInfoStore from 'core/stores/route';
@@ -139,7 +139,9 @@ const ReleaseSelect = ({
               <Panel
                 header={
                   <span className={`time-line-collapse-header ${group.active ? 'active' : ''}`}>
-                    <span className="group-title">{i18n.t('dop:group {index}', { index: index + 1 })}</span>
+                    <span className="group-title">
+                      {firstCharToUpper(i18n.t('dop:group {index}', { index: index + 1 }))}
+                    </span>
                     {group.list?.length ? (
                       <span className="bg-default-1 rounded-full px-2 py-0.5 text-xs ml-1">{group.list.length}</span>
                     ) : (
@@ -198,7 +200,7 @@ const ReleaseSelect = ({
                   <div className="bg-default-02 py-4 flex-all-center">
                     <img src={empty} className="mr-2" />
                     <div>
-                      <div className="text-lg leading-6">{i18n.t('dop:No artifacts selected')}</div>
+                      <div className="text-lg leading-6">{i18n.t('dop:No app artifacts selected')}</div>
                       <div
                         className="text-xs text-purple-deep cursor-pointer leading-5"
                         onClick={() => {
@@ -233,7 +235,7 @@ const ReleaseSelect = ({
               onClick={() => setGroupList((prev) => [...prev, { active: true, list: [] }])}
             >
               <ErdaIcon type="plus" color="currentColor" size={16} className="mr-1" />
-              {i18n.t('add {name}', { name: i18n.t('dop:group') })}
+              {allWordsFirstLetterUpper(i18n.t('add {name}', { name: i18n.t('dop:group') }))}
             </div>
           </Timeline.Item>
         ) : (

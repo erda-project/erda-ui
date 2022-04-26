@@ -246,7 +246,7 @@ const DeployContent = ({
             });
           }}
         >
-          {i18n.t('dop:restart deploy')}
+          {i18n.t('dop:Restart Deployment')}
         </Button>
       ),
       cancel: (deploymentOrderID: string) => (
@@ -260,7 +260,7 @@ const DeployContent = ({
             });
           }}
         >
-          {i18n.t('dop:cancel deploy')}
+          {i18n.t('dop:cancel deploying')}
         </Button>
       ),
     }),
@@ -464,7 +464,7 @@ const DeployContent = ({
               disabled={!selectedRelease || selectedRelease.hasFail}
               onClick={() => {
                 if (selectedRelease?.type === 'PROJECT_RELEASE' && !modes.length) {
-                  message.error(i18n.t('please choose {name}', { name: i18n.t('mode') }));
+                  message.error(i18n.t('please choose the {name}', { name: i18n.t('mode') }));
                   return;
                 }
 

@@ -335,7 +335,7 @@ const BranchRule = (props: IProps) => {
         onChange={() => getBranchRulesData()}
       />
       <FormModal
-        name={i18n.t('dop:Branch Rule')}
+        name={i18n.t('dop:Branch Rule').toLowerCase()}
         onCancel={onCancel}
         onOk={onFinish}
         visible={modalVis}

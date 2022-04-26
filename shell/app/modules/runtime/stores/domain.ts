@@ -47,7 +47,7 @@ const domain = createFlatStore({
       await domain.getDomains({ domainType: 'domains' });
     },
     async updateK8SDomain({ call }, payload: RUNTIME_DOMAIN.UpdateK8SDomainBody) {
-      await call(updateK8SDomain, payload, { successMsg: i18n.t('runtime:domain name takes effect immediately') });
+      await call(updateK8SDomain, payload, { successMsg: i18n.t('domain takes effect immediately') });
     },
   },
 });

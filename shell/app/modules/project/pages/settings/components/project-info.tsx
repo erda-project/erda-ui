@@ -205,15 +205,18 @@ const ProjectInfo = ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps)
         <ConfirmDelete
           deleteItem={i18n.t('project')}
           onConfirm={onDelete}
-          secondTitle={i18n.t('dop:The project cannot be restored after deletion. Please enter {name} to confirm.', {
-            name: info.displayName,
-          })}
+          secondTitle={i18n.t(
+            'dop:The project cannot be restored after deletion. Please enter the {name} to confirm.',
+            {
+              name: info.displayName,
+            },
+          )}
           onCancel={() => setConfirmProjectName('')}
           disabledConfirm={confirmProjectName !== info.displayName}
           modalChildren={
             <Input
               value={confirmProjectName}
-              placeholder={i18n.t('Please enter {name}', { name: i18n.t('Project name') })}
+              placeholder={i18n.t('Please enter the {name}', { name: i18n.t('Project name') })}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmProjectName(e.target.value)}
             />
           }

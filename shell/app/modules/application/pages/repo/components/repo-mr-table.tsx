@@ -17,7 +17,7 @@ import { CustomFilter, EmptyListHolder, Icon as CustomIcon, LoadMore, MemberSele
 import { useUpdate } from 'common/use-hooks';
 import { get } from 'lodash';
 import { useEffectOnce } from 'react-use';
-import { fromNow, goTo } from 'common/utils';
+import { firstCharToUpper, fromNow, goTo } from 'common/utils';
 import i18n from 'i18n';
 import { useLoading } from 'core/stores/loading';
 import { useUserMap } from 'core/stores/userMap';
@@ -69,7 +69,7 @@ const RepoMrTable = ({ type }: IProps) => {
         type: MemberSelector,
         name: 'authorId',
         customProps: {
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('default:Submitter') }),
+          placeholder: i18n.t('please choose the {name}', { name: i18n.t('submitter') }),
           scopeType: 'app',
         },
       },
@@ -77,7 +77,7 @@ const RepoMrTable = ({ type }: IProps) => {
         type: MemberSelector,
         name: 'assigneeId',
         customProps: {
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('default:designated person') }),
+          placeholder: i18n.t('please choose the {name}', { name: i18n.t('assignee') }),
           scopeType: 'app',
         },
       },

@@ -18,6 +18,7 @@ import moment from 'moment';
 import runtimeServiceStore from 'runtime/stores/service';
 import { useUpdate } from 'common/use-hooks';
 import { ColumnProps } from 'antd/lib/table';
+import { firstCharToUpper } from 'app/common/utils';
 
 interface IProps {
   runtimeID: number;
@@ -74,7 +75,7 @@ const PodTable = (props: IProps) => {
 
   const podTableColumn: Array<ColumnProps<RUNTIME_SERVICE.Pod>> = [
     {
-      title: i18n.t('runtime:pod IP'),
+      title: firstCharToUpper(i18n.t('runtime:pod IP')),
       dataIndex: 'ipAddress',
       width: 120,
     },
@@ -112,7 +113,7 @@ const PodTable = (props: IProps) => {
       render: (text: string) => (moment(text).isValid() ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '-'),
     },
     {
-      title: i18n.t('operation'),
+      title: i18n.t('Operations'),
       dataIndex: 'op',
       width: 96,
       fixed: 'right',

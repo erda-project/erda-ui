@@ -25,7 +25,7 @@ import { ConfigTabs, ConfigTypeMap, CONFIG_ENV_MAP } from './config';
 import { VariableConfigForm } from 'application/pages/settings/components/variable-config-form';
 import ListEdit from './list-edit';
 import TextEdit from './text-edit';
-import { goTo } from 'common/utils';
+import { firstCharToUpper, goTo } from 'common/utils';
 import i18n from 'i18n';
 import { appMode } from 'application/common/config';
 import routeInfoStore from 'core/stores/route';
@@ -422,7 +422,7 @@ const OtherConfig = (props: IOtherProps) => {
                 const { value } = e.target;
                 setSearchValue(value);
               }}
-              placeholder={i18n.t('search {name}', { name: 'Key' })}
+              placeholder={firstCharToUpper(i18n.t('search the {name}', { name: 'key' }))}
             />
           }
           rowKey="key"

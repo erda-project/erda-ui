@@ -18,7 +18,7 @@ import cronstrue from 'cronstrue/i18n';
 import { Spin, Badge, Modal, Popover, Row, Col, Tooltip, Menu, Dropdown, Input } from 'antd';
 import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, ErdaIcon, ErdaAlert, Table } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { goTo, secondsToTime, replaceEmoji, updateSearch } from 'common/utils';
+import { goTo, secondsToTime, replaceEmoji, updateSearch, firstCharToUpper } from 'common/utils';
 import GotoCommit from 'application/common/components/goto-commit';
 import { BuildLog } from './build-log';
 import PipelineChart from './pipeline-chart';
@@ -755,7 +755,7 @@ const BuildDetail = (props: IProps) => {
                   <Avatar name={commitDetail.author} showName size={20} />
                 </Col>
                 <Col span={12}>
-                  <div className="info-label">{i18n.t('dop:commit message')}：</div>
+                  <div className="info-label">{firstCharToUpper(i18n.t('dop:commit message'))}：</div>
                   <div className="nowrap" ref={commitMsgRef}>
                     {getAutoTooltipMsg(commitMsgRef, replaceEmoji(commitDetail.comment))}
                   </div>
@@ -767,7 +767,7 @@ const BuildDetail = (props: IProps) => {
                   <div className="hover-py">{commit ? <GotoCommit length={6} commitId={commit} /> : null}</div>
                 </Col>
                 <Col span={12}>
-                  <div className="info-label">{i18n.t('commit date')}：</div>
+                  <div className="info-label">{firstCharToUpper(i18n.t('commit date'))}：</div>
                   {commitDetail.time ? moment(new Date(commitDetail.time)).format('YYYY-MM-DD HH:mm:ss') : null}
                 </Col>
               </Row>
@@ -777,7 +777,7 @@ const BuildDetail = (props: IProps) => {
                   {costTimeSec !== -1 ? `${i18n.t('dop:time cost')} ${secondsToTime(+costTimeSec)}` : ''}
                 </Col>
                 <Col span={12}>
-                  <div className="info-label">{i18n.t('execution times')}：</div>
+                  <div className="info-label">{firstCharToUpper(i18n.t('execution times'))}：</div>
                   {recordPaging.total || 0} {i18n.t('times')}
                 </Col>
               </Row>
@@ -788,7 +788,7 @@ const BuildDetail = (props: IProps) => {
                 </Col>
                 {cronMsg && (
                   <Col span={12}>
-                    <div className="info-label">{i18n.t('timing time')}：</div>
+                    <div className="info-label">{firstCharToUpper(i18n.t('timing time'))}：</div>
                     <div className="nowrap" ref={cronMsgRef}>
                       {getAutoTooltipMsg(cronMsgRef, cronMsg)}
                     </div>

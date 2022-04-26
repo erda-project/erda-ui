@@ -21,6 +21,7 @@ import i18n from 'i18n';
 import ConfigSelector from './config-selector';
 
 import './index.scss';
+import { firstCharToUpper } from 'app/common/utils';
 
 export interface IProps {
   fieldsList: Field[];
@@ -133,7 +134,7 @@ const defaultProcessField = (item: FieldItem, zIndex?: number) => {
   }
 
   field.itemProps = {
-    placeholder,
+    placeholder: firstCharToUpper(placeholder),
     disabled,
     ...field.itemProps,
   };
@@ -291,7 +292,7 @@ const ConfigurableFilter = React.forwardRef(
             label={<span className="text-default-3">{i18n.t('dop:filter name')}</span>}
             name="label"
             rules={[
-              { required: true, message: i18n.t('Please enter {name}', { name: i18n.t('dop:filter name') }) },
+              { required: true, message: i18n.t('Please enter the {name}', { name: i18n.t('dop:filter name') }) },
               { max: 10, message: i18n.t('dop:within {num} characters', { num: 10 }) },
             ]}
           >

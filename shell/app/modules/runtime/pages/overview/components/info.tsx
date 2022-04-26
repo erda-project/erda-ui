@@ -26,6 +26,7 @@ import { confirmRedeploy } from '../containers';
 import appStore from 'application/stores/application';
 
 import './info.scss';
+import { allWordsFirstLetterUpper } from 'app/common/utils';
 
 const { ELSE } = IF;
 const cancelableDeployStatus = ['INIT', 'WAITING', 'DEPLOYING', 'CANCELING', 'WAITAPPROVE'];
@@ -76,7 +77,7 @@ const DeployInfo = () => {
   const menu = (
     <Menu>
       <MenuItem>
-        <div onClick={confirmRedeploy}>{i18n.t('runtime:restart')}</div>
+        <div onClick={confirmRedeploy}>{allWordsFirstLetterUpper(i18n.t('runtime:restart'))}</div>
       </MenuItem>
       <MenuItem>
         <div onClick={showSlidePanel}>{i18n.t('runtime:Rollback')}</div>
@@ -139,14 +140,14 @@ const DeployInfo = () => {
           <IF check={hasAuth}>
             <Dropdown overlay={menu} trigger={['click']} disabled={showCancelBtn || isBlocked}>
               <Button type="primary" disabled={showCancelBtn || isBlocked}>
-                {i18n.t('runtime:Operation')}
+                {i18n.t('Operations')}
                 <ErdaIcon type="down" />
               </Button>
             </Dropdown>
             <ELSE />
             <NoAuthTip>
               <Button type="primary">
-                {i18n.t('runtime:Operation')}
+                {i18n.t('Operations')}
                 <ErdaIcon type="down" />
               </Button>
             </NoAuthTip>

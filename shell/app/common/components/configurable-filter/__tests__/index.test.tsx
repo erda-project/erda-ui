@@ -163,7 +163,7 @@ describe('ConfigurableFilter', () => {
     fireEvent.click(result.baseElement.querySelector('[name="guanbi"]')!);
     expect(closeFn).toHaveBeenCalledTimes(2);
     await openFilter();
-    fireEvent.change(result.getByPlaceholderText('search by keywords'), { target: { value: 'erda' } });
+    fireEvent.change(result.getByPlaceholderText('Search by keywords'), { target: { value: 'erda' } });
     fireEvent.mouseDown(result.baseElement.querySelector('.ant-select-selector')!);
     await waitFor(() => expect(result.baseElement).isExist('.ant-select-dropdown', 1));
     fireEvent.click(result.getByText('iteration-1.1'));
@@ -241,7 +241,7 @@ describe('ConfigurableFilter', () => {
       ...initialInsideFieldsValue,
       iteration: [123],
     });
-    fireEvent.change(result.getByPlaceholderText('search by keywords'), { target: { value: 'erda' } });
+    fireEvent.change(result.getByPlaceholderText('Search by keywords'), { target: { value: 'erda' } });
     fireEvent.click(result.getByText('new filter'));
     await waitFor(() => expect(result.baseElement).isExist('.erda-configurable-filter-add', 1));
     fireEvent.click(result.getByText('Cancel', { selector: '.erda-configurable-filter-add button span' }));
@@ -268,7 +268,7 @@ describe('ConfigurableFilter', () => {
       );
       await flushPromises();
     });
-    fireEvent.change(result.getByPlaceholderText('search by keywords'), { target: { value: 'cloud' } });
+    fireEvent.change(result.getByPlaceholderText('Search by keywords'), { target: { value: 'cloud' } });
     expect(result.getByText('customFilter').closest('.filter-config-selector-item')).toHaveClass('bg-default-04');
   });
 });

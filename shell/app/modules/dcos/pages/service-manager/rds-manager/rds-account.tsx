@@ -89,7 +89,7 @@ const RdsAccount = () => {
     },
     getRemarkCol('accountDescription'),
     {
-      title: i18n.t('operation'),
+      title: i18n.t('Operations'),
       dataIndex: 'op',
       width: 200,
       render: (_v: any, record: CLOUD_SERVICE.IRDSAccountResp) => {

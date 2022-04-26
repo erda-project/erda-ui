@@ -121,7 +121,7 @@ const Approval = () => {
         render: (val: string) => moment(val).format('YYYY-MM-DD HH:mm:ss'),
       },
       {
-        title: i18n.t('operation'),
+        title: i18n.t('Operations'),
         dataIndex: 'op',
         width: type === 'done' ? 60 : 150,
         render: (_v: any, record: APPROVAL.Item) => {

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { ImageUpload, ConfirmDelete } from 'common';
-import { goTo } from 'common/utils';
+import { firstCharToUpper, goTo } from 'common/utils';
 import { Button, Input, FormInstance } from 'antd';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import { modeOptions } from 'application/common/config';
@@ -48,7 +48,7 @@ const PureAppInfo = (): JSX.Element => {
   const gitRepo = `${protocol}//${appDetail.gitRepoNew}`;
   const fieldsList = [
     {
-      label: i18n.t('dop:app name'),
+      label: firstCharToUpper(i18n.t('dop:app name')),
       name: 'name',
       itemProps: {
         disabled: true,
@@ -75,7 +75,7 @@ const PureAppInfo = (): JSX.Element => {
       },
     },
     {
-      label: i18n.t('whether to put {name} in public', { name: i18n.t('application') }),
+      label: i18n.t('Public or private'),
       name: 'isPublic',
       type: 'radioGroup',
       options: [
@@ -97,7 +97,7 @@ const PureAppInfo = (): JSX.Element => {
       itemProps: { rows: 4, maxLength: 200 },
     },
     {
-      label: i18n.t('dop:app icon'),
+      label: i18n.t('dop:app logo'),
       name: 'logo',
       required: false,
       getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
@@ -121,15 +121,15 @@ const PureAppInfo = (): JSX.Element => {
 
   const extraSectionList = [
     {
-      title: i18n.t('exit {name}', { name: i18n.t('application') }),
+      title: firstCharToUpper(i18n.t('exit {name}', { name: i18n.t('app') })),
       children: (
         <ConfirmDelete
-          title={i18n.t('sure to exit the current {name}?', { name: i18n.t('application') })}
-          confirmTip={i18n.t('common:exit-confirm-tip {name}', { name: i18n.t('application') })}
-          secondTitle={i18n.t('common:exit-sub-tip {name}', { name: i18n.t('application') })}
+          title={i18n.t('Confirm to exit the current app')}
+          confirmTip={i18n.t('common:exit-confirm-tip app')}
+          secondTitle={i18n.t('common:exit-sub-tip app')}
           onConfirm={exitApp}
         >
-          <Button danger>{i18n.t('common:exit current {name}', { name: i18n.t('application') })}</Button>
+          <Button danger>{i18n.t('common:exit')}</Button>
         </ConfirmDelete>
       ),
     },
@@ -140,9 +140,9 @@ const PureAppInfo = (): JSX.Element => {
       title: i18n.t('dop:Delete app'),
       children: (
         <ConfirmDelete
-          deleteItem={i18n.t('application')}
+          deleteItem={i18n.t('app')}
           onConfirm={remove}
-          secondTitle={i18n.t('dop:The application cannot be restored after deletion.Please enter {name} to confirm.', {
+          secondTitle={i18n.t('dop:Deleted apps cannot be recovered. Please enter the {name} to confirm.', {
             name: appDetail.name,
           })}
           onCancel={() => setConfirmAppName('')}
@@ -150,11 +150,13 @@ const PureAppInfo = (): JSX.Element => {
           modalChildren={
             <Input
               value={confirmAppName}
-              placeholder={i18n.t('Please enter {name}', { name: i18n.t('dop:app name') })}
+              placeholder={i18n.t('Please enter the {name}', { name: i18n.t('dop:app name') })}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmAppName(e.target.value)}
             />
           }
-        />
+        >
+          <Button danger>{i18n.t('common:delete')}</Button>
+        </ConfirmDelete>
       ),
     });
   }
@@ -173,7 +175,8 @@ const PureAppInfo = (): JSX.Element => {
       fieldsList={fieldsList}
       updateInfo={onUpdate}
       extraSections={extraSectionList}
-      name={i18n.t('dop:basic information')}
+      name={firstCharToUpper(i18n.t('dop:basic information'))}
+      formName={i18n.t('dop:basic information')}
     />
   );
 };

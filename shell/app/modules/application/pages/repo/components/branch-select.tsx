@@ -17,6 +17,7 @@ import React from 'react';
 import i18n from 'i18n';
 import { ErdaIcon } from 'common';
 import './branch-select.scss';
+import { firstCharToUpper } from 'app/common/utils';
 
 const { Search } = Input;
 
@@ -164,7 +165,11 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
 
     return (
       <Popover
-        title={hideTagList ? i18n.t('dop:Please select the branch') : i18n.t('dop:please choose branch or tag')}
+        title={
+          hideTagList
+            ? i18n.t('dop:Please select the branch')
+            : firstCharToUpper(i18n.t('dop:please choose branch or tag'))
+        }
         key={this.state.inputKey}
         overlayClassName="branch-select-popover"
         trigger="click"

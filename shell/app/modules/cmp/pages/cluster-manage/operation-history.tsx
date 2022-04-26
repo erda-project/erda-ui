@@ -90,7 +90,7 @@ export const OperationHistory = () => {
       width: 120,
     },
     {
-      title: `${i18n.t('operation')}${i18n.t('Name')}`,
+      title: `${i18n.t('Operations')}${i18n.t('Name')}`,
       dataIndex: 'recordType',
       width: 160,
       render: (val: string) => {
