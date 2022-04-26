@@ -58,8 +58,8 @@ const apis = {
   getReleaseDetail: {
     api: 'get@/api/releases/:releaseID',
   },
-  getAppList: {
-    api: 'get@/api/applications',
+  getMyAppList: {
+    api: 'get@/api/applications/actions/list-my-applications',
   },
   getReleaseList: {
     api: 'get@/api/releases',
@@ -88,8 +88,8 @@ export const getReleaseDetail = apiCreator<(payload: { releaseID?: string }) => 
   apis.getReleaseDetail,
 );
 
-export const getAppList = apiCreator<(payload: { projectId: string; q?: string }) => { list: RELEASE.AppDetail[] }>(
-  apis.getAppList,
+export const getMyAppList = apiCreator<(payload: { projectId: string; q?: string }) => { list: RELEASE.AppDetail[] }>(
+  apis.getMyAppList,
 );
 
 export const getReleaseList = apiCreator<

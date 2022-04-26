@@ -15,6 +15,7 @@ import React from 'react';
 import { Row, Col, Button, Timeline, Collapse, Modal, message } from 'antd';
 import moment from 'moment';
 import i18n from 'i18n';
+import { encode } from 'js-base64';
 import { goTo } from 'common/utils';
 import { ErdaIcon, Pagination, ConfigurableFilter } from 'common';
 import { PAGINATION } from 'app/constants';
@@ -24,6 +25,7 @@ import releaseStore from 'project/stores/release';
 import projectLabel from 'project/stores/label';
 import { MemberScope } from 'common/stores/member-scope';
 import { getReleaseList } from 'project/services/release';
+import { getFileTree } from 'project/services/pipeline';
 import empty from 'app/images/empty-white-bg.svg';
 
 import './release-select.scss';
@@ -278,7 +280,7 @@ interface FilterData {
   releaseId?: string;
   userId?: string;
   latest?: string;
-  1?: string;
+  q?: string;
 }
 
 const ListSelectOverlay = ({
@@ -290,12 +292,13 @@ const ListSelectOverlay = ({
   onCancel,
   renderSelectedItem,
 }: OverlayProps) => {
-  const { params } = routeInfoStore.getState((s) => s);
+  const { params } = routeInfoStore.useStore((s) => s);
   const { projectId } = params;
   const labelsList = projectLabel.useStore((s) => s.list);
-  const { appList } = releaseStore.getState((s) => s);
+  const appList = releaseStore.useStore((s) => s.appList);
   const { getAppList } = releaseStore.effects;
-
+  const [app, setApp] = React.useState<number>();
+  const [branchList, setBranchList] = React.useState(['master', 'develop']);
   const [memberList] = memberStore.useStore((s) => [s.list]);
   const { getMemberList } = memberStore.effects;
   const [filterData, setFilterData] = React.useState<FilterData>({ latest: 'true' });
@@ -332,6 +335,21 @@ const ListSelectOverlay = ({
     [projectId, filterData],
   );
 
+  const getBranch = async (app: number) => {
+    const params = {
+      pinode: encode(`${projectId}/${app}`),
+      pipelineCategoryKey: '',
+      scope: 'project-app',
+      scopeID: projectId,
+    };
+
+    const res = await getFileTree(params);
+    if (res.success) {
+      const { data } = res;
+      setBranchList(data?.map((item) => item.name) || []);
+    }
+  };
+
   React.useEffect(() => {
     getAppList({ projectId });
     getMemberList({ scope: { id: projectId, type: MemberScope.PROJECT }, pageNo: 1, pageSize: 10000 });
@@ -340,6 +358,14 @@ const ListSelectOverlay = ({
   React.useEffect(() => {
     getReleases(1);
   }, [getReleases]);
+
+  React.useEffect(() => {
+    if (app) {
+      getBranch(app);
+    } else {
+      setBranchList(['master', 'develop']);
+    }
+  }, [app]);
 
   const fieldsList = [
     {
@@ -351,13 +377,19 @@ const ListSelectOverlay = ({
       placeholder: i18n.t('filter by {name}', { name: i18n.t('App') }),
       itemProps: {
         showSearch: true,
+        onChange: (value: number) => setApp(value),
       },
     },
     {
       key: 'branchName',
-      type: 'input',
+      type: 'select',
       label: i18n.t('dop:branch'),
+      mode: 'single',
+      options: branchList.map((item) => ({ label: item, value: item })),
       placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:branch') }),
+      itemProps: {
+        showSearch: true,
+      },
     },
     {
       key: 'commitId',
