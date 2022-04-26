@@ -62,8 +62,11 @@ const org = createStore({
         if (orgName === '-') {
           layoutStore.reducers.setAnnouncementList([]);
         } else if (curPathOrg !== orgName) {
-          const list = await announcementStore.effects.getAllNoticeListByStatus('published');
-          layoutStore.reducers.setAnnouncementList(list);
+          const initData = getGlobal('initData');
+          if (initData?.orgAccess?.access) {
+            const list = await announcementStore.effects.getAllNoticeListByStatus('published');
+            layoutStore.reducers.setAnnouncementList(list);
+          }
         }
       }
 
