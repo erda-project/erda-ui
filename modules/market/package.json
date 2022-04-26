@@ -1,5 +1,5 @@
 {
-  "name": "erda-ui-market",
+  "name": "@erda-ui/market",
   "version": "2.1.0",
   "private": true,
   "scripts": {

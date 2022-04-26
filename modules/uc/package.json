@@ -1,5 +1,5 @@
 {
-  "name": "erda-uc",
+  "name": "@erda-ui/uc",
   "version": "2.1.0",
   "private": true,
   "dependencies": {

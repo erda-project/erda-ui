@@ -13,7 +13,6 @@
     "precommit": "lint-staged",
     "lint": "eslint --ext .ts,.tsx,.js,.jsx src",
     "test": "jest",
-    "prepare": "npm run build:noDeclare",
     "test:coverage": "jest --coverage",
     "publish:patch": "npm run build && npm version patch && npm publish --registry https://registry.npmjs.org"
   },

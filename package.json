@@ -13,7 +13,7 @@
   "scripts": {
     "f2elint-scan": "f2elint scan",
     "f2elint-fix": "f2elint fix",
-    "prepare": "husky install",
+    "prepare": "husky install && pnpm run build:noDeclare --filter @erda-ui/components && pnpm run build --filter @erda-ui/cli",
     "precommit": "lint-staged",
     "install-cli": "node ./install-cli.js",
     "update-version": "erda-ui set-pkg-version"
