@@ -66,7 +66,8 @@ const getPermObj = (data: IPermResponseData, scope: string) => {
       }
     }
   });
-  if (scope === 'project') {
+
+  if (['project', 'org'].includes(scope)) {
     newPermObj.access = access;
     newPermObj.roles = roles;
     newPermObj.scopeInfo = scopeInfo;
