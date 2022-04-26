@@ -20,10 +20,9 @@ import { getJoinedOrgs, getPublicOrgs, updateOrg } from '../services/org';
 import { getResourcePermissions } from 'user/services/user';
 import permStore from 'user/stores/permission';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
-import { get, intersection, map } from 'lodash';
+import { intersection, map } from 'lodash';
 import { once } from 'core/event-hub';
 import announcementStore from 'org/stores/announcement';
-import { getGlobal, setGlobal } from 'core/global-space';
 
 interface IState {
   currentOrg: ORG.IOrg;
@@ -78,12 +77,6 @@ const org = createStore({
 
         if (orgName === '-') {
           layoutStore.reducers.setAnnouncementList([]);
-        } else if (curPathOrg !== orgName) {
-          const orgPermData = permStore.getState((s) => s.org);
-          if (orgPermData.access) {
-            const list = await announcementStore.effects.getAllNoticeListByStatus('published');
-            layoutStore.reducers.setAnnouncementList(list);
-          }
         }
       }
 
