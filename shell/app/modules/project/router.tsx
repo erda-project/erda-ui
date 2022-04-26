@@ -25,7 +25,6 @@ import {
   TEST_STATISTICS_TABS,
   DEPLOY_RUNTIME_TABS,
   DEPLOY_TABS,
-  MEASURE_TABS,
   RELEASE_TABS,
   PIPELINE_TABS,
 } from './tabs';
@@ -198,27 +197,12 @@ function getProjectRouter(): RouteConfigItem[] {
               getComp: (cb) => cb(import('project/pages/milestone'), 'Milestone'),
               layout: { noWrapper: true, fullHeight: true },
             },
-          ],
-        },
-        {
-          path: 'measure',
-          breadcrumbName: i18n.t('dop:Statistics'),
-          routes: [
             {
-              path: 'bug',
-              tabs: MEASURE_TABS,
+              path: 'measure',
+              tabs: COLLABORATE_TABS,
               ignoreTabQuery: true,
-              getComp: (cb) => cb(import('project/pages/issue/issue-dashboard')),
-              layout: {
-                noWrapper: true,
-              },
-            },
-            {
-              path: 'task',
-              tabs: MEASURE_TABS,
-              ignoreTabQuery: true,
+              getComp: (cb) => cb(import('project/pages/issue/statistics')),
               layout: { noWrapper: true, fullHeight: true },
-              getComp: (cb) => cb(import('project/pages/issue/task-summary')),
             },
           ],
         },
