@@ -16,6 +16,7 @@ import { Redirect } from 'react-router-dom';
 import { qs } from 'common/utils';
 import getAppRouter from 'application/router';
 import i18n from 'i18n';
+import { ENV_MAP } from 'app/locales/utils';
 import {
   COLLABORATE_TABS,
   AUTO_TEST_TABS,
@@ -524,6 +525,10 @@ function getProjectRouter(): RouteConfigItem[] {
                   path: ':appId/runtime/:runtimeId',
                   tabs: DEPLOY_RUNTIME_TABS,
                   backToUp: 'projectDeployEnv',
+                  breadcrumbName: ({ params }) => {
+                    const { workspace } = params;
+                    return ENV_MAP[workspace];
+                  },
                   mark: 'projectDeployRuntime',
                   getComp: (cb) => cb(import('app/modules/runtime/pages/overview')),
                   layout: {
