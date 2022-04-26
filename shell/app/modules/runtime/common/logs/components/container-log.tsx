@@ -303,7 +303,7 @@ const WrappedLogRoller = (props: Merge<LogProps, { isStopped: boolean; instance:
     <LogRoller
       {...propsRest}
       {...rest}
-      disabledDownload={logFallback}
+      disableDownload={logFallback}
       query={query}
       content={content || []}
       fetchPeriod={fetchPeriod || 3000}
