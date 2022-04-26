@@ -280,7 +280,7 @@ const WrappedLogRoller = (props: Merge<LogProps, { isStopped: boolean; instance:
 
   useUpdateEffect(() => {
     if (logFallback) {
-      const { podName, podNamespace, containerName, containerId } = instance;
+      const { podName, podNamespace, containerName, containerId, clusterName } = instance;
       setQuery((prev) => ({
         ...prev,
         fetchApi: '/api/runtime/realtime/logs',
@@ -288,6 +288,7 @@ const WrappedLogRoller = (props: Merge<LogProps, { isStopped: boolean; instance:
         podName,
         podNamespace,
         containerName,
+        clusterName,
         containerId,
       }));
     }

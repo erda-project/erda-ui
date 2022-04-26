@@ -50,13 +50,13 @@ const common = createStore({
         return;
       }
       try {
-        const logFallback = select((s) => s.logFallback);
         const response = await call(fetchLog, query, { fullResult: true });
         lines = response?.data?.lines || [];
-        if (!logFallback && extra?.isRunsContainerLog && response?.err?.code === 500) {
+      } catch (error) {
+        const logFallback = select((s) => s.logFallback);
+        if (!logFallback && extra?.isRunsContainerLog && `${error.response?.body?.err?.code}` === '500') {
           update({ logFallback: true });
         }
-      } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error);
         lines = [];
