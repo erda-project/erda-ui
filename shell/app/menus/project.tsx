@@ -38,27 +38,15 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       href: goTo.resolve.projectAllIssue(), // `/dop/projects/${projectId}/issues/all`,
       icon: <ErdaIcon type="xiangmuguanli" />,
-      text: i18n.t('dop:Collaboration-project-manage'),
-      subtitle: i18n.t('dop:Management'),
+      text: i18n.t('dop:Collaboration'),
+      subtitle: i18n.t('dop:Collaboration'),
+      prefix: `${goTo.resolve.projectIssueRoot()}/`,
       show:
         projectPerm.backLog.viewBackLog.pass ||
         projectPerm.iteration.read.pass ||
         projectPerm.issue.viewIssue.pass ||
         projectPerm.epic.read.pass ||
         projectPerm.dashboard.viewDashboard.pass,
-      subMenu: [
-        {
-          href: goTo.resolve.projectAllIssue(),
-          text: i18n.t('dop:Collaboration'),
-          prefix: `${goTo.resolve.projectIssueRoot()}/`,
-        },
-        {
-          href: goTo.resolve.projectMeasureTask(),
-          text: i18n.t('dop:Statistics'),
-          show: projectPerm.dashboard.viewDashboard.pass,
-          prefix: goTo.resolve.projectMeasure(),
-        },
-      ],
     },
     {
       href: goTo.resolve.projectTestStatisticsRoot(), // `/dop/projects/${projectId}`,
