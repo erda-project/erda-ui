@@ -48,9 +48,9 @@ stages:
             build_cmd:
               - cd ${{ dirs.erda-ui }}/shell && npm run extra-logic
               - cd ${{ dirs.erda-ui }}
-              - npm i @erda-ui/cli@2.0.x -g
-              - erda-ui init --online
-              - erda-ui build --online
+              - npm i -g --force pnpm
+              - pnpm i --frozen-lockfile --no-optional
+              - npm run build-online
               - cp -r ${{ dirs.erda-ui }}/{public,scheduler} $WORKDIR
             node_version: 12
           resources:

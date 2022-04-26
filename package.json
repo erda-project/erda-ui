@@ -16,7 +16,10 @@
     "prepare": "husky install && pnpm run build:noDeclare --filter @erda-ui/components && pnpm run build --filter @erda-ui/cli",
     "precommit": "lint-staged",
     "install-cli": "node ./install-cli.js",
-    "update-version": "erda-ui set-pkg-version"
+    "update-version": "erda-ui set-pkg-version",
+    "clear-dependencies": "erda-ui clear-dependencies",
+    "init": "erda-ui init",
+    "build-online": "erda-ui build --online"
   },
   "repository": {
     "type": "git",
