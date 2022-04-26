@@ -20,10 +20,9 @@ import { getJoinedOrgs, getPublicOrgs, updateOrg } from '../services/org';
 import { getResourcePermissions } from 'user/services/user';
 import permStore from 'user/stores/permission';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
-import { get, intersection, map } from 'lodash';
+import { intersection, map } from 'lodash';
 import { once } from 'core/event-hub';
 import announcementStore from 'org/stores/announcement';
-import { getGlobal } from 'core/global-space';
 
 interface IState {
   currentOrg: ORG.IOrg;
@@ -53,20 +52,31 @@ const org = createStore({
     listenRoute(async ({ params, isIn, isLeaving }) => {
       if (isIn('orgIndex')) {
         const { orgName } = params;
-        const [curPathOrg, initFinish] = org.getState((s) => [s.curPathOrg, s.initFinish]);
+        const [curPathOrg, initFinish, orgs, currentOrg] = org.getState((s) => [
+          s.curPathOrg,
+          s.initFinish,
+          s.orgs,
+          s.currentOrg,
+        ]);
         if (!isAdminRoute() && initFinish && (curPathOrg !== orgName || orgName === '-')) {
           layoutStore.reducers.clearLayout();
-          org.effects.getOrgByDomain({ orgName });
+          const curOrg = orgs.find((item) => item.name === orgName);
+          if (currentOrg.name !== orgName && curOrg) {
+            org.reducers.updateCurrentOrg(curOrg);
+            getResourcePermissions({ scope: 'org', scopeID: `${curOrg.id}` }).then((result) => {
+              permStore.reducers.updatePerm('org', result.data);
+              org.effects.getOrgByDomain({ orgName });
+              if (result?.data?.access) {
+                announcementStore.effects.getAllNoticeListByStatus('published').then((list) => {
+                  layoutStore.reducers.setAnnouncementList(list);
+                });
+              }
+            });
+          }
         }
 
         if (orgName === '-') {
           layoutStore.reducers.setAnnouncementList([]);
-        } else if (curPathOrg !== orgName) {
-          const initData = getGlobal('initData');
-          if (initData?.orgAccess?.access) {
-            const list = await announcementStore.effects.getAllNoticeListByStatus('published');
-            layoutStore.reducers.setAnnouncementList(list);
-          }
         }
       }
 
@@ -110,18 +120,16 @@ const org = createStore({
         domain = domain.split('.').slice(1).join('.');
       }
       const { orgName } = payload;
-      const orgs = select((s) => s.orgs); // get joined orgs
-      const globalInitData = getGlobal('initData') || {};
-      const resOrg = globalInitData?.currentOrg || {};
+      const [orgs, currentOrg] = select((s) => [s.orgs, s.currentOrg]); // get joined orgs
+      const orgPermData = permStore.getState((s) => s.org);
 
       if (!orgName) return;
-      let orgPermData = globalInitData?.orgAccess; // { access: boolean, roles: [], ... }
+
       const curPathname = location.pathname;
-      if (!Object.keys(resOrg).length && !orgPermData?.access) {
+      if (!Object.keys(currentOrg).length && !orgPermData?.access) {
         goTo(goTo.pages.landPage);
         update({ initFinish: true });
       } else {
-        const currentOrg = resOrg || {};
         const orgId = currentOrg.id;
         if (curPathname.startsWith(`/${orgName}/inviteToOrg`)) {
           if (orgs?.find((x) => x.name === currentOrg.name)) {
@@ -135,23 +143,16 @@ const org = createStore({
             goTo(`/${currentOrg.name}`, { replace: true });
           }
         }
-
         if (currentOrg.name !== orgName) {
           goTo(location.pathname.replace(`/${orgName}`, `/${currentOrg.name}`), { replace: true }); // just replace the first match, which is org name
         }
         if (orgId) {
-          const orgPermQuery = { scope: 'org', scopeID: `${orgId}` };
-
-          if (!orgPermData) {
-            const result = await getResourcePermissions(orgPermQuery);
-            orgPermData = result.data || {};
-          }
-          const { access, roles } = orgPermData || {};
+          const { access, roles = [] } = orgPermData || {};
 
           // user doesn't joined the public org, go to dop
           // temporary solution, it will removed until new solution is proposed by PD
           // except Support role
-          if (!roles.includes('Support') && curPathname?.split('/')[2] !== 'dop') {
+          if (!roles?.includes('Support') && curPathname?.split('/')[2] !== 'dop') {
             if (!orgs?.find((x) => x.name === currentOrg.name) || orgs?.length === 0) {
               goTo(goTo.pages.dopRoot, { replace: true });
             }
@@ -174,7 +175,6 @@ const org = createStore({
           const appMap = {} as {
             [k: string]: LAYOUT.IApp;
           };
-          permStore.reducers.updatePerm(orgPermQuery.scope, orgPermData);
           update({ currentOrg, curPathOrg: payload.orgName });
           const menusMap = getSubSiderInfoMap();
           const appCenterAppList = getAppCenterAppList();
@@ -211,6 +211,9 @@ const org = createStore({
   reducers: {
     updateJoinedOrg(state, orgs: ORG.IOrg[]) {
       state.orgs = orgs;
+    },
+    updateCurrentOrg(state, curOrg: ORG.IOrg) {
+      state.currentOrg = curOrg;
     },
     clearOrg(state) {
       breadcrumbStore.reducers.setInfo('curOrgName', '');
