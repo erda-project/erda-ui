@@ -185,6 +185,7 @@ const SortDragItem = ({
               <Switch
                 size="small"
                 className="mx-2"
+                key={key}
                 checked={!data.disabled}
                 disabled={op.disabled}
                 onChange={(v) => op.onClick(item)}
@@ -216,7 +217,7 @@ const SortDragItem = ({
               </Menu>
             );
             return (
-              <Dropdown overlay={menus} getPopupContainer={(e) => e?.parentNode as HTMLElement}>
+              <Dropdown overlay={menus} getPopupContainer={(e) => e?.parentNode as HTMLElement} key={key}>
                 <span
                   className={`icon-block hover-active px-2 ${op.hoverShow ? 'hover-show' : ''}`}
                   onClick={(e) => e.stopPropagation()}
@@ -229,6 +230,7 @@ const SortDragItem = ({
           if (op.confirm) {
             return op.disabled ? (
               <span
+                key={key}
                 className={`icon-block hover-active px-2 not-allowed ${op.hoverShow ? 'hover-show' : ''}`}
                 onClick={(e: any) => e && e.stopPropagation()}
               >
