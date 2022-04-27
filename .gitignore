@@ -47,3 +47,4 @@ shell/app/modules/extra/*
 !shell/app/modules/extra/entry.js
 
 scheduler/dist/*
+*.snap

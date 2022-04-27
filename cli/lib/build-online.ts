@@ -32,7 +32,7 @@ const buildModules = async (rebuildList: string[]) => {
   const pList: ExecaChildProcess[] = [];
   rebuildList.forEach((moduleName) => {
     const moduleDir = dirMap.get(moduleName);
-    const promise = execa('npm', ['run', 'build'], {
+    const promise = execa('pnpm', ['run', 'build'], {
       cwd: moduleDir,
       env: {
         ...process.env,

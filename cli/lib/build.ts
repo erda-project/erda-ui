@@ -82,7 +82,7 @@ const buildModules = async (enableSourceMap: boolean, rebuildList: string[]) => 
   const pList: ExecaChildProcess[] = [];
   rebuildList.forEach((moduleName) => {
     const moduleDir = dirMap.get(moduleName);
-    const buildPromise = execa('npm', ['run', 'build'], {
+    const buildPromise = execa('pnpm', ['run', 'build'], {
       cwd: moduleDir,
       env: {
         ...process.env,
@@ -138,7 +138,7 @@ const copyExternalCode = async (moduleList: string[]) => {
       },
     ]);
     if (answer.shouldCopy) {
-      await execa('npm', ['run', 'extra-logic'], { cwd: getShellDir(), stdio: 'inherit' });
+      await execa('pnpm', ['run', 'extra-logic'], { cwd: getShellDir(), stdio: 'inherit' });
     }
   }
 };

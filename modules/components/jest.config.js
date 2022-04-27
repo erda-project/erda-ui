@@ -18,6 +18,10 @@ module.exports = {
   moduleDirectories: ['node_modules', 'src'],
   coverageDirectory: 'coverage',
   moduleFileExtensions: ['tsx', 'ts', 'js'],
+  verbose: true,
+  testEnvironmentOptions: {
+    url: 'http://localhost/',
+  },
   collectCoverageFrom: [
     'src/**/*.{js,ts,tsx}',
     '!src/**/*.d.ts',
