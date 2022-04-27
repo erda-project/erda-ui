@@ -15,13 +15,11 @@ import { getAppCenterAppList, getSubSiderInfoMap } from 'app/menus';
 import layoutStore from 'layout/stores/layout';
 import { orgPerm } from 'user/stores/_perm-org';
 import { createStore } from 'core/cube';
-import userStore from 'app/user/stores';
 import { getJoinedOrgs, getPublicOrgs, updateOrg } from '../services/org';
 import { getResourcePermissions } from 'user/services/user';
 import permStore from 'user/stores/permission';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { intersection, map } from 'lodash';
-import { once } from 'core/event-hub';
 import announcementStore from 'org/stores/announcement';
 
 interface IState {
@@ -58,6 +56,7 @@ const org = createStore({
           s.orgs,
           s.currentOrg,
         ]);
+
         if (!isAdminRoute() && initFinish && (curPathOrg !== orgName || orgName === '-')) {
           layoutStore.reducers.clearLayout();
           const curOrg = orgs.find((item) => item.name === orgName);
@@ -84,24 +83,6 @@ const org = createStore({
         org.reducers.clearOrg();
       }
     });
-
-    once('layout/mount', () => {
-      const loginUser = userStore.getState((s) => s.loginUser);
-      const orgId = org.getState((s) => s.currentOrg.id);
-      // 非系统管理员
-      if (!loginUser.isSysAdmin && orgId) {
-        announcementStore.effects.getAllNoticeListByStatus('published').then((list) => {
-          layoutStore.reducers.setAnnouncementList(list);
-        });
-      }
-    });
-
-    const orgId = org.getState((s) => s.currentOrg.id);
-    if (orgId) {
-      announcementStore.effects.getAllNoticeListByStatus('published').then((list) => {
-        layoutStore.reducers.setAnnouncementList(list);
-      });
-    }
   },
   effects: {
     async updateOrg({ call, update }, payload: Merge<Partial<ORG.IOrg>, { id: number }>) {
