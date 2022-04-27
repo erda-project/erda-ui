@@ -253,7 +253,7 @@ describe('ErdaTable', () => {
       column: { title: 'count', sorter: true, dataIndex: 'count' },
       columnKey: 'count',
       field: 'count',
-      order: 'Ascending',
+      order: 'ascend',
     });
     fireEvent.click(result.getByText('Descending').closest('li')!);
     expect(tableChangeFn).toHaveBeenCalledTimes(2);
@@ -261,7 +261,7 @@ describe('ErdaTable', () => {
       column: { title: 'count', sorter: true, dataIndex: 'count' },
       columnKey: 'count',
       field: 'count',
-      order: 'Descending',
+      order: 'descend',
     });
     fireEvent.click(result.getByText('Unsort').closest('li')!);
     expect(tableChangeFn).toHaveBeenCalledTimes(3);
