@@ -63,8 +63,8 @@ jobs:
       - name: Run Tests
         working-directory: './shell'
         run: |
-          npm run test:coverage
-          npm run copy:coverage
+          pnpm run test:coverage
+          pnpm run copy:coverage
 
       - name: Codecov
         run: curl -s https://codecov.io/bash | bash

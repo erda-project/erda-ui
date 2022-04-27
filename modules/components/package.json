@@ -14,7 +14,7 @@
     "lint": "eslint --ext .ts,.tsx,.js,.jsx src",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "publish:patch": "npm run build && npm version patch && npm publish --registry https://registry.npmjs.org"
+    "publish:patch": "pnpm run build && pnpm version patch && pnpm publish --registry https://registry.npmjs.org"
   },
   "repository": {
     "type": "git",

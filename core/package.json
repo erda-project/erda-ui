@@ -12,8 +12,8 @@
   ],
   "scripts": {
     "watch": "cross-env-shell NODE_ENV=development 'webpack --progress -w'",
-    "dev-build": "cross-env-shell NODE_ENV=development 'npm run build-core'",
-    "build": "cross-env-shell NODE_ENV=production 'npm run build-core'",
+    "dev-build": "cross-env-shell NODE_ENV=development 'pnpm run build-core'",
+    "build": "cross-env-shell NODE_ENV=production 'pnpm run build-core'",
     "build-core": "webpack --progress",
     "analyze": "webpack --config webpack.analyze.js --progress --color",
     "lint-fix": "eslint --fix src --ext '.js,.jsx,.tsx,.ts,.d.ts'",
@@ -22,19 +22,13 @@
   "author": "Erda-FE",
   "license": "AGPL",
   "dependencies": {
-    "cube-state": "^1.5.6",
     "history": "4.x",
     "i18next": "^21.6.16",
-    "moment": "^2.29.1",
-    "path-to-regexp": "^6.2.0",
     "query-string": "^6.4.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "react-router-config": "^5.0.0",
-    "react-router-dom": "^5.2.0",
-    "react-use": "^15.3.4",
-    "superagent": "^5.2.2",
-    "superagent-use": "^0.1.0"
+    "react-router-dom": "^5.2.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,scss,css,md}": "prettier --write"

@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.2.0",
-    "cube-state": "^1.5.6",
     "history": "4.x",
     "i18next": "^20.6.1",
     "query-string": "^7.0.1",
@@ -19,7 +18,7 @@
     "build-app": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "build": "npm run build-app",
+    "build": "pnpm run build-app",
     "precommit": "lint-staged"
   },
   "eslintConfig": {

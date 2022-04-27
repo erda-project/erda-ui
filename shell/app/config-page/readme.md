@@ -30,7 +30,7 @@ components
 
 #### docs 目录
 
-使用 `npm run gen-cp-md` 命令，通过 components 目录下所有的 d.ts 文件，生成的对应 markdown 文档，用于持续更新维护。
+使用 `pnpm run gen-cp-md` 命令，通过 components 目录下所有的 d.ts 文件，生成的对应 markdown 文档，用于持续更新维护。
 提供给后端的，也是这份文档，其他地方的如果不能生成的文档，也放在此处维护（需要考虑如何对外分享）。
 
 ### 注意事项
