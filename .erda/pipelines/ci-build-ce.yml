@@ -53,11 +53,11 @@ stages:
           resources:
             cpu: 2
             mem: 2048
-  - stage:
-      - release:
-          alias: release-ui-community
-          params:
-            tag_version: ${{ outputs.ui-version.version }}
-            dice_yml: ${erda-ui}/erda.yml
-            image:
-              ui: ${{ outputs.build-erda-ui-image.image }}
+  # - stage:
+  #     - release:
+  #         alias: release-ui-community
+  #         params:
+  #           tag_version: ${{ outputs.ui-version.version }}
+  #           dice_yml: ${erda-ui}/erda.yml
+  #           image:
+  #             ui: ${{ outputs.build-erda-ui-image.image }}
