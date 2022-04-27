@@ -20,6 +20,7 @@ import { get, map, reduce } from 'lodash';
 import { getAccountsFieldsList } from 'cmp/common/cloud-common';
 import i18n from 'i18n';
 import './index.scss';
+import { allWordsFirstLetterUpper, firstCharToUpper } from 'app/common/utils';
 
 interface ITypeProps {
   onChosen: any;
@@ -64,7 +65,7 @@ const TypeCard = (props: ITypeProps) => {
 const cloudAccountArr = [
   {
     type: 'alicould',
-    name: i18n.t('alibaba cloud'),
+    name: allWordsFirstLetterUpper(i18n.t('alibaba cloud')),
     val: 'aliyun',
     icon: guidanceImgMap.alicloud,
     description: i18n.t('cmp:after-adding-key'),
@@ -72,9 +73,9 @@ const cloudAccountArr = [
   },
   {
     type: 'txcloud',
-    name: i18n.t('cmp:other cloud vendors'),
+    name: firstCharToUpper(i18n.t('cmp:other vendors')),
     icon: guidanceImgMap.txcloud,
-    description: i18n.t('stay tuned'),
+    description: i18n.t('Coming soon'),
     disabled: true,
   },
 ];

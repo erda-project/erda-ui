@@ -17,7 +17,7 @@ import { map } from 'lodash';
 import { Row, Col, Select, Input, Spin } from 'antd';
 import ErdaTable from 'common/components/table';
 import { IF } from 'common';
-import { goTo } from 'common/utils';
+import { firstCharToUpper, goTo } from 'common/utils';
 import { getFormatter } from 'app/charts/utils/formatter';
 import { useMount, useDebounce } from 'react-use';
 import { useLoading } from 'core/stores/loading';
@@ -32,10 +32,10 @@ const { Search } = Input;
 
 const envOptions = [
   { cnName: i18n.t('All'), enName: 'ALL' },
-  { cnName: i18n.t('develop'), enName: 'DEV' },
-  { cnName: i18n.t('test'), enName: 'TEST' },
-  { cnName: i18n.t('staging'), enName: 'STAGING' },
-  { cnName: i18n.t('production'), enName: 'PROD' },
+  { cnName: i18n.t('common:Development'), enName: 'DEV' },
+  { cnName: i18n.t('Testing'), enName: 'TEST' },
+  { cnName: firstCharToUpper(i18n.t('staging')), enName: 'STAGING' },
+  { cnName: i18n.t('common:Production'), enName: 'PROD' },
 ].map(({ cnName, enName }) => (
   <Option key={enName} value={enName}>
     {cnName}
@@ -176,13 +176,13 @@ const MiddlewareDashboard = () => {
           <div className="filter-group-ct mb-4">
             <Row gutter={20}>
               <Col span={6} className="filter-item">
-                <div className="filter-item-label">{i18n.t('environment')}</div>
+                <div className="filter-item-label">{firstCharToUpper(i18n.t('environment'))}</div>
                 <Select className="filter-item-content" value={workspace} onChange={handleEnvChange}>
                   {envOptions}
                 </Select>
               </Col>
               <Col span={6} className="filter-item">
-                <div className="filter-item-label">{i18n.t('project')}</div>
+                <div className="filter-item-label">{firstCharToUpper(i18n.t('project'))}</div>
                 <Select
                   showSearch
                   className="filter-item-content"

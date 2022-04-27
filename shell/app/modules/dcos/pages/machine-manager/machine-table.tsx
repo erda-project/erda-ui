@@ -29,6 +29,7 @@ import { ClusterLog } from 'app/modules/cmp/pages/cluster-manage/cluster-log';
 import { customTagColor } from 'dcos/common/config';
 import './machine-table.scss';
 import { ColumnProps } from 'antd/lib/table';
+import { firstCharToUpper } from 'app/common/utils';
 
 const { confirm } = Modal;
 const compareClass = (rate: number) => {
@@ -602,7 +603,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       },
     },
     {
-      title: i18n.t('operations'),
+      title: firstCharToUpper(i18n.t('operations')),
       dataIndex: 'id',
       key: 'operation',
       fixed: 'right',
@@ -611,7 +612,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
         return (
           <TableActions>
             <span className="table-operations-btn" onClick={() => update({ recordData: record })}>
-              {i18n.t('set tags')}
+              {i18n.t('Set Labels')}
             </span>
             {/* <Operation record={record} /> */}
             <span

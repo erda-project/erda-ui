@@ -89,7 +89,7 @@ export function useInstanceOperation<T extends Instance>({
       case OPERATION.MONITOR: {
         update({
           visible: true,
-          slideTitle: i18n.t('monitor'),
+          slideTitle: firstCharToUpper(i18n.t('Container Monitoring').toLowerCase()),
           delayRender: () => (
             <ResourceUsageCharts
               instance={record}

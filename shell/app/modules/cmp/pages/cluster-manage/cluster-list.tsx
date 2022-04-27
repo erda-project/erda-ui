@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Modal, Button, Drawer, Input, Spin } from 'antd';
-import { goTo, notify, setSearch } from 'common/utils';
+import { firstCharToUpper, goTo, notify, setSearch } from 'common/utils';
 import { get } from 'lodash';
 import AddMachineModal from 'app/modules/cmp/common/components/machine-form-modal';
 import AddCloudMachineModal from './cloud-machine-form-modal';
@@ -231,7 +231,7 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
         <ConfirmDelete
           title={i18n.t('cmp:Please enter the cluster identifier to get the cluster offline')}
           onConfirm={() => submitDelete({ clusterName: state.deleteClusterName })}
-          secondTitle={i18n.t('cmp:Please enter the {name}, to confirm the cluster to go offline', {
+          secondTitle={i18n.t('cmp:Please enter {name} to get the cluster offline', {
             name: state.curDeleteCluster?.name,
           })}
           onCancel={() => toggleDeleteModal()}
@@ -239,7 +239,7 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
           modalChildren={
             <Input
               value={state.deleteClusterName}
-              placeholder={i18n.t('Please enter the {name}', { name: i18n.t('cmp:Cluster identifier') })}
+              placeholder={i18n.t('Please enter the {name}', { name: i18n.t('cmp:Cluster identifier').toLowerCase() })}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.deleteClusterName(e.target.value)}
             />
           }
@@ -266,7 +266,7 @@ const ClusterList: React.ForwardRefRenderFunction<{ reload: () => void }, IProps
       <Drawer
         visible={state.registerCommandVisible}
         destroyOnClose
-        title={i18n.t('cmp:cluster registration command')}
+        title={firstCharToUpper(i18n.t('cmp:cluster registration command'))}
         width="800"
         onClose={() => updater.registerCommandVisible(false)}
       >

@@ -17,6 +17,7 @@ import React from 'react';
 import { IF, MonitorChart, TimeSelector } from 'common';
 
 import './monitor-chart-panel.scss';
+import { allWordsFirstLetterUpper } from 'app/common/utils';
 
 interface IProps {
   resourceType: string;
@@ -64,7 +65,7 @@ const MonitorChartPanel = (props: IProps) => {
         })}
         <IF check={keys(metrics).length > showNumber}>
           <div className="show-all" onClick={() => setShowNumber((prevNumber) => prevNumber + 4)}>
-            {i18n.t('load more')}
+            {allWordsFirstLetterUpper(i18n.t('load more'))}
           </div>
         </IF>
       </div>

@@ -16,6 +16,7 @@ import { Tooltip } from 'antd';
 import { map, get, groupBy, sortBy } from 'lodash';
 import clusterDashboardStore from 'dcos/stores/dashboard';
 import './label-selector.scss';
+import { firstCharToUpper } from 'app/common/utils';
 
 interface IProps {
   labelOptions?: Array<{
@@ -71,7 +72,7 @@ const LabelSelector = React.forwardRef(({ labelOptions, value = [], onChange }: 
         const { name, children } = item;
         return (
           <div className="label-group" key={name}>
-            <span className="label-group-name">{name}: </span>
+            <span className="label-group-name">{firstCharToUpper(name)}: </span>
             {map(children, (cItem: any) => {
               const isActive = value.includes(cItem.value);
               return (

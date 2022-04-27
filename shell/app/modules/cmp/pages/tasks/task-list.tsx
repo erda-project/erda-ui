@@ -45,7 +45,7 @@ const getClusterTasksCols = (userMap: object) => {
       key: 'projectName',
     },
     {
-      title: i18n.t('application'),
+      title: i18n.t('app'),
       dataIndex: 'applicationName',
       key: 'applicationName',
     },

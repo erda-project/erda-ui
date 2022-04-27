@@ -17,26 +17,27 @@ import { Modal, Row, Col } from 'antd';
 import { clusterImgMap } from '../config';
 import i18n from 'i18n';
 import './cluster-type-modal.scss';
+import { firstCharToUpper } from 'app/common/utils';
 
 export const clusterTypeMap = [
   [
     {
       type: 'alicloud-cs-managed',
-      name: i18n.t('cmp:alibaba Cloud Container Service Cluster (Hosted Version)'),
+      name: i18n.t('cmp:Alibaba Cloud Container Service for Kubernetes Cluster (Managed)'),
       icon: clusterImgMap['alicloud-cs-managed'],
-      description: i18n.t('cmp:based on Alibaba Cloud Container Service (managed), create an Erda managed cluster'),
+      description: i18n.t('cmp:Build an Erda managed cluster based on Alibaba Cloud Container Service (managed)'),
     },
     {
       type: 'alicloud-cs',
-      name: i18n.t('cmp:alibaba Cloud Container Service Cluster (proprietary version)'),
+      name: i18n.t('cmp:Alibaba Cloud Container Service for Kubernetes Cluster (Dedicated)'),
       icon: clusterImgMap['alicloud-cs'],
-      description: i18n.t('cmp:based on Alibaba Cloud Container Service (Dedicated), create an Erda managed cluster'),
+      description: i18n.t('cmp:Build an Erda managed cluster based on Alibaba Cloud Container Service (dedicated)'),
     },
     {
       type: 'erdc', // existing-resource-deploy-cluster
       name: i18n.t('cmp:Self-Built Cluster'),
       icon: clusterImgMap.erdc,
-      description: i18n.t('cmp:based on existing resources, build an Erda managed cluster'),
+      description: i18n.t('cmp:Build an Erda managed cluster based on existing resources'),
     },
   ],
   [
@@ -44,13 +45,13 @@ export const clusterTypeMap = [
       type: 'k8s',
       name: 'Kubernetes',
       icon: clusterImgMap.k8s,
-      description: i18n.t('cmp:import an existing Erda {type} cluster', { type: 'Kubernetes' }),
+      description: firstCharToUpper(i18n.t('cmp:import an existing Erda {type} cluster', { type: 'Kubernetes' })),
     },
     {
       type: 'edas',
       name: 'EDAS',
       icon: clusterImgMap.edas,
-      description: i18n.t('cmp:import an existing Erda {type} cluster', { type: 'EDAS' }),
+      description: firstCharToUpper(i18n.t('cmp:import an existing Erda {type} cluster', { type: 'EDAS' })),
     },
   ],
 ];

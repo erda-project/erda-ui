@@ -16,6 +16,7 @@ import { Modal, Popconfirm, Button } from 'antd';
 import i18n from 'i18n';
 import { Copy, ErdaIcon } from 'common';
 import { getToken, createToken, resetToken } from 'cmp/services/token-manage';
+import { firstCharToUpper } from 'app/common/utils';
 
 interface IProps {
   visible: boolean;
@@ -31,7 +32,7 @@ const TokenManageModal = (props: IProps) => {
       className="relative"
       onCancel={onCancel}
       width={720}
-      title={i18n.t('cmp:cluster Token Management')}
+      title={firstCharToUpper(i18n.t('cmp:cluster Token Management').toLowerCase())}
       visible={visible}
       footer={[
         token ? (
@@ -69,11 +70,11 @@ const TokenManageModal = (props: IProps) => {
       <div className="rounded-sm p-2 text-gray mb-6">
         {token ? (
           <div className="flex items-center mb-1">
-            <span>token</span>
+            <span>Token</span>
             <span className="ml-32">{token}</span>
           </div>
         ) : (
-          <span className="text-center">{i18n.t('cmp:no token available')}</span>
+          <span className="text-center">{firstCharToUpper(i18n.t('cmp:no token available'))}</span>
         )}
       </div>
 

@@ -19,7 +19,7 @@ import cloudSourceStore from 'cmp/stores/cloud-source';
 import { useEffectOnce } from 'react-use';
 import { get, map, values, isEmpty, merge } from 'lodash';
 import { BoardGrid } from 'common';
-import { goTo } from 'common/utils';
+import { firstCharToUpper, goTo } from 'common/utils';
 import { colorMap } from '@erda-ui/dashboard-configurator';
 import cloudAccountStore from 'cmp/stores/cloud-account';
 import Guidance from 'cmp/pages/account-guidance';
@@ -351,7 +351,7 @@ const CloudSource = () => {
                   }}
                 >
                   <div className="count">{bucket.totalCount || 0}</div>
-                  <div className="name">{i18n.t('cmp:number of Bucket')}</div>
+                  <div className="name">{firstCharToUpper(i18n.t('cmp:number of Bucket'))}</div>
                 </div>
                 {
                   // ref issue: 59066
@@ -378,7 +378,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('cmp:Cloud Account'),
+          title: firstCharToUpper(i18n.t('cmp:Cloud Account').toLowerCase()),
           hideReload: true,
           customRender: () => {
             return (

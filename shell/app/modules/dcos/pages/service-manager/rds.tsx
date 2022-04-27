@@ -196,7 +196,7 @@ const RDS = () => {
 
   const operationButtons = [
     {
-      name: `${i18n.t('set tags')}`,
+      name: `${i18n.t('Set Labels')}`,
       cb: () => updater.ifSetTagFormVisible(true),
       ifDisabled: false,
     },

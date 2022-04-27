@@ -18,7 +18,7 @@ import classnames from 'classnames';
 import { Row, Col, Select, Tooltip, message, TreeSelect, Spin } from 'antd';
 import { useComponentWidth } from 'common/use-hooks';
 import { IF, Holder, Icon as CustomIcon } from 'common';
-import { goTo, interpolationComp } from 'common/utils';
+import { firstCharToUpper, goTo, interpolationComp } from 'common/utils';
 import GroupTabs from './groupTabs';
 import MachineTabs from './machineTabs';
 import { COLOUR_MAP } from '../../common/config';
@@ -652,7 +652,7 @@ const ClusterDashboard = () => {
                   <div className="filter-item-label">{i18n.t('Group')}</div>
                   <Select
                     value={selectedGroups}
-                    placeholder={i18n.t('cmp:no more than 2 groups')}
+                    placeholder={firstCharToUpper(i18n.t('cmp:no more than 2 groups'))}
                     className="filter-item-content"
                     style={{ width: '100%' }}
                     showArrow
@@ -678,7 +678,7 @@ const ClusterDashboard = () => {
                     allowClear
                     multiple
                     // treeDefaultExpandAll
-                    placeholder={i18n.t('cmp:input to search')}
+                    placeholder={firstCharToUpper(i18n.t('cmp:input to search'))}
                     onChange={handleChangeFilters}
                   >
                     {map(filterGroup, ({ name, key, values, unit, prefix }: ORG_DASHBOARD.IFilterType) => (
