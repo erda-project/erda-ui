@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { Button, Dropdown, Menu, Input } from 'antd';
-import { ErdaIcon, Ellipsis, SimpleTabs } from 'common';
+import { ErdaIcon, SimpleTabs, ConfigurableFilter } from 'common';
 import { map, debounce } from 'lodash';
 import { getJoinedApps } from 'app/user/services/user';
 import ReleaseList from './release-list';
@@ -21,8 +21,8 @@ import { getDefaultPaging } from 'common/utils';
 import { useUpdateEffect, useMount } from 'react-use';
 
 import { getRelease } from 'project/services/deploy';
-import { AppSelector } from 'application/common/app-selector';
 import routeInfoStore from 'core/stores/route';
+import projectLabel from 'project/stores/label';
 import i18n from 'i18n';
 import './add-release.scss';
 
@@ -32,6 +32,7 @@ interface IReleaseQuery {
   pageNo?: number;
   version?: string;
   pageSize?: number;
+  tags?: number[];
 }
 
 const AddRelease = ({
@@ -42,6 +43,7 @@ const AddRelease = ({
   detail: PROJECT_DEPLOY.ReleaseRenderDetail | null;
 }) => {
   const projectId = routeInfoStore.useStore((s) => s.params.projectId);
+  const { getLabels } = projectLabel.effects;
   const [visible, setVisible] = React.useState(false);
   const [selectedType, setSelectedType] = React.useState('project');
 
@@ -57,6 +59,10 @@ const AddRelease = ({
   React.useEffect(() => {
     setSelectedRelease('');
   }, [selectedType]);
+
+  React.useEffect(() => {
+    getLabels({ type: 'release' });
+  }, [getLabels]);
 
   const tabs = {
     project: {
@@ -79,11 +85,10 @@ const AddRelease = ({
     },
   };
   const overlay = (
-    <Menu theme="dark" className="project-deploy-add-release">
+    <Menu className="project-deploy-add-release">
       <Menu.Item key="release" className="block h-full">
         <div className="flex flex-col h-full">
           <SimpleTabs
-            theme="dark"
             className="mb-2"
             tabs={map(tabs, (tab) => ({ key: tab.key, text: tab.text }))}
             onSelect={setSelectedType}
@@ -156,8 +161,11 @@ interface IReleaseProps {
 }
 const ProjectRelease = (props: IReleaseProps) => {
   const { onSelect, getList, list, ...rest } = props;
+  const labelsList = projectLabel.useStore((s) => s.list);
   const [searchValue, setSearchValue] = React.useState('');
   const [selectedRelease, setSelectedRelease] = React.useState('');
+  const [tags, setTags] = React.useState<number[]>([]);
+
   const getReleaseList = (q?: IReleaseQuery) => {
     getList({ isProjectRelease: true, version: searchValue, pageNo: 1, ...q });
   };
@@ -179,22 +187,44 @@ const ProjectRelease = (props: IReleaseProps) => {
   const debouncedChange = React.useRef(debounce(getReleaseList, 1000));
 
   useUpdateEffect(() => {
-    debouncedChange.current({ version: searchValue, pageNo: 1 });
-  }, [searchValue]);
+    debouncedChange.current({ version: searchValue, pageNo: 1, tags });
+  }, [searchValue, tags]);
 
   return (
     <div className="flex flex-col h-full">
-      <Input
-        bordered={false}
-        className="theme-dark w-full mb-2"
-        value={searchValue}
-        prefix={<ErdaIcon size="16" fill={'white-3'} type="search" />}
-        onChange={(e) => {
-          const { value } = e.target;
-          setSearchValue(value);
-        }}
-        placeholder={i18n.t('search {name}', { name: i18n.t('dop:release name') })}
-      />
+      <div className="flex-h-center mb-2 mt-1">
+        <ConfigurableFilter
+          fieldsList={[
+            {
+              label: i18n.t('label'),
+              type: 'tagsSelect',
+              key: 'tags',
+              required: false,
+              options: labelsList.map((item) => ({ ...item, label: item.name, value: item.id })),
+              itemProps: {
+                mode: 'multiple',
+              },
+            },
+            {
+              type: 'input',
+              key: 'version',
+              label: i18n.t('release'),
+              placeholder: i18n.t('search {name}', { name: i18n.t('dop:release name') }),
+              outside: true,
+            },
+          ]}
+          value={{ tags, version: searchValue }}
+          onFilter={(data) => {
+            setTags(data.tags);
+            setSearchValue(data.version);
+          }}
+          onClear={() => {
+            setTags([]);
+          }}
+          hideSave
+          zIndex={1060}
+        />
+      </div>
 
       <ReleaseList
         className="flex-1 h-0 overflow-auto"
@@ -212,20 +242,29 @@ const AppRelease = (props: IReleaseProps) => {
   const { onSelect, list, getList, projectId, ...rest } = props;
   const [searchValue, setSearchValue] = React.useState('');
   const [selectedRelease, setSelectedRelease] = React.useState('');
-  const [selectedApp, setSelectedApp] = React.useState<IApplication | null>(null);
+  const [selectedApp, setSelectedApp] = React.useState<number>();
+  const [tags, setTags] = React.useState<number[]>([]);
+  const labelsList = projectLabel.useStore((s) => s.list);
+  const data = getJoinedApps.useData();
+  const { list: appList } = data || {};
   const getReleaseList = (q?: IReleaseQuery) => {
-    selectedAppRef.current &&
-      getList({
-        isProjectRelease: false,
-        version: searchValue,
-        pageNo: 1,
-        applicationId: `${selectedAppRef.current.id}`,
-        ...q,
-      });
+    getList({
+      isProjectRelease: false,
+      version: searchValue,
+      pageNo: 1,
+      ...q,
+    });
   };
 
   const debouncedChange = React.useRef(debounce(getReleaseList, 1000));
-  const selectedAppRef = React.useRef(selectedApp);
+
+  React.useEffect(() => {
+    getJoinedApps.fetch({ projectId: +projectId, pageSize: 200, pageNo: 1 });
+  }, [projectId, getJoinedApps]);
+
+  React.useEffect(() => {
+    appList?.[0] && setSelectedApp(appList[0].id);
+  }, [appList]);
 
   useUpdateEffect(() => {
     onSelect(selectedRelease);
@@ -238,50 +277,54 @@ const AppRelease = (props: IReleaseProps) => {
   }, [list, selectedRelease]);
 
   useUpdateEffect(() => {
-    selectedAppRef.current = selectedApp;
-    setSearchValue('');
-    getReleaseList({ pageNo: 1 });
-  }, [selectedApp]);
-
-  useUpdateEffect(() => {
-    debouncedChange.current({ version: searchValue, pageNo: 1 });
-  }, [searchValue]);
+    debouncedChange.current({ version: searchValue, applicationId: `${selectedApp}`, tags, pageNo: 1 });
+  }, [searchValue, selectedApp, tags]);
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-h-center mb-2">
-        <AppSelector
-          autoSelect
-          dropdownClassName="project-add-release-app"
-          value={selectedApp?.id || ''}
-          getData={(_q: { pageNo: number; pageSize: number }) => {
-            return getJoinedApps({ projectId: +projectId, ..._q }).then((res) => res.data);
+      <div className="flex-h-center mb-2 mt-1">
+        <ConfigurableFilter
+          fieldsList={[
+            {
+              key: 'app',
+              type: 'select',
+              label: i18n.t('App'),
+              mode: 'single',
+              options: appList?.map((item) => ({ label: item.displayName, value: item.id })) || [],
+              itemProps: {
+                showSearch: true,
+              },
+              required: true,
+            },
+            {
+              label: i18n.t('label'),
+              type: 'tagsSelect',
+              key: 'tags',
+              required: false,
+              options: labelsList.map((item) => ({ ...item, label: item.name, value: item.id })),
+              itemProps: {
+                mode: 'multiple',
+              },
+            },
+            {
+              type: 'input',
+              key: 'version',
+              label: i18n.t('release'),
+              placeholder: i18n.t('search {name}', { name: i18n.t('dop:release name') }),
+              outside: true,
+            },
+          ]}
+          value={{ app: selectedApp, version: searchValue, tags }}
+          onFilter={(data) => {
+            setSelectedApp(data.app);
+            setTags(data.tags);
+            setSearchValue(data.version);
           }}
-          onClickItem={(app) => setSelectedApp(app)}
-          resultsRender={() => {
-            return (
-              <div className="w-[160px] px-2 leading-7 rounded-sm bg-white-06 flex text-white-3 hover:text-white-8 mr-2">
-                {selectedApp ? (
-                  <Ellipsis className="font-bold text-white" title={selectedApp?.displayName || selectedApp?.name} />
-                ) : (
-                  <span className="text-white-3">{i18n.t('Please Select')}</span>
-                )}
-                <ErdaIcon type="caret-down" className="ml-0.5" size="14" />
-              </div>
-            );
+          onClear={() => {
+            setTags([]);
           }}
-        />
-
-        <Input
-          bordered={false}
-          className="theme-dark w-full "
-          value={searchValue}
-          prefix={<ErdaIcon size="16" fill={'white-3'} type="search" />}
-          onChange={(e) => {
-            const { value } = e.target;
-            setSearchValue(value);
-          }}
-          placeholder={i18n.t('search {name}', { name: i18n.t('dop:release name') })}
+          hideSave
+          zIndex={1060}
         />
       </div>
       <ReleaseList
