@@ -60,9 +60,13 @@ interface ColumnsConfig {
   };
 }
 
+const enum SORT_ORDER {
+  ASC = 'ascend',
+  DESC = 'descend',
+}
 const sortIcon = {
-  ascend: <ErdaIcon type="ascend" size={16} />,
-  descend: <ErdaIcon type="descend" size={16} />,
+  ascend: <ErdaIcon type={SORT_ORDER.ASC} size={16} />,
+  descend: <ErdaIcon type={SORT_ORDER.DESC} size={16} />,
 };
 
 const alignMap = {
@@ -194,7 +198,7 @@ function WrappedTable<T extends object = any>({
         columnKey: column.dataIndex,
         field: column.dataIndex,
       } as SorterResult<T>;
-      const onSort = (order?: 'ascend' | 'descend') => {
+      const onSort = (order?: SORT_ORDER) => {
         setSort({ ...sorter, order });
         const { sorter: columnSorter } = column as {
           sorter: { compare: (a: T, b: T) => number } | ((a: T, b: T) => number);
@@ -226,13 +230,13 @@ function WrappedTable<T extends object = any>({
           <Menu.Item key={'0'} onClick={() => onSort()}>
             <span className="fake-link mr-1">{i18n.t('Unsort')}</span>
           </Menu.Item>
-          <Menu.Item key={'ascend'} onClick={() => onSort('Ascending')}>
+          <Menu.Item key={'ascend'} onClick={() => onSort(SORT_ORDER.ASC)}>
             <span className="fake-link mr-1">
               <ErdaIcon type="ascend" className="relative top-0.5 mr-1" />
               {i18n.t('Ascending')}
             </span>
           </Menu.Item>
-          <Menu.Item key={'descend'} onClick={() => onSort('Descending')}>
+          <Menu.Item key={'descend'} onClick={() => onSort(SORT_ORDER.DESC)}>
             <span className="fake-link mr-1">
               <ErdaIcon type="descend" className="relative top-0.5 mr-1" />
               {i18n.t('Descending')}
