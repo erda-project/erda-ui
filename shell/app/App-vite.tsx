@@ -35,6 +35,8 @@ import { EmptyListHolder } from 'common';
 import { insertWhen, notify, setLS } from 'common/utils';
 import { initAxios } from 'common/utils/axios-config';
 import { getResourcePermissions } from 'user/services/user';
+import announcementStore from 'org/stores/announcement';
+import layoutStore from 'layout/stores/layout';
 import userStore from './user/stores';
 import permStore from 'user/stores/permission';
 import { getJoinedOrgs, getOrgByDomain } from 'app/org-home/services/org';
@@ -79,6 +81,14 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
       if (res?.data) {
         const initData = getGlobal('initData');
         setGlobal('initData', { ...initData, currentOrg: res.data });
+        orgStore.reducers.updateCurrentOrg(res.data);
+        const permData = await getResourcePermissions({ scope: 'org', scopeID: res.data.id });
+        if (permData?.data?.access) {
+          announcementStore.effects.getAllNoticeListByStatus('published').then((list) => {
+            layoutStore.reducers.setAnnouncementList(list);
+          });
+          permStore.reducers.updatePerm('org', permData.data);
+        }
       }
 
       await orgStore.effects.getOrgByDomain({ orgName });
