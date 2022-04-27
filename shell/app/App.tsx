@@ -36,6 +36,8 @@ import { EmptyListHolder } from 'common';
 import { setLS, notify, insertWhen } from 'common/utils';
 import { initAxios } from 'common/utils/axios-config';
 import userStore from './user/stores';
+import announcementStore from 'org/stores/announcement';
+import layoutStore from 'layout/stores/layout';
 import orgStore from 'app/org-home/stores/org';
 import setAntdDefault from './antd-default-props';
 import './styles/antd-extension.scss';
@@ -78,6 +80,11 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[], curOrg: ORG.IOrg, orgAcce
     orgStore.reducers.updateCurrentOrg(curOrg);
     if (orgAccess && curOrg) {
       permStore.reducers.updatePerm('org', orgAccess);
+      if (orgAccess.access) {
+        announcementStore.effects.getAllNoticeListByStatus('published').then((list) => {
+          layoutStore.reducers.setAnnouncementList(list);
+        });
+      }
     }
   }
   initAxios();
