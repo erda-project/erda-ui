@@ -13,6 +13,7 @@
 
 import React from 'react';
 import './modal.scss';
+import i18n from 'i18n';
 
 interface IProps {
   visible: boolean;
@@ -47,10 +48,10 @@ export const Modal = (props: IProps) => {
           <div className="content">{visible ? children : null}</div>
           <div className="footer">
             <button className="dice-form-editor-button footer-btn" onClick={onCancel}>
-              取消
+              {i18n.t('Cancel')}
             </button>
             <button className="dice-form-editor-button footer-btn primary" onClick={clickOk}>
-              确定
+              {i18n.t('OK')}
             </button>
           </div>
         </div>

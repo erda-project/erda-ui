@@ -219,10 +219,10 @@ const templateArr: ICardProps[] = [
 ];
 
 const workSpaceMap = {
-  DEV: i18n.t('dev environment'),
-  TEST: i18n.t('test environment'),
-  STAGING: i18n.t('staging environment'),
-  PROD: i18n.t('prod environment'),
+  DEV: firstCharToUpper(i18n.t('development environment')),
+  TEST: i18n.t('Testing environment'),
+  STAGING: firstCharToUpper(i18n.t('staging environment')),
+  PROD: firstCharToUpper(i18n.t('cmp:production environment')),
 };
 
 const CreationForm = ({ createType }: { createType: string }) => {

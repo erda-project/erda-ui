@@ -147,7 +147,7 @@ const DeployDetail = (props: IProps) => {
       },
     },
     {
-      label: i18n.t('dop:execute time'),
+      label: firstCharToUpper(i18n.t('dop:execute time')),
       valueKey: 'startedAt',
       valueItem: ({ value }: { value: string }) => {
         return value ? fromNow(value) : '-';
@@ -200,7 +200,7 @@ const DeployDetail = (props: IProps) => {
         renderSelectedItem={renderSelectedItem}
       />
 
-      <div className="pb-2 pt-4 text-default font-medium ">{firstCharToUpper(i18n.t('dop:config information'))}</div>
+      <div className="pb-2 pt-4 text-default font-medium ">{i18n.t('Configuration information')}</div>
       {flattenAppList?.length ? (
         <div className="flex flex-col flex-1 h-0 overflow-hidden">
           <DropdownSelectNew

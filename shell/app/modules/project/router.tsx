@@ -447,14 +447,14 @@ function getProjectRouter(): RouteConfigItem[] {
                 },
                 {
                   path: 'createRelease/:type',
-                  pageName: i18n.t('create {name}', { name: i18n.t('Artifacts') }),
+                  pageName: i18n.t('create {name}', { name: i18n.t('Artifact') }),
                   backToUp: 'projectRelease',
                   getComp: (cb) => cb(import('project/pages/release/components/form')),
                   layout: { fullHeight: true },
                 },
                 {
                   path: 'updateRelease/:releaseID',
-                  pageName: i18n.t('edit {name}', { name: i18n.t('Artifacts') }),
+                  pageName: i18n.t('edit {name}', { name: i18n.t('Artifact') }),
                   backToUp: 'projectRelease',
                   getComp: (cb) => cb(import('project/pages/release/components/update')),
                   layout: { fullHeight: true },
@@ -474,7 +474,7 @@ function getProjectRouter(): RouteConfigItem[] {
                 },
                 {
                   path: ':releaseID',
-                  pageName: `${i18n.t('Artifacts')} ${i18n.t('detail')}`,
+                  pageName: `${i18n.t('Artifacts')} ${i18n.t('Details')}`,
                   backToUp: 'applicationRelease',
                   getComp: (cb) => cb(import('project/pages/release/components/application-detail')),
                   layout: { fullHeight: true },

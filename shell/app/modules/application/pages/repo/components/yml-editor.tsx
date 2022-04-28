@@ -422,7 +422,7 @@ const YmlEditor = (props: IProps) => {
         name: 'message',
         type: 'textArea',
         itemProps: {
-          placeholder: i18n.t('dop:submit information'),
+          placeholder: i18n.t('dop:Commit information'),
           autoSize: { minRows: 3, maxRows: 7 },
           maxLength: 200,
         },

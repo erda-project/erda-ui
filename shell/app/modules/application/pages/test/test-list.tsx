@@ -85,7 +85,7 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
     width: 120,
   },
   {
-    title: i18n.t('default:create time'),
+    title: i18n.t('Creation time'),
     dataIndex: 'createdAt',
     width: 176,
     render: (text) => fromNow(text),
@@ -102,7 +102,7 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
     render: (text) => getTestDuration(text),
   },
   {
-    title: i18n.t('dop:execute result'),
+    title: i18n.t('dop:execution result'),
     width: 200,
     dataIndex: ['totals', 'tests'],
     render: (_text, record) => <ExecuteResult totals={record.totals} />,

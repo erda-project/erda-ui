@@ -14,7 +14,7 @@
 import { Button, Menu, Dropdown, message, Tooltip, Avatar, FormInstance } from 'antd';
 import React from 'react';
 import { RenderForm, FormModal, MemberSelector, ErdaIcon, MarkdownRender, Table } from 'common';
-import { connectCube, goTo, getAvatarChars, firstCharToUpper } from 'common/utils';
+import { connectCube, goTo, getAvatarChars, firstCharToUpper, allWordsFirstLetterUpper } from 'common/utils';
 import MarkdownEditor from 'common/components/markdown-editor';
 import SourceTargetSelect from './source-target-select';
 import i18n from 'i18n';
@@ -289,7 +289,7 @@ const RepoMRForm = (props: IProps) => {
         <span className="inline-flex items-center text-xs mr-2 cursor-pointer">
           {tplName
             ? `${i18n.t('selected template')}:${tplName.replace('.md', '')}`
-            : firstCharToUpper(i18n.t('select template'))}{' '}
+            : allWordsFirstLetterUpper(i18n.t('select template'))}{' '}
           <ErdaIcon type="down" size="16" />
         </span>
       </Dropdown>

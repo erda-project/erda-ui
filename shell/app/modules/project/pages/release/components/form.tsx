@@ -181,12 +181,12 @@ const ReleaseForm = ({ readyOnly = false }: { readyOnly?: boolean }) => {
           ],
         }
       : {
-          label: i18n.t('dop:upload files'),
+          label: i18n.t('cmp:Upload File').toLowerCase(),
           name: 'diceFileID',
           className: 'flex-nowrap',
           getComp: (form: { form: FormInstance }) => <CustomUpload form={form} />,
           rules: [
-            { required: true, message: i18n.t('dop:please upload files') },
+            { required: true, message: i18n.t('dop:please upload file') },
             {
               validator: (_, value: string) => {
                 if (value === 'type-error') {

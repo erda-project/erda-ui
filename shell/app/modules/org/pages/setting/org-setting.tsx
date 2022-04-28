@@ -31,6 +31,7 @@ import Announcement from 'org/pages/announcement';
 import permStore from 'user/stores/permission';
 
 import './org-setting.scss';
+import replaceWithLink from 'app/common/utils/i18n-replace-link';
 
 export const OrgSetting = () => {
   const orgId = orgStore.getState((s) => s.currentOrg.id);
@@ -56,10 +57,10 @@ export const OrgSetting = () => {
                   title: i18n.t('{name} member management', { name: i18n.t('organization') }),
                   desc: (
                     <div>
-                      {i18n.t('Edit members and set member roles. See Role Permission Description for details.')}
-                      <Link to={goTo.resolve.perm({ scope: 'org' })} target="_blank">
-                        {i18n.t('role permissions description')}
-                      </Link>
+                      {replaceWithLink(
+                        i18n.t('Edit members and set member roles. See Role Permission Description for details.'),
+                        goTo.resolve.perm({ scope: 'app' }),
+                      )}
                     </div>
                   ),
                   children: <MembersTable scopeKey={MemberScope.ORG} />,

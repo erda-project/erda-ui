@@ -27,7 +27,7 @@ const VERSION_TIP = (
     <div>{i18n.t('dop:tips of publish api 1')}</div>
     <div>
       <a href="https://semver.org/lang/zh-CN/" target="_blank" rel="noopener noreferrer">
-        https://semver.org/lang/zh-CN/
+        &nbsp;https://semver.org/lang/zh-CN/.&nbsp;
       </a>
     </div>
     <div>{i18n.t('dop:tips of publish api 2')}</div>

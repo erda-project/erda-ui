@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { SettingTabs, ConfigLayout, MembersTable } from 'common';
-import { allWordsFirstLetterUpper, goTo } from 'common/utils';
+import { allWordsFirstLetterUpper, firstCharToUpper, goTo } from 'common/utils';
 import ProjectInfo from './project-info';
 import ProjectCluster from './project-cluster';
 import ProjectLabel from './project-label';
@@ -28,6 +28,7 @@ import BranchRule from 'project/common/components/branch-rule';
 import IssueWorkflow from 'project/common/components/issue-workflow';
 import { usePerm } from 'app/user/common';
 import ScanRule from 'project/common/components/scan-rule';
+import replaceWithLink from 'app/common/utils/i18n-replace-link';
 
 const ProjectSettings = () => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
@@ -62,13 +63,13 @@ const ProjectSettings = () => {
             <ConfigLayout
               sectionList={[
                 {
-                  title: allWordsFirstLetterUpper(i18n.t('{name} member management', { name: i18n.t('project') })),
+                  title: firstCharToUpper(i18n.t('{name} member management', { name: i18n.t('project') })),
                   desc: (
                     <div>
-                      {i18n.t('Edit members and set member roles. See Role Permission Description for details.')}
-                      <Link to={goTo.resolve.perm({ scope: 'project' })} target="_blank">
-                        {i18n.t('role permissions description')}
-                      </Link>
+                      {replaceWithLink(
+                        i18n.t('Edit members and set member roles. See Role Permission Description for details.'),
+                        goTo.resolve.perm({ scope: 'app' }),
+                      )}
                     </div>
                   ),
                   children: (

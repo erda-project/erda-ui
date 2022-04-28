@@ -20,7 +20,7 @@ import { get, isEqual, map } from 'lodash';
 import { getUploadProps } from 'common/utils/upload-props';
 
 import './index.scss';
-import { firstCharToUpper } from 'app/common/utils';
+import { allWordsFirstLetterUpper, firstCharToUpper } from 'app/common/utils';
 
 interface IProps {
   value?: string;
@@ -154,7 +154,7 @@ class ImageUpload extends Component<IProps, IState> {
   }
 
   renderUploadItem() {
-    const { uploadText = firstCharToUpper(i18n.t('upload image')), isMulti = false } = this.props;
+    const { uploadText = allWordsFirstLetterUpper(i18n.t('upload image')), isMulti = false } = this.props;
     const { imageUrl, images, queryData } = this.state;
 
     return isMulti

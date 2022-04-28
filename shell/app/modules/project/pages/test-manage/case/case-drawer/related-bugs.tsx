@@ -149,7 +149,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
         ),
     },
     {
-      title: i18n.t('default:create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createdAt',
       width: 200,
       render: (text: string) => (text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''),
