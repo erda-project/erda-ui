@@ -16,7 +16,6 @@ import { Row, Col, Button, Timeline, Collapse, Modal, message } from 'antd';
 import moment from 'moment';
 import i18n from 'i18n';
 import { encode } from 'js-base64';
-import { goTo } from 'common/utils';
 import { allWordsFirstLetterUpper, firstCharToUpper, goTo } from 'common/utils';
 import { ErdaIcon, Pagination, ConfigurableFilter } from 'common';
 import { PAGINATION } from 'app/constants';
