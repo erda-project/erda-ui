@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+
 /**
  * @params str a string with []
  * @params href Jump link
@@ -27,7 +28,7 @@ export const replaceWithLink = (str: string, href: string) => {
     if (index !== strArr.length - 1) {
       result.push(
         <a key={index} className="text-purple-deep mx-1" href={href} target="_blank" rel="noopener noreferrer">
-          {matchArr[index].replace(/\[|]/g, '')}
+          {matchArr[index]?.replace(/\[|]/g, '')}
         </a>,
       );
     }

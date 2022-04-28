@@ -12,13 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Row, Col, Button, Timeline, Collapse, Modal, message } from 'antd';
+import { Button, Col, Collapse, message, Modal, Row, Timeline } from 'antd';
 import moment from 'moment';
 import i18n from 'i18n';
 import { encode } from 'js-base64';
-import { goTo } from 'common/utils';
 import { allWordsFirstLetterUpper, firstCharToUpper, goTo } from 'common/utils';
-import { ErdaIcon, Pagination, ConfigurableFilter } from 'common';
+import { ConfigurableFilter, ErdaIcon, Pagination } from 'common';
 import { PAGINATION } from 'app/constants';
 import routeInfoStore from 'core/stores/route';
 import memberStore from 'common/stores/application-member';
