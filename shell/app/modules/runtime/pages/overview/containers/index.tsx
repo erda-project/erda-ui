@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Spin, Modal, message } from 'antd';
-import { goTo, getLS } from 'common/utils';
+import { goTo, getLS, firstCharToUpper } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
 import { isEmpty } from 'lodash';
 import PureRuntimeOverView from '../components';
@@ -62,7 +62,7 @@ const RuntimeOverView = () => {
         <span>
           {i18n.t('runtime:configuration has changed')}，{i18n.t('runtime:please')}
           <span className="redeploy-tip-btn" onClick={confirmRedeploy}>
-            {i18n.t('runtime:restart')}
+            {firstCharToUpper(i18n.t('runtime:restart'))}
           </span>
           Runtime
         </span>

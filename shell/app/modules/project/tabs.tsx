@@ -122,6 +122,11 @@ export const COLLABORATE_TABS = () => {
       name: i18n.t('dop:Board'),
       show: projectPerm.requirement.read.pass,
     },
+    {
+      key: 'measure',
+      name: i18n.t('dop:Statistics'),
+      show: projectPerm.requirement.read.pass,
+    },
   ];
 };
 

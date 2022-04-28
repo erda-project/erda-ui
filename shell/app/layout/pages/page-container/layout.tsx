@@ -24,9 +24,9 @@ interface IProps {
 
 export const ErrorLayout = ({ layoutClass, children }: IProps) => {
   return (
-    <div className={layoutClass}>
+    <div className={`${layoutClass} flex h-screen`}>
       <Navigation />
-      <div className="dice-body">
+      <div className="dice-body ml-8">
         <Header />
         <div id="main">{children}</div>
       </div>

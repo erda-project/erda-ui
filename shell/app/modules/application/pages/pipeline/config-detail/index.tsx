@@ -22,6 +22,7 @@ import repoStore from 'application/stores/repo';
 import { getBranchPath } from 'application/pages/pipeline/config';
 import { get } from 'lodash';
 import i18n from 'i18n';
+import { firstCharToUpper } from 'app/common/utils';
 
 interface IProps {
   nodeId: string;
@@ -92,7 +93,7 @@ const PipelineConfigDetail = (props: IProps) => {
   return (
     <div>
       <div className="flex justify-between items-center mb-2">
-        <span className="font-medium title">{i18n.t('detail')}</span>
+        <span className="font-medium title">{firstCharToUpper(i18n.t('detail'))}</span>
         {/* <RecordList ref={recordRef} curPipelineDetail={useCaseDetail} onSelectPipeline={onSelectPipeline} nodeId={nodeId} /> */}
       </div>
       <CaseInfo caseDetail={useCaseDetail} />

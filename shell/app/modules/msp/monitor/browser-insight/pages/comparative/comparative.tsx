@@ -36,7 +36,7 @@ export const targetList = [
 export const featureList = [
   { name: i18n.t('msp:province'), key: 'province' },
   { name: i18n.t('msp:city'), key: 'city' },
-  { name: i18n.t('msp:domain name'), key: 'host' },
+  { name: i18n.t('domain'), key: 'host' },
   { name: i18n.t('msp:web transaction'), key: 'doc_path' },
   { name: i18n.t('msp:System'), key: 'os' },
   { name: i18n.t('msp:device'), key: 'device' },

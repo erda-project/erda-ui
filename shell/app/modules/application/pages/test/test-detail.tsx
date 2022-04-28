@@ -14,7 +14,7 @@
 import { Row, Col, Select, Table, Input, Tooltip } from 'antd';
 import { Holder, CardContainer } from 'common';
 import classNames from 'classnames';
-import { secondsToTime } from 'common/utils';
+import { firstCharToUpper, secondsToTime } from 'common/utils';
 import { map, filter, uniqueId, find, debounce, get, floor } from 'lodash';
 import React from 'react';
 import TestPieChart from './test-pie-chart';
@@ -107,6 +107,7 @@ class TestDetail extends React.Component<IProps, IState> {
       { name: i18n.t('failed'), value: 'failed', color: 'failed' },
       { name: i18n.t('Error'), value: 'error', color: 'error' },
     ];
+    statusFilter.forEach((i) => (i.name = firstCharToUpper(i.name)));
     return (
       <div className="application-test-detail">
         <div className="row-space" />
@@ -117,7 +118,7 @@ class TestDetail extends React.Component<IProps, IState> {
             </ChartContainer>
           </Col>
           <Col span={12} className="test-env-container">
-            <ChartContainer title={i18n.t('test environment')}>
+            <ChartContainer title={firstCharToUpper(i18n.t('test environment'))}>
               <Table
                 loading={false}
                 dataSource={dataSource}

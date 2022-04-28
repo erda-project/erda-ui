@@ -112,12 +112,12 @@ describe('BatchOperation', () => {
     expect(isVisibleFnReturnFalse).toHaveBeenCalledWith(selectedKeys);
     userEvent.hover(result.getByText('Batch Operations'));
     await waitFor(() => expect(screen.getByRole('menu')).toBeTruthy());
-    expect(result.getAllByText(/action/)).toHaveLength(4);
-    expect(screen.getByText('action disabled').closest('li')).toHaveAttribute('aria-disabled', 'true');
-    fireEvent.click(result.getByText('action edit'));
+    expect(result.getAllByText(/Action/)).toHaveLength(4);
+    expect(screen.getByText('Action Disabled').closest('li')).toHaveAttribute('aria-disabled', 'true');
+    fireEvent.click(result.getByText('Action Edit'));
     await waitFor(() => expect(asyncOperationFn).toHaveBeenLastCalledWith(selectedKeys));
     expect(selectFn).toHaveBeenLastCalledWith([]);
-    fireEvent.click(result.getByText('action delete'));
+    fireEvent.click(result.getByText('Action Delete'));
     expect(operationFn).toHaveBeenLastCalledWith(selectedKeys);
   });
   it('should checkAll work well', () => {

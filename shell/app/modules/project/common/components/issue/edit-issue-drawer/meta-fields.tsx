@@ -473,7 +473,7 @@ const IssueMetaFields = React.forwardRef(
             if (isPromise(res)) {
               res.then((_suc) => {
                 setIterationChanged(_suc);
-                if (withChildrenIteration) {
+                if (_suc && withChildrenIteration) {
                   updateIncludeIssue({
                     issueId: formData.id,
                     updateFields: [
@@ -562,7 +562,7 @@ const IssueMetaFields = React.forwardRef(
           name: 'source',
           label: i18n.t('dop:Source'),
           itemProps: {
-            placeholder: i18n.t('please enter'),
+            placeholder: firstCharToUpper(i18n.t('please enter')),
             maxLength: 200,
           },
         },
@@ -590,7 +590,7 @@ const IssueMetaFields = React.forwardRef(
           itemProps: {
             options: severityOptions,
             allowClear: false,
-            placeholder: i18n.t('please choose {name}', { name: i18n.t('dop:Severity') }),
+            placeholder: i18n.t('please choose the {name}', { name: i18n.t('dop:Severity') }),
           },
         },
       ]),
@@ -604,7 +604,7 @@ const IssueMetaFields = React.forwardRef(
           itemProps: {
             options: complexityOptions,
             allowClear: false,
-            placeholder: i18n.t('please choose {name}', { name: i18n.t('dop:Complexity') }),
+            placeholder: i18n.t('please choose the {name}', { name: i18n.t('dop:Complexity') }),
           },
         },
       ]),

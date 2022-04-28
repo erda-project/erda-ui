@@ -17,6 +17,7 @@ import { Panel } from 'common';
 import i18n from 'i18n';
 import { useUserMap } from 'core/stores/userMap';
 import moment from 'moment';
+import { firstCharToUpper } from 'app/common/utils';
 
 interface IProps {
   caseDetail: TREE.NODE;
@@ -39,7 +40,7 @@ const CaseInfo = (props: IProps) => {
       },
     },
     {
-      label: i18n.t('dop:commit message'),
+      label: firstCharToUpper(i18n.t('dop:commit message')),
       valueKey: 'desc',
       valueItem: ({ value: val }: any) => {
         return (

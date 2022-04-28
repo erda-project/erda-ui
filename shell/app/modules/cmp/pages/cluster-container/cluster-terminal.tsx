@@ -135,7 +135,7 @@ export const K8sPodTerminalLog = (
           onChange={(duration) => {
             form.setFieldsValue({ endTime: duration });
           }}
-          placeholder={i18n.t('Please enter {name}', { name: i18n.t('common:duration(minutes)') })}
+          placeholder={i18n.t('Please enter the {name}', { name: i18n.t('common:duration(minutes)') })}
         />
       ),
     },

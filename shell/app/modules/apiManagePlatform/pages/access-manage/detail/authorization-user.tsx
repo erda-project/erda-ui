@@ -150,7 +150,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
       },
     },
     {
-      title: i18n.t('operation'),
+      title: i18n.t('Operations'),
       dataIndex: 'permission',
       width: 240,
       fixed: 'right',

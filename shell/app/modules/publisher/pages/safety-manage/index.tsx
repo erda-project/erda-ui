@@ -48,10 +48,10 @@ const BlackList = ({ artifactId }: IListProps) => {
       ),
     },
     {
-      title: i18n.t('user name'),
+      title: i18n.t('Username'),
       dataIndex: 'userName',
       render: (val: string) => (
-        <span className="cursor-copy" data-clipboard-tip={i18n.t('user name')} data-clipboard-text={val}>
+        <span className="cursor-copy" data-clipboard-tip={i18n.t('Username')} data-clipboard-text={val}>
           {val}
         </span>
       ),
@@ -72,7 +72,7 @@ const BlackList = ({ artifactId }: IListProps) => {
       render: (v: string) => (v ? moment(v).format('YYYY-MM-DD HH:mm:ss') : '-'),
     },
     {
-      title: i18n.t('operation'),
+      title: i18n.t('Operations'),
       dataIndex: 'op',
       width: 120,
       render: (_v: any, record: PUBLISHER.IBlackList) => {

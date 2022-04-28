@@ -46,7 +46,7 @@ const repoIntro = ({ name: repoName, showCreateFile, gitRepoNew }: IProps) => {
         <FileContainer name="clone.sh">
           <FileEditor fileExtension="sh" value={`git clone ${repo}`} readOnly />
         </FileContainer>
-        <div className="sub-title">2. {i18n.t('dop:commit branch')}</div>
+        <div className="sub-title">2. {i18n.t('dop:Commit branch')}</div>
         <FileContainer name="push.sh">
           <FileEditor
             fileExtension="sh"

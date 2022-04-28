@@ -99,7 +99,7 @@ const AddAccountForm = (props: IProps) => {
     //   name:'',
     //   type: 'radioGroup',
     //   initialValue: '普通账号',
-    //   rules: [{ required: true, message: i18n.t('please choose {name}', { name: i18n.t('account type') }) }],
+    //   rules: [{ required: true, message: i18n.t('please choose the {name}', { name: i18n.t('account type') }) }],
     //   options: [{
     //     name: i18n.t('ordinary account'),
     //     value: '普通账号',

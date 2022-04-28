@@ -18,12 +18,13 @@ import { Avatar, Copy } from 'common';
 import { Table, Tooltip } from 'antd';
 import i18n from 'i18n';
 import { useUserMap } from 'core/stores/userMap';
+import { allWordsFirstLetterUpper } from 'app/common/utils';
 
 const typeMap = {
-  BUILD: i18n.t('runtime:build'),
+  BUILD: allWordsFirstLetterUpper(i18n.t('runtime:build')),
   ROLLBACK: i18n.t('runtime:Rollback'),
-  REDEPLOY: i18n.t('runtime:restart'),
-  RELEASE: i18n.t('runtime:release deployment'),
+  REDEPLOY: allWordsFirstLetterUpper(i18n.t('runtime:restart')),
+  RELEASE: allWordsFirstLetterUpper(i18n.t('runtime:release deployment')),
 };
 
 interface IProps {
@@ -60,7 +61,7 @@ const DeploymentTable = ({ dataSource, paging, loading, onChange, opsCol }: IPro
       render: (text: string) => typeMap[text],
     },
     {
-      title: 'releaseID',
+      title: 'Release ID',
       dataIndex: 'releaseId',
       render: (text: string) => (
         <Copy selector=".cursor-copy">

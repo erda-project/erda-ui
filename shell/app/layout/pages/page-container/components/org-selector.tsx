@@ -46,18 +46,20 @@ const OrgSelector = (props: IProps) => {
   //   ),
   // );
 
-  const options = [
-    {
-      label: i18n.t('dop:The organizations I joined'),
-      key: 'my',
-      children: orgs.map((o) => ({
-        key: o.name,
-        label: o.displayName,
-        desc: o.name,
-        imgURL: o.logo || ImgMap.frontImg_default_org_icon,
-      })),
-    },
-  ];
+  const options = orgs.length
+    ? [
+        {
+          label: i18n.t('dop:The organizations I joined'),
+          key: 'my',
+          children: orgs.map((o) => ({
+            key: o.name,
+            label: o.displayName,
+            desc: o.name,
+            imgURL: o.logo || ImgMap.frontImg_default_org_icon,
+          })),
+        },
+      ]
+    : [];
 
   const changeOrg = (_: string, op: Obj) => {
     goTo(goTo.pages.orgRoot, { orgName: op.desc });

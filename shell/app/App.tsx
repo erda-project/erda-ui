@@ -22,6 +22,7 @@ import { ConfigProvider } from '@erda-ui/components';
 import antd_zhCN from 'antd/es/locale-provider/zh_CN';
 import antd_enUS from 'antd/es/locale-provider/en_US';
 import zhCN from '@erda-ui/components/es/locale/zh_CN';
+import permStore from 'user/stores/permission';
 import enUS from '@erda-ui/components/es/locale/en_US';
 // core modules
 import { isZh } from 'core/i18n';
@@ -35,6 +36,8 @@ import { EmptyListHolder } from 'common';
 import { setLS, notify, insertWhen } from 'common/utils';
 import { initAxios } from 'common/utils/axios-config';
 import userStore from './user/stores';
+import announcementStore from 'org/stores/announcement';
+import layoutStore from 'layout/stores/layout';
 import orgStore from 'app/org-home/stores/org';
 import setAntdDefault from './antd-default-props';
 import './styles/antd-extension.scss';
@@ -63,7 +66,7 @@ const dynamicModules =
         },
       ];
 
-const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
+const start = (userData: ILoginUser, orgs: ORG.IOrg[], curOrg: ORG.IOrg, orgAccess: IPermResponseData) => {
   setLS('diceLoginState', true);
 
   const locale = window.localStorage.getItem('locale') || 'zh';
@@ -73,6 +76,17 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
   };
   moment.locale(momentLangMap[locale]);
   orgStore.reducers.updateJoinedOrg(orgs);
+  if (curOrg) {
+    orgStore.reducers.updateCurrentOrg(curOrg);
+    if (orgAccess && curOrg) {
+      permStore.reducers.updatePerm('org', orgAccess);
+      if (orgAccess.access) {
+        announcementStore.effects.getAllNoticeListByStatus('published').then((list) => {
+          layoutStore.reducers.setAnnouncementList(list);
+        });
+      }
+    }
+  }
   initAxios();
   startApp().then(async (App) => {
     // get the organization info first, or will get org is undefined when need org info (like issueStore)
@@ -123,7 +137,7 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
 
 setGlobal('initData', window.initData);
 window.initData = undefined;
-const { user, orgs } = getGlobal('initData');
+const { user, orgs, currentOrg, orgAccess } = getGlobal('initData') || {};
 
 if (user) {
   window.localStorage.removeItem(`lastPath`); // clear old lastPath
@@ -132,5 +146,5 @@ if (user) {
     window.localStorage.removeItem(`${user.id}-lastPath`);
     history.replace(lastPath);
   }
-  start(user, orgs);
+  start(user, orgs, currentOrg, orgAccess);
 }

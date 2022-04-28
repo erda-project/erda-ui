@@ -23,7 +23,7 @@ import { API_TREE_OPERATION } from 'app/modules/apiManagePlatform/configs.ts';
 import routeInfoStore from 'core/stores/route';
 import { produce } from 'immer';
 import { TreeTitle, BranchTitle } from './title';
-import { updateSearch } from 'common/utils';
+import { firstCharToUpper, updateSearch } from 'common/utils';
 import { useMount, useUpdateEffect } from 'react-use';
 import './index.scss';
 import ReactDOM from 'react-dom';
@@ -370,11 +370,11 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
         onClick={() => onVisibleChange(!popVisible)}
         className={`api-file-select ${!treeNodeData?.apiDocName ? 'text-desc' : ''}`}
       >
-        <span>{i18n.t('document')}：</span>
+        <span>{firstCharToUpper(i18n.t('document'))}: </span>
         <span className="name nowrap">
           {treeNodeData?.branchName
             ? `${treeNodeData?.branchName}/${treeNodeData?.apiDocName}`
-            : i18n.t('common:expand branch directory selection document')}
+            : i18n.t('common:Expand the branch directory to select document')}
         </span>
         <ErdaIcon type="caret-down" size="20" color="black-4" />
       </button>

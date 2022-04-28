@@ -30,7 +30,7 @@ import userStore from 'app/user/stores';
 import sysMemberStore from 'common/stores/sys-member';
 import { useUserMap } from 'core/stores/userMap';
 import mspProjectMember from 'common/stores/msp-project-member';
-import { getAvatarChars } from 'app/common/utils';
+import { firstCharToUpper, getAvatarChars } from 'app/common/utils';
 
 const storeMap = {
   [MemberScope.PROJECT]: projectMemberStore,
@@ -277,7 +277,7 @@ const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>,
         key={`${scopeType}-${type}`}
         className={`member-selector ${className}`}
         notFoundContent={notFoundContentTip && query.q ? notFoundContentTip : undefined}
-        placeholder={placeholder || i18n.t('please choose the {name}', { name: i18n.t('user') })}
+        placeholder={placeholder || firstCharToUpper(i18n.t('please choose the {name}', { name: i18n.t('user') }))}
         category={categories}
         dataFormatter={({ list, total }) => ({
           total,

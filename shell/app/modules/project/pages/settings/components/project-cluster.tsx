@@ -23,7 +23,6 @@ import clusterStore from 'app/modules/cmp/stores/cluster';
 import { useLoading } from 'core/stores/loading';
 
 import './project-cluster.scss';
-
 interface IProps {
   hasEditAuth: boolean;
 }
@@ -173,7 +172,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
           width: 180,
         },
         {
-          title: `CPU ${i18n.t('allocated and utilization rate')}`,
+          title: `CPU ${i18n.t('quota and usage')}`,
           width: 300,
           dataIndex: 'cpuQuota',
           align: 'center',
@@ -187,7 +186,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
           ),
         },
         {
-          title: `MEM ${i18n.t('allocated and utilization rate')}`,
+          title: `MEM ${i18n.t('quota and usage')}`,
           width: 300,
           dataIndex: 'memQuota',
           align: 'center',

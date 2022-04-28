@@ -21,6 +21,7 @@ import i18n from 'i18n';
 import ConfigSelector from './config-selector';
 
 import './index.scss';
+import { firstCharToUpper } from 'app/common/utils';
 
 export interface IProps {
   fieldsList: Field[];
@@ -106,10 +107,10 @@ interface FieldItem extends IFormItem {
 }
 
 const defaultProcessField = (item: FieldItem, zIndex?: number) => {
-  const { type, itemProps, placeholder, disabled, mode, required } = item;
+  const { type, itemProps, label, placeholder, disabled, mode, required } = item;
   const field: IFormItem = { ...item };
-
   field.name = item.key;
+  field.label = firstCharToUpper(label);
   if (type === 'select' || type === 'tagsSelect') {
     field.itemProps = {
       mode: mode !== 'single' ? 'multiple' : false,
@@ -134,7 +135,7 @@ const defaultProcessField = (item: FieldItem, zIndex?: number) => {
   }
 
   field.itemProps = {
-    placeholder,
+    placeholder: firstCharToUpper(placeholder && placeholder.toLowerCase()),
     disabled,
     ...field.itemProps,
   };
@@ -292,11 +293,14 @@ const ConfigurableFilter = React.forwardRef(
             label={<span className="text-default-3">{i18n.t('dop:filter name')}</span>}
             name="label"
             rules={[
-              { required: true, message: i18n.t('Please enter {name}', { name: i18n.t('dop:filter name') }) },
+              { required: true, message: i18n.t('Please enter the {name}', { name: i18n.t('dop:filter name') }) },
               { max: 10, message: i18n.t('dop:within {num} characters', { num: 10 }) },
             ]}
           >
-            <Input className="w-52" placeholder={i18n.t('dop:please enter, within {num} characters', { num: 10 })} />
+            <Input
+              className="w-52"
+              placeholder={firstCharToUpper(i18n.t('dop:please enter, within {num} characters', { num: 10 }))}
+            />
           </Form.Item>
           <div className="mt-3 flex-h-center justify-end">
             <Button

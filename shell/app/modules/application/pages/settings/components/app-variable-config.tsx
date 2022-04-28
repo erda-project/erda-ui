@@ -24,15 +24,16 @@ import { Button, Collapse, Popconfirm, Spin, Table, Tooltip, Input, Modal, FormI
 import React from 'react';
 import { useEffectOnce, useUnmount } from 'react-use';
 import { VariableConfigForm } from './variable-config-form';
+import { firstCharToUpper } from 'app/common/utils';
 
 const { Panel } = Collapse;
 
 export const ENV_I18N = {
   default: i18n.t('common:Default configuration'),
-  dev: i18n.t('dev environment'),
-  test: i18n.t('test environment'),
-  staging: i18n.t('staging environment'),
-  prod: i18n.t('prod environment'),
+  dev: firstCharToUpper(i18n.t('cmp:development environment')),
+  test: i18n.t('Testing environment'),
+  staging: firstCharToUpper(i18n.t('staging environment')),
+  prod: firstCharToUpper(i18n.t('cmp:production environment')),
 };
 
 interface IKeyOperations {
@@ -260,7 +261,7 @@ const VariableConfig = ({
       render: (text: string) => (text ? <Tooltip title={text}>{text.slice(0, 30)}</Tooltip> : '-'),
     },
     {
-      title: i18n.t('operation'),
+      title: i18n.t('Operations'),
       dataIndex: 'operations',
       width: 200,
       fixed: 'right',

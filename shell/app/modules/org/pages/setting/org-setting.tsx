@@ -56,7 +56,7 @@ export const OrgSetting = () => {
                   title: i18n.t('{name} member management', { name: i18n.t('organization') }),
                   desc: (
                     <div>
-                      {i18n.t('For editing members, setting member roles and role permissions, please refer to')}
+                      {i18n.t('Edit members and set member roles. See Role Permission Description for details.')}
                       <Link to={goTo.resolve.perm({ scope: 'org' })} target="_blank">
                         {i18n.t('role permissions description')}
                       </Link>

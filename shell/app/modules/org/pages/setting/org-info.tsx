@@ -189,7 +189,7 @@ export const OrgInfo = () => {
           title: i18n.t('exit {name}', { name: i18n.t('org') }),
           children: (
             <ConfirmDelete
-              title={i18n.t('sure to exit the current {name}?', { name: i18n.t('org') })}
+              title={i18n.t('Confirm to exit the current {name}?', { name: i18n.t('org') })}
               confirmTip={i18n.t('common:exit-confirm-tip {name}', { name: i18n.t('org') })}
               secondTitle={i18n.t('common:exit-sub-tip {name}', { name: i18n.t('org') })}
               onConfirm={exitOrg}

@@ -28,7 +28,7 @@ import {
   ErdaAlert,
 } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { goTo, secondsToTime, replaceEmoji } from 'common/utils';
+import { goTo, secondsToTime, replaceEmoji, firstCharToUpper } from 'common/utils';
 import GotoCommit from 'application/common/components/goto-commit';
 import { BuildLog } from './build-log';
 import PipelineChart from './pipeline-chart';
@@ -771,7 +771,7 @@ const BuildDetail = (props: IProps) => {
                   <Avatar name={commitDetail.author} showName className="mb-1" size={20} />
                 </Col>
                 <Col span={12}>
-                  <div className="info-label">{i18n.t('dop:commit message')}：</div>
+                  <div className="info-label">{firstCharToUpper(i18n.t('dop:commit message'))}：</div>
                   <div className="nowrap" ref={commitMsgRef}>
                     {getAutoTooltipMsg(commitMsgRef, replaceEmoji(commitDetail.comment))}
                   </div>

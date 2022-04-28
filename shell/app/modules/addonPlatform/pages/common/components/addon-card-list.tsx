@@ -20,16 +20,17 @@ import { useUpdateEffect } from 'react-use';
 import { IF } from 'common';
 import './addon-card-list.scss';
 import i18n from 'i18n';
+import { allWordsFirstLetterUpper, firstCharToUpper } from 'app/common/utils';
 
 const { Option } = Select;
 const { Search } = Input;
 
 const envOptions = [
   { cnName: i18n.t('All'), enName: 'ALL' },
-  { cnName: i18n.t('develop'), enName: 'DEV' },
-  { cnName: i18n.t('test'), enName: 'TEST' },
-  { cnName: i18n.t('staging'), enName: 'STAGING' },
-  { cnName: i18n.t('prod'), enName: 'PROD' },
+  { cnName: i18n.t('common:Development'), enName: 'DEV' },
+  { cnName: i18n.t('Testing'), enName: 'TEST' },
+  { cnName: firstCharToUpper(i18n.t('staging')), enName: 'STAGING' },
+  { cnName: i18n.t('common:Production'), enName: 'PROD' },
 ].map(({ cnName, enName }) => (
   <Option key={enName} value={enName}>
     {cnName}
@@ -199,16 +200,19 @@ const AddonCardList = (props: IProps) => {
     if (addonCategory) {
       const categories = Object.keys(addonCategory);
       const resolvedCategories = categories.filter((v) => CategoriesOrder.includes(v));
-      return resolvedCategories.map((key: string) => (
-        <li
-          key={key}
-          className={`category-item cursor-pointer ${activeCategory === key ? 'active' : ''}`}
-          value={key}
-          onClick={onClickCategory}
-        >
-          <Tooltip title={key}>{key}</Tooltip>
-        </li>
-      ));
+      return resolvedCategories.map((key: string) => {
+        key = allWordsFirstLetterUpper(key);
+        return (
+          <li
+            key={key}
+            className={`category-item cursor-pointer ${activeCategory === key ? 'active' : ''}`}
+            value={key}
+            onClick={onClickCategory}
+          >
+            <Tooltip title={key}>{key}</Tooltip>
+          </li>
+        );
+      });
     }
     return null;
   };
@@ -237,7 +241,7 @@ const AddonCardList = (props: IProps) => {
         <div className="addons-content">
           <IF check={!isEmpty(addonCategory)}>
             <div className="addon-menu">
-              <span className="content-title font-medium">{i18n.t('dop:addon category')}</span>
+              <span className="content-title font-medium">{firstCharToUpper(i18n.t('dop:addon category'))}</span>
               <ul className="menu-list">{renderCategoryList()}</ul>
             </div>
           </IF>

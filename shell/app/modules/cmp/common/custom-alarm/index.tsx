@@ -343,7 +343,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
       ),
     },
     {
-      title: i18n.t('operate'),
+      title: i18n.t('Operations'),
       dataIndex: 'operator',
       render: (value: string, { uniKey }: COMMON_CUSTOM_ALARM.Filter) => (
         <Select
@@ -471,7 +471,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
       ),
     },
     {
-      title: i18n.t('operate'),
+      title: i18n.t('Operations'),
       dataIndex: 'operator',
       render: (value: string, { uniKey, aggregatorType }: COMMON_CUSTOM_ALARM.Field) => (
         <Select

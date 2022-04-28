@@ -66,7 +66,7 @@ const titleMap = {
 
 const btnMap = {
   edit: i18n.t('Edit'),
-  add: i18n.t('dop:Add-create'),
+  add: i18n.t('dop:Create'),
 };
 
 const successMsgMap = {
@@ -257,7 +257,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
             name={'name'}
             type={'input'}
             rules={[
-              { required: true, message: i18n.t('Please enter {name}', { name: i18n.t('Pipeline') }) },
+              { required: true, message: i18n.t('Please enter the {name}', { name: i18n.t('Pipeline') }) },
               { max: 30, message: i18n.t('dop:no more than 30 characters') },
               {
                 pattern: /^[\u4e00-\u9fa5A-Za-z0-9._-]+$/,
@@ -266,7 +266,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
             ]}
             itemProps={{
               className: 'border-transparent shadow-none pl-0 text-xl bg-transparent',
-              placeholder: i18n.t('Please enter {name}', { name: i18n.t('Pipeline') }),
+              placeholder: i18n.t('Please enter the {name}', { name: i18n.t('Pipeline') }),
             }}
           />
           <div>
@@ -288,7 +288,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
                     name="app"
                     type="select"
                     options={appList}
-                    rules={[{ required: true, message: i18n.t('please choose {name}', { name: i18n.t('App') }) }]}
+                    rules={[{ required: true, message: i18n.t('please choose the {name}', { name: i18n.t('App') }) }]}
                     itemProps={{
                       disabled: type === 'edit',
                       className: 'project-release-select',
@@ -302,7 +302,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
               <div className="w-32 text-default-6">
                 <div className="flex-h-center mt-1.5">
                   <ErdaIcon type="pipeline" size={20} className="text-default-4 mr-1" />
-                  pipeline {i18n.t('File')}
+                  {i18n.t('dop:Pipeline file')}
                 </div>
               </div>
               <div className="flex-1">
@@ -314,7 +314,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
                       validator: (_: string, value: string) => {
                         if (!value) {
                           return Promise.reject(
-                            new Error(i18n.t('please choose {name}', { name: i18n.t('Pipelines') })),
+                            new Error(i18n.t('please choose the {name}', { name: i18n.t('Pipelines') })),
                           );
                         }
 

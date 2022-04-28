@@ -177,6 +177,12 @@ class FormModalComp extends React.Component<IProps, IState> {
     let content = null;
     if (fieldsList) {
       const _list = typeof fieldsList === 'function' ? fieldsList(rest.form, !this.isAddMode) : fieldsList;
+      _list.forEach((i) => {
+        i.label = firstCharToUpper(i.label);
+        if (i.itemProps?.placeholder) {
+          i.itemProps.placeholder = firstCharToUpper(i.itemProps.placeholder);
+        }
+      });
       content = <RenderPureForm layout="vertical" list={_list} {...formProps} {...rest} />;
     } else if (PureForm) {
       content = <PureForm mode={this.isAddMode ? 'add' : 'edit'} layout="vertical" {...rest} />;

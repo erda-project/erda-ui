@@ -15,7 +15,7 @@ import { map, findLast, isEqual, cloneDeep, filter, uniqueId, find } from 'lodas
 import React from 'react';
 import { useUpdate } from 'common/use-hooks';
 import { ErdaIcon } from 'common';
-import { setLS, goTo } from 'common/utils';
+import { setLS, goTo, firstCharToUpper } from 'common/utils';
 import { Row, Col, Form, Input, Popconfirm, Modal, message, FormInstance } from 'antd';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
@@ -184,7 +184,7 @@ const DomainModal = (props: IProps) => {
                 <Row>
                   <Col span={22}>
                     <FormItem
-                      label={i18n.t('runtime:domain name')}
+                      label={firstCharToUpper(i18n.t('domain'))}
                       name={`${domainType}@customDomain@${id}`}
                       initialValue={customDomain}
                       rules={[

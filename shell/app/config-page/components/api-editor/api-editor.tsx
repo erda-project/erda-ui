@@ -542,7 +542,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
           <Title title={i18n.t('interface name')} level={3} />
           <Input
             className="flex-1 mb-6 mt-2"
-            placeholder={i18n.t('Please enter {name}', { name: i18n.t('interface name') })}
+            placeholder={i18n.t('Please enter the {name}', { name: i18n.t('interface name') })}
             value={api.name}
             onChange={(e) => updateApi('name', e.target.value)}
             maxLength={50}

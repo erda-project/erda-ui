@@ -156,7 +156,7 @@ const ThirdAddonForm = (props: IProps) => {
         },
       ]),
       {
-        label: i18n.t('tag'),
+        label: i18n.t('Label'),
         name: 'tag',
         initialValue: editData ? editData.tag || '' : null,
         itemProps: { disabled: editData !== null },

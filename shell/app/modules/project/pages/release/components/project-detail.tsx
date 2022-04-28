@@ -15,7 +15,7 @@ import React from 'react';
 import { Button, Modal, Tabs } from 'antd';
 import moment from 'moment';
 import i18n from 'i18n';
-import { goTo } from 'common/utils';
+import { firstCharToUpper, goTo } from 'common/utils';
 import { ErdaIcon, Ellipsis } from 'common';
 import { TagItem } from 'app/common/components/tags';
 import routeInfoStore from 'core/stores/route';
@@ -52,7 +52,7 @@ const ReleaseProjectDetail = () => {
 
   const submit = () => {
     Modal.confirm({
-      title: i18n.t('dop:be sure to make {name} official?', {
+      title: i18n.t('dop:Confirm to transfer XXX to formal?', {
         name: releaseName,
         interpolation: { escapeValue: false },
       }),
@@ -221,7 +221,7 @@ const GroupsList = ({ value }: { value: Application[][] }) => {
               size="20"
               className={`${expandedKeys.includes(index) ? 'text-default-6 rotate-90' : 'text-default-3'} duration-300`}
             />
-            {i18n.t('dop:group {index}', { index: index + 1 })}
+            {firstCharToUpper(i18n.t('dop:group {index}', { index: index + 1 }))}
             <div className="bg-default-1 rounded-full px-2 py-0.5 text-xs ml-1">{item.length}</div>
           </div>
           <div className={`overflow-hidden ${expandedKeys.includes(index) ? '' : 'h-0'}`}>

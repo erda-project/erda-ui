@@ -153,7 +153,7 @@ const Guide = React.forwardRef((props: IProps, ref: React.Ref<{ reload: () => vo
                               addPipeliningQuickly(appID, branch, [yml]);
                             }}
                           >
-                            {i18n.t('dop:Add-create')}
+                            {i18n.t('dop:Create')}
                           </span>
                         </div>
                       </div>

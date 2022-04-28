@@ -61,7 +61,7 @@ const AppLibraryReference = () => {
         render: (text: string) => approvalStatus[text],
       },
       {
-        title: i18n.t('operation'),
+        title: i18n.t('Operations'),
         dataIndex: 'op',
         width: 100,
         render: (_v: any, record: APP_SETTING.LibRef) => {
@@ -145,7 +145,7 @@ const AppLibraryReference = () => {
           return (
             <LoadMoreSelector
               getData={getData}
-              placeholder={i18n.t('please choose {name}', { name: i18n.t('publisher:publisher content') })}
+              placeholder={i18n.t('please choose the {name}', { name: i18n.t('publisher:publisher content') })}
               optionRender={(option) => {
                 const { label, desc, refCount, latestVersion } = option;
                 return (

@@ -16,7 +16,7 @@ import { Dropdown, Menu, Modal, List } from 'antd';
 import { Icon as CustomIcon, Copy, Ellipsis, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { map, isEmpty } from 'lodash';
-import { notify, insertWhen } from 'common/utils';
+import { notify, insertWhen, firstCharToUpper } from 'common/utils';
 import ServiceResourceModal from './resource-modal';
 import i18n from 'i18n';
 import runtimeStore from 'runtime/stores/runtime';
@@ -65,7 +65,7 @@ const ServiceDropdown = (props: IProps) => {
       title,
       content,
       width: 500,
-      okText: i18n.t('close'),
+      okText: firstCharToUpper(i18n.t('close')),
     });
   };
 
@@ -140,7 +140,7 @@ const ServiceDropdown = (props: IProps) => {
     isEndpoint &&
       hasDeployAuth &&
       ops.push({
-        title: i18n.t('runtime:Manage Domain'),
+        title: i18n.t('runtime:Domain'),
         onClick: () => {
           if (isOpsForbidden) {
             notify('warning', warningMsg);
@@ -156,7 +156,7 @@ const ServiceDropdown = (props: IProps) => {
       ops.push(
         ...[
           {
-            title: i18n.t('runtime:view log'),
+            title: firstCharToUpper(i18n.t('runtime:log')),
             onClick: () => openSlidePanel('log'),
           },
           {

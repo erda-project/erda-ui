@@ -102,67 +102,67 @@ export enum ISSUE_OPTION {
 
 export const templateMap = isZh()
   ? {
-      [ISSUE_TYPE.REQUIREMENT]: `### 【用户故事/要解决的问题】*
+      [ISSUE_TYPE.REQUIREMENT]: `### 用户故事/要解决的问题*
 
 
-### 【意向用户】*
+### 意向用户*
 
 
-### 【用户体验目标】*
+### 用户体验目标*
 
 
-### 【链接/参考】
+### 链接/参考
 
 `,
       [ISSUE_TYPE.TASK]: ``,
-      [ISSUE_TYPE.BUG]: `### 【环境信息】
+      [ISSUE_TYPE.BUG]: `### 环境信息
 
 
-### 【缺陷描述】*
+### 缺陷描述*
 
 
-### 【重现步骤】
+### 重现步骤
 
 
-### 【实际结果】
+### 实际结果
 
 
-### 【期望结果】*
+### 期望结果*
 
 
-### 【修复建议】
+### 修复建议
 
 `,
     }
   : {
-      [ISSUE_TYPE.REQUIREMENT]: `### [User story/Problem to solve] *
+      [ISSUE_TYPE.REQUIREMENT]: `### User story/Problem to solve *
 
 
-### [Intended users] *
+### Intended users *
 
 
-### [User experience goals] *
+### User experience goals *
 
 
-### [Link/Reference]
+### Link/Reference
 
 `,
       [ISSUE_TYPE.TASK]: ``,
-      [ISSUE_TYPE.BUG]: `### [Environment]
+      [ISSUE_TYPE.BUG]: `### Environment
 
 
-### [Description] *
+### Description *
 
 
-### [Steps]
+### Steps
 
 
-### [Actual result]
+### Actual result
 
 
-### [Expected result] *
+### Expected result *
 
 
-### [Repair suggestion]
+### Repair suggestion
 `,
     };

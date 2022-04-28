@@ -137,7 +137,7 @@ const DetailsPanel = (props: IProps) => {
             ...titleProps,
           };
           return (
-            <div id={key} className="pt-3">
+            <div key={key} id={key} className="pt-3">
               <Content
                 crossLine={crossLine}
                 titleProps={_titleProps}

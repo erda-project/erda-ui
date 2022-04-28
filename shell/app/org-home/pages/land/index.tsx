@@ -73,7 +73,7 @@ const LandPage = () => {
         rules: [
           {
             required: true,
-            message: i18n.t('Please enter {name}', { name: i18n.t('layout:Organization identifier') }),
+            message: i18n.t('Please enter the {name}', { name: i18n.t('layout:Organization identifier') }),
           },
           {
             pattern: /^[a-z0-9-]*$/,

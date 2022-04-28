@@ -29,7 +29,7 @@ const SlowTrack = ({ data }: { data: object }) => {
   const list = get(data, 'list') || [];
   const columns = [
     {
-      title: i18n.t('msp:domain name'),
+      title: i18n.t('domain'),
       dataIndex: 'name',
       key: 'name',
     },

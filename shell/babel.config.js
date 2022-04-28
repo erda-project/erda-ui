@@ -16,19 +16,23 @@ const overwriteMap = {
   table: true,
   select: true,
   tag: true,
-  button: true,
   'range-picker': true,
+  button: true,
   popconfirm: true,
+  input: true,
+  // tabs: true
 };
 
 const overwriteCssMap = {
   avatar: 'antd/es/avatar/style',
   table: 'antd/es/table/style',
   select: 'antd/es/select/style',
-  button: 'antd/es/button/style',
   tag: false,
   'range-picker': false,
+  button: 'antd/es/button/style',
   popconfirm: 'antd/es/popconfirm/style',
+  input: 'antd/es/input/style',
+  // tabs: 'antd/es/tabs/style',
 };
 
 // TODO: remove this

@@ -40,7 +40,7 @@ const ApiDocAddModal = (props: IProps) => {
       required: true,
       type: 'select',
       itemProps: {
-        placeholder: i18n.t('please select {name}', { name: i18n.t('dop:branch') }),
+        placeholder: i18n.t('please select the {name}', { name: i18n.t('dop:branch') }),
         optionFilterProp: 'children',
         showSearch: true,
       },
@@ -52,7 +52,7 @@ const ApiDocAddModal = (props: IProps) => {
       required: true,
       itemProps: {
         placeholder: i18n.t(
-          'dop:please enter service name, which needs to be consistent with the service name declared in dice.yml',
+          'dop:Please enter the service name, which should be the same as the service name declared in dice.yml',
         ),
       },
       rules: [regRules.commonStr],

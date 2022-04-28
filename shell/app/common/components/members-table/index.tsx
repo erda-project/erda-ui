@@ -417,7 +417,7 @@ const MembersTable = ({
           },
         },
         {
-          title: i18n.t('user name'),
+          title: i18n.t('Username'),
           dataIndex: 'name',
           render: (name: string) => {
             return (

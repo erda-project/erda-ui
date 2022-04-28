@@ -66,7 +66,7 @@ export default function BackupManagement() {
       render: (text: string) => fromNow(text),
     },
     {
-      title: i18n.t('operation'),
+      title: i18n.t('Operations'),
       key: 'operation',
       align: 'center',
       width: 160,

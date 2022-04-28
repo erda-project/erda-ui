@@ -15,6 +15,7 @@ import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 import './add-node.scss';
+import { firstCharToUpper } from 'app/common/utils';
 
 export interface IProps {
   data: Obj;

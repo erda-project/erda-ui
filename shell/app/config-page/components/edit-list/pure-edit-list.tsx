@@ -278,7 +278,7 @@ interface IListItemProps {
 const oprationKey = '__op__';
 const operationTemp = {
   key: oprationKey,
-  title: i18n.t('operate'),
+  title: i18n.t('Operations'),
   width: 60,
   render: { type: 'custom' },
 };

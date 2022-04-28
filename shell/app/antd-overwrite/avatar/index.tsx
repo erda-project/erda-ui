@@ -13,19 +13,30 @@
 
 import React from 'react';
 import Avatar, { AvatarProps } from 'antd/es/avatar';
-import { useEffectOnce } from 'react-use';
+import { useUpdateEffect, useEffectOnce } from 'react-use';
 
 interface Props extends AvatarProps {
   timeout?: number;
 }
 
+let timer: NodeJS.Timeout;
 const WapperAvatar = (props: Props) => {
   const { timeout = 200, children, src, ...rest } = props;
   const ref = React.useRef<HTMLDivElement>(null);
   const [img, setImg] = React.useState(src);
 
+  React.useEffect(() => {
+    setImg(src);
+  }, [src]);
+
   useEffectOnce(() => {
-    let timer: NodeJS.Timeout;
+    loadImg();
+    return () => {
+      timer && clearTimeout(timer);
+    };
+  });
+
+  const loadImg = () => {
     const imgLoad = (_img: HTMLImageElement, timeoutCallback: () => void) => {
       // set user img empty after timeout
       timer = setTimeout(() => {
@@ -41,10 +52,11 @@ const WapperAvatar = (props: Props) => {
       const imgEle = ref.current.querySelector('img');
       imgEle && imgLoad(imgEle, () => setImg(''));
     }
-    return () => {
-      clearTimeout(timer);
-    };
-  });
+  };
+
+  useUpdateEffect(() => {
+    loadImg();
+  }, [img]);
 
   return (
     <Avatar ref={ref} src={img} {...rest}>

@@ -140,7 +140,7 @@ const Certificate = () => {
         render: (text: string) => formatTime(text),
       },
       {
-        title: i18n.t('operation'),
+        title: i18n.t('Operations'),
         dataIndex: 'op',
         width: 160,
         render: (_v: any, record: Certificate.Detail) => {

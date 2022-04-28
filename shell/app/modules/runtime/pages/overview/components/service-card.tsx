@@ -25,7 +25,7 @@ import ProjectUnitDetail from 'monitor-common/components/resource-usage/resource
 import ContainerLog from 'runtime/common/logs/containers/container-log';
 import Terminal from 'dcos/common/containers/terminal';
 import i18n from 'i18n';
-import { notify, updateSearch } from 'common/utils';
+import { allWordsFirstLetterUpper, firstCharToUpper, notify, updateSearch } from 'common/utils';
 import DomainModal from './domain-modal';
 import ServiceDropdown from './service-dropdown';
 import routeInfoStore from 'core/stores/route';
@@ -287,7 +287,7 @@ const ServiceCard = (props: IProps) => {
     let links =
       expose && expose[0] ? (
         <a className="mr-3" href={`//${expose[0]}`} target="_blank" rel="noopener noreferrer">
-          {i18n.t('runtime:visit domain')}
+          {i18n.t('runtime:Access Domain')}
         </a>
       ) : (
         <span
@@ -321,7 +321,7 @@ const ServiceCard = (props: IProps) => {
       );
       links = (
         <Popover title={i18n.t('runtime:available domain')} content={linkContent}>
-          <span className="domain-links hover-active">{i18n.t('runtime:visit domain')}</span>
+          <span className="domain-links hover-active">{i18n.t('runtime:Access Domain')}</span>
         </Popover>
       );
     }
@@ -339,9 +339,9 @@ const ServiceCard = (props: IProps) => {
     );
   };
   const opsCol = {
-    title: i18n.t('operate'),
+    title: i18n.t('Operations'),
     width: 240,
-    key: 'operate',
+    key: 'Operations',
     fixed: 'right',
     render: (record: RUNTIME_SERVICE.Instance) => {
       const { isRunning } = record;
@@ -365,7 +365,7 @@ const ServiceCard = (props: IProps) => {
             </span>
           </IF>
           <span className="table-operations-btn" onClick={() => openSlidePanel('log', { ...record })}>
-            {i18n.t('log')}
+            {firstCharToUpper(i18n.t('log'))}
           </span>
         </div>
       );
@@ -422,7 +422,11 @@ const ServiceCard = (props: IProps) => {
         <div className="inner-content">
           <Tabs defaultActiveKey="service-details">
             <TabPane
-              tab={isServiceType ? i18n.t('runtime:service details') : i18n.t('runtime:Task Details')}
+              tab={
+                isServiceType
+                  ? allWordsFirstLetterUpper(i18n.t('runtime:service details'))
+                  : i18n.t('runtime:Task Details')
+              }
               key="service-details"
             >
               <InstanceTable isFetching={isFetching} instances={instances} opsCol={opsCol} runtimeType={runtimeType} />

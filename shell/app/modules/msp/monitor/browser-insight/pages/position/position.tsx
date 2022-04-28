@@ -143,7 +143,7 @@ class Position extends React.Component<IProps, IState> {
           <Col span={12}>
             {
               <PositionMap.dimension
-                titleText={i18n.t('msp:domain name')}
+                titleText={i18n.t('domain')}
                 fetchApi="ta_percent_host"
                 query={{ group: 'host' }}
                 chartName="domain"

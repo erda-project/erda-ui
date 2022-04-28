@@ -26,7 +26,7 @@ import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from 'application/stores/notify-group';
 import ExternalUserModal from './external-user-table';
 import UserInfo from 'common/components/user-info';
-import { getAvatarChars } from 'common/utils';
+import { allWordsFirstLetterUpper, firstCharToUpper, getAvatarChars } from 'common/utils';
 import agent from 'agent';
 
 import './index.scss';
@@ -85,7 +85,7 @@ export const getFinalNotifyChannelOptions = (channels: Obj<string>, isMonitor: b
 const groupTargetMap = {
   user: i18n.t('Member'),
   dingding: i18n.t('DingTalk address'),
-  webhook: i18n.t('dop:external api'),
+  webhook: allWordsFirstLetterUpper(i18n.t('dop:external api')),
   external_user: i18n.t('dop:External user'),
   role: i18n.t('Member role'),
 };
@@ -563,7 +563,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
               onChange={(e) => {
                 handleChange(e.target.value);
               }}
-              placeholder={i18n.t('search {name}', { name: i18n.t('Name') })}
+              placeholder={firstCharToUpper(i18n.t('common:search by {name}', { name: i18n.t('Name').toLowerCase() }))}
             />
           }
           onChange={handlePageChange}

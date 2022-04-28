@@ -17,11 +17,13 @@ import { has } from 'lodash';
 
 interface State {
   logsMap: Obj<COMMON.LOG>;
+  logFallback: boolean;
   slidePanelComps: COMMON.SlideComp[];
 }
 
 const initState: State = {
   logsMap: {},
+  logFallback: false,
   slidePanelComps: [],
 };
 
@@ -38,15 +40,23 @@ const common = createStore({
       const res = await call(getRenderPageLayout, payload);
       return res;
     },
-    async fetchLog({ call }, { logKey, ...query }: { [k: string]: any; logKey: string }) {
+    async fetchLog(
+      { call, update, select },
+      { logKey, ...query }: { [k: string]: any; logKey: string },
+      extra: { isRunsContainerLog?: boolean },
+    ) {
       let lines = [] as COMMON.LogItem[];
       if (has(query, 'fetchApi') && !query.fetchApi) {
         return;
       }
       try {
         const response = await call(fetchLog, query);
-        lines = response.lines;
+        lines = response.lines || [];
       } catch (error) {
+        const logFallback = select((s) => s.logFallback);
+        if (!logFallback && extra?.isRunsContainerLog && `${error.response?.body?.err?.code}` === '500') {
+          update({ logFallback: true });
+        }
         // eslint-disable-next-line no-console
         console.error(error);
         lines = [];
@@ -84,6 +94,8 @@ const common = createStore({
       state.logsMap[logKey] = { content: newLines, emptyTimes, fetchPeriod };
     },
     clearLog(state, logKey?: string) {
+      state.logFallback = false;
+
       if (logKey) {
         state.logsMap[logKey] = { content: [], emptyTimes: 0, fetchPeriod: defaultLogPeriod };
       } else {

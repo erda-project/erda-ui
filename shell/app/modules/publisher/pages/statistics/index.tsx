@@ -396,7 +396,7 @@ const Statistics = (props: IProps) => {
         type: Input,
         name: 'ak',
         customProps: {
-          placeholder: i18n.t('Please enter {name}', { name: 'AK' }),
+          placeholder: i18n.t('Please enter the {name}', { name: 'AK' }),
           autoComplete: 'off',
         },
       },
@@ -404,7 +404,7 @@ const Statistics = (props: IProps) => {
         type: Input,
         name: 'sk',
         customProps: {
-          placeholder: i18n.t('Please enter {name}', { name: 'SK' }),
+          placeholder: i18n.t('Please enter the {name}', { name: 'SK' }),
           autoComplete: 'off',
         },
       },

@@ -220,7 +220,7 @@ const ClientDetail = () => {
             dataIndex: 'requestSLAName',
           },
           {
-            title: i18n.t('operation'),
+            title: i18n.t('Operations'),
             width: '150',
             dataIndex: 'id',
             fixed: 'right',

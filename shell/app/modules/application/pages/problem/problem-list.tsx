@@ -17,7 +17,7 @@ import { ProblemForm, ProblemPriority, ProblemTypeOptions } from 'application/pa
 import TicketDetail from './problem-detail';
 import { addTicket, getTicketList } from 'application/services/problem';
 import { ConfigurableFilter, Table, TopButtonGroup } from 'common';
-import { fromNow, getDefaultPaging, insertWhen } from 'common/utils';
+import { firstCharToUpper, fromNow, getDefaultPaging, insertWhen } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import { IUserInfo, useUserMap } from 'core/stores/userMap';
 import i18n from 'i18n';
@@ -111,20 +111,20 @@ export const ProblemList = () => {
         },
         {
           value: 'open',
-          label: i18n.t('dop:pending'),
+          label: firstCharToUpper(i18n.t('dop:pending')),
         },
         {
           value: 'closed',
           label: i18n.t('Closed'),
         },
       ],
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('Status') }),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('Status').toLowerCase() }),
     },
     {
       key: 'type',
       type: 'select',
       label: i18n.t('Type'),
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('Type') }),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('Type').toLowerCase() }),
       options: ProblemTypeOptions.map((a) => ({ label: a.name, value: a.value })),
       mode: 'single',
     },
@@ -133,14 +133,14 @@ export const ProblemList = () => {
       type: 'select',
       label: i18n.t('dop:Priority'),
       options: ProblemPriority.map((a) => ({ label: a.name, value: a.value })),
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:Priority') }),
+      placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:Priority').toLowerCase() }),
       mode: 'single',
     },
     {
       key: 'q',
       outside: true,
       label: 'title',
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('Title') }),
+      placeholder: firstCharToUpper(i18n.t('filter by {name}', { name: i18n.t('Title').toLowerCase() })),
       type: 'input',
     },
   ];

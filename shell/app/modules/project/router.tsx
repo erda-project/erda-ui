@@ -16,6 +16,7 @@ import { Redirect } from 'react-router-dom';
 import { qs } from 'common/utils';
 import getAppRouter from 'application/router';
 import i18n from 'i18n';
+import { ENV_MAP } from 'app/locales/utils';
 import {
   COLLABORATE_TABS,
   AUTO_TEST_TABS,
@@ -24,7 +25,6 @@ import {
   TEST_STATISTICS_TABS,
   DEPLOY_RUNTIME_TABS,
   DEPLOY_TABS,
-  MEASURE_TABS,
   RELEASE_TABS,
   PIPELINE_TABS,
 } from './tabs';
@@ -197,27 +197,12 @@ function getProjectRouter(): RouteConfigItem[] {
               getComp: (cb) => cb(import('project/pages/milestone'), 'Milestone'),
               layout: { noWrapper: true, fullHeight: true },
             },
-          ],
-        },
-        {
-          path: 'measure',
-          breadcrumbName: i18n.t('dop:Statistics'),
-          routes: [
             {
-              path: 'bug',
-              tabs: MEASURE_TABS,
+              path: 'measure',
+              tabs: COLLABORATE_TABS,
               ignoreTabQuery: true,
-              getComp: (cb) => cb(import('project/pages/issue/issue-dashboard')),
-              layout: {
-                noWrapper: true,
-              },
-            },
-            {
-              path: 'task',
-              tabs: MEASURE_TABS,
-              ignoreTabQuery: true,
+              getComp: (cb) => cb(import('project/pages/issue/statistics')),
               layout: { noWrapper: true, fullHeight: true },
-              getComp: (cb) => cb(import('project/pages/issue/task-summary')),
             },
           ],
         },
@@ -456,7 +441,7 @@ function getProjectRouter(): RouteConfigItem[] {
                 },
                 {
                   path: ':releaseID',
-                  pageName: `${i18n.t('Artifacts')}${i18n.t('detail')}`,
+                  pageName: `${i18n.t('Artifacts')} ${i18n.t('detail')}`,
                   backToUp: 'projectRelease',
                   getComp: (cb) => cb(import('project/pages/release/components/project-detail')),
                 },
@@ -489,7 +474,7 @@ function getProjectRouter(): RouteConfigItem[] {
                 },
                 {
                   path: ':releaseID',
-                  pageName: `${i18n.t('Artifacts')}${i18n.t('detail')}`,
+                  pageName: `${i18n.t('Artifacts')} ${i18n.t('detail')}`,
                   backToUp: 'applicationRelease',
                   getComp: (cb) => cb(import('project/pages/release/components/application-detail')),
                   layout: { fullHeight: true },
@@ -524,6 +509,10 @@ function getProjectRouter(): RouteConfigItem[] {
                   path: ':appId/runtime/:runtimeId',
                   tabs: DEPLOY_RUNTIME_TABS,
                   backToUp: 'projectDeployEnv',
+                  breadcrumbName: ({ params }) => {
+                    const { workspace } = params;
+                    return ENV_MAP[workspace];
+                  },
                   mark: 'projectDeployRuntime',
                   getComp: (cb) => cb(import('app/modules/runtime/pages/overview')),
                   layout: {

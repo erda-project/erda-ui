@@ -58,7 +58,7 @@ const FieldOptionsSetting = (props: IProps) => {
         return (
           <Input
             value={_value}
-            placeholder={i18n.t('Please enter {name}', { name: i18n.t('Name') })}
+            placeholder={i18n.t('Please enter the {name}', { name: i18n.t('Name') })}
             onChange={(e: any) => {
               onInputChangeHandle(e.target.value, index);
             }}
@@ -67,7 +67,7 @@ const FieldOptionsSetting = (props: IProps) => {
       },
     },
     {
-      title: i18n.t('operation'),
+      title: i18n.t('Operations'),
       dataIndex: 'operation',
       width: 100,
       render: (_value: number, _record: any, index: number) => {

@@ -154,7 +154,7 @@ export const COMMON_FIELDS = [
   },
   {
     propertyName: 'assignee',
-    displayName: i18n.t('designated person'),
+    displayName: i18n.t('assignee'),
     propertyType: 'Person',
   },
   {

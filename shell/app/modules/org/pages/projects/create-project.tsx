@@ -18,7 +18,7 @@ import { ErdaIcon, ImageUpload, RenderForm } from 'common';
 import projectStore from 'app/modules/project/stores/project';
 import clusterStore from 'cmp/stores/cluster';
 import { createTenantProject } from 'msp/services';
-import { goTo, insertWhen, convertToFormData } from 'common/utils';
+import { goTo, insertWhen, convertToFormData, firstCharToUpper } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import classnames from 'classnames';
 import pinyin from 'tiny-pinyin';

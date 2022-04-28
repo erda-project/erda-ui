@@ -310,7 +310,7 @@ class KeyValueTable extends React.Component<IProps, IState> {
 
     if (!disableDelete) {
       columns.push({
-        title: i18n.t('operation'),
+        title: i18n.t('Operations'),
         width: 160,
         dataIndex: 'operation',
         className: 'operation',

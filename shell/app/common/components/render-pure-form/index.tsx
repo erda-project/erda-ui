@@ -16,6 +16,7 @@ import { Form, Row, Col, FormInstance } from 'antd';
 import classNames from 'classnames';
 import RenderFormItem from '../render-form-item';
 import './index.scss';
+import { firstCharToUpper } from 'app/common/utils';
 
 interface IProps {
   list: any[];
@@ -44,6 +45,9 @@ class RenderPureForm extends React.Component<IProps> {
     } = this.props;
     const itemLayout = layout === 'horizontal' ? formItemLayout : null;
     const items = list.map((info, i) => {
+      if (info.label) {
+        info.label = firstCharToUpper(info.label);
+      }
       if (info.subList) {
         // subList是一个二维数组，第一维是行数， 第二维是每行的具体内容
         const { subList = [], getComp, itemProps = {} } = info;

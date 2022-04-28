@@ -14,7 +14,7 @@
 import { Spin, Button, Tooltip, Dropdown, Menu, Input, Card } from 'antd';
 import { EmptyHolder, Avatar, DeleteConfirm, IF, ErdaIcon, ErdaAlert, RadioTabs } from 'common';
 import React from 'react';
-import { fromNow, replaceEmoji, goTo } from 'common/utils';
+import { fromNow, replaceEmoji, goTo, firstCharToUpper } from 'common/utils';
 import { mergeRepoPathWith } from './util';
 import GotoCommit, { getCommitPath } from 'application/common/components/goto-commit';
 import { Link } from 'react-router-dom';
@@ -58,7 +58,7 @@ const RepoBranch = () => {
     <Spin spinning={isFetching}>
       <Search
         className="repo-branch-search-input mb-4"
-        placeholder={i18n.t('common:search by {name}', { name: i18n.t('dop:branch') })}
+        placeholder={firstCharToUpper(i18n.t('common:search by {name}', { name: i18n.t('dop:branch') }))}
         onChange={handleChangeBranchName}
       />
       <IF check={info.isLocked}>

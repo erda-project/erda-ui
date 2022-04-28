@@ -240,7 +240,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
       render: (text) => (text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''),
     },
     {
-      title: i18n.t('operate'),
+      title: i18n.t('Operations'),
       dataIndex: ['version', 'id'],
       width: 280,
       fixed: 'right',

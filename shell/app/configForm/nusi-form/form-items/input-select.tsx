@@ -64,7 +64,7 @@ const PureFormSelect = (props: any) => {
   registerRequiredCheck(_requiredCheck || requiredCheck);
 
   const { placeholder } = componentProps || {};
-  const _placeholder = placeholder || i18n.t('please select {name}', { name: label || key });
+  const _placeholder = placeholder || i18n.t('please select the {name}', { name: label || key });
 
   return (
     <FormItem

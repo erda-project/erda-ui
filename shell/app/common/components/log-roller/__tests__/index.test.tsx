@@ -145,7 +145,7 @@ describe('WrappedLogRoller', () => {
     await flushPromises();
     expect(fetchLog).toHaveBeenCalledTimes(1);
     result.rerender(<WrappedLogRoller logKey={logKey} query={{ requestId: 1 }} pause />);
-    fireEvent.click(result.getByText('start'));
+    fireEvent.click(result.getByText('Start'));
     jest.useRealTimers();
   });
 });

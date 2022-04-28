@@ -16,6 +16,7 @@ import React from 'react';
 import { getLabel, noop } from './common';
 import { commonFields, rulesField, checkWhen } from './common/config';
 import i18n from 'i18n';
+import { firstCharToUpper } from 'app/common/utils';
 
 const FormItem = Form.Item;
 
@@ -68,7 +69,7 @@ export const FormInput = ({
         <Comp
           id={key}
           {...componentProps}
-          placeholder={_placeholder}
+          placeholder={firstCharToUpper(_placeholder)}
           disabled={disabled}
           value={curFixIn(value)}
           onChange={handleChange}

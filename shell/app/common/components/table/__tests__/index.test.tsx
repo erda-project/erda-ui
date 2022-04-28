@@ -167,7 +167,7 @@ describe('ErdaTable', () => {
     expect(result.container).isExist('[name="more"]', dataSource.length);
     fireEvent.click(result.container.querySelectorAll('[name="more"]')[0]);
     await waitFor(() => expect(result.getByRole('menu')).toBeInTheDocument());
-    fireEvent.click(result.getByText('editAction').closest('li')!);
+    fireEvent.click(result.getByText('EditAction').closest('li')!);
     expect(actionFn).toHaveBeenCalled();
   });
   it('should work well with sort is Object', async () => {
@@ -253,7 +253,7 @@ describe('ErdaTable', () => {
       column: { title: 'count', sorter: true, dataIndex: 'count' },
       columnKey: 'count',
       field: 'count',
-      order: 'Ascending',
+      order: 'ascend',
     });
     fireEvent.click(result.getByText('Descending').closest('li')!);
     expect(tableChangeFn).toHaveBeenCalledTimes(2);
@@ -261,7 +261,7 @@ describe('ErdaTable', () => {
       column: { title: 'count', sorter: true, dataIndex: 'count' },
       columnKey: 'count',
       field: 'count',
-      order: 'Descending',
+      order: 'descend',
     });
     fireEvent.click(result.getByText('Unsort').closest('li')!);
     expect(tableChangeFn).toHaveBeenCalledTimes(3);

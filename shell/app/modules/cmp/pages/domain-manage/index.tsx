@@ -80,9 +80,9 @@ const DomainManage = () => {
     {
       key: 'domain',
       type: 'input',
-      label: i18n.t('msp:domain name'),
+      label: i18n.t('domain'),
       outside: true,
-      placeholder: i18n.t('Please enter {name}', { name: i18n.t('msp:domain name') }),
+      placeholder: i18n.t('Please enter the {name}', { name: i18n.t('domain') }),
     },
     {
       key: 'clusterName',
@@ -155,7 +155,7 @@ const DomainManage = () => {
       render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },
     {
-      title: i18n.t('msp:domain name'),
+      title: i18n.t('domain'),
       dataIndex: 'domain',
       render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },

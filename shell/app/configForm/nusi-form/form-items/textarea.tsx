@@ -16,6 +16,7 @@ import React from 'react';
 import { getLabel, noop } from './common';
 import { commonFields, rulesField, checkWhen } from './common/config';
 import i18n from 'i18n';
+import { firstCharToUpper } from 'app/common/utils';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -54,7 +55,7 @@ export const FormTextArea = ({
     };
 
     const { placeholder } = componentProps || {};
-    const _placeholder = placeholder || i18n.t('Please enter {name}', { name: label });
+    const _placeholder = placeholder || i18n.t('Please enter the {name}', { name: label });
     return (
       <FormItem
         colon
@@ -68,7 +69,7 @@ export const FormTextArea = ({
         <TextArea
           id={key}
           {...componentProps}
-          placeholder={_placeholder}
+          placeholder={firstCharToUpper(_placeholder)}
           disabled={disabled}
           value={curFixIn(value)}
           onChange={handleChange}

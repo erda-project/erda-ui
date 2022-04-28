@@ -15,6 +15,7 @@ import React from 'react';
 import { Button, Modal } from 'antd';
 import i18n from 'i18n';
 import { ErdaIcon } from 'common';
+import { firstCharToUpper } from 'app/common/utils';
 
 interface IProps {
   [proName: string]: any;
@@ -58,11 +59,11 @@ const ConfirmDelete = (props: IProps) => {
     setIsVisible(false);
     onCancel();
   };
-  const _title = title || i18n.t('common:confirm to delete current {deleteItem}', { deleteItem });
+  const _title = title || firstCharToUpper(i18n.t('common:confirm to delete the current {deleteItem}', { deleteItem }));
   const _secondTitle =
     secondTitle || i18n.t('common:{deleteItem} cannot be restored after deletion. Continue?', { deleteItem });
   const _confirmTip =
-    confirmTip || i18n.t('Permanently delete {deleteItem}. Please pay special attention to it.', { deleteItem });
+    confirmTip || i18n.t('dop:Delete the {deleteItem} permanently. Please operate with caution.', { deleteItem });
 
   return (
     <div>

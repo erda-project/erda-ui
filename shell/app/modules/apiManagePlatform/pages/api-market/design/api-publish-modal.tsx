@@ -20,6 +20,7 @@ import { message, Tooltip, FormInstance } from 'antd';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { isEmpty } from 'lodash';
 import orgStore from 'app/org-home/stores/org';
+import { firstCharToUpper } from 'app/common/utils';
 
 const VERSION_TIP = (
   <div>
@@ -81,9 +82,11 @@ const ApiPublishModal = (props: IProps) => {
       type: 'input',
       required: true,
       itemProps: {
-        placeholder: i18n.t('dop:example {content}', {
-          content: i18n.t('dop:interface document in user center'),
-        }),
+        placeholder: firstCharToUpper(
+          i18n.t('dop:example {content}', {
+            content: i18n.t('dop:interface document in user center'),
+          }),
+        ),
       },
     },
     {
@@ -92,7 +95,7 @@ const ApiPublishModal = (props: IProps) => {
       name: 'assetID',
       required: true,
       itemProps: {
-        placeholder: i18n.t('dop:example {content}', { content: 'user-content' }),
+        placeholder: firstCharToUpper(i18n.t('dop:example {content}', { content: 'user-content' })),
       },
       rules: [
         {

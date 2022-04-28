@@ -18,6 +18,7 @@ import LogContent from './log-content';
 import i18n from 'i18n';
 import { ErdaIcon } from 'common';
 import './log-roller.scss';
+import { firstCharToUpper } from 'app/common/utils';
 
 export interface IProps {
   content: string | object[];
@@ -26,6 +27,7 @@ export interface IProps {
   hasLogs: boolean;
   searchOnce?: boolean;
   extraButton?: JSX.Element;
+  disableDownload?: boolean;
   CustomLogContent?: typeof React.Component;
   onStartRolling: () => void;
   onGoToBottom: () => void;
@@ -99,6 +101,7 @@ export class LogRoller extends React.Component<IProps, IState> {
       transformContent,
       searchOnce,
       onShowDownloadModal,
+      disableDownload,
     } = this.props;
     const { fullScreen } = this.state;
     let logContent = rolling ? (
@@ -130,7 +133,7 @@ export class LogRoller extends React.Component<IProps, IState> {
         {logContent}
         <div className={`log-control log-top-controls ${extraButton ? '' : 'no-switch'}`}>
           {extraButton || null}
-          {hasLogs && (
+          {hasLogs && !disableDownload && (
             <Tooltip title={i18n.t('common:Download Log')}>
               <Button onClick={onShowDownloadModal} type="ghost">
                 {i18n.t('common:Download Log')}
@@ -138,7 +141,7 @@ export class LogRoller extends React.Component<IProps, IState> {
             </Tooltip>
           )}
           <Button onClick={this.changeSize} type="ghost">
-            {fullScreen ? i18n.t('default:exit full screen') : i18n.t('default:Full screen')}
+            {fullScreen ? firstCharToUpper(i18n.t('default:exit full screen')) : i18n.t('default:Full screen')}
           </Button>
         </div>
         <div className="log-control btn-line-rtl">
@@ -150,7 +153,7 @@ export class LogRoller extends React.Component<IProps, IState> {
           </Button>
           {!searchOnce && (
             <Button onClick={this.toggleRolling} type="ghost">
-              {rolling ? i18n.t('default:pause') : i18n.t('default:start')}
+              {rolling ? firstCharToUpper(i18n.t('default:pause')) : firstCharToUpper(i18n.t('default:start'))}
             </Button>
           )}
         </div>

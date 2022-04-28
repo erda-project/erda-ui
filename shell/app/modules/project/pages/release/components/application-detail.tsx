@@ -15,7 +15,7 @@ import React from 'react';
 import { Button, Divider, Form, Modal, Tabs } from 'antd';
 import moment from 'moment';
 import i18n from 'i18n';
-import { goTo } from 'common/utils';
+import { allWordsFirstLetterUpper, firstCharToUpper, goTo } from 'common/utils';
 import { FileEditor, MarkdownEditor, RenderFormItem, UserInfo } from 'common';
 import { TagItem } from 'app/common/components/tags';
 import ErdaTable from 'common/components/table';
@@ -98,7 +98,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
 
   const formal = () => {
     Modal.confirm({
-      title: i18n.t('dop:be sure to make {name} official?', {
+      title: i18n.t('dop:Confirm to transfer XXX to formal?', {
         name: version,
         interpolation: { escapeValue: false },
       }),
@@ -150,7 +150,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
     <div className="release-releaseDetail release-form h-full pb-16 relative">
       <Form layout="vertical" form={form} className="h-full">
         <Tabs defaultActiveKey="1" className="h-full">
-          <TabPane tab={i18n.t('dop:basic information')} key="1">
+          <TabPane tab={allWordsFirstLetterUpper(i18n.t('dop:basic information'))} key="1">
             <div className="mb-4 pl-0.5">
               {isEdit ? (
                 <div className="w-2/5">
@@ -159,7 +159,10 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                     name="version"
                     type="input"
                     rules={[
-                      { required: true, message: i18n.t('Please enter {name}', { name: i18n.t('Version') }) },
+                      {
+                        required: true,
+                        message: i18n.t('Please enter the {name}', { name: i18n.t('Version').toLowerCase() }),
+                      },
                       { max: 30, message: i18n.t('dop:no more than 30 characters') },
                       {
                         pattern: /^[A-Za-z0-9._+-]+$/,
@@ -201,22 +204,27 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                 ])
               ) : null}
               {renderItems([
-                { label: i18n.t('dop:app name'), value: applicationName },
+                { label: firstCharToUpper(i18n.t('dop:app name')), value: applicationName },
                 { label: i18n.t('Cluster name'), value: clusterName },
                 { label: i18n.t('Creator'), value: userId ? <UserInfo id={userId} /> : '-' },
                 { label: i18n.t('Creation time'), value: createdAt && moment(createdAt).format('YYYY/MM/DD HH:mm:ss') },
                 { label: i18n.t('dop:Code branch'), value: labels.gitBranch },
-                { label: 'commitId', value: labels.gitCommitId },
-                { label: 'commit message', value: labels.gitCommitMessage },
+                { label: 'Commit Id', value: labels.gitCommitId },
+                { label: 'Commit message', value: labels.gitCommitMessage },
                 { label: `GitRepo ${i18n.t('dop:address')}`, value: labels.gitRepo },
               ])}
               {isEdit ? (
                 <div className="w-4/5">
-                  <RenderFormItem label={i18n.t('content')} name="changelog" type="custom" getComp={() => <EditMd />} />
+                  <RenderFormItem
+                    label={firstCharToUpper(i18n.t('content'))}
+                    name="changelog"
+                    type="custom"
+                    getComp={() => <EditMd />}
+                  />
                 </div>
               ) : (
                 <div className="mb-2">
-                  <div className="text-black-4 mb-2">{i18n.t('content')}</div>
+                  <div className="text-black-4 mb-2">{firstCharToUpper(i18n.t('content'))}</div>
                   <div>
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{changelog || i18n.t('dop:No content')}</ReactMarkdown>
                   </div>

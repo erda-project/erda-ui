@@ -17,6 +17,8 @@ import '@testing-library/jest-dom';
 import routeInfoStore from 'core/stores/route';
 import * as utils from 'common/utils/query-string';
 import SettingTabs from '..';
+import { allWordsFirstLetterUpper } from 'app/common/utils';
+import i18n from 'i18n';
 
 describe('SettingTabs', () => {
   const routerData = {
@@ -62,10 +64,10 @@ describe('SettingTabs', () => {
     const result = render(<SettingTabs dataSource={dataSource} className={'class-name'} />);
     jest.runAllTimers();
     expect(scrollIntoView).toHaveBeenCalled();
-    expect(screen.getByText('application member').closest('li')).toHaveClass('active');
+    expect(screen.getByText('Application Member').closest('li')).toHaveClass('active');
     expect(result.container).isExist('.group-title', 1);
     expect(result.container).isExist('.tab-title', dataSource[0].tabGroup.length);
-    fireEvent.click(result.getByText(dataSource[0].tabGroup[1].tabTitle));
+    fireEvent.click(result.getByText(allWordsFirstLetterUpper(dataSource[0].tabGroup[1].tabTitle)));
     expect(spy).toHaveBeenCalledWith({ tabKey: dataSource[0].tabGroup[1].tabKey });
   });
   it('render without tabGroup', () => {
@@ -87,6 +89,6 @@ describe('SettingTabs', () => {
     const result = render(<SettingTabs dataSource={dataSource} />);
     expect(result.container).isExist('.tab-title', dataSource.length);
     expect(result.container).isExist('.application-information', 1);
-    expect(screen.getByText('application information').closest('li')).toHaveClass('active');
+    expect(screen.getByText('Application Information').closest('li')).toHaveClass('active');
   });
 });

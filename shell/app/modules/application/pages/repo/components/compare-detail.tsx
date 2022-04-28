@@ -19,6 +19,7 @@ import { CommentList } from './mr-comments';
 import FileDiff from './file-diff';
 import repoStore from 'application/stores/repo';
 import { useLoading } from 'core/stores/loading';
+import { allWordsFirstLetterUpper } from 'app/common/utils';
 
 const { TabPane } = Tabs;
 
@@ -45,7 +46,7 @@ const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
             key="comment"
             tab={
               <span>
-                {i18n.t('comment')}
+                {allWordsFirstLetterUpper(i18n.t('comment'))}
                 <span className="dice-badge">{comments.length}</span>{' '}
               </span>
             }
@@ -68,7 +69,7 @@ const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
           key="diff"
           tab={
             <span>
-              {i18n.t('dop:changed files')}
+              {allWordsFirstLetterUpper(i18n.t('dop:changed files'))}
               <span className="dice-badge">{diff ? diff.filesChanged : '0'}</span>{' '}
             </span>
           }

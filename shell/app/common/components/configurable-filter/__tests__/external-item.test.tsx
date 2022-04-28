@@ -17,6 +17,7 @@ import '@testing-library/jest-dom';
 import _ from 'lodash';
 import { resetMockDate, setMockDate } from 'test/utils';
 import ExternalIte, { getSelectOptions } from '../external-item';
+import { firstCharToUpper } from 'app/common/utils';
 
 type IProps = Omit<Parameters<typeof ExternalIte>[0], 'onChange'>;
 
@@ -80,16 +81,18 @@ describe('ExternalItem', () => {
       key: 'name',
       type: 'input',
       label: 'appName',
-      placeholder: 'please type app Name',
+      placeholder: 'please type app name',
     };
     const { result, changeFn, rerender } = setUp({
       value: '',
       itemData,
     });
-    fireEvent.change(result.getByPlaceholderText(itemData.placeholder), { target: { value: 'erda' } });
+    fireEvent.change(result.getByPlaceholderText(firstCharToUpper(itemData.placeholder)), {
+      target: { value: 'erda' },
+    });
     expect(changeFn).toHaveBeenLastCalledWith('erda');
     rerender({ value: 'erda' });
-    expect(result.getByPlaceholderText(itemData.placeholder)).toHaveAttribute('value', 'erda');
+    expect(result.getByPlaceholderText(firstCharToUpper(itemData.placeholder))).toHaveAttribute('value', 'erda');
   });
   it.each([{ borderTime: false }, { borderTime: true }])(
     'should work well with dateRange with borderTime is $borderTime',
@@ -169,9 +172,9 @@ describe('ExternalItem', () => {
     fireEvent.click(result.getByText(itemData.label));
     await waitFor(() => expect(result.getByRole('menu')).toBeTruthy());
     fireEvent.click(result.getByText(/load more/));
-    fireEvent.change(result.getByPlaceholderText('search'), { target: { value: 'dop' } });
+    fireEvent.change(result.getByPlaceholderText('Search'), { target: { value: 'dop' } });
     expect(result.baseElement).isExist('.option-item', 1);
-    fireEvent.change(result.getByPlaceholderText('search'), { target: { value: '' } });
+    fireEvent.change(result.getByPlaceholderText('Search'), { target: { value: '' } });
     fireEvent.click(result.getByText('dop').closest('.option-item')!);
     expect(changeFn).toHaveBeenLastCalledWith(['dop']);
     fireEvent.click(result.getByText('msp').closest('.option-item')!);

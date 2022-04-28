@@ -22,6 +22,7 @@ import { WithAuth } from 'user/common';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import { ColumnProps } from 'antd/lib/table';
+import { firstCharToUpper } from 'app/common/utils';
 
 interface IProps {
   operationAuth: boolean;
@@ -409,7 +410,7 @@ export default function ScanRule(props: IProps) {
         width={800}
         visible={visible}
         destroyOnClose
-        title={i18n.t('dop:Add Access Control Rule')}
+        title={firstCharToUpper(i18n.t('dop:Add Access Control Rule').toLowerCase())}
         closable={false}
         afterClose={() => updater.visible(false)}
         okButtonProps={{ disabled: optionalRowKeys.length === 0 }}

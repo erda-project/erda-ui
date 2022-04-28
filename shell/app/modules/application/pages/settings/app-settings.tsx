@@ -29,7 +29,7 @@ import { Link } from 'react-router-dom';
 import { MemberScope } from 'common/stores/member-scope';
 import BranchRule from 'project/common/components/branch-rule';
 import { usePerm } from 'app/user/common';
-import { goTo, insertWhen } from 'common/utils';
+import { allWordsFirstLetterUpper, goTo, insertWhen } from 'common/utils';
 import './app-settings.scss';
 import appStore from 'application/stores/application';
 import SonarConfig from './components/sonar-config';
@@ -51,11 +51,11 @@ export const PureAppSettings = () => {
 
   const memberTopContent = (
     <div className="member-table-top-content">
-      <div className="title font-medium">{i18n.t('{name} member management', { name: i18n.t('application') })}</div>
+      <div className="title font-medium">{i18n.t('{name} member management', { name: i18n.t('App') })}</div>
       <div className="desc">
-        {i18n.t('For editing members, setting member roles and role permissions, please refer to')}
+        {i18n.t('Edit members and set member roles. See Role Permission Description for details.')}
         <Link to={goTo.resolve.perm({ scope: 'app' })} target="_blank">
-          {i18n.t('role permissions description')}
+          {allWordsFirstLetterUpper(i18n.t('role permissions description'))}
         </Link>
       </div>
     </div>

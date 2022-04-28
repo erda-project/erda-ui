@@ -16,6 +16,7 @@ import { cloneDeep, find, findIndex, fill, uniqueId, filter, map, omit, every, s
 import { Button, Table, Input, message } from 'antd';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
+import { firstCharToUpper } from 'app/common/utils';
 
 export default ({ value: targets, onChange }: { value?: any[]; onChange: (value: string[]) => void }) => {
   const [{ editingExternalUsers }, updater] = useUpdate({
@@ -81,7 +82,7 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
 
   const columns = [
     {
-      title: i18n.t('user name'),
+      title: i18n.t('Username'),
       dataIndex: 'username',
       render: (value: string, { uniKey }: COMMON_NOTIFY.ExternalUserInfo) => (
         <Input
@@ -105,7 +106,7 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
       ),
     },
     {
-      title: i18n.t('dop:mobile'),
+      title: firstCharToUpper(i18n.t('dop:phone')),
       dataIndex: 'mobile',
       render: (value: string, { uniKey }: COMMON_NOTIFY.ExternalUserInfo) => (
         <Input
@@ -117,7 +118,7 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
       ),
     },
     {
-      title: i18n.t('operate'),
+      title: i18n.t('Operations'),
       width: 65,
       dataIndex: 'uniKey',
       render: (uniKey: string) => {

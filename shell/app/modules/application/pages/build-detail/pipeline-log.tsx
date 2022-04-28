@@ -21,6 +21,7 @@ import { useEffectOnce, useUpdateEffect } from 'react-use';
 import { EmptyHolder, Title, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import './pipeline-log.scss';
+import { allWordsFirstLetterUpper } from 'app/common/utils';
 
 let timer: any;
 const DURATION = 10000; // 10秒刷新一次
@@ -132,7 +133,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
                       className="text-primary cursor-pointer ml-2"
                       onClick={() => update({ detailVis: true, detailLog: primevalLog })}
                     >
-                      {i18n.t('View details')}
+                      {allWordsFirstLetterUpper(i18n.t('view detail'))}
                     </span>
                   </div>
                 </div>

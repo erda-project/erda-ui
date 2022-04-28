@@ -117,7 +117,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       required: true,
     },
     {
-      label: i18n.t('user name'),
+      label: i18n.t('Username'),
       component: 'input',
       key: 'user',
       required: true,

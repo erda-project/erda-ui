@@ -20,6 +20,7 @@ import moment, { Moment } from 'moment';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import './external-item.scss';
+import { firstCharToUpper } from 'app/common/utils';
 
 type Value = string | string[];
 interface IProps {
@@ -86,7 +87,6 @@ const ExternalItem = ({ itemData, value, onChange, className = '' }: IProps) => 
       debouncedChange?.current(curValue);
     }
   }, [curValue]);
-
   if (type === 'input') {
     return (
       <Input
@@ -96,7 +96,7 @@ const ExternalItem = ({ itemData, value, onChange, className = '' }: IProps) => 
         allowClear
         className={`bg-default-06 border-none config-filter-item ${className}`}
         prefix={<ErdaIcon fill="default-3" size="16" type="search" />}
-        placeholder={placeholder}
+        placeholder={firstCharToUpper(placeholder?.toLowerCase())}
         onChange={(e) => setCurValue(e.target.value)}
       />
     );
@@ -124,7 +124,7 @@ const ExternalItem = ({ itemData, value, onChange, className = '' }: IProps) => 
             <Input
               autoFocus
               size="small"
-              placeholder={i18n.t('search')}
+              placeholder={firstCharToUpper(i18n.t('search'))}
               prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
               value={filterValue}
               onChange={(e) => {
