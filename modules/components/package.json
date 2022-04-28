@@ -16,6 +16,24 @@
     "test:coverage": "jest --coverage",
     "publish:patch": "pnpm run build && pnpm version patch && pnpm publish --registry https://registry.npmjs.org"
   },
+  "exports": {
+    ".": {
+      "development": {
+        "module": "./src/index.tsx"
+      },
+      "require": "lib/index.js",
+      "module": "es/index.js"
+    },
+    "./es/*": {
+      "development": {
+        "module": "./src/*"
+      },
+      "require": "lib/*",
+      "module": "es/*"
+    },
+    "./lib/*": "./lib/*",
+    "./package.json": "./package.json"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/erda-project/erda-ui.git"
