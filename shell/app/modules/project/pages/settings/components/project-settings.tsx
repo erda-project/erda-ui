@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { SettingTabs, ConfigLayout, MembersTable } from 'common';
-import { allWordsFirstLetterUpper, firstCharToUpper, goTo } from 'common/utils';
+import { ConfigLayout, MembersTable, SettingTabs } from 'common';
+import { firstCharToUpper, goTo } from 'common/utils';
 import ProjectInfo from './project-info';
 import ProjectCluster from './project-cluster';
 import ProjectLabel from './project-label';
@@ -22,7 +22,6 @@ import NotifyGroup from 'application/pages/settings/components/app-notify/common
 import memberStore from 'common/stores/project-member';
 import i18n from 'i18n';
 import { MemberScope } from 'common/stores/member-scope';
-import { Link } from 'react-router-dom';
 import routeInfoStore from 'core/stores/route';
 import BranchRule from 'project/common/components/branch-rule';
 import IssueWorkflow from 'project/common/components/issue-workflow';
@@ -67,7 +66,9 @@ const ProjectSettings = () => {
                   desc: (
                     <div>
                       {replaceWithLink(
-                        i18n.t('Edit members and set member roles. See Role Permission Description for details.'),
+                        `${i18n.t(
+                          'Edit members and set member roles. See Role Permission Description for details.',
+                        )}[${i18n.t('role permissions description')}]`,
                         goTo.resolve.perm({ scope: 'app' }),
                       )}
                     </div>

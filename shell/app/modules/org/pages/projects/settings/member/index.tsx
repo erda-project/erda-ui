@@ -12,11 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { ConfigLayout, MembersTable, ErdaAlert } from 'common';
+import { ErdaAlert, MembersTable } from 'common';
 import i18n from 'i18n';
 import { pick } from 'lodash';
 import { goTo } from 'common/utils';
-import { Link } from 'react-router-dom';
 import { MemberScope } from 'app/common/stores/member-scope';
 import projectStore from 'project/stores/project';
 import { mspRoleMap } from 'user/stores/_perm-msp';
@@ -43,7 +42,9 @@ const SettingsMember = () => {
         message={
           <>
             {replaceWithLink(
-              i18n.t('Edit members and set member roles. See Role Permission Description for details.'),
+              `${i18n.t('Edit members and set member roles. See Role Permission Description for details.')}[${i18n.t(
+                'role permissions description',
+              )}]`,
               goTo.resolve.perm({ scope: 'app' }),
             )}
           </>

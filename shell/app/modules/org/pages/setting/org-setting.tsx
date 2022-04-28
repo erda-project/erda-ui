@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { SettingTabs, ConfigLayout, MembersTable } from 'common';
+import { ConfigLayout, MembersTable, SettingTabs } from 'common';
 import { goTo, insertWhen } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import NotifyGroup from 'application/pages/settings/components/app-notify/common-notify-group';
@@ -24,7 +24,6 @@ import NotifyChannel from './notice-channel';
 import { OperationLogSetting } from './operation-log-setting';
 import { MemberScope } from 'common/stores/member-scope';
 import { MemberLabels } from './member-label';
-import { Link } from 'react-router-dom';
 import IssueFieldManage from '../projects/issue-field-manage';
 import IssueTypeManage from '../projects/issue-type-manage';
 import Announcement from 'org/pages/announcement';
@@ -58,7 +57,9 @@ export const OrgSetting = () => {
                   desc: (
                     <div>
                       {replaceWithLink(
-                        i18n.t('Edit members and set member roles. See Role Permission Description for details.'),
+                        `${i18n.t(
+                          'Edit members and set member roles. See Role Permission Description for details.',
+                        )}[${i18n.t('role permissions description')}]`,
                         goTo.resolve.perm({ scope: 'app' }),
                       )}
                     </div>
