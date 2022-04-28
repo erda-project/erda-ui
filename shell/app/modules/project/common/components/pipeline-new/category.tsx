@@ -90,7 +90,7 @@ const Category = React.forwardRef((props: IProps, ref: React.Ref<{ reload: () =>
           className="bg-default-06 border-transparent mb-2 mx-4"
           style={{ width: 'auto' }}
           prefix={<ErdaIcon size="16" fill="default-3" type="search" />}
-          placeholder={i18n.t('search {name}', { name: i18n.t('dop:Pipeline type') })}
+          placeholder={i18n.t('search by {name}', { name: i18n.t('dop:Pipeline type').toLowerCase() })}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => search(e.target.value)}
         />
         <div className="flex-1">

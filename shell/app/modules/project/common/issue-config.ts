@@ -31,7 +31,7 @@ export const ISSUE_COMPLEXITY_MAP = {
 export const BUG_SEVERITY_MAP = {
   FATAL: { value: 'FATAL', label: `P0 ${i18n.t('dop:Fatal')}`, icon: 'yz5' },
   SERIOUS: { value: 'SERIOUS', label: `P1 ${i18n.t('dop:Serious')}`, icon: 'yz4' },
-  NORMAL: { value: 'NORMAL', label: `P2 ${i18n.t('dop:Normal')}`, icon: 'yz3' },
+  NORMAL: { value: 'NORMAL', label: `P2 ${i18n.t('dop:Medium-normal')}`, icon: 'yz3' },
   SLIGHT: { value: 'SLIGHT', label: `P3 ${i18n.t('dop:Slight')}`, icon: 'yz2' },
   SUGGEST: { value: 'SUGGEST', label: `P4 ${i18n.t('dop:Suggestion')}`, icon: 'yz1' },
 };
@@ -72,7 +72,7 @@ export const ISSUE_BUTTON_STATE = {
 
 export const EDIT_PROPS = {
   [ISSUE_TYPE.REQUIREMENT]: {
-    titlePlaceHolder: i18n.t('dop:input requirement name'),
+    titlePlaceHolder: i18n.t('dop:input the requirement name'),
     contentLabel: i18n.t('dop:requirement description'),
   },
   [ISSUE_TYPE.TASK]: {

@@ -228,7 +228,7 @@ const TestPlanDetail = () => {
         <BaseInfo />
       </Spin>
       <Tabs className="test-detail-tabs" type="card" onChange={changeTabKey}>
-        <TabPane tab={i18n.t('dop:Test Case')} key="case">
+        <TabPane tab={i18n.t('dop:Test Cases')} key="case">
           <SplitPage className="full-tab-content">
             <SplitPage.Left fixedSplit className="case-tree-container">
               <CaseTree

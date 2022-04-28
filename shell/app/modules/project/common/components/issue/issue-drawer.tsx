@@ -201,7 +201,7 @@ export const IssueDrawer = (props: IProps) => {
                     data={data}
                   />
                   <If condition={editMode && shareLink}>
-                    <Copy selector=".copy-share-link" tipName={i18n.t('dop:share link')} />
+                    <Copy selector=".copy-share-link" tipName={i18n.t('dop:link-share')} />
                     <ErdaIcon
                       type="lianjie"
                       className="cursor-copy hover-active copy-share-link ml-4 text-default-6"
@@ -260,7 +260,7 @@ export const IssueDrawer = (props: IProps) => {
                   {onDelete ? (
                     <WithAuth pass={canDelete}>
                       <Popconfirm
-                        title={`${i18n.t('common:confirm deletion')}?`}
+                        title={`${i18n.t('common:confirm to deletion')}?`}
                         placement="bottomRight"
                         onConfirm={onDelete}
                       >

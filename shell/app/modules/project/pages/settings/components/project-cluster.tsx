@@ -186,7 +186,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
           ),
         },
         {
-          title: `MEM ${i18n.t('quota and usage')}`,
+          title: `Mem ${i18n.t('quota and usage')}`,
           width: 300,
           dataIndex: 'memQuota',
           align: 'center',

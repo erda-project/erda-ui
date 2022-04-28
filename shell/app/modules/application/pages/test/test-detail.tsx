@@ -134,7 +134,7 @@ class TestDetail extends React.Component<IProps, IState> {
         <div className="row-space" />
         <Row className="test-detail-row">
           <Col span={8} className="test-list-container">
-            <ChartContainer title={i18n.t('dop:Test Case')}>
+            <ChartContainer title={i18n.t('dop:Test case')}>
               <div className="filter">
                 <Search
                   placeholder={i18n.t('dop:enter to filter use cases')}

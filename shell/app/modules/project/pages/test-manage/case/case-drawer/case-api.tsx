@@ -516,7 +516,7 @@ const ApiItem = ({
               />
             </SelectEnv>
           )}
-          <Popconfirm title={`${i18n.t('common:confirm deletion')}？`} onConfirm={() => handleDelete(index)}>
+          <Popconfirm title={`${i18n.t('common:confirm to deletion')}？`} onConfirm={() => handleDelete(index)}>
             <ErdaIcon fill="black-4" size="18" className="ml-3 delete-icon api-op hover-active" type="sc1" />
           </Popconfirm>
         </div>

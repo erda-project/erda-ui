@@ -133,7 +133,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
                       className="text-primary cursor-pointer ml-2"
                       onClick={() => update({ detailVis: true, detailLog: primevalLog })}
                     >
-                      {allWordsFirstLetterUpper(i18n.t('view detail'))}
+                      {i18n.t('View details')}
                     </span>
                   </div>
                 </div>

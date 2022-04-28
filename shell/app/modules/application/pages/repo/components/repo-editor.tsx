@@ -126,7 +126,7 @@ const RepoEditor = ({
         type: 'textArea',
         rules: [{ required: true, message: i18n.t('dop:submit information can not be empty') }],
         itemProps: {
-          placeholder: i18n.t('dop:submit information'),
+          placeholder: i18n.t('dop:Commit information'),
           maxLength: 200,
           autoSize: { minRows: 3, maxRows: 7 },
         },

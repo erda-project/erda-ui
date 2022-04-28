@@ -17,7 +17,7 @@ import { ErdaIcon, SimpleTabs, ConfigurableFilter } from 'common';
 import { map, debounce } from 'lodash';
 import { getJoinedApps } from 'app/user/services/user';
 import ReleaseList from './release-list';
-import { getDefaultPaging } from 'common/utils';
+import { allWordsFirstLetterUpper, getDefaultPaging } from 'common/utils';
 import { useUpdateEffect, useMount } from 'react-use';
 
 import { getRelease } from 'project/services/deploy';
@@ -142,7 +142,7 @@ const AddRelease = ({
         ) : (
           <>
             <ErdaIcon type={'xuanze'} className="mr-1" />
-            <span>{i18n.t('select {name}', { name: i18n.t('Artifacts') })}</span>
+            <span>{allWordsFirstLetterUpper(i18n.t('select {name}', { name: i18n.t('Artifact') }))}</span>
           </>
         )}
       </div>

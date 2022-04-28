@@ -173,7 +173,7 @@ const AddPipelineYml = () => {
         name: 'message',
         type: 'textArea',
         itemProps: {
-          placeholder: i18n.t('dop:submit information'),
+          placeholder: i18n.t('dop:Commit information'),
           maxLength: 200,
           autoSize: { minRows: 3, maxRows: 7 },
         },

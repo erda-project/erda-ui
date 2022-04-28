@@ -110,7 +110,7 @@ const AddDeploy = ({
       valueKey: 'releaseInfo',
       valueItem: ({ value }: { value: PROJECT_DEPLOY.ReleaseInfo }) => {
         const typeMap = {
-          application: <Badge status="success" text={i18n.t('application')} showDot={false} />,
+          application: <Badge status="success" text={i18n.t('App')} showDot={false} />,
           project: <Badge status="processing" text={i18n.t('project')} showDot={false} />,
         };
         return typeMap[value?.type] || '-';
@@ -143,7 +143,9 @@ const AddDeploy = ({
   return (
     <div>
       <div className="flex-h-center ">
-        <span className="font-medium">{i18n.t('select {name}', { name: i18n.t('Artifacts') })}</span>
+        <span className="font-medium">
+          {firstCharToUpper(i18n.t('select {name}', { name: i18n.t('Artifact').toLowerCase() }))}
+        </span>
         <div className="w-px h-3 bg-default-1 mx-4" />
         <AddRelease onSelect={onSelect} detail={detail} />
       </div>
@@ -165,7 +167,7 @@ const AddDeploy = ({
               }}
             />
             <div className="pb-2 pt-4  flex-h-center">
-              <span className="text-default font-medium">{i18n.t('application')}</span>
+              <span className="text-default font-medium">{i18n.t('App')}</span>
               <span className="bg-default-1 text-default-8 px-2 ml-1 text-xs rounded-lg">{appList?.length || 0}</span>
             </div>
             <div>

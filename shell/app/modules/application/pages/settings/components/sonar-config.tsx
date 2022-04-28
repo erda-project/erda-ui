@@ -15,14 +15,14 @@ import * as React from 'react';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import appStore from 'application/stores/application';
 import i18n from 'i18n';
-import { regRules } from 'common/utils';
+import { firstCharToUpper, regRules } from 'common/utils';
 
 const SonarConfig = () => {
   const appDetail = appStore.useStore((s) => s.detail);
   const { updateAppDetail } = appStore.effects;
   const fieldsList = [
     {
-      label: i18n.t('dop:sonar service host'),
+      label: firstCharToUpper(i18n.t('dop:sonar service host')),
       name: 'host',
       rules: [{ ...regRules.http }],
       itemProps: {
@@ -30,7 +30,7 @@ const SonarConfig = () => {
       },
     },
     {
-      label: i18n.t('dop:sonar token'),
+      label: firstCharToUpper(i18n.t('dop:sonar token')),
       name: 'token',
       itemProps: {
         type: 'password',
@@ -38,7 +38,7 @@ const SonarConfig = () => {
       },
     },
     {
-      label: i18n.t('dop:sonar project key'),
+      label: firstCharToUpper(i18n.t('dop:sonar project key')),
       name: 'projectKey',
       rules: [
         {

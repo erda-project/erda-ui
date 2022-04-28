@@ -89,7 +89,7 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
             width: 300,
           },
           {
-            title: i18n.t('dop:Environmental domain name'),
+            title: i18n.t('dop:Environmental name'),
             dataIndex: 'domain',
             render: (text: string) => text || '--',
           },

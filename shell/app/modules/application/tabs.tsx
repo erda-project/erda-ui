@@ -58,7 +58,7 @@ export const APP_TABS = () => {
   const commit = {
     show: perm.repo.read.pass,
     key: commitKey,
-    name: i18n.t('dop:commits'),
+    name: i18n.t('Commit'),
     disabled: repoInfo.empty,
     isActive: (activeKey: string) => activeKey.startsWith('repo/commits'),
   };

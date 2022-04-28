@@ -12,24 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import i18n from 'i18n';
-import { ErdaAlert } from 'common';
-import ReleaseProtocol from './release-protocol';
+import { replaceWithLink } from 'common/utils/i18n-replace-link';
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
+describe('replaceWithLink', () => {
+  it('replaceWithLink should work fine', () => {
+    const href = 'www.test.com';
 
-import './application.scss';
-import { replaceWithLink } from 'app/common/utils';
-
-const ProjectRelease = () => {
-  return (
-    <div className="h-full flex flex-col">
-      <ErdaAlert
-        showOnceKey="application-release-list"
-        message={replaceWithLink(i18n.t('dop:Applications release list top desc'), 'https://semver.org/lang/zh-CN/')}
-      />
-
-      <ReleaseProtocol isProjectRelease={false} />
-    </div>
-  );
-};
-
-export default ProjectRelease;
+    const result = render(<>{replaceWithLink('click [here] to see details', href)}</>);
+    expect(result.getByText('here')).toHaveAttribute('href', href);
+  });
+});

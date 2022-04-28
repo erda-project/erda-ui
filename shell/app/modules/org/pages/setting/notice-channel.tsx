@@ -682,7 +682,7 @@ const NotifyChannel = () => {
       width: 160,
     },
     {
-      title: i18n.t('default:create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createAt',
       width: 200,
       hidden: true,

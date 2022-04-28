@@ -86,7 +86,7 @@ const RepoBranch = () => {
                     <Link to={mergeRepoPathWith(`/tree/${name}`)}>
                       <span className="text-normal hover-active">{name}</span>
                     </Link>
-                    {isDefault && <span className="tag-primary">{i18n.t('default')}</span>}
+                    {isDefault && <span className="tag-primary">{firstCharToUpper(i18n.t('default'))}</span>}
                     {isMerged && <span className="tag-success">{i18n.t('dop:Merged')}</span>}
                   </div>
                   <div className="flex items-center text-sub">

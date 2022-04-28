@@ -57,7 +57,7 @@ const LogFilter = (props: IProps) => {
     {
       name: 'pattern',
       required: false,
-      label: i18n.t('keywords-search'),
+      label: i18n.t('keyword-search'),
     },
   ];
   const handleCancel = () => {

@@ -16,7 +16,7 @@ import { RadioTabs, ErdaIcon, EmptyHolder, Badge } from 'common';
 import { ENV_MAP } from 'project/common/config';
 import { map, debounce } from 'lodash';
 import { Drawer, Button, Input, Timeline, Spin, message } from 'antd';
-import { goTo } from 'common/utils';
+import { firstCharToUpper, goTo } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
 import routeInfoStore from 'core/stores/route';
 import DiceConfigPage, { useMock } from 'app/config-page';
@@ -274,7 +274,7 @@ const DeployContent = ({
       const curStatus = deployOrderStatusMap[item.status];
       const typeStatusMap = {
         project: { status: 'processing', text: i18n.t('project'), showDot: false },
-        application: { status: 'success', text: i18n.t('application'), showDot: false },
+        application: { status: 'success', text: i18n.t('App'), showDot: false },
       };
       return {
         id: item.id,
@@ -285,8 +285,8 @@ const DeployContent = ({
         textMeta: [
           {
             mainText: item.applicationStatus,
-            subText: i18n.t('application'),
-            subTip: i18n.t('dop:deploy succeeded applications count / applications count'),
+            subText: i18n.t('App'),
+            subTip: firstCharToUpper(i18n.t('dop:deploy succeeded applications count / applications count')),
           },
 
           { mainText: item.releaseInfo?.version || item.releaseInfo?.id, subText: i18n.t('Artifacts') },

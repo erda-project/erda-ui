@@ -93,7 +93,7 @@ const PipelineConfigDetail = (props: IProps) => {
   return (
     <div>
       <div className="flex justify-between items-center mb-2">
-        <span className="font-medium title">{firstCharToUpper(i18n.t('detail'))}</span>
+        <span className="font-medium title">{firstCharToUpper(i18n.t('Details'))}</span>
         {/* <RecordList ref={recordRef} curPipelineDetail={useCaseDetail} onSelectPipeline={onSelectPipeline} nodeId={nodeId} /> */}
       </div>
       <CaseInfo caseDetail={useCaseDetail} />

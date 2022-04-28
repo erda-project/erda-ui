@@ -488,7 +488,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
       render: (text: string) => userMap[text]?.nick,
     },
     {
-      title: i18n.t('default:create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createdAt',
       render: (text: string) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },

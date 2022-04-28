@@ -295,7 +295,7 @@ export const TestEnvDetail = (props: IProps) => {
     return [
       ...fieldMap[_type],
       {
-        label: i18n.t('dop:Environmental domain name'),
+        label: i18n.t('dop:Environmental name'),
         name: 'domain',
         getComp: () => <ProtocolInput disabled={disabled} />,
         required: false,

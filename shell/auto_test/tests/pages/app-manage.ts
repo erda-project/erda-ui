@@ -37,8 +37,8 @@ export default class AppManage extends Base {
       await this.page.click(`:nth-match(:text("${formData.template}"), 2)`);
     }
     if (formData.repository) {
-      await this.page.click('text="System built-in Git repository"');
-      await this.page.click('text="external general Git repository"');
+      await this.page.click('text="Built-in Git repository"');
+      await this.page.click('text="External Git repository"');
       await this.fillData('repoConfig_url', formData);
       await this.fillData('repoConfig_username', formData);
       await this.fillData('repoConfig_password', formData);

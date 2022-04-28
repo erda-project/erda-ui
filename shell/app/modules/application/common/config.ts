@@ -106,7 +106,7 @@ export enum RepositoryMode {
 
 export const repositoriesTypes = {
   [RepositoryMode.Internal]: {
-    name: i18n.t('dop:System built-in Git repository'),
+    name: i18n.t('dop:Built-in Git repository'),
     value: RepositoryMode.Internal,
     displayname: '',
     logo: githubImg,
@@ -114,7 +114,7 @@ export const repositoriesTypes = {
     desc: null,
   },
   [RepositoryMode.General]: {
-    name: i18n.t('dop:external general Git repository'),
+    name: i18n.t('dop:External Git repository'),
     value: RepositoryMode.General,
     displayname: 'Git',
     logo: githubImg,

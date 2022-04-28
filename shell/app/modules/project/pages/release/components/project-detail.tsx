@@ -52,7 +52,7 @@ const ReleaseProjectDetail = () => {
 
   const submit = () => {
     Modal.confirm({
-      title: i18n.t('dop:Confirm to transfer XXX to formal?', {
+      title: i18n.t('dop:Confirm to transfer {name} to formal?', {
         name: releaseName,
         interpolation: { escapeValue: false },
       }),

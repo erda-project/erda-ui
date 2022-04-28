@@ -295,7 +295,7 @@ export const ISSUE_BUTTON_STATE = {
 
 export const EDIT_PROPS = {
   [ISSUE_TYPE.REQUIREMENT]: {
-    titlePlaceHolder: i18n.t('dop:input requirement name'),
+    titlePlaceHolder: i18n.t('dop:input the requirement name'),
     contentLabel: i18n.t('dop:requirement description'),
   },
   [ISSUE_TYPE.TASK]: {
