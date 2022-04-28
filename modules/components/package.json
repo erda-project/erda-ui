@@ -55,7 +55,8 @@
   "files": [
     "dist",
     "lib",
-    "es"
+    "es",
+    "src"
   ],
   "keywords": [
     "antd",
