@@ -1,0 +1,6 @@
+{
+  "repository": "erda",
+  "username": "erda-project",
+  "filePath": "pkg/swagger/oas3/testdata/swagger_all.json",
+  "name": "swagger_all.json 根据新规范重构事务分析"
+}

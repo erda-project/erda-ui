@@ -218,3 +218,10 @@ export const PIPELINE_TABS = [
     isActive: (activeKey: string) => activeKey.split('/')[0] === 'config',
   },
 ];
+
+export const PROJECT_SETTING_TABS = [
+  {
+    key: 'test-dashboard',
+    name: i18n.t('dop:Test Statistics'),
+  },
+];

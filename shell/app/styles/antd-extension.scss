@@ -638,7 +638,7 @@ body {
   }
 
   .ant-btn {
-    &:not(.ant-btn-primary, .ant-btn-dashed, .ant-btn-link, .ant-btn-text) {
+    &:not(.ant-btn-primary, .ant-btn-dashed, .ant-btn-link, .ant-btn-text, .ant-btn-dangerous) {
       background: $color-default-06;
       border-color: transparent;
       color: $color-default-8;

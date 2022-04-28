@@ -12,8 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Dropdown } from 'antd';
-import { ColumnProps } from 'antd/lib/table';
-import { ErdaIcon, SimpleTabs, Table as ErdaTable, UserInfo, ConfigurableFilter, MemberSelector } from 'common';
+import { ConfigurableFilter, ErdaIcon, MemberSelector, SimpleTabs, Table as ErdaTable, UserInfo } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo, insertWhen } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
@@ -22,11 +21,11 @@ import i18n from 'i18n';
 import { map } from 'lodash';
 import moment from 'moment';
 import {
+  ISSUE_COMPLEXITY_MAP,
   ISSUE_OPTION,
+  ISSUE_PRIORITY_LIST,
   ISSUE_TYPE,
   ISSUE_TYPE_MAP,
-  ISSUE_PRIORITY_LIST,
-  ISSUE_COMPLEXITY_MAP,
 } from 'project/common/components/issue/issue-config';
 import { BACKLOG_ISSUE_TYPE, IssueForm, IssueItem } from 'project/pages/backlog/issue-item';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
@@ -40,6 +39,7 @@ import { usePerm, WithAuth } from 'user/common';
 import { useAddMrRelation } from './add-mr-relation';
 import './issue-relation.scss';
 import { IssueTestCaseRelation } from './issue-testCase-relation';
+import { ColumnProps } from 'common/components/table/interface';
 
 export enum RelationType {
   Inclusion = 'inclusion',
@@ -201,6 +201,7 @@ const useIssueRelation = (props: IProps) => {
               issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
               showStatus
               undraggable
+              showWorkflowStatus
             />
           ))}
         </div>
@@ -702,7 +703,7 @@ export const AddIssueRelation = ({
         dataSource={dataSource}
         columns={columns}
         pagination={{
-          hidePageSizeChange: true,
+          showSizeChanger: false,
           current: filterData.pageNo || 1,
           pageSize: filterData.pageSize || 7,
           total,

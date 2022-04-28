@@ -12,15 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Dropdown, Input, Menu, Modal, Select } from 'antd';
+import { Badge, Button, Dropdown, Input, Menu, Modal, Select } from 'antd';
 import { useUpdate } from 'app/common/use-hooks';
 import orgStore from 'app/org-home/stores/org';
-import { Ellipsis, Icon as CustomIcon, MemberSelector, ErdaIcon } from 'common';
+import { Ellipsis, ErdaIcon, Icon as CustomIcon, MemberSelector } from 'common';
 import UserInfo from 'common/components/user-info';
 import { getBrowserInfo, isPromise } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
-import { map, compact } from 'lodash';
+import { compact, map } from 'lodash';
 import moment from 'moment';
 import issueFieldStore from 'org/stores/issue-field';
 import { ISSUE_OPTION } from 'project/common/components/issue/issue-config';
@@ -35,6 +35,8 @@ import { useDrag } from 'react-dnd';
 import { getAuth, isAssignee, isCreator, usePerm, WithAuth } from 'user/common';
 import userStore from 'user/stores';
 import { FieldSelector, memberSelectorValueItem } from 'project/pages/issue/component/table-view';
+import { FlowStatus, getFlowList } from 'project/services/project-workflow';
+import { FLOW_STATUS_MAP } from 'project/common/config';
 import iterationStore from 'app/modules/project/stores/iteration';
 import './issue-item.scss';
 
@@ -58,6 +60,7 @@ interface IIssueProps {
   showStatus?: boolean;
   showIteration?: boolean;
   afterUpdate?: () => void;
+  showWorkflowStatus?: boolean;
 }
 
 const noop = () => Promise.resolve();
@@ -75,6 +78,7 @@ export const IssueItem = (props: IIssueProps) => {
     showStatus = false,
     showIteration = false,
     editable = false,
+    showWorkflowStatus,
   } = props;
   const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
   const { title, type, priority, creator, assignee, id, iterationID, issueButton } = data;
@@ -93,8 +97,21 @@ export const IssueItem = (props: IIssueProps) => {
   const [nameEditing, setNameEditing] = React.useState(false);
   const [nameValue, setNameValue] = React.useState('');
   const nameRef = React.useRef<Input>(null);
+  const [flowStatus, setFlowStatus] = React.useState<FlowStatus>('none');
 
   const { updateIssue } = issueStore.effects;
+
+  React.useEffect(() => {
+    if (type === ISSUE_TYPE.TASK && id) {
+      getFlowList({
+        issueID: id,
+        projectID: +projectId,
+      }).then((res) => {
+        setFlowStatus(res?.data?.status ?? 'none');
+      });
+    }
+    return () => {};
+  }, [type, id, projectId]);
 
   const updateIssueRecord = (val: ISSUE.Ticket, callback?: () => void) => {
     updateIssue(val).then(() => {
@@ -291,6 +308,11 @@ export const IssueItem = (props: IIssueProps) => {
               className="item-name-edit-icon ml-2 hover:text-blue-deep"
               size={18}
             />
+          ) : null}
+        </div>
+        <div className="mr-4">
+          {showWorkflowStatus && [ISSUE_TYPE.TASK].includes(type) ? (
+            <Badge status={FLOW_STATUS_MAP[flowStatus]?.status ?? 'default'} />
           ) : null}
         </div>
         <div className="text-sub flex items-center flex-wrap justify-end">{fields}</div>

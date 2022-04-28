@@ -20,6 +20,8 @@ import FileDiff from './file-diff';
 import repoStore from 'application/stores/repo';
 import { useLoading } from 'core/stores/loading';
 import { allWordsFirstLetterUpper } from 'app/common/utils';
+import MrWorkflow from 'project/common/components/workflow/mr-workflow';
+import routeInfoStore from 'core/stores/route';
 
 const { TabPane } = Tabs;
 
@@ -29,7 +31,8 @@ interface IProps {
 }
 
 const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
-  const [compareDetail, comments] = repoStore.useStore((s) => [s.compareDetail, s.comments]);
+  const [projectId] = routeInfoStore.useStore((s) => [s.params.projectId]);
+  const [compareDetail, comments, mrDetail] = repoStore.useStore((s) => [s.compareDetail, s.comments, s.mrDetail]);
   const { commits = [], diff, from, to } = compareDetail;
   const [isFetching] = useLoading(repoStore, ['getCompareDetail']);
 
@@ -83,6 +86,9 @@ const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
             mode="compare"
             disableComment={disableComment}
           />
+        </TabPane>
+        <TabPane key="workflow" tab={i18n.t('dop:workflow')}>
+          <MrWorkflow id={mrDetail.id} projectID={+projectId} />
         </TabPane>
       </Tabs>
     </Spin>
