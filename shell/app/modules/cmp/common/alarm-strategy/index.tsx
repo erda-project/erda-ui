@@ -189,7 +189,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
       render: (text: string) => <UserInfo id={text} />,
     },
     {
-      title: i18n.t('default:create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createTime',
       render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },

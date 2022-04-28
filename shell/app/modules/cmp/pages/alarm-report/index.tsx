@@ -249,7 +249,7 @@ const AlarmReport = () => {
       },
     },
     {
-      title: i18n.t('default:create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createdAt',
       width: 180,
       render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),

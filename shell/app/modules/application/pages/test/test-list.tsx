@@ -85,7 +85,7 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
     width: 120,
   },
   {
-    title: i18n.t('default:create time'),
+    title: i18n.t('Creation time'),
     dataIndex: 'createdAt',
     width: 176,
     render: (text) => fromNow(text),
