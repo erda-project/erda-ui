@@ -40,6 +40,7 @@ export {
 } from './str-num-date';
 
 // export { getLabel } from './component-utils';
+export { replaceWithLink } from './i18n-replace-link';
 
 export const isPromise = (obj: any) => {
   return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
@@ -623,10 +624,16 @@ export const firstCharToUpper = (param: string | any) => {
 };
 
 export const allWordsFirstLetterUpper = (param: string | any) => {
+  const connectiveWords = ['and', 'or', 'as', 'by'];
   if (typeof param === 'string') {
     return param
       .split(' ')
-      .map((letter) => firstCharToUpper(letter))
+      .map((letter, i) => {
+        if (connectiveWords.includes(letter) && i !== 0) {
+          return letter;
+        }
+        return firstCharToUpper(letter);
+      })
       .join(' ');
   } else {
     return param;

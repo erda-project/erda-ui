@@ -31,7 +31,7 @@ import Announcement from 'org/pages/announcement';
 import permStore from 'user/stores/permission';
 
 import './org-setting.scss';
-import replaceWithLink from 'app/common/utils/i18n-replace-link';
+import { replaceWithLink } from 'app/common/utils';
 
 export const OrgSetting = () => {
   const orgId = orgStore.getState((s) => s.currentOrg.id);

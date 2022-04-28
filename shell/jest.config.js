@@ -74,7 +74,7 @@ module.exports = {
     'core/stores/loading': '<rootDir>/../core/src/stores/loading.ts',
     'core/utils/ws': '<rootDir>/../core/src/utils/ws.ts',
     'layout/stores/layout': '<rootDir>/app/layout/stores/layout.ts',
-    i18n: '<rootDir>/app/i18n.ts',
+    i18n$: '<rootDir>/app/i18n.ts',
     '^common/utils(.*)': '<rootDir>/app/common/utils/$1',
     '^common/utils$': '<rootDir>/app/common/utils/index.ts',
     '^app/common/utils(.*)': '<rootDir>/app/common/utils/$1',

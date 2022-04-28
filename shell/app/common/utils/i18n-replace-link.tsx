@@ -17,7 +17,7 @@ import React from 'react';
  * @params href Jump link
  * example: ('this is a [test] string', 'www.test.com') => <div>this is a <a href="www.text.com">test<a> string</div>
  */
-const replaceWithLink = (str: string, href: string) => {
+export const replaceWithLink = (str: string, href: string) => {
   const matchArr = str.match(/\[.*?\]/g) || [];
   const reg = new RegExp(matchArr.join('|').replace(/\[/g, '\\[').replace(/\]/g, '\\]'), 'g');
   const strArr = str.split(reg);
@@ -26,7 +26,7 @@ const replaceWithLink = (str: string, href: string) => {
     result.push(item);
     if (index !== strArr.length - 1) {
       result.push(
-        <a className="text-purple-deep mx-1" href={href} target="_blank" rel="noopener noreferrer">
+        <a key={index} className="text-purple-deep mx-1" href={href} target="_blank" rel="noopener noreferrer">
           {matchArr[index].replace(/\[|]/g, '')}
         </a>,
       );
@@ -34,5 +34,3 @@ const replaceWithLink = (str: string, href: string) => {
   });
   return <div className="whiteSpace-nowrap">{result}</div>;
 };
-
-export default replaceWithLink;

@@ -28,7 +28,7 @@ import BranchRule from 'project/common/components/branch-rule';
 import IssueWorkflow from 'project/common/components/issue-workflow';
 import { usePerm } from 'app/user/common';
 import ScanRule from 'project/common/components/scan-rule';
-import replaceWithLink from 'app/common/utils/i18n-replace-link';
+import { replaceWithLink } from 'app/common/utils';
 
 const ProjectSettings = () => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
@@ -184,7 +184,7 @@ const ProjectSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('dop:Issue labels'),
+          tabTitle: i18n.t('dop:Issue label'),
           tabKey: 'projectLabel',
           content: (
             <ConfigLayout

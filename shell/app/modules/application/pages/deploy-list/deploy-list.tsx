@@ -221,7 +221,7 @@ const PureDeployList = (props: IProps) => {
           type: MemberSelector,
           name: 'operator',
           customProps: {
-            placeholder: i18n.t('filter by {name}', { name: i18n.t('Applicant') }),
+            placeholder: i18n.t('filter by {name}', { name: i18n.t('Applicant').toLowerCase() }),
             scopeType: 'org',
             size: 'small',
           },
@@ -231,7 +231,7 @@ const PureDeployList = (props: IProps) => {
         type: LoadMoreSelector,
         name: 'projectId',
         customProps: {
-          placeholder: i18n.t('please choose the {name}', { name: i18n.t('Project name') }),
+          placeholder: i18n.t('please select the {name}', { name: i18n.t('Project name').toLowerCase() }),
           allowClear: true,
           getData: getProjectListData,
         },

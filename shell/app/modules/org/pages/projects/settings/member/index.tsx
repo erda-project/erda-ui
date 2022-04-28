@@ -20,7 +20,7 @@ import { Link } from 'react-router-dom';
 import { MemberScope } from 'app/common/stores/member-scope';
 import projectStore from 'project/stores/project';
 import { mspRoleMap } from 'user/stores/_perm-msp';
-import replaceWithLink from 'app/common/utils/i18n-replace-link';
+import { replaceWithLink } from 'app/common/utils';
 
 const SettingsMember = () => {
   const info = projectStore.useStore((s) => s.info);

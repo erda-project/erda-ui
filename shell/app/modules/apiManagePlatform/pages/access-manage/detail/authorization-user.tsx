@@ -24,6 +24,7 @@ import UpdateSLA from 'apiManagePlatform/components/update-sla';
 import TrafficAuditDrawer from 'apiManagePlatform/components/traffic-audit-drawer';
 import { isEmpty } from 'lodash';
 import { ColumnProps } from 'antd/lib/table';
+import { firstCharToUpper } from 'app/common/utils';
 
 interface IState {
   visible: boolean;
@@ -131,11 +132,11 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
       width: 120,
     },
     {
-      title: i18n.t('current SLA'),
+      title: firstCharToUpper(i18n.t('current SLA')),
       dataIndex: ['contract', 'curSLAName'],
     },
     {
-      title: i18n.t('applying SLA'),
+      title: i18n.t('SLA in application'),
       dataIndex: ['contract', 'requestSLAName'],
     },
     {
@@ -168,7 +169,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
                   handleUpdateSLA(contract);
                 }}
               >
-                {i18n.t('replace SLA')}
+                {firstCharToUpper(i18n.t('replace SLA'))}
               </span>
             )}
             {(contractStatueMap[status].actions || []).map((item) => {

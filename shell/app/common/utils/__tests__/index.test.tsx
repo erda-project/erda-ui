@@ -43,6 +43,8 @@ import {
   validators,
   firstCharToUpper,
   allWordsFirstLetterUpper,
+  replaceWithLink,
+  setSearch,
 } from 'common/utils';
 
 class ClassComp extends React.Component {
@@ -55,6 +57,7 @@ const FunComp = () => null;
 
 describe('utils', () => {
   it('isImage ', () => {
+    console.log(replaceWithLink, setSearch);
     const suffixes = ['jpg', 'bmp', 'gif', 'png', 'jpeg', 'svg'];
     expect(isImage('images/a.doc')).toBe(false);
     suffixes.map((suffix) => {
@@ -238,5 +241,7 @@ describe('utils', () => {
   it('allWordsFirstLetterUpper should work well', () => {
     expect(allWordsFirstLetterUpper('hello world')).toEqual('Hello World');
     expect(allWordsFirstLetterUpper('work well')).toEqual('Work Well');
+    expect(allWordsFirstLetterUpper('initiated by me')).toEqual('Initiated by Me');
+    expect(allWordsFirstLetterUpper('by yourself')).toEqual('By Yourself');
   });
 });
