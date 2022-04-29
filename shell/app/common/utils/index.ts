@@ -624,7 +624,7 @@ export const firstCharToUpper = (param: string | any) => {
 };
 
 export const allWordsFirstLetterUpper = (param: string | any) => {
-  const connectiveWords = ['and', 'or', 'as', 'by'];
+  const connectiveWords = ['and', 'or', 'as', 'by', 'to'];
   if (typeof param === 'string') {
     return param
       .split(' ')
