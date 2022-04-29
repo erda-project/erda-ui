@@ -145,6 +145,7 @@ declare namespace PROJECT_DEPLOY {
     userId: string;
     version: string;
     modes?: string;
+    tags?: Array<{ name: string; color: string }>;
   }
 
   interface ReleaseRenderDetailReq {
