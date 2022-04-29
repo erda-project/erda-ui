@@ -54,9 +54,7 @@ export const PureAppSettings = () => {
       <div className="title font-medium">{i18n.t('{name} member management', { name: i18n.t('App') })}</div>
       <div className="desc">
         {replaceWithLink(
-          `${i18n.t('Edit members and set member roles. See Role Permission Description for details.')}[${i18n.t(
-            'role permissions description',
-          )}]`,
+          i18n.t('Edit members and set member roles. See Role Permission Description for details.'),
           goTo.resolve.perm({ scope: 'app' }),
         )}
       </div>
