@@ -42,9 +42,7 @@ const SettingsMember = () => {
         message={
           <>
             {replaceWithLink(
-              `${i18n.t('Edit members and set member roles. See Role Permission Description for details.')}[${i18n.t(
-                'role permissions description',
-              )}]`,
+              i18n.t('Edit members and set member roles. See Role Permission Description for details.'),
               goTo.resolve.perm({ scope: 'app' }),
             )}
           </>
