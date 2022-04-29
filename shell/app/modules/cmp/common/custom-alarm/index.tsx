@@ -946,7 +946,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
             onChange={(e) => {
               handleChange(e.target.value);
             }}
-            placeholder={i18n.t('search the {name}', { name: i18n.t('Name').toLowerCase() })}
+            placeholder={i18n.t('search by {name}', { name: i18n.t('Name').toLowerCase() })}
           />
         }
         loading={getCustomAlarmsLoading || switchCustomAlarmLoading}
