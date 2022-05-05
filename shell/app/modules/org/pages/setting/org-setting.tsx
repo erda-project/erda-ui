@@ -14,7 +14,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import { ConfigLayout, MembersTable, SettingTabs } from 'common';
-import { goTo, insertWhen } from 'common/utils';
+import { firstCharToUpper, goTo, insertWhen } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import NotifyGroup from 'application/pages/settings/components/app-notify/common-notify-group';
 import memberStore from 'common/stores/org-member';
@@ -53,7 +53,7 @@ export const OrgSetting = () => {
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('{name} member management', { name: i18n.t('organization') }),
+                  title: firstCharToUpper(i18n.t('{name} member management', { name: i18n.t('organization') })),
                   desc: (
                     <div>
                       {replaceWithLink(
@@ -178,7 +178,7 @@ export const OrgSetting = () => {
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('Set up a notification channel to set a notification mode'),
+                  title: i18n.t('Add a notification channel to set notifications'),
                   desc: (
                     <div className="w-2/3 h-10">
                       {i18n.t(

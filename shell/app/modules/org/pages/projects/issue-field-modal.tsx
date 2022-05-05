@@ -106,7 +106,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
       name: 'propertyName',
       itemProps: {
         disabled: formData?.isSpecialField,
-        placeholder: i18n.t('Please enter the {name}', { name: i18n.t('dop:Field name') }),
+        placeholder: i18n.t('Please enter the {name}', { name: i18n.t('dop:Field name').toLowerCase() }),
       },
     },
     {
@@ -189,7 +189,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
 
   return (
     <FormModal
-      name={i18n.t('dop:Issue field')}
+      name={i18n.t('dop:Issue field').toLowerCase()}
       fieldsList={fieldList}
       visible={visible}
       onOk={handleSubmit}

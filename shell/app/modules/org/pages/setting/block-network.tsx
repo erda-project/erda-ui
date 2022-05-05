@@ -28,10 +28,10 @@ enum Environment {
 }
 
 const metaData = [
-  { label: i18n.t('default:dev environment'), value: Environment.DEV, disabled: true },
-  { label: i18n.t('default:test environment'), value: Environment.TEST, disabled: true },
-  { label: i18n.t('default:staging environment'), value: Environment.STAGING, disabled: true },
-  { label: i18n.t('default:prod environment'), value: Environment.PROD, disabled: false },
+  { label: i18n.t('Development'), value: Environment.DEV, disabled: true },
+  { label: i18n.t('Testing-env'), value: Environment.TEST, disabled: true },
+  { label: i18n.t('Staging-env'), value: Environment.STAGING, disabled: true },
+  { label: i18n.t('Production-env'), value: Environment.PROD, disabled: false },
 ];
 
 const BlockNetwork = () => {
