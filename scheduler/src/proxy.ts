@@ -107,13 +107,27 @@ export const createProxyService = (app: INestApplication) => {
   app.use(
     createProxyMiddleware(
       (pathname: string) => {
-        return !!pathname.match('^/api/uc');
+        return !!pathname.match('^/api/uc') && !pathname.match('^/api/uc/user/files/upload');
       },
       {
         target: UC_API_URL,
         changeOrigin: true,
         secure: false,
         pathRewrite: (api) => (isProd ? api.replace('/api/uc', '') : api),
+        onError,
+      },
+    ),
+  );
+  app.use(
+    createProxyMiddleware(
+      (pathname: string) => {
+        return !!pathname.match('^/api/uc/user/files/upload');
+      },
+      {
+        target: 'https://uploader.app.terminus.io',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: (api) => (isProd ? api.replace('/api/uc', '/api') : api),
         onError,
       },
     ),

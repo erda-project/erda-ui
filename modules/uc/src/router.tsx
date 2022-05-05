@@ -15,6 +15,7 @@ import React from 'react';
 import { Route, Switch, Router } from 'react-router-dom';
 import Login from 'src/pages/login';
 import Setting from 'src/pages/setting';
+import Recovery from 'src/pages/recovery';
 import Registration from 'src/pages/registration';
 import { history } from 'src/common';
 
@@ -29,6 +30,7 @@ export default function App() {
         <Route exact path="/uc/settings" component={Setting} />
         <Route exact path="/uc/login" component={Login} />
         <Route exact path="/uc/registration" component={Registration} />
+        <Route exact path="/uc/recovery" component={Recovery} />
         <Route path="*" component={NotFound} />
       </Switch>
     </Router>

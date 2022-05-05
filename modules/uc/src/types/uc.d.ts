@@ -74,3 +74,24 @@ declare namespace UC {
     id: string;
   }
 }
+
+interface AxiosError<T = any> {
+  // config: AxiosRequestConfig;
+  code?: string;
+  request?: any;
+  response?: AxiosResponse<T>;
+  isAxiosError: boolean;
+  toJSON: () => object;
+}
+interface AxiosResponse<T = any> {
+  data: T;
+  status: number;
+  statusText: string;
+  headers: any;
+  // config: AxiosRequestConfig;
+  request?: any;
+}
+
+interface Obj<T = any> {
+  [k: string]: T;
+}

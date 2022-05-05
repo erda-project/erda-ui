@@ -29,7 +29,7 @@ export function isZh() {
 export const initI18n = i18n.init({
   lng: defaultLocale,
   fallbackLng: 'zh',
-  debug: process.env.NODE_ENV !== 'production',
+  debug: process?.env?.NODE_ENV !== 'production',
   resources: {
     zh,
     en,

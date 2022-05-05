@@ -95,3 +95,7 @@ export const updatePassword = (payload: string) => {
       .then((res: UC.IKratosRes) => res.data);
   });
 };
+
+export const uploadImg = (fd: FormData) => {
+  return axios.post(`${apiPrefix}/user/files/upload`, fd).then((res) => res.data);
+};

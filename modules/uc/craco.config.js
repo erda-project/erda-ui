@@ -15,7 +15,8 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const outputPath = path.resolve(__dirname, '../../public/static/uc');
 
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = process?.env?.NODE_ENV === 'production';
+const devUrlDomain = 'optimistic-goodall-4xvjx814sc.projects.oryapis.com';
 
 module.exports = {
   webpack: {
@@ -41,14 +42,39 @@ module.exports = {
     },
   },
   devServer: {
-    port: 3031,
+    port: 3032,
     proxy: {
-      '/api/uc': {
-        target: 'http://30.43.48.143:4433',
+      '/api/uc/user/files/upload': {
+        target: 'https://uploader.app.terminus.io',
         source: false,
         changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '/api/uc': '/api',
+        },
+      },
+      '/api/uc': {
+        target: `https://${devUrlDomain}`,
+        source: false,
+        changeOrigin: true,
+        secure: false,
         pathRewrite: {
           '/api/uc': '',
+        },
+        onProxyRes: function (proxyRes, req, res) {
+          const cookies = proxyRes.headers['set-cookie'];
+
+          const cookiePathRegex = /(p|P)ath=\/\w*;/;
+          let newCookie;
+          if (cookies) {
+            newCookie = cookies.map((cookie) => {
+              if (cookiePathRegex.test(cookie)) {
+                return cookie.replace(cookiePathRegex, 'path=/;').replace(`Domain=${devUrlDomain};`, '');
+              }
+              return cookie;
+            });
+            proxyRes.headers['set-cookie'] = newCookie;
+          }
         },
       },
     },

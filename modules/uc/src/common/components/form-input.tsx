@@ -16,30 +16,27 @@ import React from 'react';
 interface IProps {
   value?: string;
   type?: string;
-  onChange?: (v: string) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
-  label: string;
+  required?: boolean;
+  label?: string;
   errorTip?: string;
   name?: string;
   labelExtra?: React.ReactNode;
 }
 
 const FormInput = (props: IProps) => {
-  const { value, onChange, label, errorTip, labelExtra = null, ...rest } = props;
-
-  const _onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange?.(e.target.value);
-  };
+  const { value = '', label, errorTip, labelExtra = null, required, ...rest } = props;
 
   return (
     <div className="mt-8 relative">
-      <div className="text-sm font-bold text-gray-700 tracking-wide flex justify-between items-center">
+      <div className="text-sm font-bold text-gray-700 tracking-wide flex justify-between items-center relative">
+        {required ? <span className="absolute -left-2.5 top-0.5 text-red-500">*</span> : null}
         {label}
         {labelExtra}
       </div>
       <input
         value={value}
-        onChange={_onChange}
         className="w-full text-lg p-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
         {...rest}
       />

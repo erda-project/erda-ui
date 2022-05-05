@@ -13,214 +13,80 @@
 
 import React from 'react';
 import ucStore from 'src/store/uc';
-import { getValidText, getErrorValid } from 'src/common/utils';
-import { FormInput, Container, i18n } from 'src/common';
+import { Container, i18n, history } from 'src/common';
+import { SelfServiceSettingsFlow, SubmitSelfServiceSettingsFlowBody } from '@ory/kratos-client';
 
-const defaultValid = {
-  pageInfo: '',
-  pagePassword: '',
-  email: '',
-  password: '',
-  username: '',
-  nickname: '',
-  confirmPw: '',
-  page: '',
-};
+import { ory, handleFlowError, Flow, CreateLogoutHandler } from 'src/ory';
+import { parse } from 'query-string';
 
-export default function Setting() {
-  const user = ucStore.useStore((s) => s.user);
-  const [email, setEmail] = React.useState(user?.email);
-  // const [phone, setPhone] = React.useState(user?.phone);
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [confirmPw, setConfirmPw] = React.useState('');
-  const [nickname, setNick] = React.useState(user?.nickname);
-  const [validTips, setValidTips] = React.useState(defaultValid);
+const Setting = () => {
+  const [flow, setFlow] = React.useState<SelfServiceSettingsFlow>();
+  const query = parse(window.location.search);
+  const { flow: flowId, return_to: returnTo } = query;
+
+  const onLogout = CreateLogoutHandler();
 
   React.useEffect(() => {
-    if (!user?.id) {
-      ucStore.whoAmI();
-    } else {
-      setEmail(user.email);
-      setNick(user.nickname);
-      setUsername(user.username);
+    if (flow) {
+      return;
     }
-  }, [user]);
 
-  const updateValid = (updateObj: Partial<typeof defaultValid>) => {
-    setValidTips((prev) => ({
-      ...prev,
-      ...updateObj,
-    }));
-  };
-
-  const updateEmial = (v: string) => {
-    setEmail(v);
-    updateValid({ email: getValidText(v, 'email') });
-  };
-
-  const updateUsername = (v: string) => {
-    setUsername(v);
-    updateValid({ username: getValidText(v) });
-  };
-
-  const updateNick = (v: string) => {
-    setNick(v);
-    updateValid({ nickname: getValidText(v) });
-  };
-
-  // const updatePhone = (v: string) => {
-  //   setPhone(v);
-  // };
-
-  const updatePassword = (v: string) => {
-    setPassword(v);
-    updateValid({ password: getValidText(v, 'password'), confirmPw: '' });
-  };
-
-  const updateConfirmPw = (v: string) => {
-    setConfirmPw(v);
-    updateValid({ confirmPw: v !== password ? i18n.t('inconsistent passwords') : '' });
-  };
-
-  const submitInfo = () => {
-    if (checkValid() && nickname && email && username) {
-      ucStore.updateUser({ email, nickname, username }).catch((e) => {
-        const errRes: UC.IKratosData = e.response?.data;
-        const errTips = getErrorValid<typeof defaultValid>(errRes);
-        updateValid({ ...errTips, pageInfo: errTips.page });
-      });
-    } else {
-      updateValid({
-        email: getValidText(email, 'email'),
-        nickname: getValidText(nickname),
-        username: getValidText(username),
-      });
-    }
-  };
-
-  const checkValid = () => {
-    const { page, pageInfo, pagePassword, password, ...rest } = validTips;
-    return Object.values(rest).filter((item) => !!item).length === 0;
-  };
-
-  const submitPassword = () => {
-    if (!validTips.password && password && password === confirmPw) {
-      ucStore
-        .updatePassword(password)
-        .then(() => {
-          goToLogout();
+    // If ?flow=.. was in the URL, we fetch it
+    if (flowId) {
+      ory
+        .getSelfServiceSettingsFlow(String(flowId))
+        .then(({ data }) => {
+          setFlow(data);
         })
-        .catch((e) => {
-          const errRes: UC.IKratosData = e.response?.data;
-          const errTips = getErrorValid<typeof defaultValid>(errRes);
-          updateValid({ ...errTips, pagePassword: errTips.page });
-        });
-    } else {
-      updateValid({
-        password: getValidText(password, 'password'),
-        confirmPw: confirmPw !== password ? i18n.t('inconsistent passwords') : '',
-      });
+        .catch(handleFlowError('settings', setFlow));
+      return;
     }
-  };
 
-  const goToLogout = () => {
-    ucStore.logout();
+    // Otherwise we initialize it
+    ory
+      .initializeSelfServiceSettingsFlowForBrowsers(returnTo ? String(returnTo) : undefined)
+      .then(({ data }) => {
+        setFlow(data);
+      })
+      .catch(handleFlowError('settings', setFlow));
+  }, [flowId, returnTo, flow]);
+
+  const onSubmit = (values: SubmitSelfServiceSettingsFlowBody) => {
+    history.push(`/uc/settings?flow=${flow?.id}`);
+    return ory
+      .submitSelfServiceSettingsFlow(String(flow?.id), undefined, values)
+      .then(({ data }) => {
+        // The settings have been saved and the flow was updated. Let's show it to the user!
+        setFlow(data);
+      })
+      .catch(handleFlowError('settings', setFlow))
+      .catch(async (err: AxiosError) => {
+        // If the previous handler did not catch the error it's most likely a form validation error
+        if (err.response?.status === 400) {
+          // Yup, it is!
+          setFlow(err.response?.data);
+          return;
+        }
+
+        return Promise.reject(err);
+      });
   };
 
   return (
     <Container>
       <h2 className="text-center text-4xl text-indigo-800 font-display font-semibold lg:text-left xl:text-5xl xl:text-bold">
-        {i18n.t('Hello {name}', { name: user?.nickname })}
+        {i18n.t('Hello {name}', { name: 'zxj' })}
       </h2>
       <div className="mt-12">
-        {validTips.pageInfo ? (
-          <div className="mb-8">
-            <span className="text-red-500 -bottom-6 left-0 text-sm">{validTips.pageInfo}</span>
-          </div>
-        ) : null}
-        <FormInput
-          label={i18n.t('email')}
-          value={email}
-          onChange={updateEmial}
-          placeholder={i18n.t('enter your {name}', { name: i18n.t('email') })}
-          errorTip={validTips.email}
-        />
-
-        <FormInput
-          label={i18n.t('username')}
-          value={username}
-          errorTip={validTips.username}
-          onChange={updateUsername}
-          placeholder={i18n.t('enter your {name}', { name: i18n.t('username') })}
-        />
-
-        <FormInput
-          label={i18n.t('nick name')}
-          value={nickname}
-          errorTip={validTips.nickname}
-          onChange={updateNick}
-          placeholder={i18n.t('enter your {name}', { name: i18n.t('nick name') })}
-        />
-
-        {/* <FormInput
-          label={i18n.t('mobile')}
-          value={phone}
-          onChange={updatePhone}
-          placeholder={i18n.t('enter your {name}', { name: i18n.t('mobile') })}
-          errorTip={phoneValid}
-        /> */}
-
-        <div className="mt-10">
-          <button
-            onClick={submitInfo}
-            type="submit"
-            className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600 shadow-lg"
-          >
-            {i18n.t('Update')}
-          </button>
-        </div>
-
-        {validTips.pagePassword ? (
-          <div className="my-8">
-            <span className="text-red-500 -bottom-6 left-0 text-sm">{validTips.pagePassword}</span>
-          </div>
-        ) : null}
-
-        <FormInput
-          label={i18n.t('new password')}
-          value={password}
-          onChange={updatePassword}
-          placeholder={i18n.t('enter your {name}', { name: i18n.t('new password') })}
-          errorTip={validTips.password}
-          type="password"
-        />
-
-        <FormInput
-          label={i18n.t('confirm new password')}
-          value={confirmPw}
-          onChange={updateConfirmPw}
-          placeholder={i18n.t('enter your {name}', { name: i18n.t('confirm new password') })}
-          errorTip={validTips.confirmPw}
-          type="password"
-        />
-
-        <div className="mt-10">
-          <button
-            onClick={submitPassword}
-            type="submit"
-            className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600 shadow-lg"
-          >
-            {i18n.t('Reset password')}
-          </button>
-        </div>
-
+        <Flow flow={flow} onSubmit={onSubmit} />
         <div className="my-12 text-sm font-display font-semibold text-gray-700 text-center">
-          <a className="cursor-pointer text-indigo-600 hover:text-indigo-800" onClick={goToLogout}>
+          <span className="cursor-pointer text-indigo-600 hover:text-indigo-800" onClick={onLogout}>
             {i18n.t('Logout')}
-          </a>
+          </span>
         </div>
       </div>
     </Container>
   );
-}
+};
+
+export default Setting;
