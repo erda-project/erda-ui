@@ -41,7 +41,7 @@ export const fetchLog = ({
 }: {
   [k: string]: any;
   fetchApi?: string;
-}): { lines: COMMON.LogItem[] } => {
+}): { lines: COMMON.LogItem[]; isFallback?: boolean } => {
   return agent
     .get(fetchApi || '/api/runtime/logs')
     .query(rest)

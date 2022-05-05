@@ -251,7 +251,6 @@ const RuntimeContainerLog = (props: Props) => {
         logKey={`${logName}-${reId}`}
         pause={false}
         style={style}
-        isStopped={isStopped}
         instance={instance}
         extraButton={extraButton}
         CustomLogItem={getLogItem(pushSlideComp, handleTimeClick)}
@@ -270,8 +269,8 @@ const RuntimeContainerLog = (props: Props) => {
   return logRoller;
 };
 
-const WrappedLogRoller = (props: Merge<LogProps, { isStopped: boolean; instance: Obj }>) => {
-  const { isStopped, instance, ...propsRest } = props;
+const WrappedLogRoller = (props: Merge<LogProps, { instance: Obj }>) => {
+  const { instance, ...propsRest } = props;
   const [logsMap, logFallback] = commonStore.useStore((s) => [s.logsMap, s.logFallback]);
   const { fetchLog } = commonStore.effects;
   const { clearLog } = commonStore.reducers;
@@ -283,7 +282,6 @@ const WrappedLogRoller = (props: Merge<LogProps, { isStopped: boolean; instance:
       const { podName, podNamespace, containerName, containerId, clusterName } = instance;
       setQuery((prev) => ({
         ...prev,
-        fetchApi: '/api/runtime/realtime/logs',
         live: true,
         podName,
         podNamespace,
@@ -294,11 +292,6 @@ const WrappedLogRoller = (props: Merge<LogProps, { isStopped: boolean; instance:
     }
   }, [logFallback]);
 
-  const reFetchLog = (q: Obj) => {
-    // only container running log can use fallback api
-    const res = fetchLog(q, { isRunsContainerLog: !isStopped && props?.query?.source === 'container' });
-    return res;
-  };
   return (
     <LogRoller
       {...propsRest}
@@ -307,7 +300,7 @@ const WrappedLogRoller = (props: Merge<LogProps, { isStopped: boolean; instance:
       query={query}
       content={content || []}
       fetchPeriod={fetchPeriod || 3000}
-      fetchLog={reFetchLog}
+      fetchLog={fetchLog}
       clearLog={clearLog}
     />
   );
