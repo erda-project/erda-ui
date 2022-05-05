@@ -275,6 +275,7 @@ const WrappedLogRoller = (props: Merge<LogProps, { instance: Obj }>) => {
   const { fetchLog } = commonStore.effects;
   const { clearLog } = commonStore.reducers;
   const { content, fetchPeriod, ...rest } = logsMap[props.logKey] || {};
+  const [isFirstQuery, setIsFirstQuery] = React.useState(true);
   const [query, setQuery] = React.useState<Obj<string | number | boolean>>(props.query || {});
 
   useUpdateEffect(() => {
@@ -292,15 +293,23 @@ const WrappedLogRoller = (props: Merge<LogProps, { instance: Obj }>) => {
     }
   }, [logFallback]);
 
+  const reFetchLog = (q: Obj) => {
+    const res = fetchLog(q).then((r) => {
+      setIsFirstQuery(false);
+      return r;
+    });
+    return res;
+  };
+
   return (
     <LogRoller
       {...propsRest}
       {...rest}
       disableDownload={logFallback}
-      query={query}
+      query={{ isFirstQuery, ...query }}
       content={content || []}
       fetchPeriod={fetchPeriod || 3000}
-      fetchLog={fetchLog}
+      fetchLog={reFetchLog}
       clearLog={clearLog}
     />
   );
