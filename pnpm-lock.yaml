@@ -131,7 +131,7 @@ importers:
       cube-state: ^1.5.6
       dotenv: ^8.2.0
       history: 4.x
-      i18next: ^17.0.13
+      i18next: ^21.0.0
       immer: ^8.0.0
       lodash: ^4.17.21
       moment: ^2.29.1
@@ -154,7 +154,7 @@ importers:
       axios: 0.21.1
       cube-state: 1.5.6_react@16.14.0
       history: 4.10.1
-      i18next: 17.3.1
+      i18next: 21.6.16
       immer: 8.0.4
       lodash: 4.17.21
       moment: 2.29.1
@@ -5152,7 +5152,7 @@ packages:
   /@babel/runtime/7.14.0:
     resolution: {integrity: sha512-JELkvo/DlpNdJ7dlyw/eY7E0suy5i5GQH+Vlxaq1nsNJ+H7f4Vtv3jMeCEgRhZZQFXTjldYfQgv2qmM6M1v5wA==}
     dependencies:
-      regenerator-runtime: 0.13.7
+      regenerator-runtime: 0.13.9
 
   /@babel/runtime/7.14.6:
     resolution: {integrity: sha512-/PCB2uJ7oM44tz8YhC4Z/6PeOKXp4K588f+5M3clr1M4zbqztlo0XEfJ2LEzj/FgwfgGcIdl8n7YYjTCI0BYwg==}
@@ -5167,14 +5167,14 @@ packages:
     dependencies:
       regenerator-runtime: 0.13.9
 
-  /@babel/runtime/7.16.0:
-    resolution: {integrity: sha512-Nht8L0O8YCktmsDV6FqFue7vQLRx3Hb0B37lS5y0jDRqRxlBG4wIJHnf9/bgSE2UyipKFA01YtS+npRdTWBUyw==}
+  /@babel/runtime/7.16.3:
+    resolution: {integrity: sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.9
 
-  /@babel/runtime/7.16.3:
-    resolution: {integrity: sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ==}
+  /@babel/runtime/7.17.9:
+    resolution: {integrity: sha512-lSiBBvodq29uShpWGNbgFdKYNiFDo5/HIYsaCEY9ff4sb10x9jizo2+pRrSyF4jKZCXqgzuqBOQKbUm90gQwJg==}
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.9
@@ -16574,16 +16574,16 @@ packages:
       vinyl-fs: 3.0.3
     dev: false
 
-  /i18next/17.3.1:
-    resolution: {integrity: sha512-4nY+yaENaoZKmpbiDXPzucVHCN3hN9Z9Zk7LyQXVOKVIpnYOJ3L/yxHJlBPtJDq3PGgjFwA0QBFm/26Z0iDT5A==}
-    dependencies:
-      '@babel/runtime': 7.14.0
-    dev: false
-
   /i18next/20.6.1:
     resolution: {integrity: sha512-yCMYTMEJ9ihCwEQQ3phLo7I/Pwycf8uAx+sRHwwk5U9Aui/IZYgQRyMqXafQOw5QQ7DM1Z+WyEXWIqSuJHhG2A==}
     dependencies:
       '@babel/runtime': 7.15.4
+    dev: false
+
+  /i18next/21.6.16:
+    resolution: {integrity: sha512-xJlzrVxG9CyAGsbMP1aKuiNr1Ed2m36KiTB7hjGMG2Zo4idfw3p9THUEu+GjBwIgEZ7F11ZbCzJcfv4uyfKNuw==}
+    dependencies:
+      '@babel/runtime': 7.17.9
     dev: false
 
   /iconv-lite/0.4.19:
@@ -20454,7 +20454,7 @@ packages:
       prop-types: ^15.0.0
       react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@babel/runtime': 7.16.3
+      '@babel/runtime': 7.17.9
       prop-types: 15.7.2
       react: 16.14.0
       tiny-warning: 1.0.3
@@ -24359,7 +24359,7 @@ packages:
     peerDependencies:
       react: '>=15'
     dependencies:
-      '@babel/runtime': 7.14.0
+      '@babel/runtime': 7.17.9
       history: 4.10.1
       hoist-non-react-statics: 3.3.2
       loose-envify: 1.4.0
@@ -24968,6 +24968,7 @@ packages:
 
   /regenerator-runtime/0.13.7:
     resolution: {integrity: sha512-a54FxoJDIr27pgf7IgeQGxmqUNYrcV338lf/6gH456HZ/PhX+5BcwHXG9ajESmwe6WRO0tAzRUrRmNONWgkrew==}
+    dev: false
 
   /regenerator-runtime/0.13.9:
     resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
@@ -24975,7 +24976,7 @@ packages:
   /regenerator-transform/0.14.5:
     resolution: {integrity: sha512-eOf6vka5IO151Jfsw2NO9WpGX58W6wWmefK3I1zEGr0lOD0u8rwPaNqQL1aRxUaxLeKO3ArNh3VYg1KbaD+FFw==}
     dependencies:
-      '@babel/runtime': 7.16.0
+      '@babel/runtime': 7.17.9
 
   /regex-cache/0.4.4:
     resolution: {integrity: sha512-nVIZwtCjkC9YgvWkpM55B5rBhBYRZhAaJbgcFYXXsHnbZ9UZI9nnVWYZpBlCqv9ho2eZryPnWrZGsOdPwVWXWQ==}
@@ -25504,7 +25505,7 @@ packages:
   /rtl-css-js/1.14.1:
     resolution: {integrity: sha512-G9N1s/6329FpJr8k9e1U/Lg0IDWThv99sb7k0IrXHjSnubxe01h52/ajsPRafJK1/2Vqrhz3VKLe3E1dx6jS9Q==}
     dependencies:
-      '@babel/runtime': 7.16.3
+      '@babel/runtime': 7.17.9
     dev: false
 
   /run-async/2.4.1:

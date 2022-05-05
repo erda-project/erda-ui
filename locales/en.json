@@ -1007,7 +1007,7 @@
     "{name} already exists in {place}": "{name} already exists in {place}",
     "{name} can not empty": "{name} can not empty",
     "{name} format": "{name} format",
-    "{name} identifier": "{name} identifier",
+    "{name} identifier": "{name, } identifier",
     "{name} items selected": "{name} items selected",
     "{name} member management": "{name} member management",
     "{num} issues": "{num} issues",
