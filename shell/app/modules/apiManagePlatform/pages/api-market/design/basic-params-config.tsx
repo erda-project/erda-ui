@@ -792,7 +792,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
                 {isEditMode && (
                   <div className="param-form-operation">
                     <Popconfirm
-                      title={`${i18n.t('common:confirm to deletion')}?`}
+                      title={`${i18n.t('common:confirm to delete')}?`}
                       onConfirm={() => deleteParamByFormKey(record, index)}
                     >
                       <CustomIcon type="shanchu" className="param-form-operation-btn cursor-pointer" />
