@@ -25,7 +25,7 @@ export default async () => {
   isCwdInRoot({ currentPath: currentDir, alert: true });
 
   let spinner = ora('[1/2] Installing pnpm globally...').start();
-  const { stdout: msg } = await execa('npm', ['i', '-g', '--force', 'pnpm']);
+  const { stdout: msg } = await execa('npm', ['i', '-g', '--force', 'pnpm@6.x']);
   logInfo(msg);
   logSuccess('Successfully Installed pnpm globally😁');
   spinner.stop();
