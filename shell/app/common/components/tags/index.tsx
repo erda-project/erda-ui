@@ -83,7 +83,7 @@ export const TagItem = (props: IItemProps) => {
         {onDelete ? (
           deleteConfirm ? (
             <Popconfirm
-              title={`${i18n.t('common:confirm to deletion')}?`}
+              title={`${i18n.t('common:confirm to delete')}?`}
               arrowPointAtCenter
               zIndex={2000} //  popconfirm default zIndex=1030, is smaller than tooltip zIndex=1070
               onConfirm={(e) => {

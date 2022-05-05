@@ -123,7 +123,7 @@ export const IssueItem = (props: IIssueProps) => {
         ? typeof deleteConfirmText === 'function'
           ? deleteConfirmText(name)
           : deleteConfirmText
-        : `${i18n.t('common:confirm to deletion')}(${name})`,
+        : `${i18n.t('common:confirm to delete')}(${name})`,
       onOk() {
         onDelete && onDelete(currentData);
       },

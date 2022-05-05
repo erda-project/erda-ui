@@ -260,7 +260,7 @@ export const IssueDrawer = (props: IProps) => {
                   {onDelete ? (
                     <WithAuth pass={canDelete}>
                       <Popconfirm
-                        title={`${i18n.t('common:confirm to deletion')}?`}
+                        title={`${i18n.t('common:confirm to delete')}?`}
                         placement="bottomRight"
                         onConfirm={onDelete}
                       >

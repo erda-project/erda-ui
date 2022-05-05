@@ -276,7 +276,7 @@ const InputItem = (props: IInputItemProps) => {
         placeholder={i18n.t('runtime:Custom domain name needs to be bound at the domain name provider.')}
         autoComplete="off"
       />
-      <Popconfirm title={i18n.t('runtime:confirm to deletion')} onConfirm={onDelete}>
+      <Popconfirm title={i18n.t('msp:confirm to delete')} onConfirm={onDelete}>
         <span className="delete-domain-icon">
           {' '}
           <ErdaIcon type="reduce-one" size="18" className="hover-active cursor-pointer mt-1.5" />{' '}
