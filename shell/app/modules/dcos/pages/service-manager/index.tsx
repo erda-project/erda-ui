@@ -84,8 +84,8 @@ const ServiceManager = () => {
     getClusterList().then((_list: ORG_CLUSTER.ICluster[]) => {
       !isEmpty(_list) &&
         update({
-          cluster: list[0].name,
-          path: [{ q: list[0].name, name: list[0].name }],
+          cluster: _list[0].name,
+          path: [{ q: _list[0].name, name: _list[0].name }],
         });
     });
     return () => {
@@ -96,7 +96,7 @@ const ServiceManager = () => {
   const fetchServiceList = React.useCallback(
     (q: { paths: DCOS_SERVICES.path[]; environment: string; ip?: string }) => {
       const depth = q.paths.length;
-      if (depth < 5) {
+      if (depth < 5 && depth > 0) {
         getServiceList(q);
       }
     },
