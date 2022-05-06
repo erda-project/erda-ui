@@ -12,7 +12,7 @@ COPY scheduler ./scheduler
 WORKDIR /usr/src/app/scheduler
 ENV NODE_ENV=production
 
-RUN npm i pnpm -g
+RUN npm i pnpm@6.x -g
 RUN pnpm i --unsafe-perm --reporter append-only
 RUN npm run build
 
