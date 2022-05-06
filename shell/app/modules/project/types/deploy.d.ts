@@ -171,4 +171,11 @@ declare namespace PROJECT_DEPLOY {
       failReasons?: string[];
     };
   }
+
+  interface RuntimeDetail {
+    id: number;
+    applicationId: number;
+    applicationName: string;
+    name: string;
+  }
 }

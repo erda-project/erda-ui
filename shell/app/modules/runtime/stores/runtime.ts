@@ -63,9 +63,10 @@ const runtime = createFlatStore({
   name: 'runtime',
   state: initState,
   subscriptions({ listenRoute, registerWSHandler }: IStoreSubs) {
-    listenRoute(({ isEntering, isLeaving, params }) => {
+    listenRoute(({ isEntering, isLeaving, isIn, params }) => {
       const { runtimeId, appId } = params;
-      if (isEntering('projectDeployRuntime') || isEntering('appDeployRuntime')) {
+      const { id } = runtime.getState((s) => s.runtimeDetail);
+      if (isIn('projectDeployRuntime') || (isEntering('appDeployRuntime') && id !== +runtimeId)) {
         runtime.getRuntimeDetail({ runtimeId });
       } else if (isLeaving('projectDeployRuntime') || isLeaving('appDeployRuntime')) {
         runtime.clearRuntimeDetail();

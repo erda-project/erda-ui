@@ -38,6 +38,9 @@ const apis = {
   getProjectRuntimeCount: {
     api: '/api/countProjectRuntime',
   },
+  getRuntimes: {
+    api: '/api/runtimes/actions/list-my-runtimes',
+  },
 };
 
 export const getDeployOrders = apiCreator<(params: PROJECT_DEPLOY.DeployOrderReq) => PROJECT_DEPLOY.DeployOrderRes>(
@@ -69,3 +72,7 @@ export const createDeploy = apiCreator<
 export const getProjectRuntimeCount = apiCreator<
   (params: { projectId: string; appId?: string }) => PROJECT_DEPLOY.ProjectRuntimeCount
 >(apis.getProjectRuntimeCount);
+
+export const getRuntimes = apiCreator<
+  (params: { projectID: number; workspace?: string }) => PROJECT_DEPLOY.RuntimeDetail[]
+>(apis.getRuntimes);

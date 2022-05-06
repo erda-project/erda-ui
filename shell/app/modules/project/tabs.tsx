@@ -17,6 +17,7 @@ import permStore from 'user/stores/permission';
 import { firstCharToUpper } from 'app/common/utils';
 import { HIDDEN_MILESTONE } from 'common/constants';
 import IterationSelector from 'project/common/components/iteration-selector';
+import RuntimeSelector from 'project/common/components/runtime-selector';
 
 export const ITERATION_DETAIL_TABS = (params: Obj) => {
   const { breadcrumbInfoMap } = params;
@@ -77,7 +78,7 @@ export const DEPLOY_RUNTIME_TABS = (params: Obj) => {
     {
       key: '_',
       readonly: true,
-      name: appName === runtimeName ? runtimeName : `${appName}/${runtimeName}`,
+      name: <RuntimeSelector runtimeName={appName === runtimeName ? runtimeName : `${appName}/${runtimeName}`} />,
       isLetterUpper: false,
     },
   ];
