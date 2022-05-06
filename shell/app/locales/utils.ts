@@ -47,6 +47,10 @@ export const ENV_MAP = {
   test: i18n.t('test environment'),
   staging: i18n.t('staging environment'),
   prod: i18n.t('prod environment'),
+  DEV: i18n.t('dev environment'),
+  TEST: i18n.t('test environment'),
+  STAGING: i18n.t('staging environment'),
+  PROD: i18n.t('prod environment'),
 };
 
 export const getTranslateAddonList = (addonList: ADDON.Instance[], key: string) =>
