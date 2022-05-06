@@ -28,6 +28,7 @@ export type Methods = 'oidc' | 'password' | 'profile' | 'totp' | 'webauthn' | 'l
 
 interface Props<T> {
   ignorRegKeys?: string[];
+  hideNode?: string[];
   flow?:
     | SelfServiceLoginFlow
     | SelfServiceRegistrationFlow
@@ -45,7 +46,7 @@ interface State<T> {
 }
 
 const Flow = <T extends Values>(props: Props<T>) => {
-  const { flow, only, onSubmit, hideGlobalMessages, ignorRegKeys } = props;
+  const { flow, only, onSubmit, hideGlobalMessages, ignorRegKeys, hideNode } = props;
   const [state, setState] = React.useState<State<T>>({
     values: {} as T,
     isLoading: false,
@@ -123,8 +124,6 @@ const Flow = <T extends Values>(props: Props<T>) => {
 
   const nodes = filterNodes();
 
-  console.log('------', nodes);
-
   return flow ? (
     <form action={flow.ui.action} method={flow.ui.method} onSubmit={handleSubmit}>
       {!hideGlobalMessages ? <Alert messages={flow.ui.messages} /> : null}
@@ -132,6 +131,9 @@ const Flow = <T extends Values>(props: Props<T>) => {
         const curKey = getNodeId(node) as keyof Values;
         const nameArr = curKey.split('.');
         const nameKey = nameArr[nameArr.length - 1];
+        if (hideNode?.includes(nameKey)) {
+          return null;
+        }
         return (
           <Node
             key={`${curKey}-${k}`}

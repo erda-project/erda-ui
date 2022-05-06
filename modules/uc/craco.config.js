@@ -16,7 +16,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const outputPath = path.resolve(__dirname, '../../public/static/uc');
 
 const isProd = process?.env?.NODE_ENV === 'production';
-const devUrlDomain = 'optimistic-goodall-4xvjx814sc.projects.oryapis.com';
+// const devUrlDomain = 'optimistic-goodall-4xvjx814sc.projects.oryapis.com';
+// const devProxyUrl = `https://${devUrlDomain}`
+const devUrlDomain = '127.0.0.1:4455';
+const devProxyUrl = 'http://127.0.0.1:4455';
 
 module.exports = {
   webpack: {
@@ -54,7 +57,7 @@ module.exports = {
         },
       },
       '/api/uc': {
-        target: `https://${devUrlDomain}`,
+        target: devProxyUrl,
         source: false,
         changeOrigin: true,
         secure: false,

@@ -18,6 +18,9 @@ import {
 } from '@ory/kratos-client';
 import { FormInput } from 'src/common';
 
+import defaultUserSvg from 'src/images/default-user.svg';
+import editSvg from 'src/images/edit.svg';
+
 interface Props {
   node: UiNode;
   disabled: boolean;
@@ -29,9 +32,9 @@ interface Props {
 }
 
 export const Node = ({ node, value, setValue, customType, disabled, dispatchSubmit, errorTip }: Props) => {
-  if (customType === 'image') {
+  if (customType === 'avatar') {
     return (
-      <NodeImage
+      <NodeAvatar
         dispatchSubmit={dispatchSubmit}
         value={value}
         setValue={setValue}
@@ -160,8 +163,10 @@ export const NodeInput = (props: NodeInputProps) => {
   return <FormInput {...inputProps} />;
 };
 
-const NodeImage = (props: NodeInputProps) => {
+const NodeAvatar = (props: NodeInputProps) => {
   const { node, setValue, value } = props;
+
+  const editRef = React.useRef<HTMLInputElement>(null);
 
   const label = node.meta.label?.text;
   // const name = attributes.name;
@@ -182,13 +187,29 @@ const NodeImage = (props: NodeInputProps) => {
     }
   };
 
+  const onClick = () => {
+    editRef?.current?.click();
+  };
+
   return (
     <div className="mt-8 relative">
       <div className="text-sm font-bold text-gray-700 tracking-wide flex justify-between items-center relative">
         {label}
       </div>
-      {value ? <img src={value} className="w-10 h-10" alt="avatar" /> : null}
-      <input id="choosenImg" className="cursor-pointer" type="file" accept="image/*" onChange={onChange} />
+      <div className="relative group w-16 h-16 mt-2 bg-gray-100 rounded-full p-3 cursor-pointer" onClick={onClick}>
+        <img src={value || defaultUserSvg} className="w-full h-full" alt="avatar" />
+        <div className="absolute opacity-0 group-hover:opacity-100 bg-opacity-80 w-full h-full rounded-full left-0 top-0 bg-gray-100">
+          <img src={editSvg} alt="edit" className="w-5 h-5 left-6 bottom-2 absolute" />
+        </div>
+      </div>
+      <input
+        ref={editRef}
+        id="choosenImg"
+        className="cursor-pointer hidden"
+        type="file"
+        accept="image/*"
+        onChange={onChange}
+      ></input>
     </div>
   );
 };

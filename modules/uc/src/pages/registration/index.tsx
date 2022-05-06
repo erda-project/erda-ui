@@ -85,7 +85,7 @@ const Registration = () => {
         {i18n.t('Sign up')}
       </h2>
       <div className="mt-12">
-        <Flow flow={flow} onSubmit={onSubmit} />
+        <Flow flow={flow} onSubmit={onSubmit} hideNode={['avatar']} />
 
         <div className="my-12 text-sm font-display font-semibold text-gray-700 text-center">
           {i18n.t('Already have an account?')}{' '}

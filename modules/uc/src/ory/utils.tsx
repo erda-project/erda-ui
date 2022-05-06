@@ -84,5 +84,5 @@ export const getValuesValid = (values: Obj, nodes: UiNode[], ignorRegKeys: strin
 };
 
 export const customTypeMap: Obj<string> = {
-  avatar: 'image',
+  avatar: 'avatar',
 };

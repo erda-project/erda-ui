@@ -37,7 +37,7 @@ const init = () => {
         const query = parse(window.location.search);
         window.location.href = query?.redirectUrl || '/';
       }
-      // startApp(JSON.stringify(data, null, 2));
+      startApp(JSON.stringify(data, null, 2));
     })
     .catch((e) => {
       if (e.response?.status === 401) {
