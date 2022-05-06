@@ -42,7 +42,7 @@ const RuntimeSelector = ({ runtimeName }: { runtimeName: string }) => {
 
   return (
     <LoadMoreSelector
-      className="iteration-selector"
+      className="runtimes-selector"
       value={runtimeId}
       getData={getData}
       dropdownMatchSelectWidth={false}
