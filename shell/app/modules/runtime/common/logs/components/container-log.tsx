@@ -247,6 +247,7 @@ const RuntimeContainerLog = (props: Props) => {
     <>
       <WrappedLogRoller
         query={{ ...baseQuery }}
+        isStopped={isStopped}
         filter={query}
         logKey={`${logName}-${reId}`}
         pause={false}
@@ -269,8 +270,8 @@ const RuntimeContainerLog = (props: Props) => {
   return logRoller;
 };
 
-const WrappedLogRoller = (props: Merge<LogProps, { instance: Obj }>) => {
-  const { instance, ...propsRest } = props;
+const WrappedLogRoller = (props: Merge<LogProps, { instance: Obj; isStopped: boolean }>) => {
+  const { instance, isStopped, ...propsRest } = props;
   const [logsMap, logFallback] = commonStore.useStore((s) => [s.logsMap, s.logFallback]);
   const { fetchLog } = commonStore.effects;
   const { clearLog } = commonStore.reducers;
@@ -290,7 +291,7 @@ const WrappedLogRoller = (props: Merge<LogProps, { instance: Obj }>) => {
       {...propsRest}
       {...rest}
       disableDownload={logFallback}
-      query={{ isFirstQuery, live: true, ...instance, ...props?.query }}
+      query={{ isFirstQuery, live: !isStopped, ...instance, ...props?.query }}
       content={content || []}
       fetchPeriod={fetchPeriod || 3000}
       fetchLog={reFetchLog}
