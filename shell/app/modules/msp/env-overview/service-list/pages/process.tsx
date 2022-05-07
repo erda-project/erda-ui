@@ -105,7 +105,7 @@ const ServiceListProcess = () => {
         options: instances.data.map((t) => ({
           value: t.instanceId,
           label: t.hostIp || t.instanceId,
-          icon: '',
+          icon: <span className={`mr-1 status-point ${t.status ? 'success' : 'danger'}`} />,
         })),
         customProps: {
           mode: 'single',
