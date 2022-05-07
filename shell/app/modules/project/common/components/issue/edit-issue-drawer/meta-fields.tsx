@@ -503,7 +503,7 @@ const IssueMetaFields = React.forwardRef(
               value={value as number}
               onChange={onSave}
               disabled={!editAuth}
-              placeholder={i18n.t('please choose the {name}', { name: i18n.t('dop:Iteration-owned') })}
+              placeholder={i18n.t('please choose the {name}', { name: i18n.t('dop:Iteration-owned').toLowerCase() })}
             />
           ),
           extraContent: (

@@ -72,7 +72,7 @@ const AddRelease = ({
     },
     app: {
       key: 'app',
-      text: i18n.t('dop:App artifact'),
+      text: allWordsFirstLetterUpper(i18n.t('dop:App artifacts')),
       Comp: (
         <AppRelease
           {...paging}
@@ -137,7 +137,7 @@ const AddRelease = ({
         {detail ? (
           <>
             <ErdaIcon type={'zhongshi'} className="mr-1" />
-            <span>{i18n.t('dop:switch artifact')}</span>
+            <span>{allWordsFirstLetterUpper(i18n.t('dop:switch artifact'))}</span>
           </>
         ) : (
           <>

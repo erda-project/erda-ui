@@ -14,7 +14,7 @@
 import { debounce, filter, forEach, isEmpty, isPlainObject, map } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
-import { isValidJsonStr } from 'common/utils';
+import { firstCharToUpper, isValidJsonStr } from 'common/utils';
 import { FormInstance, Input, Radio, RadioChangeEvent, Select, Table } from 'antd';
 import { FileEditor, FormModal, InputSelect, KVPair } from 'common';
 import { useUpdate } from 'common/use-hooks';
@@ -295,7 +295,7 @@ export const TestEnvDetail = (props: IProps) => {
     return [
       ...fieldMap[_type],
       {
-        label: i18n.t('dop:Environmental name'),
+        label: i18n.t('dop:Environmental domain'),
         name: 'domain',
         getComp: () => <ProtocolInput disabled={disabled} />,
         required: false,
@@ -341,9 +341,11 @@ export const TestEnvDetail = (props: IProps) => {
               }}
             >
               <Radio.Button disabled={!headerJsonValid} value="form">
-                {disabled ? i18n.t('common:form') : i18n.t('common:Form Edit')}
+                {disabled ? firstCharToUpper(i18n.t('common:form')) : i18n.t('common:Form Edit')}
               </Radio.Button>
-              <Radio.Button value="code">{disabled ? i18n.t('common:text') : i18n.t('common:Text Edit')}</Radio.Button>
+              <Radio.Button value="code">
+                {disabled ? firstCharToUpper(i18n.t('common:text')) : i18n.t('common:Text Edit')}
+              </Radio.Button>
             </Radio.Group>
           </div>
         ),
@@ -403,9 +405,11 @@ export const TestEnvDetail = (props: IProps) => {
               }}
             >
               <Radio.Button disabled={!globalJsonValid} value="form">
-                {disabled ? i18n.t('common:form') : i18n.t('common:Form Edit')}
+                {disabled ? firstCharToUpper(i18n.t('common:form')) : i18n.t('common:Form Edit')}
               </Radio.Button>
-              <Radio.Button value="code">{disabled ? i18n.t('common:text') : i18n.t('common:Text Edit')}</Radio.Button>
+              <Radio.Button value="code">
+                {disabled ? firstCharToUpper(i18n.t('common:text')) : i18n.t('common:Text Edit')}
+              </Radio.Button>
             </Radio.Group>
           </div>
         ),

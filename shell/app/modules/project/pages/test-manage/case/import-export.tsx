@@ -233,20 +233,20 @@ const Import = (props: ImportProps) => {
           </Upload>
         </div>
         <div className="flex flex-col mt-2">
-          1.{i18n.t('dop:Currently XMind and Excel files are supported')}
+          1.{i18n.t('dop:Currently XMind and Excel files are supported')}.
           <p className="my-3">
             &nbsp;&nbsp;{i18n.t('dop:To import with Excel, please')}
             <a href={`/static/usecase_model_${locale}.xlsx`} className="text-purple-deep">
               {i18n.t('dop:download the template')}
             </a>
-            ；
+            .
           </p>
           <p className="mb-3">
             &nbsp;&nbsp;{i18n.t('dop:To import with XMind, please')}
             <a href={`/static/usecase_model_${locale}.xmind`} className="text-purple-deep">
               &nbsp;{i18n.t('dop:download the template')}
             </a>
-            。
+            .
           </p>
           <div className="">2.{i18n.t('dop:The file will be imported based on the currently selected test set.')}</div>
         </div>
