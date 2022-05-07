@@ -511,7 +511,7 @@ function getProjectRouter(): RouteConfigItem[] {
                   backToUp: 'projectDeployEnv',
                   breadcrumbName: ({ params }) => {
                     const { workspace } = params;
-                    return ENV_MAP[workspace];
+                    return ENV_MAP[workspace?.toLocaleLowerCase()];
                   },
                   mark: 'projectDeployRuntime',
                   getComp: (cb) => cb(import('app/modules/runtime/pages/overview')),
