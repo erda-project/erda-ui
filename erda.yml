@@ -38,7 +38,7 @@ services:
     health_check:
       http:
         port: 80
-        path: "/"
+        path: "/_api/health"
         duration: 120
   enterprise-ui:
     ports:
