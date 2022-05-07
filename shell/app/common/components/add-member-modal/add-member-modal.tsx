@@ -104,6 +104,9 @@ export const AddMemberModal = ({
       label: i18n.t('Member'),
       name: 'userIds',
       required: true,
+      itemProps: {
+        placeholder: i18n.t('Please enter the member name to search'),
+      },
       getComp: () => {
         return <MemberSelector.Add mode="multiple" scopeType={scope.type} />;
       },

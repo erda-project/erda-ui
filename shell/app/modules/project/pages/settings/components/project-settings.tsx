@@ -139,17 +139,17 @@ const ProjectSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('Artifacts'),
+      groupTitle: i18n.t('Artifact'),
       groupKey: 'dop:Collaboration',
       tabGroup: [
         {
-          tabTitle: i18n.t('dop:Artifacts Labels'),
+          tabTitle: i18n.t('dop:Artifact Label'),
           tabKey: 'releaseLabel',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('dop:Manage all artifacts labels'),
+                  title: i18n.t('dop:Manage all artifact labels'),
                   desc: i18n.t(
                     'dop:Labels can be used in release management, to quickly locate and filter related content.',
                   ),

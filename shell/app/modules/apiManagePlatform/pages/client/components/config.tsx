@@ -17,7 +17,7 @@ import i18n from 'i18n';
 export const contractStatueMap: { [k in API_CLIENT.ContractStatue]: { value: k; name: string } } = {
   proved: {
     value: 'proved',
-    name: firstCharToUpper(i18n.t('passed')),
+    name: firstCharToUpper(i18n.t('approved')),
   },
   proving: {
     value: 'proving',

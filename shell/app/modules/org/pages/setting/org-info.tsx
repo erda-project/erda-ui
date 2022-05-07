@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { ImageUpload, ConfirmDelete } from 'common';
-import { insertWhen, goTo } from 'common/utils';
+import { insertWhen, goTo, firstCharToUpper } from 'common/utils';
 import { Button, FormInstance } from 'antd';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import userStore from 'app/user/stores';
@@ -33,7 +33,7 @@ export const OrgInfo = () => {
       itemProps: { type: 'hidden' },
     },
     {
-      label: i18n.t('{name} identifier', { name: i18n.t('organization') }),
+      label: firstCharToUpper(i18n.t('{name} identifier', { name: i18n.t('organization') })),
       name: 'name',
       itemProps: {
         maxLength: 50,
@@ -186,15 +186,17 @@ export const OrgInfo = () => {
       fieldsList={fieldsList}
       extraSections={[
         {
-          title: i18n.t('exit {name}', { name: i18n.t('org') }),
+          title: firstCharToUpper(i18n.t('exit {name}', { name: i18n.t('organization') })),
           children: (
             <ConfirmDelete
-              title={i18n.t('Confirm to exit the current {name}?', { name: i18n.t('org') })}
-              confirmTip={i18n.t('common:exit-confirm-tip {name}', { name: i18n.t('org') })}
-              secondTitle={i18n.t('common:exit-sub-tip {name}', { name: i18n.t('org') })}
+              title={i18n.t('Confirm to exit the current {name}?', { name: i18n.t('organization') })}
+              confirmTip={i18n.t('common:exit-confirm-tip {name}', { name: i18n.t('organization') })}
+              secondTitle={i18n.t('common:exit-sub-tip {name}', { name: i18n.t('organization') })}
               onConfirm={exitOrg}
             >
-              <Button danger>{i18n.t('common:exit current {name}', { name: i18n.t('org') })}</Button>
+              <Button danger>
+                {firstCharToUpper(i18n.t('exit {name}-current', { name: i18n.t('organization') }))}
+              </Button>
             </ConfirmDelete>
           ),
         },

@@ -142,7 +142,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
     {
       title: i18n.t('Status'),
       dataIndex: ['contract', 'status'],
-      width: 80,
+      width: 120,
       render: (text, { contract }) => {
         if (contract.requestSLAID && text === 'proved') {
           return i18n.t('apply to change SLA');

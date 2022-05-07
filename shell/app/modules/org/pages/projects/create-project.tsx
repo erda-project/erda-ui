@@ -293,7 +293,7 @@ const CreationForm = ({ createType }: { createType: string }) => {
   const fieldsList = [
     ...insertWhen(createType === 'createProject', [
       {
-        label: i18n.t('select template'),
+        label: i18n.t('select the template'),
         name: 'template',
         initialValue: templateArr[0].val,
         getComp: ({ form }: { form: FormInstance }) => (

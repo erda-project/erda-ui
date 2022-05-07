@@ -24,7 +24,7 @@ import { authenticationMap, authorizationMap } from 'apiManagePlatform/pages/acc
 import AuthorizationUser from 'apiManagePlatform/pages/access-manage/detail/authorization-user';
 import Sla from 'apiManagePlatform/pages/access-manage/detail/sla';
 import SlaEditor from 'apiManagePlatform/pages/access-manage/detail/sla-editor';
-import { goTo } from 'common/utils';
+import { firstCharToUpper, goTo } from 'common/utils';
 import { envMap } from 'msp/config';
 import { useLoading } from 'core/stores/loading';
 import { WithAuth } from 'user/common';
@@ -163,7 +163,7 @@ const AccessDetail = () => {
         </TopButtonGroup>
         <DetailsPanel
           baseInfoConf={{
-            title: i18n.t('basic information'),
+            title: firstCharToUpper(i18n.t('basic information')),
             panelProps: {
               fields: fields.base,
             },

@@ -44,7 +44,7 @@ export const contractStatueMap: {
   // 已通过
   proved: {
     value: 'proved',
-    name: firstCharToUpper(i18n.t('passed')),
+    name: firstCharToUpper(i18n.t('approved')),
     actions: [
       {
         name: i18n.t('Revoke'),

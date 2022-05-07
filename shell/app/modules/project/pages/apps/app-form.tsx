@@ -14,7 +14,7 @@
 import { Button, Form, Input, Spin } from 'antd';
 import React from 'react';
 import { ImageUpload, RenderForm, ErdaAlert } from 'common';
-import { allWordsFirstLetterUpper, goTo, insertWhen } from 'common/utils';
+import { allWordsFirstLetterUpper, firstCharToUpper, goTo, insertWhen } from 'common/utils';
 import { filter, map } from 'lodash';
 import { FormInstance } from 'app/interface/common';
 import { appMode, modeOptions, repositoriesTypes, RepositoryMode } from 'application/common/config';
@@ -131,7 +131,7 @@ const CreationForm = () => {
   const fieldsList = [
     {
       label: '',
-      getComp: () => <div>{allWordsFirstLetterUpper(i18n.t('default:basic information'))}</div>,
+      getComp: () => <div>{firstCharToUpper(i18n.t('default:basic information'))}</div>,
       extraProps: fieldExtraProps,
     },
     {

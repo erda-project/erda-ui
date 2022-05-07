@@ -178,7 +178,7 @@ const IssueFieldManage = () => {
       type: Input,
       name: 'propertyName',
       customProps: {
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:Field name') }),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:Field name').toLowerCase() }),
       },
     },
   ];
