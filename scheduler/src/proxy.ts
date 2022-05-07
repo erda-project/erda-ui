@@ -41,11 +41,8 @@ export const createProxyService = (app: INestApplication) => {
     const reqMsg = `${req.url} to ${target}`;
     try {
       if (!res.writableEnded) {
-        res.writeHead(500, {
-          'Content-Type': 'text/plain',
-        });
         const errMsg = `Error occurred while proxying request ${reqMsg}: ${err.message}`;
-        res.end(errMsg);
+        res.end();
         logger.warn(errMsg, err);
       } else {
         logger.warn(`Response is ended before error handler while proxying request ${reqMsg}`);
