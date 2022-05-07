@@ -209,7 +209,7 @@ function getAppRouter(): RouteConfigItem {
                 mark: 'appDeployRuntime',
                 breadcrumbName: ({ params }) => {
                   const { workspace } = params;
-                  return ENV_MAP[workspace];
+                  return ENV_MAP[workspace?.toLocaleLowerCase()];
                 },
                 getComp: (cb) => cb(import('app/modules/runtime/pages/overview')),
                 layout: {
