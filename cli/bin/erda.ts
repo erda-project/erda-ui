@@ -20,9 +20,10 @@ import buildEnterprise from '../lib/build-enterprise';
 import buildOnline from '../lib/build-online';
 import buildEnterpriseOnline from '../lib/build-enterprise-online';
 import addLicense from '../lib/add-license';
+import PkgVersionSetter from '../lib/pkg-version-setter';
+import ClearNodeModules from '../lib/clear-installed-dependencies';
 import checkLicense from '../lib/check-license';
 import init from '../lib/init';
-import initOnline from '../lib/init-online';
 import i18n from '../lib/i18n';
 import iconLocalize from '../lib/local-icon';
 import generateService from '../lib/service-generator';
@@ -40,15 +41,9 @@ program
   .description('install dependency & initialize .env config')
   .option('-p, --port <port>', 'set scheduler port')
   .option('-o, --override', 'ignore current .env file and override')
-  .option('--online', 'is online execution')
   .option('--skipInstall', 'whether to skip the installation step')
   .action(async (options) => {
-    const { online, ...restOptions } = options;
-    if (online) {
-      initOnline();
-    } else {
-      init(restOptions);
-    }
+    init(options);
   });
 
 program
@@ -133,5 +128,13 @@ program
   .action(async () => {
     iconLocalize();
   });
+
+program.command('set-pkg-version').action(() => {
+  PkgVersionSetter();
+});
+
+program.command('clear-dependencies').action(() => {
+  ClearNodeModules();
+});
 
 program.parse(process.argv);

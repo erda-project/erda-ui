@@ -1,0 +1,229 @@
+@import (reference) '~antd/es/style/themes/index.less';
+@import '../../themes/default.less';
+@import './batch-operation.less';
+@import './table-config-header.less';
+@import './table-footer.less';
+
+@table-prefix-cls: ~'@{erda-prefix}-table';
+
+.@{table-prefix-cls} {
+  display: flex;
+  flex-direction: column;
+  background: @white;
+
+  &-content {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  &-hide-header {
+    margin: 0;
+  }
+
+  .@{ant-prefix}-table-content {
+    margin: 0 1rem;
+  }
+
+  .@{ant-prefix}-table {
+    border-radius: 0 !important;
+    color: @default-8;
+    background-color: @white;
+    border-radius: 6px;
+
+    &-tbody td {
+      line-height: 30px !important;
+    }
+
+    &-thead > tr > th,
+    &-tbody > tr > td,
+    & tfoot > tr > th,
+    & tfoot > tr > td {
+      line-height: 32px;
+    }
+
+    &-tbody tr:not(&-measure-row) {
+      td {
+        padding: 4px 12px;
+      }
+    }
+
+    &-thead tr > th {
+      background-color: @white !important;
+      color: @color-table-color;
+      font-weight: 400 !important;
+    }
+
+    &-thead > tr > th {
+      font-weight: 500;
+      white-space: nowrap;
+
+      &::before {
+        background-color: transparent !important;
+      }
+    }
+
+    th {
+      padding: 4px 12px !important;
+    }
+
+    &-tbody > tr&-row:hover > td {
+      background: @item-selected-bg;
+    }
+
+    &-tbody > tr&-row-selected > td {
+      background: @color-table-bg-hover;
+    }
+
+    &-expanded-row-fixed {
+      width: auto !important;
+    }
+
+    &-progress-circle-path {
+      transition: all 0.8s !important;
+    }
+
+    > &-scroll {
+      border: 1px solid @default-08;
+      border-radius: 6px;
+
+      &-body {
+        border-radius: 0 0 6px 6px;
+      }
+    }
+
+    // table下的button默认使用small大小的
+    .@{ant-prefix}-btn {
+      height: 28px;
+      padding: 0 11px;
+    }
+
+    &-column-sorters {
+      justify-content: flex-start;
+
+      &-column-title {
+        flex: 0 1 auto;
+      }
+
+      &-column-sorter {
+        margin-left: 0.5rem;
+      }
+    }
+
+    &-cell-fix-right,
+    &-cell-fix-left {
+      overflow: unset;
+      white-space: unset;
+      text-overflow: unset;
+    }
+  }
+
+  // sorter
+  &-sort-cell {
+    padding-right: 32px;
+  }
+
+  &-menu-item {
+    color: @color-table-color;
+    cursor: pointer;
+    margin-right: 4px;
+  }
+
+  // action more
+  &-action-more {
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 2px;
+  }
+
+  &-menu-item-disabled {
+    color: @darkgray;
+    cursor: not-allowed;
+  }
+
+  &-menu-icon {
+    position: relative;
+    margin-right: 4px;
+    top: 2px;
+  }
+
+  &-sorter-overlay {
+    width: 160px;
+    min-width: 160px !important;
+
+    .@{ant-prefix}-table-dropdown-menu-title-content > span {
+      color: @color-table-color;
+    }
+  }
+
+  &-justify-center {
+    justify-content: center;
+  }
+  &-justify-start {
+    justify-content: flex-start;
+  }
+  &-justify-end {
+    justify-content: flex-end;
+  }
+
+  &-sorter {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    &-icon {
+      position: relative;
+      font-size: 14px;
+      color: @black-4;
+      padding-left: 4px;
+    }
+
+    &-icon-content {
+      position: relative;
+      top: 2px;
+    }
+  }
+
+  .link {
+    color: unset;
+    cursor: pointer;
+    margin-right: 4px;
+  }
+
+  // from ant-extension
+  .@{ant-prefix}-table-small > .@{ant-prefix}-table-content > .@{ant-prefix}-table-header > table,
+  .@{ant-prefix}-table-small > .@{ant-prefix}-table-content > .@{ant-prefix}-table-body > table,
+  .@{ant-prefix}-table-small
+    > .@{ant-prefix}-table-content
+    > .@{ant-prefix}-table-scroll
+    > .@{ant-prefix}-table-header
+    > table,
+  .@{ant-prefix}-table-small
+    > .@{ant-prefix}-table-content
+    > .@{ant-prefix}-table-scroll
+    > .@{ant-prefix}-table-body
+    > table,
+  .@{ant-prefix}-table-small
+    > .@{ant-prefix}-table-content
+    > .@{ant-prefix}-table-fixed-left
+    > .@{ant-prefix}-table-header
+    > table,
+  .@{ant-prefix}-table-small
+    > .@{ant-prefix}-table-content
+    > .@{ant-prefix}-table-fixed-right
+    > .@{ant-prefix}-table-header
+    > table,
+  .@{ant-prefix}-table-small
+    > .@{ant-prefix}-table-content
+    > .@{ant-prefix}-table-fixed-left
+    > .@{ant-prefix}-table-body-outer
+    > .@{ant-prefix}-table-body-inner
+    > table,
+  .@{ant-prefix}-table-small
+    > .@{ant-prefix}-table-content
+    > .@{ant-prefix}-table-fixed-right
+    > .@{ant-prefix}-table-body-outer
+    > .@{ant-prefix}-table-body-inner
+    > table {
+    padding: 0;
+  }
+}

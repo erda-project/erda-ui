@@ -1,0 +1,55 @@
+@import (reference) '~antd/es/style/themes/index.less';
+@import '../../themes/default.less';
+@import '../select-table/style.less';
+
+@form-item-prefix-cls: ~'@{ant-prefix}-formily-item';
+
+.@{erda-prefix}-form {
+  .@{form-item-prefix-cls}-label {
+    color: rgba(48, 38, 71, 0.6);
+    font-size: 12px;
+  }
+
+  &-step-dot {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    z-index: 20;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    font-size: 16px;
+    transform: translate(-14px, -20px);
+
+    &.wait {
+      background: @white;
+      border-color: @default;
+      color: @default;
+      border-width: 1.5px;
+      border-style: solid;
+    }
+
+    &.process {
+      background: @default;
+      color: @white;
+    }
+
+    &.finish {
+      background: @green-1;
+      color: @green;
+    }
+  }
+
+  .@{ant-prefix}-steps-item-title {
+    font-size: 14px;
+  }
+
+  .@{ant-prefix}-steps-item-tail {
+    &:after {
+      background: @default-08 !important;
+      transform: translate(8px, -8px);
+      height: 2px !important;
+      width: calc(100% - 42px) !important;
+    }
+  }
+}

@@ -15,7 +15,7 @@ import inquirer from 'inquirer';
 import execa, { ExecaChildProcess } from 'execa';
 import notifier from 'node-notifier';
 import { logInfo, logSuccess, logError } from './util/log';
-import { getModuleList, checkIsRoot, getShellDir, defaultRegistry, clearPublic, killPidTree } from './util/env';
+import { getShellDir, defaultRegistry, clearPublic, killPidTree, isCwdInRoot, ALL_MODULES } from './util/env';
 import chalk from 'chalk';
 import generateVersion from './util/gen-version';
 import localIcon from './local-icon';
@@ -37,8 +37,7 @@ const dirMap = new Map(Object.entries(dirCollection));
 
 const alertMessage = (outputModules: string, branch: string, externalBranch: string, release?: boolean) => `
 /**************************${chalk.red('Warning Before Build')}************************************/
-Here are the MODULES【${chalk.bgBlue(outputModules)}】which detected in .env file.
-If any module missed or should exclude, please manually adjust MODULES config in .env and run again.
+Here are the MODULES【${chalk.bgBlue(outputModules)}】to build.
 
 If you ${chalk.yellow("don't")} want to make a full bundle(just need ${chalk.yellow('partial built')}),
 you can run erda-ui ${chalk.green('fetch-image')} command to load previous image content
@@ -60,7 +59,7 @@ Press Enter to continue.
 `;
 
 const localBuildAlert = async (requireRelease?: boolean) => {
-  const moduleList = getModuleList();
+  const moduleList = ALL_MODULES;
   const outputModules = moduleList.join(',');
 
   const branch = await getBranch(currentDir);
@@ -83,7 +82,7 @@ const buildModules = async (enableSourceMap: boolean, rebuildList: string[]) => 
   const pList: ExecaChildProcess[] = [];
   rebuildList.forEach((moduleName) => {
     const moduleDir = dirMap.get(moduleName);
-    const buildPromise = execa('npm', ['run', 'build'], {
+    const buildPromise = execa('pnpm', ['run', 'build'], {
       cwd: moduleDir,
       env: {
         ...process.env,
@@ -139,13 +138,13 @@ const copyExternalCode = async (moduleList: string[]) => {
       },
     ]);
     if (answer.shouldCopy) {
-      await execa('npm', ['run', 'extra-logic'], { cwd: getShellDir(), stdio: 'inherit' });
+      await execa('pnpm', ['run', 'extra-logic'], { cwd: getShellDir(), stdio: 'inherit' });
     }
   }
 };
 
 const getBuildList = async () => {
-  let rebuildList = getModuleList();
+  let rebuildList = ALL_MODULES;
   const answer = await inquirer.prompt([
     {
       type: 'checkbox',
@@ -179,7 +178,7 @@ export default async (options: {
     const { enableSourceMap = false, release, registry, skipBuild } = options;
 
     // check if cwd erda ui root
-    checkIsRoot();
+    isCwdInRoot({ alert: true });
     // prompt alert before build
     await localBuildAlert(!!release);
 

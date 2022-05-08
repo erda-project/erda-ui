@@ -1,0 +1,119 @@
+{
+  "name": "@erda-ui/components",
+  "version": "0.1.4",
+  "description": "erda ui component library",
+  "scripts": {
+    "start": "dumi dev",
+    "build:dist": "webpack",
+    "build": "gulp compile",
+    "build:watch": "gulp --gulpfile gulpfile-build.js --watch",
+    "build:noDeclare": "gulp --gulpfile gulpfile-build.js",
+    "docs:build": "dumi build",
+    "prettier": "prettier -c --write .",
+    "precommit": "lint-staged",
+    "lint": "eslint --ext .ts,.tsx,.js,.jsx src",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "publish:patch": "pnpm run build && pnpm version patch && pnpm publish --registry https://registry.npmjs.org"
+  },
+  "exports": {
+    ".": {
+      "development": {
+        "module": "./src/index.tsx"
+      },
+      "require": "lib/index.js",
+      "module": "es/index.js"
+    },
+    "./es/*": {
+      "development": {
+        "module": "./src/*"
+      },
+      "require": "lib/*",
+      "module": "es/*"
+    },
+    "./lib/*": "./lib/*",
+    "./package.json": "./package.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erda-project/erda-ui.git"
+  },
+  "homepage": "https://mcdaddy.github.io/erda-ui-components/",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "unpkg": "dist/components.js",
+  "umd:main": "dist/components.js",
+  "typings": "lib/index.d.ts",
+  "sideEffects": [
+    "dist/*",
+    "es/*.js",
+    "lib/*.js",
+    "src/*.ts",
+    "*.less",
+    "**/*/style/index.js"
+  ],
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "src"
+  ],
+  "keywords": [
+    "antd",
+    "react",
+    "framework",
+    "frontend",
+    "react",
+    "react-component",
+    "ui"
+  ],
+  "author": "Erda-FE",
+  "license": "MIT",
+  "browserslist": [
+    "> 0.5%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead",
+    "IE 11",
+    "not IE 10"
+  ],
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    }
+  },
+  "dependencies": {
+    "@formily/antd": "^2.0.20",
+    "@formily/core": "^2.0.20",
+    "@formily/react": "^2.0.20",
+    "@formily/reactive": "^2.0.20",
+    "classnames": "^2.3.1"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-transform-typescript": "^7.16.1",
+    "@typescript-eslint/eslint-plugin": "^5.5.0",
+    "@typescript-eslint/parser": "^5.5.0",
+    "antd": "^4.20.1",
+    "dumi": "^1.1.40",
+    "dumi-theme-default": "^1.1.21",
+    "eslint-plugin-markdown": "^2.2.1",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-changed": "^4.0.3",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "identity-obj-proxy": "^3.0.0",
+    "less-plugin-npm-import": "^2.1.0",
+    "merge2": "^1.4.1",
+    "pretty-quick": "^3.1.2",
+    "react": "16.x",
+    "react-dom": "16.x",
+    "stylelint-config-ali": "^0.4.2"
+  },
+  "peerDependencies": {
+    "antd": ">=4.x",
+    "lodash": ">=4.x",
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  }
+}

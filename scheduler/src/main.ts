@@ -24,7 +24,7 @@ import { guardMiddleware } from './middlewares/guard.middleware';
 const isProd = process.env.NODE_ENV === 'production';
 
 const { staticDir, envConfig } = getEnv();
-const { MODULES, SCHEDULER_URL, SCHEDULER_PORT } = envConfig;
+const { SCHEDULER_URL, SCHEDULER_PORT } = envConfig;
 
 if (!isProd) {
   const modules: { [k: string]: boolean } = {};
@@ -32,7 +32,7 @@ if (!isProd) {
     modules[m] = true;
   });
 
-  MODULES.split(',').forEach((m) => {
+  ['core', 'shell', 'market', 'uc'].forEach((m) => {
     if (!modules[m]) {
       logger.warn(`module:【${m}】have not build to public`);
     }
