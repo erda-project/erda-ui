@@ -181,7 +181,7 @@ const LandPage = () => {
         </div>
         {erdaEnv.ENABLE_APPLY_ORG && (
           <a
-            className="inline-block mt-6 px-3 leading-8 text-white bg-white-2 rounded-sm cursor-pointer hover:bg-white-4"
+            className="inline-block mt-6 mr-2 px-3 leading-8 text-white bg-white-2 rounded-sm cursor-pointer hover:bg-white-4"
             href="https://www.erda.cloud/contact"
             target="_blank"
             rel="noreferrer"
