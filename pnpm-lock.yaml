@@ -11,7 +11,7 @@ importers:
       '@babel/preset-typescript': ^7.15.0
       '@babel/runtime': ^7.17.9
       '@commitlint/cli': ^12.1.4
-      '@erda-ui/cli': ^2.0.0
+      '@erda-ui/cli': ^2.0.2
       '@module-federation/automatic-vendor-federation': ^1.2.1
       '@testing-library/jest-dom': ^5.16.4
       '@testing-library/react': 12.x
@@ -262,6 +262,7 @@ importers:
       react: 16.x
       react-dom: 16.x
       stylelint-config-ali: ^0.4.2
+      through2: ^4.0.2
     dependencies:
       '@formily/antd': 2.0.20_b87b9d375427de816672c15248616d57
       '@formily/core': 2.0.20
@@ -288,6 +289,7 @@ importers:
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
       stylelint-config-ali: 0.4.2
+      through2: 4.0.2
 
   modules/market:
     specifiers:
@@ -358,29 +360,37 @@ importers:
       '@nestjs/schematics': ^8.0.0
       '@nestjs/serve-static': ^2.2.2
       '@types/express': ^4.17.13
+      axios: ^0.27.1
       compression: ^1.7.4
+      dotenv: ^16.0.0
       express: ^4.17.1
       helmet: ^4.6.0
       http-proxy-middleware: ^2.0.1
       query-string: ^7.0.1
       reflect-metadata: ^0.1.13
+      rxjs: ^7.5.5
+      typescript: ^4.6.3
       winston: ^3.3.3
     dependencies:
       '@nestjs/cli': 8.0.2_webpack-cli@4.9.2
-      '@nestjs/common': 8.0.1_reflect-metadata@0.1.13
-      '@nestjs/core': 8.0.1_26c134402cf45213da8cdb502bbfe43f
+      '@nestjs/common': 8.0.1_e7ea248743279784063e3708d703abc5
+      '@nestjs/core': 8.0.1_045a9944efcdb99e50a74a971379dea2
       '@nestjs/platform-express': 8.0.5_1d3982a3146285faca229314653bb7a9
       '@nestjs/serve-static': 2.2.2_1d3982a3146285faca229314653bb7a9
+      axios: 0.27.1
       compression: 1.7.4
+      dotenv: 16.0.0
       express: 4.17.1
       helmet: 4.6.0
       http-proxy-middleware: 2.0.1
       query-string: 7.0.1
       reflect-metadata: 0.1.13
+      rxjs: 7.5.5
       winston: 3.3.3
     devDependencies:
       '@nestjs/schematics': 8.0.0_typescript@4.6.3
       '@types/express': 4.17.13
+      typescript: 4.6.3
 
   shell:
     specifiers:
@@ -5650,7 +5660,7 @@ packages:
       - webpack-cli
     dev: false
 
-  /@nestjs/common/8.0.1_reflect-metadata@0.1.13:
+  /@nestjs/common/8.0.1_e7ea248743279784063e3708d703abc5:
     resolution: {integrity: sha512-7v6FkqDkOEHOzV7K69ftJ/F469VMLC94+1OD0BpcNKysvizbWOdaikrCFxocqyuREuejLCfILYMfcU+keEVIow==}
     peerDependencies:
       cache-manager: '*'
@@ -5669,13 +5679,14 @@ packages:
       axios: 0.21.1
       iterare: 1.2.1
       reflect-metadata: 0.1.13
+      rxjs: 7.5.5
       tslib: 2.3.0
       uuid: 8.3.2
     transitivePeerDependencies:
       - debug
     dev: false
 
-  /@nestjs/core/8.0.1_26c134402cf45213da8cdb502bbfe43f:
+  /@nestjs/core/8.0.1_045a9944efcdb99e50a74a971379dea2:
     resolution: {integrity: sha512-5ikIdzHp8axcodDsMxBI8Bx+Fx/1HP9opDT8eltHs5FWG1gbhUZnjjI82A7mcrrlt9PkPyoInuX6d/F4DTeuAg==}
     requiresBuild: true
     peerDependencies:
@@ -5693,7 +5704,7 @@ packages:
       '@nestjs/websockets':
         optional: true
     dependencies:
-      '@nestjs/common': 8.0.1_reflect-metadata@0.1.13
+      '@nestjs/common': 8.0.1_e7ea248743279784063e3708d703abc5
       '@nestjs/platform-express': 8.0.5_1d3982a3146285faca229314653bb7a9
       '@nuxtjs/opencollective': 0.3.2
       fast-safe-stringify: 2.0.7
@@ -5701,6 +5712,7 @@ packages:
       object-hash: 2.2.0
       path-to-regexp: 3.2.0
       reflect-metadata: 0.1.13
+      rxjs: 7.5.5
       tslib: 2.3.0
       uuid: 8.3.2
     dev: false
@@ -5711,8 +5723,8 @@ packages:
       '@nestjs/common': ^8.0.0
       '@nestjs/core': ^8.0.0
     dependencies:
-      '@nestjs/common': 8.0.1_reflect-metadata@0.1.13
-      '@nestjs/core': 8.0.1_26c134402cf45213da8cdb502bbfe43f
+      '@nestjs/common': 8.0.1_e7ea248743279784063e3708d703abc5
+      '@nestjs/core': 8.0.1_045a9944efcdb99e50a74a971379dea2
       body-parser: 1.19.0
       cors: 2.8.5
       express: 4.17.1
@@ -5752,8 +5764,8 @@ packages:
       '@nestjs/common': ^6.0.0 || ^7.0.0 || ^8.0.0
       '@nestjs/core': ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
-      '@nestjs/common': 8.0.1_reflect-metadata@0.1.13
-      '@nestjs/core': 8.0.1_26c134402cf45213da8cdb502bbfe43f
+      '@nestjs/common': 8.0.1_e7ea248743279784063e3708d703abc5
+      '@nestjs/core': 8.0.1_045a9944efcdb99e50a74a971379dea2
       path-to-regexp: 0.1.7
     dev: false
 
@@ -12124,7 +12136,6 @@ packages:
   /dotenv/16.0.0:
     resolution: {integrity: sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q==}
     engines: {node: '>=12'}
-    dev: true
 
   /dotenv/8.2.0:
     resolution: {integrity: sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==}
@@ -15811,10 +15822,10 @@ packages:
       wrappy: 1.0.2
 
   /inherits/2.0.1:
-    resolution: {integrity: sha512-8nWq2nLTAwd02jTqJExUYFSD/fKq6VH9Y/oG2accc/kdI0V98Bag8d5a4gi3XHz73rDWa2PvTtvcWYquKqSENA==}
+    resolution: {integrity: sha1-sX0I0ya0Qj5Wjv9xn5GwscvfafE=}
 
   /inherits/2.0.3:
-    resolution: {integrity: sha512-x00IRNXNy63jwGkJmzPigoySHbaqpNuzKbBOmzK+g2OdZpQ9w+sxCN+VSB3ja7IAge2OP2qpfxTjeNcyjmW1uw==}
+    resolution: {integrity: sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=}
 
   /inherits/2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
@@ -24774,7 +24785,6 @@ packages:
     resolution: {integrity: sha512-sy+H0pQofO95VDmFLzyaw9xNJU4KTRSwQIGM6+iG3SypAtCiLDzpeG8sJrNCWn2Up9km+KhkvTdbkrdy+yzZdw==}
     dependencies:
       tslib: 2.3.1
-    dev: true
 
   /sade/1.7.4:
     resolution: {integrity: sha512-y5yauMD93rX840MwUJr7C1ysLFBgMspsdTo4UVrDg3fXDvtwOyIqykhVAAm6fk/3au77773itJStObgK+LKaiA==}
@@ -27551,7 +27561,7 @@ packages:
     dev: true
 
   /util-deprecate/1.0.2:
-    resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
+    resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}
 
   /util.promisify/1.0.0:
     resolution: {integrity: sha512-i+6qA2MPhvoKLuxnJNpXAGhg7HphQOSUq2LKMZD0m15EiskXUkMvKdF4Uui0WYeCUGea+o2cw/ZuwehtfsrNkA==}
