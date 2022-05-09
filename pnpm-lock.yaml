@@ -65,7 +65,6 @@ importers:
       query-string: ^7.1.1
       react: 16.x
       react-dom: 16.x
-      react-router: 5.x
       rimraf: ^3.0.2
       sass: ^1.32.4
       speed-measure-webpack-plugin: ^1.5.0
@@ -91,7 +90,6 @@ importers:
       moment: 2.29.3
       path-to-regexp: 6.2.0
       query-string: 7.1.1
-      react-router: 5.2.1_react@16.14.0
       superagent: 7.1.3
       superagent-use: 0.1.0
       tailwindcss: 3.0.24_ts-node@10.1.0
@@ -240,7 +238,7 @@ importers:
       query-string: 6.14.1
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
-      react-router-config: 5.1.1_react-router@5.2.1+react@16.14.0
+      react-router-config: 5.1.1_react@16.14.0
       react-router-dom: 5.2.0_react@16.14.0
       react-use: 17.3.2_react-dom@16.14.0+react@16.14.0
 
@@ -283,7 +281,7 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.20.0_1b4625872d15aa3bb3502d92b45b8ca3
       '@typescript-eslint/parser': 5.9.0_eslint@8.14.0+typescript@4.6.3
       antd: 4.20.1_react-dom@16.14.0+react@16.14.0
-      dumi: 1.1.40_ca43176cb009c3c8ea6cf1bcb5f45178
+      dumi: 1.1.40_5aeb505402ad504e48acd33d211338e5
       dumi-theme-default: 1.1.21_react-dom@16.14.0+react@16.14.0
       eslint-plugin-markdown: 2.2.1_eslint@8.14.0
       gulp: 4.0.2
@@ -532,7 +530,7 @@ importers:
       react-flame-graph: 1.4.0_react-dom@16.14.0+react@16.14.0
       react-flow-renderer: 9.7.0_react-dom@16.14.0+react@16.14.0
       react-markdown: 7.1.0_414da64a83d07b5b28f5e74e56d85156
-      react-router-config: 5.1.1_react-router@5.2.1+react@16.14.0
+      react-router-config: 5.1.1_react@16.14.0
       react-router-dom: 5.2.0_react@16.14.0
       react-syntax-highlighter: 15.4.5_react@16.14.0
       react-use: 17.3.2_react-dom@16.14.0+react@16.14.0
@@ -7650,11 +7648,11 @@ packages:
       - react-router
     dev: true
 
-  /@umijs/bundler-utils/3.5.23_9d31e7322efb2eb7aaf457f5cfa2724c:
+  /@umijs/bundler-utils/3.5.23_react-dom@16.14.0+react@16.14.0:
     resolution: {integrity: sha512-kz1RdnTTQ0CL2vP562W2FxPliq9jfUMQYXi6V23/yL6pJwHgfeJG5z5qIB3rDg1ZC0u3bmxyD5Psa0ILs69ooA==}
     dependencies:
       '@umijs/babel-preset-umi': 3.5.23
-      '@umijs/types': 3.5.23_9d31e7322efb2eb7aaf457f5cfa2724c
+      '@umijs/types': 3.5.23_react-dom@16.14.0+react@16.14.0
       '@umijs/utils': 3.5.23
     transitivePeerDependencies:
       - react
@@ -7686,13 +7684,13 @@ packages:
       - react-router
     dev: true
 
-  /@umijs/bundler-webpack/3.5.23_9d31e7322efb2eb7aaf457f5cfa2724c:
+  /@umijs/bundler-webpack/3.5.23_react-dom@16.14.0+react@16.14.0:
     resolution: {integrity: sha512-9o25KjriAmfffhbBiLXTny607sX6PLOVYPH5RUXDoktquE4goTBc4j3m3bNYaYUvrCMjk8Rrm6K0ytS20Yyl3g==}
     hasBin: true
     dependencies:
-      '@umijs/bundler-utils': 3.5.23_9d31e7322efb2eb7aaf457f5cfa2724c
+      '@umijs/bundler-utils': 3.5.23_react-dom@16.14.0+react@16.14.0
       '@umijs/deps': 3.5.23
-      '@umijs/types': 3.5.23_9d31e7322efb2eb7aaf457f5cfa2724c
+      '@umijs/types': 3.5.23_react-dom@16.14.0+react@16.14.0
       '@umijs/utils': 3.5.23
       jest-worker: 26.6.2
       node-libs-browser: 2.2.1
@@ -7736,7 +7734,7 @@ packages:
     peerDependencies:
       umi: 3.x
     dependencies:
-      umi: 3.5.23_react-router@5.2.1
+      umi: 3.5.23
     dev: true
 
   /@umijs/preset-built-in/3.5.23_react-dom@16.14.0+react@16.14.0:
@@ -7774,7 +7772,7 @@ packages:
       - react-dom
     dev: true
 
-  /@umijs/preset-dumi/1.1.40_12eb75a7f698aec9b567dfd7cdf78912:
+  /@umijs/preset-dumi/1.1.40_490bc4611151f4bcf2013a58c97fc373:
     resolution: {integrity: sha512-ovT7fsIRJ+oAaXthOyiftIUJCl0E27EVVBfwoaRN+nHG3I07QeYQ8+4nwEiuDVWC+QjjASmPNssuTBYZdrX6og==}
     peerDependencies:
       umi: 3.x
@@ -7788,7 +7786,7 @@ packages:
       '@umijs/babel-preset-umi': 3.5.23
       '@umijs/plugin-analytics': 0.2.2_umi@3.5.23
       '@umijs/runtime': 3.5.23_react@16.14.0
-      '@umijs/types': 3.5.23_9d31e7322efb2eb7aaf457f5cfa2724c
+      '@umijs/types': 3.5.23_react-dom@16.14.0+react@16.14.0
       '@umijs/utils': 3.5.23
       copy-text-to-clipboard: 2.2.0
       deepmerge: 4.2.2
@@ -7820,7 +7818,7 @@ packages:
       sitemap: 6.4.0
       slash2: 2.0.0
       terser: 5.7.1
-      umi: 3.5.23_react-router@5.2.1
+      umi: 3.5.23
       unified: 8.4.2
       unist-util-visit: 2.0.3
       unist-util-visit-parents: 3.1.1
@@ -7865,7 +7863,7 @@ packages:
       - react-router
     dev: true
 
-  /@umijs/renderer-react/3.5.23_9d31e7322efb2eb7aaf457f5cfa2724c:
+  /@umijs/renderer-react/3.5.23_react-dom@16.14.0+react@16.14.0:
     resolution: {integrity: sha512-7XSBbeMykdvIZd8MHWeRrLPZU+kkxaEHtPrTP++xd2sxH+0dLLcf+5Ze9sUuBfgZFylMT2ULxikBceOL2fgttw==}
     peerDependencies:
       react: 16.x || 17.x
@@ -7877,7 +7875,7 @@ packages:
       '@umijs/runtime': 3.5.23_react@16.14.0
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
-      react-router-config: 5.1.1_react-router@5.2.1+react@16.14.0
+      react-router-config: 5.1.1_react@16.14.0
     transitivePeerDependencies:
       - react-router
     dev: true
@@ -7919,13 +7917,13 @@ packages:
       - react-router
     dev: true
 
-  /@umijs/types/3.5.23_9d31e7322efb2eb7aaf457f5cfa2724c:
+  /@umijs/types/3.5.23_react-dom@16.14.0+react@16.14.0:
     resolution: {integrity: sha512-kgx1tRfNH8OqZMHBEgEoJnxGBS2kBw15yYv8aqHR6B7fLrT3WL4Ds/asE8Apq5WN+6/qzpiT8z1RdkoEdyLPsQ==}
     dependencies:
       '@umijs/babel-preset-umi': 3.5.23
       '@umijs/core': 3.5.23
       '@umijs/deps': 3.5.23
-      '@umijs/renderer-react': 3.5.23_9d31e7322efb2eb7aaf457f5cfa2724c
+      '@umijs/renderer-react': 3.5.23_react-dom@16.14.0+react@16.14.0
       '@umijs/server': 3.5.23
       '@umijs/utils': 3.5.23
       webpack-chain: 6.5.1
@@ -12152,7 +12150,7 @@ packages:
       '@umijs/preset-dumi': 1.x
       react: ^16.13.1 || ^17.0.0
     dependencies:
-      '@umijs/preset-dumi': 1.1.40_12eb75a7f698aec9b567dfd7cdf78912
+      '@umijs/preset-dumi': 1.1.40_490bc4611151f4bcf2013a58c97fc373
       lodash.throttle: 4.1.1
       prism-react-renderer: 1.3.1_react@16.14.0
       prismjs: 1.26.0
@@ -12181,12 +12179,12 @@ packages:
       - react-dom
     dev: true
 
-  /dumi/1.1.40_ca43176cb009c3c8ea6cf1bcb5f45178:
+  /dumi/1.1.40_5aeb505402ad504e48acd33d211338e5:
     resolution: {integrity: sha512-ixIGr2zdcpAOjC7Oa0fGMRewaQIYo57eRRcL2i+8F1mBD7WaFECb9JD9Vrvb2ox7+d4bXcgaOe3K00acpOU0JQ==}
     hasBin: true
     dependencies:
-      '@umijs/preset-dumi': 1.1.40_12eb75a7f698aec9b567dfd7cdf78912
-      umi: 3.5.23_react-router@5.2.1
+      '@umijs/preset-dumi': 1.1.40_490bc4611151f4bcf2013a58c97fc373
+      umi: 3.5.23
     transitivePeerDependencies:
       - bufferutil
       - canvas
@@ -23542,7 +23540,7 @@ packages:
       react-router: 5.2.0_react@16.14.0
     dev: true
 
-  /react-router-config/5.1.1_react-router@5.2.1+react@16.14.0:
+  /react-router-config/5.1.1_react@16.14.0:
     resolution: {integrity: sha512-DuanZjaD8mQp1ppHjgnnUnyOlqYXZVjnov/JzFhjLEwd3Z4dYjMSnqrEzzGThH47vpCOqPPwJM2FtthLeJ8Pbg==}
     peerDependencies:
       react: '>=15'
@@ -23550,7 +23548,6 @@ packages:
     dependencies:
       '@babel/runtime': 7.17.9
       react: 16.14.0
-      react-router: 5.2.1_react@16.14.0
 
   /react-router-dom/5.2.0_react@16.14.0:
     resolution: {integrity: sha512-gxAmfylo2QUjcwxI63RhQ5G85Qqt4voZpUXSEqCwykV0baaOTQDR1f0PmY8AELqIyVc0NEZUj0Gov5lNGcXgsA==}
@@ -27057,16 +27054,16 @@ packages:
     resolution: {integrity: sha1-DqEOgDXo61uOREnwbaHHMGY7qoE=}
     dev: true
 
-  /umi/3.5.23_react-router@5.2.1:
+  /umi/3.5.23:
     resolution: {integrity: sha512-oluqABEGXQXO47jwyfDqkZI+BbeDBAvH17gUOkWXcXYTqFi0WJoFhMvXNr9ym0LgBcHQJb/Ge3OGcEIoSFJNAQ==}
     hasBin: true
     dependencies:
-      '@umijs/bundler-webpack': 3.5.23_9d31e7322efb2eb7aaf457f5cfa2724c
+      '@umijs/bundler-webpack': 3.5.23_react-dom@16.14.0+react@16.14.0
       '@umijs/core': 3.5.23
       '@umijs/deps': 3.5.23
       '@umijs/preset-built-in': 3.5.23_react-dom@16.14.0+react@16.14.0
       '@umijs/runtime': 3.5.23_react@16.14.0
-      '@umijs/types': 3.5.23_9d31e7322efb2eb7aaf457f5cfa2724c
+      '@umijs/types': 3.5.23_react-dom@16.14.0+react@16.14.0
       '@umijs/utils': 3.5.23
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
