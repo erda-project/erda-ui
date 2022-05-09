@@ -20,17 +20,21 @@ import pidtree from 'pidtree';
 
 export const isCwdInRoot = (params?: { currentPath?: string; alert?: boolean; isEnterprise?: boolean }) => {
   const currentDir = params?.currentPath || process.cwd();
+  console.log('currentDir: ', currentDir);
   let isInRoot = true;
   if (!fs.existsSync(join(currentDir, 'package.json'))) {
+    console.log('error no package.json');
     isInRoot = false;
   } else {
     const pkg = fs.readFileSync(join(currentDir, 'package.json'), 'utf8');
     const { name } = JSON.parse(pkg);
     if (params?.isEnterprise) {
       if (name !== '@erda-ui/enterprise-ui') {
+        console.log('error not enterprise', name);
         isInRoot = false;
       }
     } else if (name !== 'erda-ui') {
+      console.log('error not erda-ui', name);
       isInRoot = false;
     }
   }
