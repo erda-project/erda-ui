@@ -58,6 +58,8 @@ jobs:
 
       - name: Install Dependencies
         run: |
+          mkdir -p ./cli/dist/bin
+          touch ./cli/dist/bin/erda.js
           pnpm i
 
       - name: Run Tests

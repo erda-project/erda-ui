@@ -32,6 +32,7 @@ import {
   getInfo,
 } from 'msp/services/configuration';
 import routeInfoStore from 'core/stores/route';
+import { firstCharToUpper } from 'app/common/utils';
 
 type LangItem = Merge<CONFIGURATION.ILangConf, Item>;
 type Strategy = Merge<CONFIGURATION.IStrategy, Item>;
@@ -274,7 +275,7 @@ const Configuration = () => {
         <TopButtonGroup>
           <WithAuth pass={accessPerm.createAccessKey.pass}>
             <Button className="font-bold m4 add-key" type="primary" onClick={createKey}>
-              {i18n.t('create {name}', { name: 'Token' })}
+              {i18n.t('add')} Token
             </Button>
           </WithAuth>
         </TopButtonGroup>
@@ -295,7 +296,7 @@ const Configuration = () => {
           }}
         />
 
-        <ItemRender title={i18n.t('msp:choose data collection method')}>
+        <ItemRender title={firstCharToUpper(i18n.t('msp:choose data collection method'))}>
           <div className="mb-3 text-gray">{i18n.t('msp:data collection desc')}</div>
           <TypeSelect<Strategy> list={strategies || []} value={strategy} onChange={handleChangeStrategy} />
         </ItemRender>
@@ -303,7 +304,7 @@ const Configuration = () => {
         {!languages ? (
           <EmptyHolder relative />
         ) : (
-          <ItemRender title={i18n.t('msp:choose the language you want to connect')}>
+          <ItemRender title={firstCharToUpper(i18n.t('msp:choose the language you want to connect'))}>
             <TypeSelect<LangItem> value={lang} list={languages || []} onChange={handleChangeLang} />
           </ItemRender>
         )}

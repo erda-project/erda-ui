@@ -18,6 +18,7 @@ import { FormInstance, Radio } from 'antd';
 import { isEqual } from 'lodash';
 import i18n from 'i18n';
 import './index.scss';
+import { allWordsFirstLetterUpper, firstCharToUpper } from 'app/common/utils';
 
 const trim = (str: string) => str.replace(/^\s+|\s+$/g, '');
 const convertToTextData = (data: object) => Object.keys(data || {}).reduce((all, k) => `${all}${k}: ${data[k]}\n`, '');
@@ -174,7 +175,7 @@ class KeyValueEditor extends React.Component<IProps, IState> {
             form={form}
             disableAdd={disableAdd}
             disableDelete={disableDelete}
-            addBtnText={i18n.t('common:add parameter')}
+            addBtnText={allWordsFirstLetterUpper(i18n.t('common:add parameter'))}
             title={null}
             ref={(ref) => {
               this.table = ref;
