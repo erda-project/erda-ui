@@ -396,6 +396,10 @@ export enum pages {
   ecpSettingDetail = '/{orgName}/ecp/setting/{id}',
 
   dataAppEntry = '/{orgName}/fdp/__cluster__/__workspace__/data-govern-platform/data-source',
+
+  // marketplace
+  marketplaceRoot = '/{orgName}/marketplace/{type}',
+  marketplaceDetail = '/{orgName}/marketplace/{type}/detail/{id}',
 }
 
 goTo.pages = {

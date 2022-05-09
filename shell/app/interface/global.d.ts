@@ -358,7 +358,8 @@ type ROUTE_MARK =
   | 'applicationRelease'
   | 'ecp'
   | 'testCase'
-  | 'testPlan';
+  | 'testPlan'
+  | 'marketplace';
 
 type ROUTE_TO_MARK = 'orgIndex' | 'mspDetail';
 interface ROUTE_TABS {
