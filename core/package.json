@@ -28,7 +28,8 @@
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "react-router-config": "^5.0.0",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "react-use": "^17.3.2"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,scss,css,md}": "prettier --write"

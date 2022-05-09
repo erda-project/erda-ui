@@ -49,6 +49,8 @@ stages:
               - cd ${{ dirs.erda-ui }}/shell && npm run extra-logic
               - cd ${{ dirs.erda-ui }}
               - npm i -g --force pnpm@6.x
+              - mkdir -p ./cli/dist/bin
+              - touch ./cli/dist/bin/erda.js
               - pnpm i --frozen-lockfile --no-optional --unsafe-perm
               - pnpm run build-online
               - cp -r ${{ dirs.erda-ui }}/{public,scheduler} $WORKDIR
