@@ -1827,6 +1827,7 @@
     "rule name": "rule name",
     "running resources": "running resources",
     "runtime-resource-config-form-tip": "The modification of this expansion configuration will take effect immediately. Note: But it will cause the resource configuration in erda.yml to become invalid (the expansion configuration has a higher priority)",
+    "runtime-resource-config-form-scale-tip": "If scaling to 0 succeeds, Scale displays the number of instances before scaling, rather than the current number of instances 0",
     "same field exists": "same field exists",
     "script deployment": "script deployment",
     "search": "search",

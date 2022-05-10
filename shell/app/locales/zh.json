@@ -1827,6 +1827,7 @@
     "rule name": "规则名称",
     "running resources": "运行资源",
     "runtime-resource-config-form-tip": "本次扩缩容配置的修改会立即生效，注意：但会导致 erda.yml 中的资源配置会失效（扩缩容配置优先级更高）",
+    "runtime-resource-config-form-scale-tip": "如果缩容为0成功，Scale 显示缩容前的实例数，而不是当前的实例数 0",
     "same field exists": "存在相同的字段",
     "script deployment": "脚本部署",
     "search": "查询",
