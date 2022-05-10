@@ -33,6 +33,7 @@ import {
   translateAutoRefreshDuration,
 } from './utils';
 import { ErdaIcon } from 'common';
+import { firstCharToUpper } from 'app/common/utils';
 
 type IRefreshStrategy = 'off' | IRefreshDuration;
 
@@ -147,7 +148,7 @@ export const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
     <div className="flex h-full items-stretch">
       <div className="w-56 h-full px-3">
         <p className="pt-3 font-medium text-white-9">{i18n.t('Absolute time range')}</p>
-        <p className="mt-3 mb-1 text-white-6">{i18n.t('common:start at')}</p>
+        <p className="mt-3 mb-1 text-white-6">{firstCharToUpper(i18n.t('common:start time'))}</p>
         <DatePicker
           format={format}
           disabledDate={disabledStart}
@@ -192,7 +193,7 @@ export const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
                   handleSelectQuickTimeRange(range);
                 }}
               >
-                {label}
+                {firstCharToUpper(label)}
               </li>
             );
           })}
@@ -353,7 +354,7 @@ const TimeSelect = (props: IProps) => {
           }}
         >
           <ErdaIcon className="mr-1" size="16" type="time" />
-          {text}
+          {firstCharToUpper(text)}
         </div>
       </Dropdown>
       <AutoRefreshStrategy

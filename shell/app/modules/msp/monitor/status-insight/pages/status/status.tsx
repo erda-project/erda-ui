@@ -142,7 +142,7 @@ const Status = () => {
       dataIndex: 'uptime',
     },
     {
-      title: `${i18n.t('msp:Downtime')}(${i18n.t('msp:nearly 1 hour')})`,
+      title: `${i18n.t('msp:Downtime')}(${i18n.t('msp:last one hour')})`,
       dataIndex: 'downDuration',
     },
     {
@@ -156,7 +156,7 @@ const Status = () => {
       render: (text: string) => <span>{text} ms</span>,
     },
     {
-      title: `${i18n.t('msp:response map')}(${i18n.t('msp:nearly 1 hour')})`,
+      title: `${i18n.t('msp:response graph')}(${i18n.t('msp:last one hour')})`,
       dataIndex: 'chart',
       width: 160,
       render: (_text: string, record: MONITOR_STATUS.IMetricsBody) => {
@@ -218,7 +218,7 @@ const Status = () => {
     return [editMonitor, deleteMonitor];
   };
   let hasDown: { text: string; type: 'info' | 'error' | 'success' } = {
-    text: 'no Data',
+    text: 'No data',
     type: 'info',
   };
   if (dashboard.downCount !== undefined) {

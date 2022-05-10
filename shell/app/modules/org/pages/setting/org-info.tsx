@@ -63,7 +63,7 @@ export const OrgInfo = () => {
     ]),
     ...insertWhen(isPublisher && isEnterprise, [
       {
-        label: i18n.t('publisher:repository name'),
+        label: firstCharToUpper(i18n.t('publisher:repository name')),
         name: 'publisherName',
         itemProps: {
           maxLength: 50,

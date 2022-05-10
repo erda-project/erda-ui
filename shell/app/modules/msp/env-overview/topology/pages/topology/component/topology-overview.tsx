@@ -16,6 +16,7 @@ import i18n from 'i18n';
 import { genEdges, genNodes } from 'msp/env-overview/topology/pages/topology/utils';
 import ErdaIcon from 'common/components/erda-icon';
 import './topology-overview.scss';
+import { firstCharToUpper } from 'app/common/utils';
 
 export type INodeKey =
   | 'node'
@@ -46,7 +47,7 @@ const structure: { title: string; content: { key: INodeKey; name: string }[] }[]
         key: 'node',
       },
       {
-        name: i18n.t('service'),
+        name: firstCharToUpper(i18n.t('service')),
         key: 'service',
       },
       {
@@ -63,7 +64,7 @@ const structure: { title: string; content: { key: INodeKey; name: string }[] }[]
     title: i18n.t('msp:Topology analysis'),
     content: [
       {
-        name: i18n.t('msp:unhealthy service'),
+        name: firstCharToUpper(i18n.t('msp:unhealthy service')),
         key: 'unhealthyService',
       },
       {

@@ -536,7 +536,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
       <FormModal
         width={800}
         ref={formRef}
-        title={`${isEditing ? i18n.t('dop:edit group') : i18n.t('dop:Add group')}`}
+        title={`${isEditing ? firstCharToUpper(i18n.t('dop:edit group')) : i18n.t('dop:Add group')}`}
         visible={modalVisible}
         fieldsList={fieldsList}
         formData={activedData}

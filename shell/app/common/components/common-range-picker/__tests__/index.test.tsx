@@ -23,8 +23,8 @@ describe('CommonRangePicker', () => {
     const yesterday = mockDate.moment.subtract(1, 'day');
     const okFn = jest.fn();
     const result = render(<CommonRangePicker onOk={okFn} defaultTime={[yesterday, today]} />);
-    fireEvent.mouseDown(result.getByPlaceholderText('start at'));
-    fireEvent.focus(result.getByPlaceholderText('start at'));
+    fireEvent.mouseDown(result.getByPlaceholderText('start time'));
+    fireEvent.focus(result.getByPlaceholderText('start time'));
     await waitFor(() => expect(result.baseElement).isExist('.ant-picker-range-wrapper', 1));
     fireEvent.click(result.getByText('7day'));
     expect(okFn).toHaveBeenCalled();

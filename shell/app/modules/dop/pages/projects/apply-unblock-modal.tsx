@@ -56,7 +56,7 @@ const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps)
       name: 'dataRange',
       getComp: () => (
         <RangePicker
-          placeholder={[i18n.t('common:start at'), i18n.t('common:End time')]}
+          placeholder={[i18n.t('common:start time'), i18n.t('common:End time')]}
           showTime={{ format: 'HH:mm' }}
           format="YYYY-MM-DD HH:mm"
           disabledDate={(time) => !!time && time.valueOf() < moment().subtract(1, 'd').valueOf()}

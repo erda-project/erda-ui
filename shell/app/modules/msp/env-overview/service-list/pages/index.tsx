@@ -195,7 +195,7 @@ const tabs: Array<{ label: string; value: ServiceStatus; countKey: keyof MSP_SER
     countKey: 'totalCount',
   },
   {
-    label: i18n.t('msp:unhealthy service'),
+    label: i18n.t('msp:unhealthy-service'),
     value: 'hasError',
     countKey: 'hasErrorCount',
   },
