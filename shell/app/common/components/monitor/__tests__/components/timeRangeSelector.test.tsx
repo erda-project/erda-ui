@@ -48,8 +48,8 @@ describe('TimeRangeSelector', () => {
       <TimeRangeSelector timeSpan={timeSpan} defaultTime={1} onChangeTime={changeFn} query={{ start, end }} />,
     );
     expect(changeFn).toHaveBeenCalledTimes(1);
-    fireEvent.mouseDown(result.getByPlaceholderText('start at'));
-    fireEvent.focus(result.getByPlaceholderText('start at'));
+    fireEvent.mouseDown(result.getByPlaceholderText('start time'));
+    fireEvent.focus(result.getByPlaceholderText('start time'));
     await waitFor(() => expect(result.baseElement).isExist('.ant-picker-range-wrapper', 1));
     fireEvent.click(result.getByText('7day'));
     expect(changeFn).toHaveBeenCalledTimes(2);
@@ -62,8 +62,8 @@ describe('TimeRangeSelector', () => {
         disabledDate={disabledDateFn}
       />,
     );
-    fireEvent.mouseDown(result.getByPlaceholderText('start at'));
-    fireEvent.focus(result.getByPlaceholderText('start at'));
+    fireEvent.mouseDown(result.getByPlaceholderText('start time'));
+    fireEvent.focus(result.getByPlaceholderText('start time'));
     await waitFor(() => expect(result.baseElement).isExist('.ant-picker-range-wrapper', 1));
     expect(disabledDateFn).toHaveBeenCalled();
     resetMockDate();

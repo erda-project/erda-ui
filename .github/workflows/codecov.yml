@@ -54,7 +54,7 @@ jobs:
       - name: Set pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
-          version: 6.10.0
+          version: 6.32.8
 
       - name: Install Dependencies
         run: |
@@ -63,10 +63,9 @@ jobs:
           pnpm i
 
       - name: Run Tests
-        working-directory: './shell'
         run: |
-          pnpm run test:coverage
-          pnpm run copy:coverage
+          pnpm run test:coverage --filter shell
+          pnpm run copy:coverage --filter shell
 
       - name: Codecov
         run: curl -s https://codecov.io/bash | bash
