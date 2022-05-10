@@ -16,7 +16,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Checkbox, Dropdown, Empty, Input, Menu, Spin, Tag } from 'antd';
 import { filter, find, get, isArray, isEmpty, isEqual, isNumber, map } from 'lodash';
-import { useDebounce, useDeepCompareEffect, useEffectOnce } from 'react-use';
+import { useDebounce, useDeepCompareEffect, useEffectOnce, useUpdateEffect } from 'react-use';
 import { Ellipsis, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { isPromise, uuid } from 'common/utils';
@@ -194,12 +194,12 @@ const PureLoadMoreSelector = (props: IProps) => {
   }, [propsQ]);
 
   const searchRefCur = searchRef && searchRef.current;
-  React.useEffect(() => {
+  useUpdateEffect(() => {
     onDropdownVisible && onDropdownVisible(visible);
     if (visible && searchRefCur) {
       searchRefCur.focus();
     }
-  }, [visible, searchRefCur]);
+  }, [visible]);
 
   // 带上select的dropdownMatchSelectWidth特性
   const dropdownMinWidth = get(document.querySelector(`.load-more-selector-dropdown-${compId}`), 'style.minWidth');
