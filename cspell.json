@@ -208,6 +208,7 @@
     "precache",
     "precommit",
     "prefetch",
+    "preinstall",
     "preupdate",
     "prewrap",
     "printf",
