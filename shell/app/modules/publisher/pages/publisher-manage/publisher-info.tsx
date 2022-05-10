@@ -17,6 +17,7 @@ import { useUpdate } from 'common/use-hooks';
 import PublisherFormModal, { getPublisherFieldsList } from './publisher-form-modal';
 import { Button } from 'antd';
 import i18n from 'i18n';
+import { firstCharToUpper } from 'app/common/utils';
 
 export const PublisherInfo = ({
   data,
@@ -46,7 +47,7 @@ export const PublisherInfo = ({
 
   const sectionList: any[] = [
     {
-      title: i18n.t('basic information'),
+      title: firstCharToUpper(i18n.t('basic information')),
       titleOperate: (
         <Button type="primary" ghost onClick={openFormModal}>
           {i18n.t('Edit')}

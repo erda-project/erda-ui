@@ -17,6 +17,7 @@ import React from 'react';
 import { isEmpty, get } from 'lodash';
 import { FormInstance } from 'antd';
 import publisherStore from 'app/modules/publisher/stores/publisher';
+import { firstCharToUpper } from 'app/common/utils';
 
 interface IProps {
   visible: boolean;
@@ -28,7 +29,7 @@ interface IProps {
 export const getPublisherFieldsList = (isEdit?: boolean) => {
   const fieldsList = [
     {
-      label: i18n.t('publisher:repository name'),
+      label: firstCharToUpper(i18n.t('publisher:repository name')),
       name: 'name',
       itemProps: {
         disabled: isEdit,
