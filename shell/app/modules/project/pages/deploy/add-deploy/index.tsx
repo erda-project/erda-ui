@@ -155,7 +155,7 @@ const AddDeploy = ({
           <Panel fields={fields} data={detail} columnNum={4} />
           <Spin spinning={loading}>
             <div className="pb-2 pt-4  flex-h-center">
-              <span className="text-default font-medium">{i18n.t('mode')}</span>
+              <span className="text-default font-medium">{firstCharToUpper(i18n.t('mode'))}</span>
               <span className="bg-default-1 text-default-8 px-2 ml-1 text-xs rounded-lg">{modesList?.length || 0}</span>
             </div>
             <Checkbox.Group

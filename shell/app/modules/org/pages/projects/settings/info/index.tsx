@@ -214,7 +214,7 @@ const Info = () => {
       <Card
         header={
           <div>
-            {i18n.t('dop:basic information')}
+            {firstCharToUpper(i18n.t('dop:basic information'))}
             {notMSP ? (
               <Tooltip title={i18n.t('projects')}>
                 <CustomIcon
@@ -263,7 +263,7 @@ const Info = () => {
       {notMSP && (
         <>
           <Card
-            header={i18n.t('dop:project quota')}
+            header={firstCharToUpper(i18n.t('dop:project quota'))}
             actions={
               <span className="hover-active" onClick={() => updater.projectQuotaEditVisible(true)}>
                 <ErdaIcon type="edit" size={16} className="mr-2 align-middle" />
@@ -365,7 +365,7 @@ const Info = () => {
       )}
 
       <Card
-        header={i18n.t('advanced settings')}
+        header={firstCharToUpper(i18n.t('advanced settings'))}
         actions={
           notMSP ? (
             <span className="hover-active" onClick={() => updater.projectRollbackEditVisible(true)}>
@@ -397,7 +397,9 @@ const Info = () => {
               <div className="flex">
                 <ErdaIcon type="dev" size={40} className="mr-3" />
                 <div>
-                  <div className="label">{i18n.t('common:exit-project')}</div>
+                  <div className="label">
+                    {firstCharToUpper(i18n.t('common:exit current {name}', { name: i18n.t('project') }))}
+                  </div>
                   <div className="text-xs">{i18n.t('common:exit-confirm-tip {name}', { name: i18n.t('project') })}</div>
                 </div>
               </div>
@@ -416,15 +418,19 @@ const Info = () => {
               <div className="flex">
                 <ErdaIcon type="dev" size={40} className="mr-3" />
                 <div>
-                  <div className="label">{i18n.t('common:delete')}</div>
+                  <div className="label">
+                    {firstCharToUpper(i18n.t('common:delete current {deleteItem}', { deleteItem: i18n.t('project') }))}
+                  </div>
                   <div className="text-xs">
-                    {i18n.t('Delete the {deleteItem} permanently. Please operate with caution.', i18n.t('app'))}
+                    {i18n.t('Delete the {deleteItem} permanently. Please operate with caution.', {
+                      deleteItem: i18n.t('project'),
+                    })}
                   </div>
                 </div>
               </div>
               <ConfirmDelete
                 onConfirm={onDelete}
-                deleteItem={`${i18n.t('project')}?`}
+                deleteItem={`${i18n.t('project')}`}
                 onCancel={() => updater.confirmProjectName('')}
                 disabledConfirm={confirmProjectName !== info.displayName}
                 confirmTip={false}
@@ -437,7 +443,7 @@ const Info = () => {
                 modalChildren={
                   <Input
                     value={confirmProjectName}
-                    placeholder={i18n.t('Please enter the {name}', { name: i18n.t('Project name') })}
+                    placeholder={i18n.t('Please enter the {name}', { name: i18n.t('Project name').toLowerCase() })}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.confirmProjectName(e.target.value)}
                   />
                 }

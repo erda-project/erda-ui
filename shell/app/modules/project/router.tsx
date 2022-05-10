@@ -474,7 +474,7 @@ function getProjectRouter(): RouteConfigItem[] {
                 },
                 {
                   path: ':releaseID',
-                  pageName: `${i18n.t('Artifacts')} ${i18n.t('Details')}`,
+                  pageName: `${i18n.t('Artifact')} ${i18n.t('Details')}`,
                   backToUp: 'applicationRelease',
                   getComp: (cb) => cb(import('project/pages/release/components/application-detail')),
                   layout: { fullHeight: true },
@@ -511,7 +511,7 @@ function getProjectRouter(): RouteConfigItem[] {
                   backToUp: 'projectDeployEnv',
                   breadcrumbName: ({ params }) => {
                     const { workspace } = params;
-                    return ENV_MAP[workspace];
+                    return ENV_MAP[workspace?.toLocaleLowerCase()];
                   },
                   mark: 'projectDeployRuntime',
                   getComp: (cb) => cb(import('app/modules/runtime/pages/overview')),

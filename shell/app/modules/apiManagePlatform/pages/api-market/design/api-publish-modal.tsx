@@ -14,7 +14,7 @@
 import React, { MutableRefObject } from 'react';
 import { FormModal, Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import i18n from 'i18n';
+import i18n, { getCurrentLocale } from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import { message, Tooltip, FormInstance } from 'antd';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
@@ -22,17 +22,22 @@ import { isEmpty } from 'lodash';
 import orgStore from 'app/org-home/stores/org';
 import { firstCharToUpper } from 'app/common/utils';
 
-const VERSION_TIP = (
-  <div>
-    <div>{i18n.t('dop:tips of publish api 1')}</div>
+const VERSION_TIP = () => {
+  const link = getCurrentLocale().key === 'en' ? 'https://semver.org' : 'https://semver.org/lang/zh-CN/';
+  return (
     <div>
-      <a href="https://semver.org/lang/zh-CN/" target="_blank" rel="noopener noreferrer">
-        &nbsp;https://semver.org/lang/zh-CN/.&nbsp;
-      </a>
+      {' '}
+      operation
+      <div>{i18n.t('dop:tips of publish api 1')}</div>
+      <div>
+        <a href={link} target="_blank" rel="noopener noreferrer">
+          &nbsp;{link}&nbsp;
+        </a>
+      </div>
+      <div>{i18n.t('dop:tips of publish api 2')}</div>
     </div>
-    <div>{i18n.t('dop:tips of publish api 2')}</div>
-  </div>
-);
+  );
+};
 
 const idReg = /^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$/;
 interface IProps {
@@ -110,7 +115,7 @@ const ApiPublishModal = (props: IProps) => {
       label: (
         <span>
           {i18n.t('dop:Release version')}
-          <Tooltip title={VERSION_TIP}>
+          <Tooltip title={VERSION_TIP()}>
             <CustomIcon type="tishi" />
           </Tooltip>
         </span>

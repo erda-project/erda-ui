@@ -1,0 +1,56 @@
+@import (reference) '~antd/es/style/themes/index.less';
+@import '../../themes/default.less';
+
+@prefix-cls: ~'@{erda-prefix}-batch-operation';
+
+.@{prefix-cls} {
+  display: flex;
+  align-items: center;
+
+  .checkbox {
+    margin-left: 2px;
+    margin-right: 8px;
+  }
+
+  &-label {
+    margin-right: 8px;
+  }
+
+  .op-btn {
+    display: flex;
+    align-items: center;
+    background: @default-06;
+    border-color: transparent;
+    color: @default-8;
+
+    &:not(:disabled) {
+      background: @default-06;
+      border-color: transparent;
+    }
+  }
+
+  &-dropdown {
+    .@{ant-prefix}-dropdown-menu {
+      background-color: rgba(@default, 0.96);
+      color: @white;
+      box-shadow: 0 1px 4px 0 rgba(@default, 0.16);
+    }
+
+    .@{ant-prefix}-dropdown-menu-item:hover {
+      background-color: rgba(@white, 0.08);
+    }
+
+    .@{ant-prefix}-dropdown-menu-item,
+    .@{ant-prefix}-dropdown-menu-submenu-title {
+      color: @white-9;
+
+      &:hover {
+        color: @white;
+      }
+    }
+
+    .disabled {
+      color: @white-9;
+    }
+  }
+}

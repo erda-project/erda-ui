@@ -246,7 +246,7 @@ const ClientDetail = () => {
     <Spin spinning={isFetchDetail}>
       <DetailsPanel
         baseInfoConf={{
-          title: allWordsFirstLetterUpper(i18n.t('basic information')),
+          title: firstCharToUpper(i18n.t('basic information')),
           panelProps: {
             fields,
           },

@@ -247,10 +247,6 @@ IProps) => {
         columns={[...instanceTypeColMap[instanceType], ...cols] as Array<ColumnProps<any>>}
         dataSource={instanceMap[instanceType]}
         loading={loading}
-        pagination={{
-          pageSize: PAGINATION.pageSize,
-        }}
-        scroll={{ x: '100%' }}
       />
       <Copy selector=".for-copy-image" />
       {drawer}

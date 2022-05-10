@@ -162,13 +162,13 @@ export const PureAppSettings = () => {
         },
         ...insertWhen(appDetail.mode === appMode.SERVICE, [
           {
-            tabTitle: i18n.t('dop:sonar setting'),
+            tabTitle: i18n.t('dop:sonar settings'),
             tabKey: 'sonarConfig',
             content: (
               <ConfigLayout
                 sectionList={[
                   {
-                    title: firstCharToUpper(i18n.t('dop:sonar setting')),
+                    title: firstCharToUpper(i18n.t('dop:sonar settings')),
                     desc: i18n.t('dop:sonar-setting-tip'),
                     children: <SonarConfig />,
                   },

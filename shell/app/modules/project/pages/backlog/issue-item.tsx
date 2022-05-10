@@ -15,12 +15,11 @@
 import { Button, Dropdown, Input, Menu, Modal, Select } from 'antd';
 import { useUpdate } from 'app/common/use-hooks';
 import orgStore from 'app/org-home/stores/org';
-import { Ellipsis, Icon as CustomIcon, MemberSelector } from 'common';
+import { Ellipsis, Icon as CustomIcon, MemberSelector, ErdaIcon } from 'common';
 import UserInfo from 'common/components/user-info';
 import { getBrowserInfo, isPromise } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
-import { isZh } from 'core/i18n';
 import { map, compact } from 'lodash';
 import moment from 'moment';
 import issueFieldStore from 'org/stores/issue-field';
@@ -91,12 +90,16 @@ export const IssueItem = (props: IIssueProps) => {
   const checkRole = [isCreator(creator), isAssignee(assignee)];
   const deleteAuth = getAuth(permObj.delete, checkRole);
   const editAuth = getAuth(permObj.edit, checkRole);
+  const [nameEditing, setNameEditing] = React.useState(false);
+  const [nameValue, setNameValue] = React.useState('');
+  const nameRef = React.useRef<Input>(null);
 
   const { updateIssue } = issueStore.effects;
 
-  const updateIssueRecord = (val: ISSUE.Ticket) => {
+  const updateIssueRecord = (val: ISSUE.Ticket, callback?: () => void) => {
     updateIssue(val).then(() => {
       afterUpdate?.();
+      callback?.();
     });
   };
 
@@ -123,7 +126,7 @@ export const IssueItem = (props: IIssueProps) => {
         ? typeof deleteConfirmText === 'function'
           ? deleteConfirmText(name)
           : deleteConfirmText
-        : `${i18n.t('common:confirm to deletion')}(${name})`,
+        : `${i18n.t('common:confirm to delete')}(${name})`,
       onOk() {
         onDelete && onDelete(currentData);
       },
@@ -238,6 +241,13 @@ export const IssueItem = (props: IIssueProps) => {
   };
 
   const fields = compact(map(fieldsMap, (item) => (item.show ? item.Comp : null)));
+  const saveName = () => {
+    if (nameValue) {
+      updateIssueRecord({ ...data, title: nameValue }, () => {
+        setNameEditing(false);
+      });
+    }
+  };
   return (
     <div
       className={`backlog-issue-item hover:bg-default-04 cursor-pointer ${
@@ -246,10 +256,42 @@ export const IssueItem = (props: IIssueProps) => {
       ref={drag}
     >
       <div className="issue-info h-full">
-        <div className="backlog-item-content mr-6" onClick={() => onClickIssue(data)}>
-          <IssueIcon type={type as ISSUE_TYPE} size={28} />
-          <span className="mr-1">#{id}-</span>
-          <Ellipsis title={name} />
+        <div
+          className={`backlog-item-content flex-h-center mr-6 ${editable ? 'item-name-edit' : ''} cursor-pointer`}
+          onClick={() => !nameEditing && onClickIssue(data)}
+        >
+          <div className="flex-1 flex-h-center overflow-hidden cursor-pointer">
+            <IssueIcon type={type as ISSUE_TYPE} size={28} />
+            <span className="mr-1">#{id}-</span>
+            {nameEditing ? (
+              <Input
+                ref={nameRef}
+                bordered={false}
+                className="rounded bg-default-06"
+                value={nameValue}
+                onChange={(e) => setNameValue(e.target.value)}
+                onBlur={saveName}
+                onPressEnter={saveName}
+              />
+            ) : (
+              <Ellipsis title={name} />
+            )}
+          </div>
+          {!nameEditing ? (
+            <ErdaIcon
+              onClick={(e) => {
+                e.stopPropagation();
+                setNameValue(name);
+                setNameEditing(true);
+                setTimeout(() => {
+                  nameRef?.current?.focus();
+                });
+              }}
+              type="edit"
+              className="item-name-edit-icon ml-2 hover:text-blue-deep"
+              size={18}
+            />
+          ) : null}
         </div>
         <div className="text-sub flex items-center flex-wrap justify-end">{fields}</div>
       </div>

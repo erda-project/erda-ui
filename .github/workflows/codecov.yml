@@ -58,13 +58,15 @@ jobs:
 
       - name: Install Dependencies
         run: |
+          mkdir -p ./cli/dist/bin
+          touch ./cli/dist/bin/erda.js
           pnpm i
 
       - name: Run Tests
         working-directory: './shell'
         run: |
-          npm run test:coverage
-          npm run copy:coverage
+          pnpm run test:coverage
+          pnpm run copy:coverage
 
       - name: Codecov
         run: curl -s https://codecov.io/bash | bash

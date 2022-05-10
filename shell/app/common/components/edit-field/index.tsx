@@ -379,7 +379,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
             </If>
           </div>
         )}
-        <div className="flex-1">
+        <div className="flex-1 max-w-full">
           <div className="flex-h-center">
             {Comp}
             {suffix}

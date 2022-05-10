@@ -16,7 +16,7 @@ import { Select, Tooltip } from 'antd';
 import { ConfigurableFilter, CRUDTable, RadioTabs } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { map, get, isEmpty } from 'lodash';
-import { insertWhen } from 'common/utils';
+import { firstCharToUpper, insertWhen } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 import approvalStore from '../../stores/approval';
@@ -31,7 +31,7 @@ const { Option } = Select;
 const undoneStatusMap = {
   approved: {
     value: 'approved',
-    label: i18n.t('passed'),
+    label: firstCharToUpper(i18n.t('approved')),
   },
   denied: {
     value: 'denied',
@@ -106,7 +106,7 @@ const Approval = () => {
         render: (val: APPROVAL.ApprovalItemType) => get(typeMap, `${val}.name`),
       },
       {
-        title: i18n.t('cmp:Submitter'),
+        title: i18n.t('Applicant-people'),
         dataIndex: 'submitter',
         width: 120,
         render: (val: string) => {
@@ -166,7 +166,7 @@ const Approval = () => {
                       });
                     }}
                   >
-                    {i18n.t('dop:denied')}
+                    {firstCharToUpper(i18n.t('dop:denied'))}
                   </span>
                 </>
               ) : null}

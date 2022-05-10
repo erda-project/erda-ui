@@ -27,8 +27,11 @@ Role('Manager', () => {
     // add project
     await page.click('button:has-text("add project")');
     expect(page.url()).toMatch(/\/orgCenter\/projects\/createProject/);
-    await page.click('[placeholder="The name displayed on the Erda platform, supports Chinese naming"]');
-    await page.fill('[placeholder="The name displayed on the Erda platform, supports Chinese naming"]', title);
+    await page.click('[placeholder="The name displayed on the Erda platform, with Chinese characters supported"]');
+    await page.fill(
+      '[placeholder="The name displayed on the Erda platform, with Chinese characters supported"]',
+      title,
+    );
     await page.click(
       '[placeholder="you can only use lowercase letters or numbers to begin and end. The hyphen can use -"]',
     );

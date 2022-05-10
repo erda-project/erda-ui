@@ -100,6 +100,8 @@ const ResourceModal = ({ visible, service, editDisabled, onOk, onCancel }: IProp
           lg: { span: 12 },
         },
       },
+      className: 'flex-1',
+      labelTip: i18n.t('dop:runtime-resource-config-form-scale-tip'),
     },
   ];
 

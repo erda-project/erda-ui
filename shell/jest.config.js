@@ -11,6 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+const path = require('path');
+
 /** @type {import('ts-jest').InitialOptionsTsJest} */
 module.exports = {
   clearMocks: true,
@@ -35,11 +37,12 @@ module.exports = {
 
   transform: {
     mjs$: 'babel-jest',
+    '^.+\\.ts?$': 'ts-jest',
   },
   globals: {
     'ts-jest': {
       babelConfig: true,
-      tsconfig: 'tsconfig-jest.json',
+      tsconfig: path.resolve(__dirname, 'tsconfig-jest.json'),
       diagnostics: false,
       isolatedModules: true,
       useESM: true,
