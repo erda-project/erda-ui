@@ -353,7 +353,7 @@ const MarketRelease = (props: IReleaseProps) => {
   const [tags, setTags] = React.useState<number[]>([]);
 
   const getReleaseList = (q?: IReleaseQuery) => {
-    getList({ from: 'gallery', projectId: undefined, isProjectRelease: true, version: searchValue, pageNo: 1, ...q });
+    getList({ from: 'gallery', isProjectRelease: true, version: searchValue, pageNo: 1, ...q });
   };
 
   React.useEffect(() => {
