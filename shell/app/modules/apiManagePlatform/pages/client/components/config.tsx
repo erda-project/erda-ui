@@ -11,16 +11,17 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import { firstCharToUpper } from 'app/common/utils';
 import i18n from 'i18n';
 
 export const contractStatueMap: { [k in API_CLIENT.ContractStatue]: { value: k; name: string } } = {
   proved: {
     value: 'proved',
-    name: i18n.t('passed'),
+    name: firstCharToUpper(i18n.t('approved')),
   },
   proving: {
     value: 'proving',
-    name: i18n.t('pending'),
+    name: firstCharToUpper(i18n.t('pending')),
   },
   disproved: {
     value: 'disproved',

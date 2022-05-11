@@ -128,12 +128,12 @@ export const BUG_SEVERITY_MAP = {
   },
   NORMAL: {
     value: 'NORMAL',
-    label: `P2 ${i18n.t('dop:Normal')}`,
+    label: `P2 ${i18n.t('dop:Medium-normal')}`,
     icon: ISSUE_ICON.severity.NORMAL,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.severity.NORMAL}
-        {i18n.t('dop:Normal')}
+        {i18n.t('dop:Medium-normal')}
       </div>
     ),
   },
@@ -295,15 +295,15 @@ export const ISSUE_BUTTON_STATE = {
 
 export const EDIT_PROPS = {
   [ISSUE_TYPE.REQUIREMENT]: {
-    titlePlaceHolder: i18n.t('dop:input requirement name'),
+    titlePlaceHolder: i18n.t('dop:input the requirement name'),
     contentLabel: i18n.t('dop:requirement description'),
   },
   [ISSUE_TYPE.TASK]: {
-    titlePlaceHolder: i18n.t('dop:input task name'),
+    titlePlaceHolder: i18n.t('dop:input the task name'),
     contentLabel: i18n.t('dop:task description'),
   },
   [ISSUE_TYPE.BUG]: {
-    titlePlaceHolder: i18n.t('dop:input bug name'),
+    titlePlaceHolder: i18n.t('dop:input the bug name'),
     contentLabel: i18n.t('dop:Description'),
   },
   [ISSUE_TYPE.TICKET]: {

@@ -17,29 +17,7 @@ import { ErdaAlert } from 'common';
 import ReleaseProtocol from './release-protocol';
 
 import './application.scss';
-
-/**
- * @params str a string with []
- * @params href Jump link
- * example: ('this is a [test] string', 'www.test.com') => <div>this is a <a href="www.text.com">test<a> string</div>
- */
-const replaceWithLink = (str: string, href: string) => {
-  const matchArr = str.match(/\[.*?\]/g) || [];
-  const reg = new RegExp(matchArr.join('|').replace(/\[/g, '\\[').replace(/\]/g, '\\]'), 'g');
-  const strArr = str.split(reg);
-  const result: React.ReactNode[] = [];
-  strArr.forEach((item, index) => {
-    result.push(item);
-    if (index !== strArr.length - 1) {
-      result.push(
-        <a className="text-purple-deep mx-1" href={href} target="_blank" rel="noopener noreferrer">
-          {matchArr[index].replace(/\[|]/g, '')}
-        </a>,
-      );
-    }
-  });
-  return <div className="whiteSpace-nowrap">{result}</div>;
-};
+import { replaceWithLink } from 'app/common/utils';
 
 const ProjectRelease = () => {
   return (

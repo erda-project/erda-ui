@@ -13,8 +13,8 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { SettingTabs, ConfigLayout, MembersTable } from 'common';
-import { goTo, insertWhen } from 'common/utils';
+import { ConfigLayout, MembersTable, SettingTabs } from 'common';
+import { firstCharToUpper, goTo, insertWhen } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import NotifyGroup from 'application/pages/settings/components/app-notify/common-notify-group';
 import memberStore from 'common/stores/org-member';
@@ -24,13 +24,13 @@ import NotifyChannel from './notice-channel';
 import { OperationLogSetting } from './operation-log-setting';
 import { MemberScope } from 'common/stores/member-scope';
 import { MemberLabels } from './member-label';
-import { Link } from 'react-router-dom';
 import IssueFieldManage from '../projects/issue-field-manage';
 import IssueTypeManage from '../projects/issue-type-manage';
 import Announcement from 'org/pages/announcement';
 import permStore from 'user/stores/permission';
 
 import './org-setting.scss';
+import { replaceWithLink } from 'app/common/utils';
 
 export const OrgSetting = () => {
   const orgId = orgStore.getState((s) => s.currentOrg.id);
@@ -53,13 +53,13 @@ export const OrgSetting = () => {
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('{name} member management', { name: i18n.t('organization') }),
+                  title: firstCharToUpper(i18n.t('{name} member management', { name: i18n.t('organization') })),
                   desc: (
                     <div>
-                      {i18n.t('Edit members and set member roles. See Role Permission Description for details.')}
-                      <Link to={goTo.resolve.perm({ scope: 'org' })} target="_blank">
-                        {i18n.t('role permissions description')}
-                      </Link>
+                      {replaceWithLink(
+                        i18n.t('Edit members and set member roles. See Role Permission Description for details.'),
+                        goTo.resolve.perm({ scope: 'app' }),
+                      )}
                     </div>
                   ),
                   children: <MembersTable scopeKey={MemberScope.ORG} />,
@@ -178,7 +178,7 @@ export const OrgSetting = () => {
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('Set up a notification channel to set a notification mode'),
+                  title: i18n.t('Add a notification channel to set notifications'),
                   desc: (
                     <div className="w-2/3 h-10">
                       {i18n.t(

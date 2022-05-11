@@ -19,7 +19,7 @@ import { getUploadProps } from 'common/utils/upload-props';
 import EmptySVG from 'app/images/upload_empty.svg';
 import { useMount } from 'react-use';
 import ErdaTable from 'common/components/table';
-import { getDefaultPaging, setApiWithOrg, getAvatarChars } from 'common/utils';
+import { getDefaultPaging, setApiWithOrg, getAvatarChars, firstCharToUpper } from 'common/utils';
 import { importExportFileRecord } from 'org/services/project-list';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import i18n from 'i18n';
@@ -274,7 +274,9 @@ const Import = (props: ImportProps) => {
             <div className="flex-all-center cursor-pointer w-full">
               <img src={EmptySVG} style={{ height: 80 }} />
               <div className="flex flex-col ml-2">
-                <span className="text-base font-medium text-default ">{i18n.t('dop:upload files')}</span>
+                <span className="text-base font-medium text-default ">
+                  {firstCharToUpper(i18n.t('cmp:Upload File').toLowerCase())}
+                </span>
                 <span className="text-xs text-default-6">{i18n.t('dop:Click to browse and upload')}</span>
               </div>
             </div>
@@ -282,7 +284,7 @@ const Import = (props: ImportProps) => {
         </div>
         <div className="flex mt-2">
           <span onClick={() => window.open(templateUrl)} className="text-purple-deep cursor-pointer">
-            {i18n.t('dop:download template')}
+            {i18n.t('dop:download the template')}
           </span>
         </div>
       </div>

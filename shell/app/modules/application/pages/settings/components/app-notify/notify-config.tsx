@@ -176,7 +176,7 @@ export const NotifyConfig = ({ commonPayload, memberStore, tableKey }: IProps) =
     },
     {
       name: 'notifyGroupId',
-      label: i18n.t('dop:select group'),
+      label: i18n.t('cmp:select the group'),
       required: true,
       getComp: ({ form }: { form: FormInstance }) => {
         return (
@@ -238,7 +238,7 @@ export const NotifyConfig = ({ commonPayload, memberStore, tableKey }: IProps) =
       render: (text) => userMap[text]?.nick,
     },
     {
-      title: i18n.t('default:create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createdAt',
       width: 176,
       render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),

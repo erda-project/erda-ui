@@ -73,6 +73,7 @@ export const initI18n = i18n.init({
   defaultNS: 'default',
 
   keySeparator: false, // we use content as keys
+  nsSeparator: ':',
 
   interpolation: {
     prefix: '{',

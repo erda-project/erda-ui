@@ -17,9 +17,9 @@ const outputPath = path.resolve(__dirname, '../../public/static/uc');
 
 const isProd = process?.env?.NODE_ENV === 'production';
 // const devUrlDomain = 'optimistic-goodall-4xvjx814sc.projects.oryapis.com';
-// const devProxyUrl = `https://${devUrlDomain}`
-const devUrlDomain = '127.0.0.1:4455';
-const devProxyUrl = 'http://127.0.0.1:4455';
+// const devProxyUrl = `https://${devUrlDomain}`;
+const devUrlDomain = 'erda.dev.terminus.io';
+const devProxyUrl = `https://${devUrlDomain}`;
 
 module.exports = {
   webpack: {
@@ -47,8 +47,8 @@ module.exports = {
   devServer: {
     port: 3032,
     proxy: {
-      '/api/uc/user/files/upload': {
-        target: 'https://uploader.app.terminus.io',
+      '/api/uc/files': {
+        target: devProxyUrl,
         source: false,
         changeOrigin: true,
         secure: false,
@@ -61,9 +61,9 @@ module.exports = {
         source: false,
         changeOrigin: true,
         secure: false,
-        pathRewrite: {
-          '/api/uc': '',
-        },
+        // pathRewrite: {
+        //   '/api/uc': '',
+        // },
         onProxyRes: function (proxyRes, req, res) {
           const cookies = proxyRes.headers['set-cookie'];
 

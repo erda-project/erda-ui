@@ -149,7 +149,7 @@ export default function DataSourceManagement() {
               <Link to={goTo.resolve.projectAddon({ projectId })}>{i18n.t('dop:add-data-source-tip-2')}</Link>
             </div>
           }
-          placement="left"
+          placement="leftTop"
         >
           <Button type="primary">{i18n.t('dop:Add-data-source')}</Button>
         </Tooltip>

@@ -18,7 +18,7 @@ import { useMount, useUnmount, useUpdateEffect } from 'react-use';
 import { Button, Dropdown, Input, Menu, Modal, Spin, Tooltip } from 'antd';
 import { Badge, ErdaIcon, UserInfo, TopButtonGroup } from 'common';
 import ErdaTable, { IProps as TableProps } from 'common/components/table';
-import { goTo } from 'common/utils';
+import { firstCharToUpper, goTo } from 'common/utils';
 import i18n from 'i18n';
 import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from 'application/stores/notify-group';
@@ -123,7 +123,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
 
   const alertListColumns: Array<ColumnProps<COMMON_STRATEGY_NOTIFY.IAlert>> = [
     {
-      title: i18n.t('cmp:alarm name'),
+      title: i18n.t('cmp:alert name'),
       dataIndex: 'name',
     },
     {
@@ -143,7 +143,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
                 <Badge text={i18n.t('Enable')} status="success" />
               </Menu.Item>
               <Menu.Item key="unable">
-                <Badge text={i18n.t('unable')} status="default" />
+                <Badge text={firstCharToUpper(i18n.t('disable-stop'))} status="default" />
               </Menu.Item>
             </Menu>
           }
@@ -152,7 +152,10 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
             onClick={(e) => e.stopPropagation()}
             className="group flex items-center justify-between px-2 cursor-pointer absolute top-0 left-0 bottom-0 right-0 hover:bg-default-04"
           >
-            <Badge text={enable ? i18n.t('Enable') : i18n.t('unable')} status={enable ? 'success' : 'default'} />
+            <Badge
+              text={enable ? i18n.t('Enable') : firstCharToUpper(i18n.t('disable-stop'))}
+              status={enable ? 'success' : 'default'}
+            />
             <ErdaIcon type="caret-down" size={20} fill="black-3" className="opacity-0 group-hover:opacity-100" />
           </div>
         </Dropdown>
@@ -189,7 +192,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
       render: (text: string) => <UserInfo id={text} />,
     },
     {
-      title: i18n.t('default:create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createTime',
       render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
@@ -257,7 +260,7 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
               onChange={(e) => {
                 handleChange(e.target.value);
               }}
-              placeholder={i18n.t('search {name}', { name: i18n.t('Name') })}
+              placeholder={i18n.t('search by {name}', { name: i18n.t('Name').toLowerCase() })}
             />
           }
           onChange={handlePageChange}

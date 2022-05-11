@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { SettingTabs, ConfigLayout, MembersTable } from 'common';
-import { allWordsFirstLetterUpper, goTo } from 'common/utils';
+import { ConfigLayout, MembersTable, SettingTabs } from 'common';
+import { firstCharToUpper, goTo } from 'common/utils';
 import ProjectInfo from './project-info';
 import ProjectCluster from './project-cluster';
 import ProjectLabel from './project-label';
@@ -22,12 +22,12 @@ import NotifyGroup from 'application/pages/settings/components/app-notify/common
 import memberStore from 'common/stores/project-member';
 import i18n from 'i18n';
 import { MemberScope } from 'common/stores/member-scope';
-import { Link } from 'react-router-dom';
 import routeInfoStore from 'core/stores/route';
 import BranchRule from 'project/common/components/branch-rule';
 import IssueWorkflow from 'project/common/components/issue-workflow';
 import { usePerm } from 'app/user/common';
 import ScanRule from 'project/common/components/scan-rule';
+import { replaceWithLink } from 'app/common/utils';
 
 const ProjectSettings = () => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
@@ -62,13 +62,13 @@ const ProjectSettings = () => {
             <ConfigLayout
               sectionList={[
                 {
-                  title: allWordsFirstLetterUpper(i18n.t('{name} member management', { name: i18n.t('project') })),
+                  title: firstCharToUpper(i18n.t('{name} member management', { name: i18n.t('project') })),
                   desc: (
                     <div>
-                      {i18n.t('Edit members and set member roles. See Role Permission Description for details.')}
-                      <Link to={goTo.resolve.perm({ scope: 'project' })} target="_blank">
-                        {i18n.t('role permissions description')}
-                      </Link>
+                      {replaceWithLink(
+                        i18n.t('Edit members and set member roles. See Role Permission Description for details.'),
+                        goTo.resolve.perm({ scope: 'app' }),
+                      )}
                     </div>
                   ),
                   children: (
@@ -139,17 +139,17 @@ const ProjectSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('Artifacts'),
+      groupTitle: i18n.t('Artifact'),
       groupKey: 'dop:Collaboration',
       tabGroup: [
         {
-          tabTitle: i18n.t('dop:Artifacts Labels'),
+          tabTitle: i18n.t('dop:Artifact Label'),
           tabKey: 'releaseLabel',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('dop:Manage all artifacts labels'),
+                  title: i18n.t('dop:Manage all artifact labels'),
                   desc: i18n.t(
                     'dop:Labels can be used in release management, to quickly locate and filter related content.',
                   ),
@@ -183,7 +183,7 @@ const ProjectSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('dop:Issue labels'),
+          tabTitle: i18n.t('dop:Issue label'),
           tabKey: 'projectLabel',
           content: (
             <ConfigLayout

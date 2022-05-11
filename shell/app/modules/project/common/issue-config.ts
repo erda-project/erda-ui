@@ -31,7 +31,7 @@ export const ISSUE_COMPLEXITY_MAP = {
 export const BUG_SEVERITY_MAP = {
   FATAL: { value: 'FATAL', label: `P0 ${i18n.t('dop:Fatal')}`, icon: 'yz5' },
   SERIOUS: { value: 'SERIOUS', label: `P1 ${i18n.t('dop:Serious')}`, icon: 'yz4' },
-  NORMAL: { value: 'NORMAL', label: `P2 ${i18n.t('dop:Normal')}`, icon: 'yz3' },
+  NORMAL: { value: 'NORMAL', label: `P2 ${i18n.t('dop:Medium-normal')}`, icon: 'yz3' },
   SLIGHT: { value: 'SLIGHT', label: `P3 ${i18n.t('dop:Slight')}`, icon: 'yz2' },
   SUGGEST: { value: 'SUGGEST', label: `P4 ${i18n.t('dop:Suggestion')}`, icon: 'yz1' },
 };
@@ -72,15 +72,15 @@ export const ISSUE_BUTTON_STATE = {
 
 export const EDIT_PROPS = {
   [ISSUE_TYPE.REQUIREMENT]: {
-    titlePlaceHolder: i18n.t('dop:input requirement name'),
+    titlePlaceHolder: i18n.t('dop:input the requirement name'),
     contentLabel: i18n.t('dop:requirement description'),
   },
   [ISSUE_TYPE.TASK]: {
-    titlePlaceHolder: i18n.t('dop:input task name'),
+    titlePlaceHolder: i18n.t('dop:input the task name'),
     contentLabel: i18n.t('dop:task description'),
   },
   [ISSUE_TYPE.BUG]: {
-    titlePlaceHolder: i18n.t('dop:input bug name'),
+    titlePlaceHolder: i18n.t('dop:input the bug name'),
     contentLabel: i18n.t('dop:Description'),
   },
   [ISSUE_TYPE.TICKET]: {
@@ -102,67 +102,67 @@ export enum ISSUE_OPTION {
 
 export const templateMap = isZh()
   ? {
-      [ISSUE_TYPE.REQUIREMENT]: `### 【用户故事/要解决的问题】*
+      [ISSUE_TYPE.REQUIREMENT]: `### 用户故事/要解决的问题*
 
 
-### 【意向用户】*
+### 意向用户*
 
 
-### 【用户体验目标】*
+### 用户体验目标*
 
 
-### 【链接/参考】
+### 链接/参考
 
 `,
       [ISSUE_TYPE.TASK]: ``,
-      [ISSUE_TYPE.BUG]: `### 【环境信息】
+      [ISSUE_TYPE.BUG]: `### 环境信息
 
 
-### 【缺陷描述】*
+### 缺陷描述*
 
 
-### 【重现步骤】
+### 重现步骤
 
 
-### 【实际结果】
+### 实际结果
 
 
-### 【期望结果】*
+### 期望结果*
 
 
-### 【修复建议】
+### 修复建议
 
 `,
     }
   : {
-      [ISSUE_TYPE.REQUIREMENT]: `### [User story/Problem to solve] *
+      [ISSUE_TYPE.REQUIREMENT]: `### User story/Problem to solve *
 
 
-### [Intended users] *
+### Intended users *
 
 
-### [User experience goals] *
+### User experience goals *
 
 
-### [Link/Reference]
+### Link/Reference
 
 `,
       [ISSUE_TYPE.TASK]: ``,
-      [ISSUE_TYPE.BUG]: `### [Environment]
+      [ISSUE_TYPE.BUG]: `### Environment
 
 
-### [Description] *
+### Description *
 
 
-### [Steps]
+### Steps
 
 
-### [Actual result]
+### Actual result
 
 
-### [Expected result] *
+### Expected result *
 
 
-### [Repair suggestion]
+### Repair suggestion
 `,
     };

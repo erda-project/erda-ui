@@ -81,7 +81,6 @@ const getEnv = () => {
       UC_BACKEND_URL: string;
       ENTERPRISE_URL: string;
       GITTAR_ADDR?: string;
-      MODULES?: string;
       FDP_URL?: string;
       SCHEDULER_URL?: string;
       SCHEDULER_PORT?: number;

@@ -409,7 +409,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
               if (get(openApiDoc, ['paths', apiName, methodKey])) {
                 item = (
                   <Popconfirm
-                    title={`${i18n.t('common:confirm deletion')}?`}
+                    title={`${i18n.t('common:confirm to delete')}?`}
                     onConfirm={() => deleteMethod(methodKey)}
                     placement="right"
                     // disabled={apiLockState}

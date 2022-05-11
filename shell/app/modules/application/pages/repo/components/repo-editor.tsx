@@ -15,7 +15,7 @@ import { Button, message, Input, FormInstance } from 'antd';
 import React from 'react';
 import { RenderForm, FileEditor } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { notify } from 'common/utils';
+import { firstCharToUpper, notify } from 'common/utils';
 import FileContainer from 'application/common/components/file-container';
 import { getInfoFromRefName } from '../util';
 import yaml from 'js-yaml';
@@ -126,7 +126,7 @@ const RepoEditor = ({
         type: 'textArea',
         rules: [{ required: true, message: i18n.t('dop:submit information can not be empty') }],
         itemProps: {
-          placeholder: i18n.t('dop:submit information'),
+          placeholder: firstCharToUpper(i18n.t('dop:commit message')),
           maxLength: 200,
           autoSize: { minRows: 3, maxRows: 7 },
         },

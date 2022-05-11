@@ -11,6 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import { firstCharToUpper } from 'app/common/utils';
 import i18n from 'i18n';
 
 export const authenticationMap: { [k in API_ACCESS.AuthenticationEnum]: { name: string; value: k } } = {
@@ -43,7 +44,7 @@ export const contractStatueMap: {
   // 已通过
   proved: {
     value: 'proved',
-    name: i18n.t('passed'),
+    name: firstCharToUpper(i18n.t('approved')),
     actions: [
       {
         name: i18n.t('Revoke'),

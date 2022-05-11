@@ -32,7 +32,7 @@ import { IActions } from 'app/common/components/table/interface';
 import { ErdaIcon, RenderForm } from 'common';
 import ErdaTable from 'common/components/table';
 import { useUpdate } from 'common/use-hooks';
-import { goTo } from 'common/utils';
+import { firstCharToUpper, goTo } from 'common/utils';
 import { ColumnProps } from 'common/components/table/interface';
 import i18n from 'i18n';
 import notifyGroupStore from 'application/stores/notify-group';
@@ -114,22 +114,22 @@ const alertLevelOptions = [
 const conditionOperatorOptions = [
   {
     key: 'eq',
-    display: i18n.t('msp:equal'),
+    display: firstCharToUpper(i18n.t('msp:equal')),
     type: OperatorType.SINGLE,
   },
   {
     key: 'neq',
-    display: i18n.t('msp:not equal'),
+    display: firstCharToUpper(i18n.t('msp:not equal')),
     type: OperatorType.SINGLE,
   },
   {
     key: 'in',
-    display: i18n.t('in'),
+    display: i18n.t('Contain'),
     type: OperatorType.MULTIPLE,
   },
   {
     key: 'notIn',
-    display: i18n.t('not in'),
+    display: i18n.t('Not contain'),
     type: OperatorType.MULTIPLE,
   },
   {
@@ -421,7 +421,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
 
   const columns: Array<ColumnProps<COMMON_STRATEGY_NOTIFY.IFormRule>> = [
     {
-      title: i18n.t('cmp:rule name'),
+      title: i18n.t('cmp:rule-name'),
       dataIndex: 'alertIndex',
       render: (value: string, { key }) => (
         <Select
@@ -550,7 +550,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
 
   const fieldsList = [
     {
-      label: i18n.t('cmp:alarm name'),
+      label: i18n.t('cmp:alert name'),
       name: 'name',
       itemProps: {
         placeholder: i18n.t('cmp:Please enter here'),

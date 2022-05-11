@@ -12,28 +12,28 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { isEmpty, get } from 'lodash';
-import { SettingTabs, ConfigLayout, MembersTable } from 'common';
+import { get, isEmpty } from 'lodash';
+import { ConfigLayout, MembersTable, SettingTabs } from 'common';
 import { AppInfo } from './components/app-info';
 import { MergeDes } from './components/app-merge-description';
 import NotifyGroup from './components/app-notify/common-notify-group';
 import NotifyConfig from './components/app-notify/notify-config';
-import { MobileConfig, PipelineConfig, DeployConfig } from './components/app-variable-config';
+import { DeployConfig, MobileConfig, PipelineConfig } from './components/app-variable-config';
 import VersionPushConfig from './components/app-version-push';
 import LibraryImport from './components/app-library-reference';
 import CertificateImport from './components/app-certificate-reference';
 import { appMode } from 'application/common/config';
 import memberStore from 'common/stores/application-member';
 import i18n from 'i18n';
-import { Link } from 'react-router-dom';
 import { MemberScope } from 'common/stores/member-scope';
 import BranchRule from 'project/common/components/branch-rule';
 import { usePerm } from 'app/user/common';
-import { allWordsFirstLetterUpper, goTo, insertWhen } from 'common/utils';
+import { firstCharToUpper, goTo, insertWhen } from 'common/utils';
 import './app-settings.scss';
 import appStore from 'application/stores/application';
 import SonarConfig from './components/sonar-config';
 import routeInfoStore from 'core/stores/route';
+import { replaceWithLink } from 'app/common/utils';
 
 const showMap = {
   [appMode.SERVICE]: ['common', 'work', 'repository', 'pipeline', 'deploy', 'notification'],
@@ -53,10 +53,10 @@ export const PureAppSettings = () => {
     <div className="member-table-top-content">
       <div className="title font-medium">{i18n.t('{name} member management', { name: i18n.t('App') })}</div>
       <div className="desc">
-        {i18n.t('Edit members and set member roles. See Role Permission Description for details.')}
-        <Link to={goTo.resolve.perm({ scope: 'app' })} target="_blank">
-          {allWordsFirstLetterUpper(i18n.t('role permissions description'))}
-        </Link>
+        {replaceWithLink(
+          i18n.t('Edit members and set member roles. See Role Permission Description for details.'),
+          goTo.resolve.perm({ scope: 'app' }),
+        )}
       </div>
     </div>
   );
@@ -162,13 +162,13 @@ export const PureAppSettings = () => {
         },
         ...insertWhen(appDetail.mode === appMode.SERVICE, [
           {
-            tabTitle: i18n.t('dop:sonar setting'),
+            tabTitle: i18n.t('dop:sonar settings'),
             tabKey: 'sonarConfig',
             content: (
               <ConfigLayout
                 sectionList={[
                   {
-                    title: i18n.t('dop:sonar setting'),
+                    title: firstCharToUpper(i18n.t('dop:sonar settings')),
                     desc: i18n.t('dop:sonar-setting-tip'),
                     children: <SonarConfig />,
                   },

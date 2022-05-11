@@ -16,7 +16,7 @@ import { Modal } from 'antd';
 import { Panel } from 'common';
 import i18n from 'i18n';
 import SLASelect from 'apiManagePlatform/components/sla-select';
-import { insertWhen } from 'common/utils';
+import { firstCharToUpper, insertWhen } from 'common/utils';
 import moment from 'moment';
 
 interface IProps {
@@ -64,7 +64,7 @@ const UpdateSLA = ({ visible, onCancel, metaData, slaList, onOk, confirmLoading 
   ];
   return (
     <Modal
-      title={i18n.t('replace SLA')}
+      title={firstCharToUpper(i18n.t('replace SLA'))}
       width={600}
       visible={visible}
       onCancel={handleCancel}
@@ -74,7 +74,7 @@ const UpdateSLA = ({ visible, onCancel, metaData, slaList, onOk, confirmLoading 
     >
       <div className="text-base font-medium mb-3">{i18n.t('current SLA')}</div>
       <Panel fields={fields} />
-      <div className="text-base font-medium mb-3">{i18n.t('replace SLA')}</div>
+      <div className="text-base font-medium mb-3">{firstCharToUpper(i18n.t('replace SLA'))}</div>
       <SLASelect
         dataSource={slaList}
         defaultSelectKey={metaData.defaultSLAID || metaData.defaultSLAID === 0 ? metaData.defaultSLAID : slaList[0]?.id}

@@ -27,7 +27,7 @@ const buildModules = async () => {
   const pList: ExecaChildProcess[] = [];
   Object.keys(dirCollection).forEach((moduleName) => {
     const moduleDir = dirMap.get(moduleName);
-    const promise = execa('npm', ['run', 'build'], {
+    const promise = execa('pnpm', ['run', 'build'], {
       cwd: moduleDir,
       stdio: 'inherit',
     });

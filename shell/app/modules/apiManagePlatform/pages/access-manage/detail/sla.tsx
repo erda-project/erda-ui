@@ -23,6 +23,7 @@ import { slaUnitMap, slaAuthorizationMap } from 'apiManagePlatform/pages/access-
 import { uniq } from 'lodash';
 import { ColumnProps } from 'antd/lib/table';
 import './sla.scss';
+import { firstCharToUpper } from 'app/common/utils';
 
 interface IState {
   slaItem: API_ACCESS.SlaItem;
@@ -85,7 +86,7 @@ const Sla = () => {
       dataIndex: 'name',
     },
     {
-      title: i18n.t('Request Limit'),
+      title: firstCharToUpper(i18n.t('Request Limit').toLowerCase()),
       dataIndex: 'limits',
       width: 160,
       render: (limits: API_ACCESS.SlaLimit[]) => {

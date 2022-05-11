@@ -141,6 +141,7 @@ function CRUDTable<P>(props: ITableProps<P>) {
         dataSource={list}
         pagination={paging ? autoPagination(paging) : false}
         scroll={{ x: '100%' }}
+        onReload={() => getList(extraQuery)}
         {...tableProps}
       />
     </Spin>

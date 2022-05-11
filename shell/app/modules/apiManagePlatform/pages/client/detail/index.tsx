@@ -26,6 +26,7 @@ import { useLoading } from 'core/stores/loading';
 import TrafficAuditDrawer from 'apiManagePlatform/components/traffic-audit-drawer';
 import { ColumnProps } from 'antd/lib/table';
 import './index.scss';
+import { allWordsFirstLetterUpper, firstCharToUpper } from 'app/common/utils';
 
 const { TabPane } = Tabs;
 const defaultStatue = 'proved';
@@ -216,7 +217,7 @@ const ClientDetail = () => {
             dataIndex: 'curSLAName',
           },
           {
-            title: i18n.t('request SLA'),
+            title: firstCharToUpper(i18n.t('request SLA')),
             dataIndex: 'requestSLAName',
           },
           {
@@ -231,7 +232,7 @@ const ClientDetail = () => {
                     handleUpdateSLA(record);
                   }}
                 >
-                  {i18n.t('replace SLA')}
+                  {firstCharToUpper(i18n.t('replace SLA'))}
                 </span>
               </TableActions>
             ),
@@ -245,7 +246,7 @@ const ClientDetail = () => {
     <Spin spinning={isFetchDetail}>
       <DetailsPanel
         baseInfoConf={{
-          title: i18n.t('basic information'),
+          title: firstCharToUpper(i18n.t('basic information')),
           panelProps: {
             fields,
           },

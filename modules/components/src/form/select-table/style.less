@@ -1,0 +1,56 @@
+@import (reference) '~antd/es/style/themes/index.less';
+@import '../../themes/default.less';
+
+@select-table-prefix-cls: ~'@{erda-prefix}-form-select-table';
+
+.@{select-table-prefix-cls} {
+  &-header {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .search {
+      width: 180px;
+      display: flex;
+      align-items: center;
+      padding: 4px 2px 4px 8px;
+      height: 28px;
+      border-radius: 2px;
+      border: none;
+      cursor: pointer;
+      background: @default-06;
+      :not(.@{ant-prefix}-input-affix-wrapper) {
+        transition: background-color 0.1s ease-out;
+      }
+
+      input {
+        background-color: transparent;
+      }
+
+      i,
+      svg {
+        margin-right: 0;
+        color: @light-gray;
+        transition: color 0.1s ease-out;
+      }
+
+      &:hover {
+        background-color: @default-1;
+
+        i {
+          color: @black;
+        }
+
+        .hover {
+          svg {
+            path {
+              stroke: @black;
+              fill: @black;
+            }
+          }
+        }
+      }
+    }
+  }
+}

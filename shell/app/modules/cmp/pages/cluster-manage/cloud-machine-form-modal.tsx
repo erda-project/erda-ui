@@ -20,6 +20,7 @@ import { CustomLabel, checkCustomLabels } from 'dcos/common/custom-label';
 import { FormInstance } from 'antd';
 import orgStore from 'app/org-home/stores/org';
 import React from 'react';
+import { allWordsFirstLetterUpper } from 'app/common/utils';
 
 interface IProps {
   visible: boolean;
@@ -127,7 +128,7 @@ const CloudMachineAddForm = (props: any) => {
       {['alicloud-cs', 'alicloud-cs-managed'].includes(cloudVendor) ? null : (
         <div className="more">
           <a className="more-btn" onClick={() => setShowMore(!showMore)}>
-            {i18n.t('advanced settings')}
+            {allWordsFirstLetterUpper(i18n.t('advanced settings'))}
             {showMore ? (
               <ErdaIcon className="align-middle" type="up" size="16" />
             ) : (

@@ -38,8 +38,8 @@ const idReg = /^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$/;
 
 const titleMap: { [key in IScope]: { [type in IMode]: string } } = {
   asset: {
-    add: i18n.t('add {name}', { name: i18n.t('dop:resources') }),
-    edit: i18n.t('edit {name}', { name: i18n.t('dop:resources') }),
+    add: i18n.t('add {name}', { name: i18n.t('Resource').toLowerCase() }),
+    edit: i18n.t('edit {name}', { name: i18n.t('Resource').toLowerCase() }),
   },
   version: {
     add: i18n.t('add {name}', { name: i18n.t('Version') }),

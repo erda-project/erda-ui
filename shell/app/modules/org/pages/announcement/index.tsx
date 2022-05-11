@@ -238,7 +238,7 @@ const NoticeManage = () => {
         />
         <FormModal
           formData={formData}
-          name={i18n.t('cmp:Announcement Management')}
+          name={i18n.t('cmp:announcement-management')}
           fieldsList={fieldList}
           visible={showModal}
           onCancel={useCallback(() => {

@@ -6,3 +6,4 @@ packages:
   - cli
   - modules/market
   - modules/uc
+  - modules/components

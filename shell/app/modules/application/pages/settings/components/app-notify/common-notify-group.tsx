@@ -488,7 +488,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
       render: (text: string) => userMap[text]?.nick,
     },
     {
-      title: i18n.t('default:create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createdAt',
       render: (text: string) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
@@ -536,7 +536,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
       <FormModal
         width={800}
         ref={formRef}
-        title={`${isEditing ? i18n.t('dop:edit group') : i18n.t('dop:Add group')}`}
+        title={`${isEditing ? firstCharToUpper(i18n.t('dop:edit group')) : i18n.t('dop:Add group')}`}
         visible={modalVisible}
         fieldsList={fieldsList}
         formData={activedData}

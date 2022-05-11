@@ -255,6 +255,7 @@ function getCmpRouter(): RouteConfigItem[] {
         {
           path: 'services',
           breadcrumbName: i18n.t('Service'),
+          layout: { noWrapper: true },
           getComp: (cb) => cb(import('dcos/pages/service-manager')),
         },
         {

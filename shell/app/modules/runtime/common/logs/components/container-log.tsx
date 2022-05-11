@@ -247,11 +247,11 @@ const RuntimeContainerLog = (props: Props) => {
     <>
       <WrappedLogRoller
         query={{ ...baseQuery }}
+        isStopped={isStopped}
         filter={query}
         logKey={`${logName}-${reId}`}
         pause={false}
         style={style}
-        isStopped={isStopped}
         instance={instance}
         extraButton={extraButton}
         CustomLogItem={getLogItem(pushSlideComp, handleTimeClick)}
@@ -270,41 +270,28 @@ const RuntimeContainerLog = (props: Props) => {
   return logRoller;
 };
 
-const WrappedLogRoller = (props: Merge<LogProps, { isStopped: boolean; instance: Obj }>) => {
-  const { isStopped, instance, ...propsRest } = props;
+const WrappedLogRoller = (props: Merge<LogProps, { instance: Obj; isStopped: boolean }>) => {
+  const { instance, isStopped, ...propsRest } = props;
   const [logsMap, logFallback] = commonStore.useStore((s) => [s.logsMap, s.logFallback]);
   const { fetchLog } = commonStore.effects;
   const { clearLog } = commonStore.reducers;
   const { content, fetchPeriod, ...rest } = logsMap[props.logKey] || {};
-  const [query, setQuery] = React.useState<Obj<string | number | boolean>>(props.query || {});
-
-  useUpdateEffect(() => {
-    if (logFallback) {
-      const { podName, podNamespace, containerName, containerId, clusterName } = instance;
-      setQuery((prev) => ({
-        ...prev,
-        fetchApi: '/api/runtime/realtime/logs',
-        live: true,
-        podName,
-        podNamespace,
-        containerName,
-        clusterName,
-        containerId,
-      }));
-    }
-  }, [logFallback]);
+  const [isFirstQuery, setIsFirstQuery] = React.useState(true);
 
   const reFetchLog = (q: Obj) => {
-    // only container running log can use fallback api
-    const res = fetchLog(q, { isRunsContainerLog: !isStopped && props?.query?.source === 'container' });
+    const res = fetchLog(q).then((r) => {
+      setIsFirstQuery(false);
+      return r;
+    });
     return res;
   };
+
   return (
     <LogRoller
       {...propsRest}
       {...rest}
       disableDownload={logFallback}
-      query={query}
+      query={{ isFirstQuery, live: !isStopped, ...instance, ...props?.query }}
       content={content || []}
       fetchPeriod={fetchPeriod || 3000}
       fetchLog={reFetchLog}

@@ -47,7 +47,7 @@ const LogFilter = (props: IProps) => {
           <DatePicker.RangePicker
             disabledDate={disabledDate}
             allowClear={false}
-            placeholder={[i18n.t('common:start at'), i18n.t('common:End time')]}
+            placeholder={[i18n.t('common:start time'), i18n.t('common:End time')]}
             className="w-full"
             showTime
           />
@@ -57,7 +57,7 @@ const LogFilter = (props: IProps) => {
     {
       name: 'pattern',
       required: false,
-      label: i18n.t('keywords-search'),
+      label: i18n.t('keyword-search'),
     },
   ];
   const handleCancel = () => {

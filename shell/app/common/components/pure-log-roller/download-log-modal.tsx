@@ -56,7 +56,7 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel }: IProps) => {
   const fieldsList = [
     {
       name: 'startTime',
-      label: i18n.t('common:start at'),
+      label: i18n.t('common:start time'),
       required: true,
       getComp: ({ form }: { form: FormInstance }) => (
         <DatePicker

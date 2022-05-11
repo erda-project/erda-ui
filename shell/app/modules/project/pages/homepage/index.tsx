@@ -92,7 +92,7 @@ const LinkRow = (props: LinkRowProps) => {
           <Popconfirm
             placement="bottomLeft"
             overlayClassName="homepage-link-delete-confirm"
-            title={`${i18n.t('confirm to deletion')}?`}
+            title={`${i18n.t('confirm to delete')}?`}
             icon={null}
             onConfirm={() => handleDelete(item.id)}
           >

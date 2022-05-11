@@ -1,5 +1,14 @@
 .project-deploy-add-release {
   height: 70vh;
+
+  .ant-dropdown-menu-item {
+    cursor: auto;
+
+    &:hover {
+      background: transparent;
+    }
+  }
+
   .load-more-selector {
     .results {
       padding: 0;

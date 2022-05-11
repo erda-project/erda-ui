@@ -14,17 +14,9 @@
 import { join } from 'path';
 import fs from 'fs';
 import rimraf from 'rimraf';
-import { exit } from 'process';
 import { logError, logInfo } from './log';
 import dotenv from 'dotenv';
 import pidtree from 'pidtree';
-
-export const checkIsRoot = () => {
-  if (!fs.existsSync(`${process.cwd()}/.env`)) {
-    logError('Please run this command under erda-ui root directory');
-    exit(1);
-  }
-};
 
 export const isCwdInRoot = (params?: { currentPath?: string; alert?: boolean; isEnterprise?: boolean }) => {
   const currentDir = params?.currentPath || process.cwd();
@@ -79,11 +71,6 @@ export const getEnvConfig = (currentDir?: string) => {
     throw Error(`.env file not exist in ${process.cwd()}`);
   }
   return parsed;
-};
-
-export const getModuleList = () => {
-  const envConfig = getEnvConfig();
-  return envConfig.MODULES.split(',').map((m) => m.trim());
 };
 
 export const clearPublic = async () => {

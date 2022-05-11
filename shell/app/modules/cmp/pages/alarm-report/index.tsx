@@ -119,7 +119,7 @@ const AlarmReport = () => {
         initialValue: 'daily',
       },
       {
-        label: i18n.t('cmp:select group'),
+        label: i18n.t('cmp:select the group'),
         name: ['notifyTarget', 'groupId'],
         getComp: () => (
           <Select
@@ -249,7 +249,7 @@ const AlarmReport = () => {
       },
     },
     {
-      title: i18n.t('default:create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createdAt',
       width: 180,
       render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),

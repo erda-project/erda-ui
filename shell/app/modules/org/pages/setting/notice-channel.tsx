@@ -452,7 +452,7 @@ const NotifyChannel = () => {
     },
     {
       name: ['config', 'templateCode'],
-      label: i18n.t('SMS Template Code'),
+      label: i18n.t('SMS template code'),
       required: true,
       getComp: ({ form }: { form: FormInstance }) => {
         return (
@@ -510,7 +510,7 @@ const NotifyChannel = () => {
     },
     {
       name: ['config', 'VMSTtsCode'],
-      label: i18n.t('Voice Template ID'),
+      label: i18n.t('Voice template ID'),
       required: true,
       getComp: ({ form }: { form: FormInstance }) => {
         return (
@@ -597,7 +597,7 @@ const NotifyChannel = () => {
       required: true,
       itemProps: {
         maxLength: 50,
-        placeholder: `${i18n.t('please input')} ${i18n.t('Outbox username')}`,
+        placeholder: `${i18n.t('please input')} ${i18n.t('Outbox username').toLowerCase()}`,
         autoComplete: 'off',
       },
       rules: [
@@ -616,7 +616,7 @@ const NotifyChannel = () => {
       required: true,
       itemProps: {
         maxLength: 50,
-        placeholder: `${i18n.t('please input')} ${i18n.t('Outbox password')}`,
+        placeholder: `${i18n.t('please input')} ${i18n.t('Outbox password').toLowerCase()}`,
         autoComplete: 'off',
         type: passwordVisible ? 'text' : 'password',
         addonAfter: passwordVisible ? (
@@ -682,7 +682,7 @@ const NotifyChannel = () => {
       width: 160,
     },
     {
-      title: i18n.t('default:create time'),
+      title: i18n.t('Creation time'),
       dataIndex: 'createAt',
       width: 200,
       hidden: true,

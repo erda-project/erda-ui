@@ -265,7 +265,7 @@ const Backlog = () => {
         key: 'title',
         emptyText: i18n.t('dop:All'),
         fixed: true,
-        placeholder: i18n.t('dop:please enter title or ID'),
+        placeholder: i18n.t('dop:please enter the title or ID'),
         type: 'input' as const,
       },
     ],

@@ -16,6 +16,7 @@ import Clipboard from 'clipboard';
 import { isString } from 'lodash';
 import { message } from 'antd';
 import i18n from 'i18n';
+import { firstCharToUpper } from 'app/common/utils';
 
 const selectorMap = {};
 const innerClassName = 'cursor-copy';
@@ -63,7 +64,9 @@ class Copy extends React.PureComponent<IProps> {
           onSuccess(e);
         }
         message.success(
-          `${i18n.t('Copy')} ${e.trigger.getAttribute('data-clipboard-tip') || tipName} ${i18n.t('succeed')}`,
+          firstCharToUpper(
+            `${e.trigger.getAttribute('data-clipboard-tip') || tipName} ${i18n.t('copied')} ${i18n.t('successfully')}`,
+          ),
           1,
         );
         e.clearSelection();

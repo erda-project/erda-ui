@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'core/cube';
-import { getAppList } from '../services/release';
+import { getMyAppList } from '../services/release';
 
 interface IState {
   appList: RELEASE.AppDetail[];
@@ -27,7 +27,7 @@ const releaseStore = createStore({
   state: initState,
   effects: {
     async getAppList({ call, update }, payload: { projectId: string; q?: string }) {
-      const res = await call(getAppList, { ...payload, pageSize: 1000 });
+      const res = await call(getMyAppList, { ...payload, pageSize: 1000 });
       const { list } = res;
       update({ appList: list.map((item) => ({ ...item, title: item.displayName })) });
     },

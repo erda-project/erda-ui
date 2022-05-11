@@ -16,7 +16,7 @@ import { logInfo, logSuccess } from './util/log';
 import dotenv from 'dotenv';
 import execa from 'execa';
 import { EOL } from 'os';
-import { ALL_MODULES, isCwdInRoot } from './util/env';
+import { isCwdInRoot } from './util/env';
 import ora from 'ora';
 import inquirer from 'inquirer';
 
@@ -34,16 +34,11 @@ export default async ({
 
   logInfo('Start local environment initialization');
   if (!skipInstall) {
-    let spinner = ora('[1/2] Installing lerna, pnpm & commitizen globally...').start();
-    const { stdout: msg } = await execa('npm', ['i', '-g', '--force', 'pnpm', 'commitizen', 'lerna']);
+    const spinner = ora('Installing commitizen globally...').start();
+    logInfo('If get permission denied error, please run add `sudo` before command.');
+    const { stdout: msg } = await execa('npm', ['i', '-g', '--force', 'commitizen']);
     logInfo(msg);
-    logSuccess('Successfully installed pnpm, commitizen globally😁');
-    spinner.stop();
-
-    spinner = ora('[2/2] Installing dependencies...').start();
-    const { stdout: installMsg } = await execa('pnpm', ['i']);
-    logInfo(installMsg);
-    logSuccess('Installing dependencies finished.');
+    logSuccess('Successfully installed commitizen globally😁');
     spinner.stop();
   }
 
@@ -70,7 +65,6 @@ export default async ({
       },
     ]);
     newConfig.UC_BACKEND_URL = ucUrl;
-    newConfig.MODULES = ALL_MODULES.join(',');
     newConfig.SCHEDULER_PORT = port || '3000';
     const { hostUrl } = await inquirer.prompt([
       {

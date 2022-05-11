@@ -15,6 +15,7 @@ import React from 'react';
 import i18n from 'i18n';
 import CommonChart from 'apiManagePlatform/components/chart';
 import { isEqual } from 'lodash';
+import { firstCharToUpper } from 'app/common/utils';
 
 interface IProps {
   queries: {
@@ -27,7 +28,9 @@ interface IProps {
 const OverviewChart = ({ queries }: IProps) => {
   return (
     <div className="overview-chart mb-3 border-all bg-white p-3">
-      <div className="title text-base font-medium mb-3">{i18n.t('Traffic Overview')}</div>
+      <div className="title text-base font-medium mb-3">
+        {firstCharToUpper(i18n.t('Traffic Overview').toLowerCase())}
+      </div>
       <CommonChart type="apim_summary" extraQuery={queries} />
     </div>
   );

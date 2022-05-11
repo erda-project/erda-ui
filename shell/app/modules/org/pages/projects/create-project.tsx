@@ -219,10 +219,10 @@ const templateArr: ICardProps[] = [
 ];
 
 const workSpaceMap = {
-  DEV: i18n.t('dev environment'),
-  TEST: i18n.t('test environment'),
-  STAGING: i18n.t('staging environment'),
-  PROD: i18n.t('prod environment'),
+  DEV: firstCharToUpper(i18n.t('development environment')),
+  TEST: i18n.t('Testing environment'),
+  STAGING: firstCharToUpper(i18n.t('staging environment')),
+  PROD: firstCharToUpper(i18n.t('cmp:production environment')),
 };
 
 const CreationForm = ({ createType }: { createType: string }) => {
@@ -293,7 +293,7 @@ const CreationForm = ({ createType }: { createType: string }) => {
   const fieldsList = [
     ...insertWhen(createType === 'createProject', [
       {
-        label: i18n.t('select template'),
+        label: i18n.t('select the template'),
         name: 'template',
         initialValue: templateArr[0].val,
         getComp: ({ form }: { form: FormInstance }) => (

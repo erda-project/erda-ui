@@ -21,7 +21,7 @@ import EmptySVG from 'app/images/upload_empty.svg';
 import { useMount, useInterval } from 'react-use';
 import ErdaTable from 'common/components/table';
 import userStore from 'app/user/stores';
-import { getDefaultPaging, setApiWithOrg, getAvatarChars } from 'common/utils';
+import { getDefaultPaging, setApiWithOrg, getAvatarChars, firstCharToUpper } from 'common/utils';
 import { importExportFileRecord } from 'org/services/project-list';
 import testCaseStore from 'project/stores/test-case';
 import i18n, { isZh } from 'i18n';
@@ -224,27 +224,29 @@ const Import = (props: ImportProps) => {
             <div className="flex-all-center cursor-pointer w-full">
               <img src={EmptySVG} style={{ height: 80 }} />
               <div className="flex flex-col ml-2">
-                <span className="text-base font-medium text-default ">{i18n.t('dop:upload files')}</span>
+                <span className="text-base font-medium text-default ">
+                  {firstCharToUpper(i18n.t('cmp:Upload File').toLowerCase())}
+                </span>
                 <span className="text-xs text-default-6">{i18n.t('dop:Click to browse and upload')}</span>
               </div>
             </div>
           </Upload>
         </div>
         <div className="flex flex-col mt-2">
-          1.{i18n.t('dop:Currently XMind and Excel files are supported')}
+          1.{i18n.t('dop:Currently XMind and Excel files are supported')}.
           <p className="my-3">
             &nbsp;&nbsp;{i18n.t('dop:To import with Excel, please')}
             <a href={`/static/usecase_model_${locale}.xlsx`} className="text-purple-deep">
-              {i18n.t('dop:download template')}
+              {i18n.t('dop:download the template')}
             </a>
-            ；
+            .
           </p>
           <p className="mb-3">
             &nbsp;&nbsp;{i18n.t('dop:To import with XMind, please')}
             <a href={`/static/usecase_model_${locale}.xmind`} className="text-purple-deep">
-              {i18n.t('dop:download template')}
+              &nbsp;{i18n.t('dop:download the template')}
             </a>
-            。
+            .
           </p>
           <div className="">2.{i18n.t('dop:The file will be imported based on the currently selected test set.')}</div>
         </div>

@@ -55,7 +55,7 @@ const DeleteConfirm = (props: IProps) => {
     let _countDown = countDown;
     const _okText = okText || i18n.t('common:Yes');
     const modalRef = confirm({
-      title: title || `${i18n.t('common:confirm deletion')}？`,
+      title: title || `${i18n.t('common:confirm to delete')}？`,
       content: secondTitle || `${i18n.t('common:confirm this action')}？`,
       onOk() {
         onConfirm();

@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { Radio, Space } from 'antd';
-import { Badge, Ellipsis, Pagination, EmptyHolder } from 'common';
+import { Badge, Ellipsis, Pagination, EmptyHolder, Tags } from 'common';
 import moment from 'moment';
 import i18n from 'i18n';
 
@@ -50,14 +50,19 @@ const ReleaseSelector = (props: IProps) => {
                 <Radio
                   value={item.releaseId}
                   key={item.releaseId}
-                  className={`theme-dark p-2 text-white-8 mr-0 w-full hover:text-white hover:bg-white-06 ${
-                    value === item.releaseId ? 'bg-white-06' : ''
+                  className={`p-2 text-default-8 mr-0 w-full hover:text-default hover:bg-default-06 ${
+                    value === item.releaseId ? 'bg-default-06' : ''
                   }`}
                 >
                   <div className="flex flex-h-center  justify-between w-[500px] ">
-                    <div className="flex-1 flex overflow-hidden">
+                    <div className="flex overflow-hidden">
                       <Ellipsis className="mx-1" title={item.version || item.releaseId} />
                       <Badge status={status} text={statusText} showDot={false} />
+                    </div>
+                    <div className="flex-1 mx-1">
+                      {item.tags ? (
+                        <Tags labels={item.tags.map((tag) => ({ color: tag.color, label: tag.name }))} />
+                      ) : null}
                     </div>
                     <span className="ml-3">
                       {item.createdAt && moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss')}
@@ -68,7 +73,7 @@ const ReleaseSelector = (props: IProps) => {
             })}
           </Space>
         ) : (
-          <EmptyHolder relative className={'w-[500px] text-white-6'} />
+          <EmptyHolder relative className={'w-[500px] text-default-6'} />
         )}
       </Radio.Group>
       {list.length ? (

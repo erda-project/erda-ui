@@ -17,6 +17,7 @@ import { ErdaIcon } from 'common';
 import { Select, Divider } from 'antd';
 import { WithAuth } from 'user/common';
 import { notifyChannelOptionsMap } from 'application/pages/settings/components/app-notify/common-notify-group';
+import { firstCharToUpper } from 'app/common/utils';
 
 const { Option } = Select;
 
@@ -52,7 +53,7 @@ export const NotifyStrategySelect = ({
       <Select
         className="mr-8"
         style={{ width: 180 }}
-        placeholder={i18n.t('cmp:select group')}
+        placeholder={firstCharToUpper(i18n.t('cmp:select the group'))}
         value={current?.groupId}
         onSelect={(groupId: number) => {
           updater(groupId);

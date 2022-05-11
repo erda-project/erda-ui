@@ -98,7 +98,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
 
   const formal = () => {
     Modal.confirm({
-      title: i18n.t('dop:Confirm to transfer XXX to formal?', {
+      title: i18n.t('dop:Confirm to transfer {name} to formal?', {
         name: version,
         interpolation: { escapeValue: false },
       }),
@@ -209,7 +209,7 @@ const ReleaseApplicationDetail = ({ isEdit = false }: { isEdit: boolean }) => {
                 { label: i18n.t('Creator'), value: userId ? <UserInfo id={userId} /> : '-' },
                 { label: i18n.t('Creation time'), value: createdAt && moment(createdAt).format('YYYY/MM/DD HH:mm:ss') },
                 { label: i18n.t('dop:Code branch'), value: labels.gitBranch },
-                { label: 'Commit Id', value: labels.gitCommitId },
+                { label: 'Commit ID', value: labels.gitCommitId },
                 { label: 'Commit message', value: labels.gitCommitMessage },
                 { label: `GitRepo ${i18n.t('dop:address')}`, value: labels.gitRepo },
               ])}

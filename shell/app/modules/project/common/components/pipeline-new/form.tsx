@@ -22,6 +22,7 @@ import appStore from 'application/stores/application';
 import { decode } from 'js-base64';
 
 import './form.scss';
+import { firstCharToUpper } from 'app/common/utils';
 
 interface IProps {
   onOk: () => void;
@@ -60,8 +61,8 @@ const interfaceMap = {
 };
 
 const titleMap = {
-  edit: i18n.t('edit {name}', { name: i18n.t('Pipeline') }),
-  add: i18n.t('create {name}', { name: i18n.t('Pipeline') }),
+  edit: firstCharToUpper(i18n.t('edit {name}', { name: i18n.t('Pipeline').toLowerCase() })),
+  add: firstCharToUpper(i18n.t('create {name}', { name: i18n.t('Pipeline').toLowerCase() })),
 };
 
 const btnMap = {
@@ -257,7 +258,10 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
             name={'name'}
             type={'input'}
             rules={[
-              { required: true, message: i18n.t('Please enter the {name}', { name: i18n.t('Pipeline') }) },
+              {
+                required: true,
+                message: i18n.t('Please enter the {name}', { name: i18n.t('Pipeline').toLowerCase() }),
+              },
               { max: 30, message: i18n.t('dop:no more than 30 characters') },
               {
                 pattern: /^[\u4e00-\u9fa5A-Za-z0-9._-]+$/,
@@ -266,7 +270,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
             ]}
             itemProps={{
               className: 'border-transparent shadow-none pl-0 text-xl bg-transparent',
-              placeholder: i18n.t('Please enter the {name}', { name: i18n.t('Pipeline') }),
+              placeholder: i18n.t('Please enter the {name}', { name: i18n.t('Pipeline').toLowerCase() }),
             }}
           />
           <div>
@@ -274,7 +278,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
             <CodeResource />
           </div>
           <div>
-            <div className="text-default mb-3">{i18n.t('Config')}</div>
+            <div className="text-default mb-3">{i18n.t('Configuration')}</div>
             <div className="flex-h-center">
               <div className="mb-3 w-32 text-default-6 flex-h-center">
                 <ErdaIcon type="yingyongmingcheng" size={20} className="text-default-4 mr-1" />
@@ -314,7 +318,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
                       validator: (_: string, value: string) => {
                         if (!value) {
                           return Promise.reject(
-                            new Error(i18n.t('please choose the {name}', { name: i18n.t('Pipelines') })),
+                            new Error(i18n.t('please choose the {name}', { name: i18n.t('Pipelines').toLowerCase() })),
                           );
                         }
 

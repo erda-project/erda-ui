@@ -207,7 +207,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
           name: 'message',
           type: 'textArea',
           itemProps: {
-            placeholder: i18n.t('dop:submit information'),
+            placeholder: i18n.t('dop:Commit information'),
             autoSize: { minRows: 3, maxRows: 7 },
             maxLength: 200,
           },

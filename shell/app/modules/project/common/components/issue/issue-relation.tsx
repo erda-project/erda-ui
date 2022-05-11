@@ -382,7 +382,7 @@ export const IssueConnection = ({ issueDetail, iterationID, editAuth, setHasEdit
     ...insertWhen(showCaseRelation, [
       {
         key: 'testcase',
-        text: `${i18n.t('dop:Test case')}(${issueDetail?.testPlanCaseRels?.length})`,
+        text: `${i18n.t('dop:Test Case')}(${issueDetail?.testPlanCaseRels?.length})`,
         data: issueDetail?.testPlanCaseRels,
         operations: null,
         content: <IssueTestCaseRelation list={issueDetail?.testPlanCaseRels || []} />,

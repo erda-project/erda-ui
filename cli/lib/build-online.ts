@@ -13,7 +13,7 @@
 
 import execa, { ExecaChildProcess } from 'execa';
 import { logSuccess, logError } from './util/log';
-import { checkIsRoot, clearPublic, killPidTree, ALL_MODULES } from './util/env';
+import { clearPublic, killPidTree, ALL_MODULES, isCwdInRoot } from './util/env';
 import generateVersion from './util/gen-version';
 import localIcon from './local-icon';
 
@@ -32,7 +32,7 @@ const buildModules = async (rebuildList: string[]) => {
   const pList: ExecaChildProcess[] = [];
   rebuildList.forEach((moduleName) => {
     const moduleDir = dirMap.get(moduleName);
-    const promise = execa('npm', ['run', 'build'], {
+    const promise = execa('pnpm', ['run', 'build'], {
       cwd: moduleDir,
       env: {
         ...process.env,
@@ -55,7 +55,7 @@ const buildModules = async (rebuildList: string[]) => {
 
 export default async () => {
   try {
-    checkIsRoot();
+    isCwdInRoot({ alert: true });
 
     const buildList = ALL_MODULES;
 

@@ -88,7 +88,7 @@ export class LogRoller extends React.Component<IProps, IState> {
       this.searchCount = 1;
       if (this.logRoller) {
         this.scrollToBottom();
-        this.rollingTimeout = setTimeout(() => this.fetchLog(Direction.forward), fetchPeriod);
+        this.rollingTimeout = setTimeout(() => this.forwardLog(), fetchPeriod);
       }
     });
   }
@@ -124,7 +124,7 @@ export class LogRoller extends React.Component<IProps, IState> {
         if (this.logRoller) {
           this.scrollToBottom();
           if (this.rollingTimeout !== undefined) {
-            this.rollingTimeout = setTimeout(() => this.fetchLog(Direction.forward), fetchPeriod);
+            this.rollingTimeout = setTimeout(() => this.forwardLog(), fetchPeriod);
           }
         }
       });
@@ -165,15 +165,15 @@ export class LogRoller extends React.Component<IProps, IState> {
       }
       reQuery.count = Number(size);
     } else if (Direction.backward === direction) {
+      reQuery.count = -1 * Number(size);
       if (searchContext && this.searchCount === 0) {
         reQuery.end = start;
       } else {
-        reQuery.start = 0;
+        reQuery.start = filter?.start ?? 0;
         const firstItem = first(content);
-        reQuery.end = firstItem ? firstItem.timestamp : Number(end) || getCurTimeNs();
+        reQuery.end = firstItem ? firstItem.timestamp : filter?.end || Number(end) || getCurTimeNs();
+        return { ...filter, ...reQuery, ...rest, logKey };
       }
-
-      reQuery.count = -1 * Number(size);
     }
     return { ...reQuery, ...filter, ...rest, logKey };
   };
