@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 import { ENV_MAP } from 'app/locales/utils';
-import { APP_TABS, DEPLOY_RUNTIME_TABS } from './tabs';
+import { APP_TABS, DEPLOY_RUNTIME_TABS, MR_DETAIL_TABS } from './tabs';
 
 function getAppRouter(): RouteConfigItem {
   return {
@@ -103,6 +103,7 @@ function getAppRouter(): RouteConfigItem {
             routes: [
               {
                 path: 'createMR',
+                tabs: MR_DETAIL_TABS,
                 breadcrumbName: i18n.t('dop:merge request'),
                 ignoreTabQuery: true,
                 backToUp: 'repoMr',
@@ -111,6 +112,7 @@ function getAppRouter(): RouteConfigItem {
               },
               {
                 path: ':mergeId',
+                tabs: MR_DETAIL_TABS,
                 breadcrumbName: i18n.t('dop:merge request'),
                 backToUp: 'repoMr',
                 ignoreTabQuery: true,
