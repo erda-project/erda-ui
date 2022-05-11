@@ -41,6 +41,7 @@ import { FIELD_WITH_OPTION } from 'org/common/config';
 import { produce } from 'immer';
 import issueFieldStore from 'org/stores/issue-field';
 import orgStore from 'app/org-home/stores/org';
+import { useUnmount } from 'react-use';
 import { templateMap } from 'project/common/issue-config';
 import IssueMetaFields from './meta-fields';
 import { IssueInclusion, IssueConnection } from '../issue-relation';
@@ -200,7 +201,6 @@ export const EditIssueDrawer = (props: IProps) => {
   React.useEffect(() => {
     if (visible) {
       if (id) {
-        getIssueDetail({ id });
         getIssueStreams({ type: issueType, id, pageNo: 1, pageSize: 100 });
         getCustomFields();
       }
@@ -835,4 +835,31 @@ export const EditIssueDrawer = (props: IProps) => {
   );
 };
 
-export default EditIssueDrawer;
+const EditIssueDrawerContainer = (props: IProps) => {
+  const { id, visible: propsVisible } = props;
+  const { getIssueDetail } = issueStore.effects;
+  const [visible, setVisible] = React.useState(false);
+  const [hasData, setHasData] = React.useState(false);
+
+  useUnmount(() => {
+    setHasData(false);
+  });
+  React.useEffect(() => {
+    id &&
+      getIssueDetail({ id: +id }).then(() => {
+        setHasData(true);
+      });
+  }, [id]);
+
+  React.useEffect(() => {
+    if (id) {
+      setVisible(propsVisible ? propsVisible && hasData : propsVisible);
+    } else {
+      setVisible(propsVisible);
+    }
+  }, [id, propsVisible, hasData]);
+
+  return <EditIssueDrawer {...props} visible={visible} />;
+};
+
+export default EditIssueDrawerContainer;
