@@ -131,7 +131,6 @@ const PageContainer = ({ route }: IProps) => {
   } else if (state.startInit) {
     MainContent = <RenderMainContent noWrapper={noWrapper} customMain={customMain} route={route} layout={layout} />;
   }
-
   return (
     <Shell
       className={layoutClass}
@@ -139,11 +138,11 @@ const PageContainer = ({ route }: IProps) => {
       sidebar={showSidebar ? <SideBar /> : undefined}
       breadcrumb={!hideHeader ? <Breadcrumb /> : undefined}
       announcement={!hideHeader ? <Announcement /> : undefined}
-      mainClassName={classnames({ 'ml-4': !showSidebar, 'mt-0': hideHeader })}
+      mainClassName={classnames({ 'mt-0': hideHeader })}
     >
       {!hideHeader && (
         <>
-          <Header />
+          <Header layout={layout} />
           <div className={`main-scroll-tip ${y > 2 ? 'show' : ''}`} aria-hidden="true" />
         </>
       )}

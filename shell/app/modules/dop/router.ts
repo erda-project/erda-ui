@@ -213,7 +213,7 @@ export default function getDopRouter(): RouteConfigItem[] {
       path: 'perm',
       toMark: 'orgIndex',
       pageName: i18n.t('role permissions description'),
-      layout: { hideSidebar: true, fullHeight: true },
+      layout: { hideSidebar: true, fullHeight: true, noWrapper: true },
       getComp: (cb) => cb(import('user/common/perm-editor/perm-editor'), 'PermEditor'),
     },
   ];

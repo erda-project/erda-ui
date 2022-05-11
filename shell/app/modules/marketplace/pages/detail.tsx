@@ -16,36 +16,38 @@ import { getServiceDetail } from 'marketplace/services';
 import routeInfoStore from 'core/stores/route';
 import { ErdaIcon, MarkdownRender, Ellipsis, TextBlockInfo, TagsRow } from 'common';
 import { useMount } from 'react-use';
-import { Dropdown, Spin, Menu, Tooltip } from 'antd';
+import { goTo } from 'common/utils';
+import { Dropdown, Menu, Tooltip } from 'antd';
 import i18n from 'i18n';
+import './detail.scss';
 
 const Detail = () => {
-  const { id } = routeInfoStore.useStore((s) => s.params);
-  const [data, loading] = getServiceDetail.useState();
-  const [content, setContent] = React.useState<MARKET.Service | null>(null);
+  const { id, type } = routeInfoStore.useStore((s) => s.params);
+  const [data] = getServiceDetail.useState();
+  const [curVersion, setCurVersion] = React.useState<MARKET.Version | null>(null);
 
   useMount(() => {
     getServiceDetail.fetch({ id });
   });
 
   React.useEffect(() => {
-    const list = data?.list || [];
-    if (!content) {
-      setContent(list?.[0]);
+    const versions = data?.versions || [];
+    if (versions?.length) {
+      setCurVersion(versions?.[0]);
     }
-  }, [data, content]);
+  }, [data]);
 
   const menu = (
     <Menu
       onClick={(e) => {
-        setContent(data?.list?.find((item) => item.version === e.key) || null);
+        setCurVersion(data?.versions?.find((item) => item.version === e.key) || null);
       }}
       className="p-3 w-[200px]"
     >
       <Menu.Item key={'chosen'} disabled className="text-default-6 text-xs mb-3">
-        {'选择版本'}
+        {i18n.t('please select version')}
       </Menu.Item>
-      {(data?.list || []).map((item) => {
+      {(data?.versions || []).map((item) => {
         return (
           <Menu.Item key={item.version}>
             <div className="flex-h-center justify-between">
@@ -53,7 +55,7 @@ const Detail = () => {
                 <ErdaIcon size={16} type="version" />
                 <span className="ml-2 text-default">{item.version}</span>
               </div>
-              {content?.version === item.version ? <ErdaIcon type="check" className="text-purple-deep" /> : null}
+              {curVersion?.version === item.version ? <ErdaIcon type="check" className="text-purple-deep" /> : null}
             </div>
           </Menu.Item>
         );
@@ -62,78 +64,113 @@ const Detail = () => {
   );
 
   const blockTexts = [
-    { main: content?.version || '-', sub: i18n.d('版本') },
-    { main: content?.orgName || '-', sub: i18n.d('发布者') },
+    { main: curVersion?.version || '-', sub: i18n.t('Version') },
+    { main: data?.orgName || '-', sub: i18n.t('Publisher') },
   ];
-  const curPresentation = content?.presentation;
 
   const infos = [
     {
       icon: 'link',
-      link: curPresentation?.homepageURL,
-      text: curPresentation?.homepageName || curPresentation?.homepageURL,
+      link: `${curVersion?.homepageURL}`,
+      text: `${curVersion?.homepageName || curVersion?.homepageURL}`,
+      show: !!curVersion?.homepageURL,
     },
-    { icon: 'link', link: curPresentation?.opensourceURL, text: curPresentation?.opensourceURL },
+    {
+      icon: 'link',
+      link: curVersion?.opensourceURL,
+      text: curVersion?.opensourceURL,
+      show: !!curVersion?.opensourceURL,
+    },
     {
       icon: 'zerenren',
-      text: `${curPresentation?.contactName}  ${curPresentation?.contactEmail}`,
+      text: `${curVersion?.contactEmail}`,
+      show: !!curVersion?.contactEmail,
     },
-  ];
+  ].filter((item) => item.show);
+
+  const downloadAttr: [() => void, string] =
+    curVersion?.isDownloadable && curVersion?.downloadURL
+      ? [
+          () => {
+            window.open(curVersion.downloadURL);
+          },
+          '',
+        ]
+      : [() => {}, 'cursor-not-allowed	'];
 
   return (
-    <div className="bg-white py-3 pl-3 pr-10">
+    <div className="bg-white py-3 pl-4 pr-10 h-full marketplace-detail">
       <div>
-        <ErdaIcon type="arrow-left" size="20" className="cursor-pointer text-gray mr-3" onClick={() => {}} />
+        <ErdaIcon
+          type="arrow-left"
+          size="20"
+          className="cursor-pointer text-gray mr-3"
+          onClick={() => {
+            goTo(goTo.pages.marketplaceRoot, { type });
+          }}
+        />
       </div>
       <div className="flex justify-between">
-        <div className="w-full">
-          <MarkdownRender value={content?.presentation?.readme || i18n.t('No description')} />
+        <div className="w-full pl-8">
+          <MarkdownRender value={curVersion?.readme || i18n.t('No description')} />
         </div>
         <div className="py-3 text-default">
           <div className="w-[296px] pl-4 border-left pt-2">
             <div className="flex-h-center w-full">
-              <div className="w-16 h-16 mr-3 rounded p-2 bg-default-04">
-                <img src={content?.logoURL} className="w-full h-full mr-3 rounded" />
+              <div className="w-16 h-16 mr-3 rounded p-2 bg-default-06">
+                <img src={curVersion?.logoURL} className="w-full h-full mr-3 rounded" />
               </div>
               <div className="flex-1 w-[180px]">
-                <div className="text-default leading-[22px]">{content?.displayName || content?.name}</div>
-                <Ellipsis className="text-default-8 text-xs leading-5" title={content?.summary} />
+                <div className="text-default leading-[22px]">{data?.displayName || data?.name}</div>
+                <Ellipsis className="text-default-8 text-xs leading-5" title={curVersion?.summary} />
                 <Dropdown.Button
-                  icon={<ErdaIcon type="caret-down" className="opacity-30 hover:opacity-100 mt-0.5" />}
+                  icon={<ErdaIcon type="caret-down" className="opacity-40 hover:opacity-100 mt-0.5" />}
                   type="primary"
                   size="small"
-                  className="rounded-2xl mt-2"
+                  className="marketplace-detail-download mt-2"
                   overlay={menu}
                   placement={'bottomRight'}
                 >
-                  <span className="px-1">{i18n.d('下载该版本')}</span>
+                  <span onClick={() => downloadAttr[0]?.()} className={`px-1 ${downloadAttr[1]}`}>
+                    {i18n.t('dop:Download Version')}
+                  </span>
                 </Dropdown.Button>
               </div>
             </div>
-            <div className="flex-h-center my-8">
+            <div className="flex-h-center mt-5 mb-6 py-3">
               {blockTexts.map((item) => (
-                <TextBlockInfo {...item} size="small" align={'center'} className="flex-1" key={item.sub} />
+                <TextBlockInfo
+                  {...item}
+                  size="small"
+                  align={'center'}
+                  className="flex-1 overflow-hidden"
+                  key={item.sub}
+                />
               ))}
             </div>
-            <div>
-              <div className="mb-2 font-bold">{i18n.d('简介')}</div>
-              <div className="leading-[22px] mb-4">{content?.presentation?.desc || '-'}</div>
-            </div>
-
-            <div className="mt-6">
-              <div className="mb-2 font-bold">{i18n.d('标签')}</div>
-              <div className="">
-                <TagsRow
-                  labels={(content?.labels || []).map((l) => ({ label: l }))}
-                  showCount={content?.labels.length}
-                  containerClassName="ml-2"
-                  labelsClassName={'flex-wrap'}
-                />
+            {curVersion?.desc ? (
+              <div>
+                <div className="mb-2 font-bold">{i18n.t('Introduction')}</div>
+                <div className="leading-[22px] mb-4">{curVersion.desc || '-'}</div>
               </div>
-            </div>
+            ) : null}
+
+            {curVersion?.labels?.length ? (
+              <div className="mt-6">
+                <div className="mb-2 font-bold">{i18n.t('Label')}</div>
+                <div className="">
+                  <TagsRow
+                    labels={curVersion.labels.map((l) => ({ label: l }))}
+                    showCount={curVersion.labels.length}
+                    containerClassName="ml-2"
+                    labelsClassName={'flex-wrap'}
+                  />
+                </div>
+              </div>
+            ) : null}
 
             <div className="mt-6">
-              <div className="mb-2 font-bold">{i18n.d('信息')}</div>
+              <div className="mb-2 font-bold">{i18n.t('Information')}</div>
               {infos.map((item, idx) => (
                 <div key={item.text || `${idx}`} className="flex items-center h-8 mb-2">
                   <ErdaIcon type={item.icon} size={16} className="text-default-3 mr-2" />

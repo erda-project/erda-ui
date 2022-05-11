@@ -83,8 +83,8 @@ export const appList: () => LAYOUT.IApp[] = () =>
       {
         key: 'marketplace',
         icon: 'market-entry',
-        name: i18n.d('市场'),
-        breadcrumbName: i18n.d('市场'),
+        name: i18n.t('Marketplace'),
+        breadcrumbName: i18n.t('Marketplace'),
         href: goTo.resolve.marketplaceRoot({ type: 'all' }),
       },
     ],

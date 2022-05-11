@@ -1,39 +1,26 @@
-.marketplace {
-  .marketplace-lists {
-    position: relative;
-    > * {
-      margin-right: 16px;
-    }
+.marketplace-lists {
+  position: relative;
 
-    .marketplace-service {
+  .marketplace-service {
+    position: relative;
+    .info-container {
       position: relative;
-      .info-container {
-        position: relative;
-        &::after {
-          height: 1px;
-          width: 100%;
-          position: absolute;
-          bottom: -16px;
-          content: '';
-          background-color: $color-border;
-        }
+      &::after {
+        height: 1px;
+        width: 100%;
+        position: absolute;
+        bottom: -16px;
+        content: '';
+        background-color: $color-border;
       }
     }
-    &::after {
-      position: absolute;
-      width: 100%;
-      height: 2px;
-      content: '';
-      bottom: 0;
-      background-color: $white;
-    }
   }
-}
-
-.marketplace-tab-fixed {
-  position: fixed;
-  top: 0;
-  z-index: 100;
-  background-color: $white;
-  @extend %shallow-shadow;
+  &::after {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    content: '';
+    bottom: 0;
+    background-color: $white;
+  }
 }

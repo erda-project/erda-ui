@@ -15,7 +15,7 @@ import React from 'react';
 import marketplaceHeader from 'app/images/marketplace-header.jpeg';
 import { getServiceTypes, getServiceList } from 'marketplace/services';
 import routeInfoStore from 'core/stores/route';
-import { SimpleTabs, ErdaIcon, Pagination, Ellipsis } from 'common';
+import { SimpleTabs, ErdaIcon, Pagination, Ellipsis, Responsive } from 'common';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import { Input, Spin } from 'antd';
 import { debounce, throttle } from 'lodash';
@@ -25,14 +25,15 @@ import './index.scss';
 
 const Market = () => {
   const type = routeInfoStore.useStore((s) => s.params.type);
-  const [types] = getServiceTypes.useState();
+  const [typesData] = getServiceTypes.useState();
   const [data, loading] = getServiceList.useState();
+  const types = typesData?.list || [];
   const list = data?.list || [];
   const paging = data?.paging || getDefaultPaging();
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const [searchKey, setSearchKey] = React.useState('');
   const [tabFixed, setTabFixed] = React.useState(false);
-  const [width, setWidth] = React.useState<undefined | number>(0);
+  const [searchKey, setSearchKey] = React.useState('');
+
   const [query, setQuery] = React.useState<MARKET.ServiceReq>({
     pageNo: paging.pageNo,
     pageSize: paging.pageSize,
@@ -52,21 +53,10 @@ const Market = () => {
     [],
   );
 
-  const handleResize = React.useCallback(
-    throttle(() => {
-      setWidth(containerRef.current?.offsetWidth);
-      handleScroll();
-    }, 100),
-    [],
-  );
-
   useEffectOnce(() => {
     getServiceTypes.fetch();
-    setWidth(containerRef.current?.offsetWidth);
     containerRef.current?.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
       containerRef.current?.removeEventListener('scroll', handleScroll);
     };
   });
@@ -76,48 +66,30 @@ const Market = () => {
     setQuery((prev) => ({ ...prev, type, keyword: '', pageNo: 1 }));
   }, [type]);
 
-  const fullTypes = React.useMemo(() => [{ name: 'all', displayName: '全部' }, ...(types || [])], [types]);
+  const fullTypes = React.useMemo(
+    () => [{ type: 'all', name: 'all', displayName: i18n.t('common:All') }, ...(types || [])],
+    [types],
+  );
 
   React.useEffect(() => {
-    getServiceList.fetch(query);
-  }, [query]);
+    types.length &&
+      getServiceList.fetch({
+        ...query,
+        type: query.type === 'all' ? undefined : fullTypes.find((item) => item.name === query.type)?.type,
+      });
+  }, [query, types]);
 
   return (
-    <div className="h-full mr-4 bg-white overflow-auto relative" ref={containerRef}>
-      <div className="px-2 marketplace">
-        <div className="bg-cover bg-top h-[200px] rounded-b" style={{ backgroundImage: `url(${marketplaceHeader})` }} />
-        <div className="mt-[88px]">
-          <Spin spinning={loading}>
-            <div className="flex flex-wrap marketplace-lists">
-              {list?.map((item) => {
-                return (
-                  <ServiceCard
-                    key={item.id}
-                    data={item}
-                    onClick={() => goTo(goTo.pages.marketplaceDetail, { type, id: item.id })}
-                  />
-                );
-              })}
-            </div>
-          </Spin>
-          <Pagination
-            onChange={(no: number, size: number) => {
-              setQuery((prev) => ({ ...prev, pageSize: size, pageNo: no }));
-            }}
-            current={paging.pageNo}
-            total={paging.total}
-            pageSize={paging.pageSize}
-          />
-        </div>
-      </div>
+    <div className="h-full bg-white overflow-auto relative" ref={containerRef}>
       <div
-        className={`pt-3 px-2 pb-2 ${tabFixed ? 'marketplace-tab-fixed' : 'absolute top-[200px]'}`}
-        style={{ width }}
-      >
+        className="bg-cover mx-4 bg-top h-[200px] rounded-b"
+        style={{ backgroundImage: `url(${marketplaceHeader})` }}
+      />
+      <div className={`pt-3 px-4 pb-2 w-full bg-white sticky top-0 z-10 ${tabFixed ? 'shadow' : ''}`}>
         <div className="w-[160px] h-[26px] flex-h-center my-3">
           <ErdaIcon type="Marketplace" size={160} />
         </div>
-        <div className="mt-2 flex-h-center justify-between">
+        <div className="mt-4 flex-h-center justify-between">
           <SimpleTabs
             value={type}
             tabs={(fullTypes || []).map((item) => ({ key: item.name, text: item.displayName }))}
@@ -138,6 +110,34 @@ const Market = () => {
           />
         </div>
       </div>
+
+      <div className="px-4">
+        <Spin spinning={loading}>
+          <div className="flex flex-wrap ">
+            <Responsive itemWidth={326} className="marketplace-lists">
+              {
+                list?.map((item) => {
+                  return (
+                    <ServiceCard
+                      key={item.id}
+                      data={item}
+                      onClick={() => goTo(goTo.pages.marketplaceDetail, { type, id: item.id })}
+                    />
+                  );
+                }) as Array<{ key: string }> | React.ReactChild
+              }
+            </Responsive>
+          </div>
+        </Spin>
+        <Pagination
+          onChange={(no: number, size: number) => {
+            setQuery((prev) => ({ ...prev, pageSize: size, pageNo: no }));
+          }}
+          current={paging.pageNo}
+          total={paging.total}
+          pageSize={paging.pageSize}
+        />
+      </div>
     </div>
   );
 };
@@ -145,16 +145,16 @@ const Market = () => {
 const ServiceCard = ({ data, onClick }: { data: MARKET.Service; onClick: () => void }) => {
   return (
     <div className="flex-h-center cursor-pointer py-4 marketplace-service" onClick={onClick}>
-      <div className="w-16 h-16 mr-3 rounded p-2 bg-default-04">
+      <div className="w-16 h-16 mr-3 rounded p-2 bg-default-06">
         <img src={data.logoURL} className="w-full h-full mr-3 rounded" />
       </div>
-      <div className="w-[180px] info-container">
+      <div className="w-[250px] info-container">
         <div className="text-default leading-[22px]">{data.displayName || data.name}</div>
         <Ellipsis className="text-default-8 text-xs leading-5" title={data.summary} />
-        <div className="text-default-6 text-xs leading-4">{data.type}</div>
+        <div className="text-default-6 text-xs leading-4">{data.typeName}</div>
         <div className="flex-h-center mt-2">
-          <div className="flex-h-center bg-default-04 text-xs text-default-8 leading-6 px-3 rounded-2xl">
-            {i18n.d('了解更多')}
+          <div className="flex-h-center bg-default-06 text-xs text-default-8 leading-6 px-3 rounded-2xl">
+            {i18n.t('dop:Learn More')}
           </div>
           <div className="text-default-6 leading-4 transform scale-75">{`by ${data.orgName}`}</div>
         </div>

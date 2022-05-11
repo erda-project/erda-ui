@@ -139,7 +139,7 @@ const DebugConfigPage = () => {
   };
 
   return (
-    <div className="h-full debug-page-container flex flex-col">
+    <div className="h-full debug-page-container flex flex-col ml-4">
       <div className="flex justify-between mb-1 item-center">
         <div className="w-52">
           <Checkbox checked={showCode} onChange={(e) => setShowCode(e.target.checked)}>
