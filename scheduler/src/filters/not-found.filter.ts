@@ -21,7 +21,7 @@ import { getEnv, getHttpUrl, logger } from '../util';
 const { staticDir, envConfig } = getEnv();
 const { BACKEND_URL } = envConfig;
 const isLocal = BACKEND_URL.startsWith('https'); // online addr is openapi:9529, without protocol
-const API_URL = BACKEND_URL;
+const API_URL = getHttpUrl(BACKEND_URL);
 
 const indexHtmlPath = path.join(staticDir, 'shell', 'index.html');
 if (!fs.existsSync(indexHtmlPath)) {
@@ -73,6 +73,8 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         if (request.headers.referer) {
           headers.referer = request.headers.referer;
         }
+        headers['x-forwarded-proto'] = request.protocol;
+
         const token = getCookies(request.headers.cookie, 'OPENAPI-CSRF-TOKEN');
         if (token) {
           headers['OPENAPI-CSRF-TOKEN'] = token;
@@ -81,7 +83,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         // add {orgName} part only in local mode
         return axios(isLocal ? api.replace('/api', '/api/-') : api, {
           ...config,
-          baseURL: API_URL.startsWith('http') ? API_URL : `${request.protocol}://${API_URL}`,
+          baseURL: API_URL,
           headers,
           validateStatus: () => true, // pass data and error to later check
         });
