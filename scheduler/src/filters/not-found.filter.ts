@@ -56,6 +56,21 @@ $ta('start', { udata: { uid: 0 }, ak: "${TERMINUS_KEY}", url: "${TERMINUS_TA_COL
 }
 const [before, after] = newContent.split('<!-- $data -->');
 
+function XHeaders(req) {
+  var values = {
+    for: req.connection.remoteAddress || req.socket.remoteAddress,
+    port: req.port,
+    proto: req.protocol,
+  };
+
+  ['for', 'port', 'proto'].forEach(function (header) {
+    req.headers['x-forwarded-' + header] =
+      (req.headers['x-forwarded-' + header] || '') + (req.headers['x-forwarded-' + header] ? ',' : '') + values[header];
+  });
+
+  req.headers['x-forwarded-host'] = req.headers['x-forwarded-host'] || req.headers['host'] || '';
+}
+
 @Catch(NotFoundException)
 export class NotFoundExceptionFilter implements ExceptionFilter {
   // same action as nginx try_files
@@ -73,8 +88,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
         if (request.headers.referer) {
           headers.referer = request.headers.referer;
         }
-        headers['x-forwarded-proto'] = request.protocol;
-
+        XHeaders(request);
         const token = getCookies(request.headers.cookie, 'OPENAPI-CSRF-TOKEN');
         if (token) {
           headers['OPENAPI-CSRF-TOKEN'] = token;
