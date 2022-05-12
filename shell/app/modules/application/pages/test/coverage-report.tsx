@@ -15,7 +15,6 @@ import React from 'react';
 import { Drawer } from 'antd';
 import i18n from 'i18n';
 import Echarts from 'charts/components/echarts';
-import { coverageReportColor } from 'application/common/config';
 import applicationTestStore from 'application/stores/test';
 
 interface IProps {
@@ -35,6 +34,11 @@ interface Report {
   path: string;
   value: number[];
 }
+
+const coverageReportColor = {
+  breadcrumbColor: '#996cd3',
+  levelsColor: ['#EC7D32', '#FEC100', '#4FAED4', '#A7BA64', '#36A47C'],
+};
 
 const CoverageReport = ({ visible, id, onClose }: IProps) => {
   const testDetail = applicationTestStore.useStore((s) => s.testDetail) as TestDetail;

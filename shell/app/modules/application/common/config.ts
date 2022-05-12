@@ -155,8 +155,3 @@ export const repositoriesTypes = {
     ),
   },
 };
-
-export const coverageReportColor = {
-  breadcrumbColor: '#996cd3',
-  levelsColor: ['#EC7D32', '#FEC100', '#4FAED4', '#A7BA64', '#36A47C'],
-};
