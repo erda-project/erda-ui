@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Button, Modal, FormInstance, Avatar } from 'antd';
-import { formatTime, fromNow, goTo, getAvatarChars } from 'common/utils';
+import { formatTime, fromNow, goTo, getAvatarChars, firstCharToUpper } from 'common/utils';
 import { useUserMap } from 'core/stores/userMap';
 import { useMount } from 'react-use';
 import { useUpdate } from 'common/use-hooks';
@@ -344,7 +344,11 @@ const CustomDashboardList = ({
       <FormModal
         width={800}
         ref={formRef}
-        title={`${isEditing ? i18n.t('cmp:Edit Name') : i18n.t('cmp:Add Dashboard')}`}
+        title={`${
+          isEditing
+            ? firstCharToUpper(i18n.t('cmp:Edit Name').toLowerCase())
+            : firstCharToUpper(i18n.t('cmp:Add Dashboard').toLowerCase())
+        }`}
         visible={formModalVisible}
         fieldsList={fieldsList}
         formData={formData}

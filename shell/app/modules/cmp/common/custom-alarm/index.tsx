@@ -319,7 +319,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
 
   const filterColumns = [
     {
-      title: i18n.t('tag'),
+      title: i18n.t('label'),
       dataIndex: 'tag',
       render: (value: string, { uniKey }: COMMON_CUSTOM_ALARM.Filter) => (
         <Select
@@ -343,7 +343,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
       ),
     },
     {
-      title: i18n.t('Operations'),
+      title: i18n.t('operation'),
       dataIndex: 'operator',
       render: (value: string, { uniKey }: COMMON_CUSTOM_ALARM.Filter) => (
         <Select
@@ -707,7 +707,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
   const RuleForm = ({ form }: { form: FormInstance }) => {
     let fieldsList = [
       {
-        label: `${i18n.t('Period')} (${i18n.t('min')})`,
+        label: `${i18n.t('Period')} (${i18n.t('common:minutes')})`,
         name: ['rule', 'window'],
         type: 'inputNumber',
         itemProps: {
@@ -946,7 +946,7 @@ const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
             onChange={(e) => {
               handleChange(e.target.value);
             }}
-            placeholder={i18n.t('search {name}', { name: i18n.t('Name') })}
+            placeholder={i18n.t('search the {name}', { name: i18n.t('Name').toLowerCase() })}
           />
         }
         loading={getCustomAlarmsLoading || switchCustomAlarmLoading}

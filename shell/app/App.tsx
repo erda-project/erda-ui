@@ -92,7 +92,7 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[], curOrg: ORG.IOrg, orgAcce
     // get the organization info first, or will get org is undefined when need org info (like issueStore)
     const orgName = get(location.pathname.split('/'), '[1]');
     if (orgName) {
-      await orgStore.effects.getOrgByDomain({ orgName });
+      await orgStore.effects.getOrgByDomain({ orgName, userData });
     }
     [
       import('layout/entry'),

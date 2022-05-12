@@ -62,7 +62,7 @@ const hasChannelMethod = (channelMethods: typeof notifyChannelOptionsMap, method
 export const getFinalNotifyChannelOptions = (channels: Obj<string>, isMonitor: boolean) => {
   const VMSChannel = { name: i18n.t('Phone-tel'), value: 'vms' };
   const SMSChannel = { name: i18n.t('SMS'), value: 'sms' };
-  const dingdingWorkChannel = { name: i18n.t('DingTalk'), value: 'dingtalk_work_notice' };
+  const dingdingWorkChannel = { name: i18n.t('DingTalk-work-notice'), value: 'dingtalk_work_notice' };
   const channelMethods = cloneDeep(notifyChannelOptionsMap);
   forEach(channels, (_, key) => {
     if (key === 'vms' && !hasChannelMethod(channelMethods, 'vms')) {
@@ -536,7 +536,7 @@ const NotifyGroup = ({ memberStore, commonPayload, tableKey }: IProps) => {
       <FormModal
         width={800}
         ref={formRef}
-        title={`${isEditing ? i18n.t('dop:edit group') : i18n.t('dop:Add group')}`}
+        title={`${isEditing ? firstCharToUpper(i18n.t('dop:edit group')) : i18n.t('dop:Add group')}`}
         visible={modalVisible}
         fieldsList={fieldsList}
         formData={activedData}

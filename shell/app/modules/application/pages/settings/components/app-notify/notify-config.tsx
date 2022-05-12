@@ -176,7 +176,7 @@ export const NotifyConfig = ({ commonPayload, memberStore, tableKey }: IProps) =
     },
     {
       name: 'notifyGroupId',
-      label: i18n.t('dop:select group'),
+      label: i18n.t('cmp:select the group'),
       required: true,
       getComp: ({ form }: { form: FormInstance }) => {
         return (

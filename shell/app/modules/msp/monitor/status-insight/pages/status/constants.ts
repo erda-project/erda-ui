@@ -10,14 +10,15 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+import { firstCharToUpper } from 'app/common/utils';
 import i18n from 'i18n';
 
 export default {
   HTTP_METHOD_LIST: ['GET', 'POST', 'PUT', 'HEAD'],
   TIME_LIMITS: [15, 30, 60, 120, 180, 300, 600, 1800],
   OPERATORS: {
-    '=': i18n.t('dop:equal to'),
-    '>': i18n.t('greater than'),
+    '=': firstCharToUpper(i18n.t('dop:equal to')),
+    '>': firstCharToUpper(i18n.t('greater than')),
     '>=': i18n.t('dop:Greater than or equal to'),
     '<=': i18n.t('dop:Less than or equal to'),
     '<': i18n.t('Less than'),

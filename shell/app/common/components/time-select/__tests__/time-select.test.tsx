@@ -16,6 +16,7 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { resetMockDate, setMockDate } from 'test/utils';
 import { autoRefreshDuration, relativeTimeRange } from '../utils';
 import TimeSelect from '..';
+import { firstCharToUpper } from 'app/common/utils';
 
 describe('TimeSelect', () => {
   it('should render well', () => {
@@ -27,7 +28,7 @@ describe('TimeSelect', () => {
         defaultValue={{ mode: 'quick', quick: 'days:1', customize: {} }}
       />,
     );
-    expect(result.getByText('last 1 days')).toBeTruthy();
+    expect(result.getByText('Last 1 days')).toBeTruthy();
     expect(changeFn).toHaveBeenCalledTimes(1);
     fireEvent.click(result.container.querySelector('[name="refresh1"]')!);
     expect(changeFn).toHaveBeenCalledTimes(2);
@@ -38,7 +39,7 @@ describe('TimeSelect', () => {
         value={{ mode: 'quick', quick: 'days:3', customize: {} }}
       />,
     );
-    expect(result.getByText('last 3 days')).toBeTruthy();
+    expect(result.getByText('Last 3 days')).toBeTruthy();
   });
   it('should auto refresh', async () => {
     jest.useFakeTimers();
@@ -61,7 +62,7 @@ describe('TimeSelect', () => {
     const result = render(<TimeSelect onChange={changeFn} value={{}} />);
     fireEvent.click(result.container.querySelector('.time-range')!);
     await waitFor(() => expect(result.baseElement).isExist('.time-range-dropdown', 1));
-    fireEvent.click(result.getByText(relativeTimeRange['days:3']));
+    fireEvent.click(result.getByText(firstCharToUpper(relativeTimeRange['days:3'])));
     expect(changeFn).toHaveBeenCalledTimes(1);
     expect(changeFn.mock.calls[0][0]).toStrictEqual({
       customize: { end: undefined, start: undefined },
@@ -71,7 +72,7 @@ describe('TimeSelect', () => {
     result.rerender(<TimeSelect onChange={changeFn} />);
     fireEvent.click(result.container.querySelector('.time-range')!);
     await waitFor(() => expect(result.baseElement).isExist('.time-range-dropdown', 1));
-    fireEvent.click(result.getByText(relativeTimeRange['days:1']));
+    fireEvent.click(result.getByText(firstCharToUpper(relativeTimeRange['days:1'])));
     expect(changeFn).toHaveBeenCalledTimes(2);
     expect(changeFn.mock.calls[1][0]).toStrictEqual({
       customize: { end: undefined, start: undefined },

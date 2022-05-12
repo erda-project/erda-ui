@@ -109,7 +109,7 @@ export const K8sPodTerminalLog = (
   const fieldsList = [
     {
       name: 'start',
-      label: i18n.t('common:start at'),
+      label: i18n.t('common:start time'),
       getComp: ({ form }: { form: FormInstance }) => (
         <DatePicker
           className="w-full"

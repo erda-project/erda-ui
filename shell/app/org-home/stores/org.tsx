@@ -21,7 +21,6 @@ import permStore from 'user/stores/permission';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { intersection, map } from 'lodash';
 import announcementStore from 'org/stores/announcement';
-
 interface IState {
   currentOrg: ORG.IOrg;
   curPathOrg: string;
@@ -91,8 +90,12 @@ const org = createStore({
       await org.effects.getJoinedOrgs({ force: true });
       update({ currentOrg });
     },
-    async getOrgByDomain({ call, update, select }, payload: { orgName: string }) {
+    async getOrgByDomain({ call, update, select }, payload: { orgName: string; userData?: ILoginUser }) {
+      const { orgName, userData } = payload;
       if (isAdminRoute()) {
+        if (userData && !userData.isSysAdmin) {
+          goTo(goTo.pages.landPage);
+        }
         update({ initFinish: true });
         return;
       }
@@ -100,7 +103,6 @@ const org = createStore({
       if (domain.startsWith('local')) {
         domain = domain.split('.').slice(1).join('.');
       }
-      const { orgName } = payload;
       const [orgs, currentOrg] = select((s) => [s.orgs, s.currentOrg]); // get joined orgs
       const orgPermData = permStore.getState((s) => s.org);
 

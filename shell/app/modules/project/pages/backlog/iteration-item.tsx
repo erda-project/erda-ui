@@ -206,7 +206,7 @@ export const IterarionForm = (props: IIterationFormProps) => {
       required: true,
       componentProps: {
         dateType: 'range',
-        placeholder: [i18n.t('common:start at'), i18n.t('common:End time')],
+        placeholder: [i18n.t('common:start time'), i18n.t('common:End time')],
         format: 'YYYY-MM-DD',
         size: 'small',
         className: 'backlog-iteration-form-datepicker',
