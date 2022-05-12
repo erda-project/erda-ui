@@ -274,7 +274,7 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
           label: i18n.t('dop:source branch'),
           type: 'input',
           required: true,
-          name: 'changeFormBranch',
+          name: 'changeFromBranch',
           rules: [
             {
               validator: (_rule: any, value: string, callback: Function) => {
