@@ -23,6 +23,7 @@ import applicationTestStore from 'application/stores/test';
 import { useLoading } from 'core/stores/loading';
 import TestDetailContainer from './test-detail-container';
 import { ColumnProps } from 'antd/lib/table';
+import CoverageReport from './coverage-report';
 
 const getTestDuration = (duration: any) => {
   const seconds = floor(parseInt(duration, 10) / 10 ** 9, 3); // 时间为纳秒
@@ -111,6 +112,8 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
 
 const TestList = () => {
   const [activeId, setActiveId] = React.useState(0);
+  const [visible, setVisible] = React.useState(false);
+  const [reportId, setReportId] = React.useState<number>(null);
   const [list, testListPaging] = applicationTestStore.useStore((s) => [s.list, s.testListPaging]);
   const [isFetching] = useLoading(applicationTestStore, ['getTestList']);
   const { getTestTypes, getTestList } = applicationTestStore.effects;
@@ -125,6 +128,19 @@ const TestList = () => {
   const handlePageChange = (pageNo: number) => {
     getTestList({ pageNo });
   };
+
+  const actions = {
+    render: (record: { id: number }) => [
+      {
+        title: i18n.t('view {name}', { name: i18n.t('dop:Coverage') }),
+        onClick: () => {
+          setReportId(record.id);
+          setVisible(true);
+        },
+      },
+    ],
+  };
+
   return (
     <div className="application-test">
       <Spin spinning={isFetching}>
@@ -144,10 +160,12 @@ const TestList = () => {
             ...testListPaging,
             onChange: handlePageChange,
           }}
+          actions={actions}
         />
       </Spin>
 
       <TestDetailContainer key={activeId} testId={activeId} onClose={() => setActiveId(0)} />
+      <CoverageReport visible={visible} id={reportId} onClose={() => setVisible(false)} />
     </div>
   );
 };
