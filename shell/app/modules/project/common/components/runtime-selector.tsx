@@ -20,11 +20,11 @@ import { getRuntimes } from 'project/services/deploy';
 
 import './runtime-selector.scss';
 
-const RuntimeSelector = ({ runtimeName }: { runtimeName: string }) => {
-  const { projectId, workspace, runtimeId } = routeInfoStore.useStore((s) => s.params);
+const RuntimeSelector = ({ runtimeName, inApp }: { runtimeName: string; inApp?: boolean }) => {
+  const { projectId, workspace, runtimeId, appId } = routeInfoStore.useStore((s) => s.params);
 
   const getData = async (q: { pageNo: number }) => {
-    const list = await getRuntimes({ ...q, projectID: +projectId, workspace });
+    const list = await getRuntimes({ ...q, projectID: +projectId, workspace, appID: inApp ? appId : undefined });
     const { data } = list;
     return { list: data, total: data?.length || 0 };
   };
