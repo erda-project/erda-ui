@@ -221,7 +221,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     getNotifyChannelMethods.fetch();
   });
 
-  useMount(() => {
+  React.useEffect(() => {
     if (strategyId) {
       getAlertDetail(Number(strategyId)).then(
         ({ name, clusterNames, appIds, rules, notifies, triggerCondition }: COMMON_STRATEGY_NOTIFY.IAlertBody) => {
@@ -300,7 +300,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
         },
       ]);
     }
-  });
+  }, [alertTriggerConditionsContent]);
 
   React.useEffect(() => {
     if (alertTriggerConditions?.length) {
