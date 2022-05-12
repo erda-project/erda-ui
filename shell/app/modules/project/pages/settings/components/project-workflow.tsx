@@ -71,7 +71,7 @@ const StartWorkflowHints = ({
     }
     onChange?.(newValue);
   };
-  console.log(value, originValue);
+
   return (
     <>
       {workflowHints.map((hint, index) => {
@@ -134,7 +134,7 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
         successMsg,
       },
     });
-    if (['edit', 'delete'].includes(action)) {
+    if (['edit', 'create'].includes(action)) {
       closeModal();
     }
     originWorkflow.current = undefined;
