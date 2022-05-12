@@ -702,7 +702,7 @@ export const AddIssueRelation = ({
         dataSource={dataSource}
         columns={columns}
         pagination={{
-          showSizeChanger: false,
+          hidePageSizeChange: true,
           current: filterData.pageNo || 1,
           pageSize: filterData.pageSize || 7,
           total,
