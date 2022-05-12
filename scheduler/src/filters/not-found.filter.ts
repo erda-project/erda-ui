@@ -59,14 +59,14 @@ const [before, after] = newContent.split('<!-- $data -->');
 function XHeaders(headers, req) {
   const newHeader = { ...headers };
   var values = {
-    for: req.connection.remoteAddress || req.socket.remoteAddress,
+    for: req.connection.remoteAddress,
     port: req.port || '',
     proto: req.protocol,
   };
 
   ['for', 'port', 'proto'].forEach((header) => {
-    newHeader['x-forwarded-' + header] =
-      (req.headers['x-forwarded-' + header] || '') + (req.headers['x-forwarded-' + header] ? ',' : '') + values[header];
+    const originValue = req.headers['x-forwarded-' + header];
+    newHeader['x-forwarded-' + header] = originValue ? `${originValue},${values[header]}` : values[header];
   });
 
   newHeader['x-forwarded-host'] = req.headers['x-forwarded-host'] || req.headers['host'] || '';
