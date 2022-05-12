@@ -99,6 +99,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
       pId: item.pinode,
       title: item.name,
       isLeaf: item.type === 'f',
+      value: item.inode,
     }));
   };
 
