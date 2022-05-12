@@ -15,7 +15,7 @@ import React from 'react';
 
 const Steps: React.FC = ({ children }) => {
   return (
-    <div className="flex mb-4 overflow-x-auto py-2 border rounded-sm border-solid	border-default-1">{children}</div>
+    <div className="flex mb-4 overflow-x-auto py-2 border rounded-sm border-solid border-default-1">{children}</div>
   );
 };
 

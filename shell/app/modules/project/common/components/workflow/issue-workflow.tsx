@@ -52,7 +52,7 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, type, metaIssue }) => 
     <div>
       <div className="relative h-12 flex-h-center text-primary font-medium">
         <span className="text-base">{i18n.t('dop:workflow')}</span>
-        <span className="w-[1px] h-[12px] bg-default-1 mx-4" />
+        <span className="w-px h-3 bg-default-1 mx-4" />
         <AddFlow
           onAdd={getFlowNodeList}
           type={type}

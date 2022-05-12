@@ -54,7 +54,7 @@ const Pipeline: React.FC<IProps> = ({ data, projectID }) => {
       getPipelineDetail({ pipelineID: item.pipelineID }).then((res) => res.data),
     );
     Promise.all(queryQueue ?? []).then((pipelineDetails) => {
-      const takMap = {};
+      const taskMap = {};
       pipelineDetails.forEach((pipelineDetail) => {
         if (pipelineDetail) {
           const { pipelineStages } = pipelineDetail;
@@ -64,7 +64,7 @@ const Pipeline: React.FC<IProps> = ({ data, projectID }) => {
               prev + curr.pipelineTasks?.filter((t) => ciNodeStatusSet.taskFinalStatus.includes(t.status)).length,
             0,
           );
-          takMap[pipelineDetail.id] = {
+          taskMap[pipelineDetail.id] = {
             finishTaskTotal,
             taskTotal,
           };
@@ -74,7 +74,7 @@ const Pipeline: React.FC<IProps> = ({ data, projectID }) => {
         draft.map((item) => {
           return {
             ...item,
-            taskCount: takMap[item.pipelineID],
+            taskCount: taskMap[item.pipelineID],
           };
         }),
       );
