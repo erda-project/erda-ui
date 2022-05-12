@@ -158,3 +158,16 @@ export const DEPLOY_RUNTIME_TABS = (params: Obj) => {
     },
   ];
 };
+
+export const MR_DETAIL_TABS = (params: Obj) => {
+  const { breadcrumbInfoMap } = params;
+  const { appName } = breadcrumbInfoMap;
+  return [
+    {
+      key: '_',
+      readonly: true,
+      name: appName,
+      isLetterUpper: false,
+    },
+  ];
+};
