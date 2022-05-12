@@ -56,6 +56,23 @@ $ta('start', { udata: { uid: 0 }, ak: "${TERMINUS_KEY}", url: "${TERMINUS_TA_COL
 }
 const [before, after] = newContent.split('<!-- $data -->');
 
+function XHeaders(headers, req) {
+  const newHeader = { ...headers };
+  var values = {
+    for: req.connection.remoteAddress,
+    port: req.port || '',
+    proto: req.protocol,
+  };
+
+  ['for', 'port', 'proto'].forEach((header) => {
+    const originValue = req.headers['x-forwarded-' + header];
+    newHeader['x-forwarded-' + header] = originValue ? `${originValue},${values[header]}` : values[header];
+  });
+
+  newHeader['x-forwarded-host'] = req.headers['x-forwarded-host'] || req.headers['host'] || '';
+  return newHeader;
+}
+
 @Catch(NotFoundException)
 export class NotFoundExceptionFilter implements ExceptionFilter {
   // same action as nginx try_files
@@ -66,20 +83,19 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
     const extension = path.extname(request.path);
     if (!extension || request.path.match(/^\/[\w-]+\/dop\/projects\/\d+\/apps\/\d+\/repo/)) {
       const callApi = (api: string, config?: Record<string, any>) => {
-        const headers = config?.headers || {};
+        let headers = config?.headers || {};
         if (request.headers.cookie) {
           headers.cookie = request.headers.cookie;
         }
         if (request.headers.referer) {
           headers.referer = request.headers.referer;
         }
+        headers = XHeaders(headers, request);
         const token = getCookies(request.headers.cookie, 'OPENAPI-CSRF-TOKEN');
         if (token) {
           headers['OPENAPI-CSRF-TOKEN'] = token;
         }
-
         // add {orgName} part only in local mode
-
         return axios(isLocal ? api.replace('/api', '/api/-') : api, {
           ...config,
           baseURL: API_URL,
