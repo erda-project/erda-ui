@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Popover, Switch } from 'antd';
+import { Switch } from 'antd';
 import { Ellipsis } from 'common';
 import { goTo } from 'common/utils';
 import i18n from 'i18n';
@@ -26,26 +26,26 @@ interface IProps extends IBaseProps {
   afterChangeStatus?: (status: boolean) => void;
 }
 
-const MergeFailTips = ({ branch, tempBranch }: { branch: string; tempBranch: string }) => {
-  const tips = [
-    '> git clone xxx',
-    `> git checkout ${tempBranch}`,
-    `> git merge ${branch}`,
-    `# ${i18n.t('dop:resolve conflict manually')}`,
-    `> git push ${tempBranch}`,
-  ];
-  // merge failed, Perform the following operations to resolve the problem
-  return (
-    <div>
-      <p>合并失败，请根据以下操作解决</p>
-      {tips.map((tip) => (
-        <p className="mb-1 text-sub" key={tip}>
-          {tip}
-        </p>
-      ))}
-    </div>
-  );
-};
+// const MergeFailTips = ({ branch, tempBranch }: { branch: string; tempBranch: string }) => {
+//   const tips = [
+//     '> git clone xxx',
+//     `> git checkout ${tempBranch}`,
+//     `> git merge ${branch}`,
+//     `# ${i18n.t('dop:resolve conflict manually')}`,
+//     `> git push ${tempBranch}`,
+//   ];
+//   // merge failed, Perform the following operations to resolve the problem
+//   return (
+//     <div>
+//       <p>合并失败，请根据以下操作解决</p>
+//       {tips.map((tip) => (
+//         <p className="mb-1 text-sub" key={tip}>
+//           {tip}
+//         </p>
+//       ))}
+//     </div>
+//   );
+// };
 
 interface IChangeList {
   list: ChangeBranch[];
@@ -55,7 +55,7 @@ interface IChangeList {
   isJoinTempBranch?: boolean;
 }
 
-const ChangeList = ({ list, projectId, appId, tempBranch, isJoinTempBranch }: IChangeList) => {
+const ChangeList = ({ list, projectId, appId }: IChangeList) => {
   const handleClick = ({ repoMergeID }: ChangeBranch) => {
     goTo(goTo.pages.appMr, {
       projectId,
@@ -87,15 +87,15 @@ const ChangeList = ({ list, projectId, appId, tempBranch, isJoinTempBranch }: IC
                   ({commit.slice(0, 6)})
                 </a>
               </div>
-              {isJoinTempBranch ? (
-                status === 'success' ? (
-                  <span className="text-success">[OK]</span>
-                ) : (
-                  <Popover content={<MergeFailTips branch={branchName} tempBranch={tempBranch} />}>
-                    <span className="text-error">[FAIL]</span>
-                  </Popover>
-                )
-              ) : null}
+              {/* {isJoinTempBranch ? ( */}
+              {/*   status === 'success' ? ( */}
+              {/*     <span className="text-success">[OK]</span> */}
+              {/*   ) : ( */}
+              {/*     <Popover content={<MergeFailTips branch={branchName} tempBranch={tempBranch} />}> */}
+              {/*       <span className="text-error">[FAIL]</span> */}
+              {/*     </Popover> */}
+              {/*   ) */}
+              {/* ) : null} */}
             </div>
           );
         })}

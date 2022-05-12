@@ -89,7 +89,7 @@ export const IssueDrawer = (props: IProps) => {
   const [
     formField = IssueDrawer.Empty,
     descField = IssueDrawer.Empty,
-    workflowField = IssueDrawer.Empty,
+    // workflowField = IssueDrawer.Empty,
     inclusionField = IssueDrawer.Empty,
     relationField = IssueDrawer.Empty,
     logField = IssueDrawer.Empty,
@@ -289,9 +289,9 @@ export const IssueDrawer = (props: IProps) => {
                 <Anchor offsetTop={16} getContainer={() => mainEle.current || document.body}>
                   {formField !== IssueDrawer.Empty && <Anchor.Link href="#field" title={i18n.t('dop:Basic')} />}
                   {descField !== IssueDrawer.Empty && <Anchor.Link href="#desc" title={i18n.t('dop:Content')} />}
-                  {workflowField !== IssueDrawer.Empty && (
-                    <Anchor.Link href="#workflow" title={i18n.t('dop:workflow')} />
-                  )}
+                  {/* {workflowField !== IssueDrawer.Empty && ( */}
+                  {/*   <Anchor.Link href="#workflow" title={i18n.t('dop:workflow')} /> */}
+                  {/* )} */}
                   {inclusionField !== IssueDrawer.Empty && (
                     <Anchor.Link href="#inclusion" title={i18n.t('dop:Contain')} />
                   )}
@@ -309,11 +309,11 @@ export const IssueDrawer = (props: IProps) => {
               <div id="desc" className="h-px bg-default-08 my-4" />
               {descField}
             </If>
-            <If condition={workflowField !== IssueDrawer.Empty}>
-              <div id="workflow" className="mt-6">
-                {workflowField}
-              </div>
-            </If>
+            {/* <If condition={workflowField !== IssueDrawer.Empty}> */}
+            {/*   <div id="workflow" className="mt-6"> */}
+            {/*     {workflowField} */}
+            {/*   </div> */}
+            {/* </If> */}
             <If condition={inclusionField !== IssueDrawer.Empty}>
               <div id="inclusion" className="mt-6">
                 {inclusionField}

@@ -201,7 +201,6 @@ const useIssueRelation = (props: IProps) => {
               issueType={BACKLOG_ISSUE_TYPE.undoneIssue}
               showStatus
               undraggable
-              showWorkflowStatus
             />
           ))}
         </div>
