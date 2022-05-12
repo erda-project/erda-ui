@@ -22,6 +22,7 @@ import { filter, min } from 'lodash';
 import { HeadAppSelector } from './common/app-selector';
 import { goTo } from 'app/common/utils';
 import repoStore from './stores/repo';
+import RuntimeSelector from 'project/common/components/runtime-selector';
 
 interface ITab {
   show?: boolean;
@@ -154,7 +155,8 @@ export const DEPLOY_RUNTIME_TABS = (params: Obj) => {
     {
       key: '_',
       readonly: true,
-      name: appName === runtimeName ? runtimeName : `${appName}/${runtimeName}`,
+      name: <RuntimeSelector inApp runtimeName={appName === runtimeName ? runtimeName : `${appName}/${runtimeName}`} />,
+      isLetterUpper: false,
     },
   ];
 };

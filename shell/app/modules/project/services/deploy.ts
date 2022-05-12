@@ -74,5 +74,5 @@ export const getProjectRuntimeCount = apiCreator<
 >(apis.getProjectRuntimeCount);
 
 export const getRuntimes = apiCreator<
-  (params: { projectID: number; workspace?: string }) => PROJECT_DEPLOY.RuntimeDetail[]
+  (params: { projectID: number; workspace?: string; appID?: string }) => PROJECT_DEPLOY.RuntimeDetail[]
 >(apis.getRuntimes);
