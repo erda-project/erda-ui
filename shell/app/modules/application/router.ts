@@ -79,6 +79,7 @@ function getAppRouter(): RouteConfigItem {
             routes: [
               {
                 path: ':commitId',
+                tabs: MR_DETAIL_TABS,
                 backToUp: 'repo',
                 breadcrumbName: i18n.t('dop:Code'),
                 ignoreTabQuery: true,
