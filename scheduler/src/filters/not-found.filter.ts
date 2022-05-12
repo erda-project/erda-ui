@@ -64,7 +64,7 @@ function XHeaders(headers, req) {
     proto: req.protocol,
   };
 
-  ['for', 'port', 'proto'].forEach(function (header) {
+  ['for', 'port', 'proto'].forEach((header) => {
     newHeader['x-forwarded-' + header] =
       (req.headers['x-forwarded-' + header] || '') + (req.headers['x-forwarded-' + header] ? ',' : '') + values[header];
   });
