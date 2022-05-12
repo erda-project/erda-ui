@@ -56,19 +56,21 @@ $ta('start', { udata: { uid: 0 }, ak: "${TERMINUS_KEY}", url: "${TERMINUS_TA_COL
 }
 const [before, after] = newContent.split('<!-- $data -->');
 
-function XHeaders(req) {
+function XHeaders(headers, req) {
+  const newHeader = { ...headers };
   var values = {
     for: req.connection.remoteAddress || req.socket.remoteAddress,
-    port: req.port,
+    port: req.port || '',
     proto: req.protocol,
   };
 
   ['for', 'port', 'proto'].forEach(function (header) {
-    req.headers['x-forwarded-' + header] =
+    newHeader['x-forwarded-' + header] =
       (req.headers['x-forwarded-' + header] || '') + (req.headers['x-forwarded-' + header] ? ',' : '') + values[header];
   });
 
-  req.headers['x-forwarded-host'] = req.headers['x-forwarded-host'] || req.headers['host'] || '';
+  newHeader['x-forwarded-host'] = req.headers['x-forwarded-host'] || req.headers['host'] || '';
+  return newHeader;
 }
 
 @Catch(NotFoundException)
@@ -81,19 +83,18 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
     const extension = path.extname(request.path);
     if (!extension || request.path.match(/^\/[\w-]+\/dop\/projects\/\d+\/apps\/\d+\/repo/)) {
       const callApi = (api: string, config?: Record<string, any>) => {
-        const headers = config?.headers || {};
+        let headers = config?.headers || {};
         if (request.headers.cookie) {
           headers.cookie = request.headers.cookie;
         }
         if (request.headers.referer) {
           headers.referer = request.headers.referer;
         }
-        XHeaders(request);
+        headers = XHeaders(headers, request);
         const token = getCookies(request.headers.cookie, 'OPENAPI-CSRF-TOKEN');
         if (token) {
           headers['OPENAPI-CSRF-TOKEN'] = token;
         }
-
         // add {orgName} part only in local mode
         return axios(isLocal ? api.replace('/api', '/api/-') : api, {
           ...config,
