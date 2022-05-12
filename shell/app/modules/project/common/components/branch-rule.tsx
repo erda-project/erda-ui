@@ -16,13 +16,13 @@ import i18n from 'i18n';
 import { useUpdate } from 'common/use-hooks';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';
-import { Button, Popconfirm, Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import ErdaTable from 'common/components/table';
 import { FormModal } from 'app/configForm/nusi-form/form-modal';
 import branchRuleStore from 'project/stores/branch-rule';
 import { WithAuth } from 'user/common';
 import { useLoading } from 'core/stores/loading';
-import { firstCharToUpper } from 'app/common/utils';
+import { branchNameValidator } from 'project/common/config';
 
 const envArr = {
   DEV: {
@@ -191,23 +191,7 @@ const BranchRule = (props: IProps) => {
       key: 'rule',
       rules: [
         {
-          validator: (val = '') => {
-            const valArr = val.split(',');
-            const reg = /^[a-zA-Z_]+[\\/\\*\\.\\$@#a-zA-Z0-9_-]*$/;
-            let pass = true;
-            let tip = '';
-            valArr.forEach((item) => {
-              if (!reg.test(item)) {
-                pass = false;
-                tip = i18n.t('separated by comma, start with letters and can contain');
-              }
-              if (pass && item.includes('*') && item.indexOf('*') !== item.length - 1) {
-                pass = false; // 包含*，但*不在末尾
-                tip = i18n.t('separated by comma, start with letters and can contain');
-              }
-            });
-            return [pass, tip];
-          },
+          validator: branchNameValidator,
         },
       ],
       componentProps: {

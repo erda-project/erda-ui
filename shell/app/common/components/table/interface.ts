@@ -11,8 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { SorterResult, TablePaginationConfig, TableRowSelection } from 'antd/es/table/interface';
-import { ColumnProps as AntdColumnProps, TableProps } from 'antd/es/table';
+import {
+  ColumnType as AntdColumnProps,
+  SorterResult,
+  TablePaginationConfig,
+  TableRowSelection,
+} from 'antd/es/table/interface';
+import { TableProps } from 'antd/es/table';
 
 export { SorterResult, TablePaginationConfig, TableProps, AntdColumnProps };
 
@@ -41,6 +46,7 @@ export interface ColumnProps<T> extends AntdColumnProps<T> {
   show?: boolean;
   hidden?: boolean;
   sortTitle?: React.ReactNode;
+  children?: Array<ColumnProps<T>>;
 }
 
 export interface IRowSelection<T extends Obj> extends TableRowSelection<T> {

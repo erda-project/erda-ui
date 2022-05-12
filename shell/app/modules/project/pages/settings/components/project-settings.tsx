@@ -23,10 +23,10 @@ import memberStore from 'common/stores/project-member';
 import i18n from 'i18n';
 import { MemberScope } from 'common/stores/member-scope';
 import routeInfoStore from 'core/stores/route';
-import BranchRule from 'project/common/components/branch-rule';
 import IssueWorkflow from 'project/common/components/issue-workflow';
 import { usePerm } from 'app/user/common';
 import ScanRule from 'project/common/components/scan-rule';
+import ProjectWorkflow from 'project/pages/settings/components/project-workflow';
 import { replaceWithLink } from 'app/common/utils';
 
 const ProjectSettings = () => {
@@ -91,28 +91,6 @@ const ProjectSettings = () => {
       groupKey: 'repository',
       tabGroup: [
         {
-          tabTitle: i18n.t('dop:Branch Rule'),
-          tabKey: 'branchRule',
-          content: (
-            <ConfigLayout
-              sectionList={[
-                {
-                  title: i18n.t('dop:Branch Rule'),
-                  desc: i18n.t('dop:branch-config-tip'),
-                  children: (
-                    <BranchRule
-                      tableKey="project-setting-branch-rule"
-                      operationAuth={permMap.setting.branchRule.operation.pass}
-                      scopeId={+projectId}
-                      scopeType="project"
-                    />
-                  ),
-                },
-              ]}
-            />
-          ),
-        },
-        {
           tabTitle: i18n.t('dop:Quality Access Control'),
           tabKey: 'scanRule',
           content: (
@@ -139,8 +117,8 @@ const ProjectSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('Artifact'),
-      groupKey: 'dop:Collaboration',
+      groupTitle: i18n.t('Label'),
+      groupKey: 'label',
       tabGroup: [
         {
           tabTitle: i18n.t('dop:Artifact Label'),
@@ -159,11 +137,28 @@ const ProjectSettings = () => {
             />
           ),
         },
+        {
+          tabTitle: i18n.t('dop:Issue label'),
+          tabKey: 'projectLabel',
+          content: (
+            <ConfigLayout
+              sectionList={[
+                {
+                  title: i18n.t('dop:Manage all project labels'),
+                  desc: i18n.t(
+                    'dop:Labels can be used in issue management and test management, to quickly locate and filter related content.',
+                  ),
+                  children: <ProjectLabel />,
+                },
+              ]}
+            />
+          ),
+        },
       ],
     },
     {
-      groupTitle: i18n.t('dop:Collaboration'),
-      groupKey: 'collaboration',
+      groupTitle: i18n.t('dop:workflow'),
+      groupKey: 'workflow',
       tabGroup: [
         {
           tabTitle: i18n.t('dop:Issue Workflow'),
@@ -183,17 +178,22 @@ const ProjectSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('dop:Issue label'),
-          tabKey: 'projectLabel',
+          tabTitle: i18n.t('dop:R&D Workflow'),
+          tabKey: 'workflow',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('dop:Manage all project labels'),
+                  title: i18n.t('dop:R&D Workflow'),
                   desc: i18n.t(
-                    'dop:Labels can be used in issue management and test management, to quickly locate and filter related content.',
+                    'dop:You can configure stages of the R&D process here, such as development, testing, staging and production, as well as code branches, artifact types, deployment environments and steps required for these stages.',
                   ),
-                  children: <ProjectLabel />,
+                  children: (
+                    <ProjectWorkflow
+                      projectID={+projectId}
+                      canOperate={permMap.setting.customWorkflow.operation.pass}
+                    />
+                  ),
                 },
               ]}
             />
