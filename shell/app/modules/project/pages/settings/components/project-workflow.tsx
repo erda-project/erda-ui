@@ -259,13 +259,13 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
       rules: [
         {
           validator: (_rule: any, value: string, callback: Function) => {
-            const [pass, tips] = branchNameValidator(value, false);
+            const [pass, tips] = branchNameValidator(value);
             !value || pass ? callback() : callback(tips);
           },
         },
       ],
       itemProps: {
-        placeholder: i18n.t('start with letters and can contain'),
+        placeholder: i18n.t('separated by comma, start with letters and can contain'),
       },
     },
     ...insertWhen([FlowType.TWO_BRANCH, FlowType.THREE_BRANCH].includes(flowType), [
