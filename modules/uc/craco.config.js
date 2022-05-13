@@ -54,14 +54,11 @@ module.exports = {
   devServer: {
     port: 3032,
     proxy: {
-      '/api/uc/files': {
+      '/api/files': {
         target: devProxyUrl,
         source: false,
         changeOrigin: true,
         secure: false,
-        pathRewrite: {
-          '/api/uc': '/api',
-        },
       },
       '/api/uc': {
         target: devProxyUrl,
