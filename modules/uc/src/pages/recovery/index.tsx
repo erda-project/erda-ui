@@ -22,7 +22,7 @@ export default function Recovery() {
   const query = parse(window.location.search);
 
   // refres: means we want to refresh the session. This is needed, for example, when we want to update the password of a user.
-  const { return_to: returnTo, flow: flowId, refresh } = query;
+  const { flow: flowId, refresh } = query;
   const [flow, setFlow] = React.useState<SelfServiceRecoveryFlow>();
 
   React.useEffect(() => {
@@ -56,7 +56,7 @@ export default function Recovery() {
 
         return Promise.reject(err);
       });
-  }, [flowId, refresh, returnTo, flow]);
+  }, [flowId, refresh, flow]);
 
   const onSubmit = (values: SubmitSelfServiceRecoveryFlowBody) => {
     history.push(`/uc/recovery?flow=${flow?.id}`);

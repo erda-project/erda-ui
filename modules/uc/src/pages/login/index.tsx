@@ -14,7 +14,7 @@
 import React from 'react';
 import { i18n, history, Container } from 'src/common';
 import { SelfServiceLoginFlow, SubmitSelfServiceLoginFlowBody } from '@ory/kratos-client';
-
+import { keepRedirectUrlQuery } from 'src/common/utils';
 import { ory, handleFlowError, Flow } from 'src/ory';
 import { parse } from 'query-string';
 
@@ -22,7 +22,7 @@ export default function Login() {
   const query = parse(window.location.search);
 
   // refres: means we want to refresh the session. This is needed, for example, when we want to update the password of a user.
-  const { return_to: returnTo, flow: flowId, refresh } = query;
+  const { flow: flowId, refresh } = query;
   const [flow, setFlow] = React.useState<SelfServiceLoginFlow>();
 
   React.useEffect(() => {
@@ -42,24 +42,20 @@ export default function Login() {
     }
     // Otherwise we initialize it
     ory
-      .initializeSelfServiceLoginFlowForBrowsers(Boolean(refresh), undefined, returnTo ? String(returnTo) : undefined)
+      .initializeSelfServiceLoginFlowForBrowsers(Boolean(refresh), undefined)
       .then(({ data }) => {
         setFlow(data);
       })
       .catch(handleFlowError('login', setFlow));
-  }, [flowId, refresh, returnTo, flow]);
+  }, [flowId, refresh, flow]);
 
   const onSubmit = (values: SubmitSelfServiceLoginFlowBody) => {
-    history.push(`/uc/login?flow=${flow?.id}`);
+    history.push(keepRedirectUrlQuery(`/uc/login?flow=${flow?.id}`));
     return (
       ory
         .submitSelfServiceLoginFlow(String(flow?.id), undefined, values)
         // We logged in successfully! Let's bring the user home.
         .then((res) => {
-          if (flow?.return_to) {
-            window.location.href = flow?.return_to;
-            return;
-          }
           const query = parse(window.location.search);
           if (query?.redirectUrl) {
             window.location.href = query.redirectUrl as string;

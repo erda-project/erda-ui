@@ -21,7 +21,7 @@ import { parse } from 'query-string';
 const Registration = () => {
   const [flow, setFlow] = React.useState<SelfServiceRegistrationFlow>();
   const query = parse(window.location.search);
-  const { flow: flowId, return_to: returnTo } = query;
+  const { flow: flowId } = query;
 
   React.useEffect(() => {
     if (flow) {
@@ -42,12 +42,12 @@ const Registration = () => {
 
     // Otherwise we initialize it
     ory
-      .initializeSelfServiceRegistrationFlowForBrowsers(returnTo ? String(returnTo) : undefined)
+      .initializeSelfServiceRegistrationFlowForBrowsers()
       .then(({ data }) => {
         setFlow(data);
       })
       .catch(handleFlowError('registration', setFlow));
-  }, [flowId, returnTo, flow]);
+  }, [flowId, flow]);
 
   const onSubmit = (values: SubmitSelfServiceRegistrationFlowBody) => {
     history.push(`/uc/registration?flow=${flow?.id}`);
@@ -60,7 +60,7 @@ const Registration = () => {
         console.log('This is the user session: ', data, data.identity);
 
         // For now however we just want to redirect home!
-        return history.push(flow?.return_to || '/uc/login');
+        return history.push('/uc/login');
       })
       .catch(handleFlowError('registration', setFlow))
       .catch((err: AxiosError) => {

@@ -15,6 +15,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './router';
 import { initI18n, history } from 'src/common';
+import { keepRedirectUrlQuery } from 'src/common/utils';
 import { ory } from 'src/ory';
 import { parse } from 'query-string';
 import './index.css';
@@ -42,7 +43,7 @@ const init = () => {
     .catch((e) => {
       if (e.response?.status === 401) {
         if (!['/uc/registration'].includes(pathname)) {
-          history.replace('/uc/login');
+          history.replace(keepRedirectUrlQuery('/uc/login'));
         }
         startApp();
       }

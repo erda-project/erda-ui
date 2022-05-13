@@ -22,7 +22,7 @@ import { UiText } from '@ory/kratos-client';
 const Setting = () => {
   const [flow, setFlow] = React.useState<SelfServiceSettingsFlow>();
   const query = parse(window.location.search);
-  const { flow: flowId, return_to: returnTo } = query;
+  const { flow: flowId } = query;
   const [messageMap, setMessageMap] = React.useState<Obj<undefined | Array<UiText>>>({
     profile: undefined,
     password: undefined,
@@ -50,12 +50,12 @@ const Setting = () => {
 
     // Otherwise we initialize it
     ory
-      .initializeSelfServiceSettingsFlowForBrowsers(returnTo ? String(returnTo) : undefined)
+      .initializeSelfServiceSettingsFlowForBrowsers()
       .then(({ data }) => {
         setFlow(data);
       })
       .catch(handleFlowError('settings', setFlow));
-  }, [flowId, returnTo, flow]);
+  }, [flowId, flow]);
 
   const onSubmit = (type: string) => (values: SubmitSelfServiceSettingsFlowBody) => {
     history.push(`/uc/settings?flow=${flow?.id}`);
