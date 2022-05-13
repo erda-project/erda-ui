@@ -15,12 +15,12 @@
 import { Button, Dropdown, Input, Menu, Modal, Select } from 'antd';
 import { useUpdate } from 'app/common/use-hooks';
 import orgStore from 'app/org-home/stores/org';
-import { Ellipsis, Icon as CustomIcon, MemberSelector, ErdaIcon } from 'common';
+import { Ellipsis, ErdaIcon, Icon as CustomIcon, MemberSelector } from 'common';
 import UserInfo from 'common/components/user-info';
 import { getBrowserInfo, isPromise } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
-import { map, compact } from 'lodash';
+import { compact, map } from 'lodash';
 import moment from 'moment';
 import issueFieldStore from 'org/stores/issue-field';
 import { ISSUE_OPTION } from 'project/common/components/issue/issue-config';
@@ -35,6 +35,7 @@ import { useDrag } from 'react-dnd';
 import { getAuth, isAssignee, isCreator, usePerm, WithAuth } from 'user/common';
 import userStore from 'user/stores';
 import { FieldSelector, memberSelectorValueItem } from 'project/pages/issue/component/table-view';
+import { FlowStatus } from 'project/services/project-workflow';
 import iterationStore from 'app/modules/project/stores/iteration';
 import './issue-item.scss';
 
@@ -93,6 +94,7 @@ export const IssueItem = (props: IIssueProps) => {
   const [nameEditing, setNameEditing] = React.useState(false);
   const [nameValue, setNameValue] = React.useState('');
   const nameRef = React.useRef<Input>(null);
+  const [flowStatus, setFlowStatus] = React.useState<FlowStatus>('none');
 
   const { updateIssue } = issueStore.effects;
 

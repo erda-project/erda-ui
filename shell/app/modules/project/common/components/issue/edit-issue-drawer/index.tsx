@@ -12,17 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, message, Spin, Dropdown, Menu, Popconfirm, Anchor } from 'antd';
-import { IssueIcon, getIssueTypeOption } from 'project/common/components/issue/issue-icon';
-import { map, has, cloneDeep, includes, isEmpty, merge, find } from 'lodash';
+import { Button, Dropdown, Menu, message, Popconfirm, Spin } from 'antd';
+import { getIssueTypeOption, IssueIcon } from 'project/common/components/issue/issue-icon';
+import { cloneDeep, find, has, includes, isEmpty, map, merge } from 'lodash';
 import { EditField, ErdaIcon, Icon as CustomIcon, IF } from 'common';
 import {
+  BUG_SEVERITY_MAP,
+  EDIT_PROPS,
+  ISSUE_COMPLEXITY_MAP,
+  ISSUE_PRIORITY_MAP,
   ISSUE_TYPE,
   ISSUE_TYPE_MAP,
-  ISSUE_PRIORITY_MAP,
-  ISSUE_COMPLEXITY_MAP,
-  EDIT_PROPS,
-  BUG_SEVERITY_MAP,
 } from 'project/common/components/issue/issue-config';
 import i18n from 'i18n';
 import issueStore from 'project/stores/issues';
@@ -36,7 +36,7 @@ import { mergeSearch, updateSearch } from 'common/utils/query-string';
 import iterationStore from 'app/modules/project/stores/iteration';
 import labelStore from 'project/stores/label';
 import userStore from 'app/user/stores';
-import { usePerm, WithAuth, getAuth, isAssignee, isCreator } from 'user/common';
+import { getAuth, isAssignee, isCreator, usePerm, WithAuth } from 'user/common';
 import { FIELD_WITH_OPTION } from 'org/common/config';
 import { produce } from 'immer';
 import issueFieldStore from 'org/stores/issue-field';
@@ -44,7 +44,7 @@ import orgStore from 'app/org-home/stores/org';
 import { useUnmount } from 'react-use';
 import { templateMap } from 'project/common/issue-config';
 import IssueMetaFields from './meta-fields';
-import { IssueInclusion, IssueConnection } from '../issue-relation';
+import { IssueConnection, IssueInclusion } from '../issue-relation';
 import { getIssueRelation } from 'project/services/issue';
 import { emit } from 'core/event-hub';
 
@@ -807,7 +807,12 @@ export const EditIssueDrawer = (props: IProps) => {
         }} // 编辑时默认显示预览
         data={formData}
       />
-
+      {/* <Choose> */}
+      {/*   <When condition={[ISSUE_TYPE.TASK].includes(issueType) && isEditMode}> */}
+      {/*     <IssueWorkflow projectID={+addRelatedMattersProjectId} id={propId!} type={issueType} metaIssue={formData} /> */}
+      {/*   </When> */}
+      {/*   <Otherwise>{IssueDrawer.Empty}</Otherwise> */}
+      {/* </Choose> */}
       <Choose>
         <When condition={isEditMode && !!issueDetail && issueType === ISSUE_TYPE.REQUIREMENT}>
           <IssueInclusion issueDetail={issueDetail} iterationID={iterationID} setHasEdited={setHasEdited} />

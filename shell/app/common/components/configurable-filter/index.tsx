@@ -40,8 +40,9 @@ export interface IProps {
 }
 
 export interface Option {
-  label: string;
+  label: string | JSX.Element;
   value: string | number;
+  color?: string;
   children?: Option[];
 }
 

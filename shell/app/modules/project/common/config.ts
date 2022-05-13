@@ -131,3 +131,58 @@ export const actionMap = {
   B_END: '构建完成',
   G_PUSH: '推送代码',
 };
+
+export const WORKFLOW_TASK = ['Code review', 'Temp merge', 'Pipeline', 'Artifacts', 'Runtime', 'MR'];
+
+export enum FlowType {
+  SINGLE_BRANCH = 'single_branch',
+  TWO_BRANCH = 'two_branch',
+  THREE_BRANCH = 'three_branch',
+}
+
+export const FLOW_TYPE = {
+  [FlowType.SINGLE_BRANCH]: i18n.t('single branch'),
+  [FlowType.TWO_BRANCH]: i18n.t('double branch'),
+  [FlowType.THREE_BRANCH]: i18n.t('multi branch'),
+};
+export const FLOW_STATUS_MAP = {
+  none: {
+    status: 'default',
+  },
+  mergeFailed: {
+    status: 'error',
+  },
+  pipelineNotRun: {
+    status: 'default',
+  },
+  pipelineFiled: {
+    status: 'error',
+  },
+  pipelineRunning: {
+    status: 'processing',
+  },
+  success: {
+    status: 'success',
+  },
+};
+
+export const branchNameValidator = (val = '', multi = true) => {
+  const valArr = val.split(',');
+  const reg = /^[a-zA-Z_]+[\\/\\*\\.\\$@#a-zA-Z0-9_-]*$/;
+  let pass = true;
+  let tip = '';
+  if (!multi && valArr.length > 1) {
+    return [false, i18n.t('start with letters and can contain')];
+  }
+  valArr.forEach((item) => {
+    if (!reg.test(item)) {
+      pass = false;
+      tip = i18n.t('separated by comma, start with letters and can contain');
+    }
+    if (pass && item.includes('*') && item.indexOf('*') !== item.length - 1) {
+      pass = false; // 包含*，但*不在末尾
+      tip = i18n.t('separated by comma, start with letters and can contain');
+    }
+  });
+  return [pass, tip];
+};
