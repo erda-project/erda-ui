@@ -4,6 +4,7 @@
   "description": "erda ui component library",
   "scripts": {
     "start": "dumi dev",
+    "run": "dumi dev --port=80",
     "build:dist": "webpack",
     "build": "gulp compile",
     "build:watch": "gulp --gulpfile gulpfile-build.js --watch",

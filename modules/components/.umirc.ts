@@ -15,21 +15,19 @@ import { defineConfig } from 'dumi';
 import { resolve } from 'path';
 
 const title = 'Erda UI Components';
-const repo = 'erda-ui-components';
 
 export default defineConfig({
   title,
-  favicon: process.env.NODE_ENV === 'production' ? `/${repo}/images/favicon.png` : '/images/favicon.png',
-  logo: process.env.NODE_ENV === 'production' ? `/${repo}/images/favicon.png` : '/images/favicon.png',
+  favicon: '/favicon.ico',
+  logo: '/favicon.ico',
   outputPath: 'docs-dist',
   mode: 'site',
   hash: true,
   resolve: {
     includes: ['docs', 'src'],
   },
-  // Because of using GitHub Pages
-  base: `/${repo}/`,
-  publicPath: `/${repo}/`,
+  base: `/`,
+  publicPath: `/`,
   alias: {
     src: resolve(__dirname, 'src'),
   },
