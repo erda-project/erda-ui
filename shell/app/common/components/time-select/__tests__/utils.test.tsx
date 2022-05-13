@@ -19,7 +19,7 @@ describe('time-select-common', () => {
     const start = moment();
     const end = moment();
     const quickRes = transformRange({ mode: 'quick', quick: 'days:1', customize: {} });
-    expect(quickRes.dateStr).toBe('last 1 days');
+    expect(quickRes.dateStr).toBe('last 1 day');
     expect(quickRes.date).toHaveLength(2);
     expect(quickRes.date[0].isSame(start.subtract(1, 'days'), 'date')).toBeTruthy();
     expect(quickRes.date[1].isSame(end, 'date')).toBeTruthy();

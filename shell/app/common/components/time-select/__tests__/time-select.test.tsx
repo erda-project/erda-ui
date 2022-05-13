@@ -28,7 +28,7 @@ describe('TimeSelect', () => {
         defaultValue={{ mode: 'quick', quick: 'days:1', customize: {} }}
       />,
     );
-    expect(result.getByText('Last 1 days')).toBeTruthy();
+    expect(result.getByText('Last 1 day')).toBeTruthy();
     expect(changeFn).toHaveBeenCalledTimes(1);
     fireEvent.click(result.container.querySelector('[name="refresh1"]')!);
     expect(changeFn).toHaveBeenCalledTimes(2);
@@ -39,7 +39,8 @@ describe('TimeSelect', () => {
         value={{ mode: 'quick', quick: 'days:3', customize: {} }}
       />,
     );
-    expect(result.getByText('Last 3 days')).toBeTruthy();
+    expect(result.baseElement).toMatchSnapshot();
+    expect(result.getByText('Last 3 day')).toBeTruthy();
   });
   it('should auto refresh', async () => {
     jest.useFakeTimers();
