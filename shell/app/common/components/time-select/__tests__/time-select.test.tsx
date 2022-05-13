@@ -40,7 +40,7 @@ describe('TimeSelect', () => {
       />,
     );
     expect(result.baseElement).toMatchSnapshot();
-    expect(result.getByText('Last 3 day')).toBeTruthy();
+    expect(result.getByText('Last 3 days')).toBeTruthy();
   });
   it('should auto refresh', async () => {
     jest.useFakeTimers();
