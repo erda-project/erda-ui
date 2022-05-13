@@ -597,7 +597,7 @@ const NotifyChannel = () => {
       required: true,
       itemProps: {
         maxLength: 50,
-        placeholder: `${i18n.t('please input')} ${i18n.t('Outbox username').toLowerCase()}`,
+        placeholder: `${i18n.t('please enter the')} ${i18n.t('Outbox username').toLowerCase()}`,
         autoComplete: 'off',
       },
       rules: [
@@ -616,7 +616,7 @@ const NotifyChannel = () => {
       required: true,
       itemProps: {
         maxLength: 50,
-        placeholder: `${i18n.t('please input')} ${i18n.t('Outbox password').toLowerCase()}`,
+        placeholder: `${i18n.t('please enter the')} ${i18n.t('Outbox password').toLowerCase()}`,
         autoComplete: 'off',
         type: passwordVisible ? 'text' : 'password',
         addonAfter: passwordVisible ? (
