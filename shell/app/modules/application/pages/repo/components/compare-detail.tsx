@@ -84,6 +84,9 @@ const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
             disableComment={disableComment}
           />
         </TabPane>
+        {/* <TabPane key="workflow" tab={i18n.t('dop:workflow')}> */}
+        {/*   <MrWorkflow id={mrDetail.id} projectID={+projectId} /> */}
+        {/* </TabPane> */}
       </Tabs>
     </Spin>
   );

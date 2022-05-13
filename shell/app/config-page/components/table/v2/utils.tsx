@@ -315,7 +315,7 @@ export const getRender = (val: Obj, record: Obj, extra?: Extra) => {
           } else if (confirm) {
             // 需要确认的操作
             return (
-              <Menu.Item key={key} className="p-0">
+              <Menu.Item key={key} className="p-0 bg-transparent">
                 <Popconfirm
                   title={confirm}
                   onConfirm={(e) => {

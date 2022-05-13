@@ -15,7 +15,7 @@ import React from 'react';
 import { Tabs } from 'antd';
 import { EmptyHolder } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { get, find } from 'lodash';
+import { find, get } from 'lodash';
 import './tabs.scss';
 
 const CP_TABS = (props: CP_TABS.Props) => {

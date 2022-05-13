@@ -69,6 +69,44 @@ const ExecuteResult = ({ totals }: { totals: { tests: number; statuses: TEST.Sta
   );
 };
 
+const CodeCoverage = ({ data }: { data: Array<{ value: number[] }> }) => {
+  let rowsTotal = 0;
+  let rowsCover = 0;
+
+  data.forEach((item) => {
+    rowsTotal += item.value[0] || 0;
+    rowsCover += item.value[9] || 0;
+  });
+
+  const percent = rowsTotal ? +((rowsCover * 100) / rowsTotal).toFixed(2) : 0;
+
+  const title = (
+    <>
+      <div>
+        {i18n.t('dop:Total number of rows')}: {rowsTotal}
+      </div>
+      <div>
+        {i18n.t('dop:Covering the number of rows')}: {rowsCover}
+      </div>
+      <div>
+        {i18n.t('dop:Line coverage')}: {percent}%
+      </div>
+    </>
+  );
+  return (
+    <Tooltip title={title} placement="right">
+      <Progress
+        percent={100}
+        success={{
+          percent: percent,
+        }}
+        strokeColor={themeColor['default-02']}
+        format={(_percent: number, successPercent: number) => `${Math.floor(successPercent)}%`}
+      />
+    </Tooltip>
+  );
+};
+
 const columns: Array<ColumnProps<TEST.RunTestItem>> = [
   {
     title: i18n.t('default:Name'),
@@ -107,6 +145,12 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
     width: 200,
     dataIndex: ['totals', 'tests'],
     render: (_text, record) => <ExecuteResult totals={record.totals} />,
+  },
+  {
+    title: i18n.t('dop:Code Coverage Statistics'),
+    width: 200,
+    dataIndex: 'coverageReport',
+    render: (text: Array<{ value: number[] }>) => <CodeCoverage data={text} />,
   },
 ];
 

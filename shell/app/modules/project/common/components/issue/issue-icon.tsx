@@ -14,7 +14,7 @@
 import React from 'react';
 import { Select } from 'antd';
 import { map } from 'lodash';
-import { ISSUE_OPTION, ISSUE_TYPE_MAP, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
+import { ISSUE_OPTION, ISSUE_PRIORITY_MAP, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
 import i18n from 'i18n';
 import './issue-icon.scss';
 
@@ -34,10 +34,11 @@ export enum ISSUE_PRIORITY {
   LOW = 'LOW',
 }
 interface IProps {
-  type: ISSUE_TYPE | ISSUE_PRIORITY;
+  type: ISSUE_TYPE | ISSUE_PRIORITY | ISSUE.Issue['type'];
   iconMap?: 'TYPE' | 'PRIORITY';
   withName?: boolean;
   size?: string | number;
+  className?: string;
 }
 
 const { Option } = Select;
