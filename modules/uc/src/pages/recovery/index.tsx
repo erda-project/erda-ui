@@ -90,7 +90,7 @@ export default function Recovery() {
   return (
     <Container>
       <h2 className="text-center text-4xl text-indigo-800 font-display font-semibold lg:text-left xl:text-5xl xl:text-bold">
-        {i18n.t('Welcome to Erda')}
+        {i18n.t('Recovery account')}
       </h2>
       <div className="mt-12">
         <Flow flow={flow} onSubmit={onSubmit} />
