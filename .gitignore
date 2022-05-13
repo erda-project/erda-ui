@@ -25,6 +25,7 @@ node_modules/
 
 # build output
 public/
+!modules/components/public
 
 # for local debug
 report.*.json
