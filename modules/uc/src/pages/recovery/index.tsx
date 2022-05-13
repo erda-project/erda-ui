@@ -95,13 +95,13 @@ export default function Recovery() {
       <div className="mt-12">
         <Flow flow={flow} onSubmit={onSubmit} />
 
-        <div className="my-12 text-sm font-display font-semibold text-gray-700 text-center">
+        <div className="mt-8 mb-2 pb-2 text-sm font-display font-semibold text-gray-700 text-center">
           {i18n.t('Already have an account?')}{' '}
           <span className="cursor-pointer text-indigo-600 hover:text-indigo-800" onClick={goToLogin}>
             {i18n.t('Login')}
           </span>
         </div>
-        <div className="my-12 text-sm font-display font-semibold text-gray-700 pb-2 text-center">
+        <div className="mb-8 mt-2 text-sm font-display font-semibold text-gray-700 pb-2 text-center">
           {i18n.t('Do not have an account?')}{' '}
           <span className="cursor-pointer text-indigo-600 hover:text-indigo-800" onClick={goToRegistration}>
             {i18n.t('Sign up')}

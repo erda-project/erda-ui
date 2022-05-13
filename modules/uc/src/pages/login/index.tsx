@@ -87,7 +87,7 @@ export default function Login() {
   };
 
   const goToRecover = () => {
-    history.push('/uc/recover');
+    history.push('/uc/recovery');
   };
 
   return (
@@ -98,16 +98,16 @@ export default function Login() {
       <div className="mt-12">
         <Flow flow={flow} onSubmit={onSubmit} ignorRegKeys={['password']} />
 
-        <div className="my-12 text-sm font-display font-semibold text-gray-700 pb-2 text-center">
+        <div className="mt-8 mb-2 text-sm font-display font-semibold text-gray-700 pb-2 text-center">
           {i18n.t('Do not have an account?')}{' '}
           <span className="cursor-pointer text-indigo-600 hover:text-indigo-800" onClick={goToRegistration}>
             {i18n.t('Sign up')}
           </span>
         </div>
-        <div className="my-12 text-sm font-display font-semibold text-gray-700 pb-2 text-center">
-          {i18n.t('忘记密码?')}{' '}
+        <div className="mt-2 mb-6 text-sm font-display font-semibold text-gray-700 pb-2 text-center">
+          {i18n.t('Forgot password?')}{' '}
           <span className="cursor-pointer text-indigo-600 hover:text-indigo-800" onClick={goToRecover}>
-            {i18n.t('找回密码')}
+            {i18n.t('Recovery account')}
           </span>
         </div>
       </div>

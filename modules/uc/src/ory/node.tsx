@@ -1,21 +1,20 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 import React from 'react';
-import {
-  isUiNodeImageAttributes,
-  isUiNodeScriptAttributes,
-  isUiNodeTextAttributes,
-  isUiNodeAnchorAttributes,
-  isUiNodeInputAttributes,
-  getNodeLabel,
-  getNodeId,
-} from './utils';
+import { isUiNodeInputAttributes, getNodeLabel, getNodeId } from './utils';
 import { uploadImg } from 'src/services/uc';
-import {
-  UiNode,
-  UiText,
-  UiNodeScriptAttributes,
-  UiNodeInputAttributes,
-  UiNodeAnchorAttributes,
-} from '@ory/kratos-client';
+import { UiNode, UiText, UiNodeInputAttributes } from '@ory/kratos-client';
 import { FormInput } from 'src/common';
 
 import defaultUserSvg from 'src/images/default-user.svg';
@@ -46,25 +45,6 @@ export const Node = ({ node, value, setValue, customType, disabled, dispatchSubm
     );
   }
 
-  if (isUiNodeImageAttributes(node.attributes)) {
-    return null;
-    // return <NodeImage node={node} attributes={node.attributes} />;
-  }
-  if (isUiNodeScriptAttributes(node.attributes)) {
-    return null;
-    // return <NodeScript node={node} attributes={node.attributes} />;
-  }
-
-  if (isUiNodeTextAttributes(node.attributes)) {
-    return null;
-    // return <NodeText node={node} attributes={node.attributes} />;
-  }
-
-  if (isUiNodeAnchorAttributes(node.attributes)) {
-    return null;
-    // return <NodeAnchor node={node} attributes={node.attributes} />;
-  }
-
   if (isUiNodeInputAttributes(node.attributes)) {
     return (
       <NodeInput
@@ -78,42 +58,6 @@ export const Node = ({ node, value, setValue, customType, disabled, dispatchSubm
       />
     );
   }
-
-  return null;
-};
-
-export const NodeAnchor = ({ attributes }: { attributes: UiNodeAnchorAttributes }) => {
-  return (
-    <button
-      onClick={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        window.location.href = attributes.href;
-      }}
-    >
-      {attributes.title.text}
-    </button>
-  );
-};
-
-export const NodeScript = ({ attributes }: { attributes: UiNodeScriptAttributes }) => {
-  React.useEffect(() => {
-    const script = document.createElement('script');
-
-    script.async = true;
-    script.src = attributes.src;
-    script.async = attributes.async;
-    script.crossOrigin = attributes.crossorigin;
-    script.integrity = attributes.integrity;
-    script.referrerPolicy = attributes.referrerpolicy as React.HTMLAttributeReferrerPolicy;
-    script.type = attributes.type;
-
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, [attributes]);
 
   return null;
 };
@@ -137,8 +81,7 @@ export const NodeInput = (props: NodeInputProps) => {
     case 'hidden':
       // Render a hidden input field
       return <input type={attributes.type} name={attributes.name} value={attributes.value || 'true'} />;
-    case 'button':
-      return null;
+
     case 'submit':
       // Render a button
       return (
@@ -175,10 +118,9 @@ const NodeAvatar = (props: NodeInputProps) => {
     if (file) {
       var fd = new FormData();
       fd.append('file', file, file.name);
-
       uploadImg(fd)
         .then((res) => {
-          const src = res?.[file.name];
+          const src = res?.data?.url;
           if (src) {
             setValue(src);
           }

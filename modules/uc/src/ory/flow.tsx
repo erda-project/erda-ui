@@ -1,3 +1,16 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 import React from 'react';
 import {
   SelfServiceLoginFlow,
@@ -98,7 +111,7 @@ const Flow = <T extends Values>(props: Props<T>) => {
     e.preventDefault();
     const newValues = { ...values, ..._values };
 
-    const curValidTips = getValuesValid(newValues, flow?.ui.nodes || [], ignorRegKeys);
+    const curValidTips = getValuesValid(newValues, filterNodes() || [], ignorRegKeys);
     const isValid = Object.values(curValidTips).filter((item) => item).length === 0;
     setValidTips(curValidTips);
     if (!isValid) {
@@ -123,7 +136,6 @@ const Flow = <T extends Values>(props: Props<T>) => {
   };
 
   const nodes = filterNodes();
-
   return flow ? (
     <form action={flow.ui.action} method={flow.ui.method} onSubmit={handleSubmit}>
       {!hideGlobalMessages ? <Alert messages={flow.ui.messages} /> : null}

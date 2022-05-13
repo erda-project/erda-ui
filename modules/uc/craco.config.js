@@ -16,8 +16,15 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const outputPath = path.resolve(__dirname, '../../public/static/uc');
 
 const isProd = process?.env?.NODE_ENV === 'production';
+// ory cloud server
 // const devUrlDomain = 'optimistic-goodall-4xvjx814sc.projects.oryapis.com';
 // const devProxyUrl = `https://${devUrlDomain}`;
+
+// local server
+// const devUrlDomain = '127.0.0.1:4455';
+// const devProxyUrl = `http://${devUrlDomain}`;
+
+// dev server
 const devUrlDomain = 'erda.dev.terminus.io';
 const devProxyUrl = `https://${devUrlDomain}`;
 

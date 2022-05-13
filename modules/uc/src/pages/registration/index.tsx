@@ -87,7 +87,7 @@ const Registration = () => {
       <div className="mt-12">
         <Flow flow={flow} onSubmit={onSubmit} hideNode={['avatar']} />
 
-        <div className="my-12 text-sm font-display font-semibold text-gray-700 text-center">
+        <div className="my-8 text-sm font-display font-semibold text-gray-700 text-center">
           {i18n.t('Already have an account?')}{' '}
           <span className="cursor-pointer text-indigo-600 hover:text-indigo-800" onClick={goToLogin}>
             {i18n.t('Login')}

@@ -41,7 +41,9 @@ const init = () => {
     })
     .catch((e) => {
       if (e.response?.status === 401) {
-        pathname === '/uc/settings' && history.replace('/uc/login');
+        if (!['/uc/registration'].includes(pathname)) {
+          history.replace('/uc/login');
+        }
         startApp();
       }
     });
