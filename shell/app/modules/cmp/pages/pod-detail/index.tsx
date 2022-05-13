@@ -34,7 +34,7 @@ const SUMMARY_KEY_MAP = {
   namespace: i18n.t('cmp:Namespace'),
   hostIP: i18n.t('runtime:Host IP'),
   restartTotal: i18n.t('cmp:Number of restarts'),
-  stateCode: i18n.t('cmp:state code'),
+  stateCode: i18n.t('cmp:status code'),
   terminatedReason: i18n.t('cmp:exit reasons'),
 };
 

@@ -213,7 +213,7 @@ const StatusDetail = () => {
       <div className="row-space" />
       <div className="title-bar">
         <span className="title">
-          {firstCharToUpper(i18n.t('msp:history available time'))}
+          {firstCharToUpper(i18n.t('msp:historical available time'))}
           <span className="sub">（{i18n.t('msp:historical downtime')}）</span>
         </span>
       </div>

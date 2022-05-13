@@ -410,7 +410,7 @@ export function TraceGraph(props: IProps) {
                     <TabPane tab={i18n.t('msp:Attributes')} key={1}>
                       <KeyValueList data={tags} />
                     </TabPane>
-                    <TabPane tab={i18n.t('msp:Event')} key={2}>
+                    <TabPane tab={i18n.t('msp:Events')} key={2}>
                       <Spin spinning={spanDataLoading}>
                         <ErdaTable columns={columns} dataSource={spanDataSource} onChange={handleTableChange} />
                       </Spin>
