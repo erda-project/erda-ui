@@ -25,23 +25,23 @@ export function handleFlowError<S>(
         return;
       case 'session_already_available':
         // User is already signed in, let's redirect them home!
-        await history.push('/');
+        // await history.push('/');
         return;
       case 'session_refresh_required':
         // We need to re-authenticate to perform this action
-        window.location.href = err.response?.data.redirect_browser_to;
+        // window.location.href = err.response?.data.redirect_browser_to;
         return;
       case 'self_service_flow_return_to_forbidden':
         // The flow expired, let's request a new one.
         message.error('The return_to address is not allowed.');
         resetFlow(undefined);
-        await history.push('/' + flowType);
+        // await history.push('/' + flowType);
         return;
       case 'self_service_flow_expired':
         // The flow expired, let's request a new one.
         message.error('Your interaction expired, please fill out the form again.');
         resetFlow(undefined);
-        await history.push('/' + flowType);
+        // await history.push('/' + flowType);
         return;
       case 'security_csrf_violation':
         // A CSRF violation occurred. Best to just refresh the flow!

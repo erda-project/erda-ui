@@ -138,8 +138,8 @@ const NodeAvatar = (props: NodeInputProps) => {
       <div className="text-sm font-bold text-gray-700 tracking-wide flex justify-between items-center relative">
         {label}
       </div>
-      <div className="relative group w-16 h-16 mt-2 bg-gray-100 rounded-full p-3 cursor-pointer" onClick={onClick}>
-        <img src={value || defaultUserSvg} className="w-full h-full" alt="avatar" />
+      <div className="relative group w-16 h-16 mt-2 bg-gray-100 rounded-full  cursor-pointer" onClick={onClick}>
+        <img src={value || defaultUserSvg} className="w-full h-full rounded-full	" alt="avatar" />
         <div className="absolute opacity-0 group-hover:opacity-100 bg-opacity-80 w-full h-full rounded-full left-0 top-0 bg-gray-100">
           <img src={editSvg} alt="edit" className="w-5 h-5 left-6 bottom-2 absolute" />
         </div>
