@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Input, Button, Tooltip, Rate } from 'antd';
+import { Button, Input, Tooltip } from 'antd';
 import { Avatar } from 'common';
 import { fromNow } from 'common/utils';
 import React from 'react';
@@ -134,7 +134,6 @@ interface ICommentList {
 export const PureCommentList = ({ comments = [] }: ICommentList) => {
   const { addComment, getComments } = repoStore.effects;
 
-  const [score, setScore] = React.useState(0);
   const editorRef = React.useRef<EC_MarkdownEditor>(null);
 
   useMount(() => {
@@ -146,10 +145,8 @@ export const PureCommentList = ({ comments = [] }: ICommentList) => {
   const handleSubmit = async (note: string) => {
     await addComment({
       note,
-      score: score * 20,
       type: 'normal',
     });
-    setScore(0);
     editorRef.current?.clear();
   };
 
@@ -182,10 +179,6 @@ export const PureCommentList = ({ comments = [] }: ICommentList) => {
         ref={editorRef}
         operationBtns={[{ text: i18n.t('submit comment'), type: 'primary', onClick: (v: string) => handleSubmit(v) }]}
       />
-      <div>
-        <span>{i18n.t('score')}：</span>
-        <Rate allowHalf onChange={(v) => setScore(v)} value={score} />
-      </div>
     </div>
   );
 };

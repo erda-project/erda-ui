@@ -11,28 +11,28 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Spin, Button, Tooltip, Rate } from 'antd';
-import { isEmpty, find, get } from 'lodash';
+import { Button, Spin, Tooltip } from 'antd';
+import { find, get, isEmpty } from 'lodash';
 import React from 'react';
 import {
-  IF,
-  FormModal,
   Avatar,
-  Icon as CustomIcon,
   BackToTop,
   ErdaAlert,
+  FormModal,
+  Icon as CustomIcon,
+  IF,
   MarkdownRender,
   TopButtonGroup,
 } from 'common';
 
-import { goTo, fromNow, replaceEmoji, getLS, removeLS, insertWhen, connectCube } from 'common/utils';
+import { connectCube, fromNow, getLS, goTo, insertWhen, removeLS, replaceEmoji } from 'common/utils';
 import RepoMRForm from './components/repo-mr-form';
 import RepoCompareDetail from './components/compare-detail';
 import { renderErrorBlock } from './components/source-target-select';
 import i18n from 'i18n';
 import { AppPermType } from 'app/user/stores/_perm-state';
 import { usePerm } from 'app/user/common';
-import { WithAuth, getAuth, isCreator, isAssignee } from 'user/common';
+import { getAuth, isAssignee, isCreator, WithAuth } from 'user/common';
 import './mr-detail.scss';
 import routeInfoStore from 'core/stores/route';
 import repoStore from 'application/stores/repo';
@@ -326,7 +326,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
       mergable: false,
     });
     const { modalVisible } = this.state;
-    const { title, description, sourceBranch, targetBranch, score, scoreNum } = mrDetail;
+    const { title, description, sourceBranch, targetBranch } = mrDetail;
 
     if (isEmpty(mrDetail)) {
       return null;
@@ -340,8 +340,6 @@ class RepoMR extends React.PureComponent<IProps, IState> {
 
     const slots = this.getSlots();
     const { defaultCommitMessage, ...rest } = mrDetail;
-    let average_score = score / (scoreNum * 20);
-    average_score -= average_score % 0.5; // 评分组件需要按 0.5 取整，如 1.7 会只显示一颗心，1.5 才会显示一颗半
     return (
       <Spin spinning={isFetching}>
         <div className="repo-mr-detail">
@@ -379,9 +377,6 @@ class RepoMR extends React.PureComponent<IProps, IState> {
             </span>
             <span>
               {i18n.t('dop:target branch')}：<span className="branch-name">{targetBranch}</span>
-            </span>
-            <span className="mr-rate">
-              {i18n.t('dop:overall score')}：<Rate allowHalf disabled value={average_score} />
             </span>
           </div>
           <div className="detail-desc-block">
