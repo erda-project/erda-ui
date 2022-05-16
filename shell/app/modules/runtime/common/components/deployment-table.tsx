@@ -46,8 +46,8 @@ const DeploymentTable = ({ dataSource, paging, loading, onChange, opsCol }: IPro
       title: i18n.t('Operator'),
       dataIndex: 'operator',
       render: (operator: string) => {
-        const { nick = '', avatar = '', name = '' } = userMap[operator] || {};
-        return <Avatar className="mb-1" showName name={<Tooltip title={name}>{nick}</Tooltip>} url={avatar} />;
+        const { nick = '', avatar = '' } = userMap[operator] || {};
+        return <Avatar className="mb-1" showName name={nick} url={avatar} />;
       },
     },
     {
