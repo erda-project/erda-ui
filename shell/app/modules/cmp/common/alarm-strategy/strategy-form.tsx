@@ -114,12 +114,12 @@ const alertLevelOptions = [
 const conditionOperatorOptions = [
   {
     key: 'eq',
-    display: firstCharToUpper(i18n.t('msp:equal')),
+    display: firstCharToUpper(i18n.t('dop:equal to')),
     type: OperatorType.SINGLE,
   },
   {
     key: 'neq',
-    display: firstCharToUpper(i18n.t('msp:not equal')),
+    display: firstCharToUpper(i18n.t('dop:not equal to')),
     type: OperatorType.SINGLE,
   },
   {
@@ -642,7 +642,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
         style: { width: 480 },
       },
       type: 'select',
-      options: map(silenceMap, ({ display }, value) => ({ name: `${value.split('-')[0]}${display}`, value })),
+      options: map(silenceMap, ({ display }, value) => ({ name: `${value.split('-')[0]} ${display}`, value })),
     },
     {
       label: i18n.t('Silence period policy'),

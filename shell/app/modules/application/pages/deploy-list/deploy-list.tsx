@@ -153,7 +153,7 @@ const PureDeployList = (props: IProps) => {
   const actionMap = {
     approve: {
       approved: {
-        title: i18n.t('cmp:Approve result'),
+        title: i18n.t('cmp:Approval result'),
         dataIndex: 'approvalStatus',
         width: 160,
         render: (val: string) => (approvalStatusMap[val] || {}).name,

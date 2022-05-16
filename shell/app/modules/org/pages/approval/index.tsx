@@ -195,7 +195,7 @@ const Approval = () => {
             render: (val: string) => moment(val).format('YYYY-MM-DD HH:mm:ss'),
           },
           {
-            title: i18n.t('cmp:Approve result'),
+            title: i18n.t('cmp:Approval result'),
             dataIndex: 'status',
             width: 100,
             render: (val: string) => get(undoneStatusMap, `${val}.label`),

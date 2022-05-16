@@ -573,7 +573,7 @@ const AddModal = (props: IProps) => {
                             style={{ width: 110 }}
                             className="mr-2"
                           >
-                            <Option value="http_code">{firstCharToUpper(i18n.t('cmp:state code'))}</Option>
+                            <Option value="http_code">{firstCharToUpper(i18n.t('cmp:status code'))}</Option>
                             <Option value="body">{i18n.t('Response body')}</Option>
                           </Select>
                           {item.key === 'http_code' ? (
@@ -649,9 +649,7 @@ const AddModal = (props: IProps) => {
               >
                 {map(TIME_LIMITS, (time) => (
                   <Radio className="pr-10" value={time} key={time}>
-                    {time < 60
-                      ? `${time}${i18n.t('common:second(s)')}`
-                      : i18n.t('common:minuteWithCount', { count: time / 60 })}
+                    {time < 60 ? i18n.t('{count} sec', { count: time }) : i18n.t('{count} min', { count: time / 60 })}
                   </Radio>
                 ))}
               </Select>

@@ -161,10 +161,10 @@ const Overview = () => {
         <p className="mb-0 text-xl leading-8 font-medium">{i18n.t('Microservice Platform')}</p>
         <p className="mb-0 text-xs leading-5 flex">
           {i18n.t(
-            'msp:Provides one-stop service system observation, including service monitoring, tracing, dashboard, and alarm.',
+            'msp:Provides one-stop service system observation, including service monitoring, tracing analysis, dashboards, and alerts.',
           )}
           <a className="flex" href={DOC_MSP_HOME_PAGE} target="_blank" rel="noopener noreferrer">
-            {i18n.t('msp:view guide')} <ErdaIcon size={14} type="jinru" className="mb-0" />
+            &nbsp;{firstCharToUpper(i18n.t('msp:view the guide'))} <ErdaIcon size={14} type="jinru" className="mb-0" />
           </a>
         </p>
         <div className="header-img-wrapper absolute right-0 top-4">
