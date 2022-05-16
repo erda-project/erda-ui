@@ -649,7 +649,7 @@ const AddModal = (props: IProps) => {
               >
                 {map(TIME_LIMITS, (time) => (
                   <Radio className="pr-10" value={time} key={time}>
-                    {time < 60 ? i18n.t('{count} sec', { count: time }) : i18n.t('{count} min', { count: time / 60 })}
+                    {time < 60 ? i18n.t('{num} sec', { num: time }) : i18n.t('{num} min', { num: time / 60 })}
                   </Radio>
                 ))}
               </Select>
