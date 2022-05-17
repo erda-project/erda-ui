@@ -26,16 +26,10 @@ import {
   useTopicFields,
   useBucketField,
   AddonType,
-  useGatewayFields,
 } from './config';
 import { insertWhen } from 'common/utils';
 
-export const CLOUD_TYPES = [
-  AddonType.AliCloudRds,
-  AddonType.AliCloudRedis,
-  AddonType.AliCloudOns,
-  AddonType.AliCloudOss,
-];
+export const CLOUD_TYPES = [];
 const MODE_MAP = {
   NEW: 'new',
   EXIST: 'exist',
