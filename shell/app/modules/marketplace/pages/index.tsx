@@ -115,7 +115,7 @@ const Market = () => {
       <div className="px-4">
         <Spin spinning={loading}>
           <div className="flex flex-wrap ">
-            <Responsive itemWidth={326} className="marketplace-lists">
+            <Responsive itemWidth={326} className="marketplace-lists flex-1">
               {
                 list?.map((item) => {
                   return (
@@ -151,13 +151,13 @@ const ServiceCard = ({ data, onClick }: { data: MARKET.Service; onClick: () => v
       </div>
       <div className="w-[250px] info-container">
         <div className="text-default leading-[22px]">{data.displayName || data.name}</div>
-        <Ellipsis className="text-default-8 text-xs leading-5" title={data.summary} />
-        <div className="text-default-6 text-xs leading-4">{data.typeName}</div>
+        <Ellipsis className="text-default-8 text-xs leading-5" title={data.summary || '-'} />
+        <div className="text-default-6 text-xs leading-4">{data.typeName || '-'}</div>
         <div className="flex-h-center mt-2">
           <div className="flex-h-center bg-default-06 text-xs text-default-8 leading-6 px-3 rounded-2xl">
             {i18n.t('dop:Learn More')}
           </div>
-          <div className="text-default-6 leading-4 transform scale-75">{`by ${data.orgName}`}</div>
+          <div className="flex-1 truncate text-default-6 leading-4 transform scale-75">{`by ${data.orgName}`}</div>
         </div>
       </div>
     </div>
