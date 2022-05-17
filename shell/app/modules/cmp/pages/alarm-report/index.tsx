@@ -97,7 +97,7 @@ const AlarmReport = () => {
     const activeGroup = find(notifyGroups, { id: activeGroupId });
     const fieldsList = [
       {
-        label: i18n.t('cmp:report name'),
+        label: i18n.t('cmp:name-report'),
         name: 'name',
         itemProps: {
           maxLength: 50,
@@ -119,7 +119,7 @@ const AlarmReport = () => {
         initialValue: 'daily',
       },
       {
-        label: i18n.t('cmp:select the group'),
+        label: i18n.t('dop:select group'),
         name: ['notifyTarget', 'groupId'],
         getComp: () => (
           <Select
@@ -219,7 +219,7 @@ const AlarmReport = () => {
 
   const columns: Array<ColumnProps<COMMON_ALARM_REPORT.ReportTask>> = [
     {
-      title: i18n.t('cmp:report name'),
+      title: i18n.t('cmp:name-report'),
       dataIndex: 'name',
     },
     {

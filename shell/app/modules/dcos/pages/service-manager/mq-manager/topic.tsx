@@ -103,7 +103,7 @@ const Topic = () => {
                 });
               }}
             >
-              {i18n.t('set tags')}
+              {i18n.t('Set Labels')}
             </span>
           </div>
         );

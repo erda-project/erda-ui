@@ -17,6 +17,7 @@ import { Tabs } from 'antd';
 import MachineDetail from './machine-detail';
 import InstanceList from './instance-list';
 import AlarmRecord from './alarm-record';
+import { firstCharToUpper } from 'app/common/utils';
 
 const { TabPane } = Tabs;
 
@@ -36,13 +37,13 @@ const MachineTabs = ({ activeMachine, activeMachineTab }: IProps) => {
       <TabPane tab={i18n.t('Machine Overview')} key="overview">
         <MachineDetail type="insight" machineDetail={activeMachine} />
       </TabPane>
-      <TabPane tab={i18n.t('cmp:Machine Alert')} key="alarm">
+      <TabPane tab={i18n.t('cmp:Machine Alerts')} key="alarm">
         <AlarmRecord clusters={clusters.current} />
       </TabPane>
       <TabPane tab={i18n.t('cmp:Instance')} key="instance">
         <InstanceList instanceType="all" clusters={clusters.current} />
       </TabPane>
-      <TabPane tab={i18n.t('services')} key="service">
+      <TabPane tab={firstCharToUpper(i18n.t('service-menu'))} key="service">
         <InstanceList instanceType="service" clusters={clusters.current} />
       </TabPane>
       <TabPane tab={i18n.t('Task-list')} key="job">

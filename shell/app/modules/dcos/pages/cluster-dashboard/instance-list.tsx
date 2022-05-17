@@ -130,7 +130,7 @@ IProps) => {
     ],
     service: [
       {
-        title: i18n.t('Service name'),
+        title: i18n.t('name-service'),
         dataIndex: 'serviceName',
         render: (name: string) => <Tooltip title={name}>{name || '--'}</Tooltip>,
       },

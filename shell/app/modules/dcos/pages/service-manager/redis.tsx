@@ -176,7 +176,7 @@ const Redis = () => {
 
   const operationButtons = [
     {
-      name: `${i18n.t('set tags')}`,
+      name: `${i18n.t('Set Labels')}`,
       cb: () => updater.tagFormVis(true),
       ifDisabled: false,
     },

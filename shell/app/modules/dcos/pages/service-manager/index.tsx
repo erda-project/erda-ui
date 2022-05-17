@@ -28,10 +28,10 @@ import { useEffectOnce, useUpdateEffect, useDebounce } from 'react-use';
 const { Option } = Select;
 
 const ENV_MAP = {
-  dev: { enName: 'DEV', cnName: i18n.t('cmp:development environment') },
-  test: { enName: 'TEST', cnName: i18n.t('test environment') },
-  staging: { enName: 'STAGING', cnName: i18n.t('staging environment') },
-  prod: { enName: 'PROD', cnName: i18n.t('cmp:production environment') },
+  dev: { enName: 'DEV', cnName: i18n.t('Development') },
+  test: { enName: 'TEST', cnName: i18n.t('Testing-env') },
+  staging: { enName: 'STAGING', cnName: i18n.t('Staging-env') },
+  prod: { enName: 'PROD', cnName: i18n.t('Production-env') },
 };
 
 interface IState {

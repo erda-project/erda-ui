@@ -109,7 +109,7 @@ const VSW = () => {
                   });
                 }}
               >
-                {i18n.t('set tags')}
+                {i18n.t('Set Labels')}
               </span>
             </div>
           );
@@ -230,7 +230,7 @@ const VSW = () => {
 
   const operationButtons = [
     {
-      name: `${i18n.t('set tags')}`,
+      name: `${i18n.t('Set Labels')}`,
       cb: () => {
         update({
           tagFormVis: true,

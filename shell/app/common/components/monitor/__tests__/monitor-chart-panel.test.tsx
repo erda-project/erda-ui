@@ -58,8 +58,8 @@ describe('MonitorChartPanel', () => {
     };
     const result = render(<MonitorChartPanel resourceType="a" resourceId="a" metrics={metrics} />);
     expect(result.container).isExist('.mock-monitor-chart', 4);
-    expect(result.queryByText('load more')).not.toBeNull();
-    fireEvent.click(result.getByText('load more'));
+    expect(result.queryByText('Load More')).not.toBeNull();
+    fireEvent.click(result.getByText('Load More'));
     expect(result.container).isExist('.mock-monitor-chart', 8);
   });
 });

@@ -110,7 +110,7 @@ export const SetTagForm = ({
 
   return (
     <FormModal
-      title={i18n.t('set tags')}
+      title={i18n.t('Set Labels')}
       visible={visible}
       fieldsList={tagFields}
       formData={formData}

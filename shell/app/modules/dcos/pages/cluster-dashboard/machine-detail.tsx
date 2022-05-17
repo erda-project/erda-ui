@@ -18,6 +18,7 @@ import { isEmpty, isFunction, map } from 'lodash';
 import { Tag } from 'antd';
 import React from 'react';
 import './machine-detail.scss';
+import { firstCharToUpper } from 'app/common/utils';
 
 const itemConfigs = [
   {
@@ -25,7 +26,7 @@ const itemConfigs = [
     value: 'hostname',
   },
   {
-    title: i18n.t('cluster'),
+    title: firstCharToUpper(i18n.t('cluster')),
     value: 'clusterName',
   },
   {

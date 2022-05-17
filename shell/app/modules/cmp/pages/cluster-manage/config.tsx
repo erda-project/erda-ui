@@ -122,8 +122,8 @@ export const clusterSpecMap = {
     Standard: { name: i18n.t('Standard'), value: 'Standard', tip: i18n.t('cmp:2 machines') },
   },
   erdc: {
-    test: { name: i18n.t('test'), value: 'test' },
-    prod: { name: i18n.t('prod'), value: 'prod' },
+    test: { name: i18n.t('Testing'), value: 'test' },
+    prod: { name: i18n.t('common:Production'), value: 'prod' },
   },
 };
 

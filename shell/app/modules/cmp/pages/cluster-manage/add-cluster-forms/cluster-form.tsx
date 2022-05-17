@@ -19,7 +19,7 @@ import { Popover, Button, FormInstance, RadioChangeEvent } from 'antd';
 import { find, get, debounce, flatten, isEmpty, every, set } from 'lodash';
 import { clusterTypeMap } from './cluster-type-modal';
 import clusterStore from '../../../stores/cluster';
-import { allWordsFirstLetterUpper, insertWhen, regRules } from 'common/utils';
+import { allWordsFirstLetterUpper, firstCharToUpper, insertWhen, regRules } from 'common/utils';
 import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 import { DOC_CMP_CLUSTER_MANAGE } from 'common/constants';
 
@@ -54,7 +54,7 @@ const ClusterBasicForm = ({
 
   const fieldsList = [
     {
-      label: i18n.t('{name} identifier', { name: i18n.t('cluster') }),
+      label: firstCharToUpper(i18n.t('{name} identifier', { name: i18n.t('cluster') })),
       name: 'name',
       config: {
         getValueFromEvent(e: any) {
@@ -64,7 +64,7 @@ const ClusterBasicForm = ({
       },
       itemProps: {
         disabled: editMode,
-        placeholder: i18n.t('cmp:letters and numbers, separated by hyphens, cannot be modified if confirmed'),
+        placeholder: i18n.t('cmp:Characters and numbers, separated by a hyphen and cannot be modified after creation'),
       },
       rules: [
         regRules.clusterName,
@@ -221,9 +221,9 @@ const ClusterBasicForm = ({
 
 const k8sAlert = (
   <span>
-    {i18n.t('cmp:before importing cluster, please complete the relevant preparations. For details, please refer to')}
+    {i18n.t('cmp:Before importing clusters, please complete the relevant preparations, as described in the')}
     <a href={DOC_CMP_CLUSTER_MANAGE} target="_blank" rel="noopener noreferrer">
-      {i18n.t('document')}
+      {' ' + i18n.t('document')}
     </a>
   </span>
 );
@@ -263,7 +263,12 @@ const ClusterAddForm = (props: any) => {
   return (
     <div className="cluster-form">
       <If condition={clusterType === 'k8s' && mode !== 'edit'}>
-        <ErdaAlert message={`${i18n.t('tip')}:`} description={k8sAlert} type="warning" className="mb-8" />
+        <ErdaAlert
+          message={`${firstCharToUpper(i18n.t('tip'))}:`}
+          description={k8sAlert}
+          type="warning"
+          className="mb-8"
+        />
       </If>
       <ClusterBasicForm
         form={form}
