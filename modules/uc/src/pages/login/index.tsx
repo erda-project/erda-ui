@@ -57,8 +57,8 @@ export default function Login() {
         // We logged in successfully! Let's bring the user home.
         .then((res) => {
           const query = parse(window.location.search);
-          if (query?.redirect_uri) {
-            window.location.href = query.redirect_uri as string;
+          if (query?.redirectUrl) {
+            window.location.href = query.redirectUrl as string;
           } else {
             history.push('/uc/settings');
           }

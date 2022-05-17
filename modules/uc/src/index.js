@@ -36,7 +36,7 @@ const init = () => {
     .then(({ data }) => {
       if (pathname.startsWith('/uc') && pathname !== '/uc/settings') {
         const query = parse(window.location.search);
-        window.location.href = query?.redirect_uri || '/uc/settings';
+        window.location.href = query?.redirectUrl || '/uc/settings';
       }
       startApp();
     })

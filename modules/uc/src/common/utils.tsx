@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import { parse } from 'query-string';
 
-export const keepRedirectUrlQuery = (url: string, redirect_uri?: string) => {
+export const keepRedirectUrlQuery = (url: string, redirectUrl?: string) => {
   const query = parse(window.location.search);
-  const curRedirectUrl = redirect_uri || query?.redirect_uri;
-  if (curRedirectUrl && !url.includes('redirect_uri=')) {
-    return `${url}${url.includes('?') ? '&' : '?'}redirect_uri=${curRedirectUrl}`;
+  const curRedirectUrl = redirectUrl || query?.redirectUrl;
+  if (curRedirectUrl && !url.includes('redirectUrl=')) {
+    return `${url}${url.includes('?') ? '&' : '?'}redirectUrl=${curRedirectUrl}`;
   }
   return url;
 };
