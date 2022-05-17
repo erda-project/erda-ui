@@ -49,7 +49,7 @@ function CreateLogoutHandler(deps?: React.DependencyList) {
     if (logoutToken) {
       ory
         .submitSelfServiceLogoutFlow(logoutToken)
-        .then(() => history.push('/login'))
+        .then(() => history.push('/uc/login'))
         .then(() => window.location.reload());
     }
   };

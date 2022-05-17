@@ -10,7 +10,7 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
-
+const fs = require('fs');
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const outputPath = path.resolve(__dirname, '../../public/static/uc');
@@ -52,7 +52,12 @@ module.exports = {
     },
   },
   devServer: {
+    host: 'localuc.erda.dev.terminus.io',
     port: 3032,
+    https: {
+      key: fs.readFileSync('../../cert/dev/server.key'),
+      cert: fs.readFileSync('../../cert/dev/server.crt'),
+    },
     proxy: {
       '/api/files': {
         target: devProxyUrl,

@@ -18,14 +18,16 @@ export function handleFlowError<S>(
   resetFlow: React.Dispatch<React.SetStateAction<S | undefined>>,
 ) {
   return async (err: AxiosError) => {
-    switch (err.response?.data.error?.id) {
+    const res = err.response?.data || {};
+    switch (res.error?.id) {
       case 'session_aal2_required':
         // 2FA is enabled and enforced, but user did not perform 2fa yet!
-        window.location.href = err.response?.data.redirect_browser_to;
+        window.location.href = res.redirect_browser_to;
         return;
       case 'session_already_available':
         // User is already signed in, let's redirect them home!
         // await history.push('/');
+        message.error(res.error.message);
         return;
       case 'session_refresh_required':
         // We need to re-authenticate to perform this action
@@ -56,7 +58,7 @@ export function handleFlowError<S>(
         return;
       case 'browser_location_change_required':
         // Ory Kratos asked us to point the user to this URL.
-        window.location.href = err.response.data.redirect_browser_to;
+        window.location.href = res.redirect_browser_to;
         return;
     }
 
