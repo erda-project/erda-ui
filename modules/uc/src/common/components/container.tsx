@@ -27,7 +27,14 @@ const Container = (props: IProps) => {
       <div className="lg:w-1/2 xl:max-w-screen-sm h-screen	overflow-auto">
         <div className="py-12 bg-indigo-100 lg:bg-white flex items-center justify-center lg:px-12">
           <div className="cursor-pointer flex items-center">
-            <img src={logo} className="lg:w-80 md:w-auto" alt="logo" />
+            <img
+              src={logo}
+              onClick={() => {
+                window.location.href = '/';
+              }}
+              className="lg:w-80 md:w-auto"
+              alt="logo"
+            />
           </div>
         </div>
         <div className="mt-10 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-16 xl:px-24 xl:max-w-2xl">{children}</div>
