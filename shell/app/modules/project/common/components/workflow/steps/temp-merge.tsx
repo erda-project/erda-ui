@@ -104,7 +104,7 @@ const ChangeList = ({ list, projectId, appId }: IChangeList) => {
   );
 };
 
-const TempMerge: React.FC<IProps> = ({ data, afterChangeStatus, afterRebuild, projectID, beta }) => {
+const TempMerge: React.FC<IProps> = ({ data, afterChangeStatus, afterRebuild, projectID }) => {
   const { mergeID, isJoinTempBranch, appID } = data?.devFlowNode || {};
   const handleReBuild = async () => {
     await restartDeploy.fetch({
@@ -124,7 +124,6 @@ const TempMerge: React.FC<IProps> = ({ data, afterChangeStatus, afterRebuild, pr
   return (
     <BaseStep
       title={i18n.t('dop:{type} node', { type: i18n.t('msp:deployment branch') })}
-      beta={beta}
       extra={
         <>
           {isJoinTempBranch ? (

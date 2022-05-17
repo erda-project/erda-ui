@@ -22,10 +22,10 @@ interface IProps extends IBaseProps {
   app: IApplication;
 }
 
-const Code: React.FC<IProps> = ({ data, app = {}, beta }) => {
+const Code: React.FC<IProps> = ({ data, app = {} }) => {
   const { devFlowNode } = data;
   return (
-    <BaseStep title={i18n.t('dop:{type} node', { type: 'Code' })} beta={beta}>
+    <BaseStep title={i18n.t('dop:{type} node', { type: 'Code' })}>
       <div className="workflow-step-code">
         <p className="pb-2 mb-2 border-0 border-b border-b-default-1 border-solid">
           {' '}

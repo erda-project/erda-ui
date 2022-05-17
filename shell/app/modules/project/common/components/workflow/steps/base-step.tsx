@@ -15,7 +15,6 @@ import React from 'react';
 
 export interface IBaseProps {
   enable?: boolean;
-  beta?: boolean;
 }
 
 const BaseStep: React.FC<{
@@ -23,16 +22,14 @@ const BaseStep: React.FC<{
   title: string;
   extra?: React.ReactNode;
   beta?: boolean;
-}> = ({ className, title, children, extra, beta }) => {
+}> = ({ className, title, children, extra }) => {
   return (
     <div className={`workflow-step bg-white rounded-sm w-[280px] shadow-card flex-shrink-0 mx-2 ${className}`}>
       <div className="px-2 rounded-t-sm bg-default-02 h-8 flex items-center justify-between mb-0">
         <span className="font-medium">{title}</span>
         <div>
           {extra}
-          {beta ? (
-            <span className="ml-2 px-2 rounded-full text-xs text-danger border border-danger border-solid">beta</span>
-          ) : null}
+          <span className="ml-2 px-2 rounded-full text-xs text-danger border border-danger border-solid">beta</span>
         </div>
       </div>
       <div className="p-2">{children}</div>

@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import React, { forwardRef, useImperativeHandle } from 'react';
 import { Button, Form, FormInstance, Modal, Spin } from 'antd';
 import { ErdaAlert, RenderPureForm } from 'common';
-import { isPromise, firstCharToUpper } from 'common/utils';
+import { firstCharToUpper, isPromise } from 'common/utils';
 import { IFormItem } from '../render-form-item';
 import moment from 'moment';
 import './index.scss';
@@ -51,6 +51,7 @@ interface IProps {
 interface IState {
   confirmLoading: boolean;
 }
+
 class FormModalComp extends React.Component<IProps, IState> {
   state = {
     confirmLoading: false,
@@ -168,7 +169,14 @@ class FormModalComp extends React.Component<IProps, IState> {
       ...rest
     } = this.props;
     const { confirmLoading } = this.state;
-    const modalTitle = title || (this.isAddMode ? i18n.t('add {name}', { name }) : i18n.t('edit {name}', { name }));
+    const modalTitle =
+      title ||
+      (this.isAddMode
+        ? i18n.t('add {name}', { name, interpolation: { escapeValue: false } })
+        : i18n.t('edit {name}', {
+            name,
+            interpolation: { escapeValue: false },
+          }));
     if (width) {
       modalProps.width = width;
     } else {
@@ -234,22 +242,22 @@ const PureFormModalFun = (options: Obj) =>
 
 /**
  * 表单弹窗组件
-  @usage
-  ```
-    <FormModal
-      width='700px'
-      name='项目'
-      visible={modalVisible}
-      onOk={this.createProject} // 不传时不渲染确定按钮
-      onCancel={this.toggleModal} // 不传时不渲染取消按钮
-      fieldsList={fieldsList} // pass a field list
-      PureForm={ProjectForm}  // or a pure form
-      modalProps={}
-      formProps={}
-      beforeSubmit={data => adjustOrCheckData(data)}
-    />
-  ```
-  @description
+ @usage
+ ```
+ <FormModal
+ width='700px'
+ name='项目'
+ visible={modalVisible}
+ onOk={this.createProject} // 不传时不渲染确定按钮
+ onCancel={this.toggleModal} // 不传时不渲染取消按钮
+ fieldsList={fieldsList} // pass a field list
+ PureForm={ProjectForm}  // or a pure form
+ modalProps={}
+ formProps={}
+ beforeSubmit={data => adjustOrCheckData(data)}
+ />
+ ```
+ @description
  * 注意：PureForm必须是 未经 Form.Create()包裹的组件，推荐内部用RenderPureForm组件
  * 如果传了fieldsList数组，则默认使用 RenderPureForm 进行表单渲染，并使用formRef进行初始化设置值
  *
