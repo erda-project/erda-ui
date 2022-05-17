@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon, ErdaIcon } from 'common';
+import { firstCharToUpper } from 'common/utils';
 import { Dropdown, Menu, Tooltip } from 'antd';
 
 import i18n from 'i18n';
@@ -23,6 +24,7 @@ export interface IProps {
   editing: boolean;
   onClickNode: (data: any, arg: any) => void;
   onDeleteNode: (data: any) => void;
+  onDisableNode: (data: any) => void;
 }
 
 export const NodeSize = {
@@ -31,20 +33,7 @@ export const NodeSize = {
 };
 const noop = () => {};
 const PipelineNode = (props: IProps) => {
-  const { data, editing, onClickNode = noop, onDeleteNode = noop, ...rest } = props;
-
-  const menu = (
-    <Menu
-      onClick={({ domEvent, key }: any) => {
-        domEvent && domEvent.stopPropagation();
-        if (key === 'delete') {
-          onDeleteNode(data);
-        }
-      }}
-    >
-      <Menu.Item key="delete">{i18n.t('Delete')}</Menu.Item>
-    </Menu>
-  );
+  const { data, editing, onClickNode = noop, onDeleteNode = noop, onDisableNode = noop, ...rest } = props;
 
   const onClick = () => {
     onClickNode(data, { editing, ...rest });
@@ -52,29 +41,45 @@ const PipelineNode = (props: IProps) => {
 
   const titleText = data.displayName ? `${data.displayName}: ${data.alias}` : data.name || data.alias;
   return (
-    <div className="p-3 yml-chart-node project-pipeline-node flex flex-col justify-center" onClick={onClick}>
-      <div className={'flex py-3'}>
-        <div className="w-[50px] h-[50px] mr-3">
-          {data.logoUrl ? (
-            <img src={data.logoUrl} alt="logo" className="w-full h-full" />
-          ) : (
-            <CustomIcon type="wfw" color className="w-full h-full" />
-          )}
-        </div>
-        <div className="flex-1 overflow-hidden flex flex-col text-normal">
-          <span className="mb-1 nowrap text-base name">
-            <Tooltip title={titleText}>{titleText}</Tooltip>
-          </span>
-        </div>
-        {editing ? (
-          <div>
-            <Dropdown trigger={['click']} overlay={menu}>
-              <CustomIcon type="more" onClick={(e) => e.stopPropagation()} />
-            </Dropdown>
+    <Tooltip title={data.disable ? i18n.t('dop:The node is disabled') : ''} zIndex={1060}>
+      <div
+        className={`p-3 yml-chart-node project-pipeline-node flex flex-col justify-center ${
+          data.disable ? 'opacity-60' : ''
+        } hover:opacity-100`}
+        onClick={onClick}
+      >
+        <div className={'flex py-3'}>
+          <div className="w-[50px] h-[50px] mr-3">
+            {data.logoUrl ? (
+              <img src={data.logoUrl} alt="logo" className="w-full h-full" />
+            ) : (
+              <CustomIcon type="wfw" color className="w-full h-full" />
+            )}
           </div>
-        ) : null}
+          <div className="flex-1 overflow-hidden flex flex-col text-normal">
+            <span className="mb-1 nowrap text-base name">
+              <Tooltip title={titleText}>{titleText}</Tooltip>
+            </span>
+          </div>
+          {editing ? (
+            <div className="flex-h-center h-6 ml-1" onClick={(e) => e.stopPropagation()}>
+              <Tooltip title={data.disable ? i18n.t('Enable') : firstCharToUpper(i18n.t('disable'))}>
+                <ErdaIcon
+                  type={data.disable ? 'unlock' : 'lock'}
+                  size="16"
+                  className="text-icon mr-1"
+                  onClick={() => onDisableNode(data)}
+                />
+              </Tooltip>
+
+              <Tooltip title={i18n.t('Delete')}>
+                <ErdaIcon type="close-small" size="20" className="text-icon" onClick={() => onDeleteNode(data)} />
+              </Tooltip>
+            </div>
+          ) : null}
+        </div>
       </div>
-    </div>
+    </Tooltip>
   );
 };
 

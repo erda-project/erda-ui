@@ -27,6 +27,7 @@ export interface IPipelineGraphicEditorProps {
   editing: boolean;
   nameKey?: string;
   onDeleteData: (arg: any) => void;
+  onDisableNode: (arg: any) => void;
   addDrawerProps?: Obj;
   onAddData: (arg: any) => void;
   onAddInParams?: (arg: any) => void;
@@ -41,6 +42,7 @@ interface IPureEditor {
   ymlObj: PIPELINE.IPipelineYmlStructure;
   editing: boolean;
   onDeleteData: (arg: any) => void;
+  onDisableNode: (arg: any) => void;
   onClickNode: (arg: any) => void;
   chartProps?: IChartProps;
 }
@@ -58,7 +60,7 @@ export interface IChartProps {
 }
 
 export const PurePipelineGraphicEditor = (props: IPureEditor) => {
-  const { ymlObj, editing, onDeleteData, onClickNode, chartProps = {} } = props;
+  const { ymlObj, editing, onDeleteData, onDisableNode, onClickNode, chartProps = {} } = props;
   const [{ displayData, stagesData, inParamsData, outParamsData, dataKey }, , update] = useUpdate({
     displayData: resetData({}, editing) as any[][],
     stagesData: [],
@@ -100,6 +102,7 @@ export const PurePipelineGraphicEditor = (props: IPureEditor) => {
       key={dataKey}
       onClickNode={onClickNode}
       onDeleteNode={onDeleteData}
+      onDisableNode={onDisableNode}
       ymlObj={ymlObj}
       external={{ nodeEleMap: { ...NodeEleMap, ...(chartProps.nodeEleMap || {}) } }}
     />
@@ -111,6 +114,7 @@ export const PipelineGraphicEditor = (props: IPipelineGraphicEditorProps) => {
     ymlObj,
     editing,
     onDeleteData,
+    onDisableNode,
     onAddData,
     onAddInParams,
     onAddOutParams,
@@ -207,6 +211,7 @@ export const PipelineGraphicEditor = (props: IPipelineGraphicEditorProps) => {
         editing={editing}
         onClickNode={onClickNode}
         onDeleteData={onDeleteNode}
+        onDisableNode={onDisableNode}
       />
       <PipelineNodeDrawer
         {...restDrawerProps}

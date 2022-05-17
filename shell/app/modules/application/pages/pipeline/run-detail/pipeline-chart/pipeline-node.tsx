@@ -336,7 +336,7 @@ const PipelineNode = (props: IProps) => {
   const mergedClassNames = classnames(
     'app-pipeline-chart-node',
     className,
-    data.status === 'Disabled' ? 'disabled-item' : '',
+    data.status === 'Disabled' ? 'disabled-item opacity-60' : '',
   );
 
   const timeContent =
