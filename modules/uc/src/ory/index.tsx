@@ -14,6 +14,7 @@
 import React from 'react';
 import { Configuration, V0alpha2Api } from '@ory/kratos-client';
 import { handleFlowError } from './errors';
+import { keepRedirectUrlQuery } from 'src/common/utils';
 import Flow from './flow';
 import { history } from 'src/common';
 
@@ -49,7 +50,7 @@ function CreateLogoutHandler(deps?: React.DependencyList) {
     if (logoutToken) {
       ory
         .submitSelfServiceLogoutFlow(logoutToken)
-        .then(() => history.push('/uc/login'))
+        .then(() => history.push(keepRedirectUrlQuery('/uc/login')))
         .then(() => window.location.reload());
     }
   };
