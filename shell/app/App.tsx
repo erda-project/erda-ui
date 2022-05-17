@@ -110,6 +110,7 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[], curOrg: ORG.IOrg, orgAcce
       import('user/entry'),
       import('dcos/entry'),
       import('addonPlatform/entry'),
+      import('marketplace/entry'),
       import('./modules/extra/entry'),
     ].forEach((p) => p.then((m) => m.default(registerModule)));
 

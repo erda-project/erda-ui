@@ -70,6 +70,7 @@ module.exports = async () => {
         addonPlatform: resolve('./app/modules/addonPlatform'),
         msp: resolve('./app/modules/msp'),
         apiManagePlatform: resolve('./app/modules/apiManagePlatform'),
+        marketplace: resolve('./app/modules/marketplace'),
         agent: resolve('./app/agent.js'),
         i18n: resolve('./app/i18n.ts'),
 

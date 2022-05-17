@@ -23,7 +23,8 @@ import { ErdaIcon } from 'common';
 import { goTo, allWordsFirstLetterUpper } from 'app/common/utils';
 import './header.scss';
 
-const Header = () => {
+const Header = ({ layout }: { layout?: RouteConfigItem_Layout }) => {
+  const { hideSidebar } = layout || {};
   const [currentApp, topButtonsWidth] = layoutStore.useStore((s) => [s.currentApp, s.topButtonsWidth]);
   const [routes, markedRoutePreview] = routeInfoStore.useStore((s) => [s.routes, s.markedRoutePreview]);
   const [pageName, setPageName] = React.useState<string>();
@@ -156,7 +157,9 @@ const Header = () => {
 
   return (
     <div className="erda-header" style={{ marginRight: topButtonsWidth }}>
-      <div className="erda-header-title-con inline-flex">{pageName && displayPageName()}</div>
+      <div className={`erda-header-title-con inline-flex ${hideSidebar ? 'ml-4' : ''}`}>
+        {pageName && displayPageName()}
+      </div>
       <Tab />
     </div>
   );

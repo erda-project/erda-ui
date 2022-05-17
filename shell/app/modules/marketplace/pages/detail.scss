@@ -1,0 +1,14 @@
+.marketplace-detail {
+  .marketplace-detail-download {
+    > button {
+      &:first-child {
+        border-radius: 20px 0 0 20px !important;
+        border-right-color: $white !important;
+      }
+      &:last-child {
+        border-left-color: $white !important;
+        border-radius: 0 20px 20px 0 !important;
+      }
+    }
+  }
+}
