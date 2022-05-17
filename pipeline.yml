@@ -56,7 +56,7 @@ stages:
               - cp -r ${{ dirs.erda-ui }}/{public,scheduler} $WORKDIR
             node_version: 14
           resources:
-            cpu: 2
+            cpu: 0.5
             mem: 6144
           caches:
             - key: '{{basePath}}/build-cache-community/{{endPath}}'
@@ -72,7 +72,7 @@ stages:
               - cp -r ${{ dirs.erda-ui-enterprise }}/{public,server} $WORKDIR
             node_version: 14
           resources:
-            cpu: 2
+            cpu: 0.5
             mem: 2048
           caches:
             - key: '{{basePath}}/build-cache-enterprise/{{endPath}}'
@@ -93,7 +93,7 @@ stages:
               username: ${{ configs.docker_registry_username }}
             workdir: ${{ dirs.build-erda-ui }}
           resources:
-            cpu: 2
+            cpu: 0.5
             mem: 2048
       - dockerfile:
           alias: build-erda-ui-enterprise-image
@@ -110,7 +110,7 @@ stages:
               username: ${{ configs.docker_registry_username }}
             workdir: ${{ dirs.build-erda-ui-enterprise }}
           resources:
-            cpu: 2
+            cpu: 0.5
             mem: 2048
   - stage:
       - release:
