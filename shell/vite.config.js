@@ -117,11 +117,6 @@ export default ({ command, mode }) => {
         // string shorthand
         // '/foo': 'http://localhost:4567',
         // with options
-        '/api/erda-development/devflow/actions': {
-          target: 'http://127.0.0.1:4523/mock/641017',
-          changeOrigin: true,
-          secure: false,
-        },
         '/api/': {
           target: envConfig.BACKEND_URL,
           changeOrigin: true,
