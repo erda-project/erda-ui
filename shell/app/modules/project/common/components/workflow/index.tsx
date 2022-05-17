@@ -45,7 +45,7 @@ const Workflow: React.FC<IProps> = ({ scope, projectID, getFlowNodeList, flowInf
         const currentApp = apps.find((app) => devFlowNode.appID === app.id)!;
         return (
           <Steps key={devFlowNode.mergeID}>
-            {scope === 'ISSUE' ? <StepCode data={item} app={currentApp} /> : null}
+            {scope === 'ISSUE' ? <StepCode data={item} app={currentApp} beta /> : null}
             <StepTempMerge
               projectID={projectID}
               data={item}
@@ -55,8 +55,9 @@ const Workflow: React.FC<IProps> = ({ scope, projectID, getFlowNodeList, flowInf
               afterRebuild={() => {
                 getFlowNodeList();
               }}
+              beta
             />
-            <StepPipeline data={item} projectID={projectID} />
+            <StepPipeline data={item} projectID={projectID} beta />
           </Steps>
         );
       })}

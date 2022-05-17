@@ -47,6 +47,7 @@ import IssueMetaFields from './meta-fields';
 import { IssueConnection, IssueInclusion } from '../issue-relation';
 import { getIssueRelation } from 'project/services/issue';
 import { emit } from 'core/event-hub';
+import IssueWorkflow from 'project/common/components/workflow/issue-workflow';
 
 export const ColorIcon = ({ icon }: { icon: string }) => {
   return (
@@ -807,12 +808,12 @@ export const EditIssueDrawer = (props: IProps) => {
         }} // 编辑时默认显示预览
         data={formData}
       />
-      {/* <Choose> */}
-      {/*   <When condition={[ISSUE_TYPE.TASK].includes(issueType) && isEditMode}> */}
-      {/*     <IssueWorkflow projectID={+addRelatedMattersProjectId} id={propId!} type={issueType} metaIssue={formData} /> */}
-      {/*   </When> */}
-      {/*   <Otherwise>{IssueDrawer.Empty}</Otherwise> */}
-      {/* </Choose> */}
+      <Choose>
+        <When condition={[ISSUE_TYPE.TASK].includes(issueType) && isEditMode}>
+          <IssueWorkflow projectID={+addRelatedMattersProjectId} id={propId!} type={issueType} metaIssue={formData} />
+        </When>
+        <Otherwise>{IssueDrawer.Empty}</Otherwise>
+      </Choose>
       <Choose>
         <When condition={isEditMode && !!issueDetail && issueType === ISSUE_TYPE.REQUIREMENT}>
           <IssueInclusion issueDetail={issueDetail} iterationID={iterationID} setHasEdited={setHasEdited} />

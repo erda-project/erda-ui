@@ -44,7 +44,7 @@ on:
 `;
 };
 
-const Pipeline: React.FC<IProps> = ({ data, projectID }) => {
+const Pipeline: React.FC<IProps> = ({ data, projectID, beta }) => {
   const { pipelineStepInfos, devFlowNode } = data;
   const [pipelineInfo, setPipelineInfo] = React.useState<IPipelineInfo[]>(pipelineStepInfos);
 
@@ -86,7 +86,7 @@ const Pipeline: React.FC<IProps> = ({ data, projectID }) => {
     appId: devFlowNode.appID,
   });
   return (
-    <BaseStep title={i18n.t('dop:{type} node', { type: i18n.t('Pipeline') })}>
+    <BaseStep title={i18n.t('dop:{type} node', { type: i18n.t('Pipeline') })} beta={beta}>
       <div className="workflow-step-pipeline">
         {pipelineInfo?.length ? (
           pipelineInfo.map((item) => {
