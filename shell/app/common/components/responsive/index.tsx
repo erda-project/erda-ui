@@ -97,7 +97,6 @@ const Responsive = ({
   const rowNum = Math.floor(curWidth / item);
   // 装换为24栅格中合适的比例
   const span = suitableMap[rowNum] || 1;
-  console.log('------', curWidth, item, rowNum, span);
 
   return (
     <Row gutter={gutter} align={align} justify={justify} type={type} className={className}>
