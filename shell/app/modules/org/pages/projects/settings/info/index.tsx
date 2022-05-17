@@ -272,73 +272,73 @@ const Info = () => {
           >
             {info.resourceConfig
               ? workSpaceList.map((key: string) => {
-                const resource = info.resourceConfig[key];
-                return (
-                  <div className="erda-panel-list">
-                    <Row>
-                      <Col span={8} className="flex">
-                        <div className="flex mr-3">{resourceIconMap[key]}</div>
-                        <div>
-                          <div className="label mb-1">{resourceMap[key]}</div>
-                          <div className="text-xs">{resource.clusterName}</div>
-                        </div>
-                      </Col>
-                      <Col span={8}>
-                        <Panel
-                          columnNum={4}
-                          fields={[
-                            {
-                              value: (
-                                <div className="text-right relative top-1">
-                                  <ErdaIcon type="CPU" size={34} />
-                                </div>
-                              ),
-                            },
-                            {
-                              label: `${+(+resource.cpuQuota).toFixed(3)} core`,
-                              value: i18n.t('CPU quota'),
-                            },
-                            {
-                              label: `${+(+resource.cpuRequest).toFixed(3)} core`,
-                              value: i18n.t('Used'),
-                            },
-                            {
-                              label: `${+(+resource.cpuRequestRate).toFixed(3)} %`,
-                              value: i18n.t('cmp:Usage'),
-                            },
-                          ]}
-                        />
-                      </Col>
-                      <Col span={8}>
-                        <Panel
-                          columnNum={4}
-                          fields={[
-                            {
-                              value: (
-                                <div className="text-right relative top-1">
-                                  <ErdaIcon type="GPU" size={34} />
-                                </div>
-                              ),
-                            },
-                            {
-                              label: `${+(+resource.memQuota).toFixed(3)} GiB`,
-                              value: i18n.t('Memory quota'),
-                            },
-                            {
-                              label: `${+(+resource.memRequest).toFixed(3)} GiB`,
-                              value: i18n.t('Used'),
-                            },
-                            {
-                              label: `${+(+resource.memRequestRate).toFixed(3)} %`,
-                              value: i18n.t('cmp:Usage'),
-                            },
-                          ]}
-                        />
-                      </Col>
-                    </Row>
-                  </div>
-                );
-              })
+                  const resource = info.resourceConfig[key];
+                  return (
+                    <div className="erda-panel-list">
+                      <Row>
+                        <Col span={8} className="flex">
+                          <div className="flex mr-3">{resourceIconMap[key]}</div>
+                          <div>
+                            <div className="label mb-1">{resourceMap[key]}</div>
+                            <div className="text-xs">{resource.clusterName}</div>
+                          </div>
+                        </Col>
+                        <Col span={8}>
+                          <Panel
+                            columnNum={4}
+                            fields={[
+                              {
+                                value: (
+                                  <div className="text-right relative top-1">
+                                    <ErdaIcon type="CPU" size={34} />
+                                  </div>
+                                ),
+                              },
+                              {
+                                label: `${+(+resource.cpuQuota).toFixed(3)} core`,
+                                value: i18n.t('CPU quota'),
+                              },
+                              {
+                                label: `${+(+resource.cpuRequest).toFixed(3)} core`,
+                                value: i18n.t('Used'),
+                              },
+                              {
+                                label: `${+(+resource.cpuRequestRate).toFixed(3)} %`,
+                                value: i18n.t('cmp:Usage'),
+                              },
+                            ]}
+                          />
+                        </Col>
+                        <Col span={8}>
+                          <Panel
+                            columnNum={4}
+                            fields={[
+                              {
+                                value: (
+                                  <div className="text-right relative top-1">
+                                    <ErdaIcon type="GPU" size={34} />
+                                  </div>
+                                ),
+                              },
+                              {
+                                label: `${+(+resource.memQuota).toFixed(3)} GiB`,
+                                value: i18n.t('Memory quota'),
+                              },
+                              {
+                                label: `${+(+resource.memRequest).toFixed(3)} GiB`,
+                                value: i18n.t('Used'),
+                              },
+                              {
+                                label: `${+(+resource.memRequestRate).toFixed(3)} %`,
+                                value: i18n.t('cmp:Usage'),
+                              },
+                            ]}
+                          />
+                        </Col>
+                      </Row>
+                    </div>
+                  );
+                })
               : i18n.t('no quota')}
           </Card>
           <FormModal

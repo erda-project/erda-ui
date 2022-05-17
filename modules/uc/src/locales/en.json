@@ -2,10 +2,14 @@
   "default": {
     "Already have an account?": "Already have an account?",
     "Do not have an account?": "Do not have an account?",
+    "Forgot password?": "Forgot password?",
     "Hello {name}": "Hello {name}",
     "Login": "Login",
     "Logout": "Logout",
+    "Password setting": "Password setting",
     "Please enter the correct {name}": "Please enter the correct {name}",
+    "Profile setting": "Profile setting",
+    "Recovery account": "Recovery account",
     "Reset password": "Reset password",
     "Sign up": "Sign up",
     "Update": "Update",
@@ -22,7 +26,7 @@
     "new password": "new password",
     "nick name": "nick name",
     "password": "password",
-    "password-tip": "No less than 8 digits containing uppercase letters, lowercase letters, and symbols",
+    "password-tip": "No less than 8 digits, including upper or lower case letters, symbols, numbers",
     "registered successfully": "registered successfully",
     "update successfully": "update successfully",
     "username": "username"

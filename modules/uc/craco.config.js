@@ -10,12 +10,23 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
-
+const fs = require('fs');
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const outputPath = path.resolve(__dirname, '../../public/static/uc');
 
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = process?.env?.NODE_ENV === 'production';
+// ory cloud server
+// const devUrlDomain = 'optimistic-goodall-4xvjx814sc.projects.oryapis.com';
+// const devProxyUrl = `https://${devUrlDomain}`;
+
+// local server
+// const devUrlDomain = '127.0.0.1:4455';
+// const devProxyUrl = `http://${devUrlDomain}`;
+
+// dev server
+const devUrlDomain = 'erda.dev.terminus.io';
+const devProxyUrl = `https://${devUrlDomain}`;
 
 module.exports = {
   webpack: {
@@ -41,14 +52,41 @@ module.exports = {
     },
   },
   devServer: {
-    port: 3031,
+    host: 'localuc.erda.dev.terminus.io',
+    port: 3032,
+    https: {
+      key: fs.readFileSync('../../cert/dev/server.key'),
+      cert: fs.readFileSync('../../cert/dev/server.crt'),
+    },
     proxy: {
-      '/api/uc': {
-        target: 'http://30.43.48.143:4433',
+      '/api/files': {
+        target: devProxyUrl,
         source: false,
         changeOrigin: true,
-        pathRewrite: {
-          '/api/uc': '',
+        secure: false,
+      },
+      '/api/uc': {
+        target: devProxyUrl,
+        source: false,
+        changeOrigin: true,
+        secure: false,
+        // pathRewrite: {
+        //   '/api/uc': '',
+        // },
+        onProxyRes: function (proxyRes, req, res) {
+          const cookies = proxyRes.headers['set-cookie'];
+
+          const cookiePathRegex = /(p|P)ath=\/\w*;/;
+          let newCookie;
+          if (cookies) {
+            newCookie = cookies.map((cookie) => {
+              if (cookiePathRegex.test(cookie)) {
+                return cookie.replace(cookiePathRegex, 'path=/;').replace(`Domain=${devUrlDomain};`, '');
+              }
+              return cookie;
+            });
+            proxyRes.headers['set-cookie'] = newCookie;
+          }
         },
       },
     },

@@ -15,7 +15,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './router';
 import { initI18n, history } from 'src/common';
-import ucStore from 'src/store/uc';
+import { keepRedirectUrlQuery } from 'src/common/utils';
+import { ory } from 'src/ory';
 import { parse } from 'query-string';
 import './index.css';
 
@@ -29,19 +30,21 @@ const startApp = () => {
 };
 
 const init = () => {
-  ucStore
-    .whoAmI()
-    .then((res) => {
-      const pathname = window.location.pathname;
+  const pathname = window.location.pathname;
+  ory
+    .toSession()
+    .then(({ data }) => {
       if (pathname.startsWith('/uc') && pathname !== '/uc/settings') {
         const query = parse(window.location.search);
-        window.location.href = query?.redirectUrl || '/';
+        window.location.href = query?.redirectUrl || '/uc/settings';
       }
       startApp();
     })
     .catch((e) => {
       if (e.response?.status === 401) {
-        history.replace('/uc/login');
+        if (!['/uc/registration'].includes(pathname)) {
+          history.replace(keepRedirectUrlQuery('/uc/login'));
+        }
         startApp();
       }
     });

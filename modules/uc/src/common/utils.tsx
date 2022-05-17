@@ -10,25 +10,13 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+import { parse } from 'query-string';
 
-import cube from 'cube-state';
-import { message } from 'src/common';
-const { createStore, createFlatStore } = cube({
-  singleton: true,
-  extendEffect({ update, select }) {
-    return {
-      async call(fn: Function, payload: any = {}, config = {} as any) {
-        const { successMsg } = config || {};
-        let result = await fn(payload);
-
-        if (successMsg) {
-          message.success(successMsg);
-        }
-
-        return result;
-      },
-    };
-  },
-});
-
-export { createStore, createFlatStore };
+export const keepRedirectUrlQuery = (url: string, redirectUrl?: string) => {
+  const query = parse(window.location.search);
+  const curRedirectUrl = redirectUrl || query?.redirectUrl;
+  if (curRedirectUrl && !url.includes('redirectUrl=')) {
+    return `${url}${url.includes('?') ? '&' : '?'}redirectUrl=${curRedirectUrl}`;
+  }
+  return url;
+};
