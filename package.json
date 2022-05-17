@@ -14,7 +14,8 @@
     "init": "erda-ui init",
     "build-online": "erda-ui build --online",
     "i18n": "erda-ui i18n",
-    "postinstall": "pnpm run build:noDeclare --filter @erda-ui/components && pnpm run build --filter @erda-ui/cli"
+    "preinstall": "npx only-allow pnpm",
+    "pnpm:devPreinstall": "pnpm run build:noDeclare --filter @erda-ui/components && pnpm run build --filter @erda-ui/cli"
   },
   "repository": {
     "type": "git",
