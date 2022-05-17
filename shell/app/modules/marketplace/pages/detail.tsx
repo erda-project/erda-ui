@@ -15,6 +15,7 @@ import React from 'react';
 import { getServiceDetail } from 'marketplace/services';
 import routeInfoStore from 'core/stores/route';
 import { ErdaIcon, MarkdownRender, Ellipsis, TextBlockInfo, TagsRow } from 'common';
+import defaultMarketServiceSvg from 'app/images/default-market-service.svg';
 import { useMount } from 'react-use';
 import { goTo } from 'common/utils';
 import { Dropdown, Menu, Tooltip } from 'antd';
@@ -118,7 +119,7 @@ const Detail = () => {
           <div className="w-[296px] pl-4 border-left pt-2">
             <div className="flex-h-center w-full">
               <div className="w-16 h-16 mr-3 rounded p-2 bg-default-06">
-                <img src={curVersion?.logoURL} className="w-full h-full mr-3 rounded" />
+                <img src={curVersion?.logoURL || defaultMarketServiceSvg} className="w-full h-full mr-3 rounded" />
               </div>
               <div className="flex-1 w-[180px]">
                 <div className="text-default leading-[22px]">{data?.displayName || data?.name}</div>

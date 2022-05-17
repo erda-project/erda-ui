@@ -19,6 +19,7 @@ import { SimpleTabs, ErdaIcon, Pagination, Ellipsis, Responsive } from 'common';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import { Input, Spin } from 'antd';
 import { debounce, throttle } from 'lodash';
+import defaultMarketServiceSvg from 'app/images/default-market-service.svg';
 import { goTo, getDefaultPaging } from 'app/common/utils';
 import i18n from 'i18n';
 import './index.scss';
@@ -146,7 +147,7 @@ const ServiceCard = ({ data, onClick }: { data: MARKET.Service; onClick: () => v
   return (
     <div className="flex-h-center cursor-pointer py-4 marketplace-service" onClick={onClick}>
       <div className="w-16 h-16 mr-3 rounded p-2 bg-default-06">
-        <img src={data.logoURL} className="w-full h-full mr-3 rounded" />
+        <img src={data.logoURL || defaultMarketServiceSvg} className="w-full h-full mr-3 rounded" />
       </div>
       <div className="w-[250px] info-container">
         <div className="text-default leading-[22px]">{data.displayName || data.name}</div>
