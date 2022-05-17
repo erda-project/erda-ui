@@ -44,6 +44,7 @@ declare namespace BUILD {
       showMessage?: {
         msg: string;
         stacks: string[];
+        abortRun?: boolean;
       };
     };
     id: number;

@@ -811,15 +811,17 @@ const BuildDetail = (props: IProps) => {
                   <ErdaIcon type="tishi" size="18px" className="build-err-icon" />
                   <pre>{showMessage.msg}</pre>
                 </div>
-                <div className="build-err-stack">
-                  <ul style={{ listStyle: 'disc' }}>
-                    {showMessage.stacks.map((stack, i) => (
-                      <li key={`${stack}-${String(i)}`}>
-                        <pre style={{ overflow: 'hidden', whiteSpace: 'pre-wrap' }}>{stack}</pre>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {showMessage.abortRun ? (
+                  <div className="build-err-stack">
+                    <ul style={{ listStyle: 'disc' }}>
+                      {showMessage.stacks.map((stack, i) => (
+                        <li key={`${stack}-${String(i)}`}>
+                          <pre style={{ overflow: 'hidden', whiteSpace: 'pre-wrap' }}>{stack}</pre>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
               </div>
             ) : null}
             <PipelineChart

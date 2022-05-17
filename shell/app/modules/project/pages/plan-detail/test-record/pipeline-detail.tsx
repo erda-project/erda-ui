@@ -143,15 +143,17 @@ export class PipelineDetail extends React.Component<IProps, IState> {
                 <ErdaIcon type="tishi" size="18px" className="build-err-icon" />
                 <pre>{showMessage.msg}</pre>
               </div>
-              <div className="build-err-stack">
-                <ul style={{ listStyle: 'disc' }}>
-                  {showMessage.stacks.map((stack: any) => (
-                    <li>
-                      <pre>{stack}</pre>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {showMessage.abortRun ? (
+                <div className="build-err-stack">
+                  <ul style={{ listStyle: 'disc' }}>
+                    {showMessage.stacks.map((stack: any) => (
+                      <li>
+                        <pre>{stack}</pre>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
             </div>
           ) : (
             <PipelineChart
