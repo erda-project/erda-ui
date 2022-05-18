@@ -8,8 +8,16 @@
     cursor: pointer;
     @extend %shallow-shadow;
 
+    .pipeline-node-actions {
+      display: none;
+    }
+
     &:hover {
       @extend %hover-shadow;
+
+      .pipeline-node-actions {
+        display: flex;
+      }
     }
   }
 }

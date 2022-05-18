@@ -62,7 +62,7 @@ const PipelineNode = (props: IProps) => {
             </span>
           </div>
           {editing ? (
-            <div className="flex-h-center h-6 ml-1" onClick={(e) => e.stopPropagation()}>
+            <div className="items-center h-6 ml-1 pipeline-node-actions" onClick={(e) => e.stopPropagation()}>
               <Tooltip title={data.disable ? i18n.t('Enable') : firstCharToUpper(i18n.t('disable'))}>
                 <ErdaIcon
                   type={data.disable ? 'enable' : 'disable'}
