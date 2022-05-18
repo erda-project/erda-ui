@@ -14,6 +14,8 @@
     "init": "erda-ui init",
     "build-online": "erda-ui build --online",
     "i18n": "erda-ui i18n",
+    "preinstall": "npx only-allow pnpm",
+    "pnpm:devPreinstall": "mkdir -p ./cli/dist/bin && touch ./cli/dist/bin/erda.js",
     "postinstall": "pnpm run build:noDeclare --filter @erda-ui/components && pnpm run build --filter @erda-ui/cli"
   },
   "repository": {
