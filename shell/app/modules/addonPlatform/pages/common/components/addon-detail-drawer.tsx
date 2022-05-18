@@ -53,7 +53,7 @@ const AddonDetailDrawer = (props: IProps) => {
 
   const refTableList = [
     {
-      title: i18n.t('application'),
+      title: i18n.t('App'),
       dataIndex: 'applicationName',
       key: 'applicationName',
       width: 220,

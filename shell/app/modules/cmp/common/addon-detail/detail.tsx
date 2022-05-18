@@ -18,7 +18,7 @@ import { Spin, Badge } from 'antd';
 import ErdaTable from 'common/components/table';
 import { Link } from 'react-router-dom';
 import { Icon as CustomIcon, Copy, IF } from 'common';
-import { goTo } from 'common/utils';
+import { firstCharToUpper, goTo } from 'common/utils';
 import { PLAN_NAME, ENV_NAME, CATEGORY_NAME } from 'app/modules/addonPlatform/pages/common/configs';
 import i18n from 'i18n';
 
@@ -96,7 +96,7 @@ export const PureBaseAddonInfo = ({
 
   const refTableList = [
     {
-      title: i18n.t('application'),
+      title: i18n.t('App'),
       dataIndex: 'applicationName',
       key: 'applicationName',
     },
@@ -158,7 +158,7 @@ export const PureBaseAddonInfo = ({
         </div>
         <div className="config">
           <div className="flex justify-between items-center">
-            <span className="title font-medium">{i18n.t('cmp:basic parameters')}</span>
+            <span className="title font-medium">{firstCharToUpper(i18n.t('cmp:basic parameters'))}</span>
             {!isEmpty(addonDetail.config) && (
               <span className="copy-all cursor-pointer cursor-copy">
                 {i18n.t('Copy All')}
