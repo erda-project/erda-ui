@@ -16,7 +16,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "publish:patch": "pnpm run build && pnpm version patch && pnpm publish --registry https://registry.npmjs.org",
-    "release": "standard-version"
+    "release": "standard-version && pnpm publish --registry https://registry.npmjs.org"
   },
   "exports": {
     ".": {
