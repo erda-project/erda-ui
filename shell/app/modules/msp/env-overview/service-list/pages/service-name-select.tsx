@@ -18,12 +18,13 @@ import { getServices } from 'msp/services/service-list';
 import LoadMoreSelector from 'common/components/load-more-selector';
 import Ellipsis from 'common/components/ellipsis';
 import ErdaIcon from 'common/components/erda-icon';
-import i18n from 'i18n';
 import { useUnmount } from 'react-use';
 import './service-name-select.scss';
 import mspStore from 'msp/stores/micro-service';
+import breadcrumbStore from 'layout/stores/breadcrumb';
 
 export function ServiceNameSelect() {
+  const { ServiceMonitor } = breadcrumbStore.useStore((s) => s.infoMap.mspBreadcrumb);
   const [serviceId] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
   const currentProject = mspStore.getState((s) => s.currentProject);
   const params = routeInfoStore.useStore((s) => s.params);
@@ -91,7 +92,7 @@ export function ServiceNameSelect() {
 
   return (
     <div className="flex items-center service-name-select">
-      <div className="font-bold text-lg">{i18n.t('msp:Service Monitoring')}</div>
+      <div className="font-bold text-lg">{ServiceMonitor}</div>
       <span className="bg-black-2 mx-4 w-px h-3" />
       <div className="max-w-48">
         <LoadMoreSelector
