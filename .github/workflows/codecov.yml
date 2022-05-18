@@ -18,6 +18,8 @@ jobs:
   preCheck:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout code
+        uses: actions/checkout@v2
       - name: filter path
         uses: dorny/paths-filter@v2
         id: filter
