@@ -21,7 +21,6 @@ const BaseStep: React.FC<{
   className?: string;
   title: string;
   extra?: React.ReactNode;
-  beta?: boolean;
 }> = ({ className, title, children, extra }) => {
   return (
     <div className={`workflow-step bg-white rounded-sm w-[280px] shadow-card flex-shrink-0 mx-2 ${className}`}>
