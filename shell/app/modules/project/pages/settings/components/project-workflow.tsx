@@ -374,7 +374,7 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
             }}
             type="primary"
           >
-            {i18n.t('Add {name}', { name: i18n.t('dop:R&D Stage') })}
+            {i18n.t('Add {name}', { name: i18n.t('dop:R&D Stage'), interpolation: { escapeValue: false } })}
           </Button>
         </TopButtonGroup>
       ) : null}

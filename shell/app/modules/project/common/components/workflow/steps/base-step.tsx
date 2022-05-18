@@ -26,7 +26,10 @@ const BaseStep: React.FC<{
     <div className={`workflow-step bg-white rounded-sm w-[280px] shadow-card flex-shrink-0 mx-2 ${className}`}>
       <div className="px-2 rounded-t-sm bg-default-02 h-8 flex items-center justify-between mb-0">
         <span className="font-medium">{title}</span>
-        <div>{extra}</div>
+        <div>
+          {extra}
+          <span className="ml-2 px-2 rounded-full text-xs text-danger border border-danger border-solid">beta</span>
+        </div>
       </div>
       <div className="p-2">{children}</div>
     </div>
