@@ -44,6 +44,7 @@ interface IProps {
   zoom?: number;
   onClickNode?: (...data: any) => void;
   onDeleteNode?: (data: any) => void;
+  onDisableNode: (data: any) => void;
   external?: Obj;
 }
 

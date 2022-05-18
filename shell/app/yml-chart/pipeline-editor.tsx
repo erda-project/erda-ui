@@ -141,6 +141,16 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
     message.success(i18n.t('dop:please click save to submit the configuration'));
   };
 
+  const onDisableNode = (nodeData: Obj) => {
+    const { [externalKey]: externalData } = nodeData;
+    const { xIndex, yIndex } = externalData || {};
+
+    const newYmlObj = cloneDeep(ymlObj);
+    newYmlObj.stages[xIndex][yIndex].disable = !newYmlObj.stages[xIndex][yIndex].disable;
+    updater.ymlObj(newYmlObj);
+    message.success(i18n.t('dop:please click save to submit the configuration'));
+  };
+
   const handleSubmit = () => {
     let pass = true as any;
     if (viewType === ViewType.code) {
@@ -353,6 +363,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
               editing={editing}
               addDrawerProps={addDrawerProps}
               onDeleteData={onDeleteData}
+              onDisableNode={onDisableNode}
               onAddData={onAddData}
               onAddInParams={onAddInParams}
               onAddOutParams={onAddOutParams}

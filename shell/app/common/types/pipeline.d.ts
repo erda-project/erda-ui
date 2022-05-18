@@ -34,6 +34,7 @@ declare namespace PIPELINE {
     timeout?: string;
     resources: Obj;
     if?: string;
+    disable?: boolean;
   }
 
   interface IStage {

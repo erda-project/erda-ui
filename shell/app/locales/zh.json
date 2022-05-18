@@ -1285,6 +1285,7 @@
     "The import and export tasks you submitted have status updates, please check the records": "你提交的导入导出任务有状态更新，请查看记录",
     "The name cannot contain forward and backward slashes. Please enter again.": "名称不能使用正反斜杠，请重新输入",
     "The new data will be lost if closed. Continue?": "关闭后新建数据将丢失，确认关闭 ？",
+    "The node is disabled": "该节点已禁用",
     "The organizations I joined": "我加入的组织",
     "The original estimated time for this event is": "此事件的原始预估用时为",
     "The same code can be compiled by pipeline to generate different artifacts for different environments, and you can set configurations for different environments here.": "相同代码通过流水线编译后不同环境可以生成不同的制品，编译过程中不同环境差异配置可在此维护",

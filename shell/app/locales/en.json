@@ -1285,6 +1285,7 @@
     "The import and export tasks you submitted have status updates, please check the records": "The import and export tasks you submitted have status updates, please check the records",
     "The name cannot contain forward and backward slashes. Please enter again.": "The name cannot contain forward and backward slashes. Please enter again.",
     "The new data will be lost if closed. Continue?": "new data will be lost after closing, confirm closing ?",
+    "The node is disabled": "The node is disabled",
     "The organizations I joined": "The organizations I joined",
     "The original estimated time for this event is": "The original estimated time for this event is",
     "The same code can be compiled by pipeline to generate different artifacts for different environments, and you can set configurations for different environments here.": "The same code can be compiled by pipeline to generate different artifacts for different environments, and you can set configurations for different environments here.",
