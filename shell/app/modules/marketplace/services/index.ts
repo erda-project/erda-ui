@@ -11,24 +11,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import cube from 'cube-state';
-import { message } from 'src/common';
-const { createStore, createFlatStore } = cube({
-  singleton: true,
-  extendEffect({ update, select }) {
-    return {
-      async call(fn: Function, payload: any = {}, config = {} as any) {
-        const { successMsg } = config || {};
-        let result = await fn(payload);
+import { apiCreator } from 'core/service';
 
-        if (successMsg) {
-          message.success(successMsg);
-        }
-
-        return result;
-      },
-    };
+const apis = {
+  getServiceTypes: {
+    api: '/api/opus-types',
   },
-});
+  getServiceList: {
+    api: '/api/opus',
+  },
+  getServiceDetail: {
+    api: '/api/opus/:id/versions',
+  },
+};
 
-export { createStore, createFlatStore };
+export const getServiceTypes = apiCreator<() => IPagingResp<MARKET.Type>>(apis.getServiceTypes);
+
+export const getServiceList = apiCreator<(p: MARKET.ServiceReq) => IPagingResp<MARKET.Service>>(apis.getServiceList);
+
+export const getServiceDetail = apiCreator<(p: { id: string }) => MARKET.Detail>(apis.getServiceDetail);

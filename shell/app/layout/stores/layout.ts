@@ -126,6 +126,8 @@ const layout = createStore({
         switchToApp('apiManage');
       } else if (isIn('fdp')) {
         switchToApp('fdp');
+      } else if (isIn('marketplace')) {
+        switchToApp('marketplace');
       } else {
         switchToApp('');
       }
@@ -203,6 +205,7 @@ const layout = createStore({
     switchToApp(state, payload: string) {
       if (payload === (state.currentApp && state.currentApp.key)) return;
       const curApp = find(state.appList, { key: payload });
+
       if (curApp) {
         state.currentApp = curApp;
       } else {

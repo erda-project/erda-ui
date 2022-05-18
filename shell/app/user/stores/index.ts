@@ -103,7 +103,7 @@ const userStore = createStore({
       let logoutUrl = '';
       if (loginUser.isNewUser) {
         await call(newUCLogout);
-        logoutUrl = UC_USER_LOGIN;
+        logoutUrl = `${UC_USER_LOGIN}${UC_USER_LOGIN.includes('?') ? '&' : '?'}redirectUrl=${window.location.href}`;
       } else {
         const data = await call(logout);
         logoutUrl = data?.url;

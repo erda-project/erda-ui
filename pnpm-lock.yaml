@@ -30,7 +30,7 @@ importers:
       '@types/webpack-env': ^1.13.6
       '@typescript-eslint/parser': ^5.9.0
       autoprefixer: 9.x
-      axios: ^0.27.1
+      axios: ^0.27.2
       babel-loader: ^8.2.5
       babel-plugin-import: ^1.13.3
       classnames: ^2.3.1
@@ -82,7 +82,7 @@ importers:
       webpack-cli: ^4.9.2
       webpack-merge: ^5.7.3
     dependencies:
-      axios: 0.27.1
+      axios: 0.27.2
       classnames: 2.3.1
       cube-state: 1.5.6_react@16.14.0
       immer: 9.0.12
@@ -329,6 +329,7 @@ importers:
   modules/uc:
     specifiers:
       '@craco/craco': ^6.2.0
+      '@ory/kratos-client': ^0.9.0-alpha.3
       '@tailwindcss/postcss7-compat': ^2.2.14
       history: 4.x
       i18next: ^20.6.1
@@ -339,10 +340,12 @@ importers:
       react-dom: 16.x
       react-router-dom: ^5.3.0
       react-scripts: 4.0.3
+      react-use: ^15.3.4
       tailwindcss: npm:@tailwindcss/postcss7-compat@^2.2.14
       web-vitals: ^2.1.0
     dependencies:
       '@craco/craco': 6.2.0_react-scripts@4.0.3
+      '@ory/kratos-client': 0.9.0-alpha.3
       history: 4.10.1
       i18next: 20.6.1
       query-string: 7.0.1
@@ -350,6 +353,7 @@ importers:
       react-dom: 16.14.0_react@16.14.0
       react-router-dom: 5.3.0_react@16.14.0
       react-scripts: 4.0.3_7c815f403aef2a496ccadb47b660caa6
+      react-use: 15.3.8_react-dom@16.14.0+react@16.14.0
       web-vitals: 2.1.0
     devDependencies:
       '@tailwindcss/postcss7-compat': 2.2.14_ts-node@10.1.0
@@ -5815,6 +5819,14 @@ packages:
       node-fetch: 2.6.1
     dev: false
 
+  /@ory/kratos-client/0.9.0-alpha.3:
+    resolution: {integrity: sha512-AyfNz1P+6G/vS752BqvrRhLYJC1KtukuBUGGQdiMKXJjy+wGTt7Y3wvEIASbD/QyoGEyhIBCYtLbunpVE7VOaA==}
+    dependencies:
+      axios: 0.21.4
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /@paiva/translation-google/1.0.9:
     resolution: {integrity: sha512-U/0axyobTCoRxZtJLrecLg3MNSHN2MhPP23lWXMeuZzXoLLY2dWUNW//JvGNb/aZ2Pv07paW3kSWtR+UlBxolQ==}
     dependencies:
@@ -9055,8 +9067,25 @@ packages:
       - debug
     dev: false
 
+  /axios/0.21.4:
+    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
+    dependencies:
+      follow-redirects: 1.14.9
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /axios/0.27.1:
     resolution: {integrity: sha512-ePNMai55xo5GsXajb/k756AqZqpqeDaGwGcdvbZLSSELbbYwsIn2jNmGfUPEwd8j/yu4OoMstLLIVa4t0MneEA==}
+    dependencies:
+      follow-redirects: 1.14.9
+      form-data: 4.0.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /axios/0.27.2:
+    resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
       follow-redirects: 1.14.9
       form-data: 4.0.0
@@ -10960,7 +10989,7 @@ packages:
     dev: true
 
   /core-util-is/1.0.2:
-    resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
+    resolution: {integrity: sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=}
 
   /cors/2.8.5:
     resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
@@ -16440,7 +16469,7 @@ packages:
     dev: true
 
   /is-typedarray/1.0.0:
-    resolution: {integrity: sha512-cyA56iCMHAh5CdzjJIa4aohJyeO1YbwLi3Jc35MmRU6poroFjIGZzUzupGiRPOjgHg9TLu43xbpwXk523fMxKA==}
+    resolution: {integrity: sha1-5HnICFjfDBsR3dppQPlgEfzaSpo=}
 
   /is-unc-path/1.0.0:
     resolution: {integrity: sha512-mrGpVd0fs7WWLfVsStvgF6iEJnbjDFZh9/emhRDcGWTduTfNHd9CHeUwH3gYIjdbwo4On6hunkztwOaAw0yllQ==}
@@ -22231,7 +22260,7 @@ packages:
     resolution: {integrity: sha1-llOgNvt8HuQjQvIyXM7v6jkmxI0=}
 
   /punycode/1.4.1:
-    resolution: {integrity: sha512-jmYNElW7yvO7TV33CjSmvSiE2yco3bV2czu/OzDKdMNVZQWfxCblURLhf+47syQRBntjfLdd/H0egrzIG+oaFQ==}
+    resolution: {integrity: sha1-wNWmOycYgArY4esPpSachN1BhF4=}
 
   /punycode/2.1.1:
     resolution: {integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==}
@@ -27248,6 +27277,7 @@ packages:
 
   /uuid/3.4.0:
     resolution: {integrity: sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==}
+    deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
     hasBin: true
 
   /uuid/8.3.2:

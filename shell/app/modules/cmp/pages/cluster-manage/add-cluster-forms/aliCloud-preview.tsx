@@ -18,6 +18,7 @@ import { useUpdate } from 'common/use-hooks';
 import ErdaTable from 'common/components/table';
 import i18n from 'i18n';
 import { chargeTypeMap, chargePeriodMap } from '../config';
+import { firstCharToUpper } from 'app/common/utils';
 
 const AliCloudPreview = ({
   visible,
@@ -59,7 +60,7 @@ const AliCloudPreview = ({
       render: (v: string) => get(chargeTypeMap, `${v}.name`),
     },
     {
-      title: i18n.t('cmp:purchase time'),
+      title: firstCharToUpper(i18n.t('cmp:purchase time')),
       dataIndex: 'chargePeriod',
       width: 100,
       render: (v: string) => get(find(chargePeriodMap, { value: Number(v) }), 'name', '-'),

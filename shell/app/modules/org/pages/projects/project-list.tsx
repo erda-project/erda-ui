@@ -81,14 +81,7 @@ export const ProjectList = () => {
         },
       },
       {
-        title: () => (
-          <span className="flex items-center">
-            <span className="mr-1">{i18n.t('cmp:App/Member statistics')}</span>
-            <Tooltip title={i18n.t('update data every day at 0')}>
-              <ErdaIcon className="font-bold" type="attention" size="14" />
-            </Tooltip>
-          </span>
-        ),
+        title: i18n.t('cmp:App/Member statistics'),
         dataIndex: 'stats',
         key: 'countApplications',
         render: (stats: PROJECT.ProjectStats) => `${stats.countApplications} / ${stats.countMembers}`,

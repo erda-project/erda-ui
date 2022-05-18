@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { goTo } from 'common/utils';
+import { firstCharToUpper, goTo } from 'common/utils';
 import { map } from 'lodash';
 import { ConfigurableFilter } from 'common';
 import ErdaTable from 'common/components/table';
@@ -88,7 +88,7 @@ const AlarmRecord = ({ clusters }: { clusters: any }) => {
           outside: true,
           label: i18n.t('Cluster name'),
           options: map(alarmAttrs.alertState, ({ key, display }) => ({ label: display, value: key })),
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('cmp:Status-alert') }),
+          placeholder: firstCharToUpper(i18n.t('filter by {name}', { name: i18n.t('cmp:Status-alert') })),
         },
       ]}
       onFilter={(v) => {

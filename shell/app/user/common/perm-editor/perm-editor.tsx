@@ -160,7 +160,7 @@ export const PermEditor = (props: IProps) => {
     });
   };
   return (
-    <div className="dice-perm-editor h-full">
+    <div className="dice-perm-editor h-full ml-4 bg-white rounded px-4">
       {isEdit ? (
         <TopButtonGroup>
           <AddScope onSubmit={addScope} currentData={data} />

@@ -32,6 +32,7 @@ interface IReleaseQuery {
   pageNo?: number;
   version?: string;
   pageSize?: number;
+  from?: string;
   tags?: number[];
 }
 
@@ -54,7 +55,7 @@ const AddRelease = ({
   const paging = data?.paging || getDefaultPaging();
 
   const getList = (query?: IReleaseQuery) => {
-    getRelease.fetch({ pageNo: paging.pageNo, pageSize: paging.pageSize, ...query, projectId, isStable: true });
+    getRelease.fetch({ pageNo: paging.pageNo, pageSize: paging.pageSize, projectId, ...query, isStable: true });
   };
   React.useEffect(() => {
     setSelectedRelease('');
@@ -82,6 +83,11 @@ const AddRelease = ({
           onSelect={(v) => setSelectedRelease(v)}
         />
       ),
+    },
+    market: {
+      key: 'market',
+      text: i18n.t('Marketplace'),
+      Comp: <MarketRelease {...paging} list={list} getList={getList} onSelect={(v) => setSelectedRelease(v)} />,
     },
   };
   const overlay = (
@@ -333,6 +339,86 @@ const AppRelease = (props: IReleaseProps) => {
         list={list}
         value={selectedRelease}
         getList={getReleaseList}
+        onSelect={setSelectedRelease}
+      />
+    </div>
+  );
+};
+
+const MarketRelease = (props: IReleaseProps) => {
+  const { onSelect, getList, list, ...rest } = props;
+  const labelsList = projectLabel.useStore((s) => s.list);
+  const [searchValue, setSearchValue] = React.useState('');
+  const [selectedRelease, setSelectedRelease] = React.useState('');
+  const [tags, setTags] = React.useState<number[]>([]);
+
+  const getReleaseList = (q?: IReleaseQuery) => {
+    getList({ from: 'gallery', isProjectRelease: true, version: searchValue, pageNo: 1, ...q });
+  };
+
+  React.useEffect(() => {
+    if (selectedRelease && !list.find((item) => item.releaseId === selectedRelease)) {
+      setSelectedRelease('');
+    }
+  }, [list, selectedRelease]);
+
+  useMount(() => {
+    getReleaseList();
+  });
+
+  useUpdateEffect(() => {
+    onSelect(selectedRelease);
+  }, [selectedRelease]);
+
+  const debouncedChange = React.useRef(debounce(getReleaseList, 1000));
+
+  useUpdateEffect(() => {
+    debouncedChange.current({ version: searchValue, pageNo: 1, tags });
+  }, [searchValue, tags]);
+
+  return (
+    <div className="flex flex-col h-full">
+      <div className="flex-h-center mb-2 mt-1">
+        <ConfigurableFilter
+          fieldsList={[
+            {
+              label: i18n.t('label'),
+              type: 'tagsSelect',
+              key: 'tags',
+              required: false,
+              options: labelsList.map((item) => ({ ...item, label: item.name, value: item.id })),
+              itemProps: {
+                mode: 'multiple',
+              },
+            },
+            {
+              type: 'input',
+              key: 'version',
+              label: i18n.t('release'),
+              placeholder: i18n.t('search {name}', { name: i18n.t('dop:release name') }),
+              outside: true,
+            },
+          ]}
+          value={{ tags, version: searchValue }}
+          onFilter={(data) => {
+            setTags(data.tags);
+            setSearchValue(data.version);
+          }}
+          onClear={() => {
+            setTags([]);
+          }}
+          hideSave
+          zIndex={1060}
+        />
+      </div>
+
+      <ReleaseList
+        className="flex-1 h-0 overflow-auto"
+        {...rest}
+        showProjectName
+        getList={getReleaseList}
+        value={selectedRelease}
+        list={list}
         onSelect={setSelectedRelease}
       />
     </div>

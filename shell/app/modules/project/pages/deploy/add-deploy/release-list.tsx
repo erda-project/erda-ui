@@ -24,12 +24,13 @@ interface IProps {
   pageNo: number;
   pageSize: number;
   onSelect: (r: string) => void;
+  showProjectName?: boolean;
   className?: string;
   value?: string;
 }
 
 const ReleaseSelector = (props: IProps) => {
-  const { getList, list, total, pageSize, pageNo, value, onSelect, className = '' } = props;
+  const { getList, list, total, pageSize, pageNo, value, onSelect, showProjectName, className = '' } = props;
 
   return (
     <div className={`${className}`}>
@@ -65,7 +66,8 @@ const ReleaseSelector = (props: IProps) => {
                       ) : null}
                     </div>
                     <span className="ml-3">
-                      {item.createdAt && moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss')}
+                      {showProjectName ? <span className="mr-4">{item.projectName || '-'}</span> : null}
+                      <span>{item.createdAt && moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss')}</span>
                     </span>
                   </div>
                 </Radio>

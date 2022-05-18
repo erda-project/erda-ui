@@ -80,6 +80,7 @@ declare namespace PIPELINE {
       showMessage?: {
         msg: string;
         stacks: string[];
+        abortRun?: boolean;
       };
     };
     id: string;

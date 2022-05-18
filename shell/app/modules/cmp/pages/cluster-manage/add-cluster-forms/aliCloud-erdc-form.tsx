@@ -18,7 +18,7 @@ import { Form } from 'dop/pages/form-editor/index';
 import clusterStore from 'cmp/stores/cluster';
 import { clusterSpecMap } from '../config';
 import { regRulesMap } from '../form-utils';
-import { insertWhen, regRules } from 'common/utils';
+import { insertWhen, regRules, firstCharToUpper } from 'common/utils';
 import i18n from 'i18n';
 import { useUpdate } from 'common/use-hooks';
 import orgStore from 'app/org-home/stores/org';
@@ -40,7 +40,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
 
   const basicFields = [
     {
-      label: i18n.t('{name} identifier', { name: i18n.t('cluster') }),
+      label: firstCharToUpper(i18n.t('{name} identifier', { name: i18n.t('cluster') })),
       component: 'input',
       key: 'clusterName',
       rules: [
@@ -53,7 +53,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
         },
       ],
       componentProps: {
-        placeholder: i18n.t('cmp:letters and numbers, separated by hyphens, cannot be modified if confirmed'),
+        placeholder: i18n.t('cmp:Characters and numbers, separated by a hyphen and cannot be modified after creation'),
       },
       required: true,
     },
@@ -111,10 +111,13 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
 
   const springboardFields = [
     {
-      label: i18n.t('cmp:machine IP'),
+      label: firstCharToUpper(i18n.t('cmp:machine IP')),
       component: 'input',
       key: 'installerIp',
       required: true,
+      componentProps: {
+        placeholder: i18n.t('Please enter the {name}', { name: i18n.t('cmp:machine IP') }),
+      },
     },
     {
       label: i18n.t('Username'),
@@ -176,6 +179,9 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
         component: 'input',
         key: 'nasDomain',
         required: true,
+        componentProps: {
+          placeholder: i18n.t('Please enter the {name}', { name: i18n.t('cmp:NAS address') }),
+        },
       },
     ]),
     ...insertWhen(storage !== 'nas', [
@@ -205,7 +211,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       required: true,
     },
     {
-      label: i18n.t('cmp:Pod network segment'),
+      label: i18n.t('cmp:Pod segment'),
       component: 'input',
       key: 'podCIDR',
       required: true,
@@ -217,7 +223,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       ],
     },
     {
-      label: i18n.t('cmp:Service network segment'),
+      label: i18n.t('cmp:Service segment'),
       component: 'input',
       key: 'serviceCIDR',
       required: true,
@@ -250,7 +256,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
 
   const machineFields = [
     {
-      label: i18n.t('cmp:machine IP list'),
+      label: firstCharToUpper(i18n.t('cmp:machine IP-list')),
       component: 'input',
       key: 'hostIps',
       required: true,
@@ -338,7 +344,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
             const mFields = filter(totalFields, { category: 'machine' });
             return (
               <>
-                <div className="font-bold mb-1">{i18n.t('cmp:cluster configuration')}</div>
+                <div className="font-bold mb-1">{firstCharToUpper(i18n.t('cmp:cluster configuration'))}</div>
                 <RenderFields form={form} fields={bFields} />
                 <div className="font-bold mb-1">{i18n.t('cmp:Jump server configuration')}</div>
                 <RenderFields form={form} fields={sFields} />

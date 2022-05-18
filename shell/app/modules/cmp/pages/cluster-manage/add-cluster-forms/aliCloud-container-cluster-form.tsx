@@ -21,7 +21,7 @@ import { getOptions, chargeTypeMap, clusterSpecMap } from '../config';
 import { regRulesMap } from '../form-utils';
 import i18n from 'i18n';
 import { useUpdateEffect } from 'react-use';
-import { insertWhen, regRules } from 'common/utils';
+import { firstCharToUpper, insertWhen, regRules } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
 import orgStore from 'app/org-home/stores/org';
 import { AliCloudFormPreview } from './index';
@@ -113,7 +113,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
 
   const fields = [
     {
-      label: i18n.t('{name} identifier', { name: i18n.t('cluster') }),
+      label: firstCharToUpper(i18n.t('{name} identifier', { name: i18n.t('cluster') })),
       component: 'input',
       key: 'clusterName',
       rules: [
@@ -126,7 +126,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
         },
       ],
       componentProps: {
-        placeholder: i18n.t('cmp:letters and numbers, separated by hyphens, cannot be modified if confirmed'),
+        placeholder: i18n.t('cmp:Characters and numbers, separated by a hyphen and cannot be modified after creation'),
       },
       required: true,
       category: 'basic',
@@ -143,6 +143,9 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
           max: '30',
         },
       ],
+      componentProps: {
+        placeholder: i18n.t('Please enter the {name}', { name: i18n.t('Cluster name').toLowerCase() }),
+      },
       category: 'basic',
     },
     {
@@ -201,7 +204,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'basic',
     },
     {
-      label: i18n.t('cmp:billing method'),
+      label: firstCharToUpper(i18n.t('cmp:billing method')),
       component: 'radio',
       key: 'chargeType',
       componentProps: {
@@ -215,7 +218,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'basic',
     },
     {
-      label: i18n.t('cmp:purchase time'),
+      label: firstCharToUpper(i18n.t('cmp:purchase time')),
       component: 'select',
       key: 'chargePeriod',
       required: true,
@@ -235,7 +238,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'basic',
     },
     {
-      label: i18n.t('cmp:whether to enable https'),
+      label: firstCharToUpper(i18n.t('cmp:whether to enable https')),
       component: 'switch',
       key: 'enableHttps',
       required: true,
@@ -378,7 +381,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
     },
     vSwitchCIDRField,
     {
-      label: i18n.t('cmp:Pod network segment'),
+      label: i18n.t('cmp:Pod segment'),
       component: 'input',
       key: 'podCIDR',
       defaultValue: getFormData('isNewVpc') === 'exist' ? undefined : get(cloudVendorMap, 'initValue.podCIDR'),
@@ -386,7 +389,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'more',
     },
     {
-      label: i18n.t('cmp:Service network segment'),
+      label: i18n.t('cmp:Service segment'),
       component: 'input',
       key: 'serviceCIDR',
       defaultValue: get(cloudVendorMap, 'initValue.serviceCIDR'),
@@ -452,8 +455,8 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       <Modal
         title={
           cloudVendor === 'alicloud-cs'
-            ? i18n.t('cmp:add Alibaba Cloud Container Service Cluster (Proprietary Version)')
-            : i18n.t('cmp:add Alibaba Cloud Container Service Cluster (Hosted Version)')
+            ? i18n.t('cmp:Add Alibaba Cloud Container Service for Kubernetes Cluster (Dedicated)')
+            : i18n.t('cmp:Add Alibaba Cloud Container Service for Kubernetes Cluster (Managed)')
         }
         visible={visible}
         onCancel={onClose}

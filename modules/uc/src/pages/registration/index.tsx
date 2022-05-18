@@ -12,90 +12,67 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Container, FormInput, history, i18n } from 'src/common';
-import { getErrorValid, getValidText } from 'src/common/utils';
-import ucStore from 'src/store/uc';
+import { Container, history, i18n } from 'src/common';
+import { SelfServiceRegistrationFlow, SubmitSelfServiceRegistrationFlowBody } from '@ory/kratos-client';
 
-const defaultValid = {
-  page: '',
-  email: '',
-  password: '',
-  nickname: '',
-  username: '',
-  confirmPw: '',
-};
+import { ory, handleFlowError, Flow } from 'src/ory';
+import { parse } from 'query-string';
 
-export default function Login() {
-  const [email, setEmail] = React.useState('');
-  // const [phone, setPhone] = React.useState('');
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [confirmPw, setConfirmPw] = React.useState('');
-  const [nickname, setNickname] = React.useState('');
-  const [validTips, setValidTips] = React.useState(defaultValid);
+const Registration = () => {
+  const [flow, setFlow] = React.useState<SelfServiceRegistrationFlow>();
+  const query = parse(window.location.search);
+  const { flow: flowId } = query;
 
-  const updateValid = (updateObj: Partial<typeof defaultValid>) => {
-    setValidTips((prev) => ({
-      ...prev,
-      ...updateObj,
-    }));
-  };
-
-  const updateEmial = (v: string) => {
-    setEmail(v);
-    updateValid({ email: getValidText(v, 'email') });
-  };
-
-  const updateUsername = (v: string) => {
-    setUsername(v);
-    updateValid({ username: getValidText(v) });
-  };
-
-  const updateNick = (v: string) => {
-    setNickname(v);
-    updateValid({ nickname: getValidText(v) });
-  };
-
-  // const updatePhone = (v: string) => {
-  //   setPhone(v);
-  // };
-
-  const updatePassword = (v: string) => {
-    setPassword(v);
-    updateValid({ password: getValidText(v, 'password'), confirmPw: '' });
-  };
-
-  const updateConfirmPw = (v: string) => {
-    setConfirmPw(v);
-    updateValid({ confirmPw: v !== password ? i18n.t('inconsistent passwords') : '' });
-  };
-
-  const checkValid = () => {
-    const { page, ...rest } = validTips;
-    return Object.values(rest).filter((item) => !!item).length === 0;
-  };
-
-  const handleSubmit = () => {
-    if (checkValid() && confirmPw === password) {
-      ucStore
-        .registration({ email, password, nickname, username })
-        .then(() => {
-          // registration success, logout
-          ucStore.logout();
-        })
-        .catch((e) => {
-          const errRes: UC.IKratosData = e.response?.data;
-          updateValid(getErrorValid<typeof defaultValid>(errRes));
-        });
-    } else {
-      updateValid({
-        email: getValidText(email, 'email'),
-        password: getValidText(password, 'password'),
-        username: getValidText(username),
-        nickname: getValidText(nickname),
-        confirmPw: confirmPw !== password ? i18n.t('inconsistent passwords') : '',
-      });
+  React.useEffect(() => {
+    if (flow) {
+      return;
     }
+
+    // If ?flow=.. was in the URL, we fetch it
+    if (flowId) {
+      ory
+        .getSelfServiceRegistrationFlow(String(flowId))
+        .then(({ data }) => {
+          // We received the flow - let's use its data and render the form!
+          setFlow(data);
+        })
+        .catch(handleFlowError('registration', setFlow));
+      return;
+    }
+
+    // Otherwise we initialize it
+    ory
+      .initializeSelfServiceRegistrationFlowForBrowsers()
+      .then(({ data }) => {
+        setFlow(data);
+      })
+      .catch(handleFlowError('registration', setFlow));
+  }, [flowId, flow]);
+
+  const onSubmit = (values: SubmitSelfServiceRegistrationFlowBody) => {
+    history.push(`/uc/registration?flow=${flow?.id}`);
+    return ory
+      .submitSelfServiceRegistrationFlow(String(flow?.id), values)
+      .then(({ data }) => {
+        // If we ended up here, it means we are successfully signed up!
+        //
+        // You can do cool stuff here, like having access to the identity which just signed up:
+        console.log('This is the user session: ', data, data.identity);
+
+        // For now however we just want to redirect home!
+        return history.push('/uc/login');
+      })
+      .catch(handleFlowError('registration', setFlow))
+      .catch((err: AxiosError) => {
+        // If the previous handler did not catch the error it's most likely a form validation error
+        if (err.response?.status === 400) {
+          // Yup, it is!
+          setFlow(err.response?.data);
+          return;
+        }
+
+        return Promise.reject(err);
+      });
   };
 
   const goToLogin = () => {
@@ -108,77 +85,17 @@ export default function Login() {
         {i18n.t('Sign up')}
       </h2>
       <div className="mt-12">
-        {validTips.page ? (
-          <div className="mb-8">
-            <span className="text-red-500 -bottom-6 left-0 text-sm">{validTips.page}</span>
-          </div>
-        ) : null}
-        <FormInput
-          label={i18n.t('email')}
-          value={email}
-          onChange={updateEmial}
-          placeholder={i18n.t('enter your {name}', { name: i18n.t('email') })}
-          errorTip={validTips.email}
-        />
+        <Flow flow={flow} onSubmit={onSubmit} hideNode={['avatar']} />
 
-        <FormInput
-          label={i18n.t('username')}
-          value={username}
-          onChange={updateUsername}
-          placeholder={i18n.t('enter your {name}', { name: i18n.t('username') })}
-          errorTip={validTips.username}
-        />
-
-        <FormInput
-          label={i18n.t('nick name')}
-          value={nickname}
-          onChange={updateNick}
-          errorTip={validTips.nickname}
-          placeholder={i18n.t('enter your {name}', { name: i18n.t('nick name') })}
-        />
-
-        {/* <FormInput
-          label={i18n.t('mobile')}
-          value={phone}
-          onChange={updatePhone}
-          placeholder={i18n.t('enter your {name}', { name: i18n.t('mobile') })}
-          errorTip={phoneValid}
-        /> */}
-
-        <FormInput
-          label={i18n.t('password')}
-          value={password}
-          onChange={updatePassword}
-          placeholder={i18n.t('enter your {name}', { name: i18n.t('password') })}
-          errorTip={validTips.password}
-          type="password"
-        />
-
-        <FormInput
-          label={i18n.t('confirm password')}
-          value={confirmPw}
-          onChange={updateConfirmPw}
-          placeholder={i18n.t('enter your {name}', { name: i18n.t('confirm password') })}
-          errorTip={validTips.confirmPw}
-          type="password"
-        />
-
-        <div className="mt-10">
-          <button
-            onClick={handleSubmit}
-            type="submit"
-            className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600 shadow-lg"
-          >
-            {i18n.t('Sign up')}
-          </button>
-        </div>
-        <div className="my-12 text-sm font-display font-semibold text-gray-700 text-center">
+        <div className="my-8 text-sm font-display font-semibold text-gray-700 text-center">
           {i18n.t('Already have an account?')}{' '}
-          <a className="cursor-pointer text-indigo-600 hover:text-indigo-800" onClick={goToLogin}>
+          <span className="cursor-pointer text-indigo-600 hover:text-indigo-800" onClick={goToLogin}>
             {i18n.t('Login')}
-          </a>
+          </span>
         </div>
       </div>
     </Container>
   );
-}
+};
+
+export default Registration;

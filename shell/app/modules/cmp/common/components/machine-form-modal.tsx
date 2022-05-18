@@ -132,7 +132,7 @@ const MachineFormModal = ({ visible, formData, cluster, onCancel, onSubmit = () 
       name: 'dataDiskDevice',
       required: false,
       itemProps: {
-        placeholder: i18n.t('cmp:such as vdb (do not support multiple additional data plate)'),
+        placeholder: i18n.t('cmp:such as VDB (multiple disks are not supported)'),
       },
     },
   ];

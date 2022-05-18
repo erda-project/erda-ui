@@ -28,6 +28,7 @@ export interface IProps extends Omit<IItemProps, 'label'> {
   labels: ILabel[] | ILabel;
   showCount?: number;
   containerClassName?: string;
+  labelsClassName?: string;
   onAdd?: () => void;
 }
 
@@ -99,6 +100,7 @@ const TagsRow = ({
   labels: propsLabels,
   showCount = 2,
   containerClassName = '',
+  labelsClassName = '',
   size = 'small',
   colorMap,
   onDelete,
@@ -167,7 +169,7 @@ const TagsRow = ({
       className={`tags-container flex items-center justify-start overflow-hidden ${containerClassName}`}
       onClick={(e) => e.stopPropagation()}
     >
-      <span className="tags-box flex items-center">{oneAndMoreTag}</span>
+      <span className={`tags-box flex items-center ${labelsClassName}`}>{oneAndMoreTag}</span>
       {onAdd ? (
         <ErdaIcon
           className={`tags-add ${size} ml-2 text-xs leading-6 cursor-pointer`}

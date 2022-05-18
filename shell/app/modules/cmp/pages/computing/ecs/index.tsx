@@ -265,7 +265,7 @@ const ComputingEcs = () => {
       ifDisabled: !ifSelectedAllPrePaid,
     },
     {
-      name: `${i18n.t('set tags')}`,
+      name: `${i18n.t('Set Labels')}`,
       cb: () => updater.ifSetTagFormVisible(true),
       ifDisabled: false,
     },
