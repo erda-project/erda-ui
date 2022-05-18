@@ -1,6 +1,6 @@
 {
   "name": "@erda-ui/components",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "erda ui component library",
   "scripts": {
     "start": "dumi dev",
