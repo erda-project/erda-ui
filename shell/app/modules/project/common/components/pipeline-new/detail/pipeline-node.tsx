@@ -65,15 +65,15 @@ const PipelineNode = (props: IProps) => {
             <div className="flex-h-center h-6 ml-1" onClick={(e) => e.stopPropagation()}>
               <Tooltip title={data.disable ? i18n.t('Enable') : firstCharToUpper(i18n.t('disable'))}>
                 <ErdaIcon
-                  type={data.disable ? 'unlock' : 'lock'}
-                  size="16"
+                  type={data.disable ? 'enable' : 'disable'}
+                  size="20"
                   className="text-icon mr-1"
                   onClick={() => onDisableNode(data)}
                 />
               </Tooltip>
 
               <Tooltip title={i18n.t('Delete')}>
-                <ErdaIcon type="close-small" size="20" className="text-icon" onClick={() => onDeleteNode(data)} />
+                <ErdaIcon type="delete-action" size="20" className="text-icon" onClick={() => onDeleteNode(data)} />
               </Tooltip>
             </div>
           ) : null}
