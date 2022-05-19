@@ -32,6 +32,13 @@ const Detail = () => {
   });
 
   React.useEffect(() => {
+    document.title = `${data?.displayName || data?.name} · Erda`;
+    return () => {
+      document.title = 'Erda';
+    };
+  }, [data]);
+
+  React.useEffect(() => {
     const versions = data?.versions || [];
     if (versions?.length) {
       setCurVersion(versions?.[0]);
@@ -103,18 +110,19 @@ const Detail = () => {
 
   return (
     <div className="bg-white py-3 pl-4 pr-10 h-full marketplace-detail overflow-auto">
-      <div>
-        <ErdaIcon
-          type="arrow-left"
-          size="20"
-          className="cursor-pointer text-gray mr-3"
-          onClick={() => {
-            goTo(goTo.pages.marketplaceRoot, { type });
-          }}
-        />
+      <div
+        className="flex-h-center"
+        onClick={() => {
+          goTo(goTo.pages.marketplaceRoot, { type });
+        }}
+      >
+        <ErdaIcon type="arrow-left" size="20" className="cursor-pointer text-gray mr-1" />
+        <div className="text-xl truncate inline-flex items-center cursor-pointer">
+          {data?.displayName || data?.name}
+        </div>
       </div>
-      <div className="flex justify-between">
-        <div className="w-full pl-8">
+      <div className="flex justify-between mt-4">
+        <div className="w-full pl-4">
           <MarkdownRender value={curVersion?.readme || i18n.t('No description')} />
         </div>
         <div className="py-3 text-default">
@@ -124,7 +132,7 @@ const Detail = () => {
                 <img src={curVersion?.logoURL || defaultMarketServiceSvg} className="w-full h-full mr-3 rounded" />
               </div>
               <div className="flex-1 w-[180px]">
-                <div className="text-default leading-[22px]">{data?.displayName || data?.name}</div>
+                <Ellipsis className="text-default leading-[22px]" title={data?.displayName || data?.name} />
                 <Ellipsis className="text-default-8 text-xs leading-5" title={curVersion?.summary} />
                 <Dropdown.Button
                   icon={<ErdaIcon type="caret-down" className="opacity-40 hover:opacity-100 mt-0.5" />}

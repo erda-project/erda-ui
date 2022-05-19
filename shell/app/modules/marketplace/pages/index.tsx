@@ -35,6 +35,14 @@ const Market = () => {
   const [tabFixed, setTabFixed] = React.useState(false);
   const [searchKey, setSearchKey] = React.useState('');
 
+  React.useEffect(() => {
+    document.title = `${i18n.t('Marketplace')} · Erda`;
+
+    return () => {
+      document.title = 'Erda';
+    };
+  }, []);
+
   const [query, setQuery] = React.useState<MARKET.ServiceReq>({
     pageNo: paging.pageNo,
     pageSize: paging.pageSize,
@@ -146,19 +154,21 @@ const Market = () => {
 
 const ServiceCard = ({ data, onClick }: { data: MARKET.Service; onClick: () => void }) => {
   return (
-    <div className="flex-h-center cursor-pointer py-4 marketplace-service" onClick={onClick}>
+    <div className="flex-h-center cursor-pointer py-4 marketplace-service group" onClick={onClick}>
       <div className="w-16 h-16 mr-3 rounded p-2 bg-default-06">
         <img src={data.logoURL || defaultMarketServiceSvg} className="w-full h-full mr-3 rounded" />
       </div>
       <div className="w-[250px] info-container">
-        <div className="text-default leading-[22px]">{data.displayName || data.name}</div>
+        <Ellipsis
+          className="text-default group-hover:text-purple-deep leading-[22px]"
+          title={data.displayName || data.name}
+        />
         <Ellipsis className="text-default-8 text-xs leading-5" title={data.summary || '-'} />
-        <div className="text-default-6 text-xs leading-4">{data.typeName || '-'}</div>
+        <div className="text-default-6 text-xs leading-4">{`${i18n.t('by {name}', { name: data.orgName })}`}</div>
         <div className="flex-h-center mt-2">
-          <div className="flex-h-center bg-default-06 text-xs text-default-8 leading-6 px-3 rounded-2xl">
-            {i18n.t('dop:Learn More')}
+          <div className="flex-h-center bg-default-06 text-xs text-default-8 leading-6 px-2 rounded-2xl">
+            {data.typeName || '-'}
           </div>
-          <div className="flex-1 truncate text-default-6 leading-4 transform scale-75">{`by ${data.orgName}`}</div>
         </div>
       </div>
     </div>

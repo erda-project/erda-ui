@@ -1095,7 +1095,6 @@
     "Labels can be used in issue management and test management, to quickly locate and filter related content.": "Labels can be used in issue management and test management, to quickly locate and filter related content.",
     "Labels can be used in release management, to quickly locate and filter related content.": "Labels can be used in release management, to quickly locate and filter related content.",
     "Last detection time": "Last detection time",
-    "Learn More": "Learn More",
     "Less than or equal to": "Less than or equal to",
     "Library-app-intro": "A library/module is a code product that does not need to be deployed, and can be used by other apps after release, such as a Java JAR package or npm package.",
     "Library/Module": "Library/Module",
