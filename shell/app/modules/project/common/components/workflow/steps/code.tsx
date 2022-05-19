@@ -19,17 +19,16 @@ import BaseStep, { IBaseProps } from './base-step';
 
 interface IProps extends IBaseProps {
   data: DevFlowInfo;
-  app: IApplication;
 }
 
-const Code: React.FC<IProps> = ({ data, app = {} }) => {
+const Code: React.FC<IProps> = ({ data }) => {
   const { devFlowNode } = data;
   return (
     <BaseStep title={i18n.t('dop:{type} node', { type: 'Code' })}>
       <div className="workflow-step-code">
         <p className="pb-2 mb-2 border-0 border-b border-b-default-1 border-solid">
           {' '}
-          {i18n.t('App')}: {app.displayName ?? devFlowNode.appID}
+          {i18n.t('App')}: {devFlowNode.appName}
         </p>
         <div className="flex items-center justify-start">
           <div

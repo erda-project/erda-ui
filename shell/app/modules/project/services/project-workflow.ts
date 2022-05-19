@@ -28,7 +28,7 @@ interface TwoBranchWorkflow {
   flowType: FlowType.TWO_BRANCH;
   autoMergeBranch: string;
   changeBranch: string;
-  enableAutoMerge: boolean;
+  enableAutoMerge?: boolean;
   startWorkflowHints: WorkflowHint[];
 }
 
@@ -37,7 +37,7 @@ interface ThreeBranchWorkflow {
   autoMergeBranch: string;
   changeFromBranch: string;
   changeBranch: string;
-  enableAutoMerge: boolean;
+  enableAutoMerge?: boolean;
   startWorkflowHints: WorkflowHint[];
 }
 
@@ -71,6 +71,7 @@ export interface CreateFlowNode {
 export interface DevFlowNode {
   repoMergeID: number;
   appID: number;
+  appName: string;
   targetBranch: string;
   sourceBranch: string;
   isJoinTempBranch: boolean;
@@ -96,6 +97,7 @@ export interface ChangeBranch {
 }
 
 export interface DevFlowInfo {
+  hasPermission: boolean;
   devFlowNode: DevFlowNode;
   pipelineStepInfos: PipelineInfo[];
   changeBranch: ChangeBranch[];
