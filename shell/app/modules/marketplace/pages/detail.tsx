@@ -109,7 +109,7 @@ const Detail = () => {
       : [() => {}, 'cursor-not-allowed	'];
 
   return (
-    <div className="bg-white py-3 pl-4 pr-10 h-full marketplace-detail overflow-auto">
+    <div className="bg-white py-3 px-4 h-full marketplace-detail overflow-auto flex flex-col">
       <div
         className="flex-h-center"
         onClick={() => {
@@ -121,11 +121,11 @@ const Detail = () => {
           {data?.displayName || data?.name}
         </div>
       </div>
-      <div className="flex justify-between mt-4">
-        <div className="w-full pl-4">
+      <div className="flex justify-between mt-4 flex-1 overflow-auto">
+        <div className=" px-4 flex-1 overflow-auto">
           <MarkdownRender value={curVersion?.readme || i18n.t('No description')} />
         </div>
-        <div className="py-3 text-default">
+        <div className="py-3 text-default overflow-auto pr-4">
           <div className="w-[296px] pl-4 border-left pt-2">
             <div className="flex-h-center w-full">
               <div className="w-16 h-16 mr-3 rounded p-2 bg-default-06">
