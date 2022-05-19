@@ -34,7 +34,7 @@ const MrWorkflow: React.FC<IProps> = ({ projectID, id }) => {
   }, [getFlowNodeList]);
   return (
     <div>
-      {devFlowInfos ? (
+      {devFlowInfos?.devFlowInfos?.length ? (
         <Workflow scope="MR" projectID={projectID} getFlowNodeList={getFlowNodeList} flowInfo={devFlowInfos} />
       ) : (
         <EmptyHolder relative />
