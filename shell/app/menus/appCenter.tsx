@@ -80,13 +80,13 @@ export const appList: () => LAYOUT.IApp[] = () =>
         breadcrumbName: i18n.t('Admin Center'),
         href: goTo.resolve.orgCenterRoot(),
       },
-      {
-        key: 'marketplace',
-        icon: 'market-entry',
-        name: i18n.t('Marketplace'),
-        breadcrumbName: i18n.t('Marketplace'),
-        href: goTo.resolve.marketplaceRoot({ type: 'all' }),
-      },
+      // {
+      //   key: 'marketplace',
+      //   icon: 'market-entry',
+      //   name: i18n.t('Marketplace'),
+      //   breadcrumbName: i18n.t('Marketplace'),
+      //   href: goTo.resolve.marketplaceRoot({ type: 'all' }),
+      // },
     ],
     MENU_SCOPE.appCenter,
   );
