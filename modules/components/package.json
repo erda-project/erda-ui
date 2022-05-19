@@ -1,6 +1,6 @@
 {
   "name": "@erda-ui/components",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "description": "erda ui component library",
   "scripts": {
     "start": "dumi dev",
@@ -15,7 +15,8 @@
     "lint": "eslint --ext .ts,.tsx,.js,.jsx src",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "publish:patch": "pnpm run build && pnpm version patch && pnpm publish --registry https://registry.npmjs.org"
+    "publish:patch": "pnpm run build && pnpm version patch && pnpm publish --registry https://registry.npmjs.org",
+    "release": "standard-version && pnpm publish --registry https://registry.npmjs.org"
   },
   "exports": {
     ".": {
