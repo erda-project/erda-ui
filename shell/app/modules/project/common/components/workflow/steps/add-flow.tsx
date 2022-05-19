@@ -74,7 +74,9 @@ const AddFlow: React.FC<IProps> = ({ onAdd, type, metaData = {} }) => {
         label: i18n.t('App'),
         type: 'select',
         name: 'appID',
-        options: apps?.list.map((app) => ({ name: app.displayName, value: app.id })),
+        options: apps?.list
+          .filter((item) => !item.isExternalRepo)
+          .map((app) => ({ name: app.displayName, value: app.id })),
         itemProps: {
           showSearch: true,
           onChange: (v: number) => {

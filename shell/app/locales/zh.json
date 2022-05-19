@@ -1145,6 +1145,7 @@
     "No environment": "无环境",
     "No followers": "无人关注",
     "No followers-now": "暂无成员关注",
+    "No permission to access the current application {name}, Contact the application administrator to add permission": "暂无访问当前应用 {name} 的权限，请联系应用管理员添加权限",
     "No starred apps": "暂无星标应用",
     "No starred projects": "暂无星标项目",
     "No workflow data": "暂无工作流数据",

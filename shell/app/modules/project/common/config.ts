@@ -190,16 +190,11 @@ export const branchNameValidator = (val = '', multi = true) => {
 export const branchNameWithoutWildcard = (val = '', multi = true) => {
   const valArr = val.split(',');
   const reg = /^[a-zA-Z_]+[\\/\\.\\$@#a-zA-Z0-9_-]*$/;
-  let pass = true;
-  let tip = '';
   if (!multi && valArr.length > 1) {
     return [false, i18n.t('start with letters and can contain without wildcard')];
   }
-  valArr.forEach((item) => {
-    if (!reg.test(item)) {
-      pass = false;
-      tip = i18n.t('separated by comma, start with letters and can contain without wildcard');
-    }
-  });
-  return [pass, tip];
+  return [
+    valArr.every((item) => reg.test(item)),
+    i18n.t('separated by comma, start with letters and can contain without wildcard'),
+  ];
 };

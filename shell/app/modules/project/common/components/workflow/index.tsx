@@ -14,7 +14,7 @@
 import React from 'react';
 import { DevFlowInfos } from 'project/services/project-workflow';
 import Steps, { StepCode, StepPipeline, StepTempMerge } from './steps';
-import { getJoinedApps } from 'user/services/user';
+import i18n from 'i18n';
 
 export interface IProps {
   scope: 'ISSUE' | 'MR';
@@ -24,28 +24,26 @@ export interface IProps {
 }
 
 const Workflow: React.FC<IProps> = ({ scope, projectID, getFlowNodeList, flowInfo }) => {
-  const [apps, setApps] = React.useState<IApplication[]>([]);
   const { devFlowInfos } = flowInfo ?? {};
-  const hasNode = !!devFlowInfos?.length;
-  React.useEffect(() => {
-    if (hasNode && scope === 'ISSUE') {
-      getJoinedApps({
-        pageSize: 200,
-        pageNo: 1,
-        projectId: projectID,
-      }).then((res) => {
-        setApps(res?.data?.list ?? []);
-      });
-    }
-  }, [hasNode, scope]);
   return (
     <>
       {devFlowInfos?.map((item) => {
-        const { devFlowNode } = item;
-        const currentApp = apps.find((app) => devFlowNode.appID === app.id)!;
+        const { devFlowNode, hasPermission } = item;
+        if (!hasPermission) {
+          return (
+            <Steps>
+              <div className="text-center flex-1 text-sub">
+                {i18n.t(
+                  'dop:No permission to access the current application {name}, Contact the application administrator to add permission',
+                  { name: item.devFlowNode.appName },
+                )}
+              </div>
+            </Steps>
+          );
+        }
         return (
           <Steps key={devFlowNode.mergeID}>
-            {scope === 'ISSUE' ? <StepCode data={item} app={currentApp} /> : null}
+            {scope === 'ISSUE' ? <StepCode data={item} /> : null}
             <StepTempMerge
               projectID={projectID}
               data={item}

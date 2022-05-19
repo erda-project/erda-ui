@@ -71,6 +71,7 @@ export interface CreateFlowNode {
 export interface DevFlowNode {
   repoMergeID: number;
   appID: number;
+  appName: string;
   targetBranch: string;
   sourceBranch: string;
   isJoinTempBranch: boolean;
@@ -96,6 +97,7 @@ export interface ChangeBranch {
 }
 
 export interface DevFlowInfo {
+  hasPermission: boolean;
   devFlowNode: DevFlowNode;
   pipelineStepInfos: PipelineInfo[];
   changeBranch: ChangeBranch[];
