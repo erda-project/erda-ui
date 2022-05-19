@@ -28,7 +28,7 @@ interface TwoBranchWorkflow {
   flowType: FlowType.TWO_BRANCH;
   autoMergeBranch: string;
   changeBranch: string;
-  enableAutoMerge: boolean;
+  enableAutoMerge?: boolean;
   startWorkflowHints: WorkflowHint[];
 }
 
@@ -37,7 +37,7 @@ interface ThreeBranchWorkflow {
   autoMergeBranch: string;
   changeFromBranch: string;
   changeBranch: string;
-  enableAutoMerge: boolean;
+  enableAutoMerge?: boolean;
   startWorkflowHints: WorkflowHint[];
 }
 

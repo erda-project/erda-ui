@@ -20,10 +20,21 @@ import { FormModal, Table, TopButtonGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { insertWhen } from 'common/utils';
 import { ColumnProps, IActions } from 'common/components/table/interface';
-import { branchNameValidator, ENV_MAP, FLOW_TYPE, FlowType } from 'project/common/config';
+import { branchNameValidator, branchNameWithoutWildcard, ENV_MAP, FLOW_TYPE, FlowType } from 'project/common/config';
 import { queryWorkflow, updateWorkflow, WorkflowHint, WorkflowItem } from 'project/services/project-workflow';
 
 const envArr = Object.keys(ENV_MAP).map((env) => ({ name: ENV_MAP[env], value: env }));
+
+const typeTips = (
+  <div>
+    <p className="mb-0">{i18n.t('dop:Single branches are suitable for two scenarios')}:</p>
+    <p className="mb-0">a) {i18n.t('dop:Single branches scenarios a')}:</p>
+    <p className="mb-0">b) {i18n.t('dop:Single branches scenarios b')}:</p>
+    <p className="mb-0">{i18n.t('dop:Multiple branches are suitable for two scenarios')}:</p>
+    <p className="mb-0">a) {i18n.t('dop:Multiple branches scenarios a')}:</p>
+    <p className="mb-0">b) {i18n.t('dop:Multiple branches scenarios b')}:</p>
+  </div>
+);
 
 interface IProps {
   canOperate: boolean;
@@ -119,10 +130,11 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
     }[action];
     const newWorkflows = produce(workflows, (draft) => {
       const index = draft.findIndex((item) => item.name === originWorkflow.current?.name);
+      const newFlow = workflow.flowType !== FlowType.SINGLE_BRANCH ? { enableAutoMerge: false, ...workflow } : workflow;
       if (action === 'create') {
-        draft.push(workflow);
+        draft.push(newFlow);
       } else if (action === 'edit') {
-        draft.splice(index, 1, workflow);
+        draft.splice(index, 1, newFlow);
       } else {
         draft.splice(index, 1);
       }
@@ -240,6 +252,7 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
     },
     {
       label: i18n.t('Type'),
+      labelTip: typeTips,
       type: 'select',
       required: true,
       options: Object.keys(FLOW_TYPE).map((value) => ({ value, name: FLOW_TYPE[value] })),
@@ -254,12 +267,13 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
     {
       label: i18n.t('dop:target branch'),
       type: 'input',
+      labelTip: i18n.t('dop:Merge change branch'),
       required: true,
       name: 'targetBranch',
       rules: [
         {
           validator: (_rule: any, value: string, callback: Function) => {
-            const [pass, tips] = branchNameValidator(value);
+            const [pass, tips] = branchNameWithoutWildcard(value);
             !value || pass ? callback() : callback(tips);
           },
         },
@@ -272,13 +286,14 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
       ...insertWhen(flowType === FlowType.THREE_BRANCH, [
         {
           label: i18n.t('dop:source branch'),
+          labelTip: i18n.t('dop:Create a change branch based on that branch'),
           type: 'input',
           required: true,
           name: 'changeFromBranch',
           rules: [
             {
               validator: (_rule: any, value: string, callback: Function) => {
-                const [pass, tips] = branchNameValidator(value, false);
+                const [pass, tips] = branchNameWithoutWildcard(value, false);
                 !value || pass ? callback() : callback(tips);
               },
             },
@@ -290,6 +305,7 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
       ]),
       {
         label: i18n.t('dop:Change branch'),
+        labelTip: i18n.t('dop:A branch for feature development'),
         type: 'input',
         required: true,
         name: 'changeBranch',
@@ -330,26 +346,26 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
           },
         ],
       },
-      {
-        label: i18n.t('auto merge'),
-        name: 'enableAutoMerge',
-        type: 'switch',
-        required: true,
-        initialValue: false,
-        itemProps: {
-          checkedChildren: i18n.t('common:Yes'),
-          unCheckedChildren: i18n.t('common:No'),
-        },
-      },
+      // {
+      //   label: i18n.t('auto merge'),
+      //   name: 'enableAutoMerge',
+      //   type: 'switch',
+      //   required: true,
+      //   initialValue: false,
+      //   itemProps: {
+      //     checkedChildren: i18n.t('common:Yes'),
+      //     unCheckedChildren: i18n.t('common:No'),
+      //   },
+      // },
     ]),
     {
       label: i18n.t('dop:Artifact type'),
-      type: 'input',
+      type: 'select',
       required: true,
       name: 'artifact',
+      options: ['alpha', 'beta', 'stable', 'rc'].map((item) => ({ name: item, value: item })),
       itemProps: {
-        placeholder: i18n.t('dop:within {num} characters', { num: 36 }),
-        maxLength: 36,
+        placeholder: i18n.t('please select the {name}', { name: i18n.t('dop:Artifact type') }),
       },
     },
     {
