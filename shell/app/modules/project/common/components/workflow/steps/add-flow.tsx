@@ -97,8 +97,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, type, metaData = {} }) => {
             const hintItem = branches.find((item) => item.targetBranch === v);
             if (hintItem && hintItem.flowType !== FlowType.SINGLE_BRANCH) {
               const { changeBranchRule } = hintItem.startWorkflowHints.find((t) => t.place === type)!;
-              const names = [iteration?.title, issue.id, issue.title].filter((t) => !!t);
-              const branch = changeBranchRule.replace('*', names.join('-'));
+              const branch = changeBranchRule.replace('*', issue.id);
               form.setFieldsValue({ sourceBranch: branch });
             }
           },
