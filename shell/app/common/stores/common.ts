@@ -40,7 +40,7 @@ const common = createStore({
       const res = await call(getRenderPageLayout, payload);
       return res;
     },
-    async fetchLog({ call, update }, { logKey, ...query }: { [k: string]: any; logKey: string }) {
+    async fetchLog({ call, update, select }, { logKey, ...query }: { [k: string]: any; logKey: string }) {
       let lines = [] as COMMON.LogItem[];
       if (has(query, 'fetchApi') && !query.fetchApi) {
         return;
@@ -48,8 +48,12 @@ const common = createStore({
       try {
         const response = await call(fetchLog, query);
         lines = response.lines || [];
-        const logFallback = !!response.isFallback;
-        update({ logFallback });
+        const prevLogFallback = select((s) => s.logFallback);
+        // when log fallback, keep it.
+        if (!prevLogFallback) {
+          const logFallback = !!response.isFallback;
+          update({ logFallback });
+        }
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error(error);
