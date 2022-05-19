@@ -102,6 +102,7 @@ const Market = () => {
             className="bg-black-06 w-[180px]"
             placeholder={i18n.t('Search by keyword-char')}
             bordered={false}
+            prefix={<ErdaIcon type="search" size="16" fill="default-3" />}
             value={searchKey}
             onChange={(e) => {
               setSearchKey(e.target.value);

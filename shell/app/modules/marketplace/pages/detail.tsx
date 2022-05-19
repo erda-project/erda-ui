@@ -102,7 +102,7 @@ const Detail = () => {
       : [() => {}, 'cursor-not-allowed	'];
 
   return (
-    <div className="bg-white py-3 pl-4 pr-10 h-full marketplace-detail">
+    <div className="bg-white py-3 pl-4 pr-10 h-full marketplace-detail overflow-auto">
       <div>
         <ErdaIcon
           type="arrow-left"
