@@ -1095,7 +1095,6 @@
     "Labels can be used in issue management and test management, to quickly locate and filter related content.": "标签可以用于事项管理、测试管理中，合理使用能够快速定位和过滤相关内容",
     "Labels can be used in release management, to quickly locate and filter related content.": "标签可以用于制品管理中，合理使用能够快速定位和过滤相关内容",
     "Last detection time": "最近检测时间",
-    "Learn More": "了解更多",
     "Less than or equal to": "小于等于",
     "Library-app-intro": "库/模块是一种不需要部署的代码产物，发布后可以在其他应用中被依赖使用，比如一个 Java jar 包或 npm 包。",
     "Library/Module": "库/模块",
