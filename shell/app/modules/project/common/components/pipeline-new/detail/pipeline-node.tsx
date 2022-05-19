@@ -41,7 +41,11 @@ const PipelineNode = (props: IProps) => {
 
   const titleText = data.displayName ? `${data.displayName}: ${data.alias}` : data.name || data.alias;
   return (
-    <Tooltip title={data.disable ? i18n.t('dop:The node is disabled') : ''} zIndex={1060}>
+    <Tooltip
+      title={data.disable ? i18n.t('dop:The node is disabled') : ''}
+      getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+      zIndex={1060}
+    >
       <div
         className={`p-3 yml-chart-node project-pipeline-node flex flex-col justify-center ${
           data.disable ? 'opacity-60' : ''
@@ -63,7 +67,10 @@ const PipelineNode = (props: IProps) => {
           </div>
           {editing ? (
             <div className="items-center h-6 ml-1 pipeline-node-actions" onClick={(e) => e.stopPropagation()}>
-              <Tooltip title={data.disable ? i18n.t('Enable') : firstCharToUpper(i18n.t('disable'))}>
+              <Tooltip
+                title={data.disable ? i18n.t('Enable') : firstCharToUpper(i18n.t('disable'))}
+                getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+              >
                 <ErdaIcon
                   type={data.disable ? 'enable' : 'disable'}
                   size="20"
