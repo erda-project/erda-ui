@@ -52,9 +52,9 @@ const Detail = () => {
         return (
           <Menu.Item key={item.version}>
             <div className="flex-h-center justify-between">
-              <div className="flex-h-center ">
+              <div className="flex-h-center flex-1 truncate">
                 <ErdaIcon size={16} type="version" />
-                <span className="ml-2 text-default">{item.version}</span>
+                <Ellipsis className="ml-2 text-default" title={item.version} />
               </div>
               {curVersion?.version === item.version ? <ErdaIcon type="check" className="text-purple-deep" /> : null}
             </div>
