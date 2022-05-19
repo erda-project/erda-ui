@@ -550,6 +550,7 @@
     "bind domain": "bind domain",
     "by fixed bandwidth": "by fixed bandwidth",
     "by flow": "by flow",
+    "by {name}": "by {name}",
     "can not be empty": "can not be empty",
     "can not be nodeName": "can not be nodeName",
     "can not start with number": "can not start with number",
