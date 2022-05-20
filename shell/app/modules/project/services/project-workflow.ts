@@ -24,16 +24,8 @@ interface SingleBranchWorkflow {
   flowType: FlowType.SINGLE_BRANCH;
 }
 
-interface TwoBranchWorkflow {
-  flowType: FlowType.TWO_BRANCH;
-  autoMergeBranch: string;
-  changeBranch: string;
-  enableAutoMerge?: boolean;
-  startWorkflowHints: WorkflowHint[];
-}
-
 interface ThreeBranchWorkflow {
-  flowType: FlowType.THREE_BRANCH;
+  flowType: FlowType.MULTI_BRANCH;
   autoMergeBranch: string;
   changeFromBranch: string;
   changeBranch: string;
@@ -46,7 +38,7 @@ export type WorkflowItem = {
   targetBranch: string;
   artifact: string;
   environment: EnvType;
-} & (SingleBranchWorkflow | TwoBranchWorkflow | ThreeBranchWorkflow);
+} & (SingleBranchWorkflow | ThreeBranchWorkflow);
 
 interface Workflow {
   id: string;

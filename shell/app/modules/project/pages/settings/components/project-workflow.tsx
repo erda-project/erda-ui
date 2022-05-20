@@ -279,30 +279,28 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
         },
       ],
       itemProps: {
-        placeholder: i18n.t('separated by comma, start with letters and can contain without wildcard'),
+        placeholder: i18n.t('separated by comma, start with letters and can contain characters that are not wildcard'),
       },
     },
-    ...insertWhen([FlowType.TWO_BRANCH, FlowType.THREE_BRANCH].includes(flowType), [
-      ...insertWhen(flowType === FlowType.THREE_BRANCH, [
-        {
-          label: i18n.t('dop:source branch'),
-          labelTip: i18n.t('dop:Create a change branch based on that branch'),
-          type: 'input',
-          required: true,
-          name: 'changeFromBranch',
-          rules: [
-            {
-              validator: (_rule: any, value: string, callback: Function) => {
-                const [pass, tips] = branchNameWithoutWildcard(value, false);
-                !value || pass ? callback() : callback(tips);
-              },
+    ...insertWhen([FlowType.MULTI_BRANCH].includes(flowType), [
+      {
+        label: i18n.t('dop:source branch'),
+        labelTip: i18n.t('dop:Create a change branch based on that branch'),
+        type: 'input',
+        required: true,
+        name: 'changeFromBranch',
+        rules: [
+          {
+            validator: (_rule: any, value: string, callback: Function) => {
+              const [pass, tips] = branchNameWithoutWildcard(value, false);
+              !value || pass ? callback() : callback(tips);
             },
-          ],
-          itemProps: {
-            placeholder: i18n.t('start with letters and can contain without wildcard'),
           },
+        ],
+        itemProps: {
+          placeholder: i18n.t('start with letters and can contain characters that are not wildcard'),
         },
-      ]),
+      },
       {
         label: i18n.t('dop:Change branch'),
         labelTip: i18n.t('dop:A branch for feature development'),
