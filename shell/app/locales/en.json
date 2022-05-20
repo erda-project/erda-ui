@@ -712,6 +712,7 @@
     "The configuration cannot be restored after deletion. Continue": "The configuration cannot be restored after deletion. Continue",
     "The default value only takes effect in the generated form": "The default value only takes effect in the generated form",
     "The maximum length is {limit}, please upload with attachment": "The maximum length is {limit}, please upload with attachment",
+    "The quotes (>) nesting level cannot exceed 100": "The quotes (>) nesting level cannot exceed 100",
     "The user's original permissions will be overwritten after batch processing. Please be cautious.": "After batch processing user permissions, the user's original permissions will be overwritten, please operate with caution",
     "Upload File": "Upload File",
     "Upload Image": "Upload Image",

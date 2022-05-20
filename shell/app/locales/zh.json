@@ -712,6 +712,7 @@
     "The configuration cannot be restored after deletion. Continue": "配置删除后无法恢复，确认执行",
     "The default value only takes effect in the generated form": "默认值只在生成后的表单中生效",
     "The maximum length is {limit}, please upload with attachment": "最大长度为{limit}, 请使用附件上传",
+    "The quotes (>) nesting level cannot exceed 100": "引用(>)嵌套层级不能超过 100 个",
     "The user's original permissions will be overwritten after batch processing. Please be cautious.": "批量处理用户权限后，用户原有权限会被覆盖，请谨慎操作",
     "Upload File": "文件上传",
     "Upload Image": "图片上传",
