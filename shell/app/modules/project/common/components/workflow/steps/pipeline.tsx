@@ -50,9 +50,9 @@ const Pipeline: React.FC<IProps> = ({ data, projectID }) => {
 
   React.useEffect(() => {
     setPipelineInfo(pipelineStepInfos);
-    const queryQueue = (pipelineStepInfos ?? []).map((item) =>
-      getPipelineDetail({ pipelineID: item.pipelineID }).then((res) => res.data),
-    );
+    const queryQueue = (pipelineStepInfos ?? [])
+      .filter((item) => !!item.pipelineID)
+      .map((item) => getPipelineDetail({ pipelineID: item.pipelineID }).then((res) => res.data));
     Promise.all(queryQueue ?? []).then((pipelineDetails) => {
       const taskMap = {};
       pipelineDetails.forEach((pipelineDetail) => {
@@ -90,7 +90,7 @@ const Pipeline: React.FC<IProps> = ({ data, projectID }) => {
       <div className="workflow-step-pipeline">
         {pipelineInfo?.length ? (
           pipelineInfo.map((item) => {
-            const { status, text } = ciStatusMap[item.status];
+            const { status, text } = ciStatusMap[item.status || 'Initializing'];
             return (
               <div key={item.pipelineID} className="flex justify-between items-center">
                 <div className="flex justify-start items-center flex-1 max-w-[200px]">
@@ -105,9 +105,11 @@ const Pipeline: React.FC<IProps> = ({ data, projectID }) => {
                       [{item.taskCount.finishTaskTotal}/{item.taskCount.taskTotal}]
                     </span>
                   ) : null}
-                  <a className="flex items-center ml-2" href={`${url}?pipelineID=${item.pipelineID}`} target="_blank">
-                    <ErdaIcon className="hover:text-purple-deep" type="share" />
-                  </a>
+                  {item.pipelineID ? (
+                    <a className="flex items-center ml-2" href={`${url}?pipelineID=${item.pipelineID}`} target="_blank">
+                      <ErdaIcon className="hover:text-purple-deep" type="share" />
+                    </a>
+                  ) : null}
                 </div>
               </div>
             );
