@@ -44,7 +44,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, type, metaData = {} }) => {
   const apps = getJoinedApps.useData();
   const metaWorkflow = queryWorkflow.useData();
   const workflow = metaWorkflow?.flows ?? [];
-  const branches = workflow.filter((item) => item.flowType === FlowType.TWO_BRANCH);
+  const branches = workflow.filter((item) => item.flowType !== FlowType.SINGLE_BRANCH);
   const { iteration, issue } = metaData;
 
   React.useEffect(() => {
