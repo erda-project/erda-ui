@@ -149,7 +149,7 @@ const IssueProtocol = ({ issueType, hideImport }: IProps) => {
   return (
     <div className="pb-4">
       <TopButtonGroup className="flex">
-        {hideImport ? (
+        {!hideImport ? (
           <ImportExport tabs={tabs} queryObj={useableFilterObj} issueType={issueType} projectId={projectId} />
         ) : null}
 
