@@ -279,7 +279,7 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
         },
       ],
       itemProps: {
-        placeholder: i18n.t('separated by comma, start with letters and can contain without wildcard'),
+        placeholder: i18n.t('separated by comma, start with letters and can contain characters that are not wildcard'),
       },
     },
     ...insertWhen([FlowType.MULTI_BRANCH].includes(flowType), [
@@ -298,7 +298,7 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
           },
         ],
         itemProps: {
-          placeholder: i18n.t('start with letters and can contain without wildcard'),
+          placeholder: i18n.t('start with letters and can contain characters that are not wildcard'),
         },
       },
       {

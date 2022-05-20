@@ -190,10 +190,10 @@ export const branchNameWithoutWildcard = (val = '', multi = true) => {
   const valArr = val.split(',');
   const reg = /^[a-zA-Z_]+[\\/\\.\\$@#a-zA-Z0-9_-]*$/;
   if (!multi && valArr.length > 1) {
-    return [false, i18n.t('start with letters and can contain without wildcard')];
+    return [false, i18n.t('start with letters and can contain characters that are not wildcard')];
   }
   return [
     valArr.every((item) => reg.test(item)),
-    i18n.t('separated by comma, start with letters and can contain without wildcard'),
+    i18n.t('separated by comma, start with letters and can contain characters that are not wildcard'),
   ];
 };
