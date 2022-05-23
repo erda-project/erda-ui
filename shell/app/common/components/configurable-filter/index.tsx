@@ -14,7 +14,7 @@
 import React from 'react';
 import { Badge, Button, Col, Form, FormInstance, Input, Popover, Row } from 'antd';
 import { ErdaIcon, IFormItem, RenderFormItem } from 'common';
-import { has, isEmpty, isEqual } from 'lodash';
+import { has, isEmpty, isEqual, compact } from 'lodash';
 import ExternalItem from './external-item';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
@@ -171,7 +171,7 @@ const emptyArr = [] as ConfigData[];
 const ConfigurableFilter = React.forwardRef(
   (
     {
-      fieldsList,
+      fieldsList: propsFieldList,
       configList = emptyArr,
       defaultConfig,
       value,
@@ -186,6 +186,8 @@ const ConfigurableFilter = React.forwardRef(
     }: IProps,
     ref: React.Ref<{ form: FormInstance }>,
   ) => {
+    const fieldsList = React.useMemo(() => compact(propsFieldList), [propsFieldList]);
+
     const { externalValue: _externalValue, formValue } = React.useMemo(
       () => convertValue(value, fieldsList),
       // eslint-disable-next-line react-hooks/exhaustive-deps

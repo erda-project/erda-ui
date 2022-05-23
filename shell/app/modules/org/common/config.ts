@@ -134,6 +134,12 @@ export const FIELD_TYPE_ICON_MAP = {
     name: i18n.t('Bug'),
     value: 'BUG',
   },
+  TICKET: {
+    icon: 'ticket',
+    color: 'green',
+    name: i18n.t('Tickets'),
+    value: 'TICKET',
+  },
 };
 
 export const FIELD_WITH_OPTION = {

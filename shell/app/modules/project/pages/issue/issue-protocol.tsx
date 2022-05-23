@@ -29,9 +29,10 @@ import i18n from 'i18n';
 
 interface IProps {
   issueType: ISSUE_TYPE;
+  hideImport?: boolean;
 }
 
-const IssueProtocol = ({ issueType }: IProps) => {
+const IssueProtocol = ({ issueType, hideImport }: IProps) => {
   const [{ projectId, iterationId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { id: queryId, iterationID: queryIterationID, type: _queryType, tab } = query;
   const orgID = orgStore.getState((s) => s.currentOrg.id);
@@ -148,7 +149,9 @@ const IssueProtocol = ({ issueType }: IProps) => {
   return (
     <div className="pb-4">
       <TopButtonGroup className="flex">
-        <ImportExport tabs={tabs} queryObj={useableFilterObj} issueType={issueType} projectId={projectId} />
+        {!hideImport ? (
+          <ImportExport tabs={tabs} queryObj={useableFilterObj} issueType={issueType} projectId={projectId} />
+        ) : null}
 
         {issueType === ISSUE_TYPE.ALL ? (
           <Dropdown overlay={dropdownMenu} placement="bottomRight">
