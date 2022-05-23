@@ -42,7 +42,7 @@ export const BaseStepSimple: React.FC<{
     <div className="workflow-step-simple relative mx-2">
       <div className="flex justify-start items-center h-full w-full">
         <div className="mx-2 flex justify-start items-center text-default-6">
-          <ErdaIcon type={icon} size={16} />
+          <ErdaIcon type={icon} size={20} />
         </div>
         <div>{children}</div>
       </div>

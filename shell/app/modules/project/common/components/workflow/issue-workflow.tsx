@@ -53,7 +53,7 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, type, metaIssue }) => 
       <div className="relative h-12 flex-h-center text-primary font-medium">
         <span className="text-base relative pr-8">
           {i18n.t('dop:workflow')}
-          <span className="absolute px-2 rounded-full text-xs text-normal border border-normal border-solid absolute -top-2">
+          <span className="absolute px-2 rounded-full text-xs text-purple border border-purple border-solid absolute -top-2">
             beta
           </span>
         </span>

@@ -92,7 +92,7 @@ const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
           tab={
             <div className="relative pr-10">
               {i18n.t('dop:workflow')}
-              <span className="absolute px-2 rounded-full text-xs text-normal border border-normal border-solid -top-2">
+              <span className="absolute px-2 rounded-full text-xs text-purple border border-purple border-solid -top-2">
                 beta
               </span>
             </div>
