@@ -12,18 +12,18 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Ellipsis, ErdaIcon, MarkdownRender } from 'common';
+import { Ellipsis, MarkdownRender } from 'common';
 import { Badge, Popover } from 'antd';
 import { goTo } from 'common/utils';
-import { produce } from 'immer';
-import { ciNodeStatusSet, ciStatusMap } from 'application/pages/pipeline/run-detail/config';
-import { DevFlowInfo, getPipelineDetail, PipelineInfo } from 'project/services/project-workflow';
-import BaseStep, { IBaseProps } from './base-step';
+import { ciStatusMap } from 'application/pages/pipeline/run-detail/config';
+import { DevFlowInfo, PipelineInfo } from 'project/services/project-workflow';
+import BaseStep, { BaseStepSimple, IBaseProps } from './base-step';
 import i18n from 'i18n';
 
 interface IProps extends IBaseProps {
   data: DevFlowInfo;
   projectID: number;
+  pipelineInfo: IPipelineInfo[];
 }
 
 interface IPipelineInfo extends PipelineInfo {
@@ -43,44 +43,46 @@ on:
 \`\`\`
 `;
 };
+const PipeLineList = ({ pipelineInfo, url }: { pipelineInfo: IPipelineInfo[]; url?: string }) => {
+  return (
+    <>
+      {pipelineInfo.map((item) => {
+        const { status, text } = ciStatusMap[item.status || 'Initializing'];
+        return (
+          <div key={item.pipelineID} className="flex justify-between items-center">
+            <div className="flex justify-start items-center flex-1 max-w-[200px]">
+              <Popover content={text}>
+                <Badge status={status} />
+              </Popover>
+              {item.pipelineID && url ? (
+                <a
+                  className="truncate hover:text-purple-deep"
+                  target="_blank"
+                  href={`${url}?pipelineID=${item.pipelineID}`}
+                >
+                  {item.ymlName}
+                </a>
+              ) : (
+                <Ellipsis title={item.ymlName} />
+              )}
+            </div>
+            <div className="flex justify-start items-center">
+              {item.taskCount ? (
+                <span>
+                  [{item.taskCount.finishTaskTotal}/{item.taskCount.taskTotal}]
+                </span>
+              ) : null}
+            </div>
+          </div>
+        );
+      })}
+    </>
+  );
+};
 
-const Pipeline: React.FC<IProps> = ({ data, projectID }) => {
-  const { pipelineStepInfos, devFlowNode } = data;
-  const [pipelineInfo, setPipelineInfo] = React.useState<IPipelineInfo[]>(pipelineStepInfos);
+const Pipeline: React.FC<IProps> = ({ data, projectID, pipelineInfo }) => {
+  const { devFlowNode } = data;
 
-  React.useEffect(() => {
-    setPipelineInfo(pipelineStepInfos);
-    const queryQueue = (pipelineStepInfos ?? [])
-      .filter((item) => !!item.pipelineID)
-      .map((item) => getPipelineDetail({ pipelineID: item.pipelineID }).then((res) => res.data));
-    Promise.all(queryQueue ?? []).then((pipelineDetails) => {
-      const taskMap = {};
-      pipelineDetails.forEach((pipelineDetail) => {
-        if (pipelineDetail) {
-          const { pipelineStages } = pipelineDetail;
-          const taskTotal = pipelineStages.reduce((prev, curr) => prev + curr.pipelineTasks?.length ?? 0, 0);
-          const finishTaskTotal = pipelineStages.reduce(
-            (prev, curr) =>
-              prev + curr.pipelineTasks?.filter((t) => ciNodeStatusSet.taskFinalStatus.includes(t.status)).length,
-            0,
-          );
-          taskMap[pipelineDetail.id] = {
-            finishTaskTotal,
-            taskTotal,
-          };
-        }
-      });
-      const newInfo = produce(pipelineStepInfos ?? [], (draft) =>
-        draft.map((item) => {
-          return {
-            ...item,
-            taskCount: taskMap[item.pipelineID],
-          };
-        }),
-      );
-      setPipelineInfo(newInfo);
-    });
-  }, [pipelineStepInfos]);
   const url = goTo.resolve.pipelineRoot({
     projectId: projectID,
     appId: devFlowNode.appID,
@@ -89,31 +91,7 @@ const Pipeline: React.FC<IProps> = ({ data, projectID }) => {
     <BaseStep title={i18n.t('dop:{type} node', { type: i18n.t('Pipeline') })}>
       <div className="workflow-step-pipeline">
         {pipelineInfo?.length ? (
-          pipelineInfo.map((item) => {
-            const { status, text } = ciStatusMap[item.status || 'Initializing'];
-            return (
-              <div key={item.pipelineID} className="flex justify-between items-center">
-                <div className="flex justify-start items-center flex-1 max-w-[200px]">
-                  <Popover content={text}>
-                    <Badge status={status} />
-                  </Popover>
-                  <Ellipsis title={item.ymlName} />
-                </div>
-                <div className="flex justify-start items-center">
-                  {item.taskCount ? (
-                    <span>
-                      [{item.taskCount.finishTaskTotal}/{item.taskCount.taskTotal}]
-                    </span>
-                  ) : null}
-                  {item.pipelineID ? (
-                    <a className="flex items-center ml-2" href={`${url}?pipelineID=${item.pipelineID}`} target="_blank">
-                      <ErdaIcon className="hover:text-purple-deep" type="share" />
-                    </a>
-                  ) : null}
-                </div>
-              </div>
-            );
-          })
+          <PipeLineList pipelineInfo={pipelineInfo} url={url} />
         ) : (
           <div>
             <p className="pb-2 mb-2 border-0 border-b border-b-default-1 border-solid">
@@ -124,6 +102,24 @@ const Pipeline: React.FC<IProps> = ({ data, projectID }) => {
         )}
       </div>
     </BaseStep>
+  );
+};
+
+export const SimplePipeline: React.FC<IProps> = ({ pipelineInfo, projectID, data }) => {
+  const { devFlowNode } = data;
+  const url = goTo.resolve.pipelineRoot({
+    projectId: projectID,
+    appId: devFlowNode.appID,
+  });
+  const list = pipelineInfo.slice(0, 1);
+  return (
+    <BaseStepSimple icon="pipeline">
+      {list.length ? (
+        <PipeLineList pipelineInfo={pipelineInfo.slice(0, 1)} url={url} />
+      ) : (
+        <span>{i18n.t('common:No data')}</span>
+      )}
+    </BaseStepSimple>
   );
 };
 
