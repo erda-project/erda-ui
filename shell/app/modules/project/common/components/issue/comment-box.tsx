@@ -71,35 +71,38 @@ export const IssueCommentBox = (props: IProps) => {
     >
       <UserInfo.RenderWithAvatar avatarSize="default" id={loginUser.id} showName={false} className="mr-3" />
       {state.visible ? (
-        <div className="flex-1">
-          <MarkdownEditor
-            value={valueRef.current}
-            placeholder={i18n.t('dop:Comment ({meta} + Enter to send, Esc to collapse)', {
-              meta: isWin ? 'Shift' : 'Cmd',
-            })}
-            onFocus={() => {
-              focusRef.current = true;
-            }}
-            onBlur={() => {
-              focusRef.current = false;
-            }}
-            autoFocus
-            className="w-full issue-md-arrow"
-            onChange={(val: string) => {
-              valueRef.current = val;
-              updater.disableSave(!val.trim().length);
-            }}
-            style={{ height: '200px' }}
-            maxLength={3000}
-          />
+        <>
+          <span className="issue-md-arrow" />
+          <div className="flex-1 overflow-auto">
+            <MarkdownEditor
+              value={valueRef.current}
+              placeholder={i18n.t('dop:Comment ({meta} + Enter to send, Esc to collapse)', {
+                meta: isWin ? 'Shift' : 'Cmd',
+              })}
+              onFocus={() => {
+                focusRef.current = true;
+              }}
+              onBlur={() => {
+                focusRef.current = false;
+              }}
+              autoFocus
+              className="w-full"
+              onChange={(val: string) => {
+                valueRef.current = val;
+                updater.disableSave(!val.trim().length);
+              }}
+              style={{ height: '200px' }}
+              maxLength={3000}
+            />
 
-          <div className="mt-2">
-            <Button className="mr-3" type="primary" disabled={state.disableSave} onClick={() => submit()}>
-              {i18n.t('dop:Post')}
-            </Button>
-            <Button onClick={() => updater.visible(false)}>{i18n.t('dop:Collapse')}</Button>
+            <div className="mt-2">
+              <Button className="mr-3" type="primary" disabled={state.disableSave} onClick={() => submit()}>
+                {i18n.t('dop:Post')}
+              </Button>
+              <Button onClick={() => updater.visible(false)}>{i18n.t('dop:Collapse')}</Button>
+            </div>
           </div>
-        </div>
+        </>
       ) : (
         <div
           className="issue-comment-arrow h-8 leading-8 bg-default-04 rounded-sm cursor-pointer px-3 flex-1 hover:text-purple-deep"

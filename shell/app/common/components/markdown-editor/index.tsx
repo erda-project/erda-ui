@@ -137,6 +137,10 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
   }, [tempContent, updater, value]);
 
   const onChangeContent = (data: { html: string; text: string }) => {
+    if (data.text.match(/>{100,}/)) {
+      message.warn(i18n.t('common:The quotes (>) nesting level cannot exceed 100')); // will cause cursor jump, don't know why
+      return;
+    }
     let v = data.text;
     if (maxLength && data.text.length > maxLength) {
       message.warn(i18n.t('common:The maximum length is {limit}, please upload with attachment', { limit: maxLength }));

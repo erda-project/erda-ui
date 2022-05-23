@@ -126,7 +126,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
             />
           </div>
           <div className="overflow-hidden" style={{ maxHeight: 'inherit', minHeight: '120px' }}>
-            <div ref={mdContentRef} className="md-content">
+            <div ref={mdContentRef}>
               <MarkdownRender noWrapper value={v} />
               <div
                 className={`absolute left-0 bottom-0 w-full h-16 bg-gradient-to-t from-white flex justify-center items-center ${
