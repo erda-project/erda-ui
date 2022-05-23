@@ -17,7 +17,7 @@ import { Ellipsis } from 'common';
 import { goTo } from 'common/utils';
 import i18n from 'i18n';
 import { ChangeBranch, DevFlowInfo, restartDeploy, updateDeploy } from 'project/services/project-workflow';
-import BaseStep, { IBaseProps } from './base-step';
+import BaseStep, { BaseStepSimple, IBaseProps } from './base-step';
 
 interface IProps extends IBaseProps {
   data: DevFlowInfo;
@@ -65,7 +65,7 @@ const ChangeList = ({ list, projectId, appId }: IChangeList) => {
     });
   };
   return (
-    <div className="border border-default-1 border-solid p-2">
+    <div>
       <div className="max-h-[80px] overflow-y-auto">
         {list.map((item) => {
           const { branchName, status, commit } = item;
@@ -153,6 +153,21 @@ const TempMerge: React.FC<IProps> = ({ data, afterChangeStatus, afterRebuild, pr
         />
       </div>
     </BaseStep>
+  );
+};
+
+export const TempMergeSimple: React.FC<Pick<IProps, 'data' | 'projectID'>> = ({ data, projectID }) => {
+  const { isJoinTempBranch, appID } = data?.devFlowNode || {};
+  return (
+    <BaseStepSimple icon="branch-one">
+      <ChangeList
+        list={data?.changeBranch}
+        appId={appID}
+        tempBranch={''}
+        isJoinTempBranch={isJoinTempBranch}
+        projectId={projectID}
+      />
+    </BaseStepSimple>
   );
 };
 

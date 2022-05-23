@@ -14,13 +14,11 @@
 import React from 'react';
 
 const Steps: React.FC = ({ children }) => {
-  return (
-    <div className="flex mb-4 overflow-x-auto py-2 border rounded-sm border-solid border-default-1">{children}</div>
-  );
+  return <div className="flex mb-2 overflow-x-auto py-2">{children}</div>;
 };
 
-export { default as StepCode } from './code';
-export { default as StepPipeline } from './pipeline';
-export { default as StepTempMerge } from './temp-merge';
+export { default as StepCode, CodeSimple } from './code';
+export { default as StepPipeline, SimplePipeline } from './pipeline';
+export { default as StepTempMerge, TempMergeSimple } from './temp-merge';
 
 export default Steps;

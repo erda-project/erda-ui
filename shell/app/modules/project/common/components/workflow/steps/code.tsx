@@ -15,13 +15,13 @@ import React from 'react';
 import i18n from 'i18n';
 import { ErdaIcon } from 'common';
 import { DevFlowInfo } from 'project/services/project-workflow';
-import BaseStep, { IBaseProps } from './base-step';
+import BaseStep, { BaseStepSimple, IBaseProps } from './base-step';
 
 interface IProps extends IBaseProps {
   data: DevFlowInfo;
 }
 
-const Code: React.FC<IProps> = ({ data }) => {
+const Code = ({ data }: IProps) => {
   const { devFlowNode } = data;
   return (
     <BaseStep title={i18n.t('dop:{type} node', { type: 'Code' })}>
@@ -33,20 +33,48 @@ const Code: React.FC<IProps> = ({ data }) => {
         <div className="flex items-center justify-start">
           <div
             className="max-w-[120px] px-2 rounded whitespace-nowrap overflow-ellipsis overflow-hidden text-blue-deep bg-blue-light"
+            title={devFlowNode.sourceBranch}
+          >
+            {devFlowNode.sourceBranch}
+          </div>
+          <ErdaIcon type="arrow-right" className="mx-2 text-default-6" />
+          <div
+            className="max-w-[120px] px-2 rounded whitespace-nowrap overflow-ellipsis overflow-hidden text-blue-deep bg-blue-light"
             title={devFlowNode.targetBranch}
           >
             {devFlowNode.targetBranch}
           </div>
-          <ErdaIcon type="arrow-left" className="mx-2 text-default-6" />
+        </div>
+      </div>
+    </BaseStep>
+  );
+};
+
+export const CodeSimple: React.FC<IProps> = ({ data }) => {
+  const { devFlowNode } = data;
+  return (
+    <BaseStepSimple icon="code">
+      <div>
+        <div>
+          {i18n.t('App')}: {devFlowNode.appName}
+        </div>
+        <div className="flex items-center justify-start">
           <div
             className="max-w-[120px] px-2 rounded whitespace-nowrap overflow-ellipsis overflow-hidden text-blue-deep bg-blue-light"
             title={devFlowNode.sourceBranch}
           >
             {devFlowNode.sourceBranch}
           </div>
+          <ErdaIcon type="arrow-right" className="mx-2 text-default-6" />
+          <div
+            className="max-w-[120px] px-2 rounded whitespace-nowrap overflow-ellipsis overflow-hidden text-blue-deep bg-blue-light"
+            title={devFlowNode.targetBranch}
+          >
+            {devFlowNode.targetBranch}
+          </div>
         </div>
       </div>
-    </BaseStep>
+    </BaseStepSimple>
   );
 };
 
