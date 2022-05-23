@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Switch } from 'antd';
-import { Ellipsis } from 'common';
+import { Ellipsis, ErdaIcon } from 'common';
 import { goTo } from 'common/utils';
 import i18n from 'i18n';
 import { ChangeBranch, DevFlowInfo, restartDeploy, updateDeploy } from 'project/services/project-workflow';
@@ -80,11 +80,12 @@ const ChangeList = ({ list, projectId, appId }: IChangeList) => {
                 <Ellipsis className="px-2 rounded text-blue-deep bg-blue-light" title={branchName} />
                 <a
                   onClick={(e) => e.stopPropagation()}
-                  className="ml-2 hover:text-purple-deep"
+                  className="ml-2 hover:text-purple-deep flex items-center text-xs"
                   href={goTo.resolve.commit({ projectId, appId, commitId: commit })}
                   target="_blank"
                 >
-                  ({commit.slice(0, 6)})
+                  <ErdaIcon type="commitID" className="mr-1" size={12} />
+                  {commit.slice(0, 6)}
                 </a>
               </div>
               {/* {isJoinTempBranch ? ( */}
@@ -159,7 +160,7 @@ const TempMerge: React.FC<IProps> = ({ data, afterChangeStatus, afterRebuild, pr
 export const TempMergeSimple: React.FC<Pick<IProps, 'data' | 'projectID'>> = ({ data, projectID }) => {
   const { isJoinTempBranch, appID } = data?.devFlowNode || {};
   return (
-    <BaseStepSimple icon="branch-one">
+    <BaseStepSimple icon="hebingbian" iconClassName="rotate-90">
       <ChangeList
         list={data?.changeBranch}
         appId={appID}
