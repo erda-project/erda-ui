@@ -141,11 +141,23 @@ function getAppRouter(): RouteConfigItem {
       {
         path: 'pipeline',
         mark: 'pipeline',
-        backToUp: 'projectAppList',
-        tabs: APP_TABS,
-        ignoreTabQuery: true,
-        getComp: (cb) => cb(import('application/pages/pipeline')),
-        layout: { fullHeight: true, noWrapper: true },
+        routes: [
+          {
+            path: ':pipelineTab',
+            backToUp: 'projectAppList',
+            mark: 'appPipelineList',
+            ignoreTabQuery: true,
+            tabs: APP_TABS,
+            alwaysShowTabKey: 'pipeline',
+            layout: { fullHeight: true, noWrapper: true },
+            getComp: (cb) => cb(import('application/pages/pipeline')),
+          },
+          // {
+          //   path: 'detail/:pipelineId',
+          //   backToUp: 'appPipelineList',
+          //   getComp: (cb) => cb(import('application/pages/pipeline/detail')),
+          // }
+        ],
       },
       {
         path: 'dataTask',

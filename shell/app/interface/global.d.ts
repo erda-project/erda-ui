@@ -311,6 +311,7 @@ type ROUTE_MARK =
   | 'projectAppList'
   | 'projectDeployEnv'
   | 'appDeployEnv'
+  | 'appPipelineList'
   | 'projectIteration'
   | 'issues'
   | 'iterationDetail'
