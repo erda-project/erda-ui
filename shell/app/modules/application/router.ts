@@ -152,11 +152,6 @@ function getAppRouter(): RouteConfigItem {
             layout: { fullHeight: true, noWrapper: true },
             getComp: (cb) => cb(import('application/pages/pipeline')),
           },
-          // {
-          //   path: 'detail/:pipelineId',
-          //   backToUp: 'appPipelineList',
-          //   getComp: (cb) => cb(import('application/pages/pipeline/detail')),
-          // }
         ],
       },
       {

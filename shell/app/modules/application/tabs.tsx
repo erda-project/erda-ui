@@ -127,7 +127,7 @@ export const APP_TABS = () => {
 
   const extraRepoTabs = isExternalRepo ? [] : [commit, branch, mr];
   const modeMap = {
-    [appMode.SERVICE]: [repo, ...extraRepoTabs, apiDesign, quality, pipeline, deploy, setting],
+    [appMode.SERVICE]: [repo, ...extraRepoTabs, apiDesign, dataTask, quality, pipeline, deploy, setting],
     [appMode.PROJECT_SERVICE]: [repo, ...extraRepoTabs, quality, pipeline, setting],
     [appMode.MOBILE]: [repo, ...extraRepoTabs, apiDesign, quality, pipeline, deploy, setting],
     [appMode.LIBRARY]: [repo, ...extraRepoTabs, apiDesign, quality, pipeline, deploy, setting],

@@ -17,10 +17,10 @@ import { Spin, Modal, Tooltip, Menu, Dropdown, Input, Button } from 'antd';
 import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, ErdaIcon, ErdaAlert } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
-import { BuildLog } from 'application/pages/pipeline/run-detail/build-log';
+import { BuildLog } from './build-log';
 import { defaultPipelineYml } from 'yml-chart/config';
-import PipelineChart from 'application/pages/pipeline/run-detail/pipeline-chart';
-import { ciBuildStatusSet } from 'application/pages/pipeline/run-detail/config';
+import PipelineChart from './pipeline-chart';
+import { ciBuildStatusSet, getIsInApp } from '../config';
 import { WithAuth } from 'app/user/common';
 import i18n from 'i18n';
 import buildStore from 'application/stores/build';
@@ -39,63 +39,58 @@ const { confirm } = Modal;
 
 const noop = () => {};
 
-interface IProps {
+interface PureExecuteProps {
   appId: string;
   projectId: string;
-  pipelineId: string;
-  pipelineDefinitionID: string;
-  fileChanged: boolean;
+  pipelineDefinitionID?: string;
   deployAuth: { hasAuth: boolean; authTip?: string };
-
+  editPipeline?: () => void;
+  setPipelineId?: (v: string) => void;
   pipelineFileDetail?: TREE.NODE;
-  extraTitle: React.ReactNode;
-  pipelineDetail?: BUILD.IPipelineDetail;
-  setPipelineId: (v: string) => void;
-  switchToEditor: () => void;
-  editPipeline: () => void;
+  chosenPipelineId: string | number;
+  InfoComp?: (extraComp: React.ReactNode) => React.ReactNode;
+  title?: string;
 }
 
-const Execute = (props: IProps) => {
+export const PureExecute = (props: PureExecuteProps) => {
   const {
     appId,
     projectId,
-    pipelineId,
     deployAuth,
-    pipelineFileDetail,
     editPipeline,
-    switchToEditor,
     pipelineDefinitionID,
-    fileChanged,
-    extraTitle,
+    chosenPipelineId,
     setPipelineId,
+    pipelineFileDetail,
+    InfoComp,
+    title,
   } = props;
+  const isInApp = getIsInApp();
+  const [pipelineDetail, changeType] = buildStore.useStore((s) => [s.pipelineDetail, s.changeType]);
+  const curStatus = (pipelineDetail && pipelineDetail.status) || '';
 
-  const [state, updater] = useUpdate({
-    startStatus: 'unstart', // unstart-未开始，ready-准备开始，start-已开始,end:执行完成或取消
-    rerunStartStatus: 'unstart',
+  const [{ logVisible, logProps, rerunStartStatus, startStatus }, updater] = useUpdate({
     logVisible: false,
     logProps: {},
-    chosenPipelineId: pipelineId || ('' as string | number),
-    recordTableKey: 1,
+    startStatus: curStatus && ciBuildStatusSet.executeStatus.includes(curStatus) ? 'start' : 'unstart', // unstart-未开始，ready-准备开始，start-已开始,end:执行完成或取消
+    rerunStartStatus: 'unstart',
   });
 
   const executeRef = React.useRef<{
     execute: (_ymlStr: string, extra: { pipelineId?: string; pipelineDetail?: BUILD.IPipelineDetail }) => void;
   }>(null);
 
-  const { startStatus, rerunStartStatus, logProps, logVisible } = state;
-
-  const [pipelineDetail, changeType] = buildStore.useStore((s) => [s.pipelineDetail, s.changeType]);
+  useUpdateEffect(() => {
+    if (curStatus) {
+      updater.startStatus(ciBuildStatusSet.executeStatus.includes(curStatus) ? 'start' : 'unstart');
+    }
+  }, [curStatus]);
 
   const rejectContentRef = React.useRef('');
 
   const { getBuildRuntimeDetail, updateTaskEnv, getPipelineDetail } = buildStore.effects;
 
   const { updateApproval } = deployStore.effects;
-
-  React.useEffect(() => {
-    updater.chosenPipelineId(pipelineId);
-  }, [pipelineId, updater]);
 
   const [getPipelineDetailLoading, addPipelineLoading] = useLoading(buildStore, ['getPipelineDetail', 'addPipeline']);
 
@@ -105,23 +100,18 @@ const Execute = (props: IProps) => {
     if (pipelineDetail && ciBuildStatusSet.executeStatus.includes(pipelineDetail.status)) {
       timer.current && clearTimeout(timer.current);
       timer.current = setTimeout(() => {
-        state.chosenPipelineId && getPipelineDetail({ pipelineID: +state.chosenPipelineId });
+        chosenPipelineId && getPipelineDetail({ pipelineID: +chosenPipelineId });
       }, 30000);
     } else {
       timer.current && clearTimeout(timer.current);
     }
-  }, [getPipelineDetail, pipelineDetail, state.chosenPipelineId]);
+  }, [getPipelineDetail, pipelineDetail, chosenPipelineId]);
 
-  useUpdateEffect(() => {
-    state.chosenPipelineId && getPipelineDetail({ pipelineID: +state.chosenPipelineId });
-  }, [getPipelineDetail, state.chosenPipelineId]);
-
-  const curStatus = (pipelineDetail && pipelineDetail.status) || '';
-  useUpdateEffect(() => {
-    if (curStatus) {
-      updater.startStatus(ciBuildStatusSet.executeStatus.includes(curStatus) ? 'start' : 'unstart');
-    }
-  }, [curStatus]);
+  React.useEffect(() => {
+    chosenPipelineId &&
+      `${chosenPipelineId}` !== `${pipelineDetail?.id}` &&
+      getPipelineDetail({ pipelineID: +chosenPipelineId });
+  }, [getPipelineDetail, chosenPipelineId]);
 
   useEffectOnce(() => {
     return () => {
@@ -133,40 +123,23 @@ const Execute = (props: IProps) => {
     return <EmptyHolder relative style={{ justifyContent: 'start' }} />;
   }
 
-  const { id: pipelineID, env, branch, pipelineButton, extra, needApproval } = pipelineDetail;
+  const { id: pipelineID, env, branch, extra, needApproval, pipelineButton } = pipelineDetail;
 
-  const runBuild = () => {
+  const runBuild = (v?: Obj) => {
     updater.startStatus('pending');
-    runPipeline({ pipelineDefinitionID, projectID: +projectId })
-      .then((res) => {
-        if (res.success) {
-          updater.startStatus('start');
-          res.data?.pipeline?.id && setPipelineId(res.data.pipeline.id);
-        } else {
+    pipelineDefinitionID &&
+      runPipeline({ pipelineDefinitionID, projectID: +projectId, ...v })
+        .then((res) => {
+          if (res.success) {
+            updater.startStatus('start');
+            res.data?.pipeline?.id && setPipelineId?.(res.data.pipeline.id);
+          } else {
+            updater.startStatus('unstart');
+          }
+        })
+        .catch(() => {
           updater.startStatus('unstart');
-        }
-      })
-      .catch(() => {
-        updater.startStatus('unstart');
-      });
-  };
-
-  const reRunPipeline = (isEntire: boolean) => {
-    updater.rerunStartStatus('pending');
-    const reRunFunc = !isEntire ? rerunFailedPipeline : rerunPipeline;
-    reRunFunc({ pipelineDefinitionID, projectID: +projectId })
-      .then((result) => {
-        result?.data?.pipeline?.id && setPipelineId(result.data.pipeline.id);
-        updater.rerunStartStatus('start');
-      })
-      .catch(() => updater.rerunStartStatus('unstart'));
-  };
-
-  const cancelBuild = () => {
-    cancelPipeline({ pipelineDefinitionID, projectID: +projectId }).then(() => {
-      getPipelineDetail({ pipelineID });
-      setPipelineId(`${pipelineID}`);
-    });
+        });
   };
 
   const nodeClickConfirm = (node: BUILD.PipelineNode) => {
@@ -199,17 +172,15 @@ const Execute = (props: IProps) => {
         const target = node.findInMeta((item: BUILD.MetaData) => item.name === 'runtimeID');
         if (target) {
           getBuildRuntimeDetail({ runtimeId: +target.value }).then((result) => {
+            const params = {
+              runtimeId: target.value,
+              appId: result?.extra?.applicationId,
+              workspace: result?.extra?.workspace,
+            };
             !isEmpty(result) &&
-              goTo(
-                goTo.resolve.projectDeployRuntime({
-                  runtimeId: target.value,
-                  appId: result.extra?.applicationId,
-                  workspace: result.extra?.workspace,
-                }),
-                {
-                  jumpOut: true,
-                },
-              );
+              goTo(isInApp ? goTo.resolve.appDeployRuntime(params) : goTo.resolve.projectDeployRuntime(params), {
+                jumpOut: true,
+              });
           });
         }
         break;
@@ -325,12 +296,8 @@ const Execute = (props: IProps) => {
     }
   };
 
-  const hideLog = () => {
-    updater.logVisible(false);
-  };
-
   const refreshPipeline = () => {
-    getPipelineDetail({ pipelineID: +state.chosenPipelineId });
+    getPipelineDetail({ pipelineID: +chosenPipelineId });
   };
 
   const updateEnv = (info: Omit<BUILD.ITaskUpdatePayload, 'pipelineID'>) => {
@@ -339,8 +306,28 @@ const Execute = (props: IProps) => {
     });
   };
 
-  const renderRunBtn = () => {
-    return renderOnceRunBtn({ execTitle: i18n.t('Execute') });
+  const hideLog = () => {
+    updater.logVisible(false);
+  };
+
+  const cancelBuild = () => {
+    pipelineDefinitionID &&
+      cancelPipeline({ pipelineDefinitionID, projectID: +projectId }).then(() => {
+        getPipelineDetail({ pipelineID });
+        setPipelineId?.(`${pipelineID}`);
+      });
+  };
+
+  const reRunPipeline = (isEntire: boolean) => {
+    updater.rerunStartStatus('pending');
+    const reRunFunc = !isEntire ? rerunFailedPipeline : rerunPipeline;
+    pipelineDefinitionID &&
+      reRunFunc({ pipelineDefinitionID, projectID: +projectId })
+        .then((result) => {
+          result?.data?.pipeline?.id && setPipelineId?.(result.data.pipeline.id);
+          updater.rerunStartStatus('start');
+        })
+        .catch(() => updater.rerunStartStatus('unstart'));
   };
 
   const renderReRunMenu = () => {
@@ -465,32 +452,13 @@ const Execute = (props: IProps) => {
   };
 
   const { showMessage } = extra;
+  if (!pipelineDetail) {
+    return <EmptyHolder relative style={{ justifyContent: 'start' }} />;
+  }
 
   return (
-    <div className="pipeline-execute">
-      {fileChanged ? (
-        <ErdaAlert
-          message={
-            <div>
-              {`${i18n.t('dop:pipeline-changed-tip2')} `}
-              <span className="text-purple-deep cursor-pointer" onClick={switchToEditor}>
-                {i18n.t('dop:edit to check')}
-              </span>
-            </div>
-          }
-          closeable={false}
-        />
-      ) : null}
-      <Info
-        info={pipelineFileDetail}
-        className="mb-2"
-        operations={
-          <div className="flex-h-center">
-            {renderRunBtn()}
-            {extraTitle}
-          </div>
-        }
-      />
+    <>
+      {InfoComp?.(renderOnceRunBtn({ execTitle: i18n.t('Execute') }))}
       <Spin spinning={getPipelineDetailLoading || addPipelineLoading}>
         <div>
           {needApproval ? (
@@ -523,17 +491,19 @@ const Execute = (props: IProps) => {
               </div>
             ) : null}
             <FileContainer
-              className={''}
-              name={`${i18n.t('Pipeline')} (${i18n.t('dop:the latest execution status')})`}
+              className={'pipeline-execute-file-container'}
+              name={title || `${i18n.t('Pipeline')} (${i18n.t('dop:the latest execution status')})`}
               showLoading={false}
               ops={
                 <div>
                   <Button onClick={refreshPipeline} size="small" className="mr-1">
                     {i18n.t('refresh')}
                   </Button>
-                  <Button onClick={editPipeline} size="small">
-                    {i18n.t('Edit')}
-                  </Button>
+                  {editPipeline ? (
+                    <Button onClick={editPipeline} size="small">
+                      {i18n.t('Edit')}
+                    </Button>
+                  ) : null}
                 </div>
               }
             >
@@ -553,6 +523,63 @@ const Execute = (props: IProps) => {
         onExecute={runBuild}
       />
       <BuildLog visible={logVisible} hideLog={hideLog} {...logProps} />
+    </>
+  );
+};
+
+interface IProps {
+  appId: string;
+  projectId: string;
+  pipelineId: string;
+  pipelineDefinitionID?: string;
+  fileChanged?: boolean;
+  deployAuth: { hasAuth: boolean; authTip?: string };
+
+  pipelineFileDetail?: TREE.NODE;
+  extraTitle: React.ReactNode;
+  pipelineDetail?: BUILD.IPipelineDetail;
+  setPipelineId?: (v: string) => void;
+  switchToEditor: () => void;
+  editPipeline?: () => void;
+}
+
+const Execute = (props: IProps) => {
+  const { pipelineId, pipelineFileDetail, switchToEditor, fileChanged = false, extraTitle } = props;
+
+  return (
+    <div className="pipeline-execute">
+      {fileChanged ? (
+        <ErdaAlert
+          message={
+            <div>
+              {`${i18n.t('dop:pipeline-changed-tip2')} `}
+              <span className="text-purple-deep cursor-pointer" onClick={switchToEditor}>
+                {i18n.t('dop:edit to check')}
+              </span>
+            </div>
+          }
+          closeable={false}
+        />
+      ) : null}
+
+      <PureExecute
+        {...props}
+        chosenPipelineId={pipelineId}
+        InfoComp={(extraComp: React.ReactNode) => {
+          return (
+            <Info
+              info={pipelineFileDetail}
+              className="mb-2"
+              operations={
+                <div className="flex-h-center">
+                  {extraComp}
+                  {extraTitle}
+                </div>
+              }
+            />
+          );
+        }}
+      />
     </div>
   );
 };

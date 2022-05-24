@@ -18,7 +18,7 @@ import { Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { secondsToTime } from 'common/utils';
 import { useEffectOnce } from 'react-use';
-import { ciNodeStatusSet, ciStatusMap } from '../config';
+import { ciNodeStatusSet, ciStatusMap } from 'project/common/components/pipeline-new/config';
 import classnames from 'classnames';
 import { approvalStatusMap } from 'application/pages/deploy-list/deploy-list';
 import i18n from 'i18n';

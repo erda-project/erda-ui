@@ -15,17 +15,24 @@ import React from 'react';
 import { Drawer } from 'antd';
 import { updateSearch } from 'common/utils';
 import DiceConfigPage from 'app/config-page';
-import PipelineRunDetail from 'application/pages/pipeline/run-detail';
+import PipelineExcuteDetail from './record-detail';
 import fileTreeStore from 'project/stores/file-tree';
 import routeInfoStore from 'core/stores/route';
 import { getINodeByPipelineId, getPipelineDetail } from 'application/services/build';
 
+interface Detail {
+  pipelineId: string;
+  appId: string;
+  projectId: string;
+}
 const PipelineRecords = () => {
   const [{ projectId, appId: routeAppId }] = routeInfoStore.useStore((s) => [s.params]);
   const { updateTreeNodeDetail } = fileTreeStore;
   const [visible, setVisible] = React.useState(false);
+  const [detailData, setDetail] = React.useState<null | Detail>(null);
 
   const onClose = React.useCallback(() => {
+    setDetail(null);
     setVisible(false);
   }, []);
   return (
@@ -45,6 +52,7 @@ const PipelineRecords = () => {
                 const response = await getPipelineDetail({ pipelineID: +record.id });
                 const appId = response.data.applicationID;
                 inode && updateSearch({ nodeId: inode, applicationId: appId, pipelineID: record.id });
+                setDetail({ pipelineId: record.id, appId, projectId });
                 setVisible(true);
               },
             },
@@ -55,11 +63,13 @@ const PipelineRecords = () => {
           },
         }}
       />
-      <Drawer onClose={onClose} visible={visible} width="80%" destroyOnClose>
-        <div className="p-4 bg-white rounded-xl">
-          <PipelineRunDetail deployAuth={{ hasAuth: false }} isMobileInit={false} />
-        </div>
-      </Drawer>
+      {detailData ? (
+        <Drawer title={null} onClose={onClose} visible={visible} width="80%" destroyOnClose>
+          <div className="bg-white rounded-xl">
+            <PipelineExcuteDetail {...detailData} />
+          </div>
+        </Drawer>
+      ) : null}
     </>
   );
 };

@@ -16,7 +16,7 @@ import { Ellipsis, ErdaIcon, MarkdownRender } from 'common';
 import { Badge, Popover } from 'antd';
 import { goTo } from 'common/utils';
 import { produce } from 'immer';
-import { ciNodeStatusSet, ciStatusMap } from 'application/pages/pipeline/run-detail/config';
+import { ciNodeStatusSet, ciStatusMap } from 'project/common/components/pipeline-new/config';
 import { DevFlowInfo, getPipelineDetail, PipelineInfo } from 'project/services/project-workflow';
 import BaseStep, { IBaseProps } from './base-step';
 import i18n from 'i18n';
