@@ -15,14 +15,16 @@ import React from 'react';
 import { Drawer } from 'antd';
 import { get } from 'lodash';
 import i18n from 'i18n';
+import { Copy, ErdaIcon } from 'common';
 import DiceConfigPage from 'app/config-page';
-import { updateSearch } from 'common/utils';
+import { updateSearch, mergeSearch } from 'common/utils';
+import routeInfoStore from 'core/stores/route';
 import projectStore from 'project/stores/project';
 import { getAllBranch, runPipeline } from 'project/services/pipeline';
 import PipelineDetail from 'project/common/components/pipeline-new/detail';
-import { decode } from 'js-base64';
 import { getTreeNodeDetailNew } from 'project/services/file-tree';
 import InParamsForm from './detail/in-params-form';
+import { encode, decode } from 'js-base64';
 
 interface IProps {
   pipelineCategory: string;
@@ -44,6 +46,34 @@ interface Detail {
   appName: string;
 }
 
+const parseDetailSearch = (v: string) => {
+  if (v) {
+    try {
+      const res = JSON.parse(decode(v));
+      return res;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      return null;
+    }
+  }
+  return null;
+};
+
+const getDetailId = (detail: Obj | null) => {
+  if (detail) {
+    try {
+      const res = encode(JSON.stringify(detail));
+      return res;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      return null;
+    }
+  }
+  return '';
+};
+
 const PipelineProtocol = React.forwardRef(
   (
     { pipelineCategory, updateCategory, onAddPipeline, projectId, appId }: IProps,
@@ -56,9 +86,12 @@ const PipelineProtocol = React.forwardRef(
       pipelineCategoryKey: pipelineCategory === 'all' ? undefined : pipelineCategory,
     };
 
-    const [detailVisible, setDetailVisible] = React.useState(false);
+    const detailId = routeInfoStore.useStore((s) => s.query.detailId);
+    const initDetail = parseDetailSearch(detailId);
+
+    const [detailVisible, setDetailVisible] = React.useState(!!initDetail);
     const [newPipelineUsed, setNewPipelineUsed] = React.useState(false);
-    const [detail, setDetail] = React.useState<Detail | null>(null);
+    const [detail, setDetail] = React.useState<Detail | null>(initDetail);
     const [executeRecordId, setExecuteRecordId] = React.useState('');
 
     const reloadRef = React.useRef<{ reload: () => void }>(null);
@@ -84,6 +117,9 @@ const PipelineProtocol = React.forwardRef(
     };
 
     const onDetailClose = React.useCallback(() => {
+      updateSearch({
+        detailId: undefined,
+      });
       setDetailVisible(false);
       setDetail(null);
       if (newPipelineUsed) {
@@ -91,6 +127,8 @@ const PipelineProtocol = React.forwardRef(
         setNewPipelineUsed(false);
       }
     }, [newPipelineUsed]);
+
+    const shareLink = `${location.href.split('?')[0]}?${mergeSearch({ detailId: getDetailId(detail) }, true)}`;
 
     return (
       <>
@@ -241,9 +279,31 @@ const PipelineProtocol = React.forwardRef(
         />
 
         <Drawer
-          title={`${i18n.t('Pipeline')} ${detail?.pipelineName || ''}`}
+          title={
+            <div className="flex justify-between items-center">
+              <span>
+                {i18n.t('Pipeline')} {detail?.pipelineName || ''}
+              </span>
+              <div>
+                <Copy selector=".copy-share-link" tipName={i18n.t('dop:link-share')} />
+                <ErdaIcon
+                  type="lianjie"
+                  className="cursor-copy hover-active copy-share-link ml-4 text-default-6"
+                  size="20"
+                  data-clipboard-text={shareLink}
+                />
+                <ErdaIcon
+                  type="guanbi"
+                  className="ml-4 hover-active text-default-6"
+                  size="20"
+                  onClick={onDetailClose}
+                />
+              </div>
+            </div>
+          }
           onClose={onDetailClose}
           visible={detailVisible}
+          closable={false}
           width="80%"
           destroyOnClose
         >
