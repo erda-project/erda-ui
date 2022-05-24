@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { MetricsMonitor, Holder } from 'common';
+import { Holder, MetricsMonitor } from 'common';
 import routeInfoStore from 'core/stores/route';
 import middlewareDashboardStore from '../../stores/middleware-dashboard';
 
@@ -25,6 +25,9 @@ const Monitor = () => {
     if (params.instanceId) {
       getBaseInfo(params.instanceId);
     }
+    return () => {
+      middlewareDashboardStore.reducers.clearBaseInfo();
+    };
   }, [getBaseInfo, params.instanceId]);
 
   return (
