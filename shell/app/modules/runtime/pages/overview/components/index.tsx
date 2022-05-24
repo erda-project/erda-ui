@@ -196,7 +196,16 @@ const RuntimeOverView = () => {
     <div className="runtime-overview">
       <Info />
       <Row gutter={20} style={{ margin: 'unset' }}>
-        <Col span={proportion[0]} style={{ paddingLeft: 'unset' }}>
+        <Col
+          span={proportion[0]}
+          style={{
+            paddingLeft: 'unset',
+            ...(proportion[1] === 0 && !Object.keys(endpoints).length && !addons.length
+              ? { paddingRight: '50px', paddingTop: '10px' }
+              : {}),
+            ...(!Object.keys(endpoints).length && !addons.length ? { paddingTop: '4px' } : {}),
+          }}
+        >
           <ErrorBoundary>
             <IF check={!isEmpty(endpoints)}>
               <div className="overview-body-block">
