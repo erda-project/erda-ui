@@ -257,6 +257,7 @@ const IssueMetaFields = React.forwardRef(
 
     const [bugStageList, taskTypeList] = issueFieldStore.useStore((s) => [s.bugStageList, s.taskTypeList]);
     const [optionList, setOptionList] = React.useState(labels);
+
     const stageOptions = React.useMemo(() => {
       return map(bugStageList, ({ name, id, value }) => (
         <Option key={id} value={value}>
@@ -769,7 +770,7 @@ const IssueMetaFields = React.forwardRef(
           },
           onDropdownVisibleChange: (visible: boolean) => {
             if (visible) {
-              getLabels({ type: 'issue', projectID: Number(projectId) });
+              !optionList.length && getLabels({ type: 'issue', projectID: Number(projectId) });
             }
           },
         },
