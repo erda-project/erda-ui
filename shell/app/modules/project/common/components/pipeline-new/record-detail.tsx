@@ -151,7 +151,7 @@ const Execute = (props: IProps) => {
     <div>
       <div className="text-base font-medium text-default-8">{`${i18n.t('dop:Pipeline Detail')}`}</div>
       <Info appId={appId} />
-      <PureExecute title={' '} {...props} deployAuth={{ hasAuth: false }} chosenPipelineId={pipelineId} />
+      <PureExecute {...props} deployAuth={{ hasAuth: false }} chosenPipelineId={pipelineId} />
     </div>
   );
 };

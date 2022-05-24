@@ -492,7 +492,7 @@ export const PureExecute = (props: PureExecuteProps) => {
             ) : null}
             <FileContainer
               className={'pipeline-execute-file-container'}
-              name={title || `${i18n.t('Pipeline')} (${i18n.t('dop:the latest execution status')})`}
+              name={title}
               showLoading={false}
               ops={
                 <div>
@@ -565,6 +565,7 @@ const Execute = (props: IProps) => {
       <PureExecute
         {...props}
         chosenPipelineId={pipelineId}
+        title={`${i18n.t('Pipeline')} (${i18n.t('dop:the latest execution status')})`}
         InfoComp={(extraComp: React.ReactNode) => {
           return (
             <Info
