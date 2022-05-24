@@ -29,7 +29,6 @@ import issueStore from 'project/stores/issues';
 import routeInfoStore from 'core/stores/route';
 import iterationStore from 'app/modules/project/stores/iteration';
 import IssueState from 'project/common/components/issue/issue-state';
-import { useMount } from 'react-use';
 import IterationSelect from '../iteration-select';
 import { TimeInput } from '../time-input';
 import { NumberFieldInput, TextFieldInput } from '../text-field-input';
@@ -296,7 +295,7 @@ const IssueMetaFields = React.forwardRef(
       }
     }, [ref, customFieldDetail]);
 
-    useMount(() => {
+    React.useEffect(() => {
       if (issueType === 'BUG' || issueType === 'TASK') {
         issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType });
       }
@@ -308,7 +307,7 @@ const IssueMetaFields = React.forwardRef(
           withoutIssueSummary: true,
         });
       }
-    });
+    }, [issueType]);
 
     React.useEffect(() => {
       setOptionList(labels);
