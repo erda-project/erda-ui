@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import { Popover } from 'antd';
 import { ErdaIcon } from 'common';
 import './base-step.scss';
 
@@ -25,7 +26,7 @@ const BaseStep: React.FC<{
   extra?: React.ReactNode;
 }> = ({ className, title, children, extra }) => {
   return (
-    <div className={`workflow-step bg-white rounded-sm w-[280px] shadow-card flex-shrink-0 mx-2 ${className}`}>
+    <div className={`workflow-step bg-white rounded-sm w-[280px] shadow-card flex-shrink-0 ${className}`}>
       <div className="px-2 rounded-t-sm bg-default-02 h-8 flex items-center justify-between mb-0">
         <span className="font-medium">{title}</span>
         <div>{extra}</div>
@@ -38,16 +39,20 @@ const BaseStep: React.FC<{
 export const BaseStepSimple: React.FC<{
   icon: 'code' | 'pipeline' | 'hebingbian';
   iconClassName?: string;
-}> = ({ icon, children, iconClassName }) => {
+  popoverContent?: React.ReactNode;
+}> = ({ icon, children, iconClassName, popoverContent }) => {
+  const Wrapper = popoverContent ? Popover : React.Fragment;
   return (
-    <div className="workflow-step-simple relative mx-2">
-      <div className="flex justify-start items-center h-full w-full">
-        <div className="mx-2 flex justify-start items-center text-default-6">
-          <ErdaIcon type={icon} className={iconClassName} size={20} />
+    <Wrapper content={popoverContent}>
+      <div className="workflow-step-simple relative mx-2">
+        <div className="flex justify-start items-center h-full w-full">
+          <div className="mx-2 flex justify-start items-center text-default-6">
+            <ErdaIcon type={icon} className={iconClassName} size={20} />
+          </div>
+          <div>{children}</div>
         </div>
-        <div>{children}</div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

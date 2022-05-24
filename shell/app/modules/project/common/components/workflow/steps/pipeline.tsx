@@ -113,11 +113,14 @@ export const SimplePipeline: React.FC<IProps> = ({ pipelineInfo, projectID, data
   });
   const list = pipelineInfo.slice(0, 1);
   return (
-    <BaseStepSimple icon="pipeline">
+    <BaseStepSimple
+      icon="pipeline"
+      popoverContent={<Pipeline pipelineInfo={pipelineInfo} data={data} projectID={projectID} />}
+    >
       {list.length ? (
         <PipeLineList pipelineInfo={pipelineInfo.slice(0, 1)} url={url} />
       ) : (
-        <span>{i18n.t('common:No data')}</span>
+        <span>{i18n.t('dop:No pipeline trigger')}</span>
       )}
     </BaseStepSimple>
   );
