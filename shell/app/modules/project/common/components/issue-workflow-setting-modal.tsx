@@ -275,7 +275,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                   <div className="form-content-right flex justify-between items-center">
                     {map(relations, ({ isRelated, name }, relationIndex) => {
                       return (
-                        <div className={`state-radio-group ${flexWidthClass}`}>
+                        <div key={name} className={`state-radio-group ${flexWidthClass}`}>
                           <div className={'state-td state-radio-btn mx-0 my-0'} key={name}>
                             <WithAuth pass={hasAuth}>
                               <CustomIcon

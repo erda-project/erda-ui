@@ -61,6 +61,7 @@ const ISSUE_ICON = {
     TASK: <ErdaIcon type="renwu" size="20px" />,
     BUG: <ErdaIcon type="quexian" size="20px" />,
     EPIC: <ErdaIcon type="lichengbei" size="20px" />,
+    TICKET: <ErdaIcon type="gongdan" size="20px" />,
   },
   severity: {
     // 严重程度icon（bug）

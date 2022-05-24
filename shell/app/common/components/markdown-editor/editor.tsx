@@ -89,7 +89,6 @@ const Editor = React.forwardRef((props: IProps, ref) => {
         'full-screen',
       ]}
       config={config}
-      htmlClass="md-content"
       renderHTML={(text: string) => <MarkdownRender value={text} />}
       onImageUpload={onImageUpload}
       imageAccept=".jpg, .jpeg, .png, .gif"

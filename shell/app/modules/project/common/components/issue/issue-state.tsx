@@ -49,9 +49,6 @@ export const issueMainStateMap = {
     RESOLVED: { stateName: i18n.t('dop:resolved'), status: BadgeStatus.success },
     CLOSED: { stateName: i18n.t('Closed'), status: BadgeStatus.success },
   },
-};
-
-export const ticketMainStateMap = {
   TICKET: {
     OPEN: { stateName: i18n.t('dop:pending'), status: BadgeStatus.warning },
     WORKING: { stateName: i18n.t('In Progress'), status: BadgeStatus.processing },
@@ -68,8 +65,7 @@ const IssueState = (props: IProps) => {
   const curState = workflowStateList.find((item) => item.stateID === stateID);
   let curStatus = status || BadgeStatus.default;
   let curName = stateName;
-  const totalMainStateMap = { ...issueMainStateMap, ...ticketMainStateMap };
-  const stateObj = curState && totalMainStateMap[curState.issueType]?.[curState.stateBelong];
+  const stateObj = curState && issueMainStateMap[curState.issueType]?.[curState.stateBelong];
   if (stateObj) {
     curStatus = stateObj.status;
     curName = curState?.stateName;

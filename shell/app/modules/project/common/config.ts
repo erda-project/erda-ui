@@ -136,14 +136,13 @@ export const WORKFLOW_TASK = ['Code review', 'Temp merge', 'Pipeline', 'Artifact
 
 export enum FlowType {
   SINGLE_BRANCH = 'single_branch',
-  TWO_BRANCH = 'two_branch',
-  THREE_BRANCH = 'three_branch',
+  MULTI_BRANCH = 'multi_branch',
 }
 
 export const FLOW_TYPE = {
   [FlowType.SINGLE_BRANCH]: i18n.t('single branch'),
-  [FlowType.TWO_BRANCH]: i18n.t('double branch'),
-  [FlowType.THREE_BRANCH]: i18n.t('multi branch'),
+  // [FlowType.TWO_BRANCH]: i18n.t('double branch'),
+  [FlowType.MULTI_BRANCH]: i18n.t('multi branch'),
 };
 export const FLOW_STATUS_MAP = {
   none: {
@@ -185,4 +184,16 @@ export const branchNameValidator = (val = '', multi = true) => {
     }
   });
   return [pass, tip];
+};
+
+export const branchNameWithoutWildcard = (val = '', multi = true) => {
+  const valArr = val.split(',');
+  const reg = /^[a-zA-Z_]+[\\/\\.\\$@#a-zA-Z0-9_-]*$/;
+  if (!multi && valArr.length > 1) {
+    return [false, i18n.t('start with letters and can contain characters that are not wildcard')];
+  }
+  return [
+    valArr.every((item) => reg.test(item)),
+    i18n.t('separated by comma, start with letters and can contain characters that are not wildcard'),
+  ];
 };

@@ -182,4 +182,10 @@
     background-color: rgba($white, 0.08);
     color: $white;
   }
+
+  .ant-dropdown-menu-title-content {
+    .disabled {
+      color: rgba($white, 0.6) !important;
+    }
+  }
 }

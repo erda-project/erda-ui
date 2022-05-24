@@ -61,7 +61,7 @@ const DomainManage = () => {
   useMount(() => {
     const userOrgId = orgStore.getState((s) => s.currentOrg.id);
     getClusterList.fetch({ orgID: userOrgId });
-    getList(filterData);
+    getList({ ...filterData, pageNo: domainPaging.pageNo, pageSize: domainPaging.pageSize });
   });
 
   const chosenItemConvert = React.useCallback((selectItem: { value: number; label: string }) => {

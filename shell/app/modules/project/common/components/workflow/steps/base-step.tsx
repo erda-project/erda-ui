@@ -12,6 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import { ErdaIcon } from 'common';
+import './base-step.scss';
 
 export interface IBaseProps {
   enable?: boolean;
@@ -26,12 +28,25 @@ const BaseStep: React.FC<{
     <div className={`workflow-step bg-white rounded-sm w-[280px] shadow-card flex-shrink-0 mx-2 ${className}`}>
       <div className="px-2 rounded-t-sm bg-default-02 h-8 flex items-center justify-between mb-0">
         <span className="font-medium">{title}</span>
-        <div>
-          {extra}
-          <span className="ml-2 px-2 rounded-full text-xs text-danger border border-danger border-solid">beta</span>
-        </div>
+        <div>{extra}</div>
       </div>
       <div className="p-2">{children}</div>
+    </div>
+  );
+};
+
+export const BaseStepSimple: React.FC<{
+  icon: 'code' | 'pipeline' | 'hebingbian';
+  iconClassName?: string;
+}> = ({ icon, children, iconClassName }) => {
+  return (
+    <div className="workflow-step-simple relative mx-2">
+      <div className="flex justify-start items-center h-full w-full">
+        <div className="mx-2 flex justify-start items-center text-default-6">
+          <ErdaIcon type={icon} className={iconClassName} size={20} />
+        </div>
+        <div>{children}</div>
+      </div>
     </div>
   );
 };
