@@ -13,11 +13,11 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Switch, Alert, Row, Col, Spin, Modal } from 'antd';
+import { Switch, Row, Col, Spin, Modal, Tooltip } from 'antd';
 import { useLoading } from 'core/stores/loading';
 import orgStore from 'app/org-home/stores/org';
+import { ErdaIcon } from 'common';
 import { get } from 'lodash';
-import { Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 
 enum Environment {
@@ -27,11 +27,20 @@ enum Environment {
   PROD = 'blockProd',
 }
 
+const label = (v: string) => (
+  <div className="flex-h-center">
+    <span className="mr-1">{v}</span>
+    <Tooltip title={i18n.t('coming soon')}>
+      <ErdaIcon className="cursor-pointer" type="help" />
+    </Tooltip>
+  </div>
+);
+
 const metaData = [
-  { label: i18n.t('Development'), value: Environment.DEV, disabled: true },
-  { label: i18n.t('Testing-env'), value: Environment.TEST, disabled: true },
-  { label: i18n.t('Staging-env'), value: Environment.STAGING, disabled: true },
-  { label: i18n.t('Production-env'), value: Environment.PROD, disabled: false },
+  { label: label(i18n.t('Development')), value: Environment.DEV, disabled: true },
+  { label: label(i18n.t('Testing-env')), value: Environment.TEST, disabled: true },
+  { label: label(i18n.t('Staging-env')), value: Environment.STAGING, disabled: true },
+  { label: `${i18n.t('Production-env')} `, value: Environment.PROD, disabled: false },
 ];
 
 const BlockNetwork = () => {
