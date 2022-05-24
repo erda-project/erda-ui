@@ -41,6 +41,7 @@ const AddFlow: React.FC<IProps> = ({ onAdd, type, metaData = {} }) => {
   const allBranch = getBranches.useData();
   const { id: projectId, name: projectName } = projectStore.useStore((s) => s.info);
   const [visible, setVisible] = React.useState(false);
+  const [flowName, setFlowName] = React.useState('');
   const apps = getJoinedApps.useData();
   const metaWorkflow = queryWorkflow.useData();
   const workflow = metaWorkflow?.flows ?? [];
@@ -48,13 +49,20 @@ const AddFlow: React.FC<IProps> = ({ onAdd, type, metaData = {} }) => {
   const { iteration, issue } = metaData;
 
   React.useEffect(() => {
-    getJoinedApps.fetch({
-      projectId,
-      pageNo: 1,
-      pageSize: 200,
-    });
-    queryWorkflow.fetch({ projectID: projectId });
+    if (projectId) {
+      getJoinedApps.fetch({
+        projectId,
+        pageNo: 1,
+        pageSize: 200,
+      });
+      queryWorkflow.fetch({ projectID: projectId });
+    }
   }, [projectId]);
+  React.useEffect(() => {
+    if (!visible) {
+      setFlowName('');
+    }
+  }, [visible]);
   const content = React.useMemo(() => {
     const handleCancel = () => {
       setVisible(false);
@@ -69,7 +77,37 @@ const AddFlow: React.FC<IProps> = ({ onAdd, type, metaData = {} }) => {
       handleCancel();
       onAdd();
     };
+
+    const getBranchInfo = (flowName: string) => {
+      const flow = branches.find((item) => item.name === flowName)!;
+      let sourceBranch;
+      if (flow && flow.flowType !== FlowType.SINGLE_BRANCH) {
+        const { changeBranchRule } = flow.startWorkflowHints.find((t) => t.place === type)!;
+        sourceBranch = changeBranchRule.replace('*', issue.id);
+      }
+      return {
+        targetBranch: flow.targetBranch,
+        sourceBranch,
+      };
+    };
+
     const list = [
+      {
+        label: i18n.t('dop:R&D Workflow'),
+        type: 'select',
+        name: 'flowName',
+        options: branches?.map((branch) => ({ name: branch.name, value: branch.name })),
+        itemProps: {
+          onChange: (v: string) => {
+            setFlowName(v);
+            if (form.getFieldValue('appID')) {
+              const result = getBranchInfo(v);
+              form.setFieldsValue(result);
+              form.validateFields(['targetBranch']);
+            }
+          },
+        },
+      },
       {
         label: i18n.t('App'),
         type: 'select',
@@ -81,11 +119,16 @@ const AddFlow: React.FC<IProps> = ({ onAdd, type, metaData = {} }) => {
           showSearch: true,
           onChange: (v: number) => {
             const { name } = apps?.list?.find((item) => item.id === v)!;
-            getBranches.fetch({
-              projectName,
-              appName: name,
-            });
-            form.setFieldsValue({ sourceBranch: undefined, targetBranch: undefined });
+            const result = getBranchInfo(form.getFieldValue('flowName'));
+            form.setFieldsValue(result);
+            getBranches
+              .fetch({
+                projectName,
+                appName: name,
+              })
+              .then(() => {
+                form.validateFields(['targetBranch']);
+              });
           },
         },
       },
@@ -93,15 +136,14 @@ const AddFlow: React.FC<IProps> = ({ onAdd, type, metaData = {} }) => {
         label: i18n.t('dop:target branch'),
         type: 'select',
         name: 'targetBranch',
-        options: branches?.map((branch) => ({ name: branch.targetBranch, value: branch.targetBranch })),
+        options: branches
+          ?.filter((item) => item.name === flowName)
+          .map((branch) => ({ name: branch.targetBranch, value: branch.targetBranch })),
         itemProps: {
           onChange: (v: string) => {
-            const hintItem = branches.find((item) => item.targetBranch === v);
-            if (hintItem && hintItem.flowType !== FlowType.SINGLE_BRANCH) {
-              const { changeBranchRule } = hintItem.startWorkflowHints.find((t) => t.place === type)!;
-              const branch = changeBranchRule.replace('*', issue.id);
-              form.setFieldsValue({ sourceBranch: branch });
-            }
+            const { name } = branches.find((item) => item.targetBranch === v)!;
+            const { sourceBranch } = getBranchInfo(name);
+            form.setFieldsValue({ sourceBranch });
           },
         },
         rules: [
