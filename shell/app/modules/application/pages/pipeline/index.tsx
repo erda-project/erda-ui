@@ -17,18 +17,19 @@ import { goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import Pipeline from 'project/common/components/pipeline-new';
 import PipelineRecords from 'project/common/components/pipeline-new/records';
+import i18n from 'i18n';
 
 const AppPipeline = () => {
   const { pipelineTab, appId, projectId } = routeInfoStore.useStore((s) => s.params);
   const tabs = [
     {
-      label: '流水线列表',
+      label: i18n.t('dop:Pipeline List'),
       value: 'list',
       href: goTo.resolve.pipelineRoot({ projectId, appId }),
       Comp: <Pipeline />,
     },
     {
-      label: '执行记录',
+      label: i18n.t('dop:Execution Records'),
       value: 'records',
       href: goTo.resolve.appPipelineRecords({ projectId, appId }),
       Comp: <PipelineRecords />,

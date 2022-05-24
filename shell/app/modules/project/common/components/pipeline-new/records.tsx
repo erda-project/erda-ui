@@ -63,13 +63,9 @@ const PipelineRecords = () => {
           },
         }}
       />
-      {detailData ? (
-        <Drawer title={null} onClose={onClose} visible={visible} width="80%" destroyOnClose>
-          <div className="bg-white rounded-xl">
-            <PipelineExcuteDetail {...detailData} />
-          </div>
-        </Drawer>
-      ) : null}
+      <Drawer title={null} onClose={onClose} visible={visible} width="80%" destroyOnClose>
+        <div className="bg-white rounded-xl">{detailData ? <PipelineExcuteDetail {...detailData} /> : null}</div>
+      </Drawer>
     </>
   );
 };
