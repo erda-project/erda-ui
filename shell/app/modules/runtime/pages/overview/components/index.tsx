@@ -200,10 +200,11 @@ const RuntimeOverView = () => {
           span={proportion[0]}
           style={{
             paddingLeft: 'unset',
-            ...(proportion[1] === 0 && !Object.keys(endpoints).length && !addons.length
-              ? { paddingRight: '50px', paddingTop: '10px' }
+            ...(!Object.keys(endpoints).length && !addons.length
+              ? proportion[1] === 0
+                ? { paddingRight: '50px', paddingTop: '10px' }
+                : { paddingTop: '4px' }
               : {}),
-            ...(!Object.keys(endpoints).length && !addons.length ? { paddingTop: '4px' } : {}),
           }}
         >
           <ErrorBoundary>
