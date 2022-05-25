@@ -144,6 +144,7 @@ export const EditIssueDrawer = (props: IProps) => {
   issueStore.useStore((s) => [s.bugDetail, s.taskDetail, s.requirementDetail]);
 
   const labels = labelStore.useStore((s) => s.list);
+  const { getLabels } = labelStore.effects;
   const [updateIssueLoading] = useLoading(issueStore, ['updateIssue']);
   const labelNames = map(labels, ({ name }) => name);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -154,6 +155,12 @@ export const EditIssueDrawer = (props: IProps) => {
   const customFieldDetail = issueStore.useStore((s) => s.customFieldDetail);
   const [customFormData, setCustomFormData] = React.useState(customFieldDetail as any);
   const { getFieldsByIssue: getCustomFieldsByProject } = issueFieldStore.effects;
+
+  React.useEffect(() => {
+    if (!labels?.length) {
+      getLabels({ type: 'issue' });
+    }
+  }, [labels, getLabels]);
 
   const savingRef = React.useRef(false);
   const isBacklog = iterationID === -1;
