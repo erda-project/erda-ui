@@ -160,7 +160,7 @@ export const EditIssueDrawer = (props: IProps) => {
     if (!labels?.length) {
       getLabels({ type: 'issue' });
     }
-  }, [labels, getLabels, projectId]);
+  }, [labels, getLabels]);
 
   const savingRef = React.useRef(false);
   const isBacklog = iterationID === -1;
