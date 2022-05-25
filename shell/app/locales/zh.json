@@ -1741,7 +1741,7 @@
     "pinned successfully": "置顶成功",
     "pipeline ID": "流水线ID",
     "pipeline configuration": "流水线配置",
-    "pipeline-changed-tip1": "当前流水线内容已变更，可需要手动切换查看",
+    "pipeline-changed-tip1": "当前流水线内容已变更，可手动切换查看",
     "pipeline-changed-tip2": "当前流水线内容已变更，详情可以",
     "pipeline-changed-tip3": "当前流水线内容未变更，可手动切换查看",
     "pipeline-run-tip": "当前为历史配置，请切换最新配置后再操作",
