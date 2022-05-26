@@ -53,12 +53,12 @@ export interface NavItemProps {
 export const NavItem = ({ icon, label, link, onClick }: NavItemProps) => {
   const content = (
     <div
-      key={label}
+      key={`${label}`}
       className="erda-global-nav-item relative flex-all-center cursor-pointer w-full h-11"
       onClick={onClick}
     >
       {icon}
-      <div className="name px-3 text-white shadow-card-lg rounded-sm">{label}</div>
+      {/* <div className="name px-3 text-white shadow-card-lg rounded-sm">{label}</div> */}
     </div>
   );
   return link ? (

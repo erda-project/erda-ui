@@ -10,10 +10,12 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
-
+import React from 'react';
 import i18n from 'i18next';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import { lowerFirst } from 'lodash';
+import { log } from 'console';
 
 let userLanguage = window.navigator.userLanguage || window.navigator.language;
 userLanguage = userLanguage === 'zh-CN' ? 'zh' : 'en';
@@ -59,6 +61,24 @@ export function getLang() {
 }
 
 i18n.d = (zhWords: string) => zhWords;
+
+const originT = i18n.t;
+i18n.t = (...args) => {
+  const _ret = <span data-key={args[0]}>{originT(...args)}</span>;
+  let ret = {};
+  // 添加 String.prototype 所有属性
+  Object.getOwnPropertyNames(String.prototype).forEach((key) => {
+    if (typeof String.prototype[key] === 'function') {
+      ret[key] = String.prototype[key].bind(originT(...args));
+    } else {
+      ret[key] = String.prototype[key];
+    }
+  });
+
+  ret = { ...ret, ..._ret, _store: undefined };
+  console.log(ret);
+  return ret;
+};
 
 export const initI18n = i18n.init({
   // we init with resources
