@@ -86,7 +86,7 @@ const AddRelease = ({
     },
     market: {
       key: 'market',
-      text: i18n.t('Marketplace'),
+      text: 'Gallery',
       Comp: <MarketRelease {...paging} list={list} getList={getList} onSelect={(v) => setSelectedRelease(v)} />,
     },
   };

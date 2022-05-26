@@ -59,13 +59,18 @@ const Market = () => {
 
   const [setUrlQuery] = useUpdateSearch({
     reload: (v?: Obj) => {
-      setQuery((prev) => ({ ...prev, ...v }));
+      if (v?.type) {
+        const { subType: _subType, ...rest } = v || {};
+        setSubType(_subType);
+        setSearchKey(rest.keyword);
+        setQuery((prev) => ({ ...prev, ...rest }));
+      }
     },
   });
 
   React.useEffect(() => {
-    setUrlQuery(query);
-  }, [query]);
+    setUrlQuery({ ...query, subType });
+  }, [query, subType]);
 
   const debounceChange = React.useCallback(
     debounce((v) => setQuery((prev) => ({ ...prev, keyword: v })), 300),
