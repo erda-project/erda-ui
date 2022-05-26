@@ -12,89 +12,46 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { SplitPage } from 'layout/common';
-import { EmptyHolder } from 'common';
-import PipelineDetail from './pipeline-detail';
+import { RadioTabs } from 'common';
+import { goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
-import fileTreeStore from 'project/stores/file-tree';
-import { scopeConfig } from './scope-config';
-import { updateSearch } from 'common/utils';
-import { getINodeByPipelineId } from 'application/services/build';
-import DiceConfigPage from 'app/config-page';
-import { ActionType } from 'yml-chart/common/pipeline-node-drawer';
-import appStore from 'application/stores/application';
+import Pipeline from 'project/common/components/pipeline-new';
+import PipelineRecords from 'project/common/components/pipeline-new/records';
+import i18n from 'i18n';
 
-interface IProps {
-  scope: string;
-}
+const AppPipeline = () => {
+  const { pipelineTab, appId, projectId } = routeInfoStore.useStore((s) => s.params);
+  const tabs = [
+    {
+      label: i18n.t('dop:Pipeline List'),
+      value: 'list',
+      href: goTo.resolve.pipelineRoot({ projectId, appId }),
+      Comp: <Pipeline />,
+    },
+    {
+      label: i18n.t('dop:Execution Records'),
+      value: 'records',
+      href: goTo.resolve.appPipelineRecords({ projectId, appId }),
+      Comp: <PipelineRecords />,
+    },
+  ];
 
-const PipelineManage = (props: IProps) => {
-  const appDetail = appStore.useStore((s) => s.detail);
-  const curScope = appDetail.isProjectLevel ? ActionType.projectLevelAppPipeline : ActionType.appPipeline;
-  const { scope = curScope } = props;
-  const scopeConfigData = scopeConfig[scope];
-  const { clearTreeNodeDetail } = fileTreeStore;
-  const [{ projectId, appId }, { nodeId, pipelineID }] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const scopeParams = React.useMemo(
-    () => ({ scopeID: projectId, scope: scopeConfigData.scope }),
-    [projectId, scopeConfigData.scope],
-  );
+  const curTab = tabs.find((item) => item.value === pipelineTab);
 
-  const nodeIdRef = React.useRef(null as any);
-
-  React.useEffect(() => {
-    nodeIdRef.current = nodeId;
-  }, [nodeId]);
-
-  if (pipelineID && !nodeId) {
-    getINodeByPipelineId({ pipelineId: pipelineID }).then((res: any) => {
-      const inode = res?.data?.inode;
-      inode && updateSearch({ nodeId: inode });
-    });
-  }
-
-  const inParams = {
-    projectId,
-    appId,
-    ...scopeParams,
-    selectedKeys: nodeId,
-  };
   return (
-    <div className="bg-white py-3 px-4">
-      <SplitPage>
-        <SplitPage.Left className="pipeline-manage-left">
-          {pipelineID && !nodeId ? (
-            <EmptyHolder relative />
-          ) : (
-            <DiceConfigPage
-              scenarioType=""
-              scenarioKey={'app-pipeline-tree'}
-              inParams={inParams}
-              showLoading
-              forceUpdateKey={['inParams']}
-              customProps={{
-                fileTree: {
-                  op: {
-                    onClickNode: (_inode: string) => {
-                      if (nodeIdRef.current !== _inode) {
-                        clearTreeNodeDetail();
-                        setTimeout(() => {
-                          updateSearch({ nodeId: _inode, pipelineID: undefined });
-                        }, 0);
-                      }
-                    },
-                  },
-                },
-              }}
-            />
-          )}
-        </SplitPage.Left>
-        <SplitPage.Right>
-          {nodeId ? <PipelineDetail scopeParams={scopeParams} key={nodeId} scope={scope} /> : <EmptyHolder relative />}
-        </SplitPage.Right>
-      </SplitPage>
+    <div>
+      <RadioTabs
+        options={tabs}
+        className="mb-4"
+        value={pipelineTab}
+        onChange={(v) => {
+          const curHref = tabs.find((item) => item.value === v)?.href;
+          curHref && goTo(curHref);
+        }}
+      />
+      {curTab?.Comp}
     </div>
   );
 };
 
-export default PipelineManage;
+export default AppPipeline;

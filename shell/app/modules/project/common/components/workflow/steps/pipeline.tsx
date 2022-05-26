@@ -15,7 +15,7 @@ import React from 'react';
 import { Ellipsis, MarkdownRender } from 'common';
 import { Badge, Popover } from 'antd';
 import { goTo } from 'common/utils';
-import { ciStatusMap } from 'application/pages/pipeline/run-detail/config';
+import { ciStatusMap } from 'project/common/components/pipeline-new/config';
 import { DevFlowInfo, PipelineInfo } from 'project/services/project-workflow';
 import BaseStep, { BaseStepSimple, IBaseProps } from './base-step';
 import i18n from 'i18n';

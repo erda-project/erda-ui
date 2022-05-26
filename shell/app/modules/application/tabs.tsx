@@ -80,8 +80,9 @@ export const APP_TABS = () => {
 
   const pipeline = {
     show: perm.pipeline.read.pass,
-    key: 'pipeline',
+    key: 'pipeline/list',
     name: i18n.t('Pipeline'),
+    isActive: (activeKey: string) => activeKey.split('/')[0] === 'pipeline',
   };
   const dataTask = {
     show: perm.dataTask.read.pass,

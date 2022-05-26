@@ -14,7 +14,7 @@
 /* eslint-disable no-param-reassign */
 import { createStore } from 'core/cube';
 import { getDefaultPaging } from 'common/utils';
-import { ciNodeStatusSet } from 'application/pages/pipeline/run-detail/config';
+import { ciNodeStatusSet } from 'project/common/components/pipeline-new/config';
 import {
   getRuntimeDetail,
   getPipelineDetail,

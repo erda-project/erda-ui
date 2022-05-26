@@ -19,7 +19,7 @@ import Editor from './editor';
 import { Tooltip } from 'antd';
 import Execute from './execute';
 import { useLoading } from 'core/stores/loading';
-import { getBranchPath } from 'application/pages/pipeline/config';
+import { getBranchPath, getIsInApp } from '../config';
 import repoStore from 'application/stores/repo';
 import { EmptyHolder, ErdaIcon } from 'common';
 import { goTo } from 'app/common/utils';
@@ -147,18 +147,24 @@ const Pipeline = (props: IProps) => {
     setMode(DetailMode.edit);
   };
 
+  const isInApp = getIsInApp();
   const extraTitle = (
     <Tooltip title={i18n.t('dop:check execution history')}>
       <ErdaIcon
         onClick={() => {
-          goTo(goTo.pages.projectPipelineRecords, {
+          const params = {
             projectId,
             query: {
               // fix with base64 RFC 4648
               customFilter__urlQuery: encode(`{"title":"${pipelineName}"}`).replaceAll('/', '_').replaceAll('+', '-'),
             },
             jumpOut: true,
-          });
+          };
+          if (isInApp) {
+            goTo(goTo.pages.appPipelineRecords, { ...params, appId });
+          } else {
+            goTo(goTo.pages.projectPipelineRecords, params);
+          }
         }}
         fill="black-4"
         size="18"
@@ -182,6 +188,7 @@ const Pipeline = (props: IProps) => {
       }}
       extraTitle={extraTitle}
       editAuth={editAuth.hasAuth}
+      pipelineDetail={pipelineDetail}
       pipelineDefinitionID={pipelineDefinitionID}
       deployAuth={deployAuth.hasAuth}
       pipelineFileDetail={nodeDetail}

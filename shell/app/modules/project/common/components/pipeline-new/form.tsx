@@ -285,7 +285,7 @@ const PipelineForm = ({ onCancel, pipelineCategory, onOk, data: editData, fixedA
                 <ErdaIcon type="yingyongmingcheng" size={20} className="text-default-4 mr-1" />
                 {i18n.t('App')}
               </div>
-              <div className="flex-1 pr-6">
+              <div className="flex-1 pr-6 mb-3">
                 {fixedApp ? (
                   appDetail?.displayName || appDetail?.name
                 ) : (

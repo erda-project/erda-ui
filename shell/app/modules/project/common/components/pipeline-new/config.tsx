@@ -11,7 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
+import { compact, isEmpty, get } from 'lodash';
 
 export const ciStatusMap = {
   Initializing: {
@@ -211,4 +213,27 @@ export const ciNodeStatusSet = {
     'LostConn',
     'CancelByRemote',
   ],
+};
+
+// 根据inode的得到branch、path
+export const getBranchPath = (node?: TREE.NODE, appId?: string) => {
+  if (!node || isEmpty(node)) return { branch: '', pagingYmlNames: [], env: '' };
+  const gittarYmlPath = get(node, 'meta.snippetAction.snippet_config.labels.gittarYmlPath');
+  const snippetConfigName = get(node, 'meta.snippetAction.snippet_config.name') || '';
+  const ymlPathStrArr: string[] = compact((gittarYmlPath.replace(snippetConfigName, '') || '').split('/'));
+  let pagingYmlNames = [] as string[];
+  let branch = '';
+  let env = '';
+  if (ymlPathStrArr.length) {
+    pagingYmlNames = [`${appId}/${gittarYmlPath.split('/').slice(1).join('/')}`, snippetConfigName];
+    branch = ymlPathStrArr.slice(2).join('/');
+    env = ymlPathStrArr[1];
+  }
+  const path = snippetConfigName.startsWith('/') ? snippetConfigName.replace('/', '') : snippetConfigName;
+  return { branch, path, pagingYmlNames, env };
+};
+
+export const getIsInApp = () => {
+  const appId = routeInfoStore.getState((s) => s.params.appId);
+  return !!appId;
 };
