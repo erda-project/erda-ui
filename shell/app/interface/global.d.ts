@@ -358,7 +358,7 @@ type ROUTE_MARK =
   | 'ecp'
   | 'testCase'
   | 'testPlan'
-  | 'marketplace';
+  | 'gallery';
 
 type ROUTE_TO_MARK = 'orgIndex' | 'mspDetail';
 interface ROUTE_TABS {

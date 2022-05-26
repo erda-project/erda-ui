@@ -126,8 +126,8 @@ const layout = createStore({
         switchToApp('apiManage');
       } else if (isIn('fdp')) {
         switchToApp('fdp');
-      } else if (isIn('marketplace')) {
-        switchToApp('marketplace');
+      } else if (isIn('gallery')) {
+        switchToApp('gallery');
       } else {
         switchToApp('');
       }

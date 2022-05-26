@@ -55,3 +55,17 @@
     }
   }
 }
+
+.common-simple-tabs-menu {
+  .ant-dropdown-menu-item {
+    cursor: default;
+    padding: 8px;
+    &:hover {
+      background-color: unset;
+    }
+  }
+  .common-simple-tabs-dropdown {
+    max-height: 50vh;
+    overflow: auto;
+  }
+}

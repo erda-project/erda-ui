@@ -84,11 +84,11 @@ const AddRelease = ({
         />
       ),
     },
-    // market: {
-    //   key: 'market',
-    //   text: i18n.t('Marketplace'),
-    //   Comp: <MarketRelease {...paging} list={list} getList={getList} onSelect={(v) => setSelectedRelease(v)} />,
-    // },
+    market: {
+      key: 'market',
+      text: i18n.t('Marketplace'),
+      Comp: <MarketRelease {...paging} list={list} getList={getList} onSelect={(v) => setSelectedRelease(v)} />,
+    },
   };
   const overlay = (
     <Menu className="project-deploy-add-release">

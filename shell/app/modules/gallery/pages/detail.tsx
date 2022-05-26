@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { getServiceDetail } from 'marketplace/services';
+import { getServiceDetail } from 'gallery/services';
 import routeInfoStore from 'core/stores/route';
 import { ErdaIcon, MarkdownRender, Ellipsis, TextBlockInfo, TagsRow } from 'common';
 import defaultMarketServiceSvg from 'app/images/default-market-service.svg';
@@ -23,7 +23,8 @@ import i18n from 'i18n';
 import './detail.scss';
 
 const Detail = () => {
-  const { id, type } = routeInfoStore.useStore((s) => s.params);
+  const [{ id, type }, markedRoutePreview] = routeInfoStore.useStore((s) => [s.params, s.markedRoutePreview]);
+
   const [data] = getServiceDetail.useState();
   const [curVersion, setCurVersion] = React.useState<MARKET.Version | null>(null);
 
@@ -109,11 +110,15 @@ const Detail = () => {
       : [() => {}, 'cursor-not-allowed	'];
 
   return (
-    <div className="bg-white py-3 px-4 h-full marketplace-detail overflow-auto flex flex-col">
+    <div className="bg-white py-3 px-4 h-full gallery-detail overflow-auto flex flex-col">
       <div
         className="flex-h-center"
         onClick={() => {
-          goTo(goTo.pages.marketplaceRoot, { type });
+          if (markedRoutePreview.gallery) {
+            window.history.back();
+          } else {
+            goTo(goTo.pages.galleryRoot);
+          }
         }}
       >
         <ErdaIcon type="arrow-left" size="20" className="cursor-pointer text-gray mr-1" />
@@ -138,7 +143,7 @@ const Detail = () => {
                   icon={<ErdaIcon type="caret-down" className="opacity-40 hover:opacity-100 mt-0.5" />}
                   type="primary"
                   size="small"
-                  className="marketplace-detail-download mt-2"
+                  className="gallery-detail-download mt-2"
                   overlay={menu}
                   placement={'bottomRight'}
                 >

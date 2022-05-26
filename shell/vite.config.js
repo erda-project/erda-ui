@@ -71,7 +71,7 @@ export default ({ command, mode }) => {
     { find: 'addonPlatform', replacement: path.resolve(__dirname, './app/modules/addonPlatform') },
     { find: 'msp', replacement: path.resolve(__dirname, './app/modules/msp') },
     { find: 'apiManagePlatform', replacement: path.resolve(__dirname, './app/modules/apiManagePlatform') },
-    { find: 'marketplace', replacement: path.resolve(__dirname, './app/modules/marketplace') },
+    { find: 'gallery', replacement: path.resolve(__dirname, './app/modules/gallery') },
     { find: 'agent', replacement: path.resolve(__dirname, './app/agent.js') },
     { find: 'i18n', replacement: path.resolve(__dirname, './app/i18n.ts') },
     { find: 'monitor-overview', replacement: path.resolve(__dirname, './app/modules/msp/monitor/monitor-overview') },
