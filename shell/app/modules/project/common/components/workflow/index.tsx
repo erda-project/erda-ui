@@ -15,7 +15,7 @@ import React from 'react';
 import { DevFlowInfo, DevFlowInfos, getPipelineDetail, PipelineInfo } from 'project/services/project-workflow';
 import Steps, { CodeSimple, SimplePipeline, TempMergeSimple } from './steps';
 import i18n from 'i18n';
-import { ciNodeStatusSet } from 'application/pages/pipeline/run-detail/config';
+import { ciNodeStatusSet } from 'project/common/components/pipeline-new/config';
 import { produce } from 'immer';
 
 export interface IProps {
