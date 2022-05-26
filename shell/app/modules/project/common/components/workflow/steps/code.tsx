@@ -53,7 +53,7 @@ const Code = ({ data }: IProps) => {
 export const CodeSimple: React.FC<IProps> = ({ data }) => {
   const { devFlowNode } = data;
   return (
-    <BaseStepSimple icon="code">
+    <BaseStepSimple icon="code" popoverContent={<Code data={data} />}>
       <div>
         <div>
           {i18n.t('App')}: {devFlowNode.appName}

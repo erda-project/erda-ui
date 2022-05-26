@@ -14,7 +14,7 @@
 import React from 'react';
 
 const Steps: React.FC = ({ children }) => {
-  return <div className="flex mb-2 overflow-x-auto py-2">{children}</div>;
+  return <div className="flex overflow-x-auto py-1">{children}</div>;
 };
 
 export { default as StepCode, CodeSimple } from './code';

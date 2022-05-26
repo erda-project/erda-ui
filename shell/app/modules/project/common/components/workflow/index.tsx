@@ -13,8 +13,7 @@
 
 import React from 'react';
 import { DevFlowInfo, DevFlowInfos, getPipelineDetail, PipelineInfo } from 'project/services/project-workflow';
-import { Popover } from 'antd';
-import Steps, { CodeSimple, SimplePipeline, StepCode, StepPipeline, StepTempMerge, TempMergeSimple } from './steps';
+import Steps, { CodeSimple, SimplePipeline, TempMergeSimple } from './steps';
 import i18n from 'i18n';
 import { ciNodeStatusSet } from 'application/pages/pipeline/run-detail/config';
 import { produce } from 'immer';
@@ -75,35 +74,11 @@ const WorkflowItem: React.FC<
     });
   }, [pipelineStepInfos]);
   return (
-    <>
-      <Popover
-        getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-        content={
-          <div className="flex">
-            {scope === 'ISSUE' ? <StepCode data={data} /> : null}
-            <StepTempMerge
-              projectID={projectID}
-              data={data}
-              afterChangeStatus={() => {
-                getFlowNodeList();
-              }}
-              afterRebuild={() => {
-                getFlowNodeList();
-              }}
-            />
-            <StepPipeline pipelineInfo={pipelineInfo} data={data} projectID={projectID} />
-          </div>
-        }
-      >
-        <div>
-          <Steps>
-            {scope === 'ISSUE' ? <CodeSimple data={data} /> : null}
-            <TempMergeSimple data={data} projectID={projectID} />
-            <SimplePipeline data={data} pipelineInfo={pipelineInfo} projectID={projectID} />
-          </Steps>
-        </div>
-      </Popover>
-    </>
+    <Steps>
+      {scope === 'ISSUE' ? <CodeSimple data={data} /> : null}
+      <TempMergeSimple data={data} projectID={projectID} />
+      <SimplePipeline data={data} pipelineInfo={pipelineInfo} projectID={projectID} />
+    </Steps>
   );
 };
 

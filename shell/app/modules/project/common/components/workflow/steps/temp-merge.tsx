@@ -157,10 +157,14 @@ const TempMerge: React.FC<IProps> = ({ data, afterChangeStatus, afterRebuild, pr
   );
 };
 
-export const TempMergeSimple: React.FC<Pick<IProps, 'data' | 'projectID'>> = ({ data, projectID }) => {
+export const TempMergeSimple: React.FC<Pick<IProps, 'data' | 'projectID'>> = ({ data, projectID, ...rest }) => {
   const { isJoinTempBranch, appID } = data?.devFlowNode || {};
   return (
-    <BaseStepSimple icon="hebingbian" iconClassName="rotate-90">
+    <BaseStepSimple
+      icon="hebingbian"
+      iconClassName="rotate-90"
+      popoverContent={<TempMerge data={data} projectID={projectID} {...rest} />}
+    >
       <ChangeList
         list={data?.changeBranch}
         appId={appID}
