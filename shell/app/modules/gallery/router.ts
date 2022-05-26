@@ -11,13 +11,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import routers from './router';
-
-const entry = (registerModule) => {
-  return registerModule({
-    key: 'marketplace',
-    routers,
-  });
-};
-
-export default entry;
+export default function getDopRouter(): RouteConfigItem[] {
+  return [
+    {
+      path: 'gallery',
+      mark: 'gallery',
+      toMark: 'orgIndex',
+      routes: [
+        {
+          layout: { hideSidebar: true, hideHeader: true, noWrapper: true },
+          getComp: (cb) => cb(import('gallery/pages/index')),
+        },
+        {
+          layout: { hideSidebar: true, hideHeader: true, noWrapper: true },
+          path: 'detail/:id',
+          backToUp: 'gallery',
+          getComp: (cb) => cb(import('gallery/pages/detail')),
+        },
+      ],
+    },
+  ];
+}

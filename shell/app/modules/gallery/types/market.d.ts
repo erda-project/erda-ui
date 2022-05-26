@@ -109,8 +109,8 @@ declare namespace MARKET {
     version: string;
   }
 
-  interface ServiceReq extends IPagingReq {
+  interface ServiceReq {
     keyword?: string;
-    type?: string;
+    type: string;
   }
 }

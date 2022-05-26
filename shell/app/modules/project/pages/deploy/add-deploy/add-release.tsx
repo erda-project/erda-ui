@@ -17,7 +17,7 @@ import { ErdaIcon, SimpleTabs, ConfigurableFilter } from 'common';
 import { map, debounce } from 'lodash';
 import { getJoinedApps } from 'app/user/services/user';
 import ReleaseList from './release-list';
-import { allWordsFirstLetterUpper, getDefaultPaging } from 'common/utils';
+import { allWordsFirstLetterUpper, getDefaultPaging, goTo } from 'common/utils';
 import { useUpdateEffect, useMount } from 'react-use';
 
 import { getRelease } from 'project/services/deploy';
@@ -84,11 +84,24 @@ const AddRelease = ({
         />
       ),
     },
-    // market: {
-    //   key: 'market',
-    //   text: i18n.t('Marketplace'),
-    //   Comp: <MarketRelease {...paging} list={list} getList={getList} onSelect={(v) => setSelectedRelease(v)} />,
-    // },
+    market: {
+      key: 'market',
+      text: (
+        <span className="flex-h-center">
+          Gallery{' '}
+          <ErdaIcon
+            onClick={(e) => {
+              goTo(goTo.pages.galleryRoot, { jumpOut: true });
+              e.stopPropagation();
+            }}
+            type="link"
+            size={16}
+            className="ml-1 hover:text-purple-deep jump-out-link"
+          />
+        </span>
+      ),
+      Comp: <MarketRelease {...paging} list={list} getList={getList} onSelect={(v) => setSelectedRelease(v)} />,
+    },
   };
   const overlay = (
     <Menu className="project-deploy-add-release">
