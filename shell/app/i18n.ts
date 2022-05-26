@@ -12,11 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n, { getCurrentLocale, getLang, isZh, setLocale } from 'core/i18n';
+import overwrite_i18n from './i18n_test/overwrite_i18n';
 import zh from './locales/zh.json';
 import en from './locales/en.json';
 import defaultZh from '../../locales/zh.json';
 import defaultEn from '../../locales/en.json';
 import { map, merge } from 'lodash';
+
+// dev模式，覆盖原有的i18n.t
+i18n.t = overwrite_i18n.t;
 
 map(merge(defaultZh, zh), (zhValue, zhKey) => {
   i18n.addResourceBundle('zh', zhKey, zhValue);
