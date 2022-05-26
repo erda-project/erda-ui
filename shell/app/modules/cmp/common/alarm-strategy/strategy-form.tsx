@@ -99,7 +99,7 @@ const alertLevelOptions = [
   },
   {
     key: 'Critical',
-    display: i18n.t('cmp:Critical'),
+    display: i18n.t('dop:Serious'),
   },
   {
     key: 'Warning',
