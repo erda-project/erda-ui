@@ -17,7 +17,7 @@ import { Row, Col, Tooltip } from 'antd';
 import { Avatar, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useEffectOnce } from 'react-use';
-
+import { useClickAway } from 'react-use';
 import buildStore from 'application/stores/build';
 import { secondsToTime, replaceEmoji, firstCharToUpper } from 'common/utils';
 import cronstrue from 'cronstrue/i18n';
@@ -44,28 +44,9 @@ const Info = ({ appId }: { appId: string }) => {
 
   const [pipelineDetail] = buildStore.useStore((s) => [s.pipelineDetail]);
 
-  useEffectOnce(() => {
-    return () => {
-      window.removeEventListener('click', onClickOutsideHandler);
-    };
+  useClickAway(toggleContainer, () => {
+    updater.isExpand(false);
   });
-
-  const onClickOutsideHandler = React.useCallback(
-    (event: any) => {
-      if (toggleContainer.current && !toggleContainer.current.contains(event.target)) {
-        updater.isExpand(false);
-      }
-    },
-    [updater],
-  );
-
-  React.useEffect(() => {
-    if (!isExpand) {
-      window.removeEventListener('click', onClickOutsideHandler);
-    } else {
-      window.addEventListener('click', onClickOutsideHandler);
-    }
-  }, [isExpand, onClickOutsideHandler]);
 
   if (!pipelineDetail) return null;
   const { id: pipelineID, pipelineCron, costTimeSec = -1, commit, commitDetail } = pipelineDetail;
