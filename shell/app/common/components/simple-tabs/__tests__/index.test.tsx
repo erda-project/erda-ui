@@ -51,7 +51,7 @@ describe('SimpleTabs', () => {
     await waitFor(() => expect(screen.getByRole('tooltip')).toBeTruthy());
     expect(result.getByText(tabs[1].tip!)).toBeTruthy();
     fireEvent.click(result.getByText(tabs[1].text));
-    expect(selectFn).toHaveBeenCalledWith(tabs[1].key);
+    expect(selectFn).toHaveBeenCalledWith(tabs[1].key, tabs[1].key);
     expect(selectFn).toHaveBeenCalledTimes(1);
     fireEvent.click(result.getByText(tabs[2].text));
     expect(selectFn).toHaveBeenCalledTimes(1);

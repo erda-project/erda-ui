@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import galleryHeader from 'app/images/gallery-header.png';
+import galleryHeader from 'app/images/gallery-header.jpg';
 import { getServiceTypes, getServiceList } from 'gallery/services';
 import routeInfoStore from 'core/stores/route';
 import { SimpleTabs, ErdaIcon, Ellipsis, Responsive, EmptyHolder } from 'common';
