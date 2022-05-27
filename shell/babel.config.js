@@ -11,6 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+const path = require('path');
+
 const overwriteMap = {
   avatar: true,
   table: true,
@@ -105,6 +107,21 @@ module.exports = (api) => {
           },
           'common',
         ], //  -------------------------- vite used --------------------------
+        [
+          'i18next',
+          {
+            localePath: [path.resolve(__dirname, '..', 'locales'), path.resolve(__dirname, 'app', 'locales')],
+            languages: [{ code: 'en' }, { code: 'zh' }],
+            primaryLng: 'en',
+            defaultNS: 'default',
+            include: [`${path.resolve(__dirname, 'app')}/**/*.{js,jsx,ts,tsx}`],
+            translateApi: { type: 'youdao', secretFile: path.resolve(__dirname, '.translaterc') },
+            interpolation: {
+              prefix: '{',
+              suffix: '}',
+            },
+          },
+        ],
         [
           'import',
           {

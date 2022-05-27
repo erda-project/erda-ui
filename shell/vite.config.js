@@ -135,7 +135,7 @@ export default ({ command, mode }) => {
       }),
       react({
         babel: {
-          plugins: babelConfig.plugins.slice(0, 2),
+          plugins: babelConfig.plugins.slice(0, 3),
         },
       }),
     ],
