@@ -636,4 +636,15 @@ declare namespace GATEWAY {
     diceApp?: string;
     diceService?: string;
   }
+
+  interface SaveACS extends GetSafety {
+    global: boolean;
+    switch: boolean;
+    withCookie: boolean;
+    withBody: boolean;
+    accessControlAPI: string;
+    methods: string[];
+    withHeaders: string[];
+    patterns: string[];
+  }
 }
