@@ -303,7 +303,7 @@ export const EDIT_PROPS = {
     contentLabel: i18n.t('dop:task description'),
   },
   [ISSUE_TYPE.BUG]: {
-    titlePlaceHolder: i18n.t('dop:input the bug name'),
+    titlePlaceHolder: i18n.s('input the bug name', 'dop'),
     contentLabel: i18n.t('dop:Description'),
   },
   [ISSUE_TYPE.TICKET]: {
