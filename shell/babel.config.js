@@ -109,6 +109,7 @@ module.exports = (api) => {
         ], //  -------------------------- vite used --------------------------
         [
           'i18next',
+
           {
             localePath: [path.resolve(__dirname, '..', 'locales'), path.resolve(__dirname, 'app', 'locales')],
             languages: [{ code: 'en' }, { code: 'zh' }],
