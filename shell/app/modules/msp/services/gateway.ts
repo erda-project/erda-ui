@@ -577,3 +577,20 @@ export const getServiceApiPrefix = (payload: GATEWAY.QueryApiPrefix): string[] =
     .query(payload)
     .then((response: any) => response.body);
 };
+
+export const saveSbac = (params: GATEWAY.SaveACS): GATEWAY.SaveACS => {
+  const { packageId, apiId, ..._params } = params;
+  return agent
+    .put('/api/gateway/policies/sbac')
+    .query({ packageId, apiId })
+    .send({ ..._params })
+    .then((response: any) => response.body);
+};
+
+export const getSbac = (params: { packageId: string; apiId: string }): GATEWAY.SaveACS => {
+  const { packageId, apiId } = params;
+  return agent
+    .get('/api/gateway/policies/sbac')
+    .query({ packageId, apiId })
+    .then((response: any) => response.body);
+};
