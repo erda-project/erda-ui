@@ -366,6 +366,13 @@ function WrappedTable<T extends object = any>({
   if (isFrontendPaging) {
     data = data.slice((current - 1) * pageSize, current * pageSize);
   }
+
+  const getRowClassName = (_record: T, _index: number) => {
+    const curCls = typeof rowClassName === 'function' ? rowClassName(_record, _index) : rowClassName || '';
+
+    return onRow ? `cursor-pointer ${curCls || ''}` : rowClassName;
+  };
+
   return (
     <div
       className={`flex flex-col erda-table bg-white ${
@@ -402,7 +409,7 @@ function WrappedTable<T extends object = any>({
             .map((item) => ({ ...item, title: firstCharToUpper(item.sortTitle || item.title) })),
           ...renderActions(actions),
         ]}
-        rowClassName={onRow ? `cursor-pointer ${rowClassName || ''}` : rowClassName}
+        rowClassName={getRowClassName}
         size="small"
         pagination={false}
         onChange={onChange}
