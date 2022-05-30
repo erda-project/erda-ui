@@ -14,6 +14,7 @@
 import React from 'react';
 import { RadioTabs } from 'common';
 import { goTo } from 'common/utils';
+import { Alert } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import Pipeline from 'project/common/components/pipeline-new';
 import PipelineRecords from 'project/common/components/pipeline-new/records';
@@ -40,6 +41,26 @@ const AppPipeline = () => {
 
   return (
     <div>
+      <Alert
+        type="info"
+        message={
+          <span className="">
+            {i18n.s(
+              'The new pipeline page is in the trial stage, and you can still manually switch to the old version for use.',
+              'dop',
+            )}
+            <span
+              onClick={() => {
+                goTo('../../obsoleted-pipeline');
+              }}
+              className="text-purple-deep cursor-pointer"
+            >
+              {i18n.s('Switch to old version', 'dop')}
+            </span>
+          </span>
+        }
+        className="mb-2 bg-blue-1 border-blue"
+      />
       <RadioTabs
         options={tabs}
         className="mb-4"
