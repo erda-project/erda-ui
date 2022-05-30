@@ -131,6 +131,7 @@ declare namespace PROJECT_DEPLOY {
     orgId: number;
     projectId: number;
     projectName: string;
+    displayname: string;
     reference: number;
     releaseId: string;
     releaseName: string;

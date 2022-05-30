@@ -66,7 +66,7 @@ const ReleaseSelector = (props: IProps) => {
                       ) : null}
                     </div>
                     <span className="ml-3">
-                      {showProjectName ? <span className="mr-4">{item.projectName || '-'}</span> : null}
+                      {showProjectName ? <span className="mr-4">{item.displayname || '-'}</span> : null}
                       <span>{item.createdAt && moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss')}</span>
                     </span>
                   </div>
