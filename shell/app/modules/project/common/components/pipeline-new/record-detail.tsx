@@ -33,7 +33,7 @@ interface IProps {
   pipelineId: string;
 }
 
-export const PipelineInfo = ({ appId }: { appId: string }) => {
+const Info = ({ appId }: { appId: string }) => {
   const [{ isExpand }, updater] = useUpdate({
     isExpand: false,
   });
@@ -137,7 +137,7 @@ const Execute = (props: Merge<IProps, { titleOperation?: React.ReactNode }>) => 
         {`${i18n.t('dop:Pipeline Detail')}`}
         {titleOperation}
       </div>
-      <PipelineInfo appId={appId} />
+      <Info appId={appId} />
       <PureExecute {...props} deployAuth={{ hasAuth: false }} chosenPipelineId={pipelineId} />
     </div>
   );
