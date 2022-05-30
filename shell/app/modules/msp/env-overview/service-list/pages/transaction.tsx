@@ -195,6 +195,7 @@ const Transaction = () => {
           scenarioKey={`${transactionType}-analysis`}
           scenarioType={`${transactionType}-analysis`}
           showLoading
+          className="transaction-analysis"
           forceUpdateKey={['inParams']}
           inParams={{ tenantId, serviceId, ...analysisParams }}
           customProps={{
