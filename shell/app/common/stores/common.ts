@@ -17,13 +17,13 @@ import { has } from 'lodash';
 
 interface State {
   logsMap: Obj<COMMON.LOG>;
-  logFallback: boolean;
+  logFallbackMap: Obj<boolean>;
   slidePanelComps: COMMON.SlideComp[];
 }
 
 const initState: State = {
   logsMap: {},
-  logFallback: false,
+  logFallbackMap: {},
   slidePanelComps: [],
 };
 
@@ -48,11 +48,11 @@ const common = createStore({
       try {
         const response = await call(fetchLog, query);
         lines = response.lines || [];
-        const prevLogFallback = select((s) => s.logFallback);
+        const prevLogFallbackMap = select((s) => s.logFallbackMap);
         // when log fallback, keep it.
-        if (!prevLogFallback) {
+        if (!prevLogFallbackMap[logKey]) {
           const logFallback = !!response.isFallback;
-          update({ logFallback });
+          update({ logFallbackMap: { ...prevLogFallbackMap, [logKey]: logFallback } });
         }
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -92,12 +92,12 @@ const common = createStore({
       state.logsMap[logKey] = { content: newLines, emptyTimes, fetchPeriod };
     },
     clearLog(state, logKey?: string) {
-      state.logFallback = false;
-
       if (logKey) {
         state.logsMap[logKey] = { content: [], emptyTimes: 0, fetchPeriod: defaultLogPeriod };
+        state.logFallbackMap[logKey] = false;
       } else {
         state.logsMap = {};
+        state.logFallbackMap = {};
       }
     },
     pushSlideComp(state, payload: COMMON.SlideComp) {
