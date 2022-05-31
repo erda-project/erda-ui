@@ -1,10 +1,10 @@
 import React from 'react';
 import { Modal } from 'antd';
 import { Form, Input } from 'antd';
-import FixedWidget from './fixed-widget';
+import FixedWidget from '../fixed-widget';
 import { ErdaIcon } from 'common';
-import store, { I18nData } from '../store';
-import { setTrans2LocalStorage, getEditCount } from '../utils';
+import store, { I18nData } from '../../store';
+import { setTrans2LocalStorage, getEditCount } from '../../utils';
 import { getCurrentLocale } from 'core/i18n';
 
 const App: React.FC = () => {

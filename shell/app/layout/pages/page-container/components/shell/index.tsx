@@ -13,7 +13,7 @@
 
 import React from 'react';
 import './index.scss';
-import I18nModel from '../../../../../i18n_rewrite/pages';
+import I18nModel from '../../../../../i18n-page-edit/pages/edit-modal';
 
 interface IProps {
   children?: React.ReactNode;

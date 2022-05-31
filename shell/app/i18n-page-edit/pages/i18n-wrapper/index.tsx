@@ -1,33 +1,9 @@
 import React from 'react';
-import i18n, { getCurrentLocale } from 'core/i18n';
-import store from './store';
-import { splitKey, getTranslation } from './utils';
+import { getCurrentLocale } from 'core/i18n';
+import store from '../../store';
+import { splitKey, getTranslation } from '../../utils';
 import { ErdaIcon } from 'common';
 import './css/index.less';
-
-const originT = i18n.t;
-
-// 无状态函数
-function overwriteT(...args: string[]) {
-  let text = originT.apply(i18n, [...args]);
-  const _ret = <I18nWrapper firstArg={args[0]} secondArg={args[1]} key={args[0]} />;
-  // 添加 String.prototype 所有属性
-  let ret = {};
-  // 删除 _store 属性，防止报错
-  ret = { ...ret, ..._ret, _store: undefined };
-  // ret._format = (f) => {
-  //   const str = f(text)
-  //   return ret;
-  // };
-  Object.getOwnPropertyNames(String.prototype).forEach((key) => {
-    if (typeof String.prototype[key] === 'function') {
-      ret[key] = String.prototype[key].bind(text);
-    } else {
-      ret[key] = String.prototype[key];
-    }
-  });
-  return ret;
-}
 
 const I18nWrapper = (props) => {
   const combinedKey = props.firstArg;
@@ -49,7 +25,6 @@ const I18nWrapper = (props) => {
           size="14"
           className="edit-icon cursor-pointer absolute"
           onClick={(e) => {
-            // console.log(e.nativeEvent);
             e.preventDefault();
             e.stopPropagation();
             openModel(ns, key);
@@ -60,4 +35,4 @@ const I18nWrapper = (props) => {
   );
 };
 
-export default overwriteT;
+export default I18nWrapper;

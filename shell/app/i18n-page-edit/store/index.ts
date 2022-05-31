@@ -9,7 +9,7 @@ export interface I18nData {
 }
 
 export default createStore({
-  name: 'i18n_rewrite',
+  name: 'i18n-page-edit',
   state: {
     ns: '',
     key: '',
@@ -23,7 +23,7 @@ export default createStore({
   },
   reducers: {
     initState(state, ns: string, key: string, en?: string, zh?: string) {
-      // 重新设置当前state
+      // 重置当前 state
       if (state.isEditable) {
         state.ns = ns;
         state.key = key;
