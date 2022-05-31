@@ -79,7 +79,10 @@ const PipelineNode = (props: IProps) => {
                 />
               </Tooltip>
 
-              <Tooltip title={i18n.t('Delete')}>
+              <Tooltip
+                title={i18n.t('Delete')}
+                getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+              >
                 <ErdaIcon type="delete-action" size="20" className="text-icon" onClick={() => onDeleteNode(data)} />
               </Tooltip>
             </div>
