@@ -38,7 +38,7 @@ export default createStore({
     switchIsEditable(state, value: boolean) {
       state.isEditable = value;
     },
-    setTextCb(state, callback) {
+    setCurrentTextCb(state, callback) {
       state.setTextCb = callback;
     },
   },

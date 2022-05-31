@@ -1,6 +1,7 @@
 import localCache from './cache';
 import mergedJSON from './mergedJSON';
 import _ from 'lodash';
+import { duration } from 'moment';
 
 export interface ITranslation {
   en: string;
@@ -27,17 +28,19 @@ export function getTranslation(ns: string, key: string, locale: localeType): str
   return getTransFromLocalStorage(ns, key, locale) || getTransFromJSON(ns, key, locale);
 }
 
-export function getTransFromLocalStorage(ns: string, key: string, locale: localeType): string {
+export function getTransFromLocalStorage(ns: string, key: string, locale: localeType): string | undefined {
   const res = localCache.getCache(`i18n-${locale}`);
   return res && res[ns] && res[ns][key];
 }
 
 export function getTransFromJSON(ns: string, key: string, locale: localeType): string | undefined {
-  return mergedJSON[locale][ns] && mergedJSON[locale][ns][key];
+  const path = Object.keys(mergedJSON).find((path) => {
+    return mergedJSON[path][locale][ns] && mergedJSON[path][locale][ns][key];
+  });
+  return path && mergedJSON[path][locale][ns][key];
 }
 
 export function setTrans2LocalStorage(ns: string, key: string, value: string, locale: localeType) {
-  // 保存修改的翻译到 localStorage
   const res = localCache.getCache(`i18n-${locale}`);
   if (!res) {
     localCache.setCache(`i18n-${locale}`, {});
@@ -64,11 +67,28 @@ export function clearLocalStorage() {
 }
 
 export function mergeLocalStorage2JSON() {
-  // 将 localStorage 保存的字段和现有的 JSON 对象合并
-  return JSON.stringify(
-    _.merge(mergedJSON, {
-      en: localCache.getCache('i18n-en'),
-      zh: localCache.getCache('i18n-zh'),
-    }),
-  );
+  //TODO:  将 localStorage 保存的字段和现有的 JSON 对象合并
+  const modifiedObj = {
+    en: localCache.getCache('i18n-en'),
+    zh: localCache.getCache('i18n-zh'),
+  };
+  const res = {};
+  // O(n): n(modified ns:key) * n(mergedJSON path)
+  function _fn(locale: localeType) {
+    Object.keys(modifiedObj[locale]).forEach((ns) => {
+      Object.keys(modifiedObj[locale][ns]).forEach((key) => {
+        const path = Object.keys(mergedJSON).find((path) => {
+          return mergedJSON[path][locale][ns] && mergedJSON[path][locale][ns][key];
+        });
+        if (path) {
+          // 只添加已修改的路径
+          res[path] = mergedJSON[path];
+          _.merge(mergedJSON[path], modifiedObj);
+        }
+      });
+    });
+  }
+  _fn('en');
+  _fn('zh');
+  return res;
 }

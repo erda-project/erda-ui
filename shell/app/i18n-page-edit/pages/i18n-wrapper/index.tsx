@@ -1,19 +1,18 @@
 import React from 'react';
-import { getCurrentLocale } from 'core/i18n';
 import store from '../../store';
-import { splitKey, getTranslation } from '../../utils';
+import { splitKey } from '../../utils';
 import { ErdaIcon } from 'common';
 import './css/index.less';
 
 const I18nWrapper = (props) => {
   const combinedKey = props.firstArg;
   const [ns, key] = splitKey(combinedKey);
-  const [text, setText] = React.useState(getTranslation(ns, key, getCurrentLocale().key));
+  const [text, setText] = React.useState(props.text);
   const isEditable = store.useStore((s) => s.isEditable);
   const openModel = (ns: string, key: string) => {
     // 点击文本后，传递当前 ns key
     store.reducers.initState(ns, key);
-    store.reducers.setTextCb((value: string) => setText(value));
+    store.reducers.setCurrentTextCb((value: string) => setText(value));
   };
 
   return (

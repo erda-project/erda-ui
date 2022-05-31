@@ -1,9 +1,7 @@
 import React from 'react';
-import { Badge, Popover, Popconfirm } from 'antd';
+import { Badge, Popover } from 'antd';
 import { ErdaIcon } from 'common';
 import store from '../../store';
-import iterationStore from 'project/stores/iteration';
-import { clearLocalStorage, mergeLocalStorage2JSON } from '../../utils';
 
 const App: React.FC = (props) => {
   const [editable, setEditable] = React.useState(false);
@@ -15,36 +13,14 @@ const App: React.FC = (props) => {
   }, [editable]);
 
   // publish
-  const publishHandler = () => {
-    // 1. 请求 添加事项 的接口
-    // TODO: projectID ？
-    const issueData = {
-      title: 'i18n文案修改',
-      type: 'TASK',
-      content: mergeLocalStorage2JSON(),
-      projectID: 2210,
-    };
-    const { createIssue } = iterationStore.effects;
-    createIssue(issueData).then(() => {
-      // 2. 清空 i18n 本地存储
-      clearLocalStorage();
-    });
+  const publishClick = (e) => {
+    e.stopPropagation();
+    props.setPublishVisible(true);
   };
-  const confirmHandler = () => {
-    publishHandler();
-  };
-  const publish = (
-    <Popconfirm
-      title="Are you sure to publish?"
-      onConfirm={confirmHandler}
-      okText="Yes"
-      cancelText="No"
-      // onClick={(e) => e.stopPropagation()}
-    >
-      <a href="#" onClick={(e) => e.stopPropagation()}>
-        Publish
-      </a>
-    </Popconfirm>
+  const publishRender = (
+    <a href="#" onClick={publishClick}>
+      Publish
+    </a>
   );
 
   return (
@@ -52,7 +28,7 @@ const App: React.FC = (props) => {
       <div className="i18n-switch fixed bottom-20 right-10 cursor-pointer" onClick={clickHandler}>
         <Badge count={props.editCount} size="small">
           {editable ? (
-            <Popover content={publish}>
+            <Popover content={publishRender}>
               <ErdaIcon size="30" className="scroll-top-btn" type="dakai" />
             </Popover>
           ) : (

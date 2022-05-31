@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n, { getCurrentLocale, getLang, isZh, setLocale } from 'core/i18n';
-import i18nWrapper from './i18n-page-edit/overwrite_i18n';
+import overwriteT from './i18n-page-edit/overwrite_i18n';
 import zh from './locales/zh.json';
 import en from './locales/en.json';
 import defaultZh from '../../locales/zh.json';
@@ -36,7 +36,7 @@ if (currentLocale.key === 'en' && docDesc) {
 
 // dev模式，覆盖原有的i18n.t
 if (true) {
-  i18n.t = i18nWrapper;
+  i18n.t = overwriteT;
 }
 
 export default i18n;
