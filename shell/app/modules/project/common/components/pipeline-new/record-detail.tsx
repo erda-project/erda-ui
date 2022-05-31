@@ -16,13 +16,13 @@ import { PureExecute } from './detail/execute';
 import { Row, Col, Tooltip } from 'antd';
 import { Avatar, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { useEffectOnce } from 'react-use';
 import { useClickAway } from 'react-use';
 import buildStore from 'application/stores/build';
 import { secondsToTime, replaceEmoji, firstCharToUpper } from 'common/utils';
 import cronstrue from 'cronstrue/i18n';
 import GotoCommit from 'application/common/components/goto-commit';
 import i18n, { isZh } from 'i18n';
+import { useUnmount } from 'react-use';
 import moment from 'moment';
 
 import './record-detail.scss';
@@ -125,12 +125,18 @@ const Info = ({ appId }: { appId: string }) => {
   ) : null;
 };
 
-const Execute = (props: IProps) => {
-  const { pipelineId, appId } = props;
-
+const Execute = (props: Merge<IProps, { titleOperation?: React.ReactNode }>) => {
+  const { pipelineId, appId, titleOperation = null } = props;
+  const { clearPipelineDetail } = buildStore.reducers;
+  useUnmount(() => {
+    clearPipelineDetail();
+  });
   return (
     <div>
-      <div className="text-base font-medium text-default-8">{`${i18n.t('dop:Pipeline Detail')}`}</div>
+      <div className="text-base font-medium text-default-8 flex-h-center justify-between">
+        {`${i18n.t('dop:Pipeline Detail')}`}
+        {titleOperation}
+      </div>
       <Info appId={appId} />
       <PureExecute {...props} deployAuth={{ hasAuth: false }} chosenPipelineId={pipelineId} />
     </div>
