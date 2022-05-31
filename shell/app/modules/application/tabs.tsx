@@ -18,7 +18,7 @@ import layoutStore from 'layout/stores/layout';
 import appStore from './stores/application';
 import routeInfoStore from 'core/stores/route';
 import { appMode } from './common/config';
-import { filter, min } from 'lodash';
+import { filter } from 'lodash';
 import { HeadAppSelector } from './common/app-selector';
 import { goTo } from 'app/common/utils';
 import repoStore from './stores/repo';
@@ -80,7 +80,7 @@ export const APP_TABS = () => {
 
   const pipeline = {
     show: perm.pipeline.read.pass,
-    key: 'pipeline/list',
+    key: 'pipeline/obsoleted',
     name: i18n.t('Pipeline'),
     isActive: (activeKey: string) => activeKey.split('/')[0] === 'pipeline',
   };
