@@ -13,6 +13,7 @@
 
 import React from 'react';
 import './index.scss';
+import I18nModel from '../../../../../i18n_rewrite/pages';
 
 interface IProps {
   children?: React.ReactNode;
@@ -40,6 +41,7 @@ const Shell = ({ children, breadcrumb, announcement, navigation, sidebar, classN
         </div>
       )}
       <div className={`erda-main-content ${mainClassName || ''}`}>{children}</div>
+      <I18nModel />
     </div>
   );
 };

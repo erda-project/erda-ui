@@ -28,6 +28,7 @@ export const getTableList = (data: IPerm, scope: string, filterKey: string) => {
     }
   };
   countData(data);
+  console.log(data);
 
   if (filterKey) {
     list = filter(list, (l) => some(l, (item) => item.key.includes(filterKey) || item.name.includes(filterKey)));
@@ -35,6 +36,7 @@ export const getTableList = (data: IPerm, scope: string, filterKey: string) => {
 
   const maxDeepthObj = maxBy(list, (item) => Object.keys(item).length);
   const tableList = [] as any[];
+
   map(list, (item) => {
     const itemData = { ...item };
     map(maxDeepthObj, (val, key) => {

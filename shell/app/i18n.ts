@@ -12,15 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n, { getCurrentLocale, getLang, isZh, setLocale } from 'core/i18n';
-import overwrite_i18n from './i18n_test/overwrite_i18n';
+import i18nWrapper from './i18n_rewrite/overwrite_i18n';
 import zh from './locales/zh.json';
 import en from './locales/en.json';
 import defaultZh from '../../locales/zh.json';
 import defaultEn from '../../locales/en.json';
 import { map, merge } from 'lodash';
-
-// dev模式，覆盖原有的i18n.t
-i18n.t = overwrite_i18n.t;
 
 map(merge(defaultZh, zh), (zhValue, zhKey) => {
   i18n.addResourceBundle('zh', zhKey, zhValue);
@@ -35,6 +32,11 @@ document.body.lang = currentLocale.key;
 const docDesc = document.querySelector('meta[name=description]') as HTMLMetaElement;
 if (currentLocale.key === 'en' && docDesc) {
   docDesc.content = 'Collaborative Application Development Platform On The Cloud';
+}
+
+// dev模式，覆盖原有的i18n.t
+if (true) {
+  i18n.t = i18nWrapper;
 }
 
 export default i18n;
