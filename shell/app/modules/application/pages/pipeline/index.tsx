@@ -28,7 +28,7 @@ const AppPipeline = () => {
     {
       label: i18n.t('dop:Pipeline List'),
       value: 'list',
-      href: goTo.resolve.pipelineRoot({ projectId, appId }),
+      href: goTo.resolve.pipelineNewRoot({ projectId, appId }),
       Comp: <Pipeline />,
     },
     {
