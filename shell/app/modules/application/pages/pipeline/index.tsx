@@ -19,9 +19,11 @@ import routeInfoStore from 'core/stores/route';
 import Pipeline from 'project/common/components/pipeline-new';
 import PipelineRecords from 'project/common/components/pipeline-new/records';
 import i18n from 'i18n';
+import ObsoletedPipeline from './obsoleted-pipeline';
 
 const AppPipeline = () => {
   const { pipelineTab, appId, projectId } = routeInfoStore.useStore((s) => s.params);
+
   const tabs = [
     {
       label: i18n.t('dop:Pipeline List'),
@@ -38,20 +40,23 @@ const AppPipeline = () => {
   ];
 
   const curTab = tabs.find((item) => item.value === pipelineTab);
+  if (pipelineTab === 'obsoleted') {
+    return <ObsoletedPipeline />;
+  }
 
   return (
     <div>
       <Alert
         type="info"
         message={
-          <span className="">
+          <span>
             {i18n.s(
               'The new pipeline page is in the trial stage, and you can still manually switch to the old version for use.',
               'dop',
             )}
             <span
               onClick={() => {
-                goTo('../../obsoleted-pipeline');
+                goTo('../obsoleted');
               }}
               className="text-purple-deep cursor-pointer"
             >
