@@ -20,11 +20,9 @@ import { regLog } from 'common/components/pure-log-roller/log-util';
 import { transformLog } from 'common/utils';
 import i18n from 'i18n';
 import { useUpdate } from 'common/use-hooks';
-
-import { useUpdateEffect } from 'react-use';
 import commonStore from 'common/stores/common';
 import LogFilter from 'runtime/common/logs/components/log-filter';
-
+import { uuid } from 'common/utils';
 import './container-log.scss';
 
 const defaultLogName = 'stdout';
@@ -150,6 +148,7 @@ interface IState {
   query: undefined | Obj;
   visible: boolean;
   start: undefined | string;
+  logUid: string;
 }
 
 const RuntimeContainerLog = (props: Props) => {
@@ -166,14 +165,15 @@ const RuntimeContainerLog = (props: Props) => {
     backupApi,
     hasLogs,
   } = props;
-  const [{ logNameMap, query, visible, start }, updater, update] = useUpdate<IState>({
+  const [{ logNameMap, query, visible, start, logUid }, updater, update] = useUpdate<IState>({
     logNameMap: { [instance.id || '']: instance.logLevel || defaultLogName },
     query: undefined,
     visible: false,
     start: undefined,
+    logUid: uuid(),
   });
 
-  const [logFallback] = commonStore.useStore((s) => [s.logFallback]);
+  const [logFallbackMap] = commonStore.useStore((s) => [s.logFallbackMap]);
 
   const toggleLogName = (_id: string) => {
     update({
@@ -200,7 +200,7 @@ const RuntimeContainerLog = (props: Props) => {
     const { id, containerId } = instance;
     const reId = id || containerId;
     const logName = logNameMap[reId] || defaultLogName;
-    return `${logName}-${reId}`;
+    return `${logName}-${reId}-${logUid}`;
   };
 
   const handleChange = (q: Obj) => {
@@ -231,7 +231,8 @@ const RuntimeContainerLog = (props: Props) => {
   }
 
   const logName = logNameMap[reId] || defaultLogName;
-  const extraButton = logFallback ? null : (
+  const logKey = getLogId();
+  const extraButton = logFallbackMap[logKey] ? null : (
     <>
       <Switch
         checkedChildren={i18n.t('Error')}
@@ -249,7 +250,7 @@ const RuntimeContainerLog = (props: Props) => {
         query={{ ...baseQuery }}
         isStopped={isStopped}
         filter={query}
-        logKey={`${logName}-${reId}`}
+        logKey={logKey}
         pause={false}
         style={style}
         instance={instance}
@@ -262,7 +263,7 @@ const RuntimeContainerLog = (props: Props) => {
         onClose={handleClose}
         visible={visible}
         query={{ ...baseQuery, start }}
-        logKey={`secondLevel-${logName}-${reId}`}
+        logKey={`secondLevel-${getLogId()}`}
         style={style}
       />
     </>
@@ -272,7 +273,7 @@ const RuntimeContainerLog = (props: Props) => {
 
 const WrappedLogRoller = (props: Merge<LogProps, { instance: Obj; isStopped: boolean }>) => {
   const { instance, isStopped, ...propsRest } = props;
-  const [logsMap, logFallback] = commonStore.useStore((s) => [s.logsMap, s.logFallback]);
+  const [logsMap, logFallbackMap] = commonStore.useStore((s) => [s.logsMap, s.logFallbackMap]);
   const { fetchLog } = commonStore.effects;
   const { clearLog } = commonStore.reducers;
   const { content, fetchPeriod, ...rest } = logsMap[props.logKey] || {};
@@ -290,7 +291,7 @@ const WrappedLogRoller = (props: Merge<LogProps, { instance: Obj; isStopped: boo
     <LogRoller
       {...propsRest}
       {...rest}
-      disableDownload={logFallback}
+      disableDownload={logFallbackMap[props.logKey]}
       query={{ isFirstQuery, live: !isStopped, ...instance, ...props?.query }}
       content={content || []}
       fetchPeriod={fetchPeriod || 3000}
