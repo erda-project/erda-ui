@@ -1296,7 +1296,7 @@
     "The import and export tasks you submitted have status updates, please check the records": "你提交的导入导出任务有状态更新，请查看记录",
     "The name cannot contain forward and backward slashes. Please enter again.": "名称不能使用正反斜杠，请重新输入",
     "The new data will be lost if closed. Continue?": "关闭后新建数据将丢失，确认关闭 ？",
-    "The new pipeline page interaction is about to be officially launched, and the new version will be launched at the next time the page is opened.": "新版应用流水线页面交互即将正式推出，新版将在下次打开页面的启动。",
+    "The new pipeline page is in the trial stage, you can manually switch to the new version to experience.": "新版应用流水线页面正在试用阶段，可手动切换至新版进行体验。",
     "The new pipeline page is in the trial stage, and you can still manually switch to the old version for use.": "新版应用流水线页面正在试用阶段，仍可手动切换至旧版进行使用。",
     "The node is disabled": "该节点已禁用",
     "The organizations I joined": "我加入的组织",

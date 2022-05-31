@@ -64,7 +64,7 @@ const Pipeline = () => {
         message={
           <span className="">
             {i18n.s(
-              'The new pipeline page interaction is about to be officially launched, and the new version will be launched at the next time the page is opened.',
+              'The new pipeline page is in the trial stage, you can manually switch to the new version to experience.',
               'dop',
             )}
             <span

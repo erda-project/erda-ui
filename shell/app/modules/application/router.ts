@@ -155,16 +155,6 @@ function getAppRouter(): RouteConfigItem {
         ],
       },
       {
-        path: 'obsoleted-pipeline',
-        mark: 'pipeline',
-        backToUp: 'projectAppList',
-        tabs: APP_TABS,
-        ignoreTabQuery: true,
-        alwaysShowTabKey: 'pipeline',
-        layout: { fullHeight: true, noWrapper: true },
-        getComp: (cb) => cb(import('application/pages/pipeline/obsoleted-pipeline')),
-      },
-      {
         path: 'dataTask',
         mark: 'dataTask',
         backToUp: 'projectAppList',
