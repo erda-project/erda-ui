@@ -1,29 +1,30 @@
 import { createStore } from 'core/cube';
 import { getTranslation } from '../utils';
 
-export interface I18nData {
-  ns: string;
-  key: string;
-  en: string;
-  zh: string;
+interface IState {
+  ns: string | undefined;
+  key: string | undefined;
+  en: string | undefined;
+  zh: string | undefined;
+  isVisible: boolean; // edit modal visible
+  isEditable: boolean;
+  setTextCb: null | ((value: string) => {});
 }
 
+const initState: IState = {
+  ns: undefined,
+  key: undefined,
+  en: undefined,
+  zh: undefined,
+  isVisible: false, // edit modal visible
+  isEditable: false,
+  setTextCb: null,
+};
 export default createStore({
   name: 'i18n-page-edit',
-  state: {
-    ns: '',
-    key: '',
-    en: '',
-    zh: '',
-    isVisible: false, // edit modal visible
-    isEditable: false,
-    setTextCb: (value: string) => {
-      value;
-    },
-  },
+  state: initState,
   reducers: {
-    initState(state, ns: string, key: string, en?: string, zh?: string) {
-      // reset state
+    resetState(state, ns: string, key: string, en?: string, zh?: string) {
       if (state.isEditable) {
         state.ns = ns;
         state.key = key;

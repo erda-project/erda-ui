@@ -2,7 +2,12 @@ import React from 'react';
 import { Modal, Button, message } from 'antd';
 import { mergeLocalStorage2JSON, clearLocalStorage } from '../../utils';
 import moment from 'moment';
-const PublishModal = (props) => {
+interface IProps {
+  setPublishVisible: (value: boolean) => {};
+  setEditCount: (value: number) => {};
+  isPublishVisible: boolean;
+}
+const PublishModal = (props: IProps) => {
   const downloadHandler = () => {
     const fileContent = mergeLocalStorage2JSON();
     if (fileContent) {

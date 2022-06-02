@@ -2,24 +2,27 @@ import React from 'react';
 import { Modal } from 'antd';
 import { Form, Input } from 'antd';
 import { ErdaIcon } from 'common';
-import store, { I18nData } from '../../store';
+import store from '../../store';
 import { setTrans2LocalStorage, getEditCount } from '../../utils';
 import { getCurrentLocale } from 'core/i18n';
 
-const App: React.FC = (props) => {
+interface IProps {
+  setEditCount: (value: number) => {};
+}
+const EditModal = (props: IProps) => {
   // form
   const [form] = Form.useForm();
   const { ns, key, en, zh, isVisible, setTextCb } = store.useStore((s) => s);
   const prevEn = en;
   const prevZh = zh;
   const handleOk = () => {
-    form.validateFields().then(({ ns, key, en, zh }: I18nData) => {
+    form.validateFields().then(({ ns, key, en, zh }) => {
       // only changed the translation can save
       if (prevEn !== en || prevZh !== zh) {
         setTrans2LocalStorage(ns, key, en, 'en');
         setTrans2LocalStorage(ns, key, zh, 'zh');
-        store.reducers.initState(ns, key, en, zh);
-        setTextCb(getCurrentLocale().key === 'en' ? en : zh);
+        store.reducers.resetState(ns, key, en, zh);
+        setTextCb && setTextCb(getCurrentLocale().key === 'en' ? en : zh);
         props.setEditCount(getEditCount());
       }
       store.reducers.closeModel();
@@ -81,4 +84,4 @@ const App: React.FC = (props) => {
   );
 };
 
-export default App;
+export default EditModal;

@@ -4,13 +4,17 @@ import { splitKey, getTransFromLocalStorage } from '../../utils';
 import { ErdaIcon } from 'common';
 import './css/index.less';
 
-const I18nWrapper = (props) => {
+interface IProps {
+  text: string;
+  combinedKey: string;
+}
+const I18nWrapper = (props: IProps) => {
   const [ns, key] = splitKey(props.combinedKey);
   const [text, setText] = React.useState(props.text);
   const isEditable = store.useStore((s) => s.isEditable);
   const openModel = (ns: string, key: string) => {
     // click the text, pass the its own ns key to store
-    store.reducers.initState(ns, key);
+    store.reducers.resetState(ns, key);
     store.reducers.setCurrentTextCb((value: string) => setText(value));
   };
 

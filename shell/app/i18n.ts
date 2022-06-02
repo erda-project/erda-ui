@@ -36,7 +36,7 @@ if (currentLocale.key === 'en' && docDesc) {
   docDesc.content = 'Collaborative Application Development Platform On The Cloud';
 }
 
-// dev模式，覆盖原有的i18n.t
+// overwrite i18n.t
 if (erdaEnv.I18N_ACCESS_ENV === 'true' && isEditAccess()) {
   i18n.t = overwriteT;
 }

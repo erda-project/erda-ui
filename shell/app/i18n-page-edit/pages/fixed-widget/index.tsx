@@ -3,7 +3,11 @@ import { Badge, Popover } from 'antd';
 import { ErdaIcon } from 'common';
 import store from '../../store';
 
-const App: React.FC = (props) => {
+interface IProps {
+  setPublishVisible: (value: boolean) => {};
+  editCount: boolean;
+}
+const FixedWidget = (props: IProps) => {
   const [editable, setEditable] = React.useState(false);
   const clickHandler = (e) => {
     setEditable(!editable);
@@ -40,4 +44,4 @@ const App: React.FC = (props) => {
   );
 };
 
-export default App;
+export default FixedWidget;
