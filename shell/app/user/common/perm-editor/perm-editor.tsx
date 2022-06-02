@@ -86,7 +86,6 @@ export const PermEditor = (props: IProps) => {
   const [{ scope = 'org', mode }, { projectId }] = routeInfoStore.getState((s) => [s.query, s.params]);
   const isMsp = props.scope === 'msp';
   const permData = isMsp ? props.data : permDatas;
-  console.log(permDatas);
   const originRoleMap = isMsp ? props.roleMap : roleMaps;
   const defaultScope = isMsp ? props.scope : scope;
   const [{ data, tabKey, searchKey, roleMap, reloadKey }, updater, update] = useUpdate({

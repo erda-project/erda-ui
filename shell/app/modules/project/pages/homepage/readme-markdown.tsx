@@ -69,7 +69,7 @@ export const ReadMeMarkdown = ({ value, onChange, onSave, disabled, originalValu
   ) : (
     <div className="relative cursor-pointer rounded w-full read-only-markdown" style={{ maxHeight }}>
       <div className="overflow-hidden" style={{ maxHeight: 'inherit' }}>
-        <MarkdownRender value={value || `{i18n.t('No description')}`} />
+        <MarkdownRender value={value || i18n.t('No description')} />
         <Tooltip title={i18n.t('dop:click to edit')}>
           <div
             className={'markdown-edit-button flex-all-center h-8 w-8 fixed bg-white rounded-2xl shadow-card'}
