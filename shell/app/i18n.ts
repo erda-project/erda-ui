@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n, { getCurrentLocale, getLang, isZh, setLocale } from 'core/i18n';
-import overwriteT from './i18n-easy-edit/overwrite_i18n';
+import overwriteT from './i18n-easy-edit/overwrite-i18n';
 import { isEditAccess } from './i18n-easy-edit/utils';
 import zh from './locales/zh.json';
 import en from './locales/en.json';

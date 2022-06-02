@@ -1,12 +1,13 @@
 import React from 'react';
 import store from '../../store';
-import { splitKey, getTransFromLocalStorage } from '../../utils';
+import { splitKey } from '../../utils';
 import { ErdaIcon } from 'common';
-import './css/index.less';
+import './index.less';
 
 interface IProps {
   text: string;
   combinedKey: string;
+  paramObj?: Obj;
 }
 const I18nWrapper = (props: IProps) => {
   const [ns, key] = splitKey(props.combinedKey);

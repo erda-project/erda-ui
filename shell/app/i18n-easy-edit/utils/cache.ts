@@ -13,10 +13,6 @@ class LocalCache {
   deleteCache(key: string): void {
     window.localStorage.removeItem(key);
   }
-
-  clearCache(): void {
-    window.localStorage.clear();
-  }
 }
 
 export default new LocalCache();

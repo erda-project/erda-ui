@@ -3,8 +3,8 @@ import { Modal, Button, message } from 'antd';
 import { mergeLocalStorage2JSON, clearLocalStorage } from '../../utils';
 import moment from 'moment';
 interface IProps {
-  setPublishVisible: (value: boolean) => {};
-  setEditCount: (value: number) => {};
+  setPublishVisible: (value: boolean) => void;
+  setEditCount: (value: number) => void;
   isPublishVisible: boolean;
 }
 const PublishModal = (props: IProps) => {

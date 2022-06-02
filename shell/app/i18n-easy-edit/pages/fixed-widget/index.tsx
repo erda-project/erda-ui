@@ -4,8 +4,8 @@ import { ErdaIcon } from 'common';
 import store from '../../store';
 
 interface IProps {
-  setPublishVisible: (value: boolean) => {};
-  editCount: boolean;
+  setPublishVisible: (value: boolean) => void;
+  editCount: number;
 }
 const FixedWidget = (props: IProps) => {
   const [editable, setEditable] = React.useState(false);
@@ -17,15 +17,11 @@ const FixedWidget = (props: IProps) => {
   }, [editable]);
 
   // publish
-  const publishClick = (e) => {
+  const publishClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();
     props.setPublishVisible(true);
   };
-  const publishRender = (
-    <a href="#" onClick={publishClick}>
-      Publish
-    </a>
-  );
+  const publishRender = <a onClick={publishClick}>Publish</a>;
 
   return (
     <>

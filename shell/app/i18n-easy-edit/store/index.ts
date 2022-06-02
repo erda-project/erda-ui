@@ -2,20 +2,20 @@ import { createStore } from 'core/cube';
 import { getTranslation } from '../utils';
 
 interface IState {
-  ns: string | undefined;
-  key: string | undefined;
-  en: string | undefined;
-  zh: string | undefined;
-  isVisible: boolean; // edit modal visible
+  ns: string | null;
+  key: string | null;
+  en: string | null;
+  zh: string | null;
+  isVisible: boolean;
   isEditable: boolean;
-  setTextCb: null | ((value: string) => {});
+  setTextCb: null | ((value: string) => void);
 }
 
 const initState: IState = {
-  ns: undefined,
-  key: undefined,
-  en: undefined,
-  zh: undefined,
+  ns: null,
+  key: null,
+  en: null,
+  zh: null,
   isVisible: false, // edit modal visible
   isEditable: false,
   setTextCb: null,
@@ -33,7 +33,7 @@ export default createStore({
         state.isVisible = true;
       }
     },
-    closeModel(state) {
+    closeModal(state) {
       state.isVisible = false;
     },
     switchIsEditable(state, value: boolean) {

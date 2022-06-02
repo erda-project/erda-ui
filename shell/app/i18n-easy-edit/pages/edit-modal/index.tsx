@@ -7,8 +7,16 @@ import { setTrans2LocalStorage, getEditCount } from '../../utils';
 import { getCurrentLocale } from 'core/i18n';
 
 interface IProps {
-  setEditCount: (value: number) => {};
+  setEditCount: (value: number) => void;
 }
+
+const editTitle = (
+  <div className="i18n-model flex flex-row justify-start items-center">
+    <ErdaIcon type="edit" size="16" />
+    <span className="pl-1">Edit i18n translation</span>
+  </div>
+);
+
 const EditModal = (props: IProps) => {
   // form
   const [form] = Form.useForm();
@@ -25,11 +33,11 @@ const EditModal = (props: IProps) => {
         setTextCb && setTextCb(getCurrentLocale().key === 'en' ? en : zh);
         props.setEditCount(getEditCount());
       }
-      store.reducers.closeModel();
+      store.reducers.closeModal();
     });
   };
   const handleCancel = () => {
-    store.reducers.closeModel();
+    store.reducers.closeModal();
   };
   React.useEffect(() => {
     // open model, reset the field value
@@ -38,16 +46,9 @@ const EditModal = (props: IProps) => {
     }
   }, [isVisible]);
 
-  const editTitle = (
-    <div className="i18n-model flex flex-row justify-start items-center">
-      <ErdaIcon type="edit" size="16" />
-      <span className="pl-1">Edit i18n translation</span>
-    </div>
-  );
   return (
     <>
       <Modal
-        className="i18n-modal"
         title={editTitle}
         visible={isVisible}
         onOk={handleOk}

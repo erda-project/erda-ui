@@ -1,4 +1,3 @@
-import _ from 'lodash';
 // 1. default
 import en1 from '../../../../locales/en.json';
 import zh1 from '../../../../locales/zh.json';
