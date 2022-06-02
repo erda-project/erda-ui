@@ -1,28 +1,25 @@
 import React from 'react';
-import i18n, { getCurrentLocale } from 'core/i18n';
+import i18n from 'core/i18n';
 import I18nWrapper from './pages/i18n-wrapper';
-import { getTransFromLocalStorage } from './utils';
+import { getTransFromLocalStorage, splitKey } from './utils';
 
-// 重写 i18n.t
-// 在 erda-ui/shell/app/i18n.ts 中引入
+// overwrite i18n.t
 const originT = i18n.t;
-const overwriteT = (...args: string[]) => {
-  const text = originT.call(i18n, ...args);
+const overwriteT = (...args: [string, Object?]) => {
+  const originText = originT.call(i18n, ...args);
+  const formatText = args[1]?._formatter && args[1]._formatter(originText);
+  const text = formatText || originText;
+  const [ns, key] = splitKey(args[0]);
   const _ret = (
     <I18nWrapper
-      firstArg={args[0]}
-      secondArg={args[1]}
+      combinedKey={args[0]}
+      paramObj={args[1]}
       key={args[0]}
-      text={getTransFromLocalStorage(args[0], args[1], getCurrentLocale().key) || text}
+      text={getTransFromLocalStorage(ns, key) || text}
     />
   );
-
   let ret = {};
-  // ret._format = (f) => {
-  //   const str = f(text)
-  //   return ret;
-  // };
-  // 添加 String.prototype 所有属性
+  // add String.prototype all properties
   Object.getOwnPropertyNames(String.prototype).forEach((key) => {
     if (typeof String.prototype[key] === 'function') {
       ret[key] = String.prototype[key].bind(text);
@@ -30,7 +27,18 @@ const overwriteT = (...args: string[]) => {
       ret[key] = String.prototype[key];
     }
   });
-  // 删除 _store 属性，防止报错
+  // overwrite toString
+  // in case of react dom object is not allowed (template string or echarts, etc.)
+  ret.toString = () => text + '*';
+  // custom format
+  ret._format = (f) => {
+    if (!args[1]) {
+      args[1] = {};
+    }
+    args[1]._formatter = f;
+    return overwriteT(args[0], args[1]);
+  };
+  // delete _store to prevent throwing error
   ret = { ...ret, ..._ret, _store: undefined };
   return ret;
 };

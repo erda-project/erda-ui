@@ -13,16 +13,18 @@
 
 import i18n, { getCurrentLocale, getLang, isZh, setLocale } from 'core/i18n';
 import overwriteT from './i18n-page-edit/overwrite_i18n';
+import { isEditAccess } from './i18n-page-edit/utils';
 import zh from './locales/zh.json';
 import en from './locales/en.json';
 import defaultZh from '../../locales/zh.json';
 import defaultEn from '../../locales/en.json';
 import { map, merge } from 'lodash';
+import { erdaEnv } from 'common/constants';
 
-map(merge(defaultZh, zh), (zhValue, zhKey) => {
+map(merge({ ...defaultZh }, zh), (zhValue, zhKey) => {
   i18n.addResourceBundle('zh', zhKey, zhValue);
 });
-map(merge(defaultEn, en), (enValue, enKey) => {
+map(merge({ ...defaultEn }, en), (enValue, enKey) => {
   i18n.addResourceBundle('en', enKey, enValue);
 });
 
@@ -35,7 +37,7 @@ if (currentLocale.key === 'en' && docDesc) {
 }
 
 // dev模式，覆盖原有的i18n.t
-if (true) {
+if (erdaEnv.I18N_ACCESS_ENV === 'true' && isEditAccess()) {
   i18n.t = overwriteT;
 }
 

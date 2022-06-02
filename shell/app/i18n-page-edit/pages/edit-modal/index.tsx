@@ -1,15 +1,12 @@
 import React from 'react';
 import { Modal } from 'antd';
 import { Form, Input } from 'antd';
-import FixedWidget from '../fixed-widget';
 import { ErdaIcon } from 'common';
 import store, { I18nData } from '../../store';
 import { setTrans2LocalStorage, getEditCount } from '../../utils';
 import { getCurrentLocale } from 'core/i18n';
 
-const App: React.FC = () => {
-  let editCount = getEditCount();
-
+const App: React.FC = (props) => {
   // form
   const [form] = Form.useForm();
   const { ns, key, en, zh, isVisible, setTextCb } = store.useStore((s) => s);
@@ -17,13 +14,13 @@ const App: React.FC = () => {
   const prevZh = zh;
   const handleOk = () => {
     form.validateFields().then(({ ns, key, en, zh }: I18nData) => {
-      // 翻译修改后，才会保存
+      // only changed the translation can save
       if (prevEn !== en || prevZh !== zh) {
         setTrans2LocalStorage(ns, key, en, 'en');
         setTrans2LocalStorage(ns, key, zh, 'zh');
         store.reducers.initState(ns, key, en, zh);
         setTextCb(getCurrentLocale().key === 'en' ? en : zh);
-        editCount = getEditCount();
+        props.setEditCount(getEditCount());
       }
       store.reducers.closeModel();
     });
@@ -32,7 +29,7 @@ const App: React.FC = () => {
     store.reducers.closeModel();
   };
   React.useEffect(() => {
-    // 打开 model，重新赋值
+    // open model, reset the field value
     if (isVisible) {
       form.setFieldsValue({ ns, key, en, zh });
     }
@@ -80,7 +77,6 @@ const App: React.FC = () => {
           </Form>
         </div>
       </Modal>
-      <FixedWidget editCount={editCount} />
     </>
   );
 };

@@ -2,17 +2,22 @@ import React from 'react';
 import FixedWidget from './fixed-widget';
 import EditModal from './edit-modal';
 import PublishModal from './publish-modal';
-import { getEditCount } from '../utils';
+import { getEditCount, isEditAccess } from '../utils';
 
-// 在页面根 dom 中引入
+// insert in root dom
 // erda-ui/shell/app/layout/pages/page-container/components/shell/index.tsx
 const I18nEditPage: React.FC = () => {
   const [isPublishVisible, setPublishVisible] = React.useState(false);
   const [editCount, setEditCount] = React.useState(getEditCount());
+  if (!isEditAccess()) return null;
   return (
     <div className="i18n-page-edit">
       <EditModal setEditCount={setEditCount} />
-      <PublishModal isPublishVisible={isPublishVisible} setPublishVisible={setPublishVisible} />
+      <PublishModal
+        isPublishVisible={isPublishVisible}
+        setPublishVisible={setPublishVisible}
+        setEditCount={setEditCount}
+      />
       <FixedWidget setPublishVisible={setPublishVisible} editCount={editCount} />
     </div>
   );

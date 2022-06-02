@@ -1,12 +1,14 @@
 .i18n-wrapper {
   .edit-icon {
-    display: none;
+    visibility: hidden;
   }
   .i18n-wrapper-hover:hover {
-    padding-right: 14px;
-    .edit-icon{
-      display: inline-block;
+    padding-right: 18px;
+    .edit-icon {
+      position: absolute;
+      visibility: visible;
+      top: 50%;
+      transform: translate(0, -50%);
     }
   }
-
 }

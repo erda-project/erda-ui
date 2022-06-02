@@ -25,7 +25,7 @@ const App: React.FC = (props) => {
 
   return (
     <>
-      <div className="i18n-switch fixed bottom-20 right-10 cursor-pointer" onClick={clickHandler}>
+      <div className="i18n-switch fixed z-50 bottom-20 right-10 cursor-pointer" onClick={clickHandler}>
         <Badge count={props.editCount} size="small">
           {editable ? (
             <Popover content={publishRender}>

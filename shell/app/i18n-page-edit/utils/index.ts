@@ -1,7 +1,7 @@
 import localCache from './cache';
 import mergedJSON from './mergedJSON';
+import { getCurrentLocale } from 'i18n';
 import _ from 'lodash';
-import { duration } from 'moment';
 
 export interface ITranslation {
   en: string;
@@ -10,6 +10,10 @@ export interface ITranslation {
 type localeType = 'en' | 'zh';
 
 const nsSeparator = ':';
+
+export function isEditAccess() {
+  return localCache.getCache('i18n-edit-access') === true;
+}
 export function splitKey(combinedKey: string) {
   const temp = combinedKey.split(nsSeparator);
   const ns = temp.length === 1 ? 'default' : temp[0];
@@ -23,12 +27,16 @@ export function getCombinedKey(ns: string, key: string) {
 }
 
 export function getTranslation(ns: string, key: string, locale: localeType): string | undefined {
-  // 1. 从 localStorage 中查找
-  // 2. 从 json 中查找
+  // 1. find from localStorage
+  // 2. find from json
   return getTransFromLocalStorage(ns, key, locale) || getTransFromJSON(ns, key, locale);
 }
 
-export function getTransFromLocalStorage(ns: string, key: string, locale: localeType): string | undefined {
+export function getTransFromLocalStorage(
+  ns: string,
+  key: string,
+  locale: localeType = getCurrentLocale().key,
+): string | undefined {
   const res = localCache.getCache(`i18n-${locale}`);
   return res && res[ns] && res[ns][key];
 }
@@ -54,7 +62,7 @@ export function setTrans2LocalStorage(ns: string, key: string, value: string, lo
 }
 
 export function getEditCount(): number {
-  // 获取 localStorage 中修改的数量
+  // get localStorage saved count
   const res = localCache.getCache('i18n-zh');
   let count = 0;
   res && Object.keys(res).forEach((ns) => (count += Object.keys(res[ns]).length));
@@ -66,14 +74,15 @@ export function clearLocalStorage() {
   localCache.deleteCache('i18n-zh');
 }
 
-export function mergeLocalStorage2JSON() {
-  //TODO:  将 localStorage 保存的字段和现有的 JSON 对象合并
+export function mergeLocalStorage2JSON(): string | undefined {
+  // merge localStorage saved object with JSON
   const modifiedObj = {
     en: localCache.getCache('i18n-en'),
     zh: localCache.getCache('i18n-zh'),
   };
-  const res = {};
-  // O(n): n(modified ns:key) * n(mergedJSON path)
+  if (!localCache.getCache('i18n-en')) return;
+  // traverse through localStorage saved object, attach paths
+  const mergedModifiedObj = {};
   function _fn(locale: localeType) {
     Object.keys(modifiedObj[locale]).forEach((ns) => {
       Object.keys(modifiedObj[locale][ns]).forEach((key) => {
@@ -81,14 +90,22 @@ export function mergeLocalStorage2JSON() {
           return mergedJSON[path][locale][ns] && mergedJSON[path][locale][ns][key];
         });
         if (path) {
-          // 只添加已修改的路径
-          res[path] = mergedJSON[path];
-          _.merge(mergedJSON[path], modifiedObj);
+          !mergedModifiedObj[path] && (mergedModifiedObj[path] = { en: {}, zh: {} });
+          !mergedModifiedObj[path][locale][ns] && (mergedModifiedObj[path][locale][ns] = {});
+          mergedModifiedObj[path][locale][ns][key] = modifiedObj[locale][ns][key];
         }
       });
     });
   }
   _fn('en');
   _fn('zh');
-  return res;
+  const res = {};
+  const cloneMergedJSON = _.cloneDeep(mergedJSON);
+  Object.keys(mergedModifiedObj).forEach((path) => {
+    // only add modified JSON
+    res[path] = cloneMergedJSON[path];
+  });
+  _.merge(res, mergedModifiedObj);
+
+  return JSON.stringify(res);
 }

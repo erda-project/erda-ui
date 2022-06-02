@@ -1,28 +1,27 @@
 import React from 'react';
 import store from '../../store';
-import { splitKey } from '../../utils';
+import { splitKey, getTransFromLocalStorage } from '../../utils';
 import { ErdaIcon } from 'common';
 import './css/index.less';
 
 const I18nWrapper = (props) => {
-  const combinedKey = props.firstArg;
-  const [ns, key] = splitKey(combinedKey);
+  const [ns, key] = splitKey(props.combinedKey);
   const [text, setText] = React.useState(props.text);
   const isEditable = store.useStore((s) => s.isEditable);
   const openModel = (ns: string, key: string) => {
-    // 点击文本后，传递当前 ns key
+    // click the text, pass the its own ns key to store
     store.reducers.initState(ns, key);
     store.reducers.setCurrentTextCb((value: string) => setText(value));
   };
 
   return (
     <span className="i18n-wrapper relative">
-      <span data-key={combinedKey} className={isEditable ? 'i18n-wrapper-hover' : ''}>
+      <span data-key={props.combinedKey} className={isEditable ? 'i18n-wrapper-hover' : ''}>
         {text}
         <ErdaIcon
           type="edit"
           size="14"
-          className="edit-icon cursor-pointer absolute"
+          className="edit-icon cursor-pointer absolute pl-1"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();

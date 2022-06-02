@@ -15,7 +15,7 @@ export default createStore({
     key: '',
     en: '',
     zh: '',
-    isVisible: false, // model visible
+    isVisible: false, // edit modal visible
     isEditable: false,
     setTextCb: (value: string) => {
       value;
@@ -23,7 +23,7 @@ export default createStore({
   },
   reducers: {
     initState(state, ns: string, key: string, en?: string, zh?: string) {
-      // 重置当前 state
+      // reset state
       if (state.isEditable) {
         state.ns = ns;
         state.key = key;

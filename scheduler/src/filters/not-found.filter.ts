@@ -39,11 +39,12 @@ const {
   TERMINUS_TA_URL = '',
   TERMINUS_TA_COLLECTOR_URL = '',
   UI_PUBLIC_ADDR = '',
+  I18N_ACCESS_ENV = '',
 } = process.env;
 
 let newContent = indexHtmlContent.replace(
   '<!-- $ -->',
-  `<script>window.erdaEnv={UC_PUBLIC_URL:"${UC_PUBLIC_URL}",ENABLE_BIGDATA:"${ENABLE_BIGDATA}",ENABLE_EDGE:"${ENABLE_EDGE}",UI_PUBLIC_ADDR:"${UI_PUBLIC_ADDR}",ENABLE_APPLY_ORG:"${ENABLE_APPLY_ORG}"}</script>`,
+  `<script>window.erdaEnv={UC_PUBLIC_URL:"${UC_PUBLIC_URL}",ENABLE_BIGDATA:"${ENABLE_BIGDATA}",ENABLE_EDGE:"${ENABLE_EDGE}",UI_PUBLIC_ADDR:"${UI_PUBLIC_ADDR}",ENABLE_APPLY_ORG:"${ENABLE_APPLY_ORG}",I18N_ACCESS_ENV:"${I18N_ACCESS_ENV}"}</script>`,
 );
 if (TERMINUS_TA_ENABLE) {
   const taContent = `

@@ -11,7 +11,7 @@ import zh2 from 'app/locales/zh.json';
 import en3 from '../../../../../erda-ui-enterprise/admin/src/locales/en.json';
 import zh3 from '../../../../../erda-ui-enterprise/admin/src/locales/zh.json';
 
-// 路径需要和引入对象一一对应
+// make sure the path is correspond to the imported object
 export default {
   'erda-ui/locales': {
     en: en1,
