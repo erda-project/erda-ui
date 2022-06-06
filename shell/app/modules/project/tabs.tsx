@@ -14,22 +14,18 @@
 import React from 'react';
 import i18n from 'i18n';
 import permStore from 'user/stores/permission';
-import { firstCharToUpper } from 'app/common/utils';
+import { firstCharToUpper, goTo } from 'app/common/utils';
 import { HIDDEN_MILESTONE } from 'common/constants';
 import IterationSelector from 'project/common/components/iteration-selector';
 import RuntimeSelector from 'project/common/components/runtime-selector';
+import routeInfoStore from 'core/stores/route';
 
-export const ITERATION_DETAIL_TABS = (params: Obj) => {
-  const { breadcrumbInfoMap } = params;
+export const ITERATION_DETAIL_TABS = (params?: Obj) => {
+  const { breadcrumbInfoMap } = params || {};
   const iterationName = breadcrumbInfoMap?.iterationName;
   const projectPerm = permStore.useStore((s) => s.project);
-  return [
-    {
-      key: '_',
-      name: <IterationSelector iterationName={iterationName} />,
-      readonly: true,
-      className: 'cursor-default',
-    },
+
+  const tabs = [
     {
       key: 'all',
       name: i18n.t('dop:Issue-list'),
@@ -49,6 +45,34 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
       name: i18n.t('dop:Statistics'),
     },
   ];
+
+  return [
+    {
+      key: '_',
+      name: (
+        <IterationSelector
+          iterationName={iterationName}
+          onClickItem={({ iterationId, projectId }) => {
+            let curType = location.pathname.split('/').pop();
+            if (tabs.find((item) => item.key === curType)?.show === false) {
+              curType = 'all';
+            }
+            goTo(goTo.pages.iterationDetail, { projectId, iterationId, issueType: curType });
+          }}
+        />
+      ),
+      readonly: true,
+      className: 'cursor-default',
+    },
+    ...tabs,
+  ];
+};
+
+export const IterationPageWrapper = (Comp: () => JSX.Element) => {
+  return () => {
+    const iterationId = routeInfoStore.useStore((s) => s.params.iterationId);
+    return <Comp key={iterationId} />;
+  };
 };
 
 export const DEPLOY_TABS = (params: Obj) => {
