@@ -17,10 +17,15 @@ import { goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { getProjectIterations } from 'project/services/project-iteration';
-
 import './iteration-selector.scss';
 
-const IterationSelector = ({ iterationName }: { iterationName: string }) => {
+const IterationSelector = ({
+  iterationName,
+  onClickItem,
+}: {
+  iterationName: string;
+  onClickItem?: (params: { iterationId: string; projectId: string }) => void;
+}) => {
   const { projectId, iterationId } = routeInfoStore.useStore((s) => s.params);
 
   const getData = async (q: { pageNo: number }) => {
@@ -28,16 +33,19 @@ const IterationSelector = ({ iterationName }: { iterationName: string }) => {
     return list.data || {};
   };
 
-  const headIterationRender = React.useCallback(() => {
-    return (
-      <div className="flex text-base">
-        <div className="w-full flex justify-between max-w-xs">
-          <Ellipsis title={iterationName} />
-          <ErdaIcon type="caret-down" className="icon ml-0.5" size="14" />
+  const headIterationRender = React.useCallback(
+    (item) => {
+      return (
+        <div className="flex text-base">
+          <div className="w-full flex justify-between max-w-xs">
+            <Ellipsis title={item.label || iterationName} />
+            <ErdaIcon type="caret-down" className="icon ml-0.5" size="14" />
+          </div>
         </div>
-      </div>
-    );
-  }, [iterationName]);
+      );
+    },
+    [iterationName],
+  );
 
   return (
     <LoadMoreSelector
@@ -55,7 +63,9 @@ const IterationSelector = ({ iterationName }: { iterationName: string }) => {
       onClickItem={({ value, label }: { value: number; label: string }) => {
         if (value !== +iterationId) {
           breadcrumbStore.reducers.setInfo('iterationName', label);
-          goTo(goTo.pages.iterationDetail, { projectId, iterationId: value, issueType: 'all' });
+          onClickItem
+            ? onClickItem({ iterationId: `${value}`, projectId })
+            : goTo(goTo.pages.iterationDetail, { projectId, iterationId: value, issueType: 'all' });
         }
       }}
     />

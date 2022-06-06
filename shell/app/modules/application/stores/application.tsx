@@ -17,14 +17,12 @@ import { createApp, initApp, queryTemplate } from '../services/application';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { getVersionPushConfig, updateVersionPushConfig } from 'application/services/app-setting';
 import { getAppDetail, updateAppDetail, remove, getBranchInfo } from 'application/services/application';
-import { isEmpty, get } from 'lodash';
+import { isEmpty } from 'lodash';
 import permStore from 'user/stores/permission';
 import { appMode } from 'application/common/config';
-import layoutStore from 'layout/stores/layout';
-import { HeadAppSelector } from 'application/common/app-selector';
 import userStore from 'app/user/stores';
-import { theme } from 'app/themes';
 import { emit } from 'core/event-hub';
+import repoStore from 'application/stores/repo';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 
@@ -33,6 +31,7 @@ interface IState {
   detail: IApplication;
   branchInfo: APPLICATION.IBranchInfo[];
   curAppId: string;
+  initAppInfo: false;
 }
 
 const initState: IState = {
@@ -40,6 +39,7 @@ const initState: IState = {
   detail: {} as IApplication,
   curAppId: '',
   branchInfo: [],
+  initAppInfo: false,
 };
 
 const appStore = createStore({
@@ -52,6 +52,7 @@ const appStore = createStore({
       if (isIn('application')) {
         if (`${curAppId}` !== `${appId}`) {
           // 应用切换后才重新checkRouteAuth
+          appStore.reducers.updateInitAppInfo(false);
           appStore.reducers.updateCurAppId(appId);
           breadcrumbStore.reducers.setInfo('appName', '');
           permStore.effects.checkRouteAuth({
@@ -60,7 +61,11 @@ const appStore = createStore({
             routeMark: 'application',
             cb() {
               appStore.effects.getBranchInfo({ appId }); // 请求app下全量branch
-              appStore.effects.getAppDetail(appId);
+              appStore.effects.getAppDetail(appId).then(() => {
+                repoStore.effects.getRepoInfo().then(() => {
+                  appStore.reducers.updateInitAppInfo(true);
+                });
+              });
             },
           });
         }
@@ -71,6 +76,7 @@ const appStore = createStore({
         userStore.reducers.clearAppList();
         appStore.reducers.cleanAppDetail();
         appStore.reducers.updateCurAppId();
+        appStore.reducers.updateInitAppInfo(false);
       }
     });
   },
@@ -170,6 +176,9 @@ const appStore = createStore({
     },
     updateCurAppId(state, appId = '') {
       state.curAppId = appId;
+    },
+    updateInitAppInfo(state, initAppInfo) {
+      state.initAppInfo = initAppInfo;
     },
   },
 });

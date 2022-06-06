@@ -27,6 +27,7 @@ import {
   DEPLOY_TABS,
   RELEASE_TABS,
   PIPELINE_TABS,
+  IterationPageWrapper,
 } from './tabs';
 
 function getProjectRouter(): RouteConfigItem[] {
@@ -149,6 +150,7 @@ function getProjectRouter(): RouteConfigItem[] {
                       tabs: ITERATION_DETAIL_TABS,
                       backToUp: 'projectIteration',
                       ignoreTabQuery: true,
+                      wrapper: IterationPageWrapper,
                       getComp: (cb) => cb(import('project/pages/issue/gantt')),
                       layout: {
                         fullHeight: true,
@@ -160,6 +162,7 @@ function getProjectRouter(): RouteConfigItem[] {
                       tabs: ITERATION_DETAIL_TABS,
                       backToUp: 'projectIteration',
                       ignoreTabQuery: true,
+                      wrapper: IterationPageWrapper,
                       getComp: (cb) => cb(import('project/pages/issue/all')),
                       layout: {
                         noWrapper: true,
@@ -171,6 +174,7 @@ function getProjectRouter(): RouteConfigItem[] {
                       tabs: ITERATION_DETAIL_TABS,
                       backToUp: 'projectIteration',
                       ignoreTabQuery: true,
+                      wrapper: IterationPageWrapper,
                       getComp: (cb) => cb(import('project/pages/issue/board')),
                       layout: {
                         noWrapper: true,
@@ -181,6 +185,7 @@ function getProjectRouter(): RouteConfigItem[] {
                       tabs: ITERATION_DETAIL_TABS,
                       backToUp: 'projectIteration',
                       ignoreTabQuery: true,
+                      wrapper: IterationPageWrapper,
                       getComp: (cb) => cb(import('project/pages/issue/statistics')),
                       layout: {
                         noWrapper: true,

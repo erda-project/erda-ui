@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 import { ENV_MAP } from 'app/locales/utils';
-import { APP_TABS, DEPLOY_RUNTIME_TABS, MR_DETAIL_TABS } from './tabs';
+import { APP_TABS, DEPLOY_RUNTIME_TABS, MR_DETAIL_TABS, AppPageWrapper } from './tabs';
 
 function getAppRouter(): RouteConfigItem {
   return {
@@ -29,12 +29,14 @@ function getAppRouter(): RouteConfigItem {
         tabs: APP_TABS,
         backToUp: 'projectAppList',
         alwaysShowTabKey: 'repo',
+        wrapper: AppPageWrapper,
         routes: [
           {
             tabs: APP_TABS,
             backToUp: 'projectAppList',
             alwaysShowTabKey: 'repo',
             ignoreTabQuery: true,
+            wrapper: AppPageWrapper,
             getComp: (cb) => cb(import('application/pages/repo/repo-tree')),
           },
           {
@@ -44,6 +46,7 @@ function getAppRouter(): RouteConfigItem {
             backToUp: 'projectAppList',
             alwaysShowTabKey: 'repo',
             ignoreTabQuery: true,
+            wrapper: AppPageWrapper,
             getComp: (cb) => cb(import('application/pages/repo/repo-tree')),
           },
           {
@@ -65,6 +68,7 @@ function getAppRouter(): RouteConfigItem {
               {
                 ignoreTabQuery: true,
                 backToUp: 'projectAppList',
+                wrapper: AppPageWrapper,
                 getComp: (cb) => cb(import('application/pages/repo/repo-branch')),
                 layout: { noWrapper: true },
               },
@@ -93,6 +97,7 @@ function getAppRouter(): RouteConfigItem {
             backToUp: 'projectAppList',
             alwaysShowTabKey: 'repo/commits',
             ignoreTabQuery: true,
+            wrapper: AppPageWrapper,
             getComp: (cb) => cb(import('application/pages/repo/repo-commit')),
           },
           {
@@ -123,6 +128,7 @@ function getAppRouter(): RouteConfigItem {
               {
                 ignoreTabQuery: true,
                 backToUp: 'projectAppList',
+                wrapper: AppPageWrapper,
                 getComp: (cb) => cb(import('application/pages/repo/repo-mr')),
                 layout: { noWrapper: true },
               },
@@ -148,6 +154,7 @@ function getAppRouter(): RouteConfigItem {
             mark: 'appPipelineList',
             ignoreTabQuery: true,
             tabs: APP_TABS,
+            wrapper: AppPageWrapper,
             alwaysShowTabKey: 'pipeline',
             layout: { fullHeight: true, noWrapper: true },
             getComp: (cb) => cb(import('application/pages/pipeline')),
@@ -162,9 +169,11 @@ function getAppRouter(): RouteConfigItem {
         routes: [
           {
             path: ':pipelineID',
+            wrapper: AppPageWrapper,
             getComp: (cb) => cb(import('application/pages/build/dataTask'), 'DataTask'),
           },
           {
+            wrapper: AppPageWrapper,
             getComp: (cb) => cb(import('application/pages/build/dataTask'), 'DataTask'),
           },
         ],
@@ -176,9 +185,11 @@ function getAppRouter(): RouteConfigItem {
         routes: [
           {
             path: 'starChart/:filePath',
+            wrapper: AppPageWrapper,
             getComp: (cb) => cb(import('application/pages/data-model/model-star-chart'), 'ModelStarChart'),
           },
           {
+            wrapper: AppPageWrapper,
             getComp: (cb) => cb(import('application/pages/data-model/data-model'), 'DataModel'),
           },
         ],
@@ -187,12 +198,14 @@ function getAppRouter(): RouteConfigItem {
         path: 'dataMarket',
         backToUp: 'projectAppList',
         tabs: APP_TABS,
+        wrapper: AppPageWrapper,
         getComp: (cb) => cb(import('application/pages/data-market/data-market'), 'DataMarket'),
       },
       {
         path: 'quality',
         backToUp: 'projectAppList',
         tabs: APP_TABS,
+        wrapper: AppPageWrapper,
         ignoreTabQuery: true,
         getComp: (cb) => cb(import('application/pages/quality/entry')),
         layout: { noWrapper: true },
@@ -210,6 +223,7 @@ function getAppRouter(): RouteConfigItem {
               {
                 backToUp: 'projectAppList',
                 layout: { noWrapper: true },
+                wrapper: AppPageWrapper,
                 getComp: (cb) => cb(import('project/pages/deploy')),
               },
               {
@@ -234,6 +248,7 @@ function getAppRouter(): RouteConfigItem {
         path: 'apiDesign',
         mark: 'apiDesign',
         tabs: APP_TABS,
+        wrapper: AppPageWrapper,
         backToUp: 'projectAppList',
         ignoreTabQuery: true,
         layout: { fullHeight: true },
@@ -242,6 +257,7 @@ function getAppRouter(): RouteConfigItem {
       {
         path: 'setting',
         tabs: APP_TABS,
+        wrapper: AppPageWrapper,
         backToUp: 'projectAppList',
         ignoreTabQuery: true,
         layout: { fullHeight: true },
