@@ -91,4 +91,4 @@ export const initI18n = i18n.init({
   },
 });
 
-export default { ...i18n, s: (text: string, ns: Obj<any> | string, opts?: Obj<any>) => text };
+export default { ...i18n, s: (text: string, ns?: Obj<any> | string, opts?: Obj<any>) => text };
