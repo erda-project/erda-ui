@@ -14,8 +14,8 @@
 import * as React from 'react';
 import { RadioTabs, ErdaIcon, EmptyHolder, Badge } from 'common';
 import { ENV_MAP } from 'project/common/config';
-import { map, debounce } from 'lodash';
-import { Drawer, Button, Input, Timeline, Spin, message } from 'antd';
+import { map, debounce, filter } from 'lodash';
+import { Drawer, Button, Input, Timeline, Spin, message, Alert } from 'antd';
 import { firstCharToUpper, goTo } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
 import routeInfoStore from 'core/stores/route';
@@ -28,6 +28,7 @@ import { useEffectOnce, useUpdateEffect } from 'react-use';
 import DeployDetail from './deploy-detail';
 import { deployOrderStatusMap } from './config';
 import moment from 'moment';
+import { queryWorkflow } from 'project/services/project-workflow';
 import {
   getDeployOrders,
   getDeployOrderDetail,
@@ -141,6 +142,22 @@ const DeployContent = ({
   const timer = React.useRef<number>();
   const isAutoLoaing = React.useRef(false);
   const reloadRef = React.useRef<{ reload: () => void }>();
+  const [workflowData] = queryWorkflow.useState();
+  const getWorkflows = React.useCallback(() => queryWorkflow.fetch({ projectID: +projectId }), [projectId]);
+
+  React.useEffect(() => {
+    getWorkflows();
+  }, [getWorkflows]);
+
+  const supportedBranches = React.useMemo(() => {
+    if (workflowData) {
+      const branches = filter(workflowData.flows, ({ environment }) => environment === propsEnv).map(
+        (v) => v.targetBranch,
+      );
+      return branches.join(',');
+    }
+    return '';
+  }, [workflowData, propsEnv]);
 
   const [deployOrdersData, loading] = getDeployOrders.useState();
   const deployOrders = React.useMemo(() => deployOrdersData?.list || [], [deployOrdersData]);
@@ -316,6 +333,23 @@ const DeployContent = ({
     <>
       <div className="flex flex-1 mt-2 overflow-hidden">
         <div className="bg-white flex-1 overflow-hidden">
+          <div>
+            {supportedBranches && (
+              <Alert
+                type="info"
+                message={
+                  <span>
+                    {i18n.s(
+                      'Current environment only supports {supportedBranches} branch for deployment, and there are no restrictions on product deployment. For detailed settings, please refer to Project Settings-R&D Workflow Settings',
+                      'dop',
+                      { supportedBranches, interpolation: { escapeValue: false } },
+                    )}
+                  </span>
+                }
+                className="mx-4 mt-4 bg-blue-1 border-blue"
+              />
+            )}
+          </div>
           <DiceConfigPage
             scenarioKey={scenarioKey}
             scenarioType={scenarioKey}
