@@ -39,7 +39,7 @@ interface IProps {
   switchToExecute: () => void;
   setEditMode: (v: Partial<DetailMode>) => void;
   setPipelineId: (v: string) => void;
-  extraTitle: React.ReactNode;
+  extraTitle?: React.ReactNode;
 }
 
 const { endNode: EndNode } = NodeEleMap;

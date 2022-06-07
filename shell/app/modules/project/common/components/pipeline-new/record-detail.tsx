@@ -31,6 +31,8 @@ interface IProps {
   appId: string;
   projectId: string;
   pipelineId: string;
+  extra?: React.ReactNode;
+  editPipeline?: () => void;
 }
 
 const Info = ({ appId }: { appId: string }) => {
@@ -126,19 +128,26 @@ const Info = ({ appId }: { appId: string }) => {
 };
 
 const Execute = (props: Merge<IProps, { titleOperation?: React.ReactNode }>) => {
-  const { pipelineId, appId, titleOperation = null } = props;
+  const { pipelineId, appId, titleOperation = null, editPipeline, extra } = props;
   const { clearPipelineDetail } = buildStore.reducers;
   useUnmount(() => {
     clearPipelineDetail();
   });
   return (
     <div>
+      {extra}
       <div className="text-base font-medium text-default-8 flex-h-center justify-between">
         {`${i18n.t('dop:Pipeline Detail')}`}
         {titleOperation}
       </div>
       <Info appId={appId} />
-      <PureExecute {...props} deployAuth={{ hasAuth: false }} chosenPipelineId={pipelineId} />
+      <PureExecute
+        editPipeline={editPipeline}
+        title={i18n.t('Pipeline')}
+        {...props}
+        deployAuth={{ hasAuth: false }}
+        chosenPipelineId={pipelineId}
+      />
     </div>
   );
 };

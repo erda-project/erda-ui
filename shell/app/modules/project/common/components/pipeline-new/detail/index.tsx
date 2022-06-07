@@ -16,15 +16,13 @@ import fileTreeStore from 'project/stores/file-tree';
 import buildStore from 'application/stores/build';
 import { useUnmount, useUpdateEffect } from 'react-use';
 import Editor from './editor';
-import { Tooltip } from 'antd';
 import Execute from './execute';
 import { useLoading } from 'core/stores/loading';
-import { getBranchPath, getIsInApp } from '../config';
+import { getBranchPath } from '../config';
 import repoStore from 'application/stores/repo';
-import { EmptyHolder, ErdaIcon } from 'common';
-import { goTo } from 'app/common/utils';
-import { encode } from 'js-base64';
+import { EmptyHolder, ErdaAlert } from 'common';
 import i18n from 'i18n';
+import HistoryExecute from '../record-detail';
 
 interface IProps {
   appId: string;
@@ -36,6 +34,7 @@ interface IProps {
   projectName: string;
   appName: string;
   branchExist?: boolean;
+  isLatestPipeline: boolean;
   setNewPipelineUsed?: (v: boolean) => void;
 }
 
@@ -53,7 +52,7 @@ const Pipeline = (props: IProps) => {
     pipelineId: _pipelineId,
     branchExist,
     projectId,
-    pipelineName,
+    isLatestPipeline,
     appName,
     setNewPipelineUsed,
     projectName,
@@ -147,33 +146,6 @@ const Pipeline = (props: IProps) => {
     setMode(DetailMode.edit);
   };
 
-  const isInApp = getIsInApp();
-  const extraTitle = (
-    <Tooltip title={i18n.t('dop:check execution history')}>
-      <ErdaIcon
-        onClick={() => {
-          const params = {
-            projectId,
-            query: {
-              // fix with base64 RFC 4648
-              customFilter__urlQuery: encode(`{"title":"${pipelineName}"}`).replaceAll('/', '_').replaceAll('+', '-'),
-            },
-            jumpOut: true,
-          };
-          if (isInApp) {
-            goTo(goTo.pages.appPipelineRecords, { ...params, appId });
-          } else {
-            goTo(goTo.pages.projectPipelineRecords, params);
-          }
-        }}
-        fill="black-4"
-        size="18"
-        type="jsjl"
-        className="cursor-pointer ml-2"
-      />
-    </Tooltip>
-  );
-
   return mode && mode !== DetailMode.execute ? (
     <Editor
       mode={mode}
@@ -186,7 +158,6 @@ const Pipeline = (props: IProps) => {
         setPipelineId(v);
         setNewPipelineUsed?.(true);
       }}
-      extraTitle={extraTitle}
       editAuth={editAuth.hasAuth}
       pipelineDetail={pipelineDetail}
       pipelineDefinitionID={pipelineDefinitionID}
@@ -195,23 +166,44 @@ const Pipeline = (props: IProps) => {
       onUpdate={onUpdate}
     />
   ) : pipelineId ? (
-    <Execute
-      appId={appId}
-      setPipelineId={(v) => {
-        setPipelineId(v);
-        setNewPipelineUsed?.(true);
-      }}
-      projectId={projectId}
-      pipelineId={pipelineId}
-      switchToEditor={() => setMode(DetailMode.file)}
-      pipelineDefinitionID={pipelineDefinitionID}
-      extraTitle={extraTitle}
-      fileChanged={fileChanged}
-      deployAuth={deployAuth}
-      pipelineDetail={pipelineDetail}
-      pipelineFileDetail={nodeDetail}
-      editPipeline={editPipeline}
-    />
+    isLatestPipeline ? (
+      <Execute
+        appId={appId}
+        setPipelineId={(v) => {
+          setPipelineId(v);
+          setNewPipelineUsed?.(true);
+        }}
+        projectId={projectId}
+        pipelineId={pipelineId}
+        switchToEditor={() => setMode(DetailMode.file)}
+        pipelineDefinitionID={pipelineDefinitionID}
+        fileChanged={fileChanged}
+        deployAuth={deployAuth}
+        pipelineDetail={pipelineDetail}
+        pipelineFileDetail={nodeDetail}
+        editPipeline={editPipeline}
+      />
+    ) : (
+      <HistoryExecute
+        extra={
+          <ErdaAlert
+            message={
+              <div>
+                {`${i18n.t('dop:pipeline-changed-tip2')} `}
+                <span className="text-purple-deep cursor-pointer" onClick={() => setMode(DetailMode.file)}>
+                  {i18n.t('dop:edit to check')}
+                </span>
+              </div>
+            }
+            closeable={false}
+          />
+        }
+        editPipeline={editPipeline}
+        appId={appId}
+        projectId={projectId}
+        pipelineId={pipelineId}
+      />
+    )
   ) : null;
 };
 
