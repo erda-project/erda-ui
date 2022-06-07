@@ -12,19 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n, { getCurrentLocale, getLang, isZh, setLocale } from 'core/i18n';
-import overwriteT from './i18n-easy-edit/overwrite-i18n';
-import { isEditAccess } from './i18n-easy-edit/utils';
+import { overwriteT, isAccess } from './i18n-easy-edit';
 import zh from './locales/zh.json';
 import en from './locales/en.json';
 import defaultZh from '../../locales/zh.json';
 import defaultEn from '../../locales/en.json';
-import { map, merge } from 'lodash';
-import { erdaEnv } from 'common/constants';
+import { map, merge, cloneDeep } from 'lodash';
 
-map(merge({ ...defaultZh }, zh), (zhValue, zhKey) => {
+map(merge(cloneDeep(defaultZh), zh), (zhValue, zhKey) => {
   i18n.addResourceBundle('zh', zhKey, zhValue);
 });
-map(merge({ ...defaultEn }, en), (enValue, enKey) => {
+map(merge(cloneDeep(defaultEn), en), (enValue, enKey) => {
   i18n.addResourceBundle('en', enKey, enValue);
 });
 
@@ -37,7 +35,7 @@ if (currentLocale.key === 'en' && docDesc) {
 }
 
 // overwrite i18n.t
-if (erdaEnv.I18N_ACCESS_ENV === 'true' && isEditAccess()) {
+if (isAccess) {
   i18n.t = overwriteT;
 }
 

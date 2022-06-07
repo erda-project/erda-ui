@@ -13,7 +13,7 @@
 
 import React from 'react';
 import './index.scss';
-import I18nEasyEdit from 'app/i18n-easy-edit/pages';
+import { I18nEasyEditPage } from 'app/i18n-easy-edit';
 
 interface IProps {
   children?: React.ReactNode;
@@ -41,7 +41,7 @@ const Shell = ({ children, breadcrumb, announcement, navigation, sidebar, classN
         </div>
       )}
       <div className={`erda-main-content ${mainClassName || ''}`}>{children}</div>
-      <I18nEasyEdit />
+      <I18nEasyEditPage />
     </div>
   );
 };

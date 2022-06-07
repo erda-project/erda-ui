@@ -15,14 +15,16 @@ import React from 'react';
 import { Badge, Popover } from 'antd';
 import { ErdaIcon } from 'common';
 import store from '../../store';
+import { getEditFlag, setEditFlag } from '../../utils';
 
 interface IProps {
   setPublishVisible: (value: boolean) => void;
   editCount: number;
 }
 const FixedWidget = (props: IProps) => {
-  const [editable, setEditable] = React.useState(false);
+  const [editable, setEditable] = React.useState(getEditFlag());
   const clickHandler = () => {
+    setEditFlag(!editable);
     setEditable(!editable);
   };
   React.useEffect(() => {

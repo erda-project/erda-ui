@@ -13,9 +13,9 @@
 
 import React from 'react';
 import i18n from 'core/i18n';
-import I18nWrapper from './pages/i18n-wrapper';
-import { getTransFromLocalStorage, splitKey } from './utils';
-
+import I18nWrapper from '../pages/i18n-wrapper';
+import { getTransFromLocalStorage, splitKey } from '.';
+import config from '../config';
 interface Ret {
   _format: (f: () => string) => Ret;
   _store: undefined;
@@ -23,18 +23,13 @@ interface Ret {
 
 // overwrite i18n.t
 const originT = i18n.t;
-const overwriteT = (...args: [string, Obj?]) => {
-  const originText = originT.call(i18n, ...args);
-  const formatText = args[1]?._formatter && args[1]._formatter(originText);
+const overwriteT = (combinedKey: string, paramObj?: Obj) => {
+  const originText = originT.call(i18n, combinedKey, paramObj);
+  const formatText = paramObj?._formatter && paramObj._formatter(originText);
   const text = formatText || originText;
-  const [ns, key] = splitKey(args[0]);
+  const [ns, key] = splitKey(combinedKey);
   const _ret = (
-    <I18nWrapper
-      combinedKey={args[0]}
-      paramObj={args[1]}
-      key={args[0]}
-      text={getTransFromLocalStorage(ns, key) || text}
-    />
+    <I18nWrapper key={combinedKey} combinedKey={combinedKey} text={getTransFromLocalStorage(ns, key) || text} />
   );
   let ret = {} as Ret;
   // add String.prototype all properties
@@ -47,14 +42,15 @@ const overwriteT = (...args: [string, Obj?]) => {
   });
   // overwrite toString
   // in case of react dom object is not allowed (template string or echarts, etc.)
-  ret.toString = () => text + '*';
+  ret.toString = () => text + config.noEditSuffix;
+  ret.valueOf = () => text + config.noEditSuffix;
   // custom format
   ret._format = (f) => {
-    if (!args[1]) {
-      args[1] = {};
+    if (!paramObj) {
+      paramObj = {};
     }
-    args[1]._formatter = f;
-    return overwriteT(args[0], args[1]);
+    paramObj._formatter = f;
+    return overwriteT(combinedKey, paramObj);
   };
   // delete _store to prevent throwing error
   ret = { ...ret, ..._ret, _store: undefined };
