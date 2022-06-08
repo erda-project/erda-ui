@@ -291,7 +291,7 @@ const WrappedLogRoller = (props: Merge<LogProps, { instance: Obj; isStopped: boo
     <LogRoller
       {...propsRest}
       {...rest}
-      disableDownload={logFallbackMap[props.logKey]}
+      downloadFallback={logFallbackMap[props.logKey]}
       query={{ isFirstQuery, live: !isStopped, ...instance, ...props?.query }}
       content={content || []}
       fetchPeriod={fetchPeriod || 3000}

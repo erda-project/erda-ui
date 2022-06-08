@@ -33,6 +33,7 @@ export interface IProps {
   fetchLog: (query: object) => Promise<any>;
   clearLog: (logKey?: string) => void;
   searchContext?: boolean;
+  downloadFallback?: boolean;
 }
 
 interface IState {
@@ -219,7 +220,7 @@ export class LogRoller extends React.Component<IProps, IState> {
   };
 
   render() {
-    const { content, query, style = {}, hasLogs = true, ...otherProps } = this.props;
+    const { content, query, style = {}, hasLogs = true, downloadFallback, ...otherProps } = this.props;
     const { rolling, backwardLoading, downloadLogModalVisible } = this.state;
     const lastItem = last(content);
     const realHaveLog = hasLogs && !!lastItem;
@@ -243,6 +244,7 @@ export class LogRoller extends React.Component<IProps, IState> {
         />
         {realHaveLog && (
           <DownloadLogModal
+            downloadFallback={downloadFallback}
             visible={downloadLogModalVisible}
             start={lastItem ? lastItem.timestamp : 0}
             query={query}
