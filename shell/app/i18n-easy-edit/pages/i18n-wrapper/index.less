@@ -1,14 +1,19 @@
 .i18n-wrapper {
+  width: 100%;
+  overflow: hidden;
+
   .edit-icon {
+    position: absolute;
     visibility: hidden;
+    top: 50%;
+    transform: translate(0, -50%);
+    padding-left: 2px;
   }
-  .i18n-wrapper-hover:hover {
-    padding-right: 18px;
+
+  .i18n-editable:hover {
+    padding-right: 16px;
     .edit-icon {
-      position: absolute;
       visibility: visible;
-      top: 50%;
-      transform: translate(0, -50%);
     }
   }
 }

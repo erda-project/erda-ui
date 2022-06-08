@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Badge, message } from 'antd';
+import { Badge, message, Tooltip } from 'antd';
 import orgStore from 'app/org-home/stores/org';
 import { ErdaIcon } from 'common';
 import { DOC_HELP_HOME, erdaEnv } from 'common/constants';
@@ -52,14 +52,15 @@ export interface NavItemProps {
 
 export const NavItem = ({ icon, label, link, onClick }: NavItemProps) => {
   const content = (
-    <div
-      key={label}
-      className="erda-global-nav-item relative flex-all-center cursor-pointer w-full h-11"
-      onClick={onClick}
-    >
-      {icon}
-      <div className="name px-3 text-white shadow-card-lg rounded-sm">{label}</div>
-    </div>
+    <Tooltip title={label} placement={'rightBottom'} align={{ points: ['tl', 'tr'], offset: [-20, 30] }}>
+      <div
+        key={label}
+        className="erda-global-nav-item relative flex-all-center cursor-pointer w-full h-11"
+        onClick={onClick}
+      >
+        {icon}
+      </div>
+    </Tooltip>
   );
   return link ? (
     <Link to={link} className="w-full">

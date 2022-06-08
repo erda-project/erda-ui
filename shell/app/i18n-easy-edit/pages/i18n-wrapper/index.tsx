@@ -34,12 +34,12 @@ const I18nWrapper = (props: IProps) => {
 
   return (
     <span className="i18n-wrapper relative">
-      <span data-key={props.combinedKey} className={isEditable ? 'i18n-wrapper-hover' : ''}>
+      <span i18n-key={props.combinedKey} className={isEditable ? 'i18n-editable' : 'i18n-not-editable'}>
         {text}
         <ErdaIcon
           type="edit"
           size="14"
-          className="edit-icon cursor-pointer absolute pl-1"
+          className="edit-icon cursor-pointer"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
