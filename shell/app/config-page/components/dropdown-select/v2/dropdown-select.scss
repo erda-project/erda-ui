@@ -80,7 +80,7 @@
   .cp-dropdown-select-option-item {
     .option-desc {
       font-size: 12px;
-      color: $color-default-6;
+      color: theme('colors[default-6]');
     }
 
     .option-label {

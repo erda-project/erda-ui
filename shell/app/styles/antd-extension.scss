@@ -223,7 +223,7 @@ body {
 
   .ant-drawer-header {
     border-bottom: unset;
-    background: $color-default-02;
+    background: theme('colors[default-02]');
     padding: 12px 16px;
     .ant-drawer-close {
       padding: 15px;
@@ -276,7 +276,7 @@ body {
     .ant-drawer-wrapper-body {
       display: flex;
       flex-direction: column;
-      background-color: $color-default-04;
+      background-color: theme('colors[default-04]');
     }
 
     .ant-drawer-header {
@@ -640,9 +640,9 @@ body {
 
   .ant-btn {
     &:not(.ant-btn-primary, .ant-btn-dashed, .ant-btn-link, .ant-btn-text, .ant-btn-dangerous) {
-      background: $color-default-06;
+      background: theme('colors[default-06]');
       border-color: transparent;
-      color: $color-default-8;
+      color: theme('colors[default-8]');
     }
     &.theme-dark {
       background-color: $color-white-2;

@@ -17,6 +17,7 @@ import ReactDOM from 'react-dom';
 import { get } from 'lodash';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import 'antd/dist/antd.variable.min.css';
 import { message, ConfigProvider as AntConfigProvider } from 'antd';
 import { ConfigProvider } from '@erda-ui/components';
 import antd_zhCN from 'antd/es/locale-provider/zh_CN';
@@ -40,10 +41,12 @@ import announcementStore from 'org/stores/announcement';
 import layoutStore from 'layout/stores/layout';
 import orgStore from 'app/org-home/stores/org';
 import setAntdDefault from './antd-default-props';
+import { THEME_MAP } from './theme-map';
 import './styles/antd-extension.scss';
 import './styles/app.scss';
 import '@erda-ui/dashboard-configurator/dist/index.css';
 import 'tailwindcss/tailwind.css';
+import './styles/erda-theme.scss';
 
 setConfig('onAPISuccess', message.success);
 setConfig('onAPIFail', notify);
@@ -129,6 +132,13 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[], curOrg: ORG.IOrg, orgAcce
         </AntConfigProvider>
       );
     };
+
+    AntConfigProvider.config({
+      theme: {
+        primaryColor: THEME_MAP[localStorage.getItem('erda-theme') || 'default'],
+      },
+    });
+    document.body.setAttribute('data-theme', `${localStorage.getItem('erda-theme') || 'default'}-theme`);
 
     ReactDOM.render(<Wrap />, document.getElementById('erda-content'));
     // delete window._userData;

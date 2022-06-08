@@ -2,11 +2,11 @@
   background-color: transparent;
 
   &.on-hover {
-    background-color: $color-default-04;
+    background-color: theme('colors[default-04]');
   }
 
   &-selected {
-    background-color: $color-default-06 !important;
+    background-color: theme('colors[default-06]') !important;
   }
 
   &.on-add {
@@ -29,14 +29,14 @@
 .erda-gantt-grid-hover-box {
   .erda-gantt-grid-hover-range {
     margin-left: 3px;
-    border-left: 2px dashed $color-default-2;
+    border-left: 2px dashed theme('colors[default-2]');
   }
   .erda-gantt-grid-hover-arrow {
     width: 0;
     height: 0;
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
-    border-top: 4px solid $color-default-2;
+    border-top: 4px solid theme('colors[default-2]');
   }
 }
 

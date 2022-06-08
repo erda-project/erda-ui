@@ -20,7 +20,7 @@
 
   .ant-picker {
     &:hover {
-      background-color: $color-default-06 !important;
+      background-color: theme('colors[default-06]') !important;
     }
   }
 

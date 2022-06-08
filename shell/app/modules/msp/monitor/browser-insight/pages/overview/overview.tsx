@@ -16,7 +16,7 @@ import { TimeSelectWithStore } from 'msp/components/time-select';
 import DiceConfigPage from 'app/config-page';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'core/stores/route';
-import themeColor from 'app/theme-color.mjs';
+import themeColor from 'app/theme-color';
 
 const topNConfig = [
   {

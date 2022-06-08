@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 .cp-text-block-group {
-  background: $color-default-02;
+  background: theme('colors[default-02]');
 
   .erda-text-block-info {
     min-width: 100px;

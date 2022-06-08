@@ -6,7 +6,7 @@
     border-radius: 2px;
   }
   &.ant-alert-info {
-    background-color: $color-default-bg;
+    background-color: theme('colors[default-bg]');
 
     .erda-alert-icon {
       color: $color-default;

@@ -127,7 +127,7 @@
   }
 
   h6 {
-    color: $color-default-8;
+    color: theme('colors[default-8]');
     font-size: 14px;
   }
 
@@ -289,7 +289,7 @@
 
   img {
     max-width: 100%;
-    border: 1px solid $color-default-1;
+    border: 1px solid theme('colors[default-1]');
   }
 
   span.frame {

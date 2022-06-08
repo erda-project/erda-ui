@@ -135,20 +135,20 @@ module.exports = (api) => {
           'import',
           {
             libraryName: 'antd',
-            customName(name, file) {
-              if (overwriteMap[name]) {
-                return `app/antd-overwrite/${name}`;
-              }
-              return `antd/es/${name}`;
-            },
-            style(name, file) {
-              // name is antd/es/xx
-              const match = overwriteCssMap[name.split('/')[2]];
-              if (match !== undefined) {
-                return match;
-              }
-              return `${name}/style`;
-            },
+            // customName(name, file) {
+            //   if (overwriteMap[name]) {
+            //     return `app/antd-overwrite/${name}`;
+            //   }
+            //   return `antd/es/${name}`;
+            // },
+            // style(name, file) {
+            //   // name is antd/es/xx
+            //   const match = overwriteCssMap[name.split('/')[2]];
+            //   if (match !== undefined) {
+            //     return match;
+            //   }
+            //   return `${name}/style`;
+            // },
           },
           'antd',
         ],

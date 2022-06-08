@@ -17,6 +17,6 @@
   z-index: 2;
   transition: box-shadow 0.1s ease-in-out;
   &.show {
-    box-shadow: 0 6px 11px -11px $color-default-3 inset;
+    box-shadow: 0 6px 11px -11px theme('colors[default-3]') inset;
   }
 }

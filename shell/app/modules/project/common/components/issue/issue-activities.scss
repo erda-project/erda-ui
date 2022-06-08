@@ -6,7 +6,7 @@
     width: 9px;
     height: 9px;
     margin-right: 4px;
-    background-color: $color-default-2;
+    background-color: theme('colors[default-2]');
     border-radius: 100%;
   }
   &:after {
@@ -16,7 +16,7 @@
     left: 4px;
     width: 1px;
     height: 100%;
-    background-color: $color-default-1;
+    background-color: theme('colors[default-1]');
   }
   &:last-child:after {
     content: unset;
@@ -33,7 +33,7 @@
 
   .issue-comment-content {
     position: relative;
-    border: 1px solid $color-default-1;
+    border: 1px solid theme('colors[default-1]');
     &::before {
       content: '';
       position: absolute;
@@ -43,8 +43,8 @@
       left: -6px;
       transform: rotate(45deg);
       background-color: $white;
-      border-bottom: 1px solid $color-default-1;
-      border-left: 1px solid $color-default-1;
+      border-bottom: 1px solid theme('colors[default-1]');
+      border-left: 1px solid theme('colors[default-1]');
     }
   }
 

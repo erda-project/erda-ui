@@ -37,7 +37,7 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.1s ease-out;
-    background-color: $color-default-06;
+    background-color: theme('colors[default-06]');
 
     &-value {
       max-width: 180px;
@@ -55,7 +55,7 @@
     }
 
     &:hover {
-      background-color: $color-default-1;
+      background-color: theme('colors[default-1]');
 
       i {
         color: $black;

@@ -20,7 +20,7 @@ import React from 'react';
 import { useEffectOnce } from 'react-use';
 import routeInfoStore from 'core/stores/route';
 import './project-label.scss';
-import themeColor from 'app/theme-color.mjs';
+import themeColor from 'app/theme-color';
 
 const colorMap = {
   purple: themeColor['purple-deep'],

@@ -16,7 +16,7 @@ import { floor } from 'lodash';
 import { Progress, Spin, Tooltip } from 'antd';
 import ErdaTable from 'common/components/table';
 import { cutStr, fromNow, secondsToTime } from 'common/utils';
-import themeColor from 'app/theme-color.mjs';
+import themeColor from 'app/theme-color';
 import i18n from 'i18n';
 import './test-list.scss';
 import applicationTestStore from 'application/stores/test';

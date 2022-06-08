@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import themeColors from 'app/theme-color.mjs';
+import themeColors from 'app/theme-color.js';
 import { colorToRgb } from 'common/utils';
 import Echarts from 'charts/components/echarts';
 import EmptyHolder from 'common/components/empty-holder';

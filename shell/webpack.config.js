@@ -143,7 +143,6 @@ module.exports = async () => {
               options: {
                 sourceMap: true,
                 lessOptions: {
-                  modifyVars: await import('./app/theme-color.mjs').then((m) => m.getLessTheme()),
                   javascriptEnabled: true,
                 },
               },
@@ -158,7 +157,7 @@ module.exports = async () => {
             {
               loader: 'postcss-loader',
               options: {
-                postcssOptions: await import('./postcss.config.mjs').then((m) => m.default),
+                postcssOptions: require('./postcss.config.js'),
               },
             },
           ],

@@ -11,11 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import tailwind from 'tailwindcss'
-import autoprefixer from 'autoprefixer'
-import tailwindConfig from './tailwind.config.mjs'
+const autoprefixer = require('autoprefixer');
+const tailwindcss = require('tailwindcss');
+const tailwindConfig = require('./tailwind.config.js');
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default {
-  plugins: [tailwind(tailwindConfig), autoprefixer],
-}
+module.exports = {
+  plugins: [tailwindcss(tailwindConfig), autoprefixer()],
+};

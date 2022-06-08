@@ -55,7 +55,7 @@
   }
 
   .homepage-info {
-    border-left: 1px solid $color-default-04;
+    border-left: 1px solid theme('colors[default-04]');
 
     .info-brief {
       line-height: 22px;

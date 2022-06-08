@@ -16,8 +16,8 @@ import legacyPlugin from '@vitejs/plugin-legacy';
 import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import * as path from 'path';
-import postcss from './postcss.config.mjs';
-import { getLessTheme } from './app/theme-color.mjs';
+import postcss from './postcss.config.js';
+import commonjs from '@rollup/plugin-commonjs';
 
 const babelConfig = require('./babel.config.js')();
 
@@ -138,13 +138,13 @@ export default ({ command, mode }) => {
           plugins: babelConfig.plugins.slice(0, 3),
         },
       }),
+      commonjs({ include: ['./app/theme-color.js'] }),
     ],
     css: {
       preprocessorOptions: {
         less: {
           // 支持内联 JavaScript
           javascriptEnabled: true,
-          modifyVars: getLessTheme(),
         },
         scss: {
           additionalData:

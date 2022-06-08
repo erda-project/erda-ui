@@ -5,7 +5,7 @@
     display: block;
     .rc-md-editor {
       border-radius: $radius;
-      border-color: $color-default-2;
+      border-color: theme('colors[default-2]');
 
       .editor-container {
         padding: $p8;
@@ -16,7 +16,7 @@
         }
 
         .sec-html {
-          border-bottom: 1px solid $color-default-2;
+          border-bottom: 1px solid theme('colors[default-2]');
         }
       }
 

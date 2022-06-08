@@ -32,7 +32,7 @@ import CardList, { CardColumnsProps } from 'msp/components/card-list';
 import i18n from 'i18n';
 import DiceConfigPage from 'app/config-page';
 import { useUpdate } from 'common/use-hooks';
-import themeColor from 'app/theme-color.mjs';
+import themeColor from 'app/theme-color';
 
 const defaultSeriesConfig = (color?: string) => ({
   type: 'line',

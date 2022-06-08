@@ -3,7 +3,7 @@
     border: 1px solid transparent;
 
     .icon {
-      color: $color-default-3;
+      color: theme('colors[default-3]');
     }
 
     &:hover {

@@ -16,7 +16,7 @@ import { colorToRgb } from 'common/utils';
 import Echarts from 'charts/components/echarts';
 import { groupBy, isNumber } from 'lodash';
 import EmptyHolder from 'common/components/empty-holder';
-import themeColors from 'app/theme-color.mjs';
+import themeColors from 'app/theme-color.js';
 import { formatValue } from 'charts/utils';
 
 const themeColor = {

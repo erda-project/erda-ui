@@ -27,7 +27,7 @@ import { Cards, TopologyOverviewWrapper } from 'msp/env-overview/topology/pages/
 import ErdaIcon from 'common/components/erda-icon';
 import { useFullScreen } from 'common/use-hooks';
 import AnalyzerChart from 'msp/components/analyzer-chart';
-import themeColor from 'app/theme-color.mjs';
+import themeColor from 'app/theme-color';
 import './index.scss';
 
 const chartConfig = [

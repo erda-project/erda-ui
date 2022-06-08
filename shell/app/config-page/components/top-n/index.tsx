@@ -18,7 +18,7 @@ import ErdaIcon from 'common/components/erda-icon';
 import Ellipsis from 'common/components/ellipsis';
 import EmptyHoder from 'common/components/empty-holder';
 import './index.scss';
-import themeColor from 'app/theme-color.mjs';
+import themeColor from 'app/theme-color';
 
 const CP_TopN: React.FC<CP_DATA_RANK.Props> = (props) => {
   const {

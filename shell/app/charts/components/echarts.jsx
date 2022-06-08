@@ -28,7 +28,7 @@ import 'echarts/lib/chart/scatter';
 import 'echarts/lib/chart/map';
 import React from 'react';
 import ResizeObserver from 'rc-resize-observer';
-import themeColor from 'app/theme-color.mjs';
+import themeColor from 'app/theme-color';
 import { theme } from '../theme';
 import i18n from 'i18n';
 
@@ -80,13 +80,15 @@ class Echarts extends React.Component {
 
   // render the dom
   renderEchartDom() {
+    const style = getComputedStyle(document.body);
     // init the echart object
     const echartObj = this.getEchartsInstance();
     // set loading mask
     if (this.props.showLoading) {
       echartObj.showLoading('default', {
         text: `${i18n.t('charts:loading')}...`,
-        color: themeColor.primary,
+        // color: themeColor.primary,
+        color: style.getPropertyValue('--primary'),
         textColor: '#000',
         maskColor: 'rgba(255, 255, 255, 0.8)',
         zlevel: 0,

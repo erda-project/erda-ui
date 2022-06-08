@@ -39,7 +39,7 @@
     flex-direction: column;
     height: 100%;
     padding: 0;
-    background-color: $color-default-02;
+    background-color: theme('colors[default-02]');
   }
 }
 
@@ -48,7 +48,7 @@
   padding: 10px 24px;
   color: $color-text;
   line-height: 28px;
-  border-bottom: 1px solid $color-default-08;
+  border-bottom: 1px solid theme('colors[default-08]');
 
   .issue-header-title-wrap {
     height: 28px;

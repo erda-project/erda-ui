@@ -18,7 +18,7 @@
     color: $color-default;
 
     .erda-list-select-selected-item-delete {
-      color: $color-default-4;
+      color: theme('colors[default-4]');
       visibility: hidden;
     }
 
@@ -101,7 +101,7 @@
 
   .selected-num {
     padding: 1px 6px;
-    background-color: $color-default-06;
+    background-color: theme('colors[default-06]');
   }
 
   .erda-list-select-selected-list {

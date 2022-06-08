@@ -119,7 +119,7 @@
     margin-bottom: 8px;
     line-height: 24px;
     border-color: transparent;
-    background-color: $color-default-06;
+    background-color: theme('colors[default-06]');
 
     &:hover,
     &:focus {
@@ -139,7 +139,7 @@
     min-height: 150px;
     max-height: 240px;
     margin: 4px 0;
-    background-color: $color-default-02;
+    background-color: theme('colors[default-02]');
 
     &.normal {
       border: unset;
@@ -155,10 +155,10 @@
         height: 36px;
         margin-top: 0;
         margin-bottom: 0;
-        background-color: $color-default-04 !important;
+        background-color: theme('colors[default-04]') !important;
 
         &.ant-menu-item:active {
-          background-color: $color-default-04 !important;
+          background-color: theme('colors[default-04]') !important;
         }
 
         &.ant-menu-item-selected {
@@ -215,7 +215,7 @@
         &:hover,
         &.checked {
           color: $color-default;
-          background-color: $color-default-04;
+          background-color: theme('colors[default-04]');
         }
       }
     }

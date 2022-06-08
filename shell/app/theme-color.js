@@ -11,14 +11,42 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const colors = {
-  primary: 'rgba(48, 38, 71, 1)', // #302647
-  normal: 'rgba(48, 38, 71, .8)',
-  sub: 'rgba(48, 38, 71, .6)',
-  desc: 'rgba(48, 38, 71, .4)',
-  icon: 'rgba(48, 38, 71, .3)',
-  disabled: 'rgba(48, 38, 71, .3)',
-  holder: 'rgba(48, 38, 71, .2)',
+module.exports = {
+  primary: 'rgba(var(--color-primary-rgb), 1)',
+  normal: 'rgba(var(--color-primary-rgb), 0.8)',
+  sub: 'rgba(var(--color-primary-rgb), 0.6)',
+  desc: 'rgba(var(--color-primary-rgb), 0.4)',
+  icon: 'rgba(var(--color-primary-rgb), 0.3)',
+  disabled: 'rgba(var(--color-primary-rgb), 0.3)',
+  holder: 'rgba(var(--color-primary-rgb), 0.2)',
+
+  'primary-light': 'var(--color-primary-light)',
+
+  text: 'rgba(var(--color-primary-rgb), 0.8)',
+  'text-sub': 'rgba(var(--color-primary-rgb), 0.6)',
+  'text-desc': 'rgba(var(--color-primary-rgb), 0.4)',
+  'text-icon': 'rgba(var(--color-primary-rgb), 0.3)',
+  'text-holder': 'rgba(var(--color-primary-rgb), 0.2)',
+  border: 'rgba(var(--color-primary-rgb), 0.08)',
+
+  'default-bg': 'rgba(var(--color-primary-rgb), 0.1)',
+  active: 'rgba(var(--color-primary-rgb), 1)',
+  'active-bg': 'rgba(var(--color-primary-rgb), 0.06)',
+  'active-border': 'rgba(var(--color-primary-rgb), 0.6)',
+  'click-bg': 'rgba(var(--color-primary-rgb), 0.2)',
+
+  default: 'rgba(var(--color-primary-rgb), 1)',
+  'default-1': 'rgba(var(--color-primary-rgb), 0.1)',
+  'default-2': 'rgba(var(--color-primary-rgb), 0.2)',
+  'default-3': 'rgba(var(--color-primary-rgb), 0.3)',
+  'default-4': 'rgba(var(--color-primary-rgb), 0.4)',
+  'default-6': 'rgba(var(--color-primary-rgb), 0.6)',
+  'default-8': 'rgba(var(--color-primary-rgb), 0.8)',
+  'default-01': 'rgba(var(--color-primary-rgb), 0.01)',
+  'default-02': 'rgba(var(--color-primary-rgb), 0.02)',
+  'default-04': 'rgba(var(--color-primary-rgb), 0.04)',
+  'default-06': 'rgba(var(--color-primary-rgb), 0.06)',
+  'default-08': 'rgba(var(--color-primary-rgb), 0.08)',
 
   red: '#d84b65',
   'red-1': 'rgba(216,75,101,0.1)',
@@ -73,19 +101,6 @@ const colors = {
   'log-bg': '#3c444f',
   'light-border': 'rgba(222,222,222,0.5)', // 标准化后的颜色
 
-  default: '#302647',
-  'default-1': 'rgba(48, 38, 71, 0.1)',
-  'default-2': 'rgba(48, 38, 71, 0.2)',
-  'default-3': 'rgba(48, 38, 71, 0.3)',
-  'default-4': 'rgba(48, 38, 71, 0.4)',
-  'default-6': 'rgba(48, 38, 71, 0.6)',
-  'default-8': 'rgba(48, 38, 71, 0.8)',
-  'default-01': 'rgba(48, 38, 71, 0.01)',
-  'default-02': 'rgba(48, 38, 71, 0.02)',
-  'default-04': 'rgba(48, 38, 71, 0.04)',
-  'default-06': 'rgba(48, 38, 71, 0.06)',
-  'default-08': 'rgba(48, 38, 71, 0.08)',
-
   // auxiliary color
   'purple-dark': '#302647',
   'purple-deep': '#A051FF',
@@ -137,28 +152,3 @@ const colors = {
   'yellow-green-mid': '#ECE97D',
   'yellow-green-light': '#FAF9DC',
 };
-
-const themeColor = colors.primary;
-
-export const getLessTheme = () => {
-  return {
-    '@primary-color': themeColor,
-    '@success-color': '#27c99a',
-    '@error-color': '#d84b65',
-    '@warning-color': '#f4b518',
-    '@link-color': themeColor,
-    '@progress-remaining-color': '#E1E7FF',
-    '@font-size-base': '14px',
-    '@height-base': '32px',
-    '@height-lg': '36px',
-    '@height-sm': '28px',
-    '@border-radius-base': '2px;',
-    '@font-family': '"Roboto-Regular", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif',
-    '@outline-color': '#a051ff',
-    '@select-item-selected-bg': '#f7f7f8',
-    '@select-item-selected-color': '#a051ff',
-  };
-};
-
-
-export default colors;

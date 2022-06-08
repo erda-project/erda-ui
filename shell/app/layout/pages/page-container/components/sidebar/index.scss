@@ -50,7 +50,7 @@
     .icon {
       transition: opacity 0.1s ease-in-out;
       &:hover {
-        color: $color-default-8;
+        color: theme('colors[default-8]');
         background-color: rgba($color-default, 0.04);
       }
     }
@@ -106,7 +106,7 @@ div.side-nav-menu {
     border: none;
     background-color: transparent;
     .ant-menu-item-icon {
-      color: $color-default-6;
+      color: theme('colors[default-6]');
       font-size: 20px;
     }
 

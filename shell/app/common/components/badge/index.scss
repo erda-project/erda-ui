@@ -111,7 +111,7 @@
   }
   &.erda-badge-status-default {
     color: $color-default;
-    background-color: $color-default-bg;
+    background-color: theme('colors[default-bg]');
     .erda-badge-status-dot {
       background-color: $color-default;
     }

@@ -20,7 +20,7 @@
         color: $color-default;
 
         &:hover {
-          background-color: $color-default-01;
+          background-color: theme('colors[default-01]');
         }
         .ant-upload-list-item-name {
           color: $color-default;

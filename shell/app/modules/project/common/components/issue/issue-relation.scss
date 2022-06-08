@@ -6,7 +6,7 @@
 .section-operate-title {
   &:hover {
     .op-icon {
-      background-color: $color-default-06;
+      background-color: theme('colors[default-06]');
     }
   }
 }

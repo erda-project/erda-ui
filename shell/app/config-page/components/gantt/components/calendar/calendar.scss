@@ -53,8 +53,8 @@
     width: 16px;
     height: 20px;
     top: 30px;
-    background-color: $color-default-06;
-    color: $color-default-4;
+    background-color: theme('colors[default-06]');
+    color: theme('colors[default-4]');
     cursor: pointer;
     &:hover {
       background-color: $color-default;
