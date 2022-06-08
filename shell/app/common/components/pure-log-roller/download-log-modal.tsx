@@ -38,6 +38,7 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel, downloadFallbac
     const requestQuery = { ...rest };
     requestQuery.stream = stream || 'stdout';
     requestQuery.start = startTime.valueOf() * 1000000;
+    requestQuery.isFallBack = downloadFallback;
     const now = moment().valueOf();
     const duration = startTime.valueOf() + endTime * 60 * 1000;
     requestQuery.end = Math.min(duration, now) * 1000000;
@@ -46,7 +47,6 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel, downloadFallbac
       count: 200,
       source: 'job',
       id: `pipeline-task-${taskID}`,
-      isFallBack: downloadFallback,
     };
     const logFile = downloadAPI
       ? `${downloadAPI}?${qs.stringify(customRequestQuery)}`
