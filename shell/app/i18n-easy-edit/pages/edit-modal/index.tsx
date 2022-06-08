@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Modal } from 'antd';
-import { Form, Input } from 'antd';
+import { Form } from 'antd';
+import Input from 'antd/es/input';
 import { ErdaIcon } from 'common';
 import store from '../../store';
 import { setTrans2LocalStorage, getEditCount } from '../../utils';

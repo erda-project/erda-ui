@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Button, message } from 'antd';
+import { Modal, message } from 'antd';
+import Button from 'antd/es/button';
 import { mergeLocalStorage2JSON, clearLocalStorage } from '../../utils';
 import moment from 'moment';
 interface IProps {
