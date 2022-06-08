@@ -536,7 +536,7 @@ interface IProps {
   deployAuth: { hasAuth: boolean; authTip?: string };
 
   pipelineFileDetail?: TREE.NODE;
-  extraTitle: React.ReactNode;
+  extraTitle?: React.ReactNode;
   pipelineDetail?: BUILD.IPipelineDetail;
   setPipelineId?: (v: string) => void;
   switchToEditor: () => void;
@@ -545,7 +545,6 @@ interface IProps {
 
 const Execute = (props: IProps) => {
   const { pipelineId, pipelineFileDetail, switchToEditor, fileChanged = false, extraTitle } = props;
-
   return (
     <div className="pipeline-execute">
       {fileChanged ? (

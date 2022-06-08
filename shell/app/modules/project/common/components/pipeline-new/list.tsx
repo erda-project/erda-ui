@@ -12,12 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer } from 'antd';
+import { Drawer, Popover } from 'antd';
 import { get } from 'lodash';
 import i18n from 'i18n';
-import { Copy, ErdaIcon } from 'common';
+import { Copy, ErdaIcon, Table, Badge } from 'common';
 import DiceConfigPage from 'app/config-page';
-import { updateSearch, mergeSearch } from 'common/utils';
+import { updateSearch, mergeSearch, secondsToTime, goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import projectStore from 'project/stores/project';
 import { getAllBranch, runPipeline } from 'project/services/pipeline';
@@ -25,6 +25,10 @@ import PipelineDetail from 'project/common/components/pipeline-new/detail';
 import { getTreeNodeDetailNew } from 'project/services/file-tree';
 import InParamsForm from './detail/in-params-form';
 import { encode, decode } from 'js-base64';
+import { getPipelineRecord, PipelineRecord } from 'project/services/pipeline';
+import { useUserMap } from 'core/stores/userMap';
+import { ciStatusMap, getIsInApp } from './config';
+import moment from 'moment';
 
 interface IProps {
   pipelineCategory: string;
@@ -74,6 +78,10 @@ const getDetailId = (detail: Obj | null) => {
   return '';
 };
 
+const emptyHistory = {
+  total: 0,
+  execHistories: [],
+};
 const PipelineProtocol = React.forwardRef(
   (
     { pipelineCategory, updateCategory, onAddPipeline, projectId, appId }: IProps,
@@ -93,12 +101,16 @@ const PipelineProtocol = React.forwardRef(
     const [newPipelineUsed, setNewPipelineUsed] = React.useState(false);
     const [detail, setDetail] = React.useState<Detail | null>(initDetail);
     const [executeRecordId, setExecuteRecordId] = React.useState('');
+    const [record, setRecord] = React.useState<{ total: number; execHistories: PipelineRecord[] }>(emptyHistory);
+    const [chosenPipelineId, setChosenPipeineId] = React.useState('');
 
     const reloadRef = React.useRef<{ reload: () => void }>(null);
 
     const executeRef = React.useRef<{
       execute: (_ymlStr: string, extra: { pipelineID?: string; pipelineDetail?: BUILD.IPipelineDetail }) => void;
     }>(null);
+
+    const userMap = useUserMap();
 
     React.useEffect(() => {
       reloadRef.current?.reload();
@@ -121,6 +133,8 @@ const PipelineProtocol = React.forwardRef(
         detailId: undefined,
       });
       setDetailVisible(false);
+      setRecord(emptyHistory);
+      setChosenPipeineId('');
       setDetail(null);
       if (newPipelineUsed) {
         reloadRef.current?.reload();
@@ -130,6 +144,51 @@ const PipelineProtocol = React.forwardRef(
 
     const shareLink = `${location.href.split('?')[0]}?${mergeSearch({ detailId: getDetailId(detail) }, true)}`;
 
+    const columns = [
+      {
+        title: i18n.t('Status'),
+        dataIndex: 'pipelineStatus',
+        render: (status: string) => (
+          <span>
+            <span className="nowrap">{ciStatusMap[status].text}</span>
+            <Badge className="ml-1" onlyDot status={ciStatusMap[status].status} />
+          </span>
+        ),
+      },
+      {
+        title: i18n.t('dop:Time'),
+        dataIndex: 'costTimeSec',
+        render: (costTimeSec: number) => {
+          return costTimeSec !== -1 ? secondsToTime(+costTimeSec) : '';
+        },
+      },
+      { title: i18n.t('dop:branch'), dataIndex: 'branch' },
+      {
+        title: i18n.t('dop:Executor'),
+        dataIndex: 'executor',
+        render: (val: string) => {
+          const { nick, name } = userMap[val] || {};
+          return nick || name || i18n.t('common:None');
+        },
+      },
+      {
+        title: i18n.t('Trigger time'),
+        dataIndex: 'timeBegin',
+        render: (timeBegin: number) => moment(new Date(timeBegin)).format('YYYY/MM/DD HH:mm:ss'),
+      },
+    ];
+
+    const setRowClassName = (record: PipelineRecord) => {
+      return `${record.pipelineID}` !== `${chosenPipelineId}`
+        ? 'cursor-pointer'
+        : 'bg-default-06 font-medium cursor-pointer';
+    };
+    const curRecord = chosenPipelineId
+      ? record?.execHistories?.find((item) => `${item.pipelineID}` === `${chosenPipelineId}`)
+      : null;
+    const curUser = curRecord ? userMap[curRecord.executor] : null;
+    const isLatestPipeline = `${chosenPipelineId}` === `${detail?.pipelineId}`;
+    const isInApp = getIsInApp();
     return (
       <>
         <DiceConfigPage
@@ -170,6 +229,11 @@ const PipelineProtocol = React.forwardRef(
                   const { operations, id } = record;
                   const serverData = get(operations, 'click.serverData');
                   const { pipelineID: pipelineId, inode, appName, pipelineName } = serverData;
+                  getPipelineRecord({ projectID: projectId, pageNo: 1, pageSize: 20, name: pipelineName }).then(
+                    (res) => {
+                      setRecord(res?.data || emptyHistory);
+                    },
+                  );
                   if (inode) {
                     const path = decode(inode).split('/');
                     path.pop();
@@ -183,6 +247,7 @@ const PipelineProtocol = React.forwardRef(
                     }
                     // url search 'applicationId' use for action-config-form some action with member-selector
                     updateSearch({ applicationId: appId });
+                    setChosenPipeineId(pipelineId);
                     setDetail({
                       nodeId: inode,
                       appId: _appId,
@@ -281,9 +346,88 @@ const PipelineProtocol = React.forwardRef(
         <Drawer
           title={
             <div className="flex justify-between items-center">
-              <span>
-                {i18n.t('Pipeline')} {detail?.pipelineName || ''}
-              </span>
+              <div className="flex-h-center">
+                <span>
+                  {i18n.t('Pipeline')} {detail?.pipelineName || ''}
+                </span>
+                <div className="w-[1px] h-[18px] bg-default-3 mx-8" />
+                <Popover
+                  content={
+                    <div className="w-[680px]">
+                      <Table
+                        pagination={false}
+                        wrapperClassName="max-h-80"
+                        dataSource={record.execHistories}
+                        columns={columns}
+                        rowKey="pipelineID"
+                        scroll={{ y: 230 }}
+                        rowClassName={setRowClassName}
+                        onReload={() => {
+                          detail?.pipelineName &&
+                            getPipelineRecord({
+                              projectID: projectId,
+                              pageNo: 1,
+                              pageSize: 20,
+                              name: detail.pipelineName,
+                            }).then((res) => {
+                              setRecord(res?.data || emptyHistory);
+                            });
+                        }}
+                        onRow={(r: PipelineRecord) => {
+                          return {
+                            onClick: () => {
+                              setChosenPipeineId(`${r.pipelineID}`);
+                            },
+                          };
+                        }}
+                      />
+                      {record.total > 20 ? (
+                        <div className="flex justify-center mt-2 ">
+                          <span
+                            className="text-purple-deep cursor-pointer"
+                            onClick={() => {
+                              const params = {
+                                projectId,
+                                query: {
+                                  // fix with base64 RFC 4648
+                                  customFilter__urlQuery: encode(`{"title":"${detail?.pipelineName}"}`)
+                                    .replaceAll('/', '_')
+                                    .replaceAll('+', '-'),
+                                },
+                                jumpOut: true,
+                              };
+                              if (isInApp) {
+                                goTo(goTo.pages.appPipelineRecords, { ...params, appId });
+                              } else {
+                                goTo(goTo.pages.projectPipelineRecords, params);
+                              }
+                            }}
+                          >
+                            {i18n.s('Check more records', 'dop')}
+                          </span>
+                        </div>
+                      ) : null}
+                    </div>
+                  }
+                >
+                  <div className="flex-h-center group text-sm cursor-pointer">
+                    <Badge
+                      showDot={false}
+                      text={isLatestPipeline ? i18n.s('newest', 'dop') : i18n.s('history', 'dop')}
+                      status={isLatestPipeline ? 'processing' : 'warning'}
+                      className="mr-1"
+                    />
+                    <span className="text-default-8">{`${chosenPipelineId} - ${
+                      curUser?.nick || curUser?.name || curRecord?.executor || ''
+                    }`}</span>
+                    <ErdaIcon
+                      type="caret-down"
+                      className="ml-0.5 text-default-3 group-hover:text-default-8"
+                      size="14"
+                    />
+                  </div>
+                </Popover>
+              </div>
               <div>
                 <Copy selector=".copy-share-link" tipName={i18n.t('dop:link-share')} />
                 <ErdaIcon
@@ -307,7 +451,15 @@ const PipelineProtocol = React.forwardRef(
           width="80%"
           destroyOnClose
         >
-          {detail ? <PipelineDetail {...detail} setNewPipelineUsed={setNewPipelineUsed} /> : null}
+          {detail ? (
+            <PipelineDetail
+              key={chosenPipelineId}
+              {...detail}
+              pipelineId={chosenPipelineId}
+              isLatestPipeline={isLatestPipeline}
+              setNewPipelineUsed={setNewPipelineUsed}
+            />
+          ) : null}
         </Drawer>
         <InParamsForm ref={executeRef} onExecute={runBuild} />
       </>

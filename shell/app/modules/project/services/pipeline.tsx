@@ -49,6 +49,17 @@ interface Category {
   totalNum: number;
 }
 
+export interface PipelineRecord {
+  pipelineName: string;
+  pipelineStatus: string;
+  costTimeSec: number;
+  appName: string;
+  branch: string;
+  executor: string;
+  timeBegin: string;
+  pipelineID: number;
+}
+
 interface Guide {
   id: string;
   appID: number;
@@ -109,6 +120,9 @@ const apis = {
   },
   cancelPipeline: {
     api: 'post@/api/project-pipeline/definitions/:pipelineDefinitionID/actions/cancel',
+  },
+  getPipelineRecord: {
+    api: '/api/project-pipeline/actions/exec-history',
   },
 };
 
@@ -180,3 +194,10 @@ export const getGuidesList = apiCreator<(payload: { kind: string; projectID: str
 );
 
 export const cancelGuide = apiCreator<(payload: { id: string }) => RAW_RESPONSE>(apis.cancelGuide);
+
+export const getPipelineRecord = apiCreator<
+  (payload: { projectID: string; pageNo: number; pageSize: number; name: string }) => {
+    execHistories: PipelineRecord[];
+    total: number;
+  }
+>(apis.getPipelineRecord);
