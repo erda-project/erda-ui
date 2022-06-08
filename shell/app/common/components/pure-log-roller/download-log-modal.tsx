@@ -24,6 +24,7 @@ const DEFAULT_INTERVAL_MS = DEFAULT_INTERVAL_H * 60 * 60 * 1000;
 
 interface IProps {
   start: number;
+  downloadFallback?: boolean;
   visible: boolean;
   query?: {
     [prop: string]: any;
@@ -31,7 +32,7 @@ interface IProps {
   onCancel: () => void;
 }
 
-const DownloadLogFormModal = ({ start, visible, query, onCancel }: IProps) => {
+const DownloadLogFormModal = ({ start, visible, query, onCancel, downloadFallback = false }: IProps) => {
   const handleDownload = ({ startTime, endTime }: { startTime: Moment; endTime: number }) => {
     const { taskID, downloadAPI, fetchApi, end, stream, ...rest }: any = query;
     const requestQuery = { ...rest };
@@ -40,7 +41,13 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel }: IProps) => {
     const now = moment().valueOf();
     const duration = startTime.valueOf() + endTime * 60 * 1000;
     requestQuery.end = Math.min(duration, now) * 1000000;
-    const customRequestQuery = { ...requestQuery, count: 200, source: 'job', id: `pipeline-task-${taskID}` };
+    const customRequestQuery = {
+      ...requestQuery,
+      count: 200,
+      source: 'job',
+      id: `pipeline-task-${taskID}`,
+      isFallBack: downloadFallback,
+    };
     const logFile = downloadAPI
       ? `${downloadAPI}?${qs.stringify(customRequestQuery)}`
       : `${fetchApi || '/api/runtime/logs'}/actions/download?${qs.stringify(requestQuery)}`;
