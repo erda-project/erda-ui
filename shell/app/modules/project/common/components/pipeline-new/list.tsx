@@ -362,6 +362,17 @@ const PipelineProtocol = React.forwardRef(
                         rowKey="pipelineID"
                         scroll={{ y: 230 }}
                         rowClassName={setRowClassName}
+                        onReload={() => {
+                          detail?.pipelineName &&
+                            getPipelineRecord({
+                              projectID: projectId,
+                              pageNo: 1,
+                              pageSize: 20,
+                              name: detail.pipelineName,
+                            }).then((res) => {
+                              setRecord(res?.data || emptyHistory);
+                            });
+                        }}
                         onRow={(r: PipelineRecord) => {
                           return {
                             onClick: () => {
