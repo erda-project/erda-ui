@@ -240,6 +240,7 @@ export class LogRoller extends React.Component<IProps, IState> {
           backwardLoading={backwardLoading}
           onShowDownloadModal={this.toggleDownloadModal}
           hasLogs={realHaveLog}
+          downloadFallback={downloadFallback}
           {...otherProps}
         />
         {realHaveLog && (
