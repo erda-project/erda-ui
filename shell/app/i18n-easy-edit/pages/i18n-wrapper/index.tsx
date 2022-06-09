@@ -33,7 +33,7 @@ const I18nWrapper = (props: IProps) => {
   };
 
   return (
-    <span className="i18n-wrapper relative">
+    <span className="i18n-wrapper">
       <span i18n-key={props.combinedKey} className={isEditable ? 'i18n-editable' : 'i18n-not-editable'}>
         {text}
         <ErdaIcon
