@@ -19,9 +19,26 @@ import zh1 from '../../../../locales/zh.json';
 import en2 from 'app/locales/en.json';
 import zh2 from 'app/locales/zh.json';
 
-// 3. admin
-import en3 from '../../../../../erda-ui-enterprise/admin/src/locales/en.json';
-import zh3 from '../../../../../erda-ui-enterprise/admin/src/locales/zh.json';
+// 3. enterprise admin
+// if enterprise doesn't exists, webpack will compiled with warning but won't throw error
+let enterpriseImport = {};
+function importAll(r: __WebpackModuleApi.RequireContext) {
+  const res = {};
+  r.keys().forEach((key) => {
+    if (key.includes('zh')) {
+      res['zh'] = r(key);
+    }
+    if (key.includes('en')) {
+      res['en'] = r(key);
+    }
+  });
+  return res;
+}
+try {
+  enterpriseImport = importAll(require.context('../../../../../erda-ui-enterprise/admin/src/locales', false, /.json$/));
+} catch (error) {
+  console.log('erda-ui-enterprise/admin/src/locales not found');
+}
 
 // make sure the path is correspond to the imported object
 export default {
@@ -33,8 +50,5 @@ export default {
     en: en2,
     zh: zh2,
   },
-  'erda-ui-enterprise/admin/src/locales': {
-    en: en3,
-    zh: zh3,
-  },
+  'erda-ui-enterprise/admin/src/locales': enterpriseImport,
 };
