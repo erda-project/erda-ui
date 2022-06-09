@@ -332,7 +332,7 @@ const DeployContent = ({
   return (
     <>
       <div className="flex flex-1 mt-2 overflow-hidden">
-        <div className="bg-white flex-1 overflow-hidden">
+        <div className="bg-white flex-1 overflow-hidden flex flex-col">
           <div>
             {supportedBranches && (
               <Alert
@@ -350,46 +350,48 @@ const DeployContent = ({
               />
             )}
           </div>
-          <DiceConfigPage
-            scenarioKey={scenarioKey}
-            scenarioType={scenarioKey}
-            // useMock={useMock}
-            // forceMock
-            ref={reloadRef}
-            inParams={inParams}
-            customProps={{
-              list: {
-                props: isAppDeploy
-                  ? {}
-                  : {
-                      whiteHead: true,
-                      whiteFooter: true,
+          <div className="flex-1 overflow-auto">
+            <DiceConfigPage
+              scenarioKey={scenarioKey}
+              scenarioType={scenarioKey}
+              // useMock={useMock}
+              // forceMock
+              ref={reloadRef}
+              inParams={inParams}
+              customProps={{
+                list: {
+                  props: isAppDeploy
+                    ? {}
+                    : {
+                        whiteHead: true,
+                        whiteFooter: true,
+                      },
+                  op: {
+                    onStateChange: (data: { total: number }) => {
+                      onCountChange(data?.total);
                     },
-                op: {
-                  onStateChange: (data: { total: number }) => {
-                    onCountChange(data?.total);
-                  },
-                  clickItem: (op: { serverData?: { logId: string; appId: string } }, extra: { action: string }) => {
-                    const { logId, appId: _appId } = op.serverData || {};
-                    if (extra.action === 'clickTitleState' && logId && _appId) {
-                      update({
-                        logVisible: true,
-                        logData: {
-                          detailLogId: logId,
-                          applicationId: _appId,
-                        },
-                      });
-                    }
+                    clickItem: (op: { serverData?: { logId: string; appId: string } }, extra: { action: string }) => {
+                      const { logId, appId: _appId } = op.serverData || {};
+                      if (extra.action === 'clickTitleState' && logId && _appId) {
+                        update({
+                          logVisible: true,
+                          logData: {
+                            detailLogId: logId,
+                            applicationId: _appId,
+                          },
+                        });
+                      }
+                    },
                   },
                 },
-              },
-              page: {
-                props: {
-                  className: 'h-full',
+                page: {
+                  props: {
+                    className: 'h-full',
+                  },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          </div>
         </div>
         {isAppDeploy ? null : (
           <div className="bg-white flex">
