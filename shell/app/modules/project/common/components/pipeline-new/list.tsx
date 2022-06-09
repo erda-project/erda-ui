@@ -146,6 +146,10 @@ const PipelineProtocol = React.forwardRef(
 
     const columns = [
       {
+        title: i18n.t('dop:pipeline ID'),
+        dataIndex: 'pipelineID',
+      },
+      {
         title: i18n.t('Status'),
         dataIndex: 'pipelineStatus',
         render: (status: string) => (
@@ -350,83 +354,87 @@ const PipelineProtocol = React.forwardRef(
                 <span>
                   {i18n.t('Pipeline')} {detail?.pipelineName || ''}
                 </span>
-                <div className="w-[1px] h-[18px] bg-default-3 mx-8" />
-                <Popover
-                  content={
-                    <div className="w-[680px]">
-                      <Table
-                        pagination={false}
-                        wrapperClassName="max-h-80"
-                        dataSource={record.execHistories}
-                        columns={columns}
-                        rowKey="pipelineID"
-                        scroll={{ y: 230 }}
-                        rowClassName={setRowClassName}
-                        onReload={() => {
-                          detail?.pipelineName &&
-                            getPipelineRecord({
-                              projectID: projectId,
-                              pageNo: 1,
-                              pageSize: 20,
-                              name: detail.pipelineName,
-                            }).then((res) => {
-                              setRecord(res?.data || emptyHistory);
-                            });
-                        }}
-                        onRow={(r: PipelineRecord) => {
-                          return {
-                            onClick: () => {
-                              setChosenPipeineId(`${r.pipelineID}`);
-                            },
-                          };
-                        }}
-                      />
-                      {record.total > 20 ? (
-                        <div className="flex justify-center mt-2 ">
-                          <span
-                            className="text-purple-deep cursor-pointer"
-                            onClick={() => {
-                              const params = {
-                                projectId,
-                                query: {
-                                  // fix with base64 RFC 4648
-                                  customFilter__urlQuery: encode(`{"title":"${detail?.pipelineName}"}`)
-                                    .replaceAll('/', '_')
-                                    .replaceAll('+', '-'),
-                                },
-                                jumpOut: true,
-                              };
-                              if (isInApp) {
-                                goTo(goTo.pages.appPipelineRecords, { ...params, appId });
-                              } else {
-                                goTo(goTo.pages.projectPipelineRecords, params);
-                              }
+                {detail?.pipelineId ? (
+                  <>
+                    <div className="w-[1px] h-[18px] bg-default-3 mx-8" />
+                    <Popover
+                      content={
+                        <div className="w-[680px]">
+                          <Table
+                            pagination={false}
+                            wrapperClassName="max-h-80"
+                            dataSource={record.execHistories}
+                            columns={columns}
+                            rowKey="pipelineID"
+                            scroll={{ y: 230 }}
+                            rowClassName={setRowClassName}
+                            onReload={() => {
+                              detail?.pipelineName &&
+                                getPipelineRecord({
+                                  projectID: projectId,
+                                  pageNo: 1,
+                                  pageSize: 20,
+                                  name: detail.pipelineName,
+                                }).then((res) => {
+                                  setRecord(res?.data || emptyHistory);
+                                });
                             }}
-                          >
-                            {i18n.s('Check more records', 'dop')}
-                          </span>
+                            onRow={(r: PipelineRecord) => {
+                              return {
+                                onClick: () => {
+                                  setChosenPipeineId(`${r.pipelineID}`);
+                                },
+                              };
+                            }}
+                          />
+                          {record.total > 20 ? (
+                            <div className="flex justify-center mt-2 ">
+                              <span
+                                className="text-purple-deep cursor-pointer"
+                                onClick={() => {
+                                  const params = {
+                                    projectId,
+                                    query: {
+                                      // fix with base64 RFC 4648
+                                      customFilter__urlQuery: encode(`{"title":"${detail?.pipelineName}"}`)
+                                        .replaceAll('/', '_')
+                                        .replaceAll('+', '-'),
+                                    },
+                                    jumpOut: true,
+                                  };
+                                  if (isInApp) {
+                                    goTo(goTo.pages.appPipelineRecords, { ...params, appId });
+                                  } else {
+                                    goTo(goTo.pages.projectPipelineRecords, params);
+                                  }
+                                }}
+                              >
+                                {i18n.s('Check more records', 'dop')}
+                              </span>
+                            </div>
+                          ) : null}
                         </div>
-                      ) : null}
-                    </div>
-                  }
-                >
-                  <div className="flex-h-center group text-sm cursor-pointer">
-                    <Badge
-                      showDot={false}
-                      text={isLatestPipeline ? i18n.s('newest', 'dop') : i18n.s('history', 'dop')}
-                      status={isLatestPipeline ? 'processing' : 'warning'}
-                      className="mr-1"
-                    />
-                    <span className="text-default-8">{`${chosenPipelineId} - ${
-                      curUser?.nick || curUser?.name || curRecord?.executor || ''
-                    }`}</span>
-                    <ErdaIcon
-                      type="caret-down"
-                      className="ml-0.5 text-default-3 group-hover:text-default-8"
-                      size="14"
-                    />
-                  </div>
-                </Popover>
+                      }
+                    >
+                      <div className="flex-h-center group text-sm cursor-pointer">
+                        <Badge
+                          showDot={false}
+                          text={isLatestPipeline ? i18n.s('newest', 'dop') : i18n.s('history', 'dop')}
+                          status={isLatestPipeline ? 'processing' : 'warning'}
+                          className="mr-1"
+                        />
+                        <span className="text-default-8">{`${chosenPipelineId} - ${
+                          curUser?.nick || curUser?.name || curRecord?.executor || ''
+                        }`}</span>
+                        <ErdaIcon
+                          type="caret-down"
+                          className="ml-0.5 text-default-3 group-hover:text-default-8"
+                          size="14"
+                        />
+                      </div>
+                    </Popover>
+                  </>
+                ) : null}
               </div>
               <div>
                 <Copy selector=".copy-share-link" tipName={i18n.t('dop:link-share')} />
