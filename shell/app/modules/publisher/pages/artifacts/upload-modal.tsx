@@ -64,7 +64,7 @@ const UploadModal = (props: IProps) => {
         const uploadProps = getUploadProps({
           beforeUpload: (file: any) => {
             // 和后端保持一致
-            const UPLOAD_SIZE_LIMIT = 300; // M
+            const UPLOAD_SIZE_LIMIT = 500; // M
             const isLtSize = file.size / 1024 / 1024 < UPLOAD_SIZE_LIMIT;
             if (!isLtSize) {
               message.warning(i18n.t('common:the uploaded file must not exceed {size}M', { size: UPLOAD_SIZE_LIMIT }));
