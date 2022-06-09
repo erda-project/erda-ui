@@ -151,6 +151,8 @@ function getAppRouter(): RouteConfigItem {
         routes: [
           {
             path: ':pipelineID',
+            tabs: APP_TABS,
+            alwaysShowTabKey: 'dataTask',
             getComp: (cb) => cb(import('application/pages/build/dataTask'), 'DataTask'),
           },
           {
