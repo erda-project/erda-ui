@@ -127,40 +127,43 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
         name: 'logo',
         viewType: 'image',
         required: false,
+        getComp: () => {
+          return (
+            <ImageUpload
+              id="logo"
+              getForm={() => this.formRef.current}
+              form={this.formRef.current}
+              showHint
+              queryData={{ public: true }}
+            />
+          );
+        },
+      },
+      {
+        label: i18n.t('publisher:background image'),
+        name: 'backgroundImage',
+        viewType: 'image',
+        required: false,
         getComp: ({ form }: { form: FormInstance }) => (
-          <ImageUpload id="logo" form={form} showHint queryData={{ public: true }} />
+          <ImageUpload
+            id="backgroundImage"
+            form={form}
+            getForm={() => this.formRef.current}
+            showHint
+            isSquare={false}
+            queryData={{ public: true }}
+          />
         ),
       },
-      // {
-      //   label: i18n.t('publisher:background image'),
-      //   name: 'backgroundImage',
-      //   viewType: 'image',
-      //   required: false,
-      //   getComp: ({ form }: { form: FormInstance }) => (
-      //     <ImageUpload
-      //       id="backgroundImage"
-      //       form={form}
-      //       showHint
-      //       isSquare={false}
-      //       queryData={{ public: true }}
-      //     />
-      //   ),
-      // },
-      // {
-      //   label: i18n.t('publisher:preview image'),
-      //   name: 'previewImages',
-      //   viewType: 'images',
-      //   required: false,
-      //   getComp: ({ form }: { form: FormInstance }) => (
-      //     <ImageUpload
-      //       id="previewImages"
-      //       form={form}
-      //       showHint
-      //       isMulti
-      //       isSquare={false}
-      //       queryData={{ public: true }}
-      //     />),
-      // },
+      {
+        label: i18n.t('publisher:preview image'),
+        name: 'previewImages',
+        viewType: 'images',
+        required: false,
+        getComp: ({ form }: { form: FormInstance }) => (
+          <ImageUpload id="previewImages" form={form} showHint isMulti isSquare={false} queryData={{ public: true }} />
+        ),
+      },
       ...insertWhen(state.type === ArtifactsTypeMap.MOBILE.value, [
         {
           label: i18n.t('publisher:jail break control'),

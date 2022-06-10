@@ -18,13 +18,14 @@ import { FormInstance, Input, Upload } from 'antd';
 import { ErdaIcon } from 'common';
 import { get, isEqual, map } from 'lodash';
 import { getUploadProps } from 'common/utils/upload-props';
+import { allWordsFirstLetterUpper } from 'app/common/utils';
 
 import './index.scss';
-import { allWordsFirstLetterUpper, firstCharToUpper } from 'app/common/utils';
 
 interface IProps {
   value?: string;
   form?: FormInstance;
+  getForm?: () => FormInstance;
   id: string;
   /**
    * 是否开启多图模式，默认不开启
@@ -51,6 +52,7 @@ interface IState {
   imageUrl?: string;
   images: string[];
   queryData?: any;
+  prevPropImageValue?: string | string[];
 }
 class ImageUpload extends Component<IProps, IState> {
   constructor(props: IProps) {
@@ -59,19 +61,30 @@ class ImageUpload extends Component<IProps, IState> {
       imageUrl: props.isMulti ? undefined : props.value,
       images: props.isMulti ? (props.value as unknown as string[]) || [] : [],
       queryData: props?.queryData,
+      prevPropImageValue: props.value,
     };
   }
 
   static getDerivedStateFromProps(nextProps: IProps, preState: IState): Partial<IState> | null {
-    if (!isEqual(nextProps.value, preState.imageUrl)) {
+    if (!isEqual(nextProps.value, preState.prevPropImageValue)) {
       if (nextProps.isMulti) {
-        return { images: nextProps.value as unknown as string[] };
+        return { images: nextProps.value as unknown as string[], prevPropImageValue: nextProps.value };
       } else {
-        return { imageUrl: nextProps.value };
+        return { imageUrl: nextProps.value, prevPropImageValue: nextProps.value };
       }
     }
     return null;
   }
+
+  setFormValue = (value: { [k: string]: string | string[] | undefined }) => {
+    const { form } = this.props;
+    if (form) {
+      form.setFieldsValue(value);
+    } else if (this.props.getForm) {
+      const _form = this.props.getForm();
+      _form && _form.setFieldsValue(value);
+    }
+  };
 
   getUploadProps(qData: any) {
     const { form, id, sizeLimit = 1, afterUpload, isMulti } = this.props;
@@ -91,7 +104,8 @@ class ImageUpload extends Component<IProps, IState> {
             } else {
               this.setState({ imageUrl: url });
             }
-            form && form.setFieldsValue({ [id]: isMulti ? [...images, url] : url });
+
+            this.setFormValue({ [id]: isMulti ? [...images, url] : url });
             afterUpload && afterUpload(isMulti ? [...images, url] : url);
           }
         },
@@ -115,7 +129,7 @@ class ImageUpload extends Component<IProps, IState> {
   }
 
   renderPureImageItem(imageUrl: string, idx?: number) {
-    const { isSquare = true, form, afterUpload, id, isMulti } = this.props;
+    const { isSquare = true, afterUpload, id, isMulti } = this.props;
     const { images = [] } = this.state;
 
     return (
@@ -135,11 +149,11 @@ class ImageUpload extends Component<IProps, IState> {
               const _images = [...images];
               _images.splice(idx as number, 1);
               this.setState({ images: _images });
-              form && form.setFieldsValue({ [id]: _images });
+              this.setFormValue({ [id]: _images });
               afterUpload && afterUpload(_images);
             } else {
               this.setState({ imageUrl: undefined });
-              form && form.setFieldsValue({ [id]: undefined });
+              this.setFormValue({ [id]: undefined });
               afterUpload && afterUpload(undefined);
             }
           }}
