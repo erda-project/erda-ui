@@ -15,11 +15,20 @@ import React from 'react';
 import { Badge, Popover } from 'antd';
 import { ErdaIcon } from 'common';
 import store from '../../store';
-import { getEditFlag, setEditFlag } from '../../utils';
+import localCache from '../../utils/cache';
 
 interface IProps {
   setPublishVisible: (value: boolean) => void;
   editCount: number;
+}
+
+function getEditFlag(): boolean {
+  const defaultEditFlag = false;
+  const res = localCache.getCache('i18n-edit-flag');
+  return res === null ? defaultEditFlag : res;
+}
+function setEditFlag(value: boolean): void {
+  localCache.setCache('i18n-edit-flag', value);
 }
 const FixedWidget = (props: IProps) => {
   const [editable, setEditable] = React.useState(getEditFlag());

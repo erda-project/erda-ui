@@ -20,25 +20,9 @@ import config from '../config';
 type LocaleType = 'en' | 'zh';
 
 const { nsSeparator, defaultNs, editAccessFromLocalStorage } = config;
-// const nsSeparator = ':';
-// const defaultNs = 'default';
-// const editAccessFromLocalStorage = {
-//   key: 'i18n-edit-access',
-//   value: true,
-// };
 
 export function isAccessFromLocalStorage() {
   return localCache.getCache(editAccessFromLocalStorage.key) === editAccessFromLocalStorage.value;
-}
-
-export function getEditFlag(): boolean {
-  const defaultEditFlag = false;
-  const res = localCache.getCache('i18n-edit-flag');
-  return res === null ? defaultEditFlag : res;
-}
-
-export function setEditFlag(value: boolean): void {
-  localCache.setCache('i18n-edit-flag', value);
 }
 
 export function splitKey(combinedKey: string) {
