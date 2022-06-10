@@ -237,11 +237,25 @@ describe('utils', () => {
     expect(firstCharToUpper('word')).toEqual('Word');
     expect(firstCharToUpper('123word')).toEqual('123word');
     expect(firstCharToUpper('_word')).toEqual('_word');
+    expect(
+      firstCharToUpper({
+        _format: (f: (param: string) => string) => {
+          return f('good job');
+        },
+      }),
+    ).toEqual('Good job');
   });
   it('allWordsFirstLetterUpper should work well', () => {
     expect(allWordsFirstLetterUpper('hello world')).toEqual('Hello World');
     expect(allWordsFirstLetterUpper('work well')).toEqual('Work Well');
     expect(allWordsFirstLetterUpper('initiated by me')).toEqual('Initiated by Me');
     expect(allWordsFirstLetterUpper('by yourself')).toEqual('By Yourself');
+    expect(
+      allWordsFirstLetterUpper({
+        _format: (f: (param: string) => string) => {
+          return f('good job');
+        },
+      }),
+    ).toEqual('Good Job');
   });
 });
