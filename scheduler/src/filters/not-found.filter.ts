@@ -80,6 +80,13 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
+    const ua = request.headers['user-agent'];
+    console.log('request: ', request.headers['user-agent']); // TODO remove later
+    if (ua === 'DingTalk-LinkService/1.0') {
+      response.send(indexHtmlContent);
+      return;
+    }
+
     const extension = path.extname(request.path);
     if (!extension || request.path.match(/^\/[\w-]+\/dop\/projects\/\d+\/apps\/\d+\/repo/)) {
       const callApi = (api: string, config?: Record<string, any>) => {
