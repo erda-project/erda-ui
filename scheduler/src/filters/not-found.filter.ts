@@ -81,8 +81,8 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
     const ua = request.headers['user-agent'];
-    console.log('request: ', request.headers['user-agent']); // TODO remove later
-    if (ua === 'DingTalk-LinkService/1.0') {
+    if (ua.includes('DingTalkBot-LinkService/1.0')) {
+      // actual ua: DingTalkBot-LinkService/1.0 (+https://open-doc.dingtalk.com/microapp/faquestions/ftpfeu)
       response.send(indexHtmlContent);
       return;
     }
