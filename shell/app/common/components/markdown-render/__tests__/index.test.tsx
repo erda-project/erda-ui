@@ -126,9 +126,14 @@ describe('MarkdownRender', () => {
       window.dispatchEvent({ type: 'keydown', key: 'Escape', code: 'Escape' });
     });
     expect(result.container).isExist('.bg-desc', 0);
-    result.rerender(<MarkdownRender value={markdownContent} noWrapper />);
-    expect(result.container).isExist('.md-content', 0);
     off('md-img-loaded', imgLoadFn);
+  });
+  it('noWrapper should work well', () => {
+    const result = render(<MarkdownRender value={markdownContent} style={{ color: 'red' }} />);
+    expect(result.container.firstChild?.style?.color).toBe('red');
+    result.rerender(<MarkdownRender value={markdownContent} style={{ color: 'red' }} noWrapper />);
+    expect(result.container.firstChild?.style?.color).toBe('');
+    expect(result.container).isExist('.md-content', 1);
   });
   it('should MarkdownRender.toHtml work well', () => {
     expect(MarkdownRender.toHtml('### title')).toBe('<h3>title</h3>');
