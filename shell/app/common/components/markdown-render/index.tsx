@@ -117,6 +117,7 @@ interface IMdProps {
 export const MarkdownRender = ({ value, className, style, noWrapper, components }: IMdProps) => {
   const content = (
     <ReactMarkdown
+      className={`md-content ${className || ''}`}
       remarkPlugins={[remarkGfm, remarkBreaks]}
       components={{ img: ScalableImage, a: Link, pre, ...components }}
     >
@@ -126,11 +127,7 @@ export const MarkdownRender = ({ value, className, style, noWrapper, components 
   if (noWrapper) {
     return content;
   }
-  return (
-    <div style={style} className={`md-content ${className || ''}`}>
-      {content}
-    </div>
-  );
+  return <div style={style}>{content}</div>;
 };
 
 // have to overwrite img or other elements by extension
