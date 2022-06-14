@@ -241,6 +241,7 @@ describe('ExternalItem', () => {
                   },
                   {
                     label: 'test',
+                    value: 'test',
                   },
                   ...genOptions(200),
                 ]
