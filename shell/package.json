@@ -12,9 +12,9 @@
     "*.less"
   ],
   "scripts": {
-    "test": "jest",
-    "test:coverage": "jest --verbose --coverage",
-    "test:watch": "jest --verbose --watch",
+    "test": "../node_modules/.bin/jest",
+    "test:coverage": "../node_modules/.bin/jest --verbose --coverage",
+    "test:watch": "../node_modules/.bin/jest --verbose --watch",
     "auto-test": "npx playwright test --config=auto_test/playwright.config.ts --project=all",
     "debug-test": "PWDEBUG=1 npx playwright test --config=auto_test/playwright.config.ts --project=all",
     "gen-test": "npx playwright codegen --lang=en-US --load-storage=auto_test/auth/Manager.json https://erda.daily.terminus.io/",
