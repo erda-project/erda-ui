@@ -16,7 +16,7 @@ import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import KVPair from '..';
 
-const DefaultComp = ({ record, keyName, update, ...rest }: any) => (
+const DefaultComp = ({ record, keyName, update, keyDesc, descName, ...rest }: any) => (
   <input
     maxLength={100}
     value={record[keyName]}
