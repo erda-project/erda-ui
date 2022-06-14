@@ -619,6 +619,8 @@ export const getAvatarChars = (name: string) => {
 export const firstCharToUpper = (param: string | any) => {
   if (typeof param === 'string') {
     return param.replace(/^\w/, (s) => s.toUpperCase());
+  } else if (typeof param?._format === 'function') {
+    return param._format(firstCharToUpper);
   }
   return param;
 };
@@ -635,7 +637,8 @@ export const allWordsFirstLetterUpper = (param: string | any) => {
         return firstCharToUpper(letter);
       })
       .join(' ');
-  } else {
-    return param;
+  } else if (typeof param?._format === 'function') {
+    return param._format(allWordsFirstLetterUpper);
   }
+  return param;
 };

@@ -152,7 +152,7 @@ const Header = ({ layout }: { layout?: RouteConfigItem_Layout }) => {
         </div>
       );
     }
-    return <div className="text-xl truncate">{allWordsFirstLetterUpper(pageName as string)}</div>;
+    return <div className="text-xl truncate">{allWordsFirstLetterUpper(pageName)}</div>;
   };
 
   return (

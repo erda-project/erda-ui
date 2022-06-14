@@ -35,6 +35,7 @@ export const getTableList = (data: IPerm, scope: string, filterKey: string) => {
 
   const maxDeepthObj = maxBy(list, (item) => Object.keys(item).length);
   const tableList = [] as any[];
+
   map(list, (item) => {
     const itemData = { ...item };
     map(maxDeepthObj, (val, key) => {
