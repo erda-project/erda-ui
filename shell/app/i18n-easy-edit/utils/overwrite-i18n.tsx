@@ -22,7 +22,7 @@ interface Ret {
 }
 
 // overwrite i18n.t
-const originT = i18n.t;
+const originT = i18n.originT || i18n.t;
 const overwriteT = (combinedKey: string, paramObj?: Obj) => {
   const originText = originT.call(i18n, combinedKey, paramObj);
   const formatText = paramObj?._formatter && paramObj._formatter(originText);
