@@ -16,16 +16,9 @@ import AntdButton from 'antd/lib/button';
 import { allWordsFirstLetterUpper } from 'common/utils';
 
 const Button = React.forwardRef(({ children, ...props }: any, ref) => {
-  if (typeof children === 'string') {
-    return (
-      <AntdButton {...props} ref={ref}>
-        {allWordsFirstLetterUpper(children)}
-      </AntdButton>
-    );
-  }
   return (
     <AntdButton {...props} ref={ref}>
-      {children}
+      {allWordsFirstLetterUpper(children)}
     </AntdButton>
   );
 }) as unknown as typeof AntdButton;
