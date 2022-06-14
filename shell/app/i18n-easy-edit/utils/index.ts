@@ -27,14 +27,11 @@ export function isAccessFromLocalStorage() {
 
 export function splitKey(combinedKey: string) {
   const temp = combinedKey.split(nsSeparator);
-  const ns = temp.length === 1 ? defaultNs : temp[0];
-  const key = temp.length === 1 ? temp[0] : temp[1];
-  return [ns, key];
+  return temp.length === 1 ? [defaultNs, temp[0]] : temp;
 }
 
 export function getCombinedKey(ns: string, key: string) {
-  ns = ns === '' ? defaultNs : ns;
-  return [ns, key].join(nsSeparator);
+  return [ns || defaultNs, key].join(nsSeparator);
 }
 
 export function getTranslation(ns: string, key: string, locale: LocaleType): string | null {
