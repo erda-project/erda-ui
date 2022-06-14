@@ -67,7 +67,7 @@ const FormItem = Form.Item;
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 
-const defalutFormItemLayout = {
+const defaultFormItemLayout = {
   labelCol: {
     sm: { span: 24 },
     md: { span: 6 },
@@ -80,7 +80,7 @@ const defalutFormItemLayout = {
   },
 };
 const fullWrapperCol = { span: 24 };
-const defalutTailFormItemLayout = {
+const defaultTailFormItemLayout = {
   wrapperCol: {
     sm: {
       span: 24,
@@ -316,9 +316,9 @@ const RenderFormItem = ({
     label === undefined
       ? fullWrapperCol
       : isTailLayout
-      ? tailFormItemLayout || defalutTailFormItemLayout
+      ? tailFormItemLayout || defaultTailFormItemLayout
       : formLayout === 'horizontal'
-      ? formItemLayout || defalutFormItemLayout
+      ? formItemLayout || defaultFormItemLayout
       : null;
 
   // generate rules
