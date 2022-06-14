@@ -36,6 +36,7 @@ if (currentLocale.key === 'en' && docDesc) {
 
 // overwrite i18n.t
 if (isAccess) {
+  i18n.originT = i18n.t;
   i18n.t = overwriteT;
 }
 
