@@ -440,6 +440,7 @@ describe('ContractiveFilter', () => {
                         },
                         {
                           label: 'test',
+                          value: 'test',
                         },
                       ]
                     : [],

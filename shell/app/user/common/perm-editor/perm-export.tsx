@@ -207,7 +207,6 @@ ${_ymlStr}
       projectID: +projectId,
       content: content.replace(/￥/g, '```'),
     };
-
     createIssue(newTask).then(() => {
       message.success(i18n.t('added successfully'));
       closeTask();

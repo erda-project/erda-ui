@@ -64,7 +64,7 @@ Please use the following installation documents to install Erda.
 
 # Step3 Start App
   # Run the following command in the directory of shell
-  npm start
+  pnpm start
 
   # What does this command do?
   # Start the dev server, redirect /static/{module}/* to the corresponding module folder in public folder based on the .env file, and redirect /api/* to api server.

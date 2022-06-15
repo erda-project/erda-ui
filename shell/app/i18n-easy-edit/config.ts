@@ -11,17 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
-import AntdButton from 'antd/lib/button';
-import { allWordsFirstLetterUpper } from 'common/utils';
-
-const Button = React.forwardRef(({ children, ...props }: any, ref) => {
-  return (
-    <AntdButton {...props} ref={ref}>
-      {allWordsFirstLetterUpper(children)}
-    </AntdButton>
-  );
-}) as unknown as typeof AntdButton;
-
-Button.Group = AntdButton.Group;
-export default Button;
+export default {
+  nsSeparator: ':',
+  defaultNs: 'default',
+  editAccessFromLocalStorage: {
+    key: 'i18n-edit-access',
+    value: true,
+  },
+  noEditSuffix: '',
+};

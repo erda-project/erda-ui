@@ -58,6 +58,7 @@ const PipeLineList = ({ pipelineInfo, url }: { pipelineInfo: IPipelineInfo[]; ur
                 <a
                   className="truncate hover:text-purple-deep"
                   target="_blank"
+                  rel="noopener noreferrer"
                   href={`${url}?pipelineID=${item.pipelineID}`}
                 >
                   {item.ymlName}

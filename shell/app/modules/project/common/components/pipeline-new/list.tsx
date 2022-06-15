@@ -178,7 +178,7 @@ const PipelineProtocol = React.forwardRef(
       {
         title: i18n.t('Trigger time'),
         dataIndex: 'timeBegin',
-        render: (timeBegin: number) => moment(new Date(timeBegin)).format('YYYY/MM/DD HH:mm:ss'),
+        render: (timeBegin: number) => (timeBegin ? moment(new Date(timeBegin)).format('YYYY/MM/DD HH:mm:ss') : '-'),
       },
     ];
 
@@ -233,11 +233,15 @@ const PipelineProtocol = React.forwardRef(
                   const { operations, id } = record;
                   const serverData = get(operations, 'click.serverData');
                   const { pipelineID: pipelineId, inode, appName, pipelineName } = serverData;
-                  getPipelineRecord({ projectID: projectId, pageNo: 1, pageSize: 20, name: pipelineName }).then(
-                    (res) => {
-                      setRecord(res?.data || emptyHistory);
-                    },
-                  );
+                  getPipelineRecord({
+                    projectID: projectId,
+                    pageNo: 1,
+                    pageSize: 20,
+                    name: pipelineName,
+                    appNames: appName,
+                  }).then((res) => {
+                    setRecord(res?.data || emptyHistory);
+                  });
                   if (inode) {
                     const path = decode(inode).split('/');
                     path.pop();
@@ -374,6 +378,7 @@ const PipelineProtocol = React.forwardRef(
                                   projectID: projectId,
                                   pageNo: 1,
                                   pageSize: 20,
+                                  appNames: detail.appName,
                                   name: detail.pipelineName,
                                 }).then((res) => {
                                   setRecord(res?.data || emptyHistory);

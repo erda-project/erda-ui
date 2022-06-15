@@ -11,17 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
-import AntdButton from 'antd/lib/button';
-import { allWordsFirstLetterUpper } from 'common/utils';
+import { erdaEnv } from 'common/constants';
+import { isAccessFromLocalStorage } from './utils';
+export { default as overwriteT } from './utils/overwrite-i18n';
+export { default as I18nEasyEditPage } from './pages';
 
-const Button = React.forwardRef(({ children, ...props }: any, ref) => {
-  return (
-    <AntdButton {...props} ref={ref}>
-      {allWordsFirstLetterUpper(children)}
-    </AntdButton>
-  );
-}) as unknown as typeof AntdButton;
-
-Button.Group = AntdButton.Group;
-export default Button;
+export const isAccess = erdaEnv.I18N_ACCESS_ENV === 'true' && isAccessFromLocalStorage();
