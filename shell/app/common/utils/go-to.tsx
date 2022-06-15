@@ -248,7 +248,7 @@ export enum pages {
   taskList = '/{orgName}/dop/projects/{projectId}/issues/all?type=task',
   bugList = '/{orgName}/dop/projects/{projectId}/issues/all?type=bug',
   issueDetail = '/{orgName}/dop/projects/{projectId}/issues/{issueType}?id={issueId}&iterationID={iterationId}&type={issueType}',
-  ticketDetail = '/{orgName}/dop/projects/{projectId}/ticket?id={issueId}&pageNo=1',
+  ticketDetail = '/{orgName}/dop/projects/{projectId}/ticket?id={issueId}&pageNo=1&iterationID={iterationId}&type={issueType}',
   backlog = '/{orgName}/dop/projects/{projectId}/issues/backlog?id={issueId}&issueType={issueType}',
   project_test_autoTestPlanDetail = '/{orgName}/dop/projects/{projectId}/auto/testPlan/{id}',
   project_test_spaceDetail_apis = '/{orgName}/dop/projects/{projectId}/auto/testCase/{id}/apis',
