@@ -409,7 +409,7 @@ const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref
     }
   };
 
-  const templateRender = (template: REPOSITORY.IPipelineTemplate) => {
+  const templateRender = ({ content: template }: { content: REPOSITORY.IPipelineTemplate }) => {
     const { id, logoUrl, name, desc } = template;
     return (
       <div
@@ -425,7 +425,6 @@ const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref
       </div>
     );
   };
-
   return (
     <div className="pipeline-template">
       <div className="font-bold text-base my-3">{i18n.t('dop:template select')}</div>
