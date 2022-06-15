@@ -27,7 +27,7 @@
 
   .operation {
     display: flex;
-    color: $color-text;
+    color: theme('colors[text]');
   }
 
   .runtime-operate {
@@ -46,7 +46,7 @@
   & > div {
     display: flex;
     padding: 8px 0;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
 
     .info-name {
       width: 30%;

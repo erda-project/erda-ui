@@ -1,7 +1,7 @@
 .erda-gantt-task-list-wrapper {
   display: table;
-  border-bottom: $color-border 1px solid;
-  border-left: $color-border 1px solid;
+  border-bottom: theme('colors[border]') 1px solid;
+  border-left: theme('colors[border]') 1px solid;
 }
 
 .erda-gantt-task-list-table-row {

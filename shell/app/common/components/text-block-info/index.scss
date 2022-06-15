@@ -1,19 +1,19 @@
 .erda-text-block-info {
   &.small {
     .main-text {
-      color: $color-default;
+      color: theme('colors[default]');
       font-size: 14px;
       font-weight: bold;
       line-height: 22px;
     }
     .sub-text {
-      color: $color-text-sub;
+      color: theme('colors[text-sub]');
       font-size: 12px;
       line-height: 16px;
     }
 
     .desc-text {
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
       font-size: 12px;
       line-height: 16px;
     }
@@ -21,19 +21,19 @@
 
   &.normal {
     .main-text {
-      color: $color-text;
+      color: theme('colors[text]');
       font-size: 20px;
       font-weight: bold;
       line-height: 32px;
     }
     .sub-text {
-      color: $color-text-sub;
+      color: theme('colors[text-sub]');
       font-size: 12px;
       line-height: 16px;
     }
 
     .desc-text {
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
       font-size: 12px;
       line-height: 16px;
     }

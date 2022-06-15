@@ -46,7 +46,7 @@
 .task-drawer-header {
   z-index: 1;
   padding: 10px 24px;
-  color: $color-text;
+  color: theme('colors[text]');
   line-height: 28px;
   border-bottom: 1px solid theme('colors[default-08]');
 

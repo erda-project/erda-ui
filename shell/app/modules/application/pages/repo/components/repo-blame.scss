@@ -1,7 +1,7 @@
 .blame-commits-content {
   .blame-commit-item {
     padding: 0 $p12;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
   }
 
   .blame-commit-info {
@@ -13,13 +13,13 @@
     }
 
     .info-right {
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
       font-size: 12px;
     }
   }
 
   .commit-sub-sha {
-    color: $color-primary;
+    color: theme('colors[primary]');
     font-size: 12px;
   }
 }
@@ -32,12 +32,12 @@
   .sub-info {
     display: flex;
     align-items: center;
-    color: $color-text-sub;
+    color: theme('colors[text-sub]');
 
     .commit-sha {
       display: flex;
       align-items: center;
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
   }
 }

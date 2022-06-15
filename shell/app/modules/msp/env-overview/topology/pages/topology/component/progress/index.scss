@@ -13,6 +13,6 @@
   z-index: -1;
 
   .shadow {
-    background: $color-default;
+    background: theme('colors[default]');
   }
 }

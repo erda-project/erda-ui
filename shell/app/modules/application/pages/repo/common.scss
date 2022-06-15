@@ -23,7 +23,7 @@
     margin-left: 10px;
 
     .as-link {
-      color: $color-text;
+      color: theme('colors[text]');
     }
   }
 }
@@ -31,7 +31,7 @@
 .repo-commit-list {
   margin-bottom: 20px;
   background-color: $white;
-  border: 1px solid $color-border;
+  border: 1px solid theme('colors[border]');
 
   .title {
     padding: 6px 16px;
@@ -39,7 +39,7 @@
     line-height: 36px;
     background-color: $whitesmoke;
     border-color: $platinum;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
   }
 
   .commit-item {
@@ -48,7 +48,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 16px;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
     border-radius: 3px;
 
     .commit-left {
@@ -59,7 +59,7 @@
       margin-left: 10px;
 
       .as-link {
-        color: $color-text;
+        color: theme('colors[text]');
       }
     }
   }

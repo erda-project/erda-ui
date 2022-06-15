@@ -1,7 +1,7 @@
 .build-history-wp {
   .active-tr {
     td {
-      background-color: $color-active-bg;
+      background-color: theme('colors[active-bg]');
     }
   }
 }

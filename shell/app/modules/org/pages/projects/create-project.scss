@@ -5,10 +5,10 @@
   .template-card {
     width: 162px;
     text-align: justify;
-    border: 1px solid $color-border;
+    border: 1px solid theme('colors[border]');
 
     &.checked {
-      border-color: $color-primary;
+      border-color: theme('colors[primary]');
     }
   }
 

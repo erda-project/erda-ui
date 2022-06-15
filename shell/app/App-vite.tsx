@@ -133,7 +133,7 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
         primaryColor: THEME_MAP[localStorage.getItem('erda-theme') || 'default'],
       },
     });
-    document.body.setAttribute('data-theme', `${localStorage.getItem('erda-theme') || 'default'}-theme`);
+    document.documentElement.setAttribute('data-theme', `${localStorage.getItem('erda-theme') || 'default'}-theme`);
 
     ReactDOM.render(<Wrap />, document.getElementById('erda-content'));
     delete window._userData;

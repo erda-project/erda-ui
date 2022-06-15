@@ -6,7 +6,7 @@
   }
 
   .erda-card-body {
-    color: $color-text-desc;
+    color: theme('colors[text-desc]');
     background-color: $white;
 
     .label,

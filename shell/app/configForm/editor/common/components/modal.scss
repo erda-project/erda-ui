@@ -65,8 +65,8 @@
 
         &.primary {
           color: $white;
-          background-color: $color-primary;
-          border-color: $color-primary;
+          background-color: theme('colors[primary]');
+          border-color: theme('colors[primary]');
         }
       }
     }

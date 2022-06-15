@@ -152,8 +152,8 @@ $lg-break-width: $nav-width + $sidebar-width + $lg-content-break-width;
 }
 
 @mixin hover($pointer: true) {
-  color: $color-primary;
-  background-color: $color-active-bg;
+  color: theme('colors[primary]');
+  background-color: theme('colors[active-bg]');
   @if $pointer {
     cursor: pointer;
   }

@@ -8,7 +8,7 @@
 
   .filter-item-label {
     padding: 0 4px;
-    color: $color-text-sub;
+    color: theme('colors[text-sub]');
     line-height: 30px;
     text-align: center;
     border: 1px solid #d9d9d9;
@@ -75,10 +75,10 @@
       }
       // @extend %hover-shadow;
       > .group-header {
-        color: $color-primary !important;
+        color: theme('colors[primary]') !important;
 
         .group-title {
-          color: $color-primary !important;
+          color: theme('colors[primary]') !important;
         }
 
         .group-actived-op {
@@ -110,7 +110,7 @@
     }
 
     .group-info {
-      color: $color-text-sub;
+      color: theme('colors[text-sub]');
       font-size: 12px;
       line-height: 20px;
 
@@ -124,11 +124,11 @@
 .cluster-state-link {
   display: inline-flex;
   align-items: center;
-  color: $color-text-sub;
+  color: theme('colors[text-sub]');
   font-size: $p12;
 
   &:hover {
-    color: $color-primary !important;
+    color: theme('colors[primary]') !important;
     cursor: pointer;
   }
 }
@@ -245,7 +245,7 @@
     padding: 5px 12px;
 
     .colour-comment-value {
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
 
     .color-block {

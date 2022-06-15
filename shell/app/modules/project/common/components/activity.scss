@@ -6,7 +6,7 @@
   margin-top: 15px;
   padding: 8px;
   background-color: $white;
-  border: 1px solid $color-border;
+  border: 1px solid theme('colors[border]');
   border-radius: $radius;
 
   @keyframes opacity {
@@ -43,7 +43,7 @@
       word-break: break-word;
 
       .name {
-        color: $color-text;
+        color: theme('colors[text]');
       }
     }
   }
@@ -79,11 +79,11 @@
   }
 
   .tc2 {
-    color: $color-text;
+    color: theme('colors[text]');
   }
 
   .tc3 {
-    color: $color-text-desc;
+    color: theme('colors[text-desc]');
   }
 
   .load-more {

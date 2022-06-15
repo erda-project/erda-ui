@@ -24,13 +24,13 @@
       margin-right: 10px;
       padding: 3px 16px;
       background-color: $white;
-      border: 1px solid $color-border;
+      border: 1px solid theme('colors[border]');
       border-radius: 20px;
       cursor: pointer;
 
       &.active {
         color: $white;
-        background-color: $color-primary;
+        background-color: theme('colors[primary]');
       }
     }
   }
@@ -46,7 +46,7 @@
       border-radius: $radius;
 
       .name {
-        color: $color-text-desc;
+        color: theme('colors[text-desc]');
       }
 
       .value {

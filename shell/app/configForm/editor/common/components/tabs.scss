@@ -16,8 +16,8 @@
       cursor: pointer;
 
       &.is-active {
-        color: $color-primary;
-        border-bottom: 2px solid $color-primary;
+        color: theme('colors[primary]');
+        border-bottom: 2px solid theme('colors[primary]');
       }
     }
   }

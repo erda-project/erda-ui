@@ -17,7 +17,7 @@
 
       .subtitle {
         margin-left: 12px;
-        color: $color-text-desc;
+        color: theme('colors[text-desc]');
         font-size: 12px;
       }
 
@@ -43,7 +43,7 @@
 
       .subtitle {
         margin-left: 12px;
-        color: $color-text-desc;
+        color: theme('colors[text-desc]');
         font-size: 14px;
       }
 
@@ -69,7 +69,7 @@
 
       .subtitle {
         margin-left: 12px;
-        color: $color-text-desc;
+        color: theme('colors[text-desc]');
         font-size: 16px;
       }
 
@@ -95,7 +95,7 @@
 
       .subtitle {
         margin-left: 12px;
-        color: $color-text-desc;
+        color: theme('colors[text-desc]');
         font-size: 20px;
       }
 

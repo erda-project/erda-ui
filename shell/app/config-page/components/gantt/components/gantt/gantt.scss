@@ -29,7 +29,7 @@
   border: 0;
   outline: none;
   cursor: pointer;
-  border-right: 1px solid $color-border;
+  border-right: 1px solid theme('colors[border]');
 
   &:last-child {
     border-right: none;

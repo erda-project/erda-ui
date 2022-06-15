@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   height: 124px;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid theme('colors[border]');
 
   .cluster-item-container {
     display: flex;
@@ -50,7 +50,7 @@
         display: inline-block;
         max-width: 100%;
         overflow: hidden;
-        color: $color-text-sub;
+        color: theme('colors[text-sub]');
         line-height: 22px;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -59,7 +59,7 @@
 
     .cluster-info-footer {
       justify-content: unset;
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
 
       > span {
         display: inline-flex;
@@ -142,11 +142,11 @@
     }
 
     &.running {
-      color: $color-primary;
+      color: theme('colors[primary]');
     }
 
     &.waiting {
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
 
     &.failed {
@@ -154,7 +154,7 @@
     }
 
     &.success {
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
   }
 }

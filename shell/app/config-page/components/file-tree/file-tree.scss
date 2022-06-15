@@ -66,7 +66,7 @@
   &:hover,
   &:focus {
     cursor: pointer;
-    color: $color-default;
+    color: theme('colors[default]');
     background-color: $color-tree-bg-active;
   }
 }

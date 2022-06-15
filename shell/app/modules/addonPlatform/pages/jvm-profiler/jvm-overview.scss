@@ -3,7 +3,7 @@
     margin-bottom: 8px;
 
     .label {
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
   }
 }

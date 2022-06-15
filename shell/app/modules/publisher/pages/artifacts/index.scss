@@ -28,7 +28,7 @@
     left: 299px;
     display: block;
     height: 100%;
-    border-right: thin solid $color-border;
+    border-right: thin solid theme('colors[border]');
     content: '';
   }
 

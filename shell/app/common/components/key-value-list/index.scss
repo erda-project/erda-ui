@@ -36,12 +36,12 @@
   .k-v-row {
     display: flex;
     padding: 10px 10px;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
   }
 
   .key {
     flex: 3;
-    color: $color-text;
+    color: theme('colors[text]');
     font-weight: bold;
   }
 

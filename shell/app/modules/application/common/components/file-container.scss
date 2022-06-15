@@ -1,6 +1,6 @@
 .file-container {
   background-color: $white;
-  border: 1px solid $color-border;
+  border: 1px solid theme('colors[border]');
   border-radius: 3px;
 
   .file-content {
@@ -49,7 +49,7 @@
     margin: 0;
     padding: 0 16px;
     background-color: $whitesmoke;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
     border-radius: 3px 3px 0 0;
 
     .file-ops {
@@ -64,7 +64,7 @@
       font-size: 20px;
 
       &:hover {
-        color: $color-active;
+        color: theme('colors[active]');
         cursor: pointer;
       }
     }

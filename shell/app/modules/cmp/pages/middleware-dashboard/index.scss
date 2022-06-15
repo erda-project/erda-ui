@@ -18,7 +18,7 @@
   // TODO: 合并相同样式
   .filter-item-label {
     padding: 0 4px;
-    color: $color-text-sub;
+    color: theme('colors[text-sub]');
     line-height: 30px;
     text-align: center;
     border: 1px solid #d9d9d9;
@@ -50,14 +50,14 @@
 
   .middleware-overview-item {
     padding: $p20;
-    color: $color-text-desc;
+    color: theme('colors[text-desc]');
     font-size: 22px;
     text-align: center;
     background: $white;
     border-radius: $radius;
 
     .num {
-      color: $color-text;
+      color: theme('colors[text]');
     }
   }
 }

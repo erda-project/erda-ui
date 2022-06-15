@@ -6,7 +6,7 @@
     display: flex;
     height: $base-line-height;
     margin-top: 10px;
-    color: $color-text-sub;
+    color: theme('colors[text-sub]');
     line-height: $base-line-height;
     background-color: #eceef6;
     border-radius: 4px;
@@ -33,7 +33,7 @@
     }
 
     &.active {
-      background-color: $color-primary;
+      background-color: theme('colors[primary]');
 
       .request-url,
       .request-time {

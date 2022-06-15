@@ -2,7 +2,7 @@
   .table-operations {
     span.table-operations-btn {
       &.default-sla {
-        color: $color-text;
+        color: theme('colors[text]');
         text-decoration: none !important;
         cursor: unset !important;
       }

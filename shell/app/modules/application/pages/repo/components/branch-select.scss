@@ -20,7 +20,7 @@
 
   &:not(.disabled):hover,
   &:not(.disabled):focus {
-    border: 1px solid $color-primary;
+    border: 1px solid theme('colors[primary]');
   }
 
   .branch-name {
@@ -38,7 +38,7 @@
 
   .title {
     padding: 8px 5px;
-    color: $color-text-desc;
+    color: theme('colors[text-desc]');
   }
 
   .list-wrap {
@@ -68,7 +68,7 @@
       position: absolute;
       top: 9px;
       left: 5px;
-      color: $color-primary;
+      color: theme('colors[primary]');
       font-size: 16px;
     }
   }

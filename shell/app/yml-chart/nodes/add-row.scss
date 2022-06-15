@@ -11,8 +11,8 @@
     cursor: pointer;
 
     &:hover {
-      color: $color-primary;
-      border: 1px solid $color-primary;
+      color: theme('colors[primary]');
+      border: 1px solid theme('colors[primary]');
     }
   }
 }

@@ -25,7 +25,7 @@
     flex-grow: 1;
     height: 100%;
     background-color: $white;
-    border: 1px solid $color-border;
+    border: 1px solid theme('colors[border]');
     border-radius: $radius;
 
     &-list {
@@ -38,7 +38,7 @@
         left: 300px;
         display: block;
         height: 100%;
-        border-right: thin solid $color-border;
+        border-right: thin solid theme('colors[border]');
         content: '';
       }
     }
@@ -68,12 +68,12 @@
 
       &-active {
         font-weight: bold;
-        background-color: $color-active-bg;
+        background-color: theme('colors[active-bg]');
       }
 
       &:hover {
-        color: $color-primary;
-        background-color: $color-active-bg;
+        color: theme('colors[primary]');
+        background-color: theme('colors[active-bg]');
 
         .list-title-btn {
           opacity: 1;
@@ -85,7 +85,7 @@
       }
 
       &-btn {
-        color: $color-primary;
+        color: theme('colors[primary]');
         font-weight: normal;
         opacity: 0;
         transition: opacity 0.3s;
@@ -134,10 +134,10 @@
       font-weight: bold;
       line-height: 42px;
       background-color: $whitesmoke;
-      border-bottom: 1px solid $color-border;
+      border-bottom: 1px solid theme('colors[border]');
 
       &.active {
-        background-color: $color-active-bg;
+        background-color: theme('colors[active-bg]');
       }
     }
 
@@ -167,10 +167,10 @@
       transition: width 0.3s;
 
       .overview-collapse {
-        border-bottom: 1px solid $color-border;
+        border-bottom: 1px solid theme('colors[border]');
 
         &-icon {
-          color: $color-primary;
+          color: theme('colors[primary]');
           font-size: 24px;
           line-height: 32px;
           cursor: pointer;
@@ -189,7 +189,7 @@
         left: 0;
         display: block;
         height: 100%;
-        border-left: thin solid $color-border;
+        border-left: thin solid theme('colors[border]');
         content: '';
       }
     }
@@ -219,7 +219,7 @@
 
     &:not(.disabled):hover,
     &:not(.disabled):focus {
-      border: 1px solid $color-primary;
+      border: 1px solid theme('colors[primary]');
     }
 
     .name {

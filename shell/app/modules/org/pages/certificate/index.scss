@@ -3,6 +3,6 @@
   margin-top: 8px;
   padding: 0 12px;
   line-height: 32px;
-  border: 1px solid $color-border;
+  border: 1px solid theme('colors[border]');
   border-radius: $radius;
 }

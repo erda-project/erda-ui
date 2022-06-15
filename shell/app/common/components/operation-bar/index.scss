@@ -3,7 +3,7 @@
   margin: 0 -32px 15px;
   padding: 0 32px;
   overflow: hidden;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid theme('colors[border]');
 
   .ant-form {
     display: flex;

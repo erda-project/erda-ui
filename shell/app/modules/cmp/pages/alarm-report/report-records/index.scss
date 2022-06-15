@@ -17,8 +17,8 @@
     }
 
     .active {
-      color: $color-active;
-      background: $color-active-bg;
+      color: theme('colors[active]');
+      background: theme('colors[active-bg]');
     }
   }
 

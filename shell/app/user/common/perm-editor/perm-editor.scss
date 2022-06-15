@@ -38,12 +38,12 @@
         padding: 0 12px;
         font-weight: 500;
         background-color: $color-dark-1;
-        border-top: 1px solid $color-border;
-        border-bottom: 1px solid $color-border;
-        border-left: 1px solid $color-border;
+        border-top: 1px solid theme('colors[border]');
+        border-bottom: 1px solid theme('colors[border]');
+        border-left: 1px solid theme('colors[border]');
 
         &:last-child {
-          border-right: 1px solid $color-border;
+          border-right: 1px solid theme('colors[border]');
         }
 
         .head-text {
@@ -94,11 +94,11 @@
       min-width: 120px;
       max-width: 300px;
       padding: 0 12px;
-      border-top: 1px solid $color-border;
-      border-left: 1px solid $color-border;
+      border-top: 1px solid theme('colors[border]');
+      border-left: 1px solid theme('colors[border]');
 
       &.hover-active-item {
-        background-color: $color-active-bg;
+        background-color: theme('colors[active-bg]');
         cursor: pointer;
       }
 
@@ -114,7 +114,7 @@
 
         &::after {
           content: ' ';
-          color: $color-primary;
+          color: theme('colors[primary]');
           font-size: 20px;
         }
 
@@ -142,7 +142,7 @@
       }
 
       &:last-child {
-        border-bottom: 1px solid $color-border;
+        border-bottom: 1px solid theme('colors[border]');
       }
 
       div {
@@ -152,7 +152,7 @@
 
     &:last-child {
       .perm-column-item {
-        border-right: 1px solid $color-border;
+        border-right: 1px solid theme('colors[border]');
       }
     }
   }
@@ -171,7 +171,7 @@
     .perm-operation-box {
       display: flex;
       height: 100%;
-      background-color: $color-active-bg;
+      background-color: theme('colors[active-bg]');
     }
 
     .perm-op-item {

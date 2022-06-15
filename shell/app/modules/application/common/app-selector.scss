@@ -19,12 +19,12 @@
     display: flex;
     width: 100%;
     .icon {
-      color: $color-text-icon;
+      color: theme('colors[text-icon]');
     }
 
     &:hover {
       .icon {
-        color: $color-default;
+        color: theme('colors[default]');
       }
     }
   }

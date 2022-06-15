@@ -71,7 +71,7 @@
 
     .check-request-action {
       margin-left: 10px;
-      color: $color-primary;
+      color: theme('colors[primary]');
       cursor: pointer;
 
       i {
@@ -122,7 +122,7 @@
   .msg-container {
     .msg-txt {
       padding: 20px 10px;
-      border: 1px solid $color-border;
+      border: 1px solid theme('colors[border]');
       border-radius: 0.3125rem;
     }
   }
@@ -138,14 +138,14 @@
 
     .stack-list {
       margin: 5px 0;
-      border: 1px solid $color-border;
+      border: 1px solid theme('colors[border]');
       border-radius: 0.3125rem;
 
       .stack-item {
         padding: 0.625rem;
         color: $navy;
         font-weight: 500;
-        border-bottom: 1px solid $color-border;
+        border-bottom: 1px solid theme('colors[border]');
 
         span {
           color: $darkgray;
@@ -163,7 +163,7 @@
           background-color: $whitesmoke;
 
           i {
-            color: $color-primary;
+            color: theme('colors[primary]');
           }
         }
       }

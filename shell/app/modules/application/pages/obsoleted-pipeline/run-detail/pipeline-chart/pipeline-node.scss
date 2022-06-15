@@ -94,7 +94,7 @@
     cursor: pointer;
 
     &:hover {
-      color: $color-active;
+      color: theme('colors[active]');
     }
   }
 

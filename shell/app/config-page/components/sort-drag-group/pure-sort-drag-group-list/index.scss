@@ -40,8 +40,8 @@
     }
 
     &:hover {
-      color: $color-active;
-      background-color: $color-active-bg;
+      color: theme('colors[active]');
+      background-color: theme('colors[active-bg]');
     }
   }
 
@@ -57,7 +57,7 @@
     align-items: stretch;
     height: 40px;
     background-color: $ghostwhite;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
 
     &-title {
       width: 0;
@@ -68,7 +68,7 @@
     }
 
     &:hover {
-      background-color: $color-active-bg;
+      background-color: theme('colors[active-bg]');
 
       .hover-show {
         display: inline-flex;
@@ -85,8 +85,8 @@
       }
 
       &:hover {
-        color: $color-active;
-        background-color: $color-active-bg;
+        color: theme('colors[active]');
+        background-color: theme('colors[active-bg]');
       }
     }
 
@@ -113,7 +113,7 @@
     display: block;
     width: 100%;
     height: 2px;
-    background: $color-active-border;
+    background: theme('colors[active-border]');
     content: '';
     opacity: 0;
   }
@@ -127,7 +127,7 @@
 }
 
 .hover-position-center {
-  outline: 2px solid $color-active-border;
+  outline: 2px solid theme('colors[active-border]');
 }
 
 .hover-position-bottom {

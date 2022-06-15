@@ -13,7 +13,7 @@
     width: 200px;
     height: 100%;
     overflow: auto;
-    border-left: 1px solid $color-border;
+    border-left: 1px solid theme('colors[border]');
 
     .form-menu-item {
       padding: 10px;
@@ -22,7 +22,7 @@
 
       &:hover,
       &.active {
-        color: $color-primary;
+        color: theme('colors[primary]');
       }
     }
   }

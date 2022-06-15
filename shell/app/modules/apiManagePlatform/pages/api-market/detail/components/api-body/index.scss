@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     padding: 4px;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
   }
 
   .body-value-container {
@@ -14,7 +14,7 @@
 
     .key-val-item {
       &:last-child {
-        border-bottom: 1px solid $color-border;
+        border-bottom: 1px solid theme('colors[border]');
       }
     }
   }

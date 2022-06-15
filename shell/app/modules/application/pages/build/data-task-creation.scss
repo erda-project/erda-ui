@@ -14,7 +14,7 @@
     }
 
     > span {
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
   }
 

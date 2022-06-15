@@ -5,7 +5,7 @@
   .pipeline-guide-item {
     .remove-btn {
       display: none;
-      color: $color-default;
+      color: theme('colors[default]');
       cursor: pointer;
 
       &:hover {

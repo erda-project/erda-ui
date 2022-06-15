@@ -10,7 +10,7 @@
     }
 
     .sub {
-      color: $color-text-sub;
+      color: theme('colors[text-sub]');
       font-size: 14px;
     }
   }

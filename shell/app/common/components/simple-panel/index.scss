@@ -2,7 +2,7 @@
   .ec-simple-panel-title {
     display: block;
     padding: 11px 0;
-    color: $color-text;
+    color: theme('colors[text]');
     font-size: 18px;
   }
 

@@ -110,13 +110,13 @@
     }
   }
   &.erda-badge-status-default {
-    color: $color-default;
+    color: theme('colors[default]');
     background-color: theme('colors[default-bg]');
     .erda-badge-status-dot {
-      background-color: $color-default;
+      background-color: theme('colors[default]');
     }
     &.badge-hover-active:hover {
-      background-color: $color-default;
+      background-color: theme('colors[default]');
       color: $white;
     }
   }

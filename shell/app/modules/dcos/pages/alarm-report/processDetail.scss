@@ -5,7 +5,7 @@
   margin-bottom: 20px;
   padding: 20px;
   background-color: $white;
-  border: 1px solid $color-border;
+  border: 1px solid theme('colors[border]');
   border-radius: 6px;
 
   > div {
@@ -22,22 +22,22 @@
     margin-right: 10px;
     padding-right: 10px;
     text-align: center;
-    border-right: 1px solid $color-border;
+    border-right: 1px solid theme('colors[border]');
 
     .process-status {
       .process-status-icon {
-        color: $color-primary;
+        color: theme('colors[primary]');
         font-size: 20px;
       }
     }
 
     .process-ip {
-      color: $color-text;
+      color: theme('colors[text]');
       font-size: 14px;
     }
 
     .process-source-name {
-      color: $color-text;
+      color: theme('colors[text]');
       font-size: 12px;
     }
   }
@@ -49,11 +49,11 @@
 
       span:first-child {
         margin-right: 10px;
-        color: $color-text;
+        color: theme('colors[text]');
       }
 
       span:last-child {
-        color: $color-text;
+        color: theme('colors[text]');
       }
     }
   }

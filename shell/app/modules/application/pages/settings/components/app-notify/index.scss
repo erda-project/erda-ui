@@ -35,6 +35,6 @@
   right: 0;
   bottom: -26px;
   font-weight: bold;
-  color: $color-primary;
+  color: theme('colors[primary]');
   cursor: pointer;
 }

@@ -18,12 +18,12 @@
 
 .issue-field-selector {
   .arrow-icon {
-    color: $color-text-icon;
+    color: theme('colors[text-icon]');
   }
 
   &:hover {
     .arrow-icon {
-      color: $color-primary;
+      color: theme('colors[primary]');
     }
   }
 }

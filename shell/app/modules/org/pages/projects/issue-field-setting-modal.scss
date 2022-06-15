@@ -9,7 +9,7 @@
   .name {
     margin-bottom: $p16;
     padding: $p8;
-    color: $color-primary;
+    color: theme('colors[primary]');
     font-weight: 500;
     font-size: $p16;
     background-color: $color-bg;
@@ -18,6 +18,6 @@
   .field-label {
     min-width: 100px;
     margin-right: $p8;
-    color: $color-primary;
+    color: theme('colors[primary]');
   }
 }

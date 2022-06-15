@@ -53,11 +53,11 @@
     }
 
     &.processing {
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
 
     &.default {
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
 
     &.error {
@@ -65,7 +65,7 @@
     }
 
     &.success {
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
 
     &.warning {
@@ -73,7 +73,7 @@
     }
 
     &.on-active {
-      color: $color-primary;
+      color: theme('colors[primary]');
     }
   }
 }

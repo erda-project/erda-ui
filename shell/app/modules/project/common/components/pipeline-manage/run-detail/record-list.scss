@@ -12,7 +12,7 @@
     }
 
     &:hover {
-      color: $color-primary;
+      color: theme('colors[primary]');
     }
   }
 
@@ -32,7 +32,7 @@
     }
 
     .selected-row {
-      background: $color-active-bg;
+      background: theme('colors[active-bg]');
       cursor: pointer;
     }
   }

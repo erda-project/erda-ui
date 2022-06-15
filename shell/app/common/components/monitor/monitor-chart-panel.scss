@@ -7,17 +7,17 @@
   flex-wrap: wrap;
   margin-bottom: 20px;
   background-color: $white;
-  border: 1px solid $color-border;
+  border: 1px solid theme('colors[border]');
   border-radius: 6px;
 
   .monitor-chart-cell {
     width: 50%;
     height: 330px;
     padding: 30px;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
 
     &:nth-child(2n + 1) {
-      border-right: 1px solid $color-border;
+      border-right: 1px solid theme('colors[border]');
     }
 
     &:nth-last-child(2):not(:nth-child(2n)),

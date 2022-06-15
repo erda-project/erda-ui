@@ -28,11 +28,11 @@
 
 .cp-card-item {
   position: relative;
-  outline: 1px solid $color-border;
+  outline: 1px solid theme('colors[border]');
 
   &:hover {
     outline: none;
-    box-shadow: 0 2px 8px 0 rgba($color-default, 0.16);
+    box-shadow: 0 2px 8px 0 theme('colors[default]' / 0.16);
   }
 
   &.animate-border {

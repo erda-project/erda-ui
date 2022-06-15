@@ -20,7 +20,7 @@
   max-height: 300px;
   overflow: auto;
   background-color: $white;
-  border-right: 1px solid $color-border;
+  border-right: 1px solid theme('colors[border]');
   @extend %shallow-shadow;
 
   &.column {
@@ -40,8 +40,8 @@
     cursor: pointer;
 
     &:hover {
-      color: $color-primary;
-      background-color: $color-active-bg;
+      color: theme('colors[primary]');
+      background-color: theme('colors[active-bg]');
     }
   }
 }
@@ -57,7 +57,7 @@
     height: 300px;
     overflow: auto;
     background-color: $white;
-    border-right: 1px solid $color-border;
+    border-right: 1px solid theme('colors[border]');
     @extend %shallow-shadow;
 
     .option-group-search {
@@ -82,8 +82,8 @@
       cursor: pointer;
 
       &:hover {
-        color: $color-primary;
-        background-color: $color-active-bg;
+        color: theme('colors[primary]');
+        background-color: theme('colors[active-bg]');
       }
     }
   }

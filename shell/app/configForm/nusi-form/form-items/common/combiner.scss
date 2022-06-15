@@ -10,7 +10,7 @@
   }
 
   .combiner-operation {
-    color: $color-text-sub;
+    color: theme('colors[text-sub]');
     font-size: 20px;
     cursor: pointer;
   }

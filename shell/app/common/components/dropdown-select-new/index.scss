@@ -1,6 +1,6 @@
 .erda-dropdown-select-menu {
   &.ant-dropdown-menu {
-    background-color: $color-default;
+    background-color: theme('colors[default]');
     color: $white;
   }
   .ant-dropdown-menu-item {
@@ -100,17 +100,17 @@
     }
 
     .option-label {
-      color: $color-default;
+      color: theme('colors[default]');
     }
   }
 
   .icon {
-    color: $color-text-icon;
+    color: theme('colors[text-icon]');
   }
 
   &:hover {
     .icon {
-      color: $color-default;
+      color: theme('colors[default]');
     }
   }
 }

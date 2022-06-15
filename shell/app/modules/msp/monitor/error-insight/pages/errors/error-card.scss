@@ -7,7 +7,7 @@
     color: $navy;
     font-size: 1.125rem;
     background-color: #fafafa;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
     border-top-left-radius: 4px;
   }
 
@@ -16,7 +16,7 @@
     align-items: center;
     padding: 10px;
     background-color: $white;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
   }
 
   .error-file {

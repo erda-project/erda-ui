@@ -18,7 +18,7 @@
   }
 
   .time-range-dropdown {
-    background: $color-default;
+    background: theme('colors[default]');
     border-color: rgba($white, 0.08);
   }
 
@@ -43,7 +43,7 @@
 
   .ant-select {
     .ant-select-dropdown {
-      background: $color-default;
+      background: theme('colors[default]');
 
       .ant-select-item-option {
         color: rgba($white, 0.9);
@@ -60,19 +60,19 @@
 
   &.light {
     .manual-refresh {
-      color: rgba($color-default, 0.6);
+      color: theme('colors[default]' / 0.6);
 
       &:hover {
-        color: rgba($color-default, 0.8);
+        color: theme('colors[default]' / 0.8);
       }
     }
     .time-range,
     .ant-select {
-      background: rgba($color-default, 0.06);
-      color: $color-default;
+      background: theme('colors[default]' / 0.06);
+      color: theme('colors[default]');
 
       &:hover {
-        background: rgba($color-default, 0.1);
+        background: theme('colors[default]' / 0.1);
       }
     }
   }

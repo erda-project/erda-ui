@@ -44,13 +44,13 @@
     width: 100%;
     padding: 6px;
     background-color: #ffffff;
-    border: 1px solid $color-border;
+    border: 1px solid theme('colors[border]');
     border-radius: $radius;
 
     .log-item {
-      border-bottom: 1px solid $color-border;
+      border-bottom: 1px solid theme('colors[border]');
       &.active-item {
-        background-color: $color-active-bg;
+        background-color: theme('colors[active-bg]');
       }
     }
   }

@@ -6,12 +6,12 @@
     cursor: pointer;
 
     &.active {
-      background-color: $color-active-bg;
-      border-right-color: $color-primary;
+      background-color: theme('colors[active-bg]');
+      border-right-color: theme('colors[primary]');
     }
 
     &:hover {
-      background-color: $color-active-bg;
+      background-color: theme('colors[active-bg]');
     }
   }
 }

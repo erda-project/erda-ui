@@ -6,7 +6,7 @@
         width: 100%;
         height: 1px;
         top: -1px;
-        background-color: $color-border;
+        background-color: theme('colors[border]');
         content: '';
       }
     }
@@ -16,7 +16,7 @@
     .erda-tree-indent-left {
       border-width: 0 0 1px 1px;
       border-style: solid;
-      border-color: $color-border;
+      border-color: theme('colors[border]');
       position: relative;
       &::after {
         position: absolute;
@@ -25,20 +25,20 @@
         height: 5px;
         bottom: -3px;
         right: -1px;
-        background-color: $color-border;
+        background-color: theme('colors[border]');
       }
       &.last-item {
         border-bottom-left-radius: 2px;
       }
     }
     .erda-tree-indent-full {
-      border-left: 1px solid $color-border;
+      border-left: 1px solid theme('colors[border]');
     }
     .erda-tree-indent-right {
-      background-color: $color-border;
+      background-color: theme('colors[border]');
     }
     .erda-tree-indent-left-bottom {
-      background-color: $color-border;
+      background-color: theme('colors[border]');
     }
   }
 }
@@ -51,7 +51,7 @@
 }
 
 .erda-task-list-header {
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid theme('colors[border]');
 
   &-selector {
     .ant-select-selector {
@@ -59,18 +59,18 @@
       box-shadow: none !important;
 
       &:hover {
-        background-color: rgba($color-default, 0.06);
+        background-color: theme('colors[default]' / 0.06);
       }
 
       .ant-select-selection-item {
-        color: $color-default !important;
+        color: theme('colors[default]') !important;
         padding-right: 14px !important;
       }
     }
 
     .ant-select-arrow {
       top: 13px;
-      color: rgba($color-default, 0.6);
+      color: theme('colors[default]' / 0.6);
     }
   }
 }

@@ -1,7 +1,7 @@
 .erda-base-list {
   .erda-base-list-item {
     &-container {
-      border-bottom: 1px solid $color-border;
+      border-bottom: 1px solid theme('colors[border]');
       margin: 0 16px;
       padding: 12px 0;
     }
@@ -52,11 +52,11 @@
 
       .title-text {
         width: auto;
-        color: $color-text;
+        color: theme('colors[text]');
       }
 
       .title-icon {
-        color: $color-text-desc;
+        color: theme('colors[text-desc]');
         font-size: 18px;
       }
 
@@ -69,12 +69,12 @@
       font-size: 12px;
       height: 20px;
       line-height: 20px;
-      color: $color-text-sub;
+      color: theme('colors[text-sub]');
     }
 
     .body-meta-info {
       line-height: 20px;
-      color: $color-text-sub;
+      color: theme('colors[text-sub]');
 
       .info-item {
         display: inline-flex;
@@ -84,7 +84,7 @@
         font-size: 12px;
 
         &.type-normal {
-          color: $color-text-sub;
+          color: theme('colors[text-sub]');
         }
 
         &.type-success {
@@ -120,8 +120,8 @@
           background-color: rgba($color-info, 0.06);
         }
         &.info-value-default {
-          color: $color-default;
-          background-color: rgba($color-default, 0.06);
+          color: theme('colors[default]');
+          background-color: theme('colors[default]' / 0.06);
         }
       }
     }
@@ -133,7 +133,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 12px;
-    color: $color-text-desc;
+    color: theme('colors[text-desc]');
     font-size: 14px;
   }
 }
@@ -141,7 +141,7 @@
 .erda-list-operations {
   .ant-dropdown-menu {
     width: 200px;
-    background-color: $color-default;
+    background-color: theme('colors[default]');
   }
 
   .ant-dropdown-menu-item,

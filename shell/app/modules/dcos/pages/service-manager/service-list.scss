@@ -60,7 +60,7 @@
       font-size: 20px;
 
       &:hover {
-        color: $color-primary;
+        color: theme('colors[primary]');
         cursor: pointer;
       }
 
@@ -93,7 +93,7 @@
     cursor: pointer;
 
     &:hover {
-      color: $color-primary;
+      color: theme('colors[primary]');
     }
   }
 }

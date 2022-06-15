@@ -13,7 +13,7 @@
     padding-top: 15px;
     overflow: hidden;
     background: $white;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
     transition: height 0.2s;
 
     .trigger-btn {
@@ -24,7 +24,7 @@
       height: 20px;
       text-align: center;
       background: $white;
-      border: 1px solid $color-border;
+      border: 1px solid theme('colors[border]');
       border-top: none;
       border-radius: $radius;
       border-top-left-radius: 0;
@@ -43,7 +43,7 @@
       padding-top: 14px;
       padding-right: 8px;
       padding-left: 7px;
-      border: 1px solid $color-border;
+      border: 1px solid theme('colors[border]');
       border-radius: $radius;
       @extend %shallow-shadow;
 
@@ -53,13 +53,13 @@
     }
 
     .hover-py {
-      color: $color-primary;
+      color: theme('colors[primary]');
     }
 
     .info-label {
       height: 22px;
       margin-top: 4px;
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
       line-height: 22px;
     }
   }

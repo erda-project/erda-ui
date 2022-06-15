@@ -55,7 +55,7 @@
       }
       .active-button {
         font-weight: 500;
-        color: $color-default;
+        color: theme('colors[default]');
         &:after {
           top: 3px;
           background-color: $color-purple-deep;

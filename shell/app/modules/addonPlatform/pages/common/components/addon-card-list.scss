@@ -29,7 +29,7 @@
   .category-item {
     height: 40px;
     padding: 0 12px;
-    color: $color-text-sub;
+    color: theme('colors[text-sub]');
     line-height: 40px;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -37,16 +37,16 @@
 
     &:hover,
     &.active {
-      color: $color-active;
-      background: $color-active-bg;
+      color: theme('colors[active]');
+      background: theme('colors[active-bg]');
 
       > a,
       > div {
-        color: $color-active;
+        color: theme('colors[active]');
       }
 
       i {
-        color: $color-active;
+        color: theme('colors[active]');
       }
     }
   }

@@ -22,12 +22,12 @@
 
   .api-item {
     margin-bottom: 20px;
-    border: 1px solid $color-border;
-    border-left: 2px solid $color-border;
+    border: 1px solid theme('colors[border]');
+    border-left: 2px solid theme('colors[border]');
     border-radius: $radius;
 
     &:nth-child(odd) {
-      border-left-color: $color-active-border;
+      border-left-color: theme('colors[active-border]');
     }
 
     .api-title {
@@ -36,13 +36,13 @@
       height: 38px;
 
       input {
-        color: $color-text;
+        color: theme('colors[text]');
         border: none;
         box-shadow: none;
       }
 
       .api-op {
-        color: $color-text-desc;
+        color: theme('colors[text-desc]');
         font-size: 18px;
       }
 
@@ -56,7 +56,7 @@
     .api-url {
       padding: 10px;
       background: transparentize($black, 0.98);
-      border-top: 1px solid $color-border;
+      border-top: 1px solid theme('colors[border]');
 
       .ant-input-group-addon {
         background: $white;
@@ -64,7 +64,7 @@
     }
 
     .api-tabs {
-      border-top: 1px solid $color-border;
+      border-top: 1px solid theme('colors[border]');
 
       .ant-tabs-bar {
         margin-bottom: 4px;
@@ -112,14 +112,14 @@
   .key-val-item {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
 
     &:last-child {
       border-bottom: 0;
     }
 
     input {
-      color: $color-text;
+      color: theme('colors[text]');
       border: none;
       box-shadow: none;
     }
@@ -128,7 +128,7 @@
       display: inline-block;
       width: 1px;
       height: 20px;
-      background: $color-border;
+      background: theme('colors[border]');
     }
 
     .key-val-operation {
@@ -186,7 +186,7 @@
 
   .table-body {
     margin-bottom: 20px;
-    border: 1px solid $color-border;
+    border: 1px solid theme('colors[border]');
     border-radius: $radius;
   }
 
@@ -202,7 +202,7 @@
     display: flex;
     align-items: center;
     padding: 4px;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
   }
 
   .body-value-container {
@@ -213,7 +213,7 @@
 
     .key-val-item {
       &:last-child {
-        border-bottom: 1px solid $color-border;
+        border-bottom: 1px solid theme('colors[border]');
       }
     }
   }

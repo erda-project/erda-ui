@@ -1,7 +1,7 @@
 .cp-list {
   &-item {
     display: flex;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
 
     &.no-border {
       border-bottom: none;
@@ -12,7 +12,7 @@
     }
 
     &:hover {
-      background-color: $color-active-bg;
+      background-color: theme('colors[active-bg]');
 
       .cp-list-item-operations {
         display: flex;
@@ -37,21 +37,21 @@
 
         .title-text {
           width: auto;
-          color: $color-text;
+          color: theme('colors[text]');
         }
 
         .title-icon {
-          color: $color-text-desc;
+          color: theme('colors[text-desc]');
           font-size: 18px;
         }
       }
 
       .body-description {
-        color: $color-text-sub;
+        color: theme('colors[text-sub]');
       }
 
       .body-extra-info {
-        color: $color-text-desc;
+        color: theme('colors[text-desc]');
 
         .info-item {
           display: inline-flex;
@@ -60,7 +60,7 @@
           margin-right: 16px;
 
           &.type-normal {
-            color: $color-text-desc;
+            color: theme('colors[text-desc]');
           }
 
           &.type-success {
@@ -155,7 +155,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 12px;
-    color: $color-text-desc;
+    color: theme('colors[text-desc]');
     font-size: 14px;
   }
 }

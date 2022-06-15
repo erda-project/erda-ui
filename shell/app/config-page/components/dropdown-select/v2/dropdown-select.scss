@@ -1,5 +1,5 @@
 .cp-dropdown-select-menu {
-  background-color: $color-default;
+  background-color: theme('colors[default]');
   color: $white;
   .ant-dropdown-menu-item {
     cursor: default;
@@ -84,7 +84,7 @@
     }
 
     .option-label {
-      color: $color-default;
+      color: theme('colors[default]');
     }
   }
 }

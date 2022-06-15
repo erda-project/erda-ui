@@ -1,7 +1,6 @@
 .project-status-page {
-
   .reason-analysis-span {
-    color: $color-primary;
+    color: theme('colors[primary]');
   }
 
   .status-list {

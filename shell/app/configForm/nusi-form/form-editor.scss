@@ -5,7 +5,7 @@
   padding: 12px;
 
   &.on-edit {
-    background-color: $color-active-bg;
+    background-color: theme('colors[active-bg]');
   }
 
   .form-view {
@@ -24,7 +24,7 @@
 
     > span {
       margin-right: 8px;
-      color: $color-primary;
+      color: theme('colors[primary]');
       cursor: pointer;
 
       &:hover {

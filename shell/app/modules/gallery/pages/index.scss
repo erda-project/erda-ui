@@ -11,7 +11,7 @@
         position: absolute;
         bottom: -16px;
         content: '';
-        background-color: $color-border;
+        background-color: theme('colors[border]');
       }
     }
   }

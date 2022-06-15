@@ -52,7 +52,7 @@
     .filter-item-label {
       min-width: 56px;
       padding: 0 12px;
-      color: $color-text-sub;
+      color: theme('colors[text-sub]');
       line-height: 30px;
       text-align: center;
       background-color: $white;
@@ -89,7 +89,7 @@
 
   .filter-label {
     margin-bottom: 4px;
-    color: $color-text-sub;
+    color: theme('colors[text-sub]');
   }
 
   .ant-input,
@@ -118,7 +118,7 @@
     .clear {
       display: inline-block;
       margin-left: 8px;
-      color: $color-primary;
+      color: theme('colors[primary]');
       cursor: pointer;
     }
   }

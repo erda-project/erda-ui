@@ -20,7 +20,7 @@
 }
 .service-overview {
   &-topology {
-    background: $color-default;
+    background: theme('colors[default]');
 
     &.fixed-height {
       height: 420px;

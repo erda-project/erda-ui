@@ -32,13 +32,13 @@
   .switch-type-selector {
     .ant-select-selector {
       margin-right: 4px;
-      border-color: $color-border;
+      border-color: theme('colors[border]');
 
       &:hover {
-        border-color: $color-active;
+        border-color: theme('colors[active]');
 
         .ant-select-arrow {
-          color: $color-active;
+          color: theme('colors[active]');
         }
       }
     }

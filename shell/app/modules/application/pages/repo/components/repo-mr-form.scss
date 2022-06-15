@@ -26,7 +26,7 @@
 .mr-template-save-path {
   padding: 6px;
   background-color: $color-disabled-bg;
-  border: 1px solid $color-border;
+  border: 1px solid theme('colors[border]');
   border-radius: $radius;
 }
 
@@ -54,7 +54,7 @@
   padding: 8px 32px 0px 32px;
   text-align: right;
   background-color: $white;
-  border-top: 1px solid $color-border;
+  border-top: 1px solid theme('colors[border]');
 
   @include md-width() {
     & {

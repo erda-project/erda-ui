@@ -11,42 +11,51 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+function withOpacity(vName) {
+  return ({ opacityValue }) => {
+    if (opacityValue) {
+      return `rgba(var(${vName}) / ${opacityValue})`;
+    }
+    return `rgb(var(${vName}))`;
+  };
+}
+
 module.exports = {
-  primary: 'rgba(var(--color-primary-rgb), 1)',
-  normal: 'rgba(var(--color-primary-rgb), 0.8)',
-  sub: 'rgba(var(--color-primary-rgb), 0.6)',
-  desc: 'rgba(var(--color-primary-rgb), 0.4)',
-  icon: 'rgba(var(--color-primary-rgb), 0.3)',
-  disabled: 'rgba(var(--color-primary-rgb), 0.3)',
-  holder: 'rgba(var(--color-primary-rgb), 0.2)',
+  primary: withOpacity('--color-primary-rgb'),
+  normal: 'rgba(var(--color-primary-rgb) / 0.8)',
+  sub: 'rgba(var(--color-primary-rgb) / 0.6)',
+  desc: 'rgba(var(--color-primary-rgb) / 0.4)',
+  icon: 'rgba(var(--color-primary-rgb) / 0.3)',
+  disabled: 'rgba(var(--color-primary-rgb) / 0.3)',
+  holder: 'rgba(var(--color-primary-rgb) / 0.2)',
 
-  'primary-light': 'var(--color-primary-light)',
+  'primary-light': withOpacity('--color-primary-light'),
 
-  text: 'rgba(var(--color-primary-rgb), 0.8)',
-  'text-sub': 'rgba(var(--color-primary-rgb), 0.6)',
-  'text-desc': 'rgba(var(--color-primary-rgb), 0.4)',
-  'text-icon': 'rgba(var(--color-primary-rgb), 0.3)',
-  'text-holder': 'rgba(var(--color-primary-rgb), 0.2)',
-  border: 'rgba(var(--color-primary-rgb), 0.08)',
+  text: 'rgba(var(--color-primary-rgb) / 0.8)',
+  'text-sub': 'rgba(var(--color-primary-rgb) / 0.6)',
+  'text-desc': 'rgba(var(--color-primary-rgb) / 0.4)',
+  'text-icon': 'rgba(var(--color-primary-rgb) / 0.3)',
+  'text-holder': 'rgba(var(--color-primary-rgb) / 0.2)',
+  border: 'rgba(var(--color-primary-rgb) / 0.08)',
 
-  'default-bg': 'rgba(var(--color-primary-rgb), 0.1)',
-  active: 'rgba(var(--color-primary-rgb), 1)',
-  'active-bg': 'rgba(var(--color-primary-rgb), 0.06)',
-  'active-border': 'rgba(var(--color-primary-rgb), 0.6)',
-  'click-bg': 'rgba(var(--color-primary-rgb), 0.2)',
+  'default-bg': 'rgba(var(--color-primary-rgb) / 0.1)',
+  active: 'rgba(var(--color-primary-rgb) / 1)',
+  'active-bg': 'rgba(var(--color-primary-rgb) / 0.06)',
+  'active-border': 'rgba(var(--color-primary-rgb) / 0.6)',
+  'click-bg': 'rgba(var(--color-primary-rgb) / 0.2)',
 
-  default: 'rgba(var(--color-primary-rgb), 1)',
-  'default-1': 'rgba(var(--color-primary-rgb), 0.1)',
-  'default-2': 'rgba(var(--color-primary-rgb), 0.2)',
-  'default-3': 'rgba(var(--color-primary-rgb), 0.3)',
-  'default-4': 'rgba(var(--color-primary-rgb), 0.4)',
-  'default-6': 'rgba(var(--color-primary-rgb), 0.6)',
-  'default-8': 'rgba(var(--color-primary-rgb), 0.8)',
-  'default-01': 'rgba(var(--color-primary-rgb), 0.01)',
-  'default-02': 'rgba(var(--color-primary-rgb), 0.02)',
-  'default-04': 'rgba(var(--color-primary-rgb), 0.04)',
-  'default-06': 'rgba(var(--color-primary-rgb), 0.06)',
-  'default-08': 'rgba(var(--color-primary-rgb), 0.08)',
+  default: withOpacity('--color-primary-rgb'),
+  'default-1': 'rgba(var(--color-primary-rgb) / 0.1)',
+  'default-2': 'rgba(var(--color-primary-rgb) / 0.2)',
+  'default-3': 'rgba(var(--color-primary-rgb) / 0.3)',
+  'default-4': 'rgba(var(--color-primary-rgb) / 0.4)',
+  'default-6': 'rgba(var(--color-primary-rgb) / 0.6)',
+  'default-8': 'rgba(var(--color-primary-rgb) / 0.8)',
+  'default-01': 'rgba(var(--color-primary-rgb) / 0.01)',
+  'default-02': 'rgba(var(--color-primary-rgb) / 0.02)',
+  'default-04': 'rgba(var(--color-primary-rgb) / 0.04)',
+  'default-06': 'rgba(var(--color-primary-rgb) / 0.06)',
+  'default-08': 'rgba(var(--color-primary-rgb) / 0.08)',
 
   red: '#d84b65',
   'red-1': 'rgba(216,75,101,0.1)',

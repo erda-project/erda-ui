@@ -6,7 +6,7 @@
     margin-bottom: 8px;
 
     .label-group-name {
-      color: $color-text-sub;
+      color: theme('colors[text-sub]');
       font-size: 14px;
     }
   }

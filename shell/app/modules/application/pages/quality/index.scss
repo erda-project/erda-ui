@@ -1,10 +1,10 @@
 .quality-info {
   .label {
-    color: $color-text-desc;
+    color: theme('colors[text-desc]');
   }
 
   .commit-id {
-    color: $color-primary;
+    color: theme('colors[primary]');
   }
 }
 
@@ -13,7 +13,7 @@
 
   .quality-data {
     padding: $p20;
-    color: $color-text-desc;
+    color: theme('colors[text-desc]');
     font-size: 24px;
     background: $white;
     border-radius: $radius;
@@ -30,7 +30,7 @@
     }
 
     .num {
-      color: $color-text;
+      color: theme('colors[text]');
     }
 
     .rate {
@@ -88,14 +88,14 @@
     margin: 0;
     padding: 0 $p16;
     background: $whitesmoke;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
     border-radius: 3px 3px 0 0;
 
     i {
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
 
       &:hover {
-        color: $color-primary;
+        color: theme('colors[primary]');
       }
     }
   }

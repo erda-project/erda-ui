@@ -3,5 +3,5 @@
   width: 1em;
   height: 1em;
   color: $white;
-  background-color: $color-primary;
+  background-color: theme('colors[primary]');
 }

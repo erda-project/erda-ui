@@ -44,23 +44,6 @@ $color-white-06: rgba(255, 255, 255, 0.06) !default;
 $color-white-04: rgba(255, 255, 255, 0.04) !default;
 $color-white-02: rgba(255, 255, 255, 0.02) !default;
 
-// Color primary
-$color-primary: #302647 !default;
-$color-primary-light: #0c0b14 !default;
-
-$color-default: #302647; // rgba(48,38,71,1);
-$color-default-8: rgba($color-default, 0.8);
-$color-default-6: rgba($color-default, 0.6);
-$color-default-4: rgba($color-default, 0.4);
-$color-default-1: rgba($color-default, 0.1);
-$color-default-2: rgba($color-default, 0.2);
-$color-default-3: rgba($color-default, 0.3);
-$color-default-08: rgba($color-default, 0.08);
-$color-default-06: rgba($color-default, 0.06);
-$color-default-04: rgba($color-default, 0.04);
-$color-default-02: rgba($color-default, 0.02);
-$color-default-01: rgba($color-default, 0.01);
-
 // function color
 $color-info: $blue;
 $color-info-bg: rgba($color-info, 0.1);
@@ -111,25 +94,10 @@ $color-yellow-g-600: #c9c400;
 $color-yellow-g-300: #ece97d;
 $color-yellow-g-100: #faf9dc;
 
-$color-default-bg: rgba($color-default, 0.1);
-$color-active: $color-default;
-$color-active-bg: rgba($color-default, 0.06);
-$color-active-border: rgba($color-default, 0.6);
 $color-disabled: $color-dark-3;
 $color-disabled-bg: rgba($black, 0.06);
-$color-click-bg: rgba($color-default, 0.2);
 $color-light-bg: $whitesmoke;
 $color-light-bg-04: #f6f6f7;
-
-// Color text
-$color-text: $color-default-8 !default;
-$color-text-sub: $color-default-6 !default;
-$color-text-desc: $color-default-4 !default;
-$color-text-icon: $color-default-3 !default;
-$color-text-holder: $color-default-2 !default;
-
-// Color border
-$color-border: $color-default-08 !default;
 
 //Color Tree background-color
 $color-tree-bg: #d7d1de !default;
@@ -156,9 +124,6 @@ $color-table-text-highlight: #7c53db;
 $color-table-bg-hover: #f7f7f8;
 $color-table-head-bg: #fbfbfb;
 $color-bg-gray: #efeef0;
-
-// color new list
-$color-box-shadow: rgba($color-text-sub, 0.1);
 
 // new assistant color
 $color-purple-deep: #7c53db;

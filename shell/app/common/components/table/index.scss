@@ -67,7 +67,7 @@ div.erda-table {
       height: 12px;
       line-height: 1;
       font-size: 12px;
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
   }
 
@@ -133,7 +133,7 @@ div.erda-table {
     }
 
     .icon-search {
-      color: $color-text-icon;
+      color: theme('colors[text-icon]');
     }
 
     .ant-form-item {

@@ -28,7 +28,6 @@ import 'echarts/lib/chart/scatter';
 import 'echarts/lib/chart/map';
 import React from 'react';
 import ResizeObserver from 'rc-resize-observer';
-import themeColor from 'app/theme-color';
 import { theme } from '../theme';
 import i18n from 'i18n';
 
@@ -87,14 +86,13 @@ class Echarts extends React.Component {
     if (this.props.showLoading) {
       echartObj.showLoading('default', {
         text: `${i18n.t('charts:loading')}...`,
-        // color: themeColor.primary,
         color: style.getPropertyValue('--primary'),
         textColor: '#000',
         maskColor: 'rgba(255, 255, 255, 0.8)',
         zlevel: 0,
       });
     } else echartObj.hideLoading();
-    const option = this.props.option;
+    const { option } = this.props;
     if (option.legend && (option.series || []).some((t) => t.type === 'line')) {
       option.legend = {
         ...option.legend,

@@ -1,6 +1,6 @@
 .comment-box {
   position: relative;
-  border: 1px solid $color-border;
+  border: 1px solid theme('colors[border]');
   border-radius: $radius;
 
   .title {
@@ -11,7 +11,7 @@
     font-weight: 500;
     font-size: 14px;
     background-color: $color-bg;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
   }
 
   .content {
@@ -30,7 +30,7 @@
       display: inline-block;
       width: 2px;
       height: 21px;
-      background-color: $color-border;
+      background-color: theme('colors[border]');
       content: '';
     }
   }

@@ -6,7 +6,7 @@
 
 .backlog-iteration-item {
   height: 48px;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid theme('colors[border]');
   cursor: pointer;
 
   .iteration-info {
@@ -69,6 +69,6 @@
   .empty-holder {
     height: 80px;
     padding-bottom: 8px;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
   }
 }

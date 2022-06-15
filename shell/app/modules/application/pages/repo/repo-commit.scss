@@ -22,12 +22,12 @@
 .commit-list {
   padding: 0 12px;
   overflow: auto;
-  border: 1px solid $color-border;
+  border: 1px solid theme('colors[border]');
   border-radius: 4px;
 
   .commit-item {
     padding: 16px 0;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
 
     &:last-child {
       border-color: transparent;
@@ -35,7 +35,7 @@
 
     .commit-sub-sha {
       margin-left: $p24;
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
 
     .commit-left {
@@ -45,10 +45,10 @@
     }
 
     // button {
-    //   color: $color-text-desc;
+    //   color: theme('colors[text-desc]');
 
     //   &:hover {
-    //     color: $color-primary;
+    //     color: theme('colors[primary]');
     //   }
     // }
   }

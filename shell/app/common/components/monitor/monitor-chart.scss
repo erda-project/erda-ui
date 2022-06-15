@@ -22,7 +22,7 @@
     width: 120px;
 
     .ant-select-selection {
-      color: $color-text;
+      color: theme('colors[text]');
       border: none;
       box-shadow: none;
     }

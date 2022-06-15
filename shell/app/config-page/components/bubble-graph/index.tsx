@@ -21,7 +21,7 @@ import { formatValue } from 'charts/utils';
 
 const themeColor = {
   dark: '#ffffff',
-  light: themeColors.default,
+  light: themeColors.default({ opacityValue: 1 }),
 };
 
 const genCommonSize = (chartSize: number, maxSize: number, current: number) => {

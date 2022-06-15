@@ -5,7 +5,7 @@
 
 .machine-table {
   .machine-operations {
-    color: $color-text;
+    color: theme('colors[text]');
     font-size: 18px;
   }
 
@@ -24,7 +24,7 @@
     font-weight: bold;
 
     &.active {
-      color: $color-primary;
+      color: theme('colors[primary]');
       font-size: 14px;
     }
 
@@ -76,7 +76,7 @@
     font-size: 20px;
 
     &:hover {
-      color: $color-primary;
+      color: theme('colors[primary]');
       cursor: pointer;
     }
   }
@@ -101,18 +101,10 @@
         display: flex;
         align-items: center;
         height: 100%;
-        background: linear-gradient(
-          to right,
-          transparentize($color-primary, 0.99),
-          transparentize($color-primary, 0.9)
-        );
+        background: linear-gradient(to right, theme('colors[primary]' / 0.99) theme('colors[primary]' / 0.9));
 
         &.machine-percent-top-bar {
-          background: linear-gradient(
-            to right,
-            transparentize($color-primary, 0.98),
-            transparentize($color-primary, 0.8)
-          );
+          background: linear-gradient(to right, theme('colors[primary]' / 0.98) theme('colors[primary]' / 0.8));
 
           &.machine-percent-error-bar {
             background: linear-gradient(
@@ -124,11 +116,7 @@
         }
 
         &:hover {
-          background: linear-gradient(
-            to right,
-            transparentize($color-primary, 0.95),
-            transparentize($color-primary, 0.5)
-          );
+          background: linear-gradient(to right, theme('colors[primary]' / 0.95) theme('colors[primary]' / 0.5));
 
           span {
             display: block;

@@ -7,7 +7,7 @@
     margin-right: 15px;
     margin-bottom: 20px;
     padding: 0 12px;
-    color: $color-text-sub;
+    color: theme('colors[text-sub]');
     font-size: 12px;
     line-height: 28px;
     background-color: $color-bg;
@@ -22,9 +22,9 @@
 
     &.create {
       padding-left: 6px;
-      color: $color-primary;
+      color: theme('colors[primary]');
       background-color: transparent;
-      border: 1px dashed $color-primary;
+      border: 1px dashed theme('colors[primary]');
     }
   }
 

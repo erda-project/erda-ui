@@ -26,11 +26,11 @@
     height: 86px;
     padding: $p16 $p12;
     overflow: hidden;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
     cursor: pointer;
 
     &:hover {
-      background: $color-active-bg;
+      background: theme('colors[active-bg]');
     }
   }
 
@@ -49,7 +49,7 @@
 
   .item-footer {
     height: 22px;
-    color: $color-text-desc;
+    color: theme('colors[text-desc]');
     line-height: 22px;
   }
 

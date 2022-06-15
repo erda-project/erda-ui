@@ -7,7 +7,7 @@
       border-radius: $border-radius;
       &:hover,
       &.selected {
-        color: $color-default;
+        color: theme('colors[default]');
         &:not(.not-allowed) {
           font-weight: 500;
           background-color: theme('colors[default-06]');

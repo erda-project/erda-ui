@@ -34,7 +34,11 @@ const CP_TopN: React.FC<CP_DATA_RANK.Props> = (props) => {
     <div className="cp-data-rank h-full">
       <Row gutter={8} {...configProps.rowsProps} className="h-full">
         {(list ?? []).map((listItem, index) => {
-          const { color = themeColor.default, titleIcon, backgroundIcon } = configProps.theme?.[index] || {};
+          const {
+            color = themeColor.default({ opacityValue: 1 }),
+            titleIcon,
+            backgroundIcon,
+          } = configProps.theme?.[index] || {};
           const { title, items, span } = listItem;
           return (
             <Col key={title} span={span} className="my-1">

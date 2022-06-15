@@ -14,8 +14,8 @@
   }
 
   .result-list {
-    background-color: rgba($color-default, 0.01);
-    color: $color-default;
+    background-color: theme('colors[default]' / 0.01);
+    color: theme('colors[default]');
 
     .erda-list-select-selected-item-delete {
       color: theme('colors[default-4]');

@@ -3,7 +3,7 @@ body {
     color: $color-dark-2;
   }
 
-  $border-style: 1px solid $color-border;
+  $border-style: 1px solid theme('colors[border]');
 
   .ant-input:-ms-input-placeholder {
     color: $color-dark-2;
@@ -21,9 +21,9 @@ body {
     .ant-calendar-footer-btn {
       .ant-calendar-range-quick-selector {
         .ant-tag-blue {
-          color: $color-primary;
-          background: $color-active-bg;
-          border-color: $color-active-border;
+          color: theme('colors[primary]');
+          background: theme('colors[active-bg]');
+          border-color: theme('colors[active-border]');
         }
       }
     }
@@ -51,11 +51,11 @@ body {
         line-height: 46px;
 
         &.ant-tabs-tab-active {
-          color: $color-primary;
+          color: theme('colors[primary]');
         }
 
         &:not(.ant-tabs-tab-disabled):hover {
-          color: $color-primary;
+          color: theme('colors[primary]');
         }
       }
     }
@@ -113,12 +113,12 @@ body {
   }
 
   .ant-table {
-    color: $color-text;
+    color: theme('colors[text]');
     background-color: $white;
     border-radius: 6px;
 
     > .ant-table-scroll {
-      border: 1px solid $color-border;
+      border: 1px solid theme('colors[border]');
       border-radius: 6px;
 
       .ant-table-body {
@@ -146,7 +146,7 @@ body {
         cursor: pointer;
 
         &:hover {
-          color: $color-primary;
+          color: theme('colors[primary]');
         }
       }
     }
@@ -186,28 +186,28 @@ body {
   }
 
   .ant-btn-second {
-    color: $color-primary;
+    color: theme('colors[primary]');
     background-color: $white;
-    border-color: $color-primary;
+    border-color: theme('colors[primary]');
 
     &:hover,
     &:focus {
-      background-color: $color-active-bg;
+      background-color: theme('colors[active-bg]');
     }
 
     &:active {
-      background-color: $color-click-bg;
+      background-color: theme('colors[click-bg]');
     }
 
     > i {
-      color: $color-primary;
+      color: theme('colors[primary]');
     }
   }
 
   .ant-btn-text {
     &:hover {
       border-color: transparent;
-      color: $color-primary;
+      color: theme('colors[primary]');
       background-color: $whitesmoke;
     }
   }
@@ -296,7 +296,7 @@ body {
       width: 100%;
       padding: 8px 16px;
       text-align: right;
-      border-top: 1px solid $color-border;
+      border-top: 1px solid theme('colors[border]');
     }
 
     .ant-drawer-close {
@@ -415,7 +415,7 @@ body {
   // for table operations
   .ant-dropdown-menu-dark,
   .ant-dropdown-menu-dark .ant-dropdown-menu {
-    background: $color-default;
+    background: theme('colors[default]');
     .disabled {
       color: #999 !important;
     }
@@ -463,7 +463,7 @@ body {
   }
 
   .ant-table-tbody > tr > td {
-    color: $color-default;
+    color: theme('colors[default]');
   }
 
   div.ant-progress-inner {
@@ -473,7 +473,7 @@ body {
   .ant-tooltip {
     max-width: 600px;
     .ant-tooltip-inner {
-      background-color: rgba($color-default, 0.96);
+      background-color: theme('colors[default]' / 0.96);
       max-height: 90vh;
       max-width: 600px;
       overflow: auto;
@@ -540,7 +540,7 @@ body {
     &.theme-dark {
       .ant-drawer-header {
         color: $color-white-8;
-        background-color: $color-default;
+        background-color: theme('colors[default]');
         border-bottom: 1px solid $color-white-1;
         .ant-drawer-title {
           color: $white;
@@ -548,7 +548,7 @@ body {
       }
       .ant-drawer-content {
         color: $color-white-8;
-        background-color: $color-default;
+        background-color: theme('colors[default]');
       }
     }
   }

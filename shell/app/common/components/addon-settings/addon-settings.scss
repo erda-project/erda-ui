@@ -6,7 +6,7 @@
     margin-bottom: 15px;
     font-size: 18px;
     line-height: 48px;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
   }
 
   .copy-tip {
@@ -22,7 +22,7 @@
   .param-k {
     height: 22px;
     margin-bottom: 4px;
-    color: $color-text-desc;
+    color: theme('colors[text-desc]');
     line-height: 22px;
   }
 
@@ -38,7 +38,7 @@
 
   .settings-delete-content {
     > p {
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
   }
 }

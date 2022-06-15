@@ -1,5 +1,5 @@
 .trace-status-viewer {
-  color: $color-text-sub;
+  color: theme('colors[text-sub]');
   text-align: center;
   border-radius: 4px;
   transition-duration: 0.3s;
@@ -53,7 +53,7 @@
     }
 
     &.pending i {
-      color: $color-active;
+      color: theme('colors[active]');
     }
 
     &.failure i {

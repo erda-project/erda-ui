@@ -71,7 +71,7 @@ const topNConfig = [
   },
   {
     key: 'sqlSlowTop5',
-    color: themeColor.default,
+    color: themeColor.default({ opacityValue: 1 }),
     icon: 'SQLtiaoyong',
   },
   {

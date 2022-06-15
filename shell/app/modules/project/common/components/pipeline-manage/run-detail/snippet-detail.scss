@@ -14,20 +14,20 @@
       height: 100%;
       margin-right: 12px;
       overflow: auto;
-      border-right: 1px solid $color-border;
+      border-right: 1px solid theme('colors[border]');
 
       .snippet-item {
         width: 100%;
         height: 45px;
         padding: 0 12px;
         line-height: 45px;
-        border-bottom: 1px solid $color-border;
+        border-bottom: 1px solid theme('colors[border]');
         cursor: pointer;
 
         &.is-active,
         &:hover {
-          color: $color-primary;
-          background-color: $color-active-bg;
+          color: theme('colors[primary]');
+          background-color: theme('colors[active-bg]');
         }
 
         &:last-child {

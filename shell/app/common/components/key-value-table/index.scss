@@ -28,7 +28,7 @@
     cursor: pointer;
 
     &:hover {
-      color: $color-primary;
+      color: theme('colors[primary]');
     }
   }
 

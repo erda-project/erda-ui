@@ -40,7 +40,7 @@
       display: inline-block;
       width: 1px;
       height: 12px;
-      background-color: rgba($color-default, 0.16);
+      background-color: theme('colors[default]' / 0.16);
       top: 10px;
       left: -17px;
     }

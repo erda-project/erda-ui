@@ -7,7 +7,7 @@
 
   &-header {
     height: 120px;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
 
     &-op {
       i {
@@ -31,7 +31,7 @@
 
     &-right {
       width: 200px;
-      border-left: 1px solid $color-border;
+      border-left: 1px solid theme('colors[border]');
     }
 
     .case-index-hover {
@@ -67,7 +67,7 @@
         cursor: move;
 
         &:hover {
-          color: $color-primary;
+          color: theme('colors[primary]');
         }
       }
 
@@ -78,7 +78,7 @@
         cursor: copy;
 
         &:hover {
-          color: $color-primary;
+          color: theme('colors[primary]');
         }
       }
 
@@ -106,7 +106,7 @@
     height: 55px;
     padding: 0 16px;
     background: $white;
-    border-top: 1px solid $color-border;
+    border-top: 1px solid theme('colors[border]');
     box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.1);
   }
 }

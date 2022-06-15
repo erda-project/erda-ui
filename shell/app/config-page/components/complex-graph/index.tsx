@@ -20,7 +20,7 @@ import { formatValue } from 'charts/utils';
 
 const themeColor = {
   dark: themeColors.white,
-  light: themeColors.default,
+  light: themeColors.default({ opacityValue: 1 }),
 };
 
 const genAxis = (axis: CP_COMPLEX_GRAPH.Axis[], axisType: 'x' | 'y', color: string) => {

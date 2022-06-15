@@ -48,7 +48,7 @@ ol {
 }
 
 html body {
-  color: $color-text;
+  color: theme('colors[text]');
   font-size: 14px;
   font-family: 'Roboto-Regular', 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue',
     Arial, sans-serif;
@@ -67,7 +67,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: $color-text;
+  color: theme('colors[text]');
   font-weight: 500;
   font-family: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
 }
@@ -84,14 +84,14 @@ samp {
 }
 
 a {
-  color: $color-primary;
+  color: theme('colors[primary]');
 
   &:focus {
     text-decoration: none;
   }
 
   &:hover {
-    color: $color-primary;
+    color: theme('colors[primary]');
   }
 }
 

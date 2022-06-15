@@ -5,7 +5,7 @@
 
   .overview-body-title {
     margin-bottom: $p12;
-    color: $color-text;
+    color: theme('colors[text]');
     font-size: 18px;
     line-height: 26px;
   }
@@ -30,6 +30,6 @@
 }
 
 .redeploy-tip-btn {
-  color: $color-primary;
+  color: theme('colors[primary]');
   cursor: pointer;
 }

@@ -2,7 +2,7 @@
   font-family: 'Avenir-Book';
   padding: 8px;
   font-size: 14px;
-  color: $color-default;
+  color: theme('colors[default]');
   word-break: break-word;
 
   a {
@@ -46,7 +46,7 @@
   h6 {
     font-family: 'Avenir-Heavy';
     position: relative;
-    color: $color-default;
+    color: theme('colors[default]');
     padding: 0;
     font-weight: bold;
     cursor: text;
@@ -59,7 +59,7 @@
   h5 .mini-icon-link,
   h6 .mini-icon-link {
     display: none;
-    color: $color-default;
+    color: theme('colors[default]');
   }
 
   h1:hover a.anchor,
@@ -144,7 +144,7 @@
   hr {
     height: 4px;
     padding: 0;
-    color: $color-default;
+    color: theme('colors[default]');
     border: 0 none;
   }
 

@@ -26,7 +26,7 @@
         display: block;
         width: 1px;
         height: 60%;
-        background-color: $color-border;
+        background-color: theme('colors[border]');
         content: '';
       }
     }
@@ -63,7 +63,7 @@
     border-radius: 2px;
 
     > div {
-      color: $color-primary;
+      color: theme('colors[primary]');
       text-align: center;
 
       &:nth-child(1) {

@@ -5,7 +5,7 @@
     min-height: 74px;
     padding: 12px;
     background-color: $white;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
 
     &:last-child {
       border-bottom: unset;
@@ -19,7 +19,7 @@
     }
 
     .status {
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
 
     .extra-items {

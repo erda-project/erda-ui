@@ -41,7 +41,7 @@
 
     &:disabled {
       color: $color-disabled;
-      border-color: $color-border;
+      border-color: theme('colors[border]');
     }
 
     .iconfont {

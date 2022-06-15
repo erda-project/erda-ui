@@ -14,7 +14,7 @@
     }
 
     .service-card {
-      border-bottom: 1px solid $color-border;
+      border-bottom: 1px solid theme('colors[border]');
 
       &:hover {
         box-shadow: unset;
@@ -31,7 +31,7 @@
     width: 100%;
     min-width: 550px;
     height: 80px;
-    color: $color-text;
+    color: theme('colors[text]');
     background-color: $white;
     border-radius: $radius;
 
@@ -117,7 +117,7 @@
 
         .domain-links {
           margin-right: 12px;
-          color: $color-primary;
+          color: theme('colors[primary]');
         }
 
         .iconfont {
@@ -146,7 +146,7 @@
   li {
     margin-bottom: 3px;
     padding-bottom: 3px;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
 
     &:last-child {
       border-bottom: unset;

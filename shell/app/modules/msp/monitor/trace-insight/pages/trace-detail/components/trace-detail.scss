@@ -1,4 +1,4 @@
-@mixin duration-color($color: $color-primary) {
+@mixin duration-color($color: theme('colors[primary]')) {
   @for $i from 0 through 5 {
     &.depth-#{$i} .duration {
       @if $i == 0 {
@@ -17,7 +17,7 @@
   .form-filter-container {
     margin-bottom: 30px;
     background-color: $white;
-    border: 1px solid $color-border;
+    border: 1px solid theme('colors[border]');
     border-radius: 5px;
 
     .ant-row {
@@ -118,7 +118,7 @@
         padding-left: 2px;
         color: $white;
         line-height: 24px;
-        background: $color-primary;
+        background: theme('colors[primary]');
         border-radius: 3px;
 
         .service-name-text {
@@ -276,7 +276,7 @@
     }
 
     .badge {
-      background: $color-primary-light;
+      background: theme('colors[primary-light]');
     }
   }
 }
@@ -310,7 +310,7 @@
   .badge {
     padding: 2px 10px;
     color: $white;
-    background-color: $color-primary;
+    background-color: theme('colors[primary]');
     border-radius: 20px;
   }
 }
@@ -335,7 +335,7 @@
   }
 
   .sub-title {
-    color: $color-text;
+    color: theme('colors[text]');
   }
 
   .second-table {

@@ -27,7 +27,7 @@
         display: block;
         width: 1px;
         height: 60%;
-        background: $color-border;
+        background: theme('colors[border]');
         content: '';
       }
     }
@@ -39,7 +39,7 @@
 
     .name {
       margin-top: 12px;
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
   }
 

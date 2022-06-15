@@ -14,7 +14,7 @@
     height: 34px;
     margin: 0 $p12;
     background-color: $white;
-    border: 1px solid $color-border;
+    border: 1px solid theme('colors[border]');
     border-radius: $radius;
     cursor: pointer;
 
@@ -23,10 +23,10 @@
     }
 
     &:hover {
-      border-color: $color-active;
+      border-color: theme('colors[active]');
 
       i {
-        color: $color-active;
+        color: theme('colors[active]');
       }
     }
   }

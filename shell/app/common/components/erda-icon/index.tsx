@@ -97,9 +97,21 @@ const ErdaIcon = ({
   const [fillVal, colorVal, strokeVal] = disableCurrent
     ? []
     : [
-        fill ? themeColor[fill] : 'currentColor',
-        color ? themeColor[color] : 'currentColor',
-        stroke ? themeColor[stroke] : 'currentColor',
+        fill
+          ? typeof themeColor[fill] === 'function'
+            ? themeColor[fill]({ opacityValue: 1 })
+            : themeColor[fill]
+          : 'currentColor',
+        color
+          ? typeof themeColor[color] === 'function'
+            ? themeColor[color as string]({ opacityValue: 1 })
+            : themeColor[color]
+          : 'currentColor',
+        stroke
+          ? typeof themeColor[stroke] === 'function'
+            ? themeColor[stroke]({ opacityValue: 1 })
+            : themeColor[stroke]
+          : 'currentColor',
       ];
   return (
     // @ts-ignore iconpark component

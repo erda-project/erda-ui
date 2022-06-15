@@ -99,7 +99,7 @@
 
   .project-item {
     .desc {
-      color: rgba($color-default, 0.6);
+      color: theme('colors[default]' / 0.6);
     }
   }
 }

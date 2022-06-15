@@ -31,7 +31,7 @@
 
   .branch-info {
     margin-bottom: 12px;
-    color: $color-text-desc;
+    color: theme('colors[text-desc]');
 
     .iconfont {
       margin-right: 6px;
@@ -39,7 +39,7 @@
     }
 
     .branch-name {
-      color: $color-text-sub;
+      color: theme('colors[text-sub]');
     }
 
     .mr-rate {
@@ -48,7 +48,7 @@
   }
 
   .detail-desc-block {
-    border: 1px solid $color-border;
+    border: 1px solid theme('colors[border]');
     border-radius: $radius;
 
     .title {
@@ -57,18 +57,18 @@
       font-weight: 500;
       line-height: 50px;
       background-color: rgba(0, 0, 0, 0.04);
-      border-bottom: 1px solid $color-border;
+      border-bottom: 1px solid theme('colors[border]');
     }
 
     .desc {
       padding: 12px;
-      color: $color-text-sub;
+      color: theme('colors[text-sub]');
     }
   }
 
   .repo-commit {
     padding-top: 0;
-    border: 1px solid $color-border;
+    border: 1px solid theme('colors[border]');
     border-radius: $radius;
   }
 

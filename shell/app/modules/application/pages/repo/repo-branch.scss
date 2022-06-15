@@ -4,8 +4,8 @@
 .repo-branch-list {
   .branch-item {
     padding: 16px 12px;
-    color: $color-text;
-    border-bottom: 1px solid $color-border;
+    color: theme('colors[text]');
+    border-bottom: 1px solid theme('colors[border]');
 
     &-left {
       flex: 1;

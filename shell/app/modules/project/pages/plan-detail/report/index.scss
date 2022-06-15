@@ -1,6 +1,6 @@
 .report-page {
   .section-title {
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
   }
 
   .sub-section-title {

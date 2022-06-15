@@ -32,8 +32,8 @@
 
     &.create {
       padding-left: 6px;
-      color: $color-primary;
-      border: 1px dashed $color-primary;
+      color: theme('colors[primary]');
+      border: 1px dashed theme('colors[primary]');
 
       &::before {
         content: none;

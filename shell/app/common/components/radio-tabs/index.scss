@@ -3,7 +3,7 @@
     padding: 0 20px;
     line-height: 30px;
     border: unset !important;
-    color: $color-default;
+    color: theme('colors[default]');
     background-color: theme('colors[default-06]');
     box-shadow: unset !important;
     &.ant-radio-button-wrapper-checked {

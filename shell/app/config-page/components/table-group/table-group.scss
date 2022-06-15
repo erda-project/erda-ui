@@ -36,7 +36,7 @@
     justify-content: center;
     margin-top: 24px;
     margin-bottom: 24px;
-    color: $color-text-desc;
+    color: theme('colors[text-desc]');
     font-size: 14px;
     cursor: pointer;
   }

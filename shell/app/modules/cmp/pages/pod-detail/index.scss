@@ -14,14 +14,14 @@
 
   .param-k {
     margin-bottom: 4px;
-    color: $color-text-desc;
+    color: theme('colors[text-desc]');
     line-height: 22px;
   }
 
   .param-v {
     margin-bottom: 12px;
     padding-right: 8px;
-    color: $color-text;
+    color: theme('colors[text]');
     line-height: 32px;
   }
 }

@@ -3,7 +3,7 @@
     .api-url {
       padding: 10px;
       background: transparentize($black, 0.98);
-      border-top: 1px solid $color-border;
+      border-top: 1px solid theme('colors[border]');
 
       .ant-input-group-addon {
         background: $white;
@@ -11,7 +11,7 @@
     }
 
     .api-tabs {
-      border-top: 1px solid $color-border;
+      border-top: 1px solid theme('colors[border]');
 
       .ant-tabs-bar {
         margin-bottom: 4px;
@@ -55,7 +55,7 @@
       display: flex;
       align-items: center;
       width: 100%;
-      border-bottom: 1px solid $color-border;
+      border-bottom: 1px solid theme('colors[border]');
 
       .width0 {
         width: 0;
@@ -66,7 +66,7 @@
       }
 
       input {
-        color: $color-text;
+        color: theme('colors[text]');
         border: none;
         box-shadow: none;
       }
@@ -75,7 +75,7 @@
         display: inline-block;
         width: 1px;
         height: 20px;
-        background: $color-border;
+        background: theme('colors[border]');
       }
 
       .key-val-operation {
@@ -106,7 +106,7 @@
 
     .table-body {
       margin-bottom: 20px;
-      border: 1px solid $color-border;
+      border: 1px solid theme('colors[border]');
       border-radius: $radius;
     }
 
@@ -122,7 +122,7 @@
       display: flex;
       align-items: center;
       padding: 4px;
-      border-bottom: 1px solid $color-border;
+      border-bottom: 1px solid theme('colors[border]');
     }
 
     .body-value-container {
@@ -133,7 +133,7 @@
 
       .key-val-item {
         &:last-child {
-          border-bottom: 1px solid $color-border;
+          border-bottom: 1px solid theme('colors[border]');
         }
       }
     }

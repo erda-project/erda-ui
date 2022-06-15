@@ -6,10 +6,10 @@
 
   .publisher-item {
     padding: 12px;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
 
     &:hover {
-      background: $color-active-bg;
+      background: theme('colors[active-bg]');
 
       .item-operation {
         display: block;
@@ -58,7 +58,7 @@
 
       .item-desc {
         height: 22px;
-        color: $color-text-sub;
+        color: theme('colors[text-sub]');
         line-height: 22px;
       }
 
@@ -84,7 +84,7 @@
       display: none;
       height: 64px;
       margin-left: 10px;
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
   }
 

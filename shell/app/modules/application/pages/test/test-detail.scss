@@ -2,7 +2,7 @@ $hover-color: #e1e7fe;
 
 @mixin border-set {
   background-color: $white;
-  border: 1px solid $color-border;
+  border: 1px solid theme('colors[border]');
   border-radius: $radius;
   @extend %shallow-shadow;
 }
@@ -15,7 +15,7 @@ $hover-color: #e1e7fe;
   .test-log {
     margin-left: auto;
     padding: 0 10px;
-    color: $color-primary;
+    color: theme('colors[primary]');
   }
 }
 
@@ -107,17 +107,17 @@ $hover-color: #e1e7fe;
         align-items: center;
         height: 48px;
         padding: 12px 4px;
-        color: $color-text;
+        color: theme('colors[text]');
         border-bottom: 1px solid #e8e8e873;
         cursor: pointer;
 
         &:hover,
         &.active {
-          background: $color-active-bg;
+          background: theme('colors[active-bg]');
         }
 
         .time {
-          color: $color-text-sub;
+          color: theme('colors[text-sub]');
         }
       }
     }

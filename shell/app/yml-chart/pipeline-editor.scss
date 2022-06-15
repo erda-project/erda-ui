@@ -5,6 +5,6 @@
 
   .commit-file-form {
     padding: 16px 16px 0 16px;
-    border-top: 1px solid $color-border;
+    border-top: 1px solid theme('colors[border]');
   }
 }

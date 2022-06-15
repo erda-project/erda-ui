@@ -7,7 +7,7 @@
   }
 
   &-icon {
-    color: rgba($color-default, 0.4);
+    color: theme('colors[default]' / 0.4);
     transition: all 0.2s;
     transform: rotate(-90deg);
   }

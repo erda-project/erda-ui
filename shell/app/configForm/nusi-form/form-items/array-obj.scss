@@ -1,7 +1,7 @@
 .dice-form-array-obj {
   &-item {
     padding: 12px;
-    border: 1px dashed $color-border;
+    border: 1px dashed theme('colors[border]');
     border-radius: 5px;
 
     &.direction-row {

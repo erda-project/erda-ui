@@ -10,7 +10,7 @@
   }
 
   &:nth-child(5n + 1) {
-    border-color: $color-primary;
+    border-color: theme('colors[primary]');
   }
 
   &:nth-child(5n + 2) {
@@ -42,6 +42,6 @@
   }
 
   div.ant-form-item .ant-form-item-label label {
-    color: $color-default;
+    color: theme('colors[default]');
   }
 }

@@ -10,7 +10,7 @@
       box-shadow: unset;
 
       .icon {
-        color: $color-default;
+        color: theme('colors[default]');
       }
     }
   }

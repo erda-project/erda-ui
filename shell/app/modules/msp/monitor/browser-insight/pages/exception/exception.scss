@@ -23,7 +23,7 @@
     position: relative;
     min-height: 500px;
     margin-bottom: 20px;
-    border: 1px solid $color-border;
+    border: 1px solid theme('colors[border]');
     border-radius: 6px;
 
     .trace-detail-container {

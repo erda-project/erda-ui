@@ -42,7 +42,7 @@
     bottom: $p12;
     left: $p8;
     display: block;
-    color: $color-primary;
+    color: theme('colors[primary]');
     content: attr(data-env);
   }
 }
@@ -50,7 +50,7 @@
 .addon-item-main {
   display: flex;
   height: 86px;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid theme('colors[border]');
 
   svg {
     width: 40px;
@@ -69,7 +69,7 @@
   overflow: hidden;
 
   .title {
-    color: $color-text;
+    color: theme('colors[text]');
     font-size: 16px;
     line-height: 24px;
   }
@@ -87,11 +87,11 @@
 
 .addon-item-footer {
   padding: 0 $p16;
-  color: $color-text-desc;
+  color: theme('colors[text-desc]');
   line-height: 54px;
 
   .iconfont {
-    color: $color-text-holder;
+    color: theme('colors[text-holder]');
     vertical-align: baseline;
   }
 

@@ -7,7 +7,7 @@
     align-content: space-between;
     height: 96px;
     padding: 16px 12px;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
     grid-template-columns: auto auto;
 
     .title {
@@ -15,11 +15,11 @@
     }
 
     .sub-title {
-      color: $color-text-sub;
+      color: theme('colors[text-sub]');
     }
 
     .desc {
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
       text-align: right;
     }
   }

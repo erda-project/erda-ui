@@ -32,7 +32,7 @@ interface IBrushSelectedParams {
 
 const themeColor = {
   dark: '#ffffff',
-  light: themeColors.default,
+  light: themeColors.default({ opacityValue: 1 }),
 };
 
 const LineGraph: React.FC<CP_LINE_GRAPH.Props> = (props) => {

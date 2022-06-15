@@ -24,7 +24,7 @@
       width: 220px;
       min-height: 218px;
       padding: 16px;
-      border: 1px solid $color-border;
+      border: 1px solid theme('colors[border]');
       border-radius: $radius-lg;
       cursor: pointer;
 
@@ -33,10 +33,10 @@
       }
 
       &:not(.not-allowed):hover {
-        border-color: $color-primary;
+        border-color: theme('colors[primary]');
 
         .type-name {
-          color: $color-primary;
+          color: theme('colors[primary]');
         }
       }
 
@@ -52,13 +52,13 @@
 
       .type-name {
         padding: 8px 0;
-        color: $color-text;
+        color: theme('colors[text]');
         font-size: 14px;
       }
 
       .type-description {
         flex: 1;
-        color: $color-text-sub;
+        color: theme('colors[text-sub]');
         font-size: 14px;
       }
     }

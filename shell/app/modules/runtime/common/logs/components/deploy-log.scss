@@ -31,10 +31,10 @@
     }
 
     &.finished {
-      color: $color-primary;
+      color: theme('colors[primary]');
 
       &:before {
-        background-color: $color-primary;
+        background-color: theme('colors[primary]');
       }
     }
 

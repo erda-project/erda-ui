@@ -41,7 +41,7 @@
       right: 0;
       transform: translateX(30px);
       transition: transform 0.3s ease-in-out;
-      box-shadow: -3px 0 4px -4px $color-text-sub;
+      box-shadow: -3px 0 4px -4px theme('colors[text-sub]');
     }
 
     &.checked-item {
@@ -49,13 +49,13 @@
     }
 
     &:hover {
-      color: $color-primary;
-      background-color: $color-click-bg;
+      color: theme('colors[primary]');
+      background-color: theme('colors[click-bg]');
 
       .option-item-delete {
         transform: translateX(0);
         &-box {
-          background-color: $color-click-bg;
+          background-color: theme('colors[click-bg]');
         }
       }
     }
@@ -73,9 +73,9 @@
     .option-group-label {
       cursor: pointer;
       padding: 6px 10px;
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
       &:hover {
-        color: $color-primary;
+        color: theme('colors[primary]');
       }
 
       .expand-icon {

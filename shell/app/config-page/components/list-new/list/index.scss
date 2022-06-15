@@ -1,10 +1,10 @@
 .erda-list {
   &-item {
     margin-top: 0.5rem;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid theme('colors[border]');
     border-radius: 2px;
     background-color: $white;
-    box-shadow: 0 2px 4px 0 $color-box-shadow;
+    box-shadow: 0 2px 4px 0 theme('colors[default-1]');
     background-position: 100% 0;
     background-repeat: no-repeat;
 
@@ -34,21 +34,21 @@
 
         .title-text {
           width: auto;
-          color: $color-text;
+          color: theme('colors[text]');
         }
 
         .title-icon {
-          color: $color-text-desc;
+          color: theme('colors[text-desc]');
           font-size: 18px;
         }
       }
 
       .body-description {
-        color: $color-text-sub;
+        color: theme('colors[text-sub]');
       }
 
       .body-extra-info {
-        color: $color-text-desc;
+        color: theme('colors[text-desc]');
 
         .info-item {
           display: inline-flex;
@@ -57,7 +57,7 @@
           margin-right: 24px;
 
           &.type-normal {
-            color: $color-text-desc;
+            color: theme('colors[text-desc]');
           }
 
           &.type-success {
@@ -109,7 +109,7 @@
       font-size: 12px;
       height: 20px;
       line-height: 20px;
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
 
     .body-extra-info {
@@ -161,7 +161,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 12px;
-    color: $color-text-desc;
+    color: theme('colors[text-desc]');
     font-size: 14px;
   }
 }
@@ -169,7 +169,7 @@
 .erda-list-operations {
   .ant-dropdown-menu {
     width: 200px;
-    background-color: $color-default;
+    background-color: theme('colors[default]');
   }
 
   .ant-dropdown-menu-item,

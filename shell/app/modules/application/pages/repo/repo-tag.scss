@@ -4,8 +4,8 @@
 .repo-tag-list {
   .branch-item {
     padding: $p16;
-    color: $color-text;
-    border-bottom: 1px solid $color-border;
+    color: theme('colors[text]');
+    border-bottom: 1px solid theme('colors[border]');
 
     &-left {
       flex: 1;

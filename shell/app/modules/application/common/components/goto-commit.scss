@@ -1,10 +1,10 @@
 .goto-commit-link {
   &.normal {
-    color: $color-text;
+    color: theme('colors[text]');
   }
 
   &:hover {
-    color: $color-primary;
+    color: theme('colors[primary]');
 
     span {
       text-decoration: underline;

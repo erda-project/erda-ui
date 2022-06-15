@@ -4,9 +4,9 @@
   .select-addon-before {
     display: inline-flex;
     padding: 4px 11px;
-    color: $color-text-sub;
+    color: theme('colors[text-sub]');
     background-color: $color-dark-04;
-    border: 1px solid $color-border;
+    border: 1px solid theme('colors[border]');
     border-right: none;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;

@@ -4,7 +4,7 @@
   height: 44px;
   padding-left: 11px;
   padding-right: 8px;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid theme('colors[border]');
   cursor: pointer;
 
   .item-name-edit {

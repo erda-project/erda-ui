@@ -12,14 +12,14 @@
     display: block;
     background-color: $color-dark-1;
     border-radius: $radius;
-    color: $color-text-sub;
+    color: theme('colors[text-sub]');
     width: 28px;
     height: 28px;
     line-height: 28px;
     text-align: center;
 
     &:hover {
-      background-color: $color-active;
+      background-color: theme('colors[active]');
       color: $white;
     }
 

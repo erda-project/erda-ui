@@ -10,7 +10,7 @@
   text-align: center;
   background-color: $white;
   border-radius: 50%;
-  box-shadow: 0 1px 3px 0 $color-text-sub;
+  box-shadow: 0 1px 3px 0 theme('colors[text-sub]');
   cursor: pointer;
   opacity: 70%;
   animation: fadeIn ease 0.3s;

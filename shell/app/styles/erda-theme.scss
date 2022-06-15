@@ -1,18 +1,13 @@
 $themes: (
   'default-theme': (
-    color-primary-rgb: '48, 38, 71',
     // #302647
-    color-primary-light: #0c0b14,
-  ),
-  'purple-theme': (
-    color-primary-rgb: '106, 84, 158',
-    //#6a549e
-    color-primary-light: #f9f0ff,
+    color-primary-rgb: '48 38 71',
+    color-primary-light: '12 11 20',
   ),
 );
 
 @each $key, $list in $themes {
-  body[data-theme='#{$key}'] {
+  html[data-theme='#{$key}'] {
     @each $attr, $var in $list {
       --#{$attr}: #{$var};
     }

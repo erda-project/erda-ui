@@ -30,7 +30,7 @@
       width: $point-width;
       height: $point-width;
       margin: ($point-margin - 5px) $point-margin;
-      border: 1px solid $color-border;
+      border: 1px solid theme('colors[border]');
       border-radius: 100%;
 
       &::after {

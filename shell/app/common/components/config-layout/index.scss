@@ -1,6 +1,6 @@
 .config-section {
   padding: 20px 0;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid theme('colors[border]');
 
   &:first-child {
     padding-top: 0;
@@ -28,7 +28,7 @@
 }
 
 .config-section-desc {
-  color: $color-text-desc;
+  color: theme('colors[text-desc]');
 }
 
 .config-section-content {

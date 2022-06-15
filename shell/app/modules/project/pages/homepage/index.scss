@@ -8,7 +8,7 @@
 .homepage-link-delete-confirm {
   .ant-popover-inner-content {
     width: 200px;
-    background: $color-default;
+    background: theme('colors[default]');
     color: white;
 
     .ant-popover-message {
@@ -73,8 +73,8 @@
 
   .rc-md-navigation {
     background: transparent;
-    border-bottom: rgba($color-default, 0.08);
-    box-shadow: 0 2px 1px 0 rgba($color-default, 0.08);
+    border-bottom: theme('colors[default]' / 0.08);
+    box-shadow: 0 2px 1px 0 theme('colors[default]' / 0.08);
     z-index: 9999;
   }
 

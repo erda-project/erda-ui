@@ -19,7 +19,7 @@
       }
 
       &:hover {
-        border-color: $color-primary;
+        border-color: theme('colors[primary]');
       }
     }
 
@@ -66,7 +66,7 @@
   }
 
   .hint {
-    color: $color-text-desc;
+    color: theme('colors[text-desc]');
     line-height: 20px;
     vertical-align: bottom;
   }

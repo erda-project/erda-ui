@@ -2,14 +2,14 @@
   &.ant-alert {
     border: none;
     padding: 6px 16px;
-    color: $color-default;
+    color: theme('colors[default]');
     border-radius: 2px;
   }
   &.ant-alert-info {
     background-color: theme('colors[default-bg]');
 
     .erda-alert-icon {
-      color: $color-default;
+      color: theme('colors[default]');
     }
   }
   &.ant-alert-success {

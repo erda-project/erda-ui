@@ -12,7 +12,7 @@
   }
 
   &.iteration {
-    background-color: $color-primary;
+    background-color: theme('colors[primary]');
     border-radius: $radius;
   }
 
@@ -54,7 +54,7 @@
     }
 
     &.epic {
-      color: $color-primary;
+      color: theme('colors[primary]');
     }
   }
 
@@ -92,7 +92,7 @@
     }
 
     &.zs {
-      background-color: $color-text-icon;
+      background-color: theme('colors[text-icon]');
     }
 
     &.jxz {

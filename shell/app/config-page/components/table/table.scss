@@ -16,7 +16,7 @@
     }
 
     .string-list-link {
-      color: $color-primary;
+      color: theme('colors[primary]');
       cursor: pointer;
     }
 
@@ -88,9 +88,9 @@
 
   .dice-cp-table-batch-operations {
     .ant-dropdown-menu {
-      background-color: rgba($color-default, 0.96);
+      background-color: theme('colors[default]' / 0.96);
       color: $white;
-      box-shadow: 0 1px 4px 0 rgba($color-default, 0.16);
+      box-shadow: 0 1px 4px 0 theme('colors[default]' / 0.16);
     }
 
     .ant-dropdown-menu-item:hover {
@@ -123,10 +123,10 @@
 
   &.light-card {
     color: $lightgray;
-    background-color: $color-active-bg;
+    background-color: theme('colors[active-bg]');
 
     .ant-table {
-      background-color: $color-active-bg;
+      background-color: theme('colors[active-bg]');
 
       th,
       td {
@@ -137,12 +137,12 @@
 
   .dropdown-field-selector {
     .arrow-icon {
-      color: $color-text-icon;
+      color: theme('colors[text-icon]');
     }
 
     &:hover {
       .arrow-icon {
-        color: $color-primary;
+        color: theme('colors[primary]');
       }
     }
   }
@@ -193,18 +193,18 @@
     .date-range {
       box-sizing: content-box;
       &:last-child {
-        border-right: 1px solid $color-border;
+        border-right: 1px solid theme('colors[border]');
       }
     }
 
     .month {
       line-height: 25px;
       text-align: center;
-      border-bottom: 1px solid $color-border;
-      border-left: 1px solid $color-border;
+      border-bottom: 1px solid theme('colors[border]');
+      border-left: 1px solid theme('colors[border]');
 
       &:last-child {
-        border-right: 1px solid $color-border;
+        border-right: 1px solid theme('colors[border]');
       }
     }
 
@@ -220,7 +220,7 @@
         left: 0;
         width: 1px;
         height: 10000px;
-        background-color: $color-border;
+        background-color: theme('colors[border]');
         content: '';
       }
 
@@ -237,7 +237,7 @@
       }
 
       &.today::after {
-        background-color: $color-active-bg;
+        background-color: theme('colors[active-bg]');
       }
     }
   }
@@ -285,19 +285,19 @@
     .ant-select-selection:hover,
     .load-more-selector:hover > .results,
     .ant-input-affix-wrapper .ant-input:not(:last-child):hover {
-      border-color: $color-primary;
+      border-color: theme('colors[primary]');
     }
   }
 }
 
 .dice-config-table-member-field-selector {
   .arrow-icon {
-    color: $color-text-icon;
+    color: theme('colors[text-icon]');
   }
 
   &:hover {
     .arrow-icon {
-      color: $color-primary;
+      color: theme('colors[primary]');
     }
   }
 }
@@ -323,7 +323,7 @@
 
 .dice-cp-level-content {
   .level-1-content {
-    color: $color-text;
+    color: theme('colors[text]');
     font-weight: 500;
   }
 
@@ -356,7 +356,7 @@
     display: flex;
     align-items: center;
     height: 100%;
-    background: linear-gradient(to right, transparentize($color-primary, 0.98), transparentize($color-primary, 0.8));
+    background: linear-gradient(to right, theme('colors[primary]' / 0.98), theme('colors[primary]' / 0.8));
   }
 
   .bg-progress-text {

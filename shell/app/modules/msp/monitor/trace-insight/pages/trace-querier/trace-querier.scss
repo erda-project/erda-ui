@@ -1,4 +1,4 @@
-$border-style: 1px solid $color-border;
+$border-style: 1px solid theme('colors[border]');
 
 .trace-common-panel.history-status-list-ct .card-body {
   min-height: 580px;

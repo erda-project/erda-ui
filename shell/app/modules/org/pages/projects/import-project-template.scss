@@ -17,13 +17,13 @@
       margin-top: 0;
 
       .ant-upload-list-item-info {
-        color: $color-default;
+        color: theme('colors[default]');
 
         &:hover {
           background-color: theme('colors[default-01]');
         }
         .ant-upload-list-item-name {
-          color: $color-default;
+          color: theme('colors[default]');
         }
       }
       .ant-upload-text-icon {

@@ -87,7 +87,7 @@
 
     .ant-btn {
       color: $white;
-      // background: rgba($color-default, 0.2);
+      // background: theme('colors[default]' / 0.2);
       // TODO: cancel button background
       &:first-child {
         background: $color-white-2;

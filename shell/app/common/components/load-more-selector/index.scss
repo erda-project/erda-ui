@@ -21,7 +21,7 @@
     max-height: 96px;
     padding: 0 6px 0 12px;
     overflow: auto;
-    border: 1px solid $color-border;
+    border: 1px solid theme('colors[border]');
     border-radius: $radius;
 
     &.small {
@@ -30,9 +30,9 @@
     }
 
     &:hover {
-      border: 1px solid $color-primary;
+      border: 1px solid theme('colors[primary]');
       outline: 0;
-      box-shadow: 0 0 0 2px rgba($color-primary, 0.2);
+      box-shadow: 0 0 0 2px theme('colors[primary]' / 20%);
 
       .close {
         visibility: visible;
@@ -91,7 +91,7 @@
 
     &.ant-dropdown-menu {
       padding-bottom: 0;
-      color: $color-default;
+      color: theme('colors[default]');
       height: 100%;
     }
 
@@ -131,7 +131,7 @@
 .load-more-selector-container {
   .ant-dropdown-menu-submenu-title,
   .ant-spin-container {
-    color: $color-default !important;
+    color: theme('colors[default]') !important;
   }
 
   .content {
@@ -195,7 +195,7 @@
       flex-direction: column;
       overflow: auto;
       background-color: $white;
-      border-left: 1px solid $color-border;
+      border-left: 1px solid theme('colors[border]');
 
       .ant-empty-image {
         margin-top: 16px;
@@ -214,7 +214,7 @@
 
         &:hover,
         &.checked {
-          color: $color-default;
+          color: theme('colors[default]');
           background-color: theme('colors[default-04]');
         }
       }

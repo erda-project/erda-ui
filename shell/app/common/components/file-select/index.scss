@@ -6,6 +6,6 @@
   text-overflow: ellipsis;
 
   &.placeholder {
-    color: $color-text-holder !important;
+    color: theme('colors[text-holder]') !important;
   }
 }

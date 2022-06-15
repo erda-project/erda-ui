@@ -4,7 +4,7 @@
   height: 32px;
   line-height: 32px;
   background-color: $white;
-  border: 1px solid $color-border;
+  border: 1px solid theme('colors[border]');
   border-radius: $radius;
   cursor: pointer;
 
@@ -40,7 +40,7 @@
 
     &.active,
     &:hover {
-      color: $color-primary;
+      color: theme('colors[primary]');
     }
   }
 }

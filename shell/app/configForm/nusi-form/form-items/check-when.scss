@@ -1,6 +1,6 @@
 .dice-form-nusi-check-when-combiner {
   .combiner-operation {
-    color: $color-text-sub;
+    color: theme('colors[text-sub]');
     font-size: 20px;
     cursor: pointer;
 
@@ -31,7 +31,7 @@
     width: 100%;
     // margin-bottom: 12px;
     padding: 12px;
-    border: 1px dashed $color-border;
+    border: 1px dashed theme('colors[border]');
     border-radius: 5px;
 
     .combiner-sub-item {

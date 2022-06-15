@@ -7,8 +7,8 @@
 
   &-desc {
     padding: 0 8px;
-    color: $color-text-desc;
-    border-left: 4px solid $color-border;
+    color: theme('colors[text-desc]');
+    border-left: 4px solid theme('colors[border]');
   }
 
   &-block-title {

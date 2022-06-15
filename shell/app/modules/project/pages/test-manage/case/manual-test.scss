@@ -8,9 +8,9 @@
     background: $white;
 
     .results {
-      border-color: $color-border;
+      border-color: theme('colors[border]');
       &:hover {
-        border-color: $color-primary;
+        border-color: theme('colors[primary]');
         box-shadow: none;
       }
     }

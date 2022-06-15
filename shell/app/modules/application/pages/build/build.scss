@@ -43,7 +43,7 @@
 
     .title {
       width: 100%;
-      color: $color-text;
+      color: theme('colors[text]');
       font-size: 16px;
 
       .branch-name {
@@ -62,7 +62,7 @@
     .yml-name {
       width: 100%;
       margin-top: 2px;
-      color: $color-text-sub;
+      color: theme('colors[text-sub]');
 
       .name {
         flex: 1;
@@ -81,7 +81,7 @@
       align-items: center;
       width: 100%;
       margin-top: 8px;
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
 
       span:first-child {
         display: inline-flex;
@@ -103,12 +103,12 @@
     &:hover,
     &.active {
       @include hover();
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
 
     &.active {
       padding-right: 32px;
-      border-right: 2px solid $color-primary;
+      border-right: 2px solid theme('colors[primary]');
     }
   }
 }

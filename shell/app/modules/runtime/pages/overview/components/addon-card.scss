@@ -5,7 +5,7 @@
   align-items: center;
   width: 100%;
   height: 86px;
-  color: $color-text;
+  color: theme('colors[text]');
   background-color: $white;
   border-radius: 3px;
   @extend %shallow-shadow;
@@ -44,7 +44,7 @@
     .sub-info {
       display: flex;
       justify-content: flex-start;
-      color: $color-text-desc;
+      color: theme('colors[text-desc]');
     }
   }
 

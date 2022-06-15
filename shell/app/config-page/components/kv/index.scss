@@ -16,15 +16,15 @@
 
   &.light {
     .items {
-      background: rgba($color-default, 0.02);
+      background: theme('colors[default]' / 0.02);
 
       .items-value {
-        color: $color-default;
+        color: theme('colors[default]');
       }
 
       .items-title,
       .items-unit {
-        color: rgba($color-default, 0.6);
+        color: theme('colors[default]' / 0.6);
       }
     }
   }

@@ -14,7 +14,7 @@
 
     .pipeline-title {
       display: flex;
-      border-bottom: 1px solid $color-border;
+      border-bottom: 1px solid theme('colors[border]');
 
       .title-icon {
         width: 40px;

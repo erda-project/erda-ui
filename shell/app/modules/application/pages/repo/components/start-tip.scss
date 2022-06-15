@@ -12,12 +12,12 @@
   i.icon-xjym {
     margin-right: 0;
     margin-left: $p12;
-    color: $color-text-desc;
+    color: theme('colors[text-desc]');
     font-size: 20px;
     cursor: pointer;
 
     &:hover {
-      color: $color-active;
+      color: theme('colors[active]');
     }
   }
 }

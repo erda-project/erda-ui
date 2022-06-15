@@ -94,14 +94,14 @@
   .yaml-editor-item-title-name {
     .relation-list {
       margin-bottom: 0;
-      border-top: 1px solid $color-border;
+      border-top: 1px solid theme('colors[border]');
 
       .relation-text {
-        color: $color-text-sub;
+        color: theme('colors[text-sub]');
       }
 
       .relation-icon {
-        color: $color-text-desc;
+        color: theme('colors[text-desc]');
         font-size: 14px;
       }
     }

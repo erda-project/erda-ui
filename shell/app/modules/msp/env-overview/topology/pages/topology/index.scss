@@ -1,5 +1,5 @@
 .topology {
-  background: $color-default;
+  background: theme('colors[default]');
 
   .ant-spin-nested-loading,
   .ant-spin-container {
@@ -33,7 +33,7 @@
   }
 
   .topology-detail {
-    background-color: $color-default;
+    background-color: theme('colors[default]');
     width: 325px;
     z-index: 20;
     transition: all 0.3s ease-in-out;
