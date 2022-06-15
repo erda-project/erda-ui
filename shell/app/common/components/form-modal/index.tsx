@@ -166,6 +166,9 @@ class FormModalComp extends React.Component<IProps, IState> {
       modalProps = {},
       alertProps = {},
       wrapClassName = '',
+      keepValue,
+      beforeSubmit,
+      formRef,
       ...rest
     } = this.props;
     const { confirmLoading } = this.state;

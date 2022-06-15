@@ -83,6 +83,7 @@ const ChangeList = ({ list, projectId, appId }: IChangeList) => {
                   className="ml-2 hover:text-purple-deep flex items-center text-xs"
                   href={goTo.resolve.commit({ projectId, appId, commitId: commit })}
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <ErdaIcon type="commitID" className="mr-1" size={12} />
                   {commit.slice(0, 6)}
