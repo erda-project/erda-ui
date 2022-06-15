@@ -43,7 +43,7 @@ export class LegacyRouteController {
   // from dop/projects/1/apps/1/pipeline?pipelineID=123 to dop/projects/1/apps/1/pipeline/obsoleted?pipelineID=123
   @Get('dop/projects/*/apps/*/pipeline')
   @Redirect('', 301)
-  redirectLegacyPipeline(@Req() req: Request, @Query('pipelineID') pipelineID) {
+  LegacyAppPipeline(@Req() req: Request, @Query('pipelineID') pipelineID) {
     return { url: `${req.path}/obsoleted?pipelineID=${pipelineID}` };
   }
 }
