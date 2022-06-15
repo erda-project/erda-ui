@@ -408,7 +408,3 @@
 :not(:root):-webkit-full-screen {
   height: 100%;
 }
-
-.ant-menu-item a::before {
-  z-index: -1;
-}
