@@ -23,11 +23,11 @@ import {
   queryWorkflow,
   WorkflowHint,
 } from 'project/services/project-workflow';
-import { IBaseProps } from './base-step';
 import i18n from 'i18n';
 import { FlowType } from 'project/common/config';
 
-interface IProps extends IBaseProps {
+interface IProps {
+  enable?: boolean;
   onAdd: () => void;
   metaData: {
     iteration: ITERATION.Detail;

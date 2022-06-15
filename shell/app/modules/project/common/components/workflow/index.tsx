@@ -163,8 +163,8 @@ const CodeCard = (props: CardProps) => {
       <div className="ml-2 flex-1 overflow-hidden">
         <div className="mb-3 flex-h-center justify-between">
           <div className="flex-h-center">
-            <span>代码</span>
-            <Tooltip title="此任务所有开发代码，在本分支进行管理">
+            <span>{i18n.t('dop:Code')}</span>
+            <Tooltip title={i18n.s('All development code of this task is managed in this branch', 'dop')}>
               <ErdaIcon type="help" className="text-default-3 ml-1" />
             </Tooltip>
           </div>
@@ -179,7 +179,7 @@ const CodeCard = (props: CardProps) => {
               canJoin ? 'cursor-pointer bg-purple-deep text-white' : 'bg-default-08 text-default-4'
             }`}
           >
-            {canJoin ? '合并到临时分支' : '已合入临时分支'}
+            {canJoin ? i18n.s('Merge into temporary branch', 'dop') : i18n.s('Merged into temporary branch', 'dop')}
           </div>
         </div>
         <Branch className="mb-2" appId={appID} projectId={projectID} branch={sourceBranch} />
@@ -236,8 +236,13 @@ const MergeCard = (props: CardProps) => {
       <div className="ml-2 flex-1 overflow-hidden">
         <div className="mb-3 flex-h-center justify-between">
           <div className="flex-h-center">
-            <span>临时合并</span>
-            <Tooltip title="不同任务的代码分支可进行临时合并后部署到对应环境">
+            <span>{i18n.s('Temporary merge', 'dop')}</span>
+            <Tooltip
+              title={i18n.s(
+                'Code branches of different tasks can be temporarily merged and deployed to the corresponding environment',
+                'dop',
+              )}
+            >
               <ErdaIcon type="help" className="text-default-3 ml-1" />
             </Tooltip>
           </div>
@@ -252,7 +257,7 @@ const MergeCard = (props: CardProps) => {
                 isJoinTempBranch ? 'cursor-pointer bg-purple-deep text-white' : 'bg-default-08 text-default-4'
               }`}
             >
-              撤销临时合并
+              {i18n.s('Revoke temporary merge', 'dop')}
             </div>
           ) : null}
         </div>
@@ -261,7 +266,9 @@ const MergeCard = (props: CardProps) => {
             <div className="flex-h-center mb-2 text-xs">
               <Branch appId={appID} projectId={projectID} branch={tempBranch} className="overflow-hidden" />
               <Popover content={ChangeList}>
-                <span className="text-purple-deep cursor-pointer ml-2 whitespace-nowrap">更多合并信息</span>
+                <span className="text-purple-deep cursor-pointer ml-2 whitespace-nowrap">
+                  {i18n.s('More merger information', 'dop')}
+                </span>
               </Popover>
             </div>
             <div className="flex-h-center text-xs">
@@ -274,16 +281,28 @@ const MergeCard = (props: CardProps) => {
               ) : (
                 <>
                   <ErdaIcon type="commitID" className="mr-1 text-default-4" />
-                  <Ellipsis className=" flex-1 text-default-8 " title={'该任务分支暂无内容合入'} />
+                  <Ellipsis
+                    className=" flex-1 text-default-8 "
+                    title={i18n.s('This task branch has no content merged', 'dop')}
+                  />
                 </>
               )}
             </div>
           </>
         ) : (
           <div className="text-xs text-default-8">
-            <span>{'当前未开启临时合并功能，请前往'}</span>
-            <span className="cursor-pointer text-purple-deep">{'工作流设置'}</span>
-            <span>{'开启'}</span>
+            <span>{i18n.s('The temporary merge function is not currently enabled, please go to', 'dop')}</span>
+            &nbsp;
+            <span
+              className="text-purple-deep cursor-pointer"
+              onClick={() => {
+                goTo(goTo.pages.projectSetting, { jumpOut: true, query: { tabKey: 'workflow' } });
+              }}
+            >
+              {i18n.t('dop:R&D Workflow')}
+            </span>
+            &nbsp;
+            <span>{i18n.s('to set', 'dop')}</span>
           </div>
         )}
       </div>
@@ -360,9 +379,17 @@ const PipelineCard = (props: CardProps) => {
 
   let subContent: JSX.Element | null = null;
   if (!tempBranch) {
-    subContent = <div className="text-xs text-default-8">{'临时合并功能未开启，暂无流水线'}</div>;
+    subContent = (
+      <div className="text-xs text-default-8">
+        {i18n.s('The temporary merge is not enabled, and there is no pipeline', 'dop')}
+      </div>
+    );
   } else if (!inode) {
-    subContent = <div className="text-xs text-default-8">{'临时分支暂无流水线，请联系管理员创建'}</div>;
+    subContent = (
+      <div className="text-xs text-default-8">
+        {i18n.s('There is no pipeline for the temporary branch, please contact the administrator to create', 'dop')}
+      </div>
+    );
   } else if (!hasOnPushBranch) {
     const pipelineName = decode(inode).split('/').pop();
     subContent = (
@@ -382,7 +409,7 @@ const PipelineCard = (props: CardProps) => {
           <Ellipsis className="text-default-8 group-hover:text-purple-deep" title={pipelineName} />
         </div>
         <div className="text-xs mt-2 text-default-8">
-          <span>{'流水线暂未配置触发器，'}</span>
+          <span>{i18n.s('The pipeline is not configured with triggers yet.', 'dop')}</span>
           <Popover
             content={
               <div>
@@ -393,7 +420,7 @@ const PipelineCard = (props: CardProps) => {
               </div>
             }
           >
-            <span className="text-purple-deep cursor-pointer">{'如何配置？'}</span>
+            <span className="text-purple-deep cursor-pointer">{i18n.s('How to configure?', 'dop')}</span>
           </Popover>
         </div>
       </>
@@ -427,8 +454,13 @@ const PipelineCard = (props: CardProps) => {
       <Status status={stepStatus} index={index} />
       <div className="ml-2 flex-1 overflow-hidden">
         <div className="mb-3 flex-h-center">
-          <span>流水线</span>
-          <Tooltip title="此处为临时合并流水线，需要修改请联系应用管理员">
+          <span>{i18n.t('Pipeline')}</span>
+          <Tooltip
+            title={i18n.s(
+              'This is a temporary merge pipeline. If you need to modify it, please contact the application administrator',
+              'dop',
+            )}
+          >
             <ErdaIcon type="help" className="text-default-3 ml-1" />
           </Tooltip>
         </div>

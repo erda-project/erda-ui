@@ -23,23 +23,7 @@ export const getCommitPath = (commitId: string) => {
   return window.location.pathname.replace(/(\/projects\/\d+\/apps\/\d+)(.+)/, `$1${path}`);
 };
 
-const GotoCommit = ({
-  hideIcon,
-  projectId,
-  appId,
-  commitId = '',
-  length = 6,
-  className = '',
-  gotoParams = {},
-}: {
-  hideIcon?: boolean;
-  projectId?: string;
-  appId?: string;
-  commitId: string;
-  length?: number;
-  className?: string;
-  gotoParams?: Obj;
-}) => {
+const GotoCommit = ({ projectId, appId, commitId = '', length = 6, className = '', gotoParams = {} }: any) => {
   const params = routeInfoStore.useStore((s) => s.params);
   return (
     <span
@@ -53,7 +37,7 @@ const GotoCommit = ({
         });
       }}
     >
-      {!hideIcon ? <ErdaIcon className="mr-1" fill="default-8" size="16" type="commit" /> : null}
+      <ErdaIcon className="mr-1" fill="default-8" size="16" type="commit" />
       <span>{commitId.slice(0, length)}</span>
     </span>
   );

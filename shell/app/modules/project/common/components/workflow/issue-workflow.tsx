@@ -15,10 +15,11 @@ import React from 'react';
 import i18n from 'i18n';
 import { ErdaIcon } from 'common';
 import Workflow from 'project/common/components/workflow';
-import AddFlow from 'project/common/components/workflow/steps/add-flow';
+import AddFlow from 'project/common/components/workflow/add-flow';
 import { getFlowList, WorkflowHint, queryWorkflow } from 'project/services/project-workflow';
 import { getProjectIterations } from 'project/services/project-iteration';
 import { FlowType } from 'project/common/config';
+import { goTo } from 'app/common/utils';
 
 interface IProps {
   projectID: number;
@@ -94,16 +95,29 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, type, metaIssue }) => 
           <Workflow flowInfo={devFlowInfos} scope="ISSUE" projectID={projectID} getFlowNodeList={getFlowNodeList} />
         </If>
       ) : hasMultipleBranch ? (
-        <div>
-          <div>{'暂无开启工作流，请点击 + 启动工作流'}</div>
+        <div className="py-4 px-8">
+          <span className=" text-default-6">{i18n.s('No workflow has been added yet, please click + Add', 'dop')}</span>
         </div>
       ) : (
-        <div>
-          <div>{'项目研发规范中开发分支为单分支配置，暂不支持工作流显示'}</div>
+        <div className="py-4 px-8  text-default-6">
           <div>
-            <span>{'请联系项目管理员，在'}</span>
-            <span>{'项目设置的研发工作流'}</span>
-            <span>{'进行配置'}</span>
+            {i18n.s(
+              'There is no multi-branch configuration for R&D workflow, and workflow display is not currently supported.',
+              'dop',
+            )}
+          </div>
+          <div>
+            <span>{i18n.s('Please contact the project administrator, go to', 'dop')}</span> &nbsp;
+            <span
+              className="text-purple-deep cursor-pointer"
+              onClick={() => {
+                goTo(goTo.pages.projectSetting, { jumpOut: true, query: { tabKey: 'workflow' } });
+              }}
+            >
+              {i18n.t('dop:R&D Workflow')}
+            </span>
+            &nbsp;
+            <span>{i18n.s('to set', 'dop')}</span>
           </div>
         </div>
       )}

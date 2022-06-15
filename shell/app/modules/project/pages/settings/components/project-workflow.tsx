@@ -179,6 +179,10 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
       dataIndex: 'changeFromBranch',
     },
     {
+      title: i18n.t('dop:temporary branch'),
+      dataIndex: 'autoMergeBranch',
+    },
+    {
       title: i18n.t('dop:Change branch'),
       dataIndex: 'changeBranch',
     },
@@ -302,7 +306,7 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
         },
       },
       {
-        label: '临时分支',
+        label: i18n.s('temporary branch', 'dop'),
         labelTip: '',
         type: 'input',
         required: false,
