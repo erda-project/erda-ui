@@ -13,10 +13,12 @@
 
 import React from 'react';
 import i18n from 'i18n';
+import { ErdaIcon } from 'common';
 import Workflow from 'project/common/components/workflow';
 import AddFlow from 'project/common/components/workflow/steps/add-flow';
-import { getFlowList, WorkflowHint } from 'project/services/project-workflow';
+import { getFlowList, WorkflowHint, queryWorkflow } from 'project/services/project-workflow';
 import { getProjectIterations } from 'project/services/project-iteration';
+import { FlowType } from 'project/common/config';
 
 interface IProps {
   projectID: number;
@@ -29,6 +31,7 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, type, metaIssue }) => 
   const devFlowInfos = getFlowList.useData();
   const [currentIteration, setIteration] = React.useState<ITERATION.Detail>({} as any);
   const { iterationID } = metaIssue;
+  const [expand, setExpand] = React.useState(true);
   const getFlowNodeList = React.useCallback(() => {
     getFlowList.fetch({
       issueID: id,
@@ -45,16 +48,34 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, type, metaIssue }) => 
       setIteration(iteration);
     });
   }, []);
+
+  const [workflows] = queryWorkflow.useState();
+
+  const getWorkflows = React.useCallback(() => queryWorkflow.fetch({ projectID }), [projectID]);
+
+  React.useEffect(() => {
+    getWorkflows();
+  }, [getWorkflows]);
+
   React.useEffect(() => {
     getFlowNodeList();
   }, [getFlowNodeList]);
+  const hasMultipleBranch =
+    workflows?.flows && workflows.flows.filter((item) => item.flowType !== FlowType.SINGLE_BRANCH).length;
   return (
     <div>
       <div className="relative h-12 flex-h-center text-primary font-medium">
-        <span className="text-base relative pr-8">
-          {i18n.t('dop:workflow')}
-          <span className="absolute px-2 rounded-full text-xs text-purple border border-purple border-solid absolute -top-2">
-            beta
+        <span
+          className="section-operate-title flex-h-center cursor-pointer hover:text-default"
+          onClick={() => setExpand(!expand)}
+        >
+          <If condition={!!devFlowInfos?.devFlowInfos.length}>
+            <span className="absolute left-[-20px] flex rounded-sm text-sub op-icon">
+              <ErdaIcon size={20} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
+            </span>
+          </If>
+          <span className="text-base relative">
+            {i18n.t('dop:workflow')} ({devFlowInfos?.devFlowInfos.length || 0})
           </span>
         </span>
 
@@ -68,9 +89,24 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, type, metaIssue }) => 
           }}
         />
       </div>
-      {devFlowInfos ? (
-        <Workflow flowInfo={devFlowInfos} scope="ISSUE" projectID={projectID} getFlowNodeList={getFlowNodeList} />
-      ) : null}
+      {devFlowInfos?.devFlowInfos.length ? (
+        <If condition={expand}>
+          <Workflow flowInfo={devFlowInfos} scope="ISSUE" projectID={projectID} getFlowNodeList={getFlowNodeList} />
+        </If>
+      ) : hasMultipleBranch ? (
+        <div>
+          <div>{'暂无开启工作流，请点击 + 启动工作流'}</div>
+        </div>
+      ) : (
+        <div>
+          <div>{'项目研发规范中开发分支为单分支配置，暂不支持工作流显示'}</div>
+          <div>
+            <span>{'请联系项目管理员，在'}</span>
+            <span>{'项目设置的研发工作流'}</span>
+            <span>{'进行配置'}</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

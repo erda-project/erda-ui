@@ -302,6 +302,24 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
         },
       },
       {
+        label: '临时分支',
+        labelTip: '',
+        type: 'input',
+        required: false,
+        name: 'autoMergeBranch',
+        rules: [
+          {
+            validator: (_rule: any, value: string, callback: Function) => {
+              const [pass, tips] = branchNameWithoutWildcard(value, false);
+              !value || pass ? callback() : callback(tips);
+            },
+          },
+        ],
+        itemProps: {
+          placeholder: i18n.t('start with letters and can contain characters that are not wildcard'),
+        },
+      },
+      {
         label: i18n.t('dop:Change branch'),
         labelTip: i18n.t('dop:A branch for feature development'),
         type: 'input',

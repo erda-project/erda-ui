@@ -87,17 +87,7 @@ const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
             disableComment={disableComment}
           />
         </TabPane>
-        <TabPane
-          key="workflow"
-          tab={
-            <div className="relative pr-10">
-              {i18n.t('dop:workflow')}
-              <span className="absolute px-2 rounded-full text-xs text-purple border border-purple border-solid -top-2">
-                beta
-              </span>
-            </div>
-          }
-        >
+        <TabPane key="workflow" tab={<div className="relative">{i18n.t('dop:workflow')}</div>}>
           <MrWorkflow id={mrDetail.id} projectID={+projectId} />
         </TabPane>
       </Tabs>

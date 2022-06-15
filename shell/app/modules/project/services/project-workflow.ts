@@ -60,6 +60,13 @@ export interface CreateFlowNode {
   targetBranch: string;
 }
 
+interface Commit {
+  id: string;
+  author: string;
+  committer: { email: string; name: string; When: string };
+  commitMessage: string;
+  parentSha: string;
+}
 export interface DevFlowNode {
   repoMergeID: number;
   appID: number;
@@ -71,6 +78,9 @@ export interface DevFlowNode {
   tempBranch: string;
   issueID: number;
   mergeID: number;
+  canJoin: boolean;
+  commit: null | Commit;
+  baseCommit: null | Commit;
 }
 
 export interface PipelineInfo {
@@ -82,7 +92,7 @@ export interface PipelineInfo {
 }
 
 export interface ChangeBranch {
-  commit: string;
+  commit: Commit;
   branchName: string;
   status: 'success' | 'faild';
   repoMergeID: number;
@@ -90,6 +100,9 @@ export interface ChangeBranch {
 
 export interface DevFlowInfo {
   hasPermission: boolean;
+  hasOnPushBranch: boolean;
+  inode: string;
+  pInode: string;
   devFlowNode: DevFlowNode;
   pipelineStepInfos: PipelineInfo[];
   changeBranch: ChangeBranch[];
@@ -109,11 +122,128 @@ const apis = {
   updateWorkflow: {
     api: 'put@/api/devFlowRule/:id',
   },
+  tempMerge: {
+    api: 'put@/api/devflow/:mergeId/actions/operation-merge',
+  },
   getBranches: {
     api: 'get@/api/repo/:projectName/:appName/branches',
   },
   getFlowList: {
     api: 'get@/api/devflow/actions/info',
+    mockss() {
+      return {
+        status: 'pipelineRunning',
+        devFlowInfos: [
+          {
+            devFlowNode: {
+              repoMergeID: 1,
+              appID: 2082,
+              targetBranch: 'develop',
+              sourceBranch: 'feature/283920',
+              isJoinTempBranch: false,
+              joinTempBranchStatus: '',
+              tempBranch: 'feature/xxx',
+              issueID: 283920,
+              mergeID: 1430,
+              appName: 'dice-test',
+              commit: {
+                id: '37c1584ee7a0d8d6e5f10a437697e344c5e7493a',
+                author: null,
+                committer: {
+                  email: 'zxj167680@alibaba-inc.com',
+                  name: 'erda 前端',
+                  When: '2022-02-14T08:43:05Z',
+                },
+                commitMessage: '从 API 设计中心更新文档',
+                parentSha: '',
+              },
+              baseCommit: {
+                id: '37c1584ee7a0d8d6e5f10a437697e344c5e7493a',
+                author: null,
+                committer: {
+                  email: 'zxj167680@alibaba-inc.com',
+                  name: 'erda 前端',
+                  When: '2022-02-14T08:43:05Z',
+                },
+                commitMessage: '从 API 设计中心更新文档',
+                parentSha: '',
+              },
+              canJoin: true,
+            },
+            changeBranch: [
+              {
+                commit: {
+                  // 当前分支最近合入的commit信息
+                  id: 'ef1066492479d4251347e78173f162611036c69b',
+                  author: null,
+                  committer: {
+                    email: 'dice@dice.terminus.io',
+                    name: 'dice',
+                    When: '2022-06-13T02:55:13Z',
+                  },
+                  commitMessage: 'Add b',
+                  parentSha: '',
+                },
+                branchName: 'feature/a',
+                status: '',
+                repoMergeID: 1,
+              },
+              {
+                commit: {
+                  // 当前分支最近合入的commit信息
+                  id: 'ef1066492479d4251347e78173f162611036c69b',
+                  author: null,
+                  committer: {
+                    email: 'dice@dice.terminus.io',
+                    name: 'dice',
+                    When: '2022-06-13T02:55:13Z',
+                  },
+                  commitMessage: 'Add bsdafasdfadsfdsafadsfasdfsdfasdfasdfasfasdfdsafasdfdsaf',
+                  parentSha: '',
+                },
+                branchName: 'feature/bsdafasdfadsfdsafadsfasdfsdfasdfasdfasfasdfdsafasdfdsaf',
+                status: '',
+                repoMergeID: 1,
+              },
+            ],
+            pipelineStepInfos: [],
+            commit: '37c1584ee7a0d8d6e5f10a437697e344c5e7493a',
+            hasPermission: true,
+          },
+          {
+            devFlowNode: {
+              repoMergeID: 4,
+              appID: 2104,
+              targetBranch: 'develop',
+              sourceBranch: 'feature/283920',
+              isJoinTempBranch: false,
+              joinTempBranchStatus: '',
+              tempBranch: '',
+              issueID: 283920,
+              mergeID: 1429,
+              appName: 'apm-demo',
+              commit: {
+                id: 'f6c867abc32ed4051f6c227dcc1b95acb1ab9a26',
+                author: null,
+                committer: {
+                  email: 'zxj167680@alibaba-inc.com',
+                  name: 'erda 前端',
+                  When: '2022-05-30T08:08:48Z',
+                },
+                commitMessage: 'add as.yml',
+                parentSha: '',
+              },
+              baseCommit: null,
+              canJoin: true,
+            },
+            changeBranch: [],
+            pipelineStepInfos: [],
+            commit: 'f6c867abc32ed4051f6c227dcc1b95acb1ab9a26',
+            hasPermission: true,
+          },
+        ],
+      };
+    },
   },
   createFlow: {
     api: 'post@/api/devflow',
@@ -137,6 +267,8 @@ export const queryWorkflow = apiCreator<(payload: { projectID: number }) => Work
 export const updateWorkflow = apiCreator<(payload: { id: string; flows: WorkflowItem[] }) => Workflow>(
   apis.updateWorkflow,
 );
+
+export const tempMerge = apiCreator<(payload: { mergeId: number; enable: boolean }) => Workflow>(apis.tempMerge);
 
 export const getBranches = apiCreator<(payload: { projectName: string; appName: string }) => REPOSITORY.IBranch[]>(
   apis.getBranches,

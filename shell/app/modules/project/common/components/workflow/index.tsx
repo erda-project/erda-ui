@@ -13,10 +13,15 @@
 
 import React from 'react';
 import { DevFlowInfo, DevFlowInfos, getPipelineDetail, PipelineInfo } from 'project/services/project-workflow';
-import Steps, { CodeSimple, SimplePipeline, TempMergeSimple } from './steps';
+import { ErdaIcon, Ellipsis, EmptyHolder, Badge, MarkdownRender } from 'common';
 import i18n from 'i18n';
+import { ciStatusMap } from 'project/common/components/pipeline-new/config';
+import { Popover, Tooltip } from 'antd';
+import { goTo } from 'common/utils';
 import { ciNodeStatusSet } from 'project/common/components/pipeline-new/config';
 import { produce } from 'immer';
+import { decode } from 'js-base64';
+import { tempMerge } from 'project/services/project-workflow';
 
 export interface IProps {
   scope: 'ISSUE' | 'MR';
@@ -37,8 +42,274 @@ const WorkflowItem: React.FC<
     data: DevFlowInfo;
   } & Omit<IProps, 'flowInfo'>
 > = ({ data, scope, getFlowNodeList, projectID }) => {
-  const { pipelineStepInfos } = data;
+  const code = ({ index, className }: { index: number; className?: string }) => (
+    <CodeCard index={index} data={data} projectID={`${projectID}`} className={className} reload={getFlowNodeList} />
+  );
+  const merge = ({ index, className }: { index: number; className?: string }) => (
+    <MergeCard index={index} data={data} projectID={`${projectID}`} className={className} reload={getFlowNodeList} />
+  );
+  const pipeline = ({ index, className }: { index: number; className?: string }) => (
+    <PipelineCard index={index} data={data} projectID={`${projectID}`} className={className} />
+  );
+  const split = ({ className }: { className?: string }) => (
+    <div className={`w-5 h-[2px] bg-default-1 mt-7 ${className}`} />
+  );
+
+  const cardMap = {
+    ISSUE: [code, split, merge, split, pipeline],
+    MR: [merge, split, pipeline],
+  };
+
+  const content = cardMap[scope];
+
+  return (
+    <div className="flex overflow-x-auto p-2">
+      {content.map((Item, idx) => (
+        <Item key={`${idx}`} index={idx / 2 + 1} className="flex-shrink-0" />
+      ))}
+    </div>
+  );
+};
+
+const Branch = ({
+  branch,
+  appId,
+  projectId,
+  className,
+}: {
+  branch: string;
+  projectId: string | number;
+  appId: string | number;
+  className?: string;
+}) => {
+  return (
+    <div
+      className={`${className} flex-h-center text-xs group jump-out-link`}
+      onClick={() => {
+        goTo(goTo.pages.repoBranch, { appId, projectId, branch, jumpOut: true });
+      }}
+    >
+      <ErdaIcon type="hebing" className="mr-1 text-default-4 group-hover:text-purple-deep" />
+      <Ellipsis className="text-default-8 group-hover:text-purple-deep" title={branch} />
+    </div>
+  );
+};
+
+const Commit = ({
+  commitId,
+  appId,
+  projectId,
+  className,
+}: {
+  commitId: string;
+  projectId: string | number;
+  appId: string | number;
+  className?: string;
+}) => {
+  return (
+    <div
+      className={`${className} text-xs group flex-h-center jump-out-link`}
+      onClick={() => {
+        goTo(goTo.pages.commit, {
+          projectId,
+          appId,
+          commitId,
+          jumpOut: true,
+        });
+      }}
+    >
+      <ErdaIcon type="commitID" className="mr-1 mt-0.5 text-default-4 group-hover:text-purple-deep" />
+      <span className="text-default-8 group-hover:text-purple-deep">{commitId.slice(0, 6)}</span>
+    </div>
+  );
+};
+
+const Status = ({ status, index }: { status: string; index: number }) => {
+  const statusMap = {
+    success: (
+      <div className="bg-green-1 w-6 h-6 rounded-full  flex-all-center ">
+        <ErdaIcon type="check" size={'14'} className="text-green" />
+      </div>
+    ),
+    process: <div className="bg-blue text-white w-6 h-6 rounded-full  flex-all-center ">{index}</div>,
+    wait: <div className="border border-solid border-black w-6 h-6 rounded-full  flex-all-center ">{index}</div>,
+    error: (
+      <div className="bg-red-1 w-6 h-6 rounded-full  flex-all-center ">
+        <ErdaIcon type="close" size={'14'} className="text-red" />
+      </div>
+    ),
+    warnning: (
+      <div className="bg-yellow-1 w-6 h-6 rounded-full  flex-all-center ">
+        <span className="text-yellow">!</span>
+      </div>
+    ),
+  };
+  return statusMap[status] || null;
+};
+
+interface CardProps {
+  data: DevFlowInfo;
+  className?: string;
+  index: number;
+  projectID: string;
+  reload?: () => void;
+}
+const CodeCard = (props: CardProps) => {
+  const { data, projectID, reload, index, className } = props;
+  const { canJoin, commit, sourceBranch, appID, mergeID } = data.devFlowNode || {};
+  return (
+    <div className={`hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded ${className} `}>
+      <Status status="success" index={index} />
+      <div className="ml-2 flex-1 overflow-hidden">
+        <div className="mb-3 flex-h-center justify-between">
+          <div className="flex-h-center">
+            <span>代码</span>
+            <Tooltip title="此任务所有开发代码，在本分支进行管理">
+              <ErdaIcon type="help" className="text-default-3 ml-1" />
+            </Tooltip>
+          </div>
+          <div
+            onClick={() => {
+              canJoin &&
+                tempMerge({ mergeId: mergeID, enable: true }).then(() => {
+                  reload?.();
+                });
+            }}
+            className={`px-3 rounded ${
+              canJoin ? 'cursor-pointer bg-purple-deep text-white' : 'bg-default-08 text-default-4'
+            }`}
+          >
+            {canJoin ? '合并到临时分支' : '已合入临时分支'}
+          </div>
+        </div>
+        <Branch className="mb-2" appId={appID} projectId={projectID} branch={sourceBranch} />
+        <div className="flex-h-center text-xs">
+          {commit ? (
+            <>
+              <Commit commitId={commit.id} appId={appID} projectId={projectID} />
+              <ErdaIcon type="caret-down" size="12" className="ml-1 text-default-4 -rotate-90" />
+              <Ellipsis className=" flex-1 text-default-8 " title={commit.commitMessage} />
+            </>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const MergeCard = (props: CardProps) => {
+  const { data, projectID, index, className, reload } = props;
+  const { isJoinTempBranch, baseCommit, tempBranch, appID, commit, mergeID } = data.devFlowNode || {};
+  const status = data.changeBranch?.find((item) => item.commit.id === commit?.id) ? 'success' : 'process';
+  const ChangeList = (
+    <div className="w-[344px]">
+      <p className="pb-2 mb-2 border-0 border-b border-b-default-1 border-solid">{i18n.t('dop:Change list')}</p>
+      {data?.changeBranch?.map((item, idx) => {
+        return (
+          <div key={idx} className="flex-h-center p-2 hover:bg-default-06 overflow-hidden">
+            <Branch
+              className="w-[120px] mr-2 flex-shrink-0"
+              branch={item.branchName}
+              appId={appID}
+              projectId={projectID}
+            />
+            <Commit
+              className="w-[60px] mr-2  flex-shrink-0"
+              commitId={item.commit.id}
+              appId={`${appID}`}
+              projectId={projectID}
+            />
+            <div className="flex-h-center w-[140px] text-xs  flex-shrink-0">
+              <ErdaIcon type="caret-down" size="12" className="ml-1 text-default-4 -rotate-90" />
+              <Ellipsis className=" flex-1 text-default-8 " title={item.commit.commitMessage} />
+            </div>
+          </div>
+        );
+      })}
+      {!data?.changeBranch?.length ? <EmptyHolder style={{ height: 100 }} relative /> : null}
+    </div>
+  );
+
+  return (
+    <div className={`hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded ${className}`}>
+      <Status index={index} status={status} />
+      <div className="ml-2 flex-1 overflow-hidden">
+        <div className="mb-3 flex-h-center justify-between">
+          <div className="flex-h-center">
+            <span>临时合并</span>
+            <Tooltip title="不同任务的代码分支可进行临时合并后部署到对应环境">
+              <ErdaIcon type="help" className="text-default-3 ml-1" />
+            </Tooltip>
+          </div>
+          {tempBranch && isJoinTempBranch ? (
+            <div
+              onClick={() => {
+                tempMerge({ mergeId: mergeID, enable: false }).then(() => {
+                  reload?.();
+                });
+              }}
+              className={`px-3 rounded ${
+                isJoinTempBranch ? 'cursor-pointer bg-purple-deep text-white' : 'bg-default-08 text-default-4'
+              }`}
+            >
+              撤销临时合并
+            </div>
+          ) : null}
+        </div>
+        {tempBranch ? (
+          <>
+            <div className="flex-h-center mb-2 text-xs">
+              <Branch appId={appID} projectId={projectID} branch={tempBranch} className="overflow-hidden" />
+              <Popover content={ChangeList}>
+                <span className="text-purple-deep cursor-pointer ml-2 whitespace-nowrap">更多合并信息</span>
+              </Popover>
+            </div>
+            <div className="flex-h-center text-xs">
+              {baseCommit ? (
+                <>
+                  <Commit commitId={baseCommit.id} appId={appID} projectId={projectID} />
+                  <ErdaIcon type="caret-down" size="12" className="ml-1 text-default-4 -rotate-90" />
+                  <Ellipsis className=" flex-1 text-default-8 " title={baseCommit.commitMessage} />
+                </>
+              ) : (
+                <>
+                  <ErdaIcon type="commitID" className="mr-1 text-default-4" />
+                  <Ellipsis className=" flex-1 text-default-8 " title={'该任务分支暂无内容合入'} />
+                </>
+              )}
+            </div>
+          </>
+        ) : (
+          <div className="text-xs text-default-8">
+            <span>{'当前未开启临时合并功能，请前往'}</span>
+            <span className="cursor-pointer text-purple-deep">{'工作流设置'}</span>
+            <span>{'开启'}</span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const PipelineCard = (props: CardProps) => {
+  const { data, projectID, className, index } = props;
+  const { pipelineStepInfos, devFlowNode, inode, hasOnPushBranch } = data;
   const [pipelineInfo, setPipelineInfo] = React.useState<IPipelineInfo[]>(pipelineStepInfos);
+  const { commit, tempBranch } = data.devFlowNode || {};
+
+  const getStepStatus = () => {
+    const colorMap = {
+      red: 'error',
+      blue: 'process',
+      green: 'success',
+      orange: 'warnning',
+      gray: 'process',
+    };
+    return pipelineStepInfos?.[0]?.status
+      ? colorMap[ciStatusMap[pipelineStepInfos?.[0]?.status]?.color || 'process']
+      : 'process';
+  };
+  const stepStatus = data.changeBranch?.find((item) => item.commit.id === commit?.id) ? getStepStatus() : 'wait';
 
   React.useEffect(() => {
     setPipelineInfo(pipelineStepInfos);
@@ -73,34 +344,139 @@ const WorkflowItem: React.FC<
       setPipelineInfo(newInfo);
     });
   }, [pipelineStepInfos]);
+
+  const pipeline = pipelineInfo[0]; // || { status: 'Running', pipelineID: '121212', ymlName: 'pipeline.yml' };
+
+  const genGuideCode = `
+  \`\`\`yml
+  on:
+    push:
+      branches:
+        - ${tempBranch}
+  \`\`\`
+  `;
+
+  const { status, text } = ciStatusMap[pipeline?.status || 'Initializing'];
+
+  let subContent: JSX.Element | null = null;
+  if (!tempBranch) {
+    subContent = <div className="text-xs text-default-8">{'临时合并功能未开启，暂无流水线'}</div>;
+  } else if (!inode) {
+    subContent = <div className="text-xs text-default-8">{'临时分支暂无流水线，请联系管理员创建'}</div>;
+  } else if (!hasOnPushBranch) {
+    const pipelineName = decode(inode).split('/').pop();
+    subContent = (
+      <>
+        <div
+          className="flex-h-center text-xs group jump-out-link"
+          onClick={() => {
+            goTo(goTo.pages.pipelineRoot, {
+              jumpOut: true,
+              projectId: projectID,
+              appId: devFlowNode.appID,
+              query: { nodeId: inode },
+            });
+          }}
+        >
+          <ErdaIcon type="liushuixian-5i55l85f" className="mr-1 text-default-4 group-hover:text-purple-deep" />
+          <Ellipsis className="text-default-8 group-hover:text-purple-deep" title={pipelineName} />
+        </div>
+        <div className="text-xs mt-2 text-default-8">
+          <span>{'流水线暂未配置触发器，'}</span>
+          <Popover
+            content={
+              <div>
+                <p className="pb-2 mb-2 border-0 border-b border-b-default-1 border-solid">
+                  <Ellipsis title={i18n.t('dop:Add the following configuration to the pipeline file')} />
+                </p>
+                <MarkdownRender className="p-0" value={genGuideCode} />
+              </div>
+            }
+          >
+            <span className="text-purple-deep cursor-pointer">{'如何配置？'}</span>
+          </Popover>
+        </div>
+      </>
+    );
+  } else if (pipeline) {
+    subContent = (
+      <>
+        <div
+          className="flex-h-center text-xs group jump-out-link"
+          onClick={() => {
+            goTo(goTo.pages.pipelineRoot, {
+              jumpOut: true,
+              projectId: projectID,
+              appId: devFlowNode.appID,
+              query: { pipelineID: pipeline.pipelineID },
+            });
+          }}
+        >
+          <ErdaIcon type="liushuixian-5i55l85f" className="mr-1 text-default-4 group-hover:text-purple-deep" />
+          <Ellipsis className="text-default-8 group-hover:text-purple-deep" title={pipeline.ymlName} />
+        </div>
+        <div>
+          <Badge status={status} text={text} onlyText size={'small'} />
+        </div>
+      </>
+    );
+  }
+
   return (
-    <Steps>
-      {scope === 'ISSUE' ? <CodeSimple data={data} /> : null}
-      <TempMergeSimple data={data} projectID={projectID} />
-      <SimplePipeline data={data} pipelineInfo={pipelineInfo} projectID={projectID} />
-    </Steps>
+    <div className={`hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded ${className}`}>
+      <Status status={stepStatus} index={index} />
+      <div className="ml-2 flex-1 overflow-hidden">
+        <div className="mb-3 flex-h-center">
+          <span>流水线</span>
+          <Tooltip title="此处为临时合并流水线，需要修改请联系应用管理员">
+            <ErdaIcon type="help" className="text-default-3 ml-1" />
+          </Tooltip>
+        </div>
+        {subContent}
+      </div>
+    </div>
   );
 };
 
 const Workflow: React.FC<IProps> = ({ scope, projectID, getFlowNodeList, flowInfo }) => {
   const { devFlowInfos } = flowInfo ?? {};
+
   return (
     <>
-      {devFlowInfos?.map((item) => {
+      {devFlowInfos?.map((item, idx) => {
         const { hasPermission } = item;
-        if (!hasPermission) {
-          return (
-            <Steps>
-              <div className="text-center flex-1 text-sub">
-                {i18n.t(
-                  'dop:No permission to access the current application {name}, Contact the application administrator to add permission',
-                  { name: item.devFlowNode.appName },
-                )}
+        const appName = item.devFlowNode?.appName || '';
+
+        return (
+          <div key={idx} className="border-all rounded mb-2">
+            <div className="px-4 py-2 flex-h-center border-bottom bg-default-02 justify-between ">
+              <div className="flex-h-center">
+                <ErdaIcon size={16} className="text-default-4" type="yingyongmingcheng" />
+                <span className="ml-2 font-medium text-default">{appName}</span>
               </div>
-            </Steps>
-          );
-        }
-        return <WorkflowItem data={item} scope={scope} projectID={projectID} getFlowNodeList={getFlowNodeList} />;
+              <ErdaIcon
+                onClick={() => {
+                  getFlowNodeList();
+                }}
+                size={18}
+                type="shuaxin"
+                className=" font-medium cursor-pointer text-default-6 hover:text-default-8"
+              />
+            </div>
+            <div className="p-2">
+              {!hasPermission ? (
+                <div className="text-center flex-1 text-sub">
+                  {i18n.t(
+                    'dop:No permission to access the current application {name}, Contact the application administrator to add permission',
+                    { name: item.devFlowNode.appName },
+                  )}
+                </div>
+              ) : (
+                <WorkflowItem data={item} scope={scope} projectID={projectID} getFlowNodeList={getFlowNodeList} />
+              )}
+            </div>
+          </div>
+        );
       })}
     </>
   );
