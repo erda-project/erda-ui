@@ -133,12 +133,15 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[], curOrg: ORG.IOrg, orgAcce
       );
     };
 
+    const themeStrFromLocal = localStorage.getItem('erda-theme') || 'default';
+    const themePrefix = THEME_MAP[themeStrFromLocal] ? themeStrFromLocal : 'default';
+
     AntConfigProvider.config({
       theme: {
-        primaryColor: THEME_MAP[localStorage.getItem('erda-theme') || 'default'],
+        primaryColor: THEME_MAP[themePrefix],
       },
     });
-    document.documentElement.setAttribute('data-theme', `${localStorage.getItem('erda-theme') || 'default'}-theme`);
+    document.documentElement.setAttribute('data-theme', `${themePrefix}-theme`);
 
     ReactDOM.render(<Wrap />, document.getElementById('erda-content'));
     // delete window._userData;
