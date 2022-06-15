@@ -18,5 +18,5 @@ export default {
     key: 'i18n-edit-access',
     value: true,
   },
-  noEditSuffix: '*',
+  noEditSuffix: '',
 };
