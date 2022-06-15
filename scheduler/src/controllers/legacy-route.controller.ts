@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Controller, Get, Redirect, Req } from '@nestjs/common';
+import { Controller, Get, Query, Redirect, Req } from '@nestjs/common';
 import { Request } from 'express';
 
 @Controller(':orgName')
@@ -38,5 +38,12 @@ export class LegacyRouteController {
   @Redirect('', 301)
   redirectEdge(@Req() req: Request) {
     return { url: req.path.replace('edge', 'ecp') };
+  }
+
+  // from dop/projects/1/apps/1/pipeline?pipelineID=123 to dop/projects/1/apps/1/pipeline/obsoleted?pipelineID=123
+  @Get('dop/projects/*/apps/*/pipeline')
+  @Redirect('', 301)
+  redirectLegacyPipeline(@Req() req: Request, @Query('pipelineID') pipelineID) {
+    return { url: `${req.path}/obsoleted?pipelineID=${pipelineID}` };
   }
 }
