@@ -19,6 +19,7 @@ import ReactMarkdown from 'react-markdown';
 import { gfm, gfmHtml } from 'micromark-extension-gfm';
 import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
+import rehypeRaw from 'rehype-raw';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import github from 'react-syntax-highlighter/dist/esm/styles/hljs/googlecode.js';
 import './index.scss';
@@ -119,6 +120,7 @@ export const MarkdownRender = ({ value, className, style, noWrapper, components 
     <ReactMarkdown
       className={`md-content ${className || ''}`}
       remarkPlugins={[remarkGfm, remarkBreaks]}
+      rehypePlugins={[rehypeRaw]}
       components={{ img: ScalableImage, a: Link, pre, ...components }}
     >
       {value}
