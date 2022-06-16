@@ -28,9 +28,10 @@ const { TabPane } = Tabs;
 interface IProps {
   hideComment?: boolean;
   disableComment?: boolean;
+  hideWorkflow?: boolean;
 }
 
-const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
+const CompareDetail = ({ hideComment, disableComment = false, hideWorkflow = false }: IProps) => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
   const [compareDetail, comments, mrDetail] = repoStore.useStore((s) => [s.compareDetail, s.comments, s.mrDetail]);
   const { commits = [], diff, from, to } = compareDetail;
@@ -87,9 +88,11 @@ const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
             disableComment={disableComment}
           />
         </TabPane>
-        <TabPane key="workflow" tab={<div className="relative">{i18n.t('dop:workflow')}</div>}>
-          <MrWorkflow id={mrDetail.id} projectID={+projectId} />
-        </TabPane>
+        {!hideWorkflow && (
+          <TabPane key="workflow" tab={<div className="relative">{i18n.t('dop:workflow')}</div>}>
+            <MrWorkflow id={mrDetail.id} projectID={+projectId} />
+          </TabPane>
+        )}
       </Tabs>
     </Spin>
   );

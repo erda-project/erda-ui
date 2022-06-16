@@ -42,7 +42,7 @@ const RepoMRCreation = () => {
               {i18n.t('comparison results')}
             </div>
             <div className="mr-compare-diff">
-              <RepoCompareDetail hideComment disableComment />
+              <RepoCompareDetail hideComment disableComment hideWorkflow />
             </div>
           </React.Fragment>
         )}

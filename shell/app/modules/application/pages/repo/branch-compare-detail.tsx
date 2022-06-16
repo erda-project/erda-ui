@@ -25,7 +25,7 @@ const BranchCompareDetail = () => {
       <BranchCompare />
       <div className="compare-diff mt-5">
         <Spin spinning={isFetching}>
-          <RepoCompareDetail hideComment disableComment />
+          <RepoCompareDetail hideComment disableComment hideWorkflow />
         </Spin>
       </div>
     </div>
