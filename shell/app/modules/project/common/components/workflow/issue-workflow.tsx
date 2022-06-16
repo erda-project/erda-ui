@@ -13,10 +13,13 @@
 
 import React from 'react';
 import i18n from 'i18n';
+import { ErdaIcon } from 'common';
 import Workflow from 'project/common/components/workflow';
-import AddFlow from 'project/common/components/workflow/steps/add-flow';
-import { getFlowList, WorkflowHint } from 'project/services/project-workflow';
+import AddFlow from 'project/common/components/workflow/add-flow';
+import { getFlowList, WorkflowHint, queryWorkflow } from 'project/services/project-workflow';
 import { getProjectIterations } from 'project/services/project-iteration';
+import { FlowType } from 'project/common/config';
+import { goTo } from 'app/common/utils';
 
 interface IProps {
   projectID: number;
@@ -29,6 +32,7 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, type, metaIssue }) => 
   const devFlowInfos = getFlowList.useData();
   const [currentIteration, setIteration] = React.useState<ITERATION.Detail>({} as any);
   const { iterationID } = metaIssue;
+  const [expand, setExpand] = React.useState(true);
   const getFlowNodeList = React.useCallback(() => {
     getFlowList.fetch({
       issueID: id,
@@ -45,16 +49,34 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, type, metaIssue }) => 
       setIteration(iteration);
     });
   }, []);
+
+  const [workflows] = queryWorkflow.useState();
+
+  const getWorkflows = React.useCallback(() => queryWorkflow.fetch({ projectID }), [projectID]);
+
+  React.useEffect(() => {
+    getWorkflows();
+  }, [getWorkflows]);
+
   React.useEffect(() => {
     getFlowNodeList();
   }, [getFlowNodeList]);
+  const hasMultipleBranch =
+    workflows?.flows && workflows.flows.filter((item) => item.flowType !== FlowType.SINGLE_BRANCH).length;
   return (
     <div>
       <div className="relative h-12 flex-h-center text-primary font-medium">
-        <span className="text-base relative pr-8">
-          {i18n.t('dop:workflow')}
-          <span className="absolute px-2 rounded-full text-xs text-purple border border-purple border-solid absolute -top-2">
-            beta
+        <span
+          className="section-operate-title flex-h-center cursor-pointer hover:text-default"
+          onClick={() => setExpand(!expand)}
+        >
+          <If condition={!!devFlowInfos?.devFlowInfos.length}>
+            <span className="absolute left-[-20px] flex rounded-sm text-sub op-icon">
+              <ErdaIcon size={20} type={`${expand ? 'down-4ffff0f4' : 'right-4ffff0i4'}`} />
+            </span>
+          </If>
+          <span className="text-base relative">
+            {i18n.t('dop:workflow')} ({devFlowInfos?.devFlowInfos.length || 0})
           </span>
         </span>
 
@@ -68,9 +90,37 @@ const IssueWorkflow: React.FC<IProps> = ({ projectID, id, type, metaIssue }) => 
           }}
         />
       </div>
-      {devFlowInfos ? (
-        <Workflow flowInfo={devFlowInfos} scope="ISSUE" projectID={projectID} getFlowNodeList={getFlowNodeList} />
-      ) : null}
+      {devFlowInfos?.devFlowInfos.length ? (
+        <If condition={expand}>
+          <Workflow flowInfo={devFlowInfos} scope="ISSUE" projectID={projectID} getFlowNodeList={getFlowNodeList} />
+        </If>
+      ) : hasMultipleBranch ? (
+        <div className="py-4 px-8">
+          <span className=" text-default-6">{i18n.s('No workflow has been added yet, please click + Add', 'dop')}</span>
+        </div>
+      ) : (
+        <div className="py-4 px-8  text-default-6">
+          <div>
+            {i18n.s(
+              'There is no multi-branch configuration for R&D workflow, and workflow display is not currently supported.',
+              'dop',
+            )}
+          </div>
+          <div>
+            <span>{i18n.s('Please contact the project administrator, go to', 'dop')}</span> &nbsp;
+            <span
+              className="text-purple-deep cursor-pointer"
+              onClick={() => {
+                goTo(goTo.pages.projectSetting, { jumpOut: true, query: { tabKey: 'workflow' } });
+              }}
+            >
+              {i18n.t('dop:R&D Workflow')}
+            </span>
+            &nbsp;
+            <span>{i18n.s('to set', 'dop')}</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

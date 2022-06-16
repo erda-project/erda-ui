@@ -60,6 +60,13 @@ export interface CreateFlowNode {
   targetBranch: string;
 }
 
+interface Commit {
+  id: string;
+  author: string;
+  committer: { email: string; name: string; When: string };
+  commitMessage: string;
+  parentSha: string;
+}
 export interface DevFlowNode {
   repoMergeID: number;
   appID: number;
@@ -71,6 +78,9 @@ export interface DevFlowNode {
   tempBranch: string;
   issueID: number;
   mergeID: number;
+  canJoin: boolean;
+  commit: null | Commit;
+  baseCommit: null | Commit;
 }
 
 export interface PipelineInfo {
@@ -82,7 +92,7 @@ export interface PipelineInfo {
 }
 
 export interface ChangeBranch {
-  commit: string;
+  commit: Commit;
   branchName: string;
   status: 'success' | 'faild';
   repoMergeID: number;
@@ -90,6 +100,9 @@ export interface ChangeBranch {
 
 export interface DevFlowInfo {
   hasPermission: boolean;
+  hasOnPushBranch: boolean;
+  inode: string;
+  pInode: string;
   devFlowNode: DevFlowNode;
   pipelineStepInfos: PipelineInfo[];
   changeBranch: ChangeBranch[];
@@ -108,6 +121,9 @@ const apis = {
   },
   updateWorkflow: {
     api: 'put@/api/devFlowRule/:id',
+  },
+  tempMerge: {
+    api: 'put@/api/devflow/:mergeId/actions/operation-merge',
   },
   getBranches: {
     api: 'get@/api/repo/:projectName/:appName/branches',
@@ -137,6 +153,8 @@ export const queryWorkflow = apiCreator<(payload: { projectID: number }) => Work
 export const updateWorkflow = apiCreator<(payload: { id: string; flows: WorkflowItem[] }) => Workflow>(
   apis.updateWorkflow,
 );
+
+export const tempMerge = apiCreator<(payload: { mergeId: number; enable: boolean }) => Workflow>(apis.tempMerge);
 
 export const getBranches = apiCreator<(payload: { projectName: string; appName: string }) => REPOSITORY.IBranch[]>(
   apis.getBranches,

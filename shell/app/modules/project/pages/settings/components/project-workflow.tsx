@@ -179,6 +179,10 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
       dataIndex: 'changeFromBranch',
     },
     {
+      title: i18n.t('dop:temporary branch'),
+      dataIndex: 'autoMergeBranch',
+    },
+    {
       title: i18n.t('dop:Change branch'),
       dataIndex: 'changeBranch',
     },
@@ -289,6 +293,24 @@ const ProjectWorkflow: React.FC<IProps> = ({ canOperate, projectID }) => {
         type: 'input',
         required: true,
         name: 'changeFromBranch',
+        rules: [
+          {
+            validator: (_rule: any, value: string, callback: Function) => {
+              const [pass, tips] = branchNameWithoutWildcard(value, false);
+              !value || pass ? callback() : callback(tips);
+            },
+          },
+        ],
+        itemProps: {
+          placeholder: i18n.t('start with letters and can contain characters that are not wildcard'),
+        },
+      },
+      {
+        label: i18n.s('temporary branch', 'dop'),
+        labelTip: '',
+        type: 'input',
+        required: false,
+        name: 'autoMergeBranch',
         rules: [
           {
             validator: (_rule: any, value: string, callback: Function) => {
