@@ -1318,6 +1318,7 @@
     "The start time of this counted time, not the start time of the issue": "本次计入时间的开始时间，非事件的开始时间",
     "The temporary merge function is not currently enabled, please go to": "临时合并功能目前未启用，请前往",
     "The temporary merge is not enabled, and there is no pipeline": "临时合并功能未开启，暂无流水线",
+    "The temporary merge is not enabled, please set it before merging": "临时合并功能未开启，请设置后再合并",
     "The title can not be empty": "标题不能为空",
     "There are manual review nodes in this workflow, which need to be reviewed by the project admin.": "该工作流中存在人工审核的节点，执行到人工审核点后需要项目管理确认同意后才会继续",
     "There is no multi-branch configuration for R&D workflow, and workflow display is not currently supported.": "研发工作流无多分支配置，暂不支持工作流显示。",

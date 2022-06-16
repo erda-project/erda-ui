@@ -1318,6 +1318,7 @@
     "The start time of this counted time, not the start time of the issue": "The start time of this counted time, not the start time of the issue",
     "The temporary merge function is not currently enabled, please go to": "The temporary merge function is not currently enabled, please go to",
     "The temporary merge is not enabled, and there is no pipeline": "The temporary merge is not enabled, and there is no pipeline",
+    "The temporary merge is not enabled, please set it before merging": "The temporary merge is not enabled, please set it before merging",
     "The title can not be empty": "The title can not be empty",
     "There are manual review nodes in this workflow, which need to be reviewed by the project admin.": "there are nodes for manual review in this workflow. after the manual review point is executed, the project management must confirm and agree to continue.",
     "There is no multi-branch configuration for R&D workflow, and workflow display is not currently supported.": "There is no multi-branch configuration for R&D workflow, and workflow display is not currently supported.",
