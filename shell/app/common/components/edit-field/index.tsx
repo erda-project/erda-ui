@@ -41,6 +41,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
     expandBtnVisible: false,
   });
 
+  const heightRef = React.useRef(0);
   const mdContentRef = React.useRef<HTMLDivElement>(null);
 
   const checkContentHeight = React.useCallback(() => {
@@ -58,10 +59,20 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, maxHe
 
   React.useEffect(() => {
     // wait for MarkdownRender render finished
-    const timer = setTimeout(() => {
-      checkContentHeight();
+
+    const timer = setInterval(() => {
+      const height = mdContentRef.current?.getBoundingClientRect().height || 0;
+      if (height === heightRef.current || height > maxHeight) {
+        clearInterval(timer);
+        checkContentHeight();
+      } else {
+        heightRef.current = height;
+      }
     }, 100);
-    return () => clearTimeout(timer);
+    return () => {
+      heightRef.current = 0;
+      clearInterval(timer);
+    };
   }, [checkContentHeight]);
 
   React.useEffect(() => {
