@@ -156,7 +156,7 @@ interface CardProps {
 }
 const CodeCard = (props: CardProps) => {
   const { data, projectID, reload, index, className } = props;
-  const { canJoin, commit, sourceBranch, appID, mergeID } = data.devFlowNode || {};
+  const { canJoin, commit, sourceBranch, appID, mergeID, tempBranch } = data.devFlowNode || {};
   return (
     <div className={`hover:shadow flex w-[320px] h-[108px] border-all p-4 rounded ${className} `}>
       <Status status="success" index={index} />
@@ -168,19 +168,24 @@ const CodeCard = (props: CardProps) => {
               <ErdaIcon type="help" className="text-default-3 ml-1" />
             </Tooltip>
           </div>
-          <div
-            onClick={() => {
-              canJoin &&
-                tempMerge({ mergeId: mergeID, enable: true }).then(() => {
-                  reload?.();
-                });
-            }}
-            className={`px-3 rounded ${
-              canJoin ? 'cursor-pointer bg-purple-deep text-white' : 'bg-default-08 text-default-4'
-            }`}
+          <Tooltip
+            title={!tempBranch ? i18n.s('The temporary merge is not enabled, please set it before merging', 'dop') : ''}
           >
-            {canJoin ? i18n.s('Merge into temporary branch', 'dop') : i18n.s('Merged into temporary branch', 'dop')}
-          </div>
+            <div
+              onClick={() => {
+                tempBranch &&
+                  canJoin &&
+                  tempMerge({ mergeId: mergeID, enable: true }).then(() => {
+                    reload?.();
+                  });
+              }}
+              className={`px-3 rounded cursor-pointer ${
+                canJoin && tempBranch ? ' bg-purple-deep text-white' : 'bg-default-08 text-default-4'
+              }`}
+            >
+              {canJoin ? i18n.s('Merge into temporary branch', 'dop') : i18n.s('Merged into temporary branch', 'dop')}
+            </div>
+          </Tooltip>
         </div>
         <Branch className="mb-2" appId={appID} projectId={projectID} branch={sourceBranch} />
         <div className="flex-h-center text-xs">
