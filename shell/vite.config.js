@@ -107,6 +107,7 @@ export default ({ command, mode }) => {
       'process.env.VITE': '"true"',
       'process.env.UI_ENV': JSON.stringify(process.env.ERDA_UI_ENV),
       'process.env.FOR_COMMUNITY': JSON.stringify(process.env.FOR_COMMUNITY),
+      'process.env.ENABLE_GALLERY': JSON.stringify(process.env.ENABLE_GALLERY),
       'process.env.mainVersion': JSON.stringify(mainVersion),
     },
     server: {
