@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { ImageUpload, ConfirmDelete } from 'common';
-import { firstCharToUpper,allWordsFirstLetterUpper, goTo } from 'common/utils';
+import { firstCharToUpper, allWordsFirstLetterUpper, goTo } from 'common/utils';
 import { Button, Input, FormInstance } from 'antd';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import { modeOptions } from 'application/common/config';
@@ -46,6 +46,7 @@ const PureAppInfo = (): JSX.Element => {
   const [confirmAppName, setConfirmAppName] = React.useState('');
   const permMap = usePerm((s) => s.app.setting);
   const gitRepo = `${protocol}//${appDetail.gitRepoNew}`;
+  const sectionInfoEditRef = React.useRef(null);
   const fieldsList = [
     {
       label: firstCharToUpper(i18n.t('dop:app name')),
@@ -100,7 +101,16 @@ const PureAppInfo = (): JSX.Element => {
       label: i18n.t('dop:app logo'),
       name: 'logo',
       required: false,
-      getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
+      getComp: ({ form }: { form: FormInstance }) => (
+        <ImageUpload
+          afterUpload={() => {
+            sectionInfoEditRef.current?.onValuesChange();
+          }}
+          id="logo"
+          form={form}
+          showHint
+        />
+      ),
       viewType: 'image',
     },
     // {
@@ -170,6 +180,7 @@ const PureAppInfo = (): JSX.Element => {
 
   return (
     <SectionInfoEdit
+      ref={sectionInfoEditRef}
       hasAuth={permMap.editApp.pass}
       data={{ ...appDetail, gitRepo, isPublic: `${appDetail.isPublic || 'false'}` }}
       fieldsList={fieldsList}
