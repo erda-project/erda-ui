@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const themeColors = require('./app/theme-color.js');
+const themeColors = require('./app/theme-color');
 const plugin = require('tailwindcss/plugin');
 
 // eslint-disable-next-line import/no-anonymous-default-export

@@ -60,7 +60,7 @@ module.exports = {
     'app/constants': '<rootDir>/app/constants.ts',
     'app/layout/stores(.*)': '<rootDir>/app/layout/stores/$1',
     'app/menus$': '<rootDir>/app/menus/index.ts',
-    'app/theme-color.js': '<rootDir>/app/theme-color.js',
+    'app/theme-color': '<rootDir>/app/theme-color.js',
     'app/org-home/stores/org': '<rootDir>/app/org-home/stores/org.tsx',
     'app/user/stores$': '<rootDir>/app/user/stores/index.ts',
     'cmp/pages/cluster-manage/config': '<rootDir>/app/modules/cmp/pages/cluster-manage/config.tsx',

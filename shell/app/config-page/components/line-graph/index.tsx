@@ -17,7 +17,7 @@ import type { ECharts } from 'echarts';
 import { colorToRgb } from 'common/utils';
 import { genLinearGradient, theme } from 'charts/theme';
 import EmptyHolder from 'common/components/empty-holder';
-import themeColors from 'app/theme-color.js';
+import themeColors from 'app/theme-color';
 import { formatValue } from 'charts/utils';
 
 interface IBrushSelectedParams {
