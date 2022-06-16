@@ -161,7 +161,15 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
         viewType: 'images',
         required: false,
         getComp: ({ form }: { form: FormInstance }) => (
-          <ImageUpload id="previewImages" form={form} showHint isMulti isSquare={false} queryData={{ public: true }} />
+          <ImageUpload
+            id="previewImages"
+            form={form}
+            getForm={() => this.formRef.current}
+            showHint
+            isMulti
+            isSquare={false}
+            queryData={{ public: true }}
+          />
         ),
       },
       ...insertWhen(state.type === ArtifactsTypeMap.MOBILE.value, [
